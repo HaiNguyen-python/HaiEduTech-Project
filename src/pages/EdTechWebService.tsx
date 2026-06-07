@@ -626,20 +626,20 @@ const EdTechWebService = () => {
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-emerald-500/20 blur-3xl" />
 
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
             {/* LEFT — Copy */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center lg:text-left"
+              className="text-center lg:text-left lg:col-span-6"
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-6 shadow-sm">
                 <Sparkles className="w-4 h-4" />
                 Thiết kế Website Giáo dục – Made by HaiEduTech
               </div>
 
-              <h1 className="notranslate font-display font-bold tracking-tight text-foreground leading-[1.05] text-[2rem] sm:text-5xl lg:text-[3.4rem]">
+              <h1 className="notranslate font-display font-bold tracking-tight text-foreground leading-[1.05] text-[2rem] sm:text-5xl lg:text-[3rem]">
                 <span className="block">Nâng cao chất lượng</span>
                 <span className="block">giảng dạy với</span>
                 <span className="mt-2 block bg-gradient-to-r from-primary via-teal-500 to-emerald-500 bg-clip-text text-transparent">
@@ -649,6 +649,7 @@ const EdTechWebService = () => {
                   Teaching System
                 </span>
               </h1>
+
 
               <p className="notranslate mt-6 text-base sm:text-lg text-foreground/85 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
                 Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
@@ -716,8 +717,74 @@ const EdTechWebService = () => {
               </div>
             </motion.div>
 
+            {/* RIGHT — Live demo carousel */}
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="relative lg:col-span-6 lg:sticky lg:top-24"
+            >
+              <div className="mb-4 flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm font-semibold text-emerald-700">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                Bản demo trực tiếp — 6 màn hình chính của hệ thống
+              </div>
 
+              <DemoCarousel />
+
+              {/* Floating badge — top left */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+                className="hidden md:flex absolute -left-4 -top-4 lg:-left-6 lg:-top-5 items-center gap-2.5 rounded-2xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                  <Bot className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-foreground leading-tight">AI Tutor 24/7</div>
+                  <div className="text-[11px] text-muted-foreground">Trả lời tức thì</div>
+                </div>
+              </motion.div>
+
+              {/* Floating badge — bottom right */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.7 }}
+                className="hidden md:flex absolute -right-4 -bottom-4 lg:-right-6 lg:-bottom-5 items-center gap-2.5 rounded-2xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
+                  <ShieldCheck className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-foreground leading-tight">SSL · RLS</div>
+                  <div className="text-[11px] text-muted-foreground">Bảo mật nâng cao</div>
+                </div>
+              </motion.div>
+
+              {/* Mini feature strip below carousel */}
+              <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2.5">
+                {[
+                  { icon: Bot, label: "AI Tutor 24/7", color: "text-violet-600", bg: "bg-violet-500/10" },
+                  { icon: ClipboardList, label: "Chấm bài tự động", color: "text-rose-600", bg: "bg-rose-500/10" },
+                  { icon: TrendingUp, label: "Phân tích chuyên sâu", color: "text-primary", bg: "bg-primary/10" },
+                  { icon: Mail, label: "Báo cáo phụ huynh", color: "text-emerald-600", bg: "bg-emerald-500/10" },
+                ].map((f) => (
+                  <div key={f.label} className="rounded-xl border border-border/60 bg-card/70 backdrop-blur p-2.5 flex items-center gap-2 hover:border-primary/40 hover:shadow-md transition">
+                    <div className={`h-8 w-8 rounded-lg ${f.bg} flex items-center justify-center shrink-0`}>
+                      <f.icon className={`h-4 w-4 ${f.color}`} />
+                    </div>
+                    <div className="text-[11px] sm:text-xs font-semibold text-foreground leading-tight">{f.label}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
+
 
           {/* Stats row */}
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
@@ -761,96 +828,8 @@ const EdTechWebService = () => {
         </div>
       </section>
 
-      {/* ============================================================
-          Live Demo — full-width carousel preview of the LMS
-         ============================================================ */}
-      <section className="relative py-16 sm:py-24 overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5" />
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_30%,hsl(var(--primary)/0.12),transparent_55%),radial-gradient(circle_at_80%_70%,hsl(160_84%_39%/0.12),transparent_55%)]" />
-        <div className="pointer-events-none absolute -top-20 left-1/4 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-emerald-500/10 blur-3xl" />
 
-        <div className="container mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-10 sm:mb-14"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-emerald-700 mb-4 shadow-sm">
-              <Sparkles className="w-4 h-4" />
-              Bản demo trực tiếp — 6 màn hình chính của hệ thống
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-display font-bold text-foreground leading-tight">
-              Xem trước <span className="bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">website dạy học</span> của bạn
-            </h2>
-            <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Lướt qua các màn hình thực tế: Dashboard, AI Tutor, lớp học, chấm bài, phân tích, báo cáo phụ huynh — tất cả đều có thể tùy biến theo môn dạy của Thầy/Cô.
-            </p>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.97 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="relative max-w-6xl mx-auto"
-          >
-            <DemoCarousel />
-
-            {/* Floating badge — top left */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="hidden md:flex absolute -left-5 -top-5 lg:-left-8 lg:-top-6 items-center gap-2.5 rounded-2xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-4 py-2.5 shadow-2xl"
-            >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
-                <Bot className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-sm font-bold text-foreground leading-tight">AI Tutor 24/7</div>
-                <div className="text-[11px] text-muted-foreground">Trả lời tức thì</div>
-              </div>
-            </motion.div>
-
-            {/* Floating badge — bottom right */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6 }}
-              className="hidden md:flex absolute -right-5 -bottom-5 lg:-right-8 lg:-bottom-6 items-center gap-2.5 rounded-2xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-4 py-2.5 shadow-2xl"
-            >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
-                <ShieldCheck className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-sm font-bold text-foreground leading-tight">SSL · RLS</div>
-                <div className="text-[11px] text-muted-foreground">Bảo mật nâng cao</div>
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Mini feature strip below the demo */}
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
-            {[
-              { icon: Bot, label: "AI Tutor 24/7", color: "text-violet-600", bg: "bg-violet-500/10" },
-              { icon: ClipboardList, label: "Chấm bài tự động", color: "text-rose-600", bg: "bg-rose-500/10" },
-              { icon: TrendingUp, label: "Phân tích chuyên sâu", color: "text-primary", bg: "bg-primary/10" },
-              { icon: Mail, label: "Báo cáo phụ huynh", color: "text-emerald-600", bg: "bg-emerald-500/10" },
-            ].map((f) => (
-              <div key={f.label} className="rounded-xl border border-border/60 bg-card/70 backdrop-blur p-3.5 flex items-center gap-2.5 hover:border-primary/40 hover:shadow-md transition">
-                <div className={`h-9 w-9 rounded-lg ${f.bg} flex items-center justify-center shrink-0`}>
-                  <f.icon className={`h-4 w-4 ${f.color}`} />
-                </div>
-                <div className="text-xs sm:text-sm font-semibold text-foreground leading-tight">{f.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Core Features */}
       <section className="py-16 sm:py-20 bg-secondary/30">
