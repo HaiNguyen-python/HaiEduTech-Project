@@ -1942,25 +1942,27 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
-              <BarChart3 className="w-3.5 h-3.5" /> Kết quả đo lường được
+              <BarChart3 className="w-3.5 h-3.5" /> {t("Kết quả đo lường được", "Measurable Results")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Hiệu quả thực tế sau khi triển khai
+              {t("Hiệu quả thực tế sau khi triển khai", "Real-world impact after deployment")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Dữ liệu trung bình ghi nhận từ các lớp học của Thầy Hải &amp; các giáo viên đã sử dụng nền tảng
-              HaiEduTech.
+              {t(
+                "Dữ liệu trung bình ghi nhận từ các lớp học của Thầy Hải & các giáo viên đã sử dụng nền tảng HaiEduTech.",
+                "Average data recorded from Mr. Hai's classes and teachers using the HaiEduTech platform."
+              )}
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {[
-              { k: "−85%", v: "thời gian chấm bài thủ công", c: "from-primary to-blue-400" },
-              { k: "+42%", v: "tỉ lệ học viên hoàn thành khóa", c: "from-emerald-500 to-teal-400" },
-              { k: "+3.1×", v: "lượt tương tác ngoài giờ học (AI Tutor)", c: "from-violet-500 to-fuchsia-400" },
-              { k: "92%", v: "phụ huynh đánh giá hài lòng", c: "from-amber-500 to-orange-400" },
+              { k: "−85%", v: { vi: "thời gian chấm bài thủ công", en: "less manual grading time" }, c: "from-primary to-blue-400" },
+              { k: "+42%", v: { vi: "tỉ lệ học viên hoàn thành khóa", en: "higher course completion rate" }, c: "from-emerald-500 to-teal-400" },
+              { k: "+3.1×", v: { vi: "lượt tương tác ngoài giờ học (AI Tutor)", en: "after-hours engagement (AI Tutor)" }, c: "from-violet-500 to-fuchsia-400" },
+              { k: "92%", v: { vi: "phụ huynh đánh giá hài lòng", en: "satisfied parents" }, c: "from-amber-500 to-orange-400" },
             ].map((s) => (
               <div
-                key={s.v}
+                key={s.v.en}
                 className="rounded-2xl border border-border bg-card p-5 text-center shadow-sm hover:shadow-md transition"
               >
                 <div
@@ -1968,12 +1970,13 @@ const EdTechWebService = () => {
                 >
                   {s.k}
                 </div>
-                <div className="mt-2 text-xs sm:text-sm text-muted-foreground leading-snug">{s.v}</div>
+                <div className="mt-2 text-xs sm:text-sm text-muted-foreground leading-snug">{t(s.v.vi, s.v.en)}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* Process — transparent 5-step delivery flow */}
       <section className="py-16 sm:py-20">
