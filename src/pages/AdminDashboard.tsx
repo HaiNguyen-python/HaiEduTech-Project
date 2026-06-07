@@ -54,6 +54,7 @@ import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
 import ReportLogsTab from "@/components/admin/ReportLogsTab";
 import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
 import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
+import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
