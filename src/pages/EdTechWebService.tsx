@@ -698,22 +698,24 @@ const EdTechWebService = () => {
                 </Button>
               </div>
 
-              {/* Trust badges – single horizontal row, scrollable on small screens */}
-              <div className="mt-7 -mx-4 sm:mx-0 overflow-x-auto scrollbar-thin">
-                <div className="flex flex-nowrap items-center justify-start lg:justify-start gap-2 px-4 sm:px-0 text-[11.5px] sm:text-xs font-semibold text-foreground/85 w-max">
-                  <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Hợp đồng rõ ràng, thanh toán theo 2 đợt (50/50).
-                  </span>
-                  <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
-                    <Database className="w-3.5 h-3.5 text-primary" /> Cam kết vận hành hiệu quả
-                  </span>
-                  <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
-                    <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao 5–10 ngày
-                  </span>
-                  <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
-                    <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm với từng sản phẩm giáo dục
-                  </span>
-                </div>
+              {/* Trust badges – 2 hàng (grid 2 cột) để luôn hiển thị đầy đủ */}
+              <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11.5px] sm:text-xs font-semibold text-foreground/85">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Hợp đồng rõ ràng, thanh toán theo 2 đợt (50/50)</span>
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
+                  <Database className="w-3.5 h-3.5 text-primary shrink-0" />
+                  <span>Cam kết vận hành hiệu quả</span>
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
+                  <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                  <span>Bàn giao 5–10 ngày</span>
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
+                  <Bot className="w-3.5 h-3.5 text-violet-500 shrink-0" />
+                  <span>Tận tâm với từng sản phẩm giáo dục</span>
+                </span>
               </div>
             </motion.div>
 
