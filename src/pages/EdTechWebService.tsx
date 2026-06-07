@@ -2223,31 +2223,9 @@ const EdTechWebService = () => {
 
           {/* Feature comparison matrix between the two packages */}
           <ComparisonTable />
-
-          {/* Repeat demo carousel below pricing for last-minute review before signup */}
-          <div className="mt-16 max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
-                <Sparkles className="w-3.5 h-3.5" />
-                {t("Xem lại bản demo trước khi đăng ký", "Review the demo before you sign up")}
-              </div>
-              <h3 className="text-xl sm:text-3xl font-display font-bold text-foreground">
-                {t(
-                  "Một lần nữa – tham khảo bản demo để chọn gói phù hợp",
-                  "Take another look at the demo before choosing your package",
-                )}
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {t(
-                  "Quý Thầy/Cô có thể lướt lại 17 màn hình demo để hình dung rõ hệ thống trước khi để lại thông tin tư vấn.",
-                  "Browse all 17 demo screens one more time before requesting a consultation.",
-                )}
-              </p>
-            </div>
-            <DemoCarousel />
-          </div>
         </div>
       </section>
+
 
 
       {/* Pain Points → Solutions — speak directly to teacher's daily struggles */}
