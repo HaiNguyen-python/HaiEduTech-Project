@@ -361,10 +361,112 @@ const EdTechWebService = () => {
             ))}
           </div>
         </div>
+
+      {/* Industries Served — who we build for */}
+      <section className="py-14 sm:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary mb-3">
+              <Users className="w-3.5 h-3.5" /> Đối tượng phục vụ
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Giải pháp may đo cho từng quy mô giáo dục
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Dù Thầy/Cô đang dạy 1-1 hay vận hành cả hệ thống trường học, chúng tôi đều có giải pháp phù hợp.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
+            {[
+              { icon: GraduationCap, title: "Giáo viên tự do", desc: "Lớp luyện thi cá nhân 1-1 hoặc nhóm nhỏ < 50 học viên, cần website chuyên nghiệp để xây thương hiệu cá nhân.", color: "from-blue-500/15 to-blue-500/5", ic: "text-blue-600 bg-blue-500/10" },
+              { icon: School, title: "Trung tâm ngoại ngữ", desc: "50–500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động – thay thế Google Form + Zalo thủ công.", color: "from-emerald-500/15 to-emerald-500/5", ic: "text-emerald-600 bg-emerald-500/10" },
+              { icon: Building2, title: "Trường học & Học viện", desc: "500+ học viên, cần phân quyền đa cấp, cổng phụ huynh, BI dashboard & tích hợp hệ thống điểm danh nội bộ.", color: "from-violet-500/15 to-violet-500/5", ic: "text-violet-600 bg-violet-500/10" },
+              { icon: Globe, title: "EdTech Startup", desc: "Đang xây sản phẩm SaaS giáo dục, cần MVP nhanh trong 14 ngày với hạ tầng AI/Data sẵn sàng mở rộng.", color: "from-amber-500/15 to-amber-500/5", ic: "text-amber-600 bg-amber-500/10" },
+            ].map((it, i) => (
+              <motion.div key={it.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+                <Card className={`h-full bg-gradient-to-br ${it.color} border-border/70`}>
+                  <CardContent className="p-6">
+                    <div className={`w-12 h-12 rounded-xl ${it.ic} flex items-center justify-center mb-4`}>
+                      <it.icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{it.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{it.desc}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack & Security — credibility through transparent technology */}
+      <section className="py-14 sm:py-20 bg-secondary/30">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
+              <Cpu className="w-3.5 h-3.5" /> Công nghệ & Bảo mật
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Cùng kiến trúc với các sản phẩm Đại học Top Châu Âu
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng – nhanh, bảo mật, dễ mở rộng.
+            </p>
+          </div>
+          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {[
+              {
+                icon: Code2, title: "Frontend hiện đại",
+                items: ["React 18 + Vite (tải dưới 1 giây)", "TailwindCSS – giao diện đồng nhất", "Framer Motion – chuyển động mượt", "Responsive 100% mobile & tablet"],
+                color: "from-blue-500/20 to-transparent", ic: "text-blue-600 bg-blue-500/10",
+              },
+              {
+                icon: Database, title: "Backend & Data",
+                items: ["Postgres + Row-Level Security", "Edge Functions phục vụ toàn cầu", "Realtime sync điểm số & chat", "Backup tự động hằng ngày"],
+                color: "from-emerald-500/20 to-transparent", ic: "text-emerald-600 bg-emerald-500/10",
+              },
+              {
+                icon: Bot, title: "AI & Automation",
+                items: ["Perplexity Sonar Pro / GPT-5 / Gemini 2.5", "Pyodide chạy Python ngay trên trình duyệt", "Web Speech API cho luyện nói", "AI Smart Grading cho Writing/Speaking"],
+                color: "from-violet-500/20 to-transparent", ic: "text-violet-600 bg-violet-500/10",
+              },
+            ].map((s, i) => (
+              <motion.div key={s.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                <Card className={`h-full bg-gradient-to-br ${s.color} border-border/70`}>
+                  <CardContent className="p-6">
+                    <div className={`w-12 h-12 rounded-xl ${s.ic} flex items-center justify-center mb-4`}>
+                      <s.icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">{s.title}</h3>
+                    <ul className="space-y-2">
+                      {s.items.map((it) => (
+                        <li key={it} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <Check className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /> {it}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-8 max-w-4xl mx-auto rounded-2xl border border-border bg-card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-semibold text-foreground mb-1">Cam kết bảo mật cấp Doanh nghiệp</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                SSL/TLS 1.3 mặc định · Row-Level Security theo tài khoản · Audit log mọi truy cập admin · Tuân thủ Luật An ninh mạng Việt Nam & nguyên tắc GDPR. Dữ liệu đặt tại data center Singapore / Frankfurt theo lựa chọn của Thầy/Cô.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Interactive Portfolio / Demo Showcase */}
       <PortfolioShowcase />
+
 
       {/* Measurable Results — concrete numbers build trust */}
       <section className="py-14 sm:py-20 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5">
