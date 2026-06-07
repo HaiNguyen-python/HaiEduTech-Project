@@ -243,7 +243,7 @@ const EdTechWebService = () => {
         special_requirements: parsed.data.special_requirements || null,
       });
       if (error) throw error;
-      toast.success("Gửi yêu cầu thành công! Thầy Hải sẽ liên hệ tư vấn cho quý Thầy/Cô trong vòng 24 giờ.");
+      toast.success("✅ Đã gửi yêu cầu đến Admin của HaiEduTech! Thầy Hải sẽ liên hệ trực tiếp với quý Thầy/Cô trong vòng 24 giờ.");
       setForm(INITIAL);
     } catch (err) {
       toast.error("Có lỗi xảy ra. Vui lòng thử lại sau ít phút.");
