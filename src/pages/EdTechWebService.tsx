@@ -526,7 +526,7 @@ const EdTechWebService = () => {
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-emerald-500/20 blur-3xl" />
 
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-center max-w-7xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {/* LEFT — Copy */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
