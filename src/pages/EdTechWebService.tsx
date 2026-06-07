@@ -346,6 +346,8 @@ const DemoCarousel = () => {
           {slide.id === "classes" && <SlideClasses />}
           {slide.id === "assignments" && <SlideAssignments />}
           {slide.id === "analytics" && <SlideAnalytics />}
+          {slide.id === "lessons" && <SlideLessons />}
+          {slide.id === "rl-lab" && <SlideRLLab />}
           {slide.id === "parent-report" && <SlideParentReport />}
         </motion.div>
       </div>
