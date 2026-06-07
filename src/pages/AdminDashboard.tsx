@@ -1202,6 +1202,10 @@ const AdminDashboard = () => {
                 <ReportLogsTab />
               </TabsContent>
 
+              <TabsContent value="service-requests">
+                <ServiceRequestsTab />
+              </TabsContent>
+
               <TabsContent value="dictionary">
                 <Tabs defaultValue="en" className="w-full">
                   <TabsList className="grid w-full grid-cols-4 max-w-2xl">
