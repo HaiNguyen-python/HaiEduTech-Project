@@ -998,38 +998,6 @@ const EdTechWebService = () => {
 
               <div className="relative">
                 <DemoCarousel />
-
-                {/* Floating badge — top left (anchored to carousel) */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="hidden md:flex absolute -left-4 -top-5 lg:-left-6 lg:-top-6 items-center gap-2.5 rounded-2xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
-                    <Bot className="h-4.5 w-4.5" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-foreground leading-tight">AI Tutor 24/7</div>
-                    <div className="text-[11px] text-muted-foreground">Trả lời tức thì</div>
-                  </div>
-                </motion.div>
-
-                {/* Floating badge — bottom right (anchored to carousel) */}
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="hidden md:flex absolute -right-4 -bottom-5 lg:-right-6 lg:-bottom-6 items-center gap-2.5 rounded-2xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-3.5 py-2 shadow-2xl z-10"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
-                    <ShieldCheck className="h-4.5 w-4.5" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-foreground leading-tight">SSL · RLS</div>
-                    <div className="text-[11px] text-muted-foreground">Bảo mật nâng cao</div>
-                  </div>
-                </motion.div>
               </div>
 
 
