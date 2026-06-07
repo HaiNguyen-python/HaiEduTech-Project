@@ -269,6 +269,8 @@ const badgeStyles = {
   violet: "bg-violet-500/10 text-violet-600 border-violet-500/30",
   primary: "bg-primary/10 text-primary border-primary/30",
   amber: "bg-amber-500/10 text-amber-600 border-amber-500/30",
+  rose: "bg-rose-500/10 text-rose-600 border-rose-500/30",
+  sky: "bg-sky-500/10 text-sky-600 border-sky-500/30",
 };
 
 const DemoCarousel = () => {
