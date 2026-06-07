@@ -523,7 +523,7 @@ const DemoCarousel = () => {
         </div>
         <button
           onClick={() => go(idx + 1)}
-          aria-label="Sau"
+          aria-label={t("Sau", "Next")}
           className="h-8 w-8 rounded-full border border-border/60 bg-background/70 hover:bg-background flex items-center justify-center text-foreground transition hover:scale-105"
         >
           <ChevronRight className="h-4 w-4" />
