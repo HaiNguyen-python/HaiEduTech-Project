@@ -70,6 +70,72 @@ const posChip = (pos: string): string => {
   return "bg-muted text-muted-foreground border-border";
 };
 
+// ──────────────────────────────────────────────────────────────────────────
+// Client-side lookup cache. Repeats (same word + same kind) are served
+// instantly from memory; cold cache hits are persisted to localStorage so
+// they survive page reloads. TTL = 7 days. This is the biggest perf win
+// since most students re-look-up the same words multiple times.
+// ──────────────────────────────────────────────────────────────────────────
+const LOOKUP_CACHE_KEY = "super-dict-cache-v1";
+const LOOKUP_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+const LOOKUP_CACHE_MAX = 300; // cap entries to avoid bloating localStorage
+type CachedEntry = { t: number; v: any };
+const lookupCache = new Map<string, CachedEntry>();
+let lookupCacheLoaded = false;
+
+const loadLookupCache = () => {
+  if (lookupCacheLoaded) return;
+  lookupCacheLoaded = true;
+  try {
+    const raw = localStorage.getItem(LOOKUP_CACHE_KEY);
+    if (!raw) return;
+    const obj = JSON.parse(raw);
+    const now = Date.now();
+    Object.entries(obj || {}).forEach(([k, val]: [string, any]) => {
+      if (val && typeof val.t === "number" && now - val.t < LOOKUP_CACHE_TTL_MS) {
+        lookupCache.set(k, val);
+      }
+    });
+  } catch {
+    // ignore corrupt cache
+  }
+};
+
+let saveTimer: ReturnType<typeof setTimeout> | null = null;
+const persistLookupCache = () => {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      // Keep most recent N entries
+      const entries = Array.from(lookupCache.entries())
+        .sort((a, b) => b[1].t - a[1].t)
+        .slice(0, LOOKUP_CACHE_MAX);
+      const obj: Record<string, CachedEntry> = {};
+      entries.forEach(([k, v]) => (obj[k] = v));
+      localStorage.setItem(LOOKUP_CACHE_KEY, JSON.stringify(obj));
+    } catch {
+      // quota exceeded — drop silently
+    }
+  }, 400);
+};
+
+const getCachedLookup = (key: string): any | null => {
+  loadLookupCache();
+  const hit = lookupCache.get(key);
+  if (!hit) return null;
+  if (Date.now() - hit.t > LOOKUP_CACHE_TTL_MS) {
+    lookupCache.delete(key);
+    return null;
+  }
+  return hit.v;
+};
+
+const setCachedLookup = (key: string, value: any) => {
+  lookupCache.set(key, { t: Date.now(), v: value });
+  persistLookupCache();
+};
+
+
 const SuperDictionary = () => {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
