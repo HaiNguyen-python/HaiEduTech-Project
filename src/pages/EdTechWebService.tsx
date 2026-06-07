@@ -251,62 +251,71 @@ const FEATURES = [
 const PACKAGES = [
   {
     id: "standard" as const,
-    name: "Gói Standard",
-    tagline: "Khởi đầu chuyên nghiệp",
-    priceFrom: "Liên hệ nhận báo giá",
-    priceNote: "Trọn gói · Bàn giao trong 5–10 ngày",
-    monthly: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu",
+    name: { vi: "Gói Standard", en: "Standard Package" },
+    tagline: { vi: "Khởi đầu chuyên nghiệp", en: "Professional kick-off" },
+    priceFrom: { vi: "Liên hệ nhận báo giá", en: "Contact for a quote" },
+    priceNote: { vi: "Trọn gói · Bàn giao trong 5–10 ngày", en: "All-inclusive · Delivered in 5–10 days" },
+    monthly: { vi: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu", en: "Free consultation · Custom quote on request" },
     highlight: false,
     icon: Rocket,
-    bestFor: "Phù hợp cho lớp học cá nhân / nhóm dưới 50 học viên.",
+    bestFor: {
+      vi: "Phù hợp cho lớp học cá nhân / nhóm dưới 50 học viên.",
+      en: "Best for individual teachers or small groups under 50 learners.",
+    },
     features: [
-      "Website LMS responsive (mobile-first)",
-      "Hệ thống quiz tự chấm điểm + lưu lịch sử",
-      "Quản lý học viên & phân lớp cơ bản",
-      "Cài đặt tên miền (.com / .edu.vn / .vn)",
-      "Trang giới thiệu khóa học + form đăng ký",
-      "Hỗ trợ kỹ thuật giờ hành chính (T2–T6)",
-      "Bàn giao mã nguồn & video hướng dẫn quản trị",
+      { vi: "Website LMS responsive (mobile-first)", en: "Responsive LMS website (mobile-first)" },
+      { vi: "Hệ thống quiz tự chấm điểm + lưu lịch sử", en: "Auto-graded quiz system with history" },
+      { vi: "Quản lý học viên & phân lớp cơ bản", en: "Basic student & class management" },
+      { vi: "Cài đặt tên miền (.com / .edu.vn / .vn)", en: "Custom domain setup (.com / .edu.vn / .vn)" },
+      { vi: "Trang giới thiệu khóa học + form đăng ký", en: "Course landing page + signup form" },
+      { vi: "Hỗ trợ kỹ thuật giờ hành chính (T2–T6)", en: "Tech support business hours (Mon–Fri)" },
+      { vi: "Bàn giao mã nguồn & video hướng dẫn quản trị", en: "Full source code + admin training videos" },
     ],
   },
   {
     id: "advanced" as const,
-    name: "Gói Advanced AI & Data",
-    tagline: "Khuyên dùng cho lớp học hiện đại",
-    priceFrom: "Liên hệ nhận báo giá",
-    priceNote: "Trọn gói · Bàn giao trong 10–14 ngày",
-    monthly: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu",
+    name: { vi: "Gói Advanced AI & Data", en: "Advanced AI & Data Package" },
+    tagline: { vi: "Khuyên dùng cho lớp học hiện đại", en: "Recommended for modern classrooms" },
+    priceFrom: { vi: "Liên hệ nhận báo giá", en: "Contact for a quote" },
+    priceNote: { vi: "Trọn gói · Bàn giao trong 10–14 ngày", en: "All-inclusive · Delivered in 10–14 days" },
+    monthly: { vi: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu", en: "Free consultation · Custom quote on request" },
     highlight: true,
     icon: Crown,
-    bestFor: "Phù hợp cho trung tâm / lớp học 50–500 học viên cần tự động hóa.",
+    bestFor: {
+      vi: "Phù hợp cho trung tâm / lớp học 50–500 học viên cần tự động hóa.",
+      en: "Best for centers / classes of 50–500 learners that need automation.",
+    },
     features: [
-      "Toàn bộ tính năng của gói Standard",
-      "AI Chatbot 24/7 huấn luyện theo tài liệu riêng",
-      "Dashboard Learning Analytics nâng cao",
-      "Email subdomain (OTP, hóa đơn, nhắc lịch tự động)",
-      "AI Smart Grading cho bài viết Writing & Speaking",
-      "Tích hợp thanh toán (VNPay / Momo / chuyển khoản)",
-      "Bảo trì ưu tiên 24/7 + cập nhật tính năng theo quý",
+      { vi: "Toàn bộ tính năng của gói Standard", en: "Everything in Standard" },
+      { vi: "AI Chatbot 24/7 huấn luyện theo tài liệu riêng", en: "24/7 AI Chatbot trained on your own materials" },
+      { vi: "Dashboard Learning Analytics nâng cao", en: "Advanced Learning Analytics dashboard" },
+      { vi: "Email subdomain (OTP, hóa đơn, nhắc lịch tự động)", en: "Email subdomain (OTP, invoices, auto reminders)" },
+      { vi: "AI Smart Grading cho bài viết Writing & Speaking", en: "AI Smart Grading for Writing & Speaking" },
+      { vi: "Tích hợp thanh toán (VNPay / Momo / chuyển khoản)", en: "Payment integration (VNPay / Momo / bank transfer)" },
+      { vi: "Bảo trì ưu tiên 24/7 + cập nhật tính năng theo quý", en: "Priority 24/7 maintenance + quarterly feature updates" },
     ],
   },
   {
     id: "enterprise" as const,
-    name: "Gói Enterprise",
-    tagline: "Dành cho trường học & học viện",
-    priceFrom: "Liên hệ nhận báo giá",
-    priceNote: "Tùy biến sâu · Bàn giao 3–6 tuần",
-    monthly: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu",
+    name: { vi: "Gói Enterprise", en: "Enterprise Package" },
+    tagline: { vi: "Dành cho trường học & học viện", en: "For schools & academies" },
+    priceFrom: { vi: "Liên hệ nhận báo giá", en: "Contact for a quote" },
+    priceNote: { vi: "Tùy biến sâu · Bàn giao 3–6 tuần", en: "Deeply customized · Delivered in 3–6 weeks" },
+    monthly: { vi: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu", en: "Free consultation · Custom quote on request" },
     highlight: false,
     icon: Database,
-    bestFor: "Phù hợp cho trường học / chuỗi trung tâm 500+ học viên.",
+    bestFor: {
+      vi: "Phù hợp cho trường học / chuỗi trung tâm 500+ học viên.",
+      en: "Best for schools / center networks with 500+ learners.",
+    },
     features: [
-      "Toàn bộ tính năng gói Advanced",
-      "Phân quyền nhiều cấp (Admin / Giáo viên / Phụ huynh / HS)",
-      "Cổng phụ huynh: xem điểm, học phí, lịch học theo thời gian thực",
-      "Tích hợp Google Sheets / Zalo OA / hệ thống điểm danh",
-      "Data Warehouse + BI dashboard riêng",
-      "AI dự đoán học viên nghỉ học & tự gợi ý can thiệp",
-      "SLA cam kết uptime 99.9% · Hỗ trợ ưu tiên 24/7",
+      { vi: "Toàn bộ tính năng gói Advanced", en: "Everything in Advanced" },
+      { vi: "Phân quyền nhiều cấp (Admin / Giáo viên / Phụ huynh / HS)", en: "Multi-level roles (Admin / Teacher / Parent / Student)" },
+      { vi: "Cổng phụ huynh: xem điểm, học phí, lịch học theo thời gian thực", en: "Parent portal: real-time grades, tuition, and schedule" },
+      { vi: "Tích hợp Google Sheets / Zalo OA / hệ thống điểm danh", en: "Integrations: Google Sheets / Zalo OA / attendance systems" },
+      { vi: "Data Warehouse + BI dashboard riêng", en: "Dedicated Data Warehouse + BI dashboard" },
+      { vi: "AI dự đoán học viên nghỉ học & tự gợi ý can thiệp", en: "AI dropout prediction with intervention suggestions" },
+      { vi: "SLA cam kết uptime 99.9% · Hỗ trợ ưu tiên 24/7", en: "99.9% uptime SLA · Priority 24/7 support" },
     ],
   },
 ];
@@ -533,33 +542,35 @@ const DemoCarousel = () => {
   );
 };
 
-const SlideDashboard = () => (
+const SlideDashboard = () => {
+  const { t } = useLanguage();
+  return (
   <>
     <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
       {[
-        { label: "Học viên", value: "248", icon: Users, color: "text-primary", bg: "bg-primary/10" },
-        { label: "Bài đã chấm", value: "1.2k", icon: ClipboardList, color: "text-emerald-600", bg: "bg-emerald-500/10" },
-        { label: "AI replies", value: "532", icon: Bot, color: "text-violet-600", bg: "bg-violet-500/10" },
+        { label: { vi: "Học viên", en: "Students" }, value: "248", icon: Users, color: "text-primary", bg: "bg-primary/10" },
+        { label: { vi: "Bài đã chấm", en: "Graded" }, value: "1.2k", icon: ClipboardList, color: "text-emerald-600", bg: "bg-emerald-500/10" },
+        { label: { vi: "AI replies", en: "AI replies" }, value: "532", icon: Bot, color: "text-violet-600", bg: "bg-violet-500/10" },
       ].map((s) => (
-        <div key={s.label} className="rounded-xl border border-border/60 bg-background/70 p-3">
+        <div key={s.label.en} className="rounded-xl border border-border/60 bg-background/70 p-3">
           <div className={`mb-2 inline-flex h-7 w-7 items-center justify-center rounded-md ${s.bg}`}>
             <s.icon className={`h-4 w-4 ${s.color}`} />
           </div>
           <div className="text-lg sm:text-xl font-bold text-foreground leading-none">{s.value}</div>
-          <div className="text-[10px] sm:text-[11px] text-muted-foreground mt-1.5">{s.label}</div>
+          <div className="text-[10px] sm:text-[11px] text-muted-foreground mt-1.5">{t(s.label.vi, s.label.en)}</div>
         </div>
       ))}
     </div>
     <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
       <div className="flex items-center justify-between mb-1.5">
-        <div className="text-[11px] sm:text-xs font-medium text-foreground">Tiến độ học tập 7 ngày</div>
+        <div className="text-[11px] sm:text-xs font-medium text-foreground">{t("Tiến độ học tập 7 ngày", "7-day learning progress")}</div>
         <div className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] text-emerald-600 font-semibold">
           <TrendingUp className="h-3 w-3" /> +18%
         </div>
       </div>
       <div className="h-24 sm:h-28">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={[{d:"T2",v:42},{d:"T3",v:55},{d:"T4",v:48},{d:"T5",v:67},{d:"T6",v:72},{d:"T7",v:80},{d:"CN",v:88}]}>
+          <LineChart data={[{d:"M",v:42},{d:"T",v:55},{d:"W",v:48},{d:"T",v:67},{d:"F",v:72},{d:"S",v:80},{d:"S",v:88}]}>
             <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 2.5, fill: "hsl(var(--primary))" }} />
             <XAxis dataKey="d" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
           </LineChart>
@@ -567,16 +578,20 @@ const SlideDashboard = () => (
       </div>
     </div>
   </>
-);
+  );
+};
 
-const SlideAITutor = () => (
+const SlideAITutor = () => {
+  const { t } = useLanguage();
+  const msgs = [
+    { who: "student", text: { vi: "Thầy ơi, em chưa hiểu thì hiện tại hoàn thành dùng khi nào ạ?", en: "Teacher, when do we use the Present Perfect tense?" }, time: "20:14" },
+    { who: "ai", text: { vi: "Hi An! Present Perfect dùng cho hành động đã xảy ra nhưng còn liên quan đến hiện tại 👇\n• I have studied English for 3 years.\n• She has just finished her homework.", en: "Hi An! Present Perfect describes actions that happened but still connect to the present 👇\n• I have studied English for 3 years.\n• She has just finished her homework." }, time: "20:14" },
+    { who: "student", text: { vi: "Cho em 1 bài tập nhanh được không thầy?", en: "Can I get a quick practice question, please?" }, time: "20:15" },
+    { who: "ai", text: { vi: "Đây nhé: 'I ___ (live) in Hà Nội since 2020.' → Trả lời rồi thầy chấm liền!", en: "Here: 'I ___ (live) in Hanoi since 2020.' → Answer and I'll grade it instantly!" }, time: "20:15" },
+  ];
+  return (
   <div className="space-y-2.5">
-    {[
-      { who: "student", text: "Thầy ơi, em chưa hiểu thì hiện tại hoàn thành dùng khi nào ạ?", time: "20:14" },
-      { who: "ai", text: "Hi An! Present Perfect dùng cho hành động đã xảy ra nhưng còn liên quan đến hiện tại 👇\n• I have studied English for 3 years.\n• She has just finished her homework.", time: "20:14" },
-      { who: "student", text: "Cho em 1 bài tập nhanh được không thầy?", time: "20:15" },
-      { who: "ai", text: "Đây nhé: 'I ___ (live) in Hà Nội since 2020.' → Trả lời rồi thầy chấm liền!", time: "20:15" },
-    ].map((m, i) => (
+    {msgs.map((m, i) => (
       <div key={i} className={`flex ${m.who === "ai" ? "justify-start" : "justify-end"}`}>
         <div className={`max-w-[78%] rounded-2xl px-3 py-2 text-[11px] sm:text-xs leading-relaxed whitespace-pre-line ${
           m.who === "ai"
@@ -588,25 +603,29 @@ const SlideAITutor = () => (
               <Bot className="h-3 w-3" /> AI Tutor
             </div>
           )}
-          {m.text}
+          {t(m.text.vi, m.text.en)}
           <div className={`text-[9px] mt-1 ${m.who === "ai" ? "text-muted-foreground" : "text-primary-foreground/70"}`}>{m.time}</div>
         </div>
       </div>
     ))}
   </div>
-);
+  );
+};
 
-const SlideClasses = () => (
+const SlideClasses = () => {
+  const { t } = useLanguage();
+  const classes = [
+    { name: { vi: "IELTS 6.5 — Ca tối T2-4-6", en: "IELTS 6.5 — Evening Mon/Wed/Fri" }, students: 18, prog: 72, color: "from-primary to-emerald-500" },
+    { name: { vi: "Tiếng Anh giao tiếp B1", en: "Conversational English B1" }, students: 24, prog: 58, color: "from-violet-500 to-fuchsia-500" },
+    { name: { vi: "Luyện thi THPT 2026", en: "National High School Exam Prep 2026" }, students: 31, prog: 84, color: "from-amber-500 to-orange-500" },
+    { name: { vi: "Tiếng Trung HSK 3", en: "Chinese HSK 3" }, students: 12, prog: 41, color: "from-rose-500 to-pink-500" },
+  ];
+  return (
   <div className="space-y-2">
-    {[
-      { name: "IELTS 6.5 — Ca tối T2-4-6", students: 18, prog: 72, color: "from-primary to-emerald-500" },
-      { name: "Tiếng Anh giao tiếp B1", students: 24, prog: 58, color: "from-violet-500 to-fuchsia-500" },
-      { name: "Luyện thi THPT 2026", students: 31, prog: 84, color: "from-amber-500 to-orange-500" },
-      { name: "Tiếng Trung HSK 3", students: 12, prog: 41, color: "from-rose-500 to-pink-500" },
-    ].map((c) => (
-      <div key={c.name} className="rounded-xl border border-border/60 bg-background/70 p-3">
+    {classes.map((c) => (
+      <div key={c.name.en} className="rounded-xl border border-border/60 bg-background/70 p-3">
         <div className="flex items-center justify-between mb-1.5">
-          <div className="text-[11px] sm:text-xs font-semibold text-foreground truncate">{c.name}</div>
+          <div className="text-[11px] sm:text-xs font-semibold text-foreground truncate">{t(c.name.vi, c.name.en)}</div>
           <div className="flex items-center gap-1 text-[10px] text-muted-foreground shrink-0 ml-2">
             <Users className="h-3 w-3" /> {c.students}
           </div>
@@ -615,79 +634,90 @@ const SlideClasses = () => (
           <div className={`h-full bg-gradient-to-r ${c.color}`} style={{ width: `${c.prog}%` }} />
         </div>
         <div className="flex items-center justify-between mt-1.5">
-          <div className="text-[10px] text-muted-foreground">Tiến độ khoá học</div>
+          <div className="text-[10px] text-muted-foreground">{t("Tiến độ khoá học", "Course progress")}</div>
           <div className="text-[10px] font-bold text-foreground">{c.prog}%</div>
         </div>
       </div>
     ))}
   </div>
-);
+  );
+};
 
-const SlideParentReport = () => (
+const SlideParentReport = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border border-border/60 bg-gradient-to-br from-emerald-500/10 to-primary/5 p-3.5">
       <div className="flex items-center gap-2 mb-2">
         <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center text-white text-xs font-bold">NA</div>
         <div>
-          <div className="text-xs font-semibold text-foreground">Nguyễn Văn An · Lớp IELTS 6.5</div>
-          <div className="text-[10px] text-muted-foreground">Báo cáo tháng 5/2026</div>
+          <div className="text-xs font-semibold text-foreground">{t("Nguyễn Văn An · Lớp IELTS 6.5", "An Nguyen · IELTS 6.5 Class")}</div>
+          <div className="text-[10px] text-muted-foreground">{t("Báo cáo tháng 5/2026", "May 2026 Report")}</div>
         </div>
       </div>
       <div className="grid grid-cols-3 gap-2">
         {[
-          { l: "Buổi học", v: "12/12", i: Calendar, c: "text-emerald-600" },
-          { l: "Điểm TB", v: "8.4", i: Award, c: "text-amber-600" },
-          { l: "Bài tập", v: "96%", i: ClipboardList, c: "text-primary" },
+          { l: { vi: "Buổi học", en: "Sessions" }, v: "12/12", i: Calendar, c: "text-emerald-600" },
+          { l: { vi: "Điểm TB", en: "Avg Score" }, v: "8.4", i: Award, c: "text-amber-600" },
+          { l: { vi: "Bài tập", en: "Homework" }, v: "96%", i: ClipboardList, c: "text-primary" },
         ].map((m) => (
-          <div key={m.l} className="rounded-lg bg-background/80 border border-border/40 p-2 text-center">
+          <div key={m.l.en} className="rounded-lg bg-background/80 border border-border/40 p-2 text-center">
             <m.i className={`h-3.5 w-3.5 mx-auto mb-1 ${m.c}`} />
             <div className="text-sm font-bold text-foreground leading-none">{m.v}</div>
-            <div className="text-[9px] text-muted-foreground mt-1">{m.l}</div>
+            <div className="text-[9px] text-muted-foreground mt-1">{t(m.l.vi, m.l.en)}</div>
           </div>
         ))}
       </div>
     </div>
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
       <div className="text-[11px] font-semibold text-foreground mb-1.5 flex items-center gap-1.5">
-        <Mail className="h-3 w-3 text-primary" /> Nhận xét từ Thầy Hải
+        <Mail className="h-3 w-3 text-primary" /> {t("Nhận xét từ Thầy Hải", "Comments from Mr. Hai")}
       </div>
       <p className="text-[11px] text-muted-foreground leading-relaxed">
-        An tiến bộ rõ rệt ở kỹ năng Writing (Task 2 tăng 0.5 band). Cần luyện thêm Speaking Part 3 — đã giao 5 bài cho tuần tới ✨
+        {t(
+          "An tiến bộ rõ rệt ở kỹ năng Writing (Task 2 tăng 0.5 band). Cần luyện thêm Speaking Part 3 — đã giao 5 bài cho tuần tới ✨",
+          "An has clearly improved in Writing (Task 2 up 0.5 band). Needs more Speaking Part 3 practice — 5 tasks assigned for next week ✨"
+        )}
       </p>
     </div>
     <div className="flex items-center justify-between text-[10px] text-muted-foreground px-1">
-      <span>📧 Đã gửi tự động đến phụ huynh</span>
+      <span>📧 {t("Đã gửi tự động đến phụ huynh", "Auto-sent to parents")}</span>
       <span className="text-emerald-600 font-semibold">✓ 01/06/2026</span>
     </div>
   </div>
-);
+  );
+};
 
-const SlideAssignments = () => (
+const SlideAssignments = () => {
+  const { t } = useLanguage();
+  const stats = [
+    { l: { vi: "Cần chấm", en: "To grade" }, v: "12", c: "text-rose-600", bg: "bg-rose-500/10" },
+    { l: { vi: "AI đã chấm", en: "AI graded" }, v: "184", c: "text-emerald-600", bg: "bg-emerald-500/10" },
+    { l: { vi: "Tiết kiệm", en: "Time saved" }, v: "9.2h", c: "text-primary", bg: "bg-primary/10" },
+  ];
+  const rows = [
+    { name: "Trần Minh Anh", task: "IELTS Writing Task 2 — Education", band: "7.0", color: "from-emerald-500 to-primary", status: { vi: "AI đã chấm", en: "AI graded" } },
+    { name: "Lê Quang Huy", task: "Reading Practice Test 12", band: "8.5", color: "from-violet-500 to-fuchsia-500", status: { vi: "AI đã chấm", en: "AI graded" } },
+    { name: "Phạm Thu Hà", task: "Speaking Part 2 — Hometown", band: "—", color: "from-amber-500 to-rose-500", status: { vi: "Chờ Thầy duyệt", en: "Awaiting teacher review" } },
+  ];
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-3 gap-3">
-      {[
-        { l: "Cần chấm", v: "12", c: "text-rose-600", bg: "bg-rose-500/10" },
-        { l: "AI đã chấm", v: "184", c: "text-emerald-600", bg: "bg-emerald-500/10" },
-        { l: "Tiết kiệm", v: "9.2h", c: "text-primary", bg: "bg-primary/10" },
-      ].map((s) => (
-        <div key={s.l} className={`rounded-xl border border-border/60 ${s.bg} p-3.5 text-center`}>
+      {stats.map((s) => (
+        <div key={s.l.en} className={`rounded-xl border border-border/60 ${s.bg} p-3.5 text-center`}>
           <div className={`text-xl sm:text-2xl font-bold ${s.c} leading-none`}>{s.v}</div>
-          <div className="text-[11px] text-muted-foreground mt-1.5">{s.l}</div>
+          <div className="text-[11px] text-muted-foreground mt-1.5">{t(s.l.vi, s.l.en)}</div>
         </div>
       ))}
     </div>
-    {[
-      { name: "Trần Minh Anh", task: "IELTS Writing Task 2 — Education", band: "7.0", color: "from-emerald-500 to-primary", status: "AI đã chấm" },
-      { name: "Lê Quang Huy", task: "Reading Practice Test 12", band: "8.5", color: "from-violet-500 to-fuchsia-500", status: "AI đã chấm" },
-      { name: "Phạm Thu Hà", task: "Speaking Part 2 — Hometown", band: "—", color: "from-amber-500 to-rose-500", status: "Chờ Thầy duyệt" },
-    ].map((r) => (
+    {rows.map((r) => (
       <div key={r.name} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-3">
         <div className={`h-9 w-9 shrink-0 rounded-full bg-gradient-to-br ${r.color} flex items-center justify-center text-white text-xs font-bold`}>
           {r.name.split(" ").map((w) => w[0]).slice(-2).join("")}
         </div>
         <div className="flex-1 min-w-0">
           <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{r.task}</div>
-          <div className="text-[11px] text-muted-foreground truncate">{r.name} · {r.status}</div>
+          <div className="text-[11px] text-muted-foreground truncate">{r.name} · {t(r.status.vi, r.status.en)}</div>
         </div>
         <div className="text-right shrink-0">
           <div className="text-base font-bold text-foreground leading-none">{r.band}</div>
@@ -696,20 +726,23 @@ const SlideAssignments = () => (
       </div>
     ))}
   </div>
-);
+  );
+};
 
-const SlideAnalytics = () => (
+const SlideAnalytics = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border border-border/60 bg-background/70 p-4">
       <div className="flex items-center justify-between mb-2">
-        <div className="text-xs sm:text-sm font-semibold text-foreground">Doanh thu 6 tháng gần nhất</div>
+        <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Doanh thu 6 tháng gần nhất", "Revenue – last 6 months")}</div>
         <div className="text-[11px] text-emerald-600 font-semibold inline-flex items-center gap-1">
           <TrendingUp className="h-3 w-3" /> +34%
         </div>
       </div>
       <div className="h-32 sm:h-36">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={[{m:"T12",v:18},{m:"T1",v:24},{m:"T2",v:22},{m:"T3",v:31},{m:"T4",v:38},{m:"T5",v:48}]}>
+          <LineChart data={[{m:"Dec",v:18},{m:"Jan",v:24},{m:"Feb",v:22},{m:"Mar",v:31},{m:"Apr",v:38},{m:"May",v:48}]}>
             <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 3, fill: "hsl(var(--primary))" }} />
             <XAxis dataKey="m" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
           </LineChart>
@@ -718,14 +751,14 @@ const SlideAnalytics = () => (
     </div>
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
-        <div className="text-[11px] text-muted-foreground mb-1">Tỷ lệ hoàn thành</div>
+        <div className="text-[11px] text-muted-foreground mb-1">{t("Tỷ lệ hoàn thành", "Completion rate")}</div>
         <div className="text-2xl font-bold text-emerald-600 leading-none">92%</div>
         <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
           <div className="h-full bg-gradient-to-r from-emerald-500 to-primary" style={{ width: "92%" }} />
         </div>
       </div>
       <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
-        <div className="text-[11px] text-muted-foreground mb-1">Học viên quay lại</div>
+        <div className="text-[11px] text-muted-foreground mb-1">{t("Học viên quay lại", "Returning students")}</div>
         <div className="text-2xl font-bold text-primary leading-none">87%</div>
         <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
           <div className="h-full bg-gradient-to-r from-primary to-violet-500" style={{ width: "87%" }} />
@@ -735,13 +768,25 @@ const SlideAnalytics = () => (
     <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI gợi ý:</span> Lớp IELTS 6.5 ca tối đang có 3 học viên giảm tiến độ — nên gửi tin nhắn động viên trong 48h tới.
+        <span className="font-semibold">{t("AI gợi ý:", "AI suggestion:")}</span> {t(
+          "Lớp IELTS 6.5 ca tối đang có 3 học viên giảm tiến độ — nên gửi tin nhắn động viên trong 48h tới.",
+          "The IELTS 6.5 evening class has 3 students slipping — send an encouragement message in the next 48 hours."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideLessons = () => (
+const SlideLessons = () => {
+  const { t } = useLanguage();
+  const blocks = [
+    { icon: Play, label: { vi: "Video HD", en: "HD Video" }, v: "5:32", c: "from-rose-500 to-orange-500" },
+    { icon: FileText, label: { vi: "Lý thuyết", en: "Theory" }, v: { vi: "1.2k từ", en: "1.2k words" }, c: "from-emerald-500 to-teal-500" },
+    { icon: ClipboardList, label: { vi: "Bài tập", en: "Exercises" }, v: { vi: "12 câu", en: "12 items" }, c: "from-primary to-sky-500" },
+    { icon: MessageCircle, label: { vi: "Hỏi AI", en: "Ask AI" }, v: "24/7", c: "from-violet-500 to-fuchsia-500" },
+  ];
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border border-indigo-500/30 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-4">
       <div className="flex items-center justify-between mb-2">
@@ -750,52 +795,60 @@ const SlideLessons = () => (
             <BookOpen className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Bài 12 · IELTS Writing Task 2</div>
-            <div className="text-[11px] text-muted-foreground">Chương 3 — Argument Essay</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Bài 12 · IELTS Writing Task 2", "Lesson 12 · IELTS Writing Task 2")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Chương 3 — Argument Essay", "Chapter 3 — Argument Essay")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 font-semibold">
-          <Play className="h-3 w-3" /> Học ngay
+          <Play className="h-3 w-3" /> {t("Học ngay", "Start now")}
         </div>
       </div>
       <div className="mt-3 h-1.5 rounded-full bg-muted overflow-hidden">
         <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500" style={{ width: "62%" }} />
       </div>
       <div className="mt-1.5 flex items-center justify-between text-[10px] text-muted-foreground">
-        <span>Hoàn thành 62%</span>
-        <span>18 / 29 phút</span>
+        <span>{t("Hoàn thành 62%", "62% complete")}</span>
+        <span>{t("18 / 29 phút", "18 / 29 min")}</span>
       </div>
     </div>
     <div className="grid grid-cols-2 gap-3">
-      {[
-        { icon: Play, label: "Video HD", v: "5:32", c: "from-rose-500 to-orange-500" },
-        { icon: FileText, label: "Lý thuyết", v: "1.2k từ", c: "from-emerald-500 to-teal-500" },
-        { icon: ClipboardList, label: "Bài tập", v: "12 câu", c: "from-primary to-sky-500" },
-        { icon: MessageCircle, label: "Hỏi AI", v: "24/7", c: "from-violet-500 to-fuchsia-500" },
-      ].map((b) => (
-        <div key={b.label} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-2.5">
-          <div className={`h-8 w-8 rounded-lg bg-gradient-to-br ${b.c} flex items-center justify-center text-white shrink-0`}>
-            <b.icon className="h-4 w-4" />
+      {blocks.map((b) => {
+        const value = typeof b.v === "string" ? b.v : t(b.v.vi, b.v.en);
+        return (
+          <div key={b.label.en} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-2.5">
+            <div className={`h-8 w-8 rounded-lg bg-gradient-to-br ${b.c} flex items-center justify-center text-white shrink-0`}>
+              <b.icon className="h-4 w-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] text-muted-foreground">{t(b.label.vi, b.label.en)}</div>
+              <div className="text-xs sm:text-sm font-bold text-foreground truncate">{value}</div>
+            </div>
           </div>
-          <div className="min-w-0">
-            <div className="text-[10px] text-muted-foreground">{b.label}</div>
-            <div className="text-xs sm:text-sm font-bold text-foreground truncate">{b.v}</div>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
     <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Tương tác cao:</span> mỗi bài đều có flashcards, quiz trắc nghiệm, ghi âm luyện nói và AI chữa lỗi tức thì.
+        <span className="font-semibold">{t("Tương tác cao:", "Highly interactive:")}</span> {t(
+          "mỗi bài đều có flashcards, quiz trắc nghiệm, ghi âm luyện nói và AI chữa lỗi tức thì.",
+          "every lesson includes flashcards, multiple-choice quizzes, speaking recordings and instant AI feedback."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideRLLab = () => (
+const SlideRLLab = () => {
+  const { t } = useLanguage();
+  const stats = [
+    { l: { vi: "Engagement", en: "Engagement" }, v: "84%", c: "text-emerald-600", w: "84%", bar: "from-emerald-500 to-teal-500" },
+    { l: { vi: "Độ chính xác", en: "Accuracy" }, v: "71%", c: "text-primary", w: "71%", bar: "from-primary to-sky-500" },
+    { l: { vi: "Streak", en: "Streak" }, v: { vi: "9 ngày", en: "9 days" }, c: "text-amber-600", w: "90%", bar: "from-amber-500 to-orange-500" },
+  ];
+  return (
   <div className="space-y-3">
-    {/* Header: agent state */}
     <div className="rounded-xl border-2 border-teal-500/40 bg-gradient-to-br from-teal-500/10 via-emerald-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
@@ -803,8 +856,8 @@ const SlideRLLab = () => (
             <Brain className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Học viên: Lê Quang Huy · IELTS 6.5</div>
-            <div className="text-[11px] text-muted-foreground">RL Agent đang tối ưu lộ trình từng tuần</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Học viên: Lê Quang Huy · IELTS 6.5", "Student: Huy Le · IELTS 6.5")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("RL Agent đang tối ưu lộ trình từng tuần", "RL agent optimizing the weekly learning path")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-teal-500/10 text-teal-600 border border-teal-500/30 font-semibold">
@@ -812,85 +865,90 @@ const SlideRLLab = () => (
         </div>
       </div>
       <div className="grid grid-cols-3 gap-2 mt-3">
-        {[
-          { l: "Engagement", v: "84%", c: "text-emerald-600", w: "84%", bar: "from-emerald-500 to-teal-500" },
-          { l: "Độ chính xác", v: "71%", c: "text-primary", w: "71%", bar: "from-primary to-sky-500" },
-          { l: "Streak", v: "9 ngày", c: "text-amber-600", w: "90%", bar: "from-amber-500 to-orange-500" },
-        ].map((s) => (
-          <div key={s.l} className="rounded-lg bg-background/70 border border-border/60 p-2">
-            <div className="text-[10px] text-muted-foreground">{s.l}</div>
-            <div className={`text-sm font-bold ${s.c} leading-none mt-0.5`}>{s.v}</div>
-            <div className="mt-1.5 h-1 rounded-full bg-muted overflow-hidden">
-              <div className={`h-full bg-gradient-to-r ${s.bar}`} style={{ width: s.w }} />
+        {stats.map((s) => {
+          const val = typeof s.v === "string" ? s.v : t(s.v.vi, s.v.en);
+          return (
+            <div key={s.l.en} className="rounded-lg bg-background/70 border border-border/60 p-2">
+              <div className="text-[10px] text-muted-foreground">{t(s.l.vi, s.l.en)}</div>
+              <div className={`text-sm font-bold ${s.c} leading-none mt-0.5`}>{val}</div>
+              <div className="mt-1.5 h-1 rounded-full bg-muted overflow-hidden">
+                <div className={`h-full bg-gradient-to-r ${s.bar}`} style={{ width: s.w }} />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
 
-    {/* Reward / Penalty signals (real teaching signals, no game) */}
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3">
         <div className="text-[10px] text-emerald-700 font-semibold mb-1.5 flex items-center gap-1">
-          <Trophy className="h-3 w-3" /> Tín hiệu Reward (+)
+          <Trophy className="h-3 w-3" /> {t("Tín hiệu Reward (+)", "Reward signals (+)")}
         </div>
         <ul className="space-y-1 text-[11px] text-foreground/85">
-          <li>• Hoàn thành bài đúng hạn <span className="font-bold text-emerald-600">+8</span></li>
-          <li>• Streak 7+ ngày <span className="font-bold text-emerald-600">+5</span></li>
-          <li>• Tự hỏi AI Tutor <span className="font-bold text-emerald-600">+3</span></li>
+          <li>• {t("Hoàn thành bài đúng hạn", "Submit homework on time")} <span className="font-bold text-emerald-600">+8</span></li>
+          <li>• {t("Streak 7+ ngày", "Streak of 7+ days")} <span className="font-bold text-emerald-600">+5</span></li>
+          <li>• {t("Tự hỏi AI Tutor", "Ask the AI Tutor")} <span className="font-bold text-emerald-600">+3</span></li>
         </ul>
       </div>
       <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3">
         <div className="text-[10px] text-rose-700 font-semibold mb-1.5 flex items-center gap-1">
-          <AlertTriangle className="h-3 w-3" /> Tín hiệu Penalty (−)
+          <AlertTriangle className="h-3 w-3" /> {t("Tín hiệu Penalty (−)", "Penalty signals (−)")}
         </div>
         <ul className="space-y-1 text-[11px] text-foreground/85">
-          <li>• Bỏ buổi không báo <span className="font-bold text-rose-600">−6</span></li>
-          <li>• Quiz dưới 50% <span className="font-bold text-rose-600">−4</span></li>
-          <li>• Im lặng &gt; 5 ngày <span className="font-bold text-rose-600">−5</span></li>
+          <li>• {t("Bỏ buổi không báo", "Missed class without notice")} <span className="font-bold text-rose-600">−6</span></li>
+          <li>• {t("Quiz dưới 50%", "Quiz below 50%")} <span className="font-bold text-rose-600">−4</span></li>
+          <li>• {t("Im lặng > 5 ngày", "Inactive > 5 days")} <span className="font-bold text-rose-600">−5</span></li>
         </ul>
       </div>
     </div>
 
-    {/* Recommended next action */}
     <div className="rounded-xl border border-teal-500/40 bg-gradient-to-r from-teal-500/10 to-emerald-500/5 p-3 flex items-start gap-2.5">
       <Target className="h-4 w-4 text-teal-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold text-teal-700">Hành động được RL đề xuất tuần này:</span> giảm độ khó Listening Part 3 xuống Band 6.0, tăng 2 buổi Speaking 1-1, gửi 1 voice note động viên từ Thầy. <span className="text-muted-foreground">→ Dự báo lên Band 6.5 sau 3 tuần.</span>
+        <span className="font-semibold text-teal-700">{t("Hành động được RL đề xuất tuần này:", "This week's RL-recommended action:")}</span> {t(
+          "giảm độ khó Listening Part 3 xuống Band 6.0, tăng 2 buổi Speaking 1-1, gửi 1 voice note động viên từ Thầy.",
+          "lower Listening Part 3 difficulty to Band 6.0, add 2 Speaking 1-on-1 sessions, send a voice note of encouragement from the teacher."
+        )} <span className="text-muted-foreground">→ {t("Dự báo lên Band 6.5 sau 3 tuần.", "Forecast to reach Band 6.5 in 3 weeks.")}</span>
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideEarlyWarning = () => (
+const SlideEarlyWarning = () => {
+  const { t } = useLanguage();
+  const stats = [
+    { l: { vi: "An toàn", en: "Safe" }, v: "42", c: "text-emerald-600", bg: "bg-emerald-500/10", icon: ShieldCheck },
+    { l: { vi: "Cần chú ý", en: "Watch" }, v: "7", c: "text-amber-600", bg: "bg-amber-500/10", icon: Bell },
+    { l: { vi: "Rủi ro cao", en: "High risk" }, v: "3", c: "text-rose-600", bg: "bg-rose-500/10", icon: AlertTriangle },
+  ];
+  const rows = [
+    {
+      name: "Phạm Thu Hà", level: { vi: "Rủi ro cao", en: "High risk" }, color: "rose",
+      signal: { vi: "Vắng 3 buổi liên tiếp · Quiz 38% · Không mở bài 7 ngày", en: "Missed 3 sessions in a row · Quiz 38% · No lesson opened in 7 days" },
+      action: { vi: "Gọi điện phụ huynh + tặng 1 buổi 1-1 miễn phí", en: "Call parents + offer 1 free 1-on-1 session" },
+      risk: 87,
+    },
+    {
+      name: "Đỗ Minh Quân", level: { vi: "Cần chú ý", en: "Watch" }, color: "amber",
+      signal: { vi: "Streak giảm · Engagement −22% trong 2 tuần", en: "Streak dropping · Engagement −22% in 2 weeks" },
+      action: { vi: "AI Tutor chủ động gửi tin nhắn động viên", en: "AI Tutor proactively sends an encouragement message" },
+      risk: 54,
+    },
+  ];
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-3 gap-3">
-      {[
-        { l: "An toàn", v: "42", c: "text-emerald-600", bg: "bg-emerald-500/10", icon: ShieldCheck },
-        { l: "Cần chú ý", v: "7", c: "text-amber-600", bg: "bg-amber-500/10", icon: Bell },
-        { l: "Rủi ro cao", v: "3", c: "text-rose-600", bg: "bg-rose-500/10", icon: AlertTriangle },
-      ].map((s) => (
-        <div key={s.l} className={`rounded-xl border border-border/60 ${s.bg} p-3 text-center`}>
+      {stats.map((s) => (
+        <div key={s.l.en} className={`rounded-xl border border-border/60 ${s.bg} p-3 text-center`}>
           <s.icon className={`h-4 w-4 ${s.c} mx-auto mb-1`} />
           <div className={`text-xl sm:text-2xl font-bold ${s.c} leading-none`}>{s.v}</div>
-          <div className="text-[10px] text-muted-foreground mt-1">{s.l}</div>
+          <div className="text-[10px] text-muted-foreground mt-1">{t(s.l.vi, s.l.en)}</div>
         </div>
       ))}
     </div>
-    {[
-      {
-        name: "Phạm Thu Hà", level: "Rủi ro cao", color: "rose",
-        signal: "Vắng 3 buổi liên tiếp · Quiz 38% · Không mở bài 7 ngày",
-        action: "Gọi điện phụ huynh + tặng 1 buổi 1-1 miễn phí",
-        risk: 87,
-      },
-      {
-        name: "Đỗ Minh Quân", level: "Cần chú ý", color: "amber",
-        signal: "Streak giảm · Engagement −22% trong 2 tuần",
-        action: "AI Tutor chủ động gửi tin nhắn động viên",
-        risk: 54,
-      },
-    ].map((r) => {
+    {rows.map((r) => {
       const colors = r.color === "rose"
         ? { border: "border-rose-500/40", bg: "bg-rose-500/5", chip: "bg-rose-500/15 text-rose-700 border-rose-500/30", bar: "bg-rose-500" }
         : { border: "border-amber-500/40", bg: "bg-amber-500/5", chip: "bg-amber-500/15 text-amber-700 border-amber-500/30", bar: "bg-amber-500" };
@@ -898,12 +956,12 @@ const SlideEarlyWarning = () => (
         <div key={r.name} className={`rounded-xl border ${colors.border} ${colors.bg} p-3`}>
           <div className="flex items-center justify-between gap-2 mb-1.5">
             <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{r.name}</div>
-            <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold ${colors.chip}`}>{r.level} · {r.risk}%</span>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold ${colors.chip}`}>{t(r.level.vi, r.level.en)} · {r.risk}%</span>
           </div>
-          <div className="text-[11px] text-muted-foreground mb-1.5">⚠️ {r.signal}</div>
+          <div className="text-[11px] text-muted-foreground mb-1.5">⚠️ {t(r.signal.vi, r.signal.en)}</div>
           <div className="text-[11px] text-foreground flex items-start gap-1.5">
             <Sparkles className="h-3 w-3 text-primary mt-0.5 shrink-0" />
-            <span><span className="font-semibold">AI đề xuất:</span> {r.action}</span>
+            <span><span className="font-semibold">{t("AI đề xuất:", "AI suggests:")}</span> {t(r.action.vi, r.action.en)}</span>
           </div>
           <div className="mt-2 h-1 rounded-full bg-muted overflow-hidden">
             <div className={`h-full ${colors.bar}`} style={{ width: `${r.risk}%` }} />
@@ -912,48 +970,52 @@ const SlideEarlyWarning = () => (
       );
     })}
   </div>
-);
+  );
+};
 
-const SlideScheduleFinance = () => (
+const SlideScheduleFinance = () => {
+  const { t } = useLanguage();
+  const items = [
+    { tm: "19:00", c: { vi: "IELTS Speaking 1-1", en: "IELTS Speaking 1-on-1" }, n: { vi: "Trần Minh Anh", en: "Anh Tran" }, color: "from-emerald-500 to-teal-500" },
+    { tm: "20:00", c: { vi: "TOEIC Listening · Lớp B2", en: "TOEIC Listening · B2 Class" }, n: { vi: "12 học viên", en: "12 students" }, color: "from-primary to-sky-500" },
+    { tm: "21:00", c: { vi: "Tư vấn lộ trình du học", en: "Study Abroad Roadmap Consult" }, n: { vi: "Nguyễn Khánh Linh", en: "Linh Nguyen" }, color: "from-violet-500 to-fuchsia-500" },
+  ];
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-primary/30 bg-primary/5 p-3.5">
         <div className="flex items-center justify-between mb-2">
-          <div className="text-[11px] text-muted-foreground font-medium">Buổi hôm nay</div>
+          <div className="text-[11px] text-muted-foreground font-medium">{t("Buổi hôm nay", "Today's sessions")}</div>
           <Calendar className="h-3.5 w-3.5 text-primary" />
         </div>
-        <div className="text-2xl font-bold text-foreground leading-none">5 lớp</div>
-        <div className="text-[10px] text-emerald-600 mt-1.5 font-semibold">✓ Đã gửi nhắc lịch 18:30</div>
+        <div className="text-2xl font-bold text-foreground leading-none">{t("5 lớp", "5 classes")}</div>
+        <div className="text-[10px] text-emerald-600 mt-1.5 font-semibold">✓ {t("Đã gửi nhắc lịch 18:30", "Reminders sent at 18:30")}</div>
       </div>
       <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3.5">
         <div className="flex items-center justify-between mb-2">
-          <div className="text-[11px] text-muted-foreground font-medium">Học phí tháng này</div>
+          <div className="text-[11px] text-muted-foreground font-medium">{t("Học phí tháng này", "Tuition this month")}</div>
           <DollarSign className="h-3.5 w-3.5 text-emerald-600" />
         </div>
         <div className="text-2xl font-bold text-emerald-600 leading-none">48.2M₫</div>
-        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">+34% so với tháng trước</div>
+        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">+34% {t("so với tháng trước", "vs last month")}</div>
       </div>
     </div>
 
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
       <div className="flex items-center justify-between mb-2">
-        <div className="text-xs sm:text-sm font-semibold text-foreground">Lịch sắp tới</div>
-        <span className="text-[10px] text-muted-foreground">Tự động đồng bộ Zoom · Google Calendar</span>
+        <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Lịch sắp tới", "Upcoming schedule")}</div>
+        <span className="text-[10px] text-muted-foreground">{t("Tự động đồng bộ Zoom · Google Calendar", "Auto-sync Zoom · Google Calendar")}</span>
       </div>
-      {[
-        { t: "19:00", c: "IELTS Speaking 1-1", n: "Trần Minh Anh", color: "from-emerald-500 to-teal-500" },
-        { t: "20:00", c: "TOEIC Listening · Lớp B2", n: "12 học viên", color: "from-primary to-sky-500" },
-        { t: "21:00", c: "Tư vấn lộ trình du học", n: "Nguyễn Khánh Linh", color: "from-violet-500 to-fuchsia-500" },
-      ].map((s) => (
-        <div key={s.c} className="flex items-center gap-3 py-2 border-t border-border/40 first:border-t-0">
+      {items.map((s) => (
+        <div key={s.c.en} className="flex items-center gap-3 py-2 border-t border-border/40 first:border-t-0">
           <div className={`h-9 w-12 rounded-lg bg-gradient-to-br ${s.color} flex items-center justify-center text-white text-[11px] font-bold shrink-0`}>
-            {s.t}
+            {s.tm}
           </div>
           <div className="min-w-0 flex-1">
-            <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{s.c}</div>
-            <div className="text-[11px] text-muted-foreground truncate">{s.n}</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{t(s.c.vi, s.c.en)}</div>
+            <div className="text-[11px] text-muted-foreground truncate">{t(s.n.vi, s.n.en)}</div>
           </div>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 font-semibold shrink-0">Đã xác nhận</span>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 font-semibold shrink-0">{t("Đã xác nhận", "Confirmed")}</span>
         </div>
       ))}
     </div>
@@ -961,15 +1023,25 @@ const SlideScheduleFinance = () => (
     <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
       <Gauge className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Tự động hoá:</span> nhắc đóng học phí, xuất biên lai PDF, gửi link Zoom, cảnh báo khi học viên trễ &gt; 2 ngày — Thầy/Cô tập trung 100% vào giảng dạy.
+        <span className="font-semibold">{t("Tự động hoá:", "Automation:")}</span> {t(
+          "nhắc đóng học phí, xuất biên lai PDF, gửi link Zoom, cảnh báo khi học viên trễ > 2 ngày — Thầy/Cô tập trung 100% vào giảng dạy.",
+          "tuition reminders, PDF receipts, Zoom links, alerts when students are late > 2 days — you focus 100% on teaching."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-// ===== Advanced teaching demo slides =====
-
-const SlideRubricGrading = () => (
+const SlideRubricGrading = () => {
+  const { t } = useLanguage();
+  const criteria = [
+    { l: "Task Response", v: 7.0, c: "from-rose-500 to-orange-500", note: { vi: "Cover đủ ý, ví dụ rõ", en: "Covers all points, clear examples" } },
+    { l: "Coherence", v: 7.5, c: "from-emerald-500 to-teal-500", note: { vi: "Linking từ đa dạng", en: "Diverse linking words" } },
+    { l: "Lexical Resource", v: 6.5, c: "from-amber-500 to-orange-500", note: { vi: "Lặp từ 'good' 4 lần", en: "'good' repeated 4 times" } },
+    { l: "Grammar Range", v: 7.0, c: "from-primary to-sky-500", note: { vi: "Câu phức tốt, vài lỗi nhỏ", en: "Good complex sentences, minor errors" } },
+  ];
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-rose-500/40 bg-gradient-to-br from-rose-500/10 via-orange-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between mb-1.5">
@@ -978,8 +1050,8 @@ const SlideRubricGrading = () => (
             <ClipboardList className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Bài Writing Task 2 · Trần Minh Anh</div>
-            <div className="text-[11px] text-muted-foreground">Đề: "Online learning vs traditional classroom"</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Bài Writing Task 2 · Trần Minh Anh", "Writing Task 2 · Anh Tran")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Đề:", "Prompt:")} "Online learning vs traditional classroom"</div>
           </div>
         </div>
         <div className="text-right">
@@ -990,12 +1062,7 @@ const SlideRubricGrading = () => (
     </div>
 
     <div className="grid grid-cols-2 gap-2.5">
-      {[
-        { l: "Task Response", v: 7.0, c: "from-rose-500 to-orange-500", note: "Cover đủ ý, ví dụ rõ" },
-        { l: "Coherence", v: 7.5, c: "from-emerald-500 to-teal-500", note: "Linking từ đa dạng" },
-        { l: "Lexical Resource", v: 6.5, c: "from-amber-500 to-orange-500", note: "Lặp từ 'good' 4 lần" },
-        { l: "Grammar Range", v: 7.0, c: "from-primary to-sky-500", note: "Câu phức tốt, vài lỗi nhỏ" },
-      ].map((s) => (
+      {criteria.map((s) => (
         <div key={s.l} className="rounded-xl border border-border/60 bg-background/70 p-2.5">
           <div className="flex items-center justify-between">
             <div className="text-[11px] font-semibold text-foreground">{s.l}</div>
@@ -1004,7 +1071,7 @@ const SlideRubricGrading = () => (
           <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
             <div className={`h-full bg-gradient-to-r ${s.c}`} style={{ width: `${(s.v / 9) * 100}%` }} />
           </div>
-          <div className="text-[10px] text-muted-foreground mt-1.5">{s.note}</div>
+          <div className="text-[10px] text-muted-foreground mt-1.5">{t(s.note.vi, s.note.en)}</div>
         </div>
       ))}
     </div>
@@ -1012,13 +1079,19 @@ const SlideRubricGrading = () => (
     <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI gợi ý sửa lỗi:</span> thay "good" bằng "beneficial / advantageous", chuyển 2 câu đơn ở đoạn 2 thành câu ghép, bổ sung 1 ví dụ thực tế tại Việt Nam. <span className="text-muted-foreground">→ Có thể đạt Band 7.5.</span>
+        <span className="font-semibold">{t("AI gợi ý sửa lỗi:", "AI fix suggestions:")}</span> {t(
+          "thay \"good\" bằng \"beneficial / advantageous\", chuyển 2 câu đơn ở đoạn 2 thành câu ghép, bổ sung 1 ví dụ thực tế tại Việt Nam.",
+          "replace \"good\" with \"beneficial / advantageous\", combine 2 simple sentences in paragraph 2 into a compound, add a real example from Vietnam."
+        )} <span className="text-muted-foreground">→ {t("Có thể đạt Band 7.5.", "Could reach Band 7.5.")}</span>
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideSpeakingGrading = () => (
+const SlideSpeakingGrading = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-violet-500/40 bg-gradient-to-br from-violet-500/10 via-fuchsia-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between mb-2">
@@ -1028,7 +1101,7 @@ const SlideSpeakingGrading = () => (
           </div>
           <div>
             <div className="text-xs sm:text-sm font-semibold text-foreground">Speaking Part 2 · "Describe a hometown"</div>
-            <div className="text-[11px] text-muted-foreground">Lê Quang Huy · ghi âm 1m48s</div>
+            <div className="text-[11px] text-muted-foreground">{t("Lê Quang Huy · ghi âm 1m48s", "Huy Le · 1m48s recording")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-violet-500/10 text-violet-600 border border-violet-500/30 font-semibold">
@@ -1051,31 +1124,37 @@ const SlideSpeakingGrading = () => (
     </div>
 
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
-      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Transcript có highlight phát âm</div>
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">{t("Transcript có highlight phát âm", "Transcript with pronunciation highlights")}</div>
       <div className="text-xs sm:text-sm leading-relaxed text-foreground">
         My hometown is <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">Hai Phong</span>, a port city in the
-        <span className="bg-rose-500/25 text-rose-700 px-1 rounded mx-1" title="Sai âm /ˈnɔːrðərn/">northern</span>
+        <span className="bg-rose-500/25 text-rose-700 px-1 rounded mx-1" title={t("Sai âm /ˈnɔːrðərn/", "Mispronounced /ˈnɔːrðərn/")}>northern</span>
         part of <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">Vietnam</span>. It's
-        <span className="bg-amber-500/25 text-amber-700 px-1 rounded mx-1" title="Trọng âm sai">famous</span>
+        <span className="bg-amber-500/25 text-amber-700 px-1 rounded mx-1" title={t("Trọng âm sai", "Wrong stress")}>famous</span>
         for its seafood and <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">friendly people</span>.
       </div>
       <div className="flex items-center gap-3 mt-2.5 text-[10px] text-muted-foreground">
-        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-emerald-500/60" /> Chuẩn</span>
-        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-amber-500/70" /> Trọng âm</span>
-        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-rose-500/70" /> Sai âm</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-emerald-500/60" /> {t("Chuẩn", "Correct")}</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-amber-500/70" /> {t("Trọng âm", "Stress")}</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-rose-500/70" /> {t("Sai âm", "Wrong sound")}</span>
       </div>
     </div>
 
     <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-violet-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Bài tập phát âm tự sinh:</span> 6 từ /θ/ /ð/ + 4 cụm trọng âm — học viên luyện lại trong 5 phút, AI chấm lại tự động.
+        <span className="font-semibold">{t("Bài tập phát âm tự sinh:", "Auto-generated pronunciation drill:")}</span> {t(
+          "6 từ /θ/ /ð/ + 4 cụm trọng âm — học viên luyện lại trong 5 phút, AI chấm lại tự động.",
+          "6 /θ/ /ð/ words + 4 stress clusters — student practices for 5 minutes and the AI re-grades automatically."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideLiveClass = () => (
+const SlideLiveClass = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-sky-500/40 bg-gradient-to-br from-sky-500/10 via-primary/5 to-transparent p-3.5">
       <div className="flex items-center justify-between">
@@ -1087,31 +1166,23 @@ const SlideLiveClass = () => (
             <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-rose-500 ring-2 ring-card animate-pulse" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Lớp IELTS 6.5 · Ca tối · LIVE</div>
-            <div className="text-[11px] text-muted-foreground">18 / 20 học viên có mặt · 42:18 đã trôi qua</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Lớp IELTS 6.5 · Ca tối · LIVE", "IELTS 6.5 · Evening Class · LIVE")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("18 / 20 học viên có mặt · 42:18 đã trôi qua", "18 / 20 students present · 42:18 elapsed")}</div>
           </div>
         </div>
         <div className="text-right">
           <div className="text-sm font-bold text-emerald-600 leading-none">84%</div>
-          <div className="text-[10px] text-muted-foreground mt-0.5">Tập trung TB</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">{t("Tập trung TB", "Avg focus")}</div>
         </div>
       </div>
     </div>
 
     <div className="grid grid-cols-6 gap-1.5">
       {[
-        { n: "MA", f: 95, c: "emerald" },
-        { n: "QH", f: 88, c: "emerald" },
-        { n: "TH", f: 42, c: "rose" },
-        { n: "KL", f: 76, c: "amber" },
-        { n: "MQ", f: 91, c: "emerald" },
-        { n: "NN", f: 58, c: "amber" },
-        { n: "DT", f: 82, c: "emerald" },
-        { n: "VL", f: 35, c: "rose" },
-        { n: "HP", f: 89, c: "emerald" },
-        { n: "BT", f: 71, c: "amber" },
-        { n: "CK", f: 93, c: "emerald" },
-        { n: "AT", f: 64, c: "amber" },
+        { n: "MA", f: 95, c: "emerald" }, { n: "QH", f: 88, c: "emerald" }, { n: "TH", f: 42, c: "rose" },
+        { n: "KL", f: 76, c: "amber" }, { n: "MQ", f: 91, c: "emerald" }, { n: "NN", f: 58, c: "amber" },
+        { n: "DT", f: 82, c: "emerald" }, { n: "VL", f: 35, c: "rose" }, { n: "HP", f: 89, c: "emerald" },
+        { n: "BT", f: 71, c: "amber" }, { n: "CK", f: 93, c: "emerald" }, { n: "AT", f: 64, c: "amber" },
       ].map((s) => {
         const ring = s.c === "emerald" ? "ring-emerald-500/60 bg-emerald-500/15 text-emerald-700"
           : s.c === "amber" ? "ring-amber-500/60 bg-amber-500/15 text-amber-700"
@@ -1128,27 +1199,40 @@ const SlideLiveClass = () => (
     <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3 flex items-start gap-2.5">
       <AlertTriangle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI phát hiện:</span> 2 học viên (TH, VL) đang mất tập trung &gt; 6 phút — gợi ý gọi tên ngẫu nhiên, hoặc gửi poll nhanh để kéo lại sự tham gia.
+        <span className="font-semibold">{t("AI phát hiện:", "AI detected:")}</span> {t(
+          "2 học viên (TH, VL) đang mất tập trung > 6 phút — gợi ý gọi tên ngẫu nhiên, hoặc gửi poll nhanh để kéo lại sự tham gia.",
+          "2 students (TH, VL) lost focus for > 6 minutes — suggest a random cold-call or quick poll to re-engage."
+        )}
       </div>
     </div>
 
     <div className="grid grid-cols-3 gap-2">
       {[
-        { l: "Tay giơ", v: "4", icon: HelpCircle, c: "text-primary", bg: "bg-primary/10" },
-        { l: "Poll trả lời", v: "16 / 18", icon: Check, c: "text-emerald-600", bg: "bg-emerald-500/10" },
-        { l: "Chat hỏi", v: "9", icon: MessageCircle, c: "text-violet-600", bg: "bg-violet-500/10" },
+        { l: { vi: "Tay giơ", en: "Hands raised" }, v: "4", icon: HelpCircle, c: "text-primary", bg: "bg-primary/10" },
+        { l: { vi: "Poll trả lời", en: "Poll answers" }, v: "16 / 18", icon: Check, c: "text-emerald-600", bg: "bg-emerald-500/10" },
+        { l: { vi: "Chat hỏi", en: "Chat questions" }, v: "9", icon: MessageCircle, c: "text-violet-600", bg: "bg-violet-500/10" },
       ].map((s) => (
-        <div key={s.l} className={`rounded-lg ${s.bg} border border-border/60 p-2.5`}>
+        <div key={s.l.en} className={`rounded-lg ${s.bg} border border-border/60 p-2.5`}>
           <s.icon className={`h-3.5 w-3.5 ${s.c}`} />
           <div className="text-sm font-bold text-foreground mt-1 leading-none">{s.v}</div>
-          <div className="text-[10px] text-muted-foreground mt-1">{s.l}</div>
+          <div className="text-[10px] text-muted-foreground mt-1">{t(s.l.vi, s.l.en)}</div>
         </div>
       ))}
     </div>
   </div>
-);
+  );
+};
 
-const SlideMasteryMap = () => (
+const SlideMasteryMap = () => {
+  const { t } = useLanguage();
+  const rows = [
+    { n: { vi: "Trần Anh", en: "Anh Tran" }, row: [85, 72, 65, 78, 55, 60] },
+    { n: { vi: "Lê Huy", en: "Huy Le" }, row: [92, 88, 80, 75, 70, 82] },
+    { n: { vi: "Phạm Hà", en: "Ha Pham" }, row: [45, 38, 52, 60, 35, 42] },
+    { n: { vi: "Đỗ Quân", en: "Quan Do" }, row: [70, 65, 58, 72, 50, 55] },
+    { n: { vi: "Ng. Linh", en: "Linh Ng." }, row: [88, 82, 78, 85, 75, 80] },
+  ];
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-indigo-500/40 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between">
@@ -1157,41 +1241,35 @@ const SlideMasteryMap = () => (
             <Brain className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Skill Mastery · Lớp IELTS 6.5</div>
-            <div className="text-[11px] text-muted-foreground">Cập nhật theo từng bài tập nộp lên</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Skill Mastery · Lớp IELTS 6.5", "Skill Mastery · IELTS 6.5 Class")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Cập nhật theo từng bài tập nộp lên", "Updated with every submitted assignment")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-indigo-500/10 text-indigo-600 border border-indigo-500/30 font-semibold">
-          12 kỹ năng
+          {t("12 kỹ năng", "12 skills")}
         </div>
       </div>
     </div>
 
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
-      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Heatmap mức độ thành thạo (xanh = vững, đỏ = yếu)</div>
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">{t("Heatmap mức độ thành thạo (xanh = vững, đỏ = yếu)", "Mastery heatmap (green = strong, red = weak)")}</div>
       <div className="grid grid-cols-7 gap-1 text-[9px]">
         <div></div>
         {["Skim", "Detail", "Para", "Vocab", "T/F", "Match"].map((h) => (
           <div key={h} className="text-center text-muted-foreground font-medium truncate">{h}</div>
         ))}
-        {[
-          { n: "Trần Anh", row: [85, 72, 65, 78, 55, 60] },
-          { n: "Lê Huy", row: [92, 88, 80, 75, 70, 82] },
-          { n: "Phạm Hà", row: [45, 38, 52, 60, 35, 42] },
-          { n: "Đỗ Quân", row: [70, 65, 58, 72, 50, 55] },
-          { n: "Ng. Linh", row: [88, 82, 78, 85, 75, 80] },
-        ].map((r) => (
-          <Fragment key={r.n}>
-            <div className="text-muted-foreground truncate text-[10px] flex items-center">{r.n}</div>
+        {rows.map((r) => (
+          <Fragment key={r.n.en}>
+            <div className="text-muted-foreground truncate text-[10px] flex items-center">{t(r.n.vi, r.n.en)}</div>
             {r.row.map((v, i) => {
               const bg = v >= 75 ? "bg-emerald-500" : v >= 60 ? "bg-amber-500" : v >= 45 ? "bg-orange-500" : "bg-rose-500";
               const op = 0.3 + (v / 100) * 0.7;
               return (
                 <div
-                  key={`${r.n}-${i}`}
+                  key={`${r.n.en}-${i}`}
                   className={`aspect-square rounded ${bg} flex items-center justify-center text-white font-bold`}
                   style={{ opacity: op }}
-                  title={`${r.n} · ${v}%`}
+                  title={`${t(r.n.vi, r.n.en)} · ${v}%`}
                 >
                   {v}
                 </div>
@@ -1205,13 +1283,29 @@ const SlideMasteryMap = () => (
     <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 flex items-start gap-2.5">
       <Target className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI khuyến nghị:</span> mở mini-lesson "True/False/Not Given" cho 3 học viên ô đỏ; Phạm Hà cần kèm 1-1 — yếu toàn diện ở Reading.
+        <span className="font-semibold">{t("AI khuyến nghị:", "AI recommends:")}</span> {t(
+          "mở mini-lesson \"True/False/Not Given\" cho 3 học viên ô đỏ; Phạm Hà cần kèm 1-1 — yếu toàn diện ở Reading.",
+          "open a \"True/False/Not Given\" mini-lesson for the 3 red students; Ha Pham needs 1-on-1 tutoring — weak across Reading."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideAssignmentBuilder = () => (
+const SlideAssignmentBuilder = () => {
+  const { t } = useLanguage();
+  const cls = [
+    { l: { vi: "Lớp IELTS 6.5", en: "IELTS 6.5 Class" }, v: { vi: "20 HV", en: "20 students" }, c: "from-primary to-sky-500" },
+    { l: { vi: "Lớp IELTS 7.0", en: "IELTS 7.0 Class" }, v: { vi: "15 HV", en: "15 students" }, c: "from-emerald-500 to-teal-500" },
+    { l: { vi: "Lớp 1-1 Premium", en: "1-on-1 Premium" }, v: { vi: "12 HV", en: "12 students" }, c: "from-violet-500 to-fuchsia-500" },
+  ];
+  const tiers = [
+    { l: { vi: "Học viên yếu (<6.0)", en: "Weak students (<6.0)" }, task: { vi: "Passage rút gọn · 8 câu · gợi ý từ vựng", en: "Short passage · 8 questions · vocab hints" }, c: "rose", n: 9 },
+    { l: { vi: "Học viên trung bình (6.0-6.5)", en: "Average (6.0-6.5)" }, task: { vi: "Passage đầy đủ · 13 câu · không gợi ý", en: "Full passage · 13 questions · no hints" }, c: "amber", n: 24 },
+    { l: { vi: "Học viên khá (≥7.0)", en: "Strong (≥7.0)" }, task: { vi: "Passage + bonus T/F/NG · 16 câu · giới hạn 20'", en: "Passage + bonus T/F/NG · 16 questions · 20-min limit" }, c: "emerald", n: 14 },
+  ];
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-teal-500/40 bg-gradient-to-br from-teal-500/10 via-emerald-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between mb-2">
@@ -1220,48 +1314,40 @@ const SlideAssignmentBuilder = () => (
             <Send className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Giao bài: Reading Practice #18</div>
-            <div className="text-[11px] text-muted-foreground">Hạn nộp: Chủ nhật 21:00 · Tự động chấm</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Giao bài: Reading Practice #18", "Assign: Reading Practice #18")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Hạn nộp: Chủ nhật 21:00 · Tự động chấm", "Due: Sunday 21:00 · Auto-graded")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-teal-500/15 text-teal-700 border border-teal-500/30 font-semibold">
-          3 lớp · 47 HV
+          {t("3 lớp · 47 HV", "3 classes · 47 students")}
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-2 mt-1">
-        {[
-          { l: "Lớp IELTS 6.5", v: "20 HV", c: "from-primary to-sky-500" },
-          { l: "Lớp IELTS 7.0", v: "15 HV", c: "from-emerald-500 to-teal-500" },
-          { l: "Lớp 1-1 Premium", v: "12 HV", c: "from-violet-500 to-fuchsia-500" },
-        ].map((s) => (
-          <div key={s.l} className={`rounded-lg p-2 text-white bg-gradient-to-br ${s.c}`}>
-            <div className="text-[10px] opacity-90">{s.l}</div>
-            <div className="text-sm font-bold leading-none mt-1">{s.v}</div>
+        {cls.map((s) => (
+          <div key={s.l.en} className={`rounded-lg p-2 text-white bg-gradient-to-br ${s.c}`}>
+            <div className="text-[10px] opacity-90">{t(s.l.vi, s.l.en)}</div>
+            <div className="text-sm font-bold leading-none mt-1">{t(s.v.vi, s.v.en)}</div>
           </div>
         ))}
       </div>
     </div>
 
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
-      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Cá nhân hoá theo trình độ (AI tự chia đề)</div>
-      {[
-        { l: "Học viên yếu (<6.0)", task: "Passage rút gọn · 8 câu · gợi ý từ vựng", c: "rose", n: 9 },
-        { l: "Học viên trung bình (6.0-6.5)", task: "Passage đầy đủ · 13 câu · không gợi ý", c: "amber", n: 24 },
-        { l: "Học viên khá (≥7.0)", task: "Passage + bonus T/F/NG · 16 câu · giới hạn 20'", c: "emerald", n: 14 },
-      ].map((r) => {
-        const cls = r.c === "rose" ? "border-rose-500/30 bg-rose-500/5"
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">{t("Cá nhân hoá theo trình độ (AI tự chia đề)", "Personalized by level (AI splits the task)")}</div>
+      {tiers.map((r) => {
+        const clss = r.c === "rose" ? "border-rose-500/30 bg-rose-500/5"
           : r.c === "amber" ? "border-amber-500/30 bg-amber-500/5"
           : "border-emerald-500/30 bg-emerald-500/5";
         const chip = r.c === "rose" ? "bg-rose-500/15 text-rose-700"
           : r.c === "amber" ? "bg-amber-500/15 text-amber-700"
           : "bg-emerald-500/15 text-emerald-700";
         return (
-          <div key={r.l} className={`rounded-lg border ${cls} p-2.5 flex items-center gap-2.5 mt-1.5 first:mt-0`}>
-            <div className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${chip} shrink-0`}>{r.n} HV</div>
+          <div key={r.l.en} className={`rounded-lg border ${clss} p-2.5 flex items-center gap-2.5 mt-1.5 first:mt-0`}>
+            <div className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${chip} shrink-0`}>{r.n} {t("HV", "stu")}</div>
             <div className="min-w-0 flex-1">
-              <div className="text-[11px] font-semibold text-foreground">{r.l}</div>
-              <div className="text-[10px] text-muted-foreground truncate">{r.task}</div>
+              <div className="text-[11px] font-semibold text-foreground">{t(r.l.vi, r.l.en)}</div>
+              <div className="text-[10px] text-muted-foreground truncate">{t(r.task.vi, r.task.en)}</div>
             </div>
             <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
           </div>
@@ -1272,18 +1358,24 @@ const SlideAssignmentBuilder = () => (
     <div className="rounded-xl border border-teal-500/30 bg-teal-500/5 p-3 flex items-start gap-2.5">
       <Zap className="h-4 w-4 text-teal-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Tiết kiệm 9.2h/tuần:</span> 1 lần soạn → AI chia 3 cấp độ → gửi Zalo + email → chấm tự động → trả kết quả + lời nhận xét cá nhân hoá cho từng học viên.
+        <span className="font-semibold">{t("Tiết kiệm 9.2h/tuần:", "Save 9.2h/week:")}</span> {t(
+          "1 lần soạn → AI chia 3 cấp độ → gửi Zalo + email → chấm tự động → trả kết quả + lời nhận xét cá nhân hoá cho từng học viên.",
+          "Author once → AI splits into 3 levels → send via Zalo + email → auto-grade → return personalized scores & feedback per student."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideGamification = () => (
+const SlideGamification = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-3 gap-2.5">
       <div className="rounded-xl border-2 border-purple-300/40 dark:border-purple-500/30 bg-gradient-to-br from-purple-500/15 via-fuchsia-500/10 to-indigo-500/15 backdrop-blur p-3">
-        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Cấp 5</div>
-        <div className="text-sm font-black text-foreground mt-0.5">🧪 Nhà khoa học</div>
+        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">{t("Cấp 5", "Level 5")}</div>
+        <div className="text-sm font-black text-foreground mt-0.5">🧪 {t("Nhà khoa học", "Scientist")}</div>
         <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
           <div className="h-full bg-gradient-to-r from-purple-500 to-fuchsia-500" style={{ width: "68%" }} />
         </div>
@@ -1291,22 +1383,22 @@ const SlideGamification = () => (
       </div>
       <div className="rounded-xl border-2 border-orange-300/50 dark:border-orange-500/30 bg-gradient-to-br from-orange-500/15 via-red-500/10 to-amber-500/15 backdrop-blur p-3 flex flex-col justify-center items-center text-center">
         <div className="text-3xl">🔥</div>
-        <div className="text-xl font-black text-orange-600 dark:text-orange-300 mt-1">12 <span className="text-sm font-bold">ngày</span></div>
-        <div className="text-[10px] text-muted-foreground">Chuỗi học liên tiếp</div>
+        <div className="text-xl font-black text-orange-600 dark:text-orange-300 mt-1">12 <span className="text-sm font-bold">{t("ngày", "days")}</span></div>
+        <div className="text-[10px] text-muted-foreground">{t("Chuỗi học liên tiếp", "Learning streak")}</div>
       </div>
       <div className="rounded-xl border-2 border-emerald-300/50 dark:border-emerald-500/30 bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-cyan-500/15 backdrop-blur p-3">
         <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold flex items-center gap-1">
-          <Trophy className="w-3 h-3" /> Nhiệm vụ
+          <Trophy className="w-3 h-3" /> {t("Nhiệm vụ", "Quests")}
         </div>
         <div className="mt-2 space-y-1.5">
           <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-300">
-            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">Mở 1 bài học</span>
+            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">{t("Mở 1 bài học", "Open 1 lesson")}</span>
           </div>
           <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-300">
-            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">Hoàn thành 1 quiz</span>
+            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">{t("Hoàn thành 1 quiz", "Finish 1 quiz")}</span>
           </div>
           <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-            <span className="h-3.5 w-3.5 rounded-full border border-muted-foreground/40 inline-block" /> Kiếm 1 sao ⭐
+            <span className="h-3.5 w-3.5 rounded-full border border-muted-foreground/40 inline-block" /> {t("Kiếm 1 sao ⭐", "Earn 1 star ⭐")}
           </div>
         </div>
       </div>
@@ -1314,26 +1406,26 @@ const SlideGamification = () => (
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-border/60 bg-background/70 p-3">
         <div className="text-[11px] font-semibold text-foreground mb-2 flex items-center gap-1.5">
-          <Medal className="h-3.5 w-3.5 text-amber-500" /> Huy chương &amp; Thành tích
+          <Medal className="h-3.5 w-3.5 text-amber-500" /> {t("Huy chương & Thành tích", "Medals & Achievements")}
         </div>
         <div className="flex flex-wrap gap-2">
           {[
-            { emoji: "🚀", t: "Khởi động" },
-            { emoji: "💬", t: "Chatbot Pro" },
-            { emoji: "📝", t: "Writer" },
-            { emoji: "🎯", t: "Bullseye" },
-            { emoji: "🔥", t: "Streak 7" },
-            { emoji: "⭐", t: "Star Master" },
+            { emoji: "🚀", t: { vi: "Khởi động", en: "Lift-off" } },
+            { emoji: "💬", t: { vi: "Chatbot Pro", en: "Chatbot Pro" } },
+            { emoji: "📝", t: { vi: "Writer", en: "Writer" } },
+            { emoji: "🎯", t: { vi: "Bullseye", en: "Bullseye" } },
+            { emoji: "🔥", t: { vi: "Streak 7", en: "Streak 7" } },
+            { emoji: "⭐", t: { vi: "Star Master", en: "Star Master" } },
           ].map((b) => (
-            <div key={b.t} className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 border border-amber-500/20 px-2 py-1 text-[10px] font-semibold text-amber-700">
-              <span>{b.emoji}</span> {b.t}
+            <div key={b.t.en} className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 border border-amber-500/20 px-2 py-1 text-[10px] font-semibold text-amber-700">
+              <span>{b.emoji}</span> {t(b.t.vi, b.t.en)}
             </div>
           ))}
         </div>
       </div>
       <div className="rounded-xl border border-border/60 bg-background/70 p-3">
         <div className="text-[11px] font-semibold text-foreground mb-2 flex items-center gap-1.5">
-          <UsersRound className="h-3.5 w-3.5 text-primary" /> Bảng xếp hạng tuần
+          <UsersRound className="h-3.5 w-3.5 text-primary" /> {t("Bảng xếp hạng tuần", "Weekly Leaderboard")}
         </div>
         <div className="space-y-1.5">
           {[
@@ -1355,25 +1447,37 @@ const SlideGamification = () => (
     <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
       <Gamepad2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Gamification tự động:</span> học viên kiếm XP qua bài học, quiz, streak hàng ngày — tăng tỉ lệ quay lại lên <span className="font-bold text-emerald-600">+34%</span> so với lớp học truyền thống.
+        <span className="font-semibold">{t("Gamification tự động:", "Automatic gamification:")}</span> {t(
+          "học viên kiếm XP qua bài học, quiz, streak hàng ngày — tăng tỉ lệ quay lại lên",
+          "students earn XP through lessons, quizzes and daily streaks — boosting return rate by"
+        )} <span className="font-bold text-emerald-600">+34%</span> {t("so với lớp học truyền thống.", "vs traditional classes.")}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideHR = () => (
+const SlideHR = () => {
+  const { t } = useLanguage();
+  const roles = [
+    { role: { vi: "Admin", en: "Admin" }, name: "Nguyễn Văn Hải", icon: UserCog, c: "from-primary to-sky-500" },
+    { role: { vi: "Giáo viên", en: "Teacher" }, name: "Trần Thị Lan", icon: GraduationCap, c: "from-emerald-500 to-teal-500" },
+    { role: { vi: "Trợ giảng", en: "Assistant" }, name: "Lê Văn Minh", icon: UsersRound, c: "from-violet-500 to-fuchsia-500" },
+  ];
+  const reports = [
+    { t: { vi: "Báo cáo chất lượng lớp học", en: "Class Quality Report" }, st: { vi: "✓ Đã duyệt", en: "✓ Approved" }, c: "text-emerald-600" },
+    { t: { vi: "Đề xuất tăng lương Trợ giảng", en: "Assistant raise proposal" }, st: { vi: "Chờ Admin", en: "Awaiting Admin" }, c: "text-amber-600" },
+    { t: { vi: "Kế hoạch tuyển thêm GV tháng 7", en: "July teacher hiring plan" }, st: { vi: "Đang soạn", en: "Drafting" }, c: "text-muted-foreground" },
+  ];
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-3 gap-2.5">
-      {[
-        { role: "Admin", name: "Nguyễn Văn Hải", icon: UserCog, c: "from-primary to-sky-500" },
-        { role: "Giáo viên", name: "Trần Thị Lan", icon: GraduationCap, c: "from-emerald-500 to-teal-500" },
-        { role: "Trợ giảng", name: "Lê Văn Minh", icon: UsersRound, c: "from-violet-500 to-fuchsia-500" },
-      ].map((s) => (
+      {roles.map((s) => (
         <div key={s.name} className="rounded-xl border border-border/60 bg-background/70 p-3 text-center">
           <div className={`h-9 w-9 rounded-full bg-gradient-to-br ${s.c} flex items-center justify-center text-white mx-auto mb-2`}>
             <s.icon className="h-4 w-4" />
           </div>
-          <div className="text-[11px] font-semibold text-foreground">{s.role}</div>
+          <div className="text-[11px] font-semibold text-foreground">{t(s.role.vi, s.role.en)}</div>
           <div className="text-[10px] text-muted-foreground truncate mt-0.5">{s.name}</div>
         </div>
       ))}
@@ -1381,7 +1485,7 @@ const SlideHR = () => (
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
         <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
-          <Clock className="h-3.5 w-3.5 text-primary" /> Chấm công tháng 6
+          <Clock className="h-3.5 w-3.5 text-primary" /> {t("Chấm công tháng 6", "June Time Logs")}
         </div>
         <div className="space-y-2">
           {[
@@ -1398,25 +1502,21 @@ const SlideHR = () => (
       </div>
       <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3.5">
         <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
-          <Wallet className="h-3.5 w-3.5 text-emerald-600" /> Tổng quỹ lương
+          <Wallet className="h-3.5 w-3.5 text-emerald-600" /> {t("Tổng quỹ lương", "Total payroll")}
         </div>
         <div className="text-2xl font-bold text-emerald-600 leading-none">4.8M₫</div>
-        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">Đã trả 2/3 nhân sự · Còn 1 pending</div>
+        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">{t("Đã trả 2/3 nhân sự · Còn 1 pending", "Paid 2/3 staff · 1 pending")}</div>
       </div>
     </div>
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
       <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
-        <Briefcase className="h-3.5 w-3.5 text-primary" /> Báo cáo &amp; Thưởng
+        <Briefcase className="h-3.5 w-3.5 text-primary" /> {t("Báo cáo & Thưởng", "Reports & Bonuses")}
       </div>
       <div className="space-y-1.5">
-        {[
-          { t: "Báo cáo chất lượng lớp học", st: "✓ Đã duyệt", c: "text-emerald-600" },
-          { t: "Đề xuất tăng lương Trợ giảng", st: "Chờ Admin", c: "text-amber-600" },
-          { t: "Kế hoạch tuyển thêm GV tháng 7", st: "Đang soạn", c: "text-muted-foreground" },
-        ].map((r) => (
-          <div key={r.t} className="flex items-center justify-between text-[11px] px-2 py-1.5 rounded-lg bg-secondary/30">
-            <span className="text-foreground">{r.t}</span>
-            <span className={`font-semibold ${r.c}`}>{r.st}</span>
+        {reports.map((r) => (
+          <div key={r.t.en} className="flex items-center justify-between text-[11px] px-2 py-1.5 rounded-lg bg-secondary/30">
+            <span className="text-foreground">{t(r.t.vi, r.t.en)}</span>
+            <span className={`font-semibold ${r.c}`}>{t(r.st.vi, r.st.en)}</span>
           </div>
         ))}
       </div>
@@ -1424,11 +1524,16 @@ const SlideHR = () => (
     <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-violet-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Quản lý nhân sự tích hợp:</span> phân quyền Admin / Giáo viên / Trợ giảng, chấm công tự động, tính lương theo giờ và thưởng KPI — tất cả trên 1 dashboard.
+        <span className="font-semibold">{t("Quản lý nhân sự tích hợp:", "Integrated HR management:")}</span> {t(
+          "phân quyền Admin / Giáo viên / Trợ giảng, chấm công tự động, tính lương theo giờ và thưởng KPI — tất cả trên 1 dashboard.",
+          "Admin / Teacher / Assistant roles, auto time tracking, hourly payroll and KPI bonuses — all in one dashboard."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
+
 
 const EdTechWebService = () => {
   const { t, lang } = useLanguage();
@@ -1441,7 +1546,7 @@ const EdTechWebService = () => {
     e.preventDefault();
     const parsed = requestSchema.safeParse(form);
     if (!parsed.success) {
-      const firstError = parsed.error.errors[0]?.message ?? "Vui lòng kiểm tra lại thông tin";
+      const firstError = parsed.error.errors[0]?.message ?? t("Vui lòng kiểm tra lại thông tin", "Please check your information again");
       toast.error(firstError);
       return;
     }
@@ -1456,10 +1561,13 @@ const EdTechWebService = () => {
         special_requirements: parsed.data.special_requirements || null,
       });
       if (error) throw error;
-      toast.success("✅ Đã gửi yêu cầu đến Admin của HaiEduTech! Thầy Hải sẽ liên hệ trực tiếp với quý Thầy/Cô trong vòng 24 giờ.");
+      toast.success(t(
+        "✅ Đã gửi yêu cầu đến Admin của HaiEduTech! Thầy Hải sẽ liên hệ trực tiếp với quý Thầy/Cô trong vòng 24 giờ.",
+        "✅ Your request has been sent to HaiEduTech Admin! Mr. Hai will contact you directly within 24 hours."
+      ));
       setForm(INITIAL);
     } catch (err) {
-      toast.error("Có lỗi xảy ra. Vui lòng thử lại sau ít phút.");
+      toast.error(t("Có lỗi xảy ra. Vui lòng thử lại sau ít phút.", "Something went wrong. Please try again in a few minutes."));
     } finally {
       setSubmitting(false);
     }
@@ -1613,16 +1721,16 @@ const EdTechWebService = () => {
               {/* Mini feature strip below carousel */}
               <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2.5">
                 {[
-                  { icon: Bot, label: "AI Tutor 24/7", color: "text-violet-600", bg: "bg-violet-500/10" },
-                  { icon: ClipboardList, label: "Chấm bài tự động", color: "text-rose-600", bg: "bg-rose-500/10" },
-                  { icon: TrendingUp, label: "Phân tích chuyên sâu", color: "text-primary", bg: "bg-primary/10" },
-                  { icon: Mail, label: "Báo cáo phụ huynh", color: "text-emerald-600", bg: "bg-emerald-500/10" },
+                  { icon: Bot, label: { vi: "AI Tutor 24/7", en: "AI Tutor 24/7" }, color: "text-violet-600", bg: "bg-violet-500/10" },
+                  { icon: ClipboardList, label: { vi: "Chấm bài tự động", en: "Auto Grading" }, color: "text-rose-600", bg: "bg-rose-500/10" },
+                  { icon: TrendingUp, label: { vi: "Phân tích chuyên sâu", en: "Deep Analytics" }, color: "text-primary", bg: "bg-primary/10" },
+                  { icon: Mail, label: { vi: "Báo cáo phụ huynh", en: "Parent Reports" }, color: "text-emerald-600", bg: "bg-emerald-500/10" },
                 ].map((f) => (
-                  <div key={f.label} className="rounded-xl border border-border/60 bg-card/70 backdrop-blur p-2.5 flex items-center gap-2 hover:border-primary/40 hover:shadow-md transition">
+                  <div key={f.label.en} className="rounded-xl border border-border/60 bg-card/70 backdrop-blur p-2.5 flex items-center gap-2 hover:border-primary/40 hover:shadow-md transition">
                     <div className={`h-8 w-8 rounded-lg ${f.bg} flex items-center justify-center shrink-0`}>
                       <f.icon className={`h-4 w-4 ${f.color}`} />
                     </div>
-                    <div className="text-[11px] sm:text-xs font-semibold text-foreground leading-tight">{f.label}</div>
+                    <div className="text-[11px] sm:text-xs font-semibold text-foreground leading-tight">{t(f.label.vi, f.label.en)}</div>
                   </div>
                 ))}
               </div>
@@ -1635,25 +1743,25 @@ const EdTechWebService = () => {
             {[
               {
                 k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a015+",
-                v: "năm kinh nghiệm giảng dạy tại Việt Nam",
+                v: { vi: "năm kinh nghiệm giảng dạy tại Việt Nam", en: "years of teaching experience in Vietnam" },
                 icon: GraduationCap,
                 grad: "from-primary/20 to-primary/0",
               },
               {
                 k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 3+",
-                v: "năm kinh nghiệm về lập trình tại Phần Lan",
+                v: { vi: "năm kinh nghiệm về lập trình tại Phần Lan", en: "years of software engineering experience in Finland" },
                 icon: Database,
                 grad: "from-emerald-500/20 to-emerald-500/0",
               },
               {
                 k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0✦",
-                v: "Tâm huyết với các sản phẩm Sư phạm & Công nghệ",
+                v: { vi: "Tâm huyết với các sản phẩm Sư phạm & Công nghệ", en: "Passionate about pedagogy & technology products" },
                 icon: Sparkles,
                 grad: "from-violet-500/20 to-violet-500/0",
               },
             ].map((s) => (
               <div
-                key={s.v}
+                key={s.v.en}
                 className="relative overflow-hidden rounded-2xl border border-border/70 bg-card/70 backdrop-blur p-5 text-center sm:text-left hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${s.grad} pointer-events-none`} />
@@ -1663,7 +1771,7 @@ const EdTechWebService = () => {
                   </div>
                   <div>
                     <div className="text-xl sm:text-2xl font-bold text-foreground leading-none">{s.k}</div>
-                    <div className="text-xs text-muted-foreground leading-snug mt-1.5">{s.v}</div>
+                    <div className="text-xs text-muted-foreground leading-snug mt-1.5">{t(s.v.vi, s.v.en)}</div>
                   </div>
                 </div>
               </div>
@@ -1933,25 +2041,27 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
-              <BarChart3 className="w-3.5 h-3.5" /> Kết quả đo lường được
+              <BarChart3 className="w-3.5 h-3.5" /> {t("Kết quả đo lường được", "Measurable Results")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Hiệu quả thực tế sau khi triển khai
+              {t("Hiệu quả thực tế sau khi triển khai", "Real-world impact after deployment")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Dữ liệu trung bình ghi nhận từ các lớp học của Thầy Hải &amp; các giáo viên đã sử dụng nền tảng
-              HaiEduTech.
+              {t(
+                "Dữ liệu trung bình ghi nhận từ các lớp học của Thầy Hải & các giáo viên đã sử dụng nền tảng HaiEduTech.",
+                "Average data recorded from Mr. Hai's classes and teachers using the HaiEduTech platform."
+              )}
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {[
-              { k: "−85%", v: "thời gian chấm bài thủ công", c: "from-primary to-blue-400" },
-              { k: "+42%", v: "tỉ lệ học viên hoàn thành khóa", c: "from-emerald-500 to-teal-400" },
-              { k: "+3.1×", v: "lượt tương tác ngoài giờ học (AI Tutor)", c: "from-violet-500 to-fuchsia-400" },
-              { k: "92%", v: "phụ huynh đánh giá hài lòng", c: "from-amber-500 to-orange-400" },
+              { k: "−85%", v: { vi: "thời gian chấm bài thủ công", en: "less manual grading time" }, c: "from-primary to-blue-400" },
+              { k: "+42%", v: { vi: "tỉ lệ học viên hoàn thành khóa", en: "higher course completion rate" }, c: "from-emerald-500 to-teal-400" },
+              { k: "+3.1×", v: { vi: "lượt tương tác ngoài giờ học (AI Tutor)", en: "after-hours engagement (AI Tutor)" }, c: "from-violet-500 to-fuchsia-400" },
+              { k: "92%", v: { vi: "phụ huynh đánh giá hài lòng", en: "satisfied parents" }, c: "from-amber-500 to-orange-400" },
             ].map((s) => (
               <div
-                key={s.v}
+                key={s.v.en}
                 className="rounded-2xl border border-border bg-card p-5 text-center shadow-sm hover:shadow-md transition"
               >
                 <div
@@ -1959,52 +2069,56 @@ const EdTechWebService = () => {
                 >
                   {s.k}
                 </div>
-                <div className="mt-2 text-xs sm:text-sm text-muted-foreground leading-snug">{s.v}</div>
+                <div className="mt-2 text-xs sm:text-sm text-muted-foreground leading-snug">{t(s.v.vi, s.v.en)}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+
       {/* Process — transparent 5-step delivery flow */}
       <section className="py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary mb-3">
-              <ClipboardList className="w-3.5 h-3.5" /> Quy trình minh bạch
+              <ClipboardList className="w-3.5 h-3.5" /> {t("Quy trình minh bạch", "Transparent Process")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Lộ trình 5 bước · Bàn giao trong 7–14 ngày
+              {t("Lộ trình 5 bước · Bàn giao trong 7–14 ngày", "5-step roadmap · Delivered in 7–14 days")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Cam kết tiến độ rõ ràng. Quý Thầy/Cô được duyệt từng giai đoạn trước khi sang bước kế tiếp.
+              {t(
+                "Cam kết tiến độ rõ ràng. Quý Thầy/Cô được duyệt từng giai đoạn trước khi sang bước kế tiếp.",
+                "Clear milestones. You approve each stage before we move to the next."
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
             {[
               {
                 n: 1,
-                t: "Tư vấn miễn phí",
-                d: "Phỏng vấn 30 phút để hiểu lớp học & mục tiêu giảng dạy.",
+                t: { vi: "Tư vấn miễn phí", en: "Free Consultation" },
+                d: { vi: "Phỏng vấn 30 phút để hiểu lớp học & mục tiêu giảng dạy.", en: "A 30-minute interview to understand your classes & teaching goals." },
                 icon: MessageCircle,
               },
               {
                 n: 2,
-                t: "Thiết kế UI/UX",
-                d: "Wireframe + mockup được duyệt trước khi viết code.",
+                t: { vi: "Thiết kế UI/UX", en: "UI/UX Design" },
+                d: { vi: "Wireframe + mockup được duyệt trước khi viết code.", en: "Wireframes + mockups approved before any code is written." },
                 icon: LayoutDashboard,
               },
-              { n: 3, t: "Phát triển LMS", d: "Xây dựng frontend + backend bảo mật, kiểm thử nội bộ.", icon: Database },
+              { n: 3, t: { vi: "Phát triển LMS", en: "LMS Development" }, d: { vi: "Xây dựng frontend + backend bảo mật, kiểm thử nội bộ.", en: "Build secure frontend + backend, with internal QA." }, icon: Database },
               {
                 n: 4,
-                t: "Tích hợp AI & Domain",
-                d: "Huấn luyện AI theo tài liệu riêng, cấu hình tên miền + email.",
+                t: { vi: "Tích hợp AI & Domain", en: "AI & Domain Integration" },
+                d: { vi: "Huấn luyện AI theo tài liệu riêng, cấu hình tên miền + email.", en: "Train the AI on your materials, configure the domain + email." },
                 icon: Bot,
               },
               {
                 n: 5,
-                t: "Nghiệm thu & Đào tạo",
-                d: "Bàn giao mã nguồn, video hướng dẫn quản trị 1-1.",
+                t: { vi: "Nghiệm thu & Đào tạo", en: "Handover & Training" },
+                d: { vi: "Bàn giao mã nguồn, video hướng dẫn quản trị 1-1.", en: "Source code handover and 1-on-1 admin training videos." },
                 icon: GraduationCap,
               },
             ].map((step) => (
@@ -2018,69 +2132,76 @@ const EdTechWebService = () => {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-3 ml-auto">
                   <step.icon className="w-5 h-5" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-1.5">{step.t}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{step.d}</p>
+                <h3 className="font-semibold text-foreground mb-1.5">{t(step.t.vi, step.t.en)}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t(step.d.vi, step.d.en)}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+
       {/* Testimonials — social proof from teachers */}
       <section className="py-16 sm:py-20 bg-secondary/30">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/5 px-3 py-1 text-xs font-semibold text-amber-600 mb-3">
-              <Sparkles className="w-3.5 h-3.5" /> Phản hồi từ giáo viên
+              <Sparkles className="w-3.5 h-3.5" /> {t("Phản hồi từ giáo viên", "Teacher Feedback")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Các thầy cô nói gì về website do HaiEduTech xây dựng
+              {t("Các thầy cô nói gì về website do HaiEduTech xây dựng", "What teachers say about websites built by HaiEduTech")}
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-6xl mx-auto">
             {[
               {
                 name: "Cô Mai Anh",
-                role: "Giáo viên IELTS · Hà Nội",
+                role: { vi: "Giáo viên IELTS · Hà Nội", en: "IELTS Teacher · Hanoi" },
                 avatar: "MA",
-                quote:
-                  "Trước đây tôi mất gần 12 tiếng mỗi tuần để chấm Writing. Sau khi dùng AI Smart Grading của Thầy Hải, thời gian rút xuống còn 2 tiếng và học viên nhận feedback gần như tức thì.",
+                quote: {
+                  vi: "Trước đây tôi mất gần 12 tiếng mỗi tuần để chấm Writing. Sau khi dùng AI Smart Grading của Thầy Hải, thời gian rút xuống còn 2 tiếng và học viên nhận feedback gần như tức thì.",
+                  en: "I used to spend almost 12 hours a week grading Writing. After using Mr. Hai's AI Smart Grading, it dropped to just 2 hours and students get near-instant feedback.",
+                },
                 color: "from-primary to-blue-400",
               },
               {
                 name: "Thầy Quốc Bảo",
-                role: "Chủ trung tâm tiếng Trung · TP.HCM",
+                role: { vi: "Chủ trung tâm tiếng Trung · TP.HCM", en: "Chinese Center Owner · HCMC" },
                 avatar: "QB",
-                quote:
-                  "Website chạy mượt cả trên điện thoại học viên cấp 2. Phụ huynh đặc biệt thích cổng xem điểm thời gian thực — đây là điểm khác biệt giúp trung tâm tôi tăng 30% học viên đăng ký mới.",
+                quote: {
+                  vi: "Website chạy mượt cả trên điện thoại học viên cấp 2. Phụ huynh đặc biệt thích cổng xem điểm thời gian thực — đây là điểm khác biệt giúp trung tâm tôi tăng 30% học viên đăng ký mới.",
+                  en: "The website runs smoothly even on middle-school students' phones. Parents love the real-time grade portal — this differentiator drove a 30% increase in new enrollments.",
+                },
                 color: "from-emerald-500 to-teal-400",
               },
               {
                 name: "Cô Hồng Nhung",
-                role: "Giáo viên Hóa học THPT",
+                role: { vi: "Giáo viên Hóa học THPT", en: "High School Chemistry Teacher" },
                 avatar: "HN",
-                quote:
-                  "Tôi không rành công nghệ nhưng video hướng dẫn quản trị 1-1 của Thầy Hải rất chi tiết. Sau 2 ngày là tôi tự đăng bài giảng và bài tập trắc nghiệm được rồi.",
+                quote: {
+                  vi: "Tôi không rành công nghệ nhưng video hướng dẫn quản trị 1-1 của Thầy Hải rất chi tiết. Sau 2 ngày là tôi tự đăng bài giảng và bài tập trắc nghiệm được rồi.",
+                  en: "I'm not tech-savvy, but Mr. Hai's 1-on-1 admin training videos are very detailed. Within 2 days I was uploading lessons and quizzes on my own.",
+                },
                 color: "from-violet-500 to-fuchsia-400",
               },
-            ].map((t) => (
-              <Card key={t.name} className="h-full border-border/70 hover:shadow-xl transition">
+            ].map((tm) => (
+              <Card key={tm.name} className="h-full border-border/70 hover:shadow-xl transition">
                 <CardContent className="p-6 flex flex-col h-full">
                   <div className="flex items-center gap-1 mb-3 text-amber-500">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span key={i}>★</span>
                     ))}
                   </div>
-                  <p className="text-sm text-foreground leading-relaxed flex-1 italic">“{t.quote}”</p>
+                  <p className="text-sm text-foreground leading-relaxed flex-1 italic">“{t(tm.quote.vi, tm.quote.en)}”</p>
                   <div className="mt-5 flex items-center gap-3 pt-4 border-t border-border">
                     <div
-                      className={`w-11 h-11 rounded-full bg-gradient-to-br ${t.color} text-white font-bold flex items-center justify-center shrink-0`}
+                      className={`w-11 h-11 rounded-full bg-gradient-to-br ${tm.color} text-white font-bold flex items-center justify-center shrink-0`}
                     >
-                      {t.avatar}
+                      {tm.avatar}
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground text-sm">{t.name}</p>
-                      <p className="text-xs text-muted-foreground">{t.role}</p>
+                      <p className="font-semibold text-foreground text-sm">{tm.name}</p>
+                      <p className="text-xs text-muted-foreground">{t(tm.role.vi, tm.role.en)}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -2089,6 +2210,7 @@ const EdTechWebService = () => {
           </div>
         </div>
       </section>
+
 
       {/* Guarantee — risk reversal to remove final objections */}
       <section className="py-12 sm:py-16">
@@ -2099,24 +2221,27 @@ const EdTechWebService = () => {
                 <div className="inline-flex w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-primary text-white items-center justify-center shadow-lg shadow-emerald-500/30">
                   <ShieldCheck className="w-10 h-10" />
                 </div>
-                <p className="mt-3 text-xs font-bold uppercase tracking-wider text-emerald-600">Cam kết HaiEduTech</p>
+                <p className="mt-3 text-xs font-bold uppercase tracking-wider text-emerald-600">{t("Cam kết HaiEduTech", "HaiEduTech Commitment")}</p>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-3">
-                  Đồng hành tận tâm – bàn giao chuẩn chỉnh, hỗ trợ dài hạn cùng quý Thầy/Cô
+                  {t(
+                    "Đồng hành tận tâm – bàn giao chuẩn chỉnh, hỗ trợ dài hạn cùng quý Thầy/Cô",
+                    "Dedicated partnership – clean handover and long-term support for every teacher"
+                  )}
                 </h3>
                 <ul className="space-y-2 text-sm text-foreground">
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
-                    <span>Bàn giao 100% mã nguồn – quý Thầy/Cô sở hữu vĩnh viễn, không khoá vendor.</span>
+                    <span>{t("Bàn giao 100% mã nguồn – quý Thầy/Cô sở hữu vĩnh viễn, không khoá vendor.", "Full source-code handover – you own it forever, no vendor lock-in.")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
-                    <span>Bảo hành sửa lỗi miễn phí 6 tháng sau bàn giao.</span>
+                    <span>{t("Bảo hành sửa lỗi miễn phí 6 tháng sau bàn giao.", "Free 6-month bug-fix warranty after handover.")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
-                    <span>Hợp đồng rõ ràng, xuất hoá đơn VAT, thanh toán theo 2 đợt (50/50).</span>
+                    <span>{t("Hợp đồng rõ ràng, xuất hoá đơn VAT, thanh toán theo 2 đợt (50/50).", "Clear contract, VAT invoices, 50/50 two-stage payment.")}</span>
                   </li>
                 </ul>
               </div>
@@ -2171,8 +2296,8 @@ const EdTechWebService = () => {
                         <p.icon className="w-5 h-5" />
                       </div>
                       <div>
-                        <CardTitle className="text-xl">{p.name}</CardTitle>
-                        <p className="text-xs text-muted-foreground">{p.tagline}</p>
+                        <CardTitle className="text-xl">{t(p.name.vi, p.name.en)}</CardTitle>
+                        <p className="text-xs text-muted-foreground">{t(p.tagline.vi, p.tagline.en)}</p>
                       </div>
                     </div>
                     <div className="mt-4">
@@ -2183,21 +2308,21 @@ const EdTechWebService = () => {
                             : "text-foreground"
                         }`}
                       >
-                        {p.priceFrom}
+                        {t(p.priceFrom.vi, p.priceFrom.en)}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">{p.priceNote}</p>
-                      <p className="text-xs text-foreground/80 mt-1 font-medium">{p.monthly}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{t(p.priceNote.vi, p.priceNote.en)}</p>
+                      <p className="text-xs text-foreground/80 mt-1 font-medium">{t(p.monthly.vi, p.monthly.en)}</p>
                     </div>
-                    <p className="mt-3 text-xs text-muted-foreground italic">{p.bestFor}</p>
+                    <p className="mt-3 text-xs text-muted-foreground italic">{t(p.bestFor.vi, p.bestFor.en)}</p>
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col">
                     <ul className="space-y-3 flex-1">
                       {p.features.map((feat) => (
-                        <li key={feat} className="flex items-start gap-2 text-sm text-foreground">
+                        <li key={feat.vi} className="flex items-start gap-2 text-sm text-foreground">
                           <Check
                             className={`w-4 h-4 mt-0.5 shrink-0 ${p.highlight ? "text-emerald-500" : "text-primary"}`}
                           />
-                          <span>{feat}</span>
+                          <span>{t(feat.vi, feat.en)}</span>
                         </li>
                       ))}
                     </ul>
@@ -2213,7 +2338,7 @@ const EdTechWebService = () => {
                       }`}
                       variant={p.highlight ? "default" : "outline"}
                     >
-                      {t(`Chọn ${p.name}`, `Choose ${p.name}`)}
+                      {t(`Chọn ${p.name.vi}`, `Choose ${p.name.en}`)}
                     </Button>
                   </CardContent>
                 </Card>
@@ -2233,44 +2358,50 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 rounded-full border border-rose-400/40 bg-rose-500/5 px-3 py-1 text-xs font-semibold text-rose-600 mb-3">
-              <Sparkles className="w-3.5 h-3.5" /> Thấu hiểu giáo viên Việt
+              <Sparkles className="w-3.5 h-3.5" /> {t("Thấu hiểu giáo viên Việt", "Built for Vietnamese teachers")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Những nỗi đau giáo viên thường gặp – HaiEduTech giải quyết tận gốc
+              {t(
+                "Những nỗi đau giáo viên thường gặp – HaiEduTech giải quyết tận gốc",
+                "The pain points teachers face – HaiEduTech solves them at the root"
+              )}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Mỗi tính năng đều xuất phát từ chính trải nghiệm 15 năm đứng lớp của Thầy Hải.
+              {t(
+                "Mỗi tính năng đều xuất phát từ chính trải nghiệm 15 năm đứng lớp của Thầy Hải.",
+                "Every feature comes from Mr. Hai's own 15 years of classroom experience."
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
             {[
               {
-                pain: "Mất 8–12 giờ/tuần chấm bài Writing, Speaking thủ công",
-                fix: "AI Smart Grading chấm tự động theo rubric IELTS/TOEIC/HSK – feedback chi tiết trong 10 giây.",
+                pain: { vi: "Mất 8–12 giờ/tuần chấm bài Writing, Speaking thủ công", en: "Losing 8–12 hours/week manually grading Writing & Speaking" },
+                fix: { vi: "AI Smart Grading chấm tự động theo rubric IELTS/TOEIC/HSK – feedback chi tiết trong 10 giây.", en: "AI Smart Grading auto-scores against IELTS/TOEIC/HSK rubrics – detailed feedback in 10 seconds." },
               },
               {
-                pain: "Học sinh quên bài, không ôn tập, mất gốc giữa khoá",
-                fix: "Hệ thống SRS + AI Tutor 24/7 nhắc ôn từ vựng và giải đáp thắc mắc ngoài giờ học.",
+                pain: { vi: "Học sinh quên bài, không ôn tập, mất gốc giữa khoá", en: "Students forget lessons, stop reviewing, fall behind mid-course" },
+                fix: { vi: "Hệ thống SRS + AI Tutor 24/7 nhắc ôn từ vựng và giải đáp thắc mắc ngoài giờ học.", en: "An SRS system + 24/7 AI Tutor prompts vocab review and answers questions after class." },
               },
               {
-                pain: "Phụ huynh thiếu tin tưởng vì không nắm được tiến độ con",
-                fix: "Báo cáo phụ huynh tự động hàng tháng qua email thương hiệu – tỉ lệ tái đăng ký +42%.",
+                pain: { vi: "Phụ huynh thiếu tin tưởng vì không nắm được tiến độ con", en: "Parents lose trust because they can't see their child's progress" },
+                fix: { vi: "Báo cáo phụ huynh tự động hàng tháng qua email thương hiệu – tỉ lệ tái đăng ký +42%.", en: "Automated monthly parent reports from your branded email – re-enrollment +42%." },
               },
               {
-                pain: "Tài liệu giảng dạy bị copy, share lậu trên Zalo / Drive",
-                fix: "DRM video + watermark động theo từng học viên + chống tải xuống bằng JS obfuscation.",
+                pain: { vi: "Tài liệu giảng dạy bị copy, share lậu trên Zalo / Drive", en: "Teaching materials get copied and shared illegally on Zalo / Drive" },
+                fix: { vi: "DRM video + watermark động theo từng học viên + chống tải xuống bằng JS obfuscation.", en: "DRM video + per-student dynamic watermarks + anti-download via JS obfuscation." },
               },
               {
-                pain: "Quản lý lịch học, học phí, hoá đơn rối loạn trên Excel",
-                fix: "Dashboard tích hợp VNPay/Momo, tự động đối soát và xuất hoá đơn VAT điện tử.",
+                pain: { vi: "Quản lý lịch học, học phí, hoá đơn rối loạn trên Excel", en: "Schedules, tuition and invoices are a mess in Excel" },
+                fix: { vi: "Dashboard tích hợp VNPay/Momo, tự động đối soát và xuất hoá đơn VAT điện tử.", en: "A dashboard with VNPay/Momo, auto reconciliation and electronic VAT invoices." },
               },
               {
-                pain: "Phụ thuộc nền tảng Facebook/Zalo – mất học viên khi bị khoá",
-                fix: "Có domain & thương hiệu riêng (lop-thay-hai.com) – dữ liệu học viên 100% thuộc về Thầy/Cô.",
+                pain: { vi: "Phụ thuộc nền tảng Facebook/Zalo – mất học viên khi bị khoá", en: "Dependent on Facebook/Zalo – risk losing students if the account is locked" },
+                fix: { vi: "Có domain & thương hiệu riêng (lop-thay-hai.com) – dữ liệu học viên 100% thuộc về Thầy/Cô.", en: "Your own domain & brand (lop-thay-hai.com) – student data is 100% yours." },
               },
             ].map((p) => (
               <div
-                key={p.pain}
+                key={p.pain.vi}
                 className="group rounded-2xl border-2 border-emerald-500/30 bg-card p-5 sm:p-6 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-emerald-500/10 transition-all"
               >
                 <div className="flex items-start gap-3 mb-3 pb-3 border-b border-dashed border-rose-300/50">
@@ -2278,7 +2409,7 @@ const EdTechWebService = () => {
                     !
                   </span>
                   <p className="text-sm sm:text-[15px] font-semibold text-foreground/90 leading-snug">
-                    {p.pain}
+                    {t(p.pain.vi, p.pain.en)}
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -2286,8 +2417,8 @@ const EdTechWebService = () => {
                     <Check className="w-4 h-4" strokeWidth={3} />
                   </span>
                   <p className="text-sm sm:text-[15px] text-foreground leading-relaxed">
-                    <span className="font-bold text-emerald-700">Giải pháp: </span>
-                    {p.fix}
+                    <span className="font-bold text-emerald-700">{t("Giải pháp:", "Solution:")} </span>
+                    {t(p.fix.vi, p.fix.en)}
                   </p>
                 </div>
               </div>
@@ -2301,32 +2432,32 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
-              <ShieldCheck className="w-3.5 h-3.5" /> 5 Cam Kết Vàng
+              <ShieldCheck className="w-3.5 h-3.5" /> {t("5 Cam Kết Vàng", "5 Golden Commitments")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Tận tâm với từng sản phẩm giáo dục & công nghệ
+              {t("Tận tâm với từng sản phẩm giáo dục & công nghệ", "Crafted with care for every educational & tech product")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Không hứa suông – mỗi cam kết đều được ghi rõ trong hợp đồng.
+              {t("Không hứa suông – mỗi cam kết đều được ghi rõ trong hợp đồng.", "No empty promises – every commitment is written into the contract.")}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
             {[
-              { icon: ShieldCheck, t: "Hoàn tiền 100%", d: "Trong 7 ngày nếu bản demo không đạt yêu cầu." },
-              { icon: Database, t: "Bàn giao mã nguồn", d: "100% code + database thuộc sở hữu Thầy/Cô." },
-              { icon: Clock, t: "Bảo hành 6 tháng", d: "Sửa lỗi miễn phí, hỗ trợ ưu tiên qua Zalo." },
-              { icon: FileText, t: "NDA bảo mật", d: "Ký cam kết không tiết lộ dữ liệu lớp học." },
-              { icon: Bot, t: "Hỗ trợ trọn đời", d: "Cộng đồng giáo viên HaiEduTech miễn phí vĩnh viễn." },
+              { icon: ShieldCheck, t: { vi: "Hoàn tiền 100%", en: "100% Refund" }, d: { vi: "Trong 7 ngày nếu bản demo không đạt yêu cầu.", en: "Within 7 days if the demo doesn't meet expectations." } },
+              { icon: Database, t: { vi: "Bàn giao mã nguồn", en: "Source Code Handover" }, d: { vi: "100% code + database thuộc sở hữu Thầy/Cô.", en: "100% of the code + database belongs to you." } },
+              { icon: Clock, t: { vi: "Bảo hành 6 tháng", en: "6-Month Warranty" }, d: { vi: "Sửa lỗi miễn phí, hỗ trợ ưu tiên qua Zalo.", en: "Free bug fixes and priority Zalo support." } },
+              { icon: FileText, t: { vi: "NDA bảo mật", en: "NDA Confidentiality" }, d: { vi: "Ký cam kết không tiết lộ dữ liệu lớp học.", en: "Signed agreement not to disclose any class data." } },
+              { icon: Bot, t: { vi: "Hỗ trợ trọn đời", en: "Lifetime Support" }, d: { vi: "Cộng đồng giáo viên HaiEduTech miễn phí vĩnh viễn.", en: "Free lifetime access to the HaiEduTech teachers' community." } },
             ].map((g) => (
               <div
-                key={g.t}
+                key={g.t.en}
                 className="rounded-2xl border-2 border-emerald-500/40 bg-card p-5 text-center hover:border-emerald-500/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/15 transition-all"
               >
                 <div className="inline-flex w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-primary/20 items-center justify-center mb-3">
                   <g.icon className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h4 className="font-bold text-foreground text-sm sm:text-base mb-1.5">{g.t}</h4>
-                <p className="text-xs text-muted-foreground leading-snug">{g.d}</p>
+                <h4 className="font-bold text-foreground text-sm sm:text-base mb-1.5">{t(g.t.vi, g.t.en)}</h4>
+                <p className="text-xs text-muted-foreground leading-snug">{t(g.d.vi, g.d.en)}</p>
               </div>
             ))}
           </div>
@@ -2342,17 +2473,17 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              { icon: ShieldCheck, t: "Bảo mật chuẩn EU", d: "Hạ tầng cloud hiện đại, RLS & sao lưu tự động." },
-              { icon: Zap, t: "Bàn giao nhanh", d: "MVP có thể chạy trong 2–4 tuần tùy phạm vi." },
-              { icon: Database, t: "Sở hữu dữ liệu", d: "Toàn bộ dữ liệu lớp học thuộc về quý Thầy/Cô." },
+              { icon: ShieldCheck, t: { vi: "Bảo mật chuẩn EU", en: "EU-grade Security" }, d: { vi: "Hạ tầng cloud hiện đại, RLS & sao lưu tự động.", en: "Modern cloud infrastructure with RLS and automated backups." } },
+              { icon: Zap, t: { vi: "Bàn giao nhanh", en: "Fast Delivery" }, d: { vi: "MVP có thể chạy trong 2–4 tuần tùy phạm vi.", en: "Working MVP in 2–4 weeks depending on scope." } },
+              { icon: Database, t: { vi: "Sở hữu dữ liệu", en: "Data Ownership" }, d: { vi: "Toàn bộ dữ liệu lớp học thuộc về quý Thầy/Cô.", en: "All class data fully belongs to you." } },
             ].map((x) => (
-              <div key={x.t} className="flex items-start gap-3">
+              <div key={x.t.en} className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
                   <x.icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-foreground">{x.t}</h4>
-                  <p className="text-sm text-muted-foreground">{x.d}</p>
+                  <h4 className="font-semibold text-foreground">{t(x.t.vi, x.t.en)}</h4>
+                  <p className="text-sm text-muted-foreground">{t(x.d.vi, x.d.en)}</p>
                 </div>
               </div>
             ))}
@@ -2365,9 +2496,12 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">Đăng ký tư vấn miễn phí</h2>
+              <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">{t("Đăng ký tư vấn miễn phí", "Get a Free Consultation")}</h2>
               <p className="mt-3 text-muted-foreground">
-                Điền thông tin bên dưới, Thầy Hải sẽ liên hệ tư vấn lộ trình & báo giá phù hợp trong vòng 24 giờ.
+                {t(
+                  "Điền thông tin bên dưới, Thầy Hải sẽ liên hệ tư vấn lộ trình & báo giá phù hợp trong vòng 24 giờ.",
+                  "Fill in the form below and Mr. Hai will reach out with a tailored roadmap & quote within 24 hours."
+                )}
               </p>
             </div>
             <Card className="border-border/70 shadow-xl">
@@ -2375,11 +2509,11 @@ const EdTechWebService = () => {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="teacher_name">Họ và tên *</Label>
+                      <Label htmlFor="teacher_name">{t("Họ và tên *", "Full name *")}</Label>
                       <Input
                         id="teacher_name"
                         required
-                        placeholder="Nguyễn Văn A"
+                        placeholder={t("Nguyễn Văn A", "Jane Doe")}
                         value={form.teacher_name}
                         onChange={(e) => update("teacher_name", e.target.value)}
                         maxLength={100}
@@ -2398,7 +2532,7 @@ const EdTechWebService = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Số điện thoại *</Label>
+                      <Label htmlFor="phone">{t("Số điện thoại *", "Phone number *")}</Label>
                       <Input
                         id="phone"
                         required
@@ -2409,10 +2543,10 @@ const EdTechWebService = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="subject_taught">Môn / Lĩnh vực giảng dạy</Label>
+                      <Label htmlFor="subject_taught">{t("Môn / Lĩnh vực giảng dạy", "Subject / teaching area")}</Label>
                       <Input
                         id="subject_taught"
-                        placeholder="Tiếng Anh, Toán, Hóa..."
+                        placeholder={t("Tiếng Anh, Toán, Hóa...", "English, Math, Chemistry...")}
                         value={form.subject_taught}
                         onChange={(e) => update("subject_taught", e.target.value)}
                         maxLength={120}
@@ -2421,7 +2555,7 @@ const EdTechWebService = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="selected_package">Gói dịch vụ quan tâm *</Label>
+                    <Label htmlFor="selected_package">{t("Gói dịch vụ quan tâm *", "Package of interest *")}</Label>
                     <Select
                       value={form.selected_package}
                       onValueChange={(v) => update("selected_package", v as FormState["selected_package"])}
@@ -2430,18 +2564,21 @@ const EdTechWebService = () => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="standard">Gói Standard (Liên hệ báo giá)</SelectItem>
-                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (Liên hệ báo giá)</SelectItem>
-                        <SelectItem value="enterprise">Gói Enterprise (Liên hệ báo giá)</SelectItem>
+                        <SelectItem value="standard">{t("Gói Standard (Liên hệ báo giá)", "Standard Package (Contact for quote)")}</SelectItem>
+                        <SelectItem value="advanced">{t("Gói Advanced AI & Data (Liên hệ báo giá)", "Advanced AI & Data Package (Contact for quote)")}</SelectItem>
+                        <SelectItem value="enterprise">{t("Gói Enterprise (Liên hệ báo giá)", "Enterprise Package (Contact for quote)")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="special_requirements">Yêu cầu đặc biệt (tùy chọn)</Label>
+                    <Label htmlFor="special_requirements">{t("Yêu cầu đặc biệt (tùy chọn)", "Special requirements (optional)")}</Label>
                     <Textarea
                       id="special_requirements"
-                      placeholder="Mô tả ngắn về lớp học, số học viên, tính năng mong muốn..."
+                      placeholder={t(
+                        "Mô tả ngắn về lớp học, số học viên, tính năng mong muốn...",
+                        "Briefly describe your class, number of learners, desired features..."
+                      )}
                       rows={5}
                       value={form.special_requirements}
                       onChange={(e) => update("special_requirements", e.target.value)}
@@ -2456,16 +2593,19 @@ const EdTechWebService = () => {
                   >
                     {submitting ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" /> Đang gửi...
+                        <Loader2 className="w-4 h-4 animate-spin" /> {t("Đang gửi...", "Sending...")}
                       </>
                     ) : (
                       <>
-                        <Send className="w-4 h-4" /> Gửi Yêu Cầu Đặt Hàng
+                        <Send className="w-4 h-4" /> {t("Gửi Yêu Cầu Đặt Hàng", "Submit Request")}
                       </>
                     )}
                   </Button>
                   <p className="text-xs text-muted-foreground text-center">
-                    Bằng việc gửi yêu cầu, quý Thầy/Cô đồng ý cho HaiEduTech liên hệ tư vấn qua email & điện thoại.
+                    {t(
+                      "Bằng việc gửi yêu cầu, quý Thầy/Cô đồng ý cho HaiEduTech liên hệ tư vấn qua email & điện thoại.",
+                      "By submitting, you agree that HaiEduTech may contact you for consultation via email & phone."
+                    )}
                   </p>
                 </form>
               </CardContent>
@@ -2754,15 +2894,19 @@ const AdminMockup = () => (
 );
 
 const PortfolioShowcase = () => {
+  const { t } = useLanguage();
   return (
     <section className="py-16 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-            Hệ Thống Tính Năng – Bản Demo Trực Quan
+            {t("Hệ Thống Tính Năng – Bản Demo Trực Quan", "Feature System – Visual Live Demo")}
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – lướt qua 17 màn hình demo của hệ thống.
+            {t(
+              "Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – lướt qua 17 màn hình demo của hệ thống.",
+              "See exactly what you'll get – swipe through 17 demo screens of the system."
+            )}
           </p>
         </div>
         <div className="max-w-5xl mx-auto">
@@ -2778,120 +2922,126 @@ const PortfolioShowcase = () => {
 /* Feature Comparison Matrix                                                   */
 /* -------------------------------------------------------------------------- */
 
+type Bi = { vi: string; en: string };
 const COMPARISON_ROWS: Array<{
-  feature: string;
-  standard: { v: string; ok?: boolean };
-  advanced: { v: string; ok?: boolean };
-  enterprise: { v: string; ok?: boolean };
+  feature: Bi;
+  standard: { v: Bi; ok?: boolean };
+  advanced: { v: Bi; ok?: boolean };
+  enterprise: { v: Bi; ok?: boolean };
 }> = [
   {
-    feature: "Bảo mật & Lưu trữ video bài giảng",
-    standard: { v: "Nhúng cơ bản (YouTube/Vimeo)" },
-    advanced: { v: "Hosting bảo mật, chống tải xuống, watermark", ok: true },
-    enterprise: { v: "DRM cấp doanh nghiệp + CDN riêng + watermark động theo user", ok: true },
+    feature: { vi: "Bảo mật & Lưu trữ video bài giảng", en: "Lesson Video Security & Storage" },
+    standard: { v: { vi: "Nhúng cơ bản (YouTube/Vimeo)", en: "Basic embeds (YouTube/Vimeo)" } },
+    advanced: { v: { vi: "Hosting bảo mật, chống tải xuống, watermark", en: "Secure hosting, anti-download, watermark" }, ok: true },
+    enterprise: { v: { vi: "DRM cấp doanh nghiệp + CDN riêng + watermark động theo user", en: "Enterprise DRM + dedicated CDN + per-user dynamic watermark" }, ok: true },
   },
   {
-    feature: "Tích hợp Trợ lý AI cho học sinh",
-    standard: { v: "Không có" },
-    advanced: { v: "Chatbot Perplexity/GPT huấn luyện theo tài liệu của Thầy/Cô", ok: true },
-    enterprise: { v: "Multi-AI Agent (GPT-5 + Gemini + Claude) + RAG riêng từng môn", ok: true },
+    feature: { vi: "Tích hợp Trợ lý AI cho học sinh", en: "AI Assistant for Students" },
+    standard: { v: { vi: "Không có", en: "Not included" } },
+    advanced: { v: { vi: "Chatbot Perplexity/GPT huấn luyện theo tài liệu của Thầy/Cô", en: "Perplexity/GPT chatbot trained on your materials" }, ok: true },
+    enterprise: { v: { vi: "Multi-AI Agent (GPT-5 + Gemini + Claude) + RAG riêng từng môn", en: "Multi-AI Agent (GPT-5 + Gemini + Claude) + per-subject RAG" }, ok: true },
   },
   {
-    feature: "Phân tích học tập (Learning Analytics)",
-    standard: { v: "Biểu đồ tiến độ cơ bản" },
-    advanced: { v: "AI cảnh báo học sinh yếu, metric hành vi chi tiết", ok: true },
-    enterprise: { v: "Data Warehouse + BI dashboard riêng + AI dự đoán nghỉ học", ok: true },
+    feature: { vi: "Phân tích học tập (Learning Analytics)", en: "Learning Analytics" },
+    standard: { v: { vi: "Biểu đồ tiến độ cơ bản", en: "Basic progress charts" } },
+    advanced: { v: { vi: "AI cảnh báo học sinh yếu, metric hành vi chi tiết", en: "AI alerts for at-risk students, detailed behavior metrics" }, ok: true },
+    enterprise: { v: { vi: "Data Warehouse + BI dashboard riêng + AI dự đoán nghỉ học", en: "Data Warehouse + dedicated BI dashboard + AI dropout prediction" }, ok: true },
   },
   {
-    feature: "Email tự động & Giao dịch",
-    standard: { v: "Thao tác thủ công" },
-    advanced: { v: "Hóa đơn tự động, subdomain email thương hiệu riêng", ok: true },
-    enterprise: { v: "Email server riêng + workflow đa kịch bản (CRM-grade)", ok: true },
+    feature: { vi: "Email tự động & Giao dịch", en: "Automated & Transactional Email" },
+    standard: { v: { vi: "Thao tác thủ công", en: "Manual" } },
+    advanced: { v: { vi: "Hóa đơn tự động, subdomain email thương hiệu riêng", en: "Auto invoices, branded email subdomain" }, ok: true },
+    enterprise: { v: { vi: "Email server riêng + workflow đa kịch bản (CRM-grade)", en: "Dedicated email server + multi-scenario workflows (CRM-grade)" }, ok: true },
   },
   {
-    feature: "Chấm điểm tự động (quiz/bài tập)",
-    standard: { v: "Trắc nghiệm tự động" },
-    advanced: { v: "AI Smart Grading cho bài viết & nói", ok: true },
-    enterprise: { v: "AI Grading tùy biến theo rubric riêng + báo cáo PDF brand", ok: true },
+    feature: { vi: "Chấm điểm tự động (quiz/bài tập)", en: "Auto Grading (quiz/assignments)" },
+    standard: { v: { vi: "Trắc nghiệm tự động", en: "Auto multiple-choice grading" } },
+    advanced: { v: { vi: "AI Smart Grading cho bài viết & nói", en: "AI Smart Grading for Writing & Speaking" }, ok: true },
+    enterprise: { v: { vi: "AI Grading tùy biến theo rubric riêng + báo cáo PDF brand", en: "Custom-rubric AI grading + branded PDF reports" }, ok: true },
   },
   {
-    feature: "Bảo trì & Cập nhật tính năng",
-    standard: { v: "Giờ hành chính" },
-    advanced: { v: "Ưu tiên + cập nhật tính năng theo quý", ok: true },
-    enterprise: { v: "SLA 24/7 · Kỹ sư phụ trách riêng · cập nhật theo roadmap", ok: true },
+    feature: { vi: "Bảo trì & Cập nhật tính năng", en: "Maintenance & Feature Updates" },
+    standard: { v: { vi: "Giờ hành chính", en: "Business hours" } },
+    advanced: { v: { vi: "Ưu tiên + cập nhật tính năng theo quý", en: "Priority + quarterly feature updates" }, ok: true },
+    enterprise: { v: { vi: "SLA 24/7 · Kỹ sư phụ trách riêng · cập nhật theo roadmap", en: "24/7 SLA · Dedicated engineer · roadmap-driven updates" }, ok: true },
   },
   {
-    feature: "Tối ưu SEO & Hiệu năng trang",
-    standard: { v: "Meta tags cơ bản, PageSpeed ~75" },
-    advanced: { v: "Schema EducationalOrganization, PageSpeed 95+, sitemap động", ok: true },
-    enterprise: { v: "Multi-site SEO, edge caching toàn cầu, A/B testing", ok: true },
+    feature: { vi: "Tối ưu SEO & Hiệu năng trang", en: "SEO & Page Performance" },
+    standard: { v: { vi: "Meta tags cơ bản, PageSpeed ~75", en: "Basic meta tags, PageSpeed ~75" } },
+    advanced: { v: { vi: "Schema EducationalOrganization, PageSpeed 95+, sitemap động", en: "EducationalOrganization schema, PageSpeed 95+, dynamic sitemap" }, ok: true },
+    enterprise: { v: { vi: "Multi-site SEO, edge caching toàn cầu, A/B testing", en: "Multi-site SEO, global edge caching, A/B testing" }, ok: true },
   },
   {
-    feature: "Cổng thanh toán học phí",
-    standard: { v: "Chuyển khoản thủ công" },
-    advanced: { v: "VNPay / Momo / ZaloPay – đối soát tự động + xuất hóa đơn", ok: true },
-    enterprise: { v: "Đa cổng + Stripe/Paddle quốc tế + đối soát kế toán tự động", ok: true },
+    feature: { vi: "Cổng thanh toán học phí", en: "Tuition Payment Gateway" },
+    standard: { v: { vi: "Chuyển khoản thủ công", en: "Manual bank transfer" } },
+    advanced: { v: { vi: "VNPay / Momo / ZaloPay – đối soát tự động + xuất hóa đơn", en: "VNPay / Momo / ZaloPay – auto reconciliation + invoicing" }, ok: true },
+    enterprise: { v: { vi: "Đa cổng + Stripe/Paddle quốc tế + đối soát kế toán tự động", en: "Multi-gateway + international Stripe/Paddle + auto accounting reconciliation" }, ok: true },
   },
   {
-    feature: "Phân quyền & Quản trị nhiều cấp",
-    standard: { v: "1 cấp Admin duy nhất" },
-    advanced: { v: "Admin / Giáo viên / Trợ giảng / Phụ huynh / Học viên", ok: true },
-    enterprise: { v: "RBAC tùy biến không giới hạn + SSO / SAML cho tổ chức", ok: true },
+    feature: { vi: "Phân quyền & Quản trị nhiều cấp", en: "Multi-level Roles & Administration" },
+    standard: { v: { vi: "1 cấp Admin duy nhất", en: "Single Admin role only" } },
+    advanced: { v: { vi: "Admin / Giáo viên / Trợ giảng / Phụ huynh / Học viên", en: "Admin / Teacher / Assistant / Parent / Student" }, ok: true },
+    enterprise: { v: { vi: "RBAC tùy biến không giới hạn + SSO / SAML cho tổ chức", en: "Unlimited custom RBAC + SSO / SAML for organizations" }, ok: true },
   },
   {
-    feature: "Sao lưu & Khôi phục dữ liệu",
-    standard: { v: "Thủ công theo yêu cầu" },
-    advanced: { v: "Backup tự động hằng ngày, khôi phục 1-click theo mốc thời gian", ok: true },
-    enterprise: { v: "Backup đa vùng (multi-region) + DR plan + audit log", ok: true },
+    feature: { vi: "Sao lưu & Khôi phục dữ liệu", en: "Backup & Disaster Recovery" },
+    standard: { v: { vi: "Thủ công theo yêu cầu", en: "Manual on request" } },
+    advanced: { v: { vi: "Backup tự động hằng ngày, khôi phục 1-click theo mốc thời gian", en: "Daily auto backups, 1-click point-in-time restore" }, ok: true },
+    enterprise: { v: { vi: "Backup đa vùng (multi-region) + DR plan + audit log", en: "Multi-region backups + DR plan + audit log" }, ok: true },
   },
 ];
 
-const ComparisonTable = () => (
+const ComparisonTable = () => {
+  const { t } = useLanguage();
+  return (
   <div className="mt-14 max-w-6xl mx-auto">
     <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground text-center mb-2">
-      Bảng So Sánh Tính Năng Giữa Các Gói
+      {t("Bảng So Sánh Tính Năng Giữa Các Gói", "Feature Comparison Across Packages")}
     </h3>
     <p className="text-center text-sm text-muted-foreground mb-6">
-      Minh bạch hoàn toàn – Quý Thầy/Cô nắm rõ giá trị của từng gói trước khi quyết định.
+      {t(
+        "Minh bạch hoàn toàn – Quý Thầy/Cô nắm rõ giá trị của từng gói trước khi quyết định.",
+        "Fully transparent – understand the value of each package before deciding."
+      )}
     </p>
     <div className="rounded-2xl border-2 border-emerald-600/60 bg-card shadow-sm overflow-x-auto">
       <Table className="min-w-[820px]">
         <TableHeader>
           <TableRow className="bg-secondary/40">
-            <TableHead className="text-foreground font-semibold w-[32%]">Tính năng hệ thống</TableHead>
-            <TableHead className="text-foreground font-semibold text-center">Gói Standard</TableHead>
+            <TableHead className="text-foreground font-semibold w-[32%]">{t("Tính năng hệ thống", "System Feature")}</TableHead>
+            <TableHead className="text-foreground font-semibold text-center">{t("Gói Standard", "Standard Package")}</TableHead>
             <TableHead className="text-foreground font-semibold text-center">
               <span className="inline-flex items-center gap-1 text-primary">
-                <Crown className="w-3.5 h-3.5" /> Gói Advanced AI &amp; Data
+                <Crown className="w-3.5 h-3.5" /> {t("Gói Advanced AI & Data", "Advanced AI & Data Package")}
               </span>
             </TableHead>
             <TableHead className="text-foreground font-semibold text-center">
               <span className="inline-flex items-center gap-1 text-emerald-700">
-                <Database className="w-3.5 h-3.5" /> Gói Enterprise
+                <Database className="w-3.5 h-3.5" /> {t("Gói Enterprise", "Enterprise Package")}
               </span>
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {COMPARISON_ROWS.map((r, i) => (
-            <TableRow key={r.feature} className={i % 2 === 0 ? "" : "bg-secondary/20"}>
-              <TableCell className="font-medium text-sm text-foreground align-top py-4">{r.feature}</TableCell>
+            <TableRow key={r.feature.en} className={i % 2 === 0 ? "" : "bg-secondary/20"}>
+              <TableCell className="font-medium text-sm text-foreground align-top py-4">{t(r.feature.vi, r.feature.en)}</TableCell>
               <TableCell className="text-sm text-muted-foreground text-center align-top py-4">
                 <div className="flex items-start justify-center gap-1.5">
                   <XIcon className="w-3.5 h-3.5 text-muted-foreground/70 mt-0.5 shrink-0" />
-                  <span>{r.standard.v}</span>
+                  <span>{t(r.standard.v.vi, r.standard.v.en)}</span>
                 </div>
               </TableCell>
               <TableCell className="text-sm text-foreground text-center align-top py-4">
                 <div className="flex items-start justify-center gap-1.5">
                   <Check className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                  <span className="font-medium">{r.advanced.v}</span>
+                  <span className="font-medium">{t(r.advanced.v.vi, r.advanced.v.en)}</span>
                 </div>
               </TableCell>
               <TableCell className="text-sm text-foreground text-center align-top py-4 bg-emerald-500/5">
                 <div className="flex items-start justify-center gap-1.5">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span className="font-semibold">{r.enterprise.v}</span>
+                  <span className="font-semibold">{t(r.enterprise.v.vi, r.enterprise.v.en)}</span>
                 </div>
               </TableCell>
             </TableRow>
@@ -2900,52 +3050,55 @@ const ComparisonTable = () => (
       </Table>
     </div>
   </div>
-);
+  );
+};
 
 /* -------------------------------------------------------------------------- */
 /* FAQ Section                                                                 */
 /* -------------------------------------------------------------------------- */
 
-const FAQS = [
+const FAQS: Array<{ q: Bi; a: Bi }> = [
   {
-    q: "Tôi không biết gì về công nghệ, mã nguồn (Code) thì có quản lý website được không?",
-    a: "Hoàn toàn được. Hệ thống được bàn giao kèm trang Admin trực quan 100% tiếng Việt, giúp Thầy/Cô đăng tải bài giảng và quản lý lớp học dễ dàng như dùng mạng xã hội mà không cần chạm vào một dòng code nào.",
+    q: { vi: "Tôi không biết gì về công nghệ, mã nguồn (Code) thì có quản lý website được không?", en: "I'm not technical. Can I still manage the website without coding?" },
+    a: { vi: "Hoàn toàn được. Hệ thống được bàn giao kèm trang Admin trực quan 100% tiếng Việt, giúp Thầy/Cô đăng tải bài giảng và quản lý lớp học dễ dàng như dùng mạng xã hội mà không cần chạm vào một dòng code nào.", en: "Absolutely. You get an intuitive Admin dashboard so uploading lessons and managing classes feels as easy as using social media – no code required." },
   },
   {
-    q: "Chi phí duy trì website hàng năm gồm những gì và khoảng bao nhiêu?",
-    a: "Chi phí hàng năm chỉ gồm tiền gia hạn Tên miền (Domain) và Máy chủ lưu trữ (Hosting/Cloud). HaiEduTech cam kết tối ưu hạ tầng Server sạch giúp Thầy/Cô tiết kiệm tối đa ngân sách vận hành.",
+    q: { vi: "Chi phí duy trì website hàng năm gồm những gì và khoảng bao nhiêu?", en: "What are the annual maintenance costs and roughly how much?" },
+    a: { vi: "Chi phí hàng năm chỉ gồm tiền gia hạn Tên miền (Domain) và Máy chủ lưu trữ (Hosting/Cloud). HaiEduTech cam kết tối ưu hạ tầng Server sạch giúp Thầy/Cô tiết kiệm tối đa ngân sách vận hành.", en: "Annual cost covers only domain renewal and hosting/cloud. HaiEduTech optimizes the infrastructure to keep operating costs minimal." },
   },
   {
-    q: "Tính năng Trợ lý AI hoạt động như thế nào, tôi có tự nạp kiến thức cho nó được không?",
-    a: "Được ạ. Trong gói Advanced, Trợ lý AI sẽ được cài đặt để đọc hiểu chính xác các bộ giáo trình, file tài liệu hoặc slide bài giảng của riêng Thầy/Cô, từ đó thay Thầy/Cô giải đáp thắc mắc cho học sinh chuẩn 100% theo phong cách sư phạm của mình.",
+    q: { vi: "Tính năng Trợ lý AI hoạt động như thế nào, tôi có tự nạp kiến thức cho nó được không?", en: "How does the AI Assistant work? Can I load my own knowledge into it?" },
+    a: { vi: "Được ạ. Trong gói Advanced, Trợ lý AI sẽ được cài đặt để đọc hiểu chính xác các bộ giáo trình, file tài liệu hoặc slide bài giảng của riêng Thầy/Cô, từ đó thay Thầy/Cô giải đáp thắc mắc cho học sinh chuẩn 100% theo phong cách sư phạm của mình.", en: "Yes. In the Advanced package, the AI Assistant is trained on your curriculum, documents, or slides so it can answer student questions in your teaching style." },
   },
   {
-    q: "Quy trình từ lúc đặt hàng đến khi website đi vào hoạt động mất bao lâu?",
-    a: "Quy trình chuẩn gồm 4 bước: Tiếp nhận yêu cầu & Tư vấn giải pháp → Thiết kế giao diện Demo → Tích hợp Data/AI & Cấu hình tên miền → Nghiệm thu bàn giao & Hướng dẫn sử dụng. Toàn bộ thời gian triển khai gói gọn trong từ 7 đến 14 ngày làm việc.",
+    q: { vi: "Quy trình từ lúc đặt hàng đến khi website đi vào hoạt động mất bao lâu?", en: "How long does it take from order to launch?" },
+    a: { vi: "Quy trình chuẩn gồm 4 bước: Tiếp nhận yêu cầu & Tư vấn giải pháp → Thiết kế giao diện Demo → Tích hợp Data/AI & Cấu hình tên miền → Nghiệm thu bàn giao & Hướng dẫn sử dụng. Toàn bộ thời gian triển khai gói gọn trong từ 7 đến 14 ngày làm việc.", en: "Standard process: Requirements & solution consulting → Demo UI design → Data/AI integration & domain setup → Handover & training. The full rollout fits within 7 to 14 working days." },
   },
   {
-    q: "Dữ liệu học viên và bài giảng có thuộc quyền sở hữu của tôi không?",
-    a: "100% thuộc về Thầy/Cô. HaiEduTech bàn giao toàn bộ mã nguồn, cơ sở dữ liệu, tài khoản tên miền và Cloud đứng tên Thầy/Cô. Chúng tôi ký cam kết bảo mật (NDA) và không bao giờ truy cập dữ liệu khi chưa có sự cho phép.",
+    q: { vi: "Dữ liệu học viên và bài giảng có thuộc quyền sở hữu của tôi không?", en: "Do I fully own the student data and lesson content?" },
+    a: { vi: "100% thuộc về Thầy/Cô. HaiEduTech bàn giao toàn bộ mã nguồn, cơ sở dữ liệu, tài khoản tên miền và Cloud đứng tên Thầy/Cô. Chúng tôi ký cam kết bảo mật (NDA) và không bao giờ truy cập dữ liệu khi chưa có sự cho phép.", en: "100% yours. We hand over all source code, database, domain and cloud accounts in your name. We sign an NDA and never access your data without permission." },
   },
   {
-    q: "Nếu sau này tôi muốn thêm tính năng mới (ví dụ: livestream, app mobile) thì có dễ mở rộng không?",
-    a: "Rất dễ. Hệ thống được xây trên kiến trúc microservices hiện đại (React + Supabase + Edge Functions), sẵn sàng tích hợp livestream (Agora, LiveKit), ứng dụng mobile (React Native), hay đồng bộ với Google Classroom / Microsoft Teams chỉ với chi phí mở rộng theo module.",
+    q: { vi: "Nếu sau này tôi muốn thêm tính năng mới (ví dụ: livestream, app mobile) thì có dễ mở rộng không?", en: "Can I easily add new features later (e.g. livestream, mobile app)?" },
+    a: { vi: "Rất dễ. Hệ thống được xây trên kiến trúc microservices hiện đại (React + Supabase + Edge Functions), sẵn sàng tích hợp livestream (Agora, LiveKit), ứng dụng mobile (React Native), hay đồng bộ với Google Classroom / Microsoft Teams chỉ với chi phí mở rộng theo module.", en: "Very easy. The system uses a modern microservices architecture (React + Supabase + Edge Functions), ready to integrate livestream (Agora, LiveKit), mobile apps (React Native), or sync with Google Classroom / Microsoft Teams – modular pricing." },
   },
   {
-    q: "Website của tôi có chịu được lượng truy cập lớn vào giờ cao điểm (ví dụ kỳ thi) không?",
-    a: "Có. Hạ tầng dựa trên Cloud auto-scaling (Vercel Edge + Supabase Postgres), kiểm thử tải đến 10.000 người dùng đồng thời. Cam kết uptime 99.9% trên gói Advanced và Enterprise, có SLA bồi thường nếu vi phạm.",
+    q: { vi: "Website của tôi có chịu được lượng truy cập lớn vào giờ cao điểm (ví dụ kỳ thi) không?", en: "Can the website handle traffic spikes (e.g. during exams)?" },
+    a: { vi: "Có. Hạ tầng dựa trên Cloud auto-scaling (Vercel Edge + Supabase Postgres), kiểm thử tải đến 10.000 người dùng đồng thời. Cam kết uptime 99.9% trên gói Advanced và Enterprise, có SLA bồi thường nếu vi phạm.", en: "Yes. Infrastructure runs on auto-scaling cloud (Vercel Edge + Supabase Postgres), load-tested up to 10,000 concurrent users. 99.9% uptime SLA on Advanced and Enterprise, with compensation if breached." },
   },
   {
-    q: "Tôi có được hỗ trợ đào tạo đội ngũ giáo viên sử dụng hệ thống không?",
-    a: "Có ạ. Gói Standard tặng 2 buổi training 1-1 qua Zoom + video hướng dẫn riêng. Gói Advanced/Enterprise có thêm cẩm nang vận hành PDF, lớp đào tạo trực tiếp và 6 tháng hỗ trợ kỹ thuật ưu tiên qua Zalo.",
+    q: { vi: "Tôi có được hỗ trợ đào tạo đội ngũ giáo viên sử dụng hệ thống không?", en: "Do I get training support for my teaching team?" },
+    a: { vi: "Có ạ. Gói Standard tặng 2 buổi training 1-1 qua Zoom + video hướng dẫn riêng. Gói Advanced/Enterprise có thêm cẩm nang vận hành PDF, lớp đào tạo trực tiếp và 6 tháng hỗ trợ kỹ thuật ưu tiên qua Zalo.", en: "Yes. Standard includes 2 free 1-on-1 Zoom training sessions + dedicated videos. Advanced/Enterprise add a PDF operations handbook, in-person training and 6 months of priority Zalo support." },
   },
   {
-    q: "HaiEduTech khác gì so với việc tôi tự dùng Wordpress hoặc thuê freelancer?",
-    a: "Khác biệt then chốt: (1) Đội ngũ thuần sư phạm + kỹ sư Data/AI tại Phần Lan, hiểu sâu nghiệp vụ giáo dục; (2) Bộ tính năng EdTech sẵn có (AI Tutor, LMS, Analytics) đã được kiểm chứng trên 5.000+ học viên thật của Thầy Hải; (3) Cam kết bảo hành 6 tháng + hoàn tiền 100% trong 7 ngày – điều mà freelancer hiếm khi đảm bảo.",
+    q: { vi: "HaiEduTech khác gì so với việc tôi tự dùng Wordpress hoặc thuê freelancer?", en: "How is HaiEduTech different from WordPress or hiring a freelancer?" },
+    a: { vi: "Khác biệt then chốt: (1) Đội ngũ thuần sư phạm + kỹ sư Data/AI tại Phần Lan, hiểu sâu nghiệp vụ giáo dục; (2) Bộ tính năng EdTech sẵn có (AI Tutor, LMS, Analytics) đã được kiểm chứng trên 5.000+ học viên thật của Thầy Hải; (3) Cam kết bảo hành 6 tháng + hoàn tiền 100% trong 7 ngày – điều mà freelancer hiếm khi đảm bảo.", en: "Key differences: (1) A pedagogy + Data/AI engineering team in Finland that deeply understands education; (2) Ready-made EdTech features (AI Tutor, LMS, Analytics) battle-tested on 5,000+ real students of Mr. Hai; (3) 6-month warranty + 100% refund in 7 days – something freelancers rarely offer." },
   },
 ];
 
-const FaqSection = () => (
+const FaqSection = () => {
+  const { t } = useLanguage();
+  return (
   <section className="py-16 sm:py-20 bg-secondary/30">
     <div className="container mx-auto px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
@@ -2953,8 +3106,8 @@ const FaqSection = () => (
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-medium text-primary mb-3">
             <HelpCircle className="w-3.5 h-3.5" /> FAQ
           </div>
-          <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">Giải Đáp Thắc Mắc Thường Gặp</h2>
-          <p className="mt-3 text-muted-foreground">Những câu hỏi quan trọng nhất từ quý Thầy/Cô trước khi đặt hàng.</p>
+          <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">{t("Giải Đáp Thắc Mắc Thường Gặp", "Frequently Asked Questions")}</h2>
+          <p className="mt-3 text-muted-foreground">{t("Những câu hỏi quan trọng nhất từ quý Thầy/Cô trước khi đặt hàng.", "The most important questions teachers ask before ordering.")}</p>
         </div>
         <Accordion type="single" collapsible className="space-y-3">
           {FAQS.map((f, i) => (
@@ -2968,11 +3121,11 @@ const FaqSection = () => (
                   <span className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-white text-xs flex items-center justify-center shrink-0 mt-0.5">
                     {i + 1}
                   </span>
-                  {f.q}
+                  {t(f.q.vi, f.q.en)}
                 </span>
               </AccordionTrigger>
               <AccordionContent className="text-sm text-muted-foreground leading-relaxed pl-9 pb-4">
-                {f.a}
+                {t(f.a.vi, f.a.en)}
               </AccordionContent>
             </AccordionItem>
           ))}
@@ -2980,6 +3133,7 @@ const FaqSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default EdTechWebService;

@@ -97,9 +97,9 @@ function pickBestVoice(): SpeechSynthesisVoice | undefined {
 /** Split a sentence into prosodic chunks at commas / semicolons / dashes. */
 function splitProsodicChunks(sentence: string): string[] {
   return sentence
-    .split(/([,;:-–])/)
+    .split(/([,;:\-–])/)
     .reduce<string[]>((acc, part) => {
-      if (/^[,;:-–]$/.test(part)) {
+      if (/^[,;:\-–]$/.test(part)) {
         if (acc.length) acc[acc.length - 1] += part;
       } else if (part.trim()) {
         acc.push(part.trim());
@@ -134,7 +134,7 @@ function speak(
     if (voice) u.voice = voice;
     u.rate = rate;
     const lastWord = chunk
-      .replace(/[.,!?;:"'()-–-]+$/g, "")
+      .replace(/[.,!?;:"'()\-–]+$/g, "")
       .split(/\s+/)
       .pop()
       ?.toLowerCase()
