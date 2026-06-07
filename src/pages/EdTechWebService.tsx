@@ -116,6 +116,20 @@ const FEATURES = [
     color: "from-cyan-500/20 to-cyan-500/5",
     iconBg: "bg-cyan-500/10 text-cyan-600",
   },
+  {
+    icon: Search,
+    title: "Tối ưu SEO & Hiện diện trên Google",
+    desc: "Schema.org Education, sitemap tự động, meta tags chuẩn AI-search. Giúp khóa học của Thầy/Cô lên top Google khi phụ huynh tìm kiếm địa phương.",
+    color: "from-indigo-500/20 to-indigo-500/5",
+    iconBg: "bg-indigo-500/10 text-indigo-600",
+  },
+  {
+    icon: Lock,
+    title: "Bảo mật cấp Ngân hàng & Tuân thủ GDPR",
+    desc: "Mã hóa SSL/TLS 1.3, Row-Level Security cho dữ liệu học viên, sao lưu tự động hằng ngày. Hoàn toàn tuân thủ Luật An ninh mạng Việt Nam.",
+    color: "from-slate-500/20 to-slate-500/5",
+    iconBg: "bg-slate-500/10 text-slate-600",
+  },
 ];
 
 const PACKAGES = [
