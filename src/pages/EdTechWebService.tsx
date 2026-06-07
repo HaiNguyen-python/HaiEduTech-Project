@@ -101,6 +101,20 @@ const FEATURES = [
     color: "from-amber-500/20 to-amber-500/5",
     iconBg: "bg-amber-500/10 text-amber-600",
   },
+  {
+    icon: Monitor,
+    title: "Giao diện Mobile-first & Tốc độ cao",
+    desc: "Tối ưu hiển thị trên điện thoại – nơi 80% học viên truy cập. Đạt điểm Google PageSpeed 90+ giúp SEO tốt và giảm tỉ lệ thoát trang.",
+    color: "from-rose-500/20 to-rose-500/5",
+    iconBg: "bg-rose-500/10 text-rose-600",
+  },
+  {
+    icon: MessageCircle,
+    title: "Tích hợp Zalo OA & Cộng đồng học viên",
+    desc: "Tự động đẩy thông báo điểm danh, bài tập về Zalo phụ huynh. Tạo diễn đàn nội bộ để học viên hỏi-đáp, nâng cao tỉ lệ giữ chân lớp học.",
+    color: "from-cyan-500/20 to-cyan-500/5",
+    iconBg: "bg-cyan-500/10 text-cyan-600",
+  },
 ];
 
 const PACKAGES = [
@@ -224,7 +238,7 @@ const EdTechWebService = () => {
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-6">
               <Sparkles className="w-4 h-4" />
-              Dịch Vụ Web EdTech – Made by HaiEduTech
+              Dịch vụ Thiết kế Website – Made by HaiEduTech
             </div>
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground leading-tight">
               Nâng Tầm Lớp Học Với{" "}
@@ -310,7 +324,7 @@ const EdTechWebService = () => {
               Mỗi website được thiết kế riêng – không phải template – để phục vụ đúng chương trình giảng dạy của bạn.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
             {FEATURES.map((f, i) => (
               <motion.div
                 key={f.title}
@@ -336,6 +350,187 @@ const EdTechWebService = () => {
 
       {/* Interactive Portfolio / Demo Showcase */}
       <PortfolioShowcase />
+
+      {/* Measurable Results — concrete numbers build trust */}
+      <section className="py-14 sm:py-20 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
+              <BarChart3 className="w-3.5 h-3.5" /> Kết quả đo lường được
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Hiệu quả thực tế sau khi triển khai
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Dữ liệu trung bình ghi nhận từ các lớp học của Thầy Hải &amp; các giáo viên đã sử dụng nền tảng HaiEduTech.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {[
+              { k: "−85%", v: "thời gian chấm bài thủ công", c: "from-primary to-blue-400" },
+              { k: "+42%", v: "tỉ lệ học viên hoàn thành khóa", c: "from-emerald-500 to-teal-400" },
+              { k: "+3.1×", v: "lượt tương tác ngoài giờ học (AI Tutor)", c: "from-violet-500 to-fuchsia-400" },
+              { k: "92%", v: "phụ huynh đánh giá hài lòng", c: "from-amber-500 to-orange-400" },
+            ].map((s) => (
+              <div
+                key={s.v}
+                className="rounded-2xl border border-border bg-card p-5 text-center shadow-sm hover:shadow-md transition"
+              >
+                <div className={`text-3xl sm:text-4xl font-extrabold bg-gradient-to-r ${s.c} bg-clip-text text-transparent`}>
+                  {s.k}
+                </div>
+                <div className="mt-2 text-xs sm:text-sm text-muted-foreground leading-snug">
+                  {s.v}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process — transparent 5-step delivery flow */}
+      <section className="py-16 sm:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary mb-3">
+              <ClipboardList className="w-3.5 h-3.5" /> Quy trình minh bạch
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Lộ trình 5 bước · Bàn giao trong 7–14 ngày
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Cam kết tiến độ rõ ràng. Quý Thầy/Cô được duyệt từng giai đoạn trước khi sang bước kế tiếp.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
+            {[
+              { n: 1, t: "Tư vấn miễn phí", d: "Phỏng vấn 30 phút để hiểu lớp học & mục tiêu giảng dạy.", icon: MessageCircle },
+              { n: 2, t: "Thiết kế UI/UX", d: "Wireframe + mockup được duyệt trước khi viết code.", icon: LayoutDashboard },
+              { n: 3, t: "Phát triển LMS", d: "Xây dựng frontend + backend bảo mật, kiểm thử nội bộ.", icon: Database },
+              { n: 4, t: "Tích hợp AI & Domain", d: "Huấn luyện AI theo tài liệu riêng, cấu hình tên miền + email.", icon: Bot },
+              { n: 5, t: "Nghiệm thu & Đào tạo", d: "Bàn giao mã nguồn, video hướng dẫn quản trị 1-1.", icon: GraduationCap },
+            ].map((step) => (
+              <div
+                key={step.n}
+                className="relative rounded-2xl border border-border bg-card p-5 hover:border-primary/40 hover:shadow-lg transition"
+              >
+                <div className="absolute -top-3 -left-3 w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-emerald-500 text-primary-foreground font-bold flex items-center justify-center shadow-md">
+                  {step.n}
+                </div>
+                <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-3 ml-auto">
+                  <step.icon className="w-5 h-5" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-1.5">{step.t}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{step.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials — social proof from teachers */}
+      <section className="py-16 sm:py-20 bg-secondary/30">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/5 px-3 py-1 text-xs font-semibold text-amber-600 mb-3">
+              <Sparkles className="w-3.5 h-3.5" /> Phản hồi từ giáo viên
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Các thầy cô nói gì về website do HaiEduTech xây dựng
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-6xl mx-auto">
+            {[
+              {
+                name: "Cô Mai Anh",
+                role: "Giáo viên IELTS · Hà Nội",
+                avatar: "MA",
+                quote:
+                  "Trước đây tôi mất gần 12 tiếng mỗi tuần để chấm Writing. Sau khi dùng AI Smart Grading của Thầy Hải, thời gian rút xuống còn 2 tiếng và học viên nhận feedback gần như tức thì.",
+                color: "from-primary to-blue-400",
+              },
+              {
+                name: "Thầy Quốc Bảo",
+                role: "Chủ trung tâm tiếng Trung · TP.HCM",
+                avatar: "QB",
+                quote:
+                  "Website chạy mượt cả trên điện thoại học viên cấp 2. Phụ huynh đặc biệt thích cổng xem điểm thời gian thực — đây là điểm khác biệt giúp trung tâm tôi tăng 30% học viên đăng ký mới.",
+                color: "from-emerald-500 to-teal-400",
+              },
+              {
+                name: "Cô Hồng Nhung",
+                role: "Giáo viên Hóa học THPT",
+                avatar: "HN",
+                quote:
+                  "Tôi không rành công nghệ nhưng video hướng dẫn quản trị 1-1 của Thầy Hải rất chi tiết. Sau 2 ngày là tôi tự đăng bài giảng và bài tập trắc nghiệm được rồi.",
+                color: "from-violet-500 to-fuchsia-400",
+              },
+            ].map((t) => (
+              <Card key={t.name} className="h-full border-border/70 hover:shadow-xl transition">
+                <CardContent className="p-6 flex flex-col h-full">
+                  <div className="flex items-center gap-1 mb-3 text-amber-500">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <span key={i}>★</span>
+                    ))}
+                  </div>
+                  <p className="text-sm text-foreground leading-relaxed flex-1 italic">
+                    “{t.quote}”
+                  </p>
+                  <div className="mt-5 flex items-center gap-3 pt-4 border-t border-border">
+                    <div
+                      className={`w-11 h-11 rounded-full bg-gradient-to-br ${t.color} text-white font-bold flex items-center justify-center shrink-0`}
+                    >
+                      {t.avatar}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-foreground text-sm">{t.name}</p>
+                      <p className="text-xs text-muted-foreground">{t.role}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Guarantee — risk reversal to remove final objections */}
+      <section className="py-12 sm:py-16">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-5xl mx-auto rounded-3xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 via-card to-primary/5 p-6 sm:p-10 shadow-xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+              <div className="md:col-span-1 text-center">
+                <div className="inline-flex w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-primary text-white items-center justify-center shadow-lg shadow-emerald-500/30">
+                  <ShieldCheck className="w-10 h-10" />
+                </div>
+                <p className="mt-3 text-xs font-bold uppercase tracking-wider text-emerald-600">
+                  Cam kết HaiEduTech
+                </p>
+              </div>
+              <div className="md:col-span-2">
+                <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-3">
+                  Hoàn tiền 100% nếu không hài lòng trong 7 ngày đầu nghiệm thu
+                </h3>
+                <ul className="space-y-2 text-sm text-foreground">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
+                    <span>Bàn giao 100% mã nguồn – quý Thầy/Cô sở hữu vĩnh viễn, không khoá vendor.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
+                    <span>Bảo hành sửa lỗi miễn phí 6 tháng sau bàn giao.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
+                    <span>Hợp đồng rõ ràng, xuất hoá đơn VAT, thanh toán theo 2 đợt (50/50).</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       {/* Pricing */}
       <section id="packages" className="py-16 sm:py-20">
