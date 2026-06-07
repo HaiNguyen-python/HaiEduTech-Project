@@ -222,6 +222,257 @@ const PACKAGES = [
   },
 ];
 
+// ============================================================================
+// Demo Carousel — multi-slide preview of the LMS the teacher will receive
+// ============================================================================
+const DEMO_SLIDES = [
+  {
+    id: "dashboard",
+    title: "Smart Dashboard",
+    badge: "AI Tutor online",
+    badgeColor: "emerald" as const,
+  },
+  {
+    id: "ai-tutor",
+    title: "AI Tutor 24/7",
+    badge: "Realtime chat",
+    badgeColor: "violet" as const,
+  },
+  {
+    id: "classes",
+    title: "Quản lý lớp học",
+    badge: "Live sync",
+    badgeColor: "primary" as const,
+  },
+  {
+    id: "parent-report",
+    title: "Báo cáo phụ huynh",
+    badge: "Auto · Hàng tháng",
+    badgeColor: "amber" as const,
+  },
+];
+
+const badgeStyles = {
+  emerald: "bg-emerald-500/10 text-emerald-600 border-emerald-500/30",
+  violet: "bg-violet-500/10 text-violet-600 border-violet-500/30",
+  primary: "bg-primary/10 text-primary border-primary/30",
+  amber: "bg-amber-500/10 text-amber-600 border-amber-500/30",
+};
+
+const DemoCarousel = () => {
+  const [idx, setIdx] = useState(0);
+  const total = DEMO_SLIDES.length;
+
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % total), 5500);
+    return () => clearInterval(t);
+  }, [total]);
+
+  const slide = DEMO_SLIDES[idx];
+  const go = (n: number) => setIdx((n + total) % total);
+  const badgeClass = badgeStyles[slide.badgeColor];
+
+  return (
+    <div className="relative rounded-2xl border-2 border-emerald-600/80 bg-card/90 backdrop-blur-xl shadow-2xl shadow-emerald-500/25 overflow-hidden">
+      {/* Browser chrome */}
+      <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
+        <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
+        <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+        <div className="ml-3 flex-1 rounded-md bg-background/70 px-3 py-1 text-[10px] sm:text-[11px] text-muted-foreground truncate border border-border/40">
+          🔒 lop-hoc-cua-thay.edu.vn / {slide.id}
+        </div>
+      </div>
+
+      {/* Header */}
+      <div className="px-5 sm:px-6 pt-5 pb-3 flex items-center justify-between">
+        <div>
+          <div className="text-[11px] text-muted-foreground">Hôm nay</div>
+          <div className="text-base sm:text-lg font-semibold text-foreground">{slide.title}</div>
+        </div>
+        <div className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium border ${badgeClass}`}>
+          <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" /> {slide.badge}
+        </div>
+      </div>
+
+      {/* Slide content */}
+      <div className="px-5 sm:px-6 pb-4 min-h-[280px]">
+        <motion.div
+          key={slide.id}
+          initial={{ opacity: 0, x: 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+          className="space-y-3"
+        >
+          {slide.id === "dashboard" && <SlideDashboard />}
+          {slide.id === "ai-tutor" && <SlideAITutor />}
+          {slide.id === "classes" && <SlideClasses />}
+          {slide.id === "parent-report" && <SlideParentReport />}
+        </motion.div>
+      </div>
+
+      {/* Carousel controls */}
+      <div className="flex items-center justify-between px-5 sm:px-6 py-3 border-t border-border/60 bg-muted/30">
+        <button
+          onClick={() => go(idx - 1)}
+          aria-label="Trước"
+          className="h-8 w-8 rounded-full border border-border/60 bg-background/70 hover:bg-background flex items-center justify-center text-foreground transition hover:scale-105"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <div className="flex items-center gap-2">
+          {DEMO_SLIDES.map((s, i) => (
+            <button
+              key={s.id}
+              onClick={() => setIdx(i)}
+              aria-label={s.title}
+              className={`h-2 rounded-full transition-all ${
+                i === idx ? "w-7 bg-gradient-to-r from-primary to-emerald-500" : "w-2 bg-border hover:bg-muted-foreground/50"
+              }`}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => go(idx + 1)}
+          aria-label="Sau"
+          className="h-8 w-8 rounded-full border border-border/60 bg-background/70 hover:bg-background flex items-center justify-center text-foreground transition hover:scale-105"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const SlideDashboard = () => (
+  <>
+    <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+      {[
+        { label: "Học viên", value: "248", icon: Users, color: "text-primary", bg: "bg-primary/10" },
+        { label: "Bài đã chấm", value: "1.2k", icon: ClipboardList, color: "text-emerald-600", bg: "bg-emerald-500/10" },
+        { label: "AI replies", value: "532", icon: Bot, color: "text-violet-600", bg: "bg-violet-500/10" },
+      ].map((s) => (
+        <div key={s.label} className="rounded-xl border border-border/60 bg-background/70 p-3">
+          <div className={`mb-2 inline-flex h-7 w-7 items-center justify-center rounded-md ${s.bg}`}>
+            <s.icon className={`h-4 w-4 ${s.color}`} />
+          </div>
+          <div className="text-lg sm:text-xl font-bold text-foreground leading-none">{s.value}</div>
+          <div className="text-[10px] sm:text-[11px] text-muted-foreground mt-1.5">{s.label}</div>
+        </div>
+      ))}
+    </div>
+    <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
+      <div className="flex items-center justify-between mb-1.5">
+        <div className="text-[11px] sm:text-xs font-medium text-foreground">Tiến độ học tập 7 ngày</div>
+        <div className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] text-emerald-600 font-semibold">
+          <TrendingUp className="h-3 w-3" /> +18%
+        </div>
+      </div>
+      <div className="h-24 sm:h-28">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={[{d:"T2",v:42},{d:"T3",v:55},{d:"T4",v:48},{d:"T5",v:67},{d:"T6",v:72},{d:"T7",v:80},{d:"CN",v:88}]}>
+            <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 2.5, fill: "hsl(var(--primary))" }} />
+            <XAxis dataKey="d" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  </>
+);
+
+const SlideAITutor = () => (
+  <div className="space-y-2.5">
+    {[
+      { who: "student", text: "Thầy ơi, em chưa hiểu thì hiện tại hoàn thành dùng khi nào ạ?", time: "20:14" },
+      { who: "ai", text: "Hi An! Present Perfect dùng cho hành động đã xảy ra nhưng còn liên quan đến hiện tại 👇\n• I have studied English for 3 years.\n• She has just finished her homework.", time: "20:14" },
+      { who: "student", text: "Cho em 1 bài tập nhanh được không thầy?", time: "20:15" },
+      { who: "ai", text: "Đây nhé: 'I ___ (live) in Hà Nội since 2020.' → Trả lời rồi thầy chấm liền!", time: "20:15" },
+    ].map((m, i) => (
+      <div key={i} className={`flex ${m.who === "ai" ? "justify-start" : "justify-end"}`}>
+        <div className={`max-w-[78%] rounded-2xl px-3 py-2 text-[11px] sm:text-xs leading-relaxed whitespace-pre-line ${
+          m.who === "ai"
+            ? "bg-gradient-to-br from-violet-500/15 to-primary/10 border border-violet-500/30 text-foreground rounded-bl-sm"
+            : "bg-primary text-primary-foreground rounded-br-sm"
+        }`}>
+          {m.who === "ai" && (
+            <div className="flex items-center gap-1 mb-1 text-[10px] font-semibold text-violet-600">
+              <Bot className="h-3 w-3" /> AI Tutor
+            </div>
+          )}
+          {m.text}
+          <div className={`text-[9px] mt-1 ${m.who === "ai" ? "text-muted-foreground" : "text-primary-foreground/70"}`}>{m.time}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+const SlideClasses = () => (
+  <div className="space-y-2">
+    {[
+      { name: "IELTS 6.5 — Ca tối T2-4-6", students: 18, prog: 72, color: "from-primary to-emerald-500" },
+      { name: "Tiếng Anh giao tiếp B1", students: 24, prog: 58, color: "from-violet-500 to-fuchsia-500" },
+      { name: "Luyện thi THPT 2026", students: 31, prog: 84, color: "from-amber-500 to-orange-500" },
+      { name: "Tiếng Trung HSK 3", students: 12, prog: 41, color: "from-rose-500 to-pink-500" },
+    ].map((c) => (
+      <div key={c.name} className="rounded-xl border border-border/60 bg-background/70 p-3">
+        <div className="flex items-center justify-between mb-1.5">
+          <div className="text-[11px] sm:text-xs font-semibold text-foreground truncate">{c.name}</div>
+          <div className="flex items-center gap-1 text-[10px] text-muted-foreground shrink-0 ml-2">
+            <Users className="h-3 w-3" /> {c.students}
+          </div>
+        </div>
+        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className={`h-full bg-gradient-to-r ${c.color}`} style={{ width: `${c.prog}%` }} />
+        </div>
+        <div className="flex items-center justify-between mt-1.5">
+          <div className="text-[10px] text-muted-foreground">Tiến độ khoá học</div>
+          <div className="text-[10px] font-bold text-foreground">{c.prog}%</div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+const SlideParentReport = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border border-border/60 bg-gradient-to-br from-emerald-500/10 to-primary/5 p-3.5">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center text-white text-xs font-bold">NA</div>
+        <div>
+          <div className="text-xs font-semibold text-foreground">Nguyễn Văn An · Lớp IELTS 6.5</div>
+          <div className="text-[10px] text-muted-foreground">Báo cáo tháng 5/2026</div>
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-2">
+        {[
+          { l: "Buổi học", v: "12/12", i: Calendar, c: "text-emerald-600" },
+          { l: "Điểm TB", v: "8.4", i: Award, c: "text-amber-600" },
+          { l: "Bài tập", v: "96%", i: ClipboardList, c: "text-primary" },
+        ].map((m) => (
+          <div key={m.l} className="rounded-lg bg-background/80 border border-border/40 p-2 text-center">
+            <m.i className={`h-3.5 w-3.5 mx-auto mb-1 ${m.c}`} />
+            <div className="text-sm font-bold text-foreground leading-none">{m.v}</div>
+            <div className="text-[9px] text-muted-foreground mt-1">{m.l}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+      <div className="text-[11px] font-semibold text-foreground mb-1.5 flex items-center gap-1.5">
+        <Mail className="h-3 w-3 text-primary" /> Nhận xét từ Thầy Hải
+      </div>
+      <p className="text-[11px] text-muted-foreground leading-relaxed">
+        An tiến bộ rõ rệt ở kỹ năng Writing (Task 2 tăng 0.5 band). Cần luyện thêm Speaking Part 3 — đã giao 5 bài cho tuần tới ✨
+      </p>
+    </div>
+    <div className="flex items-center justify-between text-[10px] text-muted-foreground px-1">
+      <span>📧 Đã gửi tự động đến phụ huynh</span>
+      <span className="text-emerald-600 font-semibold">✓ 01/06/2026</span>
+    </div>
+  </div>
+);
+
 const EdTechWebService = () => {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitting, setSubmitting] = useState(false);
