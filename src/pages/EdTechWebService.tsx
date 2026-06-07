@@ -245,6 +245,18 @@ const DEMO_SLIDES = [
     badgeColor: "primary" as const,
   },
   {
+    id: "assignments",
+    title: "Bài tập & Chấm điểm AI",
+    badge: "Auto grading",
+    badgeColor: "rose" as const,
+  },
+  {
+    id: "analytics",
+    title: "Phân tích chuyên sâu",
+    badge: "Insights AI",
+    badgeColor: "sky" as const,
+  },
+  {
     id: "parent-report",
     title: "Báo cáo phụ huynh",
     badge: "Auto · Hàng tháng",
@@ -257,6 +269,8 @@ const badgeStyles = {
   violet: "bg-violet-500/10 text-violet-600 border-violet-500/30",
   primary: "bg-primary/10 text-primary border-primary/30",
   amber: "bg-amber-500/10 text-amber-600 border-amber-500/30",
+  rose: "bg-rose-500/10 text-rose-600 border-rose-500/30",
+  sky: "bg-sky-500/10 text-sky-600 border-sky-500/30",
 };
 
 const DemoCarousel = () => {
@@ -275,38 +289,43 @@ const DemoCarousel = () => {
   return (
     <div className="relative rounded-2xl border-2 border-emerald-600/80 bg-card/90 backdrop-blur-xl shadow-2xl shadow-emerald-500/25 overflow-hidden">
       {/* Browser chrome */}
-      <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
-        <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
-        <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
-        <div className="ml-3 flex-1 rounded-md bg-background/70 px-3 py-1 text-[10px] sm:text-[11px] text-muted-foreground truncate border border-border/40">
+      <div className="flex items-center gap-1.5 px-4 sm:px-5 py-3 border-b border-border/60 bg-muted/40">
+        <span className="h-3 w-3 rounded-full bg-rose-400/80" />
+        <span className="h-3 w-3 rounded-full bg-amber-400/80" />
+        <span className="h-3 w-3 rounded-full bg-emerald-400/80" />
+        <div className="ml-3 flex-1 rounded-md bg-background/70 px-3 py-1.5 text-[11px] sm:text-xs text-muted-foreground truncate border border-border/40">
           🔒 lop-hoc-cua-thay.edu.vn / {slide.id}
+        </div>
+        <div className="hidden sm:flex items-center gap-1 text-[10px] text-muted-foreground ml-2">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Live
         </div>
       </div>
 
       {/* Header */}
-      <div className="px-5 sm:px-6 pt-5 pb-3 flex items-center justify-between">
+      <div className="px-6 sm:px-8 pt-6 pb-4 flex items-center justify-between">
         <div>
-          <div className="text-[11px] text-muted-foreground">Hôm nay</div>
-          <div className="text-base sm:text-lg font-semibold text-foreground">{slide.title}</div>
+          <div className="text-xs text-muted-foreground">Hôm nay · {new Date().toLocaleDateString("vi-VN")}</div>
+          <div className="text-lg sm:text-2xl font-semibold text-foreground mt-0.5">{slide.title}</div>
         </div>
-        <div className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium border ${badgeClass}`}>
+        <div className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium border ${badgeClass}`}>
           <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" /> {slide.badge}
         </div>
       </div>
 
       {/* Slide content */}
-      <div className="px-5 sm:px-6 pb-4 min-h-[280px]">
+      <div className="px-6 sm:px-8 pb-6 min-h-[420px] sm:min-h-[480px]">
         <motion.div
           key={slide.id}
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
-          className="space-y-3"
+          className="space-y-4"
         >
           {slide.id === "dashboard" && <SlideDashboard />}
           {slide.id === "ai-tutor" && <SlideAITutor />}
           {slide.id === "classes" && <SlideClasses />}
+          {slide.id === "assignments" && <SlideAssignments />}
+          {slide.id === "analytics" && <SlideAnalytics />}
           {slide.id === "parent-report" && <SlideParentReport />}
         </motion.div>
       </div>
@@ -473,6 +492,87 @@ const SlideParentReport = () => (
   </div>
 );
 
+const SlideAssignments = () => (
+  <div className="space-y-3">
+    <div className="grid grid-cols-3 gap-3">
+      {[
+        { l: "Cần chấm", v: "12", c: "text-rose-600", bg: "bg-rose-500/10" },
+        { l: "AI đã chấm", v: "184", c: "text-emerald-600", bg: "bg-emerald-500/10" },
+        { l: "Tiết kiệm", v: "9.2h", c: "text-primary", bg: "bg-primary/10" },
+      ].map((s) => (
+        <div key={s.l} className={`rounded-xl border border-border/60 ${s.bg} p-3.5 text-center`}>
+          <div className={`text-xl sm:text-2xl font-bold ${s.c} leading-none`}>{s.v}</div>
+          <div className="text-[11px] text-muted-foreground mt-1.5">{s.l}</div>
+        </div>
+      ))}
+    </div>
+    {[
+      { name: "Trần Minh Anh", task: "IELTS Writing Task 2 — Education", band: "7.0", color: "from-emerald-500 to-primary", status: "AI đã chấm" },
+      { name: "Lê Quang Huy", task: "Reading Practice Test 12", band: "8.5", color: "from-violet-500 to-fuchsia-500", status: "AI đã chấm" },
+      { name: "Phạm Thu Hà", task: "Speaking Part 2 — Hometown", band: "—", color: "from-amber-500 to-rose-500", status: "Chờ Thầy duyệt" },
+    ].map((r) => (
+      <div key={r.name} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-3">
+        <div className={`h-9 w-9 shrink-0 rounded-full bg-gradient-to-br ${r.color} flex items-center justify-center text-white text-xs font-bold`}>
+          {r.name.split(" ").map((w) => w[0]).slice(-2).join("")}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{r.task}</div>
+          <div className="text-[11px] text-muted-foreground truncate">{r.name} · {r.status}</div>
+        </div>
+        <div className="text-right shrink-0">
+          <div className="text-base font-bold text-foreground leading-none">{r.band}</div>
+          <div className="text-[10px] text-muted-foreground mt-1">Band</div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+const SlideAnalytics = () => (
+  <div className="space-y-3">
+    <div className="rounded-xl border border-border/60 bg-background/70 p-4">
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-xs sm:text-sm font-semibold text-foreground">Doanh thu 6 tháng gần nhất</div>
+        <div className="text-[11px] text-emerald-600 font-semibold inline-flex items-center gap-1">
+          <TrendingUp className="h-3 w-3" /> +34%
+        </div>
+      </div>
+      <div className="h-32 sm:h-36">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={[{m:"T12",v:18},{m:"T1",v:24},{m:"T2",v:22},{m:"T3",v:31},{m:"T4",v:38},{m:"T5",v:48}]}>
+            <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 3, fill: "hsl(var(--primary))" }} />
+            <XAxis dataKey="m" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
+        <div className="text-[11px] text-muted-foreground mb-1">Tỷ lệ hoàn thành</div>
+        <div className="text-2xl font-bold text-emerald-600 leading-none">92%</div>
+        <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-emerald-500 to-primary" style={{ width: "92%" }} />
+        </div>
+      </div>
+      <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
+        <div className="text-[11px] text-muted-foreground mb-1">Học viên quay lại</div>
+        <div className="text-2xl font-bold text-primary leading-none">87%</div>
+        <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-primary to-violet-500" style={{ width: "87%" }} />
+        </div>
+      </div>
+    </div>
+    <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
+      <Sparkles className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">AI gợi ý:</span> Lớp IELTS 6.5 ca tối đang có 3 học viên giảm tiến độ — nên gửi tin nhắn động viên trong 48h tới.
+      </div>
+    </div>
+  </div>
+);
+
+
+
 const EdTechWebService = () => {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitting, setSubmitting] = useState(false);
@@ -526,7 +626,7 @@ const EdTechWebService = () => {
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-emerald-500/20 blur-3xl" />
 
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-14 items-center max-w-7xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {/* LEFT — Copy */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -616,48 +716,6 @@ const EdTechWebService = () => {
               </div>
             </motion.div>
 
-            {/* RIGHT — Visual mockup + floating badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="relative w-full max-w-[560px] mx-auto lg:max-w-none lg:mx-0 px-2 sm:px-6 lg:px-2"
-            >
-              {/* Mockup browser carousel — 4 demo screens */}
-              <DemoCarousel />
-
-              {/* Floating badge — top, doesn't overlap stats */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 }}
-                className="hidden md:flex absolute -left-3 -top-4 items-center gap-2 rounded-xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
-              >
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
-                  <Bot className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-[12px] font-bold text-foreground leading-tight">AI Tutor 24/7</div>
-                  <div className="text-[10px] text-muted-foreground">Trả lời tức thì</div>
-                </div>
-              </motion.div>
-
-              {/* Floating badge — bottom right */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 }}
-                className="hidden md:flex absolute -right-3 -bottom-4 items-center gap-2 rounded-xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
-              >
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
-                  <ShieldCheck className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-[12px] font-bold text-foreground leading-tight">SSL · RLS</div>
-                  <div className="text-[10px] text-muted-foreground">Bảo mật ngân hàng</div>
-                </div>
-              </motion.div>
-            </motion.div>
 
           </div>
 
@@ -697,6 +755,97 @@ const EdTechWebService = () => {
                     <div className="text-xs text-muted-foreground leading-snug mt-1.5">{s.v}</div>
                   </div>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          Live Demo — full-width carousel preview of the LMS
+         ============================================================ */}
+      <section className="relative py-16 sm:py-24 overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_30%,hsl(var(--primary)/0.12),transparent_55%),radial-gradient(circle_at_80%_70%,hsl(160_84%_39%/0.12),transparent_55%)]" />
+        <div className="pointer-events-none absolute -top-20 left-1/4 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-emerald-500/10 blur-3xl" />
+
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center max-w-3xl mx-auto mb-10 sm:mb-14"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-emerald-700 mb-4 shadow-sm">
+              <Sparkles className="w-4 h-4" />
+              Bản demo trực tiếp — 6 màn hình chính của hệ thống
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-display font-bold text-foreground leading-tight">
+              Xem trước <span className="bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">website dạy học</span> của bạn
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
+              Lướt qua các màn hình thực tế: Dashboard, AI Tutor, lớp học, chấm bài, phân tích, báo cáo phụ huynh — tất cả đều có thể tùy biến theo môn dạy của Thầy/Cô.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative max-w-6xl mx-auto"
+          >
+            <DemoCarousel />
+
+            {/* Floating badge — top left */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="hidden md:flex absolute -left-5 -top-5 lg:-left-8 lg:-top-6 items-center gap-2.5 rounded-2xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-4 py-2.5 shadow-2xl"
+            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                <Bot className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="text-sm font-bold text-foreground leading-tight">AI Tutor 24/7</div>
+                <div className="text-[11px] text-muted-foreground">Trả lời tức thì</div>
+              </div>
+            </motion.div>
+
+            {/* Floating badge — bottom right */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="hidden md:flex absolute -right-5 -bottom-5 lg:-right-8 lg:-bottom-6 items-center gap-2.5 rounded-2xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-4 py-2.5 shadow-2xl"
+            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
+                <ShieldCheck className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="text-sm font-bold text-foreground leading-tight">SSL · RLS</div>
+                <div className="text-[11px] text-muted-foreground">Bảo mật nâng cao</div>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Mini feature strip below the demo */}
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
+            {[
+              { icon: Bot, label: "AI Tutor 24/7", color: "text-violet-600", bg: "bg-violet-500/10" },
+              { icon: ClipboardList, label: "Chấm bài tự động", color: "text-rose-600", bg: "bg-rose-500/10" },
+              { icon: TrendingUp, label: "Phân tích chuyên sâu", color: "text-primary", bg: "bg-primary/10" },
+              { icon: Mail, label: "Báo cáo phụ huynh", color: "text-emerald-600", bg: "bg-emerald-500/10" },
+            ].map((f) => (
+              <div key={f.label} className="rounded-xl border border-border/60 bg-card/70 backdrop-blur p-3.5 flex items-center gap-2.5 hover:border-primary/40 hover:shadow-md transition">
+                <div className={`h-9 w-9 rounded-lg ${f.bg} flex items-center justify-center shrink-0`}>
+                  <f.icon className={`h-4 w-4 ${f.color}`} />
+                </div>
+                <div className="text-xs sm:text-sm font-semibold text-foreground leading-tight">{f.label}</div>
               </div>
             ))}
           </div>
