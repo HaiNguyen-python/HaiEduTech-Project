@@ -2961,46 +2961,48 @@ const ComparisonTable = () => {
 /* FAQ Section                                                                 */
 /* -------------------------------------------------------------------------- */
 
-const FAQS = [
+const FAQS: Array<{ q: Bi; a: Bi }> = [
   {
-    q: "Tôi không biết gì về công nghệ, mã nguồn (Code) thì có quản lý website được không?",
-    a: "Hoàn toàn được. Hệ thống được bàn giao kèm trang Admin trực quan 100% tiếng Việt, giúp Thầy/Cô đăng tải bài giảng và quản lý lớp học dễ dàng như dùng mạng xã hội mà không cần chạm vào một dòng code nào.",
+    q: { vi: "Tôi không biết gì về công nghệ, mã nguồn (Code) thì có quản lý website được không?", en: "I'm not technical. Can I still manage the website without coding?" },
+    a: { vi: "Hoàn toàn được. Hệ thống được bàn giao kèm trang Admin trực quan 100% tiếng Việt, giúp Thầy/Cô đăng tải bài giảng và quản lý lớp học dễ dàng như dùng mạng xã hội mà không cần chạm vào một dòng code nào.", en: "Absolutely. You get an intuitive Admin dashboard so uploading lessons and managing classes feels as easy as using social media – no code required." },
   },
   {
-    q: "Chi phí duy trì website hàng năm gồm những gì và khoảng bao nhiêu?",
-    a: "Chi phí hàng năm chỉ gồm tiền gia hạn Tên miền (Domain) và Máy chủ lưu trữ (Hosting/Cloud). HaiEduTech cam kết tối ưu hạ tầng Server sạch giúp Thầy/Cô tiết kiệm tối đa ngân sách vận hành.",
+    q: { vi: "Chi phí duy trì website hàng năm gồm những gì và khoảng bao nhiêu?", en: "What are the annual maintenance costs and roughly how much?" },
+    a: { vi: "Chi phí hàng năm chỉ gồm tiền gia hạn Tên miền (Domain) và Máy chủ lưu trữ (Hosting/Cloud). HaiEduTech cam kết tối ưu hạ tầng Server sạch giúp Thầy/Cô tiết kiệm tối đa ngân sách vận hành.", en: "Annual cost covers only domain renewal and hosting/cloud. HaiEduTech optimizes the infrastructure to keep operating costs minimal." },
   },
   {
-    q: "Tính năng Trợ lý AI hoạt động như thế nào, tôi có tự nạp kiến thức cho nó được không?",
-    a: "Được ạ. Trong gói Advanced, Trợ lý AI sẽ được cài đặt để đọc hiểu chính xác các bộ giáo trình, file tài liệu hoặc slide bài giảng của riêng Thầy/Cô, từ đó thay Thầy/Cô giải đáp thắc mắc cho học sinh chuẩn 100% theo phong cách sư phạm của mình.",
+    q: { vi: "Tính năng Trợ lý AI hoạt động như thế nào, tôi có tự nạp kiến thức cho nó được không?", en: "How does the AI Assistant work? Can I load my own knowledge into it?" },
+    a: { vi: "Được ạ. Trong gói Advanced, Trợ lý AI sẽ được cài đặt để đọc hiểu chính xác các bộ giáo trình, file tài liệu hoặc slide bài giảng của riêng Thầy/Cô, từ đó thay Thầy/Cô giải đáp thắc mắc cho học sinh chuẩn 100% theo phong cách sư phạm của mình.", en: "Yes. In the Advanced package, the AI Assistant is trained on your curriculum, documents, or slides so it can answer student questions in your teaching style." },
   },
   {
-    q: "Quy trình từ lúc đặt hàng đến khi website đi vào hoạt động mất bao lâu?",
-    a: "Quy trình chuẩn gồm 4 bước: Tiếp nhận yêu cầu & Tư vấn giải pháp → Thiết kế giao diện Demo → Tích hợp Data/AI & Cấu hình tên miền → Nghiệm thu bàn giao & Hướng dẫn sử dụng. Toàn bộ thời gian triển khai gói gọn trong từ 7 đến 14 ngày làm việc.",
+    q: { vi: "Quy trình từ lúc đặt hàng đến khi website đi vào hoạt động mất bao lâu?", en: "How long does it take from order to launch?" },
+    a: { vi: "Quy trình chuẩn gồm 4 bước: Tiếp nhận yêu cầu & Tư vấn giải pháp → Thiết kế giao diện Demo → Tích hợp Data/AI & Cấu hình tên miền → Nghiệm thu bàn giao & Hướng dẫn sử dụng. Toàn bộ thời gian triển khai gói gọn trong từ 7 đến 14 ngày làm việc.", en: "Standard process: Requirements & solution consulting → Demo UI design → Data/AI integration & domain setup → Handover & training. The full rollout fits within 7 to 14 working days." },
   },
   {
-    q: "Dữ liệu học viên và bài giảng có thuộc quyền sở hữu của tôi không?",
-    a: "100% thuộc về Thầy/Cô. HaiEduTech bàn giao toàn bộ mã nguồn, cơ sở dữ liệu, tài khoản tên miền và Cloud đứng tên Thầy/Cô. Chúng tôi ký cam kết bảo mật (NDA) và không bao giờ truy cập dữ liệu khi chưa có sự cho phép.",
+    q: { vi: "Dữ liệu học viên và bài giảng có thuộc quyền sở hữu của tôi không?", en: "Do I fully own the student data and lesson content?" },
+    a: { vi: "100% thuộc về Thầy/Cô. HaiEduTech bàn giao toàn bộ mã nguồn, cơ sở dữ liệu, tài khoản tên miền và Cloud đứng tên Thầy/Cô. Chúng tôi ký cam kết bảo mật (NDA) và không bao giờ truy cập dữ liệu khi chưa có sự cho phép.", en: "100% yours. We hand over all source code, database, domain and cloud accounts in your name. We sign an NDA and never access your data without permission." },
   },
   {
-    q: "Nếu sau này tôi muốn thêm tính năng mới (ví dụ: livestream, app mobile) thì có dễ mở rộng không?",
-    a: "Rất dễ. Hệ thống được xây trên kiến trúc microservices hiện đại (React + Supabase + Edge Functions), sẵn sàng tích hợp livestream (Agora, LiveKit), ứng dụng mobile (React Native), hay đồng bộ với Google Classroom / Microsoft Teams chỉ với chi phí mở rộng theo module.",
+    q: { vi: "Nếu sau này tôi muốn thêm tính năng mới (ví dụ: livestream, app mobile) thì có dễ mở rộng không?", en: "Can I easily add new features later (e.g. livestream, mobile app)?" },
+    a: { vi: "Rất dễ. Hệ thống được xây trên kiến trúc microservices hiện đại (React + Supabase + Edge Functions), sẵn sàng tích hợp livestream (Agora, LiveKit), ứng dụng mobile (React Native), hay đồng bộ với Google Classroom / Microsoft Teams chỉ với chi phí mở rộng theo module.", en: "Very easy. The system uses a modern microservices architecture (React + Supabase + Edge Functions), ready to integrate livestream (Agora, LiveKit), mobile apps (React Native), or sync with Google Classroom / Microsoft Teams – modular pricing." },
   },
   {
-    q: "Website của tôi có chịu được lượng truy cập lớn vào giờ cao điểm (ví dụ kỳ thi) không?",
-    a: "Có. Hạ tầng dựa trên Cloud auto-scaling (Vercel Edge + Supabase Postgres), kiểm thử tải đến 10.000 người dùng đồng thời. Cam kết uptime 99.9% trên gói Advanced và Enterprise, có SLA bồi thường nếu vi phạm.",
+    q: { vi: "Website của tôi có chịu được lượng truy cập lớn vào giờ cao điểm (ví dụ kỳ thi) không?", en: "Can the website handle traffic spikes (e.g. during exams)?" },
+    a: { vi: "Có. Hạ tầng dựa trên Cloud auto-scaling (Vercel Edge + Supabase Postgres), kiểm thử tải đến 10.000 người dùng đồng thời. Cam kết uptime 99.9% trên gói Advanced và Enterprise, có SLA bồi thường nếu vi phạm.", en: "Yes. Infrastructure runs on auto-scaling cloud (Vercel Edge + Supabase Postgres), load-tested up to 10,000 concurrent users. 99.9% uptime SLA on Advanced and Enterprise, with compensation if breached." },
   },
   {
-    q: "Tôi có được hỗ trợ đào tạo đội ngũ giáo viên sử dụng hệ thống không?",
-    a: "Có ạ. Gói Standard tặng 2 buổi training 1-1 qua Zoom + video hướng dẫn riêng. Gói Advanced/Enterprise có thêm cẩm nang vận hành PDF, lớp đào tạo trực tiếp và 6 tháng hỗ trợ kỹ thuật ưu tiên qua Zalo.",
+    q: { vi: "Tôi có được hỗ trợ đào tạo đội ngũ giáo viên sử dụng hệ thống không?", en: "Do I get training support for my teaching team?" },
+    a: { vi: "Có ạ. Gói Standard tặng 2 buổi training 1-1 qua Zoom + video hướng dẫn riêng. Gói Advanced/Enterprise có thêm cẩm nang vận hành PDF, lớp đào tạo trực tiếp và 6 tháng hỗ trợ kỹ thuật ưu tiên qua Zalo.", en: "Yes. Standard includes 2 free 1-on-1 Zoom training sessions + dedicated videos. Advanced/Enterprise add a PDF operations handbook, in-person training and 6 months of priority Zalo support." },
   },
   {
-    q: "HaiEduTech khác gì so với việc tôi tự dùng Wordpress hoặc thuê freelancer?",
-    a: "Khác biệt then chốt: (1) Đội ngũ thuần sư phạm + kỹ sư Data/AI tại Phần Lan, hiểu sâu nghiệp vụ giáo dục; (2) Bộ tính năng EdTech sẵn có (AI Tutor, LMS, Analytics) đã được kiểm chứng trên 5.000+ học viên thật của Thầy Hải; (3) Cam kết bảo hành 6 tháng + hoàn tiền 100% trong 7 ngày – điều mà freelancer hiếm khi đảm bảo.",
+    q: { vi: "HaiEduTech khác gì so với việc tôi tự dùng Wordpress hoặc thuê freelancer?", en: "How is HaiEduTech different from WordPress or hiring a freelancer?" },
+    a: { vi: "Khác biệt then chốt: (1) Đội ngũ thuần sư phạm + kỹ sư Data/AI tại Phần Lan, hiểu sâu nghiệp vụ giáo dục; (2) Bộ tính năng EdTech sẵn có (AI Tutor, LMS, Analytics) đã được kiểm chứng trên 5.000+ học viên thật của Thầy Hải; (3) Cam kết bảo hành 6 tháng + hoàn tiền 100% trong 7 ngày – điều mà freelancer hiếm khi đảm bảo.", en: "Key differences: (1) A pedagogy + Data/AI engineering team in Finland that deeply understands education; (2) Ready-made EdTech features (AI Tutor, LMS, Analytics) battle-tested on 5,000+ real students of Mr. Hai; (3) 6-month warranty + 100% refund in 7 days – something freelancers rarely offer." },
   },
 ];
 
-const FaqSection = () => (
+const FaqSection = () => {
+  const { t } = useLanguage();
+  return (
   <section className="py-16 sm:py-20 bg-secondary/30">
     <div className="container mx-auto px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
@@ -3008,8 +3010,8 @@ const FaqSection = () => (
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-medium text-primary mb-3">
             <HelpCircle className="w-3.5 h-3.5" /> FAQ
           </div>
-          <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">Giải Đáp Thắc Mắc Thường Gặp</h2>
-          <p className="mt-3 text-muted-foreground">Những câu hỏi quan trọng nhất từ quý Thầy/Cô trước khi đặt hàng.</p>
+          <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">{t("Giải Đáp Thắc Mắc Thường Gặp", "Frequently Asked Questions")}</h2>
+          <p className="mt-3 text-muted-foreground">{t("Những câu hỏi quan trọng nhất từ quý Thầy/Cô trước khi đặt hàng.", "The most important questions teachers ask before ordering.")}</p>
         </div>
         <Accordion type="single" collapsible className="space-y-3">
           {FAQS.map((f, i) => (
@@ -3023,11 +3025,11 @@ const FaqSection = () => (
                   <span className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-white text-xs flex items-center justify-center shrink-0 mt-0.5">
                     {i + 1}
                   </span>
-                  {f.q}
+                  {t(f.q.vi, f.q.en)}
                 </span>
               </AccordionTrigger>
               <AccordionContent className="text-sm text-muted-foreground leading-relaxed pl-9 pb-4">
-                {f.a}
+                {t(f.a.vi, f.a.en)}
               </AccordionContent>
             </AccordionItem>
           ))}
@@ -3035,6 +3037,7 @@ const FaqSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default EdTechWebService;
