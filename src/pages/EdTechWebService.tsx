@@ -726,13 +726,6 @@ const EdTechWebService = () => {
               transition={{ duration: 0.7, delay: 0.15 }}
               className="relative lg:col-span-6 lg:sticky lg:top-24"
             >
-              <div className="mb-4 flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1 text-xs sm:text-sm font-semibold text-emerald-700">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                </span>
-                <span>Bản demo trực tiếp — 6 màn hình chính của hệ thống</span>
-              </div>
 
               <div className="relative">
                 <DemoCarousel />
