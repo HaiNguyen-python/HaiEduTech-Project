@@ -161,7 +161,7 @@ const PACKAGES = [
     name: "Gói Standard",
     tagline: "Khởi đầu chuyên nghiệp",
     priceFrom: "Từ 8.000.000₫",
-    priceNote: "Trọn gói · Bàn giao trong 7–10 ngày",
+    priceNote: "Trọn gói · Bàn giao trong 5–10 ngày",
     monthly: "Bảo trì: 300K₫ / tháng",
     highlight: false,
     icon: Rocket,
@@ -303,7 +303,7 @@ const EdTechWebService = () => {
                 <span className="font-bold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
               </p>
 
-              <ul className="mt-7 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-3 text-left text-[15px] sm:text-base">
+              <ul className="mt-7 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-[14.5px] sm:text-[15px]">
                 {[
                   "Tiết kiệm 8–10 giờ chấm bài mỗi tuần",
                   "Không còn nỗi lo học sinh nghỉ học không báo trước",
@@ -314,9 +314,9 @@ const EdTechWebService = () => {
                   "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép",
                   "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp",
                 ].map((b) => (
-                  <li key={b} className="flex items-start gap-2.5 text-foreground font-semibold">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 ring-2 ring-emerald-500/60">
-                      <Check className="w-3 h-3 text-emerald-700" strokeWidth={3} />
+                  <li key={b} className="flex items-start gap-2 text-foreground/80 font-normal leading-snug">
+                    <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/30">
+                      <Check className="w-2.5 h-2.5 text-emerald-600" strokeWidth={2.5} />
                     </span>
                     <span>{b}</span>
                   </li>
@@ -342,20 +342,22 @@ const EdTechWebService = () => {
                 </Button>
               </div>
 
-              {/* Trust badges */}
-              <div className="mt-7 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm font-semibold text-foreground/85">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Bảo mật chuẩn EU
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
-                  <Database className="w-3.5 h-3.5 text-primary" /> Cam kết vận hành hiệu quả
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
-                  <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh sau 5–10 ngày
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
-                  <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm với từng sản phẩm giáo dục &amp; công nghệ
-                </span>
+              {/* Trust badges – single horizontal row, scrollable on small screens */}
+              <div className="mt-7 -mx-4 sm:mx-0 overflow-x-auto scrollbar-thin">
+                <div className="flex flex-nowrap items-center justify-start lg:justify-start gap-2 px-4 sm:px-0 text-[11.5px] sm:text-xs font-semibold text-foreground/85 w-max">
+                  <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Bảo mật chuẩn EU
+                  </span>
+                  <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
+                    <Database className="w-3.5 h-3.5 text-primary" /> Cam kết vận hành hiệu quả
+                  </span>
+                  <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
+                    <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao 5–10 ngày
+                  </span>
+                  <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
+                    <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm với từng sản phẩm giáo dục
+                  </span>
+                </div>
               </div>
             </motion.div>
 
@@ -367,7 +369,7 @@ const EdTechWebService = () => {
               className="relative"
             >
               {/* Mockup browser card */}
-              <div className="relative rounded-2xl border-2 border-emerald-500/50 bg-card/80 backdrop-blur-xl shadow-2xl shadow-emerald-500/20 overflow-hidden">
+              <div className="relative rounded-2xl border-2 border-emerald-600/80 bg-card/80 backdrop-blur-xl shadow-2xl shadow-emerald-500/20 overflow-hidden">
                 <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
                   <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
                   <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
