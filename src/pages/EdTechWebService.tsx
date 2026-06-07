@@ -2223,31 +2223,9 @@ const EdTechWebService = () => {
 
           {/* Feature comparison matrix between the two packages */}
           <ComparisonTable />
-
-          {/* Repeat demo carousel below pricing for last-minute review before signup */}
-          <div className="mt-16 max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
-                <Sparkles className="w-3.5 h-3.5" />
-                {t("Xem lại bản demo trước khi đăng ký", "Review the demo before you sign up")}
-              </div>
-              <h3 className="text-xl sm:text-3xl font-display font-bold text-foreground">
-                {t(
-                  "Một lần nữa – tham khảo bản demo để chọn gói phù hợp",
-                  "Take another look at the demo before choosing your package",
-                )}
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {t(
-                  "Quý Thầy/Cô có thể lướt lại 17 màn hình demo để hình dung rõ hệ thống trước khi để lại thông tin tư vấn.",
-                  "Browse all 17 demo screens one more time before requesting a consultation.",
-                )}
-              </p>
-            </div>
-            <DemoCarousel />
-          </div>
         </div>
       </section>
+
 
 
       {/* Pain Points → Solutions — speak directly to teacher's daily struggles */}
@@ -2776,11 +2754,6 @@ const AdminMockup = () => (
 );
 
 const PortfolioShowcase = () => {
-  const tabs = [
-    { id: "lms", label: "Giao diện Học viên (LMS)", icon: Monitor, body: <LmsMockup /> },
-    { id: "assistant", label: "Chấm công & Trợ lý", icon: ClipboardList, body: <AssistantMockup /> },
-    { id: "admin", label: "Admin Tổng (Analytics)", icon: LayoutDashboard, body: <AdminMockup /> },
-  ];
   return (
     <section className="py-16 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6">
@@ -2789,34 +2762,17 @@ const PortfolioShowcase = () => {
             Hệ Thống Tính Năng – Bản Demo Trực Quan
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – từ giao diện học viên đến bảng quản trị.
+            Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – lướt qua 17 màn hình demo của hệ thống.
           </p>
         </div>
-        <Tabs defaultValue="lms" className="max-w-5xl mx-auto">
-          <TabsList className="w-full h-auto flex flex-wrap justify-center gap-2 bg-secondary/40 p-2 rounded-xl">
-            {tabs.map((t) => (
-              <TabsTrigger
-                key={t.id}
-                value={t.id}
-                className="gap-2 px-4 py-2.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-emerald-500 data-[state=active]:text-primary-foreground data-[state=active]:shadow-md"
-              >
-                <t.icon className="w-4 h-4" />
-                {t.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {tabs.map((t) => (
-            <TabsContent key={t.id} value={t.id} className="mt-8">
-              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                {t.body}
-              </motion.div>
-            </TabsContent>
-          ))}
-        </Tabs>
+        <div className="max-w-5xl mx-auto">
+          <DemoCarousel />
+        </div>
       </div>
     </section>
   );
 };
+
 
 /* -------------------------------------------------------------------------- */
 /* Feature Comparison Matrix                                                   */
