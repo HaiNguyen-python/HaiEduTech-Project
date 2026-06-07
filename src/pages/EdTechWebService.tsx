@@ -253,9 +253,9 @@ const PACKAGES = [
     id: "standard" as const,
     name: "Gói Standard",
     tagline: "Khởi đầu chuyên nghiệp",
-    priceFrom: "Từ 8.000.000₫",
+    priceFrom: "Liên hệ nhận báo giá",
     priceNote: "Trọn gói · Bàn giao trong 5–10 ngày",
-    monthly: "Bảo trì: 300k/tháng",
+    monthly: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu",
     highlight: false,
     icon: Rocket,
     bestFor: "Phù hợp cho lớp học cá nhân / nhóm dưới 50 học viên.",
@@ -273,9 +273,9 @@ const PACKAGES = [
     id: "advanced" as const,
     name: "Gói Advanced AI & Data",
     tagline: "Khuyên dùng cho lớp học hiện đại",
-    priceFrom: "Từ 18.000.000₫",
+    priceFrom: "Liên hệ nhận báo giá",
     priceNote: "Trọn gói · Bàn giao trong 10–14 ngày",
-    monthly: "Bảo trì + AI Token: 800K₫ / tháng",
+    monthly: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu",
     highlight: true,
     icon: Crown,
     bestFor: "Phù hợp cho trung tâm / lớp học 50–500 học viên cần tự động hóa.",
@@ -293,9 +293,9 @@ const PACKAGES = [
     id: "enterprise" as const,
     name: "Gói Enterprise",
     tagline: "Dành cho trường học & học viện",
-    priceFrom: "Từ 45.000.000₫",
+    priceFrom: "Liên hệ nhận báo giá",
     priceNote: "Tùy biến sâu · Bàn giao 3–6 tuần",
-    monthly: "Bảo trì + Cloud + AI: thỏa thuận theo SLA",
+    monthly: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu",
     highlight: false,
     icon: Database,
     bestFor: "Phù hợp cho trường học / chuỗi trung tâm 500+ học viên.",
@@ -2223,8 +2223,32 @@ const EdTechWebService = () => {
 
           {/* Feature comparison matrix between the two packages */}
           <ComparisonTable />
+
+          {/* Repeat demo carousel below pricing for last-minute review before signup */}
+          <div className="mt-16 max-w-5xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
+                <Sparkles className="w-3.5 h-3.5" />
+                {t("Xem lại bản demo trước khi đăng ký", "Review the demo before you sign up")}
+              </div>
+              <h3 className="text-xl sm:text-3xl font-display font-bold text-foreground">
+                {t(
+                  "Một lần nữa – tham khảo bản demo để chọn gói phù hợp",
+                  "Take another look at the demo before choosing your package",
+                )}
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {t(
+                  "Quý Thầy/Cô có thể lướt lại 17 màn hình demo để hình dung rõ hệ thống trước khi để lại thông tin tư vấn.",
+                  "Browse all 17 demo screens one more time before requesting a consultation.",
+                )}
+              </p>
+            </div>
+            <DemoCarousel />
+          </div>
         </div>
       </section>
+
 
       {/* Pain Points → Solutions — speak directly to teacher's daily struggles */}
       <section className="py-16 sm:py-20 bg-gradient-to-br from-rose-50/40 via-background to-emerald-50/40 dark:from-rose-950/10 dark:to-emerald-950/10">
@@ -2302,7 +2326,7 @@ const EdTechWebService = () => {
               <ShieldCheck className="w-3.5 h-3.5" /> 5 Cam Kết Vàng
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Tận tâm bằng giấy trắng mực đen
+              Tận tâm với từng sản phẩm giáo dục & công nghệ
             </h2>
             <p className="mt-3 text-muted-foreground">
               Không hứa suông – mỗi cam kết đều được ghi rõ trong hợp đồng.
@@ -2428,9 +2452,9 @@ const EdTechWebService = () => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="standard">Gói Standard (từ 8.000.000₫)</SelectItem>
-                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (từ 18.000.000₫)</SelectItem>
-                        <SelectItem value="enterprise">Gói Enterprise (từ 45.000.000₫)</SelectItem>
+                        <SelectItem value="standard">Gói Standard (Liên hệ báo giá)</SelectItem>
+                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (Liên hệ báo giá)</SelectItem>
+                        <SelectItem value="enterprise">Gói Enterprise (Liên hệ báo giá)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
