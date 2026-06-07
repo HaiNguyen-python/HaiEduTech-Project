@@ -134,7 +134,7 @@ function speak(
     if (voice) u.voice = voice;
     u.rate = rate;
     const lastWord = chunk
-      .replace(/[.,!?;:"'()-–-]+$/g, "")
+      .replace(/[.,!?;:"'()\-–]+$/g, "")
       .split(/\s+/)
       .pop()
       ?.toLowerCase()
