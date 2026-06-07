@@ -289,6 +289,8 @@ const badgeStyles = {
   amber: "bg-amber-500/10 text-amber-600 border-amber-500/30",
   rose: "bg-rose-500/10 text-rose-600 border-rose-500/30",
   sky: "bg-sky-500/10 text-sky-600 border-sky-500/30",
+  indigo: "bg-indigo-500/10 text-indigo-600 border-indigo-500/30",
+  teal: "bg-teal-500/10 text-teal-600 border-teal-500/30",
 };
 
 const DemoCarousel = () => {
