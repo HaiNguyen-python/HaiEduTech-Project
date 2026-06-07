@@ -366,30 +366,30 @@ const EdTechWebService = () => {
               initial={{ opacity: 0, y: 30, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.15 }}
-              className="relative"
+              className="relative w-full max-w-[560px] mx-auto lg:max-w-none lg:mx-0 px-2 sm:px-6 lg:px-2"
             >
               {/* Mockup browser card */}
-              <div className="relative rounded-2xl border-2 border-emerald-600/80 bg-card/80 backdrop-blur-xl shadow-2xl shadow-emerald-500/20 overflow-hidden">
+              <div className="relative rounded-2xl border-2 border-emerald-600/80 bg-card/90 backdrop-blur-xl shadow-2xl shadow-emerald-500/25 overflow-hidden">
                 <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
                   <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
                   <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
                   <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
-                  <div className="ml-3 flex-1 rounded-md bg-background/70 px-3 py-1 text-[10px] text-muted-foreground truncate border border-border/40">
+                  <div className="ml-3 flex-1 rounded-md bg-background/70 px-3 py-1 text-[10px] sm:text-[11px] text-muted-foreground truncate border border-border/40">
                     🔒 lop-hoc-cua-thay.edu.vn / dashboard
                   </div>
                 </div>
-                <div className="p-5 space-y-4">
+                <div className="p-5 sm:p-6 space-y-4 sm:space-y-5">
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-[11px] text-muted-foreground">Hôm nay</div>
-                      <div className="text-sm font-semibold text-foreground">Smart Dashboard</div>
+                      <div className="text-base sm:text-lg font-semibold text-foreground">Smart Dashboard</div>
                     </div>
-                    <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-medium text-emerald-600 border border-emerald-500/20">
+                    <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-medium text-emerald-600 border border-emerald-500/30">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> AI Tutor online
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
                     {[
                       { label: "Học viên", value: "248", icon: Users, color: "text-primary", bg: "bg-primary/10" },
                       {
@@ -407,24 +407,24 @@ const EdTechWebService = () => {
                         bg: "bg-violet-500/10",
                       },
                     ].map((s) => (
-                      <div key={s.label} className="rounded-lg border border-border/60 bg-background/60 p-2.5">
-                        <div className={`mb-1.5 inline-flex h-6 w-6 items-center justify-center rounded-md ${s.bg}`}>
-                          <s.icon className={`h-3.5 w-3.5 ${s.color}`} />
+                      <div key={s.label} className="rounded-xl border border-border/60 bg-background/70 p-3">
+                        <div className={`mb-2 inline-flex h-7 w-7 items-center justify-center rounded-md ${s.bg}`}>
+                          <s.icon className={`h-4 w-4 ${s.color}`} />
                         </div>
-                        <div className="text-base font-bold text-foreground leading-none">{s.value}</div>
-                        <div className="text-[10px] text-muted-foreground mt-1">{s.label}</div>
+                        <div className="text-lg sm:text-xl font-bold text-foreground leading-none">{s.value}</div>
+                        <div className="text-[10px] sm:text-[11px] text-muted-foreground mt-1.5">{s.label}</div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="rounded-lg border border-border/60 bg-background/60 p-3">
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="text-[11px] font-medium text-foreground">Tiến độ học tập 7 ngày</div>
-                      <div className="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-semibold">
+                  <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <div className="text-[11px] sm:text-xs font-medium text-foreground">Tiến độ học tập 7 ngày</div>
+                      <div className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] text-emerald-600 font-semibold">
                         <TrendingUp className="h-3 w-3" /> +18%
                       </div>
                     </div>
-                    <div className="h-20">
+                    <div className="h-24 sm:h-28">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart
                           data={[
@@ -446,7 +446,7 @@ const EdTechWebService = () => {
                           />
                           <XAxis
                             dataKey="d"
-                            tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }}
+                            tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
                             axisLine={false}
                             tickLine={false}
                           />
@@ -457,36 +457,39 @@ const EdTechWebService = () => {
                 </div>
               </div>
 
+              {/* Floating badge — top, doesn't overlap stats */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
-                className="hidden sm:flex absolute -left-4 top-1/3 items-center gap-2 rounded-xl border border-border/60 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
+                className="hidden md:flex absolute -left-3 -top-4 items-center gap-2 rounded-xl border-2 border-violet-500/40 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
                   <Bot className="h-4 w-4" />
                 </div>
                 <div>
-                  <div className="text-[11px] font-semibold text-foreground leading-tight">AI Tutor 24/7</div>
-                  <div className="text-[9px] text-muted-foreground">Trả lời tức thì</div>
+                  <div className="text-[12px] font-bold text-foreground leading-tight">AI Tutor 24/7</div>
+                  <div className="text-[10px] text-muted-foreground">Trả lời tức thì</div>
                 </div>
               </motion.div>
 
+              {/* Floating badge — bottom right */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.8 }}
-                className="hidden sm:flex absolute -right-4 bottom-10 items-center gap-2 rounded-xl border border-border/60 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
+                className="hidden md:flex absolute -right-3 -bottom-4 items-center gap-2 rounded-xl border-2 border-emerald-500/40 bg-card/95 backdrop-blur px-3 py-2 shadow-xl"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
                   <ShieldCheck className="h-4 w-4" />
                 </div>
                 <div>
-                  <div className="text-[11px] font-semibold text-foreground leading-tight">SSL · RLS</div>
-                  <div className="text-[9px] text-muted-foreground">Bảo mật ngân hàng</div>
+                  <div className="text-[12px] font-bold text-foreground leading-tight">SSL · RLS</div>
+                  <div className="text-[10px] text-muted-foreground">Bảo mật ngân hàng</div>
                 </div>
               </motion.div>
             </motion.div>
+
           </div>
 
           {/* Stats row */}
@@ -1028,8 +1031,114 @@ const EdTechWebService = () => {
         </div>
       </section>
 
+      {/* Pain Points → Solutions — speak directly to teacher's daily struggles */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-rose-50/40 via-background to-emerald-50/40 dark:from-rose-950/10 dark:to-emerald-950/10">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full border border-rose-400/40 bg-rose-500/5 px-3 py-1 text-xs font-semibold text-rose-600 mb-3">
+              <Sparkles className="w-3.5 h-3.5" /> Thấu hiểu giáo viên Việt
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Những nỗi đau giáo viên thường gặp – HaiEduTech giải quyết tận gốc
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Mỗi tính năng đều xuất phát từ chính trải nghiệm 15 năm đứng lớp của Thầy Hải.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
+            {[
+              {
+                pain: "Mất 8–12 giờ/tuần chấm bài Writing, Speaking thủ công",
+                fix: "AI Smart Grading chấm tự động theo rubric IELTS/TOEIC/HSK – feedback chi tiết trong 10 giây.",
+              },
+              {
+                pain: "Học sinh quên bài, không ôn tập, mất gốc giữa khoá",
+                fix: "Hệ thống SRS + AI Tutor 24/7 nhắc ôn từ vựng và giải đáp thắc mắc ngoài giờ học.",
+              },
+              {
+                pain: "Phụ huynh thiếu tin tưởng vì không nắm được tiến độ con",
+                fix: "Báo cáo phụ huynh tự động hàng tháng qua email thương hiệu – tỉ lệ tái đăng ký +42%.",
+              },
+              {
+                pain: "Tài liệu giảng dạy bị copy, share lậu trên Zalo / Drive",
+                fix: "DRM video + watermark động theo từng học viên + chống tải xuống bằng JS obfuscation.",
+              },
+              {
+                pain: "Quản lý lịch học, học phí, hoá đơn rối loạn trên Excel",
+                fix: "Dashboard tích hợp VNPay/Momo, tự động đối soát và xuất hoá đơn VAT điện tử.",
+              },
+              {
+                pain: "Phụ thuộc nền tảng Facebook/Zalo – mất học viên khi bị khoá",
+                fix: "Có domain & thương hiệu riêng (lop-thay-hai.com) – dữ liệu học viên 100% thuộc về Thầy/Cô.",
+              },
+            ].map((p) => (
+              <div
+                key={p.pain}
+                className="group rounded-2xl border-2 border-emerald-500/30 bg-card p-5 sm:p-6 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-emerald-500/10 transition-all"
+              >
+                <div className="flex items-start gap-3 mb-3 pb-3 border-b border-dashed border-rose-300/50">
+                  <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-rose-600 font-bold text-sm">
+                    !
+                  </span>
+                  <p className="text-sm sm:text-[15px] font-semibold text-foreground/90 leading-snug">
+                    {p.pain}
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600">
+                    <Check className="w-4 h-4" strokeWidth={3} />
+                  </span>
+                  <p className="text-sm sm:text-[15px] text-foreground leading-relaxed">
+                    <span className="font-bold text-emerald-700">Giải pháp: </span>
+                    {p.fix}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Guarantees — Build trust before FAQ */}
+      <section className="py-14 sm:py-18">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
+              <ShieldCheck className="w-3.5 h-3.5" /> 5 Cam Kết Vàng
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              Tận tâm bằng giấy trắng mực đen
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Không hứa suông – mỗi cam kết đều được ghi rõ trong hợp đồng.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
+            {[
+              { icon: ShieldCheck, t: "Hoàn tiền 100%", d: "Trong 7 ngày nếu bản demo không đạt yêu cầu." },
+              { icon: Database, t: "Bàn giao mã nguồn", d: "100% code + database thuộc sở hữu Thầy/Cô." },
+              { icon: Clock, t: "Bảo hành 6 tháng", d: "Sửa lỗi miễn phí, hỗ trợ ưu tiên qua Zalo." },
+              { icon: FileText, t: "NDA bảo mật", d: "Ký cam kết không tiết lộ dữ liệu lớp học." },
+              { icon: Bot, t: "Hỗ trợ trọn đời", d: "Cộng đồng giáo viên HaiEduTech miễn phí vĩnh viễn." },
+            ].map((g) => (
+              <div
+                key={g.t}
+                className="rounded-2xl border-2 border-emerald-500/40 bg-card p-5 text-center hover:border-emerald-500/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/15 transition-all"
+              >
+                <div className="inline-flex w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-primary/20 items-center justify-center mb-3">
+                  <g.icon className="w-6 h-6 text-emerald-600" />
+                </div>
+                <h4 className="font-bold text-foreground text-sm sm:text-base mb-1.5">{g.t}</h4>
+                <p className="text-xs text-muted-foreground leading-snug">{g.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FAQ — expandable accordion */}
       <FaqSection />
+
 
       {/* Why us strip */}
       <section className="py-12 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5 border-y border-border/60">
