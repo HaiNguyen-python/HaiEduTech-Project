@@ -628,7 +628,7 @@ const EdTechWebService = () => {
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-3">
-                  Hoàn tiền 100% nếu không hài lòng trong 7 ngày đầu nghiệm thu
+                  Đồng hành tận tâm – bàn giao chuẩn chỉnh, hỗ trợ dài hạn cùng quý Thầy/Cô
                 </h3>
                 <ul className="space-y-2 text-sm text-foreground">
                   <li className="flex items-start gap-2">

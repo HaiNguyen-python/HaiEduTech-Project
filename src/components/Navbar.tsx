@@ -270,7 +270,7 @@ const Navbar = () => {
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     
     { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
-    { to: "/dich-vu-web", label: t("Dịch vụ Thiết kế Website", "Website Design Service"), icon: Sparkles },
+    { to: "/dich-vu-web", label: t("Thiết kế Website Giáo dục", "EdTech Website Design"), icon: Sparkles },
   ];
 
   // Dashboard and Admin entries are intentionally omitted from the main menu —
@@ -502,7 +502,7 @@ const Navbar = () => {
                 return (
                   <div key={l.to} className="relative" onMouseEnter={() => handleMouseEnter(l.key!)} onMouseLeave={handleMouseLeave}>
                     <Link to={l.to}
-                      className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                         active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                       }`}>
                       {l.label}
@@ -665,7 +665,7 @@ const Navbar = () => {
               }
               return (
                 <Link key={l.to} to={l.to}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                     active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                   }`}>
                   {l.label}
