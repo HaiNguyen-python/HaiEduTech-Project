@@ -255,16 +255,19 @@ const EdTechWebService = () => {
               <Sparkles className="w-4 h-4" />
               Dịch vụ Thiết kế Website – Made by HaiEduTech
             </div>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground leading-tight">
-              Nâng cao chất lượng giảng dạy với{" "}
-              <span className="bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
-                Smart Learning & Teaching System
+            <h1 className="notranslate text-3xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground leading-tight">
+              <span className="block">Nâng cao chất lượng giảng dạy với</span>
+              <span className="block bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+                Smart Learning &amp; Teaching System
               </span>
             </h1>
-            <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed whitespace-pre-line">
-              Cung cấp giải pháp <strong className="text-foreground">"tailor-made"</strong> - thiết kế riêng hệ thống <strong className="text-foreground">LMS</strong> theo từng nhu cầu giảng dạy, kết hợp <strong className="text-foreground">15 năm kinh nghiệm sư phạm</strong> của Thầy Hải tại <strong className="text-foreground">Việt Nam & Phần Lan</strong> và <strong className="text-foreground">3+ năm kinh nghiệm</strong> trong ngành <strong className="text-foreground">Data Engineering & AI tại Phần Lan</strong>.
-              {"\n\n\n"}
-              Không dùng template chung, tạo sự khác biệt & độc đáo, cùng hệ thống <strong className="text-foreground">LMS bảo mật, AI Tutor 24/7, giao, quản lý & chấm bài tự động</strong> và dashboard đo lường hiệu quả học tập theo thời gian thực.
+            <p className="notranslate mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              <span className="block">
+                Cung cấp giải pháp "tailor-made" - thiết kế riêng hệ thống LMS theo từng nhu cầu giảng dạy, kết hợp 15 năm kinh nghiệm sư phạm của Thầy Hải tại Việt Nam &amp; Phần Lan và 3+ năm kinh nghiệm trong ngành Data Engineering &amp; AI tại Phần Lan.
+              </span>
+              <span className="block mt-4">
+                Không dùng template chung, tạo sự khác biệt &amp; độc đáo, cùng hệ thống LMS bảo mật, AI Tutor 24/7, giao, quản lý &amp; chấm bài tự động và dashboard đo lường hiệu quả học tập theo thời gian thực.
+              </span>
             </p>
             <ul className="mt-5 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-left text-sm">
               {[
