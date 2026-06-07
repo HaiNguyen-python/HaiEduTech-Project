@@ -274,9 +274,21 @@ const DEMO_SLIDES = [
   },
   {
     id: "rl-lab",
-    title: "Reinforcement Learning Lab",
-    badge: "AI Sandbox · Live",
+    title: "RL · Cá nhân hoá lộ trình học",
+    badge: "Adaptive Learning",
     badgeColor: "teal" as const,
+  },
+  {
+    id: "early-warning",
+    title: "Cảnh báo sớm – Can thiệp giáo dục",
+    badge: "Early Intervention",
+    badgeColor: "rose" as const,
+  },
+  {
+    id: "schedule-finance",
+    title: "Lịch học & Học phí tự động",
+    badge: "Smart Operations",
+    badgeColor: "primary" as const,
   },
   {
     id: "parent-report",
