@@ -542,33 +542,35 @@ const DemoCarousel = () => {
   );
 };
 
-const SlideDashboard = () => (
+const SlideDashboard = () => {
+  const { t } = useLanguage();
+  return (
   <>
     <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
       {[
-        { label: "Học viên", value: "248", icon: Users, color: "text-primary", bg: "bg-primary/10" },
-        { label: "Bài đã chấm", value: "1.2k", icon: ClipboardList, color: "text-emerald-600", bg: "bg-emerald-500/10" },
-        { label: "AI replies", value: "532", icon: Bot, color: "text-violet-600", bg: "bg-violet-500/10" },
+        { label: { vi: "Học viên", en: "Students" }, value: "248", icon: Users, color: "text-primary", bg: "bg-primary/10" },
+        { label: { vi: "Bài đã chấm", en: "Graded" }, value: "1.2k", icon: ClipboardList, color: "text-emerald-600", bg: "bg-emerald-500/10" },
+        { label: { vi: "AI replies", en: "AI replies" }, value: "532", icon: Bot, color: "text-violet-600", bg: "bg-violet-500/10" },
       ].map((s) => (
-        <div key={s.label} className="rounded-xl border border-border/60 bg-background/70 p-3">
+        <div key={s.label.en} className="rounded-xl border border-border/60 bg-background/70 p-3">
           <div className={`mb-2 inline-flex h-7 w-7 items-center justify-center rounded-md ${s.bg}`}>
             <s.icon className={`h-4 w-4 ${s.color}`} />
           </div>
           <div className="text-lg sm:text-xl font-bold text-foreground leading-none">{s.value}</div>
-          <div className="text-[10px] sm:text-[11px] text-muted-foreground mt-1.5">{s.label}</div>
+          <div className="text-[10px] sm:text-[11px] text-muted-foreground mt-1.5">{t(s.label.vi, s.label.en)}</div>
         </div>
       ))}
     </div>
     <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
       <div className="flex items-center justify-between mb-1.5">
-        <div className="text-[11px] sm:text-xs font-medium text-foreground">Tiến độ học tập 7 ngày</div>
+        <div className="text-[11px] sm:text-xs font-medium text-foreground">{t("Tiến độ học tập 7 ngày", "7-day learning progress")}</div>
         <div className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] text-emerald-600 font-semibold">
           <TrendingUp className="h-3 w-3" /> +18%
         </div>
       </div>
       <div className="h-24 sm:h-28">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={[{d:"T2",v:42},{d:"T3",v:55},{d:"T4",v:48},{d:"T5",v:67},{d:"T6",v:72},{d:"T7",v:80},{d:"CN",v:88}]}>
+          <LineChart data={[{d:"M",v:42},{d:"T",v:55},{d:"W",v:48},{d:"T",v:67},{d:"F",v:72},{d:"S",v:80},{d:"S",v:88}]}>
             <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 2.5, fill: "hsl(var(--primary))" }} />
             <XAxis dataKey="d" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
           </LineChart>
@@ -576,16 +578,20 @@ const SlideDashboard = () => (
       </div>
     </div>
   </>
-);
+  );
+};
 
-const SlideAITutor = () => (
+const SlideAITutor = () => {
+  const { t } = useLanguage();
+  const msgs = [
+    { who: "student", text: { vi: "Thầy ơi, em chưa hiểu thì hiện tại hoàn thành dùng khi nào ạ?", en: "Teacher, when do we use the Present Perfect tense?" }, time: "20:14" },
+    { who: "ai", text: { vi: "Hi An! Present Perfect dùng cho hành động đã xảy ra nhưng còn liên quan đến hiện tại 👇\n• I have studied English for 3 years.\n• She has just finished her homework.", en: "Hi An! Present Perfect describes actions that happened but still connect to the present 👇\n• I have studied English for 3 years.\n• She has just finished her homework." }, time: "20:14" },
+    { who: "student", text: { vi: "Cho em 1 bài tập nhanh được không thầy?", en: "Can I get a quick practice question, please?" }, time: "20:15" },
+    { who: "ai", text: { vi: "Đây nhé: 'I ___ (live) in Hà Nội since 2020.' → Trả lời rồi thầy chấm liền!", en: "Here: 'I ___ (live) in Hanoi since 2020.' → Answer and I'll grade it instantly!" }, time: "20:15" },
+  ];
+  return (
   <div className="space-y-2.5">
-    {[
-      { who: "student", text: "Thầy ơi, em chưa hiểu thì hiện tại hoàn thành dùng khi nào ạ?", time: "20:14" },
-      { who: "ai", text: "Hi An! Present Perfect dùng cho hành động đã xảy ra nhưng còn liên quan đến hiện tại 👇\n• I have studied English for 3 years.\n• She has just finished her homework.", time: "20:14" },
-      { who: "student", text: "Cho em 1 bài tập nhanh được không thầy?", time: "20:15" },
-      { who: "ai", text: "Đây nhé: 'I ___ (live) in Hà Nội since 2020.' → Trả lời rồi thầy chấm liền!", time: "20:15" },
-    ].map((m, i) => (
+    {msgs.map((m, i) => (
       <div key={i} className={`flex ${m.who === "ai" ? "justify-start" : "justify-end"}`}>
         <div className={`max-w-[78%] rounded-2xl px-3 py-2 text-[11px] sm:text-xs leading-relaxed whitespace-pre-line ${
           m.who === "ai"
@@ -597,25 +603,29 @@ const SlideAITutor = () => (
               <Bot className="h-3 w-3" /> AI Tutor
             </div>
           )}
-          {m.text}
+          {t(m.text.vi, m.text.en)}
           <div className={`text-[9px] mt-1 ${m.who === "ai" ? "text-muted-foreground" : "text-primary-foreground/70"}`}>{m.time}</div>
         </div>
       </div>
     ))}
   </div>
-);
+  );
+};
 
-const SlideClasses = () => (
+const SlideClasses = () => {
+  const { t } = useLanguage();
+  const classes = [
+    { name: { vi: "IELTS 6.5 — Ca tối T2-4-6", en: "IELTS 6.5 — Evening Mon/Wed/Fri" }, students: 18, prog: 72, color: "from-primary to-emerald-500" },
+    { name: { vi: "Tiếng Anh giao tiếp B1", en: "Conversational English B1" }, students: 24, prog: 58, color: "from-violet-500 to-fuchsia-500" },
+    { name: { vi: "Luyện thi THPT 2026", en: "National High School Exam Prep 2026" }, students: 31, prog: 84, color: "from-amber-500 to-orange-500" },
+    { name: { vi: "Tiếng Trung HSK 3", en: "Chinese HSK 3" }, students: 12, prog: 41, color: "from-rose-500 to-pink-500" },
+  ];
+  return (
   <div className="space-y-2">
-    {[
-      { name: "IELTS 6.5 — Ca tối T2-4-6", students: 18, prog: 72, color: "from-primary to-emerald-500" },
-      { name: "Tiếng Anh giao tiếp B1", students: 24, prog: 58, color: "from-violet-500 to-fuchsia-500" },
-      { name: "Luyện thi THPT 2026", students: 31, prog: 84, color: "from-amber-500 to-orange-500" },
-      { name: "Tiếng Trung HSK 3", students: 12, prog: 41, color: "from-rose-500 to-pink-500" },
-    ].map((c) => (
-      <div key={c.name} className="rounded-xl border border-border/60 bg-background/70 p-3">
+    {classes.map((c) => (
+      <div key={c.name.en} className="rounded-xl border border-border/60 bg-background/70 p-3">
         <div className="flex items-center justify-between mb-1.5">
-          <div className="text-[11px] sm:text-xs font-semibold text-foreground truncate">{c.name}</div>
+          <div className="text-[11px] sm:text-xs font-semibold text-foreground truncate">{t(c.name.vi, c.name.en)}</div>
           <div className="flex items-center gap-1 text-[10px] text-muted-foreground shrink-0 ml-2">
             <Users className="h-3 w-3" /> {c.students}
           </div>
@@ -624,79 +634,90 @@ const SlideClasses = () => (
           <div className={`h-full bg-gradient-to-r ${c.color}`} style={{ width: `${c.prog}%` }} />
         </div>
         <div className="flex items-center justify-between mt-1.5">
-          <div className="text-[10px] text-muted-foreground">Tiến độ khoá học</div>
+          <div className="text-[10px] text-muted-foreground">{t("Tiến độ khoá học", "Course progress")}</div>
           <div className="text-[10px] font-bold text-foreground">{c.prog}%</div>
         </div>
       </div>
     ))}
   </div>
-);
+  );
+};
 
-const SlideParentReport = () => (
+const SlideParentReport = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border border-border/60 bg-gradient-to-br from-emerald-500/10 to-primary/5 p-3.5">
       <div className="flex items-center gap-2 mb-2">
         <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center text-white text-xs font-bold">NA</div>
         <div>
-          <div className="text-xs font-semibold text-foreground">Nguyễn Văn An · Lớp IELTS 6.5</div>
-          <div className="text-[10px] text-muted-foreground">Báo cáo tháng 5/2026</div>
+          <div className="text-xs font-semibold text-foreground">{t("Nguyễn Văn An · Lớp IELTS 6.5", "An Nguyen · IELTS 6.5 Class")}</div>
+          <div className="text-[10px] text-muted-foreground">{t("Báo cáo tháng 5/2026", "May 2026 Report")}</div>
         </div>
       </div>
       <div className="grid grid-cols-3 gap-2">
         {[
-          { l: "Buổi học", v: "12/12", i: Calendar, c: "text-emerald-600" },
-          { l: "Điểm TB", v: "8.4", i: Award, c: "text-amber-600" },
-          { l: "Bài tập", v: "96%", i: ClipboardList, c: "text-primary" },
+          { l: { vi: "Buổi học", en: "Sessions" }, v: "12/12", i: Calendar, c: "text-emerald-600" },
+          { l: { vi: "Điểm TB", en: "Avg Score" }, v: "8.4", i: Award, c: "text-amber-600" },
+          { l: { vi: "Bài tập", en: "Homework" }, v: "96%", i: ClipboardList, c: "text-primary" },
         ].map((m) => (
-          <div key={m.l} className="rounded-lg bg-background/80 border border-border/40 p-2 text-center">
+          <div key={m.l.en} className="rounded-lg bg-background/80 border border-border/40 p-2 text-center">
             <m.i className={`h-3.5 w-3.5 mx-auto mb-1 ${m.c}`} />
             <div className="text-sm font-bold text-foreground leading-none">{m.v}</div>
-            <div className="text-[9px] text-muted-foreground mt-1">{m.l}</div>
+            <div className="text-[9px] text-muted-foreground mt-1">{t(m.l.vi, m.l.en)}</div>
           </div>
         ))}
       </div>
     </div>
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
       <div className="text-[11px] font-semibold text-foreground mb-1.5 flex items-center gap-1.5">
-        <Mail className="h-3 w-3 text-primary" /> Nhận xét từ Thầy Hải
+        <Mail className="h-3 w-3 text-primary" /> {t("Nhận xét từ Thầy Hải", "Comments from Mr. Hai")}
       </div>
       <p className="text-[11px] text-muted-foreground leading-relaxed">
-        An tiến bộ rõ rệt ở kỹ năng Writing (Task 2 tăng 0.5 band). Cần luyện thêm Speaking Part 3 — đã giao 5 bài cho tuần tới ✨
+        {t(
+          "An tiến bộ rõ rệt ở kỹ năng Writing (Task 2 tăng 0.5 band). Cần luyện thêm Speaking Part 3 — đã giao 5 bài cho tuần tới ✨",
+          "An has clearly improved in Writing (Task 2 up 0.5 band). Needs more Speaking Part 3 practice — 5 tasks assigned for next week ✨"
+        )}
       </p>
     </div>
     <div className="flex items-center justify-between text-[10px] text-muted-foreground px-1">
-      <span>📧 Đã gửi tự động đến phụ huynh</span>
+      <span>📧 {t("Đã gửi tự động đến phụ huynh", "Auto-sent to parents")}</span>
       <span className="text-emerald-600 font-semibold">✓ 01/06/2026</span>
     </div>
   </div>
-);
+  );
+};
 
-const SlideAssignments = () => (
+const SlideAssignments = () => {
+  const { t } = useLanguage();
+  const stats = [
+    { l: { vi: "Cần chấm", en: "To grade" }, v: "12", c: "text-rose-600", bg: "bg-rose-500/10" },
+    { l: { vi: "AI đã chấm", en: "AI graded" }, v: "184", c: "text-emerald-600", bg: "bg-emerald-500/10" },
+    { l: { vi: "Tiết kiệm", en: "Time saved" }, v: "9.2h", c: "text-primary", bg: "bg-primary/10" },
+  ];
+  const rows = [
+    { name: "Trần Minh Anh", task: "IELTS Writing Task 2 — Education", band: "7.0", color: "from-emerald-500 to-primary", status: { vi: "AI đã chấm", en: "AI graded" } },
+    { name: "Lê Quang Huy", task: "Reading Practice Test 12", band: "8.5", color: "from-violet-500 to-fuchsia-500", status: { vi: "AI đã chấm", en: "AI graded" } },
+    { name: "Phạm Thu Hà", task: "Speaking Part 2 — Hometown", band: "—", color: "from-amber-500 to-rose-500", status: { vi: "Chờ Thầy duyệt", en: "Awaiting teacher review" } },
+  ];
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-3 gap-3">
-      {[
-        { l: "Cần chấm", v: "12", c: "text-rose-600", bg: "bg-rose-500/10" },
-        { l: "AI đã chấm", v: "184", c: "text-emerald-600", bg: "bg-emerald-500/10" },
-        { l: "Tiết kiệm", v: "9.2h", c: "text-primary", bg: "bg-primary/10" },
-      ].map((s) => (
-        <div key={s.l} className={`rounded-xl border border-border/60 ${s.bg} p-3.5 text-center`}>
+      {stats.map((s) => (
+        <div key={s.l.en} className={`rounded-xl border border-border/60 ${s.bg} p-3.5 text-center`}>
           <div className={`text-xl sm:text-2xl font-bold ${s.c} leading-none`}>{s.v}</div>
-          <div className="text-[11px] text-muted-foreground mt-1.5">{s.l}</div>
+          <div className="text-[11px] text-muted-foreground mt-1.5">{t(s.l.vi, s.l.en)}</div>
         </div>
       ))}
     </div>
-    {[
-      { name: "Trần Minh Anh", task: "IELTS Writing Task 2 — Education", band: "7.0", color: "from-emerald-500 to-primary", status: "AI đã chấm" },
-      { name: "Lê Quang Huy", task: "Reading Practice Test 12", band: "8.5", color: "from-violet-500 to-fuchsia-500", status: "AI đã chấm" },
-      { name: "Phạm Thu Hà", task: "Speaking Part 2 — Hometown", band: "—", color: "from-amber-500 to-rose-500", status: "Chờ Thầy duyệt" },
-    ].map((r) => (
+    {rows.map((r) => (
       <div key={r.name} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-3">
         <div className={`h-9 w-9 shrink-0 rounded-full bg-gradient-to-br ${r.color} flex items-center justify-center text-white text-xs font-bold`}>
           {r.name.split(" ").map((w) => w[0]).slice(-2).join("")}
         </div>
         <div className="flex-1 min-w-0">
           <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{r.task}</div>
-          <div className="text-[11px] text-muted-foreground truncate">{r.name} · {r.status}</div>
+          <div className="text-[11px] text-muted-foreground truncate">{r.name} · {t(r.status.vi, r.status.en)}</div>
         </div>
         <div className="text-right shrink-0">
           <div className="text-base font-bold text-foreground leading-none">{r.band}</div>
@@ -705,20 +726,23 @@ const SlideAssignments = () => (
       </div>
     ))}
   </div>
-);
+  );
+};
 
-const SlideAnalytics = () => (
+const SlideAnalytics = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border border-border/60 bg-background/70 p-4">
       <div className="flex items-center justify-between mb-2">
-        <div className="text-xs sm:text-sm font-semibold text-foreground">Doanh thu 6 tháng gần nhất</div>
+        <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Doanh thu 6 tháng gần nhất", "Revenue – last 6 months")}</div>
         <div className="text-[11px] text-emerald-600 font-semibold inline-flex items-center gap-1">
           <TrendingUp className="h-3 w-3" /> +34%
         </div>
       </div>
       <div className="h-32 sm:h-36">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={[{m:"T12",v:18},{m:"T1",v:24},{m:"T2",v:22},{m:"T3",v:31},{m:"T4",v:38},{m:"T5",v:48}]}>
+          <LineChart data={[{m:"Dec",v:18},{m:"Jan",v:24},{m:"Feb",v:22},{m:"Mar",v:31},{m:"Apr",v:38},{m:"May",v:48}]}>
             <Line type="monotone" dataKey="v" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 3, fill: "hsl(var(--primary))" }} />
             <XAxis dataKey="m" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
           </LineChart>
@@ -727,14 +751,14 @@ const SlideAnalytics = () => (
     </div>
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
-        <div className="text-[11px] text-muted-foreground mb-1">Tỷ lệ hoàn thành</div>
+        <div className="text-[11px] text-muted-foreground mb-1">{t("Tỷ lệ hoàn thành", "Completion rate")}</div>
         <div className="text-2xl font-bold text-emerald-600 leading-none">92%</div>
         <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
           <div className="h-full bg-gradient-to-r from-emerald-500 to-primary" style={{ width: "92%" }} />
         </div>
       </div>
       <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
-        <div className="text-[11px] text-muted-foreground mb-1">Học viên quay lại</div>
+        <div className="text-[11px] text-muted-foreground mb-1">{t("Học viên quay lại", "Returning students")}</div>
         <div className="text-2xl font-bold text-primary leading-none">87%</div>
         <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
           <div className="h-full bg-gradient-to-r from-primary to-violet-500" style={{ width: "87%" }} />
@@ -744,13 +768,25 @@ const SlideAnalytics = () => (
     <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI gợi ý:</span> Lớp IELTS 6.5 ca tối đang có 3 học viên giảm tiến độ — nên gửi tin nhắn động viên trong 48h tới.
+        <span className="font-semibold">{t("AI gợi ý:", "AI suggestion:")}</span> {t(
+          "Lớp IELTS 6.5 ca tối đang có 3 học viên giảm tiến độ — nên gửi tin nhắn động viên trong 48h tới.",
+          "The IELTS 6.5 evening class has 3 students slipping — send an encouragement message in the next 48 hours."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideLessons = () => (
+const SlideLessons = () => {
+  const { t } = useLanguage();
+  const blocks = [
+    { icon: Play, label: { vi: "Video HD", en: "HD Video" }, v: "5:32", c: "from-rose-500 to-orange-500" },
+    { icon: FileText, label: { vi: "Lý thuyết", en: "Theory" }, v: { vi: "1.2k từ", en: "1.2k words" }, c: "from-emerald-500 to-teal-500" },
+    { icon: ClipboardList, label: { vi: "Bài tập", en: "Exercises" }, v: { vi: "12 câu", en: "12 items" }, c: "from-primary to-sky-500" },
+    { icon: MessageCircle, label: { vi: "Hỏi AI", en: "Ask AI" }, v: "24/7", c: "from-violet-500 to-fuchsia-500" },
+  ];
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border border-indigo-500/30 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-4">
       <div className="flex items-center justify-between mb-2">
@@ -759,52 +795,60 @@ const SlideLessons = () => (
             <BookOpen className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Bài 12 · IELTS Writing Task 2</div>
-            <div className="text-[11px] text-muted-foreground">Chương 3 — Argument Essay</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Bài 12 · IELTS Writing Task 2", "Lesson 12 · IELTS Writing Task 2")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Chương 3 — Argument Essay", "Chapter 3 — Argument Essay")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 font-semibold">
-          <Play className="h-3 w-3" /> Học ngay
+          <Play className="h-3 w-3" /> {t("Học ngay", "Start now")}
         </div>
       </div>
       <div className="mt-3 h-1.5 rounded-full bg-muted overflow-hidden">
         <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500" style={{ width: "62%" }} />
       </div>
       <div className="mt-1.5 flex items-center justify-between text-[10px] text-muted-foreground">
-        <span>Hoàn thành 62%</span>
-        <span>18 / 29 phút</span>
+        <span>{t("Hoàn thành 62%", "62% complete")}</span>
+        <span>{t("18 / 29 phút", "18 / 29 min")}</span>
       </div>
     </div>
     <div className="grid grid-cols-2 gap-3">
-      {[
-        { icon: Play, label: "Video HD", v: "5:32", c: "from-rose-500 to-orange-500" },
-        { icon: FileText, label: "Lý thuyết", v: "1.2k từ", c: "from-emerald-500 to-teal-500" },
-        { icon: ClipboardList, label: "Bài tập", v: "12 câu", c: "from-primary to-sky-500" },
-        { icon: MessageCircle, label: "Hỏi AI", v: "24/7", c: "from-violet-500 to-fuchsia-500" },
-      ].map((b) => (
-        <div key={b.label} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-2.5">
-          <div className={`h-8 w-8 rounded-lg bg-gradient-to-br ${b.c} flex items-center justify-center text-white shrink-0`}>
-            <b.icon className="h-4 w-4" />
+      {blocks.map((b) => {
+        const value = typeof b.v === "string" ? b.v : t(b.v.vi, b.v.en);
+        return (
+          <div key={b.label.en} className="rounded-xl border border-border/60 bg-background/70 p-3 flex items-center gap-2.5">
+            <div className={`h-8 w-8 rounded-lg bg-gradient-to-br ${b.c} flex items-center justify-center text-white shrink-0`}>
+              <b.icon className="h-4 w-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] text-muted-foreground">{t(b.label.vi, b.label.en)}</div>
+              <div className="text-xs sm:text-sm font-bold text-foreground truncate">{value}</div>
+            </div>
           </div>
-          <div className="min-w-0">
-            <div className="text-[10px] text-muted-foreground">{b.label}</div>
-            <div className="text-xs sm:text-sm font-bold text-foreground truncate">{b.v}</div>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
     <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Tương tác cao:</span> mỗi bài đều có flashcards, quiz trắc nghiệm, ghi âm luyện nói và AI chữa lỗi tức thì.
+        <span className="font-semibold">{t("Tương tác cao:", "Highly interactive:")}</span> {t(
+          "mỗi bài đều có flashcards, quiz trắc nghiệm, ghi âm luyện nói và AI chữa lỗi tức thì.",
+          "every lesson includes flashcards, multiple-choice quizzes, speaking recordings and instant AI feedback."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideRLLab = () => (
+const SlideRLLab = () => {
+  const { t } = useLanguage();
+  const stats = [
+    { l: { vi: "Engagement", en: "Engagement" }, v: "84%", c: "text-emerald-600", w: "84%", bar: "from-emerald-500 to-teal-500" },
+    { l: { vi: "Độ chính xác", en: "Accuracy" }, v: "71%", c: "text-primary", w: "71%", bar: "from-primary to-sky-500" },
+    { l: { vi: "Streak", en: "Streak" }, v: { vi: "9 ngày", en: "9 days" }, c: "text-amber-600", w: "90%", bar: "from-amber-500 to-orange-500" },
+  ];
+  return (
   <div className="space-y-3">
-    {/* Header: agent state */}
     <div className="rounded-xl border-2 border-teal-500/40 bg-gradient-to-br from-teal-500/10 via-emerald-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
@@ -812,8 +856,8 @@ const SlideRLLab = () => (
             <Brain className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Học viên: Lê Quang Huy · IELTS 6.5</div>
-            <div className="text-[11px] text-muted-foreground">RL Agent đang tối ưu lộ trình từng tuần</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Học viên: Lê Quang Huy · IELTS 6.5", "Student: Huy Le · IELTS 6.5")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("RL Agent đang tối ưu lộ trình từng tuần", "RL agent optimizing the weekly learning path")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-teal-500/10 text-teal-600 border border-teal-500/30 font-semibold">
@@ -821,85 +865,90 @@ const SlideRLLab = () => (
         </div>
       </div>
       <div className="grid grid-cols-3 gap-2 mt-3">
-        {[
-          { l: "Engagement", v: "84%", c: "text-emerald-600", w: "84%", bar: "from-emerald-500 to-teal-500" },
-          { l: "Độ chính xác", v: "71%", c: "text-primary", w: "71%", bar: "from-primary to-sky-500" },
-          { l: "Streak", v: "9 ngày", c: "text-amber-600", w: "90%", bar: "from-amber-500 to-orange-500" },
-        ].map((s) => (
-          <div key={s.l} className="rounded-lg bg-background/70 border border-border/60 p-2">
-            <div className="text-[10px] text-muted-foreground">{s.l}</div>
-            <div className={`text-sm font-bold ${s.c} leading-none mt-0.5`}>{s.v}</div>
-            <div className="mt-1.5 h-1 rounded-full bg-muted overflow-hidden">
-              <div className={`h-full bg-gradient-to-r ${s.bar}`} style={{ width: s.w }} />
+        {stats.map((s) => {
+          const val = typeof s.v === "string" ? s.v : t(s.v.vi, s.v.en);
+          return (
+            <div key={s.l.en} className="rounded-lg bg-background/70 border border-border/60 p-2">
+              <div className="text-[10px] text-muted-foreground">{t(s.l.vi, s.l.en)}</div>
+              <div className={`text-sm font-bold ${s.c} leading-none mt-0.5`}>{val}</div>
+              <div className="mt-1.5 h-1 rounded-full bg-muted overflow-hidden">
+                <div className={`h-full bg-gradient-to-r ${s.bar}`} style={{ width: s.w }} />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
 
-    {/* Reward / Penalty signals (real teaching signals, no game) */}
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3">
         <div className="text-[10px] text-emerald-700 font-semibold mb-1.5 flex items-center gap-1">
-          <Trophy className="h-3 w-3" /> Tín hiệu Reward (+)
+          <Trophy className="h-3 w-3" /> {t("Tín hiệu Reward (+)", "Reward signals (+)")}
         </div>
         <ul className="space-y-1 text-[11px] text-foreground/85">
-          <li>• Hoàn thành bài đúng hạn <span className="font-bold text-emerald-600">+8</span></li>
-          <li>• Streak 7+ ngày <span className="font-bold text-emerald-600">+5</span></li>
-          <li>• Tự hỏi AI Tutor <span className="font-bold text-emerald-600">+3</span></li>
+          <li>• {t("Hoàn thành bài đúng hạn", "Submit homework on time")} <span className="font-bold text-emerald-600">+8</span></li>
+          <li>• {t("Streak 7+ ngày", "Streak of 7+ days")} <span className="font-bold text-emerald-600">+5</span></li>
+          <li>• {t("Tự hỏi AI Tutor", "Ask the AI Tutor")} <span className="font-bold text-emerald-600">+3</span></li>
         </ul>
       </div>
       <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3">
         <div className="text-[10px] text-rose-700 font-semibold mb-1.5 flex items-center gap-1">
-          <AlertTriangle className="h-3 w-3" /> Tín hiệu Penalty (−)
+          <AlertTriangle className="h-3 w-3" /> {t("Tín hiệu Penalty (−)", "Penalty signals (−)")}
         </div>
         <ul className="space-y-1 text-[11px] text-foreground/85">
-          <li>• Bỏ buổi không báo <span className="font-bold text-rose-600">−6</span></li>
-          <li>• Quiz dưới 50% <span className="font-bold text-rose-600">−4</span></li>
-          <li>• Im lặng &gt; 5 ngày <span className="font-bold text-rose-600">−5</span></li>
+          <li>• {t("Bỏ buổi không báo", "Missed class without notice")} <span className="font-bold text-rose-600">−6</span></li>
+          <li>• {t("Quiz dưới 50%", "Quiz below 50%")} <span className="font-bold text-rose-600">−4</span></li>
+          <li>• {t("Im lặng > 5 ngày", "Inactive > 5 days")} <span className="font-bold text-rose-600">−5</span></li>
         </ul>
       </div>
     </div>
 
-    {/* Recommended next action */}
     <div className="rounded-xl border border-teal-500/40 bg-gradient-to-r from-teal-500/10 to-emerald-500/5 p-3 flex items-start gap-2.5">
       <Target className="h-4 w-4 text-teal-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold text-teal-700">Hành động được RL đề xuất tuần này:</span> giảm độ khó Listening Part 3 xuống Band 6.0, tăng 2 buổi Speaking 1-1, gửi 1 voice note động viên từ Thầy. <span className="text-muted-foreground">→ Dự báo lên Band 6.5 sau 3 tuần.</span>
+        <span className="font-semibold text-teal-700">{t("Hành động được RL đề xuất tuần này:", "This week's RL-recommended action:")}</span> {t(
+          "giảm độ khó Listening Part 3 xuống Band 6.0, tăng 2 buổi Speaking 1-1, gửi 1 voice note động viên từ Thầy.",
+          "lower Listening Part 3 difficulty to Band 6.0, add 2 Speaking 1-on-1 sessions, send a voice note of encouragement from the teacher."
+        )} <span className="text-muted-foreground">→ {t("Dự báo lên Band 6.5 sau 3 tuần.", "Forecast to reach Band 6.5 in 3 weeks.")}</span>
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideEarlyWarning = () => (
+const SlideEarlyWarning = () => {
+  const { t } = useLanguage();
+  const stats = [
+    { l: { vi: "An toàn", en: "Safe" }, v: "42", c: "text-emerald-600", bg: "bg-emerald-500/10", icon: ShieldCheck },
+    { l: { vi: "Cần chú ý", en: "Watch" }, v: "7", c: "text-amber-600", bg: "bg-amber-500/10", icon: Bell },
+    { l: { vi: "Rủi ro cao", en: "High risk" }, v: "3", c: "text-rose-600", bg: "bg-rose-500/10", icon: AlertTriangle },
+  ];
+  const rows = [
+    {
+      name: "Phạm Thu Hà", level: { vi: "Rủi ro cao", en: "High risk" }, color: "rose",
+      signal: { vi: "Vắng 3 buổi liên tiếp · Quiz 38% · Không mở bài 7 ngày", en: "Missed 3 sessions in a row · Quiz 38% · No lesson opened in 7 days" },
+      action: { vi: "Gọi điện phụ huynh + tặng 1 buổi 1-1 miễn phí", en: "Call parents + offer 1 free 1-on-1 session" },
+      risk: 87,
+    },
+    {
+      name: "Đỗ Minh Quân", level: { vi: "Cần chú ý", en: "Watch" }, color: "amber",
+      signal: { vi: "Streak giảm · Engagement −22% trong 2 tuần", en: "Streak dropping · Engagement −22% in 2 weeks" },
+      action: { vi: "AI Tutor chủ động gửi tin nhắn động viên", en: "AI Tutor proactively sends an encouragement message" },
+      risk: 54,
+    },
+  ];
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-3 gap-3">
-      {[
-        { l: "An toàn", v: "42", c: "text-emerald-600", bg: "bg-emerald-500/10", icon: ShieldCheck },
-        { l: "Cần chú ý", v: "7", c: "text-amber-600", bg: "bg-amber-500/10", icon: Bell },
-        { l: "Rủi ro cao", v: "3", c: "text-rose-600", bg: "bg-rose-500/10", icon: AlertTriangle },
-      ].map((s) => (
-        <div key={s.l} className={`rounded-xl border border-border/60 ${s.bg} p-3 text-center`}>
+      {stats.map((s) => (
+        <div key={s.l.en} className={`rounded-xl border border-border/60 ${s.bg} p-3 text-center`}>
           <s.icon className={`h-4 w-4 ${s.c} mx-auto mb-1`} />
           <div className={`text-xl sm:text-2xl font-bold ${s.c} leading-none`}>{s.v}</div>
-          <div className="text-[10px] text-muted-foreground mt-1">{s.l}</div>
+          <div className="text-[10px] text-muted-foreground mt-1">{t(s.l.vi, s.l.en)}</div>
         </div>
       ))}
     </div>
-    {[
-      {
-        name: "Phạm Thu Hà", level: "Rủi ro cao", color: "rose",
-        signal: "Vắng 3 buổi liên tiếp · Quiz 38% · Không mở bài 7 ngày",
-        action: "Gọi điện phụ huynh + tặng 1 buổi 1-1 miễn phí",
-        risk: 87,
-      },
-      {
-        name: "Đỗ Minh Quân", level: "Cần chú ý", color: "amber",
-        signal: "Streak giảm · Engagement −22% trong 2 tuần",
-        action: "AI Tutor chủ động gửi tin nhắn động viên",
-        risk: 54,
-      },
-    ].map((r) => {
+    {rows.map((r) => {
       const colors = r.color === "rose"
         ? { border: "border-rose-500/40", bg: "bg-rose-500/5", chip: "bg-rose-500/15 text-rose-700 border-rose-500/30", bar: "bg-rose-500" }
         : { border: "border-amber-500/40", bg: "bg-amber-500/5", chip: "bg-amber-500/15 text-amber-700 border-amber-500/30", bar: "bg-amber-500" };
@@ -907,12 +956,12 @@ const SlideEarlyWarning = () => (
         <div key={r.name} className={`rounded-xl border ${colors.border} ${colors.bg} p-3`}>
           <div className="flex items-center justify-between gap-2 mb-1.5">
             <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{r.name}</div>
-            <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold ${colors.chip}`}>{r.level} · {r.risk}%</span>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold ${colors.chip}`}>{t(r.level.vi, r.level.en)} · {r.risk}%</span>
           </div>
-          <div className="text-[11px] text-muted-foreground mb-1.5">⚠️ {r.signal}</div>
+          <div className="text-[11px] text-muted-foreground mb-1.5">⚠️ {t(r.signal.vi, r.signal.en)}</div>
           <div className="text-[11px] text-foreground flex items-start gap-1.5">
             <Sparkles className="h-3 w-3 text-primary mt-0.5 shrink-0" />
-            <span><span className="font-semibold">AI đề xuất:</span> {r.action}</span>
+            <span><span className="font-semibold">{t("AI đề xuất:", "AI suggests:")}</span> {t(r.action.vi, r.action.en)}</span>
           </div>
           <div className="mt-2 h-1 rounded-full bg-muted overflow-hidden">
             <div className={`h-full ${colors.bar}`} style={{ width: `${r.risk}%` }} />
@@ -921,48 +970,52 @@ const SlideEarlyWarning = () => (
       );
     })}
   </div>
-);
+  );
+};
 
-const SlideScheduleFinance = () => (
+const SlideScheduleFinance = () => {
+  const { t } = useLanguage();
+  const items = [
+    { tm: "19:00", c: { vi: "IELTS Speaking 1-1", en: "IELTS Speaking 1-on-1" }, n: { vi: "Trần Minh Anh", en: "Anh Tran" }, color: "from-emerald-500 to-teal-500" },
+    { tm: "20:00", c: { vi: "TOEIC Listening · Lớp B2", en: "TOEIC Listening · B2 Class" }, n: { vi: "12 học viên", en: "12 students" }, color: "from-primary to-sky-500" },
+    { tm: "21:00", c: { vi: "Tư vấn lộ trình du học", en: "Study Abroad Roadmap Consult" }, n: { vi: "Nguyễn Khánh Linh", en: "Linh Nguyen" }, color: "from-violet-500 to-fuchsia-500" },
+  ];
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-primary/30 bg-primary/5 p-3.5">
         <div className="flex items-center justify-between mb-2">
-          <div className="text-[11px] text-muted-foreground font-medium">Buổi hôm nay</div>
+          <div className="text-[11px] text-muted-foreground font-medium">{t("Buổi hôm nay", "Today's sessions")}</div>
           <Calendar className="h-3.5 w-3.5 text-primary" />
         </div>
-        <div className="text-2xl font-bold text-foreground leading-none">5 lớp</div>
-        <div className="text-[10px] text-emerald-600 mt-1.5 font-semibold">✓ Đã gửi nhắc lịch 18:30</div>
+        <div className="text-2xl font-bold text-foreground leading-none">{t("5 lớp", "5 classes")}</div>
+        <div className="text-[10px] text-emerald-600 mt-1.5 font-semibold">✓ {t("Đã gửi nhắc lịch 18:30", "Reminders sent at 18:30")}</div>
       </div>
       <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3.5">
         <div className="flex items-center justify-between mb-2">
-          <div className="text-[11px] text-muted-foreground font-medium">Học phí tháng này</div>
+          <div className="text-[11px] text-muted-foreground font-medium">{t("Học phí tháng này", "Tuition this month")}</div>
           <DollarSign className="h-3.5 w-3.5 text-emerald-600" />
         </div>
         <div className="text-2xl font-bold text-emerald-600 leading-none">48.2M₫</div>
-        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">+34% so với tháng trước</div>
+        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">+34% {t("so với tháng trước", "vs last month")}</div>
       </div>
     </div>
 
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
       <div className="flex items-center justify-between mb-2">
-        <div className="text-xs sm:text-sm font-semibold text-foreground">Lịch sắp tới</div>
-        <span className="text-[10px] text-muted-foreground">Tự động đồng bộ Zoom · Google Calendar</span>
+        <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Lịch sắp tới", "Upcoming schedule")}</div>
+        <span className="text-[10px] text-muted-foreground">{t("Tự động đồng bộ Zoom · Google Calendar", "Auto-sync Zoom · Google Calendar")}</span>
       </div>
-      {[
-        { t: "19:00", c: "IELTS Speaking 1-1", n: "Trần Minh Anh", color: "from-emerald-500 to-teal-500" },
-        { t: "20:00", c: "TOEIC Listening · Lớp B2", n: "12 học viên", color: "from-primary to-sky-500" },
-        { t: "21:00", c: "Tư vấn lộ trình du học", n: "Nguyễn Khánh Linh", color: "from-violet-500 to-fuchsia-500" },
-      ].map((s) => (
-        <div key={s.c} className="flex items-center gap-3 py-2 border-t border-border/40 first:border-t-0">
+      {items.map((s) => (
+        <div key={s.c.en} className="flex items-center gap-3 py-2 border-t border-border/40 first:border-t-0">
           <div className={`h-9 w-12 rounded-lg bg-gradient-to-br ${s.color} flex items-center justify-center text-white text-[11px] font-bold shrink-0`}>
-            {s.t}
+            {s.tm}
           </div>
           <div className="min-w-0 flex-1">
-            <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{s.c}</div>
-            <div className="text-[11px] text-muted-foreground truncate">{s.n}</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{t(s.c.vi, s.c.en)}</div>
+            <div className="text-[11px] text-muted-foreground truncate">{t(s.n.vi, s.n.en)}</div>
           </div>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 font-semibold shrink-0">Đã xác nhận</span>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 font-semibold shrink-0">{t("Đã xác nhận", "Confirmed")}</span>
         </div>
       ))}
     </div>
@@ -970,15 +1023,25 @@ const SlideScheduleFinance = () => (
     <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
       <Gauge className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Tự động hoá:</span> nhắc đóng học phí, xuất biên lai PDF, gửi link Zoom, cảnh báo khi học viên trễ &gt; 2 ngày — Thầy/Cô tập trung 100% vào giảng dạy.
+        <span className="font-semibold">{t("Tự động hoá:", "Automation:")}</span> {t(
+          "nhắc đóng học phí, xuất biên lai PDF, gửi link Zoom, cảnh báo khi học viên trễ > 2 ngày — Thầy/Cô tập trung 100% vào giảng dạy.",
+          "tuition reminders, PDF receipts, Zoom links, alerts when students are late > 2 days — you focus 100% on teaching."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-// ===== Advanced teaching demo slides =====
-
-const SlideRubricGrading = () => (
+const SlideRubricGrading = () => {
+  const { t } = useLanguage();
+  const criteria = [
+    { l: "Task Response", v: 7.0, c: "from-rose-500 to-orange-500", note: { vi: "Cover đủ ý, ví dụ rõ", en: "Covers all points, clear examples" } },
+    { l: "Coherence", v: 7.5, c: "from-emerald-500 to-teal-500", note: { vi: "Linking từ đa dạng", en: "Diverse linking words" } },
+    { l: "Lexical Resource", v: 6.5, c: "from-amber-500 to-orange-500", note: { vi: "Lặp từ 'good' 4 lần", en: "'good' repeated 4 times" } },
+    { l: "Grammar Range", v: 7.0, c: "from-primary to-sky-500", note: { vi: "Câu phức tốt, vài lỗi nhỏ", en: "Good complex sentences, minor errors" } },
+  ];
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-rose-500/40 bg-gradient-to-br from-rose-500/10 via-orange-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between mb-1.5">
@@ -987,8 +1050,8 @@ const SlideRubricGrading = () => (
             <ClipboardList className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Bài Writing Task 2 · Trần Minh Anh</div>
-            <div className="text-[11px] text-muted-foreground">Đề: "Online learning vs traditional classroom"</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Bài Writing Task 2 · Trần Minh Anh", "Writing Task 2 · Anh Tran")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Đề:", "Prompt:")} "Online learning vs traditional classroom"</div>
           </div>
         </div>
         <div className="text-right">
@@ -999,12 +1062,7 @@ const SlideRubricGrading = () => (
     </div>
 
     <div className="grid grid-cols-2 gap-2.5">
-      {[
-        { l: "Task Response", v: 7.0, c: "from-rose-500 to-orange-500", note: "Cover đủ ý, ví dụ rõ" },
-        { l: "Coherence", v: 7.5, c: "from-emerald-500 to-teal-500", note: "Linking từ đa dạng" },
-        { l: "Lexical Resource", v: 6.5, c: "from-amber-500 to-orange-500", note: "Lặp từ 'good' 4 lần" },
-        { l: "Grammar Range", v: 7.0, c: "from-primary to-sky-500", note: "Câu phức tốt, vài lỗi nhỏ" },
-      ].map((s) => (
+      {criteria.map((s) => (
         <div key={s.l} className="rounded-xl border border-border/60 bg-background/70 p-2.5">
           <div className="flex items-center justify-between">
             <div className="text-[11px] font-semibold text-foreground">{s.l}</div>
@@ -1013,7 +1071,7 @@ const SlideRubricGrading = () => (
           <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
             <div className={`h-full bg-gradient-to-r ${s.c}`} style={{ width: `${(s.v / 9) * 100}%` }} />
           </div>
-          <div className="text-[10px] text-muted-foreground mt-1.5">{s.note}</div>
+          <div className="text-[10px] text-muted-foreground mt-1.5">{t(s.note.vi, s.note.en)}</div>
         </div>
       ))}
     </div>
@@ -1021,13 +1079,19 @@ const SlideRubricGrading = () => (
     <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI gợi ý sửa lỗi:</span> thay "good" bằng "beneficial / advantageous", chuyển 2 câu đơn ở đoạn 2 thành câu ghép, bổ sung 1 ví dụ thực tế tại Việt Nam. <span className="text-muted-foreground">→ Có thể đạt Band 7.5.</span>
+        <span className="font-semibold">{t("AI gợi ý sửa lỗi:", "AI fix suggestions:")}</span> {t(
+          "thay \"good\" bằng \"beneficial / advantageous\", chuyển 2 câu đơn ở đoạn 2 thành câu ghép, bổ sung 1 ví dụ thực tế tại Việt Nam.",
+          "replace \"good\" with \"beneficial / advantageous\", combine 2 simple sentences in paragraph 2 into a compound, add a real example from Vietnam."
+        )} <span className="text-muted-foreground">→ {t("Có thể đạt Band 7.5.", "Could reach Band 7.5.")}</span>
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideSpeakingGrading = () => (
+const SlideSpeakingGrading = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-violet-500/40 bg-gradient-to-br from-violet-500/10 via-fuchsia-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between mb-2">
@@ -1037,7 +1101,7 @@ const SlideSpeakingGrading = () => (
           </div>
           <div>
             <div className="text-xs sm:text-sm font-semibold text-foreground">Speaking Part 2 · "Describe a hometown"</div>
-            <div className="text-[11px] text-muted-foreground">Lê Quang Huy · ghi âm 1m48s</div>
+            <div className="text-[11px] text-muted-foreground">{t("Lê Quang Huy · ghi âm 1m48s", "Huy Le · 1m48s recording")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-violet-500/10 text-violet-600 border border-violet-500/30 font-semibold">
@@ -1060,31 +1124,37 @@ const SlideSpeakingGrading = () => (
     </div>
 
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
-      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Transcript có highlight phát âm</div>
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">{t("Transcript có highlight phát âm", "Transcript with pronunciation highlights")}</div>
       <div className="text-xs sm:text-sm leading-relaxed text-foreground">
         My hometown is <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">Hai Phong</span>, a port city in the
-        <span className="bg-rose-500/25 text-rose-700 px-1 rounded mx-1" title="Sai âm /ˈnɔːrðərn/">northern</span>
+        <span className="bg-rose-500/25 text-rose-700 px-1 rounded mx-1" title={t("Sai âm /ˈnɔːrðərn/", "Mispronounced /ˈnɔːrðərn/")}>northern</span>
         part of <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">Vietnam</span>. It's
-        <span className="bg-amber-500/25 text-amber-700 px-1 rounded mx-1" title="Trọng âm sai">famous</span>
+        <span className="bg-amber-500/25 text-amber-700 px-1 rounded mx-1" title={t("Trọng âm sai", "Wrong stress")}>famous</span>
         for its seafood and <span className="bg-emerald-500/20 text-emerald-700 px-1 rounded">friendly people</span>.
       </div>
       <div className="flex items-center gap-3 mt-2.5 text-[10px] text-muted-foreground">
-        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-emerald-500/60" /> Chuẩn</span>
-        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-amber-500/70" /> Trọng âm</span>
-        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-rose-500/70" /> Sai âm</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-emerald-500/60" /> {t("Chuẩn", "Correct")}</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-amber-500/70" /> {t("Trọng âm", "Stress")}</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded bg-rose-500/70" /> {t("Sai âm", "Wrong sound")}</span>
       </div>
     </div>
 
     <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-violet-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Bài tập phát âm tự sinh:</span> 6 từ /θ/ /ð/ + 4 cụm trọng âm — học viên luyện lại trong 5 phút, AI chấm lại tự động.
+        <span className="font-semibold">{t("Bài tập phát âm tự sinh:", "Auto-generated pronunciation drill:")}</span> {t(
+          "6 từ /θ/ /ð/ + 4 cụm trọng âm — học viên luyện lại trong 5 phút, AI chấm lại tự động.",
+          "6 /θ/ /ð/ words + 4 stress clusters — student practices for 5 minutes and the AI re-grades automatically."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideLiveClass = () => (
+const SlideLiveClass = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-sky-500/40 bg-gradient-to-br from-sky-500/10 via-primary/5 to-transparent p-3.5">
       <div className="flex items-center justify-between">
@@ -1096,31 +1166,23 @@ const SlideLiveClass = () => (
             <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-rose-500 ring-2 ring-card animate-pulse" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Lớp IELTS 6.5 · Ca tối · LIVE</div>
-            <div className="text-[11px] text-muted-foreground">18 / 20 học viên có mặt · 42:18 đã trôi qua</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Lớp IELTS 6.5 · Ca tối · LIVE", "IELTS 6.5 · Evening Class · LIVE")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("18 / 20 học viên có mặt · 42:18 đã trôi qua", "18 / 20 students present · 42:18 elapsed")}</div>
           </div>
         </div>
         <div className="text-right">
           <div className="text-sm font-bold text-emerald-600 leading-none">84%</div>
-          <div className="text-[10px] text-muted-foreground mt-0.5">Tập trung TB</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">{t("Tập trung TB", "Avg focus")}</div>
         </div>
       </div>
     </div>
 
     <div className="grid grid-cols-6 gap-1.5">
       {[
-        { n: "MA", f: 95, c: "emerald" },
-        { n: "QH", f: 88, c: "emerald" },
-        { n: "TH", f: 42, c: "rose" },
-        { n: "KL", f: 76, c: "amber" },
-        { n: "MQ", f: 91, c: "emerald" },
-        { n: "NN", f: 58, c: "amber" },
-        { n: "DT", f: 82, c: "emerald" },
-        { n: "VL", f: 35, c: "rose" },
-        { n: "HP", f: 89, c: "emerald" },
-        { n: "BT", f: 71, c: "amber" },
-        { n: "CK", f: 93, c: "emerald" },
-        { n: "AT", f: 64, c: "amber" },
+        { n: "MA", f: 95, c: "emerald" }, { n: "QH", f: 88, c: "emerald" }, { n: "TH", f: 42, c: "rose" },
+        { n: "KL", f: 76, c: "amber" }, { n: "MQ", f: 91, c: "emerald" }, { n: "NN", f: 58, c: "amber" },
+        { n: "DT", f: 82, c: "emerald" }, { n: "VL", f: 35, c: "rose" }, { n: "HP", f: 89, c: "emerald" },
+        { n: "BT", f: 71, c: "amber" }, { n: "CK", f: 93, c: "emerald" }, { n: "AT", f: 64, c: "amber" },
       ].map((s) => {
         const ring = s.c === "emerald" ? "ring-emerald-500/60 bg-emerald-500/15 text-emerald-700"
           : s.c === "amber" ? "ring-amber-500/60 bg-amber-500/15 text-amber-700"
@@ -1137,27 +1199,40 @@ const SlideLiveClass = () => (
     <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3 flex items-start gap-2.5">
       <AlertTriangle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI phát hiện:</span> 2 học viên (TH, VL) đang mất tập trung &gt; 6 phút — gợi ý gọi tên ngẫu nhiên, hoặc gửi poll nhanh để kéo lại sự tham gia.
+        <span className="font-semibold">{t("AI phát hiện:", "AI detected:")}</span> {t(
+          "2 học viên (TH, VL) đang mất tập trung > 6 phút — gợi ý gọi tên ngẫu nhiên, hoặc gửi poll nhanh để kéo lại sự tham gia.",
+          "2 students (TH, VL) lost focus for > 6 minutes — suggest a random cold-call or quick poll to re-engage."
+        )}
       </div>
     </div>
 
     <div className="grid grid-cols-3 gap-2">
       {[
-        { l: "Tay giơ", v: "4", icon: HelpCircle, c: "text-primary", bg: "bg-primary/10" },
-        { l: "Poll trả lời", v: "16 / 18", icon: Check, c: "text-emerald-600", bg: "bg-emerald-500/10" },
-        { l: "Chat hỏi", v: "9", icon: MessageCircle, c: "text-violet-600", bg: "bg-violet-500/10" },
+        { l: { vi: "Tay giơ", en: "Hands raised" }, v: "4", icon: HelpCircle, c: "text-primary", bg: "bg-primary/10" },
+        { l: { vi: "Poll trả lời", en: "Poll answers" }, v: "16 / 18", icon: Check, c: "text-emerald-600", bg: "bg-emerald-500/10" },
+        { l: { vi: "Chat hỏi", en: "Chat questions" }, v: "9", icon: MessageCircle, c: "text-violet-600", bg: "bg-violet-500/10" },
       ].map((s) => (
-        <div key={s.l} className={`rounded-lg ${s.bg} border border-border/60 p-2.5`}>
+        <div key={s.l.en} className={`rounded-lg ${s.bg} border border-border/60 p-2.5`}>
           <s.icon className={`h-3.5 w-3.5 ${s.c}`} />
           <div className="text-sm font-bold text-foreground mt-1 leading-none">{s.v}</div>
-          <div className="text-[10px] text-muted-foreground mt-1">{s.l}</div>
+          <div className="text-[10px] text-muted-foreground mt-1">{t(s.l.vi, s.l.en)}</div>
         </div>
       ))}
     </div>
   </div>
-);
+  );
+};
 
-const SlideMasteryMap = () => (
+const SlideMasteryMap = () => {
+  const { t } = useLanguage();
+  const rows = [
+    { n: { vi: "Trần Anh", en: "Anh Tran" }, row: [85, 72, 65, 78, 55, 60] },
+    { n: { vi: "Lê Huy", en: "Huy Le" }, row: [92, 88, 80, 75, 70, 82] },
+    { n: { vi: "Phạm Hà", en: "Ha Pham" }, row: [45, 38, 52, 60, 35, 42] },
+    { n: { vi: "Đỗ Quân", en: "Quan Do" }, row: [70, 65, 58, 72, 50, 55] },
+    { n: { vi: "Ng. Linh", en: "Linh Ng." }, row: [88, 82, 78, 85, 75, 80] },
+  ];
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-indigo-500/40 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between">
@@ -1166,41 +1241,35 @@ const SlideMasteryMap = () => (
             <Brain className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Skill Mastery · Lớp IELTS 6.5</div>
-            <div className="text-[11px] text-muted-foreground">Cập nhật theo từng bài tập nộp lên</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Skill Mastery · Lớp IELTS 6.5", "Skill Mastery · IELTS 6.5 Class")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Cập nhật theo từng bài tập nộp lên", "Updated with every submitted assignment")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-indigo-500/10 text-indigo-600 border border-indigo-500/30 font-semibold">
-          12 kỹ năng
+          {t("12 kỹ năng", "12 skills")}
         </div>
       </div>
     </div>
 
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
-      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Heatmap mức độ thành thạo (xanh = vững, đỏ = yếu)</div>
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">{t("Heatmap mức độ thành thạo (xanh = vững, đỏ = yếu)", "Mastery heatmap (green = strong, red = weak)")}</div>
       <div className="grid grid-cols-7 gap-1 text-[9px]">
         <div></div>
         {["Skim", "Detail", "Para", "Vocab", "T/F", "Match"].map((h) => (
           <div key={h} className="text-center text-muted-foreground font-medium truncate">{h}</div>
         ))}
-        {[
-          { n: "Trần Anh", row: [85, 72, 65, 78, 55, 60] },
-          { n: "Lê Huy", row: [92, 88, 80, 75, 70, 82] },
-          { n: "Phạm Hà", row: [45, 38, 52, 60, 35, 42] },
-          { n: "Đỗ Quân", row: [70, 65, 58, 72, 50, 55] },
-          { n: "Ng. Linh", row: [88, 82, 78, 85, 75, 80] },
-        ].map((r) => (
-          <Fragment key={r.n}>
-            <div className="text-muted-foreground truncate text-[10px] flex items-center">{r.n}</div>
+        {rows.map((r) => (
+          <Fragment key={r.n.en}>
+            <div className="text-muted-foreground truncate text-[10px] flex items-center">{t(r.n.vi, r.n.en)}</div>
             {r.row.map((v, i) => {
               const bg = v >= 75 ? "bg-emerald-500" : v >= 60 ? "bg-amber-500" : v >= 45 ? "bg-orange-500" : "bg-rose-500";
               const op = 0.3 + (v / 100) * 0.7;
               return (
                 <div
-                  key={`${r.n}-${i}`}
+                  key={`${r.n.en}-${i}`}
                   className={`aspect-square rounded ${bg} flex items-center justify-center text-white font-bold`}
                   style={{ opacity: op }}
-                  title={`${r.n} · ${v}%`}
+                  title={`${t(r.n.vi, r.n.en)} · ${v}%`}
                 >
                   {v}
                 </div>
@@ -1214,13 +1283,29 @@ const SlideMasteryMap = () => (
     <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 flex items-start gap-2.5">
       <Target className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI khuyến nghị:</span> mở mini-lesson "True/False/Not Given" cho 3 học viên ô đỏ; Phạm Hà cần kèm 1-1 — yếu toàn diện ở Reading.
+        <span className="font-semibold">{t("AI khuyến nghị:", "AI recommends:")}</span> {t(
+          "mở mini-lesson \"True/False/Not Given\" cho 3 học viên ô đỏ; Phạm Hà cần kèm 1-1 — yếu toàn diện ở Reading.",
+          "open a \"True/False/Not Given\" mini-lesson for the 3 red students; Ha Pham needs 1-on-1 tutoring — weak across Reading."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideAssignmentBuilder = () => (
+const SlideAssignmentBuilder = () => {
+  const { t } = useLanguage();
+  const cls = [
+    { l: { vi: "Lớp IELTS 6.5", en: "IELTS 6.5 Class" }, v: { vi: "20 HV", en: "20 students" }, c: "from-primary to-sky-500" },
+    { l: { vi: "Lớp IELTS 7.0", en: "IELTS 7.0 Class" }, v: { vi: "15 HV", en: "15 students" }, c: "from-emerald-500 to-teal-500" },
+    { l: { vi: "Lớp 1-1 Premium", en: "1-on-1 Premium" }, v: { vi: "12 HV", en: "12 students" }, c: "from-violet-500 to-fuchsia-500" },
+  ];
+  const tiers = [
+    { l: { vi: "Học viên yếu (<6.0)", en: "Weak students (<6.0)" }, task: { vi: "Passage rút gọn · 8 câu · gợi ý từ vựng", en: "Short passage · 8 questions · vocab hints" }, c: "rose", n: 9 },
+    { l: { vi: "Học viên trung bình (6.0-6.5)", en: "Average (6.0-6.5)" }, task: { vi: "Passage đầy đủ · 13 câu · không gợi ý", en: "Full passage · 13 questions · no hints" }, c: "amber", n: 24 },
+    { l: { vi: "Học viên khá (≥7.0)", en: "Strong (≥7.0)" }, task: { vi: "Passage + bonus T/F/NG · 16 câu · giới hạn 20'", en: "Passage + bonus T/F/NG · 16 questions · 20-min limit" }, c: "emerald", n: 14 },
+  ];
+  return (
   <div className="space-y-3">
     <div className="rounded-xl border-2 border-teal-500/40 bg-gradient-to-br from-teal-500/10 via-emerald-500/5 to-transparent p-3.5">
       <div className="flex items-center justify-between mb-2">
@@ -1229,48 +1314,40 @@ const SlideAssignmentBuilder = () => (
             <Send className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm font-semibold text-foreground">Giao bài: Reading Practice #18</div>
-            <div className="text-[11px] text-muted-foreground">Hạn nộp: Chủ nhật 21:00 · Tự động chấm</div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Giao bài: Reading Practice #18", "Assign: Reading Practice #18")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Hạn nộp: Chủ nhật 21:00 · Tự động chấm", "Due: Sunday 21:00 · Auto-graded")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-teal-500/15 text-teal-700 border border-teal-500/30 font-semibold">
-          3 lớp · 47 HV
+          {t("3 lớp · 47 HV", "3 classes · 47 students")}
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-2 mt-1">
-        {[
-          { l: "Lớp IELTS 6.5", v: "20 HV", c: "from-primary to-sky-500" },
-          { l: "Lớp IELTS 7.0", v: "15 HV", c: "from-emerald-500 to-teal-500" },
-          { l: "Lớp 1-1 Premium", v: "12 HV", c: "from-violet-500 to-fuchsia-500" },
-        ].map((s) => (
-          <div key={s.l} className={`rounded-lg p-2 text-white bg-gradient-to-br ${s.c}`}>
-            <div className="text-[10px] opacity-90">{s.l}</div>
-            <div className="text-sm font-bold leading-none mt-1">{s.v}</div>
+        {cls.map((s) => (
+          <div key={s.l.en} className={`rounded-lg p-2 text-white bg-gradient-to-br ${s.c}`}>
+            <div className="text-[10px] opacity-90">{t(s.l.vi, s.l.en)}</div>
+            <div className="text-sm font-bold leading-none mt-1">{t(s.v.vi, s.v.en)}</div>
           </div>
         ))}
       </div>
     </div>
 
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
-      <div className="text-[11px] text-muted-foreground mb-2 font-medium">Cá nhân hoá theo trình độ (AI tự chia đề)</div>
-      {[
-        { l: "Học viên yếu (<6.0)", task: "Passage rút gọn · 8 câu · gợi ý từ vựng", c: "rose", n: 9 },
-        { l: "Học viên trung bình (6.0-6.5)", task: "Passage đầy đủ · 13 câu · không gợi ý", c: "amber", n: 24 },
-        { l: "Học viên khá (≥7.0)", task: "Passage + bonus T/F/NG · 16 câu · giới hạn 20'", c: "emerald", n: 14 },
-      ].map((r) => {
-        const cls = r.c === "rose" ? "border-rose-500/30 bg-rose-500/5"
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium">{t("Cá nhân hoá theo trình độ (AI tự chia đề)", "Personalized by level (AI splits the task)")}</div>
+      {tiers.map((r) => {
+        const clss = r.c === "rose" ? "border-rose-500/30 bg-rose-500/5"
           : r.c === "amber" ? "border-amber-500/30 bg-amber-500/5"
           : "border-emerald-500/30 bg-emerald-500/5";
         const chip = r.c === "rose" ? "bg-rose-500/15 text-rose-700"
           : r.c === "amber" ? "bg-amber-500/15 text-amber-700"
           : "bg-emerald-500/15 text-emerald-700";
         return (
-          <div key={r.l} className={`rounded-lg border ${cls} p-2.5 flex items-center gap-2.5 mt-1.5 first:mt-0`}>
-            <div className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${chip} shrink-0`}>{r.n} HV</div>
+          <div key={r.l.en} className={`rounded-lg border ${clss} p-2.5 flex items-center gap-2.5 mt-1.5 first:mt-0`}>
+            <div className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${chip} shrink-0`}>{r.n} {t("HV", "stu")}</div>
             <div className="min-w-0 flex-1">
-              <div className="text-[11px] font-semibold text-foreground">{r.l}</div>
-              <div className="text-[10px] text-muted-foreground truncate">{r.task}</div>
+              <div className="text-[11px] font-semibold text-foreground">{t(r.l.vi, r.l.en)}</div>
+              <div className="text-[10px] text-muted-foreground truncate">{t(r.task.vi, r.task.en)}</div>
             </div>
             <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
           </div>
@@ -1281,18 +1358,24 @@ const SlideAssignmentBuilder = () => (
     <div className="rounded-xl border border-teal-500/30 bg-teal-500/5 p-3 flex items-start gap-2.5">
       <Zap className="h-4 w-4 text-teal-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Tiết kiệm 9.2h/tuần:</span> 1 lần soạn → AI chia 3 cấp độ → gửi Zalo + email → chấm tự động → trả kết quả + lời nhận xét cá nhân hoá cho từng học viên.
+        <span className="font-semibold">{t("Tiết kiệm 9.2h/tuần:", "Save 9.2h/week:")}</span> {t(
+          "1 lần soạn → AI chia 3 cấp độ → gửi Zalo + email → chấm tự động → trả kết quả + lời nhận xét cá nhân hoá cho từng học viên.",
+          "Author once → AI splits into 3 levels → send via Zalo + email → auto-grade → return personalized scores & feedback per student."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideGamification = () => (
+const SlideGamification = () => {
+  const { t } = useLanguage();
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-3 gap-2.5">
       <div className="rounded-xl border-2 border-purple-300/40 dark:border-purple-500/30 bg-gradient-to-br from-purple-500/15 via-fuchsia-500/10 to-indigo-500/15 backdrop-blur p-3">
-        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Cấp 5</div>
-        <div className="text-sm font-black text-foreground mt-0.5">🧪 Nhà khoa học</div>
+        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">{t("Cấp 5", "Level 5")}</div>
+        <div className="text-sm font-black text-foreground mt-0.5">🧪 {t("Nhà khoa học", "Scientist")}</div>
         <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
           <div className="h-full bg-gradient-to-r from-purple-500 to-fuchsia-500" style={{ width: "68%" }} />
         </div>
@@ -1300,22 +1383,22 @@ const SlideGamification = () => (
       </div>
       <div className="rounded-xl border-2 border-orange-300/50 dark:border-orange-500/30 bg-gradient-to-br from-orange-500/15 via-red-500/10 to-amber-500/15 backdrop-blur p-3 flex flex-col justify-center items-center text-center">
         <div className="text-3xl">🔥</div>
-        <div className="text-xl font-black text-orange-600 dark:text-orange-300 mt-1">12 <span className="text-sm font-bold">ngày</span></div>
-        <div className="text-[10px] text-muted-foreground">Chuỗi học liên tiếp</div>
+        <div className="text-xl font-black text-orange-600 dark:text-orange-300 mt-1">12 <span className="text-sm font-bold">{t("ngày", "days")}</span></div>
+        <div className="text-[10px] text-muted-foreground">{t("Chuỗi học liên tiếp", "Learning streak")}</div>
       </div>
       <div className="rounded-xl border-2 border-emerald-300/50 dark:border-emerald-500/30 bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-cyan-500/15 backdrop-blur p-3">
         <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold flex items-center gap-1">
-          <Trophy className="w-3 h-3" /> Nhiệm vụ
+          <Trophy className="w-3 h-3" /> {t("Nhiệm vụ", "Quests")}
         </div>
         <div className="mt-2 space-y-1.5">
           <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-300">
-            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">Mở 1 bài học</span>
+            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">{t("Mở 1 bài học", "Open 1 lesson")}</span>
           </div>
           <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-300">
-            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">Hoàn thành 1 quiz</span>
+            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">{t("Hoàn thành 1 quiz", "Finish 1 quiz")}</span>
           </div>
           <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-            <span className="h-3.5 w-3.5 rounded-full border border-muted-foreground/40 inline-block" /> Kiếm 1 sao ⭐
+            <span className="h-3.5 w-3.5 rounded-full border border-muted-foreground/40 inline-block" /> {t("Kiếm 1 sao ⭐", "Earn 1 star ⭐")}
           </div>
         </div>
       </div>
@@ -1323,26 +1406,26 @@ const SlideGamification = () => (
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-border/60 bg-background/70 p-3">
         <div className="text-[11px] font-semibold text-foreground mb-2 flex items-center gap-1.5">
-          <Medal className="h-3.5 w-3.5 text-amber-500" /> Huy chương &amp; Thành tích
+          <Medal className="h-3.5 w-3.5 text-amber-500" /> {t("Huy chương & Thành tích", "Medals & Achievements")}
         </div>
         <div className="flex flex-wrap gap-2">
           {[
-            { emoji: "🚀", t: "Khởi động" },
-            { emoji: "💬", t: "Chatbot Pro" },
-            { emoji: "📝", t: "Writer" },
-            { emoji: "🎯", t: "Bullseye" },
-            { emoji: "🔥", t: "Streak 7" },
-            { emoji: "⭐", t: "Star Master" },
+            { emoji: "🚀", t: { vi: "Khởi động", en: "Lift-off" } },
+            { emoji: "💬", t: { vi: "Chatbot Pro", en: "Chatbot Pro" } },
+            { emoji: "📝", t: { vi: "Writer", en: "Writer" } },
+            { emoji: "🎯", t: { vi: "Bullseye", en: "Bullseye" } },
+            { emoji: "🔥", t: { vi: "Streak 7", en: "Streak 7" } },
+            { emoji: "⭐", t: { vi: "Star Master", en: "Star Master" } },
           ].map((b) => (
-            <div key={b.t} className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 border border-amber-500/20 px-2 py-1 text-[10px] font-semibold text-amber-700">
-              <span>{b.emoji}</span> {b.t}
+            <div key={b.t.en} className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 border border-amber-500/20 px-2 py-1 text-[10px] font-semibold text-amber-700">
+              <span>{b.emoji}</span> {t(b.t.vi, b.t.en)}
             </div>
           ))}
         </div>
       </div>
       <div className="rounded-xl border border-border/60 bg-background/70 p-3">
         <div className="text-[11px] font-semibold text-foreground mb-2 flex items-center gap-1.5">
-          <UsersRound className="h-3.5 w-3.5 text-primary" /> Bảng xếp hạng tuần
+          <UsersRound className="h-3.5 w-3.5 text-primary" /> {t("Bảng xếp hạng tuần", "Weekly Leaderboard")}
         </div>
         <div className="space-y-1.5">
           {[
@@ -1364,25 +1447,37 @@ const SlideGamification = () => (
     <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
       <Gamepad2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Gamification tự động:</span> học viên kiếm XP qua bài học, quiz, streak hàng ngày — tăng tỉ lệ quay lại lên <span className="font-bold text-emerald-600">+34%</span> so với lớp học truyền thống.
+        <span className="font-semibold">{t("Gamification tự động:", "Automatic gamification:")}</span> {t(
+          "học viên kiếm XP qua bài học, quiz, streak hàng ngày — tăng tỉ lệ quay lại lên",
+          "students earn XP through lessons, quizzes and daily streaks — boosting return rate by"
+        )} <span className="font-bold text-emerald-600">+34%</span> {t("so với lớp học truyền thống.", "vs traditional classes.")}
       </div>
     </div>
   </div>
-);
+  );
+};
 
-const SlideHR = () => (
+const SlideHR = () => {
+  const { t } = useLanguage();
+  const roles = [
+    { role: { vi: "Admin", en: "Admin" }, name: "Nguyễn Văn Hải", icon: UserCog, c: "from-primary to-sky-500" },
+    { role: { vi: "Giáo viên", en: "Teacher" }, name: "Trần Thị Lan", icon: GraduationCap, c: "from-emerald-500 to-teal-500" },
+    { role: { vi: "Trợ giảng", en: "Assistant" }, name: "Lê Văn Minh", icon: UsersRound, c: "from-violet-500 to-fuchsia-500" },
+  ];
+  const reports = [
+    { t: { vi: "Báo cáo chất lượng lớp học", en: "Class Quality Report" }, st: { vi: "✓ Đã duyệt", en: "✓ Approved" }, c: "text-emerald-600" },
+    { t: { vi: "Đề xuất tăng lương Trợ giảng", en: "Assistant raise proposal" }, st: { vi: "Chờ Admin", en: "Awaiting Admin" }, c: "text-amber-600" },
+    { t: { vi: "Kế hoạch tuyển thêm GV tháng 7", en: "July teacher hiring plan" }, st: { vi: "Đang soạn", en: "Drafting" }, c: "text-muted-foreground" },
+  ];
+  return (
   <div className="space-y-3">
     <div className="grid grid-cols-3 gap-2.5">
-      {[
-        { role: "Admin", name: "Nguyễn Văn Hải", icon: UserCog, c: "from-primary to-sky-500" },
-        { role: "Giáo viên", name: "Trần Thị Lan", icon: GraduationCap, c: "from-emerald-500 to-teal-500" },
-        { role: "Trợ giảng", name: "Lê Văn Minh", icon: UsersRound, c: "from-violet-500 to-fuchsia-500" },
-      ].map((s) => (
+      {roles.map((s) => (
         <div key={s.name} className="rounded-xl border border-border/60 bg-background/70 p-3 text-center">
           <div className={`h-9 w-9 rounded-full bg-gradient-to-br ${s.c} flex items-center justify-center text-white mx-auto mb-2`}>
             <s.icon className="h-4 w-4" />
           </div>
-          <div className="text-[11px] font-semibold text-foreground">{s.role}</div>
+          <div className="text-[11px] font-semibold text-foreground">{t(s.role.vi, s.role.en)}</div>
           <div className="text-[10px] text-muted-foreground truncate mt-0.5">{s.name}</div>
         </div>
       ))}
@@ -1390,7 +1485,7 @@ const SlideHR = () => (
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
         <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
-          <Clock className="h-3.5 w-3.5 text-primary" /> Chấm công tháng 6
+          <Clock className="h-3.5 w-3.5 text-primary" /> {t("Chấm công tháng 6", "June Time Logs")}
         </div>
         <div className="space-y-2">
           {[
@@ -1407,25 +1502,21 @@ const SlideHR = () => (
       </div>
       <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3.5">
         <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
-          <Wallet className="h-3.5 w-3.5 text-emerald-600" /> Tổng quỹ lương
+          <Wallet className="h-3.5 w-3.5 text-emerald-600" /> {t("Tổng quỹ lương", "Total payroll")}
         </div>
         <div className="text-2xl font-bold text-emerald-600 leading-none">4.8M₫</div>
-        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">Đã trả 2/3 nhân sự · Còn 1 pending</div>
+        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">{t("Đã trả 2/3 nhân sự · Còn 1 pending", "Paid 2/3 staff · 1 pending")}</div>
       </div>
     </div>
     <div className="rounded-xl border border-border/60 bg-background/70 p-3">
       <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
-        <Briefcase className="h-3.5 w-3.5 text-primary" /> Báo cáo &amp; Thưởng
+        <Briefcase className="h-3.5 w-3.5 text-primary" /> {t("Báo cáo & Thưởng", "Reports & Bonuses")}
       </div>
       <div className="space-y-1.5">
-        {[
-          { t: "Báo cáo chất lượng lớp học", st: "✓ Đã duyệt", c: "text-emerald-600" },
-          { t: "Đề xuất tăng lương Trợ giảng", st: "Chờ Admin", c: "text-amber-600" },
-          { t: "Kế hoạch tuyển thêm GV tháng 7", st: "Đang soạn", c: "text-muted-foreground" },
-        ].map((r) => (
-          <div key={r.t} className="flex items-center justify-between text-[11px] px-2 py-1.5 rounded-lg bg-secondary/30">
-            <span className="text-foreground">{r.t}</span>
-            <span className={`font-semibold ${r.c}`}>{r.st}</span>
+        {reports.map((r) => (
+          <div key={r.t.en} className="flex items-center justify-between text-[11px] px-2 py-1.5 rounded-lg bg-secondary/30">
+            <span className="text-foreground">{t(r.t.vi, r.t.en)}</span>
+            <span className={`font-semibold ${r.c}`}>{t(r.st.vi, r.st.en)}</span>
           </div>
         ))}
       </div>
@@ -1433,11 +1524,16 @@ const SlideHR = () => (
     <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-3 flex items-start gap-2.5">
       <Sparkles className="h-4 w-4 text-violet-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">Quản lý nhân sự tích hợp:</span> phân quyền Admin / Giáo viên / Trợ giảng, chấm công tự động, tính lương theo giờ và thưởng KPI — tất cả trên 1 dashboard.
+        <span className="font-semibold">{t("Quản lý nhân sự tích hợp:", "Integrated HR management:")}</span> {t(
+          "phân quyền Admin / Giáo viên / Trợ giảng, chấm công tự động, tính lương theo giờ và thưởng KPI — tất cả trên 1 dashboard.",
+          "Admin / Teacher / Assistant roles, auto time tracking, hourly payroll and KPI bonuses — all in one dashboard."
+        )}
       </div>
     </div>
   </div>
-);
+  );
+};
+
 
 const EdTechWebService = () => {
   const { t, lang } = useLanguage();
