@@ -2180,8 +2180,8 @@ const EdTechWebService = () => {
                         <p.icon className="w-5 h-5" />
                       </div>
                       <div>
-                        <CardTitle className="text-xl">{p.name}</CardTitle>
-                        <p className="text-xs text-muted-foreground">{p.tagline}</p>
+                        <CardTitle className="text-xl">{t(p.name.vi, p.name.en)}</CardTitle>
+                        <p className="text-xs text-muted-foreground">{t(p.tagline.vi, p.tagline.en)}</p>
                       </div>
                     </div>
                     <div className="mt-4">
@@ -2192,21 +2192,21 @@ const EdTechWebService = () => {
                             : "text-foreground"
                         }`}
                       >
-                        {p.priceFrom}
+                        {t(p.priceFrom.vi, p.priceFrom.en)}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">{p.priceNote}</p>
-                      <p className="text-xs text-foreground/80 mt-1 font-medium">{p.monthly}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{t(p.priceNote.vi, p.priceNote.en)}</p>
+                      <p className="text-xs text-foreground/80 mt-1 font-medium">{t(p.monthly.vi, p.monthly.en)}</p>
                     </div>
-                    <p className="mt-3 text-xs text-muted-foreground italic">{p.bestFor}</p>
+                    <p className="mt-3 text-xs text-muted-foreground italic">{t(p.bestFor.vi, p.bestFor.en)}</p>
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col">
                     <ul className="space-y-3 flex-1">
                       {p.features.map((feat) => (
-                        <li key={feat} className="flex items-start gap-2 text-sm text-foreground">
+                        <li key={feat.vi} className="flex items-start gap-2 text-sm text-foreground">
                           <Check
                             className={`w-4 h-4 mt-0.5 shrink-0 ${p.highlight ? "text-emerald-500" : "text-primary"}`}
                           />
-                          <span>{feat}</span>
+                          <span>{t(feat.vi, feat.en)}</span>
                         </li>
                       ))}
                     </ul>
