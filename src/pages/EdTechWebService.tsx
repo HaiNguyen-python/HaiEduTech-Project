@@ -70,6 +70,13 @@ import {
   Bell,
   Activity,
   Gauge,
+  Gamepad2,
+  Medal,
+  Star,
+  UsersRound,
+  Briefcase,
+  Wallet,
+  UserCog,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -326,6 +333,18 @@ const DEMO_SLIDES = [
     badge: "Smart Assign",
     badgeColor: "teal" as const,
   },
+  {
+    id: "gamification",
+    title: "Gamification · Tăng động lực học",
+    badge: "XP · Streak · Badge",
+    badgeColor: "amber" as const,
+  },
+  {
+    id: "hr-management",
+    title: "Quản lý nhân sự & Cộng tác viên",
+    badge: "Staff · Payroll",
+    badgeColor: "violet" as const,
+  },
 ];
 
 const badgeStyles = {
@@ -402,6 +421,8 @@ const DemoCarousel = () => {
           {slide.id === "live-class" && <SlideLiveClass />}
           {slide.id === "mastery-map" && <SlideMasteryMap />}
           {slide.id === "assignment-builder" && <SlideAssignmentBuilder />}
+          {slide.id === "gamification" && <SlideGamification />}
+          {slide.id === "hr-management" && <SlideHR />}
         </motion.div>
       </div>
 
@@ -1183,10 +1204,157 @@ const SlideAssignmentBuilder = () => (
   </div>
 );
 
+const SlideGamification = () => (
+  <div className="space-y-3">
+    <div className="grid grid-cols-3 gap-2.5">
+      <div className="rounded-xl border-2 border-purple-300/40 dark:border-purple-500/30 bg-gradient-to-br from-purple-500/15 via-fuchsia-500/10 to-indigo-500/15 backdrop-blur p-3">
+        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Cấp 5</div>
+        <div className="text-sm font-black text-foreground mt-0.5">🧪 Nhà khoa học</div>
+        <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-purple-500 to-fuchsia-500" style={{ width: "68%" }} />
+        </div>
+        <div className="text-[10px] text-muted-foreground mt-1">1 240 / 1 800 XP</div>
+      </div>
+      <div className="rounded-xl border-2 border-orange-300/50 dark:border-orange-500/30 bg-gradient-to-br from-orange-500/15 via-red-500/10 to-amber-500/15 backdrop-blur p-3 flex flex-col justify-center items-center text-center">
+        <div className="text-3xl">🔥</div>
+        <div className="text-xl font-black text-orange-600 dark:text-orange-300 mt-1">12 <span className="text-sm font-bold">ngày</span></div>
+        <div className="text-[10px] text-muted-foreground">Chuỗi học liên tiếp</div>
+      </div>
+      <div className="rounded-xl border-2 border-emerald-300/50 dark:border-emerald-500/30 bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-cyan-500/15 backdrop-blur p-3">
+        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold flex items-center gap-1">
+          <Trophy className="w-3 h-3" /> Nhiệm vụ
+        </div>
+        <div className="mt-2 space-y-1.5">
+          <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-300">
+            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">Mở 1 bài học</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-300">
+            <Check className="w-3.5 h-3.5" /> <span className="line-through opacity-80">Hoàn thành 1 quiz</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+            <span className="h-3.5 w-3.5 rounded-full border border-muted-foreground/40 inline-block" /> Kiếm 1 sao ⭐
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+        <div className="text-[11px] font-semibold text-foreground mb-2 flex items-center gap-1.5">
+          <Medal className="h-3.5 w-3.5 text-amber-500" /> Huy chương &amp; Thành tích
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { emoji: "🚀", t: "Khởi động" },
+            { emoji: "💬", t: "Chatbot Pro" },
+            { emoji: "📝", t: "Writer" },
+            { emoji: "🎯", t: "Bullseye" },
+            { emoji: "🔥", t: "Streak 7" },
+            { emoji: "⭐", t: "Star Master" },
+          ].map((b) => (
+            <div key={b.t} className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 border border-amber-500/20 px-2 py-1 text-[10px] font-semibold text-amber-700">
+              <span>{b.emoji}</span> {b.t}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+        <div className="text-[11px] font-semibold text-foreground mb-2 flex items-center gap-1.5">
+          <UsersRound className="h-3.5 w-3.5 text-primary" /> Bảng xếp hạng tuần
+        </div>
+        <div className="space-y-1.5">
+          {[
+            { n: "Trần Minh Anh", xp: 320, rank: 1 },
+            { n: "Lê Quang Huy", xp: 285, rank: 2 },
+            { n: "Phạm Thu Hà", xp: 240, rank: 3 },
+          ].map((r) => (
+            <div key={r.n} className="flex items-center gap-2 text-[11px]">
+              <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold ${
+                r.rank === 1 ? "bg-amber-500 text-white" : r.rank === 2 ? "bg-slate-400 text-white" : "bg-orange-400 text-white"
+              }`}>{r.rank}</span>
+              <span className="flex-1 text-foreground truncate">{r.n}</span>
+              <span className="font-bold text-primary">{r.xp} XP</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
+      <Gamepad2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">Gamification tự động:</span> học viên kiếm XP qua bài học, quiz, streak hàng ngày — tăng tỉ lệ quay lại lên <span className="font-bold text-emerald-600">+34%</span> so với lớp học truyền thống.
+      </div>
+    </div>
+  </div>
+);
 
-
-
-
+const SlideHR = () => (
+  <div className="space-y-3">
+    <div className="grid grid-cols-3 gap-2.5">
+      {[
+        { role: "Admin", name: "Nguyễn Văn Hải", icon: UserCog, c: "from-primary to-sky-500" },
+        { role: "Giáo viên", name: "Trần Thị Lan", icon: GraduationCap, c: "from-emerald-500 to-teal-500" },
+        { role: "Trợ giảng", name: "Lê Văn Minh", icon: UsersRound, c: "from-violet-500 to-fuchsia-500" },
+      ].map((s) => (
+        <div key={s.name} className="rounded-xl border border-border/60 bg-background/70 p-3 text-center">
+          <div className={`h-9 w-9 rounded-full bg-gradient-to-br ${s.c} flex items-center justify-center text-white mx-auto mb-2`}>
+            <s.icon className="h-4 w-4" />
+          </div>
+          <div className="text-[11px] font-semibold text-foreground">{s.role}</div>
+          <div className="text-[10px] text-muted-foreground truncate mt-0.5">{s.name}</div>
+        </div>
+      ))}
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      <div className="rounded-xl border border-border/60 bg-background/70 p-3.5">
+        <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
+          <Clock className="h-3.5 w-3.5 text-primary" /> Chấm công tháng 6
+        </div>
+        <div className="space-y-2">
+          {[
+            { n: "Lê Văn Minh", h: "42h", s: "2.100K₫" },
+            { n: "Phạm Thị Hoa", h: "38h", s: "1.900K₫" },
+          ].map((r) => (
+            <div key={r.n} className="flex items-center justify-between text-[11px]">
+              <span className="text-foreground font-medium">{r.n}</span>
+              <span className="text-muted-foreground">{r.h}</span>
+              <span className="font-bold text-emerald-600">{r.s}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3.5">
+        <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
+          <Wallet className="h-3.5 w-3.5 text-emerald-600" /> Tổng quỹ lương
+        </div>
+        <div className="text-2xl font-bold text-emerald-600 leading-none">4.8M₫</div>
+        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">Đã trả 2/3 nhân sự · Còn 1 pending</div>
+      </div>
+    </div>
+    <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+      <div className="text-[11px] text-muted-foreground mb-2 font-medium flex items-center gap-1.5">
+        <Briefcase className="h-3.5 w-3.5 text-primary" /> Báo cáo &amp; Thưởng
+      </div>
+      <div className="space-y-1.5">
+        {[
+          { t: "Báo cáo chất lượng lớp học", st: "✓ Đã duyệt", c: "text-emerald-600" },
+          { t: "Đề xuất tăng lương Trợ giảng", st: "Chờ Admin", c: "text-amber-600" },
+          { t: "Kế hoạch tuyển thêm GV tháng 7", st: "Đang soạn", c: "text-muted-foreground" },
+        ].map((r) => (
+          <div key={r.t} className="flex items-center justify-between text-[11px] px-2 py-1.5 rounded-lg bg-secondary/30">
+            <span className="text-foreground">{r.t}</span>
+            <span className={`font-semibold ${r.c}`}>{r.st}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-3 flex items-start gap-2.5">
+      <Sparkles className="h-4 w-4 text-violet-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">Quản lý nhân sự tích hợp:</span> phân quyền Admin / Giáo viên / Trợ giảng, chấm công tự động, tính lương theo giờ và thưởng KPI — tất cả trên 1 dashboard.
+      </div>
+    </div>
+  </div>
+);
 
 const EdTechWebService = () => {
   const [form, setForm] = useState<FormState>(INITIAL);
