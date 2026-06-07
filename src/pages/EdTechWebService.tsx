@@ -101,6 +101,20 @@ const FEATURES = [
     color: "from-amber-500/20 to-amber-500/5",
     iconBg: "bg-amber-500/10 text-amber-600",
   },
+  {
+    icon: Monitor,
+    title: "Giao diện Mobile-first & Tốc độ cao",
+    desc: "Tối ưu hiển thị trên điện thoại – nơi 80% học viên truy cập. Đạt điểm Google PageSpeed 90+ giúp SEO tốt và giảm tỉ lệ thoát trang.",
+    color: "from-rose-500/20 to-rose-500/5",
+    iconBg: "bg-rose-500/10 text-rose-600",
+  },
+  {
+    icon: MessageCircle,
+    title: "Tích hợp Zalo OA & Cộng đồng học viên",
+    desc: "Tự động đẩy thông báo điểm danh, bài tập về Zalo phụ huynh. Tạo diễn đàn nội bộ để học viên hỏi-đáp, nâng cao tỉ lệ giữ chân lớp học.",
+    color: "from-cyan-500/20 to-cyan-500/5",
+    iconBg: "bg-cyan-500/10 text-cyan-600",
+  },
 ];
 
 const PACKAGES = [
