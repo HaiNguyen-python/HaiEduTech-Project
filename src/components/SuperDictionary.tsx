@@ -286,31 +286,55 @@ const SuperDictionary = () => {
 
   // Dictionary lookup - routes by language. EN → dictionary-lookup, others → multi-lang-lookup (AI).
   const handleDictLookup = useCallback(async (word: string) => {
-    if (!word.trim()) return;
+    const w = word.trim();
+    if (!w) return;
     setDictLoading(true);
     setDictResult(null);
     setDictViTranslations({});
     setDictError(null);
     setSavedWord(null);
+
+    // ⚡ Instant cache hit
+    const cacheKey = `dict:${dictLang}:${w.toLowerCase()}`;
+    const cached = getCachedLookup(cacheKey);
+    if (cached) {
+      if (cached.entry) {
+        setDictResult(cached.entry);
+        setDictViTranslations(cached.viTranslations || {});
+        pushRecent(w);
+      } else if (cached.notFound) {
+        setDictError("notFound");
+      }
+      setDictLoading(false);
+      return;
+    }
+
     try {
       if (dictLang === "en") {
         const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-          body: { type: "dictionary", word: word.trim() },
+          body: { type: "dictionary", word: w },
         });
         if (error || !data) setDictError("busy");
-        else if (data.notFound) setDictError("notFound");
+        else if (data.notFound) {
+          setDictError("notFound");
+          setCachedLookup(cacheKey, { notFound: true });
+        }
         else if (data.error) setDictError("busy");
         else if (data.entry) {
           setDictResult(data.entry);
           setDictViTranslations(data.viTranslations || {});
-          pushRecent(word);
+          pushRecent(w);
+          setCachedLookup(cacheKey, { entry: data.entry, viTranslations: data.viTranslations || {} });
         } else setDictError("notFound");
       } else {
         const { data, error } = await supabase.functions.invoke("multi-lang-lookup", {
-          body: { word: word.trim(), lang: dictLang },
+          body: { word: w, lang: dictLang },
         });
         if (error || !data) setDictError("busy");
-        else if (data.notFound) setDictError("notFound");
+        else if (data.notFound) {
+          setDictError("notFound");
+          setCachedLookup(cacheKey, { notFound: true });
+        }
         else if (data.error) setDictError("busy");
         else if (data.entry) {
           // Normalize AI shape → same shape as dictionary-lookup.
@@ -324,9 +348,11 @@ const SuperDictionary = () => {
               return { definition: d.definitionEn || d.definitionVi || "", example: d.example || "" };
             }),
           }));
-          setDictResult({ word: e.word || word, phonetic: e.phonetic || "", phonetics: [], meanings });
+          const normalized = { word: e.word || w, phonetic: e.phonetic || "", phonetics: [], meanings };
+          setDictResult(normalized);
           setDictViTranslations(viTranslations);
-          pushRecent(word);
+          pushRecent(w);
+          setCachedLookup(cacheKey, { entry: normalized, viTranslations });
         } else setDictError("notFound");
       }
     } catch {
