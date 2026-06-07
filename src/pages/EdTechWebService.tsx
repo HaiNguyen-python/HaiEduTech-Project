@@ -261,13 +261,10 @@ const EdTechWebService = () => {
                 Smart Learning & Teaching System
               </span>
             </h1>
-            <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Giải pháp <strong className="text-foreground">tailor-made</strong> kết hợp{" "}
-              <strong className="text-foreground">15 năm kinh nghiệm sư phạm</strong> của Thầy Hải và{" "}
-              <strong className="text-foreground">3+ năm thực chiến Data Engineering &amp; AI tại Bắc Âu (Phần Lan)</strong>.
-              Không dùng template – mỗi website được xây riêng cho lớp học của quý Thầy/Cô:{" "}
-              <strong className="text-foreground">LMS bảo mật, AI Tutor 24/7, chấm bài tự động</strong>{" "}
-              và dashboard đo lường hiệu quả học tập theo thời gian thực.
+            <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed whitespace-pre-line">
+              Cung cấp giải pháp <strong className="text-foreground">"tailor-made"</strong> - thiết kế riêng hệ thống <strong className="text-foreground">LMS</strong> theo từng nhu cầu giảng dạy, kết hợp <strong className="text-foreground">15 năm kinh nghiệm sư phạm</strong> của Thầy Hải tại <strong className="text-foreground">Việt Nam & Phần Lan</strong> và <strong className="text-foreground">3+ năm kinh nghiệm</strong> trong ngành <strong className="text-foreground">Data Engineering & AI tại Phần Lan</strong>.
+              {"\n\n\n"}
+              Không dùng template chung, tạo sự khác biệt & độc đáo, cùng hệ thống <strong className="text-foreground">LMS bảo mật, AI Tutor 24/7, giao, quản lý & chấm bài tự động</strong> và dashboard đo lường hiệu quả học tập theo thời gian thực.
             </p>
             <ul className="mt-5 max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-left text-sm">
               {[
