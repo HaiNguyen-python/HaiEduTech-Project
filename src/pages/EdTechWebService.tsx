@@ -2826,120 +2826,126 @@ const PortfolioShowcase = () => {
 /* Feature Comparison Matrix                                                   */
 /* -------------------------------------------------------------------------- */
 
+type Bi = { vi: string; en: string };
 const COMPARISON_ROWS: Array<{
-  feature: string;
-  standard: { v: string; ok?: boolean };
-  advanced: { v: string; ok?: boolean };
-  enterprise: { v: string; ok?: boolean };
+  feature: Bi;
+  standard: { v: Bi; ok?: boolean };
+  advanced: { v: Bi; ok?: boolean };
+  enterprise: { v: Bi; ok?: boolean };
 }> = [
   {
-    feature: "Bảo mật & Lưu trữ video bài giảng",
-    standard: { v: "Nhúng cơ bản (YouTube/Vimeo)" },
-    advanced: { v: "Hosting bảo mật, chống tải xuống, watermark", ok: true },
-    enterprise: { v: "DRM cấp doanh nghiệp + CDN riêng + watermark động theo user", ok: true },
+    feature: { vi: "Bảo mật & Lưu trữ video bài giảng", en: "Lesson Video Security & Storage" },
+    standard: { v: { vi: "Nhúng cơ bản (YouTube/Vimeo)", en: "Basic embeds (YouTube/Vimeo)" } },
+    advanced: { v: { vi: "Hosting bảo mật, chống tải xuống, watermark", en: "Secure hosting, anti-download, watermark" }, ok: true },
+    enterprise: { v: { vi: "DRM cấp doanh nghiệp + CDN riêng + watermark động theo user", en: "Enterprise DRM + dedicated CDN + per-user dynamic watermark" }, ok: true },
   },
   {
-    feature: "Tích hợp Trợ lý AI cho học sinh",
-    standard: { v: "Không có" },
-    advanced: { v: "Chatbot Perplexity/GPT huấn luyện theo tài liệu của Thầy/Cô", ok: true },
-    enterprise: { v: "Multi-AI Agent (GPT-5 + Gemini + Claude) + RAG riêng từng môn", ok: true },
+    feature: { vi: "Tích hợp Trợ lý AI cho học sinh", en: "AI Assistant for Students" },
+    standard: { v: { vi: "Không có", en: "Not included" } },
+    advanced: { v: { vi: "Chatbot Perplexity/GPT huấn luyện theo tài liệu của Thầy/Cô", en: "Perplexity/GPT chatbot trained on your materials" }, ok: true },
+    enterprise: { v: { vi: "Multi-AI Agent (GPT-5 + Gemini + Claude) + RAG riêng từng môn", en: "Multi-AI Agent (GPT-5 + Gemini + Claude) + per-subject RAG" }, ok: true },
   },
   {
-    feature: "Phân tích học tập (Learning Analytics)",
-    standard: { v: "Biểu đồ tiến độ cơ bản" },
-    advanced: { v: "AI cảnh báo học sinh yếu, metric hành vi chi tiết", ok: true },
-    enterprise: { v: "Data Warehouse + BI dashboard riêng + AI dự đoán nghỉ học", ok: true },
+    feature: { vi: "Phân tích học tập (Learning Analytics)", en: "Learning Analytics" },
+    standard: { v: { vi: "Biểu đồ tiến độ cơ bản", en: "Basic progress charts" } },
+    advanced: { v: { vi: "AI cảnh báo học sinh yếu, metric hành vi chi tiết", en: "AI alerts for at-risk students, detailed behavior metrics" }, ok: true },
+    enterprise: { v: { vi: "Data Warehouse + BI dashboard riêng + AI dự đoán nghỉ học", en: "Data Warehouse + dedicated BI dashboard + AI dropout prediction" }, ok: true },
   },
   {
-    feature: "Email tự động & Giao dịch",
-    standard: { v: "Thao tác thủ công" },
-    advanced: { v: "Hóa đơn tự động, subdomain email thương hiệu riêng", ok: true },
-    enterprise: { v: "Email server riêng + workflow đa kịch bản (CRM-grade)", ok: true },
+    feature: { vi: "Email tự động & Giao dịch", en: "Automated & Transactional Email" },
+    standard: { v: { vi: "Thao tác thủ công", en: "Manual" } },
+    advanced: { v: { vi: "Hóa đơn tự động, subdomain email thương hiệu riêng", en: "Auto invoices, branded email subdomain" }, ok: true },
+    enterprise: { v: { vi: "Email server riêng + workflow đa kịch bản (CRM-grade)", en: "Dedicated email server + multi-scenario workflows (CRM-grade)" }, ok: true },
   },
   {
-    feature: "Chấm điểm tự động (quiz/bài tập)",
-    standard: { v: "Trắc nghiệm tự động" },
-    advanced: { v: "AI Smart Grading cho bài viết & nói", ok: true },
-    enterprise: { v: "AI Grading tùy biến theo rubric riêng + báo cáo PDF brand", ok: true },
+    feature: { vi: "Chấm điểm tự động (quiz/bài tập)", en: "Auto Grading (quiz/assignments)" },
+    standard: { v: { vi: "Trắc nghiệm tự động", en: "Auto multiple-choice grading" } },
+    advanced: { v: { vi: "AI Smart Grading cho bài viết & nói", en: "AI Smart Grading for Writing & Speaking" }, ok: true },
+    enterprise: { v: { vi: "AI Grading tùy biến theo rubric riêng + báo cáo PDF brand", en: "Custom-rubric AI grading + branded PDF reports" }, ok: true },
   },
   {
-    feature: "Bảo trì & Cập nhật tính năng",
-    standard: { v: "Giờ hành chính" },
-    advanced: { v: "Ưu tiên + cập nhật tính năng theo quý", ok: true },
-    enterprise: { v: "SLA 24/7 · Kỹ sư phụ trách riêng · cập nhật theo roadmap", ok: true },
+    feature: { vi: "Bảo trì & Cập nhật tính năng", en: "Maintenance & Feature Updates" },
+    standard: { v: { vi: "Giờ hành chính", en: "Business hours" } },
+    advanced: { v: { vi: "Ưu tiên + cập nhật tính năng theo quý", en: "Priority + quarterly feature updates" }, ok: true },
+    enterprise: { v: { vi: "SLA 24/7 · Kỹ sư phụ trách riêng · cập nhật theo roadmap", en: "24/7 SLA · Dedicated engineer · roadmap-driven updates" }, ok: true },
   },
   {
-    feature: "Tối ưu SEO & Hiệu năng trang",
-    standard: { v: "Meta tags cơ bản, PageSpeed ~75" },
-    advanced: { v: "Schema EducationalOrganization, PageSpeed 95+, sitemap động", ok: true },
-    enterprise: { v: "Multi-site SEO, edge caching toàn cầu, A/B testing", ok: true },
+    feature: { vi: "Tối ưu SEO & Hiệu năng trang", en: "SEO & Page Performance" },
+    standard: { v: { vi: "Meta tags cơ bản, PageSpeed ~75", en: "Basic meta tags, PageSpeed ~75" } },
+    advanced: { v: { vi: "Schema EducationalOrganization, PageSpeed 95+, sitemap động", en: "EducationalOrganization schema, PageSpeed 95+, dynamic sitemap" }, ok: true },
+    enterprise: { v: { vi: "Multi-site SEO, edge caching toàn cầu, A/B testing", en: "Multi-site SEO, global edge caching, A/B testing" }, ok: true },
   },
   {
-    feature: "Cổng thanh toán học phí",
-    standard: { v: "Chuyển khoản thủ công" },
-    advanced: { v: "VNPay / Momo / ZaloPay – đối soát tự động + xuất hóa đơn", ok: true },
-    enterprise: { v: "Đa cổng + Stripe/Paddle quốc tế + đối soát kế toán tự động", ok: true },
+    feature: { vi: "Cổng thanh toán học phí", en: "Tuition Payment Gateway" },
+    standard: { v: { vi: "Chuyển khoản thủ công", en: "Manual bank transfer" } },
+    advanced: { v: { vi: "VNPay / Momo / ZaloPay – đối soát tự động + xuất hóa đơn", en: "VNPay / Momo / ZaloPay – auto reconciliation + invoicing" }, ok: true },
+    enterprise: { v: { vi: "Đa cổng + Stripe/Paddle quốc tế + đối soát kế toán tự động", en: "Multi-gateway + international Stripe/Paddle + auto accounting reconciliation" }, ok: true },
   },
   {
-    feature: "Phân quyền & Quản trị nhiều cấp",
-    standard: { v: "1 cấp Admin duy nhất" },
-    advanced: { v: "Admin / Giáo viên / Trợ giảng / Phụ huynh / Học viên", ok: true },
-    enterprise: { v: "RBAC tùy biến không giới hạn + SSO / SAML cho tổ chức", ok: true },
+    feature: { vi: "Phân quyền & Quản trị nhiều cấp", en: "Multi-level Roles & Administration" },
+    standard: { v: { vi: "1 cấp Admin duy nhất", en: "Single Admin role only" } },
+    advanced: { v: { vi: "Admin / Giáo viên / Trợ giảng / Phụ huynh / Học viên", en: "Admin / Teacher / Assistant / Parent / Student" }, ok: true },
+    enterprise: { v: { vi: "RBAC tùy biến không giới hạn + SSO / SAML cho tổ chức", en: "Unlimited custom RBAC + SSO / SAML for organizations" }, ok: true },
   },
   {
-    feature: "Sao lưu & Khôi phục dữ liệu",
-    standard: { v: "Thủ công theo yêu cầu" },
-    advanced: { v: "Backup tự động hằng ngày, khôi phục 1-click theo mốc thời gian", ok: true },
-    enterprise: { v: "Backup đa vùng (multi-region) + DR plan + audit log", ok: true },
+    feature: { vi: "Sao lưu & Khôi phục dữ liệu", en: "Backup & Disaster Recovery" },
+    standard: { v: { vi: "Thủ công theo yêu cầu", en: "Manual on request" } },
+    advanced: { v: { vi: "Backup tự động hằng ngày, khôi phục 1-click theo mốc thời gian", en: "Daily auto backups, 1-click point-in-time restore" }, ok: true },
+    enterprise: { v: { vi: "Backup đa vùng (multi-region) + DR plan + audit log", en: "Multi-region backups + DR plan + audit log" }, ok: true },
   },
 ];
 
-const ComparisonTable = () => (
+const ComparisonTable = () => {
+  const { t } = useLanguage();
+  return (
   <div className="mt-14 max-w-6xl mx-auto">
     <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground text-center mb-2">
-      Bảng So Sánh Tính Năng Giữa Các Gói
+      {t("Bảng So Sánh Tính Năng Giữa Các Gói", "Feature Comparison Across Packages")}
     </h3>
     <p className="text-center text-sm text-muted-foreground mb-6">
-      Minh bạch hoàn toàn – Quý Thầy/Cô nắm rõ giá trị của từng gói trước khi quyết định.
+      {t(
+        "Minh bạch hoàn toàn – Quý Thầy/Cô nắm rõ giá trị của từng gói trước khi quyết định.",
+        "Fully transparent – understand the value of each package before deciding."
+      )}
     </p>
     <div className="rounded-2xl border-2 border-emerald-600/60 bg-card shadow-sm overflow-x-auto">
       <Table className="min-w-[820px]">
         <TableHeader>
           <TableRow className="bg-secondary/40">
-            <TableHead className="text-foreground font-semibold w-[32%]">Tính năng hệ thống</TableHead>
-            <TableHead className="text-foreground font-semibold text-center">Gói Standard</TableHead>
+            <TableHead className="text-foreground font-semibold w-[32%]">{t("Tính năng hệ thống", "System Feature")}</TableHead>
+            <TableHead className="text-foreground font-semibold text-center">{t("Gói Standard", "Standard Package")}</TableHead>
             <TableHead className="text-foreground font-semibold text-center">
               <span className="inline-flex items-center gap-1 text-primary">
-                <Crown className="w-3.5 h-3.5" /> Gói Advanced AI &amp; Data
+                <Crown className="w-3.5 h-3.5" /> {t("Gói Advanced AI & Data", "Advanced AI & Data Package")}
               </span>
             </TableHead>
             <TableHead className="text-foreground font-semibold text-center">
               <span className="inline-flex items-center gap-1 text-emerald-700">
-                <Database className="w-3.5 h-3.5" /> Gói Enterprise
+                <Database className="w-3.5 h-3.5" /> {t("Gói Enterprise", "Enterprise Package")}
               </span>
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {COMPARISON_ROWS.map((r, i) => (
-            <TableRow key={r.feature} className={i % 2 === 0 ? "" : "bg-secondary/20"}>
-              <TableCell className="font-medium text-sm text-foreground align-top py-4">{r.feature}</TableCell>
+            <TableRow key={r.feature.en} className={i % 2 === 0 ? "" : "bg-secondary/20"}>
+              <TableCell className="font-medium text-sm text-foreground align-top py-4">{t(r.feature.vi, r.feature.en)}</TableCell>
               <TableCell className="text-sm text-muted-foreground text-center align-top py-4">
                 <div className="flex items-start justify-center gap-1.5">
                   <XIcon className="w-3.5 h-3.5 text-muted-foreground/70 mt-0.5 shrink-0" />
-                  <span>{r.standard.v}</span>
+                  <span>{t(r.standard.v.vi, r.standard.v.en)}</span>
                 </div>
               </TableCell>
               <TableCell className="text-sm text-foreground text-center align-top py-4">
                 <div className="flex items-start justify-center gap-1.5">
                   <Check className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                  <span className="font-medium">{r.advanced.v}</span>
+                  <span className="font-medium">{t(r.advanced.v.vi, r.advanced.v.en)}</span>
                 </div>
               </TableCell>
               <TableCell className="text-sm text-foreground text-center align-top py-4 bg-emerald-500/5">
                 <div className="flex items-start justify-center gap-1.5">
                   <Check className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <span className="font-semibold">{r.enterprise.v}</span>
+                  <span className="font-semibold">{t(r.enterprise.v.vi, r.enterprise.v.en)}</span>
                 </div>
               </TableCell>
             </TableRow>
@@ -2948,7 +2954,8 @@ const ComparisonTable = () => (
       </Table>
     </div>
   </div>
-);
+  );
+};
 
 /* -------------------------------------------------------------------------- */
 /* FAQ Section                                                                 */
