@@ -295,24 +295,28 @@ const EdTechWebService = () => {
                 </span>
               </h1>
 
-              <p className="notranslate mt-6 text-[15px] sm:text-base text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Giải pháp <span className="font-semibold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
+              <p className="notranslate mt-6 text-base sm:text-lg text-foreground/85 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
                 LMS theo từng nhu cầu giảng dạy, kết hợp{" "}
-                <span className="font-semibold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
+                <span className="font-bold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
                 Nam &amp; Phần Lan và{" "}
-                <span className="font-semibold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
+                <span className="font-bold text-foreground">3+ năm Data Engineering &amp; AI</span> tại Phần Lan.
               </p>
 
-              <ul className="mt-6 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-sm">
+              <ul className="mt-7 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-3 text-left text-[15px] sm:text-base">
                 {[
-                  "Tiết kiệm 8–10 giờ chấm bài / tuần",
-                  "Hỗ trợ tuyển sinh & nhắc lịch học qua email",
-                  "AI Tutor trợ giảng học viên ngoài giờ học",
-                  "Báo cáo phụ huynh tự động hàng tháng",
+                  "Tiết kiệm 8–10 giờ chấm bài mỗi tuần",
+                  "Không còn nỗi lo học sinh nghỉ học không báo trước",
+                  "AI Tutor trợ giảng học viên ngoài giờ – hết áp lực trả lời tin nhắn 24/7",
+                  "Tự động nhắc lịch học, thu học phí & gửi hoá đơn",
+                  "Báo cáo phụ huynh tự động hàng tháng – tăng tỉ lệ tái đăng ký",
+                  "Quản lý nhiều lớp, nhiều khoá trên 1 dashboard duy nhất",
+                  "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép",
+                  "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp",
                 ].map((b) => (
-                  <li key={b} className="flex items-start gap-2 text-foreground/90">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 ring-1 ring-emerald-500/30">
-                      <Check className="w-3 h-3 text-emerald-600" />
+                  <li key={b} className="flex items-start gap-2.5 text-foreground font-semibold">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 ring-2 ring-emerald-500/60">
+                      <Check className="w-3 h-3 text-emerald-700" strokeWidth={3} />
                     </span>
                     <span>{b}</span>
                   </li>
@@ -331,7 +335,7 @@ const EdTechWebService = () => {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="h-12 px-8 text-base border-primary/30 hover:bg-primary/5"
+                  className="h-12 px-8 text-base border-2 border-emerald-500/70 hover:bg-emerald-500/10 text-foreground"
                   asChild
                 >
                   <a href="#packages">Xem gói dịch vụ</a>
@@ -339,18 +343,18 @@ const EdTechWebService = () => {
               </div>
 
               {/* Trust badges */}
-              <div className="mt-7 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs text-muted-foreground">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Bảo mật chuẩn EU
+              <div className="mt-7 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm font-semibold text-foreground/85">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Bảo mật chuẩn EU
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
                   <Database className="w-3.5 h-3.5 text-primary" /> Cam kết vận hành hiệu quả
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
                   <Zap className="w-3.5 h-3.5 text-amber-500" /> Bàn giao nhanh sau 5–10 ngày
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/70 backdrop-blur border border-border/60 px-3 py-1.5">
-                  <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm với từng sản phẩm giáo dục & công nghệ
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-card/80 backdrop-blur border-2 border-emerald-500/50 px-3 py-1.5">
+                  <Bot className="w-3.5 h-3.5 text-violet-500" /> Tận tâm với từng sản phẩm giáo dục &amp; công nghệ
                 </span>
               </div>
             </motion.div>
