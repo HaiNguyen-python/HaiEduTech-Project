@@ -462,15 +462,27 @@ const SuperDictionary = () => {
     setSavingNotebook(false);
   };
 
-  // Collocation lookup
+  // Collocation lookup (cached client-side)
   const handleCollocationLookup = async (word: string) => {
-    if (!word.trim()) return;
+    const w = word.trim();
+    if (!w) return;
     setCollocationLoading(true);
     setCollocationGroups([]);
     setCollocationError(null);
+
+    const cKey = `coll:en:${w.toLowerCase()}`;
+    const cCached = getCachedLookup(cKey);
+    if (cCached) {
+      const groups = Array.isArray(cCached.groups) ? cCached.groups : [];
+      setCollocationGroups(groups);
+      if (groups.length === 0) setCollocationError("notFound");
+      setCollocationLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-        body: { type: "collocation", word: word.trim() },
+        body: { type: "collocation", word: w },
       });
       if (error || !data) {
         setCollocationError("busy");
@@ -479,9 +491,8 @@ const SuperDictionary = () => {
       } else {
         const groups = Array.isArray(data.groups) ? data.groups : [];
         setCollocationGroups(groups);
-        if (groups.length === 0) {
-          setCollocationError("notFound");
-        }
+        if (groups.length === 0) setCollocationError("notFound");
+        setCachedLookup(cKey, { groups });
       }
     } catch {
       setCollocationError("busy");
@@ -489,12 +500,24 @@ const SuperDictionary = () => {
     setCollocationLoading(false);
   };
 
-  // Thesaurus lookup
+  // Thesaurus lookup (cached client-side)
   const handleThesaurusLookup = async (word: string) => {
-    if (!word.trim()) return;
+    const w = word.trim();
+    if (!w) return;
     setThesaurusLoading(true);
     setThesaurusResult([]);
     setThesaurusError(null);
+
+    const tKey = `thes:en:${w.toLowerCase()}`;
+    const tCached = getCachedLookup(tKey);
+    if (tCached) {
+      const syns = Array.isArray(tCached.synonyms) ? tCached.synonyms : [];
+      setThesaurusResult(syns);
+      if (syns.length === 0) setThesaurusError("notFound");
+      setThesaurusLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
         body: { type: "thesaurus", word: word.trim() },
