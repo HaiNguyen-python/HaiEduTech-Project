@@ -665,7 +665,7 @@ const Navbar = () => {
               }
               return (
                 <Link key={l.to} to={l.to}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                     active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                   }`}>
                   {l.label}
