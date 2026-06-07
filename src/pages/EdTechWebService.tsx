@@ -504,7 +504,7 @@ const DemoCarousel = () => {
       <div className="flex items-center justify-between px-5 sm:px-6 py-3 border-t border-border/60 bg-muted/30">
         <button
           onClick={() => go(idx - 1)}
-          aria-label="Trước"
+          aria-label={t("Trước", "Previous")}
           className="h-8 w-8 rounded-full border border-border/60 bg-background/70 hover:bg-background flex items-center justify-center text-foreground transition hover:scale-105"
         >
           <ChevronLeft className="h-4 w-4" />
