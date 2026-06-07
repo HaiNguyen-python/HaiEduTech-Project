@@ -333,6 +333,18 @@ const DEMO_SLIDES = [
     badge: "Smart Assign",
     badgeColor: "teal" as const,
   },
+  {
+    id: "gamification",
+    title: "Gamification · Tăng động lực học",
+    badge: "XP · Streak · Badge",
+    badgeColor: "amber" as const,
+  },
+  {
+    id: "hr-management",
+    title: "Quản lý nhân sự & Cộng tác viên",
+    badge: "Staff · Payroll",
+    badgeColor: "violet" as const,
+  },
 ];
 
 const badgeStyles = {
