@@ -2047,56 +2047,62 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/5 px-3 py-1 text-xs font-semibold text-amber-600 mb-3">
-              <Sparkles className="w-3.5 h-3.5" /> Phản hồi từ giáo viên
+              <Sparkles className="w-3.5 h-3.5" /> {t("Phản hồi từ giáo viên", "Teacher Feedback")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Các thầy cô nói gì về website do HaiEduTech xây dựng
+              {t("Các thầy cô nói gì về website do HaiEduTech xây dựng", "What teachers say about websites built by HaiEduTech")}
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-6xl mx-auto">
             {[
               {
                 name: "Cô Mai Anh",
-                role: "Giáo viên IELTS · Hà Nội",
+                role: { vi: "Giáo viên IELTS · Hà Nội", en: "IELTS Teacher · Hanoi" },
                 avatar: "MA",
-                quote:
-                  "Trước đây tôi mất gần 12 tiếng mỗi tuần để chấm Writing. Sau khi dùng AI Smart Grading của Thầy Hải, thời gian rút xuống còn 2 tiếng và học viên nhận feedback gần như tức thì.",
+                quote: {
+                  vi: "Trước đây tôi mất gần 12 tiếng mỗi tuần để chấm Writing. Sau khi dùng AI Smart Grading của Thầy Hải, thời gian rút xuống còn 2 tiếng và học viên nhận feedback gần như tức thì.",
+                  en: "I used to spend almost 12 hours a week grading Writing. After using Mr. Hai's AI Smart Grading, it dropped to just 2 hours and students get near-instant feedback.",
+                },
                 color: "from-primary to-blue-400",
               },
               {
                 name: "Thầy Quốc Bảo",
-                role: "Chủ trung tâm tiếng Trung · TP.HCM",
+                role: { vi: "Chủ trung tâm tiếng Trung · TP.HCM", en: "Chinese Center Owner · HCMC" },
                 avatar: "QB",
-                quote:
-                  "Website chạy mượt cả trên điện thoại học viên cấp 2. Phụ huynh đặc biệt thích cổng xem điểm thời gian thực — đây là điểm khác biệt giúp trung tâm tôi tăng 30% học viên đăng ký mới.",
+                quote: {
+                  vi: "Website chạy mượt cả trên điện thoại học viên cấp 2. Phụ huynh đặc biệt thích cổng xem điểm thời gian thực — đây là điểm khác biệt giúp trung tâm tôi tăng 30% học viên đăng ký mới.",
+                  en: "The website runs smoothly even on middle-school students' phones. Parents love the real-time grade portal — this differentiator drove a 30% increase in new enrollments.",
+                },
                 color: "from-emerald-500 to-teal-400",
               },
               {
                 name: "Cô Hồng Nhung",
-                role: "Giáo viên Hóa học THPT",
+                role: { vi: "Giáo viên Hóa học THPT", en: "High School Chemistry Teacher" },
                 avatar: "HN",
-                quote:
-                  "Tôi không rành công nghệ nhưng video hướng dẫn quản trị 1-1 của Thầy Hải rất chi tiết. Sau 2 ngày là tôi tự đăng bài giảng và bài tập trắc nghiệm được rồi.",
+                quote: {
+                  vi: "Tôi không rành công nghệ nhưng video hướng dẫn quản trị 1-1 của Thầy Hải rất chi tiết. Sau 2 ngày là tôi tự đăng bài giảng và bài tập trắc nghiệm được rồi.",
+                  en: "I'm not tech-savvy, but Mr. Hai's 1-on-1 admin training videos are very detailed. Within 2 days I was uploading lessons and quizzes on my own.",
+                },
                 color: "from-violet-500 to-fuchsia-400",
               },
-            ].map((t) => (
-              <Card key={t.name} className="h-full border-border/70 hover:shadow-xl transition">
+            ].map((tm) => (
+              <Card key={tm.name} className="h-full border-border/70 hover:shadow-xl transition">
                 <CardContent className="p-6 flex flex-col h-full">
                   <div className="flex items-center gap-1 mb-3 text-amber-500">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span key={i}>★</span>
                     ))}
                   </div>
-                  <p className="text-sm text-foreground leading-relaxed flex-1 italic">“{t.quote}”</p>
+                  <p className="text-sm text-foreground leading-relaxed flex-1 italic">“{t(tm.quote.vi, tm.quote.en)}”</p>
                   <div className="mt-5 flex items-center gap-3 pt-4 border-t border-border">
                     <div
-                      className={`w-11 h-11 rounded-full bg-gradient-to-br ${t.color} text-white font-bold flex items-center justify-center shrink-0`}
+                      className={`w-11 h-11 rounded-full bg-gradient-to-br ${tm.color} text-white font-bold flex items-center justify-center shrink-0`}
                     >
-                      {t.avatar}
+                      {tm.avatar}
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground text-sm">{t.name}</p>
-                      <p className="text-xs text-muted-foreground">{t.role}</p>
+                      <p className="font-semibold text-foreground text-sm">{tm.name}</p>
+                      <p className="text-xs text-muted-foreground">{t(tm.role.vi, tm.role.en)}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -2105,6 +2111,7 @@ const EdTechWebService = () => {
           </div>
         </div>
       </section>
+
 
       {/* Guarantee — risk reversal to remove final objections */}
       <section className="py-12 sm:py-16">
