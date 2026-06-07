@@ -1,11 +1,56 @@
 // Proxy for dictionary, collocation, and thesaurus lookups.
 // Avoids browser-side CORS/TLS flakiness with public APIs.
+// Results are cached server-side in `dictionary_cache` for instant repeat hits.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
+
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const admin = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
+
+async function sha256Hex(s: string): Promise<string> {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function readCache(kind: string, word: string): Promise<any | null> {
+  try {
+    const key = `${kind}:` + (await sha256Hex(word.toLowerCase()));
+    const { data } = await admin
+      .from("dictionary_cache")
+      .select("payload")
+      .eq("cache_key", key)
+      .maybeSingle();
+    if (data?.payload) {
+      admin.from("dictionary_cache")
+        .update({ last_hit_at: new Date().toISOString() })
+        .eq("cache_key", key)
+        .then(() => {});
+      return data.payload;
+    }
+  } catch {
+    // ignore cache failures
+  }
+  return null;
+}
+
+async function writeCache(kind: string, word: string, payload: any) {
+  try {
+    const key = `${kind}:` + (await sha256Hex(word.toLowerCase()));
+    admin
+      .from("dictionary_cache")
+      .upsert({ cache_key: key, kind, payload, last_hit_at: new Date().toISOString() })
+      .then(() => {});
+  } catch {
+    // ignore
+  }
+}
 
 async function fetchWithTimeout(url: string, timeoutMs = 6000): Promise<Response> {
   const controller = new AbortController();
