@@ -2397,9 +2397,12 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">Đăng ký tư vấn miễn phí</h2>
+              <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">{t("Đăng ký tư vấn miễn phí", "Get a Free Consultation")}</h2>
               <p className="mt-3 text-muted-foreground">
-                Điền thông tin bên dưới, Thầy Hải sẽ liên hệ tư vấn lộ trình & báo giá phù hợp trong vòng 24 giờ.
+                {t(
+                  "Điền thông tin bên dưới, Thầy Hải sẽ liên hệ tư vấn lộ trình & báo giá phù hợp trong vòng 24 giờ.",
+                  "Fill in the form below and Mr. Hai will reach out with a tailored roadmap & quote within 24 hours."
+                )}
               </p>
             </div>
             <Card className="border-border/70 shadow-xl">
@@ -2407,11 +2410,11 @@ const EdTechWebService = () => {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="teacher_name">Họ và tên *</Label>
+                      <Label htmlFor="teacher_name">{t("Họ và tên *", "Full name *")}</Label>
                       <Input
                         id="teacher_name"
                         required
-                        placeholder="Nguyễn Văn A"
+                        placeholder={t("Nguyễn Văn A", "Jane Doe")}
                         value={form.teacher_name}
                         onChange={(e) => update("teacher_name", e.target.value)}
                         maxLength={100}
@@ -2430,7 +2433,7 @@ const EdTechWebService = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Số điện thoại *</Label>
+                      <Label htmlFor="phone">{t("Số điện thoại *", "Phone number *")}</Label>
                       <Input
                         id="phone"
                         required
@@ -2441,10 +2444,10 @@ const EdTechWebService = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="subject_taught">Môn / Lĩnh vực giảng dạy</Label>
+                      <Label htmlFor="subject_taught">{t("Môn / Lĩnh vực giảng dạy", "Subject / teaching area")}</Label>
                       <Input
                         id="subject_taught"
-                        placeholder="Tiếng Anh, Toán, Hóa..."
+                        placeholder={t("Tiếng Anh, Toán, Hóa...", "English, Math, Chemistry...")}
                         value={form.subject_taught}
                         onChange={(e) => update("subject_taught", e.target.value)}
                         maxLength={120}
@@ -2453,7 +2456,7 @@ const EdTechWebService = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="selected_package">Gói dịch vụ quan tâm *</Label>
+                    <Label htmlFor="selected_package">{t("Gói dịch vụ quan tâm *", "Package of interest *")}</Label>
                     <Select
                       value={form.selected_package}
                       onValueChange={(v) => update("selected_package", v as FormState["selected_package"])}
@@ -2462,18 +2465,21 @@ const EdTechWebService = () => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="standard">Gói Standard (Liên hệ báo giá)</SelectItem>
-                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (Liên hệ báo giá)</SelectItem>
-                        <SelectItem value="enterprise">Gói Enterprise (Liên hệ báo giá)</SelectItem>
+                        <SelectItem value="standard">{t("Gói Standard (Liên hệ báo giá)", "Standard Package (Contact for quote)")}</SelectItem>
+                        <SelectItem value="advanced">{t("Gói Advanced AI & Data (Liên hệ báo giá)", "Advanced AI & Data Package (Contact for quote)")}</SelectItem>
+                        <SelectItem value="enterprise">{t("Gói Enterprise (Liên hệ báo giá)", "Enterprise Package (Contact for quote)")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="special_requirements">Yêu cầu đặc biệt (tùy chọn)</Label>
+                    <Label htmlFor="special_requirements">{t("Yêu cầu đặc biệt (tùy chọn)", "Special requirements (optional)")}</Label>
                     <Textarea
                       id="special_requirements"
-                      placeholder="Mô tả ngắn về lớp học, số học viên, tính năng mong muốn..."
+                      placeholder={t(
+                        "Mô tả ngắn về lớp học, số học viên, tính năng mong muốn...",
+                        "Briefly describe your class, number of learners, desired features..."
+                      )}
                       rows={5}
                       value={form.special_requirements}
                       onChange={(e) => update("special_requirements", e.target.value)}
@@ -2488,16 +2494,19 @@ const EdTechWebService = () => {
                   >
                     {submitting ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" /> Đang gửi...
+                        <Loader2 className="w-4 h-4 animate-spin" /> {t("Đang gửi...", "Sending...")}
                       </>
                     ) : (
                       <>
-                        <Send className="w-4 h-4" /> Gửi Yêu Cầu Đặt Hàng
+                        <Send className="w-4 h-4" /> {t("Gửi Yêu Cầu Đặt Hàng", "Submit Request")}
                       </>
                     )}
                   </Button>
                   <p className="text-xs text-muted-foreground text-center">
-                    Bằng việc gửi yêu cầu, quý Thầy/Cô đồng ý cho HaiEduTech liên hệ tư vấn qua email & điện thoại.
+                    {t(
+                      "Bằng việc gửi yêu cầu, quý Thầy/Cô đồng ý cho HaiEduTech liên hệ tư vấn qua email & điện thoại.",
+                      "By submitting, you agree that HaiEduTech may contact you for consultation via email & phone."
+                    )}
                   </p>
                 </form>
               </CardContent>
