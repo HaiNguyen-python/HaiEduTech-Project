@@ -367,7 +367,7 @@ const EdTechWebService = () => {
               className="relative"
             >
               {/* Mockup browser card */}
-              <div className="relative rounded-2xl border border-border/70 bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/10 overflow-hidden">
+              <div className="relative rounded-2xl border-2 border-emerald-500/50 bg-card/80 backdrop-blur-xl shadow-2xl shadow-emerald-500/20 overflow-hidden">
                 <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
                   <span className="h-2.5 w-2.5 rounded-full bg-rose-400/80" />
                   <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
