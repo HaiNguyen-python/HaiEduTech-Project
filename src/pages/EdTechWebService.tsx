@@ -162,7 +162,7 @@ const PACKAGES = [
     tagline: "Khởi đầu chuyên nghiệp",
     priceFrom: "Từ 8.000.000₫",
     priceNote: "Trọn gói · Bàn giao trong 5–10 ngày",
-    monthly: "Bảo trì: 300K₫ / tháng",
+    monthly: "Bảo trì: 300k/tháng",
     highlight: false,
     icon: Rocket,
     bestFor: "Phù hợp cho lớp học cá nhân / nhóm dưới 50 học viên.",
@@ -346,7 +346,7 @@ const EdTechWebService = () => {
               <div className="mt-7 -mx-4 sm:mx-0 overflow-x-auto scrollbar-thin">
                 <div className="flex flex-nowrap items-center justify-start lg:justify-start gap-2 px-4 sm:px-0 text-[11.5px] sm:text-xs font-semibold text-foreground/85 w-max">
                   <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Bảo mật chuẩn EU
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Hợp đồng rõ ràng, thanh toán theo 2 đợt (50/50).
                   </span>
                   <span className="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                     <Database className="w-3.5 h-3.5 text-primary" /> Cam kết vận hành hiệu quả
@@ -493,19 +493,19 @@ const EdTechWebService = () => {
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
             {[
               {
-                k: "15+",
+                k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a015+",
                 v: "năm kinh nghiệm giảng dạy tại Việt Nam",
                 icon: GraduationCap,
                 grad: "from-primary/20 to-primary/0",
               },
               {
-                k: "3+",
+                k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 3+",
                 v: "năm kinh nghiệm về lập trình tại Phần Lan",
                 icon: Database,
                 grad: "from-emerald-500/20 to-emerald-500/0",
               },
               {
-                k: "✦",
+                k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0✦",
                 v: "Tâm huyết với các sản phẩm Sư phạm & Công nghệ",
                 icon: Sparkles,
                 grad: "from-violet-500/20 to-violet-500/0",
