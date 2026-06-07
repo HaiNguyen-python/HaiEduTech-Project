@@ -514,7 +514,7 @@ const DemoCarousel = () => {
             <button
               key={s.id}
               onClick={() => setIdx(i)}
-              aria-label={s.title}
+              aria-label={t(s.title.vi, s.title.en)}
               className={`h-2 rounded-full transition-all ${
                 i === idx ? "w-7 bg-gradient-to-r from-primary to-emerald-500" : "w-2 bg-border hover:bg-muted-foreground/50"
               }`}
