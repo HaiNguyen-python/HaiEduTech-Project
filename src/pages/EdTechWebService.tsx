@@ -1429,6 +1429,7 @@ const SlideHR = () => (
 );
 
 const EdTechWebService = () => {
+  const { t, lang } = useLanguage();
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitting, setSubmitting] = useState(false);
 
