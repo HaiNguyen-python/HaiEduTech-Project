@@ -70,6 +70,13 @@ import {
   Bell,
   Activity,
   Gauge,
+  Gamepad2,
+  Medal,
+  Star,
+  UsersRound,
+  Briefcase,
+  Wallet,
+  UserCog,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
