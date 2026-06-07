@@ -2222,7 +2222,7 @@ const EdTechWebService = () => {
                       }`}
                       variant={p.highlight ? "default" : "outline"}
                     >
-                      {t(`Chọn ${p.name}`, `Choose ${p.name}`)}
+                      {t(`Chọn ${p.name.vi}`, `Choose ${p.name.en}`)}
                     </Button>
                   </CardContent>
                 </Card>
