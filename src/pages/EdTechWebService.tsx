@@ -256,11 +256,10 @@ const EdTechWebService = () => {
               Dịch vụ Thiết kế Website – Made by HaiEduTech
             </div>
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground leading-tight">
-              Nâng Tầm Lớp Học Với{" "}
+              Nâng cao chất lượng giảng dạy với{" "}
               <span className="bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
-                Website Giáo Dục Tích Hợp Data &amp; AI
-              </span>{" "}
-              Độc Quyền
+                Smart Learning & Teaching System
+              </span>
             </h1>
             <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Giải pháp <strong className="text-foreground">tailor-made</strong> kết hợp{" "}
