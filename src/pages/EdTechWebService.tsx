@@ -2302,7 +2302,7 @@ const EdTechWebService = () => {
               <ShieldCheck className="w-3.5 h-3.5" /> 5 Cam Kết Vàng
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Tận tâm bằng giấy trắng mực đen
+              Tận tâm với từng sản phẩm giáo dục & công nghệ
             </h2>
             <p className="mt-3 text-muted-foreground">
               Không hứa suông – mỗi cam kết đều được ghi rõ trong hợp đồng.
