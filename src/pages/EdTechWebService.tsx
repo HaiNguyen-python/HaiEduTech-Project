@@ -2259,44 +2259,50 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 rounded-full border border-rose-400/40 bg-rose-500/5 px-3 py-1 text-xs font-semibold text-rose-600 mb-3">
-              <Sparkles className="w-3.5 h-3.5" /> Thấu hiểu giáo viên Việt
+              <Sparkles className="w-3.5 h-3.5" /> {t("Thấu hiểu giáo viên Việt", "Built for Vietnamese teachers")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Những nỗi đau giáo viên thường gặp – HaiEduTech giải quyết tận gốc
+              {t(
+                "Những nỗi đau giáo viên thường gặp – HaiEduTech giải quyết tận gốc",
+                "The pain points teachers face – HaiEduTech solves them at the root"
+              )}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Mỗi tính năng đều xuất phát từ chính trải nghiệm 15 năm đứng lớp của Thầy Hải.
+              {t(
+                "Mỗi tính năng đều xuất phát từ chính trải nghiệm 15 năm đứng lớp của Thầy Hải.",
+                "Every feature comes from Mr. Hai's own 15 years of classroom experience."
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
             {[
               {
-                pain: "Mất 8–12 giờ/tuần chấm bài Writing, Speaking thủ công",
-                fix: "AI Smart Grading chấm tự động theo rubric IELTS/TOEIC/HSK – feedback chi tiết trong 10 giây.",
+                pain: { vi: "Mất 8–12 giờ/tuần chấm bài Writing, Speaking thủ công", en: "Losing 8–12 hours/week manually grading Writing & Speaking" },
+                fix: { vi: "AI Smart Grading chấm tự động theo rubric IELTS/TOEIC/HSK – feedback chi tiết trong 10 giây.", en: "AI Smart Grading auto-scores against IELTS/TOEIC/HSK rubrics – detailed feedback in 10 seconds." },
               },
               {
-                pain: "Học sinh quên bài, không ôn tập, mất gốc giữa khoá",
-                fix: "Hệ thống SRS + AI Tutor 24/7 nhắc ôn từ vựng và giải đáp thắc mắc ngoài giờ học.",
+                pain: { vi: "Học sinh quên bài, không ôn tập, mất gốc giữa khoá", en: "Students forget lessons, stop reviewing, fall behind mid-course" },
+                fix: { vi: "Hệ thống SRS + AI Tutor 24/7 nhắc ôn từ vựng và giải đáp thắc mắc ngoài giờ học.", en: "An SRS system + 24/7 AI Tutor prompts vocab review and answers questions after class." },
               },
               {
-                pain: "Phụ huynh thiếu tin tưởng vì không nắm được tiến độ con",
-                fix: "Báo cáo phụ huynh tự động hàng tháng qua email thương hiệu – tỉ lệ tái đăng ký +42%.",
+                pain: { vi: "Phụ huynh thiếu tin tưởng vì không nắm được tiến độ con", en: "Parents lose trust because they can't see their child's progress" },
+                fix: { vi: "Báo cáo phụ huynh tự động hàng tháng qua email thương hiệu – tỉ lệ tái đăng ký +42%.", en: "Automated monthly parent reports from your branded email – re-enrollment +42%." },
               },
               {
-                pain: "Tài liệu giảng dạy bị copy, share lậu trên Zalo / Drive",
-                fix: "DRM video + watermark động theo từng học viên + chống tải xuống bằng JS obfuscation.",
+                pain: { vi: "Tài liệu giảng dạy bị copy, share lậu trên Zalo / Drive", en: "Teaching materials get copied and shared illegally on Zalo / Drive" },
+                fix: { vi: "DRM video + watermark động theo từng học viên + chống tải xuống bằng JS obfuscation.", en: "DRM video + per-student dynamic watermarks + anti-download via JS obfuscation." },
               },
               {
-                pain: "Quản lý lịch học, học phí, hoá đơn rối loạn trên Excel",
-                fix: "Dashboard tích hợp VNPay/Momo, tự động đối soát và xuất hoá đơn VAT điện tử.",
+                pain: { vi: "Quản lý lịch học, học phí, hoá đơn rối loạn trên Excel", en: "Schedules, tuition and invoices are a mess in Excel" },
+                fix: { vi: "Dashboard tích hợp VNPay/Momo, tự động đối soát và xuất hoá đơn VAT điện tử.", en: "A dashboard with VNPay/Momo, auto reconciliation and electronic VAT invoices." },
               },
               {
-                pain: "Phụ thuộc nền tảng Facebook/Zalo – mất học viên khi bị khoá",
-                fix: "Có domain & thương hiệu riêng (lop-thay-hai.com) – dữ liệu học viên 100% thuộc về Thầy/Cô.",
+                pain: { vi: "Phụ thuộc nền tảng Facebook/Zalo – mất học viên khi bị khoá", en: "Dependent on Facebook/Zalo – risk losing students if the account is locked" },
+                fix: { vi: "Có domain & thương hiệu riêng (lop-thay-hai.com) – dữ liệu học viên 100% thuộc về Thầy/Cô.", en: "Your own domain & brand (lop-thay-hai.com) – student data is 100% yours." },
               },
             ].map((p) => (
               <div
-                key={p.pain}
+                key={p.pain.vi}
                 className="group rounded-2xl border-2 border-emerald-500/30 bg-card p-5 sm:p-6 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-emerald-500/10 transition-all"
               >
                 <div className="flex items-start gap-3 mb-3 pb-3 border-b border-dashed border-rose-300/50">
@@ -2304,7 +2310,7 @@ const EdTechWebService = () => {
                     !
                   </span>
                   <p className="text-sm sm:text-[15px] font-semibold text-foreground/90 leading-snug">
-                    {p.pain}
+                    {t(p.pain.vi, p.pain.en)}
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -2312,8 +2318,8 @@ const EdTechWebService = () => {
                     <Check className="w-4 h-4" strokeWidth={3} />
                   </span>
                   <p className="text-sm sm:text-[15px] text-foreground leading-relaxed">
-                    <span className="font-bold text-emerald-700">Giải pháp: </span>
-                    {p.fix}
+                    <span className="font-bold text-emerald-700">{t("Giải pháp:", "Solution:")} </span>
+                    {t(p.fix.vi, p.fix.en)}
                   </p>
                 </div>
               </div>
