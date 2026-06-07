@@ -66,6 +66,10 @@ import {
   Trophy,
   Coins,
   Bomb,
+  AlertTriangle,
+  Bell,
+  Activity,
+  Gauge,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -270,9 +274,21 @@ const DEMO_SLIDES = [
   },
   {
     id: "rl-lab",
-    title: "Reinforcement Learning Lab",
-    badge: "AI Sandbox · Live",
+    title: "RL · Cá nhân hoá lộ trình học",
+    badge: "Adaptive Learning",
     badgeColor: "teal" as const,
+  },
+  {
+    id: "early-warning",
+    title: "Cảnh báo sớm – Can thiệp giáo dục",
+    badge: "Early Intervention",
+    badgeColor: "rose" as const,
+  },
+  {
+    id: "schedule-finance",
+    title: "Lịch học & Học phí tự động",
+    badge: "Smart Operations",
+    badgeColor: "primary" as const,
   },
   {
     id: "parent-report",
@@ -348,6 +364,8 @@ const DemoCarousel = () => {
           {slide.id === "analytics" && <SlideAnalytics />}
           {slide.id === "lessons" && <SlideLessons />}
           {slide.id === "rl-lab" && <SlideRLLab />}
+          {slide.id === "early-warning" && <SlideEarlyWarning />}
+          {slide.id === "schedule-finance" && <SlideScheduleFinance />}
           {slide.id === "parent-report" && <SlideParentReport />}
         </motion.div>
       </div>
@@ -647,66 +665,178 @@ const SlideLessons = () => (
 
 const SlideRLLab = () => (
   <div className="space-y-3">
-    <div className="rounded-xl border-2 border-teal-500/40 bg-gradient-to-br from-slate-900 via-emerald-950/80 to-slate-900 p-3">
-      <div className="flex items-center justify-between mb-2 text-[11px]">
-        <div className="flex items-center gap-1.5 text-teal-300 font-semibold">
-          <Brain className="h-3.5 w-3.5" /> Self-driving Maze
+    {/* Header: agent state */}
+    <div className="rounded-xl border-2 border-teal-500/40 bg-gradient-to-br from-teal-500/10 via-emerald-500/5 to-transparent p-3.5">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center text-white">
+            <Brain className="h-4 w-4" />
+          </div>
+          <div>
+            <div className="text-xs sm:text-sm font-semibold text-foreground">Học viên: Lê Quang Huy · IELTS 6.5</div>
+            <div className="text-[11px] text-muted-foreground">RL Agent đang tối ưu lộ trình từng tuần</div>
+          </div>
         </div>
-        <div className="text-cyan-300">Điểm: <span className="font-black">+38</span></div>
+        <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-teal-500/10 text-teal-600 border border-teal-500/30 font-semibold">
+          <Activity className="h-3 w-3 animate-pulse" /> Live policy
+        </div>
       </div>
-      <div className="grid grid-cols-4 gap-1.5 aspect-square max-w-[200px] mx-auto">
+      <div className="grid grid-cols-3 gap-2 mt-3">
         {[
-          ["car","coin","obstacle","empty"],
-          ["empty","empty","coin","empty"],
-          ["empty","obstacle","empty","coin"],
-          ["coin","empty","empty","goal"],
-        ].flat().map((cell, i) => (
-          <div
-            key={i}
-            className={`aspect-square rounded-md flex items-center justify-center text-base ${
-              cell === "goal" ? "bg-emerald-500/30 border border-emerald-300/60" :
-              cell === "obstacle" ? "bg-rose-500/20 border border-rose-400/40" :
-              cell === "coin" ? "bg-amber-400/20 border border-amber-300/40" :
-              cell === "car" ? "bg-cyan-500/20 border border-cyan-300/60" :
-              "bg-slate-800/60 border border-slate-700"
-            }`}
-          >
-            {cell === "coin" && "🪙"}
-            {cell === "obstacle" && "💣"}
-            {cell === "goal" && "🏁"}
-            {cell === "car" && "🚗"}
+          { l: "Engagement", v: "84%", c: "text-emerald-600", w: "84%", bar: "from-emerald-500 to-teal-500" },
+          { l: "Độ chính xác", v: "71%", c: "text-primary", w: "71%", bar: "from-primary to-sky-500" },
+          { l: "Streak", v: "9 ngày", c: "text-amber-600", w: "90%", bar: "from-amber-500 to-orange-500" },
+        ].map((s) => (
+          <div key={s.l} className="rounded-lg bg-background/70 border border-border/60 p-2">
+            <div className="text-[10px] text-muted-foreground">{s.l}</div>
+            <div className={`text-sm font-bold ${s.c} leading-none mt-0.5`}>{s.v}</div>
+            <div className="mt-1.5 h-1 rounded-full bg-muted overflow-hidden">
+              <div className={`h-full bg-gradient-to-r ${s.bar}`} style={{ width: s.w }} />
+            </div>
           </div>
         ))}
       </div>
     </div>
+
+    {/* Reward / Penalty signals (real teaching signals, no game) */}
     <div className="grid grid-cols-2 gap-3">
-      <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3">
-        <div className="flex items-center justify-between text-[11px] mb-1.5">
-          <span className="flex items-center gap-1 text-foreground"><Coins className="h-3.5 w-3.5 text-amber-600" /> Thưởng / xu</span>
-          <span className="font-bold text-amber-600">+10</span>
+      <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3">
+        <div className="text-[10px] text-emerald-700 font-semibold mb-1.5 flex items-center gap-1">
+          <Trophy className="h-3 w-3" /> Tín hiệu Reward (+)
         </div>
-        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-          <div className="h-full bg-amber-500" style={{ width: "50%" }} />
-        </div>
+        <ul className="space-y-1 text-[11px] text-foreground/85">
+          <li>• Hoàn thành bài đúng hạn <span className="font-bold text-emerald-600">+8</span></li>
+          <li>• Streak 7+ ngày <span className="font-bold text-emerald-600">+5</span></li>
+          <li>• Tự hỏi AI Tutor <span className="font-bold text-emerald-600">+3</span></li>
+        </ul>
       </div>
       <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3">
-        <div className="flex items-center justify-between text-[11px] mb-1.5">
-          <span className="flex items-center gap-1 text-foreground"><Bomb className="h-3.5 w-3.5 text-rose-600" /> Phạt / bom</span>
-          <span className="font-bold text-rose-600">-5</span>
+        <div className="text-[10px] text-rose-700 font-semibold mb-1.5 flex items-center gap-1">
+          <AlertTriangle className="h-3 w-3" /> Tín hiệu Penalty (−)
         </div>
-        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-          <div className="h-full bg-rose-500" style={{ width: "25%" }} />
-        </div>
+        <ul className="space-y-1 text-[11px] text-foreground/85">
+          <li>• Bỏ buổi không báo <span className="font-bold text-rose-600">−6</span></li>
+          <li>• Quiz dưới 50% <span className="font-bold text-rose-600">−4</span></li>
+          <li>• Im lặng &gt; 5 ngày <span className="font-bold text-rose-600">−5</span></li>
+        </ul>
       </div>
     </div>
-    <div className="rounded-xl border border-teal-500/30 bg-teal-500/5 p-3 flex items-start gap-2.5">
+
+    {/* Recommended next action */}
+    <div className="rounded-xl border border-teal-500/40 bg-gradient-to-r from-teal-500/10 to-emerald-500/5 p-3 flex items-start gap-2.5">
       <Target className="h-4 w-4 text-teal-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
-        <span className="font-semibold">AI Academy độc quyền:</span> học viên tự tay điều chỉnh thưởng/phạt để dạy AI tránh chướng ngại — kiến thức Reinforcement Learning thật, chơi như game.
+        <span className="font-semibold text-teal-700">Hành động được RL đề xuất tuần này:</span> giảm độ khó Listening Part 3 xuống Band 6.0, tăng 2 buổi Speaking 1-1, gửi 1 voice note động viên từ Thầy. <span className="text-muted-foreground">→ Dự báo lên Band 6.5 sau 3 tuần.</span>
       </div>
     </div>
   </div>
 );
+
+const SlideEarlyWarning = () => (
+  <div className="space-y-3">
+    <div className="grid grid-cols-3 gap-3">
+      {[
+        { l: "An toàn", v: "42", c: "text-emerald-600", bg: "bg-emerald-500/10", icon: ShieldCheck },
+        { l: "Cần chú ý", v: "7", c: "text-amber-600", bg: "bg-amber-500/10", icon: Bell },
+        { l: "Rủi ro cao", v: "3", c: "text-rose-600", bg: "bg-rose-500/10", icon: AlertTriangle },
+      ].map((s) => (
+        <div key={s.l} className={`rounded-xl border border-border/60 ${s.bg} p-3 text-center`}>
+          <s.icon className={`h-4 w-4 ${s.c} mx-auto mb-1`} />
+          <div className={`text-xl sm:text-2xl font-bold ${s.c} leading-none`}>{s.v}</div>
+          <div className="text-[10px] text-muted-foreground mt-1">{s.l}</div>
+        </div>
+      ))}
+    </div>
+    {[
+      {
+        name: "Phạm Thu Hà", level: "Rủi ro cao", color: "rose",
+        signal: "Vắng 3 buổi liên tiếp · Quiz 38% · Không mở bài 7 ngày",
+        action: "Gọi điện phụ huynh + tặng 1 buổi 1-1 miễn phí",
+        risk: 87,
+      },
+      {
+        name: "Đỗ Minh Quân", level: "Cần chú ý", color: "amber",
+        signal: "Streak giảm · Engagement −22% trong 2 tuần",
+        action: "AI Tutor chủ động gửi tin nhắn động viên",
+        risk: 54,
+      },
+    ].map((r) => {
+      const colors = r.color === "rose"
+        ? { border: "border-rose-500/40", bg: "bg-rose-500/5", chip: "bg-rose-500/15 text-rose-700 border-rose-500/30", bar: "bg-rose-500" }
+        : { border: "border-amber-500/40", bg: "bg-amber-500/5", chip: "bg-amber-500/15 text-amber-700 border-amber-500/30", bar: "bg-amber-500" };
+      return (
+        <div key={r.name} className={`rounded-xl border ${colors.border} ${colors.bg} p-3`}>
+          <div className="flex items-center justify-between gap-2 mb-1.5">
+            <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{r.name}</div>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold ${colors.chip}`}>{r.level} · {r.risk}%</span>
+          </div>
+          <div className="text-[11px] text-muted-foreground mb-1.5">⚠️ {r.signal}</div>
+          <div className="text-[11px] text-foreground flex items-start gap-1.5">
+            <Sparkles className="h-3 w-3 text-primary mt-0.5 shrink-0" />
+            <span><span className="font-semibold">AI đề xuất:</span> {r.action}</span>
+          </div>
+          <div className="mt-2 h-1 rounded-full bg-muted overflow-hidden">
+            <div className={`h-full ${colors.bar}`} style={{ width: `${r.risk}%` }} />
+          </div>
+        </div>
+      );
+    })}
+  </div>
+);
+
+const SlideScheduleFinance = () => (
+  <div className="space-y-3">
+    <div className="grid grid-cols-2 gap-3">
+      <div className="rounded-xl border border-primary/30 bg-primary/5 p-3.5">
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-[11px] text-muted-foreground font-medium">Buổi hôm nay</div>
+          <Calendar className="h-3.5 w-3.5 text-primary" />
+        </div>
+        <div className="text-2xl font-bold text-foreground leading-none">5 lớp</div>
+        <div className="text-[10px] text-emerald-600 mt-1.5 font-semibold">✓ Đã gửi nhắc lịch 18:30</div>
+      </div>
+      <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3.5">
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-[11px] text-muted-foreground font-medium">Học phí tháng này</div>
+          <DollarSign className="h-3.5 w-3.5 text-emerald-600" />
+        </div>
+        <div className="text-2xl font-bold text-emerald-600 leading-none">48.2M₫</div>
+        <div className="text-[10px] text-emerald-700 mt-1.5 font-semibold">+34% so với tháng trước</div>
+      </div>
+    </div>
+
+    <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-xs sm:text-sm font-semibold text-foreground">Lịch sắp tới</div>
+        <span className="text-[10px] text-muted-foreground">Tự động đồng bộ Zoom · Google Calendar</span>
+      </div>
+      {[
+        { t: "19:00", c: "IELTS Speaking 1-1", n: "Trần Minh Anh", color: "from-emerald-500 to-teal-500" },
+        { t: "20:00", c: "TOEIC Listening · Lớp B2", n: "12 học viên", color: "from-primary to-sky-500" },
+        { t: "21:00", c: "Tư vấn lộ trình du học", n: "Nguyễn Khánh Linh", color: "from-violet-500 to-fuchsia-500" },
+      ].map((s) => (
+        <div key={s.c} className="flex items-center gap-3 py-2 border-t border-border/40 first:border-t-0">
+          <div className={`h-9 w-12 rounded-lg bg-gradient-to-br ${s.color} flex items-center justify-center text-white text-[11px] font-bold shrink-0`}>
+            {s.t}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-xs sm:text-sm font-semibold text-foreground truncate">{s.c}</div>
+            <div className="text-[11px] text-muted-foreground truncate">{s.n}</div>
+          </div>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 font-semibold shrink-0">Đã xác nhận</span>
+        </div>
+      ))}
+    </div>
+
+    <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2.5">
+      <Gauge className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+      <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
+        <span className="font-semibold">Tự động hoá:</span> nhắc đóng học phí, xuất biên lai PDF, gửi link Zoom, cảnh báo khi học viên trễ &gt; 2 ngày — Thầy/Cô tập trung 100% vào giảng dạy.
+      </div>
+    </div>
+  </div>
+);
+
 
 
 
