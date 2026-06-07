@@ -1232,6 +1232,26 @@ const FAQS = [
     q: "Quy trình từ lúc đặt hàng đến khi website đi vào hoạt động mất bao lâu?",
     a: "Quy trình chuẩn gồm 4 bước: Tiếp nhận yêu cầu & Tư vấn giải pháp → Thiết kế giao diện Demo → Tích hợp Data/AI & Cấu hình tên miền → Nghiệm thu bàn giao & Hướng dẫn sử dụng. Toàn bộ thời gian triển khai gói gọn trong từ 7 đến 14 ngày làm việc.",
   },
+  {
+    q: "Dữ liệu học viên và bài giảng có thuộc quyền sở hữu của tôi không?",
+    a: "100% thuộc về Thầy/Cô. HaiEduTech bàn giao toàn bộ mã nguồn, cơ sở dữ liệu, tài khoản tên miền và Cloud đứng tên Thầy/Cô. Chúng tôi ký cam kết bảo mật (NDA) và không bao giờ truy cập dữ liệu khi chưa có sự cho phép.",
+  },
+  {
+    q: "Nếu sau này tôi muốn thêm tính năng mới (ví dụ: livestream, app mobile) thì có dễ mở rộng không?",
+    a: "Rất dễ. Hệ thống được xây trên kiến trúc microservices hiện đại (React + Supabase + Edge Functions), sẵn sàng tích hợp livestream (Agora, LiveKit), ứng dụng mobile (React Native), hay đồng bộ với Google Classroom / Microsoft Teams chỉ với chi phí mở rộng theo module.",
+  },
+  {
+    q: "Website của tôi có chịu được lượng truy cập lớn vào giờ cao điểm (ví dụ kỳ thi) không?",
+    a: "Có. Hạ tầng dựa trên Cloud auto-scaling (Vercel Edge + Supabase Postgres), kiểm thử tải đến 10.000 người dùng đồng thời. Cam kết uptime 99.9% trên gói Advanced và Enterprise, có SLA bồi thường nếu vi phạm.",
+  },
+  {
+    q: "Tôi có được hỗ trợ đào tạo đội ngũ giáo viên sử dụng hệ thống không?",
+    a: "Có ạ. Gói Standard tặng 2 buổi training 1-1 qua Zoom + video hướng dẫn riêng. Gói Advanced/Enterprise có thêm cẩm nang vận hành PDF, lớp đào tạo trực tiếp và 6 tháng hỗ trợ kỹ thuật ưu tiên qua Zalo.",
+  },
+  {
+    q: "HaiEduTech khác gì so với việc tôi tự dùng Wordpress hoặc thuê freelancer?",
+    a: "Khác biệt then chốt: (1) Đội ngũ thuần sư phạm + kỹ sư Data/AI tại Phần Lan, hiểu sâu nghiệp vụ giáo dục; (2) Bộ tính năng EdTech sẵn có (AI Tutor, LMS, Analytics) đã được kiểm chứng trên 5.000+ học viên thật của Thầy Hải; (3) Cam kết bảo hành 6 tháng + hoàn tiền 100% trong 7 ngày – điều mà freelancer hiếm khi đảm bảo.",
+  },
 ];
 
 const FaqSection = () => (
