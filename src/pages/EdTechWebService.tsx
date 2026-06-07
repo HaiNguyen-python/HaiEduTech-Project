@@ -2776,11 +2776,6 @@ const AdminMockup = () => (
 );
 
 const PortfolioShowcase = () => {
-  const tabs = [
-    { id: "lms", label: "Giao diện Học viên (LMS)", icon: Monitor, body: <LmsMockup /> },
-    { id: "assistant", label: "Chấm công & Trợ lý", icon: ClipboardList, body: <AssistantMockup /> },
-    { id: "admin", label: "Admin Tổng (Analytics)", icon: LayoutDashboard, body: <AdminMockup /> },
-  ];
   return (
     <section className="py-16 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6">
@@ -2789,34 +2784,17 @@ const PortfolioShowcase = () => {
             Hệ Thống Tính Năng – Bản Demo Trực Quan
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – từ giao diện học viên đến bảng quản trị.
+            Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – lướt qua 17 màn hình demo của hệ thống.
           </p>
         </div>
-        <Tabs defaultValue="lms" className="max-w-5xl mx-auto">
-          <TabsList className="w-full h-auto flex flex-wrap justify-center gap-2 bg-secondary/40 p-2 rounded-xl">
-            {tabs.map((t) => (
-              <TabsTrigger
-                key={t.id}
-                value={t.id}
-                className="gap-2 px-4 py-2.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-emerald-500 data-[state=active]:text-primary-foreground data-[state=active]:shadow-md"
-              >
-                <t.icon className="w-4 h-4" />
-                {t.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {tabs.map((t) => (
-            <TabsContent key={t.id} value={t.id} className="mt-8">
-              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                {t.body}
-              </motion.div>
-            </TabsContent>
-          ))}
-        </Tabs>
+        <div className="max-w-5xl mx-auto">
+          <DemoCarousel />
+        </div>
       </div>
     </section>
   );
 };
+
 
 /* -------------------------------------------------------------------------- */
 /* Feature Comparison Matrix                                                   */
