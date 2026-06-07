@@ -2428,9 +2428,9 @@ const EdTechWebService = () => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="standard">Gói Standard (từ 8.000.000₫)</SelectItem>
-                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (từ 18.000.000₫)</SelectItem>
-                        <SelectItem value="enterprise">Gói Enterprise (từ 45.000.000₫)</SelectItem>
+                        <SelectItem value="standard">Gói Standard (Liên hệ báo giá)</SelectItem>
+                        <SelectItem value="advanced">Gói Advanced AI &amp; Data (Liên hệ báo giá)</SelectItem>
+                        <SelectItem value="enterprise">Gói Enterprise (Liên hệ báo giá)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
