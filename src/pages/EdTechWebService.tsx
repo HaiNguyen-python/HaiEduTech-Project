@@ -317,107 +317,108 @@ const PACKAGES = [
 const DEMO_SLIDES = [
   {
     id: "dashboard",
-    title: "Smart Dashboard",
-    badge: "AI Tutor online",
+    title: { vi: "Smart Dashboard", en: "Smart Dashboard" },
+    badge: { vi: "AI Tutor online", en: "AI Tutor online" },
     badgeColor: "emerald" as const,
   },
   {
     id: "ai-tutor",
-    title: "AI Tutor 24/7",
-    badge: "Realtime chat",
+    title: { vi: "AI Tutor 24/7", en: "AI Tutor 24/7" },
+    badge: { vi: "Realtime chat", en: "Realtime chat" },
     badgeColor: "violet" as const,
   },
   {
     id: "classes",
-    title: "Quản lý lớp học",
-    badge: "Live sync",
+    title: { vi: "Quản lý lớp học", en: "Class Management" },
+    badge: { vi: "Live sync", en: "Live sync" },
     badgeColor: "primary" as const,
   },
   {
     id: "assignments",
-    title: "Bài tập & Chấm điểm AI",
-    badge: "Auto grading",
+    title: { vi: "Bài tập & Chấm điểm AI", en: "Assignments & AI Grading" },
+    badge: { vi: "Auto grading", en: "Auto grading" },
     badgeColor: "rose" as const,
   },
   {
     id: "analytics",
-    title: "Phân tích chuyên sâu",
-    badge: "Insights AI",
+    title: { vi: "Phân tích chuyên sâu", en: "Deep Analytics" },
+    badge: { vi: "Insights AI", en: "AI Insights" },
     badgeColor: "sky" as const,
   },
   {
     id: "lessons",
-    title: "Bài giảng tương tác",
-    badge: "Interactive · Multimedia",
+    title: { vi: "Bài giảng tương tác", en: "Interactive Lessons" },
+    badge: { vi: "Interactive · Multimedia", en: "Interactive · Multimedia" },
     badgeColor: "indigo" as const,
   },
   {
     id: "rl-lab",
-    title: "RL · Cá nhân hoá lộ trình học",
-    badge: "Adaptive Learning",
+    title: { vi: "RL · Cá nhân hoá lộ trình học", en: "RL · Adaptive Learning Path" },
+    badge: { vi: "Adaptive Learning", en: "Adaptive Learning" },
     badgeColor: "teal" as const,
   },
   {
     id: "early-warning",
-    title: "Cảnh báo sớm – Can thiệp giáo dục",
-    badge: "Early Intervention",
+    title: { vi: "Cảnh báo sớm – Can thiệp giáo dục", en: "Early Warning – Education Intervention" },
+    badge: { vi: "Early Intervention", en: "Early Intervention" },
     badgeColor: "rose" as const,
   },
   {
     id: "schedule-finance",
-    title: "Lịch học & Học phí tự động",
-    badge: "Smart Operations",
+    title: { vi: "Lịch học & Học phí tự động", en: "Schedule & Tuition Automation" },
+    badge: { vi: "Smart Operations", en: "Smart Operations" },
     badgeColor: "primary" as const,
   },
   {
     id: "parent-report",
-    title: "Báo cáo phụ huynh",
-    badge: "Auto · Hàng tháng",
+    title: { vi: "Báo cáo phụ huynh", en: "Parent Reports" },
+    badge: { vi: "Auto · Hàng tháng", en: "Auto · Monthly" },
     badgeColor: "amber" as const,
   },
   {
     id: "rubric-grading",
-    title: "Chấm Writing theo Rubric AI",
-    badge: "IELTS Band Descriptors",
+    title: { vi: "Chấm Writing theo Rubric AI", en: "AI Rubric Writing Grading" },
+    badge: { vi: "IELTS Band Descriptors", en: "IELTS Band Descriptors" },
     badgeColor: "rose" as const,
   },
   {
     id: "speaking-grading",
-    title: "Chấm Speaking · Phát âm AI",
-    badge: "Pronunciation scoring",
+    title: { vi: "Chấm Speaking · Phát âm AI", en: "AI Speaking & Pronunciation Grading" },
+    badge: { vi: "Pronunciation scoring", en: "Pronunciation scoring" },
     badgeColor: "violet" as const,
   },
   {
     id: "live-class",
-    title: "Phòng học Live · Theo dõi tập trung",
-    badge: "Live · Engagement AI",
+    title: { vi: "Phòng học Live · Theo dõi tập trung", en: "Live Class · Focus Monitoring" },
+    badge: { vi: "Live · Engagement AI", en: "Live · Engagement AI" },
     badgeColor: "sky" as const,
   },
   {
     id: "mastery-map",
-    title: "Bản đồ năng lực · Skill Mastery",
-    badge: "Knowledge graph",
+    title: { vi: "Bản đồ năng lực · Skill Mastery", en: "Skill Mastery Map" },
+    badge: { vi: "Knowledge graph", en: "Knowledge graph" },
     badgeColor: "indigo" as const,
   },
   {
     id: "assignment-builder",
-    title: "Giao bài theo lớp · Cá nhân hoá",
-    badge: "Smart Assign",
+    title: { vi: "Giao bài theo lớp · Cá nhân hoá", en: "Personalized Assignment Builder" },
+    badge: { vi: "Smart Assign", en: "Smart Assign" },
     badgeColor: "teal" as const,
   },
   {
     id: "gamification",
-    title: "Gamification · Tăng động lực học",
-    badge: "XP · Streak · Badge",
+    title: { vi: "Gamification · Tăng động lực học", en: "Gamification · Boost Motivation" },
+    badge: { vi: "XP · Streak · Badge", en: "XP · Streak · Badge" },
     badgeColor: "amber" as const,
   },
   {
     id: "hr-management",
-    title: "Quản lý nhân sự & Cộng tác viên",
-    badge: "Staff · Payroll",
+    title: { vi: "Quản lý nhân sự & Cộng tác viên", en: "Staff & Contributor Management" },
+    badge: { vi: "Staff · Payroll", en: "Staff · Payroll" },
     badgeColor: "violet" as const,
   },
 ];
+
 
 const badgeStyles = {
   emerald: "bg-emerald-500/10 text-emerald-600 border-emerald-500/30",
@@ -431,6 +432,7 @@ const badgeStyles = {
 };
 
 const DemoCarousel = () => {
+  const { t, lang } = useLanguage();
   const [idx, setIdx] = useState(0);
   const total = DEMO_SLIDES.length;
 
@@ -461,11 +463,11 @@ const DemoCarousel = () => {
       {/* Header */}
       <div className="px-6 sm:px-8 pt-6 pb-4 flex items-center justify-between">
         <div>
-          <div className="text-xs text-muted-foreground">Hôm nay · {new Date().toLocaleDateString("vi-VN")}</div>
-          <div className="text-lg sm:text-2xl font-semibold text-foreground mt-0.5">{slide.title}</div>
+          <div className="text-xs text-muted-foreground">{t("Hôm nay", "Today")} · {new Date().toLocaleDateString(lang === "vi" ? "vi-VN" : "en-US")}</div>
+          <div className="text-lg sm:text-2xl font-semibold text-foreground mt-0.5">{t(slide.title.vi, slide.title.en)}</div>
         </div>
         <div className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium border ${badgeClass}`}>
-          <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" /> {slide.badge}
+          <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" /> {t(slide.badge.vi, slide.badge.en)}
         </div>
       </div>
 
@@ -502,7 +504,7 @@ const DemoCarousel = () => {
       <div className="flex items-center justify-between px-5 sm:px-6 py-3 border-t border-border/60 bg-muted/30">
         <button
           onClick={() => go(idx - 1)}
-          aria-label="Trước"
+          aria-label={t("Trước", "Previous")}
           className="h-8 w-8 rounded-full border border-border/60 bg-background/70 hover:bg-background flex items-center justify-center text-foreground transition hover:scale-105"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -512,7 +514,7 @@ const DemoCarousel = () => {
             <button
               key={s.id}
               onClick={() => setIdx(i)}
-              aria-label={s.title}
+              aria-label={t(s.title.vi, s.title.en)}
               className={`h-2 rounded-full transition-all ${
                 i === idx ? "w-7 bg-gradient-to-r from-primary to-emerald-500" : "w-2 bg-border hover:bg-muted-foreground/50"
               }`}
@@ -521,7 +523,7 @@ const DemoCarousel = () => {
         </div>
         <button
           onClick={() => go(idx + 1)}
-          aria-label="Sau"
+          aria-label={t("Sau", "Next")}
           className="h-8 w-8 rounded-full border border-border/60 bg-background/70 hover:bg-background flex items-center justify-center text-foreground transition hover:scale-105"
         >
           <ChevronRight className="h-4 w-4" />
@@ -1718,61 +1720,76 @@ const EdTechWebService = () => {
       <section className="py-14 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary mb-3">
-              <Users className="w-3.5 h-3.5" /> Đối tượng phục vụ
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
+              <Users className="w-3.5 h-3.5" /> {t("Đối tượng phục vụ", "Who we serve")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Giải pháp may đo cho từng quy mô giáo dục
+              {t("Giải pháp may đo cho từng quy mô giáo dục", "Tailored solutions for every education scale")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Dù Thầy/Cô đang dạy 1-1 hay vận hành cả hệ thống trường học, chúng tôi đều có giải pháp phù hợp.
+              {t(
+                "Dù Thầy/Cô đang dạy 1-1 hay vận hành cả hệ thống trường học, chúng tôi đều có giải pháp phù hợp.",
+                "Whether you teach 1-on-1 or run an entire school system, we have the right solution for you."
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
             {[
               {
                 icon: GraduationCap,
-                title: "Giáo viên tự do",
-                desc: "Lớp luyện thi cá nhân 1-1 hoặc nhóm nhỏ < 50 học viên, cần website chuyên nghiệp để xây thương hiệu cá nhân.",
+                title: { vi: "Giáo viên tự do", en: "Independent Teacher" },
+                desc: {
+                  vi: "Lớp luyện thi cá nhân 1-1 hoặc nhóm nhỏ < 50 học viên, cần website chuyên nghiệp để xây thương hiệu cá nhân.",
+                  en: "1-on-1 or small classes under 50 learners, needing a professional website to build a personal brand.",
+                },
                 color: "from-blue-500/15 to-blue-500/5",
                 ic: "text-blue-600 bg-blue-500/10",
               },
               {
                 icon: School,
-                title: "Trung tâm ngoại ngữ",
-                desc: "50–500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động – thay thế Google Form + Zalo thủ công.",
+                title: { vi: "Trung tâm ngoại ngữ", en: "Language Centers" },
+                desc: {
+                  vi: "50–500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động – thay thế Google Form + Zalo thủ công.",
+                  en: "50–500 learners needing LMS, AI Tutor, automated class & tuition management – replacing manual Google Forms + Zalo.",
+                },
                 color: "from-emerald-500/15 to-emerald-500/5",
                 ic: "text-emerald-600 bg-emerald-500/10",
               },
               {
                 icon: Building2,
-                title: "Trường học & Học viện",
-                desc: "500+ học viên, cần phân quyền đa cấp, cổng phụ huynh, BI dashboard & tích hợp hệ thống điểm danh nội bộ.",
+                title: { vi: "Trường học & Học viện", en: "Schools & Academies" },
+                desc: {
+                  vi: "500+ học viên, cần phân quyền đa cấp, cổng phụ huynh, BI dashboard & tích hợp hệ thống điểm danh nội bộ.",
+                  en: "500+ learners needing multi-level roles, parent portal, BI dashboards and internal attendance integration.",
+                },
                 color: "from-violet-500/15 to-violet-500/5",
                 ic: "text-violet-600 bg-violet-500/10",
               },
               {
                 icon: Globe,
-                title: "EdTech Startup",
-                desc: "Đang xây sản phẩm SaaS giáo dục, cần MVP nhanh trong 14 ngày với hạ tầng AI/Data sẵn sàng mở rộng.",
+                title: { vi: "EdTech Startup", en: "EdTech Startups" },
+                desc: {
+                  vi: "Đang xây sản phẩm SaaS giáo dục, cần MVP nhanh trong 14 ngày với hạ tầng AI/Data sẵn sàng mở rộng.",
+                  en: "Building an EdTech SaaS – needing a fast 14-day MVP with scalable AI/Data infrastructure.",
+                },
                 color: "from-amber-500/15 to-amber-500/5",
                 ic: "text-amber-600 bg-amber-500/10",
               },
             ].map((it, i) => (
               <motion.div
-                key={it.title}
+                key={it.title.en}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
               >
-                <Card className={`h-full bg-gradient-to-br ${it.color} border-border/70`}>
+                <Card className={`h-full bg-gradient-to-br ${it.color} border-2 border-emerald-500/50 hover:border-emerald-500/80 transition-colors`}>
                   <CardContent className="p-6">
                     <div className={`w-12 h-12 rounded-xl ${it.ic} flex items-center justify-center mb-4`}>
                       <it.icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{it.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{it.desc}</p>
+                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{t(it.title.vi, it.title.en)}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{t(it.desc.vi, it.desc.en)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -1786,70 +1803,99 @@ const EdTechWebService = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-600 mb-3">
-              <Cpu className="w-3.5 h-3.5" /> Công nghệ & Bảo mật
+              <Cpu className="w-3.5 h-3.5" /> {t("Công nghệ & Bảo mật", "Technology & Security")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              Cùng kiến trúc với các sản phẩm Đại học Top Châu Âu
+              {t(
+                "Cùng kiến trúc với các sản phẩm Đại học Top Châu Âu",
+                "Built on the same stack as top European University products"
+              )}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng – nhanh, bảo
-              mật, dễ mở rộng.
+              {t(
+                "Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng – nhanh, bảo mật, dễ mở rộng.",
+                "Your website runs on the same stack Nordic EdTech startups use today – fast, secure and easy to scale."
+              )}
             </p>
           </div>
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
             {[
               {
                 icon: Code2,
-                title: "Frontend hiện đại",
-                items: [
-                  "React 18 + Vite (tải dưới 1 giây)",
-                  "TailwindCSS – giao diện đồng nhất",
-                  "Framer Motion – chuyển động mượt",
-                  "Responsive 100% mobile & tablet",
-                ],
+                title: { vi: "Frontend hiện đại", en: "Modern Frontend" },
+                items: {
+                  vi: [
+                    "React 18 + Vite (tải dưới 1 giây)",
+                    "TailwindCSS – giao diện đồng nhất",
+                    "Framer Motion – chuyển động mượt",
+                    "Responsive 100% mobile & tablet",
+                  ],
+                  en: [
+                    "React 18 + Vite (loads in under 1 second)",
+                    "TailwindCSS – consistent UI system",
+                    "Framer Motion – smooth animations",
+                    "100% responsive on mobile & tablet",
+                  ],
+                },
                 color: "from-blue-500/20 to-transparent",
                 ic: "text-blue-600 bg-blue-500/10",
               },
               {
                 icon: Database,
-                title: "Backend & Data",
-                items: [
-                  "Postgres + Row-Level Security",
-                  "Edge Functions phục vụ toàn cầu",
-                  "Realtime sync điểm số & chat",
-                  "Backup tự động hằng ngày",
-                ],
+                title: { vi: "Backend & Dữ liệu", en: "Backend & Data" },
+                items: {
+                  vi: [
+                    "Postgres + Row-Level Security",
+                    "Edge Functions phục vụ toàn cầu",
+                    "Realtime sync điểm số & chat",
+                    "Backup tự động hằng ngày",
+                  ],
+                  en: [
+                    "Postgres + Row-Level Security",
+                    "Globally distributed Edge Functions",
+                    "Realtime sync for scores & chat",
+                    "Daily automated backups",
+                  ],
+                },
                 color: "from-emerald-500/20 to-transparent",
                 ic: "text-emerald-600 bg-emerald-500/10",
               },
               {
                 icon: Bot,
-                title: "AI & Automation",
-                items: [
-                  "Perplexity Sonar Pro / GPT-5 / Gemini 2.5",
-                  "Pyodide chạy Python ngay trên trình duyệt",
-                  "Web Speech API cho luyện nói",
-                  "AI Smart Grading cho Writing/Speaking",
-                ],
+                title: { vi: "AI & Tự động hoá", en: "AI & Automation" },
+                items: {
+                  vi: [
+                    "Perplexity Sonar Pro / GPT-5 / Gemini 2.5",
+                    "Pyodide chạy Python ngay trên trình duyệt",
+                    "Web Speech API cho luyện nói",
+                    "AI Smart Grading cho Writing/Speaking",
+                  ],
+                  en: [
+                    "Perplexity Sonar Pro / GPT-5 / Gemini 2.5",
+                    "Pyodide runs Python right in the browser",
+                    "Web Speech API for speaking practice",
+                    "AI Smart Grading for Writing/Speaking",
+                  ],
+                },
                 color: "from-violet-500/20 to-transparent",
                 ic: "text-violet-600 bg-violet-500/10",
               },
             ].map((s, i) => (
               <motion.div
-                key={s.title}
+                key={s.title.en}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <Card className={`h-full bg-gradient-to-br ${s.color} border-border/70`}>
+                <Card className={`h-full bg-gradient-to-br ${s.color} border-2 border-emerald-500/50 hover:border-emerald-500/80 transition-colors`}>
                   <CardContent className="p-6">
                     <div className={`w-12 h-12 rounded-xl ${s.ic} flex items-center justify-center mb-4`}>
                       <s.icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground mb-3">{s.title}</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">{t(s.title.vi, s.title.en)}</h3>
                     <ul className="space-y-2">
-                      {s.items.map((it) => (
+                      {(lang === "vi" ? s.items.vi : s.items.en).map((it) => (
                         <li key={it} className="flex items-start gap-2 text-sm text-muted-foreground">
                           <Check className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /> {it}
                         </li>
@@ -1860,16 +1906,19 @@ const EdTechWebService = () => {
               </motion.div>
             ))}
           </div>
-          <div className="mt-8 max-w-4xl mx-auto rounded-2xl border border-border bg-card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="mt-8 max-w-4xl mx-auto rounded-2xl border-2 border-emerald-500/50 bg-card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-foreground mb-1">Cam kết bảo mật cấp Doanh nghiệp</h4>
+              <h4 className="font-semibold text-foreground mb-1">
+                {t("Cam kết bảo mật cấp Doanh nghiệp", "Enterprise-grade Security Commitment")}
+              </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                SSL/TLS 1.3 mặc định · Row-Level Security theo tài khoản · Audit log mọi truy cập admin · Tuân thủ Luật
-                An ninh mạng Việt Nam & nguyên tắc GDPR. Dữ liệu đặt tại data center Singapore / Frankfurt theo lựa chọn
-                của Thầy/Cô.
+                {t(
+                  "SSL/TLS 1.3 mặc định · Row-Level Security theo tài khoản · Audit log mọi truy cập admin · Tuân thủ Luật An ninh mạng Việt Nam & nguyên tắc GDPR. Dữ liệu đặt tại data center Singapore / Frankfurt theo lựa chọn của Thầy/Cô.",
+                  "SSL/TLS 1.3 by default · Per-account Row-Level Security · Full audit log of admin access · Compliant with Vietnam Cybersecurity Law & GDPR principles. Data hosted in Singapore or Frankfurt data centers at your choice."
+                )}
               </p>
             </div>
           </div>
