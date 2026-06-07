@@ -1625,16 +1625,16 @@ const EdTechWebService = () => {
               {/* Mini feature strip below carousel */}
               <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-2.5">
                 {[
-                  { icon: Bot, label: "AI Tutor 24/7", color: "text-violet-600", bg: "bg-violet-500/10" },
-                  { icon: ClipboardList, label: "Chấm bài tự động", color: "text-rose-600", bg: "bg-rose-500/10" },
-                  { icon: TrendingUp, label: "Phân tích chuyên sâu", color: "text-primary", bg: "bg-primary/10" },
-                  { icon: Mail, label: "Báo cáo phụ huynh", color: "text-emerald-600", bg: "bg-emerald-500/10" },
+                  { icon: Bot, label: { vi: "AI Tutor 24/7", en: "AI Tutor 24/7" }, color: "text-violet-600", bg: "bg-violet-500/10" },
+                  { icon: ClipboardList, label: { vi: "Chấm bài tự động", en: "Auto Grading" }, color: "text-rose-600", bg: "bg-rose-500/10" },
+                  { icon: TrendingUp, label: { vi: "Phân tích chuyên sâu", en: "Deep Analytics" }, color: "text-primary", bg: "bg-primary/10" },
+                  { icon: Mail, label: { vi: "Báo cáo phụ huynh", en: "Parent Reports" }, color: "text-emerald-600", bg: "bg-emerald-500/10" },
                 ].map((f) => (
-                  <div key={f.label} className="rounded-xl border border-border/60 bg-card/70 backdrop-blur p-2.5 flex items-center gap-2 hover:border-primary/40 hover:shadow-md transition">
+                  <div key={f.label.en} className="rounded-xl border border-border/60 bg-card/70 backdrop-blur p-2.5 flex items-center gap-2 hover:border-primary/40 hover:shadow-md transition">
                     <div className={`h-8 w-8 rounded-lg ${f.bg} flex items-center justify-center shrink-0`}>
                       <f.icon className={`h-4 w-4 ${f.color}`} />
                     </div>
-                    <div className="text-[11px] sm:text-xs font-semibold text-foreground leading-tight">{f.label}</div>
+                    <div className="text-[11px] sm:text-xs font-semibold text-foreground leading-tight">{t(f.label.vi, f.label.en)}</div>
                   </div>
                 ))}
               </div>
@@ -1647,25 +1647,25 @@ const EdTechWebService = () => {
             {[
               {
                 k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a015+",
-                v: "năm kinh nghiệm giảng dạy tại Việt Nam",
+                v: { vi: "năm kinh nghiệm giảng dạy tại Việt Nam", en: "years of teaching experience in Vietnam" },
                 icon: GraduationCap,
                 grad: "from-primary/20 to-primary/0",
               },
               {
                 k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 3+",
-                v: "năm kinh nghiệm về lập trình tại Phần Lan",
+                v: { vi: "năm kinh nghiệm về lập trình tại Phần Lan", en: "years of software engineering experience in Finland" },
                 icon: Database,
                 grad: "from-emerald-500/20 to-emerald-500/0",
               },
               {
                 k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0✦",
-                v: "Tâm huyết với các sản phẩm Sư phạm & Công nghệ",
+                v: { vi: "Tâm huyết với các sản phẩm Sư phạm & Công nghệ", en: "Passionate about pedagogy & technology products" },
                 icon: Sparkles,
                 grad: "from-violet-500/20 to-violet-500/0",
               },
             ].map((s) => (
               <div
-                key={s.v}
+                key={s.v.en}
                 className="relative overflow-hidden rounded-2xl border border-border/70 bg-card/70 backdrop-blur p-5 text-center sm:text-left hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${s.grad} pointer-events-none`} />
@@ -1675,7 +1675,7 @@ const EdTechWebService = () => {
                   </div>
                   <div>
                     <div className="text-xl sm:text-2xl font-bold text-foreground leading-none">{s.k}</div>
-                    <div className="text-xs text-muted-foreground leading-snug mt-1.5">{s.v}</div>
+                    <div className="text-xs text-muted-foreground leading-snug mt-1.5">{t(s.v.vi, s.v.en)}</div>
                   </div>
                 </div>
               </div>
