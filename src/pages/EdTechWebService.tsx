@@ -2164,7 +2164,7 @@ const EdTechWebService = () => {
                       }`}
                       variant={p.highlight ? "default" : "outline"}
                     >
-                      Chọn {p.name}
+                      {t(`Chọn ${p.name}`, `Choose ${p.name}`)}
                     </Button>
                   </CardContent>
                 </Card>
