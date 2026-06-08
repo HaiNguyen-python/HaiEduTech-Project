@@ -277,6 +277,7 @@ const App = () => (
             <Route path="/programming" element={<LazyRoute><Programming /></LazyRoute>} />
             <Route path="/programming/arcade" element={<LazyRoute><ProgrammingArcade /></LazyRoute>} />
             <Route path="/programming/ai-academy" element={<LazyRoute><AIAcademy /></LazyRoute>} />
+            <Route path="/ai-academy" element={<Navigate to="/programming/ai-academy" replace />} />
             <Route path="/programming/scratch-adventure" element={<LazyRoute><ScratchAdventure /></LazyRoute>} />
             <Route path="/programming/nlp" element={<LazyRoute><PillarHub /></LazyRoute>} />
             <Route path="/programming/edtech" element={<LazyRoute><PillarHub /></LazyRoute>} />
