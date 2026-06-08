@@ -1647,10 +1647,10 @@ const EdTechWebService = () => {
               <ul className="mt-7 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-[14.5px] sm:text-[15px]">
                 {[
                   { vi: "Tiết kiệm 8–10 giờ chấm bài mỗi tuần", en: "Save 8–10 hours of grading every week" },
-                  { vi: "Không còn nỗi lo học sinh nghỉ học không báo trước", en: "No more silent no-shows from students" },
-                  { vi: "AI Tutor trợ giảng học viên ngoài giờ – hết áp lực trả lời tin nhắn 24/7", en: "An AI Tutor handles after-hours questions – no more 24/7 messages" },
+                  { vi: "Hệ thống AI độc quyền về can thiệp & hỗ trợ sớm trong giáo dục", en: "Exclusive AI system for early educational intervention & support" },
+                  { vi: "Hệ thống Smart Learning System trợ giảng học viên 24/7", en: "24/7 Smart Learning System assistant" },
                   { vi: "Tự động nhắc lịch học, thu học phí & gửi hoá đơn", en: "Auto class reminders, tuition collection & invoicing" },
-                  { vi: "Báo cáo phụ huynh tự động hàng tháng – tăng tỉ lệ tái đăng ký", en: "Automated monthly parent reports – higher re-enrollment" },
+                  { vi: "Báo cáo phụ huynh tự động hàng tháng", en: "Automated monthly parent reports" },
                   { vi: "Quản lý nhiều lớp, nhiều khoá trên 1 dashboard duy nhất", en: "Run many classes & courses from one dashboard" },
                   { vi: "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép", en: "Protect your materials – block downloads & unauthorized copying" },
                   { vi: "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp", en: "Your own brand (domain & logo) – instant professional credibility" },
