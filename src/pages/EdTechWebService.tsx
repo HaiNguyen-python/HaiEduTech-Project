@@ -1695,7 +1695,7 @@ const EdTechWebService = () => {
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                  <span>{t("Bàn giao 5–10 ngày", "Delivered in 5–10 days")}</span>
+                  <span>{t("Bàn giao nhanh sau 5–10 ngày triển khai", "Fast delivery after 5–10 days of deployment")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Bot className="w-3.5 h-3.5 text-violet-500 shrink-0" />
