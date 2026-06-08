@@ -1687,7 +1687,7 @@ const EdTechWebService = () => {
               <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11.5px] sm:text-xs font-semibold text-foreground/85">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span>{t("Hợp đồng rõ ràng, thanh toán theo 2 đợt (50/50)", "Clear contract · 50/50 two-stage payment")}</span>
+                  <span>{t("An toàn thông tin luôn được ưu tiên", "Information security is always prioritized")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Database className="w-3.5 h-3.5 text-primary shrink-0" />
