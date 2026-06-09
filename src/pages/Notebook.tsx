@@ -366,8 +366,15 @@ const Notebook = () => {
             ) : filterNotes(notebooks).length === 0 ? (
               <div className="text-center py-12">
                 <BookOpen className="w-12 h-12 mx-auto mb-3 text-muted-foreground/50" />
-                <p className="text-muted-foreground">Chưa có ghi chú nào. Hãy tạo ghi chú đầu tiên!</p>
+                {notebooks.length === 0 ? (
+                  <p className="text-muted-foreground">Chưa có ghi chú nào. Hãy tạo ghi chú đầu tiên!</p>
+                ) : (
+                  <p className="text-muted-foreground">
+                    Bạn có {notebooks.length} ghi chú nhưng không có ghi chú nào khớp với bộ lọc/tìm kiếm hiện tại.
+                  </p>
+                )}
               </div>
+
             ) : (
               <div className="grid gap-3">
                 {filterNotes(notebooks).map(note => (
