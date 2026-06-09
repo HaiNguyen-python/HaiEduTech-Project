@@ -685,13 +685,27 @@ const FloatingNotebook = () => {
                 }}
                 className="flex-1 text-xs border border-border rounded-md px-2 py-1.5 bg-background text-foreground"
               >
-                <option value="">📝 Ghi chú mới ({notebooks.length} đã lưu)</option>
+                <option value="">
+                  {listLoading
+                    ? "⏳ Đang tải ghi chú..."
+                    : `📝 Ghi chú mới (${notebooks.length} đã lưu${fromSnapshot ? " · bản tạm" : ""})`}
+                </option>
                 {notebooks.map(nb => (
                   <option key={nb.id} value={nb.id}>
                     {nb.title || "(Chưa có tiêu đề)"} - {new Date(nb.updated_at).toLocaleDateString("vi-VN")}
                   </option>
                 ))}
               </select>
+              {listError && (
+                <button
+                  onClick={() => fetchNotebooks()}
+                  className="text-[10px] px-2 py-1 rounded-md bg-destructive/10 text-destructive hover:bg-destructive/20"
+                  title={listError}
+                >
+                  Tải lại
+                </button>
+              )}
+
               <Link
                 to="/notebook"
                 onClick={() => setOpen(false)}
