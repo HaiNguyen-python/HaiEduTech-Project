@@ -91,7 +91,7 @@ async function testRoute(browser, path) {
 
 async function main() {
   console.log(`Smoke-testing ${routes.length} routes against ${BASE}`);
-  const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  const browser = await chromium.launch({ headless: true, executablePath: '/bin/chromium', args: ['--no-sandbox', '--disable-dev-shm-usage'] });
 
   const results = [];
   let idx = 0;
