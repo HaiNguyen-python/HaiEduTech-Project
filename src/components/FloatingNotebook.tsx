@@ -460,13 +460,31 @@ const FloatingNotebook = () => {
   const draftRestoredRef = useRef(false);
   useEffect(() => {
     if (!open || !user || !editor || draftRestoredRef.current) return;
+    // Wait until the saved-notes list has finished loading. Without this,
+    // a stale "new" draft would set userCreatingNew=true and block the
+    // auto-open of the user's most recent saved note — which is what
+    // made students think their old notes had disappeared.
+    if (listLoading) return;
     try {
       const raw = localStorage.getItem(draftKey(null));
-      if (!raw) return;
+      if (!raw) {
+        draftRestoredRef.current = true;
+        return;
+      }
       const draft = JSON.parse(raw) as { title: string; subject: string; content: string };
       const stripped = (draft.content || "").replace(/<[^>]*>/g, "").trim();
-      if (!stripped && !draft.title?.trim()) return;
-      // Restore as a new note in progress.
+      // Only restore a "new" draft when it actually has meaningful content
+      // AND the user has no other saved notes to fall back on. Otherwise
+      // prefer showing their saved notes — the draft is still safe in
+      // localStorage and they can recover it by clicking "Tạo mới".
+      if (stripped.length < 3 && !draft.title?.trim()) {
+        draftRestoredRef.current = true;
+        return;
+      }
+      if (notebooks.length > 0) {
+        draftRestoredRef.current = true;
+        return;
+      }
       userCreatingNew.current = true;
       setSelectedId(null);
       setTitle(draft.title || "");
@@ -477,7 +495,8 @@ const FloatingNotebook = () => {
       draftRestoredRef.current = true;
       toast({ title: "Đã khôi phục bản nháp chưa lưu" });
     } catch { /* ignore */ }
-  }, [open, user, editor, draftKey, toast]);
+  }, [open, user, editor, draftKey, toast, listLoading, notebooks.length]);
+
 
   // Flush-save on panel close so quick edits (< debounce window) survive.
   const handleClosePanel = useCallback(() => {
