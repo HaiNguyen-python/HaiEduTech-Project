@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+import { RouteErrorBoundary } from "@/components/RouteErrorBoundary";
 
 // Lazy-loaded route shells (off the critical path for first paint)
 const Index = lazy(() => import("./pages/Index.tsx"));
