@@ -180,36 +180,27 @@ const FloatingNotebook = () => {
     [user]
   );
 
+  const [listLoading, setListLoading] = useState(false);
+  const [listError, setListError] = useState<string | null>(null);
+  const [fromSnapshot, setFromSnapshot] = useState(false);
+
   const fetchNotebooks = useCallback(async () => {
     if (!user) return;
-    const { data, error } = await supabase
-      .from("student_notebooks")
-      .select("id, title, content, subject, updated_at")
-      .eq("user_id", user.id)
-      .order("updated_at", { ascending: false });
-    if (error) {
-      // Fallback: restore last known snapshot from localStorage so the user
-      // never sees an empty list because of a transient network/auth error.
-      try {
-        const raw = localStorage.getItem(listSnapshotKey());
-        if (raw) {
-          const snapshot = JSON.parse(raw);
-          if (Array.isArray(snapshot)) setNotebooks(snapshot);
-        }
-      } catch { /* ignore */ }
-      return;
-    }
-    const rows = data || [];
-    setNotebooks(rows);
-    // Snapshot the full list (with content) so we can rebuild offline / on error.
-    try { localStorage.setItem(listSnapshotKey(), JSON.stringify(rows)); } catch { /* ignore */ }
-  }, [user, listSnapshotKey]);
+    setListLoading(true);
+    const { fetchUserNotebooks } = await import("@/lib/notebookService");
+    const res = await fetchUserNotebooks(user.id);
+    setNotebooks(res.rows as unknown as Notebook[]);
+    setFromSnapshot(res.fromSnapshot);
+    setListError(res.error);
+    setListLoading(false);
+  }, [user]);
 
   useEffect(() => {
     if (user && open) {
       fetchNotebooks();
     }
   }, [user, open, fetchNotebooks]);
+
 
   // Auto-open the most recently updated note when the panel opens with nothing selected.
   // Prevents the "my notes are gone!" experience - students used to see a blank "Ghi chú mới"
