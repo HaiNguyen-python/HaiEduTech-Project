@@ -271,6 +271,18 @@ const Notebook = () => {
           </Button>
         </div>
 
+        {(loadError || usingSnapshot) && (
+          <div className="mb-4 p-3 rounded-md border border-amber-300 bg-amber-50 text-amber-900 text-sm flex items-center justify-between gap-3">
+            <span>
+              {usingSnapshot
+                ? "Đang hiển thị bản sao lưu cục bộ vì không tải được từ máy chủ. Ghi chú của bạn vẫn an toàn."
+                : `Không tải được danh sách ghi chú: ${loadError}`}
+            </span>
+            <Button size="sm" variant="outline" onClick={() => fetchNotebooks()}>Tải lại</Button>
+          </div>
+        )}
+
+
         {/* Editor */}
         {showEditor && (
           <Card className="mb-6 border-primary/30">
