@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+import { RouteErrorBoundary } from "@/components/RouteErrorBoundary";
 
 // Lazy-loaded route shells (off the critical path for first paint)
 const Index = lazy(() => import("./pages/Index.tsx"));
@@ -217,9 +218,12 @@ const PageLoader = () => (
   </div>
 );
 
-// Wrapper for lazy routes
+// Wrapper for lazy routes — Suspense for code-splitting + per-route error boundary
+// so a single page crash never blacks out the whole app.
 const LazyRoute = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<PageLoader />}>{children}</Suspense>
+  <RouteErrorBoundary>
+    <Suspense fallback={<PageLoader />}>{children}</Suspense>
+  </RouteErrorBoundary>
 );
 
 const queryClient = new QueryClient();
@@ -407,7 +411,7 @@ const App = () => (
             <Route path="/study-abroad/journey" element={<LazyRoute><JourneyDashboard /></LazyRoute>} />
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
-            <Route path="/unsubscribe" element={<LazyRoute><Unsubscribe /></LazyRoute>} />
+            {/* /unsubscribe is registered earlier — duplicate removed */}
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
           <DeferredMount>
