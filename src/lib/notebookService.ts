@@ -71,7 +71,7 @@ export const fetchUserNotebooks = async (
       error: error.message || "fetch_failed",
     };
   }
-  const rows = (data || []) as NotebookRow[];
+  const rows = ((data || []) as unknown) as NotebookRow[];
   writeSnapshot(userId, rows);
   return { rows, fromSnapshot: false, error: null };
 };
