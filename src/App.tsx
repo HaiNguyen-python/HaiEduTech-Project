@@ -218,9 +218,12 @@ const PageLoader = () => (
   </div>
 );
 
-// Wrapper for lazy routes
+// Wrapper for lazy routes — Suspense for code-splitting + per-route error boundary
+// so a single page crash never blacks out the whole app.
 const LazyRoute = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<PageLoader />}>{children}</Suspense>
+  <RouteErrorBoundary>
+    <Suspense fallback={<PageLoader />}>{children}</Suspense>
+  </RouteErrorBoundary>
 );
 
 const queryClient = new QueryClient();
