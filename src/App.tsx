@@ -411,7 +411,7 @@ const App = () => (
             <Route path="/study-abroad/journey" element={<LazyRoute><JourneyDashboard /></LazyRoute>} />
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
-            <Route path="/unsubscribe" element={<LazyRoute><Unsubscribe /></LazyRoute>} />
+            {/* /unsubscribe is registered earlier — duplicate removed */}
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
           <DeferredMount>
