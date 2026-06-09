@@ -1,50 +1,62 @@
 ## Mục tiêu
-Phát hiện và fix tất cả các trang đang bị trắng, crash, hoặc không load được trên HaiEduTech — không cần bạn phải thử thủ công từng URL.
+Đảm bảo Sổ tay ghi chú luôn tải đủ ghi chú đã lưu, không hiện rỗng giả, không ghi đè nhầm ghi chú cũ, và có cơ chế phục hồi khi mạng/auth tạm lỗi.
 
-## Cách làm
+## Phát hiện chính
+- Dữ liệu ghi chú vẫn còn trong backend: hiện có 61 ghi chú của 24 người dùng, ghi chú cũ nhất từ tháng 4.
+- Quyền truy cập backend cho `student_notebooks` đang đúng: người dùng đăng nhập có quyền đọc/tạo/sửa/xóa ghi chú của chính mình.
+- Lỗi có khả năng đến từ UI/đồng bộ:
+  - Floating Notebook chỉ dùng dropdown nhỏ nên dễ tưởng là không có ghi chú cũ.
+  - Khi fetch lỗi, component âm thầm dùng snapshot cũ trong localStorage, không báo lỗi/ràng buộc thời gian snapshot.
+  - Bản nháp local `new` có thể được khôi phục và chiếm màn hình, khiến người dùng thấy “Ghi chú mới” thay vì ghi chú cũ.
+  - Full Notebook page không có fallback từ snapshot/local draft và không hiển thị lỗi tải dữ liệu rõ ràng.
+  - Một số nơi append vào sổ tay bằng logic riêng, có thể gây race condition/ghi đè nếu nhiều thao tác lưu gần nhau.
 
-### Bước 1 — Trích xuất danh sách route
-Đọc `src/App.tsx` (>280 routes), parse tất cả `<Route path="...">` thành 1 file `scripts/all-routes.json`. Loại bỏ route động (`:id`) hoặc thay bằng giá trị mẫu hợp lệ.
+## Kế hoạch sửa
 
-### Bước 2 — Smoke-test tự động bằng Puppeteer
-Viết script `scripts/smoke-test-routes.mjs`:
-- Mở headless Chrome, lần lượt visit từng route trên preview URL
-- Với mỗi trang ghi nhận:
-  - HTTP status (404, 500…)
-  - Console errors (`pageerror`, `console.error`)
-  - Trang có render content không (check `document.body.innerText.length > 100` sau 3s)
-  - Lazy chunk load fail (`Failed to fetch dynamically imported module`)
-- Xuất report `scripts/route-audit-report.json` + bảng tóm tắt: ✅ OK / ⚠️ Warning / ❌ Broken
+### 1. Tạo lớp đọc/ghi sổ tay dùng chung
+- Tạo helper/service cho `student_notebooks` để gom logic:
+  - tải toàn bộ ghi chú của user theo `updated_at desc`;
+  - xử lý lỗi đọc/ghi có message rõ;
+  - lưu snapshot local mới nhất sau mỗi lần tải thành công;
+  - đọc snapshot chỉ như fallback, có nhãn “dữ liệu tạm thời/offline” thay vì làm người dùng tưởng là dữ liệu thật.
 
-### Bước 3 — Phân loại lỗi
-Nhóm các lỗi tìm được theo root cause:
-- **Lazy import hỏng** → file bị xoá/đổi tên nhưng route chưa cập nhật
-- **Crash khi mount** → component throw (thiếu prop, gọi hook sai, dữ liệu null)
-- **Route trùng / thứ tự sai** → route động nuốt route tĩnh
-- **Backend lỗi** → query Supabase fail vì RLS hoặc cột bị đổi
-- **Context lỗi** → dùng `useLanguage`/`useAuth` ngoài Provider
+### 2. Sửa Floating Notebook
+- Khi mở sổ tay:
+  - luôn tải danh sách ghi chú từ backend trước;
+  - nếu có ghi chú, tự chọn ghi chú mới nhất sau khi tải xong;
+  - nếu có bản nháp chưa lưu, hiển thị trạng thái “bản nháp chưa lưu” nhưng không che mất danh sách ghi chú cũ.
+- Thay dropdown hiện tại bằng selector rõ ràng hơn:
+  - hiển thị số lượng ghi chú đã tải;
+  - có tìm kiếm nhanh theo tiêu đề/nội dung;
+  - có trạng thái loading/error/retry.
+- Sửa nút “Lưu” để không bị disabled khi chưa có tiêu đề, vì code đã tự tạo tiêu đề.
+- Giữ cơ chế chống mất dữ liệu: auto-save, draft local, flush khi đóng tab.
 
-### Bước 4 — Fix từng nhóm
-- Fix trực tiếp các lỗi nhỏ (route order, import path, null check)
-- Với lỗi phức tạp → báo lại bạn quyết định trước khi sửa
+### 3. Sửa trang `/notebook` đầy đủ
+- Dùng cùng service tải ghi chú như Floating Notebook.
+- Thêm fallback snapshot khi fetch lỗi, kèm cảnh báo và nút “Tải lại”.
+- Hiển thị rõ:
+  - tổng số ghi chú;
+  - số ghi chú đang thấy sau khi lọc;
+  - thông báo nếu bộ lọc/tìm kiếm đang làm ẩn ghi chú.
+- Không để lỗi fetch âm thầm biến thành “Chưa có ghi chú nào”.
 
-### Bước 5 — Layer phòng vệ: Global Route Error Boundary
-Thêm `<RouteErrorBoundary>` bao quanh mỗi lazy route trong `App.tsx`:
-- Khi 1 trang crash → chỉ trang đó hiện thông báo "Trang gặp lỗi, bấm để thử lại" + nút về Home
-- Tránh tình trạng **trắng cả web** khi 1 component lỗi
-- Log error về console (và optionally về Supabase `error_logs` để bạn theo dõi)
+### 4. Chuẩn hóa các luồng “Save to Notebook”
+- Rà soát các component đang lưu/append vào `student_notebooks`.
+- Ưu tiên sửa các luồng hay dùng như IELTS/PTE/Grammar/Phrase/Shadowing để dùng cùng helper append an toàn:
+  - tìm đúng note theo user + title + subject;
+  - append vào nội dung hiện tại;
+  - phát event `notebook:updated` với `noteId` để Floating Notebook reload đúng note.
 
-### Bước 6 — Verify
-Chạy lại smoke-test sau khi fix → đảm bảo 100% route trả về OK hoặc Warning (không còn Broken).
+### 5. Kiểm tra sau sửa
+- Kiểm tra bằng dữ liệu thật ở backend:
+  - truy vấn xác nhận ghi chú vẫn còn;
+  - mở `/notebook` thấy danh sách không rỗng với user có ghi chú;
+  - mở Floating Notebook thấy tự chọn ghi chú mới nhất và dropdown/list có đủ ghi chú;
+  - tạo ghi chú mới, đóng/mở lại vẫn thấy ghi chú cũ và mới;
+  - thử lưu từ một bài học vào notebook rồi xác nhận danh sách cập nhật.
 
-## Deliverables
-1. `scripts/smoke-test-routes.mjs` — chạy lại bất cứ lúc nào sau update
-2. `scripts/route-audit-report.json` — báo cáo chi tiết
-3. Danh sách lỗi đã fix + file đã sửa
-4. `src/components/RouteErrorBoundary.tsx` — bảo vệ tương lai
-5. Tóm tắt cuối cùng: trang nào đã sửa, trang nào cần bạn quyết định thêm
-
-## Lưu ý
-- Smoke-test chạy ở chế độ **guest** (không login) → các trang yêu cầu auth sẽ redirect về `/auth`, đó là hành vi đúng, không tính là lỗi
-- Sẽ test trên preview URL hiện tại, không ảnh hưởng dữ liệu production
-- Ước tính: 5–10 phút quét + 10–30 phút fix tuỳ số lỗi phát hiện
+## Không thay đổi
+- Không xóa hoặc chỉnh sửa nội dung ghi chú cũ.
+- Không đổi chính sách khóa/mở nội dung học tập.
+- Không thay đổi hệ thống đăng nhập.

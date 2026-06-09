@@ -58,6 +58,8 @@ const Notebook = () => {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [allNotebooks, setAllNotebooks] = useState<(Notebook & { profile_name?: string })[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [usingSnapshot, setUsingSnapshot] = useState(false);
 
   // Editor state
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -102,14 +104,17 @@ const Notebook = () => {
 
   const fetchNotebooks = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("student_notebooks")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("updated_at", { ascending: false });
-    if (!error && data) setNotebooks(data);
+    const { fetchUserNotebooks } = await import("@/lib/notebookService");
+    const res = await fetchUserNotebooks(
+      user.id,
+      "id, user_id, title, content, subject, is_public, created_at, updated_at"
+    );
+    setNotebooks(res.rows as unknown as Notebook[]);
+    setUsingSnapshot(res.fromSnapshot);
+    setLoadError(res.error);
     setLoading(false);
   };
+
 
   const fetchAllNotebooks = async () => {
     const { data, error } = await supabase
@@ -266,6 +271,18 @@ const Notebook = () => {
           </Button>
         </div>
 
+        {(loadError || usingSnapshot) && (
+          <div className="mb-4 p-3 rounded-md border border-amber-300 bg-amber-50 text-amber-900 text-sm flex items-center justify-between gap-3">
+            <span>
+              {usingSnapshot
+                ? "Đang hiển thị bản sao lưu cục bộ vì không tải được từ máy chủ. Ghi chú của bạn vẫn an toàn."
+                : `Không tải được danh sách ghi chú: ${loadError}`}
+            </span>
+            <Button size="sm" variant="outline" onClick={() => fetchNotebooks()}>Tải lại</Button>
+          </div>
+        )}
+
+
         {/* Editor */}
         {showEditor && (
           <Card className="mb-6 border-primary/30">
@@ -349,8 +366,15 @@ const Notebook = () => {
             ) : filterNotes(notebooks).length === 0 ? (
               <div className="text-center py-12">
                 <BookOpen className="w-12 h-12 mx-auto mb-3 text-muted-foreground/50" />
-                <p className="text-muted-foreground">Chưa có ghi chú nào. Hãy tạo ghi chú đầu tiên!</p>
+                {notebooks.length === 0 ? (
+                  <p className="text-muted-foreground">Chưa có ghi chú nào. Hãy tạo ghi chú đầu tiên!</p>
+                ) : (
+                  <p className="text-muted-foreground">
+                    Bạn có {notebooks.length} ghi chú nhưng không có ghi chú nào khớp với bộ lọc/tìm kiếm hiện tại.
+                  </p>
+                )}
               </div>
+
             ) : (
               <div className="grid gap-3">
                 {filterNotes(notebooks).map(note => (

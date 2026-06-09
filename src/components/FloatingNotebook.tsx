@@ -180,36 +180,27 @@ const FloatingNotebook = () => {
     [user]
   );
 
+  const [listLoading, setListLoading] = useState(false);
+  const [listError, setListError] = useState<string | null>(null);
+  const [fromSnapshot, setFromSnapshot] = useState(false);
+
   const fetchNotebooks = useCallback(async () => {
     if (!user) return;
-    const { data, error } = await supabase
-      .from("student_notebooks")
-      .select("id, title, content, subject, updated_at")
-      .eq("user_id", user.id)
-      .order("updated_at", { ascending: false });
-    if (error) {
-      // Fallback: restore last known snapshot from localStorage so the user
-      // never sees an empty list because of a transient network/auth error.
-      try {
-        const raw = localStorage.getItem(listSnapshotKey());
-        if (raw) {
-          const snapshot = JSON.parse(raw);
-          if (Array.isArray(snapshot)) setNotebooks(snapshot);
-        }
-      } catch { /* ignore */ }
-      return;
-    }
-    const rows = data || [];
-    setNotebooks(rows);
-    // Snapshot the full list (with content) so we can rebuild offline / on error.
-    try { localStorage.setItem(listSnapshotKey(), JSON.stringify(rows)); } catch { /* ignore */ }
-  }, [user, listSnapshotKey]);
+    setListLoading(true);
+    const { fetchUserNotebooks } = await import("@/lib/notebookService");
+    const res = await fetchUserNotebooks(user.id);
+    setNotebooks(res.rows as unknown as Notebook[]);
+    setFromSnapshot(res.fromSnapshot);
+    setListError(res.error);
+    setListLoading(false);
+  }, [user]);
 
   useEffect(() => {
     if (user && open) {
       fetchNotebooks();
     }
   }, [user, open, fetchNotebooks]);
+
 
   // Auto-open the most recently updated note when the panel opens with nothing selected.
   // Prevents the "my notes are gone!" experience - students used to see a blank "Ghi chú mới"
@@ -469,13 +460,31 @@ const FloatingNotebook = () => {
   const draftRestoredRef = useRef(false);
   useEffect(() => {
     if (!open || !user || !editor || draftRestoredRef.current) return;
+    // Wait until the saved-notes list has finished loading. Without this,
+    // a stale "new" draft would set userCreatingNew=true and block the
+    // auto-open of the user's most recent saved note — which is what
+    // made students think their old notes had disappeared.
+    if (listLoading) return;
     try {
       const raw = localStorage.getItem(draftKey(null));
-      if (!raw) return;
+      if (!raw) {
+        draftRestoredRef.current = true;
+        return;
+      }
       const draft = JSON.parse(raw) as { title: string; subject: string; content: string };
       const stripped = (draft.content || "").replace(/<[^>]*>/g, "").trim();
-      if (!stripped && !draft.title?.trim()) return;
-      // Restore as a new note in progress.
+      // Only restore a "new" draft when it actually has meaningful content
+      // AND the user has no other saved notes to fall back on. Otherwise
+      // prefer showing their saved notes — the draft is still safe in
+      // localStorage and they can recover it by clicking "Tạo mới".
+      if (stripped.length < 3 && !draft.title?.trim()) {
+        draftRestoredRef.current = true;
+        return;
+      }
+      if (notebooks.length > 0) {
+        draftRestoredRef.current = true;
+        return;
+      }
       userCreatingNew.current = true;
       setSelectedId(null);
       setTitle(draft.title || "");
@@ -486,7 +495,8 @@ const FloatingNotebook = () => {
       draftRestoredRef.current = true;
       toast({ title: "Đã khôi phục bản nháp chưa lưu" });
     } catch { /* ignore */ }
-  }, [open, user, editor, draftKey, toast]);
+  }, [open, user, editor, draftKey, toast, listLoading, notebooks.length]);
+
 
   // Flush-save on panel close so quick edits (< debounce window) survive.
   const handleClosePanel = useCallback(() => {
@@ -675,13 +685,27 @@ const FloatingNotebook = () => {
                 }}
                 className="flex-1 text-xs border border-border rounded-md px-2 py-1.5 bg-background text-foreground"
               >
-                <option value="">📝 Ghi chú mới ({notebooks.length} đã lưu)</option>
+                <option value="">
+                  {listLoading
+                    ? "⏳ Đang tải ghi chú..."
+                    : `📝 Ghi chú mới (${notebooks.length} đã lưu${fromSnapshot ? " · bản tạm" : ""})`}
+                </option>
                 {notebooks.map(nb => (
                   <option key={nb.id} value={nb.id}>
                     {nb.title || "(Chưa có tiêu đề)"} - {new Date(nb.updated_at).toLocaleDateString("vi-VN")}
                   </option>
                 ))}
               </select>
+              {listError && (
+                <button
+                  onClick={() => fetchNotebooks()}
+                  className="text-[10px] px-2 py-1 rounded-md bg-destructive/10 text-destructive hover:bg-destructive/20"
+                  title={listError}
+                >
+                  Tải lại
+                </button>
+              )}
+
               <Link
                 to="/notebook"
                 onClick={() => setOpen(false)}
@@ -815,7 +839,7 @@ const FloatingNotebook = () => {
                 )}
                 <button
                   onClick={handleSave}
-                  disabled={saving || !title.trim()}
+                  disabled={saving}
                   className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-primary text-primary-foreground text-xs font-medium disabled:opacity-50"
                 >
                   <Save size={14} />
