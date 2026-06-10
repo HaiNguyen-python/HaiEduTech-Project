@@ -14,11 +14,18 @@ import {
   Sparkles,
   Code2,
   Filter,
+  BookOpen,
+  Gauge,
+  CheckCircle2,
+  XCircle,
+  Lightbulb,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { dsaLessons, type DsaSectionId } from "@/data/dsaLessons";
 
 type Tier = "easy" | "medium" | "hard";
 
