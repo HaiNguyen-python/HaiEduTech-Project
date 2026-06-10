@@ -19,14 +19,21 @@ import {
   CheckCircle2,
   XCircle,
   Lightbulb,
+  Hash,
+  Sigma,
+  Binary,
+  Calculator,
+  Dice5,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { dsaLessons, type DsaSectionId } from "@/data/dsaLessons";
+import { dsaLessons, type DsaSectionId, type DsaQuiz } from "@/data/dsaLessons";
+import { dsaExtraQuizzes } from "@/data/dsaExtraQuizzes";
 import DsaTheoryText from "@/components/programming/DsaTheoryText";
+import CodeBlock from "@/components/CodeBlock";
 
 type Tier = "easy" | "medium" | "hard";
 
