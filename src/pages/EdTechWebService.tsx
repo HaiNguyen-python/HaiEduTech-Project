@@ -2055,7 +2055,7 @@ const EdTechWebService = () => {
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {[
-              { k: "−85%", v: { vi: "thời gian chấm bài thủ công", en: "less manual grading time" }, c: "from-primary to-blue-400" },
+              { k: "-85%", v: { vi: "thời gian chấm bài thủ công", en: "less manual grading time" }, c: "from-primary to-blue-400" },
               { k: "+42%", v: { vi: "tỉ lệ học viên hoàn thành khóa", en: "higher course completion rate" }, c: "from-emerald-500 to-teal-400" },
               { k: "+3.1×", v: { vi: "lượt tương tác ngoài giờ học (AI Tutor)", en: "after-hours engagement (AI Tutor)" }, c: "from-violet-500 to-fuchsia-400" },
               { k: "92%", v: { vi: "phụ huynh đánh giá hài lòng", en: "satisfied parents" }, c: "from-amber-500 to-orange-400" },
