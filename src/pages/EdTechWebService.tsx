@@ -2898,7 +2898,7 @@ const EdTechWebService = () => {
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
             {[
               {
-                k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a015+",
+                k: "15+",
                 v: {
                   vi: "năm kinh nghiệm giảng dạy tại Việt Nam",
                   en: "years of teaching experience in Vietnam",
@@ -2907,7 +2907,7 @@ const EdTechWebService = () => {
                 grad: "from-primary/20 to-primary/0",
               },
               {
-                k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 3+",
+                k: "3+",
                 v: {
                   vi: "năm kinh nghiệm về lập trình tại Phần Lan",
                   en: "years of software engineering experience in Finland",
@@ -2916,7 +2916,7 @@ const EdTechWebService = () => {
                 grad: "from-emerald-500/20 to-emerald-500/0",
               },
               {
-                k: "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0✦",
+                k: "✦",
                 v: {
                   vi: "Tâm huyết với các sản phẩm Sư phạm & Công nghệ",
                   en: "Passionate about pedagogy & technology products",
