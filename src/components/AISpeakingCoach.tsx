@@ -612,12 +612,13 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     return "bg-red-500";
   };
 
-  // Total sentence count
+  // Total sentence count - level filter applies to ALL languages now
   const visibleThemes = useMemo(() => {
-    if (language !== "finnish" || levelFilter === "all") return config.themes;
+    if (levelFilter === "all") return config.themes;
     return config.themes.filter((th) => th.level === levelFilter);
-  }, [config.themes, language, levelFilter]);
+  }, [config.themes, levelFilter]);
   const totalSentences = useMemo(() => visibleThemes.reduce((sum, th) => sum + th.sentences.length, 0), [visibleThemes]);
+
 
   // Theme selection view
   if (!selectedTheme) {
