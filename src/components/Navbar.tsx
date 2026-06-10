@@ -220,6 +220,7 @@ const Navbar = () => {
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
       { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), icon: Trophy },
+      { to: "/programming/basic/dsa", label: t("Cấu trúc dữ liệu & Giải thuật", "Data Structures & Algorithms"), icon: Network },
     ] },
     { to: "#prog-ai-data-group", label: t("AI & Data Engineering", "AI & Data Engineering"), icon: Brain, groupLabel: "prog-ai-data", children: [
       { to: "/programming/prog-ai-foundation", label: t("AI Foundation", "AI Foundation"), icon: Brain },
