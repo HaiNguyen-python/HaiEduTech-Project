@@ -49,6 +49,14 @@ serve(async (req) => {
       system =
         "You are an academic editor. Rewrite raw research notes into clean, well-structured academic notes. Preserve all facts. Add bullets/headings where helpful.";
       userMsg = `Polish the following raw research notes. Keep all facts. Use Markdown headings + bullets. Add a 1-line TL;DR at the top. Language: ${lang}.\n\nRAW NOTES:\n${content}`;
+    } else if (mode === "next_action") {
+      if (!step) throw new Error("Missing step");
+      system =
+        "You are a senior PhD advisor in EdTech. Produce concrete, doable next actions tailored to the student's current progress. Be specific, time-boxed, and actionable. Avoid generic advice.";
+      const statusLine = status ? `Current status: ${status}.` : "Current status: not started.";
+      const noteLine = note ? `Student's own note about this step:\n"""${String(note).slice(0, 800)}"""` : "Student has not written a note for this step yet.";
+      const ctxLine = context ? `Overall PhD context:\n"""${String(context).slice(0, 600)}"""` : "";
+      userMsg = `The student is working on the PhD roadmap step: "${step}".\n${statusLine}\n${noteLine}\n${ctxLine}\n\nProduce in Markdown, in ${lang}:\n\n## 🎯 Mục tiêu tuần tới / Goal for next week\nOne sentence, measurable.\n\n## ✅ Checklist (5-8 tasks)\nA Markdown checklist using "- [ ]" items. Each task: specific, doable in 30-120 minutes, mentions a concrete deliverable (file, doc, count, link).\n\n## 🧰 Tài nguyên / Resources\n3-5 concrete resources (tools, papers, templates, websites) — link or name.\n\n## ⚠️ Rủi ro & cách giảm / Risks & mitigation\n2-3 risks specific to current status, each with a 1-line mitigation.\n\n## ⏭ Khi nào chuyển bước / When to move on\n2-3 exit criteria to mark this step as Done.\n\nKeep total under 350 words.`;
     } else {
       throw new Error("Invalid mode");
     }
