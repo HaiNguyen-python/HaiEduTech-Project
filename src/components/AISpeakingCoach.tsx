@@ -659,7 +659,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           <span className="text-xs text-muted-foreground font-medium">
             {t("Cấp độ", "Level")}:
           </span>
-          {(["all", "A1", "A2", "B1"] as const).map((lv) => (
+          {(["all", "A1", "A2", "B1", "B2", "C1"] as const).map((lv) => (
             <button
               key={lv}
               onClick={() => setLevelFilter(lv)}
