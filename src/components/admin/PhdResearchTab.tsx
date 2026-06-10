@@ -60,9 +60,8 @@ const DEFAULT_TOPICS = [
 ];
 
 const PhdResearchTab = () => {
-  const { language } = useLanguage();
-  const isVi = language === "vi";
-  const t = (vi: string, en: string) => (isVi ? vi : en);
+  const { lang, t } = useLanguage();
+  const isVi = lang === "vi";
 
   const [userId, setUserId] = useState<string | null>(null);
   const [notes, setNotes] = useState<NoteRow[]>([]);
