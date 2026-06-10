@@ -23,9 +23,10 @@ import ReactMarkdown from "react-markdown";
 import DOMPurify from "dompurify";
 import {
   GraduationCap, Search, BookOpen, Lightbulb, FileText, Sparkles, Loader2,
-  Save, Plus, Trash2, ExternalLink, Download, Tag
+  Save, Plus, Trash2, ExternalLink, Download, Tag, ListChecks
 } from "lucide-react";
 import { scoreProposal, buildProposalDocxBlob } from "@/lib/phdProposalScore";
+import PhdRoadmapChecklist from "./PhdRoadmapChecklist";
 
 interface NoteRow {
   id: string;
