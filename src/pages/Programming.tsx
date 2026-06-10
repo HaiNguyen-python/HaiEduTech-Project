@@ -325,8 +325,8 @@ const Programming = () => {
                   }}
                   className={`relative rounded-xl p-4 text-left transition-all duration-300 border-2 active:scale-[0.97] ${
                     isActive
-                      ? `${p.bgColor} border-red-500/70 shadow-[0_4px_20px_-4px_rgba(239,68,68,0.35)] ring-1 ring-red-500/20`
-                      : "bg-card border-red-500/40 hover:border-red-500/70 hover:shadow-[0_4px_14px_-4px_rgba(239,68,68,0.3)]"
+                      ? `${p.bgColor} border-emerald-500/70 shadow-[0_4px_20px_-4px_rgba(16,185,129,0.35)] ring-1 ring-emerald-500/20`
+                      : "bg-card border-emerald-500/40 hover:border-emerald-500/70 hover:shadow-[0_4px_14px_-4px_rgba(16,185,129,0.3)]"
                   }`}
                 >
                   <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${p.color} flex items-center justify-center text-white mb-3`}>

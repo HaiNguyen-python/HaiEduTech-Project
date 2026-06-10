@@ -164,7 +164,7 @@ const PythonLessonView = () => {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 rounded-2xl p-6 bg-gradient-to-br from-red-500/5 via-fuchsia-500/5 to-purple-500/10 border-2 border-red-500/60 shadow-[0_6px_24px_-8px_rgba(239,68,68,0.35)]"
+            className="mb-6 rounded-2xl p-6 bg-gradient-to-br from-emerald-500/5 via-fuchsia-500/5 to-purple-500/10 border-2 border-emerald-500/60 shadow-[0_6px_24px_-8px_rgba(16,185,129,0.35)]"
           >
             <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
               <div className="flex flex-wrap gap-2">
@@ -204,7 +204,7 @@ const PythonLessonView = () => {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 }}
-                className="p-5 rounded-2xl border-2 border-blue-500/50 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 shadow-[0_4px_16px_-6px_rgba(59,130,246,0.3)] ring-1 ring-red-500/15"
+                className="p-5 rounded-2xl border-2 border-blue-500/50 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 shadow-[0_4px_16px_-6px_rgba(59,130,246,0.3)] ring-1 ring-emerald-500/15"
               >
                 <StepBadge n={1} label={language === "vi" ? "Khái niệm" : "Concept"} color="bg-gradient-to-br from-blue-500 to-cyan-600" />
                 <h2 className="font-display font-bold text-foreground mb-3 flex items-center gap-2 text-base">
@@ -212,7 +212,7 @@ const PythonLessonView = () => {
                   📘 {language === "vi" ? "Hiểu khái niệm" : "Understand the concept"}
                 </h2>
                 {moduleHeroImages[lesson.moduleId] && (
-                  <div className="mb-4 overflow-hidden rounded-xl border-2 border-red-500/40 bg-white shadow-sm">
+                  <div className="mb-4 overflow-hidden rounded-xl border-2 border-emerald-500/40 bg-white shadow-sm">
                     <img
                       src={moduleHeroImages[lesson.moduleId]}
                       alt={module?.titleEn || "Python module illustration"}
@@ -223,7 +223,7 @@ const PythonLessonView = () => {
                     />
                   </div>
                 )}
-                <div className="prose prose-base sm:prose-lg max-w-none dark:prose-invert leading-[1.75] font-sans [&>*]:my-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>h2]:font-display [&>h2]:font-extrabold [&>h2]:tracking-tight [&>h2]:text-xl [&>h3]:font-display [&>h3]:font-bold [&>h3]:text-lg [&>p]:my-4 [&>p]:text-[15px] sm:[&>p]:text-base [&>ol]:my-4 [&>ul]:my-4 [&>pre]:my-4 [&>table]:my-4 [&_strong]:text-foreground [&_strong]:font-bold [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-[0.92em] [&_code]:bg-blue-500/10 [&_code]:text-blue-700 dark:[&_code]:text-blue-300 [&_code]:before:content-none [&_code]:after:content-none [&_pre]:font-mono [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre]:rounded-lg [&_pre]:border-2 [&_pre]:border-red-500/30 [&_th]:bg-blue-500/10 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_li]:my-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6">
+                <div className="prose prose-base sm:prose-lg max-w-none dark:prose-invert leading-[1.75] font-sans [&>*]:my-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>h2]:font-display [&>h2]:font-extrabold [&>h2]:tracking-tight [&>h2]:text-xl [&>h3]:font-display [&>h3]:font-bold [&>h3]:text-lg [&>p]:my-4 [&>p]:text-[15px] sm:[&>p]:text-base [&>ol]:my-4 [&>ul]:my-4 [&>pre]:my-4 [&>table]:my-4 [&_strong]:text-foreground [&_strong]:font-bold [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-[0.92em] [&_code]:bg-blue-500/10 [&_code]:text-blue-700 dark:[&_code]:text-blue-300 [&_code]:before:content-none [&_code]:after:content-none [&_pre]:font-mono [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre]:rounded-lg [&_pre]:border-2 [&_pre]:border-emerald-500/30 [&_th]:bg-blue-500/10 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_li]:my-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {language === "vi" ? lesson.concept : lesson.conceptEn}
                   </ReactMarkdown>
@@ -235,7 +235,7 @@ const PythonLessonView = () => {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="p-5 rounded-2xl border-2 border-red-500/70 border-l-[6px] bg-red-500/5 shadow-[0_4px_16px_-6px_rgba(239,68,68,0.35)]"
+                className="p-5 rounded-2xl border-2 border-emerald-500/70 border-l-[6px] bg-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.35)]"
               >
                 <StepBadge n={2} label={language === "vi" ? "Cạm bẫy" : "Pitfalls"} color="bg-gradient-to-br from-red-500 to-rose-600" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
@@ -254,7 +254,7 @@ const PythonLessonView = () => {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
-                className="p-5 rounded-2xl border-2 border-emerald-500/50 border-l-[6px] bg-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.3)] ring-1 ring-red-500/15"
+                className="p-5 rounded-2xl border-2 border-emerald-500/50 border-l-[6px] bg-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.3)] ring-1 ring-emerald-500/15"
               >
                 <StepBadge n={3} label={language === "vi" ? "Thực hành" : "Practice"} color="bg-gradient-to-br from-emerald-500 to-green-600" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
@@ -271,7 +271,7 @@ const PythonLessonView = () => {
 
             {/* Right: playground (sticky on desktop) */}
             <div className="space-y-4 lg:sticky lg:top-4 lg:self-start lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
-              <div className="p-5 rounded-2xl border-2 border-violet-500/50 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 shadow-[0_4px_16px_-6px_rgba(139,92,246,0.3)] ring-1 ring-red-500/15">
+              <div className="p-5 rounded-2xl border-2 border-violet-500/50 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 shadow-[0_4px_16px_-6px_rgba(139,92,246,0.3)] ring-1 ring-emerald-500/15">
                 <StepBadge n={4} label={language === "vi" ? "Chạy thử" : "Try it"} color="bg-gradient-to-br from-violet-500 to-fuchsia-600" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                   ▶️ {language === "vi" ? "Sân chơi Code" : "Code Playground"}
@@ -285,7 +285,7 @@ const PythonLessonView = () => {
               </div>
 
               {lesson.miniProject && (
-                <div className="p-5 rounded-2xl border-2 border-amber-500/60 border-l-[6px] bg-gradient-to-br from-amber-500/10 to-yellow-500/5 shadow-[0_4px_16px_-6px_rgba(245,158,11,0.35)] ring-1 ring-red-500/15">
+                <div className="p-5 rounded-2xl border-2 border-amber-500/60 border-l-[6px] bg-gradient-to-br from-amber-500/10 to-yellow-500/5 shadow-[0_4px_16px_-6px_rgba(245,158,11,0.35)] ring-1 ring-emerald-500/15">
                   <div className="flex items-center gap-2 mb-2">
                     <Target className="w-4 h-4 text-amber-600" />
                     <div className="text-[10px] uppercase tracking-wider text-amber-700 dark:text-amber-500 font-bold">
@@ -310,7 +310,7 @@ const PythonLessonView = () => {
           </div>
 
           {/* Quiz */}
-          <div className="mt-8 p-5 rounded-2xl border-2 border-red-500/60 bg-gradient-to-br from-red-500/5 via-primary/5 to-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(239,68,68,0.3)]">
+          <div className="mt-8 p-5 rounded-2xl border-2 border-emerald-500/60 bg-gradient-to-br from-emerald-500/5 via-primary/5 to-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.3)]">
             <div className="flex items-center gap-2 mb-4">
               <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-white font-bold text-xs shadow-sm">
                 5
