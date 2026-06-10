@@ -229,9 +229,23 @@ const tierMeta: Record<Tier, { labelVi: string; labelEn: string; badge: string; 
   },
 };
 
+const sectionLabel: Record<DsaSectionId, { vi: string; en: string }> = {
+  linear: { vi: "Tuyến tính", en: "Linear" },
+  nonlinear: { vi: "Phi tuyến tính", en: "Non-linear" },
+  algos: { vi: "Giải thuật", en: "Algorithms" },
+};
+
 const DsaCurriculum = () => {
   const { t, lang } = useLanguage();
   const [tier, setTier] = useState<Tier | "all">("all");
+  const [lessonFilter, setLessonFilter] = useState<DsaSectionId | "all">("all");
+  const [openLesson, setOpenLesson] = useState<string | null>(dsaLessons[0]?.id ?? null);
+  const [quizPick, setQuizPick] = useState<Record<string, number>>({});
+
+  const visibleLessons = useMemo(
+    () => (lessonFilter === "all" ? dsaLessons : dsaLessons.filter((l) => l.sectionId === lessonFilter)),
+    [lessonFilter],
+  );
 
   const filteredExercises = useMemo(
     () => (tier === "all" ? exercises : exercises.filter((e) => e.tier === tier)),
@@ -243,6 +257,13 @@ const DsaCurriculum = () => {
     { id: "easy", labelVi: "Cơ bản", labelEn: "Easy" },
     { id: "medium", labelVi: "Trung cấp", labelEn: "Medium" },
     { id: "hard", labelVi: "Nâng cao", labelEn: "Hard" },
+  ];
+
+  const lessonTabs: Array<{ id: DsaSectionId | "all"; vi: string; en: string }> = [
+    { id: "all", vi: "Tất cả", en: "All" },
+    { id: "linear", vi: "Tuyến tính", en: "Linear" },
+    { id: "nonlinear", vi: "Phi tuyến tính", en: "Non-linear" },
+    { id: "algos", vi: "Giải thuật", en: "Algorithms" },
   ];
 
   return (
