@@ -127,6 +127,24 @@ const AdminDashboard = () => {
   const [userMeta, setUserMeta] = useState<Map<string, { lastLogin: number; totalSeconds: number }>>(new Map());
   const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
   const [activeTab, setActiveTab] = useState<string>("overview");
+
+  // Deep-link support: /admin?tab=health (used by Health Monitor notifications)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const t = params.get("tab");
+    if (!t) return;
+    const groupMap: Record<string, "overview" | "students" | "learning" | "operations"> = {
+      overview: "overview", system: "overview",
+      students: "students", insights: "students", attendance: "students", feedback: "students", chatbot: "students",
+      "rl-engine": "learning", strategy: "learning", dictionary: "learning",
+      income: "operations", assistants: "operations", schedule: "operations",
+      "report-logs": "operations", "service-requests": "operations", health: "operations",
+    };
+    if (groupMap[t]) {
+      setTabGroup(groupMap[t]);
+      setActiveTab(t);
+    }
+  }, []);
   const [searchQuery, setSearchQuery] = useState("");
   const [classStats, setClassStats] = useState({
     totalStudents: 0,
