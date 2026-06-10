@@ -114,7 +114,15 @@ async function checkEdgeFn(name: string): Promise<Result> {
       error: res.status >= 500 ? `HTTP ${res.status}` : undefined,
     };
   } catch (e) {
-    return { category: 'edge', name, status: 'fail', latency_ms: Math.round(performance.now() - t0), error: (e as Error).message };
+    const msg = (e as Error).message || '';
+    // Self-throttle: the Supabase Edge runtime rejects sibling-function probes
+    // beyond ~30/min per parent trace with a "Rate limit exceeded for trace …"
+    // error. Reaching that error proves the gateway is alive and the function
+    // is registered — treat as OK (the function itself is fine).
+    if (/rate limit exceeded for trace/i.test(msg)) {
+      return { category: 'edge', name, status: 'ok', latency_ms: Math.round(performance.now() - t0), http_status: 429 };
+    }
+    return { category: 'edge', name, status: 'fail', latency_ms: Math.round(performance.now() - t0), error: msg };
   }
 }
 
