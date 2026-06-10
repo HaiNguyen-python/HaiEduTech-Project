@@ -22,6 +22,8 @@ interface CheckResult {
   http_status?: number;
   latency_ms: number;
   error?: string;
+  auto_recovered?: boolean;
+  suggested_fix?: string;
 }
 
 interface RunRow {
@@ -32,6 +34,7 @@ interface RunRow {
   passed: number;
   warned: number;
   failed: number;
+  auto_recovered?: number;
   duration_ms: number;
   results: CheckResult[];
 }
