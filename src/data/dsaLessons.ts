@@ -398,4 +398,226 @@ def fib(n):
       explanationEn: "Constant is fastest, exponential is slowest as n grows.",
     },
   },
+
+  // ====== Extended lessons ======
+  {
+    id: "hashmap",
+    sectionId: "linear",
+    titleVi: "Bài 10 — Bảng băm (Hash Map)",
+    titleEn: "Lesson 10 — Hash Map",
+    summaryVi: "Tra cứu khóa-giá trị trung bình O(1).",
+    summaryEn: "Average O(1) key-value lookup.",
+    theoryVi:
+      "Hash Map ánh xạ khóa sang giá trị thông qua hàm băm. Trong Python, dict đảm nhiệm vai trò này. Hash Map cực mạnh khi cần đếm tần suất, kiểm tra tồn tại, hoặc nhóm dữ liệu theo khóa. Cần chú ý: hàm băm xấu hoặc nhiều xung đột có thể đẩy chi phí lên O(n).",
+    theoryEn:
+      "A hash map maps keys to values via a hash function. Python's dict fulfils this role. Hash maps excel at counting, membership testing and grouping by key. Beware: poor hashing or many collisions can degrade to O(n).",
+    code: `# Count word frequency
+from collections import Counter
+words = "to be or not to be".split()
+print(Counter(words))   # {'to': 2, 'be': 2, 'or': 1, 'not': 1}
+
+# Two Sum in O(n) using a hash map
+def two_sum(nums, target):
+    seen = {}
+    for i, x in enumerate(nums):
+        if target - x in seen:
+            return [seen[target - x], i]
+        seen[x] = i
+    return []
+
+print(two_sum([2, 7, 11, 15], 9))  # [0, 1]`,
+    codeLanguage: "python",
+    complexityVi: "Get/Set/Delete trung bình O(1) • Xấu nhất O(n).",
+    complexityEn: "Get/Set/Delete average O(1) • Worst case O(n).",
+    quiz: {
+      questionVi: "Two Sum trên mảng chưa sắp xếp đạt O(n) nhờ cấu trúc nào?",
+      questionEn: "Two Sum on an unsorted array reaches O(n) using which structure?",
+      options: ["Stack", "Queue", "Hash Map", "Linked List"],
+      answer: 2,
+      explanationVi: "Hash Map cho phép tra cứu phần bù trong O(1) trung bình.",
+      explanationEn: "A hash map looks up the complement in O(1) on average.",
+    },
+  },
+  {
+    id: "heap",
+    sectionId: "nonlinear",
+    titleVi: "Bài 11 — Heap & Hàng đợi ưu tiên",
+    titleEn: "Lesson 11 — Heap & Priority Queue",
+    summaryVi: "Lấy phần tử nhỏ nhất/lớn nhất trong O(log n).",
+    summaryEn: "Pop min/max in O(log n).",
+    theoryVi:
+      "Heap là cây nhị phân gần hoàn chỉnh, trong min-heap cha luôn nhỏ hơn con. Thao tác push/pop có chi phí O(log n). Python cung cấp module heapq mặc định là min-heap. Heap dùng cho top-K, Dijkstra, scheduling theo ưu tiên.",
+    theoryEn:
+      "A heap is a nearly complete binary tree where, in a min-heap, parents are smaller than children. Push/pop cost O(log n). Python's heapq is a min-heap by default. Heaps power top-K problems, Dijkstra and priority scheduling.",
+    code: `import heapq
+
+nums = [5, 1, 4, 2, 3]
+heapq.heapify(nums)        # O(n)
+print(heapq.heappop(nums)) # 1 (smallest)
+
+# Top K largest
+def top_k(arr, k):
+    return heapq.nlargest(k, arr)
+
+print(top_k([10, 4, 7, 9, 2, 6], 3))  # [10, 9, 7]`,
+    codeLanguage: "python",
+    complexityVi: "Push/Pop O(log n) • Heapify O(n).",
+    complexityEn: "Push/Pop O(log n) • Heapify O(n).",
+    quiz: {
+      questionVi: "Để duy trì K phần tử lớn nhất trong luồng số, nên dùng heap loại nào?",
+      questionEn: "To keep K largest values from a stream, which heap fits best?",
+      options: ["Min-heap size K", "Max-heap size N", "Stack", "Queue"],
+      answer: 0,
+      explanationVi: "Min-heap kích thước K cho phép loại bỏ phần tử nhỏ nhất khi có số lớn hơn.",
+      explanationEn: "A size-K min-heap evicts the smallest whenever a larger value arrives.",
+    },
+  },
+  {
+    id: "two-pointers",
+    sectionId: "algos",
+    titleVi: "Bài 12 — Kỹ thuật Hai con trỏ",
+    titleEn: "Lesson 12 — Two Pointers Technique",
+    summaryVi: "Giảm O(n²) xuống O(n) trên dãy đã sắp xếp.",
+    summaryEn: "Reduce O(n²) to O(n) on sorted sequences.",
+    theoryVi:
+      "Hai con trỏ thường dùng trên mảng/chuỗi đã sắp xếp hoặc khi cần so sánh hai đầu. Hai biến thể chính: cùng chiều (đọc/ghi) và ngược chiều (gặp ở giữa). Áp dụng cho đảo ngược, kiểm tra palindrome, tìm cặp tổng bằng target trên mảng đã sắp xếp.",
+    theoryEn:
+      "Two pointers shine on sorted arrays/strings or when comparing both ends. Two variants: same-direction (read/write) and opposite-direction (meet in the middle). Use cases include reversing, palindrome checks and pair-sum on sorted arrays.",
+    code: `# Pair sum on sorted array
+def pair_sum(arr, target):
+    i, j = 0, len(arr) - 1
+    while i < j:
+        s = arr[i] + arr[j]
+        if s == target:
+            return (i, j)
+        if s < target:
+            i += 1
+        else:
+            j -= 1
+    return None
+
+print(pair_sum([1, 2, 4, 7, 11, 15], 15))  # (3, 4)`,
+    codeLanguage: "python",
+    complexityVi: "Thời gian O(n) • Bộ nhớ O(1).",
+    complexityEn: "Time O(n) • Space O(1).",
+    quiz: {
+      questionVi: "Điều kiện thường gặp để áp dụng hiệu quả kỹ thuật hai con trỏ ngược chiều?",
+      questionEn: "Common precondition for opposite-direction two pointers?",
+      options: ["Unsorted array", "Sorted array", "Empty array", "Cyclic linked list"],
+      answer: 1,
+      explanationVi: "Sắp xếp giúp quyết định di chuyển trái/phải nhờ so sánh với target.",
+      explanationEn: "Sorting lets you decide which pointer to move by comparing against the target.",
+    },
+  },
+  {
+    id: "sliding-window",
+    sectionId: "algos",
+    titleVi: "Bài 13 — Cửa sổ trượt (Sliding Window)",
+    titleEn: "Lesson 13 — Sliding Window",
+    summaryVi: "Tối ưu các bài toán dãy con liên tiếp.",
+    summaryEn: "Optimise contiguous subarray problems.",
+    theoryVi:
+      "Cửa sổ trượt duy trì khoảng [left, right] và mở rộng/thu hẹp tùy điều kiện. Tránh tính lại từ đầu mỗi lần, đưa O(n²) về O(n). Áp dụng cho: dãy con dài nhất không trùng ký tự, tổng cực đại của K phần tử liên tiếp, độ dài tối thiểu thỏa tổng ≥ S.",
+    theoryEn:
+      "Sliding window maintains a [left, right] range and expands/contracts based on a condition. It avoids recomputation, taking O(n²) down to O(n). Use cases: longest substring without repeats, max sum of K contiguous elements, minimum length with sum ≥ S.",
+    code: `# Longest substring without repeating characters
+def length_of_longest(s):
+    seen = {}
+    left = best = 0
+    for right, ch in enumerate(s):
+        if ch in seen and seen[ch] >= left:
+            left = seen[ch] + 1
+        seen[ch] = right
+        best = max(best, right - left + 1)
+    return best
+
+print(length_of_longest("abcabcbb"))  # 3`,
+    codeLanguage: "python",
+    complexityVi: "Thời gian O(n) • Bộ nhớ O(min(n, charset)).",
+    complexityEn: "Time O(n) • Space O(min(n, charset)).",
+    quiz: {
+      questionVi: "Cửa sổ trượt thường phù hợp với bài toán nào?",
+      questionEn: "Sliding window suits which problem type?",
+      options: [
+        "Find any node in a tree",
+        "Contiguous subarray satisfying a condition",
+        "Sort a linked list",
+        "Detect a graph cycle",
+      ],
+      answer: 1,
+      explanationVi: "Khai thác tính liên tiếp để cập nhật cửa sổ từng bước.",
+      explanationEn: "It exploits contiguity to update the window incrementally.",
+    },
+  },
+  {
+    id: "dp",
+    sectionId: "algos",
+    titleVi: "Bài 14 — Quy hoạch động (Dynamic Programming)",
+    titleEn: "Lesson 14 — Dynamic Programming",
+    summaryVi: "Chia nhỏ + ghi nhớ kết quả để tránh tính lại.",
+    summaryEn: "Decompose + memoise to avoid recomputation.",
+    theoryVi:
+      "DP áp dụng khi bài toán có cấu trúc con tối ưu và bài toán con lặp lại. Hai phong cách: top-down (đệ quy + memoisation) và bottom-up (lặp + bảng dp). Bài toán kinh điển: leo cầu thang, dãy con tăng dài nhất (LIS), ba lô 0/1.",
+    theoryEn:
+      "DP applies when problems have optimal substructure and overlapping subproblems. Two flavours: top-down (recursion + memoisation) and bottom-up (iterative dp table). Classic problems: climbing stairs, longest increasing subsequence (LIS), 0/1 knapsack.",
+    code: `# Climbing stairs: dp[i] = dp[i-1] + dp[i-2]
+def climb_stairs(n):
+    if n <= 2: return n
+    a, b = 1, 2
+    for _ in range(3, n + 1):
+        a, b = b, a + b
+    return b
+
+print(climb_stairs(5))  # 8`,
+    codeLanguage: "python",
+    complexityVi: "Climbing stairs: O(n) thời gian, O(1) bộ nhớ.",
+    complexityEn: "Climbing stairs: O(n) time, O(1) space.",
+    quiz: {
+      questionVi: "Đặc điểm bắt buộc để áp dụng DP là gì?",
+      questionEn: "Required property to apply DP?",
+      options: [
+        "Sorted array",
+        "Optimal substructure + overlapping subproblems",
+        "Very large input",
+        "Random input",
+      ],
+      answer: 1,
+      explanationVi: "Hai tính chất này cho phép tái sử dụng kết quả con.",
+      explanationEn: "Both properties let you reuse subproblem results.",
+    },
+  },
+  {
+    id: "greedy",
+    sectionId: "algos",
+    titleVi: "Bài 15 — Tham lam (Greedy)",
+    titleEn: "Lesson 15 — Greedy Algorithms",
+    summaryVi: "Chọn lựa tối ưu cục bộ hướng đến tối ưu toàn cục.",
+    summaryEn: "Locally optimal choices aiming for a global optimum.",
+    theoryVi:
+      "Thuật toán tham lam ở mỗi bước chọn lựa tốt nhất tại thời điểm đó. Không phải lúc nào cũng tối ưu — cần chứng minh tính đúng. Ví dụ kinh điển: activity selection, đổi tiền với mệnh giá đặc biệt, Huffman coding.",
+    theoryEn:
+      "A greedy algorithm picks the best option at each step. It is not always optimal — proof of correctness matters. Classic examples: activity selection, coin change for canonical systems, Huffman coding.",
+    code: `# Activity selection: pick the most non-overlapping meetings
+def activity_selection(intervals):
+    intervals.sort(key=lambda x: x[1])  # by end time
+    chosen, last_end = [], -float('inf')
+    for start, end in intervals:
+        if start >= last_end:
+            chosen.append((start, end))
+            last_end = end
+    return chosen
+
+print(activity_selection([(1, 4), (3, 5), (0, 6), (5, 7), (8, 9)]))`,
+    codeLanguage: "python",
+    complexityVi: "Sắp xếp O(n log n) + duyệt O(n).",
+    complexityEn: "Sort O(n log n) + scan O(n).",
+    quiz: {
+      questionVi: "Tham lam luôn cho đáp án tối ưu, đúng hay sai?",
+      questionEn: "Greedy always returns the optimum — true or false?",
+      options: ["True", "False"],
+      answer: 1,
+      explanationVi: "Chỉ đúng khi bài toán có tính chất tham lam; cần chứng minh.",
+      explanationEn: "Only when the problem has the greedy-choice property; must be proven.",
+    },
+  },
 ];

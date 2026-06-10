@@ -459,7 +459,7 @@ const ProgrammingLessonPage = () => {
             <div className="flex flex-col lg:flex-row gap-6 programming-lesson-shell">
               {/* Sidebar - Roadmap with ALL pillar modules - visually lighter than main lesson body */}
               <div className="lg:w-72 shrink-0">
-                <div className="rounded-xl border-2 border-red-500/50 bg-muted/30 p-4 overflow-visible shadow-[0_4px_14px_-6px_rgba(239,68,68,0.3)]">
+                <div className="rounded-xl border-2 border-emerald-500/50 bg-muted/30 p-4 overflow-visible shadow-[0_4px_14px_-6px_rgba(16,185,129,0.3)]">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
                     <h3 className="font-semibold text-foreground text-sm">Learning Roadmap</h3>
@@ -569,7 +569,7 @@ const ProgrammingLessonPage = () => {
                   </h1>
 
                   {/* Theory - document-style reading card with extra breathing room */}
-                  <div className="rounded-2xl border-2 border-red-500/60 bg-card shadow-[0_8px_30px_-10px_rgba(239,68,68,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-red-500/10">
+                  <div className="rounded-2xl border-2 border-emerald-500/60 bg-card shadow-[0_8px_30px_-10px_rgba(16,185,129,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-emerald-500/10">
                     <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pb-3 border-b border-border">
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-primary" />

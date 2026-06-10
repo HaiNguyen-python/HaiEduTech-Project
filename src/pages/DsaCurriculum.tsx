@@ -206,6 +206,72 @@ const exercises: DsaExercise[] = [
     hintVi: "Tối ưu chuỗi bài toán mảng/chuỗi từ O(n²) xuống O(n).",
     hintEn: "Optimise array/string problems from O(n²) down to O(n).",
   },
+  // Extended easy
+  {
+    tier: "easy",
+    titleVi: "Đếm tần suất ký tự bằng Hash Map",
+    titleEn: "Character frequency with Hash Map",
+    hintVi: "Duyệt chuỗi, tăng đếm cho mỗi ký tự trong dict.",
+    hintEn: "Iterate through the string, increment a dict counter per character.",
+  },
+  {
+    tier: "easy",
+    titleVi: "Kiểm tra Palindrome bằng hai con trỏ",
+    titleEn: "Palindrome check with two pointers",
+    hintVi: "So sánh ký tự đầu và cuối, di chuyển hai con trỏ vào giữa.",
+    hintEn: "Compare first and last characters, move both pointers toward the middle.",
+  },
+  {
+    tier: "easy",
+    titleVi: "FizzBuzz cổ điển",
+    titleEn: "Classic FizzBuzz",
+    hintVi: "Kiểm tra chia hết cho 3 và 5 theo thứ tự kết hợp trước.",
+    hintEn: "Check divisibility by 15 first, then by 3 and 5 individually.",
+  },
+  // Extended medium
+  {
+    tier: "medium",
+    titleVi: "Top K phần tử lớn nhất bằng Heap",
+    titleEn: "Top K largest elements with a Heap",
+    hintVi: "Duy trì min-heap kích thước K trong khi duyệt.",
+    hintEn: "Maintain a size-K min-heap while iterating.",
+  },
+  {
+    tier: "medium",
+    titleVi: "Leo cầu thang (Climbing Stairs)",
+    titleEn: "Climbing Stairs",
+    hintVi: "DP cơ bản: dp[i] = dp[i-1] + dp[i-2].",
+    hintEn: "Basic DP recurrence: dp[i] = dp[i-1] + dp[i-2].",
+  },
+  {
+    tier: "medium",
+    titleVi: "Activity Selection (Tham lam)",
+    titleEn: "Activity Selection (Greedy)",
+    hintVi: "Sắp xếp theo thời gian kết thúc, chọn từ sớm nhất.",
+    hintEn: "Sort by end time, then pick greedily from the earliest.",
+  },
+  // Extended hard
+  {
+    tier: "hard",
+    titleVi: "Dãy con tăng dài nhất (LIS) O(n log n)",
+    titleEn: "Longest Increasing Subsequence — O(n log n)",
+    hintVi: "Patience sorting kết hợp Binary Search trên mảng tails.",
+    hintEn: "Patience sorting with Binary Search over the tails array.",
+  },
+  {
+    tier: "hard",
+    titleVi: "Bài toán cái túi 0/1 (Knapsack)",
+    titleEn: "0/1 Knapsack problem",
+    hintVi: "DP 2D dp[i][w] hoặc tối ưu 1D duyệt ngược trọng số.",
+    hintEn: "2D DP dp[i][w] or 1D optimisation traversing weights in reverse.",
+  },
+  {
+    tier: "hard",
+    titleVi: "Tìm đường ngắn nhất Dijkstra",
+    titleEn: "Dijkstra shortest path",
+    hintVi: "Min-heap + danh sách kề có trọng số. Thư giãn cạnh.",
+    hintEn: "Min-heap + weighted adjacency list. Relax edges.",
+  },
 ];
 
 const tierMeta: Record<Tier, { labelVi: string; labelEn: string; badge: string; border: string }> = {
@@ -353,8 +419,8 @@ const DsaCurriculum = () => {
             </div>
             <p className="text-sm text-muted-foreground mb-5">
               {t(
-                "9 bài học có lý thuyết, ví dụ Python, phân tích độ phức tạp và quiz củng cố.",
-                "Nine lessons with theory, Python examples, complexity analysis and reinforcement quizzes.",
+                "15 bài học có lý thuyết, ví dụ Python, phân tích độ phức tạp và quiz củng cố.",
+                "Fifteen lessons with theory, Python examples, complexity analysis and reinforcement quizzes.",
               )}
             </p>
 
