@@ -204,6 +204,15 @@ const CareerRoadmap = () => {
       targetMonths,
       language: lang,
     };
+    let showedFallback = false;
+    const showDraftRoadmap = () => {
+      showedFallback = true;
+      setRoadmap(createFallbackRoadmap(requestBody));
+      setCitations([]);
+      setGenerationStatus("fallback");
+      window.setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+    };
+    const draftTimer = window.setTimeout(showDraftRoadmap, 4500);
     const slowTimer = window.setTimeout(() => setGenerationStatus("slow"), 9000);
     let requestTimeout: number | undefined;
     try {
@@ -222,17 +231,16 @@ const CareerRoadmap = () => {
       setRoadmap(data.roadmap);
       setCitations(data.citations || []);
       setGenerationStatus("idle");
-      toast.success(t("Đã tạo lộ trình!", "Roadmap generated!"));
+      toast.success(showedFallback ? t("Đã cập nhật lộ trình AI đầy đủ!", "Full AI roadmap updated!") : t("Đã tạo lộ trình!", "Roadmap generated!"));
     } catch (e: any) {
-      setRoadmap(createFallbackRoadmap(requestBody));
-      setCitations([]);
-      setGenerationStatus("fallback");
+      if (!showedFallback) showDraftRoadmap();
       toast.warning(
         e?.message === "ROADMAP_TIMEOUT"
           ? t("AI phản hồi chậm, đã tạo lộ trình dự phòng trước.", "AI is slow, so a fallback roadmap was created first.")
           : t("AI tạm thời lỗi, đã tạo lộ trình dự phòng.", "AI had a temporary issue, so a fallback roadmap was created.")
       );
     } finally {
+      window.clearTimeout(draftTimer);
       window.clearTimeout(slowTimer);
       if (requestTimeout) window.clearTimeout(requestTimeout);
       setLoading(false);
@@ -381,9 +389,11 @@ const CareerRoadmap = () => {
               <><Sparkles className="w-4 h-4 mr-2" />{t("Tạo Lộ trình AI", "Generate AI Roadmap")}</>
             )}
           </Button>
-          {loading && (
+          {(loading || generationStatus === "fallback") && (
             <div className="mt-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-center text-sm font-medium text-primary">
-              {generationStatus === "slow"
+              {generationStatus === "fallback"
+                ? t("Đã hiển thị lộ trình nhanh. AI đang hoàn thiện bản chi tiết ở bên dưới...", "Quick roadmap shown. AI is refining the detailed version below...")
+                : generationStatus === "slow"
                 ? t("AI đang phân tích sâu hơn, vui lòng đợi thêm một chút...", "AI is doing a deeper analysis, please wait a little longer...")
                 : t("Đang kết nối AI và xây dựng lộ trình cá nhân hóa...", "Connecting to AI and building your personalized roadmap...")}
             </div>
@@ -391,10 +401,10 @@ const CareerRoadmap = () => {
         </div>
 
         {/* Roadmap output */}
+        <div ref={outputRef}>
         <AnimatePresence>
           {roadmap && (
             <motion.div
-              ref={outputRef}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
@@ -687,6 +697,7 @@ const CareerRoadmap = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
 
       <Footer />
