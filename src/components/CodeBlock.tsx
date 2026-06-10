@@ -76,7 +76,7 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
       )}
       <div className="overflow-x-auto">
         <SyntaxHighlighter
-          language={normalizedLang}
+          language={preserveLayout ? "text" : normalizedLang}
           style={oneDark}
           customStyle={{
             margin: 0,
@@ -86,21 +86,21 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
             lineHeight: 1.7,
             fontFamily:
               "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-            fontFeatureSettings: '"liga" 1, "calt" 1',
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
+            fontFeatureSettings: preserveLayout ? "normal" : '"liga" 1, "calt" 1',
+            whiteSpace: preserveLayout ? "pre" : "pre-wrap",
+            wordBreak: preserveLayout ? "normal" : "break-word",
           }}
           codeTagProps={{
             style: {
               fontFamily:
                 "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-              fontFeatureSettings: '"liga" 1, "calt" 1',
-              whiteSpace: "pre-wrap",
-              wordBreak: "break-word",
+              fontFeatureSettings: preserveLayout ? "normal" : '"liga" 1, "calt" 1',
+              whiteSpace: preserveLayout ? "pre" : "pre-wrap",
+              wordBreak: preserveLayout ? "normal" : "break-word",
             },
           }}
           showLineNumbers={false}
-          wrapLongLines={true}
+          wrapLongLines={!preserveLayout}
         >
           {code.replace(/\n$/, "")}
         </SyntaxHighlighter>
