@@ -553,7 +553,7 @@ const DsaCurriculum = () => {
           </section>
 
           {/* Lessons */}
-          <section className="mb-16">
+          <section id="lessons" className="mb-16 scroll-mt-24">
             <div className="flex items-center gap-2 mb-2">
               <BookOpen className="w-5 h-5 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">
