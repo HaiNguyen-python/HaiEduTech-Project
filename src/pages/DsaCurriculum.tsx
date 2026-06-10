@@ -343,6 +343,180 @@ const DsaCurriculum = () => {
             ))}
           </section>
 
+          {/* Lessons */}
+          <section className="mb-16">
+            <div className="flex items-center gap-2 mb-2">
+              <BookOpen className="w-5 h-5 text-primary" />
+              <h2 className="text-2xl font-bold text-foreground">
+                {t("Bài học chi tiết", "Detailed Lessons")}
+              </h2>
+            </div>
+            <p className="text-sm text-muted-foreground mb-5">
+              {t(
+                "9 bài học có lý thuyết, ví dụ Python, phân tích độ phức tạp và quiz củng cố.",
+                "Nine lessons with theory, Python examples, complexity analysis and reinforcement quizzes.",
+              )}
+            </p>
+
+            <div className="flex flex-wrap gap-2 mb-5">
+              {lessonTabs.map((tab) => {
+                const active = lessonFilter === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setLessonFilter(tab.id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      active
+                        ? "bg-primary text-primary-foreground shadow"
+                        : "bg-secondary text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {lang === "vi" ? tab.vi : tab.en}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="space-y-4">
+              {visibleLessons.map((lesson, i) => {
+                const open = openLesson === lesson.id;
+                const picked = quizPick[lesson.id];
+                const correct = picked === lesson.quiz.answer;
+                return (
+                  <motion.div
+                    key={lesson.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.25, delay: i * 0.03 }}
+                    className="glass-card rounded-2xl border border-border/60 overflow-hidden"
+                  >
+                    <button
+                      onClick={() => setOpenLesson(open ? null : lesson.id)}
+                      className="w-full text-left p-5 flex items-start gap-4 hover:bg-muted/40 transition-colors"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shrink-0">
+                        <BookOpen className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <Badge variant="outline" className="text-[10px] uppercase">
+                            {lang === "vi"
+                              ? sectionLabel[lesson.sectionId].vi
+                              : sectionLabel[lesson.sectionId].en}
+                          </Badge>
+                          <h3 className="font-semibold text-foreground">
+                            {lang === "vi" ? lesson.titleVi : lesson.titleEn}
+                          </h3>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {lang === "vi" ? lesson.summaryVi : lesson.summaryEn}
+                        </p>
+                      </div>
+                      <span className="text-xs text-muted-foreground shrink-0">
+                        {open ? "▲" : "▼"}
+                      </span>
+                    </button>
+
+                    {open && (
+                      <div className="px-5 pb-5 space-y-4 border-t border-border/60 pt-4">
+                        <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                          {lang === "vi" ? lesson.theoryVi : lesson.theoryEn}
+                        </p>
+
+                        <div className="rounded-xl bg-zinc-950 text-zinc-100 p-4 overflow-x-auto text-xs">
+                          <div className="flex items-center gap-2 mb-2 text-zinc-400">
+                            <Code2 className="w-3.5 h-3.5" />
+                            <span>{lesson.codeLanguage}</span>
+                          </div>
+                          <div className="font-mono whitespace-pre">{lesson.code}</div>
+                        </div>
+
+                        <div className="flex items-start gap-2 text-sm bg-primary/5 border border-primary/20 rounded-lg p-3">
+                          <Gauge className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                          <span className="text-foreground">
+                            {lang === "vi" ? lesson.complexityVi : lesson.complexityEn}
+                          </span>
+                        </div>
+
+                        <div className="rounded-xl border border-border/60 p-4">
+                          <div className="flex items-center gap-2 mb-3">
+                            <Lightbulb className="w-4 h-4 text-amber-500" />
+                            <span className="text-sm font-semibold text-foreground">
+                              {t("Quiz nhanh", "Quick Quiz")}
+                            </span>
+                          </div>
+                          <p className="text-sm text-foreground mb-3">
+                            {lang === "vi" ? lesson.quiz.questionVi : lesson.quiz.questionEn}
+                          </p>
+                          <div className="grid sm:grid-cols-2 gap-2">
+                            {lesson.quiz.options.map((opt, idx) => {
+                              const isPicked = picked === idx;
+                              const isAnswer = lesson.quiz.answer === idx;
+                              const show = picked !== undefined;
+                              const cls = !show
+                                ? "border-border/60 hover:border-primary/50"
+                                : isAnswer
+                                ? "border-green-500 bg-green-500/10"
+                                : isPicked
+                                ? "border-red-500 bg-red-500/10"
+                                : "border-border/40 opacity-60";
+                              return (
+                                <button
+                                  key={idx}
+                                  onClick={() =>
+                                    setQuizPick((prev) => ({ ...prev, [lesson.id]: idx }))
+                                  }
+                                  className={`text-left text-sm px-3 py-2 rounded-lg border transition-all ${cls}`}
+                                >
+                                  {opt}
+                                </button>
+                              );
+                            })}
+                          </div>
+                          {picked !== undefined && (
+                            <div
+                              className={`mt-3 flex items-start gap-2 text-sm ${
+                                correct ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                              }`}
+                            >
+                              {correct ? (
+                                <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
+                              ) : (
+                                <XCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                              )}
+                              <span>
+                                {lang === "vi"
+                                  ? lesson.quiz.explanationVi
+                                  : lesson.quiz.explanationEn}
+                              </span>
+                            </div>
+                          )}
+                          {picked !== undefined && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="mt-2"
+                              onClick={() =>
+                                setQuizPick((prev) => {
+                                  const next = { ...prev };
+                                  delete next[lesson.id];
+                                  return next;
+                                })
+                              }
+                            >
+                              {t("Thử lại", "Try again")}
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </section>
+
           {/* Exercise bank */}
           <section>
             <div className="flex items-center gap-2 mb-2">
