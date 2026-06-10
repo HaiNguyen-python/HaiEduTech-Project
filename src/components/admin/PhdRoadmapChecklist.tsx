@@ -160,7 +160,13 @@ const STATUS_META: Record<Status, { vi: string; en: string; cls: string; icon: t
   blocked: { vi: "Đang vướng", en: "Blocked", cls: "bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30", icon: AlertTriangle },
 };
 
-interface StepState { status: Status; note: string }
+interface AiPlan {
+  markdown: string;
+  /** Map of task index -> done (for "- [ ]" lines parsed from markdown) */
+  checks: Record<number, boolean>;
+  generatedAt: string;
+}
+interface StepState { status: Status; note: string; ai?: AiPlan }
 type StateMap = Record<string, StepState>;
 
 const PhdRoadmapChecklist = () => {
@@ -168,6 +174,7 @@ const PhdRoadmapChecklist = () => {
   const isVi = lang === "vi";
   const [state, setState] = useState<StateMap>({});
   const [expanded, setExpanded] = useState<string | null>(STEPS[0].id);
+  const [aiLoadingId, setAiLoadingId] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -181,10 +188,65 @@ const PhdRoadmapChecklist = () => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
   };
 
+  const getStep = (id: string): StepState =>
+    state[id] ?? { status: "not_started", note: "" };
+
   const setStatus = (id: string, status: Status) =>
-    persist({ ...state, [id]: { status, note: state[id]?.note ?? "" } });
+    persist({ ...state, [id]: { ...getStep(id), status } });
   const setNote = (id: string, note: string) =>
-    persist({ ...state, [id]: { status: state[id]?.status ?? "not_started", note } });
+    persist({ ...state, [id]: { ...getStep(id), note } });
+  const setAi = (id: string, ai: AiPlan | undefined) =>
+    persist({ ...state, [id]: { ...getStep(id), ai } });
+  const toggleCheck = (id: string, idx: number) => {
+    const cur = getStep(id);
+    if (!cur.ai) return;
+    const checks = { ...cur.ai.checks, [idx]: !cur.ai.checks[idx] };
+    persist({ ...state, [id]: { ...cur, ai: { ...cur.ai, checks } } });
+  };
+
+  const generateNextAction = async (step: StepDef) => {
+    setAiLoadingId(step.id);
+    try {
+      const cur = getStep(step.id);
+      const ctxParts = STEPS
+        .filter((s) => s.id !== step.id && (state[s.id]?.status === "done" || state[s.id]?.status === "in_progress" || state[s.id]?.status === "blocked"))
+        .map((s) => `- ${s.en}: ${state[s.id]?.status}`)
+        .join("\n");
+      const { data, error } = await supabase.functions.invoke("phd-research-ai", {
+        body: {
+          mode: "next_action",
+          step: step.en,
+          status: cur.status,
+          note: cur.note,
+          context: ctxParts,
+          language: lang === "en" ? "en" : "vi",
+        },
+      });
+      if (error) throw error;
+      const md = (data?.content as string) || "";
+      if (!md) throw new Error("Empty AI response");
+      setAi(step.id, { markdown: md, checks: {}, generatedAt: new Date().toISOString() });
+      toast.success(t("Đã tạo next actions", "Next actions generated"));
+    } catch (e) {
+      toast.error(t("AI lỗi, thử lại sau", "AI error, try again later"));
+      console.error(e);
+    } finally {
+      setAiLoadingId(null);
+    }
+  };
+
+  /** Parse "- [ ] task" / "- [x] task" lines from markdown into an ordered list. */
+  const parseChecklist = (md: string): { idx: number; text: string }[] => {
+    const out: { idx: number; text: string }[] = [];
+    const re = /^\s*-\s*\[([ xX])\]\s+(.+)$/gm;
+    let m: RegExpExecArray | null;
+    let i = 0;
+    while ((m = re.exec(md)) !== null) {
+      out.push({ idx: i, text: m[2].trim() });
+      i++;
+    }
+    return out;
+  };
 
   const { doneCount, inProg, blocked, pct } = useMemo(() => {
     let d = 0, ip = 0, bk = 0;
