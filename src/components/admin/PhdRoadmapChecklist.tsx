@@ -12,9 +12,12 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   BookOpen, Lightbulb, FileText, ShieldCheck, Database, BarChart3,
   PenTool, Send, CheckCircle2, Circle, Clock, AlertTriangle, Sparkles,
-  ChevronDown, ChevronUp
+  ChevronDown, ChevronUp, Wand2, Loader2, Copy, Trash2
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import ReactMarkdown from "react-markdown";
 
 type Status = "not_started" | "in_progress" | "done" | "blocked";
 
