@@ -368,6 +368,7 @@ type Chunk =
 function renderDiagram(type: string): ReactNode {
   switch (type) {
     case "linear-regression": return <LinearRegressionDiagram />;
+    case "edtech-architecture": return <EdTechArchDiagram />;
     case "join-venn": return <JoinVennDiagram />;
     case "subquery": return <SubqueryDiagram />;
     default: return null;
