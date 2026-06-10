@@ -348,7 +348,7 @@ export const themeTopUps: Record<string, SpeakingSentence[]> = {
  * - Appends extra sentences to themes whose id appears in themeTopUps.
  * - Assigns `level` from themeLevels when the theme has none.
  */
-export function applyTopUps<T extends { id: string; sentences: any[]; level?: "A1" | "A2" | "B1" }>(themes: T[]): T[] {
+export function applyTopUps<T extends { id: string; sentences: any[]; level?: "A1" | "A2" | "B1" | "B2" | "C1" }>(themes: T[]): T[] {
   return themes.map((th) => {
     const extra = themeTopUps[th.id];
     const lvl = th.level ?? themeLevels[th.id];
