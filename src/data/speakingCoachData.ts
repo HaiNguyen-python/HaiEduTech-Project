@@ -885,31 +885,32 @@ import { englishExtraThemes, chineseExtraThemes, vietnameseExtraThemes, finnishE
 import { englishExtraThemes2, chineseExtraThemes2, vietnameseExtraThemes2, finnishExtraThemes2 } from "./speakingCoachExpansion2";
 import { englishExtraThemes3, chineseExtraThemes3, vietnameseExtraThemes3, finnishExtraThemes3 } from "./speakingCoachExpansion3";
 import { finnishExtraThemes4 } from "./speakingCoachFinnishExpansion";
+import { englishExtraThemes4, chineseExtraThemes4, vietnameseExtraThemes4, finnishExtraThemes5 } from "./speakingCoachExpansion4";
 
 export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
   english: {
     lang: "English",
     langCode: "en",
     speechLang: "en-US",
-    themes: [...englishThemes, ...englishExtraThemes, ...englishExtraThemes2, ...englishExtraThemes3],
+    themes: [...englishThemes, ...englishExtraThemes, ...englishExtraThemes2, ...englishExtraThemes3, ...englishExtraThemes4],
   },
   finnish: {
     lang: "Suomi",
     langCode: "fi",
     speechLang: "fi-FI",
-    themes: [...finnishThemes, ...finnishExtraThemes, ...finnishExtraThemes2, ...finnishExtraThemes3, ...finnishExtraThemes4],
+    themes: [...finnishThemes, ...finnishExtraThemes, ...finnishExtraThemes2, ...finnishExtraThemes3, ...finnishExtraThemes4, ...finnishExtraThemes5],
   },
   chinese: {
     lang: "中文",
     langCode: "zh",
     speechLang: "zh-CN",
-    themes: [...chineseThemes, ...chineseExtraThemes, ...chineseExtraThemes2, ...chineseExtraThemes3],
+    themes: [...chineseThemes, ...chineseExtraThemes, ...chineseExtraThemes2, ...chineseExtraThemes3, ...chineseExtraThemes4],
   },
   vietnamese: {
     lang: "Tiếng Việt",
     langCode: "vi",
     speechLang: "vi-VN",
-    themes: [...vietnameseThemes, ...vietnameseExtraThemes, ...vietnameseExtraThemes2, ...vietnameseExtraThemes3],
+    themes: [...vietnameseThemes, ...vietnameseExtraThemes, ...vietnameseExtraThemes2, ...vietnameseExtraThemes3, ...vietnameseExtraThemes4],
   },
 };
 
