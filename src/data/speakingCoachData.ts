@@ -886,6 +886,7 @@ import { englishExtraThemes2, chineseExtraThemes2, vietnameseExtraThemes2, finni
 import { englishExtraThemes3, chineseExtraThemes3, vietnameseExtraThemes3, finnishExtraThemes3 } from "./speakingCoachExpansion3";
 import { finnishExtraThemes4 } from "./speakingCoachFinnishExpansion";
 import { englishExtraThemes4, chineseExtraThemes4, vietnameseExtraThemes4, finnishExtraThemes5 } from "./speakingCoachExpansion4";
+import { englishExtraThemes5, chineseExtraThemes5, vietnameseExtraThemes5, finnishExtraThemes6 } from "./speakingCoachExpansion5";
 import { applyTopUps } from "./speakingCoachTopUp";
 
 export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
@@ -893,25 +894,25 @@ export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
     lang: "English",
     langCode: "en",
     speechLang: "en-US",
-    themes: applyTopUps([...englishThemes, ...englishExtraThemes, ...englishExtraThemes2, ...englishExtraThemes3, ...englishExtraThemes4]),
+    themes: applyTopUps([...englishThemes, ...englishExtraThemes, ...englishExtraThemes2, ...englishExtraThemes3, ...englishExtraThemes4, ...englishExtraThemes5]),
   },
   finnish: {
     lang: "Suomi",
     langCode: "fi",
     speechLang: "fi-FI",
-    themes: applyTopUps([...finnishThemes, ...finnishExtraThemes, ...finnishExtraThemes2, ...finnishExtraThemes3, ...finnishExtraThemes4, ...finnishExtraThemes5]),
+    themes: applyTopUps([...finnishThemes, ...finnishExtraThemes, ...finnishExtraThemes2, ...finnishExtraThemes3, ...finnishExtraThemes4, ...finnishExtraThemes5, ...finnishExtraThemes6]),
   },
   chinese: {
     lang: "中文",
     langCode: "zh",
     speechLang: "zh-CN",
-    themes: applyTopUps([...chineseThemes, ...chineseExtraThemes, ...chineseExtraThemes2, ...chineseExtraThemes3, ...chineseExtraThemes4]),
+    themes: applyTopUps([...chineseThemes, ...chineseExtraThemes, ...chineseExtraThemes2, ...chineseExtraThemes3, ...chineseExtraThemes4, ...chineseExtraThemes5]),
   },
   vietnamese: {
     lang: "Tiếng Việt",
     langCode: "vi",
     speechLang: "vi-VN",
-    themes: applyTopUps([...vietnameseThemes, ...vietnameseExtraThemes, ...vietnameseExtraThemes2, ...vietnameseExtraThemes3, ...vietnameseExtraThemes4]),
+    themes: applyTopUps([...vietnameseThemes, ...vietnameseExtraThemes, ...vietnameseExtraThemes2, ...vietnameseExtraThemes3, ...vietnameseExtraThemes4, ...vietnameseExtraThemes5]),
   },
 };
 
