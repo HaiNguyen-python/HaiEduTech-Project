@@ -62,7 +62,7 @@ const HealthMonitorTab = () => {
     if (error) {
       toast.error("Không tải được dữ liệu health check", { description: error.message });
     } else if (data) {
-      const rows = data as RunRow[];
+      const rows = (data as unknown) as RunRow[];
       setHistory(rows);
       setLatest(rows[0] ?? null);
     }
