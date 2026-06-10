@@ -26,6 +26,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { dsaLessons, type DsaSectionId } from "@/data/dsaLessons";
+import DsaTheoryText from "@/components/programming/DsaTheoryText";
 
 type Tier = "easy" | "medium" | "hard";
 
@@ -486,9 +487,11 @@ const DsaCurriculum = () => {
 
                     {open && (
                       <div className="px-5 pb-5 space-y-4 border-t border-border/60 pt-4">
-                        <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                          {lang === "vi" ? lesson.theoryVi : lesson.theoryEn}
-                        </p>
+                        <DsaTheoryText
+                          text={lang === "vi" ? lesson.theoryVi : lesson.theoryEn}
+                          lang={lang}
+                        />
+
 
                         <div className="rounded-xl bg-zinc-950 text-zinc-100 p-4 overflow-x-auto text-xs">
                           <div className="flex items-center gap-2 mb-2 text-zinc-400">
