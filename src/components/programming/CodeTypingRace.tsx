@@ -2,9 +2,13 @@
  * CodeTypingRace - a fun mini-game replacing the redundant "1-Minute Challenge"
  * quiz. Players retype a short snippet from the lesson as fast & accurately as
  * possible. Tracks WPM and accuracy in real time.
+ *
+ * The snippet pool now combines slices from the lesson's own source code with a
+ * curated bank of bonus exercises per language. A "Next snippet" button lets
+ * the learner shuffle through many different drills for variety.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy } from "lucide-react";
+import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy, Shuffle } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
@@ -14,16 +18,55 @@ interface Props {
   language?: string;
 }
 
+/**
+ * Curated bonus snippets per language. Short, idiomatic, fun to retype.
+ * Each entry stays under ~160 characters to keep the race quick.
+ */
+const BONUS_SNIPPETS: Record<string, string[]> = {
+  python: [
+    "def greet(name):\n    return f'Hello, {name}!'\n\nprint(greet('HaiEduTech'))",
+    "nums = [1, 2, 3, 4, 5]\nsquares = [n * n for n in nums]\nprint(squares)",
+    "from collections import Counter\nwords = 'to be or not to be'.split()\nprint(Counter(words))",
+    "for i in range(1, 6):\n    print('★' * i)",
+    "data = {'apple': 3, 'banana': 5}\nfor k, v in data.items():\n    print(k, '->', v)",
+    "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+    "import math\nprint(round(math.pi, 4))\nprint(math.factorial(6))",
+    "try:\n    x = int('42')\nexcept ValueError:\n    x = 0\nprint(x)",
+    "names = ['ann', 'bob', 'cat']\nprint(', '.join(n.title() for n in names))",
+    "matrix = [[1, 2], [3, 4]]\nfor row in matrix:\n    print(sum(row))",
+  ],
+  sql: [
+    "SELECT name, COUNT(*) AS total\nFROM orders\nGROUP BY name\nORDER BY total DESC;",
+    "SELECT * FROM students\nWHERE score >= 80\nORDER BY score DESC\nLIMIT 10;",
+    "UPDATE users\nSET active = TRUE\nWHERE last_login > NOW() - INTERVAL '30 days';",
+    "SELECT u.name, p.title\nFROM users u\nJOIN posts p ON p.user_id = u.id;",
+    "WITH top AS (\n  SELECT id FROM products ORDER BY sales DESC LIMIT 5\n)\nSELECT * FROM top;",
+    "INSERT INTO logs (event, created_at)\nVALUES ('login', NOW());",
+  ],
+  javascript: [
+    "const sum = (a, b) => a + b;\nconsole.log(sum(2, 3));",
+    "const nums = [1, 2, 3, 4];\nconst doubled = nums.map(n => n * 2);\nconsole.log(doubled);",
+    "async function load() {\n  const r = await fetch('/api');\n  return r.json();\n}",
+    "const user = { name: 'Hai', age: 30 };\nconst { name } = user;\nconsole.log(name);",
+  ],
+  typescript: [
+    "type User = { id: number; name: string };\nconst u: User = { id: 1, name: 'Hai' };\nconsole.log(u);",
+    "function add<T extends number>(a: T, b: T): T {\n  return (a + b) as T;\n}",
+  ],
+  bash: [
+    "for f in *.txt; do\n  echo \"Processing $f\"\ndone",
+    "grep -rn 'TODO' src/ | wc -l",
+  ],
+};
+
 /** Pick a short, fun-to-type slice from a longer source. */
 function pickSnippet(raw: string): string {
   if (!raw) return "print('Hello, HaiEduTech!')";
-  // Prefer non-empty, non-comment lines.
   const lines = raw
     .split("\n")
     .map((l) => l.replace(/\t/g, "  ").trimEnd())
     .filter((l) => l.trim() && !/^\s*(#|\/\/)/.test(l));
   if (!lines.length) return raw.slice(0, 120);
-  // Build chunk up to ~120 chars from consecutive lines.
   let out = "";
   for (const l of lines) {
     if ((out + l).length > 140) break;
@@ -32,14 +75,64 @@ function pickSnippet(raw: string): string {
   return (out || lines[0]).slice(0, 160);
 }
 
+/**
+ * Build several candidate snippets from the lesson's own source by walking
+ * through clean (non-comment) lines and grouping them into short blocks.
+ */
+function buildSourceSnippets(raw: string): string[] {
+  if (!raw) return [];
+  const lines = raw
+    .split("\n")
+    .map((l) => l.replace(/\t/g, "  ").trimEnd())
+    .filter((l) => l.trim() && !/^\s*(#|\/\/)/.test(l));
+  const snippets: string[] = [];
+  let buf = "";
+  for (const l of lines) {
+    if ((buf + "\n" + l).length > 140) {
+      if (buf) snippets.push(buf.slice(0, 160));
+      buf = l;
+    } else {
+      buf = buf ? `${buf}\n${l}` : l;
+    }
+  }
+  if (buf) snippets.push(buf.slice(0, 160));
+  return snippets;
+}
+
+/** Deduplicate while preserving order. */
+function uniq(arr: string[]): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const s of arr) {
+    const key = s.trim();
+    if (key && !seen.has(key)) {
+      seen.add(key);
+      out.push(s);
+    }
+  }
+  return out;
+}
+
 const CodeTypingRace = ({ source, language }: Props) => {
-  const snippet = useMemo(() => pickSnippet(source), [source]);
+  const langKey = (language || "").toLowerCase();
+  const bonus = BONUS_SNIPPETS[langKey] || BONUS_SNIPPETS.python;
+
+  // Pool = primary snippet + extra source chunks + curated bonus drills.
+  const pool = useMemo(() => {
+    const fromSource = buildSourceSnippets(source);
+    const primary = pickSnippet(source);
+    return uniq([primary, ...fromSource, ...bonus]);
+  }, [source, bonus]);
+
+  const [poolIdx, setPoolIdx] = useState(0);
+  const snippet = pool[poolIdx] || pickSnippet(source);
+
   const [typed, setTyped] = useState("");
   const [startAt, setStartAt] = useState<number | null>(null);
   const [endAt, setEndAt] = useState<number | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Reset whenever the snippet changes (lesson switch).
+  // Reset whenever the snippet changes (lesson switch or shuffle).
   useEffect(() => {
     setTyped("");
     setStartAt(null);
@@ -91,6 +184,19 @@ const CodeTypingRace = ({ source, language }: Props) => {
     requestAnimationFrame(() => inputRef.current?.focus());
   };
 
+  const nextSnippet = () => {
+    if (pool.length <= 1) {
+      reset();
+      return;
+    }
+    let next = poolIdx;
+    // Pick a different random snippet from the pool.
+    while (next === poolIdx) {
+      next = Math.floor(Math.random() * pool.length);
+    }
+    setPoolIdx(next);
+  };
+
   // Render snippet with per-char highlight.
   const rendered = snippet.split("").map((ch, i) => {
     let cls = "text-muted-foreground";
@@ -118,6 +224,9 @@ const CodeTypingRace = ({ source, language }: Props) => {
               {language}
             </span>
           )}
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
+            {poolIdx + 1}/{pool.length}
+          </span>
         </h2>
         <div className="flex items-center gap-3 text-xs font-mono">
           <span className="flex items-center gap-1 text-amber-600">
@@ -132,9 +241,17 @@ const CodeTypingRace = ({ source, language }: Props) => {
         </div>
       </div>
 
-      <p className="text-xs text-muted-foreground mb-3">
-        🎯 Retype the snippet below as fast and accurately as you can. No quiz, just pure muscle memory!
-      </p>
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <p className="text-xs text-muted-foreground">
+          🎯 Retype the snippet below. Tap <strong>Next snippet</strong> to try a different drill!
+        </p>
+        <button
+          onClick={nextSnippet}
+          className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
+        >
+          <Shuffle className="w-3.5 h-3.5" /> Next snippet
+        </button>
+      </div>
 
       <div
         className="font-mono text-sm leading-relaxed whitespace-pre-wrap bg-slate-950 text-slate-200 rounded-lg p-4 mb-3 select-none cursor-text overflow-x-auto"
@@ -161,12 +278,20 @@ const CodeTypingRace = ({ source, language }: Props) => {
             {wpm >= 40 ? "Blazing fast! 🔥" : wpm >= 20 ? "Nice run! ⚡" : "Completed! 🎉"} ·{" "}
             {(elapsedMs / 1000).toFixed(1)}s · {wpm} WPM
           </p>
-          <button
-            onClick={reset}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500 text-white hover:bg-yellow-600 active:scale-95"
-          >
-            <RotateCcw className="w-3.5 h-3.5" /> Race again
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={reset}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground hover:bg-secondary/70 active:scale-95"
+            >
+              <RotateCcw className="w-3.5 h-3.5" /> Retry
+            </button>
+            <button
+              onClick={nextSnippet}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500 text-white hover:bg-yellow-600 active:scale-95"
+            >
+              <Shuffle className="w-3.5 h-3.5" /> Next snippet
+            </button>
+          </div>
         </div>
       )}
     </div>
