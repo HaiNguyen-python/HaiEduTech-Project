@@ -19,14 +19,14 @@ const LearningJourneyTimeline = () => {
     {
       icon: GraduationCap,
       value: t("Cử nhân", "B.A."),
-      label: t("TEFL – Giảng dạy Tiếng Anh", "TEFL – Teaching English"),
+      label: t("TEFL - Giảng dạy Tiếng Anh", "TEFL - Teaching English"),
       place: t("ĐH Sư phạm TP.HCM", "HCMC University of Education"),
       year: "2018",
       flag: "🇻🇳",
       color: "from-emerald-500 to-teal-500",
       description: t(
         "Phương pháp giảng dạy tiếng Anh nền tảng & ngôn ngữ học từ đại học sư phạm hàng đầu TP.HCM.",
-        "Foundational English teaching methodology & linguistics from HCMC's top university."
+        "Foundational English teaching methodology & linguistics from HCMC's top university.",
       ),
     },
     {
@@ -39,20 +39,23 @@ const LearningJourneyTimeline = () => {
       color: "from-sky-500 to-blue-500",
       description: t(
         "Chuyên sâu về Ngôn ngữ & Văn hóa Anh, am hiểu phương pháp giáo dục Bắc Âu.",
-        "Specialized in English Language & Culture, understanding Nordic pedagogical approaches."
+        "Specialized in English Language & Culture, understanding Nordic pedagogical approaches.",
       ),
     },
     {
       icon: Code2,
       value: t("Kỹ sư", "Engineer"),
       label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & AI"),
-      place: t("ĐH Khoa học Ứng dụng Turku", "Turku University of Applied Sciences"),
+      place: t(
+        "ĐH Khoa học Ứng dụng Turku",
+        "Turku University of Applied Sciences",
+      ),
       year: "2026",
       flag: "🇫🇮",
       color: "from-violet-500 to-fuchsia-500",
       description: t(
         "Xây dựng pipeline dữ liệu tin cậy và triển khai các giải pháp AI có khả năng mở rộng.",
-        "Engineering reliable data pipelines and deploying scalable AI solutions."
+        "Engineering reliable data pipelines and deploying scalable AI solutions.",
       ),
     },
     {
@@ -65,26 +68,32 @@ const LearningJourneyTimeline = () => {
       color: "from-indigo-500 to-violet-500",
       description: t(
         "Kết hợp giáo dục với AI, NLP và ngôn ngữ học tính toán nâng cao.",
-        "Synthesizing education with AI, NLP, and advanced computational linguistics."
+        "Synthesizing education with AI, NLP, and advanced computational linguistics.",
       ),
     },
     {
       icon: BookOpen,
       value: "15+",
       label: t("Năm kinh nghiệm giảng dạy", "Years Teaching Experience"),
-      place: t("Việt Nam – Phần Lan", "Vietnam – Finland"),
+      place: t("Việt Nam - Phần Lan", "Vietnam - Finland"),
       year: t("Từ 2011", "Since 2011"),
       flag: "🇻🇳🇫🇮",
       color: "from-amber-500 to-orange-500",
       description: t(
         "Hơn một thập kỷ kinh nghiệm đa dạng giảng dạy tiếng Anh và lập trình tại Việt Nam & Phần Lan.",
-        "A decade of diverse experience teaching English and Coding across Vietnam & Finland."
+        "A decade of diverse experience teaching English and Coding across Vietnam & Finland.",
       ),
     },
   ];
 
   // Floating tooltip card - rendered above the node circle on desktop.
-  const Tooltip = ({ text, position = "top" }: { text: string; position?: "top" | "bottom" }) => (
+  const Tooltip = ({
+    text,
+    position = "top",
+  }: {
+    text: string;
+    position?: "top" | "bottom";
+  }) => (
     <motion.div
       initial={{ opacity: 0, y: position === "top" ? 10 : -10, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -118,7 +127,8 @@ const LearningJourneyTimeline = () => {
         style={{
           borderLeft: "6px solid transparent",
           borderRight: "6px solid transparent",
-          [position === "top" ? "borderTop" : "borderBottom"]: "6px solid #ffffff",
+          [position === "top" ? "borderTop" : "borderBottom"]:
+            "6px solid #ffffff",
         }}
       />
     </motion.div>
@@ -141,10 +151,16 @@ const LearningJourneyTimeline = () => {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-2">
             <Sparkles className="w-3.5 h-3.5" />
-            {t("Hành trình học tập & giảng dạy của Thầy Hải", "Teacher Hai's Learning & Teaching Journey")}
+            {t(
+              "Hành trình học tập & giảng dạy của Thầy Hải",
+              "Teacher Hai's Learning & Teaching Journey",
+            )}
           </div>
           <p className="text-sm text-muted-foreground">
-            {t("Du hành cùng thầy qua các cột mốc tri thức", "Travel with teacher across knowledge milestones")}
+            {t(
+              "Du hành cùng thầy qua các cột mốc tri thức",
+              "Travel with teacher across knowledge milestones",
+            )}
           </p>
         </div>
 
@@ -169,7 +185,11 @@ const LearningJourneyTimeline = () => {
           >
             <motion.div
               animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 0.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             >
               <img
                 src={chibiTraveler}
@@ -222,7 +242,9 @@ const LearningJourneyTimeline = () => {
                       className={`relative w-14 h-14 rounded-full bg-gradient-to-br ${m.color} flex items-center justify-center shadow-lg ring-4 ring-background z-10 cursor-pointer outline-none focus-visible:ring-primary`}
                     >
                       <Icon className="w-6 h-6 text-white" />
-                      <span className="absolute -top-1 -right-1 text-base">{m.flag}</span>
+                      <span className="absolute -top-1 -right-1 text-base">
+                        {m.flag}
+                      </span>
                     </motion.div>
                     <AnimatePresence>
                       {hovered === i && (
@@ -232,9 +254,15 @@ const LearningJourneyTimeline = () => {
                   </div>
                   {/* Info card - bolder degree, darker location for clarity */}
                   <div className="mt-4 text-center px-1">
-                    <div className="font-display text-base font-bold text-foreground tracking-tight">{m.value}</div>
-                    <div className="mt-0.5 text-[11px] font-semibold leading-4 text-slate-700 dark:text-slate-200 line-clamp-2">{m.label}</div>
-                    <div className="mt-0.5 text-[10px] leading-3 text-slate-600 dark:text-slate-400 line-clamp-2">{m.place}</div>
+                    <div className="font-display text-base font-bold text-foreground tracking-tight">
+                      {m.value}
+                    </div>
+                    <div className="mt-0.5 text-[11px] font-semibold leading-4 text-slate-700 dark:text-slate-200 line-clamp-2">
+                      {m.label}
+                    </div>
+                    <div className="mt-0.5 text-[10px] leading-3 text-slate-600 dark:text-slate-400 line-clamp-2">
+                      {m.place}
+                    </div>
                   </div>
                 </motion.div>
               );
@@ -261,7 +289,11 @@ const LearningJourneyTimeline = () => {
           >
             <motion.div
               animate={{ x: [0, -4, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 0.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             >
               <img
                 src={chibiTraveler}
@@ -288,19 +320,33 @@ const LearningJourneyTimeline = () => {
                   className="relative flex items-start gap-4"
                 >
                   {/* Node */}
-                  <div className={`absolute -left-[42px] w-12 h-12 rounded-full bg-gradient-to-br ${m.color} flex items-center justify-center shadow-lg ring-4 ring-background z-10`}>
+                  <div
+                    className={`absolute -left-[42px] w-12 h-12 rounded-full bg-gradient-to-br ${m.color} flex items-center justify-center shadow-lg ring-4 ring-background z-10`}
+                  >
                     <Icon className="w-5 h-5 text-white" />
-                    <span className="absolute -top-1 -right-1 text-sm">{m.flag}</span>
+                    <span className="absolute -top-1 -right-1 text-sm">
+                      {m.flag}
+                    </span>
                   </div>
                   {/* Card - description always visible on mobile (no hover) */}
                   <div className="flex-1 bg-card/60 border border-border rounded-xl p-3 shadow-sm">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-display text-base font-bold text-foreground tracking-tight">{m.value}</span>
-                      <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">{m.year}</span>
+                      <span className="font-display text-base font-bold text-foreground tracking-tight">
+                        {m.value}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">
+                        {m.year}
+                      </span>
                     </div>
-                    <div className="text-[12px] font-semibold text-slate-700 dark:text-slate-200">{m.label}</div>
-                    <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">{m.place}</div>
-                    <p className="mt-2 text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">{m.description}</p>
+                    <div className="text-[12px] font-semibold text-slate-700 dark:text-slate-200">
+                      {m.label}
+                    </div>
+                    <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+                      {m.place}
+                    </div>
+                    <p className="mt-2 text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">
+                      {m.description}
+                    </p>
                   </div>
                 </motion.div>
               );

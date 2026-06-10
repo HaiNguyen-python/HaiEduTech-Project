@@ -7,7 +7,16 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
-import { Trophy, Sparkles, BookOpen, Clock, Flame, Crown, CalendarCheck, CalendarClock } from "lucide-react";
+import {
+  Trophy,
+  Sparkles,
+  BookOpen,
+  Clock,
+  Flame,
+  Crown,
+  CalendarCheck,
+  CalendarClock,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface TopStudent {
@@ -34,7 +43,8 @@ const getInitials = (name: string) =>
     .join("")
     .toUpperCase();
 
-const daysInMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+const daysInMonth = (d: Date) =>
+  new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
 
 const MonthlyTopStudents = () => {
   const { t } = useLanguage();
@@ -44,7 +54,9 @@ const MonthlyTopStudents = () => {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const { data, error } = await supabase.rpc("get_monthly_top_students", { _limit: 3 });
+      const { data, error } = await supabase.rpc("get_monthly_top_students", {
+        _limit: 3,
+      });
       if (cancelled) return;
       if (!error && Array.isArray(data)) {
         setStudents(data as TopStudent[]);
@@ -69,16 +81,21 @@ const MonthlyTopStudents = () => {
   const displayedTotalDays = daysInMonth(displayedMonthDate);
   const lastDayLabel = `${totalDays}/${now.getMonth() + 1}/${now.getFullYear()}`;
 
-
   return (
     <section className="py-14 sm:py-20 relative overflow-hidden">
       {/* Decorative background */}
       <div aria-hidden className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[680px] h-[680px] rounded-full bg-gradient-to-br from-amber-300/20 via-primary/10 to-emerald-400/10 blur-3xl" />
         <div className="absolute bottom-0 right-0 w-[360px] h-[360px] rounded-full bg-emerald-400/10 blur-3xl" />
-        <div className="absolute top-10 left-6 text-amber-300/30 text-5xl select-none">✦</div>
-        <div className="absolute top-32 right-10 text-primary/20 text-4xl select-none">✧</div>
-        <div className="absolute bottom-20 left-20 text-emerald-400/20 text-3xl select-none">✦</div>
+        <div className="absolute top-10 left-6 text-amber-300/30 text-5xl select-none">
+          ✦
+        </div>
+        <div className="absolute top-32 right-10 text-primary/20 text-4xl select-none">
+          ✧
+        </div>
+        <div className="absolute bottom-20 left-20 text-emerald-400/20 text-3xl select-none">
+          ✦
+        </div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6">
@@ -91,7 +108,10 @@ const MonthlyTopStudents = () => {
           >
             <Trophy className="w-4 h-4 text-amber-500" />
             <span className="text-sm font-semibold bg-gradient-to-r from-amber-600 via-primary to-emerald-600 bg-clip-text text-transparent">
-              {t(`Tuyên dương tháng ${monthLabel}`, `Honor Roll • ${monthLabel}`)}
+              {t(
+                `Tuyên dương tháng ${monthLabel}`,
+                `Honor Roll • ${monthLabel}`,
+              )}
             </span>
           </motion.div>
 
@@ -104,7 +124,7 @@ const MonthlyTopStudents = () => {
           <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed">
             {t(
               "Thầy Hải tự hào tuyên dương 3 học sinh xuất sắc nhất tháng này - vì sự chuyên cần, kiên trì và tiến bộ vượt bậc.",
-              "Mr. Hai proudly honors the top 3 students this month - for their attendance, perseverance, and outstanding progress."
+              "Mr. Hai proudly honors the top 3 students this month - for their attendance, perseverance, and outstanding progress.",
             )}
           </p>
         </div>
@@ -122,7 +142,7 @@ const MonthlyTopStudents = () => {
             <p className="text-sm text-muted-foreground mb-4">
               {t(
                 "Bắt đầu học mỗi ngày để có tên trên Bảng Tuyên Dương tháng tới.",
-                "Start learning daily to appear on next month's Honor Roll."
+                "Start learning daily to appear on next month's Honor Roll.",
               )}
             </p>
             <Link
@@ -139,14 +159,26 @@ const MonthlyTopStudents = () => {
               {ORDER_DESKTOP.map((idx) => {
                 const s = students[idx];
                 if (!s) return <div key={idx} />;
-                return <PodiumCard key={s.user_id} student={s} totalDays={displayedTotalDays} t={t} />;
+                return (
+                  <PodiumCard
+                    key={s.user_id}
+                    student={s}
+                    totalDays={displayedTotalDays}
+                    t={t}
+                  />
+                );
               })}
             </div>
 
             {/* Mobile stack */}
             <div className="md:hidden flex flex-col gap-4 max-w-md mx-auto">
               {students.map((s) => (
-                <PodiumCard key={s.user_id} student={s} totalDays={displayedTotalDays} t={t} />
+                <PodiumCard
+                  key={s.user_id}
+                  student={s}
+                  totalDays={displayedTotalDays}
+                  t={t}
+                />
               ))}
             </div>
 
@@ -156,14 +188,14 @@ const MonthlyTopStudents = () => {
                 <span className="text-xs sm:text-sm font-medium text-foreground">
                   {t(
                     `Đang hiển thị kết quả tháng ${monthLabel}. Bảng xếp hạng mới sẽ được công bố vào ngày cuối tháng hiện tại (${lastDayLabel}).`,
-                    `Showing results for ${monthLabel}. New standings will be revealed on the last day of the current month (${lastDayLabel}).`
+                    `Showing results for ${monthLabel}. New standings will be revealed on the last day of the current month (${lastDayLabel}).`,
                   )}
                 </span>
               </div>
               <p className="text-xs text-muted-foreground italic">
                 {t(
                   "Tiêu chí: chuyên cần (số ngày học), từ vựng đã thuộc, bài học hoàn thành và thời gian học.",
-                  "Criteria: attendance (study days), words mastered, lessons completed, and study time."
+                  "Criteria: attendance (study days), words mastered, lessons completed, and study time.",
                 )}
               </p>
             </div>
@@ -199,14 +231,21 @@ const PodiumCard = ({
       ? "ring-4 ring-slate-300 dark:ring-slate-400"
       : "ring-4 ring-orange-400/80";
 
-  const attendancePct = Math.min(100, Math.round((student.login_days / Math.max(totalDays, 1)) * 100));
+  const attendancePct = Math.min(
+    100,
+    Math.round((student.login_days / Math.max(totalDays, 1)) * 100),
+  );
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.55, delay: student.rank * 0.1, ease: "easeOut" }}
+      transition={{
+        duration: 0.55,
+        delay: student.rank * 0.1,
+        ease: "easeOut",
+      }}
       whileHover={{ y: -6 }}
       className={`relative rounded-3xl p-6 sm:p-7 text-center border overflow-hidden transition-shadow ${cardGradient} ${
         isFirst ? "md:-mt-10 md:pb-9" : ""
@@ -221,7 +260,9 @@ const PodiumCard = ({
       )}
 
       {/* Medal corner */}
-      <div className="absolute top-3 left-3 text-3xl drop-shadow-md select-none">{medal}</div>
+      <div className="absolute top-3 left-3 text-3xl drop-shadow-md select-none">
+        {medal}
+      </div>
       <div className="absolute top-3 right-3 text-[11px] font-bold px-2.5 py-1 rounded-full bg-background/80 backdrop-blur border border-border text-foreground">
         #{student.rank}
       </div>
@@ -232,7 +273,10 @@ const PodiumCard = ({
           <motion.div
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: [0, -4, 0], opacity: 1 }}
-            transition={{ y: { repeat: Infinity, duration: 2.5, ease: "easeInOut" }, opacity: { duration: 0.4 } }}
+            transition={{
+              y: { repeat: Infinity, duration: 2.5, ease: "easeInOut" },
+              opacity: { duration: 0.4 },
+            }}
             className="absolute -top-1 z-10"
           >
             <Crown className="w-9 h-9 text-amber-500 drop-shadow-[0_4px_8px_rgba(251,191,36,0.6)] fill-amber-400" />
@@ -255,16 +299,27 @@ const PodiumCard = ({
           )}
         </div>
 
-        <h3 className={`mt-4 font-display font-bold text-foreground line-clamp-2 ${isFirst ? "text-xl sm:text-2xl" : "text-lg sm:text-xl"}`}>
+        <h3
+          className={`mt-4 font-display font-bold text-foreground line-clamp-2 ${isFirst ? "text-xl sm:text-2xl" : "text-lg sm:text-xl"}`}
+        >
           {student.display_name}
         </h3>
 
         <p className="mt-2 text-xs sm:text-sm text-muted-foreground italic leading-relaxed px-2 min-h-[40px]">
           {isFirst
-            ? t(`Quán quân tháng! Thầy Hải vô cùng tự hào về em.`, `Champion of the month! Mr. Hai is incredibly proud of you.`)
+            ? t(
+                `Quán quân tháng! Thầy Hải vô cùng tự hào về em.`,
+                `Champion of the month! Mr. Hai is incredibly proud of you.`,
+              )
             : isSecond
-              ? t(`Á quân xuất sắc - tiếp tục bứt phá em nhé!`, `Outstanding runner-up - keep pushing forward!`)
-              : t(`Hạng ba ấn tượng - em đang đi đúng hướng!`, `Impressive third place - you're on the right track!`)}
+              ? t(
+                  `Á quân xuất sắc - tiếp tục bứt phá em nhé!`,
+                  `Outstanding runner-up - keep pushing forward!`,
+                )
+              : t(
+                  `Hạng ba ấn tượng - em đang đi đúng hướng!`,
+                  `Impressive third place - you're on the right track!`,
+                )}
         </p>
 
         {/* Attendance bar */}
@@ -275,7 +330,8 @@ const PodiumCard = ({
               {t("Chuyên cần", "Attendance")}
             </span>
             <span className="font-bold text-emerald-600 dark:text-emerald-400">
-              {student.login_days}/{totalDays} {t("ngày", "days")} · {attendancePct}%
+              {student.login_days}/{totalDays} {t("ngày", "days")} ·{" "}
+              {attendancePct}%
             </span>
           </div>
           <div className="h-2 w-full rounded-full bg-secondary overflow-hidden">
@@ -290,16 +346,36 @@ const PodiumCard = ({
         </div>
 
         <div className="mt-4 grid grid-cols-3 gap-2 w-full text-xs">
-          <Stat icon={BookOpen} value={student.mastered_words} label={t("từ", "words")} />
-          <Stat icon={Clock} value={`${student.online_minutes}'`} label={t("phút", "min")} />
-          <Stat icon={Flame} value={student.activities} label={t("hoạt động", "tasks")} />
+          <Stat
+            icon={BookOpen}
+            value={student.mastered_words}
+            label={t("từ", "words")}
+          />
+          <Stat
+            icon={Clock}
+            value={`${student.online_minutes}'`}
+            label={t("phút", "min")}
+          />
+          <Stat
+            icon={Flame}
+            value={student.activities}
+            label={t("hoạt động", "tasks")}
+          />
         </div>
       </div>
     </motion.div>
   );
 };
 
-const Stat = ({ icon: Icon, value, label }: { icon: typeof BookOpen; value: number | string; label: string }) => (
+const Stat = ({
+  icon: Icon,
+  value,
+  label,
+}: {
+  icon: typeof BookOpen;
+  value: number | string;
+  label: string;
+}) => (
   <div className="flex flex-col items-center gap-0.5 p-2.5 rounded-xl bg-background/70 backdrop-blur-sm border border-border/50">
     <Icon className="w-3.5 h-3.5 text-primary" />
     <div className="font-bold text-foreground text-sm">{value}</div>
