@@ -89,6 +89,7 @@ const TeacherDashboard = lazy(() => import("./pages/TeacherDashboard.tsx"));
 const AssistantDashboard = lazy(() => import("./pages/AssistantDashboard.tsx"));
 const GeneratedLessonView = lazy(() => import("./pages/GeneratedLessonView.tsx"));
 const PythonChallengeList = lazy(() => import("./pages/PythonChallengeList.tsx"));
+const DsaCurriculum = lazy(() => import("./pages/DsaCurriculum.tsx"));
 const PythonChallengePage = lazy(() => import("./pages/PythonChallenge.tsx"));
 const InterviewQuestions = lazy(() => import("./pages/InterviewQuestions.tsx"));
 const IeltsWritingPractice = lazy(() => import("./pages/IeltsWritingPractice.tsx"));
