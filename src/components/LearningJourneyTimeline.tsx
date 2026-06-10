@@ -19,7 +19,7 @@ const LearningJourneyTimeline = () => {
     {
       icon: GraduationCap,
       value: t("Cử nhân", "B.A."),
-      label: t("TEFL – Giảng dạy Tiếng Anh", "TEFL – Teaching English"),
+      label: t("TEFL - Giảng dạy Tiếng Anh", "TEFL - Teaching English"),
       place: t("ĐH Sư phạm TP.HCM", "HCMC University of Education"),
       year: "2018",
       flag: "🇻🇳",
@@ -72,7 +72,7 @@ const LearningJourneyTimeline = () => {
       icon: BookOpen,
       value: "15+",
       label: t("Năm kinh nghiệm giảng dạy", "Years Teaching Experience"),
-      place: t("Việt Nam – Phần Lan", "Vietnam – Finland"),
+      place: t("Việt Nam - Phần Lan", "Vietnam - Finland"),
       year: t("Từ 2011", "Since 2011"),
       flag: "🇻🇳🇫🇮",
       color: "from-amber-500 to-orange-500",

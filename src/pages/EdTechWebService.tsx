@@ -123,7 +123,7 @@ const FEATURES = [
     icon: GraduationCap,
     title: { vi: "Hệ thống Quản lý Học liệu (LMS)", en: "Learning Management System (LMS)" },
     desc: {
-      vi: "Lưu trữ bài giảng & video khoá học bảo mật, giao bài – chấm điểm tự động, theo dõi tiến độ chi tiết theo từng học viên và từng kỹ năng.",
+      vi: "Lưu trữ bài giảng & video khoá học bảo mật, giao bài - chấm điểm tự động, theo dõi tiến độ chi tiết theo từng học viên và từng kỹ năng.",
       en: "Securely store lessons & course videos, auto-grade assignments, and track each learner's progress skill by skill in real time.",
     },
     iconBg: "bg-blue-500/10 text-blue-600",
@@ -132,8 +132,8 @@ const FEATURES = [
     icon: Bot,
     title: { vi: "Trợ lý AI Hỗ trợ Giảng dạy", en: "AI Teaching Assistant" },
     desc: {
-      vi: "Chatbot AI (Perplexity / GPT) huấn luyện theo tài liệu riêng – giải thích từ vựng, sửa bài viết, trả lời học sinh 24/7 đúng phong cách giảng dạy của Thầy/Cô.",
-      en: "An AI chatbot (Perplexity / GPT) trained on your own materials – explains vocabulary, corrects essays, and answers students 24/7 in your teaching voice.",
+      vi: "Chatbot AI (Perplexity / GPT) huấn luyện theo tài liệu riêng - giải thích từ vựng, sửa bài viết, trả lời học sinh 24/7 đúng phong cách giảng dạy của Thầy/Cô.",
+      en: "An AI chatbot (Perplexity / GPT) trained on your own materials - explains vocabulary, corrects essays, and answers students 24/7 in your teaching voice.",
     },
     iconBg: "bg-emerald-500/10 text-emerald-600",
   },
@@ -150,16 +150,16 @@ const FEATURES = [
     icon: Brain,
     title: { vi: "Cá nhân hoá lộ trình bằng Reinforcement Learning", en: "RL-Powered Adaptive Learning Path" },
     desc: {
-      vi: "Thuật toán RL tự điều chỉnh độ khó, thứ tự bài học và lượng bài tập theo từng học viên – giúp mỗi em học đúng vùng phát triển gần (ZPD).",
-      en: "An RL engine auto-tunes difficulty, lesson order, and homework load per student – keeping every learner inside their Zone of Proximal Development.",
+      vi: "Thuật toán RL tự điều chỉnh độ khó, thứ tự bài học và lượng bài tập theo từng học viên - giúp mỗi em học đúng vùng phát triển gần (ZPD).",
+      en: "An RL engine auto-tunes difficulty, lesson order, and homework load per student - keeping every learner inside their Zone of Proximal Development.",
     },
     iconBg: "bg-fuchsia-500/10 text-fuchsia-600",
   },
   {
     icon: ClipboardList,
-    title: { vi: "AI Smart Grading – Writing & Speaking", en: "AI Smart Grading – Writing & Speaking" },
+    title: { vi: "AI Smart Grading - Writing & Speaking", en: "AI Smart Grading - Writing & Speaking" },
     desc: {
-      vi: "Chấm Writing theo rubric IELTS/TOEIC, chấm Speaking theo phát âm – ngữ điệu, kèm phản hồi chi tiết và đề xuất bài luyện riêng.",
+      vi: "Chấm Writing theo rubric IELTS/TOEIC, chấm Speaking theo phát âm - ngữ điệu, kèm phản hồi chi tiết và đề xuất bài luyện riêng.",
       en: "Grades Writing on IELTS/TOEIC rubrics and Speaking on pronunciation & intonation, with detailed feedback and tailored practice suggestions.",
     },
     iconBg: "bg-rose-500/10 text-rose-600",
@@ -168,8 +168,8 @@ const FEATURES = [
     icon: Mail,
     title: { vi: "Hạ tầng Email Tự động", en: "Automated Email Infrastructure" },
     desc: {
-      vi: "Gửi OTP, hoá đơn, thông báo và nhắc lịch học chuyên nghiệp qua subdomain riêng – tăng độ tin cậy thương hiệu, giảm vào hộp spam.",
-      en: "Send OTP, invoices, notifications and class reminders from your own subdomain – boosting brand trust and inbox deliverability.",
+      vi: "Gửi OTP, hoá đơn, thông báo và nhắc lịch học chuyên nghiệp qua subdomain riêng - tăng độ tin cậy thương hiệu, giảm vào hộp spam.",
+      en: "Send OTP, invoices, notifications and class reminders from your own subdomain - boosting brand trust and inbox deliverability.",
     },
     iconBg: "bg-amber-500/10 text-amber-600",
   },
@@ -177,8 +177,8 @@ const FEATURES = [
     icon: Monitor,
     title: { vi: "Giao diện Mobile-first & Tốc độ cao", en: "Mobile-first, Lightning-Fast UI" },
     desc: {
-      vi: "Tối ưu cho điện thoại – nơi 80% học viên truy cập. Đạt PageSpeed 90+, hỗ trợ chế độ tối, tăng SEO và giảm tỉ lệ thoát trang.",
-      en: "Optimized for phones – where 80% of learners are. Hits PageSpeed 90+, supports dark mode, improves SEO and lowers bounce rate.",
+      vi: "Tối ưu cho điện thoại - nơi 80% học viên truy cập. Đạt PageSpeed 90+, hỗ trợ chế độ tối, tăng SEO và giảm tỉ lệ thoát trang.",
+      en: "Optimized for phones - where 80% of learners are. Hits PageSpeed 90+, supports dark mode, improves SEO and lowers bounce rate.",
     },
     iconBg: "bg-cyan-500/10 text-cyan-600",
   },
@@ -196,7 +196,7 @@ const FEATURES = [
     title: { vi: "Tối ưu SEO & Hiện diện trên Google", en: "SEO & Google Visibility" },
     desc: {
       vi: "Schema.org Education, sitemap tự động, meta-tag chuẩn AI-search. Giúp khoá học của Thầy/Cô lên top Google khi phụ huynh tìm kiếm.",
-      en: "Schema.org Education, auto sitemaps, AI-search-friendly meta tags – so your courses rank on Google when parents search locally.",
+      en: "Schema.org Education, auto sitemaps, AI-search-friendly meta tags - so your courses rank on Google when parents search locally.",
     },
     iconBg: "bg-indigo-500/10 text-indigo-600",
   },
@@ -204,7 +204,7 @@ const FEATURES = [
     icon: ShieldCheck,
     title: { vi: "Bảo mật cấp cao & Tuân thủ GDPR", en: "Enterprise-grade Security & GDPR Compliance" },
     desc: {
-      vi: "Mã hoá SSL/TLS 1.3, Row-Level Security, sao lưu tự động hằng ngày, chống tải xuống – watermark tài liệu. Tuân thủ Luật An ninh mạng Việt Nam.",
+      vi: "Mã hoá SSL/TLS 1.3, Row-Level Security, sao lưu tự động hằng ngày, chống tải xuống - watermark tài liệu. Tuân thủ Luật An ninh mạng Việt Nam.",
       en: "SSL/TLS 1.3 encryption, Row-Level Security, daily auto-backups, anti-download watermarks. Compliant with Vietnam's cybersecurity law.",
     },
     iconBg: "bg-slate-500/10 text-slate-600",
@@ -213,8 +213,8 @@ const FEATURES = [
     icon: Play,
     title: { vi: "Lớp học Live & Phòng học ảo", en: "Live Classes & Virtual Classroom" },
     desc: {
-      vi: "Tích hợp livestream HD, bảng trắng, điểm danh tự động, ghi hình lưu lại và phụ đề AI – dạy online như đang đứng lớp thật.",
-      en: "HD livestream, whiteboard, auto attendance, session recording and AI subtitles – teach online just like in a real classroom.",
+      vi: "Tích hợp livestream HD, bảng trắng, điểm danh tự động, ghi hình lưu lại và phụ đề AI - dạy online như đang đứng lớp thật.",
+      en: "HD livestream, whiteboard, auto attendance, session recording and AI subtitles - teach online just like in a real classroom.",
     },
     iconBg: "bg-teal-500/10 text-teal-600",
   },
@@ -240,8 +240,8 @@ const FEATURES = [
     icon: Gamepad2,
     title: { vi: "Gamification giữ chân học viên", en: "Gamification That Retains Learners" },
     desc: {
-      vi: "XP, streak, huy hiệu, bảng xếp hạng tuần và mini-game ôn từ vựng – tăng tỉ lệ hoàn thành bài tập trung bình +38%.",
-      en: "XP, streaks, badges, weekly leaderboards and vocab mini-games – lifting average homework completion by +38%.",
+      vi: "XP, streak, huy hiệu, bảng xếp hạng tuần và mini-game ôn từ vựng - tăng tỉ lệ hoàn thành bài tập trung bình +38%.",
+      en: "XP, streaks, badges, weekly leaderboards and vocab mini-games - lifting average homework completion by +38%.",
     },
     iconBg: "bg-pink-500/10 text-pink-600",
   },
@@ -254,7 +254,7 @@ const PACKAGES = [
     name: { vi: "Gói Standard", en: "Standard Package" },
     tagline: { vi: "Khởi đầu chuyên nghiệp", en: "Professional kick-off" },
     priceFrom: { vi: "Liên hệ nhận báo giá", en: "Contact for a quote" },
-    priceNote: { vi: "Trọn gói · Bàn giao trong 5–10 ngày", en: "All-inclusive · Delivered in 5–10 days" },
+    priceNote: { vi: "Trọn gói · Bàn giao trong 5-10 ngày", en: "All-inclusive · Delivered in 5-10 days" },
     monthly: { vi: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu", en: "Free consultation · Custom quote on request" },
     highlight: false,
     icon: Rocket,
@@ -268,7 +268,7 @@ const PACKAGES = [
       { vi: "Quản lý học viên & phân lớp cơ bản", en: "Basic student & class management" },
       { vi: "Cài đặt tên miền (.com / .edu.vn / .vn)", en: "Custom domain setup (.com / .edu.vn / .vn)" },
       { vi: "Trang giới thiệu khóa học + form đăng ký", en: "Course landing page + signup form" },
-      { vi: "Hỗ trợ kỹ thuật giờ hành chính (T2–T6)", en: "Tech support business hours (Mon–Fri)" },
+      { vi: "Hỗ trợ kỹ thuật giờ hành chính (T2-T6)", en: "Tech support business hours (Mon-Fri)" },
       { vi: "Bàn giao mã nguồn & video hướng dẫn quản trị", en: "Full source code + admin training videos" },
     ],
   },
@@ -277,13 +277,13 @@ const PACKAGES = [
     name: { vi: "Gói Advanced AI & Data", en: "Advanced AI & Data Package" },
     tagline: { vi: "Khuyên dùng cho lớp học hiện đại", en: "Recommended for modern classrooms" },
     priceFrom: { vi: "Liên hệ nhận báo giá", en: "Contact for a quote" },
-    priceNote: { vi: "Trọn gói · Bàn giao trong 10–14 ngày", en: "All-inclusive · Delivered in 10–14 days" },
+    priceNote: { vi: "Trọn gói · Bàn giao trong 10-14 ngày", en: "All-inclusive · Delivered in 10-14 days" },
     monthly: { vi: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu", en: "Free consultation · Custom quote on request" },
     highlight: true,
     icon: Crown,
     bestFor: {
-      vi: "Phù hợp cho trung tâm / lớp học 50–500 học viên cần tự động hóa.",
-      en: "Best for centers / classes of 50–500 learners that need automation.",
+      vi: "Phù hợp cho trung tâm / lớp học 50-500 học viên cần tự động hóa.",
+      en: "Best for centers / classes of 50-500 learners that need automation.",
     },
     features: [
       { vi: "Toàn bộ tính năng của gói Standard", en: "Everything in Standard" },
@@ -300,7 +300,7 @@ const PACKAGES = [
     name: { vi: "Gói Enterprise", en: "Enterprise Package" },
     tagline: { vi: "Dành cho trường học & học viện", en: "For schools & academies" },
     priceFrom: { vi: "Liên hệ nhận báo giá", en: "Contact for a quote" },
-    priceNote: { vi: "Tùy biến sâu · Bàn giao 3–6 tuần", en: "Deeply customized · Delivered in 3–6 weeks" },
+    priceNote: { vi: "Tùy biến sâu · Bàn giao 3-6 tuần", en: "Deeply customized · Delivered in 3-6 weeks" },
     monthly: { vi: "Tư vấn miễn phí · Báo giá chi tiết theo nhu cầu", en: "Free consultation · Custom quote on request" },
     highlight: false,
     icon: Database,
@@ -321,7 +321,7 @@ const PACKAGES = [
 ];
 
 // ============================================================================
-// Demo Carousel — multi-slide preview of the LMS the teacher will receive
+// Demo Carousel - multi-slide preview of the LMS the teacher will receive
 // ============================================================================
 const DEMO_SLIDES = [
   {
@@ -368,7 +368,7 @@ const DEMO_SLIDES = [
   },
   {
     id: "early-warning",
-    title: { vi: "Cảnh báo sớm – Can thiệp giáo dục", en: "Early Warning – Education Intervention" },
+    title: { vi: "Cảnh báo sớm - Can thiệp giáo dục", en: "Early Warning - Education Intervention" },
     badge: { vi: "Early Intervention", en: "Early Intervention" },
     badgeColor: "rose" as const,
   },
@@ -615,7 +615,7 @@ const SlideAITutor = () => {
 const SlideClasses = () => {
   const { t } = useLanguage();
   const classes = [
-    { name: { vi: "IELTS 6.5 — Ca tối T2-4-6", en: "IELTS 6.5 — Evening Mon/Wed/Fri" }, students: 18, prog: 72, color: "from-primary to-emerald-500" },
+    { name: { vi: "IELTS 6.5 - Ca tối T2-4-6", en: "IELTS 6.5 - Evening Mon/Wed/Fri" }, students: 18, prog: 72, color: "from-primary to-emerald-500" },
     { name: { vi: "Tiếng Anh giao tiếp B1", en: "Conversational English B1" }, students: 24, prog: 58, color: "from-violet-500 to-fuchsia-500" },
     { name: { vi: "Luyện thi THPT 2026", en: "National High School Exam Prep 2026" }, students: 31, prog: 84, color: "from-amber-500 to-orange-500" },
     { name: { vi: "Tiếng Trung HSK 3", en: "Chinese HSK 3" }, students: 12, prog: 41, color: "from-rose-500 to-pink-500" },
@@ -675,8 +675,8 @@ const SlideParentReport = () => {
       </div>
       <p className="text-[11px] text-muted-foreground leading-relaxed">
         {t(
-          "An tiến bộ rõ rệt ở kỹ năng Writing (Task 2 tăng 0.5 band). Cần luyện thêm Speaking Part 3 — đã giao 5 bài cho tuần tới ✨",
-          "An has clearly improved in Writing (Task 2 up 0.5 band). Needs more Speaking Part 3 practice — 5 tasks assigned for next week ✨"
+          "An tiến bộ rõ rệt ở kỹ năng Writing (Task 2 tăng 0.5 band). Cần luyện thêm Speaking Part 3 - đã giao 5 bài cho tuần tới ✨",
+          "An has clearly improved in Writing (Task 2 up 0.5 band). Needs more Speaking Part 3 practice - 5 tasks assigned for next week ✨"
         )}
       </p>
     </div>
@@ -696,9 +696,9 @@ const SlideAssignments = () => {
     { l: { vi: "Tiết kiệm", en: "Time saved" }, v: "9.2h", c: "text-primary", bg: "bg-primary/10" },
   ];
   const rows = [
-    { name: "Trần Minh Anh", task: "IELTS Writing Task 2 — Education", band: "7.0", color: "from-emerald-500 to-primary", status: { vi: "AI đã chấm", en: "AI graded" } },
+    { name: "Trần Minh Anh", task: "IELTS Writing Task 2 - Education", band: "7.0", color: "from-emerald-500 to-primary", status: { vi: "AI đã chấm", en: "AI graded" } },
     { name: "Lê Quang Huy", task: "Reading Practice Test 12", band: "8.5", color: "from-violet-500 to-fuchsia-500", status: { vi: "AI đã chấm", en: "AI graded" } },
-    { name: "Phạm Thu Hà", task: "Speaking Part 2 — Hometown", band: "—", color: "from-amber-500 to-rose-500", status: { vi: "Chờ Thầy duyệt", en: "Awaiting teacher review" } },
+    { name: "Phạm Thu Hà", task: "Speaking Part 2 - Hometown", band: "-", color: "from-amber-500 to-rose-500", status: { vi: "Chờ Thầy duyệt", en: "Awaiting teacher review" } },
   ];
   return (
   <div className="space-y-3">
@@ -735,7 +735,7 @@ const SlideAnalytics = () => {
   <div className="space-y-3">
     <div className="rounded-xl border border-border/60 bg-background/70 p-4">
       <div className="flex items-center justify-between mb-2">
-        <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Doanh thu 6 tháng gần nhất", "Revenue – last 6 months")}</div>
+        <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Doanh thu 6 tháng gần nhất", "Revenue - last 6 months")}</div>
         <div className="text-[11px] text-emerald-600 font-semibold inline-flex items-center gap-1">
           <TrendingUp className="h-3 w-3" /> +34%
         </div>
@@ -769,8 +769,8 @@ const SlideAnalytics = () => {
       <Sparkles className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
         <span className="font-semibold">{t("AI gợi ý:", "AI suggestion:")}</span> {t(
-          "Lớp IELTS 6.5 ca tối đang có 3 học viên giảm tiến độ — nên gửi tin nhắn động viên trong 48h tới.",
-          "The IELTS 6.5 evening class has 3 students slipping — send an encouragement message in the next 48 hours."
+          "Lớp IELTS 6.5 ca tối đang có 3 học viên giảm tiến độ - nên gửi tin nhắn động viên trong 48h tới.",
+          "The IELTS 6.5 evening class has 3 students slipping - send an encouragement message in the next 48 hours."
         )}
       </div>
     </div>
@@ -796,7 +796,7 @@ const SlideLessons = () => {
           </div>
           <div>
             <div className="text-xs sm:text-sm font-semibold text-foreground">{t("Bài 12 · IELTS Writing Task 2", "Lesson 12 · IELTS Writing Task 2")}</div>
-            <div className="text-[11px] text-muted-foreground">{t("Chương 3 — Argument Essay", "Chapter 3 — Argument Essay")}</div>
+            <div className="text-[11px] text-muted-foreground">{t("Chương 3 - Argument Essay", "Chapter 3 - Argument Essay")}</div>
           </div>
         </div>
         <div className="text-[10px] inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 font-semibold">
@@ -893,12 +893,12 @@ const SlideRLLab = () => {
       </div>
       <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3">
         <div className="text-[10px] text-rose-700 font-semibold mb-1.5 flex items-center gap-1">
-          <AlertTriangle className="h-3 w-3" /> {t("Tín hiệu Penalty (−)", "Penalty signals (−)")}
+          <AlertTriangle className="h-3 w-3" /> {t("Tín hiệu Penalty (-)", "Penalty signals (-)")}
         </div>
         <ul className="space-y-1 text-[11px] text-foreground/85">
-          <li>• {t("Bỏ buổi không báo", "Missed class without notice")} <span className="font-bold text-rose-600">−6</span></li>
-          <li>• {t("Quiz dưới 50%", "Quiz below 50%")} <span className="font-bold text-rose-600">−4</span></li>
-          <li>• {t("Im lặng > 5 ngày", "Inactive > 5 days")} <span className="font-bold text-rose-600">−5</span></li>
+          <li>• {t("Bỏ buổi không báo", "Missed class without notice")} <span className="font-bold text-rose-600">-6</span></li>
+          <li>• {t("Quiz dưới 50%", "Quiz below 50%")} <span className="font-bold text-rose-600">-4</span></li>
+          <li>• {t("Im lặng > 5 ngày", "Inactive > 5 days")} <span className="font-bold text-rose-600">-5</span></li>
         </ul>
       </div>
     </div>
@@ -932,7 +932,7 @@ const SlideEarlyWarning = () => {
     },
     {
       name: "Đỗ Minh Quân", level: { vi: "Cần chú ý", en: "Watch" }, color: "amber",
-      signal: { vi: "Streak giảm · Engagement −22% trong 2 tuần", en: "Streak dropping · Engagement −22% in 2 weeks" },
+      signal: { vi: "Streak giảm · Engagement -22% trong 2 tuần", en: "Streak dropping · Engagement -22% in 2 weeks" },
       action: { vi: "AI Tutor chủ động gửi tin nhắn động viên", en: "AI Tutor proactively sends an encouragement message" },
       risk: 54,
     },
@@ -1024,8 +1024,8 @@ const SlideScheduleFinance = () => {
       <Gauge className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
         <span className="font-semibold">{t("Tự động hoá:", "Automation:")}</span> {t(
-          "nhắc đóng học phí, xuất biên lai PDF, gửi link Zoom, cảnh báo khi học viên trễ > 2 ngày — Thầy/Cô tập trung 100% vào giảng dạy.",
-          "tuition reminders, PDF receipts, Zoom links, alerts when students are late > 2 days — you focus 100% on teaching."
+          "nhắc đóng học phí, xuất biên lai PDF, gửi link Zoom, cảnh báo khi học viên trễ > 2 ngày - Thầy/Cô tập trung 100% vào giảng dạy.",
+          "tuition reminders, PDF receipts, Zoom links, alerts when students are late > 2 days - you focus 100% on teaching."
         )}
       </div>
     </div>
@@ -1143,8 +1143,8 @@ const SlideSpeakingGrading = () => {
       <Sparkles className="h-4 w-4 text-violet-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
         <span className="font-semibold">{t("Bài tập phát âm tự sinh:", "Auto-generated pronunciation drill:")}</span> {t(
-          "6 từ /θ/ /ð/ + 4 cụm trọng âm — học viên luyện lại trong 5 phút, AI chấm lại tự động.",
-          "6 /θ/ /ð/ words + 4 stress clusters — student practices for 5 minutes and the AI re-grades automatically."
+          "6 từ /θ/ /ð/ + 4 cụm trọng âm - học viên luyện lại trong 5 phút, AI chấm lại tự động.",
+          "6 /θ/ /ð/ words + 4 stress clusters - student practices for 5 minutes and the AI re-grades automatically."
         )}
       </div>
     </div>
@@ -1200,8 +1200,8 @@ const SlideLiveClass = () => {
       <AlertTriangle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
         <span className="font-semibold">{t("AI phát hiện:", "AI detected:")}</span> {t(
-          "2 học viên (TH, VL) đang mất tập trung > 6 phút — gợi ý gọi tên ngẫu nhiên, hoặc gửi poll nhanh để kéo lại sự tham gia.",
-          "2 students (TH, VL) lost focus for > 6 minutes — suggest a random cold-call or quick poll to re-engage."
+          "2 học viên (TH, VL) đang mất tập trung > 6 phút - gợi ý gọi tên ngẫu nhiên, hoặc gửi poll nhanh để kéo lại sự tham gia.",
+          "2 students (TH, VL) lost focus for > 6 minutes - suggest a random cold-call or quick poll to re-engage."
         )}
       </div>
     </div>
@@ -1284,8 +1284,8 @@ const SlideMasteryMap = () => {
       <Target className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
         <span className="font-semibold">{t("AI khuyến nghị:", "AI recommends:")}</span> {t(
-          "mở mini-lesson \"True/False/Not Given\" cho 3 học viên ô đỏ; Phạm Hà cần kèm 1-1 — yếu toàn diện ở Reading.",
-          "open a \"True/False/Not Given\" mini-lesson for the 3 red students; Ha Pham needs 1-on-1 tutoring — weak across Reading."
+          "mở mini-lesson \"True/False/Not Given\" cho 3 học viên ô đỏ; Phạm Hà cần kèm 1-1 - yếu toàn diện ở Reading.",
+          "open a \"True/False/Not Given\" mini-lesson for the 3 red students; Ha Pham needs 1-on-1 tutoring - weak across Reading."
         )}
       </div>
     </div>
@@ -1448,8 +1448,8 @@ const SlideGamification = () => {
       <Gamepad2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
         <span className="font-semibold">{t("Gamification tự động:", "Automatic gamification:")}</span> {t(
-          "học viên kiếm XP qua bài học, quiz, streak hàng ngày — tăng tỉ lệ quay lại lên",
-          "students earn XP through lessons, quizzes and daily streaks — boosting return rate by"
+          "học viên kiếm XP qua bài học, quiz, streak hàng ngày - tăng tỉ lệ quay lại lên",
+          "students earn XP through lessons, quizzes and daily streaks - boosting return rate by"
         )} <span className="font-bold text-emerald-600">+34%</span> {t("so với lớp học truyền thống.", "vs traditional classes.")}
       </div>
     </div>
@@ -1525,8 +1525,8 @@ const SlideHR = () => {
       <Sparkles className="h-4 w-4 text-violet-600 shrink-0 mt-0.5" />
       <div className="text-[11px] sm:text-xs text-foreground leading-relaxed">
         <span className="font-semibold">{t("Quản lý nhân sự tích hợp:", "Integrated HR management:")}</span> {t(
-          "phân quyền Admin / Giáo viên / Trợ giảng, chấm công tự động, tính lương theo giờ và thưởng KPI — tất cả trên 1 dashboard.",
-          "Admin / Teacher / Assistant roles, auto time tracking, hourly payroll and KPI bonuses — all in one dashboard."
+          "phân quyền Admin / Giáo viên / Trợ giảng, chấm công tự động, tính lương theo giờ và thưởng KPI - tất cả trên 1 dashboard.",
+          "Admin / Teacher / Assistant roles, auto time tracking, hourly payroll and KPI bonuses - all in one dashboard."
         )}
       </div>
     </div>
@@ -1593,7 +1593,7 @@ const EdTechWebService = () => {
 
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-            {/* LEFT — Copy */}
+            {/* LEFT - Copy */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1602,7 +1602,7 @@ const EdTechWebService = () => {
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-primary mb-6 shadow-sm">
                 <Sparkles className="w-4 h-4" />
-                {t("Thiết kế Website Giáo dục – Made by HaiEduTech", "EdTech Website Design – Made by HaiEduTech")}
+                {t("Thiết kế Website Giáo dục - Made by HaiEduTech", "EdTech Website Design - Made by HaiEduTech")}
               </div>
 
               <h1 className="notranslate font-display font-bold tracking-tight text-foreground leading-[1.05] text-[2rem] sm:text-5xl lg:text-[3rem]">
@@ -1629,7 +1629,7 @@ const EdTechWebService = () => {
               <p className="notranslate mt-6 text-base sm:text-lg text-foreground/85 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
                 {lang === "vi" ? (
                   <>
-                    Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> – thiết kế riêng hệ thống
+                    Giải pháp <span className="font-bold text-foreground">"tailor-made"</span> - thiết kế riêng hệ thống
                     LMS theo từng nhu cầu giảng dạy, kết hợp{" "}
                     <span className="font-bold text-foreground">15 năm kinh nghiệm sư phạm</span> của Thầy Hải tại Việt
                     Nam &amp; Phần Lan và{" "}
@@ -1637,7 +1637,7 @@ const EdTechWebService = () => {
                   </>
                 ) : (
                   <>
-                    A truly <span className="font-bold text-foreground">"tailor-made"</span> LMS – custom-built for the way you teach,
+                    A truly <span className="font-bold text-foreground">"tailor-made"</span> LMS - custom-built for the way you teach,
                     powered by <span className="font-bold text-foreground">15 years of classroom experience</span> in Vietnam &amp; Finland
                     and <span className="font-bold text-foreground">3+ years of Data Engineering &amp; AI</span> work in Finland.
                   </>
@@ -1646,14 +1646,14 @@ const EdTechWebService = () => {
 
               <ul className="mt-7 max-w-xl mx-auto lg:mx-0 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 text-left text-[14.5px] sm:text-[15px]">
                 {[
-                  { vi: "Tiết kiệm 8–10 giờ chấm bài mỗi tuần", en: "Save 8–10 hours of grading every week" },
+                  { vi: "Tiết kiệm 8-10 giờ chấm bài mỗi tuần", en: "Save 8-10 hours of grading every week" },
                   { vi: "Hệ thống AI độc quyền về can thiệp & hỗ trợ sớm trong giáo dục", en: "Exclusive AI system for early educational intervention & support" },
                   { vi: "Hệ thống Smart Learning System trợ giảng học viên 24/7", en: "24/7 Smart Learning System assistant" },
                   { vi: "Tự động nhắc lịch học, thu học phí & gửi hoá đơn", en: "Auto class reminders, tuition collection & invoicing" },
                   { vi: "Báo cáo phụ huynh tự động hàng tháng", en: "Automated monthly parent reports" },
                   { vi: "Quản lý nhiều lớp, nhiều khoá trên 1 dashboard duy nhất", en: "Run many classes & courses from one dashboard" },
-                  { vi: "Bảo mật tài liệu giảng dạy – chống tải xuống & sao chép trái phép", en: "Protect your materials – block downloads & unauthorized copying" },
-                  { vi: "Có thương hiệu riêng (domain & logo) – tăng uy tín chuyên nghiệp", en: "Your own brand (domain & logo) – instant professional credibility" },
+                  { vi: "Bảo mật tài liệu giảng dạy - chống tải xuống & sao chép trái phép", en: "Protect your materials - block downloads & unauthorized copying" },
+                  { vi: "Có thương hiệu riêng (domain & logo) - tăng uy tín chuyên nghiệp", en: "Your own brand (domain & logo) - instant professional credibility" },
                 ].map((b) => (
                   <li key={b.vi} className="flex items-start gap-2 text-foreground/80 font-normal leading-snug">
                     <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/30">
@@ -1683,7 +1683,7 @@ const EdTechWebService = () => {
                 </Button>
               </div>
 
-              {/* Trust badges – 2 hàng (grid 2 cột) để luôn hiển thị đầy đủ */}
+              {/* Trust badges - 2 hàng (grid 2 cột) để luôn hiển thị đầy đủ */}
               <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11.5px] sm:text-xs font-semibold text-foreground/85">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
@@ -1695,7 +1695,7 @@ const EdTechWebService = () => {
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                  <span>{t("Bàn giao nhanh sau 5–10 ngày triển khai", "Fast delivery after 5–10 days of deployment")}</span>
+                  <span>{t("Bàn giao nhanh sau 5-10 ngày triển khai", "Fast delivery after 5-10 days of deployment")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 backdrop-blur border-2 border-emerald-600/80 px-3 py-1.5 shadow-sm">
                   <Bot className="w-3.5 h-3.5 text-violet-500 shrink-0" />
@@ -1705,7 +1705,7 @@ const EdTechWebService = () => {
 
             </motion.div>
 
-            {/* RIGHT — Live demo carousel */}
+            {/* RIGHT - Live demo carousel */}
             <motion.div
               initial={{ opacity: 0, y: 30, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -1792,8 +1792,8 @@ const EdTechWebService = () => {
             </h2>
             <p className="mt-3 text-muted-foreground">
               {t(
-                "Mỗi website được thiết kế riêng – không phải template – để phục vụ đúng chương trình giảng dạy của bạn.",
-                "Every website is custom-built – not a template – to fit exactly the way you teach.",
+                "Mỗi website được thiết kế riêng - không phải template - để phục vụ đúng chương trình giảng dạy của bạn.",
+                "Every website is custom-built - not a template - to fit exactly the way you teach.",
               )}
             </p>
           </div>
@@ -1823,7 +1823,7 @@ const EdTechWebService = () => {
       </section>
 
 
-      {/* Industries Served — who we build for */}
+      {/* Industries Served - who we build for */}
 
       <section className="py-14 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
@@ -1857,8 +1857,8 @@ const EdTechWebService = () => {
                 icon: School,
                 title: { vi: "Trung tâm ngoại ngữ", en: "Language Centers" },
                 desc: {
-                  vi: "50–500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động – thay thế Google Form + Zalo thủ công.",
-                  en: "50–500 learners needing LMS, AI Tutor, automated class & tuition management – replacing manual Google Forms + Zalo.",
+                  vi: "50-500 học viên, cần LMS, AI Tutor, quản lý lớp & học phí tự động - thay thế Google Form + Zalo thủ công.",
+                  en: "50-500 learners needing LMS, AI Tutor, automated class & tuition management - replacing manual Google Forms + Zalo.",
                 },
                 color: "from-emerald-500/15 to-emerald-500/5",
                 ic: "text-emerald-600 bg-emerald-500/10",
@@ -1878,7 +1878,7 @@ const EdTechWebService = () => {
                 title: { vi: "EdTech Startup", en: "EdTech Startups" },
                 desc: {
                   vi: "Đang xây sản phẩm SaaS giáo dục, cần MVP nhanh trong 14 ngày với hạ tầng AI/Data sẵn sàng mở rộng.",
-                  en: "Building an EdTech SaaS – needing a fast 14-day MVP with scalable AI/Data infrastructure.",
+                  en: "Building an EdTech SaaS - needing a fast 14-day MVP with scalable AI/Data infrastructure.",
                 },
                 color: "from-amber-500/15 to-amber-500/5",
                 ic: "text-amber-600 bg-amber-500/10",
@@ -1906,7 +1906,7 @@ const EdTechWebService = () => {
         </div>
       </section>
 
-      {/* Tech Stack & Security — credibility through transparent technology */}
+      {/* Tech Stack & Security - credibility through transparent technology */}
       <section className="py-14 sm:py-20 bg-secondary/30">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
@@ -1921,8 +1921,8 @@ const EdTechWebService = () => {
             </h2>
             <p className="mt-3 text-muted-foreground">
               {t(
-                "Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng – nhanh, bảo mật, dễ mở rộng.",
-                "Your website runs on the same stack Nordic EdTech startups use today – fast, secure and easy to scale."
+                "Website của Thầy/Cô được xây trên đúng bộ công nghệ mà các startup EdTech Bắc Âu đang sử dụng - nhanh, bảo mật, dễ mở rộng.",
+                "Your website runs on the same stack Nordic EdTech startups use today - fast, secure and easy to scale."
               )}
             </p>
           </div>
@@ -1934,14 +1934,14 @@ const EdTechWebService = () => {
                 items: {
                   vi: [
                     "React 18 + Vite (tải dưới 1 giây)",
-                    "TailwindCSS – giao diện đồng nhất",
-                    "Framer Motion – chuyển động mượt",
+                    "TailwindCSS - giao diện đồng nhất",
+                    "Framer Motion - chuyển động mượt",
                     "Responsive 100% mobile & tablet",
                   ],
                   en: [
                     "React 18 + Vite (loads in under 1 second)",
-                    "TailwindCSS – consistent UI system",
-                    "Framer Motion – smooth animations",
+                    "TailwindCSS - consistent UI system",
+                    "Framer Motion - smooth animations",
                     "100% responsive on mobile & tablet",
                   ],
                 },
@@ -2036,7 +2036,7 @@ const EdTechWebService = () => {
       {/* Interactive Portfolio / Demo Showcase */}
       <PortfolioShowcase />
 
-      {/* Measurable Results — concrete numbers build trust */}
+      {/* Measurable Results - concrete numbers build trust */}
       <section className="py-14 sm:py-20 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
@@ -2077,7 +2077,7 @@ const EdTechWebService = () => {
       </section>
 
 
-      {/* Process — transparent 5-step delivery flow */}
+      {/* Process - transparent 5-step delivery flow */}
       <section className="py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -2085,7 +2085,7 @@ const EdTechWebService = () => {
               <ClipboardList className="w-3.5 h-3.5" /> {t("Quy trình minh bạch", "Transparent Process")}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-              {t("Lộ trình 5 bước · Bàn giao trong 7–14 ngày", "5-step roadmap · Delivered in 7–14 days")}
+              {t("Lộ trình 5 bước · Bàn giao trong 7-14 ngày", "5-step roadmap · Delivered in 7-14 days")}
             </h2>
             <p className="mt-3 text-muted-foreground">
               {t(
@@ -2141,7 +2141,7 @@ const EdTechWebService = () => {
       </section>
 
 
-      {/* Testimonials — social proof from teachers */}
+      {/* Testimonials - social proof from teachers */}
       <section className="py-16 sm:py-20 bg-secondary/30">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -2169,8 +2169,8 @@ const EdTechWebService = () => {
                 role: { vi: "Chủ trung tâm tiếng Trung · TP.HCM", en: "Chinese Center Owner · HCMC" },
                 avatar: "QB",
                 quote: {
-                  vi: "Website chạy mượt cả trên điện thoại học viên cấp 2. Phụ huynh đặc biệt thích cổng xem điểm thời gian thực — đây là điểm khác biệt giúp trung tâm tôi tăng 30% học viên đăng ký mới.",
-                  en: "The website runs smoothly even on middle-school students' phones. Parents love the real-time grade portal — this differentiator drove a 30% increase in new enrollments.",
+                  vi: "Website chạy mượt cả trên điện thoại học viên cấp 2. Phụ huynh đặc biệt thích cổng xem điểm thời gian thực - đây là điểm khác biệt giúp trung tâm tôi tăng 30% học viên đăng ký mới.",
+                  en: "The website runs smoothly even on middle-school students' phones. Parents love the real-time grade portal - this differentiator drove a 30% increase in new enrollments.",
                 },
                 color: "from-emerald-500 to-teal-400",
               },
@@ -2212,7 +2212,7 @@ const EdTechWebService = () => {
       </section>
 
 
-      {/* Guarantee — risk reversal to remove final objections */}
+      {/* Guarantee - risk reversal to remove final objections */}
       <section className="py-12 sm:py-16">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto rounded-3xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 via-card to-primary/5 p-6 sm:p-10 shadow-xl">
@@ -2226,14 +2226,14 @@ const EdTechWebService = () => {
               <div className="md:col-span-2">
                 <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-3">
                   {t(
-                    "Đồng hành tận tâm – bàn giao chuẩn chỉnh, hỗ trợ dài hạn cùng quý Thầy/Cô",
-                    "Dedicated partnership – clean handover and long-term support for every teacher"
+                    "Đồng hành tận tâm - bàn giao chuẩn chỉnh, hỗ trợ dài hạn cùng quý Thầy/Cô",
+                    "Dedicated partnership - clean handover and long-term support for every teacher"
                   )}
                 </h3>
                 <ul className="space-y-2 text-sm text-foreground">
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
-                    <span>{t("Bàn giao 100% mã nguồn – quý Thầy/Cô sở hữu vĩnh viễn, không khoá vendor.", "Full source-code handover – you own it forever, no vendor lock-in.")}</span>
+                    <span>{t("Bàn giao 100% mã nguồn - quý Thầy/Cô sở hữu vĩnh viễn, không khoá vendor.", "Full source-code handover - you own it forever, no vendor lock-in.")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 mt-0.5 text-emerald-500 shrink-0" />
@@ -2353,7 +2353,7 @@ const EdTechWebService = () => {
 
 
 
-      {/* Pain Points → Solutions — speak directly to teacher's daily struggles */}
+      {/* Pain Points → Solutions - speak directly to teacher's daily struggles */}
       <section className="py-16 sm:py-20 bg-gradient-to-br from-rose-50/40 via-background to-emerald-50/40 dark:from-rose-950/10 dark:to-emerald-950/10">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -2362,8 +2362,8 @@ const EdTechWebService = () => {
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
               {t(
-                "Những nỗi đau giáo viên thường gặp – HaiEduTech giải quyết tận gốc",
-                "The pain points teachers face – HaiEduTech solves them at the root"
+                "Những nỗi đau giáo viên thường gặp - HaiEduTech giải quyết tận gốc",
+                "The pain points teachers face - HaiEduTech solves them at the root"
               )}
             </h2>
             <p className="mt-3 text-muted-foreground">
@@ -2376,8 +2376,8 @@ const EdTechWebService = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
             {[
               {
-                pain: { vi: "Mất 8–12 giờ/tuần chấm bài Writing, Speaking thủ công", en: "Losing 8–12 hours/week manually grading Writing & Speaking" },
-                fix: { vi: "AI Smart Grading chấm tự động theo rubric IELTS/TOEIC/HSK – feedback chi tiết trong 10 giây.", en: "AI Smart Grading auto-scores against IELTS/TOEIC/HSK rubrics – detailed feedback in 10 seconds." },
+                pain: { vi: "Mất 8-12 giờ/tuần chấm bài Writing, Speaking thủ công", en: "Losing 8-12 hours/week manually grading Writing & Speaking" },
+                fix: { vi: "AI Smart Grading chấm tự động theo rubric IELTS/TOEIC/HSK - feedback chi tiết trong 10 giây.", en: "AI Smart Grading auto-scores against IELTS/TOEIC/HSK rubrics - detailed feedback in 10 seconds." },
               },
               {
                 pain: { vi: "Học sinh quên bài, không ôn tập, mất gốc giữa khoá", en: "Students forget lessons, stop reviewing, fall behind mid-course" },
@@ -2385,7 +2385,7 @@ const EdTechWebService = () => {
               },
               {
                 pain: { vi: "Phụ huynh thiếu tin tưởng vì không nắm được tiến độ con", en: "Parents lose trust because they can't see their child's progress" },
-                fix: { vi: "Báo cáo phụ huynh tự động hàng tháng qua email thương hiệu – tỉ lệ tái đăng ký +42%.", en: "Automated monthly parent reports from your branded email – re-enrollment +42%." },
+                fix: { vi: "Báo cáo phụ huynh tự động hàng tháng qua email thương hiệu - tỉ lệ tái đăng ký +42%.", en: "Automated monthly parent reports from your branded email - re-enrollment +42%." },
               },
               {
                 pain: { vi: "Tài liệu giảng dạy bị copy, share lậu trên Zalo / Drive", en: "Teaching materials get copied and shared illegally on Zalo / Drive" },
@@ -2396,8 +2396,8 @@ const EdTechWebService = () => {
                 fix: { vi: "Dashboard tích hợp VNPay/Momo, tự động đối soát và xuất hoá đơn VAT điện tử.", en: "A dashboard with VNPay/Momo, auto reconciliation and electronic VAT invoices." },
               },
               {
-                pain: { vi: "Phụ thuộc nền tảng Facebook/Zalo – mất học viên khi bị khoá", en: "Dependent on Facebook/Zalo – risk losing students if the account is locked" },
-                fix: { vi: "Có domain & thương hiệu riêng (lop-thay-hai.com) – dữ liệu học viên 100% thuộc về Thầy/Cô.", en: "Your own domain & brand (lop-thay-hai.com) – student data is 100% yours." },
+                pain: { vi: "Phụ thuộc nền tảng Facebook/Zalo - mất học viên khi bị khoá", en: "Dependent on Facebook/Zalo - risk losing students if the account is locked" },
+                fix: { vi: "Có domain & thương hiệu riêng (lop-thay-hai.com) - dữ liệu học viên 100% thuộc về Thầy/Cô.", en: "Your own domain & brand (lop-thay-hai.com) - student data is 100% yours." },
               },
             ].map((p) => (
               <div
@@ -2427,7 +2427,7 @@ const EdTechWebService = () => {
         </div>
       </section>
 
-      {/* Guarantees — Build trust before FAQ */}
+      {/* Guarantees - Build trust before FAQ */}
       <section className="py-14 sm:py-18">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
@@ -2438,7 +2438,7 @@ const EdTechWebService = () => {
               {t("Tận tâm với từng sản phẩm giáo dục & công nghệ", "Crafted with care for every educational & tech product")}
             </h2>
             <p className="mt-3 text-muted-foreground">
-              {t("Không hứa suông – mỗi cam kết đều được ghi rõ trong hợp đồng.", "No empty promises – every commitment is written into the contract.")}
+              {t("Không hứa suông - mỗi cam kết đều được ghi rõ trong hợp đồng.", "No empty promises - every commitment is written into the contract.")}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
@@ -2464,7 +2464,7 @@ const EdTechWebService = () => {
         </div>
       </section>
 
-      {/* FAQ — expandable accordion */}
+      {/* FAQ - expandable accordion */}
       <FaqSection />
 
 
@@ -2474,7 +2474,7 @@ const EdTechWebService = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
               { icon: ShieldCheck, t: { vi: "Bảo mật chuẩn EU", en: "EU-grade Security" }, d: { vi: "Hạ tầng cloud hiện đại, RLS & sao lưu tự động.", en: "Modern cloud infrastructure with RLS and automated backups." } },
-              { icon: Zap, t: { vi: "Bàn giao nhanh", en: "Fast Delivery" }, d: { vi: "MVP có thể chạy trong 2–4 tuần tùy phạm vi.", en: "Working MVP in 2–4 weeks depending on scope." } },
+              { icon: Zap, t: { vi: "Bàn giao nhanh", en: "Fast Delivery" }, d: { vi: "MVP có thể chạy trong 2-4 tuần tùy phạm vi.", en: "Working MVP in 2-4 weeks depending on scope." } },
               { icon: Database, t: { vi: "Sở hữu dữ liệu", en: "Data Ownership" }, d: { vi: "Toàn bộ dữ liệu lớp học thuộc về quý Thầy/Cô.", en: "All class data fully belongs to you." } },
             ].map((x) => (
               <div key={x.t.en} className="flex items-start gap-3">
@@ -2634,7 +2634,7 @@ const PROGRESS_SERIES = [
   { day: "CN", students: 74, lessons: 39 },
 ];
 
-// LMS app mockup — responsive layout (sidebar collapses on mobile, AI tutor inline)
+// LMS app mockup - responsive layout (sidebar collapses on mobile, AI tutor inline)
 const LmsMockup = () => {
   const menu = ["Khóa học", "Bài tập", "Lịch học", "Điểm số", "Cộng đồng"];
   const stats = [
@@ -2655,7 +2655,7 @@ const LmsMockup = () => {
       </div>
 
       <div className="flex flex-col md:flex-row">
-        {/* Sidebar — light gradient */}
+        {/* Sidebar - light gradient */}
         <aside className="w-full md:w-52 lg:w-60 shrink-0 bg-gradient-to-b from-primary/95 to-emerald-500/90 text-white p-4">
           <div className="flex items-center gap-2 mb-5">
             <div className="w-8 h-8 rounded-lg bg-white/95 flex items-center justify-center shrink-0">
@@ -2719,7 +2719,7 @@ const LmsMockup = () => {
 
           <div>
             <h4 className="text-foreground font-bold text-sm sm:text-base">
-              Bài 12 · IELTS Reading – Skimming &amp; Scanning
+              Bài 12 · IELTS Reading - Skimming &amp; Scanning
             </h4>
             <p className="text-muted-foreground text-xs mt-1">
               Giảng viên: Thầy Hải · 24 phút · 🏆 9.2 điểm trung bình
@@ -2754,7 +2754,7 @@ const LmsMockup = () => {
             ))}
           </div>
 
-          {/* AI Tutor — vivid card */}
+          {/* AI Tutor - vivid card */}
           <div className="rounded-2xl bg-white border-2 border-primary/30 shadow-xl shadow-primary/10 p-3 sm:p-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shrink-0 shadow-md">
@@ -2773,7 +2773,7 @@ const LmsMockup = () => {
                 🧑‍🎓 “Em chưa hiểu cụm <em>once in a blue moon</em>, thầy ơi.”
               </div>
               <div className="rounded-2xl rounded-tr-sm bg-gradient-to-br from-primary/10 to-emerald-500/10 border border-primary/15 p-2.5 text-[11px] sm:text-xs text-foreground leading-relaxed">
-                🤖 Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ: <em>I see him once in a blue moon.</em> – Tôi rất hiếm
+                🤖 Nghĩa là <strong>rất hiếm khi</strong>. Ví dụ: <em>I see him once in a blue moon.</em> - Tôi rất hiếm
                 khi gặp anh ấy.
               </div>
             </div>
@@ -2900,12 +2900,12 @@ const PortfolioShowcase = () => {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
-            {t("Hệ Thống Tính Năng – Bản Demo Trực Quan", "Feature System – Visual Live Demo")}
+            {t("Hệ Thống Tính Năng - Bản Demo Trực Quan", "Feature System - Visual Live Demo")}
           </h2>
           <p className="mt-3 text-muted-foreground">
             {t(
-              "Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được – lướt qua 17 màn hình demo của hệ thống.",
-              "See exactly what you'll get – swipe through 17 demo screens of the system."
+              "Khám phá những gì quý Thầy/Cô sẽ thực sự nhận được - lướt qua 17 màn hình demo của hệ thống.",
+              "See exactly what you'll get - swipe through 17 demo screens of the system."
             )}
           </p>
         </div>
@@ -2974,7 +2974,7 @@ const COMPARISON_ROWS: Array<{
   {
     feature: { vi: "Cổng thanh toán học phí", en: "Tuition Payment Gateway" },
     standard: { v: { vi: "Chuyển khoản thủ công", en: "Manual bank transfer" } },
-    advanced: { v: { vi: "VNPay / Momo / ZaloPay – đối soát tự động + xuất hóa đơn", en: "VNPay / Momo / ZaloPay – auto reconciliation + invoicing" }, ok: true },
+    advanced: { v: { vi: "VNPay / Momo / ZaloPay - đối soát tự động + xuất hóa đơn", en: "VNPay / Momo / ZaloPay - auto reconciliation + invoicing" }, ok: true },
     enterprise: { v: { vi: "Đa cổng + Stripe/Paddle quốc tế + đối soát kế toán tự động", en: "Multi-gateway + international Stripe/Paddle + auto accounting reconciliation" }, ok: true },
   },
   {
@@ -3000,8 +3000,8 @@ const ComparisonTable = () => {
     </h3>
     <p className="text-center text-sm text-muted-foreground mb-6">
       {t(
-        "Minh bạch hoàn toàn – Quý Thầy/Cô nắm rõ giá trị của từng gói trước khi quyết định.",
-        "Fully transparent – understand the value of each package before deciding."
+        "Minh bạch hoàn toàn - Quý Thầy/Cô nắm rõ giá trị của từng gói trước khi quyết định.",
+        "Fully transparent - understand the value of each package before deciding."
       )}
     </p>
     <div className="rounded-2xl border-2 border-emerald-600/60 bg-card shadow-sm overflow-x-auto">
@@ -3060,7 +3060,7 @@ const ComparisonTable = () => {
 const FAQS: Array<{ q: Bi; a: Bi }> = [
   {
     q: { vi: "Tôi không biết gì về công nghệ, mã nguồn (Code) thì có quản lý website được không?", en: "I'm not technical. Can I still manage the website without coding?" },
-    a: { vi: "Hoàn toàn được. Hệ thống được bàn giao kèm trang Admin trực quan 100% tiếng Việt, giúp Thầy/Cô đăng tải bài giảng và quản lý lớp học dễ dàng như dùng mạng xã hội mà không cần chạm vào một dòng code nào.", en: "Absolutely. You get an intuitive Admin dashboard so uploading lessons and managing classes feels as easy as using social media – no code required." },
+    a: { vi: "Hoàn toàn được. Hệ thống được bàn giao kèm trang Admin trực quan 100% tiếng Việt, giúp Thầy/Cô đăng tải bài giảng và quản lý lớp học dễ dàng như dùng mạng xã hội mà không cần chạm vào một dòng code nào.", en: "Absolutely. You get an intuitive Admin dashboard so uploading lessons and managing classes feels as easy as using social media - no code required." },
   },
   {
     q: { vi: "Chi phí duy trì website hàng năm gồm những gì và khoảng bao nhiêu?", en: "What are the annual maintenance costs and roughly how much?" },
@@ -3080,7 +3080,7 @@ const FAQS: Array<{ q: Bi; a: Bi }> = [
   },
   {
     q: { vi: "Nếu sau này tôi muốn thêm tính năng mới (ví dụ: livestream, app mobile) thì có dễ mở rộng không?", en: "Can I easily add new features later (e.g. livestream, mobile app)?" },
-    a: { vi: "Rất dễ. Hệ thống được xây trên kiến trúc microservices hiện đại (React + Supabase + Edge Functions), sẵn sàng tích hợp livestream (Agora, LiveKit), ứng dụng mobile (React Native), hay đồng bộ với Google Classroom / Microsoft Teams chỉ với chi phí mở rộng theo module.", en: "Very easy. The system uses a modern microservices architecture (React + Supabase + Edge Functions), ready to integrate livestream (Agora, LiveKit), mobile apps (React Native), or sync with Google Classroom / Microsoft Teams – modular pricing." },
+    a: { vi: "Rất dễ. Hệ thống được xây trên kiến trúc microservices hiện đại (React + Supabase + Edge Functions), sẵn sàng tích hợp livestream (Agora, LiveKit), ứng dụng mobile (React Native), hay đồng bộ với Google Classroom / Microsoft Teams chỉ với chi phí mở rộng theo module.", en: "Very easy. The system uses a modern microservices architecture (React + Supabase + Edge Functions), ready to integrate livestream (Agora, LiveKit), mobile apps (React Native), or sync with Google Classroom / Microsoft Teams - modular pricing." },
   },
   {
     q: { vi: "Website của tôi có chịu được lượng truy cập lớn vào giờ cao điểm (ví dụ kỳ thi) không?", en: "Can the website handle traffic spikes (e.g. during exams)?" },
@@ -3092,7 +3092,7 @@ const FAQS: Array<{ q: Bi; a: Bi }> = [
   },
   {
     q: { vi: "HaiEduTech khác gì so với việc tôi tự dùng Wordpress hoặc thuê freelancer?", en: "How is HaiEduTech different from WordPress or hiring a freelancer?" },
-    a: { vi: "Khác biệt then chốt: (1) Đội ngũ thuần sư phạm + kỹ sư Data/AI tại Phần Lan, hiểu sâu nghiệp vụ giáo dục; (2) Bộ tính năng EdTech sẵn có (AI Tutor, LMS, Analytics) đã được kiểm chứng trên 5.000+ học viên thật của Thầy Hải; (3) Cam kết bảo hành 6 tháng + hoàn tiền 100% trong 7 ngày – điều mà freelancer hiếm khi đảm bảo.", en: "Key differences: (1) A pedagogy + Data/AI engineering team in Finland that deeply understands education; (2) Ready-made EdTech features (AI Tutor, LMS, Analytics) battle-tested on 5,000+ real students of Mr. Hai; (3) 6-month warranty + 100% refund in 7 days – something freelancers rarely offer." },
+    a: { vi: "Khác biệt then chốt: (1) Đội ngũ thuần sư phạm + kỹ sư Data/AI tại Phần Lan, hiểu sâu nghiệp vụ giáo dục; (2) Bộ tính năng EdTech sẵn có (AI Tutor, LMS, Analytics) đã được kiểm chứng trên 5.000+ học viên thật của Thầy Hải; (3) Cam kết bảo hành 6 tháng + hoàn tiền 100% trong 7 ngày - điều mà freelancer hiếm khi đảm bảo.", en: "Key differences: (1) A pedagogy + Data/AI engineering team in Finland that deeply understands education; (2) Ready-made EdTech features (AI Tutor, LMS, Analytics) battle-tested on 5,000+ real students of Mr. Hai; (3) 6-month warranty + 100% refund in 7 days - something freelancers rarely offer." },
   },
 ];
 
