@@ -1131,6 +1131,7 @@ export type Database = {
       }
       health_check_runs: {
         Row: {
+          auto_recovered: number
           created_at: string
           duration_ms: number
           failed: number
@@ -1142,6 +1143,7 @@ export type Database = {
           warned: number
         }
         Insert: {
+          auto_recovered?: number
           created_at?: string
           duration_ms?: number
           failed?: number
@@ -1153,6 +1155,7 @@ export type Database = {
           warned?: number
         }
         Update: {
+          auto_recovered?: number
           created_at?: string
           duration_ms?: number
           failed?: number

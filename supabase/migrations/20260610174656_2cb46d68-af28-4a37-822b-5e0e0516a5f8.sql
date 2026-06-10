@@ -1,0 +1,1 @@
+ALTER TABLE public.health_check_runs ADD COLUMN IF NOT EXISTS auto_recovered integer NOT NULL DEFAULT 0;
