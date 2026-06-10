@@ -5,7 +5,7 @@ import type { SpeakingTheme } from "./speakingCoachData";
 // ============================ ENGLISH B2 / C1 ============================
 export const englishExtraThemes5: SpeakingTheme[] = [
   {
-    id: "en-b2-opinions", name: "Debates & Opinions", nameVi: "Tranh luận & Quan điểm", icon: "💬", level: "B2" as any,
+    id: "en-b2-opinions", name: "Debates & Opinions", nameVi: "Tranh luận & Quan điểm", icon: "💬", level: "B2",
     sentences: [
       { id: "en5-o1", text: "I tend to agree with the idea that remote work boosts productivity.", translation: "Tôi có xu hướng đồng ý rằng làm việc từ xa giúp tăng năng suất.", difficulty: "medium", theme: "opinions" },
       { id: "en5-o2", text: "From my perspective, social media has done more harm than good.", translation: "Theo quan điểm của tôi, mạng xã hội gây hại nhiều hơn lợi.", difficulty: "medium", theme: "opinions" },
@@ -20,7 +20,7 @@ export const englishExtraThemes5: SpeakingTheme[] = [
     ],
   },
   {
-    id: "en-b2-environment", name: "Environment & Society", nameVi: "Môi trường & Xã hội", icon: "🌍", level: "B2" as any,
+    id: "en-b2-environment", name: "Environment & Society", nameVi: "Môi trường & Xã hội", icon: "🌍", level: "B2",
     sentences: [
       { id: "en5-e1", text: "Climate change is arguably the most pressing issue of our generation.", translation: "Biến đổi khí hậu được xem là vấn đề cấp bách nhất của thế hệ chúng ta.", difficulty: "hard", theme: "environment" },
       { id: "en5-e2", text: "Governments should impose stricter regulations on single-use plastics.", translation: "Chính phủ nên áp đặt quy định nghiêm ngặt hơn với nhựa dùng một lần.", difficulty: "hard", theme: "environment" },
@@ -35,7 +35,7 @@ export const englishExtraThemes5: SpeakingTheme[] = [
     ],
   },
   {
-    id: "en-c1-academic", name: "Academic & Professional", nameVi: "Học thuật & Chuyên nghiệp", icon: "🎓", level: "B1" as any,
+    id: "en-c1-academic", name: "Academic & Professional", nameVi: "Học thuật & Chuyên nghiệp", icon: "🎓", level: "C1",
     sentences: [
       { id: "en5-a1", text: "The findings of this study suggest a strong correlation between sleep and performance.", translation: "Kết quả nghiên cứu cho thấy mối tương quan mạnh giữa giấc ngủ và hiệu suất.", difficulty: "hard", theme: "academic" },
       { id: "en5-a2", text: "It is widely acknowledged that early intervention yields the best outcomes.", translation: "Người ta thừa nhận rộng rãi rằng can thiệp sớm cho kết quả tốt nhất.", difficulty: "hard", theme: "academic" },
@@ -54,7 +54,7 @@ export const englishExtraThemes5: SpeakingTheme[] = [
 // ============================ CHINESE B2 / C1 ============================
 export const chineseExtraThemes5: SpeakingTheme[] = [
   {
-    id: "zh-b2-society", name: "社会议题", nameVi: "Vấn đề xã hội", icon: "🏙️", level: "B2" as any,
+    id: "zh-b2-society", name: "社会议题", nameVi: "Vấn đề xã hội", icon: "🏙️", level: "B2",
     sentences: [
       { id: "zh5-s1", text: "随着科技的发展，人们的生活方式发生了巨大变化。", translation: "Cùng với sự phát triển của công nghệ, lối sống của con người đã thay đổi rất nhiều.", difficulty: "hard", theme: "society" },
       { id: "zh5-s2", text: "我认为环境保护是每个公民的责任。", translation: "Tôi cho rằng bảo vệ môi trường là trách nhiệm của mỗi công dân.", difficulty: "medium", theme: "society" },
@@ -69,7 +69,7 @@ export const chineseExtraThemes5: SpeakingTheme[] = [
     ],
   },
   {
-    id: "zh-c1-business", name: "商务与学术", nameVi: "Thương mại & Học thuật", icon: "💼", level: "B1" as any,
+    id: "zh-c1-business", name: "商务与学术", nameVi: "Thương mại & Học thuật", icon: "💼", level: "C1",
     sentences: [
       { id: "zh5-b1", text: "根据最新的市场分析，我们的销售额有显著的增长。", translation: "Theo phân tích thị trường mới nhất, doanh số của chúng ta tăng rõ rệt.", difficulty: "hard", theme: "business" },
       { id: "zh5-b2", text: "我们公司一直致力于提供高质量的服务。", translation: "Công ty chúng tôi luôn cam kết cung cấp dịch vụ chất lượng cao.", difficulty: "hard", theme: "business" },
@@ -88,7 +88,7 @@ export const chineseExtraThemes5: SpeakingTheme[] = [
 // ============================ FINNISH B2 ============================
 export const finnishExtraThemes6: SpeakingTheme[] = [
   {
-    id: "fi-b2-society", name: "Yhteiskunta", nameVi: "Xã hội & Quan điểm", icon: "🏛️", level: "B1" as any,
+    id: "fi-b2-society", name: "Yhteiskunta", nameVi: "Xã hội & Quan điểm", icon: "🏛️", level: "C1",
     sentences: [
       { id: "fi5-s1", text: "Mielestäni ilmastonmuutos on aikamme suurin haaste.", translation: "Theo tôi, biến đổi khí hậu là thách thức lớn nhất của thời đại.", difficulty: "hard", theme: "society" },
       { id: "fi5-s2", text: "Olen sitä mieltä, että koulutus pitäisi olla ilmaista kaikille.", translation: "Tôi cho rằng giáo dục nên miễn phí cho mọi người.", difficulty: "hard", theme: "society" },
@@ -103,7 +103,7 @@ export const finnishExtraThemes6: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-b2-work", name: "Työelämä", nameVi: "Đời sống công việc", icon: "💼", level: "B1" as any,
+    id: "fi-b2-work", name: "Työelämä", nameVi: "Đời sống công việc", icon: "💼", level: "C1",
     sentences: [
       { id: "fi5-w1", text: "Haluaisin keskustella kanssasi uudesta projektista.", translation: "Tôi muốn trao đổi với bạn về dự án mới.", difficulty: "medium", theme: "work" },
       { id: "fi5-w2", text: "Voisitko lähettää minulle kokouksen pöytäkirjan?", translation: "Bạn có thể gửi tôi biên bản cuộc họp được không?", difficulty: "medium", theme: "work" },
@@ -122,7 +122,7 @@ export const finnishExtraThemes6: SpeakingTheme[] = [
 // ============================ VIETNAMESE B2 / C1 ============================
 export const vietnameseExtraThemes5: SpeakingTheme[] = [
   {
-    id: "vi-b2-opinions", name: "Quan điểm & Tranh luận", nameVi: "Quan điểm & Tranh luận", icon: "💭", level: "B2" as any,
+    id: "vi-b2-opinions", name: "Quan điểm & Tranh luận", nameVi: "Quan điểm & Tranh luận", icon: "💭", level: "B2",
     sentences: [
       { id: "vi5-o1", text: "Theo quan điểm cá nhân, tôi nghĩ rằng làm việc từ xa có nhiều lợi ích.", translation: "From my personal view, I think remote work has many benefits.", difficulty: "hard", theme: "opinions" },
       { id: "vi5-o2", text: "Tôi không hoàn toàn đồng ý với ý kiến của bạn, nhưng tôi tôn trọng nó.", translation: "I don't entirely agree with your opinion, but I respect it.", difficulty: "hard", theme: "opinions" },
@@ -137,7 +137,7 @@ export const vietnameseExtraThemes5: SpeakingTheme[] = [
     ],
   },
   {
-    id: "vi-c1-academic", name: "Học thuật & Văn hóa", nameVi: "Học thuật & Văn hóa", icon: "🎓", level: "B1" as any,
+    id: "vi-c1-academic", name: "Học thuật & Văn hóa", nameVi: "Học thuật & Văn hóa", icon: "🎓", level: "C1",
     sentences: [
       { id: "vi5-a1", text: "Văn hóa Việt Nam là sự giao thoa độc đáo giữa truyền thống và hiện đại.", translation: "Vietnamese culture is a unique blend of tradition and modernity.", difficulty: "hard", theme: "academic" },
       { id: "vi5-a2", text: "Nghiên cứu này đã chỉ ra mối liên hệ chặt chẽ giữa giáo dục và phát triển kinh tế.", translation: "This research has shown a strong link between education and economic development.", difficulty: "hard", theme: "academic" },
