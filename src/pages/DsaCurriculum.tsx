@@ -26,6 +26,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { dsaLessons, type DsaSectionId } from "@/data/dsaLessons";
+import DsaTheoryText from "@/components/programming/DsaTheoryText";
 
 type Tier = "easy" | "medium" | "hard";
 
