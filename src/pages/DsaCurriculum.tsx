@@ -342,6 +342,56 @@ const exercises: DsaExercise[] = [
     hintVi: "Min-heap + danh sách kề có trọng số. Thư giãn cạnh.",
     hintEn: "Min-heap + weighted adjacency list. Relax edges.",
   },
+  // Applied math
+  {
+    tier: "easy",
+    titleVi: "Tính GCD (UCLN) bằng thuật toán Euclid",
+    titleEn: "Compute GCD via Euclid's algorithm",
+    hintVi: "gcd(a,b) = gcd(b, a mod b), dừng khi b = 0.",
+    hintEn: "gcd(a,b) = gcd(b, a mod b), stop when b = 0.",
+  },
+  {
+    tier: "easy",
+    titleVi: "Kiểm tra số chẵn/lẻ bằng phép AND bit",
+    titleEn: "Check odd/even using bitwise AND",
+    hintVi: "n & 1 → 0 nếu chẵn, 1 nếu lẻ.",
+    hintEn: "n & 1 → 0 if even, 1 if odd.",
+  },
+  {
+    tier: "medium",
+    titleVi: "Đếm số bit 1 trong biểu diễn nhị phân",
+    titleEn: "Count set bits (Hamming weight)",
+    hintVi: "Mẹo n & (n-1) xoá bit 1 thấp nhất mỗi vòng lặp.",
+    hintEn: "Trick: n & (n-1) clears the lowest set bit each iteration.",
+  },
+  {
+    tier: "medium",
+    titleVi: "Hash chuỗi bằng rolling hash (Rabin-Karp)",
+    titleEn: "Rolling hash for string matching (Rabin-Karp)",
+    hintVi: "Hash cửa sổ trượt với modulo nguyên tố, so khớp O(n+m).",
+    hintEn: "Sliding-window hash with prime modulus, O(n+m) matching.",
+  },
+  {
+    tier: "medium",
+    titleVi: "Nghịch đảo modulo (modular inverse) bằng Fermat",
+    titleEn: "Modular inverse via Fermat's little theorem",
+    hintVi: "Với p nguyên tố: a^(-1) ≡ a^(p-2) (mod p), dùng fast exponentiation.",
+    hintEn: "When p is prime: a^(-1) ≡ a^(p-2) (mod p), via fast exponentiation.",
+  },
+  {
+    tier: "hard",
+    titleVi: "PageRank đơn giản trên đồ thị web nhỏ",
+    titleEn: "Simple PageRank on a small web graph",
+    hintVi: "Lặp nhân ma trận chuyển tiếp với vector điểm tới khi hội tụ.",
+    hintEn: "Iterate matrix-vector multiplication until the score vector converges.",
+  },
+  {
+    tier: "hard",
+    titleVi: "Union-Find (DSU) với path compression",
+    titleEn: "Union-Find (DSU) with path compression",
+    hintVi: "find() nén đường, union theo rank — gần O(1) amortised.",
+    hintEn: "find() compresses paths, union-by-rank — near O(1) amortised.",
+  },
 ];
 
 const tierMeta: Record<Tier, { labelVi: string; labelEn: string; badge: string; border: string }> = {
