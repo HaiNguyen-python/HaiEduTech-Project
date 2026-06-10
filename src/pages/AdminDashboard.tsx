@@ -637,6 +637,7 @@ const AdminDashboard = () => {
                     <TabsTrigger value="report-logs" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Báo cáo Email", "Report Logs")}</TabsTrigger>
                     <TabsTrigger value="service-requests" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Đơn đăng ký Web", "Service Requests")}</TabsTrigger>
                     <TabsTrigger value="health" className="gap-1.5"><Activity className="w-3.5 h-3.5" /> 🩺 Health Monitor</TabsTrigger>
+                    <TabsTrigger value="phd-research" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> 🎓 PhD Research</TabsTrigger>
                   </>
                 )}
               </TabsList>
