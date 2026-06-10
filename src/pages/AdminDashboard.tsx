@@ -1208,6 +1208,10 @@ const AdminDashboard = () => {
                 <ServiceRequestsTab />
               </TabsContent>
 
+              <TabsContent value="health">
+                <HealthMonitorTab />
+              </TabsContent>
+
               <TabsContent value="dictionary">
                 <Tabs defaultValue="en" className="w-full">
                   <TabsList className="grid w-full grid-cols-4 max-w-2xl">
