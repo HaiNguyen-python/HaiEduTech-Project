@@ -89,6 +89,7 @@ const TeacherDashboard = lazy(() => import("./pages/TeacherDashboard.tsx"));
 const AssistantDashboard = lazy(() => import("./pages/AssistantDashboard.tsx"));
 const GeneratedLessonView = lazy(() => import("./pages/GeneratedLessonView.tsx"));
 const PythonChallengeList = lazy(() => import("./pages/PythonChallengeList.tsx"));
+const DsaCurriculum = lazy(() => import("./pages/DsaCurriculum.tsx"));
 const PythonChallengePage = lazy(() => import("./pages/PythonChallenge.tsx"));
 const InterviewQuestions = lazy(() => import("./pages/InterviewQuestions.tsx"));
 const IeltsWritingPractice = lazy(() => import("./pages/IeltsWritingPractice.tsx"));
@@ -386,6 +387,7 @@ const App = () => (
             <Route path="/lesson-library/:lessonId" element={<LazyRoute><GeneratedLessonView /></LazyRoute>} />
             <Route path="/python-challenges" element={<LazyRoute><PythonChallengeList /></LazyRoute>} />
             <Route path="/python-challenges/:challengeId" element={<LazyRoute><PythonChallengePage /></LazyRoute>} />
+            <Route path="/programming/basic/dsa" element={<LazyRoute><DsaCurriculum /></LazyRoute>} />
             <Route path="/programming/interview-questions" element={<LazyRoute><InterviewQuestions /></LazyRoute>} />
             <Route path="/programming/software-eng-interview" element={<LazyRoute><SoftwareEngInterview /></LazyRoute>} />
             <Route path="/programming/job-opportunities" element={<LazyRoute><JobOpportunities /></LazyRoute>} />
