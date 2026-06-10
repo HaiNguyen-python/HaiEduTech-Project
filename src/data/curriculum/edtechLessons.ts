@@ -49,19 +49,7 @@ export const edtechModules: ExtendedProgrammingModule[] = [
 
 ## 3. 🏗️ Kiến trúc một sản phẩm EdTech điển hình
 
-\`\`\`
-┌─────────────┐   ┌──────────┐   ┌────────────┐   ┌─────────────┐
-│  Frontend   │──▶│   API    │──▶│  Database  │   │  AI Services│
-│  React/RN   │   │ REST/RPC │   │  Postgres  │   │ TTS, LLM,   │
-│  PWA        │   │  Edge fn │   │  +Vector   │◀──│ STT, Embed  │
-└─────────────┘   └──────────┘   └────────────┘   └─────────────┘
-       ▲                │              │                  ▲
-       │                ▼              ▼                  │
-       │         ┌──────────────────────────┐             │
-       └─────────│  Analytics & Mastery     │─────────────┘
-                 │  Events · Cohorts · A/B  │
-                 └──────────────────────────┘
-\`\`\`
+:::diagram type="edtech-architecture":::
 
 **Các tầng phải có:**
 - **Content layer:** bài học, câu hỏi, audio - versioned để A/B test.
@@ -106,6 +94,8 @@ EdTech uses web, mobile, AI, and data to help learners progress **faster, deeper
 - **Worked Examples** (Sweller): for novices, show fully-solved examples before practice.
 
 ## 3. 🏗️ Architecture stack
+
+:::diagram type="edtech-architecture":::
 
 Frontend (React/RN, PWA) → API (REST/Edge Functions) → Database (Postgres + vector) → AI services (TTS, STT, LLM, embeddings) → Analytics (events, cohorts, A/B). Every layer must be **versioned and instrumented** so you can experiment safely.
 
