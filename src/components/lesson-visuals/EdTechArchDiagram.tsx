@@ -95,7 +95,7 @@ const EdTechArchDiagram = () => {
       </div>
 
       {/* Four-layer grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {layers.map((l) => (
           <Layer key={l.title} {...l} />
         ))}
