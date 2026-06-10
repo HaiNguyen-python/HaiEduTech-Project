@@ -145,6 +145,68 @@ const sections: DsaSection[] = [
       },
     ],
   },
+  {
+    id: "applied-math",
+    titleVi: "Phần 4: Toán ứng dụng cho CNTT",
+    titleEn: "Part 4: Applied Math for IT",
+    accent: "from-amber-500 to-orange-500",
+    topics: [
+      {
+        icon: Hash,
+        titleVi: "Hashing & Hàm băm",
+        titleEn: "Hashing & Hash Functions",
+        descVi:
+          "Hàm băm, va chạm (collision), bảng băm, MD5/SHA cho mật khẩu — nền tảng của HashMap, cache và blockchain.",
+        descEn:
+          "Hash functions, collisions, hash tables, MD5/SHA for passwords — the foundation of HashMaps, caches and blockchains.",
+      },
+      {
+        icon: Sigma,
+        titleVi: "Số học modular & GCD/LCM",
+        titleEn: "Modular Arithmetic & GCD/LCM",
+        descVi:
+          "Phép chia dư, nghịch đảo modulo, thuật toán Euclid, ứng dụng trong mật mã RSA và kiểm tra tính chia hết.",
+        descEn:
+          "Modulo, modular inverse, Euclid's algorithm, used in RSA cryptography and divisibility checks.",
+      },
+      {
+        icon: Binary,
+        titleVi: "Bit manipulation",
+        titleEn: "Bit Manipulation",
+        descVi:
+          "AND, OR, XOR, dịch bit, bitmask — tối ưu bộ nhớ, kiểm tra số chẵn lẻ, hoán đổi không dùng biến trung gian.",
+        descEn:
+          "AND, OR, XOR, shifts, bitmasks — memory tricks, parity checks, swap without temp variables.",
+      },
+      {
+        icon: Dice5,
+        titleVi: "Xác suất & Tổ hợp",
+        titleEn: "Probability & Combinatorics",
+        descVi:
+          "Hoán vị, tổ hợp, kỳ vọng, ứng dụng trong A/B testing, hashing xác suất (Bloom filter) và phân tích thuật toán ngẫu nhiên.",
+        descEn:
+          "Permutations, combinations, expectation, used in A/B testing, probabilistic hashing (Bloom filter) and randomized algorithm analysis.",
+      },
+      {
+        icon: Calculator,
+        titleVi: "Đại số tuyến tính cho ML/AI",
+        titleEn: "Linear Algebra for ML/AI",
+        descVi:
+          "Vector, ma trận, phép nhân ma trận, không gian vector — nền tảng của Machine Learning, đồ họa máy tính và tìm kiếm ngữ nghĩa.",
+        descEn:
+          "Vectors, matrices, matrix multiplication, vector spaces — the foundation of ML, computer graphics and semantic search.",
+      },
+      {
+        icon: Network,
+        titleVi: "Lý thuyết đồ thị nâng cao",
+        titleEn: "Advanced Graph Theory",
+        descVi:
+          "PageRank, network flow, Union-Find — ứng dụng trong xếp hạng web, mạng xã hội và phân tích cộng đồng.",
+        descEn:
+          "PageRank, network flow, Union-Find — used in web ranking, social networks and community detection.",
+      },
+    ],
+  },
 ];
 
 const exercises: DsaExercise[] = [
