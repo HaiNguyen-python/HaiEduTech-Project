@@ -42,10 +42,15 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
    * them or applying `whitespace-pre-wrap` breaks the layout — show them
    * as monospace with horizontal scroll instead.
    */
+  const hasBoxDrawing = /[┌┐└┘├┤┬┴┼─│╔╗╚╝╠╣╦╩╬═║]/.test(code);
+  const hasArrows = /[▲▼◄►▶◀↑↓→←]/.test(code);
+  // Count lines that look like ASCII box rows: start AND end with pipe/plus
+  const asciiBoxLines = (code.match(/^\s*[|+][^\n]*[|+]\s*$/gm) || []).length;
   const isDiagram =
     ["text", "ascii", "diagram", "ascii-art", "plain", "txt"].includes(lang) ||
-    /[┌┐└┘├┤┬┴┼─│╔╗╚╝╠╣╦╩╬═║]/.test(code) ||
-    (/^\s*[|+\-]/m.test(code) && /[|+\-]\s*$/m.test(code) && /[▲▼◄►▶◀↑↓→←]/.test(code));
+    hasBoxDrawing ||
+    hasArrows ||
+    asciiBoxLines >= 3;
   const preserveLayout = isDiagram;
 
   return (
