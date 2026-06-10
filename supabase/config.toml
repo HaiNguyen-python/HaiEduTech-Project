@@ -64,3 +64,6 @@ verify_jwt = false
 
 [functions.monthly-progress-report]
 verify_jwt = true
+
+[functions.career-roadmap-ai]
+verify_jwt = false
