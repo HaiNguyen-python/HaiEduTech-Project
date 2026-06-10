@@ -397,6 +397,105 @@ const PhdRoadmapChecklist = () => {
                       className="text-sm"
                     />
                   </div>
+
+                  {/* AI Generate next action */}
+                  <div className="rounded-lg border-2 border-violet-500/30 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-3 space-y-2">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <div className="text-xs font-semibold flex items-center gap-1.5">
+                        <Wand2 className="w-3.5 h-3.5 text-violet-600" />
+                        {t("AI Next Action — cá nhân hoá theo tiến độ", "AI Next Action — tailored to your progress")}
+                      </div>
+                      <div className="flex gap-1.5">
+                        {getStep(s.id).ai && (
+                          <>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 text-xs"
+                              onClick={() => {
+                                navigator.clipboard.writeText(getStep(s.id).ai!.markdown);
+                                toast.success(t("Đã copy", "Copied"));
+                              }}
+                            >
+                              <Copy className="w-3 h-3 mr-1" /> Copy
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 text-xs text-rose-600"
+                              onClick={() => setAi(s.id, undefined)}
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
+                          </>
+                        )}
+                        <Button
+                          size="sm"
+                          onClick={() => generateNextAction(s)}
+                          disabled={aiLoadingId === s.id}
+                          className="h-7 text-xs bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white"
+                        >
+                          {aiLoadingId === s.id ? (
+                            <><Loader2 className="w-3 h-3 mr-1 animate-spin" /> {t("Đang tạo...", "Generating...")}</>
+                          ) : (
+                            <><Sparkles className="w-3 h-3 mr-1" /> {getStep(s.id).ai ? t("Tạo lại", "Regenerate") : t("Generate next action", "Generate next action")}</>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {getStep(s.id).ai && (() => {
+                      const ai = getStep(s.id).ai!;
+                      const tasks = parseChecklist(ai.markdown);
+                      // Strip checklist lines from markdown for nicer display, keep headings/other content
+                      const mdWithoutTasks = ai.markdown.replace(/^\s*-\s*\[[ xX]\]\s+.+$/gm, "").replace(/\n{3,}/g, "\n\n");
+                      const doneTasks = tasks.filter((tk) => ai.checks[tk.idx]).length;
+                      return (
+                        <div className="space-y-2">
+                          {tasks.length > 0 && (
+                            <div className="rounded-md bg-background/60 border p-2">
+                              <div className="text-[11px] font-semibold mb-1.5 text-muted-foreground">
+                                ✅ {t("Checklist", "Checklist")} ({doneTasks}/{tasks.length})
+                              </div>
+                              <ul className="space-y-1">
+                                {tasks.map((tk) => {
+                                  const checked = !!ai.checks[tk.idx];
+                                  return (
+                                    <li key={tk.idx}>
+                                      <label className="flex items-start gap-2 text-xs cursor-pointer hover:bg-muted/40 rounded p-1">
+                                        <input
+                                          type="checkbox"
+                                          checked={checked}
+                                          onChange={() => toggleCheck(s.id, tk.idx)}
+                                          className="mt-0.5 accent-violet-600"
+                                        />
+                                        <span className={checked ? "line-through text-muted-foreground" : ""}>{tk.text}</span>
+                                      </label>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          )}
+                          <div className="prose prose-sm dark:prose-invert max-w-none text-xs [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_p]:my-1 [&_ul]:my-1">
+                            <ReactMarkdown>{mdWithoutTasks}</ReactMarkdown>
+                          </div>
+                          <div className="text-[10px] text-muted-foreground">
+                            {t("Tạo lúc", "Generated at")} {new Date(ai.generatedAt).toLocaleString()}
+                          </div>
+                        </div>
+                      );
+                    })()}
+
+                    {!getStep(s.id).ai && (
+                      <p className="text-[11px] text-muted-foreground">
+                        {t(
+                          "AI sẽ đọc trạng thái + ghi chú của bạn và sinh checklist 5-8 việc cụ thể, kèm resource và tiêu chí hoàn thành.",
+                          "AI reads your status + notes and generates a 5-8 task checklist with resources and exit criteria."
+                        )}
+                      </p>
+                    )}
+                  </div>
                 </CardContent>
               )}
             </Card>
