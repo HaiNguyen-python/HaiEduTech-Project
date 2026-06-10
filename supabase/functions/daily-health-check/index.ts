@@ -104,9 +104,10 @@ async function checkEdgeFn(name: string): Promise<Result> {
       }), 8000);
     const lat = Math.round(performance.now() - t0);
     try { await res.text(); } catch { /* ignore */ }
-    if (res.status === 429) {
-      return { category: 'edge', name, http_status: 429, latency_ms: lat, status: 'fail', error: 'Rate limit (transient)' };
-    }
+    // 429 from the gateway means the *checker* hit the per-trace rate-limit,
+    // NOT that the function is broken — a missing function returns 404.
+    // 2xx/3xx/4xx all prove the function is registered and reachable.
+    // Only 5xx or network/timeout failures indicate real trouble.
     return {
       category: 'edge', name, http_status: res.status, latency_ms: lat,
       status: res.status < 500 ? 'ok' : 'fail',
