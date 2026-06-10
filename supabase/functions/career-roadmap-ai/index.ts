@@ -96,8 +96,8 @@ serve(async (req) => {
           { role: "system", content: SYSTEM },
           { role: "user", content: buildPrompt(input) },
         ],
-        temperature: 0.3,
-        max_tokens: 4000,
+        temperature: 0.2,
+        max_tokens: 6000,
       }),
     });
 
@@ -114,19 +114,47 @@ serve(async (req) => {
     let content = data.choices?.[0]?.message?.content || "{}";
     content = content.replace(/```json\n?/gi, "").replace(/```\n?/g, "").trim();
     const match = content.match(/\{[\s\S]*\}/);
-    let parsed: any = {};
-    try {
-      parsed = match ? JSON.parse(match[0]) : { rawContent: content };
-    } catch (e) {
-      console.error("[career-roadmap-ai] JSON parse failed", e);
-      // Attempt repair: remove trailing commas
-      try {
-        const repaired = (match?.[0] || content).replace(/,(\s*[\]\}])/g, "$1");
-        parsed = JSON.parse(repaired);
-      } catch {
-        parsed = { rawContent: content };
-      }
+    let raw = match ? match[0] : content;
+
+    const tryParse = (s: string) => { try { return JSON.parse(s); } catch { return null; } };
+
+    let parsed: any = tryParse(raw);
+    if (!parsed) {
+      // Repair: remove trailing commas
+      parsed = tryParse(raw.replace(/,(\s*[\]\}])/g, "$1"));
     }
+    if (!parsed) {
+      // Repair: truncated JSON - close open strings/brackets
+      let s = raw;
+      // remove trailing comma
+      s = s.replace(/,\s*$/, "");
+      // count unmatched quotes (rough): if odd, append "
+      const quoteCount = (s.match(/(?<!\\)"/g) || []).length;
+      if (quoteCount % 2 === 1) s += '"';
+      // strip dangling ", key:" or trailing comma
+      s = s.replace(/,\s*"[^"]*"\s*:\s*$/, "");
+      s = s.replace(/,\s*"[^"]*"?\s*$/, "");
+      s = s.replace(/,(\s*[\]\}])/g, "$1");
+      // close unmatched brackets
+      const opens = (s.match(/[\{\[]/g) || []).length;
+      const closes = (s.match(/[\}\]]/g) || []).length;
+      const stack: string[] = [];
+      for (const ch of s) {
+        if (ch === '{') stack.push('}');
+        else if (ch === '[') stack.push(']');
+        else if (ch === '}' || ch === ']') stack.pop();
+      }
+      while (stack.length) s += stack.pop();
+      parsed = tryParse(s);
+    }
+    if (!parsed) {
+      console.error("[career-roadmap-ai] JSON repair failed, raw length:", raw.length);
+      return new Response(
+        JSON.stringify({ success: false, error: "AI returned malformed JSON, please try again" }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
 
     const citations = data.citations || [];
 
