@@ -23,9 +23,10 @@ import ReactMarkdown from "react-markdown";
 import DOMPurify from "dompurify";
 import {
   GraduationCap, Search, BookOpen, Lightbulb, FileText, Sparkles, Loader2,
-  Save, Plus, Trash2, ExternalLink, Download, Tag
+  Save, Plus, Trash2, ExternalLink, Download, Tag, ListChecks
 } from "lucide-react";
 import { scoreProposal, buildProposalDocxBlob } from "@/lib/phdProposalScore";
+import PhdRoadmapChecklist from "./PhdRoadmapChecklist";
 
 interface NoteRow {
   id: string;
@@ -315,9 +316,12 @@ const PhdResearchTab = () => {
         </CardHeader>
       </Card>
 
-      <Tabs defaultValue="literature" className="space-y-4">
+      <Tabs defaultValue="roadmap" className="space-y-4">
         <ScrollArea className="w-full">
           <TabsList className="w-max">
+            <TabsTrigger value="roadmap" className="gap-1.5">
+              <ListChecks className="w-3.5 h-3.5" /> Roadmap
+            </TabsTrigger>
             <TabsTrigger value="literature" className="gap-1.5">
               <Search className="w-3.5 h-3.5" /> Literature
             </TabsTrigger>
@@ -335,6 +339,11 @@ const PhdResearchTab = () => {
             </TabsTrigger>
           </TabsList>
         </ScrollArea>
+
+        {/* ROADMAP */}
+        <TabsContent value="roadmap">
+          <PhdRoadmapChecklist />
+        </TabsContent>
 
         {/* LITERATURE */}
         <TabsContent value="literature">
