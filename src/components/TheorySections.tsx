@@ -50,6 +50,7 @@ import { Progress } from "@/components/ui/progress";
 import StepBadge from "@/components/lesson-visuals/StepBadge";
 import Callout from "@/components/lesson-visuals/Callout";
 import LinearRegressionDiagram from "@/components/lesson-visuals/LinearRegressionDiagram";
+import EdTechArchDiagram from "@/components/lesson-visuals/EdTechArchDiagram";
 import JoinVennDiagram from "@/components/lesson-visuals/JoinVennDiagram";
 import SubqueryDiagram from "@/components/lesson-visuals/SubqueryDiagram";
 import MermaidDiagram from "@/components/lesson-visuals/MermaidDiagram";
