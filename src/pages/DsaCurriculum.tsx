@@ -419,8 +419,8 @@ const DsaCurriculum = () => {
             </div>
             <p className="text-sm text-muted-foreground mb-5">
               {t(
-                "9 bài học có lý thuyết, ví dụ Python, phân tích độ phức tạp và quiz củng cố.",
-                "Nine lessons with theory, Python examples, complexity analysis and reinforcement quizzes.",
+                "15 bài học có lý thuyết, ví dụ Python, phân tích độ phức tạp và quiz củng cố.",
+                "Fifteen lessons with theory, Python examples, complexity analysis and reinforcement quizzes.",
               )}
             </p>
 
