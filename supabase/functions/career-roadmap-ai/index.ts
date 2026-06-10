@@ -91,13 +91,13 @@ serve(async (req) => {
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "sonar-pro",
+        model: "sonar",
         messages: [
           { role: "system", content: SYSTEM },
           { role: "user", content: buildPrompt(input) },
         ],
         temperature: 0.2,
-        max_tokens: 6000,
+        max_tokens: 3500,
       }),
     });
 
