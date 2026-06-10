@@ -223,7 +223,7 @@ const tierMeta: Record<Tier, { labelVi: string; labelEn: string; badge: string; 
 };
 
 const DsaCurriculum = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [tier, setTier] = useState<Tier | "all">("all");
 
   const filteredExercises = useMemo(
@@ -281,7 +281,7 @@ const DsaCurriculum = () => {
                     className={`inline-block w-1.5 h-8 rounded-full bg-gradient-to-b ${sec.accent}`}
                   />
                   <h2 className="text-xl sm:text-2xl font-bold text-foreground">
-                    {language === "vi" ? sec.titleVi : sec.titleEn}
+                    {lang === "vi" ? sec.titleVi : sec.titleEn}
                   </h2>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -300,10 +300,10 @@ const DsaCurriculum = () => {
                           </div>
                           <div className="min-w-0">
                             <h3 className="font-semibold text-foreground mb-1">
-                              {language === "vi" ? topic.titleVi : topic.titleEn}
+                              {lang === "vi" ? topic.titleVi : topic.titleEn}
                             </h3>
                             <p className="text-sm text-muted-foreground leading-relaxed">
-                              {language === "vi" ? topic.descVi : topic.descEn}
+                              {lang === "vi" ? topic.descVi : topic.descEn}
                             </p>
                           </div>
                         </div>
@@ -350,7 +350,7 @@ const DsaCurriculum = () => {
                           : "bg-secondary text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      {language === "vi" ? tab.labelVi : tab.labelEn}
+                      {lang === "vi" ? tab.labelVi : tab.labelEn}
                     </button>
                   );
                 })}
@@ -373,14 +373,14 @@ const DsaCurriculum = () => {
                         <Code2 className="w-4 h-4 text-primary" />
                       </div>
                       <Badge variant="outline" className={`text-[10px] font-bold uppercase ${meta.badge}`}>
-                        {language === "vi" ? meta.labelVi : meta.labelEn}
+                        {lang === "vi" ? meta.labelVi : meta.labelEn}
                       </Badge>
                     </div>
                     <h3 className="font-semibold text-foreground text-sm leading-snug mb-2">
-                      {language === "vi" ? ex.titleVi : ex.titleEn}
+                      {lang === "vi" ? ex.titleVi : ex.titleEn}
                     </h3>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      {language === "vi" ? ex.hintVi : ex.hintEn}
+                      {lang === "vi" ? ex.hintVi : ex.hintEn}
                     </p>
                   </motion.div>
                 );
