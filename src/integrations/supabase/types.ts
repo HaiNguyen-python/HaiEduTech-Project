@@ -1867,6 +1867,81 @@ export type Database = {
         }
         Relationships: []
       }
+      phd_research_citations: {
+        Row: {
+          authors: string | null
+          created_at: string
+          id: string
+          source_url: string | null
+          summary: string | null
+          tags: string[]
+          title: string
+          topic: string
+          user_id: string
+          year: number | null
+        }
+        Insert: {
+          authors?: string | null
+          created_at?: string
+          id?: string
+          source_url?: string | null
+          summary?: string | null
+          tags?: string[]
+          title: string
+          topic?: string
+          user_id: string
+          year?: number | null
+        }
+        Update: {
+          authors?: string | null
+          created_at?: string
+          id?: string
+          source_url?: string | null
+          summary?: string | null
+          tags?: string[]
+          title?: string
+          topic?: string
+          user_id?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
+      phd_research_notes: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          importance: number
+          tags: string[]
+          title: string
+          topic: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: string
+          importance?: number
+          tags?: string[]
+          title: string
+          topic: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          importance?: number
+          tags?: string[]
+          title?: string
+          topic?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       placement_test_results: {
         Row: {
           answers: Json

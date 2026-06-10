@@ -56,6 +56,7 @@ import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
 import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
 import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
 import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
+import PhdResearchTab from "@/components/admin/PhdResearchTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -637,6 +638,7 @@ const AdminDashboard = () => {
                     <TabsTrigger value="report-logs" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Báo cáo Email", "Report Logs")}</TabsTrigger>
                     <TabsTrigger value="service-requests" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Đơn đăng ký Web", "Service Requests")}</TabsTrigger>
                     <TabsTrigger value="health" className="gap-1.5"><Activity className="w-3.5 h-3.5" /> 🩺 Health Monitor</TabsTrigger>
+                    <TabsTrigger value="phd-research" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> 🎓 PhD Research</TabsTrigger>
                   </>
                 )}
               </TabsList>
@@ -1228,6 +1230,10 @@ const AdminDashboard = () => {
 
               <TabsContent value="health">
                 <HealthMonitorTab />
+              </TabsContent>
+
+              <TabsContent value="phd-research">
+                <PhdResearchTab />
               </TabsContent>
 
               <TabsContent value="dictionary">

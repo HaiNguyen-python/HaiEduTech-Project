@@ -1,0 +1,641 @@
+import type { ExtendedProgrammingModule } from "./types";
+
+/**
+ * EdTech Research Methods - 6 lessons for academic rigor and applied research.
+ * Designed to prep practitioners (and PhD applicants) for empirical EdTech work.
+ */
+export const edtechResearchMethodsModules: ExtendedProgrammingModule[] = [
+  {
+    id: "edtech-research-2026",
+    title: "EdTech Research Methods - RCT, Learning Analytics & A/B",
+    titleEn: "EdTech Research Methods - RCT, Learning Analytics & A/B",
+    icon: "🔬",
+    color: "from-amber-500 to-orange-600",
+    description:
+      "6 bài cho người làm EdTech nghiêm túc + ứng viên PhD: design RCT, learning analytics, A/B testing, hiệu ứng nhân quả, đo lường mastery, và đạo đức nghiên cứu trẻ em.",
+    descriptionEn:
+      "6 lessons for serious EdTech practitioners + PhD applicants: RCT design, learning analytics, A/B testing, causal effects, mastery measurement, and research ethics.",
+    course: "edtech",
+    lessons: [
+      {
+        id: "edtech-rm-1",
+        title: "Hỏi câu hỏi nghiên cứu đúng - từ ý tưởng tới RQ + H1",
+        titleEn: "Asking the Right Research Question - From Idea to RQ + H1",
+        level: 3,
+        difficulty: "intermediate",
+        theory: `## 1. 🎯 Vì sao RQ kém = nghiên cứu chết
+
+Một RQ tốt có 4 tính chất (FINER thu gọn):
+
+| Tính chất | Test |
+|---|---|
+| **Feasible** | Có data + thời gian + budget không? |
+| **Interesting** | Cộng đồng học thuật/ngành quan tâm? |
+| **Novel** | Ai đã trả lời chưa? (Google Scholar) |
+| **Ethical** | Trẻ em + minor → IRB approval cần |
+
+## 2. 🪜 Từ ý tưởng → RQ + H1
+
+\`\`\`
+Ý tưởng:  "AI tutor có giúp học không?"  ← quá rộng
+
+Thu hẹp:  Đối tượng nào? Môn gì? So với gì? Đo bằng gì?
+
+RQ:  "Liệu LLM-based personalized hints (vs static hints)
+      có cải thiện điểm IELTS Writing Task 2 của học sinh B1
+      Việt Nam sau 4 tuần học mỗi ngày 30 phút?"
+
+H1:  Điểm trung bình post-test của nhóm A (LLM hints)
+      cao hơn nhóm B (static) ≥ 0.5 band, p < 0.05.
+
+H0:  Không có khác biệt thống kê.
+\`\`\`
+
+## 3. 📚 PICO/PICOTS framework
+
+EdTech research thường dùng **PICOTS**:
+
+| Element | Ví dụ |
+|---|---|
+| **P**opulation | B1 Vietnamese learners, n=120 |
+| **I**ntervention | LLM personalized hints |
+| **C**omparison | Static hint bank |
+| **O**utcome | IELTS Writing band score |
+| **T**ime | 4 weeks, 30 min/day |
+| **S**etting | Online, self-paced |
+
+## 4. 🔍 Literature review checklist
+
+1. Search Google Scholar + ERIC + ACM Digital Library.
+2. Filter: 2020+ for AI; 2010+ for pedagogy.
+3. Forward + backward citation chasing.
+4. Tag papers: relevant / supporting / contradicting.
+5. Synthesize: gap analysis - đâu là khoảng trống bạn lấp?
+
+## 5. 🚨 Sai lầm phổ biến
+
+- **HARKing** (Hypothesizing After Results Known): viết H1 sau khi nhìn data.
+- **Fishing**: chạy 20 test, báo 1 cái p<0.05.
+- **RQ thay đổi giữa chừng** mà không pre-register.
+- **Cherry-pick** sample (chỉ học sinh tích cực).`,
+        theoryEn: "Good RQ is Feasible, Interesting, Novel, Ethical. Use PICOTS. Avoid HARKing, p-hacking, cherry-picking.",
+        code: `# Pre-registration template (markdown)
+"""
+# Pre-registration: LLM Hints in IELTS Writing
+
+## RQ
+Does LLM-based personalized hints (vs static hints) improve IELTS
+Writing Task 2 band of B1 Vietnamese learners after 4 weeks?
+
+## Hypotheses
+H1: μ(treatment) - μ(control) >= 0.5 band, p < 0.05 (one-tailed)
+H0: μ(treatment) = μ(control)
+
+## Design
+- 2-arm RCT, stratified random assignment by pre-test band
+- n = 120 (power 0.8, alpha 0.05, effect 0.5 SD)
+- Duration: 4 weeks, 30 min/day
+- Outcome: post-test band by 2 blinded examiners (ICC > 0.7)
+
+## Stopping rule
+No interim analyses. Final analysis at week 4.
+
+## Exclusions
+- <80% session attendance
+- Withdrew consent
+"""`,
+        codeLanguage: "python",
+        exercise: "Viết RQ + H1 theo PICOTS cho ý tưởng 'Gamification trong app HSK có giúp học sinh nhớ từ lâu hơn không?'",
+        exerciseEn: "Write a PICOTS RQ + H1 for 'Does gamification in HSK app improve long-term retention?'",
+        quiz: [
+          { question: "FINER là?", options: ["Phần mềm", "Feasible/Interesting/Novel/Ethical/Relevant - tiêu chí RQ tốt", "API", "RCT type"], answer: 1, explanation: "Khung kiểm tra RQ kinh điển." },
+          { question: "HARKing là gì?", options: ["Lập H1 trước", "Viết H1 SAU khi nhìn data - thiếu trung thực", "Replication", "Meta-analysis"], answer: 1, explanation: "Vi phạm nghiêm trọng tính chính trực." },
+          { question: "Pre-registration giúp gì?", options: ["SEO", "Cam kết design trước → chống p-hacking + HARKing", "Tăng publication", "Trang trí"], answer: 1, explanation: "Tăng độ tin cậy nghiên cứu." },
+          { question: "PICOTS thêm gì so với PICO?", options: ["Politic + Society", "Time + Setting", "Power + Sample", "Plot + Score"], answer: 1, explanation: "Thời gian và bối cảnh." },
+          { question: "Cherry-pick sample?", options: ["OK nếu tiện", "Vi phạm tính đại diện → kết quả không generalizable", "Không vấn đề", "Chỉ trong meta-analysis"], answer: 1, explanation: "Sample lệch = kết luận lệch." },
+        ],
+      },
+      {
+        id: "edtech-rm-2",
+        title: "RCT trong EdTech - power, randomization, blinding",
+        titleEn: "RCTs in EdTech - Power, Randomization, Blinding",
+        level: 4,
+        difficulty: "advanced",
+        theory: `## 1. 🧪 RCT là gold standard
+
+Random assignment → confounders phân bố đều → causal claim.
+
+\`\`\`
+   N=120 học sinh
+        │
+   [Stratify by pre-test band: low/mid/high]
+        │
+   Random split 50/50 trong mỗi stratum
+        │
+   ┌───────────┐         ┌───────────┐
+   │  A: LLM   │         │  B: Static│
+   │  hints    │         │  hints    │
+   │  n=60     │         │  n=60     │
+   └─────┬─────┘         └─────┬─────┘
+         │                     │
+   Post-test (blinded raters)
+         │
+   ΔBand_A vs ΔBand_B → t-test, ANCOVA
+\`\`\`
+
+## 2. ⚡ Power analysis (tránh nghiên cứu vô nghĩa)
+
+Cần biết:
+- **α** (false positive): 0.05
+- **β** (false negative): 0.20 (power = 0.80)
+- **Effect size**: bao nhiêu là có ý nghĩa? (Cohen's d = 0.5 → medium)
+- **σ** (standard deviation) từ pilot
+
+\`\`\`
+   n_per_arm = 2 * ((z_α + z_β) * σ / Δ)²
+             = 2 * ((1.96 + 0.84) * 1.0 / 0.5)²
+             = 63
+\`\`\`
+
+> ⚠️ Underpowered study = lãng phí + đạo đức kém (vẫn dùng học sinh làm subject).
+
+## 3. 🎲 Randomization đúng cách
+
+| Loại | Khi dùng |
+|---|---|
+| **Simple random** | n lớn (>200) |
+| **Stratified** | Cần balance theo level/giới |
+| **Block randomization** | Tránh imbalance đầu kỳ |
+| **Cluster** (lớp/trường) | Khi can thiệp ở cấp lớp |
+
+\`\`\`python
+# Stratified by pre-test band
+def stratified_assign(students):
+    by_band = group_by(students, "pre_band")
+    assignments = []
+    for band, group in by_band.items():
+        random.shuffle(group)
+        half = len(group) // 2
+        for i, s in enumerate(group):
+            s.arm = "A" if i < half else "B"
+        assignments.extend(group)
+    return assignments
+\`\`\`
+
+## 4. 🙈 Blinding
+
+- **Single-blind**: học sinh không biết mình thuộc nhóm nào.
+- **Double-blind**: cả học sinh và rater không biết.
+- EdTech khó full double-blind (giáo viên thấy can thiệp), nhưng rater có thể blind.
+
+## 5. 📉 Threats to validity
+
+| Threat | Mô tả | Cách xử lý |
+|---|---|---|
+| **Attrition** | Học sinh bỏ giữa chừng | Intent-to-treat analysis |
+| **Hawthorne** | Hành vi đổi vì biết bị quan sát | Active control (không phải no-treatment) |
+| **Novelty** | Hứng thú với "AI mới" tan dần | Đo ≥4 tuần |
+| **Cross-contamination** | A xem can thiệp của B | Cluster by class |
+| **Maturation** | Tiến bộ tự nhiên theo tuổi | Control group |`,
+        theoryEn: "RCT = gold standard. Need power analysis (n=63/arm for d=0.5). Stratified randomization, blind raters, ITT analysis.",
+        code: `# Power calculation
+import math
+from scipy.stats import norm
+
+def sample_size(effect, sigma=1.0, alpha=0.05, power=0.8):
+    z_alpha = norm.ppf(1 - alpha/2)
+    z_beta  = norm.ppf(power)
+    n = 2 * ((z_alpha + z_beta) * sigma / effect) ** 2
+    return math.ceil(n)
+
+print(sample_size(0.5))   # → 63 per arm
+print(sample_size(0.3))   # → 175 per arm (smaller effect → bigger n)`,
+        codeLanguage: "python",
+        exercise: "Tính n cần thiết cho RCT đo Δ = 0.3 band, σ = 0.8. Có khả thi với 1 lớp 30 học sinh không?",
+        exerciseEn: "Compute n needed for an RCT with Δ = 0.3 band, σ = 0.8. Is it feasible with one 30-student class?",
+        quiz: [
+          { question: "Power = 0.8 nghĩa là?", options: ["80% confidence", "Xác suất phát hiện effect thật khi có thực = 80%", "Sample 80", "α = 0.8"], answer: 1, explanation: "Tránh false negative." },
+          { question: "Stratified randomization?", options: ["Random thuần", "Random TRONG TỪNG STRATUM để balance covariate", "Không random", "Cluster"], answer: 1, explanation: "Giảm imbalance giữa 2 arm." },
+          { question: "Intent-to-treat?", options: ["Bỏ học sinh không tuân thủ", "Phân tích theo ARM ĐƯỢC GÁN, kể cả ai bỏ", "Tính trung bình", "Outlier removal"], answer: 1, explanation: "Bảo vệ tính ngẫu nhiên." },
+          { question: "Hawthorne effect?", options: ["Bug", "Hành vi đổi vì biết bị quan sát", "Tăng power", "Decoration"], answer: 1, explanation: "Dùng active control để cân bằng." },
+          { question: "Cluster randomization khi nào?", options: ["Luôn dùng", "Khi can thiệp ở cấp lớp/trường (tránh contamination)", "Khi n nhỏ", "Random"], answer: 1, explanation: "Học sinh trong cùng lớp ảnh hưởng nhau." },
+        ],
+      },
+      {
+        id: "edtech-rm-3",
+        title: "Learning Analytics - event schema và metrics chuẩn",
+        titleEn: "Learning Analytics - Event Schema & Standard Metrics",
+        level: 3,
+        difficulty: "intermediate",
+        theory: `## 1. 📊 Event schema chuẩn (xAPI / Caliper)
+
+\`\`\`json
+{
+  "actor": {"id": "user-123", "role": "learner"},
+  "verb": "completed",
+  "object": {"id": "lesson-ielts-w-12", "type": "Lesson"},
+  "context": {"course": "ielts-writing", "session": "sess-456"},
+  "result": {"score": 7.5, "duration_sec": 1800, "success": true},
+  "timestamp": "2026-06-10T14:30:00Z"
+}
+\`\`\`
+
+> Theo chuẩn → tích hợp được với LMS (Moodle, Canvas) và dashboard.
+
+## 2. 📈 5 metric vàng
+
+| Metric | Định nghĩa | Cảnh báo |
+|---|---|---|
+| **DAU/MAU** | Active users 1 ngày / 30 ngày | <0.2 = engagement yếu |
+| **Time-on-task** | Phút thực sự học | Cao nhưng score thấp = struggle |
+| **Mastery rate** | % skill đạt threshold | Tiến độ thật |
+| **Drop-off funnel** | % rời ở mỗi bước lesson | Spot UX vấn đề |
+| **Helpfulness** (AI feature) | 👍 / total interactions | <50% = prompt cần sửa |
+
+## 3. 🚨 Vanity vs. Actionable metrics
+
+\`\`\`
+❌ Vanity:    Total pageviews, registrations, "AI calls"
+✅ Actionable: Mastery lift, completion rate, time-to-mastery
+\`\`\`
+
+## 4. 🔀 Cohort analysis
+
+Theo dõi nhóm user theo tuần đăng ký:
+
+\`\`\`
+              Week 1  Week 2  Week 3  Week 4
+Jan cohort    100%    62%     45%     38%   ← retention curve
+Feb cohort    100%    71%     55%     48%   ← cải thiện sau update
+Mar cohort    100%    68%     50%
+\`\`\`
+
+Curve dốc xuống nhanh tuần 1-2 = onboarding kém.
+
+## 5. ⚙️ Pipeline tối thiểu
+
+\`\`\`
+   Client (web/mobile)
+        │ POST /events (batched)
+        ▼
+   Ingest API → validate → queue (Kafka/PubSub)
+        │
+        ▼
+   Warehouse (BigQuery/Postgres/Snowflake)
+        │
+        ▼
+   dbt models: daily, mastery, funnel, retention
+        │
+        ▼
+   Dashboard (Metabase/Superset)
+\`\`\`
+
+## 6. ⚠️ Privacy & GDPR
+
+- **PII tách bảng**: events chỉ có \`user_hash\`.
+- **Right to delete**: cascade delete khi user yêu cầu.
+- **Aggregate only** cho public dashboard.
+- **Retention**: raw events ≤ 2 năm, aggregate vĩnh viễn.`,
+        theoryEn: "Use xAPI/Caliper schema. Focus on actionable metrics: mastery, retention, drop-off. Cohort analysis spots onboarding issues.",
+        code: `-- dbt model: daily mastery
+WITH daily AS (
+  SELECT
+    DATE(timestamp) AS day,
+    actor->>'id'   AS user_id,
+    object->>'id'  AS lesson_id,
+    (result->>'score')::numeric AS score
+  FROM raw_events
+  WHERE verb = 'completed'
+)
+SELECT
+  day,
+  user_id,
+  COUNT(DISTINCT lesson_id)                  AS lessons_today,
+  AVG(score)                                 AS avg_score,
+  COUNT(*) FILTER (WHERE score >= 0.8)       AS mastered_today
+FROM daily
+GROUP BY day, user_id;`,
+        codeLanguage: "sql",
+        exercise: "Định nghĩa 5 event cho app HaiEduTech (schema xAPI): start_lesson, answer_quiz, complete_lesson, ask_tutor, master_word.",
+        exerciseEn: "Define 5 xAPI events for the HaiEduTech app.",
+        quiz: [
+          { question: "Vanity metric?", options: ["Mastery rate", "Total pageviews", "Time-to-mastery", "Helpfulness"], answer: 1, explanation: "Nhìn đẹp nhưng không cho biết user có HỌC ĐƯỢC không." },
+          { question: "Cohort analysis dùng để?", options: ["Tăng cost", "So sánh retention các nhóm user theo thời gian", "SEO", "Logging"], answer: 1, explanation: "Phát hiện effect của thay đổi sản phẩm." },
+          { question: "xAPI có thuộc tính nào?", options: ["actor/verb/object/result", "title/body", "x/y/z", "id/value"], answer: 0, explanation: "Statement schema chuẩn." },
+          { question: "PII trong events?", options: ["Lưu trực tiếp", "Tách bảng, dùng user_hash trong events", "Không lưu gì", "Public"], answer: 1, explanation: "GDPR compliance." },
+          { question: "Time-on-task cao + score thấp?", options: ["Tốt", "Học sinh đang struggle, cần can thiệp", "OK", "Bug"], answer: 1, explanation: "Tín hiệu cần hỗ trợ." },
+        ],
+      },
+      {
+        id: "edtech-rm-4",
+        title: "A/B Testing - design, sample size, đọc kết quả",
+        titleEn: "A/B Testing - Design, Sample Size, Reading Results",
+        level: 3,
+        difficulty: "intermediate",
+        theory: `## 1. 🆎 A/B test cho EdTech ≠ A/B test e-commerce
+
+| Khía cạnh | E-commerce | EdTech |
+|---|---|---|
+| **Outcome** | Conversion (1 click) | Learning gain (4 tuần) |
+| **Lag** | <1 phút | Ngày → tuần |
+| **Sample** | Hàng nghìn/ngày | Hàng trăm |
+| **Risk** | $$ | Education quality |
+
+→ Cần design thận trọng hơn, ưu tiên long-term outcome.
+
+## 2. 📐 Sample size cho proportion test
+
+\`\`\`
+Δ (lift) = 5%, baseline = 60%, α = 0.05, power = 0.8
+n_per_arm ≈ 1565
+\`\`\`
+
+Dùng \`statsmodels.stats.power.NormalIndPower\` hoặc Evan Miller calculator.
+
+## 3. 🧪 Workflow chuẩn
+
+\`\`\`
+1. Hypothesis:  "New onboarding tăng day-7 retention từ 35% → 42%"
+2. Sample size: n = 1565/arm (tính trước)
+3. Randomize:   hash(user_id) % 100, treatment = <50
+4. Run:         tối thiểu 1 chu kỳ user (>= 7 ngày)
+5. Analyze:     2-proportion z-test, CI 95%
+6. Decide:      ship / kill / iterate
+\`\`\`
+
+## 4. 🚫 Sai lầm chết người
+
+- **Peeking**: Xem p-value mỗi ngày → false positive bùng nổ. Dùng SPRT hoặc Bayesian nếu cần early stopping.
+- **Sample Ratio Mismatch (SRM)**: A và B lệch >5% → có bug routing.
+- **Network effect**: user A nhìn thấy feature của B → contamination.
+- **Multiple metrics fishing**: test 20 metric, báo 1 cái p<0.05.
+- **Stopping early khi đẹp**: chỉ stop khi đủ n.
+
+## 5. 🧮 Đọc kết quả
+
+\`\`\`
+control:    900/1500 = 60.0%
+treatment:  990/1500 = 66.0%
+Δ          = +6.0pp, lift = +10%
+p-value    = 0.0008  ← significant
+95% CI Δ   = [+2.5pp, +9.5pp]
+\`\`\`
+
+> Nếu CI bao gồm 0 → KHÔNG significant. p<0.05 chưa đủ - cần effect size đủ lớn để đáng triển khai.
+
+## 6. 🎯 Bayesian A/B (alternative)
+
+- Output: "P(treatment > control) = 96%"
+- Trực quan cho stakeholder.
+- Có thể stop early khi posterior đủ tin cậy.
+- Cần prior - thường dùng weak prior.`,
+        theoryEn: "EdTech A/B differs from e-commerce: outcomes lag, smaller sample. Beware peeking, SRM, contamination, multi-metric fishing.",
+        code: `# 2-proportion z-test
+from statsmodels.stats.proportion import proportions_ztest
+
+control   = (900, 1500)   # successes, n
+treatment = (990, 1500)
+
+z, p = proportions_ztest(
+    count=[control[0], treatment[0]],
+    nobs=[control[1], treatment[1]],
+    alternative='larger'
+)
+print(f"z={z:.2f}  p={p:.4f}")
+# z=3.16  p=0.0008  → significant`,
+        codeLanguage: "python",
+        exercise: "Thiết kế A/B test cho 'AI hint mới' với baseline mastery=55%, lift mong đợi=4pp. Sample size? Thời gian chạy với 200 user mới/ngày?",
+        exerciseEn: "Design an A/B test for 'new AI hint' with baseline mastery=55%, expected lift=4pp.",
+        quiz: [
+          { question: "Peeking gây hại gì?", options: ["Tăng power", "Inflate false-positive rate", "Không vấn đề", "Tăng cost"], answer: 1, explanation: "Mỗi lần peek = 1 lần test, alpha tích lũy." },
+          { question: "SRM (Sample Ratio Mismatch)?", options: ["A và B lệch >5% → có bug routing", "Bình thường", "Tăng power", "Decoration"], answer: 0, explanation: "Tín hiệu kỹ thuật, không tin được kết quả." },
+          { question: "EdTech A/B nên ưu tiên?", options: ["Conversion 1 phút", "Long-term outcome (mastery, retention)", "Pageviews", "Latency"], answer: 1, explanation: "Học tập cần thời gian thể hiện." },
+          { question: "CI bao gồm 0 nghĩa là?", options: ["Significant", "KHÔNG significant", "Bug", "Cần peeking"], answer: 1, explanation: "Effect có thể là 0 hoặc nghịch hướng." },
+          { question: "Bayesian A/B output?", options: ["p-value", "P(treatment > control), trực quan", "z-score", "Effect size"], answer: 1, explanation: "Dễ hiểu cho stakeholder." },
+        ],
+      },
+      {
+        id: "edtech-rm-5",
+        title: "Causal Inference khi không thể RCT - DiD, IV, RDD",
+        titleEn: "Causal Inference Without RCT - DiD, IV, RDD",
+        level: 5,
+        difficulty: "advanced",
+        theory: `## 1. 🤔 Khi nào không thể RCT?
+
+- Vấn đề đạo đức (không thể "không cho" trẻ học toán).
+- Quy mô lớn (đổi chính sách cho cả tỉnh).
+- Data đã có (observational only).
+
+→ Cần **quasi-experimental design**.
+
+## 2. ⚖️ Difference-in-Differences (DiD)
+
+So sánh xu hướng TRƯỚC và SAU can thiệp giữa nhóm treatment vs control:
+
+\`\`\`
+   Outcome
+   ▲
+   │              ← treatment group (got AI tutor)
+   │           ●
+   │         /
+   │       /
+   │     ●
+   │   /          ← control group
+   │  ●─────●─────●
+   └──────────────────▶ time
+       T-1  T0   T+1
+            ↑
+       intervention
+
+   DiD = (Treat_post - Treat_pre) - (Ctrl_post - Ctrl_pre)
+\`\`\`
+
+**Giả định cốt lõi**: parallel trends pre-intervention. Phải plot và test.
+
+## 3. 🎯 Instrumental Variable (IV)
+
+Khi có biến **gây ra** treatment nhưng KHÔNG ảnh hưởng outcome trực tiếp:
+
+\`\`\`
+   IV: lottery       Treatment: AI app access       Outcome: score
+       (random)  ───►       (chose to use)     ────►
+                          ▲
+                          │ confounder (motivation)
+\`\`\`
+
+Hai bước (2SLS):
+1. Regress treatment trên IV → predicted treatment.
+2. Regress outcome trên predicted treatment.
+
+## 4. 📏 Regression Discontinuity (RDD)
+
+Khi có **ngưỡng** quyết định ai nhận treatment:
+
+\`\`\`
+   Score on placement test:
+   < 60 → remedial AI tutor    (treatment)
+   ≥ 60 → standard class       (control)
+
+   Compare students NGAY QUANH ngưỡng (e.g., 55-65)
+   → giả định: gần như random ai ở 59 vs 61.
+\`\`\`
+
+\`\`\`
+   post-score
+        ▲
+        │                    ●
+        │              ●  ●
+        │          ●   ●          ← gap = causal effect
+        │      ●  ●        ●  ●
+        │  ●                  ●
+        └──────────────────────── pre-score
+                       60 (cutoff)
+\`\`\`
+
+## 5. 🎨 Propensity Score Matching (PSM)
+
+Match treated với control có **xác suất nhận treatment tương tự** (dựa trên covariates).
+
+\`\`\`python
+from sklearn.linear_model import LogisticRegression
+ps_model = LogisticRegression().fit(X, treated)
+df["ps"] = ps_model.predict_proba(X)[:, 1]
+# Nearest-neighbor match within caliper 0.05
+\`\`\`
+
+## 6. 🚦 Sensitivity analysis
+
+Quasi-experimental → luôn báo cáo:
+- **Robustness checks**: thử nhiều specification.
+- **Rosenbaum bounds**: kết quả còn đứng vững nếu có unobserved confounder bao nhiêu?
+- **Placebo tests**: chạy DiD trên thời kỳ không có intervention - nên thấy 0.`,
+        theoryEn: "Quasi-experimental: DiD (parallel trends), IV (2SLS), RDD (threshold), PSM (matching). Always run sensitivity/placebo checks.",
+        code: `# DiD with statsmodels
+import statsmodels.formula.api as smf
+
+# df has: outcome, treated (0/1), post (0/1), user_id
+model = smf.ols(
+    "outcome ~ treated * post + C(user_id)",
+    data=df
+).fit(cov_type="cluster", cov_kwds={"groups": df["user_id"]})
+
+# Coefficient on treated:post = DiD estimate
+print(model.summary())`,
+        codeLanguage: "python",
+        exercise: "Một tỉnh triển khai AI tutor cho lớp 9 từ 9/2025. Tỉnh láng giềng không. Bạn dùng method nào? Cần data gì?",
+        exerciseEn: "A province rolls out AI tutor for grade 9 from Sep 2025; neighbor doesn't. Which method? What data?",
+        quiz: [
+          { question: "DiD giả định gì?", options: ["Random treatment", "Parallel trends pre-intervention", "Lottery", "Bayesian"], answer: 1, explanation: "Không có giả định này → DiD không tin được." },
+          { question: "RDD dùng khi?", options: ["Random", "Có ngưỡng quyết định treatment - so sánh quanh cutoff", "Có lottery", "Đủ sample"], answer: 1, explanation: "Gần ngưỡng ≈ random." },
+          { question: "IV cần?", options: ["RCT", "Biến gây treatment nhưng không ảnh hưởng outcome trực tiếp", "Sample lớn", "Cutoff"], answer: 1, explanation: "Exclusion restriction." },
+          { question: "Placebo test trong DiD?", options: ["Lừa đảo", "Chạy DiD ở thời kỳ không có intervention - nên thấy effect ≈ 0", "Tăng power", "Decoration"], answer: 1, explanation: "Validation method." },
+          { question: "PSM matches dựa trên?", options: ["Outcome", "Propensity score = P(treated | X)", "Random", "Age only"], answer: 1, explanation: "Cân bằng covariate." },
+        ],
+      },
+      {
+        id: "edtech-rm-6",
+        title: "Đạo đức nghiên cứu trẻ em + viết paper publishable",
+        titleEn: "Research Ethics with Children + Writing Publishable Papers",
+        level: 4,
+        difficulty: "advanced",
+        theory: `## 1. 🛡️ IRB + Đạo đức với minor
+
+| Bước | Yêu cầu |
+|---|---|
+| **IRB approval** | Bắt buộc trước khi thu data (kể cả pilot) |
+| **Parental consent** | Văn bản, có chữ ký, dễ hiểu |
+| **Child assent** | Trẻ ≥7 tuổi tự đồng ý (kèm hình minh hoạ) |
+| **Right to withdraw** | Bất kỳ lúc nào, không hệ luỵ |
+| **Data minimization** | Chỉ thu cái thực sự cần |
+| **De-identification** | Hash + tách PII trước khi lưu |
+| **Equity** | Đảm bảo control không bị "thiệt" nghiêm trọng |
+
+## 2. 📝 Cấu trúc paper EdTech chuẩn (IMRaD)
+
+\`\`\`
+1. Introduction
+   - Vấn đề + gap + đóng góp (3-5 câu cuối intro = roadmap)
+2. Related work
+   - 3 cụm: pedagogy, technology, prior empirical
+3. Method
+   - Participants, design, intervention, measures, analysis
+   - Đủ chi tiết để REPLICATE
+4. Results
+   - Tables/figures với CI, effect size, không chỉ p-value
+5. Discussion
+   - Interpretation, limitations, threats, future work
+6. Conclusion
+   - 1 đoạn: take-away + impact
+\`\`\`
+
+## 3. 📊 Báo cáo statistics đầy đủ (APA)
+
+\`\`\`
+❌ "p < 0.05, significant."
+✅ "Treatment group scored higher than control,
+    M_T = 6.8 (SD=0.9), M_C = 6.2 (SD=1.0),
+    t(118) = 3.42, p = .0008, Cohen's d = 0.62,
+    95% CI [0.25, 0.99]."
+\`\`\`
+
+## 4. 🎯 Conference vs Journal targets
+
+| Venue | Vibe | Khi nào |
+|---|---|---|
+| **AIED** (Springer) | AI in Education | LLM tutor, RAG, NLP |
+| **EDM** | Educational Data Mining | Learning analytics, clustering |
+| **LAK** | Learning Analytics | Behavioral, dashboard |
+| **L@S** (ACM) | Learning at Scale | MOOC, large-scale |
+| **CHI** | HCI | Interaction, UX |
+| **Computers & Education** (Elsevier) | Journal | Empirical, longer |
+
+## 5. 🚀 Tăng cơ hội publish
+
+1. **Pre-registration** + công khai code/data.
+2. **Replication** của paper nổi tiếng (dễ accept hơn người nghĩ).
+3. **Negative results** vẫn publish được ở venue chuyên (PLOS).
+4. **Open peer review** (OpenReview) - feedback sớm.
+5. **Hợp tác với supervisor đã publish ở venue mục tiêu**.
+
+## 6. 🧭 PhD-track checklist (EdTech)
+
+- [ ] 1-2 first-author paper trước khi apply.
+- [ ] Code + data trên GitHub/OSF.
+- [ ] Research statement: vấn đề, method strength, vision 5 năm.
+- [ ] Email 3-5 supervisor có fit (đọc kỹ paper họ).
+- [ ] Funding plan: scholarship + RA position.`,
+        theoryEn: "IRB + child assent + de-identification mandatory. Paper structure: IMRaD with effect sizes + CI, not just p-values. Pre-register + open code to boost publishing.",
+        code: `// Research statement skeleton (markdown)
+const statement = \`
+# Research Statement - PhD in EdTech
+
+## Vision (5 years)
+Build adaptive AI tutors that **measurably** improve mastery
+for under-served learners (e.g. rural Vietnam, Finnish migrants).
+
+## Past work
+- Built HaiEduTech (12k+ active learners, 60+ Edge Functions)
+- Empirical: A/B tested LLM hints, +0.3 IELTS band, n=240
+
+## PhD project (proposal)
+RQ: Can FSRS-tuned LLM hints close the mastery gap between
+    high-SES and low-SES learners in a 12-week trial?
+
+## Why this lab
+Prof. X works on equitable adaptive systems (paper 2024)
+and supervises real-world EdTech deployments.
+\`;`,
+        codeLanguage: "javascript",
+        exercise: "Viết outline 1 paper bạn muốn submit cho AIED 2027 (RQ, method, expected contribution, 5 references).",
+        exerciseEn: "Outline a paper you'd submit to AIED 2027 (RQ, method, contribution, 5 refs).",
+        quiz: [
+          { question: "Trẻ ≥7 tuổi cần?", options: ["Chỉ parental consent", "Parental consent + CHILD ASSENT", "Không cần gì", "IRB chỉ là gợi ý"], answer: 1, explanation: "Đạo đức + luật yêu cầu cả hai." },
+          { question: "Báo cáo statistics nên có?", options: ["Chỉ p-value", "Mean, SD, t-stat, p, effect size, CI", "Chỉ effect size", "Chỉ CI"], answer: 1, explanation: "APA chuẩn." },
+          { question: "Replication study?", options: ["Bị chê", "Có giá trị + dễ accept hơn người nghĩ", "Cấm", "Chỉ cho PhD"], answer: 1, explanation: "Cộng đồng đang khuyến khích replication." },
+          { question: "AIED tập trung?", options: ["E-commerce", "AI in Education", "Hardware", "Robotics"], answer: 1, explanation: "Venue uy tín cho LLM tutor research." },
+          { question: "Equity trong RCT EdTech?", options: ["Không cần lo", "Đảm bảo control không thiệt thòi nghiêm trọng (vd có active control)", "Chỉ teach treatment", "Random treatment"], answer: 1, explanation: "Đạo đức không cho phép 'bỏ' học sinh." },
+        ],
+      },
+    ],
+  },
+];
