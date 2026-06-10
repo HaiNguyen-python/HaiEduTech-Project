@@ -739,7 +739,7 @@ const DsaCurriculum = () => {
 
 
           {/* Exercise bank */}
-          <section>
+          <section id="practice" className="scroll-mt-24">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">
