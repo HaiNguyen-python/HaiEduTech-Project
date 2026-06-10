@@ -88,7 +88,7 @@ export const chineseExtraThemes5: SpeakingTheme[] = [
 // ============================ FINNISH B2 ============================
 export const finnishExtraThemes6: SpeakingTheme[] = [
   {
-    id: "fi-b2-society", name: "Yhteiskunta", nameVi: "Xã hội & Quan điểm", icon: "🏛️", level: "C1",
+    id: "fi-b2-society", name: "Yhteiskunta", nameVi: "Xã hội & Quan điểm", icon: "🏛️", level: "B2",
     sentences: [
       { id: "fi5-s1", text: "Mielestäni ilmastonmuutos on aikamme suurin haaste.", translation: "Theo tôi, biến đổi khí hậu là thách thức lớn nhất của thời đại.", difficulty: "hard", theme: "society" },
       { id: "fi5-s2", text: "Olen sitä mieltä, että koulutus pitäisi olla ilmaista kaikille.", translation: "Tôi cho rằng giáo dục nên miễn phí cho mọi người.", difficulty: "hard", theme: "society" },
@@ -103,7 +103,7 @@ export const finnishExtraThemes6: SpeakingTheme[] = [
     ],
   },
   {
-    id: "fi-b2-work", name: "Työelämä", nameVi: "Đời sống công việc", icon: "💼", level: "C1",
+    id: "fi-b2-work", name: "Työelämä", nameVi: "Đời sống công việc", icon: "💼", level: "B2",
     sentences: [
       { id: "fi5-w1", text: "Haluaisin keskustella kanssasi uudesta projektista.", translation: "Tôi muốn trao đổi với bạn về dự án mới.", difficulty: "medium", theme: "work" },
       { id: "fi5-w2", text: "Voisitko lähettää minulle kokouksen pöytäkirjan?", translation: "Bạn có thể gửi tôi biên bản cuộc họp được không?", difficulty: "medium", theme: "work" },
