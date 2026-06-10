@@ -16,7 +16,7 @@ const corsHeaders = {
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   try {
-    const { mode, query, topic, content, language } = await req.json();
+    const { mode, query, topic, content, language, step, status, note, context } = await req.json();
     if (!mode) {
       return new Response(JSON.stringify({ error: "Missing mode" }), {
         status: 400,
