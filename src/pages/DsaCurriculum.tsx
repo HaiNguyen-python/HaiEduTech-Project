@@ -478,10 +478,33 @@ const DsaCurriculum = () => {
                 "A foundation roadmap to build solid algorithmic thinking — from linear structures to graphs, trees and classic algorithms.",
               )}
             </p>
+
+            {/* Quick navigation */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+              <a
+                href="#curriculum"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-secondary text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+              >
+                📚 {t("Lộ trình", "Curriculum")}
+              </a>
+              <a
+                href="#lessons"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-secondary text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+              >
+                📖 {t("Bài học", "Lessons")}
+              </a>
+              <a
+                href="#practice"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-primary to-emerald-500 text-white shadow hover:opacity-90 transition-opacity"
+              >
+                💪 {t("Kho luyện tập", "Practice Bank")}
+              </a>
+            </div>
           </section>
 
           {/* Curriculum sections */}
-          <section className="space-y-10 mb-16">
+          <section id="curriculum" className="space-y-10 mb-16 scroll-mt-24">
+
             {sections.map((sec, idx) => (
               <motion.div
                 key={sec.id}
