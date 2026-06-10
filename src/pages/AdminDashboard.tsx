@@ -55,6 +55,7 @@ import ReportLogsTab from "@/components/admin/ReportLogsTab";
 import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
 import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
 import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
+import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -126,6 +127,24 @@ const AdminDashboard = () => {
   const [userMeta, setUserMeta] = useState<Map<string, { lastLogin: number; totalSeconds: number }>>(new Map());
   const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
   const [activeTab, setActiveTab] = useState<string>("overview");
+
+  // Deep-link support: /admin?tab=health (used by Health Monitor notifications)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const t = params.get("tab");
+    if (!t) return;
+    const groupMap: Record<string, "overview" | "students" | "learning" | "operations"> = {
+      overview: "overview", system: "overview",
+      students: "students", insights: "students", attendance: "students", feedback: "students", chatbot: "students",
+      "rl-engine": "learning", strategy: "learning", dictionary: "learning",
+      income: "operations", assistants: "operations", schedule: "operations",
+      "report-logs": "operations", "service-requests": "operations", health: "operations",
+    };
+    if (groupMap[t]) {
+      setTabGroup(groupMap[t]);
+      setActiveTab(t);
+    }
+  }, []);
   const [searchQuery, setSearchQuery] = useState("");
   const [classStats, setClassStats] = useState({
     totalStudents: 0,
@@ -617,6 +636,7 @@ const AdminDashboard = () => {
                     <TabsTrigger value="schedule" className="gap-1.5"><Clock className="w-3.5 h-3.5" /> {t("Lịch học", "Schedule")}</TabsTrigger>
                     <TabsTrigger value="report-logs" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Báo cáo Email", "Report Logs")}</TabsTrigger>
                     <TabsTrigger value="service-requests" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Đơn đăng ký Web", "Service Requests")}</TabsTrigger>
+                    <TabsTrigger value="health" className="gap-1.5"><Activity className="w-3.5 h-3.5" /> 🩺 Health Monitor</TabsTrigger>
                   </>
                 )}
               </TabsList>
@@ -1204,6 +1224,10 @@ const AdminDashboard = () => {
 
               <TabsContent value="service-requests">
                 <ServiceRequestsTab />
+              </TabsContent>
+
+              <TabsContent value="health">
+                <HealthMonitorTab />
               </TabsContent>
 
               <TabsContent value="dictionary">

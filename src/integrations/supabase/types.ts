@@ -1129,6 +1129,42 @@ export type Database = {
         }
         Relationships: []
       }
+      health_check_runs: {
+        Row: {
+          created_at: string
+          duration_ms: number
+          failed: number
+          id: string
+          passed: number
+          results: Json
+          total: number
+          triggered_by: string
+          warned: number
+        }
+        Insert: {
+          created_at?: string
+          duration_ms?: number
+          failed?: number
+          id?: string
+          passed?: number
+          results?: Json
+          total?: number
+          triggered_by?: string
+          warned?: number
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number
+          failed?: number
+          id?: string
+          passed?: number
+          results?: Json
+          total?: number
+          triggered_by?: string
+          warned?: number
+        }
+        Relationships: []
+      }
       hsk_example_translations: {
         Row: {
           created_at: string
