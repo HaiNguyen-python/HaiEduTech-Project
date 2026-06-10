@@ -19,14 +19,21 @@ import {
   CheckCircle2,
   XCircle,
   Lightbulb,
+  Hash,
+  Sigma,
+  Binary,
+  Calculator,
+  Dice5,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { dsaLessons, type DsaSectionId } from "@/data/dsaLessons";
+import { dsaLessons, type DsaSectionId, type DsaQuiz } from "@/data/dsaLessons";
+import { dsaExtraQuizzes } from "@/data/dsaExtraQuizzes";
 import DsaTheoryText from "@/components/programming/DsaTheoryText";
+import CodeBlock from "@/components/CodeBlock";
 
 type Tier = "easy" | "medium" | "hard";
 
@@ -135,6 +142,68 @@ const sections: DsaSection[] = [
           "Phân rã bài toán bằng đệ quy và đánh giá độ phức tạp thuật toán theo Big O.",
         descEn:
           "Decomposing problems with recursion and reasoning about algorithmic complexity via Big O.",
+      },
+    ],
+  },
+  {
+    id: "applied-math",
+    titleVi: "Phần 4: Toán ứng dụng cho CNTT",
+    titleEn: "Part 4: Applied Math for IT",
+    accent: "from-amber-500 to-orange-500",
+    topics: [
+      {
+        icon: Hash,
+        titleVi: "Hashing & Hàm băm",
+        titleEn: "Hashing & Hash Functions",
+        descVi:
+          "Hàm băm, va chạm (collision), bảng băm, MD5/SHA cho mật khẩu — nền tảng của HashMap, cache và blockchain.",
+        descEn:
+          "Hash functions, collisions, hash tables, MD5/SHA for passwords — the foundation of HashMaps, caches and blockchains.",
+      },
+      {
+        icon: Sigma,
+        titleVi: "Số học modular & GCD/LCM",
+        titleEn: "Modular Arithmetic & GCD/LCM",
+        descVi:
+          "Phép chia dư, nghịch đảo modulo, thuật toán Euclid, ứng dụng trong mật mã RSA và kiểm tra tính chia hết.",
+        descEn:
+          "Modulo, modular inverse, Euclid's algorithm, used in RSA cryptography and divisibility checks.",
+      },
+      {
+        icon: Binary,
+        titleVi: "Bit manipulation",
+        titleEn: "Bit Manipulation",
+        descVi:
+          "AND, OR, XOR, dịch bit, bitmask — tối ưu bộ nhớ, kiểm tra số chẵn lẻ, hoán đổi không dùng biến trung gian.",
+        descEn:
+          "AND, OR, XOR, shifts, bitmasks — memory tricks, parity checks, swap without temp variables.",
+      },
+      {
+        icon: Dice5,
+        titleVi: "Xác suất & Tổ hợp",
+        titleEn: "Probability & Combinatorics",
+        descVi:
+          "Hoán vị, tổ hợp, kỳ vọng, ứng dụng trong A/B testing, hashing xác suất (Bloom filter) và phân tích thuật toán ngẫu nhiên.",
+        descEn:
+          "Permutations, combinations, expectation, used in A/B testing, probabilistic hashing (Bloom filter) and randomized algorithm analysis.",
+      },
+      {
+        icon: Calculator,
+        titleVi: "Đại số tuyến tính cho ML/AI",
+        titleEn: "Linear Algebra for ML/AI",
+        descVi:
+          "Vector, ma trận, phép nhân ma trận, không gian vector — nền tảng của Machine Learning, đồ họa máy tính và tìm kiếm ngữ nghĩa.",
+        descEn:
+          "Vectors, matrices, matrix multiplication, vector spaces — the foundation of ML, computer graphics and semantic search.",
+      },
+      {
+        icon: Network,
+        titleVi: "Lý thuyết đồ thị nâng cao",
+        titleEn: "Advanced Graph Theory",
+        descVi:
+          "PageRank, network flow, Union-Find — ứng dụng trong xếp hạng web, mạng xã hội và phân tích cộng đồng.",
+        descEn:
+          "PageRank, network flow, Union-Find — used in web ranking, social networks and community detection.",
       },
     ],
   },
@@ -273,6 +342,56 @@ const exercises: DsaExercise[] = [
     hintVi: "Min-heap + danh sách kề có trọng số. Thư giãn cạnh.",
     hintEn: "Min-heap + weighted adjacency list. Relax edges.",
   },
+  // Applied math
+  {
+    tier: "easy",
+    titleVi: "Tính GCD (UCLN) bằng thuật toán Euclid",
+    titleEn: "Compute GCD via Euclid's algorithm",
+    hintVi: "gcd(a,b) = gcd(b, a mod b), dừng khi b = 0.",
+    hintEn: "gcd(a,b) = gcd(b, a mod b), stop when b = 0.",
+  },
+  {
+    tier: "easy",
+    titleVi: "Kiểm tra số chẵn/lẻ bằng phép AND bit",
+    titleEn: "Check odd/even using bitwise AND",
+    hintVi: "n & 1 → 0 nếu chẵn, 1 nếu lẻ.",
+    hintEn: "n & 1 → 0 if even, 1 if odd.",
+  },
+  {
+    tier: "medium",
+    titleVi: "Đếm số bit 1 trong biểu diễn nhị phân",
+    titleEn: "Count set bits (Hamming weight)",
+    hintVi: "Mẹo n & (n-1) xoá bit 1 thấp nhất mỗi vòng lặp.",
+    hintEn: "Trick: n & (n-1) clears the lowest set bit each iteration.",
+  },
+  {
+    tier: "medium",
+    titleVi: "Hash chuỗi bằng rolling hash (Rabin-Karp)",
+    titleEn: "Rolling hash for string matching (Rabin-Karp)",
+    hintVi: "Hash cửa sổ trượt với modulo nguyên tố, so khớp O(n+m).",
+    hintEn: "Sliding-window hash with prime modulus, O(n+m) matching.",
+  },
+  {
+    tier: "medium",
+    titleVi: "Nghịch đảo modulo (modular inverse) bằng Fermat",
+    titleEn: "Modular inverse via Fermat's little theorem",
+    hintVi: "Với p nguyên tố: a^(-1) ≡ a^(p-2) (mod p), dùng fast exponentiation.",
+    hintEn: "When p is prime: a^(-1) ≡ a^(p-2) (mod p), via fast exponentiation.",
+  },
+  {
+    tier: "hard",
+    titleVi: "PageRank đơn giản trên đồ thị web nhỏ",
+    titleEn: "Simple PageRank on a small web graph",
+    hintVi: "Lặp nhân ma trận chuyển tiếp với vector điểm tới khi hội tụ.",
+    hintEn: "Iterate matrix-vector multiplication until the score vector converges.",
+  },
+  {
+    tier: "hard",
+    titleVi: "Union-Find (DSU) với path compression",
+    titleEn: "Union-Find (DSU) with path compression",
+    hintVi: "find() nén đường, union theo rank — gần O(1) amortised.",
+    hintEn: "find() compresses paths, union-by-rank — near O(1) amortised.",
+  },
 ];
 
 const tierMeta: Record<Tier, { labelVi: string; labelEn: string; badge: string; border: string }> = {
@@ -359,10 +478,33 @@ const DsaCurriculum = () => {
                 "A foundation roadmap to build solid algorithmic thinking — from linear structures to graphs, trees and classic algorithms.",
               )}
             </p>
+
+            {/* Quick navigation */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+              <a
+                href="#curriculum"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-secondary text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+              >
+                📚 {t("Lộ trình", "Curriculum")}
+              </a>
+              <a
+                href="#lessons"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-secondary text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+              >
+                📖 {t("Bài học", "Lessons")}
+              </a>
+              <a
+                href="#practice"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-primary to-emerald-500 text-white shadow hover:opacity-90 transition-opacity"
+              >
+                💪 {t("Kho luyện tập", "Practice Bank")}
+              </a>
+            </div>
           </section>
 
           {/* Curriculum sections */}
-          <section className="space-y-10 mb-16">
+          <section id="curriculum" className="space-y-10 mb-16 scroll-mt-24">
+
             {sections.map((sec, idx) => (
               <motion.div
                 key={sec.id}
@@ -411,7 +553,7 @@ const DsaCurriculum = () => {
           </section>
 
           {/* Lessons */}
-          <section className="mb-16">
+          <section id="lessons" className="mb-16 scroll-mt-24">
             <div className="flex items-center gap-2 mb-2">
               <BookOpen className="w-5 h-5 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">
@@ -447,8 +589,8 @@ const DsaCurriculum = () => {
             <div className="space-y-4">
               {visibleLessons.map((lesson, i) => {
                 const open = openLesson === lesson.id;
-                const picked = quizPick[lesson.id];
-                const correct = picked === lesson.quiz.answer;
+                const extras = dsaExtraQuizzes[lesson.id] ?? [];
+                const allQuizzes: DsaQuiz[] = [lesson.quiz, ...extras];
                 return (
                   <motion.div
                     key={lesson.id}
@@ -475,6 +617,9 @@ const DsaCurriculum = () => {
                           <h3 className="font-semibold text-foreground">
                             {lang === "vi" ? lesson.titleVi : lesson.titleEn}
                           </h3>
+                          <Badge variant="secondary" className="text-[10px]">
+                            {allQuizzes.length} {t("câu quiz", "quizzes")}
+                          </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
                           {lang === "vi" ? lesson.summaryVi : lesson.summaryEn}
@@ -492,14 +637,10 @@ const DsaCurriculum = () => {
                           lang={lang}
                         />
 
-
-                        <div className="rounded-xl bg-zinc-950 text-zinc-100 p-4 overflow-x-auto text-xs">
-                          <div className="flex items-center gap-2 mb-2 text-zinc-400">
-                            <Code2 className="w-3.5 h-3.5" />
-                            <span>{lesson.codeLanguage}</span>
-                          </div>
-                          <div className="font-mono whitespace-pre">{lesson.code}</div>
-                        </div>
+                        <CodeBlock
+                          code={lesson.code}
+                          language={lesson.codeLanguage || "python"}
+                        />
 
                         <div className="flex items-start gap-2 text-sm bg-primary/5 border border-primary/20 rounded-lg p-3">
                           <Gauge className="w-4 h-4 text-primary mt-0.5 shrink-0" />
@@ -512,71 +653,81 @@ const DsaCurriculum = () => {
                           <div className="flex items-center gap-2 mb-3">
                             <Lightbulb className="w-4 h-4 text-amber-500" />
                             <span className="text-sm font-semibold text-foreground">
-                              {t("Quiz nhanh", "Quick Quiz")}
+                              {t(`Quiz củng cố (${allQuizzes.length} câu)`, `Reinforcement Quiz (${allQuizzes.length} questions)`)}
                             </span>
                           </div>
-                          <p className="text-sm text-foreground mb-3">
-                            {lang === "vi" ? lesson.quiz.questionVi : lesson.quiz.questionEn}
-                          </p>
-                          <div className="grid sm:grid-cols-2 gap-2">
-                            {lesson.quiz.options.map((opt, idx) => {
-                              const isPicked = picked === idx;
-                              const isAnswer = lesson.quiz.answer === idx;
-                              const show = picked !== undefined;
-                              const cls = !show
-                                ? "border-border/60 hover:border-primary/50"
-                                : isAnswer
-                                ? "border-green-500 bg-green-500/10"
-                                : isPicked
-                                ? "border-red-500 bg-red-500/10"
-                                : "border-border/40 opacity-60";
+                          <div className="space-y-5">
+                            {allQuizzes.map((q, qi) => {
+                              const qKey = `${lesson.id}:${qi}`;
+                              const picked = quizPick[qKey];
+                              const correct = picked === q.answer;
                               return (
-                                <button
-                                  key={idx}
-                                  onClick={() =>
-                                    setQuizPick((prev) => ({ ...prev, [lesson.id]: idx }))
-                                  }
-                                  className={`text-left text-sm px-3 py-2 rounded-lg border transition-all ${cls}`}
-                                >
-                                  {opt}
-                                </button>
+                                <div key={qKey} className="pb-4 border-b border-border/40 last:border-0 last:pb-0">
+                                  <p className="text-sm text-foreground mb-3">
+                                    <span className="font-semibold text-primary mr-1">{qi + 1}.</span>
+                                    {lang === "vi" ? q.questionVi : q.questionEn}
+                                  </p>
+                                  <div className="grid sm:grid-cols-2 gap-2">
+                                    {q.options.map((opt, idx) => {
+                                      const isPicked = picked === idx;
+                                      const isAnswer = q.answer === idx;
+                                      const show = picked !== undefined;
+                                      const cls = !show
+                                        ? "border-border/60 hover:border-primary/50"
+                                        : isAnswer
+                                        ? "border-green-500 bg-green-500/10"
+                                        : isPicked
+                                        ? "border-red-500 bg-red-500/10"
+                                        : "border-border/40 opacity-60";
+                                      return (
+                                        <button
+                                          key={idx}
+                                          onClick={() =>
+                                            setQuizPick((prev) => ({ ...prev, [qKey]: idx }))
+                                          }
+                                          className={`text-left text-sm px-3 py-2 rounded-lg border transition-all ${cls}`}
+                                        >
+                                          {opt}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                  {picked !== undefined && (
+                                    <div
+                                      className={`mt-3 flex items-start gap-2 text-sm ${
+                                        correct ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                                      }`}
+                                    >
+                                      {correct ? (
+                                        <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
+                                      ) : (
+                                        <XCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                                      )}
+                                      <span>
+                                        {lang === "vi" ? q.explanationVi : q.explanationEn}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {picked !== undefined && (
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="mt-2"
+                                      onClick={() =>
+                                        setQuizPick((prev) => {
+                                          const next = { ...prev };
+                                          delete next[qKey];
+                                          return next;
+                                        })
+                                      }
+                                    >
+                                      {t("Thử lại", "Try again")}
+                                    </Button>
+                                  )}
+                                </div>
                               );
                             })}
                           </div>
-                          {picked !== undefined && (
-                            <div
-                              className={`mt-3 flex items-start gap-2 text-sm ${
-                                correct ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
-                              }`}
-                            >
-                              {correct ? (
-                                <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
-                              ) : (
-                                <XCircle className="w-4 h-4 mt-0.5 shrink-0" />
-                              )}
-                              <span>
-                                {lang === "vi"
-                                  ? lesson.quiz.explanationVi
-                                  : lesson.quiz.explanationEn}
-                              </span>
-                            </div>
-                          )}
-                          {picked !== undefined && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="mt-2"
-                              onClick={() =>
-                                setQuizPick((prev) => {
-                                  const next = { ...prev };
-                                  delete next[lesson.id];
-                                  return next;
-                                })
-                              }
-                            >
-                              {t("Thử lại", "Try again")}
-                            </Button>
-                          )}
                         </div>
                       </div>
                     )}
@@ -586,8 +737,9 @@ const DsaCurriculum = () => {
             </div>
           </section>
 
+
           {/* Exercise bank */}
-          <section>
+          <section id="practice" className="scroll-mt-24">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">

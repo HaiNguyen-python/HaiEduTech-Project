@@ -1,9 +1,11 @@
 /**
  * DsaTheoryText
  * Splits a long DSA theory paragraph into easy-to-scan sections.
- * - Inserts headings before key phrases (Vi + En)
- * - Converts inline "(1) ... (2) ... (3) ..." enumerations into bullet lists
- * - Adds spacing between sentences for better readability
+ *
+ * Strict marker matching: a section heading must be one of the known phrases,
+ * START a sentence (beginning of string, or right after newline / ". " / "! ")
+ * AND be followed by ":" — this prevents false positives like the literal
+ * phrase "ví dụ" appearing inside another sentence (e.g. "thử bằng ví dụ phản ví dụ").
  */
 import React from "react";
 import { Lightbulb, AlertTriangle, Zap, Info, Sparkles, BookOpen } from "lucide-react";
@@ -13,88 +15,142 @@ interface Props {
   lang: "vi" | "en";
 }
 
-// Section markers: phrase -> {label, icon, color}
-const MARKERS_VI: { re: RegExp; label: string; icon: React.ComponentType<any>; color: string }[] = [
-  { re: /Bẫy thường gặp\s*:?/i, label: "Bẫy thường gặp", icon: AlertTriangle, color: "text-amber-500" },
-  { re: /Nhược điểm\s*:?/i, label: "Nhược điểm", icon: AlertTriangle, color: "text-rose-500" },
-  { re: /Ưu điểm\s*:?/i, label: "Ưu điểm", icon: Sparkles, color: "text-emerald-500" },
-  { re: /Mẹo\s*:?/i, label: "Mẹo", icon: Lightbulb, color: "text-yellow-500" },
-  { re: /Lưu ý\s*:?/i, label: "Lưu ý", icon: Info, color: "text-sky-500" },
-  { re: /Ứng dụng\s*:?/i, label: "Ứng dụng thực tế", icon: Zap, color: "text-violet-500" },
-  { re: /Ví dụ\s*:?/i, label: "Ví dụ", icon: BookOpen, color: "text-blue-500" },
+interface MarkerDef {
+  // Strict phrase (must appear capitalised, at sentence boundary, with colon)
+  phrase: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+}
+
+const MARKERS_VI: MarkerDef[] = [
+  { phrase: "Bẫy thường gặp", label: "Bẫy thường gặp", icon: AlertTriangle, color: "text-amber-500" },
+  { phrase: "Bẫy", label: "Bẫy", icon: AlertTriangle, color: "text-amber-500" },
+  { phrase: "Nhược điểm", label: "Nhược điểm", icon: AlertTriangle, color: "text-rose-500" },
+  { phrase: "Ưu điểm", label: "Ưu điểm", icon: Sparkles, color: "text-emerald-500" },
+  { phrase: "Mẹo", label: "Mẹo", icon: Lightbulb, color: "text-yellow-500" },
+  { phrase: "Lưu ý", label: "Lưu ý", icon: Info, color: "text-sky-500" },
+  { phrase: "Ứng dụng", label: "Ứng dụng thực tế", icon: Zap, color: "text-violet-500" },
+  { phrase: "Quy trình", label: "Quy trình", icon: Info, color: "text-sky-500" },
+  { phrase: "Bài kinh điển", label: "Bài kinh điển", icon: BookOpen, color: "text-blue-500" },
+  { phrase: "Ví dụ", label: "Ví dụ", icon: BookOpen, color: "text-blue-500" },
 ];
 
-const MARKERS_EN: { re: RegExp; label: string; icon: React.ComponentType<any>; color: string }[] = [
-  { re: /Common pitfalls\s*:?/i, label: "Common pitfalls", icon: AlertTriangle, color: "text-amber-500" },
-  { re: /Pitfalls\s*:?/i, label: "Pitfalls", icon: AlertTriangle, color: "text-amber-500" },
-  { re: /Downside\s*:?/i, label: "Downside", icon: AlertTriangle, color: "text-rose-500" },
-  { re: /Upside\s*:?/i, label: "Upside", icon: Sparkles, color: "text-emerald-500" },
-  { re: /Tips?\s*:?/i, label: "Tip", icon: Lightbulb, color: "text-yellow-500" },
-  { re: /Notes?\s*:?/i, label: "Note", icon: Info, color: "text-sky-500" },
-  { re: /Applications?\s*:?/i, label: "Real-world uses", icon: Zap, color: "text-violet-500" },
-  { re: /Examples?\s*:?/i, label: "Example", icon: BookOpen, color: "text-blue-500" },
+const MARKERS_EN: MarkerDef[] = [
+  { phrase: "Common pitfalls", label: "Common pitfalls", icon: AlertTriangle, color: "text-amber-500" },
+  { phrase: "Pitfalls", label: "Pitfalls", icon: AlertTriangle, color: "text-amber-500" },
+  { phrase: "Downside", label: "Downside", icon: AlertTriangle, color: "text-rose-500" },
+  { phrase: "Upside", label: "Upside", icon: Sparkles, color: "text-emerald-500" },
+  { phrase: "Tip", label: "Tip", icon: Lightbulb, color: "text-yellow-500" },
+  { phrase: "Tips", label: "Tips", icon: Lightbulb, color: "text-yellow-500" },
+  { phrase: "Note", label: "Note", icon: Info, color: "text-sky-500" },
+  { phrase: "Notes", label: "Notes", icon: Info, color: "text-sky-500" },
+  { phrase: "Applications", label: "Real-world uses", icon: Zap, color: "text-violet-500" },
+  { phrase: "Application", label: "Real-world use", icon: Zap, color: "text-violet-500" },
+  { phrase: "Classic problems", label: "Classic problems", icon: BookOpen, color: "text-blue-500" },
+  { phrase: "Example", label: "Example", icon: BookOpen, color: "text-blue-500" },
+  { phrase: "Examples", label: "Examples", icon: BookOpen, color: "text-blue-500" },
 ];
 
 interface Block {
   label?: string;
-  icon?: React.ComponentType<any>;
+  icon?: React.ComponentType<{ className?: string }>;
   color?: string;
   body: string;
 }
 
-const splitInlineList = (text: string): string[] | null => {
-  // Detect "(1) ... (2) ... (3) ..."
-  const matches = text.match(/\(\d+\)/g);
-  if (!matches || matches.length < 2) return null;
-  const parts = text.split(/\s*\(\d+\)\s*/).map((s) => s.trim()).filter(Boolean);
-  return parts.length >= 2 ? parts : null;
-};
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-const splitIntoBlocks = (text: string, lang: "vi" | "en"): Block[] => {
+const splitIntoBlocks = (raw: string, lang: "vi" | "en"): Block[] => {
+  // Normalize literal "\n" sequences and collapse whitespace around newlines
+  const text = raw.replace(/\\n/g, "\n").trim();
   const markers = lang === "vi" ? MARKERS_VI : MARKERS_EN;
-  // Build a combined regex with capture so we can split while keeping markers
-  const combined = new RegExp(
-    "(" + markers.map((m) => m.re.source).join("|") + ")",
-    "gi"
-  );
-  const pieces = text.split(combined).filter((p) => p && p.trim());
+
+  // Build a strict regex: marker must be preceded by start / newline / sentence end,
+  // and followed by ":" — this prevents matching inline lowercase / mid-sentence uses.
+  // We use a capture group so split() keeps the marker text.
+  const phraseAlt = markers.map((m) => escapeRe(m.phrase)).join("|");
+  const re = new RegExp(`(?:^|(?<=[.!?]\\s)|(?<=\\n))((?:${phraseAlt}))\\s*:`, "g");
+
   const blocks: Block[] = [];
-  let i = 0;
-  // First piece (before any marker) is the intro
-  if (pieces.length && !markers.some((m) => m.re.test(pieces[0]))) {
-    blocks.push({ body: pieces[0].trim() });
-    i = 1;
-  }
-  while (i < pieces.length) {
-    const head = pieces[i];
-    const matched = markers.find((m) => m.re.test(head));
-    if (matched) {
-      const body = (pieces[i + 1] || "").trim();
-      blocks.push({ label: matched.label, icon: matched.icon, color: matched.color, body });
-      i += 2;
+  let lastIndex = 0;
+  let lastMarker: MarkerDef | null = null;
+
+  const pushBlock = (body: string, marker: MarkerDef | null) => {
+    const trimmed = body.trim().replace(/^[:\s]+/, "").trim();
+    if (!trimmed) return;
+    if (marker) {
+      blocks.push({ label: marker.label, icon: marker.icon, color: marker.color, body: trimmed });
     } else {
-      blocks.push({ body: head.trim() });
-      i += 1;
+      blocks.push({ body: trimmed });
     }
+  };
+
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(text)) !== null) {
+    const matchedPhrase = match[1];
+    const start = match.index;
+    // Body for the PREVIOUS block ends just before this match
+    const prevBody = text.slice(lastIndex, start);
+    pushBlock(prevBody, lastMarker);
+    // Find the marker definition
+    lastMarker = markers.find((m) => m.phrase === matchedPhrase) ?? null;
+    lastIndex = start + match[0].length;
   }
+  // Final block
+  pushBlock(text.slice(lastIndex), lastMarker);
+
   return blocks;
 };
 
-// Add line break after sentence-ending punctuation followed by capital — but
-// keep it lightweight: split on " — " (em-dash) groups and on ". " every ~2 sentences
-const renderBody = (body: string) => {
-  const list = splitInlineList(body);
-  if (list) {
+// Convert "(1) ... (2) ... (3) ..." into a bullet list — but only when there
+// are AT LEAST 2 parenthesised numbers AND each follows a space (so we don't
+// shred set-literals like "{1, 3, 4}" which have no parens anyway).
+const splitInlineList = (text: string): string[] | null => {
+  const matches = text.match(/(?:^|[\s—–-])\(\d+\)\s/g);
+  if (!matches || matches.length < 2) return null;
+  const parts = text
+    .split(/(?:^|\s)\(\d+\)\s+/)
+    .map((s) => s.trim().replace(/[;,.]\s*$/, ""))
+    .filter(Boolean);
+  return parts.length >= 2 ? parts : null;
+};
+
+const renderBody = (body: string): React.ReactNode => {
+  // If body has explicit newlines, treat each non-empty line as a paragraph
+  if (/\n/.test(body)) {
+    const paras = body.split(/\n+/).map((s) => s.trim()).filter(Boolean);
     return (
-      <ul className="list-disc pl-5 space-y-1.5">
-        {list.map((item, i) => (
-          <li key={i} className="leading-relaxed">{item}</li>
+      <div className="space-y-2.5">
+        {paras.map((p, i) => (
+          <p key={i} className="leading-relaxed">{p}</p>
         ))}
-      </ul>
+      </div>
     );
   }
-  // Break into sentences and group every 2 for readable paragraphs
-  const sentences = body.split(/(?<=[.!?])\s+(?=[A-ZÀ-ỹ])/);
+
+  const list = splitInlineList(body);
+  if (list) {
+    // Find the lead-in (text before the first "(1)")
+    const leadMatch = body.match(/^(.*?)(?=(?:^|\s)\(1\)\s)/s);
+    const lead = leadMatch ? leadMatch[1].trim().replace(/[:：]\s*$/, "") : "";
+    return (
+      <div className="space-y-2">
+        {lead && <p className="leading-relaxed">{lead}:</p>}
+        <ul className="list-disc pl-5 space-y-1.5">
+          {list.map((item, i) => (
+            <li key={i} className="leading-relaxed">{item}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  // Group every 2 sentences for readable paragraphs
+  const sentences = body.split(/(?<=[.!?])\s+(?=[A-ZÀ-ỹ0-9])/);
+  if (sentences.length <= 1) {
+    return <p className="leading-relaxed">{body}</p>;
+  }
   const paras: string[] = [];
   for (let i = 0; i < sentences.length; i += 2) {
     paras.push(sentences.slice(i, i + 2).join(" "));
