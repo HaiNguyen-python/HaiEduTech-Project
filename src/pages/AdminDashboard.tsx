@@ -55,6 +55,7 @@ import ReportLogsTab from "@/components/admin/ReportLogsTab";
 import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
 import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
 import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
+import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
