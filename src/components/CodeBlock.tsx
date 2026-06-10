@@ -36,6 +36,18 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
     lang === "sh" ? "bash" :
     lang;
 
+  /**
+   * Detect ASCII-art / diagram blocks. These look like code but rely on
+   * exact column alignment (box-drawing chars, arrows, pipes). Wrapping
+   * them or applying `whitespace-pre-wrap` breaks the layout — show them
+   * as monospace with horizontal scroll instead.
+   */
+  const isDiagram =
+    ["text", "ascii", "diagram", "ascii-art", "plain", "txt"].includes(lang) ||
+    /[┌┐└┘├┤┬┴┼─│╔╗╚╝╠╣╦╩╬═║]/.test(code) ||
+    (/^\s*[|+\-]/m.test(code) && /[|+\-]\s*$/m.test(code) && /[▲▼◄►▶◀↑↓→←]/.test(code));
+  const preserveLayout = isDiagram;
+
   return (
     <div className={`my-4 rounded-xl overflow-hidden border border-slate-800 bg-[#0f172a] shadow-md ${className}`}>
       {showHeader && (
@@ -64,7 +76,7 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
       )}
       <div className="overflow-x-auto">
         <SyntaxHighlighter
-          language={normalizedLang}
+          language={preserveLayout ? "text" : normalizedLang}
           style={oneDark}
           customStyle={{
             margin: 0,
@@ -74,21 +86,21 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
             lineHeight: 1.7,
             fontFamily:
               "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-            fontFeatureSettings: '"liga" 1, "calt" 1',
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
+            fontFeatureSettings: preserveLayout ? "normal" : '"liga" 1, "calt" 1',
+            whiteSpace: preserveLayout ? "pre" : "pre-wrap",
+            wordBreak: preserveLayout ? "normal" : "break-word",
           }}
           codeTagProps={{
             style: {
               fontFamily:
                 "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-              fontFeatureSettings: '"liga" 1, "calt" 1',
-              whiteSpace: "pre-wrap",
-              wordBreak: "break-word",
+              fontFeatureSettings: preserveLayout ? "normal" : '"liga" 1, "calt" 1',
+              whiteSpace: preserveLayout ? "pre" : "pre-wrap",
+              wordBreak: preserveLayout ? "normal" : "break-word",
             },
           }}
           showLineNumbers={false}
-          wrapLongLines={true}
+          wrapLongLines={!preserveLayout}
         >
           {code.replace(/\n$/, "")}
         </SyntaxHighlighter>
