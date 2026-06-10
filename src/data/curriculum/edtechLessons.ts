@@ -95,6 +95,8 @@ EdTech uses web, mobile, AI, and data to help learners progress **faster, deeper
 
 ## 3. 🏗️ Architecture stack
 
+:::diagram type="edtech-architecture":::
+
 Frontend (React/RN, PWA) → API (REST/Edge Functions) → Database (Postgres + vector) → AI services (TTS, STT, LLM, embeddings) → Analytics (events, cohorts, A/B). Every layer must be **versioned and instrumented** so you can experiment safely.
 
 ## 4. 🎮 Purposeful gamification
