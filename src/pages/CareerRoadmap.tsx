@@ -3,7 +3,7 @@
  * @description AI-powered personalized IT career roadmap (Data Eng & AI focused).
  * @copyright 2026 HaiEduTech, ILC.
  */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -41,8 +41,140 @@ const LEVELS = [
   { id: "mid", vi: "Mid-level (2-5 năm)", en: "Mid-level (2-5 yrs)" },
 ];
 
+const createFallbackRoadmap = ({
+  role,
+  currentLevel,
+  hoursPerWeek,
+  targetMonths,
+  language,
+}: {
+  role: string;
+  currentLevel: string;
+  hoursPerWeek: number;
+  targetMonths: number;
+  language: string;
+}) => {
+  const vi = language === "vi";
+  const phaseWeeks = Math.max(4, Math.ceil((targetMonths * 4) / 3));
+
+  return {
+    roleSummary: vi
+      ? `${role} xây dựng năng lực kỹ thuật để giải quyết bài toán thực tế bằng dữ liệu, phần mềm và tự động hóa. Với trình độ ${currentLevel}, lộ trình nên tập trung vào nền tảng chắc, dự án nhỏ có thể demo, rồi nâng dần sang công cụ chuyên môn trong ${targetMonths} tháng.`
+      : `${role} requires practical technical depth across data, software, and automation. At ${currentLevel}, the safest path is to build strong fundamentals first, ship small demo-ready projects, then move into role-specific tools across ${targetMonths} months.`,
+    coreSkills: [
+      { skill: "Programming fundamentals", importance: "must-have", why: vi ? "Nền tảng để học mọi công cụ kỹ thuật tiếp theo." : "The base for every technical tool that follows." },
+      { skill: "SQL & data modeling", importance: "must-have", why: vi ? "Cần cho phân tích, backend và hệ thống dữ liệu." : "Essential for analytics, backend work, and data systems." },
+      { skill: "Git/GitHub", importance: "must-have", why: vi ? "Giúp quản lý mã nguồn và xây portfolio." : "Required for source control and portfolio proof." },
+      { skill: "Cloud basics", importance: "must-have", why: vi ? "Hầu hết sản phẩm hiện đại đều chạy trên cloud." : "Most modern products run on cloud infrastructure." },
+      { skill: "System thinking", importance: "nice-to-have", why: vi ? "Giúp hiểu cách các thành phần kết nối với nhau." : "Helps connect tools into reliable workflows." },
+      { skill: "AI-assisted productivity", importance: "nice-to-have", why: vi ? "Tăng tốc học, debug và viết tài liệu." : "Speeds up learning, debugging, and documentation." },
+    ],
+    phases: [
+      {
+        phase: vi ? "Giai đoạn 1: Nền tảng" : "Phase 1: Foundation",
+        durationWeeks: phaseWeeks,
+        goals: vi
+          ? ["Ôn cú pháp lập trình căn bản", "Thành thạo Git/GitHub", "Viết script nhỏ xử lý dữ liệu", "Nắm SQL SELECT, JOIN, GROUP BY"]
+          : ["Review programming syntax", "Use Git/GitHub confidently", "Write small data-processing scripts", "Master SQL SELECT, JOIN, GROUP BY"],
+        topics: ["Python", "SQL", "Git", "CLI", "Debugging"],
+        resources: [
+          { name: "Python for Everybody", type: "course", url: "https://www.py4e.com/", free: true },
+          { name: "SQLBolt", type: "course", url: "https://sqlbolt.com/", free: true },
+        ],
+        practiceProjects: [
+          {
+            title: vi ? "Bộ phân tích CSV cá nhân" : "Personal CSV Analyzer",
+            description: vi ? "Đọc file CSV, làm sạch dữ liệu và xuất báo cáo ngắn." : "Read a CSV file, clean it, and export a short report.",
+            difficulty: "easy",
+            skillsApplied: ["Python", "SQL", "Git"],
+          },
+        ],
+        milestone: vi ? "Có thể tự viết script nhỏ và đưa dự án lên GitHub." : "You can write small scripts and publish a project to GitHub.",
+      },
+      {
+        phase: vi ? "Giai đoạn 2: Công cụ nghề nghiệp" : "Phase 2: Professional Tools",
+        durationWeeks: phaseWeeks,
+        goals: vi
+          ? ["Xây workflow dữ liệu/API hoàn chỉnh", "Học Docker hoặc cloud cơ bản", "Viết README chuyên nghiệp", "Tạo dashboard hoặc demo có thể trình bày"]
+          : ["Build a complete data/API workflow", "Learn Docker or cloud basics", "Write a professional README", "Create a presentable dashboard or demo"],
+        topics: ["APIs", "Docker", "Cloud", "Testing", "Documentation"],
+        resources: [
+          { name: "Docker Getting Started", type: "docs", url: "https://docs.docker.com/get-started/", free: true },
+          { name: "GitHub Skills", type: "course", url: "https://skills.github.com/", free: true },
+        ],
+        practiceProjects: [
+          {
+            title: vi ? "Pipeline dữ liệu mini" : "Mini Data Pipeline",
+            description: vi ? "Lấy dữ liệu từ API, lưu vào database và trực quan hóa kết quả." : "Pull data from an API, store it in a database, and visualize the output.",
+            difficulty: "medium",
+            skillsApplied: ["API", "Database", "Cloud"],
+          },
+        ],
+        milestone: vi ? "Có một dự án end-to-end đủ tốt để đưa vào CV." : "You have one end-to-end project strong enough for your CV.",
+      },
+      {
+        phase: vi ? "Giai đoạn 3: Portfolio & phỏng vấn" : "Phase 3: Portfolio & Interviews",
+        durationWeeks: phaseWeeks,
+        goals: vi
+          ? ["Hoàn thiện 2-3 dự án portfolio", "Luyện câu hỏi kỹ thuật cốt lõi", "Viết CV theo kết quả đo được", "Ứng tuyển có chiến lược mỗi tuần"]
+          : ["Polish 2-3 portfolio projects", "Practice core technical questions", "Write a metrics-driven CV", "Apply strategically every week"],
+        topics: ["Portfolio", "Interview prep", "CV", "LinkedIn", "System design basics"],
+        resources: [
+          { name: "Google Technical Writing", type: "course", url: "https://developers.google.com/tech-writing", free: true },
+          { name: "roadmap.sh", type: "docs", url: "https://roadmap.sh/", free: true },
+        ],
+        practiceProjects: [
+          {
+            title: vi ? "Dự án capstone theo vai trò" : "Role-specific Capstone",
+            description: vi ? `Xây một sản phẩm mô phỏng công việc thật của ${role}, có dữ liệu mẫu, tài liệu và demo.` : `Build a realistic ${role} capstone with sample data, documentation, and a demo.`,
+            difficulty: "hard",
+            skillsApplied: ["Architecture", "Documentation", "Interview storytelling"],
+          },
+        ],
+        milestone: vi ? "Sẵn sàng ứng tuyển junior/intern hoặc nâng cấp sang chuyên môn sâu hơn." : "You are ready to apply for junior/intern roles or specialize further.",
+      },
+    ],
+    certifications: [
+      { name: "Google Data Analytics Professional Certificate", provider: "Google/Coursera", priority: "medium", costUsd: 49, whenToTake: vi ? "sau giai đoạn 1" : "after Phase 1" },
+      { name: "AWS Cloud Practitioner", provider: "AWS", priority: "low", costUsd: 100, whenToTake: vi ? "sau giai đoạn 2" : "after Phase 2" },
+    ],
+    portfolioProjects: [
+      {
+        title: vi ? "Portfolio 3 dự án" : "Three-project Portfolio",
+        description: vi ? "Một dự án nền tảng, một dự án end-to-end và một capstone theo vai trò mục tiêu." : "One foundation project, one end-to-end project, and one role-specific capstone.",
+        techStack: ["Python", "SQL", "GitHub", "Cloud"],
+        showcaseTip: vi ? "Nêu rõ vấn đề, dữ liệu đầu vào, quyết định kỹ thuật và kết quả đo được." : "Highlight the problem, input data, technical decisions, and measurable result.",
+      },
+    ],
+    interviewPrep: {
+      topicsToReview: ["Python", "SQL", "Git", "APIs", "Project explanation"],
+      commonQuestions: vi
+        ? ["Bạn xử lý lỗi trong pipeline như thế nào?", "JOIN khác UNION như thế nào?", "Giải thích dự án portfolio tốt nhất của bạn."]
+        : ["How do you handle failures in a pipeline?", "How is JOIN different from UNION?", "Explain your strongest portfolio project."],
+      behavioralTips: vi ? "Trả lời bằng tình huống thật: vấn đề, hành động, kết quả." : "Answer with real situations: problem, action, result.",
+    },
+    jobSearchStrategy: {
+      targetCompanies: vi ? ["EdTech", "Fintech", "E-commerce", "Startup AI", "Công ty outsourcing"] : ["EdTech", "Fintech", "E-commerce", "AI startups", "Software consultancies"],
+      platformsToUse: ["LinkedIn", "TopCV", "GitHub", "Wellfound"],
+      cvHighlights: vi ? ["Dự án có link demo", "SQL/Python cụ thể", `Tần suất học ${hoursPerWeek} giờ/tuần`] : ["Projects with demo links", "Specific SQL/Python skills", `${hoursPerWeek} hrs/week learning consistency`],
+    },
+    weeklySchedule: {
+      weekdays: vi ? `Học ${Math.max(1, Math.floor(hoursPerWeek / 5))} giờ/ngày: 60% thực hành, 40% lý thuyết.` : `Study ${Math.max(1, Math.floor(hoursPerWeek / 5))} hour(s)/day: 60% practice, 40% theory.`,
+      weekends: vi ? "Dành 1 buổi để hoàn thiện dự án và 1 buổi để ôn lỗi sai." : "Use one block for project work and one block for reviewing mistakes.",
+      dailyHabits: vi ? ["Commit GitHub", "Ghi lại lỗi đã sửa", "Ôn 5 câu SQL/Python"] : ["Commit to GitHub", "Document fixed bugs", "Review 5 SQL/Python questions"],
+    },
+    warningTraps: vi
+      ? ["Học quá nhiều khóa nhưng không làm dự án", "Chỉ copy code mà không hiểu", "CV ghi công cụ nhưng không có bằng chứng", "Bỏ qua SQL và Git"]
+      : ["Taking too many courses without projects", "Copying code without understanding it", "Listing tools without proof", "Skipping SQL and Git"],
+    haiEduRecommendation: vi
+      ? "Bắt đầu với Python Pathway và SQL, sau đó chuyển sang Data Eng/Cloud hoặc AI Foundation tùy vai trò. Mỗi tuần nên có một sản phẩm nhỏ có thể lưu vào portfolio."
+      : "Start with Python Pathway and SQL, then move into Data Eng/Cloud or AI Foundation depending on the role. Each week should produce a small portfolio artifact.",
+  };
+};
+
 const CareerRoadmap = () => {
   const { t, lang } = useLanguage();
+  const outputRef = useRef<HTMLDivElement>(null);
   const [role, setRole] = useState("data-engineer");
   const [customRole, setCustomRole] = useState("");
   const [currentLevel, setCurrentLevel] = useState("complete-beginner");
@@ -50,6 +182,7 @@ const CareerRoadmap = () => {
   const [hoursPerWeek, setHoursPerWeek] = useState(10);
   const [targetMonths, setTargetMonths] = useState(6);
   const [loading, setLoading] = useState(false);
+  const [generationStatus, setGenerationStatus] = useState<"idle" | "thinking" | "slow" | "fallback">("idle");
   const [roadmap, setRoadmap] = useState<any>(null);
   const [citations, setCitations] = useState<string[]>([]);
   const [completedProjects, setCompletedProjects] = useState<Record<string, boolean>>({});
@@ -61,28 +194,49 @@ const CareerRoadmap = () => {
       return;
     }
     setLoading(true);
+    setGenerationStatus("thinking");
     setRoadmap(null);
+    const requestBody = {
+      role: finalRole,
+      currentLevel: LEVELS.find(l => l.id === currentLevel)?.en || currentLevel,
+      background,
+      hoursPerWeek,
+      targetMonths,
+      language: lang,
+    };
+    const slowTimer = window.setTimeout(() => setGenerationStatus("slow"), 9000);
+    let requestTimeout: number | undefined;
     try {
-      const { data, error } = await supabase.functions.invoke("career-roadmap-ai", {
-        body: {
-          role: finalRole,
-          currentLevel: LEVELS.find(l => l.id === currentLevel)?.en || currentLevel,
-          background,
-          hoursPerWeek,
-          targetMonths,
-          language: lang,
-        },
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        requestTimeout = window.setTimeout(() => reject(new Error("ROADMAP_TIMEOUT")), 38000);
       });
+      const { data, error } = await Promise.race([
+        supabase.functions.invoke("career-roadmap-ai", { body: requestBody }),
+        timeoutPromise,
+      ]);
       if (error) throw error;
       if (!data?.success) throw new Error(data?.error || "Failed");
+      if (!data.roadmap?.roleSummary && !Array.isArray(data.roadmap?.phases)) {
+        throw new Error("INVALID_ROADMAP_SHAPE");
+      }
       setRoadmap(data.roadmap);
       setCitations(data.citations || []);
+      setGenerationStatus("idle");
       toast.success(t("Đã tạo lộ trình!", "Roadmap generated!"));
     } catch (e: any) {
-      console.error(e);
-      toast.error(e.message || t("Có lỗi xảy ra", "Something went wrong"));
+      setRoadmap(createFallbackRoadmap(requestBody));
+      setCitations([]);
+      setGenerationStatus("fallback");
+      toast.warning(
+        e?.message === "ROADMAP_TIMEOUT"
+          ? t("AI phản hồi chậm, đã tạo lộ trình dự phòng trước.", "AI is slow, so a fallback roadmap was created first.")
+          : t("AI tạm thời lỗi, đã tạo lộ trình dự phòng.", "AI had a temporary issue, so a fallback roadmap was created.")
+      );
     } finally {
+      window.clearTimeout(slowTimer);
+      if (requestTimeout) window.clearTimeout(requestTimeout);
       setLoading(false);
+      window.setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
     }
   };
 
@@ -227,12 +381,20 @@ const CareerRoadmap = () => {
               <><Sparkles className="w-4 h-4 mr-2" />{t("Tạo Lộ trình AI", "Generate AI Roadmap")}</>
             )}
           </Button>
+          {loading && (
+            <div className="mt-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-center text-sm font-medium text-primary">
+              {generationStatus === "slow"
+                ? t("AI đang phân tích sâu hơn, vui lòng đợi thêm một chút...", "AI is doing a deeper analysis, please wait a little longer...")
+                : t("Đang kết nối AI và xây dựng lộ trình cá nhân hóa...", "Connecting to AI and building your personalized roadmap...")}
+            </div>
+          )}
         </div>
 
         {/* Roadmap output */}
         <AnimatePresence>
           {roadmap && (
             <motion.div
+              ref={outputRef}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
