@@ -1232,6 +1232,10 @@ const AdminDashboard = () => {
                 <HealthMonitorTab />
               </TabsContent>
 
+              <TabsContent value="phd-research">
+                <PhdResearchTab />
+              </TabsContent>
+
               <TabsContent value="dictionary">
                 <Tabs defaultValue="en" className="w-full">
                   <TabsList className="grid w-full grid-cols-4 max-w-2xl">
