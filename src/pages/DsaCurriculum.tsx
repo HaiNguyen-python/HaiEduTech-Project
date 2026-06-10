@@ -566,8 +566,8 @@ const DsaCurriculum = () => {
             <div className="space-y-4">
               {visibleLessons.map((lesson, i) => {
                 const open = openLesson === lesson.id;
-                const picked = quizPick[lesson.id];
-                const correct = picked === lesson.quiz.answer;
+                const extras = dsaExtraQuizzes[lesson.id] ?? [];
+                const allQuizzes: DsaQuiz[] = [lesson.quiz, ...extras];
                 return (
                   <motion.div
                     key={lesson.id}
@@ -594,6 +594,9 @@ const DsaCurriculum = () => {
                           <h3 className="font-semibold text-foreground">
                             {lang === "vi" ? lesson.titleVi : lesson.titleEn}
                           </h3>
+                          <Badge variant="secondary" className="text-[10px]">
+                            {allQuizzes.length} {t("câu quiz", "quizzes")}
+                          </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
                           {lang === "vi" ? lesson.summaryVi : lesson.summaryEn}
@@ -611,14 +614,10 @@ const DsaCurriculum = () => {
                           lang={lang}
                         />
 
-
-                        <div className="rounded-xl bg-zinc-950 text-zinc-100 p-4 overflow-x-auto text-xs">
-                          <div className="flex items-center gap-2 mb-2 text-zinc-400">
-                            <Code2 className="w-3.5 h-3.5" />
-                            <span>{lesson.codeLanguage}</span>
-                          </div>
-                          <div className="font-mono whitespace-pre">{lesson.code}</div>
-                        </div>
+                        <CodeBlock
+                          code={lesson.code}
+                          language={lesson.codeLanguage || "python"}
+                        />
 
                         <div className="flex items-start gap-2 text-sm bg-primary/5 border border-primary/20 rounded-lg p-3">
                           <Gauge className="w-4 h-4 text-primary mt-0.5 shrink-0" />
@@ -631,71 +630,81 @@ const DsaCurriculum = () => {
                           <div className="flex items-center gap-2 mb-3">
                             <Lightbulb className="w-4 h-4 text-amber-500" />
                             <span className="text-sm font-semibold text-foreground">
-                              {t("Quiz nhanh", "Quick Quiz")}
+                              {t(`Quiz củng cố (${allQuizzes.length} câu)`, `Reinforcement Quiz (${allQuizzes.length} questions)`)}
                             </span>
                           </div>
-                          <p className="text-sm text-foreground mb-3">
-                            {lang === "vi" ? lesson.quiz.questionVi : lesson.quiz.questionEn}
-                          </p>
-                          <div className="grid sm:grid-cols-2 gap-2">
-                            {lesson.quiz.options.map((opt, idx) => {
-                              const isPicked = picked === idx;
-                              const isAnswer = lesson.quiz.answer === idx;
-                              const show = picked !== undefined;
-                              const cls = !show
-                                ? "border-border/60 hover:border-primary/50"
-                                : isAnswer
-                                ? "border-green-500 bg-green-500/10"
-                                : isPicked
-                                ? "border-red-500 bg-red-500/10"
-                                : "border-border/40 opacity-60";
+                          <div className="space-y-5">
+                            {allQuizzes.map((q, qi) => {
+                              const qKey = `${lesson.id}:${qi}`;
+                              const picked = quizPick[qKey];
+                              const correct = picked === q.answer;
                               return (
-                                <button
-                                  key={idx}
-                                  onClick={() =>
-                                    setQuizPick((prev) => ({ ...prev, [lesson.id]: idx }))
-                                  }
-                                  className={`text-left text-sm px-3 py-2 rounded-lg border transition-all ${cls}`}
-                                >
-                                  {opt}
-                                </button>
+                                <div key={qKey} className="pb-4 border-b border-border/40 last:border-0 last:pb-0">
+                                  <p className="text-sm text-foreground mb-3">
+                                    <span className="font-semibold text-primary mr-1">{qi + 1}.</span>
+                                    {lang === "vi" ? q.questionVi : q.questionEn}
+                                  </p>
+                                  <div className="grid sm:grid-cols-2 gap-2">
+                                    {q.options.map((opt, idx) => {
+                                      const isPicked = picked === idx;
+                                      const isAnswer = q.answer === idx;
+                                      const show = picked !== undefined;
+                                      const cls = !show
+                                        ? "border-border/60 hover:border-primary/50"
+                                        : isAnswer
+                                        ? "border-green-500 bg-green-500/10"
+                                        : isPicked
+                                        ? "border-red-500 bg-red-500/10"
+                                        : "border-border/40 opacity-60";
+                                      return (
+                                        <button
+                                          key={idx}
+                                          onClick={() =>
+                                            setQuizPick((prev) => ({ ...prev, [qKey]: idx }))
+                                          }
+                                          className={`text-left text-sm px-3 py-2 rounded-lg border transition-all ${cls}`}
+                                        >
+                                          {opt}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                  {picked !== undefined && (
+                                    <div
+                                      className={`mt-3 flex items-start gap-2 text-sm ${
+                                        correct ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                                      }`}
+                                    >
+                                      {correct ? (
+                                        <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
+                                      ) : (
+                                        <XCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                                      )}
+                                      <span>
+                                        {lang === "vi" ? q.explanationVi : q.explanationEn}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {picked !== undefined && (
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="mt-2"
+                                      onClick={() =>
+                                        setQuizPick((prev) => {
+                                          const next = { ...prev };
+                                          delete next[qKey];
+                                          return next;
+                                        })
+                                      }
+                                    >
+                                      {t("Thử lại", "Try again")}
+                                    </Button>
+                                  )}
+                                </div>
                               );
                             })}
                           </div>
-                          {picked !== undefined && (
-                            <div
-                              className={`mt-3 flex items-start gap-2 text-sm ${
-                                correct ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
-                              }`}
-                            >
-                              {correct ? (
-                                <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
-                              ) : (
-                                <XCircle className="w-4 h-4 mt-0.5 shrink-0" />
-                              )}
-                              <span>
-                                {lang === "vi"
-                                  ? lesson.quiz.explanationVi
-                                  : lesson.quiz.explanationEn}
-                              </span>
-                            </div>
-                          )}
-                          {picked !== undefined && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="mt-2"
-                              onClick={() =>
-                                setQuizPick((prev) => {
-                                  const next = { ...prev };
-                                  delete next[lesson.id];
-                                  return next;
-                                })
-                              }
-                            >
-                              {t("Thử lại", "Try again")}
-                            </Button>
-                          )}
                         </div>
                       </div>
                     )}
@@ -704,6 +713,7 @@ const DsaCurriculum = () => {
               })}
             </div>
           </section>
+
 
           {/* Exercise bank */}
           <section>
