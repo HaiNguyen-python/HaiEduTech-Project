@@ -22,6 +22,8 @@ interface CheckResult {
   http_status?: number;
   latency_ms: number;
   error?: string;
+  auto_recovered?: boolean;
+  suggested_fix?: string;
 }
 
 interface RunRow {
@@ -32,6 +34,7 @@ interface RunRow {
   passed: number;
   warned: number;
   failed: number;
+  auto_recovered?: number;
   duration_ms: number;
   results: CheckResult[];
 }
@@ -104,6 +107,7 @@ const HealthMonitorTab = () => {
       failed: r.failed,
       warned: r.warned,
       passed: r.passed,
+      recovered: r.auto_recovered ?? 0,
     }));
   }, [history]);
 
@@ -127,9 +131,10 @@ const HealthMonitorTab = () => {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <StatCard label="Tổng số chức năng" value={latest?.total ?? 0} icon={<Activity className="w-4 h-4" />} color="text-primary" />
         <StatCard label="Hoạt động bình thường" value={latest?.passed ?? 0} icon={<CheckCircle2 className="w-4 h-4" />} color="text-emerald-600" />
+        <StatCard label="Tự phục hồi" value={latest?.auto_recovered ?? 0} icon={<RefreshCw className="w-4 h-4" />} color="text-blue-600" />
         <StatCard label="Cảnh báo" value={latest?.warned ?? 0} icon={<AlertTriangle className="w-4 h-4" />} color="text-amber-600" />
         <StatCard label="Bị lỗi" value={latest?.failed ?? 0} icon={<XCircle className="w-4 h-4" />} color="text-red-600" />
       </div>
@@ -157,6 +162,7 @@ const HealthMonitorTab = () => {
                   <Tooltip />
                   <Line type="monotone" dataKey="failed" stroke="#dc2626" strokeWidth={2} name="Lỗi" />
                   <Line type="monotone" dataKey="warned" stroke="#d97706" strokeWidth={2} name="Cảnh báo" />
+                  <Line type="monotone" dataKey="recovered" stroke="#2563eb" strokeWidth={2} name="Tự phục hồi" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -209,10 +215,19 @@ const HealthMonitorTab = () => {
                     <tr key={`${r.category}-${r.name}-${i}`} className="border-t border-border hover:bg-muted/30">
                       <td className="px-3 py-2 text-xs text-muted-foreground">{CATEGORY_LABEL[r.category]}</td>
                       <td className="px-3 py-2 font-mono text-xs">{r.name}</td>
-                      <td className="px-3 py-2"><StatusBadge status={r.status} /></td>
+                      <td className="px-3 py-2">
+                        {r.auto_recovered
+                          ? <Badge className="bg-blue-600 hover:bg-blue-600 text-white" title="Pass sau khi retry — không cần xử lý">🔄 Tự phục hồi</Badge>
+                          : <StatusBadge status={r.status} />}
+                      </td>
                       <td className="px-3 py-2 text-right tabular-nums text-xs">{r.latency_ms}ms</td>
-                      <td className="px-3 py-2 text-xs text-muted-foreground max-w-md truncate">
-                        {r.http_status ? `HTTP ${r.http_status}` : ""}{r.error ? ` · ${r.error}` : ""}
+                      <td className="px-3 py-2 text-xs text-muted-foreground max-w-md">
+                        <div className="truncate">
+                          {r.http_status ? `HTTP ${r.http_status}` : ""}{r.error ? ` · ${r.error}` : ""}
+                        </div>
+                        {r.suggested_fix && (
+                          <div className="text-xs text-amber-700 dark:text-amber-400 mt-0.5 truncate">💡 {r.suggested_fix}</div>
+                        )}
                       </td>
                     </tr>
                   ))}

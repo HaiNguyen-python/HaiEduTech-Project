@@ -1,57 +1,31 @@
 ## Mục tiêu
-Tự động kiểm tra "sức khỏe" toàn bộ website 2 lần/ngày (6:00 và 18:00 giờ VN). Báo cáo hiển thị ở chuông `NotificationBell` (chỉ admin/teacher) và một tab **🩺 Health Monitor** mới trong `/admin` để xem chi tiết + lịch sử.
+Sửa lỗi giả "Rate limit" trong Health Check, thêm cơ chế tự khắc phục, và phân loại lỗi rõ ràng để bạn quản trị hiệu quả.
 
-## 1. Database (migration)
-Tạo bảng `health_check_runs`:
-- `id uuid`, `created_at timestamptz`, `triggered_by text` ('cron' | 'manual')
-- `total int`, `passed int`, `failed int`, `duration_ms int`
-- `results jsonb` — mảng `{ category, name, status: 'ok'|'fail'|'warn', http_status, latency_ms, error }`
-- RLS: chỉ `is_staff(auth.uid())` mới đọc/insert. GRANT cho `authenticated` + `service_role`.
+## Thay đổi
 
-## 2. Edge function mới: `daily-health-check`
-`verify_jwt = false`. Hành vi:
-1. **Edge Functions (61)** — đọc danh sách từ một mảng cứng trong code (liệt kê tên 61 functions hiện có, trừ chính `daily-health-check`). Với mỗi function: gửi `OPTIONS` (preflight CORS) tới `${SUPABASE_URL}/functions/v1/<name>` với timeout 6s. Coi response < 500 là **OK** (function alive), >= 500 hoặc timeout là **FAIL**. Không gọi POST thật để tránh tốn AI tokens.
-2. **DB & RPC** — `SELECT count(*)` trên ~10 bảng quan trọng (`profiles`, `user_roles`, `assignments`, `class_schedules`, `student_activity_log`, `user_vocab_mastered`, `revenue_logs`, `chatbot_conversations`, `email_send_log`, `api_balance`). Gọi RPC `get_monthly_top_students(3)`, `get_streak_leaderboard()`, `get_overall_vocab_leaderboard()`.
-3. **Routes/Pages** — GET với `Accept: text/html` các URL: `/`, `/dashboard`, `/admin`, `/english`, `/finnish`, `/chinese`, `/ielts`, `/programming`, `/learn-vietnamese`, `/scholarship`, `/career-roadmap`. Status 200 = OK.
-4. **AI providers**:
-   - Perplexity: SELECT từ `api_balance` (Perplexity); cảnh báo **WARN** nếu balance < $10, **FAIL** nếu < $1.
-   - Lovable Gateway: gọi `models.list`-style endpoint nhẹ với `LOVABLE_API_KEY`, đo latency.
-5. Chạy tất cả song song qua `Promise.allSettled`, gom lại, INSERT vào `health_check_runs`.
-6. Gọi `notify_super_admins(title, body, route)`:
-   - Nếu `failed === 0`: `✅ Health check OK — 0 lỗi (N chức năng)`
-   - Nếu có lỗi: `⚠️ Phát hiện X chức năng lỗi` + body liệt kê 5 lỗi đầu, `route='/admin?tab=health'`.
+### 1. `supabase/functions/daily-health-check/index.ts` — viết lại
+- **Batching**: chạy 60 edge function theo lô (concurrency = 5, nghỉ 300ms giữa các lô) → không còn rate-limit ảo.
+- **Sửa Perplexity check**: dùng đúng cột `balance` (bảng `api_balance` không có `balance_usd`).
+- **Pass 2 — Self-healing retry**: sau pass 1, gom các lỗi `fail` là **transient** (`429`, `502/503/504`, `timeout`, `fetch failed`, `rate limit`, `connection reset`), nghỉ 5s rồi retry 1 lần. Nếu pass → đánh dấu `auto_recovered = true`.
+- **Suggested fix**: với mỗi lỗi thật, gắn gợi ý sửa ngắn (vd: `column ... does not exist` → "Schema mismatch — kiểm tra tên cột trong code function").
+- **Notify thông minh**: chuông chỉ kêu khi có **lỗi thật** (transient đã tự phục hồi không kêu). Trigger thủ công thì luôn báo. Tiêu đề và body có gợi ý fix.
+- **Authorization header** thêm vào OPTIONS edge để runtime tính rate-limit chính xác hơn.
+- **Consume response body** mọi nơi để tránh socket leak trong Deno.
 
-## 3. pg_cron schedule
-Dùng `supabase--insert` (KHÔNG migration vì chứa anon key) chạy:
-```sql
-select cron.schedule('health-check-morning', '0 23 * * *',  -- 06:00 VN = 23:00 UTC hôm trước
-  $$ select net.http_post(url:='<project>/functions/v1/daily-health-check',
-       headers:='{"Content-Type":"application/json","apikey":"<anon>"}'::jsonb,
-       body:='{"triggered_by":"cron"}'::jsonb); $$);
-select cron.schedule('health-check-evening', '0 11 * * *',  -- 18:00 VN = 11:00 UTC
-  $$ ... $$);
-```
-Enable `pg_cron` + `pg_net` extensions nếu chưa có.
+### 2. Bảng `health_check_runs` — đã thêm cột `auto_recovered int` (migration đã chạy).
 
-## 4. UI tab mới trong /admin
-File `src/components/admin/HealthMonitorTab.tsx`:
-- **Stat cards** trên cùng: tổng số chức năng / OK / Lỗi / lần check gần nhất.
-- **Nút "Chạy kiểm tra ngay"** → `supabase.functions.invoke('daily-health-check', { body: { triggered_by: 'manual' } })`, hiện loading spinner ~15s.
-- **Bảng kết quả mới nhất**: cột Nhóm | Tên | Trạng thái (badge xanh/đỏ/vàng) | Độ trễ (ms) | Lỗi. Lọc theo nhóm (Edge / DB / Routes / AI) và status.
-- **Lịch sử 30 ngày**: line chart (recharts) số lỗi mỗi lần check + bảng nhỏ.
-- Đăng ký tab trong `src/pages/AdminDashboard.tsx` (key `health`, label "🩺 Health Monitor"), URL `?tab=health`.
+### 3. `src/components/admin/HealthMonitorTab.tsx`
+- Type `CheckResult` thêm `auto_recovered?`, `suggested_fix?`; `RunRow` thêm `auto_recovered?`.
+- Thêm **stat card thứ 5**: "🔄 Tự phục hồi" (màu xanh dương).
+- Bảng kết quả: dòng `auto_recovered` hiển thị badge xanh dương "Tự phục hồi" thay cho badge đỏ; cột "Chi tiết" hiển thị `suggested_fix` khi có.
+- Chart 30 ngày: thêm line màu xanh dương "Tự phục hồi".
+- Filter status: thêm tuỳ chọn "Tự phục hồi".
 
-## 5. Tích hợp Chuông
-Đã có sẵn — `notify_super_admins` insert vào `assignment_notifications` mà `NotificationBell` đang subscribe realtime. Route `/admin?tab=health` mở đúng tab khi click.
+## Phạm vi không làm
+- Không tự sửa code function (không an toàn).
+- Không tự rotate secret / redeploy.
+- Không gửi email — chỉ chuông.
 
-## File sẽ tạo/sửa
-- migration: tạo bảng `health_check_runs`
-- `supabase/functions/daily-health-check/index.ts` (mới)
-- `src/components/admin/HealthMonitorTab.tsx` (mới)
-- `src/pages/AdminDashboard.tsx` (thêm tab)
-- SQL insert (qua `supabase--insert`) để tạo 2 cron jobs
-
-## Ngoài phạm vi (sẽ KHÔNG làm)
-- Không sửa 61 edge function hiện có để thêm `healthCheck:true` short-circuit (rủi ro cao). Dùng OPTIONS thay thế.
-- Không gửi email — đã chốt chỉ chuông.
-- Không đụng tới `NotificationBell` (đã hoạt động).
+## File sẽ sửa
+- `supabase/functions/daily-health-check/index.ts` (viết lại)
+- `src/components/admin/HealthMonitorTab.tsx` (cập nhật UI)
