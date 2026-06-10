@@ -49,19 +49,7 @@ export const edtechModules: ExtendedProgrammingModule[] = [
 
 ## 3. 🏗️ Kiến trúc một sản phẩm EdTech điển hình
 
-\`\`\`
-┌─────────────┐   ┌──────────┐   ┌────────────┐   ┌─────────────┐
-│  Frontend   │──▶│   API    │──▶│  Database  │   │  AI Services│
-│  React/RN   │   │ REST/RPC │   │  Postgres  │   │ TTS, LLM,   │
-│  PWA        │   │  Edge fn │   │  +Vector   │◀──│ STT, Embed  │
-└─────────────┘   └──────────┘   └────────────┘   └─────────────┘
-       ▲                │              │                  ▲
-       │                ▼              ▼                  │
-       │         ┌──────────────────────────┐             │
-       └─────────│  Analytics & Mastery     │─────────────┘
-                 │  Events · Cohorts · A/B  │
-                 └──────────────────────────┘
-\`\`\`
+:::diagram type="edtech-architecture":::
 
 **Các tầng phải có:**
 - **Content layer:** bài học, câu hỏi, audio - versioned để A/B test.
