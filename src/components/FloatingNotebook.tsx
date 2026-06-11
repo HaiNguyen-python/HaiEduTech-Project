@@ -197,6 +197,12 @@ const FloatingNotebook = () => {
 
   useEffect(() => {
     if (user && open) {
+      // Seed from snapshot immediately so the user sees existing notes
+      // while the server query is in flight.
+      import("@/lib/notebookService").then(({ readSnapshot }) => {
+        const snap = readSnapshot(user.id);
+        if (snap && snap.length) setNotebooks(snap as unknown as Notebook[]);
+      });
       fetchNotebooks();
     }
   }, [user, open, fetchNotebooks]);
