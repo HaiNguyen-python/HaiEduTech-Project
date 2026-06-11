@@ -536,19 +536,24 @@ print("Sydney:", get_weather(-33.87, 151.21))`,
 
 - **CPU-bound** work (heavy math). Reach for \`multiprocessing\` instead.
 - Libraries that are **sync-only** (e.g. classic \`requests\` — swap to \`httpx\` or \`aiohttp\`).`,
-        code: `import asyncio, httpx, time
+        code: `# Async HTTP: fetch 10 slow URLs concurrently instead of one-by-one
+import asyncio, httpx, time
 
+# Each URL deliberately takes ~1s on the server side
 URLS = [f"https://httpbin.org/delay/1?id={i}" for i in range(10)]
 
+# A single async request — returns the HTTP status code
 async def fetch(client, url):
     r = await client.get(url, timeout=5)
     return r.status_code
 
+# Spin up one shared client and run all fetches in parallel via gather()
 async def main():
     async with httpx.AsyncClient() as client:
         tasks = [fetch(client, u) for u in URLS]
-        return await asyncio.gather(*tasks)
+        return await asyncio.gather(*tasks)   # wait for all at once
 
+# Drive the event loop and time the whole batch
 t0 = time.perf_counter()
 codes = asyncio.run(main())
 print("statuses:", codes)
