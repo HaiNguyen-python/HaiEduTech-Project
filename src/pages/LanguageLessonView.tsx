@@ -408,7 +408,7 @@ const LanguageLessonView = () => {
                         defaultCodeLanguage="text"
                       />
                     ) : (
-                      <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:space-y-2 [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_svg]:my-4 [&_svg]:mx-auto [&_svg]:max-w-full [&_svg]:h-auto [&_figure]:my-5 [&_figure]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2 [&_figcaption]:italic [&_table]:my-4 [&_table]:w-full [&_table]:border-collapse [&_th]:bg-primary/10 [&_th]:text-primary [&_th]:p-2 [&_th]:border [&_th]:border-border [&_td]:p-2 [&_td]:border [&_td]:border-border">
+                      <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol>li]:pl-1 [&_ol>li::marker]:font-bold [&_ol>li::marker]:text-primary [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_svg]:my-4 [&_svg]:mx-auto [&_svg]:max-w-full [&_svg]:h-auto [&_figure]:my-5 [&_figure]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2 [&_figcaption]:italic [&_table]:my-4 [&_table]:w-full [&_table]:border-collapse [&_th]:bg-primary/10 [&_th]:text-primary [&_th]:p-2 [&_th]:border [&_th]:border-border [&_td]:p-2 [&_td]:border [&_td]:border-border">
                         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                           {(() => {
                             // Dedent <figure>...</figure> blocks so indented SVG lines aren't treated as markdown code blocks
@@ -417,21 +417,10 @@ const LanguageLessonView = () => {
                               (block) => block.replace(/^[ \t]+/gm, "")
                             );
                             // For SAT + IELTS lessons: structure plain theory into bullets for readability.
-                            // Keep icons minimal - only on numbered "rules/steps" lists.
+                            // Numbered lists ("1. …", "1) …") are left untouched so markdown renders
+                            // them as a proper <ol> with styled markers (see prose classes above).
+                            // We only normalise inline "•" / " · " separators into bullet lists.
                             if (mod.category === "sat" || mod.category === "ielts") {
-                              const NUM_ICONS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
-                              // 1) Numbered "1) ..." / "1. ..." → bullet with number-emoji icon
-                              raw = raw
-                                .split(/\n/)
-                                .map((line) => {
-                                  const m = /^\s*(\d+)[\)\.]\s+(.+)$/.exec(line);
-                                  if (!m) return line;
-                                  const n = parseInt(m[1], 10);
-                                  const icon = NUM_ICONS[(n - 1) % NUM_ICONS.length];
-                                  return `- ${icon} ${m[2]}`;
-                                })
-                                .join("\n");
-                              // 2) Inline "•" or " · " separators → plain bullets (no per-item icon)
                               raw = raw
                                 .split(/\n{2,}/)
                                 .map((para) => {
