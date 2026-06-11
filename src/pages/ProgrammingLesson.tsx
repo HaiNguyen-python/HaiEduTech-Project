@@ -629,8 +629,9 @@ const ProgrammingLessonPage = () => {
                     </div>
                   )}
 
-                  {/* Code Example */}
-                  <CodeBlock code={lesson.code} language={lesson.codeLanguage || "text"} />
+                  {/* Code Example — force Python theme/coloring across the
+                      Learn Programming section for a consistent look. */}
+                  <CodeBlock code={lesson.code} language="python" />
 
 
                   {/* Exercise */}
