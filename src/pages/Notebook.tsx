@@ -199,6 +199,8 @@ const Notebook = () => {
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("student_notebooks").delete().eq("id", id);
     if (!error) {
+      const { pruneSnapshot } = await import("@/lib/notebookService");
+      if (user?.id) pruneSnapshot(user.id, id);
       toast({ title: "Đã xóa", description: "Ghi chú đã được xóa" });
       fetchNotebooks();
       if (isTeacher) fetchAllNotebooks();
