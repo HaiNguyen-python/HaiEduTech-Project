@@ -43,6 +43,62 @@ const difficultyConfig = {
   advanced: { label: "Advanced", labelVi: "Nâng cao", cls: "bg-red-500/10 text-red-700 border-red-500/20" },
 };
 
+const HTML_BLOCK_RE = /<(figure|svg|table|ul|ol|pre|div)/i;
+const LIST_MARKER_RE = /(^|\n)\s*(?:[-*+]\s+|\d+[.)]\s+|\(\d+\)\s+)/;
+
+const normalizeTheoryMarkdown = (markdown: string, category: LanguageModule["category"]) => {
+  let raw = markdown.replace(
+    /<figure[\s\S]*?<\/figure>/g,
+    (block) => block.replace(/^[ \t]+/gm, "")
+  );
+
+  raw = raw.replace(
+    /(^|\n)(\*\*[^*\n]+:\*\*)[ \t]*\n(?=[ \t]*(?:[-*+]\s+|\d+[.)]\s+|\(\d+\)\s+))/g,
+    "$1$2\n\n"
+  );
+
+  if (category === "sat" || category === "ielts") {
+    raw = raw
+      .split(/\n{2,}/)
+      .map((para) => {
+        if (HTML_BLOCK_RE.test(para) || LIST_MARKER_RE.test(para)) return para;
+        const splitChar = para.includes("•") ? "•" : (/\s·\s/.test(para) ? "·" : null);
+        if (!splitChar) return para;
+        const parts = para.split(new RegExp(`\\s*\\${splitChar}\\s*`)).map((s) => s.trim()).filter(Boolean);
+        if (parts.length < 2) return para;
+        let intro = "";
+        let items = parts;
+        const colonIdx = parts[0].lastIndexOf(":");
+        if (colonIdx > 0 && colonIdx < parts[0].length - 1) {
+          intro = parts[0].slice(0, colonIdx + 1).trim() + "\n\n";
+          items = [parts[0].slice(colonIdx + 1).trim(), ...parts.slice(1)];
+        } else if (colonIdx === parts[0].length - 1) {
+          intro = parts[0] + "\n\n";
+          items = parts.slice(1);
+        }
+        return intro + items.map((p) => `- ${p.replace(/[.,;]+$/, "")}`).join("\n");
+      })
+      .join("\n\n");
+  }
+
+  return raw
+    .split(/\n{2,}/)
+    .map((para) => {
+      if (HTML_BLOCK_RE.test(para) || LIST_MARKER_RE.test(para)) return para;
+      const matches = para.match(/\*\*[^*]+:\*\*/g);
+      if (matches && matches.length >= 2) {
+        const parts = para
+          .split(/(?=\*\*[^*]+:\*\*)/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+        const intro = parts[0].startsWith("**") ? "" : parts.shift() + "\n\n";
+        return intro + parts.map((p) => `- ${p}`).join("\n");
+      }
+      return para;
+    })
+    .join("\n\n");
+};
+
 const LanguageLessonView = () => {
   const { moduleId, lessonId } = useParams();
   const [searchParams] = useSearchParams();
