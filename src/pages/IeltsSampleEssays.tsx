@@ -195,6 +195,7 @@ const IeltsSampleEssays = () => {
                       <Badge variant="outline" className="text-xs capitalize">
                         {essay.chartType || essay.essayType}
                       </Badge>
+                      <Badge variant="outline" className="text-xs">Band {essay.band ?? "8.0+"}</Badge>
                     </div>
                     <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors capitalize mb-2 pr-8">
                       {essay.topic}
