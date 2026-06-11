@@ -949,33 +949,40 @@ print(pivot)`,
         titleEn: "Airflow & Pipeline Automation",
         theory: "**Apache Airflow:** Nền tảng tự động hóa workflow\n- DAG (Directed Acyclic Graph): Định nghĩa luồng công việc\n- Task: Đơn vị công việc nhỏ nhất\n- Operator: Loại task (Python, Bash, SQL)\n- Schedule: Lập lịch chạy tự động\n\n**Lợi ích:** Theo dõi, retry tự động, alert khi lỗi",
         theoryEn: "**Apache Airflow:** Workflow automation platform\n- DAG (Directed Acyclic Graph): Define workflow\n- Task: Smallest work unit\n- Operator: Task type (Python, Bash, SQL)\n- Schedule: Automatic scheduling\n\n**Benefits:** Monitoring, auto-retry, error alerts",
-        code: `from airflow import DAG
+        code: `# Apache Airflow — define an end-to-end ETL DAG (Extract → Transform → Load)
+from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 
+# 1) Extract: pull raw data from a source (API, DB, file...)
 def extract():
     print("📥 Extracting data from API...")
-    return {"records": 1000}
+    return {"records": 1000}  # value is pushed to XCom automatically
 
+# 2) Transform: clean / reshape data. Read previous task output via XCom
 def transform(**context):
     data = context['ti'].xcom_pull(task_ids='extract')
     print(f"🔄 Transforming {data['records']} records...")
 
+# 3) Load: write the cleaned data into the warehouse / data lake
 def load(**context):
     print("📤 Loading to data warehouse...")
     print("✅ Pipeline complete!")
 
+# Define the DAG: id, start date, schedule, and skip historical runs
 dag = DAG(
     'daily_etl',
     start_date=datetime(2024, 1, 1),
-    schedule_interval='@daily',
-    catchup=False,
+    schedule_interval='@daily',  # run once per day
+    catchup=False,                # do not backfill old dates
 )
 
-t1 = PythonOperator(task_id='extract', python_callable=extract, dag=dag)
+# Wrap each Python function in an Airflow operator (a "task")
+t1 = PythonOperator(task_id='extract',   python_callable=extract,   dag=dag)
 t2 = PythonOperator(task_id='transform', python_callable=transform, dag=dag)
-t3 = PythonOperator(task_id='load', python_callable=load, dag=dag)
+t3 = PythonOperator(task_id='load',      python_callable=load,      dag=dag)
 
+# Declare task dependencies — Airflow runs them in this order
 t1 >> t2 >> t3  # Extract → Transform → Load`,
         codeLanguage: "python",
         exercise: "Design a DAG that collects daily stock prices, averages 7 days, and saves to the database.",
