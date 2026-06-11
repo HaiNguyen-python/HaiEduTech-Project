@@ -84,18 +84,22 @@ with memo:     fib(40) < 0.0001 s   (~15,000× faster)
 \`\`\`
 
 \`functools.lru_cache\` does this automatically.`,
-        code: `from functools import lru_cache
+        code: `# Memoization with functools.lru_cache — cache results to skip repeat work
+from functools import lru_cache
 import time
 
+# Naive recursive Fibonacci — recomputes the same calls many times → exponential
 def fib_slow(n):
     if n < 2: return n
     return fib_slow(n - 1) + fib_slow(n - 2)
 
+# Same logic, but lru_cache stores results → each fib(k) runs only once
 @lru_cache(maxsize=None)
 def fib_fast(n):
     if n < 2: return n
     return fib_fast(n - 1) + fib_fast(n - 2)
 
+# Benchmark both versions to see the cache pay off
 for fn in (fib_slow, fib_fast):
     t = time.perf_counter()
     print(fn.__name__, "fib(32) =", fn(32),
@@ -198,13 +202,16 @@ out = [n * n for n in range(1, 11) if n % 2 == 0]
 
 Whenever you must **fold** a list into one value (sum, product, max).
 \`functools.reduce(lambda acc, n: acc * n, [1,2,3,4])\` ⇒ \`24\`.`,
-        code: `from functools import reduce
+        code: `# Functional toolkit: list comprehension + reduce (fold)
+from functools import reduce
 
 nums = [3, 8, 12, 5, 21, 7, 16]
 
+# 1) Comprehension: keep even numbers and square them in a single pass
 squares_even = [n * n for n in nums if n % 2 == 0]
-total        = reduce(lambda a, b: a + b, squares_even, 0)
-maxx         = reduce(lambda a, b: a if a > b else b, nums)
+# 2) reduce: fold the list down to a single value (sum, max, ...)
+total        = reduce(lambda a, b: a + b, squares_even, 0)            # sum
+maxx         = reduce(lambda a, b: a if a > b else b, nums)           # max
 
 print("squares_even:", squares_even)
 print("sum:", total, "max:", maxx)`,
@@ -306,31 +313,37 @@ Split in half → sort each half → merge. Recursive. Scales well.
 | Selection | O(n²) | O(n²) | O(n²) | ❌ |
 | Merge | O(n log n) | O(n log n) | O(n log n) | ✅ |
 | Python sorted | O(n log n) | O(n log n) | O(n log n) | ✅ (Timsort) |`,
-        code: `def bubble_sort(a):
+        code: `# Two classic sorts vs Python's built-in Timsort
+
+# Bubble sort — O(n²). Early-exit when no swap happens in a full pass.
+def bubble_sort(a):
     a = list(a); n = len(a)
     for i in range(n):
         swapped = False
         for j in range(n - i - 1):
             if a[j] > a[j+1]:
-                a[j], a[j+1] = a[j+1], a[j]
+                a[j], a[j+1] = a[j+1], a[j]  # swap neighbours
                 swapped = True
-        if not swapped: break
+        if not swapped: break                # already sorted → stop
     return a
 
+# Merge sort — O(n log n). Divide the list, sort each half, then merge.
 def merge_sort(a):
     if len(a) <= 1: return a
     mid = len(a) // 2
     L, R = merge_sort(a[:mid]), merge_sort(a[mid:])
     out, i, j = [], 0, 0
+    # Merge the two sorted halves by always taking the smaller front element
     while i < len(L) and j < len(R):
         if L[i] <= R[j]: out.append(L[i]); i += 1
         else:            out.append(R[j]); j += 1
-    return out + L[i:] + R[j:]
+    return out + L[i:] + R[j:]               # append leftovers
 
+# Compare results — all three must return the same sorted list
 data = [5, 3, 8, 1, 9, 2, 7]
 print("bubble:", bubble_sort(data))
 print("merge :", merge_sort(data))
-print("python:", sorted(data))`,
+print("python:", sorted(data))               # built-in Timsort`,
         codeLanguage: "python",
         exercise:
           "Đo thời gian sắp xếp 5 000 số ngẫu nhiên bằng `time.perf_counter()` cho cả 3 thuật toán (bubble, merge, `sorted`). In ra bảng so sánh tỉ lệ tốc độ.",
@@ -408,21 +421,24 @@ data = r.json()         # parse JSON → dict
 2. **raise_for_status** so errors surface early.
 3. **try/except** \`requests.RequestException\` for flaky networks.
 4. **Never hardcode API keys** - use environment variables.`,
-        code: `import requests
+        code: `# Calling a public REST API with the requests library (Open-Meteo, no key)
+import requests
 
 def get_weather(lat: float, lon: float):
     url = "https://api.open-meteo.com/v1/forecast"
     try:
+        # Send GET with query params and a hard timeout — never hang forever
         r = requests.get(url, params={
             "latitude": lat, "longitude": lon,
             "current_weather": "true"
         }, timeout=10)
-        r.raise_for_status()
-        cw = r.json()["current_weather"]
+        r.raise_for_status()                  # raise on HTTP 4xx / 5xx
+        cw = r.json()["current_weather"]      # parse JSON body
         return f"{cw['temperature']}°C, wind {cw['windspeed']} km/h"
-    except requests.RequestException as e:
+    except requests.RequestException as e:    # network / timeout / HTTP errors
         return f"Lookup failed: {e}"
 
+# Try three cities — same function, just different coordinates
 print("Hanoi :", get_weather(21.03, 105.85))
 print("Tokyo :", get_weather(35.68, 139.76))
 print("Sydney:", get_weather(-33.87, 151.21))`,
@@ -520,19 +536,24 @@ print("Sydney:", get_weather(-33.87, 151.21))`,
 
 - **CPU-bound** work (heavy math). Reach for \`multiprocessing\` instead.
 - Libraries that are **sync-only** (e.g. classic \`requests\` — swap to \`httpx\` or \`aiohttp\`).`,
-        code: `import asyncio, httpx, time
+        code: `# Async HTTP: fetch 10 slow URLs concurrently instead of one-by-one
+import asyncio, httpx, time
 
+# Each URL deliberately takes ~1s on the server side
 URLS = [f"https://httpbin.org/delay/1?id={i}" for i in range(10)]
 
+# A single async request — returns the HTTP status code
 async def fetch(client, url):
     r = await client.get(url, timeout=5)
     return r.status_code
 
+# Spin up one shared client and run all fetches in parallel via gather()
 async def main():
     async with httpx.AsyncClient() as client:
         tasks = [fetch(client, u) for u in URLS]
-        return await asyncio.gather(*tasks)
+        return await asyncio.gather(*tasks)   # wait for all at once
 
+# Drive the event loop and time the whole batch
 t0 = time.perf_counter()
 codes = asyncio.run(main())
 print("statuses:", codes)
