@@ -176,7 +176,13 @@ export const speakingExpansion2: IeltsLecture[] = [
     ],
     goldenSecret: "Smile naturally for the first 5 seconds before you speak — it relaxes your throat and lifts your voice tone, instantly improving pronunciation.",
     goldenSecretVi: "Cười tự nhiên trong 5 giây đầu trước khi nói — giúp thư giãn cổ họng và nâng tông giọng, cải thiện phát âm ngay lập tức.",
-    vocabHighlights: [],
+    vocabHighlights: [
+      { word: "rambling answer", definition: "An unfocused, long-winded response", definitionVi: "Câu trả lời lan man", example: "Avoid a rambling answer.", band: "7.0+" },
+      { word: "stay on topic", definition: "Keep to the question", definitionVi: "Bám sát chủ đề", example: "Stay on topic in Part 1.", band: "7.0+" },
+      { word: "sound rehearsed", definition: "Seem memorised", definitionVi: "Nghe như học vẹt", example: "Don't sound rehearsed.", band: "7.5+" },
+      { word: "tank your band", definition: "Drastically reduce your score", definitionVi: "Hạ Band thê thảm", example: "Memorisation can tank your band.", band: "7.5+" },
+      { word: "warm up", definition: "Get ready / ease into", definitionVi: "Khởi động, làm quen", example: "Part 1 is your warm-up.", band: "7.0+" },
+    ],
     quiz: [
       {
         question: "Why is a memorised intro dangerous?",
@@ -266,7 +272,13 @@ export const speakingExpansion2: IeltsLecture[] = [
     ],
     goldenSecret: "If you can't decide between two stories in 10 seconds, pick the one with a STRONGER feeling. Emotion drives detail, and detail drives the band.",
     goldenSecretVi: "Nếu phân vân giữa hai câu chuyện trong 10 giây, chọn cái có CẢM XÚC mạnh hơn. Cảm xúc tạo chi tiết, chi tiết nâng band.",
-    vocabHighlights: [],
+    vocabHighlights: [
+      { word: "cue card", definition: "Card showing the Part 2 task", definitionVi: "Thẻ đề Part 2", example: "Read the cue card carefully.", band: "7.0+" },
+      { word: "jot down keywords", definition: "Quickly note key words", definitionVi: "Ghi nhanh từ khoá", example: "Jot down keywords, not sentences.", band: "7.0+" },
+      { word: "anchor your story", definition: "Use a fixed reference point", definitionVi: "Neo câu chuyện", example: "Anchor your story with a date.", band: "7.5+" },
+      { word: "round off", definition: "Conclude smoothly", definitionVi: "Kết lại gọn ghẽ", example: "Round off with a final reflection.", band: "7.5+" },
+      { word: "buy yourself time", definition: "Create thinking space", definitionVi: "Tự câu giờ suy nghĩ", example: "A stalling phrase buys you time.", band: "7.0+" },
+    ],
     quiz: [
       {
         question: "What should you write in your planning notes?",
@@ -356,7 +368,13 @@ export const speakingExpansion2: IeltsLecture[] = [
     ],
     goldenSecret: "Train 3 'thinking phrases' until they're automatic. When you panic in the test, your mouth reaches for what's been drilled — not for 'um'.",
     goldenSecretVi: "Luyện 3 'cụm nghĩ' đến mức tự động. Khi hoảng trong phòng thi, miệng sẽ phản xạ tới những gì đã luyện — không phải 'um'.",
-    vocabHighlights: [],
+    vocabHighlights: [
+      { word: "filler word", definition: "Word used to fill pause (well, like)", definitionVi: "Từ đệm", example: "Limit filler words like 'um'.", band: "7.0+" },
+      { word: "chunking", definition: "Speaking in meaningful groups", definitionVi: "Nói theo cụm ý nghĩa", example: "Chunking improves fluency.", band: "7.5+" },
+      { word: "self-correction", definition: "Fixing your own mistake mid-sentence", definitionVi: "Tự sửa", example: "Brief self-correction is acceptable.", band: "7.0+" },
+      { word: "stumble over words", definition: "Speak hesitantly", definitionVi: "Vấp khi nói", example: "Don't stumble over words in Part 2.", band: "7.0+" },
+      { word: "keep the flow going", definition: "Maintain continuous speech", definitionVi: "Giữ mạch nói", example: "Connectors keep the flow going.", band: "7.5+" },
+    ],
     quiz: [
       {
         question: "How long can you pause before it's marked as hesitation?",
@@ -446,7 +464,13 @@ export const speakingExpansion2: IeltsLecture[] = [
     ],
     goldenSecret: "Clap your hands on the stressed syllable when you practise. Physical movement embeds stress patterns 3x faster than silent reading.",
     goldenSecretVi: "Vỗ tay vào âm tiết được nhấn khi luyện. Vận động cơ thể giúp ghi nhớ trọng âm nhanh gấp 3 lần đọc thầm.",
-    vocabHighlights: [],
+    vocabHighlights: [
+      { word: "word stress", definition: "Emphasis placed on one syllable", definitionVi: "Trọng âm từ", example: "Word stress changes meaning.", band: "7.0+" },
+      { word: "stressed syllable", definition: "The strongest syllable in a word", definitionVi: "Âm tiết mang trọng âm", example: "PHO-to-graph has the stressed syllable first.", band: "7.0+" },
+      { word: "minimal pairs", definition: "Words differing by one sound", definitionVi: "Cặp từ tối thiểu", example: "Ship/sheep are minimal pairs.", band: "7.5+" },
+      { word: "swallow syllables", definition: "Skip or shorten syllables when speaking", definitionVi: "Nuốt âm tiết", example: "Don't swallow syllables when nervous.", band: "7.5+" },
+      { word: "enunciate clearly", definition: "Pronounce words distinctly", definitionVi: "Phát âm rõ ràng", example: "Enunciate clearly to score on Pronunciation.", band: "7.5+" },
+    ],
     quiz: [
       {
         question: "Where is the stress in words ending in '-tion'?",
@@ -536,7 +560,13 @@ export const speakingExpansion2: IeltsLecture[] = [
     ],
     goldenSecret: "End every Part 3 answer with 'so my view would be that…'. This forces a soft-but-clear opinion and ticks the Task Response box every single time.",
     goldenSecretVi: "Kết mọi câu Part 3 bằng 'so my view would be that…'. Cách này buộc bạn đưa quan điểm mềm-nhưng-rõ và đảm bảo điểm Task Response.",
-    vocabHighlights: [],
+    vocabHighlights: [
+      { word: "hedge a claim", definition: "Soften a statement with cautious language", definitionVi: "Hạn định luận điểm", example: "Hedge your claim with 'tend to'.", band: "7.5+" },
+      { word: "by and large", definition: "In general", definitionVi: "Nhìn chung", example: "By and large, the plan works.", band: "7.0+" },
+      { word: "tend to", definition: "Have the habit of", definitionVi: "Có xu hướng", example: "People tend to overestimate risk.", band: "7.0+" },
+      { word: "to some extent", definition: "Partially", definitionVi: "Ở một mức độ nào đó", example: "I agree to some extent.", band: "7.0+" },
+      { word: "it's worth noting that", definition: "It is important to mention", definitionVi: "Đáng lưu ý là", example: "It's worth noting that exceptions exist.", band: "7.5+" },
+    ],
     quiz: [
       {
         question: "Which phrase is MOST appropriate for Part 3?",
@@ -626,7 +656,13 @@ export const speakingExpansion2: IeltsLecture[] = [
     ],
     goldenSecret: "Record yourself reading 1 paragraph aloud. Then listen back at 0.75x speed — you'll instantly hear which words you flattened. Re-record 3 times.",
     goldenSecretVi: "Ghi âm bạn đọc 1 đoạn văn. Sau đó nghe lại ở 0.75x — bạn sẽ nghe ra ngay những từ bị làm phẳng. Ghi lại 3 lần.",
-    vocabHighlights: [],
+    vocabHighlights: [
+      { word: "rising intonation", definition: "Pitch going up at the end (questions)", definitionVi: "Ngữ điệu lên (câu hỏi)", example: "Use rising intonation for yes/no questions.", band: "7.0+" },
+      { word: "falling intonation", definition: "Pitch going down (statements)", definitionVi: "Ngữ điệu xuống (câu khẳng định)", example: "Statements end with falling intonation.", band: "7.0+" },
+      { word: "monotone", definition: "Speech with no pitch variation", definitionVi: "Giọng đều, không lên xuống", example: "Avoid sounding monotone.", band: "7.0+" },
+      { word: "convey emotion", definition: "Express feelings", definitionVi: "Truyền tải cảm xúc", example: "Intonation conveys emotion.", band: "7.5+" },
+      { word: "signal a list", definition: "Use intonation to mark items in a list", definitionVi: "Báo hiệu liệt kê", example: "Rising tones signal a list isn't finished.", band: "7.5+" },
+    ],
     quiz: [
       {
         question: "How should a yes/no question end?",
@@ -716,7 +752,13 @@ export const speakingExpansion2: IeltsLecture[] = [
     ],
     goldenSecret: "Treat the examiner as a curious stranger at a café — not a judge. The reframe ('conversation, not performance') alone drops cortisol by ~20%.",
     goldenSecretVi: "Coi giám khảo như người lạ tò mò ở quán cà phê — không phải quan toà. Chỉ riêng việc đổi góc nhìn ('trò chuyện, không biểu diễn') đã giảm cortisol khoảng 20%.",
-    vocabHighlights: [],
+    vocabHighlights: [
+      { word: "box breathing", definition: "Breathing in equal counts to calm nerves", definitionVi: "Hô hấp ô vuông", example: "Box breathing reduces anxiety.", band: "7.0+" },
+      { word: "settle the nerves", definition: "Calm down before performance", definitionVi: "Trấn an", example: "A deep breath settles the nerves.", band: "7.0+" },
+      { word: "stage fright", definition: "Fear of performing in front of others", definitionVi: "Sợ sân khấu", example: "I get stage fright before exams.", band: "7.5+" },
+      { word: "warm up your ear", definition: "Prepare your listening", definitionVi: "Khởi động khả năng nghe", example: "Listen to a podcast to warm up your ear.", band: "7.0+" },
+      { word: "go in with a clear head", definition: "Enter calm and focused", definitionVi: "Vào thi với đầu óc thoáng đãng", example: "Sleep well so you go in with a clear head.", band: "7.5+" },
+    ],
     quiz: [
       {
         question: "What is box-breathing?",
