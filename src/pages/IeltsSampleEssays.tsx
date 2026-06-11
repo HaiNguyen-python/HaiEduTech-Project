@@ -28,7 +28,13 @@ const chartIcons: Record<string, React.ReactNode> = {
 
 const IeltsSampleEssays = () => {
   const { t } = useLanguage();
-  const [bandFilter, setBandFilter] = useState<"8.0+" | "7.0+">("8.0+");
+  const [searchParams] = useSearchParams();
+  const initialBand = (searchParams.get("band") === "7.0+" ? "7.0+" : "8.0+") as "8.0+" | "7.0+";
+  const [bandFilter, setBandFilter] = useState<"8.0+" | "7.0+">(initialBand);
+  useEffect(() => {
+    const b = searchParams.get("band");
+    if (b === "7.0+" || b === "8.0+") setBandFilter(b);
+  }, [searchParams]);
   const [taskFilter, setTaskFilter] = useState<"all" | "1" | "2">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [subtypeFilter, setSubtypeFilter] = useState<string>("all");
