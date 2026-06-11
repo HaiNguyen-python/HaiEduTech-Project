@@ -84,8 +84,17 @@ const Notebook = () => {
   }, []);
 
   useEffect(() => {
-    if (user) fetchNotebooks();
-  }, [user]);
+    if (!user?.id) return;
+    // Seed UI immediately from the local snapshot so old notes appear
+    // before the network call resolves — prevents the "my notes are gone!"
+    // flash if the request is slow or briefly empty.
+    (async () => {
+      const { readSnapshot } = await import("@/lib/notebookService");
+      const snap = readSnapshot(user.id);
+      if (snap && snap.length) setNotebooks(snap as unknown as Notebook[]);
+      fetchNotebooks();
+    })();
+  }, [user?.id]);
 
   useEffect(() => {
     if (user && isTeacher) fetchAllNotebooks();
@@ -190,6 +199,8 @@ const Notebook = () => {
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("student_notebooks").delete().eq("id", id);
     if (!error) {
+      const { pruneSnapshot } = await import("@/lib/notebookService");
+      if (user?.id) pruneSnapshot(user.id, id);
       toast({ title: "Đã xóa", description: "Ghi chú đã được xóa" });
       fetchNotebooks();
       if (isTeacher) fetchAllNotebooks();
@@ -274,9 +285,11 @@ const Notebook = () => {
         {(loadError || usingSnapshot) && (
           <div className="mb-4 p-3 rounded-md border border-amber-300 bg-amber-50 text-amber-900 text-sm flex items-center justify-between gap-3">
             <span>
-              {usingSnapshot
-                ? "Đang hiển thị bản sao lưu cục bộ vì không tải được từ máy chủ. Ghi chú của bạn vẫn an toàn."
-                : `Không tải được danh sách ghi chú: ${loadError}`}
+              {loadError === "empty_result_preserved_cache"
+                ? "Đang hiển thị bản sao lưu — máy chủ trả về danh sách rỗng (có thể do session vừa hết hạn). Nhấn Tải lại."
+                : usingSnapshot
+                  ? "Đang hiển thị bản sao lưu cục bộ vì không tải được từ máy chủ. Ghi chú của bạn vẫn an toàn."
+                  : `Không tải được danh sách ghi chú: ${loadError}`}
             </span>
             <Button size="sm" variant="outline" onClick={() => fetchNotebooks()}>Tải lại</Button>
           </div>

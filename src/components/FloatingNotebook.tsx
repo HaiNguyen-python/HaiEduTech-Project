@@ -197,6 +197,12 @@ const FloatingNotebook = () => {
 
   useEffect(() => {
     if (user && open) {
+      // Seed from snapshot immediately so the user sees existing notes
+      // while the server query is in flight.
+      import("@/lib/notebookService").then(({ readSnapshot }) => {
+        const snap = readSnapshot(user.id);
+        if (snap && snap.length) setNotebooks(snap as unknown as Notebook[]);
+      });
       fetchNotebooks();
     }
   }, [user, open, fetchNotebooks]);
@@ -361,7 +367,10 @@ const FloatingNotebook = () => {
 
   const handleDelete = async () => {
     if (!selectedId) return;
-    await supabase.from("student_notebooks").delete().eq("id", selectedId);
+    const deletedId = selectedId;
+    await supabase.from("student_notebooks").delete().eq("id", deletedId);
+    const { pruneSnapshot } = await import("@/lib/notebookService");
+    if (user?.id) pruneSnapshot(user.id, deletedId);
     handleNew();
     fetchNotebooks();
     toast({ title: "Đã xóa ghi chú" });
