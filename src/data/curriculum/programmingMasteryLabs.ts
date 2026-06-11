@@ -421,21 +421,24 @@ data = r.json()         # parse JSON → dict
 2. **raise_for_status** so errors surface early.
 3. **try/except** \`requests.RequestException\` for flaky networks.
 4. **Never hardcode API keys** - use environment variables.`,
-        code: `import requests
+        code: `# Calling a public REST API with the requests library (Open-Meteo, no key)
+import requests
 
 def get_weather(lat: float, lon: float):
     url = "https://api.open-meteo.com/v1/forecast"
     try:
+        # Send GET with query params and a hard timeout — never hang forever
         r = requests.get(url, params={
             "latitude": lat, "longitude": lon,
             "current_weather": "true"
         }, timeout=10)
-        r.raise_for_status()
-        cw = r.json()["current_weather"]
+        r.raise_for_status()                  # raise on HTTP 4xx / 5xx
+        cw = r.json()["current_weather"]      # parse JSON body
         return f"{cw['temperature']}°C, wind {cw['windspeed']} km/h"
-    except requests.RequestException as e:
+    except requests.RequestException as e:    # network / timeout / HTTP errors
         return f"Lookup failed: {e}"
 
+# Try three cities — same function, just different coordinates
 print("Hanoi :", get_weather(21.03, 105.85))
 print("Tokyo :", get_weather(35.68, 139.76))
 print("Sydney:", get_weather(-33.87, 151.21))`,
