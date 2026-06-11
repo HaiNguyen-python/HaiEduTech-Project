@@ -95,18 +95,33 @@ const IeltsSampleEssays = () => {
       <Navbar />
       <main className="container mx-auto px-4 py-10 max-w-6xl">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 flex items-center justify-center gap-3">
             <BookOpen className="w-8 h-8 text-primary" />
-            {t("Bài Mẫu IELTS Band 8.0+", "IELTS Sample Essays Band 8.0+")}
+            {t(`Bài Mẫu IELTS Band ${bandFilter}`, `IELTS Sample Essays Band ${bandFilter}`)}
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            {t(
-              "Bộ sưu tập bài mẫu chất lượng cao với từ vựng học thuật, bảng chú giải song ngữ và bài tập ôn tập.",
-              "High-quality essay collection with academic vocabulary, bilingual glossary and review exercises."
-            )}
+            {bandFilter === "7.0+"
+              ? t(
+                  "Bài mẫu Band 7.0+ với từ vựng và cấu trúc dễ hiểu, phù hợp cho bạn mới luyện viết và chưa quen đọc bài học thuật dài.",
+                  "Band 7.0+ essays with clearer vocabulary and structures — ideal for beginners who feel overwhelmed by long academic models."
+                )
+              : t(
+                  "Bộ sưu tập bài mẫu chất lượng cao với từ vựng học thuật, bảng chú giải song ngữ và bài tập ôn tập.",
+                  "High-quality essay collection with academic vocabulary, bilingual glossary and review exercises."
+                )}
           </p>
         </motion.div>
+
+        {/* Band tabs */}
+        <div className="flex justify-center mb-6">
+          <Tabs value={bandFilter} onValueChange={(v) => { setBandFilter(v as "7.0+" | "8.0+"); setSubtypeFilter("all"); }}>
+            <TabsList>
+              <TabsTrigger value="7.0+">🌱 Band 7.0+ <span className="ml-1 text-xs opacity-70">({t("cơ bản", "easier")})</span></TabsTrigger>
+              <TabsTrigger value="8.0+">🏆 Band 8.0+ <span className="ml-1 text-xs opacity-70">({t("nâng cao", "advanced")})</span></TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
 
         {/* Filters */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
