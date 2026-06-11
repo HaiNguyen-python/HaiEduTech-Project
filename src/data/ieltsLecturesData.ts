@@ -3651,6 +3651,7 @@ import { speakingExpansion } from "./ieltsLecturesSpeakingExpansion";
 import { speakingExpansion2 } from "./ieltsLecturesSpeakingExpansion2";
 import { speakingExpansion3 } from "./ieltsLecturesSpeakingExpansion3";
 import { speakingExpansion4 } from "./ieltsLecturesSpeakingExpansion4";
+import { speakingExpansion5 } from "./ieltsLecturesSpeakingExpansion5";
 import { grammarCoreExpansion, vocabCoreExpansion, tipsCoreExpansion } from "./ieltsLecturesCoreExpansion";
 
 export const allIeltsLectures: IeltsLecture[] = [
