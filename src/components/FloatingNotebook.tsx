@@ -367,7 +367,10 @@ const FloatingNotebook = () => {
 
   const handleDelete = async () => {
     if (!selectedId) return;
-    await supabase.from("student_notebooks").delete().eq("id", selectedId);
+    const deletedId = selectedId;
+    await supabase.from("student_notebooks").delete().eq("id", deletedId);
+    const { pruneSnapshot } = await import("@/lib/notebookService");
+    if (user?.id) pruneSnapshot(user.id, deletedId);
     handleNew();
     fetchNotebooks();
     toast({ title: "Đã xóa ghi chú" });
