@@ -72,6 +72,8 @@ export interface SampleEssay {
   glossary: GlossaryEntry[];
   reviewExercise: ReviewExercise;
   chartConfig?: ChartConfig;
+  /** Target band of the model answer. Undefined = legacy 8.0+ essays. */
+  band?: "7.0+" | "8.0+";
 }
 
 import { sampleEssaysExpansion } from "./ieltsSampleEssaysExpansion";
@@ -2325,4 +2327,14 @@ const baseSampleEssays: SampleEssay[] = [
   }
 ];
 
-export const sampleEssays: SampleEssay[] = [...baseSampleEssays, ...sampleEssaysExpansion];
+import { sampleEssays70Plus } from "./ieltsSampleEssays70Plus";
+
+// Tag legacy essays as Band 8.0+ (they were authored at that level)
+const baseSampleEssays80: SampleEssay[] = baseSampleEssays.map(e => ({ ...e, band: e.band ?? "8.0+" }));
+const sampleEssaysExpansion80: SampleEssay[] = sampleEssaysExpansion.map(e => ({ ...e, band: e.band ?? "8.0+" }));
+
+export const sampleEssays: SampleEssay[] = [
+  ...baseSampleEssays80,
+  ...sampleEssaysExpansion80,
+  ...sampleEssays70Plus,
+];

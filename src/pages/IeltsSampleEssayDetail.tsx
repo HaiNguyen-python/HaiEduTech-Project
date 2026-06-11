@@ -175,7 +175,7 @@ const IeltsSampleEssayDetail = () => {
             <div className="flex items-center gap-2 mb-1.5">
               <Badge variant={essay.taskType === 1 ? "secondary" : "default"}>Task {essay.taskType}</Badge>
               <Badge variant="outline" className="capitalize">{essay.chartType || essay.essayType}</Badge>
-              <Badge variant="outline">Band 8.0+</Badge>
+              <Badge variant="outline">Band {essay.band ?? "8.0+"}</Badge>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground capitalize">{essay.topic}</h1>
           </div>
@@ -219,7 +219,7 @@ const IeltsSampleEssayDetail = () => {
             <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
-                {t("Xem toàn bộ bài mẫu (Band 8.0+)", "View full sample essay (Band 8.0+)")}
+                {t(`Xem toàn bộ bài mẫu (Band ${essay.band ?? "8.0+"})`, `View full sample essay (Band ${essay.band ?? "8.0+"})`)}
               </h2>
               <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
