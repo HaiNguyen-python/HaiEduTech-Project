@@ -84,8 +84,17 @@ const Notebook = () => {
   }, []);
 
   useEffect(() => {
-    if (user) fetchNotebooks();
-  }, [user]);
+    if (!user?.id) return;
+    // Seed UI immediately from the local snapshot so old notes appear
+    // before the network call resolves — prevents the "my notes are gone!"
+    // flash if the request is slow or briefly empty.
+    (async () => {
+      const { readSnapshot } = await import("@/lib/notebookService");
+      const snap = readSnapshot(user.id);
+      if (snap && snap.length) setNotebooks(snap as unknown as Notebook[]);
+      fetchNotebooks();
+    })();
+  }, [user?.id]);
 
   useEffect(() => {
     if (user && isTeacher) fetchAllNotebooks();
