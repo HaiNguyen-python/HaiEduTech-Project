@@ -28,6 +28,7 @@ const chartIcons: Record<string, React.ReactNode> = {
 
 const IeltsSampleEssays = () => {
   const { t } = useLanguage();
+  const [bandFilter, setBandFilter] = useState<"8.0+" | "7.0+">("8.0+");
   const [taskFilter, setTaskFilter] = useState<"all" | "1" | "2">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [subtypeFilter, setSubtypeFilter] = useState<string>("all");
@@ -41,22 +42,28 @@ const IeltsSampleEssays = () => {
     setStars(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   }, []);
 
-  // Get available subtypes based on task filter
+  // Essays in currently selected band
+  const essaysInBand = useMemo(
+    () => sampleEssays.filter(e => (e.band ?? "8.0+") === bandFilter),
+    [bandFilter]
+  );
+
+  // Get available subtypes based on task filter (within current band)
   const subtypes = useMemo(() => {
     if (taskFilter === "1") {
-      const types = [...new Set(sampleEssays.filter(e => e.taskType === 1).map(e => e.chartType || ""))];
+      const types = [...new Set(essaysInBand.filter(e => e.taskType === 1).map(e => e.chartType || ""))];
       return types.filter(Boolean);
     }
     if (taskFilter === "2") {
-      const types = [...new Set(sampleEssays.filter(e => e.taskType === 2).map(e => e.essayType || ""))];
+      const types = [...new Set(essaysInBand.filter(e => e.taskType === 2).map(e => e.essayType || ""))];
       return types.filter(Boolean);
     }
     return [];
-  }, [taskFilter]);
+  }, [taskFilter, essaysInBand]);
 
   // Filter essays
   const filtered = useMemo(() => {
-    return sampleEssays.filter(essay => {
+    return essaysInBand.filter(essay => {
       if (starredOnly && !stars.has(essay.id)) return false;
       if (taskFilter !== "all" && essay.taskType !== Number(taskFilter)) return false;
       if (subtypeFilter !== "all") {
@@ -69,7 +76,7 @@ const IeltsSampleEssays = () => {
       }
       return true;
     });
-  }, [taskFilter, subtypeFilter, searchQuery, starredOnly, stars]);
+  }, [essaysInBand, taskFilter, subtypeFilter, searchQuery, starredOnly, stars]);
 
   return (
     <div className="min-h-screen bg-background">
