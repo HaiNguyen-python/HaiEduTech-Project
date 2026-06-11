@@ -24,6 +24,7 @@ import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansion
 import RichTheoryText from "@/components/ielts/RichTheoryText";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
 import SEO from "@/components/SEO";
+import { getSpeakingHeroImage } from "@/data/ieltsSpeakingHeroImages";
 
 // Vocab Highlighter component - inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
@@ -197,6 +198,27 @@ const IeltsLectureView = () => {
             <p className="text-lg text-muted-foreground max-w-2xl">
               {t(lecture.descriptionVi, lecture.description)}
             </p>
+            {(() => {
+              const hero = getSpeakingHeroImage(lecture);
+              if (!hero) return null;
+              return (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="mt-5 rounded-2xl overflow-hidden border border-border shadow-sm bg-gradient-to-br from-rose-500/5 via-background to-pink-500/5"
+                >
+                  <img
+                    src={hero}
+                    alt={`${t(lecture.titleVi, lecture.title)} illustration`}
+                    loading="lazy"
+                    width={1024}
+                    height={1024}
+                    className="w-full h-48 sm:h-64 md:h-72 object-cover"
+                  />
+                </motion.div>
+              );
+            })()}
           </motion.div>
         </section>
 

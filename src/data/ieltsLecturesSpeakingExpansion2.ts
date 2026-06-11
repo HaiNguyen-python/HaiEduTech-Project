@@ -1,0 +1,736 @@
+/**
+ * @file ieltsLecturesSpeakingExpansion2.ts
+ * @description Additional IELTS Speaking lectures with hand-crafted (not
+ * templated) strategy steps, practical examples and golden secrets. Ordered
+ * roughly foundation → advanced. Hero illustrations are auto-mapped via
+ * src/data/ieltsSpeakingHeroImages.ts.
+ */
+import type { IeltsLecture } from "./ieltsLecturesData";
+
+export const speakingExpansion2: IeltsLecture[] = [
+  // ============ FOUNDATION ============
+  {
+    id: "speaking-part1-extending-answers",
+    title: "Part 1: Extending Short Answers (PEEL-light)",
+    titleVi: "Part 1: Mở rộng câu trả lời ngắn (PEEL nhẹ)",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "💬",
+    duration: "14 min",
+    level: "foundation",
+    description: "Stop answering Part 1 in one sentence. Learn the 3-line PEEL-light formula that turns 'Yes I do' into a Band 7 response.",
+    descriptionVi: "Đừng trả lời Part 1 chỉ 1 câu. Học công thức PEEL nhẹ 3 dòng biến 'Yes I do' thành câu Band 7.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Direct answer (1 line)",
+        titleVi: "Trả lời thẳng (1 dòng)",
+        description: "Begin with a clear yes/no or a short statement. Never hedge with 'It depends' as your opener.",
+        descriptionVi: "Bắt đầu bằng yes/no rõ ràng hoặc một câu khẳng định ngắn. Không mở đầu bằng 'It depends'.",
+      },
+      {
+        step: 2,
+        title: "Add a reason (1 line)",
+        titleVi: "Thêm lý do (1 dòng)",
+        description: "Use 'because', 'mainly because', 'the main reason is' — give 1 short justification.",
+        descriptionVi: "Dùng 'because', 'mainly because', 'the main reason is' — đưa 1 lý do ngắn.",
+      },
+      {
+        step: 3,
+        title: "Add an example or detail (1 line)",
+        titleVi: "Thêm ví dụ hoặc chi tiết (1 dòng)",
+        description: "End with 'For example,…' or 'In my case,…'. This is what pushes Lexical Resource up.",
+        descriptionVi: "Kết bằng 'For example,…' hoặc 'In my case,…'. Đây là yếu tố đẩy Lexical Resource lên.",
+      },
+      {
+        step: 4,
+        title: "Stop. Don't overrun",
+        titleVi: "Dừng lại. Đừng nói quá",
+        description: "Part 1 answers must be 20-35 seconds. Going longer steals time from Parts 2-3 and shows poor pacing.",
+        descriptionVi: "Câu trả lời Part 1 nên 20-35 giây. Nói dài hơn ăn vào thời gian Part 2-3 và lộ kỹ năng phân bổ kém.",
+      },
+    ],
+    practicalExamples: [
+      {
+        context: "Question: 'Do you enjoy cooking?'",
+        contextVi: "Câu hỏi: 'Do you enjoy cooking?'",
+        example: "Yes, I genuinely enjoy cooking. The main reason is that it helps me unwind after a long day at work. For example, last weekend I tried a new Thai green curry recipe and the whole process felt really therapeutic.",
+        explanation: "3 lines = direct + reason + example. Notice 'genuinely', 'unwind', 'therapeutic' — all Band 7 lexis.",
+      },
+      {
+        context: "Question: 'Do you often use public transport?'",
+        contextVi: "Câu hỏi: 'Do you often use public transport?'",
+        example: "Not really, to be honest. The main reason is that the bus routes near my house aren't very convenient. In my case, I tend to use a motorbike for short trips and ride-hailing apps when I need to go further.",
+        explanation: "Negative answers still need the 3-line frame. Stay specific — 'not very convenient' beats 'it's bad'.",
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Answering in a single sentence ('Yes, I do.')",
+        mistakeVi: "Trả lời chỉ một câu ('Yes, I do.')",
+        why: "Examiners interpret 1-line answers as low fluency and the score caps at Band 5.",
+        whyVi: "Giám khảo coi câu 1 dòng là fluency thấp và điểm giới hạn ở Band 5.",
+      },
+      {
+        mistake: "Speaking for 60+ seconds in Part 1",
+        mistakeVi: "Nói 60+ giây ở Part 1",
+        why: "Over-answering shows poor task awareness and disrupts the examiner's flow of questions.",
+        whyVi: "Nói quá dài cho thấy thí sinh không hiểu yêu cầu và làm gián đoạn giám khảo.",
+      },
+    ],
+    goldenSecret: "Memorise 5 reason connectors and 3 example openers — that's the entire toolkit you need for every Part 1 question.",
+    goldenSecretVi: "Học thuộc 5 cụm nối lý do và 3 cụm mở ví dụ — đó là toàn bộ bộ công cụ bạn cần cho mọi câu Part 1.",
+    vocabHighlights: [],
+    quiz: [
+      {
+        question: "Why is a 1-sentence Part 1 answer dangerous?",
+        options: ["It's too rude", "Examiners cap fluency at Band 5", "You'll fail the test instantly", "It uses too much grammar"],
+        answer: 1,
+        explanation: "Examiners interpret one-line answers as low fluency, capping the score at Band 5.",
+      },
+      {
+        question: "What is the ideal length of a Part 1 answer?",
+        options: ["5-10 seconds", "20-35 seconds", "60-90 seconds", "Over 2 minutes"],
+        answer: 1,
+        explanation: "20-35 seconds = 3 lines (PEEL-light) is the sweet spot.",
+      },
+    ],
+    cheatSheetPoints: [
+      "Line 1: Direct yes/no or short statement",
+      "Line 2: 'The main reason is…' / 'mainly because…'",
+      "Line 3: 'For example,…' / 'In my case,…'",
+      "Total length: 20-35 seconds (≈ 50-70 words)",
+      "❌ Never start with 'It depends' — vague = Band 5",
+    ],
+  },
+
+  // ============ FOUNDATION ============
+  {
+    id: "speaking-part1-warm-up-mistakes",
+    title: "Part 1: The 5 Warm-up Mistakes That Tank Your Band",
+    titleVi: "Part 1: 5 lỗi khởi động khiến điểm Part 1 tụt thê thảm",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "⚠️",
+    duration: "12 min",
+    level: "foundation",
+    description: "The first 90 seconds of the test shape the examiner's first impression. Avoid the 5 fatal warm-up mistakes here.",
+    descriptionVi: "90 giây đầu định hình ấn tượng giám khảo. Tránh 5 lỗi khởi động chết người này.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Don't memorise the introduction",
+        titleVi: "Đừng học thuộc phần giới thiệu",
+        description: "Memorised answers ('My name is X, I am a happy person who loves…') sound robotic and trigger an instant Band 5 flag.",
+        descriptionVi: "Câu học thuộc ('My name is X, I am a happy person who loves…') nghe như robot và bị đánh dấu Band 5 ngay.",
+      },
+      {
+        step: 2,
+        title: "Speak at conversational speed",
+        titleVi: "Nói với tốc độ trò chuyện",
+        description: "Many candidates speak too fast in nerves. Aim for 110-130 words/min — slightly slower than normal Vietnamese chat speed.",
+        descriptionVi: "Nhiều thí sinh nói quá nhanh vì hồi hộp. Hãy nói 110-130 từ/phút — chậm hơn tốc độ trò chuyện tiếng Việt thông thường.",
+      },
+      {
+        step: 3,
+        title: "Maintain natural eye contact",
+        titleVi: "Duy trì giao tiếp mắt tự nhiên",
+        description: "Avoid staring at the ceiling when 'thinking'. Glance away briefly, then return — like a normal conversation.",
+        descriptionVi: "Đừng nhìn trần nhà khi 'suy nghĩ'. Liếc nhẹ rồi quay lại — như trò chuyện bình thường.",
+      },
+      {
+        step: 4,
+        title: "Don't ask for repetition twice",
+        titleVi: "Đừng hỏi lại quá 2 lần",
+        description: "One 'Sorry, could you repeat that?' is fine. Two or more shows Listening weakness which crosses skills in examiner notes.",
+        descriptionVi: "Một lần 'Sorry, could you repeat that?' không sao. Từ 2 lần trở đi là điểm yếu Listening và bị ghi chú chéo.",
+      },
+    ],
+    practicalExamples: [
+      {
+        context: "Memorised vs. Natural Introduction",
+        contextVi: "Mở đầu học thuộc vs. tự nhiên",
+        example: "❌ 'Good morning, my name is Linh. I am a 21-year-old university student. I am hard-working, friendly and ambitious.' ✅ 'Good morning, I'm Linh. I'm in my final year of university, studying marketing.'",
+        explanation: "Version 2 sounds spoken, not recited. Examiners detect rehearsed lists within 5 seconds.",
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Reciting personal-info bullet points",
+        mistakeVi: "Đọc thuộc danh sách thông tin cá nhân",
+        why: "Reciting triggers an instant 'memorised answer' flag and caps the warm-up at Band 5.",
+        whyVi: "Đọc thuộc bị đánh dấu 'câu học thuộc' ngay và giới hạn phần khởi động ở Band 5.",
+      },
+      {
+        mistake: "Speaking too quietly because of nerves",
+        mistakeVi: "Nói quá nhỏ vì hồi hộp",
+        why: "Quiet voice affects Pronunciation score and makes the examiner ask for repeats — which hurts your fluency.",
+        whyVi: "Giọng nhỏ ảnh hưởng Pronunciation và khiến giám khảo hỏi lại — ảnh hưởng cả fluency.",
+      },
+    ],
+    goldenSecret: "Smile naturally for the first 5 seconds before you speak — it relaxes your throat and lifts your voice tone, instantly improving pronunciation.",
+    goldenSecretVi: "Cười tự nhiên trong 5 giây đầu trước khi nói — giúp thư giãn cổ họng và nâng tông giọng, cải thiện phát âm ngay lập tức.",
+    vocabHighlights: [],
+    quiz: [
+      {
+        question: "Why is a memorised intro dangerous?",
+        options: ["It takes too long", "Examiners detect it and cap your score at Band 5", "It's rude", "It uses bad grammar"],
+        answer: 1,
+        explanation: "Memorised answers are flagged within seconds, capping the warm-up at Band 5.",
+      },
+      {
+        question: "What is the safe maximum number of 'Could you repeat that?' requests?",
+        options: ["Zero", "One", "Three", "As many as you need"],
+        answer: 1,
+        explanation: "One is acceptable; two or more is flagged as a Listening weakness.",
+      },
+    ],
+    cheatSheetPoints: [
+      "❌ Never recite memorised personal info",
+      "✅ Speak at 110-130 words/min (slightly slow)",
+      "✅ Smile for 5 seconds before answering — lifts tone",
+      "✅ One repeat request is fine, two is too many",
+      "✅ Natural eye contact, not ceiling-staring",
+    ],
+  },
+
+  // ============ INTERMEDIATE ============
+  {
+    id: "speaking-part2-the-cue-card-90-second-plan",
+    title: "Part 2: The 90-Second Cue Card Planning System",
+    titleVi: "Part 2: Hệ thống lập dàn ý 90 giây cho Cue Card",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "📝",
+    duration: "18 min",
+    level: "intermediate",
+    description: "Master the 1-minute planning phase. Learn the WWWHF system to fill all 4 bullet points without freezing.",
+    descriptionVi: "Làm chủ 1 phút lập dàn ý. Học hệ thống WWWHF để phủ đủ 4 gạch đầu dòng mà không bị đơ.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "First 15 seconds: choose ONE specific subject",
+        titleVi: "15 giây đầu: chọn MỘT đối tượng cụ thể",
+        description: "If the card asks about 'a memorable trip', do NOT think generally about trips. Pick one — 'my Da Lat trip with my mum in 2023'. Specific = easier to talk about.",
+        descriptionVi: "Nếu thẻ hỏi 'a memorable trip', ĐỪNG nghĩ chung chung. Chọn một cái — 'chuyến Đà Lạt với mẹ năm 2023'. Càng cụ thể càng dễ nói.",
+      },
+      {
+        step: 2,
+        title: "Next 30 seconds: WWWHF skeleton",
+        titleVi: "30 giây tiếp: khung WWWHF",
+        description: "Jot 5 single-word notes: WHO, WHERE, WHEN, HOW (it happened), FEELING (your reaction). One word per bullet — never full sentences.",
+        descriptionVi: "Ghi 5 chữ đơn: WHO, WHERE, WHEN, HOW (chuyện xảy ra thế nào), FEELING (cảm xúc của bạn). Một từ mỗi gạch đầu dòng — không viết câu đầy đủ.",
+      },
+      {
+        step: 3,
+        title: "Final 15 seconds: pick 1 'wow' detail",
+        titleVi: "15 giây cuối: chọn 1 chi tiết 'đắt'",
+        description: "Add one sensory or surprising detail (the smell, a sound, an unexpected moment). This is what makes the story memorable to the examiner.",
+        descriptionVi: "Thêm một chi tiết giác quan hoặc bất ngờ (mùi, âm thanh, khoảnh khắc lạ). Đây là thứ khiến câu chuyện đáng nhớ với giám khảo.",
+      },
+      {
+        step: 4,
+        title: "When the bell rings: open strong",
+        titleVi: "Khi chuông reo: mở đầu mạnh mẽ",
+        description: "Start with 'I'd like to talk about…' or 'The [thing] I'd like to describe is…'. Never start with 'Um…' or 'OK so…'.",
+        descriptionVi: "Bắt đầu bằng 'I'd like to talk about…' hoặc 'The [thing] I'd like to describe is…'. Đừng bao giờ mở bằng 'Um…' hay 'OK so…'.",
+      },
+    ],
+    practicalExamples: [
+      {
+        context: "Cue card: 'Describe a piece of technology you find useful'",
+        contextVi: "Cue card: 'Describe a piece of technology you find useful'",
+        example: "WWWHF notes: WHAT = my Kindle | WHERE = bedroom + commutes | WHEN = bought 2023 | HOW = changed reading habits | FEELING = freedom. Wow detail = 'I read 47 books last year — three times more than the previous year.'",
+        explanation: "5 words + 1 number = 2 minutes of content. The wow detail is what lifts the answer from Band 6 to Band 7.5.",
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Writing full sentences during planning",
+        mistakeVi: "Viết câu hoàn chỉnh khi lập dàn ý",
+        why: "You then read aloud — robotic delivery, low fluency, instant Band 5 cap.",
+        whyVi: "Sau đó bạn đọc to — nghe như robot, fluency thấp, bị giới hạn Band 5 ngay.",
+      },
+      {
+        mistake: "Choosing too broad a subject ('travelling in general')",
+        mistakeVi: "Chọn chủ đề quá rộng ('du lịch nói chung')",
+        why: "Broad subjects force you to generalise, which kills personal detail — the heart of a Band 7+ Part 2.",
+        whyVi: "Chủ đề rộng khiến bạn nói chung chung, làm mất chi tiết cá nhân — linh hồn của Part 2 Band 7+.",
+      },
+    ],
+    goldenSecret: "If you can't decide between two stories in 10 seconds, pick the one with a STRONGER feeling. Emotion drives detail, and detail drives the band.",
+    goldenSecretVi: "Nếu phân vân giữa hai câu chuyện trong 10 giây, chọn cái có CẢM XÚC mạnh hơn. Cảm xúc tạo chi tiết, chi tiết nâng band.",
+    vocabHighlights: [],
+    quiz: [
+      {
+        question: "What should you write in your planning notes?",
+        options: ["Full sentences in English", "Single words / one-line skeleton", "Vietnamese translation", "Full opening sentence"],
+        answer: 1,
+        explanation: "Single-word skeletons prevent robotic reading and force natural speech.",
+      },
+      {
+        question: "What does WWWHF stand for?",
+        options: ["Who/What/Where/How/Feeling", "Why/When/Where/How/Final", "What/When/Where/Hot/Fresh", "Who/Why/Where/Hard/Funny"],
+        answer: 0,
+        explanation: "WHO, WHERE, WHEN, HOW (it happened), FEELING (your reaction) — 5 single words.",
+      },
+    ],
+    cheatSheetPoints: [
+      "0-15s: Pick ONE specific subject (not generic)",
+      "15-45s: Jot 5 single words (WWWHF)",
+      "45-60s: Add 1 sensory 'wow' detail",
+      "Bell: Open with 'I'd like to talk about…'",
+      "❌ Never write full sentences — you'll read them robotically",
+    ],
+  },
+
+  // ============ INTERMEDIATE ============
+  {
+    id: "speaking-fluency-the-3-second-rule",
+    title: "Fluency: The 3-Second Silence Rule",
+    titleVi: "Fluency: Quy tắc im lặng 3 giây",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "⏱️",
+    duration: "14 min",
+    level: "intermediate",
+    description: "Pauses longer than 3 seconds count as hesitations and drop your fluency. Learn 6 thinking phrases that buy time without sounding lost.",
+    descriptionVi: "Im lặng quá 3 giây bị tính là hesitation và làm tụt fluency. Học 6 cụm 'câu giờ' không để lộ bí từ.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Know the threshold: 3 seconds",
+        titleVi: "Biết ngưỡng: 3 giây",
+        description: "Beyond 3 seconds of silence, examiners mark it as a noticeable hesitation. Multiple hesitations cap Fluency at Band 6.",
+        descriptionVi: "Im lặng quá 3 giây bị giám khảo đánh dấu là hesitation rõ ràng. Nhiều lần như vậy giới hạn Fluency ở Band 6.",
+      },
+      {
+        step: 2,
+        title: "Use 'thinking phrases', not 'Um/Er'",
+        titleVi: "Dùng 'cụm nghĩ', không phải 'Um/Er'",
+        description: "Replace 'um' with: 'That's an interesting question…', 'Let me think for a moment…', 'I've never really thought about it, but…'.",
+        descriptionVi: "Thay 'um' bằng: 'That's an interesting question…', 'Let me think for a moment…', 'I've never really thought about it, but…'.",
+      },
+      {
+        step: 3,
+        title: "Restate the question (only in Part 3)",
+        titleVi: "Nhắc lại câu hỏi (chỉ ở Part 3)",
+        description: "In Part 3, paraphrasing the question ('So you're asking whether…') buys 5 extra seconds AND demonstrates understanding.",
+        descriptionVi: "Ở Part 3, diễn đạt lại câu hỏi ('So you're asking whether…') giúp câu giờ thêm 5 giây VÀ chứng minh bạn hiểu câu hỏi.",
+      },
+      {
+        step: 4,
+        title: "Self-correct quickly, then move on",
+        titleVi: "Tự sửa nhanh, rồi tiếp tục",
+        description: "Slip on grammar? Say '…sorry, I mean…' and continue. This is rewarded as self-correction, not punished.",
+        descriptionVi: "Lỡ sai ngữ pháp? Nói '…sorry, I mean…' rồi tiếp tục. Đây được tính là self-correction, không bị trừ điểm.",
+      },
+    ],
+    practicalExamples: [
+      {
+        context: "Buying time naturally (Part 3)",
+        contextVi: "Câu giờ tự nhiên (Part 3)",
+        example: "Q: 'Why do some people prefer to work alone?' A: 'Hmm, that's actually an interesting question — I've never really thought about it from that angle. I suppose the main reason would be that…'",
+        explanation: "The thinking phrase buys ~4 seconds without any awkward silence. Notice 'I suppose' = soft hedge that signals opinion.",
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Filling pauses with 'Um, er, ah, like…'",
+        mistakeVi: "Lấp khoảng lặng bằng 'Um, er, ah, like…'",
+        why: "These count as hesitation markers and directly lower the Fluency score.",
+        whyVi: "Đây là dấu hiệu hesitation và trực tiếp làm tụt điểm Fluency.",
+      },
+      {
+        mistake: "Repeating the entire question word-for-word",
+        mistakeVi: "Lặp nguyên văn câu hỏi",
+        why: "Verbatim repetition wastes time without showing comprehension — paraphrase instead.",
+        whyVi: "Lặp y nguyên tốn thời gian mà không chứng minh hiểu — hãy diễn đạt lại.",
+      },
+    ],
+    goldenSecret: "Train 3 'thinking phrases' until they're automatic. When you panic in the test, your mouth reaches for what's been drilled — not for 'um'.",
+    goldenSecretVi: "Luyện 3 'cụm nghĩ' đến mức tự động. Khi hoảng trong phòng thi, miệng sẽ phản xạ tới những gì đã luyện — không phải 'um'.",
+    vocabHighlights: [],
+    quiz: [
+      {
+        question: "How long can you pause before it's marked as hesitation?",
+        options: ["1 second", "3 seconds", "10 seconds", "There's no limit"],
+        answer: 1,
+        explanation: "Beyond ~3 seconds of silence, the examiner marks a noticeable hesitation.",
+      },
+      {
+        question: "Which is the BEST thinking phrase?",
+        options: ["Um, er, ah…", "Wait, wait, wait…", "That's an interesting question — let me think for a moment…", "I don't know, sorry…"],
+        answer: 2,
+        explanation: "Full thinking phrases buy time naturally; 'um' is penalised as hesitation.",
+      },
+    ],
+    cheatSheetPoints: [
+      "Pause limit: 3 seconds — beyond = hesitation flag",
+      "Replace 'um' → 'Let me think for a moment…'",
+      "Part 3: paraphrase the question to buy 5s",
+      "Self-correction: '…sorry, I mean…' is REWARDED",
+      "Drill 3 thinking phrases until automatic",
+    ],
+  },
+
+  // ============ INTERMEDIATE ============
+  {
+    id: "speaking-pronunciation-word-stress",
+    title: "Pronunciation: Word Stress That Examiners Notice First",
+    titleVi: "Pronunciation: Trọng âm từ - thứ giám khảo nhận ra đầu tiên",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "🔊",
+    duration: "16 min",
+    level: "intermediate",
+    description: "Vietnamese speakers often place stress on the wrong syllable, which breaks intelligibility. Master the 4 most common stress patterns.",
+    descriptionVi: "Người Việt thường đặt trọng âm sai âm tiết khiến người nghe khó hiểu. Làm chủ 4 quy luật trọng âm phổ biến nhất.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Pattern 1: 2-syllable nouns → stress 1st",
+        titleVi: "Quy luật 1: danh từ 2 âm tiết → trọng âm âm 1",
+        description: "DOCtor, TEAcher, MUsic, COMputer. Vietnamese instinct often shifts to the second syllable — resist.",
+        descriptionVi: "DOCtor, TEAcher, MUsic, COMputer. Phản xạ tiếng Việt thường đẩy trọng âm sang âm 2 — hãy kiềm chế.",
+      },
+      {
+        step: 2,
+        title: "Pattern 2: 2-syllable verbs → stress 2nd",
+        titleVi: "Quy luật 2: động từ 2 âm tiết → trọng âm âm 2",
+        description: "deCIDE, beGIN, reLAX, exPLAIN. Same word may shift: a REcord (n) vs. to reCORD (v).",
+        descriptionVi: "deCIDE, beGIN, reLAX, exPLAIN. Cùng một từ có thể đổi: a REcord (n) vs. to reCORD (v).",
+      },
+      {
+        step: 3,
+        title: "Pattern 3: words ending in -tion/-sion/-ic → stress 1 syllable BEFORE",
+        titleVi: "Quy luật 3: -tion/-sion/-ic → trọng âm âm liền TRƯỚC",
+        description: "infor-MA-tion, deci-SION, eco-NO-mic, sci-en-TI-fic. Highly predictable — drill these endings.",
+        descriptionVi: "infor-MA-tion, deci-SION, eco-NO-mic, sci-en-TI-fic. Cực dễ đoán — hãy luyện kỹ các đuôi này.",
+      },
+      {
+        step: 4,
+        title: "Pattern 4: compound nouns → stress 1st part",
+        titleVi: "Quy luật 4: danh từ ghép → trọng âm phần đầu",
+        description: "WHITEboard, GREENhouse, BOOKshop, RAINbow. Compound = 1st word stressed, always.",
+        descriptionVi: "WHITEboard, GREENhouse, BOOKshop, RAINbow. Danh từ ghép = nhấn phần đầu, luôn luôn.",
+      },
+    ],
+    practicalExamples: [
+      {
+        context: "Common Vietnamese stress mistakes",
+        contextVi: "Lỗi trọng âm phổ biến của người Việt",
+        example: "❌ comPUter (Vietnamese habit) → ✅ comPUter wait, ✅ COMPUter (American) or comPUter (British). ❌ ecoNOmic (wrong) → ✅ ecoNOmic. ❌ INterEST (wrong) → ✅ INterest.",
+        explanation: "Repeat each word 3 times with hand-clap on the stressed syllable to build muscle memory.",
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Stressing every syllable equally",
+        mistakeVi: "Nhấn đều mọi âm tiết",
+        why: "English is a stress-timed language. Flat stress sounds robotic and lowers Pronunciation to Band 5.",
+        whyVi: "Tiếng Anh là ngôn ngữ nhấn theo trọng âm. Nhấn đều nghe như robot và làm Pronunciation tụt xuống Band 5.",
+      },
+      {
+        mistake: "Stressing the wrong syllable in long words",
+        mistakeVi: "Nhấn sai âm tiết trong từ dài",
+        why: "Even one wrong stress can make a word unrecognisable to the examiner.",
+        whyVi: "Chỉ cần sai 1 trọng âm là giám khảo có thể không nhận ra từ.",
+      },
+    ],
+    goldenSecret: "Clap your hands on the stressed syllable when you practise. Physical movement embeds stress patterns 3x faster than silent reading.",
+    goldenSecretVi: "Vỗ tay vào âm tiết được nhấn khi luyện. Vận động cơ thể giúp ghi nhớ trọng âm nhanh gấp 3 lần đọc thầm.",
+    vocabHighlights: [],
+    quiz: [
+      {
+        question: "Where is the stress in words ending in '-tion'?",
+        options: ["First syllable", "Syllable before -tion", "Last syllable", "Random"],
+        answer: 1,
+        explanation: "info-MA-tion, deci-SION, edu-CA-tion — always the syllable before the suffix.",
+      },
+      {
+        question: "Compound noun 'greenhouse' — which part is stressed?",
+        options: ["First part (GREEN-house)", "Second part (green-HOUSE)", "Both equally", "Neither"],
+        answer: 0,
+        explanation: "Compound nouns always stress the first element.",
+      },
+    ],
+    cheatSheetPoints: [
+      "2-syl noun: stress 1st (DOCtor, MUsic)",
+      "2-syl verb: stress 2nd (deCIDE, beGIN)",
+      "-tion/-sion/-ic: stress syllable BEFORE the suffix",
+      "Compound nouns: stress 1st part (WHITEboard)",
+      "Clap on stressed syllable when practising = 3x faster memory",
+    ],
+  },
+
+  // ============ ADVANCED ============
+  {
+    id: "speaking-part3-the-hedging-toolkit",
+    title: "Part 3: The Hedging Toolkit for Critical Thinking",
+    titleVi: "Part 3: Bộ công cụ 'hedging' cho tư duy phản biện",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "🤔",
+    duration: "18 min",
+    level: "advanced",
+    description: "Band 7.5+ Part 3 speakers don't make absolute claims. Master the 8 hedging structures that signal nuanced thinking to the examiner.",
+    descriptionVi: "Thí sinh Band 7.5+ ở Part 3 không nói tuyệt đối. Làm chủ 8 cấu trúc 'hedging' báo hiệu tư duy đa chiều.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Replace absolutes with modal verbs",
+        titleVi: "Thay từ tuyệt đối bằng động từ khuyết thiếu",
+        description: "Avoid 'All people…', 'Everyone…', 'Always…'. Use 'most people tend to…', 'people often…', 'this can sometimes…'.",
+        descriptionVi: "Tránh 'All people…', 'Everyone…', 'Always…'. Dùng 'most people tend to…', 'people often…', 'this can sometimes…'.",
+      },
+      {
+        step: 2,
+        title: "Show 2 sides before concluding",
+        titleVi: "Trình bày 2 mặt trước khi kết luận",
+        description: "Use 'On the one hand,… on the other hand,…' or 'While X is true, Y is also worth considering…'.",
+        descriptionVi: "Dùng 'On the one hand,… on the other hand,…' hoặc 'While X is true, Y is also worth considering…'.",
+      },
+      {
+        step: 3,
+        title: "Speculate with 2nd conditional",
+        titleVi: "Suy đoán bằng câu điều kiện loại 2",
+        description: "'If governments invested more in…, we'd probably see…'. The conditional + 'probably' shows speculative reasoning.",
+        descriptionVi: "'If governments invested more in…, we'd probably see…'. Câu điều kiện + 'probably' thể hiện suy đoán có lập luận.",
+      },
+      {
+        step: 4,
+        title: "Soften your opinion with 'arguably'",
+        titleVi: "Làm mềm quan điểm bằng 'arguably'",
+        description: "'Arguably the biggest reason is…' or 'It could be argued that…'. Both signal academic, measured thinking.",
+        descriptionVi: "'Arguably the biggest reason is…' hoặc 'It could be argued that…'. Cả hai báo hiệu tư duy học thuật, có chừng mực.",
+      },
+    ],
+    practicalExamples: [
+      {
+        context: "Question: 'Should governments fund space exploration?'",
+        contextVi: "Câu hỏi: 'Should governments fund space exploration?'",
+        example: "Hmm, that's a really layered question. On the one hand, space exploration drives technological innovation that often spills over into everyday life — GPS and satellite weather forecasting are classic examples. On the other hand, it could be argued that the same funding might have a more immediate impact if directed at problems like poverty or climate change. So my view is that a balanced approach is probably the most sensible.",
+        explanation: "Notice the hedges: 'layered question', 'often', 'it could be argued', 'probably'. None of this is absolute — pure Band 7.5+ register.",
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using absolute statements ('Everyone hates X')",
+        mistakeVi: "Dùng câu tuyệt đối ('Everyone hates X')",
+        why: "Absolutes signal black-and-white thinking and cap Lexical Resource at Band 6.5.",
+        whyVi: "Câu tuyệt đối báo hiệu tư duy trắng-đen và giới hạn Lexical Resource ở Band 6.5.",
+      },
+      {
+        mistake: "Refusing to give an opinion",
+        mistakeVi: "Từ chối đưa ra quan điểm",
+        why: "Examiners need to hear YOUR view at the end. 'I don't really know' is treated as task failure.",
+        whyVi: "Giám khảo cần nghe quan điểm CỦA BẠN cuối cùng. 'I don't really know' bị coi là không hoàn thành nhiệm vụ.",
+      },
+    ],
+    goldenSecret: "End every Part 3 answer with 'so my view would be that…'. This forces a soft-but-clear opinion and ticks the Task Response box every single time.",
+    goldenSecretVi: "Kết mọi câu Part 3 bằng 'so my view would be that…'. Cách này buộc bạn đưa quan điểm mềm-nhưng-rõ và đảm bảo điểm Task Response.",
+    vocabHighlights: [],
+    quiz: [
+      {
+        question: "Which phrase is MOST appropriate for Part 3?",
+        options: ["Everyone always thinks X", "Most people tend to…", "I 100% believe X", "Nobody ever does Y"],
+        answer: 1,
+        explanation: "'Most people tend to…' is hedged and academic; absolutes flatten Lexical Resource.",
+      },
+      {
+        question: "Why use 'It could be argued that…'?",
+        options: ["It sounds polite", "It signals nuanced, academic thinking", "It's faster to say", "Examiners require it"],
+        answer: 1,
+        explanation: "Hedging phrases like this are markers of Band 7.5+ critical thinking.",
+      },
+    ],
+    cheatSheetPoints: [
+      "❌ All / Everyone / Always → ✅ Most / Often / Tend to",
+      "Show 2 sides: 'On the one hand…on the other…'",
+      "Speculate: 'If X happened, we'd probably see…'",
+      "Soften: 'Arguably' / 'It could be argued that…'",
+      "Always end with 'so my view would be that…'",
+    ],
+  },
+
+  // ============ ADVANCED ============
+  {
+    id: "speaking-intonation-rising-falling",
+    title: "Intonation: Rising vs. Falling Patterns",
+    titleVi: "Intonation: Ngữ điệu lên & xuống",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "🎵",
+    duration: "16 min",
+    level: "advanced",
+    description: "Flat intonation makes a Band 7 speaker sound Band 6. Learn the 3 intonation rules that make English sound natural to the examiner.",
+    descriptionVi: "Ngữ điệu phẳng khiến thí sinh Band 7 nghe như Band 6. Học 3 quy tắc ngữ điệu khiến tiếng Anh nghe tự nhiên với giám khảo.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Falling intonation: statements & wh-questions",
+        titleVi: "Ngữ điệu xuống: câu khẳng định & câu hỏi wh-",
+        description: "Voice drops at the end of statements ('I live in Hà Nội ↘') and wh-questions ('Where do you work ↘').",
+        descriptionVi: "Giọng đi xuống cuối câu khẳng định ('I live in Hà Nội ↘') và câu hỏi wh- ('Where do you work ↘').",
+      },
+      {
+        step: 2,
+        title: "Rising intonation: yes/no questions",
+        titleVi: "Ngữ điệu lên: câu hỏi yes/no",
+        description: "'Do you like cooking ↗?' Voice rises at the end. Many Vietnamese speakers flatten this, sounding statement-like.",
+        descriptionVi: "'Do you like cooking ↗?' Giọng đi lên cuối câu. Nhiều người Việt nói phẳng, nghe như câu kể.",
+      },
+      {
+        step: 3,
+        title: "Rise-fall: lists with a final item",
+        titleVi: "Lên-xuống: liệt kê có item cuối",
+        description: "'I enjoy reading ↗, swimming ↗, and travelling ↘.' Each comma-item rises; the last item falls.",
+        descriptionVi: "'I enjoy reading ↗, swimming ↗, and travelling ↘.' Mỗi mục giữa lên giọng; mục cuối xuống giọng.",
+      },
+      {
+        step: 4,
+        title: "Emotion through pitch range",
+        titleVi: "Cảm xúc qua biên độ giọng",
+        description: "Widen your pitch range on emotional words — 'It was AMAZING' (high pitch) vs. 'It was a bit boring' (low pitch).",
+        descriptionVi: "Mở rộng biên độ giọng ở từ cảm xúc — 'It was AMAZING' (cao) vs. 'It was a bit boring' (thấp).",
+      },
+    ],
+    practicalExamples: [
+      {
+        context: "Same sentence, two emotional levels",
+        contextVi: "Cùng một câu, hai mức cảm xúc",
+        example: "Flat: 'I really enjoyed the trip it was nice.' Animated: 'I REALLY enjoyed the trip ↗ — it was absolutely AMAZING ↘.' Same words, two different bands.",
+        explanation: "The animated version hits Band 7.5 on Pronunciation purely because of pitch range and stress.",
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Flat, monotone delivery",
+        mistakeVi: "Nói đều đều, không lên xuống",
+        why: "Flat intonation caps Pronunciation at Band 6, even with perfect vocabulary.",
+        whyVi: "Ngữ điệu phẳng giới hạn Pronunciation ở Band 6, dù từ vựng tốt.",
+      },
+      {
+        mistake: "Ending every sentence with a rise (Vietnamese habit)",
+        mistakeVi: "Lên giọng cuối mọi câu (thói quen tiếng Việt)",
+        why: "Rising on statements sounds uncertain, as if you're asking a question.",
+        whyVi: "Lên giọng ở câu khẳng định nghe không chắc chắn, như đang hỏi.",
+      },
+    ],
+    goldenSecret: "Record yourself reading 1 paragraph aloud. Then listen back at 0.75x speed — you'll instantly hear which words you flattened. Re-record 3 times.",
+    goldenSecretVi: "Ghi âm bạn đọc 1 đoạn văn. Sau đó nghe lại ở 0.75x — bạn sẽ nghe ra ngay những từ bị làm phẳng. Ghi lại 3 lần.",
+    vocabHighlights: [],
+    quiz: [
+      {
+        question: "How should a yes/no question end?",
+        options: ["Falling tone", "Rising tone", "Flat tone", "Either rising or falling"],
+        answer: 1,
+        explanation: "Yes/no questions rise; wh-questions fall.",
+      },
+      {
+        question: "In a list 'reading, swimming, and travelling', which item falls?",
+        options: ["Reading", "Swimming", "Travelling (the last)", "All three rise"],
+        answer: 2,
+        explanation: "Mid-list items rise; the final item falls to signal completion.",
+      },
+    ],
+    cheatSheetPoints: [
+      "Statements & wh-questions: falling ↘",
+      "Yes/no questions: rising ↗",
+      "Lists: items rise ↗, final item falls ↘",
+      "Widen pitch range on emotion words",
+      "Practice tip: record + listen at 0.75x speed",
+    ],
+  },
+
+  // ============ ADVANCED ============
+  {
+    id: "speaking-exam-day-nerves-protocol",
+    title: "Exam Day: The 7-Minute Pre-Test Nerves Protocol",
+    titleVi: "Exam Day: Bài tập 7 phút trị hồi hộp trước thi",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "🧘",
+    duration: "12 min",
+    level: "advanced",
+    description: "Anxiety drops your speaking score by 0.5-1 band. Use this 7-minute physical + mental protocol just before you walk in.",
+    descriptionVi: "Hồi hộp làm tụt điểm Speaking 0.5-1 band. Dùng quy trình 7 phút thể chất + tinh thần ngay trước khi vào phòng.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "2 minutes: box-breathing",
+        titleVi: "2 phút: thở 4-4-4-4 (box-breathing)",
+        description: "Inhale 4 sec → hold 4 sec → exhale 4 sec → hold 4 sec. Repeat 8 cycles. Drops heart rate by 10-15 bpm.",
+        descriptionVi: "Hít 4 giây → giữ 4 giây → thở 4 giây → giữ 4 giây. 8 vòng. Giảm nhịp tim 10-15 bpm.",
+      },
+      {
+        step: 2,
+        title: "2 minutes: shoulder + jaw release",
+        titleVi: "2 phút: thả vai + thả hàm",
+        description: "Roll shoulders 10x back, 10x forward. Open mouth wide 5x. Tense jaw kills clear articulation.",
+        descriptionVi: "Xoay vai 10 lần ra sau, 10 lần ra trước. Há miệng to 5 lần. Hàm căng = phát âm không rõ.",
+      },
+      {
+        step: 3,
+        title: "2 minutes: warm-up tongue twisters",
+        titleVi: "2 phút: luyện líu lưỡi",
+        description: "Whisper-say: 'Red lorry, yellow lorry' × 3, 'She sells seashells' × 3. Activates speech muscles without straining voice.",
+        descriptionVi: "Thì thầm: 'Red lorry, yellow lorry' × 3, 'She sells seashells' × 3. Kích hoạt cơ phát âm mà không hỏng giọng.",
+      },
+      {
+        step: 4,
+        title: "1 minute: power posture + intention",
+        titleVi: "1 phút: tư thế tự tin + đặt ý định",
+        description: "Stand tall, hands on hips, 60 seconds. Then say to yourself: 'I'm going to enjoy this conversation, not perform it.'",
+        descriptionVi: "Đứng thẳng, tay chống hông, 60 giây. Rồi tự nhủ: 'Tôi sẽ TẬN HƯỞNG cuộc trò chuyện này, không phải biểu diễn.'",
+      },
+    ],
+    practicalExamples: [
+      {
+        context: "When to start the protocol",
+        contextVi: "Khi nào bắt đầu quy trình",
+        example: "Start exactly 10 minutes before your slot. Find a quiet corner (corridor, toilet, stairwell). Complete all 7 minutes. The remaining 3 minutes = walk slowly to the room and breathe.",
+        explanation: "Front-loading nerves management before the room means you walk in physically AND mentally ready.",
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Cramming vocabulary in the waiting area",
+        mistakeVi: "Nhồi từ vựng ở khu chờ",
+        why: "Last-minute cramming raises anxiety and you'll forget more than you remember. The 7-min protocol pays off more.",
+        whyVi: "Nhồi phút chót làm tăng lo lắng và bạn sẽ quên nhiều hơn nhớ. Quy trình 7 phút có lợi hơn nhiều.",
+      },
+      {
+        mistake: "Drinking too much water before walking in",
+        mistakeVi: "Uống quá nhiều nước trước khi vào",
+        why: "Dry mouth helps zero, but a full bladder ruins your focus for the entire 14 minutes.",
+        whyVi: "Khô miệng không giúp gì, nhưng bàng quang đầy phá hỏng sự tập trung cả 14 phút.",
+      },
+    ],
+    goldenSecret: "Treat the examiner as a curious stranger at a café — not a judge. The reframe ('conversation, not performance') alone drops cortisol by ~20%.",
+    goldenSecretVi: "Coi giám khảo như người lạ tò mò ở quán cà phê — không phải quan toà. Chỉ riêng việc đổi góc nhìn ('trò chuyện, không biểu diễn') đã giảm cortisol khoảng 20%.",
+    vocabHighlights: [],
+    quiz: [
+      {
+        question: "What is box-breathing?",
+        options: ["Breathing into a paper bag", "Inhale 4s, hold 4s, exhale 4s, hold 4s", "Holding breath for 60 seconds", "Breathing rapidly"],
+        answer: 1,
+        explanation: "Box-breathing (4-4-4-4) drops heart rate by 10-15 bpm in under 2 minutes.",
+      },
+      {
+        question: "Why avoid last-minute vocabulary cramming?",
+        options: ["It wastes paper", "It raises anxiety and you forget more than you remember", "It's not allowed", "Vocabulary doesn't matter"],
+        answer: 1,
+        explanation: "Cramming spikes cortisol, making retrieval harder, not easier.",
+      },
+    ],
+    cheatSheetPoints: [
+      "Start the 7-min protocol exactly 10 min before slot",
+      "2 min box-breathing (4-4-4-4) × 8 cycles",
+      "2 min shoulder rolls + jaw stretches",
+      "2 min whispered tongue twisters",
+      "1 min power posture + 'conversation, not performance'",
+    ],
+  },
+];
