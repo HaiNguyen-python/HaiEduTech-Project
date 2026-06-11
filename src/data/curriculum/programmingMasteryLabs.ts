@@ -313,31 +313,37 @@ Split in half → sort each half → merge. Recursive. Scales well.
 | Selection | O(n²) | O(n²) | O(n²) | ❌ |
 | Merge | O(n log n) | O(n log n) | O(n log n) | ✅ |
 | Python sorted | O(n log n) | O(n log n) | O(n log n) | ✅ (Timsort) |`,
-        code: `def bubble_sort(a):
+        code: `# Two classic sorts vs Python's built-in Timsort
+
+# Bubble sort — O(n²). Early-exit when no swap happens in a full pass.
+def bubble_sort(a):
     a = list(a); n = len(a)
     for i in range(n):
         swapped = False
         for j in range(n - i - 1):
             if a[j] > a[j+1]:
-                a[j], a[j+1] = a[j+1], a[j]
+                a[j], a[j+1] = a[j+1], a[j]  # swap neighbours
                 swapped = True
-        if not swapped: break
+        if not swapped: break                # already sorted → stop
     return a
 
+# Merge sort — O(n log n). Divide the list, sort each half, then merge.
 def merge_sort(a):
     if len(a) <= 1: return a
     mid = len(a) // 2
     L, R = merge_sort(a[:mid]), merge_sort(a[mid:])
     out, i, j = [], 0, 0
+    # Merge the two sorted halves by always taking the smaller front element
     while i < len(L) and j < len(R):
         if L[i] <= R[j]: out.append(L[i]); i += 1
         else:            out.append(R[j]); j += 1
-    return out + L[i:] + R[j:]
+    return out + L[i:] + R[j:]               # append leftovers
 
+# Compare results — all three must return the same sorted list
 data = [5, 3, 8, 1, 9, 2, 7]
 print("bubble:", bubble_sort(data))
 print("merge :", merge_sort(data))
-print("python:", sorted(data))`,
+print("python:", sorted(data))               # built-in Timsort`,
         codeLanguage: "python",
         exercise:
           "Đo thời gian sắp xếp 5 000 số ngẫu nhiên bằng `time.perf_counter()` cho cả 3 thuật toán (bubble, merge, `sorted`). In ra bảng so sánh tỉ lệ tốc độ.",
