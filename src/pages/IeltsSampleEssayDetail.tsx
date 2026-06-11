@@ -175,7 +175,7 @@ const IeltsSampleEssayDetail = () => {
             <div className="flex items-center gap-2 mb-1.5">
               <Badge variant={essay.taskType === 1 ? "secondary" : "default"}>Task {essay.taskType}</Badge>
               <Badge variant="outline" className="capitalize">{essay.chartType || essay.essayType}</Badge>
-              <Badge variant="outline">Band 8.0+</Badge>
+              <Badge variant="outline">Band {essay.band ?? "8.0+"}</Badge>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground capitalize">{essay.topic}</h1>
           </div>
