@@ -466,56 +466,7 @@ const LanguageLessonView = () => {
                     ) : (
                       <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol>li]:pl-1 [&_ol>li::marker]:font-bold [&_ol>li::marker]:text-primary [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_svg]:my-4 [&_svg]:mx-auto [&_svg]:max-w-full [&_svg]:h-auto [&_figure]:my-5 [&_figure]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2 [&_figcaption]:italic [&_table]:my-4 [&_table]:w-full [&_table]:border-collapse [&_th]:bg-primary/10 [&_th]:text-primary [&_th]:p-2 [&_th]:border [&_th]:border-border [&_td]:p-2 [&_td]:border [&_td]:border-border">
                         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-                          {(() => {
-                            // Dedent <figure>...</figure> blocks so indented SVG lines aren't treated as markdown code blocks
-                            let raw = lessonTheory.replace(
-                              /<figure[\s\S]*?<\/figure>/g,
-                              (block) => block.replace(/^[ \t]+/gm, "")
-                            );
-                            // For SAT + IELTS lessons: structure plain theory into bullets for readability.
-                            // Numbered lists ("1. …", "1) …") are left untouched so markdown renders
-                            // them as a proper <ol> with styled markers (see prose classes above).
-                            // We only normalise inline "•" / " · " separators into bullet lists.
-                            if (mod.category === "sat" || mod.category === "ielts") {
-                              raw = raw
-                                .split(/\n{2,}/)
-                                .map((para) => {
-                                  if (/<(figure|svg|table|ul|ol|pre|div)/i.test(para)) return para;
-                                  const splitChar = para.includes("•") ? "•" : (/\s·\s/.test(para) ? "·" : null);
-                                  if (!splitChar) return para;
-                                  const parts = para.split(new RegExp(`\\s*\\${splitChar}\\s*`)).map((s) => s.trim()).filter(Boolean);
-                                  if (parts.length < 2) return para;
-                                  let intro = "";
-                                  let items = parts;
-                                  const colonIdx = parts[0].lastIndexOf(":");
-                                  if (colonIdx > 0 && colonIdx < parts[0].length - 1) {
-                                    intro = parts[0].slice(0, colonIdx + 1).trim() + "\n\n";
-                                    items = [parts[0].slice(colonIdx + 1).trim(), ...parts.slice(1)];
-                                  } else if (colonIdx === parts[0].length - 1) {
-                                    intro = parts[0] + "\n\n";
-                                    items = parts.slice(1);
-                                  }
-                                  return intro + items.map((p) => `- ${p.replace(/[.,;]+$/, "")}`).join("\n");
-                                })
-                                .join("\n\n");
-                            }
-                            return raw
-                              .split(/\n{2,}/)
-                              .map((para) => {
-                                if (/<(figure|svg|table|ul|ol|pre|div)/i.test(para)) return para;
-                                const matches = para.match(/\*\*[^*]+:\*\*/g);
-                                if (matches && matches.length >= 2) {
-                                  const parts = para
-                                    .split(/(?=\*\*[^*]+:\*\*)/)
-                                    .map((s) => s.trim())
-                                    .filter(Boolean);
-                                  const intro = parts[0].startsWith("**") ? "" : parts.shift() + "\n\n";
-                                  return intro + parts.map((p) => `- ${p}`).join("\n");
-                                }
-                                return para;
-                              })
-                              .join("\n\n");
-                          })()}
+                          {normalizeTheoryMarkdown(lessonTheory, mod.category)}
                         </ReactMarkdown>
                       </div>
                     )}
