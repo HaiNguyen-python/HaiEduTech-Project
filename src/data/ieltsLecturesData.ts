@@ -3668,6 +3668,7 @@ export const allIeltsLectures: IeltsLecture[] = [
   ...speakingExpansion2,
   ...speakingExpansion3,
   ...speakingExpansion4,
+  ...speakingExpansion5,
   ...tipsAndHacks,
   ...tipsExpansion,
   ...tipsExpansion2,
