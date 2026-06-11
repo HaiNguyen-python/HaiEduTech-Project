@@ -219,7 +219,7 @@ const IeltsSampleEssayDetail = () => {
             <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
-                {t("Xem toàn bộ bài mẫu (Band 8.0+)", "View full sample essay (Band 8.0+)")}
+                {t(`Xem toàn bộ bài mẫu (Band ${essay.band ?? "8.0+"})`, `View full sample essay (Band ${essay.band ?? "8.0+"})`)}
               </h2>
               <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
