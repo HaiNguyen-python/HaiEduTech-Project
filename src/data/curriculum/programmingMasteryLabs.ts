@@ -84,18 +84,22 @@ with memo:     fib(40) < 0.0001 s   (~15,000× faster)
 \`\`\`
 
 \`functools.lru_cache\` does this automatically.`,
-        code: `from functools import lru_cache
+        code: `# Memoization with functools.lru_cache — cache results to skip repeat work
+from functools import lru_cache
 import time
 
+# Naive recursive Fibonacci — recomputes the same calls many times → exponential
 def fib_slow(n):
     if n < 2: return n
     return fib_slow(n - 1) + fib_slow(n - 2)
 
+# Same logic, but lru_cache stores results → each fib(k) runs only once
 @lru_cache(maxsize=None)
 def fib_fast(n):
     if n < 2: return n
     return fib_fast(n - 1) + fib_fast(n - 2)
 
+# Benchmark both versions to see the cache pay off
 for fn in (fib_slow, fib_fast):
     t = time.perf_counter()
     print(fn.__name__, "fib(32) =", fn(32),
