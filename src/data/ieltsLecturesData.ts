@@ -3652,9 +3652,12 @@ import { speakingExpansion2 } from "./ieltsLecturesSpeakingExpansion2";
 import { speakingExpansion3 } from "./ieltsLecturesSpeakingExpansion3";
 import { speakingExpansion4 } from "./ieltsLecturesSpeakingExpansion4";
 import { speakingExpansion5 } from "./ieltsLecturesSpeakingExpansion5";
+import { speakingExpansion6 } from "./ieltsLecturesSpeakingExpansion6";
+import { writingExpansion10 } from "./ieltsLecturesWritingExpansion10";
 import { grammarCoreExpansion, vocabCoreExpansion, tipsCoreExpansion } from "./ieltsLecturesCoreExpansion";
+import { padLectureQuizzes } from "./ieltsLectureQuizPadder";
 
-export const allIeltsLectures: IeltsLecture[] = [
+const _rawAllIeltsLectures: IeltsLecture[] = [
   ...skillBasedLectures,
   ...skillsExpansion2,
   ...writingSpeakingExpansion3,
@@ -3664,11 +3667,13 @@ export const allIeltsLectures: IeltsLecture[] = [
   ...writingExpansion7,
   ...writingExpansion8,
   ...writingExpansion9,
+  ...writingExpansion10,
   ...speakingExpansion,
   ...speakingExpansion2,
   ...speakingExpansion3,
   ...speakingExpansion4,
   ...speakingExpansion5,
+  ...speakingExpansion6,
   ...tipsAndHacks,
   ...tipsExpansion,
   ...tipsExpansion2,
@@ -3682,6 +3687,14 @@ export const allIeltsLectures: IeltsLecture[] = [
   ...grammarExpansion2,
   ...grammarCoreExpansion,
 ];
+
+/**
+ * All IELTS lectures with an enforced minimum of 5 quiz questions each.
+ * Legacy lectures with fewer questions get auto-augmented via padLectureQuizzes
+ * (questions are derived from each lecture's own goldenSecret, cheatSheet,
+ * strategySteps, mistakesToAvoid, vocabHighlights, etc).
+ */
+export const allIeltsLectures: IeltsLecture[] = padLectureQuizzes(_rawAllIeltsLectures);
 
 
 export const PILLAR_META = {
