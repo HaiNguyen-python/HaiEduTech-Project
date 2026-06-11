@@ -2328,6 +2328,7 @@ const baseSampleEssays: SampleEssay[] = [
 ];
 
 import { sampleEssays70Plus } from "./ieltsSampleEssays70Plus";
+import { sampleEssays70PlusExtra } from "./ieltsSampleEssays70PlusExtra";
 
 // Tag legacy essays as Band 8.0+ (they were authored at that level)
 const baseSampleEssays80: SampleEssay[] = baseSampleEssays.map(e => ({ ...e, band: e.band ?? "8.0+" }));
@@ -2337,4 +2338,5 @@ export const sampleEssays: SampleEssay[] = [
   ...baseSampleEssays80,
   ...sampleEssaysExpansion80,
   ...sampleEssays70Plus,
+  ...sampleEssays70PlusExtra,
 ];
