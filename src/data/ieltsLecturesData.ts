@@ -3648,6 +3648,7 @@ import { writingExpansion7 } from "./ieltsLecturesWritingExpansion7";
 import { writingExpansion8 } from "./ieltsLecturesWritingExpansion8";
 import { speakingExpansion } from "./ieltsLecturesSpeakingExpansion";
 import { speakingExpansion2 } from "./ieltsLecturesSpeakingExpansion2";
+import { grammarCoreExpansion, vocabCoreExpansion, tipsCoreExpansion } from "./ieltsLecturesCoreExpansion";
 
 export const allIeltsLectures: IeltsLecture[] = [
   ...skillBasedLectures,
@@ -3663,12 +3664,15 @@ export const allIeltsLectures: IeltsLecture[] = [
   ...tipsAndHacks,
   ...tipsExpansion,
   ...tipsExpansion2,
+  ...tipsCoreExpansion,
   ...thematicVocab,
   ...vocabExpansion,
   ...vocabExpansion2,
+  ...vocabCoreExpansion,
   ...appliedGrammar,
   ...grammarExpansion,
   ...grammarExpansion2,
+  ...grammarCoreExpansion,
 ];
 
 
