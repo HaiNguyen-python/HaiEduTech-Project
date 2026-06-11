@@ -80,7 +80,13 @@ export const speakingExpansion2: IeltsLecture[] = [
     ],
     goldenSecret: "Memorise 5 reason connectors and 3 example openers — that's the entire toolkit you need for every Part 1 question.",
     goldenSecretVi: "Học thuộc 5 cụm nối lý do và 3 cụm mở ví dụ — đó là toàn bộ bộ công cụ bạn cần cho mọi câu Part 1.",
-    vocabHighlights: [],
+    vocabHighlights: [
+      { word: "genuinely", definition: "Truly, sincerely", definitionVi: "Thực sự, chân thành", example: "I genuinely enjoy cooking.", band: "7.0+" },
+      { word: "unwind", definition: "Relax after stress", definitionVi: "Thả lỏng", example: "It helps me unwind.", band: "7.0+" },
+      { word: "therapeutic", definition: "Calming and healing", definitionVi: "Mang tính chữa lành", example: "Cooking is therapeutic.", band: "7.5+" },
+      { word: "ride-hailing apps", definition: "Apps like Grab/Uber to book rides", definitionVi: "Ứng dụng gọi xe", example: "I use ride-hailing apps daily.", band: "7.0+" },
+      { word: "to be honest", definition: "Honestly speaking (filler)", definitionVi: "Thật ra mà nói", example: "To be honest, I'm not sure.", band: "7.0+" },
+    ],
     quiz: [
       {
         question: "Why is a 1-sentence Part 1 answer dangerous?",
