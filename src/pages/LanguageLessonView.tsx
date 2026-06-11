@@ -417,21 +417,10 @@ const LanguageLessonView = () => {
                               (block) => block.replace(/^[ \t]+/gm, "")
                             );
                             // For SAT + IELTS lessons: structure plain theory into bullets for readability.
-                            // Keep icons minimal - only on numbered "rules/steps" lists.
+                            // Numbered lists ("1. …", "1) …") are left untouched so markdown renders
+                            // them as a proper <ol> with styled markers (see prose classes above).
+                            // We only normalise inline "•" / " · " separators into bullet lists.
                             if (mod.category === "sat" || mod.category === "ielts") {
-                              const NUM_ICONS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
-                              // 1) Numbered "1) ..." / "1. ..." → bullet with number-emoji icon
-                              raw = raw
-                                .split(/\n/)
-                                .map((line) => {
-                                  const m = /^\s*(\d+)[\)\.]\s+(.+)$/.exec(line);
-                                  if (!m) return line;
-                                  const n = parseInt(m[1], 10);
-                                  const icon = NUM_ICONS[(n - 1) % NUM_ICONS.length];
-                                  return `- ${icon} ${m[2]}`;
-                                })
-                                .join("\n");
-                              // 2) Inline "•" or " · " separators → plain bullets (no per-item icon)
                               raw = raw
                                 .split(/\n{2,}/)
                                 .map((para) => {
