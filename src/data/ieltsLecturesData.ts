@@ -3643,6 +3643,7 @@ import { skillsExpansion2, tipsExpansion2, vocabExpansion2, grammarExpansion2 } 
 import { writingSpeakingExpansion3 } from "./ieltsLecturesExpansion3";
 import { writingExpansion4 } from "./ieltsLecturesWritingExpansion4";
 import { writingExpansion5 } from "./ieltsLecturesWritingExpansion5";
+import { writingExpansion6 } from "./ieltsLecturesWritingExpansion6";
 import { speakingExpansion } from "./ieltsLecturesSpeakingExpansion";
 
 export const allIeltsLectures: IeltsLecture[] = [
@@ -3651,6 +3652,7 @@ export const allIeltsLectures: IeltsLecture[] = [
   ...writingSpeakingExpansion3,
   ...writingExpansion4,
   ...writingExpansion5,
+  ...writingExpansion6,
   ...speakingExpansion,
   ...tipsAndHacks,
   ...tipsExpansion,
