@@ -1,7 +1,7 @@
 // IELTS Sample Essays Hub - Filterable list of Band 7.0+ essays
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { sampleEssays } from "@/data/ieltsSampleEssays";
