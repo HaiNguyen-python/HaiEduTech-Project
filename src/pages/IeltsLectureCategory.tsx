@@ -425,8 +425,8 @@ const IeltsLectureCategory = () => {
 
                   {/* Sample Essays 8.0+ - styled to match group headers */}
                   <Link
-                    to="/ielts-sample-essays"
-                    className="group mb-6 flex items-center gap-3 w-full p-3 rounded-xl border-2 border-purple-500/40 bg-gradient-to-r from-purple-500/10 via-violet-500/5 to-pink-500/10 hover:border-purple-500/70 hover:shadow-lg transition-all"
+                    to="/ielts-sample-essays?band=8.0%2B"
+                    className="group mb-3 flex items-center gap-3 w-full p-3 rounded-xl border-2 border-purple-500/40 bg-gradient-to-r from-purple-500/10 via-violet-500/5 to-pink-500/10 hover:border-purple-500/70 hover:shadow-lg transition-all"
                   >
                     <span className="text-2xl">📚</span>
                     <div className="flex-1 text-left">
@@ -442,6 +442,27 @@ const IeltsLectureCategory = () => {
                       Band 8.0+
                     </Badge>
                     <ChevronDown className="w-5 h-5 -rotate-90 text-purple-500 transition-transform group-hover:translate-x-1" />
+                  </Link>
+
+                  {/* Sample Essays 7.0+ - easier collection for beginners */}
+                  <Link
+                    to="/ielts-sample-essays?band=7.0%2B"
+                    className="group mb-6 flex items-center gap-3 w-full p-3 rounded-xl border-2 border-emerald-500/40 bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-green-500/10 hover:border-emerald-500/70 hover:shadow-lg transition-all"
+                  >
+                    <span className="text-2xl">🌱</span>
+                    <div className="flex-1 text-left">
+                      <div className="text-lg sm:text-xl font-bold text-foreground">
+                        {t("Bài mẫu 7.0+ (Dễ đọc cho người mới)", "Sample Essays 7.0+ (Beginner-friendly)")}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {t("Bài mẫu Band 7.0+ ngắn gọn, từ vựng dễ hiểu - phù hợp bạn mới luyện viết.",
+                           "Band 7.0+ essays with shorter length and clearer vocabulary - ideal for beginners.")}
+                      </div>
+                    </div>
+                    <Badge variant="secondary" className="text-xs bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">
+                      Band 7.0+
+                    </Badge>
+                    <ChevronDown className="w-5 h-5 -rotate-90 text-emerald-500 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </motion.div>
               );
