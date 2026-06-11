@@ -202,13 +202,16 @@ out = [n * n for n in range(1, 11) if n % 2 == 0]
 
 Whenever you must **fold** a list into one value (sum, product, max).
 \`functools.reduce(lambda acc, n: acc * n, [1,2,3,4])\` ⇒ \`24\`.`,
-        code: `from functools import reduce
+        code: `# Functional toolkit: list comprehension + reduce (fold)
+from functools import reduce
 
 nums = [3, 8, 12, 5, 21, 7, 16]
 
+# 1) Comprehension: keep even numbers and square them in a single pass
 squares_even = [n * n for n in nums if n % 2 == 0]
-total        = reduce(lambda a, b: a + b, squares_even, 0)
-maxx         = reduce(lambda a, b: a if a > b else b, nums)
+# 2) reduce: fold the list down to a single value (sum, max, ...)
+total        = reduce(lambda a, b: a + b, squares_even, 0)            # sum
+maxx         = reduce(lambda a, b: a if a > b else b, nums)           # max
 
 print("squares_even:", squares_even)
 print("sum:", total, "max:", maxx)`,
