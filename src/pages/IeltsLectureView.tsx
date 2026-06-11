@@ -24,6 +24,7 @@ import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansion
 import RichTheoryText from "@/components/ielts/RichTheoryText";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
 import SEO from "@/components/SEO";
+import { getSpeakingHeroImage } from "@/data/ieltsSpeakingHeroImages";
 
 // Vocab Highlighter component - inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
