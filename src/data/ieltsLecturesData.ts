@@ -3646,9 +3646,11 @@ import { writingExpansion5 } from "./ieltsLecturesWritingExpansion5";
 import { writingExpansion6 } from "./ieltsLecturesWritingExpansion6";
 import { writingExpansion7 } from "./ieltsLecturesWritingExpansion7";
 import { writingExpansion8 } from "./ieltsLecturesWritingExpansion8";
+import { writingExpansion9 } from "./ieltsLecturesWritingExpansion9";
 import { speakingExpansion } from "./ieltsLecturesSpeakingExpansion";
 import { speakingExpansion2 } from "./ieltsLecturesSpeakingExpansion2";
 import { speakingExpansion3 } from "./ieltsLecturesSpeakingExpansion3";
+import { speakingExpansion4 } from "./ieltsLecturesSpeakingExpansion4";
 import { grammarCoreExpansion, vocabCoreExpansion, tipsCoreExpansion } from "./ieltsLecturesCoreExpansion";
 
 export const allIeltsLectures: IeltsLecture[] = [
@@ -3660,9 +3662,11 @@ export const allIeltsLectures: IeltsLecture[] = [
   ...writingExpansion6,
   ...writingExpansion7,
   ...writingExpansion8,
+  ...writingExpansion9,
   ...speakingExpansion,
   ...speakingExpansion2,
   ...speakingExpansion3,
+  ...speakingExpansion4,
   ...tipsAndHacks,
   ...tipsExpansion,
   ...tipsExpansion2,
