@@ -90,11 +90,29 @@ const IeltsSampleEssayDetail = () => {
     );
   };
 
-  // Build a topic illustration URL (Pollinations free image CDN) for Task 2 essays
-  const topicImageUrl = (topic: string) =>
-    `https://image.pollinations.ai/prompt/${encodeURIComponent(
-      `A clean editorial flat illustration representing the theme: ${topic}. Modern, soft pastel palette, no text, no watermark.`
-    )}?width=1200&height=480&nologo=true&seed=42`;
+  // Build a topic illustration URL (Pollinations free image CDN) for Task 2 essays.
+  // Deterministic seed per essay id keeps the image stable across renders.
+  const topicImageUrl = (topic: string, id: string) => {
+    const seed = Array.from(id).reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % 100000;
+    return `https://image.pollinations.ai/prompt/${encodeURIComponent(
+      `A clean editorial flat illustration representing the IELTS Task 2 theme: ${topic}. Modern, soft pastel palette, balanced composition, no text, no watermark, no letters.`
+    )}?width=1200&height=520&nologo=true&seed=${seed}`;
+  };
+  // Curated emoji fallback shown if the CDN image is slow or blocked.
+  const topicEmoji = (topic: string) => {
+    const t = topic.toLowerCase();
+    if (/plastic|pollution|waste|recycl|environment|climate|green/.test(t)) return "🌍♻️";
+    if (/online|digital|technolog|internet|ai|computer/.test(t)) return "💻🌐";
+    if (/education|school|classroom|learn|student|university/.test(t)) return "🎓📚";
+    if (/health|medic|doctor|hospital|disease|wellness/.test(t)) return "🩺🏥";
+    if (/work|job|career|employ|business|office/.test(t)) return "💼📈";
+    if (/city|urban|transport|traffic|housing/.test(t)) return "🏙️🚦";
+    if (/food|diet|nutrition|cook|agricultur|farm/.test(t)) return "🍽️🌾";
+    if (/travel|tourism|culture|language/.test(t)) return "✈️🗺️";
+    if (/family|child|parent|youth/.test(t)) return "👨‍👩‍👧‍👦";
+    if (/sport|exercise|fitness/.test(t)) return "🏃⚽";
+    return "📝✨";
+  };
 
   const score = essay.reviewExercise.items.reduce(
     (acc, item, i) => acc + (answers[i]?.trim().toLowerCase() === item.answer.toLowerCase() ? 1 : 0), 0
@@ -188,14 +206,25 @@ const IeltsSampleEssayDetail = () => {
 
           {/* Topic illustration for Task 2 essays */}
           {essay.taskType === 2 && (
-            <div className="overflow-hidden rounded-xl border border-border/50 bg-card/30">
-              <img
-                src={topicImageUrl(essay.topic)}
-                alt={`Illustration for IELTS Task 2 topic: ${essay.topic}`}
-                loading="lazy"
-                className="w-full h-48 md:h-60 object-cover"
-              />
-            </div>
+            <figure className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-primary/5 to-emerald-500/5 shadow-sm">
+              <div className="relative w-full h-52 md:h-72 bg-muted/40">
+                {/* Emoji fallback rendered behind the image — visible if the CDN image fails */}
+                <div className="absolute inset-0 flex items-center justify-center text-5xl md:text-6xl select-none opacity-70">
+                  {topicEmoji(essay.topic)}
+                </div>
+                <img
+                  src={topicImageUrl(essay.topic, essay.id)}
+                  alt={`Editorial illustration for IELTS Task 2 topic: ${essay.topic}`}
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                  className="relative z-10 w-full h-full object-cover transition-opacity duration-500"
+                />
+              </div>
+              <figcaption className="px-4 py-2 text-xs text-muted-foreground bg-background/70 backdrop-blur capitalize">
+                🎨 {t("Hình minh họa chủ đề", "Topic illustration")}: <span className="text-foreground font-medium">{essay.topic}</span>
+              </figcaption>
+            </figure>
           )}
 
           {/* Dynamic Chart/Diagram for Task 1 */}

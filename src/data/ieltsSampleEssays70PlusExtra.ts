@@ -90,6 +90,18 @@ export const sampleEssays70PlusExtra: SampleEssay[] = [
         { sentence: "___, the purified water is distributed to homes.", answer: "Finally", explanation: "'Finally' marks the last stage of the process." },
       ],
     },
+    chartConfig: {
+      type: "process",
+      stages: [
+        { title: "1. River Intake", description: "Water is pumped from a nearby river into a large holding tank to begin treatment.", icon: "map" },
+        { title: "2. Screening", description: "A coarse screen removes large debris such as leaves, sticks and stones.", icon: "cog" },
+        { title: "3. Sand Filtration", description: "Water flows through a sand filter that traps smaller particles like mud and silt.", icon: "cog" },
+        { title: "4. Chlorination", description: "Chlorine is added to kill harmful bacteria and microorganisms.", icon: "cog" },
+        { title: "5. Storage", description: "The treated water is stored in a large covered tank to prevent recontamination.", icon: "map" },
+        { title: "6. Distribution", description: "Clean water is piped to village households, ready for drinking and cooking.", icon: "map" },
+      ],
+      data: [],
+    },
   },
   // ============ TASK 2 (Band 7.0+) ============
   {
