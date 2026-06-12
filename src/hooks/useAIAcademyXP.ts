@@ -4,6 +4,7 @@
  * XP + Level + Streak (days) + Daily Quest. localStorage only.
  */
 import { useCallback, useEffect, useState } from "react";
+import { awardPetXP } from "@/hooks/usePetXP";
 
 const STORAGE_KEY = "ai_academy_xp_v1";
 
@@ -118,6 +119,8 @@ export const useAIAcademyXP = () => {
       if (flag === "star") quest.starDone = true;
       return { ...s, xp: s.xp + Math.max(0, amount), quest };
     });
+    // Bridge to Study Pet: same XP feeds the Pet, celebrate on stars
+    if (amount > 0) awardPetXP(amount, "ai-academy", { celebrate: flag === "star" });
   }, []);
 
   /** Claim daily quest reward (all 3 sub-goals must be done) */
