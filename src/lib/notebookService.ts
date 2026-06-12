@@ -2,7 +2,7 @@
  * @file notebookService.ts
  * @description Shared read/write layer for student_notebooks.
  *
- * ⚠️ CRITICAL — DO NOT REGRESS ⚠️
+ * ⚠️ CRITICAL - DO NOT REGRESS ⚠️
  * Never overwrite the localStorage snapshot with an EMPTY array. A transient
  * auth race (token refresh, tab wake) makes RLS return 0 rows even though the
  * student still has dozens of notes on the server. If we wipe the cache on
@@ -46,7 +46,7 @@ export const readSnapshot = (userId: string): NotebookRow[] | null => {
 };
 
 /**
- * Persist the snapshot — but ONLY when we actually have rows. An empty array
+ * Persist the snapshot - but ONLY when we actually have rows. An empty array
  * almost always means a transient RLS/auth race, not real deletion. See file
  * header.
  */
@@ -72,7 +72,7 @@ export const writeSnapshot = (userId: string, rows: NotebookRow[]) => {
     }
     localStorage.setItem(snapshotKey(userId), payload);
   } catch {
-    /* quota / disabled — ignore */
+    /* quota / disabled - ignore */
   }
 };
 
@@ -126,7 +126,7 @@ export interface FetchNotebooksResult {
  * fall back to the snapshot and flag fromSnapshot=true so the UI can warn the
  * user instead of pretending the notebook is empty.
  *
- * The `_columns` parameter is kept for backwards compatibility but ignored —
+ * The `_columns` parameter is kept for backwards compatibility but ignored -
  * every caller now receives the full column set so cached snapshots stay
  * consistent across pages.
  */
@@ -171,7 +171,7 @@ export const fetchUserNotebooks = async (
       console.warn(
         "[notebookService] server returned 0 rows but snapshot has",
         snap.length,
-        "— preserving cache to avoid losing notes.",
+        "- preserving cache to avoid losing notes.",
       );
     }
     return {

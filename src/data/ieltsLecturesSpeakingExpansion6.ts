@@ -1,6 +1,6 @@
 /**
  * @file ieltsLecturesSpeakingExpansion6.ts
- * @description Sixth wave of IELTS Speaking lectures — vivid storytelling
+ * @description Sixth wave of IELTS Speaking lectures - vivid storytelling
  * scaffolds, sensory detail drills, and "examiner-favourite" hooks.
  * Every lecture ships with 6 quiz questions, 4-5 prompts with model answers
  * (Band 7.0 → 8.5), 7 bilingual vocab highlights and a 6-point cheat sheet.
@@ -10,8 +10,8 @@ import type { IeltsLecture } from "./ieltsLecturesData";
 const speakingExpansion6: IeltsLecture[] = [
   {
     id: "speaking-sensory-storytelling",
-    title: "Sensory Storytelling — Paint With 5 Senses",
-    titleVi: "Kể chuyện đa giác quan — Vẽ bằng 5 giác quan",
+    title: "Sensory Storytelling - Paint With 5 Senses",
+    titleVi: "Kể chuyện đa giác quan - Vẽ bằng 5 giác quan",
     pillar: "skill-based",
     skill: "speaking",
     icon: "🎨",
@@ -47,9 +47,9 @@ const speakingExpansion6: IeltsLecture[] = [
         title: "Plant ONE tactile or taste detail",
         titleVi: "Cài MỘT chi tiết xúc giác/vị giác",
         description:
-          "Pick ONE — never both. Overload sounds artificial. A single 'crisp' or 'salty' word does the trick.",
+          "Pick ONE - never both. Overload sounds artificial. A single 'crisp' or 'salty' word does the trick.",
         descriptionVi:
-          "Chỉ chọn MỘT — đừng cả hai. Nhồi nhét nghe giả tạo. Một từ 'giòn' hay 'mặn' là đủ.",
+          "Chỉ chọn MỘT - đừng cả hai. Nhồi nhét nghe giả tạo. Một từ 'giòn' hay 'mặn' là đủ.",
       },
       {
         step: 4,
@@ -74,7 +74,7 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Cue card: Describe a memorable meal",
         contextVi: "Cue card: Tả bữa ăn đáng nhớ",
         example:
-          "Band 8.0: 'Picture a tiny rooftop in Helsinki with snow drifting past the windows. The candles flickered, jazz hummed in the background and the smell of cinnamon buns filled the room. I remember the crunch of the sugar crust on my first bite. What stayed with me was the feeling of warmth — both literal and emotional — on the coldest night of the year.'",
+          "Band 8.0: 'Picture a tiny rooftop in Helsinki with snow drifting past the windows. The candles flickered, jazz hummed in the background and the smell of cinnamon buns filled the room. I remember the crunch of the sugar crust on my first bite. What stayed with me was the feeling of warmth - both literal and emotional - on the coldest night of the year.'",
         explanation:
           "Notice 'picture a…' = invites examiner into the scene. The 'literal and emotional warmth' line is the Band 8 reflection.",
       },
@@ -90,7 +90,7 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Cue card: Describe a beach",
         contextVi: "Cue card: Tả một bãi biển",
         example:
-          "Band 8.5: 'It was Mỹ Khê at dawn — the horizon glowing peach and the sand still cool underfoot. Waves hissed onto the shore in a steady rhythm and the air carried a faint salty tang. I tasted a fresh mango from a vendor whose voice cut through the quiet. That stillness, broken only by life waking up, felt like the most honest version of Vietnam I'd ever seen.'",
+          "Band 8.5: 'It was Mỹ Khê at dawn - the horizon glowing peach and the sand still cool underfoot. Waves hissed onto the shore in a steady rhythm and the air carried a faint salty tang. I tasted a fresh mango from a vendor whose voice cut through the quiet. That stillness, broken only by life waking up, felt like the most honest version of Vietnam I'd ever seen.'",
         explanation:
           "Advanced markers: 'cool underfoot', 'hissed onto the shore', 'salty tang', 'honest version of Vietnam'. Sense + emotion + cultural insight.",
       },
@@ -143,7 +143,7 @@ const speakingExpansion6: IeltsLecture[] = [
           "It is required by the Band 9 descriptor.",
         ],
         answer: 1,
-        explanation: "Differentiation principle — almost no candidates add smell. Doing it sounds noticeably more natural and rich.",
+        explanation: "Differentiation principle - almost no candidates add smell. Doing it sounds noticeably more natural and rich.",
       },
       {
         question: "What's the recommended structure for sensory storytelling?",
@@ -188,7 +188,7 @@ const speakingExpansion6: IeltsLecture[] = [
     cheatSheetPoints: [
       "Open with ONE specific visual (colour + object + space)",
       "Layer 1 sound + 1 smell next",
-      "Add ONE taste OR touch — never both",
+      "Add ONE taste OR touch - never both",
       "Use 'I could hear / smell / feel…' frame for fluency",
       "Close with how it made you feel and why it matters",
       "Spread senses across 4-5 short sentences, not one long one",
@@ -197,22 +197,22 @@ const speakingExpansion6: IeltsLecture[] = [
 
   {
     id: "speaking-part3-debate-frame-claims",
-    title: "Part 3 — The CLAIM-PROOF-PIVOT Debate Frame",
-    titleVi: "Part 3 — Khung tranh luận CLAIM-PROOF-PIVOT",
+    title: "Part 3 - The CLAIM-PROOF-PIVOT Debate Frame",
+    titleVi: "Part 3 - Khung tranh luận CLAIM-PROOF-PIVOT",
     pillar: "skill-based",
     skill: "speaking",
     icon: "⚖️",
     duration: "20 min",
     level: "advanced",
     description:
-      "Examiner asks 'Do you think…?' — replace 'yes/no + because' with the CLAIM (your stance) → PROOF (evidence/example) → PIVOT (acknowledge the other side, then re-anchor). Sounds like a TED-talk soundbite.",
+      "Examiner asks 'Do you think…?' - replace 'yes/no + because' with the CLAIM (your stance) → PROOF (evidence/example) → PIVOT (acknowledge the other side, then re-anchor). Sounds like a TED-talk soundbite.",
     descriptionVi:
-      "Giám khảo hỏi 'Bạn có nghĩ…?' — thay 'có/không + vì' bằng CLAIM (lập trường) → PROOF (dẫn chứng/ví dụ) → PIVOT (thừa nhận phía kia, rồi neo lại). Nghe như một câu trích TED-talk.",
+      "Giám khảo hỏi 'Bạn có nghĩ…?' - thay 'có/không + vì' bằng CLAIM (lập trường) → PROOF (dẫn chứng/ví dụ) → PIVOT (thừa nhận phía kia, rồi neo lại). Nghe như một câu trích TED-talk.",
     strategySteps: [
       {
         step: 1,
-        title: "CLAIM — declare with confidence",
-        titleVi: "CLAIM — tuyên bố tự tin",
+        title: "CLAIM - declare with confidence",
+        titleVi: "CLAIM - tuyên bố tự tin",
         description:
           "Use a strong stance opener: 'I'd argue that…', 'For me, the evidence points to…', 'My honest take is…'.",
         descriptionVi:
@@ -220,8 +220,8 @@ const speakingExpansion6: IeltsLecture[] = [
       },
       {
         step: 2,
-        title: "PROOF — anchor in a concrete example",
-        titleVi: "PROOF — neo bằng ví dụ cụ thể",
+        title: "PROOF - anchor in a concrete example",
+        titleVi: "PROOF - neo bằng ví dụ cụ thể",
         description:
           "One real anecdote, statistic, or trend. Vague generalities kill credibility.",
         descriptionVi:
@@ -229,17 +229,17 @@ const speakingExpansion6: IeltsLecture[] = [
       },
       {
         step: 3,
-        title: "PIVOT — concede then re-anchor",
-        titleVi: "PIVOT — nhượng bộ rồi neo lại",
+        title: "PIVOT - concede then re-anchor",
+        titleVi: "PIVOT - nhượng bộ rồi neo lại",
         description:
-          "'That said,…' or 'Granted, some would argue… but…' — Band 8 candidates always show they've considered the counterargument.",
+          "'That said,…' or 'Granted, some would argue… but…' - Band 8 candidates always show they've considered the counterargument.",
         descriptionVi:
-          "'That said,…' hoặc 'Granted, some would argue… but…' — Band 8 luôn thể hiện đã cân nhắc phía đối lập.",
+          "'That said,…' hoặc 'Granted, some would argue… but…' - Band 8 luôn thể hiện đã cân nhắc phía đối lập.",
       },
       {
         step: 4,
-        title: "STICK — restate the claim in 1 line",
-        titleVi: "STICK — chốt lại quan điểm 1 câu",
+        title: "STICK - restate the claim in 1 line",
+        titleVi: "STICK - chốt lại quan điểm 1 câu",
         description:
           "Close by re-anchoring your stance in a different paraphrase. This is the 'soundbite' that sticks in the examiner's mind.",
         descriptionVi:
@@ -251,7 +251,7 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Q: Do you think technology has improved family life?",
         contextVi: "Hỏi: Bạn có nghĩ công nghệ cải thiện đời sống gia đình?",
         example:
-          "Band 8.0: 'Honestly, my take is that it cuts both ways. On one hand, video calls have kept my family in Vietnam close to my cousins in Finland — we celebrate Tết together on Zoom every year. That said, I do see kids glued to screens at dinner tables, which clearly erodes real conversation. So all in all, technology is a tool — its impact depends entirely on how families choose to use it.'",
+          "Band 8.0: 'Honestly, my take is that it cuts both ways. On one hand, video calls have kept my family in Vietnam close to my cousins in Finland - we celebrate Tết together on Zoom every year. That said, I do see kids glued to screens at dinner tables, which clearly erodes real conversation. So all in all, technology is a tool - its impact depends entirely on how families choose to use it.'",
         explanation:
           "CLAIM (cuts both ways) → PROOF (Tết on Zoom) → PIVOT (kids glued to screens) → STICK (it's a tool, depends on use).",
       },
@@ -259,7 +259,7 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Q: Should governments invest more in public transport?",
         contextVi: "Hỏi: Chính phủ có nên đầu tư nhiều hơn vào giao thông công cộng?",
         example:
-          "Band 7.5: 'I'd argue absolutely yes. Cities like Helsinki cut congestion dramatically by expanding metros — air quality improved within a decade. Granted, the upfront cost is enormous, and not every country can afford it. But long-term, investing in transit pays back through cleaner air and time saved. So yes, it's a non-negotiable priority for any modern city.'",
+          "Band 7.5: 'I'd argue absolutely yes. Cities like Helsinki cut congestion dramatically by expanding metros - air quality improved within a decade. Granted, the upfront cost is enormous, and not every country can afford it. But long-term, investing in transit pays back through cleaner air and time saved. So yes, it's a non-negotiable priority for any modern city.'",
         explanation:
           "Strong CLAIM, concrete PROOF (Helsinki metro), honest PIVOT (cost), confident STICK (non-negotiable).",
       },
@@ -267,9 +267,9 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Q: Is celebrity culture harmful to young people?",
         contextVi: "Hỏi: Văn hóa thần tượng có hại cho giới trẻ không?",
         example:
-          "Band 8.5: 'My honest take is that it's a double-edged sword. Influencers can inspire teens to pursue creative careers — I've seen students in Hanoi take up photography because of TikTok. However, the relentless comparison culture clearly drives anxiety, and studies in the UK link Instagram use to teen depression. So while celebrities can spark passion, unchecked exposure quietly damages self-esteem.'",
+          "Band 8.5: 'My honest take is that it's a double-edged sword. Influencers can inspire teens to pursue creative careers - I've seen students in Hanoi take up photography because of TikTok. However, the relentless comparison culture clearly drives anxiety, and studies in the UK link Instagram use to teen depression. So while celebrities can spark passion, unchecked exposure quietly damages self-esteem.'",
         explanation:
-          "Notice 'double-edged sword' as opener, real anecdote + study, balanced close — classic Band 8.5 soundbite.",
+          "Notice 'double-edged sword' as opener, real anecdote + study, balanced close - classic Band 8.5 soundbite.",
       },
     ],
     mistakesToAvoid: [
@@ -322,7 +322,7 @@ const speakingExpansion6: IeltsLecture[] = [
         options: [
           "It's grammatically wrong.",
           "It's slang.",
-          "It avoids declaring a stance — no critical thinking shown.",
+          "It avoids declaring a stance - no critical thinking shown.",
           "It is too long.",
         ],
         answer: 2,
@@ -349,7 +349,7 @@ const speakingExpansion6: IeltsLecture[] = [
         question: "Which sentence uses the best Band 8 PROOF?",
         options: [
           "Many people think so I guess.",
-          "Cities like Helsinki cut congestion dramatically by expanding metros — air quality improved within a decade.",
+          "Cities like Helsinki cut congestion dramatically by expanding metros - air quality improved within a decade.",
           "Everyone knows it's good.",
           "It's just better, obviously.",
         ],
@@ -358,19 +358,19 @@ const speakingExpansion6: IeltsLecture[] = [
       },
     ],
     cheatSheetPoints: [
-      "CLAIM with confidence — 'My honest take is…'",
+      "CLAIM with confidence - 'My honest take is…'",
       "PROOF with ONE specific example, anecdote or stat",
       "PIVOT using 'That said,…' / 'Granted,…'",
-      "STICK — restate the stance in a fresh paraphrase",
-      "Never say 'It depends' alone — always declare first",
+      "STICK - restate the stance in a fresh paraphrase",
+      "Never say 'It depends' alone - always declare first",
       "Drop ONE pivot phrase in EVERY Part 3 answer",
     ],
   },
 
   {
     id: "speaking-part1-emotion-colours",
-    title: "Part 1 — The Emotion-Colours Trick",
-    titleVi: "Part 1 — Mẹo 'Màu cảm xúc'",
+    title: "Part 1 - The Emotion-Colours Trick",
+    titleVi: "Part 1 - Mẹo 'Màu cảm xúc'",
     pillar: "skill-based",
     skill: "speaking",
     icon: "🌈",
@@ -386,9 +386,9 @@ const speakingExpansion6: IeltsLecture[] = [
         title: "Spot the emotion question",
         titleVi: "Nhận diện câu hỏi cảm xúc",
         description:
-          "If the prompt has 'like', 'enjoy', 'feel', 'favourite' — it's an emotion question. Activate the colour bank.",
+          "If the prompt has 'like', 'enjoy', 'feel', 'favourite' - it's an emotion question. Activate the colour bank.",
         descriptionVi:
-          "Nếu đề có 'like', 'enjoy', 'feel', 'favourite' — đó là câu cảm xúc. Kích hoạt kho 'màu cảm xúc'.",
+          "Nếu đề có 'like', 'enjoy', 'feel', 'favourite' - đó là câu cảm xúc. Kích hoạt kho 'màu cảm xúc'.",
       },
       {
         step: 2,
@@ -423,7 +423,7 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Q: Do you like cooking?",
         contextVi: "Hỏi: Bạn có thích nấu ăn?",
         example:
-          "Band 7.5: 'I'm absolutely hooked on it, to be honest. There's something therapeutic about slicing vegetables after a long day — though I have to admit my pasta still turns into a mystery dish half the time.'",
+          "Band 7.5: 'I'm absolutely hooked on it, to be honest. There's something therapeutic about slicing vegetables after a long day - though I have to admit my pasta still turns into a mystery dish half the time.'",
         explanation:
           "Colour (hooked) + because (therapeutic slicing) + twist (mystery pasta). Natural, vivid, scoring.",
       },
@@ -439,9 +439,9 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Q: Do you enjoy long phone calls?",
         contextVi: "Hỏi: Bạn có thích gọi điện dài không?",
         example:
-          "Band 7.5: 'I'm pretty lukewarm about them. Texting feels less invasive — but with my grandparents, a slow phone call is exactly what they love, so I happily make exceptions.'",
+          "Band 7.5: 'I'm pretty lukewarm about them. Texting feels less invasive - but with my grandparents, a slow phone call is exactly what they love, so I happily make exceptions.'",
         explanation:
-          "Negative colour (lukewarm) + reason + warm exception. Shows nuance — Band 7+ trait.",
+          "Negative colour (lukewarm) + reason + warm exception. Shows nuance - Band 7+ trait.",
       },
       {
         context: "Q: What kind of music do you like?",
@@ -507,7 +507,7 @@ const speakingExpansion6: IeltsLecture[] = [
         question: "What does the 'twist closer' achieve?",
         options: [
           "Adds another topic",
-          "Shows balance and nuance — a Band 7.5 marker",
+          "Shows balance and nuance - a Band 7.5 marker",
           "Wastes time",
           "Confuses the examiner",
         ],
@@ -518,7 +518,7 @@ const speakingExpansion6: IeltsLecture[] = [
         question: "Pick the strongest Band 8 emotion answer:",
         options: [
           "Yes I like music a lot.",
-          "I'm captivated by lo-fi hip hop, oddly enough — it's mellow without being boring.",
+          "I'm captivated by lo-fi hip hop, oddly enough - it's mellow without being boring.",
           "Music is good.",
           "I sometimes listen to music.",
         ],
@@ -533,7 +533,7 @@ const speakingExpansion6: IeltsLecture[] = [
       },
     ],
     cheatSheetPoints: [
-      "Ban 'I like / love / nice' — replace with a precise colour word",
+      "Ban 'I like / love / nice' - replace with a precise colour word",
       "Positive: thrilled, hooked, fascinated, captivated",
       "Mild: pleasant, soothing, refreshing, mellow",
       "Negative: drained, overwhelmed, lukewarm",
@@ -544,8 +544,8 @@ const speakingExpansion6: IeltsLecture[] = [
 
   {
     id: "speaking-part2-time-pressure-rescue",
-    title: "Part 2 — The 30-Second Rescue Plan",
-    titleVi: "Part 2 — Kế hoạch cứu nguy 30 giây",
+    title: "Part 2 - The 30-Second Rescue Plan",
+    titleVi: "Part 2 - Kế hoạch cứu nguy 30 giây",
     pillar: "skill-based",
     skill: "speaking",
     icon: "🆘",
@@ -561,36 +561,36 @@ const speakingExpansion6: IeltsLecture[] = [
         title: "Buy time with a thinking phrase",
         titleVi: "Mua thời gian bằng cụm suy nghĩ",
         description:
-          "'Let me think for a second…', 'Now that you mention it…' — natural fillers worth 3-4 seconds each.",
+          "'Let me think for a second…', 'Now that you mention it…' - natural fillers worth 3-4 seconds each.",
         descriptionVi:
-          "'Let me think for a second…', 'Now that you mention it…' — filler tự nhiên mỗi cụm 3-4 giây.",
+          "'Let me think for a second…', 'Now that you mention it…' - filler tự nhiên mỗi cụm 3-4 giây.",
       },
       {
         step: 2,
         title: "Pivot to a comparison",
         titleVi: "Chuyển sang so sánh",
         description:
-          "'Unlike most X I've experienced, this one…' — comparisons unlock 20+ seconds of fresh content.",
+          "'Unlike most X I've experienced, this one…' - comparisons unlock 20+ seconds of fresh content.",
         descriptionVi:
-          "'Unlike most X I've experienced, this one…' — so sánh mở khóa 20+ giây nội dung mới.",
+          "'Unlike most X I've experienced, this one…' - so sánh mở khóa 20+ giây nội dung mới.",
       },
       {
         step: 3,
         title: "Inject a hypothetical",
         titleVi: "Thêm tình huống giả định",
         description:
-          "'If I had the chance to do it again, I'd probably…' — instantly gives 15-20 seconds + scoring conditional grammar.",
+          "'If I had the chance to do it again, I'd probably…' - instantly gives 15-20 seconds + scoring conditional grammar.",
         descriptionVi:
-          "'If I had the chance to do it again, I'd probably…' — cho ngay 15-20 giây + ngữ pháp điều kiện ăn điểm.",
+          "'If I had the chance to do it again, I'd probably…' - cho ngay 15-20 giây + ngữ pháp điều kiện ăn điểm.",
       },
       {
         step: 4,
         title: "Land with a feeling + lesson",
         titleVi: "Kết bằng cảm xúc + bài học",
         description:
-          "'What stays with me is… and I think it taught me…' — strong ending = Band 7.5 finisher.",
+          "'What stays with me is… and I think it taught me…' - strong ending = Band 7.5 finisher.",
         descriptionVi:
-          "'What stays with me is… and I think it taught me…' — kết mạnh = chốt 7.5.",
+          "'What stays with me is… and I think it taught me…' - kết mạnh = chốt 7.5.",
       },
     ],
     practicalExamples: [
@@ -598,7 +598,7 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Cue card: Describe a teacher who influenced you (running out at 90s)",
         contextVi: "Cue card: Tả thầy/cô ảnh hưởng đến bạn (sắp hết ý ở 90s)",
         example:
-          "Band 7.5 rescue: 'Now that you mention it, unlike most teachers I had, Ms. Linh never followed the textbook. If I had to compare her to my high school teachers, she felt more like a coach than an instructor. If I could go back, I'd probably tell her how much that mattered. What stays with me is the realisation that the best teachers don't teach subjects — they teach you to question.'",
+          "Band 7.5 rescue: 'Now that you mention it, unlike most teachers I had, Ms. Linh never followed the textbook. If I had to compare her to my high school teachers, she felt more like a coach than an instructor. If I could go back, I'd probably tell her how much that mattered. What stays with me is the realisation that the best teachers don't teach subjects - they teach you to question.'",
         explanation:
           "Filler → comparison → hypothetical → feeling+lesson. Each step bought 10-15 seconds.",
       },
@@ -606,25 +606,25 @@ const speakingExpansion6: IeltsLecture[] = [
         context: "Cue card: Describe a gift you received",
         contextVi: "Cue card: Tả món quà bạn từng nhận",
         example:
-          "Band 7.0: 'Let me think for a second… unlike most gifts I've received, this one was unwrapped — a handwritten letter from my dad. If I had the chance to thank him properly back then, I would have. What stays with me is how a piece of paper can hold more love than anything store-bought.'",
+          "Band 7.0: 'Let me think for a second… unlike most gifts I've received, this one was unwrapped - a handwritten letter from my dad. If I had the chance to thank him properly back then, I would have. What stays with me is how a piece of paper can hold more love than anything store-bought.'",
         explanation:
-          "Pure rescue plan template applied to a sentimental cue card — sounds authentic, not panicked.",
+          "Pure rescue plan template applied to a sentimental cue card - sounds authentic, not panicked.",
       },
       {
         context: "Cue card: Describe a place you'd like to visit",
         contextVi: "Cue card: Tả nơi bạn muốn ghé thăm",
         example:
-          "Band 8.0: 'Now that you mention it, unlike the typical European cities most people dream of, I'd love to visit Lapland. If I had the chance, I'd probably go in midwinter just to see the auroras dance overhead. What stays with me from documentaries is the eerie quiet of snow — and the idea that silence can feel cinematic.'",
+          "Band 8.0: 'Now that you mention it, unlike the typical European cities most people dream of, I'd love to visit Lapland. If I had the chance, I'd probably go in midwinter just to see the auroras dance overhead. What stays with me from documentaries is the eerie quiet of snow - and the idea that silence can feel cinematic.'",
         explanation:
-          "Sophisticated: 'eerie quiet', 'cinematic silence' — vocabulary plus the full rescue structure.",
+          "Sophisticated: 'eerie quiet', 'cinematic silence' - vocabulary plus the full rescue structure.",
       },
     ],
     mistakesToAvoid: [
       {
         mistake: "Saying 'umm… I don't know what to say'",
         mistakeVi: "Nói 'umm… tôi không biết nói gì'",
-        why: "Verbal panic drops Fluency to Band 5. Use rescue fillers instead — they sound thoughtful.",
-        whyVi: "Hoảng loạn bằng lời kéo Fluency xuống 5. Thay bằng filler cứu nguy — nghe suy tư.",
+        why: "Verbal panic drops Fluency to Band 5. Use rescue fillers instead - they sound thoughtful.",
+        whyVi: "Hoảng loạn bằng lời kéo Fluency xuống 5. Thay bằng filler cứu nguy - nghe suy tư.",
       },
       {
         mistake: "Repeating the cue card prompt to fill time",
@@ -667,7 +667,7 @@ const speakingExpansion6: IeltsLecture[] = [
           "Restating the cue card",
         ],
         answer: 2,
-        explanation: "Conditionals show Grammar Range — Band 7+ marker.",
+        explanation: "Conditionals show Grammar Range - Band 7+ marker.",
       },
       {
         question: "What should you NEVER do when stuck in Part 2?",
@@ -706,12 +706,12 @@ const speakingExpansion6: IeltsLecture[] = [
         question: "Which sentence shows the highest band rescue?",
         options: [
           "Umm I don't really remember.",
-          "Now that you mention it, unlike most cities I've visited, I'd love to see Lapland — the silence there feels cinematic.",
+          "Now that you mention it, unlike most cities I've visited, I'd love to see Lapland - the silence there feels cinematic.",
           "I think it's a nice place.",
           "Sorry can you repeat?",
         ],
         answer: 1,
-        explanation: "Filler + comparison + sensory imagery — Band 7.5–8 immediately.",
+        explanation: "Filler + comparison + sensory imagery - Band 7.5–8 immediately.",
       },
     ],
     cheatSheetPoints: [

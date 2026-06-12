@@ -175,7 +175,7 @@ function initMermaid() {
     `,
     themeVariables: isDark
       ? {
-          // Warm amber/emerald palette — replaces hard-to-read blue tones.
+          // Warm amber/emerald palette - replaces hard-to-read blue tones.
           primaryColor: "hsl(28 80% 32%)",
           primaryTextColor: "hsl(40 100% 96%)",
           primaryBorderColor: "hsl(28 95% 60%)",

@@ -7,11 +7,11 @@
 const SubqueryDiagram = () => (
   <figure className="not-prose my-8 rounded-2xl border-2 border-border bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/20 p-5 shadow-md">
     <h4 className="text-base font-extrabold text-foreground mb-4 flex items-center gap-2">
-      🔍 Subquery — câu truy vấn lồng nhau
+      🔍 Subquery - câu truy vấn lồng nhau
     </h4>
 
     <div className="space-y-3">
-      {/* Inner query — runs first */}
+      {/* Inner query - runs first */}
       <div className="relative rounded-xl border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-2">
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500 text-white text-sm font-extrabold shadow">1</span>
@@ -35,7 +35,7 @@ const SubqueryDiagram = () => (
         </div>
       </div>
 
-      {/* Outer query — runs after */}
+      {/* Outer query - runs after */}
       <div className="relative rounded-xl border-2 border-orange-500 bg-orange-50 dark:bg-orange-950/40 p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-2">
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-500 text-white text-sm font-extrabold shadow">2</span>

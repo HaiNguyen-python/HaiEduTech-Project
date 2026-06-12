@@ -1,6 +1,6 @@
 /**
  * @file ieltsFullReadingExamsExpansion2.ts
- * @description Wave 2 — 2 additional Cambridge-style IELTS Academic
+ * @description Wave 2 - 2 additional Cambridge-style IELTS Academic
  * Reading exams (rx-cam-3, rx-cam-4). Each has 13 questions across all
  * three legacy types (matching-headings, multiple-choice, fill-blank)
  * and is fact-checked against the passage line-by-line for logic.

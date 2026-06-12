@@ -14,7 +14,7 @@ export const SPEAKING_ACTIVITY_TYPES = [
   "speaking_coach_chinese",
   "speaking_coach_finnish",
   "speaking_coach_vietnamese",
-  // Legacy short codes — kept for backward compatibility with older rows
+  // Legacy short codes - kept for backward compatibility with older rows
   "speaking_coach_en",
   "speaking_coach_zh",
   "speaking_coach_fi",

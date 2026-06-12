@@ -1,8 +1,8 @@
-// Finnish Speaking Coach — sâu rộng A1 → B1 (12 themes, ~168 câu)
+// Finnish Speaking Coach - sâu rộng A1 → B1 (12 themes, ~168 câu)
 // IDs hoàn toàn không trùng với speakingCoachData / Expansion / Expansion2 / Expansion3
 import type { SpeakingTheme } from "./speakingCoachData";
 
-// ============================ A1 — Cơ bản ============================
+// ============================ A1 - Cơ bản ============================
 const a1Themes: SpeakingTheme[] = [
   {
     id: "fi-numbers-time", name: "Numerot ja aika", nameVi: "Số đếm & Thời gian", icon: "🔢", level: "A1",
@@ -86,7 +86,7 @@ const a1Themes: SpeakingTheme[] = [
   },
 ];
 
-// ============================ A2 — Thường nhật ============================
+// ============================ A2 - Thường nhật ============================
 const a2Themes: SpeakingTheme[] = [
   {
     id: "fi-doctor", name: "Lääkärissä", nameVi: "Đi khám bác sĩ", icon: "👩‍⚕️", level: "A2",
@@ -170,7 +170,7 @@ const a2Themes: SpeakingTheme[] = [
   },
 ];
 
-// ============================ B1 — Nâng cao ============================
+// ============================ B1 - Nâng cao ============================
 const b1Themes: SpeakingTheme[] = [
   {
     id: "fi-opinion-debate", name: "Mielipiteet", nameVi: "Diễn đạt quan điểm", icon: "🗣️", level: "B1",

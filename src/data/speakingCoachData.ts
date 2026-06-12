@@ -932,10 +932,10 @@ export const pronunciationTips: Record<string, { sound: string; tip: string; tip
   "/y/": { sound: "y (Finnish)", tip: "Like 'ee' but with rounded lips", tipVi: "Như 'i' nhưng tròn môi" },
   "/ø/": { sound: "ö", tip: "Like 'e' but with rounded lips", tipVi: "Như 'ê' nhưng tròn môi" },
   "/æ/fi": { sound: "ä", tip: "Like English 'a' in 'cat', open and front", tipVi: "Như 'e' mở rộng, âm trước" },
-  "/aa/fi": { sound: "aa (vowel length)", tip: "Hold the vowel twice as long: 'tuli' (fire) vs 'tuuli' (wind)", tipVi: "Giữ nguyên âm dài gấp đôi: tuli (lửa) vs tuuli (gió) — đổi nghĩa hoàn toàn" },
+  "/aa/fi": { sound: "aa (vowel length)", tip: "Hold the vowel twice as long: 'tuli' (fire) vs 'tuuli' (wind)", tipVi: "Giữ nguyên âm dài gấp đôi: tuli (lửa) vs tuuli (gió) - đổi nghĩa hoàn toàn" },
   "/kk/fi": { sound: "kk (geminate)", tip: "Hold the consonant twice as long: 'kuka' (who) vs 'kukka' (flower)", tipVi: "Phụ âm đôi giữ gấp đôi thời lượng: kuka (ai) vs kukka (bông hoa)" },
-  "/stress/fi": { sound: "Trọng âm", tip: "Stress is ALWAYS on the first syllable in Finnish, no exceptions", tipVi: "Trọng âm LUÔN ở âm tiết đầu — không có ngoại lệ" },
-  "/harmony/fi": { sound: "Vowel harmony", tip: "Back vowels (a/o/u) and front vowels (ä/ö/y) cannot mix in the same word", tipVi: "Nguyên âm sau (a/o/u) và nguyên âm trước (ä/ö/y) không đứng cùng từ — chọn đuôi đúng" },
+  "/stress/fi": { sound: "Trọng âm", tip: "Stress is ALWAYS on the first syllable in Finnish, no exceptions", tipVi: "Trọng âm LUÔN ở âm tiết đầu - không có ngoại lệ" },
+  "/harmony/fi": { sound: "Vowel harmony", tip: "Back vowels (a/o/u) and front vowels (ä/ö/y) cannot mix in the same word", tipVi: "Nguyên âm sau (a/o/u) và nguyên âm trước (ä/ö/y) không đứng cùng từ - chọn đuôi đúng" },
   // Chinese tones
   "1st": { sound: "ˉ high level", tip: "Keep voice high and steady, like singing a high note", tipVi: "Giữ giọng cao và đều, như hát nốt cao" },
   "2nd": { sound: "ˊ rising", tip: "Voice rises from mid to high, like asking 'huh?'", tipVi: "Giọng đi từ trung lên cao, như hỏi 'hả?'" },

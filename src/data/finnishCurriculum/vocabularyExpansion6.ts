@@ -1,4 +1,4 @@
-// YKI B1 Vocabulary — Advanced themes (80 từ × 4 mô-đun)
+// YKI B1 Vocabulary - Advanced themes (80 từ × 4 mô-đun)
 import type { FinnishModule } from "./types";
 
 export const finnishVocabExpansion6Modules: FinnishModule[] = [

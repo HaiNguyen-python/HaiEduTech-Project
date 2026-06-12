@@ -1,7 +1,7 @@
 /**
  * @file ieltsSampleEssays70PlusExtra.ts
  * @description Additional Band 7.0+ sample essays (Task 1 & Task 2). Same
- * shape as ieltsSampleEssays70Plus.ts — shorter sentences, mid-band academic
+ * shape as ieltsSampleEssays70Plus.ts - shorter sentences, mid-band academic
  * vocabulary so weaker students can read them without feeling overwhelmed.
  */
 import type { SampleEssay } from "./ieltsSampleEssays";

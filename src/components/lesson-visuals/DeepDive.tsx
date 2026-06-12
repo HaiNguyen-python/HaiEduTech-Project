@@ -6,7 +6,7 @@ import { BookOpen } from "lucide-react";
 interface DeepDiveProps {
   title: string;
   children: ReactNode;
-  /** kept for backwards compat; ignored — content is always open now */
+  /** kept for backwards compat; ignored - content is always open now */
   defaultOpen?: boolean;
 }
 

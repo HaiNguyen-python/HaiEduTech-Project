@@ -79,7 +79,7 @@ const matchOnset = (s: string): [string, string] => {
       return ["z", rest];
     }
     if (next === "i") {
-      // giiêng style — rare; collapse to /z/ + rest
+      // giiêng style - rare; collapse to /z/ + rest
       return ["z", rest];
     }
     // gi + consonant (gì, gỉ, gị) → /z/ + i + coda

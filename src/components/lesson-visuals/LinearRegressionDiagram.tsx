@@ -19,7 +19,7 @@ const LinearRegressionDiagram = () => {
         </h4>
         <div className="flex gap-2 text-xs">
           <span className="px-2 py-1 rounded-full bg-emerald-500 text-white font-bold flex items-center gap-1">● Dữ liệu thực</span>
-          <span className="px-2 py-1 rounded-full bg-orange-500 text-white font-bold flex items-center gap-1">— Mô hình dự đoán</span>
+          <span className="px-2 py-1 rounded-full bg-orange-500 text-white font-bold flex items-center gap-1">- Mô hình dự đoán</span>
         </div>
       </div>
 

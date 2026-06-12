@@ -1,6 +1,6 @@
 // Aggregated Vietnamese Vocabulary Bank
 // Flattens all VietnameseVocabEntry items from grammar / vocabulary / reading /
-// folklore / lessons-expansion modules into a single searchable bank — mirrors
+// folklore / lessons-expansion modules into a single searchable bank - mirrors
 // the IELTS vocabulary structure (word + meaning + example + level + category).
 import { grammarModules } from "./grammarLessons";
 import { vocabularyModules } from "./vocabularyLessons";
