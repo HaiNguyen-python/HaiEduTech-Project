@@ -104,10 +104,10 @@ Quy tắc: **mỗi event 1 dòng, immutable**, kèm \`ab_variant\` để slice m
    100%        ~30%          ~12%       ~6%         ~3%
 \`\`\`
 
-- **Activation** — did the learner experience the *aha* moment? (≥3 completed lessons in 24h is a strong proxy.)
-- **Habit** — at least one session in 4 of 7 days.
-- **Mastery** — % of target skills above threshold (e.g. 0.8 BKT mastery).
-- **Outcome** — externally validated (IELTS band, HSK level, job placed).
+- **Activation** - did the learner experience the *aha* moment? (≥3 completed lessons in 24h is a strong proxy.)
+- **Habit** - at least one session in 4 of 7 days.
+- **Mastery** - % of target skills above threshold (e.g. 0.8 BKT mastery).
+- **Outcome** - externally validated (IELTS band, HSK level, job placed).
 
 ## 3. Cohort Analysis
 
@@ -124,8 +124,8 @@ Jun cohort    100%  38%   25%   18%   ← regression after refactor
 
 - **One row per event**, immutable, append-only.
 - Always bake in \`ab_variant\` so every metric can be sliced by experiment.
-- Bot/dev traffic filtered before aggregation — otherwise metrics inflate.
-- Look at the **distribution tails** (p10 / p50 / p90), not just the mean — the bottom decile of learners is who you need to help most.
+- Bot/dev traffic filtered before aggregation - otherwise metrics inflate.
+- Look at the **distribution tails** (p10 / p50 / p90), not just the mean - the bottom decile of learners is who you need to help most.
 
 ## 5. Common Traps
 
@@ -235,7 +235,7 @@ Learning is slow and effortful, so the brain needs **short-term rewards** to end
   streak)     lesson)   surprise drop)      collection)
 \`\`\`
 
-**Variable reward beats fixed reward** — the "slot machine" effect: sometimes 10 XP, sometimes 50 XP + a rare badge. Dopamine spikes more on uncertainty than on predictability.
+**Variable reward beats fixed reward** - the "slot machine" effect: sometimes 10 XP, sometimes 50 XP + a rare badge. Dopamine spikes more on uncertainty than on predictability.
 
 ## 3. The Four Pillars
 
@@ -250,7 +250,7 @@ Learning is slow and effortful, so the brain needs **short-term rewards** to end
 
 - **Streak shaming** ("You lost a 47-day streak!") → anxiety, especially for kids.
 - **Pay-to-skip-learning** → kills the educational purpose.
-- **Endless global leaderboard** → 95% of learners always feel like losers — use weekly + class-scoped leaderboards instead.
+- **Endless global leaderboard** → 95% of learners always feel like losers - use weekly + class-scoped leaderboards instead.
 - **Lootbox-style purchases for minors** → ethically and legally risky.
 
 ## 5. Balanced Reward Formula
@@ -260,7 +260,7 @@ reward = base_xp * difficulty * streak_bonus * (1 + surprise())
 surprise() = random.choice([0, 0, 0, 0.5, 1.0])   # 20% drop
 \`\`\`
 
-**Decay XP for repeated easy tasks** so users can't farm trivial reps — XP must stay tied to real learning. Cap streak bonuses (e.g. +60%) so long streaks don't dwarf today's progress.`,
+**Decay XP for repeated easy tasks** so users can't farm trivial reps - XP must stay tied to real learning. Cap streak bonuses (e.g. +60%) so long streaks don't dwarf today's progress.`,
         code: `import random
 
 def xp(base: int, difficulty: float, streak_days: int, attempts: int) -> int:
@@ -366,7 +366,7 @@ Changing a UI or lecture "because it feels better" is the easiest way to **make 
    Welch's t-test / Mann-Whitney → p-value + CI
 \`\`\`
 
-## 3. Sample Size — Pre-Register It
+## 3. Sample Size - Pre-Register It
 
 Detecting tiny effects requires huge samples. Rough rule (α=0.05, power=0.8):
 
@@ -377,26 +377,26 @@ Detecting tiny effects requires huge samples. Rough rule (α=0.05, power=0.8):
 | 5% | ~3,000 |
 | 1% | ~70,000 |
 
-**Pre-register** the sample size and duration **before** you launch. *Never* peek at p-values daily — peeking inflates false-positive rate from 5% to 30%+.
+**Pre-register** the sample size and duration **before** you launch. *Never* peek at p-values daily - peeking inflates false-positive rate from 5% to 30%+.
 
 ## 4. Reading Results Correctly
 
-- \`p < 0.05\` means *evidence* B differs from A — not "B is definitely better."
+- \`p < 0.05\` means *evidence* B differs from A - not "B is definitely better."
 - Always report **effect size** + **95% CI**, not just p-value.
 - 20 metrics tested, 1 below 0.05? Probably noise (multiple comparison).
 - A CI that crosses 0 → **not** significant.
 
 ## 5. Stopping Rules
 
-- **Harm threshold** — stop immediately if Variant B drops mastery > 10%. Protecting students overrides statistical purity.
-- **Bayesian early stopping** — only valid under a proper framework (Optimizely, Beta-Binomial). Frequentist peeking is *not* valid.
+- **Harm threshold** - stop immediately if Variant B drops mastery > 10%. Protecting students overrides statistical purity.
+- **Bayesian early stopping** - only valid under a proper framework (Optimizely, Beta-Binomial). Frequentist peeking is *not* valid.
 
 ## 6. Common Traps
 
-- **SRM** (Sample Ratio Mismatch) — split is 60/40 instead of 50/50 → routing bug, results invalid.
-- **Novelty effect** — flashy new UI wins for 2 weeks, then collapses; run experiments long enough to pass it.
-- **Network effects** — shared leaderboards or social feeds let arms contaminate each other; cluster-randomize by class.
-- **Multiple testing** — Bonferroni-correct or pre-specify your primary metric.`,
+- **SRM** (Sample Ratio Mismatch) - split is 60/40 instead of 50/50 → routing bug, results invalid.
+- **Novelty effect** - flashy new UI wins for 2 weeks, then collapses; run experiments long enough to pass it.
+- **Network effects** - shared leaderboards or social feeds let arms contaminate each other; cluster-randomize by class.
+- **Multiple testing** - Bonferroni-correct or pre-specify your primary metric.`,
         code: `import hashlib, random
 from statistics import mean, pstdev
 from math import sqrt

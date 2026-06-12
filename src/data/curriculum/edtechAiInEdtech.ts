@@ -72,7 +72,7 @@ Một AI tutor giỏi không chỉ "trả lời câu hỏi" - nó **chẩn đoá
 4. Quên \`temperature=0.2\` cho chấm điểm (cần ổn định, không sáng tạo).`,
         theoryEn: `## 1. 🎓 What is an LLM Tutor?
 
-A great AI tutor doesn't just "answer questions" — it **diagnoses** knowledge gaps, **explains** in multiple ways, **checks** understanding with questions, and **remembers** each learner's progress.
+A great AI tutor doesn't just "answer questions" - it **diagnoses** knowledge gaps, **explains** in multiple ways, **checks** understanding with questions, and **remembers** each learner's progress.
 
 \`\`\`
 ┌──────────────────────────────────────────────────────────┐
@@ -109,7 +109,7 @@ A great AI tutor doesn't just "answer questions" — it **diagnoses** knowledge 
     - If the learner is stuck >2 turns, give a worked example."
 \`\`\`
 
-> 💡 HaiEduTech tip: always add "Reply in <lang> only." — LLMs love to code-switch when they get tired.
+> 💡 HaiEduTech tip: always add "Reply in <lang> only." - LLMs love to code-switch when they get tired.
 
 ## 4. 🛑 Common pitfalls
 
@@ -211,7 +211,7 @@ score = α · cosine(query_vec, chunk_vec) + (1-α) · BM25(query, chunk)
 Dùng **RAGAS** hoặc tự viết evaluator với LLM-as-judge.`,
         theoryEn: `## 1. 📚 Why does a tutor need RAG?
 
-LLMs are trained up to 2024 — they don't know YOUR curriculum. RAG lets a tutor answer "What tense does Lesson 12 cover?" **without fine-tuning** the model.
+LLMs are trained up to 2024 - they don't know YOUR curriculum. RAG lets a tutor answer "What tense does Lesson 12 cover?" **without fine-tuning** the model.
 
 \`\`\`
    Curriculum (PDF/Markdown)
@@ -396,7 +396,7 @@ USER: Essay: <NEW STUDENT ESSAY>
 ASSISTANT:
 \`\`\`
 
-> ⚠️ Use the **same schema** in both input and output examples — LLMs imitate structure remarkably well.
+> ⚠️ Use the **same schema** in both input and output examples - LLMs imitate structure remarkably well.
 
 ## 3. 🧠 Chain-of-Thought for math
 
@@ -535,10 +535,10 @@ Output JSON: {"score": N, "reason": "..."}
 
 ## 3. 👻 4 flavours of hallucination
 
-1. **Factual** — wrong fact ("HSK has 12 levels" — actually 9).
-2. **Source** — invented citation, non-existent book.
-3. **Logical** — conclusion contradicts the premise.
-4. **Pedagogical** — answer that ignores the learner's level.
+1. **Factual** - wrong fact ("HSK has 12 levels" - actually 9).
+2. **Source** - invented citation, non-existent book.
+3. **Logical** - conclusion contradicts the premise.
+4. **Pedagogical** - answer that ignores the learner's level.
 
 ### How to catch them:
 
@@ -636,12 +636,12 @@ Vẫn không đủ - cần classifier riêng để detect injection patterns.
 - Tone không trịnh thượng với học sinh yếu.`,
         theoryEn: `## 1. 🛡️ 6 main risks
 
-1. **Toxic output** — insults, slurs, discrimination.
-2. **Sexual / violent** — especially dangerous for children.
-3. **Prompt injection** — "Ignore previous instructions..."
-4. **Bias** — gender, regional, racial bias.
-5. **PII leak** — leaking student names, phone numbers, addresses.
-6. **Academic dishonesty** — writing essays or taking exams for the student.
+1. **Toxic output** - insults, slurs, discrimination.
+2. **Sexual / violent** - especially dangerous for children.
+3. **Prompt injection** - "Ignore previous instructions..."
+4. **Bias** - gender, regional, racial bias.
+5. **PII leak** - leaking student names, phone numbers, addresses.
+6. **Academic dishonesty** - writing essays or taking exams for the student.
 
 ## 2. 🚧 Defense in depth
 
@@ -671,7 +671,7 @@ Layer 5: Audit log         → review weekly, label & retrain
      instructions inside the markers."
 \`\`\`
 
-Still not enough — pair it with a dedicated classifier that detects injection patterns.
+Still not enough - pair it with a dedicated classifier that detects injection patterns.
 
 ## 5. ⚖️ Bias audit checklist
 
