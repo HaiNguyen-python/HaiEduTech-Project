@@ -27,6 +27,23 @@ import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserRole } from "@/hooks/useUserRole";
 import CodeBlock from "@/components/CodeBlock";
+
+/**
+ * Pick a Prism language id for syntax highlighting. Prefer the lesson's
+ * declared `codeLanguage`; otherwise sniff the snippet for obvious markers
+ * so JS/TS/SQL/Bash blocks don't render under a misleading "PYTHON" label.
+ */
+const detectCodeLanguage = (code = "", declared?: string): string => {
+  const d = (declared || "").toLowerCase().trim();
+  if (d && d !== "text" && d !== "plain") return d;
+  const c = code || "";
+  if (/^\s*(SELECT|WITH|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)\b/im.test(c)) return "sql";
+  if (/\b(interface|: number|: string|: boolean|as const|<[A-Z]\w*>)\b/.test(c)) return "typescript";
+  if (/\b(const|let|var|function|=>)\b/.test(c) && /[;{}]/.test(c)) return "javascript";
+  if (/^#!\/.*\b(bash|sh)\b/m.test(c) || /^\s*(echo|cd|ls|grep|curl|sudo)\s+/m.test(c)) return "bash";
+  if (/^\s*(def |import |from |print\(|class .*:)/m.test(c)) return "python";
+  return "python";
+};
 import CodeTypingRace from "@/components/programming/CodeTypingRace";
 import TheorySections from "@/components/TheorySections";
 import GitBranchingSimulator from "@/components/se/GitBranchingSimulator";
@@ -629,9 +646,9 @@ const ProgrammingLessonPage = () => {
                     </div>
                   )}
 
-                  {/* Code Example — force Python theme/coloring across the
-                      Learn Programming section for a consistent look. */}
-                  <CodeBlock code={lesson.code} language="python" />
+                  {/* Code Example — use the lesson's declared language so syntax
+                      highlighting matches (Python / TS / JS / SQL / Bash, etc.). */}
+                  <CodeBlock code={lesson.code} language={detectCodeLanguage(lesson.code, lesson.codeLanguage)} />
 
 
                   {/* Exercise */}
