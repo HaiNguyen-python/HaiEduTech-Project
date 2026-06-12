@@ -14,7 +14,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
   // SECTION 1 - six everyday transactional dialogues
   // ============================================================
   {
-    id: "form-gym-membership",
+    id: "form-gym-membership-2",
     section: 1,
     questionType: "Form / Note Completion",
     questionTypeVi: "Điền form / ghi chú",
@@ -828,7 +828,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     ],
   },
   {
-    id: "lecture-volcanoes",
+    id: "lecture-volcanoes-2",
     section: 4,
     questionType: "Note Completion",
     questionTypeVi: "Điền ghi chú học thuật",

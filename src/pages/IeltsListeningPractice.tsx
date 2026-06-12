@@ -13,7 +13,8 @@ import { ieltsListeningPracticeSetsExpansion2 } from "@/data/ieltsListeningPract
 import { ieltsListeningPracticeSetsExpansion3 } from "@/data/ieltsListeningPracticeExpansion3";
 import { ieltsListeningPracticeSetsExpansion4 } from "@/data/ieltsListeningPracticeExpansion4";
 import { ieltsListeningPracticeSetsExpansion5 } from "@/data/ieltsListeningPracticeExpansion5";
-const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion, ...ieltsListeningPracticeSetsExpansion2, ...ieltsListeningPracticeSetsExpansion3, ...ieltsListeningPracticeSetsExpansion4, ...ieltsListeningPracticeSetsExpansion5];
+import { ieltsListeningPracticeSetsExpansion6 } from "@/data/ieltsListeningPracticeExpansion6";
+const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion, ...ieltsListeningPracticeSetsExpansion2, ...ieltsListeningPracticeSetsExpansion3, ...ieltsListeningPracticeSetsExpansion4, ...ieltsListeningPracticeSetsExpansion5, ...ieltsListeningPracticeSetsExpansion6];
 
 import ListeningPracticeSetCard from "@/components/ielts/ListeningPracticeSetCard";
 

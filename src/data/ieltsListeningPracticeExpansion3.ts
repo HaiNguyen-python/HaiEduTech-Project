@@ -55,7 +55,7 @@ export const ieltsListeningPracticeSetsExpansion3: ListeningPracticeSet[] = [
 
   // ====== SECTION 2 - Monologue / map labelling style (single speaker) ======
   {
-    id: "monologue-museum-tour",
+    id: "monologue-museum-tour-2",
     section: 2,
     questionType: "Multiple Choice + Sentence Completion",
     questionTypeVi: "Trắc nghiệm + điền câu",
@@ -95,7 +95,7 @@ export const ieltsListeningPracticeSetsExpansion3: ListeningPracticeSet[] = [
 
   // ====== SECTION 3 - Academic discussion (2-3 speakers) ======
   {
-    id: "discussion-research-project",
+    id: "discussion-research-project-2",
     section: 3,
     questionType: "Matching + Multiple Choice",
     questionTypeVi: "Nối + Trắc nghiệm",
@@ -139,7 +139,7 @@ export const ieltsListeningPracticeSetsExpansion3: ListeningPracticeSet[] = [
 
   // ====== SECTION 4 - Academic lecture (single speaker, harder) ======
   {
-    id: "lecture-urban-trees",
+    id: "lecture-urban-trees-2",
     section: 4,
     questionType: "Note Completion",
     questionTypeVi: "Điền ghi chú học thuật",
