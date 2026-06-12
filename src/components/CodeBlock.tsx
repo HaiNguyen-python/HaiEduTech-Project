@@ -57,9 +57,46 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
     asciiBoxLines >= 3;
   const preserveLayout = isDiagram;
   const codeText = code.replace(/\n$/, "");
+  const stripOuterDiagramFrame = (value: string) => {
+    const lines = value.split("\n");
+    if (lines.length < 3) return value;
+
+    const isHorizontalFrame = (line: string) =>
+      /^\s*[|+┌└╔╚]\s*[-_=─═]{4,}\s*[|+┐┘╗╝]\s*$/.test(line) ||
+      /^\s*[-_=─═]{6,}\s*$/.test(line);
+
+    let framedLines = lines;
+    const firstContentIndex = lines.findIndex((line) => line.trim().length > 0);
+    const lastContentIndex = lines.length - 1 - [...lines].reverse().findIndex((line) => line.trim().length > 0);
+
+    if (
+      firstContentIndex >= 0 &&
+      lastContentIndex > firstContentIndex &&
+      isHorizontalFrame(lines[firstContentIndex]) &&
+      isHorizontalFrame(lines[lastContentIndex])
+    ) {
+      framedLines = [
+        ...lines.slice(0, firstContentIndex),
+        ...lines.slice(firstContentIndex + 1, lastContentIndex),
+        ...lines.slice(lastContentIndex + 1),
+      ];
+    }
+
+    return framedLines
+      .map((line) => {
+        const withoutLeft = line.replace(/^\s*[|│║]\s?/, "");
+        return withoutLeft.replace(/\s?[|│║]\s*$/, "");
+      })
+      .join("\n")
+      .trimEnd();
+  };
+  const displayText = preserveLayout ? stripOuterDiagramFrame(codeText) : codeText;
+  const blockShellClass = preserveLayout
+    ? `my-4 rounded-xl overflow-hidden bg-[#0f172a] shadow-md ${className}`
+    : `my-4 rounded-xl overflow-hidden border border-slate-800 bg-[#0f172a] shadow-md ${className}`;
 
   return (
-    <div className={`my-4 rounded-xl overflow-hidden border border-slate-800 bg-[#0f172a] shadow-md ${className}`}>
+    <div className={blockShellClass}>
       {showHeader && (
         <div className="flex items-center justify-between px-4 py-2 bg-slate-900/80 border-b border-slate-800">
           <span className="text-xs font-mono uppercase tracking-wide text-emerald-400/90">
@@ -100,7 +137,7 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
               overflowWrap: "normal",
             }}
           >
-            <code className="block whitespace-pre">{codeText}</code>
+            <code className="block whitespace-pre">{displayText}</code>
           </pre>
         ) : (
           <SyntaxHighlighter
@@ -130,7 +167,7 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
             showLineNumbers={false}
             wrapLongLines
           >
-            {codeText}
+            {displayText}
           </SyntaxHighlighter>
         )}
       </div>
