@@ -89,8 +89,11 @@ async function fetchJSONWithRetry(url: string): Promise<{ ok: boolean; status: n
 
 async function translateToVi(text: string): Promise<string> {
   try {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|vi`;
-    const res = await fetchWithTimeout(url, 5000);
+    // Trim text to keep MyMemory request small and fast
+    const shortText = text.length > 200 ? text.slice(0, 200) : text;
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(shortText)}&langpair=en|vi`;
+    // Tight 1.8s timeout — translations are best-effort, never block the lookup
+    const res = await fetchWithTimeout(url, 1800);
     if (!res.ok) {
       try { await res.text(); } catch { /* ignore */ }
       return "";
@@ -100,6 +103,15 @@ async function translateToVi(text: string): Promise<string> {
   } catch {
     return "";
   }
+}
+
+// Race a promise against a hard deadline; resolve to fallback if it exceeds
+function withDeadline<T>(p: Promise<T>, ms: number, fallback: T): Promise<T> {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(fallback), ms);
+    p.then((v) => { clearTimeout(timer); resolve(v); })
+     .catch(() => { clearTimeout(timer); resolve(fallback); });
+  });
 }
 
 async function handleDictionary(word: string) {
