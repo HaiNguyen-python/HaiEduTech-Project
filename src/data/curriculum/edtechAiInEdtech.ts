@@ -522,21 +522,17 @@ Output có thể visualize bằng heatmap phoneme (đỏ = sai).
 | Math handwriting | MathPix + GPT-4o-mini text |`,
         theoryEn: "Speech-to-speech needs <2s latency. Vision for homework grading. Whiteboard AI via canvas + vision LLM. Pick tools by cost.",
         code: `# Streaming speech tutor (pseudo)
-async function speakTurn(audioStream) {
-  const sttStream = openaiSTT.stream(audioStream);
-  for await (const transcript of sttStream) {
-    if (transcript.is_final) {
-      const llmStream = openai.chat.stream({
-        messages: [...history, {role: "user", content: transcript.text}],
-      });
-      const ttsStream = elevenlabs.tts.stream();
-      for await (const token of llmStream) {
-        ttsStream.feed(token);   // immediate playback
-      }
-    }
-  }
-}`,
-        codeLanguage: "javascript",
+async def speak_turn(audio_stream, history):
+    stt_stream = openai_stt.stream(audio_stream)
+    async for transcript in stt_stream:
+        if transcript.is_final:
+            llm_stream = openai.chat.stream(
+                messages=[*history, {"role": "user", "content": transcript.text}],
+            )
+            tts_stream = elevenlabs.tts.stream()
+            async for token in llm_stream:
+                tts_stream.feed(token)   # immediate playback`,
+        codeLanguage: "python",
         exercise: "Thiết kế UI feedback pronunciation: hiển thị màu cho từng phoneme (đỏ/vàng/xanh) + tip cải thiện.",
         exerciseEn: "Design pronunciation feedback UI: per-phoneme color (red/yellow/green) + improvement tip.",
         quiz: [
@@ -619,19 +615,19 @@ T+30: Post-mortem draft
 T+24h: Test fix in canary
 \`\`\``,
         theoryEn: "LLMOps: prompt registry, eval suite, trace log, cost control, rollout patterns, incident playbook with <5min rollback.",
-        code: `// Feature-flagged prompt routing
-const PROMPT_FLAGS = {
-  "ielts-writing": {
-    version: "v3.2",
-    canary: { version: "v3.3-experiment", percent: 5 },
-  },
-};
-function pickPrompt(feature: string, userId: string) {
-  const cfg = PROMPT_FLAGS[feature];
-  const hash = hashUser(userId) % 100;
-  return hash < cfg.canary.percent ? cfg.canary.version : cfg.version;
-}`,
-        codeLanguage: "typescript",
+        code: `# Feature-flagged prompt routing
+PROMPT_FLAGS = {
+    "ielts-writing": {
+        "version": "v3.2",
+        "canary": {"version": "v3.3-experiment", "percent": 5},
+    },
+}
+
+def pick_prompt(feature: str, user_id: str) -> str:
+    cfg = PROMPT_FLAGS[feature]
+    bucket = hash_user(user_id) % 100
+    return cfg["canary"]["version"] if bucket < cfg["canary"]["percent"] else cfg["version"]`,
+        codeLanguage: "python",
         exercise: "Thiết kế dashboard 5 metric quan trọng nhất cho admin theo dõi AI tutor (mockup + alert thresholds).",
         exerciseEn: "Design a dashboard with the 5 most important metrics for admins to monitor an AI tutor.",
         quiz: [
