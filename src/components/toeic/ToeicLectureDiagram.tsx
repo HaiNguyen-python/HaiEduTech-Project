@@ -800,6 +800,211 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
+  // ============== WAVE 3 (2026-06) ==============
+
+  if (lectureId === "toeic-part1-people-state") {
+    return (
+      <Wrapper title="Part 1 State-Verb Map" titleVi="Bản đồ động từ trạng thái Part 1">
+        <svg viewBox="0 0 600 240" className="w-full max-w-[600px] mx-auto" role="img" aria-label="State verbs">
+          <rect x="10" y="10" width="580" height="220" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { x: 30, label: "POSTURE", words: "standing · sitting · leaning · seated", color: C.blue },
+            { x: 30, label: "ORIENTATION", words: "facing · back-to-back · side-by-side", color: C.emerald },
+            { x: 30, label: "HANDLING", words: "holding · stacking · arranging · grabbing", color: C.amber },
+            { x: 30, label: "SUBJECT CHECK", words: "both · one of · neither · all", color: C.rose },
+          ].map((row, i) => (
+            <g key={i} transform={`translate(${row.x}, ${40 + i * 45})`}>
+              <rect width="540" height="36" rx="8" fill={row.color} fillOpacity="0.18" stroke={row.color} />
+              <text x="14" y="22" fill={row.color} fontSize="11" fontWeight="800">{row.label}</text>
+              <text x="160" y="22" fill={C.text} fontSize="11">{row.words}</text>
+            </g>
+          ))}
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  if (lectureId === "toeic-part2-question-types-map") {
+    return (
+      <Wrapper title="Part 2 Question-Type Map" titleVi="Bản đồ 6 dạng câu hỏi Part 2">
+        <svg viewBox="0 0 600 280" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Question types">
+          <rect x="10" y="10" width="580" height="260" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { x: 30, y: 40, label: "WH", note: "Where / When / Why → NEVER Yes/No", color: C.blue },
+            { x: 30, y: 80, label: "Yes-No", note: "Do you…? Is it…? — Yes/No OK", color: C.emerald },
+            { x: 30, y: 120, label: "Tag", note: "…, didn't you? — confirm/correct", color: C.amber },
+            { x: 30, y: 160, label: "Choice", note: "X or Y? — answer chooses one", color: C.rose },
+            { x: 30, y: 200, label: "Statement", note: "Comment → empathy / agree", color: C.rose },
+            { x: 30, y: 240, label: "Negative", note: "Don't you…? — careful logic", color: C.blue },
+          ].map((row, i) => (
+            <g key={i}>
+              <rect x={row.x} y={row.y - 18} width="540" height="34" rx="6" fill={row.color} fillOpacity="0.18" stroke={row.color} />
+              <text x={row.x + 14} y={row.y + 4} fill={row.color} fontSize="12" fontWeight="800">{row.label}</text>
+              <text x={row.x + 120} y={row.y + 4} fill={C.text} fontSize="11">{row.note}</text>
+            </g>
+          ))}
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  if (lectureId === "toeic-part3-3-question-flow") {
+    return (
+      <Wrapper title="Part 3 — 3-Question Flow" titleVi="Part 3 — Dòng chảy 3 câu">
+        <svg viewBox="0 0 600 220" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Part 3 flow">
+          <rect x="10" y="10" width="580" height="200" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { x: 30, label: "Q1 · TOPIC", note: "First 2 lines", color: C.blue },
+            { x: 220, label: "Q2 · DETAIL", note: "Middle (numbers / names)", color: C.amber },
+            { x: 410, label: "Q3 · FUTURE", note: "Last 2 lines", color: C.emerald },
+          ].map(b => (
+            <g key={b.label} transform={`translate(${b.x},45)`}>
+              <rect width="160" height="100" rx="10" fill={b.color} fillOpacity="0.18" stroke={b.color} />
+              <text x="80" y="32" textAnchor="middle" fill={b.color} fontSize="12" fontWeight="800">{b.label}</text>
+              <text x="80" y="58" textAnchor="middle" fill={C.text} fontSize="11">{b.note}</text>
+            </g>
+          ))}
+          <path d="M 190 95 L 220 95" stroke={C.amberLight} strokeWidth="2" />
+          <path d="M 380 95 L 410 95" stroke={C.emeraldLight} strokeWidth="2" />
+          <text x="300" y="195" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">Correct answers PARAPHRASE — they don't repeat</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  if (lectureId === "toeic-part4-announcement-decoder") {
+    return (
+      <Wrapper title="Part 4 — 3-Block Monologue" titleVi="Part 4 — Monologue 3 khối">
+        <svg viewBox="0 0 600 240" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Part 4 blocks">
+          <rect x="10" y="10" width="580" height="220" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { y: 40, label: "BLOCK 1 · GREETING", note: "Q1 — Who are the listeners?", color: C.blue },
+            { y: 100, label: "BLOCK 2 · BODY", note: "Q2 — Numbers, names, reasons", color: C.amber },
+            { y: 160, label: "BLOCK 3 · CTA", note: "Q3 — Please / Don't forget / Proceed", color: C.emerald },
+          ].map((row, i) => (
+            <g key={i}>
+              <rect x="30" y={row.y - 22} width="540" height="44" rx="8" fill={row.color} fillOpacity="0.18" stroke={row.color} />
+              <text x="44" y={row.y - 2} fill={row.color} fontSize="12" fontWeight="800">{row.label}</text>
+              <text x="44" y={row.y + 14} fill={C.text} fontSize="11">{row.note}</text>
+            </g>
+          ))}
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  if (lectureId === "toeic-part5-preposition-decoder") {
+    return (
+      <Wrapper title="Preposition Decoder" titleVi="Giải mã giới từ">
+        <svg viewBox="0 0 600 240" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Prepositions">
+          <rect x="10" y="10" width="580" height="220" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { y: 40, label: "in", note: "year / month / season", color: C.blue, ex: "in 2026 · in March" },
+            { y: 80, label: "on", note: "day / date", color: C.emerald, ex: "on Monday · on March 14" },
+            { y: 120, label: "at", note: "clock time", color: C.amber, ex: "at 9 AM · at noon" },
+            { y: 160, label: "by", note: "deadline", color: C.rose, ex: "by Friday" },
+            { y: 200, label: "for / during", note: "length vs event", color: C.rose, ex: "for 2 weeks · during the meeting" },
+          ].map(r => (
+            <g key={r.label}>
+              <rect x="30" y={r.y - 18} width="540" height="34" rx="6" fill={r.color} fillOpacity="0.18" stroke={r.color} />
+              <text x="44" y={r.y + 4} fill={r.color} fontSize="13" fontWeight="800" fontFamily="monospace">{r.label}</text>
+              <text x="130" y={r.y + 4} fill={C.text} fontSize="11">{r.note}</text>
+              <text x="330" y={r.y + 4} fill={C.textMute} fontSize="10" fontStyle="italic">{r.ex}</text>
+            </g>
+          ))}
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  if (lectureId === "toeic-part6-cohesion-flow") {
+    return (
+      <Wrapper title="Cohesion Flow — Before & After" titleVi="Mạch Cohesion — Trước & Sau">
+        <svg viewBox="0 0 600 220" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Cohesion">
+          <rect x="10" y="10" width="580" height="200" rx="12" fill={C.card} stroke={C.border} />
+          <rect x="30" y="40" width="160" height="120" rx="10" fill={C.blue} fillOpacity="0.18" stroke={C.blue} />
+          <text x="110" y="65" textAnchor="middle" fill={C.blue} fontSize="12" fontWeight="800">SENTENCE BEFORE</text>
+          <text x="110" y="100" textAnchor="middle" fill={C.text} fontSize="10" fontStyle="italic">Sets logic + tense</text>
+          <rect x="220" y="40" width="160" height="120" rx="10" fill={C.amber} fillOpacity="0.22" stroke={C.amber} />
+          <text x="300" y="65" textAnchor="middle" fill={C.amber} fontSize="12" fontWeight="800">BLANK</text>
+          <text x="300" y="100" textAnchor="middle" fill={C.text} fontSize="10" fontStyle="italic">Connector / tense / sentence</text>
+          <rect x="410" y="40" width="160" height="120" rx="10" fill={C.emerald} fillOpacity="0.18" stroke={C.emerald} />
+          <text x="490" y="65" textAnchor="middle" fill={C.emerald} fontSize="12" fontWeight="800">SENTENCE AFTER</text>
+          <text x="490" y="100" textAnchor="middle" fill={C.text} fontSize="10" fontStyle="italic">Confirms direction</text>
+          <text x="300" y="190" textAnchor="middle" fill={C.amberLight} fontSize="11">However · Consequently · For instance · Subsequently</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  if (lectureId === "toeic-part7-email-thread") {
+    return (
+      <Wrapper title="Email Thread Hunt" titleVi="Săn thread email">
+        <svg viewBox="0 0 600 250" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Email hunt">
+          <rect x="10" y="10" width="580" height="230" rx="12" fill={C.card} stroke={C.border} />
+          <rect x="30" y="40" width="250" height="180" rx="10" fill={C.blue} fillOpacity="0.18" stroke={C.blue} />
+          <text x="155" y="62" textAnchor="middle" fill={C.blue} fontSize="12" fontWeight="800">EMAIL 1 — REQUEST</text>
+          <text x="42" y="90" fill={C.text} fontSize="10">From: Lin</text>
+          <text x="42" y="106" fill={C.text} fontSize="10">To: Carlos · CC: HR</text>
+          <text x="42" y="122" fill={C.text} fontSize="10">Subject: Quote needed</text>
+          <text x="42" y="148" fill={C.amberLight} fontSize="10" fontStyle="italic">"Could you send the latest…"</text>
+          <rect x="320" y="40" width="250" height="180" rx="10" fill={C.emerald} fillOpacity="0.18" stroke={C.emerald} />
+          <text x="445" y="62" textAnchor="middle" fill={C.emerald} fontSize="12" fontWeight="800">EMAIL 2 — RESPONSE</text>
+          <text x="332" y="90" fill={C.text} fontSize="10">From: Carlos · To: Lin</text>
+          <text x="332" y="106" fill={C.text} fontSize="10">Re: Quote needed</text>
+          <text x="332" y="132" fill={C.amberLight} fontSize="10" fontStyle="italic">"I've attached our price list."</text>
+          <text x="332" y="156" fill={C.text} fontSize="10">📎 Attachment: prices.pdf</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  if (lectureId === "toeic-business-finance-vocab") {
+    return (
+      <Wrapper title="Finance Vocabulary Map" titleVi="Bản đồ từ vựng tài chính">
+        <svg viewBox="0 0 600 240" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Finance map">
+          <rect x="10" y="10" width="580" height="220" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { x: 30, label: "P&L AXIS", words: "revenue · profit · margin · loss", color: C.blue },
+            { x: 30, label: "ACCOUNTING", words: "audit · statement · ledger · reconcile", color: C.amber },
+            { x: 30, label: "INVESTMENT", words: "asset · liability · equity · dividend · yield", color: C.emerald },
+            { x: 30, label: "BUDGET", words: "deficit · surplus · expense · expenditure", color: C.rose },
+          ].map((row, i) => (
+            <g key={i} transform={`translate(${row.x}, ${40 + i * 45})`}>
+              <rect width="540" height="36" rx="8" fill={row.color} fillOpacity="0.18" stroke={row.color} />
+              <text x="14" y="22" fill={row.color} fontSize="11" fontWeight="800">{row.label}</text>
+              <text x="160" y="22" fill={C.text} fontSize="11">{row.words}</text>
+            </g>
+          ))}
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  if (lectureId === "toeic-speed-skim-scan") {
+    return (
+      <Wrapper title="Skim-and-Scan Loop" titleVi="Vòng Skim-and-Scan">
+        <svg viewBox="0 0 600 240" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Skim scan">
+          <rect x="10" y="10" width="580" height="220" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { x: 30, label: "1 · SKIM", note: "30 sec / passage", color: C.blue },
+            { x: 175, label: "2 · READ stem", note: "Pull keywords", color: C.amber },
+            { x: 320, label: "3 · SCAN", note: "Zigzag → caps / nums / bold", color: C.emerald },
+            { x: 465, label: "4 · VERIFY", note: "+1 sentence ±", color: C.rose },
+          ].map(b => (
+            <g key={b.label} transform={`translate(${b.x}, 50)`}>
+              <rect width="130" height="100" rx="10" fill={b.color} fillOpacity="0.18" stroke={b.color} />
+              <text x="65" y="32" textAnchor="middle" fill={b.color} fontSize="11" fontWeight="800">{b.label}</text>
+              <text x="65" y="58" textAnchor="middle" fill={C.text} fontSize="10">{b.note}</text>
+            </g>
+          ))}
+          <text x="300" y="195" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">Budget: single ≈ 75s · double ≈ 90s · triple ≈ 100s</text>
+          <text x="300" y="215" textAnchor="middle" fill={C.roseLight} fontSize="11" fontWeight="700">⚠ &gt;90 sec → mark C + FLAG, move on</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
   // Default: no diagram for this lecture
   return null;
 };

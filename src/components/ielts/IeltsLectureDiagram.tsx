@@ -590,6 +590,263 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
+  // ============== WAVE 4 (2026-06) ==============
+
+  // Listening Section 1 — form completion
+  if (lectureId === "listening-section1-form-completion") {
+    return (
+      <Wrapper titleVi="Quy trình điền Form Section 1" title="Section 1 Form-Completion Routine">
+        <svg viewBox="0 0 700 260" className="w-full max-w-[700px] mx-auto" role="img" aria-label="Form routine">
+          <rect x="10" y="10" width="680" height="240" rx="14" fill={C.card} stroke={C.border} />
+          {[
+            { x: 30, label: "PREDICT", sub: "N / # / £ / @", color: C.blue, light: C.blueLight },
+            { x: 200, label: "SPELL", sub: "B/V • M/N • G/J", color: C.emerald, light: C.emeraldLight },
+            { x: 370, label: "WAIT", sub: "2nd number wins", color: C.amber, light: C.amberLight },
+            { x: 540, label: "CAPITALISE", sub: "Proper nouns", color: C.purple, light: C.purpleLight },
+          ].map(b => (
+            <g key={b.label} transform={`translate(${b.x},45)`}>
+              <rect width="140" height="90" rx="10" fill={b.color} fillOpacity="0.18" stroke={b.color} />
+              <text x="70" y="32" textAnchor="middle" fill={b.light} fontSize="13" fontWeight="700">{b.label}</text>
+              <text x="70" y="58" textAnchor="middle" fill={C.text} fontSize="11">{b.sub}</text>
+            </g>
+          ))}
+          <text x="350" y="180" textAnchor="middle" fill={C.amberLight} fontSize="12" fontWeight="700">⚠ Self-correction trap: trust the SECOND number</text>
+          <text x="350" y="210" textAnchor="middle" fill={C.text} fontSize="11" fontStyle="italic">"It's 0207… sorry, 0208 5567" → answer: 02085567</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // Reading Matching Headings PRO
+  if (lectureId === "reading-matching-headings-pro") {
+    return (
+      <Wrapper titleVi="Khung PRO cho Matching Headings" title="PRO Framework — Matching Headings">
+        <svg viewBox="0 0 700 270" className="w-full max-w-[700px] mx-auto" role="img" aria-label="PRO framework">
+          <rect x="10" y="10" width="680" height="250" rx="14" fill={C.card} stroke={C.border} />
+          <g transform="translate(40,40)">
+            <circle cx="40" cy="40" r="34" fill={C.blue} fillOpacity="0.25" stroke={C.blue} />
+            <text x="40" y="46" textAnchor="middle" fill={C.blueLight} fontSize="22" fontWeight="800">P</text>
+            <text x="40" y="100" textAnchor="middle" fill={C.text} fontSize="11" fontWeight="700">PREDICT</text>
+            <text x="40" y="116" textAnchor="middle" fill={C.textMute} fontSize="10">Paraphrase headings</text>
+          </g>
+          <g transform="translate(280,40)">
+            <circle cx="40" cy="40" r="34" fill={C.emerald} fillOpacity="0.25" stroke={C.emerald} />
+            <text x="40" y="46" textAnchor="middle" fill={C.emeraldLight} fontSize="22" fontWeight="800">R</text>
+            <text x="40" y="100" textAnchor="middle" fill={C.text} fontSize="11" fontWeight="700">READ</text>
+            <text x="40" y="116" textAnchor="middle" fill={C.textMute} fontSize="10">Topic + last sentence</text>
+          </g>
+          <g transform="translate(520,40)">
+            <circle cx="40" cy="40" r="34" fill={C.amber} fillOpacity="0.25" stroke={C.amber} />
+            <text x="40" y="46" textAnchor="middle" fill={C.amberLight} fontSize="22" fontWeight="800">O</text>
+            <text x="40" y="100" textAnchor="middle" fill={C.text} fontSize="11" fontWeight="700">OVERLAP</text>
+            <text x="40" y="116" textAnchor="middle" fill={C.textMute} fontSize="10">Idea ≠ word</text>
+          </g>
+          <path d="M 130 80 L 270 80" stroke={C.border} strokeDasharray="4 3" />
+          <path d="M 370 80 L 510 80" stroke={C.border} strokeDasharray="4 3" />
+          <rect x="40" y="180" width="620" height="60" rx="10" fill={C.rose} fillOpacity="0.12" stroke={C.rose} />
+          <text x="350" y="205" textAnchor="middle" fill={C.roseLight} fontSize="12" fontWeight="700">⚠ Word-bait trap</text>
+          <text x="350" y="225" textAnchor="middle" fill={C.text} fontSize="11" fontStyle="italic">Same word ≠ same idea — verify with the concluding sentence</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // Writing Task 1 Bar Chart PRO
+  if (lectureId === "writing-task1-bar-chart-pro") {
+    return (
+      <Wrapper titleVi="Mẫu PRO cho Bar Chart" title="Bar Chart PRO Template">
+        <svg viewBox="0 0 700 280" className="w-full max-w-[700px] mx-auto" role="img" aria-label="Bar chart PRO">
+          <rect x="10" y="10" width="680" height="260" rx="14" fill={C.card} stroke={C.border} />
+          {["Paraphrase", "Overview", "Group bars", "Numbers"].map((label, i) => (
+            <g key={label} transform={`translate(${30 + i * 165},40)`}>
+              <rect width="150" height="60" rx="10" fill={i === 1 ? C.emerald : C.blue} fillOpacity="0.2" stroke={i === 1 ? C.emerald : C.blue} />
+              <text x="75" y="28" textAnchor="middle" fill={i === 1 ? C.emeraldLight : C.blueLight} fontSize="11" fontWeight="700">STEP {i + 1}</text>
+              <text x="75" y="46" textAnchor="middle" fill={C.text} fontSize="12">{label}</text>
+            </g>
+          ))}
+          {/* mini bar chart */}
+          <g transform="translate(120,140)">
+            <rect x="0" y="60" width="50" height="60" fill={C.amber} />
+            <rect x="70" y="20" width="50" height="100" fill={C.rose} />
+            <rect x="140" y="50" width="50" height="70" fill={C.amber} />
+            <rect x="210" y="80" width="50" height="40" fill={C.blue} />
+            <rect x="280" y="90" width="50" height="30" fill={C.blue} />
+            <text x="25" y="140" textAnchor="middle" fill={C.textMute} fontSize="10">UK</text>
+            <text x="95" y="140" textAnchor="middle" fill={C.roseLight} fontSize="10" fontWeight="700">US ★</text>
+            <text x="165" y="140" textAnchor="middle" fill={C.textMute} fontSize="10">DE</text>
+            <text x="235" y="140" textAnchor="middle" fill={C.textMute} fontSize="10">JP</text>
+            <text x="305" y="140" textAnchor="middle" fill={C.textMute} fontSize="10">VN</text>
+          </g>
+          <text x="500" y="165" fill={C.emeraldLight} fontSize="12" fontWeight="700">Overview</text>
+          <text x="500" y="183" fill={C.text} fontSize="10">2 features, 0 numbers</text>
+          <text x="500" y="210" fill={C.amberLight} fontSize="12" fontWeight="700">Group</text>
+          <text x="500" y="228" fill={C.text} fontSize="10">Western (US/UK) vs Asian</text>
+          <text x="500" y="252" fill={C.blueLight} fontSize="11" fontStyle="italic">Max 2 numbers / body ¶</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // Writing Task 2 Problem-Solution
+  if (lectureId === "writing-task2-problem-solution") {
+    return (
+      <Wrapper titleVi="Chuỗi Vấn đề - Giải pháp - Kết quả" title="Problem → Solution → Result Chain">
+        <svg viewBox="0 0 700 240" className="w-full max-w-[700px] mx-auto" role="img" aria-label="PSR chain">
+          <rect x="10" y="10" width="680" height="220" rx="14" fill={C.card} stroke={C.border} />
+          {[
+            { x: 30, label: "PROBLEM", sub: "1 root cause", color: C.rose, light: C.roseLight, text: "Private-car dependency" },
+            { x: 250, label: "SOLUTION", sub: "1 targeted fix", color: C.amber, light: C.amberLight, text: "Congestion charge + cycle lanes" },
+            { x: 470, label: "RESULT", sub: "1 measurable outcome", color: C.emerald, light: C.emeraldLight, text: "London −30% inner traffic" },
+          ].map(b => (
+            <g key={b.label} transform={`translate(${b.x},45)`}>
+              <rect width="200" height="150" rx="12" fill={b.color} fillOpacity="0.18" stroke={b.color} />
+              <text x="100" y="32" textAnchor="middle" fill={b.light} fontSize="13" fontWeight="800">{b.label}</text>
+              <text x="100" y="55" textAnchor="middle" fill={C.textMute} fontSize="10">{b.sub}</text>
+              <text x="100" y="90" textAnchor="middle" fill={C.text} fontSize="11" fontStyle="italic">{b.text}</text>
+            </g>
+          ))}
+          <path d="M 230 120 L 250 120" stroke={C.amberLight} strokeWidth="2" markerEnd="url(#arr1)" />
+          <path d="M 450 120 L 470 120" stroke={C.emeraldLight} strokeWidth="2" markerEnd="url(#arr1)" />
+          <defs>
+            <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill={C.emeraldLight} />
+            </marker>
+          </defs>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // Speaking Part 2 — Personal Stories
+  if (lectureId === "speaking-part2-personal-stories") {
+    return (
+      <Wrapper titleVi="5-Sense Story Loop" title="5-Sense Story Loop">
+        <svg viewBox="0 0 700 280" className="w-full max-w-[700px] mx-auto" role="img" aria-label="5-sense loop">
+          <rect x="10" y="10" width="680" height="260" rx="14" fill={C.card} stroke={C.border} />
+          <text x="350" y="36" textAnchor="middle" fill={C.blueLight} fontSize="13" fontWeight="700">🎤 Cue card → 2-minute story</text>
+          <circle cx="350" cy="155" r="80" fill={C.purple} fillOpacity="0.15" stroke={C.purple} />
+          <text x="350" y="150" textAnchor="middle" fill={C.purpleLight} fontSize="12" fontWeight="700">EMOTIONAL</text>
+          <text x="350" y="168" textAnchor="middle" fill={C.text} fontSize="11">TWIST</text>
+          {[
+            { x: 130, y: 90, label: "👁️ SIGHT", color: C.blueLight },
+            { x: 570, y: 90, label: "👂 SOUND", color: C.emeraldLight },
+            { x: 100, y: 220, label: "👃 SMELL", color: C.amberLight },
+            { x: 350, y: 250, label: "👅 TASTE", color: C.roseLight },
+            { x: 600, y: 220, label: "✋ TOUCH", color: C.purpleLight },
+          ].map(s => (
+            <g key={s.label}>
+              <text x={s.x} y={s.y} textAnchor="middle" fill={s.color} fontSize="13" fontWeight="700">{s.label}</text>
+            </g>
+          ))}
+          <text x="350" y="265" textAnchor="middle" fill={C.emeraldLight} fontSize="10" fontStyle="italic">Close: "Ever since, I've…" → bridges Part 3</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // Coherence toolkit
+  if (lectureId === "tips-coherence-cohesion-toolkit") {
+    return (
+      <Wrapper titleVi="Bộ công cụ Cohesion Band 7" title="Band 7 Cohesion Toolkit">
+        <svg viewBox="0 0 700 240" className="w-full max-w-[700px] mx-auto" role="img" aria-label="Cohesion toolkit">
+          <rect x="10" y="10" width="680" height="220" rx="14" fill={C.card} stroke={C.border} />
+          {[
+            { x: 30, label: "Reference", ex: "this trend / these measures", color: C.blue, light: C.blueLight },
+            { x: 200, label: "Substitution", ex: "do so / one", color: C.emerald, light: C.emeraldLight },
+            { x: 370, label: "Connectors", ex: "conversely / that said", color: C.amber, light: C.amberLight },
+            { x: 540, label: "Ellipsis", ex: "Some yes; others, not.", color: C.purple, light: C.purpleLight },
+          ].map(b => (
+            <g key={b.label} transform={`translate(${b.x},45)`}>
+              <rect width="140" height="120" rx="10" fill={b.color} fillOpacity="0.18" stroke={b.color} />
+              <text x="70" y="32" textAnchor="middle" fill={b.light} fontSize="12" fontWeight="700">{b.label}</text>
+              <text x="70" y="70" textAnchor="middle" fill={C.text} fontSize="10" fontStyle="italic">{b.ex}</text>
+            </g>
+          ))}
+          <text x="350" y="200" textAnchor="middle" fill={C.amberLight} fontSize="12" fontWeight="700">Band 7 cohesion is INVISIBLE — felt, not flashed</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // Word-stress hack
+  if (lectureId === "tips-pronunciation-word-stress") {
+    return (
+      <Wrapper titleVi="4 quy tắc trọng âm" title="4 Word-Stress Rules">
+        <svg viewBox="0 0 700 240" className="w-full max-w-[700px] mx-auto" role="img" aria-label="Stress rules">
+          <rect x="10" y="10" width="680" height="220" rx="14" fill={C.card} stroke={C.border} />
+          {[
+            { y: 40, label: "Rule 1 · 2-syll NOUN", stress: "TA·ble", color: C.blue, light: C.blueLight },
+            { y: 90, label: "Rule 2 · 2-syll VERB", stress: "re·LAX", color: C.emerald, light: C.emeraldLight },
+            { y: 140, label: "Rule 3 · -tion / -sion", stress: "edu·CA·tion", color: C.amber, light: C.amberLight },
+            { y: 190, label: "Rule 4 · Compound NOUN", stress: "GREEN·house", color: C.purple, light: C.purpleLight },
+          ].map(r => (
+            <g key={r.label}>
+              <rect x="30" y={r.y - 18} width="280" height="36" rx="8" fill={r.color} fillOpacity="0.2" stroke={r.color} />
+              <text x="170" y={r.y + 6} textAnchor="middle" fill={r.light} fontSize="12" fontWeight="700">{r.label}</text>
+              <text x="430" y={r.y + 6} fill={C.text} fontSize="14" fontWeight="800" fontFamily="monospace">{r.stress}</text>
+            </g>
+          ))}
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // Environment vocab
+  if (lectureId === "vocab-environment-band7") {
+    return (
+      <Wrapper titleVi="12 Collocation môi trường Band 7" title="12 Band-7 Environment Collocations">
+        <svg viewBox="0 0 700 260" className="w-full max-w-[700px] mx-auto" role="img" aria-label="Env vocab map">
+          <rect x="10" y="10" width="680" height="240" rx="14" fill={C.card} stroke={C.border} />
+          <text x="350" y="38" textAnchor="middle" fill={C.emeraldLight} fontSize="14" fontWeight="700">🌱 Environment lexical web</text>
+          {[
+            { x: 100, y: 100, label: "mitigate climate change", color: C.emerald },
+            { x: 360, y: 100, label: "curb emissions", color: C.emerald },
+            { x: 580, y: 100, label: "phase out fossil fuels", color: C.emerald },
+            { x: 100, y: 160, label: "deplete natural resources", color: C.rose },
+            { x: 360, y: 160, label: "particulate matter (PM2.5)", color: C.rose },
+            { x: 580, y: 160, label: "exacerbate water scarcity", color: C.rose },
+            { x: 100, y: 220, label: "renewable adoption", color: C.amber },
+            { x: 360, y: 220, label: "carbon footprint", color: C.amber },
+            { x: 580, y: 220, label: "incentivise solar", color: C.amber },
+          ].map(b => (
+            <g key={b.label}>
+              <rect x={b.x - 90} y={b.y - 16} width="180" height="32" rx="8" fill={b.color} fillOpacity="0.18" stroke={b.color} />
+              <text x={b.x} y={b.y + 5} textAnchor="middle" fill={C.text} fontSize="11" fontWeight="600">{b.label}</text>
+            </g>
+          ))}
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // Mixed conditionals
+  if (lectureId === "grammar-mixed-conditionals") {
+    return (
+      <Wrapper titleVi="2 mẫu Mixed Conditional" title="Two Mixed-Conditional Patterns">
+        <svg viewBox="0 0 700 250" className="w-full max-w-[700px] mx-auto" role="img" aria-label="Mixed conditionals">
+          <rect x="10" y="10" width="680" height="230" rx="14" fill={C.card} stroke={C.border} />
+          <g transform="translate(30,40)">
+            <rect width="300" height="170" rx="10" fill={C.blue} fillOpacity="0.18" stroke={C.blue} />
+            <text x="150" y="28" textAnchor="middle" fill={C.blueLight} fontSize="13" fontWeight="800">PATTERN A</text>
+            <text x="150" y="48" textAnchor="middle" fill={C.text} fontSize="11">Past condition → Present result</text>
+            <text x="150" y="86" textAnchor="middle" fill={C.amberLight} fontSize="12" fontFamily="monospace" fontWeight="700">If + had + V3, would + V₀</text>
+            <text x="150" y="130" textAnchor="middle" fill={C.text} fontSize="10.5" fontStyle="italic">"If leaders had ratified Kyoto in 1997,</text>
+            <text x="150" y="146" textAnchor="middle" fill={C.text} fontSize="10.5" fontStyle="italic">our cities would be cleaner today."</text>
+          </g>
+          <g transform="translate(370,40)">
+            <rect width="300" height="170" rx="10" fill={C.emerald} fillOpacity="0.18" stroke={C.emerald} />
+            <text x="150" y="28" textAnchor="middle" fill={C.emeraldLight} fontSize="13" fontWeight="800">PATTERN B</text>
+            <text x="150" y="48" textAnchor="middle" fill={C.text} fontSize="11">Present condition → Past result</text>
+            <text x="150" y="86" textAnchor="middle" fill={C.amberLight} fontSize="12" fontFamily="monospace" fontWeight="700">If + V₂, would have + V3</text>
+            <text x="150" y="130" textAnchor="middle" fill={C.text} fontSize="10.5" fontStyle="italic">"If I weren't so introverted,</text>
+            <text x="150" y="146" textAnchor="middle" fill={C.text} fontSize="10.5" fontStyle="italic">I would have joined that club."</text>
+          </g>
+          <text x="350" y="232" textAnchor="middle" fill={C.roseLight} fontSize="11" fontWeight="700">⚠ Never put ‘would’ in the if-clause</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
   return null;
 };
 
