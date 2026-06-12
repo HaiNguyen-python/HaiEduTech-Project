@@ -221,11 +221,23 @@ const IeltsWritingPractice = () => {
     setGrading(true);
     setTimerActive(false);
 
+    // Client-side safety timeout: if the edge function doesn't reply in 90s,
+    // abort so the user never sees a forever-spinning button.
+    const clientTimeout = new Promise<{ data: null; error: { message: string } }>((resolve) =>
+      setTimeout(() => resolve({ data: null, error: { message: "Grading timed out. Please try again." } }), 90_000),
+    );
+
     try {
-      const { data, error } = await supabase.functions.invoke("grade-writing", {
-        body: { essay },
-      });
-      if (error) throw error;
+      const result = await Promise.race([
+        supabase.functions.invoke("grade-writing", { body: { essay } }),
+        clientTimeout,
+      ]);
+      const { data, error } = result as { data: GradingResult | null; error: { message?: string } | null };
+      if (error || !data) {
+        const msg = error?.message || "Smart grading is busy. Please try again in a moment.";
+        toast({ title: t("Chấm bài thất bại", "Grading failed"), description: msg, variant: "destructive" });
+        return;
+      }
       setResult(data as GradingResult);
 
       // Save to history if user is logged in
@@ -261,6 +273,11 @@ const IeltsWritingPractice = () => {
       }
     } catch (e) {
       console.error("Grading error:", e);
+      toast({
+        title: t("Chấm bài thất bại", "Grading failed"),
+        description: t("Không thể kết nối tới hệ thống chấm. Hãy thử lại.", "Could not reach the grading service. Please try again."),
+        variant: "destructive",
+      });
     } finally {
       setGrading(false);
     }
