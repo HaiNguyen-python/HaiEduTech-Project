@@ -9,22 +9,22 @@ export const listeningExpansion: IeltsLecture[] = [
   // ===================== 1. PREDICT-LISTEN-CONFIRM =====================
   {
     id: "listening-predict-listen-confirm",
-    title: "Listening — The PLC Loop (Predict • Listen • Confirm)",
-    titleVi: "Listening — Vòng PLC (Đoán • Nghe • Xác nhận)",
+    title: "Listening - The PLC Loop (Predict • Listen • Confirm)",
+    titleVi: "Listening - Vòng PLC (Đoán • Nghe • Xác nhận)",
     pillar: "skill-based",
     skill: "listening",
     icon: "🎧",
     duration: "18 min",
     level: "intermediate",
     description:
-      "You only hear the audio ONCE. The only way to keep up is to predict the answer BEFORE you hear it — then your ears confirm, not search.",
+      "You only hear the audio ONCE. The only way to keep up is to predict the answer BEFORE you hear it - then your ears confirm, not search.",
     descriptionVi:
-      "Bạn chỉ nghe MỘT lần. Cách duy nhất theo kịp là ĐOÁN đáp án TRƯỚC khi nghe — tai chỉ làm nhiệm vụ xác nhận, không phải tìm.",
+      "Bạn chỉ nghe MỘT lần. Cách duy nhất theo kịp là ĐOÁN đáp án TRƯỚC khi nghe - tai chỉ làm nhiệm vụ xác nhận, không phải tìm.",
     strategySteps: [
       {
         step: 1,
-        title: "PREDICT — use the 30s preview window",
-        titleVi: "PREDICT — tận dụng 30 giây xem trước",
+        title: "PREDICT - use the 30s preview window",
+        titleVi: "PREDICT - tận dụng 30 giây xem trước",
         description:
           "Read questions BEFORE audio starts. For each blank, predict (a) part of speech (b) singular/plural (c) likely topic word.",
         descriptionVi:
@@ -33,8 +33,8 @@ export const listeningExpansion: IeltsLecture[] = [
       },
       {
         step: 2,
-        title: "LISTEN — anchor on signposts",
-        titleVi: "LISTEN — bám vào tín hiệu chỉ đường",
+        title: "LISTEN - anchor on signposts",
+        titleVi: "LISTEN - bám vào tín hiệu chỉ đường",
         description:
           "Signposts tell you the answer is coming: 'firstly', 'however', 'the key point is', 'so what does this mean'. Pen ready.",
         descriptionVi:
@@ -42,8 +42,8 @@ export const listeningExpansion: IeltsLecture[] = [
       },
       {
         step: 3,
-        title: "CONFIRM — match prediction to what you heard",
-        titleVi: "CONFIRM — đối chiếu đoán với điều nghe được",
+        title: "CONFIRM - match prediction to what you heard",
+        titleVi: "CONFIRM - đối chiếu đoán với điều nghe được",
         description:
           "If they match → write it. If they don't → trust your ears, not your prediction. Note the next question's number aloud in your head.",
         descriptionVi:
@@ -51,8 +51,8 @@ export const listeningExpansion: IeltsLecture[] = [
       },
       {
         step: 4,
-        title: "MOVE ON — never look back",
-        titleVi: "MOVE ON — không quay lại",
+        title: "MOVE ON - never look back",
+        titleVi: "MOVE ON - không quay lại",
         description:
           "If you missed an answer, write a question mark and jump to the next. The audio will not wait. Returning costs you 2 more questions.",
         descriptionVi:
@@ -65,7 +65,7 @@ export const listeningExpansion: IeltsLecture[] = [
         contextVi: "Câu 4: 'Chi phí: $___'",
         example:
           "Prediction: a NUMBER. Audio: '…it's normally seventy dollars but with the student discount, just fifty-five.' Confirm: 55, not 70.",
-        explanation: "Distractor (70) appears first — the PLC loop saves you from grabbing it.",
+        explanation: "Distractor (70) appears first - the PLC loop saves you from grabbing it.",
       },
       {
         context: "Section 2 map question: 'The car park is to the ___ of the library.'",
@@ -103,7 +103,7 @@ export const listeningExpansion: IeltsLecture[] = [
       { word: "signpost", definition: "discourse marker showing direction", definitionVi: "từ chỉ dấu trong bài nói", example: "'However' is a key signpost.", band: "7.0" },
       { word: "distractor", definition: "wrong option deliberately placed", definitionVi: "đáp án gây nhiễu", example: "The first number is usually a distractor.", band: "7.5" },
       { word: "confirming verb", definition: "phrase that locks the correct answer", definitionVi: "từ chốt đáp án", example: "'Actually it's…' is a confirming verb.", band: "7.5" },
-      { word: "drift", definition: "lose focus and fall behind", definitionVi: "trôi, lạc nhịp", example: "Don't drift — anchor on signposts.", band: "7.5" },
+      { word: "drift", definition: "lose focus and fall behind", definitionVi: "trôi, lạc nhịp", example: "Don't drift - anchor on signposts.", band: "7.5" },
     ],
     quiz: [
       {
@@ -155,8 +155,8 @@ export const listeningExpansion: IeltsLecture[] = [
   // ===================== 2. SIGNPOSTS & DISTRACTORS =====================
   {
     id: "listening-signposts-distractors",
-    title: "Listening — Signposts & Distractor Traps",
-    titleVi: "Listening — Signpost và bẫy Distractor",
+    title: "Listening - Signposts & Distractor Traps",
+    titleVi: "Listening - Signpost và bẫy Distractor",
     pillar: "tips-hacks",
     skill: "listening",
     icon: "🚩",
@@ -172,9 +172,9 @@ export const listeningExpansion: IeltsLecture[] = [
         title: "Catalogue the 5 distractor patterns",
         titleVi: "Học thuộc 5 kiểu distractor",
         description:
-          "1) Number swap ('70 → 55'); 2) Date change ('Monday → Tuesday'); 3) Name spelling correction; 4) Mind-change ('I'll have tea… actually coffee'); 5) Multiple options ('we offer A, B, or C — let's go with B').",
+          "1) Number swap ('70 → 55'); 2) Date change ('Monday → Tuesday'); 3) Name spelling correction; 4) Mind-change ('I'll have tea… actually coffee'); 5) Multiple options ('we offer A, B, or C - let's go with B').",
         descriptionVi:
-          "1) Đổi số; 2) Đổi ngày; 3) Đính chính cách viết tên; 4) Đổi ý; 5) Nhiều lựa chọn — chọn 1.",
+          "1) Đổi số; 2) Đổi ngày; 3) Đính chính cách viết tên; 4) Đổi ý; 5) Nhiều lựa chọn - chọn 1.",
       },
       {
         step: 2,
@@ -197,10 +197,10 @@ export const listeningExpansion: IeltsLecture[] = [
     ],
     practicalExamples: [
       {
-        context: "Audio: 'My surname is Patterson — P-A-T-E-R-S-O-N. Oh sorry, that's P-A-T-T with double T — Patterson.'",
+        context: "Audio: 'My surname is Patterson - P-A-T-E-R-S-O-N. Oh sorry, that's P-A-T-T with double T - Patterson.'",
         contextVi: "Audio đính chính cách viết tên Patterson.",
         example: "Answer: Patterson (with double T). The single-T spelling is the distractor.",
-        explanation: "'Sorry' is the correction verb — always finalise AFTER it.",
+        explanation: "'Sorry' is the correction verb - always finalise AFTER it.",
       },
       {
         context: "Audio: 'The meeting was scheduled for Wednesday, but it's been moved to Thursday morning.'",
@@ -289,8 +289,8 @@ export const listeningExpansion: IeltsLecture[] = [
   // ===================== 3. SECTION-SPECIFIC TACTICS =====================
   {
     id: "listening-section-tactics",
-    title: "Listening — Section-by-Section Battle Plan (1→4)",
-    titleVi: "Listening — Sơ đồ chiến đấu Section 1→4",
+    title: "Listening - Section-by-Section Battle Plan (1→4)",
+    titleVi: "Listening - Sơ đồ chiến đấu Section 1→4",
     pillar: "skill-based",
     skill: "listening",
     icon: "🗺️",
@@ -303,8 +303,8 @@ export const listeningExpansion: IeltsLecture[] = [
     strategySteps: [
       {
         step: 1,
-        title: "Section 1 — Transactional (form-filling)",
-        titleVi: "Section 1 — Trao đổi hằng ngày (điền form)",
+        title: "Section 1 - Transactional (form-filling)",
+        titleVi: "Section 1 - Trao đổi hằng ngày (điền form)",
         description:
           "Expect names (spelt), addresses, phone numbers, dates, prices. Pre-write number/letter slots. Watch double letters and 0/oh.",
         descriptionVi:
@@ -312,8 +312,8 @@ export const listeningExpansion: IeltsLecture[] = [
       },
       {
         step: 2,
-        title: "Section 2 — Monologue (tour, map, info)",
-        titleVi: "Section 2 — Độc thoại (tour, map, thông tin)",
+        title: "Section 2 - Monologue (tour, map, info)",
+        titleVi: "Section 2 - Độc thoại (tour, map, thông tin)",
         description:
           "Map questions follow physical order. Use directional verbs (turn, opposite, behind). Mark north on the map.",
         descriptionVi:
@@ -321,17 +321,17 @@ export const listeningExpansion: IeltsLecture[] = [
       },
       {
         step: 3,
-        title: "Section 3 — Discussion (2-3 academic speakers)",
-        titleVi: "Section 3 — Thảo luận (2-3 học viên)",
+        title: "Section 3 - Discussion (2-3 academic speakers)",
+        titleVi: "Section 3 - Thảo luận (2-3 học viên)",
         description:
-          "Identify each voice's role (tutor / student A / student B). Opinions clash — answer often = whoever changes their mind LAST.",
+          "Identify each voice's role (tutor / student A / student B). Opinions clash - answer often = whoever changes their mind LAST.",
         descriptionVi:
-          "Nhận diện vai từng giọng (giáo viên / SV A / SV B). Ý kiến đối chọi — đáp án thường là người ĐỔI Ý CUỐI CÙNG.",
+          "Nhận diện vai từng giọng (giáo viên / SV A / SV B). Ý kiến đối chọi - đáp án thường là người ĐỔI Ý CUỐI CÙNG.",
       },
       {
         step: 4,
-        title: "Section 4 — Academic lecture (one speaker, no break)",
-        titleVi: "Section 4 — Bài giảng học thuật (1 người, không nghỉ)",
+        title: "Section 4 - Academic lecture (one speaker, no break)",
+        titleVi: "Section 4 - Bài giảng học thuật (1 người, không nghỉ)",
         description:
           "No mid-section pause! Read all 10 questions in the opening 30 seconds. Focus on signposts: 'three main reasons', 'finally', 'in conclusion'.",
         descriptionVi:
@@ -355,7 +355,7 @@ export const listeningExpansion: IeltsLecture[] = [
         context: "Section 3: 'What does the tutor RECOMMEND?'",
         contextVi: "Section 3: Tutor khuyên gì?",
         example: "Students propose A and B. Tutor says 'I'd actually suggest C, given your timeline.' → Answer: C.",
-        explanation: "Listen for the tutor's final pivot — 'actually suggest'.",
+        explanation: "Listen for the tutor's final pivot - 'actually suggest'.",
       },
     ],
     mistakesToAvoid: [
@@ -374,14 +374,14 @@ export const listeningExpansion: IeltsLecture[] = [
       {
         mistake: "Trying to skim Section 4 questions mid-section",
         mistakeVi: "Cố đọc câu hỏi Section 4 giữa chừng",
-        why: "There is no break — you lose 2-3 answers while reading.",
-        whyVi: "Không có khoảng nghỉ — đọc giữa chừng làm bạn lỡ 2-3 câu.",
+        why: "There is no break - you lose 2-3 answers while reading.",
+        whyVi: "Không có khoảng nghỉ - đọc giữa chừng làm bạn lỡ 2-3 câu.",
       },
     ],
     goldenSecret:
-      "Section 4 is decided in the first 30 SECONDS — that's the only window to read all 10 questions. Treat that 30s like the exam itself.",
+      "Section 4 is decided in the first 30 SECONDS - that's the only window to read all 10 questions. Treat that 30s like the exam itself.",
     goldenSecretVi:
-      "Section 4 được quyết định trong 30 GIÂY đầu — cửa sổ duy nhất để đọc 10 câu hỏi. Hãy coi 30 giây đó như chính bài thi.",
+      "Section 4 được quyết định trong 30 GIÂY đầu - cửa sổ duy nhất để đọc 10 câu hỏi. Hãy coi 30 giây đó như chính bài thi.",
     vocabHighlights: [
       { word: "transactional", definition: "everyday exchange (booking, enquiry)", definitionVi: "giao dịch hằng ngày", example: "Section 1 is transactional English.", band: "7.0" },
       { word: "attribute (to a speaker)", definition: "assign an opinion to a person", definitionVi: "gán ý kiến cho ai", example: "Attribute each opinion to the right speaker.", band: "7.5" },
@@ -412,7 +412,7 @@ export const listeningExpansion: IeltsLecture[] = [
         question: "Section 4 is unique because:",
         options: ["It has two speakers", "There is NO mid-section pause", "It is fully musical", "It is the easiest"],
         answer: 1,
-        explanation: "No pause — read all 10 questions in the opening 30 seconds.",
+        explanation: "No pause - read all 10 questions in the opening 30 seconds.",
       },
       {
         question: "Which is MOST risky in Section 1?",
@@ -428,18 +428,18 @@ export const listeningExpansion: IeltsLecture[] = [
       },
     ],
     cheatSheetPoints: [
-      "S1: form-filling — beware spelling & double letters",
-      "S2: monologue / map — directional verbs, mark north",
-      "S3: discussion — track who pivots LAST",
-      "S4: lecture — read all 10 questions in opening 30s",
+      "S1: form-filling - beware spelling & double letters",
+      "S2: monologue / map - directional verbs, mark north",
+      "S3: discussion - track who pivots LAST",
+      "S4: lecture - read all 10 questions in opening 30s",
     ],
   },
 
   // ===================== 4. SPELLING & NUMBERS =====================
   {
     id: "listening-spelling-numbers",
-    title: "Listening — Spelling, Numbers & British/American Traps",
-    titleVi: "Listening — Bẫy Chính tả, Số đếm & Anh/Mỹ",
+    title: "Listening - Spelling, Numbers & British/American Traps",
+    titleVi: "Listening - Bẫy Chính tả, Số đếm & Anh/Mỹ",
     pillar: "applied-grammar",
     skill: "listening",
     icon: "🔢",
@@ -482,22 +482,22 @@ export const listeningExpansion: IeltsLecture[] = [
         title: "Dates & currency formats",
         titleVi: "Định dạng ngày và tiền tệ",
         description:
-          "Dates: 23rd April or April 23 (both fine). Money: write the symbol — £50, $200, €15. Forgetting symbol = wrong answer.",
+          "Dates: 23rd April or April 23 (both fine). Money: write the symbol - £50, $200, €15. Forgetting symbol = wrong answer.",
         descriptionVi:
-          "Ngày: 23rd April hoặc April 23 (đều được). Tiền: viết ký hiệu — £50, $200, €15. Quên ký hiệu = sai đáp án.",
+          "Ngày: 23rd April hoặc April 23 (đều được). Tiền: viết ký hiệu - £50, $200, €15. Quên ký hiệu = sai đáp án.",
       },
     ],
     practicalExamples: [
       {
-        context: "Audio: 'My name is Phillip — P-H-I-double-L-I-P.'",
-        contextVi: "Tên là Phillip — P-H-I-double-L-I-P.",
+        context: "Audio: 'My name is Phillip - P-H-I-double-L-I-P.'",
+        contextVi: "Tên là Phillip - P-H-I-double-L-I-P.",
         example: "Answer: Phillip (two Ls). 'Double L' = LL, not 'double L letter'.",
-        explanation: "Double letter trap — listen for the word 'double' before the letter.",
+        explanation: "Double letter trap - listen for the word 'double' before the letter.",
       },
       {
         context: "Audio: 'It's about three and a half thousand pounds.'",
         contextVi: "Khoảng 3,500 bảng.",
-        example: "Answer: £3,500 — number + currency symbol.",
+        example: "Answer: £3,500 - number + currency symbol.",
         explanation: "Forgetting £ scores 0.",
       },
       {
@@ -511,8 +511,8 @@ export const listeningExpansion: IeltsLecture[] = [
       {
         mistake: "Writing 'O' instead of '0' in phone numbers",
         mistakeVi: "Viết chữ O thay vì số 0 trong số điện thoại",
-        why: "Examiner marks the answer wrong — phone numbers must be digits.",
-        whyVi: "Người chấm coi là sai — số điện thoại phải bằng chữ số.",
+        why: "Examiner marks the answer wrong - phone numbers must be digits.",
+        whyVi: "Người chấm coi là sai - số điện thoại phải bằng chữ số.",
       },
       {
         mistake: "Mixing British and American in one word (e.g. 'colorise')",
@@ -523,8 +523,8 @@ export const listeningExpansion: IeltsLecture[] = [
       {
         mistake: "Omitting currency or percentage symbols",
         mistakeVi: "Bỏ ký hiệu tiền tệ hoặc %",
-        why: "Question reads '$___' — your answer must include the unit it asks for.",
-        whyVi: "Câu hỏi ghi '$___' — đáp án phải có đơn vị tương ứng.",
+        why: "Question reads '$___' - your answer must include the unit it asks for.",
+        whyVi: "Câu hỏi ghi '$___' - đáp án phải có đơn vị tương ứng.",
       },
     ],
     goldenSecret:
@@ -578,7 +578,7 @@ export const listeningExpansion: IeltsLecture[] = [
     cheatSheetPoints: [
       "Spell-trap pairs: B/P, D/T, M/N, S/F",
       "'Double X' = XX; 'oh' = 0 in phone numbers",
-      "Consistent Brit OR Am — never mix in one word",
+      "Consistent Brit OR Am - never mix in one word",
       "Always include £/$/% if the question shows it",
       "Audit Section 1 first in transfer window",
     ],

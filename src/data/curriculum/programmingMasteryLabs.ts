@@ -12,7 +12,7 @@ import type { ExtendedProgrammingModule } from "./types";
  *   5) Async Python: asyncio for concurrent network calls.
  *
  * Bilingual (VI/EN). Quizzes auto-grade via the i18n lookup.
- * ASCII visuals only — keeps the mobile markdown renderer crisp.
+ * ASCII visuals only - keeps the mobile markdown renderer crisp.
  */
 export const programmingMasteryLabsModules: ExtendedProgrammingModule[] = [
   {
@@ -48,8 +48,8 @@ def factorial(n):
 \`\`\`
 
 **2 thành phần bắt buộc:**
-1. **Base case** — điều kiện dừng (n ≤ 1 ⇒ trả về 1).
-2. **Recursive case** — gọi lại chính nó với input nhỏ dần (factorial(n-1)).
+1. **Base case** - điều kiện dừng (n ≤ 1 ⇒ trả về 1).
+2. **Recursive case** - gọi lại chính nó với input nhỏ dần (factorial(n-1)).
 
 Quên base case ⇒ \`RecursionError: maximum recursion depth exceeded\` (Python mặc định giới hạn ~1000 cấp).
 
@@ -67,7 +67,7 @@ fib(5)
       └── fib(1)
 \`\`\`
 
-\`fib(2)\` bị tính đi tính lại **hàng triệu lần** khi n lớn. Độ phức tạp: **O(2ⁿ)** — số phép tính nhân đôi mỗi khi n tăng 1.
+\`fib(2)\` bị tính đi tính lại **hàng triệu lần** khi n lớn. Độ phức tạp: **O(2ⁿ)** - số phép tính nhân đôi mỗi khi n tăng 1.
 
 ## ⚡ Memoization = "nhớ kết quả đã tính"
 
@@ -93,7 +93,7 @@ fib(100) có memo:     < 0.001 giây
 
 ## 🎁 \`functools.lru_cache\` - memoization miễn phí
 
-Python tặng sẵn decorator \`@lru_cache\` làm tất cả việc trên cho bạn — không cần viết dict thủ công.
+Python tặng sẵn decorator \`@lru_cache\` làm tất cả việc trên cho bạn - không cần viết dict thủ công.
 
 \`\`\`python
 from functools import lru_cache
@@ -126,8 +126,8 @@ def factorial(n):
 \`\`\`
 
 **2 mandatory parts:**
-1. **Base case** — when to stop (n ≤ 1 ⇒ return 1).
-2. **Recursive case** — call self on a shrinking input.
+1. **Base case** - when to stop (n ≤ 1 ⇒ return 1).
+2. **Recursive case** - call self on a shrinking input.
 
 Forget the base case ⇒ \`RecursionError: maximum recursion depth exceeded\` (Python's default cap is ~1000).
 
@@ -145,7 +145,7 @@ fib(5)
       └── fib(1)
 \`\`\`
 
-\`fib(2)\` is recomputed **millions of times** for large n. Complexity: **O(2ⁿ)** — work doubles with every +1 to n.
+\`fib(2)\` is recomputed **millions of times** for large n. Complexity: **O(2ⁿ)** - work doubles with every +1 to n.
 
 ## ⚡ Memoization = "remember what we already computed"
 
@@ -188,14 +188,14 @@ def fib(n):
 
 ✅ Naturally **self-similar** structures: directory trees, nested JSON, expression parsing, graph/tree traversal.
 ✅ Divide-and-conquer (merge sort, quicksort, binary search).
-❌ Simple counting loops: use \`for\` — it's clearer.
+❌ Simple counting loops: use \`for\` - it's clearer.
 ❌ Recursion depths > ~1000: convert to a loop with an explicit stack.`,
 
-        code: `# Memoization with functools.lru_cache — cache results to skip repeat work
+        code: `# Memoization with functools.lru_cache - cache results to skip repeat work
 from functools import lru_cache
 import time
 
-# Naive recursive Fibonacci — recomputes the same calls many times → exponential
+# Naive recursive Fibonacci - recomputes the same calls many times → exponential
 def fib_slow(n):
     if n < 2: return n
     return fib_slow(n - 1) + fib_slow(n - 2)
@@ -264,17 +264,17 @@ Python không phải ngôn ngữ hàm thuần (như Haskell) nhưng tặng rất
 Bài toán: tính bình phương các số chẵn trong \`[1..10]\`.
 
 \`\`\`python
-# 1) Vòng lặp truyền thống — dài, dễ sai chỉ số
+# 1) Vòng lặp truyền thống - dài, dễ sai chỉ số
 out = []
 for n in range(1, 11):
     if n % 2 == 0:
         out.append(n * n)
 
-# 2) map + filter (hàm bậc cao) — khó đọc vì viết ngược
+# 2) map + filter (hàm bậc cao) - khó đọc vì viết ngược
 out = list(map(lambda n: n*n,
                filter(lambda n: n % 2 == 0, range(1, 11))))
 
-# 3) List comprehension (Pythonic) — đọc như tiếng Anh
+# 3) List comprehension (Pythonic) - đọc như tiếng Anh
 out = [n*n for n in range(1, 11) if n % 2 == 0]
 \`\`\`
 
@@ -307,9 +307,9 @@ reduce(lambda a, b: a * b, [1, 2, 3, 4])      # = 24 (1*2*3*4)
 reduce(lambda a, b: a + b, [1, 2, 3, 4], 100) # = 110 (giá trị khởi tạo 100)
 \`\`\`
 
-Trong Python, thường \`sum\`, \`max\`, \`min\` đã có sẵn — chỉ dùng \`reduce\` khi phép gộp **không có hàm built-in**.
+Trong Python, thường \`sum\`, \`max\`, \`min\` đã có sẵn - chỉ dùng \`reduce\` khi phép gộp **không có hàm built-in**.
 
-## ⚠️ Lambda — khi nào dùng, khi nào không?
+## ⚠️ Lambda - khi nào dùng, khi nào không?
 
 \`lambda\` là hàm **một dòng, không đặt tên**:
 
@@ -322,7 +322,7 @@ double = lambda x: x * 2     # ≈ def double(x): return x*2
 sorted(users, key=lambda u: u["age"])
 \`\`\`
 
-**Không nên dùng** nếu logic dài >1 dòng — \`def\` đặt tên sẽ rõ ràng và dễ debug hơn. PEP-8 (chuẩn code Python) cũng khuyên như vậy.`,
+**Không nên dùng** nếu logic dài >1 dòng - \`def\` đặt tên sẽ rõ ràng và dễ debug hơn. PEP-8 (chuẩn code Python) cũng khuyên như vậy.`,
         theoryEn: `## 🎯 What is functional programming?
 
 Functional programming is a style where you **transform data through small functions**, never mutating the original, and avoiding side effects.
@@ -334,17 +334,17 @@ Python is not a pure functional language (like Haskell), but it ships plenty of 
 Task: square the even numbers from \`[1..10]\`.
 
 \`\`\`python
-# 1) Classic loop — long, easy to mis-index
+# 1) Classic loop - long, easy to mis-index
 out = []
 for n in range(1, 11):
     if n % 2 == 0:
         out.append(n * n)
 
-# 2) map + filter (higher-order) — reads backwards, harder
+# 2) map + filter (higher-order) - reads backwards, harder
 out = list(map(lambda n: n*n,
                filter(lambda n: n % 2 == 0, range(1, 11))))
 
-# 3) List comprehension (Pythonic) — reads like English
+# 3) List comprehension (Pythonic) - reads like English
 out = [n*n for n in range(1, 11) if n % 2 == 0]
 \`\`\`
 
@@ -365,7 +365,7 @@ Read #3 out loud: "take n*n, for each n in 1..10, if n is even." Crystal clear.
 (x*2 for x in nums)              # generator expression (lazy, RAM-friendly)
 \`\`\`
 
-Tip: if you iterate once (\`sum(x*x for x in nums)\`), prefer the \`( )\` generator over \`[ ]\` — **no intermediate list allocated**.
+Tip: if you iterate once (\`sum(x*x for x in nums)\`), prefer the \`( )\` generator over \`[ ]\` - **no intermediate list allocated**.
 
 ## 🧰 \`reduce\` - fold a list into one value
 
@@ -377,9 +377,9 @@ reduce(lambda a, b: a * b, [1, 2, 3, 4])      # = 24 (1*2*3*4)
 reduce(lambda a, b: a + b, [1, 2, 3, 4], 100) # = 110 (initial value 100)
 \`\`\`
 
-Python already has \`sum\`, \`max\`, \`min\` built-in — use \`reduce\` only when the fold has **no built-in**.
+Python already has \`sum\`, \`max\`, \`min\` built-in - use \`reduce\` only when the fold has **no built-in**.
 
-## ⚠️ Lambda — when to use, when not
+## ⚠️ Lambda - when to use, when not
 
 \`lambda\` is a **one-line, anonymous** function:
 
@@ -392,7 +392,7 @@ double = lambda x: x * 2     # ≈ def double(x): return x*2
 sorted(users, key=lambda u: u["age"])
 \`\`\`
 
-**Avoid** when logic spans more than one line — a named \`def\` is clearer and debuggable. PEP-8 (Python's style guide) agrees.`,
+**Avoid** when logic spans more than one line - a named \`def\` is clearer and debuggable. PEP-8 (Python's style guide) agrees.`,
 
         code: `# Functional toolkit: list comprehension + reduce (fold)
 from functools import reduce
@@ -483,7 +483,7 @@ Mỗi vòng, **quét tìm phần tử nhỏ nhất** còn lại và đưa lên �
 
 ## ⚡ Merge Sort - O(n log n) - "Chia để trị"
 
-Ý tưởng đệ quy: **chia đôi mảng → sắp xếp 2 nửa → trộn (merge) lại**. Trộn 2 nửa đã sắp xếp chỉ tốn O(n) — nhờ vậy tổng cộng O(n log n), khoẻ với mảng cực lớn.
+Ý tưởng đệ quy: **chia đôi mảng → sắp xếp 2 nửa → trộn (merge) lại**. Trộn 2 nửa đã sắp xếp chỉ tốn O(n) - nhờ vậy tổng cộng O(n log n), khoẻ với mảng cực lớn.
 
 \`\`\`
 [5,3,8,1,9,2,7,4]
@@ -512,7 +512,7 @@ Mỗi vòng, **quét tìm phần tử nhỏ nhất** còn lại và đưa lên �
 
 ## 🏆 Trong thực tế dùng cái nào?
 
-99% trường hợp: dùng **\`sorted()\` hoặc \`list.sort()\` của Python**. Nội bộ là **Timsort** (kết hợp Merge + Insertion Sort), được tối ưu cao và chạy bằng C — nhanh hơn bất cứ thứ gì bạn tự viết bằng Python thuần.
+99% trường hợp: dùng **\`sorted()\` hoặc \`list.sort()\` của Python**. Nội bộ là **Timsort** (kết hợp Merge + Insertion Sort), được tối ưu cao và chạy bằng C - nhanh hơn bất cứ thứ gì bạn tự viết bằng Python thuần.
 
 Học Bubble/Merge chỉ để **hiểu cơ chế** và **luyện tư duy thuật toán** cho phỏng vấn.`,
         theoryEn: `## 🧮 Why study sorting?
@@ -544,7 +544,7 @@ Each pass **scans for the smallest remaining element** and places it at the fron
 
 ## ⚡ Merge Sort - O(n log n) - "Divide & conquer"
 
-Recursive idea: **split the array in half → sort each half → merge them back**. Merging two sorted halves costs O(n) — so total is O(n log n), great on huge arrays.
+Recursive idea: **split the array in half → sort each half → merge them back**. Merging two sorted halves costs O(n) - so total is O(n log n), great on huge arrays.
 
 \`\`\`
 [5,3,8,1,9,2,7,4]
@@ -573,13 +573,13 @@ Recursive idea: **split the array in half → sort each half → merge them back
 
 ## 🏆 Which one in real life?
 
-99 % of the time: **\`sorted()\` or \`list.sort()\`**. Under the hood it's **Timsort** (Merge + Insertion), heavily tuned and implemented in C — faster than anything you can write in pure Python.
+99 % of the time: **\`sorted()\` or \`list.sort()\`**. Under the hood it's **Timsort** (Merge + Insertion), heavily tuned and implemented in C - faster than anything you can write in pure Python.
 
 Bubble/Merge are studied to **understand the mechanics** and to **train algorithmic thinking** for interviews.`,
 
         code: `# Two classic sorts vs Python's built-in Timsort
 
-# Bubble sort — O(n²). Early-exit when no swap happens in a full pass.
+# Bubble sort - O(n²). Early-exit when no swap happens in a full pass.
 def bubble_sort(a):
     a = list(a); n = len(a)
     for i in range(n):
@@ -591,7 +591,7 @@ def bubble_sort(a):
         if not swapped: break                # already sorted → stop
     return a
 
-# Merge sort — O(n log n). Divide the list, sort each half, then merge.
+# Merge sort - O(n log n). Divide the list, sort each half, then merge.
 def merge_sort(a):
     if len(a) <= 1: return a
     mid = len(a) // 2
@@ -603,7 +603,7 @@ def merge_sort(a):
         else:            out.append(R[j]); j += 1
     return out + L[i:] + R[j:]               # append leftovers
 
-# Compare results — all three must return the same sorted list
+# Compare results - all three must return the same sorted list
 data = [5, 3, 8, 1, 9, 2, 7]
 print("bubble:", bubble_sort(data))
 print("merge :", merge_sort(data))
@@ -647,27 +647,27 @@ print("python:", sorted(data))               # built-in Timsort`,
         difficulty: "intermediate",
         theory: `## 🌐 REST API là gì?
 
-REST API là một **địa chỉ HTTP** mà khi bạn "gõ vào" sẽ trả về dữ liệu — thường là **JSON** (một dictionary). Đây là cách hầu hết các app hiện đại nói chuyện với server: Facebook, Google Maps, ngân hàng, dự báo thời tiết... đều dùng REST.
+REST API là một **địa chỉ HTTP** mà khi bạn "gõ vào" sẽ trả về dữ liệu - thường là **JSON** (một dictionary). Đây là cách hầu hết các app hiện đại nói chuyện với server: Facebook, Google Maps, ngân hàng, dự báo thời tiết... đều dùng REST.
 
 Ví dụ thật, không cần đăng ký, không cần API key:
 \`\`\`
 https://api.open-meteo.com/v1/forecast?latitude=21&longitude=105&current_weather=true
 \`\`\`
 
-Mở link trong trình duyệt — bạn sẽ thấy JSON với nhiệt độ, gió, giờ địa phương. **Đó chính là REST API trong 10 giây.**
+Mở link trong trình duyệt - bạn sẽ thấy JSON với nhiệt độ, gió, giờ địa phương. **Đó chính là REST API trong 10 giây.**
 
 ## 🔤 4 động từ HTTP cơ bản
 
 | Verb | Việc |
 |------|------|
-| **GET** | Lấy dữ liệu (đọc) — không thay đổi gì trên server |
+| **GET** | Lấy dữ liệu (đọc) - không thay đổi gì trên server |
 | **POST** | Tạo mới (đăng ký, gửi form) |
 | **PUT / PATCH** | Cập nhật bản ghi đã có |
 | **DELETE** | Xoá bản ghi |
 
 99 % việc bạn làm khi học sẽ là **GET**.
 
-## 📦 \`requests\` — thư viện HTTP thân thiện nhất
+## 📦 \`requests\` - thư viện HTTP thân thiện nhất
 
 Cài: \`pip install requests\`. Cú pháp 3 dòng:
 
@@ -694,44 +694,44 @@ data = r.json()         # parse JSON → dict Python
 | 429 | Quá nhiều request (rate limit) |
 | 500+ | Lỗi từ phía server |
 
-\`r.raise_for_status()\` sẽ tự ném ngoại lệ nếu mã ≥ 400 — giúp bạn phát hiện lỗi ngay thay vì xử lý nhầm dữ liệu rác.
+\`r.raise_for_status()\` sẽ tự ném ngoại lệ nếu mã ≥ 400 - giúp bạn phát hiện lỗi ngay thay vì xử lý nhầm dữ liệu rác.
 
 ## ✅ Checklist gọi API an toàn
 
-1. **Luôn đặt \`timeout\`** — đừng để app treo nếu server "ngủ quên".
-2. **\`raise_for_status()\`** ngay sau khi gọi — fail nhanh và rõ ràng.
-3. **\`try/except requests.RequestException\`** — bắt cả lỗi mạng, timeout, DNS.
-4. **Đừng hardcode API key trong code** — dùng biến môi trường (\`os.environ["API_KEY"]\`), thêm \`.env\` vào \`.gitignore\`. Lovable Cloud có sẵn secrets store.
-5. **Tôn trọng rate limit** — đọc docs API. Free tier thường giới hạn ~60 req/phút.
+1. **Luôn đặt \`timeout\`** - đừng để app treo nếu server "ngủ quên".
+2. **\`raise_for_status()\`** ngay sau khi gọi - fail nhanh và rõ ràng.
+3. **\`try/except requests.RequestException\`** - bắt cả lỗi mạng, timeout, DNS.
+4. **Đừng hardcode API key trong code** - dùng biến môi trường (\`os.environ["API_KEY"]\`), thêm \`.env\` vào \`.gitignore\`. Lovable Cloud có sẵn secrets store.
+5. **Tôn trọng rate limit** - đọc docs API. Free tier thường giới hạn ~60 req/phút.
 
 ## 🚀 Bước tiếp theo
 
 Khi quen \`requests\`, bạn có thể nâng cấp lên:
-- **\`httpx\`** — API y hệt \`requests\` nhưng hỗ trợ async (bài 5 sẽ học).
-- **FastAPI** — viết REST API server của riêng bạn bằng Python, đẹp và nhanh.`,
+- **\`httpx\`** - API y hệt \`requests\` nhưng hỗ trợ async (bài 5 sẽ học).
+- **FastAPI** - viết REST API server của riêng bạn bằng Python, đẹp và nhanh.`,
         theoryEn: `## 🌐 What is a REST API?
 
-A REST API is an **HTTP URL** that returns data — usually **JSON** (a dictionary). It's how modern apps talk to servers: Facebook, Google Maps, banks, weather services… all use REST.
+A REST API is an **HTTP URL** that returns data - usually **JSON** (a dictionary). It's how modern apps talk to servers: Facebook, Google Maps, banks, weather services… all use REST.
 
 A real, no-signup, no-key example:
 \`\`\`
 https://api.open-meteo.com/v1/forecast?latitude=21&longitude=105&current_weather=true
 \`\`\`
 
-Open it in a browser — you'll see JSON with temperature, wind, local time. **That's a REST API in 10 seconds.**
+Open it in a browser - you'll see JSON with temperature, wind, local time. **That's a REST API in 10 seconds.**
 
 ## 🔤 The 4 core HTTP verbs
 
 | Verb | What it does |
 |------|--------------|
-| **GET** | Read data — never changes anything |
+| **GET** | Read data - never changes anything |
 | **POST** | Create new (sign-up, submit form) |
 | **PUT / PATCH** | Update an existing record |
 | **DELETE** | Delete a record |
 
 99 % of beginner work uses **GET**.
 
-## 📦 \`requests\` — the friendliest HTTP library
+## 📦 \`requests\` - the friendliest HTTP library
 
 Install: \`pip install requests\`. 3-line syntax:
 
@@ -758,21 +758,21 @@ data = r.json()         # parse JSON → Python dict
 | 429 | Too many requests (rate limit) |
 | 500+ | Server error |
 
-\`r.raise_for_status()\` throws automatically on ≥ 400 — fail fast instead of silently processing garbage.
+\`r.raise_for_status()\` throws automatically on ≥ 400 - fail fast instead of silently processing garbage.
 
 ## ✅ Safe-call checklist
 
-1. **Always set \`timeout\`** — never let your app hang on a sleeping server.
-2. **\`raise_for_status()\`** right after the call — fail fast and loud.
-3. **\`try/except requests.RequestException\`** — catches network, timeout, DNS errors.
-4. **Never hardcode API keys** — use env vars (\`os.environ["API_KEY"]\`), add \`.env\` to \`.gitignore\`. Lovable Cloud has a built-in secrets store.
-5. **Respect rate limits** — read the API docs. Free tiers typically cap ~60 req/min.
+1. **Always set \`timeout\`** - never let your app hang on a sleeping server.
+2. **\`raise_for_status()\`** right after the call - fail fast and loud.
+3. **\`try/except requests.RequestException\`** - catches network, timeout, DNS errors.
+4. **Never hardcode API keys** - use env vars (\`os.environ["API_KEY"]\`), add \`.env\` to \`.gitignore\`. Lovable Cloud has a built-in secrets store.
+5. **Respect rate limits** - read the API docs. Free tiers typically cap ~60 req/min.
 
 ## 🚀 Next steps
 
 Once \`requests\` feels easy, level up to:
-- **\`httpx\`** — same API as \`requests\` but supports async (covered in lesson 5).
-- **FastAPI** — build your own REST API in Python, clean and fast.`,
+- **\`httpx\`** - same API as \`requests\` but supports async (covered in lesson 5).
+- **FastAPI** - build your own REST API in Python, clean and fast.`,
 
         code: `# Calling a public REST API with the requests library (Open-Meteo, no key)
 import requests
@@ -780,7 +780,7 @@ import requests
 def get_weather(lat: float, lon: float):
     url = "https://api.open-meteo.com/v1/forecast"
     try:
-        # Send GET with query params and a hard timeout — never hang forever
+        # Send GET with query params and a hard timeout - never hang forever
         r = requests.get(url, params={
             "latitude": lat, "longitude": lon,
             "current_weather": "true"
@@ -791,7 +791,7 @@ def get_weather(lat: float, lon: float):
     except requests.RequestException as e:    # network / timeout / HTTP errors
         return f"Lookup failed: {e}"
 
-# Try three cities — same function, just different coordinates
+# Try three cities - same function, just different coordinates
 print("Hanoi :", get_weather(21.03, 105.85))
 print("Tokyo :", get_weather(35.68, 139.76))
 print("Sydney:", get_weather(-33.87, 151.21))`,
@@ -857,7 +857,7 @@ Async (đồng thời): ●─┐ ●─┐ ●─┐ ●─┐ ●─┐
                        └──┘ └──┘ └──┘ ...     ≈ 0.5 s (nhanh 30×!)
 \`\`\`
 
-Async cho phép trong lúc 1 request đang chờ, Python **chuyển sang phát yêu cầu tiếp theo** — tất cả "chạy song song" trên cùng 1 thread.
+Async cho phép trong lúc 1 request đang chờ, Python **chuyển sang phát yêu cầu tiếp theo** - tất cả "chạy song song" trên cùng 1 thread.
 
 ## 🪄 3 từ khoá vàng của asyncio
 
@@ -896,7 +896,7 @@ Event loop = bộ điều phối, ghi nhớ "ai đang chờ gì" và đánh th�
 
 ❌ **Bài toán CPU-bound** (xử lý số nặng, mã hoá, image processing). Async không giúp gì vì không có lúc nào "đứng chờ I/O" để chuyển task. Hãy dùng \`multiprocessing\` (chạy thật trên nhiều CPU core).
 
-❌ **Thư viện sync-only**: \`requests\`, \`time.sleep\`, \`open()\`, hầu hết DB driver cũ. Gọi chúng bên trong \`async def\` sẽ **chặn cả event loop** — mất hết lợi ích.
+❌ **Thư viện sync-only**: \`requests\`, \`time.sleep\`, \`open()\`, hầu hết DB driver cũ. Gọi chúng bên trong \`async def\` sẽ **chặn cả event loop** - mất hết lợi ích.
 
 ✅ Thay thế bằng phiên bản async tương đương:
 | Sync | Async |
@@ -913,7 +913,7 @@ Event loop = bộ điều phối, ghi nhớ "ai đang chờ gì" và đánh th�
 Khi bạn cần gọi 10+ API, scrape nhiều trang web, hoặc xử lý nhiều WebSocket connection cùng lúc → async là vũ khí số 1.`,
         theoryEn: `## 🚦 Sync vs Async - why it matters
 
-When your code calls many APIs (or reads many files, queries many DBs), the CPU **mostly waits** for the network/disk — it computes almost nothing. Waiting sequentially wastes ~99 % of the time.
+When your code calls many APIs (or reads many files, queries many DBs), the CPU **mostly waits** for the network/disk - it computes almost nothing. Waiting sequentially wastes ~99 % of the time.
 
 \`\`\`
 Sync:   ●━━━━━●━━━━━●━━━━━●━━━━━●    50 × 300 ms = 15 s
@@ -921,7 +921,7 @@ Async:  ●─┐ ●─┐ ●─┐ ●─┐ ●─┐
             └──┘ └──┘ └──┘ ...        ≈ 0.5 s  (30× faster!)
 \`\`\`
 
-Async lets Python **launch the next request** while the previous one waits — all "in parallel" on a single thread.
+Async lets Python **launch the next request** while the previous one waits - all "in parallel" on a single thread.
 
 ## 🪄 The 3 golden asyncio keywords
 
@@ -940,7 +940,7 @@ async def main():
     )
     return results
 
-asyncio.run(main())    # 🔧 entry point — creates and runs the event loop
+asyncio.run(main())    # 🔧 entry point - creates and runs the event loop
 \`\`\`
 
 - \`async def\` → defines a **coroutine** (a function that can pause).
@@ -954,13 +954,13 @@ Picture **one chef** (single thread) cooking 5 dishes:
 - Sync: finish dish 1, then start dish 2 → 5h.
 - Async: start dish 1, while it boils start 2, 3, 4, 5 → 1h.
 
-The event loop is the scheduler — it remembers "who is waiting for what" and wakes tasks up when I/O is ready.
+The event loop is the scheduler - it remembers "who is waiting for what" and wakes tasks up when I/O is ready.
 
 ## ⚠️ When NOT to use async
 
-❌ **CPU-bound work** (heavy math, encryption, image processing). Async helps nothing — no I/O to wait on. Reach for \`multiprocessing\` (real multi-core parallelism).
+❌ **CPU-bound work** (heavy math, encryption, image processing). Async helps nothing - no I/O to wait on. Reach for \`multiprocessing\` (real multi-core parallelism).
 
-❌ **Sync-only libraries**: \`requests\`, \`time.sleep\`, \`open()\`, most old DB drivers. Calling them inside \`async def\` **blocks the entire event loop** — you lose every benefit.
+❌ **Sync-only libraries**: \`requests\`, \`time.sleep\`, \`open()\`, most old DB drivers. Calling them inside \`async def\` **blocks the entire event loop** - you lose every benefit.
 
 ✅ Swap them for async equivalents:
 | Sync | Async |
@@ -982,7 +982,7 @@ import asyncio, httpx, time
 # Each URL deliberately takes ~1s on the server side
 URLS = [f"https://httpbin.org/delay/1?id={i}" for i in range(10)]
 
-# A single async request — returns the HTTP status code
+# A single async request - returns the HTTP status code
 async def fetch(client, url):
     r = await client.get(url, timeout=5)
     return r.status_code

@@ -10,32 +10,32 @@ export const readingExpansion: IeltsLecture[] = [
   // ===================== 1. SKIM-SCAN-DEEP =====================
   {
     id: "reading-skim-scan-deep",
-    title: "Reading — The 3-Speed Engine (Skim • Scan • Deep)",
-    titleVi: "Reading — Cỗ máy 3 tốc độ (Skim • Scan • Deep)",
+    title: "Reading - The 3-Speed Engine (Skim • Scan • Deep)",
+    titleVi: "Reading - Cỗ máy 3 tốc độ (Skim • Scan • Deep)",
     pillar: "skill-based",
     skill: "reading",
     icon: "🏎️",
     duration: "20 min",
     level: "intermediate",
     description:
-      "60 minutes, 3 passages, 40 questions. The only way to finish on time is to switch deliberately between three reading speeds — never read every word.",
+      "60 minutes, 3 passages, 40 questions. The only way to finish on time is to switch deliberately between three reading speeds - never read every word.",
     descriptionVi:
-      "60 phút, 3 bài, 40 câu. Cách duy nhất kịp giờ là chuyển đổi có chủ đích giữa 3 tốc độ đọc — đừng bao giờ đọc từng từ.",
+      "60 phút, 3 bài, 40 câu. Cách duy nhất kịp giờ là chuyển đổi có chủ đích giữa 3 tốc độ đọc - đừng bao giờ đọc từng từ.",
     strategySteps: [
       {
         step: 1,
-        title: "SKIM — 90 seconds per passage",
-        titleVi: "SKIM — 90 giây mỗi bài",
+        title: "SKIM - 90 seconds per passage",
+        titleVi: "SKIM - 90 giây mỗi bài",
         description:
           "Read the title, sub-heading, first sentence of each paragraph, last sentence of the final paragraph. Goal: know the TOPIC and the STRUCTURE, not the details.",
         descriptionVi:
           "Đọc tiêu đề, phụ đề, câu đầu mỗi đoạn, câu cuối đoạn cuối. Mục tiêu: nắm CHỦ ĐỀ và CẤU TRÚC, không phải chi tiết.",
-        example: "After skim: 'This passage is about urban bees — paragraph 2 is the problem, 4 is the solution.'",
+        example: "After skim: 'This passage is about urban bees - paragraph 2 is the problem, 4 is the solution.'",
       },
       {
         step: 2,
-        title: "SCAN — locate keywords in <15 seconds",
-        titleVi: "SCAN — định vị từ khóa dưới 15 giây",
+        title: "SCAN - locate keywords in <15 seconds",
+        titleVi: "SCAN - định vị từ khóa dưới 15 giây",
         description:
           "Run your eyes vertically down the page hunting for unique markers: dates, names, CAPITALS, numbers, italicised words. Ignore everything else.",
         descriptionVi:
@@ -44,8 +44,8 @@ export const readingExpansion: IeltsLecture[] = [
       },
       {
         step: 3,
-        title: "DEEP — read 2-3 sentences around the anchor",
-        titleVi: "DEEP — đọc kỹ 2-3 câu quanh mỏ neo",
+        title: "DEEP - read 2-3 sentences around the anchor",
+        titleVi: "DEEP - đọc kỹ 2-3 câu quanh mỏ neo",
         description:
           "Now slow down. Read the sentence containing the anchor PLUS one sentence before and one after. The answer almost always sits here.",
         descriptionVi:
@@ -53,12 +53,12 @@ export const readingExpansion: IeltsLecture[] = [
       },
       {
         step: 4,
-        title: "BUDGET — 20 minutes per passage, hard stop",
-        titleVi: "BUDGET — 20 phút/bài, dừng cứng",
+        title: "BUDGET - 20 minutes per passage, hard stop",
+        titleVi: "BUDGET - 20 phút/bài, dừng cứng",
         description:
-          "Set a mental timer. At minute 20, transfer answers and move on — even if 1-2 questions are blank. You can't afford to sacrifice Passage 3.",
+          "Set a mental timer. At minute 20, transfer answers and move on - even if 1-2 questions are blank. You can't afford to sacrifice Passage 3.",
         descriptionVi:
-          "Đặt báo giờ trong đầu. Phút 20 — chuyển đáp án và sang bài mới, kể cả còn 1-2 câu trống. Đừng bao giờ hy sinh Passage 3.",
+          "Đặt báo giờ trong đầu. Phút 20 - chuyển đáp án và sang bài mới, kể cả còn 1-2 câu trống. Đừng bao giờ hy sinh Passage 3.",
       },
     ],
     practicalExamples: [
@@ -67,7 +67,7 @@ export const readingExpansion: IeltsLecture[] = [
         contextVi: "Câu hỏi: 'Năm nào EU cấm thuốc trừ sâu neonicotinoid?'",
         example:
           "Step: Scan ONLY for 4-digit numbers in the passage. Found '2018' next to 'Brussels imposed a full ban'. → Answer: 2018.",
-        explanation: "You did not read the passage — you hunted for the unique number shape.",
+        explanation: "You did not read the passage - you hunted for the unique number shape.",
       },
       {
         context: "Passage 3 is densely academic and you have 18 minutes left.",
@@ -126,7 +126,7 @@ export const readingExpansion: IeltsLecture[] = [
         question: "How long should skimming a passage take?",
         options: ["~30 seconds", "~90 seconds", "~3 minutes", "~5 minutes"],
         answer: 1,
-        explanation: "Around 90 seconds — title, sub-heading, first/last sentences.",
+        explanation: "Around 90 seconds - title, sub-heading, first/last sentences.",
       },
       {
         question: "Best technique when you can't find an answer after 90 seconds?",
@@ -156,7 +156,7 @@ export const readingExpansion: IeltsLecture[] = [
     cheatSheetPoints: [
       "Skim 90s → Scan keywords → Deep 2-3 sentences",
       "20-minute hard stop per passage",
-      "Guess (B) any blank — no penalty",
+      "Guess (B) any blank - no penalty",
       "Anchor on numbers, dates, capitals first",
       "Match question type to speed, not paper order",
     ],
@@ -165,8 +165,8 @@ export const readingExpansion: IeltsLecture[] = [
   // ===================== 2. PARAPHRASE DECODER =====================
   {
     id: "reading-paraphrase-decoder",
-    title: "Reading — The Paraphrase Decoder",
-    titleVi: "Reading — Giải mã Paraphrase",
+    title: "Reading - The Paraphrase Decoder",
+    titleVi: "Reading - Giải mã Paraphrase",
     pillar: "tips-hacks",
     skill: "reading",
     icon: "🔓",
@@ -179,32 +179,32 @@ export const readingExpansion: IeltsLecture[] = [
     strategySteps: [
       {
         step: 1,
-        title: "Pattern 1 — Synonym swap",
-        titleVi: "Kiểu 1 — Hoán đổi từ đồng nghĩa",
+        title: "Pattern 1 - Synonym swap",
+        titleVi: "Kiểu 1 - Hoán đổi từ đồng nghĩa",
         description: "Single content words replaced. e.g. 'children' → 'youngsters', 'difficult' → 'challenging'.",
         descriptionVi: "Đổi từ nội dung đơn lẻ. VD: 'children' → 'youngsters', 'difficult' → 'challenging'.",
         example: "Q: 'Studying abroad is difficult.' Passage: 'Overseas education is challenging.'",
       },
       {
         step: 2,
-        title: "Pattern 2 — Word-class shift",
-        titleVi: "Kiểu 2 — Đổi loại từ",
+        title: "Pattern 2 - Word-class shift",
+        titleVi: "Kiểu 2 - Đổi loại từ",
         description: "Verb becomes noun, adjective becomes adverb. Same root meaning, different grammar.",
         descriptionVi: "Động từ thành danh từ, tính từ thành trạng từ. Cùng gốc nghĩa, khác ngữ pháp.",
         example: "Q: 'The drug reduces inflammation.' Passage: 'A reduction in inflammation was observed.'",
       },
       {
         step: 3,
-        title: "Pattern 3 — Voice / structure flip",
-        titleVi: "Kiểu 3 — Đảo cấu trúc / thể",
+        title: "Pattern 3 - Voice / structure flip",
+        titleVi: "Kiểu 3 - Đảo cấu trúc / thể",
         description: "Active becomes passive, cause-effect order reverses, relative clauses appear.",
         descriptionVi: "Chủ động thành bị động, đảo nhân-quả, xuất hiện mệnh đề quan hệ.",
         example: "Q: 'Scientists discovered the gene in 1998.' Passage: 'The gene was discovered in 1998.'",
       },
       {
         step: 4,
-        title: "Pattern 4 — Generalisation / specification",
-        titleVi: "Kiểu 4 — Khái quát / cụ thể hóa",
+        title: "Pattern 4 - Generalisation / specification",
+        titleVi: "Kiểu 4 - Khái quát / cụ thể hóa",
         description: "Specific examples in the passage → general category in the question (or vice versa).",
         descriptionVi: "Ví dụ cụ thể trong bài → danh từ chung trong câu hỏi (hoặc ngược lại).",
         example: "Q: 'transport problems' → Passage: 'traffic jams, late buses, expensive fuel'.",
@@ -216,7 +216,7 @@ export const readingExpansion: IeltsLecture[] = [
         contextVi: "Câu hỏi: 'Chính sách mới không được người dân ủng hộ.'",
         example:
           "Passage: 'Locals voiced strong opposition to the recently introduced rules.' → Match: 'residents'='locals', 'unpopular with'='voiced strong opposition to', 'new policy'='recently introduced rules'. Answer: TRUE.",
-        explanation: "Three paraphrase swaps in one sentence — a Band 7 reader spots all three in under 8 seconds.",
+        explanation: "Three paraphrase swaps in one sentence - a Band 7 reader spots all three in under 8 seconds.",
       },
       {
         context: "Question: 'Most students prefer online classes.'",
@@ -307,8 +307,8 @@ export const readingExpansion: IeltsLecture[] = [
   // ===================== 3. MATCHING HEADINGS =====================
   {
     id: "reading-matching-headings-mastery",
-    title: "Reading — Matching Headings the Smart Way",
-    titleVi: "Reading — Nối Tiêu đề thông minh",
+    title: "Reading - Matching Headings the Smart Way",
+    titleVi: "Reading - Nối Tiêu đề thông minh",
     pillar: "skill-based",
     skill: "reading",
     icon: "🧩",
@@ -323,9 +323,9 @@ export const readingExpansion: IeltsLecture[] = [
         step: 1,
         title: "Read all headings FIRST",
         titleVi: "Đọc TẤT CẢ tiêu đề trước",
-        description: "Underline the key noun in each heading. Group similar ones — they are the traps.",
-        descriptionVi: "Gạch chân danh từ chính ở mỗi tiêu đề. Gom các tiêu đề giống nhau — đó chính là bẫy.",
-        example: "Heading iv 'Economic impact' vs vi 'Financial consequences' — likely paraphrases, only one fits.",
+        description: "Underline the key noun in each heading. Group similar ones - they are the traps.",
+        descriptionVi: "Gạch chân danh từ chính ở mỗi tiêu đề. Gom các tiêu đề giống nhau - đó chính là bẫy.",
+        example: "Heading iv 'Economic impact' vs vi 'Financial consequences' - likely paraphrases, only one fits.",
       },
       {
         step: 2,
@@ -353,13 +353,13 @@ export const readingExpansion: IeltsLecture[] = [
       {
         context: "Paragraph starts: 'In 1995, only 4% of households owned a mobile phone…' then ends: '…by 2020 the figure had reached 96%.'",
         contextVi: "Đoạn mở: 'Năm 1995 chỉ 4% hộ gia đình có điện thoại di động…' kết: '…đến 2020 đã đạt 96%.'",
-        example: "Heading 'The rapid spread of mobile technology' — matches both topic + conclusion. Lock it.",
+        example: "Heading 'The rapid spread of mobile technology' - matches both topic + conclusion. Lock it.",
         explanation: "Two ends of the paragraph point to the same idea = highest confidence.",
       },
       {
         context: "Paragraph discusses bee colony collapse with vivid examples but the topic sentence is generic.",
         contextVi: "Đoạn nói về sụp đổ đàn ong với ví dụ sinh động nhưng câu chủ đề chung chung.",
-        example: "Don't lock yet. Skim the middle for the controlling noun — 'colony collapse' → match heading 'A growing ecological threat'.",
+        example: "Don't lock yet. Skim the middle for the controlling noun - 'colony collapse' → match heading 'A growing ecological threat'.",
         explanation: "The 5% rule: when topic + last sentence fail, the middle holds the key noun.",
       },
     ],
@@ -367,8 +367,8 @@ export const readingExpansion: IeltsLecture[] = [
       {
         mistake: "Matching by single word overlap",
         mistakeVi: "Nối dựa trên 1 từ trùng",
-        why: "Headings are paraphrased — one shared word usually = trap.",
-        whyVi: "Tiêu đề đều được paraphrase — 1 từ trùng thường là bẫy.",
+        why: "Headings are paraphrased - one shared word usually = trap.",
+        whyVi: "Tiêu đề đều được paraphrase - 1 từ trùng thường là bẫy.",
       },
       {
         mistake: "Doing paragraphs in order",
@@ -436,8 +436,8 @@ export const readingExpansion: IeltsLecture[] = [
   // ===================== 4. TIME RESCUE =====================
   {
     id: "reading-time-rescue",
-    title: "Reading — 60-Minute Battle Plan & Rescue Tactics",
-    titleVi: "Reading — Sơ đồ 60 phút & cứu nguy thời gian",
+    title: "Reading - 60-Minute Battle Plan & Rescue Tactics",
+    titleVi: "Reading - Sơ đồ 60 phút & cứu nguy thời gian",
     pillar: "tips-hacks",
     skill: "reading",
     icon: "⏱️",
@@ -450,29 +450,29 @@ export const readingExpansion: IeltsLecture[] = [
     strategySteps: [
       {
         step: 1,
-        title: "Minutes 0-2 — Pre-flight",
-        titleVi: "Phút 0-2 — Tiền bay",
-        description: "Write '20 / 40 / 60' on the answer sheet — your hard checkpoints for each passage.",
-        descriptionVi: "Ghi '20 / 40 / 60' lên phiếu trả lời — mốc cứng cho từng passage.",
+        title: "Minutes 0-2 - Pre-flight",
+        titleVi: "Phút 0-2 - Tiền bay",
+        description: "Write '20 / 40 / 60' on the answer sheet - your hard checkpoints for each passage.",
+        descriptionVi: "Ghi '20 / 40 / 60' lên phiếu trả lời - mốc cứng cho từng passage.",
       },
       {
         step: 2,
         title: "Passages in difficulty order",
         titleVi: "Làm passage theo độ khó",
-        description: "Open all 3 passages. Choose the EASIEST first — often Passage 2 in Academic. Confidence builds speed.",
-        descriptionVi: "Mở cả 3 bài. Chọn bài DỄ NHẤT làm trước — thường là Passage 2 (Academic). Tự tin → tốc độ.",
+        description: "Open all 3 passages. Choose the EASIEST first - often Passage 2 in Academic. Confidence builds speed.",
+        descriptionVi: "Mở cả 3 bài. Chọn bài DỄ NHẤT làm trước - thường là Passage 2 (Academic). Tự tin → tốc độ.",
       },
       {
         step: 3,
         title: "Transfer in BATCHES of 13",
         titleVi: "Chuyển đáp án theo CỤM 13",
-        description: "Transfer all answers from a passage at once when you finish it — never one-by-one.",
-        descriptionVi: "Chuyển toàn bộ đáp án 1 passage ngay khi xong — không chuyển từng câu.",
+        description: "Transfer all answers from a passage at once when you finish it - never one-by-one.",
+        descriptionVi: "Chuyển toàn bộ đáp án 1 passage ngay khi xong - không chuyển từng câu.",
       },
       {
         step: 4,
-        title: "Last 5 minutes — Sweep mode",
-        titleVi: "5 phút cuối — Quét sạch",
+        title: "Last 5 minutes - Sweep mode",
+        titleVi: "5 phút cuối - Quét sạch",
         description: "Fill every blank with a guess. B for MCQ, NOT GIVEN for T/F/NG, the most common word-length answer for fill-in.",
         descriptionVi: "Lấp mọi ô trống bằng đoán. MCQ chọn B, T/F/NG chọn NOT GIVEN, fill-in chọn câu trả lời ngắn phổ biến nhất.",
       },
@@ -501,8 +501,8 @@ export const readingExpansion: IeltsLecture[] = [
       {
         mistake: "Doing passages in order out of habit",
         mistakeVi: "Làm theo thứ tự bài vì thói quen",
-        why: "Passage 3 is the hardest — leaving it last with low energy costs 4-6 marks.",
-        whyVi: "Passage 3 khó nhất — để cuối khi đã mệt, mất 4-6 điểm.",
+        why: "Passage 3 is the hardest - leaving it last with low energy costs 4-6 marks.",
+        whyVi: "Passage 3 khó nhất - để cuối khi đã mệt, mất 4-6 điểm.",
       },
     ],
     goldenSecret:

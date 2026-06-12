@@ -1,4 +1,4 @@
-// YKI B1 Finnish — Deepening grammar & expression (4 advanced lessons)
+// YKI B1 Finnish - Deepening grammar & expression (4 advanced lessons)
 import type { FinnishModule } from "./types";
 
 export const finnishLessonExpansion6Modules: FinnishModule[] = [
@@ -24,10 +24,10 @@ export const finnishLessonExpansion6Modules: FinnishModule[] = [
 Tiếng Phần Lan B1 đòi hỏi bạn nói được **ý kiến cá nhân** một cách lịch sự và có lập luận. Hai công cụ trung tâm:
 
 **1. Mẫu mở đầu**
-- *Minun mielestäni…* — Theo tôi…
-- *Olen sitä mieltä, että…* — Tôi cho rằng…
-- *Toisaalta… toisaalta…* — Một mặt… mặt khác…
-- *Yhdyn täysin / olen eri mieltä* — Tôi đồng ý hoàn toàn / không đồng ý
+- *Minun mielestäni…* - Theo tôi…
+- *Olen sitä mieltä, että…* - Tôi cho rằng…
+- *Toisaalta… toisaalta…* - Một mặt… mặt khác…
+- *Yhdyn täysin / olen eri mieltä* - Tôi đồng ý hoàn toàn / không đồng ý
 
 **2. Konditionaali -isi- (Thể điều kiện)**
 Dùng để nói lịch sự, đề xuất, giả định.
@@ -39,14 +39,14 @@ Cấu trúc: gốc động từ + **-isi-** + đuôi nhân xưng.
 | ostaa | ostaisin | ostaisit | ostaisi |
 | voida | voisin | voisit | voisi |
 
-Ví dụ: *Voisitko sanoa sen uudelleen?* — Bạn có thể nói lại không?`,
+Ví dụ: *Voisitko sanoa sen uudelleen?* - Bạn có thể nói lại không?`,
         theoryEn: `### Expressing Opinions
 
 To reach B1 level, you must state your opinion clearly and politely. Use the conditional **-isi-** form to soften suggestions and disagreements.`,
         grammar: [
           {
-            title: "Konditionaali — perusmuodostus",
-            titleEn: "Conditional — formation",
+            title: "Konditionaali - perusmuodostus",
+            titleEn: "Conditional - formation",
             explanation: "Lisää -isi- vartaloon ja sitten persoonapääte (-n, -t, -mme, -tte, -vat).",
             explanationEn: "Add -isi- to the stem, then the personal ending.",
             examples: [
@@ -158,7 +158,7 @@ To reach B1 level, you must state your opinion clearly and politely. Use the con
         level: "A2",
         theory: `### Passiivi (Thể bị động)
 
-Passive Phần Lan dùng cực phổ biến, **không có chủ ngữ rõ ràng** — gần với "people / they / one" trong tiếng Anh, hoặc "người ta" tiếng Việt.
+Passive Phần Lan dùng cực phổ biến, **không có chủ ngữ rõ ràng** - gần với "people / they / one" trong tiếng Anh, hoặc "người ta" tiếng Việt.
 
 **1. Preesens (hiện tại)**
 - Cấu trúc: vartalo + **-taan / -tään** (theo hài hoà nguyên âm).
@@ -289,7 +289,7 @@ The Finnish passive omits the subject. It corresponds to English "people / they 
         level: "A2",
         theory: `### Rektio (Quy luật cách của động từ)
 
-Trong tiếng Phần Lan, mỗi động từ "ép" danh từ đi kèm phải ở **một cách (case) cụ thể** — gọi là *rektio*. Học rektio thuộc lòng là chìa khoá để nói đúng B1.
+Trong tiếng Phần Lan, mỗi động từ "ép" danh từ đi kèm phải ở **một cách (case) cụ thể** - gọi là *rektio*. Học rektio thuộc lòng là chìa khoá để nói đúng B1.
 
 **Một số rektio quan trọng:**
 
@@ -305,7 +305,7 @@ Trong tiếng Phần Lan, mỗi động từ "ép" danh từ đi kèm phải ở
 | uskoa | + illatiivi (-Vn) | Uskon Jumala**an**. |
 | luottaa | + illatiivi | Luotan sinu**un**. |
 | osallistua | + illatiivi | Osallistun kokoukse**en**. |`,
-        theoryEn: `### Verb Rections — which case follows each verb
+        theoryEn: `### Verb Rections - which case follows each verb
 
 Each Finnish verb "governs" a specific case for its object. Learning rections by heart is essential for B1 fluency.`,
         grammar: [
@@ -421,7 +421,7 @@ Each Finnish verb "governs" a specific case for its object. Learning rections by
         level: "A2",
         theory: `### Yhdyssanat (Từ ghép Phần Lan)
 
-Tiếng Phần Lan **rất giỏi ghép từ** — ghép 2-3-4 từ lại để tạo từ mới. Quy tắc:
+Tiếng Phần Lan **rất giỏi ghép từ** - ghép 2-3-4 từ lại để tạo từ mới. Quy tắc:
 
 **1. Genetiivi-yhdyssana**
 Từ thứ nhất ở **genetiivi (-n)**: *koulun + kirja → koulun kirja → koulukirja* (sách giáo khoa).

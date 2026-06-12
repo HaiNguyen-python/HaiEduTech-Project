@@ -287,9 +287,9 @@ Vietnamese uses different words to express the **degree** of an adjective. The m
 
 ### Illustrative examples
 
-- This pho is **rất** ngon (very tasty) — neutral, polite.
-- This pho is ngon **lắm**! — casual, said to friends.
-- This pho is ngon **quá**! — wow, said right after tasting.
+- This pho is **rất** ngon (very tasty) - neutral, polite.
+- This pho is ngon **lắm**! - casual, said to friends.
+- This pho is ngon **quá**! - wow, said right after tasting.
 - I'm **hơi** mệt today. (a bit tired)
 - The homework is **khá** khó. (fairly hard)
 - The test is **cực kỳ** khó. (extremely hard)
@@ -439,13 +439,13 @@ Modal verbs go **before the main verb** to express desire, ability, or obligatio
 
 Có **3 loại so sánh** chính: ngang bằng, hơn (kém), và nhất.
 
-### 1. So sánh ngang bằng — A **như / bằng** B
+### 1. So sánh ngang bằng - A **như / bằng** B
 
 - Cô ấy đẹp **như** hoa. *(She is as beautiful as a flower.)*
 - Anh tôi cao **bằng** tôi. *(My brother is as tall as me.)*
 - Nhà này lớn **bằng** nhà kia. *(This house is as big as that one.)*
 
-### 2. So sánh hơn — A **hơn** B / A **kém** B
+### 2. So sánh hơn - A **hơn** B / A **kém** B
 
 - Anh ấy cao **hơn** tôi. *(He is taller than me.)*
 - Phở Hà Nội ngon **hơn** phở Sài Gòn (theo tôi). *(Hanoi pho is tastier - in my opinion.)*
@@ -454,7 +454,7 @@ Có **3 loại so sánh** chính: ngang bằng, hơn (kém), và nhất.
 **Thêm mức độ**: dùng **hơn nhiều** (much more), **hơn một chút** (a little more):
 - Xe này đắt **hơn nhiều**. / Hôm nay nóng **hơn một chút**.
 
-### 3. So sánh nhất — A + tính từ + **nhất**
+### 3. So sánh nhất - A + tính từ + **nhất**
 
 - Đây là món ngon **nhất**. *(This is the most delicious dish.)*
 - Hà Nội là thủ đô đẹp **nhất**. *(Hanoi is the most beautiful capital.)*
@@ -473,13 +473,13 @@ Có **3 loại so sánh** chính: ngang bằng, hơn (kém), và nhất.
 
 There are **3 main types** of comparison: equal, more/less, and superlative.
 
-### 1. Equal comparison — A **như / bằng** B
+### 1. Equal comparison - A **như / bằng** B
 
 - Cô ấy đẹp **như** hoa. (She is as beautiful as a flower.)
 - Anh tôi cao **bằng** tôi. (My brother is as tall as I am.)
 - Nhà này lớn **bằng** nhà kia. (This house is as big as that one.)
 
-### 2. More / less — A **hơn** B / A **kém** B
+### 2. More / less - A **hơn** B / A **kém** B
 
 - Anh ấy cao **hơn** tôi. (He is taller than me.)
 - Phở Hà Nội ngon **hơn** phở Sài Gòn. (Hanoi pho is tastier than Saigon pho.)
@@ -488,7 +488,7 @@ There are **3 main types** of comparison: equal, more/less, and superlative.
 Add intensity with **hơn nhiều** (much more) or **hơn một chút** (a little more):
 - Xe này đắt **hơn nhiều**. / Hôm nay nóng **hơn một chút**.
 
-### 3. Superlative — A + adjective + **nhất**
+### 3. Superlative - A + adjective + **nhất**
 
 - Đây là món ngon **nhất**. (This is the most delicious dish.)
 - Hà Nội là thủ đô đẹp **nhất**. (Hanoi is the most beautiful capital.)
@@ -644,7 +644,7 @@ Tiếng Việt có nhiều từ phủ định, mỗi từ có **sắc thái và 
   - Tôi **không** biết. ✅ (dùng với động từ)
 - **đừng** (mệnh lệnh): "**Đừng** lo!" / "**Đừng** khóc nữa!"
 
-### Phủ định kép — nhấn mạnh
+### Phủ định kép - nhấn mạnh
 
 - **chẳng … đâu / không … đâu**: "Tôi **chẳng** sợ **đâu**!" (I'm really not scared!)
 - **chưa bao giờ**: "Tôi **chưa bao giờ** đến Pháp." (I've never been to France.)
@@ -821,12 +821,12 @@ Khác với tiếng Anh, tiếng Việt có **2 trợ từ bị động** dựa 
 
 - Tôi **được** chọn làm trưởng nhóm. ✅ (tích cực)
 - Tôi **bị** chọn làm trực nhật. ✅ (không thích)
-- Em **được** mẹ khen. *(Praised by mom — vui.)*
-- Em **bị** mẹ mắng. *(Scolded by mom — buồn.)*
-- Anh ấy **được** mời dự tiệc. *(Invited — vinh dự.)*
-- Anh ấy **bị** đuổi việc. *(Fired — tiêu cực.)*
+- Em **được** mẹ khen. *(Praised by mom - vui.)*
+- Em **bị** mẹ mắng. *(Scolded by mom - buồn.)*
+- Anh ấy **được** mời dự tiệc. *(Invited - vinh dự.)*
+- Anh ấy **bị** đuổi việc. *(Fired - tiêu cực.)*
 
-### Có tác nhân — Có thể nêu rõ ai làm
+### Có tác nhân - Có thể nêu rõ ai làm
 
 - Bài tập **được cô giáo** chấm điểm cao.
 - Em bé **bị chó** cắn.
@@ -836,7 +836,7 @@ Khác với tiếng Anh, tiếng Việt có **2 trợ từ bị động** dựa 
 
 - Cùng một sự việc nhưng người Việt chọn **được / bị** theo **cảm xúc**:
   - "Tôi **bị** béo lên 2 kg." (không vui)
-  - "Tôi **được** tăng 2 kg." (đang cố tăng cân — vui)
+  - "Tôi **được** tăng 2 kg." (đang cố tăng cân - vui)
 - Trong tiếng Việt, câu bị động **ít dùng hơn** tiếng Anh. Thường chuyển sang câu chủ động cho tự nhiên.`,
         theoryEn: `## Passive Voice: được vs bị
 
@@ -857,10 +857,10 @@ Unlike English, Vietnamese has **two passive auxiliaries** chosen by **emotional
 
 - Tôi **được** chọn làm trưởng nhóm. ✅ (positive)
 - Tôi **bị** chọn làm trực nhật. ✅ (unwanted)
-- Em **được** mẹ khen. (praised by mom — happy)
-- Em **bị** mẹ mắng. (scolded by mom — sad)
-- Anh ấy **được** mời dự tiệc. (invited — honor)
-- Anh ấy **bị** đuổi việc. (fired — negative)
+- Em **được** mẹ khen. (praised by mom - happy)
+- Em **bị** mẹ mắng. (scolded by mom - sad)
+- Anh ấy **được** mời dự tiệc. (invited - honor)
+- Anh ấy **bị** đuổi việc. (fired - negative)
 
 ### Naming the agent
 
@@ -1114,8 +1114,8 @@ Structure: [action] + **để** + [purpose]
 | **Cuối câu** | quá khứ (đã xảy ra) | Bạn về **bao giờ**? *(When did you return?)* |
 
 Ví dụ thêm:
-- **Khi nào** chúng ta đi? *(When are we leaving?)* — tương lai
-- Chúng ta đi **khi nào**? *(When did we go?)* — quá khứ
+- **Khi nào** chúng ta đi? *(When are we leaving?)* - tương lai
+- Chúng ta đi **khi nào**? *(When did we go?)* - quá khứ
 
 ### 2. **bao lâu** = How long (thời lượng)
 
@@ -1141,10 +1141,10 @@ Ví dụ thêm:
 
 ### Ví dụ tổng hợp
 
-- **Bao giờ** bạn rảnh? — *Tuần sau tôi rảnh.*
-- Bạn đến đây **bao giờ**? — *Hôm qua.*
-- Bạn ở đây **bao lâu**? — *Khoảng 2 tuần.*
-- **Mấy** giờ chúng ta gặp? — *3 giờ chiều.*`,
+- **Bao giờ** bạn rảnh? - *Tuần sau tôi rảnh.*
+- Bạn đến đây **bao giờ**? - *Hôm qua.*
+- Bạn ở đây **bao lâu**? - *Khoảng 2 tuần.*
+- **Mấy** giờ chúng ta gặp? - *3 giờ chiều.*`,
         theoryEn: `## Time Questions: bao giờ, bao lâu, mấy, khi nào
 
 ### 1. **bao giờ / khi nào** = When
@@ -1157,8 +1157,8 @@ Ví dụ thêm:
 | **End** | past (already happened) | Bạn về **bao giờ**? (When did you return?) |
 
 More examples:
-- **Khi nào** chúng ta đi? (When are we leaving?) — future
-- Chúng ta đi **khi nào**? (When did we go?) — past
+- **Khi nào** chúng ta đi? (When are we leaving?) - future
+- Chúng ta đi **khi nào**? (When did we go?) - past
 
 ### 2. **bao lâu** = How long (duration)
 
@@ -1184,10 +1184,10 @@ More examples:
 
 ### Mini dialogue practice
 
-- **Bao giờ** bạn rảnh? — Tuần sau. (Next week.)
-- Bạn đến đây **bao giờ**? — Hôm qua. (Yesterday.)
-- Bạn ở đây **bao lâu**? — Khoảng 2 tuần.
-- **Mấy** giờ chúng ta gặp? — 3 giờ chiều.`,
+- **Bao giờ** bạn rảnh? - Tuần sau. (Next week.)
+- Bạn đến đây **bao giờ**? - Hôm qua. (Yesterday.)
+- Bạn ở đây **bao lâu**? - Khoảng 2 tuần.
+- **Mấy** giờ chúng ta gặp? - 3 giờ chiều.`,
         vocabulary: [
           { word: "bao giờ", meaning: "khi nào", meaningEn: "when", example: "Bao giờ bạn về?", exampleEn: "When will you return?", partOfSpeech: "interrogative" },
           { word: "bao lâu", meaning: "thời gian bao lâu", meaningEn: "how long", example: "Đi bao lâu?", exampleEn: "How long is the trip?", partOfSpeech: "interrogative" },
@@ -1218,7 +1218,7 @@ Các cấu trúc này thể hiện **trạng thái** của hành động (xong, 
 
 - Tôi **đã** ăn cơm **rồi**. *(I have already eaten.)*
 - Anh ấy **đã** đi **rồi**. *(He has already left.)*
-- Trong khẩu ngữ thường nói gọn: "Xong **rồi**!" / "Ăn cơm chưa? — Ăn **rồi**."
+- Trong khẩu ngữ thường nói gọn: "Xong **rồi**!" / "Ăn cơm chưa? - Ăn **rồi**."
 
 ### 2. **mới … (thôi)** = just / only (vừa xảy ra hoặc số lượng ít)
 
@@ -1230,7 +1230,7 @@ Các cấu trúc này thể hiện **trạng thái** của hành động (xong, 
 
 - Tôi **chưa** ăn cơm. *(I haven't eaten yet.)*
 - **Chưa** xong **đâu**! *(Not done yet! - mạnh hơn.)*
-- Bạn đi chưa? — **Chưa**, đợi tôi chút. *(Not yet, wait a moment.)*
+- Bạn đi chưa? - **Chưa**, đợi tôi chút. *(Not yet, wait a moment.)*
 
 ### 4. **vẫn / còn** = still / remaining
 
@@ -1255,9 +1255,9 @@ Các cấu trúc này thể hiện **trạng thái** của hành động (xong, 
 
 ### Ví dụ hội thoại
 
-- A: Bạn ăn cơm chưa? — B: Ăn **rồi**.
-- A: Làm xong chưa? — B: **Chưa đâu**, còn 10 phút nữa.
-- A: Mưa nữa không? — B: **Vẫn** mưa, **hết** áo khoác rồi!`,
+- A: Bạn ăn cơm chưa? - B: Ăn **rồi**.
+- A: Làm xong chưa? - B: **Chưa đâu**, còn 10 phút nữa.
+- A: Mưa nữa không? - B: **Vẫn** mưa, **hết** áo khoác rồi!`,
         theoryEn: `## Completion & Recency: đã…rồi, mới…thôi, chưa…đâu, vẫn…
 
 These structures show the **state** of an action (done, just done, not yet, ongoing).
@@ -1266,7 +1266,7 @@ These structures show the **state** of an action (done, just done, not yet, ongo
 
 - Tôi **đã** ăn cơm **rồi**. (I have already eaten.)
 - Anh ấy **đã** đi **rồi**. (He has already left.)
-- In speech often shortened: "Xong **rồi**!" / "Ăn cơm chưa? — Ăn **rồi**."
+- In speech often shortened: "Xong **rồi**!" / "Ăn cơm chưa? - Ăn **rồi**."
 
 ### 2. **mới … (thôi)** = just / only
 
@@ -1278,7 +1278,7 @@ These structures show the **state** of an action (done, just done, not yet, ongo
 
 - Tôi **chưa** ăn cơm. (Not eaten yet.)
 - **Chưa** xong **đâu**! (Really not done yet!)
-- Bạn đi chưa? — **Chưa**, đợi tôi chút.
+- Bạn đi chưa? - **Chưa**, đợi tôi chút.
 
 ### 4. **vẫn / còn** = still / remaining
 
@@ -1303,9 +1303,9 @@ These structures show the **state** of an action (done, just done, not yet, ongo
 
 ### Mini dialogue
 
-- A: Have you eaten? — B: Ăn **rồi**.
-- A: Done yet? — B: **Chưa đâu**, 10 more minutes.
-- A: Still raining? — B: **Vẫn** mưa, **hết** áo khoác rồi!`,
+- A: Have you eaten? - B: Ăn **rồi**.
+- A: Done yet? - B: **Chưa đâu**, 10 more minutes.
+- A: Still raining? - B: **Vẫn** mưa, **hết** áo khoác rồi!`,
         vocabulary: [
           { word: "rồi", meaning: "đã xong", meaningEn: "already / done", example: "Xong rồi!", exampleEn: "Done!", partOfSpeech: "particle" },
           { word: "mới", meaning: "vừa mới", meaningEn: "just / recently", example: "Tôi mới biết.", exampleEn: "I just found out.", partOfSpeech: "adverb" },
@@ -1359,7 +1359,7 @@ Tiếng Việt có nhiều cách **nhấn mạnh** mà không cần thay đổi 
 | **cơ** | bất bình / khẩn thiết (Bắc) | Tôi muốn cái này **cơ**. *(I really want this one.)* |
 | **lại** | bất ngờ | Sao **lại** thế? *(How come?)* |
 
-### 5. Đảo ngữ — đưa thành phần cần nhấn mạnh lên đầu
+### 5. Đảo ngữ - đưa thành phần cần nhấn mạnh lên đầu
 
 - Bình thường: Tôi yêu Hà Nội nhất.
 - Nhấn mạnh: **Hà Nội**, tôi yêu nhất. / **Hà Nội mới là** nơi tôi yêu nhất.
@@ -1373,7 +1373,7 @@ Tiếng Việt có nhiều cách **nhấn mạnh** mà không cần thay đổi 
 ### Lưu ý
 
 - Nhiều ngữ khí từ chỉ dùng được trong **văn nói**.
-- Đặt sai vị trí có thể đổi nghĩa hoàn toàn — hãy nghe người Việt dùng nhiều để cảm nhận.`,
+- Đặt sai vị trí có thể đổi nghĩa hoàn toàn - hãy nghe người Việt dùng nhiều để cảm nhận.`,
         theoryEn: `## Emphasis & Inversion in Vietnamese
 
 Vietnamese has many ways to **emphasize** without changing sentence structure.
@@ -1405,7 +1405,7 @@ Vietnamese has many ways to **emphasize** without changing sentence structure.
 | **cơ** | insistence (North) | Tôi muốn cái này **cơ**. |
 | **lại** | unexpected | Sao **lại** thế? (How come?) |
 
-### 5. Inversion — front-shift the emphasized element
+### 5. Inversion - front-shift the emphasized element
 
 - Neutral: Tôi yêu Hà Nội nhất.
 - Emphatic: **Hà Nội**, tôi yêu nhất. / **Hà Nội mới là** nơi tôi yêu nhất.
@@ -1419,7 +1419,7 @@ Vietnamese has many ways to **emphasize** without changing sentence structure.
 ### Notes
 
 - Many particles are spoken-language only.
-- Placement can change meaning — listen to native speakers a lot to develop a feel.`,
+- Placement can change meaning - listen to native speakers a lot to develop a feel.`,
         vocabulary: [
           { word: "chính", meaning: "chính xác là", meaningEn: "exactly / oneself", example: "Chính anh ấy nói.", exampleEn: "He himself said it.", partOfSpeech: "adverb" },
           { word: "thì", meaning: "nhấn mạnh chủ đề", meaningEn: "topic marker / then", example: "Tôi thì thích cà phê.", exampleEn: "As for me, I like coffee.", partOfSpeech: "particle" },
@@ -1469,23 +1469,23 @@ Từ láy là **đặc trưng đẹp của tiếng Việt**, tạo nhạc điệ
 
 ### Ví dụ minh họa theo nhóm nghĩa
 
-**🌟 Ánh sáng** — lấp lánh, lung linh, le lói, lờ mờ
+**🌟 Ánh sáng** - lấp lánh, lung linh, le lói, lờ mờ
 - Sao trời **lấp lánh**. *(Stars are sparkling.)*
 - Thành phố **lung linh** trong đêm. *(City is shimmering at night.)*
 
-**💧 Âm thanh nước** — róc rách, tí tách, lộp bộp
+**💧 Âm thanh nước** - róc rách, tí tách, lộp bộp
 - Suối chảy **róc rách**. *(Stream gurgles.)*
 - Mưa rơi **tí tách** trên mái nhà. *(Rain pitters on the roof.)*
 
-**🚶 Bước đi** — lon ton, lững thững, hối hả
+**🚶 Bước đi** - lon ton, lững thững, hối hả
 - Em bé chạy **lon ton**. *(Baby toddles.)*
 - Ông cụ đi **lững thững**. *(Old man strolls slowly.)*
 
-**💭 Cảm xúc** — bối rối, lúng túng, hồi hộp
+**💭 Cảm xúc** - bối rối, lúng túng, hồi hộp
 - Tôi **bối rối** không biết trả lời. *(I'm confused, don't know what to say.)*
 - Cô ấy **lúng túng** khi gặp anh ấy. *(She got flustered seeing him.)*
 
-**🎨 Màu sắc nhẹ** — xanh xanh, đỏ đỏ, vàng vàng
+**🎨 Màu sắc nhẹ** - xanh xanh, đỏ đỏ, vàng vàng
 - Cánh đồng lúa **xanh xanh** trải dài. *(The slightly green rice field stretches out.)*
 
 ### Tác dụng của từ láy
@@ -1513,23 +1513,23 @@ Reduplication is a **signature beauty of Vietnamese**, creating rhythm and expre
 
 ### Examples by theme
 
-**🌟 Light** — lấp lánh, lung linh
+**🌟 Light** - lấp lánh, lung linh
 - Sao trời **lấp lánh**. (Stars are sparkling.)
 - Thành phố **lung linh** trong đêm. (City shimmers at night.)
 
-**💧 Water sounds** — róc rách, tí tách
+**💧 Water sounds** - róc rách, tí tách
 - Suối chảy **róc rách**. (Stream gurgles.)
 - Mưa rơi **tí tách**. (Rain pitters down.)
 
-**🚶 Walking** — lon ton, lững thững
+**🚶 Walking** - lon ton, lững thững
 - Em bé chạy **lon ton**. (Baby toddles.)
 - Ông cụ đi **lững thững**. (Old man strolls.)
 
-**💭 Feelings** — bối rối, lúng túng
+**💭 Feelings** - bối rối, lúng túng
 - Tôi **bối rối**. (I'm confused.)
 - Cô ấy **lúng túng**. (She's flustered.)
 
-**🎨 Soft colors** — xanh xanh, đỏ đỏ
+**🎨 Soft colors** - xanh xanh, đỏ đỏ
 - Cánh đồng lúa **xanh xanh**. (The rice field is greenish.)
 
 ### Effects
@@ -1593,9 +1593,9 @@ Thành ngữ là **cụm từ cố định mang nghĩa bóng** (figurative), th�
 
 ### Mẹo học thành ngữ
 
-1. **Hiểu hình ảnh** trước (ếch, vịt, guốc…) — rồi mới hiểu nghĩa bóng.
+1. **Hiểu hình ảnh** trước (ếch, vịt, guốc…) - rồi mới hiểu nghĩa bóng.
 2. **Học theo chủ đề**: thành ngữ về biết ơn, kiên trì, cảnh báo…
-3. **Dùng đúng tình huống** — dùng sai sẽ lố hoặc gây cười.
+3. **Dùng đúng tình huống** - dùng sai sẽ lố hoặc gây cười.
 4. Đọc ca dao, tục ngữ Việt Nam để cảm nhận sâu hơn.`,
         theoryEn: `## Common Vietnamese Idioms
 
@@ -1628,7 +1628,7 @@ Idioms are **fixed phrases with figurative meaning**, often drawn from Vietnames
 
 1. **Understand the image first** (frog, duck, clogs…) before the figurative meaning.
 2. **Group by theme**: gratitude, patience, warnings…
-3. **Use in the right situation** — misuse sounds awkward or comical.
+3. **Use in the right situation** - misuse sounds awkward or comical.
 4. Read Vietnamese folk poetry (ca dao, tục ngữ) for deeper feel.`,
         vocabulary: [
           { word: "thành ngữ", meaning: "cụm từ cố định", meaningEn: "idiom", example: "Tiếng Việt có nhiều thành ngữ.", exampleEn: "Vietnamese has many idioms.", partOfSpeech: "noun" },
@@ -1654,7 +1654,7 @@ Idioms are **fixed phrases with figurative meaning**, often drawn from Vietnames
         id: "vn-gram-13", title: "Trợ từ và ngữ khí từ", titleEn: "Particles & Sentence-Final Words", level: "advanced",
         theory: `## Trợ từ và ngữ khí từ cuối câu
 
-Ngữ khí từ là **gia vị của tiếng Việt** — thay đổi sắc thái câu mà không đổi nghĩa cơ bản.
+Ngữ khí từ là **gia vị của tiếng Việt** - thay đổi sắc thái câu mà không đổi nghĩa cơ bản.
 
 ### Bảng tổng hợp
 
@@ -1672,15 +1672,15 @@ Ngữ khí từ là **gia vị của tiếng Việt** — thay đổi sắc thá
 | **thôi** | dừng lại, chỉ vậy | Đủ rồi, dừng **thôi**! |
 | **cơ** | đòi hỏi, không hài lòng (Bắc) | Tôi muốn cái kia **cơ**. |
 
-### Cùng một câu — đổi sắc thái
+### Cùng một câu - đổi sắc thái
 
 Câu gốc: **"Đi ăn cơm."** (đi ăn cơm)
 
-- Đi ăn cơm **đi**! — thúc giục
-- Đi ăn cơm **nhé**! — đề nghị thân mật
-- Đi ăn cơm **ạ**. — lễ phép với người lớn
-- Đi ăn cơm **nào**! — cổ vũ rủ rê
-- Đi ăn cơm **không**? — hỏi
+- Đi ăn cơm **đi**! - thúc giục
+- Đi ăn cơm **nhé**! - đề nghị thân mật
+- Đi ăn cơm **ạ**. - lễ phép với người lớn
+- Đi ăn cơm **nào**! - cổ vũ rủ rê
+- Đi ăn cơm **không**? - hỏi
 
 ### Ví dụ thực tế
 
@@ -1693,11 +1693,11 @@ Câu gốc: **"Đi ăn cơm."** (đi ăn cơm)
 ### Lưu ý quan trọng
 
 - Ngữ khí từ thường **chỉ dùng trong văn nói**, hiếm xuất hiện trong văn viết trang trọng.
-- **Ạ** rất quan trọng khi nói chuyện với người lớn tuổi — thiếu **ạ** có thể bị xem là vô lễ.
+- **Ạ** rất quan trọng khi nói chuyện với người lớn tuổi - thiếu **ạ** có thể bị xem là vô lễ.
 - Người Nam thường dùng **nha, nghen** thay cho **nhé** của người Bắc.`,
         theoryEn: `## Sentence-Final Particles
 
-Particles are the **spices of Vietnamese** — they shift the tone of a sentence without changing the core meaning.
+Particles are the **spices of Vietnamese** - they shift the tone of a sentence without changing the core meaning.
 
 ### Reference table
 
@@ -1715,15 +1715,15 @@ Particles are the **spices of Vietnamese** — they shift the tone of a sentence
 | **thôi** | enough, just | Đủ rồi, dừng **thôi**! |
 | **cơ** | insistence (North) | Tôi muốn cái kia **cơ**. |
 
-### Same sentence — different tone
+### Same sentence - different tone
 
 Base: **"Đi ăn cơm."** (Go eat.)
 
-- Đi ăn cơm **đi**! — urging
-- Đi ăn cơm **nhé**! — friendly suggestion
-- Đi ăn cơm **ạ**. — polite to elder
-- Đi ăn cơm **nào**! — cheering invitation
-- Đi ăn cơm **không**? — question
+- Đi ăn cơm **đi**! - urging
+- Đi ăn cơm **nhé**! - friendly suggestion
+- Đi ăn cơm **ạ**. - polite to elder
+- Đi ăn cơm **nào**! - cheering invitation
+- Đi ăn cơm **không**? - question
 
 ### Real-life examples
 
@@ -1736,7 +1736,7 @@ Base: **"Đi ăn cơm."** (Go eat.)
 ### Important notes
 
 - Particles are mostly used in **spoken language**, rare in formal writing.
-- **Ạ** is essential when talking to elders — missing it can sound rude.
+- **Ạ** is essential when talking to elders - missing it can sound rude.
 - Southerners often use **nha, nghen** instead of Northern **nhé**.`,
         vocabulary: [
           { word: "nhé", meaning: "thân mật, đề nghị", meaningEn: "friendly particle", example: "Đi ăn nhé!", exampleEn: "Let's eat!", partOfSpeech: "particle" },
@@ -1808,7 +1808,7 @@ Yêu cầu, ra lệnh, khuyên nhủ.
 Từ thân mật → trang trọng:
 1. **Đi đi!** *(thân mật, ngắn gọn)*
 2. **Hãy đi đi!** *(trung tính)*
-3. **Anh hãy đi nhé!** *(thêm chủ ngữ + nhé — lịch sự hơn)*
+3. **Anh hãy đi nhé!** *(thêm chủ ngữ + nhé - lịch sự hơn)*
 4. **Xin anh vui lòng đi.** *(rất trang trọng)*
 
 ### Lưu ý
@@ -1863,7 +1863,7 @@ Commands, requests, advice.
 From casual → formal:
 1. **Đi đi!** (casual, brief)
 2. **Hãy đi đi!** (neutral)
-3. **Anh hãy đi nhé!** (with subject + nhé — softer)
+3. **Anh hãy đi nhé!** (with subject + nhé - softer)
 4. **Xin anh vui lòng đi.** (very formal)
 
 ### Notes
@@ -1896,7 +1896,7 @@ From casual → formal:
 
 Đây là những **cặp liên từ** đi đôi với nhau để diễn tả các mối quan hệ phức tạp.
 
-### 1. **càng … càng** — the more … the more
+### 1. **càng … càng** - the more … the more
 
 Diễn tả **mức độ tăng song song**.
 
@@ -1905,7 +1905,7 @@ Diễn tả **mức độ tăng song song**.
 - **Càng** lớn **càng** thông minh.
 - Trời **càng** ngày **càng** lạnh. *(It gets colder day by day.)*
 
-### 2. **vừa … vừa** — both … and (đồng thời)
+### 2. **vừa … vừa** - both … and (đồng thời)
 
 Hai hành động **xảy ra cùng lúc** hoặc hai tính chất song song.
 
@@ -1914,7 +1914,7 @@ Hai hành động **xảy ra cùng lúc** hoặc hai tính chất song song.
 - Cô ấy **vừa** xinh **vừa** giỏi. *(She's both pretty and smart.)*
 - Trời **vừa** lạnh **vừa** ẩm.
 
-### 3. **không những … mà còn** — not only … but also
+### 3. **không những … mà còn** - not only … but also
 
 Nhấn mạnh **thêm vào** một đặc điểm khác.
 
@@ -1922,12 +1922,12 @@ Nhấn mạnh **thêm vào** một đặc điểm khác.
 - Phở **không những** ngon **mà còn** rẻ.
 - Anh ấy **không những** giỏi tiếng Anh **mà còn** biết tiếng Nhật.
 
-### 4. **ngoài … ra (còn)** — besides … (also)
+### 4. **ngoài … ra (còn)** - besides … (also)
 
 - **Ngoài** tiếng Việt **ra**, tôi **còn** biết tiếng Anh.
 - **Ngoài** học **ra**, em **còn** chơi thể thao.
 
-### 5. **chẳng những … mà** — biến thể trang trọng của 'không những … mà còn'
+### 5. **chẳng những … mà** - biến thể trang trọng của 'không những … mà còn'
 
 - **Chẳng những** không giúp **mà** còn phá. *(Not only didn't help but also ruined.)*
 
@@ -1955,7 +1955,7 @@ Nhấn mạnh **thêm vào** một đặc điểm khác.
 
 These are **paired conjunctions** that express complex relationships.
 
-### 1. **càng … càng** — the more … the more
+### 1. **càng … càng** - the more … the more
 
 Expresses **parallel increase**.
 
@@ -1964,7 +1964,7 @@ Expresses **parallel increase**.
 - **Càng** lớn **càng** thông minh.
 - Trời **càng** ngày **càng** lạnh. (Colder day by day.)
 
-### 2. **vừa … vừa** — both … and (simultaneously)
+### 2. **vừa … vừa** - both … and (simultaneously)
 
 Two actions **at the same time** or two parallel qualities.
 
@@ -1973,7 +1973,7 @@ Two actions **at the same time** or two parallel qualities.
 - Cô ấy **vừa** xinh **vừa** giỏi. (She's both pretty and smart.)
 - Trời **vừa** lạnh **vừa** ẩm.
 
-### 3. **không những … mà còn** — not only … but also
+### 3. **không những … mà còn** - not only … but also
 
 Emphasizes an **additional** feature.
 
@@ -1981,12 +1981,12 @@ Emphasizes an **additional** feature.
 - Phở **không những** ngon **mà còn** rẻ.
 - Anh ấy **không những** giỏi tiếng Anh **mà còn** biết tiếng Nhật.
 
-### 4. **ngoài … ra (còn)** — besides … (also)
+### 4. **ngoài … ra (còn)** - besides … (also)
 
 - **Ngoài** tiếng Việt **ra**, tôi **còn** biết tiếng Anh.
 - **Ngoài** học **ra**, em **còn** chơi thể thao.
 
-### 5. **chẳng những … mà** — formal variant of 'không những … mà còn'
+### 5. **chẳng những … mà** - formal variant of 'không những … mà còn'
 
 - **Chẳng những** không giúp **mà** còn phá. (Not only didn't help but ruined.)
 
@@ -2031,7 +2031,7 @@ Emphasizes an **additional** feature.
       },
       {
         id: "vn-gram-31", title: "Câu chẻ (Cleft sentences)", titleEn: "Cleft Sentences", level: "advanced",
-        theory: `## Câu chẻ (Cleft sentences) — Nhấn mạnh
+        theory: `## Câu chẻ (Cleft sentences) - Nhấn mạnh
 
 Câu chẻ giúp **nhấn mạnh** một thành phần bằng cách tách nó ra đầu câu, thường dùng cấu trúc **Chính … là …** hoặc **Đó / Đây là …**.
 
@@ -2045,7 +2045,7 @@ Thêm ví dụ:
 - **Chính Hà Nội** là quê hương của tôi.
 - **Chính lúc đó** tôi nhận ra sự thật.
 
-### 2. **Đó là / Đây là** — nhấn mạnh điều vừa nói
+### 2. **Đó là / Đây là** - nhấn mạnh điều vừa nói
 
 - **Đó là** lý do tôi không đi. *(That's the reason I didn't go.)*
 - **Đây là** vấn đề chính. *(This is the main issue.)*
@@ -2078,8 +2078,8 @@ Thêm ví dụ:
 
 ### Lưu ý
 
-- Câu chẻ làm cho câu **mạnh mẽ, rõ ràng** hơn — thường dùng trong tranh luận, làm rõ.
-- Không lạm dụng — câu chẻ quá nhiều sẽ thấy gượng.`,
+- Câu chẻ làm cho câu **mạnh mẽ, rõ ràng** hơn - thường dùng trong tranh luận, làm rõ.
+- Không lạm dụng - câu chẻ quá nhiều sẽ thấy gượng.`,
         theoryEn: `## Cleft Sentences for Emphasis
 
 Cleft sentences **highlight** one element by moving it to the front, typically with **Chính … là …** or **Đó / Đây là …**.
@@ -2094,7 +2094,7 @@ More:
 - **Chính Hà Nội** là quê hương của tôi.
 - **Chính lúc đó** tôi nhận ra sự thật.
 
-### 2. **Đó là / Đây là** — emphasize a topic
+### 2. **Đó là / Đây là** - emphasize a topic
 
 - **Đó là** lý do tôi không đi. (That's the reason I didn't go.)
 - **Đây là** vấn đề chính. (This is the main issue.)
@@ -2120,8 +2120,8 @@ More:
 
 ### Notes
 
-- Cleft sentences make statements **stronger and clearer** — useful in debate or clarification.
-- Don't overuse — too many cleft sentences feel forced.`,
+- Cleft sentences make statements **stronger and clearer** - useful in debate or clarification.
+- Don't overuse - too many cleft sentences feel forced.`,
         vocabulary: [
           { word: "chính", meaning: "đúng là", meaningEn: "exactly / it is", example: "Chính bạn đã nói.", exampleEn: "It was YOU who said it.", partOfSpeech: "adverb" },
           { word: "đó là", meaning: "cái đó là", meaningEn: "that is", example: "Đó là lý do.", exampleEn: "That is the reason.", partOfSpeech: "phrase" },
@@ -2168,11 +2168,11 @@ Hư từ là những từ **không mang nghĩa từ vựng riêng** nhưng giữ
 
 #### 3. Liên từ
 
-- **và, hoặc, nhưng** — đã học ở bài liên từ.
+- **và, hoặc, nhưng** - đã học ở bài liên từ.
 
 #### 4. Ngữ khí từ
 
-- **ạ, nhé, đấy, mà** — đã học ở bài trợ từ.
+- **ạ, nhé, đấy, mà** - đã học ở bài trợ từ.
 
 ### Ví dụ tổng hợp
 
@@ -2223,11 +2223,11 @@ Function words have **no lexical meaning of their own** but play essential gramm
 
 #### 3. Conjunctions
 
-- **và, hoặc, nhưng** — covered in the conjunctions lesson.
+- **và, hoặc, nhưng** - covered in the conjunctions lesson.
 
 #### 4. Sentence particles
 
-- **ạ, nhé, đấy, mà** — covered in the particles lesson.
+- **ạ, nhé, đấy, mà** - covered in the particles lesson.
 
 ### Combined examples
 
@@ -2276,7 +2276,7 @@ Function words have **no lexical meaning of their own** but play essential gramm
       },
       {
         id: "vn-gram-33", title: "Cách dùng 'bao giờ cũng', 'lúc nào cũng'", titleEn: "Always Structures", level: "advanced",
-        theory: `## Cấu trúc 'luôn / mọi' với 'cũng' — Diễn tả tính toàn bộ
+        theory: `## Cấu trúc 'luôn / mọi' với 'cũng' - Diễn tả tính toàn bộ
 
 Tiếng Việt diễn tả **"mọi / tất cả / luôn luôn"** bằng cách ghép **từ hỏi (ai, gì, đâu, bao giờ) + cũng**.
 
@@ -2323,12 +2323,12 @@ Tiếng Việt diễn tả **"mọi / tất cả / luôn luôn"** bằng cách g
 
 - **Bất cứ ai cũng** có thể học tiếng Việt.
 - **Mỗi** ngày tôi học **một chút**, nên **lúc nào cũng** tiến bộ.
-- **Tất cả** mọi người **đều** thích món này — **ai cũng** khen.
+- **Tất cả** mọi người **đều** thích món này - **ai cũng** khen.
 
 ### Lưu ý
 
 - Cấu trúc này rất phổ biến trong giao tiếp hàng ngày.
-- Đừng quên **cũng** — bỏ đi sẽ thành câu hỏi: "Ai đến?" (Who came?) vs "**Ai cũng** đến" (Everyone came).`,
+- Đừng quên **cũng** - bỏ đi sẽ thành câu hỏi: "Ai đến?" (Who came?) vs "**Ai cũng** đến" (Everyone came).`,
         theoryEn: `## 'Always / Every' Structures with cũng
 
 Vietnamese expresses **"every / all / always"** by combining **a question word (ai, gì, đâu, bao giờ) + cũng**.
@@ -2376,12 +2376,12 @@ Vietnamese expresses **"every / all / always"** by combining **a question word (
 
 - **Anyone** can learn Vietnamese.
 - Each day I study a bit, so I'm **always** improving.
-- All people like this dish — **everyone** praises it.
+- All people like this dish - **everyone** praises it.
 
 ### Notes
 
 - This structure is very common in everyday speech.
-- Don't forget **cũng** — without it, it becomes a question: "Ai đến?" (Who came?) vs "**Ai cũng** đến" (Everyone came).`,
+- Don't forget **cũng** - without it, it becomes a question: "Ai đến?" (Who came?) vs "**Ai cũng** đến" (Everyone came).`,
         vocabulary: [
           { word: "cũng", meaning: "cũng, luôn", meaningEn: "also / always (with question word)", example: "Ai cũng thích.", exampleEn: "Everyone likes it.", partOfSpeech: "adverb" },
           { word: "bao giờ cũng", meaning: "lúc nào cũng", meaningEn: "always", example: "Bao giờ cũng vậy.", exampleEn: "Always like that.", partOfSpeech: "phrase" },
@@ -2445,24 +2445,24 @@ Tiếng Việt có **2 thang văn phong** chính: trang trọng (formal) và th�
 
 ### 3. Lỗi văn phong thường gặp
 
-❌ Trong email gửi sếp: "**Ừ** em hiểu rồi." — quá thân mật!
+❌ Trong email gửi sếp: "**Ừ** em hiểu rồi." - quá thân mật!
 ✅ Sửa lại: "**Vâng ạ**, em đã hiểu **rồi ạ**."
 
-❌ Nhắn tin với bạn thân: "**Kính chào quý vị**, mình rảnh." — quá trang trọng!
+❌ Nhắn tin với bạn thân: "**Kính chào quý vị**, mình rảnh." - quá trang trọng!
 ✅ Sửa lại: "**Hi cậu, tớ rảnh nha**!"
 
 ### 4. Mẹo chọn văn phong
 
-- Quan sát đối phương dùng từ gì — dùng tương đương.
+- Quan sát đối phương dùng từ gì - dùng tương đương.
 - Khi không chắc → dùng **trung tính** là an toàn nhất.
 - Với người lớn tuổi → **luôn dùng "ạ"** ở cuối câu.
 - Với người miền Nam → có thể dùng **"dạ"** thay "vâng".
 
 ### 5. Vai trò của các từ "ạ", "thưa", "kính"
 
-- **ạ** — đặt cuối câu, thể hiện tôn trọng: "Vâng **ạ**."
-- **thưa** — mở đầu khi nói với người lớn: "**Thưa** thầy, em xin phép…"
-- **kính** — rất trang trọng: "**Kính gửi** Giám đốc."`,
+- **ạ** - đặt cuối câu, thể hiện tôn trọng: "Vâng **ạ**."
+- **thưa** - mở đầu khi nói với người lớn: "**Thưa** thầy, em xin phép…"
+- **kính** - rất trang trọng: "**Kính gửi** Giám đốc."`,
         theoryEn: `## Formal vs Informal Register
 
 Vietnamese has **two main registers**: formal and informal. Choosing the wrong one can cause misunderstanding or rudeness.
@@ -2504,10 +2504,10 @@ Vietnamese has **two main registers**: formal and informal. Choosing the wrong o
 
 ### 3. Common register mistakes
 
-❌ Email to boss: "**Ừ** em hiểu rồi." — too casual!
+❌ Email to boss: "**Ừ** em hiểu rồi." - too casual!
 ✅ Fix: "**Vâng ạ**, em đã hiểu **rồi ạ**."
 
-❌ Text to close friend: "**Kính chào quý vị**, mình rảnh." — too formal!
+❌ Text to close friend: "**Kính chào quý vị**, mình rảnh." - too formal!
 ✅ Fix: "**Hi cậu, tớ rảnh nha**!"
 
 ### 4. Tips
@@ -2519,9 +2519,9 @@ Vietnamese has **two main registers**: formal and informal. Choosing the wrong o
 
 ### 5. Role of "ạ", "thưa", "kính"
 
-- **ạ** — sentence end, shows respect: "Vâng **ạ**."
-- **thưa** — opening when addressing elders: "**Thưa** thầy, em xin phép…"
-- **kính** — very formal: "**Kính gửi** Giám đốc."`,
+- **ạ** - sentence end, shows respect: "Vâng **ạ**."
+- **thưa** - opening when addressing elders: "**Thưa** thầy, em xin phép…"
+- **kính** - very formal: "**Kính gửi** Giám đốc."`,
         vocabulary: [
           { word: "xin", meaning: "lịch sự, trang trọng", meaningEn: "please (formal)", example: "Xin mời ngồi.", exampleEn: "Please have a seat.", partOfSpeech: "verb" },
           { word: "vâng", meaning: "dạ, có (kính trọng)", meaningEn: "yes (respectful)", example: "Vâng ạ.", exampleEn: "Yes (respectfully).", partOfSpeech: "interjection" },
@@ -2582,7 +2582,7 @@ Vietnamese has **two main registers**: formal and informal. Choosing the wrong o
         id: "vn-gram-16", title: "Cách xin phép và từ chối", titleEn: "Asking Permission & Refusing", level: "beginner",
         theory: `## Xin phép & Từ chối lịch sự
 
-### 1. Xin phép — từ thấp đến cao
+### 1. Xin phép - từ thấp đến cao
 
 | Mức độ | Mẫu câu | Ví dụ |
 |--------|---------|-------|
@@ -2624,7 +2624,7 @@ Cấu trúc: **Xin lỗi** + lý do + **(không thể) được**.
 - Đừng quên thêm **ạ** khi nói với người lớn tuổi / cấp trên.`,
         theoryEn: `## Asking Permission & Polite Refusal
 
-### 1. Asking permission — from casual to formal
+### 1. Asking permission - from casual to formal
 
 | Level | Pattern | Example |
 |-------|---------|---------|
@@ -2719,7 +2719,7 @@ Mua sắm ở chợ Việt Nam thường có **mặc cả** (bargaining). Học 
 - **Quẹt thẻ được không**? *(Can I pay by card?)*
 - **Cho em xin hóa đơn** với. *(May I have a receipt?)*
 
-### 5. Hội thoại mẫu — Mặc cả ở chợ
+### 5. Hội thoại mẫu - Mặc cả ở chợ
 
 > **Khách**: Chị ơi, cái áo này **bao nhiêu tiền** vậy?
 >
@@ -2736,8 +2736,8 @@ Mua sắm ở chợ Việt Nam thường có **mặc cả** (bargaining). Học 
 ### Mẹo mặc cả
 
 1. **Trả giá bằng 50–70% giá ban đầu** ở chợ truyền thống.
-2. **Mỉm cười, vui vẻ** — đừng tỏ ra quá quan tâm.
-3. **Sẵn sàng đi** nếu giá không hợp lý — người bán thường gọi lại.
+2. **Mỉm cười, vui vẻ** - đừng tỏ ra quá quan tâm.
+3. **Sẵn sàng đi** nếu giá không hợp lý - người bán thường gọi lại.
 4. Ở **siêu thị, cửa hàng lớn**: KHÔNG mặc cả, giá đã niêm yết.
 
 ### Từ vựng vùng miền
@@ -2781,7 +2781,7 @@ Shopping at Vietnamese markets often involves **bargaining**. These phrases will
 - **Quẹt thẻ được không**? (Card?)
 - **Cho em xin hóa đơn** với. (Receipt please.)
 
-### 5. Sample dialogue — bargaining at a market
+### 5. Sample dialogue - bargaining at a market
 
 > **Customer**: How much is this shirt?
 >
@@ -2798,8 +2798,8 @@ Shopping at Vietnamese markets often involves **bargaining**. These phrases will
 ### Bargaining tips
 
 1. **Counter at 50–70%** of the original price in traditional markets.
-2. **Smile and be friendly** — don't seem too eager.
-3. **Be willing to walk away** — sellers often call you back.
+2. **Smile and be friendly** - don't seem too eager.
+3. **Be willing to walk away** - sellers often call you back.
 4. **No bargaining** in supermarkets / branded stores.
 
 ### Regional vocabulary
@@ -2835,7 +2835,7 @@ Shopping at Vietnamese markets often involves **bargaining**. These phrases will
 
 Khi đưa ra ý kiến, người Việt thường **làm mềm** câu nói bằng các cụm "theo tôi", "tôi cho rằng" để tránh nghe áp đặt.
 
-### 1. Mở đầu ý kiến — từ nhẹ đến mạnh
+### 1. Mở đầu ý kiến - từ nhẹ đến mạnh
 
 | Mức độ | Cụm từ | Ví dụ |
 |--------|--------|-------|
@@ -2855,7 +2855,7 @@ Khi đưa ra ý kiến, người Việt thường **làm mềm** câu nói bằn
 
 ### 3. Không đồng ý lịch sự
 
-Đừng nói thẳng "sai rồi!" — hãy bắt đầu bằng sự công nhận:
+Đừng nói thẳng "sai rồi!" - hãy bắt đầu bằng sự công nhận:
 
 - **Tôi hiểu ý bạn, nhưng…** *(I see your point, but…)*
 - **Có thể đúng, tuy nhiên…**
@@ -2870,7 +2870,7 @@ Khi đưa ra ý kiến, người Việt thường **làm mềm** câu nói bằn
 - **Sao bạn không** thử nói chuyện với cô ấy?
 - **Theo tôi nên** đi sớm hơn.
 
-### 5. Hội thoại mẫu — Tranh luận lịch sự
+### 5. Hội thoại mẫu - Tranh luận lịch sự
 
 > **A**: **Theo tôi**, chúng ta nên chọn phương án A.
 >
@@ -2881,13 +2881,13 @@ Khi đưa ra ý kiến, người Việt thường **làm mềm** câu nói bằn
 > **B**: **Hay đấy**! **Tôi đồng ý**.
 
 ### Mẹo
-- Người Việt rất coi trọng **giữ thể diện** (face) — tránh phản đối quá thẳng.
+- Người Việt rất coi trọng **giữ thể diện** (face) - tránh phản đối quá thẳng.
 - Khi không chắc, dùng **"có thể", "có lẽ"** để câu mềm mại hơn.`,
         theoryEn: `## Expressing Opinions
 
 When giving opinions, Vietnamese speakers **soften** statements with phrases like "theo tôi" or "tôi cho rằng" to avoid sounding pushy.
 
-### 1. Opening an opinion — soft to strong
+### 1. Opening an opinion - soft to strong
 
 | Level | Phrase | Example |
 |-------|--------|---------|
@@ -2907,7 +2907,7 @@ When giving opinions, Vietnamese speakers **soften** statements with phrases lik
 
 ### 3. Polite disagreement
 
-Don't say "sai rồi!" (you're wrong) — start by acknowledging:
+Don't say "sai rồi!" (you're wrong) - start by acknowledging:
 
 - **Tôi hiểu ý bạn, nhưng…** (I see your point, but…)
 - **Có thể đúng, tuy nhiên…**
@@ -2933,7 +2933,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 > **B**: **Great idea**! **I agree**.
 
 ### Tip
-- Vietnamese culture values **face-saving** — avoid blunt disagreement.
+- Vietnamese culture values **face-saving** - avoid blunt disagreement.
 - Use **"có thể", "có lẽ"** (maybe, perhaps) to soften your tone.`,
         vocabulary: [
           { word: "nghĩ", meaning: "suy nghĩ", meaningEn: "to think", example: "Tôi nghĩ là đúng.", exampleEn: "I think it's correct.", partOfSpeech: "verb" },
@@ -3007,7 +3007,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 
 ### 5. Lưu ý văn hóa
 
-- Không nên nói **"mập / béo"** trực diện với người khác — có thể bị xem là khiếm nhã.
+- Không nên nói **"mập / béo"** trực diện với người khác - có thể bị xem là khiếm nhã.
 - Người Việt thường khen **"trẻ ra"** (looking younger) hoặc **"da đẹp"** (nice skin) khi gặp.
 - **Hỏi tuổi** là bình thường nhưng tránh hỏi cân nặng.`,
         theoryEn: `## Describing Appearance & Personality
@@ -3060,7 +3060,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 
 ### 5. Cultural notes
 
-- Avoid saying **"mập / béo"** directly to others — can be rude.
+- Avoid saying **"mập / béo"** directly to others - can be rude.
 - Vietnamese often compliment **"trẻ ra"** (looking younger) or **"da đẹp"** (nice skin).
 - Asking age is fine; asking weight is not.`,
         vocabulary: [
@@ -3105,7 +3105,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 - **xem tivi / đọc sách** (TV / reading)
 - **đi ngủ** (go to bed)
 
-### 2. Cách diễn tả thói quen — Cấu trúc "thường"
+### 2. Cách diễn tả thói quen - Cấu trúc "thường"
 
 **Chủ ngữ + thường + V + (vào / lúc + thời gian)**
 
@@ -3130,9 +3130,9 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 - Tôi **hiếm khi** ăn đồ ngọt.
 - Tôi **không bao giờ** thức quá 11 giờ đêm.
 
-### 4. Đoạn văn mẫu — Một ngày của tôi
+### 4. Đoạn văn mẫu - Một ngày của tôi
 
-> Một ngày của tôi bắt đầu lúc 6 giờ sáng. Tôi **thường dậy** sớm để **tập thể dục** khoảng 30 phút. Sau đó tôi **đánh răng, tắm rồi ăn sáng** — thường là phở hoặc bánh mì. Lúc 8 giờ tôi **đi làm**. Buổi trưa tôi **ăn cơm văn phòng** và **nghỉ trưa** một chút. Chiều về, tôi **nấu cơm tối** rồi **xem phim** với gia đình. Tôi **thường đi ngủ** lúc 11 giờ.
+> Một ngày của tôi bắt đầu lúc 6 giờ sáng. Tôi **thường dậy** sớm để **tập thể dục** khoảng 30 phút. Sau đó tôi **đánh răng, tắm rồi ăn sáng** - thường là phở hoặc bánh mì. Lúc 8 giờ tôi **đi làm**. Buổi trưa tôi **ăn cơm văn phòng** và **nghỉ trưa** một chút. Chiều về, tôi **nấu cơm tối** rồi **xem phim** với gia đình. Tôi **thường đi ngủ** lúc 11 giờ.
 
 ### 5. Câu hỏi về thói quen
 
@@ -3142,7 +3142,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 
 ### Lưu ý văn hóa
 
-- **Nghỉ trưa** (12h-13h30) là thói quen rất phổ biến ở Việt Nam — kể cả văn phòng.
+- **Nghỉ trưa** (12h-13h30) là thói quen rất phổ biến ở Việt Nam - kể cả văn phòng.
 - Người Việt thường ăn **3 bữa chính** + có thể thêm **bữa xế** (snack).
 - **"Ăn cơm chưa?"** là câu chào hỏi phổ biến, không nhất thiết phải trả lời đầy đủ.`,
         theoryEn: `## Talking About Daily Routines
@@ -3190,9 +3190,9 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 - I **rarely** eat sweets.
 - I **never** stay up past 11 PM.
 
-### 4. Sample paragraph — My day
+### 4. Sample paragraph - My day
 
-> My day starts at 6 AM. I **usually wake up** early to **exercise** for 30 minutes. Then I brush my teeth, shower, and have breakfast — usually pho or banh mi. At 8, I go to work. At noon, I have an office lunch and take a short nap. In the afternoon, I cook dinner and watch a movie with my family. I usually go to bed at 11.
+> My day starts at 6 AM. I **usually wake up** early to **exercise** for 30 minutes. Then I brush my teeth, shower, and have breakfast - usually pho or banh mi. At 8, I go to work. At noon, I have an office lunch and take a short nap. In the afternoon, I cook dinner and watch a movie with my family. I usually go to bed at 11.
 
 ### 5. Questions about routines
 
@@ -3202,9 +3202,9 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 
 ### Cultural notes
 
-- **Afternoon nap** (12-1:30 PM) is very common in Vietnam — even in offices.
+- **Afternoon nap** (12-1:30 PM) is very common in Vietnam - even in offices.
 - Vietnamese typically eat **3 main meals** + an optional **snack (bữa xế)**.
-- **"Ăn cơm chưa?"** (Have you eaten?) is a common greeting — no need for a full answer.`,
+- **"Ăn cơm chưa?"** (Have you eaten?) is a common greeting - no need for a full answer.`,
         vocabulary: [
           { word: "dậy", meaning: "thức dậy", meaningEn: "to wake up / get up", example: "Tôi dậy lúc 6 giờ.", exampleEn: "I wake up at 6.", partOfSpeech: "verb" },
           { word: "ngủ", meaning: "nghỉ ngơi ban đêm", meaningEn: "to sleep", example: "Tôi ngủ lúc 10 giờ.", exampleEn: "I sleep at 10.", partOfSpeech: "verb" },
@@ -3426,7 +3426,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 - **Tiếc quá, mình có hẹn rồi. Hẹn lần sau nhé?**
 - **Cho mình kiểm tra lịch đã**, mình báo lại sau.
 
-### 4. Đặt chỗ — Nhà hàng / Khách sạn
+### 4. Đặt chỗ - Nhà hàng / Khách sạn
 
 - **Cho em đặt bàn** cho 4 người, **lúc 7 giờ tối mai** ạ.
 - **Em muốn đặt phòng** 2 đêm, từ thứ Sáu đến Chủ nhật.
@@ -3442,7 +3442,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 - **Xin lỗi, mình phải hủy** vì có việc gấp.
 - **Cho mình hủy** cuộc hẹn ngày mai được không?
 
-### 6. Hội thoại mẫu — Hẹn cà phê
+### 6. Hội thoại mẫu - Hẹn cà phê
 
 > **A**: Cuối tuần này bạn **có rảnh không**? Mình **hẹn cà phê** nha!
 >
@@ -3503,7 +3503,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 - **Tiếc quá, mình có hẹn rồi. Hẹn lần sau nhé?**
 - **Cho mình kiểm tra lịch đã**, mình báo lại sau.
 
-### 4. Booking — restaurant / hotel
+### 4. Booking - restaurant / hotel
 
 - **Cho em đặt bàn** cho 4 người, **lúc 7 giờ tối mai** ạ.
 - **Em muốn đặt phòng** 2 đêm, từ thứ Sáu đến Chủ nhật.
@@ -3519,7 +3519,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 - **Xin lỗi, mình phải hủy** vì có việc gấp.
 - **Cho mình hủy** cuộc hẹn ngày mai được không?
 
-### 6. Sample dialogue — coffee meet-up
+### 6. Sample dialogue - coffee meet-up
 
 > **A**: Are you free this weekend? Let's grab coffee!
 >
@@ -3548,7 +3548,7 @@ Don't say "sai rồi!" (you're wrong) — start by acknowledging:
 ### Cultural notes
 
 - Vietnamese often **reconfirm** appointments 1 day before.
-- **5-15 min late** is acceptable casually. Work — be **on time**.
+- **5-15 min late** is acceptable casually. Work - be **on time**.
 - If you must cancel, **notify ASAP** to keep trust.`,
         vocabulary: [
           { word: "hẹn", meaning: "đặt lịch gặp", meaningEn: "to make an appointment", example: "Hẹn gặp ngày mai.", exampleEn: "See you tomorrow.", partOfSpeech: "verb" },
@@ -3597,7 +3597,7 @@ Tiếng Việt **không chia động từ**, chỉ thêm dấu hiệu thời gia
 - **sẽ** (future): Tôi **sẽ** kể.
 - **vừa** (just): Tôi **vừa** ăn xong.
 
-### 3. Cấu trúc kể chuyện — 5W1H
+### 3. Cấu trúc kể chuyện - 5W1H
 
 Một câu chuyện hoàn chỉnh nên có:
 
@@ -3608,7 +3608,7 @@ Một câu chuyện hoàn chỉnh nên có:
 - **Tại sao** (why): lý do
 - **Như thế nào** (how): kết quả
 
-### 4. Đoạn văn mẫu — Một kỷ niệm khó quên
+### 4. Đoạn văn mẫu - Một kỷ niệm khó quên
 
 > **Năm tôi 8 tuổi**, có một chuyện xảy ra mà tôi không bao giờ quên. **Hôm đó**, **đầu tiên** tôi và bạn đi học về như thường lệ. **Sau đó**, chúng tôi quyết định đi vòng qua công viên. **Trong khi** đang chơi, **bỗng nhiên** trời nổi gió rồi mưa rất to. Chúng tôi **vội vàng** chạy về nhà nhưng **không kịp**. **Kết quả là** hai đứa ướt như chuột lột! **Cuối cùng**, mẹ phải đến đón. **Kể từ đó**, tôi luôn mang theo ô khi ra đường.
 
@@ -3670,7 +3670,7 @@ A complete story should include:
 - **Why**: reason
 - **How**: outcome
 
-### 4. Sample paragraph — An unforgettable memory
+### 4. Sample paragraph - An unforgettable memory
 
 > When I was 8, something happened that I'll never forget. That day, **first** my friend and I went home from school as usual. **Then** we decided to detour through the park. **While** we were playing, **suddenly** the wind picked up and it rained heavily. We **hurried** home but **didn't make it in time**. **As a result**, we were both soaked! **Finally**, my mom had to pick us up. **Since then**, I always carry an umbrella.
 
@@ -3731,7 +3731,7 @@ A complete story should include:
 - **Bình thường thôi.** *(Just normal.)*
 - **Tôi hơi mệt / hơi ốm.**
 
-### 2. Diễn tả triệu chứng — "Tôi bị + …"
+### 2. Diễn tả triệu chứng - "Tôi bị + …"
 
 **Cấu trúc**: Tôi **bị** + [triệu chứng / bệnh]
 
@@ -3755,7 +3755,7 @@ A complete story should include:
 - **bụng** (stomach), **tay** (hand), **chân** (leg)
 - **răng** (tooth), **họng / cổ họng** (throat)
 
-### 4. Đi khám bác sĩ — Hội thoại mẫu
+### 4. Đi khám bác sĩ - Hội thoại mẫu
 
 > **Bác sĩ**: Chào em, em **bị làm sao**?
 >
@@ -3794,7 +3794,7 @@ A complete story should include:
 
 ### Mẹo văn hóa
 
-- **"Bạn khỏe không?"** là **câu chào hỏi**, không phải hỏi thực sự — chỉ cần trả lời ngắn gọn "Cảm ơn, tôi khỏe".
+- **"Bạn khỏe không?"** là **câu chào hỏi**, không phải hỏi thực sự - chỉ cần trả lời ngắn gọn "Cảm ơn, tôi khỏe".
 - Khi bị ốm, người Việt thường **uống nước cam, ăn cháo** để hồi phục.
 - Thuốc dân gian: **gừng + mật ong** trị cảm, **lá tía tô** giải cảm.`,
         theoryEn: `## Talking About Health
@@ -3810,7 +3810,7 @@ A complete story should include:
 - **Bình thường thôi.** (Just normal.)
 - **Tôi hơi mệt / hơi ốm.** (A bit tired / sick.)
 
-### 2. Symptoms — "Tôi bị + …"
+### 2. Symptoms - "Tôi bị + …"
 
 **Structure**: Tôi **bị** + [symptom / illness]
 
@@ -3834,7 +3834,7 @@ A complete story should include:
 - **bụng** (stomach), **tay** (hand), **chân** (leg)
 - **răng** (tooth), **họng** (throat)
 
-### 4. Doctor's visit — sample dialogue
+### 4. Doctor's visit - sample dialogue
 
 > **Doctor**: Hi, what's wrong?
 >
@@ -3873,7 +3873,7 @@ A complete story should include:
 
 ### Cultural tips
 
-- **"Bạn khỏe không?"** is a **greeting**, not a real question — just reply briefly.
+- **"Bạn khỏe không?"** is a **greeting**, not a real question - just reply briefly.
 - When sick, Vietnamese often **drink orange juice, eat rice porridge (cháo)** to recover.
 - Folk remedies: **ginger + honey** for cold; **perilla leaves (tía tô)** for fever.`,
         vocabulary: [
@@ -3907,7 +3907,7 @@ A complete story should include:
 - **Mai trời nắng hay mưa**?
 - **Có lạnh không**?
 
-### 2. Mẫu câu trả lời — "Trời + tính từ"
+### 2. Mẫu câu trả lời - "Trời + tính từ"
 
 **Cấu trúc**: **Trời** + [tính từ / hiện tượng]
 
@@ -3932,13 +3932,13 @@ A complete story should include:
 
 Việt Nam có khí hậu khác nhau theo vùng:
 
-**Miền Bắc** — 4 mùa rõ rệt:
+**Miền Bắc** - 4 mùa rõ rệt:
 - **Mùa xuân** (Spring, T1-T3): mát, ẩm.
 - **Mùa hè** (Summer, T4-T6): nóng, mưa.
 - **Mùa thu** (Autumn, T7-T9): mát, đẹp nhất năm.
 - **Mùa đông** (Winter, T10-T12): lạnh, có khi rét.
 
-**Miền Nam** — 2 mùa:
+**Miền Nam** - 2 mùa:
 - **Mùa khô** (Dry, T11-T4): nắng nhiều.
 - **Mùa mưa** (Rainy, T5-T10): mưa rào hàng ngày.
 
@@ -3981,7 +3981,7 @@ Việt Nam có khí hậu khác nhau theo vùng:
 ### Lưu ý
 
 - Khi gặp người Việt, **bình luận về thời tiết** là cách bắt chuyện rất tự nhiên.
-- Người Bắc rất nhạy cảm với **"trở trời"** (weather change) — thường bị đau đầu, ốm khi giao mùa.`,
+- Người Bắc rất nhạy cảm với **"trở trời"** (weather change) - thường bị đau đầu, ốm khi giao mùa.`,
         theoryEn: `## Talking About Weather
 
 ### 1. Asking about weather
@@ -3991,7 +3991,7 @@ Việt Nam có khí hậu khác nhau theo vùng:
 - **Mai trời nắng hay mưa**?
 - **Có lạnh không**?
 
-### 2. Reply pattern — "Trời + adjective"
+### 2. Reply pattern - "Trời + adjective"
 
 **Structure**: **Trời** + [adjective / phenomenon]
 
@@ -4016,13 +4016,13 @@ Việt Nam có khí hậu khác nhau theo vùng:
 
 Vietnam has different climates by region:
 
-**North** — 4 distinct seasons:
+**North** - 4 distinct seasons:
 - **Spring** (Jan-Mar): cool, humid.
 - **Summer** (Apr-Jun): hot, rainy.
 - **Autumn** (Jul-Sep): cool, the most beautiful season.
 - **Winter** (Oct-Dec): cold, sometimes very cold.
 
-**South** — 2 seasons:
+**South** - 2 seasons:
 - **Dry** (Nov-Apr): sunny.
 - **Rainy** (May-Oct): daily showers.
 
@@ -4065,7 +4065,7 @@ Vietnam has different climates by region:
 ### Notes
 
 - Commenting on the weather is a natural conversation starter in Vietnamese.
-- Northern Vietnamese are sensitive to **"trở trời"** (weather changes) — often get headaches at the change of seasons.`,
+- Northern Vietnamese are sensitive to **"trở trời"** (weather changes) - often get headaches at the change of seasons.`,
         vocabulary: [
           { word: "nóng", meaning: "nhiệt độ cao", meaningEn: "hot", example: "Trời nóng quá!", exampleEn: "It's so hot!", partOfSpeech: "adjective" },
           { word: "lạnh", meaning: "nhiệt độ thấp", meaningEn: "cold", example: "Mùa đông lạnh.", exampleEn: "Winter is cold.", partOfSpeech: "adjective" },

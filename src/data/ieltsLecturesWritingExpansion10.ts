@@ -9,22 +9,22 @@ import type { IeltsLecture } from "./ieltsLecturesData";
 const writingExpansion10: IeltsLecture[] = [
   {
     id: "writing-task2-3-layer-paragraph",
-    title: "Task 2 — The 3-Layer Paragraph (Idea • Evidence • Echo)",
-    titleVi: "Task 2 — Đoạn văn 3 lớp (Ý • Bằng chứng • Vọng lại)",
+    title: "Task 2 - The 3-Layer Paragraph (Idea • Evidence • Echo)",
+    titleVi: "Task 2 - Đoạn văn 3 lớp (Ý • Bằng chứng • Vọng lại)",
     pillar: "skill-based",
     skill: "writing",
     icon: "🧱",
     duration: "18 min",
     level: "intermediate",
     description:
-      "Most Band 6 essays die in the body paragraphs. The 3-Layer formula — Idea (topic sentence) + Evidence (real example) + Echo (link back to thesis) — is the simplest path from Band 6.5 to Band 7.5.",
+      "Most Band 6 essays die in the body paragraphs. The 3-Layer formula - Idea (topic sentence) + Evidence (real example) + Echo (link back to thesis) - is the simplest path from Band 6.5 to Band 7.5.",
     descriptionVi:
-      "Đa số bài Band 6 chết ở đoạn thân. Công thức 3 LỚP — Ý (câu chủ đề) + Bằng chứng (ví dụ thực) + Vọng lại (móc nối luận đề) — là đường ngắn nhất từ 6.5 lên 7.5.",
+      "Đa số bài Band 6 chết ở đoạn thân. Công thức 3 LỚP - Ý (câu chủ đề) + Bằng chứng (ví dụ thực) + Vọng lại (móc nối luận đề) - là đường ngắn nhất từ 6.5 lên 7.5.",
     strategySteps: [
       {
         step: 1,
-        title: "IDEA — write a fortune-cookie topic sentence",
-        titleVi: "IDEA — viết câu chủ đề kiểu 'fortune cookie'",
+        title: "IDEA - write a fortune-cookie topic sentence",
+        titleVi: "IDEA - viết câu chủ đề kiểu 'fortune cookie'",
         description:
           "One sentence, one big idea, no examples yet. Punchy. 15-22 words max.",
         descriptionVi:
@@ -33,8 +33,8 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         step: 2,
-        title: "EVIDENCE — anchor with a concrete case",
-        titleVi: "EVIDENCE — neo bằng ví dụ cụ thể",
+        title: "EVIDENCE - anchor with a concrete case",
+        titleVi: "EVIDENCE - neo bằng ví dụ cụ thể",
         description:
           "Real city, year, or statistic. Vague 'many studies show' = Band 5.",
         descriptionVi:
@@ -44,8 +44,8 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         step: 3,
-        title: "EXPLAIN — connect cause-effect in 1 sentence",
-        titleVi: "EXPLAIN — nối nguyên nhân-kết quả 1 câu",
+        title: "EXPLAIN - connect cause-effect in 1 sentence",
+        titleVi: "EXPLAIN - nối nguyên nhân-kết quả 1 câu",
         description:
           "Why does this evidence prove your point? One because/which/so clause.",
         descriptionVi:
@@ -53,8 +53,8 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         step: 4,
-        title: "ECHO — restate the thesis in fresh words",
-        titleVi: "ECHO — nhắc lại luận đề bằng cách diễn đạt khác",
+        title: "ECHO - restate the thesis in fresh words",
+        titleVi: "ECHO - nhắc lại luận đề bằng cách diễn đạt khác",
         description:
           "End the paragraph by 'echoing' your thesis from a new angle. This is the Coherence sealant.",
         descriptionVi:
@@ -80,8 +80,8 @@ const writingExpansion10: IeltsLecture[] = [
         context: "Prompt: Governments should ban smoking in public places. To what extent do you agree?",
         contextVi: "Đề: Chính phủ nên cấm hút thuốc ở nơi công cộng. Bạn đồng ý ở mức nào?",
         example:
-          "Body 1:\n[IDEA] A public smoking ban is the most effective way to protect non-smokers from involuntary harm.\n[EVIDENCE] After Finland banned smoking in restaurants in 2007, hospital admissions for childhood asthma dropped by 14% within five years.\n[EXPLAIN] Children are biologically more vulnerable to passive smoke, making the policy a direct child-health intervention.\n[ECHO] Ultimately, the case for a ban rests on a simple truth — one person's habit must not become another's health risk.",
-        explanation: "Notice the ECHO line works almost as a stand-alone tweet — that's Band 8 style.",
+          "Body 1:\n[IDEA] A public smoking ban is the most effective way to protect non-smokers from involuntary harm.\n[EVIDENCE] After Finland banned smoking in restaurants in 2007, hospital admissions for childhood asthma dropped by 14% within five years.\n[EXPLAIN] Children are biologically more vulnerable to passive smoke, making the policy a direct child-health intervention.\n[ECHO] Ultimately, the case for a ban rests on a simple truth - one person's habit must not become another's health risk.",
+        explanation: "Notice the ECHO line works almost as a stand-alone tweet - that's Band 8 style.",
       },
     ],
     mistakesToAvoid: [
@@ -94,8 +94,8 @@ const writingExpansion10: IeltsLecture[] = [
       {
         mistake: "Skipping the EVIDENCE layer",
         mistakeVi: "Bỏ qua lớp EVIDENCE",
-        why: "Without a concrete case, the argument stays abstract — Task Response caps at Band 6.",
-        whyVi: "Không có ví dụ cụ thể, lập luận vẫn trừu tượng — Task Response giới hạn Band 6.",
+        why: "Without a concrete case, the argument stays abstract - Task Response caps at Band 6.",
+        whyVi: "Không có ví dụ cụ thể, lập luận vẫn trừu tượng - Task Response giới hạn Band 6.",
       },
     ],
     goldenSecret:
@@ -122,12 +122,12 @@ const writingExpansion10: IeltsLecture[] = [
         question: "Why is 'many studies show' Band 5 evidence?",
         options: [
           "It's grammatically wrong.",
-          "It's vague — no specific source, city, or stat to verify.",
+          "It's vague - no specific source, city, or stat to verify.",
           "It's too long.",
           "It's slang.",
         ],
         answer: 1,
-        explanation: "IELTS rewards specificity — a real city, year, or figure scores higher.",
+        explanation: "IELTS rewards specificity - a real city, year, or figure scores higher.",
       },
       {
         question: "What is the role of the ECHO line?",
@@ -142,7 +142,7 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         question: "How many ideas should one paragraph contain?",
-        options: ["At least 3", "Exactly 1 main idea", "As many as possible", "0 — leave it open"],
+        options: ["At least 3", "Exactly 1 main idea", "As many as possible", "0 - leave it open"],
         answer: 1,
         explanation: "One paragraph = one idea = Coherence Band 7+.",
       },
@@ -171,7 +171,7 @@ const writingExpansion10: IeltsLecture[] = [
     ],
     cheatSheetPoints: [
       "IDEA = 1 punchy 15-22 word topic sentence",
-      "EVIDENCE = real city/year/% — no vague 'many studies'",
+      "EVIDENCE = real city/year/% - no vague 'many studies'",
       "EXPLAIN = one because/which/so clause",
       "ECHO = restate the thesis in fresh words",
       "One paragraph = one idea (no 'and also')",
@@ -181,8 +181,8 @@ const writingExpansion10: IeltsLecture[] = [
 
   {
     id: "writing-task1-storytelling-numbers",
-    title: "Task 1 — Storytelling With Numbers",
-    titleVi: "Task 1 — Kể chuyện bằng con số",
+    title: "Task 1 - Storytelling With Numbers",
+    titleVi: "Task 1 - Kể chuyện bằng con số",
     pillar: "skill-based",
     skill: "writing",
     icon: "📊",
@@ -235,7 +235,7 @@ const writingExpansion10: IeltsLecture[] = [
         context: "Line chart: sales of e-books, paperbacks and hardcovers 2010-2023",
         contextVi: "Biểu đồ đường: doanh số e-book, sách bìa mềm và bìa cứng 2010-2023",
         example:
-          "Overview: 'Overall, e-book sales surged to become the dominant format, while hardcovers bucked the trend by remaining surprisingly stable.'\nBody 1 (hero): 'E-books rose almost five-fold, climbing from 12 million in 2010 to a peak of 58 million in 2020, before settling at around 54 million by 2023.'\nBody 2 (sidekick + twist): 'In contrast, paperbacks slid steadily from 70 to 42 million. Hardcovers, however, defied the digital shift and ended the period at 21 million — almost identical to their 2010 figure.'",
+          "Overview: 'Overall, e-book sales surged to become the dominant format, while hardcovers bucked the trend by remaining surprisingly stable.'\nBody 1 (hero): 'E-books rose almost five-fold, climbing from 12 million in 2010 to a peak of 58 million in 2020, before settling at around 54 million by 2023.'\nBody 2 (sidekick + twist): 'In contrast, paperbacks slid steadily from 70 to 42 million. Hardcovers, however, defied the digital shift and ended the period at 21 million - almost identical to their 2010 figure.'",
         explanation: "Hero (e-books) gets the arc, sidekick (paperbacks) the decline, twist (hardcovers) closes the report.",
       },
       {
@@ -244,7 +244,7 @@ const writingExpansion10: IeltsLecture[] = [
         example:
           "Overview: 'Overall, smart device ownership grew in every country, yet Vietnam saw the most dramatic leap, whereas Japan barely moved.'\nBody (twist): 'Most strikingly, Vietnamese households nearly tripled their ownership, jumping from 18% to 53%. By contrast, Japan, already at 71% in 2015, edged up only 4 points, hinting at market saturation.'",
         explanation:
-          "'Market saturation' is a Band 8 inference — interpreting the twist, not just describing it.",
+          "'Market saturation' is a Band 8 inference - interpreting the twist, not just describing it.",
       },
     ],
     mistakesToAvoid: [
@@ -279,7 +279,7 @@ const writingExpansion10: IeltsLecture[] = [
         question: "What does the 'hero / sidekick / twist' casting mean?",
         options: [
           "Three different essays",
-          "Biggest mover / second mover / outlier — used to structure the report",
+          "Biggest mover / second mover / outlier - used to structure the report",
           "Three writing styles",
           "Three different fonts",
         ],
@@ -288,7 +288,7 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         question: "Should the overview include exact numbers?",
-        options: ["Yes always", "No — keep numbers for body paragraphs", "Only in line charts", "Only percentages"],
+        options: ["Yes always", "No - keep numbers for body paragraphs", "Only in line charts", "Only percentages"],
         answer: 1,
         explanation: "Overview names the biggest trends; figures go in body paragraphs.",
       },
@@ -312,11 +312,11 @@ const writingExpansion10: IeltsLecture[] = [
           "The chart shows growth.",
         ],
         answer: 1,
-        explanation: "Adding 'hinting at market saturation' interprets the data — Band 8 move.",
+        explanation: "Adding 'hinting at market saturation' interprets the data - Band 8 move.",
       },
       {
         question: "What is the recommended planning time before writing?",
-        options: ["0 minutes — just write", "1 minute to cast roles", "5 minutes outlining each number", "10 minutes drafting in your head"],
+        options: ["0 minutes - just write", "1 minute to cast roles", "5 minutes outlining each number", "10 minutes drafting in your head"],
         answer: 1,
         explanation: "One minute of role casting saves time and lifts the band by half.",
       },
@@ -338,28 +338,28 @@ const writingExpansion10: IeltsLecture[] = [
       "Body 1 = hero arc with 3-4 figures + 1 superlative",
       "Body 2 = sidekick decline + twist contrast",
       "Rotate verbs: surged, climbed, edged up, plateaued, defied",
-      "Spend 1 minute planning — worth half a band",
+      "Spend 1 minute planning - worth half a band",
     ],
   },
 
   {
     id: "writing-task2-vn-learner-traps",
-    title: "Task 2 — 7 Traps Vietnamese Learners Fall Into",
-    titleVi: "Task 2 — 7 cái bẫy người học Việt hay mắc",
+    title: "Task 2 - 7 Traps Vietnamese Learners Fall Into",
+    titleVi: "Task 2 - 7 cái bẫy người học Việt hay mắc",
     pillar: "skill-based",
     skill: "writing",
     icon: "🪤",
     duration: "20 min",
     level: "intermediate",
     description:
-      "A diagnostic lecture: the seven most common Band 6.0 ceilings for Vietnamese learners — direct translation, overusing 'in my opinion', plural mistakes, missing articles, and more. Each trap comes with the upgrade.",
+      "A diagnostic lecture: the seven most common Band 6.0 ceilings for Vietnamese learners - direct translation, overusing 'in my opinion', plural mistakes, missing articles, and more. Each trap comes with the upgrade.",
     descriptionVi:
-      "Bài giảng chẩn đoán: 7 trần Band 6.0 phổ biến nhất của người Việt — dịch trực tiếp, lạm dụng 'in my opinion', sai số nhiều, thiếu mạo từ, và hơn thế. Mỗi bẫy có sẵn cách nâng cấp.",
+      "Bài giảng chẩn đoán: 7 trần Band 6.0 phổ biến nhất của người Việt - dịch trực tiếp, lạm dụng 'in my opinion', sai số nhiều, thiếu mạo từ, và hơn thế. Mỗi bẫy có sẵn cách nâng cấp.",
     strategySteps: [
       {
         step: 1,
-        title: "Trap 1 — Direct translation from Vietnamese",
-        titleVi: "Bẫy 1 — Dịch trực tiếp từ tiếng Việt",
+        title: "Trap 1 - Direct translation from Vietnamese",
+        titleVi: "Bẫy 1 - Dịch trực tiếp từ tiếng Việt",
         description:
           "'Tôi nghĩ rằng…' → 'I think that…' lặp lại 5 lần. Upgrade: 'From my perspective,…', 'My view is that,…', 'It seems to me that,…'.",
         descriptionVi:
@@ -367,8 +367,8 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         step: 2,
-        title: "Trap 2 — Missing articles (a/an/the)",
-        titleVi: "Bẫy 2 — Thiếu mạo từ (a/an/the)",
+        title: "Trap 2 - Missing articles (a/an/the)",
+        titleVi: "Bẫy 2 - Thiếu mạo từ (a/an/the)",
         description:
           "Vietnamese has no articles. Audit every noun: 'Government should…' → 'The government should…'.",
         descriptionVi:
@@ -376,17 +376,17 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         step: 3,
-        title: "Trap 3 — Plural slips with uncountable nouns",
-        titleVi: "Bẫy 3 — Sai số nhiều ở danh từ không đếm được",
+        title: "Trap 3 - Plural slips with uncountable nouns",
+        titleVi: "Bẫy 3 - Sai số nhiều ở danh từ không đếm được",
         description:
-          "'Informations', 'advices', 'researches', 'equipments' — all WRONG. Memorise the top 10 uncountables.",
+          "'Informations', 'advices', 'researches', 'equipments' - all WRONG. Memorise the top 10 uncountables.",
         descriptionVi:
-          "'Informations', 'advices', 'researches', 'equipments' — đều SAI. Học thuộc top 10 từ không đếm được.",
+          "'Informations', 'advices', 'researches', 'equipments' - đều SAI. Học thuộc top 10 từ không đếm được.",
       },
       {
         step: 4,
-        title: "Trap 4 — 'Very' and 'so' instead of strong adjectives",
-        titleVi: "Bẫy 4 — 'Very/so' thay vì tính từ mạnh",
+        title: "Trap 4 - 'Very' and 'so' instead of strong adjectives",
+        titleVi: "Bẫy 4 - 'Very/so' thay vì tính từ mạnh",
         description:
           "'Very important' → 'crucial'. 'Very bad' → 'detrimental'. 'So big' → 'substantial'.",
         descriptionVi:
@@ -394,8 +394,8 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         step: 5,
-        title: "Trap 5 — Robotic 'Firstly, Secondly, Thirdly'",
-        titleVi: "Bẫy 5 — 'Firstly/Secondly/Thirdly' máy móc",
+        title: "Trap 5 - Robotic 'Firstly, Secondly, Thirdly'",
+        titleVi: "Bẫy 5 - 'Firstly/Secondly/Thirdly' máy móc",
         description:
           "Replace with 'To begin with,…', 'Equally important,…', 'Most crucially,…'.",
         descriptionVi:
@@ -403,8 +403,8 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         step: 6,
-        title: "Trap 6 — Subject-verb agreement under long noun phrases",
-        titleVi: "Bẫy 6 — Hợp số chủ-động khi danh từ dài",
+        title: "Trap 6 - Subject-verb agreement under long noun phrases",
+        titleVi: "Bẫy 6 - Hợp số chủ-động khi danh từ dài",
         description:
           "'The number of students are…' → 'The number of students IS…'. Always identify the head noun.",
         descriptionVi:
@@ -412,8 +412,8 @@ const writingExpansion10: IeltsLecture[] = [
       },
       {
         step: 7,
-        title: "Trap 7 — Word-by-word collocation",
-        titleVi: "Bẫy 7 — Dịch collocation từng từ",
+        title: "Trap 7 - Word-by-word collocation",
+        titleVi: "Bẫy 7 - Dịch collocation từng từ",
         description:
           "'Make a research' → 'conduct research'. 'Take a decision' → 'make a decision'. Learn 20 academic collocations.",
         descriptionVi:
@@ -458,9 +458,9 @@ const writingExpansion10: IeltsLecture[] = [
       },
     ],
     goldenSecret:
-      "Print these 7 traps and stick them on your wall. Tick one off per practice essay until you've cleared all 7 — usually 2 weeks. Your band will jump from 6.0 to 7.0 just by removing leaks.",
+      "Print these 7 traps and stick them on your wall. Tick one off per practice essay until you've cleared all 7 - usually 2 weeks. Your band will jump from 6.0 to 7.0 just by removing leaks.",
     goldenSecretVi:
-      "In 7 cái bẫy này và dán lên tường. Tick từng bẫy sau mỗi bài luyện tới khi loại xong cả 7 — thường 2 tuần. Band sẽ nhảy từ 6.0 lên 7.0 chỉ bằng việc bịt lỗ rò.",
+      "In 7 cái bẫy này và dán lên tường. Tick từng bẫy sau mỗi bài luyện tới khi loại xong cả 7 - thường 2 tuần. Band sẽ nhảy từ 6.0 lên 7.0 chỉ bằng việc bịt lỗ rò.",
     vocabHighlights: [
       { word: "from my perspective", definition: "stating opinion academically", definitionVi: "theo quan điểm của tôi", example: "From my perspective, the policy is flawed.", band: "7.0" },
       { word: "crucial", definition: "extremely important", definitionVi: "thiết yếu", example: "Public transport is crucial.", band: "7.0" },
@@ -481,7 +481,7 @@ const writingExpansion10: IeltsLecture[] = [
         question: "Which of these is the correct uncountable form?",
         options: ["Informations", "Advices", "Equipments", "Research"],
         answer: 3,
-        explanation: "'Research' is uncountable — no -s. Same with information, advice, equipment.",
+        explanation: "'Research' is uncountable - no -s. Same with information, advice, equipment.",
       },
       {
         question: "Fix this sentence: 'The number of students are increasing.'",
@@ -527,10 +527,10 @@ const writingExpansion10: IeltsLecture[] = [
       "Audit articles (a/an/the) on EVERY noun",
       "Uncountables: information, advice, research, equipment (no -s)",
       "Replace 'very + adj' with one strong word (crucial, detrimental)",
-      "Rotate linkers — never 'Firstly/Secondly/Thirdly' twice",
+      "Rotate linkers - never 'Firstly/Secondly/Thirdly' twice",
       "Use 'conduct research', 'make a decision', 'pose a threat'",
       "Identify the head noun for subject-verb agreement",
-      "Tick off one trap per practice essay — clear all 7 in 2 weeks",
+      "Tick off one trap per practice essay - clear all 7 in 2 weeks",
     ],
   },
 ];

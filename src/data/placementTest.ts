@@ -1,6 +1,6 @@
 /**
  * @file placementTest.ts
- * @description 40-question CEFR placement test bank — scoped to A1 → B2.
+ * @description 40-question CEFR placement test bank - scoped to A1 → B2.
  *
  * Difficulty design:
  *   • A1 starts at functional sentences, NOT single words (e.g. avoid "An apple.")
@@ -125,25 +125,25 @@ export type PlacementQuestion =
   | SpeakReadAloudQ | SpeakReplyQ | SpeakPresentQ;
 
 export const PLACEMENT_TEST: PlacementQuestion[] = [
-  /* ───── Listening 12 — A1 → B2, mixed formats from the start ───── */
+  /* ───── Listening 12 - A1 → B2, mixed formats from the start ───── */
 
-  // Q1 — A1 image, but a full sentence (not one word)
+  // Q1 - A1 image, but a full sentence (not one word)
   { id: 1, skill: "listening", cefr: "A1", type: "listen-image",
     prompt: "Listen to the sentence. What is the person holding?",
-    audioText: "Look — the little girl is holding a red apple in her hand.",
+    audioText: "Look - the little girl is holding a red apple in her hand.",
     correct: 0,
     options: [
       { emoji: "🍎", label: "A red apple" }, { emoji: "🍌", label: "A banana" },
       { emoji: "🥪", label: "A sandwich" }, { emoji: "📕", label: "A red book" },
     ]},
 
-  // Q2 — A1 MCQ on numbers (mixed format already at question 2)
+  // Q2 - A1 MCQ on numbers (mixed format already at question 2)
   { id: 2, skill: "listening", cefr: "A1", type: "listen-mcq",
     prompt: "How old is Minh's brother?",
     audioText: "Hi, I'm Minh. I am twelve years old and my younger brother is nine.",
     options: ["7", "9", "12", "19"], correct: 1 },
 
-  // Q3 — A1 image (location)
+  // Q3 - A1 image (location)
   { id: 3, skill: "listening", cefr: "A1", type: "listen-image",
     prompt: "Where is the cat?",
     audioText: "The black cat is sleeping under the kitchen table.",
@@ -153,25 +153,25 @@ export const PLACEMENT_TEST: PlacementQuestion[] = [
       { emoji: "🍽️", label: "Under the table" }, { emoji: "🚪", label: "Near the door" },
     ]},
 
-  // Q4 — A2 MCQ time / schedule
+  // Q4 - A2 MCQ time / schedule
   { id: 4, skill: "listening", cefr: "A2", type: "listen-mcq",
     prompt: "What time does the English class start tomorrow?",
-    audioText: "Just a reminder — tomorrow's English class is at quarter past eight, not at eight thirty.",
+    audioText: "Just a reminder - tomorrow's English class is at quarter past eight, not at eight thirty.",
     options: ["8:00", "8:15", "8:30", "8:45"], correct: 1 },
 
-  // Q5 — A2 image (weather + activity)
+  // Q5 - A2 image (weather + activity)
   { id: 5, skill: "listening", cefr: "A2", type: "listen-image",
     prompt: "What is the weather like, and what does she take?",
     audioText: "It's raining outside, so Lan is taking her umbrella to school.",
     correct: 1,
     options: [
-      { emoji: "☀️🕶️", label: "Sunny — sunglasses" },
-      { emoji: "🌧️☂️", label: "Rainy — umbrella" },
-      { emoji: "❄️🧤", label: "Snowy — gloves" },
-      { emoji: "🌬️🧣", label: "Windy — scarf" },
+      { emoji: "☀️🕶️", label: "Sunny - sunglasses" },
+      { emoji: "🌧️☂️", label: "Rainy - umbrella" },
+      { emoji: "❄️🧤", label: "Snowy - gloves" },
+      { emoji: "🌬️🧣", label: "Windy - scarf" },
     ]},
 
-  // Q6 — A2 short conversation MCQ
+  // Q6 - A2 short conversation MCQ
   { id: 6, skill: "listening", cefr: "A2", type: "listen-mcq",
     prompt: "What does the woman order?",
     audioText: "Waiter: Are you ready to order? Woman: Yes, I'll have a chicken sandwich and an orange juice, please. No coffee today.",
@@ -181,34 +181,34 @@ export const PLACEMENT_TEST: PlacementQuestion[] = [
       "Tea and a salad",
       "Just an orange juice"], correct: 1 },
 
-  // Q7 — B1 MCQ (meeting change — reason)
+  // Q7 - B1 MCQ (meeting change - reason)
   { id: 7, skill: "listening", cefr: "B1", type: "listen-mcq",
     prompt: "Why was the meeting moved?",
-    audioText: "Hi team — the marketing review has been pushed from three to four thirty because the client's flight is delayed.",
+    audioText: "Hi team - the marketing review has been pushed from three to four thirty because the client's flight is delayed.",
     options: [
       "The room was double-booked",
       "The client's flight is delayed",
       "The manager is sick",
       "The slides are not ready"], correct: 1 },
 
-  // Q8 — B1 MCQ (apology / inference)
+  // Q8 - B1 MCQ (apology / inference)
   { id: 8, skill: "listening", cefr: "B1", type: "listen-mcq",
     prompt: "Why is the speaker apologising?",
-    audioText: "I'm really sorry I'm late — there was an accident on the highway and traffic was completely stopped for almost twenty minutes.",
+    audioText: "I'm really sorry I'm late - there was an accident on the highway and traffic was completely stopped for almost twenty minutes.",
     options: [
       "He forgot the meeting",
       "Traffic was blocked by an accident",
       "His car broke down",
       "He overslept"], correct: 1 },
 
-  // Q9 — B1 short dictation
+  // Q9 - B1 short dictation
   { id: 9, skill: "listening", cefr: "B1", type: "listen-dictation",
     prompt: "Listen and fill in the missing words.",
     audioText: "My sister usually goes to the gym three times a week after work.",
     template: "My sister usually goes to the ___ three times a ___ after ___.",
     blanks: ["gym", "week", "work"] },
 
-  // Q10 — B2 MCQ (announcement, main idea)
+  // Q10 - B2 MCQ (announcement, main idea)
   { id: 10, skill: "listening", cefr: "B2", type: "listen-mcq",
     prompt: "What is the main point of the announcement?",
     audioText: "We're upgrading the office network this Saturday, so please save your work and log out before six PM on Friday to avoid losing files.",
@@ -218,7 +218,7 @@ export const PLACEMENT_TEST: PlacementQuestion[] = [
       "The office will close for the weekend",
       "A team-building event is on Saturday"], correct: 1 },
 
-  // Q11 — B2 MCQ (recommendation / nuance)
+  // Q11 - B2 MCQ (recommendation / nuance)
   { id: 11, skill: "listening", cefr: "B2", type: "listen-mcq",
     prompt: "What does the speaker recommend?",
     audioText: "Although the report is comprehensive, I'd suggest tightening the conclusion and adding two more charts before sending it to the client.",
@@ -228,20 +228,20 @@ export const PLACEMENT_TEST: PlacementQuestion[] = [
       "Shorten the conclusion and add more charts",
       "Replace the existing charts"], correct: 2 },
 
-  // Q12 — B2 dictation
+  // Q12 - B2 dictation
   { id: 12, skill: "listening", cefr: "B2", type: "listen-dictation",
     prompt: "Listen and fill in the missing words.",
     audioText: "Reading regularly helps students develop critical thinking and a wider vocabulary.",
     template: "Reading regularly helps students develop ___ thinking and a wider ___.",
     blanks: ["critical", "vocabulary"] },
 
-  /* ───── Reading 16 — A1 → B2 ───── */
+  /* ───── Reading 16 - A1 → B2 ───── */
   { id: 13, skill: "reading", cefr: "A1", type: "read-mcq",
     prompt: "She ___ a teacher.",
     options: ["am", "is", "are", "be"], correct: 1 },
   { id: 14, skill: "reading", cefr: "A1", type: "read-mcq",
     prompt: "I have ___ apple every morning.",
-    options: ["a", "an", "the", "—"], correct: 1 },
+    options: ["a", "an", "the", "-"], correct: 1 },
   { id: 15, skill: "reading", cefr: "A2", type: "read-mcq",
     prompt: "They ___ to Da Nang last summer.",
     options: ["go", "going", "went", "gone"], correct: 2 },
@@ -320,7 +320,7 @@ export const PLACEMENT_TEST: PlacementQuestion[] = [
       "Prep courses are unavailable to most students"], correct: 1 },
   { id: 28, skill: "reading", cefr: "B2", type: "read-analytical",
     prompt: "Which conclusion is best supported by the passage?",
-    passage: "The spread of AI image and writing tools has worried many creative workers, much as the camera once worried painters. Yet history suggests that each new medium expands rather than shrinks creative work — provided artists learn to use the new tools instead of only resisting them. Those who flourish treat the technology as a collaborator, not a competitor.",
+    passage: "The spread of AI image and writing tools has worried many creative workers, much as the camera once worried painters. Yet history suggests that each new medium expands rather than shrinks creative work - provided artists learn to use the new tools instead of only resisting them. Those who flourish treat the technology as a collaborator, not a competitor.",
     options: [
       "AI will inevitably end creative professions",
       "Artists who adapt to new tools tend to thrive in technological shifts",

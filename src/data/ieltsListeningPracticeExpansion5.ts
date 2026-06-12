@@ -1,6 +1,6 @@
 /**
  * @file ieltsListeningPracticeExpansion5.ts
- * @description Wave 5 — 4 new IELTS Listening practice sets (one per
+ * @description Wave 5 - 4 new IELTS Listening practice sets (one per
  * official section). Scripts use natural speaker tags + short sentences
  * for stable TTS pacing. Answers verified against transcripts.
  *
@@ -10,7 +10,7 @@ import type { ListeningPracticeSet } from "./ieltsListeningPractice";
 
 export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
   // ============================================================
-  // Section 1 — Form Completion (Library membership)
+  // Section 1 - Form Completion (Library membership)
   // ============================================================
   {
     id: "form-library-membership",
@@ -28,7 +28,7 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
       "Caller: Yes. It's Sophia Bennett. That's B-E-N-N-E-T-T.\n" +
       "Librarian: Thank you. And your date of birth?\n" +
       "Caller: The twelfth of August, nineteen ninety-eight.\n" +
-      "Librarian: We offer three membership types — Basic, Standard and Premium. Which one would you like?\n" +
+      "Librarian: We offer three membership types - Basic, Standard and Premium. Which one would you like?\n" +
       "Caller: I'll take the Standard one, please. What does it include?\n" +
       "Librarian: Standard gives you up to eight books at a time, plus free access to our online journal database. The annual fee is just fifteen pounds.\n" +
       "Caller: That sounds good.\n" +
@@ -37,7 +37,7 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
       "Librarian: And a contact number?\n" +
       "Caller: My mobile is 0-7-7-1-2, double-four, eight-five-nine.\n" +
       "Librarian: Lovely. Finally, would you like to opt in to our weekly newsletter?\n" +
-      "Caller: Yes please — and could you also book me onto the Saturday morning book club?",
+      "Caller: Yes please - and could you also book me onto the Saturday morning book club?",
     rate: 0.85,
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Bennett" },
@@ -54,7 +54,7 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // Section 2 — Multiple Choice (Community garden tour)
+  // Section 2 - Multiple Choice (Community garden tour)
   // ============================================================
   {
     id: "monologue-community-garden",
@@ -68,11 +68,11 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
     transcript:
       "Hello everyone, and welcome to the Riverside Community Garden. My name's Aiden, and I'll be your guide for the next forty-five minutes.\n" +
       "A quick bit of history: the garden was opened in two thousand and eleven on land that was once a derelict car park. Today it's run entirely by local volunteers.\n" +
-      "Before we start the tour, a few practical points. Please feel free to take photographs anywhere except inside the greenhouse — the strong light from camera flashes can damage our young seedlings.\n" +
+      "Before we start the tour, a few practical points. Please feel free to take photographs anywhere except inside the greenhouse - the strong light from camera flashes can damage our young seedlings.\n" +
       "The toilets are at the back of the visitor centre, just past the small café.\n" +
-      "Speaking of the café — it's open until four today, and all the cakes are baked by our volunteers using ingredients grown right here.\n" +
+      "Speaking of the café - it's open until four today, and all the cakes are baked by our volunteers using ingredients grown right here.\n" +
       "If you'd like to take part in something hands-on, we run a free weekly workshop. This week's topic is composting, and it starts at two o'clock in the main shed.\n" +
-      "Finally, every visitor today is welcome to take home a small bag of free herbs from the basket near the exit — but please don't pick anything yourself from the beds.",
+      "Finally, every visitor today is welcome to take home a small bag of free herbs from the basket near the exit - but please don't pick anything yourself from the beds.",
     rate: 0.85,
     questions: [
       { type: "mcq", prompt: "When did the community garden open?", options: ["2001", "2009", "2011", "2015"], answer: 2 },
@@ -85,7 +85,7 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // Section 3 — Matching (project roles)
+  // Section 3 - Matching (project roles)
   // ============================================================
   {
     id: "discussion-history-project",
@@ -103,14 +103,14 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
     ],
     transcript:
       "Tutor: So, you've got three weeks. Let's confirm who's doing what.\n" +
-      "Liam: I'm happy to interview the elderly residents at the community centre — I've already spoken to the manager.\n" +
+      "Liam: I'm happy to interview the elderly residents at the community centre - I've already spoken to the manager.\n" +
       "Hana: That works. I'll take the archive research at the city library. I'm comfortable with the digital catalogue.\n" +
-      "Oliver: I'll handle the photograph collection — my uncle has boxes of old family pictures from the nineteen-sixties.\n" +
+      "Oliver: I'll handle the photograph collection - my uncle has boxes of old family pictures from the nineteen-sixties.\n" +
       "Tutor: Good. And who is making the final timeline poster?\n" +
-      "Hana: On reflection, I think Oliver should — his design skills are the strongest.\n" +
+      "Hana: On reflection, I think Oliver should - his design skills are the strongest.\n" +
       "Oliver: Fine, but only if Liam writes the short introduction paragraph for the exhibition.\n" +
       "Liam: Sure, no problem.\n" +
-      "Tutor: Excellent. One last thing — who is doing the audio recordings for the interactive display?\n" +
+      "Tutor: Excellent. One last thing - who is doing the audio recordings for the interactive display?\n" +
       "Hana: I'd like to do that, actually. I want more practice with the editing software.",
     rate: 0.85,
     questions: [
@@ -124,7 +124,7 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // Section 4 — Sentence Completion (Bee decline lecture)
+  // Section 4 - Sentence Completion (Bee decline lecture)
   // ============================================================
   {
     id: "lecture-bees-decline",
@@ -136,7 +136,7 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
     context: "A university lecturer discusses the global decline of bee populations. Complete each sentence with NO MORE THAN TWO WORDS or a number.",
     contextVi: "Giảng viên nói về sự suy giảm ong toàn cầu. Hoàn thành mỗi câu với không quá hai từ hoặc một số.",
     transcript:
-      "Today I'd like to talk about one of the most serious environmental problems of our time — the rapid decline of bee populations across the globe.\n" +
+      "Today I'd like to talk about one of the most serious environmental problems of our time - the rapid decline of bee populations across the globe.\n" +
       "Let me start with some scale. Bees are responsible for pollinating roughly one third of all the food we eat, from apples and almonds to coffee and cocoa.\n" +
       "Now, the bad news. Long-term monitoring in Europe shows that some wild bee species have fallen in number by as much as seventy per cent over the past fifty years.\n" +
       "The first major driver is the loss of habitat. As farms have grown larger and more uniform, the meadows and hedgerows that bees rely on for food have disappeared.\n" +

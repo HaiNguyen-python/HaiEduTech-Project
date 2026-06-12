@@ -118,7 +118,7 @@ Quy luật Chinchilla: nhân đôi tham số → cần ~nhân đôi token huấn
 `,
         theoryEn: `## 1. From RNNs to Transformers
 
-Recurrent networks (RNN/LSTM) processed text **one token at a time**, which made them slow and prone to forgetting long-range context. The 2017 paper *"Attention Is All You Need"* replaced recurrence with **self-attention** — every token attends to every other token **in parallel** — and Transformers have dominated NLP ever since.
+Recurrent networks (RNN/LSTM) processed text **one token at a time**, which made them slow and prone to forgetting long-range context. The 2017 paper *"Attention Is All You Need"* replaced recurrence with **self-attention** - every token attends to every other token **in parallel** - and Transformers have dominated NLP ever since.
 
 ## 2. Self-Attention in One Equation
 
@@ -129,7 +129,7 @@ Recurrent networks (RNN/LSTM) processed text **one token at a time**, which made
 - **Q** (query) = "what am I looking for?"
 - **K** (key) = "what do I offer?"
 - **V** (value) = "what information do I carry?"
-- Dividing by **√d_k** keeps softmax from saturating as dimensions grow — skip it and gradients vanish.
+- Dividing by **√d_k** keeps softmax from saturating as dimensions grow - skip it and gradients vanish.
 
 Without **positional encoding** (sinusoidal in the original paper, RoPE today), the model would treat sentences as bags of tokens. RoPE plus ring attention lets 2026 models handle 1M-10M token contexts.
 
@@ -141,7 +141,7 @@ Without **positional encoding** (sinusoidal in the original paper, RoPE today), 
 | **Decoder-only** | GPT-5, LLaMA-3, Gemini | Generation, chat, agents |
 | **Encoder-Decoder** | T5, BART, FLAN-T5 | Translation, summarisation, structured seq2seq |
 
-Pick by task: don't use a decoder-only model to build a semantic search index — a dedicated embedder will beat it at a fraction of the cost.
+Pick by task: don't use a decoder-only model to build a semantic search index - a dedicated embedder will beat it at a fraction of the cost.
 
 ## 4. Scaling: The Chinchilla Rule
 
@@ -160,7 +160,7 @@ GPT-5, Gemini 2.5 and DeepSeek-V3 use MoE: many "expert" sub-networks, of which 
 - Forgetting positional encoding → all sentence permutations produce identical output.
 - Not dividing by √d_k → saturating softmax, dead gradients.
 - Using a decoder-only model as an embedder → much worse retrieval.
-- Ignoring tokenizer differences — Gemini's tokenizer encodes Vietnamese in ~1.4 tokens/word vs GPT's ~2.1, which materially affects cost and latency.`,
+- Ignoring tokenizer differences - Gemini's tokenizer encodes Vietnamese in ~1.4 tokens/word vs GPT's ~2.1, which materially affects cost and latency.`,
         code: `# Nhập thư viện numpy, dùng cho tính toán ma trận và số học
 import numpy as np
 
@@ -773,10 +773,10 @@ Mẹo: description tệ là lý do #1 agent gọi sai tool.
 
 An **LLM agent** extends a base model with two extra capabilities:
 
-1. A **Reason-Act loop** — the model alternates between thinking and acting.
-2. **External tools** — functions the model can call (search, calculator, database, shell, browser…).
+1. A **Reason-Act loop** - the model alternates between thinking and acting.
+2. **External tools** - functions the model can call (search, calculator, database, shell, browser…).
 
-This turns a static "question-in / answer-out" model into something that can **plan, execute and verify** — the foundation of products like Cursor, Devin and AutoGen.
+This turns a static "question-in / answer-out" model into something that can **plan, execute and verify** - the foundation of products like Cursor, Devin and AutoGen.
 
 ## 2. The ReAct Loop
 
@@ -795,24 +795,24 @@ The agent writes its reasoning out loud, picks a tool, runs it, sees the result,
 | \`parameters\` | JSON Schema with explicit \`required\` |
 | \`returns\` | Fixed shape so the LLM can parse it |
 
-The #1 reason agents call the wrong tool is a **bad description** — write it as if explaining to a new teammate.
+The #1 reason agents call the wrong tool is a **bad description** - write it as if explaining to a new teammate.
 
 ## 4. Patterns to Know
 
 | Pattern | When to use |
 |---------|------------|
 | **ReAct** | Multi-step tasks needing intermediate reasoning |
-| **Plan-and-Execute** | Very long tasks — plan upfront, then execute |
+| **Plan-and-Execute** | Very long tasks - plan upfront, then execute |
 | **Reflection** | LLM critiques its own output and revises |
 | **Multi-agent** | Split roles (planner / coder / reviewer) for complex work |
 
 ## 5. Production Pitfalls
 
-- **Tool loops** — agent calls the same tool 20 times. Cap with \`max_steps\` and detect repeats.
-- **Hallucinated args** — model invents parameter values. **Validate the schema** *before* execution.
-- **Cost explosion** — each step is an LLM call. Log tokens and enforce per-request budgets.
-- **Security** — exposing a \`shell\` tool is a back-door. Whitelist commands, sandbox execution.
-- **Non-determinism** — set \`temperature=0\` for production agents so debugging is reproducible.
+- **Tool loops** - agent calls the same tool 20 times. Cap with \`max_steps\` and detect repeats.
+- **Hallucinated args** - model invents parameter values. **Validate the schema** *before* execution.
+- **Cost explosion** - each step is an LLM call. Log tokens and enforce per-request budgets.
+- **Security** - exposing a \`shell\` tool is a back-door. Whitelist commands, sandbox execution.
+- **Non-determinism** - set \`temperature=0\` for production agents so debugging is reproducible.
 
 ## 6. When **Not** to Use an Agent
 
@@ -962,11 +962,11 @@ Thay vì update toàn bộ 7B trọng số, **LoRA** chèn ma trận hạng th�
        Prompting is enough
 \`\`\`
 
-## 3. RAG Is Over-Hyped — It Does **Not** Solve
+## 3. RAG Is Over-Hyped - It Does **Not** Solve
 
 - **Deep reasoning** that isn't in the retrieved docs (the model still has to think).
-- **Voice / style** — RAG cannot teach the model to "sound like you".
-- **Complex output schemas** — for those, use fine-tuning or constrained decoding.
+- **Voice / style** - RAG cannot teach the model to "sound like you".
+- **Complex output schemas** - for those, use fine-tuning or constrained decoding.
 
 ## 4. When Fine-Tuning Really Pays Off
 
@@ -978,7 +978,7 @@ Thay vì update toàn bộ 7B trọng số, **LoRA** chèn ma trận hạng th�
 | Answer questions about internal documents | ❌ → RAG |
 | Information after the training cutoff | ❌ → RAG / search |
 
-## 5. LoRA — Affordable Fine-Tuning
+## 5. LoRA - Affordable Fine-Tuning
 
 **LoRA** (Low-Rank Adaptation) inserts small rank-\`r\` matrices instead of updating all 7B weights:
 
@@ -988,7 +988,7 @@ Thay vì update toàn bộ 7B trọng số, **LoRA** chèn ma trận hạng th�
                   train this
 \`\`\`
 
-You touch only **0.1-1%** of parameters, train on consumer GPUs, and can swap many adapters on top of one frozen base — perfect for serving multiple "personalities" cheaply.
+You touch only **0.1-1%** of parameters, train on consumer GPUs, and can swap many adapters on top of one frozen base - perfect for serving multiple "personalities" cheaply.
 
 ## 6. Real Cost Comparison
 
@@ -1001,10 +1001,10 @@ You touch only **0.1-1%** of parameters, train on consumer GPUs, and can swap ma
 
 ## 7. Common Pitfalls
 
-- Jumping straight to fine-tuning when prompt + RAG already works — wastes money and freezes the model.
-- Fine-tuning on **< 200 examples** — overfits and loses generality.
-- Evaluating fine-tunes without a **held-out test set** — looks better than it is.
-- Mixing strategies without a baseline — you won't know what actually helped.`,
+- Jumping straight to fine-tuning when prompt + RAG already works - wastes money and freezes the model.
+- Fine-tuning on **< 200 examples** - overfits and loses generality.
+- Evaluating fine-tunes without a **held-out test set** - looks better than it is.
+- Mixing strategies without a baseline - you won't know what actually helped.`,
         code: `# Phác thảo một lớp LoRA nhỏ bằng NumPy để cảm nhận cách nó hoạt động.
 
 # Nhập thư viện NumPy, cần thiết cho các phép toán mảng và số học.

@@ -1,6 +1,6 @@
 /**
  * @file ieltsLecturesExpansion5.ts
- * @description Wave 5 — 8 new IELTS lectures with deeper, more vivid teaching:
+ * @description Wave 5 - 8 new IELTS lectures with deeper, more vivid teaching:
  * concrete VN-learner mistakes, mini scripts, paraphrase ladders, "Mr Hai's
  * golden secret", and 5–6 quiz questions per lecture (>= padder threshold).
  *
@@ -8,9 +8,9 @@
  *   - listening x2 (Sec 2 map, Sec 3 multi-speaker)
  *   - reading x2 (Yes/No/Not Given, Summary Completion)
  *   - writing x1 (Task 2 Two-Part question)
- *   - speaking x1 (Part 1 — Hometown / Home / Work)
+ *   - speaking x1 (Part 1 - Hometown / Home / Work)
  *   - tips-hacks x1 (Time management cheat-clock)
- *   - thematic-vocab x1 (Technology — Band 7+)
+ *   - thematic-vocab x1 (Technology - Band 7+)
  *
  * @copyright 2026 HaiEduTech
  */
@@ -18,12 +18,12 @@ import type { IeltsLecture } from "./ieltsLecturesData";
 
 export const ieltsLecturesExpansion5: IeltsLecture[] = [
   // ============================================================
-  // 1. LISTENING — Section 2 Map / Plan Labelling
+  // 1. LISTENING - Section 2 Map / Plan Labelling
   // ============================================================
   {
     id: "listening-section2-map-labelling",
-    title: "Listening Section 2 — Map & Plan Labelling Decoder",
-    titleVi: "Listening Section 2 — Giải mã đề bản đồ & sơ đồ",
+    title: "Listening Section 2 - Map & Plan Labelling Decoder",
+    titleVi: "Listening Section 2 - Giải mã đề bản đồ & sơ đồ",
     pillar: "skill-based",
     skill: "listening",
     icon: "🗺️",
@@ -35,13 +35,13 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       "Bài map khiến thí sinh sợ vì người nói không bao giờ nói 'north/south' trực tiếp. Học mẹo la bàn 4 hướng và 8 cụm chỉ vị trí mở khóa mọi câu map.",
     strategySteps: [
       { step: 1, title: "Orient the map FIRST", titleVi: "Định hướng bản đồ NGAY đầu", description: "Find the entrance/you-are-here arrow and lightly draw N-S-E-W on the corners. 80% of maps put north at the top, but always verify.", descriptionVi: "Tìm mũi tên 'lối vào / you are here' và viết nhẹ N-S-E-W ở 4 góc. 80% bản đồ có north ở trên, nhưng luôn kiểm tra lại." },
-      { step: 2, title: "Pre-label fixed landmarks", titleVi: "Đánh dấu mốc cố định trước", description: "Circle anything already named (e.g. 'café', 'lake'). The speaker uses these as REFERENCE points — 'opposite the café', 'just past the lake'.", descriptionVi: "Khoanh tròn mọi tên đã có sẵn. Người nói dùng chúng làm MỐC: 'opposite the café', 'just past the lake'." },
-      { step: 3, title: "Listen for movement verbs", titleVi: "Nghe động từ di chuyển", description: "go past / turn left / head north / continue along / take the second turning. These verbs ARE the route — sketch the arrow as you hear it.", descriptionVi: "go past / turn left / head north / continue along / take the second turning. Các động từ này CHÍNH LÀ lộ trình — vẽ mũi tên theo." },
+      { step: 2, title: "Pre-label fixed landmarks", titleVi: "Đánh dấu mốc cố định trước", description: "Circle anything already named (e.g. 'café', 'lake'). The speaker uses these as REFERENCE points - 'opposite the café', 'just past the lake'.", descriptionVi: "Khoanh tròn mọi tên đã có sẵn. Người nói dùng chúng làm MỐC: 'opposite the café', 'just past the lake'." },
+      { step: 3, title: "Listen for movement verbs", titleVi: "Nghe động từ di chuyển", description: "go past / turn left / head north / continue along / take the second turning. These verbs ARE the route - sketch the arrow as you hear it.", descriptionVi: "go past / turn left / head north / continue along / take the second turning. Các động từ này CHÍNH LÀ lộ trình - vẽ mũi tên theo." },
       { step: 4, title: "Eliminate as you go", titleVi: "Loại trừ ngay khi nghe", description: "Once a building is labelled, cross it off. The remaining empty boxes become smaller targets for the next clue.", descriptionVi: "Vừa nghe vừa loại. Mỗi khi gắn nhãn một ô, gạch nó đi để các ô còn lại dễ chọn hơn." },
     ],
     practicalExamples: [
       { context: "Park orientation talk", contextVi: "Giới thiệu công viên", example: "'If you walk past the lake and take the second path on your right, you'll see the café on your left.'", answer: "Café = building west of second right-hand path", explanation: "'second path on your right' + 'on your left' → café sits west of that path." },
-      { context: "University campus tour", contextVi: "Tour khuôn viên đại học", example: "'The library is directly opposite the main gate, across the courtyard.'", answer: "Library = north of main gate", explanation: "'directly opposite' = đối diện theo trục — kẻ thẳng vạch qua sân." },
+      { context: "University campus tour", contextVi: "Tour khuôn viên đại học", example: "'The library is directly opposite the main gate, across the courtyard.'", answer: "Library = north of main gate", explanation: "'directly opposite' = đối diện theo trục - kẻ thẳng vạch qua sân." },
       { context: "Museum floor plan", contextVi: "Sơ đồ bảo tàng", example: "'The gift shop is between the entrance and the toilets, on the same side.'", answer: "Gift shop = middle box on entrance wall", explanation: "'between … on the same side' loại trừ phía đối diện." },
     ],
     mistakesToAvoid: [
@@ -49,8 +49,8 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       { mistake: "Skipping the pre-labelled landmarks", mistakeVi: "Bỏ qua các mốc đã có sẵn", why: "Speakers anchor every direction to a landmark. Without them you lose the reference frame.", whyVi: "Người nói luôn neo theo mốc. Bỏ qua mốc = mất hệ quy chiếu." },
       { mistake: "Writing answers while still listening", mistakeVi: "Vừa nghe vừa cố viết đáp án", why: "Sketch arrows first; commit letters to the answer sheet only at the 30-second review pause.", whyVi: "Vẽ mũi tên trước; chỉ viết chữ cái cuối cùng vào phiếu lúc nghỉ 30 giây." },
     ],
-    goldenSecret: "Always trace your finger on the map AS the speaker moves. If your finger lifts off, you have lost orientation — restart from the last known landmark.",
-    goldenSecretVi: "Luôn đặt ngón tay rê theo lời người nói. Nếu ngón tay nhấc lên, bạn đã mất phương hướng — quay lại mốc cuối cùng đã biết.",
+    goldenSecret: "Always trace your finger on the map AS the speaker moves. If your finger lifts off, you have lost orientation - restart from the last known landmark.",
+    goldenSecretVi: "Luôn đặt ngón tay rê theo lời người nói. Nếu ngón tay nhấc lên, bạn đã mất phương hướng - quay lại mốc cuối cùng đã biết.",
     vocabHighlights: [
       { word: "adjacent to", definition: "next to / right beside", definitionVi: "ngay cạnh", example: "The car park is adjacent to the main building.", band: "7.0" },
       { word: "diagonally opposite", definition: "across in a diagonal line", definitionVi: "đối chéo", example: "The bank is diagonally opposite the post office.", band: "7.5" },
@@ -63,7 +63,7 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       { question: "‘Diagonally opposite the lake’ means the building is:", options: ["Right next to the lake", "Across in a diagonal line from the lake", "Directly north of the lake", "Inside the lake area"], answer: 1, explanation: "Diagonally opposite = chéo qua hai góc." },
       { question: "Why is ‘left/right’ risky on IELTS maps?", options: ["It is rarely used", "It depends on the walker's current heading", "It is always wrong", "It only refers to north"], answer: 1, explanation: "Left/right is relative; the walker may have just turned." },
       { question: "What should you do at the 30-second pause?", options: ["Listen again", "Capitalise & verify your letters on the answer sheet", "Erase everything", "Start the next section"], answer: 1, explanation: "Use the pause to finalise capital letters and recheck spellings." },
-      { question: "Which phrase signals a final destination?", options: ["Go past", "Continue along", "You'll find it on your left", "Turn right"], answer: 2, explanation: "'You'll find it…' is the arrival cue — commit the answer." },
+      { question: "Which phrase signals a final destination?", options: ["Go past", "Continue along", "You'll find it on your left", "Turn right"], answer: 2, explanation: "'You'll find it…' is the arrival cue - commit the answer." },
       { question: "If your tracing finger lifts off the map, you should:", options: ["Guess the rest", "Return to the last known landmark", "Skip to the next question", "Re-read the title"], answer: 1, explanation: "Reset from the last confirmed reference, not from scratch." },
     ],
     cheatSheetPoints: [
@@ -76,26 +76,26 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 2. LISTENING — Section 3 Multi-Speaker Tracking
+  // 2. LISTENING - Section 3 Multi-Speaker Tracking
   // ============================================================
   {
     id: "listening-section3-multi-speaker",
-    title: "Listening Section 3 — Tracking 3 Speakers Without Drowning",
-    titleVi: "Listening Section 3 — Theo dõi 3 người nói mà không bị ngợp",
+    title: "Listening Section 3 - Tracking 3 Speakers Without Drowning",
+    titleVi: "Listening Section 3 - Theo dõi 3 người nói mà không bị ngợp",
     pillar: "skill-based",
     skill: "listening",
     icon: "🎙️",
     duration: "17 min",
     level: "intermediate",
     description:
-      "Section 3 is a 4-minute academic discussion with 3 speakers (often a tutor + 2 students). Vietnamese candidates lose marks not because of vocab — but because they cannot tell WHO said WHAT.",
+      "Section 3 is a 4-minute academic discussion with 3 speakers (often a tutor + 2 students). Vietnamese candidates lose marks not because of vocab - but because they cannot tell WHO said WHAT.",
     descriptionVi:
-      "Section 3 dài 4 phút với 3 người (thường là tutor + 2 sinh viên). Thí sinh Việt mất điểm không phải vì từ vựng — mà vì không phân biệt được AI nói gì.",
+      "Section 3 dài 4 phút với 3 người (thường là tutor + 2 sinh viên). Thí sinh Việt mất điểm không phải vì từ vựng - mà vì không phân biệt được AI nói gì.",
     strategySteps: [
       { step: 1, title: "Use the 30-second intro to ID voices", titleVi: "Dùng 30 giây giới thiệu để nhận giọng", description: "The first speaker (tutor) usually has the lowest pitch. Tag voices in your head: T = tutor, S1 = student-1 (often female), S2 = student-2.", descriptionVi: "Người đầu tiên (tutor) thường có giọng trầm nhất. Gán nhãn trong đầu: T = tutor, S1 = sinh viên 1, S2 = sinh viên 2." },
       { step: 2, title: "Listen for AGREEMENT / DISAGREEMENT markers", titleVi: "Nghe dấu hiệu ĐỒNG Ý / PHẢN ĐỐI", description: "'I see what you mean, but…' / 'Actually…' / 'On the contrary…' signal the answer is the SECOND opinion, not the first.", descriptionVi: "'I see what you mean, but…' / 'Actually…' / 'On the contrary…' báo đáp án là ý KIẾN THỨ HAI, không phải ý đầu." },
       { step: 3, title: "Match question wording to speaker tag", titleVi: "Ghép từ khóa câu hỏi với nhãn người nói", description: "If the question says 'What does the tutor recommend?', only T's lines count. Cross out S1/S2 opinions as distractors.", descriptionVi: "Nếu câu hỏi hỏi 'tutor khuyên gì?', chỉ tính câu của T. Gạch bỏ ý của S1/S2 vì đó là distractor." },
-      { step: 4, title: "Tame distractors with the 'last-word-wins' rule", titleVi: "Khắc chế distractor bằng quy tắc 'lời cuối thắng'", description: "When a speaker offers 3 ideas then says 'but in the end I'll go with X', X is the answer — not the earlier alternatives.", descriptionVi: "Khi người nói đưa 3 ý rồi nói 'cuối cùng tôi chọn X', X là đáp án — bỏ các phương án trước đó." },
+      { step: 4, title: "Tame distractors with the 'last-word-wins' rule", titleVi: "Khắc chế distractor bằng quy tắc 'lời cuối thắng'", description: "When a speaker offers 3 ideas then says 'but in the end I'll go with X', X is the answer - not the earlier alternatives.", descriptionVi: "Khi người nói đưa 3 ý rồi nói 'cuối cùng tôi chọn X', X là đáp án - bỏ các phương án trước đó." },
     ],
     practicalExamples: [
       { context: "Tutorial on a research project", contextVi: "Bàn về dự án nghiên cứu", example: "S1: 'I thought about a survey, but actually a focus group would give us richer data.'", answer: "Focus group", explanation: "'Actually' overrides 'survey'." },
@@ -110,7 +110,7 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
     vocabHighlights: [
       { word: "to elaborate on", definition: "to give more detail about", definitionVi: "trình bày chi tiết hơn", example: "Could you elaborate on your second point?", band: "7.0" },
       { word: "I'd lean towards", definition: "I prefer (gently)", definitionVi: "tôi nghiêng về", example: "I'd lean towards interviews over surveys.", band: "7.5" },
-      { word: "to push back on", definition: "to disagree politely", definitionVi: "phản biện nhẹ nhàng", example: "I'd push back on that — the sample is too small.", band: "7.5" },
+      { word: "to push back on", definition: "to disagree politely", definitionVi: "phản biện nhẹ nhàng", example: "I'd push back on that - the sample is too small.", band: "7.5" },
       { word: "on reflection", definition: "after thinking about it", definitionVi: "ngẫm lại thì", example: "On reflection, the focus group is the stronger choice.", band: "7.5" },
     ],
     quiz: [
@@ -131,29 +131,29 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 3. READING — Yes / No / Not Given
+  // 3. READING - Yes / No / Not Given
   // ============================================================
   {
     id: "reading-yes-no-not-given",
-    title: "Reading — Yes / No / Not Given Decoded",
-    titleVi: "Reading — Giải mã Yes / No / Not Given",
+    title: "Reading - Yes / No / Not Given Decoded",
+    titleVi: "Reading - Giải mã Yes / No / Not Given",
     pillar: "skill-based",
     skill: "reading",
     icon: "✅",
     duration: "20 min",
     level: "intermediate",
     description:
-      "Y/N/NG tests the WRITER'S OPINION — not facts. Confusing this with T/F/NG is the #1 reason candidates score Band 5.0 instead of 6.5 in Reading.",
+      "Y/N/NG tests the WRITER'S OPINION - not facts. Confusing this with T/F/NG is the #1 reason candidates score Band 5.0 instead of 6.5 in Reading.",
     descriptionVi:
-      "Y/N/NG kiểm tra Ý KIẾN của tác giả — không phải sự thật. Nhầm với T/F/NG là lý do số 1 khiến thí sinh dừng ở Band 5.0 thay vì 6.5.",
+      "Y/N/NG kiểm tra Ý KIẾN của tác giả - không phải sự thật. Nhầm với T/F/NG là lý do số 1 khiến thí sinh dừng ở Band 5.0 thay vì 6.5.",
     strategySteps: [
-      { step: 1, title: "Hunt for opinion verbs", titleVi: "Săn động từ thể hiện ý kiến", description: "Underline argue / claim / believe / suggest / propose / insist. These are the writer's voice — only sentences with them carry opinion.", descriptionVi: "Gạch dưới argue / claim / believe / suggest / propose / insist. Đây là tiếng nói tác giả — chỉ câu chứa chúng mới mang ý kiến." },
+      { step: 1, title: "Hunt for opinion verbs", titleVi: "Săn động từ thể hiện ý kiến", description: "Underline argue / claim / believe / suggest / propose / insist. These are the writer's voice - only sentences with them carry opinion.", descriptionVi: "Gạch dưới argue / claim / believe / suggest / propose / insist. Đây là tiếng nói tác giả - chỉ câu chứa chúng mới mang ý kiến." },
       { step: 2, title: "Match statement view vs writer view", titleVi: "So khớp quan điểm đề bài vs tác giả", description: "If both say the same thing → YES. If opposites → NO. If the writer never expresses a view on it → NOT GIVEN.", descriptionVi: "Cùng quan điểm → YES. Trái ngược → NO. Tác giả không nêu quan điểm → NOT GIVEN." },
       { step: 3, title: "Beware partial agreement", titleVi: "Cẩn thận đồng ý một phần", description: "'The writer agrees X is important' is FALSE if the writer only says X exists. Existence ≠ opinion.", descriptionVi: "'Tác giả thấy X quan trọng' là SAI nếu tác giả chỉ nói X có tồn tại. Tồn tại ≠ ý kiến." },
       { step: 4, title: "Time-cap each question at 1.5 min", titleVi: "Đặt giới hạn 1.5 phút mỗi câu", description: "If after 90 seconds you cannot find the opinion sentence, write NG and move on. Coming back is cheaper than over-thinking.", descriptionVi: "Sau 90 giây không tìm được câu nêu ý kiến, ghi NG và đi tiếp. Quay lại sau rẻ hơn nghĩ mãi." },
     ],
     practicalExamples: [
-      { context: "Writer's claim", contextVi: "Quan điểm tác giả", example: "Passage: 'It is clear that remote work has, on balance, harmed productivity.' Statement: 'The writer believes remote work has reduced productivity.'", answer: "YES", explanation: "Both express the same opinion — harm = reduce." },
+      { context: "Writer's claim", contextVi: "Quan điểm tác giả", example: "Passage: 'It is clear that remote work has, on balance, harmed productivity.' Statement: 'The writer believes remote work has reduced productivity.'", answer: "YES", explanation: "Both express the same opinion - harm = reduce." },
       { context: "Opposite opinion", contextVi: "Quan điểm trái ngược", example: "Passage: 'Critics insist exams are outdated, but I would argue they remain the fairest measure available.' Statement: 'The writer believes exams are outdated.'", answer: "NO", explanation: "'I would argue' = tác giả cho rằng KHÔNG outdated." },
       { context: "Not given", contextVi: "Không nêu", example: "Passage: 'Online learning grew rapidly during the pandemic.' Statement: 'The writer believes online learning is better than classroom teaching.'", answer: "NOT GIVEN", explanation: "Passage cites a fact (growth) but no comparison opinion." },
     ],
@@ -171,10 +171,10 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       { word: "to endorse", definition: "to support publicly", definitionVi: "ủng hộ công khai", example: "The report endorses a four-day working week.", band: "7.5" },
     ],
     quiz: [
-      { question: "Y/N/NG questions test:", options: ["The writer's OPINIONS", "Factual data only", "Grammar rules", "Vocabulary range"], answer: 0, explanation: "Opinion is the key — fact-only sentences are usually decoys." },
+      { question: "Y/N/NG questions test:", options: ["The writer's OPINIONS", "Factual data only", "Grammar rules", "Vocabulary range"], answer: 0, explanation: "Opinion is the key - fact-only sentences are usually decoys." },
       { question: "Which verb is the strongest opinion signal?", options: ["mention", "argue", "list", "include"], answer: 1, explanation: "Argue takes a side; the others merely report." },
       { question: "Passage states a fact but writer gives no view. The statement asserts the writer agrees. Answer:", options: ["YES", "NO", "NOT GIVEN", "Cannot decide"], answer: 2, explanation: "No opinion = NG, even if the fact is true." },
-      { question: "When should you commit to NOT GIVEN?", options: ["When you cannot locate an opinion sentence within ~90 seconds", "Only on the last question", "Never — always pick YES", "Whenever the statement is long"], answer: 0, explanation: "Time-cap + lack of opinion-verb evidence = NG." },
+      { question: "When should you commit to NOT GIVEN?", options: ["When you cannot locate an opinion sentence within ~90 seconds", "Only on the last question", "Never - always pick YES", "Whenever the statement is long"], answer: 0, explanation: "Time-cap + lack of opinion-verb evidence = NG." },
       { question: "Using outside knowledge is:", options: ["Encouraged", "Required for Band 7+", "Forbidden in Y/N/NG", "Only allowed in Listening"], answer: 2, explanation: "Only what the writer prints on the page counts." },
       { question: "'He maintains that automation creates jobs.' This is closest to:", options: ["the writer reports automation neutrally", "the writer expresses an opinion in favour", "the writer disagrees", "the writer is unsure"], answer: 1, explanation: "Maintain = continue to hold an opinion → in favour." },
     ],
@@ -188,12 +188,12 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 4. READING — Summary Completion
+  // 4. READING - Summary Completion
   // ============================================================
   {
     id: "reading-summary-completion",
-    title: "Reading — Summary Completion in 5 Moves",
-    titleVi: "Reading — Hoàn thành đoạn tóm tắt trong 5 bước",
+    title: "Reading - Summary Completion in 5 Moves",
+    titleVi: "Reading - Hoàn thành đoạn tóm tắt trong 5 bước",
     pillar: "skill-based",
     skill: "reading",
     icon: "📝",
@@ -216,11 +216,11 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
     ],
     mistakesToAvoid: [
       { mistake: "Copying the first matching word seen", mistakeVi: "Chép từ giống đầu tiên thấy được", why: "Distractor words appear in the passage but break grammar in the gap.", whyVi: "Từ distractor xuất hiện trong bài nhưng phá ngữ pháp chỗ trống." },
-      { mistake: "Ignoring the word-limit instruction", mistakeVi: "Bỏ qua giới hạn số từ", why: "‘No more than two words’ — write three and lose the mark even if meaning is right.", whyVi: "‘Không quá 2 từ’ — viết 3 là sai dù nghĩa đúng." },
+      { mistake: "Ignoring the word-limit instruction", mistakeVi: "Bỏ qua giới hạn số từ", why: "‘No more than two words’ - write three and lose the mark even if meaning is right.", whyVi: "‘Không quá 2 từ’ - viết 3 là sai dù nghĩa đúng." },
       { mistake: "Filling gaps in random order", mistakeVi: "Điền lung tung không theo thứ tự", why: "Summaries follow passage order. Random filling causes contamination errors.", whyVi: "Summary theo thứ tự bài. Điền lung tung gây sai dây chuyền." },
     ],
-    goldenSecret: "Before writing, READ the whole summary as if the gaps don't exist — then guess each missing word from CONTEXT. Match against the box afterwards. This forces meaning-first thinking.",
-    goldenSecretVi: "Trước khi viết, đọc cả đoạn tóm tắt như thể không có chỗ trống — đoán nghĩa từ ngữ cảnh. Sau đó mới đối chiếu với hộp từ. Cách này ép bạn suy nghĩ từ nghĩa trước.",
+    goldenSecret: "Before writing, READ the whole summary as if the gaps don't exist - then guess each missing word from CONTEXT. Match against the box afterwards. This forces meaning-first thinking.",
+    goldenSecretVi: "Trước khi viết, đọc cả đoạn tóm tắt như thể không có chỗ trống - đoán nghĩa từ ngữ cảnh. Sau đó mới đối chiếu với hộp từ. Cách này ép bạn suy nghĩ từ nghĩa trước.",
     vocabHighlights: [
       { word: "to undergo", definition: "to experience a change", definitionVi: "trải qua", example: "The species undergoes a transformation in spring.", band: "7.0" },
       { word: "marked (adj)", definition: "noticeable, significant", definitionVi: "đáng chú ý", example: "There was a marked decline in attendance.", band: "7.5" },
@@ -231,7 +231,7 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       { question: "What should you do BEFORE scanning the passage?", options: ["Predict the word class for each gap", "Copy the first paragraph", "Translate every word", "Time yourself"], answer: 0, explanation: "Word-class prediction eliminates wrong options instantly." },
       { question: "If the passage says 'put pen to paper' and the gap is a verb, the answer is most likely:", options: ["wrote", "signed", "designed", "approved"], answer: 1, explanation: "Idiomatic paraphrase of 'signed'." },
       { question: "Why fill gaps in order?", options: ["Examiners require it", "Summaries follow passage order; out-of-order filling causes chain errors", "It's faster", "It is impossible otherwise"], answer: 1, explanation: "Summary text mirrors passage flow." },
-      { question: "‘No more than TWO WORDS’ — you write 'a significant rise'. Result:", options: ["Mark is awarded", "Mark is lost (3 words)", "Mark is halved", "Depends on examiner"], answer: 1, explanation: "Articles count. 3 words = wrong." },
+      { question: "‘No more than TWO WORDS’ - you write 'a significant rise'. Result:", options: ["Mark is awarded", "Mark is lost (3 words)", "Mark is halved", "Depends on examiner"], answer: 1, explanation: "Articles count. 3 words = wrong." },
       { question: "The grammar-fit test means:", options: ["Reading the answer aloud silently to test subject-verb / number fit", "Translating to Vietnamese", "Asking a friend", "Skipping the gap"], answer: 0, explanation: "Plug-and-read catches grammatical mismatches." },
       { question: "Best place to write final answers is:", options: ["Directly on the answer sheet first", "Pencil-on-question-paper first, then transfer once the whole section is verified", "Memory only", "Margin of the passage"], answer: 1, explanation: "Pencil-first prevents domino errors." },
     ],
@@ -245,21 +245,21 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 5. WRITING — Task 2 Two-Part / Direct Question
+  // 5. WRITING - Task 2 Two-Part / Direct Question
   // ============================================================
   {
     id: "writing-task2-two-part-question",
-    title: "Writing Task 2 — Two-Part (Direct) Question Mastery",
-    titleVi: "Writing Task 2 — Làm chủ đề hỏi 2 phần (Direct Question)",
+    title: "Writing Task 2 - Two-Part (Direct) Question Mastery",
+    titleVi: "Writing Task 2 - Làm chủ đề hỏi 2 phần (Direct Question)",
     pillar: "skill-based",
     skill: "writing",
     icon: "✍️",
     duration: "22 min",
     level: "advanced",
     description:
-      "‘Why does X happen? What can be done?’ — Direct-question essays test whether you can split your answer into TWO equal bodies. Most candidates over-write Part 1 and rush Part 2.",
+      "‘Why does X happen? What can be done?’ - Direct-question essays test whether you can split your answer into TWO equal bodies. Most candidates over-write Part 1 and rush Part 2.",
     descriptionVi:
-      "‘Vì sao X xảy ra? Có thể làm gì?’ — Đề Direct-question kiểm tra khả năng chia bài thành HAI thân bài ngang nhau. Đa số thí sinh viết quá dài phần 1, vội vã phần 2.",
+      "‘Vì sao X xảy ra? Có thể làm gì?’ - Đề Direct-question kiểm tra khả năng chia bài thành HAI thân bài ngang nhau. Đa số thí sinh viết quá dài phần 1, vội vã phần 2.",
     strategySteps: [
       { step: 1, title: "Underline BOTH question parts", titleVi: "Gạch chân CẢ HAI phần đề", description: "Number them Q1 and Q2. Your essay must answer BOTH or you cap at Band 5 on Task Response.", descriptionVi: "Đánh số Q1 và Q2. Bài phải trả lời CẢ HAI, nếu không Task Response tối đa Band 5." },
       { step: 2, title: "Plan a 2-body skeleton", titleVi: "Lên dàn ý 2 thân bài cân bằng", description: "Body 1 = answer Q1 with 2 reasons + examples. Body 2 = answer Q2 with 2 solutions + examples. Equal weight.", descriptionVi: "Body 1 = trả lời Q1 với 2 nguyên nhân + ví dụ. Body 2 = trả lời Q2 với 2 giải pháp + ví dụ. Cân nhau." },
@@ -275,8 +275,8 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       { mistake: "Listing 5 solutions superficially", mistakeVi: "Liệt kê 5 giải pháp hời hợt", why: "Examiners reward 2 fully-developed ideas over 5 shallow ones (Coherence & Cohesion).", whyVi: "Giám khảo chấm cao 2 ý sâu hơn 5 ý nông (Coherence & Cohesion)." },
       { mistake: "Forgetting to give YOUR position", mistakeVi: "Quên nêu quan điểm của BẠN", why: "Direct-question essays still need a thesis statement: 'I will outline two key causes and propose two practical solutions.'", whyVi: "Direct-question vẫn cần thesis: 'I will outline two key causes and propose two practical solutions.'" },
     ],
-    goldenSecret: "Set a stop-watch: 20 minutes for Body 1, 20 for Body 2. The moment Body 1 hits 130 words, STOP and switch — no exceptions. Equal length = equal score weight.",
-    goldenSecretVi: "Bấm đồng hồ: 20 phút Body 1, 20 phút Body 2. Khi Body 1 chạm 130 từ, DỪNG và đổi — không ngoại lệ. Cân số từ = cân điểm.",
+    goldenSecret: "Set a stop-watch: 20 minutes for Body 1, 20 for Body 2. The moment Body 1 hits 130 words, STOP and switch - no exceptions. Equal length = equal score weight.",
+    goldenSecretVi: "Bấm đồng hồ: 20 phút Body 1, 20 phút Body 2. Khi Body 1 chạm 130 từ, DỪNG và đổi - không ngoại lệ. Cân số từ = cân điểm.",
     vocabHighlights: [
       { word: "the root cause", definition: "the main, original reason", definitionVi: "nguyên nhân gốc rễ", example: "The root cause of obesity is sedentary lifestyle.", band: "7.0" },
       { word: "to mitigate", definition: "to reduce harm", definitionVi: "giảm nhẹ", example: "Investing in green transport can mitigate urban pollution.", band: "7.5" },
@@ -302,12 +302,12 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 6. SPEAKING — Part 1 Hometown / Home / Work
+  // 6. SPEAKING - Part 1 Hometown / Home / Work
   // ============================================================
   {
     id: "speaking-part1-home-work",
-    title: "Speaking Part 1 — Hometown, Home & Work (Confidence Engine)",
-    titleVi: "Speaking Part 1 — Hometown, Home & Work (Cỗ máy tự tin)",
+    title: "Speaking Part 1 - Hometown, Home & Work (Confidence Engine)",
+    titleVi: "Speaking Part 1 - Hometown, Home & Work (Cỗ máy tự tin)",
     pillar: "skill-based",
     skill: "speaking",
     icon: "🏠",
@@ -319,22 +319,22 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       "4 phút đầu định hình ấn tượng giám khảo. Dùng template sẵn cho 3 chủ đề Part 1 phổ biến nhất mà vẫn nghe tự nhiên.",
     strategySteps: [
       { step: 1, title: "Use the ARE formula (Answer • Reason • Example)", titleVi: "Dùng công thức ARE (Trả lời • Lý do • Ví dụ)", description: "Each Part 1 answer = 2-3 sentences: direct answer → because → for example.", descriptionVi: "Mỗi câu Part 1 = 2-3 câu: trả lời thẳng → vì → ví dụ." },
-      { step: 2, title: "Personalise stock phrases", titleVi: "Cá nhân hóa cụm có sẵn", description: "‘I was born and raised in Hue, a peaceful city in central Vietnam known for its imperial cuisine.’ — one ready sentence covers 5 possible questions.", descriptionVi: "‘I was born and raised in Hue, a peaceful city in central Vietnam known for its imperial cuisine.’ — một câu sẵn dùng cho 5 câu hỏi." },
+      { step: 2, title: "Personalise stock phrases", titleVi: "Cá nhân hóa cụm có sẵn", description: "‘I was born and raised in Hue, a peaceful city in central Vietnam known for its imperial cuisine.’ - one ready sentence covers 5 possible questions.", descriptionVi: "‘I was born and raised in Hue, a peaceful city in central Vietnam known for its imperial cuisine.’ - một câu sẵn dùng cho 5 câu hỏi." },
       { step: 3, title: "Avoid yes/no dead-ends", titleVi: "Tránh đáp Yes/No cụt", description: "Never answer ‘Yes I do.’ Always extend: ‘Yes I do, mainly because…’.", descriptionVi: "Đừng đáp ‘Yes I do.’ Luôn mở rộng: ‘Yes I do, mainly because…’" },
       { step: 4, title: "Keep tone warm, not robotic", titleVi: "Giữ giọng ấm, không như robot", description: "Use light fillers ('actually', 'to be honest', 'I'd say') in moderation. They show fluency control, not memorisation.", descriptionVi: "Dùng filler nhẹ ('actually', 'to be honest', 'I'd say') vừa phải. Chúng thể hiện lưu loát, không phải học thuộc." },
     ],
     practicalExamples: [
-      { context: "Q: Where are you from?", contextVi: "Hỏi quê quán", example: "‘I'm originally from Da Nang, a coastal city in central Vietnam famous for its beaches and seafood. I moved to Hanoi three years ago for university.’", answer: "ARE structure: answer + reason + example", explanation: "Covers hometown, location, reason for move — 3 follow-ups pre-answered." },
+      { context: "Q: Where are you from?", contextVi: "Hỏi quê quán", example: "‘I'm originally from Da Nang, a coastal city in central Vietnam famous for its beaches and seafood. I moved to Hanoi three years ago for university.’", answer: "ARE structure: answer + reason + example", explanation: "Covers hometown, location, reason for move - 3 follow-ups pre-answered." },
       { context: "Q: Do you prefer living in a house or a flat?", contextVi: "Thích nhà hay căn hộ?", example: "‘To be honest, I much prefer a flat because the city centre is just a short walk away, and I don't have to worry about maintenance like gardening.’", answer: "Opinion + two reasons", explanation: "‘To be honest’ + comparative + two distinct reasons = Band 7 hallmark." },
-      { context: "Q: What do you do?", contextVi: "Bạn làm nghề gì?", example: "‘I'm currently a final-year student majoring in International Business, and I also do part-time content writing on weekends to gain real-world experience.’", answer: "Identity + side activity", explanation: "Adds depth without rambling — perfect 12-second answer." },
+      { context: "Q: What do you do?", contextVi: "Bạn làm nghề gì?", example: "‘I'm currently a final-year student majoring in International Business, and I also do part-time content writing on weekends to gain real-world experience.’", answer: "Identity + side activity", explanation: "Adds depth without rambling - perfect 12-second answer." },
     ],
     mistakesToAvoid: [
       { mistake: "Memorised speeches that sound rehearsed", mistakeVi: "Bài học thuộc nghe như đọc", why: "Examiners are trained to detect memorisation and may penalise Fluency & Coherence.", whyVi: "Giám khảo phát hiện học thuộc và trừ điểm Fluency & Coherence." },
       { mistake: "Over-using ‘I think’", mistakeVi: "Lạm dụng ‘I think’", why: "Rotate with ‘I'd say’, ‘In my view’, ‘Personally’ to show range.", whyVi: "Đổi sang ‘I'd say’, ‘In my view’, ‘Personally’ để khoe vốn." },
       { mistake: "Answering longer than 30 seconds", mistakeVi: "Trả lời quá 30 giây", why: "Part 1 is rapid-fire. Long answers eat into Part 3 thinking time.", whyVi: "Part 1 nhanh. Trả lời dài cắt mất thời gian Part 3." },
     ],
-    goldenSecret: "Prepare ONE rich ‘home base’ sentence about your city/job/home. Recycle and reshape it across questions — examiners want fluency, not unique content.",
-    goldenSecretVi: "Soạn MỘT câu ‘home base’ giàu thông tin về thành phố/nghề/nhà. Tái sử dụng và biến hóa qua nhiều câu hỏi — giám khảo cần lưu loát, không cần nội dung mới mỗi câu.",
+    goldenSecret: "Prepare ONE rich ‘home base’ sentence about your city/job/home. Recycle and reshape it across questions - examiners want fluency, not unique content.",
+    goldenSecretVi: "Soạn MỘT câu ‘home base’ giàu thông tin về thành phố/nghề/nhà. Tái sử dụng và biến hóa qua nhiều câu hỏi - giám khảo cần lưu loát, không cần nội dung mới mỗi câu.",
     vocabHighlights: [
       { word: "born and raised in", definition: "born and grew up in", definitionVi: "sinh ra và lớn lên ở", example: "I was born and raised in Hai Phong.", band: "6.5" },
       { word: "a stone's throw from", definition: "very close to", definitionVi: "rất gần", example: "My flat is a stone's throw from the river.", band: "7.5" },
@@ -352,19 +352,19 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
     cheatSheetPoints: [
       "ARE: Answer → Reason → Example.",
       "One ‘home base’ sentence, recycled.",
-      "Never yes/no — always extend.",
+      "Never yes/no - always extend.",
       "12-25 seconds per answer.",
       "Rotate opinion phrases for lexical range.",
     ],
   },
 
   // ============================================================
-  // 7. TIPS — Reading Time-Management Cheat Clock
+  // 7. TIPS - Reading Time-Management Cheat Clock
   // ============================================================
   {
     id: "tips-reading-cheat-clock",
-    title: "Mr Hai's Cheat-Clock — 60-Minute Reading Game Plan",
-    titleVi: "Đồng hồ thần thánh — Phân bổ 60 phút Reading",
+    title: "Mr Hai's Cheat-Clock - 60-Minute Reading Game Plan",
+    titleVi: "Đồng hồ thần thánh - Phân bổ 60 phút Reading",
     pillar: "tips-hacks",
     icon: "⏱️",
     duration: "12 min",
@@ -374,13 +374,13 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
     descriptionVi:
       "Lý do số một khiến thí sinh Việt dừng ở Band 5.5 thay vì 7.0 Reading là quản lý thời gian sai ở Passage 3. Đây là phác đồ chữa.",
     strategySteps: [
-      { step: 1, title: "17 / 20 / 23 split", titleVi: "Chia 17 / 20 / 23 phút", description: "Passage 1 = 17 min, Passage 2 = 20 min, Passage 3 = 23 min. Difficulty scales — so does time.", descriptionVi: "Passage 1 = 17', Passage 2 = 20', Passage 3 = 23'. Khó hơn = nhiều thời gian hơn." },
-      { step: 2, title: "Transfer-as-you-go", titleVi: "Chuyển đáp án theo từng bài", description: "Write answers directly on the answer sheet — NOT on the question paper. Saves 5-7 minutes vs. last-minute transfer.", descriptionVi: "Viết thẳng vào phiếu đáp án — KHÔNG viết nháp rồi chuyển. Tiết kiệm 5-7 phút." },
+      { step: 1, title: "17 / 20 / 23 split", titleVi: "Chia 17 / 20 / 23 phút", description: "Passage 1 = 17 min, Passage 2 = 20 min, Passage 3 = 23 min. Difficulty scales - so does time.", descriptionVi: "Passage 1 = 17', Passage 2 = 20', Passage 3 = 23'. Khó hơn = nhiều thời gian hơn." },
+      { step: 2, title: "Transfer-as-you-go", titleVi: "Chuyển đáp án theo từng bài", description: "Write answers directly on the answer sheet - NOT on the question paper. Saves 5-7 minutes vs. last-minute transfer.", descriptionVi: "Viết thẳng vào phiếu đáp án - KHÔNG viết nháp rồi chuyển. Tiết kiệm 5-7 phút." },
       { step: 3, title: "2-min hard-stop per question", titleVi: "Dừng cứng 2 phút mỗi câu", description: "If 2 minutes pass, write your best guess, circle the number on the paper, and move on. Return only after the passage is done.", descriptionVi: "Quá 2 phút thì viết đáp án đoán tốt nhất, khoanh số trên đề, đi tiếp. Quay lại khi xong cả bài." },
       { step: 4, title: "Glance at the clock every passage", titleVi: "Liếc đồng hồ mỗi khi qua passage", description: "If you're behind by >3 minutes, skip the hardest question type (often matching-headings) and bank guesses.", descriptionVi: "Nếu trễ >3 phút, bỏ dạng khó nhất (thường là matching-headings) và đoán đáp án dự phòng." },
     ],
     practicalExamples: [
-      { context: "Behind schedule on P2", contextVi: "Trễ tiến độ ở P2", example: "After 22 min on P2 you still have 3 questions left and 18 min remain.", answer: "Guess + flag, jump to P3 — return to flagged P2 items only if P3 finishes early.", explanation: "Loss on P3 is more expensive (harder vocab, harder questions)." },
+      { context: "Behind schedule on P2", contextVi: "Trễ tiến độ ở P2", example: "After 22 min on P2 you still have 3 questions left and 18 min remain.", answer: "Guess + flag, jump to P3 - return to flagged P2 items only if P3 finishes early.", explanation: "Loss on P3 is more expensive (harder vocab, harder questions)." },
     ],
     mistakesToAvoid: [
       { mistake: "Equal 20-min split for all three passages", mistakeVi: "Chia đều 20' cho cả ba", why: "P3 is 30-40% harder. Equal time means rushed final passage and 3-4 lost marks.", whyVi: "P3 khó hơn 30-40%. Chia đều = vội ở passage cuối, mất 3-4 câu." },
@@ -397,7 +397,7 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       { question: "Recommended time split for the 3 passages:", options: ["20 / 20 / 20", "17 / 20 / 23", "25 / 20 / 15", "10 / 25 / 25"], answer: 1, explanation: "Harder passages need more minutes." },
       { question: "When should you transfer answers to the sheet?", options: ["At the end only", "As you finish each passage / directly on the sheet", "Before reading", "Never"], answer: 1, explanation: "Transfer-as-you-go prevents end-of-test errors." },
       { question: "Hard-stop time per single question:", options: ["30 seconds", "2 minutes", "5 minutes", "No limit"], answer: 1, explanation: "Beyond 2 min you hit diminishing returns." },
-      { question: "If you're 4 minutes behind on P2, you should:", options: ["Keep grinding P2", "Guess remaining P2 items, jump to P3, return only if time permits", "Skip P3 entirely", "Restart"], answer: 1, explanation: "Protect P3 — it carries the harder marks." },
+      { question: "If you're 4 minutes behind on P2, you should:", options: ["Keep grinding P2", "Guess remaining P2 items, jump to P3, return only if time permits", "Skip P3 entirely", "Restart"], answer: 1, explanation: "Protect P3 - it carries the harder marks." },
       { question: "‘Diminishing returns’ in this context means:", options: ["Earning more per minute", "Less benefit per extra minute spent on one question", "A type of question", "Examiner penalty"], answer: 1, explanation: "Time invested stops paying off." },
       { question: "Write the cut-off times '17 • 37 • 60' to:", options: ["Decorate the paper", "Force a visual reminder to switch passages on time", "Calculate the band", "Confuse examiners"], answer: 1, explanation: "External cues > internal willpower under stress." },
     ],
@@ -411,12 +411,12 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 8. THEMATIC VOCAB — Technology (Band 7+)
+  // 8. THEMATIC VOCAB - Technology (Band 7+)
   // ============================================================
   {
     id: "vocab-technology-band7",
-    title: "Thematic Vocab — Technology & AI (Band 7+)",
-    titleVi: "Vocab chủ đề — Công nghệ & AI (Band 7+)",
+    title: "Thematic Vocab - Technology & AI (Band 7+)",
+    titleVi: "Vocab chủ đề - Công nghệ & AI (Band 7+)",
     pillar: "thematic-vocab",
     icon: "🤖",
     duration: "14 min",
@@ -431,15 +431,15 @@ export const ieltsLecturesExpansion5: IeltsLecture[] = [
       { step: 3, title: "Avoid over-using ‘nowadays/modern technology’", titleVi: "Tránh lạm dụng ‘nowadays/modern technology’", description: "Replace with ‘in the digital age’ / ‘amid rapid technological advances’ to lift Lexical Resource.", descriptionVi: "Thay bằng ‘in the digital age’ / ‘amid rapid technological advances’ để nâng Lexical Resource." },
     ],
     practicalExamples: [
-      { context: "Sample Task 2 sentence (AI)", contextVi: "Câu mẫu Task 2 về AI", example: "‘The rise of generative AI has fundamentally reshaped the workplace, automating routine tasks and freeing employees to focus on higher-order thinking.’", answer: "Plug-in opening sentence", explanation: "Uses generative AI, reshape, automate, higher-order — 4 band-7+ items in one sentence." },
-      { context: "Sample Speaking Part 3 (privacy)", contextVi: "Câu mẫu Speaking Part 3 về quyền riêng tư", example: "‘Personally, I'd say data privacy is a double-edged sword — convenient services come at the cost of constant surveillance.’", answer: "Plug-in opinion sentence", explanation: "Double-edged sword + surveillance = band 7.5 vocabulary." },
+      { context: "Sample Task 2 sentence (AI)", contextVi: "Câu mẫu Task 2 về AI", example: "‘The rise of generative AI has fundamentally reshaped the workplace, automating routine tasks and freeing employees to focus on higher-order thinking.’", answer: "Plug-in opening sentence", explanation: "Uses generative AI, reshape, automate, higher-order - 4 band-7+ items in one sentence." },
+      { context: "Sample Speaking Part 3 (privacy)", contextVi: "Câu mẫu Speaking Part 3 về quyền riêng tư", example: "‘Personally, I'd say data privacy is a double-edged sword - convenient services come at the cost of constant surveillance.’", answer: "Plug-in opinion sentence", explanation: "Double-edged sword + surveillance = band 7.5 vocabulary." },
     ],
     mistakesToAvoid: [
-      { mistake: "Using ‘internet’ for everything", mistakeVi: "Dùng ‘internet’ cho mọi thứ", why: "Specify: cloud services / streaming platforms / social media — precision lifts Lexical Resource.", whyVi: "Cụ thể hóa: cloud services / streaming platforms / social media — chính xác mới nâng Lexical Resource." },
+      { mistake: "Using ‘internet’ for everything", mistakeVi: "Dùng ‘internet’ cho mọi thứ", why: "Specify: cloud services / streaming platforms / social media - precision lifts Lexical Resource.", whyVi: "Cụ thể hóa: cloud services / streaming platforms / social media - chính xác mới nâng Lexical Resource." },
       { mistake: "Inventing tech jargon you don't fully understand", mistakeVi: "Bịa thuật ngữ không nắm chắc", why: "‘Blockchain decentralisation paradigm’ used incorrectly hurts Grammatical Range AND Lexical Resource.", whyVi: "‘Blockchain decentralisation paradigm’ dùng sai sẽ trừ cả ngữ pháp lẫn từ vựng." },
     ],
-    goldenSecret: "Memorise 3 ‘opening shells’ — one for AI, one for privacy, one for screen-time. In the exam, slot the prompt's keyword into the shell. Saves 30 seconds of planning per essay.",
-    goldenSecretVi: "Học thuộc 3 ‘vỏ câu mở bài’ — một về AI, một về privacy, một về screen-time. Trong phòng thi, chỉ cần thay từ khóa đề bài vào vỏ. Tiết kiệm 30 giây mỗi bài.",
+    goldenSecret: "Memorise 3 ‘opening shells’ - one for AI, one for privacy, one for screen-time. In the exam, slot the prompt's keyword into the shell. Saves 30 seconds of planning per essay.",
+    goldenSecretVi: "Học thuộc 3 ‘vỏ câu mở bài’ - một về AI, một về privacy, một về screen-time. Trong phòng thi, chỉ cần thay từ khóa đề bài vào vỏ. Tiết kiệm 30 giây mỗi bài.",
     vocabHighlights: [
       { word: "generative AI", definition: "AI that creates text/image content", definitionVi: "AI tạo sinh", example: "Generative AI is transforming creative industries.", band: "7.5" },
       { word: "to automate routine tasks", definition: "to use machines for repetitive work", definitionVi: "tự động hóa việc lặp lại", example: "Software now automates routine accounting tasks.", band: "7.0" },

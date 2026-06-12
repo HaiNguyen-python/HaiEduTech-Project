@@ -1,6 +1,6 @@
 /**
  * Extra quiz questions for DSA lessons (3-5 quizzes per lesson total).
- * Original `quiz` field on the lesson stays — these are appended.
+ * Original `quiz` field on the lesson stays - these are appended.
  */
 import type { DsaQuiz } from "./dsaLessons";
 
@@ -38,7 +38,7 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       options: ["O(1)", "O(log n)", "O(n)", "O(n²)"],
       answer: 2,
       explanationVi: "Phải đi từ head qua i node nên O(n).",
-      explanationEn: "Must traverse from head through i nodes — O(n).",
+      explanationEn: "Must traverse from head through i nodes - O(n).",
     },
     {
       questionVi: "Khi đã có con trỏ tới node, chèn ngay sau node đó tốn bao nhiêu?",
@@ -46,7 +46,7 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
       answer: 0,
       explanationVi: "Chỉ cần đổi 1-2 con trỏ, O(1).",
-      explanationEn: "Just rewire 1-2 pointers — O(1).",
+      explanationEn: "Just rewire 1-2 pointers - O(1).",
     },
     {
       questionVi: "Cấu trúc nào nên dùng khi cần chèn/xóa thường xuyên ở cả hai đầu?",
@@ -63,8 +63,8 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       questionEn: "A stack follows which principle?",
       options: ["FIFO", "LIFO", "Priority", "Random"],
       answer: 1,
-      explanationVi: "Last In First Out — phần tử vào sau ra trước.",
-      explanationEn: "Last In First Out — most recent in, first out.",
+      explanationVi: "Last In First Out - phần tử vào sau ra trước.",
+      explanationEn: "Last In First Out - most recent in, first out.",
     },
     {
       questionVi: "Ứng dụng nào KHÔNG phù hợp dùng stack?",
@@ -80,7 +80,7 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       options: ["O(1)", "O(log n)", "O(n)", "O(n²)"],
       answer: 0,
       explanationVi: "Đều thao tác tại đỉnh nên O(1) trung bình.",
-      explanationEn: "Both operate at the top — O(1) amortised.",
+      explanationEn: "Both operate at the top - O(1) amortised.",
     },
   ],
   queue: [
@@ -98,7 +98,7 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       options: ["Không hoạt động", "Tốn O(n) mỗi lần", "Không thread-safe", "Trả về sai phần tử"],
       answer: 1,
       explanationVi: "Phải dịch toàn bộ phần tử sang trái nên O(n). Dùng collections.deque.",
-      explanationEn: "It shifts every element left — O(n). Use collections.deque.",
+      explanationEn: "It shifts every element left - O(n). Use collections.deque.",
     },
     {
       questionVi: "Cấu trúc nào phù hợp cho BFS trên đồ thị?",
@@ -115,16 +115,16 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       questionEn: "Search complexity on a balanced BST?",
       options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
       answer: 1,
-      explanationVi: "Mỗi bước loại nửa cây — O(log n).",
-      explanationEn: "Each step eliminates half the tree — O(log n).",
+      explanationVi: "Mỗi bước loại nửa cây - O(log n).",
+      explanationEn: "Each step eliminates half the tree - O(log n).",
     },
     {
       questionVi: "BST suy biến (skewed) trở thành cấu trúc nào?",
       questionEn: "A skewed BST degenerates into what?",
       options: ["Heap", "Linked List", "Hash Map", "Trie"],
       answer: 1,
-      explanationVi: "Mỗi node chỉ có 1 con — giống linked list, tìm kiếm O(n).",
-      explanationEn: "Each node has only one child — like a linked list, O(n) search.",
+      explanationVi: "Mỗi node chỉ có 1 con - giống linked list, tìm kiếm O(n).",
+      explanationEn: "Each node has only one child - like a linked list, O(n) search.",
     },
     {
       questionVi: "Duyệt in-order trên BST cho kết quả gì?",
@@ -183,8 +183,8 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       questionEn: "Binary search over n elements costs?",
       options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
       answer: 1,
-      explanationVi: "Mỗi bước loại một nửa — O(log n).",
-      explanationEn: "Each step halves the range — O(log n).",
+      explanationVi: "Mỗi bước loại một nửa - O(log n).",
+      explanationEn: "Each step halves the range - O(log n).",
     },
   ],
   sorting: [
@@ -194,7 +194,7 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       options: ["O(n)", "O(n log n)", "O(n²)", "O(log n)"],
       answer: 1,
       explanationVi: "Chia đôi log n lần, mỗi tầng gộp O(n) → O(n log n).",
-      explanationEn: "log n levels of halving, each merging in O(n) — O(n log n).",
+      explanationEn: "log n levels of halving, each merging in O(n) - O(n log n).",
     },
     {
       questionVi: "Thuật toán sắp xếp nào ổn định (stable) theo mặc định?",
@@ -210,7 +210,7 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       options: ["O(n)", "O(n log n)", "O(n²)", "O(2^n)"],
       answer: 2,
       explanationVi: "Pivot luôn nhỏ/lớn nhất → phân hoạch không cân bằng → O(n²).",
-      explanationEn: "Worst pivots produce skewed partitions — O(n²).",
+      explanationEn: "Worst pivots produce skewed partitions - O(n²).",
     },
   ],
   "recursion-bigo": [
@@ -235,8 +235,8 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       questionEn: "Naive recursive Fibonacci has complexity?",
       options: ["O(n)", "O(log n)", "O(2^n)", "O(n²)"],
       answer: 2,
-      explanationVi: "Cây gọi đệ quy nhân đôi mỗi tầng — O(2^n).",
-      explanationEn: "The recursion tree doubles each level — O(2^n).",
+      explanationVi: "Cây gọi đệ quy nhân đôi mỗi tầng - O(2^n).",
+      explanationEn: "The recursion tree doubles each level - O(2^n).",
     },
   ],
   hashmap: [
@@ -254,15 +254,15 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       options: ["Phải là chuỗi", "Phải hashable (bất biến)", "Phải là số nguyên", "Phải unique trên toàn chương trình"],
       answer: 1,
       explanationVi: "Key cần hashable: hỗ trợ __hash__ và bất biến (str, int, tuple…).",
-      explanationEn: "Keys must be hashable — implement __hash__ and be immutable.",
+      explanationEn: "Keys must be hashable - implement __hash__ and be immutable.",
     },
     {
       questionVi: "Khi nhiều key băm về cùng vị trí, đó là hiện tượng?",
       questionEn: "When multiple keys hash to the same bucket, this is called?",
       options: ["Overflow", "Collision", "Rehash", "Aliasing"],
       answer: 1,
-      explanationVi: "Hash collision — giải quyết bằng chaining hoặc open addressing.",
-      explanationEn: "Hash collision — resolved via chaining or open addressing.",
+      explanationVi: "Hash collision - giải quyết bằng chaining hoặc open addressing.",
+      explanationEn: "Hash collision - resolved via chaining or open addressing.",
     },
   ],
   heap: [
@@ -271,8 +271,8 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       questionEn: "Cost of popping the minimum from a min-heap?",
       options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
       answer: 1,
-      explanationVi: "Sift-down sau khi xóa gốc — O(log n).",
-      explanationEn: "Sift-down after removing the root — O(log n).",
+      explanationVi: "Sift-down sau khi xóa gốc - O(log n).",
+      explanationEn: "Sift-down after removing the root - O(log n).",
     },
     {
       questionVi: "Xem (peek) phần tử nhỏ nhất của min-heap?",
@@ -313,8 +313,8 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       questionEn: "Reversing a string in place with two pointers costs?",
       options: ["O(1)", "O(log n)", "O(n)", "O(n²)"],
       answer: 2,
-      explanationVi: "Duyệt nửa mảng, đổi từng cặp — O(n).",
-      explanationEn: "Traverse half the array, swap pairs — O(n).",
+      explanationVi: "Duyệt nửa mảng, đổi từng cặp - O(n).",
+      explanationEn: "Traverse half the array, swap pairs - O(n).",
     },
   ],
   "sliding-window": [
@@ -375,8 +375,8 @@ export const dsaExtraQuizzes: Record<string, DsaQuiz[]> = {
       questionEn: "Fibonacci with DP has complexity?",
       options: ["O(2^n)", "O(n²)", "O(n)", "O(log n)"],
       answer: 2,
-      explanationVi: "Mỗi fib(i) tính 1 lần — O(n), bộ nhớ O(1) nếu chỉ giữ 2 biến.",
-      explanationEn: "Each fib(i) computed once — O(n), O(1) memory with 2 variables.",
+      explanationVi: "Mỗi fib(i) tính 1 lần - O(n), bộ nhớ O(1) nếu chỉ giữ 2 biến.",
+      explanationEn: "Each fib(i) computed once - O(n), O(1) memory with 2 variables.",
     },
   ],
   greedy: [

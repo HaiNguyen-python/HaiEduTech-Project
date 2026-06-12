@@ -1,6 +1,6 @@
 /**
  * @file ieltsFullReadingExamsExpansion3.ts
- * @description Wave 3 — 2 more Cambridge-style IELTS Academic Reading
+ * @description Wave 3 - 2 more Cambridge-style IELTS Academic Reading
  * exams (rx-cam-5, rx-cam-6). Every question has been fact-checked
  * line-by-line against the passage. MCQ `answer` is a string copied
  * verbatim from `options`; fill-blank `answer` is the exact word from

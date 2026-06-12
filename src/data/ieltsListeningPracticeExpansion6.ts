@@ -1,6 +1,6 @@
 /**
  * @file ieltsListeningPracticeExpansion6.ts
- * @description Wave 6 — 4 new IELTS Listening practice sets (one per
+ * @description Wave 6 - 4 new IELTS Listening practice sets (one per
  * official section). Every answer has been verified line-by-line against
  * the transcript. MCQ `answer` is the index into `options[]`; matching
  * `answer` is the letter key declared in `matchingOptions[]`.
@@ -11,7 +11,7 @@ import type { ListeningPracticeSet } from "./ieltsListeningPractice";
 
 export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
   // ============================================================
-  // Section 1 — Form Completion (Weekend cooking class)
+  // Section 1 - Form Completion (Weekend cooking class)
   // ============================================================
   {
     id: "form-cooking-class",
@@ -26,8 +26,8 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       "Receptionist: Good afternoon, Sunshine Cooking School. How may I help?\n" +
       "Caller: Hi, I'd like to book a class for this Saturday.\n" +
       "Receptionist: Of course. May I have your full name, please?\n" +
-      "Caller: Yes, it's Daniel Foster — F-O-S-T-E-R.\n" +
-      "Receptionist: Thank you. We're running three styles on Saturday — Italian, Thai and French. Which would you like?\n" +
+      "Caller: Yes, it's Daniel Foster - F-O-S-T-E-R.\n" +
+      "Receptionist: Thank you. We're running three styles on Saturday - Italian, Thai and French. Which would you like?\n" +
       "Caller: I'll go for Italian, please.\n" +
       "Receptionist: Italian on Saturday the fourteenth of June, then. The class runs for three hours, from ten in the morning until one.\n" +
       "Caller: Perfect. And the cost?\n" +
@@ -35,10 +35,10 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       "Caller: Do I need to bring anything?\n" +
       "Receptionist: Just an apron. We provide everything else.\n" +
       "Caller: And where exactly is the school?\n" +
-      "Receptionist: We're on Bridge Street, about two minutes from the public library — there's a small car park behind the building.\n" +
+      "Receptionist: We're on Bridge Street, about two minutes from the public library - there's a small car park behind the building.\n" +
       "Caller: Got it. A friend mentioned you have a discount code.\n" +
-      "Receptionist: Yes — if you book this week, the code WEEKEND10 gives you ten per cent off.\n" +
-      "Caller: Brilliant. One more thing — I have a nut allergy. Is that a problem?\n" +
+      "Receptionist: Yes - if you book this week, the code WEEKEND10 gives you ten per cent off.\n" +
+      "Caller: Brilliant. One more thing - I have a nut allergy. Is that a problem?\n" +
       "Receptionist: Not at all. We'll prepare a nut-free station for you.\n" +
       "Caller: And how many people will be in the class?\n" +
       "Receptionist: We cap each class at six participants.",
@@ -58,7 +58,7 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // Section 2 — Multiple Choice (Art gallery introduction)
+  // Section 2 - Multiple Choice (Art gallery introduction)
   // ============================================================
   {
     id: "monologue-art-gallery-v2",
@@ -73,7 +73,7 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       "Welcome to the Westbrook Art Gallery. My name is Priya, and I'll be looking after the gallery this afternoon.\n" +
       "The building you're standing in was opened in nineteen ninety-five, although the collection itself dates back more than two hundred years.\n" +
       "Our current exhibition, on the first floor, is called 'Light and Shadow' and focuses entirely on modern photography from Southeast Asia.\n" +
-      "A quick note on the rules: photographs are welcome in all rooms, but please keep your flash turned off — flash can damage the older paintings on the ground floor.\n" +
+      "A quick note on the rules: photographs are welcome in all rooms, but please keep your flash turned off - flash can damage the older paintings on the ground floor.\n" +
       "The café in the courtyard is open from ten until five today, and there's a small terrace if the weather stays dry.\n" +
       "If you'd like more detail, audio guides are available at reception for three pounds. They come in English, French and Mandarin.\n" +
       "Finally, please remember: our free family workshop runs every Sunday at two o'clock, not on weekdays. Children must be accompanied by an adult.",
@@ -90,7 +90,7 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // Section 3 — Matching (Marketing pitch roles)
+  // Section 3 - Matching (Marketing pitch roles)
   // ============================================================
   {
     id: "discussion-marketing-pitch",
@@ -107,17 +107,17 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       { letter: "C", text: "Sara" },
     ],
     transcript:
-      "Tutor: Right, team — the pitch is on Friday. Let's lock the roles.\n" +
-      "Maya: I'll do the slide design — I've already drafted a colour scheme.\n" +
+      "Tutor: Right, team - the pitch is on Friday. Let's lock the roles.\n" +
+      "Maya: I'll do the slide design - I've already drafted a colour scheme.\n" +
       "Tom: Great. Then I'll handle the competitor analysis. I still have access to last year's industry report.\n" +
       "Sara: And I can write the consumer survey. I want to interview about thirty students on campus.\n" +
       "Tutor: Excellent. Who is preparing the budget table?\n" +
       "Tom: Maya is much better with spreadsheets, honestly.\n" +
       "Maya: Fine, I'll add it.\n" +
       "Tutor: And the live demo on the day?\n" +
-      "Sara: I'd like to lead the demo — public speaking is the part I most want to practise.\n" +
-      "Tutor: Last one — who'll write the executive summary handout?\n" +
-      "Tom: I'll do that — it follows naturally from the competitor research.",
+      "Sara: I'd like to lead the demo - public speaking is the part I most want to practise.\n" +
+      "Tutor: Last one - who'll write the executive summary handout?\n" +
+      "Tom: I'll do that - it follows naturally from the competitor research.",
     rate: 0.85,
     questions: [
       { type: "matching", prompt: "Designing the slides: ___", answer: "A" },
@@ -130,7 +130,7 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
   },
 
   // ============================================================
-  // Section 4 — Sentence Completion (Microplastics lecture)
+  // Section 4 - Sentence Completion (Microplastics lecture)
   // ============================================================
   {
     id: "lecture-microplastics",
@@ -142,7 +142,7 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
     context: "A lecturer explains the microplastics problem. Complete each sentence with NO MORE THAN TWO WORDS or a number.",
     contextVi: "Giảng viên trình bày vấn đề vi nhựa. Hoàn thành mỗi câu với không quá hai từ hoặc một số.",
     transcript:
-      "Good afternoon. Today's lecture is on microplastics — that is, plastic fragments smaller than five millimetres in length.\n" +
+      "Good afternoon. Today's lecture is on microplastics - that is, plastic fragments smaller than five millimetres in length.\n" +
       "These particles enter the ocean from two main sources. The first is the gradual breakdown of larger plastic waste. The second, perhaps surprisingly, is synthetic clothing, which sheds tiny fibres every time it is washed.\n" +
       "Research published in twenty twenty-two estimated that there are now around five trillion plastic particles floating on the surface of the world's oceans.\n" +
       "Microplastics enter the food chain through plankton, which mistake the particles for food. From there they move up to fish and, eventually, to humans.\n" +

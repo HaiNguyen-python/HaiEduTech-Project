@@ -1,6 +1,6 @@
 /**
  * @file ieltsLecturesExpansion4.ts
- * @description Wave 4 — 9 new IELTS lectures across Listening / Reading /
+ * @description Wave 4 - 9 new IELTS lectures across Listening / Reading /
  * Writing / Speaking + Tips, Thematic Vocab and Applied Grammar.
  * Each lecture: 4 strategy steps, 2-3 mistakes, 4-5 vocab highlights and
  * 5 quiz questions (the global padder also enforces ≥5).
@@ -11,39 +11,39 @@ import type { IeltsLecture } from "./ieltsLecturesData";
 
 export const ieltsLecturesExpansion4: IeltsLecture[] = [
   // ============================================================
-  // 1. LISTENING — Section 1 Form Completion
+  // 1. LISTENING - Section 1 Form Completion
   // ============================================================
   {
     id: "listening-section1-form-completion",
-    title: "Listening Section 1 — Form Completion Mastery",
-    titleVi: "Listening Section 1 — Làm chủ điền form",
+    title: "Listening Section 1 - Form Completion Mastery",
+    titleVi: "Listening Section 1 - Làm chủ điền form",
     pillar: "skill-based",
     skill: "listening",
     icon: "📋",
     duration: "16 min",
     level: "foundation",
     description:
-      "Section 1 is the easiest 10 marks of the entire test — yet thousands of Vietnamese candidates lose 2-3 marks here on names, numbers and addresses. This lecture gives you a bullet-proof routine.",
+      "Section 1 is the easiest 10 marks of the entire test - yet thousands of Vietnamese candidates lose 2-3 marks here on names, numbers and addresses. This lecture gives you a bullet-proof routine.",
     descriptionVi:
-      "Section 1 là 10 điểm dễ nhất cả bài thi — nhưng hàng nghìn thí sinh Việt Nam vẫn mất 2-3 điểm vì tên, số và địa chỉ. Bài này cho bạn quy trình chống mất điểm.",
+      "Section 1 là 10 điểm dễ nhất cả bài thi - nhưng hàng nghìn thí sinh Việt Nam vẫn mất 2-3 điểm vì tên, số và địa chỉ. Bài này cho bạn quy trình chống mất điểm.",
     strategySteps: [
       { step: 1, title: "Predict the word-type for EVERY blank", titleVi: "Đoán loại từ cho TỪNG chỗ trống", description: "Before audio plays, write N (name), # (number), £ (price), @ (address) next to each blank. This narrows your listening focus.", descriptionVi: "Trước khi audio chạy, ghi N (tên), # (số), £ (giá), @ (địa chỉ) cạnh mỗi chỗ trống để khoanh vùng vùng nghe." },
-      { step: 2, title: "Spell every name in your head", titleVi: "Đánh vần MỌI tên trong đầu", description: "Names are spelt letter-by-letter. Practise the IPA of B/V, M/N, G/J — the 4 most-confused English letters for Vietnamese ears.", descriptionVi: "Tên được đọc từng chữ cái. Luyện IPA của B/V, M/N, G/J — 4 cặp dễ nhầm nhất với người Việt." },
+      { step: 2, title: "Spell every name in your head", titleVi: "Đánh vần MỌI tên trong đầu", description: "Names are spelt letter-by-letter. Practise the IPA of B/V, M/N, G/J - the 4 most-confused English letters for Vietnamese ears.", descriptionVi: "Tên được đọc từng chữ cái. Luyện IPA của B/V, M/N, G/J - 4 cặp dễ nhầm nhất với người Việt." },
       { step: 3, title: "Trust the SECOND number", titleVi: "Tin con số THỨ HAI", description: "Speakers often correct themselves: 'It's 0207… sorry, 0208 5567.' The corrected number is the answer. Always wait for the pause before writing.", descriptionVi: "Người nói thường tự sửa: '0207… à 0208 5567.' Số sửa lại mới là đáp án. Đợi pause rồi mới viết." },
-      { step: 4, title: "Re-write capitals at the end", titleVi: "Viết hoa lại ở cuối", description: "While listening you write lowercase for speed. In the last 30 seconds, capitalise proper nouns and check 'Street' vs 'St.' — mis-spellings are marked wrong.", descriptionVi: "Khi nghe viết thường cho nhanh. 30 giây cuối, viết hoa danh từ riêng và kiểm tra 'Street' vs 'St.' — sai chính tả là sai." },
+      { step: 4, title: "Re-write capitals at the end", titleVi: "Viết hoa lại ở cuối", description: "While listening you write lowercase for speed. In the last 30 seconds, capitalise proper nouns and check 'Street' vs 'St.' - mis-spellings are marked wrong.", descriptionVi: "Khi nghe viết thường cho nhanh. 30 giây cuối, viết hoa danh từ riêng và kiểm tra 'Street' vs 'St.' - sai chính tả là sai." },
     ],
     practicalExamples: [
       { context: "Booking a hotel room", contextVi: "Đặt phòng khách sạn", example: "Reception: 'That's room 1-7-double-2, sir.'", answer: "1722", explanation: "‘double-2’ = '22'. Always merge doubles immediately." },
-      { context: "Spelling a Vietnamese surname", contextVi: "Đánh vần họ Việt", example: "'My surname is NGUYEN — N-G-U-Y-E-N.'", answer: "Nguyen", explanation: "Capitalise the first letter only; never type it as 'NGUYEN'." },
+      { context: "Spelling a Vietnamese surname", contextVi: "Đánh vần họ Việt", example: "'My surname is NGUYEN - N-G-U-Y-E-N.'", answer: "Nguyen", explanation: "Capitalise the first letter only; never type it as 'NGUYEN'." },
     ],
     mistakesToAvoid: [
       { mistake: "Writing the FIRST number you hear", mistakeVi: "Viết NGAY con số đầu nghe được", why: "Section 1 is famous for self-correction. The second number is almost always the answer.", whyVi: "Section 1 nổi tiếng vì self-correction. Số thứ hai gần như luôn là đáp án." },
       { mistake: "Forgetting capital letters on names/places", mistakeVi: "Quên viết hoa tên người/nơi", why: "ielts.org marks ‘london’ wrong even if the sound is correct.", whyVi: "ielts.org chấm ‘london’ là SAI dù bạn nghe đúng." },
     ],
     goldenSecret:
-      "In Section 1, your PEN is the enemy. Listen first, write only after the speaker pauses — that pause is the test designer telling you ‘OK, the number is locked in now’.",
+      "In Section 1, your PEN is the enemy. Listen first, write only after the speaker pauses - that pause is the test designer telling you ‘OK, the number is locked in now’.",
     goldenSecretVi:
-      "Ở Section 1, CÂY BÚT là kẻ thù. Nghe trước, đợi người nói pause rồi mới viết — pause đó là dấu hiệu ‘số đã chốt’.",
+      "Ở Section 1, CÂY BÚT là kẻ thù. Nghe trước, đợi người nói pause rồi mới viết - pause đó là dấu hiệu ‘số đã chốt’.",
     vocabHighlights: [
       { word: "double / triple", definition: "Used when reading numbers: '22' = 'double-two'.", definitionVi: "Dùng khi đọc số: '22' = 'double-two'.", example: "My code is double-four, triple-seven.", band: "5.0+" },
       { word: "postcode", definition: "UK ZIP-like code mixing letters and numbers.", definitionVi: "Mã bưu chính Anh, gồm cả chữ và số.", example: "The postcode is SW1A 1AA.", band: "5.5+" },
@@ -53,27 +53,27 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     ],
     quiz: [
       { question: "What is the FIRST thing you should do before the audio plays?", options: ["Re-read the title", "Mark word-type next to each blank", "Translate every word", "Pre-write 'C' for guesses"], answer: 1, explanation: "Marking word-types (N, #, £, @) narrows your listening focus." },
-      { question: "Speaker says: 'It's 0207… sorry, 0208 5567.' Correct answer is:", options: ["02075567", "02085567", "0207 0208", "5567"], answer: 1, explanation: "Trust the corrected number — Section 1's classic self-correction trap." },
+      { question: "Speaker says: 'It's 0207… sorry, 0208 5567.' Correct answer is:", options: ["02075567", "02085567", "0207 0208", "5567"], answer: 1, explanation: "Trust the corrected number - Section 1's classic self-correction trap." },
       { question: "Which pair of letters is MOST confusing for Vietnamese ears?", options: ["A vs E", "B vs V", "T vs D", "L vs R"], answer: 1, explanation: "/b/ and /v/ share lip movement; drilling them prevents many spelling errors." },
       { question: "'Double-four, triple-seven' is written as:", options: ["4477", "447777", "44777", "447"], answer: 2, explanation: "double = ×2, triple = ×3 → 44 + 777 = 44777." },
-      { question: "If you spell ‘london’ all-lowercase but pronunciation is perfect, the answer is:", options: ["Accepted", "Half a mark", "Wrong — proper nouns need a capital", "Examiner's choice"], answer: 2, explanation: "Proper nouns MUST start with a capital letter on the answer sheet." },
+      { question: "If you spell ‘london’ all-lowercase but pronunciation is perfect, the answer is:", options: ["Accepted", "Half a mark", "Wrong - proper nouns need a capital", "Examiner's choice"], answer: 2, explanation: "Proper nouns MUST start with a capital letter on the answer sheet." },
     ],
     cheatSheetPoints: [
       "Predict word-type before audio: N / # / £ / @",
       "Drill IPA pairs B/V, M/N, G/J for clean spelling",
       "Always trust the SECOND number after a self-correction",
       "Capitalise proper nouns in the final 30-second check",
-      "Never write 'St.' if you heard 'Street' — write it in full",
+      "Never write 'St.' if you heard 'Street' - write it in full",
     ],
   },
 
   // ============================================================
-  // 2. READING — Matching Headings Pro
+  // 2. READING - Matching Headings Pro
   // ============================================================
   {
     id: "reading-matching-headings-pro",
-    title: "Reading — Matching Headings PRO Framework",
-    titleVi: "Reading — Khung PRO cho Matching Headings",
+    title: "Reading - Matching Headings PRO Framework",
+    titleVi: "Reading - Khung PRO cho Matching Headings",
     pillar: "skill-based",
     skill: "reading",
     icon: "🧩",
@@ -84,9 +84,9 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     descriptionVi:
       "Matching Headings là kỹ năng ‘ăn mòn’ điểm 6.0 → 7.0 vì nó kiểm tra Ý CHÍNH, không phải từ vựng. Khung PRO (Predict-Read-Overlap) giảm sai một nửa.",
     strategySteps: [
-      { step: 1, title: "PREDICT — paraphrase every heading", titleVi: "PREDICT — paraphrase mọi heading", description: "Underline the keyword in each heading and rewrite it in 4 words next to the option. This forces YOU to control the language, not the test.", descriptionVi: "Gạch chân keyword mỗi heading, viết lại 4 chữ ngắn gọn. Bạn kiểm soát ngôn ngữ, không phải đề." },
+      { step: 1, title: "PREDICT - paraphrase every heading", titleVi: "PREDICT - paraphrase mọi heading", description: "Underline the keyword in each heading and rewrite it in 4 words next to the option. This forces YOU to control the language, not the test.", descriptionVi: "Gạch chân keyword mỗi heading, viết lại 4 chữ ngắn gọn. Bạn kiểm soát ngôn ngữ, không phải đề." },
       { step: 2, title: "READ topic + last sentence only", titleVi: "READ câu chủ đề + câu cuối", description: "80 % of paragraph main ideas live in sentence 1 or sentence n. Reading the middle wastes 4-5 minutes per passage.", descriptionVi: "80% ý chính nằm ở câu 1 hoặc câu cuối. Đọc giữa là phí 4-5 phút mỗi bài." },
-      { step: 3, title: "OVERLAP — match by IDEA not WORD", titleVi: "OVERLAP — khớp Ý chứ không phải TỪ", description: "If a heading and paragraph share an exact word, it's usually a trap (‘word-bait’). Look for IDEA overlap.", descriptionVi: "Nếu heading và đoạn có từ giống y, thường là bẫy ‘word-bait’. Khớp Ý mới đúng." },
+      { step: 3, title: "OVERLAP - match by IDEA not WORD", titleVi: "OVERLAP - khớp Ý chứ không phải TỪ", description: "If a heading and paragraph share an exact word, it's usually a trap (‘word-bait’). Look for IDEA overlap.", descriptionVi: "Nếu heading và đoạn có từ giống y, thường là bẫy ‘word-bait’. Khớp Ý mới đúng." },
       { step: 4, title: "Cross out used headings IMMEDIATELY", titleVi: "Gạch heading đã dùng NGAY", description: "Each heading is used once. Crossing out shrinks the choice pool and prevents double-matching.", descriptionVi: "Mỗi heading dùng đúng 1 lần. Gạch ngay để thu hẹp lựa chọn và tránh trùng." },
     ],
     practicalExamples: [
@@ -98,9 +98,9 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
       { mistake: "Reading every paragraph in full", mistakeVi: "Đọc kỹ từng đoạn", why: "There isn't time. Use topic + concluding sentence first; dive deeper only if undecided.", whyVi: "Không đủ thời gian. Dùng câu chủ đề + câu cuối trước; chỉ đọc sâu khi do dự." },
     ],
     goldenSecret:
-      "Headings test the IDEA the writer wanted you to leave with — usually the LAST sentence of the paragraph. When in doubt, choose the heading that best summarises the final sentence.",
+      "Headings test the IDEA the writer wanted you to leave with - usually the LAST sentence of the paragraph. When in doubt, choose the heading that best summarises the final sentence.",
     goldenSecretVi:
-      "Heading kiểm tra Ý mà tác giả muốn bạn nhớ — thường ở câu CUỐI đoạn. Khi do dự, hãy chọn heading tóm tắt được câu cuối.",
+      "Heading kiểm tra Ý mà tác giả muốn bạn nhớ - thường ở câu CUỐI đoạn. Khi do dự, hãy chọn heading tóm tắt được câu cuối.",
     vocabHighlights: [
       { word: "to encapsulate", definition: "To summarise the essence of something.", definitionVi: "Tóm gọn bản chất.", example: "The phrase encapsulates the writer's main argument.", band: "7.0+" },
       { word: "central thesis", definition: "The main claim of a text.", definitionVi: "Luận điểm trung tâm.", example: "Identify the central thesis before matching headings.", band: "7.0+" },
@@ -108,14 +108,14 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
       { word: "concluding sentence", definition: "The final sentence summarising a paragraph.", definitionVi: "Câu kết đoạn.", example: "The concluding sentence usually states the writer's take-away.", band: "6.5+" },
     ],
     quiz: [
-      { question: "What does the 'P' in PRO stand for?", options: ["Paraphrase", "Predict", "Pause", "Plan"], answer: 1, explanation: "PREDICT — paraphrase every heading before reading the passage." },
+      { question: "What does the 'P' in PRO stand for?", options: ["Paraphrase", "Predict", "Pause", "Plan"], answer: 1, explanation: "PREDICT - paraphrase every heading before reading the passage." },
       { question: "Which two sentences carry 80 % of a paragraph's main idea?", options: ["Sentence 2 + 3", "Topic + concluding", "Topic + middle", "Concluding + footnote"], answer: 1, explanation: "Topic sentence (first) + concluding sentence (last)." },
       { question: "A keyword matches BOTH a heading and a paragraph. You should:", options: ["Match instantly", "Suspect a trap and check the idea", "Skip the question", "Mark two headings"], answer: 1, explanation: "Word-bait is the #1 trap; always verify idea overlap." },
       { question: "After picking a heading, you should immediately:", options: ["Read every paragraph again", "Cross out the used heading", "Switch to the next passage", "Translate into Vietnamese"], answer: 1, explanation: "Crossing-out shrinks options and prevents double-matching." },
       { question: "When undecided, choose the heading that best summarises:", options: ["The longest sentence", "The final sentence", "Random middle line", "The first word"], answer: 1, explanation: "The final sentence usually carries the writer's take-away idea." },
     ],
     cheatSheetPoints: [
-      "PREDICT — paraphrase every heading in ≤4 words",
+      "PREDICT - paraphrase every heading in ≤4 words",
       "Read TOPIC + CONCLUDING sentences only",
       "Match by IDEA, never by repeated word",
       "Cross out used headings to shrink the pool",
@@ -124,12 +124,12 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 3. WRITING — Task 1 Bar Chart PRO
+  // 3. WRITING - Task 1 Bar Chart PRO
   // ============================================================
   {
     id: "writing-task1-bar-chart-pro",
-    title: "Writing Task 1 — Bar Chart PRO Template",
-    titleVi: "Writing Task 1 — Mẫu PRO cho Bar Chart",
+    title: "Writing Task 1 - Bar Chart PRO Template",
+    titleVi: "Writing Task 1 - Mẫu PRO cho Bar Chart",
     pillar: "skill-based",
     skill: "writing",
     icon: "📊",
@@ -146,8 +146,8 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
       { step: 4, title: "NUMBERS in supporting role only", titleVi: "Số chỉ để hỗ trợ", description: "Quote 2 numbers per body paragraph max. Use percentages with adjectives: 'a substantial 64 %'.", descriptionVi: "Mỗi body chỉ cần 2 con số. Dùng % với tính từ: 'a substantial 64 %'." },
     ],
     practicalExamples: [
-      { context: "Bar chart comparing fast-food consumption in 4 countries", contextVi: "Bar chart tiêu thụ thức ăn nhanh 4 nước", example: "Overview: 'Overall, the United States dominated fast-food consumption, whereas the four Asian nations recorded considerably lower figures.'", answer: "Top-tier overview", explanation: "Two features (highest + grouping) and zero numbers — exactly what Band 7 wants." },
-      { context: "Grouping sentence", contextVi: "Câu phân nhóm", example: "'The two Western countries — the US and the UK — consumed roughly twice as much as their Asian counterparts.'", answer: "Strong grouping", explanation: "‘Twice as much’ + grouping = high-level comparison." },
+      { context: "Bar chart comparing fast-food consumption in 4 countries", contextVi: "Bar chart tiêu thụ thức ăn nhanh 4 nước", example: "Overview: 'Overall, the United States dominated fast-food consumption, whereas the four Asian nations recorded considerably lower figures.'", answer: "Top-tier overview", explanation: "Two features (highest + grouping) and zero numbers - exactly what Band 7 wants." },
+      { context: "Grouping sentence", contextVi: "Câu phân nhóm", example: "'The two Western countries - the US and the UK - consumed roughly twice as much as their Asian counterparts.'", answer: "Strong grouping", explanation: "‘Twice as much’ + grouping = high-level comparison." },
     ],
     mistakesToAvoid: [
       { mistake: "Listing every single bar with its number", mistakeVi: "Liệt kê từng cột với từng con số", why: "Examiner sees no selection of key features → max Task Achievement 5.", whyVi: "Giám khảo thấy bạn không chọn lọc → trần TA 5." },
@@ -167,7 +167,7 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     quiz: [
       { question: "What does the 'O' in the PRO template stand for?", options: ["Outline", "Overview", "Organise", "Opinion"], answer: 1, explanation: "Overview = 2 macro features WITHOUT numbers." },
       { question: "How many features must the Overview contain?", options: ["1", "2", "3", "5"], answer: 1, explanation: "Two features (highest/lowest + overall trend) is the Band-7 minimum." },
-      { question: "How many numbers should a body paragraph contain?", options: ["Every number on the chart", "Max 2", "Zero", "Exactly 5"], answer: 1, explanation: "Two supporting figures per body — quality, not quantity." },
+      { question: "How many numbers should a body paragraph contain?", options: ["Every number on the chart", "Max 2", "Zero", "Exactly 5"], answer: 1, explanation: "Two supporting figures per body - quality, not quantity." },
       { question: "Putting numbers in the Overview leads to:", options: ["Band 7", "Band 6 cap", "Bonus mark", "Better cohesion"], answer: 1, explanation: "Numbers belong to body paragraphs; overview is for macro trends." },
       { question: "Choosing top vs bottom GROUPS demonstrates:", options: ["Vocabulary range", "Grammar", "Categorisation skill → Coherence 7", "Spelling"], answer: 2, explanation: "Grouping signals coherence and selection of key features." },
     ],
@@ -181,12 +181,12 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 4. WRITING — Task 2 Problem-Solution
+  // 4. WRITING - Task 2 Problem-Solution
   // ============================================================
   {
     id: "writing-task2-problem-solution",
-    title: "Task 2 — Problem & Solution Essay Blueprint",
-    titleVi: "Task 2 — Blueprint cho bài Problem & Solution",
+    title: "Task 2 - Problem & Solution Essay Blueprint",
+    titleVi: "Task 2 - Blueprint cho bài Problem & Solution",
     pillar: "skill-based",
     skill: "writing",
     icon: "🛠️",
@@ -209,7 +209,7 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     mistakesToAvoid: [
       { mistake: "Listing 3 problems and 3 solutions", mistakeVi: "Liệt kê 3 vấn đề và 3 giải pháp", why: "Each idea gets 30 words → no depth → max Task Response 5.", whyVi: "Mỗi ý chỉ 30 chữ → không sâu → trần TR 5." },
       { mistake: "Solution that doesn't match the cause", mistakeVi: "Giải pháp không khớp nguyên nhân", why: "Examiner marks weak coherence; the essay reads disjointed.", whyVi: "Giám khảo trừ coherence; bài đọc rời rạc." },
-      { mistake: "No measurable outcome", mistakeVi: "Không có kết quả đo được", why: "Outcomes prove your solution works — without them, ideas feel speculative.", whyVi: "Outcome chứng minh giải pháp hiệu quả — thiếu nó, ý tưởng nghe suy đoán." },
+      { mistake: "No measurable outcome", mistakeVi: "Không có kết quả đo được", why: "Outcomes prove your solution works - without them, ideas feel speculative.", whyVi: "Outcome chứng minh giải pháp hiệu quả - thiếu nó, ý tưởng nghe suy đoán." },
     ],
     goldenSecret:
       "Examiners reward DEPTH over breadth. One root cause + one targeted fix + one measurable outcome beats four shallow ideas every time.",
@@ -223,11 +223,11 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
       { word: "root cause", definition: "The original underlying source.", definitionVi: "Nguyên nhân gốc rễ.", example: "We must tackle the root cause, not the symptoms.", band: "7.0+" },
     ],
     quiz: [
-      { question: "How many root causes should the body explore?", options: ["1", "2", "3", "4"], answer: 0, explanation: "Depth over breadth — pick the deepest cause and develop it fully." },
+      { question: "How many root causes should the body explore?", options: ["1", "2", "3", "4"], answer: 0, explanation: "Depth over breadth - pick the deepest cause and develop it fully." },
       { question: "A good Task 2 problem-solution essay ends each body with:", options: ["A rhetorical question", "A measurable result", "An idiom", "A second problem"], answer: 1, explanation: "Measurable results show your solution actually works." },
-      { question: "Which phrase belongs in this essay type?", options: ["Once upon a time", "To stem from", "Long story short", "By the way"], answer: 1, explanation: "‘Stem from’ signals root-cause analysis — academic register." },
+      { question: "Which phrase belongs in this essay type?", options: ["Once upon a time", "To stem from", "Long story short", "By the way"], answer: 1, explanation: "‘Stem from’ signals root-cause analysis - academic register." },
       { question: "The conclusion should contain:", options: ["A brand-new idea", "Just keywords", "A restatement of the cause-solution link", "A joke"], answer: 2, explanation: "Conclusions wrap up; they never introduce new ideas." },
-      { question: "Listing 3 shallow problems leads to:", options: ["Higher Lexical Resource", "Lower Task Response", "Higher coherence", "Bonus mark"], answer: 1, explanation: "Each idea gets too few words — Task Response is capped at 5." },
+      { question: "Listing 3 shallow problems leads to:", options: ["Higher Lexical Resource", "Lower Task Response", "Higher coherence", "Bonus mark"], answer: 1, explanation: "Each idea gets too few words - Task Response is capped at 5." },
     ],
     cheatSheetPoints: [
       "Pick 1 root cause, not 3 surface symptoms",
@@ -239,12 +239,12 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 5. SPEAKING — Part 2 Personal Stories
+  // 5. SPEAKING - Part 2 Personal Stories
   // ============================================================
   {
     id: "speaking-part2-personal-stories",
-    title: "Speaking Part 2 — Personal Stories That Earn 7.5",
-    titleVi: "Speaking Part 2 — Kể chuyện cá nhân chuẩn 7.5",
+    title: "Speaking Part 2 - Personal Stories That Earn 7.5",
+    titleVi: "Speaking Part 2 - Kể chuyện cá nhân chuẩn 7.5",
     pillar: "skill-based",
     skill: "speaking",
     icon: "🎙️",
@@ -255,13 +255,13 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     descriptionVi:
       "Giám khảo cũng là con người: họ nhớ CHUYỆN, không nhớ danh sách. Dùng vòng lặp 5-Sense Story Loop biến mọi cue card thành câu chuyện cá nhân 2 phút sống động, ăn 7.5 Fluency & Lexical Resource.",
     strategySteps: [
-      { step: 1, title: "Anchor the story with a TIME + PLACE", titleVi: "Neo chuyện bằng THỜI GIAN + ĐỊA ĐIỂM", description: "Open with ‘Back in the summer of 2019, I was wandering through the old quarter of Hanoi…’ — instantly cinematic.", descriptionVi: "Mở: ‘Hè 2019, tôi đang lang thang phố cổ Hà Nội…’ — bật ngay chế độ điện ảnh." },
+      { step: 1, title: "Anchor the story with a TIME + PLACE", titleVi: "Neo chuyện bằng THỜI GIAN + ĐỊA ĐIỂM", description: "Open with ‘Back in the summer of 2019, I was wandering through the old quarter of Hanoi…’ - instantly cinematic.", descriptionVi: "Mở: ‘Hè 2019, tôi đang lang thang phố cổ Hà Nội…’ - bật ngay chế độ điện ảnh." },
       { step: 2, title: "Trigger ALL 5 senses (1 sentence each)", titleVi: "Kích hoạt CẢ 5 giác quan (mỗi cái 1 câu)", description: "Sight, sound, smell, taste, touch. Five rich sentences = 25 advanced collocations.", descriptionVi: "Thị, thính, khứu, vị, xúc. 5 câu giàu chi tiết = 25 collocation cao cấp." },
       { step: 3, title: "Add an EMOTIONAL TWIST", titleVi: "Thêm một CÚ TWIST cảm xúc", description: "What surprised you? Pivot with: ‘What I didn't expect was…’. Twists are unforgettable.", descriptionVi: "Có gì bất ngờ? Xoay: ‘Điều tôi không ngờ là…’. Twist khiến giám khảo nhớ mãi." },
       { step: 4, title: "Close with REFLECTION → future link", titleVi: "Đóng bằng REFLECTION nối tương lai", description: "End: ‘Ever since, I've made a habit of…’. This naturally flows into Part 3.", descriptionVi: "Kết: ‘Từ đó, tôi có thói quen…’. Mượt sang Part 3." },
     ],
     practicalExamples: [
-      { context: "Cue card: Describe a memorable meal", contextVi: "Cue card: Bữa ăn đáng nhớ", example: "‘Back in winter 2022, I huddled around a steaming pot of pho on a freezing Hanoi night. The broth glistened with star anise; the scent hit me before the bowl did. What I didn't expect was the chef — my grandmother — sneaking in a slice of orange peel, her secret family twist…’", answer: "Sensory + twist + reflection", explanation: "Time anchor + 4 senses + twist + emotional close = effortless 2-minute answer." },
+      { context: "Cue card: Describe a memorable meal", contextVi: "Cue card: Bữa ăn đáng nhớ", example: "‘Back in winter 2022, I huddled around a steaming pot of pho on a freezing Hanoi night. The broth glistened with star anise; the scent hit me before the bowl did. What I didn't expect was the chef - my grandmother - sneaking in a slice of orange peel, her secret family twist…’", answer: "Sensory + twist + reflection", explanation: "Time anchor + 4 senses + twist + emotional close = effortless 2-minute answer." },
       { context: "Cue card: A piece of technology you love", contextVi: "Cue card: Công nghệ bạn yêu thích", example: "‘Three months ago, my noise-cancelling headphones literally saved my sanity on a screaming 10-hour flight to Helsinki. The instant the cushions sealed my ears, the cabin roar melted into pure silence…’", answer: "Vivid scene", explanation: "Specific time + tactile detail + emotion → Band 7.5 fluency." },
     ],
     mistakesToAvoid: [
@@ -269,9 +269,9 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
       { mistake: "Using generic adjectives (‘very nice’, ‘good’)", mistakeVi: "Dùng tính từ chung (‘rất hay’, ‘tốt’)", why: "Examiners count Band-7 vocabulary; generic words trigger Band-5 lexical resource.", whyVi: "Giám khảo đếm từ Band 7; từ chung kéo LR về Band 5." },
     ],
     goldenSecret:
-      "Examiners listen to ~50 candidates a week. A story with sensory detail and an emotional twist is the only thing they'll remember — and remembrance equals high marks.",
+      "Examiners listen to ~50 candidates a week. A story with sensory detail and an emotional twist is the only thing they'll remember - and remembrance equals high marks.",
     goldenSecretVi:
-      "Giám khảo nghe ~50 thí sinh/tuần. Câu chuyện có chi tiết giác quan + twist cảm xúc là thứ DUY NHẤT họ nhớ — nhớ = điểm cao.",
+      "Giám khảo nghe ~50 thí sinh/tuần. Câu chuyện có chi tiết giác quan + twist cảm xúc là thứ DUY NHẤT họ nhớ - nhớ = điểm cao.",
     vocabHighlights: [
       { word: "to glisten", definition: "To shine with reflected light.", definitionVi: "Lấp lánh.", example: "The broth glistened with star anise.", band: "7.5+" },
       { word: "huddle around", definition: "To gather closely.", definitionVi: "Quây quần.", example: "We huddled around the fire pit.", band: "7.0+" },
@@ -296,12 +296,12 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 6. TIPS — Coherence & Cohesion 7.0 Toolkit
+  // 6. TIPS - Coherence & Cohesion 7.0 Toolkit
   // ============================================================
   {
     id: "tips-coherence-cohesion-toolkit",
-    title: "Coherence & Cohesion — The Band 7 Toolkit",
-    titleVi: "Coherence & Cohesion — Bộ công cụ Band 7",
+    title: "Coherence & Cohesion - The Band 7 Toolkit",
+    titleVi: "Coherence & Cohesion - Bộ công cụ Band 7",
     pillar: "tips-hacks",
     icon: "🔗",
     duration: "14 min",
@@ -311,10 +311,10 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     descriptionVi:
       "Coherence & Cohesion chiếm 25% điểm Writing nhưng đa số thí sinh chỉ biết ‘firstly / secondly / in conclusion’. Bộ công cụ này mở khóa 12 thiết bị nối cao cấp giám khảo mê.",
     strategySteps: [
-      { step: 1, title: "Use REFERENCE chains (this / these / such)", titleVi: "Dùng chuỗi REFERENCE (this / these / such)", description: "Replace nouns in sentence 2 with ‘this trend / these measures’ — proves you can track ideas without repeating words.", descriptionVi: "Câu 2 thay danh từ bằng ‘this trend / these measures’ — chứng tỏ bạn nối ý mà không lặp từ." },
-      { step: 2, title: "Use SUBSTITUTION (do so / one)", titleVi: "Dùng SUBSTITUTION (do so / one)", description: "‘Many countries are banning plastic; Vietnam plans to do so by 2030.’ — Band 7 cohesion in one move.", descriptionVi: "‘Many countries are banning plastic; Vietnam plans to do so by 2030.’ — cohesion Band 7 trong 1 chiêu." },
+      { step: 1, title: "Use REFERENCE chains (this / these / such)", titleVi: "Dùng chuỗi REFERENCE (this / these / such)", description: "Replace nouns in sentence 2 with ‘this trend / these measures’ - proves you can track ideas without repeating words.", descriptionVi: "Câu 2 thay danh từ bằng ‘this trend / these measures’ - chứng tỏ bạn nối ý mà không lặp từ." },
+      { step: 2, title: "Use SUBSTITUTION (do so / one)", titleVi: "Dùng SUBSTITUTION (do so / one)", description: "‘Many countries are banning plastic; Vietnam plans to do so by 2030.’ - Band 7 cohesion in one move.", descriptionVi: "‘Many countries are banning plastic; Vietnam plans to do so by 2030.’ - cohesion Band 7 trong 1 chiêu." },
       { step: 3, title: "Use LOGICAL connectors beyond ‘however’", titleVi: "Dùng nối logic xa hơn ‘however’", description: "Add ‘conversely / by the same token / on a related note / that said’.", descriptionVi: "Thêm ‘conversely / by the same token / on a related note / that said’." },
-      { step: 4, title: "ELLIPSIS for sentence rhythm", titleVi: "Dùng ELLIPSIS để câu nhịp nhàng", description: "‘Some support the policy; others, not at all.’ — omitting ‘do’ shows native-like control.", descriptionVi: "‘Some support the policy; others, not at all.’ — bỏ ‘do’ thể hiện kiểm soát như bản xứ." },
+      { step: 4, title: "ELLIPSIS for sentence rhythm", titleVi: "Dùng ELLIPSIS để câu nhịp nhàng", description: "‘Some support the policy; others, not at all.’ - omitting ‘do’ shows native-like control.", descriptionVi: "‘Some support the policy; others, not at all.’ - bỏ ‘do’ thể hiện kiểm soát như bản xứ." },
     ],
     practicalExamples: [
       { context: "Reference chain", contextVi: "Chuỗi reference", example: "‘Plastic waste pollutes oceans. This problem now threatens 800 marine species.’", answer: "‘This problem’ refers back without repetition", explanation: "Examiner sees clear linking; word ‘pollution’ isn't repeated." },
@@ -322,12 +322,12 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     ],
     mistakesToAvoid: [
       { mistake: "Starting every paragraph with ‘Firstly / Secondly / Finally’", mistakeVi: "Mở mỗi đoạn bằng ‘Firstly / Secondly / Finally’", why: "Examiner sees mechanical linking → caps cohesion at Band 5.", whyVi: "Giám khảo thấy nối máy móc → trần cohesion 5." },
-      { mistake: "Over-using ‘however’ in every paragraph", mistakeVi: "Lạm dụng ‘however’ ở mỗi đoạn", why: "Lexical monotony — Band 7 needs variety.", whyVi: "Lặp từ vựng — Band 7 cần đa dạng." },
+      { mistake: "Over-using ‘however’ in every paragraph", mistakeVi: "Lạm dụng ‘however’ ở mỗi đoạn", why: "Lexical monotony - Band 7 needs variety.", whyVi: "Lặp từ vựng - Band 7 cần đa dạng." },
     ],
     goldenSecret:
-      "Band 7 cohesion is INVISIBLE. The examiner doesn't see ‘Firstly’ flashing in neon — they feel the essay flow. Substitution, reference and ellipsis create that invisible glue.",
+      "Band 7 cohesion is INVISIBLE. The examiner doesn't see ‘Firstly’ flashing in neon - they feel the essay flow. Substitution, reference and ellipsis create that invisible glue.",
     goldenSecretVi:
-      "Cohesion Band 7 là VÔ HÌNH. Giám khảo không thấy ‘Firstly’ nhấp nháy — họ CẢM thấy bài trôi mượt. Substitution, reference và ellipsis tạo keo dán vô hình đó.",
+      "Cohesion Band 7 là VÔ HÌNH. Giám khảo không thấy ‘Firstly’ nhấp nháy - họ CẢM thấy bài trôi mượt. Substitution, reference và ellipsis tạo keo dán vô hình đó.",
     vocabHighlights: [
       { word: "conversely", definition: "Used to introduce a contrasting idea.", definitionVi: "Ngược lại.", example: "Conversely, urban regions saw a decline.", band: "7.0+" },
       { word: "by the same token", definition: "Similarly / in the same way.", definitionVi: "Cùng lý do đó.", example: "By the same token, smaller firms also benefit.", band: "7.5+" },
@@ -337,9 +337,9 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     quiz: [
       { question: "Coherence & Cohesion is what % of your Writing score?", options: ["10 %", "25 %", "33 %", "50 %"], answer: 1, explanation: "One of the four equally-weighted criteria → 25 %." },
       { question: "Which device replaces a noun phrase to avoid repetition?", options: ["Idiom", "Reference (this / these / such)", "Phrasal verb", "Exclamation"], answer: 1, explanation: "Reference chains track ideas without repeating words." },
-      { question: "‘Vietnam plans to do so by 2030.’ — which device?", options: ["Ellipsis", "Substitution", "Synonymy", "Repetition"], answer: 1, explanation: "‘Do so’ substitutes for the earlier verb phrase." },
+      { question: "‘Vietnam plans to do so by 2030.’ - which device?", options: ["Ellipsis", "Substitution", "Synonymy", "Repetition"], answer: 1, explanation: "‘Do so’ substitutes for the earlier verb phrase." },
       { question: "Mechanical ‘Firstly / Secondly / Finally’ caps cohesion at:", options: ["Band 7", "Band 5", "Band 9", "Band 8"], answer: 1, explanation: "Over-mechanical connectors signal a Band 5 cohesion profile." },
-      { question: "Which connector signals SOFTENED contrast?", options: ["However", "That said", "Therefore", "Moreover"], answer: 1, explanation: "‘That said’ politely concedes while contrasting — Band 7.5 register." },
+      { question: "Which connector signals SOFTENED contrast?", options: ["However", "That said", "Therefore", "Moreover"], answer: 1, explanation: "‘That said’ politely concedes while contrasting - Band 7.5 register." },
     ],
     cheatSheetPoints: [
       "Build REFERENCE chains: this / these / such",
@@ -351,12 +351,12 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 7. TIPS — Pronunciation Stress Hack
+  // 7. TIPS - Pronunciation Stress Hack
   // ============================================================
   {
     id: "tips-pronunciation-word-stress",
-    title: "Speaking — The Word-Stress Hack for Instant Band 7",
-    titleVi: "Speaking — Chiêu trọng âm đẩy ngay Band 7",
+    title: "Speaking - The Word-Stress Hack for Instant Band 7",
+    titleVi: "Speaking - Chiêu trọng âm đẩy ngay Band 7",
     pillar: "tips-hacks",
     icon: "🎵",
     duration: "12 min",
@@ -366,10 +366,10 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     descriptionVi:
       "Tiếng Việt theo nhịp âm tiết; tiếng Anh theo nhịp trọng âm. Sai trọng âm danh từ chính = giám khảo không hiểu. Nắm 4 quy tắc dưới đây để nhảy Band 6 → 7 phát âm.",
     strategySteps: [
-      { step: 1, title: "RULE 1 — Two-syllable nouns: stress 1st", titleVi: "QUY TẮC 1 — Danh từ 2 âm tiết: nhấn 1", description: "TAble, DOCtor, MARket. Vietnamese learners often flatten them.", descriptionVi: "TAble, DOCtor, MARket. Người Việt hay đọc đều." },
-      { step: 2, title: "RULE 2 — Two-syllable verbs: stress 2nd", titleVi: "QUY TẮC 2 — Động từ 2 âm tiết: nhấn 2", description: "reLAX, deCIDE, perMIT. Same spelling, different stress: ‘a PERmit’ (noun) vs ‘to perMIT’ (verb).", descriptionVi: "reLAX, deCIDE, perMIT. Cùng từ, khác trọng âm: ‘a PERmit’ (noun) vs ‘to perMIT’ (verb)." },
-      { step: 3, title: "RULE 3 — Words ending -tion / -sion: stress before", titleVi: "QUY TẮC 3 — Từ kết -tion / -sion: nhấn ngay trước", description: "eduCAtion, deCIsion, opPORtunity (also -ity).", descriptionVi: "eduCAtion, deCIsion, opPORtunity (cả -ity)." },
-      { step: 4, title: "RULE 4 — Compound nouns: stress 1st part", titleVi: "QUY TẮC 4 — Danh từ ghép: nhấn phần 1", description: "GREENhouse, BLACKboard, BOOKshop.", descriptionVi: "GREENhouse, BLACKboard, BOOKshop." },
+      { step: 1, title: "RULE 1 - Two-syllable nouns: stress 1st", titleVi: "QUY TẮC 1 - Danh từ 2 âm tiết: nhấn 1", description: "TAble, DOCtor, MARket. Vietnamese learners often flatten them.", descriptionVi: "TAble, DOCtor, MARket. Người Việt hay đọc đều." },
+      { step: 2, title: "RULE 2 - Two-syllable verbs: stress 2nd", titleVi: "QUY TẮC 2 - Động từ 2 âm tiết: nhấn 2", description: "reLAX, deCIDE, perMIT. Same spelling, different stress: ‘a PERmit’ (noun) vs ‘to perMIT’ (verb).", descriptionVi: "reLAX, deCIDE, perMIT. Cùng từ, khác trọng âm: ‘a PERmit’ (noun) vs ‘to perMIT’ (verb)." },
+      { step: 3, title: "RULE 3 - Words ending -tion / -sion: stress before", titleVi: "QUY TẮC 3 - Từ kết -tion / -sion: nhấn ngay trước", description: "eduCAtion, deCIsion, opPORtunity (also -ity).", descriptionVi: "eduCAtion, deCIsion, opPORtunity (cả -ity)." },
+      { step: 4, title: "RULE 4 - Compound nouns: stress 1st part", titleVi: "QUY TẮC 4 - Danh từ ghép: nhấn phần 1", description: "GREENhouse, BLACKboard, BOOKshop.", descriptionVi: "GREENhouse, BLACKboard, BOOKshop." },
     ],
     practicalExamples: [
       { context: "Same spelling, different word class", contextVi: "Cùng chữ, khác loại từ", example: "‘She gave him a PREsent.’ vs ‘He will preSENT the report.’", answer: "Stress shifts noun→verb", explanation: "Failing to shift stress confuses listeners and signals Band 5 pronunciation." },
@@ -377,7 +377,7 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     ],
     mistakesToAvoid: [
       { mistake: "Pronouncing every syllable equally (Vietnamese rhythm)", mistakeVi: "Đọc đều mọi âm tiết (nhịp tiếng Việt)", why: "English ears expect a strong-weak rhythm; equal stress sounds robotic and unintelligible.", whyVi: "Tai bản xứ cần nhịp mạnh-yếu; đọc đều nghe máy móc, khó hiểu." },
-      { mistake: "Adding stress on -ed / -s endings", mistakeVi: "Nhấn vào -ed / -s", why: "Inflections are NEVER stressed in English — they're weak.", whyVi: "Đuôi -ed / -s không bao giờ nhấn trong tiếng Anh." },
+      { mistake: "Adding stress on -ed / -s endings", mistakeVi: "Nhấn vào -ed / -s", why: "Inflections are NEVER stressed in English - they're weak.", whyVi: "Đuôi -ed / -s không bao giờ nhấn trong tiếng Anh." },
     ],
     goldenSecret:
       "On test day, mentally CLAP the stress of every multi-syllable noun you say. Clap-able stress = clear speech = Band 7 pronunciation.",
@@ -392,8 +392,8 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     quiz: [
       { question: "Where is the stress in the noun ‘record’?", options: ["RE-cord", "re-CORD", "Both equal", "No stress"], answer: 0, explanation: "Two-syllable noun → stress on syllable 1." },
       { question: "Where is the stress in the verb ‘record’?", options: ["RE-cord", "re-CORD", "No stress", "Both"], answer: 1, explanation: "Two-syllable verb → stress on syllable 2." },
-      { question: "Words ending in -tion stress the syllable…", options: ["At the end (-tion)", "Two before -tion", "Immediately BEFORE -tion", "On the first syllable"], answer: 2, explanation: "Rule 3 — stress falls one syllable before -tion / -sion." },
-      { question: "Equal stress on every syllable signals:", options: ["Band 9 fluency", "Vietnamese rhythm — caps pronunciation at Band 5", "Native UK accent", "Strong vocabulary"], answer: 1, explanation: "Flat rhythm is the #1 Vietnamese-learner pronunciation issue." },
+      { question: "Words ending in -tion stress the syllable…", options: ["At the end (-tion)", "Two before -tion", "Immediately BEFORE -tion", "On the first syllable"], answer: 2, explanation: "Rule 3 - stress falls one syllable before -tion / -sion." },
+      { question: "Equal stress on every syllable signals:", options: ["Band 9 fluency", "Vietnamese rhythm - caps pronunciation at Band 5", "Native UK accent", "Strong vocabulary"], answer: 1, explanation: "Flat rhythm is the #1 Vietnamese-learner pronunciation issue." },
       { question: "Compound noun ‘greenhouse’ is stressed on:", options: ["First part (GREEN)", "Second part (house)", "Both equally", "Last syllable"], answer: 0, explanation: "Compound nouns are stressed on the first element." },
     ],
     cheatSheetPoints: [
@@ -406,12 +406,12 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
   },
 
   // ============================================================
-  // 8. THEMATIC VOCAB — Environment Band 7
+  // 8. THEMATIC VOCAB - Environment Band 7
   // ============================================================
   {
     id: "vocab-environment-band7",
-    title: "Environment — Band 7 Topic Vocabulary",
-    titleVi: "Môi trường — Từ vựng chủ đề Band 7",
+    title: "Environment - Band 7 Topic Vocabulary",
+    titleVi: "Môi trường - Từ vựng chủ đề Band 7",
     pillar: "thematic-vocab",
     icon: "🌱",
     duration: "18 min",
@@ -448,7 +448,7 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     ],
     quiz: [
       { question: "Choose the Band-7 alternative to ‘pollution’:", options: ["Bad air", "Particulate matter", "Smelly stuff", "Gas"], answer: 1, explanation: "‘Particulate matter’ is specific and academic." },
-      { question: "‘___ emissions’ — best verb:", options: ["See", "Curb", "Watch", "Like"], answer: 1, explanation: "‘Curb emissions’ is a high-frequency Band-7 collocation." },
+      { question: "‘___ emissions’ - best verb:", options: ["See", "Curb", "Watch", "Like"], answer: 1, explanation: "‘Curb emissions’ is a high-frequency Band-7 collocation." },
       { question: "‘Phase out’ means:", options: ["Speed up", "Gradually remove", "Multiply", "Double"], answer: 1, explanation: "Used for policies retiring fossil fuels, plastics, etc." },
       { question: "Repeating ‘the environment’ 8 times caps:", options: ["Grammar", "Lexical Resource at Band 5", "Pronunciation", "Coherence at 9"], answer: 1, explanation: "Lexical monotony = LR Band 5 ceiling." },
       { question: "Citing the UN's IPCC report mainly boosts which criterion?", options: ["Pronunciation", "Task Response", "Spelling", "Punctuation"], answer: 1, explanation: "Authoritative evidence increases depth → Task Response." },
@@ -458,17 +458,17 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
       "3 hot collocations per essay: mitigate / curb / deplete",
       "Pair verb + cause noun: ‘stem from rampant deforestation’",
       "Cite IPCC / UNEP / WHO once → Task Response boost",
-      "Recycle 12 collocations across nouns — depth beats breadth",
+      "Recycle 12 collocations across nouns - depth beats breadth",
     ],
   },
 
   // ============================================================
-  // 9. APPLIED GRAMMAR — Mixed Conditionals
+  // 9. APPLIED GRAMMAR - Mixed Conditionals
   // ============================================================
   {
     id: "grammar-mixed-conditionals",
-    title: "Applied Grammar — Mixed Conditionals That Wow Examiners",
-    titleVi: "Ngữ pháp ứng dụng — Mixed Conditionals khiến giám khảo trầm trồ",
+    title: "Applied Grammar - Mixed Conditionals That Wow Examiners",
+    titleVi: "Ngữ pháp ứng dụng - Mixed Conditionals khiến giám khảo trầm trồ",
     pillar: "applied-grammar",
     icon: "🧠",
     duration: "16 min",
@@ -478,17 +478,17 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
     descriptionVi:
       "Một câu mixed conditional đúng = giám khảo tick ngay ‘Grammar Range Band 7+’. Học 2 cấu trúc và biết tung ra lúc nào trong Writing & Speaking.",
     strategySteps: [
-      { step: 1, title: "Pattern A — Past condition → Present result", titleVi: "Mẫu A — Điều kiện QUÁ KHỨ → Kết quả HIỆN TẠI", description: "If + had + V3, would + V₀. ‘If governments had acted in 2000, the climate crisis wouldn't be so dire today.’", descriptionVi: "If + had + V3, would + V₀. ‘If governments had acted in 2000, the climate crisis wouldn't be so dire today.’" },
-      { step: 2, title: "Pattern B — Present condition → Past result", titleVi: "Mẫu B — Điều kiện HIỆN TẠI → Kết quả QUÁ KHỨ", description: "If + V₂, would have + V3. ‘If I were a fluent speaker, I would have passed the IELTS last year.’", descriptionVi: "If + V₂, would have + V3. ‘If I were a fluent speaker, I would have passed the IELTS last year.’" },
-      { step: 3, title: "Deploy in OPINION essays for nuance", titleVi: "Tung ra trong bài Opinion để nâng tinh tế", description: "Mixed conditionals show CAUSE-EFFECT across time — perfect for Task 2 social issues.", descriptionVi: "Mixed conditional cho thấy nhân-quả XUYÊN THỜI GIAN — hợp Task 2 xã hội." },
+      { step: 1, title: "Pattern A - Past condition → Present result", titleVi: "Mẫu A - Điều kiện QUÁ KHỨ → Kết quả HIỆN TẠI", description: "If + had + V3, would + V₀. ‘If governments had acted in 2000, the climate crisis wouldn't be so dire today.’", descriptionVi: "If + had + V3, would + V₀. ‘If governments had acted in 2000, the climate crisis wouldn't be so dire today.’" },
+      { step: 2, title: "Pattern B - Present condition → Past result", titleVi: "Mẫu B - Điều kiện HIỆN TẠI → Kết quả QUÁ KHỨ", description: "If + V₂, would have + V3. ‘If I were a fluent speaker, I would have passed the IELTS last year.’", descriptionVi: "If + V₂, would have + V3. ‘If I were a fluent speaker, I would have passed the IELTS last year.’" },
+      { step: 3, title: "Deploy in OPINION essays for nuance", titleVi: "Tung ra trong bài Opinion để nâng tinh tế", description: "Mixed conditionals show CAUSE-EFFECT across time - perfect for Task 2 social issues.", descriptionVi: "Mixed conditional cho thấy nhân-quả XUYÊN THỜI GIAN - hợp Task 2 xã hội." },
       { step: 4, title: "Use ONCE per essay/speaking turn", titleVi: "Dùng MỘT LẦN/bài hoặc lượt nói", description: "Over-use looks template-y. One precise mixed conditional is enough to trigger Band 7 grammar.", descriptionVi: "Lạm dụng trông học vẹt. Một câu đúng đủ kích hoạt Grammar Band 7." },
     ],
     practicalExamples: [
-      { context: "Task 2: environment", contextVi: "Task 2: môi trường", example: "‘If world leaders had ratified Kyoto in 1997, our cities would be far cleaner today.’", answer: "Past condition → present result", explanation: "Past failure (didn't ratify) explains current pollution — perfect cause-effect arc." },
-      { context: "Speaking Part 3", contextVi: "Speaking Part 3", example: "‘If I weren't so introverted, I would have joined a debate club back in school.’", answer: "Present trait → past missed opportunity", explanation: "Shows nuanced self-reflection — Band 7.5+ trigger." },
+      { context: "Task 2: environment", contextVi: "Task 2: môi trường", example: "‘If world leaders had ratified Kyoto in 1997, our cities would be far cleaner today.’", answer: "Past condition → present result", explanation: "Past failure (didn't ratify) explains current pollution - perfect cause-effect arc." },
+      { context: "Speaking Part 3", contextVi: "Speaking Part 3", example: "‘If I weren't so introverted, I would have joined a debate club back in school.’", answer: "Present trait → past missed opportunity", explanation: "Shows nuanced self-reflection - Band 7.5+ trigger." },
     ],
     mistakesToAvoid: [
-      { mistake: "Mixing tenses randomly (‘If I would knew…’)", mistakeVi: "Trộn thì tùy hứng (‘If I would knew…’)", why: "Examiner flags it as a grammar error — costs you the band you tried to claim.", whyVi: "Giám khảo đánh dấu lỗi grammar — mất đúng band bạn muốn lấy." },
+      { mistake: "Mixing tenses randomly (‘If I would knew…’)", mistakeVi: "Trộn thì tùy hứng (‘If I would knew…’)", why: "Examiner flags it as a grammar error - costs you the band you tried to claim.", whyVi: "Giám khảo đánh dấu lỗi grammar - mất đúng band bạn muốn lấy." },
       { mistake: "Using ‘would’ in BOTH clauses", mistakeVi: "Dùng ‘would’ trong CẢ HAI mệnh đề", why: "‘If’ clause never takes ‘would’ in real conditionals; it takes past tense.", whyVi: "Mệnh đề ‘if’ không bao giờ dùng ‘would’ trong điều kiện thật; phải past tense." },
     ],
     goldenSecret:
@@ -502,17 +502,17 @@ export const ieltsLecturesExpansion4: IeltsLecture[] = [
       { word: "in hindsight", definition: "Looking back with knowledge gained.", definitionVi: "Nhìn lại.", example: "In hindsight, the decision was premature.", band: "7.0+" },
     ],
     quiz: [
-      { question: "Mixed Conditional Pattern A connects:", options: ["Past condition → past result", "Past condition → present result", "Present condition → present result", "Future condition → future result"], answer: 1, explanation: "‘If + had + V3, would + V₀’ — past cause, present consequence." },
+      { question: "Mixed Conditional Pattern A connects:", options: ["Past condition → past result", "Past condition → present result", "Present condition → present result", "Future condition → future result"], answer: 1, explanation: "‘If + had + V3, would + V₀’ - past cause, present consequence." },
       { question: "Choose the correct sentence:", options: ["If I would know, I tell you.", "If I had studied harder, I would be a doctor now.", "If I am you, I would have gone.", "If I will go, I would call."], answer: 1, explanation: "Past condition (had studied) → present result (would be) ✓." },
       { question: "Why limit mixed conditionals to ONE per essay?", options: ["They're banned at Band 7", "Over-use looks template-y", "They cause spelling errors", "They lose marks"], answer: 1, explanation: "Examiners reward variety; one precise example is enough." },
-      { question: "Pattern B is ‘If + V₂, would have + V3.’ It connects:", options: ["Present trait → missed PAST opportunity", "Future plan → past habit", "Past cause → present result", "Two future events"], answer: 0, explanation: "Present condition → past consequence — nuanced self-reflection." },
+      { question: "Pattern B is ‘If + V₂, would have + V3.’ It connects:", options: ["Present trait → missed PAST opportunity", "Future plan → past habit", "Past cause → present result", "Two future events"], answer: 0, explanation: "Present condition → past consequence - nuanced self-reflection." },
       { question: "What is wrong with ‘If I would know, I would tell you.’?", options: ["Nothing", "‘Would’ in the if-clause is incorrect", "Spelling", "Punctuation"], answer: 1, explanation: "The if-clause uses past tense, never ‘would’." },
     ],
     cheatSheetPoints: [
       "Pattern A: If + had + V3, would + V₀ (past→present)",
       "Pattern B: If + V₂, would have + V3 (present→past)",
       "NEVER put ‘would’ in the if-clause",
-      "Use ONCE per essay or speaking turn — quality beats quantity",
+      "Use ONCE per essay or speaking turn - quality beats quantity",
       "Best slot: end of opinion paragraph or Part 3 reflection",
     ],
   },

@@ -80,7 +80,7 @@ EdTech research thường dùng **PICOTS**:
 - **Cherry-pick** sample (chỉ học sinh tích cực).`,
         theoryEn: `## 1. What Makes a Good Research Question?
 
-A good RQ passes the **FINER** test (Feasible, Interesting, Novel, Ethical, Relevant). Most rejected EdTech papers fail FINER long before peer review — they ask vague or unmeasurable questions.
+A good RQ passes the **FINER** test (Feasible, Interesting, Novel, Ethical, Relevant). Most rejected EdTech papers fail FINER long before peer review - they ask vague or unmeasurable questions.
 
 ## 2. The PICOTS Framework
 
@@ -101,7 +101,7 @@ Borrowed from clinical research, **PICOTS** turns a vague idea into a testable q
 2. Filter: 2020+ for AI work; 2010+ for pedagogy.
 3. Do **forward + backward citation chasing** from 2-3 key papers.
 4. Tag each paper: *relevant / supporting / contradicting*.
-5. Synthesise — what is the **gap** you will fill?
+5. Synthesise - what is the **gap** you will fill?
 
 ## 4. Pre-Registration
 
@@ -121,7 +121,7 @@ Lock your RQ, hypotheses, sample size, and analysis plan **before** collecting d
 
 - **H1** (directional): "Treatment improves outcome Y by at least Δ."
 - **H0** (null): "No mean difference between treatment and control."
-- State the **effect size of practical interest** — not just statistical significance.`,
+- State the **effect size of practical interest** - not just statistical significance.`,
         code: `# Pre-registration template (markdown)
 """
 # Pre-registration: LLM Hints in IELTS Writing
@@ -242,9 +242,9 @@ def stratified_assign(students):
 | **Maturation** | Tiến bộ tự nhiên theo tuổi | Control group |`,
         theoryEn: `## 1. Why RCTs Are the Gold Standard
 
-A **Randomised Controlled Trial (RCT)** assigns participants at random to a treatment or control arm. Because all confounders (motivation, prior knowledge, device, time of day) are distributed equally across arms, any post-treatment difference can be **causally attributed** to the intervention — something observational data can rarely prove.
+A **Randomised Controlled Trial (RCT)** assigns participants at random to a treatment or control arm. Because all confounders (motivation, prior knowledge, device, time of day) are distributed equally across arms, any post-treatment difference can be **causally attributed** to the intervention - something observational data can rarely prove.
 
-## 2. Power Analysis — Don't Waste Your Sample
+## 2. Power Analysis - Don't Waste Your Sample
 
 Before launch, compute the sample size needed to detect the **smallest effect you care about**. Three numbers drive everything:
 
@@ -254,7 +254,7 @@ Before launch, compute the sample size needed to detect the **smallest effect yo
 | β (Type-II error) | 0.20 → power = 0.80 |
 | Cohen's d | 0.5 (medium) |
 
-Formula: \`n_per_arm = 2 · ((z_α + z_β) · σ / Δ)²\`. For d = 0.5 you need ~63 per arm; for d = 0.3 you need ~175. An **underpowered** trial wastes both money and the participants' time — it's an ethical issue, not just a statistical one.
+Formula: \`n_per_arm = 2 · ((z_α + z_β) · σ / Δ)²\`. For d = 0.5 you need ~63 per arm; for d = 0.3 you need ~175. An **underpowered** trial wastes both money and the participants' time - it's an ethical issue, not just a statistical one.
 
 ## 3. Randomisation Strategies
 
@@ -269,8 +269,8 @@ Always **hash + seed** the random assignment so it's reproducible and auditable.
 
 ## 4. Blinding
 
-- **Single-blind** — participants don't know their arm.
-- **Double-blind** — neither participants nor raters know.
+- **Single-blind** - participants don't know their arm.
+- **Double-blind** - neither participants nor raters know.
 - True double-blind is rare in EdTech (teachers see the intervention), but **raters scoring outcomes** can and must be blinded.
 
 ## 5. Threats to Validity
@@ -285,7 +285,7 @@ Always **hash + seed** the random assignment so it's reproducible and auditable.
 
 ## 6. Reporting Your RCT
 
-CONSORT-style: report flow diagram, randomisation method, blinding status, ITT vs per-protocol results, effect size with 95% CI — never just p-values.`,
+CONSORT-style: report flow diagram, randomisation method, blinding status, ITT vs per-protocol results, effect size with 95% CI - never just p-values.`,
         code: `# Power calculation
 import math
 from scipy.stats import norm
@@ -384,12 +384,12 @@ Curve dốc xuống nhanh tuần 1-2 = onboarding kém.
 - **Right to delete**: cascade delete khi user yêu cầu.
 - **Aggregate only** cho public dashboard.
 - **Retention**: raw events ≤ 2 năm, aggregate vĩnh viễn.`,
-        theoryEn: `## 1. Standard Event Schemas — xAPI & Caliper
+        theoryEn: `## 1. Standard Event Schemas - xAPI & Caliper
 
 Two industry schemas dominate learning analytics:
 
-- **xAPI (Experience API)** — flexible "actor / verb / object" triples (\`Tin Can\` API).
-- **IMS Caliper** — strict but richer schema used by Canvas, Moodle and many universities.
+- **xAPI (Experience API)** - flexible "actor / verb / object" triples (\`Tin Can\` API).
+- **IMS Caliper** - strict but richer schema used by Canvas, Moodle and many universities.
 
 \`\`\`json
 {
@@ -545,7 +545,7 @@ EdTech A/B must prioritise **long-term outcomes** and treat speed-to-decision as
 
 ## 2. Sample Size for Proportion Tests
 
-Detecting a 5-point lift at baseline 60% (α=0.05, power=0.8) needs roughly **1,565 per arm**. Use \`statsmodels.stats.power.NormalIndPower\` or the Evan Miller calculator — never eyeball it.
+Detecting a 5-point lift at baseline 60% (α=0.05, power=0.8) needs roughly **1,565 per arm**. Use \`statsmodels.stats.power.NormalIndPower\` or the Evan Miller calculator - never eyeball it.
 
 ## 3. Standard Workflow
 
@@ -560,11 +560,11 @@ Detecting a 5-point lift at baseline 60% (α=0.05, power=0.8) needs roughly **1,
 
 ## 4. Fatal Mistakes
 
-- **Peeking** — checking p daily. False-positive rate explodes. Use SPRT or Bayesian only.
-- **Sample Ratio Mismatch (SRM)** — split > 5% off design → routing bug; results invalid.
-- **Network effects** — shared social/leaderboard features let A see B → contamination.
-- **Multi-metric fishing** — testing 20 metrics, reporting the one p < 0.05.
-- **Early stopping when it looks good** — only stop on power-met or pre-defined Bayesian rule.
+- **Peeking** - checking p daily. False-positive rate explodes. Use SPRT or Bayesian only.
+- **Sample Ratio Mismatch (SRM)** - split > 5% off design → routing bug; results invalid.
+- **Network effects** - shared social/leaderboard features let A see B → contamination.
+- **Multi-metric fishing** - testing 20 metrics, reporting the one p < 0.05.
+- **Early stopping when it looks good** - only stop on power-met or pre-defined Bayesian rule.
 
 ## 5. Reading the Results
 
@@ -708,7 +708,7 @@ Sometimes randomisation is impossible or unethical:
 - The intervention is rolled out **province-wide** by policy.
 - You only have **observational** historical data.
 
-In these cases, **quasi-experimental designs** can still recover causal estimates — if their assumptions hold and you check them carefully.
+In these cases, **quasi-experimental designs** can still recover causal estimates - if their assumptions hold and you check them carefully.
 
 ## 2. Difference-in-Differences (DiD)
 
@@ -718,7 +718,7 @@ Compare the **change** in outcome over time between a treatment group and a cont
  DiD = (Treat_post − Treat_pre) − (Ctrl_post − Ctrl_pre)
 \`\`\`
 
-**Core assumption — parallel trends**: before the intervention, both groups moved together. You **must** plot the pre-period and run placebo tests on a fake intervention date.
+**Core assumption - parallel trends**: before the intervention, both groups moved together. You **must** plot the pre-period and run placebo tests on a fake intervention date.
 
 ## 3. Instrumental Variables (IV)
 
@@ -727,7 +727,7 @@ Need a variable that **causes** the treatment but does **not** affect the outcom
 1. Regress treatment on IV → predicted treatment.
 2. Regress outcome on predicted treatment.
 
-A weak instrument inflates standard errors massively — check the first-stage F-statistic (≥ 10).
+A weak instrument inflates standard errors massively - check the first-stage F-statistic (≥ 10).
 
 ## 4. Regression Discontinuity (RDD)
 
@@ -745,15 +745,15 @@ When a threshold determines who gets treatment (e.g. placement score < 60 → re
 
 ## 5. Propensity Score Matching (PSM)
 
-Estimate \`P(treated | X)\` for everyone, then match each treated unit with a control of similar propensity score. Reduces confounding from observed covariates — but **cannot** fix unobserved confounders.
+Estimate \`P(treated | X)\` for everyone, then match each treated unit with a control of similar propensity score. Reduces confounding from observed covariates - but **cannot** fix unobserved confounders.
 
 ## 6. Sensitivity Analyses (Always!)
 
 Any quasi-experimental claim must come with:
 
-- **Robustness checks** — multiple specifications.
-- **Rosenbaum bounds** — how strong would an unobserved confounder need to be to overturn the result?
-- **Placebo tests** — apply the method to a period with no intervention; you should see ~0 effect.
+- **Robustness checks** - multiple specifications.
+- **Rosenbaum bounds** - how strong would an unobserved confounder need to be to overturn the result?
+- **Placebo tests** - apply the method to a period with no intervention; you should see ~0 effect.
 
 If the result evaporates under any of these, the causal claim isn't credible.`,
         code: `# DiD with statsmodels
@@ -868,12 +868,12 @@ Working with children raises the ethical bar dramatically. Every EdTech study wi
 
 Almost every EdTech journal expects **IMRaD**:
 
-1. **Introduction** — problem, gap, contribution (last 3-5 sentences = roadmap).
-2. **Related Work** — group by pedagogy / technology / prior empirical.
-3. **Method** — participants, design, intervention, measures, analysis. *Enough detail to replicate.*
-4. **Results** — tables/figures with effect sizes and CIs, not bare p-values.
-5. **Discussion** — interpretation, limitations, validity threats, future work.
-6. **Conclusion** — one paragraph: take-away + impact.
+1. **Introduction** - problem, gap, contribution (last 3-5 sentences = roadmap).
+2. **Related Work** - group by pedagogy / technology / prior empirical.
+3. **Method** - participants, design, intervention, measures, analysis. *Enough detail to replicate.*
+4. **Results** - tables/figures with effect sizes and CIs, not bare p-values.
+5. **Discussion** - interpretation, limitations, validity threats, future work.
+6. **Conclusion** - one paragraph: take-away + impact.
 
 ## 3. APA-Style Statistical Reporting
 

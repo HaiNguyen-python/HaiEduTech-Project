@@ -1,5 +1,5 @@
 /**
- * IELTS Writing Task 2 — Idea Bank
+ * IELTS Writing Task 2 - Idea Bank
  *
  * Curated essay topics with brainstormed ideas (reasons + supporting examples)
  * for IELTS Writing Task 2 idea-generation practice. Mirrors the way
@@ -131,8 +131,8 @@ const TOPICS: IeltsIdeaTopic[] = [
       "Một số người cho rằng giáo dục đại học nên miễn phí cho mọi sinh viên. Bạn đồng ý hay không đồng ý ở mức nào?",
     sides: [
       {
-        label: "Agree — University should be free",
-        labelVi: "Đồng ý — Đại học nên miễn phí",
+        label: "Agree - University should be free",
+        labelVi: "Đồng ý - Đại học nên miễn phí",
         ideas: [
           {
             point: "Equal opportunity boosts social mobility",
@@ -155,8 +155,8 @@ const TOPICS: IeltsIdeaTopic[] = [
         ],
       },
       {
-        label: "Disagree — Students should contribute",
-        labelVi: "Không đồng ý — Sinh viên nên đóng góp",
+        label: "Disagree - Students should contribute",
+        labelVi: "Không đồng ý - Sinh viên nên đóng góp",
         ideas: [
           {
             point: "Tuition fees ensure quality and accountability",
@@ -289,7 +289,7 @@ const TOPICS: IeltsIdeaTopic[] = [
           {
             point: "Outright bans on disposable items",
             reason: "Eliminating supply forces innovation in biodegradable alternatives.",
-            example: "Kenya's 2017 plastic bag ban — among the world's strictest — reduced visible litter dramatically.",
+            example: "Kenya's 2017 plastic bag ban - among the world's strictest - reduced visible litter dramatically.",
             collocations: ["legislative ban", "biodegradable alternatives"],
           },
           {
@@ -434,7 +434,7 @@ const TOPICS: IeltsIdeaTopic[] = [
       },
     ],
     thesisOptions: [
-      "While AI clearly enhances safety, productivity and scientific progress, I believe the long-term disadvantages — particularly mass displacement and algorithmic bias — outweigh the benefits unless governments intervene.",
+      "While AI clearly enhances safety, productivity and scientific progress, I believe the long-term disadvantages - particularly mass displacement and algorithmic bias - outweigh the benefits unless governments intervene.",
     ],
   },
 
@@ -449,8 +449,8 @@ const TOPICS: IeltsIdeaTopic[] = [
       "Một số người tin rằng chính phủ nên đánh thuế cao hơn vào thực phẩm không lành mạnh để chống béo phì. Bạn đồng ý ở mức nào?",
     sides: [
       {
-        label: "Agree — Tax junk food",
-        labelVi: "Đồng ý — Đánh thuế thực phẩm rác",
+        label: "Agree - Tax junk food",
+        labelVi: "Đồng ý - Đánh thuế thực phẩm rác",
         ideas: [
           {
             point: "Price signals change consumer behaviour",
@@ -473,8 +473,8 @@ const TOPICS: IeltsIdeaTopic[] = [
         ],
       },
       {
-        label: "Disagree — Tax is the wrong tool",
-        labelVi: "Không đồng ý — Thuế không phải giải pháp",
+        label: "Disagree - Tax is the wrong tool",
+        labelVi: "Không đồng ý - Thuế không phải giải pháp",
         ideas: [
           {
             point: "Disproportionately hurts the poor",
@@ -535,7 +535,7 @@ const TOPICS: IeltsIdeaTopic[] = [
         ],
       },
       {
-        label: "Partly disagree — Physical illnesses still distinct",
+        label: "Partly disagree - Physical illnesses still distinct",
         labelVi: "Một phần không đồng ý",
         ideas: [
           {
@@ -808,7 +808,7 @@ const TOPICS: IeltsIdeaTopic[] = [
       },
     ],
     thesisOptions: [
-      "Although English-as-lingua-franca enables unprecedented global cooperation, the price — linguistic erosion and cultural homogenisation — is significant; in my view the benefits still outweigh the drawbacks if local languages are actively protected.",
+      "Although English-as-lingua-franca enables unprecedented global cooperation, the price - linguistic erosion and cultural homogenisation - is significant; in my view the benefits still outweigh the drawbacks if local languages are actively protected.",
     ],
   },
 
@@ -994,7 +994,7 @@ const TOPICS: IeltsIdeaTopic[] = [
       },
     ],
     thesisOptions: [
-      "I believe traditional family values are not disappearing but evolving: structures change, yet the underlying bonds of care, communication and shared identity remain — and in many ways are even stronger thanks to technology.",
+      "I believe traditional family values are not disappearing but evolving: structures change, yet the underlying bonds of care, communication and shared identity remain - and in many ways are even stronger thanks to technology.",
     ],
   },
 ];

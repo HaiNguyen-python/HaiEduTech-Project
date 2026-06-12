@@ -3045,7 +3045,7 @@ export const thptExams2 = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Giới từ 'DESPITE + N' = mặc cho/bất chấp. Câu: 'DESPITE the hype, even optimistic timelines acknowledge decades of trials' = bất chấp sự thổi phồng, ngay cả những mốc lạc quan nhất cũng thừa nhận cần nhiều thập kỷ thử nghiệm. (Beside = bên cạnh; Except = ngoại trừ; Along = dọc theo — đều không phù hợp về nghĩa nhượng bộ.)"
+        "explanation": "Giới từ 'DESPITE + N' = mặc cho/bất chấp. Câu: 'DESPITE the hype, even optimistic timelines acknowledge decades of trials' = bất chấp sự thổi phồng, ngay cả những mốc lạc quan nhất cũng thừa nhận cần nhiều thập kỷ thử nghiệm. (Beside = bên cạnh; Except = ngoại trừ; Along = dọc theo - đều không phù hợp về nghĩa nhượng bộ.)"
       },
       {
         "id": 9,
@@ -5234,7 +5234,7 @@ export const thptExams2 = [
       {
         "id": "p20-4",
         "title": "Filter Bubbles and Polarization",
-        "text": "The phrase 'filter bubble' has become a rhetorical catch-all. __Yet careful **audits** suggest a subtler terrain: many users traverse heterogeneous sources.__ **They** — the **bridges** mentioned above — remain central to the debate.\n\nScholars caution against conflating algorithmic curation with ideological indoctrination. While some clusters exhibit self-reinforcing exposure, large-scale studies find limited evidence that personalization alone seals audiences off.\n\nDuring election cycles and crises, these dynamics become more combustible. Counter-measures – labeling, down-ranking – can mitigate harms but raise normative questions.\n\nThe literature urges re-centering institutional responsibility: platforms shape exposure by designing the frictions that enable deliberation.",
+        "text": "The phrase 'filter bubble' has become a rhetorical catch-all. __Yet careful **audits** suggest a subtler terrain: many users traverse heterogeneous sources.__ **They** - the **bridges** mentioned above - remain central to the debate.\n\nScholars caution against conflating algorithmic curation with ideological indoctrination. While some clusters exhibit self-reinforcing exposure, large-scale studies find limited evidence that personalization alone seals audiences off.\n\nDuring election cycles and crises, these dynamics become more combustible. Counter-measures – labeling, down-ranking – can mitigate harms but raise normative questions.\n\nThe literature urges re-centering institutional responsibility: platforms shape exposure by designing the frictions that enable deliberation.",
         "questionRange": [
           23,
           30
@@ -5353,7 +5353,7 @@ export const thptExams2 = [
         ],
         "correct": 1,
         "category": "preposition",
-        "explanation": "Cấu trúc 'vary BY + N' = thay đổi tùy theo (yếu tố nào). Câu: 'Condiments vary BY district and season' = gia vị thay đổi tùy quận và mùa. ('vary with' cũng đúng nhưng ngụ ý đồng biến; 'BY' nhấn vào tiêu chí phân loại — phù hợp hơn với 'district and season'.)"
+        "explanation": "Cấu trúc 'vary BY + N' = thay đổi tùy theo (yếu tố nào). Câu: 'Condiments vary BY district and season' = gia vị thay đổi tùy quận và mùa. ('vary with' cũng đúng nhưng ngụ ý đồng biến; 'BY' nhấn vào tiêu chí phân loại - phù hợp hơn với 'district and season'.)"
       },
       {
         "id": 9,

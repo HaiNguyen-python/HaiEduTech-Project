@@ -70,7 +70,7 @@ function buildExtras(l: IeltsLecture, need: number): LectureQuizQuestion[] {
     out.push({
       question: "Bước chiến lược ĐẦU TIÊN trong bài học này là gì?",
       options: [
-        truncate(`${s.title} — ${s.description}`),
+        truncate(`${s.title} - ${s.description}`),
         "Bắt đầu viết/nói ngay lập tức để tiết kiệm thời gian.",
         "Học thuộc một bài mẫu cố định cho mọi đề.",
         "Bỏ qua đề bài và trả lời dựa trên cảm tính.",
@@ -91,7 +91,7 @@ function buildExtras(l: IeltsLecture, need: number): LectureQuizQuestion[] {
         "Một thán từ thể hiện cảm xúc ngạc nhiên.",
       ],
       answer: 0,
-      explanation: `${v.word} — ${v.definitionVi || v.definition} (Band ${v.band || "7.0+"}).`,
+      explanation: `${v.word} - ${v.definitionVi || v.definition} (Band ${v.band || "7.0+"}).`,
     });
   }
 

@@ -76,7 +76,7 @@ export function formatAssignedTime(iso: string): string {
 }
 
 export function formatDeadline(iso: string | null): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const d = new Date(iso);
   const dd = String(d.getDate()).padStart(2, "0");
   const mo = String(d.getMonth() + 1).padStart(2, "0");
