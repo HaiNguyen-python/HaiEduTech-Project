@@ -3659,6 +3659,7 @@ import { padLectureQuizzes } from "./ieltsLectureQuizPadder";
 import { readingExpansion } from "./ieltsLecturesReadingExpansion";
 import { listeningExpansion } from "./ieltsLecturesListeningExpansion";
 import { ieltsLecturesExpansion4 } from "./ieltsLecturesExpansion4";
+import { ieltsLecturesExpansion5 } from "./ieltsLecturesExpansion5";
 
 const _rawAllIeltsLectures: IeltsLecture[] = [
   ...skillBasedLectures,
@@ -3693,6 +3694,7 @@ const _rawAllIeltsLectures: IeltsLecture[] = [
   ...grammarExpansion2,
   ...grammarCoreExpansion,
   ...ieltsLecturesExpansion4,
+  ...ieltsLecturesExpansion5,
 ];
 
 /**
