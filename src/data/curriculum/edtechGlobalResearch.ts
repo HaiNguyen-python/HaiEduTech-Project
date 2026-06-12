@@ -257,27 +257,28 @@ Stanford khởi xướng làn sóng MOOC năm 2011 với khoá AI của Sebastia
 - 🔗 [Kizilcec et al. (2013) - Deconstructing disengagement](https://scholar.google.com/scholar?q=Kizilcec+2013+deconstructing+disengagement)
 - 🔗 [Reich & Ruipérez-Valiente (2019) - The MOOC pivot](https://www.science.org/doi/10.1126/science.aav7958)`,
         theoryEn: `Stanford launched the MOOC era in 2011, but ten years of research (Reich 2014, Kizilcec 2013, Brunskill, Reich & Ruipérez-Valiente 2019) revealed a brutal completion crisis (~5-10%) and a demographic skew toward already-credentialed learners. EdTech responded with engagement clustering, RL-driven personalization, and the B2B pivot.`,
-        code: `// K-means style assignment of learners into Kizilcec's 4 behavioral clusters
-type Learner = { id: string; videoPct: number; assignmentPct: number };
-type Cluster = "Completing" | "Auditing" | "Disengaging" | "Sampling";
+        code: `# K-means style assignment of learners into Kizilcec's 4 behavioral clusters
+def classify(learner):
+    v = learner["video_pct"]
+    a = learner["assignment_pct"]
+    if v > 0.6 and a > 0.6:
+        return "Completing"
+    if v > 0.6 and a < 0.2:
+        return "Auditing"
+    if 0.2 < v < 0.6 and a < 0.4:
+        return "Disengaging"
+    return "Sampling"
 
-function classify(l: Learner): Cluster {
-  const { videoPct: v, assignmentPct: a } = l;
-  if (v > 0.6 && a > 0.6) return "Completing";
-  if (v > 0.6 && a < 0.2) return "Auditing";
-  if (v > 0.2 && v < 0.6 && a < 0.4) return "Disengaging";
-  return "Sampling";
-}
+learners = [
+    {"id": "u1", "video_pct": 0.9, "assignment_pct": 0.85},
+    {"id": "u2", "video_pct": 0.8, "assignment_pct": 0.05},
+    {"id": "u3", "video_pct": 0.4, "assignment_pct": 0.10},
+    {"id": "u4", "video_pct": 0.1, "assignment_pct": 0.00},
+]
 
-const learners: Learner[] = [
-  { id: "u1", videoPct: 0.9, assignmentPct: 0.85 },
-  { id: "u2", videoPct: 0.8, assignmentPct: 0.05 },
-  { id: "u3", videoPct: 0.4, assignmentPct: 0.1 },
-  { id: "u4", videoPct: 0.1, assignmentPct: 0.0 },
-];
-
-learners.forEach(l => console.log(l.id, "→", classify(l)));`,
-        codeLanguage: "typescript",
+for l in learners:
+    print(l["id"], "→", classify(l))`,
+        codeLanguage: "python",
         exercise:
           "Phân tích log của 20 học viên trên HaiEduTech, chia về 4 cụm Kizilcec và đề xuất 1 chiến lược can thiệp cho mỗi cụm.",
         exerciseEn:
