@@ -811,7 +811,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
             { x: 30, label: "POSTURE", words: "standing · sitting · leaning · seated", color: C.blue },
             { x: 30, label: "ORIENTATION", words: "facing · back-to-back · side-by-side", color: C.emerald },
             { x: 30, label: "HANDLING", words: "holding · stacking · arranging · grabbing", color: C.amber },
-            { x: 30, label: "SUBJECT CHECK", words: "both · one of · neither · all", color: C.purple },
+            { x: 30, label: "SUBJECT CHECK", words: "both · one of · neither · all", color: C.rose },
           ].map((row, i) => (
             <g key={i} transform={`translate(${row.x}, ${40 + i * 45})`}>
               <rect width="540" height="36" rx="8" fill={row.color} fillOpacity="0.18" stroke={row.color} />
@@ -833,7 +833,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
             { x: 30, y: 40, label: "WH", note: "Where / When / Why → NEVER Yes/No", color: C.blue },
             { x: 30, y: 80, label: "Yes-No", note: "Do you…? Is it…? — Yes/No OK", color: C.emerald },
             { x: 30, y: 120, label: "Tag", note: "…, didn't you? — confirm/correct", color: C.amber },
-            { x: 30, y: 160, label: "Choice", note: "X or Y? — answer chooses one", color: C.purple },
+            { x: 30, y: 160, label: "Choice", note: "X or Y? — answer chooses one", color: C.rose },
             { x: 30, y: 200, label: "Statement", note: "Comment → empathy / agree", color: C.rose },
             { x: 30, y: 240, label: "Negative", note: "Don't you…? — careful logic", color: C.blue },
           ].map((row, i) => (
@@ -903,7 +903,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
             { y: 80, label: "on", note: "day / date", color: C.emerald, ex: "on Monday · on March 14" },
             { y: 120, label: "at", note: "clock time", color: C.amber, ex: "at 9 AM · at noon" },
             { y: 160, label: "by", note: "deadline", color: C.rose, ex: "by Friday" },
-            { y: 200, label: "for / during", note: "length vs event", color: C.purple, ex: "for 2 weeks · during the meeting" },
+            { y: 200, label: "for / during", note: "length vs event", color: C.rose, ex: "for 2 weeks · during the meeting" },
           ].map(r => (
             <g key={r.label}>
               <rect x="30" y={r.y - 18} width="540" height="34" rx="6" fill={r.color} fillOpacity="0.18" stroke={r.color} />
@@ -990,7 +990,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
             { x: 30, label: "1 · SKIM", note: "30 sec / passage", color: C.blue },
             { x: 175, label: "2 · READ stem", note: "Pull keywords", color: C.amber },
             { x: 320, label: "3 · SCAN", note: "Zigzag → caps / nums / bold", color: C.emerald },
-            { x: 465, label: "4 · VERIFY", note: "+1 sentence ±", color: C.purple },
+            { x: 465, label: "4 · VERIFY", note: "+1 sentence ±", color: C.rose },
           ].map(b => (
             <g key={b.label} transform={`translate(${b.x}, 50)`}>
               <rect width="130" height="100" rx="10" fill={b.color} fillOpacity="0.18" stroke={b.color} />
