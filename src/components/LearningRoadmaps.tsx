@@ -11,31 +11,32 @@ import chibiPanda from "@/assets/chibi-panda.png";
 /** Resolve a Lucide icon by name, with fallback */
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? Cpu;
 
-/** Single step node in the visual roadmap */
+/** Single step node — vertical on mobile, horizontal card on md+ */
 const StepNode = ({ step, index, total }: { step: RoadmapStep; index: number; total: number }) => {
   const { t } = useLanguage();
   const Icon = getIcon(step.icon);
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.15 }}
-      className="relative flex gap-4"
+      transition={{ delay: index * 0.1 }}
+      className="relative flex gap-4 md:flex-col md:items-center md:gap-3 md:text-center"
     >
-      {/* Vertical connector line */}
-      <div className="flex flex-col items-center">
-        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${step.color} text-white shadow-lg`}>
-          <Icon className="h-5 w-5" />
+      {/* Icon + connector */}
+      <div className="flex flex-col items-center md:contents">
+        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${step.color} text-white shadow-lg md:h-14 md:w-14`}>
+          <Icon className="h-5 w-5 md:h-6 md:w-6" />
         </div>
+        {/* Vertical connector — mobile only */}
         {index < total - 1 && (
-          <div className="my-1 w-0.5 flex-1 bg-gradient-to-b from-primary/30 to-transparent" />
+          <div className="my-1 w-0.5 flex-1 bg-gradient-to-b from-primary/30 to-transparent md:hidden" />
         )}
       </div>
 
       {/* Content */}
-      <div className="pb-6">
+      <div className="pb-6 md:pb-0">
         <span className="mb-1 inline-block text-xs font-bold uppercase tracking-wider text-primary">
           Step {step.step}
         </span>
@@ -81,7 +82,7 @@ const LearningRoadmaps = () => {
         </motion.div>
 
         {/* Tabbed roadmaps */}
-        <Tabs defaultValue="english" className="mx-auto max-w-2xl">
+        <Tabs defaultValue="english" className="mx-auto w-full max-w-6xl">
           <TabsList className="mx-auto mb-6 flex w-full max-w-md">
             {learningRoadmaps.map((rm) => (
               <TabsTrigger key={rm.id} value={rm.id} className="flex-1 text-xs sm:text-sm">
@@ -92,11 +93,27 @@ const LearningRoadmaps = () => {
 
           {learningRoadmaps.map((rm) => (
             <TabsContent key={rm.id} value={rm.id}>
-              <div className="mx-auto max-w-lg">
-                {rm.steps.map((step, i) => (
-                  <StepNode key={step.step} step={step} index={i} total={rm.steps.length} />
-                ))}
+              {/* Mobile: vertical column / md+: horizontal grid with connector */}
+              <div className="relative mx-auto max-w-lg md:max-w-none">
+                {/* Horizontal connector line (md+) */}
+                <div
+                  aria-hidden
+                  className="absolute left-0 right-0 top-7 hidden h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent md:block"
+                  style={{
+                    marginLeft: `${100 / rm.steps.length / 2}%`,
+                    marginRight: `${100 / rm.steps.length / 2}%`,
+                  }}
+                />
+                <div
+                  className="relative grid gap-6 md:gap-4"
+                  style={{ gridTemplateColumns: `repeat(${rm.steps.length}, minmax(0, 1fr))` }}
+                >
+                  {rm.steps.map((step, i) => (
+                    <StepNode key={step.step} step={step} index={i} total={rm.steps.length} />
+                  ))}
+                </div>
               </div>
+
 
               {/* RL engine label */}
               <motion.div
