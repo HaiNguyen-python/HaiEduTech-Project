@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import CodeBlock from "@/components/CodeBlock";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   interviewQuestions,
