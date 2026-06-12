@@ -115,7 +115,50 @@ Quy tắc:
 - **Tip thực hành cho HaiEduTech**: kết hợp SRS với **interleaving** (xen chủ đề) - tăng long-term retention thêm 15-25% so với block practice.
 
 `,
-        theoryEn: `Memory decays exponentially (Ebbinghaus). SM-2 (1987) is a heuristic with no per-user parameters that still works. FSRS (2023+) models each card with Difficulty/Stability/Retrievability, schedules from a target retention (typically 85–90%), and beats SM-2 by 20–30% on Anki benchmarks. Always store immutable review logs with the raw rating so you can re-fit your scheduler later.`,
+        theoryEn: `## 1. Why Spaced Repetition Works
+
+Human memory follows the **Ebbinghaus forgetting curve**: without review, we lose ~70% of new information within 24 hours. **Spaced Repetition Systems (SRS)** fight this decay by scheduling reviews **right before** you would forget — converting short-term recall into long-term mastery with minimum effort.
+
+\`\`\`
+   Recall %
+    100 │●
+        │ \\
+     70 │  ●        ← without review
+        │    \\
+     30 │      ●─────●─────●
+        └────────────────────────▶ days
+              1     3     7
+\`\`\`
+
+## 2. SM-2 (SuperMemo, 1987) — The Classic
+
+SM-2 is a heuristic with **no per-user parameters** that has powered Anki and SuperMemo for 35+ years. Three knobs per card:
+
+- **interval** (days until next review)
+- **repetitions** (number of consecutive good reviews)
+- **ease factor (EF)** — how easy the card feels, starts at 2.5
+
+Rating 0–5 after each review updates EF: \`EF = EF + (0.1 − (5 − q) × (0.08 + (5 − q) × 0.02))\`. If \`q < 3\` → reset interval; else multiply interval by EF.
+
+## 3. FSRS (Free Spaced Repetition Scheduler, 2023+)
+
+FSRS-5 models **each card** with a 3-state vector:
+
+| State | Meaning |
+|-------|---------|
+| **D** (Difficulty) | Intrinsic hardness 1–10 |
+| **S** (Stability) | Days until recall drops to 90% |
+| **R** (Retrievability) | Current recall probability |
+
+You set a **target retention** (85–90% is the sweet spot) and FSRS computes the next-due date to hit that target. On Anki benchmarks it cuts **20–30% of reviews** for the same retention.
+
+## 4. Engineering Best Practices
+
+- **Immutable review log** — store raw rating (\`again/hard/good/easy\`) per review so you can re-fit any scheduler later without losing history.
+- **Cap new cards** at ~20/day for beginners — otherwise the review queue explodes 30 days later.
+- **Interleave** topics — boosts long-term retention 15–25% versus blocked practice.
+- **Avoid 99% retention targets** — review cost grows exponentially; users burn out.
+- Combine SRS with **active recall** (cloze deletions, production tasks) — passive flipping is much weaker than producing the answer.`,
         code: `from dataclasses import dataclass
 
 @dataclass

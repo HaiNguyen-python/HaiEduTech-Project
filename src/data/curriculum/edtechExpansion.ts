@@ -86,7 +86,53 @@ Quy tắc: **mỗi event 1 dòng, immutable**, kèm \`ab_variant\` để slice m
 - Không loại bot/dev → metric phồng giả.
 - Chỉ nhìn trung bình → bỏ qua đuôi (10% học sinh khó nhất là nhóm cần giúp nhất).
 `,
-        theoryEn: `Distinguish vanity (logins, minutes) from actionable metrics (activation, D7 retention, mastery growth, time-to-mastery). The EdTech funnel: sign-up → activated → habit → mastery → outcome. Use cohort analysis to detect regressions per release. Log immutable per-event JSON with ab_variant baked in.`,
+        theoryEn: `## 1. Vanity vs Actionable Metrics
+
+**Vanity metrics** look great in screenshots (total signups, minutes online, "AI calls served") but never tell you whether to **change anything**. **Actionable metrics** drive decisions because they map to real learning outcomes.
+
+| Vanity | Actionable |
+|--------|-----------|
+| Total registrations | Activation rate (≥3 lessons in first 24h) |
+| Minutes online | Mastery growth per active day |
+| App opens | D7 / D30 retention |
+| "AI calls served" | Helpfulness (👍 / total) |
+
+## 2. The EdTech Funnel
+
+\`\`\`
+   sign-up ──▶ activated ──▶ habit ──▶ mastery ──▶ outcome
+   100%        ~30%          ~12%       ~6%         ~3%
+\`\`\`
+
+- **Activation** — did the learner experience the *aha* moment? (≥3 completed lessons in 24h is a strong proxy.)
+- **Habit** — at least one session in 4 of 7 days.
+- **Mastery** — % of target skills above threshold (e.g. 0.8 BKT mastery).
+- **Outcome** — externally validated (IELTS band, HSK level, job placed).
+
+## 3. Cohort Analysis
+
+Group users by **signup week** and track each cohort over time. Cohorts let you spot regressions tied to specific releases that *averages hide*:
+
+\`\`\`
+              W+0   W+1   W+2   W+4
+Apr cohort    100%  45%   32%   24%
+May cohort    100%  52%   38%   28%   ← onboarding update shipped
+Jun cohort    100%  38%   25%   18%   ← regression after refactor
+\`\`\`
+
+## 4. Event Logging Discipline
+
+- **One row per event**, immutable, append-only.
+- Always bake in \`ab_variant\` so every metric can be sliced by experiment.
+- Bot/dev traffic filtered before aggregation — otherwise metrics inflate.
+- Look at the **distribution tails** (p10 / p50 / p90), not just the mean — the bottom decile of learners is who you need to help most.
+
+## 5. Common Traps
+
+- Counting "app opens" rewards spammy push notifications.
+- Reporting only averages hides struggling learners.
+- Mutable events break A/B replay and audit forever.
+- Vanity dashboards win meetings but lose product direction.`,
         code: `from collections import defaultdict
 from datetime import datetime, timedelta
 
@@ -174,7 +220,47 @@ Nguyên tắc HaiEduTech: gamification **phục vụ học**, không thay thế 
 
 Mẹo: **giảm dần XP** khi học sinh lặp đúng bài quá dễ → tránh "XP farming".
 `,
-        theoryEn: `Use the Hook loop (trigger → action → variable reward → investment) - variable reward beats fixed reward. Lean on four pillars: progression, social, identity, surprise. Avoid dark patterns (streak shaming, pay-to-skip, endless leaderboards). Decay XP for trivial repeats to prevent XP farming.`,
+        theoryEn: `## 1. Why Gamification Matters
+
+Learning is slow and effortful, so the brain needs **short-term rewards** to endure the long journey to mastery. Done **wrong**, gamification turns students into XP slaves. Done **right**, it builds intrinsic motivation by rewarding the right behaviors.
+
+## 2. The Hook Loop (Nir Eyal)
+
+\`\`\`
+   ┌──────────────────────────────────────┐
+   │                                      │
+   ▼                                      │
+ TRIGGER ──▶ ACTION ──▶ VARIABLE REWARD ──▶ INVESTMENT
+ (push,      (do a     (XP, badge,         (streak,
+  streak)     lesson)   surprise drop)      collection)
+\`\`\`
+
+**Variable reward beats fixed reward** — the "slot machine" effect: sometimes 10 XP, sometimes 50 XP + a rare badge. Dopamine spikes more on uncertainty than on predictability.
+
+## 3. The Four Pillars
+
+| Pillar | Mechanic | HaiEduTech example |
+|--------|----------|--------------------|
+| **Progression** | XP, levels, mastery bar | Climber & Skier chibis |
+| **Social** | Weekly leaderboard, class ranks | Mastered Words board |
+| **Identity** | Avatar, badge, titles | "Scholar", "Linguistics Architect" |
+| **Surprise** | Random drops, mini-games | Flying stars, confetti |
+
+## 4. Dark Patterns to Avoid
+
+- **Streak shaming** ("You lost a 47-day streak!") → anxiety, especially for kids.
+- **Pay-to-skip-learning** → kills the educational purpose.
+- **Endless global leaderboard** → 95% of learners always feel like losers — use weekly + class-scoped leaderboards instead.
+- **Lootbox-style purchases for minors** → ethically and legally risky.
+
+## 5. Balanced Reward Formula
+
+\`\`\`
+reward = base_xp * difficulty * streak_bonus * (1 + surprise())
+surprise() = random.choice([0, 0, 0, 0.5, 1.0])   # 20% drop
+\`\`\`
+
+**Decay XP for repeated easy tasks** so users can't farm trivial reps — XP must stay tied to real learning. Cap streak bonuses (e.g. +60%) so long streaks don't dwarf today's progress.`,
         code: `import random
 
 def xp(base: int, difficulty: float, streak_days: int, attempts: int) -> int:
@@ -256,7 +342,61 @@ Quy tắc thô: phát hiện effect 5% (mastery growth từ 0.30 → 0.315) cầ
 - **Novelty effect**: phiên bản mới đẹp → user thử nhiều, 2 tuần sau hết hứng.
 - **Network effect**: leaderboard A và B chung → 2 nhánh ảnh hưởng nhau.
 `,
-        theoryEn: `Random-assign users by hash(user_id)%2, measure mastery growth after 14 days, then t-test for p-value. Pre-register effect size and sample (≈3,000/arm for 5% lift). Don't peek - it inflates false positives. Watch for SRM, novelty effect, and network effects between arms. Stop early only on harm threshold or formal Bayesian framework.`,
+        theoryEn: `## 1. Why Pedagogical A/B Testing?
+
+Changing a UI or lecture "because it feels better" is the easiest way to **make things worse without knowing**. A/B testing lets you say with statistical confidence: *"Variant B raised mastery by 12% with 95% confidence."*
+
+## 2. Experiment Structure
+
+\`\`\`
+   New learners
+        │
+   RANDOM ASSIGN (hash(user_id) % 2)
+        │
+   ┌────────┴────────┐
+   ▼                 ▼
+ Variant A         Variant B
+ (control)         (treatment)
+   │                 │
+   └────────┬────────┘
+            ▼
+   Measure mastery_growth after 14 days
+            │
+            ▼
+   Welch's t-test / Mann-Whitney → p-value + CI
+\`\`\`
+
+## 3. Sample Size — Pre-Register It
+
+Detecting tiny effects requires huge samples. Rough rule (α=0.05, power=0.8):
+
+| Effect | Sample per arm |
+|--------|----------------|
+| 20% | ~200 |
+| 10% | ~800 |
+| 5% | ~3,000 |
+| 1% | ~70,000 |
+
+**Pre-register** the sample size and duration **before** you launch. *Never* peek at p-values daily — peeking inflates false-positive rate from 5% to 30%+.
+
+## 4. Reading Results Correctly
+
+- \`p < 0.05\` means *evidence* B differs from A — not "B is definitely better."
+- Always report **effect size** + **95% CI**, not just p-value.
+- 20 metrics tested, 1 below 0.05? Probably noise (multiple comparison).
+- A CI that crosses 0 → **not** significant.
+
+## 5. Stopping Rules
+
+- **Harm threshold** — stop immediately if Variant B drops mastery > 10%. Protecting students overrides statistical purity.
+- **Bayesian early stopping** — only valid under a proper framework (Optimizely, Beta-Binomial). Frequentist peeking is *not* valid.
+
+## 6. Common Traps
+
+- **SRM** (Sample Ratio Mismatch) — split is 60/40 instead of 50/50 → routing bug, results invalid.
+- **Novelty effect** — flashy new UI wins for 2 weeks, then collapses; run experiments long enough to pass it.
+- **Network effects** — shared leaderboards or social feeds let arms contaminate each other; cluster-randomize by class.
+- **Multiple testing** — Bonferroni-correct or pre-specify your primary metric.`,
         code: `import hashlib, random
 from statistics import mean, pstdev
 from math import sqrt
