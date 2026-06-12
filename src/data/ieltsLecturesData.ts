@@ -3692,6 +3692,7 @@ const _rawAllIeltsLectures: IeltsLecture[] = [
   ...grammarExpansion,
   ...grammarExpansion2,
   ...grammarCoreExpansion,
+  ...ieltsLecturesExpansion4,
 ];
 
 /**
