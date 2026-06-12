@@ -316,7 +316,7 @@ Deno.serve(async (req) => {
     });
   }
 
-  // Notify staff via bell — only real failures page (auto-recovered does not)
+  // Notify staff via bell — every run so admin sees daily confirmation
   const failItems = results.filter((r) => r.status === 'fail');
   let title: string;
   let body: string;
@@ -333,8 +333,7 @@ Deno.serve(async (req) => {
     body = lines.join('\n');
   }
 
-  const shouldNotify = failed > 0 || triggeredBy === 'manual';
-  if (shouldNotify) {
+  if (true) {
     const { data: staffRoles } = await sb
       .from('user_roles')
       .select('user_id')
