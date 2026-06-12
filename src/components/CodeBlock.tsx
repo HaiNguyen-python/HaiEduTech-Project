@@ -94,6 +94,9 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
   const blockShellClass = preserveLayout
     ? `my-4 rounded-xl overflow-hidden bg-[#0f172a] shadow-md ${className}`
     : `my-4 rounded-xl overflow-hidden border border-slate-800 bg-[#0f172a] shadow-md ${className}`;
+  const scrollAreaClass = preserveLayout
+    ? "overflow-x-auto px-6 sm:px-10 lg:px-14"
+    : "overflow-x-auto";
 
   return (
     <div className={blockShellClass}>
@@ -121,10 +124,10 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
           </button>
         </div>
       )}
-      <div className="overflow-x-auto">
+      <div className={scrollAreaClass}>
         {preserveLayout ? (
           <pre
-            className="m-0 block min-w-max p-5 text-sm leading-7 text-slate-100"
+            className="mx-auto my-0 block w-max max-w-none py-5 text-sm leading-7 text-slate-100"
             style={{
               background: "#0f172a",
               fontFamily:
