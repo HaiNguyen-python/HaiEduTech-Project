@@ -402,26 +402,24 @@ Phần Lan luôn nằm trong top thế giới về PISA, và **Đại học Hels
 - **HELDA** (kho luận văn & bài báo của UH): [helda.helsinki.fi](https://helda.helsinki.fi)
 - **TUHAT** (cổng nghiên cứu của UH): [researchportal.helsinki.fi](https://researchportal.helsinki.fi)
 - **Faculty of Educational Sciences:** [helsinki.fi/en/faculty-educational-sciences](https://www.helsinki.fi/en/faculty-educational-sciences)`,
-        code: `// "Reading log" mini-helper bạn có thể chạy thử trong Node/Browser
-const helsinkiPapers = [
-  { id: 1,  author: "Hannele Niemi",        topic: "AI in Learning" },
-  { id: 2,  author: "Kirsti Lonka",          topic: "Phenomenon-Based Learning" },
-  { id: 3,  author: "Paavola & Hakkarainen", topic: "Knowledge Creation Metaphor" },
-  { id: 4,  author: "Hakkarainen et al.",    topic: "Networked Expertise" },
-  { id: 5,  author: "Lakkala et al.",        topic: "Trialogical Learning Design" },
-  { id: 6,  author: "Toom & Husu",           topic: "Research-based Teacher Education" },
-  { id: 7,  author: "Salmela-Aro",           topic: "Engagement & Burnout (EDA/SBI)" },
-  { id: 8,  author: "Postareff & Lindblom",  topic: "Teaching Conceptions in HE" },
-  { id: 9,  author: "Erika Löfström",        topic: "Ethics in Educational Research" },
-  { id: 10, author: "Nevgi & Lindblom",      topic: "Approaches to Learning" },
-];
+        code: `# "Reading log" mini-helper - chạy thử bằng Python
+helsinki_papers = [
+    {"id": 1,  "author": "Hannele Niemi",        "topic": "AI in Learning"},
+    {"id": 2,  "author": "Kirsti Lonka",          "topic": "Phenomenon-Based Learning"},
+    {"id": 3,  "author": "Paavola & Hakkarainen", "topic": "Knowledge Creation Metaphor"},
+    {"id": 4,  "author": "Hakkarainen et al.",    "topic": "Networked Expertise"},
+    {"id": 5,  "author": "Lakkala et al.",        "topic": "Trialogical Learning Design"},
+    {"id": 6,  "author": "Toom & Husu",           "topic": "Research-based Teacher Education"},
+    {"id": 7,  "author": "Salmela-Aro",           "topic": "Engagement & Burnout (EDA/SBI)"},
+    {"id": 8,  "author": "Postareff & Lindblom",  "topic": "Teaching Conceptions in HE"},
+    {"id": 9,  "author": "Erika Löfström",        "topic": "Ethics in Educational Research"},
+    {"id": 10, "author": "Nevgi & Lindblom",      "topic": "Approaches to Learning"},
+]
 
-// Lên lịch đọc 1 bài/tuần trong 10 tuần.
-helsinkiPapers.forEach((p, i) => {
-  const week = i + 1;
-  console.log(\`Tuần \${week}: đọc bài #\${p.id} - \${p.topic} (\${p.author})\`);
-});`,
-        codeLanguage: "javascript",
+# Lên lịch đọc 1 bài/tuần trong 10 tuần.
+for i, p in enumerate(helsinki_papers, start=1):
+    print(f"Tuần {i}: đọc bài #{p['id']} - {p['topic']} ({p['author']})")`,
+        codeLanguage: "python",
         exercise:
           "Chọn 1 bài trong danh sách, viết tóm tắt 5 câu và đề xuất 1 tính năng cho HaiEduTech có thể áp dụng kết quả nghiên cứu đó.",
         exerciseEn:

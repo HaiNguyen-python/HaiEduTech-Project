@@ -605,8 +605,8 @@ print(model.summary())`,
 - [ ] Email 3-5 supervisor có fit (đọc kỹ paper họ).
 - [ ] Funding plan: scholarship + RA position.`,
         theoryEn: "IRB + child assent + de-identification mandatory. Paper structure: IMRaD with effect sizes + CI, not just p-values. Pre-register + open code to boost publishing.",
-        code: `// Research statement skeleton (markdown)
-const statement = \`
+        code: `# Research statement skeleton (markdown)
+statement = """
 # Research Statement - PhD in EdTech
 
 ## Vision (5 years)
@@ -624,8 +624,10 @@ RQ: Can FSRS-tuned LLM hints close the mastery gap between
 ## Why this lab
 Prof. X works on equitable adaptive systems (paper 2024)
 and supervises real-world EdTech deployments.
-\`;`,
-        codeLanguage: "javascript",
+"""
+
+print(statement)`,
+        codeLanguage: "python",
         exercise: "Viết outline 1 paper bạn muốn submit cho AIED 2027 (RQ, method, expected contribution, 5 references).",
         exerciseEn: "Outline a paper you'd submit to AIED 2027 (RQ, method, contribution, 5 refs).",
         quiz: [
