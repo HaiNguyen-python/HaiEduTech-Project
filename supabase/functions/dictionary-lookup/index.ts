@@ -52,7 +52,7 @@ async function writeCache(kind: string, word: string, payload: any) {
   }
 }
 
-async function fetchWithTimeout(url: string, timeoutMs = 6000): Promise<Response> {
+async function fetchWithTimeout(url: string, timeoutMs = 3500): Promise<Response> {
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -68,7 +68,7 @@ async function fetchWithTimeout(url: string, timeoutMs = 6000): Promise<Response
 async function fetchJSONWithRetry(url: string): Promise<{ ok: boolean; status: number; data: any }> {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const res = await fetchWithTimeout(url, 6000);
+      const res = await fetchWithTimeout(url, 3500);
       const status = res.status;
       if (res.ok) {
         const data = await res.json();
