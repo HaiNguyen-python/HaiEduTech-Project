@@ -52,9 +52,12 @@ export interface StudyPetState {
   mood: "celebrating" | "hungry" | "sleepy" | "happy" | "neutral";
 }
 
-const readJsonXP = (key: string): number => {
+import { migratePetXpFromLegacy, PET_XP_KEY, PET_XP_EVENT } from "@/hooks/usePetXP";
+
+const readPetXP = (): number => {
   try {
-    const raw = localStorage.getItem(key);
+    migratePetXpFromLegacy();
+    const raw = localStorage.getItem(PET_XP_KEY);
     if (!raw) return 0;
     const parsed = JSON.parse(raw);
     return typeof parsed?.xp === "number" ? parsed.xp : 0;
