@@ -64,22 +64,21 @@ Benjamin Bloom (University of Chicago) so sánh 3 nhóm học sinh:
 
 > 🧪 Đo Cohen's d giữa pre và post. Nếu d > 0.8 → bạn vừa tái hiện hiệu ứng Bloom trong 45 phút.`,
         theoryEn: `In 1984, Benjamin Bloom showed that one-to-one tutoring lifted students two standard deviations above the conventional class average - the famous 2-Sigma Problem. Modern EdTech (Khan Academy adaptive paths, Khanmigo, HaiEduTech AI Coach) tries to close this gap with adaptive learning, AI tutors, and mastery learning. VanLehn (2011) later reported a more realistic ~0.79σ effect for human tutoring, but the design lessons still drive product decisions today.`,
-        code: `// Compute Cohen's d for a pre/post tutoring experiment
-function cohensD(pre: number[], post: number[]): number {
-  const mean = (xs: number[]) => xs.reduce((s, x) => s + x, 0) / xs.length;
-  const variance = (xs: number[], m: number) =>
-    xs.reduce((s, x) => s + (x - m) ** 2, 0) / (xs.length - 1);
-  const mPre = mean(pre);
-  const mPost = mean(post);
-  const sdPooled = Math.sqrt((variance(pre, mPre) + variance(post, mPost)) / 2);
-  return (mPost - mPre) / sdPooled;
-}
+        code: `# Compute Cohen's d for a pre/post tutoring experiment
+from math import sqrt
 
-const pre  = [4, 5, 6, 5, 4, 7, 5, 6, 5, 4];
-const post = [7, 8, 9, 8, 7, 9, 8, 9, 8, 7];
-console.log("Cohen's d =", cohensD(pre, post).toFixed(2));
-// → d ≈ 1.7 (huge effect, gần với 2-sigma)`,
-        codeLanguage: "typescript",
+def cohens_d(pre, post):
+    mean = lambda xs: sum(xs) / len(xs)
+    variance = lambda xs, m: sum((x - m) ** 2 for x in xs) / (len(xs) - 1)
+    m_pre, m_post = mean(pre), mean(post)
+    sd_pooled = sqrt((variance(pre, m_pre) + variance(post, m_post)) / 2)
+    return (m_post - m_pre) / sd_pooled
+
+pre  = [4, 5, 6, 5, 4, 7, 5, 6, 5, 4]
+post = [7, 8, 9, 8, 7, 9, 8, 9, 8, 7]
+print(f"Cohen's d = {cohens_d(pre, post):.2f}")
+# → d ≈ 1.7 (huge effect, gần với 2-sigma)`,
+        codeLanguage: "python",
         exercise:
           "Thiết kế một mini-study trong lớp: chọn 6 học sinh, chia 2 nhóm (control vs AI Tutor), chạy pre/post test 10 câu trong 30 phút, tính Cohen's d.",
         exerciseEn:
@@ -258,27 +257,28 @@ Stanford khởi xướng làn sóng MOOC năm 2011 với khoá AI của Sebastia
 - 🔗 [Kizilcec et al. (2013) - Deconstructing disengagement](https://scholar.google.com/scholar?q=Kizilcec+2013+deconstructing+disengagement)
 - 🔗 [Reich & Ruipérez-Valiente (2019) - The MOOC pivot](https://www.science.org/doi/10.1126/science.aav7958)`,
         theoryEn: `Stanford launched the MOOC era in 2011, but ten years of research (Reich 2014, Kizilcec 2013, Brunskill, Reich & Ruipérez-Valiente 2019) revealed a brutal completion crisis (~5-10%) and a demographic skew toward already-credentialed learners. EdTech responded with engagement clustering, RL-driven personalization, and the B2B pivot.`,
-        code: `// K-means style assignment of learners into Kizilcec's 4 behavioral clusters
-type Learner = { id: string; videoPct: number; assignmentPct: number };
-type Cluster = "Completing" | "Auditing" | "Disengaging" | "Sampling";
+        code: `# K-means style assignment of learners into Kizilcec's 4 behavioral clusters
+def classify(learner):
+    v = learner["video_pct"]
+    a = learner["assignment_pct"]
+    if v > 0.6 and a > 0.6:
+        return "Completing"
+    if v > 0.6 and a < 0.2:
+        return "Auditing"
+    if 0.2 < v < 0.6 and a < 0.4:
+        return "Disengaging"
+    return "Sampling"
 
-function classify(l: Learner): Cluster {
-  const { videoPct: v, assignmentPct: a } = l;
-  if (v > 0.6 && a > 0.6) return "Completing";
-  if (v > 0.6 && a < 0.2) return "Auditing";
-  if (v > 0.2 && v < 0.6 && a < 0.4) return "Disengaging";
-  return "Sampling";
-}
+learners = [
+    {"id": "u1", "video_pct": 0.9, "assignment_pct": 0.85},
+    {"id": "u2", "video_pct": 0.8, "assignment_pct": 0.05},
+    {"id": "u3", "video_pct": 0.4, "assignment_pct": 0.10},
+    {"id": "u4", "video_pct": 0.1, "assignment_pct": 0.00},
+]
 
-const learners: Learner[] = [
-  { id: "u1", videoPct: 0.9, assignmentPct: 0.85 },
-  { id: "u2", videoPct: 0.8, assignmentPct: 0.05 },
-  { id: "u3", videoPct: 0.4, assignmentPct: 0.1 },
-  { id: "u4", videoPct: 0.1, assignmentPct: 0.0 },
-];
-
-learners.forEach(l => console.log(l.id, "→", classify(l)));`,
-        codeLanguage: "typescript",
+for l in learners:
+    print(l["id"], "→", classify(l))`,
+        codeLanguage: "python",
         exercise:
           "Phân tích log của 20 học viên trên HaiEduTech, chia về 4 cụm Kizilcec và đề xuất 1 chiến lược can thiệp cho mỗi cụm.",
         exerciseEn:
@@ -371,21 +371,20 @@ Mitra đặt một máy tính trong **lỗ tường khu ổ chuột Delhi**, kh�
 - 🔗 [Mitra (2003) - Minimally Invasive Education](https://scholar.google.com/scholar?q=Sugata+Mitra+hole+in+the+wall+2003)
 - 🔗 [SOLE Toolkit (TED Prize)](https://www.theschoolinthecloud.org)`,
         theoryEn: `MIT OCW (2001) launched the open-content era: 2,500+ courses, 200M users. Sugata Mitra's 'Hole in the Wall' (1999) experiment in Delhi slums proved children self-organise to learn from a screen with no teacher, birthing Minimally Invasive Education and SOLE - a five-step framework Teacher Hai can run in any HaiEduTech classroom.`,
-        code: `// SOLE session timer - run inside any HaiEduTech classroom
-const phases = [
-  { name: "Big Question",       minutes: 5  },
-  { name: "Self-Organised Work", minutes: 30 },
-  { name: "Public Presentations", minutes: 10 },
-  { name: "Reflection",         minutes: 5  },
-];
+        code: `# SOLE session timer - run inside any HaiEduTech classroom
+phases = [
+    {"name": "Big Question",         "minutes": 5},
+    {"name": "Self-Organised Work",  "minutes": 30},
+    {"name": "Public Presentations", "minutes": 10},
+    {"name": "Reflection",           "minutes": 5},
+]
 
-let elapsed = 0;
-phases.forEach(p => {
-  console.log(\`[\${String(elapsed).padStart(2, "0")}:00] ▶ \${p.name} (\${p.minutes} min)\`);
-  elapsed += p.minutes;
-});
-console.log(\`[\${String(elapsed).padStart(2, "0")}:00] ✓ Done\`);`,
-        codeLanguage: "javascript",
+elapsed = 0
+for p in phases:
+    print(f"[{str(elapsed).zfill(2)}:00] ▶ {p['name']} ({p['minutes']} min)")
+    elapsed += p["minutes"]
+print(f"[{str(elapsed).zfill(2)}:00] ✓ Done")`,
+        codeLanguage: "python",
         exercise:
           "Thiết kế 1 phiên SOLE 50 phút cho lớp HaiEduTech, đề ra 'Big Question' liên quan đến môn em đang dạy và tiêu chí chấm.",
         exerciseEn:
