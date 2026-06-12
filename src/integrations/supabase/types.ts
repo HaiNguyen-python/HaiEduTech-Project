@@ -2967,6 +2967,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_pet_xp: {
+        Row: {
+          last_source: string | null
+          total_xp: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          last_source?: string | null
+          total_xp?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          last_source?: string | null
+          total_xp?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
