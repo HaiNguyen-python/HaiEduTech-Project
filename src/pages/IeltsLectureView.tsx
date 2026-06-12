@@ -368,8 +368,9 @@ const IeltsLectureView = () => {
                       {t(ex.contextVi, ex.context)}
                     </p>
                     <div className="bg-muted/50 rounded-lg p-4 text-[16px] leading-relaxed text-foreground whitespace-pre-line border border-border">
-                      {ex.example}
+                      {renderExampleText(ex.example)}
                     </div>
+
                     {ex.answer && (
                       <div className="mt-3 flex items-center gap-2">
                         <Badge className="bg-green-500/15 text-green-600">{t("Đáp án", "Answer")}: {ex.answer}</Badge>
