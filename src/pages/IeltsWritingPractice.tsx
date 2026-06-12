@@ -250,9 +250,9 @@ const IeltsWritingPractice = () => {
             prompt: currentPrompt.prompt,
             essay,
             word_count: wordCount,
-            result: data,
+            result: data as unknown as Record<string, unknown>,
             overall_score: data.overall,
-          });
+          } as never);
           // Log activity for admin analytics
           logStudentActivity({
             activityType: "ielts_writing",
