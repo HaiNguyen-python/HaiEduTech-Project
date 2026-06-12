@@ -295,10 +295,11 @@ const IeltsLectureView = () => {
 
                             {step.example && (
                               <div className="mt-3 bg-muted/50 rounded-lg p-3 text-sm text-foreground border border-border">
-                                <span className="font-semibold text-primary">💡 Example: </span>
-                                {step.example}
+                                <div className="font-semibold text-primary mb-1">💡 Example:</div>
+                                {renderExampleText(step.example)}
                               </div>
                             )}
+
                           </div>
                         </div>
                       </CardContent>
