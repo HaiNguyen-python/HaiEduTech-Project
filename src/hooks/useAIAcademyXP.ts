@@ -138,7 +138,9 @@ export const useAIAcademyXP = () => {
         quest: { ...quest, rewardClaimed: true },
       };
     });
+    if (granted > 0) awardPetXP(granted, "daily-quest", { celebrate: true });
     return granted;
+  }, []);
   }, []);
 
   const levelInfo = getLevelInfo(state.xp);
