@@ -78,7 +78,50 @@ EdTech research thường dùng **PICOTS**:
 - **Fishing**: chạy 20 test, báo 1 cái p<0.05.
 - **RQ thay đổi giữa chừng** mà không pre-register.
 - **Cherry-pick** sample (chỉ học sinh tích cực).`,
-        theoryEn: "Good RQ is Feasible, Interesting, Novel, Ethical. Use PICOTS. Avoid HARKing, p-hacking, cherry-picking.",
+        theoryEn: `## 1. What Makes a Good Research Question?
+
+A good RQ passes the **FINER** test (Feasible, Interesting, Novel, Ethical, Relevant). Most rejected EdTech papers fail FINER long before peer review — they ask vague or unmeasurable questions.
+
+## 2. The PICOTS Framework
+
+Borrowed from clinical research, **PICOTS** turns a vague idea into a testable question:
+
+| Letter | Stands for | Example |
+|--------|-----------|---------|
+| **P** | Population | B1 Vietnamese learners, n=120 |
+| **I** | Intervention | LLM personalised hints |
+| **C** | Comparison | Static hint bank |
+| **O** | Outcome | IELTS Writing band |
+| **T** | Time | 4 weeks, 30 min/day |
+| **S** | Setting | Online, self-paced |
+
+## 3. Literature Review Checklist
+
+1. Search Google Scholar + ERIC + ACM Digital Library.
+2. Filter: 2020+ for AI work; 2010+ for pedagogy.
+3. Do **forward + backward citation chasing** from 2-3 key papers.
+4. Tag each paper: *relevant / supporting / contradicting*.
+5. Synthesise — what is the **gap** you will fill?
+
+## 4. Pre-Registration
+
+Lock your RQ, hypotheses, sample size, and analysis plan **before** collecting data. Platforms: OSF.io, AsPredicted.org. Pre-registration is the single strongest defence against bias.
+
+## 5. Five Sins to Avoid
+
+| Sin | What it is | Why it ruins your paper |
+|-----|-----------|------------------------|
+| **HARKing** | Hypothesising After Results are Known | Turns exploration into fake confirmation |
+| **p-hacking** | Trying many tests, reporting only significant ones | False discoveries inflate to 30%+ |
+| **Cherry-picking** | Reporting only the cohorts that "worked" | Inflates effect, destroys generalisability |
+| **Optional stopping** | Peeking and stopping when p < 0.05 | Doubles false-positive rate |
+| **Moving the goalpost** | Changing the primary outcome mid-study | Makes the study unfalsifiable |
+
+## 6. Hypothesis Templates
+
+- **H1** (directional): "Treatment improves outcome Y by at least Δ."
+- **H0** (null): "No mean difference between treatment and control."
+- State the **effect size of practical interest** — not just statistical significance.`,
         code: `# Pre-registration template (markdown)
 """
 # Pre-registration: LLM Hints in IELTS Writing
@@ -197,7 +240,52 @@ def stratified_assign(students):
 | **Novelty** | Hứng thú với "AI mới" tan dần | Đo ≥4 tuần |
 | **Cross-contamination** | A xem can thiệp của B | Cluster by class |
 | **Maturation** | Tiến bộ tự nhiên theo tuổi | Control group |`,
-        theoryEn: "RCT = gold standard. Need power analysis (n=63/arm for d=0.5). Stratified randomization, blind raters, ITT analysis.",
+        theoryEn: `## 1. Why RCTs Are the Gold Standard
+
+A **Randomised Controlled Trial (RCT)** assigns participants at random to a treatment or control arm. Because all confounders (motivation, prior knowledge, device, time of day) are distributed equally across arms, any post-treatment difference can be **causally attributed** to the intervention — something observational data can rarely prove.
+
+## 2. Power Analysis — Don't Waste Your Sample
+
+Before launch, compute the sample size needed to detect the **smallest effect you care about**. Three numbers drive everything:
+
+| Parameter | Typical value |
+|-----------|---------------|
+| α (Type-I error) | 0.05 |
+| β (Type-II error) | 0.20 → power = 0.80 |
+| Cohen's d | 0.5 (medium) |
+
+Formula: \`n_per_arm = 2 · ((z_α + z_β) · σ / Δ)²\`. For d = 0.5 you need ~63 per arm; for d = 0.3 you need ~175. An **underpowered** trial wastes both money and the participants' time — it's an ethical issue, not just a statistical one.
+
+## 3. Randomisation Strategies
+
+| Method | When to use |
+|--------|-------------|
+| **Simple random** | n > 200 |
+| **Stratified** | Need balance on a known covariate (level, gender) |
+| **Block randomisation** | Avoid run-of-the-mill imbalance early on |
+| **Cluster** (class/school) | Intervention applied at group level |
+
+Always **hash + seed** the random assignment so it's reproducible and auditable.
+
+## 4. Blinding
+
+- **Single-blind** — participants don't know their arm.
+- **Double-blind** — neither participants nor raters know.
+- True double-blind is rare in EdTech (teachers see the intervention), but **raters scoring outcomes** can and must be blinded.
+
+## 5. Threats to Validity
+
+| Threat | Mitigation |
+|--------|-----------|
+| **Attrition** | Pre-register intent-to-treat (ITT) analysis |
+| **Hawthorne effect** | Use an **active** control, not no-treatment |
+| **Novelty effect** | Run ≥ 4 weeks |
+| **Cross-contamination** | Cluster-randomise by class |
+| **Maturation** | Always have a control group |
+
+## 6. Reporting Your RCT
+
+CONSORT-style: report flow diagram, randomisation method, blinding status, ITT vs per-protocol results, effect size with 95% CI — never just p-values.`,
         code: `# Power calculation
 import math
 from scipy.stats import norm
@@ -296,7 +384,62 @@ Curve dốc xuống nhanh tuần 1-2 = onboarding kém.
 - **Right to delete**: cascade delete khi user yêu cầu.
 - **Aggregate only** cho public dashboard.
 - **Retention**: raw events ≤ 2 năm, aggregate vĩnh viễn.`,
-        theoryEn: "Use xAPI/Caliper schema. Focus on actionable metrics: mastery, retention, drop-off. Cohort analysis spots onboarding issues.",
+        theoryEn: `## 1. Standard Event Schemas — xAPI & Caliper
+
+Two industry schemas dominate learning analytics:
+
+- **xAPI (Experience API)** — flexible "actor / verb / object" triples (\`Tin Can\` API).
+- **IMS Caliper** — strict but richer schema used by Canvas, Moodle and many universities.
+
+\`\`\`json
+{
+  "actor": {"id": "user-123", "role": "learner"},
+  "verb": "completed",
+  "object": {"id": "lesson-ielts-w-12", "type": "Lesson"},
+  "context": {"course": "ielts-writing", "ab_variant": "v2"},
+  "result": {"score": 7.5, "duration_sec": 1800, "success": true},
+  "timestamp": "2026-06-10T14:30:00Z"
+}
+\`\`\`
+
+Sticking to a standard means dashboards, LMS exports and research collaborators can read your data immediately.
+
+## 2. The Five Golden Metrics
+
+| Metric | Definition | Warning sign |
+|--------|-----------|--------------|
+| **DAU / MAU** | Active 1d / active 30d | < 0.2 → weak habit |
+| **Time-on-task** | Real time spent | High + low score = struggling |
+| **Mastery rate** | % skills past threshold | True progress signal |
+| **Drop-off funnel** | % leaving each lesson step | UX problem detector |
+| **Helpfulness** | 👍 / total AI interactions | < 50% → prompt needs work |
+
+## 3. Vanity vs Actionable
+
+\`\`\`
+❌ Vanity: pageviews, registrations, "AI calls served"
+✅ Actionable: mastery lift, completion rate, time-to-mastery
+\`\`\`
+
+## 4. Cohort Analysis
+
+Bucket users by signup week and track each cohort across time. Cohorts let you isolate the impact of releases that averages would hide. A steep drop in weeks 1-2 almost always means **onboarding** is the bottleneck.
+
+## 5. Minimal Pipeline
+
+\`\`\`
+ client → ingest API → queue (Kafka/PubSub)
+ → warehouse (BigQuery/Postgres) → dbt models
+ → dashboard (Metabase/Superset)
+\`\`\`
+
+## 6. Privacy & Compliance
+
+- Store **PII in a separate table**; events keep only \`user_hash\`.
+- Implement **right-to-delete** with cascade across all stores.
+- Public dashboards expose **aggregates only**.
+- Retention: raw events ≤ 2 years, aggregates indefinite.
+- Comply with GDPR-K / COPPA for users < 16.`,
         code: `-- dbt model: daily mastery
 WITH daily AS (
   SELECT
@@ -389,7 +532,55 @@ p-value    = 0.0008  ← significant
 - Trực quan cho stakeholder.
 - Có thể stop early khi posterior đủ tin cậy.
 - Cần prior - thường dùng weak prior.`,
-        theoryEn: "EdTech A/B differs from e-commerce: outcomes lag, smaller sample. Beware peeking, SRM, contamination, multi-metric fishing.",
+        theoryEn: `## 1. EdTech A/B ≠ E-Commerce A/B
+
+| Aspect | E-commerce | EdTech |
+|--------|------------|--------|
+| **Outcome** | Conversion (1 click) | Learning gain (4 weeks) |
+| **Lag** | < 1 minute | Days → weeks |
+| **Sample/day** | Thousands | Hundreds |
+| **Risk** | Lost revenue | Damaged learning |
+
+EdTech A/B must prioritise **long-term outcomes** and treat speed-to-decision as secondary.
+
+## 2. Sample Size for Proportion Tests
+
+Detecting a 5-point lift at baseline 60% (α=0.05, power=0.8) needs roughly **1,565 per arm**. Use \`statsmodels.stats.power.NormalIndPower\` or the Evan Miller calculator — never eyeball it.
+
+## 3. Standard Workflow
+
+\`\`\`
+1. Hypothesis    "New onboarding lifts D7 retention 35% → 42%"
+2. Sample size   n = 1565/arm (computed upfront)
+3. Randomise     hash(user_id) % 100, treatment if < 50
+4. Run           ≥ 1 user cycle (7+ days)
+5. Analyse       2-proportion z-test + 95% CI
+6. Decide        ship / kill / iterate
+\`\`\`
+
+## 4. Fatal Mistakes
+
+- **Peeking** — checking p daily. False-positive rate explodes. Use SPRT or Bayesian only.
+- **Sample Ratio Mismatch (SRM)** — split > 5% off design → routing bug; results invalid.
+- **Network effects** — shared social/leaderboard features let A see B → contamination.
+- **Multi-metric fishing** — testing 20 metrics, reporting the one p < 0.05.
+- **Early stopping when it looks good** — only stop on power-met or pre-defined Bayesian rule.
+
+## 5. Reading the Results
+
+\`\`\`
+control:   900/1500 = 60.0%
+treatment: 990/1500 = 66.0%
+Δ = +6.0pp, lift = +10%
+p-value = 0.0008          ← significant
+95% CI for Δ = [+2.5pp, +9.5pp]
+\`\`\`
+
+If the CI **crosses 0** → not significant, regardless of p. Always report effect size with CI; a tiny lift can be "significant" yet not worth shipping.
+
+## 6. Bayesian A/B as an Alternative
+
+Output is intuitive: *"P(treatment > control) = 96%"*. Stakeholders understand it instantly, and a Bayesian framework supports principled early stopping. Choose a weakly informative prior to avoid contaminating results with opinions.`,
         code: `# 2-proportion z-test
 from statsmodels.stats.proportion import proportions_ztest
 
@@ -509,7 +700,62 @@ Quasi-experimental → luôn báo cáo:
 - **Robustness checks**: thử nhiều specification.
 - **Rosenbaum bounds**: kết quả còn đứng vững nếu có unobserved confounder bao nhiêu?
 - **Placebo tests**: chạy DiD trên thời kỳ không có intervention - nên thấy 0.`,
-        theoryEn: "Quasi-experimental: DiD (parallel trends), IV (2SLS), RDD (threshold), PSM (matching). Always run sensitivity/placebo checks.",
+        theoryEn: `## 1. When You Can't Run an RCT
+
+Sometimes randomisation is impossible or unethical:
+
+- You cannot **withhold** a beneficial AI tutor from half the students.
+- The intervention is rolled out **province-wide** by policy.
+- You only have **observational** historical data.
+
+In these cases, **quasi-experimental designs** can still recover causal estimates — if their assumptions hold and you check them carefully.
+
+## 2. Difference-in-Differences (DiD)
+
+Compare the **change** in outcome over time between a treatment group and a control group:
+
+\`\`\`
+ DiD = (Treat_post − Treat_pre) − (Ctrl_post − Ctrl_pre)
+\`\`\`
+
+**Core assumption — parallel trends**: before the intervention, both groups moved together. You **must** plot the pre-period and run placebo tests on a fake intervention date.
+
+## 3. Instrumental Variables (IV)
+
+Need a variable that **causes** the treatment but does **not** affect the outcome directly (the "exclusion restriction"). Classic example: a lottery for app access acts as an instrument for actual usage. Estimated via 2-stage least squares (2SLS):
+
+1. Regress treatment on IV → predicted treatment.
+2. Regress outcome on predicted treatment.
+
+A weak instrument inflates standard errors massively — check the first-stage F-statistic (≥ 10).
+
+## 4. Regression Discontinuity (RDD)
+
+When a threshold determines who gets treatment (e.g. placement score < 60 → remedial tutor), compare students **just above** vs **just below** the cutoff. Near the threshold, assignment is *as if* random.
+
+\`\`\`
+   post-score
+        │            ●●●
+        │         ●●●     ← gap = causal effect
+        │       ●●●
+        │  ●●●
+        └──────────────────▶ pre-score
+                   60 (cutoff)
+\`\`\`
+
+## 5. Propensity Score Matching (PSM)
+
+Estimate \`P(treated | X)\` for everyone, then match each treated unit with a control of similar propensity score. Reduces confounding from observed covariates — but **cannot** fix unobserved confounders.
+
+## 6. Sensitivity Analyses (Always!)
+
+Any quasi-experimental claim must come with:
+
+- **Robustness checks** — multiple specifications.
+- **Rosenbaum bounds** — how strong would an unobserved confounder need to be to overturn the result?
+- **Placebo tests** — apply the method to a period with no intervention; you should see ~0 effect.
+
+If the result evaporates under any of these, the causal claim isn't credible.`,
         code: `# DiD with statsmodels
 import statsmodels.formula.api as smf
 
@@ -604,7 +850,67 @@ print(model.summary())`,
 - [ ] Research statement: vấn đề, method strength, vision 5 năm.
 - [ ] Email 3-5 supervisor có fit (đọc kỹ paper họ).
 - [ ] Funding plan: scholarship + RA position.`,
-        theoryEn: "IRB + child assent + de-identification mandatory. Paper structure: IMRaD with effect sizes + CI, not just p-values. Pre-register + open code to boost publishing.",
+        theoryEn: `## 1. Research Ethics with Minors
+
+Working with children raises the ethical bar dramatically. Every EdTech study with under-18s must satisfy:
+
+| Requirement | Detail |
+|-------------|--------|
+| **IRB approval** | Mandatory before any data collection, including pilots |
+| **Parental consent** | Signed, written, in language the parent reads fluently |
+| **Child assent** | Children ≥ 7 give their own assent, with pictures if needed |
+| **Right to withdraw** | At any time, with no penalty or loss of service |
+| **Data minimisation** | Collect only what the RQ requires |
+| **De-identification** | Hash + isolate PII before any analysis store |
+| **Equity** | Control arm must not be meaningfully harmed (use active control) |
+
+## 2. IMRaD Paper Structure
+
+Almost every EdTech journal expects **IMRaD**:
+
+1. **Introduction** — problem, gap, contribution (last 3-5 sentences = roadmap).
+2. **Related Work** — group by pedagogy / technology / prior empirical.
+3. **Method** — participants, design, intervention, measures, analysis. *Enough detail to replicate.*
+4. **Results** — tables/figures with effect sizes and CIs, not bare p-values.
+5. **Discussion** — interpretation, limitations, validity threats, future work.
+6. **Conclusion** — one paragraph: take-away + impact.
+
+## 3. APA-Style Statistical Reporting
+
+\`\`\`
+❌ "p < 0.05, significant."
+✅ "Treatment scored higher than control,
+    M_T = 6.8 (SD=0.9), M_C = 6.2 (SD=1.0),
+    t(118) = 3.42, p = .0008, Cohen's d = 0.62,
+    95% CI [0.25, 0.99]."
+\`\`\`
+
+## 4. Where to Submit
+
+| Venue | Vibe | Good for |
+|-------|------|----------|
+| **AIED** (Springer) | AI in Education | LLM tutors, RAG, NLP |
+| **EDM** | Educational Data Mining | Learning analytics |
+| **LAK** | Learning Analytics | Behavioural, dashboards |
+| **L@S** (ACM) | Learning at Scale | MOOC, large-scale |
+| **CHI** | HCI | Interaction, UX |
+| **Computers & Education** | Journal | Empirical, longer form |
+
+## 5. Boosting Your Acceptance Odds
+
+1. **Pre-register** + release code & data publicly.
+2. **Replication studies** of well-known papers are easier to accept than people think.
+3. **Negative results** publish in dedicated venues (PLOS, *Journal of Negative Results*).
+4. Use **OpenReview** for early peer feedback.
+5. Co-author with a supervisor who has previously published at your target venue.
+
+## 6. PhD-Track Checklist (EdTech)
+
+- 1-2 first-author papers before applying.
+- Code + data on GitHub or OSF.
+- Research statement: problem, methodological strength, 5-year vision.
+- Email 3-5 supervisors whose recent work genuinely fits.
+- Funding plan: scholarship + RA position.`,
         code: `# Research statement skeleton (markdown)
 statement = """
 # Research Statement - PhD in EdTech
