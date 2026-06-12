@@ -91,10 +91,8 @@ export function useStudyPet(): StudyPetState & { refresh: () => void } {
   const [recentStar, setRecentStar] = useState(false);
 
   const refresh = useCallback(async () => {
-    // 1) XP from local gamification engines
-    const total =
-      readJsonXP("ai_academy_xp_v1") + readJsonXP("haiedu_programming_xp_v1");
-    setExp(total);
+    // 1) Unified Pet XP (replaces the old AI Academy + Programming dual source)
+    setExp(readPetXP());
 
     // 2) Overdue spaced-repetition reviews (logged-in only)
     try {
@@ -117,27 +115,23 @@ export function useStudyPet(): StudyPetState & { refresh: () => void } {
     return () => sub.subscription.unsubscribe();
   }, [refresh]);
 
-  // React to celebration events from anywhere in the app
+  // React to XP / celebration events from anywhere in the app
   useEffect(() => {
     const onStar = () => {
       setRecentStar(true);
       window.setTimeout(() => setRecentStar(false), STAR_WINDOW_MS);
-      // Re-read XP since the action that fired the star likely awarded it.
-      const total =
-        readJsonXP("ai_academy_xp_v1") + readJsonXP("haiedu_programming_xp_v1");
-      setExp(total);
+      setExp(readPetXP());
     };
+    const onXP = () => setExp(readPetXP());
     const onStorage = (e: StorageEvent) => {
-      if (e.key === "ai_academy_xp_v1" || e.key === "haiedu_programming_xp_v1") {
-        const total =
-          readJsonXP("ai_academy_xp_v1") + readJsonXP("haiedu_programming_xp_v1");
-        setExp(total);
-      }
+      if (e.key === PET_XP_KEY) setExp(readPetXP());
     };
     window.addEventListener("pet:star", onStar);
+    window.addEventListener(PET_XP_EVENT, onXP);
     window.addEventListener("storage", onStorage);
     return () => {
       window.removeEventListener("pet:star", onStar);
+      window.removeEventListener(PET_XP_EVENT, onXP);
       window.removeEventListener("storage", onStorage);
     };
   }, []);
