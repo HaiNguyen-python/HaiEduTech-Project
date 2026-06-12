@@ -179,19 +179,20 @@ async function handleDictionary(word: string) {
       }
     });
   });
-  const limited = toTranslate.slice(0, 6);
+  // Translate fewer items (4 instead of 6) and cap the whole batch at 2s
+  // so the dictionary lookup never blocks on slow translation upstream.
+  const limited = toTranslate.slice(0, 4);
   const viTranslations: Record<string, string> = {};
-  try {
-    const results = await Promise.allSettled(
+  if (limited.length > 0) {
+    const batch = Promise.allSettled(
       limited.map(async (item) => ({ key: item.key, vi: await translateToVi(item.text) })),
     );
+    const results = await withDeadline(batch, 2000, [] as PromiseSettledResult<{ key: string; vi: string }>[]);
     results.forEach((r) => {
       if (r.status === "fulfilled" && r.value.vi) {
         viTranslations[r.value.key] = r.value.vi;
       }
     });
-  } catch {
-    // Translation is best-effort; never break the lookup.
   }
 
   return { entry, viTranslations };
