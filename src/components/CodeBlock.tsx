@@ -58,7 +58,7 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
       {showHeader && (
         <div className="flex items-center justify-between px-4 py-2 bg-slate-900/80 border-b border-slate-800">
           <span className="text-xs font-mono uppercase tracking-wide text-emerald-400/90">
-            {normalizedLang}
+            {preserveLayout ? "diagram" : normalizedLang}
           </span>
           <button
             onClick={handleCopy}
