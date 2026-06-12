@@ -110,20 +110,36 @@ The "transcript" field must return the student's original transcription exactly 
 The "upgradedAnswer" must be based on the student's actual answer - same ideas and flow, just upgraded language. Bold upgraded parts with **word** markdown. THIS FIELD IS MANDATORY FOR ALL PARTS (1, 2, AND 3). Even for short Part 1 answers (1-3 sentences), you MUST produce an upgraded Band 7.5-8.0 version of the student's answer. Never leave this field empty or omit it. If the transcript is too short or empty, still produce a model upgraded answer that demonstrates how the student's idea could be expressed at Band 7.5+ level.
 Make scores REALISTIC and VARIED based on the actual language quality in the transcript.`;
 
-    const response = await fetch("https://api.perplexity.ai/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "sonar",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: `Grade this IELTS Speaking Part ${part} response to the question: "${question}"\n\nStudent's transcription:\n"${transcriptText}"\n\nDuration: ${duration} seconds, Word count: ${wordCount}` },
-        ],
-      }),
-    });
+    // Hard timeout: never let the UI spin forever if Perplexity stalls.
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 75_000);
+    let response: Response;
+    try {
+      response = await fetch("https://api.perplexity.ai/chat/completions", {
+        method: "POST",
+        signal: controller.signal,
+        headers: {
+          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "sonar",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `Grade this IELTS Speaking Part ${part} response to the question: "${question}"\n\nStudent's transcription:\n"${transcriptText}"\n\nDuration: ${duration} seconds, Word count: ${wordCount}` },
+          ],
+        }),
+      });
+    } catch (fetchErr) {
+      clearTimeout(timeoutId);
+      const aborted = (fetchErr as any)?.name === "AbortError";
+      await logUsage("grade-speaking", "sonar", "english", 0, "error", aborted ? "timeout" : "network");
+      return new Response(
+        JSON.stringify({ error: aborted ? "Grading timed out. Please try again." : "AI service unreachable. Please try again." }),
+        { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const status = response.status;

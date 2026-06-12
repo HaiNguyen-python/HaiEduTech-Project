@@ -90,20 +90,36 @@ CRITICAL RULES:
 4. Scores should be realistic and varied (not all the same).
 5. Give at least 6-8 error highlights.`;
 
-    const response = await fetch("https://api.perplexity.ai/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "sonar",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: `Grade this IELTS Writing Task 2 essay:\n\n${essay}` },
-        ],
-      }),
-    });
+    // Hard timeout so the function never hangs the UI if Perplexity stalls.
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 75_000);
+    let response: Response;
+    try {
+      response = await fetch("https://api.perplexity.ai/chat/completions", {
+        method: "POST",
+        signal: controller.signal,
+        headers: {
+          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "sonar",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `Grade this IELTS Writing Task 2 essay:\n\n${essay}` },
+          ],
+        }),
+      });
+    } catch (fetchErr) {
+      clearTimeout(timeoutId);
+      const aborted = (fetchErr as any)?.name === "AbortError";
+      await logUsage("grade-writing", "sonar", "english", 0, "error", aborted ? "timeout" : "network");
+      return new Response(
+        JSON.stringify({ error: aborted ? "Grading timed out. Please try again." : "AI service unreachable. Please try again." }),
+        { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const statusCode = response.status;
