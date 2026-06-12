@@ -64,22 +64,21 @@ Benjamin Bloom (University of Chicago) so sánh 3 nhóm học sinh:
 
 > 🧪 Đo Cohen's d giữa pre và post. Nếu d > 0.8 → bạn vừa tái hiện hiệu ứng Bloom trong 45 phút.`,
         theoryEn: `In 1984, Benjamin Bloom showed that one-to-one tutoring lifted students two standard deviations above the conventional class average - the famous 2-Sigma Problem. Modern EdTech (Khan Academy adaptive paths, Khanmigo, HaiEduTech AI Coach) tries to close this gap with adaptive learning, AI tutors, and mastery learning. VanLehn (2011) later reported a more realistic ~0.79σ effect for human tutoring, but the design lessons still drive product decisions today.`,
-        code: `// Compute Cohen's d for a pre/post tutoring experiment
-function cohensD(pre: number[], post: number[]): number {
-  const mean = (xs: number[]) => xs.reduce((s, x) => s + x, 0) / xs.length;
-  const variance = (xs: number[], m: number) =>
-    xs.reduce((s, x) => s + (x - m) ** 2, 0) / (xs.length - 1);
-  const mPre = mean(pre);
-  const mPost = mean(post);
-  const sdPooled = Math.sqrt((variance(pre, mPre) + variance(post, mPost)) / 2);
-  return (mPost - mPre) / sdPooled;
-}
+        code: `# Compute Cohen's d for a pre/post tutoring experiment
+from math import sqrt
 
-const pre  = [4, 5, 6, 5, 4, 7, 5, 6, 5, 4];
-const post = [7, 8, 9, 8, 7, 9, 8, 9, 8, 7];
-console.log("Cohen's d =", cohensD(pre, post).toFixed(2));
-// → d ≈ 1.7 (huge effect, gần với 2-sigma)`,
-        codeLanguage: "typescript",
+def cohens_d(pre, post):
+    mean = lambda xs: sum(xs) / len(xs)
+    variance = lambda xs, m: sum((x - m) ** 2 for x in xs) / (len(xs) - 1)
+    m_pre, m_post = mean(pre), mean(post)
+    sd_pooled = sqrt((variance(pre, m_pre) + variance(post, m_post)) / 2)
+    return (m_post - m_pre) / sd_pooled
+
+pre  = [4, 5, 6, 5, 4, 7, 5, 6, 5, 4]
+post = [7, 8, 9, 8, 7, 9, 8, 9, 8, 7]
+print(f"Cohen's d = {cohens_d(pre, post):.2f}")
+# → d ≈ 1.7 (huge effect, gần với 2-sigma)`,
+        codeLanguage: "python",
         exercise:
           "Thiết kế một mini-study trong lớp: chọn 6 học sinh, chia 2 nhóm (control vs AI Tutor), chạy pre/post test 10 câu trong 30 phút, tính Cohen's d.",
         exerciseEn:
