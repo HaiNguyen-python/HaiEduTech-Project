@@ -811,9 +811,7 @@ const ProgrammingLessonPage = () => {
                             <div className="px-3 py-2 bg-slate-900 flex items-center justify-between">
                               <span className="text-xs font-mono text-green-400">Starter Code</span>
                             </div>
-                            <pre className="p-3 bg-slate-950 overflow-x-auto max-w-full">
-                              <code className="text-xs font-mono text-slate-300 break-words">{aiChallenge.starterCode}</code>
-                            </pre>
+                            <CodeBlock code={aiChallenge.starterCode} language="python" showHeader={false} className="!my-0 !rounded-none !border-0" />
                           </div>
                         )}
 
@@ -851,9 +849,7 @@ const ProgrammingLessonPage = () => {
                             <AnimatePresence>
                               {showSolution && (
                                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mt-3 overflow-hidden">
-                                  <pre className="p-3 bg-slate-950 rounded-lg overflow-x-auto max-w-full mb-3">
-                                    <code className="text-xs font-mono text-slate-300 break-words">{aiChallenge.solution}</code>
-                                  </pre>
+                                  <CodeBlock code={aiChallenge.solution} language="python" showHeader={false} className="mb-3" />
                                   {aiChallenge.explanation && (
                                     <p className="text-xs text-muted-foreground whitespace-pre-line">📖 {aiChallenge.explanation}</p>
                                   )}

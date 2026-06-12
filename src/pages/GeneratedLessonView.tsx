@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import CodeBlock from "@/components/CodeBlock";
 
 const CATEGORY_LABELS: Record<string, { vi: string; en: string; icon: string }> = {
   grammar: { vi: "Ngữ pháp", en: "Grammar", icon: "📝" },
@@ -294,7 +295,7 @@ const GeneratedLessonView = () => {
                     <div className="px-3 py-2 bg-slate-900 flex items-center justify-between">
                       <span className="text-xs font-mono text-red-400">⚠️ Buggy Code</span>
                     </div>
-                    <pre className="p-4 bg-slate-950 overflow-x-auto"><code className="text-sm font-mono text-slate-300">{content.buggy_code}</code></pre>
+                    <CodeBlock code={content.buggy_code} language="python" showHeader={false} className="!my-0 !rounded-none !border-0" />
                   </div>
                   {content.bugs && (
                     <div className="mb-4">
@@ -319,7 +320,7 @@ const GeneratedLessonView = () => {
                                     <Play className="w-3 h-3" /> Run
                                   </button>
                                 </div>
-                                <pre className="p-3 bg-slate-950 overflow-x-auto"><code className="text-xs font-mono text-slate-300">{content.fixed_code}</code></pre>
+                                <CodeBlock code={content.fixed_code} language="python" showHeader={false} className="!my-0 !rounded-none !border-0" />
                               </div>
                             )}
                           </motion.div>
@@ -340,7 +341,7 @@ const GeneratedLessonView = () => {
                         <h4 className="text-sm font-semibold text-foreground mb-1">Bước {s.step || i + 1}: {s.title}</h4>
                         <p className="text-xs text-secondary-foreground mb-2">{s.description}</p>
                         {s.code && (
-                          <pre className="p-3 bg-slate-950 rounded-lg overflow-x-auto"><code className="text-xs font-mono text-slate-300">{s.code}</code></pre>
+                          <CodeBlock code={s.code} language="python" showHeader={false} />
                         )}
                       </div>
                     ))}
@@ -353,7 +354,7 @@ const GeneratedLessonView = () => {
                           <Play className="w-3 h-3" /> Run
                         </button>
                       </div>
-                      <pre className="p-3 bg-slate-950 overflow-x-auto"><code className="text-xs font-mono text-slate-300">{content.full_code}</code></pre>
+                      <CodeBlock code={content.full_code} language="python" showHeader={false} className="!my-0 !rounded-none !border-0" />
                     </div>
                   )}
                   {content.extensions && (
@@ -383,7 +384,7 @@ const GeneratedLessonView = () => {
                       <Play className="w-3 h-3" /> {t("Chạy thử", "Run")}
                     </button>
                   </div>
-                  <pre className="p-4 bg-slate-950 overflow-x-auto"><code className="text-sm font-mono text-slate-300 whitespace-pre">{content.code}</code></pre>
+                  <CodeBlock code={content.code} language="python" showHeader={false} className="!my-0 !rounded-none !border-0" />
                 </div>
               )}
 

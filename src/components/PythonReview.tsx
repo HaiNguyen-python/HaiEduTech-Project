@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Code2, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import CodeBlock from "@/components/CodeBlock";
 
 const topics = [
   {
@@ -135,9 +136,7 @@ const PythonReview = () => {
             </button>
             {openIdx === i && (
               <div className="px-5 pb-4">
-                <pre className="bg-background rounded-lg p-4 text-sm text-foreground overflow-x-auto mb-3">
-                  <code>{topic.code}</code>
-                </pre>
+                <CodeBlock code={topic.code} language="python" showHeader={false} className="mb-3" />
                 <p className="text-sm text-primary font-medium">💡 {topic.noteEn}</p>
               </div>
             )}

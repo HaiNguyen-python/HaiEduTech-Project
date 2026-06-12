@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import CodeBlock from "@/components/CodeBlock";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   interviewQuestions,
@@ -362,11 +363,7 @@ const InterviewQuestions = () => {
                                         <Copy className="w-3 h-3 mr-1" /> {t("Sao chép", "Copy")}
                                       </Button>
                                     </div>
-                                    <div className="rounded-lg bg-slate-950 dark:bg-slate-900 border border-border p-3 overflow-x-auto">
-                                      <pre className="text-xs font-mono text-slate-100 leading-relaxed">
-                                        <code>{q.codeExample.code}</code>
-                                      </pre>
-                                    </div>
+                                    <CodeBlock code={q.codeExample.code} language={q.codeExample.language || "python"} showHeader={false} className="!my-0" />
                                   </div>
                                 )}
 
