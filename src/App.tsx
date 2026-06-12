@@ -34,6 +34,7 @@ const SessionTracker = lazy(() => import("./components/SessionTracker.tsx"));
 const PageViewTracker = lazy(() => import("./components/PageViewTracker.tsx"));
 const LessonFeedback = lazy(() => import("./components/LessonFeedback.tsx"));
 const AssignmentReminderModal = lazy(() => import("./components/AssignmentReminderModal.tsx"));
+const PetXPToastListener = lazy(() => import("./components/PetXPToastListener.tsx"));
 
 /** Mounts children only after the browser is idle so first paint isn't blocked. */
 const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?: number }) => {
@@ -425,6 +426,7 @@ const App = () => (
             <PageViewTracker />
             <LessonFeedback />
             <AssignmentReminderModal />
+            <PetXPToastListener />
           </DeferredMount>
 
         </BrowserRouter>
