@@ -52,7 +52,7 @@ async function writeCache(kind: string, word: string, payload: any) {
   }
 }
 
-async function fetchWithTimeout(url: string, timeoutMs = 6000): Promise<Response> {
+async function fetchWithTimeout(url: string, timeoutMs = 3500): Promise<Response> {
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -68,7 +68,7 @@ async function fetchWithTimeout(url: string, timeoutMs = 6000): Promise<Response
 async function fetchJSONWithRetry(url: string): Promise<{ ok: boolean; status: number; data: any }> {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const res = await fetchWithTimeout(url, 6000);
+      const res = await fetchWithTimeout(url, 3500);
       const status = res.status;
       if (res.ok) {
         const data = await res.json();
@@ -89,8 +89,11 @@ async function fetchJSONWithRetry(url: string): Promise<{ ok: boolean; status: n
 
 async function translateToVi(text: string): Promise<string> {
   try {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|vi`;
-    const res = await fetchWithTimeout(url, 5000);
+    // Trim text to keep MyMemory request small and fast
+    const shortText = text.length > 200 ? text.slice(0, 200) : text;
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(shortText)}&langpair=en|vi`;
+    // Tight 1.8s timeout — translations are best-effort, never block the lookup
+    const res = await fetchWithTimeout(url, 1800);
     if (!res.ok) {
       try { await res.text(); } catch { /* ignore */ }
       return "";
@@ -100,6 +103,15 @@ async function translateToVi(text: string): Promise<string> {
   } catch {
     return "";
   }
+}
+
+// Race a promise against a hard deadline; resolve to fallback if it exceeds
+function withDeadline<T>(p: Promise<T>, ms: number, fallback: T): Promise<T> {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(fallback), ms);
+    p.then((v) => { clearTimeout(timer); resolve(v); })
+     .catch(() => { clearTimeout(timer); resolve(fallback); });
+  });
 }
 
 async function handleDictionary(word: string) {
@@ -167,19 +179,20 @@ async function handleDictionary(word: string) {
       }
     });
   });
-  const limited = toTranslate.slice(0, 6);
+  // Translate fewer items (4 instead of 6) and cap the whole batch at 2s
+  // so the dictionary lookup never blocks on slow translation upstream.
+  const limited = toTranslate.slice(0, 4);
   const viTranslations: Record<string, string> = {};
-  try {
-    const results = await Promise.allSettled(
+  if (limited.length > 0) {
+    const batch = Promise.allSettled(
       limited.map(async (item) => ({ key: item.key, vi: await translateToVi(item.text) })),
     );
+    const results = await withDeadline(batch, 2000, [] as PromiseSettledResult<{ key: string; vi: string }>[]);
     results.forEach((r) => {
       if (r.status === "fulfilled" && r.value.vi) {
         viTranslations[r.value.key] = r.value.vi;
       }
     });
-  } catch {
-    // Translation is best-effort; never break the lookup.
   }
 
   return { entry, viTranslations };
