@@ -61,7 +61,7 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
   // Section 2 — Multiple Choice (Art gallery introduction)
   // ============================================================
   {
-    id: "monologue-art-gallery",
+    id: "monologue-art-gallery-v2",
     section: 2,
     questionType: "Multiple Choice",
     questionTypeVi: "Chọn đáp án đúng",
