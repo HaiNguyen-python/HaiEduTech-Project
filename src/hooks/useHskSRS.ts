@@ -7,6 +7,7 @@
  */
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { awardPetXP } from "@/hooks/usePetXP";
 
 export type SrsRating = 1 | 2 | 3 | 4; // Again, Hard, Good, Easy
 
@@ -126,6 +127,8 @@ export function useHskSRS() {
     const updated = applySm2(current, rating);
     setCards(prev => ({ ...prev, [word_id]: updated }));
     await persist(updated);
+    // Reward Pet XP on Good (3) or Easy (4) ratings only
+    if (rating >= 3) awardPetXP(5, "vocab:hsk", { celebrate: false });
     return updated;
   }, [cards, persist]);
 

@@ -10,6 +10,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { awardPetXP } from "@/hooks/usePetXP";
 
 export interface ReviewQueueItem {
   word: string;
@@ -68,6 +69,7 @@ export function useReviewQueue(subject: string, staleDays = 14) {
   const markReviewed = useCallback(async (word: string) => {
     // Optimistic removal from local queue
     setQueue(prev => prev.filter(it => it.word !== word));
+    awardPetXP(5, `vocab:${subject}`, { celebrate: false });
     const uid = userIdRef.current;
     if (!uid) return;
     await (supabase as any)

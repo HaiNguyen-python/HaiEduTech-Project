@@ -14,6 +14,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useCallback, useEffect, useState } from "react";
+import { awardPetXP } from "@/hooks/usePetXP";
 
 const STORAGE_KEY = "haiedu_programming_xp_v1";
 
@@ -230,6 +231,7 @@ export const useProgrammingXP = () => {
   const awardXP = useCallback((amount: number) => {
     if (amount <= 0) return;
     setState((s) => ({ ...s, xp: s.xp + amount }));
+    awardPetXP(amount, "programming", { celebrate: false });
   }, []);
 
   /** Award a badge if not already owned. Returns true if newly awarded. */
@@ -323,6 +325,7 @@ export const useProgrammingXP = () => {
           },
         };
       });
+      if (result.bonusXP > 0) awardPetXP(result.bonusXP, "programming", { celebrate: true });
       return result;
     },
     [],

@@ -8,6 +8,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { awardPetXP } from "@/hooks/usePetXP";
 
 export const MASTERY_UPDATED_EVENT = "vocab-mastery-updated";
 
@@ -82,6 +83,10 @@ export function useMasteredVocab(subject: string) {
       if (wasMastered) next.delete(word);
       else next.add(word);
       writeLocal(subject, next);
+      // Award Pet XP only when a NEW word is being mastered (not when un-mastering)
+      if (!wasMastered) {
+        awardPetXP(5, `vocab:${subject}`, { celebrate: false });
+      }
       // Fire-and-forget DB sync
       const uid = userIdRef.current;
       if (uid) {

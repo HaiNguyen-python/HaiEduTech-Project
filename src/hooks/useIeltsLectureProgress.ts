@@ -2,6 +2,7 @@
 // Falls back to localStorage for unauthenticated users
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { awardPetXP } from "@/hooks/usePetXP";
 
 const LOCAL_COMPLETED_KEY = "ielts-lectures-completed";
 const LOCAL_BOOKMARKS_KEY = "ielts-lectures-bookmarks";
@@ -134,6 +135,7 @@ export const useIeltsLectureProgress = () => {
     if (completedIds.includes(lectureId)) return;
     const newCompleted = [...completedIds, lectureId];
     setCompletedIds(newCompleted);
+    awardPetXP(20, "lecture:ielts", { celebrate: true });
 
     if (userId) {
       const { data: existing } = await supabase

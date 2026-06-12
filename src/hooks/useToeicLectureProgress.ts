@@ -2,6 +2,7 @@
 // Falls back to localStorage for unauthenticated users
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { awardPetXP } from "@/hooks/usePetXP";
 
 const LOCAL_COMPLETED_KEY = "toeic-completed";
 const LOCAL_BOOKMARKS_KEY = "toeic-bookmarked";
@@ -125,6 +126,7 @@ export const useToeicLectureProgress = () => {
     if (completedIds.includes(lectureId)) return;
     const newCompleted = [...completedIds, lectureId];
     setCompletedIds(newCompleted);
+    awardPetXP(20, "lecture:toeic", { celebrate: true });
 
     if (userId) {
       const { data: existing } = await supabase

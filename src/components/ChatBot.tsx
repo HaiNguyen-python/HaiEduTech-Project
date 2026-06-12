@@ -1323,18 +1323,29 @@ const ChatBot = () => {
                   <Sparkles className="h-3.5 w-3.5" />
                   {t("Cách Pet AI lên cấp", "How your AI Pet levels up")}
                 </div>
+                <div className="rounded-md border border-border bg-white/80 p-2 mb-2">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+                    {t("Bảng XP — mọi hành động đều cộng XP cho Pet", "XP table — every action feeds your Pet")}
+                  </div>
+                  <ul className="space-y-1 text-[11px] leading-snug">
+                    <li className="flex justify-between gap-2"><span>📚 {t("Đánh dấu 1 từ 'Đã thuộc'", "Master 1 vocab word")}</span><span className="font-mono font-bold text-emerald-600">+5</span></li>
+                    <li className="flex justify-between gap-2"><span>🎓 {t("Hoàn thành 1 lecture (IELTS/TOEIC/...)", "Finish 1 lecture")}</span><span className="font-mono font-bold text-emerald-600">+20</span></li>
+                    <li className="flex justify-between gap-2"><span>⭐ {t("Đánh sao 1 bài SAT", "Star a SAT item")}</span><span className="font-mono font-bold text-emerald-600">+10</span></li>
+                    <li className="flex justify-between gap-2"><span>🀄 {t("Ôn HSK SRS (Good/Easy)", "Review HSK SRS (Good/Easy)")}</span><span className="font-mono font-bold text-emerald-600">+5</span></li>
+                    <li className="flex justify-between gap-2"><span>🏆 {t("Hoàn thành mock exam", "Finish mock exam")}</span><span className="font-mono font-bold text-emerald-600">+50</span></li>
+                    <li className="flex justify-between gap-2"><span>🤖 {t("AI Academy: mở bài + vượt quiz", "AI Academy: open + pass quiz")}</span><span className="font-mono font-bold text-emerald-600">+10~+210</span></li>
+                    <li className="flex justify-between gap-2"><span>💻 {t("Vượt Daily Code Challenge", "Pass Daily Code Challenge")}</span><span className="font-mono font-bold text-emerald-600">+100</span></li>
+                    <li className="flex justify-between gap-2"><span>🎁 {t("Hoàn thành 3 nhiệm vụ hằng ngày", "Complete 3 daily quests")}</span><span className="font-mono font-bold text-emerald-600">+50</span></li>
+                  </ul>
+                </div>
                 <ul className="space-y-1.5 leading-relaxed">
                   <li className="flex gap-2">
-                    <Star className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
-                    <span>{t("Hoàn thành bài học AI Academy & Lập trình để cộng EXP cho Pet.", "Finish AI Academy & Programming lessons to earn EXP for your Pet.")}</span>
-                  </li>
-                  <li className="flex gap-2">
                     <BookOpenCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                    <span>{t("Ôn từ vựng định kỳ (Spaced Repetition) để giữ Pet vui và khỏe.", "Review vocabulary regularly (Spaced Repetition) to keep your Pet happy.")}</span>
+                    <span>{t("Ôn từ vựng định kỳ để giữ Pet vui — mỗi từ quá 14 ngày làm Pet mất 4 điểm Hạnh phúc.", "Review vocab regularly — each word overdue 14+ days costs your Pet 4 Happiness.")}</span>
                   </li>
                   <li className="flex gap-2">
                     <Flame className="mt-0.5 h-3.5 w-3.5 shrink-0 text-orange-500" />
-                    <span>{t("Pet đói nếu bạn bỏ ôn quá 14 ngày — hãy quay lại Góc Ôn Tập!", "Pet gets hungry if you skip reviews for 14+ days — visit the Review Hub!")}</span>
+                    <span>{t("XP đồng bộ qua tài khoản — học mobile, mở Pet trên PC vẫn thấy đúng cấp.", "XP syncs with your account across devices.")}</span>
                   </li>
                 </ul>
                 <div className="mt-3 grid grid-cols-5 gap-1.5 text-center">

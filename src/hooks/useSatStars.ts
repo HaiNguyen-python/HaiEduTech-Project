@@ -5,6 +5,7 @@
  * window event so toggling on one card updates every place that reads the same key.
  */
 import { useCallback, useEffect, useState } from "react";
+import { awardPetXP } from "@/hooks/usePetXP";
 
 const STORAGE_KEY = "sat-stars-v1";
 const EVENT_NAME = "sat-stars-updated";
@@ -49,9 +50,11 @@ export const useSatStar = (key: string | undefined) => {
   const toggle = useCallback(() => {
     if (!key) return;
     const set = readSet();
-    if (set.has(key)) set.delete(key);
+    const wasMarked = set.has(key);
+    if (wasMarked) set.delete(key);
     else set.add(key);
     writeSet(set);
+    if (!wasMarked) awardPetXP(10, "quiz:sat", { celebrate: true });
   }, [key]);
 
   return { marked, toggle };
