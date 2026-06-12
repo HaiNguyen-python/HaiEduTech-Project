@@ -599,12 +599,7 @@ const ReadMcq = ({ q, answer, setAnswer }: RenderProps) => {
       <p className="text-lg text-slate-900 font-medium mb-4">{q.prompt}</p>
       {q.code && (
         <div className="mb-5">
-          {q.language && (
-            <span className="inline-block mb-1.5 text-[11px] font-mono uppercase tracking-wide text-slate-500">
-              {q.language}
-            </span>
-          )}
-          <pre className={monoBox}>{q.code}</pre>
+          <CodeBlock code={q.code} language={q.language || "python"} />
         </div>
       )}
       <div className="grid sm:grid-cols-2 gap-2">
