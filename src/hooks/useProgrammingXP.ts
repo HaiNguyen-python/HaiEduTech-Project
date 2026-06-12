@@ -325,6 +325,7 @@ export const useProgrammingXP = () => {
           },
         };
       });
+      if (result.bonusXP > 0) awardPetXP(result.bonusXP, "programming", { celebrate: true });
       return result;
     },
     [],
