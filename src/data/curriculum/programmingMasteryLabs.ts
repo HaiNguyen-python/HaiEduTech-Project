@@ -36,54 +36,161 @@ export const programmingMasteryLabsModules: ExtendedProgrammingModule[] = [
         difficulty: "intermediate",
         theory: `## 🔁 Đệ quy là gì?
 
-Một hàm **tự gọi chính nó** trên bài toán nhỏ hơn cho tới khi gặp **base case**.
+Đệ quy (recursion) là khi một hàm **tự gọi lại chính nó** trên một bài toán **nhỏ hơn**, cho tới khi gặp **base case** (điều kiện dừng).
+
+Hãy tưởng tượng bạn cần đếm số bậc của một cầu thang trong bóng tối: bạn bước lên 1 bậc, rồi nhờ "phiên bản nhỏ hơn của chính mình" đếm phần còn lại. Đó chính là tinh thần đệ quy.
+
+\`\`\`python
+def factorial(n):
+    if n <= 1:        # 🛑 base case - phải có, nếu không sẽ lặp vô tận
+        return 1
+    return n * factorial(n - 1)   # ⤵️ gọi lại với bài toán nhỏ hơn
+\`\`\`
+
+**2 thành phần bắt buộc:**
+1. **Base case** — điều kiện dừng (n ≤ 1 ⇒ trả về 1).
+2. **Recursive case** — gọi lại chính nó với input nhỏ dần (factorial(n-1)).
+
+Quên base case ⇒ \`RecursionError: maximum recursion depth exceeded\` (Python mặc định giới hạn ~1000 cấp).
+
+## 💥 Vấn đề của đệ quy "ngây thơ" - Fibonacci
+
+Dãy Fibonacci: \`F(n) = F(n-1) + F(n-2)\`. Viết thẳng theo công thức:
 
 \`\`\`
 fib(5)
  ├── fib(4)
- │    ├── fib(3) ── fib(2) ── ...
- │    └── fib(2) ── ...
- └── fib(3) ── ...
+ │    ├── fib(3) ── fib(2), fib(1)
+ │    └── fib(2) ── fib(1), fib(0)
+ └── fib(3)                ← tính lại từ đầu!
+      ├── fib(2)           ← tính lại!
+      └── fib(1)
 \`\`\`
 
-Vấn đề: \`fib(35)\` gọi lại \`fib(2)\` hàng triệu lần ⇒ chậm khủng khiếp.
+\`fib(2)\` bị tính đi tính lại **hàng triệu lần** khi n lớn. Độ phức tạp: **O(2ⁿ)** — số phép tính nhân đôi mỗi khi n tăng 1.
 
-## ⚡ Memoization = nhớ kết quả
+## ⚡ Memoization = "nhớ kết quả đã tính"
 
-Lưu kết quả đã tính vào dict; lần sau gặp lại thì trả ngay (O(1)).
-Độ phức tạp giảm từ **O(2ⁿ) → O(n)**.
+Ý tưởng cực đơn giản: lưu kết quả vào một dict, lần sau gặp lại thì lấy ngay (**O(1)**).
+
+\`\`\`python
+cache = {}
+def fib(n):
+    if n in cache: return cache[n]   # ✅ đã tính rồi → trả ngay
+    if n < 2: return n
+    cache[n] = fib(n-1) + fib(n-2)
+    return cache[n]
+\`\`\`
+
+Độ phức tạp giảm từ **O(2ⁿ) → O(n)**. Mỗi \`fib(k)\` chỉ chạy đúng 1 lần.
 
 \`\`\`
-without memo:  fib(40) ≈ 1.5 giây
-with memo:     fib(40) < 0.0001 giây   (≈ 15 000× nhanh hơn)
+fib(40) không memo:   ≈ 1.5 giây
+fib(40) có memo:      < 0.0001 giây   (~15 000× nhanh hơn)
+fib(100) không memo:  vũ trụ kết thúc trước khi xong 😅
+fib(100) có memo:     < 0.001 giây
 \`\`\`
 
-\`functools.lru_cache\` làm việc này tự động.`,
+## 🎁 \`functools.lru_cache\` - memoization miễn phí
+
+Python tặng sẵn decorator \`@lru_cache\` làm tất cả việc trên cho bạn — không cần viết dict thủ công.
+
+\`\`\`python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)   # cache không giới hạn
+def fib(n):
+    if n < 2: return n
+    return fib(n-1) + fib(n-2)
+\`\`\`
+
+\`maxsize=None\` = không giới hạn. \`maxsize=128\` = chỉ giữ 128 kết quả gần nhất (LRU = Least Recently Used).
+
+## 🧭 Khi nào nên dùng đệ quy?
+
+✅ Cấu trúc **tự lặp** tự nhiên: cây thư mục, JSON lồng nhau, parse biểu thức toán, duyệt cây/đồ thị.
+✅ Bài "chia để trị" (merge sort, quicksort, binary search).
+❌ Vòng lặp đơn giản (đếm 1→100): dùng \`for\` cho gọn.
+❌ Đệ quy quá sâu (>1000 cấp): chuyển sang vòng lặp + stack thủ công.`,
         theoryEn: `## 🔁 What is recursion?
 
-A function that **calls itself** on a smaller subproblem until it hits the **base case**.
+Recursion is when a function **calls itself** on a **smaller** version of the problem until it hits a **base case** (the stopping condition).
+
+Picture counting stairs in the dark: you climb one step, then ask "a smaller version of you" to count the rest. That's recursion in spirit.
+
+\`\`\`python
+def factorial(n):
+    if n <= 1:        # 🛑 base case - mandatory, otherwise infinite recursion
+        return 1
+    return n * factorial(n - 1)   # ⤵️ call self on a smaller input
+\`\`\`
+
+**2 mandatory parts:**
+1. **Base case** — when to stop (n ≤ 1 ⇒ return 1).
+2. **Recursive case** — call self on a shrinking input.
+
+Forget the base case ⇒ \`RecursionError: maximum recursion depth exceeded\` (Python's default cap is ~1000).
+
+## 💥 The naïve-recursion trap - Fibonacci
+
+Fibonacci: \`F(n) = F(n-1) + F(n-2)\`. Written directly from the formula:
 
 \`\`\`
 fib(5)
  ├── fib(4)
- │    ├── fib(3) ── fib(2) ── ...
- │    └── fib(2) ── ...
- └── fib(3) ── ...
+ │    ├── fib(3) ── fib(2), fib(1)
+ │    └── fib(2) ── fib(1), fib(0)
+ └── fib(3)                ← recomputed from scratch!
+      ├── fib(2)           ← recomputed!
+      └── fib(1)
 \`\`\`
 
-The problem: naïve \`fib(35)\` re-computes \`fib(2)\` millions of times → painfully slow.
+\`fib(2)\` is recomputed **millions of times** for large n. Complexity: **O(2ⁿ)** — work doubles with every +1 to n.
 
-## ⚡ Memoization = remember results
+## ⚡ Memoization = "remember what we already computed"
 
-Cache results in a dict; subsequent calls return in O(1).
-Complexity drops from **O(2ⁿ) → O(n)**.
+Dead-simple idea: store results in a dict, return instantly next time (**O(1)**).
+
+\`\`\`python
+cache = {}
+def fib(n):
+    if n in cache: return cache[n]   # ✅ already computed → return
+    if n < 2: return n
+    cache[n] = fib(n-1) + fib(n-2)
+    return cache[n]
+\`\`\`
+
+Complexity collapses from **O(2ⁿ) → O(n)**. Each \`fib(k)\` runs exactly once.
 
 \`\`\`
-without memo:  fib(40) ≈ 1.5 s
-with memo:     fib(40) < 0.0001 s   (~15,000× faster)
+fib(40) no memo:   ≈ 1.5 s
+fib(40) memo:      < 0.0001 s   (~15,000× faster)
+fib(100) no memo:  the universe ends first 😅
+fib(100) memo:     < 0.001 s
 \`\`\`
 
-\`functools.lru_cache\` does this automatically.`,
+## 🎁 \`functools.lru_cache\` - free memoization
+
+Python ships a decorator \`@lru_cache\` that does the dict bookkeeping for you.
+
+\`\`\`python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)   # unbounded cache
+def fib(n):
+    if n < 2: return n
+    return fib(n-1) + fib(n-2)
+\`\`\`
+
+\`maxsize=None\` = unlimited. \`maxsize=128\` = keep the 128 most-recently-used results (LRU).
+
+## 🧭 When should you reach for recursion?
+
+✅ Naturally **self-similar** structures: directory trees, nested JSON, expression parsing, graph/tree traversal.
+✅ Divide-and-conquer (merge sort, quicksort, binary search).
+❌ Simple counting loops: use \`for\` — it's clearer.
+❌ Recursion depths > ~1000: convert to a loop with an explicit stack.`,
+
         code: `# Memoization with functools.lru_cache — cache results to skip repeat work
 from functools import lru_cache
 import time
@@ -146,62 +253,147 @@ for fn in (fib_slow, fib_fast):
         titleEn: "Functional Python - Comprehensions vs map/filter vs Loops",
         level: 2,
         difficulty: "intermediate",
-        theory: `## 🎯 3 cách viết cùng một việc
+        theory: `## 🎯 Lập trình hàm là gì?
 
-Tính bình phương các số chẵn trong \`[1..10]\`:
+"Lập trình hàm" (functional programming) là phong cách viết code mà bạn **biến đổi dữ liệu qua các hàm nhỏ**, không thay đổi (mutate) biến gốc, không có hiệu ứng phụ (side effects).
+
+Python không phải ngôn ngữ hàm thuần (như Haskell) nhưng tặng rất nhiều công cụ "phong cách hàm" giúp code **ngắn hơn 3-5 lần** và **dễ đọc hơn rất nhiều**.
+
+## 🛠️ 3 cách viết cùng một việc
+
+Bài toán: tính bình phương các số chẵn trong \`[1..10]\`.
 
 \`\`\`python
-# 1) Vòng lặp truyền thống
+# 1) Vòng lặp truyền thống — dài, dễ sai chỉ số
 out = []
 for n in range(1, 11):
     if n % 2 == 0:
         out.append(n * n)
 
-# 2) map + filter (hàm bậc cao)
-out = list(map(lambda n: n * n, filter(lambda n: n % 2 == 0, range(1, 11))))
+# 2) map + filter (hàm bậc cao) — khó đọc vì viết ngược
+out = list(map(lambda n: n*n,
+               filter(lambda n: n % 2 == 0, range(1, 11))))
 
-# 3) List comprehension (Pythonic)
-out = [n * n for n in range(1, 11) if n % 2 == 0]
+# 3) List comprehension (Pythonic) — đọc như tiếng Anh
+out = [n*n for n in range(1, 11) if n % 2 == 0]
 \`\`\`
 
-| Cách | Pythonic? | Tốc độ | Đọc dễ |
-|------|-----------|--------|--------|
-| Loop | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
-| map/filter | ⭐ | ⭐⭐⭐ | ⭐⭐ |
-| Comprehension | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+Đọc cách 3: "lấy n*n, cho mỗi n trong 1..10, nếu n chẵn". Cực rõ ràng.
 
-## 🧰 Khi nào dùng \`reduce\`?
+| Cách | Pythonic? | Tốc độ | Đọc dễ | Khi nào dùng |
+|------|-----------|--------|--------|--------------|
+| Loop | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ | Logic phức tạp, cần nhiều dòng |
+| map/filter | ⭐ | ⭐⭐⭐ | ⭐⭐ | Khi đã có sẵn hàm đặt tên |
+| Comprehension | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | **Mặc định cho 90% trường hợp** |
 
-Khi cần **gom** một list về một giá trị (sum, product, max).
-\`functools.reduce(lambda acc, n: acc * n, [1,2,3,4])\` ⇒ \`24\`.`,
-        theoryEn: `## 🎯 3 ways to write the same thing
-
-Square the even numbers from \`[1..10]\`:
+## 🧪 4 dạng comprehension trong Python
 
 \`\`\`python
-# 1) Classic loop
+[x*2 for x in nums]              # list comprehension
+{x*2 for x in nums}              # set comprehension (loại trùng lặp)
+{k: v*2 for k, v in d.items()}   # dict comprehension
+(x*2 for x in nums)              # generator expression (lazy, tiết kiệm RAM)
+\`\`\`
+
+Mẹo: nếu chỉ duyệt một lần (vd. \`sum(x*x for x in nums)\`), dùng generator \`( )\` thay vì \`[ ]\` để **không tốn bộ nhớ** tạo list trung gian.
+
+## 🧰 \`reduce\` - "gom" list về một giá trị
+
+Khi cần **fold** một danh sách thành 1 giá trị (sum, product, max), dùng \`functools.reduce\`:
+
+\`\`\`python
+from functools import reduce
+reduce(lambda a, b: a * b, [1, 2, 3, 4])      # = 24 (1*2*3*4)
+reduce(lambda a, b: a + b, [1, 2, 3, 4], 100) # = 110 (giá trị khởi tạo 100)
+\`\`\`
+
+Trong Python, thường \`sum\`, \`max\`, \`min\` đã có sẵn — chỉ dùng \`reduce\` khi phép gộp **không có hàm built-in**.
+
+## ⚠️ Lambda — khi nào dùng, khi nào không?
+
+\`lambda\` là hàm **một dòng, không đặt tên**:
+
+\`\`\`python
+double = lambda x: x * 2     # ≈ def double(x): return x*2
+\`\`\`
+
+**Nên dùng** khi truyền hàm ngắn vào \`sorted\`, \`map\`, \`filter\`:
+\`\`\`python
+sorted(users, key=lambda u: u["age"])
+\`\`\`
+
+**Không nên dùng** nếu logic dài >1 dòng — \`def\` đặt tên sẽ rõ ràng và dễ debug hơn. PEP-8 (chuẩn code Python) cũng khuyên như vậy.`,
+        theoryEn: `## 🎯 What is functional programming?
+
+Functional programming is a style where you **transform data through small functions**, never mutating the original, and avoiding side effects.
+
+Python is not a pure functional language (like Haskell), but it ships plenty of functional-flavoured tools that make code **3-5× shorter** and **far easier to read**.
+
+## 🛠️ 3 ways to write the same thing
+
+Task: square the even numbers from \`[1..10]\`.
+
+\`\`\`python
+# 1) Classic loop — long, easy to mis-index
 out = []
 for n in range(1, 11):
     if n % 2 == 0:
         out.append(n * n)
 
-# 2) map + filter (higher-order functions)
-out = list(map(lambda n: n * n, filter(lambda n: n % 2 == 0, range(1, 11))))
+# 2) map + filter (higher-order) — reads backwards, harder
+out = list(map(lambda n: n*n,
+               filter(lambda n: n % 2 == 0, range(1, 11))))
 
-# 3) List comprehension (Pythonic)
-out = [n * n for n in range(1, 11) if n % 2 == 0]
+# 3) List comprehension (Pythonic) — reads like English
+out = [n*n for n in range(1, 11) if n % 2 == 0]
 \`\`\`
 
-| Style | Pythonic? | Speed | Readability |
-|-------|-----------|-------|-------------|
-| Loop | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
-| map/filter | ⭐ | ⭐⭐⭐ | ⭐⭐ |
-| Comprehension | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+Read #3 out loud: "take n*n, for each n in 1..10, if n is even." Crystal clear.
 
-## 🧰 When to use \`reduce\`?
+| Style | Pythonic? | Speed | Readability | When to pick |
+|-------|-----------|-------|-------------|--------------|
+| Loop | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ | Complex logic, many lines |
+| map/filter | ⭐ | ⭐⭐⭐ | ⭐⭐ | When you already have named funcs |
+| Comprehension | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | **Default for 90 % of cases** |
 
-Whenever you must **fold** a list into one value (sum, product, max).
-\`functools.reduce(lambda acc, n: acc * n, [1,2,3,4])\` ⇒ \`24\`.`,
+## 🧪 4 comprehension flavours in Python
+
+\`\`\`python
+[x*2 for x in nums]              # list comprehension
+{x*2 for x in nums}              # set comprehension (dedupes)
+{k: v*2 for k, v in d.items()}   # dict comprehension
+(x*2 for x in nums)              # generator expression (lazy, RAM-friendly)
+\`\`\`
+
+Tip: if you iterate once (\`sum(x*x for x in nums)\`), prefer the \`( )\` generator over \`[ ]\` — **no intermediate list allocated**.
+
+## 🧰 \`reduce\` - fold a list into one value
+
+When you need to **fold** a list into a single value (sum, product, max), reach for \`functools.reduce\`:
+
+\`\`\`python
+from functools import reduce
+reduce(lambda a, b: a * b, [1, 2, 3, 4])      # = 24 (1*2*3*4)
+reduce(lambda a, b: a + b, [1, 2, 3, 4], 100) # = 110 (initial value 100)
+\`\`\`
+
+Python already has \`sum\`, \`max\`, \`min\` built-in — use \`reduce\` only when the fold has **no built-in**.
+
+## ⚠️ Lambda — when to use, when not
+
+\`lambda\` is a **one-line, anonymous** function:
+
+\`\`\`python
+double = lambda x: x * 2     # ≈ def double(x): return x*2
+\`\`\`
+
+**Use** when passing tiny functions to \`sorted\`, \`map\`, \`filter\`:
+\`\`\`python
+sorted(users, key=lambda u: u["age"])
+\`\`\`
+
+**Avoid** when logic spans more than one line — a named \`def\` is clearer and debuggable. PEP-8 (Python's style guide) agrees.`,
+
         code: `# Functional toolkit: list comprehension + reduce (fold)
 from functools import reduce
 
@@ -262,57 +454,129 @@ print("sum:", total, "max:", maxx)`,
         titleEn: "Sorting Visualizer - 3 Algorithms Under the Microscope",
         level: 3,
         difficulty: "intermediate",
-        theory: `## 🧮 Vì sao học sắp xếp?
+        theory: `## 🧮 Vì sao phải học sắp xếp?
 
-Vì đây là cách tốt nhất để hiểu **độ phức tạp**: cùng một bài toán, thuật toán tốt nhanh gấp 1000 lần thuật toán xấu trên 10 000 phần tử.
+Sắp xếp là cách trực quan nhất để **cảm nhận độ phức tạp (Big-O)**. Cùng một bài toán "sắp xếp 10 000 số", thuật toán tốt có thể nhanh **gấp 1000 lần** thuật toán xấu. Hiểu sắp xếp = hiểu cách suy nghĩ về hiệu năng.
 
-## 🔁 Bubble Sort - O(n²)
+## 🔁 Bubble Sort - O(n²) - "Bong bóng nổi lên"
 
-So sánh cặp kề nhau, đổi nếu sai thứ tự. Lặp lại tới khi không còn đổi.
+Quét qua mảng, so sánh **cặp kề nhau**, đổi chỗ nếu sai thứ tự. Lặp lại tới khi không còn cặp nào cần đổi. Số lớn "nổi" dần lên cuối mảng như bong bóng.
 
 \`\`\`
-[5, 3, 8, 1]    swap (5,3)
-[3, 5, 8, 1]    ok
-[3, 5, 1, 8]    swap (8,1)
-...
+[5, 3, 8, 1]  →  so (5,3) → đổi  → [3, 5, 8, 1]
+              →  so (5,8) → ok    → [3, 5, 8, 1]
+              →  so (8,1) → đổi  → [3, 5, 1, 8]
+... lặp tiếp pass thứ 2, 3 ...
 \`\`\`
 
-## 🎯 Selection Sort - O(n²)
+✅ Code 5 dòng, dễ viết. ❌ Cực chậm với mảng lớn (10k phần tử = ~100 triệu so sánh).
 
-Mỗi vòng chọn phần tử **nhỏ nhất còn lại** và đưa lên đầu.
+## 🎯 Selection Sort - O(n²) - "Chọn nhỏ nhất"
 
-## ⚡ Merge Sort - O(n log n)
+Mỗi vòng, **quét tìm phần tử nhỏ nhất** còn lại và đưa lên đầu. Đơn giản, ít swap hơn Bubble (tốt khi ghi đĩa đắt) nhưng vẫn O(n²).
 
-Chia đôi → sắp xếp 2 nửa → trộn (merge). Đệ quy. Khoẻ với list lớn.
+\`\`\`
+[5, 3, 8, 1]  →  min = 1, đổi với 5 → [1, 3, 8, 5]
+[_, 3, 8, 5]  →  min = 3, đã đúng    → [1, 3, 8, 5]
+[_, _, 8, 5]  →  min = 5, đổi với 8  → [1, 3, 5, 8]
+\`\`\`
 
-| Thuật toán | Best | Average | Worst | Stable? |
-|------------|------|---------|-------|---------|
-| Bubble | O(n) | O(n²) | O(n²) | ✅ |
-| Selection | O(n²) | O(n²) | O(n²) | ❌ |
-| Merge | O(n log n) | O(n log n) | O(n log n) | ✅ |
-| Python sorted | O(n log n) | O(n log n) | O(n log n) | ✅ (Timsort) |`,
+## ⚡ Merge Sort - O(n log n) - "Chia để trị"
+
+Ý tưởng đệ quy: **chia đôi mảng → sắp xếp 2 nửa → trộn (merge) lại**. Trộn 2 nửa đã sắp xếp chỉ tốn O(n) — nhờ vậy tổng cộng O(n log n), khoẻ với mảng cực lớn.
+
+\`\`\`
+[5,3,8,1,9,2,7,4]
+   ↙              ↘
+[5,3,8,1]      [9,2,7,4]
+  ↙ ↘             ↙ ↘
+[5,3] [8,1]   [9,2] [7,4]   ← chia tới khi còn 1 phần tử
+  ↓     ↓       ↓     ↓
+[3,5] [1,8]   [2,9] [4,7]   ← merge từng cặp
+   ↘    ↙       ↘    ↙
+  [1,3,5,8]   [2,4,7,9]
+        ↘       ↙
+     [1,2,3,4,5,7,8,9]      ← merge cuối
+\`\`\`
+
+## 📊 Bảng so sánh
+
+| Thuật toán | Best | Average | Worst | Bộ nhớ | Stable? |
+|------------|------|---------|-------|--------|---------|
+| Bubble | O(n) | O(n²) | O(n²) | O(1) | ✅ |
+| Selection | O(n²) | O(n²) | O(n²) | O(1) | ❌ |
+| Merge | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ |
+| Python \`sorted\` | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ Timsort |
+
+**Stable** = giữ nguyên thứ tự tương đối của các phần tử bằng nhau. Quan trọng khi sort theo nhiều khoá (vd. sort sinh viên theo điểm rồi theo tên).
+
+## 🏆 Trong thực tế dùng cái nào?
+
+99% trường hợp: dùng **\`sorted()\` hoặc \`list.sort()\` của Python**. Nội bộ là **Timsort** (kết hợp Merge + Insertion Sort), được tối ưu cao và chạy bằng C — nhanh hơn bất cứ thứ gì bạn tự viết bằng Python thuần.
+
+Học Bubble/Merge chỉ để **hiểu cơ chế** và **luyện tư duy thuật toán** cho phỏng vấn.`,
         theoryEn: `## 🧮 Why study sorting?
 
-Because it is the cleanest way to *feel* **complexity**: on 10,000 items a good algorithm beats a bad one by 1000×.
+Sorting is the cleanest way to **feel Big-O complexity**. On 10,000 items a great algorithm can beat a bad one by **1000×**. Master sorting and you master performance thinking.
 
-## 🔁 Bubble Sort - O(n²)
+## 🔁 Bubble Sort - O(n²) - "Bubbles rise"
 
-Compare adjacent pairs and swap if out of order. Repeat until no swaps.
+Scan the array, compare **adjacent pairs**, swap if out of order. Repeat until no swaps. Large values "bubble" toward the end like, well, bubbles.
 
-## 🎯 Selection Sort - O(n²)
+\`\`\`
+[5, 3, 8, 1]  →  cmp (5,3) → swap → [3, 5, 8, 1]
+              →  cmp (5,8) → ok    → [3, 5, 8, 1]
+              →  cmp (8,1) → swap → [3, 5, 1, 8]
+... pass 2, 3, ... continue ...
+\`\`\`
 
-Each pass picks the **smallest remaining** element and places it at the front.
+✅ 5-line implementation, easy. ❌ Brutal on large arrays (10k items = ~100M comparisons).
 
-## ⚡ Merge Sort - O(n log n)
+## 🎯 Selection Sort - O(n²) - "Pick the minimum"
 
-Split in half → sort each half → merge. Recursive. Scales well.
+Each pass **scans for the smallest remaining element** and places it at the front. Fewer swaps than Bubble (great when writes are expensive) but still O(n²).
 
-| Algorithm | Best | Average | Worst | Stable? |
-|-----------|------|---------|-------|---------|
-| Bubble | O(n) | O(n²) | O(n²) | ✅ |
-| Selection | O(n²) | O(n²) | O(n²) | ❌ |
-| Merge | O(n log n) | O(n log n) | O(n log n) | ✅ |
-| Python sorted | O(n log n) | O(n log n) | O(n log n) | ✅ (Timsort) |`,
+\`\`\`
+[5, 3, 8, 1]  →  min = 1, swap with 5 → [1, 3, 8, 5]
+[_, 3, 8, 5]  →  min = 3, already ok   → [1, 3, 8, 5]
+[_, _, 8, 5]  →  min = 5, swap with 8  → [1, 3, 5, 8]
+\`\`\`
+
+## ⚡ Merge Sort - O(n log n) - "Divide & conquer"
+
+Recursive idea: **split the array in half → sort each half → merge them back**. Merging two sorted halves costs O(n) — so total is O(n log n), great on huge arrays.
+
+\`\`\`
+[5,3,8,1,9,2,7,4]
+   ↙              ↘
+[5,3,8,1]      [9,2,7,4]
+  ↙ ↘             ↙ ↘
+[5,3] [8,1]   [9,2] [7,4]   ← split until size 1
+  ↓     ↓       ↓     ↓
+[3,5] [1,8]   [2,9] [4,7]   ← merge pairwise
+   ↘    ↙       ↘    ↙
+  [1,3,5,8]   [2,4,7,9]
+        ↘       ↙
+     [1,2,3,4,5,7,8,9]      ← final merge
+\`\`\`
+
+## 📊 Comparison table
+
+| Algorithm | Best | Average | Worst | Memory | Stable? |
+|-----------|------|---------|-------|--------|---------|
+| Bubble | O(n) | O(n²) | O(n²) | O(1) | ✅ |
+| Selection | O(n²) | O(n²) | O(n²) | O(1) | ❌ |
+| Merge | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ |
+| Python \`sorted\` | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ Timsort |
+
+**Stable** = equal elements keep their relative order. Crucial for multi-key sorts (e.g. sort students by score then by name).
+
+## 🏆 Which one in real life?
+
+99 % of the time: **\`sorted()\` or \`list.sort()\`**. Under the hood it's **Timsort** (Merge + Insertion), heavily tuned and implemented in C — faster than anything you can write in pure Python.
+
+Bubble/Merge are studied to **understand the mechanics** and to **train algorithmic thinking** for interviews.`,
+
         code: `# Two classic sorts vs Python's built-in Timsort
 
 # Bubble sort — O(n²). Early-exit when no swap happens in a full pass.
@@ -383,44 +647,133 @@ print("python:", sorted(data))               # built-in Timsort`,
         difficulty: "intermediate",
         theory: `## 🌐 REST API là gì?
 
-Một địa chỉ HTTP trả về **JSON** (dictionary). Ví dụ:
-\`https://api.open-meteo.com/v1/forecast?latitude=21&longitude=105&current_weather=true\`
+REST API là một **địa chỉ HTTP** mà khi bạn "gõ vào" sẽ trả về dữ liệu — thường là **JSON** (một dictionary). Đây là cách hầu hết các app hiện đại nói chuyện với server: Facebook, Google Maps, ngân hàng, dự báo thời tiết... đều dùng REST.
 
-## 📦 \`requests\` - thư viện HTTP thân thiện nhất
+Ví dụ thật, không cần đăng ký, không cần API key:
+\`\`\`
+https://api.open-meteo.com/v1/forecast?latitude=21&longitude=105&current_weather=true
+\`\`\`
+
+Mở link trong trình duyệt — bạn sẽ thấy JSON với nhiệt độ, gió, giờ địa phương. **Đó chính là REST API trong 10 giây.**
+
+## 🔤 4 động từ HTTP cơ bản
+
+| Verb | Việc |
+|------|------|
+| **GET** | Lấy dữ liệu (đọc) — không thay đổi gì trên server |
+| **POST** | Tạo mới (đăng ký, gửi form) |
+| **PUT / PATCH** | Cập nhật bản ghi đã có |
+| **DELETE** | Xoá bản ghi |
+
+99 % việc bạn làm khi học sẽ là **GET**.
+
+## 📦 \`requests\` — thư viện HTTP thân thiện nhất
+
+Cài: \`pip install requests\`. Cú pháp 3 dòng:
 
 \`\`\`python
 import requests
 r = requests.get(URL, params={"city": "Hanoi"}, timeout=10)
 r.raise_for_status()    # ném lỗi nếu HTTP 4xx/5xx
-data = r.json()         # parse JSON → dict
+data = r.json()         # parse JSON → dict Python
 \`\`\`
+
+- \`params={...}\` ⇒ tự thêm \`?city=Hanoi\` vào URL (không cần ghép tay).
+- \`timeout=10\` ⇒ chờ tối đa 10 giây, sau đó \`requests.Timeout\`.
+- \`r.json()\` ⇒ chuyển chuỗi JSON thành dict để xử lý như Python.
+
+## 🔢 Hiểu HTTP status code
+
+| Mã | Ý nghĩa |
+|----|---------|
+| 200 | OK, mọi thứ ổn |
+| 301 / 302 | Chuyển hướng (redirect) |
+| 400 | Lỗi yêu cầu (sai tham số) |
+| 401 / 403 | Chưa đăng nhập / không có quyền |
+| 404 | Không tìm thấy |
+| 429 | Quá nhiều request (rate limit) |
+| 500+ | Lỗi từ phía server |
+
+\`r.raise_for_status()\` sẽ tự ném ngoại lệ nếu mã ≥ 400 — giúp bạn phát hiện lỗi ngay thay vì xử lý nhầm dữ liệu rác.
 
 ## ✅ Checklist gọi API an toàn
 
-1. **timeout** - đừng để treo mãi.
-2. **raise_for_status** - phát hiện lỗi sớm.
-3. **try/except** cho \`requests.RequestException\` (mạng yếu).
-4. **Không hardcode API key** - dùng env variable.`,
+1. **Luôn đặt \`timeout\`** — đừng để app treo nếu server "ngủ quên".
+2. **\`raise_for_status()\`** ngay sau khi gọi — fail nhanh và rõ ràng.
+3. **\`try/except requests.RequestException\`** — bắt cả lỗi mạng, timeout, DNS.
+4. **Đừng hardcode API key trong code** — dùng biến môi trường (\`os.environ["API_KEY"]\`), thêm \`.env\` vào \`.gitignore\`. Lovable Cloud có sẵn secrets store.
+5. **Tôn trọng rate limit** — đọc docs API. Free tier thường giới hạn ~60 req/phút.
+
+## 🚀 Bước tiếp theo
+
+Khi quen \`requests\`, bạn có thể nâng cấp lên:
+- **\`httpx\`** — API y hệt \`requests\` nhưng hỗ trợ async (bài 5 sẽ học).
+- **FastAPI** — viết REST API server của riêng bạn bằng Python, đẹp và nhanh.`,
         theoryEn: `## 🌐 What is a REST API?
 
-An HTTP URL that returns **JSON** (a dictionary). Example:
-\`https://api.open-meteo.com/v1/forecast?latitude=21&longitude=105&current_weather=true\`
+A REST API is an **HTTP URL** that returns data — usually **JSON** (a dictionary). It's how modern apps talk to servers: Facebook, Google Maps, banks, weather services… all use REST.
 
-## 📦 \`requests\` - the friendliest HTTP library
+A real, no-signup, no-key example:
+\`\`\`
+https://api.open-meteo.com/v1/forecast?latitude=21&longitude=105&current_weather=true
+\`\`\`
+
+Open it in a browser — you'll see JSON with temperature, wind, local time. **That's a REST API in 10 seconds.**
+
+## 🔤 The 4 core HTTP verbs
+
+| Verb | What it does |
+|------|--------------|
+| **GET** | Read data — never changes anything |
+| **POST** | Create new (sign-up, submit form) |
+| **PUT / PATCH** | Update an existing record |
+| **DELETE** | Delete a record |
+
+99 % of beginner work uses **GET**.
+
+## 📦 \`requests\` — the friendliest HTTP library
+
+Install: \`pip install requests\`. 3-line syntax:
 
 \`\`\`python
 import requests
 r = requests.get(URL, params={"city": "Hanoi"}, timeout=10)
-r.raise_for_status()    # throws on HTTP 4xx/5xx
-data = r.json()         # parse JSON → dict
+r.raise_for_status()    # raise on HTTP 4xx/5xx
+data = r.json()         # parse JSON → Python dict
 \`\`\`
+
+- \`params={...}\` ⇒ auto-appends \`?city=Hanoi\` (no manual string concat).
+- \`timeout=10\` ⇒ waits max 10 s, then \`requests.Timeout\`.
+- \`r.json()\` ⇒ turns JSON text into a Python dict.
+
+## 🔢 Understand HTTP status codes
+
+| Code | Meaning |
+|------|---------|
+| 200 | OK, all good |
+| 301 / 302 | Redirect |
+| 400 | Bad request (wrong params) |
+| 401 / 403 | Unauthenticated / forbidden |
+| 404 | Not found |
+| 429 | Too many requests (rate limit) |
+| 500+ | Server error |
+
+\`r.raise_for_status()\` throws automatically on ≥ 400 — fail fast instead of silently processing garbage.
 
 ## ✅ Safe-call checklist
 
-1. **timeout** so it can't hang forever.
-2. **raise_for_status** so errors surface early.
-3. **try/except** \`requests.RequestException\` for flaky networks.
-4. **Never hardcode API keys** - use environment variables.`,
+1. **Always set \`timeout\`** — never let your app hang on a sleeping server.
+2. **\`raise_for_status()\`** right after the call — fail fast and loud.
+3. **\`try/except requests.RequestException\`** — catches network, timeout, DNS errors.
+4. **Never hardcode API keys** — use env vars (\`os.environ["API_KEY"]\`), add \`.env\` to \`.gitignore\`. Lovable Cloud has a built-in secrets store.
+5. **Respect rate limits** — read the API docs. Free tiers typically cap ~60 req/min.
+
+## 🚀 Next steps
+
+Once \`requests\` feels easy, level up to:
+- **\`httpx\`** — same API as \`requests\` but supports async (covered in lesson 5).
+- **FastAPI** — build your own REST API in Python, clean and fast.`,
+
         code: `# Calling a public REST API with the requests library (Open-Meteo, no key)
 import requests
 
@@ -494,48 +847,135 @@ print("Sydney:", get_weather(-33.87, 151.21))`,
         titleEn: "asyncio - Fire 50 API Calls in 1 Second",
         level: 4,
         difficulty: "advanced",
-        theory: `## 🚦 Sync vs Async
+        theory: `## 🚦 Sync vs Async - vì sao quan trọng?
 
-**Sync**: gọi 50 URL tuần tự → 50 × 0.3s = **15 s**.
-**Async**: gọi đồng thời (concurrent), tổng ≈ **0.5 s**.
-
-## 🪄 3 từ khoá vàng
-
-- \`async def\` → định nghĩa coroutine.
-- \`await\` → tạm dừng đợi I/O.
-- \`asyncio.gather(*tasks)\` → chạy đồng thời, gom kết quả.
+Khi viết code gọi nhiều API (hoặc đọc nhiều file, query nhiều DB), CPU của bạn dành **hầu hết thời gian đứng chờ** mạng/đĩa, không hề tính toán gì. Nếu chờ tuần tự, bạn lãng phí ~99 % thời gian.
 
 \`\`\`
-[sync]   ●━━━━━●━━━━━●━━━━━●━━━━━●   ~50 × 300ms
-[async]  ●─┐ ●─┐ ●─┐ ●─┐ ●─┐
-            └──┘ └──┘ └──┘ ...        gần như song song
+Sync (tuần tự):  ●━━━━━●━━━━━●━━━━━●━━━━━●    50 × 300 ms = 15 s
+Async (đồng thời): ●─┐ ●─┐ ●─┐ ●─┐ ●─┐
+                       └──┘ └──┘ └──┘ ...     ≈ 0.5 s (nhanh 30×!)
 \`\`\`
 
-## ⚠️ Khi nào KHÔNG dùng async?
+Async cho phép trong lúc 1 request đang chờ, Python **chuyển sang phát yêu cầu tiếp theo** — tất cả "chạy song song" trên cùng 1 thread.
 
-- Bài toán **CPU-bound** (xử lý số nặng). Hãy dùng \`multiprocessing\` thay vào.
-- Khi thư viện bạn dùng là **sync-only** (ví dụ \`requests\` cổ điển — thay bằng \`httpx\` hoặc \`aiohttp\`).`,
-        theoryEn: `## 🚦 Sync vs Async
+## 🪄 3 từ khoá vàng của asyncio
 
-**Sync**: hit 50 URLs sequentially → 50 × 0.3s = **15 s**.
-**Async**: launch them concurrently → total ≈ **0.5 s**.
+\`\`\`python
+import asyncio
 
-## 🪄 The 3 golden keywords
+async def fetch(url):          # 🟢 'async def' = coroutine, không chạy ngay
+    print(f"start {url}")
+    await asyncio.sleep(1)     # 🟡 'await' = nhường CPU cho task khác
+    print(f"done {url}")
+    return url
 
-- \`async def\` → define a coroutine.
-- \`await\` → pause for I/O.
-- \`asyncio.gather(*tasks)\` → run them in parallel, collect results.
+async def main():
+    results = await asyncio.gather(  # 🔵 chạy đồng thời, đợi tất cả xong
+        fetch("a"), fetch("b"), fetch("c")
+    )
+    return results
+
+asyncio.run(main())    # 🔧 entry point, tạo và chạy event loop
+\`\`\`
+
+- \`async def\` → định nghĩa **coroutine** (hàm có thể tạm dừng).
+- \`await\` → "tôi sẽ chờ kết quả, trong lúc đó ai cần CPU thì cứ dùng".
+- \`asyncio.gather(*tasks)\` → chạy nhiều coroutine cùng lúc, trả về list kết quả khi **tất cả** xong.
+- \`asyncio.run(main())\` → cách chuẩn để khởi động event loop từ code đồng bộ.
+
+## 🧠 Event loop hoạt động ra sao?
+
+Hình dung **1 đầu bếp** (single thread) nấu 5 món:
+- Sync: nấu xong món 1 mới bắt đầu món 2 → 5h.
+- Async: bật bếp món 1, trong khi chờ sôi, bật bếp món 2, 3, 4, 5 → 1h.
+
+Event loop = bộ điều phối, ghi nhớ "ai đang chờ gì" và đánh thức khi I/O sẵn sàng.
+
+## ⚠️ Khi nào KHÔNG nên dùng async?
+
+❌ **Bài toán CPU-bound** (xử lý số nặng, mã hoá, image processing). Async không giúp gì vì không có lúc nào "đứng chờ I/O" để chuyển task. Hãy dùng \`multiprocessing\` (chạy thật trên nhiều CPU core).
+
+❌ **Thư viện sync-only**: \`requests\`, \`time.sleep\`, \`open()\`, hầu hết DB driver cũ. Gọi chúng bên trong \`async def\` sẽ **chặn cả event loop** — mất hết lợi ích.
+
+✅ Thay thế bằng phiên bản async tương đương:
+| Sync | Async |
+|------|-------|
+| \`requests\` | \`httpx\`, \`aiohttp\` |
+| \`time.sleep(1)\` | \`await asyncio.sleep(1)\` |
+| \`open()\` đọc file | \`aiofiles\` |
+| \`psycopg2\` | \`asyncpg\`, \`databases\` |
+
+## 🎯 Quy tắc vàng
+
+> **Async = I/O-bound. Multiprocessing = CPU-bound. Threading = ít khi dùng trong Python (do GIL).**
+
+Khi bạn cần gọi 10+ API, scrape nhiều trang web, hoặc xử lý nhiều WebSocket connection cùng lúc → async là vũ khí số 1.`,
+        theoryEn: `## 🚦 Sync vs Async - why it matters
+
+When your code calls many APIs (or reads many files, queries many DBs), the CPU **mostly waits** for the network/disk — it computes almost nothing. Waiting sequentially wastes ~99 % of the time.
 
 \`\`\`
-[sync]   ●━━━━━●━━━━━●━━━━━●━━━━━●   ~50 × 300ms
-[async]  ●─┐ ●─┐ ●─┐ ●─┐ ●─┐
-            └──┘ └──┘ └──┘ ...        nearly parallel
+Sync:   ●━━━━━●━━━━━●━━━━━●━━━━━●    50 × 300 ms = 15 s
+Async:  ●─┐ ●─┐ ●─┐ ●─┐ ●─┐
+            └──┘ └──┘ └──┘ ...        ≈ 0.5 s  (30× faster!)
 \`\`\`
+
+Async lets Python **launch the next request** while the previous one waits — all "in parallel" on a single thread.
+
+## 🪄 The 3 golden asyncio keywords
+
+\`\`\`python
+import asyncio
+
+async def fetch(url):          # 🟢 'async def' = coroutine, doesn't run yet
+    print(f"start {url}")
+    await asyncio.sleep(1)     # 🟡 'await' = yield CPU to other tasks
+    print(f"done {url}")
+    return url
+
+async def main():
+    results = await asyncio.gather(  # 🔵 run concurrently, wait for all
+        fetch("a"), fetch("b"), fetch("c")
+    )
+    return results
+
+asyncio.run(main())    # 🔧 entry point — creates and runs the event loop
+\`\`\`
+
+- \`async def\` → defines a **coroutine** (a function that can pause).
+- \`await\` → "I'll wait for this result; meanwhile anyone can use the CPU".
+- \`asyncio.gather(*tasks)\` → run multiple coroutines together, return all results when **all** are done.
+- \`asyncio.run(main())\` → the canonical way to start the event loop from sync code.
+
+## 🧠 How the event loop works
+
+Picture **one chef** (single thread) cooking 5 dishes:
+- Sync: finish dish 1, then start dish 2 → 5h.
+- Async: start dish 1, while it boils start 2, 3, 4, 5 → 1h.
+
+The event loop is the scheduler — it remembers "who is waiting for what" and wakes tasks up when I/O is ready.
 
 ## ⚠️ When NOT to use async
 
-- **CPU-bound** work (heavy math). Reach for \`multiprocessing\` instead.
-- Libraries that are **sync-only** (e.g. classic \`requests\` — swap to \`httpx\` or \`aiohttp\`).`,
+❌ **CPU-bound work** (heavy math, encryption, image processing). Async helps nothing — no I/O to wait on. Reach for \`multiprocessing\` (real multi-core parallelism).
+
+❌ **Sync-only libraries**: \`requests\`, \`time.sleep\`, \`open()\`, most old DB drivers. Calling them inside \`async def\` **blocks the entire event loop** — you lose every benefit.
+
+✅ Swap them for async equivalents:
+| Sync | Async |
+|------|-------|
+| \`requests\` | \`httpx\`, \`aiohttp\` |
+| \`time.sleep(1)\` | \`await asyncio.sleep(1)\` |
+| \`open()\` file read | \`aiofiles\` |
+| \`psycopg2\` | \`asyncpg\`, \`databases\` |
+
+## 🎯 Golden rule
+
+> **Async = I/O-bound. Multiprocessing = CPU-bound. Threading = rarely useful in Python (because of the GIL).**
+
+Whenever you must hit 10+ APIs, scrape many pages, or juggle many WebSocket connections → async is your number-one weapon.`,
+
         code: `# Async HTTP: fetch 10 slow URLs concurrently instead of one-by-one
 import asyncio, httpx, time
 
