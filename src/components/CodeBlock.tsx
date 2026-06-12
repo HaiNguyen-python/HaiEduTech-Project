@@ -44,14 +44,19 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
    */
   const hasBoxDrawing = /[┌┐└┘├┤┬┴┼─│╔╗╚╝╠╣╦╩╬═║]/.test(code);
   const hasArrows = /[▲▼◄►▶◀↑↓→←]/.test(code);
+  const hasAsciiArrows = /(?:-{1,2}>|<{1,2}-|=>|<=)/.test(code);
+  const hasDiagramConnectors = /(?:\+[-=]{3,}\+|[-=]{3,}|\|\s{2,}|\s{2,}\|)/.test(code);
   // Count lines that look like ASCII box rows: start AND end with pipe/plus
   const asciiBoxLines = (code.match(/^\s*[|+][^\n]*[|+]\s*$/gm) || []).length;
   const isDiagram =
     ["text", "ascii", "diagram", "ascii-art", "plain", "txt"].includes(lang) ||
     hasBoxDrawing ||
     hasArrows ||
+    hasAsciiArrows ||
+    hasDiagramConnectors ||
     asciiBoxLines >= 3;
   const preserveLayout = isDiagram;
+  const codeText = code.replace(/\n$/, "");
 
   return (
     <div className={`my-4 rounded-xl overflow-hidden border border-slate-800 bg-[#0f172a] shadow-md ${className}`}>
@@ -80,35 +85,54 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
         </div>
       )}
       <div className="overflow-x-auto">
-        <SyntaxHighlighter
-          language={preserveLayout ? "text" : normalizedLang}
-          style={oneDark}
-          customStyle={{
-            margin: 0,
-            padding: "1.25rem",
-            background: "#0f172a",
-            fontSize: "0.875rem",
-            lineHeight: 1.7,
-            fontFamily:
-              "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-            fontFeatureSettings: preserveLayout ? "normal" : '"liga" 1, "calt" 1',
-            whiteSpace: preserveLayout ? "pre" : "pre-wrap",
-            wordBreak: preserveLayout ? "normal" : "break-word",
-          }}
-          codeTagProps={{
-            style: {
+        {preserveLayout ? (
+          <pre
+            className="m-0 block min-w-max p-5 text-sm leading-7 text-slate-100"
+            style={{
+              background: "#0f172a",
               fontFamily:
                 "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-              fontFeatureSettings: preserveLayout ? "normal" : '"liga" 1, "calt" 1',
-              whiteSpace: preserveLayout ? "pre" : "pre-wrap",
-              wordBreak: preserveLayout ? "normal" : "break-word",
-            },
-          }}
-          showLineNumbers={false}
-          wrapLongLines={!preserveLayout}
-        >
-          {code.replace(/\n$/, "")}
-        </SyntaxHighlighter>
+              fontFeatureSettings: "normal",
+              fontVariantLigatures: "none",
+              tabSize: 2,
+              whiteSpace: "pre",
+              wordBreak: "normal",
+              overflowWrap: "normal",
+            }}
+          >
+            <code className="block whitespace-pre">{codeText}</code>
+          </pre>
+        ) : (
+          <SyntaxHighlighter
+            language={normalizedLang}
+            style={oneDark}
+            customStyle={{
+              margin: 0,
+              padding: "1.25rem",
+              background: "#0f172a",
+              fontSize: "0.875rem",
+              lineHeight: 1.7,
+              fontFamily:
+                "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+              fontFeatureSettings: '"liga" 1, "calt" 1',
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+            }}
+            codeTagProps={{
+              style: {
+                fontFamily:
+                  "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+                fontFeatureSettings: '"liga" 1, "calt" 1',
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+              },
+            }}
+            showLineNumbers={false}
+            wrapLongLines
+          >
+            {codeText}
+          </SyntaxHighlighter>
+        )}
       </div>
     </div>
   );
