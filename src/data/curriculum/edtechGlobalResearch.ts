@@ -371,21 +371,20 @@ Mitra đặt một máy tính trong **lỗ tường khu ổ chuột Delhi**, kh�
 - 🔗 [Mitra (2003) - Minimally Invasive Education](https://scholar.google.com/scholar?q=Sugata+Mitra+hole+in+the+wall+2003)
 - 🔗 [SOLE Toolkit (TED Prize)](https://www.theschoolinthecloud.org)`,
         theoryEn: `MIT OCW (2001) launched the open-content era: 2,500+ courses, 200M users. Sugata Mitra's 'Hole in the Wall' (1999) experiment in Delhi slums proved children self-organise to learn from a screen with no teacher, birthing Minimally Invasive Education and SOLE - a five-step framework Teacher Hai can run in any HaiEduTech classroom.`,
-        code: `// SOLE session timer - run inside any HaiEduTech classroom
-const phases = [
-  { name: "Big Question",       minutes: 5  },
-  { name: "Self-Organised Work", minutes: 30 },
-  { name: "Public Presentations", minutes: 10 },
-  { name: "Reflection",         minutes: 5  },
-];
+        code: `# SOLE session timer - run inside any HaiEduTech classroom
+phases = [
+    {"name": "Big Question",         "minutes": 5},
+    {"name": "Self-Organised Work",  "minutes": 30},
+    {"name": "Public Presentations", "minutes": 10},
+    {"name": "Reflection",           "minutes": 5},
+]
 
-let elapsed = 0;
-phases.forEach(p => {
-  console.log(\`[\${String(elapsed).padStart(2, "0")}:00] ▶ \${p.name} (\${p.minutes} min)\`);
-  elapsed += p.minutes;
-});
-console.log(\`[\${String(elapsed).padStart(2, "0")}:00] ✓ Done\`);`,
-        codeLanguage: "javascript",
+elapsed = 0
+for p in phases:
+    print(f"[{str(elapsed).zfill(2)}:00] ▶ {p['name']} ({p['minutes']} min)")
+    elapsed += p["minutes"]
+print(f"[{str(elapsed).zfill(2)}:00] ✓ Done")`,
+        codeLanguage: "python",
         exercise:
           "Thiết kế 1 phiên SOLE 50 phút cho lớp HaiEduTech, đề ra 'Big Question' liên quan đến môn em đang dạy và tiêu chí chấm.",
         exerciseEn:
