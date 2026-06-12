@@ -159,7 +159,45 @@ Mỗi bước giải bài (step) gắn với 1+ **Knowledge Component** (đơn v
 1. **15'** - Mỗi học sinh chọn 1 dataset từ DataShop, mô tả 3 KC chính.
 2. **30'** - Vẽ learning curve bằng Excel/Python từ CSV tải về.
 3. **15'** - Thuyết trình: KC nào "khó học" nhất? Đề xuất bài luyện thêm.`,
-        theoryEn: `Pittsburgh Science of Learning Center (PSLC) at CMU built DataShop - the world's largest open repository of learner interactions (350k+ students, billions of transactions). It introduced Knowledge Components (KC), Learning Curves and Bayesian Knowledge Tracing (BKT), which still power Duolingo, ASSISTments and HaiEduTech today.`,
+        theoryEn: `## 1. What Is the PSLC DataShop?
+
+The **Pittsburgh Science of Learning Center (PSLC)** at Carnegie Mellon University built **DataShop** — the world's largest open repository of fine-grained learner interaction data. As of 2025 it hosts logs from **350,000+ learners** and **billions of transactions** across math, science, language and reading tutors. Anyone can register, download datasets, and run analyses on real classroom data.
+
+## 2. Three Ideas That Changed EdTech
+
+DataShop popularized three concepts that now power Duolingo, ASSISTments, Khan Academy and HaiEduTech:
+
+| Concept | What it is | Why it matters |
+|---------|------------|----------------|
+| **Knowledge Component (KC)** | Atomic skill needed for one step of a problem | Lets you model *what* the learner knows, not just *which lesson* they did |
+| **Learning Curve** | Plot of error rate vs opportunities to practice a KC | Reveals which KCs are easy vs hard to learn |
+| **Bayesian Knowledge Tracing (BKT)** | HMM with 4 params (init, transit, slip, guess) tracking P(mastered) | Standard model behind adaptive tutors since 1995 |
+
+## 3. The Power-Law of Learning
+
+Empirically, error rate decays as a power law: \`error = a · opportunity^(-b)\`. A high \`b\` (≈ 0.7+) means the KC is learned fast; a low \`b\` (< 0.3) flags a stubborn KC that needs better scaffolding.
+
+\`\`\`
+   error
+    0.5 │●
+        │ ●
+    0.3 │  ●
+        │    ●
+    0.1 │       ●●●●●●●    ← KC "mastered"
+        └──────────────────▶ practice opportunities
+\`\`\`
+
+## 4. How to Use DataShop in Your Research
+
+1. **Browse** the dataset catalog (Algebra I, Geometry, Chinese tones, Andes Physics…).
+2. **Download** the transaction-level CSV or use the web analysis tools.
+3. **Pick a KC** with enough opportunities (>500) for stable curves.
+4. **Fit a power law** and compare \`b\` across student segments.
+5. **Cite** Koedinger et al. (2010) for the data repository paper.
+
+## 5. Why It Still Matters in 2026
+
+LLM tutors are great at generating explanations but **bad at memory modeling**. Pairing an LLM with BKT (or its modern cousin **Deep Knowledge Tracing**) gives you the best of both: rich dialogue *and* an accurate model of what the learner has actually mastered.`,
         code: `# Fit a power-law learning curve: error = a * opportunity^(-b)
 import numpy as np
 
@@ -256,7 +294,47 @@ Stanford khởi xướng làn sóng MOOC năm 2011 với khoá AI của Sebastia
 - 🔗 [Reich (2014) - Rebooting MOOC research](https://www.science.org/doi/10.1126/science.1261627)
 - 🔗 [Kizilcec et al. (2013) - Deconstructing disengagement](https://scholar.google.com/scholar?q=Kizilcec+2013+deconstructing+disengagement)
 - 🔗 [Reich & Ruipérez-Valiente (2019) - The MOOC pivot](https://www.science.org/doi/10.1126/science.aav7958)`,
-        theoryEn: `Stanford launched the MOOC era in 2011, but ten years of research (Reich 2014, Kizilcec 2013, Brunskill, Reich & Ruipérez-Valiente 2019) revealed a brutal completion crisis (~5-10%) and a demographic skew toward already-credentialed learners. EdTech responded with engagement clustering, RL-driven personalization, and the B2B pivot.`,
+        theoryEn: `## 1. The 2011 MOOC Explosion
+
+Stanford launched the modern MOOC era in fall 2011 when Sebastian Thrun and Peter Norvig opened their AI course to the world — **160,000+ learners enrolled**. Coursera (Daphne Koller, Andrew Ng), Udacity and edX (MIT + Harvard) followed within months. The industry believed online courses would democratize elite education globally.
+
+## 2. The Completion Crisis
+
+Ten years of empirical research delivered a sobering verdict:
+
+\`\`\`
+   Typical MOOC funnel
+   Enrolled       ████████████████████  100%
+   Watched video  ███████████░░░░░░░░░   55%
+   Did assignment ████░░░░░░░░░░░░░░░░   20%
+   Completed      ██░░░░░░░░░░░░░░░░░░   5-10%
+\`\`\`
+
+Reich (2014, *Science*) showed completion ~5%, with a strong demographic skew toward learners who **already** hold a bachelor's degree — the opposite of democratization.
+
+## 3. Five Classic Findings
+
+| Year | Author | Insight |
+|------|--------|---------|
+| 2013 | **Kizilcec et al.** | 4 behavior clusters: Completing / Auditing / Disengaging / Sampling — basis for every modern engagement dashboard |
+| 2014 | **Reich** (Science) | "Completion crisis" — design must shift from credentials to outcomes |
+| 2014 | **Mitros & Mehta** (edX) | Forum discussion drives more learning than long lecture videos |
+| 2018 | **Brunskill** (Stanford) | RL personalization (Thompson Sampling) lifts retention ~20% |
+| 2019 | **Reich & Ruipérez-Valiente** | "MOOC pivot" — industry moved from B2C free to B2B certification |
+
+## 4. Lessons for HaiEduTech 2026
+
+1. Treat the **5% completers** as your real product — design retention loops for them.
+2. Use **Kizilcec's four clusters** to send targeted interventions (different nudges per cluster).
+3. **Short videos** (<10 min) + active checks beat hour-long lectures.
+4. **Cohort dashboards** weekly, not aggregate funnels — the average hides everything.
+5. Combine **B2C reach** with **B2B certification** revenue for sustainability.
+
+## 5. Reading List
+
+- Reich (2014) — *Rebooting MOOC research* (Science)
+- Kizilcec et al. (2013) — *Deconstructing disengagement*
+- Reich & Ruipérez-Valiente (2019) — *The MOOC pivot* (Science)`,
         code: `# K-means style assignment of learners into Kizilcec's 4 behavioral clusters
 def classify(learner):
     v = learner["video_pct"]
@@ -370,7 +448,50 @@ Mitra đặt một máy tính trong **lỗ tường khu ổ chuột Delhi**, kh�
 - 🔗 [MIT OCW](https://ocw.mit.edu)
 - 🔗 [Mitra (2003) - Minimally Invasive Education](https://scholar.google.com/scholar?q=Sugata+Mitra+hole+in+the+wall+2003)
 - 🔗 [SOLE Toolkit (TED Prize)](https://www.theschoolinthecloud.org)`,
-        theoryEn: `MIT OCW (2001) launched the open-content era: 2,500+ courses, 200M users. Sugata Mitra's 'Hole in the Wall' (1999) experiment in Delhi slums proved children self-organise to learn from a screen with no teacher, birthing Minimally Invasive Education and SOLE - a five-step framework Teacher Hai can run in any HaiEduTech classroom.`,
+        theoryEn: `## 1. MIT OpenCourseWare (2001) — The Spark
+
+In 2001, MIT made the shocking decision to release **all** course materials — slides, exams, lecture recordings — for free under a Creative Commons license. The industry called it reckless. By 2025, **MIT OCW** hosts **2,500+ courses** with **200 million users** from 180 countries, and it inspired Khan Academy (2008), Coursera/edX (2011) and today's AI tutors.
+
+\`\`\`
+ MIT OCW 2001 ──▶ Khan Acad 2008 ──▶ MOOCs 2011 ──▶ AI Tutors 2025+
+ (open files)      (free videos)      (interactive)    (1-on-1 dialogue)
+\`\`\`
+
+## 2. Sugata Mitra's "Hole in the Wall" (1999)
+
+Mitra placed a computer in a **hole in the wall of a Delhi slum**, with no instructions. Within months, children — who had never seen a PC and didn't speak English — taught **each other** to browse the web. The experiment was replicated across India and Cambodia with the same result. From it came two ideas:
+
+- **Minimally Invasive Education (MIE)** — children learn more when adults intervene less.
+- **SOLE — Self-Organised Learning Environment** — a five-element classroom format.
+
+## 3. The Five Elements of SOLE
+
+| # | Element | Description |
+|---|---------|-------------|
+| 1 | **Big Question** | Open-ended, no quick answer (e.g. "Why can AI be wrong?") |
+| 2 | **Self-Organised Groups** | Groups of 4-5, no assigned roles |
+| 3 | **Public Output** | Each group presents back |
+| 4 | **Granny Cloud** | Adults encourage, never correct |
+| 5 | **Reflection** | Final 10 min — what did I get wrong before? |
+
+## 4. A 50-Minute SOLE Plan
+
+\`\`\`
+0:00–0:05  Big Question announced
+0:05–0:35  Self-organised work with internet access
+0:35–0:45  2-min presentations per group
+0:45–0:50  Written reflection
+\`\`\`
+
+## 5. Why It Still Works in the AI Era
+
+LLMs are powerful but breed **passive consumption** if used wrongly. SOLE flips the dynamic: the AI is a *tool* the group queries, debates, and audits — not an oracle. Pair "Big Question" with a HaiEduTech AI search and you get the best of both: open inquiry + accurate information.
+
+## 6. Reading List
+
+- MIT OpenCourseWare — \`ocw.mit.edu\`
+- Mitra (2003) — *Minimally Invasive Education*
+- SOLE Toolkit — *The School in the Cloud* (TED Prize)`,
         code: `# SOLE session timer - run inside any HaiEduTech classroom
 phases = [
     {"name": "Big Question",         "minutes": 5},
@@ -473,7 +594,56 @@ print(f"[{str(elapsed).zfill(2)}:00] ✓ Done")`,
 - 🔗 [OECD AI Principles (2024 update)](https://oecd.ai/en/ai-principles)
 - 🔗 [UNESCO - Guidance for GenAI in Education and Research (2023)](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research)
 - 🔗 [Beijing Consensus on AI and Education (2019)](https://unesdoc.unesco.org/ark:/48223/pf0000368303)`,
-        theoryEn: `OECD (2024) and UNESCO (2023) crystallised the policy stack for AI in education: 5 trustworthy-AI principles, a 4-level GenAI usage framework, and the Beijing Consensus. HaiEduTech maps these to age tiers (<13 supervised, 13-15 guided, 16-18 rubric-based, university co-author) and runs in-class "AI Audits" so students judge real GenAI products against OECD criteria.`,
+        theoryEn: `## 1. Three Must-Read Policy Documents
+
+| Document | Year | Focus |
+|----------|------|-------|
+| **UNESCO — AI & Education (Beijing Consensus)** | 2019/2021 | Human-centred AI principles for education |
+| **OECD AI Recommendation** (updated) | 2024 | Five principles of trustworthy AI |
+| **UNESCO GenAI Guidance for Schools** | 2023 | Practical framework for ChatGPT-era classrooms |
+
+Together they form the **policy stack** every EdTech team needs to align with.
+
+## 2. OECD's Five Trustworthy-AI Principles
+
+1. **Inclusive growth, sustainable development & well-being** — AI must benefit people and the planet.
+2. **Human-centred values & fairness** — respect human rights, diversity and the rule of law.
+3. **Transparency & explainability** — users must understand AI decisions affecting them.
+4. **Robustness, security & safety** — systems must function safely throughout their lifecycle.
+5. **Accountability** — actors are responsible for the AI systems they build and deploy.
+
+## 3. UNESCO's 4-Tier GenAI Usage Framework (2023)
+
+\`\`\`
+ Tier 1: Fully restricted     (children <13, unsupervised)
+ Tier 2: Guided use           (13-15, with a teacher)
+ Tier 3: Independent + rubric (16-18, students audit AI)
+ Tier 4: Co-creation          (university, AI as co-author)
+\`\`\`
+
+## 4. Applying It in Vietnam (HaiEduTech)
+
+| Age | Implementation |
+|-----|----------------|
+| **<13** | Chat behind a safety layer + parent activity log |
+| **13-15** | AI Tutor paired with rubric: "Where is the AI right / wrong?" |
+| **16-18** | Free essay editing, but students submit **prompt + diff** |
+| **University** | Co-authorship allowed with declared AI percentage |
+
+## 5. The "AI Audit" Classroom Activity (60 min)
+
+1. Each group picks a real GenAI product (ChatGPT, Gemini, Claude…).
+2. They ask 5 deliberately hard / tricky questions.
+3. They score the answers 1-5 on each of the 5 OECD principles.
+4. They debate which principle the product violated most.
+
+This turns students from passive AI consumers into **critical evaluators** — exactly what UNESCO and OECD want from 21st-century learners.
+
+## 6. Reading List
+
+- OECD AI Principles (2024 update) — \`oecd.ai/en/ai-principles\`
+- UNESCO — Guidance for Generative AI in Education and Research (2023)
+- Beijing Consensus on AI and Education (UNESCO, 2019)`,
         code: `# Score a GenAI product against the OECD 5 principles
 PRINCIPLES = [
     "inclusive_growth",
