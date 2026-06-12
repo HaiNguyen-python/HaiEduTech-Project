@@ -26,6 +26,38 @@ import { lectureExpansions } from "@/data/ieltsLectureExpansion";
 import SEO from "@/components/SEO";
 import { getSpeakingHeroImage } from "@/data/ieltsSpeakingHeroImages";
 
+// Split long example strings into multiple lines when they contain several
+// labeled segments like "Situation: '...' Task: '...' Action: '...' Result: '...'".
+// Each segment is rendered on its own line with the label bolded so long
+// frameworks (STAR, PEEL, Problem/Solution, etc.) are easy to scan.
+const renderExampleText = (text: string) => {
+  if (!text) return null;
+  // Split BEFORE a capitalized "Label[ N]:" that is preceded by a closing
+  // quote or period — this is the natural boundary between sub-points.
+  const parts = text
+    .split(/(?<=['"”’.])\s+(?=[A-Z][A-Za-z]{2,}(?:\s\d+)?(?:\s[A-Z][a-z]+)?:\s*['"“‘])/g)
+    .map(s => s.trim())
+    .filter(Boolean);
+  if (parts.length < 2) return text;
+  return (
+    <div className="space-y-1.5">
+      {parts.map((p, i) => {
+        const m = p.match(/^([A-Z][A-Za-z]{2,}(?:\s\d+)?(?:\s[A-Z][a-z]+)?:)\s*(.*)$/);
+        if (m) {
+          return (
+            <div key={i} className="leading-relaxed">
+              <span className="font-semibold text-primary">{m[1]}</span>{" "}
+              <span>{m[2]}</span>
+            </div>
+          );
+        }
+        return <div key={i} className="leading-relaxed">{p}</div>;
+      })}
+    </div>
+  );
+};
+
+
 // Vocab Highlighter component - inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
   const [show, setShow] = useState(false);
