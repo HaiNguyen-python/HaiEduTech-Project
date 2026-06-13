@@ -24,107 +24,107 @@ function buildExtras(l: IeltsLecture, need: number): LectureQuizQuestion[] {
 
   if (l.goldenSecret && out.length < need) {
     out.push({
-      question: `Bí quyết VÀNG (Golden Secret) của bài "${l.title}" nhấn mạnh điều gì?`,
+      question: `What does the Golden Secret of the lecture "${l.title}" emphasise?`,
       options: [
         truncate(l.goldenSecret),
-        "Học thuộc một bài mẫu duy nhất rồi áp dụng cho mọi đề thi.",
-        "Bỏ qua bước lập dàn ý để có thêm thời gian viết/nói.",
-        "Sao chép nguyên văn câu hỏi vào câu trả lời.",
+        "Memorise one model answer and reuse it for every prompt.",
+        "Skip the outlining step to gain more writing/speaking time.",
+        "Copy the question prompt word-for-word into your answer.",
       ],
       answer: 0,
-      explanation: l.goldenSecretVi || l.goldenSecret,
+      explanation: l.goldenSecret,
     });
   }
 
   if (l.cheatSheetPoints?.length && out.length < need) {
     out.push({
-      question: "Đâu là điểm chốt quan trọng trong Cheat Sheet của bài học này?",
+      question: "Which point is highlighted in the Cheat Sheet of this lecture?",
       options: [
         truncate(l.cheatSheetPoints[0]),
-        "Luôn nhồi nhét càng nhiều idiom càng tốt, kể cả khi không phù hợp.",
-        "Viết câu trả lời thật ngắn gọn để tránh mọi lỗi ngữ pháp.",
-        "Tránh đưa ví dụ cụ thể vì sợ mất thời gian.",
+        "Cram as many idioms as possible, even when they don't fit the context.",
+        "Keep answers extremely short to avoid all grammar mistakes.",
+        "Avoid giving concrete examples because they waste time.",
       ],
       answer: 0,
-      explanation: "Điểm này được liệt kê trực tiếp trong phần Cheat Sheet của bài giảng.",
+      explanation: "This point is listed directly in the lecture's Cheat Sheet section.",
     });
   }
 
   if (l.mistakesToAvoid?.length && out.length < need) {
     const m = l.mistakesToAvoid[0];
     out.push({
-      question: "Đâu là LỖI cần tránh theo bài học này?",
+      question: "Which of the following is a MISTAKE to avoid according to this lecture?",
       options: [
         truncate(m.mistake),
-        "Lập dàn ý ngắn 60-90 giây trước khi viết hoặc nói.",
-        "Dùng từ nối đa dạng giữa các câu để tăng coherence.",
-        "Đưa ra ví dụ cụ thể để minh họa cho quan điểm của mình.",
+        "Plan a quick 60-90 second outline before writing or speaking.",
+        "Use a variety of linking words between sentences to boost coherence.",
+        "Give concrete examples to illustrate your point.",
       ],
       answer: 0,
-      explanation: m.whyVi || m.why,
+      explanation: m.why || m.whyVi || "",
     });
   }
 
   if (l.strategySteps?.length && out.length < need) {
     const s = l.strategySteps[0];
     out.push({
-      question: "Bước chiến lược ĐẦU TIÊN trong bài học này là gì?",
+      question: "What is the FIRST strategy step recommended in this lecture?",
       options: [
         truncate(`${s.title} - ${s.description}`),
-        "Bắt đầu viết/nói ngay lập tức để tiết kiệm thời gian.",
-        "Học thuộc một bài mẫu cố định cho mọi đề.",
-        "Bỏ qua đề bài và trả lời dựa trên cảm tính.",
+        "Start writing or speaking immediately to save time.",
+        "Memorise one fixed model answer for every prompt.",
+        "Ignore the prompt and answer based on gut feeling.",
       ],
       answer: 0,
-      explanation: s.descriptionVi || s.description,
+      explanation: s.description || s.descriptionVi || "",
     });
   }
 
   if (l.vocabHighlights?.length && out.length < need) {
     const v = l.vocabHighlights[0];
     out.push({
-      question: `Từ "${v.word}" trong bài giảng được dùng với nghĩa gì?`,
+      question: `In this lecture, the word "${v.word}" is used to mean:`,
       options: [
         truncate(v.definition),
-        "Một từ lóng chỉ dùng trong giao tiếp suồng sã hằng ngày.",
-        "Một thuật ngữ chuyên ngành y khoa, không phù hợp IELTS.",
-        "Một thán từ thể hiện cảm xúc ngạc nhiên.",
+        "A slang word used only in very casual everyday conversation.",
+        "A specialised medical term that is inappropriate for IELTS.",
+        "An interjection expressing surprise.",
       ],
       answer: 0,
-      explanation: `${v.word} - ${v.definitionVi || v.definition} (Band ${v.band || "7.0+"}).`,
+      explanation: `${v.word} - ${v.definition} (Band ${v.band || "7.0+"}).`,
     });
   }
 
   if (l.practicalExamples?.length && out.length < need) {
     const e = l.practicalExamples[0];
     out.push({
-      question: "Ví dụ thực tế trong bài được đặt trong bối cảnh nào?",
+      question: "In which context is the practical example in this lecture set?",
       options: [
         truncate(e.context),
-        "Chỉ áp dụng cho thí sinh đã đạt Band 9.0.",
-        "Chỉ áp dụng cho phần Listening Section 1 mà thôi.",
-        "Chỉ áp dụng cho học sinh phổ thông, không cho IELTS.",
+        "It only applies to candidates who have already scored Band 9.0.",
+        "It only applies to Listening Section 1.",
+        "It only applies to high-school students, not IELTS candidates.",
       ],
       answer: 0,
-      explanation: e.explanation || "Bối cảnh thực tế giúp bạn hình dung cách áp dụng kỹ thuật.",
+      explanation: e.explanation || "The real-world context helps you picture how to apply the technique.",
     });
   }
 
   // Final safety filler – ensure we always reach TARGET.
   while (out.length < need) {
     out.push({
-      question: `Theo bài giảng "${l.title}", đâu là cách tiếp cận hiệu quả nhất?`,
+      question: `According to the lecture "${l.title}", which approach is the most effective?`,
       options: [
-        "Áp dụng đúng quy trình và khung được nêu trong bài, kết hợp luyện tập có ý thức.",
-        "Học vẹt câu trả lời mẫu rồi tái sử dụng cho mọi đề.",
-        "Bỏ qua chiến lược và làm theo cảm tính cá nhân.",
-        "Chỉ tập trung học từ vựng, bỏ qua kỹ năng còn lại.",
+        "Apply the framework and process taught in the lecture combined with deliberate practice.",
+        "Rote-memorise a model answer and reuse it for every prompt.",
+        "Ignore the strategy and rely purely on personal instinct.",
+        "Focus only on vocabulary and ignore the other skills.",
       ],
       answer: 0,
       explanation:
-        l.goldenSecretVi ||
         l.goldenSecret ||
-        "Áp dụng đúng khung của bài + luyện có ý thức là cách lên Band bền vững nhất.",
+        l.goldenSecretVi ||
+        "Applying the lecture's framework plus deliberate practice is the most sustainable path to a higher band.",
     });
   }
 
