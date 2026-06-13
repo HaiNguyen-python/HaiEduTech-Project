@@ -160,7 +160,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
         })}
       </div>
 
-      {!submitted && items.some((_, i) => (selectedWords[i] || []).length > 0) && (
+      {!submitted && items.some((_, i) => (selectedIdx[i] || []).length > 0) && (
         <motion.button
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
