@@ -20,31 +20,33 @@ interface Props {
 
 const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEnglish = false }: Props) => {
   const { t } = useLanguage();
-  const [selectedWords, setSelectedWords] = useState<Record<number, string[]>>(
+  // Track indices into scrambled[] so duplicate words (e.g. two "the"s) are distinct tokens.
+  const [selectedIdx, setSelectedIdx] = useState<Record<number, number[]>>(
     () => Object.fromEntries(items.map((_, i) => [i, []]))
   );
   const [submitted, setSubmitted] = useState(false);
 
-  const handleWordClick = (itemIdx: number, word: string) => {
+  const toggleToken = (itemIdx: number, tokenIdx: number) => {
     if (submitted) return;
-    setSelectedWords(prev => {
+    setSelectedIdx(prev => {
       const current = prev[itemIdx] || [];
-      if (current.includes(word)) {
-        return { ...prev, [itemIdx]: current.filter(w => w !== word) };
+      if (current.includes(tokenIdx)) {
+        return { ...prev, [itemIdx]: current.filter(i => i !== tokenIdx) };
       }
-      return { ...prev, [itemIdx]: [...current, word] };
+      return { ...prev, [itemIdx]: [...current, tokenIdx] };
     });
   };
 
   const handleSubmit = () => setSubmitted(true);
 
   const handleReset = () => {
-    setSelectedWords(Object.fromEntries(items.map((_, i) => [i, []])));
+    setSelectedIdx(Object.fromEntries(items.map((_, i) => [i, []])));
     setSubmitted(false);
   };
 
   const isCorrect = (itemIdx: number) => {
-    const userSentence = (selectedWords[itemIdx] || []).join(" ");
+    const sel = selectedIdx[itemIdx] || [];
+    const userSentence = sel.map(i => items[itemIdx].scrambled[i]).join(" ");
     const expected = items[itemIdx].correctEn || items[itemIdx].correct;
     return userSentence.toLowerCase() === expected.toLowerCase();
   };
@@ -75,8 +77,8 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
 
       <div className="space-y-5">
         {items.map((item, idx) => {
-          const selected = selectedWords[idx] || [];
-          const remaining = item.scrambled.filter(w => !selected.includes(w));
+          const selected = selectedIdx[idx] || [];
+          const remaining = item.scrambled.map((_, i) => i).filter(i => !selected.includes(i));
           const correct = isCorrect(idx);
 
           return (
@@ -104,13 +106,13 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
                   <span className="text-xs text-muted-foreground italic py-1">{forceEnglish ? "Click the words below to build the sentence." : t("Nhấn vào các từ bên dưới để sắp xếp...", "Click words below to arrange...")}</span>
                 )}
                 <AnimatePresence>
-                  {selected.map((word, wi) => (
+                  {selected.map((tokenIdx, wi) => (
                     <motion.button
-                      key={`${word}-${wi}`}
+                      key={`sel-${tokenIdx}-${wi}`}
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0.8, opacity: 0 }}
-                      onClick={() => handleWordClick(idx, word)}
+                      onClick={() => toggleToken(idx, tokenIdx)}
                       disabled={submitted}
                       className={cn(
                         "px-3 py-1.5 rounded-md text-sm font-medium transition-all",
@@ -121,7 +123,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
                           : "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
                       )}
                     >
-                      {word}
+                      {item.scrambled[tokenIdx]}
                     </motion.button>
                   ))}
                 </AnimatePresence>
@@ -134,15 +136,15 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
 
               {/* Available words */}
               <div className="flex flex-wrap gap-2">
-                {remaining.map((word, wi) => (
+                {remaining.map((tokenIdx) => (
                   <motion.button
-                    key={`${word}-avail-${wi}`}
+                    key={`avail-${tokenIdx}`}
                     layout
-                    onClick={() => handleWordClick(idx, word)}
+                    onClick={() => toggleToken(idx, tokenIdx)}
                     disabled={submitted}
                     className="px-3 py-1.5 rounded-md text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-accent hover:text-accent-foreground transition-all"
                   >
-                    {word}
+                    {item.scrambled[tokenIdx]}
                   </motion.button>
                 ))}
               </div>
@@ -158,7 +160,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
         })}
       </div>
 
-      {!submitted && items.some((_, i) => (selectedWords[i] || []).length > 0) && (
+      {!submitted && items.some((_, i) => (selectedIdx[i] || []).length > 0) && (
         <motion.button
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
