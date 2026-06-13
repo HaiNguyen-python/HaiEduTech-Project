@@ -20,31 +20,33 @@ interface Props {
 
 const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEnglish = false }: Props) => {
   const { t } = useLanguage();
-  const [selectedWords, setSelectedWords] = useState<Record<number, string[]>>(
+  // Track indices into scrambled[] so duplicate words (e.g. two "the"s) are distinct tokens.
+  const [selectedIdx, setSelectedIdx] = useState<Record<number, number[]>>(
     () => Object.fromEntries(items.map((_, i) => [i, []]))
   );
   const [submitted, setSubmitted] = useState(false);
 
-  const handleWordClick = (itemIdx: number, word: string) => {
+  const toggleToken = (itemIdx: number, tokenIdx: number) => {
     if (submitted) return;
-    setSelectedWords(prev => {
+    setSelectedIdx(prev => {
       const current = prev[itemIdx] || [];
-      if (current.includes(word)) {
-        return { ...prev, [itemIdx]: current.filter(w => w !== word) };
+      if (current.includes(tokenIdx)) {
+        return { ...prev, [itemIdx]: current.filter(i => i !== tokenIdx) };
       }
-      return { ...prev, [itemIdx]: [...current, word] };
+      return { ...prev, [itemIdx]: [...current, tokenIdx] };
     });
   };
 
   const handleSubmit = () => setSubmitted(true);
 
   const handleReset = () => {
-    setSelectedWords(Object.fromEntries(items.map((_, i) => [i, []])));
+    setSelectedIdx(Object.fromEntries(items.map((_, i) => [i, []])));
     setSubmitted(false);
   };
 
   const isCorrect = (itemIdx: number) => {
-    const userSentence = (selectedWords[itemIdx] || []).join(" ");
+    const sel = selectedIdx[itemIdx] || [];
+    const userSentence = sel.map(i => items[itemIdx].scrambled[i]).join(" ");
     const expected = items[itemIdx].correctEn || items[itemIdx].correct;
     return userSentence.toLowerCase() === expected.toLowerCase();
   };
