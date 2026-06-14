@@ -126,7 +126,7 @@ export default function LastSessionRecap() {
               .select("activity_type, activity_id, score, max_score, domain, created_at, metadata")
               .eq("user_id", uid)
               .order("created_at", { ascending: false })
-              .limit(10),
+              .limit(50),
             supabase
               .from("writing_attempts")
               .select("prompt, overall_score, task_type, word_count, created_at")
@@ -155,9 +155,18 @@ export default function LastSessionRecap() {
               .limit(5),
           ]);
 
+          const HIDDEN_TYPES = new Set([
+            "session_heartbeat",
+            "daily_login",
+            "page_view",
+            "page_visit",
+          ]);
           const visibleActivities = ((actRes.data as Activity[]) || []).filter(
-            (activity) => activity.activity_type !== "session_heartbeat"
-          );
+            (activity) =>
+              !HIDDEN_TYPES.has(activity.activity_type) &&
+              // ẩn các bản ghi rỗng (không có điểm, không có id bài học) để tránh hiển thị mơ hồ
+              (activity.score != null || activity.activity_id != null)
+          ).slice(0, 10);
 
           setActivities(visibleActivities);
           setWritings((writRes.data as WritingAttempt[]) || []);
@@ -242,8 +251,14 @@ export default function LastSessionRecap() {
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">
-                      {ACTIVITY_LABELS[a.activity_type] || a.activity_type}
+                      {ACTIVITY_LABELS[a.activity_type] ||
+                        prettyLectureId(a.activity_type)}
                     </p>
+                    {a.activity_id && (
+                      <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                        {prettyLectureId(a.activity_id)}
+                      </p>
+                    )}
                     <div className="flex items-center gap-2 mt-1">
                       {a.domain && (
                         <Badge variant="secondary" className={`text-[10px] px-1.5 py-0 ${DOMAIN_COLORS[a.domain] || ""}`}>
