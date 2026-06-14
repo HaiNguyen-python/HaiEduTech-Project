@@ -141,7 +141,7 @@ const SwedishWritingLab = () => {
                 {prompts.map((p) => (
                   <button
                     key={p.id}
-                    onClick={() => { setActiveId(p.id); setResult(null); }}
+                    onClick={() => { setActiveId(p.id); setResult(null); setShowSample(false); }}
                     className={`w-full text-left rounded-lg border p-3 transition ${
                       p.id === activeId
                         ? "border-primary bg-primary/5"
