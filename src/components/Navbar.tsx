@@ -216,15 +216,15 @@ const Navbar = () => {
   const swedishSubs: SubItem[] = [
     { to: "/swedish", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "#sv-div1", label: "", divider: true },
-    { to: "/swedish/beginner", label: t("🌱 Người mới (A1)", "🌱 Beginner (A1)") },
+    { to: "/swedish/beginner", label: t("🌱 Người mới A1", "🌱 Beginner A1") },
     { to: "/swedish/yki-a2", label: t("❄️ YKI A2 Ruotsi Dashboard", "❄️ YKI A2 Ruotsi Dashboard") },
     { to: "/swedish/yki-b1", label: t("🎯 YKI B1 Ruotsi Dashboard", "🎯 YKI B1 Ruotsi Dashboard") },
     { to: "/swedish/svenskfinland", label: t("🇸🇪 Svenskfinland — Sống bằng tiếng Thụy Điển", "🇸🇪 Svenskfinland — Life in Swedish") },
     { to: "#sv-div2", label: "", divider: true },
-    { to: "/swedish/vocabulary", label: t("📚 Swedish Vocabulary (A1–B1)", "📚 Swedish Vocabulary (A1–B1)") },
-    { to: "/swedish/curriculum", label: t("📖 Interactive Curriculum (Cấu trúc & Hội thoại)", "📖 Interactive Curriculum (Structures & Dialogues)") },
-    { to: "/swedish/skills", label: t("🧪 Skills Lab (Nghe · Đọc · Viết · Nói A1–B1)", "🧪 Skills Lab (Listening · Reading · Writing · Speaking A1–B1)") },
-    { to: "/speaking-coach/swedish", label: t("🗣️ Speaking Coach (luyện phát âm)", "🗣️ Speaking Coach (pronunciation drill)") },
+    { to: "/swedish/vocabulary", label: t("📚 Swedish Vocabulary A1–B1", "📚 Swedish Vocabulary A1–B1") },
+    { to: "/swedish/curriculum", label: t("📖 Interactive Curriculum", "📖 Interactive Curriculum") },
+    { to: "/swedish/skills", label: t("🧪 Skills Lab — Nghe · Đọc · Viết · Nói A1–B1", "🧪 Skills Lab — Listening · Reading · Writing · Speaking A1–B1") },
+    { to: "/speaking-coach/swedish", label: t("🗣️ Speaking Coach", "🗣️ Speaking Coach") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
