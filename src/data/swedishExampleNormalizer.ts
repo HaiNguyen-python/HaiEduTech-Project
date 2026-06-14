@@ -234,17 +234,17 @@ function fill(tmpl: Tmpl, w: SwedishWord): Tmpl {
 
   const sub = (s: string) =>
     s
-      .replaceAll("{ART_C}", aSV.capWord)
-      .replaceAll("{ART}", aSV.full)
-      .replaceAll("{ARTVI_C}", aVI.capWord)
-      .replaceAll("{ARTVI}", aVI.full)
-      .replaceAll("{ARTEN}", aEN.full)
-      .replaceAll("{W_C}", cap(W))
-      .replaceAll("{W}", W)
-      .replaceAll("{VI_C}", cap(VI))
-      .replaceAll("{VI}", VI)
-      .replaceAll("{EN_C}", cap(EN))
-      .replaceAll("{EN}", EN);
+      .split("{ART_C}").join(aSV.capWord)
+      .split("{ART}", aSV.full)
+      .split("{ARTVI_C}", aVI.capWord)
+      .split("{ARTVI}", aVI.full)
+      .split("{ARTEN}", aEN.full)
+      .split("{W_C}", cap(W))
+      .split("{W}", W)
+      .split("{VI_C}", cap(VI))
+      .split("{VI}", VI)
+      .split("{EN_C}", cap(EN))
+      .split("{EN}", EN);
 
   return { sv: sub(tmpl.sv), vi: sub(tmpl.vi), en: sub(tmpl.en) };
 }
