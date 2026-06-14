@@ -29,7 +29,7 @@ interface Lab {
 }
 
 const SwedishSkillsLab = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const labs: Lab[] = [
     {
