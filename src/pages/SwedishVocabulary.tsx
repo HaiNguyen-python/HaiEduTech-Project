@@ -724,9 +724,9 @@ const SwedishVocabulary = () => {
               )}
             </TabsContent>
 
-            {/* Exercise */}
+            {/* Exercise — 5 EdTech review modes */}
             <TabsContent value="exercise">
-              <ExerciseView pool={masteredWords} />
+              <SwedishVocabReviewModes masteredPool={masteredWords} filteredPool={filtered} />
             </TabsContent>
           </Tabs>
 
