@@ -166,7 +166,7 @@ export default function LastSessionRecap() {
               !HIDDEN_TYPES.has(activity.activity_type) &&
               // ẩn các bản ghi rỗng (không có điểm, không có id bài học) để tránh hiển thị mơ hồ
               (activity.score != null || activity.activity_id != null)
-          );
+          ).slice(0, 10);
 
           setActivities(visibleActivities);
           setWritings((writRes.data as WritingAttempt[]) || []);
