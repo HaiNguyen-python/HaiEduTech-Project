@@ -262,6 +262,7 @@ import { SWEDISH_WORDS_MEGA_4 } from "./swedishVocabMega4";
 import { SWEDISH_WORDS_MEGA_5 } from "./swedishVocabMega5";
 import { SWEDISH_WORDS_MEGA_6 } from "./swedishVocabMega6";
 import { SWEDISH_WORDS_MEGA_7 } from "./swedishVocabMega7";
+import { normalizeSwedishWordExamples } from "./swedishExampleNormalizer";
 
 const _LEVEL_ORDER: Record<SwedishLevel, number> = { A1: 1, A2: 2, B1: 3 };
 // Aggregate + dedupe by Swedish form (keep the entry at the easiest level so
@@ -287,7 +288,9 @@ for (const w of _ALL_RAW) {
   if (!prev || _LEVEL_ORDER[w.level] < _LEVEL_ORDER[prev.level]) _BY_KEY.set(key, w);
 }
 // Final list sorted easy → hard (A1 → A2 → B1), then alphabetical inside level.
-export const SWEDISH_WORDS: SwedishWord[] = Array.from(_BY_KEY.values()).sort(
+// Auto-generated examples are normalized into explicit meaning sentences so the
+// bilingual translations stay natural and never read like machine-translated filler.
+export const SWEDISH_WORDS: SwedishWord[] = Array.from(_BY_KEY.values()).map(normalizeSwedishWordExamples).sort(
   (a, b) => _LEVEL_ORDER[a.level] - _LEVEL_ORDER[b.level] || a.sv.localeCompare(b.sv, "sv")
 );
 
