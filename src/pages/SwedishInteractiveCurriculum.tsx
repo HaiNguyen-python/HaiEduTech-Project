@@ -333,7 +333,7 @@ const SpeakButton = ({ text, label }: { text: string; label?: string }) => (
 );
 
 const SwedishInteractiveCurriculum = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [query, setQuery] = useState("");
 
   const filteredVocab = useMemo(() => {
