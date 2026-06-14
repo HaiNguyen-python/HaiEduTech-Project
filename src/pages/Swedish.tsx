@@ -186,6 +186,37 @@ const Swedish = () => {
             ))}
           </div>
 
+          {/* Bonus: Swedish Vocabulary Bank */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="mt-6"
+          >
+            <Link to="/swedish/vocabulary" className="block group">
+              <div className="rounded-2xl border-2 border-dashed border-primary/20 bg-card/60 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 hover:bg-card transition-all flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center text-2xl shadow-md shrink-0">
+                  📚
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                    {t("Swedish Vocabulary — Ngân hàng từ vựng A1 → B1", "Swedish Vocabulary Bank — A1 → B1")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "180+ từ vựng tiếng Thụy Điển theo cấp YKI, flashcard, danh sách, bài tập trắc nghiệm & audio sv-SE.",
+                      "180+ Swedish words by YKI level — flashcards, list view, MCQ exercises and sv-SE audio."
+                    )}
+                  </p>
+                </div>
+                <Button variant="outline" className="gap-2 shrink-0">
+                  {t("Mở Vocabulary", "Open Vocabulary")}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </Link>
+          </motion.div>
+
           {/* Bonus: Interactive Curriculum */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
