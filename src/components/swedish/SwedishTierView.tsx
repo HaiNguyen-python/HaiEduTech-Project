@@ -588,6 +588,50 @@ const B1_LESSONS: Lesson[] = [
     tipVi: "Phỏng vấn ở Phần Lan rất coi trọng 'samarbete' (làm việc nhóm) và 'självständigt arbete' — luôn nhắc cả 2.",
     tipEn: "Finnish interviews value 'samarbete' (teamwork) and 'självständigt arbete' (independence) — always mention both.",
   },
+  {
+    id: "b1-environment",
+    titleVi: "Môi trường & năng lượng tái tạo",
+    titleEn: "Environment & renewable energy",
+    descVi: "Phân tích bài đọc về khí hậu Bắc Âu, tranh luận đề tài xanh.",
+    descEn: "Analyse Nordic climate reading and debate green topics.",
+    skills: ["read", "speak", "write"],
+    formula: "Å ena sidan… å andra sidan…  ·  Det är viktigt att… eftersom…",
+    examples: [
+      { sv: "Sverige satsar stort på vindkraft och solenergi.", vi: "Thụy Điển đầu tư mạnh vào điện gió và mặt trời.", en: "Sweden invests heavily in wind and solar power." },
+      { sv: "Återvinning är en självklarhet i hela Norden.", vi: "Tái chế là chuyện hiển nhiên ở Bắc Âu.", en: "Recycling is taken for granted across the Nordics." },
+      { sv: "Det är viktigt att minska utsläppen eftersom klimatet förändras snabbt.", vi: "Quan trọng là giảm khí thải vì khí hậu thay đổi nhanh.", en: "It's important to cut emissions because the climate is changing fast." },
+    ],
+    vocab: [
+      { sv: "hållbar utveckling", vi: "phát triển bền vững", en: "sustainable development" },
+      { sv: "fossila bränslen", vi: "nhiên liệu hoá thạch", en: "fossil fuels" },
+      { sv: "koldioxidutsläpp", vi: "khí thải CO2", en: "carbon emissions" },
+      { sv: "biologisk mångfald", vi: "đa dạng sinh học", en: "biodiversity" },
+    ],
+    tipVi: "Chủ đề môi trường xuất hiện trong 60% bài Skriva B1. Học sẵn 5 cụm từ vựng để dùng nhanh.",
+    tipEn: "Environmental topics show up in 60% of Skriva B1 prompts. Stock up on 5 ready-to-use phrases.",
+  },
+  {
+    id: "b1-future",
+    titleVi: "Mục tiêu cá nhân & kế hoạch 5 năm",
+    titleEn: "Personal goals & 5-year plan",
+    descVi: "Diễn đạt mong muốn, kế hoạch học tập và sự nghiệp tại Phần Lan/Bắc Âu.",
+    descEn: "Express wishes, study and career plans for life in Finland/the Nordics.",
+    skills: ["speak", "write"],
+    formula: "Om fem år hoppas jag att jag… eftersom jag vill…",
+    examples: [
+      { sv: "Om fem år hoppas jag att jag jobbar som dataingenjör i Finland.", vi: "5 năm nữa tôi mong được làm kỹ sư dữ liệu ở Phần Lan.", en: "In five years I hope to work as a data engineer in Finland." },
+      { sv: "Mitt mål är att klara YKI B1 Ruotsi och få jobb i Vasa.", vi: "Mục tiêu của tôi là đỗ YKI B1 Ruotsi và xin việc tại Vaasa.", en: "My goal is to pass YKI B1 Ruotsi and land a job in Vaasa." },
+      { sv: "Jag planerar att studera vidare på universitetet.", vi: "Tôi định học tiếp lên đại học.", en: "I plan to continue my studies at the university." },
+    ],
+    vocab: [
+      { sv: "mål", vi: "mục tiêu", en: "goal" },
+      { sv: "drömjobb", vi: "công việc mơ ước", en: "dream job" },
+      { sv: "vidareutbildning", vi: "đào tạo nâng cao", en: "further education" },
+      { sv: "karriär", vi: "sự nghiệp", en: "career" },
+    ],
+    tipVi: "Khi nói về tương lai trong Tala B1, dùng cấu trúc 'hoppas att…' để thể hiện ngữ điệu tự nhiên, tránh 'kommer att' trùng lặp.",
+    tipEn: "When talking about the future in Tala B1, use 'hoppas att…' for natural intonation — don't overuse 'kommer att'.",
+  },
 ];
 
 const TIERS: Tier[] = [
