@@ -9,8 +9,8 @@
 import type { SwedishWord } from "./swedishVocabBank";
 
 export const SWEDISH_WORDS_MEGA_2: SwedishWord[] = [
-  { id: "mm646", sv: "alla", pos: "adv.", vi: "tất cả", en: "everyone", example: "Hon arbetar alla.", exampleVi: "Cô ấy làm việc tất cả.", exampleEn: "She works everyone.", level: "A1", category: "abstract" },
-  { id: "mm641", sv: "allt", pos: "adv.", vi: "tất cả", en: "everything", example: "Hon arbetar allt.", exampleVi: "Cô ấy làm việc tất cả.", exampleEn: "She works everything.", level: "A1", category: "abstract" },
+  { id: "mm646", sv: "alla", pos: "pron.", vi: "tất cả mọi người", en: "everyone", example: "Alla mina vänner gillar musik.", exampleVi: "Tất cả bạn của tôi đều thích âm nhạc.", exampleEn: "All my friends like music.", level: "A1", category: "abstract" },
+  { id: "mm641", sv: "allt", pos: "pron.", vi: "tất cả mọi thứ", en: "everything", example: "Tack för allt!", exampleVi: "Cảm ơn vì tất cả!", exampleEn: "Thanks for everything!", level: "A1", category: "abstract" },
   { id: "mm21", sv: "arbeta", pos: "v.", vi: "làm việc", en: "work", example: "Jag vill arbeta.", exampleVi: "Tôi muốn làm việc.", exampleEn: "I want to work.", level: "A1", category: "abstract" },
   { id: "mm107", sv: "arg", pos: "adj.", vi: "giận", en: "angry", example: "Det är arg.", exampleVi: "Nó giận.", exampleEn: "It is angry.", level: "A1", category: "abstract" },
   { id: "mm486", sv: "av", pos: "pron.", vi: "của/bởi", en: "of/by", example: "Vi använder \"av\" ofta.", exampleVi: "Chúng tôi hay dùng \"của/bởi\".", exampleEn: "We often use \"of/by\".", level: "A1", category: "abstract" },
