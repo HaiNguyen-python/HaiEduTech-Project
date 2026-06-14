@@ -11,6 +11,7 @@ export type SwedishLevel = "A1" | "A2" | "B1";
 export interface SwedishWord {
   id: string;            // stable key for mastery tracking
   sv: string;            // Swedish form (lemma)
+  ipa?: string;          // IPA pronunciation (optional, matches IELTS format)
   pos: string;           // part of speech (n., v., adj., adv., phr.)
   article?: "en" | "ett"; // gender for nouns
   vi: string;            // Vietnamese gloss
@@ -52,7 +53,7 @@ const w = (
   level: SwedishLevel, category: string, article?: "en" | "ett"
 ): SwedishWord => ({ id, sv, pos, vi, en, example, exampleVi, exampleEn, level, category, article });
 
-export const SWEDISH_WORDS: SwedishWord[] = [
+const _SWEDISH_CORE_WORDS: SwedishWord[] = [
   // ───────────────────── GREETINGS (A1) ─────────────────────
   w("g1","hej","phr.","chào (thân mật)","hi","Hej, hur mår du?","Chào, bạn khỏe không?","Hi, how are you?","A1","greetings"),
   w("g2","hejdå","phr.","tạm biệt","bye","Hejdå, vi ses imorgon!","Tạm biệt, hẹn gặp ngày mai!","Bye, see you tomorrow!","A1","greetings"),
@@ -243,5 +244,9 @@ export const SWEDISH_WORDS: SwedishWord[] = [
   w("a11","fördel","n.","ưu điểm","advantage","Det finns både fördelar och nackdelar.","Có cả ưu và nhược điểm.","There are both pros and cons.","B1","abstract","en"),
   w("a12","nackdel","n.","nhược điểm","disadvantage","Nackdelen är priset.","Nhược điểm là giá.","The disadvantage is the price.","B1","abstract","en"),
 ];
+
+// Merge expansion bank for richer YKI coverage with IPA.
+import { SWEDISH_WORDS_EXPANSION } from "./swedishVocabExpansion";
+export const SWEDISH_WORDS: SwedishWord[] = [..._SWEDISH_CORE_WORDS, ...SWEDISH_WORDS_EXPANSION];
 
 export const SWEDISH_LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
