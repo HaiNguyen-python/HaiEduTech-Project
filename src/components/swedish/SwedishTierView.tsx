@@ -264,6 +264,49 @@ const A1_LESSONS: Lesson[] = [
     tipVi: "'Tack' lặp lại nhiều lần thay vì 'snälla' — đó là phong cách Bắc Âu lịch sự.",
     tipEn: "Repeat 'Tack' often instead of begging with 'snälla' — that's the Nordic polite style.",
   },
+  {
+    id: "a1-weather-seasons",
+    titleVi: "Thời tiết & 4 mùa Bắc Âu",
+    titleEn: "Weather & the four Nordic seasons",
+    descVi: "Mô tả thời tiết hằng ngày và sự thay đổi 4 mùa — chủ đề bắt buộc trong YKI A1 listening.",
+    descEn: "Describe daily weather and the changing seasons — a recurring YKI A1 listening topic.",
+    skills: ["listen", "speak"],
+    formula: "Det är [adj]   ·   Det [regnar / snöar / blåser]   ·   Temperaturen är [tal] grader.",
+    examples: [
+      { sv: "Det är kallt och det snöar mycket i januari.", vi: "Tháng 1 lạnh và tuyết nhiều.", en: "It's cold and snowing a lot in January." },
+      { sv: "På sommaren går solen knappt ner i norra Sverige.", vi: "Mùa hè mặt trời gần như không lặn ở Bắc Thuỵ Điển.", en: "In summer the sun barely sets in northern Sweden." },
+      { sv: "Idag är det soligt men ganska blåsigt.", vi: "Hôm nay nắng nhưng khá gió.", en: "Today it's sunny but quite windy." },
+    ],
+    vocab: [
+      { sv: "vinter / vår / sommar / höst", vi: "đông / xuân / hè / thu", en: "winter / spring / summer / autumn" },
+      { sv: "soligt / molnigt / regnigt / snöigt", vi: "nắng / nhiều mây / mưa / có tuyết", en: "sunny / cloudy / rainy / snowy" },
+      { sv: "grader (Celsius)", vi: "độ C", en: "degrees Celsius" },
+      { sv: "minusgrader", vi: "nhiệt độ âm", en: "sub-zero" },
+    ],
+    tipVi: "Khi nghe dự báo Yle/SVT, hãy ghi 3 dữ liệu: nhiệt độ, mưa/tuyết, gió. Đó là cấu trúc câu hỏi cố định.",
+    tipEn: "When listening to Yle/SVT forecasts, note 3 data points: temperature, rain/snow, wind. That mirrors the YKI question format.",
+  },
+  {
+    id: "a1-nature-allemansrätten",
+    titleVi: "Thiên nhiên Bắc Âu & Allemansrätten",
+    titleEn: "Nordic nature & the Right of Public Access",
+    descVi: "Từ vựng rừng, hồ, núi và luật Allemansrätten — văn hoá đặc trưng Thuỵ Điển.",
+    descEn: "Forest, lake and fell vocabulary plus Allemansrätten — a uniquely Swedish cultural concept.",
+    skills: ["read", "speak"],
+    examples: [
+      { sv: "Allemansrätten betyder att alla får vandra fritt i skogen.", vi: "Allemansrätten nghĩa là ai cũng được tự do đi bộ trong rừng.", en: "Allemansrätten means everyone may freely roam the forest." },
+      { sv: "Vi plockar bär och svamp på hösten.", vi: "Mùa thu chúng tôi hái dâu và nấm.", en: "We pick berries and mushrooms in autumn." },
+      { sv: "I fjällen bor det renar och älgar.", vi: "Ở vùng núi có nai và tuần lộc.", en: "Reindeer and moose live in the fells." },
+    ],
+    vocab: [
+      { sv: "skog / sjö / fjäll", vi: "rừng / hồ / núi cao", en: "forest / lake / fell" },
+      { sv: "bär (lingon, blåbär)", vi: "dâu (việt quất đỏ/xanh)", en: "berries (lingonberry, blueberry)" },
+      { sv: "vandra", vi: "đi bộ đường dài", en: "to hike" },
+      { sv: "tystnad", vi: "sự yên lặng", en: "silence" },
+    ],
+    tipVi: "Allemansrätten là câu hỏi văn hoá kinh điển — học một định nghĩa 2 câu để dùng trong cả Tala và Skriva.",
+    tipEn: "Allemansrätten is a classic culture question — memorise a 2-sentence definition you can reuse in Tala and Skriva.",
+  },
 ];
 
 
