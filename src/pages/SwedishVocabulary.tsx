@@ -734,6 +734,11 @@ const SwedishVocabulary = () => {
             <TabsContent value="exercise">
               <SwedishVocabReviewModes masteredPool={masteredWords} filteredPool={filtered} />
             </TabsContent>
+
+            {/* QA — quality assurance report */}
+            <TabsContent value="qa">
+              <SwedishVocabQA />
+            </TabsContent>
           </Tabs>
 
           {/* Leaderboard */}
