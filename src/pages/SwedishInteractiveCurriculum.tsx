@@ -449,7 +449,7 @@ const SwedishInteractiveCurriculum = () => {
                           <thead>
                             <tr className="border-b border-border text-left text-xs uppercase text-muted-foreground">
                               <th className="py-2 pr-3 font-semibold">Svenska</th>
-                              <th className="py-2 pr-3 font-semibold">{language === "vi" ? "Tiếng Việt" : "English"}</th>
+                              <th className="py-2 pr-3 font-semibold">{lang === "vi" ? "Tiếng Việt" : "English"}</th>
                               <th className="py-2 pr-3 font-semibold">{t("Ví dụ", "Example")}</th>
                               <th className="py-2 font-semibold text-right">{t("Nghe", "Audio")}</th>
                             </tr>
