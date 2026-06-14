@@ -410,6 +410,49 @@ const A2_LESSONS: Lesson[] = [
     tipVi: "'Jag har ont i + [bộ phận]' = công thức vạn năng. Học thuộc 6 bộ phận cơ thể là đủ cho YKI A2.",
     tipEn: "'Jag har ont i + [body part]' is the universal pattern. Six body-part words cover most YKI A2 cases.",
   },
+  {
+    id: "a2-housing",
+    titleVi: "Tìm nhà & thuê căn hộ",
+    titleEn: "Finding housing & renting",
+    descVi: "Đọc tin rao 'bostad uthyres', hỏi diện tích, tiền cọc, tiện ích.",
+    descEn: "Read 'bostad uthyres' ads, ask about size, deposit and utilities.",
+    skills: ["read", "speak"],
+    formula: "Jag söker en [storlek] i [område] för max [pris] kronor.",
+    examples: [
+      { sv: "Jag söker en tvårummare i Vasa för max 800 euro.", vi: "Tôi tìm căn 2 phòng ở Vaasa, tối đa 800 euro.", en: "I'm looking for a two-room flat in Vaasa, max 800 euro." },
+      { sv: "Ingår el och vatten i hyran?", vi: "Tiền điện và nước có gồm trong giá thuê không?", en: "Are electricity and water included in the rent?" },
+      { sv: "Hur stor är depositionen?", vi: "Tiền cọc là bao nhiêu?", en: "How big is the deposit?" },
+    ],
+    vocab: [
+      { sv: "hyra", vi: "tiền thuê", en: "rent" },
+      { sv: "deposition", vi: "tiền cọc", en: "deposit" },
+      { sv: "möblerad / omöblerad", vi: "có nội thất / không nội thất", en: "furnished / unfurnished" },
+      { sv: "tvårummare / trerummare", vi: "căn 2 phòng / 3 phòng", en: "two-room / three-room flat" },
+    ],
+    tipVi: "Trong Skriva A2, mô tả nhà 'lägenheten' luôn có 'kök', 'badrum', 'sovrum' — học thuộc 3 từ này.",
+    tipEn: "On Skriva A2, describing 'lägenheten' always needs 'kök', 'badrum', 'sovrum' — memorise these three.",
+  },
+  {
+    id: "a2-transport",
+    titleVi: "Mua vé HSL & đi tàu liên thành phố VR",
+    titleEn: "Buying HSL tickets & inter-city VR train",
+    descVi: "Sử dụng app HSL, hỏi tàu VR (Helsinki ↔ Tampere ↔ Vaasa), hiểu thông báo.",
+    descEn: "Use the HSL app, ask about VR trains (Helsinki ↔ Tampere ↔ Vaasa), understand announcements.",
+    skills: ["listen", "read"],
+    examples: [
+      { sv: "En enkelbiljett till Tammerfors, andra klass, tack.", vi: "Một vé một chiều đi Tampere, hạng 2, cảm ơn.", en: "A single ticket to Tampere, second class, please." },
+      { sv: "Tåget från spår fyra avgår om fem minuter.", vi: "Tàu ở ke số 4 sẽ chạy trong 5 phút.", en: "The train from platform four departs in five minutes." },
+      { sv: "Måste jag byta tåg?", vi: "Tôi có phải đổi tàu không?", en: "Do I need to change trains?" },
+    ],
+    vocab: [
+      { sv: "enkelbiljett / tur och retur", vi: "vé một chiều / khứ hồi", en: "single / return ticket" },
+      { sv: "spår", vi: "đường ray (ke ga)", en: "platform" },
+      { sv: "avgång / ankomst", vi: "khởi hành / đến", en: "departure / arrival" },
+      { sv: "byta tåg", vi: "đổi tàu", en: "change trains" },
+    ],
+    tipVi: "Thông báo VR luôn dùng giờ 24 giờ — 'klockan sjutton' = 17:00. Đừng nhầm với 'klockan sju' (07:00).",
+    tipEn: "VR announcements use 24-hour time — 'klockan sjutton' = 17:00. Don't confuse it with 'klockan sju' (07:00).",
+  },
 ];
 
 /* ----- Tier B1 ----- */
