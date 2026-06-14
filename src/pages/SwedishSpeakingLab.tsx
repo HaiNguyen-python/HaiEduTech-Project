@@ -11,7 +11,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Mic, MicOff, Sparkles, Loader2, CheckCircle2, AlertCircle, Volume2, Square,
+  Eye, EyeOff, BookOpen,
 } from "lucide-react";
+import { SWEDISH_SPEAKING_MODEL_ANSWERS } from "@/data/swedishSpeakingModelAnswers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
