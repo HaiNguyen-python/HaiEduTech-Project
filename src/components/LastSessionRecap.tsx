@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, PenTool, StickyNote, GraduationCap, Clock, Star, Trophy } from "lucide-react";
+import { BookOpen, PenTool, StickyNote, GraduationCap, Clock, Star, Trophy, Sparkles, Rocket, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 
 interface Activity {
