@@ -186,12 +186,43 @@ const Swedish = () => {
             ))}
           </div>
 
+          {/* Bonus: Interactive Curriculum */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.5 }}
+            className="mt-6"
+          >
+            <Link to="/swedish/curriculum" className="block group">
+              <div className="rounded-2xl border-2 border-dashed border-primary/20 bg-card/60 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 hover:bg-card transition-all flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-2xl shadow-md shrink-0">
+                  📖
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                    {t("Interactive Curriculum — Từ vựng, Cấu trúc câu & Hội thoại", "Interactive Curriculum — Vocab, Structures & Dialogues")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "Bảng từ vựng theo chủ đề, công thức câu V2/BIFF, và hội thoại có audio tiếng Thụy Điển (sv-SE).",
+                      "Themed vocabulary tables, V2/BIFF sentence formulas and Swedish-audio dialogues (sv-SE)."
+                    )}
+                  </p>
+                </div>
+                <Button variant="outline" className="gap-2 shrink-0">
+                  {t("Mở Curriculum", "Open Curriculum")}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </Link>
+          </motion.div>
+
           {/* Bonus: AI Speaking Coach */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            className="mt-6"
+            className="mt-4"
           >
             <Link to="/speaking-coach/swedish" className="block group">
               <div className="rounded-2xl border-2 border-dashed border-primary/20 bg-card/60 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 hover:bg-card transition-all flex flex-col sm:flex-row items-start sm:items-center gap-4">
