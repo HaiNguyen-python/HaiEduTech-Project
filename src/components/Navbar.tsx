@@ -277,12 +277,12 @@ const Navbar = () => {
   const baseLinks = [
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap },
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
-    { to: "/english", label: t("Học Tiếng Anh", "Learn English"), icon: BookOpen, subs: englishSubs, key: "en" },
-    { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
-    { to: "/learn-vietnamese", label: t("Học Tiếng Việt", "Learn Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
-    { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Globe, subs: finnishSubs, key: "fi" },
-    { to: "/swedish", label: t("Học Tiếng Thụy Điển", "Learn Swedish"), icon: Globe, subs: swedishSubs, key: "sv" },
-    { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
+    { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: englishSubs, key: "en" },
+    { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
+    { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
+    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: finnishSubs, key: "fi" },
+    { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: swedishSubs, key: "sv" },
+    { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     
     { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
     { to: "/dich-vu-web", label: t("Thiết kế Website Giáo dục", "EdTech Website Design"), icon: Sparkles },
