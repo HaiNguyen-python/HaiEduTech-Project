@@ -474,7 +474,7 @@ const SwedishVocabulary = () => {
   const [query, setQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<"all" | SwedishLevel>("all");
   const [catFilter, setCatFilter] = useState<string>("all");
-  const [view, setView] = useState<"flash" | "list" | "exercise">("flash");
+  const [view, setView] = useState<"flash" | "list" | "exercise" | "qa">("flash");
   const [page, setPage] = useState(0);
 
   // Filtered list
