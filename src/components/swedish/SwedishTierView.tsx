@@ -964,6 +964,31 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="space-y-3 pb-4">
+                  {LESSON_DETAILS[l.id] && (
+                    <>
+                      <div className="rounded-md border border-sky-500/30 bg-sky-500/5 p-3">
+                        <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-sky-300">
+                          {t("📖 Giới thiệu cho người mới", "📖 Beginner intro")}
+                        </div>
+                        <p className="text-xs leading-relaxed text-foreground sm:text-sm">
+                          {t(LESSON_DETAILS[l.id].introVi, LESSON_DETAILS[l.id].introEn)}
+                        </p>
+                      </div>
+                      <div className="rounded-md border border-emerald-500/30 bg-emerald-500/5 p-3">
+                        <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
+                          {t("🪜 Các bước học từ cơ bản đến nâng cao", "🪜 Step-by-step learning path")}
+                        </div>
+                        <ol className="ml-1 space-y-1.5 text-xs leading-relaxed text-foreground sm:text-sm">
+                          {(t(LESSON_DETAILS[l.id].stepsVi, LESSON_DETAILS[l.id].stepsEn) as string[]).map((s, i) => (
+                            <li key={i} className="flex gap-2">
+                              <span className="font-semibold text-emerald-600 dark:text-emerald-300">{i + 1}.</span>
+                              <span className="flex-1">{s}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    </>
+                  )}
                   {l.formula && (
                     <div className="rounded-md border border-primary/20 bg-primary/5 p-2.5">
                       <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-primary">
