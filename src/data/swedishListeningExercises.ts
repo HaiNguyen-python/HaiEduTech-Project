@@ -734,4 +734,206 @@ export const SWEDISH_LISTENING_EXERCISES: SwedishListeningExercise[] = [
     ],
     recommendedRate: 1.0,
   },
+
+  // ═══════════════════ A1 extra ═══════════════════
+  {
+    id: "lis-a1-shopping",
+    level: "A1",
+    titleVi: "Thanh toán tại ICA",
+    titleEn: "Paying at ICA supermarket",
+    type: "dialogue",
+    contextVi: "Khách hàng thanh toán tại quầy siêu thị ICA Maxi.",
+    scriptSv:
+      "Hej, hittade du allt du sökte? — Ja tack. — Vill du ha kvittot? — Nej tack. — Det blir tvåhundranittiofem kronor. Du kan betala med kort eller Swish. — Jag tar Swish. — Perfekt. Tack och välkommen åter!",
+    scriptVi:
+      "Chào, bạn tìm thấy mọi thứ chứ? — Vâng, cảm ơn. — Bạn muốn hoá đơn không? — Không, cảm ơn. — Tổng 295 kronor. Bạn có thể trả bằng thẻ hoặc Swish. — Tôi dùng Swish. — Tuyệt. Cảm ơn và hẹn gặp lại!",
+    keyVocab: [
+      { sv: "hittade du allt", vi: "bạn đã tìm thấy mọi thứ chưa" },
+      { sv: "kvittot", vi: "hoá đơn" },
+      { sv: "Swish", vi: "ứng dụng chuyển tiền Thụy Điển" },
+      { sv: "betala med kort", vi: "trả bằng thẻ" },
+      { sv: "välkommen åter", vi: "hẹn gặp lại" },
+    ],
+    questions: [
+      {
+        id: "q1",
+        questionVi: "Tổng hoá đơn?",
+        questionEn: "Total bill?",
+        options: [
+          { sv: "195 kr", vi: "195 kr" },
+          { sv: "275 kr", vi: "275 kr" },
+          { sv: "295 kr", vi: "295 kr" },
+          { sv: "395 kr", vi: "395 kr" },
+        ],
+        correctIndex: 2,
+        explanationVi: "'tvåhundranittiofem' = 295.",
+      },
+      {
+        id: "q2",
+        questionVi: "Khách thanh toán bằng gì?",
+        questionEn: "Payment method?",
+        options: [
+          { sv: "Kontant", vi: "Tiền mặt" },
+          { sv: "Kort", vi: "Thẻ" },
+          { sv: "Swish", vi: "Swish" },
+          { sv: "Klarna", vi: "Klarna" },
+        ],
+        correctIndex: 2,
+        explanationVi: "'Jag tar Swish.'",
+      },
+      {
+        id: "q3",
+        questionVi: "Khách có muốn hoá đơn không?",
+        questionEn: "Receipt?",
+        options: [
+          { sv: "Ja", vi: "Có" },
+          { sv: "Nej", vi: "Không" },
+          { sv: "Mejlat", vi: "Qua email" },
+          { sv: "SMS", vi: "Qua SMS" },
+        ],
+        correctIndex: 1,
+        explanationVi: "'Nej tack.'",
+      },
+    ],
+    recommendedRate: 0.9,
+  },
+
+  // ═══════════════════ A2 extra ═══════════════════
+  {
+    id: "lis-a2-voicemail",
+    level: "A2",
+    titleVi: "Hộp thư thoại từ nha sĩ",
+    titleEn: "Dentist voicemail message",
+    type: "monologue",
+    contextVi: "Bạn nhận tin nhắn thoại từ phòng khám nha khoa Folktandvården.",
+    scriptSv:
+      "Hej, det här är Folktandvården i Solna. Vi ringer för att påminna om din tid i morgon, tisdag den fjortonde mars, klockan halv elva. Om du behöver omboka, ring oss på nummer noll åtta — fyra två sju — sex tre fem på vardagar mellan åtta och sexton. Tack och vi ses i morgon!",
+    scriptVi:
+      "Chào, đây là Folktandvården ở Solna. Chúng tôi nhắc lịch hẹn ngày mai, thứ Ba 14/3, lúc 10:30. Nếu cần đổi lịch, gọi số 08 427 635 vào ngày thường 8–16. Cảm ơn và hẹn ngày mai!",
+    keyVocab: [
+      { sv: "påminna om", vi: "nhắc nhở về" },
+      { sv: "omboka", vi: "đổi lịch" },
+      { sv: "vardagar", vi: "ngày trong tuần" },
+      { sv: "halv elva", vi: "10:30" },
+      { sv: "Folktandvården", vi: "Phòng khám nha khoa công" },
+    ],
+    questions: [
+      {
+        id: "q1",
+        questionVi: "Hẹn vào ngày nào?",
+        questionEn: "Appointment day?",
+        options: [
+          { sv: "Måndag 13/3", vi: "Thứ Hai 13/3" },
+          { sv: "Tisdag 14/3", vi: "Thứ Ba 14/3" },
+          { sv: "Onsdag 15/3", vi: "Thứ Tư 15/3" },
+          { sv: "Torsdag 16/3", vi: "Thứ Năm 16/3" },
+        ],
+        correctIndex: 1,
+        explanationVi: "'tisdag den fjortonde mars'.",
+      },
+      {
+        id: "q2",
+        questionVi: "Giờ hẹn?",
+        questionEn: "Time?",
+        options: [
+          { sv: "10:00", vi: "10:00" },
+          { sv: "10:30", vi: "10:30" },
+          { sv: "11:00", vi: "11:00" },
+          { sv: "11:30", vi: "11:30" },
+        ],
+        correctIndex: 1,
+        explanationVi: "'halv elva' = 10:30 (nửa đến 11).",
+      },
+      {
+        id: "q3",
+        questionVi: "Giờ làm việc của phòng khám?",
+        questionEn: "Clinic hours?",
+        options: [
+          { sv: "07–15", vi: "7h–15h" },
+          { sv: "08–16", vi: "8h–16h" },
+          { sv: "09–17", vi: "9h–17h" },
+          { sv: "10–18", vi: "10h–18h" },
+        ],
+        correctIndex: 1,
+        explanationVi: "'mellan åtta och sexton'.",
+      },
+    ],
+    recommendedRate: 0.95,
+  },
+
+  // ═══════════════════ B1 extra ═══════════════════
+  {
+    id: "lis-b1-housing",
+    level: "B1",
+    titleVi: "Phỏng vấn về khủng hoảng nhà ở",
+    titleEn: "Interview about the housing crisis",
+    type: "news",
+    contextVi: "Phóng viên SR phỏng vấn nhà kinh tế học về thị trường nhà Stockholm.",
+    scriptSv:
+      "Vi har idag intervjuat ekonomen Anna Bergström om bostadssituationen i Stockholm. Anna, hur lång är kötiden för en hyresrätt? — Tyvärr är genomsnittstiden nu cirka nio år, och i de mest attraktiva områdena uppåt tjugo år. Det innebär att unga vuxna ofta tvingas bo kvar hemma längre eller hyra i andra hand till mycket höga priser. — Vad kan göras? — Politikerna måste våga bygga fler hyresrätter, även om det är dyrt på kort sikt. Annars riskerar Stockholm att förlora kompetent arbetskraft till andra städer.",
+    scriptVi:
+      "Hôm nay chúng tôi phỏng vấn kinh tế gia Anna Bergström về tình hình nhà ở Stockholm. Anna, thời gian xếp hàng thuê nhà bao lâu? — Tiếc là trung bình khoảng 9 năm, ở khu hấp dẫn nhất lên tới 20 năm. Điều này khiến người trẻ phải ở nhà bố mẹ lâu hơn hoặc thuê lại với giá rất cao. — Cần làm gì? — Chính trị gia phải dám xây thêm nhà cho thuê, dù ngắn hạn đắt đỏ. Nếu không, Stockholm có nguy cơ mất nhân lực giỏi sang các thành phố khác.",
+    keyVocab: [
+      { sv: "kötid", vi: "thời gian xếp hàng" },
+      { sv: "hyresrätt", vi: "căn hộ thuê dài hạn" },
+      { sv: "hyra i andra hand", vi: "thuê lại" },
+      { sv: "kompetent arbetskraft", vi: "lực lượng lao động giỏi" },
+      { sv: "på kort sikt", vi: "trong ngắn hạn" },
+    ],
+    questions: [
+      {
+        id: "q1",
+        questionVi: "Thời gian chờ trung bình thuê nhà?",
+        questionEn: "Average waiting time?",
+        options: [
+          { sv: "3 år", vi: "3 năm" },
+          { sv: "5 år", vi: "5 năm" },
+          { sv: "9 år", vi: "9 năm" },
+          { sv: "20 år", vi: "20 năm" },
+        ],
+        correctIndex: 2,
+        explanationVi: "'genomsnittstiden nu cirka nio år'.",
+      },
+      {
+        id: "q2",
+        questionVi: "Khu hấp dẫn nhất có thể chờ tới?",
+        questionEn: "Top areas can reach?",
+        options: [
+          { sv: "10 år", vi: "10 năm" },
+          { sv: "15 år", vi: "15 năm" },
+          { sv: "20 år", vi: "20 năm" },
+          { sv: "30 år", vi: "30 năm" },
+        ],
+        correctIndex: 2,
+        explanationVi: "'uppåt tjugo år'.",
+      },
+      {
+        id: "q3",
+        questionVi: "Giải pháp Anna đề xuất?",
+        questionEn: "Anna's proposed solution?",
+        options: [
+          { sv: "Höja skatter", vi: "Tăng thuế" },
+          { sv: "Bygga fler hyresrätter", vi: "Xây thêm nhà cho thuê" },
+          { sv: "Begränsa invandring", vi: "Giảm nhập cư" },
+          { sv: "Sänka räntan", vi: "Giảm lãi suất" },
+        ],
+        correctIndex: 1,
+        explanationVi: "'bygga fler hyresrätter'.",
+      },
+      {
+        id: "q4",
+        questionVi: "Hậu quả nếu không hành động?",
+        questionEn: "Consequence of inaction?",
+        options: [
+          { sv: "Förlora kompetent arbetskraft", vi: "Mất nhân lực giỏi" },
+          { sv: "Bygga för många hus", vi: "Xây quá nhiều nhà" },
+          { sv: "Höja löner", vi: "Tăng lương" },
+          { sv: "Stänga universitet", vi: "Đóng cửa đại học" },
+        ],
+        correctIndex: 0,
+        explanationVi: "Câu cuối: 'förlora kompetent arbetskraft'.",
+      },
+    ],
+    recommendedRate: 1.0,
+  },
 ];
