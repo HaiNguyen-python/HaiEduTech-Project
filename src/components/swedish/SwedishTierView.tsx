@@ -979,7 +979,7 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
                           {t("🪜 Các bước học từ cơ bản đến nâng cao", "🪜 Step-by-step learning path")}
                         </div>
                         <ol className="ml-1 space-y-1.5 text-xs leading-relaxed text-foreground sm:text-sm">
-                          {(t(LESSON_DETAILS[l.id].stepsVi, LESSON_DETAILS[l.id].stepsEn) as string[]).map((s, i) => (
+                          {(lang === "vi" ? LESSON_DETAILS[l.id].stepsVi : LESSON_DETAILS[l.id].stepsEn).map((s, i) => (
                             <li key={i} className="flex gap-2">
                               <span className="font-semibold text-emerald-600 dark:text-emerald-300">{i + 1}.</span>
                               <span className="flex-1">{s}</span>
