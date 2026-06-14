@@ -268,6 +268,7 @@ const Navbar = () => {
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/learn-vietnamese", label: t("Học Tiếng Việt", "Learn Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
     { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Globe, subs: finnishSubs, key: "fi" },
+    { to: "/swedish", label: t("Học Tiếng Thụy Điển", "Learn Swedish"), icon: Globe },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     
     { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
