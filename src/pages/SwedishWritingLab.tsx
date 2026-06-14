@@ -48,6 +48,7 @@ const SwedishWritingLab = () => {
   const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
+  const [showSample, setShowSample] = useState(false);
 
   const prompts = useMemo(
     () => SWEDISH_WRITING_PROMPTS.filter((p) => p.level === level),
