@@ -155,8 +155,17 @@ export default function LastSessionRecap() {
               .limit(5),
           ]);
 
+          const HIDDEN_TYPES = new Set([
+            "session_heartbeat",
+            "daily_login",
+            "page_view",
+            "page_visit",
+          ]);
           const visibleActivities = ((actRes.data as Activity[]) || []).filter(
-            (activity) => activity.activity_type !== "session_heartbeat"
+            (activity) =>
+              !HIDDEN_TYPES.has(activity.activity_type) &&
+              // ẩn các bản ghi rỗng (không có điểm, không có id bài học) để tránh hiển thị mơ hồ
+              (activity.score != null || activity.activity_id != null)
           );
 
           setActivities(visibleActivities);
