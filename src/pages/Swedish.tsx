@@ -342,6 +342,38 @@ const Swedish = () => {
             </Link>
           </motion.div>
 
+          {/* Bonus: Reading Lab */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.495, duration: 0.5 }}
+            className="mt-4"
+          >
+            <Link to="/swedish/reading" className="block group">
+              <div className="rounded-2xl border-2 border-dashed border-primary/20 bg-card/60 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 hover:bg-card transition-all flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-rose-500 to-orange-600 flex items-center justify-center text-2xl shadow-md shrink-0">
+                  📚
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                    {t("Reading Lab — Luyện đọc Läsförståelse A1–B1", "Reading Lab — Läsförståelse A1–B1")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "8+ văn bản thực tế: email, rao Blocket, thông báo chung cư, blog, bản tin SVT/DN, truyện ngắn. MCQ + T/F + từ vựng trong văn cảnh, có TTS đọc bài.",
+                      "8+ real-world texts: emails, Blocket ads, building notices, blog, SVT/DN news, short stories. MCQ + T/F + vocab-in-context, with TTS reader.",
+                    )}
+                  </p>
+                </div>
+                <Button variant="outline" className="gap-2 shrink-0">
+                  {t("Mở Reading Lab", "Open Reading Lab")}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </Link>
+          </motion.div>
+
+
           {/* Bonus: AI Speaking Coach */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
