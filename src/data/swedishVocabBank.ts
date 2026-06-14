@@ -30,7 +30,9 @@ export interface SwedishCategory {
   nameEn: string;
 }
 
-export const SWEDISH_CATEGORIES: SwedishCategory[] = [
+import { SWEDISH_CATEGORIES_EXTRA } from "./swedishVocabExpansion2";
+
+const _SWEDISH_CATEGORIES_CORE: SwedishCategory[] = [
   { id: "greetings",  emoji: "👋", nameVi: "Chào hỏi & xã giao",   nameEn: "Greetings & social" },
   { id: "family",     emoji: "👨‍👩‍👧", nameVi: "Gia đình & bản thân", nameEn: "Family & self" },
   { id: "numbers",    emoji: "🕐", nameVi: "Số đếm & thời gian",   nameEn: "Numbers & time" },
@@ -45,6 +47,11 @@ export const SWEDISH_CATEGORIES: SwedishCategory[] = [
   { id: "environment",emoji: "🌱", nameVi: "Môi trường",           nameEn: "Environment" },
   { id: "opinion",    emoji: "💬", nameVi: "Ý kiến & lập luận",    nameEn: "Opinion & argument" },
   { id: "abstract",   emoji: "✨", nameVi: "Từ trừu tượng B1",     nameEn: "Abstract B1 nouns" },
+];
+
+export const SWEDISH_CATEGORIES: SwedishCategory[] = [
+  ..._SWEDISH_CATEGORIES_CORE,
+  ...SWEDISH_CATEGORIES_EXTRA,
 ];
 
 const w = (
@@ -245,8 +252,13 @@ const _SWEDISH_CORE_WORDS: SwedishWord[] = [
   w("a12","nackdel","n.","nhược điểm","disadvantage","Nackdelen är priset.","Nhược điểm là giá.","The disadvantage is the price.","B1","abstract","en"),
 ];
 
-// Merge expansion bank for richer YKI coverage with IPA.
+// Merge expansion banks for richer YKI coverage with IPA + extra categories.
 import { SWEDISH_WORDS_EXPANSION } from "./swedishVocabExpansion";
-export const SWEDISH_WORDS: SwedishWord[] = [..._SWEDISH_CORE_WORDS, ...SWEDISH_WORDS_EXPANSION];
+import { SWEDISH_WORDS_EXPANSION_2 } from "./swedishVocabExpansion2";
+export const SWEDISH_WORDS: SwedishWord[] = [
+  ..._SWEDISH_CORE_WORDS,
+  ...SWEDISH_WORDS_EXPANSION,
+  ...SWEDISH_WORDS_EXPANSION_2,
+];
 
 export const SWEDISH_LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
