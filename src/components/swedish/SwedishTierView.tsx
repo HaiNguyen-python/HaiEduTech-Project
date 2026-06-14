@@ -496,6 +496,49 @@ const A2_LESSONS: Lesson[] = [
     tipVi: "Thông báo VR luôn dùng giờ 24 giờ — 'klockan sjutton' = 17:00. Đừng nhầm với 'klockan sju' (07:00).",
     tipEn: "VR announcements use 24-hour time — 'klockan sjutton' = 17:00. Don't confuse it with 'klockan sju' (07:00).",
   },
+  {
+    id: "a2-doctor-visit",
+    titleVi: "Đi khám bác sĩ ở Vårdcentral",
+    titleEn: "Visiting a doctor at the Vårdcentral",
+    descVi: "Đặt lịch 1177, mô tả triệu chứng và hiểu chỉ dẫn dùng thuốc — kịch bản YKI A2 Tala phổ biến.",
+    descEn: "Book via 1177, describe symptoms and follow medication instructions — a frequent YKI A2 Tala scenario.",
+    skills: ["speak", "listen"],
+    formula: "Jag har ont i [kroppsdel]   ·   Det gör ont när jag [verb]   ·   Jag känner mig [adj].",
+    examples: [
+      { sv: "Jag har ont i halsen och hög feber sedan i går.", vi: "Tôi đau họng và sốt cao từ hôm qua.", en: "I have a sore throat and a high fever since yesterday." },
+      { sv: "Kan jag boka en tid med en läkare imorgon?", vi: "Tôi có thể đặt lịch bác sĩ ngày mai không?", en: "Can I book an appointment with a doctor tomorrow?" },
+      { sv: "Ta en tablett tre gånger om dagen efter maten.", vi: "Uống 1 viên 3 lần/ngày sau ăn.", en: "Take one tablet three times a day after meals." },
+    ],
+    vocab: [
+      { sv: "vårdcentral", vi: "trung tâm y tế cơ sở", en: "primary healthcare clinic" },
+      { sv: "recept", vi: "đơn thuốc", en: "prescription" },
+      { sv: "apotek", vi: "hiệu thuốc", en: "pharmacy" },
+      { sv: "biverkning", vi: "tác dụng phụ", en: "side effect" },
+    ],
+    tipVi: "Trong Tala A2, đừng kể bệnh dài dòng — chỉ cần 3 câu: triệu chứng + khi nào bắt đầu + bạn cần gì.",
+    tipEn: "In Tala A2 don't ramble — just 3 sentences: symptom + when it started + what you need.",
+  },
+  {
+    id: "a2-emotions-small-talk",
+    titleVi: "Cảm xúc & small-talk văn phòng",
+    titleEn: "Emotions & office small-talk",
+    descVi: "Hỏi thăm đồng nghiệp, mô tả tâm trạng và phản ứng lịch sự — luyện phản xạ Tala A2.",
+    descEn: "Greet colleagues, describe moods and respond politely — Tala A2 reflex practice.",
+    skills: ["speak", "write"],
+    examples: [
+      { sv: "Hur mår du idag? – Tack, jag är ganska trött men glad.", vi: "Hôm nay bạn sao? – Cảm ơn, hơi mệt nhưng vui.", en: "How are you today? – Thanks, a bit tired but happy." },
+      { sv: "Jag är lite nervös inför mötet klockan tre.", vi: "Tôi hơi lo trước cuộc họp 3 giờ.", en: "I'm a bit nervous about the 3 o'clock meeting." },
+      { sv: "Det är synd att höra. Hoppas du mår bättre snart.", vi: "Tiếc quá. Mong bạn sớm khoẻ.", en: "Sorry to hear that. Hope you feel better soon." },
+    ],
+    vocab: [
+      { sv: "glad / ledsen / trött / stressad", vi: "vui / buồn / mệt / căng thẳng", en: "happy / sad / tired / stressed" },
+      { sv: "hoppas att …", vi: "hy vọng rằng…", en: "hope that…" },
+      { sv: "synd / tråkigt / kul", vi: "tiếc / chán / vui", en: "a pity / boring / fun" },
+      { sv: "ta hand om dig", vi: "giữ gìn sức khoẻ", en: "take care" },
+    ],
+    tipVi: "Phản xạ với cụm 'Det är synd' / 'Vad kul!' để câu trả lời tự nhiên hơn 'Ja' / 'Nej' đơn lẻ.",
+    tipEn: "React with 'Det är synd' / 'Vad kul!' to sound more natural than a bare 'Ja' / 'Nej'.",
+  },
 ];
 
 /* ----- Tier B1 ----- */
