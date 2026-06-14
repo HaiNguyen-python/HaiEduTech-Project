@@ -274,6 +274,7 @@ const _ALL_RAW: SwedishWord[] = [
   ...SWEDISH_WORDS_MEGA_3,
   ...SWEDISH_WORDS_MEGA_4,
   ...SWEDISH_WORDS_MEGA_5,
+  ...SWEDISH_WORDS_MEGA_6,
 ];
 const _BY_KEY = new Map<string, SwedishWord>();
 for (const w of _ALL_RAW) {
