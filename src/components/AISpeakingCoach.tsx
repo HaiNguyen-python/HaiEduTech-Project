@@ -543,6 +543,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     try {
       if (language === "finnish") {
         await playFinnishTts(currentSentence.text);
+      } else if (language === "swedish") {
+        await playSwedishTts(currentSentence.text, { playbackRate: 0.9 });
       } else {
         const utterance = new SpeechSynthesisUtterance(currentSentence.text);
         utterance.lang = config.speechLang;
