@@ -378,7 +378,7 @@ export default function LastSessionRecap() {
 
             <TabsContent value="notes" className="space-y-2 mt-3">
               {notebooks.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">Chưa có ghi chú nào</p>
+                <EncouragementEmpty tab="notes" onClose={() => setOpen(false)} />
               ) : notebooks.map((n, i) => (
                 <div key={i} className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex items-center justify-between">
