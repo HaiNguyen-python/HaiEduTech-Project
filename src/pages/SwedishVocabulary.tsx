@@ -95,6 +95,127 @@ const levelColors: Record<SwedishLevel, string> = {
 /* Flashcard                                                                   */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Mini speak-back panel: user records, browser transcribes Swedish via
+ * the Web Speech API (sv-SE), and we score word overlap vs. the target.
+ */
+const SpeakBack = ({ target }: { target: string }) => {
+  const { t } = useLanguage();
+  const SR: any =
+    (typeof window !== "undefined" &&
+      ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition)) ||
+    null;
+  const supported = !!SR;
+  const recRef = useRef<any>(null);
+  const [listening, setListening] = useState(false);
+  const [heard, setHeard] = useState("");
+  const [score, setScore] = useState<number | null>(null);
+
+  const start = () => {
+    if (!supported) return;
+    try { recRef.current?.stop(); } catch { /* noop */ }
+    const rec = new SR();
+    recRef.current = rec;
+    rec.lang = "sv-SE";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+    rec.onresult = (e: any) => {
+      const text = e.results?.[0]?.[0]?.transcript ?? "";
+      setHeard(text);
+      setScore(Math.round(similarityScore(target, text) * 100));
+    };
+    rec.onend = () => setListening(false);
+    rec.onerror = () => setListening(false);
+    setListening(true);
+    setHeard("");
+    setScore(null);
+    try { rec.start(); } catch { setListening(false); }
+  };
+
+  const stop = () => { try { recRef.current?.stop(); } catch { /* noop */ } setListening(false); };
+
+  if (!supported) {
+    return (
+      <p className="text-[11px] text-muted-foreground italic">
+        {t("Trình duyệt không hỗ trợ ghi âm — dùng Chrome để luyện nói.",
+           "Speech recognition unavailable — open in Chrome to practise speaking.")}
+      </p>
+    );
+  }
+
+  const tone =
+    score == null ? "" :
+    score >= 80 ? "text-emerald-500" :
+    score >= 50 ? "text-amber-500" : "text-rose-500";
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center gap-2">
+        <Button
+          size="sm"
+          variant={listening ? "destructive" : "outline"}
+          onClick={(e) => { e.stopPropagation(); listening ? stop() : start(); }}
+          className="h-7 gap-1.5 text-xs"
+        >
+          {listening ? <MicOff className="h-3.5 w-3.5" /> : <Mic className="h-3.5 w-3.5" />}
+          {listening ? t("Dừng", "Stop") : t("Nói lại câu", "Speak it back")}
+        </Button>
+        {score != null && (
+          <span className={`text-xs font-bold ${tone}`}>{score}%</span>
+        )}
+      </div>
+      {heard && (
+        <p className="text-[11px] text-muted-foreground">
+          <span className="font-semibold">{t("Bạn đã nói: ", "You said: ")}</span>“{heard}”
+        </p>
+      )}
+    </div>
+  );
+};
+
+/**
+ * Mini rewrite panel: user types the example sentence, we score character/word
+ * accuracy. Trains spelling of å/ä/ö and Swedish word order.
+ */
+const RewriteBack = ({ target }: { target: string }) => {
+  const { t } = useLanguage();
+  const [value, setValue] = useState("");
+  const [checked, setChecked] = useState(false);
+  const score = useMemo(() => Math.round(similarityScore(target, value) * 100), [target, value]);
+  const exact = normalizeSv(target) === normalizeSv(value);
+  return (
+    <div className="space-y-1.5">
+      <Input
+        value={value}
+        onChange={(e) => { setValue(e.target.value); setChecked(false); }}
+        onClick={(e) => e.stopPropagation()}
+        placeholder={t("Gõ lại câu ví dụ bằng tiếng Thụy Điển…", "Type the example sentence in Swedish…")}
+        className="h-8 text-xs"
+      />
+      <div className="flex items-center gap-2">
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={(e) => { e.stopPropagation(); setChecked(true); }}
+          className="h-7 gap-1.5 text-xs"
+        >
+          <PenLine className="h-3.5 w-3.5" />
+          {t("Kiểm tra", "Check")}
+        </Button>
+        {checked && (
+          <span className={`text-xs font-bold ${exact ? "text-emerald-500" : score >= 70 ? "text-amber-500" : "text-rose-500"}`}>
+            {exact ? "✓ 100%" : `${score}%`}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
+/* Flashcard — auto-expanding (no 3D flip) to fit speak/rewrite practice       */
+/* -------------------------------------------------------------------------- */
+
 const Flashcard = ({
   word,
   mastered,
@@ -104,71 +225,91 @@ const Flashcard = ({
   mastered: boolean;
   onToggle: (id: string) => void;
 }) => {
-  const [flipped, setFlipped] = useState(false);
+  const [open, setOpen] = useState(false);
   const { t } = useLanguage();
   return (
-    <div className="cursor-pointer perspective-1000 h-64" onClick={() => setFlipped(!flipped)}>
-      <motion.div
-        className="relative w-full h-full"
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.45 }}
-        style={{ transformStyle: "preserve-3d" }}
-      >
-        {/* Front */}
-        <div
-          className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col items-center justify-center gap-2 shadow-sm"
-          style={{ backfaceVisibility: "hidden" }}
-        >
-          <div className="absolute top-2 right-2 flex items-center gap-1">
-            <button
-              onClick={(e) => { e.stopPropagation(); onToggle(word.id); }}
-              className="p-1.5 rounded-full hover:bg-amber-500/10 transition-colors"
-              aria-label="Toggle mastered"
-            >
-              <Star className={`w-4 h-4 ${mastered ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
-            </button>
+    <div
+      className="rounded-xl border border-border bg-card p-4 shadow-sm hover:border-primary/40 transition-colors cursor-pointer"
+      onClick={() => setOpen((v) => !v)}
+    >
+      {/* Header row */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            {word.article && (
+              <Badge variant="outline" className="text-[10px] uppercase">{word.article}</Badge>
+            )}
+            <p className="text-xl md:text-2xl font-bold text-foreground leading-tight">{word.sv}</p>
             <Badge className={levelColors[word.level]} variant="outline">{word.level}</Badge>
           </div>
-          {word.article && (
-            <Badge variant="outline" className="mb-1 text-[10px] uppercase">
-              {word.article}
-            </Badge>
+          {word.ipa && (
+            <p className="font-mono text-xs text-muted-foreground mt-0.5">{word.ipa}</p>
           )}
-          <p className="text-2xl md:text-3xl font-bold text-foreground text-center leading-tight">
-            {word.article ? `${word.article} ${word.sv}` : word.sv}
-          </p>
-          <p className="text-xs italic text-muted-foreground">{word.pos}</p>
+          <p className="text-[11px] italic text-muted-foreground">{word.pos}</p>
+        </div>
+        <div className="flex items-center gap-1 shrink-0">
           <button
             onClick={(e) => { e.stopPropagation(); speakSwedish(word.sv); }}
-            className="mt-2 p-2 rounded-full hover:bg-primary/10 transition-colors"
+            className="p-2 rounded-full hover:bg-primary/10 transition-colors"
             aria-label="Play Swedish"
           >
-            <Volume2 className="w-5 h-5 text-primary" />
+            <Volume2 className="w-4 h-4 text-primary" />
           </button>
-          <p className="text-[11px] text-muted-foreground mt-1">{t("Bấm để lật", "Tap to flip")}</p>
+          <button
+            onClick={(e) => { e.stopPropagation(); onToggle(word.id); }}
+            className="p-1.5 rounded-full hover:bg-amber-500/10 transition-colors"
+            aria-label="Toggle mastered"
+          >
+            <Star className={`w-4 h-4 ${mastered ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
+          </button>
         </div>
-        {/* Back */}
-        <div
-          className="absolute inset-0 rounded-xl border border-border bg-card p-4 flex flex-col justify-center gap-2 shadow-sm"
-          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-        >
-          <p className="text-sm font-semibold text-primary">{t(word.vi, word.en)}</p>
-          <p className="text-xs text-muted-foreground">{t(word.en, word.vi)}</p>
-          <div className="mt-1 p-2.5 rounded-lg bg-secondary/50 space-y-1">
-            <div className="flex items-start justify-between gap-2">
-              <p className="text-sm font-bold text-foreground leading-snug">"{word.example}"</p>
-              <button
-                onClick={(e) => { e.stopPropagation(); speakSwedish(word.example); }}
-                className="p-1 rounded hover:bg-primary/10 shrink-0"
-                aria-label="Play example"
-              >
-                <Volume2 className="w-4 h-4 text-primary" />
-              </button>
+      </div>
+
+      {/* Meanings */}
+      <div className="mt-2">
+        <p className="text-sm font-semibold text-primary">{t(word.vi, word.en)}</p>
+        <p className="text-xs text-muted-foreground">{t(word.en, word.vi)}</p>
+      </div>
+
+      {/* Example */}
+      <div className="mt-2 p-2.5 rounded-lg bg-secondary/50">
+        <div className="flex items-start justify-between gap-2">
+          <p className="text-sm font-bold text-foreground leading-snug">“{word.example}”</p>
+          <button
+            onClick={(e) => { e.stopPropagation(); speakSwedish(word.example); }}
+            className="p-1 rounded hover:bg-primary/10 shrink-0"
+            aria-label="Play example"
+          >
+            <Volume2 className="w-4 h-4 text-primary" />
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground italic mt-1">{t(word.exampleVi, word.exampleEn)}</p>
+      </div>
+
+      {/* Practice (expandable) */}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="mt-3 pt-3 border-t border-border/60 space-y-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                {t("Luyện chủ động", "Active practice")}
+              </p>
+              <SpeakBack target={word.example} />
+              <RewriteBack target={word.example} />
             </div>
-            <p className="text-xs text-muted-foreground italic">{t(word.exampleVi, word.exampleEn)}</p>
-          </div>
-        </div>
-      </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <p className="mt-2 text-[10px] text-muted-foreground text-center">
+        {open ? t("Bấm để thu gọn", "Tap to collapse") : t("Bấm để luyện nói + viết lại", "Tap to practise speaking + rewriting")}
+      </p>
     </div>
   );
 };
