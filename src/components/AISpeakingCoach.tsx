@@ -12,6 +12,7 @@ import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
 import { playFinnishTts } from "@/lib/finnishTts";
+import { playSwedishTts } from "@/lib/swedishTts";
 import { supabase } from "@/integrations/supabase/client";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 
@@ -542,6 +543,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     try {
       if (language === "finnish") {
         await playFinnishTts(currentSentence.text);
+      } else if (language === "swedish") {
+        await playSwedishTts(currentSentence.text, { playbackRate: 0.9 });
       } else {
         const utterance = new SpeechSynthesisUtterance(currentSentence.text);
         utterance.lang = config.speechLang;
