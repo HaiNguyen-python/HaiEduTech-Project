@@ -561,6 +561,28 @@ const A2_LESSONS: Lesson[] = [
     tipVi: "Phản xạ với cụm 'Det är synd' / 'Vad kul!' để câu trả lời tự nhiên hơn 'Ja' / 'Nej' đơn lẻ.",
     tipEn: "React with 'Det är synd' / 'Vad kul!' to sound more natural than a bare 'Ja' / 'Nej'.",
   },
+  {
+    id: "a2-bank-id",
+    titleVi: "Mở tài khoản ngân hàng & BankID",
+    titleEn: "Opening a bank account & BankID",
+    descVi: "Hỏi điều kiện, chuẩn bị giấy tờ và đặt lịch hẹn tại Nordea / SEB — chủ đề YKI A2 cao tần.",
+    descEn: "Ask requirements, prepare documents and book an appointment at Nordea / SEB — high-frequency YKI A2 topic.",
+    skills: ["read", "speak"],
+    formula: "Jag skulle vilja [verb] …  ·  Vad behöver jag ta med mig?",
+    examples: [
+      { sv: "Jag skulle vilja öppna ett bankkonto och få BankID.", vi: "Tôi muốn mở tài khoản ngân hàng và lấy BankID.", en: "I'd like to open a bank account and get BankID." },
+      { sv: "Vilka dokument behöver jag ta med mig?", vi: "Tôi cần mang theo giấy tờ gì?", en: "What documents do I need to bring?" },
+      { sv: "Kan jag boka en tid på torsdag eftermiddag?", vi: "Tôi đặt lịch chiều thứ năm được không?", en: "Can I book an appointment Thursday afternoon?" },
+    ],
+    vocab: [
+      { sv: "personnummer", vi: "mã định danh cá nhân", en: "personal ID number" },
+      { sv: "uppehållstillstånd", vi: "giấy phép cư trú", en: "residence permit" },
+      { sv: "konto / kort", vi: "tài khoản / thẻ", en: "account / card" },
+      { sv: "BankID", vi: "định danh số Thuỵ Điển", en: "Swedish digital ID" },
+    ],
+    tipVi: "Cụm 'Jag skulle vilja…' chuyển nhanh giọng A2 từ trẻ con sang người lớn — luôn dùng khi đến cơ quan.",
+    tipEn: "The phrase 'Jag skulle vilja…' instantly bumps A2 tone from childish to adult — use at every office visit.",
+  },
 ];
 
 /* ----- Tier B1 ----- */
