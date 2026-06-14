@@ -1043,6 +1043,30 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
                       </p>
                     </div>
                   )}
+                  {LESSON_DETAILS[l.id] && (
+                    <>
+                      <div className="rounded-md border border-rose-500/30 bg-rose-500/5 p-3">
+                        <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-300">
+                          {t("⚠️ Lỗi thường gặp & cách tránh", "⚠️ Common pitfalls")}
+                        </div>
+                        <ul className="ml-1 space-y-1 text-xs leading-relaxed text-foreground sm:text-sm">
+                          {(lang === "vi" ? LESSON_DETAILS[l.id].pitfallsVi : LESSON_DETAILS[l.id].pitfallsEn).map((p, i) => (
+                            <li key={i}>{p}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="rounded-md border border-violet-500/30 bg-violet-500/5 p-3">
+                        <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-violet-600 dark:text-violet-300">
+                          {t("🎯 Bài tập tự luyện ngay", "🎯 Practice now")}
+                        </div>
+                        <ul className="ml-1 space-y-1 text-xs leading-relaxed text-foreground sm:text-sm">
+                          {(lang === "vi" ? LESSON_DETAILS[l.id].practiceVi : LESSON_DETAILS[l.id].practiceEn).map((p, i) => (
+                            <li key={i}>{p}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </>
+                  )}
                 </AccordionContent>
               </AccordionItem>
             ))}
