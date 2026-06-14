@@ -5,7 +5,7 @@
  *              useMasteredVocab). Mirrors the HSK / Vietnamese vocab pages.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -21,6 +21,9 @@ import {
   Dumbbell,
   BookOpen,
   Sparkles,
+  Mic,
+  MicOff,
+  PenLine,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -33,6 +36,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
 import {
   SWEDISH_WORDS,
   SWEDISH_CATEGORIES,
@@ -47,13 +51,29 @@ const WORDS_PER_PAGE = 12;
 /* Helpers                                                                     */
 /* -------------------------------------------------------------------------- */
 
+// Play Swedish with Google-quality voice (proxy → fallback to sv-SE native).
 const speakSwedish = (text: string) => {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "sv-SE";
-  u.rate = 0.85;
-  window.speechSynthesis.speak(u);
+  stopSwedishTts();
+  void playSwedishTts(text, { playbackRate: 0.95, speechRate: 0.85 });
+};
+
+// Normalize a Swedish utterance for fuzzy comparison.
+const normalizeSv = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFC")
+    .replace(/[.,!?;:"'()]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+// Word-level similarity 0–1, tolerant of small misses.
+const similarityScore = (a: string, b: string) => {
+  const A = normalizeSv(a).split(" ").filter(Boolean);
+  const B = new Set(normalizeSv(b).split(" ").filter(Boolean));
+  if (A.length === 0) return 0;
+  let hits = 0;
+  for (const w of A) if (B.has(w)) hits += 1;
+  return hits / A.length;
 };
 
 const shuffle = <T,>(arr: T[]): T[] => {
