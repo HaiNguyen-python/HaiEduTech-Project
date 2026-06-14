@@ -49,13 +49,15 @@ import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
 import { finnishVocabExpansion5Modules } from "@/data/finnishCurriculum/vocabularyExpansion5";
 import { finnishVocabExpansion6Modules } from "@/data/finnishCurriculum/vocabularyExpansion6";
+import { finnishVocabExpansion7Modules } from "@/data/finnishCurriculum/vocabularyExpansion7";
 import { finnishLessonExpansion3Modules } from "@/data/finnishCurriculum/lessonsExpansion3";
 import { finnishLessonExpansion4Modules } from "@/data/finnishCurriculum/lessonsExpansion4";
 import { finnishLessonExpansion5Modules } from "@/data/finnishCurriculum/lessonsExpansion5";
 import { finnishLessonExpansion6Modules } from "@/data/finnishCurriculum/lessonsExpansion6";
-const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules, ...finnishVocabExpansion5Modules, ...finnishVocabExpansion6Modules];
+import { finnishLessonExpansion7Modules } from "@/data/finnishCurriculum/lessonsExpansion7";
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules, ...finnishVocabExpansion5Modules, ...finnishVocabExpansion6Modules, ...finnishVocabExpansion7Modules];
 const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules, ...finnishMockExamExpansion3Modules, ...finnishMockExamExpansion4Modules];
-const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules, ...finnishLessonExpansion2Modules, ...finnishLessonExpansion3Modules, ...finnishLessonExpansion4Modules, ...finnishLessonExpansion5Modules, ...finnishLessonExpansion6Modules];
+const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules, ...finnishLessonExpansion2Modules, ...finnishLessonExpansion3Modules, ...finnishLessonExpansion4Modules, ...finnishLessonExpansion5Modules, ...finnishLessonExpansion6Modules, ...finnishLessonExpansion7Modules];
 
 // Verb conjugation helper data
 const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> = {

@@ -30,8 +30,10 @@ import { getSpeakingSample } from "@/data/ykiB1SpeakingSamples";
 import { B1_VOCAB_MODULES } from "@/data/ykiB1Vocabulary";
 import { B1_VOCAB_EXPANSION_MODULES } from "@/data/ykiB1VocabularyExpansion";
 import { B1_VOCAB_EXPANSION_MODULES_2 } from "@/data/ykiB1VocabularyExpansion2";
+import { B1_VOCAB_EXPANSION_MODULES_3 } from "@/data/ykiB1VocabularyExpansion3";
 import { B1_GRAMMAR_MODULES } from "@/data/ykiB1Grammar";
 import { B1_GRAMMAR_EXPANSION_MODULES } from "@/data/ykiB1GrammarExpansion";
+import { B1_GRAMMAR_EXPANSION_MODULES_2 } from "@/data/ykiB1GrammarExpansion2";
 import { B1_WRITING_SAMPLES } from "@/data/ykiB1WritingSamples";
 import { Lightbulb } from "lucide-react";
 
@@ -744,7 +746,7 @@ const YkiB1Dashboard = () => {
                 )}
               </p>
             </Card>
-            {[...B1_VOCAB_MODULES, ...B1_VOCAB_EXPANSION_MODULES, ...B1_VOCAB_EXPANSION_MODULES_2].map(mod => (
+            {[...B1_VOCAB_MODULES, ...B1_VOCAB_EXPANSION_MODULES, ...B1_VOCAB_EXPANSION_MODULES_2, ...B1_VOCAB_EXPANSION_MODULES_3].map(mod => (
               <Card key={mod.id} className="p-5">
                 <div className="mb-3">
                   <h3 className="text-lg font-bold flex items-center gap-2">
@@ -806,7 +808,7 @@ const YkiB1Dashboard = () => {
                 )}
               </p>
             </Card>
-            {[...B1_GRAMMAR_MODULES, ...B1_GRAMMAR_EXPANSION_MODULES].map(mod => (
+            {[...B1_GRAMMAR_MODULES, ...B1_GRAMMAR_EXPANSION_MODULES, ...B1_GRAMMAR_EXPANSION_MODULES_2].map(mod => (
               <Card key={mod.id} className="p-5">
                 <div className="mb-4">
                   <h3 className="text-lg font-bold flex items-center gap-2">
