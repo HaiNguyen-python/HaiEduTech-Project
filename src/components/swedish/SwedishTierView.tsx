@@ -307,6 +307,28 @@ const A1_LESSONS: Lesson[] = [
     tipVi: "Allemansrätten là câu hỏi văn hoá kinh điển — học một định nghĩa 2 câu để dùng trong cả Tala và Skriva.",
     tipEn: "Allemansrätten is a classic culture question — memorise a 2-sentence definition you can reuse in Tala and Skriva.",
   },
+  {
+    id: "a1-shopping-ica",
+    titleVi: "Mua sắm ở siêu thị ICA / Lidl",
+    titleEn: "Grocery shopping at ICA / Lidl",
+    descVi: "Hỏi giá, hỏi vị trí kệ hàng, đọc nhãn 'Erbjudande' (giảm giá) — phản xạ A1 hằng ngày.",
+    descEn: "Ask prices, find aisles and read 'Erbjudande' (offer) tags — daily A1 reflex.",
+    skills: ["speak", "read"],
+    formula: "Var hittar jag [vara]?  ·  Hur mycket kostar [vara]?  ·  Jag tar [antal], tack.",
+    examples: [
+      { sv: "Ursäkta, var hittar jag mjölken?", vi: "Xin lỗi, sữa ở đâu vậy?", en: "Excuse me, where do I find the milk?" },
+      { sv: "Hur mycket kostar de här äpplena?", vi: "Mấy quả táo này bao nhiêu tiền?", en: "How much do these apples cost?" },
+      { sv: "Jag tar två, tack. Kan jag betala med kort?", vi: "Tôi lấy 2, cảm ơn. Trả thẻ được không?", en: "I'll take two, thanks. Can I pay by card?" },
+    ],
+    vocab: [
+      { sv: "erbjudande", vi: "ưu đãi / giảm giá", en: "offer" },
+      { sv: "påse / kasse", vi: "túi mua hàng", en: "bag" },
+      { sv: "kort / kontant", vi: "thẻ / tiền mặt", en: "card / cash" },
+      { sv: "kassan", vi: "quầy thu ngân", en: "the till" },
+    ],
+    tipVi: "Người Thuỵ Điển hiếm khi trả giá — học phản xạ 'Jag tar…' để chốt đơn tự tin.",
+    tipEn: "Swedes rarely haggle — learn the reflex 'Jag tar…' to close a purchase confidently.",
+  },
 ];
 
 
@@ -538,6 +560,28 @@ const A2_LESSONS: Lesson[] = [
     ],
     tipVi: "Phản xạ với cụm 'Det är synd' / 'Vad kul!' để câu trả lời tự nhiên hơn 'Ja' / 'Nej' đơn lẻ.",
     tipEn: "React with 'Det är synd' / 'Vad kul!' to sound more natural than a bare 'Ja' / 'Nej'.",
+  },
+  {
+    id: "a2-bank-id",
+    titleVi: "Mở tài khoản ngân hàng & BankID",
+    titleEn: "Opening a bank account & BankID",
+    descVi: "Hỏi điều kiện, chuẩn bị giấy tờ và đặt lịch hẹn tại Nordea / SEB — chủ đề YKI A2 cao tần.",
+    descEn: "Ask requirements, prepare documents and book an appointment at Nordea / SEB — high-frequency YKI A2 topic.",
+    skills: ["read", "speak"],
+    formula: "Jag skulle vilja [verb] …  ·  Vad behöver jag ta med mig?",
+    examples: [
+      { sv: "Jag skulle vilja öppna ett bankkonto och få BankID.", vi: "Tôi muốn mở tài khoản ngân hàng và lấy BankID.", en: "I'd like to open a bank account and get BankID." },
+      { sv: "Vilka dokument behöver jag ta med mig?", vi: "Tôi cần mang theo giấy tờ gì?", en: "What documents do I need to bring?" },
+      { sv: "Kan jag boka en tid på torsdag eftermiddag?", vi: "Tôi đặt lịch chiều thứ năm được không?", en: "Can I book an appointment Thursday afternoon?" },
+    ],
+    vocab: [
+      { sv: "personnummer", vi: "mã định danh cá nhân", en: "personal ID number" },
+      { sv: "uppehållstillstånd", vi: "giấy phép cư trú", en: "residence permit" },
+      { sv: "konto / kort", vi: "tài khoản / thẻ", en: "account / card" },
+      { sv: "BankID", vi: "định danh số Thuỵ Điển", en: "Swedish digital ID" },
+    ],
+    tipVi: "Cụm 'Jag skulle vilja…' chuyển nhanh giọng A2 từ trẻ con sang người lớn — luôn dùng khi đến cơ quan.",
+    tipEn: "The phrase 'Jag skulle vilja…' instantly bumps A2 tone from childish to adult — use at every office visit.",
   },
 ];
 

@@ -179,6 +179,8 @@ const SwedishYkiB1 = lazy(() => import("./pages/SwedishYkiB1.tsx"));
 const SwedishSvenskfinland = lazy(() => import("./pages/SwedishSvenskfinland.tsx"));
 const SwedishInteractiveCurriculum = lazy(() => import("./pages/SwedishInteractiveCurriculum.tsx"));
 const SwedishVocabulary = lazy(() => import("./pages/SwedishVocabulary.tsx"));
+const SwedishWritingLab = lazy(() => import("./pages/SwedishWritingLab.tsx"));
+const SwedishSpeakingLab = lazy(() => import("./pages/SwedishSpeakingLab.tsx"));
 const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
 const FinnishBeginner = lazy(() => import("./pages/FinnishBeginner.tsx"));
 const YkiB1Dashboard = lazy(() => import("./pages/YkiB1Dashboard.tsx"));
@@ -384,6 +386,8 @@ const App = () => (
             <Route path="/swedish/svenskfinland" element={<LazyRoute><SwedishSvenskfinland /></LazyRoute>} />
             <Route path="/swedish/curriculum" element={<LazyRoute><SwedishInteractiveCurriculum /></LazyRoute>} />
             <Route path="/swedish/vocabulary" element={<LazyRoute><SwedishVocabulary /></LazyRoute>} />
+            <Route path="/swedish/writing" element={<LazyRoute><SwedishWritingLab /></LazyRoute>} />
+            <Route path="/swedish/speaking" element={<LazyRoute><SwedishSpeakingLab /></LazyRoute>} />
             <Route path="/speaking-coach/:language" element={<LazyRoute><SpeakingCoachPage /></LazyRoute>} />
             <Route path="/notebook" element={<LazyRoute><NotebookPage /></LazyRoute>} />
             {/* Redirects for old routes */}
