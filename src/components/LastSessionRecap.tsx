@@ -251,8 +251,14 @@ export default function LastSessionRecap() {
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">
-                      {ACTIVITY_LABELS[a.activity_type] || a.activity_type}
+                      {ACTIVITY_LABELS[a.activity_type] ||
+                        prettyLectureId(a.activity_type)}
                     </p>
+                    {a.activity_id && (
+                      <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                        {prettyLectureId(a.activity_id)}
+                      </p>
+                    )}
                     <div className="flex items-center gap-2 mt-1">
                       {a.domain && (
                         <Badge variant="secondary" className={`text-[10px] px-1.5 py-0 ${DOMAIN_COLORS[a.domain] || ""}`}>
