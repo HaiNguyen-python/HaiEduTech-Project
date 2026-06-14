@@ -8,7 +8,10 @@
  */
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { PencilLine, Sparkles, Loader2, CheckCircle2, AlertCircle, Lightbulb } from "lucide-react";
+import {
+  PencilLine, Sparkles, Loader2, CheckCircle2, AlertCircle, Lightbulb,
+  BookOpen, ChevronDown, ChevronUp,
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -25,6 +28,7 @@ import {
   type SwedishWritingPrompt,
 } from "@/data/swedishWritingPrompts";
 import type { SwedishLevel } from "@/data/swedishWritingPrompts";
+import { SWEDISH_SAMPLE_ESSAYS } from "@/data/swedishSampleEssays";
 
 interface GradeResult {
   overall: number;
