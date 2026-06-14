@@ -64,6 +64,7 @@ const SwedishWritingLab = () => {
     const first = SWEDISH_WRITING_PROMPTS.find((p) => p.level === lvl);
     if (first) setActiveId(first.id);
     setResult(null);
+    setShowSample(false);
   };
 
   const onSubmit = async () => {
