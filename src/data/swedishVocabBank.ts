@@ -260,6 +260,7 @@ import { SWEDISH_WORDS_MEGA_2 } from "./swedishVocabMega2";
 import { SWEDISH_WORDS_MEGA_3 } from "./swedishVocabMega3";
 import { SWEDISH_WORDS_MEGA_4 } from "./swedishVocabMega4";
 import { SWEDISH_WORDS_MEGA_5 } from "./swedishVocabMega5";
+import { SWEDISH_WORDS_MEGA_6 } from "./swedishVocabMega6";
 
 const _LEVEL_ORDER: Record<SwedishLevel, number> = { A1: 1, A2: 2, B1: 3 };
 // Aggregate + dedupe by Swedish form (keep the entry at the easiest level so
