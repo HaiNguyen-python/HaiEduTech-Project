@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, PenTool, StickyNote, GraduationCap, Clock, Star, Trophy } from "lucide-react";
+import { BookOpen, PenTool, StickyNote, GraduationCap, Clock, Star, Trophy, Sparkles, Rocket, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 
 interface Activity {
@@ -88,7 +89,7 @@ function truncate(str: string, len: number) {
 
 // Convert lecture slug ids like "ielts-band-7-task-1" → "IELTS Band 7 Task 1"
 function prettyLectureId(id: string) {
-  if (!id) return "(không rõ)";
+  if (!id) return "(unknown)";
   return id
     .replace(/[-_]+/g, " ")
     .replace(/\b([a-z])/g, (_, c) => c.toUpperCase())
@@ -96,6 +97,58 @@ function prettyLectureId(id: string) {
     .replace(/\bToeic\b/g, "TOEIC")
     .replace(/\bHsk\b/g, "HSK")
     .replace(/\bYki\b/g, "YKI");
+}
+
+// Encouragement quotes — international audience, English-only.
+const ENCOURAGEMENTS: string[] = [
+  "Every expert was once a beginner. Take your first step today!",
+  "Small daily progress compounds into life-changing results.",
+  "The journey of a thousand miles begins with a single lesson.",
+  "Learn smart. Lead the digital era. Your future starts now.",
+  "15 minutes a day will surprise you in a year. Let's go!",
+  "Mr. Hai believes in you. Open your first lesson and shine. ✨",
+  "Mistakes are proof you're learning. Embrace them, then grow.",
+  "Consistency beats intensity. Show up — that's already a win.",
+  "One lecture today equals one band higher tomorrow.",
+  "You don't have to be great to start, but you have to start to be great.",
+  "Dream big. Study smart. The world is waiting for your story.",
+  "Knowledge is the passport to your future. Pack it well today.",
+];
+
+const EMPTY_HINTS: Record<string, { titleEn: string; href: string; cta: string }> = {
+  activities: { titleEn: "No exercises yet", href: "/ielts", cta: "Start an exercise" },
+  lectures: { titleEn: "No lectures completed yet", href: "/ielts/lectures", cta: "Open a lecture" },
+  writing: { titleEn: "No writing submissions yet", href: "/ielts/writing", cta: "Write something" },
+  notes: { titleEn: "No notes yet", href: "/dashboard", cta: "Open Notebook" },
+};
+
+function pickEncouragement(seed = 0) {
+  // Rotate by day so each session feels fresh but stable within a tab switch
+  const day = Math.floor(Date.now() / 86_400_000);
+  return ENCOURAGEMENTS[(day + seed) % ENCOURAGEMENTS.length];
+}
+
+function EncouragementEmpty({ tab, onClose }: { tab: keyof typeof EMPTY_HINTS; onClose: () => void }) {
+  const hint = EMPTY_HINTS[tab];
+  const quote = pickEncouragement(Object.keys(EMPTY_HINTS).indexOf(tab));
+  return (
+    <div className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5 p-5 text-center">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary to-emerald-500 text-white shadow-md">
+        <Sparkles className="h-6 w-6" />
+      </div>
+      <p className="mt-3 text-sm font-semibold text-foreground">{hint.titleEn}</p>
+      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground italic">
+        "{quote}"
+      </p>
+      <Button asChild size="sm" className="mt-4 gap-1.5" onClick={onClose}>
+        <Link to={hint.href}>
+          <Rocket className="h-3.5 w-3.5" />
+          {hint.cta}
+          <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </Button>
+    </div>
+  );
 }
 
 export default function LastSessionRecap() {
@@ -214,12 +267,12 @@ export default function LastSessionRecap() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Trophy className="w-6 h-6 text-primary" />
-            {totalItems > 0 ? "Ôn lại buổi học trước" : "Chào mừng bạn quay lại!"}
+            {totalItems > 0 ? "Ôn lại buổi học trước" : "Welcome to HaiEduTech!"}
           </DialogTitle>
           <DialogDescription>
             {totalItems > 0
               ? `Tổng kết ${totalItems} hoạt động gần nhất của bạn. Hãy ôn lại trước khi bắt đầu bài mới!`
-              : "Chưa có buổi học nào được ghi lại. Hãy bắt đầu một bài học để bảng tóm tắt này hoạt động nhé."}
+              : pickEncouragement()}
           </DialogDescription>
         </DialogHeader>
 
@@ -246,7 +299,7 @@ export default function LastSessionRecap() {
 
             <TabsContent value="activities" className="space-y-2 mt-3">
               {activities.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">Chưa có hoạt động nào</p>
+                <EncouragementEmpty tab="activities" onClose={() => setOpen(false)} />
               ) : activities.map((a, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex-1 min-w-0">
@@ -282,7 +335,7 @@ export default function LastSessionRecap() {
 
             <TabsContent value="lectures" className="space-y-2 mt-3">
               {lectures.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">Chưa hoàn thành bài giảng nào</p>
+                <EncouragementEmpty tab="lectures" onClose={() => setOpen(false)} />
               ) : lectures.map((l, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex-1 min-w-0">
@@ -303,7 +356,7 @@ export default function LastSessionRecap() {
 
             <TabsContent value="writing" className="space-y-2 mt-3">
               {writings.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">Chưa có bài viết nào</p>
+                <EncouragementEmpty tab="writing" onClose={() => setOpen(false)} />
               ) : writings.map((w, i) => (
                 <div key={i} className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex items-center justify-between">
@@ -325,7 +378,7 @@ export default function LastSessionRecap() {
 
             <TabsContent value="notes" className="space-y-2 mt-3">
               {notebooks.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">Chưa có ghi chú nào</p>
+                <EncouragementEmpty tab="notes" onClose={() => setOpen(false)} />
               ) : notebooks.map((n, i) => (
                 <div key={i} className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex items-center justify-between">
