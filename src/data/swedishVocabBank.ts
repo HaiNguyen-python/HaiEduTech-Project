@@ -255,10 +255,36 @@ const _SWEDISH_CORE_WORDS: SwedishWord[] = [
 // Merge expansion banks for richer YKI coverage with IPA + extra categories.
 import { SWEDISH_WORDS_EXPANSION } from "./swedishVocabExpansion";
 import { SWEDISH_WORDS_EXPANSION_2 } from "./swedishVocabExpansion2";
-export const SWEDISH_WORDS: SwedishWord[] = [
+import { SWEDISH_WORDS_MEGA } from "./swedishVocabMega";
+import { SWEDISH_WORDS_MEGA_2 } from "./swedishVocabMega2";
+import { SWEDISH_WORDS_MEGA_3 } from "./swedishVocabMega3";
+import { SWEDISH_WORDS_MEGA_4 } from "./swedishVocabMega4";
+import { SWEDISH_WORDS_MEGA_5 } from "./swedishVocabMega5";
+import { SWEDISH_WORDS_MEGA_6 } from "./swedishVocabMega6";
+
+const _LEVEL_ORDER: Record<SwedishLevel, number> = { A1: 1, A2: 2, B1: 3 };
+// Aggregate + dedupe by Swedish form (keep the entry at the easiest level so
+// learners always meet a word first at its lowest CEFR tier).
+const _ALL_RAW: SwedishWord[] = [
   ..._SWEDISH_CORE_WORDS,
   ...SWEDISH_WORDS_EXPANSION,
   ...SWEDISH_WORDS_EXPANSION_2,
+  ...SWEDISH_WORDS_MEGA,
+  ...SWEDISH_WORDS_MEGA_2,
+  ...SWEDISH_WORDS_MEGA_3,
+  ...SWEDISH_WORDS_MEGA_4,
+  ...SWEDISH_WORDS_MEGA_5,
+  ...SWEDISH_WORDS_MEGA_6,
 ];
+const _BY_KEY = new Map<string, SwedishWord>();
+for (const w of _ALL_RAW) {
+  const key = w.sv.trim().toLowerCase();
+  const prev = _BY_KEY.get(key);
+  if (!prev || _LEVEL_ORDER[w.level] < _LEVEL_ORDER[prev.level]) _BY_KEY.set(key, w);
+}
+// Final list sorted easy → hard (A1 → A2 → B1), then alphabetical inside level.
+export const SWEDISH_WORDS: SwedishWord[] = Array.from(_BY_KEY.values()).sort(
+  (a, b) => _LEVEL_ORDER[a.level] - _LEVEL_ORDER[b.level] || a.sv.localeCompare(b.sv, "sv")
+);
 
 export const SWEDISH_LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
