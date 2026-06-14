@@ -172,6 +172,7 @@ const ToeicVocabulary = lazy(() => import("./pages/ToeicVocabulary.tsx"));
 const ToeicExams = lazy(() => import("./pages/ToeicExams.tsx"));
 const ToeicExamRoom = lazy(() => import("./pages/ToeicExamRoom.tsx"));
 const Finnish = lazy(() => import("./pages/Finnish.tsx"));
+const Swedish = lazy(() => import("./pages/Swedish.tsx"));
 const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
 const FinnishBeginner = lazy(() => import("./pages/FinnishBeginner.tsx"));
 const YkiB1Dashboard = lazy(() => import("./pages/YkiB1Dashboard.tsx"));
