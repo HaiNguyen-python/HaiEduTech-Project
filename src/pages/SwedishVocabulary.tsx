@@ -39,6 +39,7 @@ import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
 import SwedishVocabReviewModes from "@/components/swedish/SwedishVocabReviewModes";
+import SwedishVocabQA from "@/components/swedish/SwedishVocabQA";
 import {
   SWEDISH_WORDS,
   SWEDISH_CATEGORIES,
