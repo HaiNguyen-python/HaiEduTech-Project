@@ -226,6 +226,7 @@ const Navbar = () => {
     { to: "/swedish/writing", label: t("✍️ Writing Lab (Skriva A1–B1)", "✍️ Writing Lab (Skriva A1–B1)") },
     { to: "/swedish/speaking", label: t("🎙️ Speaking Lab (Tala A1–B1)", "🎙️ Speaking Lab (Tala A1–B1)") },
     { to: "/swedish/listening", label: t("🎧 Listening Lab (Hörförståelse A1–B1)", "🎧 Listening Lab (Hörförståelse A1–B1)") },
+    { to: "/swedish/reading", label: t("📚 Reading Lab (Läsförståelse A1–B1)", "📚 Reading Lab (Läsförståelse A1–B1)") },
     { to: "/speaking-coach/swedish", label: t("🗣️ Speaking Coach (luyện phát âm)", "🗣️ Speaking Coach (pronunciation drill)") },
   ];
   const programmingSubs: SubItem[] = [
