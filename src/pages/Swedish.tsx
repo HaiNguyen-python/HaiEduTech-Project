@@ -38,6 +38,18 @@ import { toast } from "@/hooks/use-toast";
 
 type YkiSkill = "read" | "listen" | "write" | "speak";
 
+interface Example {
+  sv: string;
+  vi: string;
+  en: string;
+}
+
+interface VocabItem {
+  sv: string;
+  vi: string;
+  en: string;
+}
+
 interface Lesson {
   id: string;
   titleVi: string;
@@ -45,6 +57,15 @@ interface Lesson {
   descVi: string;
   descEn: string;
   skills: YkiSkill[];
+  /** Optional grammar formula displayed as monospace. */
+  formula?: string;
+  /** Worked examples in Swedish with VI + EN gloss. */
+  examples?: Example[];
+  /** Mini thematic vocabulary list. */
+  vocab?: VocabItem[];
+  /** Teacher Hai's strategy tip for the YKI exam. */
+  tipVi?: string;
+  tipEn?: string;
 }
 
 interface Tier {
@@ -70,6 +91,417 @@ const SKILL_META: Record<YkiSkill, { vi: string; en: string; color: string; Icon
   speak:  { vi: "Nói",  en: "Speak",  color: "bg-rose-500/15 text-rose-600 dark:text-rose-300 border-rose-500/30",     Icon: Mic        },
 };
 
+/* ----- Tier A1 ----- */
+const A1_LESSONS: Lesson[] = [
+  {
+    id: "a1-pron",
+    titleVi: "Phát âm chuẩn Bắc Âu",
+    titleEn: "Nordic pronunciation basics",
+    descVi: "Nguyên âm dài/ngắn, sj-/tj-, trọng âm hai âm tiết.",
+    descEn: "Long/short vowels, sj-/tj- sounds, two-syllable stress.",
+    skills: ["listen", "speak"],
+    formula: "sj- ≈ /ɧ/ (hush)  ·  tj-/k(e/i) ≈ /ɕ/  ·  long vowel = double letter often missing",
+    examples: [
+      { sv: "sju sjuksköterskor", vi: "bảy y tá nữ", en: "seven nurses" },
+      { sv: "tjugo kycklingar",   vi: "hai mươi con gà",  en: "twenty chickens" },
+      { sv: "vit / vitt",          vi: "trắng (en/ett)",   en: "white (en/ett form)" },
+    ],
+    vocab: [
+      { sv: "hej", vi: "xin chào", en: "hi" },
+      { sv: "tack", vi: "cảm ơn", en: "thanks" },
+      { sv: "ja / nej", vi: "có / không", en: "yes / no" },
+      { sv: "förlåt", vi: "xin lỗi", en: "sorry" },
+    ],
+    tipVi: "Trong YKI Hörförståelse, phân biệt sj-/tj- giúp bạn nghe ra số đếm (sju/tjugo) — luyện 5 phút/ngày.",
+    tipEn: "In YKI Hörförståelse, telling sj- from tj- helps you catch numbers (sju/tjugo) — 5 minutes a day.",
+  },
+  {
+    id: "a1-self",
+    titleVi: "Bản thân & gia đình",
+    titleEn: "Self & family",
+    descVi: "Giới thiệu tên, tuổi, nghề nghiệp, các thành viên trong gia đình.",
+    descEn: "Introduce your name, age, job and family members.",
+    skills: ["speak", "write"],
+    formula: "Jag heter X. Jag är Y år. Jag jobbar som Z.",
+    examples: [
+      { sv: "Jag heter Lan och jag är 28 år.",           vi: "Tôi tên Lan và tôi 28 tuổi.",          en: "My name is Lan and I'm 28." },
+      { sv: "Min mamma jobbar som sjuksköterska.",       vi: "Mẹ tôi làm y tá.",                     en: "My mother works as a nurse." },
+      { sv: "Vi har en hund som heter Bella.",           vi: "Chúng tôi có một con chó tên Bella.",  en: "We have a dog called Bella." },
+    ],
+    vocab: [
+      { sv: "mamma / pappa", vi: "mẹ / bố", en: "mom / dad" },
+      { sv: "bror / syster", vi: "anh-em trai / chị-em gái", en: "brother / sister" },
+      { sv: "make / fru",    vi: "chồng / vợ", en: "husband / wife" },
+      { sv: "barn",          vi: "con (số ít/nhiều)", en: "child / children" },
+    ],
+    tipVi: "Trong Tala A1, hãy có sẵn 3 câu giới thiệu — đừng nói quá dài, phát âm rõ là đủ điểm.",
+    tipEn: "In Tala A1, prepare 3 set introduction lines — keep them short, clear pronunciation scores well.",
+  },
+  {
+    id: "a1-num",
+    titleVi: "Số đếm, ngày & giờ",
+    titleEn: "Numbers, dates & time",
+    descVi: "Đếm 1–100, xem giờ klockan, ngày trong tuần, tháng.",
+    descEn: "Count 1–100, read the clock, weekdays and months.",
+    skills: ["read", "listen"],
+    formula: "Klockan är [hel]. [kvart i / kvart över / halv]",
+    examples: [
+      { sv: "Klockan är halv nio.",         vi: "Bây giờ là 8 giờ rưỡi (8:30).", en: "It's half past eight (8:30)." },
+      { sv: "Idag är det måndag den 5 maj.", vi: "Hôm nay là thứ Hai, ngày 5/5.", en: "Today is Monday, the 5th of May." },
+      { sv: "Tåget går klockan sjutton.",   vi: "Tàu chạy lúc 17:00.",            en: "The train leaves at 17:00." },
+    ],
+    vocab: [
+      { sv: "måndag–söndag", vi: "thứ 2 – Chủ nhật", en: "Mon–Sun" },
+      { sv: "januari–december", vi: "tháng 1–12", en: "Jan–Dec" },
+      { sv: "idag / igår / imorgon", vi: "hôm nay / hôm qua / ngày mai", en: "today / yesterday / tomorrow" },
+    ],
+    tipVi: "Lưu ý: 'halv nio' = 8:30 (nửa đường ĐẾN 9), không phải 9:30 — đây là bẫy phổ biến trong YKI.",
+    tipEn: "Note: 'halv nio' = 8:30 (half-way TO 9), not 9:30 — a classic YKI trap.",
+  },
+  {
+    id: "a1-greetings",
+    titleVi: "Chào hỏi & lịch sự cơ bản",
+    titleEn: "Greetings & basic politeness",
+    descVi: "Hej, hejdå, ursäkta, varsågod — phản xạ giao tiếp đầu tiên.",
+    descEn: "Hej, hejdå, ursäkta, varsågod — your first reflexes.",
+    skills: ["speak", "listen"],
+    examples: [
+      { sv: "Hej, hur mår du? — Bra, tack. Och du?", vi: "Chào, bạn khỏe không? — Khỏe, cảm ơn. Còn bạn?", en: "Hi, how are you? — Good, thanks. And you?" },
+      { sv: "Ursäkta, var ligger toaletten?",        vi: "Xin lỗi, nhà vệ sinh ở đâu?",                    en: "Excuse me, where is the toilet?" },
+      { sv: "Varsågod! — Tack så mycket.",           vi: "Đây ạ! — Cảm ơn rất nhiều.",                     en: "Here you go! — Thank you very much." },
+    ],
+    vocab: [
+      { sv: "god morgon / god kväll", vi: "chào buổi sáng / tối", en: "good morning / evening" },
+      { sv: "trevligt att träffas", vi: "rất vui được gặp", en: "nice to meet you" },
+      { sv: "vi ses!", vi: "hẹn gặp lại!", en: "see you!" },
+    ],
+    tipVi: "YKI A1 luôn có 1 câu chào hỏi mở đầu. Dùng 'Hej!' + mỉm cười — giám khảo ghi nhận thái độ tự tin.",
+    tipEn: "YKI A1 always opens with a greeting. 'Hej!' + a smile signals confidence to the examiner.",
+  },
+  {
+    id: "a1-shopping",
+    titleVi: "Mua sắm cơ bản & giá tiền",
+    titleEn: "Basic shopping & prices",
+    descVi: "Hỏi giá, trả tiền mặt/thẻ, các đơn vị Phần Lan (euro, cent).",
+    descEn: "Ask prices, pay by cash/card, Finnish units (euro, cent).",
+    skills: ["listen", "speak"],
+    formula: "Hur mycket kostar [det / X] ?  —  Det kostar Y euro.",
+    examples: [
+      { sv: "Hur mycket kostar mjölken?", vi: "Sữa giá bao nhiêu?", en: "How much does the milk cost?" },
+      { sv: "Jag tar två stycken, tack.", vi: "Cho tôi hai cái, cảm ơn.", en: "I'll take two, thanks." },
+      { sv: "Kan jag betala med kort?",    vi: "Tôi trả bằng thẻ được không?", en: "Can I pay by card?" },
+    ],
+    vocab: [
+      { sv: "kvitto",       vi: "hoá đơn",    en: "receipt" },
+      { sv: "rabatt",       vi: "giảm giá",   en: "discount" },
+      { sv: "kassa",        vi: "quầy thu ngân", en: "checkout" },
+      { sv: "påse",         vi: "túi",        en: "bag" },
+    ],
+    tipVi: "Học thuộc 'Kan jag få…?' (Tôi xin…) — dùng được ở quán cà phê, siêu thị, nhà hàng YKI A1/A2.",
+    tipEn: "Memorise 'Kan jag få…?' (May I have…) — works in cafés, shops, restaurants across YKI A1/A2.",
+  },
+  {
+    id: "a1-directions",
+    titleVi: "Hỏi đường & phương tiện công cộng",
+    titleEn: "Asking directions & public transport",
+    descVi: "Hỏi đường, hiểu hướng dẫn cơ bản, mua vé.",
+    descEn: "Ask directions, follow simple instructions, buy a ticket.",
+    skills: ["listen", "read"],
+    examples: [
+      { sv: "Hur kommer jag till centrum?", vi: "Tôi đi vào trung tâm bằng cách nào?", en: "How do I get to the centre?" },
+      { sv: "Ta buss nummer fyra.",          vi: "Bắt xe buýt số 4.",                  en: "Take bus number four." },
+      { sv: "En enkel biljett, tack.",       vi: "Một vé một chiều, cảm ơn.",          en: "A single ticket, please." },
+    ],
+    vocab: [
+      { sv: "till höger / vänster", vi: "rẽ phải / trái", en: "to the right / left" },
+      { sv: "rakt fram",            vi: "đi thẳng",       en: "straight ahead" },
+      { sv: "tunnelbana / spårvagn", vi: "tàu điện ngầm / tram", en: "metro / tram" },
+      { sv: "hållplats",            vi: "trạm dừng",      en: "stop" },
+    ],
+    tipVi: "Trong Hörförståelse A1 hay xuất hiện thông báo HSL (Helsinki). Học sẵn 'nästa station' = ga kế tiếp.",
+    tipEn: "HSL (Helsinki) announcements show up in A1 Hörförståelse. Memorise 'nästa station' = next stop.",
+  },
+];
+
+/* ----- Tier A2 ----- */
+const A2_LESSONS: Lesson[] = [
+  {
+    id: "a2-v2",
+    titleVi: "Trật tự từ V2 & đảo ngữ",
+    titleEn: "V2 word order & inversion",
+    descVi: "Quy tắc V2 — động từ luôn đứng thứ hai, kể cả khi câu mở đầu bằng trạng từ.",
+    descEn: "The V2 rule — the finite verb is always second, even when the sentence starts with an adverb.",
+    skills: ["write", "read"],
+    formula: "[Subjekt] [Verb] [resten]   ·   [Adverb], [Verb] [Subjekt] [resten]",
+    examples: [
+      { sv: "Jag dricker kaffe på morgonen.", vi: "Tôi uống cà phê vào buổi sáng.", en: "I drink coffee in the morning." },
+      { sv: "På morgonen dricker jag kaffe.", vi: "Buổi sáng tôi uống cà phê. (đảo ngữ)", en: "In the morning I drink coffee. (inversion)" },
+      { sv: "Igår åkte vi till Stockholm.",   vi: "Hôm qua chúng tôi đi Stockholm.", en: "Yesterday we went to Stockholm." },
+    ],
+    tipVi: "Lỗi V2 là lỗi #1 của thí sinh YKI A2 Skriva. Luôn check: động từ có ở vị trí 2 chưa?",
+    tipEn: "Breaking V2 is the #1 mistake on YKI A2 Skriva. Always check: is the verb in position 2?",
+  },
+  {
+    id: "a2-enett",
+    titleVi: "Danh từ En/Ett & dạng xác định",
+    titleEn: "En/Ett nouns & definite forms",
+    descVi: "Phân biệt giống en/ett, dạng xác định số ít và số nhiều.",
+    descEn: "Tell en/ett genders apart, definite singular and plural forms.",
+    skills: ["read", "write"],
+    formula: "en bok → boken → böcker → böckerna  ·  ett hus → huset → hus → husen",
+    examples: [
+      { sv: "Jag läser en bok. Boken är spännande.", vi: "Tôi đang đọc một cuốn sách. Cuốn sách rất hấp dẫn.", en: "I'm reading a book. The book is exciting." },
+      { sv: "Vi har ett hus i Esbo.",                vi: "Chúng tôi có một căn nhà ở Espoo.",                  en: "We have a house in Espoo." },
+      { sv: "Barnen leker i parken.",                vi: "Bọn trẻ đang chơi trong công viên.",                  en: "The children are playing in the park." },
+    ],
+    vocab: [
+      { sv: "en stol → stolen", vi: "ghế (en)", en: "a chair → the chair" },
+      { sv: "ett bord → bordet", vi: "bàn (ett)", en: "a table → the table" },
+      { sv: "en bil → bilen", vi: "xe hơi (en)", en: "a car → the car" },
+      { sv: "ett äpple → äpplet", vi: "quả táo (ett)", en: "an apple → the apple" },
+    ],
+    tipVi: "~75% danh từ là 'en'. Khi không chắc, đoán 'en' sẽ thắng nhiều hơn.",
+    tipEn: "~75% of nouns are 'en'. When unsure, guess 'en' — you'll win more often.",
+  },
+  {
+    id: "a2-tense",
+    titleVi: "Thì Hiện tại & Quá khứ (Preteritum)",
+    titleEn: "Present & past tense (Preteritum)",
+    descVi: "4 nhóm động từ, đuôi -ar/-er/-r/-de/-te, các động từ bất quy tắc thông dụng.",
+    descEn: "Four verb groups with -ar/-er/-r/-de/-te endings, plus common irregulars.",
+    skills: ["write", "speak"],
+    formula: "Grupp 1: jobba → jobbade  ·  Grupp 2: ringa → ringde  ·  Grupp 4 oregelbundna: gå → gick",
+    examples: [
+      { sv: "Igår jobbade jag hemma.",       vi: "Hôm qua tôi làm việc ở nhà.",       en: "Yesterday I worked from home." },
+      { sv: "Hon ringde sin mamma.",         vi: "Cô ấy đã gọi mẹ.",                  en: "She called her mum." },
+      { sv: "Vi gick till skolan klockan åtta.", vi: "Chúng tôi đến trường lúc 8 giờ.", en: "We went to school at eight." },
+    ],
+    vocab: [
+      { sv: "vara → var",   vi: "là/ở → đã",  en: "to be → was/were" },
+      { sv: "ha → hade",     vi: "có → đã có", en: "to have → had" },
+      { sv: "se → såg",      vi: "thấy → đã thấy", en: "to see → saw" },
+      { sv: "göra → gjorde", vi: "làm → đã làm", en: "to do → did" },
+    ],
+    tipVi: "YKI A2 Skriva luôn cần ít nhất 2 câu quá khứ. Học thuộc 6 động từ bất quy tắc là đủ.",
+    tipEn: "YKI A2 Skriva needs at least 2 past-tense sentences. Memorising 6 irregulars covers most cases.",
+  },
+  {
+    id: "a2-email",
+    titleVi: "Viết email & tin nhắn ngắn",
+    titleEn: "Writing emails & short messages",
+    descVi: "Mở đầu, thân bài, kết, cách dùng 'du / Ni' phù hợp.",
+    descEn: "Opening, body, closing — using 'du / Ni' appropriately.",
+    skills: ["write", "read"],
+    formula: "Hej [Namn], … Med vänliga hälsningar, [Du]",
+    examples: [
+      { sv: "Hej Anna, jag kan tyvärr inte komma på mötet imorgon.", vi: "Chào Anna, tiếc là mình không thể tham gia họp ngày mai.", en: "Hi Anna, unfortunately I can't make tomorrow's meeting." },
+      { sv: "Kan vi flytta tiden till fredag?",                       vi: "Mình dời sang thứ Sáu được không?",                        en: "Can we move the time to Friday?" },
+      { sv: "Med vänliga hälsningar, Lan",                            vi: "Trân trọng, Lan",                                          en: "Best regards, Lan" },
+    ],
+    vocab: [
+      { sv: "tack på förhand", vi: "cảm ơn trước", en: "thanks in advance" },
+      { sv: "tyvärr",          vi: "tiếc là",       en: "unfortunately" },
+      { sv: "bifoga",          vi: "đính kèm",      en: "to attach" },
+      { sv: "svara senast",    vi: "phản hồi trước", en: "reply by" },
+    ],
+    tipVi: "Email YKI A2 luôn cần: lời chào + lý do + đề xuất + lời cảm ơn. Thiếu 1 phần = mất điểm cấu trúc.",
+    tipEn: "A YKI A2 email needs greeting + reason + suggestion + thanks. Missing any one = structure points lost.",
+  },
+  {
+    id: "a2-modal",
+    titleVi: "Động từ khuyết thiếu (kan, vill, ska, måste)",
+    titleEn: "Modal verbs (kan, vill, ska, måste)",
+    descVi: "Diễn đạt khả năng, mong muốn, kế hoạch, nghĩa vụ.",
+    descEn: "Express ability, want, plan, obligation.",
+    skills: ["speak", "write"],
+    formula: "[Subjekt] + [modal] + [verb ở dạng nguyên thể, KHÔNG 'att']",
+    examples: [
+      { sv: "Jag kan prata lite svenska.",      vi: "Tôi có thể nói chút tiếng Thụy Điển.", en: "I can speak a little Swedish." },
+      { sv: "Vi vill resa till Lappland.",       vi: "Chúng tôi muốn đi Lapland.",           en: "We want to travel to Lapland." },
+      { sv: "Du måste fylla i blanketten.",      vi: "Bạn phải điền vào mẫu này.",           en: "You must fill in the form." },
+    ],
+    tipVi: "Modal + động từ nguyên thể KHÔNG có 'att'. Sai 'att' là dấu hiệu A1 chứ không phải A2.",
+    tipEn: "Modal + bare infinitive, NEVER 'att'. Using 'att' here signals A1 instead of A2.",
+  },
+  {
+    id: "a2-work",
+    titleVi: "Công sở cơ bản & nói chuyện đồng nghiệp",
+    titleEn: "Basic workplace talk",
+    descVi: "Báo nghỉ, đặt lịch họp, hỏi đồng nghiệp, giới thiệu công việc.",
+    descEn: "Calling in sick, booking meetings, chatting with colleagues, describing your job.",
+    skills: ["speak", "write"],
+    examples: [
+      { sv: "Jag är sjuk idag och kommer inte till jobbet.", vi: "Hôm nay tôi ốm, không đi làm được.", en: "I'm sick today and won't come to work." },
+      { sv: "Kan vi boka ett möte på torsdag klockan tio?",  vi: "Mình đặt họp thứ Năm 10 giờ nhé?",  en: "Can we book a meeting on Thursday at ten?" },
+      { sv: "Jag jobbar som lärare på en grundskola.",        vi: "Tôi làm giáo viên trường tiểu học.", en: "I work as a teacher at a primary school." },
+    ],
+    vocab: [
+      { sv: "kollega",     vi: "đồng nghiệp", en: "colleague" },
+      { sv: "chef",        vi: "sếp",         en: "boss" },
+      { sv: "lön",         vi: "lương",       en: "salary" },
+      { sv: "semester",    vi: "kỳ nghỉ phép", en: "holiday/leave" },
+    ],
+    tipVi: "Trong Tala A2 'beskriv ditt jobb' (mô tả công việc) là câu hỏi gần như chắc chắn — chuẩn bị 4 câu.",
+    tipEn: "In Tala A2, 'describe your job' is almost guaranteed — prepare 4 set sentences.",
+  },
+  {
+    id: "a2-health",
+    titleVi: "Sức khỏe & đi khám bác sĩ",
+    titleEn: "Health & visiting the doctor",
+    descVi: "Mô tả triệu chứng, đặt lịch khám, hiểu chỉ dẫn dùng thuốc.",
+    descEn: "Describe symptoms, book an appointment, understand medicine instructions.",
+    skills: ["listen", "speak"],
+    examples: [
+      { sv: "Jag har ont i magen sedan igår.",         vi: "Tôi đau bụng từ hôm qua.",          en: "I've had stomach pain since yesterday." },
+      { sv: "Jag skulle vilja boka en tid hos läkaren.", vi: "Tôi muốn đặt lịch khám bác sĩ.",   en: "I'd like to book a doctor's appointment." },
+      { sv: "Ta en tablett tre gånger om dagen.",       vi: "Uống 1 viên, 3 lần một ngày.",      en: "Take one tablet three times a day." },
+    ],
+    vocab: [
+      { sv: "feber",     vi: "sốt",        en: "fever" },
+      { sv: "huvudvärk", vi: "đau đầu",    en: "headache" },
+      { sv: "recept",    vi: "đơn thuốc",  en: "prescription" },
+      { sv: "apotek",    vi: "nhà thuốc",  en: "pharmacy" },
+    ],
+    tipVi: "'Jag har ont i + [bộ phận]' = công thức vạn năng. Học thuộc 6 bộ phận cơ thể là đủ cho YKI A2.",
+    tipEn: "'Jag har ont i + [body part]' is the universal pattern. Six body-part words cover most YKI A2 cases.",
+  },
+];
+
+/* ----- Tier B1 ----- */
+const B1_LESSONS: Lesson[] = [
+  {
+    id: "b1-sub",
+    titleVi: "Mệnh đề phụ nâng cao (Bisatser)",
+    titleEn: "Advanced subordinate clauses",
+    descVi: "Mệnh đề với att, eftersom, fastän, om — trạng từ inte đứng TRƯỚC động từ.",
+    descEn: "Clauses with att, eftersom, fastän, om — adverb 'inte' goes BEFORE the verb.",
+    skills: ["write", "read"],
+    formula: "BIFF: I Bisats kommer Inte Före Finita verbet  →  …att jag inte vet.",
+    examples: [
+      { sv: "Jag tror att hon inte kommer idag.",            vi: "Tôi nghĩ là cô ấy không đến hôm nay.",          en: "I think she isn't coming today." },
+      { sv: "Vi stannar hemma eftersom det regnar.",          vi: "Chúng tôi ở nhà vì trời đang mưa.",             en: "We're staying home because it's raining." },
+      { sv: "Fastän han är trött, fortsätter han att jobba.", vi: "Mặc dù anh ấy mệt, anh vẫn tiếp tục làm việc.", en: "Although he is tired, he keeps working." },
+    ],
+    tipVi: "Nhớ BIFF: trong bisats, 'inte' đứng TRƯỚC động từ. Đây là dấu hiệu rõ nhất của B1 vs A2.",
+    tipEn: "Remember BIFF: in subordinate clauses, 'inte' goes BEFORE the verb. This is the clearest B1 vs A2 marker.",
+  },
+  {
+    id: "b1-inv",
+    titleVi: "Câu đảo ngữ & liên kết logic",
+    titleEn: "Inversion & logical connectors",
+    descVi: "Liên từ däremot, dessutom, alltså, trots det — nối ý mượt mà.",
+    descEn: "Connectors däremot, dessutom, alltså, trots det — smooth idea flow.",
+    skills: ["write", "speak"],
+    examples: [
+      { sv: "Maten var god. Dessutom var den billig.",       vi: "Đồ ăn ngon. Hơn nữa, lại rẻ.",                 en: "The food was good. Moreover, it was cheap." },
+      { sv: "Han älskar sport, däremot tycker hon inte om det.", vi: "Anh ấy mê thể thao, trái lại cô ấy không thích.", en: "He loves sport; she, on the other hand, doesn't." },
+      { sv: "Det regnade, alltså stannade vi hemma.",         vi: "Trời mưa, vì vậy chúng tôi ở nhà.",            en: "It was raining, so we stayed home." },
+    ],
+    vocab: [
+      { sv: "däremot",   vi: "trái lại",    en: "on the other hand" },
+      { sv: "dessutom",  vi: "hơn nữa",     en: "moreover" },
+      { sv: "alltså",    vi: "vì vậy",      en: "therefore" },
+      { sv: "trots det", vi: "dù vậy",      en: "despite that" },
+    ],
+    tipVi: "Dùng ít nhất 2 liên từ trong bài viết YKI B1 — giám khảo chấm điểm 'cohesion' rất cao.",
+    tipEn: "Use at least 2 connectors in YKI B1 writing — examiners weight 'cohesion' heavily.",
+  },
+  {
+    id: "b1-vocab",
+    titleVi: "Từ vựng chuyên đề: Môi trường, Giáo dục, Việc làm",
+    titleEn: "Themed vocab: Environment, Education, Work",
+    descVi: "Cụm từ thường xuất hiện trong báo Hufvudstadsbladet và Yle.",
+    descEn: "Phrases that recur in Hufvudstadsbladet and Yle articles.",
+    skills: ["read", "listen"],
+    vocab: [
+      { sv: "klimatförändring", vi: "biến đổi khí hậu", en: "climate change" },
+      { sv: "förnybar energi",  vi: "năng lượng tái tạo", en: "renewable energy" },
+      { sv: "utbildning",       vi: "giáo dục",          en: "education" },
+      { sv: "arbetsmarknad",    vi: "thị trường lao động", en: "labour market" },
+      { sv: "anställning",      vi: "việc làm/biên chế", en: "employment" },
+      { sv: "integration",      vi: "hội nhập",          en: "integration" },
+    ],
+    examples: [
+      { sv: "Klimatförändringen påverkar Östersjön.", vi: "Biến đổi khí hậu tác động đến biển Baltic.", en: "Climate change affects the Baltic Sea." },
+      { sv: "Den finska arbetsmarknaden behöver kunniga invandrare.", vi: "Thị trường lao động Phần Lan cần người nhập cư có tay nghề.", en: "The Finnish labour market needs skilled immigrants." },
+    ],
+    tipVi: "Mỗi tuần đọc 1 bài Yle text-TV và highlight 5 từ mới — sau 2 tháng bạn đã đủ vốn từ YKI B1.",
+    tipEn: "Read one Yle text-TV article weekly and highlight 5 new words — in 2 months you'll have B1 vocabulary.",
+  },
+  {
+    id: "b1-opinion",
+    titleVi: "Viết thư kiến nghị / Opinion letter",
+    titleEn: "Opinion / feedback letters",
+    descVi: "Cấu trúc 4 đoạn: chào — lý do viết — quan điểm có lập luận — kết.",
+    descEn: "Four-paragraph structure: greeting — reason — argued opinion — closing.",
+    skills: ["write"],
+    formula: "1) Hej [Redaktion] 2) Jag skriver för att… 3) Jag tycker att…, eftersom… 4) Med vänliga hälsningar",
+    examples: [
+      { sv: "Jag skriver för att uttrycka min åsikt om kollektivtrafiken i Helsingfors.", vi: "Tôi viết để bày tỏ ý kiến về giao thông công cộng tại Helsinki.", en: "I'm writing to express my opinion about public transport in Helsinki." },
+      { sv: "Jag tycker att biljettpriserna är för höga, eftersom många familjer har låg inkomst.", vi: "Tôi cho rằng giá vé quá cao vì nhiều gia đình thu nhập thấp.", en: "I think ticket prices are too high because many families have low incomes." },
+      { sv: "Därför föreslår jag att HSL inför familjerabatt.", vi: "Vì vậy tôi đề nghị HSL áp dụng giảm giá gia đình.", en: "Therefore I suggest HSL introduce a family discount." },
+    ],
+    tipVi: "Công thức điểm cao YKI B1: 1 quan điểm + 2 lý do + 1 đề xuất + 1 ví dụ cá nhân.",
+    tipEn: "High-score formula on YKI B1: 1 opinion + 2 reasons + 1 suggestion + 1 personal example.",
+  },
+  {
+    id: "b1-news",
+    titleVi: "Đọc hiểu báo chí (Yle, Hbl)",
+    titleEn: "Reading news (Yle, Hbl)",
+    descVi: "Kỹ thuật scan — skim — kéo chi tiết, đoán nghĩa từ ngữ cảnh.",
+    descEn: "Scan — skim — locate details, guess meaning from context.",
+    skills: ["read"],
+    examples: [
+      { sv: "Enligt en ny rapport ökar elpriserna i Finland med 8 procent.", vi: "Theo báo cáo mới, giá điện ở Phần Lan tăng 8%.", en: "According to a new report, electricity prices in Finland rise by 8%." },
+      { sv: "Regeringen planerar att stödja låginkomsttagare.",              vi: "Chính phủ dự định hỗ trợ nhóm thu nhập thấp.",    en: "The government plans to support low-income earners." },
+    ],
+    vocab: [
+      { sv: "enligt",            vi: "theo",       en: "according to" },
+      { sv: "öka / minska",      vi: "tăng / giảm", en: "to increase / decrease" },
+      { sv: "regering",          vi: "chính phủ",  en: "government" },
+      { sv: "låginkomsttagare",  vi: "người thu nhập thấp", en: "low-income earner" },
+    ],
+    tipVi: "YKI B1 Läsförståelse: ĐỪNG dịch từng từ. Đọc tiêu đề + đoạn 1 + đoạn cuối trước khi xem câu hỏi.",
+    tipEn: "YKI B1 Läsförståelse: do NOT translate word-by-word. Read the title + first + last paragraph before the questions.",
+  },
+  {
+    id: "b1-discuss",
+    titleVi: "Thảo luận chủ đề xã hội Phần Lan",
+    titleEn: "Discussing Finnish social topics",
+    descVi: "Cấu trúc 'Å ena sidan… å andra sidan…' để cân bằng ý kiến.",
+    descEn: "Use 'On the one hand… on the other hand…' to balance opinions.",
+    skills: ["speak", "listen"],
+    formula: "Å ena sidan…, å andra sidan…  ·  Det beror på…",
+    examples: [
+      { sv: "Å ena sidan är distansarbete bekvämt. Å andra sidan blir man ensam.", vi: "Một mặt làm việc từ xa rất tiện. Mặt khác lại thấy cô đơn.", en: "On the one hand remote work is convenient. On the other hand it gets lonely." },
+      { sv: "Det beror på vilken bransch man jobbar i.",                            vi: "Cái đó tuỳ vào ngành mình làm.",                              en: "It depends on which industry you work in." },
+    ],
+    tipVi: "Trong Tala B1, KHÔNG đưa ý kiến tuyệt đối. Luôn cân bằng 'å ena sidan / å andra sidan' để đạt B1+.",
+    tipEn: "In Tala B1, never give absolute opinions. Always balance with 'å ena sidan / å andra sidan' to reach B1+.",
+  },
+  {
+    id: "b1-job",
+    titleVi: "Đơn xin việc & phỏng vấn",
+    titleEn: "Job applications & interviews",
+    descVi: "CV, thư xin việc, câu hỏi phỏng vấn phổ biến tại Phần Lan.",
+    descEn: "CV, cover letter, common interview questions in Finland.",
+    skills: ["write", "speak"],
+    examples: [
+      { sv: "Jag söker tjänsten som dataingenjör hos er.", vi: "Tôi ứng tuyển vị trí Kỹ sư Dữ liệu tại quý công ty.", en: "I'm applying for the data engineer position at your company." },
+      { sv: "Mina styrkor är problemlösning och samarbete.", vi: "Điểm mạnh của tôi là giải quyết vấn đề và làm việc nhóm.", en: "My strengths are problem-solving and teamwork." },
+      { sv: "Varför vill du jobba just hos oss?",            vi: "Vì sao bạn muốn làm việc tại chúng tôi?",          en: "Why do you want to work specifically with us?" },
+    ],
+    vocab: [
+      { sv: "ansökan",      vi: "đơn ứng tuyển", en: "application" },
+      { sv: "personligt brev", vi: "thư xin việc", en: "cover letter" },
+      { sv: "referenser",   vi: "người tham chiếu", en: "references" },
+      { sv: "anställningsintervju", vi: "phỏng vấn xin việc", en: "job interview" },
+    ],
+    tipVi: "Phỏng vấn ở Phần Lan rất coi trọng 'samarbete' (làm việc nhóm) và 'självständigt arbete' — luôn nhắc cả 2.",
+    tipEn: "Finnish interviews value 'samarbete' (teamwork) and 'självständigt arbete' (independence) — always mention both.",
+  },
+];
+
 const TIERS: Tier[] = [
   {
     id: "a1",
@@ -83,11 +515,7 @@ const TIERS: Tier[] = [
     focusEn: "Get familiar with the most basic everyday communication situations in Finland.",
     gradient: "from-sky-500 to-blue-500",
     Icon: Compass,
-    lessons: [
-      { id: "a1-pron",   titleVi: "Phát âm chuẩn Bắc Âu", titleEn: "Nordic pronunciation basics", descVi: "Nguyên âm dài/ngắn, sj-/tj-, trọng âm.", descEn: "Long/short vowels, sj-/tj- sounds, stress.", skills: ["listen", "speak"] },
-      { id: "a1-self",   titleVi: "Bản thân & gia đình",   titleEn: "Self & family",               descVi: "Jag heter…, min familj, yrken.",           descEn: "Jag heter…, my family, professions.",       skills: ["speak", "write"] },
-      { id: "a1-num",    titleVi: "Số đếm, ngày & giờ",    titleEn: "Numbers, dates & time",       descVi: "1–100, klockan, veckodagar.",              descEn: "1–100, telling the clock, weekdays.",       skills: ["read", "listen"] },
-    ],
+    lessons: A1_LESSONS,
     focusCorner: {
       titleVi: "YKI Focus Corner — Nghe & Đọc thông báo ngắn",
       titleEn: "YKI Focus Corner — Listening & Reading short messages",
@@ -109,11 +537,7 @@ const TIERS: Tier[] = [
     focusEn: "Handle everyday social transactions: shopping, asking directions, basic office life.",
     gradient: "from-emerald-500 to-teal-500",
     Icon: GraduationCap,
-    lessons: [
-      { id: "a2-v2",     titleVi: "Trật tự từ V2 & đảo ngữ",       titleEn: "V2 word order & inversion",        descVi: "Quy tắc V2, vị trí trạng từ.",     descEn: "V2 rule, position of adverbs.",     skills: ["write", "read"] },
-      { id: "a2-enett",  titleVi: "Danh từ En/Ett, xác định",       titleEn: "En/Ett nouns, definite forms",    descVi: "En bok / boken, ett hus / huset.", descEn: "En bok / boken, ett hus / huset.", skills: ["read", "write"] },
-      { id: "a2-tense",  titleVi: "Thì Hiện tại & Quá khứ",         titleEn: "Present & past tense",            descVi: "Động từ nhóm 1–4, preteritum.",    descEn: "Verb groups 1–4, preteritum.",      skills: ["write", "speak"] },
-    ],
+    lessons: A2_LESSONS,
     focusCorner: {
       titleVi: "YKI Focus Corner — Skriva & Tala",
       titleEn: "YKI Focus Corner — Skriva & Tala",
@@ -135,11 +559,7 @@ const TIERS: Tier[] = [
     focusEn: "Express personal opinions, read the press and discuss social topics.",
     gradient: "from-amber-500 to-rose-500",
     Icon: Briefcase,
-    lessons: [
-      { id: "b1-sub",    titleVi: "Mệnh đề phụ nâng cao",                     titleEn: "Advanced subordinate clauses", descVi: "Bisatser với att, eftersom, fastän.", descEn: "Subordinate clauses with att, eftersom, fastän.", skills: ["write", "read"] },
-      { id: "b1-inv",    titleVi: "Câu đảo ngữ & liên kết logic",             titleEn: "Inversion & cohesion",        descVi: "Liên từ däremot, dessutom, alltså.",  descEn: "Connectors däremot, dessutom, alltså.",          skills: ["write", "speak"] },
-      { id: "b1-vocab",  titleVi: "Từ vựng: Môi trường, Giáo dục, Việc làm", titleEn: "Vocab: Environment, Education, Work", descVi: "Klimat, utbildning, arbetsmarknad.", descEn: "Klimat, utbildning, arbetsmarknad.",         skills: ["read", "listen"] },
-    ],
+    lessons: B1_LESSONS,
     focusCorner: {
       titleVi: "YKI Focus Corner — Läsförståelse & Viết luận",
       titleEn: "YKI Focus Corner — Reading comprehension & Opinion writing",
@@ -150,6 +570,7 @@ const TIERS: Tier[] = [
     },
   },
 ];
+
 
 /* -------------------------------------------------------------------------- */
 /* Small UI atoms                                                              */
