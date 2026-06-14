@@ -220,7 +220,53 @@ const A1_LESSONS: Lesson[] = [
     tipVi: "Trong Hörförståelse A1 hay xuất hiện thông báo HSL (Helsinki). Học sẵn 'nästa station' = ga kế tiếp.",
     tipEn: "HSL (Helsinki) announcements show up in A1 Hörförståelse. Memorise 'nästa station' = next stop.",
   },
+  {
+    id: "a1-weather",
+    titleVi: "Thời tiết & mùa Bắc Âu",
+    titleEn: "Weather & Nordic seasons",
+    descVi: "Bốn mùa, mô tả thời tiết, ánh sáng vùng cực và mặc đồ theo mùa.",
+    descEn: "Four seasons, weather phrases, polar light and dressing for the season.",
+    skills: ["listen", "speak"],
+    formula: "Det är [adj].  ·  Det regnar / snöar / blåser.",
+    examples: [
+      { sv: "Det är kallt och soligt idag.", vi: "Hôm nay lạnh và nắng.", en: "It's cold and sunny today." },
+      { sv: "På vintern snöar det ofta i Finland.", vi: "Mùa đông ở Phần Lan hay có tuyết.", en: "In winter it often snows in Finland." },
+      { sv: "Sommarnatten är ljus i Lappland.", vi: "Đêm hè ở Lapland sáng (đêm trắng).", en: "The summer night is bright in Lapland." },
+    ],
+    vocab: [
+      { sv: "vinter / sommar", vi: "đông / hè", en: "winter / summer" },
+      { sv: "vår / höst", vi: "xuân / thu", en: "spring / autumn" },
+      { sv: "regn / snö / dimma", vi: "mưa / tuyết / sương mù", en: "rain / snow / fog" },
+      { sv: "varm / kall / sval", vi: "ấm / lạnh / mát", en: "warm / cold / cool" },
+    ],
+    tipVi: "YKI A1 luôn hỏi 'Hur är vädret?'. Học thuộc 3 câu mô tả ngắn là an toàn.",
+    tipEn: "YKI A1 always asks 'Hur är vädret?'. Memorise 3 short weather sentences to stay safe.",
+  },
+  {
+    id: "a1-restaurant",
+    titleVi: "Gọi món ở quán cà phê & nhà hàng",
+    titleEn: "Ordering at a café / restaurant",
+    descVi: "Tình huống fika kinh điển: chào, gọi đồ, hỏi giá, trả tiền.",
+    descEn: "The classic 'fika' scenario: greeting, ordering, asking the price, paying.",
+    skills: ["speak", "listen"],
+    formula: "Jag tar [maträtt], tack.  ·  Kan jag få [drycken]?",
+    examples: [
+      { sv: "Jag tar en kanelbulle och en kaffe, tack.", vi: "Cho mình một bánh quế và một cà phê, cảm ơn.", en: "I'll have a cinnamon bun and a coffee, please." },
+      { sv: "Kan jag få vattnet utan is?", vi: "Cho mình nước không đá nhé?", en: "Can I have the water without ice?" },
+      { sv: "Notan, tack.", vi: "Cho mình hoá đơn nhé.", en: "The bill, please." },
+    ],
+    vocab: [
+      { sv: "meny", vi: "thực đơn", en: "menu" },
+      { sv: "förrätt / huvudrätt / efterrätt", vi: "khai vị / món chính / tráng miệng", en: "starter / main / dessert" },
+      { sv: "dricks", vi: "tiền tip", en: "tip" },
+      { sv: "smaklig måltid!", vi: "chúc ăn ngon!", en: "enjoy your meal!" },
+    ],
+    tipVi: "'Tack' lặp lại nhiều lần thay vì 'snälla' — đó là phong cách Bắc Âu lịch sự.",
+    tipEn: "Repeat 'Tack' often instead of begging with 'snälla' — that's the Nordic polite style.",
+  },
 ];
+
+
 
 /* ----- Tier A2 ----- */
 const A2_LESSONS: Lesson[] = [
@@ -364,6 +410,49 @@ const A2_LESSONS: Lesson[] = [
     tipVi: "'Jag har ont i + [bộ phận]' = công thức vạn năng. Học thuộc 6 bộ phận cơ thể là đủ cho YKI A2.",
     tipEn: "'Jag har ont i + [body part]' is the universal pattern. Six body-part words cover most YKI A2 cases.",
   },
+  {
+    id: "a2-housing",
+    titleVi: "Tìm nhà & thuê căn hộ",
+    titleEn: "Finding housing & renting",
+    descVi: "Đọc tin rao 'bostad uthyres', hỏi diện tích, tiền cọc, tiện ích.",
+    descEn: "Read 'bostad uthyres' ads, ask about size, deposit and utilities.",
+    skills: ["read", "speak"],
+    formula: "Jag söker en [storlek] i [område] för max [pris] kronor.",
+    examples: [
+      { sv: "Jag söker en tvårummare i Vasa för max 800 euro.", vi: "Tôi tìm căn 2 phòng ở Vaasa, tối đa 800 euro.", en: "I'm looking for a two-room flat in Vaasa, max 800 euro." },
+      { sv: "Ingår el och vatten i hyran?", vi: "Tiền điện và nước có gồm trong giá thuê không?", en: "Are electricity and water included in the rent?" },
+      { sv: "Hur stor är depositionen?", vi: "Tiền cọc là bao nhiêu?", en: "How big is the deposit?" },
+    ],
+    vocab: [
+      { sv: "hyra", vi: "tiền thuê", en: "rent" },
+      { sv: "deposition", vi: "tiền cọc", en: "deposit" },
+      { sv: "möblerad / omöblerad", vi: "có nội thất / không nội thất", en: "furnished / unfurnished" },
+      { sv: "tvårummare / trerummare", vi: "căn 2 phòng / 3 phòng", en: "two-room / three-room flat" },
+    ],
+    tipVi: "Trong Skriva A2, mô tả nhà 'lägenheten' luôn có 'kök', 'badrum', 'sovrum' — học thuộc 3 từ này.",
+    tipEn: "On Skriva A2, describing 'lägenheten' always needs 'kök', 'badrum', 'sovrum' — memorise these three.",
+  },
+  {
+    id: "a2-transport",
+    titleVi: "Mua vé HSL & đi tàu liên thành phố VR",
+    titleEn: "Buying HSL tickets & inter-city VR train",
+    descVi: "Sử dụng app HSL, hỏi tàu VR (Helsinki ↔ Tampere ↔ Vaasa), hiểu thông báo.",
+    descEn: "Use the HSL app, ask about VR trains (Helsinki ↔ Tampere ↔ Vaasa), understand announcements.",
+    skills: ["listen", "read"],
+    examples: [
+      { sv: "En enkelbiljett till Tammerfors, andra klass, tack.", vi: "Một vé một chiều đi Tampere, hạng 2, cảm ơn.", en: "A single ticket to Tampere, second class, please." },
+      { sv: "Tåget från spår fyra avgår om fem minuter.", vi: "Tàu ở ke số 4 sẽ chạy trong 5 phút.", en: "The train from platform four departs in five minutes." },
+      { sv: "Måste jag byta tåg?", vi: "Tôi có phải đổi tàu không?", en: "Do I need to change trains?" },
+    ],
+    vocab: [
+      { sv: "enkelbiljett / tur och retur", vi: "vé một chiều / khứ hồi", en: "single / return ticket" },
+      { sv: "spår", vi: "đường ray (ke ga)", en: "platform" },
+      { sv: "avgång / ankomst", vi: "khởi hành / đến", en: "departure / arrival" },
+      { sv: "byta tåg", vi: "đổi tàu", en: "change trains" },
+    ],
+    tipVi: "Thông báo VR luôn dùng giờ 24 giờ — 'klockan sjutton' = 17:00. Đừng nhầm với 'klockan sju' (07:00).",
+    tipEn: "VR announcements use 24-hour time — 'klockan sjutton' = 17:00. Don't confuse it with 'klockan sju' (07:00).",
+  },
 ];
 
 /* ----- Tier B1 ----- */
@@ -498,6 +587,50 @@ const B1_LESSONS: Lesson[] = [
     ],
     tipVi: "Phỏng vấn ở Phần Lan rất coi trọng 'samarbete' (làm việc nhóm) và 'självständigt arbete' — luôn nhắc cả 2.",
     tipEn: "Finnish interviews value 'samarbete' (teamwork) and 'självständigt arbete' (independence) — always mention both.",
+  },
+  {
+    id: "b1-environment",
+    titleVi: "Môi trường & năng lượng tái tạo",
+    titleEn: "Environment & renewable energy",
+    descVi: "Phân tích bài đọc về khí hậu Bắc Âu, tranh luận đề tài xanh.",
+    descEn: "Analyse Nordic climate reading and debate green topics.",
+    skills: ["read", "speak", "write"],
+    formula: "Å ena sidan… å andra sidan…  ·  Det är viktigt att… eftersom…",
+    examples: [
+      { sv: "Sverige satsar stort på vindkraft och solenergi.", vi: "Thụy Điển đầu tư mạnh vào điện gió và mặt trời.", en: "Sweden invests heavily in wind and solar power." },
+      { sv: "Återvinning är en självklarhet i hela Norden.", vi: "Tái chế là chuyện hiển nhiên ở Bắc Âu.", en: "Recycling is taken for granted across the Nordics." },
+      { sv: "Det är viktigt att minska utsläppen eftersom klimatet förändras snabbt.", vi: "Quan trọng là giảm khí thải vì khí hậu thay đổi nhanh.", en: "It's important to cut emissions because the climate is changing fast." },
+    ],
+    vocab: [
+      { sv: "hållbar utveckling", vi: "phát triển bền vững", en: "sustainable development" },
+      { sv: "fossila bränslen", vi: "nhiên liệu hoá thạch", en: "fossil fuels" },
+      { sv: "koldioxidutsläpp", vi: "khí thải CO2", en: "carbon emissions" },
+      { sv: "biologisk mångfald", vi: "đa dạng sinh học", en: "biodiversity" },
+    ],
+    tipVi: "Chủ đề môi trường xuất hiện trong 60% bài Skriva B1. Học sẵn 5 cụm từ vựng để dùng nhanh.",
+    tipEn: "Environmental topics show up in 60% of Skriva B1 prompts. Stock up on 5 ready-to-use phrases.",
+  },
+  {
+    id: "b1-future",
+    titleVi: "Mục tiêu cá nhân & kế hoạch 5 năm",
+    titleEn: "Personal goals & 5-year plan",
+    descVi: "Diễn đạt mong muốn, kế hoạch học tập và sự nghiệp tại Phần Lan/Bắc Âu.",
+    descEn: "Express wishes, study and career plans for life in Finland/the Nordics.",
+    skills: ["speak", "write"],
+    formula: "Om fem år hoppas jag att jag… eftersom jag vill…",
+    examples: [
+      { sv: "Om fem år hoppas jag att jag jobbar som dataingenjör i Finland.", vi: "5 năm nữa tôi mong được làm kỹ sư dữ liệu ở Phần Lan.", en: "In five years I hope to work as a data engineer in Finland." },
+      { sv: "Mitt mål är att klara YKI B1 Ruotsi och få jobb i Vasa.", vi: "Mục tiêu của tôi là đỗ YKI B1 Ruotsi và xin việc tại Vaasa.", en: "My goal is to pass YKI B1 Ruotsi and land a job in Vaasa." },
+      { sv: "Jag planerar att studera vidare på universitetet.", vi: "Tôi định học tiếp lên đại học.", en: "I plan to continue my studies at the university." },
+    ],
+    vocab: [
+      { sv: "mål", vi: "mục tiêu", en: "goal" },
+      { sv: "drömjobb", vi: "công việc mơ ước", en: "dream job" },
+      { sv: "vidareutbildning", vi: "đào tạo nâng cao", en: "further education" },
+      { sv: "karriär", vi: "sự nghiệp", en: "career" },
+    ],
+    tipVi: "Khi nói về tương lai trong Tala B1, dùng cấu trúc 'hoppas att…' để thể hiện ngữ điệu tự nhiên, tránh 'kommer att' trùng lặp.",
+    tipEn: "When talking about the future in Tala B1, use 'hoppas att…' for natural intonation — don't overuse 'kommer att'.",
   },
 ];
 
