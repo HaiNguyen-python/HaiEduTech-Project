@@ -269,3 +269,225 @@ export const SWEDISH_SAMPLE_ESSAYS: SwedishSampleEssay[] = [
     ],
   },
 ];
+  // ───── A1 extra ─────
+  {
+    id: "w-a1-restaurant",
+    level: "A1",
+    titleVi: "Đặt bàn ở nhà hàng",
+    titleEn: "Booking a table at a restaurant",
+    essaySv:
+      "Hej! Jag vill boka ett bord för fyra personer på lördag klockan nitton. " +
+      "En av oss är vegetarian, så vi undrar om ni har vegetariska rätter på menyn. " +
+      "Vi har också en liten dotter på ett år — har ni barnstol? " +
+      "Tack số mycket för hjälpen! Vi ses på lördag.",
+    essayVi:
+      "Chào! Tôi muốn đặt bàn 4 người thứ Bảy lúc 19h. " +
+      "Một người trong nhóm ăn chay, nên chúng tôi muốn hỏi thực đơn có món chay không. " +
+      "Chúng tôi cũng có con gái một tuổi — nhà hàng có ghế trẻ em không? " +
+      "Cảm ơn nhiều! Hẹn gặp thứ Bảy.",
+    wordCount: 46,
+    grammarNotes: [
+      { label: "vill + infinitiv", noteVi: "'vill boka' = muốn đặt — động từ tâm lý A1 + nguyên mẫu.", noteEn: "'vill boka' = want to book — classic A1 mental verb + infinitive." },
+      { label: "har ni", noteVi: "'har ni' = có không — câu hỏi đơn giản A1 với động từ sở hữu.", noteEn: "'har ni' = do you have — simple A1 question with possession verb." },
+    ],
+    highlights: [
+      "Đủ 4 thông tin: số người, giờ, ăn chay, ghế trẻ — Task Fulfilment A1 đầy đủ.",
+      "Dùng 'En av oss' để chỉ một người trong nhóm — từ vựng A1 hữu ích.",
+      "Kết bằng 'Vi ses' thân mật — đúng tone giao tiếp hàng ngày.",
+    ],
+  },
+  {
+    id: "w-a1-describe-home",
+    level: "A1",
+    titleVi: "Mô tả ngôi nhà / căn hộ của bạn",
+    titleEn: "Describing your home",
+    essaySv:
+      "Jag bor i en liten lägenhet med tre rum i Vasa. " +
+      "I vardagsrummet finns en soffa, ett skrivbord och en stor bokhylla. " +
+      "Jag tycker att köket är mysigt eftersom det är ljust och jag lagar mat där varje dag. " +
+      "Mitt sovrum är lugnt och det finns en fin utsikt över parken.",
+    essayVi:
+      "Tôi sống trong một căn hộ nhỏ 3 phòng ở Vasa. " +
+      "Phòng khách có một chiếc sofa, một bàn viết và một giá sách lớn. " +
+      "Tôi thấy nhà bếp ấm cúng vì sáng và tôi nấu ăn ở đó mỗi ngày. " +
+      "Phòng ngủ của tôi yên tĩnh và có tầm nhìn đẹp ra công viên.",
+    wordCount: 50,
+    grammarNotes: [
+      { label: "det finns", noteVi: "'det finns' = có — cách nói tồn tại cổ điển A1, dùng nhiều lần để mô tả không gian.", noteEn: "'det finns' = there is/are — classic A1 existential construction, repeated to describe space." },
+      { label: "eftersom + S+V", noteVi: "'eftersom det är ljust' — mệnh đề lý do đơn giản, không cần đảo vì không có trợ động từ.", noteEn: "'eftersom det är ljust' — simple reason clause, no inversion needed without auxiliary." },
+    ],
+    highlights: [
+      "Mô tả đủ 3 khu vực: phòng khách, bếp, phòng ngủ — đạt yêu cầu đề bài.",
+      "Dùng tính từ cảm xúc 'mysigt', 'lugnt', 'fin' — từ vựng đa dạng A1 cao.",
+      "Kết hợp 'det finns' và 'är' để tránh lặp từ — Coherence A1 cao.",
+    ],
+  },
+  // ───── A2 extra ─────
+  {
+    id: "w-a2-cinema",
+    level: "A2",
+    titleVi: "Mời bạn đi xem phim",
+    titleEn: "Inviting a friend to the cinema",
+    essaySv:
+      "Hej Erik,\n\n" +
+      "Jag hoppas att du har det bra! Jag har två biljetter till den nya filmen på Bio Rex på fredag klockan tjugo. " +
+      "Filmen handlar om en ung forskare som upptäcker ett gammalt mysterium i Lappland, " +
+      "och den fick jättebra recensioner förra veckan. " +
+      "Det låter väldigt spännande! " +
+      "Vill du äta middag tillsammans med mig innan filmen? " +
+      "Jag tänkte på den lilla thairestaurangen bredvid biografen. " +
+      "De har god mat och det är inte số dyrt. " +
+      "Hör av dig snart så jag vet om jag ska boka bord!\n\n" +
+      "Kram,\nMinh",
+    essayVi:
+      "Chào Erik,\n\n" +
+      "Tôi hy vọng bạn khỏe! Tôi có 2 vé phim mới ở rạp Bio Rex thứ Sáu lúc 20h. " +
+      "Phim nói về một nhà khoa trẻ khám phá một bí ẩn cổ ở Lapland, " +
+      "và phim nhận được đánh giá rất tốt tuần trước. " +
+      "Nghe có vẻ rất hấp dẫn! " +
+      "Bạn muốn ăn tối cùng tôi trước khi xem phim không? " +
+      "Tôi đang nghĩ đến nhà hàng Thái nhỏ bên cạnh rạp chiếu phim. " +
+      "Đồ ăn ngon và không đắt lắm. " +
+      "Trả lời tôi sớm để tôi biết có nên đặt bàn không!\n\n" +
+      "Thân,\nMinh",
+    wordCount: 92,
+    grammarNotes: [
+      { label: "som + relativsats", noteVi: "'som upptäcker' — mệnh đề quan hệ mô tả nhân vật, A2 nâng cao.", noteEn: "'som upptäcker' — relative clause describing a character, advanced A2." },
+      { label: "số + S+V", noteVi: "'số jag vet' — 'số' diễn tả kết quả/hệ quả, mệnh đề sau có chủ ngữ + động từ thường.", noteEn: "'số jag vet' — 'số' expresses result/consequence, followed by normal S+V order." },
+      { label: "innan + sats", noteVi: "'innan filmen' — giới từ thời gian đơn giản, A2 cơ bản.", noteEn: "'innan filmen' — simple time preposition, basic A2." },
+    ],
+    highlights: [
+      "Có đủ 3 yếu tố A2: mời, tóm tắt phim, đề xuất ăn tối — Task Fulfilment đầy đủ.",
+      "Nhắc 'jättebra recensioner' để thuyết phục bạn — kỹ năng giao tiếp A2 tinh tế.",
+      "Dùng 'Hör av dig snart' — cụm lịch sự để yêu cầu phản hồi nhanh.",
+    ],
+  },
+  {
+    id: "w-a2-holiday",
+    level: "A2",
+    titleVi: "Kể về một ngày lễ truyền thống",
+    titleEn: "Describing a traditional holiday",
+    essaySv:
+      "I mitt hemland Vietnam firar vi Tet Nguyen Dan varje år i slutet av januari eller i februari. " +
+      "Det är vår viktigaste högtid. " +
+      "På morgonen samlas hela familjen och vi äter traditionell mat som bánh chưng och thịt kho. " +
+      "På kvällen går vi ut för att titta på fyrverkerierna och besöker grannar för att önska lycka och hälsa. " +
+      "Jag tycker att Tet är en vacker tid eftersom alla blir gladare och vi träffas efter ett helt år av arbete.",
+    essayVi:
+      "Ở quê hương Việt Nam của tôi, chúng tôi ăn mừng Tết Nguyên Đán mỗi năm vào cuối tháng 1 hoặc tháng 2. " +
+      "Đây là lễ hội quan trọng nhất của chúng tôi. " +
+      "Vào buổi sáng cả gia đình sum họp và chúng tôi ăn các món truyền thống như bánh chưng và thịt kho. " +
+      "Vào buổi tối chúng tôi ra ngoài xem pháo hoa và thăm hàng xóm để chúc sức khỏe và may mắn. " +
+      "Tôi thấy Tết là khoảng thời gian đẹp vì mọi người đều vui hơn và chúng tôi gặp nhau sau cả năm làm việc.",
+    wordCount: 90,
+    grammarNotes: [
+      { label: "på morgonen / på kvällen", noteVi: "Trạng từ thời gian ở đầu câu + V2 nhẹ — đủ điểm Grammar A2.", noteEn: "Time adverbial at sentence start + mild V2 — enough for A2 Grammar points." },
+      { label: "eftersom + S+V", noteVi: "'eftersom alla blir gladare' — giải thích lý do cảm xúc bằng mệnh đề đơn giản.", noteEn: "'eftersom alla blir gladare' — explains emotional reason with a simple clause." },
+      { label: "som + sats", noteVi: "'som bánh chưng och thịt kho' — dùng 'som' để liệt kê ví dụ, phổ biến A2.", noteEn: "'som bánh chưng och thịt kho' — using 'som' to list examples, common A2." },
+    ],
+    highlights: [
+      "Đủ 4 thông tin đề yêu cầu: tên lễ, thời gian, đồ ăn, hoạt động gia đình.",
+      "Từ vựng văn hóa đặc thù (bánh chưng, thịt kho) — điểm Vocabulary A2 cao.",
+      "Kết bằng cảm xúc cá nhân + lý do — tiêu chí Coherence cao.",
+    ],
+  },
+  // ───── B1 extra ─────
+  {
+    id: "w-b1-library",
+    level: "B1",
+    titleVi: "Thư kiến nghị: cải thiện thư viện địa phương",
+    titleEn: "Opinion letter: improving the local library",
+    essaySv:
+      "Jag vill lyfta frågan om stadsbiblioteket i vårt område, " +
+      "som tyvärr har blivit allt mer omodernt de senaste åren. " +
+      "För det första behöver vi längre öppettider eftersom många invånare, " +
+      "särskilt studenter och föräldrar, arbetar under dagarna och har bara kvällstid " +
+      "för att läsa eller låna böcker. " +
+      "Om biblioteket kunde vara öppet till klockan tjugo på vardagarna " +
+      "skulle det hjälpa många människor att utveckla sina kunskaper. " +
+      "För det andra behöver biblioteket fler böcker på olika språk, " +
+      "exempelvis vietnamesiska, arabiska och engelska, " +
+      "eftersom vårt område har blivit multikulturellt. " +
+      "Det skulle underlätta integrationen för nya invånare och deras barn. " +
+      "Dessutom saknas tillräckligt med tysta studierum där man kan förbereda sig till examen " +
+      "eller jobba med grupprojekt. " +
+      "Sammanfattningsvis anser jag att kommunen måste investera mer i biblioteket, " +
+      "eftersom det är en viktig plats för bildning, gemenskap och demokrati i vårt samhälle.",
+    essayVi:
+      "Tôi muốn nêu vấn đề về thư viện thành phố ở khu vực chúng tôi, " +
+      "tiếc là nơi đây đã ngày càng lạc hậu trong những năm gần đây. " +
+      "Thứ nhất, chúng ta cần giờ mở cửa dài hơn vì nhiều cư dân, " +
+      "đặc biệt là sinh viên và phụ huynh, làm việc ban ngày và chỉ có buổi tối " +
+      "để đọc sách hoặc mượn sách. " +
+      "Nếu thư viện có thể mở đến 20h vào các ngày trong tuần " +
+      "thì sẽ giúp nhiều người phát triển kiến thức của họ. " +
+      "Thứ hai, thư viện cần thêm sách bằng nhiều ngôn ngữ khác nhau, " +
+      "ví dụ tiếng Việt, tiếng Ả Rập và tiếng Anh, " +
+      "vì khu vực chúng tôi đã trở nên đa văn hóa. " +
+      "Điều này sẽ tạo điều kiện thuận lợi cho sự hội nhập của cư dân mới và con cái họ. " +
+      "Ngoài ra còn thiếu các phòng học yên tĩnh đủ để chuẩn bị cho kỳ thi " +
+      "hoặc làm việc nhóm. " +
+      "Tóm lại, tôi cho rằng chính quyền địa phương phải đầu tư nhiều hơn vào thư viện, " +
+      "vì đây là nơi quan trọng cho giáo dục, cộng đồng và dân chủ trong xã hội chúng ta.",
+    wordCount: 165,
+    grammarNotes: [
+      { label: "Om + sats, skulle + infinitiv", noteVi: "'Om biblioteket kunde vara öppet… skulle det hjälpa' — câu điều kiện loại 2 B1, diễn tả giả thuyết.", noteEn: "'Om biblioteket kunde vara öppet… skulle det hjälpa' — B1 conditional type 2, expressing hypothesis." },
+      { label: "För det första / andra / Dessutom / Sammanfattningsvis", noteVi: "Bộ liên kết 4 mấu chốt — cấu trúc opinion letter B1 chuẩn.", noteEn: "Four-part linker set — standard B1 opinion-letter scaffolding." },
+      { label: "eftersom + BIFF", noteVi: "'eftersom vårt område har blivit multikulturellt' — động từ trợ 'har' đứng trước chủ ngữ 'vårt område', kích hoạt BIFF.", noteEn: "'eftersom vårt område har blivit…' — auxiliary 'har' before subject triggers BIFF inversion." },
+    ],
+    highlights: [
+      "3 luận điểm rõ ràng (giờ mở cửa, sách đa ngôn ngữ, phòng học) — Task Fulfilment B1 đầy đủ.",
+      "Đề cập lợi ích cộng đồng ('integration', 'bildning', 'demokrati') — tầm nhìn xã hội, điểm Vocabulary cao.",
+      "Dùng câu điều kiện 'Om… skulle' để đề xuất giải pháp cụ thể — tiêu chí Grammar B1 cao cấp.",
+    ],
+  },
+  {
+    id: "w-b1-remote-work",
+    level: "B1",
+    titleVi: "Tiểu luận: Làm việc từ xa",
+    titleEn: "Essay: remote work",
+    essaySv:
+      "Distansarbete har blivit allt vanligare sedan pandemin och påverkar hur vi ser på balansen mellan arbete och fritid. " +
+      "En tydlig fördel är att människor sparar mycket tid på pendling, " +
+      "vilket ger dem möjlighet att sova längre, laga hälsosam mat eller träna på morgonen. " +
+      "Dessutom kan föräldrar hämta sina barn tidigare från skolan och ändå fullfölja sina arbetsuppgifter effektivt. " +
+      "En annan positiv effekt är att företag kan anställa talanger från hela landet eller till och med utlandet " +
+      "utan att tänka på geografiska avstånd.\n\n" +
+      "Trots dessa fördelar finns det nackdelar som vi inte får ignorera. " +
+      "Många anställda känner sig isolerade hemma och saknar den sociala kontakten med sina kollegor. " +
+      "Dessutom är det svårt att skilja på arbete och fritid när hemmet blir kontor, " +
+      "vilket kan leda till utbrändhet och sömnproblem. " +
+      "Vissa människor har också sämre arbetsmiljö hemma med brusande barn eller saknar en bekväm skrivbordsstol.\n\n" +
+      "Därför rekommenderar jag att arbetsgivare erbjuder en flexibel modell " +
+      "där anställda kan jobba hemifrån två eller tre dagar i veckan men ändå träffas på kontoret " +
+      "för viktiga möten och teamaktiviteter. " +
+      "På det sättet får vi det bästa av båda världar.",
+    essayVi:
+      "Làm việc từ xa đã ngày càng phổ biến kể từ đại dịch và ảnh hưởng đến cách chúng ta nhìn nhận sự cân bằng giữa công việc và thời gian rảnh. " +
+      "Một lợi thế rõ ràng là mọi người tiết kiệm rất nhiều thời gian đi lại, " +
+      "điều này cho họ cơ hội ngủ lâu hơn, nấu ăn lành mạnh hoặc tập thể dục vào buổi sáng. " +
+      "Hơn nữa, cha mẹ có thể đón con sớm hơn từ trường và vẫn hoàn thành nhiệm vụ công việc một cách hiệu quả. " +
+      "Một tác động tích cực khác là các công ty có thể tuyển dụng nhân tài từ khắp đất nước hoặc thậm chí nước ngoài " +
+      "mà không cần nghĩ đến khoảng cách địa lý.\n\n" +
+      "Mặc dù có những lợi ích này, vẫn có những bất lợi mà chúng ta không thể phớt lờ. " +
+      "Nhiều nhân viên cảm thấy cô lập ở nhà và nhớ sự tiếp xúc xã hội với đồng nghiệp. " +
+      "Ngoài ra, việc phân biệt công việc và thời gian rảnh trở nên khó khăn khi nhà biến thành văn phòng, " +
+      "điều này có thể dẫn đến kiệt sức và vấn đề về giấc ngủ. " +
+      "Một số người cũng có môi trường làm việc kém hơn ở nhà với tiếng ồn của trẻ em hoặc thiếu ghế ngồi thoải mái.\n\n" +
+      "Vì vậy, tôi khuyến nghị các nhà tuyển dụng cung cấp một mô hình linh hoạt " +
+      "để nhân viên có thể làm việc tại nhà hai hoặc ba ngày một tuần nhưng vẫn gặp nhau tại văn phòng " +
+      "cho các cuộc họp quan trọng và hoạt động nhóm. " +
+      "Như vậy chúng ta sẽ có được cả hai thế giới tốt nhất.",
+    wordCount: 206,
+    grammarNotes: [
+      { label: "vilket + ger", noteVi: "'vilket ger dem möjlighet' — đại từ quan hệ thay thế cả mệnh đề trước, B1 phức tạp.", noteEn: "'vilket ger dem möjlighet' — relative pronoun replacing the entire preceding clause, complex B1." },
+      { label: "utan att + infinitiv", noteVi: "'utan att tänka' — cấu trúc phủ định B1 thay vì 'och inte', gọn và học thuật.", noteEn: "'utan att tänka' — B1 negative construction replacing 'och inte', concise and academic." },
+      { label: "Därför rekommenderar jag att + S+V", noteVi: "'rekommenderar att arbetsgivare erbjuder' — động từ khuyến nghị + mệnh đề gián tiếp B1.", noteEn: "'rekommenderar att arbetsgivare erbjuder' — recommendation verb + B1 indirect clause." },
+    ],
+    highlights: [
+      "3 lý do rõ ràng (tiết kiệm thời gian, cha mẹ linh hoạt, tuyển dụng toàn cầu) — Task Fulfilment đầy đủ.",
+      "Nhắc đến hệ quả sức khỏe ('utbrändhet', 'sömnproblem') — điểm Vocabulary học thuật B1 cao.",
+      "Khuyến nghị giải pháp thực tế (2-3 ngày/tuần + gặp mặt) — thể hiện tư duy cân bằng, điểm Coherence cao.",
+    ],
+  },
+];
