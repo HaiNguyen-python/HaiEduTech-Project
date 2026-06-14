@@ -248,6 +248,69 @@ const Swedish = () => {
             </Link>
           </motion.div>
 
+          {/* Bonus: Writing Lab */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.46, duration: 0.5 }}
+            className="mt-4"
+          >
+            <Link to="/swedish/writing" className="block group">
+              <div className="rounded-2xl border-2 border-dashed border-primary/20 bg-card/60 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 hover:bg-card transition-all flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl shadow-md shrink-0">
+                  ✍️
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                    {t("Writing Lab — Luyện viết Skriva A1–B1", "Writing Lab — Skriva practice A1–B1")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "Đề viết YKI Ruotsi thực tế + AI chấm 4 tiêu chí (Task, Vocabulary, Grammar, Coherence) và trích lỗi cụ thể.",
+                      "Realistic YKI Ruotsi prompts + AI grades 4 criteria (Task, Vocabulary, Grammar, Coherence) with concrete errors.",
+                    )}
+                  </p>
+                </div>
+                <Button variant="outline" className="gap-2 shrink-0">
+                  {t("Mở Writing Lab", "Open Writing Lab")}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Bonus: Speaking Lab */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.48, duration: 0.5 }}
+            className="mt-4"
+          >
+            <Link to="/swedish/speaking" className="block group">
+              <div className="rounded-2xl border-2 border-dashed border-primary/20 bg-card/60 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 hover:bg-card transition-all flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-2xl shadow-md shrink-0">
+                  🎤
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                    <Mic className="w-4 h-4" />
+                    {t("Speaking Lab — Luyện nói Tala A1–B1", "Speaking Lab — Tala practice A1–B1")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "Đề Tala YKI Ruotsi, ghi âm sv-SE liên tục, AI chấm Fluency + Grammar + Vocabulary + Task.",
+                      "YKI Ruotsi Tala prompts, continuous sv-SE recording, AI grades Fluency + Grammar + Vocabulary + Task.",
+                    )}
+                  </p>
+                </div>
+                <Button variant="outline" className="gap-2 shrink-0">
+                  {t("Mở Speaking Lab", "Open Speaking Lab")}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </Link>
+          </motion.div>
+
           {/* Bonus: AI Speaking Coach */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
