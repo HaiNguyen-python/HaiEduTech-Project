@@ -78,7 +78,7 @@ interface WordResult {
 }
 
 interface AISpeakingCoachProps {
-  language: "english" | "finnish" | "chinese" | "vietnamese";
+  language: "english" | "finnish" | "swedish" | "chinese" | "vietnamese";
   onScoreUpdate?: (score: number) => void;
   onPerfectScore?: () => void; // callback for gamification integration (flying stars etc.)
 }

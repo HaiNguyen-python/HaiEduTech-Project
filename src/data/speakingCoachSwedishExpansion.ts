@@ -1,0 +1,210 @@
+// Swedish (Svenska) themes for the AI Speaking Coach.
+// Covers YKI A1 → B1 — at least 10 sentences per theme, levels set directly
+// so applyTopUps does not need an entry for Swedish IDs.
+import type { SpeakingTheme } from "./speakingCoachData";
+
+const a1: SpeakingTheme[] = [
+  {
+    id: "sv-greetings", name: "Hälsningar", nameVi: "Chào hỏi & lịch sự", icon: "👋", level: "A1",
+    sentences: [
+      { id: "sv-gr1", text: "Hej, jag heter Lan. Trevligt att träffas.", translation: "Chào, tôi tên Lan. Rất vui được gặp.", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr2", text: "Hur mår du idag?", translation: "Hôm nay bạn khỏe không?", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr3", text: "Jag mår bra, tack. Och du?", translation: "Tôi khỏe, cảm ơn. Còn bạn?", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr4", text: "Ursäkta, kan du upprepa det?", translation: "Xin lỗi, bạn nhắc lại được không?", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr5", text: "Tack så mycket för hjälpen.", translation: "Cảm ơn nhiều vì đã giúp.", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr6", text: "Förlåt, jag förstår inte.", translation: "Xin lỗi, tôi không hiểu.", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr7", text: "Vi ses imorgon!", translation: "Hẹn gặp lại ngày mai!", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr8", text: "God morgon, hur är det?", translation: "Chào buổi sáng, mọi việc thế nào?", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr9", text: "Talar du engelska?", translation: "Bạn nói tiếng Anh không?", difficulty: "easy", theme: "greetings" },
+      { id: "sv-gr10", text: "Jag kommer från Vietnam.", translation: "Tôi đến từ Việt Nam.", difficulty: "easy", theme: "greetings" },
+    ],
+  },
+  {
+    id: "sv-family", name: "Familj", nameVi: "Gia đình & bản thân", icon: "👨‍👩‍👧", level: "A1",
+    sentences: [
+      { id: "sv-fa1", text: "Jag är tjugoåtta år gammal.", translation: "Tôi 28 tuổi.", difficulty: "easy", theme: "family" },
+      { id: "sv-fa2", text: "Min mamma heter Mai och min pappa heter Hai.", translation: "Mẹ tôi tên Mai và bố tôi tên Hải.", difficulty: "easy", theme: "family" },
+      { id: "sv-fa3", text: "Vi har en katt som heter Mio.", translation: "Chúng tôi có một con mèo tên Mio.", difficulty: "easy", theme: "family" },
+      { id: "sv-fa4", text: "Min syster bor i Stockholm.", translation: "Chị tôi sống ở Stockholm.", difficulty: "easy", theme: "family" },
+      { id: "sv-fa5", text: "Jag har två bröder och en syster.", translation: "Tôi có hai anh trai và một em gái.", difficulty: "easy", theme: "family" },
+      { id: "sv-fa6", text: "Min man jobbar som ingenjör.", translation: "Chồng tôi làm kỹ sư.", difficulty: "easy", theme: "family" },
+      { id: "sv-fa7", text: "Vi bor tillsammans i Helsingfors.", translation: "Chúng tôi sống cùng nhau ở Helsinki.", difficulty: "easy", theme: "family" },
+      { id: "sv-fa8", text: "Min farmor är åttio år gammal.", translation: "Bà nội tôi 80 tuổi.", difficulty: "medium", theme: "family" },
+      { id: "sv-fa9", text: "Jag är ensam barn.", translation: "Tôi là con một.", difficulty: "easy", theme: "family" },
+      { id: "sv-fa10", text: "Mina föräldrar bor kvar i Vietnam.", translation: "Bố mẹ tôi vẫn sống ở Việt Nam.", difficulty: "medium", theme: "family" },
+    ],
+  },
+  {
+    id: "sv-numbers", name: "Siffror och tid", nameVi: "Số đếm & thời gian", icon: "🕐", level: "A1",
+    sentences: [
+      { id: "sv-nu1", text: "Klockan är halv nio på morgonen.", translation: "Bây giờ là 8 giờ rưỡi sáng.", difficulty: "easy", theme: "numbers" },
+      { id: "sv-nu2", text: "Tåget går klockan sjutton.", translation: "Tàu chạy lúc 17 giờ.", difficulty: "easy", theme: "numbers" },
+      { id: "sv-nu3", text: "Idag är det måndag den femte maj.", translation: "Hôm nay là thứ Hai, ngày 5 tháng 5.", difficulty: "medium", theme: "numbers" },
+      { id: "sv-nu4", text: "Jag har bott här i tre år.", translation: "Tôi đã sống ở đây ba năm.", difficulty: "easy", theme: "numbers" },
+      { id: "sv-nu5", text: "Mötet börjar kvart över tio.", translation: "Cuộc họp bắt đầu lúc 10 giờ 15.", difficulty: "medium", theme: "numbers" },
+      { id: "sv-nu6", text: "Vi ses klockan tjugo.", translation: "Hẹn gặp lúc 8 giờ tối.", difficulty: "easy", theme: "numbers" },
+      { id: "sv-nu7", text: "Den här veckan jobbar jag fyra dagar.", translation: "Tuần này tôi làm bốn ngày.", difficulty: "medium", theme: "numbers" },
+      { id: "sv-nu8", text: "Min födelsedag är den femtonde juli.", translation: "Sinh nhật tôi là ngày 15 tháng 7.", difficulty: "medium", theme: "numbers" },
+      { id: "sv-nu9", text: "Det kostar tjugofem euro.", translation: "Cái này giá 25 euro.", difficulty: "easy", theme: "numbers" },
+      { id: "sv-nu10", text: "Jag väntar tjugo minuter på bussen.", translation: "Tôi đợi xe buýt 20 phút.", difficulty: "medium", theme: "numbers" },
+    ],
+  },
+  {
+    id: "sv-shopping", name: "Shopping", nameVi: "Mua sắm & giá tiền", icon: "🛒", level: "A1",
+    sentences: [
+      { id: "sv-sh1", text: "Hur mycket kostar mjölken?", translation: "Sữa giá bao nhiêu?", difficulty: "easy", theme: "shopping" },
+      { id: "sv-sh2", text: "Kan jag betala med kort?", translation: "Tôi trả bằng thẻ được không?", difficulty: "easy", theme: "shopping" },
+      { id: "sv-sh3", text: "Jag tar två stycken, tack.", translation: "Cho tôi hai cái, cảm ơn.", difficulty: "easy", theme: "shopping" },
+      { id: "sv-sh4", text: "Har ni det här i en mindre storlek?", translation: "Bên anh có size nhỏ hơn không?", difficulty: "medium", theme: "shopping" },
+      { id: "sv-sh5", text: "Får jag ett kvitto, tack?", translation: "Cho tôi xin hoá đơn nhé?", difficulty: "easy", theme: "shopping" },
+      { id: "sv-sh6", text: "Kan jag prova den här tröjan?", translation: "Tôi thử cái áo này được không?", difficulty: "medium", theme: "shopping" },
+      { id: "sv-sh7", text: "Var ligger närmaste apotek?", translation: "Nhà thuốc gần nhất ở đâu?", difficulty: "medium", theme: "shopping" },
+      { id: "sv-sh8", text: "Jag letar efter en present till min mamma.", translation: "Tôi đang tìm quà cho mẹ.", difficulty: "medium", theme: "shopping" },
+      { id: "sv-sh9", text: "Det är för dyrt för mig.", translation: "Cái này đắt quá với tôi.", difficulty: "easy", theme: "shopping" },
+      { id: "sv-sh10", text: "Finns det rabatt idag?", translation: "Hôm nay có giảm giá không?", difficulty: "easy", theme: "shopping" },
+    ],
+  },
+  {
+    id: "sv-directions", name: "Vägbeskrivning", nameVi: "Hỏi đường & giao thông", icon: "🚌", level: "A1",
+    sentences: [
+      { id: "sv-di1", text: "Ursäkta, hur kommer jag till centrum?", translation: "Xin lỗi, tôi đi vào trung tâm như nào?", difficulty: "easy", theme: "directions" },
+      { id: "sv-di2", text: "Ta buss nummer fyra och kliv av vid torget.", translation: "Bắt xe buýt số 4 và xuống ở quảng trường.", difficulty: "medium", theme: "directions" },
+      { id: "sv-di3", text: "Gå rakt fram och sedan till höger.", translation: "Đi thẳng rồi rẽ phải.", difficulty: "easy", theme: "directions" },
+      { id: "sv-di4", text: "Är det långt härifrån?", translation: "Có xa từ đây không?", difficulty: "easy", theme: "directions" },
+      { id: "sv-di5", text: "Var ligger närmaste tunnelbanestation?", translation: "Ga tàu điện ngầm gần nhất ở đâu?", difficulty: "medium", theme: "directions" },
+      { id: "sv-di6", text: "En enkelbiljett till Vasa, tack.", translation: "Một vé một chiều đi Vaasa, cảm ơn.", difficulty: "medium", theme: "directions" },
+      { id: "sv-di7", text: "Tåget är försenat tio minuter.", translation: "Tàu trễ 10 phút.", difficulty: "medium", theme: "directions" },
+      { id: "sv-di8", text: "Nästa station är Helsingfors centralstation.", translation: "Trạm tiếp theo là ga trung tâm Helsinki.", difficulty: "medium", theme: "directions" },
+      { id: "sv-di9", text: "Kan du visa mig på kartan?", translation: "Bạn chỉ giúp tôi trên bản đồ được không?", difficulty: "easy", theme: "directions" },
+      { id: "sv-di10", text: "Jag har gått vilse.", translation: "Tôi bị lạc đường.", difficulty: "easy", theme: "directions" },
+    ],
+  },
+];
+
+const a2: SpeakingTheme[] = [
+  {
+    id: "sv-work", name: "Arbete", nameVi: "Công việc & văn phòng", icon: "💼", level: "A2",
+    sentences: [
+      { id: "sv-wo1", text: "Jag jobbar som lärare på en grundskola.", translation: "Tôi làm giáo viên trường tiểu học.", difficulty: "medium", theme: "work" },
+      { id: "sv-wo2", text: "Idag har jag möte klockan två.", translation: "Hôm nay tôi có họp lúc 2 giờ.", difficulty: "easy", theme: "work" },
+      { id: "sv-wo3", text: "Kan vi boka ett möte på torsdag?", translation: "Mình đặt họp thứ Năm nhé?", difficulty: "medium", theme: "work" },
+      { id: "sv-wo4", text: "Jag är sjuk idag och kan inte komma till jobbet.", translation: "Hôm nay tôi ốm, không đi làm được.", difficulty: "medium", theme: "work" },
+      { id: "sv-wo5", text: "Min chef är väldigt snäll.", translation: "Sếp tôi rất tử tế.", difficulty: "easy", theme: "work" },
+      { id: "sv-wo6", text: "Vi har semester i juli.", translation: "Chúng tôi nghỉ phép tháng 7.", difficulty: "easy", theme: "work" },
+      { id: "sv-wo7", text: "Jag arbetar hemifrån tre dagar i veckan.", translation: "Tôi làm việc từ nhà 3 ngày một tuần.", difficulty: "medium", theme: "work" },
+      { id: "sv-wo8", text: "Vad jobbar du med?", translation: "Bạn làm nghề gì?", difficulty: "easy", theme: "work" },
+      { id: "sv-wo9", text: "Lönen utbetalas den sista varje månad.", translation: "Lương trả vào ngày cuối tháng.", difficulty: "medium", theme: "work" },
+      { id: "sv-wo10", text: "Jag trivs bra med mina kollegor.", translation: "Tôi thấy hợp với đồng nghiệp.", difficulty: "medium", theme: "work" },
+    ],
+  },
+  {
+    id: "sv-health", name: "Hälsa", nameVi: "Sức khỏe & khám bệnh", icon: "🏥", level: "A2",
+    sentences: [
+      { id: "sv-he1", text: "Jag har ont i magen sedan igår.", translation: "Tôi đau bụng từ hôm qua.", difficulty: "medium", theme: "health" },
+      { id: "sv-he2", text: "Jag skulle vilja boka en tid hos läkaren.", translation: "Tôi muốn đặt lịch khám bác sĩ.", difficulty: "medium", theme: "health" },
+      { id: "sv-he3", text: "Ta en tablett tre gånger om dagen.", translation: "Uống một viên, ba lần một ngày.", difficulty: "medium", theme: "health" },
+      { id: "sv-he4", text: "Jag har feber och huvudvärk.", translation: "Tôi sốt và đau đầu.", difficulty: "easy", theme: "health" },
+      { id: "sv-he5", text: "Har ni receptet klart?", translation: "Bên anh có đơn thuốc rồi chứ?", difficulty: "medium", theme: "health" },
+      { id: "sv-he6", text: "Det gör ont när jag andas.", translation: "Đau khi tôi thở.", difficulty: "medium", theme: "health" },
+      { id: "sv-he7", text: "Apoteket ligger bredvid sjukhuset.", translation: "Nhà thuốc ở cạnh bệnh viện.", difficulty: "medium", theme: "health" },
+      { id: "sv-he8", text: "Jag är allergisk mot penicillin.", translation: "Tôi bị dị ứng với penicillin.", difficulty: "medium", theme: "health" },
+      { id: "sv-he9", text: "Hur ofta ska jag ta medicinen?", translation: "Tôi uống thuốc bao lâu một lần?", difficulty: "medium", theme: "health" },
+      { id: "sv-he10", text: "Jag behöver en sjukintyg för jobbet.", translation: "Tôi cần giấy bệnh để nộp công ty.", difficulty: "medium", theme: "health" },
+    ],
+  },
+  {
+    id: "sv-food", name: "Mat och restaurang", nameVi: "Ăn uống & nhà hàng", icon: "🍽️", level: "A2",
+    sentences: [
+      { id: "sv-fo1", text: "Ett bord för två, tack.", translation: "Cho một bàn cho 2 người, cảm ơn.", difficulty: "easy", theme: "food" },
+      { id: "sv-fo2", text: "Vad rekommenderar du idag?", translation: "Hôm nay bạn gợi ý món gì?", difficulty: "medium", theme: "food" },
+      { id: "sv-fo3", text: "Jag är vegetarian, har ni något utan kött?", translation: "Tôi ăn chay, bên anh có món không thịt không?", difficulty: "medium", theme: "food" },
+      { id: "sv-fo4", text: "Maten var verkligen god.", translation: "Đồ ăn ngon thật sự.", difficulty: "easy", theme: "food" },
+      { id: "sv-fo5", text: "Kan jag få notan, tack?", translation: "Cho tôi xin hoá đơn nhé?", difficulty: "easy", theme: "food" },
+      { id: "sv-fo6", text: "Får jag en kopp kaffe utan socker?", translation: "Cho tôi một ly cà phê không đường nhé?", difficulty: "medium", theme: "food" },
+      { id: "sv-fo7", text: "Jag dricker inte alkohol.", translation: "Tôi không uống rượu.", difficulty: "easy", theme: "food" },
+      { id: "sv-fo8", text: "Maten är lite för salt för mig.", translation: "Món này hơi mặn với tôi.", difficulty: "medium", theme: "food" },
+      { id: "sv-fo9", text: "Kan jag få vattnet kallt, tack?", translation: "Cho tôi nước lạnh nhé?", difficulty: "easy", theme: "food" },
+      { id: "sv-fo10", text: "Vi vill beställa en pizza till.", translation: "Chúng tôi muốn gọi thêm một cái pizza.", difficulty: "medium", theme: "food" },
+    ],
+  },
+  {
+    id: "sv-hobbies", name: "Fritid", nameVi: "Sở thích & thời gian rảnh", icon: "🎨", level: "A2",
+    sentences: [
+      { id: "sv-ho1", text: "På fritiden tycker jag om att läsa böcker.", translation: "Lúc rảnh tôi thích đọc sách.", difficulty: "medium", theme: "hobbies" },
+      { id: "sv-ho2", text: "Jag spelar fotboll varje söndag.", translation: "Tôi chơi bóng đá mỗi Chủ nhật.", difficulty: "easy", theme: "hobbies" },
+      { id: "sv-ho3", text: "Vi brukar gå på bio på lördagar.", translation: "Chúng tôi hay đi xem phim vào thứ Bảy.", difficulty: "medium", theme: "hobbies" },
+      { id: "sv-ho4", text: "Min hobby är att laga thaimat.", translation: "Sở thích của tôi là nấu món Thái.", difficulty: "medium", theme: "hobbies" },
+      { id: "sv-ho5", text: "Jag tränar på gymmet två gånger i veckan.", translation: "Tôi tập gym hai lần một tuần.", difficulty: "medium", theme: "hobbies" },
+      { id: "sv-ho6", text: "Vill du följa med och fika?", translation: "Bạn đi uống cà phê với mình không?", difficulty: "medium", theme: "hobbies" },
+      { id: "sv-ho7", text: "Jag samlar på frimärken.", translation: "Tôi sưu tầm tem.", difficulty: "medium", theme: "hobbies" },
+      { id: "sv-ho8", text: "På sommaren simmar vi i sjön.", translation: "Mùa hè chúng tôi bơi ở hồ.", difficulty: "medium", theme: "hobbies" },
+      { id: "sv-ho9", text: "Jag tycker mycket om svensk musik.", translation: "Tôi rất thích nhạc Thụy Điển.", difficulty: "easy", theme: "hobbies" },
+      { id: "sv-ho10", text: "Vi planerar en cykeltur till skogen.", translation: "Chúng tôi định đi xe đạp vào rừng.", difficulty: "medium", theme: "hobbies" },
+    ],
+  },
+];
+
+const b1: SpeakingTheme[] = [
+  {
+    id: "sv-opinion", name: "Åsikter", nameVi: "Bày tỏ quan điểm", icon: "💬", level: "B1",
+    sentences: [
+      { id: "sv-op1", text: "Jag tycker att kollektivtrafiken borde vara billigare.", translation: "Tôi cho rằng giao thông công cộng nên rẻ hơn.", difficulty: "hard", theme: "opinion" },
+      { id: "sv-op2", text: "Å ena sidan är distansarbete bekvämt, å andra sidan blir man ensam.", translation: "Một mặt làm việc từ xa rất tiện, mặt khác lại thấy cô đơn.", difficulty: "hard", theme: "opinion" },
+      { id: "sv-op3", text: "Det beror på vilken bransch man jobbar i.", translation: "Cái đó tuỳ ngành mình làm.", difficulty: "medium", theme: "opinion" },
+      { id: "sv-op4", text: "Enligt min åsikt är utbildning den viktigaste investeringen.", translation: "Theo tôi, giáo dục là khoản đầu tư quan trọng nhất.", difficulty: "hard", theme: "opinion" },
+      { id: "sv-op5", text: "Jag håller med dig om att integrationen tar tid.", translation: "Tôi đồng ý là hội nhập cần thời gian.", difficulty: "hard", theme: "opinion" },
+      { id: "sv-op6", text: "Däremot tycker jag inte att skatten är för hög.", translation: "Trái lại, tôi không cho rằng thuế cao quá.", difficulty: "hard", theme: "opinion" },
+      { id: "sv-op7", text: "Dessutom är vården gratis för alla barn.", translation: "Hơn nữa, y tế miễn phí cho mọi trẻ em.", difficulty: "hard", theme: "opinion" },
+      { id: "sv-op8", text: "Det är viktigt att lyssna på olika perspektiv.", translation: "Quan trọng là lắng nghe nhiều góc nhìn khác nhau.", difficulty: "hard", theme: "opinion" },
+      { id: "sv-op9", text: "Jag är inte säker, men jag tror att lagen behöver ändras.", translation: "Tôi không chắc, nhưng nghĩ luật cần sửa đổi.", difficulty: "hard", theme: "opinion" },
+      { id: "sv-op10", text: "Det finns både fördelar och nackdelar med förslaget.", translation: "Đề xuất này có cả ưu và nhược điểm.", difficulty: "hard", theme: "opinion" },
+    ],
+  },
+  {
+    id: "sv-news", name: "Nyheter och samhälle", nameVi: "Tin tức & xã hội", icon: "📰", level: "B1",
+    sentences: [
+      { id: "sv-ne1", text: "Enligt en ny rapport ökar elpriserna i Finland med åtta procent.", translation: "Theo báo cáo mới, giá điện ở Phần Lan tăng 8%.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne2", text: "Regeringen planerar att stödja låginkomsttagare.", translation: "Chính phủ dự định hỗ trợ người thu nhập thấp.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne3", text: "Klimatförändringen påverkar Östersjön.", translation: "Biến đổi khí hậu tác động tới biển Baltic.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne4", text: "Invandringen är en viktig fråga i valet.", translation: "Nhập cư là vấn đề quan trọng trong cuộc bầu cử.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne5", text: "Många unga flyttar från glesbygden till städerna.", translation: "Nhiều người trẻ chuyển từ nông thôn ra thành phố.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne6", text: "Sociala medier påverkar de ungas psykiska hälsa.", translation: "Mạng xã hội ảnh hưởng tới sức khoẻ tinh thần của giới trẻ.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne7", text: "Förnybar energi blir allt billigare varje år.", translation: "Năng lượng tái tạo ngày càng rẻ hơn mỗi năm.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne8", text: "Det är viktigt att kontrollera källorna innan man delar nyheter.", translation: "Quan trọng là kiểm tra nguồn trước khi chia sẻ tin.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne9", text: "Nordiskt samarbete stärker regionens säkerhet.", translation: "Hợp tác Bắc Âu củng cố an ninh khu vực.", difficulty: "hard", theme: "news" },
+      { id: "sv-ne10", text: "Forskningen visar att unga läser färre böcker.", translation: "Nghiên cứu cho thấy giới trẻ đọc ít sách hơn.", difficulty: "hard", theme: "news" },
+    ],
+  },
+  {
+    id: "sv-job-interview", name: "Anställningsintervju", nameVi: "Phỏng vấn xin việc", icon: "🎯", level: "B1",
+    sentences: [
+      { id: "sv-ji1", text: "Berätta lite om dig själv och din bakgrund.", translation: "Hãy nói chút về bản thân và quá trình của bạn.", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji2", text: "Varför söker du just den här tjänsten?", translation: "Vì sao bạn ứng tuyển chính xác vị trí này?", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji3", text: "Mina styrkor är problemlösning och samarbete.", translation: "Điểm mạnh của tôi là giải quyết vấn đề và làm việc nhóm.", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji4", text: "Jag har fem års erfarenhet som dataingenjör.", translation: "Tôi có 5 năm kinh nghiệm làm kỹ sư dữ liệu.", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji5", text: "Berätta om en svår situation du löste på jobbet.", translation: "Hãy kể về một tình huống khó bạn đã giải quyết tại nơi làm việc.", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji6", text: "Jag arbetar lika bra självständigt som i team.", translation: "Tôi làm việc độc lập cũng tốt như làm việc nhóm.", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji7", text: "Vad är dina löneförväntningar?", translation: "Mức lương mong muốn của bạn là bao nhiêu?", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji8", text: "Jag kan börja efter en månads uppsägningstid.", translation: "Tôi có thể bắt đầu sau thời gian báo trước một tháng.", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji9", text: "Jag har några frågor om företagets kultur.", translation: "Tôi có vài câu hỏi về văn hoá công ty.", difficulty: "hard", theme: "job-interview" },
+      { id: "sv-ji10", text: "Tack för intervjun, jag ser fram emot ert svar.", translation: "Cảm ơn buổi phỏng vấn, tôi mong nhận phản hồi.", difficulty: "hard", theme: "job-interview" },
+    ],
+  },
+  {
+    id: "sv-env", name: "Miljö och framtid", nameVi: "Môi trường & tương lai", icon: "🌱", level: "B1",
+    sentences: [
+      { id: "sv-en1", text: "Vi måste minska användningen av plast.", translation: "Chúng ta phải giảm sử dụng nhựa.", difficulty: "hard", theme: "environment" },
+      { id: "sv-en2", text: "Återvinning är en del av vardagen i Finland.", translation: "Tái chế là một phần của đời sống ở Phần Lan.", difficulty: "hard", theme: "environment" },
+      { id: "sv-en3", text: "Eldrivna bilar blir allt vanligare.", translation: "Xe điện ngày càng phổ biến.", difficulty: "hard", theme: "environment" },
+      { id: "sv-en4", text: "Klimatkrisen kräver globalt samarbete.", translation: "Khủng hoảng khí hậu cần hợp tác toàn cầu.", difficulty: "hard", theme: "environment" },
+      { id: "sv-en5", text: "Vi borde cykla istället för att köra bil.", translation: "Chúng ta nên đi xe đạp thay vì lái xe.", difficulty: "hard", theme: "environment" },
+      { id: "sv-en6", text: "Skogarna är viktiga för vårt klimat.", translation: "Rừng rất quan trọng với khí hậu của chúng ta.", difficulty: "medium", theme: "environment" },
+      { id: "sv-en7", text: "Många företag investerar i grön teknik.", translation: "Nhiều công ty đầu tư vào công nghệ xanh.", difficulty: "hard", theme: "environment" },
+      { id: "sv-en8", text: "Att äta mindre kött minskar utsläppen.", translation: "Ăn ít thịt hơn giúp giảm phát thải.", difficulty: "hard", theme: "environment" },
+      { id: "sv-en9", text: "Vindkraft är en viktig energikälla i Norden.", translation: "Năng lượng gió là nguồn quan trọng ở Bắc Âu.", difficulty: "hard", theme: "environment" },
+      { id: "sv-en10", text: "Vi måste tänka på kommande generationer.", translation: "Chúng ta phải nghĩ đến các thế hệ tương lai.", difficulty: "hard", theme: "environment" },
+    ],
+  },
+];
+
+export const swedishThemes: SpeakingTheme[] = [...a1, ...a2, ...b1];
