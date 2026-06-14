@@ -11,7 +11,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Mic, MicOff, Sparkles, Loader2, CheckCircle2, AlertCircle, Volume2, Square,
+  Eye, EyeOff, BookOpen,
 } from "lucide-react";
+import { SWEDISH_SPEAKING_MODEL_ANSWERS } from "@/data/swedishSpeakingModelAnswers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -72,6 +74,7 @@ const SwedishSpeakingLab = () => {
   const [elapsed, setElapsed] = useState(0);
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
+  const [showModel, setShowModel] = useState(false);
 
   const recRef = useRef<SpeechRecognitionLike | null>(null);
   const startTsRef = useRef<number>(0);
@@ -297,6 +300,51 @@ const SwedishSpeakingLab = () => {
                   ))}
                 </ul>
               </div>
+
+              {SWEDISH_SPEAKING_MODEL_ANSWERS[active.id] && (
+                <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                      <BookOpen className="w-4 h-4" />
+                      {t("Bài mẫu Band 4–5", "Model answer (Band 4–5)")}
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setShowModel((s) => !s)}
+                      className="gap-1 h-7"
+                    >
+                      {showModel ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showModel ? t("Ẩn", "Hide") : t("Hiện bài mẫu", "Show")}
+                    </Button>
+                  </div>
+                  {showModel && (
+                    <div className="space-y-2 text-sm leading-relaxed">
+                      <p className="text-foreground whitespace-pre-wrap">
+                        🇸🇪 {SWEDISH_SPEAKING_MODEL_ANSWERS[active.id].sv}
+                      </p>
+                      <p className="text-muted-foreground whitespace-pre-wrap">
+                        🇻🇳 {SWEDISH_SPEAKING_MODEL_ANSWERS[active.id].vi}
+                      </p>
+                      <div className="flex items-start gap-2 text-xs rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 p-2">
+                        <Sparkles className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                        <span>{SWEDISH_SPEAKING_MODEL_ANSWERS[active.id].bandNote}</span>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() =>
+                          playSwedishTts(SWEDISH_SPEAKING_MODEL_ANSWERS[active.id].sv, { playbackRate: 0.95 })
+                        }
+                        className="gap-1"
+                      >
+                        <Volume2 className="w-4 h-4" />
+                        {t("Nghe bài mẫu", "Listen to model")}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
 

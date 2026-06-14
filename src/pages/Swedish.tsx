@@ -311,6 +311,37 @@ const Swedish = () => {
             </Link>
           </motion.div>
 
+          {/* Bonus: Listening Lab */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.49, duration: 0.5 }}
+            className="mt-4"
+          >
+            <Link to="/swedish/listening" className="block group">
+              <div className="rounded-2xl border-2 border-dashed border-primary/20 bg-card/60 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 hover:bg-card transition-all flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-fuchsia-600 flex items-center justify-center text-2xl shadow-md shrink-0">
+                  🎧
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                    {t("Listening Lab — Luyện nghe Hörförståelse A1–B1", "Listening Lab — Hörförståelse A1–B1")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "10+ bài nghe sv-SE thực tế: hội thoại quán cà phê, thông báo ga, bản tin SVT. Có MCQ chấm điểm, phụ đề + bản dịch.",
+                      "10+ realistic sv-SE listenings: café dialogues, station announcements, SVT bulletins. With scored MCQs, transcript + translation.",
+                    )}
+                  </p>
+                </div>
+                <Button variant="outline" className="gap-2 shrink-0">
+                  {t("Mở Listening Lab", "Open Listening Lab")}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </Link>
+          </motion.div>
+
           {/* Bonus: AI Speaking Coach */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
