@@ -386,6 +386,8 @@ const App = () => (
             <Route path="/swedish/svenskfinland" element={<LazyRoute><SwedishSvenskfinland /></LazyRoute>} />
             <Route path="/swedish/curriculum" element={<LazyRoute><SwedishInteractiveCurriculum /></LazyRoute>} />
             <Route path="/swedish/vocabulary" element={<LazyRoute><SwedishVocabulary /></LazyRoute>} />
+            <Route path="/swedish/writing" element={<LazyRoute><SwedishWritingLab /></LazyRoute>} />
+            <Route path="/swedish/speaking" element={<LazyRoute><SwedishSpeakingLab /></LazyRoute>} />
             <Route path="/speaking-coach/:language" element={<LazyRoute><SpeakingCoachPage /></LazyRoute>} />
             <Route path="/notebook" element={<LazyRoute><NotebookPage /></LazyRoute>} />
             {/* Redirects for old routes */}
