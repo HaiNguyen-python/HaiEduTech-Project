@@ -278,7 +278,7 @@ export const SWEDISH_SAMPLE_ESSAYS: SwedishSampleEssay[] = [
       "Hej! Jag vill boka ett bord för fyra personer på lördag klockan nitton. " +
       "En av oss är vegetarian, så vi undrar om ni har vegetariska rätter på menyn. " +
       "Vi har också en liten dotter på ett år — har ni barnstol? " +
-      "Tack số mycket för hjälpen! Vi ses på lördag.",
+      "Tack så mycket för hjälpen! Vi ses på lördag.",
     essayVi:
       "Chào! Tôi muốn đặt bàn 4 người thứ Bảy lúc 19h. " +
       "Một người trong nhóm ăn chay, nên chúng tôi muốn hỏi thực đơn có món chay không. " +
