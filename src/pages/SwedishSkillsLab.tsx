@@ -182,7 +182,7 @@ const SwedishSkillsLab = () => {
                       {t(lab.descVi, lab.descEn)}
                     </p>
                     <ul className="text-xs md:text-sm text-muted-foreground space-y-1 list-disc pl-5">
-                      {t(lab.bulletsVi, lab.bulletsEn).map((b) => (
+                      {(t("vi", "en") === "vi" ? lab.bulletsVi : lab.bulletsEn).map((b) => (
                         <li key={b}>{b}</li>
                       ))}
                     </ul>
