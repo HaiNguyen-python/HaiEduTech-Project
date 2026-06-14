@@ -232,19 +232,24 @@ function fill(tmpl: Tmpl, w: SwedishWord): Tmpl {
   const aVI = artVI(w);
   const aEN = artEN(w.en);
 
-  const sub = (s: string) =>
-    s
-      .split("{ART_C}").join(aSV.capWord)
-      .split("{ART}", aSV.full)
-      .split("{ARTVI_C}", aVI.capWord)
-      .split("{ARTVI}", aVI.full)
-      .split("{ARTEN}", aEN.full)
-      .split("{W_C}", cap(W))
-      .split("{W}", W)
-      .split("{VI_C}", cap(VI))
-      .split("{VI}", VI)
-      .split("{EN_C}", cap(EN))
-      .split("{EN}", EN);
+  const replaceAll = (str: string, find: string, repl: string) =>
+    str.split(find).join(repl);
+
+  const sub = (s: string) => {
+    let r = s;
+    r = replaceAll(r, "{ART_C}", aSV.capWord);
+    r = replaceAll(r, "{ART}", aSV.full);
+    r = replaceAll(r, "{ARTVI_C}", aVI.capWord);
+    r = replaceAll(r, "{ARTVI}", aVI.full);
+    r = replaceAll(r, "{ARTEN}", aEN.full);
+    r = replaceAll(r, "{W_C}", cap(W));
+    r = replaceAll(r, "{W}", W);
+    r = replaceAll(r, "{VI_C}", cap(VI));
+    r = replaceAll(r, "{VI}", VI);
+    r = replaceAll(r, "{EN_C}", cap(EN));
+    r = replaceAll(r, "{EN}", EN);
+    return r;
+  };
 
   return { sv: sub(tmpl.sv), vi: sub(tmpl.vi), en: sub(tmpl.en) };
 }
