@@ -223,7 +223,9 @@ const Navbar = () => {
     { to: "#sv-div2", label: "", divider: true },
     { to: "/swedish/vocabulary", label: t("📚 Swedish Vocabulary (A1–B1)", "📚 Swedish Vocabulary (A1–B1)") },
     { to: "/swedish/curriculum", label: t("📖 Interactive Curriculum (Cấu trúc & Hội thoại)", "📖 Interactive Curriculum (Structures & Dialogues)") },
-    { to: "/speaking-coach/swedish", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
+    { to: "/swedish/writing", label: t("✍️ Writing Lab (Skriva A1–B1)", "✍️ Writing Lab (Skriva A1–B1)") },
+    { to: "/swedish/speaking", label: t("🎙️ Speaking Lab (Tala A1–B1)", "🎙️ Speaking Lab (Tala A1–B1)") },
+    { to: "/speaking-coach/swedish", label: t("🗣️ Speaking Coach (luyện phát âm)", "🗣️ Speaking Coach (pronunciation drill)") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
