@@ -126,7 +126,7 @@ export default function LastSessionRecap() {
               .select("activity_type, activity_id, score, max_score, domain, created_at, metadata")
               .eq("user_id", uid)
               .order("created_at", { ascending: false })
-              .limit(10),
+              .limit(50),
             supabase
               .from("writing_attempts")
               .select("prompt, overall_score, task_type, word_count, created_at")
