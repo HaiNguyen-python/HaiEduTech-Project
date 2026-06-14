@@ -23,7 +23,7 @@ const SpeakingCoachPage = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const lang = (language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : language === "vietnamese" ? "vietnamese" : "english") as "english" | "finnish" | "chinese" | "vietnamese";
+  const lang = (language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : language === "swedish" ? "swedish" : language === "vietnamese" ? "vietnamese" : "english") as "english" | "finnish" | "swedish" | "chinese" | "vietnamese";
 
   // Gamification state
   const [excellentCount, setExcellentCount] = useState(0);
@@ -46,6 +46,11 @@ const SpeakingCoachPage = () => {
       title: "Speaking Coach - Suomi",
       subtitle: t("Luyện phát âm tiếng Phần Lan thông minh", "Smart Finnish pronunciation practice"),
       back: "/finnish/yki-dashboard",
+    },
+    swedish: {
+      title: "Speaking Coach - Svenska",
+      subtitle: t("Luyện phát âm tiếng Thụy Điển — sj-/tj- & ngữ điệu Bắc Âu", "Swedish pronunciation — sj-/tj- and Nordic intonation"),
+      back: "/swedish",
     },
     vietnamese: {
       title: "Speaking Coach - Tiếng Việt",
@@ -121,7 +126,7 @@ const SpeakingCoachPage = () => {
             className="mb-6"
           >
             {/* English no longer shows MountainClimber per request - stars still fly via handlePerfectScore but no climber UI */}
-            {lang === "finnish" && (
+            {(lang === "finnish" || lang === "swedish") && (
               <FinnishSkier
                 mastered={excellentCount}
                 total={totalTarget}
