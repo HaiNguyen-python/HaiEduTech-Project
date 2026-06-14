@@ -221,6 +221,7 @@ const Navbar = () => {
     { to: "/swedish/yki-b1", label: t("🎯 YKI B1 Ruotsi Dashboard", "🎯 YKI B1 Ruotsi Dashboard") },
     { to: "/swedish/svenskfinland", label: t("🇸🇪 Svenskfinland — Sống bằng tiếng Thụy Điển", "🇸🇪 Svenskfinland — Life in Swedish") },
     { to: "#sv-div2", label: "", divider: true },
+    { to: "/swedish/curriculum", label: t("📖 Interactive Curriculum (Từ vựng & Hội thoại)", "📖 Interactive Curriculum (Vocab & Dialogues)") },
     { to: "/speaking-coach/swedish", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
   ];
   const programmingSubs: SubItem[] = [
