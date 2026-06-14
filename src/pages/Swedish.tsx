@@ -634,19 +634,88 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
         </div>
 
         <CardContent className="space-y-4 p-4 sm:p-5">
-          <div className="grid gap-3 md:grid-cols-3">
+          <Accordion type="multiple" className="space-y-2">
             {tier.lessons.map((l) => (
-              <div key={l.id} className="rounded-lg border border-border/60 bg-card/50 p-3">
-                <div className="mb-2 flex flex-wrap gap-1">
-                  {l.skills.map((s) => (
-                    <SkillBadge key={s} skill={s} />
-                  ))}
-                </div>
-                <h4 className="text-sm font-semibold text-foreground">{t(l.titleVi, l.titleEn)}</h4>
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{t(l.descVi, l.descEn)}</p>
-              </div>
+              <AccordionItem
+                key={l.id}
+                value={l.id}
+                className="rounded-lg border border-border/60 bg-card/50 px-3"
+              >
+                <AccordionTrigger className="py-3 hover:no-underline">
+                  <div className="flex flex-1 flex-col items-start gap-1.5 pr-2 text-left">
+                    <div className="flex flex-wrap gap-1">
+                      {l.skills.map((s) => (
+                        <SkillBadge key={s} skill={s} />
+                      ))}
+                    </div>
+                    <h4 className="text-sm font-semibold text-foreground sm:text-base">
+                      {t(l.titleVi, l.titleEn)}
+                    </h4>
+                    <p className="text-xs leading-relaxed text-muted-foreground">
+                      {t(l.descVi, l.descEn)}
+                    </p>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="space-y-3 pb-4">
+                  {l.formula && (
+                    <div className="rounded-md border border-primary/20 bg-primary/5 p-2.5">
+                      <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-primary">
+                        {t("Công thức", "Formula")}
+                      </div>
+                      <p className="font-mono text-xs leading-relaxed text-foreground whitespace-pre-wrap">
+                        {l.formula}
+                      </p>
+                    </div>
+                  )}
+                  {l.examples && l.examples.length > 0 && (
+                    <div>
+                      <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
+                        {t("Ví dụ", "Examples")}
+                      </div>
+                      <ul className="space-y-2">
+                        {l.examples.map((ex, i) => (
+                          <li key={i} className="rounded-md bg-muted/40 p-2 text-xs leading-relaxed">
+                            <p className="font-semibold text-foreground">🇸🇪 {ex.sv}</p>
+                            <p className="text-muted-foreground">{t(`🇻🇳 ${ex.vi}`, `🇬🇧 ${ex.en}`)}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {l.vocab && l.vocab.length > 0 && (
+                    <div>
+                      <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-300">
+                        {t("Từ vựng cốt lõi", "Core vocabulary")}
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="w-full min-w-[320px] text-xs">
+                          <tbody>
+                            {l.vocab.map((v, i) => (
+                              <tr key={i} className="border-b border-border/40 last:border-0">
+                                <td className="py-1.5 pr-3 font-semibold text-foreground">{v.sv}</td>
+                                <td className="py-1.5 text-muted-foreground">{t(v.vi, v.en)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                  {(l.tipVi || l.tipEn) && (
+                    <div className="rounded-md border border-amber-500/30 bg-amber-500/5 p-2.5">
+                      <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-300">
+                        {t("💡 Mẹo vàng thầy Hải", "💡 Teacher Hai's tip")}
+                      </div>
+                      <p className="text-xs leading-relaxed text-foreground">
+                        {t(l.tipVi || "", l.tipEn || "")}
+                      </p>
+                    </div>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
+
 
           <div className="rounded-lg border border-primary/30 bg-primary/5 p-3 sm:p-4">
             <div className="mb-2 text-xs font-bold uppercase tracking-wider text-primary">
