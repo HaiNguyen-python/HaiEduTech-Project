@@ -182,6 +182,7 @@ const SwedishVocabulary = lazy(() => import("./pages/SwedishVocabulary.tsx"));
 const SwedishWritingLab = lazy(() => import("./pages/SwedishWritingLab.tsx"));
 const SwedishSpeakingLab = lazy(() => import("./pages/SwedishSpeakingLab.tsx"));
 const SwedishListeningLab = lazy(() => import("./pages/SwedishListeningLab.tsx"));
+const SwedishReadingLab = lazy(() => import("./pages/SwedishReadingLab.tsx"));
 const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
 const FinnishBeginner = lazy(() => import("./pages/FinnishBeginner.tsx"));
 const YkiB1Dashboard = lazy(() => import("./pages/YkiB1Dashboard.tsx"));
