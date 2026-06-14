@@ -220,7 +220,50 @@ const A1_LESSONS: Lesson[] = [
     tipVi: "Trong Hörförståelse A1 hay xuất hiện thông báo HSL (Helsinki). Học sẵn 'nästa station' = ga kế tiếp.",
     tipEn: "HSL (Helsinki) announcements show up in A1 Hörförståelse. Memorise 'nästa station' = next stop.",
   },
-];
+  {
+    id: "a1-weather",
+    titleVi: "Thời tiết & mùa Bắc Âu",
+    titleEn: "Weather & Nordic seasons",
+    descVi: "Bốn mùa, mô tả thời tiết, ánh sáng vùng cực và mặc đồ theo mùa.",
+    descEn: "Four seasons, weather phrases, polar light and dressing for the season.",
+    skills: ["listen", "speak"],
+    formula: "Det är [adj].  ·  Det regnar / snöar / blåser.",
+    examples: [
+      { sv: "Det är kallt och soligt idag.", vi: "Hôm nay lạnh và nắng.", en: "It's cold and sunny today." },
+      { sv: "På vintern snöar det ofta i Finland.", vi: "Mùa đông ở Phần Lan hay có tuyết.", en: "In winter it often snows in Finland." },
+      { sv: "Sommarnatten är ljus i Lappland.", vi: "Đêm hè ở Lapland sáng (đêm trắng).", en: "The summer night is bright in Lapland." },
+    ],
+    vocab: [
+      { sv: "vinter / sommar", vi: "đông / hè", en: "winter / summer" },
+      { sv: "vår / höst", vi: "xuân / thu", en: "spring / autumn" },
+      { sv: "regn / snö / dimma", vi: "mưa / tuyết / sương mù", en: "rain / snow / fog" },
+      { sv: "varm / kall / sval", vi: "ấm / lạnh / mát", en: "warm / cold / cool" },
+    ],
+    tipVi: "YKI A1 luôn hỏi 'Hur är vädret?'. Học thuộc 3 câu mô tả ngắn là an toàn.",
+    tipEn: "YKI A1 always asks 'Hur är vädret?'. Memorise 3 short weather sentences to stay safe.",
+  },
+  {
+    id: "a1-restaurant",
+    titleVi: "Gọi món ở quán cà phê & nhà hàng",
+    titleEn: "Ordering at a café / restaurant",
+    descVi: "Tình huống fika kinh điển: chào, gọi đồ, hỏi giá, trả tiền.",
+    descEn: "The classic 'fika' scenario: greeting, ordering, asking the price, paying.",
+    skills: ["speak", "listen"],
+    formula: "Jag tar [maträtt], tack.  ·  Kan jag få [drycken]?",
+    examples: [
+      { sv: "Jag tar en kanelbulle och en kaffe, tack.", vi: "Cho mình một bánh quế và một cà phê, cảm ơn.", en: "I'll have a cinnamon bun and a coffee, please." },
+      { sv: "Kan jag få vattnet utan is?", vi: "Cho mình nước không đá nhé?", en: "Can I have the water without ice?" },
+      { sv: "Notan, tack.", vi: "Cho mình hoá đơn nhé.", en: "The bill, please." },
+    ],
+    vocab: [
+      { sv: "meny", vi: "thực đơn", en: "menu" },
+      { sv: "förrätt / huvudrätt / efterrätt", vi: "khai vị / món chính / tráng miệng", en: "starter / main / dessert" },
+      { sv: "dricks", vi: "tiền tip", en: "tip" },
+      { sv: "smaklig måltid!", vi: "chúc ăn ngon!", en: "enjoy your meal!" },
+    ],
+    tipVi: "'Tack' lặp lại nhiều lần thay vì 'snälla' — đó là phong cách Bắc Âu lịch sự.",
+    tipEn: "Repeat 'Tack' often instead of begging with 'snälla' — that's the Nordic polite style.",
+  },
 
 /* ----- Tier A2 ----- */
 const A2_LESSONS: Lesson[] = [
