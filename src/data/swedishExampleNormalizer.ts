@@ -75,28 +75,29 @@ type Tmpl = { sv: string; vi: string; en: string };
 
 /** Placeholders: {W}=Swedish word, {VI}=Vietnamese meaning, {EN}=English meaning,
  *  {ART}=en/ett article (with trailing space), {ARTVI}=một/ (VI indefinite),
- *  {ARTEN}=a / an / (EN indefinite). */
+ *  {ARTEN}=a / an / (EN indefinite),
+ *  {MIN}/{SIN}/{NY}/{VIKTIG}/{VACKER}=adjective/possessive that agrees with en/ett gender. */
 
 const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   food: [
     { sv: "Jag äter {ART}{W} till frukost.", vi: "Tôi ăn {ARTVI}{VI} vào bữa sáng.", en: "I eat {ARTEN}{EN} for breakfast." },
     { sv: "Vill du ha {ART}{W}?", vi: "Bạn có muốn {ARTVI}{VI} không?", en: "Would you like {ARTEN}{EN}?" },
-    { sv: "{ART_C}{W} smakar gott.", vi: "{ARTVI_C}{VI} ăn rất ngon.", en: "The {EN} tastes good." },
+    { sv: "Jag tycker om {W}.", vi: "Tôi thích {VI}.", en: "I like {EN}." },
   ],
   body: [
-    { sv: "Min {W} gör ont idag.", vi: "{VI_C} của tôi hôm nay bị đau.", en: "My {EN} hurts today." },
-    { sv: "Hon pekar på sin {W}.", vi: "Cô ấy chỉ vào {VI} của mình.", en: "She points at her {EN}." },
-    { sv: "Barnet tvättar sin {W}.", vi: "Đứa trẻ rửa {VI} của mình.", en: "The child washes its {EN}." },
+    { sv: "{MIN_C} {W} gör ont idag.", vi: "{VI_C} của tôi hôm nay bị đau.", en: "My {EN} hurts today." },
+    { sv: "Hon pekar på {SIN} {W}.", vi: "Cô ấy chỉ vào {VI} của mình.", en: "She points at her {EN}." },
+    { sv: "Barnet rör vid {SIN} {W}.", vi: "Đứa trẻ chạm vào {VI} của mình.", en: "The child touches its {EN}." },
   ],
   clothing: [
     { sv: "Hon har {ART}{W} på sig.", vi: "Cô ấy đang mặc {ARTVI}{VI}.", en: "She is wearing {ARTEN}{EN}." },
-    { sv: "Jag köper {ART}ny {W}.", vi: "Tôi mua {ARTVI}{VI} mới.", en: "I am buying a new {EN}." },
-    { sv: "Min {W} är blå.", vi: "{VI_C} của tôi màu xanh.", en: "My {EN} is blue." },
+    { sv: "Jag köper {ART}{NY} {W}.", vi: "Tôi mua {ARTVI}{VI} mới.", en: "I am buying a new {EN}." },
+    { sv: "{MIN_C} {W} är blå.", vi: "{VI_C} của tôi màu xanh.", en: "My {EN} is blue." },
   ],
   home: [
     { sv: "Vi har {ART}{W} hemma.", vi: "Chúng tôi có {ARTVI}{VI} ở nhà.", en: "We have {ARTEN}{EN} at home." },
     { sv: "{ART_C}{W} står i köket.", vi: "{ARTVI_C}{VI} ở trong bếp.", en: "The {EN} is in the kitchen." },
-    { sv: "Jag städar min {W} varje vecka.", vi: "Tôi dọn {VI} của mình mỗi tuần.", en: "I clean my {EN} every week." },
+    { sv: "Jag städar {MIN} {W} varje vecka.", vi: "Tôi dọn {VI} của mình mỗi tuần.", en: "I clean my {EN} every week." },
   ],
   transport: [
     { sv: "Jag tar {ART}{W} till jobbet.", vi: "Tôi đi {ARTVI}{VI} đến chỗ làm.", en: "I take {ARTEN}{EN} to work." },
@@ -106,27 +107,27 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   nature: [
     { sv: "Det finns {ART}{W} i parken.", vi: "Có {ARTVI}{VI} trong công viên.", en: "There is {ARTEN}{EN} in the park." },
     { sv: "Vi ser {ART}{W} i skogen.", vi: "Chúng tôi thấy {ARTVI}{VI} trong rừng.", en: "We see {ARTEN}{EN} in the forest." },
-    { sv: "{ART_C}{W} är vacker.", vi: "{ARTVI_C}{VI} thật đẹp.", en: "The {EN} is beautiful." },
+    { sv: "Jag tycker mycket om {W}.", vi: "Tôi rất thích {VI}.", en: "I like {EN} very much." },
   ],
   weather: [
-    { sv: "Idag är det {W}.", vi: "Hôm nay trời {VI}.", en: "Today there is {EN}." },
+    { sv: "Idag har vi {W}.", vi: "Hôm nay chúng ta có {VI}.", en: "Today we have {EN}." },
     { sv: "Jag tycker om {W}.", vi: "Tôi thích {VI}.", en: "I like {EN}." },
-    { sv: "Det blir {W} i morgon.", vi: "Ngày mai sẽ có {VI}.", en: "There will be {EN} tomorrow." },
+    { sv: "I morgon kommer {W}.", vi: "Ngày mai sẽ có {VI}.", en: "Tomorrow there will be {EN}." },
   ],
   tech: [
     { sv: "Jag använder {ART}{W} varje dag.", vi: "Tôi dùng {ARTVI}{VI} mỗi ngày.", en: "I use {ARTEN}{EN} every day." },
-    { sv: "Min {W} är ny.", vi: "{VI_C} của tôi mới.", en: "My {EN} is new." },
+    { sv: "{MIN_C} {W} är {NY}.", vi: "{VI_C} của tôi mới.", en: "My {EN} is new." },
     { sv: "Han köper {ART}{W} online.", vi: "Anh ấy mua {ARTVI}{VI} trên mạng.", en: "He buys {ARTEN}{EN} online." },
   ],
   shopping: [
-    { sv: "Jag går till {ART}{W} på lördag.", vi: "Tôi đi {ARTVI}{VI} vào thứ bảy.", en: "I go to {ARTEN}{EN} on Saturday." },
-    { sv: "Det här är {ART}stor {W}.", vi: "Đây là {ARTVI}{VI} lớn.", en: "This is a big {EN}." },
+    { sv: "Jag går till {ART}{W} på lördag.", vi: "Tôi đi đến {ARTVI}{VI} vào thứ bảy.", en: "I go to {ARTEN}{EN} on Saturday." },
+    { sv: "Det här är {ART}stor{ETT} {W}.", vi: "Đây là {ARTVI}{VI} lớn.", en: "This is a big {EN}." },
     { sv: "Jag behöver {ART}{W}.", vi: "Tôi cần {ARTVI}{VI}.", en: "I need {ARTEN}{EN}." },
   ],
   education: [
-    { sv: "Vi lär oss om {ART}{W} i skolan.", vi: "Chúng tôi học về {ARTVI}{VI} ở trường.", en: "We learn about {ARTEN}{EN} at school." },
-    { sv: "Min {W} är intressant.", vi: "{VI_C} của tôi rất thú vị.", en: "My {EN} is interesting." },
-    { sv: "Läraren förklarar {ART}{W}.", vi: "Giáo viên giải thích {ARTVI}{VI}.", en: "The teacher explains {ARTEN}{EN}." },
+    { sv: "Vi lär oss om {W} i skolan.", vi: "Chúng tôi học về {VI} ở trường.", en: "We learn about {EN} at school." },
+    { sv: "{MIN_C} {W} är intressant.", vi: "{VI_C} của tôi rất thú vị.", en: "My {EN} is interesting." },
+    { sv: "Läraren förklarar {W}.", vi: "Giáo viên giải thích {VI}.", en: "The teacher explains {EN}." },
   ],
   work: [
     { sv: "Hon arbetar som {W}.", vi: "Cô ấy làm nghề {VI}.", en: "She works as {ARTEN}{EN}." },
@@ -134,29 +135,29 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Vi behöver {ART}{W} i teamet.", vi: "Chúng tôi cần {ARTVI}{VI} trong đội.", en: "We need {ARTEN}{EN} on the team." },
   ],
   family: [
-    { sv: "Min {W} bor i Sverige.", vi: "{VI_C} của tôi sống ở Thụy Điển.", en: "My {EN} lives in Sweden." },
-    { sv: "Jag älskar min {W}.", vi: "Tôi yêu {VI} của tôi.", en: "I love my {EN}." },
-    { sv: "Hennes {W} heter Anna.", vi: "{VI_C} của cô ấy tên là Anna.", en: "Her {EN} is called Anna." },
+    { sv: "{MIN_C} {W} bor i Sverige.", vi: "{VI_C} của tôi sống ở Thụy Điển.", en: "My {EN} lives in Sweden." },
+    { sv: "Jag älskar {MIN} {W}.", vi: "Tôi yêu {VI} của tôi.", en: "I love my {EN}." },
+    { sv: "Hennes {W} heter Anna.", vi: "{VI_C} của cô ấy tên là Anna.", en: "Her {EN} is named Anna." },
   ],
   numbers: [
-    { sv: "Klockan är {W} nu.", vi: "Bây giờ là {VI}.", en: "It is {EN} o'clock now." },
-    { sv: "Vi ses på {W}.", vi: "Hẹn gặp lại vào {VI}.", en: "See you on {EN}." },
     { sv: "Jag har {W} möten idag.", vi: "Hôm nay tôi có {VI} cuộc họp.", en: "I have {EN} meetings today." },
+    { sv: "Vi ses snart igen.", vi: "Hẹn gặp lại sớm.", en: "See you again soon." },
+    { sv: "Ordet '{W}' används ofta i vardagen.", vi: "Từ '{VI}' được dùng thường xuyên trong cuộc sống.", en: "The word '{EN}' is often used in daily life." },
   ],
   abstract: [
-    { sv: "{W_C} är viktigt i livet.", vi: "{VI_C} rất quan trọng trong cuộc sống.", en: "{EN_C} is important in life." },
+    { sv: "{W_C} är viktig{ETT} i livet.", vi: "{VI_C} rất quan trọng trong cuộc sống.", en: "{EN_C} is important in life." },
     { sv: "Vi pratar om {W}.", vi: "Chúng tôi nói về {VI}.", en: "We talk about {EN}." },
-    { sv: "Hon tänker på sin {W}.", vi: "Cô ấy nghĩ về {VI} của mình.", en: "She thinks about her {EN}." },
+    { sv: "Hon tänker på {SIN} {W}.", vi: "Cô ấy nghĩ về {VI} của mình.", en: "She thinks about her {EN}." },
   ],
   society: [
-    { sv: "Vi diskuterar {ART}{W} i klassen.", vi: "Chúng tôi thảo luận về {ARTVI}{VI} ở lớp.", en: "We discuss {ARTEN}{EN} in class." },
-    { sv: "{ART_C}{W} är viktig för alla.", vi: "{ARTVI_C}{VI} quan trọng với mọi người.", en: "The {EN} is important for everyone." },
-    { sv: "Jag läser om {ART}{W} i tidningen.", vi: "Tôi đọc về {ARTVI}{VI} trên báo.", en: "I read about {ARTEN}{EN} in the newspaper." },
+    { sv: "Vi diskuterar {W} i klassen.", vi: "Chúng tôi thảo luận về {VI} ở lớp.", en: "We discuss {EN} in class." },
+    { sv: "{W_C} är viktig{ETT} för alla.", vi: "{VI_C} quan trọng với mọi người.", en: "{EN_C} is important for everyone." },
+    { sv: "Jag läser om {W} i tidningen.", vi: "Tôi đọc về {VI} trên báo.", en: "I read about {EN} in the newspaper." },
   ],
   environment: [
     { sv: "{W_C} finns överallt i naturen.", vi: "{VI_C} có ở khắp nơi trong tự nhiên.", en: "{EN_C} is found everywhere in nature." },
     { sv: "Vi måste skydda {W}.", vi: "Chúng ta phải bảo vệ {VI}.", en: "We must protect {EN}." },
-    { sv: "{W_C} är viktig för jorden.", vi: "{VI_C} rất quan trọng với trái đất.", en: "{EN_C} is important for the earth." },
+    { sv: "{W_C} är viktig{ETT} för jorden.", vi: "{VI_C} rất quan trọng với trái đất.", en: "{EN_C} is important for the earth." },
   ],
   hobbies: [
     { sv: "Jag gillar {W} på fritiden.", vi: "Tôi thích {VI} vào lúc rảnh.", en: "I enjoy {EN} in my free time." },
