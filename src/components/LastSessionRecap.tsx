@@ -356,7 +356,7 @@ export default function LastSessionRecap() {
 
             <TabsContent value="writing" className="space-y-2 mt-3">
               {writings.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">Chưa có bài viết nào</p>
+                <EncouragementEmpty tab="writing" onClose={() => setOpen(false)} />
               ) : writings.map((w, i) => (
                 <div key={i} className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex items-center justify-between">
