@@ -1,0 +1,130 @@
+/**
+ * @file ykiB1VocabularyExpansion3.ts
+ * @description Mở rộng từ vựng B1 - 5 chủ đề bổ sung × 20 từ = 100 từ.
+ * @author Teacher Hai (HaiEduTech)
+ */
+
+import type { B1VocabEntry, B1VocabModule } from "./ykiB1Vocabulary";
+
+const technology: B1VocabEntry[] = [
+  { fi: "tekoäly", partOfSpeech: "noun", meaningEn: "artificial intelligence", meaningVi: "trí tuệ nhân tạo", exampleFi: "Tekoäly muuttaa työelämää.", exampleEn: "AI is changing working life.", exampleVi: "AI đang thay đổi công việc." },
+  { fi: "ohjelma", partOfSpeech: "noun", meaningEn: "program / software", meaningVi: "chương trình / phần mềm", exampleFi: "Ohjelma kaatuu usein.", exampleEn: "The program crashes often.", exampleVi: "Phần mềm hay bị crash." },
+  { fi: "sovellus", partOfSpeech: "noun", meaningEn: "application / app", meaningVi: "ứng dụng", exampleFi: "Latasin uuden sovelluksen.", exampleEn: "I downloaded a new app.", exampleVi: "Tôi tải ứng dụng mới." },
+  { fi: "laite", partOfSpeech: "noun", meaningEn: "device", meaningVi: "thiết bị", exampleFi: "Tämä laite on kallis.", exampleEn: "This device is expensive.", exampleVi: "Thiết bị này đắt." },
+  { fi: "päivitys", partOfSpeech: "noun", meaningEn: "update", meaningVi: "bản cập nhật", exampleFi: "Päivitys vie kymmenen minuuttia.", exampleEn: "The update takes ten minutes.", exampleVi: "Bản cập nhật mất 10 phút." },
+  { fi: "tietoturva", partOfSpeech: "noun", meaningEn: "data security", meaningVi: "an ninh dữ liệu", exampleFi: "Tietoturva on tärkeää.", exampleEn: "Data security is important.", exampleVi: "An ninh dữ liệu quan trọng." },
+  { fi: "salasana", partOfSpeech: "noun", meaningEn: "password", meaningVi: "mật khẩu", exampleFi: "Vaihda salasana usein.", exampleEn: "Change your password often.", exampleVi: "Đổi mật khẩu thường xuyên." },
+  { fi: "verkkokauppa", partOfSpeech: "noun", meaningEn: "online store", meaningVi: "cửa hàng trực tuyến", exampleFi: "Ostan vaatteet verkkokaupasta.", exampleEn: "I buy clothes online.", exampleVi: "Tôi mua đồ online." },
+  { fi: "etäkokous", partOfSpeech: "noun", meaningEn: "remote meeting", meaningVi: "họp trực tuyến", exampleFi: "Pidämme etäkokouksen huomenna.", exampleEn: "We have a remote meeting tomorrow.", exampleVi: "Ngày mai chúng tôi họp online." },
+  { fi: "pilvipalvelu", partOfSpeech: "noun", meaningEn: "cloud service", meaningVi: "dịch vụ đám mây", exampleFi: "Tallennan tiedostot pilvipalveluun.", exampleEn: "I save files to the cloud.", exampleVi: "Tôi lưu file lên cloud." },
+  { fi: "algoritmi", partOfSpeech: "noun", meaningEn: "algorithm", meaningVi: "thuật toán", exampleFi: "Algoritmi suosittelee videoita.", exampleEn: "The algorithm recommends videos.", exampleVi: "Thuật toán gợi ý video." },
+  { fi: "data", partOfSpeech: "noun", meaningEn: "data", meaningVi: "dữ liệu", exampleFi: "Yritys kerää paljon dataa.", exampleEn: "The company collects a lot of data.", exampleVi: "Công ty thu thập nhiều dữ liệu." },
+  { fi: "yksityisyys", partOfSpeech: "noun", meaningEn: "privacy", meaningVi: "quyền riêng tư", exampleFi: "Yksityisyys on perusoikeus.", exampleEn: "Privacy is a basic right.", exampleVi: "Quyền riêng tư là quyền cơ bản." },
+  { fi: "huijaus", partOfSpeech: "noun", meaningEn: "scam", meaningVi: "lừa đảo", exampleFi: "Sain huijausviestin.", exampleEn: "I got a scam message.", exampleVi: "Tôi nhận được tin nhắn lừa đảo." },
+  { fi: "kyberhyökkäys", partOfSpeech: "noun", meaningEn: "cyberattack", meaningVi: "tấn công mạng", exampleFi: "Kyberhyökkäys pysäytti palvelun.", exampleEn: "A cyberattack stopped the service.", exampleVi: "Tấn công mạng làm dừng dịch vụ." },
+  { fi: "asentaa", partOfSpeech: "verb", meaningEn: "to install", meaningVi: "cài đặt", exampleFi: "Asensin uuden ohjelman.", exampleEn: "I installed a new program.", exampleVi: "Tôi cài chương trình mới." },
+  { fi: "kirjautua", partOfSpeech: "verb", meaningEn: "to log in", meaningVi: "đăng nhập", exampleFi: "Kirjaudu sisään käyttäjätunnuksellasi.", exampleEn: "Log in with your username.", exampleVi: "Đăng nhập bằng tên người dùng." },
+  { fi: "rekisteröityä", partOfSpeech: "verb", meaningEn: "to register", meaningVi: "đăng ký", exampleFi: "Rekisteröidy ilmaiseksi.", exampleEn: "Register for free.", exampleVi: "Đăng ký miễn phí." },
+  { fi: "vuotaa", partOfSpeech: "verb", meaningEn: "to leak (data)", meaningVi: "rò rỉ", exampleFi: "Tiedot vuotivat verkkoon.", exampleEn: "The data leaked online.", exampleVi: "Dữ liệu bị rò rỉ lên mạng." },
+  { fi: "nopea", partOfSpeech: "adjective", meaningEn: "fast", meaningVi: "nhanh", exampleFi: "Yhteys on todella nopea.", exampleEn: "The connection is really fast.", exampleVi: "Kết nối rất nhanh." },
+];
+
+const education: B1VocabEntry[] = [
+  { fi: "koulutus", partOfSpeech: "noun", meaningEn: "education", meaningVi: "giáo dục", exampleFi: "Suomen koulutus on laadukas.", exampleEn: "Finnish education is high quality.", exampleVi: "Giáo dục Phần Lan chất lượng cao." },
+  { fi: "yliopisto", partOfSpeech: "noun", meaningEn: "university", meaningVi: "đại học", exampleFi: "Hän opiskelee yliopistossa.", exampleEn: "He studies at university.", exampleVi: "Anh ấy học đại học." },
+  { fi: "ammattikorkeakoulu", partOfSpeech: "noun", meaningEn: "university of applied sciences", meaningVi: "đại học ứng dụng", exampleFi: "Valmistuin ammattikorkeakoulusta.", exampleEn: "I graduated from a UAS.", exampleVi: "Tôi tốt nghiệp đại học ứng dụng." },
+  { fi: "tutkinto", partOfSpeech: "noun", meaningEn: "degree", meaningVi: "bằng cấp", exampleFi: "Suoritin maisterintutkinnon.", exampleEn: "I completed a master's degree.", exampleVi: "Tôi hoàn thành bằng thạc sĩ." },
+  { fi: "opiskelija", partOfSpeech: "noun", meaningEn: "student", meaningVi: "sinh viên", exampleFi: "Olen opiskelija.", exampleEn: "I am a student.", exampleVi: "Tôi là sinh viên." },
+  { fi: "opettaja", partOfSpeech: "noun", meaningEn: "teacher", meaningVi: "giáo viên", exampleFi: "Opettajamme on inspiroiva.", exampleEn: "Our teacher is inspiring.", exampleVi: "Giáo viên rất truyền cảm hứng." },
+  { fi: "kurssi", partOfSpeech: "noun", meaningEn: "course", meaningVi: "khóa học", exampleFi: "Kurssi alkaa syyskuussa.", exampleEn: "The course starts in September.", exampleVi: "Khóa học bắt đầu tháng 9." },
+  { fi: "luento", partOfSpeech: "noun", meaningEn: "lecture", meaningVi: "bài giảng", exampleFi: "Luento oli mielenkiintoinen.", exampleEn: "The lecture was interesting.", exampleVi: "Bài giảng thú vị." },
+  { fi: "tentti", partOfSpeech: "noun", meaningEn: "exam", meaningVi: "kỳ thi", exampleFi: "Tentti on perjantaina.", exampleEn: "The exam is on Friday.", exampleVi: "Kỳ thi vào thứ Sáu." },
+  { fi: "arvosana", partOfSpeech: "noun", meaningEn: "grade", meaningVi: "điểm số", exampleFi: "Sain hyvän arvosanan.", exampleEn: "I got a good grade.", exampleVi: "Tôi được điểm cao." },
+  { fi: "harjoitus", partOfSpeech: "noun", meaningEn: "exercise / practice", meaningVi: "bài tập", exampleFi: "Tee harjoitukset huolellisesti.", exampleEn: "Do the exercises carefully.", exampleVi: "Làm bài tập kỹ lưỡng." },
+  { fi: "stipendi", partOfSpeech: "noun", meaningEn: "scholarship", meaningVi: "học bổng", exampleFi: "Sain stipendin opiskeluun.", exampleEn: "I got a scholarship to study.", exampleVi: "Tôi được học bổng." },
+  { fi: "vaihto-opiskelu", partOfSpeech: "noun", meaningEn: "exchange studies", meaningVi: "học trao đổi", exampleFi: "Lähden vaihto-opiskeluun Ranskaan.", exampleEn: "I'm going on exchange to France.", exampleVi: "Tôi đi trao đổi tại Pháp." },
+  { fi: "lukukausi", partOfSpeech: "noun", meaningEn: "semester", meaningVi: "học kỳ", exampleFi: "Syyslukukausi alkaa.", exampleEn: "The autumn semester is starting.", exampleVi: "Học kỳ mùa thu bắt đầu." },
+  { fi: "tutkielma", partOfSpeech: "noun", meaningEn: "thesis", meaningVi: "luận văn", exampleFi: "Kirjoitan tutkielmaa.", exampleEn: "I'm writing a thesis.", exampleVi: "Tôi đang viết luận văn." },
+  { fi: "valmistua", partOfSpeech: "verb", meaningEn: "to graduate", meaningVi: "tốt nghiệp", exampleFi: "Valmistun ensi keväänä.", exampleEn: "I'll graduate next spring.", exampleVi: "Tôi sẽ tốt nghiệp mùa xuân tới." },
+  { fi: "opetussuunnitelma", partOfSpeech: "noun", meaningEn: "curriculum", meaningVi: "chương trình học", exampleFi: "Opetussuunnitelma uudistui.", exampleEn: "The curriculum was renewed.", exampleVi: "Chương trình học đã được đổi mới." },
+  { fi: "tutkimus", partOfSpeech: "noun", meaningEn: "research", meaningVi: "nghiên cứu", exampleFi: "Tutkimus julkaistiin tänään.", exampleEn: "The research was published today.", exampleVi: "Nghiên cứu công bố hôm nay." },
+  { fi: "kielitaito", partOfSpeech: "noun", meaningEn: "language skills", meaningVi: "khả năng ngôn ngữ", exampleFi: "Kielitaito on tärkeää työssä.", exampleEn: "Language skills matter at work.", exampleVi: "Kỹ năng ngôn ngữ quan trọng." },
+  { fi: "elinikäinen oppiminen", partOfSpeech: "phrase", meaningEn: "lifelong learning", meaningVi: "học suốt đời", exampleFi: "Elinikäinen oppiminen on arvokasta.", exampleEn: "Lifelong learning is valuable.", exampleVi: "Học suốt đời rất giá trị." },
+];
+
+const health: B1VocabEntry[] = [
+  { fi: "hyvinvointi", partOfSpeech: "noun", meaningEn: "wellbeing", meaningVi: "sức khoẻ tinh thần", exampleFi: "Hyvinvointi koostuu monesta tekijästä.", exampleEn: "Wellbeing has many factors.", exampleVi: "Hạnh phúc gồm nhiều yếu tố." },
+  { fi: "liikunta", partOfSpeech: "noun", meaningEn: "exercise / sport", meaningVi: "thể dục", exampleFi: "Liikunta auttaa jaksamaan.", exampleEn: "Exercise helps you cope.", exampleVi: "Tập thể dục giúp duy trì sức khoẻ." },
+  { fi: "ravinto", partOfSpeech: "noun", meaningEn: "nutrition", meaningVi: "dinh dưỡng", exampleFi: "Ravinto vaikuttaa terveyteen.", exampleEn: "Nutrition affects health.", exampleVi: "Dinh dưỡng ảnh hưởng sức khoẻ." },
+  { fi: "uni", partOfSpeech: "noun", meaningEn: "sleep", meaningVi: "giấc ngủ", exampleFi: "Hyvä uni on välttämätöntä.", exampleEn: "Good sleep is essential.", exampleVi: "Giấc ngủ tốt rất cần thiết." },
+  { fi: "stressi", partOfSpeech: "noun", meaningEn: "stress", meaningVi: "căng thẳng", exampleFi: "Stressi kuluttaa voimavaroja.", exampleEn: "Stress drains your energy.", exampleVi: "Căng thẳng làm hao năng lượng." },
+  { fi: "mielenterveys", partOfSpeech: "noun", meaningEn: "mental health", meaningVi: "sức khoẻ tâm thần", exampleFi: "Mielenterveydestä puhutaan enemmän.", exampleEn: "Mental health is discussed more now.", exampleVi: "Sức khoẻ tâm thần được chú ý hơn." },
+  { fi: "masennus", partOfSpeech: "noun", meaningEn: "depression", meaningVi: "trầm cảm", exampleFi: "Masennusta voi hoitaa.", exampleEn: "Depression can be treated.", exampleVi: "Trầm cảm có thể chữa được." },
+  { fi: "ahdistus", partOfSpeech: "noun", meaningEn: "anxiety", meaningVi: "lo âu", exampleFi: "Ahdistus on yleinen oire.", exampleEn: "Anxiety is a common symptom.", exampleVi: "Lo âu là triệu chứng phổ biến." },
+  { fi: "rentoutua", partOfSpeech: "verb", meaningEn: "to relax", meaningVi: "thư giãn", exampleFi: "Rentoudun saunassa.", exampleEn: "I relax in the sauna.", exampleVi: "Tôi thư giãn ở sauna." },
+  { fi: "lääkäri", partOfSpeech: "noun", meaningEn: "doctor", meaningVi: "bác sĩ", exampleFi: "Varasin ajan lääkärille.", exampleEn: "I booked a doctor's appointment.", exampleVi: "Tôi đặt lịch khám bác sĩ." },
+  { fi: "vastaanotto", partOfSpeech: "noun", meaningEn: "appointment / reception", meaningVi: "buổi hẹn / lễ tân", exampleFi: "Vastaanotto on klo 10.", exampleEn: "The appointment is at 10.", exampleVi: "Lịch hẹn lúc 10h." },
+  { fi: "rokotus", partOfSpeech: "noun", meaningEn: "vaccination", meaningVi: "tiêm chủng", exampleFi: "Sain rokotuksen.", exampleEn: "I got vaccinated.", exampleVi: "Tôi đã tiêm chủng." },
+  { fi: "leikkaus", partOfSpeech: "noun", meaningEn: "surgery", meaningVi: "phẫu thuật", exampleFi: "Leikkaus onnistui hyvin.", exampleEn: "The surgery went well.", exampleVi: "Phẫu thuật thành công." },
+  { fi: "kuntoutus", partOfSpeech: "noun", meaningEn: "rehabilitation", meaningVi: "phục hồi chức năng", exampleFi: "Kuntoutus kestää kuukausia.", exampleEn: "Rehab takes months.", exampleVi: "Phục hồi mất vài tháng." },
+  { fi: "elintapa", partOfSpeech: "noun", meaningEn: "lifestyle", meaningVi: "lối sống", exampleFi: "Terveet elintavat kannattavat.", exampleEn: "Healthy lifestyles pay off.", exampleVi: "Lối sống lành mạnh đáng giá." },
+  { fi: "painonhallinta", partOfSpeech: "noun", meaningEn: "weight management", meaningVi: "kiểm soát cân nặng", exampleFi: "Painonhallinta vaatii kärsivällisyyttä.", exampleEn: "Weight management needs patience.", exampleVi: "Kiểm soát cân nặng cần kiên nhẫn." },
+  { fi: "vältellä", partOfSpeech: "verb", meaningEn: "to avoid", meaningVi: "tránh", exampleFi: "Vältän sokeria.", exampleEn: "I avoid sugar.", exampleVi: "Tôi tránh đường." },
+  { fi: "parantaa", partOfSpeech: "verb", meaningEn: "to improve / to cure", meaningVi: "cải thiện / chữa", exampleFi: "Liikunta parantaa mielialaa.", exampleEn: "Exercise improves mood.", exampleVi: "Vận động cải thiện tâm trạng." },
+  { fi: "huolehtia", partOfSpeech: "verb", meaningEn: "to take care of", meaningVi: "chăm sóc", exampleFi: "Huolehdin terveydestäni.", exampleEn: "I take care of my health.", exampleVi: "Tôi chăm sóc sức khỏe mình." },
+  { fi: "väsymys", partOfSpeech: "noun", meaningEn: "fatigue", meaningVi: "mệt mỏi", exampleFi: "Väsymys haittaa työtä.", exampleEn: "Fatigue hurts work.", exampleVi: "Mệt mỏi ảnh hưởng công việc." },
+];
+
+const culture: B1VocabEntry[] = [
+  { fi: "kulttuuri", partOfSpeech: "noun", meaningEn: "culture", meaningVi: "văn hóa", exampleFi: "Suomalainen kulttuuri on rikas.", exampleEn: "Finnish culture is rich.", exampleVi: "Văn hoá Phần Lan phong phú." },
+  { fi: "perinne", partOfSpeech: "noun", meaningEn: "tradition", meaningVi: "truyền thống", exampleFi: "Joulu on vanha perinne.", exampleEn: "Christmas is an old tradition.", exampleVi: "Giáng sinh là truyền thống lâu đời." },
+  { fi: "juhla", partOfSpeech: "noun", meaningEn: "celebration / festival", meaningVi: "lễ hội", exampleFi: "Juhannus on kesän suurin juhla.", exampleEn: "Midsummer is the biggest summer festival.", exampleVi: "Hạ chí là lễ hội mùa hè lớn nhất." },
+  { fi: "tapa", partOfSpeech: "noun", meaningEn: "custom / habit", meaningVi: "phong tục / thói quen", exampleFi: "Suomalaisilla on omat tavat.", exampleEn: "Finns have their own customs.", exampleVi: "Người Phần có phong tục riêng." },
+  { fi: "taide", partOfSpeech: "noun", meaningEn: "art", meaningVi: "nghệ thuật", exampleFi: "Pidän modernista taiteesta.", exampleEn: "I like modern art.", exampleVi: "Tôi thích nghệ thuật hiện đại." },
+  { fi: "museo", partOfSpeech: "noun", meaningEn: "museum", meaningVi: "bảo tàng", exampleFi: "Museo on auki sunnuntaisin.", exampleEn: "The museum is open on Sundays.", exampleVi: "Bảo tàng mở cửa Chủ nhật." },
+  { fi: "elokuva", partOfSpeech: "noun", meaningEn: "film", meaningVi: "phim", exampleFi: "Katsoin hyvän elokuvan eilen.", exampleEn: "I watched a great film yesterday.", exampleVi: "Hôm qua tôi xem một phim hay." },
+  { fi: "kirjallisuus", partOfSpeech: "noun", meaningEn: "literature", meaningVi: "văn học", exampleFi: "Suomalainen kirjallisuus on monipuolista.", exampleEn: "Finnish literature is diverse.", exampleVi: "Văn học Phần Lan đa dạng." },
+  { fi: "kirjailija", partOfSpeech: "noun", meaningEn: "writer / author", meaningVi: "nhà văn", exampleFi: "Tämä kirjailija on tunnettu.", exampleEn: "This author is famous.", exampleVi: "Nhà văn này nổi tiếng." },
+  { fi: "musiikki", partOfSpeech: "noun", meaningEn: "music", meaningVi: "âm nhạc", exampleFi: "Kuuntelen musiikkia töissä.", exampleEn: "I listen to music at work.", exampleVi: "Tôi nghe nhạc khi làm việc." },
+  { fi: "konsertti", partOfSpeech: "noun", meaningEn: "concert", meaningVi: "buổi hòa nhạc", exampleFi: "Menen konserttiin lauantaina.", exampleEn: "I'm going to a concert on Saturday.", exampleVi: "Thứ Bảy tôi đi xem hoà nhạc." },
+  { fi: "tanssi", partOfSpeech: "noun", meaningEn: "dance", meaningVi: "khiêu vũ", exampleFi: "Tanssi rentouttaa.", exampleEn: "Dancing is relaxing.", exampleVi: "Nhảy múa giúp thư giãn." },
+  { fi: "teatteri", partOfSpeech: "noun", meaningEn: "theatre", meaningVi: "rạp hát", exampleFi: "Teatteri esittää uuden näytelmän.", exampleEn: "The theatre is showing a new play.", exampleVi: "Nhà hát có vở kịch mới." },
+  { fi: "näyttely", partOfSpeech: "noun", meaningEn: "exhibition", meaningVi: "triển lãm", exampleFi: "Näyttely loppuu ensi viikolla.", exampleEn: "The exhibition ends next week.", exampleVi: "Triển lãm kết thúc tuần sau." },
+  { fi: "kieli", partOfSpeech: "noun", meaningEn: "language", meaningVi: "ngôn ngữ", exampleFi: "Opin uutta kieltä.", exampleEn: "I learn a new language.", exampleVi: "Tôi học một ngôn ngữ mới." },
+  { fi: "uskonto", partOfSpeech: "noun", meaningEn: "religion", meaningVi: "tôn giáo", exampleFi: "Suomessa on uskonnonvapaus.", exampleEn: "Finland has freedom of religion.", exampleVi: "Phần Lan có tự do tôn giáo." },
+  { fi: "kansanperinne", partOfSpeech: "noun", meaningEn: "folklore", meaningVi: "dân gian", exampleFi: "Kalevala on suomalainen kansanperinne.", exampleEn: "Kalevala is Finnish folklore.", exampleVi: "Kalevala là dân gian Phần Lan." },
+  { fi: "monikulttuurinen", partOfSpeech: "adjective", meaningEn: "multicultural", meaningVi: "đa văn hóa", exampleFi: "Helsinki on monikulttuurinen kaupunki.", exampleEn: "Helsinki is multicultural.", exampleVi: "Helsinki đa văn hoá." },
+  { fi: "vähemmistö", partOfSpeech: "noun", meaningEn: "minority", meaningVi: "thiểu số", exampleFi: "Saamelaiset ovat alkuperäinen vähemmistö.", exampleEn: "The Sámi are an indigenous minority.", exampleVi: "Người Sámi là dân tộc thiểu số bản địa." },
+  { fi: "identiteetti", partOfSpeech: "noun", meaningEn: "identity", meaningVi: "bản sắc", exampleFi: "Kieli on osa identiteettiä.", exampleEn: "Language is part of identity.", exampleVi: "Ngôn ngữ là một phần bản sắc." },
+];
+
+const travel: B1VocabEntry[] = [
+  { fi: "matka", partOfSpeech: "noun", meaningEn: "trip / journey", meaningVi: "chuyến đi", exampleFi: "Matka kesti viisi tuntia.", exampleEn: "The trip took five hours.", exampleVi: "Chuyến đi mất 5 giờ." },
+  { fi: "matkakohde", partOfSpeech: "noun", meaningEn: "destination", meaningVi: "điểm đến", exampleFi: "Matkakohde on Lappi.", exampleEn: "The destination is Lapland.", exampleVi: "Điểm đến là Lapland." },
+  { fi: "varata", partOfSpeech: "verb", meaningEn: "to book", meaningVi: "đặt", exampleFi: "Varasin hotellin etukäteen.", exampleEn: "I booked the hotel in advance.", exampleVi: "Tôi đặt khách sạn trước." },
+  { fi: "hotelli", partOfSpeech: "noun", meaningEn: "hotel", meaningVi: "khách sạn", exampleFi: "Hotelli sijaitsee keskustassa.", exampleEn: "The hotel is in the centre.", exampleVi: "Khách sạn nằm ở trung tâm." },
+  { fi: "huone", partOfSpeech: "noun", meaningEn: "room", meaningVi: "phòng", exampleFi: "Huone on tilava.", exampleEn: "The room is spacious.", exampleVi: "Phòng rộng rãi." },
+  { fi: "passi", partOfSpeech: "noun", meaningEn: "passport", meaningVi: "hộ chiếu", exampleFi: "Passi on voimassa kymmenen vuotta.", exampleEn: "The passport is valid for ten years.", exampleVi: "Hộ chiếu có giá trị 10 năm." },
+  { fi: "viisumi", partOfSpeech: "noun", meaningEn: "visa", meaningVi: "thị thực", exampleFi: "Tarvitsen viisumin matkalle.", exampleEn: "I need a visa for the trip.", exampleVi: "Tôi cần visa cho chuyến đi." },
+  { fi: "lentokone", partOfSpeech: "noun", meaningEn: "airplane", meaningVi: "máy bay", exampleFi: "Lentokone lähtee aamulla.", exampleEn: "The plane leaves in the morning.", exampleVi: "Máy bay khởi hành buổi sáng." },
+  { fi: "lentokenttä", partOfSpeech: "noun", meaningEn: "airport", meaningVi: "sân bay", exampleFi: "Lentokenttä on kaukana.", exampleEn: "The airport is far.", exampleVi: "Sân bay xa." },
+  { fi: "tullimuodollisuudet", partOfSpeech: "noun", meaningEn: "customs formalities", meaningVi: "thủ tục hải quan", exampleFi: "Tullimuodollisuudet kestivät kauan.", exampleEn: "Customs took a long time.", exampleVi: "Thủ tục hải quan lâu." },
+  { fi: "matkalaukku", partOfSpeech: "noun", meaningEn: "suitcase", meaningVi: "vali", exampleFi: "Matkalaukku on raskas.", exampleEn: "The suitcase is heavy.", exampleVi: "Vali nặng." },
+  { fi: "vakuutus", partOfSpeech: "noun", meaningEn: "insurance", meaningVi: "bảo hiểm", exampleFi: "Otin matkavakuutuksen.", exampleEn: "I took travel insurance.", exampleVi: "Tôi mua bảo hiểm du lịch." },
+  { fi: "opas", partOfSpeech: "noun", meaningEn: "guide", meaningVi: "hướng dẫn viên", exampleFi: "Oppaamme oli ammattilainen.", exampleEn: "Our guide was a professional.", exampleVi: "Hướng dẫn viên rất chuyên nghiệp." },
+  { fi: "nähtävyys", partOfSpeech: "noun", meaningEn: "sight / attraction", meaningVi: "danh thắng", exampleFi: "Tämä on tunnettu nähtävyys.", exampleEn: "This is a famous sight.", exampleVi: "Đây là danh thắng nổi tiếng." },
+  { fi: "valuutta", partOfSpeech: "noun", meaningEn: "currency", meaningVi: "tiền tệ", exampleFi: "Tarvitsen paikallista valuuttaa.", exampleEn: "I need local currency.", exampleVi: "Tôi cần tiền địa phương." },
+  { fi: "majoitus", partOfSpeech: "noun", meaningEn: "accommodation", meaningVi: "chỗ ở", exampleFi: "Majoitus sisältyy hintaan.", exampleEn: "Accommodation is included.", exampleVi: "Chỗ ở bao gồm trong giá." },
+  { fi: "retki", partOfSpeech: "noun", meaningEn: "excursion", meaningVi: "chuyến đi chơi", exampleFi: "Lähdimme päiväretkelle.", exampleEn: "We went on a day trip.", exampleVi: "Chúng tôi đi chơi trong ngày." },
+  { fi: "varaus", partOfSpeech: "noun", meaningEn: "reservation", meaningVi: "đặt chỗ", exampleFi: "Varaus on vahvistettu.", exampleEn: "The reservation is confirmed.", exampleVi: "Đặt chỗ đã xác nhận." },
+  { fi: "lähtöselvitys", partOfSpeech: "noun", meaningEn: "check-in", meaningVi: "làm thủ tục", exampleFi: "Lähtöselvitys avautuu klo 14.", exampleEn: "Check-in opens at 2 PM.", exampleVi: "Check-in mở lúc 14h." },
+  { fi: "saapua", partOfSpeech: "verb", meaningEn: "to arrive", meaningVi: "đến nơi", exampleFi: "Saavumme illalla.", exampleEn: "We arrive in the evening.", exampleVi: "Chúng tôi đến vào buổi tối." },
+];
+
+export const B1_VOCAB_EXPANSION_MODULES_3: B1VocabModule[] = [
+  { id: "vocab3-technology", titleFi: "Teknologia", titleEn: "Technology", titleVi: "Công nghệ", emoji: "💻", description: "AI, software, devices, online safety.", descriptionVi: "AI, phần mềm, thiết bị, an toàn mạng.", words: technology },
+  { id: "vocab3-education", titleFi: "Koulutus", titleEn: "Education", titleVi: "Giáo dục", emoji: "🎓", description: "University, degrees, study life.", descriptionVi: "Đại học, bằng cấp, học tập.", words: education },
+  { id: "vocab3-health", titleFi: "Terveys & hyvinvointi", titleEn: "Health & wellbeing", titleVi: "Sức khỏe", emoji: "🩺", description: "Mental & physical health, lifestyle.", descriptionVi: "Sức khoẻ thể chất và tinh thần.", words: health },
+  { id: "vocab3-culture", titleFi: "Kulttuuri & taide", titleEn: "Culture & arts", titleVi: "Văn hóa & nghệ thuật", emoji: "🎭", description: "Traditions, art, literature, identity.", descriptionVi: "Truyền thống, nghệ thuật, văn học, bản sắc.", words: culture },
+  { id: "vocab3-travel", titleFi: "Matkustaminen", titleEn: "Travel", titleVi: "Du lịch", emoji: "✈️", description: "Bookings, airports, accommodation, sights.", descriptionVi: "Đặt vé, sân bay, chỗ ở, tham quan.", words: travel },
+];
