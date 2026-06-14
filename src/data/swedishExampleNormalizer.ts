@@ -236,6 +236,12 @@ function fill(tmpl: Tmpl, w: SwedishWord): Tmpl {
   const replaceAll = (str: string, find: string, repl: string) =>
     str.split(find).join(repl);
 
+  const isEtt = w.article === "ett";
+  const MIN = isEtt ? "mitt" : "min";
+  const SIN = isEtt ? "sitt" : "sin";
+  const NY = isEtt ? "nytt" : "ny";
+  const ETT = isEtt ? "t" : "";
+
   const sub = (s: string) => {
     let r = s;
     r = replaceAll(r, "{ART_C}", aSV.capWord);
@@ -243,6 +249,11 @@ function fill(tmpl: Tmpl, w: SwedishWord): Tmpl {
     r = replaceAll(r, "{ARTVI_C}", aVI.capWord);
     r = replaceAll(r, "{ARTVI}", aVI.full);
     r = replaceAll(r, "{ARTEN}", aEN.full);
+    r = replaceAll(r, "{MIN_C}", cap(MIN));
+    r = replaceAll(r, "{MIN}", MIN);
+    r = replaceAll(r, "{SIN}", SIN);
+    r = replaceAll(r, "{NY}", NY);
+    r = replaceAll(r, "{ETT}", ETT);
     r = replaceAll(r, "{W_C}", cap(W));
     r = replaceAll(r, "{W}", W);
     r = replaceAll(r, "{VI_C}", cap(VI));
