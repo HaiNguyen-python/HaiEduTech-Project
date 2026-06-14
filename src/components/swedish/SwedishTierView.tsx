@@ -264,6 +264,9 @@ const A1_LESSONS: Lesson[] = [
     tipVi: "'Tack' lặp lại nhiều lần thay vì 'snälla' — đó là phong cách Bắc Âu lịch sự.",
     tipEn: "Repeat 'Tack' often instead of begging with 'snälla' — that's the Nordic polite style.",
   },
+];
+
+
 
 /* ----- Tier A2 ----- */
 const A2_LESSONS: Lesson[] = [
