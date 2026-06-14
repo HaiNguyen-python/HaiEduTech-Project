@@ -37,6 +37,7 @@ import { toast } from "@/hooks/use-toast";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import SwedishVocabReviewModes from "@/components/swedish/SwedishVocabReviewModes";
 import {
   SWEDISH_WORDS,
   SWEDISH_CATEGORIES,
