@@ -570,7 +570,7 @@ const SwedishVocabulary = () => {
 
           {/* Leaderboard */}
           <div className="mt-8">
-            <VocabMasteryLeaderboard subject="swedish" />
+            <VocabMasteryLeaderboard subject="swedish" currentCount={mastered.size} label={t("Bảng xếp hạng Từ vựng Thụy Điển", "Swedish Vocabulary Leaderboard")} />
           </div>
         </div>
       </main>
