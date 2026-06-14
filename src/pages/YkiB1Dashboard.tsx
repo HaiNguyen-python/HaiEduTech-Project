@@ -30,8 +30,10 @@ import { getSpeakingSample } from "@/data/ykiB1SpeakingSamples";
 import { B1_VOCAB_MODULES } from "@/data/ykiB1Vocabulary";
 import { B1_VOCAB_EXPANSION_MODULES } from "@/data/ykiB1VocabularyExpansion";
 import { B1_VOCAB_EXPANSION_MODULES_2 } from "@/data/ykiB1VocabularyExpansion2";
+import { B1_VOCAB_EXPANSION_MODULES_3 } from "@/data/ykiB1VocabularyExpansion3";
 import { B1_GRAMMAR_MODULES } from "@/data/ykiB1Grammar";
 import { B1_GRAMMAR_EXPANSION_MODULES } from "@/data/ykiB1GrammarExpansion";
+import { B1_GRAMMAR_EXPANSION_MODULES_2 } from "@/data/ykiB1GrammarExpansion2";
 import { B1_WRITING_SAMPLES } from "@/data/ykiB1WritingSamples";
 import { Lightbulb } from "lucide-react";
 
