@@ -307,6 +307,28 @@ const A1_LESSONS: Lesson[] = [
     tipVi: "Allemansrätten là câu hỏi văn hoá kinh điển — học một định nghĩa 2 câu để dùng trong cả Tala và Skriva.",
     tipEn: "Allemansrätten is a classic culture question — memorise a 2-sentence definition you can reuse in Tala and Skriva.",
   },
+  {
+    id: "a1-shopping-ica",
+    titleVi: "Mua sắm ở siêu thị ICA / Lidl",
+    titleEn: "Grocery shopping at ICA / Lidl",
+    descVi: "Hỏi giá, hỏi vị trí kệ hàng, đọc nhãn 'Erbjudande' (giảm giá) — phản xạ A1 hằng ngày.",
+    descEn: "Ask prices, find aisles and read 'Erbjudande' (offer) tags — daily A1 reflex.",
+    skills: ["speak", "read"],
+    formula: "Var hittar jag [vara]?  ·  Hur mycket kostar [vara]?  ·  Jag tar [antal], tack.",
+    examples: [
+      { sv: "Ursäkta, var hittar jag mjölken?", vi: "Xin lỗi, sữa ở đâu vậy?", en: "Excuse me, where do I find the milk?" },
+      { sv: "Hur mycket kostar de här äpplena?", vi: "Mấy quả táo này bao nhiêu tiền?", en: "How much do these apples cost?" },
+      { sv: "Jag tar två, tack. Kan jag betala med kort?", vi: "Tôi lấy 2, cảm ơn. Trả thẻ được không?", en: "I'll take two, thanks. Can I pay by card?" },
+    ],
+    vocab: [
+      { sv: "erbjudande", vi: "ưu đãi / giảm giá", en: "offer" },
+      { sv: "påse / kasse", vi: "túi mua hàng", en: "bag" },
+      { sv: "kort / kontant", vi: "thẻ / tiền mặt", en: "card / cash" },
+      { sv: "kassan", vi: "quầy thu ngân", en: "the till" },
+    ],
+    tipVi: "Người Thuỵ Điển hiếm khi trả giá — học phản xạ 'Jag tar…' để chốt đơn tự tin.",
+    tipEn: "Swedes rarely haggle — learn the reflex 'Jag tar…' to close a purchase confidently.",
+  },
 ];
 
 
