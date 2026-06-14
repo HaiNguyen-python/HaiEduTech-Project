@@ -74,6 +74,7 @@ const SwedishSpeakingLab = () => {
   const [elapsed, setElapsed] = useState(0);
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
+  const [showModel, setShowModel] = useState(false);
 
   const recRef = useRef<SpeechRecognitionLike | null>(null);
   const startTsRef = useRef<number>(0);
