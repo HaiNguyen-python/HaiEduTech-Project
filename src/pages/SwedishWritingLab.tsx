@@ -8,7 +8,10 @@
  */
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { PencilLine, Sparkles, Loader2, CheckCircle2, AlertCircle, Lightbulb } from "lucide-react";
+import {
+  PencilLine, Sparkles, Loader2, CheckCircle2, AlertCircle, Lightbulb,
+  BookOpen, ChevronDown, ChevronUp,
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -25,6 +28,7 @@ import {
   type SwedishWritingPrompt,
 } from "@/data/swedishWritingPrompts";
 import type { SwedishLevel } from "@/data/swedishWritingPrompts";
+import { SWEDISH_SAMPLE_ESSAYS } from "@/data/swedishSampleEssays";
 
 interface GradeResult {
   overall: number;
@@ -44,6 +48,7 @@ const SwedishWritingLab = () => {
   const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
+  const [showSample, setShowSample] = useState(false);
 
   const prompts = useMemo(
     () => SWEDISH_WRITING_PROMPTS.filter((p) => p.level === level),
@@ -59,6 +64,7 @@ const SwedishWritingLab = () => {
     const first = SWEDISH_WRITING_PROMPTS.find((p) => p.level === lvl);
     if (first) setActiveId(first.id);
     setResult(null);
+    setShowSample(false);
   };
 
   const onSubmit = async () => {
@@ -135,7 +141,7 @@ const SwedishWritingLab = () => {
                 {prompts.map((p) => (
                   <button
                     key={p.id}
-                    onClick={() => { setActiveId(p.id); setResult(null); }}
+                    onClick={() => { setActiveId(p.id); setResult(null); setShowSample(false); }}
                     className={`w-full text-left rounded-lg border p-3 transition ${
                       p.id === activeId
                         ? "border-primary bg-primary/5"
@@ -186,6 +192,87 @@ const SwedishWritingLab = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Sample essay toggle */}
+          {(() => {
+            const sample = SWEDISH_SAMPLE_ESSAYS.find((s) => s.id === active.id);
+            if (!sample) return null;
+            return (
+              <Card className="mb-6 border-amber-500/20 bg-amber-500/5">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-amber-600" />
+                      {t("Bài viết mẫu tham khảo", "Sample answer for reference")}
+                    </CardTitle>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowSample((v) => !v)}
+                      className="gap-1"
+                    >
+                      {showSample ? (
+                        <>
+                          <ChevronUp className="w-4 h-4" />
+                          {t("Thu gọn", "Collapse")}
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDown className="w-4 h-4" />
+                          {t("Xem bài mẫu", "View sample")}
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </CardHeader>
+                {showSample && (
+                  <CardContent className="space-y-4 pt-0">
+                    <div className="rounded-lg bg-card border p-3 text-sm leading-relaxed whitespace-pre-wrap font-mono text-foreground/90">
+                      {sample.essaySv}
+                    </div>
+                    <div className="rounded-lg bg-muted/40 p-3 text-sm leading-relaxed text-muted-foreground whitespace-pre-wrap">
+                      {sample.essayVi}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge variant="outline">
+                        {sample.wordCount} {t("từ", "words")}
+                      </Badge>
+                      <Badge variant="secondary" className="text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-900/30">
+                        {t("Mẫu đạt điểm cao", "High-scoring model")}
+                      </Badge>
+                    </div>
+                    {sample.grammarNotes.length > 0 && (
+                      <div>
+                        <h4 className="text-xs font-semibold text-muted-foreground mb-2">
+                          {t("Ghi chú ngữ pháp", "Grammar notes")}
+                        </h4>
+                        <ul className="space-y-2">
+                          {sample.grammarNotes.map((g, i) => (
+                            <li key={i} className="text-xs bg-card border rounded-md p-2">
+                              <span className="font-semibold text-foreground">{g.label}</span>
+                              <span className="block text-muted-foreground mt-0.5">{g.noteVi}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {sample.highlights.length > 0 && (
+                      <div>
+                        <h4 className="text-xs font-semibold text-muted-foreground mb-2">
+                          ✨ {t("Điểm hay", "Highlights")}
+                        </h4>
+                        <ul className="list-disc list-inside text-xs text-foreground/90 space-y-1">
+                          {sample.highlights.map((h, i) => (
+                            <li key={i}>{h}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </CardContent>
+                )}
+              </Card>
+            );
+          })()}
 
           {/* Textarea */}
           <Card className="mb-6">
