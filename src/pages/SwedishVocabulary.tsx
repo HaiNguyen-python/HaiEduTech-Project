@@ -24,6 +24,7 @@ import {
   Mic,
   MicOff,
   PenLine,
+  ShieldCheck,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -38,6 +39,7 @@ import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
 import SwedishVocabReviewModes from "@/components/swedish/SwedishVocabReviewModes";
+import SwedishVocabQA from "@/components/swedish/SwedishVocabQA";
 import {
   SWEDISH_WORDS,
   SWEDISH_CATEGORIES,
@@ -472,7 +474,7 @@ const SwedishVocabulary = () => {
   const [query, setQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<"all" | SwedishLevel>("all");
   const [catFilter, setCatFilter] = useState<string>("all");
-  const [view, setView] = useState<"flash" | "list" | "exercise">("flash");
+  const [view, setView] = useState<"flash" | "list" | "exercise" | "qa">("flash");
   const [page, setPage] = useState(0);
 
   // Filtered list
@@ -616,7 +618,7 @@ const SwedishVocabulary = () => {
 
           {/* View tabs */}
           <Tabs value={view} onValueChange={(v) => setView(v as any)} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-5 h-auto">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-5 h-auto gap-1">
               <TabsTrigger value="flash" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Layers className="h-4 w-4" />
                 <span className="text-xs sm:text-sm font-semibold">{t("Flashcards", "Flashcards")}</span>
@@ -628,6 +630,10 @@ const SwedishVocabulary = () => {
               <TabsTrigger value="exercise" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Dumbbell className="h-4 w-4" />
                 <span className="text-xs sm:text-sm font-semibold">{t("Ôn tập 5 chế độ", "Review · 5 modes")}</span>
+              </TabsTrigger>
+              <TabsTrigger value="qa" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <ShieldCheck className="h-4 w-4" />
+                <span className="text-xs sm:text-sm font-semibold">{t("QA · Báo cáo lỗi", "QA · Error report")}</span>
               </TabsTrigger>
             </TabsList>
 
@@ -727,6 +733,11 @@ const SwedishVocabulary = () => {
             {/* Exercise — 5 EdTech review modes */}
             <TabsContent value="exercise">
               <SwedishVocabReviewModes masteredPool={masteredWords} filteredPool={filtered} />
+            </TabsContent>
+
+            {/* QA — quality assurance report */}
+            <TabsContent value="qa">
+              <SwedishVocabQA />
             </TabsContent>
           </Tabs>
 
