@@ -718,6 +718,50 @@ const B1_LESSONS: Lesson[] = [
     tipVi: "Khi nói về tương lai trong Tala B1, dùng cấu trúc 'hoppas att…' để thể hiện ngữ điệu tự nhiên, tránh 'kommer att' trùng lặp.",
     tipEn: "When talking about the future in Tala B1, use 'hoppas att…' for natural intonation — don't overuse 'kommer att'.",
   },
+  {
+    id: "b1-climate-debate",
+    titleVi: "Tranh luận về biến đổi khí hậu",
+    titleEn: "Climate change debate",
+    descVi: "Cấu trúc lập luận pro/contra với 'å ena sidan / å andra sidan' — chìa khoá Skriva B1 opinion essay.",
+    descEn: "Pro/contra structure with 'å ena sidan / å andra sidan' — the key to a B1 opinion essay.",
+    skills: ["write", "speak"],
+    formula: "Å ena sidan …, å andra sidan …  ·  Det viktigaste argumentet är att …  ·  Sammanfattningsvis tycker jag att …",
+    examples: [
+      { sv: "Å ena sidan är flyget bekvämt, å andra sidan släpper det ut mycket koldioxid.", vi: "Một mặt đi máy bay tiện, mặt khác thải nhiều CO2.", en: "On one hand flying is convenient, on the other it releases a lot of CO2." },
+      { sv: "Vi måste investera mer i solenergi och kollektivtrafik.", vi: "Phải đầu tư hơn vào điện mặt trời và giao thông công cộng.", en: "We must invest more in solar energy and public transport." },
+      { sv: "Sammanfattningsvis tycker jag att klimatet är vår viktigaste fråga.", vi: "Tóm lại, tôi nghĩ khí hậu là vấn đề quan trọng nhất.", en: "In conclusion, I think climate is our most important issue." },
+    ],
+    vocab: [
+      { sv: "klimatförändring", vi: "biến đổi khí hậu", en: "climate change" },
+      { sv: "utsläpp", vi: "khí thải", en: "emissions" },
+      { sv: "förnybar energi", vi: "năng lượng tái tạo", en: "renewable energy" },
+      { sv: "hållbar utveckling", vi: "phát triển bền vững", en: "sustainable development" },
+    ],
+    tipVi: "Cấu trúc 'Å ena sidan / å andra sidan / Sammanfattningsvis' đảm bảo essay đủ 3 đoạn — chuẩn chấm B1.",
+    tipEn: "The 'Å ena sidan / å andra sidan / Sammanfattningsvis' frame guarantees three paragraphs — the B1 rubric.",
+  },
+  {
+    id: "b1-digital-life",
+    titleVi: "Đời sống số & mạng xã hội",
+    titleEn: "Digital life & social media",
+    descVi: "Bàn luận ảnh hưởng smartphone, AI và sociala medier — chủ đề báo Hbl & Yle gần đây.",
+    descEn: "Discuss the impact of smartphones, AI and social media — a recent Hbl & Yle headline topic.",
+    skills: ["read", "write"],
+    formula: "[Subjekt] [verb] eftersom …   ·   Trots att … så …",
+    examples: [
+      { sv: "Många ungdomar använder sociala medier flera timmar varje dag.", vi: "Nhiều thanh niên dùng mạng xã hội nhiều giờ mỗi ngày.", en: "Many young people use social media many hours every day." },
+      { sv: "Trots att tekniken är användbar, kan den också vara beroendeframkallande.", vi: "Dù công nghệ hữu ích, nó cũng có thể gây nghiện.", en: "Although technology is useful, it can also be addictive." },
+      { sv: "Skolan borde lära elever att tänka kritiskt om information online.", vi: "Trường nên dạy học sinh tư duy phản biện thông tin online.", en: "Schools should teach pupils to think critically about info online." },
+    ],
+    vocab: [
+      { sv: "sociala medier", vi: "mạng xã hội", en: "social media" },
+      { sv: "skärmtid", vi: "thời gian màn hình", en: "screen time" },
+      { sv: "beroende", vi: "nghiện / phụ thuộc", en: "addiction / dependence" },
+      { sv: "källkritik", vi: "phản biện nguồn", en: "source criticism" },
+    ],
+    tipVi: "Liên từ 'trots att' luôn theo sau bằng mệnh đề phụ — đây là bẫy BIFF kinh điển trong Skriva B1.",
+    tipEn: "'Trots att' is always followed by a subordinate clause — a classic BIFF trap in Skriva B1.",
+  },
 ];
 
 const TIERS: Tier[] = [
