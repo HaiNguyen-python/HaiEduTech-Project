@@ -299,7 +299,7 @@ export default function LastSessionRecap() {
 
             <TabsContent value="activities" className="space-y-2 mt-3">
               {activities.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">Chưa có hoạt động nào</p>
+                <EncouragementEmpty tab="activities" onClose={() => setOpen(false)} />
               ) : activities.map((a, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                   <div className="flex-1 min-w-0">
