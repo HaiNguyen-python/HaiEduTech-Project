@@ -261,12 +261,16 @@ import { SWEDISH_WORDS_MEGA_3 } from "./swedishVocabMega3";
 import { SWEDISH_WORDS_MEGA_4 } from "./swedishVocabMega4";
 import { SWEDISH_WORDS_MEGA_5 } from "./swedishVocabMega5";
 import { SWEDISH_WORDS_MEGA_6 } from "./swedishVocabMega6";
+import { SWEDISH_WORDS_MEGA_7 } from "./swedishVocabMega7";
 
 const _LEVEL_ORDER: Record<SwedishLevel, number> = { A1: 1, A2: 2, B1: 3 };
 // Aggregate + dedupe by Swedish form (keep the entry at the easiest level so
 // learners always meet a word first at its lowest CEFR tier).
 const _ALL_RAW: SwedishWord[] = [
   ..._SWEDISH_CORE_WORDS,
+  // Mega7 listed early so its hand-written real examples win the dedupe
+  // tie-break against any templated entries at the same CEFR level.
+  ...SWEDISH_WORDS_MEGA_7,
   ...SWEDISH_WORDS_EXPANSION,
   ...SWEDISH_WORDS_EXPANSION_2,
   ...SWEDISH_WORDS_MEGA,

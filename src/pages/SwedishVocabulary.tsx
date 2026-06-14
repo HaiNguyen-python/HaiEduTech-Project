@@ -37,6 +37,7 @@ import { toast } from "@/hooks/use-toast";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import SwedishVocabReviewModes from "@/components/swedish/SwedishVocabReviewModes";
 import {
   SWEDISH_WORDS,
   SWEDISH_CATEGORIES,
@@ -626,7 +627,7 @@ const SwedishVocabulary = () => {
               </TabsTrigger>
               <TabsTrigger value="exercise" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Dumbbell className="h-4 w-4" />
-                <span className="text-xs sm:text-sm font-semibold">{t("Bài tập", "Exercise")}</span>
+                <span className="text-xs sm:text-sm font-semibold">{t("Ôn tập 5 chế độ", "Review · 5 modes")}</span>
               </TabsTrigger>
             </TabsList>
 
@@ -723,9 +724,9 @@ const SwedishVocabulary = () => {
               )}
             </TabsContent>
 
-            {/* Exercise */}
+            {/* Exercise — 5 EdTech review modes */}
             <TabsContent value="exercise">
-              <ExerciseView pool={masteredWords} />
+              <SwedishVocabReviewModes masteredPool={masteredWords} filteredPool={filtered} />
             </TabsContent>
           </Tabs>
 
