@@ -268,6 +268,9 @@ const _LEVEL_ORDER: Record<SwedishLevel, number> = { A1: 1, A2: 2, B1: 3 };
 // learners always meet a word first at its lowest CEFR tier).
 const _ALL_RAW: SwedishWord[] = [
   ..._SWEDISH_CORE_WORDS,
+  // Mega7 listed early so its hand-written real examples win the dedupe
+  // tie-break against any templated entries at the same CEFR level.
+  ...SWEDISH_WORDS_MEGA_7,
   ...SWEDISH_WORDS_EXPANSION,
   ...SWEDISH_WORDS_EXPANSION_2,
   ...SWEDISH_WORDS_MEGA,
@@ -276,11 +279,6 @@ const _ALL_RAW: SwedishWord[] = [
   ...SWEDISH_WORDS_MEGA_4,
   ...SWEDISH_WORDS_MEGA_5,
   ...SWEDISH_WORDS_MEGA_6,
-  // Mega7 first — when an existing entry has a templated example, the dedupe
-  // below keeps the EARLIER (lower-level) entry but if levels tie, the first
-  // occurrence wins, so listing Mega7 ahead of duplicates ensures its real
-  // example wins for shared keys at the same level.
-  ...SWEDISH_WORDS_MEGA_7,
 ];
 const _BY_KEY = new Map<string, SwedishWord>();
 for (const w of _ALL_RAW) {
