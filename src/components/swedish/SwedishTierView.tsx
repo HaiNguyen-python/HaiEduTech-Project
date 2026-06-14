@@ -30,6 +30,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "@/hooks/use-toast";
+import { LESSON_DETAILS } from "@/data/swedishLessonDetails";
 
 /* -------------------------------------------------------------------------- */
 /* Types & data                                                                */
