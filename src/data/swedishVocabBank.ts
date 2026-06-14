@@ -252,8 +252,13 @@ const _SWEDISH_CORE_WORDS: SwedishWord[] = [
   w("a12","nackdel","n.","nhược điểm","disadvantage","Nackdelen är priset.","Nhược điểm là giá.","The disadvantage is the price.","B1","abstract","en"),
 ];
 
-// Merge expansion bank for richer YKI coverage with IPA.
+// Merge expansion banks for richer YKI coverage with IPA + extra categories.
 import { SWEDISH_WORDS_EXPANSION } from "./swedishVocabExpansion";
-export const SWEDISH_WORDS: SwedishWord[] = [..._SWEDISH_CORE_WORDS, ...SWEDISH_WORDS_EXPANSION];
+import { SWEDISH_WORDS_EXPANSION_2 } from "./swedishVocabExpansion2";
+export const SWEDISH_WORDS: SwedishWord[] = [
+  ..._SWEDISH_CORE_WORDS,
+  ...SWEDISH_WORDS_EXPANSION,
+  ...SWEDISH_WORDS_EXPANSION_2,
+];
 
 export const SWEDISH_LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
