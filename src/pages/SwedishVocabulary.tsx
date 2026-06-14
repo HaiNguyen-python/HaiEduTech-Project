@@ -618,7 +618,7 @@ const SwedishVocabulary = () => {
 
           {/* View tabs */}
           <Tabs value={view} onValueChange={(v) => setView(v as any)} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-5 h-auto">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-5 h-auto gap-1">
               <TabsTrigger value="flash" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Layers className="h-4 w-4" />
                 <span className="text-xs sm:text-sm font-semibold">{t("Flashcards", "Flashcards")}</span>
@@ -630,6 +630,10 @@ const SwedishVocabulary = () => {
               <TabsTrigger value="exercise" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Dumbbell className="h-4 w-4" />
                 <span className="text-xs sm:text-sm font-semibold">{t("Ôn tập 5 chế độ", "Review · 5 modes")}</span>
+              </TabsTrigger>
+              <TabsTrigger value="qa" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <ShieldCheck className="h-4 w-4" />
+                <span className="text-xs sm:text-sm font-semibold">{t("QA · Báo cáo lỗi", "QA · Error report")}</span>
               </TabsTrigger>
             </TabsList>
 
