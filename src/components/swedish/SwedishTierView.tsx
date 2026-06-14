@@ -915,7 +915,7 @@ const GlobalIndicator = () => {
 /* -------------------------------------------------------------------------- */
 
 const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const Icon = tier.Icon;
   return (
     <motion.div
