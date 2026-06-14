@@ -261,6 +261,7 @@ import { SWEDISH_WORDS_MEGA_3 } from "./swedishVocabMega3";
 import { SWEDISH_WORDS_MEGA_4 } from "./swedishVocabMega4";
 import { SWEDISH_WORDS_MEGA_5 } from "./swedishVocabMega5";
 import { SWEDISH_WORDS_MEGA_6 } from "./swedishVocabMega6";
+import { SWEDISH_WORDS_MEGA_7 } from "./swedishVocabMega7";
 
 const _LEVEL_ORDER: Record<SwedishLevel, number> = { A1: 1, A2: 2, B1: 3 };
 // Aggregate + dedupe by Swedish form (keep the entry at the easiest level so
@@ -275,6 +276,11 @@ const _ALL_RAW: SwedishWord[] = [
   ...SWEDISH_WORDS_MEGA_4,
   ...SWEDISH_WORDS_MEGA_5,
   ...SWEDISH_WORDS_MEGA_6,
+  // Mega7 first — when an existing entry has a templated example, the dedupe
+  // below keeps the EARLIER (lower-level) entry but if levels tie, the first
+  // occurrence wins, so listing Mega7 ahead of duplicates ensures its real
+  // example wins for shared keys at the same level.
+  ...SWEDISH_WORDS_MEGA_7,
 ];
 const _BY_KEY = new Map<string, SwedishWord>();
 for (const w of _ALL_RAW) {
