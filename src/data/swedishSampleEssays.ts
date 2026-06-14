@@ -268,7 +268,6 @@ export const SWEDISH_SAMPLE_ESSAYS: SwedishSampleEssay[] = [
       "Khuyến nghị đa chiều (học sinh, trường học, phụ huynh) — thể hiện tư duy phân tích sâu B1.",
     ],
   },
-];
   // ───── A1 extra ─────
   {
     id: "w-a1-restaurant",
