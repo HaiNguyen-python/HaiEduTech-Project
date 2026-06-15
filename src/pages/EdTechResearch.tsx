@@ -224,10 +224,11 @@ const EdTechResearch = () => {
             EdTech Research
           </h1>
           <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
-            Một không gian học thuật minh bạch: các bài nghiên cứu đang triển khai,
-            insight hành vi người dùng và khảo sát mở để cộng đồng cùng định hình
-            tương lai nền tảng giáo dục.
+            A transparent academic space: active research papers, anonymised
+            behavioural insights, and open surveys so the global community can
+            help shape the future of education technology.
           </p>
+
         </motion.section>
 
         {/* Dynamic Research Project Framework */}
