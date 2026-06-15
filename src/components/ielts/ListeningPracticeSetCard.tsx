@@ -19,6 +19,7 @@ import DOMPurify from "dompurify";
 import { ieltsListeningBand, bandColor } from "@/lib/ieltsListeningBand";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 type AccentKey = "en-GB" | "en-US" | "en-AU";
 const ACCENT_LABELS: Record<AccentKey, string> = {
