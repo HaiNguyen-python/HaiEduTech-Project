@@ -64,8 +64,7 @@ type Paper = {
 
 const PAPERS: Paper[] = [
   {
-    title:
-      "Machine Learning for Early-Warning Detection of At-Risk Learners",
+    title: "Machine Learning for Early-Warning Detection of At-Risk Learners",
     topic: "Learning Analytics · Early-Warning ML",
     status: "Preprint",
     year: "2026",
@@ -73,8 +72,7 @@ const PAPERS: Paper[] = [
       "A gradient-boosting classifier fuses behavioural signals (logins, streaks, vocabulary accuracy) to predict the probability of disengagement within 14 days, enabling timely teacher intervention.",
   },
   {
-    title:
-      "Optimising LLM Feedback Loops for Language Pedagogy",
+    title: "Optimising LLM Feedback Loops for Language Pedagogy",
     topic: "LLM Pedagogy · Human-in-the-loop",
     status: "Ongoing",
     year: "2026",
@@ -82,15 +80,55 @@ const PAPERS: Paper[] = [
       "End-of-lesson micro-surveys feed a lightweight RLHF pipeline that progressively improves prompt fit. The paper proposes an evaluation framework for small-cohort language classrooms.",
   },
   {
-    title:
-      "Reinforcement Learning for Adaptive English Curriculum Personalisation",
+    title: "Reinforcement Learning for Adaptive English Curriculum Personalisation",
     topic: "Adaptive Learning · Deep RL",
     status: "Preprint",
     year: "2026",
     abstract:
       "An agent selects the next lesson conditioned on a skill profile, using a composite reward that blends short-term scores and longer-term retention, benchmarked against a linear baseline.",
   },
+  {
+    title: "Phoneme-Aware ASR Coaching for L2 English: A Cross-Accent Study",
+    topic: "Speech AI · Pronunciation",
+    status: "Ongoing",
+    year: "2026",
+    abstract:
+      "Compares phoneme, word and sentence-level ASR feedback across Vietnamese, Finnish and Khmer learners, quantifying accent bias and the marginal gain of mouth-position video overlays.",
+  },
+  {
+    title: "Multi-Agent LLM Tutors Reduce Hallucination in K-12 STEM",
+    topic: "LLM Agents · STEM",
+    status: "Preprint",
+    year: "2026",
+    abstract:
+      "A planner-tutor-evaluator agent pipeline lowers factual error rate by ~38% on grade-9 physics problems vs a single LLM, with no loss in pedagogical fluency under rubric scoring.",
+  },
+  {
+    title: "Federated Personalisation with Differential Privacy for EU K-12",
+    topic: "Federated Learning · Privacy",
+    status: "Ongoing",
+    year: "2026",
+    abstract:
+      "Empirical study of FedAvg + DP-SGD on classroom shards under the EU AI Act, mapping the accuracy/privacy trade-off and reporting client-drift behaviour in low-bandwidth schools.",
+  },
+  {
+    title: "Cognitive Offloading in Daily GenAI Use: A Two-Semester Cohort Study",
+    topic: "Cognitive Science · LLM",
+    status: "Ongoing",
+    year: "2026",
+    abstract:
+      "Longitudinal evidence that unrestricted LLM use during practice produces strong in-task gains but a measurable drop on non-AI transfer tasks, mediated by metacognitive scaffolding.",
+  },
+  {
+    title: "Explainable Knowledge Tracing for Learner-Facing Dashboards",
+    topic: "XAI · Knowledge Tracing",
+    status: "Preprint",
+    year: "2026",
+    abstract:
+      "Attention-rollout explanations on a SAINT+ knowledge-tracing model improve learner self-regulation ratings by 21% without harming AUC vs vanilla DKT.",
+  },
 ];
+
 
 // Aggregated behavioural insight dataset (anonymised, illustrative).
 const RETENTION = [
