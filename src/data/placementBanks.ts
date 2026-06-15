@@ -129,7 +129,8 @@ const CHINESE: PlacementQuestion[] = [
 /* ── Vietnamese 18 Q ────────────────────────────────────────────────── */
 const VIETNAMESE: PlacementQuestion[] = [
   { id: 201, skill: "listening", cefr: "A1", type: "listen-image",
-    prompt: "Choose the matching picture.", audioText: "Quả táo.", correct: 0,
+    prompt: "Cô bé đang cầm gì trên tay?",
+    audioText: "Hãy nhìn xem, cô bé đang cầm một quả táo đỏ trên tay.", correct: 0,
     options: [
       { emoji: "🍎", label: "Quả táo" }, { emoji: "🍌", label: "Quả chuối" },
       { emoji: "🐱", label: "Con mèo" }, { emoji: "🚗", label: "Xe hơi" },
