@@ -53,6 +53,7 @@ import ChatbotConversationsReview from "@/components/admin/ChatbotConversationsR
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
 import ReportLogsTab from "@/components/admin/ReportLogsTab";
 import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
+import RLInterventionsTab from "@/components/admin/RLInterventionsTab";
 import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
 import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
 import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
