@@ -373,8 +373,76 @@ const EdTechResearch = () => {
           </Card>
         </section>
 
+        {/* Research Gaps & Future Horizons */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary/15 to-emerald-500/15 text-primary">
+              <Microscope className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                Khoảng Trống Nghiên Cứu & Định Hướng Tương Lai
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Research Gaps · những chủ đề ngành EdTech vẫn còn thiếu và HaiEduTech Lab đang chủ động theo đuổi.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              {
+                idx: "Gap 01",
+                title: "Bản địa hoá mô hình AI cho ngôn ngữ ít phổ biến",
+                subtitle: "Minority Language AI Tuning",
+                body: "Đa số nghiên cứu LLM hiện nay tập trung vào tiếng Anh. Cách các mô hình lớn xử lý phản hồi sư phạm cho tiếng Thụy Điển hoặc tiếng Phần Lan dành cho người Việt vẫn còn rất hạn chế và cần khung đánh giá riêng.",
+              },
+              {
+                idx: "Gap 02",
+                title: "Đạo đức dữ liệu & quyền riêng tư của học sinh nhỏ tuổi",
+                subtitle: "Data Ethics in K-12 AI Learning",
+                body: "Cần các giải pháp ẩn danh hoá (anonymization) dữ liệu hành vi đủ mạnh nhưng vẫn đảm bảo thuật toán AI Academy (lớp 6–12) dự đoán lộ trình học cá nhân chính xác và an toàn.",
+              },
+              {
+                idx: "Gap 03",
+                title: "Tác động dài hạn của AI lên Tư duy phản biện",
+                subtitle: "Long-term Impact on Critical Thinking",
+                body: "Đánh giá xem việc lạm dụng tra cứu từ điển và trả lời AI tức thời có làm giảm khả năng ghi nhớ sâu và tư duy ngôn ngữ chủ động của học viên trong 6–24 tháng hay không.",
+              },
+            ].map((g) => (
+              <Card
+                key={g.idx}
+                className="relative overflow-hidden border-primary/15 hover:border-primary/40 hover:shadow-lg transition-all"
+              >
+                <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500" />
+                <CardContent className="p-5 md:p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge
+                      variant="outline"
+                      className="font-mono text-[11px] tracking-wider border-primary/30 text-primary"
+                    >
+                      {g.idx}
+                    </Badge>
+                    <Microscope className="w-4 h-4 text-emerald-500/70" />
+                  </div>
+                  <h3 className="text-base md:text-lg font-semibold leading-snug">
+                    {g.title}
+                  </h3>
+                  <p className="text-xs uppercase tracking-wide text-primary/80 mt-1 mb-3">
+                    {g.subtitle}
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {g.body}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
         {/* Pillar 3 — Insight Survey */}
         <section className="mb-10">
+
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 rounded-lg bg-amber-500/10 text-amber-600">
               <Sparkles className="w-5 h-5" />
