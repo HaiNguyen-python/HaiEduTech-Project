@@ -24,6 +24,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useReviewQueue } from "@/hooks/useReviewQueue";
 import { cn } from "@/lib/utils";
+import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
 
 export interface ReviewWordDetails {
   word: string;
@@ -46,6 +47,12 @@ interface SmartReviewColumnProps {
 }
 
 const speak = (text: string, lang = "en-US") => {
+  if (lang.toLowerCase().startsWith("fi")) {
+    stopFinnishTts();
+    void playFinnishTts(text, { playbackRate: 0.92, speechRate: 0.85 });
+    return;
+  }
+
   if (typeof window === "undefined" || !window.speechSynthesis) return;
   try {
     window.speechSynthesis.cancel();

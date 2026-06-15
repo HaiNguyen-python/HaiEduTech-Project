@@ -18,6 +18,7 @@ const FINNISH_TTS_ENDPOINTS = [
 ];
 
 let activeAudio: HTMLAudioElement | null = null;
+let playbackSessionId = 0;
 
 const stopActiveAudio = () => {
   if (!activeAudio) return;
@@ -51,14 +52,19 @@ export const resumeFinnishTts = () => {
 };
 
 export const stopFinnishTts = () => {
+  playbackSessionId += 1;
   stopActiveAudio();
   if (typeof window !== "undefined" && "speechSynthesis" in window) {
     window.speechSynthesis.cancel();
   }
 };
 
-const playFromUrl = (url: string, playbackRate: number) =>
+const playFromUrl = (url: string, playbackRate: number, isCurrent: () => boolean) =>
   new Promise<void>((resolve, reject) => {
+    if (!isCurrent()) {
+      reject(new Error("stale_audio"));
+      return;
+    }
     stopActiveAudio();
     const audio = new Audio(url);
     activeAudio = audio;
@@ -72,6 +78,12 @@ const playFromUrl = (url: string, playbackRate: number) =>
       if (activeAudio === audio) activeAudio = null;
       reject(new Error("audio_error"));
     };
+    if (!isCurrent()) {
+      if (activeAudio === audio) activeAudio = null;
+      audio.pause();
+      reject(new Error("stale_audio"));
+      return;
+    }
     audio
       .play()
       .catch(() => {
@@ -89,10 +101,14 @@ const decodeBase64ToBlob = (base64: string, mimeType: string) => {
   return new Blob([bytes], { type: mimeType });
 };
 
-const playFromProxy = async (text: string, playbackRate: number) => {
+const playFromProxy = async (text: string, playbackRate: number, isCurrent: () => boolean) => {
   const { data, error } = await supabase.functions.invoke("finnish-tts", {
     body: { text },
   });
+
+  if (!isCurrent()) {
+    throw new Error("stale_audio");
+  }
 
   if (error) {
     throw new Error("proxy_error");
@@ -108,7 +124,7 @@ const playFromProxy = async (text: string, playbackRate: number) => {
   const objectUrl = URL.createObjectURL(blob);
 
   try {
-    await playFromUrl(objectUrl, playbackRate);
+    await playFromUrl(objectUrl, playbackRate, isCurrent);
   } finally {
     URL.revokeObjectURL(objectUrl);
   }
@@ -147,13 +163,16 @@ const loadSpeechVoices = () =>
     }, 700);
   });
 
-const speakWithNativeFinnishVoice = async (text: string, speechRate: number) => {
+const speakWithNativeFinnishVoice = async (text: string, speechRate: number, isCurrent: () => boolean) => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
     throw new Error("speech_synthesis_unavailable");
   }
 
   window.speechSynthesis.cancel();
   const voices = await loadSpeechVoices();
+  if (!isCurrent()) {
+    throw new Error("stale_audio");
+  }
   const finnishVoice =
     voices.find((voice) => voice.lang.toLowerCase() === "fi-fi") ||
     voices.find((voice) => voice.lang.toLowerCase().startsWith("fi"));
@@ -231,24 +250,30 @@ export const playFinnishTts = async (text: string, options: FinnishTtsOptions = 
 
   const playbackRate = options.playbackRate ?? 0.85;
   const speechRate = options.speechRate ?? 0.8;
+  const sessionId = ++playbackSessionId;
+  const isCurrent = () => sessionId === playbackSessionId;
 
   const chunks = splitForTts(normalizedText, 180);
 
   const playOne = async (chunk: string): Promise<boolean> => {
     try {
-      await playFromProxy(chunk, playbackRate);
+      await playFromProxy(chunk, playbackRate, isCurrent);
       return true;
-    } catch { /* fallthrough */ }
+    } catch {
+      if (!isCurrent()) return false;
+    }
 
     for (const endpointBuilder of FINNISH_TTS_ENDPOINTS) {
       try {
-        await playFromUrl(endpointBuilder(chunk), playbackRate);
+        await playFromUrl(endpointBuilder(chunk), playbackRate, isCurrent);
         return true;
-      } catch { /* try next */ }
+      } catch {
+        if (!isCurrent()) return false;
+      }
     }
 
     try {
-      await speakWithNativeFinnishVoice(chunk, speechRate);
+      await speakWithNativeFinnishVoice(chunk, speechRate, isCurrent);
       return true;
     } catch {
       return false;
@@ -257,6 +282,7 @@ export const playFinnishTts = async (text: string, options: FinnishTtsOptions = 
 
   let allOk = true;
   for (const chunk of chunks) {
+    if (!isCurrent()) return false;
     const ok = await playOne(chunk);
     if (!ok) allOk = false;
   }
