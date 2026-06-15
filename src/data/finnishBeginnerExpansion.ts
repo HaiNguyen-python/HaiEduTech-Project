@@ -352,6 +352,30 @@ export const VIETNAMESE_PITFALLS_EXTRA: VietnamesePitfall[] = [
     correct: "Rakastan sinua - rung lưỡi đầu chữ.",
     tip: "Tập rrr với 1 ly nước: ngậm nước rồi rung lưỡi 5 giây/ngày.",
   },
+  {
+    mistake: "Dịch 'I am hungry' thành 'Minä olen nälkä'.",
+    why: "Tiếng Phần Lan dùng cấu trúc 'minulla on' với cảm giác cơ thể.",
+    correct: "Minulla on nälkä. (Tôi đang đói.)",
+    tip: "Học thuộc combo: minulla on nälkä / jano / kuuma / kylmä / kiire.",
+  },
+  {
+    mistake: "Dùng 'mä' và 'sä' trong bài thi YKI viết.",
+    why: "'mä, sä' là khẩu ngữ (puhekieli). Bài viết YKI bắt buộc dùng 'minä, sinä'.",
+    correct: "Minä asun Helsingissä. Sinä olet ystäväni.",
+    tip: "Khi viết bài YKI: luôn dùng dạng đầy đủ. Khi nói: có thể dùng dạng rút gọn.",
+  },
+  {
+    mistake: "Đặt động từ ở cuối câu như tiếng Đức.",
+    why: "Tiếng Phần Lan dùng thứ tự SVO giống tiếng Anh: chủ ngữ + động từ + bổ ngữ.",
+    correct: "Minä syön omenan. (Tôi ăn quả táo.)",
+    tip: "Chỉ trong câu hỏi yes/no với -ko/-kö thì động từ mới lên đầu.",
+  },
+  {
+    mistake: "Quên hài hoà nguyên âm (a/o/u vs ä/ö/y).",
+    why: "Một từ thuần Phần Lan chỉ chứa nhóm sau hoặc trước, không trộn lẫn (trừ e/i trung tính).",
+    correct: "talo + -ssa → talossa | metsä + -ssä → metsässä.",
+    tip: "Nhìn nguyên âm gốc rồi chọn đuôi: a/o/u → -ssa, -lla, -sta; ä/ö/y → -ssä, -llä, -stä.",
+  },
 ];
 
 // =============================================================
