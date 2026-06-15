@@ -31,6 +31,7 @@ import {
 } from "@/data/placementBanks";
 import Navbar from "@/components/Navbar";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
 
 /** Module-level current speak locale; set by the main component per subject. */
 let CURRENT_SPEAK_LANG = "en-US";
