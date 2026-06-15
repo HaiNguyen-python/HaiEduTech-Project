@@ -9,7 +9,7 @@ import { Link as RouterLink } from "react-router-dom";
 import VocabIllustration from "@/components/VocabIllustration";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS, type IeltsWord } from "@/data/ieltsVocabData";
+import { finnishVocabData as ieltsVocabData, FINNISH_CATEGORIES as IELTS_CATEGORIES, FINNISH_CEFR_LEVELS as CEFR_LEVELS, type FinnishVocabWord as IeltsWord } from "@/data/finnishVocabData";
 import MountainClimber from "@/components/MountainClimber";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,7 +38,7 @@ const speak = (text: string) => {
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-US";
+    u.lang = "fi-FI";
     u.rate = 0.85;
     window.speechSynthesis.speak(u);
   }
@@ -135,7 +135,7 @@ const InlineTypeExample = ({ word, t }: { word: IeltsWord; t: (vi: string, en: s
     }
     setVoiceError(null);
     const rec = new SR();
-    rec.lang = "en-US";
+    rec.lang = "fi-FI";
     rec.interimResults = true;
     rec.continuous = false;
     rec.maxAlternatives = 1;
@@ -365,7 +365,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         await (supabase as any).from("game_scores").insert({
-          user_id: user.id, score, game_type: "vocab-ielts", max_streak: 0,
+          user_id: user.id, score, game_type: "vocab-finnish", max_streak: 0,
           accuracy: questions.length > 0 ? Math.round((score / questions.length) * 100) : 0,
         });
       }
@@ -413,7 +413,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
           <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}
         </Button>
         <div className="w-full max-w-sm">
-          <GameLeaderboard gameType="vocab-ielts" currentScore={score} />
+          <GameLeaderboard gameType="vocab-finnish" currentScore={score} />
         </div>
       </div>
     );
@@ -565,14 +565,14 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   );
 };
 
-const IeltsVocabulary = () => {
+const FinnishVocabulary = () => {
   const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
-  const { mastered, toggle: toggleMastered } = useMasteredVocab("ielts");
+  const { mastered, toggle: toggleMastered } = useMasteredVocab("finnish-vocab");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
   const pageContainerRef = useRef<HTMLDivElement>(null);
@@ -627,21 +627,21 @@ const IeltsVocabulary = () => {
 
   return (
     <div ref={pageContainerRef} className="min-h-screen bg-background">
-      <SEO title="800 Từ Vựng IELTS Có Hình Minh Họa | HaiEduTech" description="Ngân hàng 800 từ vựng IELTS theo chủ đề & cấp độ CEFR, có hình minh họa, IPA, ví dụ. Flashcard, quiz, leaderboard và Mountain Climber gamification." path="/ielts-vocabulary" />
+      <SEO title="3000+ Từ Vựng Tiếng Phần Lan Có IPA & Ví Dụ | HaiEduTech" description="Ngân hàng 3000+ từ vựng tiếng Phần Lan theo 32 chủ đề & cấp độ CEFR (A1-C1). Flashcard, quiz, phát âm fi-FI, leaderboard và Mountain Climber gamification." path="/finnish-vocabulary" />
       <Navbar />
       <StudyChibisStatic />
       <div className="pt-24 lg:pt-28 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <RouterLink to="/english/ielts" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
+          <RouterLink to="/finnish" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
             <ArrowLeft className="w-4 h-4" />
-            {t("Quay lại IELTS", "Back to IELTS")}
+            {t("Quay lại Tiếng Phần Lan", "Back to Finnish")}
           </RouterLink>
           <div className="flex gap-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1 min-w-0">
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">
-                IELTS Vocabulary <span className="text-gradient">{t("Ngân hàng từ vựng", "Word Bank")}</span>
+                Finnish Vocabulary <span className="text-gradient">{t("Ngân hàng từ vựng tiếng Phần Lan", "Finnish Word Bank")}</span>
               </h1>
               <p className="text-muted-foreground">
                 {t(
@@ -818,11 +818,11 @@ const IeltsVocabulary = () => {
             )}
           </motion.div>
           <div className="hidden lg:block w-72 flex-shrink-0 self-start space-y-4">
-            <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
+            <VocabMasteryLeaderboard subject="finnish-vocab" currentCount={mastered.size} />
             <StudyStreakLeaderboard />
             <SmartReviewColumn
-              subject="ielts"
-              lang="en-US"
+              subject="finnish-vocab"
+              lang="fi-FI"
               lookupWord={(w) => {
                 const found = ieltsVocabData.find(x => x.word === w);
                 if (!found) return null;
@@ -838,11 +838,11 @@ const IeltsVocabulary = () => {
           </div>
           </div>
           <div className="lg:hidden mt-6 space-y-4">
-            <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
+            <VocabMasteryLeaderboard subject="finnish-vocab" currentCount={mastered.size} />
             <StudyStreakLeaderboard />
             <SmartReviewColumn
-              subject="ielts"
-              lang="en-US"
+              subject="finnish-vocab"
+              lang="fi-FI"
               lookupWord={(w) => {
                 const found = ieltsVocabData.find(x => x.word === w);
                 if (!found) return null;
@@ -863,4 +863,4 @@ const IeltsVocabulary = () => {
   );
 };
 
-export default IeltsVocabulary;
+export default FinnishVocabulary;
