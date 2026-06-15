@@ -829,6 +829,26 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
     onClose();
   };
 
+  const fullTestLoggedRef = useRef(false);
+  useEffect(() => {
+    if (!submitted || fullTestLoggedRef.current) return;
+    fullTestLoggedRef.current = true;
+    const elapsed = test.durationMinutes * 60 - secondsLeft;
+    logStudentActivity({
+      activityType: "ielts_reading",
+      activityId: test.id,
+      score,
+      maxScore: totalQs,
+      timeSpentSeconds: elapsed > 0 ? elapsed : undefined,
+      metadata: {
+        testId: test.id,
+        total_questions: totalQs,
+        percent: Math.round((score / Math.max(totalQs, 1)) * 100),
+        mode: "full_test",
+      },
+    });
+  }, [submitted, test, score, totalQs, secondsLeft]);
+
   const currentPassage = passages[activePassage];
   const currentItems = flat.filter(i => i.passageIndex === activePassage);
 
