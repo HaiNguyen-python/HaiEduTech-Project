@@ -259,6 +259,22 @@ export const BEGINNER_VOCAB_EXTRA: BeginnerVocab[] = [
   { fi: "kokki", vi: "đầu bếp", en: "cook", illustration: "🧑‍🍳", category: "job" },
   { fi: "ohjelmoija", vi: "lập trình viên", en: "programmer", illustration: "💻", category: "job" },
   { fi: "hoitaja", vi: "y tá", en: "nurse", illustration: "🩺", category: "job" },
+  // Mở rộng A1-A2 cho YKI: hành chính, dịch vụ, thời gian
+  { fi: "passi", vi: "hộ chiếu", en: "passport", illustration: "🛂", category: "office" },
+  { fi: "henkilökortti", vi: "thẻ căn cước", en: "ID card", illustration: "🪪", category: "office" },
+  { fi: "kortti", vi: "thẻ", en: "card", illustration: "💳", category: "office" },
+  { fi: "kauppa", vi: "cửa hàng", en: "shop", illustration: "🏬", category: "place" },
+  { fi: "tori", vi: "quảng trường chợ", en: "market square", illustration: "🛍️", category: "place" },
+  { fi: "kirjasto", vi: "thư viện", en: "library", illustration: "📚", category: "place" },
+  { fi: "posti", vi: "bưu điện", en: "post office", illustration: "📮", category: "place" },
+  { fi: "sairaala", vi: "bệnh viện", en: "hospital", illustration: "🏥", category: "place" },
+  { fi: "apteekki", vi: "hiệu thuốc", en: "pharmacy", illustration: "💊", category: "place" },
+  { fi: "tänään", vi: "hôm nay", en: "today", illustration: "📅", category: "time" },
+  { fi: "huomenna", vi: "ngày mai", en: "tomorrow", illustration: "📆", category: "time" },
+  { fi: "eilen", vi: "hôm qua", en: "yesterday", illustration: "🕰️", category: "time" },
+  { fi: "viikko", vi: "tuần", en: "week", illustration: "📅", category: "time" },
+  { fi: "kuukausi", vi: "tháng", en: "month", illustration: "📆", category: "time" },
+  { fi: "vuosi", vi: "năm", en: "year", illustration: "🗓️", category: "time" },
 ];
 
 // =============================================================
