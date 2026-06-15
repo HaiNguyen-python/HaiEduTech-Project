@@ -671,6 +671,79 @@ const EdTechResearch = () => {
                 badge: "Longitudinal · Cognitive",
                 color: "from-violet-500 to-primary",
               },
+              {
+                code: "FT-13",
+                title: "Verifier-Augmented LLM Solvers for STEM",
+                question:
+                  "Can symbolic / unit-test verifiers reduce math-solver hallucination without harming pedagogical fluency?",
+                methods:
+                  "LLM + SymPy / Lean verifier · self-consistency voting · counterfactual error injection",
+                metrics:
+                  "Solve accuracy · verified-correct rate · explanation-quality rubric",
+                badge: "STEM · Neuro-Symbolic",
+                color: "from-cyan-500 to-primary",
+              },
+              {
+                code: "FT-14",
+                title: "Immersive XR for Speaking Anxiety Reduction",
+                question:
+                  "Do VR roleplay scenes lower speaking anxiety and raise willingness-to-communicate vs in-class pair-work?",
+                methods:
+                  "Within-subjects RCT · FLCAS pre/post · physiological arousal (HRV)",
+                metrics:
+                  "FLCAS Δ · willingness-to-communicate · talk-time ratio",
+                badge: "XR · SLA",
+                color: "from-rose-500 to-fuchsia-500",
+              },
+              {
+                code: "FT-15",
+                title: "Carbon Accounting for GenAI Tutors",
+                question:
+                  "What is the per-learner carbon and cost footprint of frontier-model tutoring, and where do efficient open models suffice?",
+                methods:
+                  "MLPerf-style measurement · per-token kWh tracing · cohort cost modelling",
+                metrics:
+                  "gCO₂e / learner-week · cost per pedagogical outcome · efficiency frontier",
+                badge: "Sustainability · MLOps",
+                color: "from-emerald-500 to-teal-500",
+              },
+              {
+                code: "FT-16",
+                title: "Teacher-AI Co-Authoring of Curricula",
+                question:
+                  "Which division of labour between teachers and LLM authoring agents produces the most curriculum-coherent and culturally appropriate units?",
+                methods:
+                  "Design-based research · expert-rubric coding · classroom field trial",
+                metrics:
+                  "Curriculum-alignment score · teacher autonomy index · cultural fit rating",
+                badge: "Curriculum · HCI",
+                color: "from-amber-500 to-emerald-500",
+              },
+              {
+                code: "FT-17",
+                title: "On-Device Small Language Models for Schools",
+                question:
+                  "Can ≤3B-parameter SLMs (Phi-3, Gemma-2, Qwen-2.5) match cloud-LLM tutoring quality offline for low-bandwidth schools?",
+                methods:
+                  "Quantisation (Q4_K_M) · LoRA on pedagogical corpora · offline classroom pilot",
+                metrics:
+                  "Rubric-quality gap vs GPT-4o · latency · battery cost",
+                badge: "Edge AI · Equity",
+                color: "from-indigo-500 to-cyan-500",
+              },
+              {
+                code: "FT-18",
+                title: "Generative Item Banks under Test Security",
+                question:
+                  "How can LLM-generated assessment items be deployed at scale without leaking through training-data contamination?",
+                methods:
+                  "Watermarking · canary items · contamination-aware IRT recalibration",
+                metrics:
+                  "Leakage rate · post-leak IRT drift · examinee-perceived fairness",
+                badge: "Psychometrics · Security",
+                color: "from-slate-500 to-primary",
+              },
+
             ].map((t) => (
               <Card
                 key={t.code}
