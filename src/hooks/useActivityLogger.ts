@@ -47,7 +47,7 @@ export async function logStudentActivity(payload: ActivityPayload) {
     const { data: { session } } = await supabase.auth.getSession(); const user = session?.user ?? null;
     if (!user) return; // Only log for authenticated users
 
-    const domain = payload.domain || inferDomain(payload.activityType);
+    const domain = payload.domain || inferDomain(payload.activityType, payload.metadata);
 
     const { error } = await supabase.from("student_activity_log").insert({
       user_id: user.id,
