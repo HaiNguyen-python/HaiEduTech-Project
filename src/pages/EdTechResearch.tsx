@@ -589,7 +589,7 @@ const EdTechResearch = () => {
                 Research Gaps & Future Horizons
               </h2>
               <p className="text-sm text-muted-foreground">
-                Open problems the EdTech industry still under-investigates — and which HaiEduTech Lab is actively pursuing.
+                Open problems the EdTech industry still under-investigates — recommended topics for thesis, capstone or classroom action-research projects.
               </p>
             </div>
           </div>
