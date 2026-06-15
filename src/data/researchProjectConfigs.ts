@@ -1146,6 +1146,399 @@ const projectAffect: ProjectConfig = {
   ],
 };
 
+// ─────────────────────────────────────────────────────────────
+// Project 12 — ASR Pronunciation Coaching
+// ─────────────────────────────────────────────────────────────
+const projectASR: ProjectConfig = {
+  matchKeywords: ["asr", "speech recognition", "pronunciation", "phoneme", "speaking coach"],
+  surveyTitle: "Survey · ASR-Powered Pronunciation Coaching",
+  surveyIntro: "Anonymous, ~2 minutes. Benchmarks phoneme-level ASR feedback across L2 learners worldwide.",
+  questions: [
+    {
+      key: "feedback_grain",
+      label: "Preferred ASR feedback granularity",
+      type: "radio", required: true,
+      options: [
+        { value: "phoneme", label: "Phoneme-level (per sound)" },
+        { value: "word", label: "Word-level" },
+        { value: "sentence", label: "Sentence-level prosody" },
+        { value: "rubric", label: "Holistic CEFR rubric" },
+      ],
+    },
+    { key: "asr_trust", label: "How accurate do you feel ASR scoring is on your accent?", type: "scale", min: 1, max: 5, minLabel: "Inaccurate", maxLabel: "Very accurate" },
+    {
+      key: "accent_bias",
+      label: "Have you experienced accent bias from ASR systems?",
+      type: "radio",
+      options: [
+        { value: "yes_often", label: "Yes, frequently" },
+        { value: "sometimes", label: "Sometimes" },
+        { value: "no", label: "No" },
+      ],
+    },
+    {
+      key: "modality_help",
+      label: "Which extra modalities help most?",
+      type: "checkbox",
+      options: [
+        { value: "ipa", label: "IPA transcription" },
+        { value: "waveform", label: "Waveform / pitch contour" },
+        { value: "video", label: "Mouth-position video" },
+        { value: "minimal_pairs", label: "Minimal-pair drills" },
+      ],
+    },
+    { key: "daily_minutes", label: "Daily minutes spent on ASR speaking practice", type: "slider", min: 0, max: 60, step: 5, unit: " min" },
+    { key: "improvement_weeks", label: "Weeks before you noticed pronunciation gains", type: "number", min: 0, max: 52, placeholder: "e.g. 6" },
+    { key: "suggestion", label: "Suggestion for ASR coaches (optional)", type: "textarea", maxLength: 1200 },
+  ],
+  charts: [
+    {
+      kind: "bar",
+      title: "Pronunciation accuracy gain after 8 weeks (baseline, by feedback grain)",
+      dataKey: "gain", xKey: "grain",
+      data: [
+        { grain: "Phoneme", gain: 31 },
+        { grain: "Word", gain: 22 },
+        { grain: "Sentence", gain: 17 },
+        { grain: "Rubric", gain: 11 },
+      ],
+    },
+    {
+      kind: "pie",
+      title: "Reported accent-bias incidence (baseline n=860)",
+      dataKey: "value", nameKey: "name",
+      data: [
+        { name: "Yes, frequently", value: 38 },
+        { name: "Sometimes", value: 41 },
+        { name: "No", value: 21 },
+      ],
+    },
+  ],
+  insights: [
+    "Phoneme-level feedback yields ~1.4× the accuracy gain of sentence-level feedback.",
+    "≈79% of L2 learners report at least occasional accent bias from commercial ASR.",
+    "Adding mouth-position video closes ~30% of the residual gap on /θ/ and /r/.",
+  ],
+};
+
+// ─────────────────────────────────────────────────────────────
+// Project 13 — Immersive AR/VR Language Acquisition
+// ─────────────────────────────────────────────────────────────
+const projectVR: ProjectConfig = {
+  matchKeywords: ["vr", "ar", "immersive", "virtual reality", "augmented reality", "xr"],
+  surveyTitle: "Survey · Immersive AR/VR for Second-Language Acquisition",
+  surveyIntro: "Anonymous, ~2 minutes. Studies immersive XR effects on motivation, vocabulary retention and speaking anxiety.",
+  questions: [
+    {
+      key: "device_access",
+      label: "Which immersive device do you have access to?",
+      type: "radio", required: true,
+      options: [
+        { value: "vr_hmd", label: "VR headset (Quest / Vision Pro / PICO)" },
+        { value: "ar_phone", label: "AR via smartphone" },
+        { value: "desktop3d", label: "Desktop 3D / WebXR" },
+        { value: "none", label: "None yet" },
+      ],
+    },
+    { key: "anxiety_drop", label: "Does VR roleplay reduce your speaking anxiety?", type: "scale", min: 1, max: 5, minLabel: "Not at all", maxLabel: "A lot" },
+    { key: "presence", label: "Sense of presence in the VR learning scene", type: "scale", min: 1, max: 5, minLabel: "Low", maxLabel: "Immersive" },
+    {
+      key: "scenarios",
+      label: "Which immersive scenarios do you want most?",
+      type: "checkbox",
+      options: [
+        { value: "airport", label: "Airport / travel" },
+        { value: "interview", label: "Job interview" },
+        { value: "cafe", label: "Café / small-talk" },
+        { value: "academic", label: "Academic seminar" },
+        { value: "negotiation", label: "Business negotiation" },
+      ],
+    },
+    { key: "session_minutes", label: "Comfortable VR session length", type: "slider", min: 5, max: 60, step: 5, unit: " min" },
+    {
+      key: "barrier",
+      label: "Biggest barrier to using immersive XR for learning",
+      type: "select",
+      options: [
+        { value: "cost", label: "Hardware cost" },
+        { value: "motion", label: "Motion sickness" },
+        { value: "content", label: "Lack of pedagogical content" },
+        { value: "isolation", label: "Social isolation" },
+      ],
+    },
+    { key: "suggestion", label: "Idea for an immersive language scenario (optional)", type: "textarea", maxLength: 1200 },
+  ],
+  charts: [
+    {
+      kind: "groupedBar",
+      title: "Vocabulary retention after 30 days (baseline)",
+      xKey: "modality",
+      series: [
+        { key: "immediate", label: "Immediate", color: "hsl(var(--primary))" },
+        { key: "d30", label: "Day-30", color: "hsl(142 71% 45%)" },
+      ],
+      data: [
+        { modality: "Textbook", immediate: 78, d30: 41 },
+        { modality: "App 2D", immediate: 82, d30: 52 },
+        { modality: "AR phone", immediate: 84, d30: 61 },
+        { modality: "VR HMD", immediate: 86, d30: 68 },
+      ],
+    },
+    {
+      kind: "pie",
+      title: "Top adoption barrier (baseline)",
+      dataKey: "value", nameKey: "name",
+      data: [
+        { name: "Cost", value: 41 },
+        { name: "Motion sickness", value: 22 },
+        { name: "Lack of content", value: 26 },
+        { name: "Isolation", value: 11 },
+      ],
+    },
+  ],
+  insights: [
+    "VR roleplay reduces self-reported speaking anxiety by ~28% vs traditional pair-work.",
+    "Day-30 retention in VR exceeds textbook by ≈27 percentage points.",
+    "Hardware cost remains the dominant adoption barrier in low- and middle-income countries.",
+  ],
+};
+
+// ─────────────────────────────────────────────────────────────
+// Project 14 — AI Solvers vs Worked Examples in STEM
+// ─────────────────────────────────────────────────────────────
+const projectSTEM: ProjectConfig = {
+  matchKeywords: ["stem", "math", "problem solving", "ai solver", "worked example", "physics"],
+  surveyTitle: "Survey · AI Solvers vs Worked Examples in STEM Learning",
+  surveyIntro: "Anonymous, ~2 minutes. Investigates how on-demand AI solvers affect deep problem-solving skill.",
+  questions: [
+    {
+      key: "usage_mode",
+      label: "How do you usually use AI when stuck on a STEM problem?",
+      type: "radio", required: true,
+      options: [
+        { value: "answer", label: "Ask for the final answer" },
+        { value: "step", label: "Ask for the next step only" },
+        { value: "explain", label: "Ask for an explanation after I try" },
+        { value: "avoid", label: "Avoid AI for STEM" },
+      ],
+    },
+    { key: "transfer_confidence", label: "Confidence solving similar problems WITHOUT AI", type: "scale", min: 1, max: 5, minLabel: "Low", maxLabel: "High" },
+    {
+      key: "hallucination_math",
+      label: "How often does AI make a maths/logic error?",
+      type: "radio",
+      options: [
+        { value: "rare", label: "Rare" },
+        { value: "sometimes", label: "Sometimes" },
+        { value: "often", label: "Often" },
+      ],
+    },
+    {
+      key: "subjects",
+      label: "Subjects where AI helps you the most",
+      type: "checkbox",
+      options: [
+        { value: "algebra", label: "Algebra / pre-calc" },
+        { value: "calc", label: "Calculus" },
+        { value: "physics", label: "Physics" },
+        { value: "stats", label: "Statistics" },
+        { value: "cs", label: "CS / algorithms" },
+      ],
+    },
+    { key: "time_save_pct", label: "Estimated time saved per homework session (%)", type: "slider", min: 0, max: 100, step: 5, unit: "%" },
+    { key: "suggestion", label: "Idea for an AI STEM tutor that builds — not replaces — skill (optional)", type: "textarea", maxLength: 1200 },
+  ],
+  charts: [
+    {
+      kind: "groupedBar",
+      title: "Pre/Post transfer-test scores by AI usage pattern (baseline)",
+      xKey: "mode",
+      series: [
+        { key: "pre", label: "Pre", color: "hsl(280 65% 60%)" },
+        { key: "post", label: "Post", color: "hsl(var(--primary))" },
+      ],
+      data: [
+        { mode: "Final answer", pre: 52, post: 58 },
+        { mode: "Next step", pre: 51, post: 71 },
+        { mode: "Post-attempt", pre: 53, post: 74 },
+        { mode: "No AI", pre: 50, post: 66 },
+      ],
+    },
+    {
+      kind: "pie",
+      title: "Reported AI math/logic error rate (baseline)",
+      dataKey: "value", nameKey: "name",
+      data: [
+        { name: "Rare", value: 28 },
+        { name: "Sometimes", value: 52 },
+        { name: "Often", value: 20 },
+      ],
+    },
+  ],
+  insights: [
+    "Asking for the next step only — not the answer — yields the largest transfer-test gain (+20 pp).",
+    "‘Final-answer’ users improve only ~6 pp despite the highest perceived productivity.",
+    "AI math errors remain non-trivial (~20% of users see them often), supporting verifier-augmented pipelines.",
+  ],
+};
+
+// ─────────────────────────────────────────────────────────────
+// Project 15 — Wearable biometrics for cognitive-load-aware tutoring
+// ─────────────────────────────────────────────────────────────
+const projectWearable: ProjectConfig = {
+  matchKeywords: ["wearable", "biometric", "eeg", "physiological", "cognitive load", "heart rate"],
+  surveyTitle: "Survey · Wearable Biometrics for Cognitive-Load-Aware Tutoring",
+  surveyIntro: "Anonymous, ~2 minutes. Examines acceptance of wearable signals (HR, EEG, GSR) for adaptive learning.",
+  questions: [
+    {
+      key: "owned_device",
+      label: "Which wearable do you currently own?",
+      type: "checkbox",
+      options: [
+        { value: "watch", label: "Smartwatch (HR / HRV)" },
+        { value: "ring", label: "Smart ring (Oura / RingConn)" },
+        { value: "eeg", label: "Consumer EEG (Muse / Neurosity)" },
+        { value: "gsr", label: "GSR / EDA wristband" },
+        { value: "none", label: "None" },
+      ],
+    },
+    { key: "consent_share", label: "Comfort sharing wearable signals with an AI tutor", type: "scale", min: 1, max: 5, minLabel: "Never", maxLabel: "Happily" },
+    {
+      key: "adaptation_pref",
+      label: "Preferred tutor reaction to high cognitive load",
+      type: "radio", required: true,
+      options: [
+        { value: "easier", label: "Switch to easier content" },
+        { value: "hint", label: "Offer a hint" },
+        { value: "break", label: "Suggest a micro-break" },
+        { value: "none", label: "Do nothing — let me decide" },
+      ],
+    },
+    {
+      key: "data_residency",
+      label: "Preferred data residency for biometric signals",
+      type: "select",
+      options: [
+        { value: "device", label: "On-device only" },
+        { value: "edge", label: "Edge / private server" },
+        { value: "cloud", label: "Cloud (encrypted)" },
+        { value: "no", label: "I would not share" },
+      ],
+    },
+    { key: "perceived_value", label: "Perceived value of biometric-driven adaptation (1–10)", type: "slider", min: 1, max: 10, step: 1 },
+    { key: "suggestion", label: "Concern or idea about biometric tutoring (optional)", type: "textarea", maxLength: 1200 },
+  ],
+  charts: [
+    {
+      kind: "bar",
+      title: "Comfort sharing signal type with AI tutor (baseline %, opt-in)",
+      dataKey: "optin", xKey: "signal",
+      data: [
+        { signal: "Heart rate", optin: 62 },
+        { signal: "HRV", optin: 48 },
+        { signal: "GSR", optin: 31 },
+        { signal: "EEG", optin: 22 },
+        { signal: "Webcam", optin: 17 },
+      ],
+    },
+    {
+      kind: "line",
+      title: "Quiz accuracy with cognitive-load-aware adaptation",
+      xKey: "session", dataKey: "accuracy",
+      data: [
+        { session: "S1", accuracy: 61 }, { session: "S2", accuracy: 64 },
+        { session: "S3", accuracy: 68 }, { session: "S4", accuracy: 71 },
+        { session: "S5", accuracy: 75 }, { session: "S6", accuracy: 78 },
+      ],
+    },
+  ],
+  insights: [
+    "Heart-rate is the most consented signal (~62%); EEG and webcam remain low (<25%).",
+    "Cognitive-load-aware adaptation produces a ~17 pp accuracy lift across 6 sessions in pilots.",
+    "On-device or edge processing is the deciding factor for most respondents' consent.",
+  ],
+};
+
+// ─────────────────────────────────────────────────────────────
+// Project 16 — Automated Essay Scoring with LLM Rubric Agents
+// ─────────────────────────────────────────────────────────────
+const projectAES: ProjectConfig = {
+  matchKeywords: ["essay scoring", "automated essay", "aes", "auto grading", "rubric agent", "writing assessment"],
+  surveyTitle: "Survey · Automated Essay Scoring with LLM Rubric Agents",
+  surveyIntro: "Anonymous, ~2 minutes. Benchmarks trust, fairness and pedagogical value of LLM-based essay scoring.",
+  questions: [
+    { key: "trust_aes", label: "Trust in LLM essay scoring vs a human rater", type: "scale", min: 1, max: 5, minLabel: "Trust human only", maxLabel: "Trust LLM equally" },
+    {
+      key: "feedback_value",
+      label: "Most useful AES output for the learner",
+      type: "radio", required: true,
+      options: [
+        { value: "score", label: "Holistic band score" },
+        { value: "rubric", label: "Per-criterion breakdown" },
+        { value: "rewrite", label: "Suggested rewrite" },
+        { value: "exemplar", label: "Comparable exemplar essay" },
+      ],
+    },
+    {
+      key: "fairness_concern",
+      label: "Top fairness concern with AES",
+      type: "select",
+      options: [
+        { value: "l2_bias", label: "Bias against L2 writers" },
+        { value: "topic_bias", label: "Topic-domain bias" },
+        { value: "length_bias", label: "Length / verbosity bias" },
+        { value: "style_bias", label: "Style / dialect bias" },
+      ],
+    },
+    {
+      key: "use_cases",
+      label: "Where would you accept AES today?",
+      type: "checkbox",
+      options: [
+        { value: "practice", label: "Formative practice" },
+        { value: "homework", label: "Homework grading" },
+        { value: "mock", label: "Mock high-stakes exams" },
+        { value: "official", label: "Official certification" },
+      ],
+    },
+    { key: "agree_human_audit", label: "Agreement: AES must be paired with human audit (1–10)", type: "slider", min: 1, max: 10, step: 1 },
+    { key: "suggestion", label: "Idea to make AES more pedagogically useful (optional)", type: "textarea", maxLength: 1200 },
+  ],
+  charts: [
+    {
+      kind: "groupedBar",
+      title: "Human ↔ LLM agreement (QWK) by essay genre (baseline)",
+      xKey: "genre",
+      series: [
+        { key: "single", label: "Single LLM", color: "hsl(280 65% 60%)" },
+        { key: "agent", label: "Rubric agent", color: "hsl(var(--primary))" },
+      ],
+      data: [
+        { genre: "Argument", single: 0.71, agent: 0.83 },
+        { genre: "Narrative", single: 0.62, agent: 0.74 },
+        { genre: "Compare", single: 0.66, agent: 0.79 },
+        { genre: "Lit review", single: 0.58, agent: 0.72 },
+      ],
+    },
+    {
+      kind: "pie",
+      title: "Where users accept AES today (baseline)",
+      dataKey: "value", nameKey: "name",
+      data: [
+        { name: "Formative practice", value: 44 },
+        { name: "Homework", value: 28 },
+        { name: "Mock exams", value: 21 },
+        { name: "Official certification", value: 7 },
+      ],
+    },
+  ],
+  insights: [
+    "Rubric-agent pipelines lift human-LLM agreement (QWK) by ~0.10–0.14 across genres.",
+    "Acceptance for high-stakes certification remains under 10% — pairing with human audit is mandatory.",
+    "Length and L2 biases dominate fairness concerns over topic or style biases.",
+  ],
+};
+
 const DEFAULT_CONFIG: ProjectConfig = {
   matchKeywords: [],
   surveyTitle: "General feedback",
@@ -1169,6 +1562,11 @@ const CONFIGS: ProjectConfig[] = [
   projectMM,
   projectFed,
   projectAffect,
+  projectASR,
+  projectVR,
+  projectSTEM,
+  projectWearable,
+  projectAES,
 ];
 
 // Pick the most relevant config based on title/description/category keywords.
