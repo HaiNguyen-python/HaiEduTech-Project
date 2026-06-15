@@ -43,7 +43,7 @@ const workLife: B1VocabEntry[] = [
   { fi: "etätyö", partOfSpeech: "noun", meaningEn: "remote work", meaningVi: "làm việc từ xa", exampleFi: "Etätyö on yleistynyt.", exampleEn: "Remote work has become common.", exampleVi: "Làm việc từ xa đã trở nên phổ biến." },
   { fi: "ylityö", partOfSpeech: "noun", meaningEn: "overtime", meaningVi: "tăng ca", exampleFi: "Teen joskus ylitöitä.", exampleEn: "I sometimes work overtime.", exampleVi: "Đôi khi tôi tăng ca." },
   { fi: "verkkokurssi", partOfSpeech: "noun", meaningEn: "online course", meaningVi: "khoá học trực tuyến", exampleFi: "Suoritan suomen verkkokurssia.", exampleEn: "I'm taking an online Finnish course.", exampleVi: "Tôi học khoá tiếng Phần online." },
-  { fi: "vapaaehtoinen", partOfSpeech: "adjective / noun", meaningEn: "voluntary / volunteer", meaningVi: "tình nguyện", exampleFi: "Toimin vapaaehtoisena urheiluseurassa.", exampleEn: "I volunteer at a sports club.", exampleVi: "Tôi tình nguyện ở câu lạc bộ thể thao." },
+  { fi: "vapaaehtoinen", partOfSpeech: "adjective", meaningEn: "voluntary / volunteer", meaningVi: "tình nguyện", exampleFi: "Toimin vapaaehtoisena urheiluseurassa.", exampleEn: "I volunteer at a sports club.", exampleVi: "Tôi tình nguyện ở câu lạc bộ thể thao." },
   { fi: "haaste", partOfSpeech: "noun", meaningEn: "challenge", meaningVi: "thử thách", exampleFi: "Uusi työ on iso haaste.", exampleEn: "The new job is a big challenge.", exampleVi: "Công việc mới là thử thách lớn." },
   { fi: "tavoite", partOfSpeech: "noun", meaningEn: "goal", meaningVi: "mục tiêu", exampleFi: "Mikä on tämän vuoden tavoitteesi?", exampleEn: "What's your goal for this year?", exampleVi: "Mục tiêu năm nay của bạn là gì?" },
 ];
