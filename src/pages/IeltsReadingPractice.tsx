@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import SEO from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import {
   IELTS_FULL_READING_EXAMS as _BASE_EXAMS,
   type ReadingExam,
