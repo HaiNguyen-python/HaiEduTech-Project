@@ -216,6 +216,28 @@ const HskkSpeakingRoom = () => {
           duration_seconds: duration,
         });
       }
+
+      // Log to RL pipeline — score derived from AI overall band (0-100).
+      // Normalised so the RL avg stays in the 0-1 range alongside other tests.
+      const sc: Record<string, number> = (data as any)?.scores ?? {};
+      const overall = Number(
+        sc.overall ?? sc.total ?? sc.fluency ?? sc.pronunciation ?? 0
+      );
+      const safeOverall = isFinite(overall) ? overall : 0;
+      logStudentActivity({
+        activityType: "hskk_speaking",
+        activityId: current.id,
+        score: Math.max(0, Math.min(100, Math.round(safeOverall))),
+        maxScore: 100,
+        timeSpentSeconds: duration,
+        domain: "chinese",
+        metadata: {
+          level, part,
+          prompt_id: current.id,
+          scores: sc,
+          transcript_words: transcript.trim().split(/\s+/).filter(Boolean).length,
+        },
+      });
     } catch (e: any) {
       toast({ title: t("Chấm điểm thất bại", "Grading failed"), description: String(e?.message ?? e), variant: "destructive" });
     } finally {
