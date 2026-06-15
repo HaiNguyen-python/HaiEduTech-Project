@@ -748,7 +748,7 @@ const YkiB1Dashboard = () => {
                 )}
               </p>
             </Card>
-            {[...B1_VOCAB_MODULES, ...B1_VOCAB_EXPANSION_MODULES, ...B1_VOCAB_EXPANSION_MODULES_2, ...B1_VOCAB_EXPANSION_MODULES_3].map(mod => (
+            {[...B1_VOCAB_MODULES, ...B1_VOCAB_EXPANSION_MODULES, ...B1_VOCAB_EXPANSION_MODULES_2, ...B1_VOCAB_EXPANSION_MODULES_3, ...B1_VOCAB_EXPANSION_MODULES_4].map(mod => (
               <Card key={mod.id} className="p-5">
                 <div className="mb-3">
                   <h3 className="text-lg font-bold flex items-center gap-2">
