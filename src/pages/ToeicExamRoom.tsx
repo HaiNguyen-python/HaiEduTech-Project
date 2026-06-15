@@ -758,6 +758,24 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       scoreSpeaking: sScore,
       scoreWriting: wScore,
     });
+    // RL pipeline: completion-rate score across SW tasks (combined out of 400).
+    const totalTasks = exam.speakingTasks.length + exam.writingTasks.length;
+    const completed = sCount + wCount;
+    logStudentActivity({
+      activityType: "toeic_sw_exam",
+      activityId: exam.id,
+      score: completed,
+      maxScore: Math.max(totalTasks, 1),
+      metadata: {
+        examId: exam.id,
+        speaking_completed: sCount,
+        speaking_total: exam.speakingTasks.length,
+        writing_completed: wCount,
+        writing_total: exam.writingTasks.length,
+        scaled_sw: sScore + wScore,
+        percent: Math.round((completed / Math.max(totalTasks, 1)) * 100),
+      },
+    });
     alert(t(
       `Đã lưu kết quả: Speaking ${sScore}/200 · Writing ${wScore}/200`,
       `Saved: Speaking ${sScore}/200 · Writing ${wScore}/200`
