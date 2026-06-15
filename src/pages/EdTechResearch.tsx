@@ -64,34 +64,34 @@ type Paper = {
 const PAPERS: Paper[] = [
   {
     title:
-      "Ứng dụng Học máy giải quyết bài toán cảnh báo sớm học viên học yếu",
+      "Machine Learning for Early-Warning Detection of At-Risk Learners",
     topic: "Learning Analytics · Early-Warning ML",
     status: "Preprint",
     year: "2026",
     abstract:
-      "Mô hình phân loại gradient-boosting kết hợp tín hiệu hành vi (đăng nhập, streak, độ chính xác từ vựng) để dự đoán nguy cơ tụt hạng trong vòng 14 ngày, cho phép giáo viên can thiệp đúng thời điểm.",
+      "A gradient-boosting classifier fuses behavioural signals (logins, streaks, vocabulary accuracy) to predict the probability of disengagement within 14 days, enabling timely teacher intervention.",
   },
   {
     title:
-      "Tối ưu hóa vòng lặp phản hồi của Trợ lý AI (LLM Feedback Loops) trong sư phạm ngôn ngữ",
+      "Optimising LLM Feedback Loops for Language Pedagogy",
     topic: "LLM Pedagogy · Human-in-the-loop",
     status: "Ongoing",
     year: "2026",
     abstract:
-      "Khảo sát thiết kế micro-survey cuối bài học và đo lường mức cải thiện độ phù hợp prompt theo thời gian — đề xuất khung RLHF nhẹ dành riêng cho lớp học ngoại ngữ quy mô nhỏ.",
+      "End-of-lesson micro-surveys feed a lightweight RLHF pipeline that progressively improves prompt fit. The paper proposes an evaluation framework for small-cohort language classrooms.",
   },
   {
     title:
-      "Mô hình cá nhân hóa lộ trình học tiếng Anh dựa trên Học sâu Tăng cường (Reinforcement Learning)",
+      "Reinforcement Learning for Adaptive English Curriculum Personalisation",
     topic: "Adaptive Learning · Deep RL",
     status: "Preprint",
     year: "2026",
     abstract:
-      "Trình bày kiến trúc agent chọn bài học kế tiếp dựa trên trạng thái kỹ năng (skill profile) và phần thưởng tổng hợp từ điểm số + thời gian giữ chân, đối chiếu với baseline tuyến tính.",
+      "An agent selects the next lesson conditioned on a skill profile, using a composite reward that blends short-term scores and longer-term retention, benchmarked against a linear baseline.",
   },
 ];
 
-// Mock-style behavioural insight dataset (aggregated, anonymised representation).
+// Aggregated behavioural insight dataset (anonymised, illustrative).
 const RETENTION = [
   { week: "W1", retention: 100 },
   { week: "W2", retention: 78 },
@@ -111,16 +111,18 @@ const AI_INTERACTIONS = [
 ];
 
 const TOOL_OPTIONS = [
-  "AI Chatbot sửa lỗi sai",
-  "Dashboard theo dõi tiến độ",
-  "Hệ thống chấm công/báo cáo tự động",
-  "Bài tập gamification",
+  "AI chatbot for error correction",
+  "Progress tracking dashboard",
+  "Automated attendance / payroll",
+  "Gamified practice exercises",
+  "Multimodal speaking coach",
+  "RL-based adaptive curriculum",
 ];
 
 const ROLE_OPTIONS = [
-  { value: "student", label: "Học sinh" },
-  { value: "teacher", label: "Giáo viên" },
-  { value: "parent", label: "Phụ huynh" },
+  { value: "student", label: "Student" },
+  { value: "teacher", label: "Teacher" },
+  { value: "parent", label: "Parent" },
 ];
 
 const insightSchema = z.object({
@@ -135,6 +137,7 @@ const statusColor: Record<Paper["status"], string> = {
   Ongoing: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-300",
   Published: "bg-emerald-500/15 text-emerald-700 border-emerald-500/30 dark:text-emerald-300",
 };
+
 
 const EdTechResearch = () => {
   const [role, setRole] = useState<string>("");
@@ -160,7 +163,7 @@ const EdTechResearch = () => {
       feedback: fb || null,
     });
     if (!parsed.success) {
-      toast.error("Vui lòng chọn vai trò của bạn trước khi gửi.");
+      toast.error("Please select your role before submitting.");
       return;
     }
 
@@ -177,7 +180,7 @@ const EdTechResearch = () => {
       if (error) throw error;
 
       toast.success(
-        "Cảm ơn đóng góp khoa học của bạn! HaiEduTech trân trọng mọi insight để tối ưu nền tảng."
+        "Thanks for your contribution — HaiEduTech Lab values every insight that shapes EdTech research."
       );
       // Safely clear the form lock state after success
       setRole("");
@@ -186,11 +189,12 @@ const EdTechResearch = () => {
       setFb("");
     } catch (err) {
       console.error(err);
-      toast.error("Gửi thất bại. Vui lòng thử lại trong giây lát.");
+      toast.error("Submission failed. Please try again shortly.");
     } finally {
       setSubmitting(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -220,10 +224,11 @@ const EdTechResearch = () => {
             EdTech Research
           </h1>
           <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
-            Một không gian học thuật minh bạch: các bài nghiên cứu đang triển khai,
-            insight hành vi người dùng và khảo sát mở để cộng đồng cùng định hình
-            tương lai nền tảng giáo dục.
+            A transparent academic space: active research papers, anonymised
+            behavioural insights, and open surveys so the global community can
+            help shape the future of education technology.
           </p>
+
         </motion.section>
 
         {/* Dynamic Research Project Framework */}
@@ -238,9 +243,10 @@ const EdTechResearch = () => {
             <div>
               <h2 className="text-2xl font-bold">Pillar 1 — Published & Ongoing Papers</h2>
               <p className="text-sm text-muted-foreground">
-                Các bài nghiên cứu và tiểu luận của Hai Nguyen
+                Working papers and essays by Hai Nguyen and the HaiEduTech Lab.
               </p>
             </div>
+
           </div>
 
           <div className="grid gap-4">
@@ -288,8 +294,9 @@ const EdTechResearch = () => {
             <div>
               <h2 className="text-2xl font-bold">Pillar 2 — EdTech User Insights & Trends</h2>
               <p className="text-sm text-muted-foreground">
-                Xu hướng & thấu hiểu người dùng (anonymised, aggregated)
+                Behavioural trends and user insights (anonymised, aggregated).
               </p>
+
             </div>
           </div>
 
@@ -364,11 +371,12 @@ const EdTechResearch = () => {
             <CardContent className="p-5">
               <h3 className="font-semibold mb-2">Top user pain points (qualitative)</h3>
               <ul className="text-sm text-muted-foreground space-y-1.5 list-disc pl-5">
-                <li>Khó duy trì động lực sau tuần thứ 3 nếu không có nhắc nhở cá nhân hoá.</li>
-                <li>Giáo viên cần báo cáo tự động để giảm 60% thời gian tổng hợp tiến độ.</li>
-                <li>Học sinh muốn AI sửa lỗi nói tự nhiên hơn, kèm phát âm mẫu chậm.</li>
-                <li>Phụ huynh cần dashboard ngắn gọn, không quá nhiều chỉ số kỹ thuật.</li>
+                <li>Motivation drops after week 3 without personalised reminders.</li>
+                <li>Teachers need automated reports — cutting ~60% of weekly admin time.</li>
+                <li>Students want more natural AI speech feedback with slow native models.</li>
+                <li>Parents need concise dashboards without dense technical metrics.</li>
               </ul>
+
             </CardContent>
           </Card>
         </section>
@@ -381,10 +389,10 @@ const EdTechResearch = () => {
             </div>
             <div>
               <h2 className="text-2xl md:text-3xl font-bold">
-                Khoảng Trống Nghiên Cứu & Định Hướng Tương Lai
+                Research Gaps & Future Horizons
               </h2>
               <p className="text-sm text-muted-foreground">
-                Research Gaps · những chủ đề ngành EdTech vẫn còn thiếu và HaiEduTech Lab đang chủ động theo đuổi.
+                Open problems the EdTech industry still under-investigates — and which HaiEduTech Lab is actively pursuing.
               </p>
             </div>
           </div>
@@ -393,22 +401,23 @@ const EdTechResearch = () => {
             {[
               {
                 idx: "Gap 01",
-                title: "Bản địa hoá mô hình AI cho ngôn ngữ ít phổ biến",
+                title: "Minority-language tuning for foundation models",
                 subtitle: "Minority Language AI Tuning",
-                body: "Đa số nghiên cứu LLM hiện nay tập trung vào tiếng Anh. Cách các mô hình lớn xử lý phản hồi sư phạm cho tiếng Thụy Điển hoặc tiếng Phần Lan dành cho người Việt vẫn còn rất hạn chế và cần khung đánh giá riêng.",
+                body: "Most LLM research targets English. Pedagogical feedback in Swedish, Finnish or low-resource languages still lacks dedicated evaluation frameworks and benchmarks.",
               },
               {
                 idx: "Gap 02",
-                title: "Đạo đức dữ liệu & quyền riêng tư của học sinh nhỏ tuổi",
+                title: "Data ethics & privacy for minor-aged learners",
                 subtitle: "Data Ethics in K-12 AI Learning",
-                body: "Cần các giải pháp ẩn danh hoá (anonymization) dữ liệu hành vi đủ mạnh nhưng vẫn đảm bảo thuật toán AI Academy (lớp 6–12) dự đoán lộ trình học cá nhân chính xác và an toàn.",
+                body: "Strong anonymisation, on-device inference and federated training are needed so personalisation models can serve K-12 learners safely and accurately.",
               },
               {
                 idx: "Gap 03",
-                title: "Tác động dài hạn của AI lên Tư duy phản biện",
+                title: "Long-term impact of AI on critical thinking",
                 subtitle: "Long-term Impact on Critical Thinking",
-                body: "Đánh giá xem việc lạm dụng tra cứu từ điển và trả lời AI tức thời có làm giảm khả năng ghi nhớ sâu và tư duy ngôn ngữ chủ động của học viên trong 6–24 tháng hay không.",
+                body: "Does habitual reliance on instant AI lookups erode deep memory and autonomous reasoning over 6–24 months? Longitudinal studies remain rare.",
               },
+
             ].map((g) => (
               <Card
                 key={g.idx}
@@ -450,7 +459,7 @@ const EdTechResearch = () => {
             <div>
               <h2 className="text-2xl font-bold">EdTech Innovation Survey</h2>
               <p className="text-sm text-muted-foreground">
-                Cỗ máy thu thập insight — đóng góp của bạn định hình lộ trình R&D.
+                Open insight collection — your input shapes the lab's R&D roadmap.
               </p>
             </div>
           </div>
@@ -460,10 +469,10 @@ const EdTechResearch = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="role">Vai trò của bạn trên hệ thống</Label>
+                    <Label htmlFor="role">Your role</Label>
                     <Select value={role} onValueChange={setRole}>
                       <SelectTrigger id="role">
-                        <SelectValue placeholder="Chọn vai trò..." />
+                        <SelectValue placeholder="Select your role..." />
                       </SelectTrigger>
                       <SelectContent>
                         {ROLE_OPTIONS.map((r) => (
@@ -476,7 +485,7 @@ const EdTechResearch = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Công cụ EdTech nào bạn thấy cần thiết nhất hiện nay?</Label>
+                    <Label>Which EdTech tools feel most essential to you today?</Label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                       {TOOL_OPTIONS.map((tool) => (
                         <label
@@ -496,7 +505,7 @@ const EdTechResearch = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="pain">
-                    Nỗi đau lớn nhất (Pain point) bạn gặp phải khi học hoặc dạy trực tuyến là gì?
+                    Biggest pain point you face when learning or teaching online
                   </Label>
                   <Textarea
                     id="pain"
@@ -504,13 +513,13 @@ const EdTechResearch = () => {
                     onChange={(e) => setPain(e.target.value)}
                     maxLength={2000}
                     rows={3}
-                    placeholder="Ví dụ: khó theo dõi tiến độ học sinh hằng tuần..."
+                    placeholder="e.g. hard to track student progress week over week..."
                   />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="fb">
-                    Ý tưởng hoặc Feedback đóng góp để HaiEduTech cải thiện nền tảng
+                    Ideas or feedback that would help EdTech platforms improve
                   </Label>
                   <Textarea
                     id="fb"
@@ -518,7 +527,7 @@ const EdTechResearch = () => {
                     onChange={(e) => setFb(e.target.value)}
                     maxLength={2000}
                     rows={3}
-                    placeholder="Chia sẻ ý tưởng của bạn..."
+                    placeholder="Share your idea..."
                   />
                 </div>
 
@@ -534,9 +543,10 @@ const EdTechResearch = () => {
                     ) : (
                       <Send className="w-4 h-4" />
                     )}
-                    Gửi insight
+                    Submit insight
                   </Button>
                 </div>
+
               </form>
             </CardContent>
           </Card>
