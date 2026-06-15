@@ -2284,6 +2284,68 @@ export type Database = {
         }
         Relationships: []
       }
+      research_projects: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          is_active: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_active?: boolean
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_active?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      research_survey_responses: {
+        Row: {
+          answers: Json
+          created_at: string
+          id: string
+          project_id: string
+          user_role: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          project_id: string
+          user_role: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          project_id?: string
+          user_role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "research_survey_responses_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "research_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       revenue_logs: {
         Row: {
           amount: number

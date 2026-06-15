@@ -45,6 +45,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import ResearchProjectsSection from "@/components/research/ResearchProjectsSection";
 
 /**
  * EdTech Research Hub
@@ -224,6 +225,9 @@ const EdTechResearch = () => {
             tương lai nền tảng giáo dục.
           </p>
         </motion.section>
+
+        {/* Dynamic Research Project Framework */}
+        <ResearchProjectsSection />
 
         {/* Pillar 1 — Papers */}
         <section className="mb-16">

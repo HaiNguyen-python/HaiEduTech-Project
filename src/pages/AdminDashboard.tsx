@@ -58,6 +58,7 @@ import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
 import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
 import PhdResearchTab from "@/components/admin/PhdResearchTab";
 import EdTechResearchInsightsTab from "@/components/admin/EdTechResearchInsightsTab";
+import ResearchProjectsAdminTab from "@/components/admin/ResearchProjectsAdminTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -1239,7 +1240,18 @@ const AdminDashboard = () => {
               </TabsContent>
 
               <TabsContent value="edtech-insights">
-                <EdTechResearchInsightsTab />
+                <Tabs defaultValue="projects" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2 max-w-xl">
+                    <TabsTrigger value="projects">🧪 Research Projects</TabsTrigger>
+                    <TabsTrigger value="legacy">📋 Legacy Survey</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="projects" className="mt-4">
+                    <ResearchProjectsAdminTab />
+                  </TabsContent>
+                  <TabsContent value="legacy" className="mt-4">
+                    <EdTechResearchInsightsTab />
+                  </TabsContent>
+                </Tabs>
               </TabsContent>
 
 
