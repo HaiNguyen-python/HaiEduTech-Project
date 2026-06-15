@@ -46,6 +46,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import ResearchProjectsSection from "@/components/research/ResearchProjectsSection";
+import GlobalEdTechLibrary from "@/components/research/GlobalEdTechLibrary";
 
 /**
  * EdTech Research Hub
@@ -448,6 +449,9 @@ const EdTechResearch = () => {
             ))}
           </div>
         </section>
+
+        {/* Global EdTech Research Library — curated external papers + visualisations */}
+        <GlobalEdTechLibrary />
 
         {/* Pillar 3 — Insight Survey */}
         <section className="mb-10">
