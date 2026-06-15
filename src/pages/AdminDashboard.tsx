@@ -1181,6 +1181,11 @@ const AdminDashboard = () => {
 
 
 
+              {/* ===== RL BELL DISPATCHER TAB ===== */}
+              <TabsContent value="rl-interventions">
+                <RLInterventionsTab />
+              </TabsContent>
+
               {/* ===== INCOME MANAGEMENT TAB (admin/teacher only) ===== */}
               {!isPureAssistant && (
                 <TabsContent value="income">
