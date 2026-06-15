@@ -23,7 +23,7 @@ const environment: B1VocabEntry[] = [
 ];
 
 const media: B1VocabEntry[] = [
-  { fi: "uutiset", partOfSpeech: "noun (pl.)", meaningEn: "news", meaningVi: "tin tức", exampleFi: "Katson uutiset joka ilta.", exampleEn: "I watch the news every evening.", exampleVi: "Tôi xem tin tức mỗi tối." },
+  { fi: "uutiset", partOfSpeech: "noun", meaningEn: "news (pl.)", meaningVi: "tin tức", exampleFi: "Katson uutiset joka ilta.", exampleEn: "I watch the news every evening.", exampleVi: "Tôi xem tin tức mỗi tối." },
   { fi: "lehti", partOfSpeech: "noun", meaningEn: "newspaper / magazine", meaningVi: "báo / tạp chí", exampleFi: "Helsingin Sanomat on suuri lehti.", exampleEn: "Helsingin Sanomat is a major paper.", exampleVi: "Helsingin Sanomat là tờ báo lớn." },
   { fi: "toimittaja", partOfSpeech: "noun", meaningEn: "journalist", meaningVi: "nhà báo", exampleFi: "Toimittaja haastatteli ministeriä.", exampleEn: "The journalist interviewed the minister.", exampleVi: "Nhà báo phỏng vấn bộ trưởng." },
   { fi: "artikkeli", partOfSpeech: "noun", meaningEn: "article", meaningVi: "bài báo", exampleFi: "Luin mielenkiintoisen artikkelin.", exampleEn: "I read an interesting article.", exampleVi: "Tôi đọc một bài báo thú vị." },
