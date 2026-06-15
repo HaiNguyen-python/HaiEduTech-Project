@@ -627,6 +627,7 @@ const AdminDashboard = () => {
                 {tabGroup === "learning" && (
                   <>
                     <TabsTrigger value="rl-engine" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> {t("Hệ thống can thiệp", "RL Engine")}</TabsTrigger>
+                    <TabsTrigger value="rl-interventions" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> {t("Chuông RL tự động", "RL Bell Dispatcher")}</TabsTrigger>
                     <TabsTrigger value="strategy" className="gap-1.5"><TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}</TabsTrigger>
                     <TabsTrigger value="dictionary" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Từ điển Anh", "English Dictionary")}</TabsTrigger>
                   </>
