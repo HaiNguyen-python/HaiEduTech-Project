@@ -36,6 +36,7 @@ import {
   finnishMockExamExpansion3Modules,
   finnishLessonExpansion2Modules,
   finnishMockExamExpansion4Modules,
+  finnishMockExamExpansion5Modules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
