@@ -294,8 +294,9 @@ const EdTechResearch = () => {
             <div>
               <h2 className="text-2xl font-bold">Pillar 2 — EdTech User Insights & Trends</h2>
               <p className="text-sm text-muted-foreground">
-                Xu hướng & thấu hiểu người dùng (anonymised, aggregated)
+                Behavioural trends and user insights (anonymised, aggregated).
               </p>
+
             </div>
           </div>
 
