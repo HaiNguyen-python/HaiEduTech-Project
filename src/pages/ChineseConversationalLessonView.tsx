@@ -127,12 +127,14 @@ const ChineseConversationalLessonView = () => {
   const handleComplete = () => {
     markLessonComplete(lesson.id);
     setIsCompleted(true);
+    // Use a neutral 7/10 completion marker — actual exercise scores are logged
+    // separately via handleCheckFib + handleSubmitListening below.
     logStudentActivity({
       activityType: "conv_chinese",
       activityId: lesson.id,
-      score: 10,
+      score: 7,
       maxScore: 10,
-      metadata: { pillar: pillar.id, lessonTitle: lesson.title },
+      metadata: { pillar: pillar.id, lessonTitle: lesson.title, completion: true },
     });
   };
 
