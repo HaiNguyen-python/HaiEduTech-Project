@@ -135,8 +135,9 @@ export function computeStudentState(
   const weakestAreas = sorted.slice(0, 3).map(([k]) => k);
   const strongestAreas = sorted.slice(-3).reverse().map(([k]) => k);
 
-  // Compute recent trend from last 5 activities
-  const recent = activities.slice(-5);
+  // Compute recent trend from last 5 scored activities only
+  const scoredActs = activities.filter(a => a.score != null && (a.max_score ?? 0) > 0);
+  const recent = scoredActs.slice(-5);
   let trend: "improving" | "declining" | "stable" = "stable";
   if (recent.length >= 3) {
     const firstHalf = recent.slice(0, Math.floor(recent.length / 2));
@@ -147,8 +148,8 @@ export function computeStudentState(
     else if (avgFirst - avgSecond > 0.5) trend = "declining";
   }
 
-  const avgScore = activities.length > 0
-    ? activities.reduce((s, a) => s + ((a.score ?? 0) / (a.max_score ?? 10)) * 10, 0) / activities.length
+  const avgScore = scoredActs.length > 0
+    ? scoredActs.reduce((s, a) => s + ((a.score ?? 0) / (a.max_score ?? 10)) * 10, 0) / scoredActs.length
     : 0;
 
   return {
