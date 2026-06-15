@@ -1,9 +1,10 @@
 // Dictation exercise component with audio placeholder and text input
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CheckCircle, XCircle, RotateCcw, Headphones, Volume2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 interface DictationSentence {
   text: string;
