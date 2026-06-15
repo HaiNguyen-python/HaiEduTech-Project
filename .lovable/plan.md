@@ -1,51 +1,41 @@
-# Rà soát toàn diện RL · AI · ML · Admin Dashboard
+# Pre-publish review — toàn bộ chức năng web
 
-## Kết quả khảo sát nhanh (đã chạy DB + log)
+## Quy trình kiểm tra (em sẽ chạy sau khi anh approve)
 
-| Khu vực | Trạng thái | Bằng chứng |
-|---|---|---|
-| Health Monitor (86 checks, 2×/ngày) | ✅ Hoạt động | 7 ngày gần nhất passed 86/86, 0 fail/warn |
-| pg_cron jobs (9 jobs) | ✅ Active | rl-intervention-bi-weekly 12:00 UTC Mon/Thu, monthly-report 1st, health 2×/ngày |
-| RL dispatcher edge function | ⚠️ Booted nhưng chưa ghi | Boot 11:23 UTC hôm nay, **0 dòng trong `rl_interventions`** từ trước đến nay |
-| Data pipeline (logging) | ⚠️ Skew | `ielts_lecture` 4 events đều `score=0/max=1` (marker mở bài) → kéo tụt avg_score; `daily_login` & `session_heartbeat` OK |
-| Tracking coverage 7 ngày | ⚠️ Mỏng | Chỉ 7 activity_type có score; 686 heartbeat / 79 login → đa số học sinh sẽ bị classify "inactive" |
-| Admin Dashboard tabs | ❓ Chưa kiểm tra runtime | 23 tab; cần smoke-test mở từng tab |
-| AI edge functions (50+) | ❓ Chưa rà | Chatbot, grading, counseling, scholarship-advisor, monthly-report… |
+### 1. Runtime & Console (5 min)
+- Mở 8 route chính qua `browser--view_preview`: `/`, `/dashboard`, `/admin-dashboard`, `/ielts`, `/hsk`, `/yki`, `/programming`, `/learn-vietnamese`.
+- Mỗi route: `read_console_logs` (error/warn) + `list_network_requests` (4xx/5xx).
+- Fix mọi error có ảnh hưởng UX.
+- **Lưu ý**: lỗi `Lock broken by another request with the 'steal' option` đã xuất hiện — đây là warning benign của Supabase auth lock khi mở nhiều tab, không gây crash. Em sẽ xác nhận không có lỗi nào khác.
 
-## Phạm vi sửa (P0 → P3)
+### 2. Backend Health (2 min)
+- `supabase--cloud_status` — đảm bảo ACTIVE_HEALTHY.
+- Query `health_check_runs` 24h gần nhất — confirm 86/86 pass.
+- `supabase--slow_queries` top 10 — flag query > 500ms để tối ưu nếu cần.
+- `supabase--linter` — đọc lại 51 warning tồn dư, đánh dấu cái nào blocker, cái nào safe-to-ignore.
 
-### P0 — RL dispatcher không insert dữ liệu
-- Đọc full `rl-intervention-dispatcher/index.ts` (450 dòng), chạy **dry-run** + **force-run** qua `curl_edge_functions`, đọc log chi tiết để xác định: cron có chạy không, eligible students có rỗng không, có bị skip toàn bộ vì dedup không.
-- Fix nguyên nhân gốc: nhiều khả năng `eligible` rỗng (filter role student loại hết), hoặc `interventionsToInsert` rỗng vì tất cả rơi vào "steady".
-- Hạ ngưỡng `STRUGGLE` inactive từ `>4 days` → `≥3 days` để bắt được học sinh bỏ học sớm hơn, tránh "im lặng" mãi.
-- Thêm log structured `console.log({ eligible_count, top, struggle, skippedDedup, inserted })` để mỗi run có audit trail.
+### 3. Edge Functions sanity (3 min)
+- Smoke-test 5 function critical-path qua `curl_edge_functions`: `chat`, `counseling-ai`, `grade-writing`, `daily-health-check`, `rl-intervention-dispatcher` (dry-run).
+- Kiểm tra log gần nhất của `process-email-queue` (chạy mỗi 5s) — đảm bảo không có error loop.
 
-### P1 — Data pipeline skew & gap còn lại
-- **rlEngine.ts**: bỏ qua activity có `score=0 AND max_score=1` (markers IELTS lecture/listening open). Hiện chỉ filter `score==null` và `max<=0`.
-- **IELTS Listening/Reading marker**: chuyển marker mở bài từ `score=0/max=1` sang `score=null/max=null` (chỉ track time_spent).
-- Kiểm tra `useActivityLogger` đảm bảo `completion: true` không bị ghi nhầm thành `score=0`.
-- Thêm 3 module còn thiếu logging chưa được phủ trong P1 trước: **Cambridge mock**, **YKI writing eval**, **Programming code-challenge submission**.
+### 4. RL/AI/ML pipeline (đã sửa turn trước — chỉ verify)
+- Query `student_activity_log` 24h: confirm không còn `score=0/max=1` markers từ `ielts_lecture`.
+- Query `rl_interventions` sau 19:00 VN hôm nay: confirm có rows mới từ cron đầu tiên.
 
-### P2 — Admin Dashboard runtime audit
-- Mở từng tab (Activity, Health, API, Income, RL Interventions, Reports, Research, Feedback, Attendance, Payroll, Assistant Mgmt, Chatbot Conversations, Service Requests, AI Strategy, AI Pedagogical, AI Marketing, EdTech Research, PhD Research, Business Strategy, User Insights, Class Schedule, English Dictionary) qua `browser--view_preview` + `read_console_logs` + `read_network_requests`.
-- Bắt & fix mọi: 4xx/5xx, RLS denial, query > 2s (dùng `supabase--slow_queries`), N+1, render crash.
+### 5. SEO & Publish metadata
+- Đọc `index.html` + `App.tsx` Helmet: title (<60 ký tự), meta description (<160), OG, Twitter, favicon, JSON-LD.
+- Confirm canonical URL = `https://haiedutech.com`.
 
-### P3 — AI/ML edge functions
-- Smoke-test 10 function chính qua `curl_edge_functions`: `chat`, `counseling-ai`, `grade-writing`, `grade-speaking`, `scholarship-advisor`, `pedagogical-assistant`, `monthly-progress-report`, `daily-health-check`, `ai-strategy-optimizer`, `roleplay-chat`.
-- Kiểm tra mỗi function: CORS, JWT verify, Perplexity message alternation, JSON repair, error → 402/429 surfaced cho UI.
+### 6. Security scan
+- `security--get_scan_results` — chặn publish nếu có critical finding chưa fix.
 
 ## Deliverable
-1. **Báo cáo audit** (markdown trong chat) — bảng từng module ✅/⚠️/🔴 + root cause.
-2. **Patch tự động**: tất cả P0+P1+P2+P3 fix-able mà không thay đổi UX/business logic. Mỗi fix kèm verification (dry-run, log query, screenshot tab).
-3. **Cập nhật memory** `mem://tech/data-pipeline-audit.md` với các threshold/filter mới.
-
-## Phạm vi KHÔNG sửa
-- Không thay đổi schema bảng đang chạy (chỉ thêm migration nếu thật sự cần index).
-- Không đổi UI/UX của các module đã ổn định.
-- Không động vào `client.ts`, `types.ts`, `config.toml`, schemas `auth/storage/realtime`.
+- Bảng tổng kết ✅/⚠️/🔴 cho 6 mục trên.
+- Fix ngay mọi 🔴 và ⚠️ quan trọng (không thay đổi UI/UX).
+- Nếu tất cả xanh → hướng dẫn anh bấm Publish (em hiện CTA).
+- Nếu còn 🔴 → liệt kê + chờ anh quyết định fix hay publish kèm risk.
 
 ## Ước lượng
-- ~20-30 file đọc, ~10-15 file sửa, 0-1 migration (chỉ thêm index nếu phát hiện slow query).
-- Thời gian: gói gọn 1 turn build mode.
+- ~10-15 phút thao tác tool, 0-3 file sửa nếu phát sinh, không thay đổi schema.
 
-Bấm **Implement plan** để em chuyển sang build mode và bắt đầu.
+Bấm **Implement plan** để em bắt đầu rà soát.
