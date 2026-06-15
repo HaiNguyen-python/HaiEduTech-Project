@@ -785,6 +785,39 @@ export type Database = {
         }
         Relationships: []
       }
+      edtech_research_insights: {
+        Row: {
+          contact_email: string | null
+          created_at: string
+          feedback: string | null
+          id: string
+          pain_points: string | null
+          preferred_tools: Json
+          user_id: string | null
+          user_role: string
+        }
+        Insert: {
+          contact_email?: string | null
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          pain_points?: string | null
+          preferred_tools?: Json
+          user_id?: string | null
+          user_role: string
+        }
+        Update: {
+          contact_email?: string | null
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          pain_points?: string | null
+          preferred_tools?: Json
+          user_id?: string | null
+          user_role?: string
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string

@@ -12,7 +12,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -283,8 +283,10 @@ const Navbar = () => {
     { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: finnishSubs, key: "fi" },
     { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: swedishSubs, key: "sv" },
     { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
-    
-    { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
+
+    // Study Abroad ("Du Học") menu item is temporarily hidden — replaced by EdTech Research hub.
+    // { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
+    { to: "/edtech-research", label: t("EdTech Research", "EdTech Research"), icon: FlaskConical },
     { to: "/dich-vu-web", label: t("Thiết kế Website Giáo dục", "EdTech Website Design"), icon: Sparkles },
   ];
 
