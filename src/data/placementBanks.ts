@@ -56,7 +56,8 @@ export const SUBJECT_META: Record<PlacementSubject, SubjectMeta> = {
 /* ── Chinese 18 Q ───────────────────────────────────────────────────── */
 const CHINESE: PlacementQuestion[] = [
   { id: 101, skill: "listening", cefr: "A1", type: "listen-image",
-    prompt: "Choose the matching picture.", audioText: "苹果", correct: 0,
+    prompt: "What fruit is the girl holding?",
+    audioText: "你看,那个小女孩手里拿着一个红苹果。", correct: 0,
     options: [
       { emoji: "🍎", label: "苹果 / Apple" }, { emoji: "🍌", label: "香蕉 / Banana" },
       { emoji: "🐱", label: "猫 / Cat" }, { emoji: "🚗", label: "车 / Car" },
