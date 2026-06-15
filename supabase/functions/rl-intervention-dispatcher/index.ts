@@ -371,35 +371,38 @@ Deno.serve(async (req) => {
       notified++
     }
 
-    // 8. Teacher summary notification + per-struggle alerts
-    if (teacherIds.length > 0 && (topCount + struggleCount) > 0) {
+    // 8. Teacher summary — ONE consolidated digest per teacher to prevent
+    // bell flooding (previously up to 17 notifications per run per teacher).
+    if (teacherIds.length > 0 && (topCount + struggleCount + escalatedNotifs.length) > 0) {
       const dateStr = now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })
-      const summaryBody = `📊 Báo cáo RL ngày ${dateStr}: ${topCount} học viên xuất sắc · ${struggleCount} cần can thiệp · ${eligible.length} tổng học viên.`
+      const lines: string[] = []
+      lines.push(`📊 ${dateStr}: ${topCount} xuất sắc · ${struggleCount} cần can thiệp · ${eligible.length} tổng học viên.`)
+      if (escalatedNotifs.length > 0) {
+        lines.push(`🚨 ${escalatedNotifs.length} ƯU TIÊN CAO (chưa cải thiện sau 2 lần):`)
+        for (const esc of escalatedNotifs.slice(0, 5)) {
+          const name = nameMap.get(esc.student_id) || 'Học viên'
+          lines.push(`  • ${name} — ${esc.reason}`)
+        }
+        if (escalatedNotifs.length > 5) lines.push(`  • … và ${escalatedNotifs.length - 5} em khác`)
+      }
+      if (struggleList.length > 0) {
+        lines.push(`💙 Cần can thiệp:`)
+        for (const s of struggleList.slice(0, 6)) {
+          lines.push(`  • ${s.name}${s.reason ? ' — ' + s.reason : ''}`)
+        }
+        if (struggleList.length > 6) lines.push(`  • … và ${struggleList.length - 6} em khác`)
+      }
+      const digest = lines.join('\n')
+      const digestTitle = escalatedNotifs.length > 0
+        ? `🚨 RL Báo cáo (${escalatedNotifs.length} ưu tiên cao)`
+        : `📊 RL Báo cáo định kỳ`
       for (const tid of teacherIds) {
         notificationsToInsert.push({
           user_id: tid,
-          title: '📊 RL Intervention — Báo cáo định kỳ',
-          body: summaryBody,
+          title: digestTitle,
+          body: digest,
           route: '/admin?tab=rl-interventions',
         })
-        // Per-struggle teacher pings (capped at 8 to avoid bell flood)
-        for (const s of struggleList.slice(0, 8)) {
-          notificationsToInsert.push({
-            user_id: tid,
-            title: `⚠️ Học viên cần can thiệp: ${s.name}`,
-            body: `${s.name}${s.reason ? ' — ' + s.reason : ''}. Bấm để xem chi tiết RL Interventions.`,
-            route: '/admin?tab=rl-interventions',
-          })
-        }
-        for (const esc of escalatedNotifs.slice(0, 8)) {
-          const name = nameMap.get(esc.student_id) || 'Học viên'
-          notificationsToInsert.push({
-            user_id: tid,
-            title: `🚨 Ưu tiên cao: ${name}`,
-            body: `${name} ${esc.reason} — cần can thiệp trực tiếp.`,
-            route: '/admin?tab=rl-interventions',
-          })
-        }
       }
     }
 
