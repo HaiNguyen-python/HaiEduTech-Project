@@ -31,12 +31,24 @@ import {
 } from "@/data/placementBanks";
 import Navbar from "@/components/Navbar";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
 
 /** Module-level current speak locale; set by the main component per subject. */
 let CURRENT_SPEAK_LANG = "en-US";
 
-/** Speak text via browser SpeechSynthesis (uses CURRENT_SPEAK_LANG by default). */
+/**
+ * Speak text. For Finnish (fi-*), route through the dedicated Finnish TTS
+ * engine (Supabase proxy → Google Translate fi → native fi-FI voice) so the
+ * pronunciation is actually Finnish, even on systems with no installed
+ * Finnish voice. Other languages keep the built-in SpeechSynthesis.
+ */
 const speak = (text: string, lang?: string) => {
+  const target = (lang ?? CURRENT_SPEAK_LANG).toLowerCase();
+  if (target.startsWith("fi")) {
+    stopFinnishTts();
+    void playFinnishTts(text, { playbackRate: 0.92, speechRate: 0.85 });
+    return;
+  }
   try {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang ?? CURRENT_SPEAK_LANG; u.rate = 0.92;
