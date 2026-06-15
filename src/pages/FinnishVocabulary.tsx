@@ -662,7 +662,9 @@ const FinnishVocabulary = () => {
             </div>
 
             {/* Finnish Skier progress visualization (Nordic theme) */}
-            <FinnishSkier mastered={mastered.size} total={ieltsVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
+            <div className="mb-8">
+              <FinnishSkier mastered={mastered.size} total={ieltsVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
+            </div>
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
