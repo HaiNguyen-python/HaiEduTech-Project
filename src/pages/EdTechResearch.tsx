@@ -371,11 +371,12 @@ const EdTechResearch = () => {
             <CardContent className="p-5">
               <h3 className="font-semibold mb-2">Top user pain points (qualitative)</h3>
               <ul className="text-sm text-muted-foreground space-y-1.5 list-disc pl-5">
-                <li>Khó duy trì động lực sau tuần thứ 3 nếu không có nhắc nhở cá nhân hoá.</li>
-                <li>Giáo viên cần báo cáo tự động để giảm 60% thời gian tổng hợp tiến độ.</li>
-                <li>Học sinh muốn AI sửa lỗi nói tự nhiên hơn, kèm phát âm mẫu chậm.</li>
-                <li>Phụ huynh cần dashboard ngắn gọn, không quá nhiều chỉ số kỹ thuật.</li>
+                <li>Motivation drops after week 3 without personalised reminders.</li>
+                <li>Teachers need automated reports — cutting ~60% of weekly admin time.</li>
+                <li>Students want more natural AI speech feedback with slow native models.</li>
+                <li>Parents need concise dashboards without dense technical metrics.</li>
               </ul>
+
             </CardContent>
           </Card>
         </section>
