@@ -99,6 +99,7 @@ const IeltsSampleEssays = lazy(() => import("./pages/IeltsSampleEssays.tsx"));
 const IeltsSampleEssayDetail = lazy(() => import("./pages/IeltsSampleEssayDetail.tsx"));
 const SpeakingPractice = lazy(() => import("./pages/SpeakingPractice.tsx"));
 const IeltsVocabulary = lazy(() => import("./pages/IeltsVocabulary.tsx"));
+const FinnishVocabulary = lazy(() => import("./pages/FinnishVocabulary.tsx"));
 const VietnameseVocabulary = lazy(() => import("./pages/VietnameseVocabulary.tsx"));
 const SatVocabulary = lazy(() => import("./pages/SatVocabulary.tsx"));
 const SatExercises = lazy(() => import("./pages/SatExercises.tsx"));
@@ -312,6 +313,7 @@ const App = () => (
             <Route path="/ielts-sample-essays/:essayId" element={<LazyRoute><IeltsSampleEssayDetail /></LazyRoute>} />
             <Route path="/ielts-speaking-practice" element={<LazyRoute><SpeakingPractice /></LazyRoute>} />
             <Route path="/ielts-vocabulary" element={<LazyRoute><IeltsVocabulary /></LazyRoute>} />
+            <Route path="/finnish-vocabulary" element={<LazyRoute><FinnishVocabulary /></LazyRoute>} />
             <Route path="/sat-vocabulary" element={<LazyRoute><SatVocabulary /></LazyRoute>} />
             <Route path="/sat-exercises" element={<LazyRoute><SatExercises /></LazyRoute>} />
             <Route path="/sat-exams" element={<LazyRoute><SatExams /></LazyRoute>} />
