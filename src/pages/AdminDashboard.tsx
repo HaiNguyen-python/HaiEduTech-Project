@@ -57,6 +57,7 @@ import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
 import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
 import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
 import PhdResearchTab from "@/components/admin/PhdResearchTab";
+import EdTechResearchInsightsTab from "@/components/admin/EdTechResearchInsightsTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
