@@ -86,7 +86,7 @@ const HeroSection = () => {
               className="w-full max-w-[320px] shrink-0 sm:max-w-[360px]"
             >
               <div className="aspect-square overflow-hidden rounded-[1.75rem] border-2 border-emerald-500 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
-                <img src={haiProfile} alt="Teacher Hai" width="720" height="720" fetchPriority="high" decoding="async" className="h-full w-full object-cover" />
+                <img src={haiProfile} alt="Teacher Hai" width="720" height="720" {...({ fetchpriority: "high" } as any)} decoding="async" className="h-full w-full object-cover" />
               </div>
             </motion.div>
 
