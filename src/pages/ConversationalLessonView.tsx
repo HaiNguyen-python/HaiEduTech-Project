@@ -121,12 +121,27 @@ const ConversationalLessonView = () => {
   const handleComplete = () => {
     markLessonComplete(lesson.id);
     setIsCompleted(true);
+    // Reflect real completion: count quiz questions answered correctly when
+    // the listening challenge has been attempted; otherwise log a neutral
+    // 7/10 "completion" marker so the RL engine sees engagement without
+    // inflating the student's average.
+    const lq = lesson.listeningChallenge.questions;
+    const answeredCount = lq.filter((_, i) => typeof listeningAnswers[i] !== "undefined").length;
+    const correctCount = lq.filter((q, i) => listeningAnswers[i] === q.answer).length;
+    const attempted = answeredCount > 0;
     logStudentActivity({
       activityType: "conv_english",
       activityId: lesson.id,
-      score: 10,
-      maxScore: 10,
-      metadata: { pillar: pillar.id, lessonTitle: lesson.title },
+      score: attempted ? correctCount : 7,
+      maxScore: attempted ? lq.length : 10,
+      metadata: {
+        pillar: pillar.id,
+        lessonTitle: lesson.title,
+        listening_attempted: attempted,
+        listening_correct: correctCount,
+        listening_total: lq.length,
+        completion: true,
+      },
     });
   };
 
