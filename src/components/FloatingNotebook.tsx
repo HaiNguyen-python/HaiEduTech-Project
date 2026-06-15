@@ -101,7 +101,7 @@ const FloatingNotebook = () => {
 
   // Tiptap editor — onUpdate triggers a React re-render so auto-save fires.
   const editor = useEditor({
-    extensions: [StarterKit, UnderlineExtension, TextStyle, Color, Highlight.configure({ multicolor: true })],
+    extensions: [StarterKit, TextStyle, Color, Highlight.configure({ multicolor: true })],
     content: "",
     editorProps: {
       attributes: {
