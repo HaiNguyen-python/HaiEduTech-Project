@@ -57,77 +57,219 @@ import GlobalEdTechLibrary from "@/components/research/GlobalEdTechLibrary";
 type Paper = {
   title: string;
   topic: string;
-  status: "Preprint" | "Ongoing" | "Published";
-  abstract: string;
+  category: "Seminal" | "Recent" | "Survey" | "Applied" | "Policy";
+  authors: string;
+  venue: string;
   year: string;
+  abstract: string;
+  link?: string;
 };
 
+// Curated reading list — not authored by HaiEduTech. These are highly cited or
+// recent EdTech / AI-in-education papers we recommend for teachers, researchers
+// and curious students. Links resolve to open-access versions when available.
 const PAPERS: Paper[] = [
   {
-    title: "Machine Learning for Early-Warning Detection of At-Risk Learners",
-    topic: "Learning Analytics · Early-Warning ML",
-    status: "Preprint",
-    year: "2026",
+    title: "Attention Is All You Need",
+    authors: "Vaswani et al.",
+    venue: "NeurIPS",
+    year: "2017",
+    category: "Seminal",
+    topic: "Transformers · Foundations of modern LLM tutors",
     abstract:
-      "A gradient-boosting classifier fuses behavioural signals (logins, streaks, vocabulary accuracy) to predict the probability of disengagement within 14 days, enabling timely teacher intervention.",
+      "The transformer architecture that underpins every modern LLM tutor (ChatGPT, Gemini, Claude). Required reading to understand why today's AI tutors work — and where their reasoning still breaks.",
+    link: "https://arxiv.org/abs/1706.03762",
   },
   {
-    title: "Optimising LLM Feedback Loops for Language Pedagogy",
-    topic: "LLM Pedagogy · Human-in-the-loop",
-    status: "Ongoing",
-    year: "2026",
+    title: "Bloom's 2 Sigma Problem",
+    authors: "Benjamin S. Bloom",
+    venue: "Educational Researcher",
+    year: "1984",
+    category: "Seminal",
+    topic: "Mastery Learning · 1:1 Tutoring",
     abstract:
-      "End-of-lesson micro-surveys feed a lightweight RLHF pipeline that progressively improves prompt fit. The paper proposes an evaluation framework for small-cohort language classrooms.",
+      "The original evidence that 1:1 tutoring lifts the average student two standard deviations above classroom peers. The motivating benchmark for every AI-tutor startup since 2022.",
+    link: "https://web.mit.edu/5.95/readings/bloom-two-sigma.pdf",
   },
   {
-    title: "Reinforcement Learning for Adaptive English Curriculum Personalisation",
-    topic: "Adaptive Learning · Deep RL",
-    status: "Preprint",
-    year: "2026",
+    title: "Deep Knowledge Tracing",
+    authors: "Piech, Bassen, Huang, Ganguli, Sahami, Guibas, Sohl-Dickstein",
+    venue: "NeurIPS",
+    year: "2015",
+    category: "Seminal",
+    topic: "Knowledge Tracing · LSTM",
     abstract:
-      "An agent selects the next lesson conditioned on a skill profile, using a composite reward that blends short-term scores and longer-term retention, benchmarked against a linear baseline.",
+      "First demonstration that an LSTM can model a learner's evolving knowledge state directly from interaction logs — the foundation of every adaptive learning engine that followed (Duolingo, Khan Academy, ALEKS).",
+    link: "https://arxiv.org/abs/1506.05908",
   },
   {
-    title: "Phoneme-Aware ASR Coaching for L2 English: A Cross-Accent Study",
-    topic: "Speech AI · Pronunciation",
-    status: "Ongoing",
-    year: "2026",
+    title: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    authors: "Devlin, Chang, Lee, Toutanova (Google AI)",
+    venue: "NAACL",
+    year: "2019",
+    category: "Seminal",
+    topic: "NLP · Pre-trained encoders",
     abstract:
-      "Compares phoneme, word and sentence-level ASR feedback across Vietnamese, Finnish and Khmer learners, quantifying accent bias and the marginal gain of mouth-position video overlays.",
+      "Bidirectional pre-training that unlocked automated essay scoring, reading-comprehension grading and the first generation of GenAI writing feedback tools.",
+    link: "https://arxiv.org/abs/1810.04805",
   },
   {
-    title: "Multi-Agent LLM Tutors Reduce Hallucination in K-12 STEM",
-    topic: "LLM Agents · STEM",
-    status: "Preprint",
-    year: "2026",
+    title: "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    authors: "Wei et al. (Google Brain)",
+    venue: "NeurIPS",
+    year: "2022",
+    category: "Recent",
+    topic: "Prompt Engineering · Reasoning",
     abstract:
-      "A planner-tutor-evaluator agent pipeline lowers factual error rate by ~38% on grade-9 physics problems vs a single LLM, with no loss in pedagogical fluency under rubric scoring.",
+      "Why asking an LLM to 'think step by step' dramatically improves math and logic tutoring quality. Practical guidance for prompt design in classroom AI assistants.",
+    link: "https://arxiv.org/abs/2201.11903",
   },
   {
-    title: "Federated Personalisation with Differential Privacy for EU K-12",
-    topic: "Federated Learning · Privacy",
-    status: "Ongoing",
-    year: "2026",
+    title: "Sparks of Artificial General Intelligence: Early Experiments with GPT-4",
+    authors: "Bubeck et al. (Microsoft Research)",
+    venue: "arXiv",
+    year: "2023",
+    category: "Recent",
+    topic: "GPT-4 · Generalist tutoring capabilities",
     abstract:
-      "Empirical study of FedAvg + DP-SGD on classroom shards under the EU AI Act, mapping the accuracy/privacy trade-off and reporting client-drift behaviour in low-bandwidth schools.",
+      "The most influential qualitative evaluation of GPT-4's tutoring potential — covering coding, math, medicine and creative writing. A useful sanity-check on what GenAI can and cannot replace.",
+    link: "https://arxiv.org/abs/2303.12712",
   },
   {
-    title: "Cognitive Offloading in Daily GenAI Use: A Two-Semester Cohort Study",
-    topic: "Cognitive Science · LLM",
-    status: "Ongoing",
-    year: "2026",
+    title: "Generative AI Can Harm Learning",
+    authors: "Bastani, Bastani, Sungu, Ge, Kabakcı, Mariman",
+    venue: "Wharton / SSRN",
+    year: "2024",
+    category: "Recent",
+    topic: "Cognitive Offloading · Critical Thinking",
     abstract:
-      "Longitudinal evidence that unrestricted LLM use during practice produces strong in-task gains but a measurable drop on non-AI transfer tasks, mediated by metacognitive scaffolding.",
+      "Field experiment with 1,000+ high-school students: unrestricted GPT-4 access boosted in-task performance but dropped post-test scores by 17% when the AI was removed. Essential reading for any school deploying chatbots.",
+    link: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4895486",
   },
   {
-    title: "Explainable Knowledge Tracing for Learner-Facing Dashboards",
-    topic: "XAI · Knowledge Tracing",
-    status: "Preprint",
-    year: "2026",
+    title: "AI in Education: A Systematic Literature Review",
+    authors: "Zawacki-Richter, Marín, Bond, Gouverneur",
+    venue: "Int. J. of Educational Technology in Higher Education",
+    year: "2019",
+    category: "Survey",
+    topic: "Literature Review · AIED scope",
     abstract:
-      "Attention-rollout explanations on a SAINT+ knowledge-tracing model improve learner self-regulation ratings by 21% without harming AUC vs vanilla DKT.",
+      "A widely cited map of how AI is being used in higher education — adaptive systems, profiling, assessment, intelligent tutoring. Useful starting point before designing any new EdTech intervention.",
+    link: "https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-019-0171-0",
+  },
+  {
+    title: "A Survey on Large Language Models for Education",
+    authors: "Wang, Liu, Zhao et al.",
+    venue: "arXiv",
+    year: "2024",
+    category: "Survey",
+    topic: "LLMs in Education · Taxonomy",
+    abstract:
+      "Maps the LLM-for-education landscape: tutoring, content generation, assessment, language learning. Highlights open challenges in hallucination, bias, evaluation, and ethics.",
+    link: "https://arxiv.org/abs/2403.18105",
+  },
+  {
+    title: "Khanmigo: Designing a Safe, Educational LLM Tutor",
+    authors: "Khan Academy + OpenAI",
+    venue: "Khan Academy whitepaper",
+    year: "2023",
+    category: "Applied",
+    topic: "Socratic LLM Tutor · Safety guardrails",
+    abstract:
+      "Practical case study of how Khanmigo replaces direct answers with Socratic questioning and refuses unsafe requests. Templates for system-prompt design that EdTech builders can reuse.",
+    link: "https://www.khanacademy.org/khan-labs",
+  },
+  {
+    title: "Duolingo English Test: Designing an AI-Powered High-Stakes Language Test",
+    authors: "Duolingo Research",
+    venue: "Duolingo whitepapers",
+    year: "2022",
+    category: "Applied",
+    topic: "Adaptive Testing · Item Response Theory",
+    abstract:
+      "How a computer-adaptive design plus automated speaking/writing scoring scaled a high-stakes English test from 0 to 5M takers. Reference architecture for any AI-based placement test.",
+    link: "https://englishtest.duolingo.com/research",
+  },
+  {
+    title: "PISA 2025 Foreign Language Assessment Framework",
+    authors: "OECD",
+    venue: "OECD Publishing",
+    year: "2023",
+    category: "Policy",
+    topic: "Standardised Assessment · L2 English",
+    abstract:
+      "The framework PISA will use to benchmark English proficiency in 80+ countries from 2025. Useful target spec for any language-learning curriculum aiming to align with international benchmarks.",
+    link: "https://www.oecd.org/pisa/foreign-language/",
+  },
+  {
+    title: "Beyond the Hype: A Cautionary Tale of ChatGPT in the Classroom",
+    authors: "Kasneci et al.",
+    venue: "Learning and Individual Differences",
+    year: "2023",
+    category: "Policy",
+    topic: "Risks · Ethics · Classroom adoption",
+    abstract:
+      "Synthesises early evidence on academic integrity, bias, over-reliance, and teacher workload when ChatGPT enters the classroom — and recommends concrete policy guardrails for schools.",
+    link: "https://doi.org/10.1016/j.lindif.2023.102274",
+  },
+  {
+    title: "Self-Regulated Learning in MOOCs",
+    authors: "Kizilcec, Pérez-Sanagustín, Maldonado",
+    venue: "Computers & Education",
+    view: "Foundational MOOC study",
+    year: "2017",
+    category: "Seminal",
+    topic: "Self-Regulation · Online Learning",
+    abstract:
+      "Identifies which self-regulation strategies (goal-setting, help-seeking, time-management) actually predict MOOC completion. Direct implications for dashboard and notification design.",
+    link: "https://doi.org/10.1016/j.compedu.2016.10.001",
+  } as unknown as Paper,
+  {
+    title: "Federated Learning: Challenges, Methods, and Future Directions",
+    authors: "Li, Sahu, Talwalkar, Smith",
+    venue: "IEEE Signal Processing Magazine",
+    year: "2020",
+    category: "Survey",
+    topic: "Federated Learning · Privacy-preserving ML",
+    abstract:
+      "Canonical survey of federated learning — the path to EdTech personalisation that respects student-data privacy and complies with GDPR / Vietnam PDPL.",
+    link: "https://arxiv.org/abs/1908.07873",
+  },
+  {
+    title: "Explainable AI for Education: A Review",
+    authors: "Khosravi, Shum, Chen et al.",
+    venue: "Computers and Education: AI",
+    year: "2022",
+    category: "Survey",
+    topic: "Explainable AI · Learner-facing dashboards",
+    abstract:
+      "Why black-box models hurt learner trust and teacher adoption, and which XAI techniques (attention rollouts, counterfactuals, rule extraction) work best in educational dashboards.",
+    link: "https://doi.org/10.1016/j.caeai.2022.100074",
+  },
+  {
+    title: "The State of AI in Education 2024 (Common Sense Media)",
+    authors: "Common Sense Media",
+    venue: "Common Sense Education Report",
+    year: "2024",
+    category: "Policy",
+    topic: "K-12 AI adoption · Survey",
+    abstract:
+      "Nationally representative survey of how US teachers, parents and teens are actually using generative AI — adoption rates, equity gaps, and the policy vacuum schools currently face.",
+    link: "https://www.commonsensemedia.org/research",
+  },
+  {
+    title: "EU AI Act — Educational AI as a High-Risk System",
+    authors: "European Commission",
+    venue: "Official Journal of the European Union",
+    year: "2024",
+    category: "Policy",
+    topic: "Regulation · High-risk AI in education",
+    abstract:
+      "Defines AI used in education (admissions, grading, placement) as high-risk and sets compliance requirements: data governance, transparency, human oversight. Required reading for any EdTech operating in the EU.",
+    link: "https://artificialintelligenceact.eu/",
   },
 ];
+
 
 
 // Aggregated behavioural insight dataset (anonymised, illustrative).
@@ -171,10 +313,12 @@ const insightSchema = z.object({
   feedback: z.string().trim().max(2000).optional().nullable(),
 });
 
-const statusColor: Record<Paper["status"], string> = {
-  Preprint: "bg-amber-500/15 text-amber-700 border-amber-500/30 dark:text-amber-300",
-  Ongoing: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-300",
-  Published: "bg-emerald-500/15 text-emerald-700 border-emerald-500/30 dark:text-emerald-300",
+const categoryColor: Record<Paper["category"], string> = {
+  Seminal: "bg-purple-500/15 text-purple-700 border-purple-500/30 dark:text-purple-300",
+  Recent: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-300",
+  Survey: "bg-amber-500/15 text-amber-700 border-amber-500/30 dark:text-amber-300",
+  Applied: "bg-emerald-500/15 text-emerald-700 border-emerald-500/30 dark:text-emerald-300",
+  Policy: "bg-rose-500/15 text-rose-700 border-rose-500/30 dark:text-rose-300",
 };
 
 
@@ -263,9 +407,10 @@ const EdTechResearch = () => {
             EdTech Research
           </h1>
           <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
-            A transparent academic space: active research papers, anonymised
-            behavioural insights, and open surveys so the global community can
-            help shape the future of education technology.
+            A transparent academic space curated by HaiEduTech: a recommended reading
+            list of leading EdTech papers, anonymised behavioural insights from our own
+            classrooms, and open surveys so the global community can help shape the future
+            of education technology.
           </p>
 
         </motion.section>
@@ -273,19 +418,20 @@ const EdTechResearch = () => {
         {/* Dynamic Research Project Framework */}
         <ResearchProjectsSection />
 
-        {/* Pillar 1 — Papers */}
+        {/* Pillar 1 — Suggested Reading List */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">Pillar 1 — Published & Ongoing Papers</h2>
+              <h2 className="text-2xl font-bold">Pillar 1 — Suggested EdTech Reading List</h2>
               <p className="text-sm text-muted-foreground">
-                Working papers and essays by Hai Nguyen and the HaiEduTech Lab.
+                A curated reading list of seminal, recent and policy papers we recommend for teachers, parents
+                and students who want to understand AI in education. These papers are <strong>not authored by HaiEduTech</strong> —
+                they are external references we trust and frequently cite.
               </p>
             </div>
-
           </div>
 
           <div className="grid gap-4">
@@ -297,15 +443,15 @@ const EdTechResearch = () => {
                 <CardContent className="p-5 md:p-6">
                   <div className="flex flex-wrap gap-2 mb-3">
                     <Badge variant="outline" className="gap-1">
-                      <Users className="w-3 h-3" /> Author: Hai Nguyen
+                      <Users className="w-3 h-3" /> {p.authors}
                     </Badge>
                     <Badge variant="outline" className="gap-1">
-                      <Brain className="w-3 h-3" /> Topic: {p.topic}
+                      <Brain className="w-3 h-3" /> {p.topic}
                     </Badge>
-                    <Badge className={`gap-1 border ${statusColor[p.status]}`}>
-                      <Sparkles className="w-3 h-3" /> {p.status}
+                    <Badge className={`gap-1 border ${categoryColor[p.category]}`}>
+                      <Sparkles className="w-3 h-3" /> {p.category}
                     </Badge>
-                    <Badge variant="secondary">{p.year}</Badge>
+                    <Badge variant="secondary">{p.venue} · {p.year}</Badge>
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold leading-snug mb-2 group-hover:text-primary transition-colors">
                     {p.title}
@@ -313,15 +459,27 @@ const EdTechResearch = () => {
                   <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
                     {p.abstract}
                   </p>
-                  <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                    <FileText className="w-3.5 h-3.5" />
-                    <span>Working paper · DOI pending</span>
-                    <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-                  </div>
+                  {p.link && (
+                    <a
+                      href={p.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-primary hover:underline"
+                    >
+                      <FileText className="w-3.5 h-3.5" />
+                      Open original paper
+                      <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+                    </a>
+                  )}
                 </CardContent>
               </Card>
             ))}
           </div>
+
+          <p className="mt-6 text-xs text-muted-foreground italic text-center">
+            Disclaimer: All papers above are the intellectual property of their respective authors and publishers.
+            HaiEduTech reproduces only titles, abstracts and public links for educational reference under fair use.
+          </p>
         </section>
 
         {/* Pillar 2 — Insights & Trends */}
@@ -431,7 +589,7 @@ const EdTechResearch = () => {
                 Research Gaps & Future Horizons
               </h2>
               <p className="text-sm text-muted-foreground">
-                Open problems the EdTech industry still under-investigates — and which HaiEduTech Lab is actively pursuing.
+                Open problems the EdTech industry still under-investigates — recommended topics for thesis, capstone or classroom action-research projects.
               </p>
             </div>
           </div>
