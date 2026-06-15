@@ -456,6 +456,25 @@ const EdTechResearch = () => {
                 subtitle: "Long-term Impact on Critical Thinking",
                 body: "Does habitual reliance on instant AI lookups erode deep memory and autonomous reasoning over 6–24 months? Longitudinal studies remain rare.",
               },
+              {
+                idx: "Gap 04",
+                title: "Pedagogical validity of LLM-authored content",
+                subtitle: "Content Quality & Curriculum Coherence",
+                body: "Most AI-authored lessons are evaluated for surface fluency, not for curriculum alignment, scaffolding integrity, or culturally appropriate examples.",
+              },
+              {
+                idx: "Gap 05",
+                title: "Teacher-AI division of labour & professional identity",
+                subtitle: "Workforce Studies",
+                body: "How AI tutors reshape teacher autonomy, expertise development, and classroom authority remains under-investigated outside Western higher-ed.",
+              },
+              {
+                idx: "Gap 06",
+                title: "Carbon and equity costs of frontier-model tutoring",
+                subtitle: "Sustainable EdTech",
+                body: "Inference-heavy GenAI tutors carry energy and cost externalities that disproportionately burden Global-South institutions; transparent accounting is still missing.",
+              },
+
 
             ].map((g) => (
               <Card
