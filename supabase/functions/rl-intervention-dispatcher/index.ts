@@ -152,7 +152,9 @@ function computeSnapshot(
   const halfMs = (ANALYSIS_WINDOW_DAYS / 2) * 86400_000
   const mid = new Date(now.getTime() - halfMs)
 
-  const scored = meaningful.filter((r) => r.score != null && (r.max_score ?? 0) > 0)
+  // Exclude null scores AND "completion markers" (max=1, score=0) so RL avg
+  // reflects real performance, not "opened lecture" pings.
+  const scored = meaningful.filter((r) => r.score != null && (r.max_score ?? 0) > 0 && !((r.max_score === 1) && ((r.score ?? 0) === 0)))
   const overallAvg =
     scored.length > 0
       ? scored.reduce((a, r) => a + (r.score! / (r.max_score || 10)), 0) / scored.length
@@ -424,7 +426,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({
+    const summary = {
       ok: true,
       dryRun,
       force,
@@ -439,7 +441,9 @@ Deno.serve(async (req) => {
       escalated: escalatedNotifs.length,
       window_days: ANALYSIS_WINDOW_DAYS,
       ran_at: now.toISOString(),
-    }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
+    }
+    console.log('[rl-dispatcher]', JSON.stringify(summary))
+    return new Response(JSON.stringify(summary), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
   } catch (err) {
     console.error('rl-intervention-dispatcher error', err)
     return new Response(JSON.stringify({ ok: false, error: String((err as any)?.message ?? err) }), {
