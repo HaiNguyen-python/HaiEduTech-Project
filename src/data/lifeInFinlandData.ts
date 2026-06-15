@@ -60,6 +60,12 @@ import {
   ADVANCED_HEALTH_GUIDES,
   FIRST_30_DAYS_CHECKLIST_V2,
 } from "./lifeInFinlandExpansion2";
+import {
+  INTEGRATION_GUIDES,
+  LIBRARY_GUIDES,
+  WINTER_SAFETY_GUIDES,
+  FIRST_30_DAYS_CHECKLIST_V3,
+} from "./lifeInFinlandExpansion3";
 
 const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
   {
