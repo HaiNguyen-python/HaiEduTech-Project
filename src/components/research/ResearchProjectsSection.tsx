@@ -463,6 +463,45 @@ const QuestionField = ({
       </div>
     );
   }
+  if (q.type === "slider") {
+    const v = typeof value === "number" ? value : q.min;
+    return (
+      <div className="space-y-2">
+        <Label>{q.label}</Label>
+        <input
+          type="range"
+          min={q.min}
+          max={q.max}
+          step={q.step ?? 1}
+          value={v}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="w-full accent-primary"
+        />
+        <div className="flex justify-between text-xs text-muted-foreground">
+          <span>{q.min}{q.unit ?? ""}</span>
+          <span className="font-semibold text-primary">{v}{q.unit ?? ""}</span>
+          <span>{q.max}{q.unit ?? ""}</span>
+        </div>
+      </div>
+    );
+  }
+  if (q.type === "number") {
+    return (
+      <div className="space-y-2">
+        <Label>{q.label}</Label>
+        <Input
+          type="number"
+          value={value ?? ""}
+          min={q.min}
+          max={q.max}
+          placeholder={q.placeholder}
+          onChange={(e) =>
+            onChange(e.target.value === "" ? "" : Number(e.target.value))
+          }
+        />
+      </div>
+    );
+  }
   // textarea
   return (
     <div className="space-y-2">
@@ -477,6 +516,7 @@ const QuestionField = ({
     </div>
   );
 };
+
 
 const VizPanel = ({ config }: { config: ProjectConfig }) => {
   if (config.charts.length === 0) {
@@ -495,7 +535,7 @@ const VizPanel = ({ config }: { config: ProjectConfig }) => {
           <Card key={i}>
             <CardContent className="p-4">
               <div className="text-sm font-semibold mb-3">{chart.title}</div>
-              <ResponsiveContainer width="100%" height={220}>
+              <ResponsiveContainer width="100%" height={240}>
                 {chart.kind === "bar" ? (
                   <BarChart data={chart.data}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
@@ -507,6 +547,23 @@ const VizPanel = ({ config }: { config: ProjectConfig }) => {
                       fill="hsl(var(--primary))"
                       radius={[6, 6, 0, 0]}
                     />
+                  </BarChart>
+                ) : chart.kind === "groupedBar" ? (
+                  <BarChart data={chart.data}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                    <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
+                    <YAxis tick={{ fontSize: 11 }} />
+                    <Tooltip />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    {chart.series.map((s) => (
+                      <Bar
+                        key={s.key}
+                        dataKey={s.key}
+                        name={s.label}
+                        fill={s.color ?? "hsl(var(--primary))"}
+                        radius={[6, 6, 0, 0]}
+                      />
+                    ))}
                   </BarChart>
                 ) : chart.kind === "line" ? (
                   <LineChart data={chart.data}>
@@ -522,6 +579,25 @@ const VizPanel = ({ config }: { config: ProjectConfig }) => {
                       dot={{ r: 3 }}
                     />
                   </LineChart>
+                ) : chart.kind === "multiLine" ? (
+                  <LineChart data={chart.data}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                    <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
+                    <YAxis tick={{ fontSize: 11 }} />
+                    <Tooltip />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    {chart.series.map((s) => (
+                      <Line
+                        key={s.key}
+                        type="monotone"
+                        dataKey={s.key}
+                        name={s.label}
+                        stroke={s.color ?? "hsl(var(--primary))"}
+                        strokeWidth={2.5}
+                        dot={{ r: 2 }}
+                      />
+                    ))}
+                  </LineChart>
                 ) : (
                   <PieChart>
                     <Tooltip />
@@ -532,7 +608,7 @@ const VizPanel = ({ config }: { config: ProjectConfig }) => {
                       nameKey={chart.nameKey}
                       cx="50%"
                       cy="50%"
-                      outerRadius={70}
+                      outerRadius={75}
                       label={{ fontSize: 10 }}
                     >
                       {chart.data.map((_, idx) => (
@@ -542,6 +618,7 @@ const VizPanel = ({ config }: { config: ProjectConfig }) => {
                   </PieChart>
                 )}
               </ResponsiveContainer>
+
             </CardContent>
           </Card>
         ))}
