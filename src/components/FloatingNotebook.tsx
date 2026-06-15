@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import UnderlineExtension from "@tiptap/extension-underline";
+// Underline is bundled in StarterKit v3, no separate import needed
 import Color from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
@@ -101,7 +101,7 @@ const FloatingNotebook = () => {
 
   // Tiptap editor — onUpdate triggers a React re-render so auto-save fires.
   const editor = useEditor({
-    extensions: [StarterKit, UnderlineExtension, TextStyle, Color, Highlight.configure({ multicolor: true })],
+    extensions: [StarterKit, TextStyle, Color, Highlight.configure({ multicolor: true })],
     content: "",
     editorProps: {
       attributes: {

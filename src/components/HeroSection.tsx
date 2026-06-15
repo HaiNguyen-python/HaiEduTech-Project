@@ -47,7 +47,7 @@ const HeroSection = () => {
   return (
     <section className="relative flex items-center justify-center overflow-hidden py-8 sm:py-10 lg:min-h-[90vh]">
       <div className="absolute inset-0">
-        <img src={heroBg} alt="" width="1920" height="1080" fetchPriority="high" decoding="async" className="w-full h-full object-cover opacity-15" />
+        <img src={heroBg} alt="" width="1920" height="1080" {...({ fetchpriority: "high" } as any)} decoding="async" className="w-full h-full object-cover opacity-15" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
         <div className="absolute inset-0 cyber-grid opacity-10" />
       </div>
@@ -86,7 +86,7 @@ const HeroSection = () => {
               className="w-full max-w-[320px] shrink-0 sm:max-w-[360px]"
             >
               <div className="aspect-square overflow-hidden rounded-[1.75rem] border-2 border-emerald-500 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
-                <img src={haiProfile} alt="Teacher Hai" width="720" height="720" fetchPriority="high" decoding="async" className="h-full w-full object-cover" />
+                <img src={haiProfile} alt="Teacher Hai" width="720" height="720" {...({ fetchpriority: "high" } as any)} decoding="async" className="h-full w-full object-cover" />
               </div>
             </motion.div>
 
