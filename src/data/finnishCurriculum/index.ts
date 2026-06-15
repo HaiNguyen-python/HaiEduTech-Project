@@ -22,3 +22,4 @@ export { finnishLessonExpansion6Modules } from "./lessonsExpansion6";
 export { finnishVocabExpansion6Modules } from "./vocabularyExpansion6";
 export { finnishVocabExpansion7Modules } from "./vocabularyExpansion7";
 export { finnishLessonExpansion7Modules } from "./lessonsExpansion7";
+export { finnishMockExamExpansion5Modules } from "./mockExamExpansion5";
