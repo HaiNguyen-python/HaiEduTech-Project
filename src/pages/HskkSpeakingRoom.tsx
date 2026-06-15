@@ -23,6 +23,7 @@ import {
 } from "@/data/hskkPrompts";
 import { Mic, MicOff, Volume2, Loader2, ChevronLeft, ChevronRight, Sparkles, BookOpen, Lightbulb } from "lucide-react";
 import { motion } from "framer-motion";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 // ----- Web Speech API typings (mini) -----
 type SpeechRecognitionLike = {
