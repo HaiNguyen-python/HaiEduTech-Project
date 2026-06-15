@@ -243,9 +243,10 @@ const EdTechResearch = () => {
             <div>
               <h2 className="text-2xl font-bold">Pillar 1 — Published & Ongoing Papers</h2>
               <p className="text-sm text-muted-foreground">
-                Các bài nghiên cứu và tiểu luận của Hai Nguyen
+                Working papers and essays by Hai Nguyen and the HaiEduTech Lab.
               </p>
             </div>
+
           </div>
 
           <div className="grid gap-4">
