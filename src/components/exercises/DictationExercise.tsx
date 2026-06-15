@@ -24,6 +24,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [playedAudio, setPlayedAudio] = useState<Record<number, boolean>>({});
+  const startedAtRef = useRef<number>(Date.now());
 
   const handleChange = (idx: number, value: string) => {
     if (submitted) return;
@@ -42,11 +43,28 @@ const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish
     }
   };
 
-  const handleSubmit = () => setSubmitted(true);
+  const handleSubmit = () => {
+    setSubmitted(true);
+    const correctCount = sentences.reduce((acc, _, i) => acc + (isCorrect(i) ? 1 : 0), 0);
+    const elapsed = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000));
+    logStudentActivity({
+      activityType: "vietnamese_dictation",
+      score: correctCount,
+      maxScore: sentences.length,
+      timeSpentSeconds: elapsed,
+      metadata: {
+        total: sentences.length,
+        correct: correctCount,
+        percent: Math.round((correctCount / Math.max(sentences.length, 1)) * 100),
+        instruction: forceEnglish ? instructionEn : instruction,
+      },
+    });
+  };
   const handleReset = () => {
     setAnswers({});
     setSubmitted(false);
     setPlayedAudio({});
+    startedAtRef.current = Date.now();
   };
 
   const normalize = (s: string) => s.trim().toLowerCase().replace(/[.,!?;:'"]/g, "").replace(/\s+/g, " ");
