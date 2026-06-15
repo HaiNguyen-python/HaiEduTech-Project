@@ -435,9 +435,9 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
 // ============================================================
 export const NEWCOMER_CATEGORIES: NewcomerCategory[] = _NEWCOMER_CATEGORIES_BASE.map((cat) => {
   if (cat.id === "admin") return { ...cat, guides: [...cat.guides, ...HOUSING_GUIDES, ...BANKING_GUIDES] };
-  if (cat.id === "daily") return { ...cat, guides: [...cat.guides, ...SHOPPING_GUIDES, ...SEASONAL_GUIDES, ...TRANSPORT_GUIDES] };
-  if (cat.id === "work") return { ...cat, guides: [...cat.guides, ...STUDENT_TIPS_GUIDES, ...CULTURE_GUIDES] };
-  if (cat.id === "health") return { ...cat, guides: [...cat.guides, ...FAMILY_HEALTH_GUIDES, ...ADVANCED_HEALTH_GUIDES] };
+  if (cat.id === "daily") return { ...cat, guides: [...cat.guides, ...SHOPPING_GUIDES, ...SEASONAL_GUIDES, ...TRANSPORT_GUIDES, ...LIBRARY_GUIDES] };
+  if (cat.id === "work") return { ...cat, guides: [...cat.guides, ...STUDENT_TIPS_GUIDES, ...CULTURE_GUIDES, ...INTEGRATION_GUIDES] };
+  if (cat.id === "health") return { ...cat, guides: [...cat.guides, ...FAMILY_HEALTH_GUIDES, ...ADVANCED_HEALTH_GUIDES, ...WINTER_SAFETY_GUIDES] };
   return cat;
 });
 export interface ChecklistItem {
