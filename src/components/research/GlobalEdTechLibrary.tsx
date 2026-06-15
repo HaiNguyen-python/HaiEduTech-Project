@@ -483,13 +483,14 @@ const EFFECT_SIZES = [
 ];
 
 const SOURCE_MIX = [
-  { name: "arXiv", value: 3 },
-  { name: "Springer / Elsevier", value: 4 },
-  { name: "IEEE / ACM", value: 2 },
-  { name: "ERIC / RG", value: 2 },
-  { name: "OECD / UNESCO", value: 2 },
-  { name: "Google Scholar", value: 1 },
+  { name: "arXiv", value: 6 },
+  { name: "Springer / Elsevier", value: 9 },
+  { name: "IEEE / ACM", value: 3 },
+  { name: "ERIC / ResearchGate", value: 4 },
+  { name: "OECD / UNESCO", value: 3 },
+  { name: "Google Scholar / SSRN", value: 5 },
 ];
+
 
 const PIE_COLORS = [
   "hsl(var(--primary))",
