@@ -64,34 +64,34 @@ type Paper = {
 const PAPERS: Paper[] = [
   {
     title:
-      "Ứng dụng Học máy giải quyết bài toán cảnh báo sớm học viên học yếu",
+      "Machine Learning for Early-Warning Detection of At-Risk Learners",
     topic: "Learning Analytics · Early-Warning ML",
     status: "Preprint",
     year: "2026",
     abstract:
-      "Mô hình phân loại gradient-boosting kết hợp tín hiệu hành vi (đăng nhập, streak, độ chính xác từ vựng) để dự đoán nguy cơ tụt hạng trong vòng 14 ngày, cho phép giáo viên can thiệp đúng thời điểm.",
+      "A gradient-boosting classifier fuses behavioural signals (logins, streaks, vocabulary accuracy) to predict the probability of disengagement within 14 days, enabling timely teacher intervention.",
   },
   {
     title:
-      "Tối ưu hóa vòng lặp phản hồi của Trợ lý AI (LLM Feedback Loops) trong sư phạm ngôn ngữ",
+      "Optimising LLM Feedback Loops for Language Pedagogy",
     topic: "LLM Pedagogy · Human-in-the-loop",
     status: "Ongoing",
     year: "2026",
     abstract:
-      "Khảo sát thiết kế micro-survey cuối bài học và đo lường mức cải thiện độ phù hợp prompt theo thời gian — đề xuất khung RLHF nhẹ dành riêng cho lớp học ngoại ngữ quy mô nhỏ.",
+      "End-of-lesson micro-surveys feed a lightweight RLHF pipeline that progressively improves prompt fit. The paper proposes an evaluation framework for small-cohort language classrooms.",
   },
   {
     title:
-      "Mô hình cá nhân hóa lộ trình học tiếng Anh dựa trên Học sâu Tăng cường (Reinforcement Learning)",
+      "Reinforcement Learning for Adaptive English Curriculum Personalisation",
     topic: "Adaptive Learning · Deep RL",
     status: "Preprint",
     year: "2026",
     abstract:
-      "Trình bày kiến trúc agent chọn bài học kế tiếp dựa trên trạng thái kỹ năng (skill profile) và phần thưởng tổng hợp từ điểm số + thời gian giữ chân, đối chiếu với baseline tuyến tính.",
+      "An agent selects the next lesson conditioned on a skill profile, using a composite reward that blends short-term scores and longer-term retention, benchmarked against a linear baseline.",
   },
 ];
 
-// Mock-style behavioural insight dataset (aggregated, anonymised representation).
+// Aggregated behavioural insight dataset (anonymised, illustrative).
 const RETENTION = [
   { week: "W1", retention: 100 },
   { week: "W2", retention: 78 },
@@ -111,16 +111,18 @@ const AI_INTERACTIONS = [
 ];
 
 const TOOL_OPTIONS = [
-  "AI Chatbot sửa lỗi sai",
-  "Dashboard theo dõi tiến độ",
-  "Hệ thống chấm công/báo cáo tự động",
-  "Bài tập gamification",
+  "AI chatbot for error correction",
+  "Progress tracking dashboard",
+  "Automated attendance / payroll",
+  "Gamified practice exercises",
+  "Multimodal speaking coach",
+  "RL-based adaptive curriculum",
 ];
 
 const ROLE_OPTIONS = [
-  { value: "student", label: "Học sinh" },
-  { value: "teacher", label: "Giáo viên" },
-  { value: "parent", label: "Phụ huynh" },
+  { value: "student", label: "Student" },
+  { value: "teacher", label: "Teacher" },
+  { value: "parent", label: "Parent" },
 ];
 
 const insightSchema = z.object({
@@ -135,6 +137,7 @@ const statusColor: Record<Paper["status"], string> = {
   Ongoing: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-300",
   Published: "bg-emerald-500/15 text-emerald-700 border-emerald-500/30 dark:text-emerald-300",
 };
+
 
 const EdTechResearch = () => {
   const [role, setRole] = useState<string>("");
