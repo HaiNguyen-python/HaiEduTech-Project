@@ -407,9 +407,10 @@ const EdTechResearch = () => {
             EdTech Research
           </h1>
           <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
-            A transparent academic space: active research papers, anonymised
-            behavioural insights, and open surveys so the global community can
-            help shape the future of education technology.
+            A transparent academic space curated by HaiEduTech: a recommended reading
+            list of leading EdTech papers, anonymised behavioural insights from our own
+            classrooms, and open surveys so the global community can help shape the future
+            of education technology.
           </p>
 
         </motion.section>
