@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 export type LearningDomain = "english" | "chinese" | "programming";
 
 interface ActivityPayload {
-  activityType: string; // 'thpt_exam', 'ielts_writing', 'ielts_speaking', 'python_challenge', 'conv_english', 'conv_chinese'
+  activityType: string; // 'thpt_exam', 'ielts_writing', 'ielts_speaking', 'python_challenge', 'conv_english', 'conv_chinese', 'vocab_mastered', ...
   activityId?: string;  // exam id, essay id, etc.
   score: number;
   maxScore?: number;
@@ -15,8 +15,12 @@ interface ActivityPayload {
   metadata?: Record<string, any>; // category breakdown, mistakes, etc.
 }
 
-// Auto-detect domain from activity type
-function inferDomain(activityType: string): LearningDomain {
+// Auto-detect domain from activity type. Programming/Chinese have explicit
+// prefixes; everything else (English, IELTS, TOEIC, Cambridge, SAT, PTE,
+// Swedish, Finnish, Vietnamese) maps to "english" because the RL engine only
+// recognises three domains today — keeping a single bucket avoids dropping
+// activity from the dashboard charts.
+function inferDomain(activityType: string, metadata?: Record<string, any>): LearningDomain {
   const t = activityType.toLowerCase();
   // Chinese
   if (
@@ -29,6 +33,11 @@ function inferDomain(activityType: string): LearningDomain {
     t.startsWith("python") || t.startsWith("sql") || t === "coding_quiz" ||
     t.includes("programming") || t.includes("scratch") || t.includes("ml_") || t.includes("spark")
   ) return "programming";
+  // Vocab mastery follows its subject
+  if (t === "vocab_mastered" && typeof metadata?.subject === "string") {
+    const sub = (metadata.subject as string).toLowerCase();
+    if (sub === "hsk" || sub.includes("chinese")) return "chinese";
+  }
   // English (default)
   return "english";
 }
@@ -38,7 +47,7 @@ export async function logStudentActivity(payload: ActivityPayload) {
     const { data: { session } } = await supabase.auth.getSession(); const user = session?.user ?? null;
     if (!user) return; // Only log for authenticated users
 
-    const domain = payload.domain || inferDomain(payload.activityType);
+    const domain = payload.domain || inferDomain(payload.activityType, payload.metadata);
 
     const { error } = await supabase.from("student_activity_log").insert({
       user_id: user.id,

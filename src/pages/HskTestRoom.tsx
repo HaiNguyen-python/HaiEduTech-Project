@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { HSK_TESTS, HSK_TESTS_BY_LEVEL, findHskTestByCode, totalQuestions, type HskQuestion } from "@/data/hskTests";
 import { inferReadingEmoji } from "@/lib/hskReadingIllustration";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 const speakZh = (text: string, rate = 0.85) => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
@@ -69,6 +70,31 @@ const HskTestRoom = () => {
     }, 1000);
     return () => clearInterval(id);
   }, [test, submitted]);
+
+  // Log to RL pipeline when the exam is submitted (or auto-submitted by timer)
+  const loggedRef = useRef(false);
+  useEffect(() => {
+    if (!submitted || !test || loggedRef.current) return;
+    loggedRef.current = true;
+    const totalQs = totalQuestions(test);
+    let correct = 0;
+    test.sections.forEach(sec => sec.questions.forEach(q => { if (answers[q.id] === q.correct) correct++; }));
+    const elapsed = test.durationMin * 60 - secondsLeft;
+    logStudentActivity({
+      activityType: "hsk_test",
+      activityId: test.code ?? `hsk-${lv}`,
+      score: correct,
+      maxScore: totalQs,
+      timeSpentSeconds: elapsed > 0 ? elapsed : undefined,
+      domain: "chinese",
+      metadata: {
+        level: lv,
+        testCode: test.code,
+        total_questions: totalQs,
+        percent: Math.round((correct / Math.max(totalQs, 1)) * 100),
+      },
+    });
+  }, [submitted, test, answers, secondsLeft, lv]);
 
   if (!test) {
     return (

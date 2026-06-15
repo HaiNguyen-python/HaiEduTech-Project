@@ -43,6 +43,8 @@ import {
   type ToeicPart,
   type ToeicSWTask,
 } from "@/data/toeicExams";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
+
 
 const HISTORY_KEY = "toeic-score-history";
 
@@ -194,6 +196,27 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
       examId: exam.id,
       examTitle: exam.title,
       scoreLR: lScore + rScore,
+    });
+    // RL pipeline: track raw correct/total ratio across L+R.
+    const total = listeningQs.length + readingQs.length;
+    const correct = lc + rc;
+    const elapsed = exam.durationSec - timeLeft;
+    logStudentActivity({
+      activityType: "toeic_lr_exam",
+      activityId: exam.id,
+      score: correct,
+      maxScore: total,
+      timeSpentSeconds: elapsed > 0 ? elapsed : undefined,
+      metadata: {
+        examId: exam.id,
+        examTitle: exam.title,
+        listening_correct: lc,
+        listening_total: listeningQs.length,
+        reading_correct: rc,
+        reading_total: readingQs.length,
+        scaled_lr: lScore + rScore,
+        percent: Math.round((correct / Math.max(total, 1)) * 100),
+      },
     });
   }
 
@@ -734,6 +757,24 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       examTitle: exam.title,
       scoreSpeaking: sScore,
       scoreWriting: wScore,
+    });
+    // RL pipeline: completion-rate score across SW tasks (combined out of 400).
+    const totalTasks = exam.speakingTasks.length + exam.writingTasks.length;
+    const completed = sCount + wCount;
+    logStudentActivity({
+      activityType: "toeic_sw_exam",
+      activityId: exam.id,
+      score: completed,
+      maxScore: Math.max(totalTasks, 1),
+      metadata: {
+        examId: exam.id,
+        speaking_completed: sCount,
+        speaking_total: exam.speakingTasks.length,
+        writing_completed: wCount,
+        writing_total: exam.writingTasks.length,
+        scaled_sw: sScore + wScore,
+        percent: Math.round((completed / Math.max(totalTasks, 1)) * 100),
+      },
     });
     alert(t(
       `Đã lưu kết quả: Speaking ${sScore}/200 · Writing ${wScore}/200`,

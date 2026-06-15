@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import SEO from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import {
   IELTS_FULL_READING_EXAMS as _BASE_EXAMS,
   type ReadingExam,
@@ -404,6 +405,26 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
       return next;
     });
   }, []);
+
+  const submitLoggedRef = useRef(false);
+  useEffect(() => {
+    if (!submitted || submitLoggedRef.current) return;
+    submitLoggedRef.current = true;
+    const elapsed = exam.durationMinutes * 60 - secondsLeft;
+    logStudentActivity({
+      activityType: "ielts_reading",
+      activityId: exam.id,
+      score,
+      maxScore: exam.questions.length,
+      timeSpentSeconds: elapsed > 0 ? elapsed : undefined,
+      metadata: {
+        examId: exam.id,
+        total_questions: exam.questions.length,
+        percent: Math.round((score / Math.max(exam.questions.length, 1)) * 100),
+        mode: "single_exam",
+      },
+    });
+  }, [submitted, exam, score, secondsLeft]);
 
   const handleSubmit = () => setSubmitted(true);
 
@@ -807,6 +828,26 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
     }
     onClose();
   };
+
+  const fullTestLoggedRef = useRef(false);
+  useEffect(() => {
+    if (!submitted || fullTestLoggedRef.current) return;
+    fullTestLoggedRef.current = true;
+    const elapsed = test.durationMinutes * 60 - secondsLeft;
+    logStudentActivity({
+      activityType: "ielts_reading",
+      activityId: test.id,
+      score,
+      maxScore: totalQs,
+      timeSpentSeconds: elapsed > 0 ? elapsed : undefined,
+      metadata: {
+        testId: test.id,
+        total_questions: totalQs,
+        percent: Math.round((score / Math.max(totalQs, 1)) * 100),
+        mode: "full_test",
+      },
+    });
+  }, [submitted, test, score, totalQs, secondsLeft]);
 
   const currentPassage = passages[activePassage];
   const currentItems = flat.filter(i => i.passageIndex === activePassage);

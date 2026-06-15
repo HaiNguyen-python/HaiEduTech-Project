@@ -107,6 +107,18 @@ export function useMasteredVocab(subject: string) {
             .then(() => {
               window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
             });
+          // Log vocab mastery into the central activity pipeline so the RL
+          // dispatcher counts vocabulary review as meaningful engagement.
+          // Fire-and-forget: never blocks the UI.
+          import("@/hooks/useActivityLogger").then(({ logStudentActivity }) => {
+            logStudentActivity({
+              activityType: "vocab_mastered",
+              activityId: `${subject}:${word}`,
+              score: 1,
+              maxScore: 1,
+              metadata: { subject, word, source: "useMasteredVocab" },
+            });
+          }).catch(() => { /* never crash on logging */ });
         }
       } else {
         window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));

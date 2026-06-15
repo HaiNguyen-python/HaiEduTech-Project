@@ -30,6 +30,7 @@ import {
   getPlacementBank, parseSubject, SUBJECT_META,
 } from "@/data/placementBanks";
 import Navbar from "@/components/Navbar";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 /** Module-level current speak locale; set by the main component per subject. */
 let CURRENT_SPEAK_LANG = "en-US";
@@ -321,6 +322,24 @@ const PlacementTest = () => {
         status: "pending",
       });
       if (error) throw error;
+
+      // Log to RL pipeline so the placement run shows up in activity charts
+      // and counts toward "meaningful activities" for the dispatcher.
+      const elapsed = Math.round((Date.now() - startedAtRef.current) / 1000);
+      logStudentActivity({
+        activityType: "placement_test",
+        activityId: subject,
+        score: total,
+        maxScore: 100,
+        timeSpentSeconds: elapsed > 0 ? elapsed : undefined,
+        domain: subject === "programming" ? "programming" : "english",
+        metadata: {
+          subject,
+          cefr,
+          listening, reading, writing, speaking,
+          tech: subject === "programming" ? techMetrics : undefined,
+        },
+      });
 
       setDone({ total, cefr });
       toast.success("Placement test submitted!");

@@ -333,16 +333,30 @@ Deno.serve(async (req) => {
     body = lines.join('\n');
   }
 
-  if (true) {
+  // Only ping the bell when there's something teachers need to know.
+  // "All green, nothing recovered, no warnings" → silent (prevents twice-daily noise).
+  const shouldNotify = failed > 0 || auto_recovered > 0 || warned > 0;
+  if (shouldNotify) {
     const { data: staffRoles } = await sb
       .from('user_roles')
       .select('user_id')
       .in('role', ['teacher', 'admin']);
     if (staffRoles && staffRoles.length > 0) {
       const uniqueIds = [...new Set((staffRoles as Array<{ user_id: string }>).map((r) => r.user_id))];
-      await sb.from('assignment_notifications').insert(
-        uniqueIds.map((uid) => ({ user_id: uid, title, body, route: '/admin?tab=health' })),
-      );
+      // Dedup: skip if an identical title was inserted in the last 6 hours.
+      const sinceIso = new Date(Date.now() - 6 * 3600_000).toISOString();
+      const { data: recent } = await sb
+        .from('assignment_notifications')
+        .select('user_id, title, created_at')
+        .eq('title', title)
+        .gte('created_at', sinceIso);
+      const skip = new Set<string>((recent ?? []).map((r: any) => r.user_id as string));
+      const toInsert = uniqueIds.filter((uid) => !skip.has(uid));
+      if (toInsert.length > 0) {
+        await sb.from('assignment_notifications').insert(
+          toInsert.map((uid) => ({ user_id: uid, title, body, route: '/admin?tab=health' })),
+        );
+      }
     }
   }
 

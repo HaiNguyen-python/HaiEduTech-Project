@@ -81,10 +81,13 @@ export function computeStudentState(
     programming: { totalScore: 0, count: 0 },
   };
 
-  // Process each activity to extract skill-level data
+  // Process each activity to extract skill-level data.
+  // Skip rows that have no real score (heartbeat / daily_login / vocab tracking
+  // markers) so the average isn't dragged down to 0.
   for (const act of activities) {
-    const score = act.score ?? 0;
-    const maxScore = act.max_score ?? 10;
+    if (act.score == null || act.max_score == null || (act.max_score ?? 0) <= 0) continue;
+    const score = act.score;
+    const maxScore = act.max_score;
     const normalized = (score / maxScore) * 10;
     const rawDomain = (act.domain as string) || "english";
     // Map unknown domains (e.g., "platform") to "english" to avoid undefined access
@@ -132,8 +135,9 @@ export function computeStudentState(
   const weakestAreas = sorted.slice(0, 3).map(([k]) => k);
   const strongestAreas = sorted.slice(-3).reverse().map(([k]) => k);
 
-  // Compute recent trend from last 5 activities
-  const recent = activities.slice(-5);
+  // Compute recent trend from last 5 scored activities only
+  const scoredActs = activities.filter(a => a.score != null && (a.max_score ?? 0) > 0);
+  const recent = scoredActs.slice(-5);
   let trend: "improving" | "declining" | "stable" = "stable";
   if (recent.length >= 3) {
     const firstHalf = recent.slice(0, Math.floor(recent.length / 2));
@@ -144,8 +148,8 @@ export function computeStudentState(
     else if (avgFirst - avgSecond > 0.5) trend = "declining";
   }
 
-  const avgScore = activities.length > 0
-    ? activities.reduce((s, a) => s + ((a.score ?? 0) / (a.max_score ?? 10)) * 10, 0) / activities.length
+  const avgScore = scoredActs.length > 0
+    ? scoredActs.reduce((s, a) => s + ((a.score ?? 0) / (a.max_score ?? 10)) * 10, 0) / scoredActs.length
     : 0;
 
   return {

@@ -19,6 +19,7 @@ import DOMPurify from "dompurify";
 import { ieltsListeningBand, bandColor } from "@/lib/ieltsListeningBand";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 type AccentKey = "en-GB" | "en-US" | "en-AU";
 const ACCENT_LABELS: Record<AccentKey, string> = {
@@ -797,7 +798,25 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           {!submitted ? (
-            <Button onClick={() => { setSubmitted(true); setShowTranscript(true); stop(); }} className="gap-2">
+            <Button onClick={() => {
+              setSubmitted(true);
+              setShowTranscript(true);
+              stop();
+              // Log to RL pipeline — score = correct/total, band stored in metadata.
+              logStudentActivity({
+                activityType: "ielts_listening",
+                activityId: s.id,
+                score,
+                maxScore: s.questions.length,
+                metadata: {
+                  setId: s.id,
+                  section: s.section,
+                  percent,
+                  band,
+                  total_questions: s.questions.length,
+                },
+              });
+            }} className="gap-2">
               <CheckCircle2 className="w-4 h-4" /> {t("Nộp bài", "Submit answers")}
             </Button>
           ) : (
