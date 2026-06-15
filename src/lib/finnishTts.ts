@@ -259,7 +259,7 @@ export const playFinnishTts = async (text: string, options: FinnishTtsOptions = 
     try {
       await playFromProxy(chunk, playbackRate, isCurrent);
       return true;
-    } catch (error) {
+    } catch {
       if (!isCurrent()) return false;
     }
 
