@@ -57,7 +57,7 @@ import { finnishLessonExpansion5Modules } from "@/data/finnishCurriculum/lessons
 import { finnishLessonExpansion6Modules } from "@/data/finnishCurriculum/lessonsExpansion6";
 import { finnishLessonExpansion7Modules } from "@/data/finnishCurriculum/lessonsExpansion7";
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules, ...finnishVocabExpansion5Modules, ...finnishVocabExpansion6Modules, ...finnishVocabExpansion7Modules];
-const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules, ...finnishMockExamExpansion3Modules, ...finnishMockExamExpansion4Modules];
+const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules, ...finnishMockExamExpansion3Modules, ...finnishMockExamExpansion4Modules, ...finnishMockExamExpansion5Modules];
 const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules, ...finnishLessonExpansion2Modules, ...finnishLessonExpansion3Modules, ...finnishLessonExpansion4Modules, ...finnishLessonExpansion5Modules, ...finnishLessonExpansion6Modules, ...finnishLessonExpansion7Modules];
 
 // Verb conjugation helper data
