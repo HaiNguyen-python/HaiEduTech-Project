@@ -43,6 +43,8 @@ import {
   type ToeicPart,
   type ToeicSWTask,
 } from "@/data/toeicExams";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
+
 
 const HISTORY_KEY = "toeic-score-history";
 
