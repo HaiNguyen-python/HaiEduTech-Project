@@ -24,6 +24,8 @@ import {
   ClipboardList,
   BarChart3,
   Sparkles,
+  Users,
+  RefreshCw,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -60,8 +62,10 @@ import {
  * Lists active research projects from `research_projects`.
  * Each project opens a dialog with two tabs:
  *  - Project-specific survey (writes to `research_survey_responses`)
- *  - Project-specific data visualisations
- * All comments in English per project conventions.
+ *  - Project-specific visualisations (synthetic baseline + LIVE aggregation
+ *    of community responses, refreshed every time the tab is opened or the
+ *    user submits a new answer).
+ * All copy and comments are in English.
  */
 
 type ResearchProject = {
@@ -73,10 +77,12 @@ type ResearchProject = {
 };
 
 const ROLE_OPTIONS = [
-  { value: "student", label: "Học sinh" },
-  { value: "teacher", label: "Giáo viên" },
-  { value: "parent", label: "Phụ huynh" },
-  { value: "general", label: "Khác" },
+  { value: "student", label: "Student" },
+  { value: "teacher", label: "Teacher / Educator" },
+  { value: "researcher", label: "Researcher" },
+  { value: "engineer", label: "EdTech Engineer / PM" },
+  { value: "parent", label: "Parent" },
+  { value: "general", label: "Other" },
 ];
 
 const PIE_COLORS = [
@@ -85,6 +91,7 @@ const PIE_COLORS = [
   "hsl(38 92% 50%)",
   "hsl(280 65% 60%)",
   "hsl(0 84% 60%)",
+  "hsl(190 80% 50%)",
 ];
 
 export const ResearchProjectsSection = () => {
@@ -113,9 +120,10 @@ export const ResearchProjectsSection = () => {
           <FlaskConical className="w-5 h-5" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold">Research Projects · Đề tài đang triển khai</h2>
+          <h2 className="text-2xl font-bold">Research Projects · Active Studies</h2>
           <p className="text-sm text-muted-foreground">
-            Chọn đề tài để tham gia khảo sát chuyên biệt và xem trực quan hoá dữ liệu.
+            Choose a topic to take its dedicated survey and watch community responses
+            visualise in real time alongside the synthetic baseline.
           </p>
         </div>
       </div>
@@ -127,7 +135,7 @@ export const ResearchProjectsSection = () => {
       ) : projects.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="p-8 text-center text-muted-foreground">
-            Chưa có đề tài nào được kích hoạt.
+            No active research projects yet.
           </CardContent>
         </Card>
       ) : (
@@ -154,7 +162,7 @@ export const ResearchProjectsSection = () => {
                     onClick={() => setActiveProject(p)}
                     className="mt-4 self-start gap-2 bg-gradient-to-r from-primary to-emerald-500 text-primary-foreground hover:opacity-95"
                   >
-                    Xem chi tiết & tham gia khảo sát
+                    View details & take the survey
                     <ArrowRight className="w-4 h-4" />
                   </Button>
                 </CardContent>
@@ -191,6 +199,9 @@ const ProjectDetailDialog = ({
     [project]
   );
 
+  // Bumped after each successful submission so the live viz refetches.
+  const [refreshKey, setRefreshKey] = useState(0);
+
   return (
     <Dialog open={!!project} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
@@ -212,11 +223,11 @@ const ProjectDetailDialog = ({
               <TabsList className="grid grid-cols-2 w-full">
                 <TabsTrigger value="survey" className="gap-2">
                   <ClipboardList className="w-4 h-4" />
-                  Tham gia khảo sát
+                  Take the survey
                 </TabsTrigger>
                 <TabsTrigger value="viz" className="gap-2">
                   <BarChart3 className="w-4 h-4" />
-                  Trực quan hoá dữ liệu
+                  Data visualisation
                 </TabsTrigger>
               </TabsList>
 
@@ -224,12 +235,16 @@ const ProjectDetailDialog = ({
                 <SurveyForm
                   projectId={project.id}
                   config={config}
-                  onSubmitted={() => onOpenChange(false)}
+                  onSubmitted={() => setRefreshKey((k) => k + 1)}
                 />
               </TabsContent>
 
               <TabsContent value="viz" className="mt-4">
-                <VizPanel config={config} />
+                <VizPanel
+                  projectId={project.id}
+                  config={config}
+                  refreshKey={refreshKey}
+                />
               </TabsContent>
             </Tabs>
           </>
@@ -272,17 +287,16 @@ const SurveyForm = ({
     e.preventDefault();
     if (submitting) return;
     if (!role) {
-      toast.error("Vui lòng chọn vai trò của bạn.");
+      toast.error("Please select your role.");
       return;
     }
-    // Validate required questions
     for (const q of config.questions) {
       if (
         (q.type === "radio" || q.type === "select") &&
         q.required &&
         !answers[q.key]
       ) {
-        toast.error(`Vui lòng trả lời: ${q.label}`);
+        toast.error(`Please answer: ${q.label}`);
         return;
       }
     }
@@ -298,12 +312,15 @@ const SurveyForm = ({
         });
       if (error) throw error;
       toast.success(
-        "Cảm ơn bạn đã đóng góp insight cho đề tài nghiên cứu này! 🌿"
+        "Thanks for contributing to this research topic! Your response is now in the live data."
       );
+      // Refresh live aggregation; keep the dialog open so the user can switch to the viz tab.
       onSubmitted();
+      setAnswers({});
+      setRole("");
     } catch (err) {
       console.error(err);
-      toast.error("Gửi thất bại. Vui lòng thử lại.");
+      toast.error("Submission failed. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -321,10 +338,10 @@ const SurveyForm = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="role">Vai trò của bạn *</Label>
+        <Label htmlFor="role">Your role *</Label>
         <Select value={role} onValueChange={setRole}>
           <SelectTrigger id="role">
-            <SelectValue placeholder="Chọn vai trò..." />
+            <SelectValue placeholder="Select your role..." />
           </SelectTrigger>
           <SelectContent>
             {ROLE_OPTIONS.map((r) => (
@@ -357,7 +374,7 @@ const SurveyForm = ({
           ) : (
             <Send className="w-4 h-4" />
           )}
-          Gửi phản hồi
+          Submit response
         </Button>
       </div>
     </form>
@@ -381,7 +398,7 @@ const QuestionField = ({
         <Label>{q.label}{q.required && " *"}</Label>
         <Select value={value ?? ""} onValueChange={onChange}>
           <SelectTrigger>
-            <SelectValue placeholder="Chọn..." />
+            <SelectValue placeholder="Choose..." />
           </SelectTrigger>
           <SelectContent>
             {q.options.map((o) => (
@@ -517,118 +534,284 @@ const QuestionField = ({
   );
 };
 
+/**
+ * Build live response charts directly from `research_survey_responses`.
+ * For every categorical / scale question we produce a distribution chart so
+ * the visualisation updates the moment a new participant submits.
+ */
+type LiveChart = {
+  question: string;
+  kind: "bar" | "pie";
+  data: Array<{ name: string; value: number }>;
+};
 
-const VizPanel = ({ config }: { config: ProjectConfig }) => {
-  if (config.charts.length === 0) {
-    return (
-      <Card className="border-dashed">
-        <CardContent className="p-6 text-sm text-muted-foreground text-center">
-          Chưa có biểu đồ trực quan cho đề tài này.
-        </CardContent>
-      </Card>
-    );
+const buildLiveCharts = (
+  config: ProjectConfig,
+  responses: Array<{ user_role: string; answers: Record<string, any> }>
+): { charts: LiveChart[]; roleBreakdown: LiveChart } => {
+  const charts: LiveChart[] = [];
+
+  for (const q of config.questions) {
+    if (q.type === "radio" || q.type === "select") {
+      const counts = new Map<string, number>();
+      for (const r of responses) {
+        const v = r.answers?.[q.key];
+        if (typeof v === "string" && v) counts.set(v, (counts.get(v) ?? 0) + 1);
+      }
+      if (counts.size === 0) continue;
+      const labelMap = new Map(q.options.map((o) => [o.value, o.label]));
+      charts.push({
+        question: q.label,
+        kind: "pie",
+        data: Array.from(counts.entries()).map(([k, v]) => ({
+          name: labelMap.get(k) ?? k,
+          value: v,
+        })),
+      });
+    } else if (q.type === "checkbox") {
+      const counts = new Map<string, number>();
+      for (const r of responses) {
+        const arr = r.answers?.[q.key];
+        if (Array.isArray(arr)) {
+          for (const v of arr) {
+            if (typeof v === "string") counts.set(v, (counts.get(v) ?? 0) + 1);
+          }
+        }
+      }
+      if (counts.size === 0) continue;
+      const labelMap = new Map(q.options.map((o) => [o.value, o.label]));
+      charts.push({
+        question: q.label,
+        kind: "bar",
+        data: Array.from(counts.entries()).map(([k, v]) => ({
+          name: labelMap.get(k) ?? k,
+          value: v,
+        })),
+      });
+    } else if (q.type === "scale" || q.type === "slider" || q.type === "number") {
+      const counts = new Map<number, number>();
+      for (const r of responses) {
+        const v = r.answers?.[q.key];
+        if (typeof v === "number") counts.set(v, (counts.get(v) ?? 0) + 1);
+      }
+      if (counts.size === 0) continue;
+      const sorted = Array.from(counts.entries()).sort((a, b) => a[0] - b[0]);
+      charts.push({
+        question: q.label,
+        kind: "bar",
+        data: sorted.map(([k, v]) => ({ name: String(k), value: v })),
+      });
+    }
   }
-  return (
-    <div className="space-y-4">
-      <div className="grid lg:grid-cols-2 gap-4">
-        {config.charts.map((chart, i) => (
-          <Card key={i}>
-            <CardContent className="p-4">
-              <div className="text-sm font-semibold mb-3">{chart.title}</div>
-              <ResponsiveContainer width="100%" height={240}>
-                {chart.kind === "bar" ? (
-                  <BarChart data={chart.data}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                    <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
-                    <YAxis tick={{ fontSize: 11 }} />
-                    <Tooltip />
-                    <Bar
-                      dataKey={chart.dataKey}
-                      fill="hsl(var(--primary))"
-                      radius={[6, 6, 0, 0]}
-                    />
-                  </BarChart>
-                ) : chart.kind === "groupedBar" ? (
-                  <BarChart data={chart.data}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                    <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
-                    <YAxis tick={{ fontSize: 11 }} />
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
-                    {chart.series.map((s) => (
-                      <Bar
-                        key={s.key}
-                        dataKey={s.key}
-                        name={s.label}
-                        fill={s.color ?? "hsl(var(--primary))"}
-                        radius={[6, 6, 0, 0]}
-                      />
-                    ))}
-                  </BarChart>
-                ) : chart.kind === "line" ? (
-                  <LineChart data={chart.data}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                    <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
-                    <YAxis tick={{ fontSize: 11 }} />
-                    <Tooltip />
-                    <Line
-                      type="monotone"
-                      dataKey={chart.dataKey}
-                      stroke="hsl(var(--primary))"
-                      strokeWidth={2.5}
-                      dot={{ r: 3 }}
-                    />
-                  </LineChart>
-                ) : chart.kind === "multiLine" ? (
-                  <LineChart data={chart.data}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                    <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
-                    <YAxis tick={{ fontSize: 11 }} />
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
-                    {chart.series.map((s) => (
-                      <Line
-                        key={s.key}
-                        type="monotone"
-                        dataKey={s.key}
-                        name={s.label}
-                        stroke={s.color ?? "hsl(var(--primary))"}
-                        strokeWidth={2.5}
-                        dot={{ r: 2 }}
-                      />
-                    ))}
-                  </LineChart>
-                ) : (
-                  <PieChart>
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
-                    <Pie
-                      data={chart.data}
-                      dataKey={chart.dataKey}
-                      nameKey={chart.nameKey}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={75}
-                      label={{ fontSize: 10 }}
-                    >
-                      {chart.data.map((_, idx) => (
-                        <Cell key={idx} fill={PIE_COLORS[idx % PIE_COLORS.length]} />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                )}
-              </ResponsiveContainer>
 
+  const roleCounts = new Map<string, number>();
+  for (const r of responses) {
+    if (r.user_role) {
+      roleCounts.set(r.user_role, (roleCounts.get(r.user_role) ?? 0) + 1);
+    }
+  }
+  const roleLabel = new Map(ROLE_OPTIONS.map((o) => [o.value, o.label]));
+  const roleBreakdown: LiveChart = {
+    question: "Respondent roles",
+    kind: "pie",
+    data: Array.from(roleCounts.entries()).map(([k, v]) => ({
+      name: roleLabel.get(k) ?? k,
+      value: v,
+    })),
+  };
+
+  return { charts, roleBreakdown };
+};
+
+const VizPanel = ({
+  projectId,
+  config,
+  refreshKey,
+}: {
+  projectId: string;
+  config: ProjectConfig;
+  refreshKey: number;
+}) => {
+  const [responses, setResponses] = useState<
+    Array<{ user_role: string; answers: Record<string, any> }>
+  >([]);
+  const [loadingResp, setLoadingResp] = useState(true);
+
+  const loadResponses = async () => {
+    setLoadingResp(true);
+    const { data, error } = await supabase
+      .from("research_survey_responses")
+      .select("user_role,answers")
+      .eq("project_id", projectId)
+      .order("created_at", { ascending: false })
+      .limit(1000);
+    if (!error) {
+      setResponses(
+        (data ?? []).map((r: any) => ({
+          user_role: r.user_role ?? "",
+          answers: (r.answers ?? {}) as Record<string, any>,
+        }))
+      );
+    }
+    setLoadingResp(false);
+  };
+
+  useEffect(() => {
+    loadResponses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId, refreshKey]);
+
+  const { charts: liveCharts, roleBreakdown } = useMemo(
+    () => buildLiveCharts(config, responses),
+    [config, responses]
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Live community responses — appears as soon as data is submitted. */}
+      <section>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4 text-primary" />
+            <h4 className="text-sm font-semibold">
+              Live community responses · n = {responses.length}
+            </h4>
+          </div>
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            onClick={loadResponses}
+            className="gap-1.5 h-8"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loadingResp ? "animate-spin" : ""}`} />
+            Refresh
+          </Button>
+        </div>
+
+        {responses.length === 0 ? (
+          <Card className="border-dashed">
+            <CardContent className="p-6 text-sm text-muted-foreground text-center">
+              Be the first to contribute — submit the survey and your answer will
+              appear here instantly.
             </CardContent>
           </Card>
-        ))}
-      </div>
+        ) : (
+          <div className="grid lg:grid-cols-2 gap-4">
+            <LiveChartCard chart={roleBreakdown} />
+            {liveCharts.map((c, i) => (
+              <LiveChartCard key={i} chart={c} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Synthetic baseline reference charts. */}
+      {config.charts.length > 0 && (
+        <section>
+          <h4 className="text-sm font-semibold mb-3 text-muted-foreground">
+            Baseline (synthetic reference data)
+          </h4>
+          <div className="grid lg:grid-cols-2 gap-4">
+            {config.charts.map((chart, i) => (
+              <Card key={i}>
+                <CardContent className="p-4">
+                  <div className="text-sm font-semibold mb-3">{chart.title}</div>
+                  <ResponsiveContainer width="100%" height={240}>
+                    {chart.kind === "bar" ? (
+                      <BarChart data={chart.data}>
+                        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                        <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
+                        <YAxis tick={{ fontSize: 11 }} />
+                        <Tooltip />
+                        <Bar
+                          dataKey={chart.dataKey}
+                          fill="hsl(var(--primary))"
+                          radius={[6, 6, 0, 0]}
+                        />
+                      </BarChart>
+                    ) : chart.kind === "groupedBar" ? (
+                      <BarChart data={chart.data}>
+                        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                        <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
+                        <YAxis tick={{ fontSize: 11 }} />
+                        <Tooltip />
+                        <Legend wrapperStyle={{ fontSize: 11 }} />
+                        {chart.series.map((s) => (
+                          <Bar
+                            key={s.key}
+                            dataKey={s.key}
+                            name={s.label}
+                            fill={s.color ?? "hsl(var(--primary))"}
+                            radius={[6, 6, 0, 0]}
+                          />
+                        ))}
+                      </BarChart>
+                    ) : chart.kind === "line" ? (
+                      <LineChart data={chart.data}>
+                        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                        <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
+                        <YAxis tick={{ fontSize: 11 }} />
+                        <Tooltip />
+                        <Line
+                          type="monotone"
+                          dataKey={chart.dataKey}
+                          stroke="hsl(var(--primary))"
+                          strokeWidth={2.5}
+                          dot={{ r: 3 }}
+                        />
+                      </LineChart>
+                    ) : chart.kind === "multiLine" ? (
+                      <LineChart data={chart.data}>
+                        <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                        <XAxis dataKey={chart.xKey} tick={{ fontSize: 11 }} />
+                        <YAxis tick={{ fontSize: 11 }} />
+                        <Tooltip />
+                        <Legend wrapperStyle={{ fontSize: 11 }} />
+                        {chart.series.map((s) => (
+                          <Line
+                            key={s.key}
+                            type="monotone"
+                            dataKey={s.key}
+                            name={s.label}
+                            stroke={s.color ?? "hsl(var(--primary))"}
+                            strokeWidth={2.5}
+                            dot={{ r: 2 }}
+                          />
+                        ))}
+                      </LineChart>
+                    ) : (
+                      <PieChart>
+                        <Tooltip />
+                        <Legend wrapperStyle={{ fontSize: 11 }} />
+                        <Pie
+                          data={chart.data}
+                          dataKey={chart.dataKey}
+                          nameKey={chart.nameKey}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={75}
+                          label={{ fontSize: 10 }}
+                        >
+                          {chart.data.map((_, idx) => (
+                            <Cell key={idx} fill={PIE_COLORS[idx % PIE_COLORS.length]} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    )}
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
 
       <Card className="border-dashed">
         <CardContent className="p-4">
           <div className="flex items-center gap-2 text-sm font-semibold mb-2">
             <Sparkles className="w-4 h-4 text-amber-500" />
-            Insight nổi bật
+            Key insights
           </div>
           <ul className="text-sm text-muted-foreground space-y-1.5 list-disc pl-5">
             {config.insights.map((s, i) => (
@@ -638,6 +821,46 @@ const VizPanel = ({ config }: { config: ProjectConfig }) => {
         </CardContent>
       </Card>
     </div>
+  );
+};
+
+const LiveChartCard = ({ chart }: { chart: LiveChart }) => {
+  if (chart.data.length === 0) return null;
+  return (
+    <Card>
+      <CardContent className="p-4">
+        <div className="text-sm font-semibold mb-3">{chart.question}</div>
+        <ResponsiveContainer width="100%" height={220}>
+          {chart.kind === "pie" ? (
+            <PieChart>
+              <Tooltip />
+              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Pie
+                data={chart.data}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={70}
+                label={{ fontSize: 10 }}
+              >
+                {chart.data.map((_, idx) => (
+                  <Cell key={idx} fill={PIE_COLORS[idx % PIE_COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          ) : (
+            <BarChart data={chart.data}>
+              <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+              <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} angle={-15} textAnchor="end" height={50} />
+              <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
+              <Tooltip />
+              <Bar dataKey="value" fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} />
+            </BarChart>
+          )}
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
   );
 };
 
