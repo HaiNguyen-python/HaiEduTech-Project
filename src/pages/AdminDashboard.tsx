@@ -1238,6 +1238,11 @@ const AdminDashboard = () => {
                 <PhdResearchTab />
               </TabsContent>
 
+              <TabsContent value="edtech-insights">
+                <EdTechResearchInsightsTab />
+              </TabsContent>
+
+
               <TabsContent value="dictionary">
                 <Tabs defaultValue="en" className="w-full">
                   <TabsList className="grid w-full grid-cols-4 max-w-2xl">
