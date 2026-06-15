@@ -450,8 +450,218 @@ const EdTechResearch = () => {
           </div>
         </section>
 
+        {/* Frontier Themes 2026 — timely, concrete and academically grounded research agendas */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500/15 to-primary/15 text-emerald-600">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                Frontier Research Themes · 2026
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Concrete, peer-reviewable research agendas the EdTech field is
+                actively investigating in 2025–2026. Each theme lists its core
+                question, candidate methods, and primary metrics.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              {
+                code: "FT-01",
+                title: "Cognitive Offloading & the GenAI Crutch Effect",
+                question:
+                  "Does unrestricted LLM access during practice erode independent transfer to non-AI assessment?",
+                methods:
+                  "Within-subjects RCT · pre/post transfer test · Cognitive Load (NASA-TLX) · eye-tracking on retrieval moments",
+                metrics:
+                  "Transfer-test Δ score · germane vs extraneous load ratio · time-to-first-self-attempt",
+                badge: "Cognitive Science · LLM",
+                color: "from-rose-500 to-amber-500",
+              },
+              {
+                code: "FT-02",
+                title: "Multi-Agent LLM Tutors (Planner + Tutor + Evaluator)",
+                question:
+                  "Can decomposed agent pipelines reduce hallucination and improve pedagogical fidelity vs single-LLM tutors?",
+                methods:
+                  "LangGraph orchestration · rubric-based human eval · MERIt benchmark · self-consistency voting",
+                metrics:
+                  "Rubric quality (1–5) · factual error rate · turn-level student engagement",
+                badge: "LLM Agents · AIED",
+                color: "from-primary to-emerald-500",
+              },
+              {
+                code: "FT-03",
+                title: "RLHF for Adaptive Curriculum Sequencing",
+                question:
+                  "What reward design (short-term score, longer-term retention, intrinsic motivation) yields the most durable learning?",
+                methods:
+                  "Deep Q-Network / PPO over skill-graph state · composite reward · off-policy evaluation on log data",
+                metrics:
+                  "30-day retention · regret vs expert teacher · IRT-θ growth",
+                badge: "Reinforcement Learning",
+                color: "from-indigo-500 to-primary",
+              },
+              {
+                code: "FT-04",
+                title: "Algorithmic Fairness for L2 & Minority-Language Learners",
+                question:
+                  "How do early-warning models behave on under-represented L2 cohorts, and which mitigations preserve accuracy and parity?",
+                methods:
+                  "Disparate-impact audit · reweighing · adversarial debiasing · counterfactual fairness",
+                metrics:
+                  "Equalised-odds gap · subgroup F1 · calibration ECE",
+                badge: "Fairness ML · Equity",
+                color: "from-fuchsia-500 to-rose-500",
+              },
+              {
+                code: "FT-05",
+                title: "Federated & On-Device Learning for K-12 Privacy",
+                question:
+                  "Can FedAvg with differential privacy match centralised personalisation accuracy under GDPR / EU AI Act constraints?",
+                methods:
+                  "FedAvg + DP-SGD · secure aggregation · TFF / Flower simulation on classroom shards",
+                metrics:
+                  "Accuracy gap vs centralised · ε privacy budget · client drift",
+                badge: "Federated Learning · Privacy",
+                color: "from-cyan-500 to-emerald-500",
+              },
+              {
+                code: "FT-06",
+                title: "Multimodal Engagement Detection (Speech + Gaze + Click)",
+                question:
+                  "Which signal-fusion strategy detects disengagement earliest without webcam-based privacy intrusion?",
+                methods:
+                  "Late-fusion Transformer · ablation per modality · in-browser inference (WebGPU)",
+                metrics:
+                  "Disengagement-detection F1 · lead-time before drop-out · false-positive cost",
+                badge: "Multimodal · Affective",
+                color: "from-amber-500 to-rose-500",
+              },
+              {
+                code: "FT-07",
+                title: "Automatic Item Generation with LLMs (Psychometric Validity)",
+                question:
+                  "Do LLM-generated MCQ items reach psychometric parity with expert-authored items across IRT a/b parameters?",
+                methods:
+                  "GPT-4o item generation · pilot on 800-student cohort · 2PL/3PL IRT calibration",
+                metrics:
+                  "IRT a/b/c parity · DIF analysis · expert rubric agreement",
+                badge: "Psychometrics · NLP",
+                color: "from-emerald-500 to-cyan-500",
+              },
+              {
+                code: "FT-08",
+                title: "Academic Integrity in the LLM Era",
+                question:
+                  "Which assessment redesigns (oral defence, in-class draft, traceable revisions) best preserve construct validity under AI assistance?",
+                methods:
+                  "Quasi-experimental rollout · stylometry · revision-history forensics · student self-report",
+                metrics:
+                  "Detector AUC · false-positive rate · construct-validity coefficient",
+                badge: "Integrity · Assessment",
+                color: "from-slate-500 to-indigo-500",
+              },
+              {
+                code: "FT-09",
+                title: "Explainable Knowledge Tracing (XKT)",
+                question:
+                  "Can attention-based knowledge-tracing models offer learner-facing explanations that improve metacognition without harming accuracy?",
+                methods:
+                  "SAINT+ / AKT with attention rollout · learner-readable rationales · A/B on dashboard",
+                metrics:
+                  "AUC vs DKT · self-regulation gain · trust score",
+                badge: "XAI · Knowledge Tracing",
+                color: "from-primary to-fuchsia-500",
+              },
+              {
+                code: "FT-10",
+                title: "Generative Tutors for Low-Resource Languages",
+                question:
+                  "How do parameter-efficient fine-tuning recipes (LoRA, QLoRA) close the pedagogical gap for Finnish, Swedish, Vietnamese, Khmer?",
+                methods:
+                  "LoRA on Llama-3 / Qwen-2.5 · native-rater pedagogical rubric · code-switch evaluation",
+                metrics:
+                  "Pedagogical rubric · grammaticality · cultural appropriateness",
+                badge: "PEFT · Low-Resource NLP",
+                color: "from-teal-500 to-primary",
+              },
+              {
+                code: "FT-11",
+                title: "AI Literacy Curricula for K-12",
+                question:
+                  "Which AI-literacy competencies (Long & Magerko 2020) most reliably transfer to civic and workplace AI judgment?",
+                methods:
+                  "Cluster-RCT across schools · delayed transfer test · qualitative coding of student rationales",
+                metrics:
+                  "Competency rubric · transfer score · misconception incidence",
+                badge: "Curriculum · Policy",
+                color: "from-emerald-500 to-amber-500",
+              },
+              {
+                code: "FT-12",
+                title: "Longitudinal Cognitive Impact of Daily AI Tutoring (24 months)",
+                question:
+                  "Does daily AI tutoring over 24 months alter working memory, schema construction, and intrinsic motivation trajectories?",
+                methods:
+                  "Cohort-sequential design · annual cognitive battery · growth-curve modelling",
+                metrics:
+                  "Working-memory span · schema-transfer task · intrinsic motivation (IMI)",
+                badge: "Longitudinal · Cognitive",
+                color: "from-violet-500 to-primary",
+              },
+            ].map((t) => (
+              <Card
+                key={t.code}
+                className="relative overflow-hidden border-primary/10 hover:border-primary/40 hover:shadow-lg transition-all"
+              >
+                <div
+                  className={`absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r ${t.color}`}
+                />
+                <CardContent className="p-5 md:p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge
+                      variant="outline"
+                      className="font-mono text-[11px] tracking-wider border-primary/30 text-primary"
+                    >
+                      {t.code}
+                    </Badge>
+                    <Badge variant="secondary" className="text-[10px]">
+                      {t.badge}
+                    </Badge>
+                  </div>
+                  <h3 className="text-base md:text-lg font-semibold leading-snug mb-2">
+                    {t.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    <span className="font-semibold text-foreground/80">
+                      RQ:
+                    </span>{" "}
+                    {t.question}
+                  </p>
+                  <div className="space-y-1.5 text-xs">
+                    <p>
+                      <span className="font-semibold text-primary">Methods · </span>
+                      <span className="text-muted-foreground">{t.methods}</span>
+                    </p>
+                    <p>
+                      <span className="font-semibold text-emerald-600">Metrics · </span>
+                      <span className="text-muted-foreground">{t.metrics}</span>
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
         {/* Global EdTech Research Library — curated external papers + visualisations */}
         <GlobalEdTechLibrary />
+
 
         {/* Pillar 3 — Insight Survey */}
         <section className="mb-10">

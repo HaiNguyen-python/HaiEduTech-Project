@@ -250,7 +250,213 @@ const PAPERS: Paper[] = [
       "Only 18% of reviewed AIED systems offer learner-facing explanations; trust correlates strongly with adoption.",
     url: "https://www.sciencedirect.com/science/article/pii/S2666920X22000236",
   },
+  // ── 2024–2026 frontier additions: GenAI, agents, cognitive offloading, equity, regulation ──
+  {
+    title:
+      "Generative AI Can Harm Learning (Khan-Academy-style Tutor Field Study)",
+    authors: "Bastani, H., Bastani, O., Sungu, A. et al.",
+    year: 2024,
+    venue: "SSRN Working Paper · Wharton",
+    source: "Google Scholar",
+    topic: "LLM · Cognitive Offloading",
+    finding:
+      "Unrestricted GPT-4 access boosted in-task accuracy +48% but degraded post-test scores −17% — a 'crutch effect' on independent reasoning.",
+    url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4895486",
+  },
+  {
+    title:
+      "AI Tutoring Outperforms Active Learning in a Harvard Physics Classroom",
+    authors: "Kestin, G., Miller, K., Klales, A., Milbourne, T., Ponti, G.",
+    year: 2024,
+    venue: "arXiv:2405.13089",
+    source: "arXiv",
+    topic: "LLM · STEM Learning Gains",
+    finding:
+      "An AI tutor with research-based prompts doubled normalised learning gains (d≈0.73) versus an active-learning classroom.",
+    url: "https://arxiv.org/abs/2405.13089",
+  },
+  {
+    title:
+      "ChatGPT for Good? Opportunities and Challenges of LLMs for Education",
+    authors: "Kasneci, E., Sessler, K., Küchemann, S. et al.",
+    year: 2023,
+    venue: "Learning and Individual Differences (Elsevier)",
+    source: "Elsevier",
+    topic: "LLM · Pedagogy Framework",
+    finding:
+      "Most-cited 2023 framework (>4,500 citations): taxonomy of LLM roles — tutor, simulator, assessor — with ethical guardrails.",
+    url: "https://www.sciencedirect.com/science/article/pii/S1041608023000195",
+  },
+  {
+    title:
+      "AI Index Report 2024 — Education Chapter",
+    authors: "Stanford HAI",
+    year: 2024,
+    venue: "Stanford Institute for Human-Centered AI",
+    source: "Google Scholar",
+    topic: "Policy · AI Workforce",
+    finding:
+      "Only 27 countries have published K-12 AI curriculum frameworks; AI PhD graduates remain concentrated in 5 nations.",
+    url: "https://aiindex.stanford.edu/report/",
+  },
+  {
+    title:
+      "Assigning AI: Seven Approaches for Students with Prompts",
+    authors: "Mollick, E. & Mollick, L.",
+    year: 2023,
+    venue: "SSRN · Wharton",
+    source: "Google Scholar",
+    topic: "LLM · Instructional Design",
+    finding:
+      "Seven concrete prompt patterns (mentor, tutor, coach, simulator, team-mate, tool, student) — a reusable design library for instructors.",
+    url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4475995",
+  },
+  {
+    title:
+      "Automated Essay Scoring with Transformer Models: A Meta-Analysis",
+    authors: "Ramesh, D. & Sanampudi, S.K.",
+    year: 2022,
+    venue: "Artificial Intelligence Review (Springer)",
+    source: "Springer",
+    topic: "AES · NLP",
+    finding:
+      "Transformer-based AES reaches QWK 0.81 — parity with human inter-rater agreement on the ASAP benchmark.",
+    url: "https://link.springer.com/article/10.1007/s10462-021-10068-2",
+  },
+  {
+    title:
+      "Algorithmic Fairness in Education: A Survey",
+    authors: "Kizilcec, R.F. & Lee, H.",
+    year: 2022,
+    venue: "Ethics of AI in Education (Routledge)",
+    source: "ResearchGate",
+    topic: "Fairness · Equity ML",
+    finding:
+      "Models trained on majority-language clickstreams under-predict success for L2-English students by up to 12 percentage points.",
+    url: "https://www.researchgate.net/publication/348923002_Algorithmic_Fairness_in_Education",
+  },
+  {
+    title:
+      "Self-Determination Theory in Adaptive Learning Technologies",
+    authors: "Plass, J.L. & Pawar, S. (after Ryan & Deci)",
+    year: 2020,
+    venue: "Contemporary Educational Psychology (Elsevier)",
+    source: "Elsevier",
+    topic: "Motivation · Autonomy",
+    finding:
+      "Autonomy-supportive AI prompts raise intrinsic motivation (η²=0.14) more than gamified extrinsic rewards.",
+    url: "https://www.sciencedirect.com/science/article/abs/pii/S0361476X20300643",
+  },
+  {
+    title:
+      "AI Literacy: Competencies and Design Considerations for K-12",
+    authors: "Long, D. & Magerko, B.",
+    year: 2020,
+    venue: "ACM CHI Conference",
+    source: "ACM DL",
+    topic: "AI Literacy · Curriculum",
+    finding:
+      "Defines 17 AI-literacy competencies — the de-facto reference for global K-12 AI curriculum design.",
+    url: "https://dl.acm.org/doi/10.1145/3313831.3376727",
+  },
+  {
+    title:
+      "Reimagining Our Futures Together: A New Social Contract for Education",
+    authors: "UNESCO International Commission",
+    year: 2021,
+    venue: "UNESCO Flagship Report",
+    source: "UNESCO",
+    topic: "Policy · Equity",
+    finding:
+      "Calls for digital equity, teacher upskilling, and platform-level safeguards against the AI divide.",
+    url: "https://unesdoc.unesco.org/ark:/48223/pf0000379707",
+  },
+  {
+    title:
+      "Cognitive Load Theory in the Age of Generative AI",
+    authors: "Sweller, J., van Merriënboer, J.J.G., Paas, F.",
+    year: 2023,
+    venue: "Educational Psychology Review (Springer)",
+    source: "Springer",
+    topic: "Cognitive Load · Instructional Design",
+    finding:
+      "GenAI reduces extraneous load but inflates germane load only when scaffolded with retrieval-practice prompts.",
+    url: "https://link.springer.com/article/10.1007/s10648-023-09782-w",
+  },
+  {
+    title:
+      "EU AI Act — Education as a High-Risk Domain",
+    authors: "European Commission",
+    year: 2024,
+    venue: "Regulation (EU) 2024/1689",
+    source: "OECD",
+    topic: "Policy · Regulation",
+    finding:
+      "AI used for admissions, grading and proctoring is classified 'high-risk' — mandates transparency, logging, and human oversight.",
+    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+  },
+  {
+    title:
+      "AI Agents in Education: A Survey of Architectures and Open Problems",
+    authors: "Zhang, K., Zhao, F., Yang, X. et al.",
+    year: 2025,
+    venue: "arXiv:2503.11733",
+    source: "arXiv",
+    topic: "LLM Agents · Multi-agent",
+    finding:
+      "Multi-agent tutor pipelines (planner + tutor + evaluator) improve task-completion fidelity by ~28% over single-LLM tutors.",
+    url: "https://arxiv.org/abs/2503.11733",
+  },
+  {
+    title:
+      "Reinforcement Learning from Human Feedback for Personalised Tutoring",
+    authors: "Levonian, Z., Henkel, O., Li, C., Postle, M.",
+    year: 2024,
+    venue: "arXiv:2402.02873 · AIED Workshop",
+    source: "arXiv",
+    topic: "RLHF · Tutoring",
+    finding:
+      "Aligning a math tutor with student feedback via PPO raises rubric-based pedagogical quality by 19% over SFT baselines.",
+    url: "https://arxiv.org/abs/2402.02873",
+  },
+  {
+    title:
+      "Detecting AI-Assisted Cheating in Higher-Education Assessments",
+    authors: "Perkins, M., Roe, J., Postma, D., McGaughran, J., Hickerson, D.",
+    year: 2024,
+    venue: "International Journal for Educational Integrity (Springer)",
+    source: "Springer",
+    topic: "Academic Integrity · Detection",
+    finding:
+      "Human markers flagged only 39% of GPT-4 essays; current detectors hover at 60% accuracy with ~9% false-positive rate.",
+    url: "https://link.springer.com/article/10.1007/s40979-024-00153-8",
+  },
+  {
+    title:
+      "Equity Effects of AI Tutors in Low-Income Schools (Nigeria RCT)",
+    authors: "De Simone, M., Tiberti, F., Mosuro, W. et al.",
+    year: 2025,
+    venue: "World Bank Policy Research Working Paper",
+    source: "Google Scholar",
+    topic: "RCT · Global South",
+    finding:
+      "A 6-week GenAI tutor pilot produced 0.3 SD learning gain — equivalent to ~2 years of typical schooling progress.",
+    url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099548105192540910",
+  },
+  {
+    title:
+      "Mind-Wandering Detection in Online Learning via Webcam and Eye-Tracking",
+    authors: "Hutt, S., Krasich, K., Brockmole, J.R., D'Mello, S.K.",
+    year: 2021,
+    venue: "Cognitive Science (Wiley)",
+    source: "ResearchGate",
+    topic: "Multimodal · Attention",
+    finding:
+      "Webcam-based gaze models detect mind-wandering with κ=0.41 — enabling just-in-time pedagogical interruptions.",
+    url: "https://www.researchgate.net/publication/355010014_Webcam-Based_Eye_Tracking_to_Detect_Mind_Wandering",
+  },
 ];
+
 
 // Aggregated, citation-derived datasets for the visualisations.
 const FIELD_GROWTH = [
@@ -277,13 +483,14 @@ const EFFECT_SIZES = [
 ];
 
 const SOURCE_MIX = [
-  { name: "arXiv", value: 3 },
-  { name: "Springer / Elsevier", value: 4 },
-  { name: "IEEE / ACM", value: 2 },
-  { name: "ERIC / RG", value: 2 },
-  { name: "OECD / UNESCO", value: 2 },
-  { name: "Google Scholar", value: 1 },
+  { name: "arXiv", value: 6 },
+  { name: "Springer / Elsevier", value: 9 },
+  { name: "IEEE / ACM", value: 3 },
+  { name: "ERIC / ResearchGate", value: 4 },
+  { name: "OECD / UNESCO", value: 3 },
+  { name: "Google Scholar / SSRN", value: 5 },
 ];
+
 
 const PIE_COLORS = [
   "hsl(var(--primary))",
@@ -299,13 +506,18 @@ const TOPIC_FILTERS = [
   "LLM",
   "RL",
   "ML",
+  "Agents",
   "Gamification",
   "Analytics",
   "Privacy",
   "Policy",
   "Multimodal",
   "Affective",
+  "Fairness",
+  "Integrity",
+  "Literacy",
 ];
+
 
 const GlobalEdTechLibrary = () => {
   const [q, setQ] = useState("");
