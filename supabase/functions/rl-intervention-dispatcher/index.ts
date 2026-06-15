@@ -426,7 +426,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({
+    const summary = {
       ok: true,
       dryRun,
       force,
@@ -441,7 +441,9 @@ Deno.serve(async (req) => {
       escalated: escalatedNotifs.length,
       window_days: ANALYSIS_WINDOW_DAYS,
       ran_at: now.toISOString(),
-    }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
+    }
+    console.log('[rl-dispatcher]', JSON.stringify(summary))
+    return new Response(JSON.stringify(summary), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
   } catch (err) {
     console.error('rl-intervention-dispatcher error', err)
     return new Response(JSON.stringify({ ok: false, error: String((err as any)?.message ?? err) }), {
