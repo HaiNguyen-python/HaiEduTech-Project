@@ -259,6 +259,22 @@ export const BEGINNER_VOCAB_EXTRA: BeginnerVocab[] = [
   { fi: "kokki", vi: "đầu bếp", en: "cook", illustration: "🧑‍🍳", category: "job" },
   { fi: "ohjelmoija", vi: "lập trình viên", en: "programmer", illustration: "💻", category: "job" },
   { fi: "hoitaja", vi: "y tá", en: "nurse", illustration: "🩺", category: "job" },
+  // Mở rộng A1-A2 cho YKI: hành chính, dịch vụ, thời gian
+  { fi: "passi", vi: "hộ chiếu", en: "passport", illustration: "🛂", category: "office" },
+  { fi: "henkilökortti", vi: "thẻ căn cước", en: "ID card", illustration: "🪪", category: "office" },
+  { fi: "kortti", vi: "thẻ", en: "card", illustration: "💳", category: "office" },
+  { fi: "kauppa", vi: "cửa hàng", en: "shop", illustration: "🏬", category: "place" },
+  { fi: "tori", vi: "quảng trường chợ", en: "market square", illustration: "🛍️", category: "place" },
+  { fi: "kirjasto", vi: "thư viện", en: "library", illustration: "📚", category: "place" },
+  { fi: "posti", vi: "bưu điện", en: "post office", illustration: "📮", category: "place" },
+  { fi: "sairaala", vi: "bệnh viện", en: "hospital", illustration: "🏥", category: "place" },
+  { fi: "apteekki", vi: "hiệu thuốc", en: "pharmacy", illustration: "💊", category: "place" },
+  { fi: "tänään", vi: "hôm nay", en: "today", illustration: "📅", category: "time" },
+  { fi: "huomenna", vi: "ngày mai", en: "tomorrow", illustration: "📆", category: "time" },
+  { fi: "eilen", vi: "hôm qua", en: "yesterday", illustration: "🕰️", category: "time" },
+  { fi: "viikko", vi: "tuần", en: "week", illustration: "📅", category: "time" },
+  { fi: "kuukausi", vi: "tháng", en: "month", illustration: "📆", category: "time" },
+  { fi: "vuosi", vi: "năm", en: "year", illustration: "🗓️", category: "time" },
 ];
 
 // =============================================================
@@ -277,6 +293,15 @@ export const DAILY_PHRASES_EXTRA_2: DailyPhrase[] = [
   { fi: "Olen opiskelija.", en: "I am a student.", vi: "Tôi là sinh viên.", category: "intro", illustration: "🎓" },
   { fi: "Asun Helsingissä.", en: "I live in Helsinki.", vi: "Tôi sống ở Helsinki.", category: "intro", illustration: "🏙️" },
   { fi: "Opin suomea, koska rakastan Suomea.", en: "I'm learning Finnish because I love Finland.", vi: "Tôi học tiếng Phần Lan vì tôi yêu nước Phần Lan.", category: "intro", illustration: "❤️" },
+  // Câu hỏi & tình huống YKI A2 thường gặp
+  { fi: "Anteeksi, voitteko puhua hitaammin?", en: "Excuse me, could you speak more slowly?", vi: "Xin lỗi, ông/bà có thể nói chậm hơn không?", category: "polite", illustration: "🐢" },
+  { fi: "En ymmärrä. Voitko toistaa?", en: "I don't understand. Can you repeat?", vi: "Tôi không hiểu, bạn lặp lại được không?", category: "polite", illustration: "🤔" },
+  { fi: "Mistä tämä juna lähtee?", en: "Where does this train leave from?", vi: "Tàu này khởi hành từ đâu?", category: "asking", illustration: "🚆" },
+  { fi: "Haluaisin varata ajan lääkärille.", en: "I'd like to book a doctor's appointment.", vi: "Tôi muốn đặt lịch khám bác sĩ.", category: "asking", illustration: "🩺" },
+  { fi: "Saanko kuitin, kiitos?", en: "Can I have the receipt, please?", vi: "Cho tôi xin biên lai với?", category: "shopping", illustration: "🧾" },
+  { fi: "Onko teillä kasvisruokaa?", en: "Do you have vegetarian food?", vi: "Quán có món chay không?", category: "shopping", illustration: "🥗" },
+  { fi: "Mistä löydän lähimmän pankkiautomaatin?", en: "Where can I find the nearest ATM?", vi: "Máy ATM gần nhất ở đâu?", category: "asking", illustration: "🏧" },
+  { fi: "Tarvitsen apua. Soitatteko 112?", en: "I need help. Could you call 112?", vi: "Tôi cần giúp đỡ. Ông/bà gọi 112 giúp với?", category: "asking", illustration: "🚨" },
 ];
 // Re-export merged phrases for convenience
 export const DAILY_PHRASES_EXTRA_FULL = [...DAILY_PHRASES_EXTRA, ...DAILY_PHRASES_EXTRA_2];
@@ -326,6 +351,30 @@ export const VIETNAMESE_PITFALLS_EXTRA: VietnamesePitfall[] = [
     why: "'R' tiếng Phần Lan là rung lưỡi mạnh (rolled R) như tiếng Tây Ban Nha.",
     correct: "Rakastan sinua - rung lưỡi đầu chữ.",
     tip: "Tập rrr với 1 ly nước: ngậm nước rồi rung lưỡi 5 giây/ngày.",
+  },
+  {
+    mistake: "Dịch 'I am hungry' thành 'Minä olen nälkä'.",
+    why: "Tiếng Phần Lan dùng cấu trúc 'minulla on' với cảm giác cơ thể.",
+    correct: "Minulla on nälkä. (Tôi đang đói.)",
+    tip: "Học thuộc combo: minulla on nälkä / jano / kuuma / kylmä / kiire.",
+  },
+  {
+    mistake: "Dùng 'mä' và 'sä' trong bài thi YKI viết.",
+    why: "'mä, sä' là khẩu ngữ (puhekieli). Bài viết YKI bắt buộc dùng 'minä, sinä'.",
+    correct: "Minä asun Helsingissä. Sinä olet ystäväni.",
+    tip: "Khi viết bài YKI: luôn dùng dạng đầy đủ. Khi nói: có thể dùng dạng rút gọn.",
+  },
+  {
+    mistake: "Đặt động từ ở cuối câu như tiếng Đức.",
+    why: "Tiếng Phần Lan dùng thứ tự SVO giống tiếng Anh: chủ ngữ + động từ + bổ ngữ.",
+    correct: "Minä syön omenan. (Tôi ăn quả táo.)",
+    tip: "Chỉ trong câu hỏi yes/no với -ko/-kö thì động từ mới lên đầu.",
+  },
+  {
+    mistake: "Quên hài hoà nguyên âm (a/o/u vs ä/ö/y).",
+    why: "Một từ thuần Phần Lan chỉ chứa nhóm sau hoặc trước, không trộn lẫn (trừ e/i trung tính).",
+    correct: "talo + -ssa → talossa | metsä + -ssä → metsässä.",
+    tip: "Nhìn nguyên âm gốc rồi chọn đuôi: a/o/u → -ssa, -lla, -sta; ä/ö/y → -ssä, -llä, -stä.",
   },
 ];
 
@@ -429,6 +478,11 @@ const BEGINNER_QUIZ_EXTRA_2: BeginnerQuiz[] = [
   { question: "How to ask 'What is your name?'", questionVi: "Hỏi 'Bạn tên gì?'", options: ["Mikä on nimesi?", "Mistä olet?", "Kuka sinä?", "Missä asut?"], answer: 0, explanation: "Mikä on nimesi? literally 'What is your name?'", explanationVi: "Mikä on nimesi? nghĩa đen 'Tên bạn là gì?'" },
   { question: "Translate 'Anteeksi'.", questionVi: "Dịch 'Anteeksi'.", options: ["Cảm ơn", "Xin chào", "Xin lỗi", "Tạm biệt"], answer: 2, explanation: "Anteeksi = sorry / excuse me.", explanationVi: "Anteeksi = xin lỗi." },
   { question: "Which verb means 'to eat'?", questionVi: "Động từ nào nghĩa 'ăn'?", options: ["juoda", "syödä", "nukkua", "mennä"], answer: 1, explanation: "syödä = to eat (Type 2).", explanationVi: "syödä = ăn (Loại 2)." },
+  { question: "Translate 'Minulla on nälkä.'", questionVi: "Dịch 'Minulla on nälkä.'", options: ["Tôi mệt", "Tôi buồn", "Tôi đói", "Tôi vui"], answer: 2, explanation: "minulla on nälkä = I'm hungry.", explanationVi: "Cấu trúc 'minulla on' + cảm giác cơ thể." },
+  { question: "Imperfekti of 'asua' (minä)?", questionVi: "Imperfekti của 'asua' (minä)?", options: ["asun", "asuin", "asunut", "asuisin"], answer: 1, explanation: "asua → asuin (I lived).", explanationVi: "Quá khứ đơn: asua → asuin." },
+  { question: "Adessive of 'minä'?", questionVi: "Dạng adessive của 'minä'?", options: ["minua", "minussa", "minulla", "minulle"], answer: 2, explanation: "minä → minulla (on me).", explanationVi: "Sở hữu dùng minulla." },
+  { question: "How do you say 'pharmacy' in Finnish?", questionVi: "'Hiệu thuốc' tiếng Phần Lan?", options: ["apteekki", "sairaala", "kauppa", "posti"], answer: 0, explanation: "apteekki = pharmacy.", explanationVi: "apteekki = hiệu thuốc." },
+  { question: "Choose the right partitive after a negative verb: 'En halua kahvia/kahvi/kahvin'.", questionVi: "Sau động từ phủ định dùng dạng nào?", options: ["kahvi", "kahvin", "kahvia", "kahville"], answer: 2, explanation: "Negation + object → partitive.", explanationVi: "Sau động từ phủ định, tân ngữ phải ở partitive." },
 ];
 
 // Re-export merged quiz
