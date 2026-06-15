@@ -406,6 +406,26 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
     });
   }, []);
 
+  const submitLoggedRef = useRef(false);
+  useEffect(() => {
+    if (!submitted || submitLoggedRef.current) return;
+    submitLoggedRef.current = true;
+    const elapsed = exam.durationMinutes * 60 - secondsLeft;
+    logStudentActivity({
+      activityType: "ielts_reading",
+      activityId: exam.id,
+      score,
+      maxScore: exam.questions.length,
+      timeSpentSeconds: elapsed > 0 ? elapsed : undefined,
+      metadata: {
+        examId: exam.id,
+        total_questions: exam.questions.length,
+        percent: Math.round((score / Math.max(exam.questions.length, 1)) * 100),
+        mode: "single_exam",
+      },
+    });
+  }, [submitted, exam, score, secondsLeft]);
+
   const handleSubmit = () => setSubmitted(true);
 
   // Confirm before leaving mid-exam
