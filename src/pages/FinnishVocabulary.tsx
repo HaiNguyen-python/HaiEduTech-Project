@@ -525,7 +525,10 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
             </div>
             <p className="text-sm text-muted-foreground font-mono mb-1">{q.word.ipa}</p>
             {q.word.example && (
-              <p className="text-sm font-semibold text-foreground italic"><span className="not-italic font-bold text-primary">E.g. </span>{q.word.example}</p>
+              <>
+                <p className="text-sm font-semibold text-foreground italic"><span className="not-italic font-bold text-primary">E.g. </span>{q.word.example}</p>
+                {q.word.exampleEn && <p className="text-xs text-muted-foreground italic">→ {q.word.exampleEn}</p>}
+              </>
             )}
             <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
           </>
