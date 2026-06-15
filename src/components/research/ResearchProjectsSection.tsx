@@ -463,6 +463,45 @@ const QuestionField = ({
       </div>
     );
   }
+  if (q.type === "slider") {
+    const v = typeof value === "number" ? value : q.min;
+    return (
+      <div className="space-y-2">
+        <Label>{q.label}</Label>
+        <input
+          type="range"
+          min={q.min}
+          max={q.max}
+          step={q.step ?? 1}
+          value={v}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="w-full accent-primary"
+        />
+        <div className="flex justify-between text-xs text-muted-foreground">
+          <span>{q.min}{q.unit ?? ""}</span>
+          <span className="font-semibold text-primary">{v}{q.unit ?? ""}</span>
+          <span>{q.max}{q.unit ?? ""}</span>
+        </div>
+      </div>
+    );
+  }
+  if (q.type === "number") {
+    return (
+      <div className="space-y-2">
+        <Label>{q.label}</Label>
+        <Input
+          type="number"
+          value={value ?? ""}
+          min={q.min}
+          max={q.max}
+          placeholder={q.placeholder}
+          onChange={(e) =>
+            onChange(e.target.value === "" ? "" : Number(e.target.value))
+          }
+        />
+      </div>
+    );
+  }
   // textarea
   return (
     <div className="space-y-2">
@@ -477,6 +516,7 @@ const QuestionField = ({
     </div>
   );
 };
+
 
 const VizPanel = ({ config }: { config: ProjectConfig }) => {
   if (config.charts.length === 0) {
