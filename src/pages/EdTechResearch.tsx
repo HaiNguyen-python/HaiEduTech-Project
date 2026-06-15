@@ -389,10 +389,10 @@ const EdTechResearch = () => {
             </div>
             <div>
               <h2 className="text-2xl md:text-3xl font-bold">
-                Khoảng Trống Nghiên Cứu & Định Hướng Tương Lai
+                Research Gaps & Future Horizons
               </h2>
               <p className="text-sm text-muted-foreground">
-                Research Gaps · những chủ đề ngành EdTech vẫn còn thiếu và HaiEduTech Lab đang chủ động theo đuổi.
+                Open problems the EdTech industry still under-investigates — and which HaiEduTech Lab is actively pursuing.
               </p>
             </div>
           </div>
@@ -401,22 +401,23 @@ const EdTechResearch = () => {
             {[
               {
                 idx: "Gap 01",
-                title: "Bản địa hoá mô hình AI cho ngôn ngữ ít phổ biến",
+                title: "Minority-language tuning for foundation models",
                 subtitle: "Minority Language AI Tuning",
-                body: "Đa số nghiên cứu LLM hiện nay tập trung vào tiếng Anh. Cách các mô hình lớn xử lý phản hồi sư phạm cho tiếng Thụy Điển hoặc tiếng Phần Lan dành cho người Việt vẫn còn rất hạn chế và cần khung đánh giá riêng.",
+                body: "Most LLM research targets English. Pedagogical feedback in Swedish, Finnish or low-resource languages still lacks dedicated evaluation frameworks and benchmarks.",
               },
               {
                 idx: "Gap 02",
-                title: "Đạo đức dữ liệu & quyền riêng tư của học sinh nhỏ tuổi",
+                title: "Data ethics & privacy for minor-aged learners",
                 subtitle: "Data Ethics in K-12 AI Learning",
-                body: "Cần các giải pháp ẩn danh hoá (anonymization) dữ liệu hành vi đủ mạnh nhưng vẫn đảm bảo thuật toán AI Academy (lớp 6–12) dự đoán lộ trình học cá nhân chính xác và an toàn.",
+                body: "Strong anonymisation, on-device inference and federated training are needed so personalisation models can serve K-12 learners safely and accurately.",
               },
               {
                 idx: "Gap 03",
-                title: "Tác động dài hạn của AI lên Tư duy phản biện",
+                title: "Long-term impact of AI on critical thinking",
                 subtitle: "Long-term Impact on Critical Thinking",
-                body: "Đánh giá xem việc lạm dụng tra cứu từ điển và trả lời AI tức thời có làm giảm khả năng ghi nhớ sâu và tư duy ngôn ngữ chủ động của học viên trong 6–24 tháng hay không.",
+                body: "Does habitual reliance on instant AI lookups erode deep memory and autonomous reasoning over 6–24 months? Longitudinal studies remain rare.",
               },
+
             ].map((g) => (
               <Card
                 key={g.idx}
