@@ -417,19 +417,20 @@ const EdTechResearch = () => {
         {/* Dynamic Research Project Framework */}
         <ResearchProjectsSection />
 
-        {/* Pillar 1 — Papers */}
+        {/* Pillar 1 — Suggested Reading List */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">Pillar 1 — Published & Ongoing Papers</h2>
+              <h2 className="text-2xl font-bold">Pillar 1 — Suggested EdTech Reading List</h2>
               <p className="text-sm text-muted-foreground">
-                Working papers and essays by Hai Nguyen and the HaiEduTech Lab.
+                A curated reading list of seminal, recent and policy papers we recommend for teachers, parents
+                and students who want to understand AI in education. These papers are <strong>not authored by HaiEduTech</strong> —
+                they are external references we trust and frequently cite.
               </p>
             </div>
-
           </div>
 
           <div className="grid gap-4">
@@ -441,15 +442,15 @@ const EdTechResearch = () => {
                 <CardContent className="p-5 md:p-6">
                   <div className="flex flex-wrap gap-2 mb-3">
                     <Badge variant="outline" className="gap-1">
-                      <Users className="w-3 h-3" /> Author: Hai Nguyen
+                      <Users className="w-3 h-3" /> {p.authors}
                     </Badge>
                     <Badge variant="outline" className="gap-1">
-                      <Brain className="w-3 h-3" /> Topic: {p.topic}
+                      <Brain className="w-3 h-3" /> {p.topic}
                     </Badge>
-                    <Badge className={`gap-1 border ${statusColor[p.status]}`}>
-                      <Sparkles className="w-3 h-3" /> {p.status}
+                    <Badge className={`gap-1 border ${categoryColor[p.category]}`}>
+                      <Sparkles className="w-3 h-3" /> {p.category}
                     </Badge>
-                    <Badge variant="secondary">{p.year}</Badge>
+                    <Badge variant="secondary">{p.venue} · {p.year}</Badge>
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold leading-snug mb-2 group-hover:text-primary transition-colors">
                     {p.title}
@@ -457,15 +458,27 @@ const EdTechResearch = () => {
                   <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
                     {p.abstract}
                   </p>
-                  <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                    <FileText className="w-3.5 h-3.5" />
-                    <span>Working paper · DOI pending</span>
-                    <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-                  </div>
+                  {p.link && (
+                    <a
+                      href={p.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-primary hover:underline"
+                    >
+                      <FileText className="w-3.5 h-3.5" />
+                      Open original paper
+                      <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+                    </a>
+                  )}
                 </CardContent>
               </Card>
             ))}
           </div>
+
+          <p className="mt-6 text-xs text-muted-foreground italic text-center">
+            Disclaimer: All papers above are the intellectual property of their respective authors and publishers.
+            HaiEduTech reproduces only titles, abstracts and public links for educational reference under fair use.
+          </p>
         </section>
 
         {/* Pillar 2 — Insights & Trends */}
