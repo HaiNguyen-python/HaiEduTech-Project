@@ -64,8 +64,7 @@ type Paper = {
 
 const PAPERS: Paper[] = [
   {
-    title:
-      "Machine Learning for Early-Warning Detection of At-Risk Learners",
+    title: "Machine Learning for Early-Warning Detection of At-Risk Learners",
     topic: "Learning Analytics · Early-Warning ML",
     status: "Preprint",
     year: "2026",
@@ -73,8 +72,7 @@ const PAPERS: Paper[] = [
       "A gradient-boosting classifier fuses behavioural signals (logins, streaks, vocabulary accuracy) to predict the probability of disengagement within 14 days, enabling timely teacher intervention.",
   },
   {
-    title:
-      "Optimising LLM Feedback Loops for Language Pedagogy",
+    title: "Optimising LLM Feedback Loops for Language Pedagogy",
     topic: "LLM Pedagogy · Human-in-the-loop",
     status: "Ongoing",
     year: "2026",
@@ -82,15 +80,55 @@ const PAPERS: Paper[] = [
       "End-of-lesson micro-surveys feed a lightweight RLHF pipeline that progressively improves prompt fit. The paper proposes an evaluation framework for small-cohort language classrooms.",
   },
   {
-    title:
-      "Reinforcement Learning for Adaptive English Curriculum Personalisation",
+    title: "Reinforcement Learning for Adaptive English Curriculum Personalisation",
     topic: "Adaptive Learning · Deep RL",
     status: "Preprint",
     year: "2026",
     abstract:
       "An agent selects the next lesson conditioned on a skill profile, using a composite reward that blends short-term scores and longer-term retention, benchmarked against a linear baseline.",
   },
+  {
+    title: "Phoneme-Aware ASR Coaching for L2 English: A Cross-Accent Study",
+    topic: "Speech AI · Pronunciation",
+    status: "Ongoing",
+    year: "2026",
+    abstract:
+      "Compares phoneme, word and sentence-level ASR feedback across Vietnamese, Finnish and Khmer learners, quantifying accent bias and the marginal gain of mouth-position video overlays.",
+  },
+  {
+    title: "Multi-Agent LLM Tutors Reduce Hallucination in K-12 STEM",
+    topic: "LLM Agents · STEM",
+    status: "Preprint",
+    year: "2026",
+    abstract:
+      "A planner-tutor-evaluator agent pipeline lowers factual error rate by ~38% on grade-9 physics problems vs a single LLM, with no loss in pedagogical fluency under rubric scoring.",
+  },
+  {
+    title: "Federated Personalisation with Differential Privacy for EU K-12",
+    topic: "Federated Learning · Privacy",
+    status: "Ongoing",
+    year: "2026",
+    abstract:
+      "Empirical study of FedAvg + DP-SGD on classroom shards under the EU AI Act, mapping the accuracy/privacy trade-off and reporting client-drift behaviour in low-bandwidth schools.",
+  },
+  {
+    title: "Cognitive Offloading in Daily GenAI Use: A Two-Semester Cohort Study",
+    topic: "Cognitive Science · LLM",
+    status: "Ongoing",
+    year: "2026",
+    abstract:
+      "Longitudinal evidence that unrestricted LLM use during practice produces strong in-task gains but a measurable drop on non-AI transfer tasks, mediated by metacognitive scaffolding.",
+  },
+  {
+    title: "Explainable Knowledge Tracing for Learner-Facing Dashboards",
+    topic: "XAI · Knowledge Tracing",
+    status: "Preprint",
+    year: "2026",
+    abstract:
+      "Attention-rollout explanations on a SAINT+ knowledge-tracing model improve learner self-regulation ratings by 21% without harming AUC vs vanilla DKT.",
+  },
 ];
+
 
 // Aggregated behavioural insight dataset (anonymised, illustrative).
 const RETENTION = [
@@ -418,6 +456,25 @@ const EdTechResearch = () => {
                 subtitle: "Long-term Impact on Critical Thinking",
                 body: "Does habitual reliance on instant AI lookups erode deep memory and autonomous reasoning over 6–24 months? Longitudinal studies remain rare.",
               },
+              {
+                idx: "Gap 04",
+                title: "Pedagogical validity of LLM-authored content",
+                subtitle: "Content Quality & Curriculum Coherence",
+                body: "Most AI-authored lessons are evaluated for surface fluency, not for curriculum alignment, scaffolding integrity, or culturally appropriate examples.",
+              },
+              {
+                idx: "Gap 05",
+                title: "Teacher-AI division of labour & professional identity",
+                subtitle: "Workforce Studies",
+                body: "How AI tutors reshape teacher autonomy, expertise development, and classroom authority remains under-investigated outside Western higher-ed.",
+              },
+              {
+                idx: "Gap 06",
+                title: "Carbon and equity costs of frontier-model tutoring",
+                subtitle: "Sustainable EdTech",
+                body: "Inference-heavy GenAI tutors carry energy and cost externalities that disproportionately burden Global-South institutions; transparent accounting is still missing.",
+              },
+
 
             ].map((g) => (
               <Card
@@ -614,6 +671,79 @@ const EdTechResearch = () => {
                 badge: "Longitudinal · Cognitive",
                 color: "from-violet-500 to-primary",
               },
+              {
+                code: "FT-13",
+                title: "Verifier-Augmented LLM Solvers for STEM",
+                question:
+                  "Can symbolic / unit-test verifiers reduce math-solver hallucination without harming pedagogical fluency?",
+                methods:
+                  "LLM + SymPy / Lean verifier · self-consistency voting · counterfactual error injection",
+                metrics:
+                  "Solve accuracy · verified-correct rate · explanation-quality rubric",
+                badge: "STEM · Neuro-Symbolic",
+                color: "from-cyan-500 to-primary",
+              },
+              {
+                code: "FT-14",
+                title: "Immersive XR for Speaking Anxiety Reduction",
+                question:
+                  "Do VR roleplay scenes lower speaking anxiety and raise willingness-to-communicate vs in-class pair-work?",
+                methods:
+                  "Within-subjects RCT · FLCAS pre/post · physiological arousal (HRV)",
+                metrics:
+                  "FLCAS Δ · willingness-to-communicate · talk-time ratio",
+                badge: "XR · SLA",
+                color: "from-rose-500 to-fuchsia-500",
+              },
+              {
+                code: "FT-15",
+                title: "Carbon Accounting for GenAI Tutors",
+                question:
+                  "What is the per-learner carbon and cost footprint of frontier-model tutoring, and where do efficient open models suffice?",
+                methods:
+                  "MLPerf-style measurement · per-token kWh tracing · cohort cost modelling",
+                metrics:
+                  "gCO₂e / learner-week · cost per pedagogical outcome · efficiency frontier",
+                badge: "Sustainability · MLOps",
+                color: "from-emerald-500 to-teal-500",
+              },
+              {
+                code: "FT-16",
+                title: "Teacher-AI Co-Authoring of Curricula",
+                question:
+                  "Which division of labour between teachers and LLM authoring agents produces the most curriculum-coherent and culturally appropriate units?",
+                methods:
+                  "Design-based research · expert-rubric coding · classroom field trial",
+                metrics:
+                  "Curriculum-alignment score · teacher autonomy index · cultural fit rating",
+                badge: "Curriculum · HCI",
+                color: "from-amber-500 to-emerald-500",
+              },
+              {
+                code: "FT-17",
+                title: "On-Device Small Language Models for Schools",
+                question:
+                  "Can ≤3B-parameter SLMs (Phi-3, Gemma-2, Qwen-2.5) match cloud-LLM tutoring quality offline for low-bandwidth schools?",
+                methods:
+                  "Quantisation (Q4_K_M) · LoRA on pedagogical corpora · offline classroom pilot",
+                metrics:
+                  "Rubric-quality gap vs GPT-4o · latency · battery cost",
+                badge: "Edge AI · Equity",
+                color: "from-indigo-500 to-cyan-500",
+              },
+              {
+                code: "FT-18",
+                title: "Generative Item Banks under Test Security",
+                question:
+                  "How can LLM-generated assessment items be deployed at scale without leaking through training-data contamination?",
+                methods:
+                  "Watermarking · canary items · contamination-aware IRT recalibration",
+                metrics:
+                  "Leakage rate · post-leak IRT drift · examinee-perceived fairness",
+                badge: "Psychometrics · Security",
+                color: "from-slate-500 to-primary",
+              },
+
             ].map((t) => (
               <Card
                 key={t.code}
