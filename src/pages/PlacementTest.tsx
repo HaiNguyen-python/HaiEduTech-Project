@@ -32,27 +32,41 @@ import {
 import Navbar from "@/components/Navbar";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
+import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 
 /** Module-level current speak locale; set by the main component per subject. */
 let CURRENT_SPEAK_LANG = "en-US";
 
 /**
- * Speak text. For Finnish (fi-*), route through the dedicated Finnish TTS
- * engine (Supabase proxy → Google Translate fi → native fi-FI voice) so the
- * pronunciation is actually Finnish, even on systems with no installed
- * Finnish voice. Other languages keep the built-in SpeechSynthesis.
+ * Speak text in the correct language for each subject.
+ *  • fi-* → Finnish TTS engine (Supabase proxy → Google Translate fi)
+ *  • vi-* → Vietnamese TTS engine (proxy → vi voice, rate 0.85 for clarity)
+ *  • zh-* → native SpeechSynthesis at slower rate 0.85 (Mandarin tones)
+ *  • en-* → native SpeechSynthesis at rate 0.92
+ * This guarantees each placement test plays audio in the language of its
+ * subject, even on systems missing a native voice for that locale.
  */
 const speak = (text: string, lang?: string) => {
   const target = (lang ?? CURRENT_SPEAK_LANG).toLowerCase();
+
+  // Cancel any in-flight playback across all engines first.
+  try { window.speechSynthesis.cancel(); } catch { /* noop */ }
+  stopFinnishTts();
+  stopVietnameseTts();
+
   if (target.startsWith("fi")) {
-    stopFinnishTts();
     void playFinnishTts(text, { playbackRate: 0.92, speechRate: 0.85 });
+    return;
+  }
+  if (target.startsWith("vi")) {
+    void playVietnameseTts(text, { playbackRate: 0.95, speechRate: 0.85 });
     return;
   }
   try {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang ?? CURRENT_SPEAK_LANG; u.rate = 0.92;
-    window.speechSynthesis.cancel();
+    u.lang = lang ?? CURRENT_SPEAK_LANG;
+    // Slower rate for tonal Chinese; gentler for English too.
+    u.rate = target.startsWith("zh") ? 0.85 : 0.92;
     window.speechSynthesis.speak(u);
   } catch { /* noop */ }
 };

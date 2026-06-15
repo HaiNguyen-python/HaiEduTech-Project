@@ -56,7 +56,8 @@ export const SUBJECT_META: Record<PlacementSubject, SubjectMeta> = {
 /* ── Chinese 18 Q ───────────────────────────────────────────────────── */
 const CHINESE: PlacementQuestion[] = [
   { id: 101, skill: "listening", cefr: "A1", type: "listen-image",
-    prompt: "Choose the matching picture.", audioText: "苹果", correct: 0,
+    prompt: "What fruit is the girl holding?",
+    audioText: "你看,那个小女孩手里拿着一个红苹果。", correct: 0,
     options: [
       { emoji: "🍎", label: "苹果 / Apple" }, { emoji: "🍌", label: "香蕉 / Banana" },
       { emoji: "🐱", label: "猫 / Cat" }, { emoji: "🚗", label: "车 / Car" },
@@ -128,7 +129,8 @@ const CHINESE: PlacementQuestion[] = [
 /* ── Vietnamese 18 Q ────────────────────────────────────────────────── */
 const VIETNAMESE: PlacementQuestion[] = [
   { id: 201, skill: "listening", cefr: "A1", type: "listen-image",
-    prompt: "Choose the matching picture.", audioText: "Quả táo.", correct: 0,
+    prompt: "Cô bé đang cầm gì trên tay?",
+    audioText: "Hãy nhìn xem, cô bé đang cầm một quả táo đỏ trên tay.", correct: 0,
     options: [
       { emoji: "🍎", label: "Quả táo" }, { emoji: "🍌", label: "Quả chuối" },
       { emoji: "🐱", label: "Con mèo" }, { emoji: "🚗", label: "Xe hơi" },
@@ -202,7 +204,8 @@ const VIETNAMESE: PlacementQuestion[] = [
 /* ── Finnish 18 Q ───────────────────────────────────────────────────── */
 const FINNISH: PlacementQuestion[] = [
   { id: 301, skill: "listening", cefr: "A1", type: "listen-image",
-    prompt: "Valitse oikea kuva.", audioText: "Omena.", correct: 0,
+    prompt: "Mitä tyttö pitää kädessään?",
+    audioText: "Katso, pieni tyttö pitää kädessään punaista omenaa.", correct: 0,
     options: [
       { emoji: "🍎", label: "Omena" }, { emoji: "🍌", label: "Banaani" },
       { emoji: "🐱", label: "Kissa" }, { emoji: "🚗", label: "Auto" },
