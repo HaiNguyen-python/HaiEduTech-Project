@@ -201,6 +201,13 @@ const ProjectDetailDialog = ({
 
   // Bumped after each successful submission so the live viz refetches.
   const [refreshKey, setRefreshKey] = useState(0);
+  // Controlled tab so we can auto-switch to "viz" the moment the user submits.
+  const [tab, setTab] = useState<"survey" | "viz">("survey");
+
+  // Reset tab whenever a new project is opened.
+  useEffect(() => {
+    if (project) setTab("survey");
+  }, [project?.id]);
 
   return (
     <Dialog open={!!project} onOpenChange={onOpenChange}>
@@ -219,7 +226,7 @@ const ProjectDetailDialog = ({
               </DialogDescription>
             </DialogHeader>
 
-            <Tabs defaultValue="survey" className="mt-2">
+            <Tabs value={tab} onValueChange={(v) => setTab(v as "survey" | "viz")} className="mt-2">
               <TabsList className="grid grid-cols-2 w-full">
                 <TabsTrigger value="survey" className="gap-2">
                   <ClipboardList className="w-4 h-4" />
@@ -235,7 +242,11 @@ const ProjectDetailDialog = ({
                 <SurveyForm
                   projectId={project.id}
                   config={config}
-                  onSubmitted={() => setRefreshKey((k) => k + 1)}
+                  onSubmitted={() => {
+                    setRefreshKey((k) => k + 1);
+                    // Switch to viz so the participant sees their answer visualised instantly.
+                    setTab("viz");
+                  }}
                 />
               </TabsContent>
 
