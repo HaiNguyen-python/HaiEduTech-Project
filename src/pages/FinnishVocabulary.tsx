@@ -33,15 +33,13 @@ const levelColors: Record<string, string> = {
   C2: "bg-rose-500/20 text-rose-400",
 };
 
-// Text-to-Speech helper
+// Text-to-Speech helper — uses dedicated Finnish TTS engine (Google Translate fi)
+// because browser SpeechSynthesis with lang="fi-FI" silently falls back to an
+// English voice on most platforms, producing wrong phonemes for Finnish words.
+import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
 const speak = (text: string) => {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fi-FI";
-    u.rate = 0.85;
-    window.speechSynthesis.speak(u);
-  }
+  stopFinnishTts();
+  void playFinnishTts(text, { playbackRate: 0.92, speechRate: 0.85 });
 };
 
 // Shuffle helper
