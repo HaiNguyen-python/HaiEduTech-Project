@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { HSK_TESTS, HSK_TESTS_BY_LEVEL, findHskTestByCode, totalQuestions, type HskQuestion } from "@/data/hskTests";
 import { inferReadingEmoji } from "@/lib/hskReadingIllustration";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 const speakZh = (text: string, rate = 0.85) => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
