@@ -125,13 +125,18 @@ const IeltsLectureView = () => {
   const handleComplete = () => {
     if (lecture) {
       markCompleted(lecture.id);
-      logStudentActivity({
-        activityType: "ielts_lecture",
-        activityId: lecture.id,
-        score: quizSubmitted ? quizScore : 0,
-        maxScore: quizSubmitted ? lectureQuiz.length : 1,
-        domain: "english",
-      });
+      // Only log a scored event when the quiz was actually submitted.
+      // A bare "open lecture" marker would log score=0/max=1 and skew RL averages.
+      if (quizSubmitted) {
+        logStudentActivity({
+          activityType: "ielts_lecture",
+          activityId: lecture.id,
+          score: quizScore,
+          maxScore: lectureQuiz.length,
+          domain: "english",
+          metadata: { completion: true },
+        });
+      }
     }
   };
 

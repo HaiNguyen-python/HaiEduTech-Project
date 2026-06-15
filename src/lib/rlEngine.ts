@@ -86,6 +86,10 @@ export function computeStudentState(
   // markers) so the average isn't dragged down to 0.
   for (const act of activities) {
     if (act.score == null || act.max_score == null || (act.max_score ?? 0) <= 0) continue;
+    // Skip "completion markers" (max=1, score=0) that some legacy modules log
+    // when a lesson is opened without producing a real score — these would
+    // otherwise drag avg toward 0.
+    if (act.max_score === 1 && (act.score ?? 0) === 0) continue;
     const score = act.score;
     const maxScore = act.max_score;
     const normalized = (score / maxScore) * 10;
@@ -136,7 +140,7 @@ export function computeStudentState(
   const strongestAreas = sorted.slice(-3).reverse().map(([k]) => k);
 
   // Compute recent trend from last 5 scored activities only
-  const scoredActs = activities.filter(a => a.score != null && (a.max_score ?? 0) > 0);
+  const scoredActs = activities.filter(a => a.score != null && (a.max_score ?? 0) > 0 && !((a.max_score === 1) && ((a.score ?? 0) === 0)));
   const recent = scoredActs.slice(-5);
   let trend: "improving" | "declining" | "stable" = "stable";
   if (recent.length >= 3) {
