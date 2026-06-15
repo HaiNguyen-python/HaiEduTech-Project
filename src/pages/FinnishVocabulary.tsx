@@ -10,7 +10,7 @@ import VocabIllustration from "@/components/VocabIllustration";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { finnishVocabData as ieltsVocabData, FINNISH_CATEGORIES as IELTS_CATEGORIES, FINNISH_CEFR_LEVELS as CEFR_LEVELS, type FinnishVocabWord as IeltsWord } from "@/data/finnishVocabData";
-import MountainClimber from "@/components/MountainClimber";
+import FinnishSkier from "@/components/FinnishSkier";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -92,6 +92,11 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
           <p className="font-semibold break-words" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{word.definition.en}</p>
           <p className="font-bold break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
           <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}><span className="font-semibold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>{word.example}</p>
+          {word.exampleEn && (
+            <p className="break-words" style={{ fontSize: "0.875rem", color: "#6b7280", lineHeight: 1.55 }}>
+              <span className="font-semibold" style={{ color: "#059669" }}>→ </span>{word.exampleEn}
+            </p>
+          )}
           {word.synonyms && word.synonyms.length > 0 && (
             <div className="mt-2 rounded-md" style={{ backgroundColor: "#ecfdf5", padding: "0.5rem 0.75rem" }}>
               <p className="break-words" style={{ fontSize: "0.875rem", color: "#065f46", lineHeight: 1.6 }}>
@@ -520,7 +525,10 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
             </div>
             <p className="text-sm text-muted-foreground font-mono mb-1">{q.word.ipa}</p>
             {q.word.example && (
-              <p className="text-sm font-semibold text-foreground italic"><span className="not-italic font-bold text-primary">E.g. </span>{q.word.example}</p>
+              <>
+                <p className="text-sm font-semibold text-foreground italic"><span className="not-italic font-bold text-primary">E.g. </span>{q.word.example}</p>
+                {q.word.exampleEn && <p className="text-xs text-muted-foreground italic">→ {q.word.exampleEn}</p>}
+              </>
             )}
             <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
           </>
@@ -645,8 +653,8 @@ const FinnishVocabulary = () => {
               </h1>
               <p className="text-muted-foreground">
                 {t(
-                  `${ieltsVocabData.length} từ vựng thiết yếu - Lọc, học flashcard, luyện tập, nghe phát âm`,
-                  `${ieltsVocabData.length} essential words - Filter, flashcard, exercises, pronunciation`
+                  `${ieltsVocabData.length} từ vựng YKI A2–B1 · ví dụ tiếng Phần Lan kèm bản dịch tiếng Anh · flashcard · luyện tập · phát âm chuẩn fi-FI`,
+                  `${ieltsVocabData.length} YKI A2–B1 words · Finnish examples with English translations · flashcards · exercises · native fi-FI pronunciation`
                 )}
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-3 text-sm">
@@ -655,8 +663,8 @@ const FinnishVocabulary = () => {
               </div>
             </div>
 
-            {/* Mountain Climber progress visualization */}
-            <MountainClimber mastered={mastered.size} total={ieltsVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
+            {/* Finnish Skier progress visualization (Nordic theme) */}
+            <FinnishSkier mastered={mastered.size} total={ieltsVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -791,6 +799,11 @@ const FinnishVocabulary = () => {
                                     : <span key={i}>{part}</span>
                                 )}
                               </p>
+                              {w.exampleEn && (
+                                <p className="min-w-0 break-words whitespace-normal" style={{ fontSize: "0.82rem", color: "#6b7280", lineHeight: 1.5 }}>
+                                  <span className="font-bold" style={{ color: "#059669" }}>→ </span>{w.exampleEn}
+                                </p>
+                              )}
 
                               {/* Inline Type-the-example widget */}
                               <InlineTypeExample word={w} t={t} />
