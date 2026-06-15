@@ -478,6 +478,11 @@ const BEGINNER_QUIZ_EXTRA_2: BeginnerQuiz[] = [
   { question: "How to ask 'What is your name?'", questionVi: "Hỏi 'Bạn tên gì?'", options: ["Mikä on nimesi?", "Mistä olet?", "Kuka sinä?", "Missä asut?"], answer: 0, explanation: "Mikä on nimesi? literally 'What is your name?'", explanationVi: "Mikä on nimesi? nghĩa đen 'Tên bạn là gì?'" },
   { question: "Translate 'Anteeksi'.", questionVi: "Dịch 'Anteeksi'.", options: ["Cảm ơn", "Xin chào", "Xin lỗi", "Tạm biệt"], answer: 2, explanation: "Anteeksi = sorry / excuse me.", explanationVi: "Anteeksi = xin lỗi." },
   { question: "Which verb means 'to eat'?", questionVi: "Động từ nào nghĩa 'ăn'?", options: ["juoda", "syödä", "nukkua", "mennä"], answer: 1, explanation: "syödä = to eat (Type 2).", explanationVi: "syödä = ăn (Loại 2)." },
+  { question: "Translate 'Minulla on nälkä.'", questionVi: "Dịch 'Minulla on nälkä.'", options: ["Tôi mệt", "Tôi buồn", "Tôi đói", "Tôi vui"], answer: 2, explanation: "minulla on nälkä = I'm hungry.", explanationVi: "Cấu trúc 'minulla on' + cảm giác cơ thể." },
+  { question: "Imperfekti of 'asua' (minä)?", questionVi: "Imperfekti của 'asua' (minä)?", options: ["asun", "asuin", "asunut", "asuisin"], answer: 1, explanation: "asua → asuin (I lived).", explanationVi: "Quá khứ đơn: asua → asuin." },
+  { question: "Adessive of 'minä'?", questionVi: "Dạng adessive của 'minä'?", options: ["minua", "minussa", "minulla", "minulle"], answer: 2, explanation: "minä → minulla (on me).", explanationVi: "Sở hữu dùng minulla." },
+  { question: "How do you say 'pharmacy' in Finnish?", questionVi: "'Hiệu thuốc' tiếng Phần Lan?", options: ["apteekki", "sairaala", "kauppa", "posti"], answer: 0, explanation: "apteekki = pharmacy.", explanationVi: "apteekki = hiệu thuốc." },
+  { question: "Choose the right partitive after a negative verb: 'En halua kahvia/kahvi/kahvin'.", questionVi: "Sau động từ phủ định dùng dạng nào?", options: ["kahvi", "kahvin", "kahvia", "kahville"], answer: 2, explanation: "Negation + object → partitive.", explanationVi: "Sau động từ phủ định, tân ngữ phải ở partitive." },
 ];
 
 // Re-export merged quiz
