@@ -256,6 +256,7 @@ const App = () => (
 
             <Route path="/about" element={<LazyRoute><About /></LazyRoute>} />
             <Route path="/dich-vu-web" element={<LazyRoute><EdTechWebService /></LazyRoute>} />
+            <Route path="/edtech-research" element={<LazyRoute><EdTechResearch /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
             <Route path="/english/fun-facts" element={<LazyRoute><EnglishFunFacts /></LazyRoute>} />
             <Route path="/english/idioms" element={<LazyRoute><EnglishIdioms /></LazyRoute>} />
