@@ -204,7 +204,8 @@ const VIETNAMESE: PlacementQuestion[] = [
 /* ── Finnish 18 Q ───────────────────────────────────────────────────── */
 const FINNISH: PlacementQuestion[] = [
   { id: 301, skill: "listening", cefr: "A1", type: "listen-image",
-    prompt: "Valitse oikea kuva.", audioText: "Omena.", correct: 0,
+    prompt: "Mitä tyttö pitää kädessään?",
+    audioText: "Katso, pieni tyttö pitää kädessään punaista omenaa.", correct: 0,
     options: [
       { emoji: "🍎", label: "Omena" }, { emoji: "🍌", label: "Banaani" },
       { emoji: "🐱", label: "Kissa" }, { emoji: "🚗", label: "Auto" },
