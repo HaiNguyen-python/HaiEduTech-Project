@@ -459,7 +459,7 @@ const EdTechResearch = () => {
             <div>
               <h2 className="text-2xl font-bold">EdTech Innovation Survey</h2>
               <p className="text-sm text-muted-foreground">
-                Cỗ máy thu thập insight — đóng góp của bạn định hình lộ trình R&D.
+                Open insight collection — your input shapes the lab's R&D roadmap.
               </p>
             </div>
           </div>
@@ -469,10 +469,10 @@ const EdTechResearch = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="role">Vai trò của bạn trên hệ thống</Label>
+                    <Label htmlFor="role">Your role</Label>
                     <Select value={role} onValueChange={setRole}>
                       <SelectTrigger id="role">
-                        <SelectValue placeholder="Chọn vai trò..." />
+                        <SelectValue placeholder="Select your role..." />
                       </SelectTrigger>
                       <SelectContent>
                         {ROLE_OPTIONS.map((r) => (
@@ -485,7 +485,7 @@ const EdTechResearch = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Công cụ EdTech nào bạn thấy cần thiết nhất hiện nay?</Label>
+                    <Label>Which EdTech tools feel most essential to you today?</Label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                       {TOOL_OPTIONS.map((tool) => (
                         <label
@@ -505,7 +505,7 @@ const EdTechResearch = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="pain">
-                    Nỗi đau lớn nhất (Pain point) bạn gặp phải khi học hoặc dạy trực tuyến là gì?
+                    Biggest pain point you face when learning or teaching online
                   </Label>
                   <Textarea
                     id="pain"
@@ -513,13 +513,13 @@ const EdTechResearch = () => {
                     onChange={(e) => setPain(e.target.value)}
                     maxLength={2000}
                     rows={3}
-                    placeholder="Ví dụ: khó theo dõi tiến độ học sinh hằng tuần..."
+                    placeholder="e.g. hard to track student progress week over week..."
                   />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="fb">
-                    Ý tưởng hoặc Feedback đóng góp để HaiEduTech cải thiện nền tảng
+                    Ideas or feedback that would help EdTech platforms improve
                   </Label>
                   <Textarea
                     id="fb"
@@ -527,7 +527,7 @@ const EdTechResearch = () => {
                     onChange={(e) => setFb(e.target.value)}
                     maxLength={2000}
                     rows={3}
-                    placeholder="Chia sẻ ý tưởng của bạn..."
+                    placeholder="Share your idea..."
                   />
                 </div>
 
@@ -543,9 +543,10 @@ const EdTechResearch = () => {
                     ) : (
                       <Send className="w-4 h-4" />
                     )}
-                    Gửi insight
+                    Submit insight
                   </Button>
                 </div>
+
               </form>
             </CardContent>
           </Card>
