@@ -469,6 +469,7 @@ export const FIRST_30_DAYS_CHECKLIST: ChecklistItem[] = [
   { key: "language-course", vi: "Đăng ký khóa tiếng Phần Lan miễn phí (kotoutumiskoulutus)", en: "Enroll in free Finnish course (integration training)", category: "work", week: 4 },
   ...FIRST_30_DAYS_CHECKLIST_EXPANSION,
   ...FIRST_30_DAYS_CHECKLIST_V2,
+  ...FIRST_30_DAYS_CHECKLIST_V3,
 ];
 
 // Latest Migri / community resources (2026)
