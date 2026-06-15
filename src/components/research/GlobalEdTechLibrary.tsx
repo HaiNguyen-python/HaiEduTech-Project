@@ -505,13 +505,18 @@ const TOPIC_FILTERS = [
   "LLM",
   "RL",
   "ML",
+  "Agents",
   "Gamification",
   "Analytics",
   "Privacy",
   "Policy",
   "Multimodal",
   "Affective",
+  "Fairness",
+  "Integrity",
+  "Literacy",
 ];
+
 
 const GlobalEdTechLibrary = () => {
   const [q, setQ] = useState("");
