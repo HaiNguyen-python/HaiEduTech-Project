@@ -293,6 +293,15 @@ export const DAILY_PHRASES_EXTRA_2: DailyPhrase[] = [
   { fi: "Olen opiskelija.", en: "I am a student.", vi: "Tôi là sinh viên.", category: "intro", illustration: "🎓" },
   { fi: "Asun Helsingissä.", en: "I live in Helsinki.", vi: "Tôi sống ở Helsinki.", category: "intro", illustration: "🏙️" },
   { fi: "Opin suomea, koska rakastan Suomea.", en: "I'm learning Finnish because I love Finland.", vi: "Tôi học tiếng Phần Lan vì tôi yêu nước Phần Lan.", category: "intro", illustration: "❤️" },
+  // Câu hỏi & tình huống YKI A2 thường gặp
+  { fi: "Anteeksi, voitteko puhua hitaammin?", en: "Excuse me, could you speak more slowly?", vi: "Xin lỗi, ông/bà có thể nói chậm hơn không?", category: "polite", illustration: "🐢" },
+  { fi: "En ymmärrä. Voitko toistaa?", en: "I don't understand. Can you repeat?", vi: "Tôi không hiểu, bạn lặp lại được không?", category: "polite", illustration: "🤔" },
+  { fi: "Mistä tämä juna lähtee?", en: "Where does this train leave from?", vi: "Tàu này khởi hành từ đâu?", category: "asking", illustration: "🚆" },
+  { fi: "Haluaisin varata ajan lääkärille.", en: "I'd like to book a doctor's appointment.", vi: "Tôi muốn đặt lịch khám bác sĩ.", category: "asking", illustration: "🩺" },
+  { fi: "Saanko kuitin, kiitos?", en: "Can I have the receipt, please?", vi: "Cho tôi xin biên lai với?", category: "shopping", illustration: "🧾" },
+  { fi: "Onko teillä kasvisruokaa?", en: "Do you have vegetarian food?", vi: "Quán có món chay không?", category: "shopping", illustration: "🥗" },
+  { fi: "Mistä löydän lähimmän pankkiautomaatin?", en: "Where can I find the nearest ATM?", vi: "Máy ATM gần nhất ở đâu?", category: "asking", illustration: "🏧" },
+  { fi: "Tarvitsen apua. Soitatteko 112?", en: "I need help. Could you call 112?", vi: "Tôi cần giúp đỡ. Ông/bà gọi 112 giúp với?", category: "asking", illustration: "🚨" },
 ];
 // Re-export merged phrases for convenience
 export const DAILY_PHRASES_EXTRA_FULL = [...DAILY_PHRASES_EXTRA, ...DAILY_PHRASES_EXTRA_2];
