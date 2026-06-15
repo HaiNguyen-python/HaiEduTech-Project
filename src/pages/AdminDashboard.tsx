@@ -9,7 +9,7 @@ import {
   Shield, Users, BookOpen, TrendingUp, Loader2, BarChart3,
   Brain, AlertTriangle, ChevronRight, ArrowUpRight, ArrowDownRight, Minus,
   Target, Sparkles, Clock, Zap, ShieldCheck, Download, Search, Globe,
-  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog
+  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog, Bell
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -53,6 +53,7 @@ import ChatbotConversationsReview from "@/components/admin/ChatbotConversationsR
 import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
 import ReportLogsTab from "@/components/admin/ReportLogsTab";
 import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
+import RLInterventionsTab from "@/components/admin/RLInterventionsTab";
 import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
 import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
 import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
@@ -139,7 +140,7 @@ const AdminDashboard = () => {
     const groupMap: Record<string, "overview" | "students" | "learning" | "operations"> = {
       overview: "overview", system: "overview",
       students: "students", insights: "students", attendance: "students", feedback: "students", chatbot: "students",
-      "rl-engine": "learning", strategy: "learning", dictionary: "learning",
+      "rl-engine": "learning", "rl-interventions": "learning", strategy: "learning", dictionary: "learning",
       income: "operations", assistants: "operations", schedule: "operations",
       "report-logs": "operations", "service-requests": "operations", health: "operations",
     };
@@ -626,6 +627,7 @@ const AdminDashboard = () => {
                 {tabGroup === "learning" && (
                   <>
                     <TabsTrigger value="rl-engine" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> {t("Hệ thống can thiệp", "RL Engine")}</TabsTrigger>
+                    <TabsTrigger value="rl-interventions" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> {t("Chuông RL tự động", "RL Bell Dispatcher")}</TabsTrigger>
                     <TabsTrigger value="strategy" className="gap-1.5"><TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}</TabsTrigger>
                     <TabsTrigger value="dictionary" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Từ điển Anh", "English Dictionary")}</TabsTrigger>
                   </>
@@ -1178,6 +1180,11 @@ const AdminDashboard = () => {
               </TabsContent>
 
 
+
+              {/* ===== RL BELL DISPATCHER TAB ===== */}
+              <TabsContent value="rl-interventions">
+                <RLInterventionsTab />
+              </TabsContent>
 
               {/* ===== INCOME MANAGEMENT TAB (admin/teacher only) ===== */}
               {!isPureAssistant && (
