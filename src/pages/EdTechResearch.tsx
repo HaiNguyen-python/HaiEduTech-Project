@@ -163,7 +163,7 @@ const EdTechResearch = () => {
       feedback: fb || null,
     });
     if (!parsed.success) {
-      toast.error("Vui lòng chọn vai trò của bạn trước khi gửi.");
+      toast.error("Please select your role before submitting.");
       return;
     }
 
@@ -180,7 +180,7 @@ const EdTechResearch = () => {
       if (error) throw error;
 
       toast.success(
-        "Cảm ơn đóng góp khoa học của bạn! HaiEduTech trân trọng mọi insight để tối ưu nền tảng."
+        "Thanks for your contribution — HaiEduTech Lab values every insight that shapes EdTech research."
       );
       // Safely clear the form lock state after success
       setRole("");
@@ -189,11 +189,12 @@ const EdTechResearch = () => {
       setFb("");
     } catch (err) {
       console.error(err);
-      toast.error("Gửi thất bại. Vui lòng thử lại trong giây lát.");
+      toast.error("Submission failed. Please try again shortly.");
     } finally {
       setSubmitting(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-background">
