@@ -799,6 +799,11 @@ const FinnishVocabulary = () => {
                                     : <span key={i}>{part}</span>
                                 )}
                               </p>
+                              {w.exampleEn && (
+                                <p className="min-w-0 break-words whitespace-normal" style={{ fontSize: "0.82rem", color: "#6b7280", lineHeight: 1.5 }}>
+                                  <span className="font-bold" style={{ color: "#059669" }}>→ </span>{w.exampleEn}
+                                </p>
+                              )}
 
                               {/* Inline Type-the-example widget */}
                               <InlineTypeExample word={w} t={t} />
