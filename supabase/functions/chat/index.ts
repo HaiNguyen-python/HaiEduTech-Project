@@ -124,8 +124,8 @@ serve(async (req) => {
     }
 
     const { messages, studentContext } = await req.json();
-    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
     const platformFeaturesMap = `
 ## 🧭 PLATFORM FEATURES MAP — ALWAYS DIRECT STUDENTS TO REAL ROUTES ON haiedutech.com:
