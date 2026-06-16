@@ -138,43 +138,29 @@ const About = () => {
             <p className="text-lg text-muted-foreground mb-4">
               Data & AI Engineer - Language Educator - HaiEduTech Founder
             </p>
-            <div className="text-secondary-foreground mb-8 space-y-4 text-[15px] leading-relaxed">
-              <p>{t("Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.", "Hi, I'm Hai Nguyen – Founder of HaiEduTech.")}</p>
-              <p>
+            <div className="text-secondary-foreground mb-8 space-y-4 text-[15px] leading-relaxed relative overflow-hidden rounded-2xl p-6 bg-background/40">
+              <img
+                src={hainguyenPortrait.url}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover opacity-50 blur-[0.5px] grayscale-[20%] -z-0 pointer-events-none select-none"
+                aria-hidden="true"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-background/30 to-background/60 -z-0" />
+              <p className="relative z-10">{t("Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.", "Hi, I'm Hai Nguyen – Founder of HaiEduTech.")}</p>
+              <p className="relative z-10">
                 {t(
                   "Với hơn 15 năm kinh nghiệm giảng dạy Ngôn ngữ và nền tảng học vấn vững chắc – Thạc sĩ Ngôn ngữ Anh & Văn hóa, Cử nhân Sư phạm Tiếng Anh (TESOL) – thầy luôn khao khát tìm kiếm giải pháp tối ưu cho việc học. Khát vọng đó đã dẫn lối thầy đến với con đường Kỹ thuật Công nghệ tại Phần Lan, quốc gia dẫn đầu về giáo dục và đổi mới.",
                   "With over 15 years of language teaching experience and a solid academic foundation – M.A. in English Language & Culture, B.A. in TESOL – I have always been passionate about finding optimal learning solutions. That drive led me to pursue Technology Engineering in Finland, a country at the forefront of education and innovation."
                 )}
               </p>
-              <p>
+              <p className="relative z-10">
                 {t(
                   "HaiEduTech ra đời từ chính sự giao thoa độc đáo đó. Với tư cách là một Kỹ sư CNTT chuyên ngành Kỹ thuật Dữ liệu, kết hợp với các chứng chỉ chuyên sâu về Điện toán Đám mây và Máy học (AWS Cloud Foundations, Data Engineering, ML for NLP), thầy không chỉ dạy ngôn ngữ mà còn trực tiếp tích hợp các công nghệ AI tiên tiến vào quy trình học tập. Tại HaiEduTech, bạn sẽ không chỉ được dẫn dắt bởi một nhà giáo tận tâm mà còn được trải nghiệm hệ thống học thông minh được tối ưu hóa bằng dữ liệu, giúp bạn học tập hiệu quả hơn bao giờ hết. Thầy không chỉ dạy học, thầy kiến tạo cách bạn học.",
                   "HaiEduTech was born from that unique intersection. As an ICT Engineer specializing in Data Engineering, with certifications in Cloud Computing and Machine Learning (AWS Cloud Foundations, Data Engineering, ML for NLP), I don't just teach languages – I directly integrate cutting-edge AI technologies into the learning process. At HaiEduTech, you'll not only be guided by a dedicated educator but also experience a smart learning system optimized by data, helping you learn more effectively than ever. We don't just teach – we reshape how you learn."
                 )}
               </p>
             </div>
-
-            {/* Faint portrait of Teacher Hai */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="relative mx-auto mb-12 w-full max-w-md"
-              aria-hidden="false"
-            >
-              <div className="relative overflow-hidden rounded-2xl">
-                <img
-                  src={hainguyenPortrait.url}
-                  alt={t("Chân dung Thầy Hai Nguyen", "Portrait of Teacher Hai Nguyen")}
-                  loading="lazy"
-                  className="w-full h-auto object-cover opacity-30 blur-[1.5px] grayscale-[20%] transition-all duration-700 hover:opacity-70 hover:blur-0 hover:grayscale-0"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-background/10 to-transparent" />
-              </div>
-              <p className="mt-2 text-center text-xs text-muted-foreground italic">
-                {t("Di chuột để xem rõ ảnh thầy", "Hover to reveal the portrait")}
-              </p>
-            </motion.div>
 
 
             {/* Achievements - synced with HeroSection */}
