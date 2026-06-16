@@ -894,25 +894,42 @@ const SpeakingPractice = () => {
                         <Square className="w-4 h-4 fill-current" /> {t("Dừng", "Stop")}
                       </Button>
                     )}
-                    {audioBlob && !isRecording && (
-                      <>
-                        <Button onClick={resetRecording} variant="outline" className="gap-2">
-                          <RotateCcw className="w-4 h-4" /> {t("Ghi lại", "Re-record")}
-                        </Button>
-                        <Button
-                          onClick={handleGrade}
-                          disabled={loading}
-                          className="gap-2 bg-gradient-to-r from-primary to-emerald-600 hover:brightness-110"
-                        >
-                          {loading ? (
-                            <motion.div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
-                          ) : (
-                            <Play className="w-4 h-4 fill-current" />
-                          )}
-                          {loading ? t("Đang chấm...", "Grading...") : t("Chấm điểm", "Grade")}
-                        </Button>
-                      </>
-                    )}
+                    {audioBlob && !isRecording && (() => {
+                      const words = liveTranscript.trim() ? liveTranscript.trim().split(/\s+/).length : 0;
+                      // Gemini 2.5 Flash via Lovable AI Gateway (empirical from workspace logs):
+                      // ~0.002 base credits + scales slightly with transcript length.
+                      const estCredits = 0.002 + (words / 200) * 0.001;
+                      const estLow = Math.max(0.002, estCredits * 0.8);
+                      const estHigh = estCredits * 1.3;
+                      return (
+                        <>
+                          <Button onClick={resetRecording} variant="outline" className="gap-2">
+                            <RotateCcw className="w-4 h-4" /> {t("Ghi lại", "Re-record")}
+                          </Button>
+                          <Button
+                            onClick={handleGrade}
+                            disabled={loading}
+                            className="gap-2 bg-gradient-to-r from-primary to-emerald-600 hover:brightness-110"
+                          >
+                            {loading ? (
+                              <motion.div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+                            ) : (
+                              <Play className="w-4 h-4 fill-current" />
+                            )}
+                            {loading ? t("Đang chấm...", "Grading...") : t("Chấm điểm", "Grade")}
+                          </Button>
+                          <div className="basis-full" />
+                          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                            <Sparkles className="w-3.5 h-3.5" />
+                            <span>
+                              {t("Ước tính", "Estimate")}: <strong>{words}</strong> {t("từ", "words")} • ~<strong>{estLow.toFixed(3)}–{estHigh.toFixed(3)}</strong> {t("credits", "credits")}
+                            </span>
+                            <span className="text-emerald-600/70 dark:text-emerald-400/70">(Gemini 2.5 Flash)</span>
+                          </div>
+                        </>
+                      );
+                    })()}
+
                   </div>
 
                   {/* Audio player */}
