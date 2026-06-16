@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
   Headphones, FileText, MessageSquare, BookType, ChevronRight, ChevronDown,
-  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock, ArrowLeft
+  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock, ArrowLeft, PenTool
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +44,7 @@ const SKILL_ICONS: Record<CambridgeSkill, React.ComponentType<{ className?: stri
   "reading-writing": FileText,
   speaking: MessageSquare,
   vocabulary: BookType,
+  grammar: PenTool,
 };
 
 const CambridgeLectures = () => {
@@ -468,6 +469,7 @@ const CambridgeCard = ({ lecture, index, isBookmarked, isCompleted, onToggleBook
 const LEVEL_ORDER: CambridgeLevel[] = ["starters", "movers", "flyers", "ket", "pet"];
 const SKILL_ORDER: { key: CambridgeSkill; labelVi: string; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { key: "vocabulary", labelVi: "Từ vựng nền tảng", label: "Vocabulary Foundation", icon: BookType },
+  { key: "grammar", labelVi: "Ngữ pháp trọng tâm", label: "Grammar Essentials", icon: PenTool },
   { key: "listening", labelVi: "Nghe", label: "Listening", icon: Headphones },
   { key: "reading-writing", labelVi: "Đọc & Viết", label: "Reading & Writing", icon: FileText },
   { key: "speaking", labelVi: "Nói", label: "Speaking", icon: MessageSquare },

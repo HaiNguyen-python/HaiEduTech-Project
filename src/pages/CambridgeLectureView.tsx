@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft, ChevronRight, AlertTriangle, BookOpen, Lightbulb,
   CheckCircle, XCircle, Star, Info, Target, ListChecks, FileSearch,
-  Image as ImageIcon, Headphones, PenLine, Mic, Sparkles, Clock, GraduationCap
+  Image as ImageIcon, Headphones, PenLine, Mic, Sparkles, Clock, GraduationCap, PenTool
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,7 @@ const SKILL_META: Record<string, { icon: JSX.Element; labelEn: string; labelVi: 
   "reading-writing": { icon: <PenLine className="w-3.5 h-3.5" />, labelEn: "Reading & Writing", labelVi: "Đọc & Viết" },
   speaking: { icon: <Mic className="w-3.5 h-3.5" />, labelEn: "Speaking", labelVi: "Nói" },
   vocabulary: { icon: <BookOpen className="w-3.5 h-3.5" />, labelEn: "Vocabulary", labelVi: "Từ vựng" },
+  grammar: { icon: <PenTool className="w-3.5 h-3.5" />, labelEn: "Grammar", labelVi: "Ngữ pháp" },
 };
 
 const CambridgeLectureView = () => {
