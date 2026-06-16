@@ -28,6 +28,13 @@ import {
   BookOpen,
   Microscope,
   ExternalLink,
+  Target,
+  Lightbulb,
+  Rocket,
+  Zap,
+  CheckCircle2,
+  Globe2,
+  BarChart3,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
