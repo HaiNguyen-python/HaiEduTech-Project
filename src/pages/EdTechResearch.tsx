@@ -422,6 +422,63 @@ const EdTechResearch = () => {
 
         </motion.section>
 
+        {/* Research Philosophy */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-16"
+        >
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 text-emerald-600 text-sm font-medium mb-4">
+              <Zap className="w-4 h-4" />
+              Guiding Principles
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold">Our Research Philosophy</h2>
+            <p className="mt-3 text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Every feature at HaiEduTech begins as a research question. We combine rigorous quantitative methods with deep pedagogical expertise to build tools that measurably improve learning outcomes — not just sound impressive in demos.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {[
+              {
+                icon: <Target className="w-6 h-6" />,
+                title: "Evidence-Based by Default",
+                body: "We do not ship features based on intuition alone. Every product decision is informed by controlled experiments, learning analytics, and systematic literature review. Our team reads and critiques 50+ peer-reviewed papers annually across AIED, cognitive science, and human-computer interaction.",
+              },
+              {
+                icon: <Users className="w-6 h-6" />,
+                title: "Learner-Centered Inquiry",
+                body: "Research questions emerge directly from real classrooms. We shadow learners, interview teachers in three languages, and analyse millions of interaction logs to identify genuine friction points — not hypothetical ones. If a problem is not observable in the data, it does not enter our backlog.",
+              },
+              {
+                icon: <CheckCircle2 className="w-6 h-6" />,
+                title: "Transparent & Reproducible",
+                body: "All studies follow institutional ethics guidelines with informed consent. Data is anonymised before analysis, models are audited for demographic bias, and negative results are published just as openly as positive ones. We believe transparency builds the trust that EdTech desperately needs.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Card className="h-full hover:border-primary/40 hover:shadow-lg transition-all">
+                  <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500 opacity-60" />
+                  <CardContent className="p-6">
+                    <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/10 to-emerald-500/10 text-primary w-fit mb-4">
+                      {item.icon}
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-[1.8]">{item.body}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
         {/* Dynamic Research Project Framework */}
         <ResearchProjectsSection />
 
