@@ -28,6 +28,13 @@ import {
   BookOpen,
   Microscope,
   ExternalLink,
+  Target,
+  Lightbulb,
+  Rocket,
+  Zap,
+  CheckCircle2,
+  Globe2,
+  BarChart3,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -415,6 +422,63 @@ const EdTechResearch = () => {
 
         </motion.section>
 
+        {/* Research Philosophy */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-16"
+        >
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 text-emerald-600 text-sm font-medium mb-4">
+              <Zap className="w-4 h-4" />
+              Guiding Principles
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold">Our Research Philosophy</h2>
+            <p className="mt-3 text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Every feature at HaiEduTech begins as a research question. We combine rigorous quantitative methods with deep pedagogical expertise to build tools that measurably improve learning outcomes — not just sound impressive in demos.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {[
+              {
+                icon: <Target className="w-6 h-6" />,
+                title: "Evidence-Based by Default",
+                body: "We do not ship features based on intuition alone. Every product decision is informed by controlled experiments, learning analytics, and systematic literature review. Our team reads and critiques 50+ peer-reviewed papers annually across AIED, cognitive science, and human-computer interaction.",
+              },
+              {
+                icon: <Users className="w-6 h-6" />,
+                title: "Learner-Centered Inquiry",
+                body: "Research questions emerge directly from real classrooms. We shadow learners, interview teachers in three languages, and analyse millions of interaction logs to identify genuine friction points — not hypothetical ones. If a problem is not observable in the data, it does not enter our backlog.",
+              },
+              {
+                icon: <CheckCircle2 className="w-6 h-6" />,
+                title: "Transparent & Reproducible",
+                body: "All studies follow institutional ethics guidelines with informed consent. Data is anonymised before analysis, models are audited for demographic bias, and negative results are published just as openly as positive ones. We believe transparency builds the trust that EdTech desperately needs.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Card className="h-full hover:border-primary/40 hover:shadow-lg transition-all">
+                  <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500 opacity-60" />
+                  <CardContent className="p-6">
+                    <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/10 to-emerald-500/10 text-primary w-fit mb-4">
+                      {item.icon}
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-[1.8]">{item.body}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
         {/* Dynamic Research Project Framework */}
         <ResearchProjectsSection />
 
@@ -574,6 +638,77 @@ const EdTechResearch = () => {
                 <li>Parents need concise dashboards without dense technical metrics.</li>
               </ul>
 
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Research-to-Practice Pipeline */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary/15 to-emerald-500/15 text-primary">
+              <Rocket className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                From Hypothesis to Classroom
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Our end-to-end research pipeline turns academic curiosity into measurable learning gains across six rigorous stages.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="hidden md:block absolute top-10 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-primary/20 via-emerald-500/30 to-primary/20" />
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+              {[
+                { step: "01", icon: <Lightbulb className="w-5 h-5" />, title: "Discovery", desc: "Shadow learners, analyse logs, and scan literature to surface friction points others miss." },
+                { step: "02", icon: <Brain className="w-5 h-5" />, title: "Hypothesis", desc: "Formulate falsifiable predictions grounded in cognitive science and prior effect-size estimates." },
+                { step: "03", icon: <FlaskConical className="w-5 h-5" />, title: "Prototype", desc: "Build minimum-viable interventions with built-in telemetry so every click teaches us something." },
+                { step: "04", icon: <BarChart3 className="w-5 h-5" />, title: "Validate", desc: "Run A/B or RCT pilots with pre-registered analysis plans and adequate statistical power." },
+                { step: "05", icon: <Rocket className="w-5 h-5" />, title: "Deploy", desc: "Progressive rollout with real-time safety monitoring and instant rollback triggers." },
+                { step: "06", icon: <TrendingUp className="w-5 h-5" />, title: "Evaluate", desc: "Track retention, transfer, and motivation over 6–24 months using growth-curve models." },
+              ].map((s, i) => (
+                <motion.div
+                  key={s.step}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="relative"
+                >
+                  <div className="flex flex-col items-center text-center">
+                    <div className="relative z-10 w-20 h-20 rounded-full bg-background border-2 border-primary/20 flex items-center justify-center text-primary mb-3 shadow-sm hover:border-primary/50 hover:shadow-md transition-all">
+                      {s.icon}
+                    </div>
+                    <Badge variant="outline" className="mb-1.5 font-mono text-[10px] tracking-wider border-primary/20 text-primary">
+                      {s.step}
+                    </Badge>
+                    <h3 className="font-semibold text-sm mb-1">{s.title}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <Card className="mt-8 border-primary/10 bg-gradient-to-br from-primary/5 to-emerald-500/5">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex items-start gap-4">
+                <div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0 mt-0.5">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">Why this pipeline matters</h3>
+                  <p className="text-sm text-muted-foreground leading-[1.8]">
+                    Most EdTech products iterate on gut feeling. We iterate on evidence. By separating the
+                    <strong> discovery</strong> phase (where we listen) from the <strong>validation</strong> phase
+                    (where we measure), we avoid the common trap of building flashy features that look good in demos
+                    but produce no durable learning gain. Every stage feeds telemetry backward, so the pipeline
+                    itself improves with each cycle — a meta-learning system for educational innovation.
+                  </p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </section>
@@ -945,6 +1080,82 @@ const EdTechResearch = () => {
               </Card>
             ))}
           </div>
+        </section>
+
+        {/* Global Collaboration & Open Science */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary/15 to-emerald-500/15 text-primary">
+              <Globe2 className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                Global Collaboration & Open Science
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Research moves faster when it is shared. HaiEduTech Lab actively collaborates with universities, school districts, and open-source communities across four continents.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-5 mb-6">
+            <Card className="hover:border-primary/40 hover:shadow-lg transition-all">
+              <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500" />
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <GraduationCap className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold">Academic Partnerships</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-[1.8] mb-4">
+                  We maintain active research agreements with universities in Finland, Vietnam, and Australia. These partnerships give us access to diverse learner populations, institutional review boards, and peer-review networks that keep our work academically rigorous.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline">University of Turku</Badge>
+                  <Badge variant="outline">University of Oulu</Badge>
+                  <Badge variant="outline">VNU-HCM</Badge>
+                  <Badge variant="outline">UNSW Sydney</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:border-primary/40 hover:shadow-lg transition-all">
+              <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-500 to-primary" />
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold">School District Pilots</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-[1.8] mb-4">
+                  Real classrooms are our ultimate laboratory. We run semester-long pilots with K-12 schools and language centres, collecting multimodal data (engagement logs, quiz scores, teacher surveys, and structured interviews) to validate interventions at scale.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline">Helsinki Region</Badge>
+                  <Badge variant="outline">Ho Chi Minh City</Badge>
+                  <Badge variant="outline">Turku Archipelago</Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="border-dashed border-primary/20">
+            <CardContent className="p-6">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/10 to-emerald-500/10 text-primary w-fit shrink-0">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Open Data & Reproducibility Commitment</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Where privacy and ethics allow, we publish anonymised datasets, analysis notebooks, and pre-registration protocols on our GitHub and OSF repositories. We believe the EdTech field benefits when every team can reproduce, critique, and build upon each other's work — not just cite polished conclusions.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </section>
 
         {/* Global EdTech Research Library — curated external papers + visualisations */}
