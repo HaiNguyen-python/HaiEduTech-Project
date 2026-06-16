@@ -232,7 +232,7 @@ const AdminDashboard = () => {
     const activityData = await fetchAllRows<any>((from, to) =>
       supabase
         .from("student_activity_log")
-        .select("user_id, activity_type, domain, score, time_spent_seconds, created_at, metadata")
+        .select("user_id, activity_type, domain, score, max_score, time_spent_seconds, created_at, metadata")
         .gte("created_at", sinceIso)
         .order("created_at", { ascending: true })
         .range(from, to)
