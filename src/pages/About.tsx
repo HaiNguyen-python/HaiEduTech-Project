@@ -8,7 +8,7 @@ import CertCarousel from "@/components/CertCarousel";
 import ClassroomGallery from "@/components/ClassroomGallery";
 import teacherHaiChibi from "@/assets/teacher-hai-chibi-philosophy.webp";
 import AdSlot from "@/components/ads/AdSlot";
-import hainguyenPortrait from "@/assets/hai-nguyen-portrait.png.asset.json";
+import haiNguyenTurku from "@/assets/hai-nguyen-turku-2026.png.asset.json";
 
 const About = () => {
   const { t } = useLanguage();
