@@ -171,14 +171,14 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
     }
 
     if (!upgradedAnswer) {
-      await logUsage("upgrade-speaking", "sonar", "english", tokensUsed, "empty");
+      await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", tokensUsed, "empty");
       return new Response(
         JSON.stringify({ error: "Could not generate upgrade. Please try again." }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    await logUsage("upgrade-speaking", "sonar", "english", tokensUsed, "success");
+    await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify({ upgradedAnswer }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
