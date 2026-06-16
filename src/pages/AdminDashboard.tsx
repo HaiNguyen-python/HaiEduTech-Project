@@ -85,6 +85,12 @@ type AdminActivity = {
 };
 type AdminUserMeta = { user_id: string; last_login: string | null; total_seconds: number | string };
 
+const TabLoading = () => (
+  <div className="flex justify-center py-10">
+    <Loader2 className="w-6 h-6 animate-spin text-primary" />
+  </div>
+);
+
 // Format a seconds count as "Xh Ym" / "Ym" / "<1m"
 function formatDuration(sec: number): string {
   if (!sec || sec < 60) return sec > 0 ? "<1m" : "-";
