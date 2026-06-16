@@ -3387,6 +3387,14 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      get_admin_user_meta: {
+        Args: { _since: string }
+        Returns: {
+          last_login: string
+          total_seconds: number
+          user_id: string
+        }[]
+      }
       get_mastery_leaderboard: {
         Args: { _subject: string }
         Returns: {

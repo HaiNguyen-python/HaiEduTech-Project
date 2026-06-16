@@ -172,21 +172,42 @@ const AdminDashboard = () => {
   const fetchAll = useCallback(async () => {
     if (!canAccessDashboard) return;
     setLoadingData(true);
-    // Fetch students (exclude teachers/admins) and deduplicate by id
-    const profiles = await fetchAllRows<{ id: string; full_name: string | null; created_at: string }>((from, to) =>
-      supabase
-        .from("profiles")
-        .select("id, full_name, created_at")
-        .order("created_at", { ascending: true })
-        .range(from, to)
-    );
-    const teacherRoles = await fetchAllRows<{ user_id: string }>((from, to) =>
-      supabase
-        .from("user_roles")
-        .select("user_id")
-        .in("role", ["teacher", "admin"])
-        .range(from, to)
-    );
+
+    // Fetch in parallel to cut total wall time.
+    // - profiles: students list
+    // - teacherRoles: to exclude staff from the student list
+    // - activityData: learning activities only (heartbeats filtered server-side)
+    // - userMetaRows: per-user aggregate (last login + total seconds) computed in Postgres
+    //   so we don't ship ~17k heartbeat rows to the browser.
+    const sinceIso = new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString();
+
+    const [profiles, teacherRoles, activityData, userMetaRes] = await Promise.all([
+      fetchAllRows<{ id: string; full_name: string | null; created_at: string }>((from, to) =>
+        supabase
+          .from("profiles")
+          .select("id, full_name, created_at")
+          .order("created_at", { ascending: true })
+          .range(from, to)
+      ),
+      fetchAllRows<{ user_id: string }>((from, to) =>
+        supabase
+          .from("user_roles")
+          .select("user_id")
+          .in("role", ["teacher", "admin"])
+          .range(from, to)
+      ),
+      fetchAllRows<any>((from, to) =>
+        supabase
+          .from("student_activity_log")
+          .select("user_id, activity_type, domain, score, max_score, time_spent_seconds, created_at, metadata")
+          .gte("created_at", sinceIso)
+          .not("activity_type", "in", `(${Array.from(SYSTEM_ACTIVITY_TYPES).join(",")})`)
+          .order("created_at", { ascending: true })
+          .range(from, to)
+      ),
+      supabase.rpc("get_admin_user_meta", { _since: sinceIso }),
+    ]);
+
     const teacherIds = new Set((teacherRoles || []).map((r) => r.user_id));
     // Deduplicate by id and exclude teachers
     const seenIds = new Set<string>();
@@ -225,43 +246,31 @@ const AdminDashboard = () => {
     }
     setStudents(studentList);
 
-    // Fetch recent activity logs only (last 120 days) to keep admin load fast.
-    // Older data is still queryable via dedicated reports but the live dashboard
-    // focuses on the current learning trend.
-    const sinceIso = new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString();
-    const activityData = await fetchAllRows<any>((from, to) =>
-      supabase
-        .from("student_activity_log")
-        .select("user_id, activity_type, domain, score, max_score, time_spent_seconds, created_at, metadata")
-        .gte("created_at", sinceIso)
-        .order("created_at", { ascending: true })
-        .range(from, to)
-    );
     // Remap activity user_id to primary id so merged students share their history
     const studentIdSet = new Set(studentList.map((s) => s.id));
-    const allActivities = (activityData || [])
+    const learningActivities = (activityData || [])
       .map((a) => ({
         ...a,
         user_id: idToPrimary.get(a.user_id) || a.user_id,
       }))
-      // Drop activities from non-student accounts (teachers/admins or orphaned rows)
-      // so the Student Overview never shows "Unknown" users.
-      .filter((a) => studentIdSet.has(a.user_id));
-    const learningActivities = allActivities.filter((a) => isLearningActivity(a.activity_type));
+      .filter((a) => studentIdSet.has(a.user_id) && isLearningActivity(a.activity_type));
     setActivities(learningActivities);
 
-    // Build engagement meta from the FULL activity stream (heartbeats + learning).
-    // - lastLogin: most recent activity timestamp of any kind
-    // - totalSeconds: cumulative time_spent_seconds across every activity
+    // Build engagement meta from the server-side aggregate, remapping ids to primary.
     const metaMap = new Map<string, { lastLogin: number; totalSeconds: number }>();
-    for (const a of allActivities) {
-      const ts = new Date(a.created_at).getTime();
-      const cur = metaMap.get(a.user_id) || { lastLogin: 0, totalSeconds: 0 };
+    const metaRows = (userMetaRes?.data || []) as Array<{ user_id: string; last_login: string | null; total_seconds: number | string }>;
+    for (const row of metaRows) {
+      const pid = idToPrimary.get(row.user_id) || row.user_id;
+      if (!studentIdSet.has(pid)) continue;
+      const ts = row.last_login ? new Date(row.last_login).getTime() : 0;
+      const secs = Number(row.total_seconds) || 0;
+      const cur = metaMap.get(pid) || { lastLogin: 0, totalSeconds: 0 };
       if (ts > cur.lastLogin) cur.lastLogin = ts;
-      cur.totalSeconds += Number(a.time_spent_seconds) || 0;
-      metaMap.set(a.user_id, cur);
+      cur.totalSeconds += secs;
+      metaMap.set(pid, cur);
     }
     setUserMeta(metaMap);
+
 
     // Compute student states
     const states: StudentState[] = [];
