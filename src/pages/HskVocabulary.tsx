@@ -20,6 +20,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
+import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import HskMnemonic from "@/components/HskMnemonic";
@@ -778,6 +779,7 @@ const HskVocabulary = () => {
               }}
               allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
             />
+            <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
           </div>
           <div className="lg:hidden mt-6 space-y-4">
@@ -797,6 +799,7 @@ const HskVocabulary = () => {
               }}
               allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
             />
+            <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
             </TabsContent>
             <TabsContent value="radicals">
