@@ -127,39 +127,75 @@ const About = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
-            <div className="flex items-center gap-2 mb-2">
-              <MapPin className="w-4 h-4 text-primary" />
-              <span className="text-sm text-muted-foreground">{t("Phần Lan · Việt Nam", "Finland · Vietnam")}</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-              {t("Về HaiEduTech & Thầy Hai Nguyen", "About HaiEduTech & Teacher Hai Nguyen")}
-            </h1>
-            <p className="text-lg text-muted-foreground mb-4">
-              Data & AI Engineer - Language Educator - HaiEduTech Founder
-            </p>
-            <div className="text-foreground mb-10 space-y-6 text-base md:text-lg leading-loose relative overflow-hidden rounded-2xl p-8 md:p-12 bg-background min-h-[580px]">
-              <img
-                src={hainguyenPortrait.url}
-                alt=""
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover object-center opacity-70 blur-0 grayscale-[20%] -z-0 pointer-events-none select-none"
-                aria-hidden="true"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-background/50 -z-0" />
-              <p className="relative z-10 font-semibold">{t("Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.", "Hi, I'm Hai Nguyen – Founder of HaiEduTech.")}</p>
-              <p className="relative z-10 font-semibold">
-                {t(
-                  "Với hơn 15 năm kinh nghiệm giảng dạy Ngôn ngữ và nền tảng học vấn vững chắc – Thạc sĩ Ngôn ngữ Anh & Văn hóa, Cử nhân Sư phạm Tiếng Anh (TESOL) – thầy luôn khao khát tìm kiếm giải pháp tối ưu cho việc học. Khát vọng đó đã dẫn lối thầy đến với con đường Kỹ thuật Công nghệ tại Phần Lan, quốc gia dẫn đầu về giáo dục và đổi mới.",
-                  "With over 15 years of language teaching experience and a solid academic foundation – M.A. in English Language & Culture, B.A. in TESOL – I have always been passionate about finding optimal learning solutions. That drive led me to pursue Technology Engineering in Finland, a country at the forefront of education and innovation."
-                )}
-              </p>
-              <p className="relative z-10 font-semibold">
-                {t(
-                  "HaiEduTech ra đời từ chính sự giao thoa độc đáo đó. Với tư cách là một Kỹ sư CNTT chuyên ngành Kỹ thuật Dữ liệu, kết hợp với các chứng chỉ chuyên sâu về Điện toán Đám mây và Máy học (AWS Cloud Foundations, Data Engineering, ML for NLP), thầy không chỉ dạy ngôn ngữ mà còn trực tiếp tích hợp các công nghệ AI tiên tiến vào quy trình học tập. Tại HaiEduTech, bạn sẽ không chỉ được dẫn dắt bởi một nhà giáo tận tâm mà còn được trải nghiệm hệ thống học thông minh được tối ưu hóa bằng dữ liệu, giúp bạn học tập hiệu quả hơn bao giờ hết. Thầy không chỉ dạy học, thầy kiến tạo cách bạn học.",
-                  "HaiEduTech was born from that unique intersection. As an ICT Engineer specializing in Data Engineering, with certifications in Cloud Computing and Machine Learning (AWS Cloud Foundations, Data Engineering, ML for NLP), I don't just teach languages – I directly integrate cutting-edge AI technologies into the learning process. At HaiEduTech, you'll not only be guided by a dedicated educator but also experience a smart learning system optimized by data, helping you learn more effectively than ever. We don't just teach – we reshape how you learn."
-                )}
-              </p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto">
+            {/* Split Hero: Image Left · Text Right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-12">
+              {/* Left: Portrait */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+                className="relative group"
+              >
+                <div className="relative rounded-2xl overflow-hidden border border-border shadow-xl bg-card">
+                  {/* Gradient accent top bar */}
+                  <div className="h-1.5 w-full bg-gradient-to-r from-primary via-teal-400 to-primary" />
+                  <img
+                    src={haiNguyenTurku.url}
+                    alt={t("Thầy Hải Nguyen tại Turku AMK 2026", "Mr. Hai Nguyen at Turku AMK 2026")}
+                    loading="eager"
+                    className="w-full h-auto object-cover"
+                  />
+                  {/* Bottom caption badge */}
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/90 backdrop-blur-md border border-border shadow-sm">
+                      <GraduationCap className="w-4 h-4 text-primary" />
+                      <span className="text-xs font-semibold text-foreground">
+                        {t("Tốt nghiệp Kỹ sư AI & Dữ liệu · Turku 2026", "AI & Data Engineer Graduate · Turku 2026")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {/* Decorative glow behind */}
+                <div className="absolute -inset-3 bg-gradient-to-br from-primary/10 via-teal-400/5 to-transparent rounded-3xl -z-10 blur-xl opacity-60" />
+              </motion.div>
+
+              {/* Right: Bio Text */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+                className="flex flex-col justify-center"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <span className="text-sm text-muted-foreground">{t("Phần Lan · Việt Nam", "Finland · Vietnam")}</span>
+                </div>
+                <h1 className="text-3xl md:text-4xl lg:text-[2.6rem] font-display font-bold mb-2 leading-tight">
+                  {t("Về HaiEduTech & Thầy Hai Nguyen", "About HaiEduTech & Teacher Hai Nguyen")}
+                </h1>
+                <p className="text-base md:text-lg font-medium text-primary mb-6">
+                  Data & AI Engineer · Language Educator · HaiEduTech Founder
+                </p>
+
+                <div className="space-y-5 text-foreground/90 text-base md:text-[1.05rem] leading-relaxed">
+                  <p className="font-semibold text-foreground">
+                    {t("Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.", "Hi, I'm Hai Nguyen – Founder of HaiEduTech.")}
+                  </p>
+                  <p>
+                    {t(
+                      "Với hơn 15 năm kinh nghiệm giảng dạy Ngôn ngữ và nền tảng học vấn vững chắc – Thạc sĩ Ngôn ngữ Anh & Văn hóa, Cử nhân Sư phạm Tiếng Anh (TESOL) – thầy luôn khao khát tìm kiếm giải pháp tối ưu cho việc học. Khát vọng đó đã dẫn lối thầy đến với con đường Kỹ thuật Công nghệ tại Phần Lan, quốc gia dẫn đầu về giáo dục và đổi mới.",
+                      "With over 15 years of language teaching experience and a solid academic foundation – M.A. in English Language & Culture, B.A. in TESOL – I have always been passionate about finding optimal learning solutions. That drive led me to pursue Technology Engineering in Finland, a country at the forefront of education and innovation."
+                    )}
+                  </p>
+                  <p>
+                    {t(
+                      "HaiEduTech ra đời từ chính sự giao thoa độc đáo đó. Với tư cách là một Kỹ sư CNTT chuyên ngành Kỹ thuật Dữ liệu, kết hợp với các chứng chỉ chuyên sâu về Điện toán Đám mây và Máy học (AWS Cloud Foundations, Data Engineering, ML for NLP), thầy không chỉ dạy ngôn ngữ mà còn trực tiếp tích hợp các công nghệ AI tiên tiến vào quy trình học tập. Tại HaiEduTech, bạn sẽ không chỉ được dẫn dắt bởi một nhà giáo tận tâm mà còn được trải nghiệm hệ thống học thông minh được tối ưu hóa bằng dữ liệu, giúp bạn học tập hiệu quả hơn bao giờ hết. Thầy không chỉ dạy học, thầy kiến tạo cách bạn học.",
+                      "HaiEduTech was born from that unique intersection. As an ICT Engineer specializing in Data Engineering, with certifications in Cloud Computing and Machine Learning (AWS Cloud Foundations, Data Engineering, ML for NLP), I don't just teach languages – I directly integrate cutting-edge AI technologies into the learning process. At HaiEduTech, you'll not only be guided by a dedicated educator but also experience a smart learning system optimized by data, helping you learn more effectively than ever. We don't just teach – we reshape how you learn."
+                    )}
+                  </p>
+                </div>
+              </motion.div>
             </div>
 
 
