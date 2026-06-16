@@ -19,6 +19,7 @@ import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
+import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 10;
