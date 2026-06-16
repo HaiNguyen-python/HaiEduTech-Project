@@ -1082,6 +1082,82 @@ const EdTechResearch = () => {
           </div>
         </section>
 
+        {/* Global Collaboration & Open Science */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary/15 to-emerald-500/15 text-primary">
+              <Globe2 className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                Global Collaboration & Open Science
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Research moves faster when it is shared. HaiEduTech Lab actively collaborates with universities, school districts, and open-source communities across four continents.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-5 mb-6">
+            <Card className="hover:border-primary/40 hover:shadow-lg transition-all">
+              <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500" />
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <GraduationCap className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold">Academic Partnerships</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-[1.8] mb-4">
+                  We maintain active research agreements with universities in Finland, Vietnam, and Australia. These partnerships give us access to diverse learner populations, institutional review boards, and peer-review networks that keep our work academically rigorous.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline">University of Turku</Badge>
+                  <Badge variant="outline">University of Oulu</Badge>
+                  <Badge variant="outline">VNU-HCM</Badge>
+                  <Badge variant="outline">UNSW Sydney</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:border-primary/40 hover:shadow-lg transition-all">
+              <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-500 to-primary" />
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold">School District Pilots</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-[1.8] mb-4">
+                  Real classrooms are our ultimate laboratory. We run semester-long pilots with K-12 schools and language centres, collecting multimodal data (engagement logs, quiz scores, teacher surveys, and structured interviews) to validate interventions at scale.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline">Helsinki Region</Badge>
+                  <Badge variant="outline">Ho Chi Minh City</Badge>
+                  <Badge variant="outline">Turku Archipelago</Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="border-dashed border-primary/20">
+            <CardContent className="p-6">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/10 to-emerald-500/10 text-primary w-fit shrink-0">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Open Data & Reproducibility Commitment</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Where privacy and ethics allow, we publish anonymised datasets, analysis notebooks, and pre-registration protocols on our GitHub and OSF repositories. We believe the EdTech field benefits when every team can reproduce, critique, and build upon each other's work — not just cite polished conclusions.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         {/* Global EdTech Research Library — curated external papers + visualisations */}
         <GlobalEdTechLibrary />
 
