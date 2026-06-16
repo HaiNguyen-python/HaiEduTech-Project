@@ -857,6 +857,7 @@ const IeltsVocabulary = () => {
               }}
               allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
             />
+            <WeeklyVocabAchievers subject="ielts" threshold={20} />
           </div>
         </div>
       </div>
