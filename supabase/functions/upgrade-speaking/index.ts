@@ -62,8 +62,8 @@ serve(async (req) => {
     }
 
     const { question, part, transcript } = await req.json();
-    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
     const transcriptText = (transcript || "").trim();
     const hasTranscript = transcriptText.length > 0;
@@ -91,32 +91,31 @@ Student's actual transcription:
 
 Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.`;
 
-    // Hard timeout so the client never spins forever if Perplexity stalls.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60_000);
+    const timeoutId = setTimeout(() => controller.abort(), 40_000);
     let response: Response;
     try {
-      response = await fetch("https://api.perplexity.ai/chat/completions", {
+      response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         signal: controller.signal,
         headers: {
-          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "sonar",
+          model: "google/gemini-2.5-flash",
           temperature: 0.2,
-          max_tokens: 700,
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt },
           ],
+          response_format: { type: "json_object" },
         }),
       });
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("upgrade-speaking", "sonar", "english", 0, "error", aborted ? "timeout" : "network");
+      await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", 0, "error", aborted ? "timeout" : "network");
       return new Response(
         JSON.stringify({ error: aborted ? "Upgrade timed out. Please try again." : "AI service unreachable. Please try again." }),
         { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -126,7 +125,7 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
 
     if (!response.ok) {
       const status = response.status;
-      await logUsage("upgrade-speaking", "sonar", "english", 0, "error", `HTTP ${status}`);
+      await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", 0, "error", `HTTP ${status}`);
       if (status === 429) {
         return new Response(
           JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }),
@@ -135,7 +134,7 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
       }
       if (status === 402) {
         return new Response(
-          JSON.stringify({ error: "AI credits exhausted. Please add funds." }),
+          JSON.stringify({ error: "AI credits exhausted. Please add funds to your Lovable workspace." }),
           { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
       }
@@ -172,14 +171,14 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
     }
 
     if (!upgradedAnswer) {
-      await logUsage("upgrade-speaking", "sonar", "english", tokensUsed, "empty");
+      await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", tokensUsed, "empty");
       return new Response(
         JSON.stringify({ error: "Could not generate upgrade. Please try again." }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    await logUsage("upgrade-speaking", "sonar", "english", tokensUsed, "success");
+    await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify({ upgradedAnswer }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
