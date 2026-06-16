@@ -40,8 +40,6 @@ import {
 } from "@/lib/adminData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import TeacherAdmin from "@/pages/TeacherAdmin";
-import CourseAccessManager from "@/components/CourseAccessManager";
 import SystemStatusTab from "@/components/SystemStatusTab";
 import IncomeManagement from "@/components/IncomeManagement";
 import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
@@ -115,11 +113,10 @@ function exportData(data: any[], format: "csv" | "json", filename: string) {
 
 const AdminDashboard = () => {
   const { t } = useLanguage();
-  const { user, isTeacher, isPureAssistant, loading: roleLoading } = useUserRole();
+  const { isTeacher, isPureAssistant, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
 
   const [loadingData, setLoadingData] = useState(true);
-  const [students, setStudents] = useState<any[]>([]);
   const [activities, setActivities] = useState<any[]>([]);
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
@@ -182,7 +179,6 @@ const AdminDashboard = () => {
         userMeta?: Array<{ user_id: string; last_login: string | null; total_seconds: number | string }>;
       };
       const studentList = snapshot.students || [];
-      setStudents(studentList);
 
       const studentIdSet = new Set(studentList.map((s) => s.id));
       const learningActivities = (snapshot.activities || [])
