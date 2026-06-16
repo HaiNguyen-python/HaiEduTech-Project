@@ -642,6 +642,77 @@ const EdTechResearch = () => {
           </Card>
         </section>
 
+        {/* Research-to-Practice Pipeline */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary/15 to-emerald-500/15 text-primary">
+              <Rocket className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                From Hypothesis to Classroom
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Our end-to-end research pipeline turns academic curiosity into measurable learning gains across six rigorous stages.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="hidden md:block absolute top-10 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-primary/20 via-emerald-500/30 to-primary/20" />
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+              {[
+                { step: "01", icon: <Lightbulb className="w-5 h-5" />, title: "Discovery", desc: "Shadow learners, analyse logs, and scan literature to surface friction points others miss." },
+                { step: "02", icon: <Brain className="w-5 h-5" />, title: "Hypothesis", desc: "Formulate falsifiable predictions grounded in cognitive science and prior effect-size estimates." },
+                { step: "03", icon: <FlaskConical className="w-5 h-5" />, title: "Prototype", desc: "Build minimum-viable interventions with built-in telemetry so every click teaches us something." },
+                { step: "04", icon: <BarChart3 className="w-5 h-5" />, title: "Validate", desc: "Run A/B or RCT pilots with pre-registered analysis plans and adequate statistical power." },
+                { step: "05", icon: <Rocket className="w-5 h-5" />, title: "Deploy", desc: "Progressive rollout with real-time safety monitoring and instant rollback triggers." },
+                { step: "06", icon: <TrendingUp className="w-5 h-5" />, title: "Evaluate", desc: "Track retention, transfer, and motivation over 6–24 months using growth-curve models." },
+              ].map((s, i) => (
+                <motion.div
+                  key={s.step}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="relative"
+                >
+                  <div className="flex flex-col items-center text-center">
+                    <div className="relative z-10 w-20 h-20 rounded-full bg-background border-2 border-primary/20 flex items-center justify-center text-primary mb-3 shadow-sm hover:border-primary/50 hover:shadow-md transition-all">
+                      {s.icon}
+                    </div>
+                    <Badge variant="outline" className="mb-1.5 font-mono text-[10px] tracking-wider border-primary/20 text-primary">
+                      {s.step}
+                    </Badge>
+                    <h3 className="font-semibold text-sm mb-1">{s.title}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <Card className="mt-8 border-primary/10 bg-gradient-to-br from-primary/5 to-emerald-500/5">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex items-start gap-4">
+                <div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0 mt-0.5">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">Why this pipeline matters</h3>
+                  <p className="text-sm text-muted-foreground leading-[1.8]">
+                    Most EdTech products iterate on gut feeling. We iterate on evidence. By separating the
+                    <strong> discovery</strong> phase (where we listen) from the <strong>validation</strong> phase
+                    (where we measure), we avoid the common trap of building flashy features that look good in demos
+                    but produce no durable learning gain. Every stage feeds telemetry backward, so the pipeline
+                    itself improves with each cycle — a meta-learning system for educational innovation.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         {/* Research Gaps & Future Horizons */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-6">
