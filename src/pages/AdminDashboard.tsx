@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { lazy, Suspense, useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -29,7 +29,6 @@ import {
   type StudentState, type RLRecommendation, type LearningDomain
 } from "@/lib/rlEngine";
 import {
-  fetchAllRows,
   isLearningActivity,
   SPEAKING_ACTIVITY_TYPES,
   SYSTEM_ACTIVITY_TYPES,
@@ -41,25 +40,24 @@ import {
 } from "@/lib/adminData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import TeacherAdmin from "@/pages/TeacherAdmin";
-import CourseAccessManager from "@/components/CourseAccessManager";
-import SystemStatusTab from "@/components/SystemStatusTab";
-import IncomeManagement from "@/components/IncomeManagement";
-import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
-import BusinessStrategyTab from "@/components/admin/BusinessStrategyTab";
-import UserInsightsTab from "@/components/admin/UserInsightsTab";
-import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
-import ChatbotConversationsReview from "@/components/admin/ChatbotConversationsReview";
-import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
-import ReportLogsTab from "@/components/admin/ReportLogsTab";
-import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
-import RLInterventionsTab from "@/components/admin/RLInterventionsTab";
-import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
-import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
-import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
-import PhdResearchTab from "@/components/admin/PhdResearchTab";
-import EdTechResearchInsightsTab from "@/components/admin/EdTechResearchInsightsTab";
-import ResearchProjectsAdminTab from "@/components/admin/ResearchProjectsAdminTab";
+
+const SystemStatusTab = lazy(() => import("@/components/SystemStatusTab"));
+const IncomeManagement = lazy(() => import("@/components/IncomeManagement"));
+const ClassScheduleManager = lazy(() => import("@/components/admin/ClassScheduleManager"));
+const BusinessStrategyTab = lazy(() => import("@/components/admin/BusinessStrategyTab"));
+const UserInsightsTab = lazy(() => import("@/components/admin/UserInsightsTab"));
+const FeedbackAnalyticsTab = lazy(() => import("@/components/admin/FeedbackAnalyticsTab"));
+const ChatbotConversationsReview = lazy(() => import("@/components/admin/ChatbotConversationsReview"));
+const AttendanceAnalyticsTab = lazy(() => import("@/components/admin/AttendanceAnalyticsTab"));
+const ReportLogsTab = lazy(() => import("@/components/admin/ReportLogsTab"));
+const AssistantManagementTab = lazy(() => import("@/components/admin/AssistantManagementTab"));
+const RLInterventionsTab = lazy(() => import("@/components/admin/RLInterventionsTab"));
+const EnglishDictionaryAdmin = lazy(() => import("@/components/admin/EnglishDictionaryAdmin"));
+const ServiceRequestsTab = lazy(() => import("@/components/admin/ServiceRequestsTab"));
+const HealthMonitorTab = lazy(() => import("@/components/admin/HealthMonitorTab"));
+const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
+const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
+const ResearchProjectsAdminTab = lazy(() => import("@/components/admin/ResearchProjectsAdminTab"));
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -73,6 +71,25 @@ const TREND_ICONS = {
   declining: <ArrowDownRight className="w-4 h-4 text-red-500" />,
   stable: <Minus className="w-4 h-4 text-muted-foreground" />,
 };
+
+type AdminStudent = { id: string; full_name: string | null; created_at: string };
+type AdminActivity = {
+  user_id: string;
+  activity_type: string;
+  domain: string | null;
+  score: number | null;
+  max_score: number | null;
+  time_spent_seconds: number | null;
+  created_at: string;
+  metadata: unknown;
+};
+type AdminUserMeta = { user_id: string; last_login: string | null; total_seconds: number | string };
+
+const TabLoading = () => (
+  <div className="flex justify-center py-10">
+    <Loader2 className="w-6 h-6 animate-spin text-primary" />
+  </div>
+);
 
 // Format a seconds count as "Xh Ym" / "Ym" / "<1m"
 function formatDuration(sec: number): string {
@@ -93,7 +110,7 @@ function formatLastLogin(ts: number, isVi: boolean): string {
 }
 
 // Export data as CSV or JSON (RFC-4180 compliant escaping)
-function exportData(data: any[], format: "csv" | "json", filename: string) {
+function exportData(data: object[], format: "csv" | "json", filename: string) {
   let blob: Blob;
   if (format === "json") {
     blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -102,7 +119,7 @@ function exportData(data: any[], format: "csv" | "json", filename: string) {
     const headers = Object.keys(data[0]);
     const csv = [
       headers.map(csvEscape).join(","),
-      ...data.map(row => headers.map(h => csvEscape(row[h])).join(","))
+      ...data.map(row => headers.map(h => csvEscape((row as Record<string, unknown>)[h])).join(","))
     ].join("\n");
     blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" }); // BOM for Excel UTF-8
   }
@@ -116,12 +133,11 @@ function exportData(data: any[], format: "csv" | "json", filename: string) {
 
 const AdminDashboard = () => {
   const { t } = useLanguage();
-  const { user, isTeacher, isPureAssistant, loading: roleLoading } = useUserRole();
+  const { isTeacher, isPureAssistant, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
 
   const [loadingData, setLoadingData] = useState(true);
-  const [students, setStudents] = useState<any[]>([]);
-  const [activities, setActivities] = useState<any[]>([]);
+  const [activities, setActivities] = useState<AdminActivity[]>([]);
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
   const [recommendations, setRecommendations] = useState<RLRecommendation[]>([]);
@@ -129,6 +145,8 @@ const AdminDashboard = () => {
   // Computed from the full activity stream (including system heartbeats / daily_login)
   // so teachers can see "actual time on platform" not only graded learning attempts.
   const [userMeta, setUserMeta] = useState<Map<string, { lastLogin: number; totalSeconds: number }>>(new Map());
+  const fetchInFlightRef = useRef(false);
+  const lastFetchAtRef = useRef(0);
   const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
   const [activeTab, setActiveTab] = useState<string>("overview");
 
@@ -168,168 +186,94 @@ const AdminDashboard = () => {
     if (!canAccessDashboard) navigate("/", { replace: true });
   }, [roleLoading, canAccessDashboard, navigate]);
 
-  // Fetch all data
+  // Fetch compact admin snapshot in one backend round-trip.
   const fetchAll = useCallback(async () => {
     if (!canAccessDashboard) return;
+    const now = Date.now();
+    if (fetchInFlightRef.current || now - lastFetchAtRef.current < 1200) return;
+    fetchInFlightRef.current = true;
+    lastFetchAtRef.current = now;
     setLoadingData(true);
-
-    // Fetch in parallel to cut total wall time.
-    // - profiles: students list
-    // - teacherRoles: to exclude staff from the student list
-    // - activityData: learning activities only (heartbeats filtered server-side)
-    // - userMetaRows: per-user aggregate (last login + total seconds) computed in Postgres
-    //   so we don't ship ~17k heartbeat rows to the browser.
     const sinceIso = new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString();
+    try {
+      const { data, error } = await supabase.rpc("get_admin_dashboard_snapshot", { _since: sinceIso });
+      if (error) throw error;
 
-    const [profiles, teacherRoles, activityData, userMetaRes] = await Promise.all([
-      fetchAllRows<{ id: string; full_name: string | null; created_at: string }>((from, to) =>
-        supabase
-          .from("profiles")
-          .select("id, full_name, created_at")
-          .order("created_at", { ascending: true })
-          .range(from, to)
-      ),
-      fetchAllRows<{ user_id: string }>((from, to) =>
-        supabase
-          .from("user_roles")
-          .select("user_id")
-          .in("role", ["teacher", "admin"])
-          .range(from, to)
-      ),
-      fetchAllRows<any>((from, to) =>
-        supabase
-          .from("student_activity_log")
-          .select("user_id, activity_type, domain, score, max_score, time_spent_seconds, created_at, metadata")
-          .gte("created_at", sinceIso)
-          .not("activity_type", "in", `(${Array.from(SYSTEM_ACTIVITY_TYPES).join(",")})`)
-          .order("created_at", { ascending: true })
-          .range(from, to)
-      ),
-      supabase.rpc("get_admin_user_meta", { _since: sinceIso }),
-    ]);
+      const snapshot = (data || {}) as {
+        students?: AdminStudent[];
+        activities?: AdminActivity[];
+        userMeta?: AdminUserMeta[];
+      };
+      const studentList = snapshot.students || [];
 
-    const teacherIds = new Set((teacherRoles || []).map((r) => r.user_id));
-    // Deduplicate by id and exclude teachers
-    const seenIds = new Set<string>();
-    const rawStudents = (profiles || []).filter((p) => {
-      if (teacherIds.has(p.id) || seenIds.has(p.id)) return false;
-      seenIds.add(p.id);
-      return true;
-    });
+      const studentIdSet = new Set(studentList.map((s) => s.id));
+      const learningActivities = (snapshot.activities || [])
+        .filter((a) => studentIdSet.has(a.user_id) && isLearningActivity(a.activity_type));
+      setActivities(learningActivities);
 
-    // Merge duplicates by normalized full_name (e.g., same student signed up via email + Google)
-    const normalizeName = (n: string | null | undefined) =>
-      (n || "").trim().toLowerCase().replace(/\s+/g, " ");
-    const nameGroups = new Map<string, typeof rawStudents>();
-    const unnamed: typeof rawStudents = [];
-    for (const p of rawStudents) {
-      const key = normalizeName(p.full_name);
-      if (!key) { unnamed.push(p); continue; }
-      if (!nameGroups.has(key)) nameGroups.set(key, []);
-      nameGroups.get(key)!.push(p);
-    }
-    // Primary id = oldest profile for that name. Map all duplicate ids -> primary id.
-    const idToPrimary = new Map<string, string>();
-    const studentList: typeof rawStudents = [];
-    for (const group of nameGroups.values()) {
-      const sorted = [...group].sort((a, b) =>
-        new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-      );
-      const primary = sorted[0];
-      studentList.push(primary);
-      for (const p of sorted) idToPrimary.set(p.id, primary.id);
-    }
-    // Keep unnamed profiles as-is (cannot safely merge)
-    for (const p of unnamed) {
-      studentList.push(p);
-      idToPrimary.set(p.id, p.id);
-    }
-    setStudents(studentList);
-
-    // Remap activity user_id to primary id so merged students share their history
-    const studentIdSet = new Set(studentList.map((s) => s.id));
-    const learningActivities = (activityData || [])
-      .map((a) => ({
-        ...a,
-        user_id: idToPrimary.get(a.user_id) || a.user_id,
-      }))
-      .filter((a) => studentIdSet.has(a.user_id) && isLearningActivity(a.activity_type));
-    setActivities(learningActivities);
-
-    // Build engagement meta from the server-side aggregate, remapping ids to primary.
-    const metaMap = new Map<string, { lastLogin: number; totalSeconds: number }>();
-    const metaRows = (userMetaRes?.data || []) as Array<{ user_id: string; last_login: string | null; total_seconds: number | string }>;
-    for (const row of metaRows) {
-      const pid = idToPrimary.get(row.user_id) || row.user_id;
-      if (!studentIdSet.has(pid)) continue;
-      const ts = row.last_login ? new Date(row.last_login).getTime() : 0;
-      const secs = Number(row.total_seconds) || 0;
-      const cur = metaMap.get(pid) || { lastLogin: 0, totalSeconds: 0 };
-      if (ts > cur.lastLogin) cur.lastLogin = ts;
-      cur.totalSeconds += secs;
-      metaMap.set(pid, cur);
-    }
-    setUserMeta(metaMap);
-
-
-    // Compute student states
-    const states: StudentState[] = [];
-    const studentMap = new Map(studentList.map(s => [s.id, s.full_name || "Unknown"]));
-
-    // Group activities by user
-    const activityByUser = new Map<string, typeof learningActivities>();
-    for (const act of learningActivities) {
-      if (!activityByUser.has(act.user_id)) activityByUser.set(act.user_id, []);
-      activityByUser.get(act.user_id)!.push(act);
-    }
-
-    for (const [userId, userActivities] of activityByUser) {
-      const name = studentMap.get(userId) || "Unknown";
-      states.push(computeStudentState(userId, name, userActivities));
-    }
-
-    // Also include students with no activity
-    for (const student of studentList) {
-      if (!activityByUser.has(student.id)) {
-        states.push(computeStudentState(student.id, student.full_name || "Unknown", []));
+      const metaMap = new Map<string, { lastLogin: number; totalSeconds: number }>();
+      for (const row of snapshot.userMeta || []) {
+        if (!studentIdSet.has(row.user_id)) continue;
+        metaMap.set(row.user_id, {
+          lastLogin: row.last_login ? new Date(row.last_login).getTime() : 0,
+          totalSeconds: Number(row.total_seconds) || 0,
+        });
       }
+      setUserMeta(metaMap);
+
+      const states: StudentState[] = [];
+      const studentMap = new Map(studentList.map(s => [s.id, s.full_name || "Unknown"]));
+      const activityByUser = new Map<string, typeof learningActivities>();
+      for (const act of learningActivities) {
+        if (!activityByUser.has(act.user_id)) activityByUser.set(act.user_id, []);
+        activityByUser.get(act.user_id)!.push(act);
+      }
+
+      for (const [userId, userActivities] of activityByUser) {
+        const name = studentMap.get(userId) || "Unknown";
+        states.push(computeStudentState(userId, name, userActivities));
+      }
+
+      for (const student of studentList) {
+        if (!activityByUser.has(student.id)) {
+          states.push(computeStudentState(student.id, student.full_name || "Unknown", []));
+        }
+      }
+
+      states.sort((a, b) => b.totalActivities - a.totalActivities);
+      setStudentStates(states);
+
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      const activeThisWeek = new Set(
+        learningActivities.filter(a => new Date(a.created_at) > oneWeekAgo).map(a => a.user_id)
+      ).size;
+      const activeStates = states.filter(s => s.totalActivities > 0);
+      const classAvg = activeStates.length > 0
+        ? activeStates.reduce((s, st) => s + st.avgScore, 0) / activeStates.length
+        : 0;
+
+      const domainCounts: Record<LearningDomain, number> = { english: 0, chinese: 0, programming: 0 };
+      for (const act of learningActivities) {
+        const raw = (act.domain as string) || "english";
+        if (!(raw in domainCounts)) continue;
+        domainCounts[raw as LearningDomain]++;
+      }
+
+      setClassStats({
+        totalStudents: studentList.length,
+        totalActivities: learningActivities.length,
+        classAvg: Math.round(classAvg * 10) / 10,
+        activeThisWeek,
+        domainCounts,
+      });
+    } catch (error) {
+      toast.error(t("Không tải được dữ liệu admin", "Could not load admin data"));
+    } finally {
+      fetchInFlightRef.current = false;
+      setLoadingData(false);
     }
-
-    states.sort((a, b) => b.totalActivities - a.totalActivities);
-    setStudentStates(states);
-
-
-    // Class stats with domain breakdown
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    const activeThisWeek = new Set(
-      learningActivities.filter(a => new Date(a.created_at) > oneWeekAgo).map(a => a.user_id)
-    ).size;
-
-    const classAvg = states.length > 0
-      ? states.filter(s => s.totalActivities > 0).reduce((s, st) => s + st.avgScore, 0) /
-        Math.max(states.filter(s => s.totalActivities > 0).length, 1)
-      : 0;
-
-    // Domain counts (map unknown domains to "english")
-    const domainCounts: Record<LearningDomain, number> = { english: 0, chinese: 0, programming: 0 };
-    for (const act of learningActivities) {
-      const raw = (act.domain as string) || "english";
-      if (!(raw in domainCounts)) continue;
-      const d = raw as LearningDomain;
-      domainCounts[d]++;
-    }
-
-    setClassStats({
-      totalStudents: studentList.length,
-      totalActivities: learningActivities.length,
-      classAvg: Math.round(classAvg * 10) / 10,
-      activeThisWeek,
-      domainCounts,
-    });
-
-    setLoadingData(false);
-  }, [canAccessDashboard]);
+  }, [canAccessDashboard, t]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
@@ -343,7 +287,7 @@ const AdminDashboard = () => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "student_activity_log" },
-        (payload: any) => {
+        (payload: { new?: { activity_type?: string | null } }) => {
           const t = payload?.new?.activity_type as string | undefined;
           if (!t || SYSTEM_ACTIVITY_TYPES.has(t)) return; // skip heartbeats
           if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
@@ -656,6 +600,8 @@ const AdminDashboard = () => {
                   </>
                 )}
               </TabsList>
+
+              <Suspense fallback={<TabLoading />}>
 
               {/* ===== GLOBAL OVERVIEW TAB ===== */}
               <TabsContent value="overview">
@@ -1285,6 +1231,8 @@ const AdminDashboard = () => {
                   <TabsContent value="vi" className="mt-4"><EnglishDictionaryAdmin lang="vi" /></TabsContent>
                 </Tabs>
               </TabsContent>
+
+              </Suspense>
 
             </Tabs>
           </motion.div>

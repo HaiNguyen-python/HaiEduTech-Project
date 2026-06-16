@@ -11,11 +11,16 @@ import { supabase } from "@/integrations/supabase/client";
 
 const todayKey = () => new Date().toISOString().split("T")[0];
 
-export function useStreak() {
+export function useStreak(enabled = true) {
   const [streak, setStreak] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!enabled) {
+      setStreak(0);
+      setLoading(false);
+      return;
+    }
     let cancelled = false;
 
     const run = async () => {
@@ -87,7 +92,7 @@ export function useStreak() {
 
     run();
     return () => { cancelled = true; };
-  }, []);
+  }, [enabled]);
 
   return { streak, loading };
 }

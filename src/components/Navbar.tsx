@@ -56,7 +56,8 @@ const Navbar = () => {
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { user, isTeacher, isPureAssistant } = useUserRole();
-  const { streak } = useStreak();
+  const isAdminRoute = location.pathname === "/admin-dashboard" || location.pathname.startsWith("/admin/");
+  const { streak } = useStreak(!isAdminRoute);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -409,7 +410,7 @@ const Navbar = () => {
               <div className="hidden lg:flex items-center gap-1.5 shrink-0">
                 {user ? (
                   <>
-                  <NotificationBell />
+                  {!isAdminRoute && <NotificationBell />}
                   <div ref={userMenuRef} className="relative">
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -479,7 +480,7 @@ const Navbar = () => {
               {/* Mobile: lang + hamburger - same row as logo */}
               <div className="flex items-center gap-1 lg:hidden">
                 <GlobalSearch variant="icon" />
-                {user && <NotificationBell />}
+                {user && !isAdminRoute && <NotificationBell />}
                 <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} aria-label={lang === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
                   <Globe className="w-4 h-4" />
                 </button>

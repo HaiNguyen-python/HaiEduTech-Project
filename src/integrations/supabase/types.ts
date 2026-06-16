@@ -3387,6 +3387,7 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      get_admin_dashboard_snapshot: { Args: { _since: string }; Returns: Json }
       get_admin_user_meta: {
         Args: { _since: string }
         Returns: {
