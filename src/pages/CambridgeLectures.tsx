@@ -44,6 +44,7 @@ const SKILL_ICONS: Record<CambridgeSkill, React.ComponentType<{ className?: stri
   "reading-writing": FileText,
   speaking: MessageSquare,
   vocabulary: BookType,
+  grammar: PenTool,
 };
 
 const CambridgeLectures = () => {
