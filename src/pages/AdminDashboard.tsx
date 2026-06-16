@@ -103,7 +103,7 @@ function formatLastLogin(ts: number, isVi: boolean): string {
 }
 
 // Export data as CSV or JSON (RFC-4180 compliant escaping)
-function exportData(data: Record<string, unknown>[], format: "csv" | "json", filename: string) {
+function exportData(data: object[], format: "csv" | "json", filename: string) {
   let blob: Blob;
   if (format === "json") {
     blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -112,7 +112,7 @@ function exportData(data: Record<string, unknown>[], format: "csv" | "json", fil
     const headers = Object.keys(data[0]);
     const csv = [
       headers.map(csvEscape).join(","),
-      ...data.map(row => headers.map(h => csvEscape(row[h])).join(","))
+      ...data.map(row => headers.map(h => csvEscape((row as Record<string, unknown>)[h])).join(","))
     ].join("\n");
     blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" }); // BOM for Excel UTF-8
   }
@@ -259,7 +259,7 @@ const AdminDashboard = () => {
     } finally {
       setLoadingData(false);
     }
-  }, [canAccessDashboard]);
+  }, [canAccessDashboard, t]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
