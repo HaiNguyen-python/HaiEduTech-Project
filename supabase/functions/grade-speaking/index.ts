@@ -154,7 +154,7 @@ Make scores realistic and varied.`;
       }
     } catch (e) {
       console.error("Parse error:", content);
-      await logUsage("grade-speaking", "sonar", "english", tokensUsed, "parse_error");
+      await logUsage("grade-speaking", "gemini-2.5-flash", "english", tokensUsed, "parse_error");
       return new Response(JSON.stringify({ error: "Failed to parse speaking result. Please try again." }), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
