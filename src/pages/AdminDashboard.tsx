@@ -145,6 +145,8 @@ const AdminDashboard = () => {
   // Computed from the full activity stream (including system heartbeats / daily_login)
   // so teachers can see "actual time on platform" not only graded learning attempts.
   const [userMeta, setUserMeta] = useState<Map<string, { lastLogin: number; totalSeconds: number }>>(new Map());
+  const fetchInFlightRef = useRef(false);
+  const lastFetchAtRef = useRef(0);
   const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
   const [activeTab, setActiveTab] = useState<string>("overview");
 
@@ -187,6 +189,10 @@ const AdminDashboard = () => {
   // Fetch compact admin snapshot in one backend round-trip.
   const fetchAll = useCallback(async () => {
     if (!canAccessDashboard) return;
+    const now = Date.now();
+    if (fetchInFlightRef.current || now - lastFetchAtRef.current < 1200) return;
+    fetchInFlightRef.current = true;
+    lastFetchAtRef.current = now;
     setLoadingData(true);
     const sinceIso = new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString();
     try {
@@ -264,6 +270,7 @@ const AdminDashboard = () => {
     } catch (error) {
       toast.error(t("Không tải được dữ liệu admin", "Could not load admin data"));
     } finally {
+      fetchInFlightRef.current = false;
       setLoadingData(false);
     }
   }, [canAccessDashboard, t]);
