@@ -60,7 +60,7 @@ Deno.serve(async (req) => {
     if (!aiRes.ok) {
       const errText = await aiRes.text();
       return new Response(
-        JSON.stringify({ error: `Perplexity ${aiRes.status}`, details: errText }),
+        JSON.stringify({ error: `Lovable AI ${aiRes.status}`, details: errText }),
         {
           status: 502,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
