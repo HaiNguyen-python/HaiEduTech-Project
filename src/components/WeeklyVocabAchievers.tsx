@@ -131,8 +131,21 @@ const WeeklyVocabAchievers = ({ subject, threshold = 20, className }: Props) => 
 
         {/* Body */}
         {loading ? (
-          <div className="text-xs text-center text-amber-700/70 dark:text-amber-200/60 py-4">
+          <div className="flex items-center justify-center gap-2 text-xs text-center text-amber-700/70 dark:text-amber-200/60 py-4">
+            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
             {t("Đang tải...", "Loading...")}
+          </div>
+        ) : error ? (
+          <div className="rounded-xl border border-dashed border-amber-300 dark:border-amber-700/50 bg-white/50 dark:bg-amber-950/20 p-4 text-center space-y-2">
+            <p className="text-xs text-amber-900 dark:text-amber-200">
+              {t("Không tải được dữ liệu.", "Couldn't load data.")}
+            </p>
+            <button
+              onClick={() => { setLoading(true); fetchList(); }}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-orange-700 dark:text-orange-300 hover:underline"
+            >
+              <RefreshCw className="w-3 h-3" /> {t("Thử lại", "Retry")}
+            </button>
           </div>
         ) : list.length === 0 ? (
           <div className="rounded-xl border border-dashed border-amber-300 dark:border-amber-700/50 bg-white/50 dark:bg-amber-950/20 p-4 text-center">
