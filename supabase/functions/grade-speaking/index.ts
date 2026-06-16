@@ -35,8 +35,8 @@ serve(async (req) => {
 
     const { question, part, duration, transcript } = await req.json();
 
-    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
     const hasTranscript = transcript && transcript.trim().length > 0;
     const transcriptText = hasTranscript ? transcript.trim() : "";
@@ -68,38 +68,38 @@ Return ONLY valid JSON, no prose, no markdown fences:
     {"text":"<exact substring from transcript>","type":"grammar|vocabulary|pronunciation","correction":"<fix>","explanation":"<short>"}
   ],
   "suggestions": ["<actionable tip>","<actionable tip>","<actionable tip>"],
-  "upgradedAnswer": "<Upgrade the student's actual answer to Band 7.5-8.0. Keep their ideas/flow. Fix grammar, replace basic vocab, add linking words. Bold upgraded words with **markdown**. MANDATORY for all parts. Part 1: 2-4 sentences. Part 2: 200-260 words. Part 3: 4-6 sentences.>"
+  "upgradedAnswer": "<Upgrade to Band 7.5-8.0. Keep their ideas. Bold upgraded words with **markdown**. Part 1: 2-4 sentences. Part 2: 200-260 words. Part 3: 4-6 sentences.>"
 }
 
-highlightedErrors: include 2-3 items if any imperfections exist; each text MUST be an exact substring of the transcript. Empty array only if Band 9 flawless.
-Make scores realistic and varied based on the actual language quality.`;
+highlightedErrors: include 2-3 items if any imperfections exist; each text MUST be an exact substring of the transcript.
+Make scores realistic and varied.`;
 
-    // Hard timeout: never let the UI spin forever if Perplexity stalls.
+    // Hard timeout to avoid UI spinner stalls.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60_000);
+    const timeoutId = setTimeout(() => controller.abort(), 45_000);
     let response: Response;
     try {
-      response = await fetch("https://api.perplexity.ai/chat/completions", {
+      response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         signal: controller.signal,
         headers: {
-          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "sonar",
+          model: "google/gemini-2.5-flash",
           temperature: 0.2,
-          max_tokens: 1400,
           messages: [
             { role: "system", content: systemPrompt },
-            { role: "user", content: `Grade this IELTS Speaking Part ${part} answer. Question: "${question}". Transcript: "${transcriptText}". Duration: ${duration}s, ${wordCount} words.` },
+            { role: "user", content: `Grade this IELTS Speaking Part ${part} answer. Question: "${question}". Transcript: "${transcriptText}". Duration: ${duration}s, ${wordCount} words. Return JSON only.` },
           ],
+          response_format: { type: "json_object" },
         }),
       });
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("grade-speaking", "sonar", "english", 0, "error", aborted ? "timeout" : "network");
+      await logUsage("grade-speaking", "gemini-2.5-flash", "english", 0, "error", aborted ? "timeout" : "network");
       return new Response(
         JSON.stringify({ error: aborted ? "Grading timed out. Please try again." : "AI service unreachable. Please try again." }),
         { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -109,19 +109,19 @@ Make scores realistic and varied based on the actual language quality.`;
 
     if (!response.ok) {
       const status = response.status;
-      await logUsage("grade-speaking", "sonar", "english", 0, "error", `HTTP ${status}`);
+      await logUsage("grade-speaking", "gemini-2.5-flash", "english", 0, "error", `HTTP ${status}`);
       if (status === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       if (status === 402) {
-        return new Response(JSON.stringify({ error: "AI credits exhausted. Please add funds." }), {
+        return new Response(JSON.stringify({ error: "AI credits exhausted. Please add funds to your Lovable workspace." }), {
           status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       const t = await response.text();
-      console.error("Perplexity API error:", status, t);
+      console.error("AI Gateway error:", status, t);
       throw new Error("AI API error");
     }
 
