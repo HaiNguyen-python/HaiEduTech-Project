@@ -105,6 +105,8 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
         },
         body: JSON.stringify({
           model: "sonar",
+          temperature: 0.2,
+          max_tokens: 700,
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt },
