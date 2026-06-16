@@ -112,7 +112,7 @@ async function generateCopy(body: RequestBody, apiKey: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-pro",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: COPY_SYSTEM },
           { role: "user", content: buildCopyPrompt(body) },
@@ -195,7 +195,7 @@ async function generateVideoScript(body: RequestBody, apiKey: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-pro",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: COPY_SYSTEM },
           { role: "user", content: buildVideoPrompt(body) },

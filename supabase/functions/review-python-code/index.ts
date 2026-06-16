@@ -80,6 +80,7 @@ Keep messages concise. Max 5 issues, max 5 suggestions. Mix Vietnamese + English
           { role: "user", content: userPrompt },
         ],
         response_format: { type: "json_object" },
+        max_tokens: 1500,
       }),
     });
 

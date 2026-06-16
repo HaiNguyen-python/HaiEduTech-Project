@@ -36,7 +36,8 @@ Deno.serve(async (req) => {
       method: "POST",
       headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash-lite",
+        max_tokens: 400,
         messages: [
           { role: "system", content: system },
           { role: "user", content: `Translate each line to English:\n${numbered}` },

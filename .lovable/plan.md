@@ -1,36 +1,46 @@
-## Nguyên nhân chấm IELTS Speaking bị chậm
+# Tăng tốc các tính năng AI còn lại
 
-Sau khi rà soát `src/pages/SpeakingPractice.tsx` và 2 edge function `grade-speaking`, `upgrade-speaking`:
+Sau khi rà soát toàn bộ edge functions, tôi phát hiện **2 nhóm cơ hội tăng tốc**:
 
-1. **Gọi AI 2 lần liên tiếp (tuần tự)** — đây là nguyên nhân chính.
-   `handleGrade()` đợi xong `grade-speaking` (đã trả `upgradedAnswer`), rồi vẫn `await handleUpgrade()` gọi tiếp `upgrade-speaking`. Hai lần Perplexity sonar = ~30–60s mỗi lần → tổng 60–120s. Đồng thời lãng phí token vì grade đã có upgrade.
-2. **Prompt `grade-speaking` quá nặng**: ép AI trả về criteria + highlightedErrors + suggestions + vocabularyUpgrades + pronunciationFocus + upgradedAnswer (Band 8.0+, có bold). Output ~900–1200 token → Perplexity sinh chậm.
-3. Không truyền `max_tokens` / `temperature` cho Perplexity → model có xu hướng dài dòng.
-4. UI block toàn bộ kết quả tới khi cả grade + upgrade xong, không render progressive.
+## Nhóm 1 — Các function ĐÃ dùng Lovable AI nhưng chưa tối ưu (8 function)
 
-## Cách sửa
 
-### 1. `src/pages/SpeakingPractice.tsx` — `handleGrade`
-- **Render kết quả grade ngay** (set `result`, tắt `setLoading(false)`) trước khi cân nhắc upgrade.
-- **Bỏ auto-call `handleUpgrade()`** khi `grade-speaking` đã trả `upgradedAnswer` (>95% trường hợp). Chỉ fallback gọi `upgrade-speaking` khi `upgradedAnswer` rỗng/thiếu.
-- Giữ nút "Nâng cấp" thủ công như cũ cho trường hợp user muốn tái tạo.
-- Move `logStudentActivity` vào background (không `await` chặn UI).
+| Function                  | Hiện tại                                 | Vấn đề                                         | Đề xuất                                                              |
+| ------------------------- | ---------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------- |
+| `translate-vi-en`         | gemini-3-flash-preview, non-stream       | Task siêu nhẹ (dịch câu) nhưng dùng model mạnh | Đổi sang `gemini-2.5-flash-lite` + giới hạn `max_tokens: 400`        |
+| `explain-code`            | gemini-3-flash-preview                   | Giải thích ngắn                                | `gemini-2.5-flash-lite` + `max_tokens: 600`                          |
+| `assess-profile-strength` | gemini-3-flash-preview                   | Đánh giá ngắn                                  | `gemini-2.5-flash-lite` + `max_tokens: 800`                          |
+| `hskk-grade`              | gemini-2.5-flash, không giới hạn token   | Chấm HSKK speaking                             | Thêm `max_tokens: 1200`, giảm prompt overhead                        |
+| `review-python-code`      | gemini-2.5-flash                         | Review code Python                             | Thêm `max_tokens: 1500` để tránh kéo dài                             |
+| `grade-swedish-yki`       | gemini-2.5-flash                         | Chấm YKI Swedish                               | Thêm `max_tokens: 1500` + `temperature: 0.2`                         |
+| `pedagogical-assistant`   | **gemini-2.5-pro** (rất chậm)            | Trợ lý giáo viên                               | Hạ xuống `gemini-2.5-flash` (giữ chất lượng, nhanh hơn 3-4x)         |
+| `generate-marketing-kit`  | **gemini-2.5-pro** (rất chậm, gọi 2 lần) | Sinh nội dung marketing                        | Hạ xuống `gemini-2.5-flash` cho lần gọi text; giữ image model nguyên |
 
-Hiệu quả: thời gian chờ giảm ~50% (1 AI call thay vì 2).
 
-### 2. `supabase/functions/grade-speaking/index.ts`
-- Thêm `temperature: 0.2`, `max_tokens: 1400` vào body Perplexity → sinh nhanh & ổn định hơn.
-- Rút gọn yêu cầu output: giữ overall, criteria (4 mục), transcript, highlightedErrors, suggestions, upgradedAnswer. Bỏ `vocabularyUpgrades` và `pronunciationFocus` (đã có trong criteria feedback + highlightedErrors) → ngắn prompt + ngắn output ~30%.
-- Giữ timeout 75s nhưng giảm xuống 60s để fail-fast khi Perplexity treo.
+**Ước tính**: thời gian phản hồi giảm 40-70% cho các tính năng dịch nhanh, giải thích, đánh giá; giảm 2-3x cho pedagogical-assistant & marketing-kit.
 
-### 3. `supabase/functions/upgrade-speaking/index.ts`
-- Thêm `temperature: 0.2`, `max_tokens: 700`.
+## Nhóm 2 — Các function vẫn dùng Perplexity API (30+ function) — KHÔNG động trong lần này
 
-### Không thay đổi
-- Logic transcription, recording, UI layout, lịch sử điểm, hệ thống điểm.
-- Các trường `vocabularyUpgrades`/`pronunciationFocus` trong type `SpeakingResult` vẫn giữ (optional) để tương thích lịch sử cũ; chỉ không yêu cầu AI sinh nữa.
+Nhiều function (counseling-ai, scholarship-advisor, roleplay-chat, generate-lesson, fetch-knowledge-articles, lookup-university, v.v.) đang gọi `api.perplexity.ai`. Đây là chủ đề lớn cần quyết định riêng vì:
 
-## Kết quả kỳ vọng
-- Thời gian chờ chấm: từ ~60–120s → ~20–35s.
-- Kết quả hiện ra ngay khi grade xong, không phải đợi upgrade.
-- Ít timeout 504 hơn.
+- Perplexity có **web search realtime** — quan trọng cho học bổng, đại học, tin tức IT (cần tính cập nhật)
+- Roleplay/counseling không cần web search → có thể migrate sang Lovable AI để nhanh & rẻ hơn 100x
+
+→ Sẽ tạo plan riêng nếu bạn muốn migrate Perplexity. Lần này **chỉ tối ưu Nhóm 1**.
+
+## Phạm vi thay đổi
+
+Sửa 8 file edge function trong `supabase/functions/*/index.ts`:
+
+- Đổi tên model trong body request
+- Thêm/điều chỉnh `max_tokens` để cắt sớm output dư thừa
+- Không thay đổi logic, schema, prompt nội dung
+
+## Kiểm chứng
+
+- Build qua, không lỗi TypeScript
+- Test thủ công 2-3 function điển hình (translate-vi-en, pedagogical-assistant) sau khi deploy
+
+Bạn duyệt để tôi triển khai không?
+
+ok
