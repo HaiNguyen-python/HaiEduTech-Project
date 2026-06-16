@@ -178,8 +178,8 @@ const About = () => {
                   Data & AI Engineer · Language Educator · HaiEduTech Founder
                 </p>
 
-                <div className="space-y-5 text-foreground/90 text-base md:text-[1.05rem] leading-relaxed">
-                  <p className="font-semibold text-foreground">
+                <div className="space-y-6 text-foreground/90 text-lg md:text-[1.15rem] leading-[1.8]">
+                  <p className="font-semibold text-foreground text-lg md:text-xl">
                     {t("Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.", "Hi, I'm Hai Nguyen – Founder of HaiEduTech.")}
                   </p>
                   <p>
