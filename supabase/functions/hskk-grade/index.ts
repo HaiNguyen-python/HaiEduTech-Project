@@ -113,6 +113,7 @@ Deno.serve(async (req) => {
           { role: "user", content: buildPrompt(parsed.data) },
         ],
         temperature: 0.3,
+        max_tokens: 1200,
       }),
     });
 

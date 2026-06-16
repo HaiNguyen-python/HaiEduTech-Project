@@ -123,6 +123,8 @@ CẤU TRÚC JSON BẮT BUỘC:
           { role: "user", content: `Chấm bài ${skillLabel} cấp ${body.level} và trả JSON.` },
         ],
         response_format: { type: "json_object" },
+        temperature: 0.2,
+        max_tokens: 1500,
       }),
     });
 

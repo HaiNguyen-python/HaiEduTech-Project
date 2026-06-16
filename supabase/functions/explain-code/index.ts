@@ -39,7 +39,8 @@ Keep total under 350 words. Use code fences for snippets. Be encouraging.`;
       method: "POST",
       headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash-lite",
+        max_tokens: 600,
         messages: [{ role: "system", content: systemPrompt }, { role: "user", content: userPrompt }],
       }),
     });

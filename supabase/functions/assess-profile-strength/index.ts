@@ -68,7 +68,8 @@ Return ONLY through the function call. Be concise.`;
       method: "POST",
       headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash-lite",
+        max_tokens: 800,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
