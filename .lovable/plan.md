@@ -1,41 +1,36 @@
-# Pre-publish review — toàn bộ chức năng web
+## Nguyên nhân chấm IELTS Speaking bị chậm
 
-## Quy trình kiểm tra (em sẽ chạy sau khi anh approve)
+Sau khi rà soát `src/pages/SpeakingPractice.tsx` và 2 edge function `grade-speaking`, `upgrade-speaking`:
 
-### 1. Runtime & Console (5 min)
-- Mở 8 route chính qua `browser--view_preview`: `/`, `/dashboard`, `/admin-dashboard`, `/ielts`, `/hsk`, `/yki`, `/programming`, `/learn-vietnamese`.
-- Mỗi route: `read_console_logs` (error/warn) + `list_network_requests` (4xx/5xx).
-- Fix mọi error có ảnh hưởng UX.
-- **Lưu ý**: lỗi `Lock broken by another request with the 'steal' option` đã xuất hiện — đây là warning benign của Supabase auth lock khi mở nhiều tab, không gây crash. Em sẽ xác nhận không có lỗi nào khác.
+1. **Gọi AI 2 lần liên tiếp (tuần tự)** — đây là nguyên nhân chính.
+   `handleGrade()` đợi xong `grade-speaking` (đã trả `upgradedAnswer`), rồi vẫn `await handleUpgrade()` gọi tiếp `upgrade-speaking`. Hai lần Perplexity sonar = ~30–60s mỗi lần → tổng 60–120s. Đồng thời lãng phí token vì grade đã có upgrade.
+2. **Prompt `grade-speaking` quá nặng**: ép AI trả về criteria + highlightedErrors + suggestions + vocabularyUpgrades + pronunciationFocus + upgradedAnswer (Band 8.0+, có bold). Output ~900–1200 token → Perplexity sinh chậm.
+3. Không truyền `max_tokens` / `temperature` cho Perplexity → model có xu hướng dài dòng.
+4. UI block toàn bộ kết quả tới khi cả grade + upgrade xong, không render progressive.
 
-### 2. Backend Health (2 min)
-- `supabase--cloud_status` — đảm bảo ACTIVE_HEALTHY.
-- Query `health_check_runs` 24h gần nhất — confirm 86/86 pass.
-- `supabase--slow_queries` top 10 — flag query > 500ms để tối ưu nếu cần.
-- `supabase--linter` — đọc lại 51 warning tồn dư, đánh dấu cái nào blocker, cái nào safe-to-ignore.
+## Cách sửa
 
-### 3. Edge Functions sanity (3 min)
-- Smoke-test 5 function critical-path qua `curl_edge_functions`: `chat`, `counseling-ai`, `grade-writing`, `daily-health-check`, `rl-intervention-dispatcher` (dry-run).
-- Kiểm tra log gần nhất của `process-email-queue` (chạy mỗi 5s) — đảm bảo không có error loop.
+### 1. `src/pages/SpeakingPractice.tsx` — `handleGrade`
+- **Render kết quả grade ngay** (set `result`, tắt `setLoading(false)`) trước khi cân nhắc upgrade.
+- **Bỏ auto-call `handleUpgrade()`** khi `grade-speaking` đã trả `upgradedAnswer` (>95% trường hợp). Chỉ fallback gọi `upgrade-speaking` khi `upgradedAnswer` rỗng/thiếu.
+- Giữ nút "Nâng cấp" thủ công như cũ cho trường hợp user muốn tái tạo.
+- Move `logStudentActivity` vào background (không `await` chặn UI).
 
-### 4. RL/AI/ML pipeline (đã sửa turn trước — chỉ verify)
-- Query `student_activity_log` 24h: confirm không còn `score=0/max=1` markers từ `ielts_lecture`.
-- Query `rl_interventions` sau 19:00 VN hôm nay: confirm có rows mới từ cron đầu tiên.
+Hiệu quả: thời gian chờ giảm ~50% (1 AI call thay vì 2).
 
-### 5. SEO & Publish metadata
-- Đọc `index.html` + `App.tsx` Helmet: title (<60 ký tự), meta description (<160), OG, Twitter, favicon, JSON-LD.
-- Confirm canonical URL = `https://haiedutech.com`.
+### 2. `supabase/functions/grade-speaking/index.ts`
+- Thêm `temperature: 0.2`, `max_tokens: 1400` vào body Perplexity → sinh nhanh & ổn định hơn.
+- Rút gọn yêu cầu output: giữ overall, criteria (4 mục), transcript, highlightedErrors, suggestions, upgradedAnswer. Bỏ `vocabularyUpgrades` và `pronunciationFocus` (đã có trong criteria feedback + highlightedErrors) → ngắn prompt + ngắn output ~30%.
+- Giữ timeout 75s nhưng giảm xuống 60s để fail-fast khi Perplexity treo.
 
-### 6. Security scan
-- `security--get_scan_results` — chặn publish nếu có critical finding chưa fix.
+### 3. `supabase/functions/upgrade-speaking/index.ts`
+- Thêm `temperature: 0.2`, `max_tokens: 700`.
 
-## Deliverable
-- Bảng tổng kết ✅/⚠️/🔴 cho 6 mục trên.
-- Fix ngay mọi 🔴 và ⚠️ quan trọng (không thay đổi UI/UX).
-- Nếu tất cả xanh → hướng dẫn anh bấm Publish (em hiện CTA).
-- Nếu còn 🔴 → liệt kê + chờ anh quyết định fix hay publish kèm risk.
+### Không thay đổi
+- Logic transcription, recording, UI layout, lịch sử điểm, hệ thống điểm.
+- Các trường `vocabularyUpgrades`/`pronunciationFocus` trong type `SpeakingResult` vẫn giữ (optional) để tương thích lịch sử cũ; chỉ không yêu cầu AI sinh nữa.
 
-## Ước lượng
-- ~10-15 phút thao tác tool, 0-3 file sửa nếu phát sinh, không thay đổi schema.
-
-Bấm **Implement plan** để em bắt đầu rà soát.
+## Kết quả kỳ vọng
+- Thời gian chờ chấm: từ ~60–120s → ~20–35s.
+- Kết quả hiện ra ngay khi grade xong, không phải đợi upgrade.
+- Ít timeout 504 hơn.

@@ -368,27 +368,31 @@ const SpeakingPractice = () => {
   const handleGrade = async () => {
     if (!audioBlob) return;
     setLoading(true);
+    let gradedResult: SpeakingResult | null = null;
     try {
       const { data, error } = await supabase.functions.invoke("grade-speaking", {
         body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: liveTranscript },
       });
       if (error) throw error;
       const graded = data as SpeakingResult;
+      gradedResult = graded;
       setResult(graded);
       recordScore(graded);
-      // Log to admin dashboard so teacher can track speaking frequency
-      try {
-        const { logStudentActivity } = await import("@/hooks/useActivityLogger");
-        await logStudentActivity({
-          activityType: "ielts_speaking",
-          activityId: currentQ?.id,
-          score: graded.overall,
-          maxScore: 9,
-          timeSpentSeconds: timer,
-          domain: "english",
-          metadata: { part: selectedPart, topic: currentQ?.topic, question: currentQ?.question },
-        });
-      } catch (e) { console.error("log speaking failed", e); }
+      // Log to admin dashboard in background (don't block UI)
+      (async () => {
+        try {
+          const { logStudentActivity } = await import("@/hooks/useActivityLogger");
+          await logStudentActivity({
+            activityType: "ielts_speaking",
+            activityId: currentQ?.id,
+            score: graded.overall,
+            maxScore: 9,
+            timeSpentSeconds: timer,
+            domain: "english",
+            metadata: { part: selectedPart, topic: currentQ?.topic, question: currentQ?.question },
+          });
+        } catch (e) { console.error("log speaking failed", e); }
+      })();
     } catch {
       // Fallback mock grading
       const base = 5.0 + Math.min(timer / 120, 1) * 2;
@@ -410,12 +414,17 @@ const SpeakingPractice = () => {
           "Shadow the model answer to improve fluency",
         ],
       };
+      gradedResult = fallback;
       setResult(fallback);
       recordScore(fallback);
     }
     setLoading(false);
-    // Auto-trigger Band 8.0+ upgrade right after grading
-    handleUpgrade();
+    // Only call upgrade-speaking as a fallback when grade-speaking didn't already
+    // return an upgradedAnswer. This avoids a wasteful 2nd Perplexity round-trip
+    // that previously doubled the total grading wait time.
+    if (!gradedResult?.upgradedAnswer || gradedResult.upgradedAnswer.trim().length < 10) {
+      handleUpgrade();
+    }
   };
 
   // Upgrade student's answer to Band 8.0+ (independent from grading)

@@ -42,77 +42,41 @@ serve(async (req) => {
     const transcriptText = hasTranscript ? transcript.trim() : "";
     const wordCount = transcriptText ? transcriptText.split(/\s+/).filter(Boolean).length : 0;
 
-    const systemPrompt = `You are a Senior IELTS Speaking Examiner (former British Council/IDP examiner). You must grade STRICTLY based on the student's actual spoken response.
+    const systemPrompt = `You are a Senior IELTS Speaking Examiner. Grade STRICTLY based on the student's actual spoken response.
 
-CRITICAL RULES:
-- Analyze ONLY the provided transcription below. Do NOT hallucinate or assume the student said something else.
-- If the transcription is empty or very short (< 10 words), give very low scores (4.0-4.5) and explain the student needs to speak more.
-- If the student's answer is off-topic from the question, mark Fluency & Coherence as low but keep Lexical Resource and Grammatical feedback honest to what was actually said.
-- Reference SPECIFIC words and phrases from the transcript in your feedback.
-- Point out SPECIFIC grammatical errors found in the transcript.
-- Identify words that are likely mispronounced based on common Vietnamese-English pronunciation patterns.
+RULES:
+- Analyze ONLY the transcription. Do NOT hallucinate.
+- If transcription is empty or <10 words, give Band 4.0-4.5 and explain the student must speak more.
+- Reference SPECIFIC words/phrases from the transcript in feedback.
+- Be concise but specific.
 
 QUESTION (Part ${part}): "${question}"
-RECORDING DURATION: ${duration} seconds
-WORD COUNT: ${wordCount}
-${hasTranscript ? `STUDENT'S TRANSCRIPTION:\n"${transcriptText}"` : "NO TRANSCRIPTION AVAILABLE - The speech recognition could not capture any words. Grade as Band 4.0 with feedback about speaking clearly into the microphone."}
+DURATION: ${duration}s | WORD COUNT: ${wordCount}
+${hasTranscript ? `TRANSCRIPTION:\n"${transcriptText}"` : "NO TRANSCRIPTION - grade as Band 4.0."}
 
-Return ONLY valid JSON with this structure:
+Return ONLY valid JSON, no prose, no markdown fences:
 {
-  "overall": <number 4.0-9.0>,
+  "overall": <4.0-9.0>,
   "criteria": [
-    {
-      "label": "Fluency & Coherence",
-      "score": <number>,
-      "feedback": "<DETAILED feedback referencing specific parts of the transcript. Mention hesitations, repetitions, or good flow.>"
-    },
-    {
-      "label": "Lexical Resource",
-      "score": <number>,
-      "feedback": "<DETAILED feedback. Quote specific words/phrases used and suggest Band 7+ alternatives.>"
-    },
-    {
-      "label": "Grammatical Range & Accuracy",
-      "score": <number>,
-      "feedback": "<DETAILED feedback. Quote specific sentences with errors and provide corrections.>"
-    },
-    {
-      "label": "Pronunciation",
-      "score": <number>,
-      "feedback": "<DETAILED feedback based on likely pronunciation of words in the transcript.>"
-    }
+    {"label":"Fluency & Coherence","score":<n>,"feedback":"<2-3 sentences referencing the transcript>"},
+    {"label":"Lexical Resource","score":<n>,"feedback":"<2-3 sentences quoting words used; suggest Band 7+ alternatives>"},
+    {"label":"Grammatical Range & Accuracy","score":<n>,"feedback":"<2-3 sentences quoting errors and corrections>"},
+    {"label":"Pronunciation","score":<n>,"feedback":"<2-3 sentences on likely pronunciation issues>"}
   ],
-  "transcript": "${hasTranscript ? "<<RETURN THE ORIGINAL TRANSCRIPT EXACTLY AS PROVIDED>>" : ""}",
+  "transcript": "<the original transcript exactly>",
   "highlightedErrors": [
-    {"text": "<exact phrase from transcript>", "type": "grammar|vocabulary|pronunciation", "correction": "<corrected version>", "explanation": "<brief explanation>"}
+    {"text":"<exact substring from transcript>","type":"grammar|vocabulary|pronunciation","correction":"<fix>","explanation":"<short>"}
   ],
-  "suggestions": [
-    "<Specific actionable suggestion referencing their actual performance>",
-    "<Specific actionable suggestion>",
-    "<Specific actionable suggestion>",
-    "<Specific actionable suggestion>",
-    "<Specific actionable suggestion>"
-  ],
-  "vocabularyUpgrades": [
-    {"basic": "<word student actually used>", "advanced": "<band 7+ alternative>", "example": "<example sentence>"},
-    {"basic": "<word student actually used>", "advanced": "<band 7+ alternative>", "example": "<example sentence>"},
-    {"basic": "<word student actually used>", "advanced": "<band 7+ alternative>", "example": "<example sentence>"}
-  ],
-  "pronunciationFocus": [
-    {"sound": "<IPA sound>", "words": ["<word from transcript>", "<word>"], "tip": "<how to practice>"},
-    {"sound": "<IPA sound>", "words": ["<word from transcript>", "<word>"], "tip": "<how to practice>"}
-  ],
-  "upgradedAnswer": "<IMPORTANT: Take the student's ACTUAL answer and upgrade it to Band 7.5-8.0 level. Keep the same ideas, structure, and flow as the student's original answer. Fix all grammar errors, replace basic vocabulary with advanced alternatives, add appropriate linking words, and improve sentence structure. Do NOT create a completely new answer - this must clearly be the student's own answer but polished and elevated. Bold the upgraded words/phrases using **word** markdown.>"
+  "suggestions": ["<actionable tip>","<actionable tip>","<actionable tip>"],
+  "upgradedAnswer": "<Upgrade the student's actual answer to Band 7.5-8.0. Keep their ideas/flow. Fix grammar, replace basic vocab, add linking words. Bold upgraded words with **markdown**. MANDATORY for all parts. Part 1: 2-4 sentences. Part 2: 200-260 words. Part 3: 4-6 sentences.>"
 }
 
-IMPORTANT: The "highlightedErrors" array must contain errors found IN the actual transcript only. Each "text" field must be an exact substring from the transcript. ALWAYS include at least 2-3 highlightedErrors items if the transcript has any imperfections (grammar, vocabulary, or likely pronunciation issues). This rule applies to ALL parts including SHORT Part 1 answers — even a 20-30 word Part 1 answer must have errors identified if any exist. Only return an empty array if the answer is genuinely flawless Band 9 level.
-The "transcript" field must return the student's original transcription exactly as provided, do not modify it.
-The "upgradedAnswer" must be based on the student's actual answer - same ideas and flow, just upgraded language. Bold upgraded parts with **word** markdown. THIS FIELD IS MANDATORY FOR ALL PARTS (1, 2, AND 3). Even for short Part 1 answers (1-3 sentences), you MUST produce an upgraded Band 7.5-8.0 version of the student's answer. Never leave this field empty or omit it. If the transcript is too short or empty, still produce a model upgraded answer that demonstrates how the student's idea could be expressed at Band 7.5+ level.
-Make scores REALISTIC and VARIED based on the actual language quality in the transcript.`;
+highlightedErrors: include 2-3 items if any imperfections exist; each text MUST be an exact substring of the transcript. Empty array only if Band 9 flawless.
+Make scores realistic and varied based on the actual language quality.`;
 
     // Hard timeout: never let the UI spin forever if Perplexity stalls.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 75_000);
+    const timeoutId = setTimeout(() => controller.abort(), 60_000);
     let response: Response;
     try {
       response = await fetch("https://api.perplexity.ai/chat/completions", {
@@ -124,9 +88,11 @@ Make scores REALISTIC and VARIED based on the actual language quality in the tra
         },
         body: JSON.stringify({
           model: "sonar",
+          temperature: 0.2,
+          max_tokens: 1400,
           messages: [
             { role: "system", content: systemPrompt },
-            { role: "user", content: `Grade this IELTS Speaking Part ${part} response to the question: "${question}"\n\nStudent's transcription:\n"${transcriptText}"\n\nDuration: ${duration} seconds, Word count: ${wordCount}` },
+            { role: "user", content: `Grade this IELTS Speaking Part ${part} answer. Question: "${question}". Transcript: "${transcriptText}". Duration: ${duration}s, ${wordCount} words.` },
           ],
         }),
       });
