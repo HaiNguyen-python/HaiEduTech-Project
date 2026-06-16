@@ -3457,6 +3457,15 @@ export type Database = {
           word: string
         }[]
       }
+      get_weekly_vocab_achievers: {
+        Args: { _subject: string; _threshold?: number }
+        Returns: {
+          display_name: string
+          total_count: number
+          user_id: string
+          weekly_count: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
