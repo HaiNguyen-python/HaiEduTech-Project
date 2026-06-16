@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Trophy, Flame, Star, Award } from "lucide-react";
+import { Sparkles, Trophy, Flame, Star, Award, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
@@ -25,30 +25,60 @@ const medal = (i: number) => {
   return `#${i + 1}`;
 };
 
+function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error("timeout")), ms);
+    Promise.resolve(p).then(
+      (v) => { clearTimeout(t); resolve(v); },
+      (e) => { clearTimeout(t); reject(e); },
+    );
+  });
+}
+
 const WeeklyVocabAchievers = ({ subject, threshold = 20, className }: Props) => {
   const { t } = useLanguage();
   const [list, setList] = useState<Achiever[]>([]);
   const [me, setMe] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const mountedRef = useRef(true);
 
   const fetchList = useCallback(async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      setMe(user?.id || null);
-      const { data, error } = await (supabase as any).rpc("get_weekly_vocab_achievers", {
-        _subject: subject,
-        _threshold: threshold,
-      });
-      if (error) throw error;
-      setList((data || []) as Achiever[]);
-    } catch (e) {
-      console.error("Failed to fetch weekly achievers", e);
-    } finally {
-      setLoading(false);
+    setError(false);
+    let attempt = 0;
+    while (attempt < 3) {
+      attempt++;
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!mountedRef.current) return;
+        setMe(user?.id || null);
+        const { data, error: rpcError } = await withTimeout<any>(
+          (supabase as any).rpc("get_weekly_vocab_achievers", {
+            _subject: subject,
+            _threshold: threshold,
+          }),
+          7000 + attempt * 3000,
+        );
+        if (rpcError) throw rpcError;
+        if (!mountedRef.current) return;
+        setList((data || []) as Achiever[]);
+        setLoading(false);
+        return;
+      } catch (e) {
+        if (attempt >= 3) {
+          console.error("Failed to fetch weekly achievers", e);
+          if (!mountedRef.current) return;
+          setError(true);
+          setLoading(false);
+          return;
+        }
+        await new Promise((r) => setTimeout(r, 600 * attempt));
+      }
     }
   }, [subject, threshold]);
 
   useEffect(() => {
+    mountedRef.current = true;
     fetchList();
     let timer: number | undefined;
     const onLocal = (e: Event) => {
@@ -59,6 +89,7 @@ const WeeklyVocabAchievers = ({ subject, threshold = 20, className }: Props) => 
     };
     window.addEventListener(MASTERY_UPDATED_EVENT, onLocal);
     return () => {
+      mountedRef.current = false;
       window.removeEventListener(MASTERY_UPDATED_EVENT, onLocal);
       window.clearTimeout(timer);
     };
