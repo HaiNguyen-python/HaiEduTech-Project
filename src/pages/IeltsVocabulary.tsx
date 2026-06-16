@@ -19,6 +19,7 @@ import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
+import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 10;
@@ -835,6 +836,7 @@ const IeltsVocabulary = () => {
               }}
               allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
             />
+            <WeeklyVocabAchievers subject="ielts" threshold={20} />
           </div>
           </div>
           <div className="lg:hidden mt-6 space-y-4">
@@ -855,6 +857,7 @@ const IeltsVocabulary = () => {
               }}
               allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
             />
+            <WeeklyVocabAchievers subject="ielts" threshold={20} />
           </div>
         </div>
       </div>
