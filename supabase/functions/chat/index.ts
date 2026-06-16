@@ -263,14 +263,14 @@ ${studentContext.trim()}
     }
 
 
-    const response = await fetch("https://api.perplexity.ai/chat/completions", {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "sonar",
+        model: "google/gemini-2.5-flash",
         messages: [
           {
             role: "system",
@@ -338,48 +338,19 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
     });
 
     if (!response.ok) {
-      await logUsage("chat", "sonar", "multi", 0, "error", `HTTP ${response.status}`);
+      await logUsage("chat", "gemini-2.5-flash", "multi", 0, "error", `HTTP ${response.status}`);
       if (response.status === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       if (response.status === 402) {
-        return new Response(JSON.stringify({ error: "Payment required. Please add credits." }), {
+        return new Response(JSON.stringify({ error: "AI credits exhausted. Please add credits." }), {
           status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       const t = await response.text();
-      console.error("Perplexity API error:", response.status, t);
-
-      if (response.status === 400 && t.includes("alternate")) {
-        const retryResponse = await fetch("https://api.perplexity.ai/chat/completions", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            model: "sonar",
-            messages: [
-              { role: "system", content: "You are Teacher Hai from HaiEduTech. Reply in the student's language, stay concise, and help with learning knowledge only." },
-              ...latestUserMessage(messages),
-            ],
-            stream: true,
-          }),
-        });
-
-        if (retryResponse.ok && retryResponse.body) {
-          await logUsage("chat", "sonar", "multi", 200, "success");
-          return new Response(retryResponse.body, {
-            headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
-          });
-        }
-
-        const retryText = await retryResponse.text();
-        console.error("Perplexity retry error:", retryResponse.status, retryText);
-      }
-
+      console.error("Lovable AI error:", response.status, t);
       return new Response(JSON.stringify({ error: "AI API error" }), {
         status: response.status >= 500 ? 200 : 502,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -387,7 +358,7 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
     }
 
     const estimatedTokens = messages.length * 200;
-    await logUsage("chat", "sonar", "multi", estimatedTokens, "success");
+    await logUsage("chat", "gemini-2.5-flash", "multi", estimatedTokens, "success");
 
     return new Response(response.body, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
