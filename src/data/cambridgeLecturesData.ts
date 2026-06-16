@@ -947,4 +947,5 @@ export const allCambridgeLectures: CambridgeLecture[] = [
   ...cambridgeLecturesExpansion11,
   ...cambridgeLecturesGrammar,
   ...cambridgeLecturesGrammar2,
+  ...cambridgeLecturesGrammar3,
 ];
