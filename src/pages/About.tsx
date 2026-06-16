@@ -143,10 +143,10 @@ const About = () => {
                 src={hainguyenPortrait.url}
                 alt=""
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover object-center opacity-55 blur-0 grayscale-[20%] -z-0 pointer-events-none select-none"
+                className="absolute inset-0 w-full h-full object-cover object-center opacity-70 blur-0 grayscale-[20%] -z-0 pointer-events-none select-none"
                 aria-hidden="true"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-background/60 to-background/80 -z-0" />
+              <div className="pointer-events-none absolute inset-0 bg-background/50 -z-0" />
               <p className="relative z-10 font-semibold">{t("Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.", "Hi, I'm Hai Nguyen – Founder of HaiEduTech.")}</p>
               <p className="relative z-10 font-semibold">
                 {t(
