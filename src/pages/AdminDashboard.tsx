@@ -594,6 +594,8 @@ const AdminDashboard = () => {
                 )}
               </TabsList>
 
+              <Suspense fallback={<TabLoading />}>
+
               {/* ===== GLOBAL OVERVIEW TAB ===== */}
               <TabsContent value="overview">
                 <div className="grid lg:grid-cols-2 gap-6">
@@ -1222,6 +1224,8 @@ const AdminDashboard = () => {
                   <TabsContent value="vi" className="mt-4"><EnglishDictionaryAdmin lang="vi" /></TabsContent>
                 </Tabs>
               </TabsContent>
+
+              </Suspense>
 
             </Tabs>
           </motion.div>
