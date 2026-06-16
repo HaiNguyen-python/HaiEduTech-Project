@@ -1,7 +1,7 @@
 // Cambridge Journey: From Starters to PET - 250 strategic lessons with deep content (50 per level)
 
 export type CambridgeLevel = "starters" | "movers" | "flyers" | "ket" | "pet";
-export type CambridgeSkill = "listening" | "reading-writing" | "speaking" | "vocabulary";
+export type CambridgeSkill = "listening" | "reading-writing" | "speaking" | "vocabulary" | "grammar";
 
 export interface CambridgeQuizQuestion {
   question: string;
