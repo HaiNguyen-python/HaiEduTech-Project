@@ -36,74 +36,50 @@ serve(async (req) => {
     }
 
     const { essay } = await req.json();
-    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
-
-    const systemPrompt = `You are a Senior IELTS Examiner & Linguistic Data Analyst. Analyze the Writing Task 2 essay provided.
-
-IMPORTANT: Your response MUST be valid JSON only. No markdown, no explanation outside JSON.
-
-Return this exact JSON structure:
-{
-  "overall": <number like 6.5>,
-  "criteria": [
-    {
-      "score": <number>,
-      "label": "Task Achievement",
-      "strengths": ["<strength1>", "<strength2>", "<strength3>"],
-      "weaknesses": ["<weakness1>", "<weakness2>", "<weakness3>"],
-      "suggestions": ["<suggestion1>", "<suggestion2>", "<suggestion3>"]
-    },
-    {
-      "score": <number>,
-      "label": "Coherence & Cohesion",
-      "strengths": [...],
-      "weaknesses": [...],
-      "suggestions": [...]
-    },
-    {
-      "score": <number>,
-      "label": "Lexical Resource",
-      "strengths": [...],
-      "weaknesses": [...],
-      "suggestions": [...]
-    },
-    {
-      "score": <number>,
-      "label": "Grammatical Range & Accuracy",
-      "strengths": [...],
-      "weaknesses": [...],
-      "suggestions": [...]
+    if (!essay || typeof essay !== "string" || essay.trim().length < 20) {
+      return new Response(JSON.stringify({ error: "Essay too short to grade." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
+
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+
+    const systemPrompt = `You are a Senior IELTS Examiner. Grade the Writing Task 2 essay and return STRICT JSON ONLY (no markdown). Schema:
+{
+  "overall": <number, e.g. 6.5>,
+  "criteria": [
+    { "score": <number>, "label": "Task Achievement", "strengths": [s1,s2,s3], "weaknesses": [w1,w2,w3], "suggestions": [g1,g2,g3] },
+    { "score": <number>, "label": "Coherence & Cohesion", "strengths": [...], "weaknesses": [...], "suggestions": [...] },
+    { "score": <number>, "label": "Lexical Resource", "strengths": [...], "weaknesses": [...], "suggestions": [...] },
+    { "score": <number>, "label": "Grammatical Range & Accuracy", "strengths": [...], "weaknesses": [...], "suggestions": [...] }
   ],
-  "errors": [
-    {"error": "<original text>", "correction": "<corrected text>", "category": "Grammar|Vocab|Cohesion"}
-  ],
-  "upgraded": "<A complete Band 8.0+ rewritten version of the essay IN ENGLISH. Use **bold** around advanced collocations, academic vocabulary, and high-level phrases so students can learn them. Keep the student's original arguments but elevate the language significantly.>",
+  "errors": [ {"error":"<original text>","correction":"<fixed>","category":"Grammar|Vocab|Cohesion"} ],
+  "upgraded": "<Full Band 8.0+ rewrite IN ENGLISH with **bold** around advanced collocations and academic vocabulary. Keep the student's arguments but elevate the language.>",
   "advice": "<Specific actionable advice to reach the next 0.5 band>"
 }
 
-CRITICAL RULES:
-1. The "upgraded" field MUST ALWAYS be in English regardless of what language the student wrote in.
-2. Use **bold** markdown around advanced/high-level vocabulary and phrases in the upgraded version.
-3. Be specific in errors - quote actual text from the essay.
-4. Scores should be realistic and varied (not all the same).
-5. Give at least 6-8 error highlights.`;
+Rules:
+1. "upgraded" MUST be in English regardless of the student's language.
+2. Use **bold** in "upgraded" around advanced/high-level vocab and phrases.
+3. Quote actual text from the essay in "errors". Provide at least 6 entries.
+4. Scores must be varied and realistic.`;
 
-    // Hard timeout so the function never hangs the UI if Perplexity stalls.
+    // Hard timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 75_000);
+    const timeoutId = setTimeout(() => controller.abort(), 55_000);
     let response: Response;
     try {
-      response = await fetch("https://api.perplexity.ai/chat/completions", {
+      response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         signal: controller.signal,
         headers: {
-          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "sonar",
+          model: "google/gemini-2.5-flash",
+          temperature: 0.2,
+          max_tokens: 2400,
+          response_format: { type: "json_object" },
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: `Grade this IELTS Writing Task 2 essay:\n\n${essay}` },
@@ -113,7 +89,7 @@ CRITICAL RULES:
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("grade-writing", "sonar", "english", 0, "error", aborted ? "timeout" : "network");
+      await logUsage("grade-writing", "gemini-2.5-flash", "english", 0, "error", aborted ? "timeout" : "network");
       return new Response(
         JSON.stringify({ error: aborted ? "Grading timed out. Please try again." : "AI service unreachable. Please try again." }),
         { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -124,18 +100,18 @@ CRITICAL RULES:
     if (!response.ok) {
       const statusCode = response.status;
       const errText = await response.text();
-      await logUsage("grade-writing", "sonar", "english", 0, "error", `HTTP ${statusCode}`);
+      await logUsage("grade-writing", "gemini-2.5-flash", "english", 0, "error", `HTTP ${statusCode}`);
       if (statusCode === 429) {
-        return new Response(JSON.stringify({ error: "Rate limit exceeded" }), {
+        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       if (statusCode === 402) {
-        return new Response(JSON.stringify({ error: "Payment required" }), {
+        return new Response(JSON.stringify({ error: "AI credits exhausted. Please top up to continue grading." }), {
           status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      console.error("Perplexity API error:", statusCode, errText);
+      console.error("Lovable AI error:", statusCode, errText);
       throw new Error("AI API error");
     }
 
@@ -156,11 +132,11 @@ CRITICAL RULES:
       }
     } catch {
       console.error("Failed to parse AI response:", content);
-      await logUsage("grade-writing", "sonar", "english", tokensUsed, "parse_error");
+      await logUsage("grade-writing", "gemini-2.5-flash", "english", tokensUsed, "parse_error");
       throw new Error("Failed to parse grading result");
     }
 
-    await logUsage("grade-writing", "sonar", "english", tokensUsed, "success");
+    await logUsage("grade-writing", "gemini-2.5-flash", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
