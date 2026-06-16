@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { lazy, Suspense, useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -40,23 +40,24 @@ import {
 } from "@/lib/adminData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SystemStatusTab from "@/components/SystemStatusTab";
-import IncomeManagement from "@/components/IncomeManagement";
-import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
-import BusinessStrategyTab from "@/components/admin/BusinessStrategyTab";
-import UserInsightsTab from "@/components/admin/UserInsightsTab";
-import FeedbackAnalyticsTab from "@/components/admin/FeedbackAnalyticsTab";
-import ChatbotConversationsReview from "@/components/admin/ChatbotConversationsReview";
-import AttendanceAnalyticsTab from "@/components/admin/AttendanceAnalyticsTab";
-import ReportLogsTab from "@/components/admin/ReportLogsTab";
-import AssistantManagementTab from "@/components/admin/AssistantManagementTab";
-import RLInterventionsTab from "@/components/admin/RLInterventionsTab";
-import EnglishDictionaryAdmin from "@/components/admin/EnglishDictionaryAdmin";
-import ServiceRequestsTab from "@/components/admin/ServiceRequestsTab";
-import HealthMonitorTab from "@/components/admin/HealthMonitorTab";
-import PhdResearchTab from "@/components/admin/PhdResearchTab";
-import EdTechResearchInsightsTab from "@/components/admin/EdTechResearchInsightsTab";
-import ResearchProjectsAdminTab from "@/components/admin/ResearchProjectsAdminTab";
+
+const SystemStatusTab = lazy(() => import("@/components/SystemStatusTab"));
+const IncomeManagement = lazy(() => import("@/components/IncomeManagement"));
+const ClassScheduleManager = lazy(() => import("@/components/admin/ClassScheduleManager"));
+const BusinessStrategyTab = lazy(() => import("@/components/admin/BusinessStrategyTab"));
+const UserInsightsTab = lazy(() => import("@/components/admin/UserInsightsTab"));
+const FeedbackAnalyticsTab = lazy(() => import("@/components/admin/FeedbackAnalyticsTab"));
+const ChatbotConversationsReview = lazy(() => import("@/components/admin/ChatbotConversationsReview"));
+const AttendanceAnalyticsTab = lazy(() => import("@/components/admin/AttendanceAnalyticsTab"));
+const ReportLogsTab = lazy(() => import("@/components/admin/ReportLogsTab"));
+const AssistantManagementTab = lazy(() => import("@/components/admin/AssistantManagementTab"));
+const RLInterventionsTab = lazy(() => import("@/components/admin/RLInterventionsTab"));
+const EnglishDictionaryAdmin = lazy(() => import("@/components/admin/EnglishDictionaryAdmin"));
+const ServiceRequestsTab = lazy(() => import("@/components/admin/ServiceRequestsTab"));
+const HealthMonitorTab = lazy(() => import("@/components/admin/HealthMonitorTab"));
+const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
+const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
+const ResearchProjectsAdminTab = lazy(() => import("@/components/admin/ResearchProjectsAdminTab"));
 
 // Priority colors
 const PRIORITY_COLORS = {
