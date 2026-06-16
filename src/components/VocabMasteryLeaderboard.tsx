@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import { Trophy, Crown, Medal, Star } from "lucide-react";
+import { Trophy, Crown, Medal, Star, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
@@ -27,35 +27,65 @@ export async function syncMasteredCount(_subject: string, _count: number) {
   /* no-op */
 }
 
+// Hard timeout so a hung network call never leaves the UI stuck on "Loading..."
+function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error("timeout")), ms);
+    Promise.resolve(p).then(
+      (v) => { clearTimeout(t); resolve(v); },
+      (e) => { clearTimeout(t); reject(e); },
+    );
+  });
+}
+
 const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryLeaderboardProps) => {
   const { t } = useLanguage();
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const mountedRef = useRef(true);
 
   const fetchLeaderboard = useCallback(async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      setCurrentUserId(user?.id || null);
-      const { data, error } = await (supabase as any).rpc("get_mastery_leaderboard", { _subject: subject });
-      if (error) throw error;
-      const merged = (data || []).map((row: any) => ({
-        user_id: row.user_id,
-        score: Number(row.score) || 0,
-        display_name: row.display_name || t("Học viên", "Student"),
-      })) as LeaderboardEntry[];
-      // Collapse duplicate display names; keep the highest-scoring account per name
-      setEntries(dedupeByDisplayName(merged));
-    } catch (e) {
-      console.error("Failed to fetch mastery leaderboard:", e);
+    setError(false);
+    let attempt = 0;
+    while (attempt < 3) {
+      attempt++;
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!mountedRef.current) return;
+        setCurrentUserId(user?.id || null);
+        const { data, error: rpcError } = await withTimeout<any>(
+          (supabase as any).rpc("get_mastery_leaderboard", { _subject: subject }),
+          7000 + attempt * 3000,
+        );
+        if (rpcError) throw rpcError;
+        if (!mountedRef.current) return;
+        const merged = (data || []).map((row: any) => ({
+          user_id: row.user_id,
+          score: Number(row.score) || 0,
+          display_name: row.display_name || t("Học viên", "Student"),
+        })) as LeaderboardEntry[];
+        setEntries(dedupeByDisplayName(merged));
+        setLoading(false);
+        return;
+      } catch (e) {
+        if (attempt >= 3) {
+          console.error("Failed to fetch mastery leaderboard:", e);
+          if (!mountedRef.current) return;
+          setError(true);
+          setLoading(false);
+          return;
+        }
+        await new Promise((r) => setTimeout(r, 600 * attempt));
+      }
     }
-    setLoading(false);
   }, [subject, t]);
 
   useEffect(() => {
+    mountedRef.current = true;
     fetchLeaderboard();
 
-    // Refresh quickly when local star changes (debounced via timeout)
     let timer: number | undefined;
     const onLocal = (e: Event) => {
       const detail = (e as CustomEvent).detail;
@@ -79,6 +109,7 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
       .subscribe();
 
     return () => {
+      mountedRef.current = false;
       window.removeEventListener(MASTERY_UPDATED_EVENT, onLocal);
       window.clearTimeout(timer);
       supabase.removeChannel(channel);
@@ -94,7 +125,26 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
   if (loading) {
     return (
       <div className="rounded-xl border border-border bg-card/50 p-4">
-        <p className="text-sm text-muted-foreground text-center py-4">{t("Đang tải...", "Loading...")}</p>
+        <div className="flex items-center justify-center gap-2 py-4 text-sm text-muted-foreground">
+          <RefreshCw className="w-4 h-4 animate-spin" />
+          {t("Đang tải bảng xếp hạng...", "Loading leaderboard...")}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-xl border border-border bg-card/50 p-4 text-center space-y-2">
+        <p className="text-xs text-muted-foreground">
+          {t("Không tải được bảng xếp hạng.", "Couldn't load the leaderboard.")}
+        </p>
+        <button
+          onClick={() => { setLoading(true); fetchLeaderboard(); }}
+          className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+        >
+          <RefreshCw className="w-3 h-3" /> {t("Thử lại", "Retry")}
+        </button>
       </div>
     );
   }
