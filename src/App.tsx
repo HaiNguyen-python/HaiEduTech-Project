@@ -473,17 +473,7 @@ const App = () => (
             {/* /unsubscribe is registered earlier — duplicate removed */}
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
-          <DeferredMount>
-            <ChatBot />
-            <FloatingNotebook />
-            <LastSessionRecap />
-            <GlobalSuperDictionary />
-            <SessionTracker />
-            <PageViewTracker />
-            <LessonFeedback />
-            <AssignmentReminderModal />
-            <PetXPToastListener />
-          </DeferredMount>
+          <DeferredGlobalWidgets />
 
         </BrowserRouter>
       </TooltipProvider>
