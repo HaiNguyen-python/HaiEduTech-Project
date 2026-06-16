@@ -3,66 +3,86 @@ import { supabase } from "@/integrations/supabase/client";
 
 export type AppRole = "admin" | "teacher" | "student" | "assistant";
 
-// Module-level cache so navigating between pages does NOT flicker back to
-// "signed out" state while the per-page hook instance re-resolves the session.
-// This was the root cause behind users feeling "logged out" when switching tabs.
+// Module-level cache, keyed by user id. Prevents the Admin link in the Navbar
+// from flickering off on TOKEN_REFRESHED / tab-focus events while a re-fetch
+// is in flight. We only invalidate when the user actually changes.
+let cachedUserId: string | null = null;
 let cachedUser: any = null;
 let cachedRoles: AppRole[] = [];
 let cachedHydrated = false;
+let inflight: Promise<void> | null = null;
+
+const fetchRolesOnce = async (userId: string) => {
+  if (inflight && cachedUserId === userId) return inflight;
+  inflight = (async () => {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+    // Only overwrite on success. A transient error (e.g. auth header not yet
+    // attached) must NOT wipe a previously-known role set.
+    if (!error && data) {
+      cachedRoles = data.map((r: any) => r.role as AppRole);
+      cachedUserId = userId;
+    }
+  })();
+  try {
+    await inflight;
+  } finally {
+    inflight = null;
+  }
+};
 
 export const useUserRole = () => {
   const [roles, setRoles] = useState<AppRole[]>(cachedRoles);
-  // If we've ever hydrated the session this tab, start optimistic (not loading)
-  // so guards relying on `loading` don't briefly redirect to /login.
   const [loading, setLoading] = useState(!cachedHydrated);
   const [user, setUser] = useState<any>(cachedUser);
 
   useEffect(() => {
     let mounted = true;
 
-    const fetchRoles = async (userId: string) => {
-      const { data } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", userId);
-      if (!mounted) return;
-      const next = (data || []).map((r: any) => r.role as AppRole);
-      cachedRoles = next;
-      setRoles(next);
-      setLoading(false);
+    const refresh = async (u: any) => {
+      if (!u) {
+        cachedUser = null;
+        cachedUserId = null;
+        cachedRoles = [];
+        if (mounted) {
+          setUser(null);
+          setRoles([]);
+          setLoading(false);
+        }
+        return;
+      }
+      // Same user as cached -> reuse roles immediately, refresh in background.
+      const sameUser = cachedUserId === u.id && cachedRoles.length >= 0;
+      cachedUser = u;
+      if (mounted) {
+        setUser(u);
+        if (sameUser) {
+          setRoles(cachedRoles);
+          setLoading(false);
+        }
+      }
+      await fetchRolesOnce(u.id);
+      if (mounted) {
+        setRoles(cachedRoles);
+        setLoading(false);
+      }
     };
 
-    // IMPORTANT: set up listener FIRST, and never await Supabase calls inside
-    // the callback (defer them with setTimeout to avoid deadlocks).
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    // Listener first (no awaits inside the callback).
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       const u = session?.user ?? null;
-      cachedUser = u;
       cachedHydrated = true;
-      setUser(u);
-      if (u) {
-        setTimeout(() => {
-          fetchRoles(u.id);
-        }, 0);
-      } else {
-        cachedRoles = [];
-        setRoles([]);
-        setLoading(false);
-      }
+      // Only treat SIGNED_OUT as a real sign-out. TOKEN_REFRESHED / USER_UPDATED
+      // with a null session is treated as transient and ignored.
+      if (!u && event !== "SIGNED_OUT" && event !== "INITIAL_SESSION") return;
+      setTimeout(() => { refresh(u); }, 0);
     });
 
-    // THEN check existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      const u = session?.user ?? null;
-      cachedUser = u;
       cachedHydrated = true;
-      setUser(u);
-      if (u) {
-        fetchRoles(u.id);
-      } else {
-        cachedRoles = [];
-        setRoles([]);
-        setLoading(false);
-      }
+      refresh(session?.user ?? null);
     });
 
     return () => {
@@ -71,8 +91,7 @@ export const useUserRole = () => {
     };
   }, []);
 
-  // Realtime: refetch role list whenever this user's row in user_roles changes
-  // (admin appoints/revokes CTV → UI updates without re-login).
+  // Realtime: refetch role list whenever this user's row in user_roles changes.
   useEffect(() => {
     if (!user?.id) return;
     const channel = supabase
@@ -81,13 +100,15 @@ export const useUserRole = () => {
         "postgres_changes",
         { event: "*", schema: "public", table: "user_roles", filter: `user_id=eq.${user.id}` },
         async () => {
-          const { data } = await supabase
+          const { data, error } = await supabase
             .from("user_roles")
             .select("role")
             .eq("user_id", user.id);
-          const next = (data || []).map((r: any) => r.role as AppRole);
-          cachedRoles = next;
-          setRoles(next);
+          if (!error && data) {
+            cachedRoles = data.map((r: any) => r.role as AppRole);
+            cachedUserId = user.id;
+            setRoles(cachedRoles);
+          }
         },
       )
       .subscribe();
@@ -99,7 +120,6 @@ export const useUserRole = () => {
   const isStudent = roles.includes("student");
   const isAssistant = roles.includes("assistant");
   const isSuperAdmin = roles.includes("admin") || roles.includes("teacher");
-  // Pure assistant = has assistant role but is NOT a super admin
   const isPureAssistant = isAssistant && !isSuperAdmin;
 
   return { user, roles, isTeacher, isAdmin, isStudent, isAssistant, isSuperAdmin, isPureAssistant, loading };
