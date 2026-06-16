@@ -71,6 +71,19 @@ const TREND_ICONS = {
   stable: <Minus className="w-4 h-4 text-muted-foreground" />,
 };
 
+type AdminStudent = { id: string; full_name: string | null; created_at: string };
+type AdminActivity = {
+  user_id: string;
+  activity_type: string;
+  domain: string | null;
+  score: number | null;
+  max_score: number | null;
+  time_spent_seconds: number | null;
+  created_at: string;
+  metadata: unknown;
+};
+type AdminUserMeta = { user_id: string; last_login: string | null; total_seconds: number | string };
+
 // Format a seconds count as "Xh Ym" / "Ym" / "<1m"
 function formatDuration(sec: number): string {
   if (!sec || sec < 60) return sec > 0 ? "<1m" : "-";
@@ -90,7 +103,7 @@ function formatLastLogin(ts: number, isVi: boolean): string {
 }
 
 // Export data as CSV or JSON (RFC-4180 compliant escaping)
-function exportData(data: any[], format: "csv" | "json", filename: string) {
+function exportData(data: Record<string, unknown>[], format: "csv" | "json", filename: string) {
   let blob: Blob;
   if (format === "json") {
     blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -117,7 +130,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const [loadingData, setLoadingData] = useState(true);
-  const [activities, setActivities] = useState<any[]>([]);
+  const [activities, setActivities] = useState<AdminActivity[]>([]);
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
   const [recommendations, setRecommendations] = useState<RLRecommendation[]>([]);
@@ -174,9 +187,9 @@ const AdminDashboard = () => {
       if (error) throw error;
 
       const snapshot = (data || {}) as {
-        students?: Array<{ id: string; full_name: string | null; created_at: string }>;
-        activities?: any[];
-        userMeta?: Array<{ user_id: string; last_login: string | null; total_seconds: number | string }>;
+        students?: AdminStudent[];
+        activities?: AdminActivity[];
+        userMeta?: AdminUserMeta[];
       };
       const studentList = snapshot.students || [];
 
@@ -260,7 +273,7 @@ const AdminDashboard = () => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "student_activity_log" },
-        (payload: any) => {
+        (payload: { new?: { activity_type?: string | null } }) => {
           const t = payload?.new?.activity_type as string | undefined;
           if (!t || SYSTEM_ACTIVITY_TYPES.has(t)) return; // skip heartbeats
           if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
