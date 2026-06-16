@@ -138,15 +138,15 @@ const About = () => {
             <p className="text-lg text-muted-foreground mb-4">
               Data & AI Engineer - Language Educator - HaiEduTech Founder
             </p>
-            <div className="text-foreground mb-10 space-y-6 text-base md:text-lg leading-loose relative overflow-hidden rounded-2xl p-8 md:p-12 bg-background/40 min-h-[580px]">
+            <div className="text-foreground mb-10 space-y-6 text-base md:text-lg leading-loose relative overflow-hidden rounded-2xl p-8 md:p-12 bg-background min-h-[580px]">
               <img
                 src={hainguyenPortrait.url}
                 alt=""
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover object-center opacity-40 blur-[1px] grayscale-[20%] -z-0 pointer-events-none select-none"
+                className="absolute inset-0 w-full h-full object-cover object-center opacity-55 blur-0 grayscale-[20%] -z-0 pointer-events-none select-none"
                 aria-hidden="true"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/90 via-background/80 to-background/90 -z-0" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-background/60 to-background/80 -z-0" />
               <p className="relative z-10 font-semibold">{t("Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.", "Hi, I'm Hai Nguyen – Founder of HaiEduTech.")}</p>
               <p className="relative z-10 font-semibold">
                 {t(
