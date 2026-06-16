@@ -23,10 +23,10 @@ Deno.serve(async (req) => {
       });
     }
 
-    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!PERPLEXITY_API_KEY) {
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) {
       return new Response(
-        JSON.stringify({ error: "PERPLEXITY_API_KEY is not configured" }),
+        JSON.stringify({ error: "LOVABLE_API_KEY is not configured" }),
         {
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -39,27 +39,28 @@ Deno.serve(async (req) => {
     const userMsg = `The Finnish word is: "${word}". It may be inflected (case, tense, possessive, plural, etc.). Return JSON exactly in this shape:
 {"base":"<dictionary form in Finnish>","en":"<short English meaning, max 8 words>","pos":"<noun|verb|adj|adv|pron|num|conj|prep|interj|other>"}`;
 
-    const aiRes = await fetch("https://api.perplexity.ai/chat/completions", {
+    const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "sonar",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: systemMsg },
           { role: "user", content: userMsg },
         ],
         temperature: 0.1,
         max_tokens: 200,
+        response_format: { type: "json_object" },
       }),
     });
 
     if (!aiRes.ok) {
       const errText = await aiRes.text();
       return new Response(
-        JSON.stringify({ error: `Perplexity ${aiRes.status}`, details: errText }),
+        JSON.stringify({ error: `Lovable AI ${aiRes.status}`, details: errText }),
         {
           status: 502,
           headers: { ...corsHeaders, "Content-Type": "application/json" },

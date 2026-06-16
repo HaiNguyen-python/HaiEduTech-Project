@@ -90,7 +90,7 @@ Deno.serve(async (req) => {
     }
 
 
-    const KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    const KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!KEY) return Response.json({ error: true, message: "Lookup service unavailable" }, { headers: corsHeaders });
 
     const system =
@@ -107,24 +107,27 @@ Deno.serve(async (req) => {
       `- For Vietnamese: "phonetic" may be empty or a rough IPA.\n` +
       `- Output ONLY the JSON object. No \`\`\`json fences, no extra text, no citation markers.`;
 
-    const resp = await fetch("https://api.perplexity.ai/chat/completions", {
+    const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "sonar",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: system },
           { role: "user", content: `Look up the word: ${word}` },
         ],
         temperature: 0.1,
+        max_tokens: 1200,
+        response_format: { type: "json_object" },
       }),
     });
 
     if (resp.status === 429) return Response.json({ error: true, message: "Rate limit reached, please wait." }, { headers: corsHeaders });
+    if (resp.status === 402) return Response.json({ error: true, message: "AI credits exhausted." }, { headers: corsHeaders });
     if (resp.status === 401 || resp.status === 403) return Response.json({ error: true, message: "Lookup auth error" }, { headers: corsHeaders });
     if (!resp.ok) {
       const errTxt = await resp.text().catch(() => "");
-      console.error("multi-lang-lookup perplexity error", resp.status, errTxt);
+      console.error("multi-lang-lookup lovable AI error", resp.status, errTxt);
       return Response.json({ error: true, message: "Lookup service is busy" }, { headers: corsHeaders });
     }
 

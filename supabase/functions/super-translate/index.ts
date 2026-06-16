@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
       return Response.json({ ...cached.payload, cached: true }, { headers: corsHeaders });
     }
 
-    const KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    const KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!KEY) return Response.json({ error: true, message: "Translation service unavailable" }, { headers: corsHeaders });
 
     const sourceLabel = source === "auto" || !LANG_NAMES[source]
@@ -66,24 +66,26 @@ Deno.serve(async (req) => {
       `Do NOT add commentary, citations, romanization (except where the target spec asks for pinyin), or quotes around the result. ` +
       `Do NOT include any reference markers like [1], [2]. Output ONLY the plain translation.`;
 
-    const resp = await fetch("https://api.perplexity.ai/chat/completions", {
+    const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "sonar",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: system },
           { role: "user", content: text },
         ],
         temperature: 0.2,
+        max_tokens: 2000,
       }),
     });
 
     if (resp.status === 429) return Response.json({ error: true, message: "Rate limit reached, please wait a moment." }, { headers: corsHeaders });
+    if (resp.status === 402) return Response.json({ error: true, message: "AI credits exhausted." }, { headers: corsHeaders });
     if (resp.status === 401 || resp.status === 403) return Response.json({ error: true, message: "Translation service auth error" }, { headers: corsHeaders });
     if (!resp.ok) {
       const errTxt = await resp.text().catch(() => "");
-      console.error("super-translate perplexity error", resp.status, errTxt);
+      console.error("super-translate lovable AI error", resp.status, errTxt);
       return Response.json({ error: true, message: "Translation service is busy" }, { headers: corsHeaders });
     }
 

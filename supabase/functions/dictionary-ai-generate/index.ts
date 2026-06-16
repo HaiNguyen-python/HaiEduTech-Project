@@ -66,19 +66,21 @@ Deno.serve(async (req) => {
       return Response.json({ error: "Invalid language" }, { status: 400, headers: corsHeaders });
     }
 
-    const KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    const KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!KEY) {
       return Response.json({ error: "Service unavailable" }, { status: 503, headers: corsHeaders });
     }
 
     const system = buildSystemPrompt(lang);
 
-    const resp = await fetch("https://api.perplexity.ai/chat/completions", {
+    const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "sonar",
+        model: "google/gemini-2.5-flash",
         temperature: 0.1,
+        max_tokens: 1500,
+        response_format: { type: "json_object" },
         messages: [
           { role: "system", content: system },
           { role: "user", content: `Word: ${word}` },
@@ -89,9 +91,12 @@ Deno.serve(async (req) => {
     if (resp.status === 429) {
       return Response.json({ error: "Rate limited" }, { status: 429, headers: corsHeaders });
     }
+    if (resp.status === 402) {
+      return Response.json({ error: "AI credits exhausted" }, { status: 402, headers: corsHeaders });
+    }
     if (!resp.ok) {
       const errTxt = await resp.text().catch(() => "");
-      console.error("dictionary-ai-generate perplexity error", resp.status, errTxt);
+      console.error("dictionary-ai-generate lovable AI error", resp.status, errTxt);
       return Response.json({ error: "AI service error" }, { status: 502, headers: corsHeaders });
     }
 

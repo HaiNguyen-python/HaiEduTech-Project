@@ -200,20 +200,20 @@ async function handleDictionary(word: string) {
 
 async function handleCollocation(word: string) {
   const w = word.trim().toLowerCase();
-  const apiKey = Deno.env.get("PERPLEXITY_API_KEY");
+  const apiKey = Deno.env.get("LOVABLE_API_KEY");
   if (!apiKey) {
     return { groups: [], error: true, message: "Collocation service unavailable" };
   }
 
   try {
-    const response = await fetch("https://api.perplexity.ai/chat/completions", {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "sonar",
+        model: "google/gemini-2.5-flash",
         messages: [
           {
             role: "system",
@@ -243,39 +243,8 @@ async function handleCollocation(word: string) {
           },
         ],
         temperature: 0.2,
-        response_format: {
-          type: "json_schema",
-          json_schema: {
-            name: "collocations",
-            schema: {
-              type: "object",
-              properties: {
-                groups: {
-                  type: "array",
-                  items: {
-                    type: "object",
-                    properties: {
-                      label: { type: "string" },
-                      items: {
-                        type: "array",
-                        items: {
-                          type: "object",
-                          properties: {
-                            phrase: { type: "string" },
-                            vi: { type: "string" },
-                          },
-                          required: ["phrase", "vi"],
-                        },
-                      },
-                    },
-                    required: ["label", "items"],
-                  },
-                },
-              },
-              required: ["groups"],
-            },
-          },
-        },
+        max_tokens: 1500,
+        response_format: { type: "json_object" },
       }),
     });
 

@@ -1,46 +1,99 @@
-# Tăng tốc các tính năng AI còn lại
+# Kế hoạch: Chuyển Dictionary + Chatbot Pet sang Lovable AI
 
-Sau khi rà soát toàn bộ edge functions, tôi phát hiện **2 nhóm cơ hội tăng tốc**:
+## Trả lời nhanh
 
-## Nhóm 1 — Các function ĐÃ dùng Lovable AI nhưng chưa tối ưu (8 function)
+**Có thể chuyển được**, nhưng cần cân nhắc trade-off vì 2 tính năng này dùng Perplexity `sonar` chủ yếu để có **web search real-time + citations**. Lovable AI (Gemini) **không có web search**, chỉ dựa vào kiến thức training.
 
-
-| Function                  | Hiện tại                                 | Vấn đề                                         | Đề xuất                                                              |
-| ------------------------- | ---------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------- |
-| `translate-vi-en`         | gemini-3-flash-preview, non-stream       | Task siêu nhẹ (dịch câu) nhưng dùng model mạnh | Đổi sang `gemini-2.5-flash-lite` + giới hạn `max_tokens: 400`        |
-| `explain-code`            | gemini-3-flash-preview                   | Giải thích ngắn                                | `gemini-2.5-flash-lite` + `max_tokens: 600`                          |
-| `assess-profile-strength` | gemini-3-flash-preview                   | Đánh giá ngắn                                  | `gemini-2.5-flash-lite` + `max_tokens: 800`                          |
-| `hskk-grade`              | gemini-2.5-flash, không giới hạn token   | Chấm HSKK speaking                             | Thêm `max_tokens: 1200`, giảm prompt overhead                        |
-| `review-python-code`      | gemini-2.5-flash                         | Review code Python                             | Thêm `max_tokens: 1500` để tránh kéo dài                             |
-| `grade-swedish-yki`       | gemini-2.5-flash                         | Chấm YKI Swedish                               | Thêm `max_tokens: 1500` + `temperature: 0.2`                         |
-| `pedagogical-assistant`   | **gemini-2.5-pro** (rất chậm)            | Trợ lý giáo viên                               | Hạ xuống `gemini-2.5-flash` (giữ chất lượng, nhanh hơn 3-4x)         |
-| `generate-marketing-kit`  | **gemini-2.5-pro** (rất chậm, gọi 2 lần) | Sinh nội dung marketing                        | Hạ xuống `gemini-2.5-flash` cho lần gọi text; giữ image model nguyên |
+## So sánh tốc độ & chi phí
 
 
-**Ước tính**: thời gian phản hồi giảm 40-70% cho các tính năng dịch nhanh, giải thích, đánh giá; giảm 2-3x cho pedagogical-assistant & marketing-kit.
+| Tiêu chí             | Perplexity `sonar`            | Lovable AI `gemini-2.5-flash`    |
+| -------------------- | ----------------------------- | -------------------------------- |
+| Tốc độ phản hồi      | 3-8 giây (do phải search web) | **0.8-2 giây** (nhanh hơn 3-5x)  |
+| Chi phí / request    | ~$0.005-0.015                 | ~$0.001-0.003 (rẻ hơn 3-5x)      |
+| Web search real-time | ✅ Có                          | ❌ Không                          |
+| Citations nguồn      | ✅ Có                          | ❌ Không                          |
+| Kiến thức ngôn ngữ   | Tốt                           | **Rất tốt** (Gemini mạnh đa ngữ) |
 
-## Nhóm 2 — Các function vẫn dùng Perplexity API (30+ function) — KHÔNG động trong lần này
 
-Nhiều function (counseling-ai, scholarship-advisor, roleplay-chat, generate-lesson, fetch-knowledge-articles, lookup-university, v.v.) đang gọi `api.perplexity.ai`. Đây là chủ đề lớn cần quyết định riêng vì:
+**Kết luận:** Nhanh hơn 3-5 lần, rẻ hơn 3-5 lần, nhưng mất web search.
 
-- Perplexity có **web search realtime** — quan trọng cho học bổng, đại học, tin tức IT (cần tính cập nhật)
-- Roleplay/counseling không cần web search → có thể migrate sang Lovable AI để nhanh & rẻ hơn 100x
+## Đánh giá từng tính năng
 
-→ Sẽ tạo plan riêng nếu bạn muốn migrate Perplexity. Lần này **chỉ tối ưu Nhóm 1**.
+### 1. Super Dictionary (Collocation OZDIC + Multi-lang ZH/FI/VI + Translate)
 
-## Phạm vi thay đổi
+- **Phù hợp chuyển sang Lovable AI** ✅
+- Lý do: Từ vựng/collocation/dịch thuật là kiến thức ngôn ngữ tĩnh, không cần web search
+- Gemini 2.5 Flash dịch và giải thích ngôn ngữ rất tốt, đặc biệt ZH/VI/FI
+- Tốc độ nhanh hơn rõ rệt → UX drawer mở ra mượt hơn nhiều
 
-Sửa 8 file edge function trong `supabase/functions/*/index.ts`:
+### 2. AI Chatbot Pet (Mr. Hai - text branch)
 
-- Đổi tên model trong body request
-- Thêm/điều chỉnh `max_tokens` để cắt sớm output dư thừa
-- Không thay đổi logic, schema, prompt nội dung
+- **Cân nhắc kỹ** ⚠️
+- Nếu học sinh hỏi "tin tức mới nhất", "học bổng 2026 deadline", "thông tin trường X năm nay" → Lovable AI sẽ trả lời không chính xác/lỗi thời
+- Nếu chỉ dùng cho hỏi đáp học tập (grammar, vocab, giải bài) → Lovable AI nhanh hơn nhiều
+- **Đề xuất giải pháp hybrid:** Phát hiện câu hỏi cần web (chứa "mới nhất", "2026", "hôm nay", "deadline", tên trường ĐH...) → giữ Perplexity. Còn lại → dùng Lovable AI
 
-## Kiểm chứng
+## Phương án triển khai
 
-- Build qua, không lỗi TypeScript
-- Test thủ công 2-3 function điển hình (translate-vi-en, pedagogical-assistant) sau khi deploy
+### Phương án A — Chuyển hoàn toàn (đơn giản, nhanh)
 
-Bạn duyệt để tôi triển khai không?
+- Đổi 5 edge functions sang Lovable AI `gemini-2.5-flash`:
+  - `ozdic-collocation` (Dictionary)
+  - `multi-language-lookup` (ZH/FI/VI)
+  - `translate-sentence` / `translate-paragraph`
+  - `chatbot-mr-hai` (text branch)
+- **Pros:** Nhanh 3-5x, rẻ 3-5x, code đơn giản
+- **Cons:** Mất web search ở chatbot
 
-ok
+### Phương án B — Hybrid (khuyến nghị)
+
+- Dictionary (4 functions): chuyển hoàn toàn sang Lovable AI
+- Chatbot Mr. Hai: thêm logic phát hiện từ khóa thời sự
+  - Có từ khóa thời sự → Perplexity `sonar`
+  - Không → Lovable AI `gemini-2.5-flash`
+- **Pros:** Vừa nhanh vừa giữ độ chính xác cho câu hỏi cập nhật
+- **Cons:** Code phức tạp hơn 1 chút
+
+## Chi tiết kỹ thuật
+
+**Files sẽ chỉnh sửa:**
+
+- `supabase/functions/ozdic-collocation/index.ts`
+- `supabase/functions/multi-language-lookup/index.ts`
+- `supabase/functions/translate-sentence/index.ts` (nếu có)
+- `supabase/functions/translate-paragraph/index.ts` (nếu có)
+- `supabase/functions/chatbot-mr-hai/index.ts` (hoặc tên tương đương)
+
+**Thay đổi mẫu (Perplexity → Lovable AI):**
+
+```ts
+// Trước (Perplexity)
+fetch('https://api.perplexity.ai/chat/completions', {
+  headers: { Authorization: `Bearer ${PERPLEXITY_API_KEY}` },
+  body: JSON.stringify({ model: 'sonar', messages, temperature: 0.2 })
+})
+
+// Sau (Lovable AI)
+fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+  headers: { 'Lovable-API-Key': LOVABLE_API_KEY },
+  body: JSON.stringify({
+    model: 'google/gemini-2.5-flash',
+    messages, temperature: 0.2, max_tokens: 800
+  })
+})
+```
+
+**Giữ nguyên:** prompt system, response schema, frontend hoàn toàn không đổi.
+
+## Câu hỏi cho bạn
+
+Bạn muốn đi theo phương án nào?
+
+- **A**: Chuyển hết → nhanh nhất, rẻ nhất, nhưng chatbot không còn web search
+- **B (khuyến nghị)**: Dictionary chuyển hết + Chatbot hybrid (giữ Perplexity cho câu hỏi thời sự)
+- **Chỉ Dictionary**: Chỉ chuyển 4 function Dictionary, giữ nguyên Chatbot dùng Perplexity
+
+&nbsp;
+
+A: chuyển hết 
