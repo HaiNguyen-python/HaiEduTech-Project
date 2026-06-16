@@ -164,7 +164,7 @@ Make scores realistic and varied.`;
       parsed.transcript = transcriptText;
     }
 
-    await logUsage("grade-speaking", "sonar", "english", tokensUsed, "success");
+    await logUsage("grade-speaking", "gemini-2.5-flash", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
