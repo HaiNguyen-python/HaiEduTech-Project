@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
