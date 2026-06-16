@@ -6,7 +6,7 @@
  * @license Private / Proprietary - No unauthorized copying or distribution.
  */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -53,6 +53,33 @@ const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?
     return () => window.clearTimeout(t);
   }, [delay]);
   return ready ? <Suspense fallback={null}>{children}</Suspense> : null;
+};
+
+const DeferredGlobalWidgets = () => {
+  const { pathname } = useLocation();
+  const isAdminRoute = pathname === "/admin-dashboard" || pathname.startsWith("/admin/");
+
+  if (isAdminRoute) {
+    return (
+      <DeferredMount>
+        <PageViewTracker />
+      </DeferredMount>
+    );
+  }
+
+  return (
+    <DeferredMount>
+      <ChatBot />
+      <FloatingNotebook />
+      <LastSessionRecap />
+      <GlobalSuperDictionary />
+      <SessionTracker />
+      <PageViewTracker />
+      <LessonFeedback />
+      <AssignmentReminderModal />
+      <PetXPToastListener />
+    </DeferredMount>
+  );
 };
 
 
