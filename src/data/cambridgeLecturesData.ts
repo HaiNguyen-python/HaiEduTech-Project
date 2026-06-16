@@ -916,6 +916,7 @@ import { cambridgeLecturesExpansion10 } from "./cambridgeLecturesExpansion10";
 import { cambridgeLecturesExpansion11 } from "./cambridgeLecturesExpansion11";
 import { cambridgeLecturesGrammar } from "./cambridgeLecturesGrammar";
 import { cambridgeLecturesGrammar2 } from "./cambridgeLecturesGrammar2";
+import { cambridgeLecturesGrammar3 } from "./cambridgeLecturesGrammar3";
 
 export const allCambridgeLectures: CambridgeLecture[] = [
   startersColors,
@@ -946,4 +947,5 @@ export const allCambridgeLectures: CambridgeLecture[] = [
   ...cambridgeLecturesExpansion11,
   ...cambridgeLecturesGrammar,
   ...cambridgeLecturesGrammar2,
+  ...cambridgeLecturesGrammar3,
 ];
