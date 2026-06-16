@@ -621,12 +621,13 @@ const CambridgeYleVocabulary = () => {
             </div>
 
             {/* Student leaderboard */}
-            <div className="mt-3">
+            <div className="mt-3 space-y-4">
               <VocabMasteryLeaderboard
                 subject={MASTERY_SUBJECT}
                 currentCount={mastered.size}
                 label={t("🏆 BXH Cambridge YLE", "🏆 Cambridge YLE Ranking")}
               />
+              <WeeklyVocabAchievers subject={MASTERY_SUBJECT} threshold={20} />
             </div>
           </aside>
         </section>
