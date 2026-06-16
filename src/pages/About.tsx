@@ -154,6 +154,29 @@ const About = () => {
               </p>
             </div>
 
+            {/* Faint portrait of Teacher Hai */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative mx-auto mb-12 w-full max-w-md"
+              aria-hidden="false"
+            >
+              <div className="relative overflow-hidden rounded-2xl">
+                <img
+                  src={hainguyenPortrait.url}
+                  alt={t("Chân dung Thầy Hai Nguyen", "Portrait of Teacher Hai Nguyen")}
+                  loading="lazy"
+                  className="w-full h-auto object-cover opacity-30 blur-[1.5px] grayscale-[20%] transition-all duration-700 hover:opacity-70 hover:blur-0 hover:grayscale-0"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-background/10 to-transparent" />
+              </div>
+              <p className="mt-2 text-center text-xs text-muted-foreground italic">
+                {t("Di chuột để xem rõ ảnh thầy", "Hover to reveal the portrait")}
+              </p>
+            </motion.div>
+
+
             {/* Achievements - synced with HeroSection */}
             <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-2 sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-5 mb-12">
               {achievements.map((s, i) => (
