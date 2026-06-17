@@ -901,18 +901,7 @@ const SoftwareEngInterview = () => {
                           </p>
                         </div>
                         <ul className="space-y-1.5">
-                          {(t(JSON.stringify(q.keyPointsVi), JSON.stringify(q.keyPoints))
-                            ? (() => {
-                                try {
-                                  return JSON.parse(
-                                    t(JSON.stringify(q.keyPointsVi), JSON.stringify(q.keyPoints))
-                                  ) as string[];
-                                } catch {
-                                  return q.keyPoints;
-                                }
-                              })()
-                            : q.keyPoints
-                          ).map((kp, idx) => (
+                          {(lang === "vi" ? q.keyPointsVi : q.keyPoints).map((kp, idx) => (
                             <li
                               key={idx}
                               className="text-sm text-foreground/85 leading-relaxed flex gap-2"
