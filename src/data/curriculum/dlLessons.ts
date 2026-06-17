@@ -1787,7 +1787,47 @@ for i, img in enumerate(images):
         titleEn: "Fine-Tuning LLMs - LoRA, QLoRA & RAG",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lesson 5 (Transformers & LLMs) and Lesson 6 (Transfer Learning).
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 5 (Transformers & LLM) và Bài học 6 (Học chuyển giao (Transfer Learning)).
+
+## 1. Ba cách để "biến" một LLM thành của bạn
+
+| Kỹ thuật | Chi phí | Độ trễ | Phù hợp nhất cho |
+|---|---|---|---|
+| **Kỹ thuật nhắc lệnh (Prompt engineering) + vài mẫu (few-shot)** | Miễn phí | Nhanh | Kết quả nhanh chóng |
+| **RAG (Tạo sinh tăng cường truy xuất - Retrieval-Augmented Generation)** | Rẻ | Trung bình | Sự kiện cập nhật |
+| **Tinh chỉnh (Fine-tuning) (LoRA / QLoRA)** | Vừa phải | Nhanh | Phong cách, định dạng, lập luận theo lĩnh vực |
+
+Các hệ thống sản xuất thường **kết hợp RAG + tinh chỉnh** - tinh chỉnh cho giọng điệu, truy xuất cho các sự kiện.
+
+## 2. RAG trong 60 giây
+
+\`\`\`text
+  1. Câu hỏi của người dùng →
+  2. Mã hóa truy vấn →
+  3. (Cơ sở dữ liệu vector: Pinecone, Qdrant, pgvector) →
+  4. Các đoạn liên quan hàng đầu (top-k) →
+  5. LLM trả lời bằng cách sử dụng câu hỏi + ngữ cảnh đã truy xuất →
+  6. Câu trả lời có căn cứ + trích dẫn
+\`\`\`
+
+Kiến thức được cập nhật mà không cần huấn luyện lại; các trích dẫn giúp kiểm toán được những thông tin sai lệch; ngay cả một mô hình 7B với RAG tốt thường vượt trội hơn mô hình 70B đơn lẻ trong các tác vụ dựa trên sự kiện.
+
+## 3. LoRA - tinh chỉnh mà không tốn kém
+
+Tinh chỉnh toàn bộ một Llama 7B cần khoảng 80 GB GPU. **LoRA** (2021): đóng băng \`W\`, học một **delta** nhỏ \`ΔW = B · A\` trong đó \`A\`, \`B\` có bậc thấp (low-rank). Đối với một ma trận 4096×4096 với bậc \`r=8\`, bạn huấn luyện **65 nghìn tham số thay vì 17 triệu** - giảm 250 lần.
+
+**QLoRA** (2023): tải mô hình cơ sở ở độ chính xác **4 bit**; các bộ điều hợp LoRA vẫn ở định dạng float16. Giờ đây bạn có thể tinh chỉnh một **mô hình 70B trên một GPU tiêu dùng 24 GB duy nhất**.
+
+## 4. Nên tinh chỉnh cho cái gì
+
+Không nên tinh chỉnh cho **sự kiện** – đó là công việc của RAG. Tinh chỉnh cho:
+- **Định dạng đầu ra** (JSON, trích dẫn, tiếng Việt trang trọng)
+- **Giọng điệu & tính cách**
+- **Lập luận theo lĩnh vực**
+- **Độ trễ / chi phí** - một mô hình 1B đã được tinh chỉnh có thể thay thế một lời nhắc (prompt) 70B và cắt giảm hóa đơn 50 lần
+
+> 💡 **Khái niệm then chốt** - Năm 2025, bộ công cụ của kỹ sư AI hiện đại: chọn một mô hình cơ sở mở mạnh mẽ, kết nối RAG để lấy sự kiện, áp dụng LoRA/QLoRA cho định dạng & phong cách. Không ai bắt đầu từ đầu cả.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lesson 5 (Transformers & LLMs) and Lesson 6 (Transfer Learning).
 
 ## 1. Three ways to make an LLM "yours"
 
@@ -1827,7 +1867,6 @@ Don't fine-tune for **facts** - that's RAG's job. Fine-tune for:
 - **Latency / cost** - a fine-tuned 1B can replace a 70B prompt and cut bills 50×
 
 > 💡 **Key concept** - In 2025, the modern AI engineer's stack: pick a strong open-weight base, wire up RAG for facts, apply LoRA/QLoRA for format & style. No one starts from scratch.`,
-        theoryEn: "",
         code: `# Fine-tuning QLoRA cho Llama-3-8B trong ~30 dòng - chạy trên 1 GPU 16 GB
 # cài đặt: pip install transformers peft accelerate bitsandbytes datasets trl
 # Import các thư viện cần thiết
@@ -1881,8 +1920,13 @@ trainer = SFTTrainer(
 trainer.train()
 trainer.save_model("llama3-lora-vi")  # adapter ~80 MB so với 16 GB model đầy đủ`,
         codeLanguage: "python",
-        exercise: "Plan a fine-tuning project for a Vietnamese customer-support chatbot in 3 bullets: (1) base model + why, (2) one example instruction/response pair, (3) would you also use RAG and what would it retrieve?",
-        exerciseEn: "",
+        exercise: "Lên kế hoạch cho dự án tinh chỉnh chatbot hỗ trợ khách hàng tiếng Việt với 3 gạch đầu dòng:
+*   **Mô hình cơ sở và lý do:** `ViText-BART-base` vì nó được đào tạo trước chuyên biệt cho tiếng Việt và các tác vụ hiểu/sinh ngôn ngữ, giúp nắm bắt ngữ cảnh và tạo ra câu trả lời tự nhiên, chính xác hơn.
+*   **Cặp hướng dẫn/phản hồi mẫu:**
+    *   **Hướng dẫn:** \"Tôi muốn khiếu nại về chất lượng dịch vụ.\"
+    *   **Phản hồi mô hình:** \"Tôi rất tiếc khi nghe điều này. Để tôi có thể hỗ trợ bạn tốt nhất, vui lòng cung cấp thêm thông tin về vấn đề bạn gặp phải, bao gồm mã dịch vụ (nếu có) và thời gian xảy ra sự việc. Cảm ơn bạn.\"
+*   **Sử dụng RAG và thông tin truy xuất:** Có, sẽ sử dụng RAG. RAG sẽ truy xuất thông tin từ cơ sở dữ liệu FAQs (các câu hỏi thường gặp), tài liệu hướng dẫn sử dụng sản phẩm/dịch vụ, chính sách bảo hành, và thông tin tài khoản khách hàng (nếu được phép truy cập) để cung cấp câu trả lời chính xác, cập nhật và cá nhân hóa.",
+        exerciseEn: "Plan a fine-tuning project for a Vietnamese customer-support chatbot in 3 bullets: (1) base model + why, (2) one example instruction/response pair, (3) would you also use RAG and what would it retrieve?",
         quiz: [
           {
             question: "Which problem is *RAG* the right tool for, but *fine-tuning* is not?",
@@ -1910,7 +1954,62 @@ trainer.save_model("llama3-lora-vi")  # adapter ~80 MB so với 16 GB model đ�
         titleEn: "Sequence Models - RNN, LSTM & GRU",
         level: 4,
         difficulty: "intermediate",
-        theory: `> ⚠️ **Prerequisites** - Lessons 1–3 (neural nets, backprop).
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1–3 (mạng nơ-ron, lan truyền ngược).
+
+## 1. Tại sao mạng truyền thẳng không thể hiểu một câu
+
+Một mạng dày đặc (dense network) coi các đầu vào như một túi không có thứ tự. Nhưng "chó cắn người" ≠ "người cắn chó". Chúng ta cần một mạng có trạng thái ẩn (hidden state) \`h_t\` phụ thuộc vào bước trước đó:
+
+\\\`\\\`\\\`
+h_t = tanh(W_x · x_t + W_h · h_{t-1} + b)
+\\\`\\\`\\\`
+
+Đây là một **Mạng Nơ-ron Hồi quy** (Recurrent Neural Network – RNN) - cùng một trọng số (weight) được tái sử dụng ở mỗi bước thời gian (chia sẻ tham số theo thời gian).
+
+\\\`\\\`\\\`mermaid
+flowchart LR
+  X1[x₁] --> H1[h₁]
+  H1 --> H2[h₂]
+  X2[x₂] --> H2
+  H2 --> H3[h₃]
+  X3[x₃] --> H3
+  H3 --> Y[Output]
+\\\`\\\`\\\`
+
+## 2. Vấn đề gradient biến mất (vanishing gradient problem)
+
+Lan truyền ngược (backprop) qua 100 bước thời gian nhân 100 ma trận Jacobian. Nếu mỗi ma trận có bán kính phổ (spectral radius) < 1, gradient sẽ **biến mất** (vanish) → mạng quên các phụ thuộc tầm xa. Nếu > 1, chúng sẽ **bùng nổ** (explode) → dẫn đến giá trị NaN (Not a Number).
+
+## 3. LSTM - thêm mạch bộ nhớ
+
+**Bộ nhớ Dài-Ngắn Hạn** (Long Short-Term Memory – LSTM) (Hochreiter & Schmidhuber, 1997) giới thiệu một **trạng thái ô** (cell state) \`C_t\` chảy qua thời gian chỉ với các tương tác tuyến tính, được điều khiển bởi các cổng (gate):
+
+| Cổng | Công thức | Vai trò |
+|---|---|---|
+| **Quên** \`f_t\` | σ(W_f·[h_{t-1}, x_t]) | Những gì cần bỏ khỏi \`C\` |
+| **Đầu vào** \`i_t\` | σ(W_i·…) | Thông tin mới cần thêm vào |
+| **Đầu ra** \`o_t\` | σ(W_o·…) | Những gì cần hiển thị dưới dạng \`h_t\` |
+
+\`C_t = f_t · C_{t-1} + i_t · tanh(...)\` - cập nhật cộng bảo toàn gradient.
+
+**GRU** (2014) là một LSTM được tinh giản với 2 cổng thay vì 3 - ít tham số hơn, độ chính xác tương tự.
+
+## 4. Tại sao chúng ta vẫn dạy RNN vào năm 2025
+
+Transformers đã thay thế RNN trong hầu hết các ứng dụng Xử lý Ngôn ngữ Tự nhiên (NLP), nhưng RNN vẫn là công cụ phù hợp cho: **truyền phát âm thanh (Whisper distilled, RNN-T)**, **phát hiện từ khóa trên thiết bị** (mô hình ~100 KB), **dự báo chuỗi thời gian với các chân trời rất dài**, và là **khối xây dựng của các mô hình không gian trạng thái (Mamba)**.
+
+## 5. Ví dụ thực tế: dự đoán nhu cầu điện
+
+EVN Việt Nam dự báo phụ tải hàng giờ 24 giờ trước. Một LSTM hai chiều sử dụng 168 giờ trước đó + nhiệt độ + cờ ngày lễ đạt MAPE ≈ 1,8 % - đủ để tối ưu hóa việc điều độ nhiệt điện/thủy điện.
+
+## ⚠️ Cạm bẫy thường gặp
+- **Quên cắt gradient (clip gradients)** - gradient bùng nổ lặng lẽ tạo ra NaN.
+- **Sử dụng RNN nơi cơ chế chú ý (attention) vượt trội** - đối với các chuỗi dài > 500 với các mẫu truy cập ngẫu nhiên, Transformers huấn luyện nhanh hơn 10 lần trên GPU.
+- **Bỏ qua việc đệm độ dài chuỗi (sequence length padding)** - đóng gói chuỗi (\`pack_padded_sequence\`) nếu không bạn sẽ lãng phí tính toán vào các token PAD.
+
+## 🛠️ Bài tập thực hành
+Thực hiện một LSTM cấp ký tự (character-level LSTM) tạo ra thơ tiếng Việt theo phong cách "Truyện Kiều". Huấn luyện trên 1.000 dòng đầu tiên. Lấy mẫu với các nhiệt độ 0,3, 0,7 và 1,2 - mô tả cách các đầu ra thay đổi.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 1–3 (neural nets, backprop).
 
 ## 1. Why a feed-forward net cannot read a sentence
 
@@ -1965,7 +2064,6 @@ Vietnam's EVN forecasts hourly load 24 h ahead. A bidirectional LSTM ingesting t
 
 ## 🛠️ Practice Task
 Implement a character-level LSTM that generates Vietnamese poetry in the style of "Truyện Kiều". Train on the first 1 000 lines. Sample with temperatures 0.3, 0.7, and 1.2 - describe how outputs change.`,
-        theoryEn: "",
         code: `# Dự đoán giá cổ phiếu ngày tiếp theo bằng mạng LSTM
 
 # Nhập các thư viện cần thiết từ PyTorch.
@@ -2055,8 +2153,8 @@ opt.step()
 # Kết quả mong đợi: Một số thập phân thể hiện mức độ lỗi của mô hình.
 print(f"Loss: {loss.item():.4f}")`,
         codeLanguage: "python",
-        exercise: "Why does an LSTM solve the vanishing gradient problem better than a vanilla RNN? Answer in 2 sentences referring to the cell state update rule.",
-        exerciseEn: "",
+        exercise: "LSTM giải quyết vấn đề gradient biến mất tốt hơn RNN thông thường vì nó sử dụng một \"cell state\" (trạng thái ô) để lưu trữ thông tin dài hạn. Quy tắc cập nhật trạng thái ô ($c_t = f_t \\cdot c_{t-1} + i_t \\cdot \\tilde{c}_t$) cho phép gradient chảy qua các bước thời gian mà không bị nhân với các trọng số nhỏ liên tục, từ đó giữ được độ lớn của gradient.",
+        exerciseEn: "Why does an LSTM solve the vanishing gradient problem better than a vanilla RNN? Answer in 2 sentences referring to the cell state update rule.",
         quiz: [
           {
             question: "Which gate decides what information leaves the cell state in an LSTM?",
@@ -2084,7 +2182,54 @@ print(f"Loss: {loss.item():.4f}")`,
         titleEn: "Self-Supervised Learning - Pretraining Without Labels",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lesson 5 (Transformers) and Lesson 6 (Transfer Learning).
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 5 (Transformers) và Bài học 6 (Học chuyển giao (Transfer Learning)).
+
+## 1. Khủng hoảng gán nhãn
+
+ImageNet có 1.2 triệu ảnh được gán nhãn và tiêu tốn hàng triệu đô la. Internet có **hàng nghìn tỷ** ảnh và văn bản chưa được gán nhãn. **Học tự giám sát (Self-Supervised Learning – SSL)** tạo ra một tác vụ giả (pretext task) từ chính dữ liệu thô – không cần nhãn của con người.
+
+## 2. Hai mô hình chủ đạo
+
+\\\`\\\`\\\`mermaid
+flowchart LR
+    UN[Dữ liệu chưa gán nhãn] --> A[SSL sinh tạo (Generative SSL)<br/>Dự đoán các phần bị thiếu]
+    UN --> B[SSL đối lập (Contrastive SSL)<br/>Kéo các vật thể tương tự lại gần,<br/>đẩy các vật thể khác nhau ra xa]
+    A --> X[BERT, GPT, MAE]
+    B --> Y[SimCLR, MoCo, CLIP]
+\\\`\\\`\\\`
+
+### A. Sinh tạo (Generative) - "dự đoán token / patch bị thiếu"
+- **BERT** - che đi 15% token, dự đoán chúng (Mô hình ngôn ngữ Masked - Masked Language Model).
+- **GPT** - dự đoán token tiếp theo (Mô hình ngôn ngữ nhân quả - Causal LM).
+- **MAE** (He et al. 2021) - che đi 75% các patch (mảng) ảnh, tái tạo pixel.
+
+### B. Đối lập (Contrastive) - "cùng một ảnh, hai phép tăng cường → vector nhúng (embedding) gần nhau"
+- **SimCLR** - hàm mất mát (loss) InfoNCE; cần kích thước batch cực lớn (4096+).
+- **MoCo** - hàng đợi được mã hóa động lượng (momentum-encoded queue) loại bỏ yêu cầu batch khổng lồ.
+- **CLIP** - đối lập trên các **phương thức (modalities)** (ảnh ↔ chú thích); ImageNet 76 % với không điểm học (zero-shot).
+
+## 3. Tại sao SSL thay đổi mọi thứ
+
+| Kỷ nguyên | Cách tiếp cận | ImageNet top-1 với 1 % nhãn |
+|---|---|---|
+| 2018 | Giám sát từ đầu | 25 % |
+| 2020 | SimCLR tiền huấn luyện + đầu tuyến tính | 64 % |
+| 2022 | DINOv2 tiền huấn luyện | 80 % |
+
+Một mô hình nền tảng (foundation model) được huấn luyện một lần trên 1 tỷ ảnh không được gán nhãn có thể được tinh chỉnh (fine-tuned) cho hàng chục tác vụ xuôi dòng (downstream tasks) – **cùng một ý tưởng đã cho chúng ta GPT trong NLP, áp dụng cho thị giác máy tính, âm thanh, video, phân tử**.
+
+## 4. Ví dụ thực tế: hình ảnh y tế
+
+Một bệnh viện ở Việt Nam có 50.000 ảnh X-quang nhưng chỉ có 800 ảnh được gán nhãn bởi các bác sĩ X-quang. Tiền huấn luyện SSL (MAE trên 50 nghìn ảnh X-quang chưa được gán nhãn) theo sau là tinh chỉnh (fine-tuning) trên 800 nhãn đạt được độ chính xác tương tự như huấn luyện có giám sát trên 5.000 nhãn – tiết kiệm hàng giờ làm việc cho các bác sĩ X-quang.
+
+## ⚠️ Cạm bẫy thường gặp
+- **Tăng cường yếu (Weak augmentations)** - học đối lập (contrastive learning) sụp đổ nếu hai góc nhìn quá giống nhau.
+- **Bỏ qua thăm dò tuyến tính (linear probing)** - luôn đánh giá bộ mã hóa (encoder) đóng băng với một đầu tuyến tính trước khi tinh chỉnh.
+- **Tiền huấn luyện trên miền sai** - SSL trên ảnh tự nhiên chuyển giao kém sang ảnh vệ tinh.
+
+## 🛠️ Bài tập thực hành
+Bạn có 5.000 ảnh sản phẩm chưa được gán nhãn và 200 ảnh được gán nhãn (10 danh mục). Thiết kế kế hoạch huấn luyện 2 giai đoạn và biện minh cho lựa chọn phương pháp SSL của bạn (contrastive so với MAE).`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lesson 5 (Transformers) and Lesson 6 (Transfer Learning).
 
 ## 1. The labelling crisis
 
@@ -2131,7 +2276,6 @@ A Vietnamese hospital has 50 000 X-rays but only 800 are labelled by radiologist
 
 ## 🛠️ Practice Task
 You have 5 000 unlabelled product photos and 200 labelled ones (10 categories). Design a 2-stage training plan and justify your choice of SSL method (contrastive vs MAE).`,
-        theoryEn: "",
         code: `# Tiny SimCLR on CIFAR-10 (PyTorch)
 # Nhập các thư viện cần thiết cho PyTorch và xử lý ảnh.
 import torch, torch.nn as nn, torch.nn.functional as F
@@ -2228,8 +2372,8 @@ loss = info_nce(z1, z2)
 # Kết quả mong đợi: Một giá trị số thực cho loss.
 print(f"InfoNCE: {loss.item():.4f}")`,
         codeLanguage: "python",
-        exercise: "Explain in 3 sentences why CLIP can classify a class it has never seen during training (zero-shot). What role does the text encoder play?",
-        exerciseEn: "",
+        exercise: "CLIP có thể phân loại một lớp chưa từng thấy trong quá trình huấn luyện (zero-shot) vì nó học được mối quan hệ ngữ nghĩa giữa hình ảnh và văn bản. Thay vì học các nhãn cụ thể, nó học cách nhúng hình ảnh và văn bản vào một không gian nhúng chung, nơi các cặp hình ảnh-văn bản tương thích có nhúng gần nhau. Text encoder đóng vai trò tạo ra các nhúng cho mô tả văn bản của lớp, cho phép CLIP so sánh hình ảnh đầu vào với các mô tả văn bản này để tìm ra lớp phù hợp nhất, ngay cả khi lớp đó chưa từng xuất hiện trong dữ liệu huấn luyện.",
+        exerciseEn: "Explain in 3 sentences why CLIP can classify a class it has never seen during training (zero-shot). What role does the text encoder play?",
         quiz: [
           {
             question: "What is the pretext task in BERT?",
