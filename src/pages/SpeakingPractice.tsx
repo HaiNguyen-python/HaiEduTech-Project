@@ -303,7 +303,7 @@ const SpeakingPractice = () => {
         ? `<h3>Gợi ý cải thiện</h3><ul>${result.suggestions.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>`
         : "";
     return `
-<h2>IELTS Speaking ${selectedPart.toUpperCase()} — Band ${result.overall.toFixed(1)}</h2>
+<h2>IELTS Speaking ${`PART ${selectedPart}`} — Band ${result.overall.toFixed(1)}</h2>
 <p><strong>Chủ đề:</strong> ${esc(currentQ?.topic || "")}</p>
 <p><strong>Câu hỏi:</strong> ${esc(currentQ?.question || "")}</p>
 <h3>Phiên âm của bạn</h3>
@@ -332,7 +332,7 @@ ${suggestionsHtml}
         });
         return;
       }
-      const title = `IELTS Speaking ${selectedPart.toUpperCase()} — Band ${result.overall.toFixed(1)} • ${currentQ?.topic || "Topic"}`;
+      const title = `IELTS Speaking ${`PART ${selectedPart}`} — Band ${result.overall.toFixed(1)} • ${currentQ?.topic || "Topic"}`;
       const { error } = await supabase.from("student_notebooks").insert({
         user_id: user.id,
         title,
