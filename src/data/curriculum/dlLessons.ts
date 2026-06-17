@@ -1076,7 +1076,7 @@ A "Large Language Model" is just a Transformer scaled up dramatically:
 | Context length | 512 tokens | 1 M+ tokens |
 | Training data | ~1 B tokens | 10 T+ tokens |
 | Compute (FLOPs) | 10¹⁹ | 10²⁵ |
-| Training cost | < theory: `00 | $50 M – $500 M |
+| Training cost | < \$100 | \$50 M – \$500 M |
 
 After pre-training, the model is **fine-tuned with human feedback (RLHF/DPO)** to follow instructions, refuse unsafe requests, and adopt a helpful persona - the difference between a raw GPT-4 base and ChatGPT.
 
