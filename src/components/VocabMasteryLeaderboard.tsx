@@ -134,7 +134,7 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
           {t("Không tải được bảng xếp hạng.", "Couldn't load the leaderboard.")}
         </p>
         <button
-          onClick={() => { setLoading(true); fetchLeaderboard(); }}
+          onClick={() => { setLoading(true); fetchLeaderboard(true); }}
           className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
         >
           <RefreshCw className="w-3 h-3" /> {t("Thử lại", "Retry")}
