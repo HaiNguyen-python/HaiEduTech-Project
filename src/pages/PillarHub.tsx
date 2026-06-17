@@ -18,6 +18,8 @@ const PillarHub = () => {
     ? "nlp"
     : location.pathname.endsWith("/software-eng")
     ? "software-eng"
+    : location.pathname.endsWith("/cybersecurity")
+    ? "cybersecurity"
     : null;
 
   const target = useMemo(() => {
