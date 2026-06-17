@@ -18,6 +18,39 @@ import ProfessionalProjects from "@/components/programming/ProfessionalProjects"
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
+import mascotPythonPathway from "@/assets/programming/mascot-python-pathway.png";
+import mascotPython from "@/assets/programming/mascot-python.png";
+import mascotSoftwareEng from "@/assets/programming/mascot-software-eng.png";
+import mascotAiFoundation from "@/assets/programming/mascot-ai-foundation.png";
+import mascotPromptEng from "@/assets/programming/mascot-prompt-engineering.png";
+import mascotSql from "@/assets/programming/mascot-sql.png";
+import mascotDataEng from "@/assets/programming/mascot-data-eng.png";
+import mascotMl from "@/assets/programming/mascot-ml.png";
+import mascotCloud from "@/assets/programming/mascot-cloud.png";
+import mascotDeepLearning from "@/assets/programming/mascot-deep-learning.png";
+import mascotNlp from "@/assets/programming/mascot-nlp.png";
+import mascotRl from "@/assets/programming/mascot-rl.png";
+import mascotCybersecurity from "@/assets/programming/mascot-cybersecurity.png";
+import mascotEdtech from "@/assets/programming/mascot-edtech.png";
+import mascotProjects from "@/assets/programming/mascot-professional-projects.png";
+
+const PILLAR_MASCOTS: Record<string, string> = {
+  "python-pathway": mascotPythonPathway,
+  python: mascotPython,
+  "software-eng": mascotSoftwareEng,
+  "ai-foundation": mascotAiFoundation,
+  "prompt-engineering": mascotPromptEng,
+  sql: mascotSql,
+  "data-eng": mascotDataEng,
+  ml: mascotMl,
+  cloud: mascotCloud,
+  "deep-learning": mascotDeepLearning,
+  nlp: mascotNlp,
+  "reinforcement-learning": mascotRl,
+  cybersecurity: mascotCybersecurity,
+  edtech: mascotEdtech,
+  "professional-projects": mascotProjects,
+};
 
 const pillars = [
   {
