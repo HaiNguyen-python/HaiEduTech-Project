@@ -877,6 +877,7 @@ import { ieltsVocabExpansion5 } from "./ieltsVocabExpansion5";
 import { ieltsVocabExpansion6 } from "./ieltsVocabExpansion6";
 import { ieltsVocabExpansion7 } from "./ieltsVocabExpansion7";
 import { ieltsVocabExpansion8 } from "./ieltsVocabExpansion8";
+import { ieltsVocabExpansion9 } from "./ieltsVocabExpansion9";
 
 const _ieltsSeen = new Set<string>();
 export const ieltsVocabData: IeltsWord[] = [
@@ -889,6 +890,7 @@ export const ieltsVocabData: IeltsWord[] = [
   ...ieltsVocabExpansion6,
   ...ieltsVocabExpansion7,
   ...ieltsVocabExpansion8,
+  ...ieltsVocabExpansion9,
 ].filter((w) => {
   const k = w.word.toLowerCase();
   if (_ieltsSeen.has(k)) return false;
