@@ -369,7 +369,11 @@ const Programming = () => {
                     {t(data.title, data.titleEn)}
                   </h3>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
-                    {data.isPathway ? t("6 module · ~47 bài · Pyodide", "6 modules · ~47 lessons · Pyodide") : `${data.modules.length} ${t("module", "modules")} · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} ${t("bài", "lessons")}`}
+                    {data.isPathway
+                      ? t("6 module · ~47 bài · Pyodide", "6 modules · ~47 lessons · Pyodide")
+                      : data.isProjects
+                        ? t("22 dự án thực chiến · 12 lĩnh vực", "22 real-world projects · 12 domains")
+                        : `${data.modules.length} ${t("module", "modules")} · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} ${t("bài", "lessons")}`}
                   </p>
                   {isActive && (
                     <motion.div
