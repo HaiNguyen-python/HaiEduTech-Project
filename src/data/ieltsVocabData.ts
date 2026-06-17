@@ -878,6 +878,7 @@ import { ieltsVocabExpansion6 } from "./ieltsVocabExpansion6";
 import { ieltsVocabExpansion7 } from "./ieltsVocabExpansion7";
 import { ieltsVocabExpansion8 } from "./ieltsVocabExpansion8";
 import { ieltsVocabExpansion9 } from "./ieltsVocabExpansion9";
+import { ieltsVocabExpansion10 } from "./ieltsVocabExpansion10";
 
 const _ieltsSeen = new Set<string>();
 export const ieltsVocabData: IeltsWord[] = [
