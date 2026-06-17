@@ -266,35 +266,9 @@ const Programming = () => {
     },
     cybersecurity: {
       title: "Cybersecurity", titleEn: "Cybersecurity",
-      desc: "An toàn thông tin cho lập trình viên 2026: Bảo mật ứng dụng (OWASP, Defense in Depth), Authentication & Authorization, Row Level Security, chống SQL Injection, mã hóa & quản lý khóa, secure coding trong API & Cloud. Tổng hợp các bài học bảo mật xuyên suốt lộ trình Software Engineering, SQL/Database và AI APIs.",
-      descEn: "Cybersecurity for developers (2026): Application Security (OWASP, Defense in Depth), Authentication & Authorization, Row Level Security, SQL Injection prevention, cryptography & key management, secure coding for APIs & Cloud. Curated security lessons across the Software Engineering, SQL/Database and AI API tracks.",
-      modules: [],
-      cyberLessons: [
-        {
-          moduleId: "se-foundations", lessonId: "se-security-patterns",
-          title: "Bảo mật ứng dụng & Design Patterns",
-          titleEn: "Application Security & Design Patterns",
-          desc: "OWASP Top 10, Defense in Depth, Authentication vs Authorization, threat modeling và các Design Patterns bảo mật cốt lõi cho mọi PR động đến auth/data.",
-          descEn: "OWASP Top 10, Defense in Depth, Authentication vs Authorization, threat modeling and core security Design Patterns for every auth/data PR.",
-          badge: "Software Engineering", icon: "🛡️", color: "from-slate-600 to-blue-700",
-        },
-        {
-          moduleId: "prog-sql", lessonId: "sql-6",
-          title: "Bảo mật dữ liệu & Row Level Security",
-          titleEn: "Data Security & Row Level Security",
-          desc: "ACID Transactions, Row Level Security (RLS), parameterized queries chống SQL Injection — nền tảng bảo vệ dữ liệu người dùng ở mọi backend.",
-          descEn: "ACID Transactions, Row Level Security (RLS), parameterized queries to prevent SQL Injection — the foundation for protecting user data in any backend.",
-          badge: "SQL & Database", icon: "🗄️", color: "from-violet-500 to-purple-600",
-        },
-        {
-          moduleId: "prog-ai-foundation", lessonId: "ai-f-5",
-          title: "Bảo mật AI API & Quản lý API Key",
-          titleEn: "AI API Security & Key Management",
-          desc: "Luôn giữ API Key ở backend, dùng edge functions/proxy, tránh leak key qua frontend, rate-limit & monitor chi phí khi tích hợp AI APIs (OpenAI, Gemini, Lovable AI).",
-          descEn: "Always keep API keys server-side, use edge functions/proxies, prevent key leaks via frontend, rate-limit and monitor cost when integrating AI APIs (OpenAI, Gemini, Lovable AI).",
-          badge: "AI Foundation", icon: "🤖", color: "from-rose-500 to-pink-600",
-        },
-      ],
+      desc: "An toàn thông tin cho lập trình viên 2026: CIA & Threat Model, AuthN/AuthZ, OWASP Top 10 (SQLi, XSS, CSRF, IDOR), mật mã, secure API/Cloud, logging & Incident Response. 6 bài học có lý thuyết + code thực chiến + quiz.",
+      descEn: "Cybersecurity for developers (2026): CIA & threat modeling, AuthN/AuthZ, OWASP Top 10 (SQLi, XSS, CSRF, IDOR), cryptography, secure API/Cloud, logging & incident response. 6 lessons with theory + production code + quizzes.",
+      modules: allProgrammingModules.filter(m => m.course === "cybersecurity"),
     },
     edtech: {
       title: "EdTech", titleEn: "EdTech",
