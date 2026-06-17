@@ -1297,7 +1297,7 @@ print(f"Loss: {loss.item():.4f}")
 # Kết quả mong đợi: In ra giá trị mất mát sau một bước huấn luyện thử nghiệm.
 `,
         codeLanguage: "python",
-        exercise: "Chuyển sang chế độ **fine-tuning**: bỏ đóng băng (`unfreeze`) `model.layer4`, sau đó tạo trình tối ưu hóa Adam với hai nhóm tham số — `layer4` có `lr=1e-4` và `fc` có `lr=1e-3`. In ra phần trăm tham số có thể huấn luyện mới (~20–25 %).",
+        exercise: "Chuyển sang chế độ **fine-tuning**: bỏ đóng băng (`unfreeze`) `model.layer4`, sau đó tạo trình tối ưu hóa Adam với hai nhóm tham số - `layer4` có `lr=1e-4` và `fc` có `lr=1e-3`. In ra phần trăm tham số có thể huấn luyện mới (~20–25 %).",
         exerciseEn: "Switch to **fine-tuning** mode: also unfreeze `model.layer4`, then build an Adam optimizer with two parameter groups - `layer4` at `lr=1e-4` and `fc` at `lr=1e-3`. Print the new trainable-parameter percentage (~20–25 %).",
         quiz: [
           {
