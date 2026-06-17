@@ -130,6 +130,7 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
     "sql": ["prog-sql"],
     "data-eng": ["prog-data-pipeline"],
     "ml": ["prog-ml"],
+    "cybersecurity": ["prog-cybersecurity"],
     "cloud": [
       "cloud-fundamentals",
       "cloud-compute-storage",
