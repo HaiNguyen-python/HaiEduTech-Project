@@ -623,9 +623,11 @@ const ProgrammingLessonPage = () => {
               </div>
 
               {/* Main content */}
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 relative overflow-hidden rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/10 via-background to-accent/10 p-3 sm:p-4">
+                <LessonFloatingSymbols pillarId={pillar} count={30} className="opacity-70" />
+                <div className="absolute inset-0 z-0 bg-background/45" aria-hidden="true" />
 
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8" key={lesson.id}>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 space-y-8" key={lesson.id}>
                   <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
                     {mod.icon} {t(lesson.title, lesson.titleEn)}
                   </h1>
