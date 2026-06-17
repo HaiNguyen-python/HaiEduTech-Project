@@ -152,7 +152,7 @@ const Programming = () => {
   // Sync active pillar when ?pillar= changes (e.g. coming from Navbar link)
   useEffect(() => {
     const next = searchParams.get("pillar");
-    if (next === "nlp" || next === "edtech") {
+    if (next === "nlp" || next === "edtech" || next === "cybersecurity") {
       navigate(`/programming/${next}`, { replace: true });
       return;
     }
