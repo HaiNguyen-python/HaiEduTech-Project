@@ -764,7 +764,7 @@ const QUESTIONS: Question[] = [
 const CATEGORIES = ["All", "Behavioral", "System Design", "Coding", "DevOps", "Soft Skills"] as const;
 
 const SoftwareEngInterview = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [filter, setFilter] = useState<(typeof CATEGORIES)[number]>("All");
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
