@@ -22,46 +22,61 @@ export const cloudModules: ExtendedProgrammingModule[] = [
         difficulty: "beginner",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Ngày xưa muốn bán hàng online phải mua server vài chục triệu, thuê phòng máy lạnh, cắm điện 24/7. Giờ chỉ cần mở laptop, vài cú click trên AWS/GCP - có ngay máy chủ chạy. **Cloud computing** = "thuê hạ tầng IT theo phút như thuê Grab".
+Ngày xưa muốn bán hàng online phải mua server vài chục triệu, thuê phòng máy lạnh, cắm điện 24/7. Black Friday traffic tăng đột biến → server sập. Ngày thường traffic thấp → tiền điện vẫn chạy đều, máy nằm im phí phạm.
 
-> 💡 **Mẹo của thầy Hải:** Cloud không phải "máy ảo trên mây" - đó là **mô hình kinh doanh trả theo dùng** (pay-as-you-go), giúp startup khởi nghiệp với 0đ vốn hạ tầng.
+**Cloud computing** giải quyết tất cả: bạn **thuê hạ tầng IT theo phút** (như thuê Grab) - cần thì bật, không cần thì tắt, chỉ trả tiền cho thời gian thực sự dùng.
+
+> 💡 **Mẹo của thầy Hải:** Cloud không phải "máy ảo trên mây". Bản chất là **mô hình kinh doanh trả theo dùng** (pay-as-you-go) - giúp startup khởi nghiệp với 0đ vốn hạ tầng và scale toàn cầu trong 1 đêm.
 
 ## 2. 💡 Khái niệm chính
 
-- **On-premise**: server bạn tự sở hữu, đặt trong văn phòng.
-- **Cloud**: server do AWS/GCP/Azure quản lý, bạn thuê.
-- **Pay-as-you-go**: dùng bao nhiêu trả bấy nhiêu.
-- **Elasticity**: tự co giãn khi traffic tăng/giảm.
+- **On-premise**: server bạn tự sở hữu, đặt trong văn phòng/data center riêng. Trả CAPEX 1 lần lớn.
+- **Cloud**: server do AWS/GCP/Azure quản lý, bạn thuê. Trả OPEX theo tháng.
+- **Pay-as-you-go**: dùng 1 giờ trả 1 giờ, dùng 1GB trả 1GB.
+- **Elasticity**: tự co giãn khi traffic tăng/giảm (auto-scaling). Netflix tăng x10 lúc 8h tối, giảm về 1× lúc 3h sáng - bất khả thi với phần cứng tự mua.
 
 ## 3. 🧰 5 đặc tính NIST của cloud
 
-1. On-demand self-service (tự click là có).
-2. Broad network access (truy cập mọi nơi).
-3. Resource pooling (chia sẻ tài nguyên).
-4. Rapid elasticity (co giãn nhanh).
-5. Measured service (đo đếm để tính tiền).
+Viện NIST (Mỹ) định nghĩa "thế nào là cloud thực sự" qua 5 tiêu chí - thiếu 1 thì chỉ là hosting thường:
 
-## 4. 🎯 Ví dụ chạy được ngay
+1. **On-demand self-service** - tự click console/API là có, không cần gọi điện cho ai.
+2. **Broad network access** - truy cập từ mọi thiết bị qua chuẩn HTTP/HTTPS.
+3. **Resource pooling** - nhiều khách hàng dùng chung phần cứng vật lý qua virtualization (multi-tenant).
+4. **Rapid elasticity** - co giãn nhanh, thường là tự động.
+5. **Measured service** - đo từng CPU-giây, từng GB-tháng để tính tiền minh bạch.
 
-Mở AWS Free Tier → tạo 1 EC2 t2.micro → SSH vào → bạn vừa "thuê server". Hết tháng tắt đi → khỏi tốn xu nào.
+## 4. 🍕 3 mô hình dịch vụ (so sánh kiểu pizza)
 
-## 5. ⚠️ Bẫy thường gặp
+| Mô hình | Bạn quản | Provider quản | Ví dụ |
+|---|---|---|---|
+| **IaaS** | OS, runtime, app, data | Phần cứng, mạng, ảo hoá | EC2, Azure VM |
+| **PaaS** | App + data | Mọi thứ bên dưới | Heroku, App Engine |
+| **SaaS** | Chỉ config + dữ liệu cá nhân | Toàn bộ | Gmail, Notion |
 
-> ⚠️ **Cảnh báo:** Quên tắt resource → cuối tháng nhận hoá đơn vài trăm USD. Luôn set **billing alert** ngay sau khi tạo account.
+Liên tưởng pizza: **IaaS** = mua nguyên liệu sống về tự nướng; **PaaS** = pizza đông lạnh, chỉ cho vào lò; **SaaS** = đặt ship pizza đến tận nơi.
 
-## 6. ✅ Best practice
+## 5. 🎯 Ví dụ chạy được ngay
 
-> 💡 **Mẹo của thầy Hải:** Mới học → dùng AWS Free Tier 12 tháng (EC2 t2.micro, S3 5GB, RDS) miễn phí. Đủ để build portfolio.
+Mở AWS Free Tier → tạo 1 EC2 t2.micro (Ubuntu) → SSH vào → bạn vừa "thuê 1 server" mất 3 phút. Hết tháng tắt instance → không tốn xu nào. Đây chính là on-demand self-service + measured service kết hợp.
 
-## 7. 🤔 Khi nào dùng cloud
+## 6. 📈 Case study: Netflix
 
-- ✅ Startup, traffic biến động, cần scale nhanh.
-- ❌ Hệ thống cực nhạy cảm (quân sự, ngân hàng lõi) → on-premise.
+Năm 2008 Netflix sập database 3 ngày liền trên hạ tầng tự sở hữu. Họ quyết định "all-in" lên AWS, đóng data center cuối cùng năm 2016. Hôm nay Netflix chạy **100,000+ EC2 instance**, phục vụ 250 triệu người dùng - dùng auto-scaling để xử lý peak buổi tối lớn gấp 10× so với 3h sáng. Phần cứng tự mua không bao giờ làm được.
+
+## 7. ⚠️ Bẫy thường gặp & khi KHÔNG nên cloud
+
+> ⚠️ **Cảnh báo:** Quên tắt resource → cuối tháng nhận hoá đơn vài trăm USD. **Luôn set billing alert** ngay sau khi tạo account (AWS Budgets, GCP Budget Alerts).
+
+Không phải lúc nào cloud cũng rẻ:
+- **Workload ổn định 24/7 nhiều năm** → on-prem rẻ hơn 30-50% (Dropbox rời cloud, tiết kiệm $75M/năm).
+- **Latency siêu thấp <1ms** (HFT trading) → cần đặt server cạnh sàn giao dịch.
+- **Dữ liệu pháp luật cấm rời khỏi quốc gia** → cần private/community cloud.
 
 ## 8. 📌 Tóm tắt 30 giây
 
-Cloud = thuê IT theo phút. 5 đặc tính NIST. Pay-as-you-go + elasticity = lý do startup yêu cloud. Luôn bật billing alert.
+Cloud = thuê IT theo phút. 5 đặc tính NIST + 3 mô hình IaaS/PaaS/SaaS + 4 deployment (public/private/hybrid/community). Pay-as-you-go + elasticity = lý do startup yêu cloud. **Luôn bật billing alert.** Bài kế tiếp: so sánh AWS vs Azure vs GCP để chọn provider.
 `,
+
         theoryEn: `**Cloud Computing** delivers compute resources (servers, storage, databases, network, software) over the Internet on a **pay-as-you-go** model. Instead of investing millions upfront in a data center, you rent infrastructure by the minute/hour and scale instantly when needed.
 
 ## Context: why Cloud exploded
