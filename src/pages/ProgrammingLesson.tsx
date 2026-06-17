@@ -516,6 +516,18 @@ const ProgrammingLessonPage = () => {
               {/* Sidebar - Roadmap with ALL pillar modules - visually lighter than main lesson body */}
               <div className="lg:w-72 shrink-0">
                 <div className="rounded-xl border-2 border-emerald-500/50 bg-muted/30 p-4 overflow-visible shadow-[0_4px_14px_-6px_rgba(16,185,129,0.3)]">
+                  {pillar && PILLAR_MASCOTS[pillar] && (
+                    <div className="flex justify-center mb-2">
+                      <img
+                        src={PILLAR_MASCOTS[pillar]}
+                        alt="Pillar mascot"
+                        width={96}
+                        height={96}
+                        loading="lazy"
+                        className="w-20 h-20 object-contain drop-shadow-md"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
                     <h3 className="font-semibold text-foreground text-sm">Learning Roadmap</h3>
