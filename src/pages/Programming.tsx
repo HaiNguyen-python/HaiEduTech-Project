@@ -585,6 +585,43 @@ const Programming = () => {
                   </>
                 )}
 
+                {/* Cybersecurity curated lessons */}
+                {active.cyberLessons && (
+                  <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                    {active.cyberLessons.map((les, j) => (
+                      <Link
+                        key={les.lessonId}
+                        to={`/programming/${les.moduleId}/${les.lessonId}`}
+                        className="group glass-card rounded-xl p-5 hover:border-red-500/40 transition-all hover:shadow-md active:scale-[0.98]"
+                      >
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: j * 0.06, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${les.color} flex items-center justify-center text-lg`}>
+                              {les.icon}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-red-600 transition-colors">
+                                {t(les.title, les.titleEn)}
+                              </h3>
+                              <span className="inline-block text-[10px] font-medium text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded mt-0.5">
+                                {les.badge}
+                              </span>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-red-600 transition-colors shrink-0" />
+                          </div>
+                          <p className="text-xs text-muted-foreground line-clamp-3">
+                            {t(les.desc, les.descEn)}
+                          </p>
+                        </motion.div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+
                 {/* Module Cards */}
                 <div className="grid sm:grid-cols-2 gap-4 mb-8">
                   {active.modules.map((mod, j) => (
