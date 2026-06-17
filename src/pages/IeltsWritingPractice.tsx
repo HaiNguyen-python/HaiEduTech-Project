@@ -63,6 +63,7 @@ const IeltsWritingPractice = () => {
   // Writing state
   const [essay, setEssay] = useState("");
   const [grading, setGrading] = useState(false);
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [result, setResult] = useState<GradingResult | null>(null);
   const [expandedCriteria, setExpandedCriteria] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
@@ -219,6 +220,7 @@ const IeltsWritingPractice = () => {
   const handleSubmit = async () => {
     if (!essay.trim() || !currentPrompt) return;
     setGrading(true);
+    setUpgradeLoading(false);
     setTimerActive(false);
 
     // Client-side safety timeout: if the edge function doesn't reply in 90s,
@@ -226,6 +228,15 @@ const IeltsWritingPractice = () => {
     const clientTimeout = new Promise<{ data: null; error: { message: string } }>((resolve) =>
       setTimeout(() => resolve({ data: null, error: { message: "Grading timed out. Please try again." } }), 90_000),
     );
+
+    // Fire upgrade in parallel — independent of grading
+    const upgradePromise = supabase.functions
+      .invoke("upgrade-writing", { body: { essay, taskType } })
+      .then(({ data, error }) => {
+        if (error) throw error;
+        return (data as { upgraded?: string })?.upgraded || "";
+      })
+      .catch((e) => { console.error("Upgrade error:", e); return ""; });
 
     try {
       const result = await Promise.race([
@@ -238,28 +249,38 @@ const IeltsWritingPractice = () => {
         toast({ title: t("Chấm bài thất bại", "Grading failed"), description: msg, variant: "destructive" });
         return;
       }
-      setResult(data as GradingResult);
+      const graded = data as GradingResult;
+      graded.upgraded = graded.upgraded || ""; // backend no longer returns it
+      setResult(graded);
+      setGrading(false);
+      setUpgradeLoading(true);
+
+      // Await upgrade and merge
+      const upgraded = await upgradePromise;
+      setResult((prev) => (prev ? { ...prev, upgraded } : prev));
+      setUpgradeLoading(false);
 
       // Save to history if user is logged in
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
+          const fullResult = { ...graded, upgraded };
           await supabase.from("writing_attempts").insert({
             user_id: user.id,
             task_type: taskType,
             prompt: currentPrompt.prompt,
             essay,
             word_count: wordCount,
-            result: data as unknown as Record<string, unknown>,
-            overall_score: data.overall,
+            result: fullResult as unknown as Record<string, unknown>,
+            overall_score: graded.overall,
           } as never);
           // Log activity for admin analytics
           logStudentActivity({
             activityType: "ielts_writing",
-            score: data.overall,
+            score: graded.overall,
             maxScore: 9,
             domain: "english",
-            metadata: { taskType, wordCount, criteria: data.criteria },
+            metadata: { taskType, wordCount, criteria: graded.criteria },
           });
           // Remove the draft now that the essay has been graded
           if (currentDraftId) {
@@ -278,8 +299,8 @@ const IeltsWritingPractice = () => {
         description: t("Không thể kết nối tới hệ thống chấm. Hãy thử lại.", "Could not reach the grading service. Please try again."),
         variant: "destructive",
       });
-    } finally {
       setGrading(false);
+      setUpgradeLoading(false);
     }
   };
 
@@ -817,19 +838,31 @@ const IeltsWritingPractice = () => {
                   <Card>
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base">🌟 {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}</CardTitle>
-                        <Button variant="ghost" size="sm" onClick={handleCopyUpgraded}>
-                          {copied ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
-                          {copied ? t("Đã sao chép", "Copied") : t("Sao chép", "Copy")}
-                        </Button>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          🌟 {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}
+                          {upgradeLoading && <Loader2 className="w-4 h-4 text-primary animate-spin" />}
+                        </CardTitle>
+                        {result.upgraded && !upgradeLoading && (
+                          <Button variant="ghost" size="sm" onClick={handleCopyUpgraded}>
+                            {copied ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+                            {copied ? t("Đã sao chép", "Copied") : t("Sao chép", "Copy")}
+                          </Button>
+                        )}
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="prose prose-sm dark:prose-invert max-w-none bg-muted/30 p-4 rounded-lg">
-                        <ReactMarkdown>{result.upgraded}</ReactMarkdown>
-                      </div>
+                      {result.upgraded ? (
+                        <div className="prose prose-sm dark:prose-invert max-w-none bg-muted/30 p-4 rounded-lg">
+                          <ReactMarkdown>{result.upgraded}</ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">
+                          {t("AI đang nâng cấp bài viết lên Band 8.0+...", "AI is upgrading your essay to Band 8.0+...")}
+                        </p>
+                      )}
                     </CardContent>
                   </Card>
+
 
                   {/* Advice */}
                   <Card>

@@ -54,15 +54,14 @@ serve(async (req) => {
     { "score": <number>, "label": "Grammatical Range & Accuracy", "strengths": [...], "weaknesses": [...], "suggestions": [...] }
   ],
   "errors": [ {"error":"<original text>","correction":"<fixed>","category":"Grammar|Vocab|Cohesion"} ],
-  "upgraded": "<Full Band 8.0+ rewrite IN ENGLISH with **bold** around advanced collocations and academic vocabulary. Keep the student's arguments but elevate the language.>",
   "advice": "<Specific actionable advice to reach the next 0.5 band>"
 }
 
 Rules:
-1. "upgraded" MUST be in English regardless of the student's language.
-2. Use **bold** in "upgraded" around advanced/high-level vocab and phrases.
-3. Quote actual text from the essay in "errors". Provide at least 6 entries.
-4. Scores must be varied and realistic.`;
+1. Quote actual text from the essay in "errors". Provide at least 6 entries.
+2. Scores must be varied and realistic.
+3. Be concise — each strength/weakness/suggestion is 1 short phrase.
+4. Do NOT include an "upgraded" rewrite — that is handled by a separate call.`;
 
     // Hard timeout
     const controller = new AbortController();
@@ -79,7 +78,7 @@ Rules:
         body: JSON.stringify({
           model: "google/gemini-2.5-flash",
           temperature: 0.2,
-          max_tokens: 2400,
+          max_tokens: 1500,
           response_format: { type: "json_object" },
           messages: [
             { role: "system", content: systemPrompt },
