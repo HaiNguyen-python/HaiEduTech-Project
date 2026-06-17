@@ -1,4 +1,4 @@
-// YKI A2 Lessons - Expansion 8: Past tense (imperfekti) & Possession ('minulla on')
+// YKI A2 Lessons - Expansion 8: Imperfekti, Omistus, Konditionaali, Partitive object, Locative cases, Time expressions
 import type { FinnishModule } from "./types";
 
 export const finnishLessonExpansion8Modules: FinnishModule[] = [
