@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: grade-swedish-yki
 // Grades Swedish YKI Ruotsi writing or speaking responses (A1/A2/B1).
 // Uses Lovable AI Gateway (google/gemini-2.5-flash) and returns structured JSON.

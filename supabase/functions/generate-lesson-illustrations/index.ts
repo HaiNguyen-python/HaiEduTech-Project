@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: generate cute infographic illustrations for a programming
 // lesson via Lovable AI Gateway (google/gemini-2.5-flash-image), upload PNGs to
 // the public `lesson-illustrations` bucket, and return the public URLs.

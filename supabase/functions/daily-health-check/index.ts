@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 /**
  * daily-health-check
  * Pings every edge function (OPTIONS preflight), critical DB tables/RPCs,

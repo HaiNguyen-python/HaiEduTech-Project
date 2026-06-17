@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // AI Marketing Kit Generator
 // Generates 3 ad copy variations + matching illustration for HaiEduTech courses
 // Uses Lovable AI Gateway: Gemini 2.5 Pro for copy, Gemini 2.5 Flash Image (Nano Banana) for image

@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Batch Vietnamese → English translator for AI Academy runtime i18n.
 // Stateless. Uses Lovable AI Gateway (google/gemini-3-flash-preview) with
 // tool calling to guarantee a JSON array of translations aligned by index.

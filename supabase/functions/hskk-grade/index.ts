@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 /**
  * @file index.ts (hskk-grade)
  * @description Chấm điểm HSKK Speaking dùng Lovable AI Gateway.

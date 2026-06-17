@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Translate a Chinese example sentence to Vietnamese + English.
 // Uses Lovable AI Gateway (Gemini Flash) and caches in `hsk_example_translations`.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";

@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 /**
  * @file translate-finnish-word/index.ts
  * @description Translate a single Finnish word (possibly inflected) to English
