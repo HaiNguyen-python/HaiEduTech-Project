@@ -204,6 +204,7 @@ const Programming = () => {
     title: string; titleEn: string; desc: string; descEn: string;
     modules: typeof programmingModules; challengeSection?: boolean;
     isPathway?: boolean;
+    isProjects?: boolean;
   }> = {
     "python-pathway": {
       title: "Introduction to Programming", titleEn: "Introduction to Programming",
