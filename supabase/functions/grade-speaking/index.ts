@@ -76,7 +76,8 @@ Make scores realistic and varied.`;
 
     // Hard timeout to avoid UI spinner stalls.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45_000);
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
+    const MODEL = "google/gemini-2.5-flash-lite";
     let response: Response;
     try {
       response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -87,8 +88,9 @@ Make scores realistic and varied.`;
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: MODEL,
           temperature: 0.2,
+          max_tokens: part === 2 ? 1800 : 1100,
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: `Grade this IELTS Speaking Part ${part} answer. Question: "${question}". Transcript: "${transcriptText}". Duration: ${duration}s, ${wordCount} words. Return JSON only.` },
@@ -99,7 +101,7 @@ Make scores realistic and varied.`;
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("grade-speaking", "gemini-2.5-flash", "english", 0, "error", aborted ? "timeout" : "network");
+      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", 0, "error", aborted ? "timeout" : "network");
       return new Response(
         JSON.stringify({ error: aborted ? "Grading timed out. Please try again." : "AI service unreachable. Please try again." }),
         { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -109,7 +111,7 @@ Make scores realistic and varied.`;
 
     if (!response.ok) {
       const status = response.status;
-      await logUsage("grade-speaking", "gemini-2.5-flash", "english", 0, "error", `HTTP ${status}`);
+      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", 0, "error", `HTTP ${status}`);
       if (status === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -154,7 +156,7 @@ Make scores realistic and varied.`;
       }
     } catch (e) {
       console.error("Parse error:", content);
-      await logUsage("grade-speaking", "gemini-2.5-flash", "english", tokensUsed, "parse_error");
+      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", tokensUsed, "parse_error");
       return new Response(JSON.stringify({ error: "Failed to parse speaking result. Please try again." }), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -164,7 +166,7 @@ Make scores realistic and varied.`;
       parsed.transcript = transcriptText;
     }
 
-    await logUsage("grade-speaking", "gemini-2.5-flash", "english", tokensUsed, "success");
+    await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
