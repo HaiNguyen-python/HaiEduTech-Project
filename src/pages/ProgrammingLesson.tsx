@@ -93,6 +93,7 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "reinforcement-learning": ["rl"],
   "nlp": ["nlp"],
   "edtech": ["edtech"],
+  "cybersecurity": ["cybersecurity"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
