@@ -318,13 +318,25 @@ const buildQuestions = (words: IeltsWord[], allWords: IeltsWord[], quizSize = 12
       return { type, word: w, prompt: scrambled, options: opts, correct: opts.indexOf(w.word) };
     }
     if (type === "context") {
-      // Show 4 example sentences, user picks the one that actually uses the word
+      // Mask target word in the correct example so the answer isn't trivially visible
+      const maskRegex = new RegExp(`\\b${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\w*\\b`, "gi");
+      const maskedCorrect = w.example.replace(maskRegex, "_____");
+      // Distractors: examples that do NOT contain the target word (so masking can't accidentally reveal it)
       const wrongExamples = shuffle(
-        distractorPool.filter(x => x.word !== w.word && x.example && !x.example.toLowerCase().includes(w.word.toLowerCase()))
+        distractorPool.filter(x =>
+          x.word !== w.word &&
+          x.example &&
+          !x.example.toLowerCase().includes(w.word.toLowerCase()) &&
+          x.example !== w.example
+        )
       ).slice(0, 3).map(x => x.example);
-      while (wrongExamples.length < 3) wrongExamples.push(shuffle(distractorPool)[0].example);
-      const opts = shuffle([w.example, ...wrongExamples]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.example) };
+      while (wrongExamples.length < 3) {
+        const fallback = shuffle(distractorPool).find(x => x.example && x.word !== w.word);
+        if (!fallback) break;
+        if (!wrongExamples.includes(fallback.example)) wrongExamples.push(fallback.example);
+      }
+      const opts = shuffle([maskedCorrect, ...wrongExamples]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(maskedCorrect) };
     }
     // Default: meaning
     const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
