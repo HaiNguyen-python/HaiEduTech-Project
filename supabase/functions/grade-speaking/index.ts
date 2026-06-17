@@ -76,7 +76,8 @@ Make scores realistic and varied.`;
 
     // Hard timeout to avoid UI spinner stalls.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45_000);
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
+    const MODEL = "google/gemini-2.5-flash-lite";
     let response: Response;
     try {
       response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -87,8 +88,9 @@ Make scores realistic and varied.`;
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: MODEL,
           temperature: 0.2,
+          max_tokens: part === 2 ? 1800 : 1100,
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: `Grade this IELTS Speaking Part ${part} answer. Question: "${question}". Transcript: "${transcriptText}". Duration: ${duration}s, ${wordCount} words. Return JSON only.` },
