@@ -56,6 +56,7 @@ const SpeakingGrader = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [result, setResult] = useState<SpeakingResult | null>(null);
   const [showQuestions, setShowQuestions] = useState(true);
   const [shuffledQuestions, setShuffledQuestions] = useState<SpeakingQuestion[]>([]);
@@ -196,6 +197,21 @@ const SpeakingGrader = () => {
   const handleGrade = async () => {
     if (!audioBlob) return;
     setLoading(true);
+    setUpgradeLoading(false);
+
+    // Fire upgrade in parallel — independent of grading
+    const upgradePromise = supabase.functions
+      .invoke("upgrade-speaking", {
+        body: { question: currentQ.q, part: selectedPart, transcript: liveTranscript },
+      })
+      .then(({ data, error }) => {
+        if (error) throw error;
+        return (data as { upgradedAnswer?: string })?.upgradedAnswer || "";
+      })
+      .catch((e) => {
+        console.error("Upgrade error:", e);
+        return "";
+      });
 
     try {
       const { data, error } = await supabase.functions.invoke("grade-speaking", {
@@ -209,7 +225,12 @@ const SpeakingGrader = () => {
 
       if (error) throw error;
       const graded = data as SpeakingResult;
+      // Always attach the FE transcript (backend no longer returns it)
+      graded.transcript = liveTranscript;
       setResult(graded);
+      setLoading(false);
+      setUpgradeLoading(true);
+
       logStudentActivity({
         activityType: "ielts_speaking",
         score: graded.overall,
@@ -217,6 +238,11 @@ const SpeakingGrader = () => {
         domain: "english",
         metadata: { part: selectedPart, duration: timer, wordCount: liveTranscript.split(/\s+/).filter(Boolean).length },
       });
+
+      // Await upgrade, then merge
+      const upgraded = await upgradePromise;
+      setResult((prev) => (prev ? { ...prev, upgradedAnswer: upgraded } : prev));
+      setUpgradeLoading(false);
     } catch (e) {
       console.error("Grading error:", e);
       // Fallback mock with transcript
@@ -238,6 +264,7 @@ const SpeakingGrader = () => {
         ],
       };
       setResult(mockResult);
+      setLoading(false);
       logStudentActivity({
         activityType: "ielts_speaking",
         score: mockResult.overall,
@@ -246,7 +273,6 @@ const SpeakingGrader = () => {
         metadata: { part: selectedPart, duration: timer },
       });
     }
-    setLoading(false);
   };
 
   const getScoreColor = (score: number) => {
@@ -563,19 +589,32 @@ const SpeakingGrader = () => {
               )}
 
               {/* Upgraded Answer - based on student's actual response */}
-              {result.upgradedAnswer && (
+              {(result.upgradedAnswer || upgradeLoading) && (
                 <div className="bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-200/40 rounded-2xl p-6">
                   <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                     <BookOpen className="w-5 h-5 text-emerald-600" />
                     {t("Bài nói của bạn – Phiên bản Band 7.5+", "Your Answer – Band 7.5+ Version")}
-                  </h4>
-                  <p className="text-base text-foreground leading-8">
-                    {result.upgradedAnswer.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-                      part.startsWith("**") && part.endsWith("**")
-                        ? <strong key={i} className="text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-1 rounded font-bold">{part.slice(2, -2)}</strong>
-                        : <span key={i}>{part}</span>
+                    {upgradeLoading && (
+                      <motion.div
+                        className="w-4 h-4 border-2 border-emerald-500/30 border-t-emerald-600 rounded-full ml-2"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      />
                     )}
-                  </p>
+                  </h4>
+                  {result.upgradedAnswer ? (
+                    <p className="text-base text-foreground leading-8">
+                      {result.upgradedAnswer.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+                        part.startsWith("**") && part.endsWith("**")
+                          ? <strong key={i} className="text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-1 rounded font-bold">{part.slice(2, -2)}</strong>
+                          : <span key={i}>{part}</span>
+                      )}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground italic">
+                      {t("AI đang nâng cấp bài nói lên Band 8.0+...", "AI is upgrading your answer to Band 8.0+...")}
+                    </p>
+                  )}
                 </div>
               )}
 
