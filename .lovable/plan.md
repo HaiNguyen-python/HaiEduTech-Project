@@ -1,99 +1,50 @@
-# Kế hoạch: Chuyển Dictionary + Chatbot Pet sang Lovable AI
+## Bối cảnh
 
-## Trả lời nhanh
+Phần Programming hiện có **341 bài học** trải dài 30 file (Python Pathway, SQL, Web Dev, Software Eng, ML, DL, NLP, RL, Cloud, Data Eng, EdTech, AI Foundation, Cybersecurity, Interactive Labs, Mastery Labs...). Mỗi bài đã có `theory`, `theoryEn`, `code`, `exercise`, `exerciseEn`, và 5 quiz song ngữ.
 
-**Có thể chuyển được**, nhưng cần cân nhắc trade-off vì 2 tính năng này dùng Perplexity `sonar` chủ yếu để có **web search real-time + citations**. Lovable AI (Gemini) **không có web search**, chỉ dựa vào kiến thức training.
+Sau khi quét tự động, mình thấy **đa số bài đã khá đầy đủ** (5–8KB theory mỗi bài). Tuy nhiên có một nhóm bài nhỏ hơn cần làm giàu thêm: chủ yếu nằm ở `sqlLessons`, `webDevLessons` (mở đầu), `softwareEngLessons` (vài bài CI/CD), `edtechAiInEdtech` (lesson 5–6), `nlpAdvanced` (#7), `programmingInteractiveLabs` (vài lab).
 
-## So sánh tốc độ & chi phí
+Vì việc rewrite toàn bộ 341 bài cùng lúc rất rủi ro (file lớn, dễ sót typo, mất nhiều phiên), mình đề xuất chia thành **các đợt nhỏ, gọn, kiểm tra build sau mỗi đợt**.
 
+## Cách làm cho MỖI bài
 
-| Tiêu chí             | Perplexity `sonar`            | Lovable AI `gemini-2.5-flash`    |
-| -------------------- | ----------------------------- | -------------------------------- |
-| Tốc độ phản hồi      | 3-8 giây (do phải search web) | **0.8-2 giây** (nhanh hơn 3-5x)  |
-| Chi phí / request    | ~$0.005-0.015                 | ~$0.001-0.003 (rẻ hơn 3-5x)      |
-| Web search real-time | ✅ Có                          | ❌ Không                          |
-| Citations nguồn      | ✅ Có                          | ❌ Không                          |
-| Kiến thức ngôn ngữ   | Tốt                           | **Rất tốt** (Gemini mạnh đa ngữ) |
+Giữ nguyên cấu trúc, chỉ **mở rộng nhẹ +30–50%**, song ngữ EN+VI đầy đủ:
 
+1. Thêm mục **"Khi nào dùng / When to use"** (1 đoạn ngắn, ví dụ thực tế).
+2. Thêm **"Bẫy hay gặp / Common pitfalls"** (3–4 gạch đầu dòng).
+3. Bổ sung 1 ví dụ ngắn hoặc bảng so sánh nếu thiếu.
+4. Thêm 1–2 câu giải thích sâu hơn cho mỗi quiz (giữ nguyên số quiz 5).
+5. Đảm bảo `theoryEn` luôn cập nhật song song.
 
-**Kết luận:** Nhanh hơn 3-5 lần, rẻ hơn 3-5 lần, nhưng mất web search.
+KHÔNG đổi: `id`, `title`, `level`, `difficulty`, `code`, đáp án đúng của quiz, thứ tự bài.
 
-## Đánh giá từng tính năng
+## Lộ trình đề xuất (mỗi đợt = 1 lần phản hồi)
 
-### 1. Super Dictionary (Collocation OZDIC + Multi-lang ZH/FI/VI + Translate)
+| Đợt | Module | File | Số bài |
+|---|---|---|---|
+| 1 | SQL Fundamentals | `sqlLessons.ts` | 12 |
+| 2 | Web Development | `webDevLessons.ts` | ~10 |
+| 3 | Software Engineering | `softwareEngLessons.ts` | ~10 |
+| 4 | Programming Expansion (Python nâng cao) | `programmingExpansion.ts` | ~12 |
+| 5 | Interactive Labs + Mastery Labs | 2 file | ~14 |
+| 6 | AI Foundation | `aiFoundationLessons.ts` | ~14 |
+| 7 | Machine Learning | `mlLessons.ts` | ~12 |
+| 8 | Deep Learning | `dlLessons.ts` | ~12 |
+| 9 | NLP (lessons + expansion + advanced + production) | 4 file | ~20 |
+| 10 | Reinforcement Learning | `rlLessons.ts` | ~12 |
+| 11 | Data Engineering | `dataEngLessons.ts` | ~15 |
+| 12 | Cloud (lessons + expansion) | 2 file | ~20 |
+| 13 | EdTech (lessons + expansion + advanced + AI in EdTech + research) | 5 file | ~35 |
+| 14 | Python Pathway (Introduction to Programming) | `pythonPathway.ts` | ~12 |
+| 15 | Cybersecurity (vừa thêm) | `cybersecurityLessons.ts` | 12 |
 
-- **Phù hợp chuyển sang Lovable AI** ✅
-- Lý do: Từ vựng/collocation/dịch thuật là kiến thức ngôn ngữ tĩnh, không cần web search
-- Gemini 2.5 Flash dịch và giải thích ngôn ngữ rất tốt, đặc biệt ZH/VI/FI
-- Tốc độ nhanh hơn rõ rệt → UX drawer mở ra mượt hơn nhiều
+Sau mỗi đợt mình sẽ:
+- Verify build pass.
+- Báo lại số bài đã enrich và file đã chạm.
+- Chờ bạn confirm "tiếp tục" để qua đợt sau.
 
-### 2. AI Chatbot Pet (Mr. Hai - text branch)
+## Bắt đầu từ đâu?
 
-- **Cân nhắc kỹ** ⚠️
-- Nếu học sinh hỏi "tin tức mới nhất", "học bổng 2026 deadline", "thông tin trường X năm nay" → Lovable AI sẽ trả lời không chính xác/lỗi thời
-- Nếu chỉ dùng cho hỏi đáp học tập (grammar, vocab, giải bài) → Lovable AI nhanh hơn nhiều
-- **Đề xuất giải pháp hybrid:** Phát hiện câu hỏi cần web (chứa "mới nhất", "2026", "hôm nay", "deadline", tên trường ĐH...) → giữ Perplexity. Còn lại → dùng Lovable AI
+Mình đề xuất khởi động **Đợt 1: SQL Fundamentals** (vì đây là module được audit cho thấy nhiều bài có theory ngắn nhất, và SQL là nền tảng nhiều người mới học cần rõ).
 
-## Phương án triển khai
-
-### Phương án A — Chuyển hoàn toàn (đơn giản, nhanh)
-
-- Đổi 5 edge functions sang Lovable AI `gemini-2.5-flash`:
-  - `ozdic-collocation` (Dictionary)
-  - `multi-language-lookup` (ZH/FI/VI)
-  - `translate-sentence` / `translate-paragraph`
-  - `chatbot-mr-hai` (text branch)
-- **Pros:** Nhanh 3-5x, rẻ 3-5x, code đơn giản
-- **Cons:** Mất web search ở chatbot
-
-### Phương án B — Hybrid (khuyến nghị)
-
-- Dictionary (4 functions): chuyển hoàn toàn sang Lovable AI
-- Chatbot Mr. Hai: thêm logic phát hiện từ khóa thời sự
-  - Có từ khóa thời sự → Perplexity `sonar`
-  - Không → Lovable AI `gemini-2.5-flash`
-- **Pros:** Vừa nhanh vừa giữ độ chính xác cho câu hỏi cập nhật
-- **Cons:** Code phức tạp hơn 1 chút
-
-## Chi tiết kỹ thuật
-
-**Files sẽ chỉnh sửa:**
-
-- `supabase/functions/ozdic-collocation/index.ts`
-- `supabase/functions/multi-language-lookup/index.ts`
-- `supabase/functions/translate-sentence/index.ts` (nếu có)
-- `supabase/functions/translate-paragraph/index.ts` (nếu có)
-- `supabase/functions/chatbot-mr-hai/index.ts` (hoặc tên tương đương)
-
-**Thay đổi mẫu (Perplexity → Lovable AI):**
-
-```ts
-// Trước (Perplexity)
-fetch('https://api.perplexity.ai/chat/completions', {
-  headers: { Authorization: `Bearer ${PERPLEXITY_API_KEY}` },
-  body: JSON.stringify({ model: 'sonar', messages, temperature: 0.2 })
-})
-
-// Sau (Lovable AI)
-fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-  headers: { 'Lovable-API-Key': LOVABLE_API_KEY },
-  body: JSON.stringify({
-    model: 'google/gemini-2.5-flash',
-    messages, temperature: 0.2, max_tokens: 800
-  })
-})
-```
-
-**Giữ nguyên:** prompt system, response schema, frontend hoàn toàn không đổi.
-
-## Câu hỏi cho bạn
-
-Bạn muốn đi theo phương án nào?
-
-- **A**: Chuyển hết → nhanh nhất, rẻ nhất, nhưng chatbot không còn web search
-- **B (khuyến nghị)**: Dictionary chuyển hết + Chatbot hybrid (giữ Perplexity cho câu hỏi thời sự)
-- **Chỉ Dictionary**: Chỉ chuyển 4 function Dictionary, giữ nguyên Chatbot dùng Perplexity
-
-&nbsp;
-
-A: chuyển hết 
+Bạn duyệt plan này thì mình sẽ chạy Đợt 1 ngay; nếu muốn đổi thứ tự (ví dụ ưu tiên Python Pathway / Cybersecurity / EdTech trước), cứ nói.
