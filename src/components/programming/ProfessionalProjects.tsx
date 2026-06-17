@@ -223,12 +223,12 @@ const ProfessionalProjects = () => {
                       <DetailBlock
                         icon={<Wrench className="w-3.5 h-3.5 text-amber-600" />}
                         title={t("Tính năng chính", "Key features")}
-                        items={t(p.features, p.featuresEn) as unknown as string[]}
+                        items={lang === "vi" ? p.features : p.featuresEn}
                       />
                       <DetailBlock
                         icon={<CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />}
                         title={t("Sản phẩm bàn giao", "Deliverables")}
-                        items={t(p.deliverables, p.deliverablesEn) as unknown as string[]}
+                        items={lang === "vi" ? p.deliverables : p.deliverablesEn}
                       />
                       {p.basedOn.length > 0 && (
                         <div className="text-[11px] text-muted-foreground">
