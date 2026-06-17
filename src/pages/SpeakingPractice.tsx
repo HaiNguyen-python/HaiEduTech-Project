@@ -246,6 +246,120 @@ const SpeakingPractice = () => {
     return () => { if (audioUrl) URL.revokeObjectURL(audioUrl); };
   }, [audioUrl]);
 
+  // Reset "saved to notebook" badge whenever a new result arrives
+  useEffect(() => {
+    setSavedNotebook(false);
+  }, [result?.transcript, result?.upgradedAnswer]);
+
+  // Build a printable HTML snapshot of the speaking feedback for the notebook
+  const buildSpeakingNotebookHtml = useCallback(() => {
+    if (!result) return "";
+    const esc = (s: string) =>
+      String(s ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    const upgradedHtml = result.upgradedAnswer
+      ? esc(result.upgradedAnswer).replace(
+          /\*\*([^*]+)\*\*/g,
+          '<strong style="color:#059669;background:#d1fae5;padding:0 4px;border-radius:4px;">$1</strong>',
+        )
+      : "";
+    const criteriaHtml = (result.criteria || [])
+      .map(
+        (c) =>
+          `<li><strong>${esc(c.label)}:</strong> ${c.score.toFixed(1)} — ${esc(c.feedback)}</li>`,
+      )
+      .join("");
+    const errorsHtml =
+      result.highlightedErrors && result.highlightedErrors.length
+        ? `<h3>Lỗi cần sửa</h3><ul>${result.highlightedErrors
+            .map(
+              (e) =>
+                `<li><em>${esc(e.type)}</em>: <span style="text-decoration:line-through;color:#dc2626">${esc(e.text)}</span> → <strong style="color:#059669">${esc(e.correction)}</strong> <span style="color:#64748b">(${esc(e.explanation)})</span></li>`,
+            )
+            .join("")}</ul>`
+        : "";
+    const vocabHtml =
+      result.vocabularyUpgrades && result.vocabularyUpgrades.length
+        ? `<h3>Nâng cấp từ vựng</h3><ul>${result.vocabularyUpgrades
+            .map(
+              (v) =>
+                `<li><span style="text-decoration:line-through;color:#dc2626">${esc(v.basic)}</span> → <strong style="color:#059669">${esc(v.advanced)}</strong><br/><em style="color:#64748b">"${esc(v.example)}"</em></li>`,
+            )
+            .join("")}</ul>`
+        : "";
+    const pronHtml =
+      result.pronunciationFocus && result.pronunciationFocus.length
+        ? `<h3>Trọng tâm phát âm</h3><ul>${result.pronunciationFocus
+            .map(
+              (p) =>
+                `<li><strong>${esc(p.sound)}</strong> — ${esc(p.words.join(", "))}<br/><span style="color:#64748b">${esc(p.tip)}</span></li>`,
+            )
+            .join("")}</ul>`
+        : "";
+    const suggestionsHtml =
+      result.suggestions && result.suggestions.length
+        ? `<h3>Gợi ý cải thiện</h3><ul>${result.suggestions.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>`
+        : "";
+    return `
+<h2>IELTS Speaking ${selectedPart.toUpperCase()} — Band ${result.overall.toFixed(1)}</h2>
+<p><strong>Chủ đề:</strong> ${esc(currentQ?.topic || "")}</p>
+<p><strong>Câu hỏi:</strong> ${esc(currentQ?.question || "")}</p>
+<h3>Phiên âm của bạn</h3>
+<p>${esc(result.transcript || "")}</p>
+${errorsHtml}
+${upgradedHtml ? `<h3>Bài nói nâng cấp (Band 8.0+)</h3><p>${upgradedHtml}</p>` : ""}
+<h3>Điểm chi tiết</h3>
+<ul>${criteriaHtml}</ul>
+${vocabHtml}
+${pronHtml}
+${suggestionsHtml}
+<p style="color:#64748b;font-size:12px;margin-top:16px;">Lưu từ IELTS Speaking Practice • ${new Date().toLocaleString("vi-VN")}</p>
+    `.trim();
+  }, [result, selectedPart, currentQ]);
+
+  const saveSpeakingToNotebook = async () => {
+    if (!result) return;
+    setSavingNotebook(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({
+          title: "Cần đăng nhập",
+          description: "Hãy đăng nhập để lưu bài nói vào sổ tay.",
+          variant: "destructive",
+        });
+        return;
+      }
+      const title = `IELTS Speaking ${selectedPart.toUpperCase()} — Band ${result.overall.toFixed(1)} • ${currentQ?.topic || "Topic"}`;
+      const { error } = await supabase.from("student_notebooks").insert({
+        user_id: user.id,
+        title,
+        subject: "ielts-speaking",
+        content: buildSpeakingNotebookHtml(),
+        is_public: false,
+      });
+      if (error) throw error;
+      setSavedNotebook(true);
+      window.dispatchEvent(new Event("notebook:updated"));
+      toast({
+        title: "Đã lưu vào Sổ tay",
+        description: "Mở /notebook để xem lại bài nói và feedback bất cứ lúc nào.",
+      });
+    } catch (e: any) {
+      console.error("[Speaking notebook save failed]", e);
+      toast({
+        title: "Lưu thất bại",
+        description: e?.message || "Không thể lưu vào sổ tay. Vui lòng thử lại.",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingNotebook(false);
+    }
+  };
+
+
   // Shuffle questions
   const shuffleQuestions = () => {
     const idx = Math.floor(Math.random() * allQuestions.length);
