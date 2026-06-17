@@ -993,7 +993,7 @@ Một "Mô hình Ngôn ngữ Lớn (Large Language Model - LLM)" chỉ là một
 | Độ dài ngữ cảnh | 512 token | 1 triệu+ token |
 | Dữ liệu huấn luyện | ~1 tỷ token | 10 nghìn tỷ+ token |
 | Điện toán (FLOPs) | 10¹⁹ | 10²⁵ |
-| Chi phí huấn luyện | < theory: `00 | $50 triệu – $500 triệu |
+| Chi phí huấn luyện | < \$100 | \$50 triệu – \$500 triệu |
 
 Sau khi tiền huấn luyện (pre-training), mô hình được **tinh chỉnh với phản hồi của con người (RLHF/DPO)** để tuân theo hướng dẫn, từ chối các yêu cầu không an toàn và thể hiện một tính cách hữu ích – đây là sự khác biệt giữa một GPT-4 cơ bản thô và ChatGPT.
 
@@ -1076,7 +1076,7 @@ A "Large Language Model" is just a Transformer scaled up dramatically:
 | Context length | 512 tokens | 1 M+ tokens |
 | Training data | ~1 B tokens | 10 T+ tokens |
 | Compute (FLOPs) | 10¹⁹ | 10²⁵ |
-| Training cost | < theory: `00 | $50 M – $500 M |
+| Training cost | < \$100 | \$50 M – \$500 M |
 
 After pre-training, the model is **fine-tuned with human feedback (RLHF/DPO)** to follow instructions, refuse unsafe requests, and adopt a helpful persona - the difference between a raw GPT-4 base and ChatGPT.
 
