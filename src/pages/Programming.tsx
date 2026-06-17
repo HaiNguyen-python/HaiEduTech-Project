@@ -119,6 +119,15 @@ const pillars = [
     accentColor: "text-orange-600",
   },
   {
+    id: "cybersecurity",
+    icon: ShieldCheck,
+    emoji: "🛡️",
+    color: "from-red-500 to-orange-600",
+    bgColor: "bg-red-500/8",
+    borderColor: "border-red-500/20",
+    accentColor: "text-red-600",
+  },
+  {
     id: "edtech",
     icon: GraduationCap,
     emoji: "🎓",
