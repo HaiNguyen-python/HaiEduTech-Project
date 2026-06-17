@@ -116,7 +116,7 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
     <Medal key="3" className="w-4 h-4 text-amber-700" />,
   ];
 
-  if (loading) {
+  if (loading && entries.length === 0) {
     return (
       <div className="rounded-xl border border-border bg-card/50 p-4">
         <div className="flex items-center justify-center gap-2 py-4 text-sm text-muted-foreground">
@@ -127,7 +127,7 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
     );
   }
 
-  if (error) {
+  if (error && entries.length === 0) {
     return (
       <div className="rounded-xl border border-border bg-card/50 p-4 text-center space-y-2">
         <p className="text-xs text-muted-foreground">
