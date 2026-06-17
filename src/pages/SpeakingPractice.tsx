@@ -1271,6 +1271,27 @@ ${suggestionsHtml}
                         </div>
                       </div>
 
+                      {/* Save to Notebook */}
+                      <Button
+                        onClick={saveSpeakingToNotebook}
+                        disabled={savingNotebook || savedNotebook}
+                        className="w-full gap-2 bg-gradient-to-r from-primary to-emerald-500 text-white hover:opacity-90"
+                      >
+                        {savingNotebook ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : savedNotebook ? (
+                          <CheckCircle2 className="w-4 h-4" />
+                        ) : (
+                          <BookmarkPlus className="w-4 h-4" />
+                        )}
+                        {savedNotebook
+                          ? t("Đã lưu vào Sổ tay", "Saved to Notebook")
+                          : savingNotebook
+                            ? t("Đang lưu...", "Saving...")
+                            : t("Lưu Feedback & Bài nói nâng cấp vào Sổ tay", "Save Feedback & Upgraded Answer to Notebook")}
+                      </Button>
+
+
                       {/* Transcript with playback and error highlighting */}
                       {result.transcript && (
                         <div className="bg-secondary rounded-xl p-5">
