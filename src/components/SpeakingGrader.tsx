@@ -56,6 +56,7 @@ const SpeakingGrader = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [result, setResult] = useState<SpeakingResult | null>(null);
   const [showQuestions, setShowQuestions] = useState(true);
   const [shuffledQuestions, setShuffledQuestions] = useState<SpeakingQuestion[]>([]);
