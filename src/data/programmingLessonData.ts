@@ -1943,9 +1943,12 @@ print(f"\\n📊 Stats: {bot.get_stats()}")`,
   },
 ];
 
+import { promptEngineeringModule } from "./promptEngineeringModule";
+
 // Merge expanded curriculum modules (cast to ProgrammingModule for compatibility)
 export const allProgrammingModules: ProgrammingModule[] = [
   ...programmingModules,
+  promptEngineeringModule,
   ...(expandedModules as unknown as ProgrammingModule[]),
 ];
 
