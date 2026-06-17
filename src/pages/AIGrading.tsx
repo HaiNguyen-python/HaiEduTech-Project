@@ -41,13 +41,31 @@ const AIGrading = () => {
   const handleGrade = async () => {
     if (!text.trim()) return;
     setLoading(true);
+    setUpgradeLoading(false);
+
+    // Fire upgrade in parallel
+    const upgradePromise = supabase.functions
+      .invoke("upgrade-writing", { body: { essay: text, taskType: 2 } })
+      .then(({ data, error }) => {
+        if (error) throw error;
+        return (data as { upgraded?: string })?.upgraded || "";
+      })
+      .catch((e) => { console.error("Upgrade error:", e); return ""; });
 
     try {
       const { data, error } = await supabase.functions.invoke("grade-writing", {
         body: { essay: text },
       });
       if (error) throw error;
-      setResult(data as GradingResult);
+      const graded = data as GradingResult;
+      graded.upgraded = graded.upgraded || ""; // backend no longer returns it
+      setResult(graded);
+      setLoading(false);
+      setUpgradeLoading(true);
+
+      const upgraded = await upgradePromise;
+      setResult((prev) => (prev ? { ...prev, upgraded } : prev));
+      setUpgradeLoading(false);
     } catch (e) {
       console.error("Grading error:", e);
       // Keep a minimal fallback
@@ -63,9 +81,9 @@ const AIGrading = () => {
         upgraded: "Please try again when AI service is available.",
         advice: "Focus on expanding vocabulary and sentence variety.",
       });
+      setLoading(false);
     }
 
-    setLoading(false);
     setExpandedCriteria(null);
     setShowFullUpgraded(false);
   };
