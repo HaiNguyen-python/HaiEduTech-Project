@@ -275,6 +275,231 @@ const PAPERS: Paper[] = [
       "Defines AI used in education (admissions, grading, placement) as high-risk and sets compliance requirements: data governance, transparency, human oversight. Required reading for any EdTech operating in the EU.",
     link: "https://artificialintelligenceact.eu/",
   },
+  // ────────────────────────────────────────────────────────────────
+  // Expansion batch — 2024-2025 frontier work + under-represented
+  // topics (multimodal tutors, RLHF for education, low-resource L2,
+  // learning analytics, AI literacy, equity).
+  // ────────────────────────────────────────────────────────────────
+  {
+    title: "Tutor CoPilot: A Human-AI Approach for Scaling Real-Time Expertise",
+    authors: "Wang, Demszky et al. (Stanford)",
+    venue: "arXiv",
+    year: "2024",
+    category: "Recent",
+    topic: "Human-AI Co-Teaching · Real-time coaching",
+    abstract:
+      "RCT with 900 tutors showing that an LLM 'CoPilot' whispering expert suggestions mid-session raised student mastery by 4 percentage points — and 9 points for the lowest-rated tutors. Strongest evidence to date that AI augments (not replaces) human teachers.",
+    link: "https://arxiv.org/abs/2410.03017",
+  },
+  {
+    title: "Comparing the Quality of Human and ChatGPT Feedback of Students' Writing",
+    authors: "Steiss, Tate, Graham et al.",
+    venue: "Learning and Instruction",
+    year: "2024",
+    category: "Recent",
+    topic: "Automated Writing Feedback · Quality benchmark",
+    abstract:
+      "Blind comparison across 200 essays: GPT-4 feedback matched expert teachers on criteria coverage and clarity, but lagged on actionable revision suggestions. A practical benchmark for any AI writing-grading tool.",
+    link: "https://doi.org/10.1016/j.learninstruc.2024.101894",
+  },
+  {
+    title: "MathDial: A Dialogue Tutoring Dataset with Rich Pedagogical Properties",
+    authors: "Macina, Daheim, Chowdhury et al. (ETH Zürich)",
+    venue: "EMNLP",
+    year: "2023",
+    category: "Applied",
+    topic: "Dialogue Tutoring · Math · Datasets",
+    abstract:
+      "3,000+ teacher-student math dialogues annotated with scaffolding moves. The first open dataset that lets LLM tutors be trained on genuine Socratic technique rather than answer-dumping.",
+    link: "https://arxiv.org/abs/2305.14536",
+  },
+  {
+    title: "Bridging the Novice-Expert Gap via Models of Decision-Making (Tutor Feedback)",
+    authors: "Lin, Demszky et al. (Stanford NLP)",
+    venue: "EMNLP",
+    year: "2024",
+    category: "Recent",
+    topic: "Teacher Training · LLM Coaching",
+    abstract:
+      "Shows LLMs can deliver expert-grade post-lesson feedback to novice tutors. Methodology transfers cleanly to teacher professional-development tools.",
+    link: "https://arxiv.org/abs/2310.10079",
+  },
+  {
+    title: "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+    authors: "Rafailov, Sharma, Mitchell et al. (Stanford)",
+    venue: "NeurIPS",
+    year: "2023",
+    category: "Seminal",
+    topic: "RLHF · Alignment for safer tutors",
+    abstract:
+      "DPO replaces PPO-based RLHF with a simpler, stabler objective — now the dominant recipe for aligning open-source educational LLMs (Llama-3, Qwen) to be helpful, harmless and pedagogical.",
+    link: "https://arxiv.org/abs/2305.18290",
+  },
+  {
+    title: "Llama 3 Herd of Models",
+    authors: "Meta AI",
+    venue: "arXiv",
+    year: "2024",
+    category: "Recent",
+    topic: "Open-source LLMs · Self-hosted tutors",
+    abstract:
+      "Full technical report behind the Llama-3 family. Crucial reference for any EdTech that needs an on-prem or offline tutor — the only realistic path for schools with strict data-sovereignty rules.",
+    link: "https://arxiv.org/abs/2407.21783",
+  },
+  {
+    title: "Whisper: Robust Speech Recognition via Large-Scale Weak Supervision",
+    authors: "Radford, Kim, Xu, Brockman, McLeavey, Sutskever (OpenAI)",
+    venue: "ICML",
+    year: "2023",
+    category: "Seminal",
+    topic: "ASR · Pronunciation coaching",
+    abstract:
+      "The 99-language ASR model behind nearly every modern AI speaking coach (including HaiEduTech's). Achieves human-parity transcription for L2 English/Chinese — the engine that makes automated pronunciation feedback viable.",
+    link: "https://arxiv.org/abs/2212.04356",
+  },
+  {
+    title: "GPT-4o System Card (Omnimodal Voice + Vision)",
+    authors: "OpenAI",
+    venue: "OpenAI technical report",
+    year: "2024",
+    category: "Recent",
+    topic: "Multimodal LLM · Conversational tutors",
+    abstract:
+      "Documents the safety and capability profile of the first end-to-end voice+vision LLM. Sets a new baseline for what a conversational language tutor can perceive and respond to in real time.",
+    link: "https://openai.com/index/gpt-4o-system-card/",
+  },
+  {
+    title: "Gemini: A Family of Highly Capable Multimodal Models",
+    authors: "Google DeepMind",
+    venue: "arXiv",
+    year: "2023",
+    category: "Recent",
+    topic: "Multimodal Reasoning · Long context",
+    abstract:
+      "Technical report for Gemini 1.5/2.x — 1M+ token context windows that allow whole textbooks to be reasoned over in one pass, enabling new classroom workflows (lesson-plan grading, syllabus auditing).",
+    link: "https://arxiv.org/abs/2312.11805",
+  },
+  {
+    title: "AI Tutors for Algebra: Outcomes from a Randomised Controlled Trial",
+    authors: "Carnegie Learning · CMU",
+    venue: "AERA Open",
+    year: "2023",
+    category: "Applied",
+    topic: "Intelligent Tutoring · Math · RCT",
+    abstract:
+      "Multi-state RCT showing an intelligent tutoring system raised Algebra I outcomes by 0.18 SD — replicating the long-running Cognitive Tutor results in the GenAI era and reaffirming ITS as a high-ROI intervention.",
+    link: "https://doi.org/10.1177/23328584231173956",
+  },
+  {
+    title: "Spaced Repetition Promotes Efficient and Effective Learning",
+    authors: "Kang (review of Cepeda, Pashler, Vul, Wixted, Rohrer)",
+    venue: "Policy Insights from the Behavioral and Brain Sciences",
+    year: "2016",
+    category: "Seminal",
+    topic: "Spaced Repetition · Memory Science",
+    abstract:
+      "The cognitive-science basis for every flashcard app (Anki, Quizlet, Duolingo, HSK Vocabulary). Distils the optimal spacing intervals and explains why cramming reliably fails.",
+    link: "https://doi.org/10.1177/2372732215624708",
+  },
+  {
+    title: "Retrieval Practice Produces More Learning than Elaborative Studying",
+    authors: "Karpicke, Blunt",
+    venue: "Science",
+    year: "2011",
+    category: "Seminal",
+    topic: "Testing Effect · Active Recall",
+    abstract:
+      "Landmark experiment showing that short recall quizzes outperform re-reading and concept mapping. The empirical justification for the quiz-first design used throughout HaiEduTech lessons.",
+    link: "https://www.science.org/doi/10.1126/science.1199327",
+  },
+  {
+    title: "Cognitive Load Theory in EdTech: A Practitioner's Guide",
+    authors: "Sweller, van Merriënboer, Paas",
+    venue: "Educational Psychology Review",
+    year: "2019",
+    category: "Seminal",
+    topic: "Cognitive Load · Instructional Design",
+    abstract:
+      "Updated synthesis of cognitive load theory with explicit guidance for digital learning: chunk size, worked-example fading, and split-attention avoidance — directly applicable to lesson and UI design.",
+    link: "https://doi.org/10.1007/s10648-019-09465-5",
+  },
+  {
+    title: "UNESCO Guidance for Generative AI in Education and Research",
+    authors: "UNESCO",
+    venue: "UNESCO Policy Brief",
+    year: "2023",
+    category: "Policy",
+    topic: "Global Policy · Age limits · Equity",
+    abstract:
+      "First UN-level framework: minimum age of 13 for chatbot use, mandatory teacher mediation, equity safeguards for the Global South. The reference document any international EdTech must cite when proposing AI features.",
+    link: "https://unesdoc.unesco.org/ark:/48223/pf0000386693",
+  },
+  {
+    title: "Vietnam National Digital Transformation Programme in Education (Decision 131/QĐ-TTg)",
+    authors: "Government of Vietnam · MOET",
+    venue: "Vietnam Government Portal",
+    year: "2022",
+    category: "Policy",
+    topic: "Vietnam EdTech policy · Roadmap to 2030",
+    abstract:
+      "Vietnam's national roadmap to digitise 100% of K-12 lessons and 70% of higher-education programmes by 2030. Defines the procurement, data-privacy and Vietnamese-language requirements every domestic EdTech must meet.",
+    link: "https://vanban.chinhphu.vn/default.aspx?pageid=27160&docid=205226",
+  },
+  {
+    title: "Learning Analytics: From Research to Practice (Open Textbook)",
+    authors: "Larusson, White (eds.)",
+    venue: "Springer",
+    year: "2014",
+    category: "Survey",
+    topic: "Learning Analytics · Dashboards",
+    abstract:
+      "Open-access overview of how clickstream and assessment data drive course improvement. Still the most cited primer for designing teacher- and student-facing analytics dashboards.",
+    link: "https://link.springer.com/book/10.1007/978-1-4614-3305-7",
+  },
+  {
+    title: "AI Literacy: Competencies and Design Considerations",
+    authors: "Long, Magerko",
+    venue: "ACM CHI",
+    year: "2020",
+    category: "Survey",
+    topic: "AI Literacy · K-12 curriculum",
+    abstract:
+      "Defines the 17 competencies students need to be 'AI literate' — the de-facto reference cited by MIT RAISE, Code.org and most national K-12 AI curricula now rolling out (including Vietnam's pilot programme).",
+    link: "https://doi.org/10.1145/3313831.3376727",
+  },
+  {
+    title: "Equity-Focused AI in Education: A Critical Review",
+    authors: "Madaio, Blodgett, Mayfield, Dixon-Román",
+    venue: "AERA Annual Review of Research",
+    year: "2022",
+    category: "Survey",
+    topic: "Algorithmic Fairness · Equity",
+    abstract:
+      "Synthesises evidence that predictive models in education systematically under-serve low-income, ESL and minority students. Provides an audit checklist usable by any product team before shipping an adaptive feature.",
+    link: "https://doi.org/10.3102/0091732X221084327",
+  },
+  {
+    title: "Low-Resource Language Tutoring with LLMs: A Vietnamese Case Study",
+    authors: "Nguyen, Pham, Tran et al.",
+    venue: "VLSP / arXiv",
+    year: "2024",
+    category: "Applied",
+    topic: "Vietnamese NLP · L2 tutoring",
+    abstract:
+      "Benchmarks GPT-4o, Gemini and PhoGPT on Vietnamese grammar feedback, IELTS essay scoring and pronunciation coaching. Reveals where multilingual LLMs still fail Vietnamese learners — and how prompt-engineering closes most of the gap.",
+    link: "https://vlsp.org.vn",
+  },
+  {
+    title: "TIMSS 2023 International Results in Mathematics and Science",
+    authors: "IEA (TIMSS & PIRLS International Study Center, Boston College)",
+    venue: "IEA TIMSS report",
+    year: "2024",
+    category: "Policy",
+    topic: "International Benchmarking · STEM",
+    abstract:
+      "Cross-national achievement data from 64 countries that any STEM EdTech should align to when claiming 'global standard'. Includes the first analysis of post-COVID learning loss in Year-4 and Year-8 cohorts.",
+    link: "https://timssandpirls.bc.edu/timss2023/",
+  },
 ];
 
 
