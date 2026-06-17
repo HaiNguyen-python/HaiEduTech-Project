@@ -94,6 +94,7 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "nlp": ["nlp"],
   "edtech": ["edtech"],
   "cybersecurity": ["cybersecurity"],
+  "prompt-engineering": ["prompt-eng"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
@@ -104,6 +105,7 @@ function getPillarForModule(moduleId: string): string | null {
     "prog-data-pipeline": "data-eng",
     "prog-ml": "ml",
     "prog-cybersecurity": "cybersecurity",
+    "prog-prompt-engineering": "prompt-engineering",
     "cloud-fundamentals": "cloud",
     "cloud-compute-storage": "cloud",
     "cloud-network-security": "cloud",
@@ -142,6 +144,7 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
     ],
     "deep-learning": ["dl-foundations"],
     "reinforcement-learning": ["reinforcement-learning"],
+    "prompt-engineering": ["prog-prompt-engineering"],
   };
   const ids = directIds[pillar] || [];
   return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
