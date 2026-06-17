@@ -2401,7 +2401,58 @@ print(f"InfoNCE: {loss.item():.4f}")`,
         titleEn: "Multimodal Models - Seeing, Reading & Listening Together",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lessons 5, 9 (GAN/Diffusion) and 12 (SSL).
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 5, 9 (GAN/Diffusion) và 12 (SSL).
+
+## 1. Tại sao lại là đa phương thức (multimodal)?
+
+Con người không chỉ suy nghĩ bằng văn bản – chúng ta kết hợp thị giác, âm thanh, ngôn ngữ và hành động. Biên giới của AI trong năm 2024-2025 (GPT-4o, Gemini 2.0, Claude 3.5 Sonnet vision, LLaVA) chính là **các mô hình nền tảng đa phương thức (multimodal foundation models)** xử lý và tạo ra thông tin trên nhiều phương thức (modalities).
+
+## 2. Ba mẫu kiến trúc chính
+
+\`\`\`mermaid
+flowchart TB
+    subgraph "1. Kết hợp muộn (Late Fusion - Dạng Tháp đôi)"
+      I1[Bộ mã hóa ảnh] --> S1[Độ tương đồng cosine]
+      T1[Bộ mã hóa văn bản] --> S1
+    end
+    subgraph "2. Kết hợp sớm (Early Fusion - Dạng Cross-Attention)"
+      I2[Các mảng ảnh] --> CA[Các lớp Cross-attention]
+      T2[Các token văn bản] --> CA
+      CA --> O2[Biểu diễn chung]
+    end
+    subgraph "3. Luồng token hợp nhất (Unified Token Stream)"
+      I3[Các mảng ảnh dưới dạng token] --> TR[Transformer]
+      T3[Các token văn bản] --> TR
+      A3[Các token âm thanh] --> TR
+      TR --> O3[Tạo ra bất kỳ phương thức nào]
+    end
+\`\`\`
+
+| Mẫu | Ví dụ | Điểm mạnh |
+|---|---|---|
+| **Dạng tháp đôi (Two-tower)** | CLIP, ALIGN | Truy xuất nhanh; phân loại zero-shot |
+| **Cross-attention** | Flamingo, BLIP-2 | Hỏi đáp trực quan |
+| **Token hợp nhất (Unified tokens)** | GPT-4o, Gemini, Chameleon | Tạo văn bản + hình ảnh + âm thanh |
+
+## 3. Mẹo "Q-Former" (BLIP-2)
+
+Một bộ mã hóa hình ảnh (image encoder) đã được đóng băng (frozen) tạo ra 256 mảng ảnh (patches); một LLM đã được đóng băng có không gian token riêng. **Q-Former** (Querying Transformer) là một cầu nối nhỏ - 32 vector truy vấn (query vectors) có thể học được chắt lọc 256 mảng ảnh này thành một chuỗi mà LLM có thể hiểu. Chỉ Q-Former được huấn luyện → đa phương thức trong vài ngày, không phải vài tháng.
+
+## 4. Ví dụ thực tế
+
+- **Y tế**: MedPaLM-M đọc X-quang + ghi chú lâm sàng để đưa ra các chẩn đoán phân biệt.
+- **Thương mại điện tử ở Việt Nam**: Tiki sử dụng truy xuất kiểu CLIP - người dùng chụp ảnh, mô hình tìm các sản phẩm tương tự trong danh mục (văn bản + hình ảnh kết hợp).
+- **Trợ năng**: SeeingAI mô tả thế giới cho người dùng khiếm thị theo thời gian thực.
+- **Hỗ trợ khách hàng**: GPT-4o đọc ảnh chụp màn hình + lời phàn nàn bằng giọng nói của người dùng để phân loại các yêu cầu hỗ trợ.
+
+## ⚠️ Những vấn đề thường gặp
+- **Sự thống trị của phương thức (Modality dominance)** - khi huấn luyện kết hợp, phương thức dễ hơn (văn bản) áp đảo phương thức khó hơn (âm thanh). Giải pháp: cân bằng các hàm mất mát (loss function).
+- **Nền tảng bị ảo giác (Hallucinated grounding)** - VLM có thể mô tả các đối tượng không có trong hình ảnh. Cách khắc phục: chuỗi tư duy (chain-of-thought) với các gợi ý hộp giới hạn (bounding-box prompts).
+- **Quên thảm khốc (Catastrophic forgetting)** - tinh chỉnh một mô hình đa phương thức cho một tác vụ duy nhất thường phá hủy các phương thức khác.
+
+## 🛠️ Bài tập thực hành
+Bạn muốn xây dựng "Tutor Bot" - sinh viên tải lên ảnh một bài toán và đặt câu hỏi. Hãy phác thảo kiến trúc (bộ mã hóa nào cho hình ảnh, LLM nào, cách chúng kết nối) và dữ liệu huấn luyện mà bạn cần.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 5, 9 (GAN/Diffusion) and 12 (SSL).
 
 ## 1. Why multimodal?
 
@@ -2452,7 +2503,6 @@ A frozen image encoder produces 256 patches; a frozen LLM has its own token spac
 
 ## 🛠️ Practice Task
 You want to build "Tutor Bot" - students upload a photo of a math problem and ask a question. Sketch the architecture (which encoder for the image, which LLM, how they connect) and the training data you would need.`,
-        theoryEn: "",
         code: `# Visual Question Answering with BLIP-2 (Hugging Face)
 # Nhập các thư viện cần thiết.
 # Blip2Processor: Dùng để tiền xử lý ảnh và văn bản cho mô hình BLIP-2.
@@ -2512,8 +2562,8 @@ for q in prompts:
     # Kết quả mong đợi: Mô hình sẽ trả lời các câu hỏi về con mèo trong ảnh.
     print(q, "->", processor.decode(out[0], skip_special_tokens=True))`,
         codeLanguage: "python",
-        exercise: "List 3 differences between CLIP-style two-tower models and unified-token models like GPT-4o. For each difference, name a use-case where one wins.",
-        exerciseEn: "",
+        exercise: "Liệt kê 3 điểm khác biệt giữa mô hình hai tháp kiểu CLIP và mô hình token hợp nhất như GPT-4o. Đối với mỗi điểm khác biệt, hãy nêu một trường hợp sử dụng mà một bên vượt trội.",
+        exerciseEn: "List 3 differences between CLIP-style two-tower models and unified-token models like GPT-4o. For each difference, name a use-case where one wins.",
         quiz: [
           {
             question: "Which architecture is best for billion-scale image search by text query?",
@@ -2541,7 +2591,57 @@ for q in prompts:
         titleEn: "Edge AI - Quantization, Pruning & Distillation",
         level: 4,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lessons 1–6.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1–6.
+
+## 1. Tại sao phải triển khai trên biên (edge)?
+
+Chi phí suy luận trên đám mây (cloud inference) tăng tuyến tính theo số lượng người dùng; độ trễ phụ thuộc vào mạng; dữ liệu nhạy cảm về quyền riêng tư (khuôn mặt, giọng nói, y tế) không nên rời khỏi thiết bị. **Suy luận trên thiết bị (on-device inference)** (điện thoại thông minh, Raspberry Pi, vi điều khiển) giải quyết cả ba vấn đề này – nhưng một mô hình 7B tham số ở định dạng float32 cần tới **28 GB**. Chúng ta cần nén nó 50–500 lần.
+
+## 2. Bộ công cụ nén
+
+\\\`\\\`\\\`mermaid
+flowchart LR
+    BIG[Mô hình FP32<br/>~28 GB] --> Q[Lượng tử hóa<br/>FP32 → INT8 / INT4]
+    BIG --> P[Tỉa thưa (Pruning)<br/>Loại bỏ các trọng số gần bằng 0]
+    BIG --> D[Chưng cất (Distillation)<br/>Mô hình nhỏ bắt chước mô hình lớn]
+    Q --> SMALL[Mô hình nhỏ<br/>~500 MB → Thân thiện với MCU]
+    P --> SMALL
+    D --> SMALL
+\\\`\\\`\\\`
+
+### A. Lượng tử hóa (Quantization)
+| Định dạng | Bit | Kích thước của Llama-7B | Giảm chất lượng |
+|---|---|---|---|
+| FP32 | 32 | 28 GB | cơ sở (baseline) |
+| FP16 | 16 | 14 GB | ~0 % |
+| INT8 (PTQ) | 8 | 7 GB | < 1 % |
+| INT4 (GPTQ/AWQ) | 4 | 3.5 GB | 1–3 % |
+| 1.58-bit (BitNet) | 1.58 | 1.3 GB | đang nghiên cứu |
+
+**PTQ** (Lượng tử hóa sau huấn luyện - Post-Training Quantization) là phương pháp một lần – hiệu chỉnh trên 128 mẫu. **QAT** (Huấn luyện nhận biết lượng tử hóa - Quantization-Aware Training) mô phỏng quá trình làm tròn trong khi huấn luyện – độ chính xác tốt hơn, nhưng chậm hơn.
+
+### B. Tỉa thưa (Pruning)
+**Tỉa thưa theo độ lớn (Magnitude pruning)** loại bỏ các trọng số có |w| dưới ngưỡng; **tỉa thưa có cấu trúc (structured pruning)** loại bỏ toàn bộ kênh/heads (nhanh hơn trên GPU). Giả thuyết Lottery Ticket (Frankle 2018) cho thấy bạn có thể giữ lại 5% trọng số và huấn luyện lại để đạt được độ chính xác đầy đủ.
+
+### C. Chưng cất tri thức (Knowledge Distillation)
+Hinton 2015. Huấn luyện một mô hình **học sinh (student)** nhỏ để khớp với các xác suất mềm (soft probabilities) của một mô hình **giáo viên (teacher)** lớn (với tham số nhiệt độ \`T\`). DistilBERT giữ lại 97% độ chính xác của BERT với kích thước 40% và tốc độ nhanh hơn 60%.
+
+## 3. Quy trình triển khai
+
+PyTorch → **ONNX** → backend (TensorRT cho NVIDIA, Core ML cho iPhone, TFLite cho Android, GGUF cho CPU/llama.cpp). Mỗi backend áp dụng quá trình hợp nhất kernel (kernel fusion) và lượng tử hóa riêng.
+
+## 4. Ví dụ thực tế: nhận dạng biển số xe trên camera giao thông
+
+Các camera giao thông thông minh của Việt Nam (Hà Nội, TP.HCM) cần đọc 100 biển số/giây trên một SoC (System on Chip) giá $50. Một YOLOv8-nano (3 MB INT8) phát hiện biển số; một CRNN 5 lớp (1 MB) đọc chữ. Tổng cộng: 4 MB, 35 ms mỗi khung hình, không cần đám mây.
+
+## ⚠️ Những cạm bẫy thường gặp
+- **Lượng tử hóa mà không hiệu chỉnh** - các trọng số có thể làm tròn tốt, nhưng **các kích hoạt (activations)** bị cắt bớt (clip) → mất độ chính xác nghiêm trọng. Luôn luôn hiệu chỉnh trên dữ liệu đại diện.
+- **Thứ tự của Tỉa thưa + huấn luyện lại** - tỉa thưa sau đó huấn luyện lại (tỉa thưa độ lớn lặp đi lặp lại - iterative magnitude pruning) giúp khôi phục độ chính xác; chỉ tỉa thưa mà không huấn luyện lại thì không.
+- **Quên các bảng nhúng (embedding tables)** - đối với LLM, embedding chiếm 30% kích thước – hãy lượng tử hóa chúng nữa.
+
+## 🛠️ Bài tập thực hành
+Bạn phải triển khai bộ phân loại cảm xúc (sentiment classifier) (BERT-base, 110M tham số) trên Raspberry Pi 4 (RAM 1 GB). Chọn một chiến lược nén và giải thích thứ tự các hoạt động.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 1–6.
 
 ## 1. Why deploy on the edge?
 
@@ -2591,7 +2691,6 @@ Vietnam's smart traffic cameras (Hà Nội, HCM) need to read 100 plates/sec on 
 
 ## 🛠️ Practice Task
 You must deploy a sentiment classifier (BERT-base, 110M params) on a Raspberry Pi 4 (1 GB RAM). Pick a compression strategy and justify the order of operations.`,
-        theoryEn: "",
         code: `# Lượng tử hóa 4-bit cho mô hình Llama bằng bitsandbytes (GPU đơn)
 # Import các thư viện cần thiết
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
@@ -2623,8 +2722,8 @@ out = model.generate(**tok(prompt, return_tensors="pt").to(model.device),
 # Giải mã và in kết quả, loại bỏ token đặc biệt
 print(tok.decode(out[0], skip_special_tokens=True))`,
         codeLanguage: "python",
-        exercise: "Compare quantization vs distillation for compressing a 1B-parameter chatbot to run on a phone. Discuss accuracy, training cost, and inference latency.",
-        exerciseEn: "",
+        exercise: "So sánh lượng tử hóa so với chưng cất để nén mô hình chatbot 1B tham số chạy trên điện thoại. Thảo luận về độ chính xác, chi phí đào tạo và độ trễ suy luận.",
+        exerciseEn: "Compare quantization vs distillation for compressing a 1B-parameter chatbot to run on a phone. Discuss accuracy, training cost, and inference latency.",
         quiz: [
           {
             question: "Which quantization method usually preserves the highest accuracy?",
@@ -2652,7 +2751,67 @@ print(tok.decode(out[0], skip_special_tokens=True))`,
         titleEn: "MLOps for Deep Learning - From Notebook to Production",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - All previous lessons. This is the capstone.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Tất cả các bài học trước. Đây là bài học tổng kết.
+
+## 1. Tại sao "nó chạy tốt trong notebook của tôi" là chưa đủ
+
+Một mô hình chiến thắng trên bảng xếp hạng Kaggle chỉ chiếm **5 %** của một hệ thống ML thực tế. 95 % còn lại là các pipeline dữ liệu, giám sát, huấn luyện lại, thử nghiệm A/B, khôi phục, tuân thủ. **MLOps** = DevOps + các vấn đề đặc thù của dữ liệu và mô hình.
+
+## 2. Vòng đời từ đầu đến cuối
+
+\\\`\\\`\\\`mermaid
+flowchart LR
+    DATA[Thu nạp dữ liệu<br/>Airflow, Kafka] --> FS[Kho đặc trưng<br/>Feast, Tecton]
+    FS --> EXP[Thử nghiệm<br/>MLflow, W&B]
+    EXP --> REG[Registry Mô hình<br/>phiên bản + siêu dữ liệu]
+    REG --> CICD[CI/CD<br/>GitHub Actions, Argo]
+    CICD --> SERVE[Phục vụ<br/>Triton, TorchServe, vLLM]
+    SERVE --> MON[Giám sát<br/>độ trễ + dịch chuyển + chi phí]
+    MON --> RETRAIN[Kích hoạt huấn luyện lại]
+    RETRAIN --> EXP
+\\\`\\\`\\\`
+
+## 3. Ba loại dịch chuyển bạn phải giám sát
+
+| Dịch chuyển | Triệu chứng | Phát hiện |
+|---|---|---|
+| **Data drift** (Dịch chuyển dữ liệu) | Phân bố đầu vào thay đổi | KS-test, PSI, Khoảng cách Embedding |
+| **Concept drift** (Dịch chuyển khái niệm) | P(y\\\\|x) thay đổi (thế giới thay đổi) | Giảm các chỉ số trực tuyến |
+| **Model drift** (Dịch chuyển mô hình) | Dự đoán trở nên thiên lệch | Biểu đồ hiệu chuẩn, kiểm toán tính công bằng |
+
+Năm 2020, COVID đã làm hỏng gần như mọi mô hình dự báo nhu cầu trên toàn cầu - một trường hợp concept drift ở quy mô lớn.
+
+## 4. Các mô hình phục vụ (serving patterns)
+
+| Mô hình | Trường hợp sử dụng | Độ trễ |
+|---|---|---|
+| **Batch** (Hàng loạt) | Báo cáo hàng ngày, khuyến nghị | Hàng giờ |
+| **Online (REST)** (Trực tuyến) | Chatbot, kiểm tra gian lận | < 100 ms |
+| **Streaming** (Truyền tải) | Đấu giá thời gian thực | < 10 ms |
+| **Edge** (Thiết bị biên) | Trên thiết bị, ngoại tuyến | 1 ms, không mạng |
+
+Cụ thể đối với LLM, **vLLM** + attention phân trang (paged attention) phục vụ nhiều hơn 5–24 lần yêu cầu/giây so với suy luận Hugging Face thông thường.
+
+## 5. Ví dụ thực tế: Định giá tăng vọt của Grab
+
+Grab phục vụ >1 tỷ dự đoán/ngày trên khắp Đông Nam Á. Stack: kho đặc trưng (DynamoDB), mô hình (XGBoost + DL), Triton trên GPU, các chỉ số trực tuyến (độ trễ p99 < 50 ms, KPI kinh doanh = tỷ lệ chấp nhận của tài xế). Phát hiện dịch chuyển → tự động huấn luyện lại trên dữ liệu ngày hôm qua → A/B so sánh với mô hình đương nhiệm → thăng cấp nếu thắng.
+
+## 6. Danh sách kiểm tra khả năng tái lập
+
+1. **Ghim** mọi dependency (uv, poetry, conda-lock).
+2. **Hash** dữ liệu huấn luyện (DVC, LakeFS).
+3. **Ghi lại** tất cả các siêu tham số (hyperparameters) và **git commit** của lần chạy huấn luyện.
+4. **Đóng gói container** cho hình ảnh suy luận; gắn thẻ với phiên bản mô hình + phiên bản framework.
+5. **Lưu** dữ liệu hiệu chuẩn được sử dụng cho lượng tử hóa.
+
+## ⚠️ Cạm bẫy thường gặp
+- **Train/serve skew** (Lệch giữa huấn luyện và phục vụ) - kỹ thuật đặc trưng khác nhau trong huấn luyện so với sản xuất. Cách khắc phục: một kho đặc trưng duy nhất được sử dụng bởi cả hai.
+- **Silent label leakage** (Rò rỉ nhãn âm thầm) - một đặc trưng có sẵn tại thời điểm huấn luyện nhưng không có sẵn tại thời điểm suy luận. Cách khắc phục: mô phỏng thời gian sản xuất (prod timing) ngoại tuyến.
+- **No rollback plan** (Không có kế hoạch khôi phục) - luôn phục vụ 2 phiên bản mô hình gần nhất đằng sau một cờ.
+
+## 🛠️ Bài tập thực hành
+Thiết kế kiến trúc MLOps (MLOps stack) cho một chatbot tiếng Việt được triển khai trên web + di động, phục vụ 10.000 yêu cầu/giây (RPS). Liệt kê: framework phục vụ, loại GPU, các chỉ số giám sát, cơ chế kích hoạt huấn luyện lại và chiến lược khôi phục.`,
+        theoryEn: `> ⚠️ **Prerequisites** - All previous lessons. This is the capstone.
 
 ## 1. Why "it works in my notebook" isn't enough
 
@@ -2712,7 +2871,6 @@ Grab serves >1B predictions/day across SE-Asia. Stack: feature store (DynamoDB),
 
 ## 🛠️ Practice Task
 Design the MLOps stack for a Vietnamese-language chatbot deployed on web + mobile, serving 10 000 RPS. List: serving framework, GPU type, monitoring metrics, retraining trigger, and rollback strategy.`,
-        theoryEn: "",
         code: `# Minimal MLflow tracking + model registry workflow
 # Nhập các thư viện cần thiết.
 # mlflow: Thư viện chính để theo dõi và quản lý vòng đời ML.
@@ -2790,8 +2948,8 @@ with mlflow.start_run(run_name="distilbert-vi-v3") as run:
         # Kết quả mong đợi: "⏭  Champion still wins, no promotion."
         print("⏭  Champion still wins, no promotion.")`,
         codeLanguage: "python",
-        exercise: "You deploy a sentiment model. After 3 weeks, accuracy drops from 92 % to 78 %. List 4 diagnostic steps in order, naming the tool you would use at each step.",
-        exerciseEn: "",
+        exercise: "Bạn triển khai một mô hình phân tích cảm xúc. Sau 3 tuần, độ chính xác giảm từ 92% xuống 78%. Liệt kê 4 bước chẩn đoán theo thứ tự, nêu tên công cụ bạn sẽ sử dụng ở mỗi bước.",
+        exerciseEn: "You deploy a sentiment model. After 3 weeks, accuracy drops from 92 % to 78 %. List 4 diagnostic steps in order, naming the tool you would use at each step.",
         quiz: [
           {
             question: "Which drift describes 'the world changed, so the relationship between X and Y changed'?",
