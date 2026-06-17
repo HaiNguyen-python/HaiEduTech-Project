@@ -21,6 +21,7 @@ import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { supabase } from "@/integrations/supabase/client";
+import { IELTS_EXAMPLE_VI } from "@/data/ieltsExampleVi";
 
 const WORDS_PER_PAGE = 10;
 
