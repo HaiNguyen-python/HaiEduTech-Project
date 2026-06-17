@@ -1,11 +1,18 @@
 // Overall Vocabulary Leaderboard - aggregates all subjects (IELTS, HSK, SAT, TOEIC)
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { Trophy, Crown, Medal, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
 import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
+import {
+  fetchWithCache,
+  getCached,
+  getCurrentUserId,
+  invalidateCache,
+  subscribeTable,
+} from "@/lib/leaderboardCache";
 
 interface Entry {
   user_id: string;
@@ -21,28 +28,38 @@ const SUBJECT_LABEL: Record<string, string> = {
   toeic: "TOEIC",
 };
 
+const CACHE_KEY = "overall-vocab";
+const TTL_MS = 60_000;
+
 const OverallVocabLeaderboard = ({ label }: { label?: string }) => {
   const { t } = useLanguage();
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const initial = getCached<Entry[]>(CACHE_KEY, 10 * 60_000);
+  const [entries, setEntries] = useState<Entry[]>(initial || []);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initial);
+  const mountedRef = useRef(true);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (force = false) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      setCurrentUserId(user?.id || null);
-      const { data, error } = await (supabase as any).rpc("get_overall_vocab_leaderboard");
-      if (error) throw error;
-      const rows: Entry[] = (data || []).map((r: any) => ({
+      getCurrentUserId().then(uid => { if (mountedRef.current) setCurrentUserId(uid); });
+      if (force) invalidateCache(CACHE_KEY);
+      const data = await fetchWithCache<any[]>(
+        CACHE_KEY,
+        async () => {
+          const { data, error } = await (supabase as any).rpc("get_overall_vocab_leaderboard");
+          if (error) throw error;
+          return data || [];
+        },
+        { ttlMs: TTL_MS, timeoutMs: 9000 },
+      );
+      if (!mountedRef.current) return;
+      const rows: Entry[] = data.map((r: any) => ({
         user_id: r.user_id,
         score: Number(r.score) || 0,
         display_name: r.display_name || t("Học viên", "Student"),
         subjects: Array.isArray(r.subjects) ? r.subjects : [],
       }));
-      // Collapse duplicate display names; keep the highest-scoring account per name
       const deduped = dedupeByDisplayName(rows);
-      // Re-attach `subjects` from the winning row (dedupeByDisplayName preserves
-      // the full object, but we re-look-up to guarantee subjects survive).
       const byId = new Map(rows.map(r => [r.user_id + "|" + r.score, r]));
       setEntries(
         deduped.map(d => byId.get(d.user_id + "|" + d.score) || (d as Entry)),
@@ -50,25 +67,24 @@ const OverallVocabLeaderboard = ({ label }: { label?: string }) => {
     } catch (e) {
       console.error("Failed to fetch overall leaderboard:", e);
     }
-    setLoading(false);
+    if (mountedRef.current) setLoading(false);
   }, [t]);
 
   useEffect(() => {
+    mountedRef.current = true;
     fetchData();
     let timer: number | undefined;
     const onLocal = () => {
       window.clearTimeout(timer);
-      timer = window.setTimeout(fetchData, 400);
+      timer = window.setTimeout(() => fetchData(true), 500);
     };
     window.addEventListener(MASTERY_UPDATED_EVENT, onLocal);
-    const ch = supabase
-      .channel("overall-vocab-lb")
-      .on("postgres_changes", { event: "*", schema: "public", table: "user_vocab_mastered" }, onLocal)
-      .subscribe();
+    const unsubscribe = subscribeTable("user_vocab_mastered", undefined, onLocal);
     return () => {
+      mountedRef.current = false;
       window.removeEventListener(MASTERY_UPDATED_EVENT, onLocal);
       window.clearTimeout(timer);
-      supabase.removeChannel(ch);
+      unsubscribe();
     };
   }, [fetchData]);
 
