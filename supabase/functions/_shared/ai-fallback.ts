@@ -48,6 +48,16 @@ function normalizeMessages(messages: any[]): any[] {
   return out;
 }
 
+function appendUser(messages: any[], text: string): any[] {
+  const last = messages[messages.length - 1];
+  if (last && last.role === "user") {
+    last.content = (last.content ?? "") + "\n\n" + text;
+    return messages;
+  }
+  messages.push({ role: "user", content: text });
+  return messages;
+}
+
 function mapToPerplexity(body: any): { pBody: any; toolName?: string } {
   const pBody: any = {
     model: mapModel(body.model),
@@ -62,23 +72,32 @@ function mapToPerplexity(body: any): { pBody: any; toolName?: string } {
   const firstTool = Array.isArray(body.tools) ? body.tools[0] : undefined;
   if (firstTool?.function?.parameters) {
     toolName = firstTool.function.name;
-    // Append a hard instruction so the model emits pure JSON.
-    pBody.messages.push({
-      role: "user",
-      content:
-        "Return ONLY a valid JSON object matching the required schema. " +
-        "No prose, no markdown fences.",
-    });
+    appendUser(
+      pBody.messages,
+      "Return ONLY a valid JSON object matching the required schema. No prose, no markdown fences.",
+    );
     pBody.response_format = {
       type: "json_schema",
       json_schema: {
-        name: toolName || "result",
+        name: (toolName || "result").replace(/[^a-zA-Z0-9_-]/g, "_"),
         schema: firstTool.function.parameters,
       },
     };
   } else if (body.response_format) {
-    pBody.response_format = body.response_format;
+    const rf = body.response_format;
+    if (rf?.type === "json_schema" && rf?.json_schema?.schema) {
+      pBody.response_format = rf;
+      appendUser(pBody.messages, "Return ONLY a valid JSON object. No prose, no markdown fences.");
+    } else if (rf?.type === "json_object" || rf?.type === "json") {
+      // Perplexity doesn't accept json_object; just instruct the model.
+      appendUser(pBody.messages, "Return ONLY a valid JSON object. No prose, no markdown fences.");
+    }
+    // else: drop unknown response_format
   }
+
+  // Final safety: ensure last message is user/tool, not assistant, and
+  // collapse any adjacency violations introduced by appendUser.
+  pBody.messages = normalizeMessages(pBody.messages);
 
   return { pBody, toolName };
 }
