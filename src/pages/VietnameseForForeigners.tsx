@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { detailedVFFModules, type DetailedModule, type DetailedLesson, type AnnotatedWord } from "@/data/vietnamese/detailedVietnameseData";
+import "@/data/vietnamese/detailedVFFExpansionV9"; // side-effect: adds Survival module
 import { vietnameseTones } from "@/data/vietnamese/vietnameseForForeignersData";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
