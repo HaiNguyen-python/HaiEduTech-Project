@@ -100,7 +100,7 @@ const OverallVocabLeaderboard = ({ label }: { label?: string }) => {
         <Trophy className="w-4 h-4 text-amber-400" />
         {label || t("BXH Tổng từ vựng (tất cả hệ thống)", "Overall Vocabulary Ranking (all subjects)")}
       </h3>
-      {loading ? (
+      {loading && entries.length === 0 ? (
         <p className="text-xs text-muted-foreground text-center py-4">{t("Đang tải...", "Loading...")}</p>
       ) : entries.length === 0 ? (
         <p className="text-xs text-muted-foreground text-center py-4">
