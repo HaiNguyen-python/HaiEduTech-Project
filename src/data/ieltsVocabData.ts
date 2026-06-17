@@ -892,6 +892,7 @@ export const ieltsVocabData: IeltsWord[] = [
   ...ieltsVocabExpansion7,
   ...ieltsVocabExpansion8,
   ...ieltsVocabExpansion9,
+  ...ieltsVocabExpansion10,
 ].filter((w) => {
   const k = w.word.toLowerCase();
   if (_ieltsSeen.has(k)) return false;
