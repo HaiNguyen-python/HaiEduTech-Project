@@ -30,6 +30,7 @@ const AIGrading = () => {
   const [mode, setMode] = useState<"writing" | "speaking">("writing");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [result, setResult] = useState<GradingResult | null>(null);
   const [expandedCriteria, setExpandedCriteria] = useState<number | null>(null);
   const [showFullUpgraded, setShowFullUpgraded] = useState(false);
