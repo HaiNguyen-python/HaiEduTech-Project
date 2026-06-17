@@ -287,7 +287,7 @@ const Programming = () => {
           badge: "SQL & Database", icon: "🗄️", color: "from-violet-500 to-purple-600",
         },
         {
-          moduleId: "prog-ai-foundation", lessonId: "ai-3",
+          moduleId: "prog-ai-foundation", lessonId: "ai-f-5",
           title: "Bảo mật AI API & Quản lý API Key",
           titleEn: "AI API Security & Key Management",
           desc: "Luôn giữ API Key ở backend, dùng edge functions/proxy, tránh leak key qua frontend, rate-limit & monitor chi phí khi tích hợp AI APIs (OpenAI, Gemini, Lovable AI).",
