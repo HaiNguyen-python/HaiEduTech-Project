@@ -1330,7 +1330,37 @@ print(f"Loss: {loss.item():.4f}")
         titleEn: "Object Detection & Segmentation",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lessons 3 (CNN) and 6 (Transfer Learning).
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài 3 (CNN) và 6 (Học chuyển giao - Transfer Learning).
+
+## 1. Vượt ra ngoài phân loại
+
+Phân loại trả lời câu hỏi "có **gì** trong ảnh này?". Phát hiện đối tượng (Object detection) trả lời hai câu hỏi khó hơn: **những** đối tượng nào + **chúng ở đâu** (hộp giới hạn - bounding boxes \`(x, y, w, h)\`). **Phân đoạn ngữ nghĩa (Semantic segmentation)** gán nhãn cho mọi pixel; **phân đoạn thể hiện (instance segmentation)** cũng phân biệt từng đối tượng cùng lớp.
+
+## 2. Hai dòng thuật toán
+
+| Dòng | Ví dụ | Ý tưởng | Tốc độ |
+|---|---|---|---|
+| **Hai giai đoạn (Two-stage)** | Faster R-CNN, Mask R-CNN | Đề xuất vùng → phân loại từng vùng | Chậm hơn, độ chính xác cao nhất |
+| **Một giai đoạn (One-stage)** | YOLO v8/v9/v10, RetinaNet | Dự đoán hộp + lớp trong một lần | Thời gian thực |
+
+Vào năm 2025, **YOLO** thống trị các trường hợp sử dụng thời gian thực trong sản xuất - các biến thể hiện đại đạt >50 mAP trên COCO với tốc độ >100 FPS.
+
+\`\`\`text
+Ảnh đầu vào → CNN xương sống (Backbone CNN) → Cổ FPN (Neck FPN): các đặc trưng đa tỷ lệ → Đầu dò (Detection head) → Hộp + lớp + độ tin cậy
+\`\`\`
+
+## 3. Ba chữ cái mà mọi bộ dò đều sử dụng
+
+- **Hộp neo (Anchor boxes)** - các hình dạng được định nghĩa trước; mạng dự đoán độ dịch chuyển đến chúng
+- **IoU** (Intersection over Union) - thước đo sự chồng lấn; >0.5 = khớp đúng
+- **NMS** (Non-Maximum Suppression) - giữ lại hộp có độ tin cậy cao nhất, loại bỏ các hộp chồng lấn
+
+## 4. Triển khai trong thế giới thực
+
+Xe tự lái, nhận diện biển số xe (YOLO + CRNN), hình ảnh y tế (U-Net để phân đoạn khối u), phân tích bán lẻ. Với \`ultralytics/yolov8\`, bạn có thể tinh chỉnh (fine-tune) một bộ dò hiện đại trên 200–500 hình ảnh đã được gán nhãn trong vòng chưa đầy một giờ.
+
+> 💡 **Khái niệm then chốt** - Nút thắt cổ chai vào năm 2025 không còn là mô hình - mà là **gán nhãn (labelling)**.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 3 (CNN) and 6 (Transfer Learning).
 
 ## 1. Beyond classification
 
@@ -1360,7 +1390,6 @@ Input image → Backbone CNN → Neck FPN: multi-scale features → Detection he
 Self-driving cars, license-plate recognition (YOLO + CRNN), medical imaging (U-Net for tumour segmentation), retail analytics. With \`ultralytics/yolov8\` you can fine-tune a state-of-the-art detector on 200–500 labelled images in under an hour.
 
 > 💡 **Key concept** - The bottleneck in 2025 is no longer the model - it's the **labelling**.`,
-        theoryEn: "",
         code: `# Phát hiện vật thể trong thế giới thực chỉ với khoảng 10 dòng code sử dụng mô hình YOLOv8 đã được huấn luyện trước.
 # Để chạy được code này, bạn cần cài đặt thư viện ultralytics: pip install ultralytics
 from ultralytics import YOLO
@@ -1415,8 +1444,8 @@ for r in results:
 # Đầu ra: Một mô hình đã được huấn luyện trên dữ liệu của bạn.
 `,
         codeLanguage: "python",
-        exercise: "Run on a different image, then change `conf=0.25` to `conf=0.7` and observe how many fewer boxes you get. Count distinct classes detected using a Python `set` over `r.boxes.cls`.",
-        exerciseEn: "",
+        exercise: "Chạy trên một ảnh khác, sau đó thay đổi `conf=0.25` thành `conf=0.7` và quan sát số lượng hộp bạn nhận được. Đếm các lớp riêng biệt được phát hiện bằng cách sử dụng một `set` của Python trên `r.boxes.cls`.",
+        exerciseEn: "Run on a different image, then change `conf=0.25` to `conf=0.7` and observe how many fewer boxes you get. Count distinct classes detected using a Python `set` over `r.boxes.cls`.",
         quiz: [
           {
             question: "What does Non-Maximum Suppression (NMS) do?",
@@ -1448,7 +1477,48 @@ for r in results:
         titleEn: "Generative Adversarial Networks (GANs)",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lessons 1–3.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1–3.
+
+## 1. Trò chơi hai người
+
+Năm 2014, Ian Goodfellow đề xuất: huấn luyện **hai** mạng nơ-ron chiến đấu với nhau.
+
+- **Mạng sinh (Generator - G)** - nhận nhiễu ngẫu nhiên, tạo ra một mẫu giả trông giống thật
+- **Mạng phân biệt (Discriminator - D)** - nhận mẫu thật hoặc giả, phải nói được cái nào là cái nào
+
+Một trò chơi *minimax*. Khi D cải thiện khả năng phát hiện hàng giả, G bị buộc phải tạo ra những mẫu chân thực hơn. Ở trạng thái cân bằng, đầu ra của G không thể phân biệt được với dữ liệu thật.
+
+\\\`\\\`\\\`mermaid
+flowchart LR
+    Z[Random noise z] --> G[Generator G]
+    G --> FAKE[Fake sample]
+    REAL[Real sample] --> D[Discriminator D]
+    FAKE --> D
+    D --> OUT[Real or Fake?]
+\\\`\\\`\\\`
+
+## 2. Vòng lặp huấn luyện
+
+Đối với mỗi lô (batch):
+1. **Huấn luyện D**: dữ liệu thật (nhãn 1) và dữ liệu giả từ G (nhãn 0). Giảm thiểu BCE (Cross-entropy nhị phân).
+2. **Huấn luyện G**: cấp nhiễu, đẩy dữ liệu giả qua D, buộc D dán nhãn cho chúng là **thật**.
+
+Nổi tiếng là không ổn định - D quá mạnh làm triệt tiêu gradient của G; D quá yếu không cung cấp tín hiệu hữu ích. Các thủ thuật như **WGAN-GP** và **chuẩn hóa phổ (spectral normalisation)** giúp ổn định quá trình huấn luyện.
+
+## 3. Các biến thể quan trọng
+
+| Biến thể | Năm | Đóng góp |
+|---|---|---|
+| **DCGAN** | 2015 | Mạng GAN tích chập (convolutional GAN) đầu tiên |
+| **CycleGAN** | 2017 | Chuyển đổi ảnh sang ảnh **không cần dữ liệu cặp** |
+| **StyleGAN** | 2019 | Tổng hợp khuôn mặt chân thực với kiểm soát phong cách |
+
+<h2> 4. GANs so với Diffusion vào năm 2025</h2>
+
+Đến năm 2022, **mô hình diffusion** (Stable Diffusion, DALL-E 3) đã vượt qua GANs trong tổng hợp hình ảnh nói chung. Nhưng GANs vẫn thống trị các ngách: tạo ảnh thời gian thực (NVIDIA DLSS), tổng hợp âm thanh (HiFi-GAN), siêu phân giải (super-resolution).
+
+> 💡 **Khái niệm then chốt** - Một mạng GAN học một phân phối **một cách ngầm định** bằng cách lấy mẫu từ nó, thay vì ước tính mật độ của nó.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 1–3.
 
 ## 1. The two-player game
 
@@ -1489,7 +1559,6 @@ Famously unstable - too-strong D crushes G's gradient; too-weak D gives no usefu
 By 2022, **diffusion models** (Stable Diffusion, DALL-E 3) overtook GANs for general image synthesis. But GANs still dominate niches: real-time generation (NVIDIA DLSS), audio synthesis (HiFi-GAN), super-resolution.
 
 > 💡 **Key concept** - A GAN learns a distribution **implicitly** by drawing samples from it, rather than estimating its density.`,
-        theoryEn: "",
         code: `# Tiny GAN học để sinh mẫu từ phân phối 1-D hai đỉnh (bimodal)
 # Nhập các module cần thiết từ PyTorch
 import torch
@@ -1532,8 +1601,8 @@ for step in range(2000):
         print(f"step {step:4d} | loss_D={loss_D.item():.3f} loss_G={loss_G.item():.3f} | "
               f"fake mean={samples.mean():+.2f} std={samples.std():.2f}")`,
         codeLanguage: "python",
-        exercise: "Modify `REAL_SAMPLER` to a **three-mode** distribution at -3, 0, +3. Re-train and check whether the generator covers all three modes - if it suffers **mode collapse**, increase hidden size from 32 to 128.",
-        exerciseEn: "",
+        exercise: "Sửa đổi `REAL_SAMPLER` thành phân phối **ba chế độ** tại -3, 0, +3. Huấn luyện lại và kiểm tra xem generator có bao phủ cả ba chế độ hay không - nếu xảy ra **mode collapse**, hãy tăng hidden size từ 32 lên 128.",
+        exerciseEn: "Modify `REAL_SAMPLER` to a **three-mode** distribution at -3, 0, +3. Re-train and check whether the generator covers all three modes - if it suffers **mode collapse**, increase hidden size from 32 to 128.",
         quiz: [
           {
             question: "What does the **generator** try to maximise?",
@@ -1565,7 +1634,41 @@ for step in range(2000):
         titleEn: "Diffusion Models - The Engine Behind Stable Diffusion",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lessons 3 (CNN) and 8 (GANs).
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 3 (CNN) và 8 (GANs).
+
+## 1. Học cách **khử nhiễu**
+
+Các mô hình khuếch tán (Diffusion models) được huấn luyện dựa trên một ý tưởng đơn giản một cách xuất sắc: thay vì tạo ra một hình ảnh trong một bước khổng lồ, hãy học cách dần dần **loại bỏ nhiễu** ở mọi mức độ nhiễu. Một khi mô hình có thể khử nhiễu, hãy tạo ra bằng cách bắt đầu từ **nhiễu thuần túy** và khử nhiễu từng bước.
+
+Hai giai đoạn:
+1. **Truyền xuôi (cố định)** - thêm nhiễu Gaussian vào hình ảnh \`x₀\` thực trong T bước cho đến khi \`x_T\` là nhiễu thuần túy. Không có học tập ở đây.
+2. **Ngược (học được)** - huấn luyện một mạng lưới \`ε_θ(x_t, t)\` để **dự đoán nhiễu** được thêm vào ở bước \`t\`. Hàm mất mát (Loss) = MSE giữa nhiễu dự đoán và nhiễu thực.
+
+\\\`\\\`\\\`mermaid
+flowchart LR
+    X0[Clean x_0] -->|+noise| X1 -->|+noise| XT[Pure noise]
+    XT -->|denoise| X1b -->|denoise| X0b[Generated image]
+\\\`\\\`\\\`
+
+## 2. Tại sao khuếch tán đánh bại GANs
+
+GANs cần một trò chơi đối kháng không ổn định; khuếch tán chỉ cần hồi quy MSE. Ba lợi thế:
+- **Huấn luyện ổn định** - không có sụp đổ chế độ (mode collapse), không cần các thủ thuật cân bằng
+- **Khả năng mở rộng** - các mô hình lớn hơn tiếp tục tốt hơn; GANs bị chững lại
+- **Đa dạng** - các hạt nhiễu khác nhau tạo ra các hình ảnh khác nhau
+
+Cái giá phải trả: **tốc độ suy luận**. DDPM truyền thống (Vanilla DDPM) cần 1 000 lần truyền xuôi (forward pass) cho mỗi hình ảnh. Các bộ lấy mẫu hiện đại (DDIM, DPM-Solver++, **Latent Consistency Models**) cắt giảm xuống còn **4–8 bước**.
+
+## 3. Khuếch tán ẩn (Latent diffusion) - Bí mật của Stable Diffusion
+
+Chạy khuếch tán trên các pixel RGB 1024×1024 quá tốn kém. **Stable Diffusion** (2022) thực hiện khuếch tán trong một **không gian ẩn (latent space) 64×64** của một bộ mã hóa tự động được huấn luyện trước, sau đó giải mã trở lại. Thủ thuật đó đã giúp tạo ra văn bản thành hình ảnh chân thực **chạy trên GPU của người tiêu dùng**.
+
+## 4. Điều kiện hóa (Conditioning): văn bản → hình ảnh
+
+Điều kiện hóa bộ khử nhiễu dựa trên một **vector nhúng (embedding) văn bản** từ CLIP/T5. **Classifier-Free Guidance** khuếch đại ảnh hưởng của lời nhắc (prompt) tại thời điểm lấy mẫu.
+
+> 💡 **Khái niệm chính** - Một mô hình khuếch tán là một **bộ khử nhiễu** được huấn luyện ở mọi mức độ nhiễu. Tạo ra = liên tục khử nhiễu hỗn độn (pure noise) thành một cái gì đó có ý nghĩa. Với điều kiện hóa văn bản, ý tưởng đơn giản này cung cấp sức mạnh cho Stable Diffusion, DALL-E 3, Midjourney và Sora.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 3 (CNN) and 8 (GANs).
 
 ## 1. Learn to **un-noise**
 
@@ -1599,7 +1702,6 @@ Running diffusion on 1024×1024 RGB pixels is too expensive. **Stable Diffusion*
 Condition the denoiser on a **text embedding** from CLIP/T5. **Classifier-Free Guidance** amplifies prompt influence at sample time.
 
 > 💡 **Key concept** - A diffusion model is a **denoiser** trained at every noise level. Generation = repeatedly denoising pure noise into something meaningful. With text conditioning, this single idea powers Stable Diffusion, DALL-E 3, Midjourney, and Sora.`,
-        theoryEn: "",
         code: `# Sử dụng một mô hình Stable Diffusion đã được huấn luyện trước từ Hugging Face
 # Để chạy được code này, cần cài đặt các thư viện sau:
 # pip install diffusers transformers accelerate torch
@@ -1652,8 +1754,8 @@ for i, img in enumerate(images):
 # Đầu ra mong đợi: 4 tệp ảnh có tên "variation_0.png", "variation_1.png", "variation_2.png", "variation_3.png"
 `,
         codeLanguage: "python",
-        exercise: "Try `guidance_scale=3.0` then `15.0`. Describe how the prompt-faithfulness vs creativity trade-off changes. Then add `negative_prompt='blurry, low quality, watermark'` and observe the quality improvement.",
-        exerciseEn: "",
+        exercise: "Hãy thử `guidance_scale=3.0` sau đó là `15.0`. Mô tả sự thay đổi trong sự cân bằng giữa độ trung thực với câu lệnh và tính sáng tạo. Sau đó, thêm `negative_prompt='blurry, low quality, watermark'` và quan sát sự cải thiện về chất lượng.",
+        exerciseEn: "Try `guidance_scale=3.0` then `15.0`. Describe how the prompt-faithfulness vs creativity trade-off changes. Then add `negative_prompt='blurry, low quality, watermark'` and observe the quality improvement.",
         quiz: [
           {
             question: "What does the network in a diffusion model actually predict at each step?",
