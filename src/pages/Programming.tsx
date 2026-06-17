@@ -194,7 +194,6 @@ const Programming = () => {
     title: string; titleEn: string; desc: string; descEn: string;
     modules: typeof programmingModules; challengeSection?: boolean;
     isPathway?: boolean;
-    cyberLessons?: { moduleId: string; lessonId: string; title: string; titleEn: string; desc: string; descEn: string; badge: string; icon: string; color: string; }[];
   }> = {
     "python-pathway": {
       title: "Introduction to Programming", titleEn: "Introduction to Programming",
