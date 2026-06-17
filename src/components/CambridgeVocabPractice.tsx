@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
-import { CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabMaster";
+import { CAMBRIDGE_KIDS_WORDS_CURATED as CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabCurated";
 
 type Mode = "viToEn" | "enToVi" | "emoji" | "scramble";
 
