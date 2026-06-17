@@ -5,7 +5,7 @@ import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages, GraduationCap, ShieldCheck } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages, GraduationCap, ShieldCheck, Rocket } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -14,6 +14,7 @@ import PythonReview from "@/components/PythonReview";
 import PythonPathwayHub from "@/components/python/PythonPathwayHub";
 import ProgrammingDashboard from "@/components/programming/ProgrammingDashboard";
 import DailyCodeChallenge from "@/components/programming/DailyCodeChallenge";
+import ProfessionalProjects from "@/components/programming/ProfessionalProjects";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
@@ -135,6 +136,15 @@ const pillars = [
     bgColor: "bg-pink-500/8",
     borderColor: "border-pink-500/20",
     accentColor: "text-pink-600",
+  },
+  {
+    id: "professional-projects",
+    icon: Rocket,
+    emoji: "🚀",
+    color: "from-amber-500 to-rose-600",
+    bgColor: "bg-amber-500/8",
+    borderColor: "border-amber-500/20",
+    accentColor: "text-amber-600",
   },
 ];
 
