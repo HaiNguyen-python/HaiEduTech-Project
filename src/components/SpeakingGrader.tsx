@@ -197,6 +197,21 @@ const SpeakingGrader = () => {
   const handleGrade = async () => {
     if (!audioBlob) return;
     setLoading(true);
+    setUpgradeLoading(false);
+
+    // Fire upgrade in parallel — independent of grading
+    const upgradePromise = supabase.functions
+      .invoke("upgrade-speaking", {
+        body: { question: currentQ.q, part: selectedPart, transcript: liveTranscript },
+      })
+      .then(({ data, error }) => {
+        if (error) throw error;
+        return (data as { upgradedAnswer?: string })?.upgradedAnswer || "";
+      })
+      .catch((e) => {
+        console.error("Upgrade error:", e);
+        return "";
+      });
 
     try {
       const { data, error } = await supabase.functions.invoke("grade-speaking", {
@@ -210,7 +225,12 @@ const SpeakingGrader = () => {
 
       if (error) throw error;
       const graded = data as SpeakingResult;
+      // Always attach the FE transcript (backend no longer returns it)
+      graded.transcript = liveTranscript;
       setResult(graded);
+      setLoading(false);
+      setUpgradeLoading(true);
+
       logStudentActivity({
         activityType: "ielts_speaking",
         score: graded.overall,
@@ -218,6 +238,11 @@ const SpeakingGrader = () => {
         domain: "english",
         metadata: { part: selectedPart, duration: timer, wordCount: liveTranscript.split(/\s+/).filter(Boolean).length },
       });
+
+      // Await upgrade, then merge
+      const upgraded = await upgradePromise;
+      setResult((prev) => (prev ? { ...prev, upgradedAnswer: upgraded } : prev));
+      setUpgradeLoading(false);
     } catch (e) {
       console.error("Grading error:", e);
       // Fallback mock with transcript
@@ -239,6 +264,7 @@ const SpeakingGrader = () => {
         ],
       };
       setResult(mockResult);
+      setLoading(false);
       logStudentActivity({
         activityType: "ielts_speaking",
         score: mockResult.overall,
@@ -247,7 +273,6 @@ const SpeakingGrader = () => {
         metadata: { part: selectedPart, duration: timer },
       });
     }
-    setLoading(false);
   };
 
   const getScoreColor = (score: number) => {
