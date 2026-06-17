@@ -377,32 +377,44 @@ ${result.errors.map(e => `
                         <div className="flex items-center justify-between mb-4">
                           <h4 className="text-base font-bold text-foreground flex items-center gap-2">
                             <Check className="w-5 h-5 text-primary" /> {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}
+                            {upgradeLoading && (
+                              <Loader2 className="w-4 h-4 text-primary animate-spin ml-1" />
+                            )}
                           </h4>
-                          <div className="flex gap-2">
-                            <button
-                              onClick={handleCopyUpgraded}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors"
-                            >
-                              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                              {copied ? t("Đã sao chép", "Copied") : t("Sao chép", "Copy")}
-                            </button>
-                            <button
-                              onClick={() => setShowFullUpgraded(!showFullUpgraded)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors"
-                            >
-                              {showFullUpgraded ? t("Thu gọn", "Collapse") : t("Xem đầy đủ", "View Full")}
-                            </button>
-                          </div>
-                        </div>
-                        <div className={`text-sm text-secondary-foreground leading-relaxed ${!showFullUpgraded ? "max-h-40 overflow-hidden relative" : ""}`}>
-                          <div className="prose prose-sm max-w-none dark:prose-invert">
-                            <ReactMarkdown>{result.upgraded}</ReactMarkdown>
-                          </div>
-                          {!showFullUpgraded && (
-                            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-secondary to-transparent" />
+                          {result.upgraded && !upgradeLoading && (
+                            <div className="flex gap-2">
+                              <button
+                                onClick={handleCopyUpgraded}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors"
+                              >
+                                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                                {copied ? t("Đã sao chép", "Copied") : t("Sao chép", "Copy")}
+                              </button>
+                              <button
+                                onClick={() => setShowFullUpgraded(!showFullUpgraded)}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors"
+                              >
+                                {showFullUpgraded ? t("Thu gọn", "Collapse") : t("Xem đầy đủ", "View Full")}
+                              </button>
+                            </div>
                           )}
                         </div>
+                        {result.upgraded ? (
+                          <div className={`text-sm text-secondary-foreground leading-relaxed ${!showFullUpgraded ? "max-h-40 overflow-hidden relative" : ""}`}>
+                            <div className="prose prose-sm max-w-none dark:prose-invert">
+                              <ReactMarkdown>{result.upgraded}</ReactMarkdown>
+                            </div>
+                            {!showFullUpgraded && (
+                              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-secondary to-transparent" />
+                            )}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-muted-foreground italic">
+                            {t("AI đang nâng cấp bài viết lên Band 8.0+...", "AI is upgrading your essay to Band 8.0+...")}
+                          </p>
+                        )}
                       </div>
+
 
                       {/* Advice */}
                       <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6">
