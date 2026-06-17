@@ -27,6 +27,7 @@ import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserRole } from "@/hooks/useUserRole";
 import CodeBlock from "@/components/CodeBlock";
+import LessonFloatingSymbols from "@/components/programming/LessonFloatingSymbols";
 import mascotPythonPathway from "@/assets/programming/mascot-python-pathway.png";
 import mascotPython from "@/assets/programming/mascot-python.png";
 import mascotSoftwareEng from "@/assets/programming/mascot-software-eng.png";
