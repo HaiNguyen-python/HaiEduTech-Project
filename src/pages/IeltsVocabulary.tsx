@@ -799,6 +799,13 @@ const IeltsVocabulary = () => {
                                 )}
                               </p>
 
+                              {/* Vietnamese translation of example */}
+                              {IELTS_EXAMPLE_VI[w.example?.trim() ?? ""] && (
+                                <p className="min-w-0 break-words whitespace-normal" style={{ fontSize: "0.88rem", color: "#047857", lineHeight: 1.5, fontWeight: 500, overflowWrap: "break-word", wordBreak: "normal" }}>
+                                  <span className="font-semibold">→ </span>{IELTS_EXAMPLE_VI[w.example.trim()]}
+                                </p>
+                              )}
+
                               {/* Inline Type-the-example widget */}
                               <InlineTypeExample word={w} t={t} />
                             </motion.div>
