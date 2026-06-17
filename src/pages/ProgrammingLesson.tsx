@@ -105,6 +105,7 @@ function getPillarForModule(moduleId: string): string | null {
     "prog-data-pipeline": "data-eng",
     "prog-ml": "ml",
     "prog-cybersecurity": "cybersecurity",
+    "prog-prompt-engineering": "prompt-engineering",
     "cloud-fundamentals": "cloud",
     "cloud-compute-storage": "cloud",
     "cloud-network-security": "cloud",
