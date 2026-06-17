@@ -838,19 +838,31 @@ const IeltsWritingPractice = () => {
                   <Card>
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base">🌟 {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}</CardTitle>
-                        <Button variant="ghost" size="sm" onClick={handleCopyUpgraded}>
-                          {copied ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
-                          {copied ? t("Đã sao chép", "Copied") : t("Sao chép", "Copy")}
-                        </Button>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          🌟 {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}
+                          {upgradeLoading && <Loader2 className="w-4 h-4 text-primary animate-spin" />}
+                        </CardTitle>
+                        {result.upgraded && !upgradeLoading && (
+                          <Button variant="ghost" size="sm" onClick={handleCopyUpgraded}>
+                            {copied ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+                            {copied ? t("Đã sao chép", "Copied") : t("Sao chép", "Copy")}
+                          </Button>
+                        )}
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="prose prose-sm dark:prose-invert max-w-none bg-muted/30 p-4 rounded-lg">
-                        <ReactMarkdown>{result.upgraded}</ReactMarkdown>
-                      </div>
+                      {result.upgraded ? (
+                        <div className="prose prose-sm dark:prose-invert max-w-none bg-muted/30 p-4 rounded-lg">
+                          <ReactMarkdown>{result.upgraded}</ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">
+                          {t("AI đang nâng cấp bài viết lên Band 8.0+...", "AI is upgrading your essay to Band 8.0+...")}
+                        </p>
+                      )}
                     </CardContent>
                   </Card>
+
 
                   {/* Advice */}
                   <Card>
