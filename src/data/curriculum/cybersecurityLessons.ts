@@ -1009,6 +1009,615 @@ audit("error", "admin.access_denied", { user_id: "u_2", ip: "1.2.3.4", meta: { r
           { question: "Post-mortem hiệu quả nên?", options: ["Đổ lỗi cho người gây ra", "Blameless — tập trung quy trình & hệ thống, ra action item đo được", "Bỏ qua, làm tiếp", "Chỉ kỹ thuật, không cần ghi lại"], answer: 1, explanation: "Blameless post-mortem khuyến khích minh bạch — đội mới học được và sửa hệ thống thay vì sợ hãi." },
         ],
       },
+      // ============ LESSON 7 ============
+      {
+        id: "cyber-7",
+        title: "Secure Coding: Input Validation, SQLi & XSS chuyên sâu",
+        titleEn: "Secure Coding: Input Validation, SQLi & XSS Deep Dive",
+        level: 2,
+        difficulty: "intermediate",
+        theory: `## 1. 🚪 Mọi input đều là kẻ thù tiềm tàng
+
+Quy tắc số 1: **Validate ở server**, kể cả khi đã validate ở client. Client validation chỉ giúp UX — kẻ tấn công bypass dễ dàng bằng \`curl\`.
+
+- **Allowlist > Denylist**: liệt kê cái được phép, từ chối phần còn lại.
+- **Strong typing**: dùng schema (Zod, Joi, Pydantic). Ép kiểu trước khi xử lý.
+- **Canonicalize**: chuẩn hoá unicode (NFC), trim, lowercase email — tránh bypass kiểu \`admin\` vs \`Admin\`.
+
+## 2. 💉 SQL Injection — vẫn đứng top OWASP sau 20 năm
+
+Code sai kinh điển:
+
+\`\`\`ts
+// ❌ Nguy hiểm
+db.query(\`SELECT * FROM users WHERE email='\${email}'\`);
+\`\`\`
+
+Kẻ tấn công gửi \`email = ' OR 1=1 --\` → đăng nhập với mọi tài khoản.
+
+**Cách đúng**: luôn dùng **parameterized query** / **prepared statement**.
+
+> 💡 ORM (Prisma, Drizzle, SQLAlchemy) mặc định an toàn — nhưng \`$queryRaw\` hay \`.raw()\` thì KHÔNG. Đừng nối chuỗi.
+
+## 3. 🕷️ XSS (Cross-Site Scripting) — 3 dạng cần biết
+
+- **Reflected XSS**: payload trong URL phản chiếu lại trang.
+- **Stored XSS**: payload lưu trong DB, hiện cho mọi user (nguy hiểm nhất).
+- **DOM-based XSS**: JS phía client ghi input vào \`innerHTML\` mà không sanitize.
+
+**Phòng thủ**:
+1. **Escape output** theo ngữ cảnh (HTML, attribute, JS, URL, CSS).
+2. **Sanitize HTML** bằng DOMPurify khi buộc phải render rich text.
+3. **Content Security Policy (CSP)**: chặn inline script, chỉ cho phép domain whitelist.
+4. **Cookie HttpOnly + SameSite=Strict**: kể cả XSS cũng không đánh cắp được session.
+
+## 4. 🧪 Các lỗ hổng injection khác
+
+- **Command Injection**: \`exec(\`ping \${ip}\`)\` → \`ip = "8.8.8.8; rm -rf /"\`. Dùng \`spawn\` với mảng args.
+- **NoSQL Injection**: \`{ email: req.body.email }\` với \`email = { $gt: "" }\` bypass auth Mongo.
+- **SSRF**: server tự fetch URL do user gửi → truy cập \`http://169.254.169.254\` (metadata cloud). Allowlist domain & block IP nội bộ.
+- **Path Traversal**: \`fs.readFile(userInput)\` với \`../../etc/passwd\`. Dùng \`path.resolve\` + kiểm tra prefix.
+
+## 5. ⚙️ Checklist Secure Coding cho mỗi PR
+
+- [ ] Mọi input có schema validation (Zod/Pydantic).
+- [ ] Mọi truy vấn DB dùng parameter, không nối chuỗi.
+- [ ] Mọi output HTML được escape hoặc sanitize.
+- [ ] Có CSP, HttpOnly cookie, SameSite.
+- [ ] Có rate limit ở endpoint nhạy cảm.
+- [ ] Có unit test cho input độc hại (fuzz nhẹ).`,
+        theoryEn: `## 1. 🚪 Treat every input as hostile
+
+Rule #1: **validate on the server**, even if you already validate on the client. Client validation is for UX only — attackers bypass it with \`curl\`.
+
+- **Allowlist > Denylist**: enumerate the allowed shapes, reject the rest.
+- **Strong typing**: use schemas (Zod, Joi, Pydantic). Coerce before processing.
+- **Canonicalize**: normalize unicode (NFC), trim, lowercase email — prevent \`admin\` vs \`Admin\` bypass.
+
+## 2. 💉 SQL Injection — still OWASP top after 20 years
+
+Classic bad code:
+
+\`\`\`ts
+// ❌ Dangerous
+db.query(\`SELECT * FROM users WHERE email='\${email}'\`);
+\`\`\`
+
+Attacker sends \`email = ' OR 1=1 --\` → logs in as any user.
+
+**Correct**: always use **parameterized queries** / **prepared statements**.
+
+> 💡 ORMs (Prisma, Drizzle, SQLAlchemy) are safe by default — but \`$queryRaw\` / \`.raw()\` are NOT. Never concatenate.
+
+## 3. 🕷️ XSS (Cross-Site Scripting) — 3 flavors
+
+- **Reflected XSS**: payload in URL reflected back.
+- **Stored XSS**: payload saved in DB, shown to every user (worst).
+- **DOM-based XSS**: client JS writes input to \`innerHTML\` without sanitizing.
+
+**Defenses**:
+1. **Context-aware output escaping** (HTML, attribute, JS, URL, CSS).
+2. **Sanitize HTML** with DOMPurify when rich text is required.
+3. **Content Security Policy (CSP)**: block inline script, whitelist domains.
+4. **HttpOnly + SameSite=Strict cookies**: even XSS cannot steal the session.
+
+## 4. 🧪 Other injection families
+
+- **Command Injection**: \`exec(\`ping \${ip}\`)\` with \`ip = "8.8.8.8; rm -rf /"\`. Use \`spawn\` + array args.
+- **NoSQL Injection**: \`{ email: req.body.email }\` with \`email = { $gt: "" }\` bypasses Mongo auth.
+- **SSRF**: server fetches user-supplied URL → hits \`http://169.254.169.254\` (cloud metadata). Allowlist domains + block internal IPs.
+- **Path Traversal**: \`fs.readFile(userInput)\` with \`../../etc/passwd\`. Use \`path.resolve\` + verify prefix.
+
+## 5. ⚙️ Secure-coding checklist for every PR
+
+- [ ] Every input has schema validation (Zod/Pydantic).
+- [ ] Every DB query is parameterized, no concatenation.
+- [ ] Every HTML output is escaped or sanitized.
+- [ ] CSP, HttpOnly cookies, SameSite are set.
+- [ ] Rate limits on sensitive endpoints.
+- [ ] Unit tests with hostile input (light fuzzing).`,
+        code: `// Secure Express endpoint: Zod + parameterized query + DOMPurify
+import { z } from "zod";
+import DOMPurify from "isomorphic-dompurify";
+import { db } from "./db";
+
+const CommentSchema = z.object({
+  postId: z.string().uuid(),
+  body: z.string().min(1).max(2000),
+});
+
+app.post("/comments", async (req, res) => {
+  // 1) Validate
+  const parsed = CommentSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ error: "invalid_input" });
+
+  // 2) Sanitize rich text (only allow safe tags)
+  const safeHtml = DOMPurify.sanitize(parsed.data.body, {
+    ALLOWED_TAGS: ["b", "i", "em", "strong", "a", "p", "br"],
+    ALLOWED_ATTR: ["href"],
+  });
+
+  // 3) Parameterized query — no string concat
+  const row = await db.query(
+    "INSERT INTO comments (post_id, user_id, body) VALUES ($1, $2, $3) RETURNING id",
+    [parsed.data.postId, req.user.id, safeHtml],
+  );
+
+  res.json({ id: row.rows[0].id });
+});`,
+        codeLanguage: "typescript",
+        exercise: "Lấy 1 form bất kỳ trong dự án của bạn (login, comment, search…). Viết schema Zod cho input, chuyển truy vấn DB sang dạng parameterized, thêm DOMPurify cho mọi nội dung render dạng HTML. Sau đó thử tấn công bằng payload: `' OR 1=1 --`, `<img src=x onerror=alert(1)>`, `../../etc/passwd`. Đảm bảo tất cả đều bị chặn và có log cảnh báo.",
+        exerciseEn: "Pick any form in your project (login, comment, search…). Add a Zod schema, switch DB calls to parameterized queries, add DOMPurify for any HTML-rendered field. Then attack with: `' OR 1=1 --`, `<img src=x onerror=alert(1)>`, `../../etc/passwd`. All must be blocked and logged.",
+        quiz: [
+          { question: "Cách an toàn nhất để tránh SQL Injection là?", options: ["Escape dấu nháy bằng tay", "Dùng parameterized / prepared statements", "Chặn từ khoá SELECT", "Dùng regex lọc input"], answer: 1, explanation: "Parameterized query tách dữ liệu khỏi câu lệnh — driver tự xử lý escape an toàn." },
+          { question: "Stored XSS khác Reflected XSS ở điểm nào?", options: ["Không khác", "Stored lưu payload trong DB và hại nhiều user; Reflected qua URL từng lần", "Reflected nguy hiểm hơn Stored", "Stored chỉ hại admin"], answer: 1, explanation: "Stored XSS phát tán cho mọi người xem nội dung — tác hại lớn hơn nhiều." },
+          { question: "Cookie nào giúp giảm thiệt hại khi bị XSS?", options: ["Secure", "HttpOnly", "Path=/", "Max-Age cao"], answer: 1, explanation: "HttpOnly khiến JavaScript không đọc được cookie, nên XSS không lấy được session token." },
+          { question: "SSRF là gì?", options: ["Server tự gửi request tới URL do attacker chỉ định", "Tấn công vào CSS", "Lỗi DNS", "Một loại malware"], answer: 0, explanation: "SSRF (Server-Side Request Forgery) lợi dụng server fetch URL → truy cập tài nguyên nội bộ như metadata cloud." },
+          { question: "Validation nên đặt ở đâu?", options: ["Chỉ ở client", "Chỉ ở server", "Cả client (UX) và server (bảo mật)", "Không cần nếu đã có WAF"], answer: 2, explanation: "Client để UX nhanh; server là biên giới bảo mật thật — kẻ tấn công luôn bypass client." },
+        ],
+      },
+      // ============ LESSON 8 ============
+      {
+        id: "cyber-8",
+        title: "Bảo mật mạng & Web: TLS/HTTPS, CORS, CSRF, Cookie",
+        titleEn: "Network & Web Security: TLS/HTTPS, CORS, CSRF, Cookies",
+        level: 2,
+        difficulty: "intermediate",
+        theory: `## 1. 🔒 HTTPS / TLS — đường ống mã hoá
+
+TLS giúp 3 điều: **mã hoá** (chống nghe trộm), **toàn vẹn** (chống sửa), **xác thực server** (chống giả mạo). Bắt buộc cho mọi sản phẩm production.
+
+- Dùng **TLS 1.3** (hoặc tối thiểu 1.2), tắt TLS 1.0/1.1, SSLv3.
+- **HSTS** (\`Strict-Transport-Security\`) ép trình duyệt luôn dùng HTTPS, kể cả khi user gõ \`http://\`.
+- Chứng chỉ miễn phí qua **Let's Encrypt** + auto-renew. Đừng dùng cert self-signed ở production.
+
+## 2. 🌐 CORS — đừng đặt \`*\` bừa bãi
+
+CORS quyết định domain nào được phép gọi API của bạn từ browser. Hai nhầm lẫn phổ biến:
+
+- ❌ \`Access-Control-Allow-Origin: *\` đi kèm \`Allow-Credentials: true\` → browser sẽ từ chối, nhưng nếu \`*\` thì cũng cho mọi site đọc public API của bạn.
+- ✅ Allowlist tường minh: \`https://app.haiedutech.com\`, \`https://www.haiedutech.com\`.
+
+> 💡 CORS **không bảo vệ** server — nó chỉ chặn browser. Tấn công bằng curl không quan tâm CORS. Bảo mật thật nằm ở AuthN/AuthZ.
+
+## 3. 🛡️ CSRF — kẻ tấn công "mượn tay" trình duyệt
+
+Nếu user đăng nhập \`bank.com\` rồi mở tab \`evil.com\`, trang xấu có thể submit form ngầm tới \`bank.com/transfer\` — browser tự gửi cookie. Phòng thủ:
+
+1. **SameSite=Lax** (mặc định mới của browser) hoặc \`Strict\` cho cookie nhạy cảm.
+2. **CSRF token**: server cấp token ngẫu nhiên trong form/header, verify mỗi request mutate.
+3. **Double-submit cookie**: token vừa ở cookie vừa ở header, server so khớp.
+4. API JWT (Authorization header) **không bị CSRF** vì browser không tự gắn header này.
+
+## 4. 🍪 Cookie an toàn — 4 cờ bắt buộc
+
+\`\`\`http
+Set-Cookie: session=abc123;
+  Secure;          # chỉ gửi qua HTTPS
+  HttpOnly;        # JS không đọc được
+  SameSite=Strict; # không gửi cross-site
+  Path=/;
+  Max-Age=3600;
+\`\`\`
+
+## 5. 🧱 Security Headers nên có
+
+| Header | Tác dụng |
+|--------|----------|
+| \`Strict-Transport-Security\` | Ép HTTPS |
+| \`Content-Security-Policy\` | Chống XSS, clickjacking inline |
+| \`X-Frame-Options: DENY\` | Chống clickjacking |
+| \`X-Content-Type-Options: nosniff\` | Chống MIME sniffing |
+| \`Referrer-Policy: strict-origin-when-cross-origin\` | Giảm rò rỉ URL |
+| \`Permissions-Policy\` | Tắt camera/mic/geolocation mặc định |
+
+Kiểm tra điểm headers tại **securityheaders.com** — mục tiêu A trở lên.`,
+        theoryEn: `## 1. 🔒 HTTPS / TLS — the encrypted pipe
+
+TLS gives you three things: **encryption** (no eavesdropping), **integrity** (no tampering), **server authentication** (no impersonation). Mandatory in production.
+
+- Use **TLS 1.3** (or at least 1.2); disable TLS 1.0/1.1, SSLv3.
+- **HSTS** (\`Strict-Transport-Security\`) forces the browser to always use HTTPS, even when the user types \`http://\`.
+- Free certificates from **Let's Encrypt** with auto-renew. Never use self-signed certs in production.
+
+## 2. 🌐 CORS — don't blindly set \`*\`
+
+CORS decides which origins may call your API from the browser. Common mistakes:
+
+- ❌ \`Access-Control-Allow-Origin: *\` together with \`Allow-Credentials: true\` → browsers refuse; and \`*\` exposes any public response to every site.
+- ✅ Explicit allowlist: \`https://app.haiedutech.com\`, \`https://www.haiedutech.com\`.
+
+> 💡 CORS **does not protect** the server — it only restricts browsers. A curl attack ignores CORS. Real security lives in AuthN/AuthZ.
+
+## 3. 🛡️ CSRF — the attacker "borrows" the browser
+
+If a user is logged into \`bank.com\` and opens \`evil.com\`, the malicious page can silently submit a form to \`bank.com/transfer\` — the browser auto-sends cookies. Defenses:
+
+1. **SameSite=Lax** (browser default) or \`Strict\` for sensitive cookies.
+2. **CSRF token**: server issues a random token, verifies it on every mutating request.
+3. **Double-submit cookie**: token in cookie AND header, server compares.
+4. JWT APIs (Authorization header) are **not vulnerable to CSRF** because browsers don't auto-attach this header.
+
+## 4. 🍪 Safe cookies — 4 mandatory flags
+
+\`\`\`http
+Set-Cookie: session=abc123;
+  Secure;          # HTTPS only
+  HttpOnly;        # not readable from JS
+  SameSite=Strict; # never sent cross-site
+  Path=/;
+  Max-Age=3600;
+\`\`\`
+
+## 5. 🧱 Security headers you should ship
+
+| Header | Purpose |
+|--------|---------|
+| \`Strict-Transport-Security\` | Force HTTPS |
+| \`Content-Security-Policy\` | Mitigate XSS / inline clickjacking |
+| \`X-Frame-Options: DENY\` | Anti clickjacking |
+| \`X-Content-Type-Options: nosniff\` | Anti MIME sniffing |
+| \`Referrer-Policy: strict-origin-when-cross-origin\` | Reduce URL leakage |
+| \`Permissions-Policy\` | Disable camera/mic/geolocation by default |
+
+Grade your headers at **securityheaders.com** — aim for A or higher.`,
+        code: `// Express middleware: hardened security headers + safe CORS
+import express from "express";
+import helmet from "helmet";
+import cors from "cors";
+
+const app = express();
+
+// 1) Helmet — sane defaults for security headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://cdn.haiedutech.com"],
+      imgSrc: ["'self'", "data:", "https://images.haiedutech.com"],
+      connectSrc: ["'self'", "https://api.haiedutech.com"],
+      objectSrc: ["'none'"],
+      frameAncestors: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  hsts: { maxAge: 63072000, includeSubDomains: true, preload: true },
+}));
+
+// 2) Strict CORS allowlist
+const ALLOWED = new Set([
+  "https://app.haiedutech.com",
+  "https://www.haiedutech.com",
+]);
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true);          // same-origin / curl
+    if (ALLOWED.has(origin)) return cb(null, true);
+    return cb(new Error("CORS blocked: " + origin));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  maxAge: 600,
+}));
+
+// 3) Safe cookie defaults
+app.use((req, res, next) => {
+  res.cookie = ((orig) => (name, val, opts = {}) =>
+    orig.call(res, name, val, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      ...opts,
+    }))(res.cookie);
+  next();
+});`,
+        codeLanguage: "typescript",
+        exercise: "Chạy `curl -I https://your-domain.com` và soi các header trả về. Bổ sung HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy. Kiểm tra điểm tại securityheaders.com — mục tiêu A. Sau đó dựng 1 trang HTML giả lập CSRF (form auto submit POST sang API của bạn) và xác nhận request bị chặn nhờ SameSite + CSRF token.",
+        exerciseEn: "Run `curl -I https://your-domain.com` and inspect the headers. Add HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy. Grade at securityheaders.com — target A. Then build a CSRF demo page (auto-submitting form against your API) and confirm the request is blocked by SameSite + CSRF token.",
+        quiz: [
+          { question: "Tác dụng chính của HSTS là?", options: ["Mã hoá dữ liệu", "Ép trình duyệt luôn dùng HTTPS", "Chặn XSS", "Tăng tốc TLS handshake"], answer: 1, explanation: "HSTS yêu cầu trình duyệt nâng cấp tự động sang HTTPS và từ chối downgrade." },
+          { question: "Cookie có cờ nào không bị JS đọc?", options: ["Secure", "HttpOnly", "SameSite", "Path"], answer: 1, explanation: "HttpOnly khiến cookie chỉ được gửi kèm HTTP request, JS không lấy được." },
+          { question: "Tấn công CSRF lợi dụng?", options: ["Lỗi SQL", "Việc browser tự gắn cookie khi gửi cross-site request", "Lỗi bộ nhớ", "Mật khẩu yếu"], answer: 1, explanation: "Browser tự đính cookie session → site độc có thể giả mạo hành vi mutate." },
+          { question: "Cấu hình CORS nào AN TOÀN cho API có cookie?", options: ["`Access-Control-Allow-Origin: *` + `Allow-Credentials: true`", "Allowlist origin cụ thể + `Allow-Credentials: true`", "Không trả header CORS", "Chỉ cấu hình ở client"], answer: 1, explanation: "Browser chặn `*` khi có credentials; cần liệt kê origin cụ thể." },
+          { question: "CSRF token KHÔNG cần thiết khi?", options: ["API dùng cookie session", "API xác thực qua header `Authorization: Bearer ...`", "Có CORS `*`", "Form gọi POST"], answer: 1, explanation: "Browser không tự gắn header Authorization → không bị CSRF (vẫn cần XSS defense)." },
+        ],
+      },
+      // ============ LESSON 9 ============
+      {
+        id: "cyber-9",
+        title: "Supply Chain Security & DevSecOps trong CI/CD",
+        titleEn: "Supply Chain Security & DevSecOps in CI/CD",
+        level: 3,
+        difficulty: "advanced",
+        theory: `## 1. 📦 "Bạn không viết phần lớn code của mình"
+
+Một app web hiện đại kéo về hàng nghìn package npm. Nếu **1** package bị chiếm (event-stream, ua-parser-js, xz-utils 2024…), kẻ tấn công vào thẳng production. Đây là **supply chain attack**.
+
+## 2. 🔐 Quản trị phụ thuộc
+
+- **Lockfile bắt buộc**: \`package-lock.json\`, \`bun.lockb\`, \`poetry.lock\`. Commit vào git.
+- **Pin version**: dùng version cụ thể, không dùng \`^\`/\`~\` cho infra-critical lib.
+- **Audit định kỳ**: \`npm audit\`, \`bun audit\`, \`pip-audit\`, GitHub **Dependabot**.
+- **SBOM** (Software Bill of Materials): xuất bằng \`syft\`/\`cyclonedx\` — biết rõ mình ship cái gì.
+- **Sigstore / cosign**: ký artifact và verify chữ ký trước khi deploy.
+
+## 3. 🤖 DevSecOps — "Shift Left" bảo mật vào CI/CD
+
+Đừng đợi pentest cuối kỳ. Cài security gate ở mỗi PR:
+
+\`\`\`text
+Commit → Pre-commit hook (lint, secret scan)
+       → CI: SAST (Semgrep, CodeQL) + Dep audit + SBOM
+       → Build: sign image (cosign), scan image (Trivy)
+       → Deploy staging: DAST (ZAP) + smoke test
+       → Production: runtime monitor (Falco, GuardDuty)
+\`\`\`
+
+## 4. 🔑 Secret management
+
+- **Không bao giờ commit secret**. Dùng \`.env\` + \`.gitignore\`, hoặc tốt hơn: secret manager (Doppler, AWS Secrets Manager, Lovable secrets).
+- **gitleaks / trufflehog** chạy ở pre-commit + CI để chặn rò rỉ.
+- Nếu lỡ commit: **rotate ngay**, không chỉ xoá commit — secret đã vào history công khai.
+
+## 5. 🐳 Bảo mật container & image
+
+- Dùng **base image nhỏ** (\`distroless\`, \`alpine\`).
+- Chạy bằng **non-root user**: \`USER 1001\`.
+- Multi-stage build để loại trừ dev dependency.
+- Scan với **Trivy** / **Grype** trước khi push.
+- Đặt **read-only root filesystem** trong Kubernetes \`securityContext\`.
+
+> 💡 Nguyên tắc: artifact ở production phải có **provenance** rõ ràng (ai build, từ commit nào, qua pipeline nào). SLSA Level ≥ 2.`,
+        theoryEn: `## 1. 📦 "You don't write most of your code"
+
+A modern web app pulls thousands of npm packages. If **one** is compromised (event-stream, ua-parser-js, xz-utils 2024…), attackers walk straight into production. This is a **supply-chain attack**.
+
+## 2. 🔐 Dependency governance
+
+- **Lockfile required**: \`package-lock.json\`, \`bun.lockb\`, \`poetry.lock\`. Commit it.
+- **Pin versions**: explicit versions, no \`^\`/\`~\` for infra-critical libs.
+- **Routine audits**: \`npm audit\`, \`bun audit\`, \`pip-audit\`, GitHub **Dependabot**.
+- **SBOM** (Software Bill of Materials): emit with \`syft\`/\`cyclonedx\` — know what you ship.
+- **Sigstore / cosign**: sign artifacts and verify signatures before deploy.
+
+## 3. 🤖 DevSecOps — shift security left in CI/CD
+
+Don't wait for the end-of-quarter pentest. Add security gates to every PR:
+
+\`\`\`text
+Commit → Pre-commit hook (lint, secret scan)
+       → CI: SAST (Semgrep, CodeQL) + dep audit + SBOM
+       → Build: sign image (cosign), scan image (Trivy)
+       → Deploy staging: DAST (ZAP) + smoke test
+       → Production: runtime monitor (Falco, GuardDuty)
+\`\`\`
+
+## 4. 🔑 Secret management
+
+- **Never commit secrets**. Use \`.env\` + \`.gitignore\`, or better, a secret manager (Doppler, AWS Secrets Manager, Lovable secrets).
+- Run **gitleaks / trufflehog** in pre-commit + CI to block leaks.
+- If you accidentally commit one: **rotate immediately** — deleting the commit is not enough, the secret is in public history.
+
+## 5. 🐳 Container & image security
+
+- Use a **small base image** (\`distroless\`, \`alpine\`).
+- Run as a **non-root user**: \`USER 1001\`.
+- Multi-stage build to drop dev dependencies.
+- Scan with **Trivy** / **Grype** before pushing.
+- Set **read-only root filesystem** in Kubernetes \`securityContext\`.
+
+> 💡 Rule: every production artifact must have clear **provenance** (who built it, from which commit, through which pipeline). Aim for SLSA Level ≥ 2.`,
+        code: `# .github/workflows/security.yml — security gate on every PR
+name: security
+on: [pull_request]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1) Secret scan
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+
+      # 2) Dependency audit
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      # 3) SAST
+      - name: Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/owasp-top-ten
+
+      # 4) SBOM + container scan
+      - name: Build image
+        run: docker build -t app:\${{ github.sha }} .
+      - name: Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: app:\${{ github.sha }}
+          severity: CRITICAL,HIGH
+          exit-code: 1
+      - name: SBOM (syft)
+        uses: anchore/sbom-action@v0
+        with:
+          image: app:\${{ github.sha }}
+          format: cyclonedx-json
+
+      # 5) Sign artifact
+      - name: cosign sign
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+        run: cosign sign --yes app:\${{ github.sha }}`,
+        codeLanguage: "yaml",
+        exercise: "Cài Semgrep + gitleaks + Trivy vào CI của 1 repo bạn đang làm. Chạy thử và sửa MỌI finding CRITICAL/HIGH. Tạo file SBOM (`syft .` hoặc `cyclonedx`) và commit. Viết 1 đoạn ngắn (≤200 từ) mô tả: pipeline gồm những bước nào, mỗi bước chặn lớp tấn công gì, ai trực khi gate fail.",
+        exerciseEn: "Add Semgrep + gitleaks + Trivy to the CI of one of your repos. Run it and fix ALL CRITICAL/HIGH findings. Emit an SBOM (`syft .` or `cyclonedx`) and commit it. Write a short note (≤200 words) describing: pipeline stages, attack class each one blocks, who handles a failed gate.",
+        quiz: [
+          { question: "Supply chain attack nghĩa là?", options: ["Tấn công vào kho hàng vật lý", "Tấn công thông qua 1 dependency / công cụ bên thứ ba mà nạn nhân tin tưởng", "Phishing email", "DDoS"], answer: 1, explanation: "Kẻ tấn công chiếm 1 lib/build tool → mọi nơi dùng nó đều bị ảnh hưởng (xz-utils 2024)." },
+          { question: "Khi lỡ commit API key lên GitHub public, bước ĐẦU TIÊN là?", options: ["Force push xoá commit", "Rotate (vô hiệu) key ngay lập tức", "Đổi repo sang private", "Mở issue"], answer: 1, explanation: "Bot scan GitHub trong vài giây. Phải coi key đã lộ — rotate trước, dọn history sau." },
+          { question: "SBOM dùng để làm gì?", options: ["Build app nhanh hơn", "Liệt kê toàn bộ thành phần & version mà artifact bao gồm để truy vết CVE", "Mã hoá code", "Sign request"], answer: 1, explanation: "Khi CVE mới ra, SBOM cho biết bạn có dùng version bị ảnh hưởng hay không." },
+          { question: "Container production nên chạy với?", options: ["root để tiện debug", "Non-root user, read-only filesystem", "Privileged mode", "Network host"], answer: 1, explanation: "Least privilege: non-root + read-only FS giảm thiệt hại nếu container bị chiếm." },
+          { question: "Mục tiêu của 'shift left' trong DevSecOps là?", options: ["Đẩy bảo mật sang đội QA", "Đưa kiểm tra bảo mật vào sớm trong pipeline (commit, PR) thay vì cuối kỳ", "Bỏ qua test cuối", "Chỉ chạy security ở production"], answer: 1, explanation: "Phát hiện lỗi sớm rẻ hơn gấp 100 lần so với fix ở production." },
+        ],
+      },
+      // ============ LESSON 10 ============
+      {
+        id: "cyber-10",
+        title: "Privacy, Compliance & Ethical Hacking thực hành",
+        titleEn: "Privacy, Compliance & Hands-on Ethical Hacking",
+        level: 3,
+        difficulty: "advanced",
+        theory: `## 1. ⚖️ Vì sao dev phải hiểu Privacy & Compliance?
+
+Bảo mật bảo vệ **hệ thống**; privacy bảo vệ **con người**. Vi phạm GDPR có thể bị phạt tới **4% doanh thu toàn cầu**. Hiểu luật giúp bạn thiết kế đúng từ đầu thay vì refactor đắt đỏ về sau.
+
+## 2. 📜 Các khung pháp lý chính
+
+| Khung | Phạm vi | Điểm chính cho dev |
+|------|---------|---------------------|
+| **GDPR** (EU) | Dữ liệu cá nhân của người EU | Đồng ý rõ ràng, quyền truy cập/xoá, breach notice 72h |
+| **CCPA/CPRA** (California) | Người tiêu dùng CA | Quyền opt-out bán dữ liệu |
+| **HIPAA** (US) | Dữ liệu y tế | Mã hoá at-rest/in-transit, audit log |
+| **PCI-DSS** | Thẻ thanh toán | Không lưu CVV, mã hoá PAN, tokenization |
+| **Nghị định 13/2023** (VN) | PII của người Việt | Đồng ý, lưu trữ trong nước cho dữ liệu nhạy cảm |
+
+## 3. 🔬 Privacy by Design — 7 nguyên tắc
+
+1. **Proactive, not reactive**: phòng từ đầu, không vá khi vỡ.
+2. **Privacy by default**: cài đặt mặc định bảo mật nhất.
+3. **Embedded into design**: privacy nằm trong kiến trúc, không phải feature gắn thêm.
+4. **Full functionality**: không đánh đổi UX vì privacy (win-win).
+5. **End-to-end security**: bảo vệ từ thu thập đến xoá.
+6. **Visibility & transparency**: user biết dữ liệu được dùng làm gì.
+7. **User-centric**: user có quyền điều khiển dữ liệu của mình.
+
+## 4. 🧰 Kỹ thuật giảm rủi ro PII
+
+- **Data minimization**: chỉ thu thập trường thực sự cần.
+- **Pseudonymization**: thay PII bằng ID giả lập, lưu mapping ở vault riêng.
+- **Anonymization** (k-anonymity, differential privacy) cho analytics.
+- **Retention policy**: tự động xoá log/PII sau N ngày.
+- **Right to erasure**: API \`DELETE /me\` xoá thật, không soft-delete.
+
+## 5. 🥷 Ethical Hacking — quy trình 5 bước (PTES)
+
+1. **Reconnaissance**: \`whois\`, \`nmap\`, Shodan — thu thập thông tin công khai.
+2. **Scanning**: \`nmap -sV\`, \`nikto\`, \`nuclei\` — tìm dịch vụ & lỗi đã biết.
+3. **Exploitation**: dùng Burp Suite/ZAP/Metasploit trên **môi trường được phép**.
+4. **Post-exploitation**: đánh giá tác động (lateral movement, data exfil).
+5. **Reporting**: viết báo cáo có severity (CVSS), PoC, hướng dẫn fix.
+
+> ⚠️ **CHỈ pentest hệ thống bạn sở hữu hoặc có hợp đồng cho phép.** Tấn công không phép vi phạm Bộ luật Hình sự 2015 (VN), Computer Fraud and Abuse Act (US). Luyện tập trên **HackTheBox**, **TryHackMe**, **PortSwigger Web Security Academy**, **OverTheWire** — đều miễn phí & hợp pháp.
+
+## 6. 🎓 Lộ trình học tiếp
+
+- **Chứng chỉ**: CompTIA Security+ → CEH → OSCP → OSWE.
+- **Cộng đồng**: OWASP chapter Vietnam, DEF CON groups, BSides.
+- **Bug bounty**: HackerOne, Bugcrowd, Intigriti — kiếm tiền hợp pháp từ kỹ năng.`,
+        theoryEn: `## 1. ⚖️ Why developers must understand Privacy & Compliance
+
+Security protects **systems**; privacy protects **people**. GDPR fines reach **4% of global revenue**. Knowing the law lets you design correctly upfront instead of paying for expensive refactors.
+
+## 2. 📜 Major regulatory frameworks
+
+| Framework | Scope | Key for devs |
+|-----------|-------|--------------|
+| **GDPR** (EU) | EU residents' data | Explicit consent, access/erasure rights, 72h breach notice |
+| **CCPA/CPRA** (California) | CA consumers | Right to opt-out of data sale |
+| **HIPAA** (US) | Health data | Encryption at-rest/in-transit, audit logs |
+| **PCI-DSS** | Payment cards | Never store CVV, encrypt PAN, tokenize |
+| **Decree 13/2023** (Vietnam) | Vietnamese PII | Consent, domestic storage for sensitive data |
+
+## 3. 🔬 Privacy by Design — 7 principles
+
+1. **Proactive, not reactive**.
+2. **Privacy by default**: most-private settings out-of-the-box.
+3. **Embedded into design**: privacy is architecture, not a bolt-on.
+4. **Full functionality**: never trade UX for privacy.
+5. **End-to-end security**: from collection to deletion.
+6. **Visibility & transparency**: users understand how data is used.
+7. **User-centric**: users control their data.
+
+## 4. 🧰 PII-risk reduction techniques
+
+- **Data minimization**: only collect strictly needed fields.
+- **Pseudonymization**: replace PII with surrogate IDs, keep the mapping in a separate vault.
+- **Anonymization** (k-anonymity, differential privacy) for analytics.
+- **Retention policy**: auto-purge logs/PII after N days.
+- **Right to erasure**: \`DELETE /me\` truly deletes (no soft-delete).
+
+## 5. 🥷 Ethical Hacking — 5-step PTES flow
+
+1. **Reconnaissance**: \`whois\`, \`nmap\`, Shodan — gather public intel.
+2. **Scanning**: \`nmap -sV\`, \`nikto\`, \`nuclei\` — find services + known CVEs.
+3. **Exploitation**: Burp Suite / ZAP / Metasploit on **authorized** targets.
+4. **Post-exploitation**: estimate impact (lateral movement, data exfil).
+5. **Reporting**: severity (CVSS), proof-of-concept, remediation guide.
+
+> ⚠️ **Only pentest systems you own or have written permission for.** Unauthorized hacking violates Vietnam's Penal Code 2015 and the US Computer Fraud and Abuse Act. Practice legally on **HackTheBox**, **TryHackMe**, **PortSwigger Web Security Academy**, **OverTheWire**.
+
+## 6. 🎓 Where to go next
+
+- **Certs**: CompTIA Security+ → CEH → OSCP → OSWE.
+- **Community**: OWASP Vietnam chapter, DEF CON groups, BSides.
+- **Bug bounty**: HackerOne, Bugcrowd, Intigriti — get paid legally.`,
+        code: `// GDPR-friendly user data export & delete (Supabase / Postgres)
+import { supabase } from "./client";
+
+// 1) Right of Access — export everything we hold about the user
+export async function exportMyData(userId: string) {
+  const [profile, orders, sessions, audits] = await Promise.all([
+    supabase.from("profiles").select("*").eq("id", userId).single(),
+    supabase.from("orders").select("*").eq("user_id", userId),
+    supabase.from("sessions").select("id, created_at, ip_hash").eq("user_id", userId),
+    supabase.from("audit_logs").select("ts, action").eq("user_id", userId),
+  ]);
+
+  return {
+    exported_at: new Date().toISOString(),
+    profile: profile.data,
+    orders: orders.data,
+    sessions: sessions.data,
+    audit_logs: audits.data,
+  };
+}
+
+// 2) Right to Erasure — hard delete, cascade, keep only legally required records
+export async function deleteMyAccount(userId: string) {
+  // Pseudonymize records we must keep (e.g., invoices required for tax law)
+  await supabase
+    .from("orders")
+    .update({ customer_name: "REDACTED", email: null, phone: null })
+    .eq("user_id", userId);
+
+  // Hard delete the rest (RLS + FK ON DELETE CASCADE handle children)
+  await supabase.from("profiles").delete().eq("id", userId);
+  await supabase.auth.admin.deleteUser(userId);
+
+  // Audit trail (no PII): we logged that erasure happened
+  await supabase.from("erasure_log").insert({
+    user_hash: await sha256(userId),
+    erased_at: new Date().toISOString(),
+  });
+}
+
+async function sha256(s: string) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+}`,
+        codeLanguage: "typescript",
+        exercise: "Tạo trang `/account/privacy` cho phép user: (1) tải bản sao JSON dữ liệu của mình, (2) yêu cầu xoá tài khoản với xác nhận 2 bước. Viết Privacy Policy ngắn (≤300 từ) liệt kê: dữ liệu thu thập, mục đích, bên thứ ba, thời gian lưu, quyền của user. Sau đó luyện 1 phòng (room) trên TryHackMe hoặc PortSwigger Academy về SQLi/XSS — chụp lại quá trình và viết writeup ngắn.",
+        exerciseEn: "Build `/account/privacy` letting users (1) download their JSON data export, (2) request account deletion with 2-step confirmation. Write a short Privacy Policy (≤300 words) listing: data collected, purpose, third parties, retention, user rights. Then complete one TryHackMe or PortSwigger Academy room on SQLi/XSS — record your process and write a short writeup.",
+        quiz: [
+          { question: "GDPR yêu cầu doanh nghiệp đáp ứng yêu cầu xoá dữ liệu (right to erasure) trong vòng?", options: ["7 ngày", "30 ngày (có thể gia hạn thêm 2 tháng nếu phức tạp)", "1 năm", "Không giới hạn"], answer: 1, explanation: "Điều 12 GDPR: 1 tháng, có thể gia hạn tối đa 2 tháng nếu yêu cầu phức tạp." },
+          { question: "Dữ liệu nào TUYỆT ĐỐI KHÔNG được lưu sau khi xử lý thanh toán (PCI-DSS)?", options: ["Tên chủ thẻ", "Số PAN dạng mã hoá", "CVV/CVC", "Ngày hết hạn"], answer: 2, explanation: "CVV chỉ dùng 1 lần ngay khi giao dịch — lưu lại là vi phạm PCI-DSS." },
+          { question: "Pseudonymization khác Anonymization ở điểm nào?", options: ["Không khác", "Pseudonymization có thể khôi phục lại danh tính nếu có khoá; Anonymization thì không", "Anonymization mạnh hơn mã hoá", "Pseudonymization là mã hoá đối xứng"], answer: 1, explanation: "Pseudonymization vẫn được coi là PII theo GDPR; Anonymization (đúng nghĩa) thì không còn là PII." },
+          { question: "Hành vi nào được phép trong ethical hacking?", options: ["Quét port mọi website trên internet", "Pentest hệ thống bạn sở hữu hoặc có hợp đồng/scope cho phép", "Truy cập admin của công ty khác để báo lỗi", "Đọc DB của bạn cũ vì bạn từng có quyền"], answer: 1, explanation: "Không có hợp đồng / scope rõ ràng → coi như tấn công trái phép, vi phạm pháp luật." },
+          { question: "Bước nào KHÔNG thuộc PTES (Penetration Testing Execution Standard)?", options: ["Reconnaissance", "Exploitation", "Reporting", "Marketing"], answer: 3, explanation: "PTES gồm: Pre-engagement, Recon, Threat Modeling, Vuln Analysis, Exploitation, Post-Exploitation, Reporting." },
+        ],
+      },
     ],
   },
 ];

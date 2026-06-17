@@ -93,6 +93,7 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "reinforcement-learning": ["rl"],
   "nlp": ["nlp"],
   "edtech": ["edtech"],
+  "cybersecurity": ["cybersecurity"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
@@ -102,6 +103,7 @@ function getPillarForModule(moduleId: string): string | null {
     "prog-sql": "sql",
     "prog-data-pipeline": "data-eng",
     "prog-ml": "ml",
+    "prog-cybersecurity": "cybersecurity",
     "cloud-fundamentals": "cloud",
     "cloud-compute-storage": "cloud",
     "cloud-network-security": "cloud",
@@ -128,6 +130,7 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
     "sql": ["prog-sql"],
     "data-eng": ["prog-data-pipeline"],
     "ml": ["prog-ml"],
+    "cybersecurity": ["prog-cybersecurity"],
     "cloud": [
       "cloud-fundamentals",
       "cloud-compute-storage",
