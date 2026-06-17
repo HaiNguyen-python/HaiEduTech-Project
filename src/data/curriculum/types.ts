@@ -15,7 +15,7 @@ export interface ExtendedProgrammingLesson {
   codeLanguage: string;
   exercise: string;
   exerciseEn: string;
-  quiz: { question: string; options: string[]; answer: number; explanation: string }[];
+  quiz: { question: string; options: string[]; answer: number; explanation: string; questionEn?: string; optionsEn?: string[]; explanationEn?: string }[];
   level?: 1 | 2 | 3 | 4 | 5;
   difficulty?: "beginner" | "intermediate" | "advanced";
   testCases?: TestCase[];
