@@ -63,6 +63,7 @@ const IeltsWritingPractice = () => {
   // Writing state
   const [essay, setEssay] = useState("");
   const [grading, setGrading] = useState(false);
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [result, setResult] = useState<GradingResult | null>(null);
   const [expandedCriteria, setExpandedCriteria] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
