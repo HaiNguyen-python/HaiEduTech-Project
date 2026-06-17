@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Translate sentences or long paragraphs between EN / ZH / FI / VI using Perplexity API.
 // Cached in dictionary_cache table by sha256(source|target|text) to reduce repeat calls.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";

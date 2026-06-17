@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: Upgrade a student's IELTS Speaking answer to Band 8.0+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";

@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Multi-language word lookup (EN/ZH/FI/VI) powered by Perplexity API.
 // Cached in dictionary_cache by sha256(lang|word) for repeat-lookup speed.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";

@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 /**
  * @file review-python-code/index.ts
  * @description AI Code Reviewer for Python — returns JSON score (0-100), issues, suggestions.

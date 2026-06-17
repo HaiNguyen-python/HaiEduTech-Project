@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Generate a structured dictionary entry (EN/ZH/FI/VI) via Perplexity API.
 // Used by Teacher Admin → Dictionary forms to auto-fill word details.
 const corsHeaders = {

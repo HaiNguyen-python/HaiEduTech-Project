@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Proxy for dictionary, collocation, and thesaurus lookups.
 // Avoids browser-side CORS/TLS flakiness with public APIs.
 // Results are cached server-side in `dictionary_cache` for instant repeat hits.

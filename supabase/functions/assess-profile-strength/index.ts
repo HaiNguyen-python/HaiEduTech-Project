@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 /**
  * Assess study-abroad profile strength using Lovable AI Gateway.
  * Reads: student_profiles, student_documents, motivation_letter_drafts.
