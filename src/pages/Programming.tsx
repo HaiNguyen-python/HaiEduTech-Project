@@ -286,6 +286,13 @@ const Programming = () => {
       descEn: "Build digital education products: learning science, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI tutors, auto-grading (essay/speaking) and personalized recommendations - the very stack powering HaiEduTech.",
       modules: allProgrammingModules.filter(m => m.course === "edtech"),
     },
+    "professional-projects": {
+      title: "Professional Projects", titleEn: "Professional Projects",
+      desc: "Bộ sưu tập dự án IT thực chiến cho từng pillar đã học - từ Python cơ bản đến Cloud, Deep Learning, RAG và Cybersecurity. Mỗi dự án có tech stack, tính năng và deliverable rõ ràng, sẵn sàng đưa vào CV.",
+      descEn: "A real-world IT project catalog for every pillar you've studied - from beginner Python to Cloud, Deep Learning, RAG and Cybersecurity. Each project ships with a tech stack, features and deliverables, ready for your CV.",
+      modules: [],
+      isProjects: true,
+    },
   };
 
   const active = pillarData[activePillar];
