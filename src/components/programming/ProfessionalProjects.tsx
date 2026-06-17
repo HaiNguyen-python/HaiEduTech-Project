@@ -50,7 +50,7 @@ const DIFFICULTY_META: Record<ProjectDifficulty, { label: string; labelEn: strin
 };
 
 const ProfessionalProjects = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [activePillar, setActivePillar] = useState<ProjectPillar | "all">("all");
   const [activeDifficulty, setActiveDifficulty] = useState<ProjectDifficulty | "all">("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
