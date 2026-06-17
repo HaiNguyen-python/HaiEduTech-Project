@@ -18,6 +18,39 @@ import ProfessionalProjects from "@/components/programming/ProfessionalProjects"
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
+import mascotPythonPathway from "@/assets/programming/mascot-python-pathway.png";
+import mascotPython from "@/assets/programming/mascot-python.png";
+import mascotSoftwareEng from "@/assets/programming/mascot-software-eng.png";
+import mascotAiFoundation from "@/assets/programming/mascot-ai-foundation.png";
+import mascotPromptEng from "@/assets/programming/mascot-prompt-engineering.png";
+import mascotSql from "@/assets/programming/mascot-sql.png";
+import mascotDataEng from "@/assets/programming/mascot-data-eng.png";
+import mascotMl from "@/assets/programming/mascot-ml.png";
+import mascotCloud from "@/assets/programming/mascot-cloud.png";
+import mascotDeepLearning from "@/assets/programming/mascot-deep-learning.png";
+import mascotNlp from "@/assets/programming/mascot-nlp.png";
+import mascotRl from "@/assets/programming/mascot-rl.png";
+import mascotCybersecurity from "@/assets/programming/mascot-cybersecurity.png";
+import mascotEdtech from "@/assets/programming/mascot-edtech.png";
+import mascotProjects from "@/assets/programming/mascot-professional-projects.png";
+
+const PILLAR_MASCOTS: Record<string, string> = {
+  "python-pathway": mascotPythonPathway,
+  python: mascotPython,
+  "software-eng": mascotSoftwareEng,
+  "ai-foundation": mascotAiFoundation,
+  "prompt-engineering": mascotPromptEng,
+  sql: mascotSql,
+  "data-eng": mascotDataEng,
+  ml: mascotMl,
+  cloud: mascotCloud,
+  "deep-learning": mascotDeepLearning,
+  nlp: mascotNlp,
+  "reinforcement-learning": mascotRl,
+  cybersecurity: mascotCybersecurity,
+  edtech: mascotEdtech,
+  "professional-projects": mascotProjects,
+};
 
 const pillars = [
   {
@@ -473,7 +506,7 @@ const Programming = () => {
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${activePillarMeta.color} flex items-center justify-center text-white shrink-0`}>
                       <activePillarMeta.icon className="w-6 h-6" />
                     </div>
-                    <div>
+                    <div className="flex-1 min-w-0">
                       <h2 className="text-xl font-display font-bold text-foreground mb-1">
                         {t(active.title, active.titleEn)}
                       </h2>
@@ -481,6 +514,20 @@ const Programming = () => {
                         {t(active.desc, active.descEn)}
                       </p>
                     </div>
+                    {PILLAR_MASCOTS[activePillar] && (
+                      <motion.img
+                        key={activePillar}
+                        initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        src={PILLAR_MASCOTS[activePillar]}
+                        alt={`${active.titleEn} mascot`}
+                        width={128}
+                        height={128}
+                        loading="lazy"
+                        className="hidden sm:block w-24 h-24 lg:w-32 lg:h-32 object-contain shrink-0 drop-shadow-md"
+                      />
+                    )}
                   </div>
                 </div>
 

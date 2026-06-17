@@ -27,6 +27,39 @@ import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserRole } from "@/hooks/useUserRole";
 import CodeBlock from "@/components/CodeBlock";
+import mascotPythonPathway from "@/assets/programming/mascot-python-pathway.png";
+import mascotPython from "@/assets/programming/mascot-python.png";
+import mascotSoftwareEng from "@/assets/programming/mascot-software-eng.png";
+import mascotAiFoundation from "@/assets/programming/mascot-ai-foundation.png";
+import mascotPromptEng from "@/assets/programming/mascot-prompt-engineering.png";
+import mascotSql from "@/assets/programming/mascot-sql.png";
+import mascotDataEng from "@/assets/programming/mascot-data-eng.png";
+import mascotMl from "@/assets/programming/mascot-ml.png";
+import mascotCloud from "@/assets/programming/mascot-cloud.png";
+import mascotDeepLearning from "@/assets/programming/mascot-deep-learning.png";
+import mascotNlp from "@/assets/programming/mascot-nlp.png";
+import mascotRl from "@/assets/programming/mascot-rl.png";
+import mascotCybersecurity from "@/assets/programming/mascot-cybersecurity.png";
+import mascotEdtech from "@/assets/programming/mascot-edtech.png";
+import mascotProjects from "@/assets/programming/mascot-professional-projects.png";
+
+const PILLAR_MASCOTS: Record<string, string> = {
+  "python-pathway": mascotPythonPathway,
+  python: mascotPython,
+  "software-eng": mascotSoftwareEng,
+  "ai-foundation": mascotAiFoundation,
+  "prompt-engineering": mascotPromptEng,
+  sql: mascotSql,
+  "data-eng": mascotDataEng,
+  ml: mascotMl,
+  cloud: mascotCloud,
+  "deep-learning": mascotDeepLearning,
+  nlp: mascotNlp,
+  "reinforcement-learning": mascotRl,
+  cybersecurity: mascotCybersecurity,
+  edtech: mascotEdtech,
+  "professional-projects": mascotProjects,
+};
 
 /**
  * Pick a Prism language id for syntax highlighting. Prefer the lesson's
@@ -483,6 +516,18 @@ const ProgrammingLessonPage = () => {
               {/* Sidebar - Roadmap with ALL pillar modules - visually lighter than main lesson body */}
               <div className="lg:w-72 shrink-0">
                 <div className="rounded-xl border-2 border-emerald-500/50 bg-muted/30 p-4 overflow-visible shadow-[0_4px_14px_-6px_rgba(16,185,129,0.3)]">
+                  {pillar && PILLAR_MASCOTS[pillar] && (
+                    <div className="flex justify-center mb-2">
+                      <img
+                        src={PILLAR_MASCOTS[pillar]}
+                        alt="Pillar mascot"
+                        width={96}
+                        height={96}
+                        loading="lazy"
+                        className="w-20 h-20 object-contain drop-shadow-md"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
                     <h3 className="font-semibold text-foreground text-sm">Learning Roadmap</h3>
