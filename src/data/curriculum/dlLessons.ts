@@ -23,7 +23,72 @@ export const dlModules: ExtendedProgrammingModule[] = [
         titleEn: "Introduction to Neural Networks",
         level: 4,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Before starting Deep Learning, you should be comfortable with: **Python basics** (functions, NumPy arrays), **Linear Algebra** (vectors, matrix multiplication, dot product), and the **ML Linear Regression** lesson in this curriculum.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Trước khi bắt đầu Học Sâu (Deep Learning), bạn nên nắm vững: **Các kiến thức cơ bản về Python** (hàm, mảng NumPy), **Đại số tuyến tính** (vectơ, nhân ma trận, tích vô hướng), và bài học **Hồi quy tuyến tính trong ML** trong giáo trình này.
+
+## 1. Tại sao lại gọi là mạng "thần kinh" ("Neural")?
+
+Về cơ bản, một mạng nơ-ron (neural network) là một **chuỗi các hồi quy tuyến tính (linear regression) được gắn kết với nhau bằng các hàm phi tuyến tính**. Phép ẩn dụ sinh học chỉ mang tính tương đối - điều thực sự quan trọng là toán học: mỗi lớp (layer) biến đầu vào của nó thành một biểu diễn phong phú hơn mà lớp tiếp theo có thể sử dụng để phát hiện các mẫu phức tạp hơn.
+
+Một mô hình tuyến tính đơn lẻ \`y = w·x + b\` chỉ có thể vẽ một **đường thẳng**. Các vấn đề trong thế giới thực (nhận diện mèo trong ảnh, dịch từ tiếng Pháp sang tiếng Anh, dự đoán biến động chứng khoán) đòi hỏi phải có **đường cong, góc cạnh và các vùng quyết định**. Việc xếp chồng nhiều đơn vị tuyến tính nhỏ với một phi tuyến tính ở giữa sẽ mở khóa sức mạnh biểu đạt đó.
+
+## 2. Giải phẫu của một nơ-ron đơn lẻ
+
+Mỗi nơ-ron thực hiện **ba việc** theo thứ tự:
+
+1. **Tổng có trọng số** - nhân mỗi đầu vào với trọng số của nó và thêm một độ chệch (bias): \`z = w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ + b\`
+2. **Kích hoạt** - truyền \`z\` qua một hàm phi tuyến tính \`a = σ(z)\` để tạo độ cong.
+3. **Chuyển tiếp** - gửi \`a\` đến các nơ-ron ở lớp tiếp theo.
+
+\\\`\\\`\\\`mermaid
+graph LR
+    X1[x1] -->|w1| S((Σ + b))
+    X2[x2] -->|w2| S
+    X3[x3] -->|w3| S
+    S --> A[Activation σ]
+    A --> O[Output a]
+\\\`\\\`\\\`
+
+## 3. Hàm kích hoạt (Activation functions) - Chìa khóa cho tính phi tuyến tính
+
+Nếu không có hàm kích hoạt, **N lớp xếp chồng sẽ gộp lại thành một lớp tuyến tính duy nhất** (nhân ma trận của các ma trận vẫn là một ma trận). Hàm kích hoạt là thứ làm cho các mô hình sâu (deep models) trở nên *sâu*.
+
+| Hàm | Công thức | Phạm vi đầu ra | Khi nào sử dụng |
+|---|---|---|---|
+| **Sigmoid** | \`1 / (1 + e^-z)\` | (0, 1) | Đầu ra phân loại nhị phân, cổng trong LSTM |
+| **Tanh** | \`(eᶻ - e⁻ᶻ)/(eᶻ + e⁻ᶻ)\` | (-1, 1) | Các lớp ẩn trong các mạng RNN cũ hơn |
+| **ReLU** | \`max(0, z)\` | [0, ∞) | **Mặc định cho các lớp ẩn** - nhanh, không có vấn đề gradient biến mất ở phía dương |
+| **Leaky ReLU** | \`max(0.01·z, z)\` | (-∞, ∞) | Khi ReLU "chết" (các nơ-ron bị kẹt ở 0) |
+| **Softmax** | \`eᶻᵢ / Σ eᶻⱼ\` | (0, 1), tổng bằng 1 | Đầu ra phân loại đa lớp |
+
+> **Quy tắc chung (2025)**: sử dụng **ReLU** trong các lớp ẩn, **Softmax** cho đầu ra đa lớp, **Sigmoid** cho đầu ra nhị phân. Chỉ sử dụng GELU hoặc SiLU khi huấn luyện Transformers.
+
+## 4. Các lớp (Layers) và phép truyền xuôi (forward pass)
+
+Một mạng *kết nối đầy đủ* (fully connected - dense) chỉ đơn giản là một chuỗi các lớp. Đối với một bộ phân loại hình ảnh với 784 pixel đầu vào, 128 đơn vị ẩn và 10 lớp đầu ra:
+
+\`Đầu vào (784) → Dense(128, ReLU) → Dense(64, ReLU) → Dense(10, Softmax)\`
+
+Mỗi mũi tên là một phép nhân ma trận. Toàn bộ phép truyền xuôi cho một mẫu là:
+
+\\\`\\\`\\\`
+h1 = ReLU(W1 · x + b1)        # hình dạng: (128,)
+h2 = ReLU(W2 · h1 + b2)       # hình dạng: (64,)
+ŷ  = Softmax(W3 · h2 + b3)    # hình dạng: (10,)  - xác suất lớp
+\\\`\\\`\\\`
+
+## 5. Ví dụ thực tế - Nhận diện biển số xe Việt Nam
+
+Một hệ thống đọc biển số xe tự động (ANPR) hiện đại được sử dụng tại các cổng đỗ xe và trạm thu phí trên khắp Việt Nam chạy **hai mạng**:
+
+1. Một **bộ phát hiện** tìm khung giới hạn (bounding box) của biển số trong khung hình camera.
+2. Một **bộ phân loại** đọc từng ký tự (0-9, A-Z, cộng với các chữ cái tiếng Việt Đ).
+
+Cả hai đều là mạng nơ-ron. Riêng bộ phân loại chỉ cần khoảng 3 lớp dày đặc (dense layers) nếu các ký tự đã được cắt sẵn - nhưng trên thực tế chúng ta sử dụng một CNN (Bài 3) để chống nhiễu tốt hơn.
+
+## 6. Khái niệm cốt lõi
+
+> 🎯 **Khái niệm cốt lõi** - Một mạng nơ-ron là một **chuỗi các khối (tuyến tính → phi tuyến tính)**. Tính tuyến tính mang lại tốc độ và khả năng huấn luyện; hàm kích hoạt mang lại khả năng biểu đạt. Nếu không có hàm kích hoạt, chiều sâu (depth) sẽ vô nghĩa.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Before starting Deep Learning, you should be comfortable with: **Python basics** (functions, NumPy arrays), **Linear Algebra** (vectors, matrix multiplication, dot product), and the **ML Linear Regression** lesson in this curriculum.
 
 ## 1. Why "Neural" Networks?
 
@@ -88,7 +153,6 @@ Both are neural networks. The classifier alone needs only ~3 dense layers if the
 ## 6. Key Concept
 
 > 🎯 **Key Concept** - A neural network is a **chain of (linear → non-linear) blocks**. Linearity gives speed and trainability; the activation gives expressivity. Without the activation, depth is meaningless.`,
-        theoryEn: "",
         code: `# A 3-layer neural network from scratch - no frameworks, just NumPy
 # This shows what PyTorch/TensorFlow do under the hood for you.
 import numpy as np
@@ -122,8 +186,8 @@ print("Predicted class probabilities:")
 print(y_hat.round(3))
 # Each row sums to 1 - these are real probabilities for class 0 and class 1.`,
         codeLanguage: "python",
-        exercise: "Modify the network above to use **Tanh** instead of ReLU in the hidden layers. Run it and observe how the output probabilities change. Then try removing the activation entirely (replace `relu(z)` with `z`) - what happens, and why does the network become equivalent to a single linear layer?",
-        exerciseEn: "",
+        exercise: "Hãy chỉnh sửa mạng ở trên để sử dụng **Tanh** thay vì ReLU trong các lớp ẩn. Chạy và quan sát xem xác suất đầu ra thay đổi như thế nào. Sau đó thử bỏ hoàn toàn hàm kích hoạt (thay `relu(z)` bằng `z`) – điều gì xảy ra và tại sao mạng lại trở thành tương đương với một lớp tuyến tính duy nhất?",
+        exerciseEn: "Modify the network above to use **Tanh** instead of ReLU in the hidden layers. Run it and observe how the output probabilities change. Then try removing the activation entirely (replace `relu(z)` with `z`) - what happens, and why does the network become equivalent to a single linear layer?",
         quiz: [
           {
             question: "Why is a non-linear activation function essential between dense layers?",
@@ -160,7 +224,78 @@ print(y_hat.round(3))
         titleEn: "Building a Model with PyTorch",
         level: 4,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lesson 1 (Neural Networks) and the **ML Linear Regression** lesson.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1 (Mạng nơ-ron) và bài học **Hồi quy tuyến tính ML**.
+
+## 1. Tại sao lại cần một framework?
+
+Trong bài học trước, chúng ta đã viết một phép truyền xuôi (forward pass) thủ công. Việc huấn luyện cũng cần **phép truyền ngược** (backward pass) (gradient), một **thuật toán tối ưu hóa** (optimizer) (các biến thể của gradient descent), và **tăng tốc GPU**. Viết tất cả những thứ đó bằng tay cho mỗi mô hình là không thực tế.
+
+Một framework học sâu (deep-learning framework) cung cấp cho bạn:
+
+- **Tensors** - Các mảng N chiều tồn tại trên CPU hoặc GPU.
+- **Autograd** - Tự động tính toán gradient thông qua bất kỳ phép tính nào bạn viết.
+- **Optimizers** - SGD, Adam, AdamW chỉ với một dòng mã.
+- **Layers** - Các module Dense, Conv, LSTM, Attention được xây dựng sẵn.
+
+Hai tiêu chuẩn ngành vào năm 2025-2026 là **PyTorch** (nghiên cứu, phát triển nhanh nhất trong sản xuất) và **TensorFlow / Keras** (vẫn phổ biến trong các hệ thống kế thừa và di động). Các API tương tự nhau 90%; chúng ta sử dụng PyTorch ở đây vì nó giống như ngôn ngữ Python thông thường.
+
+## 2. Bốn bước của mọi chương trình PyTorch
+
+\`\`\`mermaid
+graph LR
+    A[1. Dữ liệu] --> B[2. Mô hình]
+    B --> C[3. Hàm mất mát + Thuật toán tối ưu hóa]
+    C --> D[4. Vòng lặp huấn luyện]
+    D -->|epoch++| C
+\`\`\`
+
+1. **Dữ liệu** - gói các đầu vào của bạn trong \`torch.tensor\` (và lý tưởng là một \`DataLoader\` để phân lô).
+2. **Mô hình** - kế thừa \`nn.Module\` và triển khai \`forward(x)\`.
+3. **Hàm mất mát + Thuật toán tối ưu hóa** - chọn một tiêu chí (ví dụ: \`MSELoss\` cho hồi quy) và một thuật toán tối ưu hóa (\`Adam\` là một lựa chọn an toàn mặc định).
+4. **Vòng lặp huấn luyện** - lặp lại: truyền xuôi → hàm mất mát → truyền ngược → optimizer.step.
+
+## 3. Vòng lặp huấn luyện, từng dòng
+
+\`\`\`python
+# Lặp qua số lượng epoch đã định nghĩa
+for epoch in range(epochs):
+    # Đặt lại gradient về 0 cho tất cả các tham số của mô hình.
+    # Điều này quan trọng để tránh việc gradient tích lũy từ các bước trước.
+    optimizer.zero_grad()        # reset gradients from previous step
+    # Thực hiện forward pass: đưa dữ liệu đầu vào X qua mô hình
+    # để nhận được dự đoán y_hat.
+    y_hat = model(X)             # forward pass
+    # Tính toán giá trị hàm mất mát (loss) bằng cách so sánh
+    # dự đoán y_hat với giá trị thực tế y.
+    loss = criterion(y_hat, y)   # compare prediction to truth
+    # Thực hiện backward pass: tính toán gradient của hàm mất mát
+    # đối với tất cả các tham số có thể huấn luyện được trong mô hình.
+    loss.backward()              # autograd computes gradients
+    # Cập nhật trọng số của mô hình dựa trên gradient đã tính toán
+    # và thuật toán tối ưu hóa (optimizer) đã chọn.
+    optimizer.step()             # update weights
+\`\`\`
+
+Thứ tự \`zero_grad → forward → backward → step\` là không thể thay đổi. Quên \`zero_grad()\` là **lỗi PyTorch số 1** - gradient từ các batch trước tích lũy và hàm mất mát của bạn bùng nổ.
+
+## 4. Chọn hàm mất mát
+
+| Nhiệm vụ | Hàm mất mát (Loss) | Lớp PyTorch |
+|---|---|---|
+| Hồi quy (đầu ra liên tục) | Sai số bình phương trung bình (Mean Squared Error) | \`nn.MSELoss\` |
+| Phân loại nhị phân | Cross-Entropy nhị phân (Binary Cross-Entropy) | \`nn.BCEWithLogitsLoss\` |
+| Phân loại đa lớp | Cross-Entropy | \`nn.CrossEntropyLoss\` |
+
+> **Cạm bẫy**: \`CrossEntropyLoss\` đã áp dụng Softmax nội bộ. Nếu mô hình của bạn cũng kết thúc với một lớp Softmax, bạn sẽ áp dụng nó **hai lần** và quá trình huấn luyện sẽ ngầm hoạt động kém hiệu quả. Hãy xuất **logit thô** và để hàm mất mát xử lý Softmax.
+
+## 5. Ví dụ thực tế - Dự đoán giá căn hộ Hà Nội
+
+Bạn có một file CSV với 5 đặc trưng cho mỗi căn hộ (diện tích, số phòng ngủ, quận, tuổi, khoảng cách đến trung tâm thành phố). Vòng lặp huấn luyện dưới đây có thể áp dụng từ hồi quy đồ chơi này cho đến một LLM 100 triệu tham số - chỉ có định nghĩa mô hình thay đổi.
+
+## 6. Khái niệm chính
+
+> 🎯 **Khái niệm chính** - Mọi dự án PyTorch đều tuân theo mô hình **Dữ liệu → Mô hình → Hàm mất mát/Thuật toán tối ưu hóa → Vòng lặp huấn luyện**. Nắm vững vòng lặp đó và bạn có thể huấn luyện bất cứ thứ gì từ hồi quy tuyến tính đến các mô hình lớp GPT - định nghĩa mô hình thay đổi, vòng lặp thì không.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lesson 1 (Neural Networks) and the **ML Linear Regression** lesson.
 
 ## 1. Why a framework?
 
@@ -231,7 +366,6 @@ You have a CSV with 5 features per apartment (area, bedrooms, district, age, dis
 ## 6. Key Concept
 
 > 🎯 **Key Concept** - Every PyTorch project follows the **Data → Model → Loss/Optimizer → Train Loop** pattern. Master that loop and you can train anything from linear regression to GPT-class models - the model definition changes, the loop does not.`,
-        theoryEn: "",
         code: `# Linear regression in PyTorch - the smallest possible deep-learning program.
 # Prediction target: y = 2x + 1  (we let the network learn 2 and 1 from data).
 import torch
@@ -272,8 +406,8 @@ w = model.fc.weight.item()
 b = model.fc.bias.item()
 print(f"\\nLearned: y = {w:.3f} * x + {b:.3f}    (true: y = 2.000 * x + 1.000)")`,
         codeLanguage: "python",
-        exercise: "Extend the model to **two input features** (e.g. area and bedrooms) and generate synthetic data with `y = 3*x1 - 1.5*x2 + 0.5`. Confirm the trained weights are close to (3, -1.5) and the bias is close to 0.5. Then change the optimizer from `Adam` to `SGD(lr=0.1)` and observe how the loss curve changes.",
-        exerciseEn: "",
+        exercise: "Mở rộng mô hình thành hai đặc trưng đầu vào (ví dụ: area và bedrooms) và tạo dữ liệu tổng hợp với `y = 3*x1 - 1.5*x2 + 0.5`. Xác nhận các trọng số đã huấn luyện gần với (3, -1.5) và hệ số điều chỉnh (bias) gần với 0.5. Sau đó thay đổi trình tối ưu hóa (optimizer) từ `Adam` thành `SGD(lr=0.1)` và quan sát cách đường cong tổn thất thay đổi.",
+        exerciseEn: "Extend the model to **two input features** (e.g. area and bedrooms) and generate synthetic data with `y = 3*x1 - 1.5*x2 + 0.5`. Confirm the trained weights are close to (3, -1.5) and the bias is close to 0.5. Then change the optimizer from `Adam` to `SGD(lr=0.1)` and observe how the loss curve changes.",
         quiz: [
           {
             question: "What is the correct order of calls inside a PyTorch training step?",
@@ -320,7 +454,62 @@ print(f"\\nLearned: y = {w:.3f} * x + {b:.3f}    (true: y = 2.000 * x + 1.000)")
         titleEn: "Convolutional Neural Networks (CNN)",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lessons 1 and 2.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1 và 2.
+
+## 1. Tại sao các lớp dày đặc (dense layers) thất bại trên hình ảnh
+
+Một bức ảnh màu 224×224 có 224·224·3 = **150.528 pixel**. Một lớp dày đặc đầu tiên với 1.000 đơn vị ẩn sẽ cần ~150 triệu trọng số *chỉ riêng cho lớp đầu tiên*. Tệ hơn nữa, các lớp dày đặc coi pixel (0,0) hoàn toàn không liên quan đến pixel (0,1) - chúng bỏ qua **cấu trúc không gian**.
+
+Mạng nơ-ron tích chập (Convolutional Neural Networks - CNNs) giải quyết cả hai vấn đề bằng hai ý tưởng:
+
+- **Trường tiếp nhận cục bộ (Local receptive fields)** - mỗi nơ-ron chỉ nhìn thấy một vùng nhỏ (ví dụ 3×3) của đầu vào.
+- **Chia sẻ trọng số (Weight sharing)** - cùng một bộ lọc nhỏ trượt trên toàn bộ hình ảnh.
+
+Kết quả: một bộ lọc 3×3 duy nhất chỉ có **9 + 1 = 10 trọng số**, nhưng nó có thể phát hiện (ví dụ) một cạnh dọc ở bất cứ đâu trong hình ảnh.
+
+## 2. Thao tác tích chập (convolution operation) trong một hình ảnh
+
+\\\`\\\`\\\`text
+Input image 5x5 → 3x3 filter slides across → Feature map 3x3 → MaxPool 2x2 → Smaller, denser feature map
+\\\`\\\`\\\`
+
+Một **bộ lọc (filter)** (còn gọi là kernel) là một ma trận nhỏ. Tại mỗi vị trí, bạn nhân từng phần tử với miếng vá đầu vào bên dưới, tổng hợp kết quả và ghi nó vào **bản đồ đặc trưng (feature map)**. Trượt bộ lọc 1 pixel (bước nhảy - *stride*) và lặp lại. Các bộ lọc khác nhau chuyên biệt cho các mẫu khác nhau: cạnh, góc, vân bề mặt (textures), sau đó là - mắt, bánh xe, khuôn mặt.
+
+## 3. Quy trình CNN tiêu chuẩn
+
+\\\`Conv → ReLU → Conv → ReLU → MaxPool → ... → Flatten → Dense → Softmax\\\`
+
+| Lớp | Mục đích |
+|---|---|
+| **Conv2d** | Trích xuất các mẫu cục bộ bằng các bộ lọc có thể học được |
+| **ReLU** | Thêm tính phi tuyến tính (tương tự như trước) |
+| **MaxPool2d** | Giảm mẫu bằng cách giữ lại kích hoạt mạnh nhất trong mỗi cửa sổ - giúp tăng khả năng chịu đựng dịch chuyển và giảm tính toán |
+| **Flatten** | Biến bản đồ đặc trưng 2-D thành một vector 1-D |
+| **Dense** | Bộ phân loại cuối cùng |
+
+Một lớp Conv đơn sử dụng một **hàng loạt (bank)** các bộ lọc (ví dụ 32 hoặc 64). Mỗi bộ lọc tạo ra một bản đồ đặc trưng, do đó đầu ra của \\\`Conv2d(in=3, out=32)\\\` có 32 kênh.
+
+## 4. Các kiến trúc CNN hiện đại (2025)
+
+- **ResNet** - thêm các *kết nối bỏ qua (skip connections)* để gradient đi qua hơn 50 lớp mà không biến mất. Vẫn là công cụ chính của thị giác máy tính.
+- **EfficientNet** - mở rộng độ sâu, độ rộng và độ phân giải cùng nhau để đạt được độ chính xác trên mỗi FLOP (floating point operation - phép toán dấu phẩy động) tốt nhất.
+- **ConvNeXt** - chứng minh một CNN được thiết kế tốt có thể sánh ngang với Vision Transformers trên ImageNet.
+- **Vision Transformers (ViT)** - được đề cập trong Bài học 5; coi một hình ảnh như một chuỗi các miếng vá.
+
+## 5. Ví dụ thực tế - OCR biển số xe Việt Nam
+
+Một quy trình ANPR (Automatic Number Plate Recognition - Nhận dạng biển số tự động) thực tế được sử dụng tại các bãi đỗ xe Hà Nội:
+
+1. **YOLO** (một công cụ phát hiện dựa trên CNN) tìm các khung bao quanh biển số - chạy ở 60 fps trên Jetson Nano.
+2. Một CNN thứ hai (3 khối Conv + 2 lớp Dense, ~200K tham số) phân loại từng ký tự đã cắt thành 0-9 / A-Z / Đ.
+3. Toàn bộ quy trình gói gọn trong 2 MB và chạy ngoại tuyến tại cổng.
+
+Kiểu kiến trúc tương tự làm nền tảng cho Face ID của iPhone, phát hiện làn đường Tesla Autopilot và phân loại X-quang y tế.
+
+## 6. Khái niệm chính
+
+> 🎯 **Khái niệm chính** - CNNs thay "mọi pixel nói chuyện với mọi nơ-ron" bằng "bộ lọc nhỏ, được trượt khắp nơi". Điều này **giảm đáng kể** các tham số trong khi vẫn giữ cấu trúc không gian - lý do thị giác máy tính bùng nổ sau năm 2012.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 1 and 2.
 
 ## 1. Why dense layers fail on images
 
@@ -375,7 +564,6 @@ The same architecture style underpins iPhone Face ID, Tesla Autopilot lane detec
 ## 6. Key Concept
 
 > 🎯 **Key Concept** - CNNs swap "every pixel talks to every neuron" for "small filter, slid everywhere". This **dramatically** reduces parameters while preserving spatial structure - the reason computer vision exploded after 2012.`,
-        theoryEn: "",
         code: `# Mạng CNN nhỏ (Tiny CNN) cho các chữ số ảnh xám 28x28 kiểu MNIST - được viết bằng PyTorch.
 # Kiến trúc: Tích chập (Conv) -> ReLU -> Gộp (Pool) -> Tích chập (Conv) -> ReLU -> Gộp (Pool) -> Làm phẳng (Flatten) -> Kết nối đầy đủ (Dense) -> Logits
 import torch
@@ -453,8 +641,8 @@ print("Output shape:", logits.shape)
 # Kết quả mong đợi: Một số nguyên dương biểu thị tổng số trọng số và bias.
 print("Total parameters:", sum(p.numel() for p in model.parameters()))`,
         codeLanguage: "python",
-        exercise: "Add a **third** convolutional block (`Conv 32 -> 64`, ReLU, MaxPool) before the dense layers. Recalculate the input size of `fc1` (hint: a 28x28 image becomes 3x3 after three 2x2 pools - 28 / 8 = 3 with padding losses). Run the model on a fake batch and report the new total parameter count.",
-        exerciseEn: "",
+        exercise: "Thêm khối tích chập thứ ba (`Conv 32 -> 64`, ReLU, MaxPool) trước các lớp dày đặc. Tính toán lại kích thước đầu vào của `fc1` (gợi ý: ảnh 28x28 trở thành 3x3 sau ba pool 2x2 - 28 / 8 = 3 với các tổn thất lớp đệm). Chạy mô hình trên một lô giả và báo cáo tổng số tham số mới.",
+        exerciseEn: "Add a **third** convolutional block (`Conv 32 -> 64`, ReLU, MaxPool) before the dense layers. Recalculate the input size of `fc1` (hint: a 28x28 image becomes 3x3 after three 2x2 pools - 28 / 8 = 3 with padding losses). Run the model on a fake batch and report the new total parameter count.",
         quiz: [
           {
             question: "Why are CNNs preferred over fully connected networks for images?",
