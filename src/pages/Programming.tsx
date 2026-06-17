@@ -5,7 +5,7 @@ import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages, GraduationCap, ShieldCheck } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages, GraduationCap, ShieldCheck, Rocket } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -14,6 +14,7 @@ import PythonReview from "@/components/PythonReview";
 import PythonPathwayHub from "@/components/python/PythonPathwayHub";
 import ProgrammingDashboard from "@/components/programming/ProgrammingDashboard";
 import DailyCodeChallenge from "@/components/programming/DailyCodeChallenge";
+import ProfessionalProjects from "@/components/programming/ProfessionalProjects";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
@@ -136,6 +137,15 @@ const pillars = [
     borderColor: "border-pink-500/20",
     accentColor: "text-pink-600",
   },
+  {
+    id: "professional-projects",
+    icon: Rocket,
+    emoji: "🚀",
+    color: "from-amber-500 to-rose-600",
+    bgColor: "bg-amber-500/8",
+    borderColor: "border-amber-500/20",
+    accentColor: "text-amber-600",
+  },
 ];
 
 const Programming = () => {
@@ -194,6 +204,7 @@ const Programming = () => {
     title: string; titleEn: string; desc: string; descEn: string;
     modules: typeof programmingModules; challengeSection?: boolean;
     isPathway?: boolean;
+    isProjects?: boolean;
   }> = {
     "python-pathway": {
       title: "Introduction to Programming", titleEn: "Introduction to Programming",
@@ -275,6 +286,13 @@ const Programming = () => {
       descEn: "Build digital education products: learning science, Spaced Repetition (SM-2), adaptive difficulty & mastery, AI tutors, auto-grading (essay/speaking) and personalized recommendations - the very stack powering HaiEduTech.",
       modules: allProgrammingModules.filter(m => m.course === "edtech"),
     },
+    "professional-projects": {
+      title: "Professional Projects", titleEn: "Professional Projects",
+      desc: "Bộ sưu tập dự án IT thực chiến cho từng pillar đã học - từ Python cơ bản đến Cloud, Deep Learning, RAG và Cybersecurity. Mỗi dự án có tech stack, tính năng và deliverable rõ ràng, sẵn sàng đưa vào CV.",
+      descEn: "A real-world IT project catalog for every pillar you've studied - from beginner Python to Cloud, Deep Learning, RAG and Cybersecurity. Each project ships with a tech stack, features and deliverables, ready for your CV.",
+      modules: [],
+      isProjects: true,
+    },
   };
 
   const active = pillarData[activePillar];
@@ -351,7 +369,11 @@ const Programming = () => {
                     {t(data.title, data.titleEn)}
                   </h3>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
-                    {data.isPathway ? t("6 module · ~47 bài · Pyodide", "6 modules · ~47 lessons · Pyodide") : `${data.modules.length} ${t("module", "modules")} · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} ${t("bài", "lessons")}`}
+                    {data.isPathway
+                      ? t("6 module · ~47 bài · Pyodide", "6 modules · ~47 lessons · Pyodide")
+                      : data.isProjects
+                        ? t("22 dự án thực chiến · 12 lĩnh vực", "22 real-world projects · 12 domains")
+                        : `${data.modules.length} ${t("module", "modules")} · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} ${t("bài", "lessons")}`}
                   </p>
                   {isActive && (
                     <motion.div
@@ -449,6 +471,9 @@ const Programming = () => {
 
                 {/* Python Pathway hub (full lesson grid + Pyodide) */}
                 {active.isPathway && <PythonPathwayHub />}
+
+                {/* Professional Projects catalog */}
+                {active.isProjects && <ProfessionalProjects />}
 
                 {/* Python Challenges Section */}
                 {active.challengeSection && (

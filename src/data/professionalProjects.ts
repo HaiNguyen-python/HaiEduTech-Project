@@ -1,0 +1,597 @@
+// Professional Projects — curated real-world IT projects mapped to each
+// learning pillar in Programming.tsx. Used by <ProfessionalProjects />.
+
+export type ProjectDifficulty = "beginner" | "intermediate" | "advanced";
+
+export type ProjectPillar =
+  | "python"
+  | "software-eng"
+  | "ai-foundation"
+  | "sql"
+  | "data-eng"
+  | "ml"
+  | "cloud"
+  | "deep-learning"
+  | "nlp"
+  | "reinforcement-learning"
+  | "cybersecurity"
+  | "edtech";
+
+export interface ProfessionalProject {
+  id: string;
+  pillar: ProjectPillar;
+  emoji: string;
+  title: string;
+  titleEn: string;
+  tagline: string;
+  taglineEn: string;
+  difficulty: ProjectDifficulty;
+  hours: string; // e.g. "8-12h"
+  stack: string[];
+  basedOn: string[]; // lesson/module references
+  features: string[];
+  featuresEn: string[];
+  deliverables: string[];
+  deliverablesEn: string[];
+}
+
+export const professionalProjects: ProfessionalProject[] = [
+  // ============== PYTHON ==============
+  {
+    id: "py-cli-todo",
+    pillar: "python",
+    emoji: "📝",
+    title: "Ứng dụng To-Do CLI có lưu trữ JSON",
+    titleEn: "JSON-backed CLI To-Do App",
+    tagline: "Dùng OOP + file I/O để xây trình quản lý công việc cá nhân chạy trên terminal.",
+    taglineEn: "Use OOP + file I/O to build a personal task manager that runs in the terminal.",
+    difficulty: "beginner",
+    hours: "6-10h",
+    stack: ["Python 3.11", "argparse", "json", "rich"],
+    basedOn: ["prog-python-basic", "prog-data-structures"],
+    features: [
+      "Thêm / sửa / xoá / đánh dấu hoàn thành công việc",
+      "Lọc theo trạng thái, độ ưu tiên, deadline",
+      "Lưu/đọc dữ liệu từ tệp JSON, hỗ trợ nhiều profile",
+      "Giao diện màu trong terminal bằng thư viện rich",
+    ],
+    featuresEn: [
+      "Add / edit / delete / complete tasks",
+      "Filter by status, priority and deadline",
+      "Persist data in JSON with multiple profiles",
+      "Colorful terminal UI using the rich library",
+    ],
+    deliverables: ["Repo GitHub có README", "Test pytest cơ bản", "Đóng gói pipx cài đặt được"],
+    deliverablesEn: ["GitHub repo with README", "Basic pytest tests", "Installable via pipx"],
+  },
+  {
+    id: "py-pygame-arcade",
+    pillar: "python",
+    emoji: "🎮",
+    title: "Mini Arcade với Pygame (3 game)",
+    titleEn: "Mini Arcade with Pygame (3 games)",
+    tagline: "Lập trình 3 game: Flappy Bird clone, Snake và Brick Breaker - đóng gói menu chung.",
+    taglineEn: "Build 3 games: a Flappy Bird clone, Snake and Brick Breaker behind a shared menu.",
+    difficulty: "intermediate",
+    hours: "15-20h",
+    stack: ["Python", "Pygame", "JSON (high score)"],
+    basedOn: ["prog-pygame", "prog-python-basic"],
+    features: [
+      "Vòng lặp game, va chạm hitbox, animation sprite",
+      "Lưu điểm cao, hiệu ứng âm thanh, màn hình game over",
+      "Menu chính chọn 1 trong 3 game",
+    ],
+    featuresEn: [
+      "Game loop, hitbox collisions, sprite animation",
+      "Persistent high scores, sound FX, game-over screen",
+      "Main menu to pick any of the 3 games",
+    ],
+    deliverables: ["File .exe bằng PyInstaller", "Video demo 60 giây"],
+    deliverablesEn: ["PyInstaller .exe", "60-second demo video"],
+  },
+
+  // ============== SOFTWARE ENG / WEB ==============
+  {
+    id: "se-fullstack-blog",
+    pillar: "software-eng",
+    emoji: "📰",
+    title: "Blog full-stack với CI/CD",
+    titleEn: "Full-stack Blog with CI/CD",
+    tagline: "Bài tập tổng hợp: React + Node + Postgres, có Git workflow, test và deploy tự động.",
+    taglineEn: "Capstone: React + Node + Postgres with full Git workflow, testing and auto-deploy.",
+    difficulty: "intermediate",
+    hours: "20-30h",
+    stack: ["React", "Node/Express", "PostgreSQL", "Vitest", "GitHub Actions", "Docker"],
+    basedOn: ["se-foundations", "web-dev-foundations"],
+    features: [
+      "Đăng ký / đăng nhập JWT, viết bài Markdown, bình luận",
+      "Unit + integration test, coverage > 70%",
+      "Pipeline GitHub Actions: lint → test → build → deploy",
+      "Docker compose chạy local 1 lệnh",
+    ],
+    featuresEn: [
+      "JWT auth, Markdown posts, threaded comments",
+      "Unit + integration tests with >70% coverage",
+      "GitHub Actions pipeline: lint → test → build → deploy",
+      "Single-command local stack via docker compose",
+    ],
+    deliverables: ["URL deploy live", "Diagram kiến trúc", "Báo cáo coverage"],
+    deliverablesEn: ["Live deployment URL", "Architecture diagram", "Coverage report"],
+  },
+  {
+    id: "se-portfolio-pwa",
+    pillar: "software-eng",
+    emoji: "💼",
+    title: "Portfolio cá nhân dạng PWA",
+    titleEn: "Personal Portfolio as PWA",
+    tagline: "Trang portfolio responsive, hỗ trợ offline, đạt 100 điểm Lighthouse.",
+    taglineEn: "Responsive offline-capable portfolio that hits 100 on Lighthouse.",
+    difficulty: "beginner",
+    hours: "10-14h",
+    stack: ["HTML5", "CSS Grid/Flex", "JS", "Vite", "Service Worker"],
+    basedOn: ["web-dev-foundations"],
+    features: [
+      "Semantic HTML, dark mode, animation scroll",
+      "Service Worker cache offline, biểu tượng PWA cài về máy",
+      "SEO meta + Open Graph + JSON-LD",
+    ],
+    featuresEn: [
+      "Semantic HTML, dark mode, scroll animations",
+      "Offline cache via Service Worker, installable PWA icon",
+      "SEO meta + Open Graph + JSON-LD",
+    ],
+    deliverables: ["Triển khai trên GitHub Pages", "Báo cáo Lighthouse 100/100"],
+    deliverablesEn: ["Deployed on GitHub Pages", "Lighthouse 100/100 report"],
+  },
+
+  // ============== AI FOUNDATION ==============
+  {
+    id: "ai-prompt-playground",
+    pillar: "ai-foundation",
+    emoji: "🧠",
+    title: "Prompt Engineering Playground",
+    titleEn: "Prompt Engineering Playground",
+    tagline: "Web app so sánh kết quả nhiều prompt template, có chấm điểm tự động.",
+    taglineEn: "Web app to compare multiple prompt templates with auto-scoring.",
+    difficulty: "intermediate",
+    hours: "12-18h",
+    stack: ["React", "Lovable AI Gateway", "Supabase"],
+    basedOn: ["prog-ai-foundation"],
+    features: [
+      "Tạo / lưu nhiều template prompt với biến {{x}}",
+      "Chạy song song nhiều model, so sánh side-by-side",
+      "Tự động chấm điểm output dựa trên rubric do bạn định nghĩa",
+    ],
+    featuresEn: [
+      "Create / save prompt templates with {{x}} variables",
+      "Run multiple models in parallel and compare side-by-side",
+      "Auto-score outputs against rubrics you define",
+    ],
+    deliverables: ["App live", "Bảng so sánh 3 model trên 10 prompt"],
+    deliverablesEn: ["Live app", "Comparison table: 3 models × 10 prompts"],
+  },
+  {
+    id: "ai-rag-personal",
+    pillar: "ai-foundation",
+    emoji: "📚",
+    title: "Trợ lý RAG cho tài liệu cá nhân",
+    titleEn: "Personal Document RAG Assistant",
+    tagline: "Upload PDF/Markdown, hỏi đáp ngữ cảnh với embeddings + vector search.",
+    taglineEn: "Upload PDF/Markdown and chat over your own documents with embeddings + vector search.",
+    difficulty: "advanced",
+    hours: "20-30h",
+    stack: ["Python", "FastAPI", "pgvector", "OpenAI/Gemini", "React"],
+    basedOn: ["prog-ai-foundation"],
+    features: [
+      "Chunking + embedding tài liệu, lưu vào pgvector",
+      "Truy xuất top-k, prompt có trích nguồn",
+      "Streaming SSE phản hồi, hiển thị citation click vào xem",
+    ],
+    featuresEn: [
+      "Chunk + embed documents into pgvector",
+      "Top-k retrieval, prompts with source citations",
+      "SSE streaming with clickable citation chips",
+    ],
+    deliverables: ["Docker image", "Bộ test 30 câu hỏi, đo recall@3"],
+    deliverablesEn: ["Docker image", "30-question eval set with recall@3"],
+  },
+
+  // ============== SQL ==============
+  {
+    id: "sql-ecommerce-analytics",
+    pillar: "sql",
+    emoji: "🛒",
+    title: "Phân tích doanh thu E-commerce (SQL)",
+    titleEn: "E-commerce Revenue Analytics (SQL)",
+    tagline: "Thiết kế schema 8 bảng, sinh 1M dòng dữ liệu giả và viết 20 truy vấn business.",
+    taglineEn: "Design an 8-table schema, seed 1M synthetic rows and write 20 business queries.",
+    difficulty: "intermediate",
+    hours: "12-16h",
+    stack: ["PostgreSQL", "Faker", "dbdiagram.io"],
+    basedOn: ["prog-sql"],
+    features: [
+      "ERD chuẩn 3NF, primary key UUID, foreign key constraints",
+      "Window functions: cohort retention, RFM, top khách hàng",
+      "Indexing + EXPLAIN ANALYZE, tối ưu query từ 8s → <200ms",
+    ],
+    featuresEn: [
+      "3NF ERD, UUID PKs, FK constraints",
+      "Window functions: cohort retention, RFM, top customers",
+      "Indexing + EXPLAIN ANALYZE, optimizing queries from 8s → <200ms",
+    ],
+    deliverables: ["File schema.sql", "Notebook 20 query + giải thích"],
+    deliverablesEn: ["schema.sql file", "Notebook with 20 queries + commentary"],
+  },
+
+  // ============== DATA ENG ==============
+  {
+    id: "de-airflow-etl",
+    pillar: "data-eng",
+    emoji: "🔄",
+    title: "Pipeline ETL hằng ngày với Airflow",
+    titleEn: "Daily ETL Pipeline with Airflow",
+    tagline: "Crawl API → S3 → Postgres → dashboard, lịch chạy 06:00 sáng và alert khi lỗi.",
+    taglineEn: "Crawl API → S3 → Postgres → dashboard, runs 06:00 daily with failure alerts.",
+    difficulty: "advanced",
+    hours: "25-35h",
+    stack: ["Airflow", "Python", "Pandas", "MinIO/S3", "Postgres", "dbt", "Metabase"],
+    basedOn: ["prog-data-pipeline"],
+    features: [
+      "DAG có retry / SLA / sensor",
+      "Test data quality bằng Great Expectations",
+      "Mô hình hoá theo dbt (staging → mart)",
+      "Dashboard Metabase 4 chỉ số chính",
+    ],
+    featuresEn: [
+      "DAGs with retry / SLA / sensors",
+      "Data-quality tests via Great Expectations",
+      "dbt models (staging → mart)",
+      "Metabase dashboard with 4 KPIs",
+    ],
+    deliverables: ["Docker compose chạy cả stack", "Tài liệu runbook khi lỗi"],
+    deliverablesEn: ["Full-stack docker compose", "Runbook for failures"],
+  },
+  {
+    id: "de-streaming-kafka",
+    pillar: "data-eng",
+    emoji: "📡",
+    title: "Hệ thống streaming click-events với Kafka",
+    titleEn: "Click-event Streaming System with Kafka",
+    tagline: "Mô phỏng 10k events/giây, xử lý realtime bằng Spark Structured Streaming.",
+    taglineEn: "Simulate 10k events/sec processed in realtime with Spark Structured Streaming.",
+    difficulty: "advanced",
+    hours: "30-40h",
+    stack: ["Kafka", "Spark Streaming", "Python", "ClickHouse", "Grafana"],
+    basedOn: ["prog-data-pipeline"],
+    features: [
+      "Producer mô phỏng người dùng click",
+      "Spark đọc Kafka, tính DAU / unique sessions sliding window",
+      "Lưu ClickHouse, vẽ Grafana realtime",
+    ],
+    featuresEn: [
+      "Producer that simulates user clicks",
+      "Spark reads Kafka, computes DAU / unique sessions in sliding windows",
+      "Persist to ClickHouse, visualize in realtime Grafana",
+    ],
+    deliverables: ["Bench 10k EPS", "Báo cáo độ trễ end-to-end"],
+    deliverablesEn: ["10k EPS benchmark", "End-to-end latency report"],
+  },
+
+  // ============== MACHINE LEARNING ==============
+  {
+    id: "ml-house-price",
+    pillar: "ml",
+    emoji: "🏠",
+    title: "Dự đoán giá nhà (Regression)",
+    titleEn: "House Price Prediction (Regression)",
+    tagline: "EDA → feature engineering → 4 model so sánh → đóng gói FastAPI.",
+    taglineEn: "EDA → feature engineering → compare 4 models → ship as FastAPI service.",
+    difficulty: "intermediate",
+    hours: "14-20h",
+    stack: ["scikit-learn", "Pandas", "XGBoost", "FastAPI", "Streamlit"],
+    basedOn: ["prog-ml"],
+    features: [
+      "EDA có visualization, xử lý missing & outlier",
+      "Pipeline ColumnTransformer + GridSearchCV",
+      "So sánh Linear / RF / XGBoost / LightGBM, chọn theo RMSE",
+      "Serve REST + UI Streamlit dự đoán trực tiếp",
+    ],
+    featuresEn: [
+      "Visual EDA, missing-value & outlier handling",
+      "ColumnTransformer pipeline + GridSearchCV",
+      "Compare Linear / RF / XGBoost / LightGBM by RMSE",
+      "Serve REST + Streamlit UI for live prediction",
+    ],
+    deliverables: ["Notebook đầy đủ", "Model.pkl + Dockerfile", "Báo cáo metric"],
+    deliverablesEn: ["Full notebook", "model.pkl + Dockerfile", "Metrics report"],
+  },
+  {
+    id: "ml-churn-mlops",
+    pillar: "ml",
+    emoji: "📉",
+    title: "Dự đoán Churn + MLOps cơ bản",
+    titleEn: "Churn Prediction + Basic MLOps",
+    tagline: "Huấn luyện, theo dõi experiment bằng MLflow, deploy có monitoring drift.",
+    taglineEn: "Train, track experiments with MLflow, deploy with drift monitoring.",
+    difficulty: "advanced",
+    hours: "25-30h",
+    stack: ["scikit-learn", "MLflow", "FastAPI", "Evidently AI", "Docker"],
+    basedOn: ["prog-ml"],
+    features: [
+      "Tracking 20 experiment trên MLflow UI",
+      "Model registry + promote production",
+      "Báo cáo drift hàng tuần bằng Evidently",
+    ],
+    featuresEn: [
+      "Track 20 experiments in MLflow UI",
+      "Model registry + production promotion",
+      "Weekly drift reports via Evidently",
+    ],
+    deliverables: ["Docker compose: API + MLflow + dashboard"],
+    deliverablesEn: ["Docker compose: API + MLflow + dashboard"],
+  },
+
+  // ============== CLOUD ==============
+  {
+    id: "cloud-serverless-url",
+    pillar: "cloud",
+    emoji: "🔗",
+    title: "URL Shortener Serverless trên AWS",
+    titleEn: "Serverless URL Shortener on AWS",
+    tagline: "API Gateway + Lambda + DynamoDB, đóng gói bằng Terraform, chi phí ~$0.",
+    taglineEn: "API Gateway + Lambda + DynamoDB, packaged with Terraform, near-zero cost.",
+    difficulty: "intermediate",
+    hours: "12-16h",
+    stack: ["AWS Lambda", "API Gateway", "DynamoDB", "Terraform", "CloudWatch"],
+    basedOn: ["cloud"],
+    features: [
+      "POST /shorten trả slug 6 ký tự, GET /:slug redirect",
+      "Đếm số click bằng DynamoDB atomic counter",
+      "Terraform 1 lệnh tạo toàn bộ hạ tầng",
+    ],
+    featuresEn: [
+      "POST /shorten returns a 6-char slug, GET /:slug redirects",
+      "Click counter via DynamoDB atomic counter",
+      "Single Terraform command to provision the whole stack",
+    ],
+    deliverables: ["Repo terraform", "Dashboard CloudWatch + báo cáo chi phí"],
+    deliverablesEn: ["Terraform repo", "CloudWatch dashboard + cost report"],
+  },
+  {
+    id: "cloud-k8s-multitier",
+    pillar: "cloud",
+    emoji: "☸️",
+    title: "Triển khai app 3 lớp lên Kubernetes",
+    titleEn: "3-tier App on Kubernetes",
+    tagline: "Frontend + API + DB, Helm chart, autoscaling và Ingress TLS Let's Encrypt.",
+    taglineEn: "Frontend + API + DB with Helm chart, autoscaling and Let's Encrypt Ingress TLS.",
+    difficulty: "advanced",
+    hours: "25-35h",
+    stack: ["Kubernetes (EKS/GKE/minikube)", "Helm", "Ingress-NGINX", "cert-manager"],
+    basedOn: ["cloud"],
+    features: [
+      "Helm chart parameter hoá theo môi trường",
+      "HPA scale theo CPU, PodDisruptionBudget",
+      "TLS tự động cấp + gia hạn",
+    ],
+    featuresEn: [
+      "Helm chart parameterized per environment",
+      "CPU-based HPA, PodDisruptionBudget",
+      "Auto-issued and auto-renewed TLS",
+    ],
+    deliverables: ["Helm chart repo", "Diagram kiến trúc"],
+    deliverablesEn: ["Helm chart repo", "Architecture diagram"],
+  },
+
+  // ============== DEEP LEARNING ==============
+  {
+    id: "dl-image-classifier",
+    pillar: "deep-learning",
+    emoji: "🖼️",
+    title: "Phân loại ảnh CNN + Grad-CAM",
+    titleEn: "CNN Image Classifier with Grad-CAM",
+    tagline: "Train CNN trên CIFAR-10/dataset tự thu, hiển thị Grad-CAM giải thích.",
+    taglineEn: "Train a CNN on CIFAR-10 or your own data, explain predictions with Grad-CAM.",
+    difficulty: "intermediate",
+    hours: "15-20h",
+    stack: ["PyTorch", "torchvision", "Gradio"],
+    basedOn: ["deep-learning"],
+    features: [
+      "Data augmentation, transfer learning ResNet18",
+      "Heatmap Grad-CAM cho mỗi dự đoán",
+      "Demo Gradio upload ảnh chấm điểm",
+    ],
+    featuresEn: [
+      "Data augmentation, transfer learning with ResNet18",
+      "Grad-CAM heatmap per prediction",
+      "Gradio demo: upload image → see scores",
+    ],
+    deliverables: ["Notebook training", "Demo Hugging Face Space"],
+    deliverablesEn: ["Training notebook", "Hugging Face Space demo"],
+  },
+  {
+    id: "dl-finetune-llm",
+    pillar: "deep-learning",
+    emoji: "🦙",
+    title: "Fine-tune LLM nhỏ với LoRA",
+    titleEn: "Fine-tune a Small LLM with LoRA",
+    tagline: "Fine-tune Phi-3 / Llama-3.2 1B cho tác vụ tiếng Việt, đánh giá có hệ thống.",
+    taglineEn: "Fine-tune Phi-3 / Llama-3.2 1B for a Vietnamese task with structured evaluation.",
+    difficulty: "advanced",
+    hours: "30-40h",
+    stack: ["Hugging Face", "PEFT/LoRA", "bitsandbytes", "Colab/Kaggle GPU"],
+    basedOn: ["deep-learning", "nlp"],
+    features: [
+      "Chuẩn bị dataset 2k mẫu định dạng chat",
+      "Train QLoRA 4-bit, log loss bằng W&B",
+      "So sánh baseline vs fine-tuned trên test set",
+    ],
+    featuresEn: [
+      "Prepare a 2k-sample chat-format dataset",
+      "Train QLoRA in 4-bit, log loss with W&B",
+      "Compare baseline vs fine-tuned on a held-out test set",
+    ],
+    deliverables: ["Adapter trên HF Hub", "Báo cáo eval"],
+    deliverablesEn: ["Adapter on HF Hub", "Evaluation report"],
+  },
+
+  // ============== NLP ==============
+  {
+    id: "nlp-sentiment-fi-en",
+    pillar: "nlp",
+    emoji: "🗣️",
+    title: "Bộ phân tích cảm xúc Finnish → English",
+    titleEn: "Finnish → English Sentiment Analyser",
+    tagline: "Capstone của khoá NLP: pipeline dịch + phân loại + dashboard.",
+    taglineEn: "NLP capstone: translation + classification pipeline + dashboard.",
+    difficulty: "advanced",
+    hours: "20-28h",
+    stack: ["Hugging Face Transformers", "FastAPI", "React", "Helsinki-NLP/opus-mt-fi-en"],
+    basedOn: ["nlp"],
+    features: [
+      "Tokenization đa ngôn ngữ, BPE",
+      "Dịch FI→EN, sau đó classify cảm xúc",
+      "Dashboard upload CSV trả về kết quả + biểu đồ",
+    ],
+    featuresEn: [
+      "Multilingual tokenization (BPE)",
+      "FI→EN translation, then sentiment classification",
+      "Dashboard: upload CSV → results + charts",
+    ],
+    deliverables: ["Demo Space", "Báo cáo F1 trên 3 dataset"],
+    deliverablesEn: ["Live demo Space", "F1 report on 3 datasets"],
+  },
+
+  // ============== REINFORCEMENT LEARNING ==============
+  {
+    id: "rl-cartpole-dqn",
+    pillar: "reinforcement-learning",
+    emoji: "🤖",
+    title: "Agent DQN chơi CartPole & LunarLander",
+    titleEn: "DQN Agent for CartPole & LunarLander",
+    tagline: "Tự code DQN từ đầu, đánh bại baseline ngẫu nhiên trên 2 môi trường Gym.",
+    taglineEn: "Code DQN from scratch and beat the random baseline on 2 Gym environments.",
+    difficulty: "intermediate",
+    hours: "15-20h",
+    stack: ["Gymnasium", "PyTorch", "Stable-Baselines3 (so sánh)"],
+    basedOn: ["reinforcement-learning"],
+    features: [
+      "Replay buffer, ε-greedy, target network",
+      "Vẽ reward curve TensorBoard",
+      "So sánh agent tự viết vs SB3 PPO",
+    ],
+    featuresEn: [
+      "Replay buffer, ε-greedy, target network",
+      "TensorBoard reward curves",
+      "Compare hand-written agent vs SB3 PPO",
+    ],
+    deliverables: ["GIF demo agent", "Notebook so sánh"],
+    deliverablesEn: ["Agent demo GIF", "Comparison notebook"],
+  },
+
+  // ============== CYBERSECURITY ==============
+  {
+    id: "sec-owasp-pentest-lab",
+    pillar: "cybersecurity",
+    emoji: "🛡️",
+    title: "Lab tấn công OWASP Top 10 tự dựng",
+    titleEn: "Self-hosted OWASP Top 10 Pentest Lab",
+    tagline: "Dựng app cố tình lỗi, viết exploit cho SQLi/XSS/IDOR và bản vá tương ứng.",
+    taglineEn: "Build a deliberately vulnerable app, write exploits for SQLi/XSS/IDOR and the fixes.",
+    difficulty: "intermediate",
+    hours: "18-25h",
+    stack: ["Node/Express", "Postgres", "Docker", "Burp Suite", "OWASP ZAP"],
+    basedOn: ["cybersecurity"],
+    features: [
+      "10 endpoint có lỗ hổng cụ thể",
+      "Báo cáo PoC từng lỗi + screenshot",
+      "Commit bản vá có test regression",
+    ],
+    featuresEn: [
+      "10 endpoints, each with a specific vulnerability",
+      "PoC + screenshots per finding",
+      "Commit fixes with regression tests",
+    ],
+    deliverables: ["Repo lab + báo cáo PDF kiểu pentest"],
+    deliverablesEn: ["Lab repo + pentest-style PDF report"],
+  },
+  {
+    id: "sec-jwt-auth-hardened",
+    pillar: "cybersecurity",
+    emoji: "🔐",
+    title: "Hệ thống xác thực JWT bảo mật cao",
+    titleEn: "Hardened JWT Auth System",
+    tagline: "Auth có refresh-rotation, rate limit, lockout, MFA TOTP và audit log.",
+    taglineEn: "Auth with refresh-rotation, rate limiting, lockout, TOTP MFA and audit log.",
+    difficulty: "advanced",
+    hours: "20-30h",
+    stack: ["Node/Express", "Postgres", "Redis", "argon2", "speakeasy (TOTP)"],
+    basedOn: ["cybersecurity", "se-foundations"],
+    features: [
+      "Access token ngắn + refresh rotation httpOnly cookie",
+      "Rate limit IP + lockout brute force",
+      "Bật/tắt MFA TOTP, backup codes",
+      "Bảng audit ghi mọi login/logout/lỗi",
+    ],
+    featuresEn: [
+      "Short-lived access + rotating refresh in httpOnly cookies",
+      "Per-IP rate limit + brute-force lockout",
+      "Toggleable TOTP MFA with backup codes",
+      "Audit table logging every login/logout/failure",
+    ],
+    deliverables: ["Postman collection", "Threat model STRIDE"],
+    deliverablesEn: ["Postman collection", "STRIDE threat model"],
+  },
+
+  // ============== EDTECH ==============
+  {
+    id: "edtech-spaced-rep",
+    pillar: "edtech",
+    emoji: "🎓",
+    title: "App học từ vựng Spaced Repetition (SM-2)",
+    titleEn: "Vocabulary App with Spaced Repetition (SM-2)",
+    tagline: "Web học từ kiểu Anki: lịch ôn SM-2, mastery scoring và biểu đồ retention.",
+    taglineEn: "Anki-style vocab web app: SM-2 scheduling, mastery scoring, retention charts.",
+    difficulty: "intermediate",
+    hours: "18-25h",
+    stack: ["React", "Supabase", "Tailwind", "Recharts"],
+    basedOn: ["edtech"],
+    features: [
+      "Thuật toán SM-2 (interval, easiness factor)",
+      "Chế độ ôn đảo chiều (recognition ↔ recall)",
+      "Biểu đồ retention 30 ngày + streak",
+    ],
+    featuresEn: [
+      "SM-2 algorithm (interval, easiness factor)",
+      "Reversible review modes (recognition ↔ recall)",
+      "30-day retention chart + streak",
+    ],
+    deliverables: ["App deploy", "Báo cáo retention 100 user thử nghiệm"],
+    deliverablesEn: ["Deployed app", "Retention report from 100 pilot users"],
+  },
+  {
+    id: "edtech-ai-tutor",
+    pillar: "edtech",
+    emoji: "🤖",
+    title: "AI Tutor cho một môn học cụ thể",
+    titleEn: "AI Tutor for a Specific Subject",
+    tagline: "Chatbot gia sư có sách giáo khoa nhúng (RAG) + chấm bài tự luận tự động.",
+    taglineEn: "Tutor chatbot with embedded textbook (RAG) + auto-grading for essays.",
+    difficulty: "advanced",
+    hours: "25-35h",
+    stack: ["Next-gen LLM API", "pgvector", "React", "Supabase Edge Functions"],
+    basedOn: ["edtech", "prog-ai-foundation"],
+    features: [
+      "Nhúng sách giáo khoa làm nguồn duy nhất, có citation",
+      "Sinh quiz mới mỗi buổi từ nội dung đã học",
+      "Chấm bài tự luận theo rubric, trả feedback có cấu trúc",
+    ],
+    featuresEn: [
+      "Embed a textbook as the single source with citations",
+      "Generate a fresh quiz per session from covered material",
+      "Grade essays against a rubric and return structured feedback",
+    ],
+    deliverables: ["Demo cho 1 môn", "Báo cáo so sánh với GPT vanilla"],
+    deliverablesEn: ["Demo for one subject", "Comparison report vs vanilla GPT"],
+  },
+];
