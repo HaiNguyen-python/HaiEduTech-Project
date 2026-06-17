@@ -213,13 +213,47 @@ const WeeklyVocabAchievers = ({ subject, threshold = 20, className }: Props) => 
           </div>
         )}
 
-        {/* Motivational footer */}
+        {/* Motivational footer (subject-aware) */}
         <div className="mt-3 rounded-lg bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 border border-amber-300/40 px-3 py-2">
           <p className="text-[11px] leading-snug text-amber-900 dark:text-amber-200 font-medium">
-            💡 {t(
-              "Mỗi tuần học đủ 20 từ mới = bạn đang đi đúng hướng Band 7.0+!",
-              "20 new words a week keeps you on track for Band 7.0+!"
-            )}
+            💡 {(() => {
+              const s = (subject || "").toLowerCase();
+              if (s.startsWith("hsk")) {
+                return t(
+                  `Mỗi tuần chinh phục ${threshold} từ mới = bạn đang vững bước lên HSK 5–6! 加油!`,
+                  `${threshold} new Hanzi a week keeps you on track for HSK 5–6! 加油!`
+                );
+              }
+              if (s.startsWith("toeic")) {
+                return t(
+                  `Mỗi tuần học đủ ${threshold} từ mới = bạn đang đi đúng hướng TOEIC 800+!`,
+                  `${threshold} new words a week keeps you on track for TOEIC 800+!`
+                );
+              }
+              if (s.startsWith("cambridge") || s.startsWith("yle") || s.startsWith("ket") || s.startsWith("pet")) {
+                return t(
+                  `Mỗi tuần học đủ ${threshold} từ mới = bạn đang tự tin chinh phục Cambridge KET/PET!`,
+                  `${threshold} new words a week keeps you on track for Cambridge KET/PET!`
+                );
+              }
+              if (s.startsWith("finnish") || s.startsWith("yki")) {
+                return t(
+                  `Mỗi tuần học đủ ${threshold} từ mới = bạn đang tiến đều tới YKI B1–B2!`,
+                  `${threshold} new words a week keeps you on track for YKI B1–B2!`
+                );
+              }
+              if (s.startsWith("vietnam")) {
+                return t(
+                  `Mỗi tuần học đủ ${threshold} từ mới = bạn đang giao tiếp tiếng Việt tự nhiên hơn!`,
+                  `${threshold} new words a week makes your Vietnamese sound more natural!`
+                );
+              }
+              // default: ielts
+              return t(
+                `Mỗi tuần học đủ ${threshold} từ mới = bạn đang đi đúng hướng IELTS Band 7.0+!`,
+                `${threshold} new words a week keeps you on track for IELTS Band 7.0+!`
+              );
+            })()}
           </p>
         </div>
       </div>

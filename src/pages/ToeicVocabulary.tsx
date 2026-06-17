@@ -21,6 +21,7 @@ import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { supabase } from "@/integrations/supabase/client";
 import { Star } from "lucide-react";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
+import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import ToeicMountainClimber from "@/components/ToeicMountainClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 
@@ -1054,6 +1055,7 @@ const ToeicVocabulary = () => {
         </div>
         <div className="hidden lg:block w-72 flex-shrink-0 self-start space-y-4">
           <VocabMasteryLeaderboard subject="toeic" currentCount={mastered.size} />
+          <WeeklyVocabAchievers subject="toeic" threshold={20} />
           <SmartReviewColumn
             subject="toeic"
             lang="en-US"
@@ -1073,6 +1075,7 @@ const ToeicVocabulary = () => {
         </div>
         <div className="lg:hidden mt-6 px-4 space-y-4">
           <VocabMasteryLeaderboard subject="toeic" currentCount={mastered.size} />
+          <WeeklyVocabAchievers subject="toeic" threshold={20} />
           <SmartReviewColumn
             subject="toeic"
             lang="en-US"
