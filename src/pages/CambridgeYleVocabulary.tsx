@@ -16,7 +16,7 @@ import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CAMBRIDGE_LEVELS, type CambridgeKidsLevel, type CambridgeKidsWord } from "@/data/cambridgeKidsVocab";
-import { CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabMaster";
+import { CAMBRIDGE_KIDS_WORDS_CURATED as CAMBRIDGE_KIDS_WORDS_DEDUPED } from "@/data/cambridgeKidsVocabCurated";
 import { getIpa } from "@/data/cambridgeKidsIpa";
 import { getCategory, CATEGORY_META, CATEGORY_ORDER, type KidsCategory } from "@/data/cambridgeKidsCategories";
 import { CATEGORY_BG } from "@/data/cambridgeKidsCategoryBg";
