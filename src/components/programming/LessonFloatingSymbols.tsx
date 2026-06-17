@@ -67,11 +67,11 @@ const PILLAR_SYMBOLS: Record<string, string[]> = {
 };
 
 const COLORS = [
-  "hsl(var(--primary) / 0.22)",
-  "hsl(var(--primary) / 0.14)",
-  "hsl(var(--accent) / 0.20)",
-  "hsl(var(--accent) / 0.13)",
-  "hsl(var(--foreground) / 0.10)",
+  "hsl(var(--primary) / 0.52)",
+  "hsl(var(--primary) / 0.38)",
+  "hsl(var(--accent) / 0.48)",
+  "hsl(var(--accent) / 0.34)",
+  "hsl(var(--foreground) / 0.24)",
 ];
 
 interface Particle {
@@ -103,8 +103,8 @@ function generateParticles(symbols: string[], count: number, seed: string): Part
     symbol,
     x: rand() * 100,
     y: rand() * 100,
-    size: 14 + rand() * 16,
-    duration: 18 + rand() * 18,
+    size: 18 + rand() * 22,
+    duration: 16 + rand() * 16,
     delay: rand() * -22,
     color: COLORS[Math.floor(rand() * COLORS.length)],
     rotate: rand() * 360,
@@ -116,13 +116,14 @@ function generateParticles(symbols: string[], count: number, seed: string): Part
 interface Props {
   pillarId?: string | null;
   count?: number;
+  className?: string;
 }
 
 /**
  * Themed floating background symbols for a programming pillar.
  * Renders inside a relatively-positioned parent (fills with absolute inset-0).
  */
-const LessonFloatingSymbols = ({ pillarId, count = 16 }: Props) => {
+const LessonFloatingSymbols = ({ pillarId, count = 16, className = "" }: Props) => {
   const symbols = (pillarId && PILLAR_SYMBOLS[pillarId]) || PILLAR_SYMBOLS["python"];
   const particles = useMemo(
     () => generateParticles(symbols, count, pillarId || "default"),
@@ -131,18 +132,19 @@ const LessonFloatingSymbols = ({ pillarId, count = 16 }: Props) => {
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 overflow-hidden -z-10"
+      className={`pointer-events-none absolute inset-0 z-0 overflow-hidden ${className}`}
       aria-hidden="true"
     >
       {particles.map((p) => (
         <motion.span
           key={p.id}
-          className="absolute select-none font-mono font-semibold whitespace-nowrap"
+          className="absolute select-none font-mono font-bold whitespace-nowrap drop-shadow-sm"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,
             fontSize: `${p.size}px`,
             color: p.color,
+            textShadow: "0 6px 22px hsl(var(--primary) / 0.22)",
             willChange: "transform",
           }}
           animate={{
