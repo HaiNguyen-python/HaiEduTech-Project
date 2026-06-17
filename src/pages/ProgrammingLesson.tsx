@@ -94,6 +94,7 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "nlp": ["nlp"],
   "edtech": ["edtech"],
   "cybersecurity": ["cybersecurity"],
+  "prompt-engineering": ["prompt-eng"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
