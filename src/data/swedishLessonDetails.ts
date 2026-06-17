@@ -601,4 +601,375 @@ export const LESSON_DETAILS: Record<string, LessonDetail> = {
       "🎯 Summarise an article in 3 sentences, must include 'sammanfattningsvis'.",
     ],
   },
+
+  /* ===== A1 deep-dives bổ sung (Đợt 1: 9 bài) ===== */
+
+  "a1-restaurant": {
+    introVi:
+      "Văn hoá 'fika' (cà phê + bánh ngọt) là phản xạ giao tiếp số 1 ở Thuỵ Điển. Bài này dạy bạn 4 câu ráp lại đủ cho mọi quán: chào, gọi món, hỏi giá, trả tiền. Học thuộc lòng theo nhịp ngắn để dùng được trong YKI Tala A1.",
+    introEn:
+      "'Fika' (coffee + pastry) is the #1 social reflex in Sweden. This lesson gives you 4 stacked sentences that cover any café: greet, order, ask price, pay. Memorise them in short beats for YKI Tala A1.",
+    stepsVi: [
+      "Bước 1 · Chào: 'Hej!' + mỉm cười. Đừng nói 'Hello' kiểu Anh.",
+      "Bước 2 · Gọi: 'Jag tar en kanelbulle och en kaffe, tack.' (Cho mình bánh quế + cà phê).",
+      "Bước 3 · Tuỳ chọn: 'Kan jag få ___ utan is/socker?' (không đá / không đường).",
+      "Bước 4 · Hỏi giá / hoá đơn: 'Hur mycket?' hoặc 'Notan, tack.'",
+      "Bước 5 · Trả tiền: 'Med kort, tack.' (bằng thẻ) — Bắc Âu hầu như cashless.",
+    ],
+    stepsEn: [
+      "Step 1 · Greet: 'Hej!' + smile. Don't use English 'Hello'.",
+      "Step 2 · Order: 'Jag tar en kanelbulle och en kaffe, tack.'",
+      "Step 3 · Optional: 'Kan jag få ___ utan is/socker?' (no ice / sugar).",
+      "Step 4 · Ask price / bill: 'Hur mycket?' or 'Notan, tack.'",
+      "Step 5 · Pay: 'Med kort, tack.' — Nordics are nearly cashless.",
+    ],
+    pitfallsVi: [
+      "❌ Nói 'Jag vill ha…' nghe hơi mệnh lệnh — dùng 'Jag tar…' hoặc 'Kan jag få…' lịch sự hơn.",
+      "❌ Hỏi 'check please' kiểu Mỹ — ở Thuỵ Điển là 'Notan, tack.'",
+      "❌ Tip 10–20% kiểu Mỹ — không bắt buộc, chỉ làm tròn nếu thích.",
+    ],
+    pitfallsEn: [
+      "❌ 'Jag vill ha…' sounds bossy — prefer 'Jag tar…' or 'Kan jag få…'.",
+      "❌ American-style 'check please' — in Sweden it's 'Notan, tack.'",
+      "❌ 10–20% tipping is not expected; just round up if you wish.",
+    ],
+    practiceVi: [
+      "🎯 Đóng vai: bạn vào quán, gọi 2 món, hỏi giá, trả thẻ — nói liền trong 30 giây.",
+      "🎯 Thay 'kanelbulle' bằng 5 món fika khác (semla, kladdkaka, chokladboll, prinsesstårta, smörgås).",
+      "🎯 Ghi âm 3 lần và so sánh ngữ điệu cuối câu phải đi xuống ở 'tack'.",
+    ],
+    practiceEn: [
+      "🎯 Role-play: enter a café, order 2 items, ask the price, pay by card — all in 30 s.",
+      "🎯 Swap 'kanelbulle' for 5 other fika items (semla, kladdkaka, chokladboll, prinsesstårta, smörgås).",
+      "🎯 Record 3 times; ending intonation must fall on 'tack'.",
+    ],
+  },
+
+  "a1-weather-seasons": {
+    introVi:
+      "Dự báo thời tiết là nội dung Hörförståelse A1 gần như chắc chắn xuất hiện. Bài này cho bạn khung 3 ô để bắt thông tin (nhiệt độ – mưa/tuyết – gió) và mẫu câu mô tả 4 mùa Bắc Âu — đủ cho Tala lẫn Skriva.",
+    introEn:
+      "Weather forecasts almost always appear in A1 listening. This lesson gives a 3-slot template (temperature – precipitation – wind) plus model sentences for the four Nordic seasons — usable in Tala and Skriva.",
+    stepsVi: [
+      "Bước 1 · Khung nghe: ghi 3 số liệu (grader / regn-snö / blåst). Cứ điền vào 3 ô — không cần dịch hết.",
+      "Bước 2 · Mẫu mô tả: 'Det är + tính từ' (Det är kallt / varmt / soligt).",
+      "Bước 3 · Động từ thời tiết: regnar, snöar, blåser — đứng độc lập với 'det' giả ('Det regnar.').",
+      "Bước 4 · Nhiệt độ: 'Temperaturen är fem grader / minus två grader.'",
+      "Bước 5 · 4 mùa: vinter, vår, sommar, höst → ráp 'På vintern + câu mô tả'.",
+    ],
+    stepsEn: [
+      "Step 1 · Listening grid: capture 3 facts (degrees / rain-snow / wind). Slot-fill, don't translate fully.",
+      "Step 2 · Description template: 'Det är + adjective'.",
+      "Step 3 · Weather verbs: regnar, snöar, blåser — used with dummy 'det' ('Det regnar.').",
+      "Step 4 · Temperature: 'Temperaturen är fem grader / minus två grader.'",
+      "Step 5 · 4 seasons: vinter, vår, sommar, höst → stack 'På vintern + description'.",
+    ],
+    pitfallsVi: [
+      "❌ Quên 'det' giả: 'Regnar idag' SAI — phải 'Det regnar idag.'",
+      "❌ Dịch 'lạnh 5 độ' thành 'kallt fem grader' — đúng là 'fem grader kallt' hoặc 'fem minusgrader'.",
+      "❌ Lẫn 'höst' (mùa thu) với 'host' (cơn ho) — phát âm 'ö' rất khác.",
+    ],
+    pitfallsEn: [
+      "❌ Dropping dummy 'det': 'Regnar idag' is WRONG — say 'Det regnar idag.'",
+      "❌ Translating 'cold 5°': it's 'fem grader kallt' or 'fem minusgrader'.",
+      "❌ Mixing 'höst' (autumn) with 'host' (cough) — the 'ö' is very different.",
+    ],
+    practiceVi: [
+      "🎯 Nghe 1 phút dự báo SVT/Yle và điền 3 ô: nhiệt độ, mưa/tuyết, gió.",
+      "🎯 Viết 4 câu, mỗi câu cho một mùa, dùng 'På + mùan'.",
+      "🎯 Quay video 30 giây làm 'MC dự báo' bằng tiếng Thuỵ Điển.",
+    ],
+    practiceEn: [
+      "🎯 Listen to 1 min SVT/Yle forecast, fill 3 slots: temp, precip, wind.",
+      "🎯 Write 4 sentences, one per season, using 'På + season'.",
+      "🎯 Film a 30 s weather-anchor clip in Swedish.",
+    ],
+  },
+
+  "a1-nature-allemansrätten": {
+    introVi:
+      "Allemansrätten — 'quyền tự do tiếp cận thiên nhiên' — là chủ đề văn hoá kinh điển trong YKI và phỏng vấn nhập cư. Hiểu đúng giúp bạn vừa ghi điểm Tala/Skriva, vừa tránh phạm luật khi đi rừng (ví dụ: không được cắm trại quá 2 ngày một chỗ).",
+    introEn:
+      "Allemansrätten — 'the right of public access' — is a classic culture topic in YKI and immigration interviews. Mastering it scores points in Tala/Skriva and keeps you out of legal trouble (e.g. you can't camp >2 nights in one spot).",
+    stepsVi: [
+      "Bước 1 · Định nghĩa 2 câu: 'Allemansrätten betyder att alla får vandra, plocka bär och svamp i naturen. Men man måste respektera djuren och inte störa markägaren.'",
+      "Bước 2 · 3 ĐƯỢC: vandra (đi bộ), plocka bär/svamp (hái dâu/nấm), bada i sjön (tắm hồ).",
+      "Bước 3 · 3 KHÔNG ĐƯỢC: bryta grenar (bẻ cành), jaga (săn), elda i torrt väder (đốt lửa khi khô hạn).",
+      "Bước 4 · Từ vựng địa hình: skog (rừng), sjö (hồ), fjäll (vùng núi cao), kust (bờ biển).",
+      "Bước 5 · Câu mẫu Tala: 'Jag älskar Allemansrätten eftersom jag kan vandra fritt på helgerna.'",
+    ],
+    stepsEn: [
+      "Step 1 · 2-sentence definition: 'Allemansrätten lets everyone hike, pick berries and mushrooms in nature. But you must respect animals and not disturb landowners.'",
+      "Step 2 · 3 ALLOWED: hike, pick berries/mushrooms, swim in lakes.",
+      "Step 3 · 3 FORBIDDEN: break branches, hunt, light a fire in dry weather.",
+      "Step 4 · Terrain vocab: skog, sjö, fjäll, kust.",
+      "Step 5 · Tala model: 'Jag älskar Allemansrätten eftersom jag kan vandra fritt på helgerna.'",
+    ],
+    pitfallsVi: [
+      "❌ Nói 'Tôi có thể làm BẤT CỨ điều gì trong rừng' — sai, có giới hạn (không đốt lửa, không quấy động vật).",
+      "❌ Lẫn 'fjäll' (núi cao Bắc Âu) với 'berg' (núi nói chung).",
+      "❌ Quên rằng Allemansrätten KHÔNG áp dụng trong vườn nhà người khác — đó là 'tomt' (đất tư).",
+    ],
+    pitfallsEn: [
+      "❌ Claiming you can do ANYTHING in nature — wrong, restrictions apply (no fires, no animal disturbance).",
+      "❌ Confusing 'fjäll' (Nordic high mountain) with 'berg' (mountain in general).",
+      "❌ Forgetting Allemansrätten does NOT apply in private 'tomt' (yards).",
+    ],
+    practiceVi: [
+      "🎯 Học thuộc lòng định nghĩa 2 câu và đọc to 5 lần.",
+      "🎯 Tự liệt kê 3 ĐƯỢC, 3 KHÔNG bằng tiếng Thuỵ Điển, không nhìn sách.",
+      "🎯 Viết một đoạn 60 từ kể về một chuyến đi rừng cuối tuần dùng tối thiểu 5 từ địa hình.",
+    ],
+    practiceEn: [
+      "🎯 Memorise the 2-sentence definition and say it aloud 5×.",
+      "🎯 List 3 allowed and 3 forbidden actions in Swedish, no notes.",
+      "🎯 Write a 60-word piece on a weekend forest trip using ≥5 terrain words.",
+    ],
+  },
+
+  "a1-shopping-ica": {
+    introVi:
+      "ICA và Lidl là 2 chuỗi siêu thị bạn sẽ vào hằng tuần. Bài này dạy 3 phản xạ A1: hỏi 'ở đâu', hỏi giá, chốt đơn. Nắm vững 'erbjudande' (giảm giá) còn giúp bạn tiết kiệm 20–30% chi phí ăn uống — kiến thức sống còn cho du học sinh.",
+    introEn:
+      "ICA and Lidl are the two supermarkets you'll visit weekly. This lesson gives 3 A1 reflexes: ask 'where', ask price, close the deal. Reading 'erbjudande' (offer) tags saves 20–30% on groceries — a survival skill.",
+    stepsVi: [
+      "Bước 1 · Hỏi vị trí: 'Ursäkta, var hittar jag ___?' (Xin lỗi, tôi tìm ___ ở đâu?).",
+      "Bước 2 · Hỏi giá: 'Hur mycket kostar ___?' — đáp lại bằng 'Det kostar X kronor.'",
+      "Bước 3 · Đọc nhãn: 'Erbjudande' = ưu đãi, '2 för X' = mua 2 với giá X, 'pris/kg' = giá / kg.",
+      "Bước 4 · Chốt đơn: 'Jag tar ___, tack.' + 'Kan jag betala med kort?'",
+      "Bước 5 · Túi: 'En påse, tack' (xin một túi) — phải trả thêm ~3 kr.",
+    ],
+    stepsEn: [
+      "Step 1 · Ask location: 'Ursäkta, var hittar jag ___?'",
+      "Step 2 · Ask price: 'Hur mycket kostar ___?' — reply 'Det kostar X kronor.'",
+      "Step 3 · Read tags: 'Erbjudande' = offer, '2 för X' = 2 for X, 'pris/kg' = price per kg.",
+      "Step 4 · Close: 'Jag tar ___, tack.' + 'Kan jag betala med kort?'",
+      "Step 5 · Bag: 'En påse, tack' — costs ~3 kr extra.",
+    ],
+    pitfallsVi: [
+      "❌ Mong nhân viên nói tiếng Anh — ở thành phố nhỏ thường KHÔNG. Học sẵn 3 câu cốt lõi.",
+      "❌ Tưởng 'pant' là phụ phí — đó là tiền cọc chai, có thể đổi lại tại máy 'panta'.",
+      "❌ Quên cân rau củ tự phục vụ — tem mã vạch dán tại quầy cân, không có sẽ bị trả lại.",
+    ],
+    pitfallsEn: [
+      "❌ Expecting staff to speak English — often NOT in small towns. Memorise the 3 core lines.",
+      "❌ Thinking 'pant' is a surcharge — it's a bottle deposit refundable at the 'panta' machine.",
+      "❌ Forgetting to weigh self-serve produce — the barcode sticker is printed at the scale, otherwise the cashier sends you back.",
+    ],
+    practiceVi: [
+      "🎯 Lên danh sách 10 món mua hàng tuần, viết tiếng Thuỵ Điển có kèm en/ett.",
+      "🎯 Đóng vai khách-thu ngân với bạn học — đổi vai sau 1 phút.",
+      "🎯 Vào trang web ICA, đọc 5 nhãn 'Erbjudande' và dịch ra tiếng Việt.",
+    ],
+    practiceEn: [
+      "🎯 List 10 weekly grocery items in Swedish with en/ett.",
+      "🎯 Role-play customer↔cashier with a partner, switch after 1 min.",
+      "🎯 Browse the ICA website, translate 5 'Erbjudande' tags into your L1.",
+    ],
+  },
+
+  "a1-housing": {
+    introVi:
+      "Tìm nhà thuê (lägenhet) là việc đầu tiên khi đến Thuỵ Điển. Bài này dạy 6 từ then chốt trên Blocket/Bostadsdirekt và 4 mẫu câu hỏi chủ nhà. Không hiểu 'andrahand', 'hyresvärd', 'hyra inkl. el' bạn dễ ký nhầm hợp đồng.",
+    introEn:
+      "Finding a flat (lägenhet) is your first task in Sweden. This lesson teaches 6 keywords on Blocket/Bostadsdirekt and 4 sentences to message the landlord. Without understanding 'andrahand', 'hyresvärd', 'hyra inkl. el' you risk a bad contract.",
+    stepsVi: [
+      "Bước 1 · 6 từ phải thuộc: lägenhet (căn hộ), rum (phòng), kök (bếp), hyra (tiền thuê), hyresvärd (chủ nhà), kontrakt (hợp đồng).",
+      "Bước 2 · 'andrahand' = thuê lại (legal nếu chủ chính cho phép). '1:a hand' = thuê trực tiếp chủ sở hữu.",
+      "Bước 3 · Tin tuyển khách thường ghi: '2 rok, 55 kvm, 8500 kr/mån inkl. el'. Đọc được = tiết kiệm thời gian.",
+      "Bước 4 · Mẫu câu nhắn: 'Hej! Är lägenheten fortfarande ledig?' (Căn hộ còn trống không ạ?).",
+      "Bước 5 · Mẫu câu xem nhà: 'Kan jag komma och titta på lägenheten på lördag?' (Tôi tới xem thứ Bảy được không?).",
+    ],
+    stepsEn: [
+      "Step 1 · 6 must-know words: lägenhet, rum, kök, hyra, hyresvärd, kontrakt.",
+      "Step 2 · 'andrahand' = sublet (legal if main tenant has permission). '1:a hand' = direct from owner.",
+      "Step 3 · Ads read like: '2 rok, 55 kvm, 8500 kr/mån inkl. el'. Decoding saves hours.",
+      "Step 4 · DM template: 'Hej! Är lägenheten fortfarande ledig?'",
+      "Step 5 · Viewing template: 'Kan jag komma och titta på lägenheten på lördag?'",
+    ],
+    pitfallsVi: [
+      "❌ Chuyển tiền trước khi ký kontrakt — bẫy lừa đảo phổ biến trên Blocket.",
+      "❌ Lẫn 'rum' (phòng tính riêng kể cả phòng khách) với 'sovrum' (phòng ngủ): '2 rok' = 1 phòng ngủ + 1 phòng khách.",
+      "❌ Bỏ qua 'el ej inkl.' — bạn sẽ phải trả thêm 500–1000 kr/tháng tiền điện.",
+    ],
+    pitfallsEn: [
+      "❌ Transferring money before signing the kontrakt — classic Blocket scam.",
+      "❌ Mixing 'rum' (any room incl. living room) with 'sovrum' (bedroom): '2 rok' = 1 bed + 1 living.",
+      "❌ Missing 'el ej inkl.' — you'll pay 500–1000 kr/month extra for electricity.",
+    ],
+    practiceVi: [
+      "🎯 Vào Blocket.se → 'Bostad', đọc 5 tin và liệt kê hyra + kvm + inkl./ej.",
+      "🎯 Viết 1 tin nhắn 4 câu hỏi chủ nhà, gửi cho bạn học sửa.",
+      "🎯 Học thuộc 6 từ trên qua flashcard trong 3 phút.",
+    ],
+    practiceEn: [
+      "🎯 Open Blocket.se → 'Bostad', read 5 ads and note hyra + sqm + inclusion.",
+      "🎯 Write a 4-question landlord DM, peer-review it.",
+      "🎯 Drill the 6 key words on flashcards in 3 minutes.",
+    ],
+  },
+
+  "a1-doctor": {
+    introVi:
+      "1177 (vårdguiden) là số gọi y tế mặc định ở Thuỵ Điển. Bài này dạy 5 câu mô tả triệu chứng và 3 câu hỏi lễ tân (reception). Biết nói 'jag har ont i ___' (tôi đau ở ___) đủ để vượt qua mọi tình huống bệnh nhẹ.",
+    introEn:
+      "1177 (vårdguiden) is Sweden's default medical hotline. This lesson teaches 5 symptom sentences and 3 reception questions. Mastering 'jag har ont i ___' (I have pain in ___) covers most light illnesses.",
+    stepsVi: [
+      "Bước 1 · Câu lõi: 'Jag har ont i ___' (huvudet/magen/halsen/ryggen = đầu/bụng/họng/lưng).",
+      "Bước 2 · Sốt/ho: 'Jag har feber och hostar.' Buồn nôn: 'Jag mår illa.'",
+      "Bước 3 · Hỏi đặt lịch: 'Jag skulle vilja boka en tid med en läkare.'",
+      "Bước 4 · Hỏi thuốc: 'Vilken medicin rekommenderar du?' (Anh/chị khuyên dùng thuốc gì?).",
+      "Bước 5 · Số khẩn cấp: 112 (cấp cứu), 1177 (tư vấn y tế thường).",
+    ],
+    stepsEn: [
+      "Step 1 · Core: 'Jag har ont i ___' (huvudet/magen/halsen/ryggen).",
+      "Step 2 · Fever/cough: 'Jag har feber och hostar.' Nausea: 'Jag mår illa.'",
+      "Step 3 · Book: 'Jag skulle vilja boka en tid med en läkare.'",
+      "Step 4 · Ask medicine: 'Vilken medicin rekommenderar du?'",
+      "Step 5 · Emergency numbers: 112 (emergency), 1177 (medical advice).",
+    ],
+    pitfallsVi: [
+      "❌ Gọi 112 cho bệnh nhẹ — chỉ dùng khi nguy hiểm tính mạng, tai nạn, cháy nổ.",
+      "❌ Nói 'Jag är sjuk' rồi dừng — bác sĩ cần CHỖ ĐAU, không chỉ trạng thái chung.",
+      "❌ Dùng paracetamol > 4g/ngày tự mua tại Apotek — nguy hiểm gan, luôn hỏi dược sĩ.",
+    ],
+    pitfallsEn: [
+      "❌ Calling 112 for minor issues — reserve it for life-threatening events, accidents, fires.",
+      "❌ Stopping at 'Jag är sjuk' — the doctor needs the SITE of pain, not just the state.",
+      "❌ Self-dosing >4 g paracetamol/day from Apotek — liver risk; always ask a pharmacist.",
+    ],
+    practiceVi: [
+      "🎯 Học thuộc 5 bộ phận: huvudet, magen, halsen, ryggen, tanden — gõ vào người để nhớ.",
+      "🎯 Đóng vai bệnh nhân-lễ tân: 3 lần đổi triệu chứng khác nhau.",
+      "🎯 Ghi âm 30 giây mô tả triệu chứng cảm cúm tưởng tượng, có ngày-tháng-mức độ sốt.",
+    ],
+    practiceEn: [
+      "🎯 Memorise 5 body parts and tap them on yourself for muscle memory.",
+      "🎯 Role-play patient↔reception with 3 different symptoms.",
+      "🎯 Record 30 s describing a fake flu with date, fever level and symptoms.",
+    ],
+  },
+
+  "a1-work": {
+    introVi:
+      "Phỏng vấn xin việc bằng tiếng Thuỵ Điển ở mức A1 thực ra chỉ xoay quanh 4 chủ đề: bản thân, học vấn, kinh nghiệm, lý do ứng tuyển. Bài này cho bạn 4 câu khung dễ nhớ + 6 nghề phổ biến mà người Việt thường làm thời gian đầu.",
+    introEn:
+      "A1-level job interviews in Swedish basically revolve around 4 themes: self, education, experience, motivation. This lesson gives 4 framework sentences plus 6 common starter jobs for Vietnamese newcomers.",
+    stepsVi: [
+      "Bước 1 · Mở đầu: 'Hej, jag heter ___ och jag kommer från Vietnam.'",
+      "Bước 2 · Học vấn: 'Jag har en kandidatexamen i ___.' (cử nhân) / 'Jag studerar SFI nu.'",
+      "Bước 3 · Kinh nghiệm: 'Jag har jobbat som ___ i ___ år.'",
+      "Bước 4 · Động cơ: 'Jag söker det här jobbet eftersom ___.'",
+      "Bước 5 · Đóng: 'Tack för intervjun! Jag ser fram emot ert svar.' (Cảm ơn buổi phỏng vấn, mong sớm hồi âm.)",
+    ],
+    stepsEn: [
+      "Step 1 · Opener: 'Hej, jag heter ___ och jag kommer från Vietnam.'",
+      "Step 2 · Education: 'Jag har en kandidatexamen i ___.' / 'Jag studerar SFI nu.'",
+      "Step 3 · Experience: 'Jag har jobbat som ___ i ___ år.'",
+      "Step 4 · Motivation: 'Jag söker det här jobbet eftersom ___.'",
+      "Step 5 · Close: 'Tack för intervjun! Jag ser fram emot ert svar.'",
+    ],
+    pitfallsVi: [
+      "❌ Dùng 'jag vill ha jobbet' (tôi muốn cái job đó) — nghe trẻ con. Dùng 'jag söker' (tôi ứng tuyển).",
+      "❌ Khoe lương kỳ vọng quá sớm — văn hoá Bắc Âu chỉ bàn lương ở vòng cuối.",
+      "❌ Bắt tay quá lỏng — sếp Thuỵ Điển coi bắt tay chắc + nhìn mắt là thái độ chuyên nghiệp.",
+    ],
+    pitfallsEn: [
+      "❌ Saying 'jag vill ha jobbet' (I want the job) sounds childish — use 'jag söker'.",
+      "❌ Bringing up salary too early — Nordic culture discusses pay only in the final round.",
+      "❌ Limp handshake — Swedish managers value firm grip + eye contact as professional.",
+    ],
+    practiceVi: [
+      "🎯 Viết CV 1 trang theo mẫu Arbetsförmedlingen.",
+      "🎯 Tự phỏng vấn 4 câu khung trước gương, lặp 3 lần.",
+      "🎯 Học 6 nghề thường gặp: städare, undersköterska, restaurangbiträde, butiksbiträde, lagerarbetare, IT-tekniker.",
+    ],
+    practiceEn: [
+      "🎯 Draft a 1-page CV using the Arbetsförmedlingen template.",
+      "🎯 Self-interview the 4-frame template in front of a mirror, 3×.",
+      "🎯 Learn 6 starter jobs: städare, undersköterska, restaurangbiträde, butiksbiträde, lagerarbetare, IT-tekniker.",
+    ],
+  },
+
+  "a1-hobbies": {
+    introVi:
+      "Câu hỏi 'Vad gör du på fritiden?' (Cuối tuần bạn làm gì?) xuất hiện trong 90% buổi small-talk Thuỵ Điển. Bài này dạy bạn 5 mẫu câu sở thích + 3 cách hỏi ngược — để cuộc trò chuyện kéo dài tự nhiên thay vì 'tắt máy' sau 10 giây.",
+    introEn:
+      "'Vad gör du på fritiden?' (What do you do in your free time?) appears in 90% of Swedish small talk. This lesson teaches 5 hobby templates + 3 reverse-questions to keep the dialogue alive instead of dying in 10 seconds.",
+    stepsVi: [
+      "Bước 1 · Sở thích chung: 'På fritiden gillar jag att ___.' (vandra/laga mat/läsa böcker = đi bộ/nấu ăn/đọc sách).",
+      "Bước 2 · Thể thao: 'Jag spelar ___ varje vecka.' (fotboll/badminton). Tập gym: 'Jag tränar på gym.'",
+      "Bước 3 · Văn hoá: 'Jag tycker om att se på film / lyssna på musik.'",
+      "Bước 4 · Hỏi ngược: 'Vad gör DU på fritiden då?' — nhấn 'DU' để chuyển turn nói.",
+      "Bước 5 · Bày tỏ thái độ: 'Det är riktigt kul!' (Vui lắm!) / 'Det är avkopplande.' (Thư giãn).",
+    ],
+    stepsEn: [
+      "Step 1 · General: 'På fritiden gillar jag att ___.' (vandra/laga mat/läsa böcker).",
+      "Step 2 · Sport: 'Jag spelar ___ varje vecka.' Gym: 'Jag tränar på gym.'",
+      "Step 3 · Culture: 'Jag tycker om att se på film / lyssna på musik.'",
+      "Step 4 · Reverse: 'Vad gör DU på fritiden då?' — stress 'DU' to hand back the turn.",
+      "Step 5 · Attitude: 'Det är riktigt kul!' / 'Det är avkopplande.'",
+    ],
+    pitfallsVi: [
+      "❌ Trả lời quá ngắn ('Inget' = 'không gì') — bị coi là khép kín.",
+      "❌ Quên 'att' sau 'gillar': 'jag gillar laga mat' SAI, phải 'jag gillar att laga mat'.",
+      "❌ Dùng 'spela' cho mọi môn — 'spela' chỉ dùng cho thể thao có bóng/nhạc cụ/game. Đi bộ là 'gå/vandra', bơi là 'simma'.",
+    ],
+    pitfallsEn: [
+      "❌ Replying just 'Inget' (nothing) — comes off as closed-off.",
+      "❌ Forgetting 'att' after 'gillar': 'jag gillar laga mat' is WRONG; use 'jag gillar att laga mat'.",
+      "❌ Using 'spela' for everything — 'spela' fits ball sports/instruments/games. Hike = 'vandra', swim = 'simma'.",
+    ],
+    practiceVi: [
+      "🎯 Liệt kê 5 sở thích thật + 3 sở thích mơ ước bằng tiếng Thuỵ Điển.",
+      "🎯 Quay video 1 phút trả lời 'Vad gör du på fritiden?' và đặt câu hỏi ngược.",
+      "🎯 Cặp đôi: A hỏi → B trả lời 30 giây → B hỏi lại → A trả lời. Lặp 5 vòng.",
+    ],
+    practiceEn: [
+      "🎯 List 5 real and 3 dream hobbies in Swedish.",
+      "🎯 Film a 1 min answer to 'Vad gör du på fritiden?' and add a reverse question.",
+      "🎯 Pair drill: A asks → B 30 s → B reverses → A 30 s. Loop 5×.",
+    ],
+  },
+
+  "a1-fika": {
+    introVi:
+      "Fika không chỉ là 'uống cà phê' — đó là nghi thức văn hoá kết nối đồng nghiệp và gia đình. Hiểu fika giúp bạn hoà nhập nhanh tại nơi làm việc và ghi điểm Tala A1 ở câu hỏi 'Berätta om svensk kultur'.",
+    introEn:
+      "Fika isn't just 'coffee' — it's a cultural ritual that bonds colleagues and family. Understanding fika fast-tracks workplace integration and scores points in Tala A1 when asked 'Tell me about Swedish culture'.",
+    stepsVi: [
+      "Bước 1 · Định nghĩa: 'Fika är en svensk kafferast med bullar och småprat.' (cà phê + bánh + tán gẫu).",
+      "Bước 2 · Thời điểm: thường 9:30 và 14:30 ở văn phòng — tham gia đủ là dấu hiệu hoà nhập.",
+      "Bước 3 · Món kinh điển: kanelbulle (bánh quế), kladdkaka (chocolate gooey), chokladboll (bi sô cô la dừa), prinsesstårta (bánh công chúa xanh lá).",
+      "Bước 4 · Mẫu lời mời: 'Ska vi fika?' (Đi fika không?) / 'Vill du följa med på fika?'",
+      "Bước 5 · Mẫu trả lời: 'Gärna!' (Rất sẵn lòng!) hoặc 'Tyvärr, jag har möte.' (Tiếc quá, tôi có họp.)",
+    ],
+    stepsEn: [
+      "Step 1 · Definition: 'Fika är en svensk kafferast med bullar och småprat.'",
+      "Step 2 · Timing: usually 9:30 and 14:30 at the office — joining = integration signal.",
+      "Step 3 · Classic treats: kanelbulle, kladdkaka, chokladboll, prinsesstårta.",
+      "Step 4 · Invite: 'Ska vi fika?' / 'Vill du följa med på fika?'",
+      "Step 5 · Reply: 'Gärna!' or 'Tyvärr, jag har möte.'",
+    ],
+    pitfallsVi: [
+      "❌ Bỏ fika nhiều lần vì 'bận' — bị đánh giá lạnh lùng, khó được sếp giao việc lớn.",
+      "❌ Mang đồ ăn riêng + làm việc trong giờ fika — phá vỡ tinh thần chung.",
+      "❌ Dùng 'coffee break' bằng tiếng Anh — đồng nghiệp sẽ tinh tế nhắc bạn dùng 'fika'.",
+    ],
+    pitfallsEn: [
+      "❌ Skipping fika 'because busy' — read as cold; managers hesitate to delegate big tasks.",
+      "❌ Bringing your own food and working during fika — breaks the collective spirit.",
+      "❌ Saying 'coffee break' in English — colleagues will gently nudge you to say 'fika'.",
+    ],
+    practiceVi: [
+      "🎯 Học thuộc định nghĩa 1 câu và đọc to 5 lần.",
+      "🎯 Mời 1 đồng nghiệp/bạn thật đi fika bằng tiếng Thuỵ Điển trong tuần này.",
+      "🎯 Viết 60 từ kể lại buổi fika đáng nhớ nhất, dùng ít nhất 2 món bánh.",
+    ],
+    practiceEn: [
+      "🎯 Memorise the 1-sentence definition and recite 5×.",
+      "🎯 Invite a real colleague/friend to fika in Swedish this week.",
+      "🎯 Write 60 words about a memorable fika using ≥2 pastry names.",
+    ],
+  },
 };
