@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Flame, Crown, Medal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
+import { fetchWithCache, getCached, getCurrentUserId } from "@/lib/leaderboardCache";
 
 interface StreakEntry {
   display_name: string;
@@ -11,23 +12,33 @@ interface StreakEntry {
   user_id: string;
 }
 
+const CACHE_KEY = "streak-lb";
+
 const StudyStreakLeaderboard = () => {
   const { t } = useLanguage();
-  const [entries, setEntries] = useState<StreakEntry[]>([]);
+  const initial = getCached<StreakEntry[]>(CACHE_KEY, 10 * 60_000);
+  const [entries, setEntries] = useState<StreakEntry[]>(initial || []);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initial);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
-    const fetch = async () => {
+    mountedRef.current = true;
+    const fetchIt = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        setCurrentUserId(user?.id || null);
-
-        const { data, error } = await supabase.rpc("get_streak_leaderboard") as { data: StreakEntry[] | null; error: any };
-        if (error) throw error;
-        // Collapse duplicate display names; keep the longest streak per name
+        getCurrentUserId().then(uid => { if (mountedRef.current) setCurrentUserId(uid); });
+        const data = await fetchWithCache<StreakEntry[]>(
+          CACHE_KEY,
+          async () => {
+            const { data, error } = await supabase.rpc("get_streak_leaderboard") as { data: StreakEntry[] | null; error: any };
+            if (error) throw error;
+            return data || [];
+          },
+          { ttlMs: 120_000, timeoutMs: 9000 },
+        );
+        if (!mountedRef.current) return;
         const deduped = dedupeByDisplayName(
-          (data || []).map(r => ({
+          data.map(r => ({
             user_id: r.user_id,
             score: r.streak_days || 0,
             display_name: r.display_name,
@@ -41,9 +52,10 @@ const StudyStreakLeaderboard = () => {
       } catch (e) {
         console.error("Failed to fetch streak leaderboard:", e);
       }
-      setLoading(false);
+      if (mountedRef.current) setLoading(false);
     };
-    fetch();
+    fetchIt();
+    return () => { mountedRef.current = false; };
   }, []);
 
   const rankIcons = [
@@ -52,7 +64,7 @@ const StudyStreakLeaderboard = () => {
     <Medal key="3" className="w-4 h-4 text-amber-700" />,
   ];
 
-  if (loading) {
+  if (loading && entries.length === 0) {
     return (
       <div className="rounded-xl border border-border bg-card/50 p-4">
         <p className="text-sm text-muted-foreground text-center py-4">{t("Đang tải...", "Loading...")}</p>
