@@ -1,4 +1,4 @@
-// Professional Projects — curated real-world IT projects mapped to each
+// Professional Projects - curated real-world IT projects mapped to each
 // learning pillar in Programming.tsx. Used by <ProfessionalProjects />.
 
 export type ProjectDifficulty = "beginner" | "intermediate" | "advanced";
