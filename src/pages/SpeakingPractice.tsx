@@ -118,6 +118,9 @@ const SpeakingPractice = () => {
   const [loading, setLoading] = useState(false);
   const [upgrading, setUpgrading] = useState(false);
   const [result, setResult] = useState<SpeakingResult | null>(null);
+  const [savingNotebook, setSavingNotebook] = useState(false);
+  const [savedNotebook, setSavedNotebook] = useState(false);
+  const { toast } = useToast();
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [showModelAnswer, setShowModelAnswer] = useState(false);
   const [showQuestionList, setShowQuestionList] = useState(true);
