@@ -5,7 +5,7 @@ import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages, GraduationCap } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages, GraduationCap, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -119,6 +119,15 @@ const pillars = [
     accentColor: "text-orange-600",
   },
   {
+    id: "cybersecurity",
+    icon: ShieldCheck,
+    emoji: "🛡️",
+    color: "from-red-500 to-orange-600",
+    bgColor: "bg-red-500/8",
+    borderColor: "border-red-500/20",
+    accentColor: "text-red-600",
+  },
+  {
     id: "edtech",
     icon: GraduationCap,
     emoji: "🎓",
@@ -185,6 +194,7 @@ const Programming = () => {
     title: string; titleEn: string; desc: string; descEn: string;
     modules: typeof programmingModules; challengeSection?: boolean;
     isPathway?: boolean;
+    cyberLessons?: { moduleId: string; lessonId: string; title: string; titleEn: string; desc: string; descEn: string; badge: string; icon: string; color: string; }[];
   }> = {
     "python-pathway": {
       title: "Introduction to Programming", titleEn: "Introduction to Programming",
@@ -253,6 +263,38 @@ const Programming = () => {
       desc: "Agent học từ phần thưởng: MDP, Q-Learning/DQN, Policy Gradients (PPO/SAC), ứng dụng robotics, xe tự lái và Game AI (AlphaGo, RLHF của ChatGPT). Yêu cầu: Python + xác suất cơ bản.",
       descEn: "Agents that learn from rewards: MDPs, Q-Learning/DQN, Policy Gradients (PPO/SAC), and applications in robotics, self-driving cars, and Game AI (AlphaGo, ChatGPT's RLHF). Prerequisites: Python + basic probability.",
       modules: allProgrammingModules.filter(m => m.course === "rl"),
+    },
+    cybersecurity: {
+      title: "Cybersecurity", titleEn: "Cybersecurity",
+      desc: "An toàn thông tin cho lập trình viên 2026: Bảo mật ứng dụng (OWASP, Defense in Depth), Authentication & Authorization, Row Level Security, chống SQL Injection, mã hóa & quản lý khóa, secure coding trong API & Cloud. Tổng hợp các bài học bảo mật xuyên suốt lộ trình Software Engineering, SQL/Database và AI APIs.",
+      descEn: "Cybersecurity for developers (2026): Application Security (OWASP, Defense in Depth), Authentication & Authorization, Row Level Security, SQL Injection prevention, cryptography & key management, secure coding for APIs & Cloud. Curated security lessons across the Software Engineering, SQL/Database and AI API tracks.",
+      modules: [],
+      cyberLessons: [
+        {
+          moduleId: "se-foundations", lessonId: "se-security-patterns",
+          title: "Bảo mật ứng dụng & Design Patterns",
+          titleEn: "Application Security & Design Patterns",
+          desc: "OWASP Top 10, Defense in Depth, Authentication vs Authorization, threat modeling và các Design Patterns bảo mật cốt lõi cho mọi PR động đến auth/data.",
+          descEn: "OWASP Top 10, Defense in Depth, Authentication vs Authorization, threat modeling and core security Design Patterns for every auth/data PR.",
+          badge: "Software Engineering", icon: "🛡️", color: "from-slate-600 to-blue-700",
+        },
+        {
+          moduleId: "prog-sql", lessonId: "sql-6",
+          title: "Bảo mật dữ liệu & Row Level Security",
+          titleEn: "Data Security & Row Level Security",
+          desc: "ACID Transactions, Row Level Security (RLS), parameterized queries chống SQL Injection — nền tảng bảo vệ dữ liệu người dùng ở mọi backend.",
+          descEn: "ACID Transactions, Row Level Security (RLS), parameterized queries to prevent SQL Injection — the foundation for protecting user data in any backend.",
+          badge: "SQL & Database", icon: "🗄️", color: "from-violet-500 to-purple-600",
+        },
+        {
+          moduleId: "prog-ai-foundation", lessonId: "ai-f-5",
+          title: "Bảo mật AI API & Quản lý API Key",
+          titleEn: "AI API Security & Key Management",
+          desc: "Luôn giữ API Key ở backend, dùng edge functions/proxy, tránh leak key qua frontend, rate-limit & monitor chi phí khi tích hợp AI APIs (OpenAI, Gemini, Lovable AI).",
+          descEn: "Always keep API keys server-side, use edge functions/proxies, prevent key leaks via frontend, rate-limit and monitor cost when integrating AI APIs (OpenAI, Gemini, Lovable AI).",
+          badge: "AI Foundation", icon: "🤖", color: "from-rose-500 to-pink-600",
+        },
+      ],
     },
     edtech: {
       title: "EdTech", titleEn: "EdTech",
@@ -541,6 +583,43 @@ const Programming = () => {
                       </div>
                     </Link>
                   </>
+                )}
+
+                {/* Cybersecurity curated lessons */}
+                {active.cyberLessons && (
+                  <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                    {active.cyberLessons.map((les, j) => (
+                      <Link
+                        key={les.lessonId}
+                        to={`/programming/${les.moduleId}/${les.lessonId}`}
+                        className="group glass-card rounded-xl p-5 hover:border-red-500/40 transition-all hover:shadow-md active:scale-[0.98]"
+                      >
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: j * 0.06, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${les.color} flex items-center justify-center text-lg`}>
+                              {les.icon}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-red-600 transition-colors">
+                                {t(les.title, les.titleEn)}
+                              </h3>
+                              <span className="inline-block text-[10px] font-medium text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded mt-0.5">
+                                {les.badge}
+                              </span>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-red-600 transition-colors shrink-0" />
+                          </div>
+                          <p className="text-xs text-muted-foreground line-clamp-3">
+                            {t(les.desc, les.descEn)}
+                          </p>
+                        </motion.div>
+                      </Link>
+                    ))}
+                  </div>
                 )}
 
                 {/* Module Cards */}

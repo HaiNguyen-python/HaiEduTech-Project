@@ -252,6 +252,7 @@ const Navbar = () => {
       { to: "/programming/se-foundations/se-git", label: t("Git Branching Simulator", "Git Branching Simulator"), icon: Workflow },
       { to: "/programming/software-eng-interview", label: t("Software Engineer Interview", "Software Engineer Interview"), icon: MessagesSquare },
     ] },
+    { to: "/programming?pillar=cybersecurity", label: t("🛡️ Cybersecurity", "🛡️ Cybersecurity"), icon: Shield },
     { to: "/programming/nlp", label: t("NLP - Xử lý Ngôn ngữ", "NLP - Language Processing"), icon: Languages },
     { to: "/programming/edtech", label: t("EdTech", "EdTech"), icon: GraduationCap },
     
