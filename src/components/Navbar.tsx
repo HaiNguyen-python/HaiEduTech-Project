@@ -239,6 +239,7 @@ const Navbar = () => {
     ] },
     { to: "#prog-ai-data-group", label: t("AI & Data Engineering", "AI & Data Engineering"), icon: Brain, groupLabel: "prog-ai-data", children: [
       { to: "/programming/prog-ai-foundation", label: t("AI Foundation", "AI Foundation"), icon: Brain },
+      { to: "/programming?pillar=prompt-engineering", label: t("Prompt Engineering ✍️", "Prompt Engineering ✍️"), icon: Sparkles },
       { to: "/programming/prog-ml", label: t("Machine Learning", "Machine Learning"), icon: Bot },
       { to: "/programming/dl-foundations", label: t("Deep Learning", "Deep Learning"), icon: Network },
       { to: "/programming/reinforcement-learning", label: t("Reinforcement Learning", "Reinforcement Learning"), icon: Gamepad2 },

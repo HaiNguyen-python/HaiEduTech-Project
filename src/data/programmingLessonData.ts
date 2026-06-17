@@ -9,7 +9,7 @@ export interface ProgrammingModule {
   color: string;
   description: string;
   descriptionEn: string;
-  course: "kids" | "data-ai" | "python" | "sql" | "data-eng" | "ml" | "cloud" | "dl" | "rl" | "nlp" | "edtech" | "cybersecurity";
+  course: "kids" | "data-ai" | "python" | "sql" | "data-eng" | "ml" | "cloud" | "dl" | "rl" | "nlp" | "edtech" | "cybersecurity" | "prompt-eng";
   lessons: ProgrammingLesson[];
 }
 
@@ -1943,9 +1943,12 @@ print(f"\\n📊 Stats: {bot.get_stats()}")`,
   },
 ];
 
+import { promptEngineeringModule } from "./promptEngineeringModule";
+
 // Merge expanded curriculum modules (cast to ProgrammingModule for compatibility)
 export const allProgrammingModules: ProgrammingModule[] = [
   ...programmingModules,
+  promptEngineeringModule,
   ...(expandedModules as unknown as ProgrammingModule[]),
 ];
 

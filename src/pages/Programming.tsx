@@ -57,6 +57,15 @@ const pillars = [
     accentColor: "text-rose-600",
   },
   {
+    id: "prompt-engineering",
+    icon: Sparkles,
+    emoji: "✍️",
+    color: "from-purple-500 to-fuchsia-600",
+    bgColor: "bg-purple-500/8",
+    borderColor: "border-purple-500/20",
+    accentColor: "text-purple-600",
+  },
+  {
     id: "sql",
     icon: Database,
     emoji: "🗄️",
@@ -231,6 +240,12 @@ const Programming = () => {
       desc: "Nền tảng AI: Lịch sử, LLMs, Prompt Engineering, Ethics. Thực hành tối ưu hóa Prompt và xây dựng ứng dụng AI cơ bản.",
       descEn: "AI Fundamentals: History, LLMs, Prompt Engineering, Ethics. Practice Prompt optimization and build basic AI applications.",
       modules: allProgrammingModules.filter(m => m.id === "prog-ai-foundation" || (m.course === "data-ai" && m.id !== "se-foundations")),
+    },
+    "prompt-engineering": {
+      title: "Prompt Engineering", titleEn: "Prompt Engineering",
+      desc: "8 bài học chuyên sâu 2026: 5 nguyên tắc viết prompt, Few-shot, Chain-of-Thought, Role/System, JSON Structured Output, RAG prompting, phòng chống Prompt Injection, và Prompt-Ops (eval + A/B test). Mỗi bài có code Python thực tế và quiz.",
+      descEn: "8 expert lessons (2026): 5 prompting principles, Few-shot, Chain-of-Thought, Role/System, JSON Structured Output, RAG prompting, Prompt Injection defense, and Prompt-Ops (eval + A/B test). Each lesson ships with real Python code and quizzes.",
+      modules: allProgrammingModules.filter(m => m.course === "prompt-eng"),
     },
     sql: {
       title: "SQL & Database", titleEn: "SQL & Database",
