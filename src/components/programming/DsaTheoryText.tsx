@@ -4,7 +4,7 @@
  *
  * Strict marker matching: a section heading must be one of the known phrases,
  * START a sentence (beginning of string, or right after newline / ". " / "! ")
- * AND be followed by ":" — this prevents false positives like the literal
+ * AND be followed by ":" - this prevents false positives like the literal
  * phrase "ví dụ" appearing inside another sentence (e.g. "thử bằng ví dụ phản ví dụ").
  */
 import React from "react";
@@ -67,7 +67,7 @@ const splitIntoBlocks = (raw: string, lang: "vi" | "en"): Block[] => {
   const markers = lang === "vi" ? MARKERS_VI : MARKERS_EN;
 
   // Build a strict regex: marker must be preceded by start / newline / sentence end,
-  // and followed by ":" — this prevents matching inline lowercase / mid-sentence uses.
+  // and followed by ":" - this prevents matching inline lowercase / mid-sentence uses.
   // We use a capture group so split() keeps the marker text.
   const phraseAlt = markers.map((m) => escapeRe(m.phrase)).join("|");
   const re = new RegExp(`(?:^|(?<=[.!?]\\s)|(?<=\\n))((?:${phraseAlt}))\\s*:`, "g");
@@ -103,11 +103,11 @@ const splitIntoBlocks = (raw: string, lang: "vi" | "en"): Block[] => {
   return blocks;
 };
 
-// Convert "(1) ... (2) ... (3) ..." into a bullet list — but only when there
+// Convert "(1) ... (2) ... (3) ..." into a bullet list - but only when there
 // are AT LEAST 2 parenthesised numbers AND each follows a space (so we don't
 // shred set-literals like "{1, 3, 4}" which have no parens anyway).
 const splitInlineList = (text: string): string[] | null => {
-  const matches = text.match(/(?:^|[\s—–-])\(\d+\)\s/g);
+  const matches = text.match(/(?:^|[\s-–-])\(\d+\)\s/g);
   if (!matches || matches.length < 2) return null;
   const parts = text
     .split(/(?:^|\s)\(\d+\)\s+/)

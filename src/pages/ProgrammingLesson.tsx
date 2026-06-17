@@ -193,7 +193,7 @@ const ProgrammingLessonPage = () => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
     // Show ORIGINAL theory by default. Students can opt into AI Deep-Dive
-    // explicitly via the toggle button — do NOT auto-switch them.
+    // explicitly via the toggle button - do NOT auto-switch them.
     setUseEnhanced(false);
     supabase
       .from("programming_theory_cache")
@@ -641,7 +641,7 @@ const ProgrammingLessonPage = () => {
                     </div>
                   )}
 
-                  {/* Code Example — use the lesson's declared language so syntax
+                  {/* Code Example - use the lesson's declared language so syntax
                       highlighting matches (Python / TS / JS / SQL / Bash, etc.). */}
                   <CodeBlock code={lesson.code} language={detectCodeLanguage(lesson.code, lesson.codeLanguage)} />
 
@@ -885,7 +885,7 @@ const ProgrammingLessonPage = () => {
                     </div>
                   )}
 
-                  {/* Lesson Feedback widget rendered globally in App.tsx — do not double-mount here */}
+                  {/* Lesson Feedback widget rendered globally in App.tsx - do not double-mount here */}
                 </motion.div>
               </div>
             </div>
