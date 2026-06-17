@@ -49,7 +49,7 @@ RULES:
 - Analyze ONLY the transcription. Do NOT hallucinate.
 - If transcription is empty or <10 words, give Band 4.0-4.5 and explain the student must speak more.
 - Reference SPECIFIC words/phrases from the transcript in feedback.
-- Be concise but specific.
+- Be CONCISE: 1-2 short sentences per criterion feedback. No fluff.
 
 QUESTION (Part ${part}): "${question}"
 DURATION: ${duration}s | WORD COUNT: ${wordCount}
@@ -59,21 +59,19 @@ Return ONLY valid JSON, no prose, no markdown fences:
 {
   "overall": <4.0-9.0>,
   "criteria": [
-    {"label":"Fluency & Coherence","score":<n>,"feedback":"<2-3 sentences referencing the transcript>"},
-    {"label":"Lexical Resource","score":<n>,"feedback":"<2-3 sentences quoting words used; suggest Band 7+ alternatives>"},
-    {"label":"Grammatical Range & Accuracy","score":<n>,"feedback":"<2-3 sentences quoting errors and corrections>"},
-    {"label":"Pronunciation","score":<n>,"feedback":"<2-3 sentences on likely pronunciation issues>"}
+    {"label":"Fluency & Coherence","score":<n>,"feedback":"<1-2 short sentences referencing the transcript>"},
+    {"label":"Lexical Resource","score":<n>,"feedback":"<1-2 short sentences quoting a word + Band 7+ alternative>"},
+    {"label":"Grammatical Range & Accuracy","score":<n>,"feedback":"<1-2 short sentences quoting one error + correction>"},
+    {"label":"Pronunciation","score":<n>,"feedback":"<1-2 short sentences on likely pronunciation issues>"}
   ],
-  "transcript": "<the original transcript exactly>",
   "highlightedErrors": [
     {"text":"<exact substring from transcript>","type":"grammar|vocabulary|pronunciation","correction":"<fix>","explanation":"<short>"}
   ],
-  "suggestions": ["<actionable tip>","<actionable tip>","<actionable tip>"],
-  "upgradedAnswer": "<Upgrade to Band 7.5-8.0. Keep their ideas. Bold upgraded words with **markdown**. Part 1: 2-4 sentences. Part 2: 200-260 words. Part 3: 4-6 sentences.>"
+  "suggestions": ["<actionable tip>","<actionable tip>","<actionable tip>"]
 }
 
-highlightedErrors: include 2-3 items if any imperfections exist; each text MUST be an exact substring of the transcript.
-Make scores realistic and varied.`;
+highlightedErrors: include 2-3 items; each text MUST be an exact substring of the transcript.
+Do NOT include the transcript or any upgraded answer in the JSON. Make scores realistic and varied.`;
 
     // Hard timeout to avoid UI spinner stalls.
     const controller = new AbortController();
