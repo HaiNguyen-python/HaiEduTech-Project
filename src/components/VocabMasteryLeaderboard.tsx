@@ -5,6 +5,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
 import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
+import {
+  fetchWithCache,
+  getCached,
+  getCurrentUserId,
+  invalidateCache,
+  subscribeTable,
+} from "@/lib/leaderboardCache";
 
 interface LeaderboardEntry {
   user_id: string;
@@ -27,60 +34,51 @@ export async function syncMasteredCount(_subject: string, _count: number) {
   /* no-op */
 }
 
-// Hard timeout so a hung network call never leaves the UI stuck on "Loading..."
-function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const t = setTimeout(() => reject(new Error("timeout")), ms);
-    Promise.resolve(p).then(
-      (v) => { clearTimeout(t); resolve(v); },
-      (e) => { clearTimeout(t); reject(e); },
-    );
-  });
-}
+const TTL_MS = 60_000; // cached freshness window — revalidates in background
 
 const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryLeaderboardProps) => {
   const { t } = useLanguage();
-  const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
+  const cacheKey = `mastery::${subject}`;
+  const initialCached = getCached<LeaderboardEntry[]>(cacheKey, 10 * 60_000);
+  const [entries, setEntries] = useState<LeaderboardEntry[]>(initialCached || []);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialCached);
   const [error, setError] = useState(false);
   const mountedRef = useRef(true);
 
-  const fetchLeaderboard = useCallback(async () => {
+  const fetchLeaderboard = useCallback(async (force = false) => {
     setError(false);
-    let attempt = 0;
-    while (attempt < 3) {
-      attempt++;
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!mountedRef.current) return;
-        setCurrentUserId(user?.id || null);
-        const { data, error: rpcError } = await withTimeout<any>(
-          (supabase as any).rpc("get_mastery_leaderboard", { _subject: subject }),
-          7000 + attempt * 3000,
-        );
-        if (rpcError) throw rpcError;
-        if (!mountedRef.current) return;
-        const merged = (data || []).map((row: any) => ({
-          user_id: row.user_id,
-          score: Number(row.score) || 0,
-          display_name: row.display_name || t("Học viên", "Student"),
-        })) as LeaderboardEntry[];
-        setEntries(dedupeByDisplayName(merged));
-        setLoading(false);
-        return;
-      } catch (e) {
-        if (attempt >= 3) {
-          console.error("Failed to fetch mastery leaderboard:", e);
-          if (!mountedRef.current) return;
-          setError(true);
-          setLoading(false);
-          return;
-        }
-        await new Promise((r) => setTimeout(r, 600 * attempt));
-      }
+    try {
+      // Resolve user id from local session (no network) — instant.
+      getCurrentUserId().then(uid => { if (mountedRef.current) setCurrentUserId(uid); });
+
+      if (force) invalidateCache(cacheKey);
+      const data = await fetchWithCache<any[]>(
+        cacheKey,
+        async () => {
+          const { data, error: rpcError } = await (supabase as any)
+            .rpc("get_mastery_leaderboard", { _subject: subject });
+          if (rpcError) throw rpcError;
+          return data || [];
+        },
+        { ttlMs: TTL_MS, timeoutMs: 9000 },
+      );
+      if (!mountedRef.current) return;
+      const merged = data.map((row: any) => ({
+        user_id: row.user_id,
+        score: Number(row.score) || 0,
+        display_name: row.display_name || t("Học viên", "Student"),
+      })) as LeaderboardEntry[];
+      setEntries(dedupeByDisplayName(merged));
+      setLoading(false);
+    } catch (e) {
+      console.error("Failed to fetch mastery leaderboard:", e);
+      if (!mountedRef.current) return;
+      // Keep cached entries visible if any; only show error when we have nothing.
+      if (entries.length === 0) setError(true);
+      setLoading(false);
     }
-  }, [subject, t]);
+  }, [subject, cacheKey, t, entries.length]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -91,28 +89,24 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
       const detail = (e as CustomEvent).detail;
       if (detail && detail.subject && detail.subject !== subject) return;
       window.clearTimeout(timer);
-      timer = window.setTimeout(fetchLeaderboard, 350);
+      timer = window.setTimeout(() => fetchLeaderboard(true), 350);
     };
     window.addEventListener(MASTERY_UPDATED_EVENT, onLocal);
 
-    const channel = supabase
-      .channel(`mastery-lb-${subject}`)
-      .on("postgres_changes", {
-        event: "*",
-        schema: "public",
-        table: "user_vocab_mastered",
-        filter: `subject=eq.${subject}`,
-      }, () => {
+    const unsubscribe = subscribeTable(
+      "user_vocab_mastered",
+      `subject=eq.${subject}`,
+      () => {
         window.clearTimeout(timer);
-        timer = window.setTimeout(fetchLeaderboard, 350);
-      })
-      .subscribe();
+        timer = window.setTimeout(() => fetchLeaderboard(true), 500);
+      },
+    );
 
     return () => {
       mountedRef.current = false;
       window.removeEventListener(MASTERY_UPDATED_EVENT, onLocal);
       window.clearTimeout(timer);
-      supabase.removeChannel(channel);
+      unsubscribe();
     };
   }, [subject, fetchLeaderboard]);
 
