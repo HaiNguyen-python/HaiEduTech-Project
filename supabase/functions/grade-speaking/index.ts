@@ -89,7 +89,7 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
         body: JSON.stringify({
           model: MODEL,
           temperature: 0.2,
-          max_tokens: 700,
+          max_tokens: 1100,
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: `Grade this IELTS Speaking Part ${part} answer. Question: "${question}". Transcript: "${transcriptText}". Duration: ${duration}s, ${wordCount} words. Return JSON only.` },
