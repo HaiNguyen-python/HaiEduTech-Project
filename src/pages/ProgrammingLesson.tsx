@@ -144,6 +144,7 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
     ],
     "deep-learning": ["dl-foundations"],
     "reinforcement-learning": ["reinforcement-learning"],
+    "prompt-engineering": ["prog-prompt-engineering"],
   };
   const ids = directIds[pillar] || [];
   return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
