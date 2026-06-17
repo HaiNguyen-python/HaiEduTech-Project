@@ -101,7 +101,7 @@ Make scores realistic and varied.`;
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("grade-speaking", "gemini-2.5-flash", "english", 0, "error", aborted ? "timeout" : "network");
+      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", 0, "error", aborted ? "timeout" : "network");
       return new Response(
         JSON.stringify({ error: aborted ? "Grading timed out. Please try again." : "AI service unreachable. Please try again." }),
         { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -111,7 +111,7 @@ Make scores realistic and varied.`;
 
     if (!response.ok) {
       const status = response.status;
-      await logUsage("grade-speaking", "gemini-2.5-flash", "english", 0, "error", `HTTP ${status}`);
+      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", 0, "error", `HTTP ${status}`);
       if (status === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -156,7 +156,7 @@ Make scores realistic and varied.`;
       }
     } catch (e) {
       console.error("Parse error:", content);
-      await logUsage("grade-speaking", "gemini-2.5-flash", "english", tokensUsed, "parse_error");
+      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", tokensUsed, "parse_error");
       return new Response(JSON.stringify({ error: "Failed to parse speaking result. Please try again." }), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -166,7 +166,7 @@ Make scores realistic and varied.`;
       parsed.transcript = transcriptText;
     }
 
-    await logUsage("grade-speaking", "gemini-2.5-flash", "english", tokensUsed, "success");
+    await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
