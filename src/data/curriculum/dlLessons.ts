@@ -684,7 +684,70 @@ print("Total parameters:", sum(p.numel() for p in model.parameters()))`,
         titleEn: "Recurrent Neural Networks & LSTMs",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lessons 1 and 2.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1 và 2.
+
+## 1. Tại sao các mô hình dense và CNN gặp khó khăn với các chuỗi tuần tự
+
+Văn bản, lời nói, luồng dữ liệu cảm biến và giá cổ phiếu đều có một đặc tính chung: **thứ tự quan trọng**. Câu "Mèo ăn cá" có nghĩa ngược lại với "Cá ăn mèo", nhưng một lớp dense làm phẳng cả hai câu thành cùng một túi từ thì lại coi chúng là giống hệt nhau.
+
+Một **Mạng nơ-ron hồi quy (RNN)** xử lý một chuỗi từng bước một và duy trì một **trạng thái ẩn** \\\`h_t\\\` tóm tắt mọi thứ đã thấy từ trước đến nay:
+
+\\\`\\\`\\\`
+h_t = tanh(W_x · x_t + W_h · h_{t-1} + b)
+y_t = W_y · h_t + b_y
+\\\`\\\`\\\`
+
+Các trọng số \\\`W_x\\\`, \\\`W_h\\\`, \\\`W_y\\\` giống nhau được sử dụng lại ở mỗi bước thời gian - chính xác là thủ thuật *chia sẻ trọng số* đã giúp CNN hoạt động, nhưng dọc theo **trục thời gian** thay vì không gian.
+
+\\\`\\\`\\\`mermaid
+graph LR
+    X1[x1] --> H1[h1]
+    H1 --> H2[h2]
+    X2[x2] --> H2
+    H2 --> H3[h3]
+    X3[x3] --> H3
+    H3 --> Y[output]
+\\\`\\\`\\\`
+
+## 2. Vấn đề gradient biến mất
+
+Về lý thuyết, một RNN có thể ghi nhớ lại một khoảng thời gian tùy ý. Trên thực tế, các gradient được lan truyền qua hơn 20 bước **co lại theo cấp số nhân** (hoặc, ít thường xuyên hơn, bùng nổ). Mạng quên phần đầu câu khi nó đến cuối câu - một lỗi nghiêm trọng đối với các tài liệu dài hoặc bài nói.
+
+## 3. Khắc phục vấn đề với LSTM - một ô với ba cổng
+
+Một đơn vị **Bộ nhớ dài ngắn hạn (Long Short-Term Memory - LSTM)** thay thế hồi quy \\\`tanh\\\` trần bằng một *trạng thái ô* \\\`c_t\\\` chảy gần như không bị ảnh hưởng qua thời gian, cộng với ba **cổng** được học:
+
+| Cổng | Quyết định |
+|---|---|
+| **Cổng quên** \\\`f\\\` | Xóa gì khỏi trạng thái ô trước đó |
+| **Cổng đầu vào** \\\`i\\\` | Thông tin mới nào để ghi vào |
+| **Cổng đầu ra** \\\`o\\\` | Phần nào của trạng thái ô được hiển thị dưới dạng trạng thái ẩn |
+
+Bởi vì trạng thái ô được cập nhật bằng **phép nhân và phép cộng** (không lặp lại hàm tanh), các gradient tồn tại qua hàng trăm bước. **GRU** (Gated Recurrent Unit) là một biến thể đơn giản hơn với 2 cổng có hiệu suất tương tự.
+
+## 4. RNN hai chiều và xếp chồng (Bidirectional and Stacked RNNs)
+
+- **Hai chiều (Bidirectional)** - chạy một RNN từ trái sang phải và một RNN khác từ phải sang trái, sau đó nối các trạng thái ẩn. Mô hình có thể sử dụng ngữ cảnh từ cả hai phía của mỗi từ, giúp tăng độ chính xác trong việc gắn thẻ và nhận dạng thực thể có tên.
+- **Xếp chồng (Stacked)** - truyền dãy đầu ra của một LSTM vào một LSTM khác. Các LSTM hai lớp là tiêu chuẩn trong các hệ thống dịch máy thần kinh (NMT) trước khi Transformer chiếm ưu thế.
+
+## 5. Ví dụ thực tế - phân tích cảm xúc tiếng Việt
+
+Một LSTM hai lớp hai chiều với trạng thái ẩn 128 chiều và vector nhúng (embedding) word2vec tiếng Việt có thể phân loại đánh giá sản phẩm trên Shopee với độ chính xác ~88%. Nó chạy dưới 5 ms cho mỗi đánh giá trên CPU - đủ nhỏ để nhúng vào ứng dụng di động để kiểm duyệt theo thời gian thực.
+
+Kiến trúc tương tự cũng thúc đẩy việc nhận dạng giọng nói ban đầu (DeepSpeech 2), dịch máy ban đầu (Seq2Seq) và dự báo chuỗi thời gian trong tài chính.
+
+## 6. Vị trí của RNN trong năm 2025-2026
+
+Các mô hình Transformer (Bài học 5) đã thay thế RNN trong hầu hết các tác vụ NLP. RNN / LSTM vẫn được ưu tiên khi:
+
+- Các chuỗi rất dài nhưng cục bộ (cảm biến dòng chảy năng lượng thấp).
+- Độ trễ là cực kỳ quan trọng và mô hình phải chạy trực tuyến từng bước.
+- Bộ nhớ hạn chế (một LSTM nhỏ hơn khoảng 10 lần so với một Transformer tương đương).
+
+## 7. Khái niệm chính
+
+> 🎯 **Khái niệm chính** - RNN chia sẻ trọng số theo **thời gian** giống như CNN chia sẻ chúng theo **không gian**. LSTM bổ sung thêm một *trạng thái ô có cổng* để các gradient tồn tại qua các chuỗi dài. Các mô hình Transformer (bài học tiếp theo) loại bỏ hoàn toàn tính hồi quy để ưu tiên cơ chế chú ý (attention) - nhưng hiểu RNN là điều cần thiết để hiểu *tại sao* cơ chế chú ý lại giành chiến thắng.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 1 and 2.
 
 ## 1. Why dense and CNN models struggle with sequences
 
@@ -747,7 +810,6 @@ Transformers (Lesson 5) have replaced RNNs for most NLP tasks. RNNs / LSTMs are 
 ## 7. Key Concept
 
 > 🎯 **Key Concept** - RNNs share weights across **time** the way CNNs share them across **space**. LSTMs add a *gated cell state* so gradients survive long sequences. Transformers (next lesson) drop recurrence entirely in favour of attention - but understanding RNNs is essential for understanding *why* attention won.`,
-        theoryEn: "",
         code: `# Bộ phân loại cảm xúc trên một tập dữ liệu nhỏ - sử dụng LSTM hai chiều trong PyTorch.
 import torch
 import torch.nn as nn
@@ -828,8 +890,8 @@ print("Parameters: ", sum(p.numel() for p in model.parameters()))
 # Kết quả mong đợi: Parameters:  một số nguyên lớn (ví dụ: khoảng 1.5 triệu)
 `,
         codeLanguage: "python",
-        exercise: "Replace `nn.LSTM` with `nn.GRU` (the API is almost identical - drop the `c_n` cell state). Compare parameter counts. Then make the model **uni-directional** (`bidirectional=False`) and update the input dimension of the final linear layer. Which version has fewer parameters, and which would you expect to perform better on long reviews?",
-        exerciseEn: "",
+        exercise: "Thay thế `nn.LSTM` bằng `nn.GRU` (API gần như tương tự - bỏ qua trạng thái ô `c_n`). So sánh số lượng tham số. Sau đó, làm cho mô hình **một chiều** (`bidirectional=False`) và cập nhật kích thước đầu vào của lớp tuyến tính cuối cùng. Phiên bản nào có ít tham số hơn và bạn mong đợi phiên bản nào sẽ hoạt động tốt hơn trên các bài đánh giá dài?",
+        exerciseEn: "Replace `nn.LSTM` with `nn.GRU` (the API is almost identical - drop the `c_n` cell state). Compare parameter counts. Then make the model **uni-directional** (`bidirectional=False`) and update the input dimension of the final linear layer. Which version has fewer parameters, and which would you expect to perform better on long reviews?",
         quiz: [
           {
             question: "What problem do LSTMs primarily solve compared to vanilla RNNs?",
@@ -871,7 +933,90 @@ print("Parameters: ", sum(p.numel() for p in model.parameters()))
         titleEn: "Transformers & Large Language Models",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - All previous DL lessons. Familiarity with the **AI Foundation → LLM** lesson is also recommended.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Tất cả các bài học DL trước đó. Nên làm quen với bài học **Nền tảng AI → LLM**.
+
+## 1. Tại sao cơ chế chú ý (attention) thay thế cơ chế truy hồi (recurrence)
+
+RNN xử lý các token (mã thông báo) từng cái một – về cơ bản là **tuần tự (sequential)**, điều này có nghĩa là quá trình huấn luyện chậm trên các GPU hiện đại. Bài báo năm 2017 *"Attention Is All You Need"* đã giới thiệu **Transformer**: một mô hình loại bỏ hoàn toàn cơ chế truy hồi và cho phép mỗi token trực tiếp chú ý đến mọi token khác một cách **song song**.
+
+Kết quả là kiến trúc đứng sau ChatGPT, Claude, Gemini, Llama và gần như mọi mô hình ngôn ngữ tiên tiến kể từ năm 2020.
+
+## 2. Cơ chế tự chú ý (Self-attention) trong một hình ảnh
+
+Đối với mỗi token trong chuỗi, mô hình tính toán ba véc-tơ: một **Truy vấn (Query)** (tôi đang tìm kiếm gì?), một **Khóa (Key)** (tôi cung cấp gì?), và một **Giá trị (Value)** (tôi sẽ đóng góp gì?). Trọng số chú ý từ token i đến token j là tích vô hướng của Query của i với Key của j, sau đó được điều chỉnh tỷ lệ và áp dụng softmax. Kết quả đầu ra cho token i là tổng có trọng số của tất cả các Giá trị.
+
+\\\`\\\`\\\`
+Attention(Q, K, V) = softmax(Q · Kᵀ / √d_k) · V
+\\\`\\\`\\\`
+
+\\\`\\\`\\\`mermaid
+graph LR
+    T1[Token 1] --> Q1[Q1, K1, V1]
+    T2[Token 2] --> Q2[Q2, K2, V2]
+    T3[Token 3] --> Q3[Q3, K3, V3]
+    Q1 --> A[Attention<br/>softmax QK / sqrt d]
+    Q2 --> A
+    Q3 --> A
+    A --> O[Weighted V<br/>per token]
+\\\`\\\`\\\`
+
+**Cơ chế chú ý đa đầu (Multi-head attention)** thực hiện toàn bộ thao tác này \`h\` lần (ví dụ: 12 hoặc 96) song song với các phép chiếu (projection) được học khác nhau, sau đó nối (concatenate) các đầu ra. Các đầu khác nhau học cách nắm bắt các mối quan hệ khác nhau – cú pháp, tham chiếu đồng nhất (coreference), phụ thuộc tầm xa.
+
+## 3. Khối Transformer đầy đủ
+
+Một khối **bộ mã hóa (encoder)** Transformer chỉ đơn giản là:
+
+\\\`\\\`\\\`
+x = x + MultiHeadAttention(LayerNorm(x))
+x = x + FeedForward(LayerNorm(x))
+\\\`\\\`\\\`
+
+**Kết nối dư (residual connections)** (\`x + ...\`) và **Chuẩn hóa lớp (LayerNorm)** là những yếu tố giúp việc xếp chồng (stacking) hơn 100 khối có thể huấn luyện được. **Mạng truyền thẳng (FeedForward)** là một mạng dày đặc 2 lớp được áp dụng độc lập cho mỗi token.
+
+## 4. Bộ mã hóa, bộ giải mã và chỉ bộ giải mã
+
+| Biến thể | Được sử dụng bởi | Chức năng |
+|---|---|---|
+| **Chỉ bộ mã hóa (Encoder-only)** | BERT, RoBERTa | Hiểu văn bản - phân loại, vector nhúng (embedding), nhận dạng thực thể có tên (NER) |
+| **Chỉ bộ giải mã (Decoder-only)** | GPT, Llama, Claude, Gemini | Tạo văn bản - trò chuyện, mã, tóm tắt |
+| **Bộ mã hóa-giải mã (Encoder-decoder)** | T5, Transformer gốc | Dịch / chuyển đổi - chuỗi đầu vào → đầu ra |
+
+Kiến trúc LLM chiếm ưu thế trong giai đoạn 2025-2026 là **chỉ bộ giải mã với mặt nạ nhân quả (causal masking)** – mỗi token chỉ có thể chú ý đến chính nó và các token trước đó, do đó mô hình có thể được huấn luyện để dự đoán token tiếp theo trên hàng nghìn tỷ token văn bản.
+
+## 5. Từ Transformer đến LLM
+
+Một "Mô hình Ngôn ngữ Lớn (Large Language Model - LLM)" chỉ là một Transformer được mở rộng đáng kể:
+
+| Yếu tố | Nhỏ | Tiên tiến (2025) |
+|---|---|---|
+| Tham số | 100 triệu | 100 tỷ – 2 nghìn tỷ |
+| Độ dài ngữ cảnh | 512 token | 1 triệu+ token |
+| Dữ liệu huấn luyện | ~1 tỷ token | 10 nghìn tỷ+ token |
+| Điện toán (FLOPs) | 10¹⁹ | 10²⁵ |
+| Chi phí huấn luyện | < theory: `00 | $50 triệu – $500 triệu |
+
+Sau khi tiền huấn luyện (pre-training), mô hình được **tinh chỉnh với phản hồi của con người (RLHF/DPO)** để tuân theo hướng dẫn, từ chối các yêu cầu không an toàn và thể hiện một tính cách hữu ích – đây là sự khác biệt giữa một GPT-4 cơ bản thô và ChatGPT.
+
+## 6. Ví dụ thực tế - Hỏi đáp tài liệu pháp luật Việt Nam
+
+Một chatbot của công ty luật Việt Nam hiện đại sử dụng:
+
+1. Một **bộ mã hóa song ngữ (bilingual encoder)** (ví dụ: multilingual-e5) để biến mỗi điều khoản của Bộ luật Dân sự Việt Nam thành một vector nhúng (embedding) được lưu trữ trong một cơ sở dữ liệu vector.
+2. Một **LLM bộ giải mã (decoder LLM)** (ví dụ: Claude 3.5 hoặc Gemini 2.5) mà, khi nhận được câu hỏi của người dùng, sẽ truy xuất các điều khoản liên quan top-K và tạo ra một câu trả lời có căn cứ bằng tiếng Việt – trích dẫn số điều khoản.
+
+Kiểu mẫu này được gọi là **RAG (Retrieval-Augmented Generation - Tạo sinh tăng cường truy xuất)** và là cách phổ biến nhất để triển khai LLM trong sản xuất ngày nay.
+
+## 7. Giới hạn năm 2025-2026
+
+- **Hỗn hợp các chuyên gia (Mixture of Experts - MoE)** – chỉ 1/8 tham số được kích hoạt cho mỗi token; giảm đáng kể chi phí suy luận (Mixtral, Gemini 1.5, GPT-4).
+- **Ngữ cảnh dài (Long context)** – cửa sổ 1 triệu+ token cho phép LLM đọc toàn bộ codebase hoặc sách chỉ trong một lần.
+- **Đa phương thức (Multimodal)** – cùng một xương sống Transformer hiện xử lý văn bản, hình ảnh, âm thanh và video (Gemini 2.5, GPT-5, Claude 3.5).
+- **Mô hình suy luận (Reasoning models)** – bước "suy nghĩ trước khi nói" riêng biệt (o1, o3, Gemini 2.5 Pro) đánh đổi độ trễ để đạt độ chính xác cao hơn đáng kể trong toán học, mã và logic.
+
+## 8. Khái niệm chính
+
+> 🎯 **Khái niệm chính** - Cơ chế tự chú ý (Self-attention) thay thế cơ chế truy hồi bằng cách **so sánh tất cả với tất cả một cách song song**. Xếp chồng hàng tá khối chú ý và mở rộng tham số, dữ liệu, và sức mạnh điện toán là toàn bộ công thức tạo nên mọi LLM hiện đại. Mọi thứ khác – RAG, tinh chỉnh, đa phương thức – đều dựa trên nền tảng này.`,
+        theoryEn: `> ⚠️ **Prerequisites** - All previous DL lessons. Familiarity with the **AI Foundation → LLM** lesson is also recommended.
 
 ## 1. Why attention replaced recurrence
 
@@ -931,7 +1076,7 @@ A "Large Language Model" is just a Transformer scaled up dramatically:
 | Context length | 512 tokens | 1 M+ tokens |
 | Training data | ~1 B tokens | 10 T+ tokens |
 | Compute (FLOPs) | 10¹⁹ | 10²⁵ |
-| Training cost | < $100 | $50 M – $500 M |
+| Training cost | < theory: `00 | $50 M – $500 M |
 
 After pre-training, the model is **fine-tuned with human feedback (RLHF/DPO)** to follow instructions, refuse unsafe requests, and adopt a helpful persona - the difference between a raw GPT-4 base and ChatGPT.
 
@@ -954,7 +1099,6 @@ This pattern is called **RAG (Retrieval-Augmented Generation)** and is the most 
 ## 8. Key Concept
 
 > 🎯 **Key Concept** - Self-attention replaces recurrence with **all-to-all comparison in parallel**. Stacking dozens of attention blocks and scaling parameters, data, and compute is the entire recipe behind every modern LLM. Everything else - RAG, fine-tuning, multimodality - sits on top of this foundation.`,
-        theoryEn: "",
         code: `# Mini self-attention từ đầu - toán học đằng sau mọi LLM, trong 30 dòng.
 # Nhập thư viện cần thiết
 import torch
@@ -988,8 +1132,8 @@ print(weights.round(decimals=2))
 print("\\\\nEach row sums to 1.0:", weights.sum(dim=-1).round(decimals=2).tolist())
 print("\\\\nOutput shape (one new vector per token):", output.shape)`,
         codeLanguage: "python",
-        exercise: "Add **causal masking** so that token i cannot attend to tokens with index > i (the trick that turns this encoder-style attention into a GPT-style decoder). Hint: build an upper-triangular matrix with `torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()` and set those positions in `scores` to `-inf` *before* the softmax. Verify that the resulting weight matrix is lower-triangular.",
-        exerciseEn: "",
+        exercise: "Thêm **che nhân quả (causal masking)** để token i không thể nhìn các token có chỉ số > i (phép biến đổi biến sự chú ý kiểu encoder này thành kiểu decoder của GPT). Gợi ý: tạo ma trận tam giác trên bằng `torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()` và đặt các vị trí đó trong `scores` thành `-inf` *trước khi* áp dụng softmax. Kiểm tra lại để xác minh rằng ma trận trọng số kết quả là ma trận tam giác dưới.",
+        exerciseEn: "Add **causal masking** so that token i cannot attend to tokens with index > i (the trick that turns this encoder-style attention into a GPT-style decoder). Hint: build an upper-triangular matrix with `torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()` and set those positions in `scores` to `-inf` *before* the softmax. Verify that the resulting weight matrix is lower-triangular.",
         quiz: [
           {
             question: "Why are Transformers faster to train than RNNs on long sequences?",
@@ -1036,7 +1180,33 @@ print("\\\\nOutput shape (one new vector per token):", output.shape)`,
         titleEn: "Transfer Learning & Fine-Tuning",
         level: 5,
         difficulty: "advanced",
-        theory: `> ⚠️ **Prerequisites** - Lessons 1–3.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Các Bài học 1–3.
+
+## 1. Tại sao không huấn luyện từ đầu?
+
+Huấn luyện một mô hình thị giác hiện đại trên ImageNet (1.2 triệu ảnh) mất **nhiều ngày trên 8 GPU**. Hầu hết các nhóm tái sử dụng một mạng đã được huấn luyện trên một tập dữ liệu khổng lồ và điều chỉnh nó - đó là **chuyển giao học tập (transfer learning)**.
+
+Điểm mấu chốt: các **lớp thấp hơn** của một mạng CNN sâu học các đặc trưng rất chung (cạnh, kết cấu, hình dạng) hữu ích cho hầu hết mọi bài toán thị giác. Chỉ các **lớp trên cùng** mới chuyên biệt hóa. Giữ phần chung, thay thế phần trên cùng, và bạn sẽ có một mô hình mạnh mẽ với rất ít huấn luyện mới.
+
+## 2. Hai phương pháp
+
+| Chiến lược | Bạn làm gì | Khi nào sử dụng |
+|---|---|---|
+| **Trích xuất đặc trưng (Feature extraction)** | Đóng băng các trọng số đã được huấn luyện, chỉ huấn luyện phần đầu mới | Tập dữ liệu nhỏ (< 5 000 ảnh) |
+| **Tinh chỉnh (Fine-tuning)** | Thay thế phần đầu VÀ bỏ đóng băng các lớp trên cùng, huấn luyện với tốc độ học nhỏ | Tập dữ liệu lớn hơn, miền tương tự |
+
+Nguyên tắc chung: **đóng băng trước**, xác thực, sau đó bỏ đóng băng các khối trên cùng với \\\`lr × 0.1\\\`. Không bao giờ bỏ đóng băng tất cả cùng một lúc với tốc độ học ban đầu - điều đó phá hủy kiến thức đã được huấn luyện trước (quên thảm khốc – catastrophic forgetting).
+
+## 3. Ví dụ thực tế - phát hiện biển số xe
+
+Bạn chỉ có 2 000 hình ảnh biển số xe Việt Nam đã được gắn nhãn. Huấn luyện từ đầu sẽ bị quá khớp (overfit) rất nhiều. Thay vào đó: tải **ResNet-50 đã được huấn luyện trước trên ImageNet**, thay thế bộ phân loại bằng một phần đầu 2 lớp, đóng băng các lớp 1–3, tinh chỉnh lớp 4 + phần đầu với \\\`lr=1e-4\\\`. Bạn thường đạt được **độ chính xác >95% trong vòng chưa đầy một giờ**.
+
+## 4. Vượt ra ngoài thị giác
+
+Năm 2025, chuyển giao học tập là mặc định trong **mọi** lĩnh vực phụ: BERT/Llama cho NLP, Whisper cho giọng nói, wav2vec 2.0 cho âm thanh. **LoRA** và **QLoRA** chỉ cập nhật ~1% tham số - giúp việc tinh chỉnh các mô hình LLM với hàng tỷ tham số trở nên khả thi trên một GPU tiêu dùng duy nhất.
+
+> 💡 **Khái niệm then chốt** - Hầu như không ai huấn luyện các mô hình nền tảng từ đầu vào năm 2025. Kỹ năng quan trọng là lựa chọn kiến trúc cơ bản (backbone) đã được huấn luyện trước phù hợp và tinh chỉnh nó một cách hiệu quả.`,
+        theoryEn: `> ⚠️ **Prerequisites** - Lessons 1–3.
 
 ## 1. Why not train from scratch?
 
@@ -1062,7 +1232,6 @@ You have only 2 000 labelled Vietnamese license-plate images. Training from scra
 In 2025 transfer learning is the default in **every** subfield: BERT/Llama for NLP, Whisper for speech, wav2vec 2.0 for audio. **LoRA** and **QLoRA** update only ~1 % of parameters - making fine-tuning of multi-billion-parameter LLMs possible on a single consumer GPU.
 
 > 💡 **Key concept** - Almost no one trains foundation models from scratch in 2025. The skill that matters is choosing the right pretrained backbone and fine-tuning it efficiently.`,
-        theoryEn: "",
         code: `# Học chuyển giao (Transfer learning) với mô hình ResNet-18 đã được huấn luyện trước - đóng băng phần xương sống (backbone), huấn luyện phần đầu (head) mới
 import torch
 import torch.nn as nn
@@ -1128,8 +1297,8 @@ print(f"Loss: {loss.item():.4f}")
 # Kết quả mong đợi: In ra giá trị mất mát sau một bước huấn luyện thử nghiệm.
 `,
         codeLanguage: "python",
-        exercise: "Switch to **fine-tuning** mode: also unfreeze `model.layer4`, then build an Adam optimizer with two parameter groups - `layer4` at `lr=1e-4` and `fc` at `lr=1e-3`. Print the new trainable-parameter percentage (~20–25 %).",
-        exerciseEn: "",
+        exercise: "Chuyển sang chế độ **fine-tuning**: bỏ đóng băng (`unfreeze`) `model.layer4`, sau đó tạo trình tối ưu hóa Adam với hai nhóm tham số — `layer4` có `lr=1e-4` và `fc` có `lr=1e-3`. In ra phần trăm tham số có thể huấn luyện mới (~20–25 %).",
+        exerciseEn: "Switch to **fine-tuning** mode: also unfreeze `model.layer4`, then build an Adam optimizer with two parameter groups - `layer4` at `lr=1e-4` and `fc` at `lr=1e-3`. Print the new trainable-parameter percentage (~20–25 %).",
         quiz: [
           {
             question: "Why freeze early layers of a pretrained CNN when transfer-learning?",
