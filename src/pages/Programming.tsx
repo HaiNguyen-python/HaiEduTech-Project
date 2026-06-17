@@ -472,6 +472,9 @@ const Programming = () => {
                 {/* Python Pathway hub (full lesson grid + Pyodide) */}
                 {active.isPathway && <PythonPathwayHub />}
 
+                {/* Professional Projects catalog */}
+                {active.isProjects && <ProfessionalProjects />}
+
                 {/* Python Challenges Section */}
                 {active.challengeSection && (
                   <Link
