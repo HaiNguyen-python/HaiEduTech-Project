@@ -359,7 +359,7 @@ const Programming = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   onClick={() => {
-                    if (p.id === "nlp" || p.id === "edtech" || p.id === "software-eng") {
+                    if (p.id === "nlp" || p.id === "edtech" || p.id === "software-eng" || p.id === "cybersecurity") {
                       navigate(`/programming/${p.id}`);
                     } else {
                       setActivePillar(p.id);
