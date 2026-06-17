@@ -1923,8 +1923,8 @@ trainer.save_model("llama3-lora-vi")  # adapter ~80 MB so với 16 GB model đ�
         exercise: `Lên kế hoạch cho dự án tinh chỉnh chatbot hỗ trợ khách hàng tiếng Việt với 3 gạch đầu dòng:
 *   **Mô hình cơ sở và lý do:** \`ViText-BART-base\` vì nó được đào tạo trước chuyên biệt cho tiếng Việt và các tác vụ hiểu/sinh ngôn ngữ, giúp nắm bắt ngữ cảnh và tạo ra câu trả lời tự nhiên, chính xác hơn.
 *   **Cặp hướng dẫn/phản hồi mẫu:**
-    *   **Hướng dẫn:** \\"Tôi muốn khiếu nại về chất lượng dịch vụ.\\"
-    *   **Phản hồi mô hình:** \\"Tôi rất tiếc khi nghe điều này. Để tôi có thể hỗ trợ bạn tốt nhất, vui lòng cung cấp thêm thông tin về vấn đề bạn gặp phải, bao gồm mã dịch vụ (nếu có) và thời gian xảy ra sự việc. Cảm ơn bạn.\\"
+    *   **Hướng dẫn:** "Tôi muốn khiếu nại về chất lượng dịch vụ."
+    *   **Phản hồi mô hình:** "Tôi rất tiếc khi nghe điều này. Để tôi có thể hỗ trợ bạn tốt nhất, vui lòng cung cấp thêm thông tin về vấn đề bạn gặp phải, bao gồm mã dịch vụ (nếu có) và thời gian xảy ra sự việc. Cảm ơn bạn."
 *   **Sử dụng RAG và thông tin truy xuất:** Có, sẽ sử dụng RAG. RAG sẽ truy xuất thông tin từ cơ sở dữ liệu FAQs (các câu hỏi thường gặp), tài liệu hướng dẫn sử dụng sản phẩm/dịch vụ, chính sách bảo hành, và thông tin tài khoản khách hàng (nếu được phép truy cập) để cung cấp câu trả lời chính xác, cập nhật và cá nhân hóa.`,
         exerciseEn: "Plan a fine-tuning project for a Vietnamese customer-support chatbot in 3 bullets: (1) base model + why, (2) one example instruction/response pair, (3) would you also use RAG and what would it retrieve?",
         quiz: [
