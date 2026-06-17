@@ -473,9 +473,10 @@ const ProgrammingLessonPage = () => {
   const challengeQ = lesson.quiz[lesson.quiz.length - 1];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      <LessonFloatingSymbols pillarId={pillar} count={18} />
       <Navbar />
-      <div className="pt-6 pb-16">
+      <div className="pt-6 pb-16 relative">
         <div className={`mx-auto px-4 sm:px-6 ${showIDE && !isMobile ? "max-w-[1600px]" : "container"}`}>
           <div className={showIDE && !isMobile ? "" : "max-w-5xl mx-auto"}>
             {/* Breadcrumb + IDE Toggle */}
