@@ -57,6 +57,15 @@ const pillars = [
     accentColor: "text-rose-600",
   },
   {
+    id: "prompt-engineering",
+    icon: Sparkles,
+    emoji: "✍️",
+    color: "from-purple-500 to-fuchsia-600",
+    bgColor: "bg-purple-500/8",
+    borderColor: "border-purple-500/20",
+    accentColor: "text-purple-600",
+  },
+  {
     id: "sql",
     icon: Database,
     emoji: "🗄️",
