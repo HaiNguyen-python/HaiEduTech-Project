@@ -220,6 +220,7 @@ const IeltsWritingPractice = () => {
   const handleSubmit = async () => {
     if (!essay.trim() || !currentPrompt) return;
     setGrading(true);
+    setUpgradeLoading(false);
     setTimerActive(false);
 
     // Client-side safety timeout: if the edge function doesn't reply in 90s,
@@ -227,6 +228,15 @@ const IeltsWritingPractice = () => {
     const clientTimeout = new Promise<{ data: null; error: { message: string } }>((resolve) =>
       setTimeout(() => resolve({ data: null, error: { message: "Grading timed out. Please try again." } }), 90_000),
     );
+
+    // Fire upgrade in parallel — independent of grading
+    const upgradePromise = supabase.functions
+      .invoke("upgrade-writing", { body: { essay, taskType } })
+      .then(({ data, error }) => {
+        if (error) throw error;
+        return (data as { upgraded?: string })?.upgraded || "";
+      })
+      .catch((e) => { console.error("Upgrade error:", e); return ""; });
 
     try {
       const result = await Promise.race([
@@ -239,28 +249,38 @@ const IeltsWritingPractice = () => {
         toast({ title: t("Chấm bài thất bại", "Grading failed"), description: msg, variant: "destructive" });
         return;
       }
-      setResult(data as GradingResult);
+      const graded = data as GradingResult;
+      graded.upgraded = graded.upgraded || ""; // backend no longer returns it
+      setResult(graded);
+      setGrading(false);
+      setUpgradeLoading(true);
+
+      // Await upgrade and merge
+      const upgraded = await upgradePromise;
+      setResult((prev) => (prev ? { ...prev, upgraded } : prev));
+      setUpgradeLoading(false);
 
       // Save to history if user is logged in
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
+          const fullResult = { ...graded, upgraded };
           await supabase.from("writing_attempts").insert({
             user_id: user.id,
             task_type: taskType,
             prompt: currentPrompt.prompt,
             essay,
             word_count: wordCount,
-            result: data as unknown as Record<string, unknown>,
-            overall_score: data.overall,
+            result: fullResult as unknown as Record<string, unknown>,
+            overall_score: graded.overall,
           } as never);
           // Log activity for admin analytics
           logStudentActivity({
             activityType: "ielts_writing",
-            score: data.overall,
+            score: graded.overall,
             maxScore: 9,
             domain: "english",
-            metadata: { taskType, wordCount, criteria: data.criteria },
+            metadata: { taskType, wordCount, criteria: graded.criteria },
           });
           // Remove the draft now that the essay has been graded
           if (currentDraftId) {
@@ -279,8 +299,8 @@ const IeltsWritingPractice = () => {
         description: t("Không thể kết nối tới hệ thống chấm. Hãy thử lại.", "Could not reach the grading service. Please try again."),
         variant: "destructive",
       });
-    } finally {
       setGrading(false);
+      setUpgradeLoading(false);
     }
   };
 
