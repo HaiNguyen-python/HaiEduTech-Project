@@ -305,11 +305,19 @@ const buildQuestions = (words: IeltsWord[], allWords: IeltsWord[], quizSize = 12
     }
     if (type === "collocation") {
       const correctColl = w.collocations![0];
+      // Mask target word in the correct collocation so it's not a giveaway
+      const maskRegex = new RegExp(`\\b${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\w*\\b`, "gi");
+      const maskedCorrect = correctColl.replace(maskRegex, "_____");
       const collPool = allWords.filter(x => x.word !== w.word).flatMap(x => x.collocations || []);
-      const wrongs = shuffle(collPool.filter(c => c !== correctColl && !c.toLowerCase().includes(w.word.toLowerCase()))).slice(0, 3);
-      while (wrongs.length < 3) wrongs.push(shuffle(distractorPool)[0].word);
-      const opts = shuffle([correctColl, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctColl) };
+      const wrongs = shuffle(
+        collPool.filter(c => c !== correctColl && !c.toLowerCase().includes(w.word.toLowerCase()))
+      ).slice(0, 3);
+      while (wrongs.length < 3) {
+        const fb = shuffle(distractorPool)[0]?.word;
+        if (fb && !wrongs.includes(fb)) wrongs.push(fb); else break;
+      }
+      const opts = shuffle([maskedCorrect, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(maskedCorrect) };
     }
     if (type === "scramble") {
       const scrambled = scrambleLetters(w.word);
