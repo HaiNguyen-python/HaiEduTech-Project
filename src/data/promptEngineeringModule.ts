@@ -764,5 +764,203 @@ else:
         },
       ],
     },
+    // ============ LESSON 9: MULTI-TURN CONVERSATION ============
+    {
+      id: "pe-9",
+      title: "Prompt cho hội thoại nhiều lượt (Multi-turn) - giữ ngữ cảnh và trí nhớ",
+      titleEn: "Multi-turn Conversation Prompting - state and memory",
+      theory:
+        "**Multi-turn prompting** là khi bạn (hoặc người dùng) trò chuyện qua nhiều lượt với LLM. Khác single-turn ở 3 điểm:\n\n1. 🧠 **State** - LLM không tự nhớ; bạn phải gửi lại lịch sử mỗi request.\n2. 💸 **Token bloat** - Lịch sử càng dài, càng đắt và càng chậm. Cần chiến lược tóm lược.\n3. 🎭 **Persona drift** - Sau nhiều lượt, mô hình có xu hướng quên system prompt. Cần 'reinforcement'.\n\n**3 chiến lược quản lý lịch sử:**\n- **Sliding window**: chỉ giữ N lượt gần nhất (rẻ, mất ngữ cảnh xa).\n- **Summarization**: tóm tắt các lượt cũ thành 1 message (giữ ngữ cảnh, mất chi tiết).\n- **Hybrid**: tóm tắt cũ + giữ nguyên N lượt mới (chuẩn 2026 cho chatbot sản xuất).\n\n**Mẹo giữ persona:** lặp lại system prompt mỗi 8-10 lượt hoặc khi chuyển chủ đề lớn.",
+      theoryEn:
+        "**Multi-turn prompting** is when you (or the user) hold a conversation across multiple turns. It differs from single-turn in three ways:\n\n1. 🧠 **State** - LLMs do not remember on their own; you must resend history each request.\n2. 💸 **Token bloat** - Longer history means higher cost and latency. You need a compaction strategy.\n3. 🎭 **Persona drift** - After many turns the model forgets the system prompt. Reinforce it.\n\n**3 history-management strategies:**\n- **Sliding window**: keep only the last N turns (cheap, loses long context).\n- **Summarization**: compress old turns into one message (keeps context, loses detail).\n- **Hybrid**: summarize old + keep last N raw turns (2026 standard for production chatbots).\n\n**Persona tip:** restate the system prompt every 8-10 turns or when the topic shifts.",
+      code: `# Hybrid multi-turn history (chuan san xuat 2026)
+from openai import OpenAI
+
+client = OpenAI()
+SYSTEM = "You are a senior Python tutor. Always answer in Vietnamese."
+
+def chat(history, user_msg, keep_last=6):
+    if len(history) > keep_last * 2:
+        old = history[:-keep_last]
+        keep = history[-keep_last:]
+        summary = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "Tom tat hoi thoai sau trong 3-5 cau."},
+                *old,
+            ],
+        ).choices[0].message.content
+        history = [{"role": "system", "content": f"[Tom tat]: {summary}"}, *keep]
+
+    messages = [{"role": "system", "content": SYSTEM}, *history,
+                {"role": "user", "content": user_msg}]
+    reply = client.chat.completions.create(model="gpt-4o", messages=messages).choices[0].message.content
+    history.extend([{"role": "user", "content": user_msg},
+                    {"role": "assistant", "content": reply}])
+    return reply, history
+
+print("Multi-turn chat san sang.")
+`,
+      codeLanguage: "python",
+      exercise:
+        "Xay 1 chatbot CLI giu lich su bang chien luoc Hybrid (summarize sau 6 luot). Do: (1) tong token sau 20 luot khi KHONG nen so voi CO nen, (2) thoi diem bot bat dau quen persona neu ban bo system-reinforcement.",
+      exerciseEn:
+        "Build a CLI chatbot using the Hybrid history strategy (summarize after 6 turns). Measure: (1) total tokens after 20 turns with vs without compaction, (2) the turn where persona drift starts if you remove system-reinforcement.",
+      quiz: [
+        { question: "Vi sao phai gui lai toan bo history moi request?", options: ["LLM luoi", "LLM stateless - khong co bo nho giua cac request", "De ton tien hon", "Quy dinh OpenAI"], answer: 1, explanation: "Chat Completion API la stateless. Moi request la mot lan inference doc lap." },
+        { question: "Chien luoc nao tot nhat cho chatbot san xuat 2026?", options: ["Sliding window thuan", "Summarization thuan", "Hybrid (tom cu + giu N luot moi)", "Gui het, khong nen"], answer: 2, explanation: "Hybrid can bang chi phi va chat luong." },
+        { question: "Persona drift la gi?", options: ["Mo hinh doi ngon ngu", "Mo hinh dan quen system prompt sau nhieu luot", "API bi loi", "Token rong"], answer: 1, explanation: "Cang nhieu token user/assistant nam sau system prompt, anh huong cua system cang loang." },
+        { question: "Cach nao KHONG giup chong persona drift?", options: ["Lap system prompt dinh ky", "Dat rule vao cuoi prompt user", "Dung XML tag tach biet rule", "Giam temperature ve 0.0"], answer: 3, explanation: "Temperature dieu khien do sang tao, khong lien quan truc tiep toi persona." },
+        { question: "Tom luoc lich su nen dung model nao?", options: ["Cung model chinh", "Model re va nhanh (gpt-4o-mini, gemini-flash)", "Phai gpt-4o", "Khong nen dung AI de tom"], answer: 1, explanation: "Tom luoc la tac vu de, dung model re tiet kiem 5-10x chi phi." },
+      ],
+    },
+    // ============ LESSON 10: TOOL / FUNCTION CALLING ============
+    {
+      id: "pe-10",
+      title: "Tool Use & Function Calling - cho AI gọi API và truy cập dữ liệu thật",
+      titleEn: "Tool Use & Function Calling - letting AI call APIs and access real data",
+      theory:
+        "**Function calling** (còn gọi Tool Use) cho phép LLM tự quyết định gọi hàm/API của bạn để lấy dữ liệu thật thay vì 'bịa'. Đây là nền tảng của AI Agent 2026.\n\n**Luồng 3 bước:**\n1. Bạn khai báo các tool (tên, mô tả, JSON schema input).\n2. LLM đọc câu hỏi của user, quyết định tool nào cần gọi + sinh ra argument.\n3. Bạn chạy tool thật, trả kết quả lại cho LLM, LLM tổng hợp câu trả lời tự nhiên.\n\n**Best practice viết tool description:**\n- Mô tả giống docstring tốt: 'làm gì, khi nào dùng, khi nào KHÔNG dùng'.\n- Tên hàm ngắn, snake_case, động từ + danh từ (get_weather, search_orders).\n- Param có description + type + example.\n- Trả lỗi rõ ràng để LLM tự retry/fallback.\n\n**Khi nào dùng tool, khi nào dùng RAG?**\n- Dữ liệu **động/realtime** (giá, thời tiết, đơn hàng) -> tool calling.\n- Dữ liệu **tĩnh/lớn** (tài liệu, sách, FAQ) -> RAG.\n- Phức hợp -> kết hợp cả hai (Agent).",
+      theoryEn:
+        "**Function calling** (a.k.a. Tool Use) lets the LLM decide to call your functions/APIs to fetch real data instead of hallucinating. It is the foundation of 2026 AI Agents.\n\n**3-step loop:**\n1. You declare tools (name, description, JSON-schema input).\n2. The LLM reads the user query, picks a tool, and generates arguments.\n3. You execute the tool, send the result back, and the LLM composes a natural reply.\n\n**Best practices:**\n- Write descriptions like great docstrings.\n- Short snake_case names, verb + noun.\n- Each param: description + type + example.\n- Return clear errors so the LLM can retry or fallback.\n\n**Tool vs RAG?** Dynamic data -> tool calling. Static large corpora -> RAG. Complex -> both (Agents).",
+      code: `# Function calling toi gian (OpenAI 2026)
+import json
+from openai import OpenAI
+client = OpenAI()
+
+def get_weather(city: str) -> dict:
+    return {"city": city, "temp_c": 27, "condition": "Sunny"}
+
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Lay thoi tiet hien tai cua mot thanh pho. Dung khi user hoi ve nhiet do, mua, nang.",
+        "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string", "description": "Ten thanh pho"}},
+            "required": ["city"],
+        },
+    },
+}]
+
+messages = [{"role": "user", "content": "Ha Noi hom nay nong khong?"}]
+resp = client.chat.completions.create(model="gpt-4o", messages=messages, tools=tools)
+call = resp.choices[0].message.tool_calls[0]
+args = json.loads(call.function.arguments)
+result = get_weather(**args)
+messages += [resp.choices[0].message,
+             {"role": "tool", "tool_call_id": call.id, "content": json.dumps(result)}]
+final = client.chat.completions.create(model="gpt-4o", messages=messages)
+print(final.choices[0].message.content)
+`,
+      codeLanguage: "python",
+      exercise:
+        "Khai bao 3 tool: search_products(keyword), get_order_status(order_id), create_ticket(title, body). Viet prompt user lan luot kich hoat tung tool.",
+      exerciseEn:
+        "Declare 3 tools: search_products(keyword), get_order_status(order_id), create_ticket(title, body). Write user prompts that trigger each.",
+      quiz: [
+        { question: "Function calling KHONG phai de lam gi?", options: ["Lay du lieu thoi gian thuc", "Giam hallucination", "Thay the LLM bang if/else cung", "Tach logic khoi prompt"], answer: 2, explanation: "Function calling van de LLM quyet dinh." },
+        { question: "Truong nao QUAN TRONG NHAT khi khai bao tool?", options: ["name", "description", "parameters.type", "required"], answer: 1, explanation: "Description la tin hieu chinh LLM dung de quyet dinh." },
+        { question: "Du lieu tinh (PDF 200 trang) nen dung?", options: ["Function calling", "RAG", "He thong prompt", "Yeu cau user paste"], answer: 1, explanation: "Du lieu tinh lon -> RAG." },
+        { question: "Khi tool tra loi, nen?", options: ["Im lang", "Tra message loi ro rang + goi y hanh dong", "Crash request", "Tra null"], answer: 1, explanation: "LLM doc loi va tu retry." },
+        { question: "AI Agent khac Chatbot o diem nao?", options: ["Agent dung nhieu tool theo vong lap tu ra quyet dinh", "Agent noi nhieu hon", "Agent dung model lon hon", "Khong khac gi"], answer: 0, explanation: "Agent = LLM + tools + vong lap." },
+      ],
+    },
+    // ============ LESSON 11: MULTIMODAL PROMPTING ============
+    {
+      id: "pe-11",
+      title: "Multimodal Prompting - viết prompt cho ảnh, biểu đồ và tài liệu",
+      titleEn: "Multimodal Prompting - prompts for images, charts and documents",
+      theory:
+        "LLM 2026 (GPT-4o, Gemini 2.5, Claude 3.5) nhận đầu vào hỗn hợp: text + ảnh + PDF + audio. Viết prompt multimodal khác text-only ở 3 điểm:\n\n1. 🖼️ **Định nghĩa rõ object cần phân tích** - 'phân tích ảnh' quá mơ hồ. Hãy nói: 'ảnh này là biểu đồ doanh thu - đọc trục x, trục y, xác định 3 tháng cao nhất'.\n2. 📏 **Cung cấp scale/đơn vị nếu có** - LLM hay đoán sai đơn vị.\n3. 🧭 **Hướng dẫn quy trình quan sát** - chia bước rõ ràng.\n\n**Pattern phổ biến:**\n- **OCR + Reason**: trích text từ ảnh -> suy luận. Ép xuất JSON.\n- **Chart -> Insight**: xác định loại chart, trục, anomaly, top-N.\n- **Document QA**: PDF -> trả lời + cite page.\n\n**Hạn chế:** mô hình kém với chữ viết tay, ảnh nhiều text nhỏ. Kết hợp OCR chuyên dụng (Tesseract, Google Vision) trước rồi đưa text vào LLM thường tốt hơn.",
+      theoryEn:
+        "2026 LLMs accept mixed inputs: text + images + PDFs + audio. Multimodal prompting differs from text-only in three ways: define the object clearly, provide scale/units, and guide the observation workflow.",
+      code: `# Multimodal prompt voi anh
+from openai import OpenAI
+client = OpenAI()
+
+prompt = """
+Ban la chuyen gia phan tich bieu do tai chinh.
+Nhiem vu (tuan tu):
+1. Xac dinh loai bieu do.
+2. Doc don vi truc Y.
+3. Liet ke 3 thang cao nhat.
+4. Phat hien anomaly (drop > 20%).
+Tra JSON: {chart_type, y_unit, top_3_months, anomalies}
+"""
+
+resp = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": [
+        {"type": "text", "text": prompt},
+        {"type": "image_url", "image_url": {"url": "https://example.com/revenue.png"}},
+    ]}],
+    response_format={"type": "json_object"},
+)
+print(resp.choices[0].message.content)
+`,
+      codeLanguage: "python",
+      exercise:
+        "Chup anh 1 hoa don. Viet prompt trich: ten cua hang, tong tien, list item voi gia, ngay. Ep xuat JSON.",
+      exerciseEn:
+        "Photograph a receipt. Write a prompt to extract merchant, total, line items, date. Force JSON.",
+      quiz: [
+        { question: "Ly do CHINH khien LLM doc sai bieu do?", options: ["Pixel qua nho", "Khong co huong dan ro ve truc/don vi/quy trinh", "Qua nhieu mau", "Model qua lon"], answer: 1, explanation: "Prompt ro rang giup chinh xac hon nhieu." },
+        { question: "Khi anh co chu viet tay kho, nen?", options: ["Tang temperature", "Doi sang model lon hon", "Dung OCR chuyen dung truoc roi dua text vao LLM", "Bo cuoc"], answer: 2, explanation: "OCR chuyen dung doc chu viet tay tot hon." },
+        { question: "Pattern OCR + Reason phu hop cho?", options: ["Hoa don, CMND, bieu mau", "Tao anh moi", "Phan loai cam xuc van ban", "Choi game"], answer: 0, explanation: "Trich field co dinh tu document." },
+        { question: "De LLM khong sot field, nen?", options: ["Yeu cau markdown", "Ep JSON schema bang response_format", "Bullet list", "Tang max_tokens"], answer: 1, explanation: "JSON mode + schema buoc mo hinh tra du field." },
+        { question: "Khi can cite page tu PDF, prompt nen?", options: ["Khong nhac gi", "Yeu cau moi cau tra loi kem so trang nguon", "Tra loi ngan", "Chi tra tom tat"], answer: 1, explanation: "Ep cite buoc mo hinh bam vao trang that." },
+      ],
+    },
+    // ============ LESSON 12: COST & LATENCY OPTIMIZATION ============
+    {
+      id: "pe-12",
+      title: "Tối ưu chi phí và độ trễ - viết prompt cho sản phẩm thật",
+      titleEn: "Cost & Latency Optimization - prompts for real products",
+      theory:
+        "Prompt 'tốt' không chỉ là output đúng - mà còn phải đủ rẻ và đủ nhanh để chạy ở quy mô triệu request. 2026 đây là trách nhiệm chính của Prompt Engineer trong team sản xuất.\n\n**Cấu trúc chi phí 1 request:**\n- Input tokens (system + user + history + RAG context) - đắt nhất ở phía bạn kiểm soát được.\n- Output tokens - thường gấp 3-5 lần giá input.\n- Latency tỉ lệ thuận với số token output (streaming token-by-token).\n\n**7 đòn bẩy tối ưu (theo thứ tự ROI):**\n1. ✂️ **Cắt prompt thừa**\n2. 🪜 **Hai-tầng model** (small routing -> large solver)\n3. 📦 **Prompt caching** (OpenAI/Anthropic 2026)\n4. 🧱 **Structured output ngắn**\n5. 🪟 **Cap max_tokens**\n6. 🌊 **Streaming** cho UX realtime\n7. 🧠 **Batching** khi không realtime\n\n**Cảnh báo:** đừng tối ưu trước khi có eval set. 'Tối ưu' mà giảm accuracy là regress.",
+      theoryEn:
+        "A 'good' prompt is not just correct - it must be cheap and fast enough at scale. In 2026 this is a Prompt Engineer's main duty. Use 7 levers (cut fat, two-tier models, prompt caching, compact JSON, cap max_tokens, streaming, batching) and always re-evaluate.",
+      code: `# Pattern hai-tang + cap tokens
+from openai import OpenAI
+client = OpenAI()
+
+SYSTEM_CLASSIFIER = "Phan loai intent: ['faq', 'order', 'complex']. Tra JSON {intent: ...}."
+SYSTEM_SOLVER = "Tro ly CSKH cao cap. Tra loi ngan duoi 80 tu."
+
+def handle(user_msg: str):
+    route = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "system", "content": SYSTEM_CLASSIFIER},
+                  {"role": "user", "content": user_msg}],
+        response_format={"type": "json_object"},
+        max_tokens=20,
+    ).choices[0].message.content
+
+    if '"complex"' in route:
+        return client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "system", "content": SYSTEM_SOLVER},
+                      {"role": "user", "content": user_msg}],
+            max_tokens=200,
+        ).choices[0].message.content
+    return "Da ghi nhan (handler nhanh)."
+
+print(handle("Cho minh hoi gio lam viec cua shop?"))
+`,
+      codeLanguage: "python",
+      exercise:
+        "Lay 1 prompt san xuat. Do baseline: token in/out, latency p50/p95, cost/1000 request. Ap 3 don bay (cat fat + cap max_tokens + model nho hon). Bao cao tiet kiem % va accuracy thay doi.",
+      exerciseEn:
+        "Pick one production prompt. Measure baseline then apply 3 levers. Report % savings and accuracy change on a 30-example eval set.",
+      quiz: [
+        { question: "Don bay toi uu nao thuong co ROI CAO NHAT?", options: ["Doi font code", "Cat prompt thua + dung model nho cho routing", "Tang temperature", "Doi vung dia ly"], answer: 1, explanation: "Cat token va routing model re thuong giam 50-80% chi phi." },
+        { question: "Prompt caching giam chi phi cho phan nao?", options: ["Output", "Prefix giong nhau giua cac request", "Toan bo request", "Chi tool call"], answer: 1, explanation: "Provider 2026 cache prefix chung." },
+        { question: "Vi sao latency ti le voi output tokens?", options: ["Mang cham", "LLM sinh token tuan tu, moi token ~10-30ms", "GPU yeu", "JSON parse"], answer: 1, explanation: "Autoregressive decoding sinh tung token." },
+        { question: "Khi nao nen streaming?", options: ["Moi luc", "Khi user nhin output realtime (chat, viet bai)", "Khi xu ly batch", "Khi goi tool"], answer: 1, explanation: "Streaming giam cam giac cho." },
+        { question: "Anti-pattern nguy hiem nhat khi toi uu?", options: ["Cat few-shot ma khong chay lai eval set", "Bat streaming", "Dung JSON", "Cap max_tokens"], answer: 0, explanation: "Bo vi du co the giam accuracy. Phai re-evaluate." },
+      ],
+    },
   ],
 };
