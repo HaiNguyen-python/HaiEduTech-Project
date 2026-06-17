@@ -506,7 +506,7 @@ const Programming = () => {
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${activePillarMeta.color} flex items-center justify-center text-white shrink-0`}>
                       <activePillarMeta.icon className="w-6 h-6" />
                     </div>
-                    <div>
+                    <div className="flex-1 min-w-0">
                       <h2 className="text-xl font-display font-bold text-foreground mb-1">
                         {t(active.title, active.titleEn)}
                       </h2>
@@ -514,6 +514,20 @@ const Programming = () => {
                         {t(active.desc, active.descEn)}
                       </p>
                     </div>
+                    {PILLAR_MASCOTS[activePillar] && (
+                      <motion.img
+                        key={activePillar}
+                        initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        src={PILLAR_MASCOTS[activePillar]}
+                        alt={`${active.titleEn} mascot`}
+                        width={128}
+                        height={128}
+                        loading="lazy"
+                        className="hidden sm:block w-24 h-24 lg:w-32 lg:h-32 object-contain shrink-0 drop-shadow-md"
+                      />
+                    )}
                   </div>
                 </div>
 
