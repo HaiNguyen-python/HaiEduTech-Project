@@ -176,6 +176,17 @@ export function CofoundersTeam({ lang }: Lang) {
                       <Github className="w-4 h-4" />
                     </a>
                   )}
+                  {m.links.cv && (
+                    <a
+                      href={m.links.cv}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`CV ${m.name}`}
+                      className="w-9 h-9 rounded-lg bg-muted hover:bg-violet-600 hover:text-white flex items-center justify-center transition-colors"
+                    >
+                      <FileText className="w-4 h-4" />
+                    </a>
+                  )}
                 </div>
               </article>
             );
