@@ -142,6 +142,7 @@ const NationalExamPrep = lazy(() => import("./pages/NationalExamPrep.tsx"));
 const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
 const ThptEssentialReview = lazy(() => import("./pages/ThptEssentialReview.tsx"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.tsx"));
+const AgencyAdmin = lazy(() => import("./pages/AgencyAdmin.tsx"));
 const AdminAssignments = lazy(() => import("./pages/AdminAssignments.tsx"));
 const AdminClasses = lazy(() => import("./pages/AdminClasses.tsx"));
 const AdminPlacementResults = lazy(() => import("./pages/AdminPlacementResults.tsx"));
@@ -285,6 +286,7 @@ const App = () => (
 
             <Route path="/about" element={<LazyRoute><About /></LazyRoute>} />
             <Route path="/dich-vu-web" element={<LazyRoute><EdTechWebService /></LazyRoute>} />
+            <Route path="/agency-admin" element={<LazyRoute><AgencyAdmin /></LazyRoute>} />
             <Route path="/edtech-research" element={<LazyRoute><EdTechResearch /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
             <Route path="/english/fun-facts" element={<LazyRoute><EnglishFunFacts /></LazyRoute>} />
