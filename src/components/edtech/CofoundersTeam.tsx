@@ -104,9 +104,17 @@ export function CofoundersTeam({ lang }: Lang) {
               >
                 <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${m.gradient}`} />
                 <div className="flex items-start gap-4 mb-4">
-                  <div className={`flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${m.gradient} text-white flex items-center justify-center shadow-lg`}>
-                    <Icon className="w-7 h-7" strokeWidth={2} />
-                  </div>
+                  {m.avatar ? (
+                    <img
+                      src={m.avatar}
+                      alt={m.name}
+                      className="flex-shrink-0 w-14 h-14 rounded-2xl object-cover shadow-lg"
+                    />
+                  ) : (
+                    <div className={`flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${m.gradient} text-white flex items-center justify-center shadow-lg`}>
+                      <Icon className="w-7 h-7" strokeWidth={2} />
+                    </div>
+                  )}
                   <div className="min-w-0">
                     <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                       {m.tag}
