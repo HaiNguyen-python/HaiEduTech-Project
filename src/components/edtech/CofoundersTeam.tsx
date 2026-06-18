@@ -50,8 +50,8 @@ export function CofoundersTeam({ lang }: Lang) {
       avatar: "/__l5e/assets-v1/e51964bf-c9b1-4731-82c2-6693d6bf761c/phuc-avatar.png",
       bio: t(
         lang,
-        "Thạc sĩ Erasmus Mundus EDISS (European Master in Data-Intensive Software Systems), Kỹ sư AI & Full-Stack với 4 công bố khoa học bình duyệt về Machine Learning, trong đó có paper được chấp nhận tại ICSA 2026. Thành thạo Python, AWS, LLMs, RAG/LangChain/AutoGen, SQL và CI/CD; từng thực tập tại MediaTek và AILiveSim.",
-        "Erasmus Mundus EDISS MSc (European Master in Data-Intensive Software Systems), AI & full-stack engineer with 4 peer-reviewed ML publications including an ICSA 2026 accepted paper. Proficient in Python, AWS, LLMs, RAG/LangChain/AutoGen, SQL and CI/CD; former MediaTek and AILiveSim intern.",
+        "Thạc sĩ Erasmus Mundus EDISS (European Master in Data-Intensive Software Systems), Kỹ sư AI & Full-Stack với hơn 3 năm kinh nghiệm trong kỹ thuật phần mềm và trí tuệ nhân tạo cùng nhiều công bố khoa học bình duyệt về Machine Learning. Thành thạo Python, AWS, LLMs, RAG, LangChain, AutoGen, SQL và CI/CD; từng thực tập tại MediaTek và AILiveSim.",
+        "Erasmus Mundus EDISS MSc (European Master in Data-Intensive Software Systems), AI and full-stack engineer with 3+ years of experience in software engineering and artificial intelligence and multiple peer-reviewed machine learning publications. Experienced in Python, AWS, LLMs, RAG, LangChain, AutoGen, SQL, and CI/CD. Former MediaTek and AILiveSim intern.",
       ),
       slogan: t(
         lang,
@@ -59,9 +59,9 @@ export function CofoundersTeam({ lang }: Lang) {
         "\"Deeply immersed in AI technology, committed to quality in every line of code.\"",
       ),
       highlights: [
-        t(lang, "Erasmus Mundus Scholar · EDISS", "Erasmus Mundus Scholar · EDISS"),
-        t(lang, "4 bài báo ML bình duyệt · ICSA 2026", "4 peer-reviewed ML papers · ICSA 2026"),
-        "Python · AWS · RAG · LangChain · AutoGen",
+        t(lang, "3+ năm trong Software Engineering & AI", "3+ years in Software Engineering & AI"),
+        t(lang, "Nhiều công bố ML bình duyệt", "Multiple peer-reviewed ML publications"),
+        "Python · Cloud · RAG · React · AI Agents",
       ],
       links: {
         email: "phuc.t.dev@gmail.com",
