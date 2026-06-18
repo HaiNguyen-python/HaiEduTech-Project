@@ -54,15 +54,15 @@ export function CofoundersTeam({ lang }: Lang) {
     },
     {
       name: "Trần Văn Nhật",
-      role: t(lang, "Đồng sáng lập · Senior Web Developer", "Co-founder · Senior Web Developer"),
-      tag: ".NET · SQL · Web Systems",
+      role: t(lang, "Đồng sáng lập · Senior Web Developer, Software Architecture", "Co-founder · Senior Web Developer, Software Architecture"),
+      tag: "CO-FOUNDER · .NET · SQL · WEB SYSTEMS",
       icon: Database,
       gradient: "from-violet-500 to-fuchsia-500",
       location: "Turku, Finland",
       bio: t(
         lang,
-        "Expert, Senior Full-Stack Developer hơn 10 năm kinh nghiệm xây dựng hệ thống ngân hàng (Hong Leong, VIB, Standard Chartered), bất động sản, du lịch và TMĐT. Chuyên sâu .NET, SQL Server, Web platforms.",
-        "Expert, Senior Full-Stack Developer with 10+ years building banking systems (Hong Leong, VIB, Standard Chartered), real estate, travel and e-commerce platforms. Expert in .NET, SQL Server, web platforms.",
+        "Expert, Senior Full-Stack Developer hơn 10 năm kinh nghiệm xây dựng hệ thống phần mềm cho các ngân hàng (Hong Leong, VIB, Standard Chartered), bất động sản, du lịch và TMĐT. Chuyên sâu .NET, SQL Server, Web platforms.",
+        "Expert, Senior Full-Stack Developer with 10+ years building software systems for banks (Hong Leong, VIB, Standard Chartered), real estate, travel and e-commerce platforms. Expert in .NET, SQL Server, web platforms.",
       ),
       highlights: [
         t(lang, "Banking · Fintech experience", "Banking · Fintech experience"),
