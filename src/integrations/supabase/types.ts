@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      agency_leads: {
+        Row: {
+          client_name: string
+          created_at: string
+          email: string
+          id: string
+          notes: string | null
+          organization_or_school: string | null
+          phone: string
+          selected_package: string | null
+          status: Database["public"]["Enums"]["agency_lead_status"]
+          updated_at: string
+        }
+        Insert: {
+          client_name: string
+          created_at?: string
+          email: string
+          id?: string
+          notes?: string | null
+          organization_or_school?: string | null
+          phone: string
+          selected_package?: string | null
+          status?: Database["public"]["Enums"]["agency_lead_status"]
+          updated_at?: string
+        }
+        Update: {
+          client_name?: string
+          created_at?: string
+          email?: string
+          id?: string
+          notes?: string | null
+          organization_or_school?: string | null
+          phone?: string
+          selected_package?: string | null
+          status?: Database["public"]["Enums"]["agency_lead_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       api_balance: {
         Row: {
           balance: number
@@ -3498,6 +3537,7 @@ export type Database = {
       }
     }
     Enums: {
+      agency_lead_status: "new" | "in_discussion" | "won" | "lost"
       app_role: "admin" | "teacher" | "student" | "assistant"
       service_request_status: "new" | "contacted" | "completed"
     }
@@ -3627,6 +3667,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      agency_lead_status: ["new", "in_discussion", "won", "lost"],
       app_role: ["admin", "teacher", "student", "assistant"],
       service_request_status: ["new", "contacted", "completed"],
     },
