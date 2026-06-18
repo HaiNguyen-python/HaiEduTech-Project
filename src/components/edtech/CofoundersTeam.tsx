@@ -2,7 +2,7 @@
  * Co-founders team grid for the EdTech agency landing page.
  * Showcases the 3 co-founders: pedagogical lead + 2 full-stack engineers.
  */
-import { GraduationCap, Code2, Database, Mail, Linkedin, Github, MapPin, Award } from "lucide-react";
+import { GraduationCap, Code2, Database, Mail, Linkedin, Github, FileText, MapPin, Award } from "lucide-react";
 
 interface Lang { lang: "vi" | "en"; }
 
@@ -59,6 +59,7 @@ export function CofoundersTeam({ lang }: Lang) {
       icon: Database,
       gradient: "from-violet-500 to-fuchsia-500",
       location: "Turku, Finland",
+      avatar: "/__l5e/assets-v1/80ca939c-2c0e-41fc-a9ab-caf86e904404/nhat-avatar.png",
       bio: t(
         lang,
         "Expert, Senior Full-Stack Developer hơn 10 năm kinh nghiệm xây dựng hệ thống phần mềm cho các ngân hàng (Hong Leong, VIB, Standard Chartered), bất động sản, du lịch và TMĐT. Chuyên sâu .NET, SQL Server, Web platforms.",
@@ -69,7 +70,7 @@ export function CofoundersTeam({ lang }: Lang) {
         ".NET · MVC · Entity Framework",
         t(lang, "Phân tích & thiết kế hệ thống", "Systems analysis & design"),
       ],
-      links: { email: "nhattv252@gmail.com" },
+      links: { email: "nhattv252@gmail.com", cv: "https://drive.google.com/file/d/101dOOS68Kz7pyPzkvjS_gJUmo63DcHNQ/view?usp=drive_link" },
     },
   ];
 
@@ -103,9 +104,17 @@ export function CofoundersTeam({ lang }: Lang) {
               >
                 <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${m.gradient}`} />
                 <div className="flex items-start gap-4 mb-4">
-                  <div className={`flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${m.gradient} text-white flex items-center justify-center shadow-lg`}>
-                    <Icon className="w-7 h-7" strokeWidth={2} />
-                  </div>
+                  {m.avatar ? (
+                    <img
+                      src={m.avatar}
+                      alt={m.name}
+                      className="flex-shrink-0 w-14 h-14 rounded-2xl object-cover shadow-lg"
+                    />
+                  ) : (
+                    <div className={`flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${m.gradient} text-white flex items-center justify-center shadow-lg`}>
+                      <Icon className="w-7 h-7" strokeWidth={2} />
+                    </div>
+                  )}
                   <div className="min-w-0">
                     <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                       {m.tag}
@@ -165,6 +174,17 @@ export function CofoundersTeam({ lang }: Lang) {
                       className="w-9 h-9 rounded-lg bg-muted hover:bg-foreground hover:text-background flex items-center justify-center transition-colors"
                     >
                       <Github className="w-4 h-4" />
+                    </a>
+                  )}
+                  {m.links.cv && (
+                    <a
+                      href={m.links.cv}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`CV ${m.name}`}
+                      className="w-9 h-9 rounded-lg bg-muted hover:bg-violet-600 hover:text-white flex items-center justify-center transition-colors"
+                    >
+                      <FileText className="w-4 h-4" />
                     </a>
                   )}
                 </div>
