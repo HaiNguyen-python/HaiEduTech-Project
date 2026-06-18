@@ -13,43 +13,45 @@ export function CofoundersTeam({ lang }: Lang) {
     {
       name: "Nguyễn Trần Thanh Hải",
       role: t(lang, "Đồng sáng lập · EdTech Engineer", "Co-founder · EdTech Engineer"),
-      tag: t(lang, "CO-FOUNDER · PEDAGOGY & AI", "CO-FOUNDER · PEDAGOGY & AI"),
+      tag: "CO-FOUNDER · PEDAGOGY & AI",
       icon: GraduationCap,
       gradient: "from-emerald-500 to-teal-500",
       location: "Helsinki, Finland",
       avatar: "/__l5e/assets-v1/ef35ac2f-4235-4cbc-a08d-30df3ad66d04/hai-avatar.png",
       bio: t(
         lang,
-        "Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư ICT chuyên ngành Data Engineering & AI tại Phần Lan, hơn 15 năm kinh nghiệm sư phạm trực tiếp tại lớp học.",
-        "Master of English Language & Culture, ICT Engineer specializing in Data Engineering & AI from Finland, with 15+ years of pedagogical experience in the classroom.",
+        "Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư ICT chuyên ngành Data Engineering & AI tại Phần Lan. Hơn 15 năm giảng dạy IELTS, TOEIC, HSK và tiếng Việt cho người nước ngoài. Sáng lập HaiEduTech, trực tiếp thiết kế kiến trúc LMS và tích hợp AI (RAG, LLM) phục vụ cá nhân hoá lộ trình học.",
+        "Master of English Language & Culture and ICT Engineer (Data Engineering & AI) trained in Finland. 15+ years teaching IELTS, TOEIC, HSK and Vietnamese for foreigners. Founder of HaiEduTech, leading LMS architecture and AI integration (RAG, LLM) for personalised learning paths.",
       ),
       highlights: [
-        t(lang, "15+ năm giảng dạy", "15+ years teaching"),
-        t(lang, "MA in Eng & Culture, BA in Data & AI · Phần Lan", "MA in Eng & Culture, BA in Data & AI · Finland"),
-        t(lang, "Thiết kế chương trình LMS", "LMS curriculum design"),
+        t(lang, "15+ năm giảng dạy ngôn ngữ & luyện thi", "15+ years teaching languages & exam prep"),
+        t(lang, "MA Eng & Culture · BEng Data & AI · Phần Lan", "MA Eng & Culture · BEng Data & AI · Finland"),
+        t(lang, "Kiến trúc LMS & tích hợp AI (RAG, LLM)", "LMS architecture & AI integration (RAG, LLM)"),
       ],
       links: {
         email: "contact@haiedutech.com",
+        linkedin: "https://www.linkedin.com/in/hainguyen2401/",
+        github: "https://github.com/HaiNguyen-python",
         cv: "https://drive.google.com/file/d/1OlIlpm3Vxb8uzw0EMa3WBLrzNvU3FzgR/view?usp=sharing",
       },
     },
     {
       name: "Trần Thanh Phúc",
       role: t(lang, "Đồng sáng lập · AI / Full-Stack Engineer", "Co-founder · AI / Full-Stack Engineer"),
-      tag: "AI · LLM · Cloud",
+      tag: "CO-FOUNDER · AI · LLM · CLOUD",
       icon: Code2,
       gradient: "from-blue-500 to-indigo-500",
       location: "Turku, Finland",
       avatar: "/__l5e/assets-v1/e51964bf-c9b1-4731-82c2-6693d6bf761c/phuc-avatar.png",
       bio: t(
         lang,
-        "Thạc sĩ, Kỹ sư AI đa năng nền tảng Full-Stack vững chắc. 4 công bố khoa học bình duyệt về Machine Learning. Thành thạo Python, AWS, LLMs, SQL, CI/CD. Erasmus Mundus Scholar (EDISS).",
-        "MSc, Versatile AI engineer with a strong full-stack background. 4 peer-reviewed ML publications. Proficient in Python, AWS, LLMs, SQL, CI/CD. Erasmus Mundus Scholar (EDISS).",
+        "Thạc sĩ Erasmus Mundus EDISS (European Master in Data-Intensive Software Systems), Kỹ sư AI & Full-Stack với 4 công bố khoa học bình duyệt về Machine Learning, trong đó có paper được chấp nhận tại ICSA 2026. Thành thạo Python, AWS, LLMs, RAG/LangChain/AutoGen, SQL và CI/CD; từng thực tập tại MediaTek và AILiveSim.",
+        "Erasmus Mundus EDISS MSc (European Master in Data-Intensive Software Systems), AI & full-stack engineer with 4 peer-reviewed ML publications including an ICSA 2026 accepted paper. Proficient in Python, AWS, LLMs, RAG/LangChain/AutoGen, SQL and CI/CD; former MediaTek and AILiveSim intern.",
       ),
       highlights: [
-        t(lang, "Cựu thực tập sinh MediaTek & AILiveSim", "Ex-MediaTek & AILiveSim intern"),
-        t(lang, "RAG · LangChain · AutoGen", "RAG · LangChain · AutoGen"),
-        t(lang, "ICSA 2026 Accepted Paper", "ICSA 2026 Accepted Paper"),
+        t(lang, "Erasmus Mundus Scholar · EDISS", "Erasmus Mundus Scholar · EDISS"),
+        t(lang, "4 bài báo ML bình duyệt · ICSA 2026", "4 peer-reviewed ML papers · ICSA 2026"),
+        "Python · AWS · RAG · LangChain · AutoGen",
       ],
       links: {
         email: "phuc.t.dev@gmail.com",
@@ -68,16 +70,17 @@ export function CofoundersTeam({ lang }: Lang) {
       avatar: "/__l5e/assets-v1/80ca939c-2c0e-41fc-a9ab-caf86e904404/nhat-avatar.png",
       bio: t(
         lang,
-        "Expert, Senior Full-Stack Developer hơn 10 năm kinh nghiệm xây dựng hệ thống phần mềm cho các ngân hàng (Hong Leong, VIB, Standard Chartered), bất động sản, du lịch và TMĐT. Chuyên sâu .NET, SQL Server, Web platforms.",
-        "Expert, Senior Full-Stack Developer with 10+ years building software systems for banks (Hong Leong, VIB, Standard Chartered), real estate, travel and e-commerce platforms. Expert in .NET, SQL Server, web platforms.",
+        "Senior Full-Stack Developer với hơn 10 năm kinh nghiệm phân tích, thiết kế và triển khai hệ thống cho các ngân hàng lớn (Hong Leong, VIB, Standard Chartered) cùng các nền tảng bất động sản, du lịch và TMĐT. Chuyên sâu .NET, ASP.NET MVC, Entity Framework, SQL Server và kiến trúc phần mềm hướng dịch vụ, ưu tiên bảo mật và hiệu năng cho hệ thống doanh nghiệp quy mô lớn.",
+        "Senior full-stack developer with 10+ years analysing, designing and shipping platforms for major banks (Hong Leong, VIB, Standard Chartered) as well as real estate, travel and e-commerce systems. Specialised in .NET, ASP.NET MVC, Entity Framework, SQL Server and service-oriented architectures, focused on security and performance for large enterprise platforms.",
       ),
       highlights: [
-        t(lang, "Banking · Fintech experience", "Banking · Fintech experience"),
-        ".NET · MVC · Entity Framework",
-        t(lang, "Phân tích & thiết kế hệ thống", "Systems analysis & design"),
+        t(lang, "Kinh nghiệm Banking & Fintech quy mô lớn", "Banking & fintech experience at scale"),
+        ".NET · ASP.NET MVC · Entity Framework · SQL Server",
+        t(lang, "Phân tích & thiết kế kiến trúc phần mềm", "Software architecture & system design"),
       ],
       links: { email: "nhattv252@gmail.com", cv: "https://drive.google.com/file/d/101dOOS68Kz7pyPzkvjS_gJUmo63DcHNQ/view?usp=drive_link" },
     },
+
   ];
 
   return (
