@@ -24,20 +24,14 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  esbuild: {
+    drop: ["console", "debugger"],
+    legalComments: "none",
+  },
   build: {
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-      mangle: {
-        toplevel: true,
-      },
-      format: {
-        comments: false,
-      },
-    },
+    minify: "esbuild",
+    target: "es2020",
+
     rollupOptions: {
       output: {
         manualChunks: {
