@@ -11,7 +11,7 @@ const t = (lang: "vi" | "en", vi: string, en: string) => (lang === "vi" ? vi : e
 export function CofoundersTeam({ lang }: Lang) {
   const members = [
     {
-      name: "Nguyen Tran Thanh Hai",
+      name: "Nguyễn Trần Thanh Hải",
       role: t(lang, "Đồng sáng lập · EdTech Engineer", "Co-founder · EdTech Engineer"),
       tag: t(lang, "CO-FOUNDER · PEDAGOGY & AI", "CO-FOUNDER · PEDAGOGY & AI"),
       icon: GraduationCap,
@@ -30,7 +30,7 @@ export function CofoundersTeam({ lang }: Lang) {
       links: { email: "contact@haiedutech.com" },
     },
     {
-      name: "Tran Thanh Phuc",
+      name: "Trần Thanh Phúc",
       role: t(lang, "Đồng sáng lập · AI / Full-Stack Engineer", "Co-founder · AI / Full-Stack Engineer"),
       tag: "AI · LLM · Cloud",
       icon: Code2,
@@ -38,8 +38,8 @@ export function CofoundersTeam({ lang }: Lang) {
       location: "Turku, Finland",
       bio: t(
         lang,
-        "Kỹ sư AI đa năng nền tảng Full-Stack vững chắc. 4 công bố khoa học bình duyệt về Machine Learning. Thành thạo Python, AWS, LLMs, SQL, CI/CD. Erasmus Mundus Scholar (EDISS).",
-        "Versatile AI engineer with a strong full-stack background. 4 peer-reviewed ML publications. Proficient in Python, AWS, LLMs, SQL, CI/CD. Erasmus Mundus Scholar (EDISS).",
+        "Thạc sĩ, Kỹ sư AI đa năng nền tảng Full-Stack vững chắc. 4 công bố khoa học bình duyệt về Machine Learning. Thành thạo Python, AWS, LLMs, SQL, CI/CD. Erasmus Mundus Scholar (EDISS).",
+        "MSc, Versatile AI engineer with a strong full-stack background. 4 peer-reviewed ML publications. Proficient in Python, AWS, LLMs, SQL, CI/CD. Erasmus Mundus Scholar (EDISS).",
       ),
       highlights: [
         t(lang, "Cựu thực tập sinh MediaTek & AILiveSim", "Ex-MediaTek & AILiveSim intern"),
@@ -53,7 +53,7 @@ export function CofoundersTeam({ lang }: Lang) {
       },
     },
     {
-      name: "Tran Van Nhat",
+      name: "Trần Văn Nhật",
       role: t(lang, "Đồng sáng lập · Senior Web Developer", "Co-founder · Senior Web Developer"),
       tag: ".NET · SQL · Web Systems",
       icon: Database,
@@ -61,8 +61,8 @@ export function CofoundersTeam({ lang }: Lang) {
       location: "Turku, Finland",
       bio: t(
         lang,
-        "Senior Full-Stack Developer hơn 10 năm kinh nghiệm xây dựng hệ thống ngân hàng (Hong Leong, VIB, Standard Chartered), bất động sản, du lịch và TMĐT. Chuyên sâu .NET, SQL Server, Web platforms.",
-        "Senior Full-Stack Developer with 10+ years building banking systems (Hong Leong, VIB, Standard Chartered), real estate, travel and e-commerce platforms. Expert in .NET, SQL Server, web platforms.",
+        "Expert, Senior Full-Stack Developer hơn 10 năm kinh nghiệm xây dựng hệ thống ngân hàng (Hong Leong, VIB, Standard Chartered), bất động sản, du lịch và TMĐT. Chuyên sâu .NET, SQL Server, Web platforms.",
+        "Expert, Senior Full-Stack Developer with 10+ years building banking systems (Hong Leong, VIB, Standard Chartered), real estate, travel and e-commerce platforms. Expert in .NET, SQL Server, web platforms.",
       ),
       highlights: [
         t(lang, "Banking · Fintech experience", "Banking · Fintech experience"),
