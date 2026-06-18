@@ -14,6 +14,8 @@ import { z } from "zod";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { CofoundersTeam } from "@/components/edtech/CofoundersTeam";
+import { AgencyLeadModal } from "@/components/edtech/AgencyLeadModal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -2631,6 +2633,12 @@ const EdTechWebService = () => {
     }
   };
 
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
+  const [leadModalPackage, setLeadModalPackage] = useState<string>("standard");
+  const openLeadModal = (pkg: string = "standard") => {
+    setLeadModalPackage(pkg);
+    setLeadModalOpen(true);
+  };
   const scrollToForm = () => {
     document
       .getElementById("consultation-form")
@@ -2778,7 +2786,7 @@ const EdTechWebService = () => {
               <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                 <Button
                   size="lg"
-                  onClick={scrollToForm}
+                  onClick={() => openLeadModal("standard")}
                   className="bg-gradient-to-r from-primary to-emerald-500 hover:opacity-95 text-primary-foreground shadow-lg shadow-primary/30 h-12 px-8 text-base"
                 >
                   <Send className="w-4 h-4" />
@@ -2950,6 +2958,9 @@ const EdTechWebService = () => {
           </div>
         </div>
       </section>
+
+      {/* Co-founders Team - introduces the agency's 3 co-founders */}
+      <CofoundersTeam lang={lang as "vi" | "en"} />
 
       {/* Core Features */}
       <section className="py-16 sm:py-20 bg-secondary/30">
@@ -4092,6 +4103,13 @@ const EdTechWebService = () => {
           </div>
         </div>
       </section>
+
+      <AgencyLeadModal
+        open={leadModalOpen}
+        onOpenChange={setLeadModalOpen}
+        lang={lang as "vi" | "en"}
+        defaultPackage={leadModalPackage}
+      />
 
       <Footer />
     </div>
