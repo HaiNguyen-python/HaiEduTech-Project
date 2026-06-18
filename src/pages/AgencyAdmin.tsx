@@ -121,7 +121,7 @@ const AgencyAdmin = () => {
                 You must sign in with a co-founder account to access the lead dashboard.
               </p>
               <Button asChild className="w-full">
-                <Link to="/auth?redirect=/agency-admin">Sign in</Link>
+                <Link to="/login?redirect=/agency-admin">Sign in</Link>
               </Button>
             </CardContent>
           </Card>
