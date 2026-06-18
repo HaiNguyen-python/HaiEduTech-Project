@@ -3649,7 +3649,7 @@ const EdTechWebService = () => {
                   className="rounded-xl border border-border bg-card p-4 hover:border-primary/40 hover:shadow-md transition-all"
                 >
                   <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-2.5 ${tech.color}`}>
-                    <tech.icon className="w-4.5 h-4.5" />
+                    <tech.icon className="w-4 h-4" />
                   </div>
                   <p className="font-bold text-sm text-foreground leading-tight">{tech.name}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">{t(tech.role.vi, tech.role.en)}</p>
