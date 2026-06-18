@@ -2708,7 +2708,7 @@ const EdTechWebService = () => {
                     <span className="font-bold text-foreground">
                       nhiều năm kinh nghiệm sư phạm &amp; Data/AI Engineering
                     </span>{" "}
-                    của thầy Hải &amp; đội ngũ tại Việt Nam &amp; Phần Lan.
+                    của thầy Hải &amp; đội ngũ tại Phần Lan.
                   </>
                 ) : (
                   <>
