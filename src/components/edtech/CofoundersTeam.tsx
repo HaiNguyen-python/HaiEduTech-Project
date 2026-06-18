@@ -59,6 +59,7 @@ export function CofoundersTeam({ lang }: Lang) {
       icon: Database,
       gradient: "from-violet-500 to-fuchsia-500",
       location: "Turku, Finland",
+      avatar: "/__l5e/assets-v1/80ca939c-2c0e-41fc-a9ab-caf86e904404/nhat-avatar.png",
       bio: t(
         lang,
         "Expert, Senior Full-Stack Developer hơn 10 năm kinh nghiệm xây dựng hệ thống phần mềm cho các ngân hàng (Hong Leong, VIB, Standard Chartered), bất động sản, du lịch và TMĐT. Chuyên sâu .NET, SQL Server, Web platforms.",
@@ -69,7 +70,7 @@ export function CofoundersTeam({ lang }: Lang) {
         ".NET · MVC · Entity Framework",
         t(lang, "Phân tích & thiết kế hệ thống", "Systems analysis & design"),
       ],
-      links: { email: "nhattv252@gmail.com" },
+      links: { email: "nhattv252@gmail.com", cv: "https://drive.google.com/file/d/101dOOS68Kz7pyPzkvjS_gJUmo63DcHNQ/view?usp=drive_link" },
     },
   ];
 
