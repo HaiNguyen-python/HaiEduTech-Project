@@ -136,7 +136,7 @@ function generateRuleQuestion(
 
   return {
     question: `Which rule matches this example: "${target.example}"?`,
-    options: options.map(truncate),
+    options: options.map(o => truncate(o)),
     answer: correctPos,
     explanation: `Rule: ${target.rule}. The example "${target.example}" demonstrates this directly.`,
   };
