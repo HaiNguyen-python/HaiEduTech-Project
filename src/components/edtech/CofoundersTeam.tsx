@@ -25,8 +25,8 @@ export function CofoundersTeam({ lang }: Lang) {
       ),
       slogan: t(
         lang,
-        "\"Tận tâm với từng bài giảng — kiến tạo trải nghiệm học tập chuyên nghiệp.\"",
-        "\"Dedicated to every lesson — crafting professional learning experiences.\"",
+        "\"Tận tâm từng bài giảng, kiến tạo trải nghiệm học chuyên nghiệp.\"",
+        "\"Dedicated to every lesson, crafting professional learning experiences.\"",
       ),
       highlights: [
         t(lang, "15+ năm giảng dạy ngôn ngữ & luyện thi", "15+ years teaching languages & exam prep"),
@@ -55,8 +55,8 @@ export function CofoundersTeam({ lang }: Lang) {
       ),
       slogan: t(
         lang,
-        "\"Chuyên sâu công nghệ AI — cam kết chất lượng từng dòng code.\"",
-        "\"Deeply immersed in AI technology — committed to quality in every line of code.\"",
+        "\"Chuyên sâu công nghệ AI, cam kết chất lượng từng dòng code.\"",
+        "\"Deeply immersed in AI technology, committed to quality in every line of code.\"",
       ),
       highlights: [
         t(lang, "Erasmus Mundus Scholar · EDISS", "Erasmus Mundus Scholar · EDISS"),
@@ -85,8 +85,8 @@ export function CofoundersTeam({ lang }: Lang) {
       ),
       slogan: t(
         lang,
-        "\"Xây dựng hệ thống vững chắc — phục vụ khách hàng tận tâm.\"",
-        "\"Building robust systems — serving clients with unwavering dedication.\"",
+        "\"Xây dựng hệ thống vững chắc, phục vụ khách hàng tận tâm.\"",
+        "\"Building robust systems, serving clients with unwavering dedication.\"",
       ),
       highlights: [
         t(lang, "Kinh nghiệm Banking & Fintech quy mô lớn", "Banking & fintech experience at scale"),
@@ -124,7 +124,7 @@ export function CofoundersTeam({ lang }: Lang) {
             return (
               <article
                 key={m.name}
-                className="group relative rounded-2xl border border-border/70 bg-card/90 backdrop-blur-sm p-6 sm:p-7 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+                className="group relative flex flex-col rounded-2xl border border-border/70 bg-card/90 backdrop-blur-sm p-6 sm:p-7 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
               >
                 <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${m.gradient}`} />
                 <div className="flex items-start gap-4 mb-4">
@@ -156,18 +156,20 @@ export function CofoundersTeam({ lang }: Lang) {
                 </div>
 
 
-                <p className="text-sm text-foreground/80 leading-relaxed mb-4">
-                  {m.bio}
-                </p>
+                <div className="flex-1">
+                  <p className="text-sm text-foreground/80 leading-relaxed mb-4">
+                    {m.bio}
+                  </p>
 
-                <ul className="space-y-1.5 mb-5">
-                  {m.highlights.map((h) => (
-                    <li key={h} className="flex items-start gap-2 text-xs sm:text-[13px] text-foreground/75">
-                      <span className={`mt-1 w-1.5 h-1.5 rounded-full bg-gradient-to-r ${m.gradient} flex-shrink-0`} />
-                      {h}
-                    </li>
-                  ))}
-                </ul>
+                  <ul className="space-y-1.5 mb-5">
+                    {m.highlights.map((h) => (
+                      <li key={h} className="flex items-start gap-2 text-xs sm:text-[13px] text-foreground/75">
+                        <span className={`mt-1 w-1.5 h-1.5 rounded-full bg-gradient-to-r ${m.gradient} flex-shrink-0`} />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 <div className="flex items-center gap-2 pt-4 border-t border-border/60">
                   {m.links.email && (
@@ -215,7 +217,7 @@ export function CofoundersTeam({ lang }: Lang) {
                 </div>
 
                 {m.slogan && (
-                  <p className="text-sm italic text-foreground/70 leading-relaxed mt-4 border-l-2 border-border pl-3">
+                  <p className="text-sm font-bold text-foreground/80 leading-relaxed mt-4 border-l-2 border-border pl-3">
                     {m.slogan}
                   </p>
                 )}
