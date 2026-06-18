@@ -36,6 +36,7 @@ export function CofoundersTeam({ lang }: Lang) {
       icon: Code2,
       gradient: "from-blue-500 to-indigo-500",
       location: "Turku, Finland",
+      avatar: "/__l5e/assets-v1/e51964bf-c9b1-4731-82c2-6693d6bf761c/phuc-avatar.png",
       bio: t(
         lang,
         "Thạc sĩ, Kỹ sư AI đa năng nền tảng Full-Stack vững chắc. 4 công bố khoa học bình duyệt về Machine Learning. Thành thạo Python, AWS, LLMs, SQL, CI/CD. Erasmus Mundus Scholar (EDISS).",
@@ -50,6 +51,7 @@ export function CofoundersTeam({ lang }: Lang) {
         email: "phuc.t.dev@gmail.com",
         linkedin: "https://linkedin.com/in/phuc-thanh-tran/",
         github: "https://github.com/phuc-tr",
+        cv: "https://drive.google.com/file/d/1JeTkOadC4pK9AbkPGvKAnm8OX1rynH9Y/view?usp=drive_link",
       },
     },
     {
