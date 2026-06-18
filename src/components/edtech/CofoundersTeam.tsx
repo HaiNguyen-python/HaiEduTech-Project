@@ -21,7 +21,7 @@ export function CofoundersTeam({ lang }: Lang) {
       bio: t(
         lang,
         "Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư ICT chuyên ngành Data Engineering & AI tại Phần Lan. Hơn 15 năm giảng dạy IELTS, TOEIC, HSK và tiếng Việt cho người nước ngoài. Sáng lập HaiEduTech, trực tiếp thiết kế kiến trúc LMS và tích hợp AI (RAG, LLM) phục vụ cá nhân hoá lộ trình học.",
-        "Master of English Language & Culture and ICT Engineer (Data Engineering & AI) trained in Finland. 15+ years teaching IELTS, TOEIC, HSK and Vietnamese for foreigners. Founder of HaiEduTech, leading LMS architecture and AI integration (RAG, LLM) for personalised learning paths.",
+        "Master of English Language & Culture and ICT Engineer (Data Engineering & AI) trained in Finland. 15+ years teaching IELTS, TOEIC, HSK and Vietnamese for foreigners.\u00a0\n\n\nFounder of HaiEduTech, leading LMS architecture and AI integration (RAG, LLM) for personalised learning paths.",
       ),
       slogan: t(
         lang,
@@ -51,7 +51,7 @@ export function CofoundersTeam({ lang }: Lang) {
       bio: t(
         lang,
         "Thạc sĩ Erasmus Mundus EDISS (European Master in Data-Intensive Software Systems), Kỹ sư AI & Full-Stack với hơn 3 năm kinh nghiệm trong kỹ thuật phần mềm và trí tuệ nhân tạo cùng nhiều công bố khoa học bình duyệt về Machine Learning. Thành thạo Python, AWS, LLMs, RAG, LangChain, AutoGen, SQL và CI/CD; từng thực tập tại MediaTek và AILiveSim.",
-        "Erasmus Mundus EDISS MSc (European Master in Data-Intensive Software Systems), AI and full-stack engineer with 3+ years of experience in software engineering and artificial intelligence and multiple peer-reviewed machine learning publications. Experienced in Python, AWS, LLMs, RAG, LangChain, AutoGen, SQL, and CI/CD. Former MediaTek and AILiveSim intern.",
+        "Erasmus Mundus EDISS MSc (European Master in Data-Intensive Software Systems), AI and full-stack engineer with 3+ years of experience in software engineering and artificial intelligence and multiple peer-reviewed machine learning publications.\u00a0\n\n\nExperienced in Python, AWS, LLMs, RAG, LangChain, AutoGen, SQL, and CI/CD. Former MediaTek and AILiveSim intern.",
       ),
       slogan: t(
         lang,
@@ -81,7 +81,7 @@ export function CofoundersTeam({ lang }: Lang) {
       bio: t(
         lang,
         "Senior Full-Stack Developer với hơn 10 năm kinh nghiệm phân tích, thiết kế và triển khai hệ thống cho các ngân hàng lớn (Hong Leong, VIB, Standard Chartered) cùng các nền tảng bất động sản, du lịch và TMĐT. Chuyên sâu .NET, ASP.NET MVC, Entity Framework, SQL Server và kiến trúc phần mềm hướng dịch vụ, ưu tiên bảo mật và hiệu năng cho hệ thống doanh nghiệp quy mô lớn.",
-        "Senior full-stack developer with 10+ years analysing, designing and shipping platforms for major banks (Hong Leong, VIB, Standard Chartered) as well as real estate, travel and e-commerce systems. Specialised in .NET, ASP.NET MVC, Entity Framework, SQL Server and service-oriented architectures, focused on security and performance for large enterprise platforms.",
+        "Senior full-stack developer with 10+ years analysing, designing and shipping platforms for major banks (Hong Leong, VIB, Standard Chartered) as well as real estate, travel and e-commerce systems.\u00a0\n\n\nSpecialised in .NET, ASP.NET MVC, Entity Framework, SQL Server and service-oriented architectures, focused on security and performance for large enterprise platforms.",
       ),
       slogan: t(
         lang,
@@ -157,7 +157,7 @@ export function CofoundersTeam({ lang }: Lang) {
 
 
                 <div className="flex-1">
-                  <p className="text-sm text-foreground/80 leading-relaxed mb-4">
+                  <p className="text-sm text-foreground/80 leading-relaxed mb-4 whitespace-pre-line">
                     {m.bio}
                   </p>
 
