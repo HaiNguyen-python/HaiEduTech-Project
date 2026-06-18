@@ -25,8 +25,8 @@ export function CofoundersTeam({ lang }: Lang) {
       ),
       slogan: t(
         lang,
-        "\"Tận tâm với từng bài giảng — kiến tạo trải nghiệm học tập chuyên nghiệp.\"",
-        "\"Dedicated to every lesson — crafting professional learning experiences.\"",
+        "\"Tận tâm từng bài giảng, kiến tạo trải nghiệm học chuyên nghiệp.\"",
+        "\"Dedicated to every lesson, crafting professional learning experiences.\"",
       ),
       highlights: [
         t(lang, "15+ năm giảng dạy ngôn ngữ & luyện thi", "15+ years teaching languages & exam prep"),
@@ -55,8 +55,8 @@ export function CofoundersTeam({ lang }: Lang) {
       ),
       slogan: t(
         lang,
-        "\"Chuyên sâu công nghệ AI — cam kết chất lượng từng dòng code.\"",
-        "\"Deeply immersed in AI technology — committed to quality in every line of code.\"",
+        "\"Chuyên sâu công nghệ AI, cam kết chất lượng từng dòng code.\"",
+        "\"Deeply immersed in AI technology, committed to quality in every line of code.\"",
       ),
       highlights: [
         t(lang, "Erasmus Mundus Scholar · EDISS", "Erasmus Mundus Scholar · EDISS"),
@@ -85,8 +85,8 @@ export function CofoundersTeam({ lang }: Lang) {
       ),
       slogan: t(
         lang,
-        "\"Xây dựng hệ thống vững chắc — phục vụ khách hàng tận tâm.\"",
-        "\"Building robust systems — serving clients with unwavering dedication.\"",
+        "\"Xây dựng hệ thống vững chắc, phục vụ khách hàng tận tâm.\"",
+        "\"Building robust systems, serving clients with unwavering dedication.\"",
       ),
       highlights: [
         t(lang, "Kinh nghiệm Banking & Fintech quy mô lớn", "Banking & fintech experience at scale"),
