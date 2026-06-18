@@ -3501,8 +3501,251 @@ const EdTechWebService = () => {
         </div>
       </section>
 
+      {/* Process & Technology - brand depth + engineering credibility */}
+      <section className="py-16 sm:py-24 bg-gradient-to-br from-primary/5 via-background to-emerald-500/5">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-bold uppercase tracking-wider mb-3">
+              <Cpu className="w-3.5 h-3.5" />
+              {t("Quy trình & Công nghệ", "Process & Technology")}
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold text-foreground">
+              {t(
+                "Sản phẩm vững chắc - xây bằng quy trình kỹ sư phần mềm chuẩn quốc tế",
+                "Robust products - built with international-grade engineering practices",
+              )}
+            </h2>
+            <p className="mt-3 text-muted-foreground text-sm sm:text-base">
+              {t(
+                "HaiEduTech không chỉ là một website. Đây là một sản phẩm phần mềm giáo dục được thiết kế, kiểm thử và vận hành theo đúng chuẩn của các công ty công nghệ hàng đầu - giúp Thầy/Cô yên tâm phục vụ học viên lâu dài.",
+                "HaiEduTech is not just a website. It is an EdTech software product designed, tested and operated to the standards of top tech companies - so you can confidently serve your learners for the long run.",
+              )}
+            </p>
+          </div>
+
+          {/* 6-step development process */}
+          <div className="max-w-6xl mx-auto mb-16">
+            <h3 className="text-lg sm:text-xl font-display font-bold text-foreground mb-6 text-center">
+              {t("Quy trình triển khai 6 bước minh bạch", "Our transparent 6-step delivery process")}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+              {[
+                {
+                  step: "01",
+                  icon: MessageCircle,
+                  title: { vi: "Lắng nghe & Tư vấn", en: "Discovery & Consulting" },
+                  desc: {
+                    vi: "Phỏng vấn 1-1 với Thầy/Cô để hiểu rõ mục tiêu giảng dạy, đối tượng học viên và quy trình vận hành hiện tại.",
+                    en: "1-1 interview to deeply understand your teaching goals, learners and current operations.",
+                  },
+                  color: "from-sky-500 to-blue-600",
+                },
+                {
+                  step: "02",
+                  icon: LayoutDashboard,
+                  title: { vi: "Thiết kế UX/UI & Wireframe", en: "UX/UI Design & Wireframes" },
+                  desc: {
+                    vi: "Thiết kế trên Figma, duyệt từng màn hình với Thầy/Cô trước khi viết bất kỳ dòng code nào - không phát sinh chi phí ẩn.",
+                    en: "Figma-based design, screen-by-screen approval before any code is written - zero hidden costs.",
+                  },
+                  color: "from-violet-500 to-fuchsia-600",
+                },
+                {
+                  step: "03",
+                  icon: Code2,
+                  title: { vi: "Phát triển Agile 2 tuần / sprint", en: "Agile Development - 2-week sprints" },
+                  desc: {
+                    vi: "Mỗi sprint bàn giao bản demo có thể dùng thật, Thầy/Cô góp ý liên tục - đảm bảo sản phẩm cuối đúng kỳ vọng.",
+                    en: "Each sprint delivers a usable demo; you give continuous feedback - guaranteeing the final product matches your vision.",
+                  },
+                  color: "from-emerald-500 to-teal-600",
+                },
+                {
+                  step: "04",
+                  icon: ShieldCheck,
+                  title: { vi: "Kiểm thử & Bảo mật", en: "Testing & Security Audit" },
+                  desc: {
+                    vi: "Unit test, E2E test, kiểm tra OWASP Top 10, pen-test cơ bản và audit hiệu năng PageSpeed trước khi go-live.",
+                    en: "Unit tests, E2E tests, OWASP Top 10 review, basic pen-testing and PageSpeed audit before go-live.",
+                  },
+                  color: "from-amber-500 to-orange-600",
+                },
+                {
+                  step: "05",
+                  icon: Rocket,
+                  title: { vi: "Triển khai & Đào tạo", en: "Deployment & Training" },
+                  desc: {
+                    vi: "Cài đặt domain, SSL, email subdomain. Tặng kèm bộ video hướng dẫn quản trị + 2 buổi đào tạo trực tuyến 1-1.",
+                    en: "Domain, SSL and email subdomain setup. Includes admin training videos + 2 live 1-1 onboarding sessions.",
+                  },
+                  color: "from-rose-500 to-pink-600",
+                },
+                {
+                  step: "06",
+                  icon: Activity,
+                  title: { vi: "Vận hành & Tối ưu liên tục", en: "Operate & Continuously Optimize" },
+                  desc: {
+                    vi: "Giám sát uptime 24/7, sao lưu hằng ngày, báo cáo hiệu năng hằng tháng và cập nhật tính năng theo phản hồi thật.",
+                    en: "24/7 uptime monitoring, daily backups, monthly performance reports and feature updates from real feedback.",
+                  },
+                  color: "from-indigo-500 to-primary",
+                },
+              ].map((p) => (
+                <motion.div
+                  key={p.step}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="group relative rounded-2xl border border-border bg-card p-5 hover:shadow-xl hover:-translate-y-1 transition-all"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${p.color} text-white flex items-center justify-center shadow-md`}>
+                      <p.icon className="w-6 h-6" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-extrabold text-muted-foreground tracking-wider">
+                          {p.step}
+                        </span>
+                        <span className="h-px flex-1 bg-border" />
+                      </div>
+                      <h4 className="font-display font-bold text-foreground text-base mb-1">
+                        {t(p.title.vi, p.title.en)}
+                      </h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {t(p.desc.vi, p.desc.en)}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Tech Stack */}
+          <div className="max-w-6xl mx-auto mb-16">
+            <h3 className="text-lg sm:text-xl font-display font-bold text-foreground mb-2 text-center">
+              {t("Tech Stack chuẩn doanh nghiệp", "Enterprise-grade Tech Stack")}
+            </h3>
+            <p className="text-center text-sm text-muted-foreground mb-6 max-w-2xl mx-auto">
+              {t(
+                "Cùng bộ công nghệ mà Netflix, Airbnb, Notion và OpenAI đang sử dụng - đảm bảo hiệu năng, khả năng mở rộng và bảo trì dài hạn.",
+                "The same technology stack trusted by Netflix, Airbnb, Notion and OpenAI - ensuring performance, scalability and long-term maintainability.",
+              )}
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {[
+                { name: "React 18 + TypeScript", role: { vi: "Frontend", en: "Frontend" }, icon: Code2, color: "text-sky-600 bg-sky-500/10" },
+                { name: "Tailwind CSS + shadcn/ui", role: { vi: "Design System", en: "Design System" }, icon: Sparkles, color: "text-cyan-600 bg-cyan-500/10" },
+                { name: "Vite 5", role: { vi: "Build & HMR", en: "Build & HMR" }, icon: Zap, color: "text-amber-600 bg-amber-500/10" },
+                { name: "Supabase (PostgreSQL)", role: { vi: "Database + Auth", en: "Database + Auth" }, icon: Database, color: "text-emerald-600 bg-emerald-500/10" },
+                { name: "Edge Functions (Deno)", role: { vi: "Serverless API", en: "Serverless API" }, icon: Cloud, color: "text-violet-600 bg-violet-500/10" },
+                { name: "Perplexity / OpenAI / Gemini", role: { vi: "AI Layer", en: "AI Layer" }, icon: Brain, color: "text-fuchsia-600 bg-fuchsia-500/10" },
+                { name: "Row-Level Security + RLS", role: { vi: "Bảo mật dữ liệu", en: "Data Security" }, icon: Lock, color: "text-rose-600 bg-rose-500/10" },
+                { name: "Vercel / Cloudflare CDN", role: { vi: "Hạ tầng toàn cầu", en: "Global Infrastructure" }, icon: Globe, color: "text-indigo-600 bg-indigo-500/10" },
+              ].map((tech) => (
+                <div
+                  key={tech.name}
+                  className="rounded-xl border border-border bg-card p-4 hover:border-primary/40 hover:shadow-md transition-all"
+                >
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-2.5 ${tech.color}`}>
+                    <tech.icon className="w-4 h-4" />
+                  </div>
+                  <p className="font-bold text-sm text-foreground leading-tight">{tech.name}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{t(tech.role.vi, tech.role.en)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Engineering principles - brand depth */}
+          <div className="max-w-6xl mx-auto">
+            <h3 className="text-lg sm:text-xl font-display font-bold text-foreground mb-6 text-center">
+              {t("Triết lý kỹ thuật của HaiEduTech", "Our Engineering Principles")}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {[
+                {
+                  icon: Gauge,
+                  title: { vi: "Hiệu năng đặt lên hàng đầu", en: "Performance-first" },
+                  desc: {
+                    vi: "PageSpeed 90+ trên cả mobile và desktop. Lazy-loading, code-splitting và CDN toàn cầu giúp trang tải dưới 2 giây ngay cả với 3G.",
+                    en: "PageSpeed 90+ on mobile and desktop. Lazy-loading, code-splitting and a global CDN keep load times under 2s even on 3G.",
+                  },
+                  color: "from-amber-500 to-orange-600",
+                },
+                {
+                  icon: ShieldCheck,
+                  title: { vi: "Bảo mật từ thiết kế", en: "Security by design" },
+                  desc: {
+                    vi: "RLS theo từng dòng dữ liệu, mã hoá end-to-end cho dữ liệu nhạy cảm, sao lưu hằng ngày và tuân thủ Luật An ninh mạng Việt Nam.",
+                    en: "Row-level security on every record, end-to-end encryption for sensitive data, daily backups and Vietnam cybersecurity-law compliance.",
+                  },
+                  color: "from-rose-500 to-red-600",
+                },
+                {
+                  icon: TrendingUp,
+                  title: { vi: "Mở rộng không giới hạn", en: "Scales without limits" },
+                  desc: {
+                    vi: "Kiến trúc serverless tự động mở rộng từ 10 đến 100,000 học viên mà không cần viết lại hệ thống - tiết kiệm chi phí dài hạn.",
+                    en: "Serverless architecture auto-scales from 10 to 100,000 learners with zero rewrites - saving costs for the long run.",
+                  },
+                  color: "from-emerald-500 to-teal-600",
+                },
+                {
+                  icon: Users,
+                  title: { vi: "Lấy người dùng làm trung tâm", en: "User-centered design" },
+                  desc: {
+                    vi: "Mọi tính năng đều được thử nghiệm với học viên thật, đo lường tỉ lệ hoàn thành và tinh chỉnh dựa trên dữ liệu thực tế.",
+                    en: "Every feature is tested with real learners, completion rates are measured, and refinements are driven by actual data.",
+                  },
+                  color: "from-violet-500 to-fuchsia-600",
+                },
+                {
+                  icon: FileText,
+                  title: { vi: "Mã nguồn rõ ràng & tài liệu đầy đủ", en: "Clean code & full documentation" },
+                  desc: {
+                    vi: "Mỗi dự án bàn giao đi kèm tài liệu kiến trúc, sơ đồ ERD, hướng dẫn vận hành và video đào tạo - quý Thầy/Cô không bao giờ bị phụ thuộc.",
+                    en: "Every project ships with architecture docs, ERD diagrams, ops manuals and training videos - you are never locked in.",
+                  },
+                  color: "from-sky-500 to-blue-600",
+                },
+                {
+                  icon: Award,
+                  title: { vi: "Cam kết chất lượng giáo dục", en: "Committed to educational quality" },
+                  desc: {
+                    vi: "Đội ngũ founder là thạc sĩ giáo dục & kỹ sư phần mềm - hiểu cả lớp học lẫn công nghệ, đảm bảo sản phẩm phục vụ đúng nhu cầu giảng dạy thực tế.",
+                    en: "Our founders hold Master's degrees in education and software engineering - bridging the classroom and technology so the product truly serves teaching.",
+                  },
+                  color: "from-primary to-emerald-500",
+                },
+              ].map((pr) => (
+                <motion.div
+                  key={pr.title.en}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="rounded-2xl border border-border bg-card p-5 hover:shadow-xl transition-all"
+                >
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pr.color} text-white flex items-center justify-center mb-3 shadow-md`}>
+                    <pr.icon className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-display font-bold text-foreground text-base mb-1.5">
+                    {t(pr.title.vi, pr.title.en)}
+                  </h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {t(pr.desc.vi, pr.desc.en)}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Guarantee - risk reversal to remove final objections */}
       <section className="py-12 sm:py-16">
+
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto rounded-3xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 via-card to-primary/5 p-6 sm:p-10 shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
