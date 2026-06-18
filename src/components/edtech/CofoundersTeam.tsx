@@ -16,7 +16,7 @@ export function CofoundersTeam({ lang }: Lang) {
       tag: t(lang, "CO-FOUNDER · PEDAGOGY & AI", "CO-FOUNDER · PEDAGOGY & AI"),
       icon: GraduationCap,
       gradient: "from-emerald-500 to-teal-500",
-      location: "Vietnam · Finland",
+      location: "Helsinki, Finland",
       bio: t(
         lang,
         "Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư ICT chuyên ngành Data Engineering & AI tại Phần Lan, hơn 15 năm kinh nghiệm sư phạm trực tiếp tại lớp học.",
@@ -24,7 +24,7 @@ export function CofoundersTeam({ lang }: Lang) {
       ),
       highlights: [
         t(lang, "15+ năm giảng dạy", "15+ years teaching"),
-        t(lang, "Data Eng & AI · Phần Lan", "Data Eng & AI · Finland"),
+        t(lang, "MA in Eng & Culture, BA in Data & AI · Phần Lan", "MA in Eng & Culture, BA in Data & AI · Finland"),
         t(lang, "Thiết kế chương trình LMS", "LMS curriculum design"),
       ],
       links: { email: "contact@haiedutech.com" },
@@ -35,7 +35,7 @@ export function CofoundersTeam({ lang }: Lang) {
       tag: "AI · LLM · Cloud",
       icon: Code2,
       gradient: "from-blue-500 to-indigo-500",
-      location: "Helsinki, Finland",
+      location: "Turku, Finland",
       bio: t(
         lang,
         "Kỹ sư AI đa năng nền tảng Full-Stack vững chắc. 4 công bố khoa học bình duyệt về Machine Learning. Thành thạo Python, AWS, LLMs, SQL, CI/CD. Erasmus Mundus Scholar (EDISS).",
