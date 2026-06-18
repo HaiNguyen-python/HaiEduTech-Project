@@ -155,6 +155,12 @@ export function CofoundersTeam({ lang }: Lang) {
                   {m.location}
                 </div>
 
+                {m.slogan && (
+                  <p className="text-sm italic text-foreground/70 leading-relaxed mb-3 border-l-2 border-border pl-3">
+                    {m.slogan}
+                  </p>
+                )}
+
                 <p className="text-sm text-foreground/80 leading-relaxed mb-4">
                   {m.bio}
                 </p>
