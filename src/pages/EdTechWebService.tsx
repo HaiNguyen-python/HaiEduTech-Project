@@ -2787,7 +2787,7 @@ const EdTechWebService = () => {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="h-12 px-8 text-base border-2 border-emerald-500/70 hover:bg-emerald-500/10 text-foreground"
+                  className="h-12 px-8 text-base border-2 border-emerald-500/70 hover:bg-emerald-500/10 hover:text-foreground active:bg-emerald-500/20 active:text-foreground text-foreground"
                   asChild
                 >
                   <a href="#packages">
