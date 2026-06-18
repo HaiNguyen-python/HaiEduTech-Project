@@ -59,9 +59,9 @@ export function CofoundersTeam({ lang }: Lang) {
         "\"Deeply immersed in AI technology, committed to quality in every line of code.\"",
       ),
       highlights: [
-        t(lang, "Erasmus Mundus Scholar · EDISS", "Erasmus Mundus Scholar · EDISS"),
-        t(lang, "4 bài báo ML bình duyệt · ICSA 2026", "4 peer-reviewed ML papers · ICSA 2026"),
-        "Python · AWS · RAG · LangChain · AutoGen",
+        t(lang, "3+ năm trong Software Engineering & AI", "3+ years in Software Engineering & AI"),
+        t(lang, "Nhiều công bố ML bình duyệt", "Multiple peer-reviewed ML publications"),
+        "Python · Cloud · RAG · React · AI Agents",
       ],
       links: {
         email: "phuc.t.dev@gmail.com",
