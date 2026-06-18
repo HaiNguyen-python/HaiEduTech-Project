@@ -12,7 +12,7 @@ export function CofoundersTeam({ lang }: Lang) {
   const members = [
     {
       name: "Nguyen Tran Thanh Hai",
-      role: t(lang, "Đồng sáng lập - EdTech Engineer", "Co-founder - EdTech Engineer"),
+      role: t(lang, "Đồng sáng lập · EdTech Engineer", "Co-founder · EdTech Engineer"),
       tag: t(lang, "CO-FOUNDER · PEDAGOGY & AI", "CO-FOUNDER · PEDAGOGY & AI"),
       icon: GraduationCap,
       gradient: "from-emerald-500 to-teal-500",

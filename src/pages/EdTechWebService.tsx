@@ -2706,13 +2706,9 @@ const EdTechWebService = () => {
                     - thiết kế riêng hệ thống LMS theo từng nhu cầu giảng dạy,
                     kết hợp{" "}
                     <span className="font-bold text-foreground">
-                      15 năm kinh nghiệm sư phạm
+                      nhiều năm kinh nghiệm sư phạm &amp; Data/AI Engineering
                     </span>{" "}
-                    của Thầy Hải tại Việt Nam &amp; Phần Lan và{" "}
-                    <span className="font-bold text-foreground">
-                      3+ năm Data Engineering &amp; AI
-                    </span>{" "}
-                    tại Phần Lan.
+                    của thầy Hải &amp; đội ngũ tại Việt Nam &amp; Phần Lan.
                   </>
                 ) : (
                   <>
@@ -2722,13 +2718,9 @@ const EdTechWebService = () => {
                     </span>{" "}
                     LMS - custom-built for the way you teach, powered by{" "}
                     <span className="font-bold text-foreground">
-                      15 years of classroom experience
+                      many years of pedagogy &amp; Data/AI Engineering
                     </span>{" "}
-                    in Vietnam &amp; Finland and{" "}
-                    <span className="font-bold text-foreground">
-                      3+ years of Data Engineering &amp; AI
-                    </span>{" "}
-                    work in Finland.
+                    experience from Mr. Hai &amp; team in Vietnam &amp; Finland.
                   </>
                 )}
               </p>
