@@ -2,7 +2,7 @@
  * Co-founders team grid for the EdTech agency landing page.
  * Showcases the 3 co-founders: pedagogical lead + 2 full-stack engineers.
  */
-import { GraduationCap, Code2, Database, Mail, Linkedin, Github, MapPin, Award } from "lucide-react";
+import { GraduationCap, Code2, Database, Mail, Linkedin, Github, FileText, MapPin, Award } from "lucide-react";
 
 interface Lang { lang: "vi" | "en"; }
 
