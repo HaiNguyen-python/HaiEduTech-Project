@@ -17,6 +17,7 @@ export function CofoundersTeam({ lang }: Lang) {
       icon: GraduationCap,
       gradient: "from-emerald-500 to-teal-500",
       location: "Helsinki, Finland",
+      avatar: "/__l5e/assets-v1/ef35ac2f-4235-4cbc-a08d-30df3ad66d04/hai-avatar.png",
       bio: t(
         lang,
         "Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư ICT chuyên ngành Data Engineering & AI tại Phần Lan, hơn 15 năm kinh nghiệm sư phạm trực tiếp tại lớp học.",
@@ -27,7 +28,10 @@ export function CofoundersTeam({ lang }: Lang) {
         t(lang, "MA in Eng & Culture, BA in Data & AI · Phần Lan", "MA in Eng & Culture, BA in Data & AI · Finland"),
         t(lang, "Thiết kế chương trình LMS", "LMS curriculum design"),
       ],
-      links: { email: "contact@haiedutech.com" },
+      links: {
+        email: "contact@haiedutech.com",
+        cv: "https://drive.google.com/file/d/1OlIlpm3Vxb8uzw0EMa3WBLrzNvU3FzgR/view?usp=sharing",
+      },
     },
     {
       name: "Trần Thanh Phúc",
