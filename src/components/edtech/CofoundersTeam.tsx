@@ -213,6 +213,12 @@ export function CofoundersTeam({ lang }: Lang) {
                     </a>
                   )}
                 </div>
+
+                {m.slogan && (
+                  <p className="text-sm italic text-foreground/70 leading-relaxed mt-4 border-l-2 border-border pl-3">
+                    {m.slogan}
+                  </p>
+                )}
               </article>
             );
           })}
