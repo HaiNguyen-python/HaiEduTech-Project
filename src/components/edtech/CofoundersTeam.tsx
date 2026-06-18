@@ -23,6 +23,11 @@ export function CofoundersTeam({ lang }: Lang) {
         "Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư ICT chuyên ngành Data Engineering & AI tại Phần Lan. Hơn 15 năm giảng dạy IELTS, TOEIC, HSK và tiếng Việt cho người nước ngoài. Sáng lập HaiEduTech, trực tiếp thiết kế kiến trúc LMS và tích hợp AI (RAG, LLM) phục vụ cá nhân hoá lộ trình học.",
         "Master of English Language & Culture and ICT Engineer (Data Engineering & AI) trained in Finland. 15+ years teaching IELTS, TOEIC, HSK and Vietnamese for foreigners. Founder of HaiEduTech, leading LMS architecture and AI integration (RAG, LLM) for personalised learning paths.",
       ),
+      slogan: t(
+        lang,
+        "\"Tận tâm với từng bài giảng — kiến tạo trải nghiệm học tập chuyên nghiệp.\"",
+        "\"Dedicated to every lesson — crafting professional learning experiences.\"",
+      ),
       highlights: [
         t(lang, "15+ năm giảng dạy ngôn ngữ & luyện thi", "15+ years teaching languages & exam prep"),
         t(lang, "MA Eng & Culture · BEng Data & AI · Phần Lan", "MA Eng & Culture · BEng Data & AI · Finland"),
@@ -48,6 +53,11 @@ export function CofoundersTeam({ lang }: Lang) {
         "Thạc sĩ Erasmus Mundus EDISS (European Master in Data-Intensive Software Systems), Kỹ sư AI & Full-Stack với 4 công bố khoa học bình duyệt về Machine Learning, trong đó có paper được chấp nhận tại ICSA 2026. Thành thạo Python, AWS, LLMs, RAG/LangChain/AutoGen, SQL và CI/CD; từng thực tập tại MediaTek và AILiveSim.",
         "Erasmus Mundus EDISS MSc (European Master in Data-Intensive Software Systems), AI & full-stack engineer with 4 peer-reviewed ML publications including an ICSA 2026 accepted paper. Proficient in Python, AWS, LLMs, RAG/LangChain/AutoGen, SQL and CI/CD; former MediaTek and AILiveSim intern.",
       ),
+      slogan: t(
+        lang,
+        "\"Chuyên sâu công nghệ AI — cam kết chất lượng từng dòng code.\"",
+        "\"Deeply immersed in AI technology — committed to quality in every line of code.\"",
+      ),
       highlights: [
         t(lang, "Erasmus Mundus Scholar · EDISS", "Erasmus Mundus Scholar · EDISS"),
         t(lang, "4 bài báo ML bình duyệt · ICSA 2026", "4 peer-reviewed ML papers · ICSA 2026"),
@@ -72,6 +82,11 @@ export function CofoundersTeam({ lang }: Lang) {
         lang,
         "Senior Full-Stack Developer với hơn 10 năm kinh nghiệm phân tích, thiết kế và triển khai hệ thống cho các ngân hàng lớn (Hong Leong, VIB, Standard Chartered) cùng các nền tảng bất động sản, du lịch và TMĐT. Chuyên sâu .NET, ASP.NET MVC, Entity Framework, SQL Server và kiến trúc phần mềm hướng dịch vụ, ưu tiên bảo mật và hiệu năng cho hệ thống doanh nghiệp quy mô lớn.",
         "Senior full-stack developer with 10+ years analysing, designing and shipping platforms for major banks (Hong Leong, VIB, Standard Chartered) as well as real estate, travel and e-commerce systems. Specialised in .NET, ASP.NET MVC, Entity Framework, SQL Server and service-oriented architectures, focused on security and performance for large enterprise platforms.",
+      ),
+      slogan: t(
+        lang,
+        "\"Xây dựng hệ thống vững chắc — phục vụ khách hàng tận tâm.\"",
+        "\"Building robust systems — serving clients with unwavering dedication.\"",
       ),
       highlights: [
         t(lang, "Kinh nghiệm Banking & Fintech quy mô lớn", "Banking & fintech experience at scale"),
