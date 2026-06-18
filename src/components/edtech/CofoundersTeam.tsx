@@ -11,9 +11,9 @@ const t = (lang: "vi" | "en", vi: string, en: string) => (lang === "vi" ? vi : e
 export function CofoundersTeam({ lang }: Lang) {
   const members = [
     {
-      name: "Nguyễn Quang Hải (Mr. Hai)",
-      role: t(lang, "Trưởng nhóm Giáo dục & AI", "Educational Technology & AI Lead"),
-      tag: t(lang, "Founder · Pedagogy & AI", "Founder · Pedagogy & AI"),
+      name: "Nguyen Tran Thanh Hai",
+      role: t(lang, "Đồng sáng lập - EdTech Engineer", "Co-founder - EdTech Engineer"),
+      tag: t(lang, "CO-FOUNDER · PEDAGOGY & AI", "CO-FOUNDER · PEDAGOGY & AI"),
       icon: GraduationCap,
       gradient: "from-emerald-500 to-teal-500",
       location: "Vietnam · Finland",
@@ -87,8 +87,8 @@ export function CofoundersTeam({ lang }: Lang) {
           <p className="mt-4 text-base sm:text-lg text-muted-foreground">
             {t(
               lang,
-              "Ba đồng sáng lập kết hợp 25+ năm kinh nghiệm sư phạm, kỹ thuật phần mềm và AI - cam kết xây dựng những hệ thống EdTech thực sự hữu ích cho người dạy & người học.",
-              "Three co-founders combining 25+ years of pedagogy, software engineering and AI - committed to building EdTech systems that genuinely serve teachers and learners.",
+              "Ba đồng sáng lập kết hợp nhiều năm kinh nghiệm sư phạm, kỹ thuật phần mềm và AI - cam kết xây dựng những hệ thống EdTech thực sự hữu ích cho người dạy & người học.",
+              "Three co-founders combining many years of pedagogy, software engineering and AI - committed to building EdTech systems that genuinely serve teachers and learners.",
             )}
           </p>
         </div>
