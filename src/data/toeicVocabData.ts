@@ -8,6 +8,7 @@ import { toeicVocabExpansion5 } from "./toeicVocabExpansion5";
 import { toeicVocabExpansion6 } from "./toeicVocabExpansion6";
 import { toeicVocabExpansion7 } from "./toeicVocabExpansion7";
 import { toeicVocabExpansion8 } from "./toeicVocabExpansion8";
+import { toeicVocabExpansion9 } from "./toeicVocabExpansion9";
 import type { ToeicWord } from "./toeicVocabTypes";
 
 // Re-export the shared type so existing consumers keep working.
@@ -41,7 +42,7 @@ export const CATEGORY_ICONS: Record<string, string> = {
   "Events & Hospitality": "CalendarDays",
 };
 
-export const toeicVocabData: ToeicWord[] = [
+const _toeicVocabRaw: ToeicWord[] = [
   // ═══════════════════════════════════════════
   // CATEGORY 1: Office & Workplace
   // ═══════════════════════════════════════════
@@ -1189,10 +1190,28 @@ export const toeicVocabData: ToeicWord[] = [
   ...toeicVocabExpansion6,
   ...toeicVocabExpansion7,
   ...toeicVocabExpansion8,
-].sort((a: ToeicWord, b: ToeicWord) => {
-  // Sort within each category: basic → intermediate → advanced (easy → hard)
-  const levelOrder: Record<string, number> = { basic: 0, intermediate: 1, advanced: 2 };
-  const catOrder = (TOEIC_CATEGORIES as readonly string[]).indexOf(a.category) - (TOEIC_CATEGORIES as readonly string[]).indexOf(b.category);
-  if (catOrder !== 0) return catOrder;
-  return (levelOrder[a.level] ?? 3) - (levelOrder[b.level] ?? 3);
-}) as ToeicWord[];
+  ...toeicVocabExpansion9,
+];
+
+// Deduplicate by word (case-insensitive), keep the first occurrence (the
+// inline list + earlier expansions have the most curated content). Then
+// sort within each category: basic → intermediate → advanced.
+const _toeicSeen = new Set<string>();
+const _toeicDedup: ToeicWord[] = [];
+for (const w of _toeicVocabRaw) {
+  const k = w.word.toLowerCase().trim();
+  if (_toeicSeen.has(k)) continue;
+  _toeicSeen.add(k);
+  _toeicDedup.push(w);
+}
+
+export const toeicVocabData: ToeicWord[] = _toeicDedup.sort(
+  (a: ToeicWord, b: ToeicWord) => {
+    const levelOrder: Record<string, number> = { basic: 0, intermediate: 1, advanced: 2 };
+    const catOrder =
+      (TOEIC_CATEGORIES as readonly string[]).indexOf(a.category) -
+      (TOEIC_CATEGORIES as readonly string[]).indexOf(b.category);
+    if (catOrder !== 0) return catOrder;
+    return (levelOrder[a.level] ?? 3) - (levelOrder[b.level] ?? 3);
+  }
+);
