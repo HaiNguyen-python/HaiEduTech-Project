@@ -1,50 +1,61 @@
-## Bối cảnh
+## Vấn đề
 
-Phần Programming hiện có **341 bài học** trải dài 30 file (Python Pathway, SQL, Web Dev, Software Eng, ML, DL, NLP, RL, Cloud, Data Eng, EdTech, AI Foundation, Cybersecurity, Interactive Labs, Mastery Labs...). Mỗi bài đã có `theory`, `theoryEn`, `code`, `exercise`, `exerciseEn`, và 5 quiz song ngữ.
+Trang `/toeic-vocabulary` hiển thị "All (800)" nhưng thực tế chỉ có **458 từ duy nhất** - 342 entries là trùng lặp:
 
-Sau khi quét tự động, mình thấy **đa số bài đã khá đầy đủ** (5–8KB theory mỗi bài). Tuy nhiên có một nhóm bài nhỏ hơn cần làm giàu thêm: chủ yếu nằm ở `sqlLessons`, `webDevLessons` (mở đầu), `softwareEngLessons` (vài bài CI/CD), `edtechAiInEdtech` (lesson 5–6), `nlpAdvanced` (#7), `programmingInteractiveLabs` (vài lab).
+- `itinerary` xuất hiện **8 lần**
+- `liability`, `agenda`, `appraisal`, `feedback`, `venue`, `endorsement`, `clause`, `complaint` mỗi từ **6 lần**
+- Còn 162 từ khác bị lặp 2-5 lần
 
-Vì việc rewrite toàn bộ 341 bài cùng lúc rất rủi ro (file lớn, dễ sót typo, mất nhiều phiên), mình đề xuất chia thành **các đợt nhỏ, gọn, kiểm tra build sau mỗi đợt**.
+Nguyên nhân: các file expansion 1-8 được tạo qua nhiều lần mở rộng, không kiểm tra trùng với file gốc và với nhau.
 
-## Cách làm cho MỖI bài
+## Giải pháp
 
-Giữ nguyên cấu trúc, chỉ **mở rộng nhẹ +30–50%**, song ngữ EN+VI đầy đủ:
+### Bước 1 - Tạo helper dedupe runtime (an toàn, không xoá data nguồn)
+Trong `src/data/toeicVocabData.ts`, chuyển logic gộp arrays sang:
+1. Gộp tất cả nguồn vào 1 mảng.
+2. Dedupe theo `word.toLowerCase().trim()` - giữ entry **đầu tiên** (ưu tiên data gốc, sau đó expansion 1→8) vì entry gốc thường có example/synonym/collocation chất lượng tốt hơn.
+3. Sort theo category + level như cũ.
 
-1. Thêm mục **"Khi nào dùng / When to use"** (1 đoạn ngắn, ví dụ thực tế).
-2. Thêm **"Bẫy hay gặp / Common pitfalls"** (3–4 gạch đầu dòng).
-3. Bổ sung 1 ví dụ ngắn hoặc bảng so sánh nếu thiếu.
-4. Thêm 1–2 câu giải thích sâu hơn cho mỗi quiz (giữ nguyên số quiz 5).
-5. Đảm bảo `theoryEn` luôn cập nhật song song.
+Lợi ích: ngay sau bước này, list rút từ 800 → 458 từ duy nhất, không còn lặp.
 
-KHÔNG đổi: `id`, `title`, `level`, `difficulty`, `code`, đáp án đúng của quiz, thứ tự bài.
+### Bước 2 - Bổ sung 342 từ TOEIC mới để đủ 800
+Tạo file mới `src/data/toeicVocabExpansion9.ts` chứa **342 từ TOEIC business/workplace mới** chưa có trong bank hiện tại, trải đều các category:
 
-## Lộ trình đề xuất (mỗi đợt = 1 lần phản hồi)
+- Office & Workplace, Meetings & Presentations
+- Business Travel, Finance & Accounting
+- Marketing & Sales, HR & Recruitment
+- Technology & IT, Legal & Contracts
+- Manufacturing & Logistics, Customer Service
+- Events & Hospitality, Health & Safety
 
-| Đợt | Module | File | Số bài |
-|---|---|---|---|
-| 1 | SQL Fundamentals | `sqlLessons.ts` | 12 |
-| 2 | Web Development | `webDevLessons.ts` | ~10 |
-| 3 | Software Engineering | `softwareEngLessons.ts` | ~10 |
-| 4 | Programming Expansion (Python nâng cao) | `programmingExpansion.ts` | ~12 |
-| 5 | Interactive Labs + Mastery Labs | 2 file | ~14 |
-| 6 | AI Foundation | `aiFoundationLessons.ts` | ~14 |
-| 7 | Machine Learning | `mlLessons.ts` | ~12 |
-| 8 | Deep Learning | `dlLessons.ts` | ~12 |
-| 9 | NLP (lessons + expansion + advanced + production) | 4 file | ~20 |
-| 10 | Reinforcement Learning | `rlLessons.ts` | ~12 |
-| 11 | Data Engineering | `dataEngLessons.ts` | ~15 |
-| 12 | Cloud (lessons + expansion) | 2 file | ~20 |
-| 13 | EdTech (lessons + expansion + advanced + AI in EdTech + research) | 5 file | ~35 |
-| 14 | Python Pathway (Introduction to Programming) | `pythonPathway.ts` | ~12 |
-| 15 | Cybersecurity (vừa thêm) | `cybersecurityLessons.ts` | 12 |
+Mỗi từ đầy đủ: `word, ipa, level, pos, definition.{en,vi}, example.{en,vi}, synonyms, collocations, category` theo `ToeicWord` interface.
 
-Sau mỗi đợt mình sẽ:
-- Verify build pass.
-- Báo lại số bài đã enrich và file đã chạm.
-- Chờ bạn confirm "tiếp tục" để qua đợt sau.
+Phân bổ level: ~30% basic, ~45% intermediate, ~25% advanced.
 
-## Bắt đầu từ đâu?
+### Bước 3 - Verify
+Script kiểm tra cuối: `total === 800 && unique === 800 && duplicates === 0`. Nếu sai, điều chỉnh expansion9 cho khớp.
 
-Mình đề xuất khởi động **Đợt 1: SQL Fundamentals** (vì đây là module được audit cho thấy nhiều bài có theory ngắn nhất, và SQL là nền tảng nhiều người mới học cần rõ).
+## Chi tiết kỹ thuật
 
-Bạn duyệt plan này thì mình sẽ chạy Đợt 1 ngay; nếu muốn đổi thứ tự (ví dụ ưu tiên Python Pathway / Cybersecurity / EdTech trước), cứ nói.
+```ts
+// toeicVocabData.ts cuối file
+const _raw: ToeicWord[] = [ ...inlineList, ...toeicVocabExpansion, ..., ...toeicVocabExpansion9 ];
+const _seen = new Set<string>();
+const _dedup: ToeicWord[] = [];
+for (const w of _raw) {
+  const k = w.word.toLowerCase().trim();
+  if (_seen.has(k)) continue;
+  _seen.add(k);
+  _dedup.push(w);
+}
+export const toeicVocabData: ToeicWord[] = _dedup.sort(/* category + level như cũ */);
+```
+
+## Files thay đổi
+- **Sửa**: `src/data/toeicVocabData.ts` (logic dedupe + import expansion9)
+- **Tạo mới**: `src/data/toeicVocabExpansion9.ts` (~342 từ TOEIC mới)
+
+## Không thay đổi
+- UI `ToeicVocabulary.tsx` giữ nguyên (count 800 sẽ tự đúng)
+- Các file expansion 1-8 giữ nguyên (giữ examples chất lượng đã có)
+- Lectures, exams, grading - không liên quan
