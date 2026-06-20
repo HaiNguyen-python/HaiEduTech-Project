@@ -204,7 +204,7 @@ const LessonFeedback = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 400, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="fixed right-6 sm:right-10 top-[32%] z-50 w-[min(420px,calc(100vw-3.5rem))] max-h-[calc(100vh-2rem)] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
+              className="fixed right-6 sm:right-10 top-[20%] z-50 w-[min(420px,calc(100vw-3.5rem))] max-h-[calc(100vh-6rem)] flex flex-col overflow-hidden rounded-2xl bg-card border-2 border-amber-300/40 shadow-2xl"
             >
               {/* Header */}
               <div className="sticky top-0 flex items-center justify-between gap-2 px-5 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-t-2xl">
