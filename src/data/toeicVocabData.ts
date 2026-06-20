@@ -42,7 +42,7 @@ export const CATEGORY_ICONS: Record<string, string> = {
   "Events & Hospitality": "CalendarDays",
 };
 
-export const toeicVocabData: ToeicWord[] = [
+const _toeicVocabRaw: ToeicWord[] = [
   // ═══════════════════════════════════════════
   // CATEGORY 1: Office & Workplace
   // ═══════════════════════════════════════════
