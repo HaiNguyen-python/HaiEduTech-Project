@@ -1032,11 +1032,11 @@ const ToeicVocabulary = () => {
 
               {totalPages > 1 && (
                 <div className="flex justify-center items-center gap-4 mt-8">
-                  <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="border-slate-700 text-slate-300">
+                  <Button size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white border-0 shadow-md disabled:opacity-50">
                     <ChevronLeft className="w-4 h-4" />
                   </Button>
-                  <span className="text-slate-400 text-base">{page}/{totalPages}</span>
-                  <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)} className="border-slate-700 text-slate-300">
+                  <span className="text-slate-700 dark:text-slate-300 font-semibold text-base">{page}/{totalPages}</span>
+                  <Button size="sm" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)} className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white border-0 shadow-md disabled:opacity-50">
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
