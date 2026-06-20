@@ -1190,10 +1190,28 @@ const _toeicVocabRaw: ToeicWord[] = [
   ...toeicVocabExpansion6,
   ...toeicVocabExpansion7,
   ...toeicVocabExpansion8,
-].sort((a: ToeicWord, b: ToeicWord) => {
-  // Sort within each category: basic → intermediate → advanced (easy → hard)
-  const levelOrder: Record<string, number> = { basic: 0, intermediate: 1, advanced: 2 };
-  const catOrder = (TOEIC_CATEGORIES as readonly string[]).indexOf(a.category) - (TOEIC_CATEGORIES as readonly string[]).indexOf(b.category);
-  if (catOrder !== 0) return catOrder;
-  return (levelOrder[a.level] ?? 3) - (levelOrder[b.level] ?? 3);
-}) as ToeicWord[];
+  ...toeicVocabExpansion9,
+];
+
+// Deduplicate by word (case-insensitive), keep the first occurrence (the
+// inline list + earlier expansions have the most curated content). Then
+// sort within each category: basic → intermediate → advanced.
+const _toeicSeen = new Set<string>();
+const _toeicDedup: ToeicWord[] = [];
+for (const w of _toeicVocabRaw) {
+  const k = w.word.toLowerCase().trim();
+  if (_toeicSeen.has(k)) continue;
+  _toeicSeen.add(k);
+  _toeicDedup.push(w);
+}
+
+export const toeicVocabData: ToeicWord[] = _toeicDedup.sort(
+  (a: ToeicWord, b: ToeicWord) => {
+    const levelOrder: Record<string, number> = { basic: 0, intermediate: 1, advanced: 2 };
+    const catOrder =
+      (TOEIC_CATEGORIES as readonly string[]).indexOf(a.category) -
+      (TOEIC_CATEGORIES as readonly string[]).indexOf(b.category);
+    if (catOrder !== 0) return catOrder;
+    return (levelOrder[a.level] ?? 3) - (levelOrder[b.level] ?? 3);
+  }
+);
