@@ -251,7 +251,7 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              <PostComposer userId={userId} onPosted={refresh} userName={userMeta.name} userAvatar={userMeta.avatar} />
+              <PostComposer userId={userId} onPosted={refresh} userName={userMeta.name} userAvatar={userMeta.avatar} mentionables={mentionables} />
 
               {/* Tabs */}
               <Tabs value={tab} onValueChange={(v) => setTab(v as FeedTab)}>
