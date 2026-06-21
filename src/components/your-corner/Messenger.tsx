@@ -348,7 +348,7 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
             {/* Directory: start a new chat with any classmate */}
             {(() => {
               const recentIds = new Set(recent.map((r) => r.user_id));
-              const others = directory
+              const others = mergedDirectory
                 .filter((d) => d.user_id !== currentUserId && !recentIds.has(d.user_id))
                 .filter((d) => {
                   if (!search.trim()) return true;
