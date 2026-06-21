@@ -1,61 +1,96 @@
-## Vấn đề
 
-Trang `/toeic-vocabulary` hiển thị "All (800)" nhưng thực tế chỉ có **458 từ duy nhất** - 342 entries là trùng lặp:
+## 1. EdTech menu group
 
-- `itinerary` xuất hiện **8 lần**
-- `liability`, `agenda`, `appraisal`, `feedback`, `venue`, `endorsement`, `clause`, `complaint` mỗi từ **6 lần**
-- Còn 162 từ khác bị lặp 2-5 lần
+Combine the two existing top-level items into one dropdown in `src/components/Navbar.tsx`:
 
-Nguyên nhân: các file expansion 1-8 được tạo qua nhiều lần mở rộng, không kiểm tra trùng với file gốc và với nhau.
+- Replace lines 295–296 with one parent entry `EdTech` (icon `FlaskConical`, key `edtech`) whose `subs` contain:
+  - `🔬 EdTech Research` → `/edtech-research`
+  - `🎨 EdTech Software Design` → `/dich-vu-web`
+- Keep the existing `/programming/edtech` item inside the Programming menu untouched (it is a different page).
 
-## Giải pháp
+No route or page changes — both targets already exist.
 
-### Bước 1 - Tạo helper dedupe runtime (an toàn, không xoá data nguồn)
-Trong `src/data/toeicVocabData.ts`, chuyển logic gộp arrays sang:
-1. Gộp tất cả nguồn vào 1 mảng.
-2. Dedupe theo `word.toLowerCase().trim()` - giữ entry **đầu tiên** (ưu tiên data gốc, sau đó expansion 1→8) vì entry gốc thường có example/synonym/collocation chất lượng tốt hơn.
-3. Sort theo category + level như cũ.
+## 2. Your Corner — student social feed
 
-Lợi ích: ngay sau bước này, list rút từ 800 → 458 từ duy nhất, không còn lặp.
+A Facebook-style space inside the app where students post text + optional image, react, and comment. Public read for any logged-in user; only the author can edit/delete their own content.
 
-### Bước 2 - Bổ sung 342 từ TOEIC mới để đủ 800
-Tạo file mới `src/data/toeicVocabExpansion9.ts` chứa **342 từ TOEIC business/workplace mới** chưa có trong bank hiện tại, trải đều các category:
+### Navigation
+- Add `Your Corner` (icon `Users`, route `/your-corner`) to `baseLinks` in `Navbar.tsx`, placed after `EdTech`.
+- Register the route in `src/App.tsx` pointing to a new page `src/pages/YourCorner.tsx`.
 
-- Office & Workplace, Meetings & Presentations
-- Business Travel, Finance & Accounting
-- Marketing & Sales, HR & Recruitment
-- Technology & IT, Legal & Contracts
-- Manufacturing & Logistics, Customer Service
-- Events & Hospitality, Health & Safety
+### Page layout (`/your-corner`)
+Single-column FB-style feed, mobile-first, matches HaiEduTech brand (Royal Blue → Soft Emerald gradients, semantic tokens only):
 
-Mỗi từ đầy đủ: `word, ipa, level, pos, definition.{en,vi}, example.{en,vi}, synonyms, collocations, category` theo `ToeicWord` interface.
-
-Phân bổ level: ~30% basic, ~45% intermediate, ~25% advanced.
-
-### Bước 3 - Verify
-Script kiểm tra cuối: `total === 800 && unique === 800 && duplicates === 0`. Nếu sai, điều chỉnh expansion9 cho khớp.
-
-## Chi tiết kỹ thuật
-
-```ts
-// toeicVocabData.ts cuối file
-const _raw: ToeicWord[] = [ ...inlineList, ...toeicVocabExpansion, ..., ...toeicVocabExpansion9 ];
-const _seen = new Set<string>();
-const _dedup: ToeicWord[] = [];
-for (const w of _raw) {
-  const k = w.word.toLowerCase().trim();
-  if (_seen.has(k)) continue;
-  _seen.add(k);
-  _dedup.push(w);
-}
-export const toeicVocabData: ToeicWord[] = _dedup.sort(/* category + level như cũ */);
+```text
++------------------------------------------+
+| Header: Your Corner — chia sẻ cùng nhau  |
++------------------------------------------+
+| Composer  [avatar] What's on your mind?  |
+|           [image upload] [Post button]   |
++------------------------------------------+
+| Post card                                |
+|   [avatar] Name · time                   |
+|   body text / image                      |
+|   ❤ 12   💬 3   (Edit/Delete if mine)    |
+|   --- comments ---                       |
+|   [comment input]                        |
++------------------------------------------+
+| ... infinite list, newest first          |
++------------------------------------------+
 ```
 
-## Files thay đổi
-- **Sửa**: `src/data/toeicVocabData.ts` (logic dedupe + import expansion9)
-- **Tạo mới**: `src/data/toeicVocabExpansion9.ts` (~342 từ TOEIC mới)
+Components (new, under `src/components/your-corner/`):
+- `PostComposer.tsx` — textarea, optional image upload to `marketing-images` bucket (reuse existing public bucket), submit handler.
+- `PostCard.tsx` — author header, body (sanitized via DOMPurify), image, reaction button, comment list + composer, owner actions.
+- `CommentList.tsx` — list + inline composer.
 
-## Không thay đổi
-- UI `ToeicVocabulary.tsx` giữ nguyên (count 800 sẽ tự đúng)
-- Các file expansion 1-8 giữ nguyên (giữ examples chất lượng đã có)
-- Lectures, exams, grading - không liên quan
+Hooks:
+- `src/hooks/useYourCornerFeed.ts` — paginated fetch (20 per page), realtime subscribe to new posts via Supabase channel.
+
+### Backend (Lovable Cloud migration)
+
+New tables in `public`, all with explicit GRANTs and RLS:
+
+1. `your_corner_posts`
+   - `id uuid pk default gen_random_uuid()`
+   - `user_id uuid not null references auth.users(id) on delete cascade`
+   - `content text not null check (char_length(content) between 1 and 5000)`
+   - `image_url text`
+   - `created_at timestamptz default now()`
+   - `updated_at timestamptz default now()`
+   - RLS: SELECT to `authenticated`; INSERT/UPDATE/DELETE only when `auth.uid() = user_id`.
+
+2. `your_corner_comments`
+   - `id`, `post_id` (fk posts cascade), `user_id` (fk auth.users cascade)
+   - `content text not null check (char_length(content) between 1 and 1000)`
+   - `created_at timestamptz default now()`
+   - RLS: SELECT authenticated; INSERT own; DELETE own OR post owner.
+
+3. `your_corner_reactions`
+   - `post_id`, `user_id`, `created_at`; PK (post_id, user_id)
+   - RLS: SELECT authenticated; INSERT/DELETE own.
+
+GRANT block on every table:
+```sql
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.<table> TO authenticated;
+GRANT ALL ON public.<table> TO service_role;
+```
+
+`updated_at` trigger on posts reuses existing `public.set_updated_at()`.
+
+### Moderation & safety
+- Sanitize all rendered text with DOMPurify (per project rule).
+- Unauthenticated users visiting `/your-corner` see a friendly "Đăng nhập để tham gia" CTA (no anon writes, no anon reads — keeps it a closed student community).
+- Owner can delete own post/comment; reuses existing `is_staff` check to let teachers/admins delete any post.
+
+### Out of scope (can add later if you want)
+- Notifications, follows, hashtags, profile pages, image gallery view, post sharing to other channels.
+
+## Files touched
+- edit `src/components/Navbar.tsx` (EdTech group + Your Corner link)
+- edit `src/App.tsx` (route)
+- new `src/pages/YourCorner.tsx`
+- new `src/components/your-corner/PostComposer.tsx`, `PostCard.tsx`, `CommentList.tsx`
+- new `src/hooks/useYourCornerFeed.ts`
+- new migration: 3 tables + grants + policies
+- new memory file `mem://features/your-corner` and update `mem://index.md`
