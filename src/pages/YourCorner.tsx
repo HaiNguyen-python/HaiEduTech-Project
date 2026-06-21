@@ -206,6 +206,20 @@ export default function YourCorner() {
             {/* Feed */}
             <div className="space-y-5 mx-auto w-full max-w-[640px]">
               <StoryBar />
+
+              {/* Daily Prompt */}
+              <Card className="p-4 backdrop-blur-md bg-gradient-to-r from-amber-50/90 via-white/85 to-emerald-50/90 dark:from-amber-950/30 dark:via-card/85 dark:to-emerald-950/30 border-amber-300/40 shadow-sm flex items-center gap-3">
+                <div className="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-md text-xl">
+                  {todayPrompt.emoji}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 flex items-center gap-1">
+                    <Lightbulb className="w-3 h-3" /> Gợi ý hôm nay
+                  </div>
+                  <p className="text-sm text-foreground/90 leading-snug">{todayPrompt.text}</p>
+                </div>
+              </Card>
+
               <PostComposer userId={userId} onPosted={refresh} userName={userMeta.name} userAvatar={userMeta.avatar} />
 
               {/* Tabs */}
