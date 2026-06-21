@@ -173,7 +173,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         </div>
       )}
 
-      <div className="flex items-center gap-1.5 border-t pt-3 flex-nowrap overflow-x-auto">
+      <div className="flex items-center flex-wrap gap-0.5 border-t pt-3">
         <input
           ref={fileRef}
           type="file"
@@ -186,16 +186,16 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
           variant="ghost"
           size="sm"
           onClick={() => fileRef.current?.click()}
-          className="text-emerald-600 hover:text-emerald-700 shrink-0"
+          className="text-emerald-600 hover:text-emerald-700 px-2 h-8 text-xs"
         >
-          <ImagePlus className="w-4 h-4 mr-1.5" /> Hình
+          <ImagePlus className="w-4 h-4 mr-1" /> Hình
         </Button>
 
         {/* Subject picker */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button type="button" variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 shrink-0">
-              <Tag className="w-4 h-4 mr-1.5" /> Chủ đề
+            <Button type="button" variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 px-2 h-8 text-xs">
+              <Tag className="w-4 h-4 mr-1" /> Chủ đề
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-64 p-2">
@@ -220,8 +220,8 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         {/* Mood picker */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button type="button" variant="ghost" size="sm" className="text-amber-600 hover:text-amber-700 shrink-0">
-              <Smile className="w-4 h-4 mr-1.5" /> Cảm xúc
+            <Button type="button" variant="ghost" size="sm" className="text-amber-600 hover:text-amber-700 px-2 h-8 text-xs">
+              <Smile className="w-4 h-4 mr-1" /> Cảm xúc
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-56 p-2">
@@ -249,11 +249,11 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
               type="button"
               variant="ghost"
               size="sm"
-              className="text-xs gap-1.5 text-purple-600 hover:text-purple-700 shrink-0"
+              className="text-purple-600 hover:text-purple-700 px-2 h-8 text-xs gap-1"
             >
               {(() => {
                 const Icn = visIcon(visibility);
-                return <Icn className="w-4 h-4 mr-0.5" />;
+                return <Icn className="w-4 h-4" />;
               })()}
               {visibilityMap.get(visibility)?.label}
               <ChevronDown className="w-3 h-3 opacity-60" />
@@ -284,7 +284,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
           </PopoverContent>
         </Popover>
 
-        <div className="ml-auto shrink-0">
+        <div className="ml-auto">
           <Button
             onClick={submit}
             disabled={submitting || !content.trim()}
