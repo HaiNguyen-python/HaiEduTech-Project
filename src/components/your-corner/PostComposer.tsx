@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
@@ -12,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import MentionInput, { Mentionable } from "./MentionInput";
 
 const visIcon = (k: Visibility) =>
   k === "public" ? Globe2 : k === "teacher_only" ? GraduationCap : Lock;
@@ -22,9 +22,10 @@ interface Props {
   onPosted: () => void;
   userName?: string | null;
   userAvatar?: string | null;
+  mentionables?: Mentionable[];
 }
 
-export default function PostComposer({ userId, onPosted, userName, userAvatar }: Props) {
+export default function PostComposer({ userId, onPosted, userName, userAvatar, mentionables = [] }: Props) {
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
