@@ -494,7 +494,7 @@ export default function YourCorner() {
                             <div className="flex-1 min-w-0">
                               <div className="text-xs font-semibold truncate">{name}</div>
                               <div className="text-[10px] text-muted-foreground">
-                                {c.posts} bài · {c.pts} điểm
+                                {c.posts} {t("bài", "posts")} · {c.pts} {t("điểm", "pts")}
                               </div>
                             </div>
                           </li>
@@ -506,26 +506,26 @@ export default function YourCorner() {
 
                 <div>
                   <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-                    <Flame className="w-4 h-4 text-orange-500" /> Hoạt động cộng đồng
+                    <Flame className="w-4 h-4 text-orange-500" /> {t("Hoạt động cộng đồng", "Community activity")}
                   </h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground flex items-center gap-2"><BookOpen className="w-4 h-4 text-blue-500" />Bài viết</span>
+                      <span className="text-muted-foreground flex items-center gap-2"><BookOpen className="w-4 h-4 text-blue-500" />{t("Bài viết", "Posts")}</span>
                       <span className="font-bold">{posts.length}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground flex items-center gap-2"><Heart className="w-4 h-4 text-rose-500" />Lượt thích</span>
+                      <span className="text-muted-foreground flex items-center gap-2"><Heart className="w-4 h-4 text-rose-500" />{t("Lượt thích", "Likes")}</span>
                       <span className="font-bold">{posts.reduce((s, p) => s + p.reaction_count, 0)}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground flex items-center gap-2"><MessageCircle className="w-4 h-4 text-emerald-500" />Bình luận</span>
+                      <span className="text-muted-foreground flex items-center gap-2"><MessageCircle className="w-4 h-4 text-emerald-500" />{t("Bình luận", "Comments")}</span>
                       <span className="font-bold">{posts.reduce((s, p) => s + p.comment_count, 0)}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="pt-3 border-t text-xs text-muted-foreground italic text-center">
-                  "Học thông minh - Dẫn đầu kỷ nguyên số" 💙💚
+                  {t('"Học thông minh - Dẫn đầu kỷ nguyên số" 💙💚', '"Learn smart - Lead the digital era" 💙💚')}
                 </div>
               </Card>
 
