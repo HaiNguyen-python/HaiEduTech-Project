@@ -157,8 +157,10 @@ export default function YourCorner() {
         <div className="absolute top-40 left-1/2 w-72 h-72 bg-violet-400/15 rounded-full blur-3xl animate-pulse [animation-delay:0.6s]" />
       </div>
 
-      <FloatingSubjectIcons count={70} />
-      <CornerCheerChibis />
+      <Suspense fallback={null}>
+        <FloatingSubjectIcons count={30} />
+        <CornerCheerChibis />
+      </Suspense>
 
 
 
