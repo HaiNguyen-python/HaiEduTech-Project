@@ -20,16 +20,16 @@ import type { Mentionable } from "@/components/your-corner/MentionInput";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 
-const DAILY_PROMPTS = [
-  { emoji: "📘", text: "Hôm nay em học được từ vựng mới nào? Chia sẻ 3 từ tâm đắc nhất nhé!" },
-  { emoji: "💡", text: "Mẹo học nào đang giúp em tiến bộ nhất tuần này?" },
-  { emoji: "🎯", text: "Mục tiêu học của em trong 7 ngày tới là gì?" },
-  { emoji: "🔥", text: "Khoe streak học liên tục của em với cả lớp nào!" },
-  { emoji: "🎧", text: "Bài nghe / podcast nào em mới khám phá và thấy hay?" },
-  { emoji: "✏️", text: "Câu/đoạn viết nào em vừa hoàn thành và tự hào nhất?" },
-  { emoji: "🌏", text: "Ngôn ngữ em đang học có cụm/idiom nào thú vị? Chia sẻ nhé!" },
+const DAILY_PROMPTS: { emoji: string; vi: string; en: string }[] = [
+  { emoji: "📘", vi: "Hôm nay em học được từ vựng mới nào? Chia sẻ 3 từ tâm đắc nhất nhé!", en: "Which new words did you learn today? Share your 3 favorite ones!" },
+  { emoji: "💡", vi: "Mẹo học nào đang giúp em tiến bộ nhất tuần này?", en: "Which study tip is helping you progress most this week?" },
+  { emoji: "🎯", vi: "Mục tiêu học của em trong 7 ngày tới là gì?", en: "What is your learning goal for the next 7 days?" },
+  { emoji: "🔥", vi: "Khoe streak học liên tục của em với cả lớp nào!", en: "Show off your learning streak with the class!" },
+  { emoji: "🎧", vi: "Bài nghe / podcast nào em mới khám phá và thấy hay?", en: "Which podcast or listening track did you just discover and love?" },
+  { emoji: "✏️", vi: "Câu/đoạn viết nào em vừa hoàn thành và tự hào nhất?", en: "Which sentence/paragraph have you just finished and are most proud of?" },
+  { emoji: "🌏", vi: "Ngôn ngữ em đang học có cụm/idiom nào thú vị? Chia sẻ nhé!", en: "Any interesting idiom from the language you're learning? Share it!" },
 ];
-const todayPrompt = DAILY_PROMPTS[new Date().getDate() % DAILY_PROMPTS.length];
+const todayPromptIdx = new Date().getDate() % DAILY_PROMPTS.length;
 
 type FeedTab = "latest" | "trending" | "saved";
 
