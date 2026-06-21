@@ -137,7 +137,7 @@ export default function YourCorner() {
   }, [posts]);
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50/40 via-background to-emerald-50/40 dark:from-blue-950/20 dark:via-background dark:to-emerald-950/20">
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-gradient-to-br from-blue-50/40 via-background to-emerald-50/40 dark:from-blue-950/20 dark:via-background dark:to-emerald-950/20">
       <SEO
         title={t("Your Corner - Góc Chia Sẻ Học Viên | HaiEduTech", "Your Corner - Student Hub | HaiEduTech")}
         description={t(
