@@ -251,10 +251,17 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
       .single();
     if (error) {
       setMessages((prev) => prev.filter((m) => m.id !== optimistic.id));
-      toast.error("Không gửi được tin nhắn");
+      const code = (error as any).code;
+      const isRls = code === "42501" || /row-level security|permission denied/i.test(error.message);
+      toast.error(
+        isRls ? "Bị chặn bởi quyền (RLS) - vui lòng đăng nhập lại" : "Không gửi được tin nhắn",
+        { description: `${code ? `[${code}] ` : ""}${error.message}` }
+      );
+      console.error("[Messenger] send failed:", error);
     } else if (data) {
       setMessages((prev) => prev.map((m) => (m.id === optimistic.id ? (data as Message) : m)));
     }
+
     setSending(false);
   };
 
