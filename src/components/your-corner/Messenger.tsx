@@ -61,29 +61,42 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
   const [unread, setUnread] = useState(0);
-  const [recent, setRecent] = useState<Peer[]>([]);
+  const [recent, setRecent] = useState<RecentPeer[]>([]);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [search, setSearch] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const activePeerRef = useRef<Peer | null>(activePeer);
+  useEffect(() => { activePeerRef.current = activePeer; }, [activePeer]);
 
-  // Load recent conversations + unread badge
+  // Load recent conversations + unread badge with last-message preview
   const loadRecent = useCallback(async () => {
     const { data } = await supabase
       .from("your_corner_messages")
       .select("sender_id, recipient_id, read_at, content, created_at")
       .or(`sender_id.eq.${currentUserId},recipient_id.eq.${currentUserId}`)
       .order("created_at", { ascending: false })
-      .limit(80);
+      .limit(120);
     if (!data) return;
 
     const peerIds: string[] = [];
     let unreadCount = 0;
-    const seen = new Set<string>();
+    const meta = new Map<string, { last_message: string; last_at: string; unread: number; last_from_me: boolean }>();
     data.forEach((m: any) => {
       const other = m.sender_id === currentUserId ? m.recipient_id : m.sender_id;
-      if (!seen.has(other)) {
-        seen.add(other);
+      if (!meta.has(other)) {
         peerIds.push(other);
+        meta.set(other, {
+          last_message: m.content,
+          last_at: m.created_at,
+          unread: 0,
+          last_from_me: m.sender_id === currentUserId,
+        });
       }
-      if (m.recipient_id === currentUserId && !m.read_at) unreadCount++;
+      if (m.recipient_id === currentUserId && !m.read_at) {
+        unreadCount++;
+        const cur = meta.get(other)!;
+        cur.unread += 1;
+      }
     });
     setUnread(unreadCount);
 
@@ -96,7 +109,8 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
           .filter((id) => profMap.has(id))
           .map((id) => {
             const p = profMap.get(id);
-            return { user_id: id, full_name: p.full_name, avatar_url: p.avatar_url };
+            const m = meta.get(id)!;
+            return { user_id: id, full_name: p.full_name, avatar_url: p.avatar_url, ...m };
           })
       );
     } else {
@@ -110,14 +124,24 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
       .channel(`ycm-inbox-${currentUserId}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "your_corner_messages", filter: `recipient_id=eq.${currentUserId}` },
-        () => loadRecent()
+        { event: "INSERT", schema: "public", table: "your_corner_messages", filter: `recipient_id=eq.${currentUserId}` },
+        (payload) => {
+          loadRecent();
+          const m = payload.new as Message;
+          const inThisThread = activePeerRef.current && m.sender_id === activePeerRef.current.user_id;
+          if (!inThisThread) {
+            toast.message("💬 Tin nhắn mới", {
+              description: m.content.length > 60 ? m.content.slice(0, 60) + "..." : m.content,
+            });
+          }
+        }
       )
       .subscribe();
     return () => {
       supabase.removeChannel(ch);
     };
   }, [currentUserId, loadRecent]);
+
 
   // Load conversation with active peer + realtime
   useEffect(() => {
