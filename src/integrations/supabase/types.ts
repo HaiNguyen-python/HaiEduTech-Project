@@ -3652,6 +3652,14 @@ export type Database = {
           weekly_count: number
         }[]
       }
+      get_your_corner_directory: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          full_name: string
+          user_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
