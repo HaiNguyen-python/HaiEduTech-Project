@@ -7,12 +7,23 @@ import FloatingSubjectIcons from "@/components/your-corner/FloatingSubjectIcons"
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy } from "lucide-react";
+import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy, Lightbulb, Crown } from "lucide-react";
 import PostComposer from "@/components/your-corner/PostComposer";
 import PostCard from "@/components/your-corner/PostCard";
 import StoryBar from "@/components/your-corner/StoryBar";
 import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
 import { SUBJECTS, subjectMap, SubjectKey, extractHashtags } from "@/lib/yourCornerMeta";
+
+const DAILY_PROMPTS = [
+  { emoji: "📘", text: "Hôm nay em học được từ vựng mới nào? Chia sẻ 3 từ tâm đắc nhất nhé!" },
+  { emoji: "💡", text: "Mẹo học nào đang giúp em tiến bộ nhất tuần này?" },
+  { emoji: "🎯", text: "Mục tiêu học của em trong 7 ngày tới là gì?" },
+  { emoji: "🔥", text: "Khoe streak học liên tục của em với cả lớp nào!" },
+  { emoji: "🎧", text: "Bài nghe / podcast nào em mới khám phá và thấy hay?" },
+  { emoji: "✏️", text: "Câu/đoạn viết nào em vừa hoàn thành và tự hào nhất?" },
+  { emoji: "🌏", text: "Ngôn ngữ em đang học có cụm/idiom nào thú vị? Chia sẻ nhé!" },
+];
+const todayPrompt = DAILY_PROMPTS[new Date().getDate() % DAILY_PROMPTS.length];
 
 type FeedTab = "latest" | "trending" | "saved";
 
