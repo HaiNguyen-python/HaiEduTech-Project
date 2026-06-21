@@ -241,16 +241,61 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar }:
           </Popover>
         </div>
 
-        <Button
-          onClick={submit}
-          disabled={submitting || !content.trim()}
-          className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white shadow-md disabled:opacity-50"
-        >
-          {submitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
-          Đăng bài
-        </Button>
+        <div className="flex items-center gap-2">
+          {/* Visibility picker */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="text-xs gap-1.5 border-primary/20"
+              >
+                {(() => {
+                  const Icn = visIcon(visibility);
+                  return <Icn className="w-3.5 h-3.5" />;
+                })()}
+                {visibilityMap.get(visibility)?.label}
+                <ChevronDown className="w-3 h-3 opacity-60" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-64 p-1" align="end">
+              {VISIBILITY_OPTIONS.map((v) => {
+                const Icn = visIcon(v.key);
+                const active = visibility === v.key;
+                return (
+                  <button
+                    key={v.key}
+                    type="button"
+                    onClick={() => setVisibility(v.key)}
+                    className={`w-full flex items-start gap-2 p-2 rounded-md text-left text-sm hover:bg-muted transition ${
+                      active ? "bg-primary/10" : ""
+                    }`}
+                  >
+                    <Icn className="w-4 h-4 mt-0.5 text-primary" />
+                    <div className="flex-1">
+                      <div className="font-medium">{v.label}</div>
+                      <div className="text-xs text-muted-foreground">{v.hint}</div>
+                    </div>
+                    {active && <span className="text-primary text-xs">✓</span>}
+                  </button>
+                );
+              })}
+            </PopoverContent>
+          </Popover>
+
+          <Button
+            onClick={submit}
+            disabled={submitting || !content.trim()}
+            className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white shadow-md disabled:opacity-50"
+          >
+            {submitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+            Đăng bài
+          </Button>
+        </div>
       </div>
       <p className="text-xs text-muted-foreground text-right">{content.length}/5000</p>
+
     </Card>
   );
 }
