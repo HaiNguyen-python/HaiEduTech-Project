@@ -78,16 +78,17 @@ export default function YourCorner() {
       />
       <Navbar />
 
-      {/* Decorative gradient orbs */}
+      {/* Decorative gradient orbs (static, subtle) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/3 -right-40 w-[28rem] h-[28rem] bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1.5s" }} />
-        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "3s" }} />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 -right-40 w-[28rem] h-[28rem] bg-emerald-400/15 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/10 rounded-full blur-3xl" />
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <FloatingParticles count={22} />
+        <FloatingParticles count={14} />
       </div>
+
 
       <main className="container mx-auto px-4 pt-24 pb-16 relative z-10">
         {/* Hero */}
