@@ -287,7 +287,7 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe một phần bài giảng đại học về lịch sử cà phê. Hoàn thành các câu bên dưới dùng KHÔNG QUÁ HAI TỪ cho mỗi đáp án.",
     rate: 0.92,
     transcript:
-      "Good morning everyone. Today we're looking at the fascinating history of coffee, a drink that has shaped economies and cultures for centuries.\n" +
+      "Lecturer: Good morning everyone. Today we're looking at the fascinating history of coffee, a drink that has shaped economies and cultures for centuries.\n" +
       "Coffee is believed to have originated in the highlands of Ethiopia, where, according to legend, a goat herder noticed his animals becoming unusually energetic after eating red berries from a particular shrub.\n" +
       "The first solid evidence of coffee being brewed as a drink, however, comes from the fifteenth century in Yemen, where Sufi monks used it to stay awake during long evening prayers.\n" +
       "From Yemen, coffee quickly spread to the major cities of the Ottoman Empire. In Istanbul, the very first coffee house opened in fifteen fifty-four, becoming a centre for conversation, music and even political debate.\n" +
@@ -320,7 +320,7 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe một phần bài giảng về nuôi ong đô thị. Hoàn thành ghi chú bên dưới dùng KHÔNG QUÁ HAI TỪ cho mỗi đáp án.",
     rate: 0.92,
     transcript:
-      "Today I want to talk about urban beekeeping, which has grown remarkably popular in cities over the past decade.\n" +
+      "Lecturer: Today I want to talk about urban beekeeping, which has grown remarkably popular in cities over the past decade.\n" +
       "Surprisingly, urban bees often produce more honey than their rural counterparts. The main reason is that cities offer a wider variety of flowering plants, especially in private gardens and public parks, providing a longer season of nectar.\n" +
       "However, urban beekeepers also face several challenges. The first is space - most hives must be located on rooftops, which requires permission from the building owner.\n" +
       "The second challenge is temperature. City rooftops can become extremely hot in summer, so hives should ideally be placed in light shade and painted a pale colour to reflect heat.\n" +

@@ -873,7 +873,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear part of a university lecture about sleep. Complete the notes. Write NO MORE THAN TWO WORDS for each answer.",
     contextVi: "Bạn sẽ nghe bài giảng đại học về giấc ngủ. Điền vào ghi chú.",
     transcript:
-      "Good morning. Today we'll look at why sleep matters for both brain and body.\n" +
+      "Lecturer: Good morning. Today we'll look at why sleep matters for both brain and body.\n" +
       "On average, adults need between seven and nine hours of sleep each night.\n" +
       "Sleep is divided into cycles of about ninety minutes, each containing both light and deep stages.\n" +
       "The deep stage is when the body releases the most growth hormone, supporting tissue repair.\n" +
@@ -912,7 +912,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear a lecture on honeybee populations. Complete the notes. Write NO MORE THAN TWO WORDS for each answer.",
     contextVi: "Bạn sẽ nghe bài giảng về đàn ong mật. Điền vào ghi chú.",
     transcript:
-      "Good afternoon. Today's lecture is about honeybees and the multiple pressures they face.\n" +
+      "Professor: Good afternoon. Today's lecture is about honeybees and the multiple pressures they face.\n" +
       "Honeybees pollinate roughly one third of the food crops humans eat.\n" +
       "Globally, beekeepers have reported colony losses of around forty percent in some recent winters.\n" +
       "Researchers identify four main causes - sometimes called the four P's.\n" +
@@ -950,7 +950,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear part of a geology lecture on volcanoes. Complete the notes. Write NO MORE THAN TWO WORDS for each answer.",
     contextVi: "Bạn sẽ nghe bài giảng địa chất về núi lửa. Điền vào ghi chú.",
     transcript:
-      "Welcome to today's lecture on volcanoes.\n" +
+      "Lecturer: Welcome to today's lecture on volcanoes.\n" +
       "There are roughly fifteen hundred active volcanoes on Earth, most of them along the Pacific Ring of Fire.\n" +
       "Volcanoes form where tectonic plates meet - either pulling apart, pushing together, or sliding past each other.\n" +
       "There are three main shapes: shield, composite and cinder cone.\n" +
@@ -989,7 +989,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear a history lecture on the printing press. Complete the notes. Write NO MORE THAN TWO WORDS for each answer.",
     contextVi: "Bạn sẽ nghe bài giảng lịch sử về máy in. Điền vào ghi chú.",
     transcript:
-      "Good morning. Today we look at one of history's great turning points: Gutenberg's printing press.\n" +
+      "Professor: Good morning. Today we look at one of history's great turning points: Gutenberg's printing press.\n" +
       "Johannes Gutenberg, a German goldsmith, completed his press in the German city of Mainz around fourteen fifty.\n" +
       "His key innovation was movable metal type - letters that could be rearranged and reused.\n" +
       "Before this, books were copied by hand, taking months and costing the equivalent of a small house.\n" +
@@ -1026,7 +1026,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear a lecture on plastic pollution in the ocean. Complete the notes. Write NO MORE THAN TWO WORDS for each answer.",
     contextVi: "Bạn sẽ nghe bài giảng về ô nhiễm nhựa biển. Điền vào ghi chú.",
     transcript:
-      "Good afternoon. Today's lecture is on plastics in our oceans - both the scale of the problem and possible responses.\n" +
+      "Lecturer: Good afternoon. Today's lecture is on plastics in our oceans - both the scale of the problem and possible responses.\n" +
       "Each year, around eight million tonnes of plastic enter the sea.\n" +
       "About eighty percent of this comes from land-based sources - primarily rivers and coastal cities.\n" +
       "Once in the water, sunlight and waves break large plastics into tiny fragments called microplastics, smaller than five millimetres across.\n" +

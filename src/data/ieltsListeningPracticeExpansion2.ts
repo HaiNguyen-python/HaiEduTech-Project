@@ -158,7 +158,7 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
     context: "A university lecturer talks about the benefits of urban trees. Complete each sentence with NO MORE THAN TWO WORDS or a number.",
     contextVi: "Giảng viên nói về lợi ích cây xanh đô thị. Hoàn thành mỗi câu với không quá hai từ hoặc một số.",
     transcript:
-      "Today I'd like to look at why cities around the world are now treating trees as serious public infrastructure, rather than as decoration.\n" +
+      "Lecturer: Today I'd like to look at why cities around the world are now treating trees as serious public infrastructure, rather than as decoration.\n" +
       "The first benefit is temperature. On a hot summer afternoon, the air under a mature street tree can be up to seven degrees cooler than the air just a few metres away in full sun.\n" +
       "This matters for health: in major heatwaves, neighbourhoods with low tree cover record significantly higher rates of hospital admissions for elderly residents.\n" +
       "The second benefit is air quality. Tree leaves trap particles of pollution, especially close to busy roads. Studies in London suggest that a single mature plane tree can remove up to twenty kilograms of pollutants every year.\n" +
