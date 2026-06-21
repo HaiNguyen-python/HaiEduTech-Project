@@ -3395,6 +3395,32 @@ export type Database = {
         }
         Relationships: []
       }
+      your_corner_bookmarks: {
+        Row: {
+          created_at: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "your_corner_bookmarks_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "your_corner_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       your_corner_comments: {
         Row: {
           content: string
@@ -3433,6 +3459,8 @@ export type Database = {
           created_at: string
           id: string
           image_url: string | null
+          mood: string | null
+          subject: string | null
           updated_at: string
           user_id: string
         }
@@ -3441,6 +3469,8 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          mood?: string | null
+          subject?: string | null
           updated_at?: string
           user_id: string
         }
@@ -3449,6 +3479,8 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          mood?: string | null
+          subject?: string | null
           updated_at?: string
           user_id?: string
         }
