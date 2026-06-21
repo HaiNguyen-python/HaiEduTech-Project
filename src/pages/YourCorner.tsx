@@ -11,8 +11,13 @@ import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, Trend
 import PostComposer from "@/components/your-corner/PostComposer";
 import PostCard from "@/components/your-corner/PostCard";
 import StoryBar from "@/components/your-corner/StoryBar";
+import OnlineUsersPanel from "@/components/your-corner/OnlineUsersPanel";
+import Messenger from "@/components/your-corner/Messenger";
 import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
+import { useYourCornerPresence, type OnlineUser } from "@/hooks/useYourCornerPresence";
 import { SUBJECTS, subjectMap, SubjectKey, extractHashtags } from "@/lib/yourCornerMeta";
+import type { Mentionable } from "@/components/your-corner/MentionInput";
+
 
 const DAILY_PROMPTS = [
   { emoji: "📘", text: "Hôm nay em học được từ vựng mới nào? Chia sẻ 3 từ tâm đắc nhất nhé!" },
@@ -57,6 +62,31 @@ export default function YourCorner() {
 
   const { posts, loading, refresh, trendingTags } = useYourCornerFeed(!!userId);
 
+  // Realtime presence — who is currently on Your Corner
+  const onlineUsers = useYourCornerPresence(userId, {
+    full_name: userMeta.name,
+    avatar_url: userMeta.avatar,
+  });
+
+  // Messenger active peer (lifted up so OnlineUsersPanel can open chats)
+  const [chatPeer, setChatPeer] = useState<{ user_id: string; full_name: string | null; avatar_url: string | null } | null>(null);
+
+  // People you can @-tag: distinct post authors + online users
+  const mentionables = useMemo<Mentionable[]>(() => {
+    const map = new Map<string, Mentionable>();
+    posts.forEach((p) => {
+      if (p.author && p.user_id !== userId) {
+        map.set(p.user_id, { user_id: p.user_id, full_name: p.author.full_name, avatar_url: p.author.avatar_url });
+      }
+    });
+    onlineUsers.forEach((u) => {
+      if (u.user_id !== userId && !map.has(u.user_id)) {
+        map.set(u.user_id, { user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url });
+      }
+    });
+    return Array.from(map.values());
+  }, [posts, onlineUsers, userId]);
+
   // Karma = own posts + likes received on own posts
   const myKarma = useMemo(() => {
     if (!userId) return { posts: 0, likes: 0 };
@@ -66,6 +96,7 @@ export default function YourCorner() {
       likes: mine.reduce((s, p) => s + p.reaction_count, 0),
     };
   }, [posts, userId]);
+
 
   const filtered = useMemo(() => {
     let list = posts;
@@ -220,7 +251,7 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              <PostComposer userId={userId} onPosted={refresh} userName={userMeta.name} userAvatar={userMeta.avatar} />
+              <PostComposer userId={userId} onPosted={refresh} userName={userMeta.name} userAvatar={userMeta.avatar} mentionables={mentionables} />
 
               {/* Tabs */}
               <Tabs value={tab} onValueChange={(v) => setTab(v as FeedTab)}>
@@ -274,7 +305,15 @@ export default function YourCorner() {
 
             {/* Right sidebar */}
             <aside className="hidden lg:block space-y-4">
+              <OnlineUsersPanel
+                users={onlineUsers}
+                currentUserId={userId}
+                onOpenChat={(u: OnlineUser) =>
+                  setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
+                }
+              />
               <Card className="p-5 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm sticky top-24 space-y-5">
+
                 <div>
                   <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
                     <Hash className="w-4 h-4 text-purple-500" /> Đang hot 7 ngày
@@ -364,6 +403,17 @@ export default function YourCorner() {
           </div>
         )}
       </main>
+
+      {/* Floating Messenger */}
+      {userId && (
+        <Messenger
+          currentUserId={userId}
+          activePeer={chatPeer}
+          setActivePeer={setChatPeer}
+          onlineUsers={onlineUsers}
+        />
+      )}
     </div>
   );
 }
+
