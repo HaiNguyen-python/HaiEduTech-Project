@@ -34,6 +34,8 @@ const todayPromptIdx = new Date().getDate() % DAILY_PROMPTS.length;
 type FeedTab = "latest" | "trending" | "saved";
 
 export default function YourCorner() {
+  const { t, lang } = useLanguage();
+  const todayPrompt = DAILY_PROMPTS[todayPromptIdx];
   const [userId, setUserId] = useState<string | null>(null);
   const [userMeta, setUserMeta] = useState<{ name: string | null; avatar: string | null }>({ name: null, avatar: null });
   const [authReady, setAuthReady] = useState(false);
