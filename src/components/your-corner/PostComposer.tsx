@@ -3,15 +3,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ImagePlus, Loader2, Send, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
   userId: string;
   onPosted: () => void;
+  userName?: string | null;
+  userAvatar?: string | null;
 }
 
-export default function PostComposer({ userId, onPosted }: Props) {
+export default function PostComposer({ userId, onPosted, userName, userAvatar }: Props) {
+
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
