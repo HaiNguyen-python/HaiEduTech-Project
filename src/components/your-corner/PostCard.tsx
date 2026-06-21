@@ -267,20 +267,76 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
           </div>
         </div>
         {isMine && (
-          <Button variant="ghost" size="sm" onClick={deletePost} className="text-destructive">
-            <Trash2 className="w-4 h-4" />
-          </Button>
+          <div className="flex items-center gap-1">
+            {!editing && (
+              <Button variant="ghost" size="sm" onClick={() => { setEditText(post.content); setEditing(true); }} className="text-muted-foreground">
+                <Pencil className="w-4 h-4" />
+              </Button>
+            )}
+            {confirmDelete ? (
+              <>
+                <Button variant="ghost" size="sm" onClick={() => setConfirmDelete(false)} className="text-muted-foreground">
+                  <X className="w-4 h-4" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={deletePost} className="text-destructive">
+                  <Check className="w-4 h-4" />
+                </Button>
+              </>
+            ) : (
+              <Button variant="ghost" size="sm" onClick={() => setConfirmDelete(true)} className="text-destructive">
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
         )}
       </div>
 
-      <div
-        className="text-base whitespace-pre-wrap break-words leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: sanitized }}
-      />
+      {editing ? (
+        <div className="space-y-2">
+          <Textarea
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            className="min-h-[100px] text-base"
+            maxLength={5000}
+            autoFocus
+          />
+          <div className="flex justify-end gap-2">
+            <Button variant="ghost" size="sm" onClick={() => setEditing(false)}>Huỷ</Button>
+            <Button size="sm" onClick={saveEdit} className="bg-gradient-to-r from-blue-600 to-emerald-600 text-white">
+              Lưu thay đổi
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div
+          className="text-base whitespace-pre-wrap break-words leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: sanitized }}
+        />
+      )}
 
       {post.image_url && (
-        <img src={post.image_url} alt="post" className="rounded-lg max-h-[500px] w-full object-cover" />
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(true)}
+          className="block w-full overflow-hidden rounded-lg group"
+        >
+          <img
+            src={post.image_url}
+            alt="post"
+            loading="lazy"
+            className="rounded-lg max-h-[500px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          />
+        </button>
       )}
+
+      <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+        <DialogContent className="max-w-5xl p-2 bg-background/95 backdrop-blur">
+          {post.image_url && (
+            <img src={post.image_url} alt="post" className="w-full h-auto max-h-[85vh] object-contain rounded" />
+          )}
+        </DialogContent>
+      </Dialog>
+
 
       <div className="flex items-center gap-1 border-t pt-2 flex-wrap">
         <Button
