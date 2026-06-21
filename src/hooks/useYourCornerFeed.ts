@@ -15,6 +15,7 @@ export type FeedPost = {
   image_url: string | null;
   subject: string | null;
   mood: string | null;
+  visibility: string | null;
   created_at: string;
   author: FeedAuthor | null;
   reaction_count: number;
@@ -22,6 +23,7 @@ export type FeedPost = {
   comment_count: number;
   bookmarked_by_me: boolean;
 };
+
 
 export function useYourCornerFeed(enabled: boolean) {
   const [posts, setPosts] = useState<FeedPost[]>([]);
@@ -34,7 +36,7 @@ export function useYourCornerFeed(enabled: boolean) {
 
     const { data: rawPosts, error } = await supabase
       .from("your_corner_posts")
-      .select("id, user_id, content, image_url, subject, mood, created_at")
+      .select("id, user_id, content, image_url, subject, mood, visibility, created_at")
       .order("created_at", { ascending: false })
       .limit(80);
 

@@ -25,6 +25,21 @@ export const subjectMap = new Map(SUBJECTS.map((s) => [s.key, s]));
 
 export const MOODS = ["🔥", "💪", "💡", "🎯", "🎉", "😊", "🤔", "😅", "💙", "🚀"];
 
+export type Visibility = "public" | "teacher_only" | "private";
+
+export const VISIBILITY_OPTIONS: {
+  key: Visibility;
+  label: string;
+  hint: string;
+  icon: "globe" | "graduation" | "lock";
+}[] = [
+  { key: "public",       label: "Công khai",        hint: "Tất cả học viên đều thấy",       icon: "globe" },
+  { key: "teacher_only", label: "Chỉ giáo viên",    hint: "Bạn và giáo viên/admin thấy",    icon: "graduation" },
+  { key: "private",      label: "Chỉ mình tôi",     hint: "Lưu riêng, chỉ bạn thấy",        icon: "lock" },
+];
+
+export const visibilityMap = new Map(VISIBILITY_OPTIONS.map((v) => [v.key, v]));
+
 // Extract hashtags (#word, alphanum + Vietnamese)
 export function extractHashtags(text: string): string[] {
   const matches = text.match(/#[\p{L}0-9_]+/gu) || [];
