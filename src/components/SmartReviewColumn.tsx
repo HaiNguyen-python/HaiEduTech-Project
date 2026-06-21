@@ -296,7 +296,7 @@ const MicroQuiz = ({
                 picked === null && "border-border bg-background"
               )}
             >
-              {opt}
+              {String.fromCharCode(65 + i)}. {opt}
             </button>
           );
         })}

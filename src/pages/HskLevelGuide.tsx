@@ -285,7 +285,7 @@ const HskLevelGuide = () => {
                         : "border-border hover:border-primary/40"
                     }`}
                   >
-                    {opt}
+                    {String.fromCharCode(65 + i)}. {opt}
                     {isRight && <CheckCircle2 className="w-4 h-4 text-emerald-500 inline ml-2" />}
                   </button>
                 );

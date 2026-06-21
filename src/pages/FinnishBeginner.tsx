@@ -292,7 +292,7 @@ const FinnishBeginner = () => {
                         >
                           {right && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
                           {wrong && <XCircle className="w-4 h-4 text-red-500" />}
-                          {opt}
+                          {String.fromCharCode(65 + oi)}. {opt}
                         </button>
                       );
                     })}

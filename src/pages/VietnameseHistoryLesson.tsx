@@ -317,7 +317,7 @@ const VietnameseHistoryLesson = () => {
                               : "bg-muted/50 border-border hover:bg-muted"
                           }`}
                         >
-                          {opt}
+                          {String.fromCharCode(65 + oi)}. {opt}
                         </button>
                       );
                     })}

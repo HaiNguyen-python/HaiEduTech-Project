@@ -333,7 +333,7 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
                   : "border-border/50 bg-card/80 text-foreground hover:border-primary/50 hover:shadow-[0_0_10px_rgba(var(--primary),0.15)]"
               }`}
             >
-              {opt}
+              {String.fromCharCode(65 + idx)}. {opt}
             </motion.button>
           ))}
         </div>

@@ -1095,7 +1095,7 @@ const QuizSection = ({
                   onClick={() => !submitted && setAnswers((a) => ({ ...a, [qi]: oi }))}
                   disabled={submitted}
                 >
-                  {opt}
+                  {String.fromCharCode(65 + oi)}. {opt}
                 </button>
               );
             })}

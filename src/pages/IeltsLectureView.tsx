@@ -478,7 +478,7 @@ const IeltsLectureView = () => {
                               >
                                 {quizSubmitted && isCorrect && <CheckCircle className="w-3.5 h-3.5 shrink-0" />}
                                 {quizSubmitted && selected && !isCorrect && <XCircle className="w-3.5 h-3.5 shrink-0" />}
-                                {opt}
+                                {String.fromCharCode(65 + oi)}. {opt}
                               </button>
                             );
                           })}

@@ -94,7 +94,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
                   >
                     {submitted && isCorrectOpt && <CheckCircle className="w-3.5 h-3.5 shrink-0" />}
                     {submitted && selected && !isCorrectOpt && <XCircle className="w-3.5 h-3.5 shrink-0" />}
-                     {pickEnglishGrammarCopy(opt, undefined, opt)}
+                     {String.fromCharCode(65 + oi)}. {pickEnglishGrammarCopy(opt, undefined, opt)}
                   </button>
                 );
               })}

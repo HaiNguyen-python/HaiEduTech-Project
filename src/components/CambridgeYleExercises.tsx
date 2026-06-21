@@ -265,7 +265,7 @@ const CambridgeYleExercises = ({ level, words, theme }: Props) => {
                       className="text-left px-4 py-3 rounded-2xl font-bold text-base transition-all flex items-center justify-between gap-2"
                       style={{ background: bg, border: `2px solid ${border}`, color }}
                     >
-                      <span>{opt}</span>
+                      <span>{String.fromCharCode(65 + i)}. {opt}</span>
                       {answered && isCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-600" />}
                       {answered && isPicked && !isCorrect && <XCircle className="w-5 h-5 text-red-600" />}
                     </button>
