@@ -1,25 +1,27 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import FloatingSubjectIcons from "@/components/your-corner/FloatingSubjectIcons";
-import CornerCheerChibis from "@/components/your-corner/CornerCheerChibis";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy, Lightbulb, Crown, Stars, Zap, Globe2 } from "lucide-react";
 import PostComposer from "@/components/your-corner/PostComposer";
 import PostCard from "@/components/your-corner/PostCard";
-import StoryBar from "@/components/your-corner/StoryBar";
-import OnlineUsersPanel from "@/components/your-corner/OnlineUsersPanel";
-import Messenger from "@/components/your-corner/Messenger";
 import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
 import { useYourCornerPresence, type OnlineUser } from "@/hooks/useYourCornerPresence";
 import { SUBJECTS, subjectMap, SubjectKey, extractHashtags } from "@/lib/yourCornerMeta";
 import type { Mentionable } from "@/components/your-corner/MentionInput";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+// Defer heavy/below-the-fold widgets to improve initial load time
+const FloatingSubjectIcons = lazy(() => import("@/components/your-corner/FloatingSubjectIcons"));
+const CornerCheerChibis = lazy(() => import("@/components/your-corner/CornerCheerChibis"));
+const StoryBar = lazy(() => import("@/components/your-corner/StoryBar"));
+const OnlineUsersPanel = lazy(() => import("@/components/your-corner/OnlineUsersPanel"));
+const Messenger = lazy(() => import("@/components/your-corner/Messenger"));
 
 
 const DAILY_PROMPTS: { emoji: string; vi: string; en: string }[] = [
@@ -155,8 +157,10 @@ export default function YourCorner() {
         <div className="absolute top-40 left-1/2 w-72 h-72 bg-violet-400/15 rounded-full blur-3xl animate-pulse [animation-delay:0.6s]" />
       </div>
 
-      <FloatingSubjectIcons count={70} />
-      <CornerCheerChibis />
+      <Suspense fallback={null}>
+        <FloatingSubjectIcons count={30} />
+        <CornerCheerChibis />
+      </Suspense>
 
 
 
@@ -367,7 +371,7 @@ export default function YourCorner() {
 
             {/* Feed */}
             <div className="space-y-5 mx-auto w-full max-w-[640px]">
-              <StoryBar />
+              <Suspense fallback={null}><StoryBar /></Suspense>
 
               {/* Daily Prompt */}
               <Card className="p-4 backdrop-blur-md bg-gradient-to-r from-amber-50/90 via-white/85 to-emerald-50/90 dark:from-amber-950/30 dark:via-card/85 dark:to-emerald-950/30 border-amber-300/40 shadow-sm flex items-center gap-3">
@@ -436,13 +440,15 @@ export default function YourCorner() {
 
             {/* Right sidebar */}
             <aside className="hidden lg:block space-y-4">
-              <OnlineUsersPanel
-                users={onlineUsers}
-                currentUserId={userId}
-                onOpenChat={(u: OnlineUser) =>
-                  setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
-                }
-              />
+              <Suspense fallback={null}>
+                <OnlineUsersPanel
+                  users={onlineUsers}
+                  currentUserId={userId}
+                  onOpenChat={(u: OnlineUser) =>
+                    setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
+                  }
+                />
+              </Suspense>
 
 
               <Card className="p-5 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm sticky top-24 space-y-5">
@@ -533,13 +539,15 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              <Messenger
-                currentUserId={userId}
-                activePeer={chatPeer}
-                setActivePeer={setChatPeer}
-                onlineUsers={onlineUsers}
-                directory={mentionables}
-              />
+              <Suspense fallback={null}>
+                <Messenger
+                  currentUserId={userId}
+                  activePeer={chatPeer}
+                  setActivePeer={setChatPeer}
+                  onlineUsers={onlineUsers}
+                  directory={mentionables}
+                />
+              </Suspense>
 
 
             </aside>
