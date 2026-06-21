@@ -357,7 +357,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2">
-        {options.map(opt => {
+        {options.map((opt, oi) => {
           const isCorrect = opt === q.sv;
           const isPicked = opt === picked;
           return (
@@ -373,7 +373,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
                   : "border-border hover:border-primary hover:bg-primary/5"
               }`}
             >
-              {opt}
+              <span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span>{opt}
             </button>
           );
         })}
