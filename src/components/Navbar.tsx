@@ -290,10 +290,13 @@ const Navbar = () => {
     { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: swedishSubs, key: "sv" },
     { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
 
-    // Study Abroad ("Du Học") menu item is temporarily hidden — replaced by EdTech Research hub.
+    // Study Abroad ("Du Học") menu item is temporarily hidden — replaced by EdTech hub.
     // { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
-    { to: "/edtech-research", label: t("EdTech Research", "EdTech Research"), icon: FlaskConical },
-    { to: "/dich-vu-web", label: t("Thiết kế Software Giáo dục", "EdTech Software Design"), icon: Sparkles },
+    { to: "/edtech-research", label: t("EdTech", "EdTech"), icon: FlaskConical, key: "edtech", subs: [
+      { to: "/edtech-research", label: t("🔬 EdTech Research", "🔬 EdTech Research") },
+      { to: "/dich-vu-web", label: t("🎨 Thiết kế Software Giáo dục", "🎨 EdTech Software Design") },
+    ] },
+    { to: "/your-corner", label: t("Your Corner", "Your Corner"), icon: Users },
   ];
 
   // Dashboard and Admin entries are intentionally omitted from the main menu —
