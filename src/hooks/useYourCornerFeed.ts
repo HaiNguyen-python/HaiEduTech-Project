@@ -96,16 +96,29 @@ export function useYourCornerFeed(enabled: boolean) {
   useEffect(() => {
     if (!enabled) return;
     fetchFeed();
+    // Throttle refetches: max 1 per 2.5s when realtime fires
+    let pending = false;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const throttled = () => {
+      if (pending) return;
+      pending = true;
+      timer = setTimeout(() => {
+        pending = false;
+        fetchFeed();
+      }, 2500);
+    };
     const channel = supabase
       .channel("your-corner-feed")
-      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_posts" }, () => fetchFeed())
-      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_reactions" }, () => fetchFeed())
-      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_comments" }, () => fetchFeed())
+      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_posts" }, throttled)
+      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_reactions" }, throttled)
+      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_comments" }, throttled)
       .subscribe();
     return () => {
+      if (timer) clearTimeout(timer);
       supabase.removeChannel(channel);
     };
   }, [enabled, fetchFeed]);
+
 
   // Derived: trending hashtags from last 7 days
   const trendingTags = useMemo(() => {
