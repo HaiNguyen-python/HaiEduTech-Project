@@ -372,9 +372,9 @@ export default function YourCorner() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 flex items-center gap-1">
-                    <Lightbulb className="w-3 h-3" /> Gợi ý hôm nay
+                    <Lightbulb className="w-3 h-3" /> {t("Gợi ý hôm nay", "Today's prompt")}
                   </div>
-                  <p className="text-sm text-foreground/90 leading-snug">{todayPrompt.text}</p>
+                  <p className="text-sm text-foreground/90 leading-snug">{lang === "vi" ? todayPrompt.vi : todayPrompt.en}</p>
                 </div>
               </Card>
 
@@ -383,9 +383,9 @@ export default function YourCorner() {
               {/* Tabs */}
               <Tabs value={tab} onValueChange={(v) => setTab(v as FeedTab)}>
                 <TabsList className="grid grid-cols-3 w-full backdrop-blur-md bg-white/75 dark:bg-card/75">
-                  <TabsTrigger value="latest"><Sparkles className="w-3.5 h-3.5 mr-1.5" /> Mới nhất</TabsTrigger>
-                  <TabsTrigger value="trending"><TrendingUp className="w-3.5 h-3.5 mr-1.5" /> Trending</TabsTrigger>
-                  <TabsTrigger value="saved"><Bookmark className="w-3.5 h-3.5 mr-1.5" /> Đã lưu</TabsTrigger>
+                  <TabsTrigger value="latest"><Sparkles className="w-3.5 h-3.5 mr-1.5" /> {t("Mới nhất", "Latest")}</TabsTrigger>
+                  <TabsTrigger value="trending"><TrendingUp className="w-3.5 h-3.5 mr-1.5" /> {t("Trending", "Trending")}</TabsTrigger>
+                  <TabsTrigger value="saved"><Bookmark className="w-3.5 h-3.5 mr-1.5" /> {t("Đã lưu", "Saved")}</TabsTrigger>
                 </TabsList>
               </Tabs>
 
