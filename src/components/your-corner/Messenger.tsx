@@ -58,7 +58,7 @@ function formatTime(iso: string) {
  * - Shows thread + composer when a peer is selected
  * - Realtime DMs via Supabase Realtime
  */
-export default function Messenger({ currentUserId, activePeer, setActivePeer, onlineUsers }: Props) {
+export default function Messenger({ currentUserId, activePeer, setActivePeer, onlineUsers, directory = [] }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
