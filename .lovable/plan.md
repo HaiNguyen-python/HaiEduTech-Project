@@ -1,96 +1,72 @@
+# Chuẩn hoá toàn bộ IELTS Listening Exercise theo định dạng Cambridge
 
-## 1. EdTech menu group
+Hiện có ~50+ bài listening trải trên 7 file (`ieltsListeningPractice.ts` + `Expansion1-6`). Mỗi bài cần: transcript dài hơn, đa nhân vật rõ ràng, câu hỏi đúng wording Cambridge, layout form/note chuẩn. Để giữ chất lượng đều và dễ duyệt, mình sẽ làm theo 4 đợt - mỗi đợt là 1 turn riêng và bạn duyệt trước khi mình sang đợt sau.
 
-Combine the two existing top-level items into one dropdown in `src/components/Navbar.tsx`:
+## Tiêu chuẩn Cambridge áp dụng cho mọi bài
 
-- Replace lines 295–296 with one parent entry `EdTech` (icon `FlaskConical`, key `edtech`) whose `subs` contain:
-  - `🔬 EdTech Research` → `/edtech-research`
-  - `🎨 EdTech Software Design` → `/dich-vu-web`
-- Keep the existing `/programming/edtech` item inside the Programming menu untouched (it is a different page).
+- **Transcript**: 450-750 từ/section (S1 ngắn nhất, S4 dài nhất), nhiều turn hội thoại tự nhiên, có hesitation marks ("um", "well", "actually"), self-correction, và distractor info trước đáp án đúng.
+- **Speaker tags**: luôn dùng `Name:` ở đầu dòng để engine multi-voice gán giọng riêng (đã ship).
+- **Section 1**: phone/booking dialogue 2 người (1 nam + 1 nữ), form/note completion.
+- **Section 2**: monologue 1 người (tour guide, radio host), MCQ hoặc map labelling.
+- **Section 3**: 2-3 sinh viên + tutor thảo luận học thuật, matching / MCQ.
+- **Section 4**: lecture 1 người, sentence/note completion với từ vựng academic.
+- **Câu hỏi**: dùng đúng rubric Cambridge (`Write NO MORE THAN TWO WORDS AND/OR A NUMBER`, `Choose the correct letter, A, B or C`, `Which student says…`). Prompt mô phỏng form/notes thật, không chỉ "Surname: ___".
+- **Distractor**: mỗi câu fill-in/MCQ phải có ít nhất 1 thông tin gây nhiễu trong transcript (số sai bị correct, tên gần giống, etc.).
 
-No route or page changes — both targets already exist.
+## Layout UI (1 lần cập nhật ở đợt 1)
 
-## 2. Your Corner — student social feed
-
-A Facebook-style space inside the app where students post text + optional image, react, and comment. Public read for any logged-in user; only the author can edit/delete their own content.
-
-### Navigation
-- Add `Your Corner` (icon `Users`, route `/your-corner`) to `baseLinks` in `Navbar.tsx`, placed after `EdTech`.
-- Register the route in `src/App.tsx` pointing to a new page `src/pages/YourCorner.tsx`.
-
-### Page layout (`/your-corner`)
-Single-column FB-style feed, mobile-first, matches HaiEduTech brand (Royal Blue → Soft Emerald gradients, semantic tokens only):
+Thêm renderer "Cambridge Form Layout" cho `ListeningPracticeSetCard`:
 
 ```text
-+------------------------------------------+
-| Header: Your Corner — chia sẻ cùng nhau  |
-+------------------------------------------+
-| Composer  [avatar] What's on your mind?  |
-|           [image upload] [Post button]   |
-+------------------------------------------+
-| Post card                                |
-|   [avatar] Name · time                   |
-|   body text / image                      |
-|   ❤ 12   💬 3   (Edit/Delete if mine)    |
-|   --- comments ---                       |
-|   [comment input]                        |
-+------------------------------------------+
-| ... infinite list, newest first          |
-+------------------------------------------+
+┌─ LIBRARY MEMBERSHIP FORM ───────────────────┐
+│ Name:           Sarah  (1) __________       │
+│ Date of birth:  (2) __________  March 1995  │
+│ Address:        42 (3) __________ Road      │
+│ Postcode:       (4) __________              │
+│ ...                                          │
+└──────────────────────────────────────────────┘
 ```
 
-Components (new, under `src/components/your-corner/`):
-- `PostComposer.tsx` — textarea, optional image upload to `marketing-images` bucket (reuse existing public bucket), submit handler.
-- `PostCard.tsx` — author header, body (sanitized via DOMPurify), image, reaction button, comment list + composer, owner actions.
-- `CommentList.tsx` — list + inline composer.
+Bằng cách thêm field optional `formLayout?: string` (template với `{1}`, `{2}`…) trong `ListeningPracticeSet`. Khi có, render thay vì list card riêng lẻ. Bài cũ không có field này vẫn render kiểu cũ → không vỡ.
 
-Hooks:
-- `src/hooks/useYourCornerFeed.ts` — paginated fetch (20 per page), realtime subscribe to new posts via Supabase channel.
+## Lộ trình 4 đợt
 
-### Backend (Lovable Cloud migration)
+### Đợt 1 (turn tới) - Section 1: Form & Note Completion
+- Thêm support `formLayout` vào type + card.
+- Viết lại 10-12 bài S1 đầu tiên (library, hotel booking, gym membership, holiday rental, course enrolment, lost property, taxi booking, dental clinic, sports centre, mobile contract).
+- Mỗi bài: transcript 2-người ~500 từ, form layout Cambridge, 10 câu/bài.
 
-New tables in `public`, all with explicit GRANTs and RLS:
+### Đợt 2 - Section 2: Monologue + Map/Plan Labelling
+- ~10-12 bài (museum tour, festival announcement, leisure centre opening, town hall speech, charity event, university campus tour, conservation park, exhibition, theatre, café floorplan).
+- Map SVG được nâng cấp cho rõ ràng hơn (đã có pattern sẵn).
 
-1. `your_corner_posts`
-   - `id uuid pk default gen_random_uuid()`
-   - `user_id uuid not null references auth.users(id) on delete cascade`
-   - `content text not null check (char_length(content) between 1 and 5000)`
-   - `image_url text`
-   - `created_at timestamptz default now()`
-   - `updated_at timestamptz default now()`
-   - RLS: SELECT to `authenticated`; INSERT/UPDATE/DELETE only when `auth.uid() = user_id`.
+### Đợt 3 - Section 3: Academic Discussion
+- ~10-12 bài (3 speakers - tutor + 2 students; hoặc 2 students bàn project). Matching / MCQ / hoàn thành ghi chú nghiên cứu.
 
-2. `your_corner_comments`
-   - `id`, `post_id` (fk posts cascade), `user_id` (fk auth.users cascade)
-   - `content text not null check (char_length(content) between 1 and 1000)`
-   - `created_at timestamptz default now()`
-   - RLS: SELECT authenticated; INSERT own; DELETE own OR post owner.
+### Đợt 4 - Section 4: Lecture
+- ~10-12 bài (history of X, science topic, social study). Sentence/note completion với academic vocab, summary table.
+- Cuối đợt: chạy smoke test tự động và update memory.
 
-3. `your_corner_reactions`
-   - `post_id`, `user_id`, `created_at`; PK (post_id, user_id)
-   - RLS: SELECT authenticated; INSERT/DELETE own.
+## Technical Section
 
-GRANT block on every table:
-```sql
-GRANT SELECT, INSERT, UPDATE, DELETE ON public.<table> TO authenticated;
-GRANT ALL ON public.<table> TO service_role;
-```
+- File ảnh hưởng:
+  - `src/data/ieltsListeningPractice.ts` + `ieltsListeningPracticeExpansion[1-6].ts`
+  - `src/components/ielts/ListeningPracticeSetCard.tsx` (chỉ đợt 1: thêm form renderer)
+- Type mở rộng:
+  ```ts
+  export interface ListeningPracticeSet {
+    // ...existing fields
+    formLayout?: string;   // template chứa {1}…{N} cho fill-in
+    formTitle?: string;    // VD "LIBRARY MEMBERSHIP FORM"
+  }
+  ```
+- Renderer mới: khi `formLayout` tồn tại, parse `{n}` → render `<Input>` inline; vẫn dùng `answers[n-1]` state hiện có; giữ nguyên grading.
+- Không đụng backend / DB.
+- Mỗi đợt là 1 commit lớn → bạn có thể rollback từng đợt nếu muốn.
 
-`updated_at` trigger on posts reuses existing `public.set_updated_at()`.
+## Sau mỗi đợt
 
-### Moderation & safety
-- Sanitize all rendered text with DOMPurify (per project rule).
-- Unauthenticated users visiting `/your-corner` see a friendly "Đăng nhập để tham gia" CTA (no anon writes, no anon reads — keeps it a closed student community).
-- Owner can delete own post/comment; reuses existing `is_staff` check to let teachers/admins delete any post.
+- Mình chạy `bunx vitest run` (nếu có test) và đọc lại 1-2 bài trên preview để chắc audio + form render đúng.
+- Báo lại progress + xin OK trước khi vào đợt sau.
 
-### Out of scope (can add later if you want)
-- Notifications, follows, hashtags, profile pages, image gallery view, post sharing to other channels.
-
-## Files touched
-- edit `src/components/Navbar.tsx` (EdTech group + Your Corner link)
-- edit `src/App.tsx` (route)
-- new `src/pages/YourCorner.tsx`
-- new `src/components/your-corner/PostComposer.tsx`, `PostCard.tsx`, `CommentList.tsx`
-- new `src/hooks/useYourCornerFeed.ts`
-- new migration: 3 tables + grants + policies
-- new memory file `mem://features/your-corner` and update `mem://index.md`
+Bấm Approve để mình bắt đầu **Đợt 1** ngay.
