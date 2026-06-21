@@ -1766,7 +1766,7 @@ const EnglishPronunciation = () => {
                     const isWrong = revealed && i === selected && i !== currentQ.answer;
                     return (
                       <button
-                        key={String.fromCharCode(65 + i)}. {opt}
+                        key={i}
                         onClick={() => handleAnswer(i)}
                         disabled={revealed}
                         className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between gap-3 ${
@@ -1777,7 +1777,7 @@ const EnglishPronunciation = () => {
                             : "border-border bg-secondary/40 hover:bg-secondary text-foreground"
                         } ${revealed ? "cursor-default" : "cursor-pointer"}`}
                       >
-                        <span className="font-medium">{opt}</span>
+                        <span className="font-medium">{String.fromCharCode(65 + i)}. {opt}</span>
                         {isCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />}
                         {isWrong && <XCircle className="w-5 h-5 text-red-600 shrink-0" />}
                       </button>
