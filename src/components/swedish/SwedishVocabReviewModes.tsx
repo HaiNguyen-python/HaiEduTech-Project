@@ -91,7 +91,7 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
         )}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {options.map(opt => {
+        {options.map((opt, oi) => {
           const isCorrect = opt === gloss(q);
           const isPicked = opt === picked;
           return (
@@ -112,7 +112,7 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
               <span className="inline-flex items-center gap-2">
                 {reveal && isCorrect && <CheckCircle2 className="h-4 w-4" />}
                 {reveal && isPicked && !isCorrect && <XCircle className="h-4 w-4" />}
-                {opt}
+                <span><span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span>{opt}</span>
               </span>
             </button>
           );
@@ -357,7 +357,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2">
-        {options.map(opt => {
+        {options.map((opt, oi) => {
           const isCorrect = opt === q.sv;
           const isPicked = opt === picked;
           return (
@@ -373,7 +373,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
                   : "border-border hover:border-primary hover:bg-primary/5"
               }`}
             >
-              {opt}
+              <span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span>{opt}
             </button>
           );
         })}

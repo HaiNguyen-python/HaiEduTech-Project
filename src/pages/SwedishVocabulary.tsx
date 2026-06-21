@@ -416,7 +416,7 @@ const ExerciseView = ({ pool }: { pool: SwedishWord[] }) => {
         )}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {q.options.map((opt) => {
+        {q.options.map((opt, oi) => {
           const isCorrect = opt === q.correct;
           const isPicked = opt === picked;
           const reveal = picked != null;
@@ -442,7 +442,7 @@ const ExerciseView = ({ pool }: { pool: SwedishWord[] }) => {
               <span className="inline-flex items-center gap-2">
                 {reveal && isCorrect && <CheckCircle className="h-4 w-4" />}
                 {reveal && isPicked && !isCorrect && <XCircle className="h-4 w-4" />}
-                {opt}
+                <span><span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span>{opt}</span>
               </span>
             </button>
           );

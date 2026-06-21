@@ -756,7 +756,7 @@ const ProgrammingLessonPage = () => {
                                 >
                                   {showResults && isCorrect && <CheckCircle className="w-3.5 h-3.5 inline mr-1.5" />}
                                   {showResults && selected && !isCorrect && <XCircle className="w-3.5 h-3.5 inline mr-1.5" />}
-                                  {opt}
+                                  <span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span> {opt}
                                 </button>
                               );
                             })}
