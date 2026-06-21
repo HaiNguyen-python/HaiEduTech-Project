@@ -38,6 +38,13 @@ export interface ListeningPracticeSet {
   matchingOptions?: { letter: string; text: string; textVi?: string }[];
   // Optional inline SVG markup for map / plan labelling sets
   mapSvg?: string;
+  // Cambridge-style form/notes renderer:
+  //   formTitle:  e.g. "LIBRARY MEMBERSHIP FORM"
+  //   formLayout: multiline template with {1} {2} ... placeholders that map
+  //               to the fill-in questions by 1-based index. When present,
+  //               the card renders the form layout instead of separate Q cards.
+  formTitle?: string;
+  formLayout?: string;
   questions: ListeningQuestion[];
 }
 
