@@ -7,7 +7,7 @@ import FloatingSubjectIcons from "@/components/your-corner/FloatingSubjectIcons"
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy, Lightbulb, Crown } from "lucide-react";
+import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy, Lightbulb, Crown, Stars, Zap, Globe2 } from "lucide-react";
 import PostComposer from "@/components/your-corner/PostComposer";
 import PostCard from "@/components/your-corner/PostCard";
 import StoryBar from "@/components/your-corner/StoryBar";
@@ -17,6 +17,7 @@ import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
 import { useYourCornerPresence, type OnlineUser } from "@/hooks/useYourCornerPresence";
 import { SUBJECTS, subjectMap, SubjectKey, extractHashtags } from "@/lib/yourCornerMeta";
 import type { Mentionable } from "@/components/your-corner/MentionInput";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 
 const DAILY_PROMPTS = [
