@@ -25,8 +25,6 @@ const ITEMS: Item[] = [
   // bottom-left – cheer
   { src: cheer, alt: "", size: 110, style: { bottom: 24, left: 14 }, bubble: "Tuyệt vời! 🎉" },
 ];
-// Unused imports kept removed below
-void owl; void rocket;
 
 /**
  * Hidden under xl (1280px) to avoid covering content on smaller screens.
