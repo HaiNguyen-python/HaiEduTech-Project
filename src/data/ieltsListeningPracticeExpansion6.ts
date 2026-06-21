@@ -162,7 +162,7 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
     context: "A lecturer explains the microplastics problem. Complete each sentence with NO MORE THAN TWO WORDS or a number.",
     contextVi: "Giảng viên trình bày vấn đề vi nhựa. Hoàn thành mỗi câu với không quá hai từ hoặc một số.",
     transcript:
-      "Good afternoon. Today's lecture is on microplastics - that is, plastic fragments smaller than five millimetres in length.\n" +
+      "Lecturer: Good afternoon. Today's lecture is on microplastics - that is, plastic fragments smaller than five millimetres in length.\n" +
       "These particles enter the ocean from two main sources. The first is the gradual breakdown of larger plastic waste. The second, perhaps surprisingly, is synthetic clothing, which sheds tiny fibres every time it is washed.\n" +
       "Research published in twenty twenty-two estimated that there are now around five trillion plastic particles floating on the surface of the world's oceans.\n" +
       "Microplastics enter the food chain through plankton, which mistake the particles for food. From there they move up to fish and, eventually, to humans.\n" +

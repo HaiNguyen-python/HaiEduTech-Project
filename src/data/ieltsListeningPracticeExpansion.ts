@@ -138,7 +138,7 @@ export const ieltsListeningPracticeSetsExpansion: ListeningPracticeSet[] = [
     context: "Listen to part of a geology lecture and complete the notes with NO MORE THAN TWO WORDS or a number.",
     contextVi: "Nghe bài giảng và điền KHÔNG QUÁ HAI TỪ hoặc một số.",
     transcript:
-      "Modern volcano monitoring combines four main techniques. The first is seismology - small earthquakes beneath a volcano often signal that magma is moving upwards. Networks of seismometers can detect tremors as weak as magnitude one.\n" +
+      "Professor: Modern volcano monitoring combines four main techniques. The first is seismology - small earthquakes beneath a volcano often signal that magma is moving upwards. Networks of seismometers can detect tremors as weak as magnitude one.\n" +
       "The second is ground deformation, measured by GPS receivers and satellite radar. As magma fills a chamber, the surface above can bulge by several centimetres long before any eruption.\n" +
       "The third is gas monitoring. The ratio of sulphur dioxide to carbon dioxide in the plume rises sharply as magma approaches the surface.\n" +
       "The fourth and increasingly important method is thermal imaging from satellites, which can detect new hot spots even through cloud cover.\n" +

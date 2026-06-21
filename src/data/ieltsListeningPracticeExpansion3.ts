@@ -168,7 +168,7 @@ export const ieltsListeningPracticeSetsExpansion3: ListeningPracticeSet[] = [
     context: "You will hear part of a university lecture about urban trees. Complete the notes. Write NO MORE THAN TWO WORDS for each answer.",
     contextVi: "Bạn sẽ nghe bài giảng đại học về cây xanh đô thị. Điền vào ghi chú.",
     transcript:
-      "Good afternoon. Today's lecture is about the surprising importance of trees in our cities.\n" +
+      "Professor: Good afternoon. Today's lecture is about the surprising importance of trees in our cities.\n" +
       "Urban trees are often dismissed as decorative, but research now shows they deliver substantial environmental and economic benefits.\n" +
       "Let me give you a few headline figures.\n" +
       "First, cooling. A single mature tree can lower the surrounding air temperature by up to two degrees Celsius on a hot day.\n" +
