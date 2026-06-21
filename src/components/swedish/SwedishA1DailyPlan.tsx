@@ -237,7 +237,7 @@ export const SwedishA1DailyPlan = () => {
                               {t("📚 Học (15-25 phút)", "📚 Study (15-25 min)")}
                             </p>
                             <ul className="space-y-1.5 text-sm leading-relaxed">
-                              {(language === "vi" ? d.studyVi : d.studyEn).map((s, i) => (
+                              {(lang === "vi" ? d.studyVi : d.studyEn).map((s, i) => (
                                 <li key={i} className="flex gap-2">
                                   <span className="shrink-0 text-blue-500">{i + 1}.</span>
                                   <span>{s}</span>
