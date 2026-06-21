@@ -116,20 +116,22 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
             {initials}
           </AvatarFallback>
         </Avatar>
-        <Textarea
+        <MentionInput
           value={content}
+          onChange={setContent}
           onFocus={() => setExpanded(true)}
-          onChange={(e) => setContent(e.target.value)}
           onKeyDown={(e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
               e.preventDefault();
               if (!submitting && content.trim()) submit();
             }
           }}
-          placeholder={`${displayName} ơi, hôm nay bạn học được gì? Chia sẻ với cả lớp nhé ✨ (dùng #hashtag để gắn chủ đề, Ctrl+Enter để đăng)`}
+          placeholder={`${displayName} ơi, hôm nay bạn học được gì? Dùng @ để tag bạn, #hashtag để gắn chủ đề ✨`}
           className="min-h-[80px] resize-none border-0 focus-visible:ring-0 text-base p-0 bg-transparent"
           maxLength={5000}
+          mentionables={mentionables}
         />
+
 
       </div>
 
