@@ -35,7 +35,9 @@ interface Props {
   activePeer: Peer | null;
   setActivePeer: (p: Peer | null) => void;
   onlineUsers: OnlineUser[];
+  directory?: Peer[];
 }
+
 
 const QUICK_EMOJIS = ["👍", "❤️", "😂", "🔥", "🎉", "👏", "💪", "🤔"];
 
