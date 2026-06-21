@@ -4,14 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ImagePlus, Loader2, Send, X, Smile, Tag } from "lucide-react";
+import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
-import { SUBJECTS, MOODS, SubjectKey, subjectMap } from "@/lib/yourCornerMeta";
+import { SUBJECTS, MOODS, SubjectKey, subjectMap, VISIBILITY_OPTIONS, Visibility, visibilityMap } from "@/lib/yourCornerMeta";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
+const visIcon = (k: Visibility) =>
+  k === "public" ? Globe2 : k === "teacher_only" ? GraduationCap : Lock;
+
 
 interface Props {
   userId: string;
@@ -27,8 +31,10 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar }:
   const [submitting, setSubmitting] = useState(false);
   const [subject, setSubject] = useState<SubjectKey | null>(null);
   const [mood, setMood] = useState<string | null>(null);
+  const [visibility, setVisibility] = useState<Visibility>("public");
   const [expanded, setExpanded] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+
 
   const pickImage = (f: File | null) => {
     if (!f) return;
