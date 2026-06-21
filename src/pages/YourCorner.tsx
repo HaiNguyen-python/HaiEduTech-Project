@@ -115,7 +115,7 @@ export default function YourCorner() {
         <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/10 rounded-full blur-3xl" />
       </div>
 
-      <FloatingSubjectIcons count={26} />
+      <FloatingSubjectIcons count={44} />
 
 
 
