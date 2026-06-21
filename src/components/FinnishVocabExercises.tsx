@@ -403,7 +403,7 @@ const FlashcardRapidFire = ({ vocabulary, onComplete }: { vocabulary: FinnishVoc
                     : "bg-card border-border opacity-50"
                   : "bg-card border-border hover:border-[#003580]/40 hover:bg-[#003580]/5"}`}
             >
-              {opt}
+              <span className="font-semibold mr-1">{String.fromCharCode(65 + i)}.</span> {opt}
             </button>
           );
         })}
