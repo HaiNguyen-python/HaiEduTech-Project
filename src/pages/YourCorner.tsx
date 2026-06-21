@@ -146,7 +146,7 @@ export default function YourCorner() {
         <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/10 rounded-full blur-3xl" />
       </div>
 
-      <FloatingSubjectIcons count={44} />
+      <FloatingSubjectIcons count={70} />
 
 
 
@@ -239,6 +239,23 @@ export default function YourCorner() {
                   🎮 <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">Mini Games ôn bài</span>
                 </h3>
                 <p className="text-[11px] text-muted-foreground mb-3">Vừa chơi vừa luyện - click để bắt đầu!</p>
+
+                {/* Multiplayer / arena highlight */}
+                <Link
+                  to="/vocab-arena"
+                  className="block mb-3 rounded-lg p-2.5 bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 text-white shadow-md hover:shadow-lg hover:scale-[1.02] transition-all"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">⚔️</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-bold leading-tight">Vocab Arena 1v1</div>
+                      <div className="text-[10px] opacity-90">Đấu trực tiếp với bạn bè</div>
+                    </div>
+                    <span className="text-[10px] font-bold bg-white/25 px-1.5 py-0.5 rounded">HOT</span>
+                  </div>
+                </Link>
+
+                <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Arcade theo ngôn ngữ</div>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     { to: "/cambridge/arcade", emoji: "🇬🇧", label: "English", cls: "from-blue-500 to-cyan-500" },
@@ -261,13 +278,41 @@ export default function YourCorner() {
                     </Link>
                   ))}
                 </div>
+
+                <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mt-3 mb-1.5">Game luyện chuyên đề</div>
+                <div className="space-y-1.5">
+                  {[
+                    { to: "/chinese/tone-drill", emoji: "🎵", label: "Tone Drill", desc: "Luyện thanh điệu HSK" },
+                    { to: "/chinese/hskk", emoji: "🎤", label: "HSKK Speaking", desc: "Nói tiếng Trung" },
+                    { to: "/chinese/hsk/test", emoji: "📝", label: "HSK Test Room", desc: "Thi thử các cấp" },
+                    { to: "/ielts-lectures/master-quiz", emoji: "🏆", label: "IELTS Master Quiz", desc: "Tổng hợp 4 kỹ năng" },
+                    { to: "/sat/daily-warmup", emoji: "☀️", label: "SAT Daily Warmup", desc: "5 phút mỗi ngày" },
+                    { to: "/programming/scratch-adventure", emoji: "🧩", label: "Scratch Adventure", desc: "Lập trình thiếu nhi" },
+                    { to: "/programming/ai-academy", emoji: "🤖", label: "AI Academy", desc: "Thử thách AI/ML" },
+                  ].map((g) => (
+                    <Link
+                      key={g.to}
+                      to={g.to}
+                      className="flex items-center gap-2 rounded-md px-2 py-1.5 bg-white/60 dark:bg-card/60 hover:bg-primary/10 hover:translate-x-0.5 transition-all"
+                    >
+                      <span className="text-base shrink-0">{g.emoji}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[11px] font-semibold truncate">{g.label}</div>
+                        <div className="text-[9px] text-muted-foreground truncate">{g.desc}</div>
+                      </div>
+                      <span className="text-[10px] text-primary opacity-0 group-hover:opacity-100">▶</span>
+                    </Link>
+                  ))}
+                </div>
+
                 <Link
-                  to="/cambridge/arcade"
+                  to="/arcade-plus"
                   className="mt-3 block text-center text-[11px] font-bold text-violet-600 dark:text-violet-300 hover:underline"
                 >
                   → Khám phá tất cả game →
                 </Link>
               </Card>
+
             </aside>
 
 

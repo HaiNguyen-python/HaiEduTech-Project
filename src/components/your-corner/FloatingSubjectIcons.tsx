@@ -3,19 +3,26 @@ import { motion } from "framer-motion";
 
 // Subject-themed emojis + short text - large, soft, decorative
 const ITEMS = [
-  // Emojis (subjects, vibes)
+  // Emojis (subjects, vibes, school life)
   "📚", "✏️", "📝", "🎓", "💡", "🚀", "💻", "🐍",
   "🐉", "❄️", "🦌", "📘", "📗", "📕", "📒", "🗒️",
   "🎯", "🔥", "✨", "💪", "🌟", "📖", "🧠", "🎧",
   "🎤", "🗣️", "💬", "🌏", "🇻🇳", "🇬🇧", "🇫🇮", "🇨🇳",
+  "🇺🇸", "🇸🇪", "🇯🇵", "🇰🇷", "🇩🇪", "🇫🇷", "🇪🇸",
   "🏆", "💎", "🌈", "☕", "🪶", "🧩", "🎨", "🪐",
+  "🦉", "🐢", "🦋", "🌱", "🌻", "🍀", "🍎", "🥇",
+  "📊", "📈", "🔬", "🧪", "⚗️", "🛰️", "🤖", "👩‍🏫",
+  "👨‍🎓", "🎼", "🎻", "🎹", "🏅", "🎲", "🧮", "📐",
   // Language / tech text
-  "汉", "中", "拼", "字", "学", "习",
-  "Hej", "Moi", "Suomi", "Kiitos",
-  "IELTS", "TOEIC", "HSK", "YKI", "SAT", "Cambridge",
-  "Python", "SQL", "AI", "ML", "{ }", "</>", "def", "print()",
-  "A+", "B2", "C1", "9.0",
+  "汉", "中", "拼", "字", "学", "习", "听", "说", "读", "写",
+  "Hej", "Moi", "Suomi", "Kiitos", "Hyvää",
+  "Bonjour", "Hola", "Ciao", "안녕", "こんにちは",
+  "IELTS", "TOEIC", "HSK", "YKI", "SAT", "Cambridge", "PTE", "DELE",
+  "Python", "SQL", "AI", "ML", "NLP", "DL", "{ }", "</>", "def", "print()",
+  "import", "return", "async", "await", "git", "npm", "fn()", "[...]",
+  "A+", "B2", "C1", "9.0", "990", "100%",
 ];
+
 
 const COLORS = [
   "hsl(217 91% 60% / 0.18)", // blue
