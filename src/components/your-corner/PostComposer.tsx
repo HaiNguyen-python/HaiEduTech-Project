@@ -83,15 +83,18 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar }:
           image_url: imageUrl,
           subject: subject ?? null,
           mood: mood ?? null,
+          visibility,
         });
       if (error) throw error;
       setContent("");
       clearImage();
       setSubject(null);
       setMood(null);
+      setVisibility("public");
       setExpanded(false);
       toast.success("Đã đăng bài! 🎉");
       onPosted();
+
     } catch (e: any) {
       toast.error(e?.message || "Không đăng được bài");
     } finally {
