@@ -392,7 +392,7 @@ export default function YourCorner() {
               {/* Active filter chip */}
               {(subjectFilter || tagFilter) && (
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="text-muted-foreground">Đang lọc:</span>
+                  <span className="text-muted-foreground">{t("Đang lọc:", "Filtering:")}</span>
                   {subjectFilter && (
                     <button
                       onClick={() => setSubjectFilter(null)}
