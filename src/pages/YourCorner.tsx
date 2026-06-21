@@ -137,16 +137,20 @@ export default function YourCorner() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50/40 via-background to-emerald-50/40 dark:from-blue-950/20 dark:via-background dark:to-emerald-950/20">
       <SEO
-        title="Your Corner - Góc Chia Sẻ Học Viên | HaiEduTech"
-        description="Không gian dành cho học viên HaiEduTech chia sẻ bài viết, kỹ năng và hành trình học tập."
+        title={t("Your Corner - Góc Chia Sẻ Học Viên | HaiEduTech", "Your Corner - Student Hub | HaiEduTech")}
+        description={t(
+          "Không gian dành cho học viên HaiEduTech chia sẻ bài viết, kỹ năng và hành trình học tập.",
+          "A space for HaiEduTech students to share posts, skills, and learning journeys."
+        )}
       />
       <Navbar />
 
-      {/* Decorative gradient orbs (static, subtle) */}
+      {/* Decorative gradient orbs (animated) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 -right-40 w-[28rem] h-[28rem] bg-emerald-400/15 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/10 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/3 -right-40 w-[28rem] h-[28rem] bg-emerald-400/20 rounded-full blur-3xl animate-pulse [animation-delay:1.2s]" />
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/15 rounded-full blur-3xl animate-pulse [animation-delay:2.4s]" />
+        <div className="absolute top-40 left-1/2 w-72 h-72 bg-violet-400/15 rounded-full blur-3xl animate-pulse [animation-delay:0.6s]" />
       </div>
 
       <FloatingSubjectIcons count={70} />
@@ -154,23 +158,58 @@ export default function YourCorner() {
 
 
       <main className="container mx-auto px-4 pt-24 pb-16 relative z-10">
-        {/* Hero */}
-        <header className="text-center mb-8 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 dark:bg-background/70 backdrop-blur-md border border-primary/20 shadow-sm mb-4">
-            <Sparkles className="w-4 h-4 text-emerald-500" />
-            <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
-              Cộng đồng học viên HaiEduTech
+        {/* Hero - Enhanced */}
+        <header className="relative text-center mb-10 max-w-4xl mx-auto">
+          {/* Glow halo behind title */}
+          <div className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-44 w-[80%] max-w-2xl rounded-full bg-gradient-to-r from-blue-500/25 via-cyan-400/20 to-emerald-500/25 blur-3xl" aria-hidden />
+
+          <div className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 dark:bg-background/70 backdrop-blur-xl border border-primary/30 shadow-lg mb-5 group hover:scale-105 transition-transform">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
+            <Sparkles className="w-4 h-4 text-emerald-500 animate-pulse" />
+            <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-600 bg-clip-text text-transparent">
+              {t("Cộng đồng học viên HaiEduTech", "HaiEduTech Student Community")}
+            </span>
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-white">LIVE</span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
-            <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-600 bg-clip-text text-transparent">
+
+          <h1 className="relative text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
+            <span className="inline-block bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-600 bg-clip-text text-transparent drop-shadow-[0_4px_24px_rgba(59,130,246,0.25)]">
               Your Corner
             </span>
+            <Stars className="hidden md:block absolute -top-2 -right-4 w-7 h-7 text-amber-400 animate-pulse" />
+            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 rounded-full bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
           </h1>
-          <p className="text-base md:text-lg text-muted-foreground mt-3 max-w-xl mx-auto">
-            Góc chia sẻ bài viết, kỹ năng và hành trình học - nơi các em vui học cùng bạn bè ✨
+
+          <p className="relative text-base md:text-lg text-muted-foreground mt-5 max-w-xl mx-auto leading-relaxed">
+            {t(
+              "Góc chia sẻ bài viết, kỹ năng và hành trình học - nơi các em vui học cùng bạn bè",
+              "Share posts, skills, and your learning journey - have fun studying with friends"
+            )} <span className="inline-block animate-bounce">✨</span>
           </p>
+
+          {/* Quick stat ribbons */}
+          <div className="relative flex flex-wrap items-center justify-center gap-2 mt-5">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/70 dark:bg-card/70 backdrop-blur-md border border-blue-200/60 dark:border-blue-800/40 text-xs font-semibold text-blue-700 dark:text-blue-300 shadow-sm">
+              <Users className="w-3.5 h-3.5" /> {onlineUsers.length} {t("đang online", "online now")}
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/70 dark:bg-card/70 backdrop-blur-md border border-emerald-200/60 dark:border-emerald-800/40 text-xs font-semibold text-emerald-700 dark:text-emerald-300 shadow-sm">
+              <BookOpen className="w-3.5 h-3.5" /> {posts.length} {t("bài viết", "posts")}
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/70 dark:bg-card/70 backdrop-blur-md border border-rose-200/60 dark:border-rose-800/40 text-xs font-semibold text-rose-700 dark:text-rose-300 shadow-sm">
+              <Heart className="w-3.5 h-3.5" /> {posts.reduce((s, p) => s + p.reaction_count, 0)} {t("lượt thích", "likes")}
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-400/90 to-orange-500/90 text-white text-xs font-bold shadow-md">
+              <Zap className="w-3.5 h-3.5" /> {t("Học vui mỗi ngày", "Learn fun daily")}
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/70 dark:bg-card/70 backdrop-blur-md border border-violet-200/60 dark:border-violet-800/40 text-xs font-semibold text-violet-700 dark:text-violet-300 shadow-sm">
+              <Globe2 className="w-3.5 h-3.5" /> {lang === "vi" ? "Tiếng Việt" : "English"}
+            </span>
+          </div>
         </header>
+
 
         {!authReady ? (
           <div className="text-center text-muted-foreground py-12">Đang tải...</div>
