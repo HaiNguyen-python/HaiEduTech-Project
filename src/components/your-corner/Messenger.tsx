@@ -23,12 +23,32 @@ type Peer = {
   avatar_url: string | null;
 };
 
+type RecentPeer = Peer & {
+  last_message: string;
+  last_at: string;
+  unread: number;
+  last_from_me: boolean;
+};
+
 interface Props {
   currentUserId: string;
   activePeer: Peer | null;
   setActivePeer: (p: Peer | null) => void;
   onlineUsers: OnlineUser[];
 }
+
+const QUICK_EMOJIS = ["👍", "❤️", "😂", "🔥", "🎉", "👏", "💪", "🤔"];
+
+function formatTime(iso: string) {
+  const d = new Date(iso);
+  const now = new Date();
+  const sameDay = d.toDateString() === now.toDateString();
+  if (sameDay) return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+  const diffDays = Math.floor((now.getTime() - d.getTime()) / 86400000);
+  if (diffDays < 7) return d.toLocaleDateString("vi-VN", { weekday: "short", hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" });
+}
+
 
 /**
  * Inline Messenger card for Your Corner.
@@ -41,29 +61,42 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
   const [unread, setUnread] = useState(0);
-  const [recent, setRecent] = useState<Peer[]>([]);
+  const [recent, setRecent] = useState<RecentPeer[]>([]);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [search, setSearch] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const activePeerRef = useRef<Peer | null>(activePeer);
+  useEffect(() => { activePeerRef.current = activePeer; }, [activePeer]);
 
-  // Load recent conversations + unread badge
+  // Load recent conversations + unread badge with last-message preview
   const loadRecent = useCallback(async () => {
     const { data } = await supabase
       .from("your_corner_messages")
       .select("sender_id, recipient_id, read_at, content, created_at")
       .or(`sender_id.eq.${currentUserId},recipient_id.eq.${currentUserId}`)
       .order("created_at", { ascending: false })
-      .limit(80);
+      .limit(120);
     if (!data) return;
 
     const peerIds: string[] = [];
     let unreadCount = 0;
-    const seen = new Set<string>();
+    const meta = new Map<string, { last_message: string; last_at: string; unread: number; last_from_me: boolean }>();
     data.forEach((m: any) => {
       const other = m.sender_id === currentUserId ? m.recipient_id : m.sender_id;
-      if (!seen.has(other)) {
-        seen.add(other);
+      if (!meta.has(other)) {
         peerIds.push(other);
+        meta.set(other, {
+          last_message: m.content,
+          last_at: m.created_at,
+          unread: 0,
+          last_from_me: m.sender_id === currentUserId,
+        });
       }
-      if (m.recipient_id === currentUserId && !m.read_at) unreadCount++;
+      if (m.recipient_id === currentUserId && !m.read_at) {
+        unreadCount++;
+        const cur = meta.get(other)!;
+        cur.unread += 1;
+      }
     });
     setUnread(unreadCount);
 
@@ -76,7 +109,8 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
           .filter((id) => profMap.has(id))
           .map((id) => {
             const p = profMap.get(id);
-            return { user_id: id, full_name: p.full_name, avatar_url: p.avatar_url };
+            const m = meta.get(id)!;
+            return { user_id: id, full_name: p.full_name, avatar_url: p.avatar_url, ...m };
           })
       );
     } else {
@@ -90,14 +124,24 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
       .channel(`ycm-inbox-${currentUserId}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "your_corner_messages", filter: `recipient_id=eq.${currentUserId}` },
-        () => loadRecent()
+        { event: "INSERT", schema: "public", table: "your_corner_messages", filter: `recipient_id=eq.${currentUserId}` },
+        (payload) => {
+          loadRecent();
+          const m = payload.new as Message;
+          const inThisThread = activePeerRef.current && m.sender_id === activePeerRef.current.user_id;
+          if (!inThisThread) {
+            toast.message("💬 Tin nhắn mới", {
+              description: m.content.length > 60 ? m.content.slice(0, 60) + "..." : m.content,
+            });
+          }
+        }
       )
       .subscribe();
     return () => {
       supabase.removeChannel(ch);
     };
   }, [currentUserId, loadRecent]);
+
 
   // Load conversation with active peer + realtime
   useEffect(() => {
@@ -217,43 +261,72 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
       </div>
 
       {!activePeer ? (
-        <div className="flex-1 overflow-y-auto p-2 max-h-72">
-          {recent.length === 0 ? (
-            <div className="text-center text-xs text-muted-foreground p-6">
-              Chưa có cuộc trò chuyện nào.
-              <br />Bấm "Nhắn tin" cạnh bạn online phía trên để bắt đầu nhé!
-            </div>
-          ) : (
-            recent.map((p) => {
-              const n = p.full_name?.trim() || "Học viên";
-              const ini = n.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
-              return (
-                <button
-                  key={p.user_id}
-                  onClick={() => setActivePeer(p)}
-                  className="w-full flex items-center gap-2 p-2 rounded-md hover:bg-muted text-left"
-                >
-                  <div className="relative shrink-0">
-                    <Avatar className="h-9 w-9">
-                      {p.avatar_url && <AvatarImage src={p.avatar_url} alt={n} />}
-                      <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs">
-                        {ini}
-                      </AvatarFallback>
-                    </Avatar>
-                    {onlineMap.has(p.user_id) && (
-                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-semibold truncate">{n}</div>
-                    <div className="text-[10px] text-muted-foreground">
-                      {onlineMap.has(p.user_id) ? "Đang online" : "Offline"}
-                    </div>
-                  </div>
-                </button>
-              );
-            })
-          )}
+        <div className="flex-1 flex flex-col">
+          {/* Search */}
+          <div className="p-2 border-b">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="🔎 Tìm cuộc trò chuyện..."
+              className="w-full text-xs px-2.5 py-1.5 rounded-md bg-muted/60 focus:bg-background focus:outline-none focus:ring-1 focus:ring-primary/40"
+            />
+          </div>
+          <div className="flex-1 overflow-y-auto p-2 max-h-72">
+            {recent.length === 0 ? (
+              <div className="text-center text-xs text-muted-foreground p-6">
+                Chưa có cuộc trò chuyện nào.
+                <br />Bấm "Nhắn tin" cạnh bạn online phía trên để bắt đầu nhé!
+              </div>
+            ) : (
+              recent
+                .filter((p) => {
+                  if (!search.trim()) return true;
+                  const q = search.toLowerCase();
+                  return (p.full_name ?? "").toLowerCase().includes(q) || p.last_message.toLowerCase().includes(q);
+                })
+                .map((p) => {
+                  const n = p.full_name?.trim() || "Học viên";
+                  const ini = n.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
+                  const preview = (p.last_from_me ? "Bạn: " : "") + p.last_message;
+                  return (
+                    <button
+                      key={p.user_id}
+                      onClick={() => setActivePeer(p)}
+                      className="w-full flex items-center gap-2 p-2 rounded-md hover:bg-muted text-left"
+                    >
+                      <div className="relative shrink-0">
+                        <Avatar className="h-10 w-10">
+                          {p.avatar_url && <AvatarImage src={p.avatar_url} alt={n} />}
+                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs">
+                            {ini}
+                          </AvatarFallback>
+                        </Avatar>
+                        {onlineMap.has(p.user_id) && (
+                          <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className={`text-sm truncate ${p.unread > 0 ? "font-bold" : "font-semibold"}`}>{n}</span>
+                          <span className="text-[10px] text-muted-foreground shrink-0">{formatTime(p.last_at)}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className={`text-[11px] truncate ${p.unread > 0 ? "text-foreground font-medium" : "text-muted-foreground"}`}>
+                            {preview}
+                          </span>
+                          {p.unread > 0 && (
+                            <span className="text-[10px] font-bold bg-rose-500 text-white px-1.5 py-0.5 rounded-full shrink-0">
+                              {p.unread}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })
+            )}
+          </div>
         </div>
       ) : (
         <>
@@ -270,25 +343,63 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
                 <p className="text-xs">Gửi tin nhắn đầu tiên 👋</p>
               </div>
             ) : (
-              messages.map((m) => {
+              messages.map((m, i) => {
                 const mine = m.sender_id === currentUserId;
+                const prev = messages[i - 1];
+                const showTime = !prev || new Date(m.created_at).getTime() - new Date(prev.created_at).getTime() > 5 * 60 * 1000;
+                const isLastMine = mine && i === messages.length - 1;
                 return (
-                  <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-                    <div
-                      className={`max-w-[80%] px-3 py-1.5 rounded-2xl text-sm whitespace-pre-wrap break-words ${
-                        mine
-                          ? "bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-br-sm"
-                          : "bg-background border rounded-bl-sm"
-                      }`}
-                    >
-                      {m.content}
+                  <div key={m.id}>
+                    {showTime && (
+                      <div className="text-center text-[10px] text-muted-foreground my-1">{formatTime(m.created_at)}</div>
+                    )}
+                    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+                      <div
+                        className={`max-w-[80%] px-3 py-1.5 rounded-2xl text-sm whitespace-pre-wrap break-words ${
+                          mine
+                            ? "bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-br-sm"
+                            : "bg-background border rounded-bl-sm"
+                        }`}
+                      >
+                        {m.content}
+                      </div>
                     </div>
+                    {isLastMine && (
+                      <div className="text-right text-[10px] text-muted-foreground mt-0.5 pr-1">
+                        {m.read_at ? "✓✓ Đã xem" : m.id.startsWith("tmp-") ? "Đang gửi..." : "✓ Đã gửi"}
+                      </div>
+                    )}
                   </div>
                 );
               })
             )}
           </div>
-          <div className="border-t p-2 flex items-end gap-2 bg-background">
+
+          {/* Quick emoji bar */}
+          {showEmoji && (
+            <div className="border-t bg-muted/40 px-2 py-1.5 flex flex-wrap gap-1">
+              {QUICK_EMOJIS.map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  onClick={() => setDraft((d) => d + e)}
+                  className="text-lg hover:scale-125 transition-transform"
+                >
+                  {e}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="border-t p-2 flex items-end gap-1.5 bg-background">
+            <button
+              type="button"
+              onClick={() => setShowEmoji((v) => !v)}
+              className="shrink-0 h-9 w-9 rounded-md hover:bg-muted text-lg"
+              aria-label="Emoji"
+            >
+              😊
+            </button>
             <Textarea
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
@@ -312,8 +423,12 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
               {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </Button>
           </div>
+          <div className="px-3 pb-1.5 text-[10px] text-muted-foreground">
+            {draft.length}/2000 · Enter để gửi, Shift+Enter xuống dòng
+          </div>
         </>
       )}
+
     </Card>
   );
 }

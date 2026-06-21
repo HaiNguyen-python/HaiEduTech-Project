@@ -312,12 +312,7 @@ export default function YourCorner() {
                   setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
                 }
               />
-              <Messenger
-                currentUserId={userId}
-                activePeer={chatPeer}
-                setActivePeer={setChatPeer}
-                onlineUsers={onlineUsers}
-              />
+
 
               <Card className="p-5 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm sticky top-24 space-y-5">
 
@@ -406,6 +401,14 @@ export default function YourCorner() {
                   "Học thông minh - Dẫn đầu kỷ nguyên số" 💙💚
                 </div>
               </Card>
+
+              <Messenger
+                currentUserId={userId}
+                activePeer={chatPeer}
+                setActivePeer={setChatPeer}
+                onlineUsers={onlineUsers}
+              />
+
             </aside>
           </div>
         )}
