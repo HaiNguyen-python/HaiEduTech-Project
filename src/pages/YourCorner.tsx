@@ -300,6 +300,42 @@ export default function YourCorner() {
                   )}
                 </div>
 
+                {/* Top contributors this week */}
+                <div>
+                  <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
+                    <Crown className="w-4 h-4 text-amber-500" /> Top đóng góp 7 ngày
+                  </h3>
+                  {topContributors.length === 0 ? (
+                    <p className="text-xs text-muted-foreground">Chưa có ai. Hãy là người đầu tiên! 🚀</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {topContributors.map((c, i) => {
+                        const medal = ["🥇", "🥈", "🥉"][i] ?? `#${i + 1}`;
+                        const name = c.user?.full_name?.trim() || "Học viên";
+                        const initial = name.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
+                        return (
+                          <li key={c.user?.id ?? i} className="flex items-center gap-2">
+                            <span className="text-base w-6 text-center">{medal}</span>
+                            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs font-bold flex items-center justify-center overflow-hidden shrink-0">
+                              {c.user?.avatar_url ? (
+                                <img src={c.user.avatar_url} alt={name} className="w-full h-full object-cover" />
+                              ) : (
+                                initial
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-xs font-semibold truncate">{name}</div>
+                              <div className="text-[10px] text-muted-foreground">
+                                {c.posts} bài · {c.pts} điểm
+                              </div>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+
                 <div>
                   <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
                     <Flame className="w-4 h-4 text-orange-500" /> Hoạt động cộng đồng
