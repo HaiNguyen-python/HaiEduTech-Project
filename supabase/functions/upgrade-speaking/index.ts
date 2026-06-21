@@ -104,7 +104,7 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: "google/gemini-2.5-flash-lite",
           temperature: 0.2,
           messages: [
             { role: "system", content: systemPrompt },
@@ -116,7 +116,7 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", 0, "error", aborted ? "timeout" : "network");
+      await logUsage("upgrade-speaking", "gemini-2.5-flash-lite", "english", 0, "error", aborted ? "timeout" : "network");
       return new Response(
         JSON.stringify({ error: aborted ? "Upgrade timed out. Please try again." : "AI service unreachable. Please try again." }),
         { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -126,7 +126,7 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
 
     if (!response.ok) {
       const status = response.status;
-      await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", 0, "error", `HTTP ${status}`);
+      await logUsage("upgrade-speaking", "gemini-2.5-flash-lite", "english", 0, "error", `HTTP ${status}`);
       if (status === 429) {
         return new Response(
           JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }),
@@ -172,14 +172,14 @@ Upgrade the student's answer to Band 8.0+ following the rules. Return JSON only.
     }
 
     if (!upgradedAnswer) {
-      await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", tokensUsed, "empty");
+      await logUsage("upgrade-speaking", "gemini-2.5-flash-lite", "english", tokensUsed, "empty");
       return new Response(
         JSON.stringify({ error: "Could not generate upgrade. Please try again." }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    await logUsage("upgrade-speaking", "gemini-2.5-flash", "english", tokensUsed, "success");
+    await logUsage("upgrade-speaking", "gemini-2.5-flash-lite", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify({ upgradedAnswer }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

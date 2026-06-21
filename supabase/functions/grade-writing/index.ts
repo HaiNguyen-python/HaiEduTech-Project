@@ -76,7 +76,7 @@ Rules:
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: "google/gemini-2.5-flash-lite",
           temperature: 0.2,
           max_tokens: 1500,
           response_format: { type: "json_object" },
@@ -89,7 +89,7 @@ Rules:
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("grade-writing", "gemini-2.5-flash", "english", 0, "error", aborted ? "timeout" : "network");
+      await logUsage("grade-writing", "gemini-2.5-flash-lite", "english", 0, "error", aborted ? "timeout" : "network");
       return new Response(
         JSON.stringify({ error: aborted ? "Grading timed out. Please try again." : "AI service unreachable. Please try again." }),
         { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -100,7 +100,7 @@ Rules:
     if (!response.ok) {
       const statusCode = response.status;
       const errText = await response.text();
-      await logUsage("grade-writing", "gemini-2.5-flash", "english", 0, "error", `HTTP ${statusCode}`);
+      await logUsage("grade-writing", "gemini-2.5-flash-lite", "english", 0, "error", `HTTP ${statusCode}`);
       if (statusCode === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -132,11 +132,11 @@ Rules:
       }
     } catch {
       console.error("Failed to parse AI response:", content);
-      await logUsage("grade-writing", "gemini-2.5-flash", "english", tokensUsed, "parse_error");
+      await logUsage("grade-writing", "gemini-2.5-flash-lite", "english", tokensUsed, "parse_error");
       throw new Error("Failed to parse grading result");
     }
 
-    await logUsage("grade-writing", "gemini-2.5-flash", "english", tokensUsed, "success");
+    await logUsage("grade-writing", "gemini-2.5-flash-lite", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

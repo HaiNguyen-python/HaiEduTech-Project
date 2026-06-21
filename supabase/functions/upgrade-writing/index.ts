@@ -72,7 +72,7 @@ OUTPUT JSON ONLY in this exact shape (no markdown fences):
         signal: controller.signal,
         headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: "google/gemini-2.5-flash-lite",
           temperature: 0.2,
           messages: [
             { role: "system", content: systemPrompt },
@@ -84,7 +84,7 @@ OUTPUT JSON ONLY in this exact shape (no markdown fences):
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("upgrade-writing", "gemini-2.5-flash", "english", 0, "error", aborted ? "timeout" : "network");
+      await logUsage("upgrade-writing", "gemini-2.5-flash-lite", "english", 0, "error", aborted ? "timeout" : "network");
       return new Response(
         JSON.stringify({ error: aborted ? "Upgrade timed out. Please try again." : "AI service unreachable. Please try again." }),
         { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -94,7 +94,7 @@ OUTPUT JSON ONLY in this exact shape (no markdown fences):
 
     if (!response.ok) {
       const status = response.status;
-      await logUsage("upgrade-writing", "gemini-2.5-flash", "english", 0, "error", `HTTP ${status}`);
+      await logUsage("upgrade-writing", "gemini-2.5-flash-lite", "english", 0, "error", `HTTP ${status}`);
       if (status === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }),
           { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -129,12 +129,12 @@ OUTPUT JSON ONLY in this exact shape (no markdown fences):
     if (!upgraded) upgraded = content.replace(/```[a-z]*\s*/gi, "").replace(/```/g, "").trim();
 
     if (!upgraded) {
-      await logUsage("upgrade-writing", "gemini-2.5-flash", "english", tokensUsed, "empty");
+      await logUsage("upgrade-writing", "gemini-2.5-flash-lite", "english", tokensUsed, "empty");
       return new Response(JSON.stringify({ error: "Could not generate upgrade. Please try again." }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    await logUsage("upgrade-writing", "gemini-2.5-flash", "english", tokensUsed, "success");
+    await logUsage("upgrade-writing", "gemini-2.5-flash-lite", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify({ upgraded }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
