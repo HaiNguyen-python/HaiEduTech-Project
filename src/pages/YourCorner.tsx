@@ -445,10 +445,10 @@ export default function YourCorner() {
 
                 <div>
                   <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-                    <Hash className="w-4 h-4 text-purple-500" /> Đang hot 7 ngày
+                    <Hash className="w-4 h-4 text-purple-500" /> {t("Đang hot 7 ngày", "Trending 7 days")}
                   </h3>
                   {trendingTags.length === 0 ? (
-                    <p className="text-xs text-muted-foreground">Chưa có hashtag nào. Hãy bắt đầu với #IELTS, #Python ✨</p>
+                    <p className="text-xs text-muted-foreground">{t("Chưa có hashtag nào. Hãy bắt đầu với #IELTS, #Python ✨", "No hashtags yet. Start with #IELTS, #Python ✨")}</p>
                   ) : (
                     <ul className="space-y-1.5">
                       {trendingTags.map(({ tag, count }) => (
