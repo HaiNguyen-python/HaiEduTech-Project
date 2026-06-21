@@ -86,6 +86,20 @@ export default function YourCorner() {
     return list;
   }, [posts, tab, subjectFilter, tagFilter]);
 
+  // Top contributors this week (by likes + comments received on their posts)
+  const topContributors = useMemo(() => {
+    const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const score = new Map<string, { user: typeof posts[number]["author"]; pts: number; posts: number }>();
+    posts.forEach((p) => {
+      if (new Date(p.created_at).getTime() < cutoff || !p.author) return;
+      const cur = score.get(p.user_id) ?? { user: p.author, pts: 0, posts: 0 };
+      cur.pts += p.reaction_count * 2 + p.comment_count + 1;
+      cur.posts += 1;
+      score.set(p.user_id, cur);
+    });
+    return Array.from(score.values()).sort((a, b) => b.pts - a.pts).slice(0, 5);
+  }, [posts]);
+
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50/40 via-background to-emerald-50/40 dark:from-blue-950/20 dark:via-background dark:to-emerald-950/20">
       <SEO
