@@ -401,6 +401,14 @@ export default function YourCorner() {
                   "Học thông minh - Dẫn đầu kỷ nguyên số" 💙💚
                 </div>
               </Card>
+
+              <Messenger
+                currentUserId={userId}
+                activePeer={chatPeer}
+                setActivePeer={setChatPeer}
+                onlineUsers={onlineUsers}
+              />
+
             </aside>
           </div>
         )}
