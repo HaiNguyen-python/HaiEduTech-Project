@@ -212,18 +212,21 @@ export default function YourCorner() {
 
 
         {!authReady ? (
-          <div className="text-center text-muted-foreground py-12">Đang tải...</div>
+          <div className="text-center text-muted-foreground py-12">{t("Đang tải...", "Loading...")}</div>
         ) : !userId ? (
           <Card className="max-w-md mx-auto p-8 text-center space-y-4 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/20 shadow-xl">
             <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center shadow-lg">
               <Users className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-xl font-bold">Đăng nhập để tham gia</h2>
+            <h2 className="text-xl font-bold">{t("Đăng nhập để tham gia", "Sign in to join")}</h2>
             <p className="text-muted-foreground text-sm">
-              Your Corner là cộng đồng dành riêng cho học viên HaiEduTech. Đăng nhập để xem và chia sẻ bài viết.
+              {t(
+                "Your Corner là cộng đồng dành riêng cho học viên HaiEduTech. Đăng nhập để xem và chia sẻ bài viết.",
+                "Your Corner is an exclusive community for HaiEduTech students. Sign in to view and share posts."
+              )}
             </p>
             <Button asChild className="bg-gradient-to-r from-blue-600 to-emerald-600 text-white shadow-md hover:shadow-lg transition-shadow">
-              <Link to="/auth">Đăng nhập ngay</Link>
+              <Link to="/auth">{t("Đăng nhập ngay", "Sign in now")}</Link>
             </Button>
           </Card>
         ) : (
