@@ -440,13 +440,15 @@ export default function YourCorner() {
 
             {/* Right sidebar */}
             <aside className="hidden lg:block space-y-4">
-              <OnlineUsersPanel
-                users={onlineUsers}
-                currentUserId={userId}
-                onOpenChat={(u: OnlineUser) =>
-                  setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
-                }
-              />
+              <Suspense fallback={null}>
+                <OnlineUsersPanel
+                  users={onlineUsers}
+                  currentUserId={userId}
+                  onOpenChat={(u: OnlineUser) =>
+                    setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
+                  }
+                />
+              </Suspense>
 
 
               <Card className="p-5 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm sticky top-24 space-y-5">
