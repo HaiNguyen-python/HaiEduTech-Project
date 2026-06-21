@@ -411,16 +411,16 @@ export default function YourCorner() {
 
               {loading && posts.length === 0 ? (
                 <Card className="p-8 text-center text-muted-foreground backdrop-blur-md bg-white/70 dark:bg-card/70">
-                  Đang tải bài viết...
+                  {t("Đang tải bài viết...", "Loading posts...")}
                 </Card>
               ) : filtered.length === 0 ? (
                 <Card className="p-10 text-center space-y-3 backdrop-blur-md bg-white/75 dark:bg-card/75 border-dashed border-2 border-primary/20">
                   <div className="text-5xl">{tab === "saved" ? "🔖" : "✍️"}</div>
                   <p className="font-semibold">
-                    {tab === "saved" ? "Chưa lưu bài nào" : "Chưa có bài viết phù hợp"}
+                    {tab === "saved" ? t("Chưa lưu bài nào", "No saved posts yet") : t("Chưa có bài viết phù hợp", "No matching posts yet")}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {tab === "saved" ? "Bấm Lưu trên bài bất kỳ để xem lại sau." : "Hãy là người đầu tiên chia sẻ với cộng đồng!"}
+                    {tab === "saved" ? t("Bấm Lưu trên bài bất kỳ để xem lại sau.", "Tap Save on any post to revisit it later.") : t("Hãy là người đầu tiên chia sẻ với cộng đồng!", "Be the first to share with the community!")}
                   </p>
                 </Card>
               ) : (
