@@ -305,7 +305,15 @@ export default function YourCorner() {
 
             {/* Right sidebar */}
             <aside className="hidden lg:block space-y-4">
+              <OnlineUsersPanel
+                users={onlineUsers}
+                currentUserId={userId}
+                onOpenChat={(u: OnlineUser) =>
+                  setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
+                }
+              />
               <Card className="p-5 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm sticky top-24 space-y-5">
+
                 <div>
                   <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
                     <Hash className="w-4 h-4 text-purple-500" /> Đang hot 7 ngày
