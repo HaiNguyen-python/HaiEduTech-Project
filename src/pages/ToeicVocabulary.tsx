@@ -558,7 +558,7 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
             >
               {selected !== null && i === q.correct && <CheckCircle className="inline w-5 h-5 mr-2" />}
               {selected !== null && i === selected && i !== q.correct && <XCircle className="inline w-5 h-5 mr-2" />}
-              {opt}
+              {String.fromCharCode(65 + i)}. {opt}
             </button>
           );
         })}

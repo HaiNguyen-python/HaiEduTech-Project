@@ -244,7 +244,7 @@ const YkiB1Dashboard = () => {
                                 }`}>
                                 {right && <CheckCircle2 className="w-3 h-3 text-emerald-500" />}
                                 {wrong && <XCircle className="w-3 h-3 text-red-500" />}
-                                {opt}
+                                {String.fromCharCode(65 + oi)}. {opt}
                               </button>
                             );
                           })}
@@ -342,7 +342,7 @@ const YkiB1Dashboard = () => {
                                 }`}>
                                 {right && <CheckCircle2 className="w-3 h-3 text-emerald-500" />}
                                 {wrong && <XCircle className="w-3 h-3 text-red-500" />}
-                                {opt}
+                                {String.fromCharCode(65 + oi)}. {opt}
                               </button>
                             );
                           })}

@@ -355,7 +355,7 @@ const ToeicLectureView = () => {
                           }`}
                           disabled={quizSubmitted}
                         >
-                          {opt}
+                          {String.fromCharCode(65 + oi)}. {opt}
                           {quizSubmitted && isCorrect && <CheckCircle className="w-4 h-4 inline ml-2" />}
                           {quizSubmitted && selected && !isCorrect && <XCircle className="w-4 h-4 inline ml-2" />}
                         </button>

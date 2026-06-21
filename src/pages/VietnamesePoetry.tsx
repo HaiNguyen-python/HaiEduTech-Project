@@ -192,7 +192,7 @@ const VietnamesePoetry = () => {
                               >
                                 {quizSubmitted && isCorrectOpt && <CheckCircle className="w-3.5 h-3.5 shrink-0" />}
                                 {quizSubmitted && selected && !isCorrectOpt && <XCircle className="w-3.5 h-3.5 shrink-0" />}
-                                {opt}
+                                {String.fromCharCode(65 + oi)}. {opt}
                               </button>
                             );
                           })}

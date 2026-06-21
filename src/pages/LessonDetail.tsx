@@ -261,7 +261,7 @@ const LessonDetail = () => {
                                 <button key={oi} onClick={() => handleAnswer(qi, oi)} className={cls}>
                                   {showResults && isCorrect && <CheckCircle className="w-3.5 h-3.5 inline mr-1.5" />}
                                   {showResults && selected && !isCorrect && <XCircle className="w-3.5 h-3.5 inline mr-1.5" />}
-                                  {opt}
+                                  {String.fromCharCode(65 + oi)}. {opt}
                                 </button>
                               );
                             })}
@@ -314,7 +314,7 @@ const LessonDetail = () => {
                             }
                             return (
                               <button key={oi} disabled={showChallengeResult} onClick={() => { setChallengeAnswer(oi); setChallengeActive(false); setShowChallengeResult(true); }} className={cls}>
-                                {opt}
+                                {String.fromCharCode(65 + oi)}. {opt}
                               </button>
                             );
                           })}

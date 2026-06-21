@@ -687,7 +687,7 @@ const DsaCurriculum = () => {
                                           }
                                           className={`text-left text-sm px-3 py-2 rounded-lg border transition-all ${cls}`}
                                         >
-                                          {opt}
+                                          {String.fromCharCode(65 + idx)}. {opt}
                                         </button>
                                       );
                                     })}

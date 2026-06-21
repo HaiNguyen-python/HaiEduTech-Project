@@ -217,7 +217,7 @@ const SatDailyWarmup = () => {
                     >
                       {submitted && isCorrect && <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0" />}
                       {submitted && picked && !isCorrect && <XCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />}
-                      <span>{opt}</span>
+                      <span>{String.fromCharCode(65 + oi)}. {opt}</span>
                     </button>
                   );
                 })}
