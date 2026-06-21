@@ -3,15 +3,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ImagePlus, Loader2, Send, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
   userId: string;
   onPosted: () => void;
+  userName?: string | null;
+  userAvatar?: string | null;
 }
 
-export default function PostComposer({ userId, onPosted }: Props) {
+export default function PostComposer({ userId, onPosted, userName, userAvatar }: Props) {
+
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -72,15 +76,27 @@ export default function PostComposer({ userId, onPosted }: Props) {
     }
   };
 
+  const displayName = userName?.trim() || "Học viên";
+  const initials = displayName.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
+
   return (
-    <Card className="p-4 space-y-3 border-primary/20 shadow-sm">
-      <Textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Bạn đang nghĩ gì? Chia sẻ kỹ năng, bài viết, hành trình học..."
-        className="min-h-[100px] resize-none border-0 focus-visible:ring-0 text-base p-0"
-        maxLength={5000}
-      />
+    <Card className="p-5 space-y-3 backdrop-blur-md bg-white/85 dark:bg-card/85 border-primary/20 shadow-lg hover:shadow-xl transition-shadow">
+      <div className="flex items-start gap-3">
+        <Avatar className="h-11 w-11 ring-2 ring-primary/20">
+          {userAvatar && <AvatarImage src={userAvatar} alt={displayName} />}
+          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white font-semibold">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
+        <Textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder={`${displayName} ơi, hôm nay bạn học được gì? Chia sẻ với cả lớp nhé ✨`}
+          className="min-h-[90px] resize-none border-0 focus-visible:ring-0 text-base p-0 bg-transparent"
+          maxLength={5000}
+        />
+      </div>
+
 
       {imagePreview && (
         <div className="relative inline-block">
@@ -118,11 +134,12 @@ export default function PostComposer({ userId, onPosted }: Props) {
         <Button
           onClick={submit}
           disabled={submitting || !content.trim()}
-          className="bg-gradient-to-r from-blue-600 to-emerald-600 text-white"
+          className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white shadow-md disabled:opacity-50"
         >
           {submitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
           Đăng bài
         </Button>
+
       </div>
       <p className="text-xs text-muted-foreground text-right">{content.length}/5000</p>
     </Card>

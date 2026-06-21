@@ -135,7 +135,7 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
   const timeAgo = formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: vi });
 
   return (
-    <Card className="p-4 space-y-3 shadow-sm hover:shadow-md transition-shadow">
+    <Card className="p-5 space-y-3 backdrop-blur-md bg-white/85 dark:bg-card/85 border-primary/10 shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
