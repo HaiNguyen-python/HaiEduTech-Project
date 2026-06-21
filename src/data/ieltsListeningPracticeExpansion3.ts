@@ -39,6 +39,26 @@ export const ieltsListeningPracticeSetsExpansion3: ListeningPracticeSet[] = [
       "Caller: Could we have a quiet room, please?\n" +
       "Receptionist: Of course. We'll book you into the garden wing. Your confirmation number is B-K-four-seven-two-nine.",
     rate: 0.78,
+    formTitle: "LAKESIDE HOTEL - BOOKING FORM",
+    formLayout:
+      "GUEST DETAILS\n" +
+      "  First name:           Daniel\n" +
+      "  Surname:              {1}\n" +
+      "\n" +
+      "STAY DETAILS\n" +
+      "  Check-in date:        {2} October\n" +
+      "  Number of nights:     {3}\n" +
+      "  Room type:            {4}\n" +
+      "  Price per night:      £ {5}\n" +
+      "  Breakfast option:     {6}\n" +
+      "\n" +
+      "CONTACT\n" +
+      "  Phone (last 3 digits): {7}\n" +
+      "  Email starts with:     {8} dot hughes\n" +
+      "\n" +
+      "SPECIAL REQUEST & REF\n" +
+      "  Request: a {9} room\n" +
+      "  Confirmation: BK {10}",
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Hughes" },
       { type: "fill-in", prompt: "Check-in date: ___ October", answer: "18" },

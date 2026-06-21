@@ -43,6 +43,26 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       "Caller: And how many people will be in the class?\n" +
       "Receptionist: We cap each class at six participants.",
     rate: 0.85,
+    formTitle: "SUNSHINE COOKING SCHOOL - BOOKING FORM",
+    formLayout:
+      "STUDENT\n" +
+      "  First name:       Daniel\n" +
+      "  Surname:          {1}\n" +
+      "\n" +
+      "CLASS DETAILS\n" +
+      "  Cooking style:    {2}\n" +
+      "  Date:             Saturday {3} June\n" +
+      "  Duration:         {4} hours (10 a.m. - 1 p.m.)\n" +
+      "  Cost per person:  £ {5}\n" +
+      "  Bring:            an {6}\n" +
+      "  Class capacity:   {10} participants\n" +
+      "\n" +
+      "LOCATION\n" +
+      "  Bridge Street - 2 min from public {7}\n" +
+      "\n" +
+      "DISCOUNT & ALLERGIES\n" +
+      "  Discount code:    {8} (10% off)\n" +
+      "  Allergy noted:    {9}",
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Foster" },
       { type: "fill-in", prompt: "Cooking style chosen: ___", answer: "Italian" },

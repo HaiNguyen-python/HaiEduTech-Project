@@ -32,6 +32,24 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
       "Caller: I'd like to start with the Tuesday evening yoga session, please.\n" +
       "Receptionist: Perfect. We'll see you then.",
     rate: 0.85,
+    formTitle: "RIVERSIDE SPORTS CENTRE - MEMBERSHIP FORM",
+    formLayout:
+      "STAFF HANDLING CALL\n" +
+      "  Receptionist:     {1}\n" +
+      "\n" +
+      "MEMBER DETAILS\n" +
+      "  First name:       Thomas\n" +
+      "  Surname:          {2}\n" +
+      "  Date of birth:    3 November {3}\n" +
+      "  Address:          26 {8} Avenue, Leeds\n" +
+      "  Postcode:         {9}\n" +
+      "\n" +
+      "MEMBERSHIP\n" +
+      "  Type:             {4}\n" +
+      "  Monthly fee:      £ {5}\n" +
+      "  Classes/week:     {6}\n" +
+      "  Also includes:    gym and {7}\n" +
+      "  First class:      {10} (Tuesday evening)",
     questions: [
       { type: "fill-in", prompt: "Receptionist's name: ___", answer: "Megan" },
       { type: "fill-in", prompt: "Surname: ___", answer: "Reilly" },

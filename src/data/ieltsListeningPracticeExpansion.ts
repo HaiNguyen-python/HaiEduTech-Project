@@ -32,6 +32,25 @@ export const ieltsListeningPracticeSetsExpansion: ListeningPracticeSet[] = [
       "Agent: Perfect. The account comes with a free overdraft of up to one thousand five hundred pounds in the first year.\n" +
       "Student: That sounds useful.\n" +
       "Agent: We'll also send you a debit card within seven working days.",
+    formTitle: "NORTH BANK - STUDENT ACCOUNT APPLICATION",
+    formLayout:
+      "APPLICANT\n" +
+      "  First name:       {1}\n" +
+      "  Surname:          {2}\n" +
+      "  Date of birth:    14 {3} 2003\n" +
+      "\n" +
+      "STUDIES\n" +
+      "  Course:           {4} Engineering\n" +
+      "  University:       {5} University\n" +
+      "  Course length:    {6} years\n" +
+      "\n" +
+      "ADDRESS & CONTACT\n" +
+      "  Flat:             {7}, Maple Court\n" +
+      "  Postcode:         {8}\n" +
+      "\n" +
+      "ACCOUNT BENEFITS\n" +
+      "  Free overdraft (year 1):   £ {9}\n" +
+      "  Debit card delivery:       {10} working days",
     questions: [
       { type: "fill-in", prompt: "First name: ___", answer: "Anna" },
       { type: "fill-in", prompt: "Surname: ___", answer: "Petrov" },

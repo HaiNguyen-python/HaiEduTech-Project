@@ -719,8 +719,87 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
           </div>
         )}
 
+        {/* Cambridge-style form / notes layout (Section 1) */}
+        {s.formLayout && (
+          <div className="rounded-lg border-2 border-emerald-600/40 bg-amber-50/40 dark:bg-amber-950/10 overflow-hidden shadow-sm">
+            {s.formTitle && (
+              <div className="bg-emerald-700/90 text-white px-4 py-2 text-xs sm:text-sm font-bold tracking-wider uppercase">
+                {s.formTitle}
+              </div>
+            )}
+            <div className="p-4 sm:p-5 font-mono text-[13px] sm:text-sm leading-relaxed text-foreground space-y-1.5">
+              {s.formLayout.split("\n").map((line, li) => {
+                // Split each line by {N} placeholders so we can render an inline input.
+                const parts = line.split(/(\{\d+\})/g);
+                return (
+                  <div key={li} className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
+                    {parts.map((part, pi) => {
+                      const m = part.match(/^\{(\d+)\}$/);
+                      if (!m) {
+                        // Preserve indentation by rendering &nbsp; for leading spaces.
+                        return (
+                          <span key={pi} className="whitespace-pre-wrap">
+                            {part}
+                          </span>
+                        );
+                      }
+                      const qIdx = parseInt(m[1], 10) - 1;
+                      const q = s.questions[qIdx];
+                      if (!q || q.type !== "fill-in") {
+                        return <span key={pi} className="text-rose-600">[{part}]</span>;
+                      }
+                      const correct = submitted && isCorrect(qIdx);
+                      const wrong = submitted && !isCorrect(qIdx);
+                      return (
+                        <span key={pi} className="inline-flex items-center gap-1">
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 dark:bg-emerald-900/30 rounded-full w-5 h-5 inline-flex items-center justify-center">
+                            {qIdx + 1}
+                          </span>
+                          <Input
+                            value={answers[qIdx] ?? ""}
+                            onChange={(e) => setAnswers(a => ({ ...a, [qIdx]: e.target.value }))}
+                            disabled={submitted}
+                            placeholder="..........."
+                            className={cn(
+                              "h-7 text-sm w-32 sm:w-40 px-2 border-0 border-b-2 rounded-none bg-transparent focus-visible:ring-0 focus-visible:border-emerald-600",
+                              correct && "border-emerald-500 text-emerald-700",
+                              wrong && "border-rose-500 text-rose-700",
+                              !submitted && "border-emerald-700/40"
+                            )}
+                          />
+                        </span>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+              {submitted && (
+                <div className="mt-3 pt-3 border-t border-emerald-700/30 text-xs space-y-1 font-sans">
+                  {s.questions.map((q, i) => {
+                    if (q.type !== "fill-in") return null;
+                    const ok = isCorrect(i);
+                    if (ok) return null;
+                    return (
+                      <div key={i} className="flex items-start gap-2 text-rose-700 dark:text-rose-300">
+                        <XCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                        <span>
+                          <strong>Q{i + 1}:</strong> {t("Đáp án đúng", "Correct answer")}:{" "}
+                          <strong className="font-mono">{q.answer}</strong>
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         <div className="space-y-3">
-          {s.questions.map((q, i) => {
+          {(s.formLayout
+            ? s.questions.map((q, i) => ({ q, i })).filter(({ q }) => q.type !== "fill-in")
+            : s.questions.map((q, i) => ({ q, i }))
+          ).map(({ q, i }) => {
             const correct = submitted && isCorrect(i);
             const wrong = submitted && !isCorrect(i);
             return (

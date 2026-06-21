@@ -45,6 +45,26 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Customer: Yes please, a small one.\n" +
       "Receptionist: Perfect. Your membership number is R-F-three-eight-one-two.",
     rate: 0.78,
+    formTitle: "RIVERSIDE FITNESS - MEMBERSHIP FORM",
+    formLayout:
+      "MEMBER\n" +
+      "  First name:       Megan\n" +
+      "  Surname:          {1}\n" +
+      "  Date of birth:    {2} March 1998\n" +
+      "\n" +
+      "MEMBERSHIP\n" +
+      "  Plan:                  {3}\n" +
+      "  Monthly fee:           £ {4}\n" +
+      "  Payment method:        {5}\n" +
+      "\n" +
+      "REFERRAL & HEALTH\n" +
+      "  Heard about gym from:  a {6}\n" +
+      "  Past health issue:     {7} trouble\n" +
+      "\n" +
+      "CONTACT & EXTRAS\n" +
+      "  Phone (last 4):        {8}\n" +
+      "  Locker size:           {9}\n" +
+      "  Membership number:     RF {10}",
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Carter" },
       { type: "fill-in", prompt: "Date of birth: ___ March 1998", answer: "5" },
@@ -90,6 +110,24 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Learner: The Eastfield centre, please.\n" +
       "Instructor: All booked. Your reference is G-W-five-oh-six-three.",
     rate: 0.78,
+    formTitle: "GREENWAY DRIVING SCHOOL - LESSON BOOKING",
+    formLayout:
+      "LEARNER\n" +
+      "  First name:                Thomas\n" +
+      "  Surname:                   {1}\n" +
+      "  Age:                       {2}\n" +
+      "  Provisional licence:       got it {3} month\n" +
+      "\n" +
+      "LESSONS\n" +
+      "  Car type:                  {4}\n" +
+      "  Cost per hour:             £ {5}\n" +
+      "  Block of 10 lessons:       £ {6}\n" +
+      "  First lesson day:          {7} (at 9 a.m.)\n" +
+      "  Pick-up address:           {8} Street\n" +
+      "\n" +
+      "TEST & REF\n" +
+      "  Test centre:               {9}\n" +
+      "  Reference:                 GW {10}",
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Walker" },
       { type: "fill-in", prompt: "Age: ___", answer: "19" },
@@ -135,6 +173,23 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Student: It's mainly for travel - I'm planning a trip to Argentina.\n" +
       "Staff: Wonderful. Your student number will be B-L-seven-two-nine-four.",
     rate: 0.78,
+    formTitle: "BRIGHTSIDE LANGUAGES - REGISTRATION FORM",
+    formLayout:
+      "STUDENT\n" +
+      "  First name:           Aisha\n" +
+      "  Surname:              {1}\n" +
+      "  Nationality:          {8}\n" +
+      "  Address:              42 {9} Avenue, Manchester\n" +
+      "\n" +
+      "COURSE\n" +
+      "  Language:             Spanish\n" +
+      "  Recommended level:    {2}\n" +
+      "  Class days:           Tuesdays and {3}\n" +
+      "  Class finishes:       {4} p.m.\n" +
+      "  Course length:        {5} weeks\n" +
+      "  Course fee:           £ {6} (incl. materials)\n" +
+      "  Payment chosen:       {7} instalments\n" +
+      "  Reason for study:     {10}",
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Khan" },
       { type: "fill-in", prompt: "Recommended level: ___", answer: "pre-intermediate" },
@@ -180,6 +235,24 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Tenant: When could I view it?\n" +
       "Agent: Tomorrow at four works. The reference number is E-L-three-three-seven-one.",
     rate: 0.78,
+    formTitle: "BROOKLINE LETTINGS - RENTAL ENQUIRY",
+    formLayout:
+      "APPLICANT\n" +
+      "  First name:               Robert\n" +
+      "  Surname:                  {1}\n" +
+      "  Occupation:               {2}\n" +
+      "\n" +
+      "PROPERTY (Elm Road, 2nd floor)\n" +
+      "  Bedrooms:                 {3}\n" +
+      "  Monthly rent:             £ {4} (plus bills)\n" +
+      "  Deposit:                  {5} weeks' rent\n" +
+      "  Pets allowed:             {6}\n" +
+      "  Parking:                  one space at the {7}\n" +
+      "  Tenancy length:           {8} months\n" +
+      "\n" +
+      "VIEWING\n" +
+      "  Day:                      {9} (4 p.m.)\n" +
+      "  Reference number:         EL {10}",
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Singh" },
       { type: "fill-in", prompt: "Occupation: ___", answer: "teacher" },
@@ -227,6 +300,26 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Customer: My sister - her number is oh seven nine, two one three, four eight oh six.\n" +
       "Agent: Perfect. Your policy number is S-G-eight-four-five-two.",
     rate: 0.78,
+    formTitle: "SAFEGO INSURANCE - TRAVEL POLICY APPLICATION",
+    formLayout:
+      "POLICY HOLDER\n" +
+      "  First name:           Emily\n" +
+      "  Surname:              {1}\n" +
+      "\n" +
+      "TRIP\n" +
+      "  Destination:          {2}\n" +
+      "  Length of trip:       {3} days\n" +
+      "  Departure date:       {4} November\n" +
+      "  Extra cover:          {5} sports\n" +
+      "  Total price:          £ {6}\n" +
+      "\n" +
+      "MEDICAL & ITEMS\n" +
+      "  Medical condition:    {7}\n" +
+      "  Item to insure:       a {8}\n" +
+      "  Value of laptop:      £ {9}\n" +
+      "\n" +
+      "POLICY\n" +
+      "  Policy number:        SG {10}",
     questions: [
       { type: "fill-in", prompt: "Surname: ___", answer: "Foster" },
       { type: "fill-in", prompt: "Destination: ___", answer: "Japan" },
@@ -272,6 +365,26 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
       "Parent: My number - oh seven seven, three three nine, five one six four.\n" +
       "Organiser: Perfect. Her camper ID is P-W-two-six-one-eight.",
     rate: 0.78,
+    formTitle: "PINEWOOD SUMMER CAMP - CHILD REGISTRATION",
+    formLayout:
+      "CAMPER\n" +
+      "  First name:             Lily\n" +
+      "  Surname:                {1}\n" +
+      "  Age:                    {2}\n" +
+      "\n" +
+      "WEEK & TIMING\n" +
+      "  Chosen week:            {3} week of August\n" +
+      "  Hours:                  Monday-Friday, 9 a.m. - {4} p.m.\n" +
+      "\n" +
+      "FEES & ACTIVITIES\n" +
+      "  Weekly fee:             £ {5} (lunch incl.)\n" +
+      "  Optional activity:      {6} (Wednesday)\n" +
+      "  Cost of optional:       £ {7}\n" +
+      "\n" +
+      "MEDICAL & GROUP\n" +
+      "  Allergy:                {8}\n" +
+      "  Swim group:             {9}\n" +
+      "  Camper ID:              PW {10}",
     questions: [
       { type: "fill-in", prompt: "Child's surname: ___", answer: "Brooks" },
       { type: "fill-in", prompt: "Age: ___", answer: "10" },
