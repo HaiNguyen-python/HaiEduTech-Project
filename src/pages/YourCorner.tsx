@@ -539,13 +539,15 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              <Messenger
-                currentUserId={userId}
-                activePeer={chatPeer}
-                setActivePeer={setChatPeer}
-                onlineUsers={onlineUsers}
-                directory={mentionables}
-              />
+              <Suspense fallback={null}>
+                <Messenger
+                  currentUserId={userId}
+                  activePeer={chatPeer}
+                  setActivePeer={setChatPeer}
+                  onlineUsers={onlineUsers}
+                  directory={mentionables}
+                />
+              </Suspense>
 
 
             </aside>
