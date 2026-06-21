@@ -15,6 +15,7 @@ export type FeedPost = {
   image_url: string | null;
   subject: string | null;
   mood: string | null;
+  visibility: string | null;
   created_at: string;
   author: FeedAuthor | null;
   reaction_count: number;
@@ -22,6 +23,7 @@ export type FeedPost = {
   comment_count: number;
   bookmarked_by_me: boolean;
 };
+
 
 export function useYourCornerFeed(enabled: boolean) {
   const [posts, setPosts] = useState<FeedPost[]>([]);
