@@ -90,7 +90,7 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
     context: "A guide welcomes visitors to an art gallery. Choose the correct answer for each question.",
     contextVi: "Một hướng dẫn viên giới thiệu phòng tranh. Chọn đáp án đúng.",
     transcript:
-      "Welcome to the Westbrook Art Gallery. My name is Priya, and I'll be looking after the gallery this afternoon.\n" +
+      "Priya: Welcome to the Westbrook Art Gallery. My name is Priya, and I'll be looking after the gallery this afternoon.\n" +
       "The building you're standing in was opened in nineteen ninety-five, although the collection itself dates back more than two hundred years.\n" +
       "Our current exhibition, on the first floor, is called 'Light and Shadow' and focuses entirely on modern photography from Southeast Asia.\n" +
       "A quick note on the rules: photographs are welcome in all rooms, but please keep your flash turned off - flash can damage the older paintings on the ground floor.\n" +

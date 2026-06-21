@@ -525,7 +525,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear an audio guide introducing visitors to an art gallery. Answer the questions.",
     contextVi: "Bạn sẽ nghe audio guide giới thiệu phòng tranh. Trả lời câu hỏi.",
     transcript:
-      "Welcome to the Northgate Art Gallery.\n" +
+      "Curator: Welcome to the Northgate Art Gallery.\n" +
       "Our building was once a textile factory, and it was converted in two thousand and ten.\n" +
       "Today we hold around three thousand works across four floors.\n" +
       "On the ground floor you'll find our permanent collection of modern sculpture.\n" +
@@ -563,7 +563,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear a member of staff briefing visitors at a music festival entrance. Answer the questions.",
     contextVi: "Bạn sẽ nghe nhân viên giới thiệu lễ hội âm nhạc tại cổng. Trả lời câu hỏi.",
     transcript:
-      "Hello everyone and welcome to the Riverstone Music Festival.\n" +
+      "Announcer: Hello everyone and welcome to the Riverstone Music Festival.\n" +
       "This is our seventh year, and we're expecting around twenty-five thousand visitors over the three days.\n" +
       "There are four stages in total - the Main Stage, the Acoustic Tent, the Dance Arena and our new Jazz Stage.\n" +
       "The Jazz Stage is the smallest, with a capacity of just five hundred, so please arrive early.\n" +
