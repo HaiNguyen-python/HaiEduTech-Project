@@ -410,16 +410,6 @@ export default function YourCorner() {
           </div>
         )}
       </main>
-
-      {/* Floating Messenger */}
-      {userId && (
-        <Messenger
-          currentUserId={userId}
-          activePeer={chatPeer}
-          setActivePeer={setChatPeer}
-          onlineUsers={onlineUsers}
-        />
-      )}
     </div>
   );
 }
