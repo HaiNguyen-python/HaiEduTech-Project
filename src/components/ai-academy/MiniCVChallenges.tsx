@@ -101,7 +101,7 @@ const PixelReveal = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        {puzzle.options.map((opt) => {
+        {puzzle.options.map((opt, oi) => {
           const isPicked = picked === opt;
           const isCorrectShown = !!picked && opt === puzzle.label;
           const isWrongPick = isPicked && opt !== puzzle.label;
@@ -120,7 +120,7 @@ const PixelReveal = () => {
                   : "border-border bg-card hover:bg-muted text-foreground"
               }`}
             >
-              {opt}
+              <span className="mr-1">{String.fromCharCode(65 + oi)}.</span>{opt}
             </motion.button>
           );
         })}
