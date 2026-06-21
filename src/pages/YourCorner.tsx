@@ -471,15 +471,15 @@ export default function YourCorner() {
                 {/* Top contributors this week */}
                 <div>
                   <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-                    <Crown className="w-4 h-4 text-amber-500" /> Top đóng góp 7 ngày
+                    <Crown className="w-4 h-4 text-amber-500" /> {t("Top đóng góp 7 ngày", "Top contributors 7 days")}
                   </h3>
                   {topContributors.length === 0 ? (
-                    <p className="text-xs text-muted-foreground">Chưa có ai. Hãy là người đầu tiên! 🚀</p>
+                    <p className="text-xs text-muted-foreground">{t("Chưa có ai. Hãy là người đầu tiên! 🚀", "Nobody yet. Be the first! 🚀")}</p>
                   ) : (
                     <ul className="space-y-2">
                       {topContributors.map((c, i) => {
                         const medal = ["🥇", "🥈", "🥉"][i] ?? `#${i + 1}`;
-                        const name = c.user?.full_name?.trim() || "Học viên";
+                        const name = c.user?.full_name?.trim() || t("Học viên", "Student");
                         const initial = name.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
                         return (
                           <li key={c.user?.id ?? i} className="flex items-center gap-2">
