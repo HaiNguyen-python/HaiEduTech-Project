@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import FloatingSubjectIcons from "@/components/your-corner/FloatingSubjectIcons";
+import CornerCheerChibis from "@/components/your-corner/CornerCheerChibis";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -135,7 +137,7 @@ export default function YourCorner() {
   }, [posts]);
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50/40 via-background to-emerald-50/40 dark:from-blue-950/20 dark:via-background dark:to-emerald-950/20">
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-gradient-to-br from-blue-50/40 via-background to-emerald-50/40 dark:from-blue-950/20 dark:via-background dark:to-emerald-950/20">
       <SEO
         title={t("Your Corner - Góc Chia Sẻ Học Viên | HaiEduTech", "Your Corner - Student Hub | HaiEduTech")}
         description={t(
@@ -154,14 +156,16 @@ export default function YourCorner() {
       </div>
 
       <FloatingSubjectIcons count={70} />
+      <CornerCheerChibis />
 
 
 
-      <main className="container mx-auto px-4 pt-24 pb-16 relative z-10">
+      <main className="container mx-auto px-4 pt-24 pb-16 relative z-10 flex-1">
         {/* Hero - Enhanced */}
         <header className="relative text-center mb-10 max-w-4xl mx-auto">
-          {/* Glow halo behind title */}
-          <div className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-44 w-[80%] max-w-2xl rounded-full bg-gradient-to-r from-blue-500/25 via-cyan-400/20 to-emerald-500/25 blur-3xl" aria-hidden />
+          {/* Glow halo behind title - extends full width across both sides */}
+          <div className="pointer-events-none absolute -left-[40vw] -right-[40vw] top-2 mx-auto h-56 rounded-full bg-gradient-to-r from-transparent via-blue-500/25 via-30% via-cyan-400/30 via-50% via-emerald-500/25 via-70% to-transparent blur-3xl" aria-hidden />
+          <div className="pointer-events-none absolute -left-[30vw] -right-[30vw] top-10 mx-auto h-32 rounded-full bg-gradient-to-r from-transparent via-violet-400/15 to-transparent blur-2xl" aria-hidden />
 
           <div className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 dark:bg-background/70 backdrop-blur-xl border border-primary/30 shadow-lg mb-5 group hover:scale-105 transition-transform">
             <span className="relative flex h-2 w-2">
@@ -542,7 +546,11 @@ export default function YourCorner() {
           </div>
         )}
       </main>
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 }
+
 
