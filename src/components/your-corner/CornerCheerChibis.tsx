@@ -5,8 +5,6 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import cheer from "@/assets/chibi-vocab-cheer.png";
-import owl from "@/assets/chibi-owl.png";
-import rocket from "@/assets/chibi-rocket.png";
 import boy from "@/assets/chibi-study-boy.png";
 import girl from "@/assets/chibi-study-girl.png";
 
