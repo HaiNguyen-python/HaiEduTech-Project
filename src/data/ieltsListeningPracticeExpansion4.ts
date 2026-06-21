@@ -412,7 +412,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear a radio host announcing weekend events in a small town. Answer the questions.",
     contextVi: "Bạn sẽ nghe MC đài phát thanh thông báo sự kiện cuối tuần. Trả lời câu hỏi.",
     transcript:
-      "Good morning listeners, you're with Westbury FM and here's what's happening this weekend.\n" +
+      "Host: Good morning listeners, you're with Westbury FM and here's what's happening this weekend.\n" +
       "First, the annual food festival returns to Market Square on Saturday from ten in the morning until six in the evening.\n" +
       "Over forty local producers will be there, and entry is completely free.\n" +
       "Children under twelve get a free cupcake at the welcome desk.\n" +
@@ -448,7 +448,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear a ranger introducing visitors to a nature park. Answer the questions.",
     contextVi: "Bạn sẽ nghe kiểm lâm giới thiệu công viên. Trả lời câu hỏi.",
     transcript:
-      "Welcome everyone to Wildmeadow Nature Park.\n" +
+      "Ranger: Welcome everyone to Wildmeadow Nature Park.\n" +
       "I'm Hannah, and I'll walk you through the layout before you set off on your own.\n" +
       "The park covers around two hundred and fifty hectares of woodland and wetland.\n" +
       "It was established in two thousand and four.\n" +
@@ -487,7 +487,7 @@ export const ieltsListeningPracticeSetsExpansion4: ListeningPracticeSet[] = [
     context: "You will hear a coordinator briefing new volunteers at a community kitchen. Answer the questions.",
     contextVi: "Bạn sẽ nghe điều phối viên hướng dẫn tình nguyện viên mới. Trả lời câu hỏi.",
     transcript:
-      "Welcome, everyone, and thank you for joining our community kitchen team.\n" +
+      "Coordinator: Welcome, everyone, and thank you for joining our community kitchen team.\n" +
       "My name is Daniel and I'm the volunteer coordinator.\n" +
       "We've been running this kitchen for eight years and serve about two hundred meals every weekday.\n" +
       "Most volunteers do one shift a week, which is four hours long.\n" +

@@ -73,7 +73,7 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
     context: "A museum guide introduces visitors to the day's tour. Choose the correct answer for each question.",
     contextVi: "Hướng dẫn viên giới thiệu tour. Chọn đáp án đúng.",
     transcript:
-      "Welcome, everyone, to the Eastfield Maritime Museum. My name is Helen and I'll be looking after you for the next ninety minutes.\n" +
+      "Guide: Welcome, everyone, to the Eastfield Maritime Museum. My name is Helen and I'll be looking after you for the next ninety minutes.\n" +
       "Before we start, a few quick reminders. Photography is allowed in every room except the new exhibition on lighthouses, where flash damages the original maps.\n" +
       "The café on the first floor is open until five, but please note it does not serve hot meals after three o'clock - only sandwiches and cakes.\n" +
       "Our gift shop is on the ground floor, just past the main entrance, and the toilets are on the lower level.\n" +
