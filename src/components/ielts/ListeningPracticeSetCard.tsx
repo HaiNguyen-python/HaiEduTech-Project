@@ -161,14 +161,65 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
     };
   }, []);
 
-  const pickVoice = () => {
+  // ---------- Multi-voice engine ----------
+  // Build an ordered pool of English voices for the chosen accent, sorted by
+  // "natural/neural/premium" preference so dialogues use the most expressive
+  // voices the OS provides.
+  const voicePool = useMemo(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return [] as SpeechSynthesisVoice[];
     const voices = window.speechSynthesis.getVoices();
     const re = new RegExp(accent.replace("-", "[-_]"), "i");
-    return (
-      voices.find(v => re.test(v.lang) && /natural|premium|neural|enhanced/i.test(v.name)) ||
-      voices.find(v => re.test(v.lang)) ||
-      voices.find(v => v.lang?.startsWith("en"))
+    const enFallback = voices.filter(v => v.lang?.toLowerCase().startsWith("en"));
+    const matched = voices.filter(v => re.test(v.lang));
+    const pool = (matched.length ? matched : enFallback).slice();
+    pool.sort((a, b) => {
+      const score = (n: string) => /natural|premium|neural|enhanced|online/i.test(n) ? 0 : 1;
+      return score(a.name) - score(b.name);
+    });
+    return pool;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accent, playing]);
+
+  // The Web Speech API does not expose gender, so we infer from common voice-name tokens.
+  const FEMALE_HINTS = /(female|woman|samantha|victoria|karen|tessa|moira|fiona|kate|serena|allison|ava|susan|zira|hazel|amelia|sonia|libby|natasha|emma|emily|olivia|aria|jenny|nora|isabella|anna|chloe|sarah|catherine|elizabeth)/i;
+  const MALE_HINTS   = /(\bmale\b|\bman\b|daniel|alex|fred|oliver|ralph|tom|george|guy|brian|david|mark|aaron|james|rishi|liam|harry|matthew|noah|ethan|william|christopher|wayne|arthur|simon)/i;
+
+  const pickVoiceFor = (gender: "female" | "male" | "neutral", seed: number): SpeechSynthesisVoice | undefined => {
+    if (!voicePool.length) return undefined;
+    const matches = voicePool.filter(v =>
+      gender === "female" ? FEMALE_HINTS.test(v.name)
+      : gender === "male" ? MALE_HINTS.test(v.name) && !FEMALE_HINTS.test(v.name)
+      : true
     );
+    const list = matches.length ? matches : voicePool;
+    return list[seed % list.length];
+  };
+
+  // Female / male name hints used in our listening scripts.
+  const FEMALE_NAMES = /^(anna|sarah|chloe|emma|lisa|mary|jane|kate|sophie|olivia|amelia|sophia|grace|lily|mia|ava|ella|zoe|julia|maria|hannah|laura|emily|alice|nora|rachel|claire|hannah|woman)$/i;
+  const MALE_NAMES = /^(ben|daniel|tom|john|mark|david|james|harry|jack|peter|paul|michael|alex|robert|matthew|noah|oliver|ethan|liam|william|simon|chris|adam|sam|guide|interviewer|professor|lecturer|tutor|man)$/i;
+
+  const speakerProfile = (name: string | null, idxSeed: number) => {
+    if (!name) return { gender: "neutral" as const, pitch: 1.0, rateMul: 1.0, seed: 7 };
+    const lower = name.trim().toLowerCase();
+    let gender: "female" | "male" | "neutral" = "neutral";
+    if (FEMALE_NAMES.test(lower)) gender = "female";
+    else if (MALE_NAMES.test(lower)) gender = "male";
+    else {
+      let h = 0;
+      for (let i = 0; i < lower.length; i++) h = (h * 31 + lower.charCodeAt(i)) >>> 0;
+      gender = h % 2 === 0 ? "female" : "male";
+    }
+    let nameSeed = 0;
+    for (let i = 0; i < lower.length; i++) nameSeed = (nameSeed * 17 + lower.charCodeAt(i)) >>> 0;
+    const pitchOffset = ((nameSeed % 5) - 2) * 0.06; // -0.12..+0.12
+    const rateOffset = ((nameSeed % 3) - 1) * 0.03;  // -0.03..+0.03
+    return {
+      gender,
+      pitch: 1.0 + pitchOffset + (gender === "female" ? 0.14 : gender === "male" ? -0.1 : 0),
+      rateMul: 1.0 + rateOffset,
+      seed: nameSeed + idxSeed,
+    };
   };
 
   const speakChunks = useCallback((startIdx: number, gen: number) => {
@@ -188,27 +239,47 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
     pausedAtRef.current = null;
 
     const raw = chunks[startIdx];
-    const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)(?:[\s,-]+(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)){2,}\b)|(?:\b\d{4,}\b)/i.test(raw);
+
+    // Extract speaker tag like "Anna:" / "Tutor:" so we can route to a distinct voice.
+    const speakerMatch = raw.match(/^([A-Z][a-zA-Z]{1,20}):\s*([\s\S]+)$/);
+    const speakerName = speakerMatch ? speakerMatch[1] : null;
+    const spokenBody = speakerMatch ? speakerMatch[2] : raw;
+
+    const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)(?:[\s,-]+(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)){2,}\b)|(?:\b\d{4,}\b)/i.test(spokenBody);
     const text = isSpelling
-      ? raw.replace(/-/g, ", ").replace(/\b([A-Z])\b/g, "$1,")
-      : raw;
+      ? spokenBody.replace(/-/g, ", ").replace(/\b([A-Z])\b/g, "$1,")
+      : spokenBody;
+
+    const profile = speakerProfile(speakerName, startIdx);
     const u = new SpeechSynthesisUtterance(text);
     u.lang = accent;
-    u.rate = isSpelling ? Math.min(rate, 0.55) : rate;
-    u.pitch = 1;
-    const v = pickVoice();
+    const baseRate = isSpelling ? Math.min(rate, 0.55) : rate;
+    u.rate = Math.max(0.3, Math.min(1.5, baseRate * profile.rateMul));
+    // Expressive pitch: question rises, exclamation emphasises.
+    const endsWithQ = /\?\s*$/.test(text);
+    const endsWithE = /!\s*$/.test(text);
+    u.pitch = Math.max(0.5, Math.min(2.0,
+      profile.pitch + (endsWithQ ? 0.15 : endsWithE ? 0.1 : 0)
+    ));
+    const v = pickVoiceFor(profile.gender, profile.seed);
     if (v) u.voice = v;
-    const isDialogueChange =
-      startIdx > 0 && /^[A-Z][a-z]+:/.test(chunks[startIdx]) && !/^[A-Z][a-z]+:/.test(chunks[startIdx - 1]);
-    const gapMs = isSpelling ? 900 : isDialogueChange ? 700 : /[?!]$/.test(chunks[startIdx - 1] ?? "") ? 550 : 420;
+
+    const prev = chunks[startIdx - 1] ?? "";
+    const prevSpeaker = prev.match(/^([A-Z][a-zA-Z]+):/)?.[1] ?? null;
+    const isSpeakerSwitch = speakerName && prevSpeaker && speakerName !== prevSpeaker;
+    const isDialogueChange = startIdx > 0 && !!speakerName && !prevSpeaker;
+    const gapMs = isSpelling ? 900
+      : isSpeakerSwitch ? 650
+      : isDialogueChange ? 700
+      : /[?!]$/.test(prev) ? 550
+      : 420;
     u.onend = () => {
-      // Guard: ignore onend from a stale (cancelled / superseded) utterance.
       if (cancelledRef.current || gen !== generationRef.current) return;
       chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1, gen), gapMs);
     };
     u.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
     window.speechSynthesis.speak(u);
-  }, [chunks, rate, accent]);
+  }, [chunks, rate, accent, voicePool]);
 
   const speak = (fromIdx = 0) => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
@@ -476,8 +547,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
               <ShieldAlert className="w-3 h-3" />
               {examMode ? t("Exam Mode • ON", "Exam Mode • ON") : t("Bật Exam Mode", "Enable Exam Mode")}
             </Badge>
-            <span className="text-xs text-muted-foreground ml-auto">
-              {t("Đọc bằng giọng máy (Web Speech)", "Spoken with browser TTS")}
+            <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
+              <Mic2 className="w-3 h-3 text-emerald-600" />
+              {t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
