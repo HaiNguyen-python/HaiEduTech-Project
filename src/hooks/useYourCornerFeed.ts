@@ -36,7 +36,7 @@ export function useYourCornerFeed(enabled: boolean) {
 
     const { data: rawPosts, error } = await supabase
       .from("your_corner_posts")
-      .select("id, user_id, content, image_url, subject, mood, created_at")
+      .select("id, user_id, content, image_url, subject, mood, visibility, created_at")
       .order("created_at", { ascending: false })
       .limit(80);
 
