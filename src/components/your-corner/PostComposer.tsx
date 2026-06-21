@@ -134,11 +134,12 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar }:
         <Button
           onClick={submit}
           disabled={submitting || !content.trim()}
-          className="bg-gradient-to-r from-blue-600 to-emerald-600 text-white"
+          className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white shadow-md disabled:opacity-50"
         >
           {submitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
           Đăng bài
         </Button>
+
       </div>
       <p className="text-xs text-muted-foreground text-right">{content.length}/5000</p>
     </Card>
