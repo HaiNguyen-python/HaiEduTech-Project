@@ -66,7 +66,7 @@ const saveCompleted = (set: Set<number>) => {
 };
 
 export const SwedishA1DailyPlan = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [completed, setCompleted] = useState<Set<number>>(new Set());
 
   useEffect(() => {
