@@ -281,9 +281,9 @@ export default function YourCorner() {
               {/* Games / Arcade quick launcher */}
               <Card className="p-5 backdrop-blur-md bg-gradient-to-br from-violet-50/90 via-white/85 to-pink-50/90 dark:from-violet-950/30 dark:via-card/85 dark:to-pink-950/30 border-violet-300/40 shadow-sm">
                 <h3 className="font-bold text-sm mb-1 flex items-center gap-2">
-                  🎮 <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">Mini Games ôn bài</span>
+                  🎮 <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">{t("Mini Games ôn bài", "Mini Games to review")}</span>
                 </h3>
-                <p className="text-[11px] text-muted-foreground mb-3">Vừa chơi vừa luyện - click để bắt đầu!</p>
+                <p className="text-[11px] text-muted-foreground mb-3">{t("Vừa chơi vừa luyện - click để bắt đầu!", "Play while you practice - click to start!")}</p>
 
                 {/* Multiplayer / arena highlight */}
                 <Link
@@ -294,13 +294,13 @@ export default function YourCorner() {
                     <span className="text-xl">⚔️</span>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-bold leading-tight">Vocab Arena 1v1</div>
-                      <div className="text-[10px] opacity-90">Đấu trực tiếp với bạn bè</div>
+                      <div className="text-[10px] opacity-90">{t("Đấu trực tiếp với bạn bè", "Duel live with friends")}</div>
                     </div>
                     <span className="text-[10px] font-bold bg-white/25 px-1.5 py-0.5 rounded">HOT</span>
                   </div>
                 </Link>
 
-                <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Arcade theo ngôn ngữ</div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">{t("Arcade theo ngôn ngữ", "Arcade by language")}</div>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     { to: "/cambridge/arcade", emoji: "🇬🇧", label: "English", cls: "from-blue-500 to-cyan-500" },
@@ -308,7 +308,7 @@ export default function YourCorner() {
                     { to: "/finnish/arcade", emoji: "❄️", label: "Finnish", cls: "from-sky-500 to-indigo-500" },
                     { to: "/learn-vietnamese/arcade", emoji: "🇻🇳", label: "Vietnamese", cls: "from-rose-500 to-amber-500" },
                     { to: "/programming/arcade", emoji: "💻", label: "Coding", cls: "from-emerald-500 to-teal-500" },
-                    { to: "/arcade-plus", emoji: "✨", label: "Tổng hợp", cls: "from-violet-500 to-pink-500" },
+                    { to: "/arcade-plus", emoji: "✨", label: t("Tổng hợp", "All-in-one"), cls: "from-violet-500 to-pink-500" },
                   ].map((g) => (
                     <Link
                       key={g.to}
@@ -324,16 +324,16 @@ export default function YourCorner() {
                   ))}
                 </div>
 
-                <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mt-3 mb-1.5">Game luyện chuyên đề</div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mt-3 mb-1.5">{t("Game luyện chuyên đề", "Topic practice games")}</div>
                 <div className="space-y-1.5">
                   {[
-                    { to: "/chinese/tone-drill", emoji: "🎵", label: "Tone Drill", desc: "Luyện thanh điệu HSK" },
-                    { to: "/chinese/hskk", emoji: "🎤", label: "HSKK Speaking", desc: "Nói tiếng Trung" },
-                    { to: "/chinese/hsk/test", emoji: "📝", label: "HSK Test Room", desc: "Thi thử các cấp" },
-                    { to: "/ielts-lectures/master-quiz", emoji: "🏆", label: "IELTS Master Quiz", desc: "Tổng hợp 4 kỹ năng" },
-                    { to: "/sat/daily-warmup", emoji: "☀️", label: "SAT Daily Warmup", desc: "5 phút mỗi ngày" },
-                    { to: "/programming/scratch-adventure", emoji: "🧩", label: "Scratch Adventure", desc: "Lập trình thiếu nhi" },
-                    { to: "/programming/ai-academy", emoji: "🤖", label: "AI Academy", desc: "Thử thách AI/ML" },
+                    { to: "/chinese/tone-drill", emoji: "🎵", label: "Tone Drill", desc: t("Luyện thanh điệu HSK", "HSK tone drills") },
+                    { to: "/chinese/hskk", emoji: "🎤", label: "HSKK Speaking", desc: t("Nói tiếng Trung", "Speak Chinese") },
+                    { to: "/chinese/hsk/test", emoji: "📝", label: "HSK Test Room", desc: t("Thi thử các cấp", "Mock test all levels") },
+                    { to: "/ielts-lectures/master-quiz", emoji: "🏆", label: "IELTS Master Quiz", desc: t("Tổng hợp 4 kỹ năng", "All 4 skills combined") },
+                    { to: "/sat/daily-warmup", emoji: "☀️", label: "SAT Daily Warmup", desc: t("5 phút mỗi ngày", "5 minutes a day") },
+                    { to: "/programming/scratch-adventure", emoji: "🧩", label: "Scratch Adventure", desc: t("Lập trình thiếu nhi", "Coding for kids") },
+                    { to: "/programming/ai-academy", emoji: "🤖", label: "AI Academy", desc: t("Thử thách AI/ML", "AI/ML challenges") },
                   ].map((g) => (
                     <Link
                       key={g.to}
@@ -354,7 +354,7 @@ export default function YourCorner() {
                   to="/arcade-plus"
                   className="mt-3 block text-center text-[11px] font-bold text-violet-600 dark:text-violet-300 hover:underline"
                 >
-                  → Khám phá tất cả game →
+                  → {t("Khám phá tất cả game", "Explore all games")} →
                 </Link>
               </Card>
 
