@@ -232,7 +232,44 @@ export default function YourCorner() {
                   </div>
                 </div>
               </Card>
+
+              {/* Games / Arcade quick launcher */}
+              <Card className="p-5 backdrop-blur-md bg-gradient-to-br from-violet-50/90 via-white/85 to-pink-50/90 dark:from-violet-950/30 dark:via-card/85 dark:to-pink-950/30 border-violet-300/40 shadow-sm">
+                <h3 className="font-bold text-sm mb-1 flex items-center gap-2">
+                  🎮 <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">Mini Games ôn bài</span>
+                </h3>
+                <p className="text-[11px] text-muted-foreground mb-3">Vừa chơi vừa luyện - click để bắt đầu!</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { to: "/cambridge/arcade", emoji: "🇬🇧", label: "English", cls: "from-blue-500 to-cyan-500" },
+                    { to: "/chinese/arcade", emoji: "🐉", label: "Chinese", cls: "from-red-500 to-orange-500" },
+                    { to: "/finnish/arcade", emoji: "❄️", label: "Finnish", cls: "from-sky-500 to-indigo-500" },
+                    { to: "/learn-vietnamese/arcade", emoji: "🇻🇳", label: "Vietnamese", cls: "from-rose-500 to-amber-500" },
+                    { to: "/programming/arcade", emoji: "💻", label: "Coding", cls: "from-emerald-500 to-teal-500" },
+                    { to: "/arcade-plus", emoji: "✨", label: "Tổng hợp", cls: "from-violet-500 to-pink-500" },
+                  ].map((g) => (
+                    <Link
+                      key={g.to}
+                      to={g.to}
+                      className="group relative overflow-hidden rounded-lg p-2 bg-white/70 dark:bg-card/70 border border-white/60 hover:border-primary/40 hover:shadow-md transition-all"
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-br ${g.cls} opacity-0 group-hover:opacity-10 transition-opacity`} />
+                      <div className="relative flex items-center gap-1.5">
+                        <span className="text-lg leading-none">{g.emoji}</span>
+                        <span className="text-[11px] font-semibold truncate">{g.label}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                <Link
+                  to="/cambridge/arcade"
+                  className="mt-3 block text-center text-[11px] font-bold text-violet-600 dark:text-violet-300 hover:underline"
+                >
+                  → Khám phá tất cả game →
+                </Link>
+              </Card>
             </aside>
+
 
             {/* Feed */}
             <div className="space-y-5 mx-auto w-full max-w-[640px]">
