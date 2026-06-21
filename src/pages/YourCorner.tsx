@@ -7,12 +7,23 @@ import FloatingSubjectIcons from "@/components/your-corner/FloatingSubjectIcons"
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy } from "lucide-react";
+import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy, Lightbulb, Crown } from "lucide-react";
 import PostComposer from "@/components/your-corner/PostComposer";
 import PostCard from "@/components/your-corner/PostCard";
 import StoryBar from "@/components/your-corner/StoryBar";
 import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
 import { SUBJECTS, subjectMap, SubjectKey, extractHashtags } from "@/lib/yourCornerMeta";
+
+const DAILY_PROMPTS = [
+  { emoji: "📘", text: "Hôm nay em học được từ vựng mới nào? Chia sẻ 3 từ tâm đắc nhất nhé!" },
+  { emoji: "💡", text: "Mẹo học nào đang giúp em tiến bộ nhất tuần này?" },
+  { emoji: "🎯", text: "Mục tiêu học của em trong 7 ngày tới là gì?" },
+  { emoji: "🔥", text: "Khoe streak học liên tục của em với cả lớp nào!" },
+  { emoji: "🎧", text: "Bài nghe / podcast nào em mới khám phá và thấy hay?" },
+  { emoji: "✏️", text: "Câu/đoạn viết nào em vừa hoàn thành và tự hào nhất?" },
+  { emoji: "🌏", text: "Ngôn ngữ em đang học có cụm/idiom nào thú vị? Chia sẻ nhé!" },
+];
+const todayPrompt = DAILY_PROMPTS[new Date().getDate() % DAILY_PROMPTS.length];
 
 type FeedTab = "latest" | "trending" | "saved";
 
@@ -75,6 +86,20 @@ export default function YourCorner() {
     return list;
   }, [posts, tab, subjectFilter, tagFilter]);
 
+  // Top contributors this week (by likes + comments received on their posts)
+  const topContributors = useMemo(() => {
+    const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const score = new Map<string, { user: typeof posts[number]["author"]; pts: number; posts: number }>();
+    posts.forEach((p) => {
+      if (new Date(p.created_at).getTime() < cutoff || !p.author) return;
+      const cur = score.get(p.user_id) ?? { user: p.author, pts: 0, posts: 0 };
+      cur.pts += p.reaction_count * 2 + p.comment_count + 1;
+      cur.posts += 1;
+      score.set(p.user_id, cur);
+    });
+    return Array.from(score.values()).sort((a, b) => b.pts - a.pts).slice(0, 5);
+  }, [posts]);
+
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50/40 via-background to-emerald-50/40 dark:from-blue-950/20 dark:via-background dark:to-emerald-950/20">
       <SEO
@@ -90,7 +115,7 @@ export default function YourCorner() {
         <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/10 rounded-full blur-3xl" />
       </div>
 
-      <FloatingSubjectIcons count={26} />
+      <FloatingSubjectIcons count={44} />
 
 
 
@@ -181,6 +206,20 @@ export default function YourCorner() {
             {/* Feed */}
             <div className="space-y-5 mx-auto w-full max-w-[640px]">
               <StoryBar />
+
+              {/* Daily Prompt */}
+              <Card className="p-4 backdrop-blur-md bg-gradient-to-r from-amber-50/90 via-white/85 to-emerald-50/90 dark:from-amber-950/30 dark:via-card/85 dark:to-emerald-950/30 border-amber-300/40 shadow-sm flex items-center gap-3">
+                <div className="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-md text-xl">
+                  {todayPrompt.emoji}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 flex items-center gap-1">
+                    <Lightbulb className="w-3 h-3" /> Gợi ý hôm nay
+                  </div>
+                  <p className="text-sm text-foreground/90 leading-snug">{todayPrompt.text}</p>
+                </div>
+              </Card>
+
               <PostComposer userId={userId} onPosted={refresh} userName={userMeta.name} userAvatar={userMeta.avatar} />
 
               {/* Tabs */}
@@ -257,6 +296,42 @@ export default function YourCorner() {
                           </button>
                         </li>
                       ))}
+                    </ul>
+                  )}
+                </div>
+
+                {/* Top contributors this week */}
+                <div>
+                  <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
+                    <Crown className="w-4 h-4 text-amber-500" /> Top đóng góp 7 ngày
+                  </h3>
+                  {topContributors.length === 0 ? (
+                    <p className="text-xs text-muted-foreground">Chưa có ai. Hãy là người đầu tiên! 🚀</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {topContributors.map((c, i) => {
+                        const medal = ["🥇", "🥈", "🥉"][i] ?? `#${i + 1}`;
+                        const name = c.user?.full_name?.trim() || "Học viên";
+                        const initial = name.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
+                        return (
+                          <li key={c.user?.id ?? i} className="flex items-center gap-2">
+                            <span className="text-base w-6 text-center">{medal}</span>
+                            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs font-bold flex items-center justify-center overflow-hidden shrink-0">
+                              {c.user?.avatar_url ? (
+                                <img src={c.user.avatar_url} alt={name} className="w-full h-full object-cover" />
+                              ) : (
+                                initial
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-xs font-semibold truncate">{name}</div>
+                              <div className="text-[10px] text-muted-foreground">
+                                {c.posts} bài · {c.pts} điểm
+                              </div>
+                            </div>
+                          </li>
+                        );
+                      })}
                     </ul>
                   )}
                 </div>

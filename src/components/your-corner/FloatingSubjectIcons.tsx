@@ -3,10 +3,18 @@ import { motion } from "framer-motion";
 
 // Subject-themed emojis + short text - large, soft, decorative
 const ITEMS = [
+  // Emojis (subjects, vibes)
   "📚", "✏️", "📝", "🎓", "💡", "🚀", "💻", "🐍",
-  "🐉", "汉", "中", "拼", "❄️", "🦌", "Suomi",
-  "📘", "IELTS", "TOEIC", "HSK", "YKI", "Python",
-  "🎯", "🔥", "✨", "💪", "🌟", "📖", "🧠",
+  "🐉", "❄️", "🦌", "📘", "📗", "📕", "📒", "🗒️",
+  "🎯", "🔥", "✨", "💪", "🌟", "📖", "🧠", "🎧",
+  "🎤", "🗣️", "💬", "🌏", "🇻🇳", "🇬🇧", "🇫🇮", "🇨🇳",
+  "🏆", "💎", "🌈", "☕", "🪶", "🧩", "🎨", "🪐",
+  // Language / tech text
+  "汉", "中", "拼", "字", "学", "习",
+  "Hej", "Moi", "Suomi", "Kiitos",
+  "IELTS", "TOEIC", "HSK", "YKI", "SAT", "Cambridge",
+  "Python", "SQL", "AI", "ML", "{ }", "</>", "def", "print()",
+  "A+", "B2", "C1", "9.0",
 ];
 
 const COLORS = [

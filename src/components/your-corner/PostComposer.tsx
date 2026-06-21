@@ -170,123 +170,122 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar }:
         </div>
       )}
 
-      <div className="flex items-center justify-between border-t pt-3 flex-wrap gap-2">
-        <div className="flex items-center gap-1 flex-wrap">
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => pickImage(e.target.files?.[0] ?? null)}
-          />
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => fileRef.current?.click()}
-            className="text-emerald-600 hover:text-emerald-700"
-          >
-            <ImagePlus className="w-4 h-4 mr-1.5" /> Hình
-          </Button>
+      <div className="flex items-center gap-1.5 border-t pt-3 flex-nowrap overflow-x-auto">
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => pickImage(e.target.files?.[0] ?? null)}
+        />
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => fileRef.current?.click()}
+          className="text-emerald-600 hover:text-emerald-700 shrink-0"
+        >
+          <ImagePlus className="w-4 h-4 mr-1.5" /> Hình
+        </Button>
 
-          {/* Subject picker */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button type="button" variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
-                <Tag className="w-4 h-4 mr-1.5" /> Chủ đề
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-64 p-2">
-              <p className="text-xs text-muted-foreground px-2 pb-2">Chọn chủ đề bài viết</p>
-              <div className="grid grid-cols-2 gap-1">
-                {SUBJECTS.map((s) => (
-                  <button
-                    key={s.key}
-                    type="button"
-                    onClick={() => setSubject(s.key)}
-                    className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs font-medium hover:bg-muted text-left ${
-                      subject === s.key ? `${s.bg} ${s.color}` : ""
-                    }`}
-                  >
-                    <span>{s.emoji}</span> {s.label}
-                  </button>
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
+        {/* Subject picker */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button type="button" variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 shrink-0">
+              <Tag className="w-4 h-4 mr-1.5" /> Chủ đề
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-64 p-2">
+            <p className="text-xs text-muted-foreground px-2 pb-2">Chọn chủ đề bài viết</p>
+            <div className="grid grid-cols-2 gap-1">
+              {SUBJECTS.map((s) => (
+                <button
+                  key={s.key}
+                  type="button"
+                  onClick={() => setSubject(s.key)}
+                  className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs font-medium hover:bg-muted text-left ${
+                    subject === s.key ? `${s.bg} ${s.color}` : ""
+                  }`}
+                >
+                  <span>{s.emoji}</span> {s.label}
+                </button>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
 
-          {/* Mood picker */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button type="button" variant="ghost" size="sm" className="text-amber-600 hover:text-amber-700">
-                <Smile className="w-4 h-4 mr-1.5" /> Cảm xúc
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-56 p-2">
-              <div className="flex flex-wrap gap-1">
-                {MOODS.map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => setMood(m)}
-                    className={`text-2xl p-1.5 rounded-md hover:bg-muted transition-transform hover:scale-125 ${
-                      mood === m ? "bg-amber-500/10" : ""
-                    }`}
-                  >
-                    {m}
-                  </button>
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
-        </div>
+        {/* Mood picker */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button type="button" variant="ghost" size="sm" className="text-amber-600 hover:text-amber-700 shrink-0">
+              <Smile className="w-4 h-4 mr-1.5" /> Cảm xúc
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-56 p-2">
+            <div className="flex flex-wrap gap-1">
+              {MOODS.map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMood(m)}
+                  className={`text-2xl p-1.5 rounded-md hover:bg-muted transition-transform hover:scale-125 ${
+                    mood === m ? "bg-amber-500/10" : ""
+                  }`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
 
-        <div className="flex items-center gap-2">
-          {/* Visibility picker */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="text-xs gap-1.5 border-primary/20"
-              >
-                {(() => {
-                  const Icn = visIcon(visibility);
-                  return <Icn className="w-3.5 h-3.5" />;
-                })()}
-                {visibilityMap.get(visibility)?.label}
-                <ChevronDown className="w-3 h-3 opacity-60" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-64 p-1" align="end">
-              {VISIBILITY_OPTIONS.map((v) => {
-                const Icn = visIcon(v.key);
-                const active = visibility === v.key;
-                return (
-                  <button
-                    key={v.key}
-                    type="button"
-                    onClick={() => setVisibility(v.key)}
-                    className={`w-full flex items-start gap-2 p-2 rounded-md text-left text-sm hover:bg-muted transition ${
-                      active ? "bg-primary/10" : ""
-                    }`}
-                  >
-                    <Icn className="w-4 h-4 mt-0.5 text-primary" />
-                    <div className="flex-1">
-                      <div className="font-medium">{v.label}</div>
-                      <div className="text-xs text-muted-foreground">{v.hint}</div>
-                    </div>
-                    {active && <span className="text-primary text-xs">✓</span>}
-                  </button>
-                );
-              })}
-            </PopoverContent>
-          </Popover>
+        {/* Visibility picker */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="text-xs gap-1.5 text-purple-600 hover:text-purple-700 shrink-0"
+            >
+              {(() => {
+                const Icn = visIcon(visibility);
+                return <Icn className="w-4 h-4 mr-0.5" />;
+              })()}
+              {visibilityMap.get(visibility)?.label}
+              <ChevronDown className="w-3 h-3 opacity-60" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-64 p-1" align="end">
+            {VISIBILITY_OPTIONS.map((v) => {
+              const Icn = visIcon(v.key);
+              const active = visibility === v.key;
+              return (
+                <button
+                  key={v.key}
+                  type="button"
+                  onClick={() => setVisibility(v.key)}
+                  className={`w-full flex items-start gap-2 p-2 rounded-md text-left text-sm hover:bg-muted transition ${
+                    active ? "bg-primary/10" : ""
+                  }`}
+                >
+                  <Icn className="w-4 h-4 mt-0.5 text-primary" />
+                  <div className="flex-1">
+                    <div className="font-medium">{v.label}</div>
+                    <div className="text-xs text-muted-foreground">{v.hint}</div>
+                  </div>
+                  {active && <span className="text-primary text-xs">✓</span>}
+                </button>
+              );
+            })}
+          </PopoverContent>
+        </Popover>
 
+        <div className="ml-auto shrink-0">
           <Button
             onClick={submit}
             disabled={submitting || !content.trim()}
+            size="sm"
             className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white shadow-md disabled:opacity-50"
           >
             {submitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
