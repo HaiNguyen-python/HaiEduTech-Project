@@ -254,8 +254,19 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
               {authorName}
               {post.mood && <span className="text-base leading-none">{post.mood}</span>}
             </p>
-            <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+            <p className="text-xs text-muted-foreground flex items-center gap-1.5 flex-wrap">
               {timeAgo}
+              {(() => {
+                const v = post.visibility ?? "public";
+                const Icn = v === "public" ? Globe2 : v === "teacher_only" ? GraduationCap : Lock;
+                const label = v === "public" ? "Công khai" : v === "teacher_only" ? "Chỉ giáo viên" : "Chỉ mình tôi";
+                return (
+                  <>
+                    <span>·</span>
+                    <span title={label} className="inline-flex items-center"><Icn className="w-3 h-3" /></span>
+                  </>
+                );
+              })()}
               {subjMeta && (
                 <>
                   <span>·</span>
@@ -265,6 +276,7 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
                 </>
               )}
             </p>
+
           </div>
         </div>
         {isMine && (
