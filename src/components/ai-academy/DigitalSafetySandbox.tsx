@@ -94,7 +94,7 @@ const DigitalSafetySandbox = () => {
             >
               <div className="flex items-start gap-2">
                 {picked && (o.safe ? <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" /> : <AlertTriangle className="w-4 h-4 text-rose-500 mt-0.5" />)}
-                <span className="text-sm">{o.text}</span>
+                <span className="text-sm"><span className="font-semibold mr-1">{String.fromCharCode(65 + i)}.</span>{o.text}</span>
               </div>
               {picked && (
                 <p className={`text-xs mt-2 ${o.safe ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300"}`}>
