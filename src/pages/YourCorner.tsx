@@ -163,8 +163,9 @@ export default function YourCorner() {
       <main className="container mx-auto px-4 pt-24 pb-16 relative z-10 flex-1">
         {/* Hero - Enhanced */}
         <header className="relative text-center mb-10 max-w-4xl mx-auto">
-          {/* Glow halo behind title */}
-          <div className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-44 w-[80%] max-w-2xl rounded-full bg-gradient-to-r from-blue-500/25 via-cyan-400/20 to-emerald-500/25 blur-3xl" aria-hidden />
+          {/* Glow halo behind title - extends full width across both sides */}
+          <div className="pointer-events-none absolute -left-[40vw] -right-[40vw] top-2 mx-auto h-56 rounded-full bg-gradient-to-r from-transparent via-blue-500/25 via-30% via-cyan-400/30 via-50% via-emerald-500/25 via-70% to-transparent blur-3xl" aria-hidden />
+          <div className="pointer-events-none absolute -left-[30vw] -right-[30vw] top-10 mx-auto h-32 rounded-full bg-gradient-to-r from-transparent via-violet-400/15 to-transparent blur-2xl" aria-hidden />
 
           <div className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 dark:bg-background/70 backdrop-blur-xl border border-primary/30 shadow-lg mb-5 group hover:scale-105 transition-transform">
             <span className="relative flex h-2 w-2">
