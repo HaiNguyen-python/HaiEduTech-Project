@@ -20,10 +20,6 @@ interface Item {
 }
 
 const ITEMS: Item[] = [
-  // top-left – owl mentor
-  { src: owl, alt: "", size: 96, style: { top: 96, left: 12 }, bubble: "Bạn giỏi lắm! 🌟" },
-  // top-right – rocket cheer (avoid under navbar buttons on desktop only)
-  { src: rocket, alt: "", size: 90, style: { top: 110, right: 12 }, bubble: "Tới đỉnh nào! 🚀", flip: true },
   // mid-left – study boy
   { src: boy, alt: "", size: 100, style: { top: "45%", left: 8 }, bubble: "Học chăm nhé! 📚" },
   // mid-right – study girl
@@ -31,6 +27,8 @@ const ITEMS: Item[] = [
   // bottom-left – cheer
   { src: cheer, alt: "", size: 110, style: { bottom: 24, left: 14 }, bubble: "Tuyệt vời! 🎉" },
 ];
+// Unused imports kept removed below
+void owl; void rocket;
 
 /**
  * Hidden under xl (1280px) to avoid covering content on smaller screens.
