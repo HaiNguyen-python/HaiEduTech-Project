@@ -292,7 +292,7 @@ const Navbar = () => {
 
     // Study Abroad ("Du Học") menu item is temporarily hidden — replaced by EdTech hub.
     // { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
-    { to: "/edtech-research", label: t("EdTech", "EdTech"), icon: FlaskConical, key: "edtech", subs: [
+    { to: "/edtech-research", label: t("EdTech Research & Design", "EdTech Research & Design"), icon: FlaskConical, key: "edtech", subs: [
       { to: "/edtech-research", label: t("🔬 EdTech Research", "🔬 EdTech Research") },
       { to: "/dich-vu-web", label: t("🎨 Thiết kế Software Giáo dục", "🎨 EdTech Software Design") },
     ] },
