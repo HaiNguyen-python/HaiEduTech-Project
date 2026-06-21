@@ -1,6 +1,6 @@
 /**
  * @file SwedishBeginner.tsx
- * @description /swedish/beginner — A1 starter lessons with YKI 4-skills simulator.
+ * @description /swedish/beginner - A1 starter lessons + 30-day self-study plan.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
@@ -9,14 +9,17 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SwedishTierView } from "@/components/swedish/SwedishTierView";
+import { SwedishA1DailyPlan } from "@/components/swedish/SwedishA1DailyPlan";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BookOpen, CalendarDays } from "lucide-react";
 
 const SwedishBeginner = () => {
   const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Tiếng Thụy Điển cho Người Mới (A1) — YKI Ruotsi | HaiEduTech"
-        description="Lộ trình Beginner A1 tiếng Thụy Điển: phát âm Bắc Âu, En/Ett, chào hỏi, mua sắm, hỏi đường — chuẩn bị cho YKI Ruotsi Cấp 1."
+        title="Tiếng Thụy Điển A1 + Lộ trình 30 ngày tự học | HaiEduTech"
+        description="16 bài học A1 tiếng Thụy Điển và lộ trình tự học 30 ngày: phát âm, chào hỏi, mua sắm, fika, lagom — sẵn sàng cho YKI Cấp 1."
         path="/swedish/beginner"
       />
       <Navbar />
@@ -28,12 +31,32 @@ const SwedishBeginner = () => {
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               {t(
-                "6 bài học nền tảng: phát âm Bắc Âu, bản thân & gia đình, số/giờ/ngày, chào hỏi lịch sự, mua sắm, hỏi đường.",
-                "Six foundation lessons: Nordic pronunciation, self & family, numbers/time/dates, greetings, shopping, directions."
+                "16 bài nền tảng + lộ trình tự học 30 ngày: phát âm Bắc Âu, chào hỏi, mua sắm, fika, hỏi đường - chuẩn bị cho YKI Ruotsi Cấp 1.",
+                "16 foundation lessons + 30-day self-study plan: Nordic pronunciation, greetings, shopping, fika, directions - YKI Ruotsi Level 1 prep."
               )}
             </p>
           </header>
-          <SwedishTierView tierId="a1" />
+
+          <Tabs defaultValue="plan" className="w-full">
+            <TabsList className="mx-auto mb-6 grid w-full max-w-md grid-cols-2">
+              <TabsTrigger value="plan" className="gap-1.5">
+                <CalendarDays className="h-4 w-4" />
+                {t("Lộ trình 30 ngày", "30-Day Plan")}
+              </TabsTrigger>
+              <TabsTrigger value="lessons" className="gap-1.5">
+                <BookOpen className="h-4 w-4" />
+                {t("16 bài học", "16 Lessons")}
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="plan" className="mt-0">
+              <SwedishA1DailyPlan />
+            </TabsContent>
+
+            <TabsContent value="lessons" className="mt-0">
+              <SwedishTierView tierId="a1" />
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
       <Footer />
