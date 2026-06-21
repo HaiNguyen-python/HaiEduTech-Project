@@ -66,9 +66,27 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
   const [recent, setRecent] = useState<RecentPeer[]>([]);
   const [showEmoji, setShowEmoji] = useState(false);
   const [search, setSearch] = useState("");
+  const [fetchedDir, setFetchedDir] = useState<Peer[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const activePeerRef = useRef<Peer | null>(activePeer);
   useEffect(() => { activePeerRef.current = activePeer; }, [activePeer]);
+
+  // Fetch full classmate directory via SECURITY DEFINER RPC
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.rpc("get_your_corner_directory" as any);
+      if (data) setFetchedDir(data.map((d: any) => ({ user_id: d.user_id, full_name: d.full_name, avatar_url: d.avatar_url })));
+    })();
+  }, [currentUserId]);
+
+  const mergedDirectory = useMemo(() => {
+    const map = new Map<string, Peer>();
+    [...fetchedDir, ...directory].forEach((p) => {
+      if (p.user_id && p.user_id !== currentUserId && !map.has(p.user_id)) map.set(p.user_id, p);
+    });
+    return Array.from(map.values());
+  }, [fetchedDir, directory, currentUserId]);
+
 
   // Load recent conversations + unread badge with last-message preview
   const loadRecent = useCallback(async () => {
