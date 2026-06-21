@@ -236,23 +236,23 @@ export default function YourCorner() {
               <Card className="p-5 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm sticky top-24 space-y-5">
                 <div>
                   <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-                    <Trophy className="w-4 h-4 text-amber-500" /> Karma của bạn
+                    <Trophy className="w-4 h-4 text-amber-500" /> {t("Karma của bạn", "Your karma")}
                   </h3>
                   <div className="grid grid-cols-2 gap-2 text-center">
                     <div className="p-2 rounded-lg bg-blue-500/10">
                       <div className="text-lg font-bold text-blue-600 dark:text-blue-300">{myKarma.posts}</div>
-                      <div className="text-[10px] text-muted-foreground">Bài viết</div>
+                      <div className="text-[10px] text-muted-foreground">{t("Bài viết", "Posts")}</div>
                     </div>
                     <div className="p-2 rounded-lg bg-rose-500/10">
                       <div className="text-lg font-bold text-rose-600 dark:text-rose-300">{myKarma.likes}</div>
-                      <div className="text-[10px] text-muted-foreground">Lượt thích</div>
+                      <div className="text-[10px] text-muted-foreground">{t("Lượt thích", "Likes")}</div>
                     </div>
                   </div>
                 </div>
 
                 <div>
                   <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-                    <BookOpen className="w-4 h-4 text-emerald-500" /> Lọc theo chủ đề
+                    <BookOpen className="w-4 h-4 text-emerald-500" /> {t("Lọc theo chủ đề", "Filter by topic")}
                   </h3>
                   <div className="flex flex-wrap gap-1.5">
                     <button
@@ -261,7 +261,7 @@ export default function YourCorner() {
                         !subjectFilter ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/70"
                       }`}
                     >
-                      Tất cả
+                      {t("Tất cả", "All")}
                     </button>
                     {SUBJECTS.map((s) => (
                       <button
