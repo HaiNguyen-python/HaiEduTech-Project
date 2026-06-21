@@ -66,7 +66,11 @@ export default function YourCorner() {
         .sort((a, b) => b.reaction_count + b.comment_count - (a.reaction_count + a.comment_count));
     }
     if (subjectFilter) list = list.filter((p) => p.subject === subjectFilter);
-    if (tagFilter) list = list.filter((p) => p.content.toLowerCase().includes(tagFilter.toLowerCase()));
+    if (tagFilter) {
+      const needle = tagFilter.toLowerCase();
+      list = list.filter((p) => extractHashtagsLower(p.content).includes(needle));
+    }
+
     return list;
   }, [posts, tab, subjectFilter, tagFilter]);
 
