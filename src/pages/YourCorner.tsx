@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
@@ -6,15 +6,23 @@ import SEO from "@/components/SEO";
 import FloatingParticles from "@/components/FloatingParticles";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy } from "lucide-react";
 import PostComposer from "@/components/your-corner/PostComposer";
 import PostCard from "@/components/your-corner/PostCard";
+import StoryBar from "@/components/your-corner/StoryBar";
 import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
+import { SUBJECTS, subjectMap, SubjectKey } from "@/lib/yourCornerMeta";
+
+type FeedTab = "latest" | "trending" | "saved";
 
 export default function YourCorner() {
   const [userId, setUserId] = useState<string | null>(null);
   const [userMeta, setUserMeta] = useState<{ name: string | null; avatar: string | null }>({ name: null, avatar: null });
   const [authReady, setAuthReady] = useState(false);
+  const [tab, setTab] = useState<FeedTab>("latest");
+  const [subjectFilter, setSubjectFilter] = useState<SubjectKey | null>(null);
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(async ({ data }) => {
@@ -36,13 +44,37 @@ export default function YourCorner() {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  const { posts, loading, refresh } = useYourCornerFeed(!!userId);
+  const { posts, loading, refresh, trendingTags } = useYourCornerFeed(!!userId);
+
+  // Karma = own posts + likes received on own posts
+  const myKarma = useMemo(() => {
+    if (!userId) return { posts: 0, likes: 0 };
+    const mine = posts.filter((p) => p.user_id === userId);
+    return {
+      posts: mine.length,
+      likes: mine.reduce((s, p) => s + p.reaction_count, 0),
+    };
+  }, [posts, userId]);
+
+  const filtered = useMemo(() => {
+    let list = posts;
+    if (tab === "saved") list = list.filter((p) => p.bookmarked_by_me);
+    if (tab === "trending") {
+      const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      list = [...list]
+        .filter((p) => new Date(p.created_at).getTime() >= cutoff)
+        .sort((a, b) => b.reaction_count + b.comment_count - (a.reaction_count + a.comment_count));
+    }
+    if (subjectFilter) list = list.filter((p) => p.subject === subjectFilter);
+    if (tagFilter) list = list.filter((p) => p.content.toLowerCase().includes(tagFilter.toLowerCase()));
+    return list;
+  }, [posts, tab, subjectFilter, tagFilter]);
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50/40 via-background to-emerald-50/40 dark:from-blue-950/20 dark:via-background dark:to-emerald-950/20">
       <SEO
         title="Your Corner - Góc Chia Sẻ Học Viên | HaiEduTech"
-        description="Không gian dành cho học viên HaiEduTech chia sẻ bài viết, kỹ năng và hành trình học tập của mình."
+        description="Không gian dành cho học viên HaiEduTech chia sẻ bài viết, kỹ năng và hành trình học tập."
       />
       <Navbar />
 
@@ -53,14 +85,13 @@ export default function YourCorner() {
         <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "3s" }} />
       </div>
 
-      {/* Floating subject particles */}
       <div className="absolute inset-0 pointer-events-none">
         <FloatingParticles count={22} />
       </div>
 
       <main className="container mx-auto px-4 pt-24 pb-16 relative z-10">
-        {/* Hero header */}
-        <header className="text-center mb-10 max-w-3xl mx-auto">
+        {/* Hero */}
+        <header className="text-center mb-8 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 dark:bg-background/70 backdrop-blur-md border border-primary/20 shadow-sm mb-4">
             <Sparkles className="w-4 h-4 text-emerald-500" />
             <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
@@ -93,64 +124,159 @@ export default function YourCorner() {
             </Button>
           </Card>
         ) : (
-          <div className="grid lg:grid-cols-[260px_minmax(0,640px)_260px] gap-6 max-w-6xl mx-auto justify-center">
-            {/* Left sidebar — desktop only */}
+          <div className="grid lg:grid-cols-[260px_minmax(0,640px)_280px] gap-6 max-w-6xl mx-auto justify-center">
+            {/* Left sidebar */}
             <aside className="hidden lg:block space-y-4">
-              <Card className="p-5 backdrop-blur-md bg-white/75 dark:bg-card/75 border-primary/10 shadow-sm sticky top-24">
-                <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-emerald-500" /> Góc học tập
-                </h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2"><span className="text-blue-500">📚</span> Chia sẻ kiến thức bạn vừa học</li>
-                  <li className="flex items-start gap-2"><span className="text-emerald-500">🎯</span> Hỏi đáp cùng bạn bè</li>
-                  <li className="flex items-start gap-2"><span className="text-cyan-500">💡</span> Khoe thành tựu, kỹ năng mới</li>
-                  <li className="flex items-start gap-2"><span className="text-amber-500">🤝</span> Học vui hơn cùng cộng đồng</li>
-                </ul>
+              <Card className="p-5 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm sticky top-24 space-y-5">
+                <div>
+                  <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
+                    <Trophy className="w-4 h-4 text-amber-500" /> Karma của bạn
+                  </h3>
+                  <div className="grid grid-cols-2 gap-2 text-center">
+                    <div className="p-2 rounded-lg bg-blue-500/10">
+                      <div className="text-lg font-bold text-blue-600 dark:text-blue-300">{myKarma.posts}</div>
+                      <div className="text-[10px] text-muted-foreground">Bài viết</div>
+                    </div>
+                    <div className="p-2 rounded-lg bg-rose-500/10">
+                      <div className="text-lg font-bold text-rose-600 dark:text-rose-300">{myKarma.likes}</div>
+                      <div className="text-[10px] text-muted-foreground">Lượt thích</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-emerald-500" /> Lọc theo chủ đề
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    <button
+                      onClick={() => setSubjectFilter(null)}
+                      className={`px-2.5 py-1 rounded-full text-xs font-medium transition ${
+                        !subjectFilter ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/70"
+                      }`}
+                    >
+                      Tất cả
+                    </button>
+                    {SUBJECTS.map((s) => (
+                      <button
+                        key={s.key}
+                        onClick={() => setSubjectFilter(subjectFilter === s.key ? null : s.key)}
+                        className={`px-2.5 py-1 rounded-full text-xs font-medium transition ${
+                          subjectFilter === s.key ? `${s.bg} ${s.color} ring-1 ring-current` : "bg-muted hover:bg-muted/70"
+                        }`}
+                      >
+                        {s.emoji} {s.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </Card>
             </aside>
 
             {/* Feed */}
             <div className="space-y-5 mx-auto w-full max-w-[640px]">
+              <StoryBar />
               <PostComposer userId={userId} onPosted={refresh} userName={userMeta.name} userAvatar={userMeta.avatar} />
+
+              {/* Tabs */}
+              <Tabs value={tab} onValueChange={(v) => setTab(v as FeedTab)}>
+                <TabsList className="grid grid-cols-3 w-full backdrop-blur-md bg-white/75 dark:bg-card/75">
+                  <TabsTrigger value="latest"><Sparkles className="w-3.5 h-3.5 mr-1.5" /> Mới nhất</TabsTrigger>
+                  <TabsTrigger value="trending"><TrendingUp className="w-3.5 h-3.5 mr-1.5" /> Trending</TabsTrigger>
+                  <TabsTrigger value="saved"><Bookmark className="w-3.5 h-3.5 mr-1.5" /> Đã lưu</TabsTrigger>
+                </TabsList>
+              </Tabs>
+
+              {/* Active filter chip */}
+              {(subjectFilter || tagFilter) && (
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="text-muted-foreground">Đang lọc:</span>
+                  {subjectFilter && (
+                    <button
+                      onClick={() => setSubjectFilter(null)}
+                      className={`px-2 py-0.5 rounded-full ${subjectMap.get(subjectFilter)?.bg} ${subjectMap.get(subjectFilter)?.color}`}
+                    >
+                      {subjectMap.get(subjectFilter)?.emoji} {subjectMap.get(subjectFilter)?.label} ✕
+                    </button>
+                  )}
+                  {tagFilter && (
+                    <button onClick={() => setTagFilter(null)} className="px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                      {tagFilter} ✕
+                    </button>
+                  )}
+                </div>
+              )}
 
               {loading && posts.length === 0 ? (
                 <Card className="p-8 text-center text-muted-foreground backdrop-blur-md bg-white/70 dark:bg-card/70">
                   Đang tải bài viết...
                 </Card>
-              ) : posts.length === 0 ? (
+              ) : filtered.length === 0 ? (
                 <Card className="p-10 text-center space-y-3 backdrop-blur-md bg-white/75 dark:bg-card/75 border-dashed border-2 border-primary/20">
-                  <div className="text-5xl">✍️</div>
-                  <p className="font-semibold">Chưa có bài viết nào</p>
-                  <p className="text-sm text-muted-foreground">Hãy là người đầu tiên chia sẻ với cộng đồng!</p>
+                  <div className="text-5xl">{tab === "saved" ? "🔖" : "✍️"}</div>
+                  <p className="font-semibold">
+                    {tab === "saved" ? "Chưa lưu bài nào" : "Chưa có bài viết phù hợp"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {tab === "saved" ? "Bấm Lưu trên bài bất kỳ để xem lại sau." : "Hãy là người đầu tiên chia sẻ với cộng đồng!"}
+                  </p>
                 </Card>
               ) : (
-                posts.map((p) => (
+                filtered.map((p) => (
                   <PostCard key={p.id} post={p} currentUserId={userId} onChanged={refresh} />
                 ))
               )}
             </div>
 
-            {/* Right sidebar — desktop only */}
+            {/* Right sidebar */}
             <aside className="hidden lg:block space-y-4">
-              <Card className="p-5 backdrop-blur-md bg-white/75 dark:bg-card/75 border-primary/10 shadow-sm sticky top-24">
-                <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-orange-500" /> Hoạt động
-                </h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground flex items-center gap-2"><BookOpen className="w-4 h-4 text-blue-500" />Bài viết</span>
-                    <span className="font-bold">{posts.length}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground flex items-center gap-2"><Heart className="w-4 h-4 text-rose-500" />Lượt thích</span>
-                    <span className="font-bold">{posts.reduce((s, p) => s + p.reaction_count, 0)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground flex items-center gap-2"><MessageCircle className="w-4 h-4 text-emerald-500" />Bình luận</span>
-                    <span className="font-bold">{posts.reduce((s, p) => s + p.comment_count, 0)}</span>
+              <Card className="p-5 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm sticky top-24 space-y-5">
+                <div>
+                  <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
+                    <Hash className="w-4 h-4 text-purple-500" /> Đang hot 7 ngày
+                  </h3>
+                  {trendingTags.length === 0 ? (
+                    <p className="text-xs text-muted-foreground">Chưa có hashtag nào. Hãy bắt đầu với #IELTS, #Python ✨</p>
+                  ) : (
+                    <ul className="space-y-1.5">
+                      {trendingTags.map(({ tag, count }) => (
+                        <li key={tag}>
+                          <button
+                            onClick={() => setTagFilter(tagFilter === tag ? null : tag)}
+                            className={`w-full flex items-center justify-between text-xs px-2 py-1.5 rounded-md transition ${
+                              tagFilter === tag ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                            }`}
+                          >
+                            <span className="font-semibold">{tag}</span>
+                            <span className="text-muted-foreground">{count}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
+                    <Flame className="w-4 h-4 text-orange-500" /> Hoạt động cộng đồng
+                  </h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground flex items-center gap-2"><BookOpen className="w-4 h-4 text-blue-500" />Bài viết</span>
+                      <span className="font-bold">{posts.length}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground flex items-center gap-2"><Heart className="w-4 h-4 text-rose-500" />Lượt thích</span>
+                      <span className="font-bold">{posts.reduce((s, p) => s + p.reaction_count, 0)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground flex items-center gap-2"><MessageCircle className="w-4 h-4 text-emerald-500" />Bình luận</span>
+                      <span className="font-bold">{posts.reduce((s, p) => s + p.comment_count, 0)}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="mt-4 pt-4 border-t text-xs text-muted-foreground italic">
+
+                <div className="pt-3 border-t text-xs text-muted-foreground italic text-center">
                   "Học thông minh - Dẫn đầu kỷ nguyên số" 💙💚
                 </div>
               </Card>

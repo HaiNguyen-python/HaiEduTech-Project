@@ -7,9 +7,10 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
-import { Heart, MessageCircle, Trash2, Send } from "lucide-react";
+import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import type { FeedPost, FeedAuthor } from "@/hooks/useYourCornerFeed";
+import { subjectMap, linkifyHashtags } from "@/lib/yourCornerMeta";
 
 type Comment = {
   id: string;
@@ -29,24 +30,30 @@ interface Props {
 export default function PostCard({ post, currentUserId, onChanged }: Props) {
   const [liked, setLiked] = useState(post.liked_by_me);
   const [likeCount, setLikeCount] = useState(post.reaction_count);
+  const [bookmarked, setBookmarked] = useState(post.bookmarked_by_me);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentText, setCommentText] = useState("");
   const [loadingComments, setLoadingComments] = useState(false);
+  const [heartPop, setHeartPop] = useState(false);
 
   useEffect(() => {
     setLiked(post.liked_by_me);
     setLikeCount(post.reaction_count);
-  }, [post.liked_by_me, post.reaction_count]);
+    setBookmarked(post.bookmarked_by_me);
+  }, [post.liked_by_me, post.reaction_count, post.bookmarked_by_me]);
 
   const authorName = post.author?.full_name?.trim() || "Học viên";
   const initials = authorName.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
+  const subjMeta = post.subject ? subjectMap.get(post.subject as any) : null;
 
   const toggleLike = async () => {
     const next = !liked;
     setLiked(next);
     setLikeCount((c) => c + (next ? 1 : -1));
     if (next) {
+      setHeartPop(true);
+      setTimeout(() => setHeartPop(false), 600);
       const { error } = await supabase
         .from("your_corner_reactions")
         .insert({ post_id: post.id, user_id: currentUserId });
@@ -64,6 +71,46 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
         setLiked(true);
         setLikeCount((c) => c + 1);
       }
+    }
+  };
+
+  const toggleBookmark = async () => {
+    const next = !bookmarked;
+    setBookmarked(next);
+    if (next) {
+      const { error } = await supabase
+        .from("your_corner_bookmarks")
+        .insert({ post_id: post.id, user_id: currentUserId });
+      if (error) {
+        setBookmarked(false);
+        toast.error("Không lưu được");
+      } else {
+        toast.success("Đã lưu vào Góc của bạn 🔖");
+      }
+    } else {
+      const { error } = await supabase
+        .from("your_corner_bookmarks")
+        .delete()
+        .eq("post_id", post.id)
+        .eq("user_id", currentUserId);
+      if (error) {
+        setBookmarked(true);
+        toast.error("Không bỏ lưu được");
+      }
+    }
+  };
+
+  const sharePost = async () => {
+    const url = `${window.location.origin}/your-corner#post-${post.id}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Your Corner - HaiEduTech", text: post.content.slice(0, 120), url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast.success("Đã sao chép link bài viết");
+      }
+    } catch {
+      // user cancelled
     }
   };
 
@@ -131,22 +178,42 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
   };
 
   const isMine = post.user_id === currentUserId;
-  const sanitized = DOMPurify.sanitize(post.content.replace(/\n/g, "<br/>"));
+  const escaped = DOMPurify.sanitize(post.content, { ALLOWED_TAGS: [] });
+  const withBreaks = escaped.replace(/\n/g, "<br/>");
+  const sanitized = linkifyHashtags(withBreaks);
   const timeAgo = formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: vi });
 
   return (
-    <Card className="p-5 space-y-3 backdrop-blur-md bg-white/85 dark:bg-card/85 border-primary/10 shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in">
+    <Card
+      id={`post-${post.id}`}
+      className={`p-5 space-y-3 backdrop-blur-md bg-white/85 dark:bg-card/85 shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in border-l-4 ${
+        subjMeta?.border ?? "border-l-primary/30"
+      }`}
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10">
+          <Avatar className="h-10 w-10 ring-2 ring-primary/10">
             {post.author?.avatar_url && <AvatarImage src={post.author.avatar_url} alt={authorName} />}
             <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-sm">
               {initials}
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="font-semibold text-sm">{authorName}</p>
-            <p className="text-xs text-muted-foreground">{timeAgo}</p>
+            <p className="font-semibold text-sm flex items-center gap-1.5">
+              {authorName}
+              {post.mood && <span className="text-base leading-none">{post.mood}</span>}
+            </p>
+            <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+              {timeAgo}
+              {subjMeta && (
+                <>
+                  <span>·</span>
+                  <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${subjMeta.bg} ${subjMeta.color}`}>
+                    {subjMeta.emoji} {subjMeta.label}
+                  </span>
+                </>
+              )}
+            </p>
           </div>
         </div>
         {isMine && (
@@ -157,7 +224,7 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
       </div>
 
       <div
-        className="text-base whitespace-pre-wrap break-words"
+        className="text-base whitespace-pre-wrap break-words leading-relaxed"
         dangerouslySetInnerHTML={{ __html: sanitized }}
       />
 
@@ -165,19 +232,35 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
         <img src={post.image_url} alt="post" className="rounded-lg max-h-[500px] w-full object-cover" />
       )}
 
-      <div className="flex items-center gap-1 border-t pt-2">
+      <div className="flex items-center gap-1 border-t pt-2 flex-wrap">
         <Button
           variant="ghost"
           size="sm"
           onClick={toggleLike}
           className={liked ? "text-red-500 hover:text-red-600" : "text-muted-foreground"}
         >
-          <Heart className={`w-4 h-4 mr-2 ${liked ? "fill-current" : ""}`} />
+          <Heart
+            className={`w-4 h-4 mr-2 transition-transform ${liked ? "fill-current" : ""} ${
+              heartPop ? "scale-150" : "scale-100"
+            }`}
+          />
           {likeCount > 0 ? likeCount : ""} Thích
         </Button>
         <Button variant="ghost" size="sm" onClick={openComments} className="text-muted-foreground">
           <MessageCircle className="w-4 h-4 mr-2" />
           {post.comment_count > 0 ? post.comment_count : ""} Bình luận
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={toggleBookmark}
+          className={bookmarked ? "text-amber-600 hover:text-amber-700" : "text-muted-foreground"}
+        >
+          <Bookmark className={`w-4 h-4 mr-2 ${bookmarked ? "fill-current" : ""}`} />
+          {bookmarked ? "Đã lưu" : "Lưu"}
+        </Button>
+        <Button variant="ghost" size="sm" onClick={sharePost} className="text-muted-foreground">
+          <Share2 className="w-4 h-4 mr-2" /> Chia sẻ
         </Button>
       </div>
 
@@ -191,7 +274,7 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
               const cinit = cname.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
               const canDelete = c.user_id === currentUserId || isMine;
               return (
-                <div key={c.id} className="flex items-start gap-2">
+                <div key={c.id} className="flex items-start gap-2 animate-fade-in">
                   <Avatar className="h-7 w-7 flex-shrink-0">
                     {c.author?.avatar_url && <AvatarImage src={c.author.avatar_url} alt={cname} />}
                     <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs">
