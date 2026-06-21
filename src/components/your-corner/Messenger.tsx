@@ -261,43 +261,72 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
       </div>
 
       {!activePeer ? (
-        <div className="flex-1 overflow-y-auto p-2 max-h-72">
-          {recent.length === 0 ? (
-            <div className="text-center text-xs text-muted-foreground p-6">
-              Chưa có cuộc trò chuyện nào.
-              <br />Bấm "Nhắn tin" cạnh bạn online phía trên để bắt đầu nhé!
-            </div>
-          ) : (
-            recent.map((p) => {
-              const n = p.full_name?.trim() || "Học viên";
-              const ini = n.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
-              return (
-                <button
-                  key={p.user_id}
-                  onClick={() => setActivePeer(p)}
-                  className="w-full flex items-center gap-2 p-2 rounded-md hover:bg-muted text-left"
-                >
-                  <div className="relative shrink-0">
-                    <Avatar className="h-9 w-9">
-                      {p.avatar_url && <AvatarImage src={p.avatar_url} alt={n} />}
-                      <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs">
-                        {ini}
-                      </AvatarFallback>
-                    </Avatar>
-                    {onlineMap.has(p.user_id) && (
-                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-semibold truncate">{n}</div>
-                    <div className="text-[10px] text-muted-foreground">
-                      {onlineMap.has(p.user_id) ? "Đang online" : "Offline"}
-                    </div>
-                  </div>
-                </button>
-              );
-            })
-          )}
+        <div className="flex-1 flex flex-col">
+          {/* Search */}
+          <div className="p-2 border-b">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="🔎 Tìm cuộc trò chuyện..."
+              className="w-full text-xs px-2.5 py-1.5 rounded-md bg-muted/60 focus:bg-background focus:outline-none focus:ring-1 focus:ring-primary/40"
+            />
+          </div>
+          <div className="flex-1 overflow-y-auto p-2 max-h-72">
+            {recent.length === 0 ? (
+              <div className="text-center text-xs text-muted-foreground p-6">
+                Chưa có cuộc trò chuyện nào.
+                <br />Bấm "Nhắn tin" cạnh bạn online phía trên để bắt đầu nhé!
+              </div>
+            ) : (
+              recent
+                .filter((p) => {
+                  if (!search.trim()) return true;
+                  const q = search.toLowerCase();
+                  return (p.full_name ?? "").toLowerCase().includes(q) || p.last_message.toLowerCase().includes(q);
+                })
+                .map((p) => {
+                  const n = p.full_name?.trim() || "Học viên";
+                  const ini = n.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
+                  const preview = (p.last_from_me ? "Bạn: " : "") + p.last_message;
+                  return (
+                    <button
+                      key={p.user_id}
+                      onClick={() => setActivePeer(p)}
+                      className="w-full flex items-center gap-2 p-2 rounded-md hover:bg-muted text-left"
+                    >
+                      <div className="relative shrink-0">
+                        <Avatar className="h-10 w-10">
+                          {p.avatar_url && <AvatarImage src={p.avatar_url} alt={n} />}
+                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs">
+                            {ini}
+                          </AvatarFallback>
+                        </Avatar>
+                        {onlineMap.has(p.user_id) && (
+                          <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className={`text-sm truncate ${p.unread > 0 ? "font-bold" : "font-semibold"}`}>{n}</span>
+                          <span className="text-[10px] text-muted-foreground shrink-0">{formatTime(p.last_at)}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className={`text-[11px] truncate ${p.unread > 0 ? "text-foreground font-medium" : "text-muted-foreground"}`}>
+                            {preview}
+                          </span>
+                          {p.unread > 0 && (
+                            <span className="text-[10px] font-bold bg-rose-500 text-white px-1.5 py-0.5 rounded-full shrink-0">
+                              {p.unread}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })
+            )}
+          </div>
         </div>
       ) : (
         <>
@@ -314,25 +343,63 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
                 <p className="text-xs">Gửi tin nhắn đầu tiên 👋</p>
               </div>
             ) : (
-              messages.map((m) => {
+              messages.map((m, i) => {
                 const mine = m.sender_id === currentUserId;
+                const prev = messages[i - 1];
+                const showTime = !prev || new Date(m.created_at).getTime() - new Date(prev.created_at).getTime() > 5 * 60 * 1000;
+                const isLastMine = mine && i === messages.length - 1;
                 return (
-                  <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-                    <div
-                      className={`max-w-[80%] px-3 py-1.5 rounded-2xl text-sm whitespace-pre-wrap break-words ${
-                        mine
-                          ? "bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-br-sm"
-                          : "bg-background border rounded-bl-sm"
-                      }`}
-                    >
-                      {m.content}
+                  <div key={m.id}>
+                    {showTime && (
+                      <div className="text-center text-[10px] text-muted-foreground my-1">{formatTime(m.created_at)}</div>
+                    )}
+                    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+                      <div
+                        className={`max-w-[80%] px-3 py-1.5 rounded-2xl text-sm whitespace-pre-wrap break-words ${
+                          mine
+                            ? "bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-br-sm"
+                            : "bg-background border rounded-bl-sm"
+                        }`}
+                      >
+                        {m.content}
+                      </div>
                     </div>
+                    {isLastMine && (
+                      <div className="text-right text-[10px] text-muted-foreground mt-0.5 pr-1">
+                        {m.read_at ? "✓✓ Đã xem" : m.id.startsWith("tmp-") ? "Đang gửi..." : "✓ Đã gửi"}
+                      </div>
+                    )}
                   </div>
                 );
               })
             )}
           </div>
-          <div className="border-t p-2 flex items-end gap-2 bg-background">
+
+          {/* Quick emoji bar */}
+          {showEmoji && (
+            <div className="border-t bg-muted/40 px-2 py-1.5 flex flex-wrap gap-1">
+              {QUICK_EMOJIS.map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  onClick={() => setDraft((d) => d + e)}
+                  className="text-lg hover:scale-125 transition-transform"
+                >
+                  {e}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="border-t p-2 flex items-end gap-1.5 bg-background">
+            <button
+              type="button"
+              onClick={() => setShowEmoji((v) => !v)}
+              className="shrink-0 h-9 w-9 rounded-md hover:bg-muted text-lg"
+              aria-label="Emoji"
+            >
+              😊
+            </button>
             <Textarea
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
@@ -356,8 +423,12 @@ export default function Messenger({ currentUserId, activePeer, setActivePeer, on
               {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </Button>
           </div>
+          <div className="px-3 pb-1.5 text-[10px] text-muted-foreground">
+            {draft.length}/2000 · Enter để gửi, Shift+Enter xuống dòng
+          </div>
         </>
       )}
+
     </Card>
   );
 }
