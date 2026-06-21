@@ -407,7 +407,9 @@ export default function YourCorner() {
                 activePeer={chatPeer}
                 setActivePeer={setChatPeer}
                 onlineUsers={onlineUsers}
+                directory={mentionables}
               />
+
 
             </aside>
           </div>
