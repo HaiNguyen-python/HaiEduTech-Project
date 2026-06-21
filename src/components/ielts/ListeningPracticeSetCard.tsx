@@ -547,8 +547,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
               <ShieldAlert className="w-3 h-3" />
               {examMode ? t("Exam Mode • ON", "Exam Mode • ON") : t("Bật Exam Mode", "Enable Exam Mode")}
             </Badge>
-            <span className="text-xs text-muted-foreground ml-auto">
-              {t("Đọc bằng giọng máy (Web Speech)", "Spoken with browser TTS")}
+            <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
+              <Mic2 className="w-3 h-3 text-emerald-600" />
+              {t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
