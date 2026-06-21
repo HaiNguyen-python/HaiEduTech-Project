@@ -121,7 +121,7 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
     context: "You will hear a tour guide giving information about a city walking tour. Choose the correct answer A, B, or C.",
     contextVi: "Bạn sẽ nghe một hướng dẫn viên giới thiệu tour đi bộ. Chọn đáp án đúng A, B hoặc C.",
     transcript:
-      "Welcome everyone to the Old Town walking tour. My name is Daniel and I'll be your guide today.\n" +
+      "Guide: Welcome everyone to the Old Town walking tour. My name is Daniel and I'll be your guide today.\n" +
       "The tour lasts approximately two and a half hours, with one short break at the cathedral square.\n" +
       "Originally, we planned to start at the river bridge, but due to construction work this morning we'll begin from the museum entrance instead.\n" +
       "Please remember that photography is permitted everywhere outdoors, but inside the cathedral only the main hall allows photos, and flash is not allowed.\n" +
@@ -159,7 +159,7 @@ export const ieltsListeningPracticeSets: ListeningPracticeSet[] = [
     contextVi:
       "Bạn sẽ nghe mô tả công viên Riverside. Trên bản đồ có 5 vị trí được đánh số 1-5. Hãy nghe và viết chữ cái (A-G) tương ứng với CƠ SỞ nằm tại mỗi vị trí. Có 2 mục trong danh sách KHÔNG xuất hiện trên bản đồ. Sau đó trả lời câu 6-10.",
     transcript:
-      "Welcome to Riverside Park. Let me describe the layout so you can find your way around.\n" +
+      "Guide: Welcome to Riverside Park. Let me describe the layout so you can find your way around.\n" +
       "As you come in through the main entrance at the south, the first thing you'll see immediately on your right is the information centre. That's where you can pick up free maps and event leaflets.\n" +
       "Walk straight ahead along the wide path heading north. About halfway up, on your left, there's a small wooden building - that's the café, which serves hot drinks and snacks.\n" +
       "Continue to the roundabout in the middle of the park. If you turn west at the roundabout and follow that path to the end, you'll reach the children's playground in the western corner.\n" +

@@ -242,8 +242,16 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
 
     // Extract speaker tag like "Anna:" / "Tutor:" so we can route to a distinct voice.
     const speakerMatch = raw.match(/^([A-Z][a-zA-Z]{1,20}):\s*([\s\S]+)$/);
-    const speakerName = speakerMatch ? speakerMatch[1] : null;
+    let speakerName = speakerMatch ? speakerMatch[1] : null;
     const spokenBody = speakerMatch ? speakerMatch[2] : raw;
+    // Inherit the most recent speaker tag so a Section 2 monologue tagged once
+    // (e.g. "Guide: ...") keeps the same characterful voice across all lines.
+    if (!speakerName) {
+      for (let i = startIdx - 1; i >= 0; i--) {
+        const m = chunks[i].match(/^([A-Z][a-zA-Z]{1,20}):/);
+        if (m) { speakerName = m[1]; break; }
+      }
+    }
 
     const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)(?:[\s,-]+(?:zero|one|two|three|four|five|six|seven|eight|nine|oh|double|triple)){2,}\b)|(?:\b\d{4,}\b)/i.test(spokenBody);
     const text = isSpelling

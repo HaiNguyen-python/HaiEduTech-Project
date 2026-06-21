@@ -84,7 +84,7 @@ export const ieltsListeningPracticeSetsExpansion3: ListeningPracticeSet[] = [
     context: "You will hear a guide welcoming visitors to a city museum. Answer the questions.",
     contextVi: "Bạn sẽ nghe hướng dẫn viên giới thiệu bảo tàng. Trả lời câu hỏi.",
     transcript:
-      "Good morning everyone and welcome to the Riverside City Museum.\n" +
+      "Guide: Good morning everyone and welcome to the Riverside City Museum.\n" +
       "My name is Patricia and I'll be your guide for the next hour.\n" +
       "The museum opened in nineteen eighty-six and now welcomes over half a million visitors each year.\n" +
       "Before we begin, just a few practical points.\n" +

@@ -74,7 +74,7 @@ export const ieltsListeningPracticeSetsExpansion: ListeningPracticeSet[] = [
     context: "A museum guide gives a short introduction to visitors. Choose the best answer for each question.",
     contextVi: "Hướng dẫn viên giới thiệu bảo tàng. Chọn đáp án đúng.",
     transcript:
-      "Welcome to the City Maritime Museum. Before you begin your visit, a few quick notes.\n" +
+      "Curator: Welcome to the City Maritime Museum. Before you begin your visit, a few quick notes.\n" +
       "The museum was founded in 1923 and moved to this restored dockside warehouse in 2008.\n" +
       "We have three permanent galleries. The ground floor focuses on local fishing history. The first floor covers the age of steam, and the top floor houses our world-class collection of navigational instruments.\n" +
       "Our current temporary exhibition, 'Ocean Plastics', runs until the end of October and is included in your ticket.\n" +
