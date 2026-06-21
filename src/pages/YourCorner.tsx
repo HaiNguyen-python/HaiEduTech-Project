@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import SEO from "@/components/SEO";
-import FloatingParticles from "@/components/FloatingParticles";
+import FloatingSubjectIcons from "@/components/your-corner/FloatingSubjectIcons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
