@@ -12,7 +12,7 @@ import PostComposer from "@/components/your-corner/PostComposer";
 import PostCard from "@/components/your-corner/PostCard";
 import StoryBar from "@/components/your-corner/StoryBar";
 import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
-import { SUBJECTS, subjectMap, SubjectKey } from "@/lib/yourCornerMeta";
+import { SUBJECTS, subjectMap, SubjectKey, extractHashtags } from "@/lib/yourCornerMeta";
 
 type FeedTab = "latest" | "trending" | "saved";
 
@@ -68,8 +68,9 @@ export default function YourCorner() {
     if (subjectFilter) list = list.filter((p) => p.subject === subjectFilter);
     if (tagFilter) {
       const needle = tagFilter.toLowerCase();
-      list = list.filter((p) => extractHashtagsLower(p.content).includes(needle));
+      list = list.filter((p) => extractHashtags(p.content).includes(needle));
     }
+
 
     return list;
   }, [posts, tab, subjectFilter, tagFilter]);
