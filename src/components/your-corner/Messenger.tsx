@@ -23,12 +23,32 @@ type Peer = {
   avatar_url: string | null;
 };
 
+type RecentPeer = Peer & {
+  last_message: string;
+  last_at: string;
+  unread: number;
+  last_from_me: boolean;
+};
+
 interface Props {
   currentUserId: string;
   activePeer: Peer | null;
   setActivePeer: (p: Peer | null) => void;
   onlineUsers: OnlineUser[];
 }
+
+const QUICK_EMOJIS = ["👍", "❤️", "😂", "🔥", "🎉", "👏", "💪", "🤔"];
+
+function formatTime(iso: string) {
+  const d = new Date(iso);
+  const now = new Date();
+  const sameDay = d.toDateString() === now.toDateString();
+  if (sameDay) return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+  const diffDays = Math.floor((now.getTime() - d.getTime()) / 86400000);
+  if (diffDays < 7) return d.toLocaleDateString("vi-VN", { weekday: "short", hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" });
+}
+
 
 /**
  * Inline Messenger card for Your Corner.
