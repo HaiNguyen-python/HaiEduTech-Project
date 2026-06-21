@@ -39,7 +39,7 @@ export default function StoryBar() {
           return (
             <div key={u.user_id} className="flex flex-col items-center gap-1 flex-shrink-0 w-16">
               <div className="relative">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-500 p-0.5 animate-pulse">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-500 p-0.5">
                   <Avatar className="w-full h-full border-2 border-background">
                     {u.avatar_url && <AvatarImage src={u.avatar_url} alt={u.display_name} />}
                     <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-sm font-bold">
