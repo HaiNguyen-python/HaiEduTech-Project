@@ -1360,10 +1360,10 @@ const SimulatorReading = () => {
       <div>
         <p className="mb-2 text-sm font-semibold">{t(READING_Q.question.vi, READING_Q.question.en)}</p>
         <RadioGroup value={choice} onValueChange={(v) => { setChoice(v); setSubmitted(false); }}>
-          {READING_Q.options.map((o) => (
+          {READING_Q.options.map((o, oi) => (
             <div key={o.id} className="flex items-center gap-2 rounded-md border border-border/60 p-2">
               <RadioGroupItem id={`r-${o.id}`} value={o.id} />
-              <Label htmlFor={`r-${o.id}`} className="cursor-pointer text-sm">{t(o.vi, o.en)}</Label>
+              <Label htmlFor={`r-${o.id}`} className="cursor-pointer text-sm"><span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span>{t(o.vi, o.en)}</Label>
             </div>
           ))}
         </RadioGroup>
