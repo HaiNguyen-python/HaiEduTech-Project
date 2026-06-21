@@ -90,9 +90,8 @@ export default function YourCorner() {
         <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-300/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="absolute inset-0 pointer-events-none">
-        <FloatingParticles count={14} />
-      </div>
+      <FloatingSubjectIcons count={26} />
+
 
 
       <main className="container mx-auto px-4 pt-24 pb-16 relative z-10">
