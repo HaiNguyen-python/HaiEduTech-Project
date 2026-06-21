@@ -156,10 +156,11 @@ export default function YourCorner() {
       </div>
 
       <FloatingSubjectIcons count={70} />
+      <CornerCheerChibis />
 
 
 
-      <main className="container mx-auto px-4 pt-24 pb-16 relative z-10">
+      <main className="container mx-auto px-4 pt-24 pb-16 relative z-10 flex-1">
         {/* Hero - Enhanced */}
         <header className="relative text-center mb-10 max-w-4xl mx-auto">
           {/* Glow halo behind title */}
