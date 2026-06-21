@@ -62,6 +62,31 @@ export default function YourCorner() {
 
   const { posts, loading, refresh, trendingTags } = useYourCornerFeed(!!userId);
 
+  // Realtime presence — who is currently on Your Corner
+  const onlineUsers = useYourCornerPresence(userId, {
+    full_name: userMeta.name,
+    avatar_url: userMeta.avatar,
+  });
+
+  // Messenger active peer (lifted up so OnlineUsersPanel can open chats)
+  const [chatPeer, setChatPeer] = useState<{ user_id: string; full_name: string | null; avatar_url: string | null } | null>(null);
+
+  // People you can @-tag: distinct post authors + online users
+  const mentionables = useMemo<Mentionable[]>(() => {
+    const map = new Map<string, Mentionable>();
+    posts.forEach((p) => {
+      if (p.author && p.user_id !== userId) {
+        map.set(p.user_id, { user_id: p.user_id, full_name: p.author.full_name, avatar_url: p.author.avatar_url });
+      }
+    });
+    onlineUsers.forEach((u) => {
+      if (u.user_id !== userId && !map.has(u.user_id)) {
+        map.set(u.user_id, { user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url });
+      }
+    });
+    return Array.from(map.values());
+  }, [posts, onlineUsers, userId]);
+
   // Karma = own posts + likes received on own posts
   const myKarma = useMemo(() => {
     if (!userId) return { posts: 0, likes: 0 };
@@ -71,6 +96,7 @@ export default function YourCorner() {
       likes: mine.reduce((s, p) => s + p.reaction_count, 0),
     };
   }, [posts, userId]);
+
 
   const filtered = useMemo(() => {
     let list = posts;
