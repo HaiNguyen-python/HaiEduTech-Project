@@ -6,12 +6,13 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useMemo, useState } from "react";
-import { BookOpen, CheckCircle2, XCircle, Languages, Shuffle, GraduationCap, Lightbulb, Sparkles } from "lucide-react";
+import { BookOpen, CheckCircle2, XCircle, Languages, Shuffle, GraduationCap, Lightbulb, Sparkles, AlertTriangle, Quote } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { getDailyExpansion, type FillBlank, type TranslatePair, type MatchPair } from "@/data/swedishA1DailyExpansion";
 import { getDailyEnhancement, WEEK_HERO, getDayTopicImage } from "@/data/swedishA1DailyEnhancement";
+import { getDailyDeepPlus } from "@/data/swedishA1DailyDeepPlus";
 
 interface Props {
   day: number;
