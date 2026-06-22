@@ -34,13 +34,11 @@ const markLessonComplete = (id: string) => {
   }
 };
 
-// Speak Chinese text using TTS
+// Speak Chinese text using Google TTS proxy + native fallback.
+import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 const speakChinese = (text: string, rate = 0.85) => {
-  speechSynthesis.cancel();
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = "zh-CN";
-  utt.rate = rate;
-  speechSynthesis.speak(utt);
+  stopChineseTts();
+  void playChineseTts(text, { playbackRate: rate, speechRate: rate });
 };
 
 const ChineseConversationalLessonView = () => {
@@ -456,7 +454,7 @@ const ChineseConversationalLessonView = () => {
                     <Button variant="outline" size="sm" onClick={() => speakChinese(lesson.listeningChallenge.transcript, 0.6)}>
                       🐢 Slow
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => speechSynthesis.cancel()}>
+                    <Button variant="outline" size="sm" onClick={() => stopChineseTts()}>
                       ⏹ Stop
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => setListeningRevealed(!listeningRevealed)}>

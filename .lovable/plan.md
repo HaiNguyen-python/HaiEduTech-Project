@@ -1,72 +1,67 @@
-# Chuẩn hoá toàn bộ IELTS Listening Exercise theo định dạng Cambridge
+## Báo cáo kiểm tra audio toàn trang
 
-Hiện có ~50+ bài listening trải trên 7 file (`ieltsListeningPractice.ts` + `Expansion1-6`). Mỗi bài cần: transcript dài hơn, đa nhân vật rõ ràng, câu hỏi đúng wording Cambridge, layout form/note chuẩn. Để giữ chất lượng đều và dễ duyệt, mình sẽ làm theo 4 đợt - mỗi đợt là 1 turn riêng và bạn duyệt trước khi mình sang đợt sau.
+Đã quét toàn bộ codebase (70+ component dùng audio) và test trực tiếp 3 edge function TTS. Kết quả:
 
-## Tiêu chuẩn Cambridge áp dụng cho mọi bài
+### ✅ HOẠT ĐỘNG TỐT (proxy Google TTS + fallback)
 
-- **Transcript**: 450-750 từ/section (S1 ngắn nhất, S4 dài nhất), nhiều turn hội thoại tự nhiên, có hesitation marks ("um", "well", "actually"), self-correction, và distractor info trước đáp án đúng.
-- **Speaker tags**: luôn dùng `Name:` ở đầu dòng để engine multi-voice gán giọng riêng (đã ship).
-- **Section 1**: phone/booking dialogue 2 người (1 nam + 1 nữ), form/note completion.
-- **Section 2**: monologue 1 người (tour guide, radio host), MCQ hoặc map labelling.
-- **Section 3**: 2-3 sinh viên + tutor thảo luận học thuật, matching / MCQ.
-- **Section 4**: lecture 1 người, sentence/note completion với từ vựng academic.
-- **Câu hỏi**: dùng đúng rubric Cambridge (`Write NO MORE THAN TWO WORDS AND/OR A NUMBER`, `Choose the correct letter, A, B or C`, `Which student says…`). Prompt mô phỏng form/notes thật, không chỉ "Surname: ___".
-- **Distractor**: mỗi câu fill-in/MCQ phải có ít nhất 1 thông tin gây nhiễu trong transcript (số sai bị correct, tên gần giống, etc.).
 
-## Layout UI (1 lần cập nhật ở đợt 1)
+| Ngôn ngữ        | Edge function    | Status                                  | Pages                                                                                                             |
+| --------------- | ---------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Tiếng Việt      | `vietnamese-tts` | 200 OK, MP3 hợp lệ                      | Alphabet, Phrasebook, Poetry, Vocabulary, History, Kids, Foreigners, Folklore, Daily, Dictation                   |
+| Tiếng Phần Lan  | `finnish-tts`    | 200 OK, MP3 hợp lệ                      | Finnish Beginner/Vocab/Arcade, YKI Dashboard, YKI B1, Listening, Speaking                                         |
+| Tiếng Thụy Điển | `swedish-tts`    | 200 OK, MP3 hợp lệ (vừa fix turn trước) | Swedish Beginner (30-Day + 16 Lessons), Vocabulary, Skills/Listening/Speaking/Reading Lab, Interactive Curriculum |
 
-Thêm renderer "Cambridge Form Layout" cho `ListeningPracticeSetCard`:
 
-```text
-┌─ LIBRARY MEMBERSHIP FORM ───────────────────┐
-│ Name:           Sarah  (1) __________       │
-│ Date of birth:  (2) __________  March 1995  │
-│ Address:        42 (3) __________ Road      │
-│ Postcode:       (4) __________              │
-│ ...                                          │
-└──────────────────────────────────────────────┘
-```
+### ⚠️ RỦI RO CAO - có thể KHÔNG nghe được audio
 
-Bằng cách thêm field optional `formLayout?: string` (template với `{1}`, `{2}`…) trong `ListeningPracticeSet`. Khi có, render thay vì list card riêng lẻ. Bài cũ không có field này vẫn render kiểu cũ → không vỡ.
+Các môn dưới đây **chỉ dùng `window.speechSynthesis` của trình duyệt**, không có proxy Google TTS dự phòng. Trên Linux/Chromium server, preview sandbox, một số máy Windows thiếu voice pack, hoặc mobile Chrome → **silent / không phát ra tiếng**:
 
-## Lộ trình 4 đợt
 
-### Đợt 1 (turn tới) - Section 1: Form & Note Completion
-- Thêm support `formLayout` vào type + card.
-- Viết lại 10-12 bài S1 đầu tiên (library, hotel booking, gym membership, holiday rental, course enrolment, lost property, taxi booking, dental clinic, sports centre, mobile contract).
-- Mỗi bài: transcript 2-người ~500 từ, form layout Cambridge, 10 câu/bài.
+| Môn                           | File                                  | Lang        |
+| ----------------------------- | ------------------------------------- | ----------- |
+| **Tiếng Anh - Pronunciation** | `EnglishPronunciation.tsx`            | en-US       |
+| **IELTS Vocabulary**          | `IeltsVocabulary.tsx`                 | en-US       |
+| **TOEIC Vocabulary**          | `ToeicVocabulary.tsx`                 | en-US       |
+| **SAT Vocabulary**            | `SatVocabulary.tsx`                   | en-US       |
+| **PTE Vocabulary**            | `PteVocabulary.tsx`                   | en-US/en-AU |
+| **Cambridge YLE Vocabulary**  | `CambridgeYleVocabulary.tsx`          | en-US/en-GB |
+| **HSK Vocabulary**            | `HskVocabulary.tsx`                   | zh-CN       |
+| **HSK Grammar**               | `HskGrammar.tsx`                      | zh-CN       |
+| **Chinese Reading**           | `ChineseReading.tsx`                  | zh-CN       |
+| **Conversational Chinese**    | `ChineseConversationalLessonView.tsx` | zh-CN       |
 
-### Đợt 2 - Section 2: Monologue + Map/Plan Labelling
-- ~10-12 bài (museum tour, festival announcement, leisure centre opening, town hall speech, charity event, university campus tour, conservation park, exhibition, theatre, café floorplan).
-- Map SVG được nâng cấp cho rõ ràng hơn (đã có pattern sẵn).
 
-### Đợt 3 - Section 3: Academic Discussion
-- ~10-12 bài (3 speakers - tutor + 2 students; hoặc 2 students bàn project). Matching / MCQ / hoàn thành ghi chú nghiên cứu.
+Triệu chứng: bấm nút loa → không có tiếng, không có lỗi rõ ràng. Đặc biệt nghiêm trọng với `zh-CN` vì nhiều browser không có voice tiếng Trung mặc định.
 
-### Đợt 4 - Section 4: Lecture
-- ~10-12 bài (history of X, science topic, social study). Sentence/note completion với academic vocab, summary table.
-- Cuối đợt: chạy smoke test tự động và update memory.
+### Kế hoạch khắc phục
 
-## Technical Section
+**1. Tạo 2 edge function mới (mirror `swedish-tts`)**
 
-- File ảnh hưởng:
-  - `src/data/ieltsListeningPractice.ts` + `ieltsListeningPracticeExpansion[1-6].ts`
-  - `src/components/ielts/ListeningPracticeSetCard.tsx` (chỉ đợt 1: thêm form renderer)
-- Type mở rộng:
-  ```ts
-  export interface ListeningPracticeSet {
-    // ...existing fields
-    formLayout?: string;   // template chứa {1}…{N} cho fill-in
-    formTitle?: string;    // VD "LIBRARY MEMBERSHIP FORM"
-  }
-  ```
-- Renderer mới: khi `formLayout` tồn tại, parse `{n}` → render `<Input>` inline; vẫn dùng `answers[n-1]` state hiện có; giữ nguyên grading.
-- Không đụng backend / DB.
-- Mỗi đợt là 1 commit lớn → bạn có thể rollback từng đợt nếu muốn.
+- `supabase/functions/english-tts/index.ts` - proxy Google Translate `tl=en`
+- `supabase/functions/chinese-tts/index.ts` - proxy Google Translate `tl=zh-CN`
 
-## Sau mỗi đợt
+Cả 2 trả về `{audioBase64, mimeType}` giống `swedish-tts` / `finnish-tts` / `vietnamese-tts`.
 
-- Mình chạy `bunx vitest run` (nếu có test) và đọc lại 1-2 bài trên preview để chắc audio + form render đúng.
-- Báo lại progress + xin OK trước khi vào đợt sau.
+**2. Tạo 2 helper client (mirror `swedishTts.ts`)**
 
-Bấm Approve để mình bắt đầu **Đợt 1** ngay.
+- `src/lib/englishTts.ts` → `playEnglishTts(text, {playbackRate, speechRate, accent})`
+  - Thứ tự fallback: proxy edge function → Google Translate trực tiếp (gtx + tw-ob) → `speechSynthesis` en-US/en-GB.
+- `src/lib/chineseTts.ts` → `playChineseTts(text, {...})`
+  - Thứ tự fallback: proxy → Google direct → `speechSynthesis` zh-CN.
+
+**3. Refactor 10 page nói trên** thay block `new SpeechSynthesisUtterance` bằng `playEnglishTts` / `playChineseTts`. Giữ nguyên UI, chỉ thay logic phát.
+
+**4. Verify**
+
+- Curl test 2 edge function mới (giống cách đã test `swedish-tts`).
+- Reload các trang IELTS Vocab, TOEIC Vocab, HSK Vocab, Chinese Reading bằng Playwright, bấm nút loa, kiểm tra log console + network request `/functions/v1/english-tts` (hoặc `chinese-tts`) trả 200 + MP3.
+
+### Phạm vi không thay đổi
+
+- Vietnamese / Finnish / Swedish: đã hoạt động, giữ nguyên.
+- Các component speaking / listening đã proxy (SpeakingGrader, ShadowingPractice, IeltsListening): giữ nguyên.
+- UI/UX nút loa, tốc độ phát, hotkey: không đổi.
+
+Bạn duyệt plan này thì mình triển khai ngay.
+
+ok 

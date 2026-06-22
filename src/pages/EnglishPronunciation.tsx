@@ -48,28 +48,17 @@ import { toast } from "sonner";
 
 type Accent = "en-GB" | "en-US";
 
+// Use Google TTS proxy with native SpeechSynthesis fallback. The proxy gives
+// consistent natural-sounding audio across all browsers/preview sandboxes
+// (the previous `speechSynthesis.speak` path was silent on systems without
+// an installed en-US voice).
+import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
+
 const speak = (text: string, accent: Accent = "en-US", rate = 0.75) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-    toast.error("Trình duyệt không hỗ trợ phát âm tự động");
-    return;
-  }
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = accent;
-  utter.rate = rate;
-  utter.pitch = 1;
-  utter.volume = 1;
-  const voices = window.speechSynthesis.getVoices();
-  // Prefer high-quality natural voices when the browser exposes them
-  const preferred = voices.find(
-    (v) => v.lang === accent && /natural|neural|google|samantha|daniel|aria|jenny/i.test(v.name),
-  );
-  const match =
-    preferred ||
-    voices.find((v) => v.lang === accent) ||
-    voices.find((v) => v.lang.startsWith(accent.slice(0, 2)));
-  if (match) utter.voice = match;
-  window.speechSynthesis.speak(utter);
+  stopEnglishTts();
+  void playEnglishTts(text, { playbackRate: rate, speechRate: rate, accent }).then((ok) => {
+    if (!ok) toast.error("Trình duyệt không phát được audio");
+  });
 };
 
 /**

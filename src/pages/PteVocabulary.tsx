@@ -24,13 +24,10 @@ interface QuizQ {
   correctIndex: number;
 }
 
+import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 const speak = (text: string) => {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-US";
-  u.rate = 0.9;
-  window.speechSynthesis.speak(u);
+  stopEnglishTts();
+  void playEnglishTts(text, { playbackRate: 0.95, speechRate: 0.9 });
 };
 
 const PteVocabulary = () => {

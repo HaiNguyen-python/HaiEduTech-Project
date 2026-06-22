@@ -48,15 +48,11 @@ const getExample = (w: CambridgeKidsWord) => ({
   vi: w.exampleVi || `${w.vi} thật tuyệt vời!`,
 });
 
+import { playEnglishTts, stopEnglishTts, type EnglishAccent } from "@/lib/englishTts";
 const speak = (text: string, opts?: { rate?: number; lang?: string }) => {
-  try {
-    if (!("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = opts?.lang ?? "en-US";
-    u.rate = opts?.rate ?? 0.9;
-    window.speechSynthesis.speak(u);
-  } catch { /* noop */ }
+  const accent: EnglishAccent = opts?.lang === "en-GB" ? "en-GB" : "en-US";
+  stopEnglishTts();
+  void playEnglishTts(text, { playbackRate: opts?.rate ?? 0.9, speechRate: opts?.rate ?? 0.9, accent });
 };
 
 // Render example with the target word (and simple inflections) bolded.

@@ -16,14 +16,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { chineseReadingLevels, type ChineseReadingPassage, type ChineseReadingLevel } from "@/data/chineseReadingPractice";
 import { chineseReadingQuestionsZh } from "@/data/chineseReadingQuestionsZh";
 
+import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 const speak = (text: string) => {
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "zh-CN";
-    u.rate = 0.85;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  } catch { /* noop */ }
+  stopChineseTts();
+  void playChineseTts(text, { playbackRate: 0.9, speechRate: 0.85 });
 };
 
 const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi: string }) => {
