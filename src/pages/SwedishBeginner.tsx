@@ -10,8 +10,9 @@ import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SwedishTierView } from "@/components/swedish/SwedishTierView";
 import { SwedishA1DailyPlan } from "@/components/swedish/SwedishA1DailyPlan";
+import { SwedishAlphabet } from "@/components/swedish/SwedishAlphabet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, CalendarDays } from "lucide-react";
+import { BookOpen, CalendarDays, Languages } from "lucide-react";
 
 const SwedishBeginner = () => {
   const { t } = useLanguage();
