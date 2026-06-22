@@ -31,6 +31,7 @@ import { Label } from "@/components/ui/label";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "@/hooks/use-toast";
 import { LESSON_DETAILS } from "@/data/swedishLessonDetails";
+import { LESSON_DEEP } from "@/data/swedishLessonDeep";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 
 /* -------------------------------------------------------------------------- */
