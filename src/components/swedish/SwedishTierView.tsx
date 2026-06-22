@@ -1483,7 +1483,7 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
                         </ul>
                       </div>
                     </>
-                  )}
+                  {LESSON_DEEP[l.id] && <LessonDeepBlock id={l.id} lang={lang} t={t} />}
                 </AccordionContent>
               </AccordionItem>
             ))}
