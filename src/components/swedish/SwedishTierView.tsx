@@ -33,6 +33,7 @@ import { toast } from "@/hooks/use-toast";
 import { LESSON_DETAILS } from "@/data/swedishLessonDetails";
 import { LESSON_DEEP } from "@/data/swedishLessonDeep";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
+import { LessonDeepBlock } from "@/components/swedish/LessonDeepBlock";
 
 /* -------------------------------------------------------------------------- */
 /* Types & data                                                                */
