@@ -972,4 +972,333 @@ export const LESSON_DETAILS: Record<string, LessonDetail> = {
       "🎯 Write 60 words about a memorable fika using ≥2 pastry names.",
     ],
   },
+
+  /* ============ A1 DEEP-DIVE EXPANSION (8 bài chuyên sâu) ============ */
+  "a1-alphabet": {
+    introVi:
+      "Bảng chữ cái Thụy Điển có 29 chữ — 26 chữ giống tiếng Anh cộng thêm å (oa), ä (ae), ö (uh). Biết đọc tên từng chữ giúp bạn đánh vần tên, mã bưu điện, mã số bảo hiểm xã hội khi đăng ký BankID hoặc gọi 1177. Bài này có 4 bước, 10 phút là thuộc.",
+    introEn:
+      "Swedish has 29 letters — the 26 English ones plus å (oh), ä (ae), ö (uh). Knowing them lets you spell your name, postcode and social security number when signing up for BankID or calling 1177. 4 steps, 10 minutes.",
+    stepsVi: [
+      "Bước 1 · Đọc bảng A-Z theo nhạc 'ABC-song' phiên bản Bắc Âu — bấm 🔊 mỗi chữ.",
+      "Bước 2 · Tập trung 3 chữ riêng: Å = 'oa', Ä = 'ae' (mở miệng), Ö = 'uh' (môi tròn).",
+      "Bước 3 · Đánh vần tên thật của bạn: ví dụ H-A-I = 'hå - ah - ee'.",
+      "Bước 4 · Đọc số: 0 = 'noll', và mã bưu điện 5 chữ số kiểu '1-2-3 cách 4-5'.",
+      "Bước 5 · Tự thu âm đánh vần tên + địa chỉ rồi nghe lại.",
+    ],
+    stepsEn: [
+      "Step 1 · Sing the Nordic ABC song — tap 🔊 on each letter.",
+      "Step 2 · Drill the 3 extras: Å = 'oh', Ä = 'ae', Ö = 'uh' (rounded lips).",
+      "Step 3 · Spell your real name aloud, e.g. H-A-I = 'hoh-ah-ee'.",
+      "Step 4 · Read numbers: 0 = 'noll'; postcodes use '1-2-3 then 4-5'.",
+      "Step 5 · Record yourself spelling name + address and listen back.",
+    ],
+    pitfallsVi: [
+      "❌ Đọc Å như chữ A của tiếng Anh — sẽ nhầm 'år' (năm) với 'ar' (vô nghĩa).",
+      "❌ Phát âm Ö như O — 'öl' (bia) sẽ thành 'ol' (chai).",
+      "❌ Đọc W và V giống nhau khi đánh vần — phải nói rõ 'dubbel-V' cho W.",
+    ],
+    pitfallsEn: [
+      "❌ Reading Å like English A — 'år' (year) becomes 'ar' (gibberish).",
+      "❌ Pronouncing Ö like O — 'öl' (beer) turns into 'ol' (bottle).",
+      "❌ Mixing W and V — say 'dubbel-V' for W when spelling.",
+    ],
+    practiceVi: [
+      "🎯 Đánh vần 10 tên người Thụy Điển: Björn, Åke, Märta, Östen, Anders…",
+      "🎯 Đọc to mã bưu điện nhà bạn 3 lần liền.",
+      "🎯 Mở Google Maps Stockholm và đánh vần tên 5 con phố ngẫu nhiên.",
+    ],
+    practiceEn: [
+      "🎯 Spell 10 Swedish names: Björn, Åke, Märta, Östen, Anders…",
+      "🎯 Read your postcode aloud 3× in a row.",
+      "🎯 Open Google Maps Stockholm and spell 5 random street names.",
+    ],
+  },
+
+  "a1-pronouns": {
+    introVi:
+      "Tin vui đầu tiên khi học tiếng Thụy Điển: động từ KHÔNG chia theo ngôi. Học 1 lần 'är' (là) và 'har' (có) là dùng cho mọi đại từ. Bài này cho bạn đủ 'gạch' để ghép câu cơ bản: Jag är trött. Hon har en katt. Vi är hemma.",
+    introEn:
+      "First good news in Swedish: verbs don't conjugate by person. Learn 'är' (am/is/are) and 'har' (have/has) once — they work for every pronoun. This lesson gives you the bricks to build basic sentences: Jag är trött. Hon har en katt. Vi är hemma.",
+    stepsVi: [
+      "Bước 1 · Thuộc 9 đại từ chủ ngữ: jag, du, han, hon, den, det, vi, ni, de.",
+      "Bước 2 · Học chia 'vara' (là): jag är, du är, han/hon är, vi är, ni är, de är — TOÀN BỘ là 'är'.",
+      "Bước 3 · Học chia 'ha' (có): tất cả đều là 'har'. (jag har, du har, vi har…)",
+      "Bước 4 · Đại từ tân ngữ: mig, dig, honom, henne, oss, er, dem. (Ví dụ: Hon ser mig = Cô ấy thấy tôi.)",
+      "Bước 5 · Đại từ sở hữu: min/mitt/mina (của tôi); din/ditt/dina (của bạn); hans, hennes, vår, er, deras.",
+    ],
+    stepsEn: [
+      "Step 1 · Memorise 9 subject pronouns: jag, du, han, hon, den, det, vi, ni, de.",
+      "Step 2 · Conjugate 'vara' (be): every form is 'är'.",
+      "Step 3 · Conjugate 'ha' (have): every form is 'har'.",
+      "Step 4 · Object pronouns: mig, dig, honom, henne, oss, er, dem.",
+      "Step 5 · Possessives: min/mitt/mina, din/ditt/dina, hans, hennes, vår, er, deras.",
+    ],
+    pitfallsVi: [
+      "❌ Cố thêm '-s' vào 'är' / 'har' kiểu tiếng Anh ('She ärs') — sai ngữ pháp ngay.",
+      "❌ Dùng 'den' cho người — phải là 'han' hoặc 'hon'.",
+      "❌ Quên 3 dạng min/mitt/mina theo en/ett/số nhiều: min bil, mitt hus, mina barn.",
+    ],
+    pitfallsEn: [
+      "❌ Adding '-s' to 'är' / 'har' like English ('She ärs') — instantly wrong.",
+      "❌ Using 'den' for people — must be 'han' or 'hon'.",
+      "❌ Forgetting min/mitt/mina agree with en/ett/plural: min bil, mitt hus, mina barn.",
+    ],
+    practiceVi: [
+      "🎯 Viết 9 câu, mỗi câu 1 đại từ + 'är' + tính từ (Jag är glad / Du är snäll …).",
+      "🎯 Đổi 5 câu tiếng Anh 'I have / She has / They have' sang tiếng Thụy Điển.",
+      "🎯 Mô tả gia đình bằng min/mitt/mina, ít nhất 5 danh từ.",
+    ],
+    practiceEn: [
+      "🎯 Write 9 sentences, each pronoun + 'är' + adjective.",
+      "🎯 Translate 5 'I have / She has / They have' English sentences into Swedish.",
+      "🎯 Describe family using min/mitt/mina with at least 5 nouns.",
+    ],
+  },
+
+  "a1-en-ett": {
+    introVi:
+      "Tiếng Thụy Điển có 2 'giống' danh từ: en (~75%) và ett (~25%). Khác tiếng Anh, mạo từ xác định KHÔNG đứng trước mà gắn vào đuôi: en bil → bilen, ett hus → huset. Học từ mới luôn kèm en/ett — đó là quy tắc số 1.",
+    introEn:
+      "Swedish has 2 noun genders: en (~75%) and ett (~25%). Unlike English, the definite article is a SUFFIX: en bil → bilen, ett hus → huset. Rule #1: always learn nouns with en/ett.",
+    stepsVi: [
+      "Bước 1 · Ghi từ mới như 'en bil', 'ett hus' — không bao giờ ghi mình từ trần.",
+      "Bước 2 · Dạng xác định: en + danh từ → đuôi -en/-n; ett + danh từ → đuôi -et/-t.",
+      "Bước 3 · Số nhiều cũng phụ thuộc en/ett: en bil → bilar, ett hus → hus (giữ nguyên), en katt → katter.",
+      "Bước 4 · Tính từ ĐỔI THEO en/ett: en röd bil, ett rött hus, två röda bilar.",
+      "Bước 5 · Khi không chắc — đoán 'en' (xác suất 75%). Học 30 từ ett phổ biến để giảm sai.",
+    ],
+    stepsEn: [
+      "Step 1 · Note new words as 'en bil', 'ett hus' — never bare.",
+      "Step 2 · Definite: en + noun → suffix -en/-n; ett + noun → suffix -et/-t.",
+      "Step 3 · Plural depends on gender too: en bil → bilar, ett hus → hus, en katt → katter.",
+      "Step 4 · Adjectives agree: en röd bil, ett rött hus, två röda bilar.",
+      "Step 5 · When in doubt, guess 'en' (75% odds). Memorise the top 30 ett-nouns.",
+    ],
+    pitfallsVi: [
+      "❌ Nói 'den bil' / 'det hus' kiểu Anh — phải là 'bilen' / 'huset'.",
+      "❌ Quên đổi tính từ: 'en rött bil' (sai), phải là 'en röd bil'.",
+      "❌ Áp dụng en cho danh từ ett trừu tượng (problem, jobb, kontor) — đây đều là ETT.",
+    ],
+    pitfallsEn: [
+      "❌ Saying 'den bil' / 'det hus' like English — must be 'bilen' / 'huset'.",
+      "❌ Forgetting adjective agreement: 'en rött bil' is wrong; use 'en röd bil'.",
+      "❌ Treating abstract nouns (problem, jobb, kontor) as en — they're ETT.",
+    ],
+    practiceVi: [
+      "🎯 Phân loại 20 từ mới thành 2 cột en/ett.",
+      "🎯 Đổi mỗi danh từ trong câu dưới sang dạng xác định: Jag har en bok. → Boken är ny.",
+      "🎯 Viết 5 câu dùng tính từ 'stor / liten' đúng với en/ett/số nhiều.",
+    ],
+    practiceEn: [
+      "🎯 Sort 20 new words into en vs ett columns.",
+      "🎯 Convert nouns to definite form: Jag har en bok → Boken är ny.",
+      "🎯 Write 5 sentences using 'stor/liten' correctly for en/ett/plural.",
+    ],
+  },
+
+  "a1-questions": {
+    introVi:
+      "Hai loại câu hỏi cơ bản: yes/no (chỉ cần đảo động từ ra đầu) và Wh- (dùng 7 từ hỏi). Bài này dạy bạn 7 từ hỏi 'vàng' và mẫu đảo trật tự — phản xạ vô cùng quan trọng cho Tala A1.",
+    introEn:
+      "Two question types: yes/no (invert the verb) and Wh- (use 7 question words). This lesson teaches the 7 golden Wh-words and the inversion pattern — vital reflexes for Tala A1.",
+    stepsVi: [
+      "Bước 1 · Yes/No: lấy câu khẳng định 'Du talar engelska.' đảo thành 'Talar du engelska?'",
+      "Bước 2 · Wh-: Vad (cái gì), Vem (ai), Var (ở đâu), När (khi nào), Varför (tại sao), Hur (thế nào), Vilken (cái nào).",
+      "Bước 3 · Thứ tự câu Wh-: [Wh-] + [Verb] + [Subject] + … (Vad heter du? Var bor du?)",
+      "Bước 4 · 'Vilken/vilket/vilka' đổi theo en/ett/số nhiều: Vilken bok? Vilket hus? Vilka barn?",
+      "Bước 5 · Phân biệt 'var' (ở đâu - đứng yên) và 'vart' (đi đâu - chuyển động).",
+    ],
+    stepsEn: [
+      "Step 1 · Yes/No: invert 'Du talar engelska.' → 'Talar du engelska?'",
+      "Step 2 · Wh-: Vad, Vem, Var, När, Varför, Hur, Vilken.",
+      "Step 3 · Order: [Wh-] + [Verb] + [Subject] + …",
+      "Step 4 · 'Vilken/vilket/vilka' matches en/ett/plural.",
+      "Step 5 · 'Var' (where, static) vs 'vart' (where to, motion).",
+    ],
+    pitfallsVi: [
+      "❌ Giữ trật tự tiếng Anh 'Where you live?' thay vì 'Var bor du?' — đảo verb là bắt buộc.",
+      "❌ Hỏi 'Vart bor du?' (sai — phải 'Var bor du?' vì 'bor' là đứng yên).",
+      "❌ Quên dùng 'vilket' với danh từ ett — 'Vilken hus?' phải là 'Vilket hus?'",
+    ],
+    pitfallsEn: [
+      "❌ Keeping English order 'Where you live?' instead of 'Var bor du?'",
+      "❌ Asking 'Vart bor du?' — must be 'Var bor du?' (bor = static).",
+      "❌ Forgetting 'vilket' before ett-nouns: 'Vilket hus?'",
+    ],
+    practiceVi: [
+      "🎯 Đổi 5 câu khẳng định thành câu hỏi yes/no.",
+      "🎯 Viết 7 câu hỏi, mỗi câu dùng 1 từ Wh- khác nhau.",
+      "🎯 Đóng vai phóng viên — phỏng vấn bạn cùng học 10 câu Wh-.",
+    ],
+    practiceEn: [
+      "🎯 Turn 5 statements into yes/no questions.",
+      "🎯 Write 7 Wh-questions, one per Wh-word.",
+      "🎯 Role-play reporter — interview a partner with 10 Wh-questions.",
+    ],
+  },
+
+  "a1-colors-clothes": {
+    introVi:
+      "Màu sắc và quần áo là từ vựng 'tay phải' khi mô tả người trong bài Skriva A1 và mua sắm IKEA/H&M. Bài này cung cấp 12 màu, 15 món quần áo và quy tắc tính từ thay đổi theo en/ett/số nhiều.",
+    introEn:
+      "Colours and clothing are your 'right-hand' vocabulary for describing people in Skriva A1 and shopping at IKEA/H&M. 12 colours, 15 clothing items, plus adjective agreement.",
+    stepsVi: [
+      "Bước 1 · 12 màu: röd, blå, gul, grön, svart, vit, grå, brun, rosa, lila, orange, beige.",
+      "Bước 2 · Quy tắc đổi đuôi: en röd bil · ett rött hus · två röda bilar. Ngoại lệ: 'blå' giữ nguyên ở ett (blått), số nhiều 'blåa'.",
+      "Bước 3 · Quần áo trên: tröja (len), skjorta (sơ mi), t-shirt, jacka, kappa.",
+      "Bước 4 · Quần áo dưới: byxor (luôn số nhiều), jeans, kjol, shorts.",
+      "Bước 5 · Phụ kiện mùa đông: mössa (mũ len), vantar (găng), halsduk (khăn), stövlar (ủng).",
+    ],
+    stepsEn: [
+      "Step 1 · 12 colours: röd, blå, gul, grön, svart, vit, grå, brun, rosa, lila, orange, beige.",
+      "Step 2 · Endings: en röd bil · ett rött hus · två röda bilar. Exception: 'blå' → blått, blåa.",
+      "Step 3 · Tops: tröja, skjorta, t-shirt, jacka, kappa.",
+      "Step 4 · Bottoms: byxor (always plural), jeans, kjol, shorts.",
+      "Step 5 · Winter accessories: mössa, vantar, halsduk, stövlar.",
+    ],
+    pitfallsVi: [
+      "❌ Nói 'en byxa' — phải 'ett par byxor' hoặc đơn giản 'byxor'.",
+      "❌ Quên đổi đuôi tính từ: 'ett röd hus' sai, phải 'ett rött hus'.",
+      "❌ Dùng 'rosa' và 'lila' với đuôi -tt/-a — đây là tính từ KHÔNG đổi.",
+    ],
+    pitfallsEn: [
+      "❌ Saying 'en byxa' — must be 'ett par byxor' or just 'byxor'.",
+      "❌ Forgetting agreement: 'ett röd hus' should be 'ett rött hus'.",
+      "❌ Inflecting 'rosa' and 'lila' — they're invariable.",
+    ],
+    practiceVi: [
+      "🎯 Mô tả 5 bức ảnh người, mỗi ảnh 2 câu (màu + món).",
+      "🎯 Vào trang HM.com Sverige, dịch 10 sản phẩm sang tiếng Việt.",
+      "🎯 Đóng vai khách H&M — hỏi nhân viên 5 câu 'Har ni denna i [màu]?'",
+    ],
+    practiceEn: [
+      "🎯 Describe 5 photos of people, 2 sentences each (colour + item).",
+      "🎯 Open HM.com Sverige and translate 10 products.",
+      "🎯 Role-play 5 'Har ni denna i [colour]?' lines at H&M.",
+    ],
+  },
+
+  "a1-transport-tickets": {
+    introVi:
+      "Đi tàu, buýt, metro là kỹ năng sống còn ở Stockholm/Göteborg/Malmö. Bài này giúp bạn đọc bảng giờ, mua vé SJ/SL/Skånetrafiken bằng tiếng Thụy Điển và hiểu thông báo trễ tàu 'försenad' để không lỡ chuyến.",
+    introEn:
+      "Public transport is survival in Stockholm/Gothenburg/Malmö. You'll read timetables, buy SJ/SL/Skånetrafiken tickets in Swedish, and understand 'försenad' delay announcements.",
+    stepsVi: [
+      "Bước 1 · 4 phương tiện chính: tåg (tàu hỏa), buss, spårvagn (tram), tunnelbana (metro Stockholm).",
+      "Bước 2 · Loại vé: enkelbiljett (1 chiều), tur och retur (khứ hồi), månadskort (tháng), reskassa (ví đi lại).",
+      "Bước 3 · Mua vé: 'En enkelbiljett till [thành phố], tack.' / 'Hur mycket kostar månadskortet?'",
+      "Bước 4 · Đọc bảng giờ: avgår 14:35 (khởi hành), anländer 16:20 (đến), spår 4 (đường ray 4).",
+      "Bước 5 · Thông báo: 'Tåget är 10 minuter försenat' (trễ 10 phút) / 'inställt' (huỷ).",
+    ],
+    stepsEn: [
+      "Step 1 · 4 transport types: tåg, buss, spårvagn, tunnelbana.",
+      "Step 2 · Ticket kinds: enkelbiljett, tur och retur, månadskort, reskassa.",
+      "Step 3 · Buying: 'En enkelbiljett till [city], tack.' / 'Hur mycket kostar månadskortet?'",
+      "Step 4 · Timetables: avgår 14:35 (departs), anländer 16:20 (arrives), spår 4 (platform 4).",
+      "Step 5 · Announcements: 'Tåget är 10 minuter försenat' / 'inställt' (cancelled).",
+    ],
+    pitfallsVi: [
+      "❌ Đến thẳng tàu mà chưa mua vé — kiểm vé phạt 1500 SEK.",
+      "❌ Nhầm 'spår' (ray) với 'station' (ga).",
+      "❌ Hiểu 'halv tre' = 14:30 (chứ không phải 15:30) → trễ tàu ngay.",
+    ],
+    pitfallsEn: [
+      "❌ Boarding without a ticket — fines are 1500 SEK.",
+      "❌ Confusing 'spår' (platform) with 'station'.",
+      "❌ Thinking 'halv tre' = 15:30 (it's 14:30) → missed train.",
+    ],
+    practiceVi: [
+      "🎯 Mở app SL hoặc SJ, đặt thử 1 vé giả lập từ Stockholm → Uppsala bằng giao diện tiếng Thụy Điển.",
+      "🎯 Nghe 3 thông báo loa ga (YouTube 'SJ ombordannonsering') và bắt 3 thông tin (giờ, ga, spår).",
+      "🎯 Viết hội thoại 6 lượt giữa khách và nhân viên bán vé.",
+    ],
+    practiceEn: [
+      "🎯 Open SL or SJ app, book a mock ticket Stockholm → Uppsala in Swedish.",
+      "🎯 Listen to 3 station announcements on YouTube ('SJ ombordannonsering') and catch time/station/platform.",
+      "🎯 Write a 6-turn dialogue between passenger and ticket clerk.",
+    ],
+  },
+
+  "a1-body-health": {
+    introVi:
+      "Khi bị ốm ở Thụy Điển, bạn gọi 1177 hoặc đặt lịch vårdcentral. Bài học này cho bạn 20 bộ phận cơ thể, công thức 'Jag har ont i ___' và 5 triệu chứng phổ biến — đủ để mô tả tình trạng sức khoẻ trong 90 giây.",
+    introEn:
+      "When ill in Sweden, you call 1177 or book a vårdcentral. This lesson gives 20 body parts, the frame 'Jag har ont i ___' and 5 common symptoms — enough to describe your health in 90 seconds.",
+    stepsVi: [
+      "Bước 1 · Học 10 bộ phận trên: huvud (đầu), hår, öga/ögon, öron, näsa, mun, tand/tänder, hals, axel, arm.",
+      "Bước 2 · Học 10 bộ phận dưới: mage, rygg, hand, finger, ben, knä, fot, tå, hjärta, hud.",
+      "Bước 3 · Công thức đau: Jag har ont i [dạng xác định]. Ví dụ: Jag har ont i huvudet / magen / halsen.",
+      "Bước 4 · 5 triệu chứng vàng: feber (sốt), hosta (ho), snuva (sổ mũi), illamående (buồn nôn), trött (mệt).",
+      "Bước 5 · Đặt lịch: 'Jag vill boka en tid hos läkaren.' / 'Det är akut.' (cấp cứu).",
+    ],
+    stepsEn: [
+      "Step 1 · Upper body: huvud, hår, öga/ögon, öron, näsa, mun, tand/tänder, hals, axel, arm.",
+      "Step 2 · Lower body: mage, rygg, hand, finger, ben, knä, fot, tå, hjärta, hud.",
+      "Step 3 · Pain frame: Jag har ont i [definite form]. e.g. Jag har ont i huvudet.",
+      "Step 4 · 5 golden symptoms: feber, hosta, snuva, illamående, trött.",
+      "Step 5 · Booking: 'Jag vill boka en tid hos läkaren.' / 'Det är akut.'",
+    ],
+    pitfallsVi: [
+      "❌ Quên 'i' trong 'Jag har ont [i] huvudet' — không có 'i' là sai ngữ pháp.",
+      "❌ Dùng dạng không xác định: 'Jag har ont i huvud' sai, phải 'huvudet'.",
+      "❌ Gọi 112 cho mọi việc — chỉ 112 khi nguy hiểm tính mạng; tư vấn y tế gọi 1177.",
+    ],
+    pitfallsEn: [
+      "❌ Dropping 'i' in 'Jag har ont [i] huvudet'.",
+      "❌ Using indefinite: 'Jag har ont i huvud' — must be 'huvudet'.",
+      "❌ Dialling 112 for everything — 112 is life-threatening; medical advice is 1177.",
+    ],
+    practiceVi: [
+      "🎯 Chỉ vào 10 bộ phận trên gương và đọc tên bằng tiếng Thụy Điển.",
+      "🎯 Viết hội thoại 8 lượt giữa bạn và bác sĩ — mô tả 3 triệu chứng.",
+      "🎯 Ghi âm 60 giây 'Tôi không khoẻ vì ___' bằng tiếng Thụy Điển.",
+    ],
+    practiceEn: [
+      "🎯 Point at 10 body parts in the mirror and name them.",
+      "🎯 Write an 8-turn doctor–patient dialogue with 3 symptoms.",
+      "🎯 Record 60 s of 'I'm unwell because ___' in Swedish.",
+    ],
+  },
+
+  "a1-daily-routine": {
+    introVi:
+      "Mô tả 1 ngày bình thường là bài bắt buộc của Skriva A1 ('En vanlig dag'). Bạn chỉ cần 10 động từ + 4 trạng từ tần suất (alltid, ofta, ibland, aldrig) là viết được đoạn văn 100 từ. Bài này dạy đúng khung mẫu để bạn copy-paste với bất kỳ chủ đề tương tự.",
+    introEn:
+      "Describing a typical day is required for Skriva A1 ('En vanlig dag'). Just 10 verbs + 4 frequency adverbs is enough to write a 100-word essay. This lesson gives the exact frame to reuse.",
+    stepsVi: [
+      "Bước 1 · Buổi sáng: Jag vaknar kl. 6. Jag stiger upp och äter frukost. Jag dricker kaffe.",
+      "Bước 2 · Đi làm/học: Jag åker buss till jobbet/skolan. Jag jobbar/studerar från 8 till 16.",
+      "Bước 3 · Buổi chiều: Jag äter lunch klockan 12. På eftermiddagen har jag möten.",
+      "Bước 4 · Buổi tối: Jag lagar mat, tittar på TV och läser en bok. Jag går och lägger mig klockan 23.",
+      "Bước 5 · Trạng từ tần suất đứng SAU động từ: Jag tränar OFTA. Jag dansar ALDRIG.",
+    ],
+    stepsEn: [
+      "Step 1 · Morning: Jag vaknar kl. 6. Jag stiger upp och äter frukost. Jag dricker kaffe.",
+      "Step 2 · Commute: Jag åker buss till jobbet/skolan. Jag jobbar/studerar 8–16.",
+      "Step 3 · Afternoon: Jag äter lunch klockan 12. På eftermiddagen har jag möten.",
+      "Step 4 · Evening: Jag lagar mat, tittar på TV och läser en bok. Jag går och lägger mig klockan 23.",
+      "Step 5 · Frequency adverbs go AFTER the verb: Jag tränar OFTA. Jag dansar ALDRIG.",
+    ],
+    pitfallsVi: [
+      "❌ Đặt trạng từ ofta/aldrig trước động từ kiểu tiếng Anh: 'Jag ofta tränar' sai → 'Jag tränar ofta'.",
+      "❌ Quên giới từ 'klockan' khi nói giờ — 'Jag vaknar 6' nghe lủng củng.",
+      "❌ Dùng 'jag äter middag' không có 'klockan'/'på kvällen' khiến người nghe không biết khi nào.",
+    ],
+    pitfallsEn: [
+      "❌ Putting ofta/aldrig before the verb English-style: 'Jag ofta tränar' is wrong.",
+      "❌ Omitting 'klockan' for clock times: 'Jag vaknar 6' sounds choppy.",
+      "❌ 'Jag äter middag' without a time word leaves the listener guessing.",
+    ],
+    practiceVi: [
+      "🎯 Viết đoạn 100 từ 'En vanlig måndag' theo khung 5 bước.",
+      "🎯 Đọc to đoạn văn 3 lần, bấm giờ — mục tiêu dưới 90 giây.",
+      "🎯 Hoán đổi 'jag' thành 'min mamma' và đổi toàn bộ động từ — quan sát: không gì đổi cả (vì verb không chia)!",
+    ],
+    practiceEn: [
+      "🎯 Write 100 words on 'En vanlig måndag' using the 5-step frame.",
+      "🎯 Read it aloud 3× under 90 s.",
+      "🎯 Swap 'jag' for 'min mamma' — notice verbs don't change!",
+    ],
+  },
 };

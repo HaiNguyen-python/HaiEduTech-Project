@@ -19,7 +19,7 @@ const SwedishBeginner = () => {
     <div className="min-h-screen bg-background">
       <SEO
         title="Tiếng Thụy Điển A1 + Lộ trình 30 ngày tự học | HaiEduTech"
-        description="16 bài học A1 tiếng Thụy Điển và lộ trình tự học 30 ngày: phát âm, chào hỏi, mua sắm, fika, lagom — sẵn sàng cho YKI Cấp 1."
+        description="24 bài học A1 tiếng Thụy Điển và lộ trình tự học 30 ngày: phát âm, bảng chữ cái, en/ett, đại từ, mua sắm, fika, sức khoẻ - sẵn sàng cho YKI Cấp 1."
         path="/swedish/beginner"
       />
       <Navbar />
@@ -31,8 +31,8 @@ const SwedishBeginner = () => {
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               {t(
-                "16 bài nền tảng + lộ trình tự học 30 ngày: phát âm Bắc Âu, chào hỏi, mua sắm, fika, hỏi đường - chuẩn bị cho YKI Ruotsi Cấp 1.",
-                "16 foundation lessons + 30-day self-study plan: Nordic pronunciation, greetings, shopping, fika, directions - YKI Ruotsi Level 1 prep."
+                "24 bài chuyên sâu + lộ trình tự học 30 ngày: bảng chữ cái 29 chữ, đại từ, en/ett, mua sắm, fika, sức khoẻ, đi tàu - chuẩn bị vững cho YKI Ruotsi Cấp 1.",
+                "24 in-depth lessons + 30-day self-study plan: 29-letter alphabet, pronouns, en/ett, shopping, fika, health, transport - solid YKI Ruotsi Level 1 prep."
               )}
             </p>
           </header>
@@ -45,7 +45,7 @@ const SwedishBeginner = () => {
               </TabsTrigger>
               <TabsTrigger value="lessons" className="gap-1.5">
                 <BookOpen className="h-4 w-4" />
-                {t("16 bài học", "16 Lessons")}
+                {t("24 bài học", "24 Lessons")}
               </TabsTrigger>
             </TabsList>
 
