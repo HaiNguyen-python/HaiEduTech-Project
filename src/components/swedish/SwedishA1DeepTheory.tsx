@@ -6,14 +6,16 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useMemo, useState } from "react";
-import { BookOpen, CheckCircle2, XCircle, Languages, Shuffle, GraduationCap } from "lucide-react";
+import { BookOpen, CheckCircle2, XCircle, Languages, Shuffle, GraduationCap, Lightbulb, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { getDailyExpansion, type FillBlank, type TranslatePair, type MatchPair } from "@/data/swedishA1DailyExpansion";
+import { getDailyEnhancement, WEEK_HERO } from "@/data/swedishA1DailyEnhancement";
 
 interface Props {
   day: number;
+  week?: number;
   lang: string;
   t: (vi: string, en: string) => string;
 }
@@ -21,9 +23,11 @@ interface Props {
 const norm = (s: string) =>
   (s || "").toString().toLowerCase().normalize("NFC").replace(/[.,!?;:]/g, "").trim();
 
-export const SwedishA1DeepTheory = ({ day, lang, t }: Props) => {
+export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
   const ex = getDailyExpansion(day);
   if (!ex) return null;
+  const enh = getDailyEnhancement(day);
+  const hero = week ? WEEK_HERO[week] : undefined;
 
   return (
     <div className="space-y-3 rounded-xl border-2 border-dashed border-indigo-500/40 bg-gradient-to-br from-indigo-500/5 via-fuchsia-500/5 to-transparent p-3 sm:p-4">
