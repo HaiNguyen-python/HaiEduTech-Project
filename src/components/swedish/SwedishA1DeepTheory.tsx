@@ -30,14 +30,6 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
   const hero = week ? WEEK_HERO[week] : undefined;
   const topic = getDayTopicImage(day);
 
-const norm = (s: string) =>
-  (s || "").toString().toLowerCase().normalize("NFC").replace(/[.,!?;:]/g, "").trim();
-
-export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
-  const ex = getDailyExpansion(day);
-  if (!ex) return null;
-  const enh = getDailyEnhancement(day);
-  const hero = week ? WEEK_HERO[week] : undefined;
 
   return (
     <div className="space-y-3 rounded-xl border-2 border-dashed border-indigo-500/40 bg-gradient-to-br from-indigo-500/5 via-fuchsia-500/5 to-transparent p-3 sm:p-4">
