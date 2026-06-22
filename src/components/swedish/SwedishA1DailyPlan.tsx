@@ -34,6 +34,8 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SWEDISH_A1_DAILY_PLAN, type DailyLesson, type DailyFocus } from "@/data/swedishA1DailyPlan";
 import { toast } from "@/hooks/use-toast";
+import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
+import { SWEDISH_A1_DAILY_EXTRAS } from "@/data/swedishA1DailyExtras";
 
 const STORAGE_KEY = "haiedu_swedish_a1_daily_v1";
 
