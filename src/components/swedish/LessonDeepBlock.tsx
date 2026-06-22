@@ -137,15 +137,18 @@ export const LessonDeepBlock = ({ id, lang, t }: Props) => {
   );
 };
 
-interface QuizProps {
-  items: NonNullable<ReturnType<typeof LESSON_DEEP_get>>;
-  lang: string;
-  t: (vi: string, en: string) => string;
+interface QuizItem {
+  q: string;
+  options: string[];
+  answer: number;
+  explainVi: string;
+  explainEn: string;
 }
 
-// helper type-only function (never called)
-function LESSON_DEEP_get() {
-  return LESSON_DEEP.__never?.quiz;
+interface QuizProps {
+  items: QuizItem[];
+  lang: string;
+  t: (vi: string, en: string) => string;
 }
 
 const DeepQuizBlock = ({ items, lang, t }: QuizProps) => {
