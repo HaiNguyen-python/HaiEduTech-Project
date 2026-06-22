@@ -250,7 +250,9 @@ export const SwedishA1DailyPlan = () => {
                             </ul>
                           </div>
 
-                          {/* phrases */}
+                          {/* deep theory + drills */}
+                          <SwedishA1DeepTheory day={d.day} lang={lang} t={t} />
+
                           <div>
                             <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                               {t("🗣️ 5 câu gối đầu giường", "🗣️ Bedside 5 phrases")}
