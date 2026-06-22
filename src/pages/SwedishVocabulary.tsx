@@ -24,7 +24,7 @@ import {
   Mic,
   MicOff,
   PenLine,
-  ShieldCheck,
+  
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
