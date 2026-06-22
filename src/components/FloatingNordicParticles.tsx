@@ -84,7 +84,7 @@ function generateParticles(pool: string[], count: number): Particle[] {
 
 interface Props {
   variant: "swedish" | "finnish";
-  /** Number of particles. Default 22. */
+  /** Number of particles. Default 55. */
   count?: number;
   /** Pause motion (e.g. for reduced-motion preference). */
   paused?: boolean;
