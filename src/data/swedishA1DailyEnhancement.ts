@@ -261,3 +261,5 @@ export const SWEDISH_A1_DAILY_ENHANCEMENT: Record<number, DailyEnhancement> = {
 
 export const getDailyEnhancement = (day: number): DailyEnhancement | undefined =>
   SWEDISH_A1_DAILY_ENHANCEMENT[day];
+
+export const getDayTopicImage = (day: number) => DAY_TOPIC_IMAGE[day];
