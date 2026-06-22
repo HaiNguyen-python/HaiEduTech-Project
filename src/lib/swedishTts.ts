@@ -116,9 +116,14 @@ export const playSwedishTts = async (text: string, options: SwedishTtsOptions = 
   const playbackRate = options.playbackRate ?? 0.9;
   const speechRate = options.speechRate ?? 0.85;
 
-  try { await playFromProxy(normalized, playbackRate); return true; } catch { /* fallthrough */ }
+  // Try Google direct URLs FIRST - the Audio element starts loading synchronously,
+  // preserving the user-gesture token (critical inside sandboxed preview iframes
+  // where any await before .play() causes the browser to block autoplay).
   for (const build of SWEDISH_TTS_ENDPOINTS) {
     try { await playFromUrl(build(normalized), playbackRate); return true; } catch { /* try next */ }
   }
+  // Proxy fallback (works when Google direct is blocked by network/CORS).
+  try { await playFromProxy(normalized, playbackRate); return true; } catch { /* fallthrough */ }
   try { await speakWithNativeSwedishVoice(normalized, speechRate); return true; } catch { return false; }
 };
+
