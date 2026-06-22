@@ -37,6 +37,7 @@ import { toast } from "@/hooks/use-toast";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { SWEDISH_A1_DAILY_EXTRAS } from "@/data/swedishA1DailyExtras";
 import { getDailyDeep } from "@/data/swedishA1DailyDeep";
+import { SwedishA1DeepTheory } from "@/components/swedish/SwedishA1DeepTheory";
 
 const STORAGE_KEY = "haiedu_swedish_a1_daily_v1";
 
@@ -249,7 +250,9 @@ export const SwedishA1DailyPlan = () => {
                             </ul>
                           </div>
 
-                          {/* phrases */}
+                          {/* deep theory + drills */}
+                          <SwedishA1DeepTheory day={d.day} lang={lang} t={t} />
+
                           <div>
                             <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                               {t("🗣️ 5 câu gối đầu giường", "🗣️ Bedside 5 phrases")}
