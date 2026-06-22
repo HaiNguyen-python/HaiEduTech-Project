@@ -13,14 +13,9 @@ interface SwedishTtsProxyResponse {
   mimeType?: string;
 }
 
-const SWEDISH_TTS_ENDPOINTS = [
-  (text: string) =>
-    `https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=sv&q=${encodeURIComponent(text)}`,
-  (text: string) =>
-    `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=sv&q=${encodeURIComponent(text)}`,
-];
-
 let activeAudio: HTMLAudioElement | null = null;
+let activeSource: AudioBufferSourceNode | null = null;
+let audioContext: AudioContext | null = null;
 
 const stopActiveAudio = () => {
   if (!activeAudio) return;
@@ -31,6 +26,11 @@ const stopActiveAudio = () => {
 
 export const stopSwedishTts = () => {
   stopActiveAudio();
+  if (activeSource) {
+    try { activeSource.stop(); } catch { /* already stopped */ }
+    activeSource.disconnect();
+    activeSource = null;
+  }
   if (typeof window !== "undefined" && "speechSynthesis" in window) {
     window.speechSynthesis.cancel();
   }
@@ -58,14 +58,56 @@ const decodeBase64ToBlob = (base64: string, mimeType: string) => {
   return new Blob([bytes], { type: mimeType });
 };
 
+const decodeBase64ToArrayBuffer = (base64: string) => {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+  return bytes.buffer;
+};
+
+const unlockAudioContext = () => {
+  if (typeof window === "undefined") return null;
+  const AudioCtx = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AudioCtx) return null;
+  audioContext ||= new AudioCtx();
+  if (audioContext.state === "suspended") void audioContext.resume().catch(() => undefined);
+  return audioContext;
+};
+
+const playBuffer = async (arrayBuffer: ArrayBuffer, playbackRate: number) => {
+  const ctx = unlockAudioContext();
+  if (!ctx) throw new Error("web_audio_unavailable");
+  if (ctx.state === "suspended") await ctx.resume();
+  stopSwedishTts();
+  const buffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
+  await ctx.resume();
+  await new Promise<void>((resolve, reject) => {
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.playbackRate.value = playbackRate;
+    source.connect(ctx.destination);
+    activeSource = source;
+    source.onended = () => {
+      if (activeSource === source) activeSource = null;
+      source.disconnect();
+      resolve();
+    };
+    try { source.start(0); } catch (error) { reject(error); }
+  });
+};
+
 const playFromProxy = async (text: string, playbackRate: number) => {
   const { data, error } = await supabase.functions.invoke("swedish-tts", { body: { text } });
   if (error) throw new Error("proxy_error");
   const payload = data as SwedishTtsProxyResponse | null;
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
-  const blob = decodeBase64ToBlob(payload.audioBase64, payload.mimeType || "audio/mpeg");
-  const objectUrl = URL.createObjectURL(blob);
-  try { await playFromUrl(objectUrl, playbackRate); } finally { URL.revokeObjectURL(objectUrl); }
+  try {
+    await playBuffer(decodeBase64ToArrayBuffer(payload.audioBase64), playbackRate);
+  } catch {
+    const blob = decodeBase64ToBlob(payload.audioBase64, payload.mimeType || "audio/mpeg");
+    const objectUrl = URL.createObjectURL(blob);
+    try { await playFromUrl(objectUrl, playbackRate); } finally { URL.revokeObjectURL(objectUrl); }
+  }
 };
 
 const loadSpeechVoices = () =>
@@ -115,14 +157,8 @@ export const playSwedishTts = async (text: string, options: SwedishTtsOptions = 
   if (!normalized) return false;
   const playbackRate = options.playbackRate ?? 0.9;
   const speechRate = options.speechRate ?? 0.85;
+  unlockAudioContext();
 
-  // Try Google direct URLs FIRST - the Audio element starts loading synchronously,
-  // preserving the user-gesture token (critical inside sandboxed preview iframes
-  // where any await before .play() causes the browser to block autoplay).
-  for (const build of SWEDISH_TTS_ENDPOINTS) {
-    try { await playFromUrl(build(normalized), playbackRate); return true; } catch { /* try next */ }
-  }
-  // Proxy fallback (works when Google direct is blocked by network/CORS).
   try { await playFromProxy(normalized, playbackRate); return true; } catch { /* fallthrough */ }
   try { await speakWithNativeSwedishVoice(normalized, speechRate); return true; } catch { return false; }
 };
