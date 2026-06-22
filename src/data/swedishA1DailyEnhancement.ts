@@ -30,6 +30,21 @@ import topicTime from "@/assets/swedish-topic-time.jpg";
 import topicPhone from "@/assets/swedish-topic-phone.jpg";
 import topicBankid from "@/assets/swedish-topic-bankid.jpg";
 import topicFestival from "@/assets/swedish-topic-festival.jpg";
+import topicPronunciation from "@/assets/swedish-topic-pronunciation.jpg";
+import topicPronouns from "@/assets/swedish-topic-pronouns.jpg";
+import topicEnEtt from "@/assets/swedish-topic-en-ett.jpg";
+import topicQuestions from "@/assets/swedish-topic-questions.jpg";
+import topicVerbs from "@/assets/swedish-topic-verbs.jpg";
+import topicSupermarket from "@/assets/swedish-topic-supermarket.jpg";
+import topicFika from "@/assets/swedish-topic-fika.jpg";
+import topicComparison from "@/assets/swedish-topic-comparison.jpg";
+import topicCalendar from "@/assets/swedish-topic-calendar.jpg";
+import topicEmotions from "@/assets/swedish-topic-emotions.jpg";
+import topicPlans from "@/assets/swedish-topic-plans.jpg";
+import topicReturns from "@/assets/swedish-topic-returns.jpg";
+import topicReflexive from "@/assets/swedish-topic-reflexive.jpg";
+import topicMocktest from "@/assets/swedish-topic-mocktest.jpg";
+import topicGraduation from "@/assets/swedish-topic-graduation.jpg";
 
 export const WEEK_HERO: Record<number, { src: string; captionVi: string; captionEn: string }> = {
   1: { src: week1, captionVi: "Tuần 1 - Chào hỏi & âm Bắc Âu", captionEn: "Week 1 - Greetings & Nordic sounds" },
@@ -39,25 +54,38 @@ export const WEEK_HERO: Record<number, { src: string; captionVi: string; caption
   5: { src: week5, captionVi: "Tuần 5 - Nước rút & tốt nghiệp A1", captionEn: "Week 5 - Final sprint & A1 grad" },
 };
 
-// Topical illustration per day - keeps every lesson visually distinct
+// Unique topical illustration per day - every lesson has its own visual
 export const DAY_TOPIC_IMAGE: Record<number, { src: string; captionVi: string; captionEn: string }> = {
-  3:  { src: topicNumbers,    captionVi: "Số đếm & đồng hồ kiểu Bắc Âu", captionEn: "Numbers & Nordic clock" },
-  6:  { src: topicFamily,     captionVi: "Cây gia đình Thuỵ Điển - mormor, farfar...", captionEn: "Swedish family tree - mormor, farfar..." },
-  8:  { src: topicTime,       captionVi: "Bốn mùa & lịch Bắc Âu", captionEn: "Four seasons & Nordic calendar" },
-  9:  { src: topicShopping,   captionVi: "Quán cà phê & gọi món lịch sự", captionEn: "Cafe & polite ordering" },
-  10: { src: topicShopping,   captionVi: "Siêu thị ICA: thanh toán & kvitto", captionEn: "ICA supermarket: payment & kvitto" },
-  12: { src: topicDirections, captionVi: "Hỏi đường ở Gamla Stan", captionEn: "Asking directions in Gamla Stan" },
-  13: { src: topicWeather,    captionVi: "4 kiểu thời tiết Bắc Âu", captionEn: "4 Nordic weather moods" },
-  15: { src: topicDoctor,     captionVi: "Phòng khám: 'Jag har ont i ___'", captionEn: "Clinic: 'Jag har ont i ___'" },
-  16: { src: topicHome,       captionVi: "Căn hộ rum och kök (rok)", captionEn: "Rum och kök (rok) flat" },
-  17: { src: topicClothes,    captionVi: "Cửa hàng quần áo Bắc Âu", captionEn: "Nordic clothes store" },
-  18: { src: topicTransport,  captionVi: "Ga tàu SL Stockholm", captionEn: "Stockholm SL station" },
-  19: { src: topicWork,       captionVi: "Nghề nghiệp & văn phòng Bắc Âu", captionEn: "Professions & Nordic office" },
-  20: { src: topicHobbies,    captionVi: "Sở thích: trượt tuyết, đọc, vẽ", captionEn: "Hobbies: ski, read, paint" },
-  21: { src: topicTime,       captionVi: "Giới từ thời gian theo mùa", captionEn: "Time prepositions by season" },
-  22: { src: topicFestival,   captionVi: "Midsommar & Lucia - 2 lễ vàng", captionEn: "Midsommar & Lucia - 2 great fests" },
-  23: { src: topicPhone,      captionVi: "Gọi điện công sở Bắc Âu", captionEn: "Nordic professional phone call" },
-  27: { src: topicBankid,     captionVi: "BankID - chìa khoá số Bắc Âu", captionEn: "BankID - Nordic digital key" },
+  1:  { src: topicPronunciation, captionVi: "Phát âm sj/tj & 3 nguyên âm å ä ö", captionEn: "Pronouncing sj/tj & å ä ö" },
+  2:  { src: topicPronouns,    captionVi: "Đại từ + động từ 'är' (là)", captionEn: "Pronouns + verb 'är' (to be)" },
+  3:  { src: topicNumbers,     captionVi: "Số đếm & đồng hồ kiểu Bắc Âu", captionEn: "Numbers & Nordic clock" },
+  4:  { src: topicEnEtt,       captionVi: "En bok vs ett hus - en/ett quyết định tất cả", captionEn: "En bok vs ett hus - gender rules" },
+  5:  { src: topicQuestions,   captionVi: "6 từ hỏi Vad/Vem/Var/Vart/När/Hur", captionEn: "6 question words Vad/Vem/Var/Vart/När/Hur" },
+  6:  { src: topicFamily,      captionVi: "Cây gia đình Thuỵ Điển - mormor, farfar...", captionEn: "Swedish family tree - mormor, farfar..." },
+  7:  { src: topicVerbs,       captionVi: "Động từ hiện tại nhóm 1 (-ar)", captionEn: "Group-1 present verbs (-ar)" },
+  8:  { src: topicTime,        captionVi: "Halv åtta = 7h30 - giờ kiểu Thuỵ Điển", captionEn: "Halv åtta = 7:30 - Swedish time" },
+  9:  { src: topicShopping,    captionVi: "Quán cà phê & gọi món lịch sự", captionEn: "Cafe & polite ordering" },
+  10: { src: topicSupermarket, captionVi: "Siêu thị ICA: thanh toán & kvitto", captionEn: "ICA supermarket: payment & kvitto" },
+  11: { src: topicFika,        captionVi: "Fika - kanelbullar & cà phê Bắc Âu", captionEn: "Fika - kanelbullar & Nordic coffee" },
+  12: { src: topicDirections,  captionVi: "Hỏi đường ở Gamla Stan", captionEn: "Asking directions in Gamla Stan" },
+  13: { src: topicWeather,     captionVi: "4 kiểu thời tiết Bắc Âu", captionEn: "4 Nordic weather moods" },
+  14: { src: topicComparison,  captionVi: "Bra/bättre/bäst - so sánh tính từ", captionEn: "Bra/bättre/bäst - comparison" },
+  15: { src: topicDoctor,      captionVi: "Phòng khám: 'Jag har ont i ___'", captionEn: "Clinic: 'Jag har ont i ___'" },
+  16: { src: topicHome,        captionVi: "Căn hộ rum och kök (rok)", captionEn: "Rum och kök (rok) flat" },
+  17: { src: topicClothes,     captionVi: "Cửa hàng quần áo Bắc Âu", captionEn: "Nordic clothes store" },
+  18: { src: topicTransport,   captionVi: "Ga tàu SL Stockholm", captionEn: "Stockholm SL station" },
+  19: { src: topicWork,        captionVi: "Nghề nghiệp & văn phòng Bắc Âu", captionEn: "Professions & Nordic office" },
+  20: { src: topicHobbies,     captionVi: "Sở thích: trượt tuyết, đọc, vẽ", captionEn: "Hobbies: ski, read, paint" },
+  21: { src: topicCalendar,    captionVi: "Lịch 4 mùa & giới từ PÅ/I/OM/SEDAN", captionEn: "4-season calendar & PÅ/I/OM/SEDAN" },
+  22: { src: topicFestival,    captionVi: "Midsommar & Lucia - 2 lễ vàng", captionEn: "Midsommar & Lucia - 2 great fests" },
+  23: { src: topicPhone,       captionVi: "Gọi điện công sở Bắc Âu", captionEn: "Nordic professional phone call" },
+  24: { src: topicEmotions,    captionVi: "Cảm xúc glad/sad/trött + 'må'", captionEn: "Emotions glad/sad/trött + 'må'" },
+  25: { src: topicPlans,       captionVi: "Sổ kế hoạch & modal ska/vill/kan/måste", captionEn: "Planner & modals ska/vill/kan/måste" },
+  26: { src: topicReturns,     captionVi: "Đổi/trả hàng - Återlämning", captionEn: "Returns & exchanges - Återlämning" },
+  27: { src: topicBankid,      captionVi: "BankID - chìa khoá số Bắc Âu", captionEn: "BankID - Nordic digital key" },
+  28: { src: topicReflexive,   captionVi: "Động từ phản thân: tvätta sig", captionEn: "Reflexive verbs: tvätta sig" },
+  29: { src: topicMocktest,    captionVi: "Mini-test 50 câu mô phỏng YKI A1", captionEn: "50-question YKI A1 mock test" },
+  30: { src: topicGraduation,  captionVi: "Tốt nghiệp A1 → roadmap A2", captionEn: "A1 graduation → A2 roadmap" },
 };
 
 export interface DailyEnhancement {
