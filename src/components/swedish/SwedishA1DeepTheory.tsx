@@ -6,14 +6,16 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useMemo, useState } from "react";
-import { BookOpen, CheckCircle2, XCircle, Languages, Shuffle, GraduationCap } from "lucide-react";
+import { BookOpen, CheckCircle2, XCircle, Languages, Shuffle, GraduationCap, Lightbulb, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { getDailyExpansion, type FillBlank, type TranslatePair, type MatchPair } from "@/data/swedishA1DailyExpansion";
+import { getDailyEnhancement, WEEK_HERO } from "@/data/swedishA1DailyEnhancement";
 
 interface Props {
   day: number;
+  week?: number;
   lang: string;
   t: (vi: string, en: string) => string;
 }
@@ -21,9 +23,11 @@ interface Props {
 const norm = (s: string) =>
   (s || "").toString().toLowerCase().normalize("NFC").replace(/[.,!?;:]/g, "").trim();
 
-export const SwedishA1DeepTheory = ({ day, lang, t }: Props) => {
+export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
   const ex = getDailyExpansion(day);
   if (!ex) return null;
+  const enh = getDailyEnhancement(day);
+  const hero = week ? WEEK_HERO[week] : undefined;
 
   return (
     <div className="space-y-3 rounded-xl border-2 border-dashed border-indigo-500/40 bg-gradient-to-br from-indigo-500/5 via-fuchsia-500/5 to-transparent p-3 sm:p-4">
@@ -31,6 +35,34 @@ export const SwedishA1DeepTheory = ({ day, lang, t }: Props) => {
         <GraduationCap className="h-3.5 w-3.5" />
         {t("📘 Lý thuyết chuyên sâu + Bài tập theo sau", "📘 Deep theory + follow-up drills")}
       </div>
+
+      {/* Week hero illustration */}
+      {hero && (
+        <figure className="overflow-hidden rounded-xl border border-indigo-500/30 bg-white/40 dark:bg-white/5">
+          <img
+            src={hero.src}
+            alt={t(hero.captionVi, hero.captionEn)}
+            loading="lazy"
+            width={1024}
+            height={1024}
+            className="h-40 w-full object-cover sm:h-52"
+          />
+          <figcaption className="px-3 py-1.5 text-center text-[11px] italic text-muted-foreground">
+            {t(hero.captionVi, hero.captionEn)}
+          </figcaption>
+        </figure>
+      )}
+
+      {/* Why this matters */}
+      {enh && (
+        <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3">
+          <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-300">
+            <Sparkles className="h-3.5 w-3.5" />
+            {t("Vì sao điểm này quan trọng?", "Why does this matter?")}
+          </div>
+          <p className="text-sm leading-relaxed text-foreground">{t(enh.whyVi, enh.whyEn)}</p>
+        </div>
+      )}
 
       {/* Theory */}
       <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
@@ -47,6 +79,17 @@ export const SwedishA1DeepTheory = ({ day, lang, t }: Props) => {
           ))}
         </ul>
       </div>
+
+      {/* Memory trick */}
+      {enh && (
+        <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-3">
+          <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+            <Lightbulb className="h-3.5 w-3.5" />
+            {t("Mẹo nhớ nhanh cho người mới", "Quick memory trick for beginners")}
+          </div>
+          <p className="text-sm leading-relaxed text-foreground">{t(enh.mnemonicVi, enh.mnemonicEn)}</p>
+        </div>
+      )}
 
       {ex.fill && ex.fill.length > 0 && <FillDrill items={ex.fill} t={t} lang={lang} />}
       {ex.translate && ex.translate.length > 0 && <TranslateDrill items={ex.translate} t={t} lang={lang} />}
