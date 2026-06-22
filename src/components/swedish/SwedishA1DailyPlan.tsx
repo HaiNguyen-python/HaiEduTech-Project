@@ -37,6 +37,7 @@ import { toast } from "@/hooks/use-toast";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { SWEDISH_A1_DAILY_EXTRAS } from "@/data/swedishA1DailyExtras";
 import { getDailyDeep } from "@/data/swedishA1DailyDeep";
+import { SwedishA1DeepTheory } from "@/components/swedish/SwedishA1DeepTheory";
 
 const STORAGE_KEY = "haiedu_swedish_a1_daily_v1";
 
