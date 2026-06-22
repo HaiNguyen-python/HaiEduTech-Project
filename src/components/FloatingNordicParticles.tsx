@@ -66,19 +66,22 @@ interface Particle {
 
 function generateParticles(pool: string[], count: number): Particle[] {
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  const picked = shuffled.slice(0, Math.min(count, shuffled.length));
+  const picked: string[] = [];
+  for (let i = 0; i < count; i++) {
+    picked.push(shuffled[i % shuffled.length]);
+  }
   return picked.map((symbol, i) => ({
     id: i,
     symbol,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    size: 14 + Math.random() * 18,
+    size: 14 + Math.random() * 20,
     duration: 18 + Math.random() * 18,
     delay: Math.random() * -22,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     rotate: Math.random() * 360,
-    driftX: (Math.random() - 0.5) * 140,
-    driftY: (Math.random() - 0.5) * 100,
+    driftX: (Math.random() - 0.5) * 160,
+    driftY: (Math.random() - 0.5) * 120,
   }));
 }
 
