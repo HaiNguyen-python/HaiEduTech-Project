@@ -266,7 +266,11 @@ export const SwedishA1DailyPlan = () => {
                                   {d.phrases.map((p, i) => (
                                     <tr key={i} className="align-top">
                                       <td className="border-b border-border/50 py-1.5 pr-3 font-medium text-blue-700 dark:text-blue-300">
-                                        {p.sv}
+                                        <div className="flex items-center gap-1.5">
+                                          <SwedishAudioButton text={p.sv} size="xs" />
+                                          <span>{p.sv}</span>
+                                          <SwedishAudioButton text={p.sv} size="xs" slow variant="ghost" ariaLabel="Phát chậm" />
+                                        </div>
                                       </td>
                                       <td className="border-b border-border/50 py-1.5 pr-3 text-muted-foreground">{p.vi}</td>
                                       <td className="border-b border-border/50 py-1.5 text-muted-foreground">{p.en}</td>
