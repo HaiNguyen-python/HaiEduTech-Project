@@ -38,8 +38,12 @@ const SwedishBeginner = () => {
             </p>
           </header>
 
-          <Tabs defaultValue="plan" className="w-full">
-            <TabsList className="mx-auto mb-6 grid w-full max-w-md grid-cols-2">
+          <Tabs defaultValue="alphabet" className="w-full">
+            <TabsList className="mx-auto mb-6 grid w-full max-w-2xl grid-cols-3">
+              <TabsTrigger value="alphabet" className="gap-1.5">
+                <Languages className="h-4 w-4" />
+                {t("Bảng chữ cái", "Alphabet")}
+              </TabsTrigger>
               <TabsTrigger value="plan" className="gap-1.5">
                 <CalendarDays className="h-4 w-4" />
                 {t("Lộ trình 30 ngày", "30-Day Plan")}
@@ -49,6 +53,10 @@ const SwedishBeginner = () => {
                 {t("24 bài học", "24 Lessons")}
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="alphabet" className="mt-0">
+              <SwedishAlphabet />
+            </TabsContent>
 
             <TabsContent value="plan" className="mt-0">
               <SwedishA1DailyPlan />
