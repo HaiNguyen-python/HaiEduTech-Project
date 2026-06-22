@@ -270,7 +270,6 @@ export const SwedishA1DailyPlan = () => {
                                         <div className="flex items-center gap-1.5">
                                           <SwedishAudioButton text={p.sv} size="xs" />
                                           <span>{p.sv}</span>
-                                          <SwedishAudioButton text={p.sv} size="xs" slow variant="ghost" ariaLabel="Phát chậm" />
                                         </div>
                                       </td>
                                       <td className="border-b border-border/50 py-1.5 pr-3 text-muted-foreground">{p.vi}</td>
