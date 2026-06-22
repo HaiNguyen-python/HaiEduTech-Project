@@ -72,15 +72,11 @@ const wordClassColors: Record<string, string> = {
   adv: "bg-rose-100 text-rose-800 border-rose-300",
 };
 
-// Text-to-Speech helper
+// Text-to-Speech helper - Google proxy with native fallback.
+import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 const speak = (text: string) => {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-US";
-    u.rate = 0.85;
-    window.speechSynthesis.speak(u);
-  }
+  stopEnglishTts();
+  void playEnglishTts(text, { playbackRate: 0.95, speechRate: 0.85 });
 };
 
 // Shuffle helper

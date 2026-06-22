@@ -23,13 +23,10 @@ import {
 import { BookOpen, GraduationCap, Lightbulb, Volume2, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 const speak = (text: string) => {
-  if (typeof window === "undefined" || !window.speechSynthesis) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "zh-CN";
-  u.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
+  stopChineseTts();
+  void playChineseTts(text, { playbackRate: 0.9, speechRate: 0.85 });
 };
 
 const HskGrammar = () => {

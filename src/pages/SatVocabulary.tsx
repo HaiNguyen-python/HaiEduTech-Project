@@ -46,14 +46,10 @@ const categoryIcons: Record<string, string> = {
 };
 const iconFor = (cat: string) => categoryIcons[cat] || "📚";
 
+import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 const speak = (text: string) => {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-US";
-    u.rate = 0.85;
-    window.speechSynthesis.speak(u);
-  }
+  stopEnglishTts();
+  void playEnglishTts(text, { playbackRate: 0.95, speechRate: 0.85 });
 };
 
 // Render an example sentence with the target word bolded (handles inflections)

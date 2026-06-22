@@ -42,15 +42,11 @@ const levelColors: Record<string, string> = {
   "HSK 7-9": "bg-amber-500/20 text-amber-400",
 };
 
-// Text-to-Speech helper for Mandarin
+// Text-to-Speech helper for Mandarin - Google proxy with native fallback.
+import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 const speakChinese = (text: string) => {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "zh-CN";
-    u.rate = 0.6;
-    window.speechSynthesis.speak(u);
-  }
+  stopChineseTts();
+  void playChineseTts(text, { playbackRate: 0.9, speechRate: 0.6 });
 };
 
 // Shuffle helper

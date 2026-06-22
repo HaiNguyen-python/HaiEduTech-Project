@@ -35,15 +35,12 @@ const levelColors: Record<string, string> = {
   C2: "bg-rose-500/20 text-rose-400",
 };
 
-// Text-to-Speech helper
+// Text-to-Speech helper - Google proxy with native fallback (works in
+// preview sandboxes and browsers without en-US voice installed).
+import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 const speak = (text: string) => {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-US";
-    u.rate = 0.85;
-    window.speechSynthesis.speak(u);
-  }
+  stopEnglishTts();
+  void playEnglishTts(text, { playbackRate: 0.95, speechRate: 0.85 });
 };
 
 // Shuffle helper
