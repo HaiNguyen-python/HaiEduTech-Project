@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { getDailyExpansion, type FillBlank, type TranslatePair, type MatchPair } from "@/data/swedishA1DailyExpansion";
-import { getDailyEnhancement, WEEK_HERO } from "@/data/swedishA1DailyEnhancement";
+import { getDailyEnhancement, WEEK_HERO, getDayTopicImage } from "@/data/swedishA1DailyEnhancement";
 
 interface Props {
   day: number;
@@ -19,6 +19,16 @@ interface Props {
   lang: string;
   t: (vi: string, en: string) => string;
 }
+
+const norm = (s: string) =>
+  (s || "").toString().toLowerCase().normalize("NFC").replace(/[.,!?;:]/g, "").trim();
+
+export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
+  const ex = getDailyExpansion(day);
+  if (!ex) return null;
+  const enh = getDailyEnhancement(day);
+  const hero = week ? WEEK_HERO[week] : undefined;
+  const topic = getDayTopicImage(day);
 
 const norm = (s: string) =>
   (s || "").toString().toLowerCase().normalize("NFC").replace(/[.,!?;:]/g, "").trim();
