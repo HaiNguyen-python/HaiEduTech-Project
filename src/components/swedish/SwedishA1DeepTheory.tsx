@@ -82,6 +82,24 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
         </ul>
       </div>
 
+      {/* Topical illustration for this specific day */}
+      {topic && (
+        <figure className="overflow-hidden rounded-xl border border-fuchsia-500/30 bg-white/40 dark:bg-white/5">
+          <img
+            src={topic.src}
+            alt={t(topic.captionVi, topic.captionEn)}
+            loading="lazy"
+            width={1280}
+            height={800}
+            className="h-48 w-full object-cover sm:h-64"
+          />
+          <figcaption className="px-3 py-1.5 text-center text-[11px] italic text-muted-foreground">
+            🎨 {t(topic.captionVi, topic.captionEn)}
+          </figcaption>
+        </figure>
+      )}
+
+
       {/* Memory trick */}
       {enh && (
         <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-3">
