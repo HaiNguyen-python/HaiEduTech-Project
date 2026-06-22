@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState, useRef } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Trophy, Zap, Heart, Sparkles, Snowflake, Compass, Target, Volume2, Rocket } from "lucide-react";
 import Navbar from "@/components/Navbar";
