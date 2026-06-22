@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -513,7 +514,8 @@ const SwedishVocabulary = () => {
   }, [mastered, toggle, t]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Swedish Vocabulary YKI A1–B1 | HaiEduTech"
         description="Từ vựng tiếng Thụy Điển YKI A1, A2, B1 — flashcard, danh sách, bài tập trắc nghiệm. Tích hợp audio sv-SE và đánh dấu Mastered."

@@ -1,5 +1,6 @@
 // Finnish landing hub - 4 distinct programs as separate cards
 import { Link } from "react-router-dom";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import { ChevronRight, Sprout, Snowflake, Target, Mic, type LucideIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -104,7 +105,8 @@ const Finnish = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="finnish" />
       <SEO title="Học Tiếng Phần Lan Online: YKI A2, B1, Beginner | HaiEduTech" description="Khóa học tiếng Phần Lan từ Beginner đến YKI B1: 550+ từ vựng, luyện thi YKI, văn hóa Phần Lan, hội thoại đời sống. Lộ trình bởi giáo viên đã sống tại Phần Lan." path="/finnish" jsonLd={COURSE_LD} />
       <Navbar />
       <main className="pt-24 lg:pt-28">

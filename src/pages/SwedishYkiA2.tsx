@@ -5,6 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import Navbar from "@/components/Navbar";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -13,7 +14,8 @@ import { SwedishTierView } from "@/components/swedish/SwedishTierView";
 const SwedishYkiA2 = () => {
   const { t } = useLanguage();
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="YKI A2 Ruotsi Dashboard — Luyện thi tiếng Thụy Điển | HaiEduTech"
         description="Luyện thi YKI Ruotsi cấp Perustaso (A2): V2 word order, En/Ett, thì quá khứ, email, modal verbs và đề thi thử 4 kỹ năng."

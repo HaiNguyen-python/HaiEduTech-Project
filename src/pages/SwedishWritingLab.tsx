@@ -7,6 +7,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useMemo, useState } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import {
   PencilLine, Sparkles, Loader2, CheckCircle2, AlertCircle, Lightbulb,
@@ -102,7 +103,8 @@ const SwedishWritingLab = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Swedish Writing Lab — Skriva YKI Ruotsi A1–B1 | HaiEduTech"
         description="Luyện viết tiếng Thụy Điển theo chuẩn YKI Ruotsi A1, A2, B1. Đề viết thực tế + chấm AI cho 4 tiêu chí (Task, Vocabulary, Grammar, Coherence)."

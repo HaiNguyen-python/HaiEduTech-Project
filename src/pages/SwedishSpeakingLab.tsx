@@ -8,6 +8,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import {
   Mic, MicOff, Sparkles, Loader2, CheckCircle2, AlertCircle, Volume2, Square,
@@ -212,7 +213,8 @@ const SwedishSpeakingLab = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Swedish Speaking Lab — Tala YKI Ruotsi A1–B1 | HaiEduTech"
         description="Luyện nói tiếng Thụy Điển theo chuẩn YKI Ruotsi A1, A2, B1. Ghi âm sv-SE, nhận diện giọng nói liên tục và AI chấm phát âm + ngữ pháp."

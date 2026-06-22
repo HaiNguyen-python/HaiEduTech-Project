@@ -1,5 +1,6 @@
 // YKI Finnish Prep Dashboard - Vocabulary, Grammar, Mock Exams with progress tracking
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import finnishFlagImg from "@/assets/finnish-flag.png";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -2109,7 +2110,8 @@ const YkiDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="finnish" />
       <Navbar />
       <main className="pt-24 lg:pt-28 pb-12">
         <div className="container mx-auto px-4 sm:px-6">

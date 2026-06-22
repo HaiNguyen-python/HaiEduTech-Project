@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { motion } from "framer-motion";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { CheckCircle2, MapPin, Newspaper, Radio, Briefcase, Heart, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -134,7 +135,8 @@ const SECTIONS: Section[] = [
 const SwedishSvenskfinland = () => {
   const { t } = useLanguage();
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Svenskfinland — Sống bằng tiếng Thụy Điển ở Phần Lan | HaiEduTech"
         description="Hướng dẫn hội nhập cho người dùng tiếng Thụy Điển tại Phần Lan: DVV, Kela, FPA, Hbl, Yle Vega, cộng đồng Helsingfors/Vasa/Åbo/Åland."

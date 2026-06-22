@@ -5,6 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import Navbar from "@/components/Navbar";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -13,7 +14,8 @@ import { SwedishTierView } from "@/components/swedish/SwedishTierView";
 const SwedishYkiB1 = () => {
   const { t } = useLanguage();
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="YKI B1 Ruotsi Dashboard — Tiếng Thụy Điển Trung cấp | HaiEduTech"
         description="Luyện thi YKI Ruotsi B1 (Keskitaso): BIFF rule, liên từ logic, đọc Hbl & Yle, viết thư kiến nghị, phỏng vấn xin việc."
