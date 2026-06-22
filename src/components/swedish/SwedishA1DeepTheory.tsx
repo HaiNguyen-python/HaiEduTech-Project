@@ -36,6 +36,34 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
         {t("📘 Lý thuyết chuyên sâu + Bài tập theo sau", "📘 Deep theory + follow-up drills")}
       </div>
 
+      {/* Week hero illustration */}
+      {hero && (
+        <figure className="overflow-hidden rounded-xl border border-indigo-500/30 bg-white/40 dark:bg-white/5">
+          <img
+            src={hero.src}
+            alt={t(hero.captionVi, hero.captionEn)}
+            loading="lazy"
+            width={1024}
+            height={1024}
+            className="h-40 w-full object-cover sm:h-52"
+          />
+          <figcaption className="px-3 py-1.5 text-center text-[11px] italic text-muted-foreground">
+            {t(hero.captionVi, hero.captionEn)}
+          </figcaption>
+        </figure>
+      )}
+
+      {/* Why this matters */}
+      {enh && (
+        <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3">
+          <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-300">
+            <Sparkles className="h-3.5 w-3.5" />
+            {t("Vì sao điểm này quan trọng?", "Why does this matter?")}
+          </div>
+          <p className="text-sm leading-relaxed text-foreground">{t(enh.whyVi, enh.whyEn)}</p>
+        </div>
+      )}
+
       {/* Theory */}
       <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
         <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
@@ -51,6 +79,17 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
           ))}
         </ul>
       </div>
+
+      {/* Memory trick */}
+      {enh && (
+        <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-3">
+          <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+            <Lightbulb className="h-3.5 w-3.5" />
+            {t("Mẹo nhớ nhanh cho người mới", "Quick memory trick for beginners")}
+          </div>
+          <p className="text-sm leading-relaxed text-foreground">{t(enh.mnemonicVi, enh.mnemonicEn)}</p>
+        </div>
+      )}
 
       {ex.fill && ex.fill.length > 0 && <FillDrill items={ex.fill} t={t} lang={lang} />}
       {ex.translate && ex.translate.length > 0 && <TranslateDrill items={ex.translate} t={t} lang={lang} />}
