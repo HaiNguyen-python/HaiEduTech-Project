@@ -34,6 +34,8 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SWEDISH_A1_DAILY_PLAN, type DailyLesson, type DailyFocus } from "@/data/swedishA1DailyPlan";
 import { toast } from "@/hooks/use-toast";
+import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
+import { SWEDISH_A1_DAILY_EXTRAS } from "@/data/swedishA1DailyExtras";
 
 const STORAGE_KEY = "haiedu_swedish_a1_daily_v1";
 
@@ -264,7 +266,11 @@ export const SwedishA1DailyPlan = () => {
                                   {d.phrases.map((p, i) => (
                                     <tr key={i} className="align-top">
                                       <td className="border-b border-border/50 py-1.5 pr-3 font-medium text-blue-700 dark:text-blue-300">
-                                        {p.sv}
+                                        <div className="flex items-center gap-1.5">
+                                          <SwedishAudioButton text={p.sv} size="xs" />
+                                          <span>{p.sv}</span>
+                                          <SwedishAudioButton text={p.sv} size="xs" slow variant="ghost" ariaLabel="Phát chậm" />
+                                        </div>
                                       </td>
                                       <td className="border-b border-border/50 py-1.5 pr-3 text-muted-foreground">{p.vi}</td>
                                       <td className="border-b border-border/50 py-1.5 text-muted-foreground">{p.en}</td>
@@ -298,6 +304,82 @@ export const SwedishA1DailyPlan = () => {
                             </div>
                             <p className="text-sm leading-relaxed">{t(d.successVi, d.successEn)}</p>
                           </div>
+
+                          {/* extras: grammar focus, mini-dialog, extra vocab, cultural note */}
+                          {SWEDISH_A1_DAILY_EXTRAS[d.day] && (
+                            <div className="space-y-3">
+                              {SWEDISH_A1_DAILY_EXTRAS[d.day].grammarVi && (
+                                <div className="rounded-lg border border-violet-500/30 bg-violet-500/5 p-3">
+                                  <div className="mb-1 text-xs font-semibold text-violet-700 dark:text-violet-300">
+                                    📐 {t("Điểm ngữ pháp trọng tâm", "Grammar focus")}
+                                  </div>
+                                  <p className="whitespace-pre-wrap text-sm leading-relaxed">
+                                    {t(SWEDISH_A1_DAILY_EXTRAS[d.day].grammarVi!, SWEDISH_A1_DAILY_EXTRAS[d.day].grammarEn!)}
+                                  </p>
+                                </div>
+                              )}
+                              {SWEDISH_A1_DAILY_EXTRAS[d.day].dialog && (
+                                <div className="rounded-lg border border-sky-500/30 bg-sky-500/5 p-3">
+                                  <div className="mb-2 text-xs font-semibold text-sky-700 dark:text-sky-300">
+                                    🎭 {t("Mini hội thoại (nghe & lặp)", "Mini dialog (listen & repeat)")}
+                                  </div>
+                                  <ul className="space-y-1.5 text-sm">
+                                    {SWEDISH_A1_DAILY_EXTRAS[d.day].dialog!.map((line, i) => (
+                                      <li key={i} className="flex flex-wrap items-center gap-2">
+                                        <span className="rounded-full bg-sky-500/15 px-2 py-0.5 text-[10px] font-bold uppercase text-sky-700 dark:text-sky-300">
+                                          {line.who}
+                                        </span>
+                                        <SwedishAudioButton text={line.sv} size="xs" />
+                                        <span className="font-medium text-foreground">{line.sv}</span>
+                                        <span className="text-muted-foreground">— {t(line.vi, line.en)}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                              {SWEDISH_A1_DAILY_EXTRAS[d.day].extraVocab && (
+                                <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
+                                  <div className="mb-2 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                                    📚 {t("10 từ vựng mở rộng", "10 extra vocabulary")}
+                                  </div>
+                                  <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                                    {SWEDISH_A1_DAILY_EXTRAS[d.day].extraVocab!.map((v, i) => (
+                                      <div key={i} className="flex items-center gap-2 text-sm">
+                                        <SwedishAudioButton text={v.sv} size="xs" />
+                                        <span className="font-semibold">{v.sv}</span>
+                                        <span className="text-muted-foreground">— {t(v.vi, v.en)}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              {SWEDISH_A1_DAILY_EXTRAS[d.day].cultureVi && (
+                                <div className="rounded-lg border border-rose-500/30 bg-rose-500/5 p-3">
+                                  <div className="mb-1 text-xs font-semibold text-rose-700 dark:text-rose-300">
+                                    🇸🇪 {t("Góc văn hoá Bắc Âu", "Nordic culture corner")}
+                                  </div>
+                                  <p className="text-sm leading-relaxed">
+                                    {t(SWEDISH_A1_DAILY_EXTRAS[d.day].cultureVi!, SWEDISH_A1_DAILY_EXTRAS[d.day].cultureEn!)}
+                                  </p>
+                                </div>
+                              )}
+                              {SWEDISH_A1_DAILY_EXTRAS[d.day].pitfallsVi && (
+                                <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
+                                  <div className="mb-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
+                                    ⚠️ {t("Lỗi hay gặp", "Common mistakes")}
+                                  </div>
+                                  <ul className="ml-4 list-disc space-y-0.5 text-sm leading-relaxed">
+                                    {(lang === "vi"
+                                      ? SWEDISH_A1_DAILY_EXTRAS[d.day].pitfallsVi!
+                                      : SWEDISH_A1_DAILY_EXTRAS[d.day].pitfallsEn!).map((p, i) => (
+                                      <li key={i}>{p}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
 
                           {/* complete checkbox */}
                           <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-secondary/40 px-3 py-2 transition-colors hover:bg-secondary/70">

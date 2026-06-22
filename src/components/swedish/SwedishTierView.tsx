@@ -31,6 +31,7 @@ import { Label } from "@/components/ui/label";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "@/hooks/use-toast";
 import { LESSON_DETAILS } from "@/data/swedishLessonDetails";
+import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 
 /* -------------------------------------------------------------------------- */
 /* Types & data                                                                */
@@ -1248,7 +1249,12 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
                           <tbody>
                             {l.vocab.map((v, i) => (
                               <tr key={i} className="border-b border-border/40 last:border-0">
-                                <td className="py-1.5 pr-3 font-semibold text-foreground">{v.sv}</td>
+                                <td className="py-1.5 pr-2 align-middle">
+                                  <div className="flex items-center gap-1.5">
+                                    <SwedishAudioButton text={v.sv} size="xs" />
+                                    <span className="font-semibold text-foreground">{v.sv}</span>
+                                  </div>
+                                </td>
                                 <td className="py-1.5 text-muted-foreground">{t(v.vi, v.en)}</td>
                               </tr>
                             ))}
