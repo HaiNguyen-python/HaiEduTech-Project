@@ -6,12 +6,13 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useMemo, useState } from "react";
-import { BookOpen, CheckCircle2, XCircle, Languages, Shuffle, GraduationCap, Lightbulb, Sparkles } from "lucide-react";
+import { BookOpen, CheckCircle2, XCircle, Languages, Shuffle, GraduationCap, Lightbulb, Sparkles, AlertTriangle, Quote } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { getDailyExpansion, type FillBlank, type TranslatePair, type MatchPair } from "@/data/swedishA1DailyExpansion";
 import { getDailyEnhancement, WEEK_HERO, getDayTopicImage } from "@/data/swedishA1DailyEnhancement";
+import { getDailyDeepPlus } from "@/data/swedishA1DailyDeepPlus";
 
 interface Props {
   day: number;
@@ -29,6 +30,7 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
   const enh = getDailyEnhancement(day);
   const hero = week ? WEEK_HERO[week] : undefined;
   const topic = getDayTopicImage(day);
+  const plus = getDailyDeepPlus(day);
 
 
   return (
@@ -111,9 +113,65 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
         </div>
       )}
 
+      {/* Pitfalls - common mistakes */}
+      {plus && (
+        <div className="rounded-lg border border-red-500/40 bg-red-500/5 p-3">
+          <div className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-red-700 dark:text-red-300">
+            <AlertTriangle className="h-3.5 w-3.5" />
+            {t("⚠️ 3 lỗi thường gặp - tránh ngay", "⚠️ 3 common mistakes - avoid these")}
+          </div>
+          <ul className="space-y-1 text-sm leading-relaxed">
+            {(lang === "vi" ? plus.pitfallsVi : plus.pitfallsEn).map((p, i) => (
+              <li key={i} className="flex gap-2">
+                <span className="shrink-0 font-semibold text-red-500">{i + 1}.</span>
+                <span className="whitespace-pre-wrap">{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Real-world model sentences */}
+      {plus && (
+        <div className="rounded-lg border border-sky-500/40 bg-sky-500/5 p-3">
+          <div className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-sky-700 dark:text-sky-300">
+            <Quote className="h-3.5 w-3.5" />
+            {t("💬 Câu mẫu ngữ cảnh thật ở Sverige", "💬 Real-context Swedish sentences")}
+          </div>
+          <ul className="space-y-2 text-sm">
+            {plus.examplesSv.map((sv, i) => (
+              <li key={i} className="rounded-md bg-card/60 border border-border/40 p-2">
+                <div className="flex items-start gap-2">
+                  <SwedishAudioButton text={sv} size="xs" />
+                  <span className="font-semibold text-sky-800 dark:text-sky-100">{sv}</span>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground italic">
+                  {lang === "vi" ? plus.examplesVi[i] : plus.examplesEn[i]}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {ex.fill && ex.fill.length > 0 && <FillDrill items={ex.fill} t={t} lang={lang} />}
       {ex.translate && ex.translate.length > 0 && <TranslateDrill items={ex.translate} t={t} lang={lang} />}
       {ex.match && ex.match.length > 0 && <MatchDrill items={ex.match} t={t} />}
+
+      {/* Level-up drills */}
+      {plus && (
+        <div className="rounded-lg border-2 border-dashed border-violet-500/40 bg-violet-500/5 p-3">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-violet-700 dark:text-violet-300">
+            <GraduationCap className="h-3.5 w-3.5" />
+            {t("🚀 Bài tập nâng cấp (Level Up)", "🚀 Level-Up drills")}
+          </div>
+          <div className="space-y-3">
+            <FillDrill items={plus.extraFill} t={t} lang={lang} />
+            <TranslateDrill items={plus.extraTranslate} t={t} lang={lang} />
+            <MatchDrill items={plus.extraMatch} t={t} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
