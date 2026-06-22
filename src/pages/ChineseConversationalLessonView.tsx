@@ -454,7 +454,7 @@ const ChineseConversationalLessonView = () => {
                     <Button variant="outline" size="sm" onClick={() => speakChinese(lesson.listeningChallenge.transcript, 0.6)}>
                       🐢 Slow
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => speechSynthesis.cancel()}>
+                    <Button variant="outline" size="sm" onClick={() => stopChineseTts()}>
                       ⏹ Stop
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => setListeningRevealed(!listeningRevealed)}>
