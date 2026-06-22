@@ -210,7 +210,12 @@ const FillDrill = ({ items, t, lang }: { items: FillBlank[]; t: Props["t"]; lang
 
 /* ---------- Translate VI/EN → SV ---------- */
 const TranslateDrill = ({ items, t, lang }: { items: TranslatePair[]; t: Props["t"]; lang: string }) => {
+  const [values, setValues] = useState<Record<number, string>>({});
+  const [checked, setChecked] = useState<Record<number, boolean>>({});
   const [revealed, setRevealed] = useState<Record<number, boolean>>({});
+
+  const isCorrect = (i: number) => norm(values[i] || "") === norm(items[i].sv);
+
   return (
     <div className="rounded-lg border border-blue-500/30 bg-blue-500/5 p-3">
       <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-blue-700 dark:text-blue-300">
@@ -218,28 +223,61 @@ const TranslateDrill = ({ items, t, lang }: { items: TranslatePair[]; t: Props["
         {t("🌐 Dịch sang Thuỵ Điển", "🌐 Translate into Swedish")}
       </div>
       <ol className="space-y-2">
-        {items.map((it, i) => (
-          <li key={i} className="rounded-md bg-card/60 border border-border/40 p-2 text-sm">
-            <div className="mb-1.5 font-medium">
-              {i + 1}. {lang === "vi" ? it.vi : it.en}
-            </div>
-            {revealed[i] ? (
-              <div className="flex items-start gap-2 rounded-md bg-blue-500/10 p-2">
-                <SwedishAudioButton text={it.sv} size="xs" />
-                <span className="font-semibold text-blue-800 dark:text-blue-100">{it.sv}</span>
+        {items.map((it, i) => {
+          const ok = isCorrect(i);
+          const wasChecked = checked[i];
+          return (
+            <li key={i} className="rounded-md bg-card/60 border border-border/40 p-2 text-sm space-y-1.5">
+              <div className="font-medium">
+                {i + 1}. {lang === "vi" ? it.vi : it.en}
               </div>
-            ) : (
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => setRevealed((p) => ({ ...p, [i]: true }))}
-                className="h-7 text-xs"
-              >
-                {t("Hiện đáp án mẫu", "Reveal answer")}
-              </Button>
-            )}
-          </li>
-        ))}
+              <div className="flex flex-wrap items-center gap-2">
+                <Input
+                  value={values[i] || ""}
+                  onChange={(e) => {
+                    setValues((p) => ({ ...p, [i]: e.target.value }));
+                    if (checked[i]) setChecked((p) => ({ ...p, [i]: false }));
+                  }}
+                  placeholder={t("Viết câu tiếng Thuỵ Điển…", "Type the Swedish sentence…")}
+                  className="h-8 flex-1 min-w-[200px] text-sm"
+                  disabled={revealed[i]}
+                />
+                <Button
+                  size="sm"
+                  onClick={() => setChecked((p) => ({ ...p, [i]: true }))}
+                  disabled={!values[i]?.trim() || revealed[i]}
+                  className="h-8 text-xs"
+                >
+                  {t("Kiểm tra", "Check")}
+                </Button>
+                {!revealed[i] && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setRevealed((p) => ({ ...p, [i]: true }))}
+                    className="h-8 text-xs"
+                  >
+                    {t("Hiện đáp án", "Reveal")}
+                  </Button>
+                )}
+              </div>
+              {wasChecked && !revealed[i] && (
+                <div className={`flex items-center gap-1.5 text-xs font-medium ${ok ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
+                  {ok ? <CheckCircle2 className="h-3.5 w-3.5" /> : <XCircle className="h-3.5 w-3.5" />}
+                  {ok
+                    ? t("Chính xác!", "Correct!")
+                    : t("Chưa đúng, thử lại hoặc xem đáp án.", "Not quite — try again or reveal.")}
+                </div>
+              )}
+              {(revealed[i] || (wasChecked && ok)) && (
+                <div className="flex items-start gap-2 rounded-md bg-blue-500/10 p-2">
+                  <SwedishAudioButton text={it.sv} size="xs" />
+                  <span className="font-semibold text-blue-800 dark:text-blue-100">{it.sv}</span>
+                </div>
+              )}
+            </li>
+          );
+        })}
       </ol>
     </div>
   );
