@@ -30,6 +30,7 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
   const enh = getDailyEnhancement(day);
   const hero = week ? WEEK_HERO[week] : undefined;
   const topic = getDayTopicImage(day);
+  const plus = getDailyDeepPlus(day);
 
 
   return (
