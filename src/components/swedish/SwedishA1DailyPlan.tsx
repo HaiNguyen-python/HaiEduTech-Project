@@ -251,7 +251,7 @@ export const SwedishA1DailyPlan = () => {
                           </div>
 
                           {/* deep theory + drills */}
-                          <SwedishA1DeepTheory day={d.day} lang={lang} t={t} />
+                          <SwedishA1DeepTheory day={d.day} week={d.week} lang={lang} t={t} />
 
                           <div>
                             <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
