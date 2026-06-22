@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { Link } from "react-router-dom";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import { ChevronRight, Headphones, BookOpen, PenLine, Mic } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -123,7 +124,8 @@ const SwedishSkillsLab = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background flex flex-col">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title={t(
           "Swedish Skills Lab — Nghe · Đọc · Viết · Nói | HaiEduTech",

@@ -5,6 +5,7 @@
  * @author Teacher Hai (HaiEduTech)
  */
 import { useState } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -64,7 +65,8 @@ const FinnishBeginner = () => {
   const [quizSubmitted, setQuizSubmitted] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="finnish" />
       <Navbar />
       <main className="container mx-auto px-4 py-10 max-w-6xl pt-24">
         <Link to="/finnish" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">

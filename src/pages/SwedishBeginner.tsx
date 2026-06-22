@@ -5,6 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import Navbar from "@/components/Navbar";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -17,7 +18,8 @@ import { BookOpen, CalendarDays, Languages } from "lucide-react";
 const SwedishBeginner = () => {
   const { t } = useLanguage();
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Tiếng Thụy Điển A1 + Lộ trình 30 ngày tự học | HaiEduTech"
         description="24 bài học A1 tiếng Thụy Điển và lộ trình tự học 30 ngày: phát âm, bảng chữ cái, en/ett, đại từ, mua sắm, fika, sức khoẻ - sẵn sàng cho YKI Cấp 1."

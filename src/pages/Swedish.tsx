@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { Link } from "react-router-dom";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import { ChevronRight, Sprout, Snowflake, Target, Mic, type LucideIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -108,7 +109,8 @@ const Swedish = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Học Tiếng Thụy Điển Online: YKI A1, A2, B1 Ruotsi | HaiEduTech"
         description="Khóa học tiếng Thụy Điển từ Beginner đến YKI B1 Ruotsi: phát âm Bắc Âu, ngữ pháp V2/BIFF, đọc Hbl & Yle, luyện thi YKI 4 kỹ năng. Lộ trình bởi giáo viên đã sống tại Phần Lan."

@@ -8,6 +8,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import {
   BookOpen, Eye, EyeOff, CheckCircle2, XCircle, Sparkles, RotateCcw,
@@ -111,7 +112,8 @@ const SwedishReadingLab = () => {
   const wordCount = active.textSv.trim().split(/\s+/).length;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Swedish Reading Lab — Läsförståelse YKI Ruotsi A1–B1 | HaiEduTech"
         description="Luyện đọc hiểu tiếng Thụy Điển theo chuẩn YKI Ruotsi A1, A2, B1: email, quảng cáo, blog, bản tin SVT/DN, truyện ngắn. Có MCQ, T/F và câu hỏi từ vựng."

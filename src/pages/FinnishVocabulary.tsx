@@ -1,4 +1,5 @@
 import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -632,7 +633,8 @@ const FinnishVocabulary = () => {
   useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
 
   return (
-    <div ref={pageContainerRef} className="min-h-screen bg-background">
+    <div ref={pageContainerRef} className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="finnish" />
       <SEO title="3000+ Từ Vựng Tiếng Phần Lan Có IPA & Ví Dụ | HaiEduTech" description="Ngân hàng 3000+ từ vựng tiếng Phần Lan theo 32 chủ đề & cấp độ CEFR (A1-C1). Flashcard, quiz, phát âm fi-FI, leaderboard và Mountain Climber gamification." path="/finnish-vocabulary" />
       <Navbar />
       <StudyChibisStatic />

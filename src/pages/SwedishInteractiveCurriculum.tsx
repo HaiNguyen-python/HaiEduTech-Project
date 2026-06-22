@@ -7,6 +7,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useMemo, useState } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -351,7 +352,8 @@ const SwedishInteractiveCurriculum = () => {
   }, [query]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Interactive Curriculum — Học Tiếng Thụy Điển | HaiEduTech"
         description="Luyện từ vựng, cấu trúc câu và hội thoại tiếng Thụy Điển có audio. Tổ chức theo YKI A1, A2, B1 — phù hợp người Việt định cư Phần Lan."

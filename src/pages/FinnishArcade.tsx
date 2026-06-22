@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState, useRef } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Trophy, Zap, Heart, Sparkles, Snowflake, Compass, Target, Volume2, Rocket } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -328,7 +329,8 @@ const FinnishArcade = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-sky-950 to-slate-900 text-slate-100">
+    <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-slate-900 via-sky-950 to-slate-900 text-slate-100">
+      <FloatingNordicParticles variant="finnish" />
       <SEO title="Finnish Arcade Hub | HaiEduTech" description="Arcade tiếng Phần Lan: Sauna Match, Reindeer Runner, Inflection Detective - học suomi qua trò chơi." path="/finnish/arcade" />
       <Navbar />
       <div className="pt-6 pb-16">

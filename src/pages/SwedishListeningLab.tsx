@@ -7,6 +7,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";
+import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import {
   Headphones, Play, Pause, RotateCcw, Eye, EyeOff, CheckCircle2,
@@ -105,7 +106,8 @@ const SwedishListeningLab = () => {
   const allAnswered = active.questions.every((q) => typeof answers[q.id] === "number");
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative isolate min-h-screen overflow-hidden bg-background">
+      <FloatingNordicParticles variant="swedish" />
       <SEO
         title="Swedish Listening Lab — Hörförståelse YKI Ruotsi A1–B1 | HaiEduTech"
         description="Luyện nghe tiếng Thụy Điển theo chuẩn YKI Ruotsi A1, A2, B1: hội thoại quán cà phê, thông báo ga tàu, bản tin SVT, ngữ điệu sv-SE chuẩn."
