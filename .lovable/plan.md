@@ -1,67 +1,129 @@
-## Báo cáo kiểm tra audio toàn trang
+# Mở rộng độ sâu bài học Swedish
 
-Đã quét toàn bộ codebase (70+ component dùng audio) và test trực tiếp 3 edge function TTS. Kết quả:
+## Hiện trạng
 
-### ✅ HOẠT ĐỘNG TỐT (proxy Google TTS + fallback)
+- `SwedishTierView.tsx` định nghĩa **54 lesson** (A1: 25, A2: 17, B1: 12).
+- `swedishLessonDetails.ts` chỉ có **31 lesson** với 4 trường nông: `intro`, `steps`, `pitfalls`, `practice`.
+- 23 lesson còn lại chưa có chi tiết → người học chỉ thấy tiêu đề và vài câu mô tả mặc định.
+- Các lesson đã có chi tiết cũng khá ngắn: 5 bước, 3 pitfall, 3 practice - chưa đủ "deep" cho ai muốn tự học từ 0.
 
+## Mục tiêu
 
-| Ngôn ngữ        | Edge function    | Status                                  | Pages                                                                                                             |
-| --------------- | ---------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Tiếng Việt      | `vietnamese-tts` | 200 OK, MP3 hợp lệ                      | Alphabet, Phrasebook, Poetry, Vocabulary, History, Kids, Foreigners, Folklore, Daily, Dictation                   |
-| Tiếng Phần Lan  | `finnish-tts`    | 200 OK, MP3 hợp lệ                      | Finnish Beginner/Vocab/Arcade, YKI Dashboard, YKI B1, Listening, Speaking                                         |
-| Tiếng Thụy Điển | `swedish-tts`    | 200 OK, MP3 hợp lệ (vừa fix turn trước) | Swedish Beginner (30-Day + 16 Lessons), Vocabulary, Skills/Listening/Speaking/Reading Lab, Interactive Curriculum |
+Mỗi lesson (cả 54) có nội dung deep-dive đủ để học hoàn toàn không cần giáo viên: giải thích ngữ pháp, hộp ví dụ song ngữ, mini-dialogue, đoạn văn mẫu, ghi chú văn hóa Thụy Điển, checkpoint quiz tự kiểm tra.
 
+## Việc cần làm
 
-### ⚠️ RỦI RO CAO - có thể KHÔNG nghe được audio
+### 1. Mở rộng schema `LessonDetail`
 
-Các môn dưới đây **chỉ dùng `window.speechSynthesis` của trình duyệt**, không có proxy Google TTS dự phòng. Trên Linux/Chromium server, preview sandbox, một số máy Windows thiếu voice pack, hoặc mobile Chrome → **silent / không phát ra tiếng**:
+Thêm các trường mới (tất cả optional để không vỡ 31 entry cũ trong lần commit đầu):
 
+```ts
+export interface LessonDetail {
+  // — hiện có —
+  introVi: string; introEn: string;
+  stepsVi: string[]; stepsEn: string[];
+  pitfallsVi: string[]; pitfallsEn: string[];
+  practiceVi: string[]; practiceEn: string[];
 
-| Môn                           | File                                  | Lang        |
-| ----------------------------- | ------------------------------------- | ----------- |
-| **Tiếng Anh - Pronunciation** | `EnglishPronunciation.tsx`            | en-US       |
-| **IELTS Vocabulary**          | `IeltsVocabulary.tsx`                 | en-US       |
-| **TOEIC Vocabulary**          | `ToeicVocabulary.tsx`                 | en-US       |
-| **SAT Vocabulary**            | `SatVocabulary.tsx`                   | en-US       |
-| **PTE Vocabulary**            | `PteVocabulary.tsx`                   | en-US/en-AU |
-| **Cambridge YLE Vocabulary**  | `CambridgeYleVocabulary.tsx`          | en-US/en-GB |
-| **HSK Vocabulary**            | `HskVocabulary.tsx`                   | zh-CN       |
-| **HSK Grammar**               | `HskGrammar.tsx`                      | zh-CN       |
-| **Chinese Reading**           | `ChineseReading.tsx`                  | zh-CN       |
-| **Conversational Chinese**    | `ChineseConversationalLessonView.tsx` | zh-CN       |
+  // — mới —
+  grammarTable?: {            // bảng quy tắc / chia động từ / mạo từ
+    titleVi: string; titleEn: string;
+    headers: string[];        // ví dụ ["Infinitiv","Presens","Preteritum","Supinum","Tiếng Việt"]
+    rows: string[][];
+  };
+  dialogue?: {                // hội thoại 6–10 lượt, cột Sv + cột Vi
+    titleVi: string; titleEn: string;
+    lines: { speaker: string; sv: string; vi: string; en: string }[];
+  };
+  modelText?: {               // đoạn văn mẫu 60–120 từ + bản dịch
+    titleVi: string; titleEn: string;
+    sv: string; vi: string; en: string;
+  };
+  cultureVi?: string;         // 3–5 câu mẹo văn hóa Thụy Điển/Phần Lan-Thụy Điển
+  cultureEn?: string;
+  quiz?: {                    // 3–5 câu hỏi tự kiểm tra cuối bài (đáp án + giải thích)
+    q: string;
+    options: string[];
+    answer: number;
+    explainVi: string; explainEn: string;
+  }[];
+}
+```
 
+### 2. Soạn nội dung deep-dive cho 54 lesson
 
-Triệu chứng: bấm nút loa → không có tiếng, không có lỗi rõ ràng. Đặc biệt nghiêm trọng với `zh-CN` vì nhiều browser không có voice tiếng Trung mặc định.
+Chia làm 4 batch (mỗi batch 1 commit, dễ rollback):
 
-### Kế hoạch khắc phục
+- **Batch A** — 14 lesson A1 cơ bản (chào hỏi, đếm, gia đình, đại từ, en/ett, câu hỏi, alphabet, phát âm, màu sắc, quần áo, cơ thể, sức khỏe, daily routine, hobbies)
+- **Batch B** — 11 lesson A1 ngữ cảnh (fika, ICA, restaurant, doctor, housing, work, directions, transport, weather, seasons, nature/allemansrätten)
+- **Batch C** — 17 lesson A2 (V2, en/ett nâng cao, presens/preteritum/perfekt, modal, imperativ, så att, email, email-pro, future, work, health, housing, transport, doctor-visit, emotions, bank-id)
+- **Batch D** — 12 lesson B1 (BIFF, inversion, vocab logic, opinion letter, news Hbl/Yle, discuss, job interview, environment, future, climate-debate, digital-life)
 
-**1. Tạo 2 edge function mới (mirror `swedish-tts`)**
+Mỗi lesson bổ sung:
+- intro mở rộng 5–7 câu (từ 3 hiện tại)
+- 7–10 step (từ 5)
+- 5 pitfall (từ 3)
+- 5 practice (từ 3)
+- 1 grammar table 4–8 hàng
+- 1 dialogue 6–10 lượt
+- 1 modelText 60–120 từ
+- 1 culture note
+- 3–5 câu quiz có giải thích
 
-- `supabase/functions/english-tts/index.ts` - proxy Google Translate `tl=en`
-- `supabase/functions/chinese-tts/index.ts` - proxy Google Translate `tl=zh-CN`
+Ưu tiên dữ liệu sát thi YKI Ruotsi và đời sống Phần Lan (Helsinki/Turku/Vasa), không trộn tiếng Anh không cần thiết.
 
-Cả 2 trả về `{audioBase64, mimeType}` giống `swedish-tts` / `finnish-tts` / `vietnamese-tts`.
+### 3. Render UI mới trong `SwedishTierView.tsx`
 
-**2. Tạo 2 helper client (mirror `swedishTts.ts`)**
+Trong cùng accordion lesson hiện có, thêm các block (chỉ render khi field tồn tại):
 
-- `src/lib/englishTts.ts` → `playEnglishTts(text, {playbackRate, speechRate, accent})`
-  - Thứ tự fallback: proxy edge function → Google Translate trực tiếp (gtx + tw-ob) → `speechSynthesis` en-US/en-GB.
-- `src/lib/chineseTts.ts` → `playChineseTts(text, {...})`
-  - Thứ tự fallback: proxy → Google direct → `speechSynthesis` zh-CN.
+```text
+[Intro] [Steps]                       ← đã có
+[GrammarTable]   ← bảng có header gradient brand
+[Dialogue]       ← 2 cột Sv | Vi, mỗi line có nút 🔊 dùng speakSwedish
+[ModelText]      ← khối card có nút 🔊 đọc cả đoạn
+[CultureNote]    ← callout nền accent
+[Pitfalls] [Practice]                 ← đã có
+[Quiz]           ← multi-choice tự chấm, hiện explain sau khi chọn
+```
 
-**3. Refactor 10 page nói trên** thay block `new SpeechSynthesisUtterance` bằng `playEnglishTts` / `playChineseTts`. Giữ nguyên UI, chỉ thay logic phát.
+Tận dụng:
+- `SwedishAudioButton` cho mọi nút phát âm.
+- `Tabs`/`Card` shadcn đã import sẵn.
+- Tokens `--gradient-primary`, `--shadow-elegant` cho điểm nhấn.
 
-**4. Verify**
+### 4. Phân tách file để tránh 1 file 8000+ dòng
 
-- Curl test 2 edge function mới (giống cách đã test `swedish-tts`).
-- Reload các trang IELTS Vocab, TOEIC Vocab, HSK Vocab, Chinese Reading bằng Playwright, bấm nút loa, kiểm tra log console + network request `/functions/v1/english-tts` (hoặc `chinese-tts`) trả 200 + MP3.
+```text
+src/data/swedish/
+  lessonDetailsCore.ts        ← 31 entry hiện tại (đã chuyển)
+  lessonDetailsA1Extra.ts     ← lesson A1 còn thiếu + bản nâng cấp
+  lessonDetailsA2.ts          ← toàn bộ A2
+  lessonDetailsB1.ts          ← toàn bộ B1
+  index.ts                    ← merge tất cả, export LESSON_DETAILS
+```
 
-### Phạm vi không thay đổi
+`swedishLessonDetails.ts` cũ giữ lại làm re-export shim → không phải sửa import nơi khác.
 
-- Vietnamese / Finnish / Swedish: đã hoạt động, giữ nguyên.
-- Các component speaking / listening đã proxy (SpeakingGrader, ShadowingPractice, IeltsListening): giữ nguyên.
-- UI/UX nút loa, tốc độ phát, hotkey: không đổi.
+### 5. Kiểm thử
 
-Bạn duyệt plan này thì mình triển khai ngay.
+- `bun run` tự chạy typecheck (TS chặn nếu thiếu field).
+- Playwright nhanh: vào `/swedish/yki-a2`, mở accordion `a2-modal`, chụp screenshot xác nhận grammar table + dialogue + quiz hiển thị, bấm 🔊 không lỗi console.
+- Kiểm 1 lesson trong mỗi tier để chắc UI không vỡ ở mobile (viewport 375 px).
 
-ok 
+## Quy ước nội dung
+
+- Tiếng Việt thuần, không em-dash `—`, dùng `-`.
+- Diacritics UTF-8 NFC, render bằng `<div>` + `whitespace-pre-wrap` (không `<pre>`).
+- Mọi câu Sv đều có thể đọc được bằng pipeline `speakSwedish` đã hoạt động ổn.
+- Không thêm locked content, mọi lesson mở hoàn toàn.
+
+## Phạm vi & ước lượng
+
+- File mới/sửa: ~8 file (1 schema, 4 data, 1 component render, 1 shim, 1 plan).
+- Volume nội dung: ~54 lesson × ~250 dòng dữ liệu ≈ 13–15k dòng dữ liệu tiếng Việt + Thụy Điển.
+- Vì lượng nội dung lớn, sẽ chia 4 lượt phản hồi để batch A → D, mỗi lượt commit độc lập và bạn xem preview ngay được.
+
+## Câu hỏi trước khi triển khai
+
+1. Bạn muốn tôi làm cả 4 batch liên tiếp trong session này (dài, nhiều token) hay chỉ Batch A trước rồi tiếp tục theo yêu cầu?
+2. Có muốn thêm **flashcard từ vựng nhúng** (5-8 từ chốt mỗi bài, kéo từ `swedishVocabBank`) ngay trong accordion lesson không, hay giữ tách biệt như hiện nay?
