@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { getDailyExpansion, type FillBlank, type TranslatePair, type MatchPair } from "@/data/swedishA1DailyExpansion";
-import { getDailyEnhancement, WEEK_HERO } from "@/data/swedishA1DailyEnhancement";
+import { getDailyEnhancement, WEEK_HERO, getDayTopicImage } from "@/data/swedishA1DailyEnhancement";
 
 interface Props {
   day: number;
@@ -28,6 +28,8 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
   if (!ex) return null;
   const enh = getDailyEnhancement(day);
   const hero = week ? WEEK_HERO[week] : undefined;
+  const topic = getDayTopicImage(day);
+
 
   return (
     <div className="space-y-3 rounded-xl border-2 border-dashed border-indigo-500/40 bg-gradient-to-br from-indigo-500/5 via-fuchsia-500/5 to-transparent p-3 sm:p-4">
@@ -79,6 +81,24 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
           ))}
         </ul>
       </div>
+
+      {/* Topical illustration for this specific day */}
+      {topic && (
+        <figure className="overflow-hidden rounded-xl border border-fuchsia-500/30 bg-white/40 dark:bg-white/5">
+          <img
+            src={topic.src}
+            alt={t(topic.captionVi, topic.captionEn)}
+            loading="lazy"
+            width={1280}
+            height={800}
+            className="h-48 w-full object-cover sm:h-64"
+          />
+          <figcaption className="px-3 py-1.5 text-center text-[11px] italic text-muted-foreground">
+            🎨 {t(topic.captionVi, topic.captionEn)}
+          </figcaption>
+        </figure>
+      )}
+
 
       {/* Memory trick */}
       {enh && (

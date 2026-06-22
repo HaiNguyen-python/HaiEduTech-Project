@@ -15,6 +15,21 @@ import week2 from "@/assets/swedish-a1-week2.jpg";
 import week3 from "@/assets/swedish-a1-week3.jpg";
 import week4 from "@/assets/swedish-a1-week4.jpg";
 import week5 from "@/assets/swedish-a1-week5.jpg";
+import topicNumbers from "@/assets/swedish-topic-numbers.jpg";
+import topicFamily from "@/assets/swedish-topic-family.jpg";
+import topicShopping from "@/assets/swedish-topic-shopping.jpg";
+import topicDirections from "@/assets/swedish-topic-directions.jpg";
+import topicWeather from "@/assets/swedish-topic-weather.jpg";
+import topicDoctor from "@/assets/swedish-topic-doctor.jpg";
+import topicHome from "@/assets/swedish-topic-home.jpg";
+import topicClothes from "@/assets/swedish-topic-clothes.jpg";
+import topicTransport from "@/assets/swedish-topic-transport.jpg";
+import topicWork from "@/assets/swedish-topic-work.jpg";
+import topicHobbies from "@/assets/swedish-topic-hobbies.jpg";
+import topicTime from "@/assets/swedish-topic-time.jpg";
+import topicPhone from "@/assets/swedish-topic-phone.jpg";
+import topicBankid from "@/assets/swedish-topic-bankid.jpg";
+import topicFestival from "@/assets/swedish-topic-festival.jpg";
 
 export const WEEK_HERO: Record<number, { src: string; captionVi: string; captionEn: string }> = {
   1: { src: week1, captionVi: "Tuần 1 - Chào hỏi & âm Bắc Âu", captionEn: "Week 1 - Greetings & Nordic sounds" },
@@ -22,6 +37,27 @@ export const WEEK_HERO: Record<number, { src: string; captionVi: string; caption
   3: { src: week3, captionVi: "Tuần 3 - Nhà cửa, sức khoẻ & cơ thể", captionEn: "Week 3 - Home, health & body" },
   4: { src: week4, captionVi: "Tuần 4 - Văn hoá Bắc Âu & giao tiếp", captionEn: "Week 4 - Nordic culture & comms" },
   5: { src: week5, captionVi: "Tuần 5 - Nước rút & tốt nghiệp A1", captionEn: "Week 5 - Final sprint & A1 grad" },
+};
+
+// Topical illustration per day - keeps every lesson visually distinct
+export const DAY_TOPIC_IMAGE: Record<number, { src: string; captionVi: string; captionEn: string }> = {
+  3:  { src: topicNumbers,    captionVi: "Số đếm & đồng hồ kiểu Bắc Âu", captionEn: "Numbers & Nordic clock" },
+  6:  { src: topicFamily,     captionVi: "Cây gia đình Thuỵ Điển - mormor, farfar...", captionEn: "Swedish family tree - mormor, farfar..." },
+  8:  { src: topicTime,       captionVi: "Bốn mùa & lịch Bắc Âu", captionEn: "Four seasons & Nordic calendar" },
+  9:  { src: topicShopping,   captionVi: "Quán cà phê & gọi món lịch sự", captionEn: "Cafe & polite ordering" },
+  10: { src: topicShopping,   captionVi: "Siêu thị ICA: thanh toán & kvitto", captionEn: "ICA supermarket: payment & kvitto" },
+  12: { src: topicDirections, captionVi: "Hỏi đường ở Gamla Stan", captionEn: "Asking directions in Gamla Stan" },
+  13: { src: topicWeather,    captionVi: "4 kiểu thời tiết Bắc Âu", captionEn: "4 Nordic weather moods" },
+  15: { src: topicDoctor,     captionVi: "Phòng khám: 'Jag har ont i ___'", captionEn: "Clinic: 'Jag har ont i ___'" },
+  16: { src: topicHome,       captionVi: "Căn hộ rum och kök (rok)", captionEn: "Rum och kök (rok) flat" },
+  17: { src: topicClothes,    captionVi: "Cửa hàng quần áo Bắc Âu", captionEn: "Nordic clothes store" },
+  18: { src: topicTransport,  captionVi: "Ga tàu SL Stockholm", captionEn: "Stockholm SL station" },
+  19: { src: topicWork,       captionVi: "Nghề nghiệp & văn phòng Bắc Âu", captionEn: "Professions & Nordic office" },
+  20: { src: topicHobbies,    captionVi: "Sở thích: trượt tuyết, đọc, vẽ", captionEn: "Hobbies: ski, read, paint" },
+  21: { src: topicTime,       captionVi: "Giới từ thời gian theo mùa", captionEn: "Time prepositions by season" },
+  22: { src: topicFestival,   captionVi: "Midsommar & Lucia - 2 lễ vàng", captionEn: "Midsommar & Lucia - 2 great fests" },
+  23: { src: topicPhone,      captionVi: "Gọi điện công sở Bắc Âu", captionEn: "Nordic professional phone call" },
+  27: { src: topicBankid,     captionVi: "BankID - chìa khoá số Bắc Âu", captionEn: "BankID - Nordic digital key" },
 };
 
 export interface DailyEnhancement {
@@ -225,3 +261,5 @@ export const SWEDISH_A1_DAILY_ENHANCEMENT: Record<number, DailyEnhancement> = {
 
 export const getDailyEnhancement = (day: number): DailyEnhancement | undefined =>
   SWEDISH_A1_DAILY_ENHANCEMENT[day];
+
+export const getDayTopicImage = (day: number) => DAY_TOPIC_IMAGE[day];
