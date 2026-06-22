@@ -36,6 +36,7 @@ import { SWEDISH_A1_DAILY_PLAN, type DailyLesson, type DailyFocus } from "@/data
 import { toast } from "@/hooks/use-toast";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { SWEDISH_A1_DAILY_EXTRAS } from "@/data/swedishA1DailyExtras";
+import { getDailyDeep } from "@/data/swedishA1DailyDeep";
 
 const STORAGE_KEY = "haiedu_swedish_a1_daily_v1";
 
@@ -380,6 +381,123 @@ export const SwedishA1DailyPlan = () => {
                             </div>
                           )}
 
+                          {/* DEEP DIVE: patterns, listening, writing, self-check */}
+                          {(() => {
+                            const deep = getDailyDeep(d.day);
+                            if (!deep.patterns && !deep.listening && !deep.writing && !deep.selfCheck) return null;
+                            return (
+                              <div className="space-y-3 rounded-xl border-2 border-dashed border-blue-500/40 bg-gradient-to-br from-blue-500/5 via-emerald-500/5 to-transparent p-3 sm:p-4">
+                                <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-blue-700 dark:text-blue-300">
+                                  <Sparkles className="h-3.5 w-3.5" />
+                                  {t("🚀 Đào sâu chuyên gia (Deep Dive)", "🚀 Expert Deep Dive")}
+                                </div>
+
+                                {deep.patterns && (
+                                  <div className="rounded-lg border border-cyan-500/30 bg-cyan-500/5 p-3">
+                                    <div className="mb-2 text-xs font-semibold text-cyan-700 dark:text-cyan-300">
+                                      🧩 {t("Mẫu câu khung - tự ghép", "Sentence patterns - build your own")}
+                                    </div>
+                                    <div className="space-y-3">
+                                      {deep.patterns.map((pt, i) => (
+                                        <div key={i} className="space-y-1.5">
+                                          <div className="flex flex-wrap items-center gap-2 text-sm">
+                                            <code className="rounded bg-cyan-500/15 px-2 py-0.5 font-mono text-cyan-800 dark:text-cyan-200">{pt.frame}</code>
+                                            <span className="text-xs text-muted-foreground">— {t(pt.vi, pt.en)}</span>
+                                          </div>
+                                          <ul className="ml-4 space-y-1 text-sm">
+                                            {pt.examples.map((ex, j) => (
+                                              <li key={j} className="flex flex-wrap items-center gap-2">
+                                                <SwedishAudioButton text={ex.sv} size="xs" />
+                                                <span className="font-medium">{ex.sv}</span>
+                                                <span className="text-muted-foreground">— {t(ex.vi, ex.en)}</span>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {deep.listening && (
+                                  <div className="rounded-lg border border-purple-500/30 bg-purple-500/5 p-3">
+                                    <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-purple-700 dark:text-purple-300">
+                                      <Headphones className="h-3.5 w-3.5" />
+                                      {t("Đoạn nghe ngắn + câu hỏi hiểu", "Mini listening + comprehension")}
+                                    </div>
+                                    <div className="mb-2 flex items-start gap-2">
+                                      <SwedishAudioButton text={deep.listening.sv} size="sm" />
+                                      <div className="flex-1">
+                                        <p className="whitespace-pre-wrap text-sm font-medium leading-relaxed text-foreground">{deep.listening.sv}</p>
+                                        <p className="mt-1 text-xs italic text-muted-foreground">{t(deep.listening.vi, deep.listening.en)}</p>
+                                      </div>
+                                    </div>
+                                    <ol className="ml-5 list-decimal space-y-1 text-sm">
+                                      {deep.listening.questions.map((q, i) => (
+                                        <li key={i}>
+                                          <span className="font-medium">{q.q}</span>
+                                          <details className="mt-0.5">
+                                            <summary className="cursor-pointer text-xs text-purple-600 hover:text-purple-800 dark:text-purple-300">
+                                              {t("Xem đáp án", "Show answer")}
+                                            </summary>
+                                            <p className="mt-1 rounded bg-purple-500/10 px-2 py-1 text-xs text-purple-800 dark:text-purple-200">→ {q.a}</p>
+                                          </details>
+                                        </li>
+                                      ))}
+                                    </ol>
+                                  </div>
+                                )}
+
+                                {deep.writing && (
+                                  <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
+                                    <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                                      <PencilLine className="h-3.5 w-3.5" />
+                                      {t("Bài viết có đáp án mẫu", "Writing prompt + model answer")}
+                                    </div>
+                                    <p className="mb-2 text-sm leading-relaxed">
+                                      <span className="font-semibold">📝 {t("Đề:", "Prompt:")}</span>{" "}
+                                      {t(deep.writing.promptVi, deep.writing.promptEn)}
+                                    </p>
+                                    <details className="rounded-md bg-emerald-500/10 p-2">
+                                      <summary className="cursor-pointer text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                                        {t("📖 Xem đáp án mẫu (sau khi tự viết)", "📖 Reveal model answer (try first!)")}
+                                      </summary>
+                                      <div className="mt-2 space-y-1.5">
+                                        <div className="flex items-start gap-2">
+                                          <SwedishAudioButton text={deep.writing.sampleSv} size="xs" />
+                                          <p className="whitespace-pre-wrap text-sm font-medium">{deep.writing.sampleSv}</p>
+                                        </div>
+                                        <p className="whitespace-pre-wrap text-xs italic text-muted-foreground">
+                                          {t(deep.writing.sampleVi, deep.writing.sampleEn)}
+                                        </p>
+                                      </div>
+                                    </details>
+                                  </div>
+                                )}
+
+                                {deep.selfCheck && (
+                                  <div className="rounded-lg border border-pink-500/30 bg-pink-500/5 p-3">
+                                    <div className="mb-2 text-xs font-semibold text-pink-700 dark:text-pink-300">
+                                      ✅ {t("Tự kiểm tra cuối ngày", "End-of-day self-check")}
+                                    </div>
+                                    <ol className="ml-5 list-decimal space-y-1 text-sm">
+                                      {deep.selfCheck.map((qa, i) => (
+                                        <li key={i}>
+                                          <span className="font-medium">{qa.q}</span>
+                                          <details className="mt-0.5">
+                                            <summary className="cursor-pointer text-xs text-pink-600 hover:text-pink-800 dark:text-pink-300">
+                                              {t("Xem đáp án", "Show answer")}
+                                            </summary>
+                                            <p className="mt-1 rounded bg-pink-500/10 px-2 py-1 text-xs text-pink-800 dark:text-pink-200">→ {qa.a}</p>
+                                          </details>
+                                        </li>
+                                      ))}
+                                    </ol>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })()}
 
                           {/* complete checkbox */}
                           <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-secondary/40 px-3 py-2 transition-colors hover:bg-secondary/70">
