@@ -796,17 +796,8 @@ const HskVocabulary = () => {
             <SmartReviewColumn
               subject="hsk"
               lang="zh-CN"
-              lookupWord={(w) => {
-                const found = hskVocabData.find(x => x.character === w);
-                if (!found) return null;
-                return {
-                  word: found.character,
-                  phonetic: found.pinyin,
-                  definitionVi: found.definition.vi,
-                  definitionEn: found.definition.en,
-                };
-              }}
-              allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
+              lookupWord={lookupWord}
+              allWordsForQuiz={allWordsForQuiz}
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
@@ -816,17 +807,8 @@ const HskVocabulary = () => {
             <SmartReviewColumn
               subject="hsk"
               lang="zh-CN"
-              lookupWord={(w) => {
-                const found = hskVocabData.find(x => x.character === w);
-                if (!found) return null;
-                return {
-                  word: found.character,
-                  phonetic: found.pinyin,
-                  definitionVi: found.definition.vi,
-                  definitionEn: found.definition.en,
-                };
-              }}
-              allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
+              lookupWord={lookupWord}
+              allWordsForQuiz={allWordsForQuiz}
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
