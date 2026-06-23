@@ -33,6 +33,21 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
     () => Object.values(localVotes).reduce((s, n) => s + (n || 0), 0),
     [localVotes]
   );
+  const chartData = useMemo(
+    () =>
+      poll.options.map((opt, idx) => {
+        const count = localVotes[String(idx)] ?? 0;
+        const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+        const label = opt.length > 22 ? opt.slice(0, 21) + "…" : opt;
+        return { label, pct, count, isMine: localVote === idx };
+      }),
+    [poll.options, localVotes, total, localVote]
+  );
+  const topOption = useMemo(() => {
+    if (total === 0) return null;
+    return chartData.reduce((a, b) => (b.pct > a.pct ? b : a), chartData[0]);
+  }, [chartData, total]);
+
   const allowChange = poll.allow_change ?? true;
   const hasVoted = localVote !== null && localVote !== undefined;
 
