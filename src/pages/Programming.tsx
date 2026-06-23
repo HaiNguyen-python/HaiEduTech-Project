@@ -13,6 +13,7 @@ import ITJobMarketDashboard from "@/components/ITJobMarketDashboard";
 import PythonReview from "@/components/PythonReview";
 import PythonPathwayHub from "@/components/python/PythonPathwayHub";
 import ProgrammingDashboard from "@/components/programming/ProgrammingDashboard";
+import LessonFloatingSymbols from "@/components/programming/LessonFloatingSymbols";
 import DailyCodeChallenge from "@/components/programming/DailyCodeChallenge";
 import ProfessionalProjects from "@/components/programming/ProfessionalProjects";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
