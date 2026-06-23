@@ -271,6 +271,38 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
               <X className="w-4 h-4" />
             </button>
           </div>
+
+          {/* AI generator */}
+          <div className="rounded-lg border border-violet-300/40 bg-white/70 dark:bg-card/70 p-2 space-y-1.5">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300 flex items-center gap-1">
+              ✨ AI tạo câu hỏi tự động {subject ? `(${subject})` : "(chọn chủ đề để AI bám sát)"}
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Input
+                value={pollTopic}
+                onChange={(e) => setPollTopic(e.target.value)}
+                placeholder="Gợi ý chủ đề con (vd: thì hiện tại hoàn thành, vòng lặp for)"
+                maxLength={280}
+                className="bg-background h-8 text-xs"
+              />
+              <Button
+                type="button"
+                size="sm"
+                onClick={generatePollWithAI}
+                disabled={pollGenerating}
+                className="h-8 px-3 bg-gradient-to-r from-violet-600 to-pink-600 text-white text-xs shrink-0"
+              >
+                {pollGenerating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : "✨ Tạo"}
+              </Button>
+            </div>
+            {pollHint && (
+              <p className="text-[11px] text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 rounded px-2 py-1 leading-snug">
+                {pollHint}
+              </p>
+            )}
+          </div>
+
+
           <Input
             value={pollQuestion}
             onChange={(e) => setPollQuestion(e.target.value)}
