@@ -540,15 +540,7 @@ const SwedishInteractiveCurriculum = () => {
                         size="sm"
                         variant="outline"
                         onClick={() => {
-                          // Play the whole dialogue sequentially
-                          window.speechSynthesis.cancel();
-                          d.lines.forEach((ln, idx) => {
-                            const u = new SpeechSynthesisUtterance(ln.sv);
-                            u.lang = "sv-SE";
-                            u.rate = 0.9;
-                            // Slight pause between speakers via queueing
-                            setTimeout(() => window.speechSynthesis.speak(u), idx * 50);
-                          });
+                          void speakSwedishSequence(d.lines.map((ln) => ln.sv));
                         }}
                         className="gap-1"
                       >
