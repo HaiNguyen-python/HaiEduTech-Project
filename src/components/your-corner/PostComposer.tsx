@@ -71,8 +71,15 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
           lang: "vi",
         },
       });
+      // supabase.functions.invoke turns non-2xx into `error` but the JSON body is still in `data`
+      const payload: any = data ?? (error as any)?.context?.body ?? null;
+      if (payload?.code === "PAYMENT_REQUIRED" || payload?.error?.toString?.().toLowerCase?.().includes("credit")) {
+        throw new Error("402:" + (payload?.error || "Hết credit AI"));
+      }
+      if (payload?.code === "RATE_LIMITED") throw new Error("429:" + payload.error);
       if (error) throw error;
-      if (data?.error) throw new Error(typeof data.error === "string" ? data.error : "AI lỗi");
+      if (payload?.error) throw new Error(typeof payload.error === "string" ? payload.error : "AI lỗi");
+      const result = payload;
       const q = String(data?.question || "").trim();
       const opts: string[] = Array.isArray(data?.options) ? data.options.map((o: any) => String(o).trim()) : [];
       if (!q || opts.length < 2) throw new Error("AI trả về dữ liệu không hợp lệ");
