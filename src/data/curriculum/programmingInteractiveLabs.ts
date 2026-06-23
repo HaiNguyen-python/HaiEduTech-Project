@@ -184,7 +184,49 @@ Số bí mật từ 1-100. Đoán 50 → "cao hơn" → còn 1-49 → đoán 25 
 
 - ⏱️ Đếm lượt → cho điểm "perfect" nếu < 7 lượt.
 - 🏆 Lưu high score ra file txt.
-- 🌈 In emoji 🔥 (gần đúng) hoặc ❄️ (xa) thay vì "thấp/cao".`,
+- 🌈 In emoji 🔥 (gần đúng) hoặc ❄️ (xa) thay vì "thấp/cao".
+
+## 🧩 Mổ xẻ \`while True\` - vòng lặp vô hạn an toàn
+
+Vòng lặp \`while True\` chạy mãi đến khi gặp \`break\`. Đây là **mẫu chuẩn** cho game/menu/CLI:
+
+\`\`\`python
+   while True:
+       cmd = input("> ").strip().lower()
+       if cmd == "quit":
+           break                         # ← thoát chính
+       elif cmd == "help":
+           print("Lệnh: guess, hint, quit")
+           continue                      # ← bỏ qua phần còn lại, lặp tiếp
+       # xử lý lệnh bình thường...
+\`\`\`
+
+Quy tắc vàng: **luôn có ít nhất 1 đường thoát** (\`break\` hoặc điều kiện). Quên \`break\` = Ctrl+C vô tận.
+
+## 🎲 Random trong Python - 4 hàm phải nhớ
+
+| Hàm | Trả về | Ví dụ |
+|---|---|---|
+| \`random.randint(a, b)\` | Số nguyên \`[a, b]\` (bao cả 2 đầu) | \`randint(1, 6)\` = xúc xắc |
+| \`random.choice(seq)\` | 1 phần tử trong list/tuple | \`choice(["a","b","c"])\` |
+| \`random.shuffle(lst)\` | Xáo trộn list **tại chỗ** | bộ bài tây |
+| \`random.sample(seq, k)\` | k phần tử **không lặp** | bốc 3 lá từ bộ bài |
+
+Mẹo test: gọi \`random.seed(42)\` đầu file để mỗi lần chạy ra cùng kết quả - giúp debug game logic mà không bị "hên xui".
+
+## 🎁 Bonus: thiết kế hệ thống điểm
+
+Một công thức điểm gọn nhẹ kết hợp số lượt và độ khó:
+
+\`\`\`
+   score = max(0, 1000 - turns * 100 - hints_used * 50)
+\`\`\`
+
+- 1 lượt thắng → 900 điểm.
+- Dùng hint trừ 50.
+- Hết lượt → 0 (không âm nhờ \`max(0, ...)\`).
+
+Thêm bảng xếp hạng top-3 in cuối game tạo cảm giác cạnh tranh, lưu vào \`scores.json\` bằng \`json.dump\`.`,
         theoryEn: `## 🎮 Why a mini-game is the best way to learn loops
 
 Because you must use all 3 things at once:
