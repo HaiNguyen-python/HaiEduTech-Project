@@ -19,29 +19,34 @@ interface Props {
   week?: number;
   lang: string;
   t: (vi: string, en: string) => string;
+  mode?: "all" | "lesson" | "practice";
 }
 
 const norm = (s: string) =>
   (s || "").toString().toLowerCase().normalize("NFC").replace(/[.,!?;:]/g, "").trim();
 
-export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
+export const SwedishA1DeepTheory = ({ day, week, lang, t, mode = "all" }: Props) => {
   const ex = getDailyExpansion(day);
   if (!ex) return null;
   const enh = getDailyEnhancement(day);
   const hero = week ? WEEK_HERO[week] : undefined;
   const topic = getDayTopicImage(day);
   const plus = getDailyDeepPlus(day);
+  const showLesson = mode === "all" || mode === "lesson";
+  const showPractice = mode === "all" || mode === "practice";
 
 
   return (
     <div className="space-y-3 rounded-xl border-2 border-dashed border-indigo-500/40 bg-gradient-to-br from-indigo-500/5 via-fuchsia-500/5 to-transparent p-3 sm:p-4">
       <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-indigo-700 dark:text-indigo-300">
         <GraduationCap className="h-3.5 w-3.5" />
-        {t("📘 Lý thuyết chuyên sâu + Bài tập theo sau", "📘 Deep theory + follow-up drills")}
+        {mode === "practice"
+          ? t("🧪 Bài tập chuyên sâu", "🧪 Deep practice drills")
+          : t("📘 Lý thuyết chuyên sâu", "📘 Deep theory")}
       </div>
 
       {/* Week hero illustration */}
-      {hero && (
+      {showLesson && hero && (
         <figure className="overflow-hidden rounded-xl border border-indigo-500/30 bg-white/40 dark:bg-white/5">
           <img
             src={hero.src}
@@ -58,7 +63,7 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
       )}
 
       {/* Why this matters */}
-      {enh && (
+      {showLesson && enh && (
         <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3">
           <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-300">
             <Sparkles className="h-3.5 w-3.5" />
@@ -69,23 +74,25 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
       )}
 
       {/* Theory */}
-      <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
-        <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
-          <BookOpen className="h-3.5 w-3.5" />
-          {t(ex.theoryTitleVi, ex.theoryTitleEn)}
+      {showLesson && (
+        <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
+            <BookOpen className="h-3.5 w-3.5" />
+            {t(ex.theoryTitleVi, ex.theoryTitleEn)}
+          </div>
+          <ul className="space-y-1.5 text-sm leading-relaxed">
+            {(lang === "vi" ? ex.theoryVi : ex.theoryEn).map((line, i) => (
+              <li key={i} className="flex gap-2">
+                <span className="shrink-0 font-semibold text-indigo-500">{i + 1}.</span>
+                <span className="whitespace-pre-wrap">{line}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="space-y-1.5 text-sm leading-relaxed">
-          {(lang === "vi" ? ex.theoryVi : ex.theoryEn).map((line, i) => (
-            <li key={i} className="flex gap-2">
-              <span className="shrink-0 font-semibold text-indigo-500">{i + 1}.</span>
-              <span className="whitespace-pre-wrap">{line}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      )}
 
       {/* Topical illustration for this specific day */}
-      {topic && (
+      {showLesson && topic && (
         <figure className="overflow-hidden rounded-xl border border-fuchsia-500/30 bg-white/40 dark:bg-white/5">
           <img
             src={topic.src}
@@ -103,7 +110,7 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
 
 
       {/* Memory trick */}
-      {enh && (
+      {showLesson && enh && (
         <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-3">
           <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
             <Lightbulb className="h-3.5 w-3.5" />
@@ -114,7 +121,7 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
       )}
 
       {/* Pitfalls - common mistakes */}
-      {plus && (
+      {showLesson && plus && (
         <div className="rounded-lg border border-red-500/40 bg-red-500/5 p-3">
           <div className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-red-700 dark:text-red-300">
             <AlertTriangle className="h-3.5 w-3.5" />
@@ -132,7 +139,7 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
       )}
 
       {/* Real-world model sentences */}
-      {plus && (
+      {showLesson && plus && (
         <div className="rounded-lg border border-sky-500/40 bg-sky-500/5 p-3">
           <div className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-sky-700 dark:text-sky-300">
             <Quote className="h-3.5 w-3.5" />
@@ -154,12 +161,12 @@ export const SwedishA1DeepTheory = ({ day, week, lang, t }: Props) => {
         </div>
       )}
 
-      {ex.fill && ex.fill.length > 0 && <FillDrill items={ex.fill} t={t} lang={lang} />}
-      {ex.translate && ex.translate.length > 0 && <TranslateDrill items={ex.translate} t={t} lang={lang} />}
-      {ex.match && ex.match.length > 0 && <MatchDrill items={ex.match} t={t} />}
+      {showPractice && ex.fill && ex.fill.length > 0 && <FillDrill items={ex.fill} t={t} lang={lang} />}
+      {showPractice && ex.translate && ex.translate.length > 0 && <TranslateDrill items={ex.translate} t={t} lang={lang} />}
+      {showPractice && ex.match && ex.match.length > 0 && <MatchDrill items={ex.match} t={t} />}
 
       {/* Level-up drills */}
-      {plus && (
+      {showPractice && plus && (
         <div className="rounded-lg border-2 border-dashed border-violet-500/40 bg-violet-500/5 p-3">
           <div className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-violet-700 dark:text-violet-300">
             <GraduationCap className="h-3.5 w-3.5" />
