@@ -287,6 +287,18 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
           <ImagePlus className="w-4 h-4 mr-1" /> Hình
         </Button>
 
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => { setPollMode((v) => !v); setExpanded(true); }}
+          className={`px-2 h-8 text-xs ${pollMode ? "text-primary bg-primary/10" : "text-violet-600 hover:text-violet-700"}`}
+        >
+          <BarChart3 className="w-4 h-4 mr-1" /> Poll
+        </Button>
+
+
+
         {/* Subject picker */}
         <Popover>
           <PopoverTrigger asChild>
