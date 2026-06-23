@@ -22,6 +22,16 @@ import dlNn from "@/assets/programming-modules/lesson-dl-nn.jpg";
 import cyberThreats from "@/assets/programming-modules/lesson-cyber-threats.jpg";
 import pyVars from "@/assets/programming-modules/lesson-py-variables.jpg";
 import pyOop from "@/assets/programming-modules/lesson-py-oop.jpg";
+import nlpPipeline from "@/assets/programming-modules/lesson-nlp-pipeline.jpg";
+import rlAgent from "@/assets/programming-modules/lesson-rl-agent.jpg";
+import webStack from "@/assets/programming-modules/lesson-web-stack.jpg";
+import edtechAi from "@/assets/programming-modules/lesson-edtech-ai.jpg";
+import sparkCluster from "@/assets/programming-modules/lesson-spark-cluster.jpg";
+import scratchBlocks from "@/assets/programming-modules/lesson-scratch-blocks.jpg";
+import dsOverview from "@/assets/programming-modules/lesson-ds-overview.jpg";
+import gamePygame from "@/assets/programming-modules/lesson-game-pygame.jpg";
+import aiFoundation from "@/assets/programming-modules/lesson-ai-foundation.jpg";
+import pyAdvanced from "@/assets/programming-modules/lesson-py-advanced.jpg";
 
 export interface LessonImage {
   src: string;
