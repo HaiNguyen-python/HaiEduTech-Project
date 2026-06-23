@@ -2,7 +2,7 @@ import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell, Brain } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -16,18 +16,26 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
-import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
-import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import HskMnemonic from "@/components/HskMnemonic";
 import HskExampleTranslation from "@/components/HskExampleTranslation";
-import HskSrsReview from "@/components/chinese/HskSrsReview";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
+
+// Heavy / tab-specific components -> lazy so they don't block initial paint.
+const KangxiRadicalsBrowser = lazy(() => import("@/components/KangxiRadicalsBrowser"));
+const HskSrsReview = lazy(() => import("@/components/chinese/HskSrsReview"));
+
+const TabFallback = () => (
+  <div className="flex items-center justify-center py-16 text-sm text-muted-foreground">
+    <span className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2" />
+    Đang tải...
+  </div>
+);
 
 const WORDS_PER_PAGE = 12;
 
