@@ -8,6 +8,13 @@ export type FeedAuthor = {
   avatar_url: string | null;
 };
 
+export type PollData = {
+  question: string;
+  options: string[];
+  subject?: string | null;
+  allow_change?: boolean;
+};
+
 export type FeedPost = {
   id: string;
   user_id: string;
@@ -22,6 +29,9 @@ export type FeedPost = {
   liked_by_me: boolean;
   comment_count: number;
   bookmarked_by_me: boolean;
+  poll: PollData | null;
+  poll_votes: Record<string, number> | null;
+  my_vote: number | null;
 };
 
 
@@ -30,66 +40,33 @@ export function useYourCornerFeed(enabled: boolean) {
   const [loading, setLoading] = useState(true);
 
   const fetchFeed = useCallback(async () => {
-    setLoading(true);
-    const { data: userData } = await supabase.auth.getUser();
-    const myId = userData.user?.id ?? null;
-
-    const { data: rawPosts, error } = await supabase
-      .from("your_corner_posts")
-      .select("id, user_id, content, image_url, subject, mood, visibility, created_at")
-      .order("created_at", { ascending: false })
-      .limit(15);
-
-    if (error || !rawPosts) {
+    const { data, error } = await supabase.rpc("get_your_corner_feed", { _limit: 15 });
+    if (error || !data) {
       setPosts([]);
       setLoading(false);
       return;
     }
-
-    const userIds = Array.from(new Set(rawPosts.map((p) => p.user_id)));
-    const postIds = rawPosts.map((p) => p.id);
-
-    const [profilesRes, reactionsRes, commentsRes, bookmarksRes] = await Promise.all([
-      userIds.length
-        ? supabase.rpc("get_public_profiles", { _ids: userIds })
-        : Promise.resolve({ data: [] as FeedAuthor[] }),
-      postIds.length
-        ? supabase.from("your_corner_reactions").select("post_id, user_id").in("post_id", postIds)
-        : Promise.resolve({ data: [] as { post_id: string; user_id: string }[] }),
-      postIds.length
-        ? supabase.from("your_corner_comments").select("post_id").in("post_id", postIds)
-        : Promise.resolve({ data: [] as { post_id: string }[] }),
-      myId && postIds.length
-        ? supabase.from("your_corner_bookmarks").select("post_id").eq("user_id", myId).in("post_id", postIds)
-        : Promise.resolve({ data: [] as { post_id: string }[] }),
-    ]);
-
-    const profileMap = new Map<string, FeedAuthor>();
-    (profilesRes.data ?? []).forEach((p: any) => profileMap.set(p.id, p));
-
-    const reactionCount = new Map<string, number>();
-    const likedByMe = new Set<string>();
-    (reactionsRes.data ?? []).forEach((r: any) => {
-      reactionCount.set(r.post_id, (reactionCount.get(r.post_id) ?? 0) + 1);
-      if (myId && r.user_id === myId) likedByMe.add(r.post_id);
-    });
-
-    const commentCount = new Map<string, number>();
-    (commentsRes.data ?? []).forEach((c: any) => {
-      commentCount.set(c.post_id, (commentCount.get(c.post_id) ?? 0) + 1);
-    });
-
-    const bookmarkSet = new Set<string>();
-    (bookmarksRes.data ?? []).forEach((b: any) => bookmarkSet.add(b.post_id));
-
+    const payload = data as { posts: any[]; authors: FeedAuthor[] };
+    const authorMap = new Map<string, FeedAuthor>();
+    (payload.authors ?? []).forEach((a) => authorMap.set(a.id, a));
     setPosts(
-      rawPosts.map((p: any) => ({
-        ...p,
-        author: profileMap.get(p.user_id) ?? null,
-        reaction_count: reactionCount.get(p.id) ?? 0,
-        liked_by_me: likedByMe.has(p.id),
-        comment_count: commentCount.get(p.id) ?? 0,
-        bookmarked_by_me: bookmarkSet.has(p.id),
+      (payload.posts ?? []).map((p) => ({
+        id: p.id,
+        user_id: p.user_id,
+        content: p.content,
+        image_url: p.image_url,
+        subject: p.subject,
+        mood: p.mood,
+        visibility: p.visibility,
+        created_at: p.created_at,
+        author: authorMap.get(p.user_id) ?? null,
+        reaction_count: Number(p.reaction_count ?? 0),
+        liked_by_me: !!p.liked_by_me,
+        comment_count: Number(p.comment_count ?? 0),
+        bookmarked_by_me: !!p.bookmarked_by_me,
+        poll: p.poll ?? null,
+        poll_votes: p.poll_votes ?? null,
+        my_vote: p.my_vote ?? null,
       }))
     );
     setLoading(false);
@@ -98,7 +75,6 @@ export function useYourCornerFeed(enabled: boolean) {
   useEffect(() => {
     if (!enabled) return;
     fetchFeed();
-    // Throttle refetches: max 1 per 2.5s when realtime fires
     let pending = false;
     let timer: ReturnType<typeof setTimeout> | null = null;
     const throttled = () => {
@@ -114,6 +90,7 @@ export function useYourCornerFeed(enabled: boolean) {
       .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_posts" }, throttled)
       .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_reactions" }, throttled)
       .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_comments" }, throttled)
+      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_poll_votes" }, throttled)
       .subscribe();
     return () => {
       if (timer) clearTimeout(timer);
@@ -122,7 +99,6 @@ export function useYourCornerFeed(enabled: boolean) {
   }, [enabled, fetchFeed]);
 
 
-  // Derived: trending hashtags from last 7 days
   const trendingTags = useMemo(() => {
     const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
     const counts = new Map<string, number>();
