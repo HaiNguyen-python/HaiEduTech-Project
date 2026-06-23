@@ -17,6 +17,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
