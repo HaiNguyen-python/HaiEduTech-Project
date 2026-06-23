@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -13,6 +13,9 @@ import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check,
 import { toast } from "sonner";
 import type { FeedPost, FeedAuthor } from "@/hooks/useYourCornerFeed";
 import { subjectMap, linkifyHashtags } from "@/lib/yourCornerMeta";
+import PollBlock from "./PollBlock";
+
+
 
 
 
