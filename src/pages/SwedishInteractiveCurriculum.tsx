@@ -36,21 +36,25 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { toast } from "@/hooks/use-toast";
+import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
 
 /* -------------------------------------------------------------------------- */
 /* Audio helper                                                                */
 /* -------------------------------------------------------------------------- */
 
-const speakSwedish = (text: string) => {
-  if (!("speechSynthesis" in window)) {
-    toast({ title: "Speech synthesis unavailable" });
-    return;
+const speakSwedish = async (text: string) => {
+  stopSwedishTts();
+  const ok = await playSwedishTts(text, { playbackRate: 0.9, speechRate: 0.85 });
+  if (!ok) toast({ title: "Không phát được audio sv-SE" });
+};
+
+const speakSwedishSequence = async (lines: string[]) => {
+  stopSwedishTts();
+  for (const line of lines) {
+    const ok = await playSwedishTts(line, { playbackRate: 0.9, speechRate: 0.85 });
+    if (!ok) break;
+    await new Promise((r) => setTimeout(r, 250));
   }
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "sv-SE";
-  u.rate = 0.9;
-  window.speechSynthesis.speak(u);
 };
 
 /* -------------------------------------------------------------------------- */
@@ -536,15 +540,7 @@ const SwedishInteractiveCurriculum = () => {
                         size="sm"
                         variant="outline"
                         onClick={() => {
-                          // Play the whole dialogue sequentially
-                          window.speechSynthesis.cancel();
-                          d.lines.forEach((ln, idx) => {
-                            const u = new SpeechSynthesisUtterance(ln.sv);
-                            u.lang = "sv-SE";
-                            u.rate = 0.9;
-                            // Slight pause between speakers via queueing
-                            setTimeout(() => window.speechSynthesis.speak(u), idx * 50);
-                          });
+                          void speakSwedishSequence(d.lines.map((ln) => ln.sv));
                         }}
                         className="gap-1"
                       >
