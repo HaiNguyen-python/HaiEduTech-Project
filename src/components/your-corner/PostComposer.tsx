@@ -2,8 +2,10 @@ import { useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown } from "lucide-react";
+import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown, BarChart3, Plus, Trash2 } from "lucide-react";
+
 import { toast } from "sonner";
 import { SUBJECTS, MOODS, SubjectKey, subjectMap, VISIBILITY_OPTIONS, Visibility, visibilityMap } from "@/lib/yourCornerMeta";
 import {
@@ -36,6 +38,22 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
   const [expanded, setExpanded] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  // Poll state
+  const [pollMode, setPollMode] = useState(false);
+  const [pollQuestion, setPollQuestion] = useState("");
+  const [pollOptions, setPollOptions] = useState<string[]>(["", ""]);
+  const updateOpt = (i: number, v: string) =>
+    setPollOptions((arr) => arr.map((o, idx) => (idx === i ? v : o)));
+  const addOpt = () => setPollOptions((arr) => (arr.length >= 6 ? arr : [...arr, ""]));
+  const removeOpt = (i: number) =>
+    setPollOptions((arr) => (arr.length <= 2 ? arr : arr.filter((_, idx) => idx !== i)));
+  const resetPoll = () => {
+    setPollMode(false);
+    setPollQuestion("");
+    setPollOptions(["", ""]);
+  };
+
+
 
   const pickImage = (f: File | null) => {
     if (!f) return;
@@ -55,10 +73,33 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
 
   const submit = async () => {
     const trimmed = content.trim();
-    if (!trimmed) {
+    let pollPayload: { question: string; options: string[]; subject?: string | null; allow_change: boolean } | null = null;
+
+    if (pollMode) {
+      const q = pollQuestion.trim();
+      const opts = pollOptions.map((o) => o.trim()).filter(Boolean);
+      if (!q) {
+        toast.error("Hãy nhập câu hỏi cho poll");
+        return;
+      }
+      if (q.length > 280) {
+        toast.error("Câu hỏi tối đa 280 ký tự");
+        return;
+      }
+      if (opts.length < 2) {
+        toast.error("Cần ít nhất 2 đáp án");
+        return;
+      }
+      if (opts.some((o) => o.length > 120)) {
+        toast.error("Mỗi đáp án tối đa 120 ký tự");
+        return;
+      }
+      pollPayload = { question: q, options: opts, subject: subject ?? null, allow_change: true };
+    } else if (!trimmed) {
       toast.error("Hãy nhập nội dung");
       return;
     }
+
     if (trimmed.length > 5000) {
       toast.error("Nội dung tối đa 5000 ký tự");
       return;
@@ -80,11 +121,12 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         .from("your_corner_posts")
         .insert({
           user_id: userId,
-          content: trimmed,
+          content: trimmed || (pollPayload ? `📊 ${pollPayload.question}` : ""),
           image_url: imageUrl,
           subject: subject ?? null,
           mood: mood ?? null,
           visibility,
+          poll: pollPayload as any,
         });
       if (error) throw error;
       setContent("");
@@ -93,7 +135,8 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       setMood(null);
       setVisibility("public");
       setExpanded(false);
-      toast.success("Đã đăng bài! 🎉");
+      resetPoll();
+      toast.success(pollPayload ? "Đã đăng poll! 📊" : "Đã đăng bài! 🎉");
       onPosted();
 
     } catch (e: any) {
@@ -102,6 +145,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       setSubmitting(false);
     }
   };
+
 
   const displayName = userName?.trim() || "Học viên";
   const initials = displayName.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
@@ -173,6 +217,58 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         </div>
       )}
 
+      {pollMode && (
+        <div className="ml-14 rounded-xl border border-primary/30 bg-gradient-to-br from-blue-50/70 to-emerald-50/70 dark:from-blue-950/30 dark:to-emerald-950/30 p-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+              <BarChart3 className="w-3.5 h-3.5" /> Tạo poll ôn tập
+            </div>
+            <button type="button" onClick={resetPoll} className="text-muted-foreground hover:text-destructive" aria-label="Huỷ poll">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          <Input
+            value={pollQuestion}
+            onChange={(e) => setPollQuestion(e.target.value)}
+            placeholder="Câu hỏi (vd: Thì nào dùng với 'yesterday'?)"
+            maxLength={280}
+            className="bg-background"
+          />
+          <div className="space-y-1.5">
+            {pollOptions.map((opt, i) => (
+              <div key={i} className="flex items-center gap-1.5">
+                <span className="text-xs font-semibold w-5 text-muted-foreground">{String.fromCharCode(65 + i)}.</span>
+                <Input
+                  value={opt}
+                  onChange={(e) => updateOpt(i, e.target.value)}
+                  placeholder={`Đáp án ${i + 1}`}
+                  maxLength={120}
+                  className="bg-background"
+                />
+                {pollOptions.length > 2 && (
+                  <button
+                    type="button"
+                    onClick={() => removeOpt(i)}
+                    className="text-muted-foreground hover:text-destructive shrink-0"
+                    aria-label="Xoá đáp án"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          {pollOptions.length < 6 && (
+            <Button type="button" variant="ghost" size="sm" onClick={addOpt} className="text-xs h-7">
+              <Plus className="w-3.5 h-3.5 mr-1" /> Thêm đáp án
+            </Button>
+          )}
+          <p className="text-[10px] text-muted-foreground">Tối đa 6 đáp án. Học viên sẽ bình chọn trực tiếp trong bài viết.</p>
+        </div>
+      )}
+
+
+
       <div className="flex items-center flex-wrap gap-0.5 border-t pt-3">
         <input
           ref={fileRef}
@@ -190,6 +286,18 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         >
           <ImagePlus className="w-4 h-4 mr-1" /> Hình
         </Button>
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => { setPollMode((v) => !v); setExpanded(true); }}
+          className={`px-2 h-8 text-xs ${pollMode ? "text-primary bg-primary/10" : "text-violet-600 hover:text-violet-700"}`}
+        >
+          <BarChart3 className="w-4 h-4 mr-1" /> Poll
+        </Button>
+
+
 
         {/* Subject picker */}
         <Popover>
@@ -287,7 +395,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         <div className="ml-auto">
           <Button
             onClick={submit}
-            disabled={submitting || !content.trim()}
+            disabled={submitting || (!content.trim() && !(pollMode && pollQuestion.trim() && pollOptions.filter((o) => o.trim()).length >= 2))}
             size="sm"
             className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white shadow-md disabled:opacity-50"
           >

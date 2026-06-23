@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -13,6 +13,9 @@ import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check,
 import { toast } from "sonner";
 import type { FeedPost, FeedAuthor } from "@/hooks/useYourCornerFeed";
 import { subjectMap, linkifyHashtags } from "@/lib/yourCornerMeta";
+import PollBlock from "./PollBlock";
+
+
 
 
 
@@ -31,7 +34,7 @@ interface Props {
   onChanged: () => void;
 }
 
-export default function PostCard({ post, currentUserId, onChanged }: Props) {
+function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [liked, setLiked] = useState(post.liked_by_me);
   const [likeCount, setLikeCount] = useState(post.reaction_count);
   const [bookmarked, setBookmarked] = useState(post.bookmarked_by_me);
@@ -338,6 +341,18 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
         </button>
       )}
 
+      {post.poll && (
+        <PollBlock
+          postId={post.id}
+          userId={currentUserId}
+          poll={post.poll}
+          votes={post.poll_votes}
+          myVote={post.my_vote}
+          onChanged={onChanged}
+        />
+      )}
+
+
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="max-w-5xl p-2 bg-background/95 backdrop-blur">
           {post.image_url && (
@@ -441,3 +456,6 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
     </Card>
   );
 }
+
+const PostCard = memo(PostCardImpl, (prev, next) => prev.post === next.post && prev.currentUserId === next.currentUserId);
+export default PostCard;
