@@ -226,7 +226,7 @@ const ConversationalLessonView = () => {
                   const i = uniqueOthers.indexOf(speaker);
                   return otherPalette[i % otherPalette.length];
                 };
-                const banner = bannerFor(situation.title, situation.descriptionVi);
+                const bannerSrc = bannerImageFor(situation.title, situation.descriptionVi, situation.description);
 
                 return (
                 <motion.div
@@ -236,28 +236,26 @@ const ConversationalLessonView = () => {
                   transition={{ delay: idx * 0.1 }}
                 >
                   <Card className="overflow-hidden">
-                    {/* Illustration banner */}
-                    <div className={`relative h-28 sm:h-32 bg-gradient-to-br ${banner.gradient} overflow-hidden`}>
-                      <div className="absolute inset-0 opacity-90 flex items-center justify-around px-6 text-4xl sm:text-5xl">
-                        {banner.emojis.map((e, i) => (
-                          <span
-                            key={i}
-                            className="drop-shadow-lg"
-                            style={{
-                              transform: `translateY(${(i % 2 === 0 ? -1 : 1) * 6}px) rotate(${(i - 1.5) * 6}deg)`,
-                              filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.25))",
-                            }}
-                          >
-                            {e}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                      <div className="absolute bottom-2 left-4 right-4 text-white">
-                        <p className="text-[10px] uppercase tracking-wider font-semibold opacity-90">
+                    {/* Photo illustration banner */}
+                    <div className="relative h-40 sm:h-52 overflow-hidden bg-muted">
+                      <img
+                        src={bannerSrc}
+                        alt={t(situation.titleVi, situation.title)}
+                        loading="lazy"
+                        width={1280}
+                        height={512}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      <div className="absolute bottom-3 left-4 right-4 text-white">
+                        <p className="text-[10px] uppercase tracking-wider font-semibold opacity-90 mb-0.5">
                           {t("Tình huống", "Situation")} {idx + 1}
                         </p>
+                        <p className="text-sm sm:text-base font-bold drop-shadow-md">
+                          {t(situation.titleVi, situation.title)}
+                        </p>
                       </div>
+                    </div>
                     </div>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg flex items-center gap-2">
