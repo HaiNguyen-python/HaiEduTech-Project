@@ -137,17 +137,45 @@ const YkiB1Dashboard = () => {
           <ArrowLeft className="w-4 h-4" /> {t("Quay lại Finnish Hub", "Back to Finnish Hub")}
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <Badge className="bg-[#003580] text-white mb-3">B1 · Keskitaso</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-[#003580] to-sky-500 bg-clip-text text-transparent">
-            {t("Bảng điều khiển luyện thi YKI B1", "YKI B1 Dashboard")}
-          </h1>
-          <p className="text-base md:text-lg text-muted-foreground max-w-3xl">
-            {t(
-              "Luyện 4 kỹ năng theo chuẩn YKI Keskitaso. Đắm mình trong tiếng Phần Lan - gợi ý tiếng Việt chỉ hiện khi bạn cần.",
-              "Train all 4 skills aligned with YKI Keskitaso. Immerse in Finnish - Vietnamese hints only appear if you ask."
-            )}
-          </p>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="relative mb-8 overflow-hidden rounded-3xl border border-[#003580]/15 bg-gradient-to-br from-sky-50 via-white to-blue-50 dark:from-[#031a3a] dark:via-background dark:to-[#06224a] p-6 md:p-10">
+          {/* Finnish themed decorative illustrations */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 select-none">
+            {[
+              { e: "🇫🇮", c: "top-4 right-6 text-4xl md:text-5xl", d: 0 },
+              { e: "🦌", c: "bottom-4 right-16 text-4xl md:text-5xl", d: 0.4 },
+              { e: "🌲", c: "bottom-6 left-4 text-3xl md:text-4xl opacity-80", d: 0.2 },
+              { e: "❄️", c: "top-10 left-1/3 text-2xl md:text-3xl opacity-70", d: 0.6 },
+              { e: "🌌", c: "top-2 left-2 text-3xl md:text-4xl opacity-80", d: 0.8 },
+              { e: "🧖", c: "bottom-10 right-1/3 text-3xl md:text-4xl opacity-80", d: 1.0 },
+              { e: "🛶", c: "top-1/2 right-2 text-2xl md:text-3xl opacity-70", d: 1.2 },
+              { e: "☕", c: "bottom-2 left-1/2 text-2xl md:text-3xl opacity-70", d: 1.4 },
+            ].map((it, i) => (
+              <motion.span
+                key={i}
+                className={`absolute ${it.c} drop-shadow-sm`}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: [0, -6, 0] }}
+                transition={{ delay: it.d, duration: 4 + i * 0.2, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
+              >
+                {it.e}
+              </motion.span>
+            ))}
+            <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-sky-300/20 blur-3xl" />
+            <div className="absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-[#003580]/10 blur-3xl" />
+          </div>
+
+          <div className="relative z-10">
+            <Badge className="bg-[#003580] text-white mb-3">B1 · Keskitaso</Badge>
+            <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-[#003580] to-sky-500 bg-clip-text text-transparent">
+              {t("Bảng điều khiển luyện thi YKI B1", "YKI B1 Dashboard")}
+            </h1>
+            <p className="text-base md:text-lg text-muted-foreground max-w-3xl">
+              {t(
+                "Luyện 4 kỹ năng theo chuẩn YKI Keskitaso. Đắm mình trong tiếng Phần Lan - gợi ý tiếng Việt chỉ hiện khi bạn cần.",
+                "Train all 4 skills aligned with YKI Keskitaso. Immerse in Finnish - Vietnamese hints only appear if you ask."
+              )}
+            </p>
+          </div>
         </motion.div>
 
         {/* Word of the Day */}
