@@ -246,16 +246,12 @@ const ConversationalLessonView = () => {
                         height={512}
                         className="absolute inset-0 w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                       <div className="absolute bottom-3 left-4 right-4 text-white">
-                        <p className="text-[10px] uppercase tracking-wider font-semibold opacity-90 mb-0.5">
+                        <p className="text-[10px] uppercase tracking-wider font-semibold opacity-90">
                           {t("Tình huống", "Situation")} {idx + 1}
                         </p>
-                        <p className="text-sm sm:text-base font-bold drop-shadow-md">
-                          {t(situation.titleVi, situation.title)}
-                        </p>
                       </div>
-                    </div>
                     </div>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg flex items-center gap-2">
