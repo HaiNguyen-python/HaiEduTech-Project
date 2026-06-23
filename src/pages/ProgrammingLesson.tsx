@@ -677,7 +677,8 @@ const ProgrammingLessonPage = () => {
 
               {/* Main content */}
               <div className="flex-1 min-w-0 relative overflow-hidden rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/10 via-background to-accent/10 p-3 sm:p-4">
-                <LessonFloatingSymbols pillarId={pillar} count={58} className="opacity-80" />
+                <LessonFloatingSymbols pillarId={pillar} count={120} className="opacity-90" />
+                <LessonFloatingSymbols pillarId={pillar} count={60} className="opacity-50 blur-[1px]" />
                 <div className="absolute inset-0 z-0 bg-background/25" aria-hidden="true" />
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 space-y-8" key={lesson.id}>
@@ -687,7 +688,7 @@ const ProgrammingLessonPage = () => {
 
                   {/* Theory - document-style reading card with extra breathing room */}
                   <div className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-card/90 shadow-[0_8px_30px_-10px_rgba(16,185,129,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-emerald-500/10">
-                    <LessonFloatingSymbols pillarId={pillar} count={38} className="opacity-30" />
+                    <LessonFloatingSymbols pillarId={pillar} count={70} className="opacity-30" />
                     <div className="relative z-10">
                     <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pb-3 border-b border-border">
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
