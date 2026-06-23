@@ -73,10 +73,33 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
 
   const submit = async () => {
     const trimmed = content.trim();
-    if (!trimmed) {
+    let pollPayload: { question: string; options: string[]; subject?: string | null; allow_change: boolean } | null = null;
+
+    if (pollMode) {
+      const q = pollQuestion.trim();
+      const opts = pollOptions.map((o) => o.trim()).filter(Boolean);
+      if (!q) {
+        toast.error("Hãy nhập câu hỏi cho poll");
+        return;
+      }
+      if (q.length > 280) {
+        toast.error("Câu hỏi tối đa 280 ký tự");
+        return;
+      }
+      if (opts.length < 2) {
+        toast.error("Cần ít nhất 2 đáp án");
+        return;
+      }
+      if (opts.some((o) => o.length > 120)) {
+        toast.error("Mỗi đáp án tối đa 120 ký tự");
+        return;
+      }
+      pollPayload = { question: q, options: opts, subject: subject ?? null, allow_change: true };
+    } else if (!trimmed) {
       toast.error("Hãy nhập nội dung");
       return;
     }
+
     if (trimmed.length > 5000) {
       toast.error("Nội dung tối đa 5000 ký tự");
       return;
@@ -98,11 +121,12 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         .from("your_corner_posts")
         .insert({
           user_id: userId,
-          content: trimmed,
+          content: trimmed || (pollPayload ? `📊 ${pollPayload.question}` : ""),
           image_url: imageUrl,
           subject: subject ?? null,
           mood: mood ?? null,
           visibility,
+          poll: pollPayload as any,
         });
       if (error) throw error;
       setContent("");
@@ -111,7 +135,8 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       setMood(null);
       setVisibility("public");
       setExpanded(false);
-      toast.success("Đã đăng bài! 🎉");
+      resetPoll();
+      toast.success(pollPayload ? "Đã đăng poll! 📊" : "Đã đăng bài! 🎉");
       onPosted();
 
     } catch (e: any) {
@@ -120,6 +145,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       setSubmitting(false);
     }
   };
+
 
   const displayName = userName?.trim() || "Học viên";
   const initials = displayName.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
