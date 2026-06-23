@@ -16,6 +16,7 @@ import ConversationalRoleplay from "@/components/ConversationalRoleplay";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
+import { protagonistFor, bannerFor } from "@/lib/conversationalSituationVisuals";
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
 const STORAGE_KEY = "conv-eng-progress";
@@ -200,7 +201,9 @@ const ConversationalLessonView = () => {
           <TabsContent value="situations">
             <div className="space-y-6">
               {lesson.keySituations.map((situation, idx) => {
-                // Build speaker style map: "You" always on right with brand gradient; others alternate sides + colors
+                // Derive a real protagonist name for this lesson, replacing "You"
+                const heroName = protagonistFor(lesson.id);
+                // Build speaker style map: hero always on right with brand gradient; others alternate sides + colors
                 const otherPalette = [
                   { side: "left", bubble: "bg-gradient-to-br from-purple-100 to-fuchsia-100 dark:from-purple-900/40 dark:to-fuchsia-900/40 text-foreground border border-purple-200/60 dark:border-purple-800/40", avatar: "bg-purple-500", emoji: "🧑" },
                   { side: "right", bubble: "bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-200/60 dark:border-amber-800/40", avatar: "bg-amber-500", emoji: "👤" },
@@ -223,6 +226,7 @@ const ConversationalLessonView = () => {
                   const i = uniqueOthers.indexOf(speaker);
                   return otherPalette[i % otherPalette.length];
                 };
+                const banner = bannerFor(situation.title, situation.descriptionVi);
 
                 return (
                 <motion.div
@@ -231,7 +235,30 @@ const ConversationalLessonView = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                 >
-                  <Card>
+                  <Card className="overflow-hidden">
+                    {/* Illustration banner */}
+                    <div className={`relative h-28 sm:h-32 bg-gradient-to-br ${banner.gradient} overflow-hidden`}>
+                      <div className="absolute inset-0 opacity-90 flex items-center justify-around px-6 text-4xl sm:text-5xl">
+                        {banner.emojis.map((e, i) => (
+                          <span
+                            key={i}
+                            className="drop-shadow-lg"
+                            style={{
+                              transform: `translateY(${(i % 2 === 0 ? -1 : 1) * 6}px) rotate(${(i - 1.5) * 6}deg)`,
+                              filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.25))",
+                            }}
+                          >
+                            {e}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                      <div className="absolute bottom-2 left-4 right-4 text-white">
+                        <p className="text-[10px] uppercase tracking-wider font-semibold opacity-90">
+                          {t("Tình huống", "Situation")} {idx + 1}
+                        </p>
+                      </div>
+                    </div>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg flex items-center gap-2">
                         <MessageCircle className="h-5 w-5 text-primary" />
@@ -245,13 +272,14 @@ const ConversationalLessonView = () => {
                         {situation.sampleDialogue.map((line, i) => {
                           const s = styleFor(line.speaker);
                           const isRight = s.side === "right";
+                          const displayName = line.speaker === "You" ? heroName : line.speaker;
                           return (
                             <div key={i} className={`flex items-end gap-2 ${isRight ? "flex-row-reverse" : ""}`}>
                               <div className={`flex-shrink-0 w-8 h-8 rounded-full ${s.avatar} text-white flex items-center justify-center text-sm shadow-sm`}>
                                 {s.emoji}
                               </div>
                               <div className={`max-w-[78%] px-5 py-3.5 rounded-2xl text-sm ${s.bubble} ${isRight ? "rounded-br-sm" : "rounded-bl-sm"}`}>
-                                <p className={`text-[10px] font-bold mb-0.5 ${line.speaker === "You" ? "text-white/80" : "text-muted-foreground"}`}>{line.speaker}</p>
+                                <p className={`text-[10px] font-bold mb-0.5 ${line.speaker === "You" ? "text-white/80" : "text-muted-foreground"}`}>{displayName}</p>
                                 <p className="leading-snug">{line.line}</p>
                               </div>
                             </div>
