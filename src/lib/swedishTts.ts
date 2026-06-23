@@ -175,9 +175,50 @@ export const playSwedishTts = async (text: string, options: SwedishTtsOptions = 
   if (!normalized) return false;
   const playbackRate = options.playbackRate ?? 0.9;
   const speechRate = options.speechRate ?? 0.85;
+  const onStatus = options.onStatus;
   unlockAudioContext();
 
-  try { await playFromProxy(normalized, playbackRate); return true; } catch { /* fallthrough */ }
-  try { await speakWithNativeSwedishVoice(normalized, speechRate); return true; } catch { return false; }
+  onStatus?.("loading", { source: "proxy" });
+  let proxyReason = "";
+  try {
+    const { data, error } = await supabase.functions.invoke("swedish-tts", { body: { text: normalized } });
+    if (error) throw new Error(error.message || "proxy_error");
+    const payload = data as SwedishTtsProxyResponse | null;
+    if (!payload?.audioBase64) throw new Error("proxy_no_audio");
+    const mimeType = payload.mimeType || "audio/mpeg";
+    onStatus?.("playing", { source: "proxy" });
+    try {
+      await playFromUrl(`data:${mimeType};base64,${payload.audioBase64}`, playbackRate);
+      onStatus?.("ended", { source: "proxy" });
+      return true;
+    } catch {
+      try {
+        await playBuffer(decodeBase64ToArrayBuffer(payload.audioBase64), playbackRate);
+        onStatus?.("ended", { source: "proxy" });
+        return true;
+      } catch {
+        const blob = decodeBase64ToBlob(payload.audioBase64, mimeType);
+        const objectUrl = URL.createObjectURL(blob);
+        try {
+          await playFromUrl(objectUrl, playbackRate);
+          onStatus?.("ended", { source: "proxy" });
+          return true;
+        } finally { URL.revokeObjectURL(objectUrl); }
+      }
+    }
+  } catch (err: any) {
+    proxyReason = String(err?.message || err);
+  }
+
+  onStatus?.("loading", { source: "native", reason: proxyReason });
+  try {
+    await speakWithNativeSwedishVoice(normalized, speechRate);
+    onStatus?.("ended", { source: "native" });
+    return true;
+  } catch (err: any) {
+    const reason = `proxy: ${proxyReason || "unavailable"} · native: ${String(err?.message || err)}`;
+    onStatus?.("error", { reason });
+    return false;
+  }
 };
 
