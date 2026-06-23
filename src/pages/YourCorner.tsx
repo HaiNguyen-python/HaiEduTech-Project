@@ -19,7 +19,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 // Defer heavy/below-the-fold widgets to improve initial load time
 const FloatingSubjectIcons = lazy(() => import("@/components/your-corner/FloatingSubjectIcons"));
 const CornerCheerChibis = lazy(() => import("@/components/your-corner/CornerCheerChibis"));
-const StoryBar = lazy(() => import("@/components/your-corner/StoryBar"));
 const OnlineUsersPanel = lazy(() => import("@/components/your-corner/OnlineUsersPanel"));
 const Messenger = lazy(() => import("@/components/your-corner/Messenger"));
 
