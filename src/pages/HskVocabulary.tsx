@@ -2,7 +2,7 @@ import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Dumbbell, Brain } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -16,18 +16,27 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
-import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
-import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import HskMnemonic from "@/components/HskMnemonic";
 import HskExampleTranslation from "@/components/HskExampleTranslation";
-import HskSrsReview from "@/components/chinese/HskSrsReview";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
+
+// Heavy / tab-specific components -> lazy so they don't block initial paint.
+const KangxiRadicalsBrowser = lazy(() => import("@/components/KangxiRadicalsBrowser"));
+const HskSrsReview = lazy(() => import("@/components/chinese/HskSrsReview"));
+
+const TabFallback = () => (
+  <div className="flex items-center justify-center py-16 text-sm text-muted-foreground">
+    <span className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2" />
+    Đang tải...
+  </div>
+);
 
 const WORDS_PER_PAGE = 12;
 
@@ -562,16 +571,38 @@ const HskVocabulary = () => {
   // Reset page when filters change
   useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
 
-  // Per-level mastered stats
+  // Per-level mastered stats - single pass over the dataset (was 14 passes).
   const levelStats = useMemo(() => {
     const stats: Record<string, { total: number; mastered: number }> = {};
-    for (const level of HSK_LEVELS) {
-      const total = hskVocabData.filter(w => w.level === level).length;
-      const m = hskVocabData.filter(w => w.level === level && mastered.has(w.character)).length;
-      stats[level] = { total, mastered: m };
+    for (const level of HSK_LEVELS) stats[level] = { total: 0, mastered: 0 };
+    for (const w of hskVocabData) {
+      const s = stats[w.level];
+      if (!s) continue;
+      s.total++;
+      if (mastered.has(w.character)) s.mastered++;
     }
     return stats;
-  }, [mastered]);
+  }, [hskVocabData, mastered]);
+
+  // Memoize derived word lists so sidebar children don't re-render on every keystroke.
+  const masteredWords = useMemo(
+    () => hskVocabData.filter(w => mastered.has(w.character)),
+    [hskVocabData, mastered]
+  );
+  const allWordsForQuiz = useMemo(
+    () => hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi })),
+    [hskVocabData]
+  );
+  const lookupWord = useCallback((w: string) => {
+    const found = hskVocabData.find(x => x.character === w);
+    if (!found) return null;
+    return {
+      word: found.character,
+      phonetic: found.pinyin,
+      definitionVi: found.definition.vi,
+      definitionEn: found.definition.en,
+    };
+  }, [hskVocabData]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -672,9 +703,11 @@ const HskVocabulary = () => {
 
             {/* Content based on mode */}
             {viewMode === "srs" ? (
-              <HskSrsReview allWords={hskVocabData} />
+              <Suspense fallback={<TabFallback />}>
+                <HskSrsReview allWords={hskVocabData} />
+              </Suspense>
             ) : viewMode === "exercise" ? (
-              <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} allWords={hskVocabData} t={t} />
+              <HskExercise masteredWords={masteredWords} allWords={hskVocabData} t={t} />
             ) : (() => {
               const groups = paginated.reduce<Record<string, HskWord[]>>((acc, w) => {
                 (acc[w.category] ||= []).push(w);
@@ -763,17 +796,8 @@ const HskVocabulary = () => {
             <SmartReviewColumn
               subject="hsk"
               lang="zh-CN"
-              lookupWord={(w) => {
-                const found = hskVocabData.find(x => x.character === w);
-                if (!found) return null;
-                return {
-                  word: found.character,
-                  phonetic: found.pinyin,
-                  definitionVi: found.definition.vi,
-                  definitionEn: found.definition.en,
-                };
-              }}
-              allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
+              lookupWord={lookupWord}
+              allWordsForQuiz={allWordsForQuiz}
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
@@ -783,23 +807,16 @@ const HskVocabulary = () => {
             <SmartReviewColumn
               subject="hsk"
               lang="zh-CN"
-              lookupWord={(w) => {
-                const found = hskVocabData.find(x => x.character === w);
-                if (!found) return null;
-                return {
-                  word: found.character,
-                  phonetic: found.pinyin,
-                  definitionVi: found.definition.vi,
-                  definitionEn: found.definition.en,
-                };
-              }}
-              allWordsForQuiz={hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi }))}
+              lookupWord={lookupWord}
+              allWordsForQuiz={allWordsForQuiz}
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
             </TabsContent>
             <TabsContent value="radicals">
-              <KangxiRadicalsBrowser />
+              <Suspense fallback={<TabFallback />}>
+                <KangxiRadicalsBrowser />
+              </Suspense>
             </TabsContent>
           </Tabs>
         </div>
