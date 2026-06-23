@@ -217,6 +217,58 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         </div>
       )}
 
+      {pollMode && (
+        <div className="ml-14 rounded-xl border border-primary/30 bg-gradient-to-br from-blue-50/70 to-emerald-50/70 dark:from-blue-950/30 dark:to-emerald-950/30 p-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+              <BarChart3 className="w-3.5 h-3.5" /> Tạo poll ôn tập
+            </div>
+            <button type="button" onClick={resetPoll} className="text-muted-foreground hover:text-destructive" aria-label="Huỷ poll">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          <Input
+            value={pollQuestion}
+            onChange={(e) => setPollQuestion(e.target.value)}
+            placeholder="Câu hỏi (vd: Thì nào dùng với 'yesterday'?)"
+            maxLength={280}
+            className="bg-background"
+          />
+          <div className="space-y-1.5">
+            {pollOptions.map((opt, i) => (
+              <div key={i} className="flex items-center gap-1.5">
+                <span className="text-xs font-semibold w-5 text-muted-foreground">{String.fromCharCode(65 + i)}.</span>
+                <Input
+                  value={opt}
+                  onChange={(e) => updateOpt(i, e.target.value)}
+                  placeholder={`Đáp án ${i + 1}`}
+                  maxLength={120}
+                  className="bg-background"
+                />
+                {pollOptions.length > 2 && (
+                  <button
+                    type="button"
+                    onClick={() => removeOpt(i)}
+                    className="text-muted-foreground hover:text-destructive shrink-0"
+                    aria-label="Xoá đáp án"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          {pollOptions.length < 6 && (
+            <Button type="button" variant="ghost" size="sm" onClick={addOpt} className="text-xs h-7">
+              <Plus className="w-3.5 h-3.5 mr-1" /> Thêm đáp án
+            </Button>
+          )}
+          <p className="text-[10px] text-muted-foreground">Tối đa 6 đáp án. Học viên sẽ bình chọn trực tiếp trong bài viết.</p>
+        </div>
+      )}
+
+
+
       <div className="flex items-center flex-wrap gap-0.5 border-t pt-3">
         <input
           ref={fileRef}
