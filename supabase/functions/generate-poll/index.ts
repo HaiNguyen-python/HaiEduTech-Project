@@ -1,4 +1,4 @@
-import { createLovableAiGatewayProvider } from "../_shared/ai-gateway.ts";
+import { createOpenAICompatible } from "npm:@ai-sdk/openai-compatible";
 import { generateText, Output } from "npm:ai";
 import { z } from "npm:zod";
 
@@ -22,7 +22,9 @@ Deno.serve(async (req) => {
   if (!key) return new Response(JSON.stringify({ error: "Missing LOVABLE_API_KEY" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
   let body: any;
-  try { body = await req.json(); } catch { return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }); }
+  try { body = await req.json(); } catch {
+    return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  }
   const parsed = BodySchema.safeParse(body);
   if (!parsed.success) {
     return new Response(JSON.stringify({ error: parsed.error.flatten().fieldErrors }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -33,14 +35,17 @@ Deno.serve(async (req) => {
   const topicLine = topic?.trim() ? `Specific topic / hint: ${topic.trim()}` : "Pick a useful sub-topic the teacher would test.";
 
   const prompt = lang === "vi"
-    ? `Bạn là giáo viên HaiEduTech tạo câu hỏi trắc nghiệm ÔN TẬP cho học viên.\nMôn: ${subjectLabel}\n${topicLine}\n\nYêu cầu:\n- Câu hỏi ngắn gọn, rõ ràng, mang tính ôn tập kiến thức (không đánh đố).\n- Đúng 4 đáp án (A/B/C/D), CHỈ MỘT đáp án đúng.\n- Đáp án sai phải hợp lý (không lặp lại đáp án đúng).\n- Mỗi đáp án tối đa 80 ký tự. Câu hỏi tối đa 220 ký tự.\n- Trả về tiếng Việt (giữ thuật ngữ tiếng Anh nếu là từ chuyên ngành).\n- explanation: 1-2 câu ngắn giải thích vì sao đáp án đúng.`
-    : `You are a HaiEduTech teacher creating a REVIEW multiple-choice question for students.\nSubject: ${subjectLabel}\n${topicLine}\n\nRequirements:\n- Clear, concise review question (not a trick).\n- EXACTLY 4 options, ONLY ONE correct.\n- Distractors must be plausible and distinct.\n- Each option <= 80 chars. Question <= 220 chars.\n- explanation: 1-2 short sentences on why the correct answer is right.`;
+    ? `Bạn là giáo viên HaiEduTech tạo câu hỏi trắc nghiệm ÔN TẬP cho học viên.\nMôn: ${subjectLabel}\n${topicLine}\n\nYêu cầu:\n- Câu hỏi ngắn gọn, rõ ràng, mang tính ôn tập kiến thức.\n- Đúng 4 đáp án, CHỈ MỘT đáp án đúng.\n- Đáp án sai phải hợp lý.\n- Mỗi đáp án tối đa 80 ký tự. Câu hỏi tối đa 220 ký tự.\n- Trả về tiếng Việt (giữ thuật ngữ tiếng Anh nếu cần).\n- explanation: 1-2 câu ngắn.`
+    : `You are a HaiEduTech teacher creating a REVIEW multiple-choice question.\nSubject: ${subjectLabel}\n${topicLine}\n\nRequirements:\n- Clear, concise review question.\n- EXACTLY 4 options, ONLY ONE correct.\n- Plausible distractors.\n- Each option <= 80 chars. Question <= 220 chars.\n- explanation: 1-2 short sentences.`;
 
   try {
-    const gateway = createLovableAiGatewayProvider(key);
-    const model = gateway("google/gemini-3-flash-preview");
+    const provider = createOpenAICompatible({
+      name: "lovable",
+      baseURL: "https://ai.gateway.lovable.dev/v1",
+      headers: { "Lovable-API-Key": key, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
+    });
     const { experimental_output } = await generateText({
-      model,
+      model: provider("google/gemini-3-flash-preview"),
       prompt,
       experimental_output: Output.object({
         schema: z.object({
