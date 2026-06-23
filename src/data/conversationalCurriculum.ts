@@ -1408,8 +1408,10 @@ export const conversationalPillars: ConvPillar[] = [
           { speaker: "You", line: "I understand. However, 20% is quite a significant reduction for a standard twelve-month contract." },
           { speaker: "You", line: "I understand. We can offer 10% for a 2-year commitment." },
           { speaker: "Client", line: "Two years is a long time in our industry. We need more flexibility than that." },
+          { speaker: "You", line: "How about 15% off the yearly plan, with an option to renew at the same rate next year?" },
+          { speaker: "Client", line: "That sounds reasonable. Could you send the revised terms in writing today?" },
+          { speaker: "You", line: "Absolutely. I'll email the updated proposal within the hour so we can finalize the deal." },
           { speaker: "Client", line: "Thank you. We look forward to your email so we can finalize the deal." },
-          { speaker: "You", line: "I will speak with the finance director right away. I am confident we can make this work." },
         ],
           },
           {
