@@ -622,7 +622,51 @@ A one-line way to build a list, **about 30% faster than a regular for-loop** bec
 ## ⚠️ When NOT to use it
 
 - Inner logic > 3 lines → hard to read, use a plain \`for\`.
-- Has side-effects (print, file IO) → use \`for\` to keep intent clear.`,
+- Has side-effects (print, file IO) → use \`for\` to keep intent clear.
+
+## 🧬 Generator expression - the RAM-saving sibling
+
+Replace \`[ ]\` with \`( )\` and you get a **generator** - no list built in memory, values produced lazily:
+
+\`\`\`python
+   total = sum(n * n for n in range(10_000_000))   # 0 MB list
+   total = sum([n * n for n in range(10_000_000)])  # ~80 MB list
+\`\`\`
+
+When to use a generator: large data pipelines, huge files, or when you only need \`sum / max / any / all\` on the result.
+
+## 🚀 Speed tier 3: NumPy vectorisation
+
+NumPy drops computation down to C/Fortran with SIMD - zero Python loops in the hot path:
+
+\`\`\`python
+   import numpy as np
+   a = np.arange(10_000_000)
+   sq = a * a                       # ~10 ms for 10M elements
+\`\`\`
+
+Real-world comparison:
+
+| Approach | Time | Memory |
+|---|---|---|
+| \`for\` + \`.append\` | 1.0× (baseline) | Python list |
+| List comprehension | 0.7× | Python list |
+| Generator expression | 0.7× | ~0 (lazy) |
+| NumPy vectorisation | 0.02-0.05× | Compact C array |
+
+Hai's rule: **< 10k items → list-comp; ≥ 100k items → NumPy/pandas; streaming pipeline → generator**.
+
+## 🧪 How to measure properly
+
+Don't guess - measure with \`timeit\`:
+
+\`\`\`python
+   import timeit
+   t = timeit.timeit("sum(n*n for n in range(1000))", number=10_000)
+   print(f"{t * 1000:.2f} ms / 10k runs")
+\`\`\`
+
+Tip: run ≥ 3 times and take \`min(times)\` to filter out OS/GC noise.`,
         code: `# ⚡ Benchmark list-comp vs for-loop
 import timeit
 
