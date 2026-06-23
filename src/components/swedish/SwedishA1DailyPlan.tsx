@@ -250,8 +250,8 @@ export const SwedishA1DailyPlan = () => {
                             </ul>
                           </div>
 
-                          {/* deep theory + drills */}
-                          <SwedishA1DeepTheory day={d.day} week={d.week} lang={lang} t={t} />
+                          {/* deep theory */}
+                          <SwedishA1DeepTheory day={d.day} week={d.week} lang={lang} t={t} mode="lesson" />
 
                           <div>
                             <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -478,29 +478,37 @@ export const SwedishA1DailyPlan = () => {
                             );
                           })()}
 
-                          {/* EXERCISES: output + challenge (moved after all lesson content) */}
-                          <div className="grid gap-3 sm:grid-cols-2">
-                            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
-                              <div className="mb-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-                                ✍️ {t("Bài tập đầu ra (10 phút)", "Output task (10 min)")}
-                              </div>
-                              <p className="text-sm leading-relaxed">{t(d.outputVi, d.outputEn)}</p>
+                          {/* EXERCISES: all practice is grouped after every lesson block */}
+                          <section className="space-y-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3 sm:p-4">
+                            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+                              <PencilLine className="h-3.5 w-3.5" />
+                              {t("🧩 Bài tập cuối bài", "🧩 End-of-lesson practice")}
                             </div>
-                            <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
-                              <div className="mb-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
-                                ⚡ {t("Thử thách 5 phút", "5-min challenge")}
-                              </div>
-                              <p className="text-sm leading-relaxed">{t(d.challengeVi, d.challengeEn)}</p>
-                            </div>
-                          </div>
 
-                          {/* success criteria */}
-                          <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
-                            <div className="mb-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
-                              🎯 {t("Tiêu chí 'hôm nay đạt yêu cầu'", "Today's success bar")}
+                            <SwedishA1DeepTheory day={d.day} week={d.week} lang={lang} t={t} mode="practice" />
+
+                            <div className="grid gap-3 sm:grid-cols-2">
+                              <div className="rounded-lg border border-emerald-500/30 bg-background/60 p-3">
+                                <div className="mb-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                                  ✍️ {t("Bài tập đầu ra (10 phút)", "Output task (10 min)")}
+                                </div>
+                                <p className="text-sm leading-relaxed">{t(d.outputVi, d.outputEn)}</p>
+                              </div>
+                              <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
+                                <div className="mb-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
+                                  ⚡ {t("Thử thách 5 phút", "5-min challenge")}
+                                </div>
+                                <p className="text-sm leading-relaxed">{t(d.challengeVi, d.challengeEn)}</p>
+                              </div>
                             </div>
-                            <p className="text-sm leading-relaxed">{t(d.successVi, d.successEn)}</p>
-                          </div>
+
+                            <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
+                              <div className="mb-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
+                                🎯 {t("Tiêu chí 'hôm nay đạt yêu cầu'", "Today's success bar")}
+                              </div>
+                              <p className="text-sm leading-relaxed">{t(d.successVi, d.successEn)}</p>
+                            </div>
+                          </section>
 
                           {/* complete checkbox */}
 
