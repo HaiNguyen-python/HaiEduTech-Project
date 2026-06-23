@@ -1269,7 +1269,60 @@ Teacher Hai has a grade file: 30 students × 6 subjects. Goals:
 
 \`\`\`python
    df.to_excel("class_report.xlsx", index=False, engine="openpyxl")
-\`\`\``,
+\`\`\`
+
+## 📈 Deep dive: find the class's weakest subject
+
+One line of pandas surfaces the top 3 weakest subjects across the whole class:
+
+\`\`\`python
+   weak = df.drop(columns=["name","gpa","status"]).mean().sort_values().head(3)
+   print(weak)
+   # math       4.5   ← weakest
+   # science    5.2
+   # english    6.1
+\`\`\`
+
+That gives the teacher a **concrete action plan**: spend 2 sessions/week drilling math instead of spreading 1 session evenly.
+
+## 📉 Term-over-term comparison - catch students slipping
+
+Store two terms of grades and compare - any student whose GPA dropped > 1.0 needs early intervention:
+
+\`\`\`python
+   df["trend"] = df["gpa"] - df["gpa_prev"]
+   alert = df[df["trend"] < -1.0].sort_values("trend")
+   for _, row in alert.iterrows():
+       print(f"⚠️ {row['name']}: {row['gpa_prev']} → {row['gpa']} (down {-row['trend']:.1f})")
+\`\`\`
+
+Early-warning systems like this have cut end-of-term failure rates by **30-40%** in many schools.
+
+## 💌 Auto-generate parent messages
+
+For each "Risk" student → 1 ready-made SMS, just copy and send:
+
+\`\`\`python
+   TEMPLATE = (
+       "Hi, your child {name} has a GPA of {gpa} ({status}). "
+       "Please meet me at 5pm Friday so we can plan support together. - Teacher Hai"
+   )
+   for _, r in df[df["status"] == "🔴 Risk"].iterrows():
+       print(TEMPLATE.format(name=r["name"], gpa=r["gpa"], status=r["status"]))
+       print("---")
+\`\`\`
+
+From 30 minutes typing 5 messages by hand → 1 second to draft enough for the whole class.
+
+## 🧠 Tip: alert on trend, not snapshots alone
+
+A student at 6.0 today coming from 8.5 last term is more dangerous than one steady at 5.8. Evaluate:
+
+- **Current GPA** (snapshot)
+- **Δ GPA vs. previous term** (trend)
+- **Number of subjects below 5** (breadth)
+
+A truly "red" student = matches ≥ 2/3 signals above.`,
         code: `# 🎓 Student Score Tracker + early-warning
 import pandas as pd
 
