@@ -51,7 +51,51 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
     setPollMode(false);
     setPollQuestion("");
     setPollOptions(["", ""]);
+    setPollTopic("");
+    setPollHint(null);
   };
+
+  const [pollTopic, setPollTopic] = useState("");
+  const [pollGenerating, setPollGenerating] = useState(false);
+  const [pollHint, setPollHint] = useState<string | null>(null);
+
+  const generatePollWithAI = async () => {
+    if (pollGenerating) return;
+    setPollGenerating(true);
+    setPollHint(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-poll", {
+        body: {
+          subject: subject ?? null,
+          topic: pollTopic.trim() || null,
+          lang: "vi",
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(typeof data.error === "string" ? data.error : "AI lỗi");
+      const q = String(data?.question || "").trim();
+      const opts: string[] = Array.isArray(data?.options) ? data.options.map((o: any) => String(o).trim()) : [];
+      if (!q || opts.length < 2) throw new Error("AI trả về dữ liệu không hợp lệ");
+      setPollQuestion(q);
+      setPollOptions(opts.slice(0, 6));
+      const correct = Number.isInteger(data?.correct_index) ? data.correct_index : null;
+      const expl = String(data?.explanation || "").trim();
+      if (correct !== null && opts[correct]) {
+        setPollHint(`✅ Đáp án đúng: ${String.fromCharCode(65 + correct)}. ${opts[correct]}${expl ? ` — ${expl}` : ""}`);
+      } else if (expl) {
+        setPollHint(expl);
+      }
+      toast.success("AI đã tạo poll - kiểm tra & chỉnh sửa trước khi đăng");
+    } catch (e: any) {
+      const msg = String(e?.message || e);
+      if (msg.includes("429")) toast.error("AI đang quá tải, thử lại sau ít phút");
+      else if (msg.includes("402")) toast.error("Hết credit AI - vui lòng nạp thêm");
+      else toast.error("Không tạo được poll: " + msg);
+    } finally {
+      setPollGenerating(false);
+    }
+  };
+
 
 
 
@@ -227,6 +271,38 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
               <X className="w-4 h-4" />
             </button>
           </div>
+
+          {/* AI generator */}
+          <div className="rounded-lg border border-violet-300/40 bg-white/70 dark:bg-card/70 p-2 space-y-1.5">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300 flex items-center gap-1">
+              ✨ AI tạo câu hỏi tự động {subject ? `(${subject})` : "(chọn chủ đề để AI bám sát)"}
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Input
+                value={pollTopic}
+                onChange={(e) => setPollTopic(e.target.value)}
+                placeholder="Gợi ý chủ đề con (vd: thì hiện tại hoàn thành, vòng lặp for)"
+                maxLength={280}
+                className="bg-background h-8 text-xs"
+              />
+              <Button
+                type="button"
+                size="sm"
+                onClick={generatePollWithAI}
+                disabled={pollGenerating}
+                className="h-8 px-3 bg-gradient-to-r from-violet-600 to-pink-600 text-white text-xs shrink-0"
+              >
+                {pollGenerating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : "✨ Tạo"}
+              </Button>
+            </div>
+            {pollHint && (
+              <p className="text-[11px] text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 rounded px-2 py-1 leading-snug">
+                {pollHint}
+              </p>
+            )}
+          </div>
+
+
           <Input
             value={pollQuestion}
             onChange={(e) => setPollQuestion(e.target.value)}
