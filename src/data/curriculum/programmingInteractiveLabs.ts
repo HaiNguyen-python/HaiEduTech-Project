@@ -253,7 +253,49 @@ Secret number 1-100. Guess 50 → "higher" → range 1-49 → guess 25 → ... E
 
 - ⏱️ Count turns → award "perfect" if < 7.
 - 🏆 Save high score to a txt file.
-- 🌈 Print 🔥 (close) or ❄️ (far) instead of "low/high".`,
+- 🌈 Print 🔥 (close) or ❄️ (far) instead of "low/high".
+
+## 🧩 Dissecting \`while True\` - the safe infinite loop
+
+\`while True\` runs forever until it meets a \`break\`. It's the **canonical pattern** for games/menus/CLIs:
+
+\`\`\`python
+   while True:
+       cmd = input("> ").strip().lower()
+       if cmd == "quit":
+           break                         # ← main exit
+       elif cmd == "help":
+           print("Commands: guess, hint, quit")
+           continue                      # ← skip rest, loop again
+       # normal handling...
+\`\`\`
+
+Golden rule: **always have at least one exit path** (\`break\` or condition). Forget \`break\` = endless Ctrl+C.
+
+## 🎲 Random in Python - 4 functions to remember
+
+| Function | Returns | Example |
+|---|---|---|
+| \`random.randint(a, b)\` | Integer in \`[a, b]\` (both inclusive) | \`randint(1, 6)\` = die roll |
+| \`random.choice(seq)\` | One element from list/tuple | \`choice(["a","b","c"])\` |
+| \`random.shuffle(lst)\` | Shuffles list **in place** | deck of cards |
+| \`random.sample(seq, k)\` | k elements **without repeats** | draw 3 cards |
+
+Testing tip: call \`random.seed(42)\` at the top so each run produces the same result - lets you debug game logic without "luck" interference.
+
+## 🎁 Bonus: a scoring system design
+
+A compact formula combining turns and difficulty:
+
+\`\`\`
+   score = max(0, 1000 - turns * 100 - hints_used * 50)
+\`\`\`
+
+- Win in 1 turn → 900 points.
+- Each hint costs 50.
+- Out of turns → 0 (never negative thanks to \`max(0, ...)\`).
+
+Add a top-3 leaderboard at the end of the game to create competition - persist it to \`scores.json\` with \`json.dump\`.`,
         code: `# 🎮 Guess the Number - 7 turns to win
 import random
 
