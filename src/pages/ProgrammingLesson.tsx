@@ -91,6 +91,16 @@ import imgSQL from "@/assets/programming-modules/m-sql.jpg";
 import imgPipeline from "@/assets/programming-modules/m-data-pipeline.jpg";
 import imgML from "@/assets/programming-modules/m-ml.jpg";
 import imgAI from "@/assets/programming-modules/m-ai-foundation.jpg";
+import imgSE from "@/assets/programming-modules/m-software-engineering.jpg";
+import imgNLP from "@/assets/programming-modules/m-nlp.jpg";
+import imgDL from "@/assets/programming-modules/m-deep-learning.jpg";
+import imgCyber from "@/assets/programming-modules/m-cybersecurity.jpg";
+import imgWeb from "@/assets/programming-modules/m-web-dev.jpg";
+import imgCloud from "@/assets/programming-modules/m-cloud.jpg";
+import imgEdTech from "@/assets/programming-modules/m-edtech.jpg";
+import imgDataEng from "@/assets/programming-modules/m-data-engineering.jpg";
+import imgPrompt from "@/assets/programming-modules/m-prompt-eng.jpg";
+import imgRL from "@/assets/programming-modules/m-rl.jpg";
 
 const MODULE_HERO_IMAGES: Record<string, string> = {
   "prog-scratch": imgScratch,
@@ -101,7 +111,48 @@ const MODULE_HERO_IMAGES: Record<string, string> = {
   "prog-data-pipeline": imgPipeline,
   "prog-ml": imgML,
   "prog-ai-foundation": imgAI,
+  "se-foundations": imgSE,
+  "prog-cybersecurity": imgCyber,
+  "web-dev-foundations": imgWeb,
+  "dl-foundations": imgDL,
+  "nlp-foundations": imgNLP,
+  "nlp-advanced": imgNLP,
+  "nlp-advanced-2026": imgNLP,
+  "nlp-production": imgNLP,
+  "edtech-advanced-2026": imgEdTech,
+  "edtech-research-2026": imgEdTech,
+  "prog-prompt-engineering": imgPrompt,
+  "prog-python-powerups": imgPyBasic,
+  "prog-realworld-projects": imgPipeline,
+  "prog-mastery-labs": imgPyBasic,
 };
+
+// Prefix-based fallback so families of modules share a coherent hero
+// (e.g. all cloud-*, sql-*, ml-*, de-* modules show the right illustration).
+const MODULE_HERO_PREFIX: Array<{ prefix: string; src: string }> = [
+  { prefix: "cloud-", src: imgCloud },
+  { prefix: "de-", src: imgDataEng },
+  { prefix: "sql-", src: imgSQL },
+  { prefix: "ml-", src: imgML },
+  { prefix: "dl-", src: imgDL },
+  { prefix: "nlp-", src: imgNLP },
+  { prefix: "edtech-", src: imgEdTech },
+  { prefix: "se-", src: imgSE },
+  { prefix: "rl-", src: imgRL },
+  { prefix: "web-", src: imgWeb },
+  { prefix: "m1-", src: imgPyBasic },
+  { prefix: "m2-", src: imgPyBasic },
+  { prefix: "m3-", src: imgDS },
+  { prefix: "m4-", src: imgPyBasic },
+  { prefix: "m5-", src: imgPyBasic },
+  { prefix: "m6-", src: imgAI },
+];
+
+function getModuleHero(moduleId: string): string | undefined {
+  if (MODULE_HERO_IMAGES[moduleId]) return MODULE_HERO_IMAGES[moduleId];
+  const hit = MODULE_HERO_PREFIX.find(p => moduleId.startsWith(p.prefix));
+  return hit?.src;
+}
 
 // IDs of every lesson inside the Software Engineering module - used to auto-award
 // the "Lead Engineer" badge once a learner completes the full set.
