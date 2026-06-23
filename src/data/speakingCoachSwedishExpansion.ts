@@ -397,8 +397,11 @@ const b1Extra: SpeakingTheme[] = [
   },
 ];
 
+import { swedishB2Extra } from "./speakingCoachSwedishExpansion2";
+
 export const swedishThemes: SpeakingTheme[] = [
   ...a1, ...a1Extra,
   ...a2, ...a2Extra,
   ...b1, ...b1Extra,
+  ...swedishB2Extra,
 ];
