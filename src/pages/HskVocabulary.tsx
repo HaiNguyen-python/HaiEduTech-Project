@@ -571,16 +571,38 @@ const HskVocabulary = () => {
   // Reset page when filters change
   useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
 
-  // Per-level mastered stats
+  // Per-level mastered stats - single pass over the dataset (was 14 passes).
   const levelStats = useMemo(() => {
     const stats: Record<string, { total: number; mastered: number }> = {};
-    for (const level of HSK_LEVELS) {
-      const total = hskVocabData.filter(w => w.level === level).length;
-      const m = hskVocabData.filter(w => w.level === level && mastered.has(w.character)).length;
-      stats[level] = { total, mastered: m };
+    for (const level of HSK_LEVELS) stats[level] = { total: 0, mastered: 0 };
+    for (const w of hskVocabData) {
+      const s = stats[w.level];
+      if (!s) continue;
+      s.total++;
+      if (mastered.has(w.character)) s.mastered++;
     }
     return stats;
-  }, [mastered]);
+  }, [hskVocabData, mastered]);
+
+  // Memoize derived word lists so sidebar children don't re-render on every keystroke.
+  const masteredWords = useMemo(
+    () => hskVocabData.filter(w => mastered.has(w.character)),
+    [hskVocabData, mastered]
+  );
+  const allWordsForQuiz = useMemo(
+    () => hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi })),
+    [hskVocabData]
+  );
+  const lookupWord = useCallback((w: string) => {
+    const found = hskVocabData.find(x => x.character === w);
+    if (!found) return null;
+    return {
+      word: found.character,
+      phonetic: found.pinyin,
+      definitionVi: found.definition.vi,
+      definitionEn: found.definition.en,
+    };
+  }, [hskVocabData]);
 
   return (
     <div className="min-h-screen bg-background">
