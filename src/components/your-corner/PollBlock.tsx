@@ -1,8 +1,19 @@
 import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { BarChart3, Check, Vote } from "lucide-react";
+import { BarChart3, Check, Vote, Trophy } from "lucide-react";
 import type { PollData } from "@/hooks/useYourCornerFeed";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Cell,
+  LabelList,
+} from "recharts";
+
 
 interface Props {
   postId: string;
