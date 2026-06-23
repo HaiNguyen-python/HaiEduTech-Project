@@ -115,11 +115,62 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
           );
         })}
       </div>
+
+      {hasVoted && (
+        <div className="rounded-lg border border-border/60 bg-background/80 p-3 space-y-2 animate-in fade-in slide-in-from-bottom-1">
+          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-primary">
+            <BarChart3 className="w-3.5 h-3.5" /> Kết quả trực quan
+            {topOption && total > 0 && (
+              <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 normal-case tracking-normal">
+                <Trophy className="w-3 h-3" /> Dẫn đầu: {topOption.label} ({topOption.pct}%)
+              </span>
+            )}
+          </div>
+          <div className="w-full" style={{ height: Math.max(120, poll.options.length * 36) }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} layout="vertical" margin={{ top: 4, right: 36, bottom: 4, left: 8 }}>
+                <XAxis type="number" domain={[0, 100]} hide />
+                <YAxis
+                  type="category"
+                  dataKey="label"
+                  width={110}
+                  tick={{ fontSize: 11, fill: "hsl(var(--foreground))" }}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <Tooltip
+                  cursor={{ fill: "hsl(var(--muted) / 0.4)" }}
+                  contentStyle={{
+                    background: "hsl(var(--background))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: 8,
+                    fontSize: 12,
+                  }}
+                  formatter={(v: number, _n, p: any) => [`${v}% (${p.payload.count} phiếu)`, "Tỉ lệ"]}
+                />
+                <Bar dataKey="pct" radius={[4, 4, 4, 4]} barSize={18}>
+                  {chartData.map((d, i) => (
+                    <Cell key={i} fill={d.isMine ? "#10b981" : "hsl(var(--primary))"} fillOpacity={d.isMine ? 1 : 0.75} />
+                  ))}
+                  <LabelList
+                    dataKey="pct"
+                    position="right"
+                    formatter={(v: number) => `${v}%`}
+                    style={{ fontSize: 11, fontWeight: 600, fill: "hsl(var(--foreground))" }}
+                  />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
         <BarChart3 className="w-3 h-3" />
         {total} lượt bình chọn
         {hasVoted && allowChange && <span>· Bạn có thể đổi đáp án</span>}
       </div>
+
     </div>
   );
 }
