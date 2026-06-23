@@ -7,6 +7,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useMemo, useState } from "react";
+import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import {
@@ -112,6 +113,7 @@ const SwedishWritingLab = () => {
       />
       <Navbar />
       <main className="pt-24 lg:pt-28">
+        <SwedishHeroBanner pickKey="SwedishWritingLab" compact />
         <div className="container mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
           <header className="text-center mb-8">
             <div className="inline-flex items-center gap-2 mb-3">

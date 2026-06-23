@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -523,6 +524,7 @@ const SwedishVocabulary = () => {
       />
       <Navbar />
       <main className="pt-24 lg:pt-28 pb-12">
+        <SwedishHeroBanner pickKey="SwedishVocabulary" compact />
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           {/* Header */}
           <motion.div

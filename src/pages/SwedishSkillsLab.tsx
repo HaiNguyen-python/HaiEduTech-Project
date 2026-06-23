@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { Link } from "react-router-dom";
+import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import { ChevronRight, Headphones, BookOpen, PenLine, Mic } from "lucide-react";
@@ -138,6 +139,7 @@ const SwedishSkillsLab = () => {
       />
       <Navbar />
       <main className="flex-1 pt-24 pb-16">
+        <SwedishHeroBanner pickKey="SwedishSkillsLab" compact />
         <div className="container max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

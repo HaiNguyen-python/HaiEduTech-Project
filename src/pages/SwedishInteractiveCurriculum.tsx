@@ -7,6 +7,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useMemo, useState } from "react";
+import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -365,6 +366,7 @@ const SwedishInteractiveCurriculum = () => {
       />
       <Navbar />
       <main className="pt-24 lg:pt-28 pb-12">
+        <SwedishHeroBanner pickKey="SwedishInteractiveCurriculum" compact />
         <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
           <Link to="/swedish" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-4">
             <ArrowLeft className="h-4 w-4" />
