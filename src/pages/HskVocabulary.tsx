@@ -814,7 +814,9 @@ const HskVocabulary = () => {
           </div>
             </TabsContent>
             <TabsContent value="radicals">
-              <KangxiRadicalsBrowser />
+              <Suspense fallback={<TabFallback />}>
+                <KangxiRadicalsBrowser />
+              </Suspense>
             </TabsContent>
           </Tabs>
         </div>
