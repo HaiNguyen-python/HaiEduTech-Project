@@ -284,29 +284,6 @@ export const SwedishA1DailyPlan = () => {
                             </div>
                           </div>
 
-                          {/* output + challenge */}
-                          <div className="grid gap-3 sm:grid-cols-2">
-                            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
-                              <div className="mb-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-                                ✍️ {t("Bài tập đầu ra (10 phút)", "Output task (10 min)")}
-                              </div>
-                              <p className="text-sm leading-relaxed">{t(d.outputVi, d.outputEn)}</p>
-                            </div>
-                            <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
-                              <div className="mb-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
-                                ⚡ {t("Thử thách 5 phút", "5-min challenge")}
-                              </div>
-                              <p className="text-sm leading-relaxed">{t(d.challengeVi, d.challengeEn)}</p>
-                            </div>
-                          </div>
-
-                          {/* success criteria */}
-                          <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
-                            <div className="mb-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
-                              🎯 {t("Tiêu chí 'hôm nay đạt yêu cầu'", "Today's success bar")}
-                            </div>
-                            <p className="text-sm leading-relaxed">{t(d.successVi, d.successEn)}</p>
-                          </div>
 
                           {/* extras: grammar focus, mini-dialog, extra vocab, cultural note */}
                           {SWEDISH_A1_DAILY_EXTRAS[d.day] && (
