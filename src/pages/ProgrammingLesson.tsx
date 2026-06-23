@@ -711,9 +711,9 @@ const ProgrammingLessonPage = () => {
                         )}
                       </div>
                     </div>
-                    {MODULE_HERO_IMAGES[mod.id] && (
+                    {getModuleHero(mod.id) && (
                       <img
-                        src={MODULE_HERO_IMAGES[mod.id]}
+                        src={getModuleHero(mod.id)!}
                         alt={`${mod.titleEn} illustration`}
                         loading="lazy"
                         width={1024}
