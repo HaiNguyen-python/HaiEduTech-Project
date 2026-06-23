@@ -16,6 +16,7 @@ import ConversationalRoleplay from "@/components/ConversationalRoleplay";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
+import { protagonistFor, bannerFor } from "@/lib/conversationalSituationVisuals";
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
 const STORAGE_KEY = "conv-eng-progress";
