@@ -703,9 +703,11 @@ const HskVocabulary = () => {
 
             {/* Content based on mode */}
             {viewMode === "srs" ? (
-              <HskSrsReview allWords={hskVocabData} />
+              <Suspense fallback={<TabFallback />}>
+                <HskSrsReview allWords={hskVocabData} />
+              </Suspense>
             ) : viewMode === "exercise" ? (
-              <HskExercise masteredWords={hskVocabData.filter(w => mastered.has(w.character))} allWords={hskVocabData} t={t} />
+              <HskExercise masteredWords={masteredWords} allWords={hskVocabData} t={t} />
             ) : (() => {
               const groups = paginated.reduce<Record<string, HskWord[]>>((acc, w) => {
                 (acc[w.category] ||= []).push(w);
