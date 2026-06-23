@@ -769,7 +769,60 @@ Là môn chơi viết code **ngắn nhất có thể** mà vẫn đúng. Không 
 
 - ✅ Một dòng nếu logic ≤ 1 ý tưởng.
 - ✅ Đặt tên biến rõ → không cần comment.
-- ❌ Không nhồi 3 \`lambda\` lồng nhau để tiết kiệm 2 ký tự.`,
+- ❌ Không nhồi 3 \`lambda\` lồng nhau để tiết kiệm 2 ký tự.
+
+## 🛠️ \`itertools\` - bộ công cụ vô địch
+
+Thư viện chuẩn ít người dùng nhưng cực mạnh cho code golf và pipeline dữ liệu:
+
+\`\`\`python
+   from itertools import groupby, accumulate, product, combinations, takewhile
+
+   # Nhóm liên tiếp cùng giá trị
+   [list(g) for k, g in groupby("AAABBC")]       # [['A','A','A'], ['B','B'], ['C']]
+
+   # Cộng dồn (running total)
+   list(accumulate([1, 2, 3, 4]))                 # [1, 3, 6, 10]
+
+   # Tích Descartes (lưới tham số)
+   list(product([0, 1], repeat=3))                # 8 tổ hợp bit 3-bit
+
+   # Tổ hợp chọn k phần tử
+   list(combinations("ABCD", 2))                  # 6 cặp
+
+   # Lấy đến khi điều kiện sai
+   list(takewhile(lambda x: x < 5, [1, 3, 5, 7])) # [1, 3]
+\`\`\`
+
+## ⚡ Walrus operator \`:=\` (Python 3.8+)
+
+Gán **và** dùng giá trị trong cùng biểu thức - cực lợi trong comprehension và \`while\`:
+
+\`\`\`python
+   # Đọc file theo dòng đến khi hết
+   while (line := f.readline()):
+       process(line)
+
+   # Lọc + biến đổi không tính 2 lần
+   results = [y for x in data if (y := expensive(x)) > 0]
+\`\`\`
+
+## 🎯 Match-case (Python 3.10+) - pattern matching đỉnh cao
+
+Mạnh hơn \`if/elif\` chain rất nhiều - giải nén tuple, dict, dataclass trong 1 nhánh:
+
+\`\`\`python
+   def http_status(code):
+       match code:
+           case 200 | 201: return "OK"
+           case 301 | 302: return "Redirect"
+           case 400: return "Bad request"
+           case 404: return "Not found"
+           case n if 500 <= n < 600: return "Server error"
+           case _: return "Unknown"
+\`\`\`
+
+Code golf đỉnh nhất là khi **người đọc khen "wow, đẹp quá"** chứ không phải "hả, đoạn này làm gì?".`,
         theoryEn: `## ⛳ What is Code Golf?
 
 A game of writing the **shortest possible code** that still works. Shortest isn't always best, but practicing code golf helps you:
