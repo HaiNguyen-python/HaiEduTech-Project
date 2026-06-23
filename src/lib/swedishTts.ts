@@ -3,9 +3,13 @@
 // proxy is unreachable. Mirrors `finnishTts.ts`.
 import { supabase } from "@/integrations/supabase/client";
 
+export type SwedishTtsSource = "proxy" | "native";
+export type SwedishTtsStatus = "loading" | "playing" | "ended" | "error";
+
 interface SwedishTtsOptions {
   playbackRate?: number;
   speechRate?: number;
+  onStatus?: (status: SwedishTtsStatus, info?: { source?: SwedishTtsSource; reason?: string }) => void;
 }
 
 interface SwedishTtsProxyResponse {
