@@ -722,12 +722,16 @@ const ProgrammingLessonPage = () => {
                       />
                     )}
                     <TheorySections
-                      markdown={(useEnhanced && enhancedMd
-                        ? enhancedMd
-                        : (lang === "vi" ? (lesson.theory || lesson.theoryEn || "") : (lesson.theoryEn || lesson.theory || "")))
-                        .replace(/\\\$/g, "$")
-                        // Strip a leading single "# Lesson Title" since the page already shows the title
-                        .replace(/^\s*#\s+[^\n]+\n+/, "")}
+                      markdown={injectLessonImage(
+                        (useEnhanced && enhancedMd
+                          ? enhancedMd
+                          : (lang === "vi" ? (lesson.theory || lesson.theoryEn || "") : (lesson.theoryEn || lesson.theory || "")))
+                          .replace(/\\\$/g, "$")
+                          // Strip a leading single "# Lesson Title" since the page already shows the title
+                          .replace(/^\s*#\s+[^\n]+\n+/, ""),
+                        lesson.id,
+                        lang === "vi" ? "vi" : "en"
+                      )}
                       storageKey={`theory-read:${mod.id}:${lesson.id}:${useEnhanced && enhancedMd ? "ai" : "orig"}`}
                       defaultCodeLanguage={lesson.codeLanguage || "text"}
                     />
