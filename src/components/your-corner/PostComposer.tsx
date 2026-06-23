@@ -80,13 +80,13 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       if (error) throw error;
       if (payload?.error) throw new Error(typeof payload.error === "string" ? payload.error : "AI lỗi");
       const result = payload;
-      const q = String(data?.question || "").trim();
-      const opts: string[] = Array.isArray(data?.options) ? data.options.map((o: any) => String(o).trim()) : [];
+      const q = String(result?.question || "").trim();
+      const opts: string[] = Array.isArray(result?.options) ? result.options.map((o: any) => String(o).trim()) : [];
       if (!q || opts.length < 2) throw new Error("AI trả về dữ liệu không hợp lệ");
       setPollQuestion(q);
       setPollOptions(opts.slice(0, 6));
-      const correct = Number.isInteger(data?.correct_index) ? data.correct_index : null;
-      const expl = String(data?.explanation || "").trim();
+      const correct = Number.isInteger(result?.correct_index) ? result.correct_index : null;
+      const expl = String(result?.explanation || "").trim();
       if (correct !== null && opts[correct]) {
         setPollHint(`✅ Đáp án đúng: ${String.fromCharCode(65 + correct)}. ${opts[correct]}${expl ? ` — ${expl}` : ""}`);
       } else if (expl) {
