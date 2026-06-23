@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { motion } from "framer-motion";
+import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { CheckCircle2, MapPin, Newspaper, Radio, Briefcase, Heart, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -144,6 +145,7 @@ const SwedishSvenskfinland = () => {
       />
       <Navbar />
       <main className="pt-24 lg:pt-28">
+        <SwedishHeroBanner pickKey="SwedishSvenskfinland" compact />
         <div className="container mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-12 space-y-8">
           <header className="text-center">
             <Badge className="mb-3 bg-gradient-to-r from-rose-500 to-pink-600 text-white border-0">

@@ -5,6 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import Navbar from "@/components/Navbar";
+import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -27,6 +28,7 @@ const SwedishBeginner = () => {
       />
       <Navbar />
       <main className="pt-24 lg:pt-28">
+        <SwedishHeroBanner pickKey="SwedishBeginner" compact />
         <div className="container mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
           <header className="text-center mb-8">
             <h1 className="font-display text-3xl font-bold sm:text-4xl">
