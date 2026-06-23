@@ -61,7 +61,15 @@ Deno.serve(async (req) => {
     });
   } catch (e: any) {
     const msg = String(e?.message || e);
-    const status = msg.includes("429") ? 429 : msg.includes("402") ? 402 : 500;
-    return new Response(JSON.stringify({ error: msg }), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const rawStatus = Number(e?.statusCode ?? e?.status ?? e?.cause?.statusCode ?? 0);
+    const isPayment = rawStatus === 402 || /402|payment required|credit/i.test(msg);
+    const isRate = rawStatus === 429 || /429|rate.?limit|too many/i.test(msg);
+    const status = isPayment ? 402 : isRate ? 429 : 500;
+    const userMsg = isPayment
+      ? "Hết credit AI Gateway - vui lòng nạp thêm credit cho workspace để tiếp tục dùng tính năng AI."
+      : isRate
+        ? "AI đang quá tải, thử lại sau ít phút."
+        : msg;
+    return new Response(JSON.stringify({ error: userMsg, code: isPayment ? "PAYMENT_REQUIRED" : isRate ? "RATE_LIMITED" : "AI_ERROR" }), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 });
