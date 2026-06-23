@@ -554,9 +554,54 @@ export default function YourCorner() {
           </div>
         )}
       </main>
+
+      {/* Mobile/tablet messenger launcher — desktop already shows it in the right sidebar */}
+      {userId && (
+        <MobileMessengerLauncher>
+          <Suspense fallback={null}>
+            <Messenger
+              currentUserId={userId}
+              activePeer={chatPeer}
+              setActivePeer={setChatPeer}
+              onlineUsers={onlineUsers}
+              directory={mentionables}
+            />
+          </Suspense>
+        </MobileMessengerLauncher>
+      )}
+
       <div className="relative z-10">
         <Footer />
       </div>
+    </div>
+  );
+}
+
+function MobileMessengerLauncher({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="lg:hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="fixed bottom-5 right-5 z-50 h-14 w-14 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 text-white shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+        aria-label="Mở tin nhắn"
+      >
+        <MessageCircle className="w-6 h-6" />
+      </button>
+      {open && (
+        <div className="fixed inset-x-0 bottom-0 z-40 p-3 pb-20 max-h-[80vh] overflow-y-auto bg-background/95 backdrop-blur border-t shadow-2xl rounded-t-2xl animate-in slide-in-from-bottom">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-sm flex items-center gap-2">
+              <MessageCircle className="w-4 h-4 text-primary" /> Tin nhắn
+            </h3>
+            <button type="button" onClick={() => setOpen(false)} className="text-xs text-muted-foreground px-2 py-1 rounded hover:bg-muted">
+              Đóng
+            </button>
+          </div>
+          {children}
+        </div>
+      )}
     </div>
   );
 }
