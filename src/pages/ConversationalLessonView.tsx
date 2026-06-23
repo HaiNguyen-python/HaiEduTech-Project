@@ -241,9 +241,12 @@ const ConversationalLessonView = () => {
                       <img
                         src={bannerSrc}
                         alt={t(situation.titleVi, situation.title)}
-                        loading="lazy"
+                        loading={idx === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                        fetchPriority={idx === 0 ? "high" : "low"}
                         width={1280}
                         height={512}
+                        sizes="(min-width: 768px) 640px, 100vw"
                         className="absolute inset-0 w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
