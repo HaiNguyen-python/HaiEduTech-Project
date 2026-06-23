@@ -1181,7 +1181,60 @@ Thầy Hải có file điểm 30 học sinh × 6 môn. Cần:
 
 \`\`\`python
    df.to_excel("class_report.xlsx", index=False, engine="openpyxl")
-\`\`\``,
+\`\`\`
+
+## 📈 Phân tích sâu: tìm môn yếu nhất
+
+Một dòng pandas cho ra ngay top 3 môn cả lớp yếu nhất:
+
+\`\`\`python
+   weak = df.drop(columns=["name","gpa","status"]).mean().sort_values().head(3)
+   print(weak)
+   # math       4.5   ← yếu nhất
+   # science    5.2
+   # english    6.1
+\`\`\`
+
+Từ đó thầy có **kế hoạch hành động cụ thể**: dành 2 buổi/tuần luyện toán cho cả lớp thay vì 1 buổi rải đều.
+
+## 📉 So sánh học kỳ - phát hiện học sinh "tụt dốc"
+
+Lưu điểm 2 học kỳ rồi so sánh - học sinh GPA giảm > 1.0 cần can thiệp sớm:
+
+\`\`\`python
+   df["trend"] = df["gpa"] - df["gpa_prev"]
+   alert = df[df["trend"] < -1.0].sort_values("trend")
+   for _, row in alert.iterrows():
+       print(f"⚠️ {row['name']}: {row['gpa_prev']} → {row['gpa']} (giảm {-row['trend']:.1f})")
+\`\`\`
+
+Hệ thống "early warning" này đã giúp nhiều trường giảm tỉ lệ học sinh trượt cuối kỳ **30-40%**.
+
+## 💌 Tự động sinh tin nhắn cho phụ huynh
+
+Mỗi học sinh "Risk" → 1 SMS soạn sẵn, chỉ cần copy gửi:
+
+\`\`\`python
+   TEMPLATE = (
+       "Chào anh/chị, con {name} đang có GPA {gpa} ({status}). "
+       "Mời anh/chị gặp thầy lúc 17:00 thứ Sáu để cùng lên kế hoạch hỗ trợ. - Thầy Hải"
+   )
+   for _, r in df[df["status"] == "🔴 Risk"].iterrows():
+       print(TEMPLATE.format(name=r["name"], gpa=r["gpa"], status=r["status"]))
+       print("---")
+\`\`\`
+
+Từ chỗ tốn 30 phút viết tay 5 tin nhắn → 1 giây sinh đủ cho cả lớp.
+
+## 🧠 Mẹo: cảnh báo theo xu hướng, không chỉ snapshot
+
+Một học sinh hôm nay 6.0 nhưng kỳ trước 8.5 nguy hiểm hơn em luôn ổn định ở 5.8. Hãy đánh giá:
+
+- **GPA hiện tại** (snapshot)
+- **Δ GPA so với kỳ trước** (trend)
+- **Số môn dưới 5** (breadth)
+
+Học sinh "đỏ" thực sự = thoả ≥ 2/3 tín hiệu trên.`,
         theoryEn: `## 🎓 Brief
 
 Teacher Hai has a grade file: 30 students × 6 subjects. Goals:
