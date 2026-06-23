@@ -51,7 +51,10 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
     setPollMode(false);
     setPollQuestion("");
     setPollOptions(["", ""]);
+    setPollTopic("");
+    setPollHint(null);
   };
+
   const [pollTopic, setPollTopic] = useState("");
   const [pollGenerating, setPollGenerating] = useState(false);
   const [pollHint, setPollHint] = useState<string | null>(null);
