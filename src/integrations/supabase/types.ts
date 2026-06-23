@@ -3480,6 +3480,38 @@ export type Database = {
         }
         Relationships: []
       }
+      your_corner_poll_votes: {
+        Row: {
+          created_at: string
+          id: string
+          option_index: number
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          option_index: number
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          option_index?: number
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "your_corner_poll_votes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "your_corner_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       your_corner_posts: {
         Row: {
           content: string
@@ -3487,6 +3519,7 @@ export type Database = {
           id: string
           image_url: string | null
           mood: string | null
+          poll: Json | null
           subject: string | null
           updated_at: string
           user_id: string
@@ -3498,6 +3531,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           mood?: string | null
+          poll?: Json | null
           subject?: string | null
           updated_at?: string
           user_id: string
@@ -3509,6 +3543,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           mood?: string | null
+          poll?: Json | null
           subject?: string | null
           updated_at?: string
           user_id?: string
@@ -3660,6 +3695,7 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_your_corner_feed: { Args: { _limit?: number }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
