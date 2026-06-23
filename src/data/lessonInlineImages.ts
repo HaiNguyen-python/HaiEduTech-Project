@@ -130,6 +130,8 @@ const PREFIX_FALLBACK: Array<{ prefix: string; img: LessonImage }> = [
   { prefix: "pml-",     img: { src: mlMlops,       captionVi: "Triển khai ML vào sản phẩm thực tế",           captionEn: "Shipping ML into production products" } },
   { prefix: "etl-",     img: { src: deEtl,         captionVi: "Pipeline ETL: extract → transform → load",     captionEn: "ETL pipeline: extract → transform → load" } },
   { prefix: "pe-",      img: { src: aiFoundation,  captionVi: "Prompt Engineering: chỉ dẫn rõ ràng cho LLM",  captionEn: "Prompt engineering: clear instructions for LLMs" } },
+];
+
 
 function resolveImage(lessonId: string): LessonImage | undefined {
   if (LESSON_INLINE_IMAGES[lessonId]) return LESSON_INLINE_IMAGES[lessonId];
