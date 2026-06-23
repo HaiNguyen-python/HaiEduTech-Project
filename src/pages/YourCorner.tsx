@@ -158,7 +158,7 @@ export default function YourCorner() {
       </div>
 
       <Suspense fallback={null}>
-        <FloatingSubjectIcons count={30} />
+        <FloatingSubjectIcons count={14} />
         <CornerCheerChibis />
       </Suspense>
 
@@ -539,15 +539,17 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              <Suspense fallback={null}>
-                <Messenger
-                  currentUserId={userId}
-                  activePeer={chatPeer}
-                  setActivePeer={setChatPeer}
-                  onlineUsers={onlineUsers}
-                  directory={mentionables}
-                />
-              </Suspense>
+              {chatPeer && (
+                <Suspense fallback={null}>
+                  <Messenger
+                    currentUserId={userId}
+                    activePeer={chatPeer}
+                    setActivePeer={setChatPeer}
+                    onlineUsers={onlineUsers}
+                    directory={mentionables}
+                  />
+                </Suspense>
+              )}
 
 
             </aside>

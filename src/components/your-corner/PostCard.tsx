@@ -64,11 +64,7 @@ export default function PostCard({ post, currentUserId, onChanged }: Props) {
   }, [post.id]);
 
 
-  useEffect(() => {
-    setLiked(post.liked_by_me);
-    setLikeCount(post.reaction_count);
-    setBookmarked(post.bookmarked_by_me);
-  }, [post.liked_by_me, post.reaction_count, post.bookmarked_by_me]);
+
 
   const authorName = post.author?.full_name?.trim() || "Học viên";
   const initials = authorName.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";

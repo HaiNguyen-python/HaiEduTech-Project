@@ -38,7 +38,7 @@ export function useYourCornerFeed(enabled: boolean) {
       .from("your_corner_posts")
       .select("id, user_id, content, image_url, subject, mood, visibility, created_at")
       .order("created_at", { ascending: false })
-      .limit(25);
+      .limit(15);
 
     if (error || !rawPosts) {
       setPosts([]);
