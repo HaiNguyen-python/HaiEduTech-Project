@@ -536,7 +536,51 @@ Là cách viết tạo list trong 1 dòng, **nhanh hơn ~30% so với for loop t
 ## ⚠️ Khi nào KHÔNG nên dùng?
 
 - Logic bên trong > 3 dòng → khó đọc, hãy dùng \`for\` rõ ràng.
-- Có side-effect (print, ghi file) → dùng \`for\` để code rõ ý.`,
+- Có side-effect (print, ghi file) → dùng \`for\` để code rõ ý.
+
+## 🧬 Generator expression - anh em "tiết kiệm RAM"
+
+Chỉ thay \`[ ]\` bằng \`( )\` và bạn có **generator** - không tạo list trong bộ nhớ, lười sinh từng phần tử:
+
+\`\`\`python
+   total = sum(n * n for n in range(10_000_000))   # 0 MB list
+   total = sum([n * n for n in range(10_000_000)])  # ~80 MB list
+\`\`\`
+
+Khi nào dùng generator: pipeline xử lý dữ liệu lớn, file khổng lồ, hoặc khi chỉ cần \`sum / max / any / all\` trên kết quả.
+
+## 🚀 Tăng tốc cấp 3: NumPy vectorisation
+
+NumPy đẩy phép tính xuống tầng C/Fortran chạy SIMD, không có Python loop nào trong vòng nóng:
+
+\`\`\`python
+   import numpy as np
+   a = np.arange(10_000_000)
+   sq = a * a                       # ~10 ms cho 10 triệu phần tử
+\`\`\`
+
+So sánh thực tế:
+
+| Cách | Thời gian | Bộ nhớ |
+|---|---|---|
+| \`for\` + \`.append\` | 1.0× (chuẩn) | List Python |
+| List comprehension | 0.7× | List Python |
+| Generator expression | 0.7× | ~0 (lười) |
+| NumPy vectorisation | 0.02-0.05× | Mảng C compact |
+
+Quy tắc thầy Hải: **dữ liệu < 10k phần tử → list-comp; ≥ 100k phần tử → NumPy/pandas; pipeline streaming → generator**.
+
+## 🧪 Cách đo chính xác
+
+Đừng đoán - đo bằng \`timeit\`:
+
+\`\`\`python
+   import timeit
+   t = timeit.timeit("sum(n*n for n in range(1000))", number=10_000)
+   print(f"{t * 1000:.2f} ms / 10k lần chạy")
+\`\`\`
+
+Mẹo: chạy ≥ 3 lần và lấy \`min(times)\` để bỏ nhiễu từ OS/GC.`,
         theoryEn: `## ⚡ What is a list comprehension?
 
 A one-line way to build a list, **about 30% faster than a regular for-loop** because the loop runs in the C layer.
