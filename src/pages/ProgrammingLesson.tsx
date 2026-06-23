@@ -526,7 +526,8 @@ const ProgrammingLessonPage = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <LessonFloatingSymbols pillarId={pillar} count={36} />
+      <LessonFloatingSymbols pillarId={pillar} count={90} />
+      <LessonFloatingSymbols pillarId={pillar} count={45} className="opacity-50 blur-[1px]" />
       <Navbar />
       <div className="pt-6 pb-16 relative">
         <div className={`mx-auto px-4 sm:px-6 ${showIDE && !isMobile ? "max-w-[1600px]" : "container"}`}>
