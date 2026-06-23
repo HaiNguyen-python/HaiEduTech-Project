@@ -370,7 +370,7 @@ export default function YourCorner() {
 
             {/* Feed */}
             <div className="space-y-5 mx-auto w-full max-w-[640px]">
-              <Suspense fallback={null}><StoryBar /></Suspense>
+
 
               {/* Daily Prompt */}
               <Card className="p-4 backdrop-blur-md bg-gradient-to-r from-amber-50/90 via-white/85 to-emerald-50/90 dark:from-amber-950/30 dark:via-card/85 dark:to-emerald-950/30 border-amber-300/40 shadow-sm flex items-center gap-3">
