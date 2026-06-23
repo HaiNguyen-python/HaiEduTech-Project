@@ -444,3 +444,6 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
     </Card>
   );
 }
+
+const PostCard = memo(PostCardImpl, (prev, next) => prev.post === next.post && prev.currentUserId === next.currentUserId);
+export default PostCard;
