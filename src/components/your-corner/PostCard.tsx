@@ -341,6 +341,18 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
         </button>
       )}
 
+      {post.poll && (
+        <PollBlock
+          postId={post.id}
+          userId={currentUserId}
+          poll={post.poll}
+          votes={post.poll_votes}
+          myVote={post.my_vote}
+          onChanged={onChanged}
+        />
+      )}
+
+
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="max-w-5xl p-2 bg-background/95 backdrop-blur">
           {post.image_url && (
