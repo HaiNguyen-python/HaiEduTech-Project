@@ -861,7 +861,60 @@ A game of writing the **shortest possible code** that still works. Shortest isn'
 
 - ✅ One line if the logic is ≤ 1 idea.
 - ✅ Clear variable names → no comments needed.
-- ❌ Don't cram 3 nested \`lambda\`s to save 2 chars.`,
+- ❌ Don't cram 3 nested \`lambda\`s to save 2 chars.
+
+## 🛠️ \`itertools\` - the unbeatable toolbox
+
+An underused standard-library module that's incredibly powerful for code golf and data pipelines:
+
+\`\`\`python
+   from itertools import groupby, accumulate, product, combinations, takewhile
+
+   # Group consecutive equal values
+   [list(g) for k, g in groupby("AAABBC")]       # [['A','A','A'], ['B','B'], ['C']]
+
+   # Running total
+   list(accumulate([1, 2, 3, 4]))                 # [1, 3, 6, 10]
+
+   # Cartesian product (parameter grid)
+   list(product([0, 1], repeat=3))                # 8 3-bit tuples
+
+   # Pick k elements
+   list(combinations("ABCD", 2))                  # 6 pairs
+
+   # Take while predicate is true
+   list(takewhile(lambda x: x < 5, [1, 3, 5, 7])) # [1, 3]
+\`\`\`
+
+## ⚡ Walrus operator \`:=\` (Python 3.8+)
+
+Assign **and** use a value in the same expression - perfect inside comprehensions and \`while\`:
+
+\`\`\`python
+   # Read file line-by-line until empty
+   while (line := f.readline()):
+       process(line)
+
+   # Filter + transform without computing twice
+   results = [y for x in data if (y := expensive(x)) > 0]
+\`\`\`
+
+## 🎯 Match-case (Python 3.10+) - top-tier pattern matching
+
+Much stronger than \`if/elif\` chains - destructure tuples, dicts, dataclasses in one branch:
+
+\`\`\`python
+   def http_status(code):
+       match code:
+           case 200 | 201: return "OK"
+           case 301 | 302: return "Redirect"
+           case 400: return "Bad request"
+           case 404: return "Not found"
+           case n if 500 <= n < 600: return "Server error"
+           case _: return "Unknown"
+\`\`\`
+
+Best code golf is when **readers say "wow, beautiful"** - not "uh, what does this do?".`,
         code: `# ⛳ One-liner challenge - try to beat these!
 from collections import Counter
 from functools import lru_cache
