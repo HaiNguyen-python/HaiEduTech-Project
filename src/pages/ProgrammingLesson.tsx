@@ -101,6 +101,7 @@ import imgEdTech from "@/assets/programming-modules/m-edtech.jpg";
 import imgDataEng from "@/assets/programming-modules/m-data-engineering.jpg";
 import imgPrompt from "@/assets/programming-modules/m-prompt-eng.jpg";
 import imgRL from "@/assets/programming-modules/m-rl.jpg";
+import { injectLessonImage } from "@/data/lessonInlineImages";
 
 const MODULE_HERO_IMAGES: Record<string, string> = {
   "prog-scratch": imgScratch,
@@ -722,12 +723,16 @@ const ProgrammingLessonPage = () => {
                       />
                     )}
                     <TheorySections
-                      markdown={(useEnhanced && enhancedMd
-                        ? enhancedMd
-                        : (lang === "vi" ? (lesson.theory || lesson.theoryEn || "") : (lesson.theoryEn || lesson.theory || "")))
-                        .replace(/\\\$/g, "$")
-                        // Strip a leading single "# Lesson Title" since the page already shows the title
-                        .replace(/^\s*#\s+[^\n]+\n+/, "")}
+                      markdown={injectLessonImage(
+                        (useEnhanced && enhancedMd
+                          ? enhancedMd
+                          : (lang === "vi" ? (lesson.theory || lesson.theoryEn || "") : (lesson.theoryEn || lesson.theory || "")))
+                          .replace(/\\\$/g, "$")
+                          // Strip a leading single "# Lesson Title" since the page already shows the title
+                          .replace(/^\s*#\s+[^\n]+\n+/, ""),
+                        lesson.id,
+                        lang === "vi" ? "vi" : "en"
+                      )}
                       storageKey={`theory-read:${mod.id}:${lesson.id}:${useEnhanced && enhancedMd ? "ai" : "orig"}`}
                       defaultCodeLanguage={lesson.codeLanguage || "text"}
                     />
