@@ -103,7 +103,33 @@ const PREFIX_FALLBACK: Array<{ prefix: string; img: LessonImage }> = [
   { prefix: "m1-",      img: { src: pyVars,     captionVi: "Biến và kiểu dữ liệu Python",             captionEn: "Python variables and data types" } },
   { prefix: "m2-",      img: { src: pyVars,     captionVi: "Điều khiển luồng: if và vòng lặp",        captionEn: "Control flow: if and loops" } },
   { prefix: "m5-",      img: { src: pyOop,      captionVi: "Lập trình hướng đối tượng trong Python",  captionEn: "Object-oriented programming in Python" } },
-];
+  { prefix: "m6-",      img: { src: pyAdvanced, captionVi: "Python nâng cao: decorator, generator, file I/O", captionEn: "Advanced Python: decorators, generators, file I/O" } },
+  { prefix: "m3-",      img: { src: pyVars,     captionVi: "Cấu trúc dữ liệu Python: list, tuple, dict, set", captionEn: "Python data structures: list, tuple, dict, set" } },
+  { prefix: "m4-",      img: { src: pyVars,     captionVi: "Hàm trong Python: tham số, return, scope",  captionEn: "Python functions: parameters, return, scope" } },
+
+  // Advanced AI/ML extras
+  { prefix: "ai-",      img: { src: aiFoundation, captionVi: "Nền tảng AI: mạng neural và thuật toán học",  captionEn: "AI foundations: neural networks and learning algorithms" } },
+  { prefix: "nlp-",     img: { src: nlpPipeline,  captionVi: "Pipeline NLP: token → embedding → transformer → output", captionEn: "NLP pipeline: tokens → embeddings → transformer → output" } },
+  { prefix: "rl-",      img: { src: rlAgent,      captionVi: "Agent RL học qua tương tác và phần thưởng",   captionEn: "RL agent learning through interaction and rewards" } },
+
+  // Web / EdTech / Spark / Scratch / Game / Data Structures
+  { prefix: "web-",     img: { src: webStack,     captionVi: "Stack web: HTML, CSS, JavaScript, React, Browser", captionEn: "Web stack: HTML, CSS, JavaScript, React, Browser" } },
+  { prefix: "edtech-",  img: { src: edtechAi,     captionVi: "EdTech: AI tutor, lộ trình thích ứng, analytics", captionEn: "EdTech: AI tutor, adaptive paths, analytics" } },
+  { prefix: "spark-",   img: { src: sparkCluster, captionVi: "Cụm Spark: driver phối hợp các worker xử lý song song", captionEn: "Spark cluster: driver orchestrating parallel workers" } },
+  { prefix: "data-spark", img: { src: sparkCluster, captionVi: "Spark phân tán xử lý dữ liệu lớn",            captionEn: "Spark distributing big-data workloads" } },
+  { prefix: "scratch-", img: { src: scratchBlocks, captionVi: "Lập trình Scratch: ghép khối lệnh điều khiển nhân vật", captionEn: "Scratch coding: snap blocks to drive sprites" } },
+  { prefix: "game-",    img: { src: gamePygame,    captionVi: "Vòng lặp game: input → update → render mỗi frame", captionEn: "Game loop: input → update → render every frame" } },
+  { prefix: "ds-",      img: { src: dsOverview,    captionVi: "Cấu trúc dữ liệu: array, linked list, tree, hash, stack", captionEn: "Data structures: array, linked list, tree, hash, stack" } },
+  { prefix: "py-basic", img: { src: pyVars,        captionVi: "Python cơ bản: biến, kiểu dữ liệu, biểu thức", captionEn: "Python basics: variables, types, expressions" } },
+  { prefix: "py-dec",   img: { src: pyAdvanced,    captionVi: "Decorator bọc và mở rộng hành vi của hàm",     captionEn: "Decorators wrap and extend function behavior" } },
+  { prefix: "py-gen",   img: { src: pyAdvanced,    captionVi: "Generator sinh giá trị từng cái một, tiết kiệm bộ nhớ", captionEn: "Generators yield values one by one, memory efficient" } },
+  { prefix: "py-oop",   img: { src: pyOop,         captionVi: "OOP nâng cao: inheritance, polymorphism",       captionEn: "Advanced OOP: inheritance, polymorphism" } },
+  { prefix: "py-file",  img: { src: pyAdvanced,    captionVi: "File I/O trong Python: đọc/ghi an toàn với with",captionEn: "Python file I/O: safe read/write with context managers" } },
+  { prefix: "py-pu",    img: { src: pyAdvanced,    captionVi: "Python Power-ups: kỹ thuật nâng cao",          captionEn: "Python power-ups: advanced techniques" } },
+  { prefix: "rwp-",     img: { src: webStack,      captionVi: "Dự án thực tế kết hợp nhiều công nghệ",        captionEn: "Real-world project combining multiple technologies" } },
+  { prefix: "pml-",     img: { src: mlMlops,       captionVi: "Triển khai ML vào sản phẩm thực tế",           captionEn: "Shipping ML into production products" } },
+  { prefix: "etl-",     img: { src: deEtl,         captionVi: "Pipeline ETL: extract → transform → load",     captionEn: "ETL pipeline: extract → transform → load" } },
+  { prefix: "pe-",      img: { src: aiFoundation,  captionVi: "Prompt Engineering: chỉ dẫn rõ ràng cho LLM",  captionEn: "Prompt engineering: clear instructions for LLMs" } },
 
 function resolveImage(lessonId: string): LessonImage | undefined {
   if (LESSON_INLINE_IMAGES[lessonId]) return LESSON_INLINE_IMAGES[lessonId];
