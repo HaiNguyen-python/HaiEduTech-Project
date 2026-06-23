@@ -38,6 +38,22 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
   const [expanded, setExpanded] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  // Poll state
+  const [pollMode, setPollMode] = useState(false);
+  const [pollQuestion, setPollQuestion] = useState("");
+  const [pollOptions, setPollOptions] = useState<string[]>(["", ""]);
+  const updateOpt = (i: number, v: string) =>
+    setPollOptions((arr) => arr.map((o, idx) => (idx === i ? v : o)));
+  const addOpt = () => setPollOptions((arr) => (arr.length >= 6 ? arr : [...arr, ""]));
+  const removeOpt = (i: number) =>
+    setPollOptions((arr) => (arr.length <= 2 ? arr : arr.filter((_, idx) => idx !== i)));
+  const resetPoll = () => {
+    setPollMode(false);
+    setPollQuestion("");
+    setPollOptions(["", ""]);
+  };
+
+
 
   const pickImage = (f: File | null) => {
     if (!f) return;
