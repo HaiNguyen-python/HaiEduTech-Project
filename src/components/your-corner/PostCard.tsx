@@ -34,7 +34,7 @@ interface Props {
   onChanged: () => void;
 }
 
-export default function PostCard({ post, currentUserId, onChanged }: Props) {
+function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [liked, setLiked] = useState(post.liked_by_me);
   const [likeCount, setLikeCount] = useState(post.reaction_count);
   const [bookmarked, setBookmarked] = useState(post.bookmarked_by_me);
