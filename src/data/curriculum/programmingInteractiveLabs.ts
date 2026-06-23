@@ -184,7 +184,49 @@ Số bí mật từ 1-100. Đoán 50 → "cao hơn" → còn 1-49 → đoán 25 
 
 - ⏱️ Đếm lượt → cho điểm "perfect" nếu < 7 lượt.
 - 🏆 Lưu high score ra file txt.
-- 🌈 In emoji 🔥 (gần đúng) hoặc ❄️ (xa) thay vì "thấp/cao".`,
+- 🌈 In emoji 🔥 (gần đúng) hoặc ❄️ (xa) thay vì "thấp/cao".
+
+## 🧩 Mổ xẻ \`while True\` - vòng lặp vô hạn an toàn
+
+Vòng lặp \`while True\` chạy mãi đến khi gặp \`break\`. Đây là **mẫu chuẩn** cho game/menu/CLI:
+
+\`\`\`python
+   while True:
+       cmd = input("> ").strip().lower()
+       if cmd == "quit":
+           break                         # ← thoát chính
+       elif cmd == "help":
+           print("Lệnh: guess, hint, quit")
+           continue                      # ← bỏ qua phần còn lại, lặp tiếp
+       # xử lý lệnh bình thường...
+\`\`\`
+
+Quy tắc vàng: **luôn có ít nhất 1 đường thoát** (\`break\` hoặc điều kiện). Quên \`break\` = Ctrl+C vô tận.
+
+## 🎲 Random trong Python - 4 hàm phải nhớ
+
+| Hàm | Trả về | Ví dụ |
+|---|---|---|
+| \`random.randint(a, b)\` | Số nguyên \`[a, b]\` (bao cả 2 đầu) | \`randint(1, 6)\` = xúc xắc |
+| \`random.choice(seq)\` | 1 phần tử trong list/tuple | \`choice(["a","b","c"])\` |
+| \`random.shuffle(lst)\` | Xáo trộn list **tại chỗ** | bộ bài tây |
+| \`random.sample(seq, k)\` | k phần tử **không lặp** | bốc 3 lá từ bộ bài |
+
+Mẹo test: gọi \`random.seed(42)\` đầu file để mỗi lần chạy ra cùng kết quả - giúp debug game logic mà không bị "hên xui".
+
+## 🎁 Bonus: thiết kế hệ thống điểm
+
+Một công thức điểm gọn nhẹ kết hợp số lượt và độ khó:
+
+\`\`\`
+   score = max(0, 1000 - turns * 100 - hints_used * 50)
+\`\`\`
+
+- 1 lượt thắng → 900 điểm.
+- Dùng hint trừ 50.
+- Hết lượt → 0 (không âm nhờ \`max(0, ...)\`).
+
+Thêm bảng xếp hạng top-3 in cuối game tạo cảm giác cạnh tranh, lưu vào \`scores.json\` bằng \`json.dump\`.`,
         theoryEn: `## 🎮 Why a mini-game is the best way to learn loops
 
 Because you must use all 3 things at once:
@@ -211,7 +253,49 @@ Secret number 1-100. Guess 50 → "higher" → range 1-49 → guess 25 → ... E
 
 - ⏱️ Count turns → award "perfect" if < 7.
 - 🏆 Save high score to a txt file.
-- 🌈 Print 🔥 (close) or ❄️ (far) instead of "low/high".`,
+- 🌈 Print 🔥 (close) or ❄️ (far) instead of "low/high".
+
+## 🧩 Dissecting \`while True\` - the safe infinite loop
+
+\`while True\` runs forever until it meets a \`break\`. It's the **canonical pattern** for games/menus/CLIs:
+
+\`\`\`python
+   while True:
+       cmd = input("> ").strip().lower()
+       if cmd == "quit":
+           break                         # ← main exit
+       elif cmd == "help":
+           print("Commands: guess, hint, quit")
+           continue                      # ← skip rest, loop again
+       # normal handling...
+\`\`\`
+
+Golden rule: **always have at least one exit path** (\`break\` or condition). Forget \`break\` = endless Ctrl+C.
+
+## 🎲 Random in Python - 4 functions to remember
+
+| Function | Returns | Example |
+|---|---|---|
+| \`random.randint(a, b)\` | Integer in \`[a, b]\` (both inclusive) | \`randint(1, 6)\` = die roll |
+| \`random.choice(seq)\` | One element from list/tuple | \`choice(["a","b","c"])\` |
+| \`random.shuffle(lst)\` | Shuffles list **in place** | deck of cards |
+| \`random.sample(seq, k)\` | k elements **without repeats** | draw 3 cards |
+
+Testing tip: call \`random.seed(42)\` at the top so each run produces the same result - lets you debug game logic without "luck" interference.
+
+## 🎁 Bonus: a scoring system design
+
+A compact formula combining turns and difficulty:
+
+\`\`\`
+   score = max(0, 1000 - turns * 100 - hints_used * 50)
+\`\`\`
+
+- Win in 1 turn → 900 points.
+- Each hint costs 50.
+- Out of turns → 0 (never negative thanks to \`max(0, ...)\`).
+
+Add a top-3 leaderboard at the end of the game to create competition - persist it to \`scores.json\` with \`json.dump\`.`,
         code: `# 🎮 Guess the Number - 7 turns to win
 import random
 
@@ -452,7 +536,51 @@ Là cách viết tạo list trong 1 dòng, **nhanh hơn ~30% so với for loop t
 ## ⚠️ Khi nào KHÔNG nên dùng?
 
 - Logic bên trong > 3 dòng → khó đọc, hãy dùng \`for\` rõ ràng.
-- Có side-effect (print, ghi file) → dùng \`for\` để code rõ ý.`,
+- Có side-effect (print, ghi file) → dùng \`for\` để code rõ ý.
+
+## 🧬 Generator expression - anh em "tiết kiệm RAM"
+
+Chỉ thay \`[ ]\` bằng \`( )\` và bạn có **generator** - không tạo list trong bộ nhớ, lười sinh từng phần tử:
+
+\`\`\`python
+   total = sum(n * n for n in range(10_000_000))   # 0 MB list
+   total = sum([n * n for n in range(10_000_000)])  # ~80 MB list
+\`\`\`
+
+Khi nào dùng generator: pipeline xử lý dữ liệu lớn, file khổng lồ, hoặc khi chỉ cần \`sum / max / any / all\` trên kết quả.
+
+## 🚀 Tăng tốc cấp 3: NumPy vectorisation
+
+NumPy đẩy phép tính xuống tầng C/Fortran chạy SIMD, không có Python loop nào trong vòng nóng:
+
+\`\`\`python
+   import numpy as np
+   a = np.arange(10_000_000)
+   sq = a * a                       # ~10 ms cho 10 triệu phần tử
+\`\`\`
+
+So sánh thực tế:
+
+| Cách | Thời gian | Bộ nhớ |
+|---|---|---|
+| \`for\` + \`.append\` | 1.0× (chuẩn) | List Python |
+| List comprehension | 0.7× | List Python |
+| Generator expression | 0.7× | ~0 (lười) |
+| NumPy vectorisation | 0.02-0.05× | Mảng C compact |
+
+Quy tắc thầy Hải: **dữ liệu < 10k phần tử → list-comp; ≥ 100k phần tử → NumPy/pandas; pipeline streaming → generator**.
+
+## 🧪 Cách đo chính xác
+
+Đừng đoán - đo bằng \`timeit\`:
+
+\`\`\`python
+   import timeit
+   t = timeit.timeit("sum(n*n for n in range(1000))", number=10_000)
+   print(f"{t * 1000:.2f} ms / 10k lần chạy")
+\`\`\`
+
+Mẹo: chạy ≥ 3 lần và lấy \`min(times)\` để bỏ nhiễu từ OS/GC.`,
         theoryEn: `## ⚡ What is a list comprehension?
 
 A one-line way to build a list, **about 30% faster than a regular for-loop** because the loop runs in the C layer.
@@ -494,7 +622,51 @@ A one-line way to build a list, **about 30% faster than a regular for-loop** bec
 ## ⚠️ When NOT to use it
 
 - Inner logic > 3 lines → hard to read, use a plain \`for\`.
-- Has side-effects (print, file IO) → use \`for\` to keep intent clear.`,
+- Has side-effects (print, file IO) → use \`for\` to keep intent clear.
+
+## 🧬 Generator expression - the RAM-saving sibling
+
+Replace \`[ ]\` with \`( )\` and you get a **generator** - no list built in memory, values produced lazily:
+
+\`\`\`python
+   total = sum(n * n for n in range(10_000_000))   # 0 MB list
+   total = sum([n * n for n in range(10_000_000)])  # ~80 MB list
+\`\`\`
+
+When to use a generator: large data pipelines, huge files, or when you only need \`sum / max / any / all\` on the result.
+
+## 🚀 Speed tier 3: NumPy vectorisation
+
+NumPy drops computation down to C/Fortran with SIMD - zero Python loops in the hot path:
+
+\`\`\`python
+   import numpy as np
+   a = np.arange(10_000_000)
+   sq = a * a                       # ~10 ms for 10M elements
+\`\`\`
+
+Real-world comparison:
+
+| Approach | Time | Memory |
+|---|---|---|
+| \`for\` + \`.append\` | 1.0× (baseline) | Python list |
+| List comprehension | 0.7× | Python list |
+| Generator expression | 0.7× | ~0 (lazy) |
+| NumPy vectorisation | 0.02-0.05× | Compact C array |
+
+Hai's rule: **< 10k items → list-comp; ≥ 100k items → NumPy/pandas; streaming pipeline → generator**.
+
+## 🧪 How to measure properly
+
+Don't guess - measure with \`timeit\`:
+
+\`\`\`python
+   import timeit
+   t = timeit.timeit("sum(n*n for n in range(1000))", number=10_000)
+   print(f"{t * 1000:.2f} ms / 10k runs")
+\`\`\`
+
+Tip: run ≥ 3 times and take \`min(times)\` to filter out OS/GC noise.`,
         code: `# ⚡ Benchmark list-comp vs for-loop
 import timeit
 
@@ -597,7 +769,60 @@ Là môn chơi viết code **ngắn nhất có thể** mà vẫn đúng. Không 
 
 - ✅ Một dòng nếu logic ≤ 1 ý tưởng.
 - ✅ Đặt tên biến rõ → không cần comment.
-- ❌ Không nhồi 3 \`lambda\` lồng nhau để tiết kiệm 2 ký tự.`,
+- ❌ Không nhồi 3 \`lambda\` lồng nhau để tiết kiệm 2 ký tự.
+
+## 🛠️ \`itertools\` - bộ công cụ vô địch
+
+Thư viện chuẩn ít người dùng nhưng cực mạnh cho code golf và pipeline dữ liệu:
+
+\`\`\`python
+   from itertools import groupby, accumulate, product, combinations, takewhile
+
+   # Nhóm liên tiếp cùng giá trị
+   [list(g) for k, g in groupby("AAABBC")]       # [['A','A','A'], ['B','B'], ['C']]
+
+   # Cộng dồn (running total)
+   list(accumulate([1, 2, 3, 4]))                 # [1, 3, 6, 10]
+
+   # Tích Descartes (lưới tham số)
+   list(product([0, 1], repeat=3))                # 8 tổ hợp bit 3-bit
+
+   # Tổ hợp chọn k phần tử
+   list(combinations("ABCD", 2))                  # 6 cặp
+
+   # Lấy đến khi điều kiện sai
+   list(takewhile(lambda x: x < 5, [1, 3, 5, 7])) # [1, 3]
+\`\`\`
+
+## ⚡ Walrus operator \`:=\` (Python 3.8+)
+
+Gán **và** dùng giá trị trong cùng biểu thức - cực lợi trong comprehension và \`while\`:
+
+\`\`\`python
+   # Đọc file theo dòng đến khi hết
+   while (line := f.readline()):
+       process(line)
+
+   # Lọc + biến đổi không tính 2 lần
+   results = [y for x in data if (y := expensive(x)) > 0]
+\`\`\`
+
+## 🎯 Match-case (Python 3.10+) - pattern matching đỉnh cao
+
+Mạnh hơn \`if/elif\` chain rất nhiều - giải nén tuple, dict, dataclass trong 1 nhánh:
+
+\`\`\`python
+   def http_status(code):
+       match code:
+           case 200 | 201: return "OK"
+           case 301 | 302: return "Redirect"
+           case 400: return "Bad request"
+           case 404: return "Not found"
+           case n if 500 <= n < 600: return "Server error"
+           case _: return "Unknown"
+\`\`\`
+
+Code golf đỉnh nhất là khi **người đọc khen "wow, đẹp quá"** chứ không phải "hả, đoạn này làm gì?".`,
         theoryEn: `## ⛳ What is Code Golf?
 
 A game of writing the **shortest possible code** that still works. Shortest isn't always best, but practicing code golf helps you:
@@ -636,7 +861,60 @@ A game of writing the **shortest possible code** that still works. Shortest isn'
 
 - ✅ One line if the logic is ≤ 1 idea.
 - ✅ Clear variable names → no comments needed.
-- ❌ Don't cram 3 nested \`lambda\`s to save 2 chars.`,
+- ❌ Don't cram 3 nested \`lambda\`s to save 2 chars.
+
+## 🛠️ \`itertools\` - the unbeatable toolbox
+
+An underused standard-library module that's incredibly powerful for code golf and data pipelines:
+
+\`\`\`python
+   from itertools import groupby, accumulate, product, combinations, takewhile
+
+   # Group consecutive equal values
+   [list(g) for k, g in groupby("AAABBC")]       # [['A','A','A'], ['B','B'], ['C']]
+
+   # Running total
+   list(accumulate([1, 2, 3, 4]))                 # [1, 3, 6, 10]
+
+   # Cartesian product (parameter grid)
+   list(product([0, 1], repeat=3))                # 8 3-bit tuples
+
+   # Pick k elements
+   list(combinations("ABCD", 2))                  # 6 pairs
+
+   # Take while predicate is true
+   list(takewhile(lambda x: x < 5, [1, 3, 5, 7])) # [1, 3]
+\`\`\`
+
+## ⚡ Walrus operator \`:=\` (Python 3.8+)
+
+Assign **and** use a value in the same expression - perfect inside comprehensions and \`while\`:
+
+\`\`\`python
+   # Read file line-by-line until empty
+   while (line := f.readline()):
+       process(line)
+
+   # Filter + transform without computing twice
+   results = [y for x in data if (y := expensive(x)) > 0]
+\`\`\`
+
+## 🎯 Match-case (Python 3.10+) - top-tier pattern matching
+
+Much stronger than \`if/elif\` chains - destructure tuples, dicts, dataclasses in one branch:
+
+\`\`\`python
+   def http_status(code):
+       match code:
+           case 200 | 201: return "OK"
+           case 301 | 302: return "Redirect"
+           case 400: return "Bad request"
+           case 404: return "Not found"
+           case n if 500 <= n < 600: return "Server error"
+           case _: return "Unknown"
+\`\`\`
+
+Best code golf is when **readers say "wow, beautiful"** - not "uh, what does this do?".`,
         code: `# ⛳ One-liner challenge - try to beat these!
 from collections import Counter
 from functools import lru_cache
@@ -903,7 +1181,60 @@ Thầy Hải có file điểm 30 học sinh × 6 môn. Cần:
 
 \`\`\`python
    df.to_excel("class_report.xlsx", index=False, engine="openpyxl")
-\`\`\``,
+\`\`\`
+
+## 📈 Phân tích sâu: tìm môn yếu nhất
+
+Một dòng pandas cho ra ngay top 3 môn cả lớp yếu nhất:
+
+\`\`\`python
+   weak = df.drop(columns=["name","gpa","status"]).mean().sort_values().head(3)
+   print(weak)
+   # math       4.5   ← yếu nhất
+   # science    5.2
+   # english    6.1
+\`\`\`
+
+Từ đó thầy có **kế hoạch hành động cụ thể**: dành 2 buổi/tuần luyện toán cho cả lớp thay vì 1 buổi rải đều.
+
+## 📉 So sánh học kỳ - phát hiện học sinh "tụt dốc"
+
+Lưu điểm 2 học kỳ rồi so sánh - học sinh GPA giảm > 1.0 cần can thiệp sớm:
+
+\`\`\`python
+   df["trend"] = df["gpa"] - df["gpa_prev"]
+   alert = df[df["trend"] < -1.0].sort_values("trend")
+   for _, row in alert.iterrows():
+       print(f"⚠️ {row['name']}: {row['gpa_prev']} → {row['gpa']} (giảm {-row['trend']:.1f})")
+\`\`\`
+
+Hệ thống "early warning" này đã giúp nhiều trường giảm tỉ lệ học sinh trượt cuối kỳ **30-40%**.
+
+## 💌 Tự động sinh tin nhắn cho phụ huynh
+
+Mỗi học sinh "Risk" → 1 SMS soạn sẵn, chỉ cần copy gửi:
+
+\`\`\`python
+   TEMPLATE = (
+       "Chào anh/chị, con {name} đang có GPA {gpa} ({status}). "
+       "Mời anh/chị gặp thầy lúc 17:00 thứ Sáu để cùng lên kế hoạch hỗ trợ. - Thầy Hải"
+   )
+   for _, r in df[df["status"] == "🔴 Risk"].iterrows():
+       print(TEMPLATE.format(name=r["name"], gpa=r["gpa"], status=r["status"]))
+       print("---")
+\`\`\`
+
+Từ chỗ tốn 30 phút viết tay 5 tin nhắn → 1 giây sinh đủ cho cả lớp.
+
+## 🧠 Mẹo: cảnh báo theo xu hướng, không chỉ snapshot
+
+Một học sinh hôm nay 6.0 nhưng kỳ trước 8.5 nguy hiểm hơn em luôn ổn định ở 5.8. Hãy đánh giá:
+
+- **GPA hiện tại** (snapshot)
+- **Δ GPA so với kỳ trước** (trend)
+- **Số môn dưới 5** (breadth)
+
+Học sinh "đỏ" thực sự = thoả ≥ 2/3 tín hiệu trên.`,
         theoryEn: `## 🎓 Brief
 
 Teacher Hai has a grade file: 30 students × 6 subjects. Goals:
@@ -938,7 +1269,60 @@ Teacher Hai has a grade file: 30 students × 6 subjects. Goals:
 
 \`\`\`python
    df.to_excel("class_report.xlsx", index=False, engine="openpyxl")
-\`\`\``,
+\`\`\`
+
+## 📈 Deep dive: find the class's weakest subject
+
+One line of pandas surfaces the top 3 weakest subjects across the whole class:
+
+\`\`\`python
+   weak = df.drop(columns=["name","gpa","status"]).mean().sort_values().head(3)
+   print(weak)
+   # math       4.5   ← weakest
+   # science    5.2
+   # english    6.1
+\`\`\`
+
+That gives the teacher a **concrete action plan**: spend 2 sessions/week drilling math instead of spreading 1 session evenly.
+
+## 📉 Term-over-term comparison - catch students slipping
+
+Store two terms of grades and compare - any student whose GPA dropped > 1.0 needs early intervention:
+
+\`\`\`python
+   df["trend"] = df["gpa"] - df["gpa_prev"]
+   alert = df[df["trend"] < -1.0].sort_values("trend")
+   for _, row in alert.iterrows():
+       print(f"⚠️ {row['name']}: {row['gpa_prev']} → {row['gpa']} (down {-row['trend']:.1f})")
+\`\`\`
+
+Early-warning systems like this have cut end-of-term failure rates by **30-40%** in many schools.
+
+## 💌 Auto-generate parent messages
+
+For each "Risk" student → 1 ready-made SMS, just copy and send:
+
+\`\`\`python
+   TEMPLATE = (
+       "Hi, your child {name} has a GPA of {gpa} ({status}). "
+       "Please meet me at 5pm Friday so we can plan support together. - Teacher Hai"
+   )
+   for _, r in df[df["status"] == "🔴 Risk"].iterrows():
+       print(TEMPLATE.format(name=r["name"], gpa=r["gpa"], status=r["status"]))
+       print("---")
+\`\`\`
+
+From 30 minutes typing 5 messages by hand → 1 second to draft enough for the whole class.
+
+## 🧠 Tip: alert on trend, not snapshots alone
+
+A student at 6.0 today coming from 8.5 last term is more dangerous than one steady at 5.8. Evaluate:
+
+- **Current GPA** (snapshot)
+- **Δ GPA vs. previous term** (trend)
+- **Number of subjects below 5** (breadth)
+
+A truly "red" student = matches ≥ 2/3 signals above.`,
         code: `# 🎓 Student Score Tracker + early-warning
 import pandas as pd
 
