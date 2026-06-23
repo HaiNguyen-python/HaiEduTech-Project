@@ -19,7 +19,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 // Defer heavy/below-the-fold widgets to improve initial load time
 const FloatingSubjectIcons = lazy(() => import("@/components/your-corner/FloatingSubjectIcons"));
 const CornerCheerChibis = lazy(() => import("@/components/your-corner/CornerCheerChibis"));
-const StoryBar = lazy(() => import("@/components/your-corner/StoryBar"));
 const OnlineUsersPanel = lazy(() => import("@/components/your-corner/OnlineUsersPanel"));
 const Messenger = lazy(() => import("@/components/your-corner/Messenger"));
 
@@ -371,7 +370,7 @@ export default function YourCorner() {
 
             {/* Feed */}
             <div className="space-y-5 mx-auto w-full max-w-[640px]">
-              <Suspense fallback={null}><StoryBar /></Suspense>
+
 
               {/* Daily Prompt */}
               <Card className="p-4 backdrop-blur-md bg-gradient-to-r from-amber-50/90 via-white/85 to-emerald-50/90 dark:from-amber-950/30 dark:via-card/85 dark:to-emerald-950/30 border-amber-300/40 shadow-sm flex items-center gap-3">
@@ -539,26 +538,70 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              {chatPeer && (
-                <Suspense fallback={null}>
-                  <Messenger
-                    currentUserId={userId}
-                    activePeer={chatPeer}
-                    setActivePeer={setChatPeer}
-                    onlineUsers={onlineUsers}
-                    directory={mentionables}
-                  />
-                </Suspense>
-              )}
+              <Suspense fallback={null}>
+                <Messenger
+                  currentUserId={userId}
+                  activePeer={chatPeer}
+                  setActivePeer={setChatPeer}
+                  onlineUsers={onlineUsers}
+                  directory={mentionables}
+                />
+              </Suspense>
+
 
 
             </aside>
           </div>
         )}
       </main>
+
+      {/* Mobile/tablet messenger launcher — desktop already shows it in the right sidebar */}
+      {userId && (
+        <MobileMessengerLauncher>
+          <Suspense fallback={null}>
+            <Messenger
+              currentUserId={userId}
+              activePeer={chatPeer}
+              setActivePeer={setChatPeer}
+              onlineUsers={onlineUsers}
+              directory={mentionables}
+            />
+          </Suspense>
+        </MobileMessengerLauncher>
+      )}
+
       <div className="relative z-10">
         <Footer />
       </div>
+    </div>
+  );
+}
+
+function MobileMessengerLauncher({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="lg:hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="fixed bottom-5 right-5 z-50 h-14 w-14 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 text-white shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+        aria-label="Mở tin nhắn"
+      >
+        <MessageCircle className="w-6 h-6" />
+      </button>
+      {open && (
+        <div className="fixed inset-x-0 bottom-0 z-40 p-3 pb-20 max-h-[80vh] overflow-y-auto bg-background/95 backdrop-blur border-t shadow-2xl rounded-t-2xl animate-in slide-in-from-bottom">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-sm flex items-center gap-2">
+              <MessageCircle className="w-4 h-4 text-primary" /> Tin nhắn
+            </h3>
+            <button type="button" onClick={() => setOpen(false)} className="text-xs text-muted-foreground px-2 py-1 rounded hover:bg-muted">
+              Đóng
+            </button>
+          </div>
+          {children}
+        </div>
+      )}
     </div>
   );
 }
