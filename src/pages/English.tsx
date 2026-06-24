@@ -122,7 +122,10 @@ const English = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto relative">
+            <div className="relative overflow-hidden rounded-2xl -mx-2 px-2 py-4 mb-2">
+              <FloatingEnglishParticles count={22} />
+              <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/5 text-sky-600 text-sm font-medium mb-4">
               <BookOpen className="w-4 h-4" /> {t("Chương trình Tiếng Anh", "English Program")}
             </div>
