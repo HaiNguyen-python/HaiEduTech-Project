@@ -214,12 +214,43 @@ export default function LastSessionRecap() {
             "page_view",
             "page_visit",
           ]);
-          const visibleActivities = ((actRes.data as Activity[]) || []).filter(
+          const rawVisible = ((actRes.data as Activity[]) || []).filter(
             (activity) =>
               !HIDDEN_TYPES.has(activity.activity_type) &&
-              // ẩn các bản ghi rỗng (không có điểm, không có id bài học) để tránh hiển thị mơ hồ
               (activity.score != null || activity.activity_id != null)
-          ).slice(0, 10);
+          );
+
+          // Gom các bản ghi "vocab_mastered" lại theo (domain + subject) để
+          // tránh hiển thị mỗi từ vựng một dòng — vừa rối vừa tốn bộ nhớ.
+          // Mỗi nhóm chỉ hiện 1 dòng tóm tắt "+N từ".
+          const vocabGroups = new Map<string, { count: number; latest: Activity; subjects: Set<string> }>();
+          const nonVocab: Activity[] = [];
+          for (const a of rawVisible) {
+            const isVocab = a.activity_type === "vocab_mastered" || a.activity_type === "vocab_mastery";
+            if (!isVocab) { nonVocab.push(a); continue; }
+            const subject = (a.metadata?.subject as string) || a.domain || "vocab";
+            const key = `${a.domain || "?"}::${subject}`;
+            const g = vocabGroups.get(key);
+            if (g) {
+              g.count += 1;
+              g.subjects.add(subject);
+              if (new Date(a.created_at) > new Date(g.latest.created_at)) g.latest = a;
+            } else {
+              vocabGroups.set(key, { count: 1, latest: a, subjects: new Set([subject]) });
+            }
+          }
+          const vocabSummary: Activity[] = Array.from(vocabGroups.values()).map((g) => ({
+            ...g.latest,
+            activity_type: "vocab_mastered_group",
+            activity_id: `${Array.from(g.subjects).join(", ")} · +${g.count} từ đã thuộc`,
+            score: g.count,
+            max_score: g.count,
+            metadata: { ...(g.latest.metadata || {}), grouped: true, count: g.count },
+          }));
+
+          const visibleActivities = [...vocabSummary, ...nonVocab]
+            .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+            .slice(0, 10);
 
           setActivities(visibleActivities);
           setWritings((writRes.data as WritingAttempt[]) || []);
