@@ -38,6 +38,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
+import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "sonner";
@@ -1156,7 +1157,9 @@ const EnglishPronunciation = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-sky-500 via-primary to-emerald-500 text-primary-foreground">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.18),transparent_60%)]" />
         <div className="absolute -top-10 -right-10 w-60 h-60 rounded-full bg-white/15 blur-3xl" />
+        <FloatingEnglishParticles count={24} />
         <div className="container mx-auto px-4 py-14 relative">
+
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 text-sm font-medium mb-4">
               <Mic2 className="w-4 h-4" />

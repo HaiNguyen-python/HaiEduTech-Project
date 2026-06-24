@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 
 const EnglishGrammar = () => {
   const { t } = useLanguage();
@@ -112,7 +113,9 @@ const EnglishGrammar = () => {
           <ArrowLeft className="w-4 h-4" />
           {t("Quay lại Tiếng Anh", "Back to English")}
         </Link>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10 relative overflow-hidden rounded-3xl py-6">
+          <FloatingEnglishParticles count={20} />
+          <div className="relative z-10">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
             📖 {t("Ngữ pháp tiếng Anh", "English Grammar")}
           </h1>
@@ -122,7 +125,9 @@ const EnglishGrammar = () => {
               "A structured grammar library from basic to advanced, helping students quickly find the right topic to learn, review, and practice."
             )}
           </p>
+          </div>
         </motion.div>
+
 
         <section className="grid gap-4 md:grid-cols-3 mb-8">
           <div className="rounded-xl border bg-card p-5">

@@ -16,6 +16,7 @@ import DailyFunFactWidget from "@/components/english/DailyFunFactWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 import {
   englishFunFacts,
   FUN_FACT_CATEGORIES,
@@ -167,8 +168,10 @@ const EnglishFunFacts = () => {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
+            className="mb-8 relative overflow-hidden rounded-3xl py-6 px-2"
           >
+            <FloatingEnglishParticles count={22} />
+            <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/15 to-teal-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-sm font-semibold mb-4">
               <Sparkles className="w-4 h-4" /> {t("Khám phá Tiếng Anh", "English Discovery")}
             </div>
@@ -181,7 +184,9 @@ const EnglishFunFacts = () => {
                 "The strange, surprising and hilarious side of English - learn while you smile, smile while you remember.",
               )}
             </p>
+            </div>
           </motion.div>
+
 
           {/* Daily Fact widget */}
           <DailyFunFactWidget />
