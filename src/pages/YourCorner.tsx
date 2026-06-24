@@ -546,15 +546,35 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              <Suspense fallback={null}>
-                <Messenger
-                  currentUserId={userId}
-                  activePeer={chatPeer}
-                  setActivePeer={setChatPeer}
-                  onlineUsers={onlineUsers}
-                  directory={mentionables}
-                />
-              </Suspense>
+              {!mountDesktopMessenger ? (
+                <Card className="p-4 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => setDesktopChatOpen(true)}
+                    className="w-full flex items-center gap-3 text-left group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                      <MessageCircle className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold">{t("Tin nhắn", "Messages")}</div>
+                      <div className="text-[11px] text-muted-foreground truncate">
+                        {t("Bấm để mở hộp thư & chat với bạn bè", "Click to open inbox & chat with friends")}
+                      </div>
+                    </div>
+                  </button>
+                </Card>
+              ) : (
+                <Suspense fallback={null}>
+                  <Messenger
+                    currentUserId={userId}
+                    activePeer={chatPeer}
+                    setActivePeer={setChatPeer}
+                    onlineUsers={onlineUsers}
+                    directory={mentionables}
+                  />
+                </Suspense>
+              )}
 
 
 
