@@ -86,21 +86,29 @@ export const migratePetXpFromLegacy = () => {
   } catch { /* ignore */ }
 };
 
-const pushDbXP = async (delta: number, source: string) => {
+/**
+ * Push the *new local total* to the DB. We deliberately do NOT re-read DB and
+ * add `delta` here — when many awards fire in quick succession (e.g. mastering
+ * 10 vocab in a row), parallel "fetch-then-write" calls all see the same stale
+ * DB row and race each other, leaving the DB far below local. Pushing the
+ * authoritative local total + `greatest()` semantics keeps both sides
+ * monotonic and stops the Pet level from visibly bouncing across sessions.
+ */
+const pushDbXP = async (newLocalTotal: number, source: string) => {
   try {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
-    // Fetch current to compute new total (avoids race with onConflict math)
     const { data: existing } = await (supabase as any)
       .from("user_pet_xp")
       .select("total_xp")
       .eq("user_id", user.id)
       .maybeSingle();
-    const newTotal = (existing?.total_xp ?? 0) + delta;
+    // Never let the DB total go backwards — take max(db, local).
+    const finalTotal = Math.max(existing?.total_xp ?? 0, newLocalTotal);
     await (supabase as any)
       .from("user_pet_xp")
       .upsert(
-        { user_id: user.id, total_xp: newTotal, last_source: source, updated_at: new Date().toISOString() },
+        { user_id: user.id, total_xp: finalTotal, last_source: source, updated_at: new Date().toISOString() },
         { onConflict: "user_id" }
       );
   } catch { /* offline / not signed in */ }
