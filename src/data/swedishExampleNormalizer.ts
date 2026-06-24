@@ -8,6 +8,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { SwedishWord } from "./swedishVocabBank";
+import { getSwedishExampleOverride } from "./swedishExampleOverrides";
 
 /* --------------------------- detection helpers --------------------------- */
 
