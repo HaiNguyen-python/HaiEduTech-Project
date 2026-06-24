@@ -2,10 +2,12 @@
 // Provides an inline chat interface where students practice speaking scenarios
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mic, MicOff, RotateCcw, Sparkles, Volume2, User, Bot, Loader2 } from "lucide-react";
+import { Send, Mic, MicOff, RotateCcw, Sparkles, Volume2, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
+import roleplayMascot from "@/assets/roleplay-mascot.png";
+import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
