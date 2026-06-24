@@ -1,35 +1,37 @@
-Kết quả rà soát nhanh:
-- Lovable Cloud backend đang phản hồi bình thường, không thấy dấu hiệu backend bị sập.
-- AI credit chưa hết: workspace còn khoảng 24.78 credits. Lỗi AI balance chỉ ảnh hưởng nút AI tạo poll, không phải nguyên nhân làm Your Corner load chậm hay mất nhắn tin.
-- Your Corner chậm chủ yếu do UI đang tải thêm widget nặng ngay khi vào trang, đặc biệt `StoryBar` gọi `get_streak_leaderboard`, đây đang là một trong các truy vấn chậm nhất toàn hệ thống.
-- Tính năng nhắn tin chưa mất dữ liệu, bảng tin nhắn vẫn có dữ liệu. Nhưng Messenger hiện chỉ render khi đã chọn một bạn online trong sidebar, nên nếu không có ai online hoặc sidebar bị ẩn trên mobile/tablet thì người dùng tưởng tính năng nhắn tin đã biến mất.
+Kế hoạch sửa audio toàn hệ thống:
 
-Kế hoạch sửa:
-1. Khôi phục điểm vào Messenger rõ ràng
-   - Hiển thị khung/nút `Tin nhắn` cố định trong Your Corner thay vì chỉ hiện sau khi chọn người online.
-   - Trên desktop: luôn có Messenger ở sidebar phải.
-   - Trên mobile/tablet: thêm nút mở Messenger dạng floating hoặc card gọn để không bị mất chức năng.
-   - Giữ khả năng bấm người online để mở chat trực tiếp.
+1. Chẩn đoán nguyên nhân chính
+- Lớp `audioRecovery` hiện tại đang `speechSynthesis.cancel()` khi tab bị ẩn, nên audio bằng Web Speech API bị cắt hẳn thay vì tạm dừng rồi phát tiếp.
+- `HTMLAudioElement` chưa được theo dõi thực sự, nên các audio từ `new Audio(...)` có thể bị pause/suspend khi chuyển tab nhưng không được tự resume khi quay lại.
+- Nhiều bài học vẫn gọi `speechSynthesis` trực tiếp, không đi qua các helper TTS chung, nên bản vá hiện tại chưa bao phủ hết.
 
-2. Tăng tốc load ban đầu của Your Corner
-   - Không tải `StoryBar` ngay lúc vào trang vì nó gọi truy vấn streak rất nặng.
-   - Chuyển `StoryBar` sang lazy/idle load sau khi feed chính đã hiện, hoặc tạm bỏ khỏi above-the-fold.
-   - Giảm các animation nền gây re-render liên tục nếu cần, ưu tiên feed, composer và Messenger hiện trước.
+2. Nâng cấp lớp audio recovery toàn cục
+- Không hủy speech synthesis khi `visibilitychange: hidden` nữa.
+- Theo dõi tất cả `AudioContext` và `HTMLAudioElement` được tạo trong app.
+- Patch `HTMLMediaElement.play/pause` ở mức an toàn để biết audio nào bị pause do hệ thống và audio nào do người dùng bấm dừng.
+- Khi quay lại tab/app qua `visibilitychange`, `focus`, `pageshow`, `pointerdown`, `keydown`:
+  - resume tất cả `AudioContext` bị suspended
+  - resume audio element đang phát dở nếu nó bị pause ngoài ý muốn
+  - gọi `speechSynthesis.resume()` thay vì cancel
+  - nếu Web Speech bị rơi vào trạng thái im lặng nhưng vẫn còn nội dung đang đọc, tự phát lại đoạn gần nhất một cách có kiểm soát
 
-3. Tối ưu truy vấn Messenger
-   - Thêm index phù hợp cho chiều inbox `recipient_id/sender_id/created_at` vì hiện chỉ có index chiều `sender_id/recipient_id`.
-   - Giữ RLS hiện tại, nhưng cải thiện query để inbox và thread nhanh hơn.
+3. Chuẩn hóa helper TTS chính
+- Cập nhật `swedishTts.ts`, `finnishTts.ts`, `englishTts.ts`, `chineseTts.ts`, `vietnameseTts.ts` để dùng cùng cơ chế resilient playback.
+- Ưu tiên audio proxy/HTMLAudio cho các ngôn ngữ có proxy vì ổn định hơn khi chuyển tab so với Web Speech API.
+- Với fallback `speechSynthesis`, thêm timeout/recovery để tránh nút audio treo ở trạng thái đang phát nhưng không có tiếng.
 
-4. Kiểm tra lại quyền gửi tin nhắn
-   - Rà soát insert/update policy cho `your_corner_messages`.
-   - Nếu cần, điều chỉnh migration để người đăng nhập gửi tin cho học viên khác được ổn định, không bị lỗi quyền.
-   - Không mở nhắn tin cho khách chưa đăng nhập.
+4. Rà soát các chỗ gọi audio trực tiếp trong bài học
+- Thay các đoạn `speechSynthesis.cancel()` + `new SpeechSynthesisUtterance(...)` trực tiếp ở các trang bài học quan trọng bằng helper/resilient speak chung khi phù hợp.
+- Ưu tiên các module có audio học tập: Swedish, Finnish/YKI, English, Chinese/HSK, Vietnamese, Cambridge, IELTS/PTE/TOEIC listening hoặc vocabulary.
+- Giữ nguyên âm thanh hiệu ứng game, chỉ đảm bảo `AudioContext` được resume đúng.
 
-5. Cải thiện thông báo trạng thái
-   - Khi Messenger đang tải danh bạ/tin nhắn, hiển thị trạng thái rõ ràng.
-   - Khi gửi lỗi do quyền, mạng hoặc phiên đăng nhập, hiện thông báo dễ hiểu hơn thay vì chỉ báo chung chung.
+5. Kiểm thử sau khi sửa
+- Dùng Playwright kiểm tra một luồng đại diện:
+  - phát Swedish audio
+  - giả lập chuyển tab/ẩn trang rồi quay lại
+  - xác nhận audio không bị kẹt im lặng và nút có thể phát lại bình thường
+- Kiểm tra thêm các helper TTS chính bằng một route có English/Chinese/Vietnamese audio để đảm bảo không bị lỗi hồi quy.
 
-Technical details:
-- Frontend: `src/pages/YourCorner.tsx`, `src/components/your-corner/Messenger.tsx`, có thể thêm component launcher nhỏ cho mobile.
-- Database: migration thêm index cho `your_corner_messages` và nếu cần tối ưu lại RPC/feed. Không liên quan AI Gateway.
-- Không chạm vào phần nội dung bài học hay các module Swedish.
+Kết quả mong muốn:
+- Khi người học chuyển sang tab khác hoặc ứng dụng desktop rồi quay lại, audio không bị kẹt im lặng.
+- Nếu trình duyệt bắt buộc tạm dừng audio nền, audio sẽ resume hoặc ít nhất nút phát lại hoạt động ngay, không cần reload trang.
