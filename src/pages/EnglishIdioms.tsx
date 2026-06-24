@@ -23,6 +23,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { englishIdioms, IDIOM_THEMES, type IdiomEntry, type IdiomCategory } from "@/data/englishIdioms";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
+import EnglishHeroBanner from "@/components/EnglishHeroBanner";
 
 type Tab = "library" | "match" | "fill" | "quiz" | "equivalent";
 
@@ -132,8 +133,9 @@ const EnglishIdioms = () => {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 relative overflow-hidden rounded-3xl py-6 px-2"
+            className="mb-8 relative overflow-hidden rounded-3xl py-10 px-2 min-h-[240px]"
           >
+            <EnglishHeroBanner heightClass="h-full" opacity={28} />
             <FloatingEnglishParticles count={22} />
             <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-rose-500/15 to-amber-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-sm font-semibold mb-4">

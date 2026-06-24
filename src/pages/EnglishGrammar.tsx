@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
+import EnglishHeroBanner from "@/components/EnglishHeroBanner";
 
 const EnglishGrammar = () => {
   const { t } = useLanguage();
@@ -107,13 +108,15 @@ const EnglishGrammar = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO title="Ngữ Pháp Tiếng Anh Toàn Diện - 30 Bài Học | HaiEduTech" description="9 module ngữ pháp tiếng Anh từ cơ bản đến nâng cao với 30 bài học: Tenses, Conditionals, Modal Verbs, Reported Speech, Passive Voice. Luyện tập tương tác." path="/english/grammar" />
+      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
-      <main className="container mx-auto px-4 py-10 max-w-6xl">
+      <main className="container mx-auto px-4 py-10 max-w-6xl relative z-10">
         <Link to="/english" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
           <ArrowLeft className="w-4 h-4" />
           {t("Quay lại Tiếng Anh", "Back to English")}
         </Link>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10 relative overflow-hidden rounded-3xl py-6">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10 relative overflow-hidden rounded-3xl py-10 min-h-[240px]">
+          <EnglishHeroBanner heightClass="h-full" opacity={28} />
           <FloatingEnglishParticles count={20} />
           <div className="relative z-10">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
