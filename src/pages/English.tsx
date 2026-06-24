@@ -139,6 +139,10 @@ const English = () => {
                 "From Cambridge Young Learners to IELTS 8.0+, TOEIC, Conversational and National Exam - structured programs with expert scoring and personalized feedback."
               )}
             </p>
+              </div>
+            </div>
+
+
 
             {/* IELTS Writing Practice Banner */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
