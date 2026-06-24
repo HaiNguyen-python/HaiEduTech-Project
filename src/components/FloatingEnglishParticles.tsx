@@ -11,20 +11,30 @@ import { motion } from "framer-motion";
 // English-themed symbols: greetings, exam names, phonetics, common words & emojis.
 const SYMBOLS = [
   // Greetings & polite
-  "Hello", "Hi!", "Thanks", "Welcome", "Please", "Cheers", "Sorry",
-  // Core
+  "Hello", "Hi!", "Thanks", "Welcome", "Please", "Cheers", "Sorry", "Good job!", "Awesome", "Lovely",
+  "How are you?", "Nice to meet you", "See you!", "Take care", "You rock!",
+  // Core skills & topics
   "English", "ABC", "A-Z", "Grammar", "Vocabulary", "Speaking", "Listening", "Reading", "Writing",
+  "Pronunciation", "Spelling", "Fluency", "Accent", "Phrasal Verbs", "Collocations",
   // Exams
   "IELTS", "TOEIC", "SAT", "PTE", "Cambridge", "Starters", "Movers", "Flyers", "KET", "PET",
+  "FCE", "CAE", "CPE", "Band 7.0", "Band 8.0", "990", "1600",
   // Phonetics (IPA samples)
-  "/ˈhɛloʊ/", "/θ/", "/ð/", "/ʃ/", "/ʒ/", "/ŋ/", "/əʊ/", "/eɪ/",
+  "/ˈhɛloʊ/", "/θ/", "/ð/", "/ʃ/", "/ʒ/", "/ŋ/", "/əʊ/", "/eɪ/", "/iː/", "/uː/", "/ɔː/", "/æ/", "/ʌ/", "/ɜː/",
   // Tenses & grammar bits
-  "V-ing", "V2/V3", "to V", "S + V", "Tense", "Modal",
+  "V-ing", "V2/V3", "to V", "S + V", "Tense", "Modal", "if + S + V", "have + PP", "will + V",
+  "a/an/the", "much/many", "some/any",
   // Idioms & expressions
-  "Piece of cake", "Break a leg", "ASAP", "FYI", "OMG",
+  "Piece of cake", "Break a leg", "Hit the books", "Once in a blue moon", "Bite the bullet",
+  "ASAP", "FYI", "OMG", "BTW", "TBH", "IMO",
+  // Quotes & motivation
+  "Practice makes perfect", "Never give up", "Keep going", "Dream big", "Stay curious",
   // Emojis
-  "📚", "📖", "✏️", "🎧", "🎤", "🗣️", "🇬🇧", "🇺🇸", "🏆", "💡", "🧠", "📝", "🔤", "💬",
+  "📚", "📖", "✏️", "🖊️", "📝", "🎧", "🎤", "🗣️", "🇬🇧", "🇺🇸", "🇦🇺", "🇨🇦",
+  "🏆", "🥇", "💡", "🧠", "🔤", "🔡", "💬", "💭", "📣", "🎓", "🌟", "✨", "🚀", "📈",
+  "☕", "🫖", "🎩", "🚌", "🗽", "🎬", "🎵",
 ];
+
 
 const COLORS = [
   "hsl(var(--primary) / 0.22)",
@@ -50,21 +60,24 @@ interface Particle {
 
 function generateParticles(count: number): Particle[] {
   const shuffled = [...SYMBOLS].sort(() => Math.random() - 0.5);
-  const available = shuffled.slice(0, Math.min(count, shuffled.length));
-  return available.map((symbol, i) => ({
+  // Allow repeats when caller asks for more particles than unique symbols.
+  const picks: string[] = [];
+  for (let i = 0; i < count; i++) picks.push(shuffled[i % shuffled.length]);
+  return picks.map((symbol, i) => ({
     id: i,
     symbol,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    size: 14 + Math.random() * 16,
+    size: 14 + Math.random() * 18,
     duration: 18 + Math.random() * 18,
     delay: Math.random() * -20,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     rotate: (Math.random() - 0.5) * 40,
-    driftX: (Math.random() - 0.5) * 140,
-    driftY: (Math.random() - 0.5) * 100,
+    driftX: (Math.random() - 0.5) * 160,
+    driftY: (Math.random() - 0.5) * 120,
   }));
 }
+
 
 interface Props {
   /** Number of particles to render (default: 22). */
