@@ -359,7 +359,9 @@ export default function LastSessionRecap() {
                   {a.score != null && (
                     <div className="flex items-center gap-1 text-sm font-semibold">
                       <Star className="w-4 h-4 text-yellow-500" />
-                      {a.score}/{a.max_score || "?"}
+                      {a.metadata?.grouped
+                        ? `+${a.score}`
+                        : `${a.score}/${a.max_score || "?"}`}
                     </div>
                   )}
                 </div>
