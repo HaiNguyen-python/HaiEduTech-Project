@@ -153,7 +153,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     let assistantSoFar = "";
     const upsert = (chunk: string) => {
       assistantSoFar += chunk;
-      setMessages([initUserMsg, { role: "assistant", content: assistantSoFar }]);
+      setMessages([initUserMsg, { role: "assistant", content: stripDashes(assistantSoFar) }]);
     };
 
     await streamRoleplay({
