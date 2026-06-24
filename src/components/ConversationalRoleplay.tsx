@@ -194,12 +194,13 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     let assistantSoFar = "";
     const upsert = (chunk: string) => {
       assistantSoFar += chunk;
+      const clean = stripDashes(assistantSoFar);
       setMessages(prev => {
         const last = prev[prev.length - 1];
         if (last?.role === "assistant" && prev.length > updated.length) {
-          return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: assistantSoFar } : m);
+          return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: clean } : m);
         }
-        return [...updated, { role: "assistant", content: assistantSoFar }];
+        return [...updated, { role: "assistant", content: clean }];
       });
     };
 
