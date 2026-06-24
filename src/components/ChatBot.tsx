@@ -598,7 +598,10 @@ const ChatBot = () => {
       clearInterval(interval);
       clearTimeout(initial);
     };
-  }, [open, lang, pet.mood, pet.level, petId.name]);
+    // Note: intentionally exclude `pet.level` from deps — level can briefly
+    // fluctuate while the DB sync reconciles, and we don't want the greeting
+    // timer (and the "Level X" text) to flap between values within a session.
+  }, [open, lang, pet.mood, petId.name]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours, then lock chat for 1 hour.
