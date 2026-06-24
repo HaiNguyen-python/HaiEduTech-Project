@@ -16,6 +16,7 @@ import DailyFunFactWidget from "@/components/english/DailyFunFactWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 import {
   englishFunFacts,
   FUN_FACT_CATEGORIES,
