@@ -52,7 +52,7 @@ const EnglishRouteParticles = () => {
 
   return (
     <Suspense fallback={null}>
-      <FloatingEnglishParticles fullPage count={24} />
+      <FloatingEnglishParticles fullPage count={12} />
     </Suspense>
 
   );

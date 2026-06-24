@@ -136,7 +136,7 @@ const EnglishIdioms = () => {
             className="mb-8 relative overflow-hidden rounded-3xl py-10 px-2 min-h-[240px]"
           >
             <EnglishHeroBanner heightClass="h-full" opacity={28} />
-            <FloatingEnglishParticles count={11} />
+            <FloatingEnglishParticles count={6} />
             <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-rose-500/15 to-amber-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-sm font-semibold mb-4">
               <Quote className="w-4 h-4" /> {t("English Foundation", "English Foundation")}
