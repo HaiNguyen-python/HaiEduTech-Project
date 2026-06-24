@@ -452,7 +452,7 @@ export default function YourCorner() {
                   users={onlineUsers}
                   currentUserId={userId}
                   onOpenChat={(u: OnlineUser) =>
-                    setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
+                    openDesktopChat({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
                   }
                 />
               </Suspense>
