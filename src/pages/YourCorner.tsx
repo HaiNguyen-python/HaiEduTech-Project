@@ -76,6 +76,14 @@ export default function YourCorner() {
 
   // Messenger active peer (lifted up so OnlineUsersPanel can open chats)
   const [chatPeer, setChatPeer] = useState<{ user_id: string; full_name: string | null; avatar_url: string | null } | null>(null);
+  // Defer Messenger mount on desktop — it makes 2 RPC calls and subscribes to realtime on mount.
+  // Only mount once the user actually opens it (or clicks an online user to chat).
+  const [desktopChatOpen, setDesktopChatOpen] = useState(false);
+  const mountDesktopMessenger = desktopChatOpen || !!chatPeer;
+  const openDesktopChat = (p: { user_id: string; full_name: string | null; avatar_url: string | null }) => {
+    setChatPeer(p);
+    setDesktopChatOpen(true);
+  };
 
   // People you can @-tag: distinct post authors + online users
   const mentionables = useMemo<Mentionable[]>(() => {
