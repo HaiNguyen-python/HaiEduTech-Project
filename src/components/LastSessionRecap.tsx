@@ -51,6 +51,8 @@ const ACTIVITY_LABELS: Record<string, string> = {
   language_quiz: "Language Quiz",
   python_challenge: "Python Challenge",
   vocab_mastery: "Vocab Mastery",
+  vocab_mastered: "Vocab Mastered",
+  vocab_mastered_group: "Từ vựng đã thuộc",
   writing_practice: "Writing Practice",
   speaking_practice: "Speaking Practice",
   conv_chinese: "Hội thoại Tiếng Trung",
