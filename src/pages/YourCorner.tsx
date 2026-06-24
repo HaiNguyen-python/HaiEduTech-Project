@@ -76,6 +76,14 @@ export default function YourCorner() {
 
   // Messenger active peer (lifted up so OnlineUsersPanel can open chats)
   const [chatPeer, setChatPeer] = useState<{ user_id: string; full_name: string | null; avatar_url: string | null } | null>(null);
+  // Defer Messenger mount on desktop — it makes 2 RPC calls and subscribes to realtime on mount.
+  // Only mount once the user actually opens it (or clicks an online user to chat).
+  const [desktopChatOpen, setDesktopChatOpen] = useState(false);
+  const mountDesktopMessenger = desktopChatOpen || !!chatPeer;
+  const openDesktopChat = (p: { user_id: string; full_name: string | null; avatar_url: string | null }) => {
+    setChatPeer(p);
+    setDesktopChatOpen(true);
+  };
 
   // People you can @-tag: distinct post authors + online users
   const mentionables = useMemo<Mentionable[]>(() => {
@@ -444,7 +452,7 @@ export default function YourCorner() {
                   users={onlineUsers}
                   currentUserId={userId}
                   onOpenChat={(u: OnlineUser) =>
-                    setChatPeer({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
+                    openDesktopChat({ user_id: u.user_id, full_name: u.full_name, avatar_url: u.avatar_url })
                   }
                 />
               </Suspense>
@@ -538,15 +546,35 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              <Suspense fallback={null}>
-                <Messenger
-                  currentUserId={userId}
-                  activePeer={chatPeer}
-                  setActivePeer={setChatPeer}
-                  onlineUsers={onlineUsers}
-                  directory={mentionables}
-                />
-              </Suspense>
+              {!mountDesktopMessenger ? (
+                <Card className="p-4 backdrop-blur-md bg-white/80 dark:bg-card/80 border-primary/10 shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => setDesktopChatOpen(true)}
+                    className="w-full flex items-center gap-3 text-left group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                      <MessageCircle className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold">{t("Tin nhắn", "Messages")}</div>
+                      <div className="text-[11px] text-muted-foreground truncate">
+                        {t("Bấm để mở hộp thư & chat với bạn bè", "Click to open inbox & chat with friends")}
+                      </div>
+                    </div>
+                  </button>
+                </Card>
+              ) : (
+                <Suspense fallback={null}>
+                  <Messenger
+                    currentUserId={userId}
+                    activePeer={chatPeer}
+                    setActivePeer={setChatPeer}
+                    onlineUsers={onlineUsers}
+                    directory={mentionables}
+                  />
+                </Suspense>
+              )}
 
 
 

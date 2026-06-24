@@ -40,7 +40,7 @@ export function useYourCornerFeed(enabled: boolean) {
   const [loading, setLoading] = useState(true);
 
   const fetchFeed = useCallback(async () => {
-    const { data, error } = await supabase.rpc("get_your_corner_feed", { _limit: 15 });
+    const { data, error } = await supabase.rpc("get_your_corner_feed", { _limit: 10 });
     if (error || !data) {
       setPosts([]);
       setLoading(false);
@@ -85,16 +85,22 @@ export function useYourCornerFeed(enabled: boolean) {
         fetchFeed();
       }, 2500);
     };
-    const channel = supabase
-      .channel("your-corner-feed")
-      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_posts" }, throttled)
-      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_reactions" }, throttled)
-      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_comments" }, throttled)
-      .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_poll_votes" }, throttled)
-      .subscribe();
+    // Defer realtime subscription until after first paint + a brief idle window
+    // so the four channel subscriptions don't compete with the initial feed render.
+    let channel: ReturnType<typeof supabase.channel> | null = null;
+    const subTimer = setTimeout(() => {
+      channel = supabase
+        .channel("your-corner-feed")
+        .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_posts" }, throttled)
+        .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_reactions" }, throttled)
+        .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_comments" }, throttled)
+        .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_poll_votes" }, throttled)
+        .subscribe();
+    }, 1500);
     return () => {
       if (timer) clearTimeout(timer);
-      supabase.removeChannel(channel);
+      clearTimeout(subTimer);
+      if (channel) supabase.removeChannel(channel);
     };
   }, [enabled, fetchFeed]);
 
