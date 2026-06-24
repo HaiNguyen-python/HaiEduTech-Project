@@ -153,6 +153,7 @@ const EnglishFunFacts = () => {
         description="Khám phá những điều thú vị về tiếng Anh: nguồn gốc từ vựng, logic kỳ lạ, idioms hài hước và những lỗi vui người Việt thường gặp. Học mà chơi cùng HaiEduTech."
         path="/english/fun-facts"
       />
+      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
 
       <div className="pt-6 pb-20">
