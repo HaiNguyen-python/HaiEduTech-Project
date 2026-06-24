@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
+import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 
 const EnglishEssentials = () => {
   const { t } = useLanguage();
