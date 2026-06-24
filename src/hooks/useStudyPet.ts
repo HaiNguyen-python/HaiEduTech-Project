@@ -137,8 +137,27 @@ export function useStudyPet(): StudyPetState & { refresh: () => void } {
   }, []);
 
   return useMemo<StudyPetState & { refresh: () => void }>(() => {
-    const { level, expIntoLevel, expForNextLevel, nextLevelAt } = computeLevel(exp);
-    // Happiness: full 100 with no overdue, drops 4 per overdue word, floored at 10.
+    const computed = computeLevel(exp);
+    // Monotonic guard: cache highest level seen so the UI never shows the Pet
+    // dropping from L5 → L3 because of a transient DB-vs-local reconcile race.
+    let level = computed.level;
+    try {
+      const cachedRaw = localStorage.getItem("haiedu_pet_level_max_v1");
+      const cached = cachedRaw ? parseInt(cachedRaw, 10) : 0;
+      if (Number.isFinite(cached) && cached > level) {
+        level = cached;
+      } else if (level > cached) {
+        localStorage.setItem("haiedu_pet_level_max_v1", String(level));
+      }
+    } catch { /* ignore */ }
+
+    // Recompute level-relative numbers from the (possibly clamped) level.
+    const currBase = LEVEL_THRESHOLDS[level - 1] ?? 0;
+    const nextBase = LEVEL_THRESHOLDS[level] ?? null;
+    const expIntoLevel = Math.max(0, exp - currBase);
+    const expForNextLevel = nextBase != null ? nextBase - currBase : 1;
+    const nextLevelAt = nextBase;
+
     const happiness = Math.max(10, 100 - overdueReviews * 4);
     const stage = stageFor(level);
     const mood: StudyPetState["mood"] =
