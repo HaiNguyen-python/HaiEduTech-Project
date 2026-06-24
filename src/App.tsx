@@ -36,6 +36,7 @@ const LessonFeedback = lazy(() => import("./components/LessonFeedback.tsx"));
 const AssignmentReminderModal = lazy(() => import("./components/AssignmentReminderModal.tsx"));
 const PetXPToastListener = lazy(() => import("./components/PetXPToastListener.tsx"));
 const EnglishRouteParticles = lazy(() => import("./components/EnglishRouteParticles.tsx"));
+const ChineseRouteParticles = lazy(() => import("./components/ChineseRouteParticles.tsx"));
 
 /** Mounts children only after the browser is idle so first paint isn't blocked. */
 const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?: number }) => {
@@ -480,6 +481,7 @@ const App = () => (
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
           <Suspense fallback={null}><EnglishRouteParticles /></Suspense>
+          <Suspense fallback={null}><ChineseRouteParticles /></Suspense>
           <DeferredGlobalWidgets />
 
 
