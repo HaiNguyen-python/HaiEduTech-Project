@@ -60,21 +60,24 @@ interface Particle {
 
 function generateParticles(count: number): Particle[] {
   const shuffled = [...SYMBOLS].sort(() => Math.random() - 0.5);
-  const available = shuffled.slice(0, Math.min(count, shuffled.length));
-  return available.map((symbol, i) => ({
+  // Allow repeats when caller asks for more particles than unique symbols.
+  const picks: string[] = [];
+  for (let i = 0; i < count; i++) picks.push(shuffled[i % shuffled.length]);
+  return picks.map((symbol, i) => ({
     id: i,
     symbol,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    size: 14 + Math.random() * 16,
+    size: 14 + Math.random() * 18,
     duration: 18 + Math.random() * 18,
     delay: Math.random() * -20,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     rotate: (Math.random() - 0.5) * 40,
-    driftX: (Math.random() - 0.5) * 140,
-    driftY: (Math.random() - 0.5) * 100,
+    driftX: (Math.random() - 0.5) * 160,
+    driftY: (Math.random() - 0.5) * 120,
   }));
 }
+
 
 interface Props {
   /** Number of particles to render (default: 22). */
