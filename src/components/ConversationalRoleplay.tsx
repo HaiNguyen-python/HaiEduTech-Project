@@ -315,12 +315,21 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   }
 
   // Chat interface
+  const sceneBg = bannerImageFor(selectedTopic);
+
   return (
-    <div className="flex flex-col h-[500px] sm:h-[600px] bg-card rounded-xl border overflow-hidden">
+    <div className="flex flex-col h-[500px] sm:h-[600px] bg-card rounded-xl border overflow-hidden relative">
+      {/* Scene background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-25 dark:opacity-15 pointer-events-none"
+        style={{ backgroundImage: `url(${sceneBg})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background/80 pointer-events-none" />
+
       {/* Chat header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
+      <div className="relative flex items-center justify-between px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
         <div className="flex items-center gap-2">
-          <Bot className="h-5 w-5" />
+          <img src={roleplayMascot} alt="" className="h-8 w-8 rounded-full bg-white/90 p-0.5" width={32} height={32} />
           <div>
             <p className="text-sm font-bold">{t("Luyện nói AI", "AI Roleplay")}</p>
             <p className="text-[10px] opacity-80 truncate max-w-[200px]">{selectedTopic}</p>
@@ -338,6 +347,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
           </Button>
         </div>
       </div>
+
 
       {/* Messages */}
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3">
