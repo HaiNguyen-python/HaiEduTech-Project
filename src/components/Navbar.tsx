@@ -123,12 +123,14 @@ const Navbar = () => {
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/placement-test?subject=english", label: t("📝 Bài Test Trình độ Tiếng Anh", "📝 English Placement Test") },
     { to: "#en-div1", label: "", divider: true },
+    // English Essentials - promoted above Cambridge group
+    { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 English Essentials") },
     // Foundation (everyday English)
     { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
-      { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 English Essentials") },
       { to: "/cambridge-lectures", label: t("🎓 Cambridge Lectures & Test Prep", "🎓 Cambridge Lectures & Test Prep") },
       { to: "/cambridge-yle-vocabulary", label: t("🌈 Cambridge YLE Vocabulary & Arcade", "🌈 Cambridge YLE Vocabulary & Arcade") },
     ] },
+
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("🎯 Cambridge IELTS", "🎯 Cambridge IELTS"), groupLabel: "ielts", children: ieltsChildren },
     // Other international exams (TOEIC / PTE / SAT)
