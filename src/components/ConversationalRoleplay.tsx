@@ -407,7 +407,8 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
 
       {/* Input area */}
-      <div className="border-t p-3">
+      <div className="relative border-t p-3 bg-card/95 backdrop-blur-sm">
+
         <div className="flex gap-2 items-end">
           {/* Voice button */}
           <Button
