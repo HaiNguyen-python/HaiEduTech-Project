@@ -350,7 +350,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
 
       {/* Messages */}
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div ref={chatContainerRef} className="relative flex-1 overflow-y-auto p-4 space-y-3">
         {messages.map((msg, i) => (
           <motion.div
             key={i}
@@ -359,15 +359,13 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
             className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             {msg.role === "assistant" && (
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white shrink-0 mt-1">
-                <Bot className="h-4 w-4" />
-              </div>
+              <img src={roleplayMascot} alt="" className="w-9 h-9 rounded-full bg-white shadow-md shrink-0 mt-1 p-0.5" width={36} height={36} />
             )}
             <div className={`max-w-[80%] ${msg.role === "user" ? "order-first" : ""}`}>
-              <div className={`p-3 rounded-2xl text-sm ${
+              <div className={`p-3 rounded-2xl text-sm shadow-sm ${
                 msg.role === "user"
                   ? "bg-primary text-primary-foreground rounded-br-sm"
-                  : "bg-muted rounded-bl-sm"
+                  : "bg-card/95 backdrop-blur-sm border rounded-bl-sm"
               }`}>
                 {msg.role === "assistant" ? (
                   <div className="prose prose-sm dark:prose-invert max-w-none [&>p]:mb-1 [&>p:last-child]:mb-0">
@@ -397,10 +395,8 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
         {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
           <div className="flex gap-2 items-center">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white">
-              <Bot className="h-4 w-4" />
-            </div>
-            <div className="bg-muted p-3 rounded-2xl rounded-bl-sm">
+            <img src={roleplayMascot} alt="" className="w-9 h-9 rounded-full bg-white shadow-md p-0.5" width={36} height={36} />
+            <div className="bg-card/95 backdrop-blur-sm border p-3 rounded-2xl rounded-bl-sm shadow-sm">
               <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
             </div>
           </div>
@@ -408,6 +404,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
         <div ref={chatEndRef} />
       </div>
+
 
       {/* Input area */}
       <div className="border-t p-3">
