@@ -11,6 +11,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
+import EnglishHeroBanner from "@/components/EnglishHeroBanner";
 
 const EnglishEssentials = () => {
   const { t } = useLanguage();
@@ -56,14 +57,16 @@ const EnglishEssentials = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
-      <main className="container mx-auto px-4 py-10 lg:py-16">
+      <main className="container mx-auto px-4 py-10 lg:py-16 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12 relative overflow-hidden rounded-3xl py-6"
+          className="text-center mb-12 relative overflow-hidden rounded-3xl py-10 min-h-[240px]"
         >
+          <EnglishHeroBanner heightClass="h-full" opacity={30} />
           <FloatingEnglishParticles count={20} />
           <div className="relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border-2 border-primary/30 text-primary text-sm font-semibold mb-4">

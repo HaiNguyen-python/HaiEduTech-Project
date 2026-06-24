@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
+import EnglishHeroBanner from "@/components/EnglishHeroBanner";
 
 const English = () => {
   const { t } = useLanguage();
@@ -119,11 +120,13 @@ const English = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO title="Học Tiếng Anh Online: IELTS, TOEIC, SAT, Cambridge | HaiEduTech" description="Lộ trình học tiếng Anh toàn diện: IELTS, TOEIC, SAT, Cambridge, Grammar và Giao tiếp. Bài giảng AI cá nhân hóa, luyện đề, chấm Writing và Speaking miễn phí." path="/english" jsonLd={COURSE_LD} />
+      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
-      <div className="pt-6 pb-16">
+      <div className="pt-6 pb-16 relative z-10">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto relative">
-            <div className="relative overflow-hidden rounded-2xl -mx-2 px-2 py-4 mb-2">
+            <div className="relative overflow-hidden rounded-2xl -mx-2 px-2 py-4 mb-2 min-h-[220px]">
+              <EnglishHeroBanner heightClass="h-full" opacity={28} />
               <FloatingEnglishParticles count={22} />
               <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/5 text-sky-600 text-sm font-medium mb-4">

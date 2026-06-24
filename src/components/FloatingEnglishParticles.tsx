@@ -71,13 +71,23 @@ interface Props {
   count?: number;
   /** Pause animation (e.g. when prefers-reduced-motion). */
   paused?: boolean;
+  /** Render as a fixed full-viewport layer behind page content. */
+  fullPage?: boolean;
 }
 
-const FloatingEnglishParticles = ({ count = 22, paused = false }: Props) => {
+const FloatingEnglishParticles = ({ count = 22, paused = false, fullPage = false }: Props) => {
   const particles = useMemo(() => generateParticles(count), [count]);
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div
+      className={
+        fullPage
+          ? "pointer-events-none fixed inset-0 z-0 overflow-hidden"
+          : "pointer-events-none absolute inset-0 overflow-hidden"
+      }
+      aria-hidden="true"
+    >
+
       {particles.map((p) => (
         <motion.span
           key={p.id}

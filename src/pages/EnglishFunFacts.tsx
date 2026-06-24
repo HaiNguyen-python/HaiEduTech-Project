@@ -17,6 +17,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
+import EnglishHeroBanner from "@/components/EnglishHeroBanner";
 import {
   englishFunFacts,
   FUN_FACT_CATEGORIES,
@@ -152,6 +153,7 @@ const EnglishFunFacts = () => {
         description="Khám phá những điều thú vị về tiếng Anh: nguồn gốc từ vựng, logic kỳ lạ, idioms hài hước và những lỗi vui người Việt thường gặp. Học mà chơi cùng HaiEduTech."
         path="/english/fun-facts"
       />
+      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
 
       <div className="pt-6 pb-20">
@@ -168,8 +170,9 @@ const EnglishFunFacts = () => {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 relative overflow-hidden rounded-3xl py-6 px-2"
+            className="mb-8 relative overflow-hidden rounded-3xl py-10 px-2 min-h-[240px]"
           >
+            <EnglishHeroBanner heightClass="h-full" opacity={28} />
             <FloatingEnglishParticles count={22} />
             <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/15 to-teal-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-sm font-semibold mb-4">
