@@ -2,7 +2,6 @@
 // function and falls back to the native en-US/en-GB SpeechSynthesis voice.
 // Mirrors swedishTts.ts. Ensures audio works even when the browser lacks an
 // installed English voice (preview sandbox, headless Chromium, etc.).
-import { supabase } from "@/integrations/supabase/client";
 import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
 
 export type EnglishAccent = "en-US" | "en-GB";

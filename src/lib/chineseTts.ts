@@ -2,7 +2,6 @@
 // `chinese-tts` edge function and falls back to the native zh-CN
 // SpeechSynthesis voice. Mirrors swedishTts.ts. Critical because most
 // browsers / preview sandboxes ship without a zh-CN voice installed.
-import { supabase } from "@/integrations/supabase/client";
 import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
 
 interface ChineseTtsOptions {

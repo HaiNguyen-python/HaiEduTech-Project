@@ -1,5 +1,4 @@
 // Vietnamese TTS helper: ưu tiên giọng Google Translate (tự nhiên), fallback về speechSynthesis
-import { supabase } from "@/integrations/supabase/client";
 import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
 
 interface VietnameseTtsOptions {
