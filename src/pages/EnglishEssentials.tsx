@@ -78,7 +78,9 @@ const EnglishEssentials = () => {
               "Four core pillars to master English: Grammar · Pronunciation · Conversation · Idioms."
             )}
           </p>
+          </div>
         </motion.div>
+
 
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {pillars.map((p, i) => {
