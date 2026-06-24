@@ -15,6 +15,7 @@ import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
+import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 
 const English = () => {
   const { t } = useLanguage();
