@@ -1151,7 +1151,6 @@ const EnglishPronunciation = () => {
         )}
         path="/english/pronunciation"
       />
-      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
 
       {/* Hero */}

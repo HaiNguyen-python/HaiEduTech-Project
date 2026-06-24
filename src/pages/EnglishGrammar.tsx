@@ -108,7 +108,6 @@ const EnglishGrammar = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO title="Ngữ Pháp Tiếng Anh Toàn Diện - 30 Bài Học | HaiEduTech" description="9 module ngữ pháp tiếng Anh từ cơ bản đến nâng cao với 30 bài học: Tenses, Conditionals, Modal Verbs, Reported Speech, Passive Voice. Luyện tập tương tác." path="/english/grammar" />
-      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
       <main className="container mx-auto px-4 py-10 max-w-6xl relative z-10">
         <Link to="/english" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4">
