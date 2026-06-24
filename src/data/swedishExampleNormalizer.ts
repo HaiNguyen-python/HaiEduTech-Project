@@ -130,9 +130,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Läraren förklarar {W}.", vi: "Giáo viên giải thích {VI}.", en: "The teacher explains {EN}." },
   ],
   work: [
-    { sv: "Hon arbetar som {W}.", vi: "Cô ấy làm nghề {VI}.", en: "She works as {ARTEN}{EN}." },
-    { sv: "Jag träffar {ART}{W} på kontoret.", vi: "Tôi gặp {ARTVI}{VI} ở văn phòng.", en: "I meet {ARTEN}{EN} at the office." },
-    { sv: "Vi behöver {ART}{W} i teamet.", vi: "Chúng tôi cần {ARTVI}{VI} trong đội.", en: "We need {ARTEN}{EN} on the team." },
+    { sv: "Vi pratar om {W} på jobbet.", vi: "Chúng tôi nói về {VI} ở chỗ làm.", en: "We talk about {EN} at work." },
+    { sv: "{W_C} är viktig{ETT} i mitt arbete.", vi: "{VI_C} rất quan trọng trong công việc của tôi.", en: "{EN_C} is important in my work." },
+    { sv: "På kontoret hör jag ofta ordet '{W}'.", vi: "Ở văn phòng tôi thường nghe từ '{W}' (nghĩa là {VI}).", en: "At the office I often hear the word '{W}' (meaning '{EN}')." },
   ],
   family: [
     { sv: "{MIN_C} {W} bor i Sverige.", vi: "{VI_C} của tôi sống ở Thụy Điển.", en: "My {EN} lives in Sweden." },
