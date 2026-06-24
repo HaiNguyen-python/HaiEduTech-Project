@@ -118,7 +118,6 @@ const EnglishIdioms = () => {
         )}
         path="/english/idioms"
       />
-      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
 
       <div className="pt-6 pb-20">

@@ -120,7 +120,6 @@ const English = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO title="Học Tiếng Anh Online: IELTS, TOEIC, SAT, Cambridge | HaiEduTech" description="Lộ trình học tiếng Anh toàn diện: IELTS, TOEIC, SAT, Cambridge, Grammar và Giao tiếp. Bài giảng AI cá nhân hóa, luyện đề, chấm Writing và Speaking miễn phí." path="/english" jsonLd={COURSE_LD} />
-      <FloatingEnglishParticles fullPage count={30} />
       <Navbar />
       <div className="pt-6 pb-16 relative z-10">
         <div className="container mx-auto px-6">
