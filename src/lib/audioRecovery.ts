@@ -12,18 +12,17 @@
  *  1. Track every `AudioContext` the app creates by patching the constructor.
  *  2. Track every `HTMLAudioElement` instance the app creates by patching
  *     `Audio` and `HTMLMediaElement.prototype.play`, remembering whether the
- *     element was "intended to be playing" (so we can tell a user-pause from
- *     a system-pause caused by background throttling).
- *  3. On `visibilitychange` → hidden: do NOTHING destructive. Crucially we
- *     no longer call `speechSynthesis.cancel()` — that previous behaviour
- *     killed every utterance and left buttons silent on return.
- *  4. On `visibilitychange` → visible / `focus` / `pageshow` / first user
- *     gesture: resume all suspended AudioContexts, resume any audio elements
- *     that were paused by the system, and pump `speechSynthesis.resume()`
- *     so Chrome's queue wakes up.
- *  5. Keep speechSynthesis alive while it is speaking by pinging
- *     pause+resume every ~10s — works around the well-known Chrome bug
- *     where speech goes silent after ~15s in background.
+ *     element was "intended to be playing" so we can tell a user-pause from
+ *     a system-pause caused by background throttling.
+ *  3. On `visibilitychange` hidden, `blur`, or `pagehide`: pause active
+ *     lesson audio ourselves before Chromium can let it continue silently in
+ *     the background. This prevents the track from finishing while muted.
+ *  4. On `visibilitychange` visible / `focus` / `pageshow` / first user
+ *     gesture: resume all suspended AudioContexts, resume audio elements we
+ *     paused, and pump `speechSynthesis.resume()` so Chrome's queue wakes up.
+ *  5. Keep speechSynthesis warm only while the page is active by pinging
+ *     pause+resume every ~10s. We do not ping while hidden because that is a
+ *     common cause of a permanently silent speech engine after tab switching.
  *
  * Imported once from main.tsx. Safe no-op in SSR / non-browser envs.
  *
@@ -38,10 +37,12 @@ type Win = Window & {
 
 const INTENT_KEY = "__haiPlayIntent";
 const USER_PAUSED_KEY = "__haiUserPaused";
+const SYSTEM_PAUSED_KEY = "__haiSystemPaused";
 
 type TrackedAudio = HTMLAudioElement & {
   [INTENT_KEY]?: boolean;
   [USER_PAUSED_KEY]?: boolean;
+  [SYSTEM_PAUSED_KEY]?: boolean;
 };
 
 const installAudioRecovery = () => {
@@ -77,16 +78,61 @@ const installAudioRecovery = () => {
 
   // ---------- HTMLAudioElement tracking ----------
   const audioElements = new Set<TrackedAudio>();
+  const isForeground = () => {
+    try {
+      return document.visibilityState === "visible" &&
+        (typeof document.hasFocus !== "function" || document.hasFocus());
+    } catch {
+      return true;
+    }
+  };
+
+  const runWhenForeground = (callback: () => void, timeoutMs = 180000) => {
+    if (isForeground()) {
+      callback();
+      return;
+    }
+    let done = false;
+    let timer: number | null = null;
+    const cleanup = () => {
+      window.removeEventListener("focus", check);
+      window.removeEventListener("pageshow", check);
+      document.removeEventListener("visibilitychange", check);
+      window.removeEventListener("pointerdown", check);
+      window.removeEventListener("keydown", check);
+      if (timer !== null) window.clearTimeout(timer);
+    };
+    const finish = () => {
+      if (done) return;
+      done = true;
+      cleanup();
+      callback();
+    };
+    function check() {
+      if (isForeground()) finish();
+    }
+    window.addEventListener("focus", check);
+    window.addEventListener("pageshow", check);
+    document.addEventListener("visibilitychange", check);
+    window.addEventListener("pointerdown", check, { passive: true });
+    window.addEventListener("keydown", check);
+    timer = window.setTimeout(finish, timeoutMs);
+  };
 
   const trackAudio = (el: TrackedAudio) => {
     if (audioElements.has(el)) return;
     audioElements.add(el);
 
     // Distinguish user-initiated pause from a background-throttle pause.
-    // We mark `userPaused = true` only when pause() is called while the
-    // document is visible — system pauses happen while hidden.
+    // We also pause on window blur, so a system pause can happen while the
+    // document is still visible. SYSTEM_PAUSED_KEY prevents that from being
+    // misread as the user pressing stop.
     el.addEventListener("pause", () => {
       try {
+        if (el[SYSTEM_PAUSED_KEY]) {
+          el[USER_PAUSED_KEY] = false;
+          return;
+        }
         if (document.visibilityState === "visible") {
           el[USER_PAUSED_KEY] = true;
           el[INTENT_KEY] = false;
@@ -142,7 +188,25 @@ const installAudioRecovery = () => {
         // Only resume if we believe the page wanted it playing and it was
         // paused by the system (not by the user clicking stop).
         if (el[INTENT_KEY] && el.paused && !el.ended && !el[USER_PAUSED_KEY]) {
-          el.play().catch(() => undefined);
+          const resumed = el.play();
+          if (typeof resumed?.then === "function") {
+            resumed
+              .then(() => { el[SYSTEM_PAUSED_KEY] = false; })
+              .catch(() => { el[SYSTEM_PAUSED_KEY] = true; });
+          } else {
+            el[SYSTEM_PAUSED_KEY] = false;
+          }
+        }
+      } catch { /* ignore */ }
+    });
+  };
+
+  const pauseActiveAudioElementsForSystem = () => {
+    audioElements.forEach((el) => {
+      try {
+        if (el[INTENT_KEY] && !el.paused && !el.ended && !el[USER_PAUSED_KEY]) {
+          el[SYSTEM_PAUSED_KEY] = true;
+          el.pause();
         }
       } catch { /* ignore */ }
     });
@@ -159,11 +223,14 @@ const installAudioRecovery = () => {
     if (!synth) return;
     keepAliveTimer = window.setInterval(() => {
       try {
+        if (document.visibilityState !== "visible") {
+          return;
+        }
         if (synth.speaking) {
           synth.pause();
           synth.resume();
         } else if (!synth.pending) {
-          // Nothing to keep alive — stop the timer until next speak.
+          // Nothing to keep alive - stop the timer until next speak.
           if (keepAliveTimer !== null) {
             clearInterval(keepAliveTimer);
             keepAliveTimer = null;
@@ -185,9 +252,14 @@ const installAudioRecovery = () => {
         try {
           if (this.paused) this.resume();
         } catch { /* ignore */ }
-        const result = originalSpeak.call(this, utterance);
+        runWhenForeground(() => {
+          try {
+            originalSpeak.call(this, utterance);
+            startSpeechKeepAlive();
+          } catch { /* ignore */ }
+        });
         startSpeechKeepAlive();
-        return result;
+        return undefined;
       };
     }
     // Pre-warm voices list so the first speak() doesn't no-op silently.
@@ -195,6 +267,19 @@ const installAudioRecovery = () => {
   }
 
   // ---------- Visibility + focus handlers ----------
+  let speechPausedBySystem = false;
+
+  const pauseSpeechForSystem = () => {
+    const synth = w.speechSynthesis;
+    if (!synth) return;
+    try {
+      if (synth.speaking && !synth.paused) {
+        speechPausedBySystem = true;
+        synth.pause();
+      }
+    } catch { /* ignore */ }
+  };
+
   const wakeEverything = () => {
     resumeAllContexts();
     resumeAllAudioElements();
@@ -204,26 +289,35 @@ const installAudioRecovery = () => {
         // Pump the queue: if Chrome froze it while hidden, this unsticks it
         // without aborting the current utterance.
         synth.resume();
-        if (synth.speaking) {
+        if (synth.speaking || speechPausedBySystem) {
           synth.pause();
           synth.resume();
           startSpeechKeepAlive();
         }
+        speechPausedBySystem = false;
       } catch { /* ignore */ }
     }
+  };
+
+  const parkEverything = () => {
+    pauseActiveAudioElementsForSystem();
+    pauseSpeechForSystem();
   };
 
   const handleVisibility = () => {
     if (document.visibilityState === "visible") {
       wakeEverything();
+    } else {
+      parkEverything();
     }
-    // When hidden: deliberately do nothing. Cancelling speech here was the
-    // root cause of "audio dies when I switch tab" — the engine was being
-    // shut down by our own recovery layer.
+    // When hidden or blurred: deliberately pause, never cancel. Cancelling
+    // speech here was the root cause of "audio dies when I switch tab".
   };
 
   document.addEventListener("visibilitychange", handleVisibility);
+  window.addEventListener("blur", parkEverything);
   window.addEventListener("focus", wakeEverything);
+  window.addEventListener("pagehide", parkEverything);
   window.addEventListener("pageshow", wakeEverything);
   // First user gesture in a tab is a reliable place to re-warm everything.
   const onGesture = () => wakeEverything();

@@ -601,31 +601,35 @@ const ChatBot = () => {
   }, [open, lang, pet.mood, pet.level, petId.name]);
 
   /**
-   * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.
+   * Check if the user has 3+ warnings in the last 24 hours, then lock chat for 1 hour.
    */
   const checkLockout = useCallback(async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return;
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return;
 
-    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-    const { data: logs } = await supabase
-      .from("moderation_logs")
-      .select("created_at")
-      .eq("user_id", user.id)
-      .gte("created_at", twentyFourHoursAgo)
-      .order("created_at", { ascending: false });
+      const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+      const { data: logs } = await supabase
+        .from("moderation_logs")
+        .select("created_at")
+        .eq("user_id", user.id)
+        .gte("created_at", twentyFourHoursAgo)
+        .order("created_at", { ascending: false });
 
-    if (logs && logs.length >= 3) {
-      // Lock for 1 hour from the 3rd warning
-      const thirdWarningTime = new Date(logs[2].created_at).getTime();
-      const lockUntil = thirdWarningTime + 60 * 60 * 1000;
-      if (Date.now() < lockUntil) {
-        setChatLocked(true);
-        // Auto-unlock after remaining time
-        setTimeout(() => setChatLocked(false), lockUntil - Date.now());
+      if (logs && logs.length >= 3) {
+        // Lock for 1 hour from the 3rd warning
+        const thirdWarningTime = new Date(logs[2].created_at).getTime();
+        const lockUntil = thirdWarningTime + 60 * 60 * 1000;
+        if (Date.now() < lockUntil) {
+          setChatLocked(true);
+          // Auto-unlock after remaining time
+          setTimeout(() => setChatLocked(false), lockUntil - Date.now());
+        }
       }
+    } catch {
+      // Auth may still be refreshing after tab/app restore.
     }
   }, []);
 

@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
 
 interface FinnishTtsOptions {
   playbackRate?: number;
@@ -84,12 +84,22 @@ const playFromUrl = (url: string, playbackRate: number, isCurrent: () => boolean
       reject(new Error("stale_audio"));
       return;
     }
-    audio
-      .play()
-      .catch(() => {
-        if (activeAudio === audio) activeAudio = null;
-        reject(new Error("play_error"));
-      });
+    waitForAudioForeground()
+      .then(() => {
+        if (!isCurrent() || activeAudio !== audio) {
+          if (activeAudio === audio) activeAudio = null;
+          audio.pause();
+          reject(new Error("stale_audio"));
+          return;
+        }
+        audio
+          .play()
+          .catch(() => {
+            if (activeAudio === audio) activeAudio = null;
+            reject(new Error("play_error"));
+          });
+      })
+      .catch(() => reject(new Error("foreground_wait_error")));
   });
 
 const decodeBase64ToBlob = (base64: string, mimeType: string) => {
@@ -102,32 +112,25 @@ const decodeBase64ToBlob = (base64: string, mimeType: string) => {
 };
 
 const playFromProxy = async (text: string, playbackRate: number, isCurrent: () => boolean) => {
-  const { data, error } = await supabase.functions.invoke("finnish-tts", {
-    body: { text },
-  });
+  const payload = await invokeTtsFunction<FinnishTtsProxyResponse | null>("finnish-tts", { text });
 
   if (!isCurrent()) {
     throw new Error("stale_audio");
   }
 
-  if (error) {
-    throw new Error("proxy_error");
-  }
-
-  const payload = data as FinnishTtsProxyResponse | null;
   if (!payload?.audioBase64) {
     throw new Error("proxy_no_audio");
   }
 
   const mimeType = payload.mimeType || "audio/mpeg";
+  try {
+    await playFromUrl(`data:${mimeType};base64,${payload.audioBase64}`, playbackRate, isCurrent);
+    return;
+  } catch { /* fall through to blob URL */ }
+
   const blob = decodeBase64ToBlob(payload.audioBase64, mimeType);
   const objectUrl = URL.createObjectURL(blob);
-
-  try {
-    await playFromUrl(objectUrl, playbackRate, isCurrent);
-  } finally {
-    URL.revokeObjectURL(objectUrl);
-  }
+  try { await playFromUrl(objectUrl, playbackRate, isCurrent); } finally { URL.revokeObjectURL(objectUrl); }
 };
 
 const loadSpeechVoices = () =>
@@ -183,11 +186,24 @@ const speakWithNativeFinnishVoice = async (text: string, speechRate: number, isC
 
   await new Promise<void>((resolve, reject) => {
     const utterance = new SpeechSynthesisUtterance(text);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const fail = () => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("speech_error"));
+    };
     utterance.lang = "fi-FI";
     utterance.rate = speechRate;
     utterance.voice = finnishVoice;
-    utterance.onend = () => resolve();
-    utterance.onerror = () => reject(new Error("speech_error"));
+    utterance.onend = finish;
+    utterance.onerror = fail;
+    window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 130)));
+    try { window.speechSynthesis.resume(); } catch { /* noop */ }
     window.speechSynthesis.speak(utterance);
   });
 };

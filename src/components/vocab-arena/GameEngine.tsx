@@ -29,9 +29,26 @@ const speak = (text: string) => {
 };
 
 // Sound effects using Web Audio API
+let sharedAudioCtx: AudioContext | null = null;
+
+const getSharedAudioCtx = () => {
+  if (typeof window === "undefined") return null;
+  if (!sharedAudioCtx) {
+    const AudioCtor = window.AudioContext ||
+      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtor) return null;
+    sharedAudioCtx = new AudioCtor();
+  }
+  if (sharedAudioCtx.state === "suspended") {
+    void sharedAudioCtx.resume().catch(() => undefined);
+  }
+  return sharedAudioCtx;
+};
+
 const playSound = (type: "correct" | "wrong" | "streak" | "gameover") => {
   try {
-    const ctx = new AudioContext();
+    const ctx = getSharedAudioCtx();
+    if (!ctx) return;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);

@@ -2,7 +2,7 @@
 // `chinese-tts` edge function and falls back to the native zh-CN
 // SpeechSynthesis voice. Mirrors swedishTts.ts. Critical because most
 // browsers / preview sandboxes ship without a zh-CN voice installed.
-import { supabase } from "@/integrations/supabase/client";
+import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
 
 interface ChineseTtsOptions {
   playbackRate?: number;
@@ -46,10 +46,18 @@ const playFromUrl = (url: string, playbackRate: number) =>
     audio.playbackRate = playbackRate;
     audio.onended = () => { if (activeAudio === audio) activeAudio = null; resolve(); };
     audio.onerror = () => { if (activeAudio === audio) activeAudio = null; reject(new Error("audio_error")); };
-    audio.play().catch(() => {
-      if (activeAudio === audio) activeAudio = null;
-      reject(new Error("play_error"));
-    });
+    waitForAudioForeground()
+      .then(() => {
+        if (activeAudio !== audio) {
+          reject(new Error("stale_audio"));
+          return;
+        }
+        audio.play().catch(() => {
+          if (activeAudio === audio) activeAudio = null;
+          reject(new Error("play_error"));
+        });
+      })
+      .catch(() => reject(new Error("foreground_wait_error")));
   });
 
 const decodeBase64ToBlob = (base64: string, mimeType: string) => {
@@ -60,11 +68,14 @@ const decodeBase64ToBlob = (base64: string, mimeType: string) => {
 };
 
 const playFromProxy = async (text: string, playbackRate: number) => {
-  const { data, error } = await supabase.functions.invoke("chinese-tts", { body: { text } });
-  if (error) throw new Error("proxy_error");
-  const payload = data as ChineseTtsProxyResponse | null;
+  const payload = await invokeTtsFunction<ChineseTtsProxyResponse | null>("chinese-tts", { text });
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
-  const blob = decodeBase64ToBlob(payload.audioBase64, payload.mimeType || "audio/mpeg");
+  const mimeType = payload.mimeType || "audio/mpeg";
+  try {
+    await playFromUrl(`data:${mimeType};base64,${payload.audioBase64}`, playbackRate);
+    return;
+  } catch { /* fall through to blob URL */ }
+  const blob = decodeBase64ToBlob(payload.audioBase64, mimeType);
   const objectUrl = URL.createObjectURL(blob);
   try { await playFromUrl(objectUrl, playbackRate); } finally { URL.revokeObjectURL(objectUrl); }
 };
@@ -101,11 +112,24 @@ const speakWithNativeChineseVoice = async (text: string, speechRate: number) => 
   if (!chineseVoice) throw new Error("no_chinese_voice");
   await new Promise<void>((resolve, reject) => {
     const u = new SpeechSynthesisUtterance(text);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const fail = () => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("speech_error"));
+    };
     u.lang = "zh-CN";
     u.rate = speechRate;
     u.voice = chineseVoice;
-    u.onend = () => resolve();
-    u.onerror = () => reject(new Error("speech_error"));
+    u.onend = finish;
+    u.onerror = fail;
+    window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 160)));
+    try { window.speechSynthesis.resume(); } catch { /* noop */ }
     window.speechSynthesis.speak(u);
   });
 };

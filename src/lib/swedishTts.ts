@@ -1,7 +1,7 @@
-// Swedish TTS helper — proxies Google Translate via the `swedish-tts` edge
+// Swedish TTS helper - proxies Google Translate via the `swedish-tts` edge
 // function and falls back to the native sv-SE SpeechSynthesis voice when the
 // proxy is unreachable. Mirrors `finnishTts.ts`.
-import { supabase } from "@/integrations/supabase/client";
+import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
 
 export type SwedishTtsSource = "proxy" | "native";
 export type SwedishTtsStatus = "loading" | "playing" | "ended" | "error";
@@ -49,10 +49,18 @@ const playFromUrl = (url: string, playbackRate: number) =>
     audio.playbackRate = playbackRate;
     audio.onended = () => { if (activeAudio === audio) activeAudio = null; resolve(); };
     audio.onerror = () => { if (activeAudio === audio) activeAudio = null; reject(new Error("audio_error")); };
-    audio.play().catch(() => {
-      if (activeAudio === audio) activeAudio = null;
-      reject(new Error("play_error"));
-    });
+    waitForAudioForeground()
+      .then(() => {
+        if (activeAudio !== audio) {
+          reject(new Error("stale_audio"));
+          return;
+        }
+        audio.play().catch(() => {
+          if (activeAudio === audio) activeAudio = null;
+          reject(new Error("play_error"));
+        });
+      })
+      .catch(() => reject(new Error("foreground_wait_error")));
   });
 
 const decodeBase64ToBlob = (base64: string, mimeType: string) => {
@@ -101,13 +109,11 @@ const playBuffer = async (arrayBuffer: ArrayBuffer, playbackRate: number) => {
 };
 
 const playFromProxy = async (text: string, playbackRate: number) => {
-  const { data, error } = await supabase.functions.invoke("swedish-tts", { body: { text } });
-  if (error) throw new Error("proxy_error");
-  const payload = data as SwedishTtsProxyResponse | null;
+  const payload = await invokeTtsFunction<SwedishTtsProxyResponse | null>("swedish-tts", { text });
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
   const mimeType = payload.mimeType || "audio/mpeg";
 
-  // 1) Try HTMLAudio with a data URL first — this is the most reliable path
+  // 1) Try HTMLAudio with a data URL first - this is the most reliable path
   //    inside the Lovable sandbox preview iframe (no AudioContext gesture issues,
   //    no blob: CSP edge-cases). Data URLs always inherit the page's permissions.
   try {
@@ -115,7 +121,7 @@ const playFromProxy = async (text: string, playbackRate: number) => {
     return;
   } catch { /* fall through to Web Audio */ }
 
-  // 2) Web Audio fallback — works when HTMLAudio is blocked by autoplay policy
+  // 2) Web Audio fallback - works when HTMLAudio is blocked by autoplay policy
   //    but a user-gesture-warmed AudioContext is available.
   try {
     await playBuffer(decodeBase64ToArrayBuffer(payload.audioBase64), playbackRate);
@@ -160,11 +166,24 @@ const speakWithNativeSwedishVoice = async (text: string, speechRate: number) => 
   if (!swedishVoice) throw new Error("no_swedish_voice");
   await new Promise<void>((resolve, reject) => {
     const u = new SpeechSynthesisUtterance(text);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const fail = () => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("speech_error"));
+    };
     u.lang = "sv-SE";
     u.rate = speechRate;
     u.voice = swedishVoice;
-    u.onend = () => resolve();
-    u.onerror = () => reject(new Error("speech_error"));
+    u.onend = finish;
+    u.onerror = fail;
+    window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 130)));
+    try { window.speechSynthesis.resume(); } catch { /* ignore */ }
     window.speechSynthesis.speak(u);
   });
 };
@@ -181,9 +200,7 @@ export const playSwedishTts = async (text: string, options: SwedishTtsOptions = 
   onStatus?.("loading", { source: "proxy" });
   let proxyReason = "";
   try {
-    const { data, error } = await supabase.functions.invoke("swedish-tts", { body: { text: normalized } });
-    if (error) throw new Error(error.message || "proxy_error");
-    const payload = data as SwedishTtsProxyResponse | null;
+    const payload = await invokeTtsFunction<SwedishTtsProxyResponse | null>("swedish-tts", { text: normalized });
     if (!payload?.audioBase64) throw new Error("proxy_no_audio");
     const mimeType = payload.mimeType || "audio/mpeg";
     onStatus?.("playing", { source: "proxy" });

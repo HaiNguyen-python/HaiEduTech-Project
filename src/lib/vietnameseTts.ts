@@ -1,5 +1,5 @@
 // Vietnamese TTS helper: ưu tiên giọng Google Translate (tự nhiên), fallback về speechSynthesis
-import { supabase } from "@/integrations/supabase/client";
+import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
 
 interface VietnameseTtsOptions {
   /** Tốc độ phát lại của thẻ <audio> (Google TTS gốc đã chậm sẵn). Mặc định 0.9. */
@@ -46,10 +46,18 @@ const playFromUrl = (url: string, playbackRate: number) =>
       if (activeAudio === audio) activeAudio = null;
       reject(new Error("audio_error"));
     };
-    audio.play().catch(() => {
-      if (activeAudio === audio) activeAudio = null;
-      reject(new Error("play_error"));
-    });
+    waitForAudioForeground()
+      .then(() => {
+        if (activeAudio !== audio) {
+          reject(new Error("stale_audio"));
+          return;
+        }
+        audio.play().catch(() => {
+          if (activeAudio === audio) activeAudio = null;
+          reject(new Error("play_error"));
+        });
+      })
+      .catch(() => reject(new Error("foreground_wait_error")));
   });
 
 const decodeBase64ToBlob = (base64: string, mimeType: string) => {
@@ -60,12 +68,17 @@ const decodeBase64ToBlob = (base64: string, mimeType: string) => {
 };
 
 const playFromProxy = async (text: string, playbackRate: number) => {
-  const { data, error } = await supabase.functions.invoke("vietnamese-tts", { body: { text } });
-  if (error) throw new Error("proxy_error");
-  const payload = data as ProxyResponse | null;
+  const payload = await invokeTtsFunction<ProxyResponse | null>("vietnamese-tts", { text });
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
 
   const mimeType = payload.mimeType || "audio/mpeg";
+  try {
+    await playFromUrl(`data:${mimeType};base64,${payload.audioBase64}`, playbackRate);
+    return;
+  } catch {
+    /* fallback */
+  }
+
   const blob = decodeBase64ToBlob(payload.audioBase64, mimeType);
   const objectUrl = URL.createObjectURL(blob);
   try {
@@ -110,19 +123,32 @@ const speakWithNative = async (text: string, rate: number, pitch: number) => {
 
   await new Promise<void>((resolve, reject) => {
     const u = new SpeechSynthesisUtterance(text);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const fail = () => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("speech_error"));
+    };
     u.lang = "vi-VN";
     u.rate = rate;
     u.pitch = pitch;
     if (viVoice) u.voice = viVoice;
-    u.onend = () => resolve();
-    u.onerror = () => reject(new Error("speech_error"));
+    u.onend = finish;
+    u.onerror = fail;
+    window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 150)));
+    try { window.speechSynthesis.resume(); } catch { /* noop */ }
     window.speechSynthesis.speak(u);
   });
 };
 
 /**
  * Phát âm tiếng Việt với giọng tự nhiên.
- * Pipeline: Edge function proxy (Google TTS) → endpoint trực tiếp → speechSynthesis fallback.
+ * Pipeline: Edge function proxy (Google TTS), endpoint trực tiếp, speechSynthesis fallback.
  */
 export const playVietnameseTts = async (
   text: string,
