@@ -35,6 +35,7 @@ const PageViewTracker = lazy(() => import("./components/PageViewTracker.tsx"));
 const LessonFeedback = lazy(() => import("./components/LessonFeedback.tsx"));
 const AssignmentReminderModal = lazy(() => import("./components/AssignmentReminderModal.tsx"));
 const PetXPToastListener = lazy(() => import("./components/PetXPToastListener.tsx"));
+const EnglishRouteParticles = lazy(() => import("./components/EnglishRouteParticles.tsx"));
 
 /** Mounts children only after the browser is idle so first paint isn't blocked. */
 const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?: number }) => {
