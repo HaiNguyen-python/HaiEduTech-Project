@@ -1157,7 +1157,7 @@ const EnglishPronunciation = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-sky-500 via-primary to-emerald-500 text-primary-foreground">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.18),transparent_60%)]" />
         <div className="absolute -top-10 -right-10 w-60 h-60 rounded-full bg-white/15 blur-3xl" />
-        <FloatingEnglishParticles count={24} />
+        <FloatingEnglishParticles count={12} />
         <div className="container mx-auto px-4 py-14 relative">
 
           <div className="max-w-3xl">

@@ -116,7 +116,7 @@ const EnglishGrammar = () => {
         </Link>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10 relative overflow-hidden rounded-3xl py-10 min-h-[240px]">
           <EnglishHeroBanner heightClass="h-full" opacity={28} />
-          <FloatingEnglishParticles count={20} />
+          <FloatingEnglishParticles count={10} />
           <div className="relative z-10">
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
             📖 {t("Ngữ pháp tiếng Anh", "English Grammar")}
