@@ -147,7 +147,7 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   student:       { sv: "Han är student vid Uppsala universitet.",           vi: "Anh ấy là sinh viên Đại học Uppsala.",                 en: "He is a student at Uppsala University." },
   biblioteket:   { sv: "Jag lånar böcker på biblioteket.",                  vi: "Tôi mượn sách ở thư viện.",                            en: "I borrow books at the library." },
   brev:          { sv: "Jag skriver ett brev till min mormor.",             vi: "Tôi viết một lá thư cho bà ngoại.",                    en: "I write a letter to my grandma." },
-  fråga:         { sv: "Jag har en fråga till läraren.",                    vi: "Tôi có một câu hỏi cho giáo viên.",                    en: "I have a question for the teacher." },
+  // 'fråga' as a noun is handled together with the verb override above.
 };
 
 /** Lookup helper used by the example normalizer. */
