@@ -78,6 +78,46 @@ const installAudioRecovery = () => {
 
   // ---------- HTMLAudioElement tracking ----------
   const audioElements = new Set<TrackedAudio>();
+  const isForeground = () => {
+    try {
+      return document.visibilityState === "visible" &&
+        (typeof document.hasFocus !== "function" || document.hasFocus());
+    } catch {
+      return true;
+    }
+  };
+
+  const runWhenForeground = (callback: () => void, timeoutMs = 180000) => {
+    if (isForeground()) {
+      callback();
+      return;
+    }
+    let done = false;
+    let timer: number | null = null;
+    const cleanup = () => {
+      window.removeEventListener("focus", check);
+      window.removeEventListener("pageshow", check);
+      document.removeEventListener("visibilitychange", check);
+      window.removeEventListener("pointerdown", check);
+      window.removeEventListener("keydown", check);
+      if (timer !== null) window.clearTimeout(timer);
+    };
+    const finish = () => {
+      if (done) return;
+      done = true;
+      cleanup();
+      callback();
+    };
+    function check() {
+      if (isForeground()) finish();
+    }
+    window.addEventListener("focus", check);
+    window.addEventListener("pageshow", check);
+    document.addEventListener("visibilitychange", check);
+    window.addEventListener("pointerdown", check, { passive: true });
+    window.addEventListener("keydown", check);
+    timer = window.setTimeout(finish, timeoutMs);
+  };
 
   const trackAudio = (el: TrackedAudio) => {
     if (audioElements.has(el)) return;
@@ -212,9 +252,14 @@ const installAudioRecovery = () => {
         try {
           if (this.paused) this.resume();
         } catch { /* ignore */ }
-        const result = originalSpeak.call(this, utterance);
+        runWhenForeground(() => {
+          try {
+            originalSpeak.call(this, utterance);
+            startSpeechKeepAlive();
+          } catch { /* ignore */ }
+        });
         startSpeechKeepAlive();
-        return result;
+        return undefined;
       };
     }
     // Pre-warm voices list so the first speak() doesn't no-op silently.
