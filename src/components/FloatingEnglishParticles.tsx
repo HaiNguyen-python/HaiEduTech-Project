@@ -11,20 +11,30 @@ import { motion } from "framer-motion";
 // English-themed symbols: greetings, exam names, phonetics, common words & emojis.
 const SYMBOLS = [
   // Greetings & polite
-  "Hello", "Hi!", "Thanks", "Welcome", "Please", "Cheers", "Sorry",
-  // Core
+  "Hello", "Hi!", "Thanks", "Welcome", "Please", "Cheers", "Sorry", "Good job!", "Awesome", "Lovely",
+  "How are you?", "Nice to meet you", "See you!", "Take care", "You rock!",
+  // Core skills & topics
   "English", "ABC", "A-Z", "Grammar", "Vocabulary", "Speaking", "Listening", "Reading", "Writing",
+  "Pronunciation", "Spelling", "Fluency", "Accent", "Phrasal Verbs", "Collocations",
   // Exams
   "IELTS", "TOEIC", "SAT", "PTE", "Cambridge", "Starters", "Movers", "Flyers", "KET", "PET",
+  "FCE", "CAE", "CPE", "Band 7.0", "Band 8.0", "990", "1600",
   // Phonetics (IPA samples)
-  "/ˈhɛloʊ/", "/θ/", "/ð/", "/ʃ/", "/ʒ/", "/ŋ/", "/əʊ/", "/eɪ/",
+  "/ˈhɛloʊ/", "/θ/", "/ð/", "/ʃ/", "/ʒ/", "/ŋ/", "/əʊ/", "/eɪ/", "/iː/", "/uː/", "/ɔː/", "/æ/", "/ʌ/", "/ɜː/",
   // Tenses & grammar bits
-  "V-ing", "V2/V3", "to V", "S + V", "Tense", "Modal",
+  "V-ing", "V2/V3", "to V", "S + V", "Tense", "Modal", "if + S + V", "have + PP", "will + V",
+  "a/an/the", "much/many", "some/any",
   // Idioms & expressions
-  "Piece of cake", "Break a leg", "ASAP", "FYI", "OMG",
+  "Piece of cake", "Break a leg", "Hit the books", "Once in a blue moon", "Bite the bullet",
+  "ASAP", "FYI", "OMG", "BTW", "TBH", "IMO",
+  // Quotes & motivation
+  "Practice makes perfect", "Never give up", "Keep going", "Dream big", "Stay curious",
   // Emojis
-  "📚", "📖", "✏️", "🎧", "🎤", "🗣️", "🇬🇧", "🇺🇸", "🏆", "💡", "🧠", "📝", "🔤", "💬",
+  "📚", "📖", "✏️", "🖊️", "📝", "🎧", "🎤", "🗣️", "🇬🇧", "🇺🇸", "🇦🇺", "🇨🇦",
+  "🏆", "🥇", "💡", "🧠", "🔤", "🔡", "💬", "💭", "📣", "🎓", "🌟", "✨", "🚀", "📈",
+  "☕", "🫖", "🎩", "🚌", "🗽", "🎬", "🎵",
 ];
+
 
 const COLORS = [
   "hsl(var(--primary) / 0.22)",
