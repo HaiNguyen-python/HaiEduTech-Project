@@ -166,11 +166,24 @@ const speakWithNativeSwedishVoice = async (text: string, speechRate: number) => 
   if (!swedishVoice) throw new Error("no_swedish_voice");
   await new Promise<void>((resolve, reject) => {
     const u = new SpeechSynthesisUtterance(text);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const fail = () => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("speech_error"));
+    };
     u.lang = "sv-SE";
     u.rate = speechRate;
     u.voice = swedishVoice;
-    u.onend = () => resolve();
-    u.onerror = () => reject(new Error("speech_error"));
+    u.onend = finish;
+    u.onerror = fail;
+    window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 130)));
+    try { window.speechSynthesis.resume(); } catch { /* ignore */ }
     window.speechSynthesis.speak(u);
   });
 };

@@ -123,12 +123,25 @@ const speakWithNative = async (text: string, rate: number, pitch: number) => {
 
   await new Promise<void>((resolve, reject) => {
     const u = new SpeechSynthesisUtterance(text);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const fail = () => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("speech_error"));
+    };
     u.lang = "vi-VN";
     u.rate = rate;
     u.pitch = pitch;
     if (viVoice) u.voice = viVoice;
-    u.onend = () => resolve();
-    u.onerror = () => reject(new Error("speech_error"));
+    u.onend = finish;
+    u.onerror = fail;
+    window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 150)));
+    try { window.speechSynthesis.resume(); } catch { /* noop */ }
     window.speechSynthesis.speak(u);
   });
 };

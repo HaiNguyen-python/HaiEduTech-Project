@@ -186,11 +186,24 @@ const speakWithNativeFinnishVoice = async (text: string, speechRate: number, isC
 
   await new Promise<void>((resolve, reject) => {
     const utterance = new SpeechSynthesisUtterance(text);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const fail = () => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("speech_error"));
+    };
     utterance.lang = "fi-FI";
     utterance.rate = speechRate;
     utterance.voice = finnishVoice;
-    utterance.onend = () => resolve();
-    utterance.onerror = () => reject(new Error("speech_error"));
+    utterance.onend = finish;
+    utterance.onerror = fail;
+    window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 130)));
+    try { window.speechSynthesis.resume(); } catch { /* noop */ }
     window.speechSynthesis.speak(utterance);
   });
 };

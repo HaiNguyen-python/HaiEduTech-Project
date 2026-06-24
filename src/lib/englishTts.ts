@@ -119,11 +119,24 @@ const speakWithNativeEnglishVoice = async (text: string, accent: EnglishAccent, 
   if (!englishVoice) throw new Error("no_english_voice");
   await new Promise<void>((resolve, reject) => {
     const u = new SpeechSynthesisUtterance(text);
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const fail = () => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("speech_error"));
+    };
     u.lang = accent;
     u.rate = speechRate;
     u.voice = englishVoice;
-    u.onend = () => resolve();
-    u.onerror = () => reject(new Error("speech_error"));
+    u.onend = finish;
+    u.onerror = fail;
+    window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 110)));
+    try { window.speechSynthesis.resume(); } catch { /* noop */ }
     window.speechSynthesis.speak(u);
   });
 };
