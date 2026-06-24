@@ -103,7 +103,8 @@ const installAudioRecovery = () => {
   };
 
   // Patch the Audio() constructor so every `new Audio(src)` is tracked.
-  const OriginalAudio = w.Audio;
+  const wAny = w as unknown as Record<string, unknown>;
+  const OriginalAudio = wAny.Audio as typeof Audio | undefined;
   if (OriginalAudio) {
     const PatchedAudio = function (this: HTMLAudioElement, ...args: unknown[]) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,7 +113,7 @@ const installAudioRecovery = () => {
       return el;
     } as unknown as typeof Audio;
     PatchedAudio.prototype = OriginalAudio.prototype;
-    (w as unknown as Record<string, unknown>).Audio = PatchedAudio;
+    wAny.Audio = PatchedAudio;
   }
 
   // Patch HTMLMediaElement.play so audio created via <audio> tags or
