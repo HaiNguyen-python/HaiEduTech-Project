@@ -479,7 +479,9 @@ const App = () => (
             {/* /unsubscribe is registered earlier — duplicate removed */}
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
+          <Suspense fallback={null}><EnglishRouteParticles /></Suspense>
           <DeferredGlobalWidgets />
+
 
         </BrowserRouter>
       </TooltipProvider>
