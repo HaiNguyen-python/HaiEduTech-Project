@@ -172,10 +172,10 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
 };
 
 const VERB_TEMPLATES: Tmpl[] = [
-  { sv: "Det är viktigt att {W}.", vi: "Việc {VI} rất quan trọng.", en: "It is important to {EN}." },
-  { sv: "Det är bra att {W} ofta.", vi: "Thường xuyên {VI} là điều tốt.", en: "It is good to {EN} often." },
-  { sv: "Jag lär mig att {W} på svenska.", vi: "Tôi đang học cách {VI} bằng tiếng Thụy Điển.", en: "I am learning to {EN} in Swedish." },
-  { sv: "På helgen brukar vi {W} tillsammans.", vi: "Cuối tuần chúng tôi thường {VI} cùng nhau.", en: "On weekends we usually {EN} together." },
+  { sv: "Vi lär oss hur man säger '{W}' på svenska.", vi: "Chúng tôi đang học cách nói '{W}' bằng tiếng Thụy Điển.", en: "We are learning how to say '{W}' in Swedish." },
+  { sv: "Ordet '{W}' används ofta i vardagen.", vi: "Từ '{W}' (nghĩa là {VI}) được dùng thường xuyên trong cuộc sống.", en: "The word '{W}' (meaning '{EN}') is often used in everyday life." },
+  { sv: "På svenska betyder '{W}' '{EN}'.", vi: "Trong tiếng Thụy Điển, '{W}' nghĩa là '{VI}'.", en: "In Swedish, '{W}' means '{EN}'." },
+  { sv: "Försök att använda '{W}' i en mening idag.", vi: "Hãy thử dùng '{W}' trong một câu hôm nay.", en: "Try to use '{W}' in a sentence today." },
 ];
 
 const ADJ_TEMPLATES: Tmpl[] = [
