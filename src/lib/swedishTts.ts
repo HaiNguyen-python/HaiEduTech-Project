@@ -105,7 +105,7 @@ const playFromProxy = async (text: string, playbackRate: number) => {
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
   const mimeType = payload.mimeType || "audio/mpeg";
 
-  // 1) Try HTMLAudio with a data URL first — this is the most reliable path
+  // 1) Try HTMLAudio with a data URL first - this is the most reliable path
   //    inside the Lovable sandbox preview iframe (no AudioContext gesture issues,
   //    no blob: CSP edge-cases). Data URLs always inherit the page's permissions.
   try {
@@ -113,7 +113,7 @@ const playFromProxy = async (text: string, playbackRate: number) => {
     return;
   } catch { /* fall through to Web Audio */ }
 
-  // 2) Web Audio fallback — works when HTMLAudio is blocked by autoplay policy
+  // 2) Web Audio fallback - works when HTMLAudio is blocked by autoplay policy
   //    but a user-gesture-warmed AudioContext is available.
   try {
     await playBuffer(decodeBase64ToArrayBuffer(payload.audioBase64), playbackRate);

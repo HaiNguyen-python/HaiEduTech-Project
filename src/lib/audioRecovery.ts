@@ -184,7 +184,7 @@ const installAudioRecovery = () => {
           synth.pause();
           synth.resume();
         } else if (!synth.pending) {
-          // Nothing to keep alive — stop the timer until next speak.
+          // Nothing to keep alive - stop the timer until next speak.
           if (keepAliveTimer !== null) {
             clearInterval(keepAliveTimer);
             keepAliveTimer = null;

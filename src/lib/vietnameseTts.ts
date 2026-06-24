@@ -127,7 +127,7 @@ const speakWithNative = async (text: string, rate: number, pitch: number) => {
 
 /**
  * Phát âm tiếng Việt với giọng tự nhiên.
- * Pipeline: Edge function proxy (Google TTS) → endpoint trực tiếp → speechSynthesis fallback.
+ * Pipeline: Edge function proxy (Google TTS), endpoint trực tiếp, speechSynthesis fallback.
  */
 export const playVietnameseTts = async (
   text: string,
