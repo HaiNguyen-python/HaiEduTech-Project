@@ -62,8 +62,10 @@ const EnglishEssentials = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-12 relative overflow-hidden rounded-3xl py-6"
         >
+          <FloatingEnglishParticles count={20} />
+          <div className="relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border-2 border-primary/30 text-primary text-sm font-semibold mb-4">
             💎 4-in-1
           </div>
