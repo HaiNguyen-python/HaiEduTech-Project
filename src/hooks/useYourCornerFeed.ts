@@ -40,7 +40,7 @@ export function useYourCornerFeed(enabled: boolean) {
   const [loading, setLoading] = useState(true);
 
   const fetchFeed = useCallback(async () => {
-    const { data, error } = await supabase.rpc("get_your_corner_feed", { _limit: 15 });
+    const { data, error } = await supabase.rpc("get_your_corner_feed", { _limit: 10 });
     if (error || !data) {
       setPosts([]);
       setLoading(false);
