@@ -11,6 +11,9 @@ import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
+// Remove em/en dashes from assistant replies to sound more natural and less AI-like
+const stripDashes = (s: string) => s.replace(/\s*[—–]\s*/g, ", ");
+
 interface ConversationalRoleplayProps {
   lessonTitle: string;
   pillar: string;
