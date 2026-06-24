@@ -132,8 +132,10 @@ const EnglishIdioms = () => {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
+            className="mb-8 relative overflow-hidden rounded-3xl py-6 px-2"
           >
+            <FloatingEnglishParticles count={22} />
+            <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-rose-500/15 to-amber-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-sm font-semibold mb-4">
               <Quote className="w-4 h-4" /> {t("English Foundation", "English Foundation")}
             </div>
@@ -148,7 +150,9 @@ const EnglishIdioms = () => {
                 "Master the most beautiful English sayings - with real meanings, natural examples and Vietnamese equivalents. Then test yourself with 4 interactive exercises to make them stick!",
               )}
             </p>
+            </div>
           </motion.div>
+
 
           {/* Tabs */}
           <div className="flex flex-wrap gap-2 mb-8 p-1.5 rounded-2xl bg-secondary/50 border-2 border-emerald-500/50 backdrop-blur shadow-sm">
