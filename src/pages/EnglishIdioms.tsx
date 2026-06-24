@@ -22,6 +22,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { englishIdioms, IDIOM_THEMES, type IdiomEntry, type IdiomCategory } from "@/data/englishIdioms";
+import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 
 type Tab = "library" | "match" | "fill" | "quiz" | "equivalent";
 
