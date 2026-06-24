@@ -11,6 +11,9 @@ import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
+// Remove em/en dashes from assistant replies to sound more natural and less AI-like
+const stripDashes = (s: string) => s.replace(/\s*[—–]\s*/g, ", ");
+
 interface ConversationalRoleplayProps {
   lessonTitle: string;
   pillar: string;
@@ -150,7 +153,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     let assistantSoFar = "";
     const upsert = (chunk: string) => {
       assistantSoFar += chunk;
-      setMessages([initUserMsg, { role: "assistant", content: assistantSoFar }]);
+      setMessages([initUserMsg, { role: "assistant", content: stripDashes(assistantSoFar) }]);
     };
 
     await streamRoleplay({
@@ -191,12 +194,13 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     let assistantSoFar = "";
     const upsert = (chunk: string) => {
       assistantSoFar += chunk;
+      const clean = stripDashes(assistantSoFar);
       setMessages(prev => {
         const last = prev[prev.length - 1];
         if (last?.role === "assistant" && prev.length > updated.length) {
-          return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: assistantSoFar } : m);
+          return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: clean } : m);
         }
-        return [...updated, { role: "assistant", content: assistantSoFar }];
+        return [...updated, { role: "assistant", content: clean }];
       });
     };
 
