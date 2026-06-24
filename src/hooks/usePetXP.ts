@@ -148,9 +148,9 @@ export const awardPetXP = (
     }
   } catch { /* SSR-safe */ }
 
-  // Async DB sync
+  // Async DB sync — push the new authoritative local total, not the delta.
   if (!opts.skipDbSync) {
-    void pushDbXP(amount, source);
+    void pushDbXP(next.xp, source);
   }
   return next.xp;
 };
