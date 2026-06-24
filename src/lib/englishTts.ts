@@ -3,6 +3,7 @@
 // Mirrors swedishTts.ts. Ensures audio works even when the browser lacks an
 // installed English voice (preview sandbox, headless Chromium, etc.).
 import { supabase } from "@/integrations/supabase/client";
+import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
 
 export type EnglishAccent = "en-US" | "en-GB";
 
@@ -66,11 +67,14 @@ const decodeBase64ToBlob = (base64: string, mimeType: string) => {
 };
 
 const playFromProxy = async (text: string, accent: EnglishAccent, playbackRate: number) => {
-  const { data, error } = await supabase.functions.invoke("english-tts", { body: { text, accent } });
-  if (error) throw new Error("proxy_error");
-  const payload = data as EnglishTtsProxyResponse | null;
+  const payload = await invokeTtsFunction<EnglishTtsProxyResponse | null>("english-tts", { text, accent });
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
-  const blob = decodeBase64ToBlob(payload.audioBase64, payload.mimeType || "audio/mpeg");
+  const mimeType = payload.mimeType || "audio/mpeg";
+  try {
+    await playFromUrl(`data:${mimeType};base64,${payload.audioBase64}`, playbackRate);
+    return;
+  } catch { /* fall through to blob URL */ }
+  const blob = decodeBase64ToBlob(payload.audioBase64, mimeType);
   const objectUrl = URL.createObjectURL(blob);
   try { await playFromUrl(objectUrl, playbackRate); } finally { URL.revokeObjectURL(objectUrl); }
 };

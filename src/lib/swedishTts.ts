@@ -1,7 +1,7 @@
-// Swedish TTS helper — proxies Google Translate via the `swedish-tts` edge
+// Swedish TTS helper - proxies Google Translate via the `swedish-tts` edge
 // function and falls back to the native sv-SE SpeechSynthesis voice when the
 // proxy is unreachable. Mirrors `finnishTts.ts`.
-import { supabase } from "@/integrations/supabase/client";
+import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
 
 export type SwedishTtsSource = "proxy" | "native";
 export type SwedishTtsStatus = "loading" | "playing" | "ended" | "error";
@@ -101,9 +101,7 @@ const playBuffer = async (arrayBuffer: ArrayBuffer, playbackRate: number) => {
 };
 
 const playFromProxy = async (text: string, playbackRate: number) => {
-  const { data, error } = await supabase.functions.invoke("swedish-tts", { body: { text } });
-  if (error) throw new Error("proxy_error");
-  const payload = data as SwedishTtsProxyResponse | null;
+  const payload = await invokeTtsFunction<SwedishTtsProxyResponse | null>("swedish-tts", { text });
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
   const mimeType = payload.mimeType || "audio/mpeg";
 
@@ -181,9 +179,7 @@ export const playSwedishTts = async (text: string, options: SwedishTtsOptions = 
   onStatus?.("loading", { source: "proxy" });
   let proxyReason = "";
   try {
-    const { data, error } = await supabase.functions.invoke("swedish-tts", { body: { text: normalized } });
-    if (error) throw new Error(error.message || "proxy_error");
-    const payload = data as SwedishTtsProxyResponse | null;
+    const payload = await invokeTtsFunction<SwedishTtsProxyResponse | null>("swedish-tts", { text: normalized });
     if (!payload?.audioBase64) throw new Error("proxy_no_audio");
     const mimeType = payload.mimeType || "audio/mpeg";
     onStatus?.("playing", { source: "proxy" });

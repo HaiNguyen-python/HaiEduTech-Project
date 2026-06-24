@@ -1,5 +1,6 @@
 // Vietnamese TTS helper: ưu tiên giọng Google Translate (tự nhiên), fallback về speechSynthesis
 import { supabase } from "@/integrations/supabase/client";
+import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
 
 interface VietnameseTtsOptions {
   /** Tốc độ phát lại của thẻ <audio> (Google TTS gốc đã chậm sẵn). Mặc định 0.9. */
@@ -60,12 +61,17 @@ const decodeBase64ToBlob = (base64: string, mimeType: string) => {
 };
 
 const playFromProxy = async (text: string, playbackRate: number) => {
-  const { data, error } = await supabase.functions.invoke("vietnamese-tts", { body: { text } });
-  if (error) throw new Error("proxy_error");
-  const payload = data as ProxyResponse | null;
+  const payload = await invokeTtsFunction<ProxyResponse | null>("vietnamese-tts", { text });
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
 
   const mimeType = payload.mimeType || "audio/mpeg";
+  try {
+    await playFromUrl(`data:${mimeType};base64,${payload.audioBase64}`, playbackRate);
+    return;
+  } catch {
+    /* fallback */
+  }
+
   const blob = decodeBase64ToBlob(payload.audioBase64, mimeType);
   const objectUrl = URL.createObjectURL(blob);
   try {

@@ -3,6 +3,7 @@
 // SpeechSynthesis voice. Mirrors swedishTts.ts. Critical because most
 // browsers / preview sandboxes ship without a zh-CN voice installed.
 import { supabase } from "@/integrations/supabase/client";
+import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
 
 interface ChineseTtsOptions {
   playbackRate?: number;
@@ -60,11 +61,14 @@ const decodeBase64ToBlob = (base64: string, mimeType: string) => {
 };
 
 const playFromProxy = async (text: string, playbackRate: number) => {
-  const { data, error } = await supabase.functions.invoke("chinese-tts", { body: { text } });
-  if (error) throw new Error("proxy_error");
-  const payload = data as ChineseTtsProxyResponse | null;
+  const payload = await invokeTtsFunction<ChineseTtsProxyResponse | null>("chinese-tts", { text });
   if (!payload?.audioBase64) throw new Error("proxy_no_audio");
-  const blob = decodeBase64ToBlob(payload.audioBase64, payload.mimeType || "audio/mpeg");
+  const mimeType = payload.mimeType || "audio/mpeg";
+  try {
+    await playFromUrl(`data:${mimeType};base64,${payload.audioBase64}`, playbackRate);
+    return;
+  } catch { /* fall through to blob URL */ }
+  const blob = decodeBase64ToBlob(payload.audioBase64, mimeType);
   const objectUrl = URL.createObjectURL(blob);
   try { await playFromUrl(objectUrl, playbackRate); } finally { URL.revokeObjectURL(objectUrl); }
 };
