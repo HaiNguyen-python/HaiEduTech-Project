@@ -481,6 +481,7 @@ const App = () => (
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
           <Suspense fallback={null}><EnglishRouteParticles /></Suspense>
+          <Suspense fallback={null}><ChineseRouteParticles /></Suspense>
           <DeferredGlobalWidgets />
 
 
