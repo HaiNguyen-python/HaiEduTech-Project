@@ -2,7 +2,7 @@
 // `chinese-tts` edge function and falls back to the native zh-CN
 // SpeechSynthesis voice. Mirrors swedishTts.ts. Critical because most
 // browsers / preview sandboxes ship without a zh-CN voice installed.
-import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
+import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
 
 interface ChineseTtsOptions {
   playbackRate?: number;
@@ -46,10 +46,18 @@ const playFromUrl = (url: string, playbackRate: number) =>
     audio.playbackRate = playbackRate;
     audio.onended = () => { if (activeAudio === audio) activeAudio = null; resolve(); };
     audio.onerror = () => { if (activeAudio === audio) activeAudio = null; reject(new Error("audio_error")); };
-    audio.play().catch(() => {
-      if (activeAudio === audio) activeAudio = null;
-      reject(new Error("play_error"));
-    });
+    waitForAudioForeground()
+      .then(() => {
+        if (activeAudio !== audio) {
+          reject(new Error("stale_audio"));
+          return;
+        }
+        audio.play().catch(() => {
+          if (activeAudio === audio) activeAudio = null;
+          reject(new Error("play_error"));
+        });
+      })
+      .catch(() => reject(new Error("foreground_wait_error")));
   });
 
 const decodeBase64ToBlob = (base64: string, mimeType: string) => {

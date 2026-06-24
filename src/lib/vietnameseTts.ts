@@ -1,5 +1,5 @@
 // Vietnamese TTS helper: ưu tiên giọng Google Translate (tự nhiên), fallback về speechSynthesis
-import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
+import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
 
 interface VietnameseTtsOptions {
   /** Tốc độ phát lại của thẻ <audio> (Google TTS gốc đã chậm sẵn). Mặc định 0.9. */
@@ -46,10 +46,18 @@ const playFromUrl = (url: string, playbackRate: number) =>
       if (activeAudio === audio) activeAudio = null;
       reject(new Error("audio_error"));
     };
-    audio.play().catch(() => {
-      if (activeAudio === audio) activeAudio = null;
-      reject(new Error("play_error"));
-    });
+    waitForAudioForeground()
+      .then(() => {
+        if (activeAudio !== audio) {
+          reject(new Error("stale_audio"));
+          return;
+        }
+        audio.play().catch(() => {
+          if (activeAudio === audio) activeAudio = null;
+          reject(new Error("play_error"));
+        });
+      })
+      .catch(() => reject(new Error("foreground_wait_error")));
   });
 
 const decodeBase64ToBlob = (base64: string, mimeType: string) => {

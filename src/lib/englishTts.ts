@@ -2,7 +2,7 @@
 // function and falls back to the native en-US/en-GB SpeechSynthesis voice.
 // Mirrors swedishTts.ts. Ensures audio works even when the browser lacks an
 // installed English voice (preview sandbox, headless Chromium, etc.).
-import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
+import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
 
 export type EnglishAccent = "en-US" | "en-GB";
 
@@ -52,10 +52,18 @@ const playFromUrl = (url: string, playbackRate: number) =>
     audio.playbackRate = playbackRate;
     audio.onended = () => { if (activeAudio === audio) activeAudio = null; resolve(); };
     audio.onerror = () => { if (activeAudio === audio) activeAudio = null; reject(new Error("audio_error")); };
-    audio.play().catch(() => {
-      if (activeAudio === audio) activeAudio = null;
-      reject(new Error("play_error"));
-    });
+    waitForAudioForeground()
+      .then(() => {
+        if (activeAudio !== audio) {
+          reject(new Error("stale_audio"));
+          return;
+        }
+        audio.play().catch(() => {
+          if (activeAudio === audio) activeAudio = null;
+          reject(new Error("play_error"));
+        });
+      })
+      .catch(() => reject(new Error("foreground_wait_error")));
   });
 
 const decodeBase64ToBlob = (base64: string, mimeType: string) => {

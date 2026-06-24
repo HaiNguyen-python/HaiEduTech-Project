@@ -1,4 +1,4 @@
-import { invokeTtsFunction } from "@/lib/ttsFunctionFetch";
+import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
 
 interface FinnishTtsOptions {
   playbackRate?: number;
@@ -84,12 +84,22 @@ const playFromUrl = (url: string, playbackRate: number, isCurrent: () => boolean
       reject(new Error("stale_audio"));
       return;
     }
-    audio
-      .play()
-      .catch(() => {
-        if (activeAudio === audio) activeAudio = null;
-        reject(new Error("play_error"));
-      });
+    waitForAudioForeground()
+      .then(() => {
+        if (!isCurrent() || activeAudio !== audio) {
+          if (activeAudio === audio) activeAudio = null;
+          audio.pause();
+          reject(new Error("stale_audio"));
+          return;
+        }
+        audio
+          .play()
+          .catch(() => {
+            if (activeAudio === audio) activeAudio = null;
+            reject(new Error("play_error"));
+          });
+      })
+      .catch(() => reject(new Error("foreground_wait_error")));
   });
 
 const decodeBase64ToBlob = (base64: string, mimeType: string) => {
