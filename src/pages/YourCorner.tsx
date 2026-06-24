@@ -612,13 +612,13 @@ function MobileMessengerLauncher({ children }: { children: React.ReactNode }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-5 right-5 z-50 h-14 w-14 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 text-white shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+        className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 z-[90] h-14 w-14 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 text-white shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform sm:bottom-6 sm:left-6"
         aria-label="Mở tin nhắn"
       >
         <MessageCircle className="w-6 h-6" />
       </button>
       {open && (
-        <div className="fixed inset-x-0 bottom-0 z-40 p-3 pb-20 max-h-[80vh] overflow-y-auto bg-background/95 backdrop-blur border-t shadow-2xl rounded-t-2xl animate-in slide-in-from-bottom">
+        <div className="fixed inset-x-0 bottom-0 z-[95] p-3 pb-24 max-h-[80vh] overflow-y-auto bg-background/95 backdrop-blur border-t shadow-2xl rounded-t-2xl animate-in slide-in-from-bottom">
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-semibold text-sm flex items-center gap-2">
               <MessageCircle className="w-4 h-4 text-primary" /> Tin nhắn
@@ -630,6 +630,7 @@ function MobileMessengerLauncher({ children }: { children: React.ReactNode }) {
           {children}
         </div>
       )}
+
     </div>
   );
 }
