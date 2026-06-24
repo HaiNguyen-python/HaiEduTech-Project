@@ -148,8 +148,14 @@ const installAudioRecovery = () => {
         // Only resume if we believe the page wanted it playing and it was
         // paused by the system (not by the user clicking stop).
         if (el[INTENT_KEY] && el.paused && !el.ended && !el[USER_PAUSED_KEY]) {
-          el[SYSTEM_PAUSED_KEY] = false;
-          el.play().catch(() => undefined);
+          const resumed = el.play();
+          if (typeof resumed?.then === "function") {
+            resumed
+              .then(() => { el[SYSTEM_PAUSED_KEY] = false; })
+              .catch(() => { el[SYSTEM_PAUSED_KEY] = true; });
+          } else {
+            el[SYSTEM_PAUSED_KEY] = false;
+          }
         }
       } catch { /* ignore */ }
     });
@@ -177,7 +183,7 @@ const installAudioRecovery = () => {
     if (!synth) return;
     keepAliveTimer = window.setInterval(() => {
       try {
-        if (document.visibilityState !== "visible" || !document.hasFocus()) {
+        if (document.visibilityState !== "visible") {
           return;
         }
         if (synth.speaking) {
