@@ -135,7 +135,7 @@ const CodeTypingRace = ({ source, language }: Props) => {
   const pool = useMemo(() => {
     const fromSource = buildSourceSnippets(source);
     const primary = pickSnippet(source);
-    return uniq([primary, ...fromSource, ...bonus]);
+    return uniq([primary, ...fromSource, ...bonus.map(stripEmojis)]);
   }, [source, bonus]);
 
   const [poolIdx, setPoolIdx] = useState(0);
