@@ -177,6 +177,49 @@ const CodeTypingRace = ({ source, language }: Props) => {
     }
   };
 
+  // Allow Tab to indent naturally. Auto-match the snippet's expected
+  // whitespace at the cursor (so the learner can press Tab to "jump" to the
+  // next indent level just like in a real editor). Shift+Tab dedents.
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key !== "Tab" || done) return;
+    e.preventDefault();
+    const el = e.currentTarget;
+    const start = el.selectionStart ?? typed.length;
+    const end = el.selectionEnd ?? start;
+
+    if (e.shiftKey) {
+      // Dedent: remove up to 4 spaces (or one tab) before the cursor on this line.
+      const lineStart = typed.lastIndexOf("\n", start - 1) + 1;
+      const before = typed.slice(lineStart, start);
+      const m = before.match(/( {1,4}|\t)$/);
+      if (!m) return;
+      const cut = m[0].length;
+      const next = typed.slice(0, start - cut) + typed.slice(end);
+      if (!startAt && next.length > 0) setStartAt(Date.now());
+      setTyped(next);
+      requestAnimationFrame(() => {
+        el.selectionStart = el.selectionEnd = start - cut;
+      });
+      return;
+    }
+
+    // Indent: match snippet whitespace at cursor if any, else 2 spaces.
+    let insert = "  ";
+    const rest = snippet.slice(start);
+    const ws = rest.match(/^[ \t]+/);
+    if (ws) insert = ws[0];
+    const next = typed.slice(0, start) + insert + typed.slice(end);
+    if (!startAt && next.length > 0) setStartAt(Date.now());
+    setTyped(next);
+    if (next === snippet) {
+      const finishAt = Date.now();
+      setEndAt(finishAt);
+    }
+    requestAnimationFrame(() => {
+      el.selectionStart = el.selectionEnd = start + insert.length;
+    });
+  };
+
   const reset = () => {
     setTyped("");
     setStartAt(null);
