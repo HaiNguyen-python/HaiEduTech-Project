@@ -598,12 +598,26 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw) {
-        const arr: string[] = JSON.parse(raw);
-        setReadSlugs(new Set(arr));
-      } else {
-        setReadSlugs(new Set());
+      const merged = new Set<string>();
+      const pushFrom = (key: string) => {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) return;
+          const arr: string[] = JSON.parse(raw);
+          if (Array.isArray(arr)) arr.forEach((s) => merged.add(s));
+        } catch { /* ignore */ }
+      };
+      // Primary key
+      pushFrom(storageKey);
+      // Legacy keys from earlier versions that varied by AI/original variant.
+      // Merge them in so previously-read sections stay marked after reload.
+      pushFrom(`${storageKey}:orig`);
+      pushFrom(`${storageKey}:ai`);
+      setReadSlugs(merged);
+      // Persist the merged set under the unified key so legacy reads survive
+      // even after the legacy entries are cleaned up.
+      if (merged.size > 0) {
+        try { localStorage.setItem(storageKey, JSON.stringify(Array.from(merged))); } catch { /* ignore */ }
       }
     } catch {
       setReadSlugs(new Set());
