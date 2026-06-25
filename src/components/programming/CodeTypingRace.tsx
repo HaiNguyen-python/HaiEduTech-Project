@@ -370,8 +370,48 @@ const CodeTypingRace = ({ source, language }: Props) => {
           </div>
         </div>
       )}
+        </div>
+      )}
+
+      {done && (
+        <div className="mt-3 rounded-lg border border-sky-500/30 bg-sky-500/5 p-4">
+          <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+            <h3 className="text-sm font-semibold text-sky-700 dark:text-sky-300 flex items-center gap-2">
+              <BookOpen className="w-4 h-4" /> Giải thích đoạn code
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 uppercase">AI</span>
+            </h3>
+            {(explanation || explainError) && (
+              <button
+                onClick={() => { setExplanation(""); setExplainError(""); fetchExplanation(); }}
+                disabled={explainLoading}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 hover:bg-sky-500/20 disabled:opacity-50"
+              >
+                <Sparkles className="w-3 h-3" /> Giải thích lại
+              </button>
+            )}
+          </div>
+          {explainLoading && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Loader2 className="w-4 h-4 animate-spin" /> Đang phân tích code...
+            </div>
+          )}
+          {explainError && !explainLoading && (
+            <div className="text-xs text-red-600 dark:text-red-400">
+              {explainError}{" "}
+              <button onClick={fetchExplanation} className="underline font-semibold">Thử lại</button>
+            </div>
+          )}
+          {explanation && !explainLoading && (
+            <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+              {explanation}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
+
+export default CodeTypingRace;
 
 export default CodeTypingRace;
