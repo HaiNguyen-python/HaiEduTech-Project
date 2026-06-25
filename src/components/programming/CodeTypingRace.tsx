@@ -392,7 +392,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
 
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <p className="text-xs text-muted-foreground">
-          🎯 Retype the snippet below. Drills go from <strong>Easy → Hard</strong> in order.
+          🎯 {topic ? <>Drills tailored to <strong>{lessonTitle || "this lesson"}</strong> · Easy → Hard.</> : <>Retype the snippet below. Drills go from <strong>Easy → Hard</strong> in order.</>}
         </p>
         <div className="flex items-center gap-2">
           <button
