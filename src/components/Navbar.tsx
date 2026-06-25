@@ -124,7 +124,7 @@ const Navbar = () => {
     { to: "/placement-test?subject=english", label: t("📝 Bài Test Trình độ Tiếng Anh", "📝 English Placement Test") },
     { to: "#en-div1", label: "", divider: true },
     // English Essentials - promoted above Cambridge group
-    { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 English Essentials") },
+    { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 Foundational English") },
     // Foundation (everyday English)
     { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
       { to: "/cambridge-lectures", label: t("🎓 Cambridge Lectures & Test Prep", "🎓 Cambridge Lectures & Test Prep") },
