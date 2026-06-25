@@ -75,7 +75,7 @@ for e in team: print(e)
 - Dùng **multiple inheritance** lung tung → MRO (Method Resolution Order) khó đoán.
 - Đặt mọi attribute là \`__private\` → code khó test, khó mock.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** **Composition > Inheritance**. Thay vì \`Car(Engine)\` (kế thừa), hãy \`Car có Engine\` (composition). Linh hoạt hơn, ít coupling hơn.
 
@@ -388,7 +388,7 @@ Bẫy khác:
 - Stack quá nhiều decorator (\\\`@a @b @c @d @e def f()\\\`) → khó debug khi lỗi.
 - Decorator có side effect lúc define (chạy ngay khi import) → app khó load.
 
-## 7. 🎯 Best practice của thầy Hải
+## 7. 🎯 Best practice
 
 1. **LUÔN \\\`@functools.wraps\\\`** - không có ngoại lệ.
 2. Decorator **làm 1 việc duy nhất** (Single Responsibility) - log riêng, cache riêng, auth riêng.
@@ -717,7 +717,7 @@ Bẫy khác:
 - Generator giữ reference đến file/connection → quên đóng → resource leak.
 - \\\`for x in gen: ...\\\` rồi \\\`if not gen: ...\\\` → \\\`if\\\` luôn falsy vì gen đã hết.
 
-Best practice của thầy Hải:
+Best practice:
 1. **Default dùng generator** cho data pipeline.
 2. **\\\`with open()\\\`** + \\\`yield\\\` để tự đóng file.
 3. Tên rõ ràng: \\\`read_log()\\\` thay vì \\\`get_log()\\\` để báo "lazy".
@@ -960,7 +960,7 @@ with open("big.log", "r", encoding="utf-8") as f:
 - \`f.read()\` cho file 5 GB → OOM. Phải đọc từng dòng hoặc từng chunk.
 - Quên \`newline=""\` khi mở CSV trên Windows → mỗi dòng có thêm dòng trắng.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Dùng **\`pathlib.Path\`** thay vì \`os.path\` - code sạch hơn, cross-platform.
 > 

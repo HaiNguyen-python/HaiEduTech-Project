@@ -67,7 +67,7 @@ asg.create_auto_scaling_group(
 - **Để storage Block cho file tĩnh** → đắt gấp 10× so với S3.
 - **Health check sai endpoint** → load balancer giết server khoẻ vì nó không trả 200.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Quy tắc 3-2-1 cho dữ liệu - **3** bản sao, **2** loại storage khác nhau, **1** bản ở vùng địa lý khác.
 
@@ -257,7 +257,7 @@ TargetTrackingScalingPolicy:
 > - **Chỉ scale theo CPU** → app I/O-bound (đợi DB) thì CPU thấp nhưng request xếp hàng dài.
 > - **Quên warm-up** → máy mới bật chưa kịp cache đã nhận traffic → user gặp lỗi 502.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Scale-out nhanh, scale-in chậm**: thà thừa máy 5 phút còn hơn thiếu 30 giây.
@@ -509,7 +509,7 @@ Mọi file upload sau đó tự động mã hoá AES-256 với chìa từ KMS.
 - Lưu key vào source code (\`AKIA...\`) rồi push GitHub → bot quét trong 30 giây.
 - Tắt key rotation vì "ngại migrate" → 1 key dùng 5 năm bị crack thì xong.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Một dự án nên có **3 KMS key tách biệt**: \`prod-data-key\`, \`prod-log-key\`, \`dev-key\`. Khi rò rỉ chỉ thiệt hại 1/3.
 
@@ -713,7 +713,7 @@ Tưởng tượng quán cà phê của thầy đang đông khách. Bỗng 10.000
 > - **Quên log** → bị tấn công xong không biết bị gì, vá sao.
 > - **Rate limit quá lỏng** (10.000 req/IP) → bot vẫn lọt; quá chặt (50 req/IP) → user thật bị chặn.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Defense in depth**: Cloudflare/Shield (L3/4) + WAF (L7) + app-level validation (3 lớp).
@@ -966,7 +966,7 @@ cw.put_metric_alarm(
 - Alert dựa trên **giá trị tuyệt đối** thay vì **xu hướng** → traffic Tết tăng 3× cũng báo cháy.
 - Dashboard 50 widget → không ai xem.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Quy tắc **Golden Signals** của Google SRE - chỉ cần theo 4 thứ: **Latency, Traffic, Errors, Saturation**. 4 cái này nằm 1 dashboard, đủ 80% trường hợp.
 
@@ -1232,7 +1232,7 @@ print(monthly_cost(0.038))   # Reserved
 - Để **NAT Gateway** treo dù không dùng → 32 USD/tháng cho mỗi cái.
 - Snapshot EBS không xoá → tích luỹ TB sau 1 năm.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Quy tắc **70-25-5** - 70% baseline dùng Reserved, 25% biến động dùng On-Demand, 5% batch dùng Spot. Tiết kiệm 50% mà vẫn an toàn.
 
@@ -1473,7 +1473,7 @@ flowchart TD
 > - **2x team skill**: kỹ sư phải giỏi cả AWS lẫn GCP - lương gấp đôi, tuyển khó gấp ba.
 > - **Hybrid latency**: gọi DB on-prem từ cloud có thể 50-200ms → app chậm.
 
-## 5. ✅ Best practice của thầy Hải
+## 5. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Đừng multi-cloud vì *sợ* vendor lock-in - hãy dùng abstraction (Terraform, K8s) trên 1 cloud trước.
@@ -1702,7 +1702,7 @@ spec:
 > - **K8s phức tạp**: cần kỹ sư DevOps lương cao; startup 5 người dùng K8s = tự bắn vào chân.
 > - **Vendor lock-in serverless**: viết theo Lambda Event API → đổi sang Cloud Functions phải sửa nhiều.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Bắt đầu serverless** cho: webhook, cron job, image resize, API low-traffic.
@@ -1997,7 +1997,7 @@ print(dr_cost(10_000, "warm_standby"))  # 5500 USD/tháng
 - DR site ở **cùng region** với prod → cùng region sập là cùng chết.
 - Tài liệu DR runbook có nhưng "người duy nhất biết chạy" đã nghỉ việc.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Tổ chức **DR drill mỗi quý**. Tắt thật prod region trong môi trường staging và bấm đồng hồ. Lần đầu sẽ sốc, nhưng sau 3 lần là êm.
 
@@ -2249,7 +2249,7 @@ resource "aws_route53_record" "api_us" { /* tương tự cho us-east-1 */ }
 > - **Chi phí gấp đôi**: compute, storage, egress - multi-region đắt 1.8-2.5x single region.
 > - **"Active-active" giả**: nhiều team thực ra chỉ active-passive nhưng tưởng active-active → khi cháy mới biết.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Stateless trước, stateful sau**: app layer dễ multi-region; DB là phần khó nhất, cân nhắc kỹ.

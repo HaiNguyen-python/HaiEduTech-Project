@@ -64,7 +64,7 @@ Mỗi cuối sprint → demo cho khách hàng → điều chỉnh. **Không bao 
 > - "Scrum = họp nhiều" - Daily Standup chỉ 15 phút.
 > - "Waterfall đã chết" - vẫn dùng cho hệ thống tên lửa, máy bay.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Mỗi user story phải có **acceptance criteria** rõ ràng ("Khi user bấm X, thấy Y").
@@ -246,7 +246,7 @@ Mỗi ô vuông là **1 microservice** - team riêng, repo riêng, deploy riêng
 > - "Microservices = nhiều REST API" - không. Có thể giao tiếp qua message queue (Kafka, RabbitMQ).
 > - "1 service 1 database" là quy tắc cứng - quan trọng để tránh coupling.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Khởi đầu với Monolith** (Modular Monolith) → tách microservices khi đo được pain point.
@@ -441,7 +441,7 @@ git push origin feature/user-profile
 > - "Merge thẳng vào main" - không. Phải qua PR + review.
 > - "Branch để mãi cũng OK" - sai. Branch sống lâu = conflict to.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Commit **nhỏ và thường xuyên**: mỗi commit 1 ý.
@@ -639,7 +639,7 @@ class ReportService { generate(u: User) { /* ... */ } }
 > - "Áp dụng cứng SOLID khắp nơi" - sai. SOLID là **kim chỉ nam**, không phải luật cứng. Over-engineering còn tệ hơn.
 > - "Comment càng nhiều càng tốt" - sai. Code rõ → ít comment hơn.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Quy tắc **Boy Scout**: rời codebase sạch hơn lúc bạn đến.
@@ -870,7 +870,7 @@ export const add = (a: number, b: number): number => {
 > - "TDD chậm hơn" - sai. Đo thực tế: TDD chậm tuần đầu, **nhanh hơn 30-50%** sau 1 tháng vì ít bug.
 > - "QA mới phải viết test" - sai. **Dev viết unit test**. QA viết E2E + manual test phức tạp.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **AAA pattern**: Arrange → Act → Assert.
@@ -1093,7 +1093,7 @@ jobs:
 > - "Pipeline càng nhiều stage càng tốt" - sai. Pipeline >15 phút = dev mất kiên nhẫn.
 > - "Secrets để trong .yaml" - TUYỆT ĐỐI KHÔNG. Dùng GitHub Secrets / Vault.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Fail fast**: chạy lint + unit test TRƯỚC build (rẻ hơn).
@@ -1358,7 +1358,7 @@ const user = await db.query("SELECT * FROM users WHERE id = $1", [userId]);
 > - "Hide URL = security" - sai (Security through obscurity ≠ security).
 > - "Singleton dùng cho mọi thứ" - sai. Singleton tạo coupling, khó test → dùng có chọn lọc.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Defense in Depth** - nhiều lớp bảo mật (firewall + WAF + auth + RLS + input validation).
@@ -1552,7 +1552,7 @@ Reviewer chỉ mất 2 phút hiểu thay đổi, không phải đoán.
 > - "PR càng to càng oách" - sai. PR > 400 dòng làm tỷ lệ phát hiện bug giảm 50%.
 > - "Comment nặng lời cho nó nhớ" - sai. Phê bình code, không phê bình người. Dùng "What if we...", "Have you considered...".
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Nguyên tắc 400 dòng**: PR vượt 400 dòng → tách thành nhiều PR nhỏ.
@@ -1722,7 +1722,7 @@ Nhìn số → DB là nút thắt. Mở slow query log → thấy thiếu index 
 > - "Cache fix mọi thứ" - cache sai làm hệ thống khó debug gấp 10. Hỏi: cache TTL bao nhiêu? Khi nào invalidate?
 > - "Tăng server = nhanh hơn" - nếu nút thắt là 1 DB query N+1, thêm 100 server vẫn chậm.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **80/20 rule**: 80% chậm thường đến từ 20% code. Profile để tìm ra.
@@ -1910,7 +1910,7 @@ Response 404: { error: "USER_NOT_FOUND", message: "..." }
 > - "GraphQL nhanh hơn REST" - không hẳn. GraphQL linh hoạt hơn cho mobile, nhưng cache khó hơn.
 > - "Version chỉ cần khi break" - nên có \`/v1\` ngay từ đầu, đỡ phải refactor toàn bộ sau này.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **OpenAPI / Swagger**: viết spec trước, generate code & doc tự động.
@@ -2106,7 +2106,7 @@ Không có trace = bạn phải SSH vào 5 server, đối chiếu log thủ côn
 > - "Log password để debug auth" - tuyệt đối không. PII / secret phải mask: \`{ email: "u***@gmail.com" }\`.
 > - "Metrics chỉ cho ops" - sai. Dev cũng cần xem latency p95, error rate để biết feature mình ra có ảnh hưởng gì.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **RED metrics** cho service: Rate (req/s), Errors (%), Duration (p50/p95/p99).

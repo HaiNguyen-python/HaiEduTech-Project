@@ -83,7 +83,7 @@ Google đọc được "đây là bài viết, đây là ngày đăng" → ranki
 > - "Mỗi trang phải có nhiều \`<h1>\`" - sai, **chỉ 1** \`<h1>\` cho toàn trang.
 > - "\`<b>\` = \`<strong>\`" - sai, \`<strong>\` mang ý nghĩa "quan trọng", \`<b>\` chỉ là in đậm trang trí.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Luôn có \`alt\` cho \`<img>\` - bắt buộc cho người khiếm thị + SEO.
@@ -297,7 +297,7 @@ Ví dụ: \`#header .btn\` = 100 + 10 = **110**, thắng \`.btn.primary\` = 10 +
 > - "\`px\` chính xác hơn \`rem\`" - sai cho responsive. \`rem\` co theo zoom của user.
 > - "Float là cách layout chuẩn" - lỗi thời. Dùng Flexbox/Grid (bài sau).
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Đặt token màu/spacing trong \`:root\` → dễ đổi theme.
@@ -502,7 +502,7 @@ Quy tắc nhớ: "Nội dung sắp xếp 1 chiều → Flex. 2 chiều → Grid.
 > - "Phải dùng \`width: 100%\` trong Flex item" - sai, dùng \`flex: 1\`.
 > - "Không cần media query nữa với Grid" - vẫn cần cho mobile (đổi columns).
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - \`gap\` thay \`margin\` - sạch hơn, không bị margin collapse.
@@ -695,7 +695,7 @@ console.log(user?.name ?? "Not found");
 > - "\`null\` và \`undefined\` giống nhau" - không. \`undefined\` = chưa gán, \`null\` = gán rỗng có chủ đích.
 > - "Arrow function thay thế hoàn toàn function" - sai. Arrow KHÔNG có \`this\` riêng → không dùng làm method của object.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - \`const\` mặc định → giảm bug.
@@ -914,7 +914,7 @@ Lợi ích: 1 listener cho cả nghìn item, hoạt động cả với item thê
 > - "Tìm element bằng id phải dùng \`getElementById\`" - không. \`querySelector('#id')\` cũng được.
 > - "Quên \`removeEventListener\` không sao" - sai, gây memory leak trong SPA.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - \`textContent\` cho text, \`innerHTML\` chỉ cho HTML đã sanitize (DOMPurify).
@@ -1149,7 +1149,7 @@ refresh();
 > - "Chỉ test trên máy mình là đủ" - sai. Mở DevTools > Mobile + Lighthouse.
 > - "Không cần README" - sai, dù chỉ cho chính bạn 6 tháng sau.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Bắt đầu với HTML semantic + CSS mặc định trước, JS thêm sau.
