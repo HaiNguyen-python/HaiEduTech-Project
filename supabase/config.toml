@@ -36,6 +36,12 @@ verify_jwt = false
 [functions.upgrade-speaking]
 verify_jwt = false
 
+[functions.grade-writing]
+verify_jwt = false
+
+[functions.upgrade-writing]
+verify_jwt = false
+
 [functions.shortlist-universities]
 verify_jwt = false
 
