@@ -276,13 +276,22 @@ const CodeTypingRace = ({ source, language }: Props) => {
       reset();
       return;
     }
-    let next = poolIdx;
-    // Pick a different random snippet from the pool.
-    while (next === poolIdx) {
-      next = Math.floor(Math.random() * pool.length);
-    }
-    setPoolIdx(next);
+    // Move sequentially through the ladder so difficulty rises predictably.
+    setPoolIdx((i) => (i + 1) % pool.length);
   };
+
+  const prevSnippet = () => {
+    if (pool.length <= 1) return;
+    setPoolIdx((i) => (i - 1 + pool.length) % pool.length);
+  };
+
+  const diff = difficultyOf(snippet);
+  const diffClass =
+    diff === "Easy"
+      ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30"
+      : diff === "Medium"
+      ? "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30"
+      : "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/30";
 
   const fetchExplanation = async () => {
     if (explainLoading || explanation) return;
