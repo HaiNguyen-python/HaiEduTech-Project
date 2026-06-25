@@ -363,9 +363,10 @@ const Programming = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <LessonFloatingSymbols pillarId="python-pathway" count={70} className="opacity-60" />
-      <LessonFloatingSymbols pillarId="ai-foundation" count={50} className="opacity-40 blur-[1px]" />
-      <LessonFloatingSymbols pillarId="data-eng" count={40} className="opacity-35" />
+      <LessonFloatingSymbols pillarId="python-pathway" count={35} className="opacity-60" />
+      <LessonFloatingSymbols pillarId="ai-foundation" count={25} className="opacity-40 blur-[1px]" />
+      <LessonFloatingSymbols pillarId="data-eng" count={20} className="opacity-35" />
+
       <SEO title="Học Lập Trình Python, SQL, ML, AI Tiếng Việt | HaiEduTech" description="Lộ trình lập trình toàn diện: Python từ cơ bản (47 bài), SQL, Machine Learning, Data Engineering, Software Engineering. Code trực tiếp trên trình duyệt với Pyodide." path="/programming" jsonLd={COURSE_LD} />
       <Navbar />
       <div className="pt-6 pb-16 relative z-10">
