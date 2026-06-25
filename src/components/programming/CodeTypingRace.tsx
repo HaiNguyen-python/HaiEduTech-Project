@@ -153,11 +153,14 @@ const CodeTypingRace = ({ source, language }: Props) => {
   const langKey = (language || "").toLowerCase();
   const bonus = BONUS_SNIPPETS[langKey] || BONUS_SNIPPETS.python;
 
-  // Pool = primary snippet + extra source chunks + curated bonus drills.
+  // Pool: curated ladder first (Easy -> Hard), then lesson source snippets at
+  // the end so beginners always start with the simplest drill.
   const pool = useMemo(() => {
-    const fromSource = buildSourceSnippets(source);
-    const primary = pickSnippet(source);
-    return uniq([primary, ...fromSource, ...bonus.map(stripEmojis)]);
+    const fromSource = buildSourceSnippets(source)
+      .map(stripEmojis)
+      .sort((a, b) => a.length - b.length);
+    const curated = bonus.map(stripEmojis);
+    return uniq([...curated, ...fromSource]);
   }, [source, bonus]);
 
   const [poolIdx, setPoolIdx] = useState(0);
