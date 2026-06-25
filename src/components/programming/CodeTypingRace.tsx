@@ -368,14 +368,23 @@ const CodeTypingRace = ({ source, language }: Props) => {
 
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <p className="text-xs text-muted-foreground">
-          🎯 Retype the snippet below. Tap <strong>Next snippet</strong> to try a different drill!
+          🎯 Retype the snippet below. Drills go from <strong>Easy → Hard</strong> in order.
         </p>
-        <button
-          onClick={nextSnippet}
-          className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
-        >
-          <Shuffle className="w-3.5 h-3.5" /> Next snippet
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={prevSnippet}
+            disabled={pool.length <= 1}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground border border-border hover:bg-secondary/70 active:scale-95 disabled:opacity-50"
+          >
+            ← Prev
+          </button>
+          <button
+            onClick={nextSnippet}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
+          >
+            <Shuffle className="w-3.5 h-3.5" /> Next →
+          </button>
+        </div>
       </div>
 
       <div
