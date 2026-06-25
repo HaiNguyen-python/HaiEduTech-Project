@@ -169,16 +169,19 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   // Pool order: topic-specific ladder first (most relevant), then a small
   // fallback ladder for the language, then snippets harvested from the lesson
   // source code (sorted shortest -> longest so beginners ease in).
+  // Strict rule: the typing race must drill ONLY code that appears in the
+  // lesson's own theory/source. We sort lesson snippets shortest -> longest so
+  // difficulty rises naturally. Topic ladders and generic bonus snippets are
+  // used only as a last-resort fallback when the lesson has no code block,
+  // so learners never type code unrelated to the lesson they are studying.
   const pool = useMemo(() => {
-    const topicSnips = (topic?.snippets || []).map(stripEmojis);
     const fromSource = buildSourceSnippets(source)
       .map(stripEmojis)
       .sort((a, b) => a.length - b.length);
-    const curated = bonus.map(stripEmojis);
-    // When we have a topic match, keep only a couple of generic curated drills
-    // so the lesson-specific ladder dominates.
-    const fillers = topic ? curated.slice(0, 2) : curated;
-    return uniq([...topicSnips, ...fillers, ...fromSource]);
+    if (fromSource.length > 0) return uniq(fromSource);
+    const topicSnips = (topic?.snippets || []).map(stripEmojis);
+    if (topicSnips.length > 0) return uniq(topicSnips);
+    return uniq(bonus.map(stripEmojis));
   }, [source, bonus, topic]);
 
   const [poolIdx, setPoolIdx] = useState(0);
