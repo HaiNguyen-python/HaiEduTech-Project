@@ -1495,6 +1495,759 @@ class Checkout {
           { question: "Hash password NÊN dùng thuật toán nào?", options: ["MD5", "SHA1", "bcrypt / argon2", "Base64"], answer: 2, explanation: "bcrypt và argon2 chậm có chủ đích + có salt → kháng brute-force và rainbow table. MD5/SHA1 lỗi thời." },
           { question: "Strategy Pattern hữu ích KHI nào?", options: ["Khi cần đổi thuật toán runtime mà không sửa client", "Khi chỉ có 1 instance", "Khi cần singleton", "Khi không có test"], answer: 0, explanation: "Strategy đóng gói nhiều thuật toán cùng interface, client chọn instance lúc runtime - vd: 3 cổng thanh toán cùng trả về boolean pay()." }
         ]
+      },
+      // ──────────────────────────── LESSON 8 ────────────────────────────
+      {
+        id: "se-code-review",
+        title: "Code Review & Pull Request chuyên nghiệp",
+        titleEn: "Professional Code Review & Pull Requests",
+        level: 3,
+        difficulty: "intermediate",
+        codeLanguage: "markdown",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+Một bạn dev junior gửi PR 2000 dòng cho 5 tính năng khác nhau. Reviewer mở ra, lướt 30 giây, gõ "LGTM" rồi merge. 1 tuần sau prod sập vì 1 lỗi null pointer ẩn trong đó. Đây là **Code Review giả** - rất phổ biến ở team thiếu kỷ luật.
+
+Code Review tốt là **tấm lưới an toàn cuối cùng** trước khi code đến tay user. Theo Google, mỗi 1 giờ review tiết kiệm trung bình 5 giờ debug sau này.
+
+## 2. 💡 Khái niệm chính
+
+**Pull Request (PR)** = đề nghị "xin gộp" branch của bạn vào main. Reviewer đọc, hỏi, yêu cầu sửa, rồi mới approve.
+
+3 cấp độ review:
+
+| Cấp độ | Mục tiêu | Thời gian |
+|---|---|---|
+| **Skim** | Bắt lỗi cú pháp, naming xấu | 5 phút |
+| **Deep** | Hiểu logic, kiểm tra edge case | 20-40 phút |
+| **Design** | Đánh giá kiến trúc, ảnh hưởng dài hạn | 1-2 giờ |
+
+## 3. 🧰 PR chuẩn cần có gì
+
+- **Tiêu đề** ngắn theo Conventional Commits: \`feat(cart): add coupon validation\`.
+- **Mô tả** trả lời 3 câu: làm gì, vì sao, test thế nào.
+- **Screenshot/GIF** nếu đụng UI.
+- **Linked issue** (#123) để truy vết yêu cầu.
+- **Checklist tự kiểm**: tests pass, lint clean, không log nhạy cảm.
+
+## 4. 🎯 Ví dụ thực tế
+
+Bạn fix bug giá sale sai. Thay vì PR "fix bug", hãy viết:
+
+\`\`\`text
+fix(checkout): apply discount before tax, not after
+
+- Bug: tax = (price - discount) * 0.1, nhưng cũ tính tax trước
+- Sửa: di chuyển discount trước hàm calcTax()
+- Test: thêm 3 case (0%, 10%, 50% discount) trong cart.test.ts
+- Fixes #482
+\`\`\`
+
+Reviewer chỉ mất 2 phút hiểu thay đổi, không phải đoán.
+
+## 5. ⚠️ Hiểu nhầm thường gặp
+
+> ⚠️ **Cảnh báo:**
+> - "Reviewer là người gác cổng" - sai. Reviewer là **đồng tác giả**, chia sẻ trách nhiệm khi prod sập.
+> - "PR càng to càng oách" - sai. PR > 400 dòng làm tỷ lệ phát hiện bug giảm 50%.
+> - "Comment nặng lời cho nó nhớ" - sai. Phê bình code, không phê bình người. Dùng "What if we...", "Have you considered...".
+
+## 6. ✅ Best practice của thầy Hải
+
+> 💡 **Mẹo:**
+> - **Nguyên tắc 400 dòng**: PR vượt 400 dòng → tách thành nhiều PR nhỏ.
+> - **SLA review** trong team: PR phải có phản hồi trong 24h, không để treo.
+> - **Nit/Suggestion/Required**: gắn tag rõ mức độ. \`nit:\` = tùy chọn, \`required:\` = bắt buộc sửa.
+> - **2026 trend**: AI reviewer (CodeRabbit, GitHub Copilot Review) chạy trước → con người chỉ review những điều AI bỏ sót (business logic, security context).
+> - Tự review PR của mình **trước khi** request review của người khác - bạn sẽ tự bắt được 30% lỗi.
+
+## 7. 🤔 Áp dụng
+
+Trước khi gõ "Approve", trả lời 4 câu:
+1. Tôi có thể giải thích thay đổi này cho người khác không?
+2. Có test bao phủ thay đổi không?
+3. Có rủi ro nào về bảo mật, hiệu năng, dữ liệu?
+4. Code này sẽ dễ sửa sau 6 tháng nữa không?
+`,
+        theoryEn: `## 1. 🚦 Real-world Problem
+
+A junior dev opens a 2000-line PR covering 5 unrelated features. The reviewer skims for 30 seconds, types "LGTM", merges. A week later prod is down because of a null pointer hidden in the diff. This is **fake code review** - extremely common in undisciplined teams.
+
+Good code review is the **last safety net** before code reaches users. Google data shows every 1 hour of review saves about 5 hours of later debugging.
+
+## 2. 💡 Core Concepts
+
+A **Pull Request (PR)** = a request to merge your branch into main. Reviewers read, ask, request changes, then approve.
+
+3 review levels:
+
+| Level | Goal | Time |
+|---|---|---|
+| **Skim** | Catch syntax, naming smells | 5 min |
+| **Deep** | Understand logic, edge cases | 20-40 min |
+| **Design** | Evaluate architecture, long-term impact | 1-2 hours |
+
+## 3. 🧰 A Good PR Must Contain
+
+- **Title** following Conventional Commits: \`feat(cart): add coupon validation\`.
+- **Description** answering 3 questions: what, why, how tested.
+- **Screenshot/GIF** for UI changes.
+- **Linked issue** (#123) for traceability.
+- **Self-checklist**: tests pass, lint clean, no sensitive logs.
+
+## 4. 🎯 Concrete Example
+
+Fixing a wrong sale price bug, write:
+
+\`\`\`text
+fix(checkout): apply discount before tax, not after
+
+- Bug: tax computed before discount applied
+- Fix: move discount step before calcTax()
+- Test: added 3 cases (0%, 10%, 50% discount) in cart.test.ts
+- Fixes #482
+\`\`\`
+
+The reviewer needs 2 minutes to understand instead of guessing.
+
+## 5. ⚠️ Common Misconceptions
+
+> ⚠️ **Warning:**
+> - "Reviewer is a gatekeeper" - wrong. The reviewer is a **co-author**, sharing responsibility when prod breaks.
+> - "Bigger PR = more impressive" - wrong. PRs > 400 lines reduce bug-detection rate by 50%.
+> - "Be harsh so they learn" - wrong. Critique the code, not the person. Use "What if we...", "Have you considered...".
+
+## 6. ✅ Best Practices
+
+> 💡 **Tips:**
+> - **400-line rule**: split PRs above 400 lines.
+> - **Review SLA**: every PR gets feedback within 24h.
+> - **Nit / Suggestion / Required**: tag the severity of each comment.
+> - **2026 trend**: AI reviewers (CodeRabbit, GitHub Copilot Review) run first; humans focus on what AI misses (business logic, security context).
+> - Self-review your own PR before requesting review - you will catch ~30% of issues yourself.
+
+## 7. 🤔 Apply
+
+Before clicking "Approve", answer 4 questions:
+1. Can I explain this change to someone else?
+2. Are there tests covering the change?
+3. Any security, performance, or data risk?
+4. Will this code be easy to modify 6 months from now?
+`,
+        code: `# Self-review checklist before opening a PR (paste at top of PR description)
+
+## 🧪 Quality
+- [ ] All unit tests pass locally (\`npm test\`)
+- [ ] New code has tests covering happy path + 1-2 edge cases
+- [ ] No \`console.log\`, \`print(\`, or commented-out code left behind
+- [ ] Lint & format clean (\`npm run lint\`)
+
+## 📐 Design
+- [ ] PR does ONE thing (single responsibility)
+- [ ] Diff < 400 lines (if not, can it be split?)
+- [ ] No breaking API change without a migration note
+
+## 🔐 Safety
+- [ ] No secrets, tokens, API keys in the diff
+- [ ] All user input is validated server-side
+- [ ] DB migrations are reversible
+
+## 📝 Communication
+- [ ] Title follows Conventional Commits
+- [ ] Description explains WHY, not just WHAT
+- [ ] Linked to an issue or ticket
+- [ ] Screenshot/GIF added for UI changes`,
+        exercise: "Mở 1 PR cũ của bạn (hoặc lấy 1 PR public trên GitHub). Chấm điểm theo 4 tiêu chí: tiêu đề, mô tả, kích thước, test. Viết lại tiêu đề + mô tả theo chuẩn ở bài này.",
+        exerciseEn: "Pick one of your past PRs (or any public PR on GitHub). Score it on 4 criteria: title, description, size, tests. Rewrite the title and description following this lesson's standard.",
+        quiz: [
+          { question: "Kích thước PR tối ưu để giữ tỷ lệ phát hiện bug cao?", options: ["< 50 dòng", "< 400 dòng", "< 2000 dòng", "Không giới hạn"], answer: 1, explanation: "Nghiên cứu của Cisco & SmartBear cho thấy PR > 400 dòng làm tỷ lệ tìm bug giảm rõ rệt. Tách nhỏ giúp review chất lượng hơn." },
+          { question: "Mô tả PR cần trả lời 3 câu nào?", options: ["Ai, ở đâu, khi nào", "Làm gì, vì sao, test thế nào", "Lương bao nhiêu, deadline khi nào, ai approve", "Tên biến, tên file, tên hàm"], answer: 1, explanation: "WHAT - WHY - HOW TESTED là khung 3 câu giúp reviewer hiểu PR trong 1 phút." },
+          { question: "Reviewer KHÔNG nên làm điều nào?", options: ["Hỏi 'What if user X?'", "Đề xuất tên hàm rõ hơn", "Viết 'Code này dở quá, học lại đi'", "Yêu cầu thêm test edge case"], answer: 2, explanation: "Phê bình phải hướng vào code, không hướng vào người. Ngôn từ tôn trọng giữ tinh thần team và thúc đẩy học hỏi." },
+          { question: "Conventional Commit nào ĐÚNG?", options: ["Fixed bug", "feat(cart): add coupon validation", "Update", "WIP - do not review"], answer: 1, explanation: "Conventional Commits = type(scope): summary. Giúp tự tạo changelog và đọc lịch sử nhanh." },
+          { question: "Khi nào nên tự review PR của mình?", options: ["Không bao giờ - mất thời gian", "Trước khi request review của người khác", "Sau khi đã merge", "Chỉ khi sếp yêu cầu"], answer: 1, explanation: "Tự review giúp bắt 30% lỗi ngớ ngẩn (log thừa, code chết, lỗi chính tả) trước khi tốn thời gian của reviewer." }
+        ]
+      },
+      // ──────────────────────────── LESSON 9 ────────────────────────────
+      {
+        id: "se-debugging-performance",
+        title: "Debug & Tối ưu hiệu năng",
+        titleEn: "Debugging & Performance Optimization",
+        level: 3,
+        difficulty: "intermediate",
+        codeLanguage: "typescript",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+App của bạn chạy nhanh trên máy dev. Lên prod, người dùng kêu "load 8 giây mới ra danh sách sản phẩm". Bạn đoán mò: thêm cache → không cải thiện. Thêm server → vẫn chậm. Đó là vì bạn **fix mò mà không đo**.
+
+Quy tắc vàng: **"Measure first, optimize second"** - đo trước, sửa sau. Không có số liệu = đang chơi xổ số.
+
+## 2. 💡 Quy trình debug 5 bước
+
+1. **Reproduce** - tái hiện bug ổn định trên máy bạn.
+2. **Isolate** - thu nhỏ vùng nghi vấn (binary search trên commit, comment dần code).
+3. **Hypothesize** - đoán nguyên nhân, viết ra giấy.
+4. **Test** - sửa 1 thứ, xem giả thuyết đúng không.
+5. **Fix + Test lại** - viết test để bug không quay lại.
+
+## 3. 🧰 3 công cụ bắt buộc
+
+| Công cụ | Dùng để | Ví dụ |
+|---|---|---|
+| **Logger (có level)** | Theo dõi luồng & lỗi | \`logger.warn("slow query", { ms: 1240 })\` |
+| **Profiler** | Tìm hàm/query chiếm CPU/thời gian | Chrome DevTools Performance, py-spy, pprof |
+| **APM** | Đo end-to-end ở prod | Sentry, Datadog, New Relic |
+
+## 4. 🎯 Ví dụ - Bug "API chậm"
+
+❌ **Sai (đoán mò):** Cache toàn bộ API → vẫn chậm.
+
+✅ **Đúng (đo lường):**
+
+\`\`\`typescript
+console.time("db.query");
+const orders = await db.orders.find({ userId });
+console.timeEnd("db.query");        // 1240 ms (!)
+
+console.time("enrich");
+const enriched = await enrichWithProductInfo(orders);
+console.timeEnd("enrich");          // 120 ms
+\`\`\`
+
+Nhìn số → DB là nút thắt. Mở slow query log → thấy thiếu index trên \`orders.userId\`. Thêm index → 1240ms → 8ms. Một dòng SQL ăn đứt 1 tuần tối ưu mù.
+
+## 5. ⚠️ Hiểu nhầm thường gặp
+
+> ⚠️ **Cảnh báo:**
+> - "Premature optimization is the root of all evil" - đúng, nhưng KHÔNG có nghĩa là **bỏ qua hiệu năng**. Nó có nghĩa là: đừng tối ưu khi **chưa đo**.
+> - "Cache fix mọi thứ" - cache sai làm hệ thống khó debug gấp 10. Hỏi: cache TTL bao nhiêu? Khi nào invalidate?
+> - "Tăng server = nhanh hơn" - nếu nút thắt là 1 DB query N+1, thêm 100 server vẫn chậm.
+
+## 6. ✅ Best practice của thầy Hải
+
+> 💡 **Mẹo:**
+> - **80/20 rule**: 80% chậm thường đến từ 20% code. Profile để tìm ra.
+> - **Budget hiệu năng**: API < 200ms, render < 1s, bundle JS < 250KB gzip.
+> - **N+1 query** là kẻ thù số 1 - dùng \`include\`, \`join\`, hoặc DataLoader.
+> - **Index database** trên cột hay filter/join. Đừng index tất cả (làm chậm write).
+> - **2026 trend**: AI-assisted debugging - Cursor / Copilot giải thích stack trace, gợi ý fix. Nhưng **luôn đo lại** sau khi nhận gợi ý.
+
+## 7. 🤔 Áp dụng
+
+Khi gặp bug hiệu năng, hỏi theo thứ tự:
+1. Đo - hàm nào / query nào chậm nhất?
+2. Tại sao - thiếu index? N+1? Block I/O?
+3. Sửa - thay đổi nhỏ nhất có thể.
+4. Đo lại - giảm bao nhiêu %? Có hồi quy ở chỗ khác?
+`,
+        theoryEn: `## 1. 🚦 Real-world Problem
+
+Your app is fast on your dev machine. In prod, users complain about 8-second load times. You guess: add cache - no change. Add more servers - still slow. You are **fixing blindly without measuring**.
+
+Golden rule: **measure first, optimize second**. No numbers = playing the lottery.
+
+## 2. 💡 5-Step Debugging Process
+
+1. **Reproduce** - get a stable repro on your machine.
+2. **Isolate** - narrow the suspect area (binary search commits, comment code out).
+3. **Hypothesize** - guess the cause, write it down.
+4. **Test** - change one thing, see if the hypothesis holds.
+5. **Fix + Regress test** - write a test so the bug cannot return.
+
+## 3. 🧰 Three Must-Have Tools
+
+| Tool | Use | Example |
+|---|---|---|
+| **Logger (with levels)** | Trace flow & errors | \`logger.warn("slow query", { ms: 1240 })\` |
+| **Profiler** | Find hot functions | Chrome DevTools Perf, py-spy, pprof |
+| **APM** | End-to-end production timing | Sentry, Datadog, New Relic |
+
+## 4. 🎯 Example - Slow API
+
+❌ **Wrong (guessing):** Cache everything - still slow.
+
+✅ **Right (measuring):**
+
+\`\`\`typescript
+console.time("db.query");
+const orders = await db.orders.find({ userId });
+console.timeEnd("db.query");        // 1240 ms (!)
+
+console.time("enrich");
+const enriched = await enrichWithProductInfo(orders);
+console.timeEnd("enrich");          // 120 ms
+\`\`\`
+
+The DB is the bottleneck. Slow query log shows a missing index on \`orders.userId\`. Adding the index: 1240ms → 8ms. One SQL line beats a week of blind tuning.
+
+## 5. ⚠️ Common Misconceptions
+
+> ⚠️ **Warning:**
+> - "Premature optimization is the root of all evil" - true, but it doesn't mean **ignore performance**. It means don't optimize before measuring.
+> - "Cache fixes everything" - wrong cache makes systems 10x harder to debug. Ask: TTL? Invalidation strategy?
+> - "More servers = faster" - if the bottleneck is one N+1 query, 100 servers still feel slow.
+
+## 6. ✅ Best Practices
+
+> 💡 **Tips:**
+> - **80/20 rule**: 80% of slowness comes from 20% of code. Profile to find it.
+> - **Performance budget**: API < 200ms, render < 1s, JS bundle < 250KB gzipped.
+> - **N+1 queries** are enemy #1 - use joins, includes, or DataLoader.
+> - **Index databases** on columns you filter/join, not every column.
+> - **2026 trend**: AI-assisted debugging (Cursor, Copilot) explains stack traces and suggests fixes - but **always re-measure** after applying a suggestion.
+
+## 7. 🤔 Apply
+
+When you face a performance bug, ask in order:
+1. Measure - which function/query is slowest?
+2. Why - missing index? N+1? Blocking I/O?
+3. Fix - smallest change possible.
+4. Measure again - by how much? Any regression elsewhere?
+`,
+        code: `// Tiny instrumentation helper - drop-in for any TS/JS project.
+// Use it to MEASURE before guessing.
+
+type Timing = { label: string; ms: number };
+const timings: Timing[] = [];
+
+export async function measure<T>(label: string, fn: () => Promise<T>): Promise<T> {
+  const start = performance.now();
+  try {
+    return await fn();
+  } finally {
+    const ms = Math.round(performance.now() - start);
+    timings.push({ label, ms });
+    if (ms > 200) console.warn(\`⚠️  slow: \${label} took \${ms}ms\`);
+  }
+}
+
+export function timingReport() {
+  const sorted = [...timings].sort((a, b) => b.ms - a.ms);
+  console.table(sorted.slice(0, 10));
+  timings.length = 0; // reset after report
+}
+
+// ─── Usage ──────────────────────────────────────────────
+// async function getDashboard(userId: string) {
+//   const orders   = await measure("db.orders",  () => db.orders.find({ userId }));
+//   const products = await measure("db.products", () => enrichWithProductInfo(orders));
+//   const summary  = await measure("compute",    () => buildSummary(products));
+//   return summary;
+// }
+// // After a request:
+// timingReport();
+// ┌─────────┬──────────────┬─────┐
+// │ (index) │ label        │ ms  │
+// ├─────────┼──────────────┼─────┤
+// │ 0       │ 'db.orders'  │ 1240│  ← THE bottleneck
+// │ 1       │ 'compute'    │ 30  │
+// │ 2       │ 'db.products'│ 12  │
+// └─────────┴──────────────┴─────┘`,
+        exercise: "Chọn 1 trang trong app bạn đang làm. Đo thời gian 3 đoạn: load data, transform, render. Báo cáo đoạn chậm nhất và đề xuất 1 cách giảm 50%.",
+        exerciseEn: "Pick a page in your current app. Measure 3 segments: data load, transform, render. Report the slowest and propose one change to cut it in half.",
+        quiz: [
+          { question: "Bước đầu tiên khi debug bug hiệu năng?", options: ["Thêm cache", "Đo lường (measure)", "Thêm server", "Viết lại bằng Rust"], answer: 1, explanation: "Không có số liệu nghĩa là tối ưu mò. Luôn profile / time / log trước khi sửa." },
+          { question: "N+1 query là gì?", options: ["1 query rất nhanh", "1 query chính + N query phụ cho từng bản ghi - làm app chậm", "Loại lỗi cú pháp", "Tên 1 design pattern"], answer: 1, explanation: "Vd: lấy 100 user rồi loop gọi DB để lấy posts → 1+100 query. Dùng join/include để gộp thành 1-2 query." },
+          { question: "Phát biểu nào ĐÚNG về cache?", options: ["Cache luôn nhanh và an toàn", "Cache sai làm hệ thống khó debug và dễ trả dữ liệu cũ", "Cache thay thế index DB", "Cache không cần TTL"], answer: 1, explanation: "Cache cần chiến lược invalidate rõ ràng; nếu không sẽ phục vụ dữ liệu cũ và bug rất khó tái hiện." },
+          { question: "Performance budget cho API thường là?", options: ["< 5 giây", "< 200ms", "< 2 phút", "Không cần budget"], answer: 1, explanation: "Người dùng cảm nhận 'nhanh' khi API < 200ms. Trên 1s là rõ ràng chậm." },
+          { question: "Quy tắc 80/20 trong tối ưu nghĩa là?", options: ["20% bug đến từ 80% code", "80% chậm đến từ 20% code - profile để tìm", "Phải tối ưu 80% code", "Cần 80 ngày để tối ưu"], answer: 1, explanation: "Đa số nút thắt nằm ở 1 vài hot path. Profile để khoanh đúng vùng, đừng phân tán công sức." }
+        ]
+      },
+      // ──────────────────────────── LESSON 10 ────────────────────────────
+      {
+        id: "se-api-design",
+        title: "Thiết kế API: REST & GraphQL",
+        titleEn: "API Design: REST & GraphQL",
+        level: 3,
+        difficulty: "intermediate",
+        codeLanguage: "typescript",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+Team backend làm API \`POST /getUserData\`, trả về 50 trường dù mobile chỉ cần 3. Team mobile phải lọc thủ công, tốn 4G người dùng. 1 tháng sau backend đổi 1 trường → cả 3 app (web, iOS, Android) đều vỡ vì không có hợp đồng rõ ràng.
+
+API tốt = **hợp đồng rõ ràng** giữa frontend và backend. Sai 1 tên endpoint = hàng chục client phải sửa.
+
+## 2. 💡 REST vs GraphQL
+
+| Tiêu chí | REST | GraphQL |
+|---|---|---|
+| Endpoint | Nhiều (mỗi tài nguyên 1 URL) | Một (\`/graphql\`) |
+| Lấy data | Nhận đủ trường server định | Client chọn trường cần |
+| Caching | Dễ (HTTP cache) | Khó hơn |
+| Phù hợp | API public, microservices đơn giản | Mobile, UI nhiều màn hình |
+
+## 3. 🧰 7 quy tắc REST chuẩn
+
+1. **Danh từ, không động từ**: \`GET /users\` ✅, \`GET /getUsers\` ❌.
+2. **Số nhiều**: \`/products/42\` thay vì \`/product/42\`.
+3. **HTTP verb đúng**: GET (đọc), POST (tạo), PUT/PATCH (sửa), DELETE (xóa).
+4. **Mã trạng thái chuẩn**: 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404, 500.
+5. **Version trong URL**: \`/v1/users\` để đổi sau không vỡ client cũ.
+6. **Phân trang**: \`?page=2&limit=20\` hoặc cursor-based.
+7. **Lọc & sắp xếp**: \`?status=active&sort=-createdAt\`.
+
+## 4. 🎯 Ví dụ thực tế
+
+❌ **API tệ:**
+
+\`\`\`text
+POST /api/getUserOrders
+Body: { user_id: 1, include_all_fields: true }
+Response 200 (kể cả khi user không tồn tại): { error: "user not found" }
+\`\`\`
+
+✅ **API tốt:**
+
+\`\`\`text
+GET /v1/users/1/orders?status=paid&limit=20
+Response 200: { data: [...], pagination: { next: "cursor_abc" } }
+Response 404: { error: "USER_NOT_FOUND", message: "..." }
+\`\`\`
+
+## 5. ⚠️ Hiểu nhầm thường gặp
+
+> ⚠️ **Cảnh báo:**
+> - "Return 200 cho mọi thứ rồi check field error" - sai. Status code là **giao thức**, dùng đúng để client cache, retry, monitor.
+> - "GraphQL nhanh hơn REST" - không hẳn. GraphQL linh hoạt hơn cho mobile, nhưng cache khó hơn.
+> - "Version chỉ cần khi break" - nên có \`/v1\` ngay từ đầu, đỡ phải refactor toàn bộ sau này.
+
+## 6. ✅ Best practice của thầy Hải
+
+> 💡 **Mẹo:**
+> - **OpenAPI / Swagger**: viết spec trước, generate code & doc tự động.
+> - **Idempotent**: PUT/DELETE gọi 2 lần phải cùng kết quả. POST nên hỗ trợ \`Idempotency-Key\` header cho thanh toán.
+> - **Error shape thống nhất**: \`{ error: "CODE", message, details }\` - dễ test, dễ i18n.
+> - **Pagination cursor** > offset cho dataset lớn (offset chậm dần khi page tăng).
+> - **2026 trend**: tRPC + Zod cho monorepo TypeScript (type-safe full-stack); GraphQL Federation cho microservices lớn.
+
+## 7. 🤔 Áp dụng
+
+Trước khi thiết kế 1 endpoint, hỏi:
+1. Tài nguyên là gì? (danh từ)
+2. Hành động là gì? (HTTP verb)
+3. Ai gọi? (auth, role)
+4. Đầu vào/đầu ra dạng nào? (schema)
+5. Lỗi có thể xảy ra? (status code chuẩn)
+`,
+        theoryEn: `## 1. 🚦 Real-world Problem
+
+Backend ships \`POST /getUserData\` returning 50 fields, but mobile only needs 3. Mobile filters client-side, wasting users' data plan. A month later backend renames one field - 3 apps break because there is no clear contract.
+
+A great API is a **clear contract** between frontend and backend. One bad endpoint name ripples across many clients.
+
+## 2. 💡 REST vs GraphQL
+
+| Criterion | REST | GraphQL |
+|---|---|---|
+| Endpoints | Many (one URL per resource) | One (\`/graphql\`) |
+| Data shape | Server-defined | Client picks fields |
+| Caching | Easy via HTTP cache | Harder |
+| Best for | Public APIs, simple services | Mobile, multi-screen UIs |
+
+## 3. 🧰 7 REST Rules
+
+1. **Nouns, not verbs**: \`GET /users\` ✅, \`GET /getUsers\` ❌.
+2. **Plural**: \`/products/42\`.
+3. **Right HTTP verb**: GET, POST, PUT/PATCH, DELETE.
+4. **Standard status codes**: 200, 201, 400, 401, 404, 500.
+5. **Versioning**: \`/v1/users\` so changes do not break old clients.
+6. **Pagination**: \`?page=2&limit=20\` or cursor-based.
+7. **Filter & sort**: \`?status=active&sort=-createdAt\`.
+
+## 4. 🎯 Concrete Example
+
+❌ **Bad API:**
+
+\`\`\`text
+POST /api/getUserOrders
+Body: { user_id: 1, include_all_fields: true }
+Response 200 even on missing user: { error: "user not found" }
+\`\`\`
+
+✅ **Good API:**
+
+\`\`\`text
+GET /v1/users/1/orders?status=paid&limit=20
+Response 200: { data: [...], pagination: { next: "cursor_abc" } }
+Response 404: { error: "USER_NOT_FOUND", message: "..." }
+\`\`\`
+
+## 5. ⚠️ Common Misconceptions
+
+> ⚠️ **Warning:**
+> - "Return 200 always and check an error field" - wrong. Status codes are a protocol that powers caching, retries, monitoring.
+> - "GraphQL is always faster than REST" - it is more flexible for mobile, but caching is harder.
+> - "Version only when breaking" - include \`/v1\` from day one.
+
+## 6. ✅ Best Practices
+
+> 💡 **Tips:**
+> - **OpenAPI / Swagger**: write the spec first, generate code and docs.
+> - **Idempotent**: PUT/DELETE called twice must yield the same state. POST should support \`Idempotency-Key\` for payments.
+> - **Uniform error shape**: \`{ error: "CODE", message, details }\`.
+> - **Cursor pagination** beats offset for large datasets.
+> - **2026 trend**: tRPC + Zod for TypeScript monorepos; GraphQL Federation for large microservice estates.
+
+## 7. 🤔 Apply
+
+Before designing an endpoint, ask:
+1. What is the resource? (noun)
+2. What is the action? (HTTP verb)
+3. Who calls it? (auth, role)
+4. What is the input/output schema?
+5. What errors can happen? (status codes)
+`,
+        code: `// Tiny Express-style REST handler showing the 7 rules in action.
+// Notice: nouns, plural, status codes, pagination, uniform errors.
+
+import type { Request, Response } from "express";
+
+type ApiError = { error: string; message: string; details?: unknown };
+const err = (code: string, message: string, details?: unknown): ApiError => ({
+  error: code, message, details,
+});
+
+// GET /v1/users/:userId/orders?status=paid&limit=20&cursor=abc
+export async function listUserOrders(req: Request, res: Response) {
+  const { userId } = req.params;
+  const status = String(req.query.status ?? "");
+  const limit = Math.min(Number(req.query.limit ?? 20), 100);
+  const cursor = req.query.cursor as string | undefined;
+
+  // 1. Validate
+  if (!/^[0-9]+$/.test(userId)) {
+    return res.status(400).json(err("INVALID_USER_ID", "userId must be numeric"));
+  }
+
+  // 2. AuthZ - the caller must own the user resource or be admin
+  if (req.user?.id !== userId && req.user?.role !== "admin") {
+    return res.status(403).json(err("FORBIDDEN", "You cannot view these orders"));
+  }
+
+  // 3. Fetch + paginate (cursor-based)
+  const user = await db.user.findById(userId);
+  if (!user) return res.status(404).json(err("USER_NOT_FOUND", "No such user"));
+
+  const orders = await db.orders.list({ userId, status, limit, cursor });
+
+  // 4. Uniform success shape
+  return res.status(200).json({
+    data: orders.items,
+    pagination: { next: orders.nextCursor },
+  });
+}`,
+        exercise: "Thiết kế 5 endpoint cho 1 app TODO: tạo task, xem danh sách, đánh dấu xong, sửa, xóa. Viết: URL, HTTP verb, body mẫu, status code thành công và 2 lỗi có thể.",
+        exerciseEn: "Design 5 endpoints for a TODO app: create, list, mark done, edit, delete. Specify: URL, verb, sample body, success status, 2 possible error codes.",
+        quiz: [
+          { question: "URL nào theo chuẩn REST?", options: ["GET /getAllUsers", "POST /user/delete/42", "DELETE /v1/users/42", "GET /api?action=listUsers"], answer: 2, explanation: "REST dùng danh từ + số nhiều + HTTP verb. \`DELETE /v1/users/42\` thể hiện rõ tài nguyên và hành động." },
+          { question: "Status code đúng cho 'tạo user thành công'?", options: ["200 OK", "201 Created", "204 No Content", "400 Bad Request"], answer: 1, explanation: "201 Created báo rằng tài nguyên mới đã được tạo, thường kèm header \`Location\` chỉ tới tài nguyên đó." },
+          { question: "Idempotent nghĩa là gì?", options: ["Gọi 1 lần thành công", "Gọi nhiều lần kết quả như gọi 1 lần", "Luôn trả về null", "Chạy nhanh hơn 200ms"], answer: 1, explanation: "PUT, DELETE phải idempotent: gọi 1 hay 10 lần state cuối giống nhau. Giúp client retry an toàn." },
+          { question: "Khi nào nên cân nhắc GraphQL hơn REST?", options: ["API public đơn giản", "Mobile cần linh hoạt chọn trường để tiết kiệm 4G", "Khi không có team frontend", "Khi server không có DB"], answer: 1, explanation: "GraphQL mạnh khi client (mobile / UI phức tạp) cần chọn chính xác trường để giảm payload." },
+          { question: "Pagination cursor tốt hơn offset khi?", options: ["Dataset nhỏ < 100 dòng", "Dataset rất lớn vì offset chậm dần", "Không có DB", "Không bao giờ"], answer: 1, explanation: "Offset N càng lớn DB càng chậm (scan rồi skip). Cursor lưu vị trí cuối → O(1) cho mỗi trang." }
+        ]
+      },
+      // ──────────────────────────── LESSON 11 ────────────────────────────
+      {
+        id: "se-observability",
+        title: "Observability: Logs, Metrics, Traces",
+        titleEn: "Observability: Logs, Metrics, Traces",
+        level: 4,
+        difficulty: "advanced",
+        codeLanguage: "typescript",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+3 giờ sáng, app sập. Bạn vào server, gõ \`tail -f app.log\` thấy 10.000 dòng log không cấu trúc. Không biết user nào bị ảnh hưởng, request đi qua những service nào, query nào chậm. Đây là hệ thống **không có observability** - sửa bug giống mò kim đáy biển.
+
+## 2. 💡 3 trụ cột Observability
+
+| Trụ cột | Trả lời câu hỏi | Công cụ phổ biến |
+|---|---|---|
+| **Logs** | Chuyện gì đã xảy ra? | Pino, Winston, Loki |
+| **Metrics** | Có bao nhiêu? Nhanh thế nào? | Prometheus, Datadog |
+| **Traces** | Request đi qua những đâu? | OpenTelemetry, Jaeger, Tempo |
+
+**Monitoring** = bạn biết câu hỏi và đo trước. **Observability** = bạn có thể đặt câu hỏi MỚI khi sự cố lạ xảy ra mà không cần thêm code.
+
+## 3. 🧰 Logs có cấu trúc (structured logs)
+
+❌ **Log xấu:**
+
+\`\`\`text
+INFO User logged in
+ERROR something bad happened
+\`\`\`
+
+✅ **Log tốt (JSON):**
+
+\`\`\`json
+{ "level": "info", "ts": "2026-06-25T10:01:00Z", "event": "user.login", "userId": "u_42", "ip": "1.2.3.4", "requestId": "r_abc" }
+\`\`\`
+
+Có \`requestId\` → tìm được TOÀN BỘ log của 1 request đi qua 5 service.
+
+## 4. 🎯 Ví dụ thực tế - Distributed Trace
+
+User gọi \`GET /checkout\` chậm 3s. Trace cho thấy:
+
+\`\`\`text
+GET /checkout                           3010 ms
+├── auth-service.verifyToken            8 ms
+├── cart-service.getCart               45 ms
+├── pricing-service.calc              2400 ms  ← thủ phạm
+│   └── tax-service.lookup            2380 ms  ← lookup DB chậm
+└── payment-service.createIntent      120 ms
+\`\`\`
+
+Không có trace = bạn phải SSH vào 5 server, đối chiếu log thủ công.
+
+## 5. ⚠️ Hiểu nhầm thường gặp
+
+> ⚠️ **Cảnh báo:**
+> - "Log càng nhiều càng tốt" - sai. Log không cấu trúc = noise, lại tốn tiền storage. Đặt **log level** rõ: DEBUG (dev), INFO, WARN, ERROR.
+> - "Log password để debug auth" - tuyệt đối không. PII / secret phải mask: \`{ email: "u***@gmail.com" }\`.
+> - "Metrics chỉ cho ops" - sai. Dev cũng cần xem latency p95, error rate để biết feature mình ra có ảnh hưởng gì.
+
+## 6. ✅ Best practice của thầy Hải
+
+> 💡 **Mẹo:**
+> - **RED metrics** cho service: Rate (req/s), Errors (%), Duration (p50/p95/p99).
+> - **USE metrics** cho resource: Utilization, Saturation, Errors.
+> - **Correlation ID** (requestId / traceId) gắn vào MỌI log của 1 request.
+> - **SLO** trước khi alert: vd "99.9% request < 300ms". Alert chỉ khi vi phạm SLO, không alert mỗi error đơn lẻ → đỡ alert fatigue.
+> - **2026 trend**: OpenTelemetry trở thành chuẩn (logs + metrics + traces 1 SDK); LLM tự phân tích log để gợi ý root cause.
+
+## 7. 🤔 Áp dụng
+
+Khi xây 1 service mới, ngay từ ngày 1 hãy có:
+1. Logger có cấu trúc + \`requestId\`.
+2. /health endpoint trả về 200 khi DB + cache OK.
+3. Metric: total request, error count, latency.
+4. Trace span cho mỗi I/O bên ngoài (DB, HTTP call).
+`,
+        theoryEn: `## 1. 🚦 Real-world Problem
+
+3am, app down. You ssh in and \`tail -f app.log\` shows 10,000 unstructured lines. You cannot tell which users are affected, which services the request crossed, or which query was slow. This system has **no observability** - debugging is like finding a needle in a haystack.
+
+## 2. 💡 Three Pillars
+
+| Pillar | Question it answers | Tools |
+|---|---|---|
+| **Logs** | What happened? | Pino, Winston, Loki |
+| **Metrics** | How many? How fast? | Prometheus, Datadog |
+| **Traces** | Where did the request go? | OpenTelemetry, Jaeger, Tempo |
+
+**Monitoring** = you knew the question and measured. **Observability** = you can ask NEW questions during a novel outage, without shipping new code.
+
+## 3. 🧰 Structured Logs
+
+❌ **Bad:**
+
+\`\`\`text
+INFO User logged in
+ERROR something bad happened
+\`\`\`
+
+✅ **Good (JSON):**
+
+\`\`\`json
+{ "level": "info", "ts": "2026-06-25T10:01:00Z", "event": "user.login", "userId": "u_42", "ip": "1.2.3.4", "requestId": "r_abc" }
+\`\`\`
+
+With a \`requestId\` you can pull every log line for one request across 5 services.
+
+## 4. 🎯 Example - Distributed Trace
+
+User hits \`GET /checkout\`, 3s slow. The trace:
+
+\`\`\`text
+GET /checkout                           3010 ms
+├── auth-service.verifyToken            8 ms
+├── cart-service.getCart               45 ms
+├── pricing-service.calc              2400 ms  ← culprit
+│   └── tax-service.lookup            2380 ms  ← slow DB lookup
+└── payment-service.createIntent      120 ms
+\`\`\`
+
+Without tracing you would SSH into 5 servers and align logs manually.
+
+## 5. ⚠️ Common Misconceptions
+
+> ⚠️ **Warning:**
+> - "More logs is better" - wrong. Noise costs money and hides signal. Use log levels.
+> - "Log passwords to debug auth" - never. Mask PII and secrets.
+> - "Metrics are for ops only" - wrong. Devs need p95 latency and error rate to know the impact of their feature.
+
+## 6. ✅ Best Practices
+
+> 💡 **Tips:**
+> - **RED** for services: Rate, Errors, Duration (p50/p95/p99).
+> - **USE** for resources: Utilization, Saturation, Errors.
+> - **Correlation ID** on every log line of a request.
+> - **Define SLOs** before alerting (e.g. 99.9% requests under 300ms). Alert on SLO violation, not on every error - avoid alert fatigue.
+> - **2026 trend**: OpenTelemetry as the unified SDK; LLMs that summarize logs and suggest root cause.
+
+## 7. 🤔 Apply
+
+For any new service, day 1 must have:
+1. A structured logger + requestId.
+2. /health endpoint returning 200 when DB + cache are OK.
+3. Metrics: request count, error count, latency.
+4. Trace spans around every external I/O.
+`,
+        code: `// Pino structured logger + per-request correlation ID (Express).
+// Output is JSON - friendly for Loki / Datadog / CloudWatch.
+
+import express from "express";
+import pino from "pino";
+import { randomUUID } from "crypto";
+
+const log = pino({
+  level: process.env.LOG_LEVEL ?? "info",
+  redact: ["req.headers.authorization", "*.password", "*.token"], // mask secrets
+});
+
+const app = express();
+
+// Attach a requestId to every request + log start/end with duration
+app.use((req, res, next) => {
+  const requestId = (req.headers["x-request-id"] as string) ?? randomUUID();
+  const child = log.child({ requestId, method: req.method, path: req.path });
+  (req as any).log = child;
+  const start = Date.now();
+
+  res.on("finish", () => {
+    child.info({
+      event: "http.request",
+      status: res.statusCode,
+      durationMs: Date.now() - start,
+    });
+  });
+
+  next();
+});
+
+app.get("/health", (_req, res) => res.json({ ok: true }));
+
+app.get("/checkout", async (req: any, res) => {
+  req.log.info({ event: "checkout.start", userId: req.user?.id });
+  try {
+    // ... call services - propagate requestId via headers for tracing
+    res.json({ ok: true });
+  } catch (e: any) {
+    req.log.error({ event: "checkout.failed", err: e.message });
+    res.status(500).json({ error: "INTERNAL" });
+  }
+});
+
+app.listen(3000);`,
+        exercise: "Thêm structured logger + requestId cho 1 endpoint trong dự án của bạn. Liệt kê 3 trường bạn quyết định MASK (PII/secret) và 3 trường giữ lại để debug.",
+        exerciseEn: "Add a structured logger + requestId to one endpoint in your project. List 3 fields you decided to MASK and 3 fields you kept for debugging.",
+        quiz: [
+          { question: "3 trụ cột observability là?", options: ["CPU, RAM, Disk", "Logs, Metrics, Traces", "Dev, Staging, Prod", "HTML, CSS, JS"], answer: 1, explanation: "Logs (chuyện gì), Metrics (bao nhiêu/nhanh), Traces (đi qua đâu) - 3 góc nhìn bổ sung cho nhau." },
+          { question: "Structured log khác log thường ở điểm gì?", options: ["Có màu trên terminal", "Có schema (thường JSON) - dễ filter & truy vấn", "Ngắn hơn", "Không có timestamp"], answer: 1, explanation: "JSON log cho phép query nâng cao trong Loki/ELK: lọc theo userId, status, requestId, v.v." },
+          { question: "Correlation ID dùng để làm gì?", options: ["Mã hóa password", "Liên kết log của 1 request qua nhiều service", "Đặt tên file", "Phát hiện virus"], answer: 1, explanation: "requestId / traceId được truyền theo header → mọi service log cùng ID, giúp truy vết end-to-end." },
+          { question: "SLO 99.9% nghĩa là?", options: ["Tối đa 0.1% request bị lỗi/chậm trong khoảng thời gian thỏa thuận", "App chạy 99.9 ngày", "99.9 user mỗi giây", "99.9 dòng code"], answer: 0, explanation: "SLO = Service Level Objective. Vd 99.9%/tháng ≈ 43 phút downtime cho phép. Alert chỉ khi vượt ngưỡng này." },
+          { question: "Nên LOG điều nào sau đây?", options: ["Mật khẩu user để debug", "Token JWT đầy đủ", "requestId, userId hash, event tên, status code", "Số thẻ tín dụng"], answer: 2, explanation: "Không bao giờ log secret/PII thô. Log thông tin đủ để truy vết: requestId, hash userId, tên event, status." }
+        ]
       }
     ]
   }
