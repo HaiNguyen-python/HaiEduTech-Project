@@ -473,6 +473,13 @@ const ProgrammingLessonPage = () => {
     setProgress(0);
   };
 
+  // Always start a new lesson scrolled to the very top so the learner isn't
+  // dropped into the middle of the page after clicking "Next lesson".
+  useEffect(() => {
+    if (!lessonId) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [lessonId, moduleId]);
+
   const switchLesson = (l: PLType) => {
     setLesson(l);
     resetQuiz();
