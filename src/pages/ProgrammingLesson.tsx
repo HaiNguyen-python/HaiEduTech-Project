@@ -678,8 +678,9 @@ const ProgrammingLessonPage = () => {
 
               {/* Main content */}
               <div className="flex-1 min-w-0 relative overflow-hidden rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/10 via-background to-accent/10 p-3 sm:p-4">
-                <LessonFloatingSymbols pillarId={pillar} count={120} className="opacity-90" />
-                <LessonFloatingSymbols pillarId={pillar} count={60} className="opacity-50 blur-[1px]" />
+                <LessonFloatingSymbols pillarId={pillar} count={60} className="opacity-90" />
+                <LessonFloatingSymbols pillarId={pillar} count={30} className="opacity-50 blur-[1px]" />
+
                 <div className="absolute inset-0 z-0 bg-background/25" aria-hidden="true" />
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 space-y-8" key={lesson.id}>
