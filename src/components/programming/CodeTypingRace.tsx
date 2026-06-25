@@ -131,6 +131,9 @@ const CodeTypingRace = ({ source, language }: Props) => {
   const [typed, setTyped] = useState("");
   const [startAt, setStartAt] = useState<number | null>(null);
   const [endAt, setEndAt] = useState<number | null>(null);
+  const [explanation, setExplanation] = useState<string>("");
+  const [explainLoading, setExplainLoading] = useState(false);
+  const [explainError, setExplainError] = useState<string>("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Reset whenever the snippet changes (lesson switch or shuffle).
@@ -138,6 +141,8 @@ const CodeTypingRace = ({ source, language }: Props) => {
     setTyped("");
     setStartAt(null);
     setEndAt(null);
+    setExplanation("");
+    setExplainError("");
   }, [snippet]);
 
   const done = endAt !== null;
