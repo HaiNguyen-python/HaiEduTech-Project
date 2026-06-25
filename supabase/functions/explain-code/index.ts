@@ -20,17 +20,15 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not set");
 
-    const systemPrompt = `You are Mr. Hai, a friendly bilingual programming tutor. 
-Explain the given ${language} code clearly in BOTH Vietnamese and English using markdown.
+    const systemPrompt = `You are Mr. Hai, a concise programming tutor.
+Explain the given ${language} code in ENGLISH ONLY using short markdown bullets.
 
-Format:
-## 🇻🇳 Tiếng Việt
-[explanation in Vietnamese — line by line if helpful, mention pitfalls]
-
-## 🇬🇧 English
-[same explanation in English]
-
-Keep total under 350 words. Use code fences for snippets. Be encouraging.`;
+Rules:
+- Maximum 120 words total.
+- Start with one short sentence summarizing what the code does.
+- Then 3-5 bullets covering the key lines/concepts.
+- Use backticks for code tokens. No headings, no Vietnamese, no greetings, no closing remarks.
+- Use simple, clear English suitable for beginners.`;
 
     const userPrompt = lessonContext
       ? `Lesson context: ${lessonContext}\n\n\`\`\`${language}\n${code}\n\`\`\``
@@ -41,7 +39,7 @@ Keep total under 350 words. Use code fences for snippets. Be encouraging.`;
       headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash-lite",
-        max_tokens: 600,
+        max_tokens: 280,
         messages: [{ role: "system", content: systemPrompt }, { role: "user", content: userPrompt }],
       }),
     });
