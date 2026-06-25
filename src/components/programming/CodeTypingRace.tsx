@@ -307,10 +307,11 @@ const CodeTypingRace = ({ source, language }: Props) => {
         ref={inputRef}
         value={typed}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         disabled={done}
         spellCheck={false}
         rows={3}
-        placeholder="Start typing here…"
+        placeholder="Start typing here… (Tab to indent, Shift+Tab to dedent)"
         className="w-full font-mono text-sm bg-secondary border border-border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none disabled:opacity-60"
       />
 
