@@ -8,8 +8,9 @@
  * the learner shuffle through many different drills for variety.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy, Shuffle } from "lucide-react";
+import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy, Shuffle, BookOpen, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Props {
   /** Source code or text the player must retype. */
