@@ -11,12 +11,17 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy, Shuffle, BookOpen, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { resolveTopicSnippets } from "@/data/programming/typingSnippetBank";
 
 interface Props {
   /** Source code or text the player must retype. */
   source: string;
   /** Optional language label (e.g. "python", "sql"). */
   language?: string;
+  /** Lesson title - used to surface topic-specific drills (e.g. Random Forest). */
+  lessonTitle?: string;
+  /** Module title - secondary signal for topic detection. */
+  moduleTitle?: string;
 }
 
 /**
