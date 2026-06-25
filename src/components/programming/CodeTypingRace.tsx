@@ -154,19 +154,32 @@ function uniq(arr: string[]): string[] {
   return out;
 }
 
-const CodeTypingRace = ({ source, language }: Props) => {
-  const langKey = (language || "").toLowerCase();
+const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) => {
+  // Topic-aware drills: if the lesson title matches a known topic (e.g. "Random
+  // Forest", "k-means", "SQL JOINs", "FastAPI"), prefer that ladder so every
+  // typing race reinforces the actual lesson content.
+  const topic = useMemo(
+    () => resolveTopicSnippets(lessonTitle, moduleTitle),
+    [lessonTitle, moduleTitle],
+  );
+  const effectiveLang = (topic?.language || language || "").toLowerCase();
+  const langKey = effectiveLang;
   const bonus = BONUS_SNIPPETS[langKey] || BONUS_SNIPPETS.python;
 
-  // Pool: curated ladder first (Easy -> Hard), then lesson source snippets at
-  // the end so beginners always start with the simplest drill.
+  // Pool order: topic-specific ladder first (most relevant), then a small
+  // fallback ladder for the language, then snippets harvested from the lesson
+  // source code (sorted shortest -> longest so beginners ease in).
   const pool = useMemo(() => {
+    const topicSnips = (topic?.snippets || []).map(stripEmojis);
     const fromSource = buildSourceSnippets(source)
       .map(stripEmojis)
       .sort((a, b) => a.length - b.length);
     const curated = bonus.map(stripEmojis);
-    return uniq([...curated, ...fromSource]);
-  }, [source, bonus]);
+    // When we have a topic match, keep only a couple of generic curated drills
+    // so the lesson-specific ladder dominates.
+    const fillers = topic ? curated.slice(0, 2) : curated;
+    return uniq([...topicSnips, ...fillers, ...fromSource]);
+  }, [source, bonus, topic]);
 
   const [poolIdx, setPoolIdx] = useState(0);
   const snippet = pool[poolIdx] || pickSnippet(source);
