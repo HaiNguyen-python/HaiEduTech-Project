@@ -8,8 +8,9 @@
  * the learner shuffle through many different drills for variety.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy, Shuffle } from "lucide-react";
+import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy, Shuffle, BookOpen, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Props {
   /** Source code or text the player must retype. */
@@ -130,6 +131,9 @@ const CodeTypingRace = ({ source, language }: Props) => {
   const [typed, setTyped] = useState("");
   const [startAt, setStartAt] = useState<number | null>(null);
   const [endAt, setEndAt] = useState<number | null>(null);
+  const [explanation, setExplanation] = useState<string>("");
+  const [explainLoading, setExplainLoading] = useState(false);
+  const [explainError, setExplainError] = useState<string>("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Reset whenever the snippet changes (lesson switch or shuffle).
@@ -137,6 +141,8 @@ const CodeTypingRace = ({ source, language }: Props) => {
     setTyped("");
     setStartAt(null);
     setEndAt(null);
+    setExplanation("");
+    setExplainError("");
   }, [snippet]);
 
   const done = endAt !== null;
@@ -240,6 +246,32 @@ const CodeTypingRace = ({ source, language }: Props) => {
     setPoolIdx(next);
   };
 
+  const fetchExplanation = async () => {
+    if (explainLoading || explanation) return;
+    setExplainLoading(true);
+    setExplainError("");
+    try {
+      const { data, error } = await supabase.functions.invoke("explain-code", {
+        body: { code: snippet, language: langKey || "python" },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setExplanation(data?.explanation || "");
+    } catch (e) {
+      setExplainError(e instanceof Error ? e.message : "Không thể tải giải thích. Thử lại nhé!");
+    } finally {
+      setExplainLoading(false);
+    }
+  };
+
+  // Auto-fetch explanation once the user finishes the snippet.
+  useEffect(() => {
+    if (done && !explanation && !explainLoading) {
+      fetchExplanation();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   // Render snippet with per-char highlight.
   const rendered = snippet.split("").map((ch, i) => {
     let cls = "text-muted-foreground";
@@ -336,6 +368,44 @@ const CodeTypingRace = ({ source, language }: Props) => {
               <Shuffle className="w-3.5 h-3.5" /> Next snippet
             </button>
           </div>
+        </div>
+      )}
+
+
+
+      {done && (
+        <div className="mt-3 rounded-lg border border-sky-500/30 bg-sky-500/5 p-4">
+          <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+            <h3 className="text-sm font-semibold text-sky-700 dark:text-sky-300 flex items-center gap-2">
+              <BookOpen className="w-4 h-4" /> Giải thích đoạn code
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 uppercase">AI</span>
+            </h3>
+            {(explanation || explainError) && (
+              <button
+                onClick={() => { setExplanation(""); setExplainError(""); fetchExplanation(); }}
+                disabled={explainLoading}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 hover:bg-sky-500/20 disabled:opacity-50"
+              >
+                <Sparkles className="w-3 h-3" /> Giải thích lại
+              </button>
+            )}
+          </div>
+          {explainLoading && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Loader2 className="w-4 h-4 animate-spin" /> Đang phân tích code...
+            </div>
+          )}
+          {explainError && !explainLoading && (
+            <div className="text-xs text-red-600 dark:text-red-400">
+              {explainError}{" "}
+              <button onClick={fetchExplanation} className="underline font-semibold">Thử lại</button>
+            </div>
+          )}
+          {explanation && !explainLoading && (
+            <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+              {explanation}
+            </div>
+          )}
         </div>
       )}
     </div>
