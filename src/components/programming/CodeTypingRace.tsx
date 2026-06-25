@@ -93,6 +93,7 @@ function pickSnippet(raw: string): string {
  * through clean (non-comment) lines and grouping them into short blocks.
  */
 function buildSourceSnippets(raw: string): string[] {
+  raw = stripEmojis(raw);
   if (!raw) return [];
   const lines = raw
     .split("\n")
