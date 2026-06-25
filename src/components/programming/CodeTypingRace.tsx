@@ -370,8 +370,8 @@ const CodeTypingRace = ({ source, language }: Props) => {
           </div>
         </div>
       )}
-        </div>
-      )}
+
+
 
       {done && (
         <div className="mt-3 rounded-lg border border-sky-500/30 bg-sky-500/5 p-4">
