@@ -1004,7 +1004,14 @@ const ProgrammingLessonPage = () => {
                     )}
                   </AnimatePresence>
 
-                  {/* Skill Radar & Recommendation */}
+                  {/* Lesson-level skill web - always visible so learners see
+                      their mastery across every lesson in the module. */}
+                  {mod && (
+                    <LessonModuleRadar module={mod} currentLessonId={lesson?.id} />
+                  )}
+
+                  {/* Pillar Skill Radar & next-step recommendation - show
+                      after quiz submission to celebrate progress. */}
                   {showResults && mod && (
                     <div className="grid sm:grid-cols-2 gap-4">
                       <SkillRadarChart pillarId={mod.course === "kids" ? "python" : mod.course === "data-ai" ? "ai-foundation" : mod.course} />
