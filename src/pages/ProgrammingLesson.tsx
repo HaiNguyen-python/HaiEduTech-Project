@@ -690,7 +690,7 @@ const ProgrammingLessonPage = () => {
 
                   {/* Theory - document-style reading card with extra breathing room */}
                   <div className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-card/90 shadow-[0_8px_30px_-10px_rgba(16,185,129,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-emerald-500/10">
-                    <LessonFloatingSymbols pillarId={pillar} count={70} className="opacity-30" />
+                    <LessonFloatingSymbols pillarId={pillar} count={35} className="opacity-30" />
                     <div className="relative z-10">
                     <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pb-3 border-b border-border">
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
