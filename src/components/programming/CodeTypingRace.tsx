@@ -352,6 +352,7 @@ const CodeTypingRace = ({ source, language }: Props) => {
           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${diffClass}`}>
             {diff}
           </span>
+        </h2>
         <div className="flex items-center gap-3 text-xs font-mono">
           <span className="flex items-center gap-1 text-amber-600">
             <Timer className="w-3.5 h-3.5" /> {(elapsedMs / 1000).toFixed(1)}s
