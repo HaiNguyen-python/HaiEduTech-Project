@@ -413,5 +413,3 @@ const CodeTypingRace = ({ source, language }: Props) => {
 };
 
 export default CodeTypingRace;
-
-export default CodeTypingRace;
