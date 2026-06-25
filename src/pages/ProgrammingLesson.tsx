@@ -915,7 +915,12 @@ const ProgrammingLessonPage = () => {
                   </div>
 
                   {/* Code Typing Race - fun game replacing the redundant 1-minute quiz */}
-                  <CodeTypingRace source={lesson.code || lesson.titleEn} language={lesson.codeLanguage} />
+                  <CodeTypingRace
+                    source={lesson.code || lesson.titleEn}
+                    language={lesson.codeLanguage}
+                    lessonTitle={lesson.titleEn || lesson.title}
+                    moduleTitle={mod?.titleEn || mod?.title}
+                  />
 
                   {/* AI Code Challenge */}
                   <AnimatePresence>
