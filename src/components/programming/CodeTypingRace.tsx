@@ -201,6 +201,12 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     setExplainError("");
   }, [snippet]);
 
+  // When the lesson (and therefore the pool) changes, start back at the easiest
+  // drill of the new ladder.
+  useEffect(() => {
+    setPoolIdx(0);
+  }, [pool]);
+
   const done = endAt !== null;
   const elapsedMs = startAt ? (endAt ?? Date.now()) - startAt : 0;
 
