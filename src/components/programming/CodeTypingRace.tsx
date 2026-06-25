@@ -246,6 +246,32 @@ const CodeTypingRace = ({ source, language }: Props) => {
     setPoolIdx(next);
   };
 
+  const fetchExplanation = async () => {
+    if (explainLoading || explanation) return;
+    setExplainLoading(true);
+    setExplainError("");
+    try {
+      const { data, error } = await supabase.functions.invoke("explain-code", {
+        body: { code: snippet, language: langKey || "python" },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setExplanation(data?.explanation || "");
+    } catch (e) {
+      setExplainError(e instanceof Error ? e.message : "Không thể tải giải thích. Thử lại nhé!");
+    } finally {
+      setExplainLoading(false);
+    }
+  };
+
+  // Auto-fetch explanation once the user finishes the snippet.
+  useEffect(() => {
+    if (done && !explanation && !explainLoading) {
+      fetchExplanation();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   // Render snippet with per-char highlight.
   const rendered = snippet.split("").map((ch, i) => {
     let cls = "text-muted-foreground";
