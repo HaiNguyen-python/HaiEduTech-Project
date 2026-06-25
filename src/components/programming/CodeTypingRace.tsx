@@ -11,12 +11,17 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy, Shuffle, BookOpen, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { resolveTopicSnippets } from "@/data/programming/typingSnippetBank";
 
 interface Props {
   /** Source code or text the player must retype. */
   source: string;
   /** Optional language label (e.g. "python", "sql"). */
   language?: string;
+  /** Lesson title - used to surface topic-specific drills (e.g. Random Forest). */
+  lessonTitle?: string;
+  /** Module title - secondary signal for topic detection. */
+  moduleTitle?: string;
 }
 
 /**
@@ -149,19 +154,32 @@ function uniq(arr: string[]): string[] {
   return out;
 }
 
-const CodeTypingRace = ({ source, language }: Props) => {
-  const langKey = (language || "").toLowerCase();
+const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) => {
+  // Topic-aware drills: if the lesson title matches a known topic (e.g. "Random
+  // Forest", "k-means", "SQL JOINs", "FastAPI"), prefer that ladder so every
+  // typing race reinforces the actual lesson content.
+  const topic = useMemo(
+    () => resolveTopicSnippets(lessonTitle, moduleTitle),
+    [lessonTitle, moduleTitle],
+  );
+  const effectiveLang = (topic?.language || language || "").toLowerCase();
+  const langKey = effectiveLang;
   const bonus = BONUS_SNIPPETS[langKey] || BONUS_SNIPPETS.python;
 
-  // Pool: curated ladder first (Easy -> Hard), then lesson source snippets at
-  // the end so beginners always start with the simplest drill.
+  // Pool order: topic-specific ladder first (most relevant), then a small
+  // fallback ladder for the language, then snippets harvested from the lesson
+  // source code (sorted shortest -> longest so beginners ease in).
   const pool = useMemo(() => {
+    const topicSnips = (topic?.snippets || []).map(stripEmojis);
     const fromSource = buildSourceSnippets(source)
       .map(stripEmojis)
       .sort((a, b) => a.length - b.length);
     const curated = bonus.map(stripEmojis);
-    return uniq([...curated, ...fromSource]);
-  }, [source, bonus]);
+    // When we have a topic match, keep only a couple of generic curated drills
+    // so the lesson-specific ladder dominates.
+    const fillers = topic ? curated.slice(0, 2) : curated;
+    return uniq([...topicSnips, ...fillers, ...fromSource]);
+  }, [source, bonus, topic]);
 
   const [poolIdx, setPoolIdx] = useState(0);
   const snippet = pool[poolIdx] || pickSnippet(source);
@@ -182,6 +200,12 @@ const CodeTypingRace = ({ source, language }: Props) => {
     setExplanation("");
     setExplainError("");
   }, [snippet]);
+
+  // When the lesson (and therefore the pool) changes, start back at the easiest
+  // drill of the new ladder.
+  useEffect(() => {
+    setPoolIdx(0);
+  }, [pool]);
 
   const done = endAt !== null;
   const elapsedMs = startAt ? (endAt ?? Date.now()) - startAt : 0;
@@ -368,7 +392,7 @@ const CodeTypingRace = ({ source, language }: Props) => {
 
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <p className="text-xs text-muted-foreground">
-          🎯 Retype the snippet below. Drills go from <strong>Easy → Hard</strong> in order.
+          🎯 {topic ? <>Drills tailored to <strong>{lessonTitle || "this lesson"}</strong> · Easy → Hard.</> : <>Retype the snippet below. Drills go from <strong>Easy → Hard</strong> in order.</>}
         </p>
         <div className="flex items-center gap-2">
           <button

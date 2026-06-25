@@ -16,6 +16,7 @@ import { allProgrammingModules, type ProgrammingModule, type ProgrammingLesson a
 import { updateSkillScore } from "@/components/SkillRadarChart";
 import SkillRadarChart from "@/components/SkillRadarChart";
 import LearningRecommendation from "@/components/LearningRecommendation";
+import LessonModuleRadar, { writeLessonScore } from "@/components/programming/LessonModuleRadar";
 import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
@@ -472,6 +473,13 @@ const ProgrammingLessonPage = () => {
     setProgress(0);
   };
 
+  // Always start a new lesson scrolled to the very top so the learner isn't
+  // dropped into the middle of the page after clicking "Next lesson".
+  useEffect(() => {
+    if (!lessonId) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [lessonId, moduleId]);
+
   const switchLesson = (l: PLType) => {
     setLesson(l);
     resetQuiz();
@@ -833,6 +841,8 @@ const ProgrammingLessonPage = () => {
                         if (mod) {
                           const quizScore = lesson.quiz.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
                           updateSkillScore(mod.id, quizScore, lesson.quiz.length);
+                          // Per-lesson score drives the lesson-level radar chart.
+                          writeLessonScore(mod.id, lesson.id, Math.round((quizScore / lesson.quiz.length) * 100));
                           const passed = quizScore / lesson.quiz.length >= 0.6;
 
                           // Unified Programming XP - award when learner passes (>=60%)
@@ -886,7 +896,7 @@ const ProgrammingLessonPage = () => {
                         return (
                           <Link
                             to={`/programming/${mod.id}/${nextLesson.id}`}
-                            onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); }}
+                            onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                             className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97] shadow-md"
                             aria-label={t("Đi tới bài học tiếp theo", "Go to next lesson")}
                           >
@@ -905,7 +915,12 @@ const ProgrammingLessonPage = () => {
                   </div>
 
                   {/* Code Typing Race - fun game replacing the redundant 1-minute quiz */}
-                  <CodeTypingRace source={lesson.code || lesson.titleEn} language={lesson.codeLanguage} />
+                  <CodeTypingRace
+                    source={lesson.code || lesson.titleEn}
+                    language={lesson.codeLanguage}
+                    lessonTitle={lesson.titleEn || lesson.title}
+                    moduleTitle={mod?.titleEn || mod?.title}
+                  />
 
                   {/* AI Code Challenge */}
                   <AnimatePresence>
@@ -989,7 +1004,14 @@ const ProgrammingLessonPage = () => {
                     )}
                   </AnimatePresence>
 
-                  {/* Skill Radar & Recommendation */}
+                  {/* Lesson-level skill web - always visible so learners see
+                      their mastery across every lesson in the module. */}
+                  {mod && (
+                    <LessonModuleRadar module={mod} currentLessonId={lesson?.id} />
+                  )}
+
+                  {/* Pillar Skill Radar & next-step recommendation - show
+                      after quiz submission to celebrate progress. */}
                   {showResults && mod && (
                     <div className="grid sm:grid-cols-2 gap-4">
                       <SkillRadarChart pillarId={mod.course === "kids" ? "python" : mod.course === "data-ai" ? "ai-foundation" : mod.course} />
