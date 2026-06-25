@@ -735,7 +735,7 @@ const ProgrammingLessonPage = () => {
                         lesson.id,
                         lang === "vi" ? "vi" : "en"
                       )}
-                      storageKey={`theory-read:${mod.id}:${lesson.id}:${useEnhanced && enhancedMd ? "ai" : "orig"}`}
+                      storageKey={`theory-read:${mod.id}:${lesson.id}`}
                       defaultCodeLanguage={lesson.codeLanguage || "text"}
                     />
                     </div>
