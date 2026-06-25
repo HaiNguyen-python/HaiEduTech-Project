@@ -64,7 +64,7 @@ model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,1))
 > - "AI Winter sẽ không quay lại" - chưa chắc; mỗi lần kỳ vọng vượt thực tế là 1 winter.
 > - "GPU là lý do duy nhất AI bùng nổ" - thật ra là **GPU + Big Data + Backprop + Transformer + Internet**, đủ 5 yếu tố.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Học AI nên đi theo **trình tự lịch sử**: Perceptron → MLP → CNN → RNN → Transformer. Mỗi bước trả lời 1 câu "tại sao cần cái sau?".
@@ -242,7 +242,7 @@ print(mlp(torch.tensor([[0.8, 0.0, 1.0]])))
 > - **Bias = 0 và init random** → mọi neuron học giống nhau (symmetry breaking fail).
 > - **Quên softmax/sigmoid ở output** → loss tính sai.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - Vẽ kiến trúc trước khi code: input shape → các lớp → output shape.
@@ -419,7 +419,7 @@ print("Softmax:", torch.softmax(x, dim=0)) # tổng = 1
 > - **Quên softmax + dùng CrossEntropyLoss**: PyTorch \`nn.CrossEntropyLoss\` đã tích hợp softmax - đừng softmax 2 lần.
 > - **Tanh chưa chuẩn hoá input**: dễ bão hoà ở -1 hoặc 1 → gradient ~0.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Mặc định ReLU**, đổi GELU nếu làm transformer, Leaky/PReLU nếu thấy nhiều neuron chết.
@@ -596,7 +596,7 @@ print(f"w = {w.item():.4f}")                     # ~ 2.0
 > - **Loss = NaN**: thường do log(0), chia 0, lr quá cao, hoặc input chưa scale.
 > - **Chỉ nhìn train loss**: cần xem cả validation - train loss giảm mà val tăng = overfit.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Bắt đầu lr = 1e-3** (Adam) hoặc 1e-2 (SGD), rồi điều chỉnh theo loss curve.
@@ -745,7 +745,7 @@ print("dL/dw2 =", w2.grad.item())
 > - **Quên \`optim.zero_grad()\`** → gradient cộng dồn qua các batch.
 > - **\`requires_grad=False\`** trên tensor cần học → "model không học".
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Tin vào autograd** - đừng tự code backward trừ khi viết custom layer.
@@ -912,7 +912,7 @@ Mạng này đạt > 99% trên MNIST chỉ với vài dòng.
 - Không dùng **data augmentation** (lật, xoay, crop) → overfit ngay với < 5k ảnh.
 - Train CNN từ đầu cho 1.000 ảnh → thua xa Transfer Learning từ ResNet.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** **Đừng train CNN từ đầu** trừ khi bạn có > 100k ảnh. Dùng **Transfer Learning** từ ResNet50/EfficientNet đã train trên ImageNet - chỉ cần thay tầng cuối.
 
@@ -1103,7 +1103,7 @@ model.compile(optimizer="adam", loss="binary_crossentropy",
 - Dùng RNN thường (không LSTM/GRU) cho câu > 30 từ → vanishing gradient ngay.
 - Train LSTM 5 lớp deep → siêu chậm và không cải thiện nhiều so với 2 lớp.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** **GRU** = LSTM rút gọn, ít tham số hơn 25%, nhanh hơn, kết quả tương đương trên hầu hết task. Luôn thử GRU trước khi chọn LSTM.
 
@@ -1240,7 +1240,7 @@ print(attn.shape)            # torch.Size([2, 10, 10]) - ma trận chú ý
 - Quên **mask** trong decoder → nhìn lén tương lai → train ảo, inference sập.
 - Train Transformer từ đầu với 10k câu → thua BiLSTM. Phải pretrained.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** **Đừng bao giờ tự cài Transformer từ con số 0** cho production. Dùng **HuggingFace Transformers** + model pretrained (BERT, RoBERTa, PhoBERT cho tiếng Việt) → fine-tune 1 giờ là có model production.
 
@@ -1477,7 +1477,7 @@ Return as numbered markdown list. Each item: bold title + 1 line copy.
 - **Tree of Thoughts** - model khám phá nhiều nhánh suy nghĩ song song, chọn nhánh tốt nhất.
 - **Prompt Chaining** - chia bài toán lớn thành nhiều prompt nhỏ, output cái này = input cái kia.
 
-## 7. 🎯 Best practice của thầy Hải
+## 7. 🎯 Best practice
 
 1. **Always specify output format** - nhất là khi parse bằng code.
 2. **Đưa 1–3 ví dụ tốt** > giải thích bằng lời.
@@ -1670,7 +1670,7 @@ model = get_peft_model(base_model, config)               # chỉ train ~0.5% par
 > - **Domain quá khác**: pre-train trên ảnh tự nhiên, dùng cho ảnh X-ray → tăng marginal nhỏ, đôi khi train lại từ đầu tốt hơn.
 > - **LoRA rank quá thấp** (r=2) → không học đủ; quá cao (r=128) → mất lợi thế tiết kiệm.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **2 phase**: phase 1 train head (lr 1e-3), phase 2 unfreeze + lr nhỏ 10-100 lần (1e-5).
@@ -1830,7 +1830,7 @@ print(ChatOpenAI(model="gpt-4o").invoke(prompt).content)
 > - **Không re-rank**: top-10 vector có thể không phải top-10 đúng nhất → dùng cross-encoder rerank.
 > - **Prompt không bắt cite**: LLM bịa số liệu → bắt nó "trích nguyên văn" + show source.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Chunk 300-500 token, overlap 50** là baseline tốt cho text VN.
@@ -2053,7 +2053,7 @@ mitigator.fit(X, y, sensitive_features=A)
 > - **Không tài liệu hoá** → không ai biết model có rủi ro gì 6 tháng sau.
 > - **"Không thể vừa fair vừa accurate"**: đôi khi đúng - phải chọn trade-off có ý thức.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Audit bias ở cả 3 giai đoạn**: pre-process (data), in-process (training), post-process (output).

@@ -426,7 +426,7 @@ plt.show()
 > - **High-cardinality categorical** (zip code): cây thiên lệch chọn cột đó.
 > - **Nhỏ vài sample đổi → cây khác hoàn toàn**: không ổn định → dùng Random Forest.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **max_depth = 3-7** cho hầu hết bài; lớn hơn là dấu hiệu phải dùng ensemble.
@@ -544,7 +544,7 @@ print(imp.head(10))
 > - **Tưởng RF không cần tune**: thực ra max_features, min_samples_leaf vẫn ảnh hưởng đáng kể.
 > - **Predict chậm trên 1 sample** (300 cây × forward) - không phù hợp low-latency real-time nếu cây sâu.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **n_estimators = 200-500** là sweet spot cho hầu hết bài.
@@ -690,7 +690,7 @@ print("Accuracy:", clf.score(Xte, yte))
 - \`C\` quá lớn → overfit dữ liệu nhiễu; \`C\` quá nhỏ → underfit.
 - Không tune \`gamma\` → quyết định ranh giới quá hẹp/quá rộng.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Luôn theo trình tự: **(1)** StandardScaler → **(2)** SVC kernel="rbf" → **(3)** GridSearch \`C ∈ {0.1, 1, 10}\`, \`gamma ∈ {0.01, 0.1, 1}\`. 90% bài đạt baseline tốt.
 
@@ -849,7 +849,7 @@ clusters = model.fit_predict(X_scaled)
 
 > ⚠️ **Cảnh báo:** Bẫy chết người: **không scale data trước K-Means**. Nếu \\\`income\\\` chạy 0–100M và \\\`age\\\` chạy 0–80, K-Means cluster gần như **chỉ theo income**. **LUÔN StandardScaler hoặc MinMaxScaler trước.**
 
-Best practice của thầy Hải:
+Best practice:
 1. **StandardScaler trước** - không có ngoại lệ.
 2. \\\`init="k-means++"\\\` mặc định - đừng dùng \\\`"random"\\\`.
 3. \\\`n_init=10\\\` - chạy 10 lần với init khác nhau, chọn kết quả tốt nhất → tránh local minimum.
@@ -986,7 +986,7 @@ model.fit(X_train, y_train)
 - Lấp NaN bằng \`mean\` cho cột thu nhập → một vài tỷ phú kéo mean lệch toàn bộ.
 - OneHot cho biến có 1.000 giá trị (mã sản phẩm) → ma trận 1.000 cột → OOM.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** **Luôn luôn đóng gói preprocess + model trong một \`Pipeline\`**. Như vậy lúc deploy chỉ cần \`model.predict(raw_data)\` - không lo "quên rescale".
 
@@ -1114,7 +1114,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")
 - Stratified mà data **imbalance 99/1** → vẫn có fold thiếu class hiếm.
 - Test các bệnh nhân trong nhiều fold cùng lúc → leakage thông tin cá nhân.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Báo cáo kết quả luôn ghi cả **mean ± std**. Mean cao mà std lớn = model bất ổn, đừng tin.
 
@@ -1229,7 +1229,7 @@ print(search.best_params_, search.best_score_)
 > - **Tune trước khi feature engineering** → ép model "cứu" data tệ.
 > - **Chỉ nhìn best_score**: cần xem **độ chênh giữa CV folds** (cao = không ổn định).
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Thứ tự ưu tiên**: data sạch → feature → model phù hợp → **mới tune**. Tune cuối cùng, không phải đầu tiên.
@@ -1338,7 +1338,7 @@ Recall của class 1 = 0.5 → bỏ sót một nửa ca bệnh, dù accuracy = 9
 - Tối ưu Recall **mà quên Precision** trong spam filter → mail thật vào junk.
 - Báo F1 mà data multi-class không nói rõ \`macro\` hay \`weighted\` → so sánh sai.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** Trước khi train, hỏi 1 câu: **"FP đắt hơn hay FN đắt hơn?"** Câu trả lời quyết định bạn tối ưu Precision hay Recall.
 
@@ -1469,7 +1469,7 @@ print("Acc:", clf.score(Xte, yte))
 - Quên \`early_stopping_rounds\` → train 1.000 cây trong khi 200 cây đã tối ưu.
 - So sánh XGBoost vs LightGBM trên dataset 10k dòng → khác biệt không có ý nghĩa thống kê.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:** **LightGBM** thường nhanh nhất (×3 XGBoost), **CatBoost** xử lý category tự động không cần OneHot, **XGBoost** ổn định nhất cho production. Tuỳ bài toán mà chọn.
 
@@ -1587,7 +1587,7 @@ with mlflow.start_run():
 > - **Deploy bằng pickle** thẳng vào Flask, không có rollback → sự cố là bó tay.
 > - **Retrain vô tội vạ** → tốn $$$ và có thể tệ hơn model cũ.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Best practice
 
 > 💡 **Mẹo:**
 > - **Bắt đầu nhỏ**: Git + MLflow + 1 endpoint REST → đủ cho 90% startup.
