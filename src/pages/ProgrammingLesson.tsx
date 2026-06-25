@@ -841,6 +841,8 @@ const ProgrammingLessonPage = () => {
                         if (mod) {
                           const quizScore = lesson.quiz.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
                           updateSkillScore(mod.id, quizScore, lesson.quiz.length);
+                          // Per-lesson score drives the lesson-level radar chart.
+                          writeLessonScore(mod.id, lesson.id, Math.round((quizScore / lesson.quiz.length) * 100));
                           const passed = quizScore / lesson.quiz.length >= 0.6;
 
                           // Unified Programming XP - award when learner passes (>=60%)
