@@ -1010,6 +1010,45 @@ const ProgrammingLessonPage = () => {
                     <LessonModuleRadar module={mod} currentLessonId={lesson?.id} />
                   )}
 
+                  {/* Persistent Next Lesson CTA at the very bottom of the page
+                      so learners always see a clear path forward (independent
+                      of whether they submitted the quiz). */}
+                  {mod && (() => {
+                    const currentIdx = mod.lessons.findIndex(l => l.id === lesson.id);
+                    const nextLesson = currentIdx >= 0 ? mod.lessons[currentIdx + 1] : null;
+                    const prevLesson = currentIdx > 0 ? mod.lessons[currentIdx - 1] : null;
+                    return (
+                      <div className="flex items-center justify-between gap-3 flex-wrap pt-2">
+                        {prevLesson ? (
+                          <Link
+                            to={`/programming/${mod.id}/${prevLesson.id}`}
+                            onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-foreground font-semibold text-sm border border-border hover:bg-secondary/70 transition-all active:scale-[0.97]"
+                            aria-label={t("Bài học trước", "Previous lesson")}
+                          >
+                            ← {t("Bài trước", "Previous")}
+                          </Link>
+                        ) : <span />}
+                        {nextLesson ? (
+                          <Link
+                            to={`/programming/${mod.id}/${nextLesson.id}`}
+                            onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97] shadow-md"
+                            aria-label={t("Đi tới bài học tiếp theo", "Go to next lesson")}
+                          >
+                            {t("Bài tiếp theo", "Next lesson")}: {lang === "vi" ? nextLesson.title : (nextLesson.titleEn || nextLesson.title)}
+                            <ChevronRight className="w-4 h-4" />
+                          </Link>
+                        ) : (
+                          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold text-sm border border-emerald-500/30">
+                            <Trophy className="w-4 h-4" />
+                            {t("Bạn đã hoàn thành module này!", "You completed this module!")}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
+
                   {/* Pillar Skill Radar & next-step recommendation - show
                       after quiz submission to celebrate progress. */}
                   {showResults && mod && (
