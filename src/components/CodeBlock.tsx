@@ -48,13 +48,16 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
   const hasDiagramConnectors = /(?:\+[-=]{3,}\+|[-=]{3,}|\|\s{2,}|\s{2,}\|)/.test(code);
   // Count lines that look like ASCII box rows: start AND end with pipe/plus
   const asciiBoxLines = (code.match(/^\s*[|+][^\n]*[|+]\s*$/gm) || []).length;
+  const genericLang = ["text", "ascii", "diagram", "ascii-art", "plain", "txt", ""].includes(lang);
   const isDiagram =
-    ["text", "ascii", "diagram", "ascii-art", "plain", "txt"].includes(lang) ||
-    hasBoxDrawing ||
-    hasArrows ||
-    hasAsciiArrows ||
-    hasDiagramConnectors ||
-    asciiBoxLines >= 3;
+    ["ascii", "diagram", "ascii-art"].includes(lang) ||
+    (genericLang && (
+      hasBoxDrawing ||
+      hasArrows ||
+      hasAsciiArrows ||
+      hasDiagramConnectors ||
+      asciiBoxLines >= 3
+    ));
   const preserveLayout = isDiagram;
   const codeText = code.replace(/\n$/, "");
   const stripOuterDiagramFrame = (value: string) => {
