@@ -20,45 +20,67 @@ interface Props {
 }
 
 /**
- * Curated bonus snippets per language. Short, idiomatic, fun to retype.
- * Each entry stays under ~160 characters to keep the race quick.
+ * Curated bonus snippets per language, ordered from simplest to most advanced
+ * so learners progress naturally: basic syntax -> control flow -> data
+ * structures -> functions -> libraries. Each entry stays under ~160 chars.
  */
 const BONUS_SNIPPETS: Record<string, string[]> = {
   python: [
-    "def greet(name):\n    return f'Hello, {name}!'\n\nprint(greet('HaiEduTech'))",
+    // Step 1 - print & variables
+    "print('Hello, HaiEduTech!')",
+    "name = 'Hai'\nage = 30\nprint(name, age)",
+    // Step 2 - conditionals & loops
+    "for i in range(1, 6):\n    print(i, i * i)",
+    "score = 85\nif score >= 80:\n    print('Great job!')\nelse:\n    print('Keep going!')",
+    // Step 3 - lists & dicts
     "nums = [1, 2, 3, 4, 5]\nsquares = [n * n for n in nums]\nprint(squares)",
-    "from collections import Counter\nwords = 'to be or not to be'.split()\nprint(Counter(words))",
-    "for i in range(1, 6):\n    print('★' * i)",
     "data = {'apple': 3, 'banana': 5}\nfor k, v in data.items():\n    print(k, '->', v)",
+    // Step 4 - functions
+    "def greet(name):\n    return f'Hello, {name}!'\n\nprint(greet('HaiEduTech'))",
     "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
-    "import math\nprint(round(math.pi, 4))\nprint(math.factorial(6))",
+    // Step 5 - error handling & strings
     "try:\n    x = int('42')\nexcept ValueError:\n    x = 0\nprint(x)",
     "names = ['ann', 'bob', 'cat']\nprint(', '.join(n.title() for n in names))",
-    "matrix = [[1, 2], [3, 4]]\nfor row in matrix:\n    print(sum(row))",
+    // Step 6 - standard library
+    "import math\nprint(round(math.pi, 4))\nprint(math.factorial(6))",
+    "from collections import Counter\nwords = 'to be or not to be'.split()\nprint(Counter(words))",
   ],
   sql: [
-    "SELECT name, COUNT(*) AS total\nFROM orders\nGROUP BY name\nORDER BY total DESC;",
+    "SELECT * FROM users LIMIT 5;",
+    "SELECT name, email FROM users WHERE active = TRUE;",
     "SELECT * FROM students\nWHERE score >= 80\nORDER BY score DESC\nLIMIT 10;",
-    "UPDATE users\nSET active = TRUE\nWHERE last_login > NOW() - INTERVAL '30 days';",
+    "SELECT name, COUNT(*) AS total\nFROM orders\nGROUP BY name\nORDER BY total DESC;",
     "SELECT u.name, p.title\nFROM users u\nJOIN posts p ON p.user_id = u.id;",
-    "WITH top AS (\n  SELECT id FROM products ORDER BY sales DESC LIMIT 5\n)\nSELECT * FROM top;",
     "INSERT INTO logs (event, created_at)\nVALUES ('login', NOW());",
+    "UPDATE users\nSET active = TRUE\nWHERE last_login > NOW() - INTERVAL '30 days';",
+    "WITH top AS (\n  SELECT id FROM products ORDER BY sales DESC LIMIT 5\n)\nSELECT * FROM top;",
   ],
   javascript: [
+    "const greeting = 'Hello';\nconsole.log(greeting);",
     "const sum = (a, b) => a + b;\nconsole.log(sum(2, 3));",
     "const nums = [1, 2, 3, 4];\nconst doubled = nums.map(n => n * 2);\nconsole.log(doubled);",
-    "async function load() {\n  const r = await fetch('/api');\n  return r.json();\n}",
     "const user = { name: 'Hai', age: 30 };\nconst { name } = user;\nconsole.log(name);",
+    "async function load() {\n  const r = await fetch('/api');\n  return r.json();\n}",
   ],
   typescript: [
     "type User = { id: number; name: string };\nconst u: User = { id: 1, name: 'Hai' };\nconsole.log(u);",
     "function add<T extends number>(a: T, b: T): T {\n  return (a + b) as T;\n}",
   ],
   bash: [
+    "echo 'Hello from bash'",
     "for f in *.txt; do\n  echo \"Processing $f\"\ndone",
     "grep -rn 'TODO' src/ | wc -l",
   ],
 };
+
+/** Estimate snippet difficulty from length & line count. */
+function difficultyOf(snippet: string): "Easy" | "Medium" | "Hard" {
+  const lines = snippet.split("\n").length;
+  const len = snippet.length;
+  if (lines <= 2 && len <= 60) return "Easy";
+  if (lines <= 4 && len <= 140) return "Medium";
+  return "Hard";
+}
 
 /**
  * Strip emojis and other non-ASCII pictographs from snippets so learners only
@@ -131,11 +153,14 @@ const CodeTypingRace = ({ source, language }: Props) => {
   const langKey = (language || "").toLowerCase();
   const bonus = BONUS_SNIPPETS[langKey] || BONUS_SNIPPETS.python;
 
-  // Pool = primary snippet + extra source chunks + curated bonus drills.
+  // Pool: curated ladder first (Easy -> Hard), then lesson source snippets at
+  // the end so beginners always start with the simplest drill.
   const pool = useMemo(() => {
-    const fromSource = buildSourceSnippets(source);
-    const primary = pickSnippet(source);
-    return uniq([primary, ...fromSource, ...bonus.map(stripEmojis)]);
+    const fromSource = buildSourceSnippets(source)
+      .map(stripEmojis)
+      .sort((a, b) => a.length - b.length);
+    const curated = bonus.map(stripEmojis);
+    return uniq([...curated, ...fromSource]);
   }, [source, bonus]);
 
   const [poolIdx, setPoolIdx] = useState(0);
@@ -251,13 +276,22 @@ const CodeTypingRace = ({ source, language }: Props) => {
       reset();
       return;
     }
-    let next = poolIdx;
-    // Pick a different random snippet from the pool.
-    while (next === poolIdx) {
-      next = Math.floor(Math.random() * pool.length);
-    }
-    setPoolIdx(next);
+    // Move sequentially through the ladder so difficulty rises predictably.
+    setPoolIdx((i) => (i + 1) % pool.length);
   };
+
+  const prevSnippet = () => {
+    if (pool.length <= 1) return;
+    setPoolIdx((i) => (i - 1 + pool.length) % pool.length);
+  };
+
+  const diff = difficultyOf(snippet);
+  const diffClass =
+    diff === "Easy"
+      ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30"
+      : diff === "Medium"
+      ? "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30"
+      : "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/30";
 
   const fetchExplanation = async () => {
     if (explainLoading || explanation) return;
@@ -313,7 +347,10 @@ const CodeTypingRace = ({ source, language }: Props) => {
             </span>
           )}
           <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
-            {poolIdx + 1}/{pool.length}
+            Step {poolIdx + 1} / {pool.length}
+          </span>
+          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${diffClass}`}>
+            {diff}
           </span>
         </h2>
         <div className="flex items-center gap-3 text-xs font-mono">
@@ -331,14 +368,23 @@ const CodeTypingRace = ({ source, language }: Props) => {
 
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <p className="text-xs text-muted-foreground">
-          🎯 Retype the snippet below. Tap <strong>Next snippet</strong> to try a different drill!
+          🎯 Retype the snippet below. Drills go from <strong>Easy → Hard</strong> in order.
         </p>
-        <button
-          onClick={nextSnippet}
-          className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
-        >
-          <Shuffle className="w-3.5 h-3.5" /> Next snippet
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={prevSnippet}
+            disabled={pool.length <= 1}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground border border-border hover:bg-secondary/70 active:scale-95 disabled:opacity-50"
+          >
+            ← Prev
+          </button>
+          <button
+            onClick={nextSnippet}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
+          >
+            <Shuffle className="w-3.5 h-3.5" /> Next →
+          </button>
+        </div>
       </div>
 
       <div
