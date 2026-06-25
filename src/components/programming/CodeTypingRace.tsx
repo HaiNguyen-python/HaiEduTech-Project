@@ -347,9 +347,11 @@ const CodeTypingRace = ({ source, language }: Props) => {
             </span>
           )}
           <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
-            {poolIdx + 1}/{pool.length}
+            Step {poolIdx + 1} / {pool.length}
           </span>
-        </h2>
+          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${diffClass}`}>
+            {diff}
+          </span>
         <div className="flex items-center gap-3 text-xs font-mono">
           <span className="flex items-center gap-1 text-amber-600">
             <Timer className="w-3.5 h-3.5" /> {(elapsedMs / 1000).toFixed(1)}s
