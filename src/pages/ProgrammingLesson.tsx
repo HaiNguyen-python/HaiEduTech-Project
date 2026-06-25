@@ -896,7 +896,7 @@ const ProgrammingLessonPage = () => {
                         return (
                           <Link
                             to={`/programming/${mod.id}/${nextLesson.id}`}
-                            onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); }}
+                            onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                             className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97] shadow-md"
                             aria-label={t("Đi tới bài học tiếp theo", "Go to next lesson")}
                           >
