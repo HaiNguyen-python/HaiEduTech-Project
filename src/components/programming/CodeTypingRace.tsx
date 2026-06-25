@@ -60,8 +60,20 @@ const BONUS_SNIPPETS: Record<string, string[]> = {
   ],
 };
 
+/**
+ * Strip emojis and other non-ASCII pictographs from snippets so learners only
+ * have to type plain code characters. Keeps standard punctuation and letters.
+ */
+function stripEmojis(text: string): string {
+  if (!text) return text;
+  // Remove emoji/pictograph/symbol ranges + variation selectors + ZWJ.
+  const emojiRe = /[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu;
+  return text.replace(emojiRe, "").replace(/[ \t]+\n/g, "\n");
+}
+
 /** Pick a short, fun-to-type slice from a longer source. */
 function pickSnippet(raw: string): string {
+  raw = stripEmojis(raw);
   if (!raw) return "print('Hello, HaiEduTech!')";
   const lines = raw
     .split("\n")
