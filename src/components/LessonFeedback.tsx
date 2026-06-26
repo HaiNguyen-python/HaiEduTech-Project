@@ -130,7 +130,7 @@ const LessonFeedback = ({
           const run = (q: any) => Promise.resolve(q);
           if (attendanceSnapshot) {
             tasks.push(
-              supabase.from("lesson_attendance").upsert(
+              run(supabase.from("lesson_attendance").upsert(
                 {
                   user_id: user.id,
                   lesson_id: resolvedLessonId,
@@ -140,7 +140,7 @@ const LessonFeedback = ({
                   status: attendanceSnapshot,
                 } as never,
                 { onConflict: "user_id,lesson_id,attendance_date" } as never,
-              ),
+              )),
             );
           }
           if (hasFeedback) {
