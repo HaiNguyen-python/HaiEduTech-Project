@@ -105,53 +105,65 @@ const LessonFeedback = ({
       const resolvedType = lessonType || "general";
       const resolvedTitle = lessonTitle || (typeof document !== "undefined" ? document.title : null);
 
-      // 1) Attendance row
-      if (attendance) {
-        await supabase.from("lesson_attendance").upsert(
-          {
-            user_id: user.id,
-            lesson_id: resolvedLessonId,
-            lesson_title: resolvedTitle,
-            lesson_type: resolvedType,
-            subject: subject || resolvedType,
-            status: attendance,
-          } as never,
-          { onConflict: "user_id,lesson_id,attendance_date" } as never,
-        );
-      }
-
-      // 2) Feedback row (only if rating/suggestion present). Single combined rating
-      // maps to all three legacy DB columns so historical analytics keep working.
       const hasFeedback = overall > 0 || suggestion.trim().length > 0;
-      if (hasFeedback) {
-        const fbType: "like" | "dislike" = overall >= 3 ? "like" : "dislike";
-        await supabase.from("lesson_feedback").insert({
-          lesson_id: resolvedLessonId,
-          module_id: moduleId || null,
-          lesson_type: resolvedType,
-          feedback_type: fbType,
-          subject: subject || resolvedType,
-          user_id: user.id,
-          rating_clarity: overall || null,
-          rating_ai_tool: overall || null,
-          rating_confidence: overall || null,
-          suggestion: suggestion.trim() || null,
-          lesson_title: resolvedTitle,
-        } as never);
-      }
+      const fbType: "like" | "dislike" = overall >= 3 ? "like" : "dislike";
+      const attendanceSnapshot = attendance;
+      const overallSnapshot = overall;
+      const suggestionSnapshot = suggestion.trim();
 
+      // Optimistic UI: show success immediately, run writes in the background.
       setSubmitted(true);
       toast({
         title: t("Đã ghi nhận! 💛", "Recorded! 💛"),
-        description: attendance
+        description: attendanceSnapshot
           ? t("Cảm ơn bạn đã điểm danh hôm nay.", "Thanks for checking in today.")
           : t("Cảm ơn phản hồi của bạn.", "Thanks for your feedback."),
       });
-
-      // Do not auto-close — let the user close the panel themselves.
       setAttendance(null);
       setOverall(0);
       setSuggestion("");
+      setSubmitting(false);
+
+      void (async () => {
+        try {
+          const tasks: Promise<unknown>[] = [];
+          if (attendanceSnapshot) {
+            tasks.push(
+              supabase.from("lesson_attendance").upsert(
+                {
+                  user_id: user.id,
+                  lesson_id: resolvedLessonId,
+                  lesson_title: resolvedTitle,
+                  lesson_type: resolvedType,
+                  subject: subject || resolvedType,
+                  status: attendanceSnapshot,
+                } as never,
+                { onConflict: "user_id,lesson_id,attendance_date" } as never,
+              ),
+            );
+          }
+          if (hasFeedback) {
+            tasks.push(
+              supabase.from("lesson_feedback").insert({
+                lesson_id: resolvedLessonId,
+                module_id: moduleId || null,
+                lesson_type: resolvedType,
+                feedback_type: fbType,
+                subject: subject || resolvedType,
+                user_id: user.id,
+                rating_clarity: overallSnapshot || null,
+                rating_ai_tool: overallSnapshot || null,
+                rating_confidence: overallSnapshot || null,
+                suggestion: suggestionSnapshot || null,
+                lesson_title: resolvedTitle,
+              } as never),
+            );
+          }
+          await Promise.allSettled(tasks);
+        } catch (err) {
+          console.error("Feedback background error:", err);
+        }
+      })();
     } catch (err) {
       console.error("Feedback error:", err);
       toast({
@@ -159,10 +171,10 @@ const LessonFeedback = ({
         description: t("Vui lòng thử lại sau.", "Please try again."),
         variant: "destructive",
       });
-    } finally {
       setSubmitting(false);
     }
   };
+
 
   // Hide entirely for guests
   if (!authed) return null;
