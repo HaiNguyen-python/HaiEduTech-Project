@@ -145,7 +145,7 @@ const LessonFeedback = ({
           }
           if (hasFeedback) {
             tasks.push(
-              supabase.from("lesson_feedback").insert({
+              run(supabase.from("lesson_feedback").insert({
                 lesson_id: resolvedLessonId,
                 module_id: moduleId || null,
                 lesson_type: resolvedType,
@@ -157,7 +157,7 @@ const LessonFeedback = ({
                 rating_confidence: overallSnapshot || null,
                 suggestion: suggestionSnapshot || null,
                 lesson_title: resolvedTitle,
-              } as never),
+              } as never)),
             );
           }
           await Promise.allSettled(tasks);
