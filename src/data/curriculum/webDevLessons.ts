@@ -1,6 +1,7 @@
-// Web Development curriculum - 6 industry-standard lessons (HTML, CSS, JS)
+// Web Development curriculum - HTML, CSS, JS, React (with beginner primer)
 // Author: HaiEduTech · Bilingual VI/EN, paired with the Software Engineering pillar
 import type { ExtendedProgrammingModule } from "./types";
+import { webDevBeginnerPrimer } from "./webDevBeginnerPrimer";
 
 export const webDevModules: ExtendedProgrammingModule[] = [
   {
@@ -9,10 +10,11 @@ export const webDevModules: ExtendedProgrammingModule[] = [
     titleEn: "Web Development (HTML · CSS · JavaScript · React)",
     icon: "🌐",
     color: "from-orange-500 to-pink-600",
-    description: "7 bài học từ HTML semantic, CSS hiện đại, JavaScript, DOM đến React Cơ Bản - chuẩn Frontend 2026",
-    descriptionEn: "7 lessons from semantic HTML, modern CSS, JavaScript, the DOM to React Basics - Frontend 2026 standards",
+    description: "Từ 'web là gì?' đến React - lộ trình Frontend dễ hiểu nhất cho người mới 2026",
+    descriptionEn: "From 'what is the web' to React - the friendliest Frontend roadmap for beginners 2026",
     course: "data-ai",
     lessons: [
+      ...webDevBeginnerPrimer,
       // ──────────────────────────── LESSON 1: HTML ────────────────────────────
       {
         id: "web-html-semantic",
