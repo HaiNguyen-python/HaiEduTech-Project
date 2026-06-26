@@ -127,6 +127,7 @@ const LessonFeedback = ({
       void (async () => {
         try {
           const tasks: Promise<unknown>[] = [];
+          const run = (q: any) => Promise.resolve(q);
           if (attendanceSnapshot) {
             tasks.push(
               supabase.from("lesson_attendance").upsert(
