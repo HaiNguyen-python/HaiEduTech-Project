@@ -1,6 +1,7 @@
-// Software Engineering curriculum - 7 industry-standard lessons (2026 trends)
+// Software Engineering curriculum - industry-standard lessons (2026 trends)
 // Author: HaiEduTech · Each lesson follows the 8-section bilingual format used across the curriculum
 import type { ExtendedProgrammingModule } from "./types";
+import { softwareEngBeginnerPrimer } from "./softwareEngBeginnerPrimer";
 
 export const softwareEngModules: ExtendedProgrammingModule[] = [
   {
@@ -9,10 +10,11 @@ export const softwareEngModules: ExtendedProgrammingModule[] = [
     titleEn: "Software Engineering",
     icon: "⚙️",
     color: "from-slate-600 to-blue-700",
-    description: "Quy trình & nguyên tắc của một kỹ sư phần mềm chuyên nghiệp năm 2026",
-    descriptionEn: "Industry workflows & principles of a 2026 professional software engineer",
+    description: "Lộ trình từ người mới đến kỹ sư phần mềm chuyên nghiệp năm 2026",
+    descriptionEn: "From absolute beginner to professional software engineer in 2026",
     course: "data-ai",
     lessons: [
+      ...softwareEngBeginnerPrimer,
       // ──────────────────────────── LESSON 1 ────────────────────────────
       {
         id: "se-sdlc",
