@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy, Lightbulb, Crown, Stars, Zap, Globe2 } from "lucide-react";
 import PostComposer from "@/components/your-corner/PostComposer";
-import PostCard from "@/components/your-corner/PostCard";
+import LazyPostCard from "@/components/your-corner/LazyPostCard";
 import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
 import { useYourCornerPresence, type OnlineUser } from "@/hooks/useYourCornerPresence";
 import { SUBJECTS, subjectMap, SubjectKey, extractHashtags } from "@/lib/yourCornerMeta";
@@ -66,7 +66,22 @@ export default function YourCorner() {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  const { posts, loading, refresh, trendingTags } = useYourCornerFeed(!!userId);
+  const { posts, loading, loadingMore, hasMore, refresh, loadMore, trendingTags } = useYourCornerFeed(!!userId);
+
+  // Infinite scroll sentinel
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = loadMoreRef.current;
+    if (!el || !hasMore) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) loadMore();
+      },
+      { rootMargin: "300px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasMore, loadMore, posts.length]);
 
   // Realtime presence — who is currently on Your Corner
   const onlineUsers = useYourCornerPresence(userId, {
@@ -439,9 +454,22 @@ export default function YourCorner() {
                   </p>
                 </Card>
               ) : (
-                filtered.map((p) => (
-                  <PostCard key={p.id} post={p} currentUserId={userId} onChanged={refresh} />
-                ))
+                <>
+                  {filtered.map((p, idx) => (
+                    <LazyPostCard
+                      key={p.id}
+                      post={p}
+                      currentUserId={userId}
+                      onChanged={refresh}
+                      eager={idx < 2}
+                    />
+                  ))}
+                  {hasMore && (
+                    <div ref={loadMoreRef} className="py-6 text-center text-sm text-muted-foreground">
+                      {loadingMore ? t("Đang tải thêm...", "Loading more...") : t("Cuộn để xem thêm", "Scroll for more")}
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
