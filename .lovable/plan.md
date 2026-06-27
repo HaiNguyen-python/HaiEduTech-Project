@@ -1,89 +1,64 @@
-# Báo cáo Credit & Kế hoạch tiết kiệm (sau đợt tối ưu vừa rồi)
+## Mục tiêu
+1. Khi workspace hết Lovable credit, chatbot không "im lặng" nữa - hiển thị toast/thông báo rõ ràng cho người dùng và admin.
+2. Your Corner load nhanh hơn rõ rệt (mục tiêu: time-to-first-post < 800ms, smooth scroll 60fps).
 
-## 1. Tổng quan kỳ này (14/06 – 14/07, tính đến hôm nay - ngày thứ 13)
+---
 
+## Phần 1 - Fallback chatbot khi hết credit
 
-| Hạng mục                 | Đã dùng    | %     | Trung bình/ngày |
-| ------------------------ | ---------- | ----- | --------------- |
-| **Build mode messages**  | 188.20     | 91.3% | ~14.5/ngày      |
-| **Plan mode messages**   | 10.10      | 4.9%  | ~0.78/ngày      |
-| **Cloud (toàn bộ)**      | 7.07       | 3.4%  | ~0.54/ngày      |
-| **AI Gateway (toàn bộ)** | 0.86       | 0.4%  | ~0.066/ngày     |
-| **Tổng**                 | **206.24** | 100%  | **~15.9/ngày**  |
+### Vấn đề
+Khi Lovable AI Gateway trả `402 (credits exhausted)` hoặc `429 (rate limit)`, các edge function (counseling-ai, pedagogical-assistant, interview-prep-ai, roleplay-chat, grade-writing, grade-speaking, code-explain...) hiện đang `throw error` → frontend chỉ thấy "Failed to fetch" hoặc loading mãi → người dùng tưởng web bị lỗi.
 
+### Cách sửa
+**A. Chuẩn hoá response từ edge functions:**
+- Tạo helper `_shared/ai-error-response.ts` trả về JSON dạng `{ error: "credits_exhausted" | "rate_limited" | "ai_unavailable", fallback: true, message: "..." }` với HTTP 200 (để frontend đọc được body mà không crash).
+- Áp dụng pattern này cho 8 edge function quan trọng nhất: `counseling-ai`, `roleplay-chat`, `pedagogical-assistant`, `grade-writing`, `grade-speaking`, `upgrade-writing`, `upgrade-speaking`, `code-explain`.
 
-Còn lại: 1.40 credits + 5/ngày daily grant. Tốc độ hiện tại vẫn cao hơn ngân sách 5/ngày -> sẽ tiếp tục ăn vào top-up cho đến hết kỳ.
+**B. Frontend bắt và hiển thị:**
+- Tạo `src/lib/aiResponseHandler.ts` - hàm dùng chung kiểm tra `data.error === "credits_exhausted"` → hiển thị toast tiếng Việt: "⚠️ Hệ thống AI đang tạm hết tài nguyên. Vui lòng thử lại sau hoặc liên hệ thầy Hải."
+- Với chatbot (Mr. Hai), khi gặp lỗi sẽ trả bubble reply mặc định: "Xin lỗi, mình đang tạm nghỉ. Bạn vui lòng quay lại sau 5-10 phút nhé! 🙏"
 
-## 2. Cloud - các "ổ tốn" còn lại sau khi đã tắt 8 cron job
+**C. Cảnh báo admin sớm:**
+- Thêm widget nhỏ ở Admin Dashboard hiển thị badge ⚠️ nếu trong 24h qua có >5 lỗi `credits_exhausted` từ bảng `api_usage_log` → admin biết để nạp credit.
 
-Cloud compute micro vẫn chiếm 96% chi phí Cloud (6.81/7.07). Top query đang ăn CPU database:
+---
 
+## Phần 2 - Tối ưu tốc độ Your Corner
 
-| #   | Query                                       | Số lần (13 ngày) | Tổng thời gian | Ghi chú                                                            |
-| --- | ------------------------------------------- | ---------------- | -------------- | ------------------------------------------------------------------ |
-| 1   | `get_streak_leaderboard()`                  | 5,359            | 600s           | **Đã tối ưu hôm nay** (60-day window). Lần chạy tới sẽ rẻ hơn ~5x. |
-| 2   | Admin dashboard quét `student_activity_log` | 2,581            | 503s           | Mỗi lần admin mở dashboard -> full scan.                           |
-| 3   | Per-user activity history                   | 6,817            | 359s           | Dashboard học viên load history.                                   |
-| 4   | INSERT `student_activity_log` (heartbeat)   | 18,468           | 215s           | ~1,420 lần/ngày -> heartbeat cadence quá dày.                      |
-| 5   | `get_admin_dashboard_snapshot` RPC          | 7,188            | ~140s          | Admin polling.                                                     |
+### 2.1 Giảm payload đầu + infinite scroll
+- `useYourCornerFeed.ts`: đổi `_limit: 10` → `_limit: 5` cho initial fetch.
+- Thêm `loadMore()` function lấy thêm 5 posts (`offset` based) khi user cuộn gần cuối.
+- Sửa RPC `get_your_corner_feed(_limit, _offset)` để hỗ trợ phân trang.
 
+### 2.2 Tối ưu RPC `get_your_corner_feed`
+- Bỏ `bookmarked_by_me` và `poll_votes` khỏi initial fetch (chỉ trả `comment_count`, `reaction_count`, `liked_by_me`, `has_poll: bool`).
+- Tạo RPC riêng `get_post_poll_results(post_id)` chỉ gọi khi user click vào poll (lazy load).
+- Tạo RPC riêng `get_my_bookmarks_ids()` trả về array `post_id[]` một lần duy nhất, cache client-side 5 phút.
+- Kết quả: RPC chính từ 5 subquery → 3 subquery, giảm ~40% thời gian.
 
-**Dự trù Cloud sau khi cron jobs đã tắt + streak đã tối ưu:**
+### 2.3 Gộp Realtime channels
+- Thay 4 channels (posts/reactions/comments/poll_votes) bằng **1 channel duy nhất** với 4 listeners.
+- Tăng throttle refetch từ 2.5s → **5s**.
+- Chỉ subscribe khi tab visible (`document.visibilityState === 'visible'`) - bỏ subscription khi user chuyển tab để tiết kiệm Realtime cost.
 
-- Hiện tại trung bình: **0.54 credit/ngày**.
-- Dự kiến sau 1-2 ngày (khi pg_stat reset & cron mất hẳn): **~0.30-0.35 credit/ngày**.
-- Nếu áp thêm các quick-win bên dưới: **~0.15-0.20 credit/ngày** (~5-6 credit/tháng).
+### 2.4 Lazy render PostCard
+- Wrap mỗi `PostCard` bằng `IntersectionObserver` - chỉ mount nội dung đầy đủ (Recharts poll chart, DOMPurify sanitize, image, comment box) khi visible.
+- Khi chưa visible: render skeleton 200px (giữ chiều cao để scroll không nhảy).
+- Defer Recharts import: `const PollBlock = lazy(() => import("@/components/your-corner/PollBlock"))`.
 
-## 3. AI Gateway - các tính năng đang gọi LLM/image
+### 2.5 Cache author profiles
+- `get_public_profiles` đang gọi mỗi lần refetch → cache 10 phút trong `sessionStorage` theo user_id.
 
-Tổng AI Gateway: 0.86 credit / 13 ngày = ~0.066/ngày. Rất thấp.
+---
 
-Breakdown:
+## Kết quả dự kiến
+- Your Corner: TTFP từ ~2.5s → **<800ms**, scroll mượt hơn rõ rệt.
+- Chatbot: thay vì im lặng, user thấy thông báo rõ và admin được cảnh báo sớm khi hết credit.
+- Cloud cost: realtime giảm ~50% (chỉ active khi tab visible), DB query giảm ~40%.
 
-
-| Mục                                             | Credit | %    | Loại                                                              |
-| ----------------------------------------------- | ------ | ---- | ----------------------------------------------------------------- |
-| Gemini 2.5 Flash **Image output** (Nano Banana) | 0.697  | 81%  | Sinh ảnh minh hoạ (vocab illustrations / lesson covers)           |
-| Gemini 2.5 Flash input tokens                   | 0.094  | 11%  | Chat dài (grading, explain code, roleplay - các call 3-8k tokens) |
-| Gemini 2.5 Flash output tokens                  | 0.050  | 6%   | Phần text trả về của các call trên                                |
-| Gemini 2.5 Flash Lite (in+out)                  | 0.013  | 1.5% | Các call nhẹ (auto-classify, mood, short hints)                   |
-| Gemini 3 Flash Preview                          | 0.0075 | <1%  | Mặc định mới, dùng ít                                             |
-
-
-Quan sát logs 7 ngày gần nhất: chỉ ~48 request AI - chủ yếu là `grade-speaking`, `grade-writing`, `enhance-programming-theory`, `roleplay-chat`. Đây là rất ít - AI không phải vấn đề.
-
-**Tính năng tốn AI nhất:**
-
-1. **Image generation (Nano Banana)** - dùng cho vocab/lesson illustrations. Mỗi ảnh ~0.039 credit. Nếu sinh 18 ảnh/tháng -> 0.7 credit. Đang cache vào `vocab-images` bucket nên không tệ.
-2. **Smart Grading IELTS** (Writing + Speaking) - 3-8k input tokens/lần, ~0.01-0.018 credit/lần grading.
-3. **Code explainer** ở Code Typing Race - tương tự ~0.005-0.01/lần.
-
-**Dự trù AI hiện tại: ~0.07 credit/ngày = ~2 credit/tháng.** Rất nhỏ.
-
-## 4. Quick-win đề xuất cho Cloud (nếu muốn giảm thêm)
-
-### Mức 1 - Không rủi ro (giảm Cloud xuống ~0.15/ngày)
-
-1. **Giãn `session_heartbeat**` từ ~30-60s lên **120s** trong `useSessionTracker.ts`. Giảm 50-75% INSERT activity log (vốn là nguồn ghi nặng nhất).
-2. **Cache `get_admin_dashboard_snapshot**` ở client 3-5 phút (admin không cần realtime tuyệt đối). Giảm 70% lần gọi RPC nặng nhất.
-3. **Throttle gọi `get_streak_leaderboard` ở client** từ mọi lần mount lên **5 phút TTL** (đã có `leaderboardCache.ts` - tăng TTL từ 2 phút lên 5-10 phút).
-
-### Mức 2 - Cần thử nghiệm
-
-4. **Tách bảng `session_heartbeat**` ra khỏi `student_activity_log` để index nhỏ hơn, partial index theo ngày. Tác động lớn nhưng cần migration cẩn thận.
-5. **Materialized view cho leaderboards** refresh mỗi 15 phút - rẻ hơn gọi RPC mỗi lần user mở trang.
-
-## 5. Đòn bẩy thực sự (chiếm 91% chi phí)
-
-**Build mode messages = 188 credit (~14.5/ngày).** Tối ưu Cloud/AI giỏi lắm tiết kiệm 5-7 credit/tháng, trong khi build mode là chỗ tiết kiệm hàng trăm credit. Một số mẹo:
-
-- Gộp nhiều yêu cầu nhỏ vào 1 message lớn thay vì 5 message rời.
-- Đính kèm screenshot/path file cụ thể -> AI không phải scan nhiều file -> ít vòng lặp.
-- Tránh đổi ý giữa chừng (cancel + redo tốn nhiều credit hơn).
-- Plan mode (1 credit/message cố định) cho các task lớn để chốt scope trước, rồi build mode chỉ chạy 1-2 vòng.
-
-## Quyết định cần anh xác nhận
-
-Anh muốn em triển khai **Mức 1 Cloud** (3 quick-win không rủi ro) ngay bây giờ, hay để theo dõi thêm 2-3 ngày xem hiệu quả của đợt tắt cron + tối ưu streak trước rồi quyết định?  
-  
-ok hãy triển  khai mức 1 bây giờ 
+## Files sẽ thay đổi
+- **Mới:** `supabase/functions/_shared/ai-error-response.ts`, `src/lib/aiResponseHandler.ts`
+- **Sửa edge functions (8):** counseling-ai, roleplay-chat, pedagogical-assistant, grade-writing, grade-speaking, upgrade-writing, upgrade-speaking, code-explain
+- **Migration SQL:** sửa `get_your_corner_feed` (thêm offset, bỏ bookmark/poll_votes), tạo `get_post_poll_results`, `get_my_bookmarks_ids`
+- **Frontend:** `src/hooks/useYourCornerFeed.ts`, `src/pages/YourCorner.tsx`, `src/components/your-corner/PostCard.tsx`, `src/components/your-corner/PollBlock.tsx`, các component chatbot dùng aiResponseHandler.
+- **Admin:** thêm widget "AI Health" nhỏ ở Admin Dashboard.

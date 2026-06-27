@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { extractHashtags } from "@/lib/yourCornerMeta";
 
@@ -34,61 +34,100 @@ export type FeedPost = {
   my_vote: number | null;
 };
 
+const PAGE_SIZE = 5;
+
+function mapPosts(payload: any): FeedPost[] {
+  const authorMap = new Map<string, FeedAuthor>();
+  (payload?.authors ?? []).forEach((a: FeedAuthor) => authorMap.set(a.id, a));
+  return (payload?.posts ?? []).map((p: any) => ({
+    id: p.id,
+    user_id: p.user_id,
+    content: p.content,
+    image_url: p.image_url,
+    subject: p.subject,
+    mood: p.mood,
+    visibility: p.visibility,
+    created_at: p.created_at,
+    author: authorMap.get(p.user_id) ?? null,
+    reaction_count: Number(p.reaction_count ?? 0),
+    liked_by_me: !!p.liked_by_me,
+    comment_count: Number(p.comment_count ?? 0),
+    bookmarked_by_me: !!p.bookmarked_by_me,
+    poll: p.poll ?? null,
+    poll_votes: p.poll_votes ?? null,
+    my_vote: p.my_vote ?? null,
+  }));
+}
 
 export function useYourCornerFeed(enabled: boolean) {
   const [posts, setPosts] = useState<FeedPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const offsetRef = useRef(0);
 
   const fetchFeed = useCallback(async () => {
-    const { data, error } = await supabase.rpc("get_your_corner_feed", { _limit: 10 });
+    const { data, error } = await supabase.rpc("get_your_corner_feed", {
+      _limit: PAGE_SIZE,
+      _offset: 0,
+    });
     if (error || !data) {
       setPosts([]);
       setLoading(false);
       return;
     }
-    const payload = data as { posts: any[]; authors: FeedAuthor[] };
-    const authorMap = new Map<string, FeedAuthor>();
-    (payload.authors ?? []).forEach((a) => authorMap.set(a.id, a));
-    setPosts(
-      (payload.posts ?? []).map((p) => ({
-        id: p.id,
-        user_id: p.user_id,
-        content: p.content,
-        image_url: p.image_url,
-        subject: p.subject,
-        mood: p.mood,
-        visibility: p.visibility,
-        created_at: p.created_at,
-        author: authorMap.get(p.user_id) ?? null,
-        reaction_count: Number(p.reaction_count ?? 0),
-        liked_by_me: !!p.liked_by_me,
-        comment_count: Number(p.comment_count ?? 0),
-        bookmarked_by_me: !!p.bookmarked_by_me,
-        poll: p.poll ?? null,
-        poll_votes: p.poll_votes ?? null,
-        my_vote: p.my_vote ?? null,
-      }))
-    );
+    const mapped = mapPosts(data);
+    setPosts(mapped);
+    offsetRef.current = mapped.length;
+    setHasMore(mapped.length >= PAGE_SIZE);
     setLoading(false);
   }, []);
+
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !hasMore) return;
+    setLoadingMore(true);
+    const { data, error } = await supabase.rpc("get_your_corner_feed", {
+      _limit: PAGE_SIZE,
+      _offset: offsetRef.current,
+    });
+    if (error || !data) {
+      setLoadingMore(false);
+      return;
+    }
+    const mapped = mapPosts(data);
+    setPosts((prev) => {
+      const seen = new Set(prev.map((p) => p.id));
+      const merged = [...prev];
+      mapped.forEach((p) => {
+        if (!seen.has(p.id)) merged.push(p);
+      });
+      return merged;
+    });
+    offsetRef.current += mapped.length;
+    setHasMore(mapped.length >= PAGE_SIZE);
+    setLoadingMore(false);
+  }, [loadingMore, hasMore]);
 
   useEffect(() => {
     if (!enabled) return;
     fetchFeed();
+
     let pending = false;
-    let timer: ReturnType<typeof setTimeout> | null = null;
+    let throttleTimer: ReturnType<typeof setTimeout> | null = null;
     const throttled = () => {
-      if (pending) return;
+      if (pending || document.visibilityState !== "visible") return;
       pending = true;
-      timer = setTimeout(() => {
+      throttleTimer = setTimeout(() => {
         pending = false;
         fetchFeed();
-      }, 2500);
+      }, 5000);
     };
-    // Defer realtime subscription until after first paint + a brief idle window
-    // so the four channel subscriptions don't compete with the initial feed render.
+
+    // Single consolidated channel listening to all 4 tables (vs 4 channels before).
+    // Mount only after first paint + idle delay so it doesn't compete with initial render.
     let channel: ReturnType<typeof supabase.channel> | null = null;
     const subTimer = setTimeout(() => {
+      if (document.visibilityState !== "visible") return;
       channel = supabase
         .channel("your-corner-feed")
         .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_posts" }, throttled)
@@ -96,14 +135,23 @@ export function useYourCornerFeed(enabled: boolean) {
         .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_comments" }, throttled)
         .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_poll_votes" }, throttled)
         .subscribe();
-    }, 1500);
+    }, 2500);
+
+    // Pause realtime when tab is hidden, refetch once when it returns.
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") {
+        fetchFeed();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     return () => {
-      if (timer) clearTimeout(timer);
+      if (throttleTimer) clearTimeout(throttleTimer);
       clearTimeout(subTimer);
       if (channel) supabase.removeChannel(channel);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [enabled, fetchFeed]);
-
 
   const trendingTags = useMemo(() => {
     const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
@@ -118,5 +166,5 @@ export function useYourCornerFeed(enabled: boolean) {
       .map(([tag, count]) => ({ tag, count }));
   }, [posts]);
 
-  return { posts, loading, refresh: fetchFeed, trendingTags };
+  return { posts, loading, loadingMore, hasMore, refresh: fetchFeed, loadMore, trendingTags };
 }
