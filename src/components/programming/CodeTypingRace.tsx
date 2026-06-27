@@ -102,42 +102,27 @@ function stripEmojis(text: string): string {
 function pickSnippet(raw: string): string {
   raw = stripEmojis(raw);
   if (!raw) return "print('Hello, HaiEduTech!')";
-  const lines = raw
-    .split("\n")
-    .map((l) => l.replace(/\t/g, "  ").trimEnd())
-    .filter((l) => l.trim() && !/^\s*(#|\/\/)/.test(l));
-  if (!lines.length) return raw.slice(0, 120);
-  let out = "";
-  for (const l of lines) {
-    if ((out + l).length > 140) break;
-    out = out ? `${out}\n${l}` : l;
-  }
-  return (out || lines[0]).slice(0, 160);
+  return raw;
 }
 
 /**
- * Build several candidate snippets from the lesson's own source by walking
- * through clean (non-comment) lines and grouping them into short blocks.
+ * Normalize the lesson source: strip emojis, convert tabs to 2 spaces, trim
+ * trailing whitespace per line, drop leading/trailing blank lines. The learner
+ * retypes the WHOLE lesson code block as a single drill so they internalize
+ * the full example (not arbitrary 140-char slices).
  */
-function buildSourceSnippets(raw: string): string[] {
-  raw = stripEmojis(raw);
-  if (!raw) return [];
+function normalizeFullSource(raw: string): string {
+  raw = stripEmojis(raw || "");
+  if (!raw.trim()) return "";
   const lines = raw
     .split("\n")
-    .map((l) => l.replace(/\t/g, "  ").trimEnd())
-    .filter((l) => l.trim() && !/^\s*(#|\/\/)/.test(l));
-  const snippets: string[] = [];
-  let buf = "";
-  for (const l of lines) {
-    if ((buf + "\n" + l).length > 140) {
-      if (buf) snippets.push(buf.slice(0, 160));
-      buf = l;
-    } else {
-      buf = buf ? `${buf}\n${l}` : l;
-    }
-  }
-  if (buf) snippets.push(buf.slice(0, 160));
-  return snippets;
+    .map((l) => l.replace(/\t/g, "  ").trimEnd());
+  // Trim leading/trailing empty lines but preserve blank lines in the middle.
+  let start = 0;
+  let end = lines.length;
+  while (start < end && !lines[start].trim()) start++;
+  while (end > start && !lines[end - 1].trim()) end--;
+  return lines.slice(start, end).join("\n");
 }
 
 /** Deduplicate while preserving order. */
@@ -154,6 +139,13 @@ function uniq(arr: string[]): string[] {
   return out;
 }
 
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  answer: number;
+  explanation?: string;
+}
+
 const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) => {
   // Topic-aware drills: if the lesson title matches a known topic (e.g. "Random
   // Forest", "k-means", "SQL JOINs", "FastAPI"), prefer that ladder so every
@@ -166,23 +158,18 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   const langKey = effectiveLang;
   const bonus = BONUS_SNIPPETS[langKey] || BONUS_SNIPPETS.python;
 
-  // Pool order: topic-specific ladder first (most relevant), then a small
-  // fallback ladder for the language, then snippets harvested from the lesson
-  // source code (sorted shortest -> longest so beginners ease in).
-  // Strict rule: the typing race must drill ONLY code that appears in the
-  // lesson's own theory/source. We sort lesson snippets shortest -> longest so
-  // difficulty rises naturally. Topic ladders and generic bonus snippets are
-  // used only as a last-resort fallback when the lesson has no code block,
-  // so learners never type code unrelated to the lesson they are studying.
+  // The typing race now drills the ENTIRE lesson code block in one go (no
+  // small 140-char slices), so the learner sees the full example end-to-end.
+  // Topic ladders and generic bonus snippets are only used as a fallback when
+  // the lesson has no embedded code block.
   const pool = useMemo(() => {
-    const fromSource = buildSourceSnippets(source)
-      .map(stripEmojis)
-      .sort((a, b) => a.length - b.length);
-    if (fromSource.length > 0) return uniq(fromSource);
+    const full = normalizeFullSource(source);
+    if (full) return [full];
     const topicSnips = (topic?.snippets || []).map(stripEmojis);
     if (topicSnips.length > 0) return uniq(topicSnips);
     return uniq(bonus.map(stripEmojis));
   }, [source, bonus, topic]);
+
 
   const [poolIdx, setPoolIdx] = useState(0);
   const snippet = pool[poolIdx] || pickSnippet(source);
