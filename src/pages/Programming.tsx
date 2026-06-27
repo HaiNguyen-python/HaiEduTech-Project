@@ -14,6 +14,7 @@ import PythonReview from "@/components/PythonReview";
 import PythonPathwayHub from "@/components/python/PythonPathwayHub";
 import ProgrammingDashboard from "@/components/programming/ProgrammingDashboard";
 import LessonFloatingSymbols from "@/components/programming/LessonFloatingSymbols";
+import BackToTopButton from "@/components/programming/BackToTopButton";
 import DailyCodeChallenge from "@/components/programming/DailyCodeChallenge";
 import ProfessionalProjects from "@/components/programming/ProfessionalProjects";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
@@ -714,6 +715,7 @@ const Programming = () => {
           </div>
         </div>
       </div>
+      <BackToTopButton label={lang === "vi" ? "Về đầu trang" : "Back to top"} />
       <Footer />
     </div>
   );
