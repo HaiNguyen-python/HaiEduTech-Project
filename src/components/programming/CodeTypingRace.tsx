@@ -161,18 +161,20 @@ function normalizeFullSource(raw: string, language: string = ""): string {
     const line = trimmed[i];
     const blank = !line.trim();
     if (!blank) {
+      // Insert a blank line before top-level defs/classes/decorators
+      // or methods inside a class, to mimic PEP8 spacing.
+      const isDefLike = /^\s*(def |class |async def |@)/.test(line);
+      const last = collapsed[collapsed.length - 1];
+      if (isDefLike && last && last.trim()) {
+        collapsed.push("");
+      }
       collapsed.push(line);
       continue;
     }
-
+    // Preserve a single blank line between non-blank lines.
     const prev = collapsed[collapsed.length - 1] || "";
     const next = trimmed.slice(i + 1).find((l) => l.trim()) || "";
-    const keepTopLevelGap =
-      prev.trim() &&
-      next.trim() &&
-      /^\s*(def |class |async def |@)/.test(next);
-
-    if (keepTopLevelGap && collapsed[collapsed.length - 1]?.trim()) {
+    if (prev.trim() && next.trim() && collapsed[collapsed.length - 1]?.trim()) {
       collapsed.push("");
     }
   }
