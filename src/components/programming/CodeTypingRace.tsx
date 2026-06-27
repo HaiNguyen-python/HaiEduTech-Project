@@ -206,12 +206,12 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   // Topic ladders and generic bonus snippets are only used as a fallback when
   // the lesson has no embedded code block.
   const pool = useMemo(() => {
-    const full = normalizeFullSource(source);
+    const full = normalizeFullSource(source, effectiveLang);
     if (full) return [full];
     const topicSnips = (topic?.snippets || []).map(stripEmojis);
     if (topicSnips.length > 0) return uniq(topicSnips);
     return uniq(bonus.map(stripEmojis));
-  }, [source, bonus, topic]);
+  }, [source, bonus, topic, effectiveLang]);
 
 
   const [poolIdx, setPoolIdx] = useState(0);
