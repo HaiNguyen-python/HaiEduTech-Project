@@ -350,17 +350,15 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done]);
 
-  // Keep the current typing position visible without placing a transparent
-  // textarea over the code. That fixes the blocked scrollbar and makes long
-  // examples easier to follow line by line.
+  // Keep the current typing position visible on the page. The code surface no
+  // longer has its own scrollbar, so learners can view the whole example as one
+  // continuous block instead of fighting nested scrolling.
   useEffect(() => {
-    const container = codeScrollRef.current;
     const caret = caretRef.current;
-    if (!container || !caret) return;
-    const c = container.getBoundingClientRect();
+    if (!caret) return;
     const t = caret.getBoundingClientRect();
-    const margin = 72;
-    if (t.top < c.top + margin || t.bottom > c.bottom - margin) {
+    const margin = 96;
+    if (t.top < margin || t.bottom > window.innerHeight - margin) {
       caret.scrollIntoView({ block: "center", inline: "nearest" });
     }
   }, [typed.length]);
@@ -441,8 +439,8 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           <span>📖 Gõ trực tiếp lên code mẫu bên dưới</span>
           <span className="text-muted-foreground/70">Tab/Shift+Tab để thụt dòng</span>
         </div>
-        <div className="relative font-mono text-sm leading-relaxed bg-slate-950 rounded-lg overflow-hidden">
-          {/* Visible code surface: soft-wraps long lines and owns the scrollbar. */}
+        <div className="relative font-mono text-[12px] sm:text-[13px] leading-6 bg-slate-950 rounded-lg overflow-hidden">
+          {/* Visible code surface: soft-wraps long lines and shows the full block. */}
           <div
             ref={codeScrollRef}
             role="button"
@@ -454,7 +452,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
                 focusTypingInput();
               }
             }}
-            className="whitespace-pre-wrap break-words text-slate-200 p-4 min-h-[260px] lg:min-h-[440px] max-h-[72vh] overflow-y-auto overflow-x-hidden cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
+            className="whitespace-pre-wrap break-words text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-visible cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
             style={{ overflowWrap: "anywhere" }}
           >
             {rendered}
