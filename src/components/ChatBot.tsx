@@ -1035,8 +1035,8 @@ const ChatBot = () => {
             {
               role: "assistant",
               content: t(
-                "⚠️ Hết hạn mức sử dụng. Vui lòng liên hệ quản trị.",
-                "⚠️ Usage limit reached. Please contact admin.",
+                "Mr. Hai đang tạm nghỉ một lát do hệ thống AI hết tài nguyên 🙏 Em vui lòng quay lại sau 5-10 phút nhé. Nếu cần gấp, em có thể liên hệ thầy Hải qua trang Liên hệ.",
+                "Mr. Hai is taking a quick break — the AI system is out of resources 🙏 Please come back in 5-10 minutes. For urgent help, use the Contact page.",
               ),
             },
           ]);
