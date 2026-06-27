@@ -350,7 +350,7 @@ const IeltsLectureCategory = () => {
               icon: string,
               items: typeof filtered,
             ) => {
-              const isOpen = openGroups[groupKey] !== false;
+              const isOpen = openGroups[groupKey] === true;
               return (
                 <div key={groupKey} className="mb-6 last:mb-0">
                   <button
