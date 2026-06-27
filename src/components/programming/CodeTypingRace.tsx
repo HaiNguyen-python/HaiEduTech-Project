@@ -520,7 +520,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
                 focusTypingInput();
               }
             }}
-            className="whitespace-pre-wrap break-words text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-visible cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60 [&_br+br]:hidden"
+            className="whitespace-pre-wrap break-words text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-visible cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
             style={{ overflowWrap: "anywhere" }}
           >
             {rendered}
