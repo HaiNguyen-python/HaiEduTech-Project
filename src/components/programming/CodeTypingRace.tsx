@@ -317,11 +317,13 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     setExplainError("");
     try {
       const { data, error } = await supabase.functions.invoke("explain-code", {
-        body: { code: snippet, language: langKey || "python" },
+        body: { code: snippet, language: langKey || "python", lessonContext: lessonTitle || "" },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setExplanation(data?.explanation || "");
+      setQuiz(Array.isArray(data?.quiz) ? data.quiz : []);
+      setQuizAnswers({});
     } catch (e) {
       setExplainError(e instanceof Error ? e.message : "Không thể tải giải thích. Thử lại nhé!");
     } finally {
