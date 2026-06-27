@@ -715,7 +715,7 @@ const Programming = () => {
           </div>
         </div>
       </div>
-      <BackToTopButton label={lang === "vi" ? "Về đầu trang" : "Back to top"} />
+      <BackToTopButton label={t("Về đầu trang", "Back to top")} />
       <Footer />
     </div>
   );
