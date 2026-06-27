@@ -3695,7 +3695,9 @@ export type Database = {
           user_id: string
         }[]
       }
-      get_your_corner_feed: { Args: { _limit?: number }; Returns: Json }
+      get_your_corner_feed:
+        | { Args: { _limit?: number }; Returns: Json }
+        | { Args: { _limit?: number; _offset?: number }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
