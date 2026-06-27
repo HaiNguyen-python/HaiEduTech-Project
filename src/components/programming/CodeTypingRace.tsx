@@ -111,19 +111,62 @@ function pickSnippet(raw: string): string {
  * retypes the WHOLE lesson code block as a single drill so they internalize
  * the full example (not arbitrary 140-char slices).
  */
-function normalizeFullSource(raw: string): string {
+function stripComments(raw: string, language: string): string {
+  const lang = (language || "").toLowerCase();
+  // Pick comment syntax for the language.
+  const useHash = /python|py|sql|bash|sh|ruby|rb|yaml|yml|toml/.test(lang);
+  const useSlash = /js|ts|tsx|jsx|java|kotlin|swift|rust|go|c|cpp|csharp|cs|php|scala|dart/.test(lang);
+  const useDash = /sql|haskell|lua/.test(lang);
+  // Default: assume `#` then `//` then `--` so we strip whatever appears.
+  return raw
+    .split("\n")
+    .map((line) => {
+      let out = line;
+      // Drop trailing inline comments while keeping code before them.
+      // Avoid clobbering `#` / `//` inside string literals by requiring at
+      // least one whitespace BEFORE the marker (covers the common case of
+      // `code  # note`). Conservative but safe.
+      if (useHash) out = out.replace(/\s+#.*$/, "");
+      if (useSlash) out = out.replace(/\s+\/\/.*$/, "");
+      if (useDash) out = out.replace(/\s+--.*$/, "");
+      return out.trimEnd();
+    })
+    // Drop lines that are pure comments (start with the marker after indent).
+    .filter((line) => {
+      const t = line.trim();
+      if (!t) return true; // keep blank lines for now, collapsed below
+      if (useHash && t.startsWith("#")) return false;
+      if (useSlash && t.startsWith("//")) return false;
+      if (useDash && t.startsWith("--")) return false;
+      return true;
+    })
+    .join("\n");
+}
+
+function normalizeFullSource(raw: string, language: string = ""): string {
   raw = stripEmojis(raw || "");
   if (!raw.trim()) return "";
+  raw = stripComments(raw, language);
   const lines = raw
     .split("\n")
     .map((l) => l.replace(/\t/g, "  ").trimEnd());
-  // Trim leading/trailing empty lines but preserve blank lines in the middle.
+  // Trim leading/trailing empty lines and collapse 2+ consecutive blanks.
   let start = 0;
   let end = lines.length;
   while (start < end && !lines[start].trim()) start++;
   while (end > start && !lines[end - 1].trim()) end--;
-  return lines.slice(start, end).join("\n");
+  const trimmed = lines.slice(start, end);
+  const collapsed: string[] = [];
+  let prevBlank = false;
+  for (const l of trimmed) {
+    const blank = !l.trim();
+    if (blank && prevBlank) continue;
+    collapsed.push(l);
+    prevBlank = blank;
+  }
+  return collapsed.join("\n");
 }
+
 
 /** Deduplicate while preserving order. */
 function uniq(arr: string[]): string[] {
@@ -163,12 +206,12 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   // Topic ladders and generic bonus snippets are only used as a fallback when
   // the lesson has no embedded code block.
   const pool = useMemo(() => {
-    const full = normalizeFullSource(source);
+    const full = normalizeFullSource(source, effectiveLang);
     if (full) return [full];
     const topicSnips = (topic?.snippets || []).map(stripEmojis);
     if (topicSnips.length > 0) return uniq(topicSnips);
     return uniq(bonus.map(stripEmojis));
-  }, [source, bonus, topic]);
+  }, [source, bonus, topic, effectiveLang]);
 
 
   const [poolIdx, setPoolIdx] = useState(0);
