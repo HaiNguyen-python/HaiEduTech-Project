@@ -157,12 +157,27 @@ function normalizeFullSource(raw: string, language: string = ""): string {
   while (end > start && !lines[end - 1].trim()) end--;
   const trimmed = lines.slice(start, end);
   const collapsed: string[] = [];
-  let prevBlank = false;
-  for (const l of trimmed) {
-    const blank = !l.trim();
-    if (blank && prevBlank) continue;
-    collapsed.push(l);
-    prevBlank = blank;
+  for (let i = 0; i < trimmed.length; i++) {
+    const line = trimmed[i];
+    const blank = !line.trim();
+    if (!blank) {
+      collapsed.push(line);
+      continue;
+    }
+
+    const prev = collapsed[collapsed.length - 1] || "";
+    const next = trimmed.slice(i + 1).find((l) => l.trim()) || "";
+    const prevIndent = prev.match(/^\s*/)?.[0].length ?? 0;
+    const nextIndent = next.match(/^\s*/)?.[0].length ?? 0;
+    const keepTopLevelGap =
+      prev.trim() &&
+      next.trim() &&
+      (nextIndent === 0 || /^\s*(def |class |import |from )/.test(next)) &&
+      prevIndent <= nextIndent;
+
+    if (keepTopLevelGap && collapsed[collapsed.length - 1]?.trim()) {
+      collapsed.push("");
+    }
   }
   return collapsed.join("\n");
 }
@@ -486,7 +501,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           <span>📖 Gõ trực tiếp lên code mẫu bên dưới</span>
           <span className="text-muted-foreground/70">Tab/Shift+Tab để thụt dòng</span>
         </div>
-        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.45] bg-slate-950 rounded-lg overflow-hidden">
+        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.18] bg-slate-950 rounded-lg overflow-hidden">
           {/* Visible code surface: soft-wraps long lines and shows the full block. */}
           <div
             ref={codeScrollRef}
@@ -499,7 +514,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
                 focusTypingInput();
               }
             }}
-            className="whitespace-pre-wrap break-words text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-visible cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
+            className="whitespace-pre-wrap break-words text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-visible cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60 [&_br+br]:hidden"
             style={{ overflowWrap: "anywhere" }}
           >
             {rendered}
