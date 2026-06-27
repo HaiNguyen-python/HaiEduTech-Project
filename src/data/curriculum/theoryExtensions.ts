@@ -3704,6 +3704,9 @@ Input/prediction drift (KS-test, PSI), performance once ground truth arrives, la
 Training-serving skew (different feature computation offline vs online) is the #1 cause of "good in notebook, bad in prod". Feature Stores plus contract tests between layers prevent it.
 `,
   },
+};
+
+
 
 export function getTheoryExtension(lessonId: string, lang: "vi" | "en"): string {
   const ext = theoryExtensions[lessonId];
