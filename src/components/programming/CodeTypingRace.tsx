@@ -178,6 +178,8 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   const [startAt, setStartAt] = useState<number | null>(null);
   const [endAt, setEndAt] = useState<number | null>(null);
   const [explanation, setExplanation] = useState<string>("");
+  const [quiz, setQuiz] = useState<QuizQuestion[]>([]);
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [explainLoading, setExplainLoading] = useState(false);
   const [explainError, setExplainError] = useState<string>("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -188,6 +190,8 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     setStartAt(null);
     setEndAt(null);
     setExplanation("");
+    setQuiz([]);
+    setQuizAnswers({});
     setExplainError("");
   }, [snippet]);
 
