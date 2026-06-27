@@ -2574,7 +2574,1136 @@ Client (React + Vite) -> typed API client -> API layer (auth, Zod validation, se
 Force HTTPS + HSTS, env-driven config with secret manager, version-controlled migrations applied in CI, structured logs with a correlation ID, automated backups with restore drills.
 `,
   },
-};
+
+  // ============================================================
+  // CLOUD - deep dives
+  // ============================================================
+  "cloud-fund-1": {
+    vi: `
+## 🔬 Cloud không phải "máy của người khác"
+
+Đám mây là 5 đặc tính (NIST): on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service. Bạn không thuê máy - bạn thuê **API điều khiển hạ tầng**.
+
+## ⚙️ 3 mô hình dịch vụ
+- **IaaS** (EC2, GCE): bạn quản OS trở lên - linh hoạt nhất, vận hành nặng.
+- **PaaS** (App Engine, Heroku): bạn chỉ deploy code - nhanh, ít kiểm soát.
+- **SaaS** (Gmail, Notion): dùng ngay - không động vào hạ tầng.
+
+## 📐 Shared Responsibility
+Cloud provider chịu **bảo mật CỦA cloud** (datacenter, hypervisor); bạn chịu **bảo mật TRONG cloud** (IAM, dữ liệu, config). Hiểu sai mô hình này là nguyên nhân #1 của data breach trên cloud.
+`,
+    en: `
+## 🔬 The cloud is not "someone else's computer"
+
+NIST defines five essential traits: on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service. You rent an **API to control infrastructure**, not a machine.
+
+## ⚙️ Three service models
+IaaS gives most control and most ops burden; PaaS lets you ship code fast; SaaS is ready-to-use.
+
+## 📐 Shared Responsibility
+The provider secures the cloud (datacenter, hypervisor); you secure what is in the cloud (IAM, data, config). Misreading this model is the #1 cause of cloud breaches.
+`,
+  },
+
+  "cloud-compute-1": {
+    vi: `
+## 🔬 VM vs Container vs Serverless
+
+- **VM**: tách bằng hypervisor, mỗi VM có OS riêng - nặng nhưng cô lập mạnh.
+- **Container**: chia sẻ kernel, đóng gói app + dependency - khởi động giây, mật độ cao.
+- **Serverless** (Lambda, Cloud Run): bạn chỉ gửi function/container, provider lo scale 0->N.
+
+## ⚙️ Khi nào chọn gì?
+- Workload ổn định, kiểm soát chặt -> VM/Container trên K8s.
+- Spike biến thiên, idle nhiều -> Serverless để khỏi trả lúc 0 request.
+- Legacy stateful -> VM.
+
+## 📐 Lưu ý chi phí
+Serverless rẻ ở traffic thấp, đắt khi traffic ổn định cao. Đo break-even bằng dollar/request rồi quyết định.
+`,
+    en: `
+## 🔬 VM vs Container vs Serverless
+
+VMs isolate via hypervisor (heavy, strong isolation), containers share the kernel (seconds to boot, high density), serverless lets the provider scale 0->N for you.
+
+## ⚙️ Pick by shape
+Stable, controlled workloads -> VM/Container on K8s. Spiky, often-idle workloads -> serverless. Legacy stateful apps -> VM.
+
+## 📐 Cost note
+Serverless wins on low traffic, loses on steady-high traffic. Compute dollars per request to find break-even.
+`,
+  },
+
+  "cloud-storage-1": {
+    vi: `
+## 🔬 3 lớp storage cốt lõi
+
+- **Block** (EBS, Persistent Disk): như ổ cứng gắn vào VM - thấp tầng, nhanh, dùng cho DB.
+- **File** (EFS, Filestore): NFS chia sẻ giữa nhiều VM - dùng cho legacy app.
+- **Object** (S3, GCS): key-value bất biến, vô hạn, rẻ - dùng cho ảnh, video, log, data lake.
+
+## ⚙️ Storage class & lifecycle
+S3 Standard -> Infrequent Access -> Glacier: rẻ dần, lấy ra chậm dần. Đặt lifecycle policy tự chuyển sau 30/90 ngày tiết kiệm 60-80% chi phí lưu trữ dài hạn.
+
+## 📐 Checklist
+Versioning + MFA delete cho bucket quan trọng, encryption at rest mặc định, chặn public access trừ khi cần CDN.
+`,
+    en: `
+## 🔬 Three storage tiers
+
+Block (EBS) for DBs, File (EFS) for shared POSIX, Object (S3) for cheap, immutable, infinite key-value - perfect for media, logs, data lakes.
+
+## ⚙️ Lifecycle classes
+S3 Standard -> IA -> Glacier saves 60-80% on long-term storage when paired with a lifecycle policy.
+
+## 📐 Checklist
+Versioning + MFA delete on critical buckets, default encryption at rest, block public access unless a CDN demands it.
+`,
+  },
+
+  "cloud-net-1": {
+    vi: `
+## 🔬 VPC: trung tâm mạng cloud
+
+VPC là mạng riêng ảo của bạn trong cloud, chia thành **subnet public** (có route ra Internet Gateway) và **subnet private** (chỉ ra ngoài qua NAT). DB nên ở private subnet, chỉ app server trong cùng VPC mới truy cập được.
+
+## ⚙️ Security Group vs NACL
+- **Security Group**: stateful firewall ở mức instance - đặt rule allow, response tự động pass.
+- **NACL**: stateless ở mức subnet - phải mở cả inbound lẫn outbound. Dùng làm lớp bảo vệ phụ.
+
+## 📐 Best practice
+Multi-AZ subnet cho HA, private link cho DB managed, VPC peering hoặc Transit Gateway khi nhiều VPC cần nối.
+`,
+    en: `
+## 🔬 VPC is the network core
+
+A VPC is your private virtual network split into public subnets (route to an Internet Gateway) and private subnets (egress via NAT). Databases live in private subnets reachable only from inside the VPC.
+
+## ⚙️ Security Group vs NACL
+Security Groups are stateful per-instance firewalls; NACLs are stateless per-subnet (open both directions). Use NACLs as a defence-in-depth layer.
+
+## 📐 Best practice
+Multi-AZ subnets for HA, PrivateLink for managed DBs, VPC peering or Transit Gateway when linking many VPCs.
+`,
+  },
+
+  "cloud-iam-1": {
+    vi: `
+## 🔬 IAM: ai - làm gì - trên tài nguyên nào - với điều kiện gì?
+
+Mọi cloud policy đều xoay quanh 4 thành phần: **Principal** (ai), **Action** (làm gì), **Resource** (cái gì), **Condition** (khi nào). Hiểu mô hình này giúp đọc JSON policy không hoảng.
+
+## ⚙️ Least privilege là quy tắc vàng
+
+Cấp đúng quyền tối thiểu, đừng dùng \`*:*\` cho thuận tiện. Dùng **role** thay vì user khi service-to-service: VM/Pod nhận credential tạm qua metadata, không hard-code key.
+
+## 📐 Anti-pattern
+- Long-lived access key trong code/.env commit lên git
+- Gán policy AdministratorAccess cho deploy bot
+- Không bật MFA cho root/owner
+
+## 📐 Checklist
+Bật CloudTrail/Audit log, review key chưa dùng 90 ngày, dùng SSO + IdP thay vì tạo user thủ công.
+`,
+    en: `
+## 🔬 IAM = who - does what - on which resource - under what condition
+
+Every cloud policy revolves around Principal, Action, Resource, Condition. Knowing the shape makes JSON policies readable.
+
+## ⚙️ Least privilege
+Never use \`*:*\` for convenience. For service-to-service calls use roles, not users - the VM/Pod gets temporary credentials via metadata so no static keys leak.
+
+## 📐 Anti-patterns
+Long-lived access keys in git, AdministratorAccess for deploy bots, no MFA on root.
+
+## 📐 Checklist
+Enable audit logs, rotate or remove keys idle 90 days, prefer SSO over hand-created users.
+`,
+  },
+
+  "cloud-sec-1": {
+    vi: `
+## 🔬 Defense in depth trên cloud
+
+Bảo mật cloud không phải 1 cánh cửa thép mà là nhiều lớp:
+1. **Identity**: IAM, MFA, SSO.
+2. **Network**: VPC, security group, WAF, DDoS protection.
+3. **Data**: encryption at rest (KMS) + in transit (TLS).
+4. **Application**: secure coding, dependency scan, SAST/DAST.
+5. **Monitoring**: GuardDuty/Security Command Center, anomaly alert.
+6. **Response**: runbook incident, backup + restore drill.
+
+## ⚙️ Encryption keys
+- **AWS-managed key**: provider quản, đủ dùng cho phần lớn case.
+- **Customer-managed key (CMK)**: bạn quản rotation, audit - bắt buộc cho compliance (HIPAA, PCI).
+- **Bring Your Own Key (BYOK)**: import key từ HSM của bạn.
+
+## 📐 Compliance
+ISO 27001, SOC 2, GDPR - đọc Shared Responsibility Matrix của provider để biết phần nào họ đã chứng nhận, phần nào bạn phải tự làm.
+`,
+    en: `
+## 🔬 Defense in depth on cloud
+
+Identity (IAM/MFA/SSO) -> Network (VPC, SG, WAF, DDoS) -> Data (encryption at rest with KMS, TLS in transit) -> Application (secure code, SAST/DAST) -> Monitoring (GuardDuty/SCC) -> Response (runbooks, backup drills).
+
+## ⚙️ Key management
+Provider-managed for the default case, customer-managed (CMK) for compliance with rotation/audit, BYOK to import from your own HSM.
+
+## 📐 Compliance
+ISO 27001, SOC 2, GDPR - read the provider's Shared Responsibility Matrix to know what is certified vs your job.
+`,
+  },
+
+  "cloud-serverless-1": {
+    vi: `
+## 🔬 Serverless: lợi và giới hạn
+
+Function-as-a-Service (Lambda, Cloud Functions, Edge Functions) cho phép deploy 1 hàm, provider lo scale, billing theo ms thực thi. Hợp với webhook, cron, image processing, glue logic.
+
+## ⚙️ Cold start
+
+Lần đầu invoke, runtime phải khởi động -> độ trễ vài trăm ms đến vài giây (đặc biệt JVM/.NET). Giảm bằng: provisioned concurrency, nhỏ hoá package, dùng runtime nhẹ (Node/Python), edge function với V8 isolate (Cloudflare Workers, Deno Deploy).
+
+## 📐 Hạn chế cần biết
+- Timeout (15 phút Lambda, ngắn hơn ở edge)
+- Stateless: muốn state phải gửi ra Redis/S3/DB
+- Vendor lock-in: API trigger khác nhau giữa provider
+
+Khi function trở nên phức tạp, có nhiều dependency, gọi nhau dây chuyền -> cân nhắc container service (Cloud Run, ECS Fargate).
+`,
+    en: `
+## 🔬 Serverless: wins and limits
+
+FaaS (Lambda, Cloud Functions, Edge Functions) lets you deploy a function; the provider scales and bills by execution ms. Great for webhooks, cron, image processing, glue logic.
+
+## ⚙️ Cold starts
+First invoke must boot the runtime - hundreds of ms to seconds (worse on JVM/.NET). Mitigate with provisioned concurrency, smaller packages, light runtimes, or V8-isolate edge platforms.
+
+## 📐 Limits
+Timeouts, statelessness (push state to Redis/S3/DB), vendor-specific triggers. When chains get complex, move to container services (Cloud Run, Fargate).
+`,
+  },
+
+  "cloud-iac-1": {
+    vi: `
+## 🔬 IaC: hạ tầng là code
+
+Terraform/Pulumi/CloudFormation cho phép mô tả hạ tầng bằng file text version-controlled. Lợi ích cốt lõi: reproducible (môi trường dev/staging/prod giống nhau), peer review qua PR, rollback bằng git.
+
+## ⚙️ Declarative vs Imperative
+- **Declarative** (Terraform HCL): bạn mô tả **trạng thái mong muốn**, engine tính diff.
+- **Imperative** (CDK, Pulumi với code): bạn viết logic tạo. Mạnh khi cần loop/condition.
+
+## 📐 Best practice
+- Tách state remote (S3 + DynamoDB lock) để team chung
+- Module hoá theo layer: network, compute, app
+- Plan -> review -> apply trong CI, không apply tay từ máy dev
+- Dùng workspace hoặc folder riêng cho env (dev/stg/prod)
+`,
+    en: `
+## 🔬 Infrastructure as Code
+
+Terraform/Pulumi/CloudFormation describe infrastructure as version-controlled text. The wins: reproducibility, PR review, git-based rollback.
+
+## ⚙️ Declarative vs imperative
+HCL declares the desired state; CDK/Pulumi code lets you loop and branch.
+
+## 📐 Best practice
+Remote state with locking, layered modules (network/compute/app), plan -> review -> apply in CI, separate workspaces per env.
+`,
+  },
+
+  "cloud-cicd-1": {
+    vi: `
+## 🔬 CI/CD trên cloud
+
+Pipeline điển hình: GitHub Actions / GitLab CI / CodePipeline -> build container -> push registry -> deploy ECS/Cloud Run/K8s -> chạy smoke test -> alert nếu lỗi.
+
+## ⚙️ Pattern triển khai an toàn
+- **Rolling**: thay từng instance, không downtime nhưng có lúc 2 version chạy song song -> backward-compatible API.
+- **Blue-Green**: chuẩn bị stack mới, switch DNS/LB. Rollback chỉ là switch ngược.
+- **Canary**: thả 1-5% traffic, theo dõi metric rồi tăng.
+
+## 📐 Checklist
+Build 1 image dùng cho mọi env (cấu hình qua env var), bake migration vào job riêng trước khi deploy app, tự động rollback khi error rate vượt ngưỡng.
+`,
+    en: `
+## 🔬 Cloud CI/CD
+
+Typical flow: GitHub Actions/GitLab CI/CodePipeline -> build container -> push registry -> deploy to ECS/Cloud Run/K8s -> smoke test -> alert on failure.
+
+## ⚙️ Safe rollout patterns
+Rolling (zero downtime, requires backward-compatible APIs), Blue-Green (fast rollback by switching the LB), Canary (gradual traffic ramp with metric guards).
+
+## 📐 Checklist
+One image per build promoted across envs, run migrations in a dedicated job before app deploy, auto-rollback on error-rate spike.
+`,
+  },
+
+  "cloud-arch-1": {
+    vi: `
+## 🔬 Well-Architected Framework
+
+AWS/GCP/Azure đều có framework tương tự, xoay quanh 6 trụ:
+1. **Operational excellence** - vận hành như code, học từ failure.
+2. **Security** - defense in depth.
+3. **Reliability** - thiết kế cho failure (MTBF cao, MTTR thấp).
+4. **Performance efficiency** - chọn đúng service, không over-provision.
+5. **Cost optimization** - đo dollar/request, right-sizing.
+6. **Sustainability** - chọn region carbon thấp, autoscale xuống 0.
+
+## ⚙️ Nguyên tắc thiết kế HA
+- Không bao giờ 1 AZ: minimum 2 AZ, ưu tiên 3.
+- Load balancer + health check tự loại instance hỏng.
+- Database multi-AZ với automatic failover.
+- Stateless app + sticky session qua cookie ký, không session in-memory.
+
+## 📐 Đo lường
+RTO (Recovery Time Objective) và RPO (Recovery Point Objective) phải khớp với SLA cam kết với khách hàng - đừng hứa 99.99% rồi backup hàng đêm.
+`,
+    en: `
+## 🔬 Well-Architected Framework
+
+Six pillars: operational excellence, security, reliability, performance efficiency, cost optimisation, sustainability.
+
+## ⚙️ HA design rules
+Never one AZ - minimum two, prefer three. Load balancer with health checks. Multi-AZ DB with automated failover. Stateless apps with signed-cookie sessions.
+
+## 📐 Measure
+Align RTO and RPO with your customer-facing SLA - do not promise 99.99% if backups are nightly.
+`,
+  },
+
+  "cloud-cost-1": {
+    vi: `
+## 🔬 FinOps: quản chi phí như quản code
+
+Cloud bill có thể tăng âm thầm vì 1 cụm Kubernetes idle hoặc 1 EBS volume mồ côi. FinOps là thực hành liên tục: thấy được, phân bổ được, tối ưu được.
+
+## ⚙️ 5 đòn bẩy giảm cost
+
+1. **Right-sizing**: dùng metric thật để chọn instance, không over-provision.
+2. **Reserved/Savings Plan**: cam kết 1-3 năm giảm 30-70% cho workload ổn định.
+3. **Spot/Preemptible**: rẻ 70-90% cho job có thể restart (batch, CI, ML training).
+4. **Auto-scaling**: scale xuống đêm/cuối tuần.
+5. **Storage tiering**: lifecycle S3/Blob sang lớp lạnh.
+
+## 📐 Cảnh báo
+Đặt budget alert ở 50/80/100% ngân sách tháng. Tag mọi tài nguyên theo team/project để biết ai tiêu gì - không tag = không thấy = không cắt được.
+`,
+    en: `
+## 🔬 FinOps: manage cost like code
+
+Cloud bills creep through idle clusters and orphaned volumes. FinOps is continuous practice: see it, allocate it, optimise it.
+
+## ⚙️ Five levers
+Right-sizing from real metrics, Reserved/Savings Plans for steady workloads (30-70% off), Spot/Preemptible for restartable jobs (70-90% off), auto-scaling for off-hours, storage tiering.
+
+## 📐 Guardrails
+Budget alerts at 50/80/100%, tag every resource by team/project - untagged means invisible means uncut.
+`,
+  },
+
+  "cloud-ops-1": {
+    vi: `
+## 🔬 Vận hành ngày 2 (Day-2 operations)
+
+"Day-1" là deploy lần đầu - dễ. "Day-2" là vận hành 24/7 sau đó - khó. Bao gồm: patching, scaling, on-call, incident, capacity planning, cost review.
+
+## ⚙️ SRE practice cốt lõi
+
+- **Error budget**: SLO 99.9% -> ngân sách lỗi 43 phút/tháng. Tiêu hết -> đóng băng feature.
+- **Toil reduction**: việc lặp lại thủ công phải tự động hoá. KPI SRE: < 50% thời gian làm toil.
+- **Blameless postmortem**: tập trung vào hệ thống, không đổ lỗi người.
+
+## 📐 On-call humane
+Rotation cân bằng, có comp/off, runbook đầy đủ, alert noise thấp - team kiệt sức là dấu hiệu hệ thống chưa đủ trưởng thành chứ không phải lỗi người.
+`,
+    en: `
+## 🔬 Day-2 operations
+
+Day-1 (first deploy) is easy. Day-2 (24/7 operations after) is hard: patching, scaling, on-call, incidents, capacity, cost review.
+
+## ⚙️ Core SRE practice
+Error budgets gate feature work; toil reduction targets <50% of SRE time; postmortems stay blameless and focus on systems.
+
+## 📐 Humane on-call
+Balanced rotations, comp time, complete runbooks, low alert noise. Burnout signals immature systems, not weak people.
+`,
+  },
+
+  "cloud-strat-1": {
+    vi: `
+## 🔬 Multi-cloud vs Single-cloud
+
+**Single-cloud** đơn giản hơn nhiều: 1 tài khoản billing, 1 bộ kỹ năng, deep integration. **Multi-cloud** chỉ đáng đầu tư khi: yêu cầu compliance (data residency), tránh vendor lock-in chiến lược, tận dụng dịch vụ best-of-breed (BigQuery + AWS S3 chẳng hạn).
+
+## ⚙️ Pattern thực dụng
+
+- Core stack ở 1 cloud chính.
+- DR (disaster recovery) ở cloud thứ 2 với data replication định kỳ.
+- SaaS specialized (Snowflake, Databricks, Cloudflare) overlay xuyên cloud.
+
+## 📐 Cảnh báo
+Đừng multi-cloud chỉ vì "đa dạng hoá" mà không có use case rõ - chi phí vận hành (network egress, training, tooling) thường vượt xa lợi ích.
+`,
+    en: `
+## 🔬 Multi-cloud vs single-cloud
+
+Single-cloud is dramatically simpler: one bill, one skillset, deep integration. Multi-cloud earns its keep only for compliance/data residency, strategic anti-lock-in, or best-of-breed services across providers.
+
+## ⚙️ Practical pattern
+Core stack on one primary cloud, DR replicated to a second, specialised SaaS (Snowflake, Databricks, Cloudflare) layered across.
+
+## 📐 Warning
+Going multi-cloud "for diversity" without a real use case usually costs more in egress, training, and tooling than it saves.
+`,
+  },
+
+  // ============================================================
+  // CYBERSECURITY - deep dives
+  // ============================================================
+  "cyber-1": {
+    vi: `
+## 🔬 Tam giác CIA + AAA
+
+Bảo mật xoay quanh **CIA**: Confidentiality (giữ kín), Integrity (không bị sửa), Availability (luôn truy cập được). Kèm theo **AAA**: Authentication (bạn là ai), Authorization (được phép làm gì), Accounting (đã làm gì - log/audit).
+
+## ⚙️ Khi 3 thuộc tính xung đột
+Backup public-readable cho dev tiện -> phá Confidentiality. Mã hoá tất cả nặng nề -> giảm Availability. Bảo mật là **trade-off có chủ đích**, không phải maximize 1 trục.
+
+## 📐 Checklist nền tảng
+MFA cho mọi tài khoản admin, log truy cập có timestamp + IP, mã hoá data at rest và in transit, principle of least privilege.
+`,
+    en: `
+## 🔬 CIA triad + AAA
+
+Confidentiality, Integrity, Availability - plus Authentication (who), Authorization (what), Accounting (what was done).
+
+## ⚙️ Trade-offs are real
+Public backups for dev convenience break C; heavy encryption can hurt A. Security is intentional trade-off, not maximisation on one axis.
+
+## 📐 Foundations checklist
+MFA on every admin account, time-and-IP-stamped access logs, encryption at rest and in transit, least privilege.
+`,
+  },
+
+  "cyber-2": {
+    vi: `
+## 🔬 Mật mã đối xứng vs bất đối xứng
+
+- **Symmetric** (AES): 1 key chung, nhanh, dùng cho mã hoá data lớn.
+- **Asymmetric** (RSA, ECC): public + private key, chậm, dùng cho trao đổi key và chữ ký.
+
+TLS kết hợp cả 2: handshake bất đối xứng để thoả thuận session key, rồi truyền data bằng AES.
+
+## ⚙️ Hash khác encryption
+Hash (SHA-256, BLAKE3) là 1 chiều, không có "giải mã". Dùng để xác minh integrity. Mật khẩu KHÔNG hash thường - phải dùng **bcrypt/argon2/scrypt** với salt + work factor để chống brute force.
+
+## 📐 Tránh xa
+- Tự thiết kế thuật toán mã hoá
+- MD5/SHA-1 cho bảo mật (đã bị collision)
+- Hard-code key trong source code
+`,
+    en: `
+## 🔬 Symmetric vs asymmetric crypto
+
+Symmetric (AES) is one shared key, fast, used for bulk data. Asymmetric (RSA/ECC) uses public + private keys for key exchange and signatures.
+
+TLS combines both: asymmetric handshake negotiates a session key, then AES streams the data.
+
+## ⚙️ Hash is not encryption
+Hashes (SHA-256, BLAKE3) are one-way for integrity. Passwords MUST use bcrypt/argon2/scrypt with salt and tunable work factor.
+
+## 📐 Don't
+Roll your own crypto, use MD5/SHA-1 for security, hard-code keys.
+`,
+  },
+
+  "cyber-3": {
+    vi: `
+## 🔬 SQL Injection: vẫn còn ở 2026
+
+Bất kỳ chỗ nào ghép chuỗi vào SQL đều có thể bị inject. Fix duy nhất đáng tin: **parameterized query / prepared statement**. ORM (Prisma, SQLAlchemy, Drizzle) làm điều này tự động khi bạn dùng đúng API.
+
+\`\`\`python
+# SAI - dễ bị inject
+cur.execute(f"SELECT * FROM users WHERE email='{email}'")
+# ĐÚNG - parameterized
+cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+\`\`\`
+
+## ⚙️ Đừng quên anh em họ
+NoSQL injection (MongoDB \`$where\`), LDAP injection, command injection (\`os.system(user_input)\`), template injection (Jinja với input thô). Tất cả đều cùng nguyên nhân: tin tưởng input.
+
+## 📐 Defense in depth
+WAF chặn pattern phổ biến, log + alert khi có pattern khả nghi, principle of least privilege cho DB user (app không cần DROP TABLE).
+`,
+    en: `
+## 🔬 SQL Injection still ships in 2026
+
+Any place that concatenates strings into SQL is exploitable. Fix: **parameterized queries / prepared statements**. ORMs handle this when used via their query builders.
+
+## ⚙️ Cousins
+NoSQL injection (\`$where\`), LDAP, command injection (\`os.system(user_input)\`), template injection (raw Jinja). Same root cause: trusting input.
+
+## 📐 Defense in depth
+WAF for known patterns, alerts on suspicious payloads, least-privileged DB users (the app does not need DROP TABLE).
+`,
+  },
+
+  "cyber-4": {
+    vi: `
+## 🔬 XSS: kẻ thù của trình duyệt
+
+3 loại: **Reflected** (script trong URL), **Stored** (script lưu vào DB rồi render cho user khác), **DOM-based** (JS client xử lý input sai).
+
+## ⚙️ Phòng thủ tầng tầng
+1. **Output encoding**: escape HTML khi render (React tự làm, trừ \`dangerouslySetInnerHTML\`).
+2. **DOMPurify** khi bắt buộc hiển thị HTML user-generated.
+3. **Content Security Policy** (CSP): chặn inline script, chỉ cho phép script từ domain whitelist - giảm thiệt hại khi có lỗ hổng.
+4. **HttpOnly cookie**: token không truy cập được từ JS -> XSS không đánh cắp được.
+
+## 📐 Checklist
+Không bao giờ trust HTML từ rich-text editor, kiểm thử CSP qua report-uri trước khi enforce.
+`,
+    en: `
+## 🔬 XSS targets the browser
+
+Three flavours: reflected (in URL), stored (saved to DB then rendered), DOM-based (client-side mishandling of input).
+
+## ⚙️ Layered defence
+Output encoding (React handles it except \`dangerouslySetInnerHTML\`), DOMPurify when you must render user HTML, CSP to forbid inline scripts and whitelist origins, HttpOnly cookies so tokens are invisible to JS.
+
+## 📐 Checklist
+Never trust HTML from rich-text editors; deploy CSP in report-only first.
+`,
+  },
+
+  "cyber-5": {
+    vi: `
+## 🔬 Authentication vs Authorization
+
+- **AuthN**: chứng minh bạn là ai (password, OTP, passkey).
+- **AuthZ**: bạn được phép làm gì (role, policy, RLS).
+
+Nhầm 2 thứ này là nguyên nhân của **Broken Access Control** - lỗi #1 OWASP Top 10.
+
+## ⚙️ Pattern hiện đại
+- **OAuth 2.0**: ủy quyền giữa service.
+- **OIDC**: lớp identity trên OAuth, trả về ID token (JWT).
+- **Passkey/WebAuthn**: thay password bằng cặp khoá lưu trong thiết bị - chống phishing tuyệt đối.
+
+## 📐 JWT đúng cách
+Ký bằng RS256 hoặc EdDSA (không dùng \`alg: none\`), exp ngắn (15 phút), kèm refresh token httpOnly. Không nhét data nhạy cảm trong payload (JWT không mã hoá, chỉ ký).
+`,
+    en: `
+## 🔬 AuthN vs AuthZ
+
+AuthN proves who you are; AuthZ controls what you can do. Confusing them produces Broken Access Control - OWASP #1.
+
+## ⚙️ Modern patterns
+OAuth 2.0 for service-to-service delegation, OIDC for identity on top (JWT ID token), Passkeys/WebAuthn to replace passwords with phishing-resistant keys.
+
+## 📐 JWT done right
+RS256 or EdDSA, never \`alg: none\`, short exp (15 min), refresh in HttpOnly cookies. JWT is signed but not encrypted - keep secrets out of the payload.
+`,
+  },
+
+  "cyber-6": {
+    vi: `
+## 🔬 Broken Access Control & IDOR
+
+IDOR (Insecure Direct Object Reference): \`/api/orders/123\` trả về order của user khác chỉ vì backend không kiểm tra ownership. Đây là lỗ hổng dễ tìm và rất phổ biến.
+
+## ⚙️ Fix
+- Mọi endpoint check \`resource.owner_id == auth.uid()\` ở server.
+- Dùng RLS ở DB layer làm lớp phòng thủ thứ 2.
+- Dùng UUID thay vì integer tăng dần (khó đoán, nhưng KHÔNG thay thế authorization).
+
+## 📐 Mass assignment
+Đừng \`User.update(req.body)\` thẳng - attacker có thể thêm field \`isAdmin: true\`. Dùng whitelist field hoặc DTO/Zod schema cho input.
+`,
+    en: `
+## 🔬 Broken Access Control and IDOR
+
+IDOR: \`/api/orders/123\` returns another user's data because the backend forgot to check ownership. Easy to find, very common.
+
+## ⚙️ Fix
+Check \`resource.owner_id == auth.uid()\` on the server, use RLS as a second layer, prefer UUIDs for IDs (harder to guess but not a replacement for authorization).
+
+## 📐 Mass assignment
+Never \`User.update(req.body)\` directly - the attacker just sets \`isAdmin: true\`. Whitelist fields with DTOs or Zod schemas.
+`,
+  },
+
+  "cyber-7": {
+    vi: `
+## 🔬 CSRF: kẻ lừa trình duyệt
+
+Cookie tự gửi theo mọi request đến domain - attacker tạo form ở site khác submit sang site bạn -> trình duyệt tự đính kèm cookie session -> hành động thực thi như user thật.
+
+## ⚙️ Phòng chống
+- **SameSite=Lax/Strict** cho cookie (mặc định hiện đại) - chặn cross-site request đi kèm cookie.
+- **CSRF token** ngẫu nhiên trong form, kiểm tra ở server.
+- **Double-submit cookie** với SPA: token nằm trong cookie + header.
+- Endpoint mutate (POST/PUT/DELETE) yêu cầu \`Content-Type: application/json\` - chặn form-encoded từ origin khác.
+
+## 📐 Bổ sung
+Không bao giờ thực thi mutation qua GET (nguyên tắc REST cũng giống nguyên tắc bảo mật).
+`,
+    en: `
+## 🔬 CSRF tricks the browser
+
+Cookies are sent on every request to the domain - an attacker hosts a form elsewhere that POSTs to your site, your cookie rides along, action executes as the user.
+
+## ⚙️ Defences
+SameSite=Lax/Strict cookies, anti-CSRF tokens, double-submit cookies for SPAs, mutation endpoints that require \`Content-Type: application/json\` to block cross-origin form posts.
+
+## 📐 Bonus
+Never mutate state via GET - REST and security agree here.
+`,
+  },
+
+  "cyber-8": {
+    vi: `
+## 🔬 Supply chain attack
+
+Code của bạn an toàn không đủ - bạn phải tin cả **mọi dependency**. SolarWinds (2020), event-stream (2018), xz-utils (2024) - attacker chèn code độc vào package phổ biến.
+
+## ⚙️ Phòng vệ
+- Lock file (package-lock.json, uv.lock) -> reproducible build.
+- \`npm audit\` / Dependabot / Snyk tự động cảnh báo CVE.
+- Pin major version, review changelog trước khi update.
+- SBOM (Software Bill of Materials) để biết chính xác đang chạy gì.
+- Sign artifact (Sigstore, cosign) để verify nguồn gốc.
+
+## 📐 CI hygiene
+Build trong môi trường cách ly, không cho job CI có quyền push lên main, secret scan trong code (\`git-secrets\`, \`trufflehog\`).
+`,
+    en: `
+## 🔬 Supply chain attacks
+
+Your own code being safe is not enough - you must trust every dependency. SolarWinds (2020), event-stream (2018), xz-utils (2024) all weaponised popular packages.
+
+## ⚙️ Defences
+Lock files, automated CVE alerts (Dependabot/Snyk), pinned majors with changelog review, SBOMs, signed artifacts (Sigstore/cosign).
+
+## 📐 CI hygiene
+Isolated builders, no push-to-main from CI, secret scanners in the pipeline.
+`,
+  },
+
+  "cyber-9": {
+    vi: `
+## 🔬 Secret management
+
+Secret KHÔNG bao giờ nằm trong git, kể cả private repo (commit history vĩnh viễn, repo bị fork bất cứ lúc nào). Dùng secret manager: AWS Secrets Manager, GCP Secret Manager, HashiCorp Vault, hoặc \`.env\` được mount runtime từ orchestrator.
+
+## ⚙️ Rotation
+Mọi secret nên có policy rotation: API key 90 ngày, DB password 180 ngày, cert TLS tự renew (Let's Encrypt + cert-manager).
+
+## 📐 Khi secret bị lộ
+1. Rotate ngay, không "chờ xem".
+2. Tìm dấu hiệu sử dụng trong log (CloudTrail, audit log).
+3. Postmortem: vì sao lộ? làm sao chặn root cause?
+4. Đừng chỉ xoá commit - rewrite history (BFG) + force push + giả định attacker đã có.
+`,
+    en: `
+## 🔬 Secret management
+
+Secrets never live in git, even private repos - history is forever and forks happen. Use a secret manager (AWS/GCP Secrets Manager, HashiCorp Vault) or runtime-mounted env from your orchestrator.
+
+## ⚙️ Rotation
+Every secret needs a rotation policy: API keys ~90 days, DB passwords ~180, TLS certs auto-renewed (Let's Encrypt + cert-manager).
+
+## 📐 Leak response
+Rotate immediately, hunt usage in audit logs, postmortem the root cause, rewrite history (BFG) plus assume the attacker already has it.
+`,
+  },
+
+  "cyber-10": {
+    vi: `
+## 🔬 Logging & monitoring an toàn
+
+Log là tai mắt - nhưng chính log cũng có thể là lỗ hổng:
+- Log không được chứa password, token, PII đầy đủ.
+- Log injection: user gửi \`\\n[ADMIN] deleted user\` -> log trông như có admin xóa.
+- Log tampering: attacker xoá log để xoá dấu vết -> log phải ship ngay sang hệ thống tách biệt (SIEM).
+
+## ⚙️ Detection
+- Failed login burst -> brute force.
+- Cùng user đăng nhập từ 2 nước trong 10 phút -> session hijack.
+- Outbound traffic bất thường -> data exfiltration.
+
+## 📐 MTTD/MTTR
+Mean Time To Detect và Mean Time To Respond là 2 metric quan trọng nhất của security ops. Đo và cải tiến liên tục.
+`,
+    en: `
+## 🔬 Safe logging and monitoring
+
+Logs are your senses, but they can also be a hole: never log passwords/tokens/full PII, sanitize against log injection (\`\\n[ADMIN] ...\`), and ship logs to a separate SIEM so attackers cannot delete them.
+
+## ⚙️ Detection signals
+Failed-login bursts (brute force), same user from two countries in 10 minutes (session hijack), abnormal outbound traffic (exfiltration).
+
+## 📐 Key metrics
+MTTD and MTTR are the heartbeat of security ops - measure and improve.
+`,
+  },
+
+  "cyber-11": {
+    vi: `
+## 🔬 Incident response
+
+Có sự cố là chuyện khi nào, không phải có hay không. Framework NIST có 4 pha: **Preparation -> Detection & Analysis -> Containment, Eradication & Recovery -> Post-Incident Activity**.
+
+## ⚙️ Vai trò khi incident
+- **Incident Commander**: ra quyết định, không code.
+- **Communications Lead**: nói với khách hàng, PR, legal.
+- **Subject Matter Expert**: kỹ sư debug, ngăn lan.
+- **Scribe**: ghi timeline cho postmortem.
+
+## 📐 Drill thường xuyên
+Tabletop exercise mỗi quý, game day mô phỏng outage thật. Đội ngũ chưa drill là đội ngũ chưa sẵn sàng.
+
+## 📐 Blameless postmortem
+Tập trung "hệ thống cho phép lỗi xảy ra như thế nào", không "ai gây ra". Văn hoá đổ lỗi giết chết transparency.
+`,
+    en: `
+## 🔬 Incident response
+
+NIST has four phases: Preparation, Detection & Analysis, Containment + Eradication + Recovery, Post-Incident Activity.
+
+## ⚙️ Roles
+Incident Commander decides, Comms Lead talks to customers/PR/legal, SMEs debug, a Scribe captures the timeline.
+
+## 📐 Drill regularly
+Quarterly tabletops and game days. Untested teams are unprepared teams.
+
+## 📐 Blameless postmortems
+Focus on how the system allowed the failure, not who. Blame culture kills transparency.
+`,
+  },
+
+  "cyber-12": {
+    vi: `
+## 🔬 Compliance & privacy
+
+GDPR (EU), CCPA (California), PDPA (Singapore/Việt Nam 2024 Nghị định 13) - tất cả đều có cùng tinh thần: **người dùng sở hữu dữ liệu của họ**, bạn chỉ xử lý vì lý do hợp pháp đã thông báo.
+
+## ⚙️ Quyền cốt lõi của data subject
+- Quyền truy cập (lấy bản sao data của mình)
+- Quyền chỉnh sửa, quyền xoá ("right to be forgotten")
+- Quyền portability (xuất sang dịch vụ khác)
+- Quyền opt-out khỏi xử lý không cần thiết
+
+## 📐 Triển khai kỹ thuật
+- Privacy by Design: thu thập tối thiểu cần thiết, mặc định private.
+- Pseudonymization & encryption cho PII.
+- Data Processing Agreement với mọi vendor.
+- DPIA (Data Protection Impact Assessment) cho feature xử lý data nhạy cảm.
+- Breach notification: GDPR yêu cầu báo cơ quan trong 72h.
+`,
+    en: `
+## 🔬 Compliance and privacy
+
+GDPR, CCPA, PDPA share the same spirit: users own their data and you process it only for disclosed lawful reasons.
+
+## ⚙️ Data subject rights
+Access, rectification, erasure ("right to be forgotten"), portability, opt-out from unnecessary processing.
+
+## 📐 Engineering
+Privacy by Design (collect minimum, private by default), pseudonymise/encrypt PII, sign DPAs with vendors, run DPIAs for sensitive features, breach notification within 72h under GDPR.
+`,
+  },
+
+  // ============================================================
+  // MACHINE LEARNING - deep dives
+  // ============================================================
+  "ml-lr-1": {
+    vi: `
+## 🔬 Linear Regression: hiểu nền tảng
+
+Model dự đoán \`y = w·x + b\` bằng cách tối thiểu **MSE** (Mean Squared Error). Đẹp về toán vì có nghiệm đóng (closed-form via Normal Equation) hoặc gradient descent.
+
+## ⚙️ 4 giả định quan trọng
+
+1. **Linearity**: quan hệ thực sự tuyến tính (vẽ scatter để kiểm tra).
+2. **Independence**: các quan sát độc lập.
+3. **Homoscedasticity**: phương sai residual đều nhau.
+4. **Normality** of residuals: cho inference (CI, p-value).
+
+Vi phạm -> dự đoán vẫn chạy nhưng confidence interval, p-value không tin được.
+
+## 📐 Khi nào KHÔNG dùng
+Quan hệ phi tuyến rõ rệt -> Polynomial / Tree-based. Outlier nặng -> Huber/Quantile regression. Multicollinearity cao -> Ridge/Lasso.
+`,
+    en: `
+## 🔬 Linear regression foundations
+
+\`y = w·x + b\` fit by minimising MSE. Beautiful math: closed-form via the Normal Equation or solved by gradient descent.
+
+## ⚙️ Four assumptions
+Linearity, independence, homoscedasticity, normal residuals (for inference). Violations don't break prediction but break confidence intervals and p-values.
+
+## 📐 When not to use
+Clearly non-linear data -> polynomial or trees; heavy outliers -> Huber/Quantile; high multicollinearity -> Ridge/Lasso.
+`,
+  },
+
+  "ml-log-1": {
+    vi: `
+## 🔬 Logistic Regression không phải regression
+
+Dù tên gọi, đây là **classifier**: dùng hàm sigmoid để biến \`w·x + b\` thành xác suất 0-1, rồi cắt ngưỡng (mặc định 0.5).
+
+## ⚙️ Loss function
+**Binary Cross-Entropy** (log loss) thay vì MSE - vì MSE với sigmoid tạo non-convex landscape, gradient descent dễ kẹt local minimum.
+
+## 📐 Threshold không phải lúc nào là 0.5
+- Spam detection: threshold cao (0.9) để giảm false positive.
+- Cancer screening: threshold thấp (0.3) để giảm false negative.
+Hãy tune theo cost của 2 loại lỗi - dùng ROC curve và Precision-Recall curve làm la bàn.
+`,
+    en: `
+## 🔬 Logistic regression is a classifier
+
+Despite the name: sigmoid maps \`w·x + b\` to a 0-1 probability, then a threshold (default 0.5) yields the class.
+
+## ⚙️ Loss
+Binary cross-entropy, not MSE - MSE + sigmoid gives a non-convex landscape that traps gradient descent.
+
+## 📐 0.5 is rarely the right threshold
+Spam wants high threshold (low FP); cancer screening wants low threshold (low FN). Use ROC and PR curves to tune by the cost of each error.
+`,
+  },
+
+  "ml-dt-1": {
+    vi: `
+## 🔬 Decision Tree: chia để trị
+
+Tree học bằng cách tìm câu hỏi (feature + ngưỡng) tách data tốt nhất theo metric **Gini impurity** hoặc **entropy/information gain**. Lặp đệ quy đến khi node thuần hoặc đạt giới hạn.
+
+## ⚙️ Strength & weakness
+- ✅ Dễ giải thích, vẽ ra được; không cần scale feature; xử lý numeric + categorical.
+- ❌ Cực dễ overfit nếu cho mọc tự do; nhạy với thay đổi nhỏ trong data (high variance).
+
+## 📐 Hyperparameter quan trọng
+\`max_depth\`, \`min_samples_split\`, \`min_samples_leaf\`, \`ccp_alpha\` (cost-complexity pruning). Tune bằng cross-validation.
+
+## 📐 Vì sao ensemble (RF, GBM) ăn đứt 1 tree đơn
+1 tree high variance + low bias. Trung bình nhiều tree giảm variance mà giữ bias thấp -> hiệu năng vượt trội với data tabular.
+`,
+    en: `
+## 🔬 Decision trees: divide and conquer
+
+Trees recursively choose the (feature, threshold) split that maximises Gini or information gain until purity or stopping criteria.
+
+## ⚙️ Strengths and weaknesses
++ interpretable, no scaling needed, mixed feature types.
+- prone to overfit, high variance.
+
+## 📐 Key hyperparameters
+\`max_depth\`, \`min_samples_split\`, \`min_samples_leaf\`, \`ccp_alpha\` - tune via CV.
+
+## 📐 Why ensembles dominate
+A single tree is high variance/low bias. Averaging many trees reduces variance while preserving bias - the recipe behind Random Forest and Gradient Boosting's dominance on tabular data.
+`,
+  },
+
+  "ml-rf-1": {
+    vi: `
+## 🔬 Random Forest = Bagging + feature subsampling
+
+Bagging (Bootstrap Aggregating): mỗi tree học trên 1 mẫu bootstrap (resample có thay thế) -> giảm variance. Random Forest thêm bước: ở mỗi split chỉ xét 1 subset feature ngẫu nhiên -> giảm tương quan giữa tree.
+
+## ⚙️ OOB score miễn phí
+Mỗi cây bỏ ra ~37% mẫu (không được chọn vào bootstrap) - dùng làm validation set ngay khi train, gần với CV.
+
+## 📐 Khi RF tỏa sáng
+Data tabular vừa và nhỏ, không có feature engineering phức tạp. Khi data rất lớn hoặc structured (image/text/audio), Deep Learning thường thắng.
+
+## 📐 RF vs GBM
+RF train song song (mỗi tree độc lập), GBM tuần tự (mỗi tree sửa lỗi tree trước). GBM (XGBoost, LightGBM) thường accuracy cao hơn nhưng nhạy với hyperparameter.
+`,
+    en: `
+## 🔬 Random Forest = bagging + feature subsampling
+
+Bagging trains each tree on a bootstrap sample (reduces variance). RF also samples features per split, decorrelating trees.
+
+## ⚙️ Free OOB score
+Each tree leaves out ~37% of rows - that out-of-bag set works as a near-CV validation built in.
+
+## 📐 Sweet spot
+Small-to-medium tabular data, minimal feature engineering. Deep learning usually wins on raw images/text/audio.
+
+## 📐 RF vs GBM
+RF trains trees in parallel; GBM trains sequentially, each tree correcting the previous. GBM often peaks higher but is more sensitive to hyperparameters.
+`,
+  },
+
+  "ml-svm-1": {
+    vi: `
+## 🔬 SVM: tối đa hoá margin
+
+Tìm hyperplane chia 2 class với **margin** (khoảng cách đến điểm gần nhất) lớn nhất. Chỉ các điểm gần biên (support vectors) quyết định model.
+
+## ⚙️ Kernel trick
+Khi data không tách tuyến tính, project lên không gian cao chiều bằng kernel (RBF, polynomial) - nhưng tính nhẩm qua **dot product** chứ không thực sự project, tiết kiệm tính toán.
+
+## 📐 Khi nào dùng SVM 2026
+SVM mạnh với data nhỏ (< 100k samples), nhiều feature, biên decision phức tạp. Với data lớn hoặc deep features, gradient boosting và neural net thường tốt hơn và nhanh hơn.
+
+## 📐 Bắt buộc scale feature
+SVM nhạy với scale - dùng StandardScaler trước. Đây là sai lầm phổ biến khiến RBF kernel "không hoạt động".
+`,
+    en: `
+## 🔬 SVM maximises the margin
+
+Find the hyperplane separating classes with the largest margin to the nearest points. Only the support vectors define the model.
+
+## ⚙️ Kernel trick
+For non-linearly separable data, project to higher dimensions implicitly via dot products - no real projection needed.
+
+## 📐 Where SVM still shines in 2026
+Small datasets (<100k), many features, complex decision boundaries. On big data or learned features, gradient boosting and neural nets usually win.
+
+## 📐 Always scale
+SVM is scale-sensitive - StandardScaler is mandatory; skipping it is why RBF "doesn't work" for many beginners.
+`,
+  },
+
+  "ml-km-1": {
+    vi: `
+## 🔬 K-Means: thuật toán cụm cổ điển
+
+Lặp 2 bước:
+1. **Assign**: mỗi điểm về cluster gần nhất (Euclidean).
+2. **Update**: tâm cluster = trung bình điểm trong nó.
+Dừng khi tâm không đổi nhiều.
+
+## ⚙️ Nhược điểm cốt lõi
+- Phải chọn K trước - dùng Elbow method hoặc Silhouette score.
+- Giả định cluster hình cầu, kích thước tương đương - méo với cluster hình bầu dục hoặc mật độ khác nhau.
+- Nhạy với khởi tạo - dùng **k-means++** (mặc định sklearn) thay vì random.
+- Nhạy với outlier - 1 điểm xa kéo lệch tâm.
+
+## 📐 Khi cluster không cầu
+DBSCAN (theo mật độ), HDBSCAN, Gaussian Mixture (cụm ellipsoid), Spectral Clustering (đồ thị).
+`,
+    en: `
+## 🔬 K-Means: the classic
+
+Two steps: assign each point to the nearest centroid (Euclidean), then update centroids as the mean of their members. Stop when centroids stabilise.
+
+## ⚙️ Core weaknesses
+Must pick K (Elbow or Silhouette), assumes spherical equal-size clusters, sensitive to initialisation (use k-means++), sensitive to outliers.
+
+## 📐 Non-spherical clusters
+DBSCAN/HDBSCAN (density-based), Gaussian Mixtures (ellipsoids), Spectral Clustering (graph-based).
+`,
+  },
+
+  "ml-fe-1": {
+    vi: `
+## 🔬 Feature engineering vẫn quan trọng
+
+Dù deep learning học feature tự động, với data tabular, feature engineering vẫn là yếu tố thắng cuộc của Kaggle và production. "Garbage in, garbage out" vẫn đúng.
+
+## ⚙️ Pipeline chuẩn
+1. **Impute** missing: numeric -> median, categorical -> "missing" hoặc mode.
+2. **Encode** categorical: OneHot cho low cardinality, Target/Frequency encoding cho high cardinality.
+3. **Scale** numeric: StandardScaler (mean=0, std=1) cho model tuyến tính/SVM/NN; tree-based KHÔNG cần.
+4. **Bin** numeric khi quan hệ phi tuyến rõ rệt (age -> nhóm tuổi).
+5. **Interaction**: tạo \`price_per_sqm = price/area\`.
+
+## 📐 Tránh data leakage
+- Scale/encode FIT trên train, TRANSFORM trên test. Dùng \`Pipeline\` của sklearn để tránh sai.
+- Không dùng target để tạo feature ở test set.
+- Time-series: split theo thời gian, không random.
+`,
+    en: `
+## 🔬 Feature engineering still matters
+
+For tabular data it remains the winning edge on Kaggle and in production. Garbage in, garbage out.
+
+## ⚙️ Standard pipeline
+Impute (median/mode), encode (OneHot for low cardinality, Target/Frequency for high), scale (mandatory for linear/SVM/NN, optional for trees), bin or interact when needed.
+
+## 📐 Avoid leakage
+Fit transformers on train and transform test (use sklearn Pipeline), never derive features from the target on the test set, split time series by time not randomly.
+`,
+  },
+
+  "ml-cv-1": {
+    vi: `
+## 🔬 Cross-Validation: ước lượng generalization
+
+K-Fold chia data thành K phần, train K lần, mỗi lần dùng K-1 phần train và 1 phần validate. Trung bình K điểm số cho ước lượng ít biased hơn 1 lần holdout.
+
+## ⚙️ Chọn biến thể đúng
+
+- **Stratified K-Fold** cho classification - giữ tỷ lệ class trong mỗi fold.
+- **Group K-Fold** khi có nhóm (cùng user/cùng patient) - tránh leak.
+- **TimeSeriesSplit** cho dữ liệu thời gian - chỉ train trên quá khứ, validate tương lai.
+- **Nested CV** khi đồng thời tune hyperparameter và ước lượng test score.
+
+## 📐 Cảnh báo
+- 10-fold đáng tin hơn 5-fold nhưng đắt 2x.
+- Random shuffle TRƯỚC khi split (\`shuffle=True, random_state=...\`).
+- KHÔNG bao giờ touch test set cho đến lúc cuối cùng.
+`,
+    en: `
+## 🔬 Cross-validation estimates generalisation
+
+K-Fold splits data into K parts, trains K times (K-1 train, 1 validate). Averaging is a less-biased estimate than one holdout.
+
+## ⚙️ Pick the right flavour
+Stratified K-Fold for classification, Group K-Fold for grouped data (same user/patient), TimeSeriesSplit for temporal data, Nested CV when tuning + estimating simultaneously.
+
+## 📐 Warnings
+10-fold beats 5-fold but costs 2x; shuffle before splitting; never touch the test set until the very end.
+`,
+  },
+
+  "ml-hp-1": {
+    vi: `
+## 🔬 Hyperparameter tuning chiến lược
+
+- **Grid Search**: vét cạn lưới - thấu đáo nhưng bùng nổ tổ hợp.
+- **Random Search**: lấy mẫu ngẫu nhiên - hiệu quả hơn grid khi nhiều hyperparameter không quan trọng.
+- **Bayesian Optimization** (Optuna, Hyperopt): dùng kết quả trước để gợi ý điểm tiếp theo - tốt cho budget hạn chế và training đắt.
+- **Successive Halving / Hyperband**: train ngắn nhiều cấu hình, loại bớt, train dài cấu hình còn lại.
+
+## ⚙️ Quy trình thực dụng
+1. Sanity check với default trước.
+2. Random Search 50-100 lần để khoanh vùng.
+3. Bayesian tinh chỉnh ở vùng tốt.
+4. Cross-validation trong từng thử nghiệm để ước lượng đáng tin.
+
+## 📐 Đừng quá đà
+Tune quá kỹ trên validation = overfit validation. Giữ test set riêng và đánh giá 1 lần cuối.
+`,
+    en: `
+## 🔬 Hyperparameter tuning strategy
+
+Grid (exhaustive), Random (better when many hyperparameters don't matter), Bayesian (Optuna/Hyperopt - smart sampling for expensive trainings), Successive Halving/Hyperband (early-stop weak configs).
+
+## ⚙️ Pragmatic flow
+Sanity-check defaults -> Random 50-100 trials to localise -> Bayesian fine-tune the good region -> CV inside each trial.
+
+## 📐 Don't overfit the validation set
+Excessive tuning leaks information. Reserve a final test set evaluated only once.
+`,
+  },
+
+  "ml-eval-1": {
+    vi: `
+## 🔬 Metric không có "tốt nhất", chỉ có "phù hợp"
+
+- **Classification cân bằng**: Accuracy.
+- **Mất cân bằng nặng** (1% positive): Precision, Recall, F1, PR-AUC. Accuracy 99% có thể vô dụng (chỉ luôn dự đoán "negative").
+- **Cost lệch giữa FP và FN**: dùng cost-weighted metric hoặc tune threshold.
+- **Ranking** (search, recommend): MAP, NDCG, MRR.
+- **Regression**: RMSE (phạt nặng lỗi lớn), MAE (robust với outlier), MAPE (%).
+
+## ⚙️ Đọc Confusion Matrix
+\`\`\`
+                 Predicted
+                 P     N
+Actual  P    [ TP   FN ]   -> Recall = TP/(TP+FN)
+        N    [ FP   TN ]
+                 Precision = TP/(TP+FP)
+\`\`\`
+
+## 📐 Calibration
+Model dự đoán xác suất tốt nghĩa là khi nó nói 70% thì thực tế xảy ra ~70%. Vẽ **reliability diagram**; nếu lệch, dùng Platt scaling hoặc isotonic regression.
+`,
+    en: `
+## 🔬 No "best" metric - only "fit"
+
+Balanced classes: accuracy. Imbalanced: precision, recall, F1, PR-AUC (accuracy can be misleading). Asymmetric costs: cost-weighted or tune threshold. Ranking: MAP, NDCG, MRR. Regression: RMSE (penalises large errors), MAE (robust), MAPE (%).
+
+## ⚙️ Confusion matrix
+TP/FN/FP/TN -> Recall = TP/(TP+FN), Precision = TP/(TP+FP).
+
+## 📐 Calibration
+A well-calibrated model means "70%" actually happens ~70% of the time. Use reliability diagrams; recalibrate with Platt scaling or isotonic regression.
+`,
+  },
+
+  "ml-ens-1": {
+    vi: `
+## 🔬 Vì sao ensemble luôn thắng?
+
+Định lý cốt lõi: nếu các model **đủ tốt** và **đủ đa dạng** (sai khác nhau), trung bình giảm sai số. Lỗi của model 1 bị model 2 bù trừ.
+
+## ⚙️ 3 họ ensemble
+- **Bagging** (Random Forest): train song song trên bootstrap, vote/average -> giảm variance.
+- **Boosting** (XGBoost, LightGBM, CatBoost): train tuần tự, mỗi tree sửa lỗi của tree trước -> giảm bias mạnh.
+- **Stacking**: dùng model meta học từ output các model base -> kết hợp linh hoạt nhất.
+
+## 📐 XGBoost/LightGBM trên tabular
+Hơn 70% giải nhất Kaggle với tabular data dùng GBM. Mẹo: bắt đầu với LightGBM (nhanh nhất), tune \`num_leaves\`, \`learning_rate\`, \`min_child_samples\`, dùng early stopping với eval_set.
+
+## 📐 Trade-off
+Ensemble tốt hơn nhưng nặng hơn: bộ nhớ x N, inference chậm hơn. Khi cần latency thấp, distill về 1 model nhỏ.
+`,
+    en: `
+## 🔬 Why ensembles win
+
+If models are individually decent and diverse (errors uncorrelated), averaging reduces error - one model's mistake is covered by another.
+
+## ⚙️ Three families
+Bagging (parallel, reduces variance), Boosting (sequential, each tree corrects the previous, reduces bias), Stacking (meta-learner on base outputs).
+
+## 📐 GBM dominates tabular
+70%+ of Kaggle tabular winners use GBM. Start with LightGBM, tune \`num_leaves\`, \`learning_rate\`, \`min_child_samples\`, use early stopping.
+
+## 📐 Trade-off
+Bigger memory, slower inference. Distill to a small model when latency matters.
+`,
+  },
+
+  "ml-ops-1": {
+    vi: `
+## 🔬 MLOps: model là sản phẩm sống
+
+Khác phần mềm thường, ML model "hỏng theo thời gian" do **data drift** (phân phối đầu vào đổi) và **concept drift** (mối quan hệ X-y đổi). MLOps là kỷ luật ship + duy trì model 24/7.
+
+## ⚙️ Pipeline trưởng thành
+1. **Data versioning** (DVC, LakeFS) - reproducible dataset.
+2. **Experiment tracking** (MLflow, W&B) - mọi run có metric + artifact.
+3. **Model registry** - phân tách stage: staging/prod, ai approve, khi nào rollback.
+4. **CI/CD cho model**: test -> validation gate -> deploy canary -> monitor.
+5. **Feature Store** (Feast, Tecton) - feature chung train + serving, tránh training-serving skew.
+
+## 📐 Monitoring production
+- Input distribution drift (KS-test, PSI).
+- Prediction distribution drift.
+- Performance metric (khi có ground truth delay).
+- Latency, throughput, error rate như service thường.
+- Alert -> auto retrain hoặc shadow model.
+
+## 📐 Bài học đắng
+Training-serving skew (feature compute khác nhau giữa offline và online) là nguyên nhân số 1 model "tốt offline, dở online". Feature Store và contract test giữa các tầng giúp tránh.
+`,
+    en: `
+## 🔬 MLOps: a model is a living product
+
+Unlike normal software, ML models "decay" via data drift (input distribution shifts) and concept drift (X-y relationship shifts). MLOps is the discipline of shipping and keeping models alive.
+
+## ⚙️ Mature pipeline
+Data versioning (DVC), experiment tracking (MLflow/W&B), model registry, CI/CD for models with canary, Feature Store (Feast/Tecton) to keep train and serve features identical.
+
+## 📐 Production monitoring
+Input/prediction drift (KS-test, PSI), performance once ground truth arrives, latency/throughput/error rate like any service, alerts that trigger auto-retrain or shadow models.
+
+## 📐 Hard lesson
+Training-serving skew (different feature computation offline vs online) is the #1 cause of "good in notebook, bad in prod". Feature Stores plus contract tests between layers prevent it.
+`,
+  },
 
 export function getTheoryExtension(lessonId: string, lang: "vi" | "en"): string {
   const ext = theoryExtensions[lessonId];
