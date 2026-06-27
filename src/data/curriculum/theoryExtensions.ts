@@ -1105,14 +1105,14 @@ Students often think "the pipeline produced a number, done". Production is diffe
 - Done before 07:00 ICT
 - Tolerance: 30 minutes
 
-### When `extract` fails
-1. Check source Postgres: `psql ... -c "SELECT 1"`
-2. View error log: Airflow UI -> task `extract` -> logs
-3. If timeout -> bump `statement_timeout` to 60s, retry
+### When \`extract\` fails
+1. Check source Postgres: \`psql ... -c "SELECT 1"\`
+2. View error log: Airflow UI -> task \`extract\` -> logs
+3. If timeout -> bump \`statement_timeout\` to 60s, retry
 4. If schema change -> ping #data-eng, file a ticket
 
 ### Rollback
-- `dbt run --select tag:sales --vars '{run_date: yesterday}'`
+- \`dbt run --select tag:sales --vars '{run_date: yesterday}'\`
 \`\`\`
 
 ## 🚫 Anti-patterns
