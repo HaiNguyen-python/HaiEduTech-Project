@@ -78,8 +78,45 @@ const advancedExtra: HskkPrompt[] = [
   { id: "a2-10", level: "advanced", part: 2, hanzi: "请谈谈跨文化交流的重要性以及面临的挑战。", pinyin: "Qǐng tántan kuà wénhuà jiāoliú de zhòngyàoxìng yǐjí miànlín de tiǎozhàn.", vi: "Hãy nói về tầm quan trọng và thách thức của giao lưu xuyên văn hoá.", prepSeconds: 30, answerSeconds: 150 },
 ];
 
+// ============ BỔ SUNG PHẦN 3 (mở rộng) ============
+const beginnerPart3Extra: HskkPrompt[] = [
+  { id: "b3-5", level: "beginner", part: 3, hanzi: "请说说你的家乡。", pinyin: "Qǐng shuō shuo nǐ de jiāxiāng.", vi: "Hãy nói về quê hương của bạn.", prepSeconds: 10, answerSeconds: 30, hint: "Vị trí + cảnh đẹp + món ăn." },
+  { id: "b3-6", level: "beginner", part: 3, hanzi: "你最喜欢的节日是什么?", pinyin: "Nǐ zuì xǐhuān de jiérì shì shénme?", vi: "Bạn thích lễ hội nào nhất?", prepSeconds: 10, answerSeconds: 30, hint: "Tên lễ + hoạt động + cảm xúc." },
+  { id: "b3-7", level: "beginner", part: 3, hanzi: "请介绍一下你的家人。", pinyin: "Qǐng jièshào yíxià nǐ de jiārén.", vi: "Hãy giới thiệu về người thân trong gia đình bạn.", prepSeconds: 10, answerSeconds: 30 },
+  { id: "b3-8", level: "beginner", part: 3, hanzi: "说说你最难忘的一次旅行。", pinyin: "Shuō shuo nǐ zuì nánwàng de yí cì lǚxíng.", vi: "Hãy kể về chuyến du lịch đáng nhớ nhất của bạn.", prepSeconds: 10, answerSeconds: 30, hint: "Đi đâu + với ai + làm gì + cảm nhận." },
+];
+
+const intermediatePart3Extra: HskkPrompt[] = [
+  { id: "i3-4", level: "intermediate", part: 3, hanzi: "请谈谈科技给我们的生活带来了哪些变化。", pinyin: "Qǐng tántan kējì gěi wǒmen de shēnghuó dài lái le nǎxiē biànhuà.", vi: "Hãy nói về những thay đổi mà công nghệ mang lại cho cuộc sống.", prepSeconds: 15, answerSeconds: 90, hint: "2-3 lĩnh vực + ví dụ cụ thể + đánh giá." },
+  { id: "i3-5", level: "intermediate", part: 3, hanzi: "请说说你心目中理想的生活是什么样的。", pinyin: "Qǐng shuō shuo nǐ xīnmù zhōng lǐxiǎng de shēnghuó shì shénme yàng de.", vi: "Hãy nói về cuộc sống lý tưởng trong lòng bạn.", prepSeconds: 15, answerSeconds: 90 },
+  { id: "i3-6", level: "intermediate", part: 3, hanzi: "请讲一次你帮助别人的经历。", pinyin: "Qǐng jiǎng yí cì nǐ bāngzhù biérén de jīnglì.", vi: "Hãy kể một lần bạn giúp đỡ người khác.", prepSeconds: 15, answerSeconds: 90, hint: "Hoàn cảnh - hành động - kết quả - cảm xúc." },
+  { id: "i3-7", level: "intermediate", part: 3, hanzi: "请谈谈学习外语的好方法。", pinyin: "Qǐng tántan xuéxí wàiyǔ de hǎo fāngfǎ.", vi: "Hãy nói về phương pháp học ngoại ngữ hiệu quả.", prepSeconds: 15, answerSeconds: 90 },
+  { id: "i3-8", level: "intermediate", part: 3, hanzi: "请说说你对环境保护的看法。", pinyin: "Qǐng shuō shuo nǐ duì huánjìng bǎohù de kànfǎ.", vi: "Hãy nói quan điểm của bạn về bảo vệ môi trường.", prepSeconds: 15, answerSeconds: 90, hint: "Vấn đề + nguyên nhân + giải pháp cá nhân." },
+];
+
+// ============ HSKK CAO CẤP - PHẦN 3 (mới hoàn toàn) ============
+// Phần 3 HSKK Cao cấp: Trả lời câu hỏi mở 2-3 phút, có dàn ý và liên kết logic.
+const advancedPart3: HskkPrompt[] = [
+  { id: "a3-1", level: "advanced", part: 3, hanzi: "请谈谈你对\"成功\"的定义,并结合自己的经历说明。", pinyin: "Qǐng tántan nǐ duì \"chénggōng\" de dìngyì, bìng jiéhé zìjǐ de jīnglì shuōmíng.", vi: "Hãy bàn về định nghĩa \"thành công\" của bạn, kết hợp với trải nghiệm cá nhân.", prepSeconds: 30, answerSeconds: 150, hint: "Định nghĩa - 2 tiêu chí - ví dụ bản thân - kết luận mở." },
+  { id: "a3-2", level: "advanced", part: 3, hanzi: "在全球化的背景下,如何保持本民族的文化特色?", pinyin: "Zài quánqiúhuà de bèijǐng xià, rúhé bǎochí běn mínzú de wénhuà tèsè?", vi: "Trong bối cảnh toàn cầu hóa, làm thế nào để giữ gìn bản sắc văn hóa dân tộc?", prepSeconds: 30, answerSeconds: 150, hint: "Bối cảnh - 2 thách thức - 3 giải pháp - kết luận." },
+  { id: "a3-3", level: "advanced", part: 3, hanzi: "请就\"网络教育会不会取代传统课堂\"发表你的看法。", pinyin: "Qǐng jiù \"wǎngluò jiàoyù huì bu huì qǔdài chuántǒng kètáng\" fābiǎo nǐ de kànfǎ.", vi: "Hãy nêu quan điểm về việc \"giáo dục trực tuyến có thay thế lớp học truyền thống không\".", prepSeconds: 30, answerSeconds: 150, hint: "Quan điểm rõ + ưu/nhược + ví dụ Covid - kết luận." },
+  { id: "a3-4", level: "advanced", part: 3, hanzi: "请谈谈你对\"工作与生活平衡\"的理解和做法。", pinyin: "Qǐng tántan nǐ duì \"gōngzuò yǔ shēnghuó pínghéng\" de lǐjiě hé zuòfǎ.", vi: "Hãy nói cách bạn hiểu và thực hiện \"cân bằng công việc - cuộc sống\".", prepSeconds: 30, answerSeconds: 150 },
+  { id: "a3-5", level: "advanced", part: 3, hanzi: "请分析年轻人压力大的原因,并提出解决建议。", pinyin: "Qǐng fēnxī niánqīng rén yālì dà de yuányīn, bìng tíchū jiějué jiànyì.", vi: "Hãy phân tích nguyên nhân khiến người trẻ áp lực cao và đưa ra đề xuất giải quyết.", prepSeconds: 30, answerSeconds: 150, hint: "3 nguyên nhân + 3 giải pháp + ví dụ." },
+  { id: "a3-6", level: "advanced", part: 3, hanzi: "请谈谈环境保护与经济发展之间的关系。", pinyin: "Qǐng tántan huánjìng bǎohù yǔ jīngjì fāzhǎn zhī jiān de guānxi.", vi: "Hãy bàn về mối quan hệ giữa bảo vệ môi trường và phát triển kinh tế.", prepSeconds: 30, answerSeconds: 150, hint: "Mâu thuẫn - ví dụ - giải pháp bền vững." },
+  { id: "a3-7", level: "advanced", part: 3, hanzi: "请说一说你对\"终身学习\"理念的看法。", pinyin: "Qǐng shuō yi shuō nǐ duì \"zhōngshēn xuéxí\" lǐniàn de kànfǎ.", vi: "Hãy nói quan điểm về tư tưởng \"học tập suốt đời\".", prepSeconds: 30, answerSeconds: 150 },
+  { id: "a3-8", level: "advanced", part: 3, hanzi: "请谈谈社交媒体对青少年成长的影响。", pinyin: "Qǐng tántan shèjiāo méitǐ duì qīngshàonián chéngzhǎng de yǐngxiǎng.", vi: "Hãy bàn về ảnh hưởng của mạng xã hội đến sự trưởng thành của thanh thiếu niên.", prepSeconds: 30, answerSeconds: 150, hint: "Tích cực + tiêu cực + ví dụ + kiến nghị." },
+  { id: "a3-9", level: "advanced", part: 3, hanzi: "请讲述一位对你影响深远的人,并说明原因。", pinyin: "Qǐng jiǎngshù yí wèi duì nǐ yǐngxiǎng shēnyuǎn de rén, bìng shuōmíng yuányīn.", vi: "Hãy kể về một người có ảnh hưởng sâu sắc đến bạn và giải thích lý do.", prepSeconds: 30, answerSeconds: 150, hint: "Giới thiệu - câu chuyện - bài học - hiện tại." },
+  { id: "a3-10", level: "advanced", part: 3, hanzi: "请就\"年轻人是否应该到大城市发展\"谈谈你的观点。", pinyin: "Qǐng jiù \"niánqīng rén shìfǒu yīnggāi dào dà chéngshì fāzhǎn\" tántan nǐ de guāndiǎn.", vi: "Hãy nêu quan điểm về \"người trẻ có nên đến thành phố lớn lập nghiệp không\".", prepSeconds: 30, answerSeconds: 150, hint: "Quan điểm + 2 lý do + so sánh - kết luận linh hoạt." },
+  { id: "a3-11", level: "advanced", part: 3, hanzi: "请谈谈传统文化在现代社会中的价值。", pinyin: "Qǐng tántan chuántǒng wénhuà zài xiàndài shèhuì zhōng de jiàzhí.", vi: "Hãy bàn về giá trị của văn hoá truyền thống trong xã hội hiện đại.", prepSeconds: 30, answerSeconds: 150 },
+  { id: "a3-12", level: "advanced", part: 3, hanzi: "请说一说你认为一个优秀的领导者应该具备哪些素质。", pinyin: "Qǐng shuō yi shuō nǐ rènwéi yí gè yōuxiù de lǐngdǎo zhě yīnggāi jùbèi nǎxiē sùzhì.", vi: "Hãy nói những phẩm chất mà một nhà lãnh đạo xuất sắc cần có theo bạn.", prepSeconds: 30, answerSeconds: 150, hint: "3-4 phẩm chất + ví dụ thực tế." },
+];
+
 export const HSKK_PROMPTS_EXTRA: HskkPrompt[] = [
   ...beginnerExtra,
   ...intermediateExtra,
   ...advancedExtra,
+  ...beginnerPart3Extra,
+  ...intermediatePart3Extra,
+  ...advancedPart3,
 ];
+
