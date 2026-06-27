@@ -22,6 +22,7 @@ import { expandedModules as curriculumExpandedModules } from "@/data/curriculum"
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
 import { programmingQuizExtraEn } from "@/data/curriculum/programmingQuizExtraI18n";
+import { getTheoryExtension } from "@/data/curriculum/theoryExtensions";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
@@ -739,7 +740,13 @@ const ProgrammingLessonPage = () => {
                       markdown={injectLessonImage(
                         (useEnhanced && enhancedMd
                           ? enhancedMd
-                          : (lang === "vi" ? (lesson.theory || lesson.theoryEn || "") : (lesson.theoryEn || lesson.theory || "")))
+                          : (() => {
+                              const base = lang === "vi"
+                                ? (lesson.theory || lesson.theoryEn || "")
+                                : (lesson.theoryEn || lesson.theory || "");
+                              const ext = getTheoryExtension(lesson.id, lang === "vi" ? "vi" : "en");
+                              return ext ? `${base}\n\n${ext}` : base;
+                            })())
                           .replace(/\\\$/g, "$")
                           // Strip a leading single "# Lesson Title" since the page already shows the title
                           .replace(/^\s*#\s+[^\n]+\n+/, ""),
