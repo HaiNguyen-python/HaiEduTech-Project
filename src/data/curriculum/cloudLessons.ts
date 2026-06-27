@@ -26,7 +26,7 @@ Ngày xưa muốn bán hàng online phải mua server vài chục triệu, thuê
 
 **Cloud computing** giải quyết tất cả: bạn **thuê hạ tầng IT theo phút** (như thuê Grab) - cần thì bật, không cần thì tắt, chỉ trả tiền cho thời gian thực sự dùng.
 
-> 💡 **Mẹo của thầy Hải:** Cloud không phải "máy ảo trên mây". Bản chất là **mô hình kinh doanh trả theo dùng** (pay-as-you-go) - giúp startup khởi nghiệp với 0đ vốn hạ tầng và scale toàn cầu trong 1 đêm.
+> 💡 **Mẹo:** Cloud không phải "máy ảo trên mây". Bản chất là **mô hình kinh doanh trả theo dùng** (pay-as-you-go) - giúp startup khởi nghiệp với 0đ vốn hạ tầng và scale toàn cầu trong 1 đêm.
 
 ## 2. 💡 Khái niệm chính
 
@@ -165,7 +165,7 @@ print(f"On-prem breakeven later: {months_to_breakeven:.1f} months")`,
 
 Bạn vào quán phở: **IaaS** = mua nguyên liệu sống về tự nấu (linh hoạt, tốn công). **PaaS** = đặt suất set có sẵn rau-thịt, chỉ ăn (đỡ vất vả). **SaaS** = vào quán ăn luôn, không cần nấu nướng.
 
-> 💡 **Mẹo của thầy Hải:** Càng lên cao càng đỡ quản lý hạ tầng - đổi lấy việc ít tuỳ biến hơn.
+> 💡 **Mẹo:** Càng lên cao càng đỡ quản lý hạ tầng - đổi lấy việc ít tuỳ biến hơn.
 
 ## 2. 💡 3 mô hình dịch vụ
 
@@ -195,7 +195,7 @@ Cần dùng ngay không setup → SaaS
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Startup MVP → bắt đầu PaaS. Khi traffic và chi phí tăng → cân nhắc xuống IaaS để tối ưu.
+> 💡 **Mẹo:** Startup MVP → bắt đầu PaaS. Khi traffic và chi phí tăng → cân nhắc xuống IaaS để tối ưu.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -302,7 +302,7 @@ print(find_equivalent("BigQuery", "gcp", "azure")) # Synapse`,
 
 Bạn cần lên Đà Lạt: **Public cloud** = đi xe khách (chia chỗ với khách lạ, rẻ). **Private cloud** = thuê xe riêng (đắt nhưng kín đáo). **Hybrid** = đi xe nhà ra bến rồi lên xe khách. **Multi-cloud** = lúc đi Vietjet, lúc Bamboo - không phụ thuộc 1 hãng.
 
-> 💡 **Mẹo của thầy Hải:** Doanh nghiệp lớn thường multi-cloud để tránh "vendor lock-in" - bị 1 nhà cung cấp giam.
+> 💡 **Mẹo:** Doanh nghiệp lớn thường multi-cloud để tránh "vendor lock-in" - bị 1 nhà cung cấp giam.
 
 ## 2. 💡 4 mô hình triển khai
 
@@ -331,7 +331,7 @@ Một ngân hàng VN: data khách hàng trên private cloud (Vietel IDC), websit
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Bắt đầu public - khi có yêu cầu tuân thủ (compliance), data nhạy cảm mới chuyển hybrid.
+> 💡 **Mẹo:** Bắt đầu public - khi có yêu cầu tuân thủ (compliance), data nhạy cảm mới chuyển hybrid.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -454,7 +454,7 @@ print(f"{multi_az.name}:  {multi_az.availability()}%")   # 99.99999...`,
 
 Bạn cần "máy tính trên cloud" để chạy app: chọn CPU/RAM/ổ cứng, bật lên, SSH vào - y hệt máy thật. Đó là **EC2** (AWS) hay **Compute Engine** (GCP) - máy chủ ảo (Virtual Machine).
 
-> 💡 **Mẹo của thầy Hải:** EC2 là dịch vụ **kiếm doanh thu lớn nhất AWS**. Hiểu EC2 = hiểu 50% AWS.
+> 💡 **Mẹo:** EC2 là dịch vụ **kiếm doanh thu lớn nhất AWS**. Hiểu EC2 = hiểu 50% AWS.
 
 ## 2. 💡 Khái niệm chính
 
@@ -491,7 +491,7 @@ sudo apt update && sudo apt install nginx -y
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Dev → **Spot Instance** (giảm 70-90% giá). Production critical → **On-Demand** hoặc **Reserved**.
+> 💡 **Mẹo:** Dev → **Spot Instance** (giảm 70-90% giá). Production critical → **On-Demand** hoặc **Reserved**.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -608,7 +608,7 @@ print(f"Monthly cost: \${hours * hourly:.2f}")`,
 
 Cần lưu hình ảnh app, video user upload, file backup - không thể nhồi hết vào ổ cứng EC2. **S3** = "Google Drive cho lập trình viên": vô hạn dung lượng, truy cập qua HTTP, trả tiền theo GB lưu + GB tải.
 
-> 💡 **Mẹo của thầy Hải:** S3 = object storage. Phù hợp file (image, video, log). KHÔNG dùng làm database (truy vấn chậm).
+> 💡 **Mẹo:** S3 = object storage. Phù hợp file (image, video, log). KHÔNG dùng làm database (truy vấn chậm).
 
 ## 2. 💡 Khái niệm chính
 
@@ -662,7 +662,7 @@ url = s3.generate_presigned_url("get_object",
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** File ít truy cập → **Lifecycle rule** tự động chuyển qua Glacier sau 30 ngày, giảm chi phí 80%.
+> 💡 **Mẹo:** File ít truy cập → **Lifecycle rule** tự động chuyển qua Glacier sau 30 ngày, giảm chi phí 80%.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -802,7 +802,7 @@ s3.put_bucket_lifecycle_configuration(Bucket="my-app-bucket", LifecycleConfigura
 
 App của bạn chạy local ngon - đem deploy mỗi máy 1 phiên bản Python, library lệch nhau, lỗi tùm lum. **Container (Docker)** đóng gói app + dependencies thành 1 hộp chạy y hệt mọi nơi. **Kubernetes** = "ban quản lý chung cư container".
 
-> 💡 **Mẹo của thầy Hải:** Container ≠ máy ảo. Container chia sẻ kernel OS → nhẹ hơn 100 lần, khởi động trong giây.
+> 💡 **Mẹo:** Container ≠ máy ảo. Container chia sẻ kernel OS → nhẹ hơn 100 lần, khởi động trong giây.
 
 ## 2. 💡 Khái niệm chính
 
@@ -844,7 +844,7 @@ docker run -p 8000:8000 my-app
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Mới học container? Bắt đầu với **ECS Fargate** hoặc **Cloud Run** - dễ hơn K8s nhiều mà vẫn auto-scale.
+> 💡 **Mẹo:** Mới học container? Bắt đầu với **ECS Fargate** hoặc **Cloud Run** - dễ hơn K8s nhiều mà vẫn auto-scale.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1603,7 +1603,7 @@ print(f"Bucket secured with CMK {key_id}")`,
 
 Bạn chỉ cần code 1 hàm gửi email khi user đăng ký - vậy mà phải dựng EC2, cài OS, mở firewall, trả tiền 24/7. Quá phí. **Serverless** (AWS Lambda, GCF) = "chỉ trả tiền khi hàm chạy", không cần quản lý server.
 
-> 💡 **Mẹo của thầy Hải:** Serverless KHÔNG phải "không có server" - vẫn có, nhưng AWS lo cho bạn. Bạn chỉ trả theo số lần gọi + thời gian chạy.
+> 💡 **Mẹo:** Serverless KHÔNG phải "không có server" - vẫn có, nhưng AWS lo cho bạn. Bạn chỉ trả theo số lần gọi + thời gian chạy.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1632,7 +1632,7 @@ Workflow phổ biến: User upload ảnh lên S3 → Lambda tự động resize 
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Cold start đau → bật **Provisioned Concurrency** cho function quan trọng, hoặc dùng **Lambda SnapStart**.
+> 💡 **Mẹo:** Cold start đau → bật **Provisioned Concurrency** cho function quan trọng, hoặc dùng **Lambda SnapStart**.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1803,7 +1803,7 @@ print(sam_template)`,
 
 Mỗi lần ra production, bạn click chuột tạo 20 resource trên AWS - quên 1 cái là lỗi. Ngày sau muốn tạo môi trường staging y hệt → click lại từ đầu, mất 4 tiếng. **IaC (Infrastructure as Code)** = "viết hạ tầng bằng code, deploy bằng 1 lệnh".
 
-> 💡 **Mẹo của thầy Hải:** Hạ tầng = code → version git, code review, rollback. Đó là cách Netflix, Facebook quản hàng ngàn server.
+> 💡 **Mẹo:** Hạ tầng = code → version git, code review, rollback. Đó là cách Netflix, Facebook quản hàng ngàn server.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1839,7 +1839,7 @@ terraform destroy # xoá sạch
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** 1 module/repo cho dev/staging/prod. Dùng workspace hoặc folder separate để tránh "apply nhầm môi trường".
+> 💡 **Mẹo:** 1 module/repo cho dev/staging/prod. Dùng workspace hoặc folder separate để tránh "apply nhầm môi trường".
 
 ## 7. 🤔 Khi nào dùng
 
@@ -2019,7 +2019,7 @@ output "bucket_arn" { value = aws_s3_bucket.data.arn }`,
 
 Dev xong đẩy code lên git → tester clone về test → lead build deploy. Mất 2 ngày cho 1 lần ra mắt. Có **CI/CD** thì: bạn \`git push\` → auto test → auto deploy → 5 phút sau khách hàng đã dùng được.
 
-> 💡 **Mẹo của thầy Hải:** **CI** = Continuous Integration (auto test/build). **CD** = Continuous Deployment (auto release). 2 thứ đi đôi.
+> 💡 **Mẹo:** **CI** = Continuous Integration (auto test/build). **CD** = Continuous Deployment (auto release). 2 thứ đi đôi.
 
 ## 2. 💡 Khái niệm chính
 
@@ -2057,7 +2057,7 @@ Push code → tab Actions thấy job xanh → 2 phút sau site live tại \`http
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Nhánh \`main\` → auto deploy production. PR → deploy preview environment để QA test trước khi merge.
+> 💡 **Mẹo:** Nhánh \`main\` → auto deploy production. PR → deploy preview environment để QA test trước khi merge.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -2268,7 +2268,7 @@ jobs:
 
 Ngày khai trương sàn TMĐT, traffic tăng gấp 100. Server đơn nổ tan tành. Khách bỏ giỏ hàng, mất doanh thu. **Cloud architecture** tốt = thiết kế hệ thống biết "co giãn" + "không chết khi 1 phần hỏng".
 
-> 💡 **Mẹo của thầy Hải:** AWS Well-Architected Framework có 6 trụ cột: **Operational, Security, Reliability, Performance, Cost, Sustainability**.
+> 💡 **Mẹo:** AWS Well-Architected Framework có 6 trụ cột: **Operational, Security, Reliability, Performance, Cost, Sustainability**.
 
 ## 2. 💡 Pattern thường gặp
 
@@ -2298,7 +2298,7 @@ Web Shopify-like cho 100k user/ngày: ALB + 5 EC2 + RDS Multi-AZ + ElastiCache �
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** **Cache aggressive**: CDN cho static, Redis cho session/data nóng. 80% traffic phải hit cache, không hit DB.
+> 💡 **Mẹo:** **Cache aggressive**: CDN cho static, Redis cho session/data nóng. 80% traffic phải hit cache, không hit DB.
 
 ## 7. 🤔 Khi nào áp dụng
 
@@ -2488,7 +2488,7 @@ for pillar, items in checklist.items():
 
 Cuối tháng nhận hoá đơn AWS: 8.000 USD - sếp xanh mặt. Hoá ra dev quên tắt 5 RDS dev, 200GB EBS không dùng, 3 NAT Gateway cấu hình sai. **Cost optimization** = hồi quang phản chiếu mỗi tháng để cắt chi phí 30-70%.
 
-> 💡 **Mẹo của thầy Hải:** Cloud rẻ chỉ khi bạn hiểu cách tính tiền. Không hiểu → cloud đắt gấp 5 lần on-premise.
+> 💡 **Mẹo:** Cloud rẻ chỉ khi bạn hiểu cách tính tiền. Không hiểu → cloud đắt gấp 5 lần on-premise.
 
 ## 2. 💡 5 chiến lược cắt giảm
 
@@ -2515,7 +2515,7 @@ Tag mọi resource theo \`env=dev/prod\` và \`team=...\` → Cost Explorer chia
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Set **Budget alert ở 50%, 80%, 100%** của ngân sách dự kiến. Nhận email sớm sửa kịp.
+> 💡 **Mẹo:** Set **Budget alert ở 50%, 80%, 100%** của ngân sách dự kiến. Nhận email sớm sửa kịp.
 
 ## 7. 🤔 Khi nào áp dụng
 
@@ -2701,7 +2701,7 @@ print(f"💎 RI for i-bbb: additional savings ~\${ri_save:.0f}/year")`,
 
 App của bạn ngày 100 user, nửa năm sau 1 triệu user. Kiến trúc cũ chịu không nổi. Phải biết các pattern **scale**: caching, queue, sharding, read replica… để không phải viết lại từ đầu.
 
-> 💡 **Mẹo của thầy Hải:** Scale có 2 loại - **vertical** (server to hơn) dễ nhưng có giới hạn; **horizontal** (nhiều server) khó nhưng vô hạn.
+> 💡 **Mẹo:** Scale có 2 loại - **vertical** (server to hơn) dễ nhưng có giới hạn; **horizontal** (nhiều server) khó nhưng vô hạn.
 
 ## 2. 💡 Pattern nâng cao
 
@@ -2729,7 +2729,7 @@ Email gửi user → đẩy vào SQS → worker pool xử lý async → response
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Áp dụng **CAP theorem**: pick 2 trong 3 (Consistency, Availability, Partition tolerance). Hệ thống lớn thường chọn AP + eventual consistency.
+> 💡 **Mẹo:** Áp dụng **CAP theorem**: pick 2 trong 3 (Consistency, Availability, Partition tolerance). Hệ thống lớn thường chọn AP + eventual consistency.
 
 ## 7. 🤔 Khi nào áp dụng
 

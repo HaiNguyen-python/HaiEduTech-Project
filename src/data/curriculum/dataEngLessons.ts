@@ -20,7 +20,7 @@ export const dataEngModules: ExtendedProgrammingModule[] = [
 
 Bạn có file Excel danh sách 10.000 đơn hàng Shopee. Mở Excel → lag, lọc 1 cột chờ 5 phút. **Pandas** ra đời để xử lý "Excel khổng lồ" trong Python: nhanh gấp 100 lần và lập trình được.
 
-> 💡 **Mẹo của thầy Hải:** Pandas = Excel + Python. Ai từng dùng Excel quen rồi thì học Pandas siêu nhanh.
+> 💡 **Mẹo:** Pandas = Excel + Python. Ai từng dùng Excel quen rồi thì học Pandas siêu nhanh.
 
 ## 2. 💡 Khái niệm chính
 
@@ -55,7 +55,7 @@ print("Tổng doanh thu:", df["amount"].sum())
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Luôn \`df.info()\` ngay sau khi đọc dữ liệu để biết kiểu cột và số NaN - tiết kiệm 30 phút debug sau này.
+> 💡 **Mẹo:** Luôn \`df.info()\` ngay sau khi đọc dữ liệu để biết kiểu cột và số NaN - tiết kiệm 30 phút debug sau này.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -228,7 +228,7 @@ print(df[['name', 'score', 'grade']])`,
 
 Bạn nhận file khách hàng từ sale: có dòng tên trống, có khách bị nhập 2 lần, có số điện thoại "abc123". Đem train AI thẳng → model học rác, dự đoán rác. Phải **dọn data** trước.
 
-> 💡 **Mẹo của thầy Hải:** "Garbage in, garbage out" - 80% thời gian Data Engineer là dọn dữ liệu, không phải code thuật toán.
+> 💡 **Mẹo:** "Garbage in, garbage out" - 80% thời gian Data Engineer là dọn dữ liệu, không phải code thuật toán.
 
 ## 2. 💡 Khái niệm chính
 
@@ -261,7 +261,7 @@ print("Sau:", len(df))
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Trước khi dọn, **luôn lưu bản gốc** (\`df_raw = df.copy()\`) để so sánh và rollback khi cần.
+> 💡 **Mẹo:** Trước khi dọn, **luôn lưu bản gốc** (\`df_raw = df.copy()\`) để so sánh và rollback khi cần.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -514,7 +514,7 @@ print(df_clean)`,
 
 Sếp giao: "Lấy data từ CSV phòng kế toán + JSON từ app + bảng MySQL của marketing → ghép thành 1 báo cáo". Mỗi nguồn 1 format. **Data Ingestion** = nghệ thuật đọc tất cả về cùng 1 DataFrame.
 
-> 💡 **Mẹo của thầy Hải:** Data Engineer giỏi không phải biết nhiều thuật toán, mà là biết "đọc" được mọi loại file mà sếp ném tới.
+> 💡 **Mẹo:** Data Engineer giỏi không phải biết nhiều thuật toán, mà là biết "đọc" được mọi loại file mà sếp ném tới.
 
 ## 2. 💡 Khái niệm chính
 
@@ -563,7 +563,7 @@ print(merged.head())
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** File > 1GB? Đọc theo \`chunksize=100000\` để không nổ RAM. Xử lý từng chunk rồi gộp lại.
+> 💡 **Mẹo:** File > 1GB? Đọc theo \`chunksize=100000\` để không nổ RAM. Xử lý từng chunk rồi gộp lại.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -903,7 +903,7 @@ print(f"\\\\n✅ Validation: {len(errors)} errors" if errors else "\\\\n✅ Sche
 
 Bạn đi siêu thị (Source) → mua đồ về (Extract) → rửa rau, thái thịt (Transform) → cho vào tủ lạnh (Load). Đó chính là **ETL**. Còn **ELT**? Mua đồ về tống thẳng tủ lạnh, lúc nấu mới sơ chế.
 
-> 💡 **Mẹo của thầy Hải:** ETL = sơ chế trước; ELT = sơ chế sau. Cloud warehouse mạnh (BigQuery, Snowflake) nên xu hướng giờ là ELT.
+> 💡 **Mẹo:** ETL = sơ chế trước; ELT = sơ chế sau. Cloud warehouse mạnh (BigQuery, Snowflake) nên xu hướng giờ là ELT.
 
 ## 2. 💡 Khái niệm chính
 
@@ -945,7 +945,7 @@ daily.to_parquet("daily_sales.parquet")
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Idempotent - chạy pipeline 2 lần phải ra kết quả y hệt. Dùng \`if_exists="replace"\` hoặc upsert thay vì \`append\`.
+> 💡 **Mẹo:** Idempotent - chạy pipeline 2 lần phải ra kết quả y hệt. Dùng \`if_exists="replace"\` hoặc upsert thay vì \`append\`.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1232,7 +1232,7 @@ pipeline.run(source_data, transforms, "data_warehouse.students")
 
 Bạn quản lý kho sách: nếu nhồi tất cả thông tin (sách + tác giả + nhà xuất bản + người mượn) vào 1 bảng khổng lồ → tìm sách nào của tác giả X phải lục cả ngàn dòng. Phải **chia bảng theo nghiệp vụ** - đó là **Data Modeling**.
 
-> 💡 **Mẹo của thầy Hải:** Star schema = bảng Fact ở giữa (sự kiện), các bảng Dimension xung quanh (mô tả) - như ngôi sao 5 cánh.
+> 💡 **Mẹo:** Star schema = bảng Fact ở giữa (sự kiện), các bảng Dimension xung quanh (mô tả) - như ngôi sao 5 cánh.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1278,7 +1278,7 @@ GROUP BY d.year, p.category;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Star schema cho 90% case BI dashboard. Snowflake chỉ khi dimension cực to và lặp nhiều.
+> 💡 **Mẹo:** Star schema cho 90% case BI dashboard. Snowflake chỉ khi dimension cực to và lặp nhiều.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1428,7 +1428,7 @@ ORDER BY d.year, d.month;
 
 Database app (OLTP) như sổ thu chi của shop: ghi liên tục, hỏi "đơn này bao nhiêu". Còn **Data Warehouse** (OLAP) như báo cáo cuối năm của giám đốc: hỏi "doanh thu 5 năm theo vùng miền". Hai loại - hai mục tiêu khác nhau.
 
-> 💡 **Mẹo của thầy Hải:** OLTP tối ưu **ghi nhanh**, OLAP tối ưu **đọc nhanh trên triệu dòng**. Lẫn lộn là toang.
+> 💡 **Mẹo:** OLTP tối ưu **ghi nhanh**, OLAP tối ưu **đọc nhanh trên triệu dòng**. Lẫn lộn là toang.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1471,7 +1471,7 @@ ORDER BY yr;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Cloud warehouse tính tiền theo dữ liệu quét. Luôn \`SELECT cột cần thiết\` thay vì \`SELECT *\` - tiết kiệm $$$.
+> 💡 **Mẹo:** Cloud warehouse tính tiền theo dữ liệu quét. Luôn \`SELECT cột cần thiết\` thay vì \`SELECT *\` - tiết kiệm $$$.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1610,7 +1610,7 @@ for s in q1:
 
 **Batch**: 12h đêm chạy báo cáo doanh thu cả ngày - như thợ in báo, sáng mai mới có. **Streaming**: phát hiện gian lận thẻ ngay khi quẹt - như cảnh sát giao thông quan sát từng xe real-time.
 
-> 💡 **Mẹo của thầy Hải:** Cần "biết ngay trong giây" → streaming. Cần "biết sau vài giờ cũng OK" → batch (rẻ hơn 10 lần).
+> 💡 **Mẹo:** Cần "biết ngay trong giây" → streaming. Cần "biết sau vài giờ cũng OK" → batch (rẻ hơn 10 lần).
 
 ## 2. 💡 Khái niệm chính
 
@@ -1657,7 +1657,7 @@ p.send("orders", {"order_id": 1, "amount": 100})
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Lambda architecture: chạy song song batch (chính xác) + streaming (nhanh). Phù hợp khi cần cả tốc độ lẫn độ chính xác.
+> 💡 **Mẹo:** Lambda architecture: chạy song song batch (chính xác) + streaming (nhanh). Phù hợp khi cần cả tốc độ lẫn độ chính xác.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1790,7 +1790,7 @@ for event in data[:10]:
 
 Sếp xem dashboard: "Doanh thu hôm qua âm 10 tỷ?". Hoá ra ETL job lỗi nhập sai dấu. Một lần như vậy mất uy tín cả tháng. **Data Quality** = hệ thống "kiểm định chất lượng" tự động cho data.
 
-> 💡 **Mẹo của thầy Hải:** Có 6 chiều DQ phải nhớ: **Accuracy, Completeness, Consistency, Timeliness, Uniqueness, Validity**.
+> 💡 **Mẹo:** Có 6 chiều DQ phải nhớ: **Accuracy, Completeness, Consistency, Timeliness, Uniqueness, Validity**.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1827,7 +1827,7 @@ assert df["order_id"].is_unique, "trùng order_id"
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Mỗi pipeline kèm 1 file YAML định nghĩa expectations. Fail check → dừng pipeline + alert Slack/email cho team data.
+> 💡 **Mẹo:** Mỗi pipeline kèm 1 file YAML định nghĩa expectations. Fail check → dừng pipeline + alert Slack/email cho team data.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1984,7 +1984,7 @@ dq.report()`,
 
 Pipeline có 10 bước: tải data → clean → transform → ML → load → email báo cáo. Mỗi bước phụ thuộc bước trước. Không có "nhạc trưởng" → bước 5 chạy trước bước 3 là toang. **Orchestrator** (Airflow, Prefect) chính là nhạc trưởng đó.
 
-> 💡 **Mẹo của thầy Hải:** DAG = Directed Acyclic Graph = "lịch học có thứ tự, không quay vòng". Đây là trái tim của Airflow.
+> 💡 **Mẹo:** DAG = Directed Acyclic Graph = "lịch học có thứ tự, không quay vòng". Đây là trái tim của Airflow.
 
 ## 2. 💡 Khái niệm chính
 
@@ -2038,7 +2038,7 @@ with DAG("daily_etl", start_date=datetime(2024,1,1),
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Mỗi task phải **idempotent** + **atomic**. Đặt SLA (\`sla=timedelta(hours=2)\`) để Airflow alert khi task chạy quá lâu.
+> 💡 **Mẹo:** Mỗi task phải **idempotent** + **atomic**. Đặt SLA (\`sla=timedelta(hours=2)\`) để Airflow alert khi task chạy quá lâu.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -2204,7 +2204,7 @@ dag.run()`,
 
 Bạn muốn build data pipeline mà không phải mua server vật lý ngồi cắm cáp. Cloud (AWS, GCP, Azure) cho thuê đủ thứ: storage, compute, warehouse - tính tiền theo phút. **Data Engineer phải biết "menu" cloud** để chọn dịch vụ phù hợp.
 
-> 💡 **Mẹo của thầy Hải:** 3 ông lớn - AWS (thị phần lớn nhất), GCP (mạnh data/AI), Azure (tích hợp Microsoft). Học 1 ông → 80% kiến thức chuyển sang ông kia được.
+> 💡 **Mẹo:** 3 ông lớn - AWS (thị phần lớn nhất), GCP (mạnh data/AI), Azure (tích hợp Microsoft). Học 1 ông → 80% kiến thức chuyển sang ông kia được.
 
 ## 2. 💡 Bộ tứ Data trên Cloud
 
@@ -2249,7 +2249,7 @@ df = pd.read_csv(obj["Body"])
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Data Lake (S3/GCS) **rẻ** → lưu raw. Warehouse (Redshift/BigQuery) **đắt** → chỉ load data đã clean. Đừng dump tất cả vào warehouse.
+> 💡 **Mẹo:** Data Lake (S3/GCS) **rẻ** → lưu raw. Warehouse (Redshift/BigQuery) **đắt** → chỉ load data đã clean. Đừng dump tất cả vào warehouse.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -2388,7 +2388,7 @@ estimate_cost(1000, 10, 200)`,
 
 Pipeline chạy ngon trên laptop bạn - nhưng deploy production: lỗi mất 1 ngày, không ai biết, sếp phát hiện qua dashboard sai. **Production-grade** = pipeline tự kể được "tôi đang ổn" hay "tôi đang fail" + tự sửa được phần lớn lỗi.
 
-> 💡 **Mẹo của thầy Hải:** Code chạy được ≠ code production. Khoảng cách đó = monitoring + retry + alert + docs.
+> 💡 **Mẹo:** Code chạy được ≠ code production. Khoảng cách đó = monitoring + retry + alert + docs.
 
 ## 2. 💡 Trụ cột Production
 
@@ -2433,7 +2433,7 @@ WHEN NOT MATCHED THEN INSERT (order_id, amount) VALUES (s.order_id, s.amount); -
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Mọi pipeline phải có **runbook** - file mô tả: "khi task X fail, làm 3 bước Y, Z, W". On-call team sẽ cảm ơn bạn lúc 2h sáng.
+> 💡 **Mẹo:** Mọi pipeline phải có **runbook** - file mô tả: "khi task X fail, làm 3 bước Y, Z, W". On-call team sẽ cảm ơn bạn lúc 2h sáng.
 
 ## 7. 🤔 Khi nào áp dụng
 

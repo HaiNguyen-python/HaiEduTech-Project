@@ -5,7 +5,7 @@
  *
  * Each track gets:
  *  - vietnamCase: A Vietnam-specific real-world story.
- *  - goldenTip:   "Mẹo vàng của thầy Hải" - signature insight.
+ *  - goldenTip:   "Mẹo vàng" - signature insight.
  *  - glossary:    4–6 key terms with student-friendly definitions.
  *  - careers:     3–5 related job titles.
  *  - homework:    A practical mini-project to try at home.
@@ -459,7 +459,7 @@ export const TRACK_EXTRAS: Record<string, TrackExtra> = {
   // ============== Bài 13 - Study Smart ==============
   study: {
     vietnamCase: { title: "🇻🇳 Học sinh chuyên Toán Hà Nội + NotebookLM", body: "Nhóm HS chuyên Toán Hà Nội Amsterdam dùng NotebookLM nạp toàn bộ SGK + đề thi Toán quốc gia 5 năm vào → AI tạo flashcard, tóm tắt, podcast nghe lúc đi học. Kết quả: 18/20 bạn đạt 9+ điểm THPT QG Toán 2024." },
-    goldenTip: "Quy tắc 3 bước của thầy Hải: Tự làm trước → Hỏi AI giải thích cách (không phải đáp án) → Kiểm chứng bằng SGK. Nếu bỏ bước 1, em mất 90% kỹ năng tư duy.",
+    goldenTip: "Quy tắc 3 bước: Tự làm trước → Hỏi AI giải thích cách (không phải đáp án) → Kiểm chứng bằng SGK. Nếu bỏ bước 1, em mất 90% kỹ năng tư duy.",
     glossary: [
       { term: "Prompt", def: "Câu lệnh em gửi cho AI. Càng cụ thể, càng đúng." },
       { term: "NotebookLM", def: "AI của Google đọc PDF/tài liệu → tạo tóm tắt, flashcard, podcast." },

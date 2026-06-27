@@ -1485,7 +1485,7 @@ Return as numbered markdown list. Each item: bold title + 1 line copy.
 4. **Test prompt với 10 input đa dạng** trước khi đưa lên production.
 5. Lưu prompt trong **Git**, version như code.
 
-> 💡 **Mẹo của thầy Hải:** Khi prompt không ra kết quả mong muốn, đừng đổ lỗi cho model. Hỏi: *"Mình đã spec context, role, task, format, constraint chưa?"* - 90% lần thiếu 1 trong 5 cái.
+> 💡 **Mẹo:** Khi prompt không ra kết quả mong muốn, đừng đổ lỗi cho model. Hỏi: *"Mình đã spec context, role, task, format, constraint chưa?"* - 90% lần thiếu 1 trong 5 cái.
 
 ## 8. ✅ Tóm tắt 30 giây
 
