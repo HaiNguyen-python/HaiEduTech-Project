@@ -25,6 +25,8 @@ serve(async (req) => {
 
   try {
     // Public endpoint (verify_jwt=false). Skip auth roundtrip to cut latency.
+    const { essay } = await req.json();
+
 
 
     if (!essay || typeof essay !== "string" || essay.trim().length < 20) {
