@@ -410,22 +410,22 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
         )}
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-3 items-stretch">
-        <div className="flex flex-col">
-          <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 px-1">
-            📖 Code mẫu
-          </div>
-          <div
-            className="font-mono text-sm leading-relaxed whitespace-pre-wrap bg-slate-950 text-slate-200 rounded-lg p-4 select-none cursor-text overflow-auto flex-1 lg:max-h-[70vh] lg:sticky lg:top-4"
-            onClick={() => inputRef.current?.focus()}
-          >
-            {rendered}
-          </div>
+      <div className="flex flex-col">
+        <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 px-1 flex items-center justify-between">
+          <span>📖 Gõ trực tiếp lên code mẫu bên dưới</span>
+          <span className="text-muted-foreground/70">Tab/Shift+Tab để thụt dòng</span>
         </div>
-        <div className="flex flex-col">
-          <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 px-1">
-            ⌨️ Bạn gõ ở đây
+        <div
+          className="relative font-mono text-sm leading-relaxed bg-slate-950 rounded-lg overflow-hidden cursor-text"
+          onClick={() => inputRef.current?.focus()}
+        >
+          {/* Layer 1: rendered snippet with per-char highlight */}
+          <div className="whitespace-pre-wrap text-slate-200 p-4 min-h-[260px] lg:min-h-[400px] max-h-[70vh] overflow-auto">
+            {rendered}
+            {/* Trailing spacer so the bottom line is reachable */}
+            <span className="opacity-0">.</span>
           </div>
+          {/* Layer 2: transparent textarea capturing keystrokes, perfectly overlaid */}
           <textarea
             ref={inputRef}
             value={typed}
@@ -433,8 +433,12 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
             onKeyDown={onKeyDown}
             disabled={done}
             spellCheck={false}
-            placeholder="Start typing here… (Tab to indent, Shift+Tab to dedent)"
-            className="w-full font-mono text-sm bg-secondary border border-border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none disabled:opacity-60 flex-1 min-h-[260px] lg:min-h-[400px] lg:max-h-[70vh]"
+            autoCorrect="off"
+            autoCapitalize="off"
+            placeholder=""
+            aria-label="Type the code shown"
+            className="absolute inset-0 w-full h-full font-mono text-sm leading-relaxed p-4 bg-transparent text-transparent caret-yellow-400 selection:bg-yellow-400/30 resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60 disabled:opacity-100 whitespace-pre-wrap overflow-auto"
+            style={{ WebkitTextFillColor: "transparent" }}
           />
         </div>
       </div>
