@@ -167,13 +167,10 @@ function normalizeFullSource(raw: string, language: string = ""): string {
 
     const prev = collapsed[collapsed.length - 1] || "";
     const next = trimmed.slice(i + 1).find((l) => l.trim()) || "";
-    const prevIndent = prev.match(/^\s*/)?.[0].length ?? 0;
-    const nextIndent = next.match(/^\s*/)?.[0].length ?? 0;
     const keepTopLevelGap =
       prev.trim() &&
       next.trim() &&
-      (nextIndent === 0 || /^\s*(def |class |import |from )/.test(next)) &&
-      prevIndent <= nextIndent;
+      /^\s*(def |class |async def |@)/.test(next);
 
     if (keepTopLevelGap && collapsed[collapsed.length - 1]?.trim()) {
       collapsed.push("");
