@@ -486,7 +486,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           <span>📖 Gõ trực tiếp lên code mẫu bên dưới</span>
           <span className="text-muted-foreground/70">Tab/Shift+Tab để thụt dòng</span>
         </div>
-        <div className="relative font-mono text-[12px] sm:text-[13px] leading-6 bg-slate-950 rounded-lg overflow-hidden">
+        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.45] bg-slate-950 rounded-lg overflow-hidden">
           {/* Visible code surface: soft-wraps long lines and shows the full block. */}
           <div
             ref={codeScrollRef}
