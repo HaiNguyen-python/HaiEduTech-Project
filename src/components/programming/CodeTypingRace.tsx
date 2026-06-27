@@ -410,24 +410,34 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
         )}
       </div>
 
-      <div
-        className="font-mono text-sm leading-relaxed whitespace-pre-wrap bg-slate-950 text-slate-200 rounded-lg p-4 mb-3 select-none cursor-text overflow-x-auto"
-        onClick={() => inputRef.current?.focus()}
-      >
-        {rendered}
+      <div className="grid lg:grid-cols-2 gap-3 items-stretch">
+        <div className="flex flex-col">
+          <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 px-1">
+            📖 Code mẫu
+          </div>
+          <div
+            className="font-mono text-sm leading-relaxed whitespace-pre-wrap bg-slate-950 text-slate-200 rounded-lg p-4 select-none cursor-text overflow-auto flex-1 lg:max-h-[70vh] lg:sticky lg:top-4"
+            onClick={() => inputRef.current?.focus()}
+          >
+            {rendered}
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 px-1">
+            ⌨️ Bạn gõ ở đây
+          </div>
+          <textarea
+            ref={inputRef}
+            value={typed}
+            onChange={onChange}
+            onKeyDown={onKeyDown}
+            disabled={done}
+            spellCheck={false}
+            placeholder="Start typing here… (Tab to indent, Shift+Tab to dedent)"
+            className="w-full font-mono text-sm bg-secondary border border-border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none disabled:opacity-60 flex-1 min-h-[260px] lg:min-h-[400px] lg:max-h-[70vh]"
+          />
+        </div>
       </div>
-
-      <textarea
-        ref={inputRef}
-        value={typed}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        disabled={done}
-        spellCheck={false}
-        rows={3}
-        placeholder="Start typing here… (Tab to indent, Shift+Tab to dedent)"
-        className="w-full font-mono text-sm bg-secondary border border-border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none disabled:opacity-60"
-      />
 
       {done && (
         <div className="mt-3 flex items-center justify-between flex-wrap gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
