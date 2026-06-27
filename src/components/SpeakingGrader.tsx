@@ -198,11 +198,38 @@ const SpeakingGrader = () => {
     if (!audioBlob) return;
     setLoading(true);
     setUpgradeLoading(false);
+    const transcriptForGrading = liveTranscript.trim();
+    const buildInstantResult = (reason: string): SpeakingResult => {
+      const words = transcriptForGrading ? transcriptForGrading.split(/\s+/).filter(Boolean).length : 0;
+      const pace = timer > 0 ? (words / Math.max(timer, 1)) * 60 : 0;
+      const lengthBand = words < 8 ? 4 : words < 18 ? 5 : words < 35 ? 6 : words < 65 ? 6.5 : 7;
+      const paceBand = pace < 45 ? 5 : pace > 190 ? 5.5 : pace > 90 ? 6.5 : 6;
+      const roundBand = (score: number) => Math.max(4, Math.min(8, Math.round(score * 2) / 2));
+      const fluency = roundBand((lengthBand + paceBand) / 2);
+      const lexical = roundBand(lengthBand + 0.2);
+      const grammar = roundBand(lengthBand + (/(because|although|which|who|when|if)/i.test(transcriptForGrading) ? 0.5 : 0));
+      const pronunciation = roundBand(paceBand + 0.25);
+      return {
+        overall: roundBand((fluency + lexical + grammar + pronunciation) / 4),
+        criteria: [
+          { label: "Fluency & Coherence", score: fluency, feedback: t("Điểm nhanh dựa trên độ dài và nhịp nói. Hãy thêm 1 ví dụ cụ thể để câu trả lời mạch lạc hơn.", "Fast score based on length and pacing. Add one specific example to make the answer more coherent.") },
+          { label: "Lexical Resource", score: lexical, feedback: t("Từ vựng dễ hiểu. Hãy thay vài từ cơ bản bằng cụm IELTS tự nhiên hơn.", "Vocabulary is understandable. Replace a few basic words with more natural IELTS phrases.") },
+          { label: "Grammatical Range & Accuracy", score: grammar, feedback: t("Dùng thêm câu phức với because, although hoặc which để tăng điểm ngữ pháp.", "Use one complex sentence with because, although, or which to improve grammar range.") },
+          { label: "Pronunciation", score: pronunciation, feedback: t("Điểm phát âm nhanh dựa trên nhịp nói. Hãy giữ tốc độ đều và nhấn rõ từ khóa.", "Fast pronunciation estimate based on pacing. Keep a steady speed and stress key words clearly.") },
+        ],
+        transcript: transcriptForGrading || t("(Không nhận diện được transcript)", "(No transcript detected)"),
+        suggestions: [
+          t("Trả lời theo cấu trúc: ý chính + lý do + ví dụ.", "Answer with: main point + reason + example."),
+          t("Nói ít nhất 20-30 giây trước khi chấm.", "Speak for at least 20-30 seconds before grading."),
+          reason,
+        ],
+      };
+    };
 
     // Fire upgrade in parallel — independent of grading
     const upgradePromise = supabase.functions
       .invoke("upgrade-speaking", {
-        body: { question: currentQ.q, part: selectedPart, transcript: liveTranscript },
+          body: { question: currentQ.q, part: selectedPart, transcript: transcriptForGrading },
       })
       .then(({ data, error }) => {
         if (error) throw error;
@@ -214,19 +241,23 @@ const SpeakingGrader = () => {
       });
 
     try {
-      const { data, error } = await supabase.functions.invoke("grade-speaking", {
+      const gradingPromise = supabase.functions.invoke("grade-speaking", {
         body: {
           question: currentQ.q,
           part: selectedPart,
           duration: timer,
-          transcript: liveTranscript,
+          transcript: transcriptForGrading,
         },
       });
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        window.setTimeout(() => reject(new Error("client_5s_timeout")), 4_800);
+      });
+      const { data, error } = await Promise.race([gradingPromise, timeoutPromise]);
 
       if (error) throw error;
       const graded = data as SpeakingResult;
       // Always attach the FE transcript (backend no longer returns it)
-      graded.transcript = liveTranscript;
+      graded.transcript = transcriptForGrading;
       setResult(graded);
       setLoading(false);
       setUpgradeLoading(true);
@@ -245,24 +276,7 @@ const SpeakingGrader = () => {
       setUpgradeLoading(false);
     } catch (e) {
       console.error("Grading error:", e);
-      // Fallback mock with transcript
-      const base = 5.0 + Math.min(timer / 120, 1) * 2;
-      const gs = (b: number, r: number) => Math.max(4, Math.min(9, Math.round((b + (Math.random() - 0.5) * r) * 2) / 2));
-      const f = gs(base, 2), l = gs(base - 0.3, 1.5), g = gs(base - 0.2, 1.5), p = gs(base + 0.2, 1.5);
-      const mockResult: SpeakingResult = {
-        overall: Math.round(((f + l + g + p) / 4) * 2) / 2,
-        criteria: [
-          { label: "Fluency & Coherence", score: f, feedback: t("Cần cải thiện sự trôi chảy. Hãy luyện nói liên tục hơn và sử dụng các từ nối.", "Improve fluency. Practice speaking continuously and use linking words.") },
-          { label: "Lexical Resource", score: l, feedback: t("Mở rộng vốn từ vựng. Thay 'good' → 'beneficial', 'bad' → 'detrimental'.", "Expand vocabulary. Replace 'good' → 'beneficial', 'bad' → 'detrimental'.") },
-          { label: "Grammatical Range & Accuracy", score: g, feedback: t("Luyện câu phức: If..., Although..., Despite... Kiểm tra thì quá khứ.", "Practice complex sentences: If..., Although..., Despite... Check past tenses.") },
-          { label: "Pronunciation", score: p, feedback: t("Chú ý âm /θ/ (think), /ð/ (this), trọng âm từ: edu-CA-tion.", "Focus on /θ/ (think), /ð/ (this), word stress: edu-CA-tion.") },
-        ],
-        transcript: liveTranscript || t("(Không thể nhận dạng giọng nói)", "(Speech recognition unavailable)"),
-        suggestions: [
-          t("Luyện nói 2 phút không ngừng mỗi ngày", "Practice 2-minute non-stop speaking daily"),
-          t("Ghi âm và nghe lại để tự phát hiện lỗi", "Record and listen back to spot errors"),
-        ],
-      };
+      const mockResult = buildInstantResult(e instanceof Error && e.message === "client_5s_timeout" ? t("AI chậm nên hệ thống đã trả điểm nhanh trong 5 giây.", "AI was slow, so the system returned a fast score within 5 seconds.") : t("Hệ thống đã trả điểm nhanh để tránh treo khi chấm.", "The system returned a fast score to avoid a stuck grading state."));
       setResult(mockResult);
       setLoading(false);
       logStudentActivity({
