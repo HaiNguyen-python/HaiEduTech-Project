@@ -397,7 +397,7 @@ Bẫy khác:
 5. Test decorator **độc lập** - viết unit test cho riêng nó.
 6. Document rõ: tham số, side effect, exception có thể raise.
 
-> 💡 **Mẹo của thầy Hải:** Trước khi tự viết decorator, check \\\`functools\\\` và \\\`itertools\\\` - Python đã build-in 80% case bạn cần (\\\`lru_cache\\\`, \\\`partial\\\`, \\\`reduce\\\`, \\\`wraps\\\`).
+> 💡 **Mẹo:** Trước khi tự viết decorator, check \\\`functools\\\` và \\\`itertools\\\` - Python đã build-in 80% case bạn cần (\\\`lru_cache\\\`, \\\`partial\\\`, \\\`reduce\\\`, \\\`wraps\\\`).
 
 ## 8. ✅ Tóm tắt 30 giây
 
@@ -661,7 +661,7 @@ Chỉ khác \\\`[]\\\` → \\\`()\\\` - nhưng tiết kiệm RAM **hàng nghìn 
 | \\\`len()\\\` | OK | Không hỗ trợ |
 | Hợp với | Data nhỏ, cần truy cập ngẫu nhiên | Data lớn, lặp tuần tự |
 
-> 💡 **Mẹo của thầy Hải:** Mặc định **dùng generator** cho mọi pipeline xử lý data. Chỉ chuyển sang list khi **cần index, len, hoặc lặp nhiều lần**.
+> 💡 **Mẹo:** Mặc định **dùng generator** cho mọi pipeline xử lý data. Chỉ chuyển sang list khi **cần index, len, hoặc lặp nhiều lần**.
 
 ## 5. 🔗 \\\`yield from\\\` - Delegate generator
 
@@ -1203,7 +1203,7 @@ for row in reader:
 
 Sếp hỏi: "Bảng xếp hạng nhân viên theo phòng ban, mỗi phòng ai cao nhất?". \`GROUP BY\` trả 1 dòng/phòng - mất chi tiết. **Window function** = "vừa giữ chi tiết từng dòng, vừa tính toán theo nhóm".
 
-> 💡 **Mẹo của thầy Hải:** \`OVER()\` = "mở cửa sổ nhìn các dòng xung quanh mà không gộp lại".
+> 💡 **Mẹo:** \`OVER()\` = "mở cửa sổ nhìn các dòng xung quanh mà không gộp lại".
 
 ## 2. 💡 Hàm window phổ biến
 
@@ -1245,7 +1245,7 @@ SELECT * FROM r WHERE rn = 1;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Moving average dùng \`AVG(x) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)\` cho 7-day MA.
+> 💡 **Mẹo:** Moving average dùng \`AVG(x) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)\` cho 7-day MA.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1423,7 +1423,7 @@ ORDER BY salary DESC; -- Sắp xếp kết quả theo mức lương giảm dần
 
 Cây gia phả: ông → bố → bạn → con → cháu. Bạn không biết "tổ tiên có bao nhiêu thế hệ". Query thông thường chịu thua. **Recursive CTE** = câu lệnh SQL biết "tự gọi chính nó" cho đến khi không còn tổ tiên nữa.
 
-> 💡 **Mẹo của thầy Hải:** Dùng cho cấu trúc cây/đồ thị: org chart, danh mục con, đường đi mạng xã hội.
+> 💡 **Mẹo:** Dùng cho cấu trúc cây/đồ thị: org chart, danh mục con, đường đi mạng xã hội.
 
 ## 2. 💡 Cấu trúc
 
@@ -1496,7 +1496,7 @@ SELECT COUNT(*) FROM sub;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Thêm cột \`depth\` để giới hạn (\`WHERE depth < 50\`) - phòng ngừa lặp vô tận.
+> 💡 **Mẹo:** Thêm cột \`depth\` để giới hạn (\`WHERE depth < 50\`) - phòng ngừa lặp vô tận.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1702,7 +1702,7 @@ SELECT depth, path FROM category_tree ORDER BY path;`,
 
 Pandas xử lý 10 triệu dòng còn ổn - đến 1 tỷ dòng thì laptop cháy. **Apache Spark** = pandas chạy phân tán trên 100 máy, xử lý petabyte trong vài phút. Netflix, Uber, Shopee đều dùng.
 
-> 💡 **Mẹo của thầy Hải:** Spark = "pandas cho big data". Cú pháp PySpark gần như Pandas, nhưng chạy phân tán.
+> 💡 **Mẹo:** Spark = "pandas cho big data". Cú pháp PySpark gần như Pandas, nhưng chạy phân tán.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1755,7 +1755,7 @@ df.groupBy("status").count().show()
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Lưu format **Parquet** (cột nén) thay CSV - nhỏ hơn 10 lần, nhanh hơn 100 lần khi đọc cột chọn lọc.
+> 💡 **Mẹo:** Lưu format **Parquet** (cột nén) thay CSV - nhỏ hơn 10 lần, nhanh hơn 100 lần khi đọc cột chọn lọc.
 
 ## 7. 🤔 Khi nào dùng
 

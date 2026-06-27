@@ -31,7 +31,7 @@ Một dòng code sai có thể làm rò rỉ 10 triệu tài khoản. Bảo mậ
 - **Integrity (Toàn vẹn)**: Dữ liệu không bị sửa trái phép. Ví dụ: chữ ký số, hash SHA-256, audit log.
 - **Availability (Sẵn sàng)**: Hệ thống luôn truy cập được khi cần. Ví dụ: rate limiting chống DDoS, backup, failover.
 
-> 💡 **Mẹo của thầy Hải:** Mỗi tính năng mới, tự hỏi: *"Tính năng này phá hỏng C, I hay A nào không?"* Nếu có - bạn cần kiểm soát bù.
+> 💡 **Mẹo:** Mỗi tính năng mới, tự hỏi: *"Tính năng này phá hỏng C, I hay A nào không?"* Nếu có - bạn cần kiểm soát bù.
 
 ## 3. 🎯 Threat Modeling với STRIDE
 
@@ -350,7 +350,7 @@ SELECT * FROM invoices WHERE id = $1 AND user_id = auth.uid();
 -- hoặc dùng RLS policy
 \`\`\`
 
-> 💡 **Mẹo của thầy Hải:** Với mỗi PR đụng vào dữ liệu, hỏi: *"Đã authenticated thì có authorized chưa? User X có xem được data của user Y không?"*`,
+> 💡 **Mẹo:** Với mỗi PR đụng vào dữ liệu, hỏi: *"Đã authenticated thì có authorized chưa? User X có xem được data của user Y không?"*`,
         theoryEn: `## 1. 📋 What is OWASP Top 10?
 
 OWASP Top 10 lists the most common web security risks, refreshed every few years. This lesson focuses on the four bugs devs hit **weekly**: SQLi, XSS, CSRF, IDOR.
@@ -906,7 +906,7 @@ Mỗi PR có **security checklist**: input validation, AuthZ, log, secret, test.
 - **PCI DSS**: nếu lưu/xử lý thẻ - đa số dev nên outsource cho Stripe.
 - **SOC 2**: chuẩn niềm tin với khách enterprise (security, availability, confidentiality…).
 
-> 🛡️ **Mẹo của thầy Hải:** Tài liệu hoá quy trình ngay từ MVP - sau này muốn lấy SOC 2/ISO 27001 sẽ đỡ vất nhiều.`,
+> 🛡️ **Mẹo:** Tài liệu hoá quy trình ngay từ MVP - sau này muốn lấy SOC 2/ISO 27001 sẽ đỡ vất nhiều.`,
         theoryEn: `## 1. 📜 Log what, NOT what?
 
 **Do log:**

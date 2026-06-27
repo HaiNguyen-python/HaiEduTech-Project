@@ -467,7 +467,7 @@ Phần Lan luôn nằm trong top thế giới về PISA, và **Đại học Hels
 - Học tập đa năng (multiliteracy) và digital literacy
 - Sức khoẻ tinh thần & gắn kết học tập (engagement, burnout)
 
-> 📚 Mẹo đọc nhanh của thầy Hải: với mỗi bài, đọc **Abstract → Conclusion → Figures**. Nếu thấy hay mới quay lại đọc Method.
+> 📚 Mẹo đọc nhanh: với mỗi bài, đọc **Abstract → Conclusion → Figures**. Nếu thấy hay mới quay lại đọc Method.
 
 ---
 

@@ -805,7 +805,7 @@ K không tự xuất hiện - bạn phải chọn. 4 cách:
 
 **4. Domain Knowledge** - đôi khi business chỉ cần 4 tier (VIP, Regular, Occasional, Inactive).
 
-> 💡 **Mẹo của thầy Hải:** Đừng chỉ dùng Elbow - dễ chủ quan. Kết hợp **Elbow + Silhouette** sẽ ra K đáng tin nhất.
+> 💡 **Mẹo:** Đừng chỉ dùng Elbow - dễ chủ quan. Kết hợp **Elbow + Silhouette** sẽ ra K đáng tin nhất.
 
 ## 5. 🐍 Code mẫu
 

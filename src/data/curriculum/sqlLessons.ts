@@ -185,7 +185,7 @@ LIMIT 5 OFFSET 5;`,
 
 Bảng \`students\` có 50 cột nhưng bạn chỉ cần \`name\` và \`score\`. Nếu dùng \`SELECT *\` thì phí băng thông + phí cloud. **\`SELECT cột1, cột2\`** = lấy đúng món mình cần ở quán buffet, không tham lam.
 
-> 💡 **Mẹo của thầy Hải:** \`SELECT *\` chỉ dùng khi explore data lần đầu. Production = liệt kê cột rõ ràng.
+> 💡 **Mẹo:** \`SELECT *\` chỉ dùng khi explore data lần đầu. Production = liệt kê cột rõ ràng.
 
 ## 2. 💡 Khái niệm chính
 
@@ -227,7 +227,7 @@ LIMIT 5; -- Giới hạn kết quả trả về chỉ 5 dòng đầu tiên.
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Đặt alias rõ ràng (\`SELECT u.name AS user_name\`) khi join nhiều bảng - tránh lẫn cột trùng tên.
+> 💡 **Mẹo:** Đặt alias rõ ràng (\`SELECT u.name AS user_name\`) khi join nhiều bảng - tránh lẫn cột trùng tên.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -330,7 +330,7 @@ WHERE s.age > 20;`,
 
 Bạn vào kho 10.000 sản phẩm, sếp hỏi "lọc cho tôi mấy món Samsung dưới 5 triệu". Không có **WHERE** thì phải kéo từng dòng - chết tươi. WHERE = "đứng ngoài cửa, chỉ cho ai đáp ứng điều kiện vào".
 
-> 💡 **Mẹo của thầy Hải:** WHERE chạy **trước** SELECT trong engine - index trên cột WHERE = tăng tốc 100 lần.
+> 💡 **Mẹo:** WHERE chạy **trước** SELECT trong engine - index trên cột WHERE = tăng tốc 100 lần.
 
 ## 2. 💡 Toán tử thường dùng
 
@@ -369,7 +369,7 @@ WHERE class IN ('10A','10B') AND score BETWEEN 7 AND 9;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Đặt điều kiện hay loại bỏ nhiều dòng nhất lên đầu (selectivity cao) - engine xử lý nhanh hơn.
+> 💡 **Mẹo:** Đặt điều kiện hay loại bỏ nhiều dòng nhất lên đầu (selectivity cao) - engine xử lý nhanh hơn.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -481,7 +481,7 @@ WHERE (city = 'Hà Nội' OR city = 'TP HCM')
 
 Sếp hỏi: "Doanh thu từng tháng năm nay?". Bạn không thể nhìn 100.000 đơn hàng rồi cộng tay. **Aggregate functions** + **GROUP BY** = "tự động gộp từng nhóm và tính tổng".
 
-> 💡 **Mẹo của thầy Hải:** GROUP BY = sắp xếp đơn hàng vào các "rổ" theo khoá; aggregate function tính cho từng rổ.
+> 💡 **Mẹo:** GROUP BY = sắp xếp đơn hàng vào các "rổ" theo khoá; aggregate function tính cho từng rổ.
 
 ## 2. 💡 Hàm aggregate cơ bản
 
@@ -527,7 +527,7 @@ ORDER BY avg_score DESC;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Lọc **trước** GROUP dùng \`WHERE\`, lọc **sau** GROUP dùng \`HAVING\`. Đừng nhầm - \`WHERE SUM()\` sẽ lỗi.
+> 💡 **Mẹo:** Lọc **trước** GROUP dùng \`WHERE\`, lọc **sau** GROUP dùng \`HAVING\`. Đừng nhầm - \`WHERE SUM()\` sẽ lỗi.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1350,7 +1350,7 @@ SELECT * FROM org ORDER BY level;`,
 
 Sếp hỏi: "Bảng xếp hạng nhân viên theo phòng ban, mỗi phòng ai cao nhất?". \`GROUP BY\` trả 1 dòng/phòng - mất chi tiết. **Window function** = "vừa giữ chi tiết từng dòng, vừa tính toán theo nhóm".
 
-> 💡 **Mẹo của thầy Hải:** \`OVER()\` = "mở cửa sổ nhìn các dòng xung quanh mà không gộp lại".
+> 💡 **Mẹo:** \`OVER()\` = "mở cửa sổ nhìn các dòng xung quanh mà không gộp lại".
 
 ## 2. 💡 Hàm window phổ biến
 
@@ -1391,7 +1391,7 @@ SELECT * FROM r WHERE rn = 1;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Moving average dùng \`AVG(x) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)\` cho 7-day MA.
+> 💡 **Mẹo:** Moving average dùng \`AVG(x) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)\` cho 7-day MA.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1512,7 +1512,7 @@ FROM orders;`,
 
 Bảng \`orders\` có 1 triệu dòng. Mỗi lần tìm đơn hàng theo \`customer_id\` mất 8 giây - như lục từng cuốn sách trong thư viện không có mục lục. **Index** = mục lục. Có nó, tìm 1 cuốn chỉ tốn 0.01 giây.
 
-> 💡 **Mẹo của thầy Hải:** Index = "trade-off". Đọc nhanh hơn nhưng ghi (INSERT/UPDATE) chậm hơn vì phải cập nhật mục lục.
+> 💡 **Mẹo:** Index = "trade-off". Đọc nhanh hơn nhưng ghi (INSERT/UPDATE) chậm hơn vì phải cập nhật mục lục.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1558,7 +1558,7 @@ CREATE INDEX idx_cust_date ON orders(customer_id, order_date);
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Composite index \`(A, B)\` chỉ tăng tốc query lọc theo \`A\` hoặc \`(A, B)\`, KHÔNG tăng tốc query chỉ lọc \`B\`.
+> 💡 **Mẹo:** Composite index \`(A, B)\` chỉ tăng tốc query lọc theo \`A\` hoặc \`(A, B)\`, KHÔNG tăng tốc query chỉ lọc \`B\`.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1669,7 +1669,7 @@ DROP INDEX idx_students_age;`,
 
 Khởi nghiệp bán đồ ăn online. Chỉ với 1 bảng \`everything(name, address, food, price, qty)\` → khách đổi địa chỉ phải sửa 100 dòng. **Database design** chuẩn = chia bảng theo nghiệp vụ, dùng khoá ngoại để liên kết.
 
-> 💡 **Mẹo của thầy Hải:** 3 ý niệm gối đầu giường - **Entity, Relationship, Normalization** (1NF/2NF/3NF).
+> 💡 **Mẹo:** 3 ý niệm gối đầu giường - **Entity, Relationship, Normalization** (1NF/2NF/3NF).
 
 ## 2. 💡 Khái niệm chính
 
@@ -1720,7 +1720,7 @@ GROUP BY u.name;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Đặt tên: bảng số nhiều (\`users\`), khoá ngoại \`<entity>_id\` (\`user_id\`). Luôn có \`created_at\`, \`updated_at\`.
+> 💡 **Mẹo:** Đặt tên: bảng số nhiều (\`users\`), khoá ngoại \`<entity>_id\` (\`user_id\`). Luôn có \`created_at\`, \`updated_at\`.
 
 ## 7. 🤔 Khi nào áp dụng
 
@@ -1866,7 +1866,7 @@ CREATE TABLE employee_projects (
 
 Nhân viên kế toán hằng ngày phải chạy lại đúng 5 câu SQL: tính lương → trừ thuế → ghi log → email báo. Copy-paste hoài dễ sai. **Stored Procedure** = "macro Excel cho database" - gói nguyên quy trình, gọi 1 lệnh là chạy.
 
-> 💡 **Mẹo của thầy Hải:** Stored Procedure chạy **trong database** → ít round-trip mạng → nhanh hơn code app gọi từng query.
+> 💡 **Mẹo:** Stored Procedure chạy **trong database** → ít round-trip mạng → nhanh hơn code app gọi từng query.
 
 ## 2. 💡 Khái niệm chính
 
@@ -1926,7 +1926,7 @@ SELECT name, total_orders(id) FROM users;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Dùng SP cho: bulk operation, transaction phức tạp, audit log. Đừng dùng cho business logic chính.
+> 💡 **Mẹo:** Dùng SP cho: bulk operation, transaction phức tạp, audit log. Đừng dùng cho business logic chính.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -2057,7 +2057,7 @@ COMMIT;`,
 
 Query \`SELECT * FROM orders JOIN products JOIN users WHERE …\` chạy 45 giây - sếp doạ đuổi việc. **Query optimization** = đọc kế hoạch thực thi (\`EXPLAIN\`), tìm điểm nghẽn, rồi sửa từng bước.
 
-> 💡 **Mẹo của thầy Hải:** 80% query chậm là do thiếu index hoặc dùng \`SELECT *\`. Sửa 2 thứ này thường giải quyết được.
+> 💡 **Mẹo:** 80% query chậm là do thiếu index hoặc dùng \`SELECT *\`. Sửa 2 thứ này thường giải quyết được.
 
 ## 2. 💡 Quy trình tối ưu
 
@@ -2092,7 +2092,7 @@ CREATE INDEX idx_orders_created_user ON orders(created_at, user_id);
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** \`LIMIT\` + \`ORDER BY indexed_col\` siêu nhanh. Pagination dùng cursor (\`WHERE id > last_id\`) thay vì \`OFFSET\` lớn.
+> 💡 **Mẹo:** \`LIMIT\` + \`ORDER BY indexed_col\` siêu nhanh. Pagination dùng cursor (\`WHERE id > last_id\`) thay vì \`OFFSET\` lớn.
 
 ## 7. 🤔 Khi nào tối ưu
 
@@ -2229,7 +2229,7 @@ REFRESH MATERIALIZED VIEW student_report;`,
 
 Sếp hỏi 3 thứ cùng lúc: "top 3 sản phẩm mỗi danh mục, tỉ lệ doanh thu so với tháng trước, khách hàng VIP 6 tháng liên tiếp". Query thường viết lằng nhằng cả trang. **Pattern nâng cao** = công thức gọn gàng cho các bài toán "khó" này.
 
-> 💡 **Mẹo của thầy Hải:** Top-N per group, pivot, gap-and-island, recursive - 4 pattern senior SQL phải thuộc.
+> 💡 **Mẹo:** Top-N per group, pivot, gap-and-island, recursive - 4 pattern senior SQL phải thuộc.
 
 ## 2. 💡 Pattern thường gặp
 
@@ -2276,7 +2276,7 @@ FROM monthly_sales;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Dùng CTE (\`WITH\`) chia query thành nhiều bước rõ ràng, dễ debug, dễ tái sử dụng.
+> 💡 **Mẹo:** Dùng CTE (\`WITH\`) chia query thành nhiều bước rõ ràng, dễ debug, dễ tái sử dụng.
 
 ## 7. 🤔 Khi nào dùng
 
