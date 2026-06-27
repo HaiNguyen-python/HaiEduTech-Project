@@ -11,7 +11,8 @@ import { supabase } from "@/integrations/supabase/client";
  * Used by Dashboard "Study Time" metric to reflect TOTAL time spent on the platform,
  * not just time spent inside specific scored exercises.
  */
-const HEARTBEAT_INTERVAL_MS = 60_000; // 1 minute
+const HEARTBEAT_INTERVAL_MS = 120_000; // 2 minutes (giảm 50% INSERT activity_log)
+const HEARTBEAT_SECONDS = 120; // mỗi heartbeat = 2 phút thời gian học
 const IDLE_THRESHOLD_MS = 5 * 60_000; // 5 minutes of no activity
 
 export const useSessionTracker = () => {
@@ -40,7 +41,7 @@ export const useSessionTracker = () => {
         user_id: user.id,
         activity_type: "session_heartbeat",
         domain: "platform",
-        time_spent_seconds: 60,
+        time_spent_seconds: HEARTBEAT_SECONDS,
         score: null,
         max_score: null,
         metadata: { source: "session_tracker" },

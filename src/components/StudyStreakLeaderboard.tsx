@@ -34,7 +34,7 @@ const StudyStreakLeaderboard = () => {
             if (error) throw error;
             return data || [];
           },
-          { ttlMs: 120_000, timeoutMs: 9000 },
+          { ttlMs: 600_000, timeoutMs: 9000 },
         );
         if (!mountedRef.current) return;
         const deduped = dedupeByDisplayName(
