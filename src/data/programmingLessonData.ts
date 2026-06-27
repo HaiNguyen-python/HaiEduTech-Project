@@ -1203,7 +1203,7 @@ segments = ["💎 VIP", "⭐ Regularly", "👤 Occasionally"]
 for i, (cust, label) in enumerate(zip(customers, labels)):
     print(f"KH {i+1}: Spend {cust[0]:,}k, {cust[1]} times → {segments[label]}")
 
-print(f"\nCluster centers: {kmeans.cluster_centers_}")`,
+print(f"\\nCluster centers: {kmeans.cluster_centers_}")`,
         codeLanguage: "python",
         exercise: "Clustering student test score data into 3 groups (Excellent, Good, Average). Draw scatter plot.",
         exerciseEn: "Cluster student exam data into 3 groups (Excellent, Good, Average). Draw scatter plot.",
