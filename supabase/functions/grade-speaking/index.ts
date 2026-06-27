@@ -1,4 +1,3 @@
-import "../_shared/ai-fallback.ts";
 // Edge function: Grade IELTS Speaking based on actual student transcription
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -16,6 +15,70 @@ async function logUsage(functionName: string, model: string, domain: string, tok
       estimated_cost: tokensUsed * 0.000001, status, error_message: errorMessage || null,
     });
   } catch (e) { console.error("Usage logging failed:", e); }
+}
+
+type FastGradeInput = {
+  question: string;
+  part: number;
+  duration: number;
+  transcriptText: string;
+  wordCount: number;
+  reason?: string;
+};
+
+const GRADE_TIMEOUT_MS = 4_200;
+const MODEL = "google/gemini-2.5-flash-lite";
+
+const roundBand = (score: number) => Math.max(4, Math.min(8, Math.round(score * 2) / 2));
+
+function buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason }: FastGradeInput) {
+  const wordsPerMinute = duration > 0 ? (wordCount / Math.max(duration, 1)) * 60 : 0;
+  const hasAnswer = wordCount >= 6;
+  const lengthScore = wordCount < 8 ? 4.0 : wordCount < 18 ? 5.0 : wordCount < 35 ? 6.0 : wordCount < 65 ? 6.5 : 7.0;
+  const paceScore = wordsPerMinute < 45 ? 5.0 : wordsPerMinute > 190 ? 5.5 : wordsPerMinute > 90 ? 6.5 : 6.0;
+  const connectorHits = (transcriptText.match(/\b(because|so|but|however|although|firstly|also|for example|in addition|therefore)\b/gi) || []).length;
+  const lexicalHits = (transcriptText.match(/\b(important|effective|usually|prefer|manage|experience|opportunity|challenge|benefit|improve)\b/gi) || []).length;
+
+  const fluency = roundBand((lengthScore + paceScore + Math.min(connectorHits, 3) * 0.25) / 2);
+  const lexical = roundBand(lengthScore + Math.min(lexicalHits, 4) * 0.15);
+  const grammar = roundBand(lengthScore + (transcriptText.includes(" because ") || transcriptText.includes(" although ") ? 0.5 : 0));
+  const pronunciation = roundBand(paceScore + 0.25);
+  const overall = hasAnswer ? roundBand((fluency + lexical + grammar + pronunciation) / 4) : 4.0;
+  const quoted = transcriptText.split(/\s+/).slice(0, 10).join(" ") || "your answer";
+
+  return {
+    overall,
+    criteria: [
+      { label: "Fluency & Coherence", score: fluency, feedback: hasAnswer ? `You answered the question with ${wordCount} words. Add one clear example after "${quoted}" to make the answer more developed.` : "The answer is too short to judge fluency well. Speak for at least 20-30 seconds." },
+      { label: "Lexical Resource", score: lexical, feedback: hasAnswer ? "Your vocabulary is understandable. Upgrade basic words with more precise IELTS topic words." : "Use 3-4 topic words from the question before submitting." },
+      { label: "Grammatical Range & Accuracy", score: grammar, feedback: hasAnswer ? "Use one complex sentence with because, although, or which to show stronger grammar range." : "Make at least two full sentences so grammar can be assessed." },
+      { label: "Pronunciation", score: pronunciation, feedback: "This fast score uses transcript timing. For a higher pronunciation score, keep steady pacing and stress key nouns clearly." },
+    ],
+    highlightedErrors: [],
+    suggestions: [
+      `Answer Part ${part} with point + reason + example.`,
+      "Speak in 2-3 complete sentences before pressing Grade.",
+      `Stay close to the question: ${question}`,
+    ],
+    transcript: transcriptText || "(No transcript detected)",
+    fastScore: true,
+    fallbackReason: reason || "instant-5s-score",
+  };
+}
+
+function waitUntilLog(functionName: string, model: string, domain: string, tokensUsed: number, status: string, errorMessage?: string) {
+  const task = logUsage(functionName, model, domain, tokensUsed, status, errorMessage);
+  const runtime = globalThis as typeof globalThis & { EdgeRuntime?: { waitUntil: (promise: Promise<unknown>) => void } };
+  if (runtime.EdgeRuntime?.waitUntil) runtime.EdgeRuntime.waitUntil(task);
+}
+
+function parseJsonResult(content: string) {
+  let cleaned = content.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+  const jsonStart = cleaned.search(/[\{\[]/);
+  const jsonEnd = cleaned.lastIndexOf(jsonStart !== -1 && cleaned[jsonStart] === "[" ? "]" : "}");
+  if (jsonStart === -1 || jsonEnd === -1) throw new Error("No JSON found");
+  cleaned = cleaned.substring(jsonStart, jsonEnd + 1).replace(/,\s*}/g, "}").replace(/,\s*]/g, "]").replace(/[\x00-\x1F\x7F]/g, "");
+  return JSON.parse(cleaned);
 }
 
 serve(async (req) => {
@@ -63,23 +126,30 @@ Return ONLY valid JSON, no prose, no markdown fences:
 highlightedErrors: include 2-3 items; each text MUST be an exact substring of the transcript.
 Do NOT include the transcript or any upgraded answer in the JSON. Make scores realistic and varied.`;
 
-    // Hard timeout to avoid UI spinner stalls.
+    if (wordCount < 6) {
+      waitUntilLog("grade-speaking", MODEL, "english", 0, "fast_score", "short_transcript");
+      return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: "short_transcript" })), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Hard 4.2s timeout so the UI can always show a score inside 5s.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30_000);
-    const MODEL = "google/gemini-2.5-flash-lite";
+    const timeoutId = setTimeout(() => controller.abort(), GRADE_TIMEOUT_MS);
     let response: Response;
     try {
       response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         signal: controller.signal,
         headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Lovable-API-Key": LOVABLE_API_KEY,
+          "X-Lovable-AIG-SDK": "edge-fetch",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           model: MODEL,
           temperature: 0.2,
-          max_tokens: 700,
+          max_tokens: 420,
 
           messages: [
             { role: "system", content: systemPrompt },
@@ -91,30 +161,19 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", 0, "error", aborted ? "timeout" : "network");
-      return new Response(
-        JSON.stringify({ error: aborted ? "Grading timed out. Please try again." : "AI service unreachable. Please try again." }),
-        { status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      waitUntilLog("grade-speaking", MODEL, "english", 0, "fast_score", aborted ? "timeout_4s" : "network");
+      return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: aborted ? "timeout_4s" : "network" })), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     clearTimeout(timeoutId);
 
     if (!response.ok) {
       const status = response.status;
-      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", 0, "error", `HTTP ${status}`);
-      if (status === 429) {
-        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
-          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      if (status === 402) {
-        return new Response(JSON.stringify({ error: "AI credits exhausted. Please add funds to your Lovable workspace." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      const t = await response.text();
-      console.error("AI Gateway error:", status, t);
-      throw new Error("AI API error");
+      waitUntilLog("grade-speaking", MODEL, "english", 0, "fast_score", `HTTP ${status}`);
+      return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: `HTTP_${status}` })), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const data = await response.json();
@@ -123,31 +182,12 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
 
     let parsed;
     try {
-      const { jsonrepair } = await import("https://esm.sh/jsonrepair@3.8.1");
-      let cleaned = content.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
-      const jsonStart = cleaned.search(/[\{\[]/);
-      const jsonEnd = cleaned.lastIndexOf(jsonStart !== -1 && cleaned[jsonStart] === "[" ? "]" : "}");
-      if (jsonStart === -1 || jsonEnd === -1) throw new Error("No JSON found");
-      cleaned = cleaned.substring(jsonStart, jsonEnd + 1);
-      try { parsed = JSON.parse(cleaned); } catch {
-        try {
-          const repaired = jsonrepair(cleaned);
-          parsed = JSON.parse(repaired);
-        } catch {
-          // Last-resort: strip trailing commas, control chars, then balance brackets
-          let fix = cleaned.replace(/,\s*}/g, "}").replace(/,\s*]/g, "]").replace(/[\x00-\x1F\x7F]/g, "");
-          const opens = (fix.match(/\{/g) || []).length;
-          const closes = (fix.match(/\}/g) || []).length;
-          const opensA = (fix.match(/\[/g) || []).length;
-          const closesA = (fix.match(/\]/g) || []).length;
-          fix += "]".repeat(Math.max(0, opensA - closesA)) + "}".repeat(Math.max(0, opens - closes));
-          parsed = JSON.parse(jsonrepair(fix));
-        }
-      }
+      parsed = parseJsonResult(content);
+      if (typeof parsed?.overall !== "number" || !Array.isArray(parsed?.criteria)) throw new Error("Invalid grading shape");
     } catch (e) {
       console.error("Parse error:", content);
-      await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", tokensUsed, "parse_error");
-      return new Response(JSON.stringify({ error: "Failed to parse speaking result. Please try again." }), {
+      waitUntilLog("grade-speaking", MODEL, "english", tokensUsed, "fast_score", "parse_error");
+      return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: "parse_error" })), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
@@ -156,7 +196,7 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
       parsed.transcript = transcriptText;
     }
 
-    await logUsage("grade-speaking", "gemini-2.5-flash-lite", "english", tokensUsed, "success");
+    waitUntilLog("grade-speaking", MODEL, "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
