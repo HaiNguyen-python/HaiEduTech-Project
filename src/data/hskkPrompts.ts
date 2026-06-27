@@ -111,7 +111,14 @@ const advancedPrompts: HskkPrompt[] = [
   { id: "a2-6", level: "advanced", part: 2, hanzi: "请就\"学习外语对个人发展的重要性\"发表你的观点。", pinyin: "Qǐng jiù \"xuéxí wàiyǔ duì gèrén fāzhǎn de zhòngyàoxìng\" fābiǎo nǐ de guāndiǎn.", vi: "Hãy nêu quan điểm về \"tầm quan trọng của học ngoại ngữ đối với sự phát triển cá nhân\".", prepSeconds: 30, answerSeconds: 150 },
 ];
 
-export const HSKK_PROMPTS: HskkPrompt[] = [...beginnerPrompts, ...intermediatePrompts, ...advancedPrompts];
+import { HSKK_PROMPTS_EXTRA } from "./hskkPromptsExpansion";
+
+export const HSKK_PROMPTS: HskkPrompt[] = [
+  ...beginnerPrompts,
+  ...intermediatePrompts,
+  ...advancedPrompts,
+  ...HSKK_PROMPTS_EXTRA,
+];
 
 export function getPromptsByLevelPart(level: HskkLevel, part: HskkPart): HskkPrompt[] {
   return HSKK_PROMPTS.filter(p => p.level === level && p.part === part);
