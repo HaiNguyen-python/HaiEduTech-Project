@@ -25,7 +25,7 @@ serve(async (req) => {
 
   try {
     // Public endpoint (verify_jwt=false). Skip auth roundtrip to cut latency.
-    const { essay } = await req.json();
+
 
     if (!essay || typeof essay !== "string" || essay.trim().length < 20) {
       return new Response(JSON.stringify({ error: "Essay too short to grade." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
