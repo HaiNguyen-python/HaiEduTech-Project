@@ -1040,14 +1040,14 @@ Sinh viên thường nghĩ "pipeline chạy ra số là xong". Production khác:
 - Hoàn thành trước 7:00 ICT
 - Tolerance: 30 phút
 
-### Khi task `extract` fail
-1. Kiểm tra source Postgres còn sống: `psql ... -c "SELECT 1"`
-2. Xem error log: Airflow UI -> task `extract` -> logs
-3. Nếu là timeout -> increase `statement_timeout` lên 60s, retry
+### Khi task \`extract\` fail
+1. Kiểm tra source Postgres còn sống: \`psql ... -c "SELECT 1"\`
+2. Xem error log: Airflow UI -> task \`extract\` -> logs
+3. Nếu là timeout -> increase \`statement_timeout\` lên 60s, retry
 4. Nếu là schema change -> ping #data-eng, tạo ticket
 
 ### Rollback
-- `dbt run --select tag:sales --vars '{run_date: yesterday}'`
+- \`dbt run --select tag:sales --vars '{run_date: yesterday}'\`
 \`\`\`
 
 ## 🚫 Anti-pattern
