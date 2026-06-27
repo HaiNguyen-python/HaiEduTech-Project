@@ -104,7 +104,7 @@ const IeltsLectureCategory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<"all" | "foundation" | "intermediate" | "advanced">("all");
   const [sortBy, setSortBy] = useState<"easy" | "hard" | "newest">("easy");
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({ task1: true, task2: true, part1: true, part2: true, part3: true, other: true });
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
   const toggleGroup = useCallback((key: string) => {
     setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
   }, []);
@@ -350,7 +350,7 @@ const IeltsLectureCategory = () => {
               icon: string,
               items: typeof filtered,
             ) => {
-              const isOpen = openGroups[groupKey] !== false;
+              const isOpen = openGroups[groupKey] === true;
               return (
                 <div key={groupKey} className="mb-6 last:mb-0">
                   <button
