@@ -464,7 +464,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
             </h3>
             {(explanation || explainError) && (
               <button
-                onClick={() => { setExplanation(""); setExplainError(""); fetchExplanation(); }}
+                onClick={() => { setExplanation(""); setQuiz([]); setQuizAnswers({}); setExplainError(""); fetchExplanation(); }}
                 disabled={explainLoading}
                 className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 hover:bg-sky-500/20 disabled:opacity-50"
               >
@@ -486,6 +486,56 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           {explanation && !explainLoading && (
             <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed text-foreground">
               {explanation}
+            </div>
+          )}
+
+          {quiz.length > 0 && !explainLoading && (
+            <div className="mt-4 pt-4 border-t border-sky-500/20 space-y-4">
+              <h4 className="text-sm font-semibold text-sky-700 dark:text-sky-300 flex items-center gap-2">
+                🧠 Review Quiz
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600">
+                  {Object.keys(quizAnswers).length} / {quiz.length}
+                </span>
+              </h4>
+              {quiz.map((q, qi) => {
+                const picked = quizAnswers[qi];
+                const answered = picked !== undefined;
+                return (
+                  <div key={qi} className="rounded-lg bg-background/60 border border-border p-3">
+                    <p className="text-sm font-medium text-foreground mb-2">
+                      <span className="text-sky-600 font-mono mr-1">Q{qi + 1}.</span> {q.question}
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-2">
+                      {q.options.map((opt, oi) => {
+                        const isCorrect = oi === q.answer;
+                        const isPicked = picked === oi;
+                        let cls = "border-border bg-secondary/40 hover:bg-secondary text-foreground";
+                        if (answered) {
+                          if (isCorrect) cls = "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
+                          else if (isPicked) cls = "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300";
+                          else cls = "border-border bg-secondary/30 text-muted-foreground";
+                        }
+                        return (
+                          <button
+                            key={oi}
+                            disabled={answered}
+                            onClick={() => setQuizAnswers((a) => ({ ...a, [qi]: oi }))}
+                            className={`text-left text-xs sm:text-sm px-3 py-2 rounded-md border transition ${cls} disabled:cursor-default`}
+                          >
+                            <span className="font-mono mr-1.5 opacity-70">{String.fromCharCode(65 + oi)}.</span>
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {answered && q.explanation && (
+                      <p className={`mt-2 text-xs ${picked === q.answer ? "text-emerald-700 dark:text-emerald-400" : "text-rose-700 dark:text-rose-400"}`}>
+                        {picked === q.answer ? "✓ " : "✗ "}{q.explanation}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
