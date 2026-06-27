@@ -1125,7 +1125,7 @@ print(f"→ Prediction: {'✅ PASS' if result_pass[0] else '❌ FAIL'}")
 
 # Evaluate
 accuracy = tree.score(X_test, y_test)
-print(f"\n📊 Accuracy: {accuracy:.1%}")`,
+print(f"\\n📊 Accuracy: {accuracy:.1%}")`,
         codeLanguage: "python",
         exercise: "Build a model to classify spam/non-spam emails based on: number of words, whether there is a link, whether there is the word 'free'.",
         exerciseEn: "Build an email spam classifier based on: word count, has link, contains 'free'.",
