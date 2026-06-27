@@ -34,7 +34,7 @@ export async function syncMasteredCount(_subject: string, _count: number) {
   /* no-op */
 }
 
-const TTL_MS = 60_000; // cached freshness window — revalidates in background
+const TTL_MS = 300_000; // 5 phút - giảm gọi RPC nặng
 
 const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryLeaderboardProps) => {
   const { t } = useLanguage();

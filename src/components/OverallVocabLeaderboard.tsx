@@ -29,7 +29,7 @@ const SUBJECT_LABEL: Record<string, string> = {
 };
 
 const CACHE_KEY = "overall-vocab";
-const TTL_MS = 60_000;
+const TTL_MS = 300_000; // 5 phút - giảm gọi RPC nặng
 
 const OverallVocabLeaderboard = ({ label }: { label?: string }) => {
   const { t } = useLanguage();

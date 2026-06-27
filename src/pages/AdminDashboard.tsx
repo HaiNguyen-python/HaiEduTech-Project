@@ -190,7 +190,8 @@ const AdminDashboard = () => {
   const fetchAll = useCallback(async () => {
     if (!canAccessDashboard) return;
     const now = Date.now();
-    if (fetchInFlightRef.current || now - lastFetchAtRef.current < 1200) return;
+    // Cache snapshot 3 phút — admin không cần realtime tuyệt đối, RPC này quét student_activity_log rất nặng.
+    if (fetchInFlightRef.current || now - lastFetchAtRef.current < 180_000) return;
     fetchInFlightRef.current = true;
     lastFetchAtRef.current = now;
     setLoadingData(true);
@@ -291,7 +292,7 @@ const AdminDashboard = () => {
           const t = payload?.new?.activity_type as string | undefined;
           if (!t || SYSTEM_ACTIVITY_TYPES.has(t)) return; // skip heartbeats
           if (refetchTimerRef.current) window.clearTimeout(refetchTimerRef.current);
-          refetchTimerRef.current = window.setTimeout(() => fetchAll(), 4000);
+          refetchTimerRef.current = window.setTimeout(() => fetchAll(), 60_000);
         }
       )
       .subscribe();
