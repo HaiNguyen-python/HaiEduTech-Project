@@ -24,19 +24,11 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // JWT Authentication
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-    const supabaseAuth = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: authHeader } } });
-    const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
+    // Public endpoint (verify_jwt=false). Skip auth roundtrip to cut latency.
     const { essay } = await req.json();
+
+
+
     if (!essay || typeof essay !== "string" || essay.trim().length < 20) {
       return new Response(JSON.stringify({ error: "Essay too short to grade." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
