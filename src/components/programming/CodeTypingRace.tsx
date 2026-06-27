@@ -366,9 +366,11 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
               {language}
             </span>
           )}
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
-            Step {poolIdx + 1} / {pool.length}
-          </span>
+          {pool.length > 1 && (
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
+              Step {poolIdx + 1} / {pool.length}
+            </span>
+          )}
           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${diffClass}`}>
             {diff}
           </span>
