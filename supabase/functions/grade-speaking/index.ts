@@ -102,28 +102,28 @@ RULES:
 - Analyze ONLY the transcription. Do NOT hallucinate.
 - If transcription is empty or <10 words, give Band 4.0-4.5 and explain the student must speak more.
 - Reference SPECIFIC words/phrases from the transcript in feedback.
-- Be CONCISE: 1-2 short sentences per criterion feedback. No fluff.
+- Be VERY CONCISE so the response fits fast. Feedback max 12 words each.
 
 QUESTION (Part ${part}): "${question}"
 DURATION: ${duration}s | WORD COUNT: ${wordCount}
 ${hasTranscript ? `TRANSCRIPTION:\n"${transcriptText}"` : "NO TRANSCRIPTION - grade as Band 4.0."}
 
-Return ONLY valid JSON, no prose, no markdown fences:
+Return ONLY compact valid JSON, no prose, no markdown fences:
 {
   "overall": <4.0-9.0>,
   "criteria": [
-    {"label":"Fluency & Coherence","score":<n>,"feedback":"<1-2 short sentences referencing the transcript>"},
-    {"label":"Lexical Resource","score":<n>,"feedback":"<1-2 short sentences quoting a word + Band 7+ alternative>"},
-    {"label":"Grammatical Range & Accuracy","score":<n>,"feedback":"<1-2 short sentences quoting one error + correction>"},
-    {"label":"Pronunciation","score":<n>,"feedback":"<1-2 short sentences on likely pronunciation issues>"}
+    {"label":"Fluency & Coherence","score":<n>,"feedback":"<max 12 words>"},
+    {"label":"Lexical Resource","score":<n>,"feedback":"<max 12 words>"},
+    {"label":"Grammatical Range & Accuracy","score":<n>,"feedback":"<max 12 words>"},
+    {"label":"Pronunciation","score":<n>,"feedback":"<max 12 words>"}
   ],
   "highlightedErrors": [
-    {"text":"<exact substring from transcript>","type":"grammar|vocabulary|pronunciation","correction":"<fix>","explanation":"<short>"}
+    {"text":"<exact substring>","type":"grammar|vocabulary|pronunciation","correction":"<fix>","explanation":"<max 8 words>"}
   ],
-  "suggestions": ["<actionable tip>","<actionable tip>","<actionable tip>"]
+  "suggestions": ["<max 10 words>","<max 10 words>"]
 }
 
-highlightedErrors: include 2-3 items; each text MUST be an exact substring of the transcript.
+highlightedErrors: include 0-1 item only; text MUST be an exact substring.
 Do NOT include the transcript or any upgraded answer in the JSON. Make scores realistic and varied.`;
 
     if (wordCount < 6) {
@@ -149,7 +149,7 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
         body: JSON.stringify({
           model: MODEL,
           temperature: 0.2,
-          max_tokens: 420,
+          max_tokens: 520,
 
           messages: [
             { role: "system", content: systemPrompt },
