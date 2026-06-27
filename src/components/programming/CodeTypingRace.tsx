@@ -390,23 +390,24 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
 
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <p className="text-xs text-muted-foreground">
-          🎯 {topic ? <>Drills tailored to <strong>{lessonTitle || "this lesson"}</strong> · Easy → Hard.</> : <>Retype the snippet below. Drills go from <strong>Easy → Hard</strong> in order.</>}
+          🎯 Retype the <strong>full lesson code block</strong> below, then answer a quick quiz to lock in the meaning.
         </p>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={prevSnippet}
-            disabled={pool.length <= 1}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground border border-border hover:bg-secondary/70 active:scale-95 disabled:opacity-50"
-          >
-            ← Prev
-          </button>
-          <button
-            onClick={nextSnippet}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
-          >
-            <Shuffle className="w-3.5 h-3.5" /> Next →
-          </button>
-        </div>
+        {pool.length > 1 && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={prevSnippet}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground border border-border hover:bg-secondary/70 active:scale-95"
+            >
+              ← Prev
+            </button>
+            <button
+              onClick={nextSnippet}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
+            >
+              <Shuffle className="w-3.5 h-3.5" /> Next →
+            </button>
+          </div>
+        )}
       </div>
 
       <div
