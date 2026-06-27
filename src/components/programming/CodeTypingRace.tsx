@@ -102,42 +102,27 @@ function stripEmojis(text: string): string {
 function pickSnippet(raw: string): string {
   raw = stripEmojis(raw);
   if (!raw) return "print('Hello, HaiEduTech!')";
-  const lines = raw
-    .split("\n")
-    .map((l) => l.replace(/\t/g, "  ").trimEnd())
-    .filter((l) => l.trim() && !/^\s*(#|\/\/)/.test(l));
-  if (!lines.length) return raw.slice(0, 120);
-  let out = "";
-  for (const l of lines) {
-    if ((out + l).length > 140) break;
-    out = out ? `${out}\n${l}` : l;
-  }
-  return (out || lines[0]).slice(0, 160);
+  return raw;
 }
 
 /**
- * Build several candidate snippets from the lesson's own source by walking
- * through clean (non-comment) lines and grouping them into short blocks.
+ * Normalize the lesson source: strip emojis, convert tabs to 2 spaces, trim
+ * trailing whitespace per line, drop leading/trailing blank lines. The learner
+ * retypes the WHOLE lesson code block as a single drill so they internalize
+ * the full example (not arbitrary 140-char slices).
  */
-function buildSourceSnippets(raw: string): string[] {
-  raw = stripEmojis(raw);
-  if (!raw) return [];
+function normalizeFullSource(raw: string): string {
+  raw = stripEmojis(raw || "");
+  if (!raw.trim()) return "";
   const lines = raw
     .split("\n")
-    .map((l) => l.replace(/\t/g, "  ").trimEnd())
-    .filter((l) => l.trim() && !/^\s*(#|\/\/)/.test(l));
-  const snippets: string[] = [];
-  let buf = "";
-  for (const l of lines) {
-    if ((buf + "\n" + l).length > 140) {
-      if (buf) snippets.push(buf.slice(0, 160));
-      buf = l;
-    } else {
-      buf = buf ? `${buf}\n${l}` : l;
-    }
-  }
-  if (buf) snippets.push(buf.slice(0, 160));
-  return snippets;
+    .map((l) => l.replace(/\t/g, "  ").trimEnd());
+  // Trim leading/trailing empty lines but preserve blank lines in the middle.
+  let start = 0;
+  let end = lines.length;
+  while (start < end && !lines[start].trim()) start++;
+  while (end > start && !lines[end - 1].trim()) end--;
+  return lines.slice(start, end).join("\n");
 }
 
 /** Deduplicate while preserving order. */
@@ -154,6 +139,13 @@ function uniq(arr: string[]): string[] {
   return out;
 }
 
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  answer: number;
+  explanation?: string;
+}
+
 const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) => {
   // Topic-aware drills: if the lesson title matches a known topic (e.g. "Random
   // Forest", "k-means", "SQL JOINs", "FastAPI"), prefer that ladder so every
@@ -166,23 +158,18 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   const langKey = effectiveLang;
   const bonus = BONUS_SNIPPETS[langKey] || BONUS_SNIPPETS.python;
 
-  // Pool order: topic-specific ladder first (most relevant), then a small
-  // fallback ladder for the language, then snippets harvested from the lesson
-  // source code (sorted shortest -> longest so beginners ease in).
-  // Strict rule: the typing race must drill ONLY code that appears in the
-  // lesson's own theory/source. We sort lesson snippets shortest -> longest so
-  // difficulty rises naturally. Topic ladders and generic bonus snippets are
-  // used only as a last-resort fallback when the lesson has no code block,
-  // so learners never type code unrelated to the lesson they are studying.
+  // The typing race now drills the ENTIRE lesson code block in one go (no
+  // small 140-char slices), so the learner sees the full example end-to-end.
+  // Topic ladders and generic bonus snippets are only used as a fallback when
+  // the lesson has no embedded code block.
   const pool = useMemo(() => {
-    const fromSource = buildSourceSnippets(source)
-      .map(stripEmojis)
-      .sort((a, b) => a.length - b.length);
-    if (fromSource.length > 0) return uniq(fromSource);
+    const full = normalizeFullSource(source);
+    if (full) return [full];
     const topicSnips = (topic?.snippets || []).map(stripEmojis);
     if (topicSnips.length > 0) return uniq(topicSnips);
     return uniq(bonus.map(stripEmojis));
   }, [source, bonus, topic]);
+
 
   const [poolIdx, setPoolIdx] = useState(0);
   const snippet = pool[poolIdx] || pickSnippet(source);
@@ -191,6 +178,8 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   const [startAt, setStartAt] = useState<number | null>(null);
   const [endAt, setEndAt] = useState<number | null>(null);
   const [explanation, setExplanation] = useState<string>("");
+  const [quiz, setQuiz] = useState<QuizQuestion[]>([]);
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [explainLoading, setExplainLoading] = useState(false);
   const [explainError, setExplainError] = useState<string>("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -201,6 +190,8 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     setStartAt(null);
     setEndAt(null);
     setExplanation("");
+    setQuiz([]);
+    setQuizAnswers({});
     setExplainError("");
   }, [snippet]);
 
@@ -326,11 +317,13 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     setExplainError("");
     try {
       const { data, error } = await supabase.functions.invoke("explain-code", {
-        body: { code: snippet, language: langKey || "python" },
+        body: { code: snippet, language: langKey || "python", lessonContext: lessonTitle || "" },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setExplanation(data?.explanation || "");
+      setQuiz(Array.isArray(data?.quiz) ? data.quiz : []);
+      setQuizAnswers({});
     } catch (e) {
       setExplainError(e instanceof Error ? e.message : "Không thể tải giải thích. Thử lại nhé!");
     } finally {
@@ -373,9 +366,11 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
               {language}
             </span>
           )}
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
-            Step {poolIdx + 1} / {pool.length}
-          </span>
+          {pool.length > 1 && (
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
+              Step {poolIdx + 1} / {pool.length}
+            </span>
+          )}
           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${diffClass}`}>
             {diff}
           </span>
@@ -395,23 +390,24 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
 
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <p className="text-xs text-muted-foreground">
-          🎯 {topic ? <>Drills tailored to <strong>{lessonTitle || "this lesson"}</strong> · Easy → Hard.</> : <>Retype the snippet below. Drills go from <strong>Easy → Hard</strong> in order.</>}
+          🎯 Retype the <strong>full lesson code block</strong> below, then answer a quick quiz to lock in the meaning.
         </p>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={prevSnippet}
-            disabled={pool.length <= 1}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground border border-border hover:bg-secondary/70 active:scale-95 disabled:opacity-50"
-          >
-            ← Prev
-          </button>
-          <button
-            onClick={nextSnippet}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
-          >
-            <Shuffle className="w-3.5 h-3.5" /> Next →
-          </button>
-        </div>
+        {pool.length > 1 && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={prevSnippet}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground border border-border hover:bg-secondary/70 active:scale-95"
+            >
+              ← Prev
+            </button>
+            <button
+              onClick={nextSnippet}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
+            >
+              <Shuffle className="w-3.5 h-3.5" /> Next →
+            </button>
+          </div>
+        )}
       </div>
 
       <div
@@ -468,7 +464,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
             </h3>
             {(explanation || explainError) && (
               <button
-                onClick={() => { setExplanation(""); setExplainError(""); fetchExplanation(); }}
+                onClick={() => { setExplanation(""); setQuiz([]); setQuizAnswers({}); setExplainError(""); fetchExplanation(); }}
                 disabled={explainLoading}
                 className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 hover:bg-sky-500/20 disabled:opacity-50"
               >
@@ -490,6 +486,56 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           {explanation && !explainLoading && (
             <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed text-foreground">
               {explanation}
+            </div>
+          )}
+
+          {quiz.length > 0 && !explainLoading && (
+            <div className="mt-4 pt-4 border-t border-sky-500/20 space-y-4">
+              <h4 className="text-sm font-semibold text-sky-700 dark:text-sky-300 flex items-center gap-2">
+                🧠 Review Quiz
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600">
+                  {Object.keys(quizAnswers).length} / {quiz.length}
+                </span>
+              </h4>
+              {quiz.map((q, qi) => {
+                const picked = quizAnswers[qi];
+                const answered = picked !== undefined;
+                return (
+                  <div key={qi} className="rounded-lg bg-background/60 border border-border p-3">
+                    <p className="text-sm font-medium text-foreground mb-2">
+                      <span className="text-sky-600 font-mono mr-1">Q{qi + 1}.</span> {q.question}
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-2">
+                      {q.options.map((opt, oi) => {
+                        const isCorrect = oi === q.answer;
+                        const isPicked = picked === oi;
+                        let cls = "border-border bg-secondary/40 hover:bg-secondary text-foreground";
+                        if (answered) {
+                          if (isCorrect) cls = "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
+                          else if (isPicked) cls = "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300";
+                          else cls = "border-border bg-secondary/30 text-muted-foreground";
+                        }
+                        return (
+                          <button
+                            key={oi}
+                            disabled={answered}
+                            onClick={() => setQuizAnswers((a) => ({ ...a, [qi]: oi }))}
+                            className={`text-left text-xs sm:text-sm px-3 py-2 rounded-md border transition ${cls} disabled:cursor-default`}
+                          >
+                            <span className="font-mono mr-1.5 opacity-70">{String.fromCharCode(65 + oi)}.</span>
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {answered && q.explanation && (
+                      <p className={`mt-2 text-xs ${picked === q.answer ? "text-emerald-700 dark:text-emerald-400" : "text-rose-700 dark:text-rose-400"}`}>
+                        {picked === q.answer ? "✓ " : "✗ "}{q.explanation}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
