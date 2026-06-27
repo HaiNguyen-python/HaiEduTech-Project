@@ -161,20 +161,27 @@ function normalizeFullSource(raw: string, language: string = ""): string {
     const line = trimmed[i];
     const blank = !line.trim();
     if (!blank) {
-      // Insert a blank line before top-level defs/classes/decorators
-      // or methods inside a class, to mimic PEP8 spacing.
-      const isDefLike = /^\s*(def |class |async def |@)/.test(line);
-      const last = collapsed[collapsed.length - 1];
-      if (isDefLike && last && last.trim()) {
+      const isDefLike = /^\s*(def |class |async\s+def |@)/.test(line);
+      const last = collapsed[collapsed.length - 1] ?? "";
+      const lastTrim = last.trim();
+      // Skip blank insertion if:
+      // - previous line is blank (already spaced)
+      // - previous line is a decorator (decorator + def stay together)
+      // - previous line opens a new block (ends with ':')
+      const skip =
+        !lastTrim ||
+        /^@/.test(lastTrim) ||
+        /:\s*(#.*)?$/.test(lastTrim);
+      if (isDefLike && !skip) {
         collapsed.push("");
       }
       collapsed.push(line);
       continue;
     }
-    // Preserve a single blank line between non-blank lines.
-    const prev = collapsed[collapsed.length - 1] || "";
+    // Preserve a single blank line between non-blank lines (no doubles).
+    const lastTrim = (collapsed[collapsed.length - 1] ?? "").trim();
     const next = trimmed.slice(i + 1).find((l) => l.trim()) || "";
-    if (prev.trim() && next.trim() && collapsed[collapsed.length - 1]?.trim()) {
+    if (lastTrim && next.trim()) {
       collapsed.push("");
     }
   }
