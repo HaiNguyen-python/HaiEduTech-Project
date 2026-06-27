@@ -183,6 +183,8 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   const [explainLoading, setExplainLoading] = useState(false);
   const [explainError, setExplainError] = useState<string>("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const codeScrollRef = useRef<HTMLDivElement>(null);
+  const caretRef = useRef<HTMLSpanElement>(null);
 
   // Reset whenever the snippet changes (lesson switch or shuffle).
   useEffect(() => {
@@ -289,6 +291,15 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     requestAnimationFrame(() => inputRef.current?.focus());
   };
 
+  const focusTypingInput = () => {
+    const input = inputRef.current;
+    if (!input || done) return;
+    input.focus();
+    requestAnimationFrame(() => {
+      input.selectionStart = input.selectionEnd = input.value.length;
+    });
+  };
+
   const nextSnippet = () => {
     if (pool.length <= 1) {
       reset();
@@ -339,6 +350,21 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done]);
 
+  // Keep the current typing position visible without placing a transparent
+  // textarea over the code. That fixes the blocked scrollbar and makes long
+  // examples easier to follow line by line.
+  useEffect(() => {
+    const container = codeScrollRef.current;
+    const caret = caretRef.current;
+    if (!container || !caret) return;
+    const c = container.getBoundingClientRect();
+    const t = caret.getBoundingClientRect();
+    const margin = 72;
+    if (t.top < c.top + margin || t.bottom > c.bottom - margin) {
+      caret.scrollIntoView({ block: "center", inline: "nearest" });
+    }
+  }, [typed.length]);
+
   // Render snippet with per-char highlight.
   const rendered = snippet.split("").map((ch, i) => {
     let cls = "text-muted-foreground";
@@ -349,7 +375,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     }
     if (ch === "\n") return <br key={i} />;
     return (
-      <span key={i} className={cls}>
+      <span key={i} ref={i === typed.length ? caretRef : undefined} className={cls}>
         {ch === " " ? "\u00A0" : ch}
       </span>
     );
@@ -415,17 +441,27 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           <span>📖 Gõ trực tiếp lên code mẫu bên dưới</span>
           <span className="text-muted-foreground/70">Tab/Shift+Tab để thụt dòng</span>
         </div>
-        <div
-          className="relative font-mono text-sm leading-relaxed bg-slate-950 rounded-lg overflow-hidden cursor-text"
-          onClick={() => inputRef.current?.focus()}
-        >
-          {/* Layer 1: rendered snippet with per-char highlight */}
-          <div className="whitespace-pre-wrap text-slate-200 p-4 min-h-[260px] lg:min-h-[400px] max-h-[70vh] overflow-auto">
+        <div className="relative font-mono text-sm leading-relaxed bg-slate-950 rounded-lg overflow-hidden">
+          {/* Visible code surface: soft-wraps long lines and owns the scrollbar. */}
+          <div
+            ref={codeScrollRef}
+            role="button"
+            tabIndex={0}
+            onClick={focusTypingInput}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                focusTypingInput();
+              }
+            }}
+            className="whitespace-pre-wrap break-words text-slate-200 p-4 min-h-[260px] lg:min-h-[440px] max-h-[72vh] overflow-y-auto overflow-x-hidden cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
+            style={{ overflowWrap: "anywhere" }}
+          >
             {rendered}
             {/* Trailing spacer so the bottom line is reachable */}
-            <span className="opacity-0">.</span>
+            <span ref={typed.length >= snippet.length ? caretRef : undefined} className="opacity-0">.</span>
           </div>
-          {/* Layer 2: transparent textarea capturing keystrokes, perfectly overlaid */}
+          {/* Hidden input captures typing only, so it no longer blocks scrolling. */}
           <textarea
             ref={inputRef}
             value={typed}
@@ -437,8 +473,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
             autoCapitalize="off"
             placeholder=""
             aria-label="Type the code shown"
-            className="absolute inset-0 w-full h-full font-mono text-sm leading-relaxed p-4 bg-transparent text-transparent caret-yellow-400 selection:bg-yellow-400/30 resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60 disabled:opacity-100 whitespace-pre-wrap overflow-auto"
-            style={{ WebkitTextFillColor: "transparent" }}
+            className="absolute left-3 top-3 h-6 w-6 resize-none opacity-0 outline-none"
           />
         </div>
       </div>
