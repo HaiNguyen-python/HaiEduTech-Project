@@ -1568,6 +1568,1012 @@ OpenLineage is an open spec so any tool (Airflow, dbt, Spark) emits lineage even
 - [ ] 0-100 health score per dataset, shown in catalog
 `,
   },
+
+  // ============================================================
+  // SQL - deep dives
+  // ============================================================
+  "sql-select-1": {
+    vi: `
+## 🔬 Đào sâu: SELECT chạy thực sự như thế nào?
+
+Một câu \`SELECT col FROM t WHERE x\` được engine xử lý theo thứ tự **logic** khác với thứ tự bạn viết: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY -> LIMIT. Hiểu thứ tự này giúp bạn lý giải vì sao không thể dùng alias từ SELECT trong WHERE, nhưng được dùng trong ORDER BY.
+
+## ⚙️ Projection vs Selection
+
+- **Projection**: chọn cột (giảm chiều ngang). Càng ít cột -> ít I/O, ít memory, dễ vào cache.
+- **Selection**: chọn dòng (giảm chiều dọc) thông qua WHERE. Engine sẽ cố đẩy WHERE xuống tầng storage (predicate pushdown) để đọc ít block hơn.
+
+\`SELECT *\` là anti-pattern trong production vì khoá chặt schema (đổi cột là client vỡ), và phá vỡ index-only scan.
+
+## 📐 Checklist
+- Đặt tên alias rõ ràng (\`u.email AS user_email\`)
+- Tránh \`SELECT *\`, liệt kê cột cụ thể
+- Dùng LIMIT khi explore data lớn
+`,
+    en: `
+## 🔬 Deep dive: how SELECT actually runs
+
+A query \`SELECT col FROM t WHERE x\` is processed in this **logical** order: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY -> LIMIT. That is why you cannot use a SELECT alias in WHERE but can use it in ORDER BY.
+
+## ⚙️ Projection vs Selection
+
+- **Projection** picks columns (fewer columns = less I/O, more cache-friendly).
+- **Selection** picks rows via WHERE; the engine tries to push predicates down to storage.
+
+\`SELECT *\` is an anti-pattern in production: schema changes break clients and it disables index-only scans.
+
+## 📐 Checklist
+- Use clear aliases, list columns explicitly, add LIMIT while exploring large tables.
+`,
+  },
+
+  "sql-where-1": {
+    vi: `
+## 🔬 Vì sao WHERE đôi khi không dùng index?
+
+Index chỉ được dùng khi cột nằm "trần" ở vế trái: \`WHERE created_at >= '2026-01-01'\` dùng được index, còn \`WHERE date(created_at) = '2026-01-01'\` thì không vì hàm bọc quanh cột làm engine không khớp được B-Tree. Đây gọi là **non-sargable predicate**.
+
+## ⚙️ NULL không bằng NULL
+
+\`x = NULL\` luôn trả về UNKNOWN. Phải dùng \`IS NULL\`. Tương tự \`x NOT IN (subquery)\` sẽ trả về 0 dòng nếu subquery có NULL - rất nhiều bug production xuất phát từ đây. Dùng \`NOT EXISTS\` an toàn hơn.
+
+## 📐 Anti-pattern
+- \`WHERE LOWER(email) = 'a@b.com'\` (thay bằng functional index hoặc lưu lowercase)
+- \`WHERE col LIKE '%abc%'\` (không dùng B-Tree; cân nhắc full-text)
+- \`WHERE col + 1 = 10\` (chuyển vế: \`col = 9\`)
+`,
+    en: `
+## 🔬 Why WHERE sometimes skips the index
+
+Indexes only kick in when the column appears bare on the left: \`created_at >= '2026-01-01'\` is sargable, \`date(created_at) = '2026-01-01'\` is not because a function wrapping the column breaks B-Tree lookup.
+
+## ⚙️ NULL is not equal to NULL
+
+\`x = NULL\` is always UNKNOWN; use \`IS NULL\`. \`x NOT IN (subquery)\` returns zero rows when the subquery has any NULL - prefer \`NOT EXISTS\`.
+
+## 📐 Anti-patterns
+- \`LOWER(email) = ...\` -> store lowercase or add a functional index.
+- \`col LIKE '%abc%'\` -> consider full-text search.
+- \`col + 1 = 10\` -> rewrite as \`col = 9\`.
+`,
+  },
+
+  "sql-agg-1": {
+    vi: `
+## 🔬 Aggregate: GROUP BY và HAVING
+
+Engine quét bảng, băm theo nhóm (hash aggregation) hoặc sort rồi gom (sort aggregation). Hash nhanh hơn với cardinality vừa phải, sort tốt khi data đã sắp xếp sẵn theo index.
+
+## ⚙️ HAVING vs WHERE
+- WHERE lọc dòng **trước** khi gom -> giảm chi phí aggregation.
+- HAVING lọc nhóm **sau** khi gom -> dùng khi điều kiện dựa vào hàm tổng (\`HAVING COUNT(*) > 10\`).
+
+## 📐 Bẫy thường gặp
+- \`SELECT user_id, name, COUNT(*) FROM orders GROUP BY user_id\` sẽ lỗi (name không nằm trong GROUP BY) - phải thêm name hoặc dùng MAX(name).
+- COUNT(*) đếm cả NULL, COUNT(col) bỏ NULL. Khác biệt này thay đổi kết quả báo cáo.
+`,
+    en: `
+## 🔬 GROUP BY and HAVING internals
+
+Engines aggregate via hash or sort. Hash is faster for moderate cardinality; sort wins when data is already ordered by an index.
+
+## ⚙️ HAVING vs WHERE
+- WHERE filters **before** grouping (cheaper).
+- HAVING filters groups **after** aggregation (\`HAVING COUNT(*) > 10\`).
+
+## 📐 Pitfalls
+- Selecting a non-grouped column without an aggregate is illegal in strict SQL.
+- COUNT(*) includes NULLs; COUNT(col) skips them - this single difference has changed many BI reports.
+`,
+  },
+
+  "sql-join-1": {
+    vi: `
+## 🔬 Bên trong JOIN: 3 thuật toán
+
+1. **Nested Loop**: với mỗi dòng bảng A, tìm match ở bảng B qua index. Tốt khi A nhỏ.
+2. **Hash Join**: build hash table trên bảng nhỏ, probe bằng bảng lớn. Mặc định cho join lớn không có index.
+3. **Merge Join**: cả 2 bên đã sắp xếp theo key -> đi song song. Cực nhanh nếu có index cluster.
+
+Hiểu plan để chọn index: nếu thấy "Seq Scan + Hash Join" trên bảng lớn, có thể chỉ cần index trên FK là chuyển thành Nested Loop tối ưu.
+
+## ⚙️ LEFT JOIN bị lọc oan
+
+\`LEFT JOIN b ON ... WHERE b.x = 1\` biến thành INNER JOIN vì WHERE loại các dòng b NULL. Đặt điều kiện trong ON: \`LEFT JOIN b ON ... AND b.x = 1\` để giữ semantics LEFT.
+
+## 📐 Checklist
+- FK luôn nên có index
+- Tránh \`SELECT *\` khi join (cột trùng tên gây nhầm lẫn)
+- Cân nhắc EXISTS thay vì JOIN khi chỉ cần kiểm tra tồn tại
+`,
+    en: `
+## 🔬 Three JOIN algorithms
+
+1. **Nested Loop**: scan A, probe B via index. Best when A is tiny.
+2. **Hash Join**: build hash on small side, probe with the big side. Default for large unindexed joins.
+3. **Merge Join**: both sides sorted by key, walk in parallel. Excellent with clustered indexes.
+
+Read the plan: a Seq Scan + Hash Join over a big table often turns into an efficient Nested Loop once you add an index on the foreign key.
+
+## ⚙️ LEFT JOIN silently becoming INNER
+
+\`LEFT JOIN b ON ... WHERE b.x = 1\` filters away the NULL right side. Move the predicate into ON: \`LEFT JOIN b ON ... AND b.x = 1\`.
+
+## 📐 Checklist
+- Always index foreign keys; avoid \`SELECT *\`; prefer EXISTS for existence checks.
+`,
+  },
+
+  "sql-sub-1": {
+    vi: `
+## 🔬 Subquery: correlated vs uncorrelated
+
+- **Uncorrelated**: chạy 1 lần, kết quả dùng như hằng số (\`WHERE x IN (SELECT id FROM ...)\`)
+- **Correlated**: tham chiếu cột bảng ngoài -> chạy lại cho từng dòng -> chậm khi không có index.
+
+Optimizer hiện đại thường viết lại IN/EXISTS thành semi-join, nhưng đừng phụ thuộc may rủi: nếu thấy chậm, viết lại bằng JOIN hoặc CTE để rõ ý định.
+
+## ⚙️ Khi nào dùng subquery vs CTE?
+- Subquery: gọn, dùng 1 lần.
+- CTE: tái sử dụng, dễ đọc nhiều tầng. Lưu ý PostgreSQL <12 materialize CTE -> có thể chậm hơn subquery.
+`,
+    en: `
+## 🔬 Correlated vs uncorrelated subqueries
+
+Uncorrelated subqueries run once; correlated ones re-run per outer row and need indexes to stay fast.
+
+Modern optimizers rewrite IN/EXISTS into semi-joins, but for clarity and predictable plans, rewrite painful subqueries as explicit JOINs or CTEs.
+
+## ⚙️ Subquery vs CTE
+CTEs are great for readability and reuse; pre-PG12 they materialize, which can be slower than an inline subquery.
+`,
+  },
+
+  "sql-cte-1": {
+    vi: `
+## 🔬 CTE và Recursive CTE
+
+CTE (WITH) cho phép đặt tên kết quả trung gian, làm query đa tầng dễ đọc như đọc đoạn văn. Recursive CTE là công cụ chuẩn cho dữ liệu cây/đồ thị (org chart, danh mục lồng nhau, đường đi).
+
+\`\`\`sql
+WITH RECURSIVE tree AS (
+  SELECT id, parent_id, name, 1 AS depth FROM categories WHERE parent_id IS NULL
+  UNION ALL
+  SELECT c.id, c.parent_id, c.name, t.depth + 1
+  FROM categories c JOIN tree t ON c.parent_id = t.id
+)
+SELECT * FROM tree;
+\`\`\`
+
+## 📐 Checklist
+- Luôn có điều kiện dừng (anchor query) trong recursive CTE
+- Đặt giới hạn depth để tránh vòng lặp vô hạn khi data bẩn
+`,
+    en: `
+## 🔬 CTEs and recursive CTEs
+
+CTEs name intermediate results so multi-stage queries read like prose. Recursive CTEs are the canonical tool for tree/graph data (org charts, nested categories, paths).
+
+\`\`\`sql
+WITH RECURSIVE tree AS (
+  SELECT id, parent_id, 1 AS depth FROM categories WHERE parent_id IS NULL
+  UNION ALL
+  SELECT c.id, c.parent_id, t.depth + 1
+  FROM categories c JOIN tree t ON c.parent_id = t.id
+)
+SELECT * FROM tree;
+\`\`\`
+
+Always anchor the recursion and bound depth to survive dirty data.
+`,
+  },
+
+  "sql-win-1": {
+    vi: `
+## 🔬 Window function: tính theo "khung cửa sổ"
+
+Khác với GROUP BY (gom lại còn 1 dòng/nhóm), window function giữ nguyên số dòng và tính toán trên một "khung" (\`OVER (PARTITION BY ... ORDER BY ...)\`). Đây là vũ khí số 1 cho báo cáo: running total, moving average, ranking, gap analysis.
+
+\`\`\`sql
+SELECT user_id, order_date, amount,
+  SUM(amount) OVER (PARTITION BY user_id ORDER BY order_date) AS running_total,
+  ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY order_date DESC) AS rn
+FROM orders;
+\`\`\`
+
+## ⚙️ Frame clause
+Mặc định là \`RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\`. Đổi sang \`ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\` để có moving average 7 ngày.
+`,
+    en: `
+## 🔬 Window functions: compute over a "window"
+
+Unlike GROUP BY, window functions keep every row and compute over a frame (\`OVER (PARTITION BY ... ORDER BY ...)\`). They power running totals, moving averages, ranking, and gap analysis.
+
+\`\`\`sql
+SELECT user_id, order_date, amount,
+  SUM(amount) OVER (PARTITION BY user_id ORDER BY order_date) AS running_total
+FROM orders;
+\`\`\`
+
+The default frame is \`RANGE UNBOUNDED PRECEDING\`; switch to \`ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\` for a 7-day moving average.
+`,
+  },
+
+  "sql-idx-1": {
+    vi: `
+## 🔬 B-Tree index hoạt động ra sao?
+
+Một B-Tree là cây cân bằng đa nhánh: tra cứu O(log n), quét range nhanh vì lá liên kết kép. Postgres mặc định dùng B-Tree; ngoài ra có Hash (chỉ equal), GIN (mảng/JSONB/full-text), BRIN (cột tăng dần như timestamp), GiST (geo).
+
+## ⚙️ Composite index và quy tắc tiền tố trái
+
+\`INDEX (a, b, c)\` phục vụ được: \`WHERE a=?\`, \`WHERE a=? AND b=?\`, \`WHERE a=? AND b=? AND c=?\`, nhưng KHÔNG phục vụ \`WHERE b=?\` đơn lẻ. Thứ tự cột quan trọng - đặt cột có chọn lọc cao (cardinality lớn) trước.
+
+## 📐 Trade-off
+Mỗi index tăng tốc đọc nhưng làm chậm INSERT/UPDATE/DELETE và tốn dung lượng. Đo bằng \`pg_stat_user_indexes\` để bỏ index không bao giờ được dùng.
+`,
+    en: `
+## 🔬 How a B-Tree index works
+
+A B-Tree is a balanced multi-way tree: O(log n) lookup, fast range scans thanks to doubly-linked leaves. Postgres also offers Hash (equality), GIN (arrays/JSONB/full-text), BRIN (monotonic columns), GiST (geo).
+
+## ⚙️ Composite indexes and left-prefix rule
+
+\`INDEX (a, b, c)\` serves queries that filter on \`a\`, \`a+b\`, or \`a+b+c\` but not \`b\` alone. Place high-cardinality columns first.
+
+## 📐 Trade-off
+Every index speeds reads but slows writes and costs storage. Drop unused indexes (check \`pg_stat_user_indexes\`).
+`,
+  },
+
+  "sql-design-1": {
+    vi: `
+## 🔬 Chuẩn hoá: 1NF -> 2NF -> 3NF
+
+- **1NF**: mỗi ô là giá trị nguyên tử (không list trong cột).
+- **2NF**: không có phụ thuộc một phần vào khoá chính phức hợp.
+- **3NF**: không có phụ thuộc bắc cầu (A -> B -> C trong cùng bảng).
+
+Mục tiêu: loại bỏ trùng lặp và bất thường khi INSERT/UPDATE/DELETE. Trong OLTP, đi đến 3NF là chuẩn; trong OLAP/warehouse thì cố ý **denormalize** thành star schema để truy vấn nhanh hơn.
+
+## ⚙️ Khoá tự nhiên vs khoá thay thế (surrogate)
+- Tự nhiên (email, mã số thuế): có ý nghĩa nghiệp vụ nhưng dễ đổi.
+- Thay thế (UUID, BIGINT IDENTITY): ổn định, vô nghĩa nghiệp vụ - khuyến nghị cho PK.
+
+## 📐 Checklist
+- PK trên mọi bảng, FK với ON DELETE rõ ràng (CASCADE / SET NULL / RESTRICT)
+- Constraint UNIQUE, CHECK ngay ở DB - đừng phụ thuộc app validate
+`,
+    en: `
+## 🔬 1NF -> 2NF -> 3NF
+
+- 1NF: atomic values per cell.
+- 2NF: no partial dependency on a composite PK.
+- 3NF: no transitive dependency (A -> B -> C in one table).
+
+3NF is the OLTP default; OLAP/warehouses deliberately denormalize into star schemas for query speed.
+
+## ⚙️ Natural vs surrogate keys
+Natural keys (email, tax ID) carry meaning but can change. Surrogate keys (UUID, BIGINT) are stable and noise-free - the recommended PK type.
+
+## 📐 Checklist
+PK on every table, explicit FK actions (CASCADE / SET NULL / RESTRICT), enforce UNIQUE/CHECK in the database not just the app.
+`,
+  },
+
+  "sql-proc-1": {
+    vi: `
+## 🔬 Stored procedure: khi nào nên dùng?
+
+Stored procedure (Postgres: function/procedure) chạy trong DB nên giảm round-trip mạng, được biên dịch sẵn, có quyền hạn riêng. Dùng tốt cho: thao tác batch nặng, logic atomic phải gọn trong 1 transaction, kiểm soát quyền chi tiết qua \`SECURITY DEFINER\`.
+
+## ⚠️ Khi nào tránh
+
+- Logic nghiệp vụ chính: khó test, khó version, khó deploy đồng bộ với app.
+- Hệ multi-tenant lớn: stored proc khoá bạn vào 1 DB vendor.
+
+## 📐 Best practice
+- Đặt tên rõ ràng theo nghiệp vụ (\`charge_subscription\`, không phải \`sp_1\`)
+- Luôn có \`SET search_path = public\` trong function để tránh search-path attack
+- Trả về error qua \`RAISE EXCEPTION\`, log đủ ngữ cảnh
+`,
+    en: `
+## 🔬 When stored procedures pay off
+
+Procedures run inside the DB so they avoid network round-trips, ship as precompiled plans, and can hold dedicated privileges. Great for: heavy batch jobs, single-transaction atomic logic, fine-grained permission via \`SECURITY DEFINER\`.
+
+## ⚠️ When to avoid
+Core business logic: harder to test, version, and deploy in sync with the app. Multi-vendor environments: ties you to one DB.
+
+## 📐 Best practice
+Name by intent, always set \`search_path\`, raise typed exceptions with context.
+`,
+  },
+
+  "sql-opt-1": {
+    vi: `
+## 🔬 EXPLAIN ANALYZE: bản đồ kho báu
+
+EXPLAIN cho plan dự đoán; EXPLAIN ANALYZE chạy thật và đo. Đọc từ trong ra ngoài, để ý:
+- **Seq Scan trên bảng lớn** -> thiếu index
+- **Rows estimated vs actual lệch nhiều** -> thống kê cũ, chạy ANALYZE
+- **Nested Loop với loops cao** -> có thể chuyển Hash Join nhanh hơn
+- **Sort sử dụng disk** -> tăng work_mem hoặc thêm index
+
+## ⚙️ Pattern tối ưu hay gặp
+1. Đẩy WHERE vào subquery để giảm dữ liệu trước khi JOIN
+2. Thay \`OFFSET 10000 LIMIT 20\` bằng **keyset pagination** (\`WHERE id > last_id ORDER BY id LIMIT 20\`)
+3. Tạo **covering index** chứa đủ cột để index-only scan
+4. Phân vùng (partition) bảng cực lớn theo ngày/tenant
+
+## 📐 Checklist trước khi merge query mới
+- Đã chạy EXPLAIN ANALYZE trên data thật?
+- Index cần thiết đã có chưa?
+- LIMIT/keyset cho list endpoint?
+`,
+    en: `
+## 🔬 EXPLAIN ANALYZE is the treasure map
+
+EXPLAIN predicts; EXPLAIN ANALYZE runs and measures. Read inside-out and look for: Seq Scan on big tables, large estimate-vs-actual drift, deep Nested Loops, sorts spilling to disk.
+
+## ⚙️ Common wins
+- Push WHERE into subqueries before JOIN.
+- Replace \`OFFSET 10000 LIMIT 20\` with keyset pagination.
+- Build covering indexes for index-only scans.
+- Partition very large tables by date or tenant.
+
+## 📐 Pre-merge checklist
+EXPLAIN ANALYZE on real data, required indexes exist, list endpoints use keyset paging.
+`,
+  },
+
+  "sql-adv-1": {
+    vi: `
+## 🔬 Pattern nâng cao trong sản xuất
+
+1. **Upsert**: \`INSERT ... ON CONFLICT (key) DO UPDATE SET ...\` - atomic, tránh race condition giữa SELECT rồi INSERT.
+2. **Soft delete**: thêm \`deleted_at TIMESTAMPTZ\`, mọi query lọc \`WHERE deleted_at IS NULL\`. Cho phép khôi phục và audit.
+3. **Optimistic locking**: thêm cột \`version\`, UPDATE kèm \`WHERE version = ?\`, kiểm tra rowcount.
+4. **Outbox pattern**: ghi event vào bảng \`outbox\` trong cùng transaction với thay đổi nghiệp vụ - worker đẩy sang message broker. Đảm bảo exactly-once kiểu thực dụng.
+
+## ⚙️ Transaction & isolation level
+- READ COMMITTED (mặc định Postgres): mỗi statement thấy snapshot mới nhất đã commit.
+- REPEATABLE READ: cả transaction nhìn 1 snapshot - tránh non-repeatable read.
+- SERIALIZABLE: cao nhất, Postgres dùng SSI - có thể bị abort, phải retry.
+
+Chọn mức cao chỉ khi cần, vì tỉ lệ conflict tăng.
+`,
+    en: `
+## 🔬 Production patterns
+
+1. **Upsert** with \`INSERT ... ON CONFLICT DO UPDATE\` to avoid SELECT-then-INSERT races.
+2. **Soft delete** via \`deleted_at\` for recovery and audit.
+3. **Optimistic locking** with a \`version\` column and conditional UPDATE.
+4. **Outbox pattern**: write the event row in the same transaction as the business change; a worker forwards it to the broker.
+
+## ⚙️ Isolation levels
+READ COMMITTED (default), REPEATABLE READ (snapshot), SERIALIZABLE (SSI - may abort, retry). Pick the strongest only when needed; conflicts grow with isolation.
+`,
+  },
+
+  // ============================================================
+  // SOFTWARE ENGINEERING - deep dives
+  // ============================================================
+  "se-sdlc": {
+    vi: `
+## 🔬 SDLC trong thực tế hiện đại
+
+SDLC kinh điển (Waterfall: Requirement -> Design -> Build -> Test -> Deploy -> Maintain) đã được thay bằng chu kỳ ngắn của Agile/Scrum/Kanban. Điểm cốt lõi không phải là tên gọi mà là **feedback loop**: rút ngắn thời gian từ ý tưởng -> code -> production -> đo lường -> học.
+
+## ⚙️ Các vai trò thật trong team
+
+- **PM/PO**: ưu tiên giá trị nghiệp vụ, viết user story rõ "Ai - Làm gì - Để làm gì".
+- **Dev**: ước lượng, code, viết test, on-call.
+- **Designer**: trải nghiệm, prototype.
+- **QA**: chiến lược test, automation, exploratory.
+- **SRE/DevOps**: pipeline, monitoring, incident.
+
+## 📐 Định nghĩa "xong" (DoD) ví dụ
+- Code merge sau review tối thiểu 1 người
+- Test pass: unit + integration
+- Doc/changelog cập nhật
+- Có metric/alert nếu là feature production
+`,
+    en: `
+## 🔬 Modern SDLC
+
+The classic Waterfall has given way to short Agile/Scrum/Kanban cycles. The point is not the label but the **feedback loop**: shrink the time from idea -> code -> production -> measurement -> learning.
+
+## ⚙️ Real team roles
+PM/PO prioritise value; Devs estimate, code, test, and on-call; Designers prototype UX; QA owns test strategy; SRE/DevOps own pipelines and incidents.
+
+## 📐 Sample Definition of Done
+Reviewed PR, green unit + integration tests, docs/changelog updated, production features ship with metrics and alerts.
+`,
+  },
+
+  "se-system-design": {
+    vi: `
+## 🔬 Tư duy thiết kế hệ thống
+
+Mọi quyết định kiến trúc là một **trade-off** giữa: tính nhất quán, sẵn sàng, độ trễ, chi phí, và độ phức tạp vận hành. Định lý CAP nhắc rằng khi network bị chia cắt, bạn phải chọn Consistency hoặc Availability - không có bữa trưa miễn phí.
+
+## ⚙️ Khối lego thường gặp
+
+- **Load balancer**: phân phối request, health check.
+- **App server (stateless)**: scale ngang dễ dàng.
+- **Cache (Redis/Memcached)**: giảm tải DB, nhớ TTL và invalidation.
+- **DB chính (RDBMS)**: nguồn sự thật, ACID.
+- **Read replica**: scale đọc, có lag.
+- **Queue (Kafka/SQS)**: tách rời producer/consumer, hấp thụ burst.
+- **Object storage (S3)**: file lớn, rẻ, durable.
+- **CDN**: tĩnh hoá global edge.
+
+## 📐 Quy trình phỏng vấn / thiết kế thật
+1. Làm rõ requirement (chức năng + phi chức năng)
+2. Ước lượng dung lượng (QPS, storage, bandwidth)
+3. Vẽ high-level diagram
+4. Đi sâu vào bottleneck (DB schema, cache, queue)
+5. Bàn về scaling, monitoring, failure mode
+`,
+    en: `
+## 🔬 System design as trade-offs
+
+Every architectural decision trades off consistency, availability, latency, cost, and operational complexity. CAP reminds you that during a partition you must pick consistency or availability.
+
+## ⚙️ Common building blocks
+Load balancer, stateless app servers, cache (Redis), primary RDBMS, read replicas, queues (Kafka/SQS), object storage (S3), CDN.
+
+## 📐 Interview-and-real-world flow
+Clarify functional + non-functional requirements -> back-of-envelope capacity -> high-level diagram -> deep dive into bottlenecks -> scaling, monitoring, failure modes.
+`,
+  },
+
+  "se-git": {
+    vi: `
+## 🔬 Git: 3 trạng thái và 3 vùng
+
+Mọi file ở 1 trong 3 trạng thái: **modified**, **staged**, **committed**, tương ứng 3 vùng: working directory, staging area (index), repository. Hiểu rõ vùng nào đang chứa gì giúp xử lý bình tĩnh khi gặp conflict.
+
+## ⚙️ Workflow phổ biến
+
+- **GitHub Flow**: 1 nhánh \`main\` luôn deployable, feature branch + PR. Đơn giản, hợp cho web app deploy liên tục.
+- **Git Flow**: develop/release/hotfix - phù hợp sản phẩm có version (mobile app, SDK).
+- **Trunk-based**: dev commit thẳng vào trunk sau review nhanh + feature flag. Hợp với team lớn, CI mạnh.
+
+## 📐 Lệnh "cứu hộ"
+- \`git reflog\`: thấy mọi HEAD đã đi qua, phục hồi commit "mất tích"
+- \`git restore --staged file\`: bỏ stage
+- \`git revert <sha>\`: tạo commit ngược, an toàn cho lịch sử công khai
+- \`git rebase -i\`: dọn dẹp commit trước khi PR (chỉ trên nhánh cá nhân)
+`,
+    en: `
+## 🔬 Git: three states, three areas
+
+Files live in modified, staged, or committed, across working dir, index, and repo. Knowing which area holds what makes conflicts calm.
+
+## ⚙️ Common workflows
+GitHub Flow (one always-deployable main), Git Flow (develop/release/hotfix, good for versioned products), Trunk-based (direct to trunk + feature flags, for big teams with strong CI).
+
+## 📐 Rescue commands
+\`git reflog\`, \`git restore --staged\`, \`git revert\` (safe for public history), \`git rebase -i\` (only on private branches).
+`,
+  },
+
+  "se-clean-code": {
+    vi: `
+## 🔬 Clean code: nguyên tắc cốt lõi
+
+Code được đọc nhiều hơn viết 10 lần. Mỗi quyết định đặt tên, tách hàm, viết comment đều phải phục vụ người đọc tiếp theo (thường là chính bạn 6 tháng sau).
+
+## ⚙️ SOLID nhắc nhanh
+
+- **S**RP: 1 lớp, 1 lý do thay đổi.
+- **O**CP: mở rộng được, không sửa core.
+- **L**SP: lớp con thay được lớp cha mà không gãy.
+- **I**SP: nhiều interface nhỏ tốt hơn 1 cái khổng lồ.
+- **D**IP: phụ thuộc abstraction, không phải concrete.
+
+## 📐 Heuristic thực tế
+- Hàm < 20 dòng, < 4 tham số
+- Đặt tên là **động từ cho hàm**, **danh từ cho class**
+- Tránh boolean parameter (\`save(true)\` mơ hồ -> tách \`saveDraft()\`/\`publish()\`)
+- Comment giải thích **vì sao**, code giải thích **làm gì**
+`,
+    en: `
+## 🔬 Clean code essentials
+
+Code is read 10x more than it is written. Every naming, extraction, and comment choice serves the next reader (usually you in six months).
+
+## ⚙️ SOLID at a glance
+SRP one reason to change, OCP open for extension, LSP substitutability, ISP small interfaces, DIP depend on abstractions.
+
+## 📐 Heuristics
+Functions < 20 lines and < 4 params; verbs for functions, nouns for classes; avoid boolean params; comments explain **why**, code explains **what**.
+`,
+  },
+
+  "se-testing": {
+    vi: `
+## 🔬 Test pyramid
+
+Tỉ lệ lý tưởng: nhiều **unit** (nhanh, độc lập), vừa **integration** (DB, service), ít **E2E** (chậm, dễ flaky). Đảo ngược pyramid sẽ làm CI chậm, pipeline đỏ chớp tắt, dev mất niềm tin.
+
+## ⚙️ AAA pattern
+\`\`\`text
+Arrange: chuẩn bị input và mock
+Act:     gọi hàm cần test
+Assert:  kiểm chứng output/side-effect
+\`\`\`
+
+## 📐 Quy tắc test tốt
+- F.I.R.S.T: Fast, Independent, Repeatable, Self-validating, Timely
+- 1 test - 1 lý do fail
+- Tên test mô tả nghiệp vụ: \`itRefundsWhenOrderCancelledWithin24h\`
+- Không test implementation detail (refactor sẽ vỡ test)
+- Coverage là chỉ số tham khảo, không phải mục tiêu - 80% có ý nghĩa hơn 100% rỗng
+`,
+    en: `
+## 🔬 The test pyramid
+
+Lots of fast unit tests, fewer integration tests, very few E2E. Inverting the pyramid produces slow, flaky CI and erodes trust.
+
+## ⚙️ AAA pattern
+Arrange -> Act -> Assert.
+
+## 📐 Good-test rules
+F.I.R.S.T (Fast, Independent, Repeatable, Self-validating, Timely); one reason to fail per test; describe behaviour in the name; avoid testing implementation details; coverage is a hint, not a goal.
+`,
+  },
+
+  "se-cicd": {
+    vi: `
+## 🔬 Giải phẫu một pipeline CI/CD
+
+1. **Trigger**: push hoặc PR.
+2. **Build**: compile, bundle, type-check.
+3. **Test**: unit -> integration -> contract.
+4. **Quality gates**: lint, security scan (SAST), license check.
+5. **Artifact**: container image, signed.
+6. **Deploy staging**: smoke test, E2E.
+7. **Deploy prod**: blue-green / canary / rolling.
+8. **Verify**: health check, error budget, auto-rollback.
+
+## ⚙️ Chiến lược release
+
+- **Blue-Green**: 2 môi trường, switch traffic. Rollback nhanh, tốn x2 resource lúc switch.
+- **Canary**: thả 1-5% traffic vào version mới, theo dõi metric rồi tăng dần.
+- **Feature flag**: deploy nhưng chưa bật. Tách deploy khỏi release.
+
+## 📐 Checklist
+- Build lại từ commit hash đều ra cùng artifact (reproducible)
+- Secret nằm trong secret manager, không hard-code
+- Mọi deploy đều có rollback < 5 phút
+`,
+    en: `
+## 🔬 Anatomy of a CI/CD pipeline
+
+Trigger -> Build -> Test (unit/integration/contract) -> Quality gates (lint, SAST, license) -> Signed artifact -> Staging deploy + smoke -> Prod deploy (blue-green/canary/rolling) -> Verify with health checks and auto-rollback.
+
+## ⚙️ Release strategies
+Blue-Green (instant rollback, double cost during switch), Canary (1-5% traffic ramp), Feature flags (decouple deploy from release).
+
+## 📐 Checklist
+Reproducible builds, secrets in a manager, rollback under five minutes.
+`,
+  },
+
+  "se-security-patterns": {
+    vi: `
+## 🔬 Mô hình mối đe doạ STRIDE
+
+- **S**poofing (giả danh) -> auth, MFA
+- **T**ampering (sửa data) -> integrity, signature
+- **R**epudiation (chối bỏ) -> audit log
+- **I**nformation disclosure -> encryption, RLS
+- **D**enial of service -> rate limit, autoscale
+- **E**levation of privilege -> least privilege, RBAC
+
+Dùng STRIDE khi review thiết kế feature mới: đi qua từng chữ, hỏi "rủi ro ở đây là gì?".
+
+## ⚙️ OWASP Top 10 highlights
+1. Broken access control (RLS, IDOR) - hay gặp nhất
+2. Cryptographic failures - dùng thư viện chuẩn, đừng tự chế
+3. Injection (SQL/NoSQL/Command) - dùng parameterized query
+4. Insecure design - threat model từ đầu
+5. Security misconfiguration - default deny, harden image
+
+## 📐 Checklist code
+- Validate input ở biên (Zod/Yup)
+- Sanitize HTML trước khi \`dangerouslySetInnerHTML\` (DOMPurify)
+- Không log secret, không trả secret về client
+- Dependency scan trong CI (npm audit, Snyk)
+`,
+    en: `
+## 🔬 STRIDE threat model
+
+Spoofing -> auth/MFA, Tampering -> integrity, Repudiation -> audit logs, Information disclosure -> encryption/RLS, Denial of service -> rate limits, Elevation of privilege -> least privilege.
+
+## ⚙️ OWASP Top 10 highlights
+Broken access control (IDOR), cryptographic failures, injection, insecure design, security misconfiguration.
+
+## 📐 Code checklist
+Validate at boundaries (Zod), sanitize HTML (DOMPurify), never log/return secrets, dependency scan in CI.
+`,
+  },
+
+  "se-code-review": {
+    vi: `
+## 🔬 Code review: mục tiêu thật sự
+
+Mục tiêu không phải bắt lỗi - linter làm tốt hơn. Mục tiêu là: chia sẻ context, nâng chất lượng thiết kế, dạy lẫn nhau, tránh kiến thức nằm 1 chỗ.
+
+## ⚙️ Heuristic của reviewer
+
+1. **Ý định**: PR giải quyết vấn đề gì? Có đúng vấn đề không?
+2. **Thiết kế**: chia hàm/lớp hợp lý? Có abstraction lệch?
+3. **Đọc hiểu**: tên biến, comment, kiểm thử kể câu chuyện nào?
+4. **Edge case**: null, empty, lỗi mạng, concurrent?
+5. **An toàn**: input validation, secret, log nhạy cảm?
+6. **Hiệu năng**: N+1 query, bundle size, render thừa?
+
+## 📐 Văn hoá review
+- Phân biệt **must-fix**, **suggestion**, **nit** trong comment
+- Hỏi thay vì ra lệnh: "Em đã cân nhắc X chưa?" thay cho "Sai rồi"
+- Tác giả phản hồi mọi comment, không lờ
+- PR < 400 dòng để review hiệu quả
+`,
+    en: `
+## 🔬 What code review is really for
+
+Not bug catching - linters do that. Reviews spread context, raise design quality, teach, and reduce knowledge silos.
+
+## ⚙️ Reviewer heuristics
+Intent, design, readability, edge cases, security, performance.
+
+## 📐 Culture
+Label comments as must-fix / suggestion / nit; ask, do not command; authors reply to every comment; keep PRs under ~400 lines for effective review.
+`,
+  },
+
+  "se-debugging-performance": {
+    vi: `
+## 🔬 Phương pháp debug có hệ thống
+
+1. **Tái tạo** ổn định trước - bug không tái tạo được là bug không sửa được.
+2. **Thu hẹp** không gian bằng bisect: phiên bản nào còn chạy? Input nào không lỗi?
+3. **Giả thuyết** rõ ràng, kiểm chứng bằng log/test, không đoán bừa.
+4. **Sửa nguyên nhân**, không chỉ triệu chứng. Viết regression test.
+
+## ⚙️ Hiệu năng: đo trước, tối ưu sau
+
+Quy tắc Knuth: "Premature optimization is the root of all evil". Trình tự đúng:
+1. Đo bằng profiler (Chrome DevTools, py-spy, perf)
+2. Tìm hot path (80/20)
+3. Áp dụng tối ưu phù hợp: thuật toán -> data structure -> cache -> parallel
+4. Đo lại để chứng minh có lợi
+
+## 📐 Mẹo Web
+- Lazy load route, code-split bundle
+- Memo hoá selector đắt (\`useMemo\`, \`reselect\`)
+- Index DB cho query chậm
+- Cache HTTP với ETag/Cache-Control
+`,
+    en: `
+## 🔬 Systematic debugging
+
+Reproduce reliably, narrow with bisect, form testable hypotheses, fix the root cause and add a regression test.
+
+## ⚙️ Measure before optimising
+Profile first (DevTools, py-spy, perf), find the hot path, apply the right tool (algorithm -> data structure -> cache -> parallelism), then re-measure.
+
+## 📐 Web wins
+Lazy-load routes, memoise expensive selectors, index slow queries, leverage HTTP caching.
+`,
+  },
+
+  "se-api-design": {
+    vi: `
+## 🔬 Nguyên tắc thiết kế API tốt
+
+- **Nhất quán**: cùng pattern URL, naming, error format trên toàn API.
+- **Dự đoán được**: client đoán được endpoint kế tiếp dựa trên quy ước.
+- **Resource-oriented**: \`/users/123/orders\` thay vì \`/getUserOrders?id=123\`.
+- **HTTP đúng nghĩa**: GET an toàn, POST tạo, PUT thay thế, PATCH cập nhật một phần, DELETE xoá.
+
+## ⚙️ Versioning
+URL (\`/v1/...\`) đơn giản nhất, dễ cache. Header (\`Accept: application/vnd.api.v2+json\`) sạch URL nhưng phức tạp. Đừng break v1 - thêm field tuỳ chọn, deprecate có thời hạn.
+
+## 📐 Error contract
+\`\`\`json
+{ "error": { "code": "USER_NOT_FOUND", "message": "...", "details": {} } }
+\`\`\`
+Dùng status code chuẩn (400 client lỗi, 401 chưa auth, 403 không quyền, 404 không có, 409 conflict, 422 validate, 5xx server).
+
+## 📐 Checklist
+- Pagination (cursor > offset cho list lớn)
+- Idempotency-Key cho POST tạo tiền
+- Rate limit + 429 + Retry-After
+- OpenAPI/Swagger spec sinh client tự động
+`,
+    en: `
+## 🔬 Good API principles
+
+Consistency, predictability, resource-oriented URLs, correct HTTP verbs (GET safe, POST create, PUT replace, PATCH partial, DELETE remove).
+
+## ⚙️ Versioning
+URL versioning is simplest and cache-friendly. Never break v1 - add optional fields and deprecate on a timeline.
+
+## 📐 Error contract & checklist
+Standard error envelope and status codes; cursor pagination, idempotency keys for paid POSTs, rate limit with Retry-After, an OpenAPI spec for typed clients.
+`,
+  },
+
+  "se-observability": {
+    vi: `
+## 🔬 3 trụ cột observability
+
+1. **Metrics** (Prometheus, CloudWatch): số liệu thời gian, lý tưởng cho dashboard và alert. Mẫu RED: Rate, Errors, Duration cho mỗi service.
+2. **Logs** (Loki, ELK, Datadog): event chi tiết. Structured JSON dễ query gấp 10 lần plain text.
+3. **Traces** (OpenTelemetry, Jaeger): theo dõi 1 request qua nhiều service - bắt buộc khi có microservice.
+
+Thêm **profiling** (continuous CPU/memory) là 4 trụ cột nâng cao.
+
+## ⚙️ SLO -> SLI -> Error budget
+
+- **SLI** (Service Level Indicator): cái bạn đo (vd p95 latency).
+- **SLO** (Objective): mục tiêu (vd 99.9% request < 300ms trong 30 ngày).
+- **Error budget**: phần được phép vi phạm (0.1% = ~43 phút/tháng). Khi cạn budget -> đóng băng feature, tập trung độ ổn định.
+
+## 📐 Checklist alert
+- Alert dựa trên symptom (user đau), không dựa trên cause (CPU 80% không đáng wake-up nếu user vẫn ổn)
+- Mỗi alert có runbook đính kèm
+- Đo cả MTTD (detect) và MTTR (recover), cải thiện liên tục
+`,
+    en: `
+## 🔬 The three pillars
+
+Metrics for dashboards/alerts (RED: Rate, Errors, Duration), structured logs for context, traces for cross-service requests. Add continuous profiling as a fourth.
+
+## ⚙️ SLO -> SLI -> error budget
+SLI is what you measure; SLO is the target; error budget is the allowed slack. When the budget burns, freeze features and invest in reliability.
+
+## 📐 Alerting
+Alert on symptoms, not causes; attach a runbook to every alert; track MTTD and MTTR.
+`,
+  },
+
+  // ============================================================
+  // WEB DEV - deep dives
+  // ============================================================
+  "web-html-semantic": {
+    vi: `
+## 🔬 Vì sao semantic HTML quan trọng?
+
+Trình duyệt, screen reader, công cụ tìm kiếm đều "đọc" HTML để hiểu cấu trúc. Dùng \`<div>\` thay cho \`<button>\` khiến screen reader không biết đó là nút, Google không hiểu đó là nav, keyboard user không tab tới được.
+
+## ⚙️ Landmark roles ngầm
+
+- \`<header>\`, \`<nav>\`, \`<main>\`, \`<aside>\`, \`<footer>\` tự động có role landmark - screen reader có thể nhảy nhanh giữa các vùng.
+- \`<article>\` cho nội dung độc lập (bài blog, card sản phẩm).
+- \`<section>\` cho nhóm có heading; nếu không có heading thì có khi \`<div>\` mới đúng.
+
+## 📐 Accessibility checklist
+- Alt text mô tả nội dung ảnh, để rỗng \`alt=""\` cho ảnh trang trí
+- Heading theo bậc liên tục (h1 -> h2 -> h3, không nhảy)
+- Form: mỗi input có \`<label>\` liên kết qua \`for\`/\`id\`
+- Contrast WCAG AA tối thiểu 4.5:1 cho text thường
+`,
+    en: `
+## 🔬 Why semantic HTML matters
+
+Browsers, screen readers, and search engines parse HTML to understand structure. Using \`<div>\` instead of \`<button>\` hides intent from assistive tech, SEO, and keyboard users.
+
+## ⚙️ Implicit landmark roles
+\`<header>\`, \`<nav>\`, \`<main>\`, \`<aside>\`, \`<footer>\` give screen-reader users region-jump navigation for free. Use \`<article>\` for standalone content and \`<section>\` only when it has a heading.
+
+## 📐 A11y checklist
+Meaningful alt text, sequential headings, labelled inputs, WCAG AA contrast >= 4.5:1.
+`,
+  },
+
+  "web-css-modern": {
+    vi: `
+## 🔬 CSS hiện đại: cascade và specificity
+
+CSS chọn rule thắng theo: **origin** (user agent < user < author) -> **!important** -> **specificity** (id > class > type) -> **thứ tự xuất hiện**. Khi style "không lên", mở DevTools tab Computed để xem rule nào thắng và rule nào bị gạch.
+
+## ⚙️ Layer mới giúp dễ kiểm soát
+
+\`@layer reset, base, components, utilities\` cho phép sắp xếp ưu tiên theo lớp, tránh cuộc đua \`!important\`. Tailwind dùng layer dưới lưng để hoạt động hài hoà với CSS tự viết.
+
+## 📐 Best practice 2026
+- Dùng custom properties (\`--brand: #3b82f6\`) cho theming, dark mode chỉ cần đổi giá trị biến
+- Container queries (\`@container\`) - component tự responsive theo cha, không cần media query global
+- Logical properties (\`margin-inline\`, \`padding-block\`) cho RTL/quốc tế hoá
+`,
+    en: `
+## 🔬 Modern CSS: cascade and specificity
+
+Winning rule = origin -> !important -> specificity (id > class > type) -> source order. When a style "won't apply", open DevTools Computed to see which rule wins and which is crossed out.
+
+## ⚙️ @layer
+\`@layer reset, base, components, utilities\` lets you order priorities by layer instead of an \`!important\` arms race.
+
+## 📐 2026 best practice
+Custom properties for theming, container queries for component-level responsiveness, logical properties for RTL and i18n.
+`,
+  },
+
+  "web-css-layout": {
+    vi: `
+## 🔬 Flexbox vs Grid: chọn đúng tool
+
+- **Flexbox** = 1 chiều (hàng hoặc cột). Tốt cho nav bar, toolbar, list card.
+- **Grid** = 2 chiều cùng lúc. Tốt cho layout trang, dashboard, gallery.
+Dùng cả hai trong cùng 1 trang là bình thường: Grid cho khung trang, Flex cho từng component bên trong.
+
+## ⚙️ Trick hay dùng
+
+- \`grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))\` - card grid responsive không cần media query.
+- \`place-items: center\` - center cả ngang lẫn dọc bằng 1 dòng.
+- \`gap\` thay cho margin giữa các item, đỡ collapse và đỡ tính toán.
+
+## 📐 Mobile-first
+Viết style mobile trước, dùng \`min-width\` media query để mở rộng. Tránh hardcode width pixel, ưu tiên \`rem\` cho text và \`%\`/\`fr\` cho layout.
+`,
+    en: `
+## 🔬 Flexbox vs Grid
+
+Flexbox is 1D (row or column) - perfect for navs, toolbars, lists. Grid is 2D - perfect for page layouts, dashboards, galleries. Combining them on one page is normal.
+
+## ⚙️ Useful tricks
+\`grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))\` for responsive card grids, \`place-items: center\` for one-line centring, \`gap\` for spacing without margin collapse.
+
+## 📐 Mobile-first
+Write mobile styles first, expand with \`min-width\` media queries; prefer rem for text and %/fr for layout.
+`,
+  },
+
+  "web-js-basics": {
+    vi: `
+## 🔬 Event loop trong 60 giây
+
+JS chạy đơn luồng nhưng không bị block nhờ event loop: stack chạy code đồng bộ -> queue (macrotask: setTimeout, I/O) và microtask (Promise.then, queueMicrotask) chờ -> stack rỗng thì lấy microtask trước, rồi 1 macrotask. Hiểu thứ tự này giúp giải mã vì sao \`Promise.resolve().then(...)\` chạy trước \`setTimeout(..., 0)\`.
+
+## ⚙️ var / let / const
+
+- \`var\`: function scope, hoisted, có thể redeclare - tránh trong code mới.
+- \`let\`: block scope, không hoisted giá trị.
+- \`const\`: block scope, không reassign biến (object/array vẫn mutate được nội dung).
+
+## 📐 Đặc tính then chốt
+- **Truthy/Falsy**: \`0, "", null, undefined, NaN, false\` là falsy; còn lại truthy. \`[]\` và \`{}\` là truthy.
+- **==** ép kiểu, **===** so sánh chặt - luôn dùng \`===\` trừ khi có lý do.
+- **Spread/rest** \`...\` để copy nông và gom đối số.
+`,
+    en: `
+## 🔬 The event loop in 60 seconds
+
+JS is single-threaded but non-blocking via the event loop: sync code on the stack, macrotasks (setTimeout, I/O) and microtasks (Promise.then) waiting. When the stack empties, all microtasks drain before the next macrotask.
+
+## ⚙️ var / let / const
+\`var\` function-scoped and hoisted (avoid in new code), \`let\` block-scoped, \`const\` block-scoped and non-reassignable (but object contents still mutable).
+
+## 📐 Essentials
+Falsy values are \`0, "", null, undefined, NaN, false\`; always use \`===\`; learn spread/rest \`...\`.
+`,
+  },
+
+  "web-js-dom": {
+    vi: `
+## 🔬 DOM thực ra là cây
+
+Mỗi tag HTML thành 1 node, JS thao tác qua API \`document.querySelector\`, \`element.append\`, \`element.addEventListener\`. Mỗi lần đụng DOM, browser có thể phải **reflow** (tính lại layout) và **repaint** (vẽ lại pixel) - đó là 2 thao tác đắt nhất.
+
+## ⚙️ Tối ưu thao tác DOM
+
+- Gom nhiều thay đổi rồi append 1 lần (DocumentFragment) thay vì append trong loop.
+- Đọc layout (\`offsetWidth\`, \`getBoundingClientRect\`) tách khỏi ghi style để tránh layout thrashing.
+- Dùng \`requestAnimationFrame\` cho animation thay vì setTimeout.
+
+## 📐 Event delegation
+Gắn 1 listener ở cha thay vì nhiều listener ở mỗi con - vừa nhẹ vừa tự động hoạt động với node mới thêm. Dùng \`event.target.closest(selector)\` để xác định con bị click.
+`,
+    en: `
+## 🔬 The DOM is a tree
+
+Each tag is a node; JS manipulates it via \`querySelector\`, \`append\`, \`addEventListener\`. Each DOM mutation may trigger expensive **reflow** and **repaint**.
+
+## ⚙️ Optimisations
+Batch with DocumentFragment, separate layout reads from style writes to avoid layout thrashing, use \`requestAnimationFrame\` for animations.
+
+## 📐 Event delegation
+Attach one listener on the parent and identify the child via \`event.target.closest(selector)\` - lighter and automatic for newly added nodes.
+`,
+  },
+
+  "web-react-basics": {
+    vi: `
+## 🔬 Mô hình "UI là hàm của state"
+
+React mô tả: \`UI = f(state)\`. Mỗi lần state đổi, component re-render và React **diff** virtual DOM mới với cũ, chỉ patch phần khác lên DOM thật. Đây là điểm khác cốt lõi với jQuery (thao tác DOM thủ công).
+
+## ⚙️ Quy tắc hooks
+
+1. Chỉ gọi ở **top level** của function component (không trong if/loop).
+2. Chỉ gọi từ component hoặc custom hook khác.
+3. Custom hook bắt buộc bắt đầu bằng \`use\`.
+
+Vi phạm khiến React không nhận diện được thứ tự hook giữa các render.
+
+## 📐 Khi nào dùng hook nào?
+- \`useState\`: state đơn giản, local.
+- \`useReducer\`: state phức tạp, nhiều action.
+- \`useEffect\`: side-effect (fetch, subscribe). Dependency array đúng để tránh loop.
+- \`useMemo\` / \`useCallback\`: tối ưu khi đã đo thấy chậm, đừng dùng "phòng hờ".
+- \`useContext\`: chia sẻ data ít thay đổi (theme, user). Đổi nhiều -> mọi consumer re-render.
+`,
+    en: `
+## 🔬 "UI is a function of state"
+
+React: \`UI = f(state)\`. State changes trigger re-renders; React diffs virtual DOM and patches only what changed. That is the core difference from manual DOM libraries like jQuery.
+
+## ⚙️ Hook rules
+Call hooks at the top level only (not inside conditions/loops); only from components or custom hooks; custom hooks must start with \`use\`.
+
+## 📐 Which hook?
+useState for simple local state, useReducer for complex transitions, useEffect for side effects (correct deps to avoid loops), useMemo/useCallback only after measuring, useContext for low-churn shared data.
+`,
+  },
+
+  "web-fullstack-project": {
+    vi: `
+## 🔬 Tư duy full-stack
+
+Full-stack không phải biết mọi thứ, mà biết **vẽ ranh giới**: cái nào chạy ở client (UI, validation thân thiện, optimistic update), cái nào ở server (validate thật, business rule, transaction), cái nào ở DB (constraint, RLS).
+
+## ⚙️ Kiến trúc tham khảo 1 web app nhỏ-vừa
+
+\`\`\`text
+Client (React + Vite + Tailwind)
+  ├─ UI component
+  ├─ State (Zustand/React Query)
+  └─ API client (typed)
+       │
+       ▼ HTTPS
+API layer (Edge Function / Node / Python)
+  ├─ Auth middleware
+  ├─ Validation (Zod)
+  ├─ Business service
+  └─ DB driver
+       │
+       ▼
+Database (Postgres + RLS)
+  ├─ Schema + migration
+  ├─ Index + view
+  └─ Trigger + function
+\`\`\`
+
+## 📐 Checklist khi triển khai
+- HTTPS bắt buộc, HSTS bật
+- Env variable cho config, secret trong manager
+- Migration version-controlled, áp dụng tự động trong CI
+- Logging structured + correlation ID xuyên các tầng
+- Backup DB tự động, test restore định kỳ
+`,
+    en: `
+## 🔬 Full-stack thinking
+
+Full-stack is not knowing everything - it is drawing the right boundary: what belongs in the client (UX, optimistic updates), the server (real validation, business rules, transactions), and the DB (constraints, RLS).
+
+## ⚙️ Reference architecture
+Client (React + Vite) -> typed API client -> API layer (auth, Zod validation, services) -> Postgres with RLS, indexes, migrations.
+
+## 📐 Deployment checklist
+Force HTTPS + HSTS, env-driven config with secret manager, version-controlled migrations applied in CI, structured logs with a correlation ID, automated backups with restore drills.
+`,
+  },
 };
 
 export function getTheoryExtension(lessonId: string, lang: "vi" | "en"): string {
