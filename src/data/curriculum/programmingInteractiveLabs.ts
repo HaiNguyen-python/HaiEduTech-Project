@@ -568,7 +568,7 @@ So sánh thực tế:
 | Generator expression | 0.7× | ~0 (lười) |
 | NumPy vectorisation | 0.02-0.05× | Mảng C compact |
 
-Quy tắc thầy Hải: **dữ liệu < 10k phần tử → list-comp; ≥ 100k phần tử → NumPy/pandas; pipeline streaming → generator**.
+Quy tắc: **dữ liệu < 10k phần tử → list-comp; ≥ 100k phần tử → NumPy/pandas; pipeline streaming → generator**.
 
 ## 🧪 Cách đo chính xác
 

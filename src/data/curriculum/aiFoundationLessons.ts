@@ -1436,7 +1436,7 @@ Bạn dùng ChatGPT/Claude để: viết email, debug code, tóm tắt bài báo
 | **Constraint** | Giới hạn | "Tối đa 100 từ. Chỉ dùng data đã cho." |
 | **Example** | Ví dụ I/O | "VD: 'Tuyệt!' → tích cực" |
 
-## 4. 📝 Template chuẩn của thầy Hải
+## 4. 📝 Template chuẩn
 
 \\\`\\\`\\\`
 [Role]
