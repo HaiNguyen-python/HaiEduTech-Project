@@ -847,11 +847,13 @@ df["Doanh thu"] = df["Quantity"] * df["Unit price"]
 
 # Filter products with revenue > 1 billion
 hot = df[df["Doanh thu"] > 1_000_000_000]
-print("🔥 Hot products:\n", hot)
+print("🔥 Hot products:")
+print(hot)
 
 # Statistics by month
 monthly = df.groupby("Month")["Doanh thu"].sum()
-print("\\n📊 Revenue by month:\n", monthly)
+print("\\n📊 Revenue by month:")
+print(monthly)
 
 # LOAD: Export results
 df.to_csv("ket_qua.csv", index=False)
@@ -1123,7 +1125,7 @@ print(f"→ Prediction: {'✅ PASS' if result_pass[0] else '❌ FAIL'}")
 
 # Evaluate
 accuracy = tree.score(X_test, y_test)
-print(f"\n📊 Accuracy: {accuracy:.1%}")`,
+print(f"\\n📊 Accuracy: {accuracy:.1%}")`,
         codeLanguage: "python",
         exercise: "Build a model to classify spam/non-spam emails based on: number of words, whether there is a link, whether there is the word 'free'.",
         exerciseEn: "Build an email spam classifier based on: word count, has link, contains 'free'.",
@@ -1201,7 +1203,7 @@ segments = ["💎 VIP", "⭐ Regularly", "👤 Occasionally"]
 for i, (cust, label) in enumerate(zip(customers, labels)):
     print(f"KH {i+1}: Spend {cust[0]:,}k, {cust[1]} times → {segments[label]}")
 
-print(f"\nCluster centers: {kmeans.cluster_centers_}")`,
+print(f"\\nCluster centers: {kmeans.cluster_centers_}")`,
         codeLanguage: "python",
         exercise: "Clustering student test score data into 3 groups (Excellent, Good, Average). Draw scatter plot.",
         exerciseEn: "Cluster student exam data into 3 groups (Excellent, Good, Average). Draw scatter plot.",
