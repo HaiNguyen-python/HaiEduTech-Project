@@ -354,6 +354,10 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   // longer has its own scrollbar, so learners can view the whole example as one
   // continuous block instead of fighting nested scrolling.
   useEffect(() => {
+    // Only follow the caret once the learner has actually started typing,
+    // otherwise opening a new lesson would yank the page down to the typing
+    // race section instead of letting them read the theory from the top.
+    if (typed.length === 0) return;
     const caret = caretRef.current;
     if (!caret) return;
     const t = caret.getBoundingClientRect();
