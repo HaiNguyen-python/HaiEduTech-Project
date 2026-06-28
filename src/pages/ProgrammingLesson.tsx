@@ -553,25 +553,6 @@ const ProgrammingLessonPage = () => {
                 <ChevronRight className="w-3 h-3" />
                 <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
               </div>
-              {!isMobile && isTeacher && (
-                <div className="flex items-center gap-2 flex-wrap">
-                  <button
-                    onClick={generateAllIllustrations}
-                    disabled={batchRunning}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-[0.97] shadow-sm border border-border bg-background text-foreground hover:bg-muted disabled:opacity-60 disabled:cursor-not-allowed"
-                    title="Generate cute infographic illustrations for every Programming lesson (admin only)"
-                  >
-                    {batchRunning ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        🎨 {batchProgress.done} / {batchProgress.total}
-                      </>
-                    ) : (
-                      <>🎨 Generate All Illustrations</>
-                    )}
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* Main 2-column layout: Content + IDE (60% theory / 40% IDE for readability) */}
