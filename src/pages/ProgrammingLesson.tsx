@@ -18,6 +18,7 @@ import SkillRadarChart from "@/components/SkillRadarChart";
 import LearningRecommendation from "@/components/LearningRecommendation";
 import LessonModuleRadar, { writeLessonScore } from "@/components/programming/LessonModuleRadar";
 import BackToTopButton from "@/components/programming/BackToTopButton";
+import LessonReadToggle from "@/components/programming/LessonReadToggle";
 import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
@@ -678,6 +679,20 @@ const ProgrammingLessonPage = () => {
                   <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
                     {mod.icon} {t(lesson.title, lesson.titleEn)}
                   </h1>
+
+                  {/* Mark-as-read toggle + module progress bar (universal across every pillar) */}
+                  <LessonReadToggle
+                    moduleId={mod.id}
+                    lessonId={lesson.id}
+                    allLessonIds={mod.lessons.map((l) => l.id)}
+                    onFirstMark={() => {
+                      const pillarId = pillar || mod.course || mod.id;
+                      awardXP(20);
+                      markPillarLesson(pillarId);
+                    }}
+                  />
+
+
 
                   {/* Theory - document-style reading card with extra breathing room */}
                   <div className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-card/90 shadow-[0_8px_30px_-10px_rgba(16,185,129,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-emerald-500/10">
