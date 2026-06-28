@@ -519,7 +519,7 @@ ${suggestionsHtml}
         body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: transcriptForGrading },
       });
       const timeoutPromise = new Promise<never>((_, reject) => {
-        window.setTimeout(() => reject(new Error("client_5s_timeout")), 4_800);
+        window.setTimeout(() => reject(new Error("client_grading_timeout")), 16_000);
       });
       const { data, error } = await Promise.race([gradingPromise, timeoutPromise]);
       if (error) throw error;
