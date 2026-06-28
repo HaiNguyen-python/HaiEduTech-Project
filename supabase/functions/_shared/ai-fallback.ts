@@ -167,9 +167,10 @@ if (!g.__lovableAIFallbackInstalled) {
 
     try {
       const { pBody, toolName } = mapToPerplexity(parsedBody);
-      console.log(`[ai-fallback] Lovable AI ${lovResp.status} → falling back to Perplexity (${pBody.model})`);
+      console.warn(`[ai-fallback] Lovable AI ${lovResp.status} - falling back to Perplexity (${pBody.model})`);
       const pResp = await originalFetch(PPLX_URL, {
         method: "POST",
+        signal: init.signal,
         headers: {
           Authorization: `Bearer ${pKey}`,
           "Content-Type": "application/json",
