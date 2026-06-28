@@ -707,18 +707,8 @@ const ProgrammingLessonPage = () => {
                           </span>
                         )}
                       </h2>
-                      <div className="flex items-center gap-2">
-                        {enhancedMd && (
-                          <button
-                            onClick={() => setUseEnhanced((v) => !v)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-secondary text-foreground hover:bg-muted transition-all active:scale-[0.97]"
-                            title={useEnhanced ? "Show original theory" : "Show AI Deep-Dive"}
-                          >
-                            {useEnhanced ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                            {useEnhanced ? "Original" : "Deep-Dive"}
-                          </button>
-                        )}
-                      </div>
+                      <div className="flex items-center gap-2" />
+
                     </div>
                     {getModuleHero(mod.id) && (
                       <img
