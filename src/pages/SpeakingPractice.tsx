@@ -549,12 +549,8 @@ ${suggestionsHtml}
       recordScore(fallback);
     }
     setLoading(false);
-    // Only call upgrade-speaking as a fallback when grade-speaking didn't already
-    // return an upgradedAnswer. This avoids a wasteful 2nd Perplexity round-trip
-    // that previously doubled the total grading wait time.
-    if (!gradedResult?.upgradedAnswer || gradedResult.upgradedAnswer.trim().length < 10) {
-      handleUpgrade();
-    }
+    // Band 8.0+ upgrade feature removed to keep grading fast and focused
+    // on score + error correction so learners can self-review.
   };
 
   // Upgrade student's answer to Band 8.0+ (independent from grading)
