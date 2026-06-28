@@ -153,6 +153,14 @@ export function useYourCornerFeed(enabled: boolean) {
     };
   }, [enabled, fetchFeed]);
 
+  const prepend = useCallback((post: FeedPost) => {
+    setPosts((prev) => {
+      if (prev.some((p) => p.id === post.id)) return prev;
+      offsetRef.current += 1;
+      return [post, ...prev];
+    });
+  }, []);
+
   const trendingTags = useMemo(() => {
     const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
     const counts = new Map<string, number>();
@@ -166,5 +174,5 @@ export function useYourCornerFeed(enabled: boolean) {
       .map(([tag, count]) => ({ tag, count }));
   }, [posts]);
 
-  return { posts, loading, loadingMore, hasMore, refresh: fetchFeed, loadMore, trendingTags };
+  return { posts, loading, loadingMore, hasMore, refresh: fetchFeed, loadMore, trendingTags, prepend };
 }
