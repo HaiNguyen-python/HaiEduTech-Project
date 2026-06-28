@@ -186,9 +186,15 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       const abortController = new AbortController();
       const timeoutId = window.setTimeout(() => abortController.abort(), 4500);
       const insertQuery = supabase.from("your_corner_posts").insert(newPost as any);
-      const { error } = await (typeof (insertQuery as any).abortSignal === "function"
-        ? (insertQuery as any).abortSignal(abortController.signal)
-        : insertQuery).finally(() => window.clearTimeout(timeoutId));
+      const { error } = await (async () => {
+        try {
+          return await (typeof (insertQuery as any).abortSignal === "function"
+            ? (insertQuery as any).abortSignal(abortController.signal)
+            : insertQuery);
+        } finally {
+          window.clearTimeout(timeoutId);
+        }
+      })();
       if (error) throw error;
 
       // Reset form & dismiss spinner immediately - don't wait for feed refresh
