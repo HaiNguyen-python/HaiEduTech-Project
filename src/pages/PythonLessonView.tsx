@@ -28,6 +28,7 @@ import { preloadPyodide } from "@/components/python/PyodideRunner";
 import LessonQuiz from "@/components/python/LessonQuiz";
 import { setLessonComplete, getPythonPathwayProgress } from "@/components/python/PythonPathwayHub";
 import { cn } from "@/lib/utils";
+import LessonReadToggle from "@/components/programming/LessonReadToggle";
 
 import imgM1 from "@/assets/python-modules/m1-basics.jpg";
 import imgM2 from "@/assets/python-modules/m2-flow.jpg";
@@ -195,7 +196,23 @@ const PythonLessonView = () => {
             </h1>
           </motion.div>
 
+          {/* Mark-as-read + module progress bar */}
+          <div className="mb-6">
+            <LessonReadToggle
+              moduleId={module.id}
+              lessonId={lesson.id}
+              allLessonIds={moduleLessons.map((l) => l.id)}
+              onFirstMark={() => {
+                if (!completed) {
+                  setLessonComplete(lesson.id);
+                  setCompleted(true);
+                }
+              }}
+            />
+          </div>
+
           {/* Split view */}
+
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Left: explanation */}
             <div className="space-y-4">
