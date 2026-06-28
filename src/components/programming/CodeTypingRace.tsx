@@ -350,10 +350,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     const next = typed.slice(0, start) + insert + typed.slice(end);
     if (!startAt && next.length > 0) setStartAt(Date.now());
     setTyped(next);
-    if (next === snippet) {
-      const finishAt = Date.now();
-      setEndAt(finishAt);
-    }
+    if (matchesSnippet(next)) finish();
     requestAnimationFrame(() => {
       el.selectionStart = el.selectionEnd = start + insert.length;
     });
