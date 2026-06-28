@@ -492,22 +492,33 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
         <p className="text-xs text-muted-foreground">
           🎯 Retype the <strong>full lesson code block</strong> below, then answer a quick quiz to lock in the meaning.
         </p>
-        {pool.length > 1 && (
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
+          {!done && typed.length > 0 && accuracy >= 95 && (
             <button
-              onClick={prevSnippet}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground border border-border hover:bg-secondary/70 active:scale-95"
+              onClick={finish}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 active:scale-95"
+              title="Hoàn tất nếu hệ thống không tự nhận diện"
             >
-              ← Prev
+              <Trophy className="w-3.5 h-3.5" /> Hoàn tất
             </button>
-            <button
-              onClick={nextSnippet}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
-            >
-              <Shuffle className="w-3.5 h-3.5" /> Next →
-            </button>
-          </div>
-        )}
+          )}
+          {pool.length > 1 && (
+            <>
+              <button
+                onClick={prevSnippet}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground border border-border hover:bg-secondary/70 active:scale-95"
+              >
+                ← Prev
+              </button>
+              <button
+                onClick={nextSnippet}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/30 hover:bg-yellow-500/20 active:scale-95"
+              >
+                <Shuffle className="w-3.5 h-3.5" /> Next →
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col">
