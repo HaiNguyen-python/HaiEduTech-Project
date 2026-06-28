@@ -1,10 +1,12 @@
-// Edge function: Grade IELTS Speaking based on actual student transcription
+// Edge function: Grade IELTS Speaking using the official Public Band Descriptors.
+// Accuracy-first: strong model, full rubric, generous timeout, multiple highlighted errors.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 async function logUsage(functionName: string, model: string, domain: string, tokensUsed: number, status: string, errorMessage?: string) {
@@ -26,43 +28,48 @@ type FastGradeInput = {
   reason?: string;
 };
 
-const GRADE_TIMEOUT_MS = 4_200;
-const MODEL = "google/gemini-2.5-flash-lite";
+// Accuracy over speed: allow the examiner model up to 14s to apply the full rubric.
+const GRADE_TIMEOUT_MS = 14_000;
+// Stronger reasoning model for IELTS band accuracy. Flash (not Flash-Lite) is required
+// to weigh fluency, lexis, grammar, and pronunciation against the public band descriptors.
+const MODEL = "google/gemini-2.5-flash";
 
-const roundBand = (score: number) => Math.max(4, Math.min(8, Math.round(score * 2) / 2));
+const roundBand = (score: number) => Math.max(3, Math.min(9, Math.round(score * 2) / 2));
 
 function buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason }: FastGradeInput) {
+  // Conservative heuristic only used when the AI is fully unreachable.
   const wordsPerMinute = duration > 0 ? (wordCount / Math.max(duration, 1)) * 60 : 0;
   const hasAnswer = wordCount >= 6;
-  const lengthScore = wordCount < 8 ? 4.0 : wordCount < 18 ? 5.0 : wordCount < 35 ? 6.0 : wordCount < 65 ? 6.5 : 7.0;
-  const paceScore = wordsPerMinute < 45 ? 5.0 : wordsPerMinute > 190 ? 5.5 : wordsPerMinute > 90 ? 6.5 : 6.0;
-  const connectorHits = (transcriptText.match(/\b(because|so|but|however|although|firstly|also|for example|in addition|therefore)\b/gi) || []).length;
-  const lexicalHits = (transcriptText.match(/\b(important|effective|usually|prefer|manage|experience|opportunity|challenge|benefit|improve)\b/gi) || []).length;
+  const lengthScore = wordCount < 8 ? 3.5 : wordCount < 18 ? 4.5 : wordCount < 35 ? 5.5 : wordCount < 65 ? 6.0 : 6.5;
+  const paceScore = wordsPerMinute < 45 ? 4.5 : wordsPerMinute > 200 ? 5.0 : wordsPerMinute > 90 ? 6.0 : 5.5;
+  const connectorHits = (transcriptText.match(/\b(because|so|but|however|although|firstly|also|for example|in addition|therefore|moreover|whereas)\b/gi) || []).length;
+  const lexicalHits = (transcriptText.match(/\b(important|effective|usually|prefer|manage|experience|opportunity|challenge|benefit|improve|essential|significant|considerable)\b/gi) || []).length;
+  const complexGrammar = /(although|because|which|that|while|whereas|despite|in order to)/i.test(transcriptText);
 
   const fluency = roundBand((lengthScore + paceScore + Math.min(connectorHits, 3) * 0.25) / 2);
-  const lexical = roundBand(lengthScore + Math.min(lexicalHits, 4) * 0.15);
-  const grammar = roundBand(lengthScore + (transcriptText.includes(" because ") || transcriptText.includes(" although ") ? 0.5 : 0));
-  const pronunciation = roundBand(paceScore + 0.25);
-  const overall = hasAnswer ? roundBand((fluency + lexical + grammar + pronunciation) / 4) : 4.0;
+  const lexical = roundBand(lengthScore + Math.min(lexicalHits, 4) * 0.2);
+  const grammar = roundBand(lengthScore + (complexGrammar ? 0.5 : 0));
+  const pronunciation = roundBand(paceScore);
+  const overall = hasAnswer ? roundBand((fluency + lexical + grammar + pronunciation) / 4) : 3.5;
   const quoted = transcriptText.split(/\s+/).slice(0, 10).join(" ") || "your answer";
 
   return {
     overall,
     criteria: [
-      { label: "Fluency & Coherence", score: fluency, feedback: hasAnswer ? `You answered the question with ${wordCount} words. Add one clear example after "${quoted}" to make the answer more developed.` : "The answer is too short to judge fluency well. Speak for at least 20-30 seconds." },
-      { label: "Lexical Resource", score: lexical, feedback: hasAnswer ? "Your vocabulary is understandable. Upgrade basic words with more precise IELTS topic words." : "Use 3-4 topic words from the question before submitting." },
-      { label: "Grammatical Range & Accuracy", score: grammar, feedback: hasAnswer ? "Use one complex sentence with because, although, or which to show stronger grammar range." : "Make at least two full sentences so grammar can be assessed." },
-      { label: "Pronunciation", score: pronunciation, feedback: "This fast score uses transcript timing. For a higher pronunciation score, keep steady pacing and stress key nouns clearly." },
+      { label: "Fluency & Coherence", score: fluency, feedback: hasAnswer ? `You spoke ${wordCount} words. Add an example after "${quoted}" to make the answer more developed.` : "Answer too short to assess fluency. Speak for at least 20-30 seconds." },
+      { label: "Lexical Resource", score: lexical, feedback: hasAnswer ? "Vocabulary is functional. Replace basic words with precise IELTS topic vocabulary." : "Use 3-4 topic words from the question before submitting." },
+      { label: "Grammatical Range & Accuracy", score: grammar, feedback: hasAnswer ? "Add one complex sentence with because, although or which to show grammar range." : "Make at least two full sentences so grammar can be assessed." },
+      { label: "Pronunciation", score: pronunciation, feedback: "Heuristic score based on pacing only. AI examiner unavailable for full pronunciation analysis." },
     ],
     highlightedErrors: [],
     suggestions: [
-      `Answer Part ${part} with point + reason + example.`,
+      `Structure Part ${part}: point → reason → example.`,
       "Speak in 2-3 complete sentences before pressing Grade.",
-      `Stay close to the question: ${question}`,
+      `Stay on topic: ${question}`,
     ],
     transcript: transcriptText || "(No transcript detected)",
     fastScore: true,
-    fallbackReason: reason || "instant-5s-score",
+    fallbackReason: reason || "ai-unavailable",
   };
 }
 
@@ -81,51 +88,69 @@ function parseJsonResult(content: string) {
   return JSON.parse(cleaned);
 }
 
+// Full IELTS Speaking Public Band Descriptors compressed into examiner-actionable prose.
+const RUBRIC = `OFFICIAL IELTS SPEAKING PUBLIC BAND DESCRIPTORS (apply strictly per criterion, then average):
+
+FLUENCY & COHERENCE
+- Band 9: fluent with rare hesitation, fully coherent, develops topics fully.
+- Band 8: fluent with only occasional repetition/self-correction; develops topics coherently.
+- Band 7: speaks at length without losing coherence; uses range of connectives flexibly though some over/under-use.
+- Band 6: willing to speak at length though loses coherence at times due to hesitation, repetition, self-correction; uses connectives but not always appropriately.
+- Band 5: usually maintains flow but uses repetition, self-correction, slow speech; overuses certain connectives; produces simple speech fluently but more complex speech causes hesitation.
+- Band 4: noticeable pauses, slow speech with frequent repetition; links basic sentences with simple connectives but with breakdowns in coherence.
+- Band 3: long pauses, limited ability to link simple sentences; gives only simple responses, frequently unable to convey basic message.
+
+LEXICAL RESOURCE
+- Band 9: full flexibility, precise idiomatic usage.
+- Band 8: wide vocabulary, conveys precise meaning, uses uncommon and idiomatic items skilfully with occasional inaccuracy; effective paraphrase.
+- Band 7: flexible vocabulary to discuss variety of topics; uses some less common and idiomatic items with awareness of style; uses paraphrase effectively.
+- Band 6: wide enough vocabulary to discuss topics at length and make meaning clear despite inappropriacies; generally paraphrases successfully.
+- Band 5: manages to talk about familiar and unfamiliar topics with limited flexibility; attempts paraphrase with mixed success.
+- Band 4: able to talk about familiar topics but conveys only basic meaning on unfamiliar topics; frequent errors in word choice; rarely paraphrases.
+- Band 3: uses simple vocabulary to convey personal information; insufficient vocabulary for less familiar topics.
+
+GRAMMATICAL RANGE & ACCURACY
+- Band 9: full range used naturally with full accuracy; rare slips only as native speakers.
+- Band 8: wide range flexibly; majority of sentences error-free; occasional inappropriacies.
+- Band 7: range of complex structures with some flexibility; frequently produces error-free sentences though some grammatical mistakes persist.
+- Band 6: mix of simple and complex structures with limited flexibility; may make frequent mistakes with complex structures though these rarely cause comprehension problems.
+- Band 5: produces basic sentence forms with reasonable accuracy; uses limited range of more complex structures usually with errors that cause some comprehension problems.
+- Band 4: produces basic sentence forms and some correct simple sentences; subordinate structures rare; errors frequent and may lead to misunderstanding.
+- Band 3: attempts basic sentence forms but with limited success; frequent errors except in memorised utterances.
+
+PRONUNCIATION
+- Band 9: full range of pronunciation features with precision and subtlety; sustains flexible use; effortless to understand.
+- Band 8: wide range of pronunciation features; sustains flexible use with only occasional lapses; easy to understand throughout; L1 accent has minimal effect.
+- Band 7: shows all positive features of Band 6 and some, but not all, positive features of Band 8 (uses range of features with mixed control; can be understood throughout with occasional lapses).
+- Band 6: uses range of pronunciation features with mixed control; shows some effective use but not sustained; can generally be understood throughout though mispronunciation of individual words/sounds reduces clarity at times.
+- Band 5: shows all positive features of Band 4 and some, but not all, positive features of Band 6 (limited range, mispronunciations are frequent and cause some difficulty for the listener).
+- Band 4: uses limited range of pronunciation features; attempts to control features but lapses are frequent; mispronunciations are frequent and cause some difficulty for the listener.
+- Band 3: shows some of the features of Band 2 and some, but not all, of the positive features of Band 4.
+
+CALIBRATION ANCHORS (use these to avoid over-scoring):
+- A 25-word answer with one simple sentence and basic vocabulary (e.g. "I like coffee because it gives me energy. I drink it every morning.") = max Band 5.0 overall.
+- A 45-word answer with one complex sentence and one topic word (e.g. "I usually drink coffee in the morning because it helps me focus, although I try not to drink too much.") = around Band 6.0 overall.
+- A 70-word answer with 2-3 complex sentences, 2-3 topic-specific words, clear examples, and only minor errors = around Band 6.5-7.0.
+- A 90+ word answer with flexible complex grammar, less common vocabulary, natural connectives, clear development, and idiomatic phrasing = around Band 7.5-8.0.
+- Penalise heavily: memorised chunks, off-topic answers, repetition, mispronunciation that requires effort to understand.
+- Never give Band 8+ unless the answer shows uncommon vocabulary AND flexible complex grammar AND sustained coherence.
+- Pronunciation cannot exceed Band 6.5 from a transcript alone unless pacing and clarity are clearly strong; flag this honestly.`;
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // Public endpoint (verify_jwt=false in config). Skip auth roundtrip to cut ~300-600ms latency.
     const { question, part, duration, transcript } = await req.json();
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-
     const hasTranscript = transcript && transcript.trim().length > 0;
     const transcriptText = hasTranscript ? transcript.trim() : "";
     const wordCount = transcriptText ? transcriptText.split(/\s+/).filter(Boolean).length : 0;
+    const wordsPerMinute = duration > 0 ? Math.round((wordCount / Math.max(duration, 1)) * 60) : 0;
 
-    const systemPrompt = `You are a Senior IELTS Speaking Examiner. Grade STRICTLY based on the student's actual spoken response.
-
-RULES:
-- Analyze ONLY the transcription. Do NOT hallucinate.
-- If transcription is empty or <10 words, give Band 4.0-4.5 and explain the student must speak more.
-- Reference SPECIFIC words/phrases from the transcript in feedback.
-- Be VERY CONCISE so the response fits fast. Feedback max 12 words each.
-
-QUESTION (Part ${part}): "${question}"
-DURATION: ${duration}s | WORD COUNT: ${wordCount}
-${hasTranscript ? `TRANSCRIPTION:\n"${transcriptText}"` : "NO TRANSCRIPTION - grade as Band 4.0."}
-
-Return ONLY compact valid JSON, no prose, no markdown fences:
-{
-  "overall": <4.0-9.0>,
-  "criteria": [
-    {"label":"Fluency & Coherence","score":<n>,"feedback":"<max 12 words>"},
-    {"label":"Lexical Resource","score":<n>,"feedback":"<max 12 words>"},
-    {"label":"Grammatical Range & Accuracy","score":<n>,"feedback":"<max 12 words>"},
-    {"label":"Pronunciation","score":<n>,"feedback":"<max 12 words>"}
-  ],
-  "highlightedErrors": [
-    {"text":"<exact substring>","type":"grammar|vocabulary|pronunciation","correction":"<fix>","explanation":"<max 8 words>"}
-  ],
-  "suggestions": ["<max 10 words>","<max 10 words>"]
-}
-
-highlightedErrors: include 0-1 item only; text MUST be an exact substring.
-Do NOT include the transcript or any upgraded answer in the JSON. Make scores realistic and varied.`;
-
+    // Genuinely too short to grade -> instant honest low score, no AI call wasted.
     if (wordCount < 6) {
       waitUntilLog("grade-speaking", MODEL, "english", 0, "fast_score", "short_transcript");
       return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: "short_transcript" })), {
@@ -133,7 +158,43 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
       });
     }
 
-    // Hard 4.2s timeout so the UI can always show a score inside 5s.
+    const systemPrompt = `You are a Senior Certified IELTS Speaking Examiner with 15+ years of experience.
+Apply the OFFICIAL IELTS Public Band Descriptors below STRICTLY, criterion by criterion, then compute the overall band as the average of the four criteria rounded to the nearest 0.5 (per IELTS reporting rules, halves and whole bands only).
+
+${RUBRIC}
+
+NON-NEGOTIABLE RULES:
+1. Base every score ONLY on the actual transcript. Do NOT invent content. Do NOT reward effort that is not present.
+2. Each criterion score is INDEPENDENT - they do NOT have to match. A learner can be Band 7 fluency and Band 5 grammar.
+3. Reference SPECIFIC phrases from the transcript in feedback ("you said 'X', a higher-band version would be 'Y'").
+4. Each criterion feedback must explain: (a) what the learner did, (b) why it sits at this band, (c) exactly what to do to reach the next half-band.
+5. List 2-4 highlighted errors with the EXACT substring from the transcript, the correction, and a short explanation. Skip only if the transcript is genuinely error-free at that band.
+6. Suggestions: 3 concrete next steps tied to the learner's actual weaknesses.
+7. Overall band MUST equal round-to-nearest-0.5 of the average of the four criteria. Do not bump it up out of kindness.
+
+ANSWER METADATA:
+- Question (Part ${part}): "${question}"
+- Duration: ${duration}s | Word count: ${wordCount} | Speaking pace: ~${wordsPerMinute} wpm
+- Transcript:
+"""
+${transcriptText}
+"""
+
+Return ONLY valid compact JSON in this exact shape, no markdown fences, no prose outside the JSON:
+{
+  "overall": <number 3.0-9.0 in 0.5 steps>,
+  "criteria": [
+    {"label":"Fluency & Coherence","score":<n>,"feedback":"<25-45 words, reference specific phrases, name the band, give the next-step fix>"},
+    {"label":"Lexical Resource","score":<n>,"feedback":"<same rules>"},
+    {"label":"Grammatical Range & Accuracy","score":<n>,"feedback":"<same rules>"},
+    {"label":"Pronunciation","score":<n>,"feedback":"<assess from pacing + transcript clues; be honest if limited>"}
+  ],
+  "highlightedErrors": [
+    {"text":"<exact substring from transcript>","type":"grammar|vocabulary|pronunciation|coherence","correction":"<natural Band 7+ fix>","explanation":"<≤14 words>"}
+  ],
+  "suggestions": ["<concrete next step>","<concrete next step>","<concrete next step>"]
+}`;
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), GRADE_TIMEOUT_MS);
     let response: Response;
@@ -148,12 +209,11 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
         },
         body: JSON.stringify({
           model: MODEL,
-          temperature: 0.2,
-          max_tokens: 520,
-
+          temperature: 0.15,
+          max_tokens: 1400,
           messages: [
             { role: "system", content: systemPrompt },
-            { role: "user", content: `Grade this IELTS Speaking Part ${part} answer. Question: "${question}". Transcript: "${transcriptText}". Duration: ${duration}s, ${wordCount} words. Return JSON only.` },
+            { role: "user", content: `Grade this IELTS Speaking Part ${part} response using the official Public Band Descriptors. Be strict and accurate. Return JSON only.` },
           ],
           response_format: { type: "json_object" },
         }),
@@ -161,8 +221,8 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
     } catch (fetchErr) {
       clearTimeout(timeoutId);
       const aborted = (fetchErr as any)?.name === "AbortError";
-      waitUntilLog("grade-speaking", MODEL, "english", 0, "fast_score", aborted ? "timeout_4s" : "network");
-      return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: aborted ? "timeout_4s" : "network" })), {
+      waitUntilLog("grade-speaking", MODEL, "english", 0, "fast_score", aborted ? "timeout_14s" : "network");
+      return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: aborted ? "timeout_14s" : "network" })), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
@@ -170,6 +230,8 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
 
     if (!response.ok) {
       const status = response.status;
+      const bodyText = await response.text().catch(() => "");
+      console.error(`grade-speaking upstream ${status}:`, bodyText.slice(0, 400));
       waitUntilLog("grade-speaking", MODEL, "english", 0, "fast_score", `HTTP ${status}`);
       return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: `HTTP_${status}` })), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -183,18 +245,25 @@ Do NOT include the transcript or any upgraded answer in the JSON. Make scores re
     let parsed;
     try {
       parsed = parseJsonResult(content);
-      if (typeof parsed?.overall !== "number" || !Array.isArray(parsed?.criteria)) throw new Error("Invalid grading shape");
+      if (typeof parsed?.overall !== "number" || !Array.isArray(parsed?.criteria) || parsed.criteria.length !== 4) {
+        throw new Error("Invalid grading shape");
+      }
+      // Enforce the IELTS rule: overall = round-to-nearest-0.5 of the criterion average.
+      const avg = parsed.criteria.reduce((s: number, c: any) => s + (Number(c.score) || 0), 0) / 4;
+      const enforcedOverall = roundBand(avg);
+      if (Math.abs(enforcedOverall - parsed.overall) >= 0.5) {
+        parsed.overall = enforcedOverall;
+      }
+      parsed.criteria = parsed.criteria.map((c: any) => ({ ...c, score: roundBand(Number(c.score) || 0) }));
     } catch (e) {
-      console.error("Parse error:", content);
+      console.error("Parse error:", content.slice(0, 500));
       waitUntilLog("grade-speaking", MODEL, "english", tokensUsed, "fast_score", "parse_error");
       return new Response(JSON.stringify(buildFastSpeakingGrade({ question, part, duration, transcriptText, wordCount, reason: "parse_error" })), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    if (hasTranscript) {
-      parsed.transcript = transcriptText;
-    }
+    if (hasTranscript) parsed.transcript = transcriptText;
 
     waitUntilLog("grade-speaking", MODEL, "english", tokensUsed, "success");
 
