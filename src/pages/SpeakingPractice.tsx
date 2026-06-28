@@ -1303,47 +1303,8 @@ ${suggestionsHtml}
                         </div>
                       )}
 
-                      {/* Upgraded Answer (Band 8.0+) */}
-                      {result.upgradedAnswer ? (
-                        <div className="bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-200/40 rounded-xl p-5">
-                          <div className="flex items-start justify-between gap-2 mb-3">
-                            <h4 className="text-base font-bold text-foreground flex items-center gap-2">
-                              <BookOpen className="w-5 h-5 text-emerald-600" />
-                              {t("Bài nói của bạn – Phiên bản Band 8.0+", "Your Answer – Band 8.0+ Version")}
-                            </h4>
-                            <Button
-                              onClick={handleUpgrade}
-                              disabled={upgrading}
-                              size="sm"
-                              variant="ghost"
-                              className="text-emerald-700 dark:text-emerald-400 gap-1.5 h-7 px-2"
-                            >
-                              {upgrading ? (
-                                <motion.div className="w-3 h-3 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
-                              ) : (
-                                <Sparkles className="w-3.5 h-3.5" />
-                              )}
-                              {t("Tạo lại", "Regenerate")}
-                            </Button>
-                          </div>
-                          <p className="text-base text-foreground leading-8">
-                            {result.upgradedAnswer.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-                              part.startsWith("**") && part.endsWith("**")
-                                ? <strong key={i} className="text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-1 rounded font-bold">{part.slice(2, -2)}</strong>
-                                : <span key={i}>{part}</span>
-                            )}
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="bg-emerald-50/30 dark:bg-emerald-950/10 border border-dashed border-emerald-300/50 rounded-xl p-5 text-center">
-                          <div className="flex items-center justify-center gap-3 text-emerald-700 dark:text-emerald-400">
-                            <motion.div className="w-4 h-4 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
-                            <span className="text-sm font-medium">
-                              {t("Đang tự động nâng cấp câu trả lời lên Band 8.0+...", "Auto-upgrading your answer to Band 8.0+...")}
-                            </span>
-                          </div>
-                        </div>
-                      )}
+                      {/* Band 8.0+ upgrade panel removed - focus on score + error correction */}
+
 
                       {/* Criteria */}
                       {result.criteria.map((c) => (
