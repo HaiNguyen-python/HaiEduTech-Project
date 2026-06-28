@@ -129,7 +129,7 @@ export function useYourCornerFeed(enabled: boolean) {
     const subTimer = setTimeout(() => {
       if (document.visibilityState !== "visible") return;
       channel = supabase
-        .channel("your-corner-feed")
+        .channel(`your-corner-feed-${Date.now()}-${Math.random().toString(36).slice(2)}`)
         .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_posts" }, throttled)
         .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_reactions" }, throttled)
         .on("postgres_changes", { event: "*", schema: "public", table: "your_corner_comments" }, throttled)

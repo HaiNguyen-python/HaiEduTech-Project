@@ -69,7 +69,7 @@ const NotificationBell = () => {
     if (!user) { setItems([]); return; }
     fetchItems();
     const channel = supabase
-      .channel(`notif_${user.id}`)
+      .channel(`notif_${user.id}_${Date.now()}_${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "assignment_notifications", filter: `user_id=eq.${user.id}` },

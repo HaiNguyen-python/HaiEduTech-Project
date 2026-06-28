@@ -20,7 +20,7 @@ export function useYourCornerPresence(
 
   useEffect(() => {
     if (!userId) return;
-    const channel = supabase.channel("your-corner-presence", {
+    const channel = supabase.channel(`your-corner-presence-${userId}-${Date.now()}-${Math.random().toString(36).slice(2)}`, {
       config: { presence: { key: userId } },
     });
 
