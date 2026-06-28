@@ -21,7 +21,7 @@ const visIcon = (k: Visibility) =>
 
 interface Props {
   userId: string;
-  onPosted: () => void;
+  onPosted: (newRow?: any) => void;
   userName?: string | null;
   userAvatar?: string | null;
   mentionables?: Mentionable[];
@@ -168,7 +168,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         const { data } = supabase.storage.from("marketing-images").getPublicUrl(path);
         imageUrl = data.publicUrl;
       }
-      const { error } = await supabase
+      const { data: inserted, error } = await supabase
         .from("your_corner_posts")
         .insert({
           user_id: userId,
@@ -178,8 +178,11 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
           mood: mood ?? null,
           visibility,
           poll: pollPayload as any,
-        });
+        })
+        .select("*")
+        .single();
       if (error) throw error;
+      // Reset form & dismiss spinner immediately - don't wait for feed refresh
       setContent("");
       clearImage();
       setSubject(null);
@@ -187,9 +190,11 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       setVisibility("public");
       setExpanded(false);
       resetPoll();
+      setSubmitting(false);
       toast.success(pollPayload ? "Đã đăng poll! 📊" : "Đã đăng bài! 🎉");
-      onPosted();
-
+      // Defer parent update to next tick so the spinner UI flushes first
+      setTimeout(() => onPosted(inserted), 0);
+      return;
     } catch (e: any) {
       toast.error(e?.message || "Không đăng được bài");
     } finally {
