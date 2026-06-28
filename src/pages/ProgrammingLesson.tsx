@@ -285,9 +285,9 @@ const ProgrammingLessonPage = () => {
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
-    // Show ORIGINAL theory by default. Students can opt into AI Deep-Dive
-    // explicitly via the toggle button - do NOT auto-switch them.
-    setUseEnhanced(false);
+    // Always show AI Deep-Dive. If no cache yet, fetch silently and switch
+    // to enhanced as soon as it's ready (falls back to original until then).
+    setUseEnhanced(true);
     supabase
       .from("programming_theory_cache")
       .select("enhanced_markdown, illustrations")
@@ -296,9 +296,7 @@ const ProgrammingLessonPage = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (!data?.enhanced_markdown) {
-          // Pre-warm cache in background so Deep-Dive is ready when clicked,
-          // but DO NOT switch the view away from Original.
-          handleEnhanceTheory(false, { autoSwitch: false, silent: true });
+          handleEnhanceTheory(false, { autoSwitch: true, silent: true });
           return;
         }
         const cleaned = data.enhanced_markdown
@@ -307,12 +305,12 @@ const ProgrammingLessonPage = () => {
           .replace(/[ \t]+([.,;:!?])/g, "$1")
           .replace(/[ \t]{2,}/g, " ");
         setEnhancedMd(cleaned);
-        // If cached markdown is missing inline illustrations, refresh in background.
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
         if (!hasIllustrations) {
-          handleEnhanceTheory(true, { autoSwitch: false, silent: true });
+          handleEnhanceTheory(true, { autoSwitch: true, silent: true });
         }
       });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mod, lesson]);
 
@@ -709,18 +707,8 @@ const ProgrammingLessonPage = () => {
                           </span>
                         )}
                       </h2>
-                      <div className="flex items-center gap-2">
-                        {enhancedMd && (
-                          <button
-                            onClick={() => setUseEnhanced((v) => !v)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-secondary text-foreground hover:bg-muted transition-all active:scale-[0.97]"
-                            title={useEnhanced ? "Show original theory" : "Show AI Deep-Dive"}
-                          >
-                            {useEnhanced ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                            {useEnhanced ? "Original" : "Deep-Dive"}
-                          </button>
-                        )}
-                      </div>
+                      <div className="flex items-center gap-2" />
+
                     </div>
                     {getModuleHero(mod.id) && (
                       <img
