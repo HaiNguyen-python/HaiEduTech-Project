@@ -116,7 +116,7 @@ const SpeakingPractice = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [upgrading, setUpgrading] = useState(false);
+  
   const [result, setResult] = useState<SpeakingResult | null>(null);
   const [savingNotebook, setSavingNotebook] = useState(false);
   const [savedNotebook, setSavedNotebook] = useState(false);
@@ -549,64 +549,11 @@ ${suggestionsHtml}
       recordScore(fallback);
     }
     setLoading(false);
-    // Only call upgrade-speaking as a fallback when grade-speaking didn't already
-    // return an upgradedAnswer. This avoids a wasteful 2nd Perplexity round-trip
-    // that previously doubled the total grading wait time.
-    if (!gradedResult?.upgradedAnswer || gradedResult.upgradedAnswer.trim().length < 10) {
-      handleUpgrade();
-    }
+    // Band 8.0+ upgrade feature removed to keep grading fast and focused
+    // on score + error correction so learners can self-review.
   };
 
-  // Upgrade student's answer to Band 8.0+ (independent from grading)
-  const handleUpgrade = useCallback(async () => {
-    if (!currentQ) return;
-    const buildInstantUpgrade = (reason: string) => {
-      const compact = (liveTranscript || currentQ.question).replace(/\s+/g, " ").trim();
-      const sample = compact.split(/\s+/).slice(0, selectedPart === 2 ? 45 : 28).join(" ");
-      return selectedPart === 2
-        ? `${t("Mình sẽ trình bày ý này một cách rõ ràng và tự nhiên hơn.", "I would present this idea in a clearer and more natural way.")} ${t("Ý chính của mình là", "My main point is")} **${sample}**. ${t("Để câu trả lời mạnh hơn, mình cần thêm một lý do cụ thể, một ví dụ ngắn, và kết thúc bằng cảm nhận cá nhân. Đây là phiên bản nhanh để bạn học ngay trong lúc AI tạo bản nâng cấp chi tiết hơn.", "To make the answer stronger, I should add one clear reason, one short example, and finish with a personal reflection. This is a quick version so you can keep learning while the detailed AI upgrade is loading.")} (${reason})`
-        : `${t("Câu trả lời có thể tự nhiên hơn như sau:", "A more natural answer could be:")} **${sample}**. ${t("Mình sẽ nói thêm một lý do ngắn và một ví dụ cụ thể để câu trả lời nghe tự tin, mạch lạc và giống IELTS Speaking hơn.", "I would add one short reason and one specific example so the answer sounds more confident, coherent, and IELTS-ready.")} (${reason})`;
-    };
-    setUpgrading(true);
-    try {
-      const upgradePromise = supabase.functions.invoke("upgrade-speaking", {
-        body: {
-          question: currentQ.question,
-          part: selectedPart,
-          transcript: liveTranscript,
-        },
-      });
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        window.setTimeout(() => reject(new Error("client_upgrade_timeout")), 4_800);
-      });
-      const { data, error } = await Promise.race([upgradePromise, timeoutPromise]);
-      if (error) throw error;
-      const upgraded = (data as { upgradedAnswer?: string; error?: string })?.upgradedAnswer;
-      if (!upgraded) throw new Error((data as any)?.error || "Empty upgrade");
-      setResult((prev) => {
-        if (prev) return { ...prev, upgradedAnswer: upgraded };
-        // No grading yet - create a minimal result so the upgrade panel renders
-        return {
-          overall: 0,
-          criteria: [],
-          transcript: liveTranscript || "",
-          suggestions: [],
-          upgradedAnswer: upgraded,
-        } as SpeakingResult;
-      });
-    } catch (e) {
-      const fallback = buildInstantUpgrade(e instanceof Error && e.message === "client_upgrade_timeout" ? "fast mode" : "offline mode");
-      setResult((prev) => prev ? { ...prev, upgradedAnswer: fallback } : {
-        overall: 0,
-        criteria: [],
-        transcript: liveTranscript || "",
-        suggestions: [],
-        upgradedAnswer: fallback,
-      } as SpeakingResult);
-    } finally {
-      setUpgrading(false);
-    }
-  }, [currentQ, selectedPart, liveTranscript, t]);
+  // Upgrade-to-Band-8 feature removed by request: focus stays on score + error fixes.
 
   const getScoreColor = (score: number) => {
     if (score >= 7.5) return "text-green-600";
@@ -1356,47 +1303,8 @@ ${suggestionsHtml}
                         </div>
                       )}
 
-                      {/* Upgraded Answer (Band 8.0+) */}
-                      {result.upgradedAnswer ? (
-                        <div className="bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-200/40 rounded-xl p-5">
-                          <div className="flex items-start justify-between gap-2 mb-3">
-                            <h4 className="text-base font-bold text-foreground flex items-center gap-2">
-                              <BookOpen className="w-5 h-5 text-emerald-600" />
-                              {t("Bài nói của bạn – Phiên bản Band 8.0+", "Your Answer – Band 8.0+ Version")}
-                            </h4>
-                            <Button
-                              onClick={handleUpgrade}
-                              disabled={upgrading}
-                              size="sm"
-                              variant="ghost"
-                              className="text-emerald-700 dark:text-emerald-400 gap-1.5 h-7 px-2"
-                            >
-                              {upgrading ? (
-                                <motion.div className="w-3 h-3 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
-                              ) : (
-                                <Sparkles className="w-3.5 h-3.5" />
-                              )}
-                              {t("Tạo lại", "Regenerate")}
-                            </Button>
-                          </div>
-                          <p className="text-base text-foreground leading-8">
-                            {result.upgradedAnswer.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-                              part.startsWith("**") && part.endsWith("**")
-                                ? <strong key={i} className="text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-1 rounded font-bold">{part.slice(2, -2)}</strong>
-                                : <span key={i}>{part}</span>
-                            )}
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="bg-emerald-50/30 dark:bg-emerald-950/10 border border-dashed border-emerald-300/50 rounded-xl p-5 text-center">
-                          <div className="flex items-center justify-center gap-3 text-emerald-700 dark:text-emerald-400">
-                            <motion.div className="w-4 h-4 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
-                            <span className="text-sm font-medium">
-                              {t("Đang tự động nâng cấp câu trả lời lên Band 8.0+...", "Auto-upgrading your answer to Band 8.0+...")}
-                            </span>
-                          </div>
-                        </div>
-                      )}
+                      {/* Band 8.0+ upgrade panel removed - focus on score + error correction */}
+
 
                       {/* Criteria */}
                       {result.criteria.map((c) => (
