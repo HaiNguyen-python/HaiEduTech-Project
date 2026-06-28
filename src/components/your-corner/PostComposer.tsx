@@ -168,20 +168,33 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         const { data } = supabase.storage.from("marketing-images").getPublicUrl(path);
         imageUrl = data.publicUrl;
       }
-      const { data: inserted, error } = await supabase
+
+      const now = new Date().toISOString();
+      const newPost = {
+        id: crypto.randomUUID(),
+        user_id: userId,
+        content: trimmed || (pollPayload ? `📊 ${pollPayload.question}` : ""),
+        image_url: imageUrl,
+        subject: subject ?? null,
+        mood: mood ?? null,
+        visibility,
+        poll: pollPayload as any,
+        created_at: now,
+        updated_at: now,
+      };
+
+      const abortController = new AbortController();
+      const timeoutId = window.setTimeout(() => abortController.abort(), 4500);
+      const insertQuery = supabase
         .from("your_corner_posts")
-        .insert({
-          user_id: userId,
-          content: trimmed || (pollPayload ? `📊 ${pollPayload.question}` : ""),
-          image_url: imageUrl,
-          subject: subject ?? null,
-          mood: mood ?? null,
-          visibility,
-          poll: pollPayload as any,
-        })
-        .select("*")
-        .single();
+        .insert(newPost as any);
+
+      const { error } = await (typeof (insertQuery as any).abortSignal === "function"
+        ? (insertQuery as any).abortSignal(abortController.signal)
+        : insertQuery);
+      window.clearTimeout(timeoutId);
       if (error) throw error;
+
       // Reset form & dismiss spinner immediately - don't wait for feed refresh
       setContent("");
       clearImage();
@@ -193,10 +206,10 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       setSubmitting(false);
       toast.success(pollPayload ? "Đã đăng poll! 📊" : "Đã đăng bài! 🎉");
       // Defer parent update to next tick so the spinner UI flushes first
-      setTimeout(() => onPosted(inserted), 0);
+      setTimeout(() => onPosted(newPost), 0);
       return;
     } catch (e: any) {
-      toast.error(e?.message || "Không đăng được bài");
+      toast.error(e?.name === "AbortError" ? "Kết nối chậm, vui lòng thử lại" : e?.message || "Không đăng được bài");
     } finally {
       setSubmitting(false);
     }

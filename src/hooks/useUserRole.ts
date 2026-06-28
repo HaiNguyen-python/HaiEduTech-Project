@@ -91,29 +91,8 @@ export const useUserRole = () => {
     };
   }, []);
 
-  // Realtime: refetch role list whenever this user's row in user_roles changes.
-  useEffect(() => {
-    if (!user?.id) return;
-    const channel = supabase
-      .channel(`user_roles_${user.id}`)
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "user_roles", filter: `user_id=eq.${user.id}` },
-        async () => {
-          const { data, error } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", user.id);
-          if (!error && data) {
-            cachedRoles = data.map((r: any) => r.role as AppRole);
-            cachedUserId = user.id;
-            setRoles(cachedRoles);
-          }
-        },
-      )
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
-  }, [user?.id]);
+  // Role changes are rare. Avoid a permanent user_roles realtime channel here:
+  // it can collide across remounts and it slows global navigation/posting flows.
 
   const isTeacher = roles.includes("teacher") || roles.includes("admin");
   const isAdmin = roles.includes("admin");
