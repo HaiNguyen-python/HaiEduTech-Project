@@ -519,7 +519,7 @@ ${suggestionsHtml}
         body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: transcriptForGrading },
       });
       const timeoutPromise = new Promise<never>((_, reject) => {
-        window.setTimeout(() => reject(new Error("client_5s_timeout")), 4_800);
+        window.setTimeout(() => reject(new Error("client_grading_timeout")), 16_000);
       });
       const { data, error } = await Promise.race([gradingPromise, timeoutPromise]);
       if (error) throw error;
@@ -543,7 +543,7 @@ ${suggestionsHtml}
         } catch (e) { console.error("log speaking failed", e); }
       })();
     } catch (error) {
-      const fallback = buildInstantResult(error instanceof Error && error.message === "client_5s_timeout" ? "AI chậm nên hệ thống đã trả điểm nhanh trong 5 giây." : "Hệ thống đã trả điểm nhanh để tránh treo khi chấm.");
+      const fallback = buildInstantResult(error instanceof Error && error.message === "client_grading_timeout" ? "AI chấm chi tiết quá chậm. Hệ thống đã trả điểm dự phòng - hãy thử chấm lại để có điểm chuẩn IELTS." : "Hệ thống đã trả điểm nhanh để tránh treo khi chấm.");
       gradedResult = fallback;
       setResult(fallback);
       recordScore(fallback);
