@@ -290,19 +290,30 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
   const minutes = elapsedMs / 60000;
   const wpm = minutes > 0 ? Math.round(correctChars / 5 / minutes) : 0;
 
+  // Tolerant completion: ignore trailing whitespace/newlines so a stray "\n"
+  // or trailing space doesn't block the finish state.
+  const matchesSnippet = (v: string) => {
+    if (v === snippet) return true;
+    const a = v.replace(/[ \t]+$/gm, "").replace(/\s+$/, "");
+    const b = snippet.replace(/[ \t]+$/gm, "").replace(/\s+$/, "");
+    return a === b;
+  };
+
+  const finish = () => {
+    const finishAt = Date.now();
+    setEndAt(finishAt);
+    const secs = ((finishAt - (startAt ?? finishAt)) / 1000).toFixed(1);
+    toast.success(`🏁 Finished in ${secs}s!`, {
+      description: `Accuracy 100% · ${Math.round(snippet.length / 5 / ((finishAt - (startAt ?? finishAt)) / 60000)) || 0} WPM`,
+    });
+  };
+
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const v = e.target.value;
     if (done) return;
     if (!startAt && v.length > 0) setStartAt(Date.now());
     setTyped(v);
-    if (v === snippet) {
-      const finishAt = Date.now();
-      setEndAt(finishAt);
-      const secs = ((finishAt - (startAt ?? finishAt)) / 1000).toFixed(1);
-      toast.success(`🏁 Finished in ${secs}s!`, {
-        description: `Accuracy 100% · ${Math.round(snippet.length / 5 / ((finishAt - (startAt ?? finishAt)) / 60000))} WPM`,
-      });
-    }
+    if (matchesSnippet(v)) finish();
   };
 
   // Allow Tab to indent naturally. Auto-match the snippet's expected
