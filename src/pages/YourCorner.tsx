@@ -66,7 +66,32 @@ export default function YourCorner() {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  const { posts, loading, loadingMore, hasMore, refresh, loadMore, trendingTags } = useYourCornerFeed(!!userId);
+  const { posts, loading, loadingMore, hasMore, refresh, loadMore, trendingTags, prepend } = useYourCornerFeed(!!userId);
+
+  const handlePosted = (newRow?: any) => {
+    if (newRow?.id) {
+      prepend({
+        id: newRow.id,
+        user_id: newRow.user_id,
+        content: newRow.content,
+        image_url: newRow.image_url,
+        subject: newRow.subject,
+        mood: newRow.mood,
+        visibility: newRow.visibility,
+        created_at: newRow.created_at,
+        author: userId ? { id: userId, full_name: userMeta.name, avatar_url: userMeta.avatar } : null,
+        reaction_count: 0,
+        liked_by_me: false,
+        comment_count: 0,
+        bookmarked_by_me: false,
+        poll: newRow.poll ?? null,
+        poll_votes: null,
+        my_vote: null,
+      });
+    } else {
+      refresh();
+    }
+  };
 
   // Infinite scroll sentinel
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -408,7 +433,7 @@ export default function YourCorner() {
                 </div>
               </Card>
 
-              <PostComposer userId={userId} onPosted={refresh} userName={userMeta.name} userAvatar={userMeta.avatar} mentionables={mentionables} />
+              <PostComposer userId={userId} onPosted={handlePosted} userName={userMeta.name} userAvatar={userMeta.avatar} mentionables={mentionables} />
 
               {/* Tabs */}
               <Tabs value={tab} onValueChange={(v) => setTab(v as FeedTab)}>
