@@ -1,5 +1,9 @@
 project_id = "ldbrjxtqcnrbdimexrif"
 
+[functions.dialog-tts]
+verify_jwt = false
+
+
 [functions.exercise-helper]
 verify_jwt = false
 
