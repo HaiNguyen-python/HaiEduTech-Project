@@ -25,7 +25,7 @@ serve(async (req) => {
 
     const { messages, topic, situation, lessonTitle, pillar, language } = await req.json();
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!PERPLEXITY_API_KEY) {
+    if (!PERPLEXITY_API_KEY && language !== "chinese") {
       console.error("PERPLEXITY_API_KEY missing in roleplay-chat");
       return new Response(JSON.stringify({ error: "AI service is not configured. Please contact the administrator." }), {
         status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
