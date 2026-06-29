@@ -31,39 +31,43 @@ function extendChineseTranscript(
   base: { zh: string; pinyin: string; en?: string },
 ): { zh: string; pinyin: string; en?: string } {
   if (base.zh.length >= MIN_TRANSCRIPT_CHARS) return base;
+  const situations = lesson.keySituations || [];
+  if (!situations.length) return base;
 
-  type Line = { zh: string; pinyin: string; en?: string; speaker: string };
-  const extras: Line[] = [];
-  for (const sit of lesson.keySituations || []) {
+  // Pick the situation whose sampleDialogue best matches the base transcript
+  // so appended lines stay within the same coherent conversation.
+  let bestSit = situations[0];
+  let bestScore = -1;
+  for (const sit of situations) {
+    let score = 0;
     for (const turn of sit.sampleDialogue || []) {
-      if (!turn.line || !turn.pinyin) continue;
-      if (base.zh.includes(turn.line)) continue;
-      extras.push({
-        zh: turn.line,
-        pinyin: turn.pinyin,
-        en: turn.translationEn || turn.translationVi,
-        speaker: turn.speaker || "Speaker",
-      });
+      if (turn.line && base.zh.includes(turn.line)) score += turn.line.length;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestSit = sit;
     }
   }
-  if (!extras.length) return base;
-
-  const seed = hash(lesson.id);
-  const picked = shuffleStable(extras, seed);
+  if (bestScore <= 0) {
+    bestSit = situations[hash(lesson.id) % situations.length];
+  }
 
   let zh = base.zh.trim();
   let pinyin = base.pinyin.trim();
   let en = (base.en || "").trim();
-  let i = 0;
-  while (zh.length < MIN_TRANSCRIPT_CHARS && i < picked.length) {
-    const line = picked[i];
-    zh += `\n${line.speaker}：${line.zh}`;
-    pinyin += `\n${line.speaker}: ${line.pinyin}`;
-    if (line.en) en += `\n${line.speaker}: ${line.en}`;
-    i++;
+  for (const turn of bestSit.sampleDialogue || []) {
+    if (zh.length >= MIN_TRANSCRIPT_CHARS) break;
+    if (!turn.line || !turn.pinyin) continue;
+    if (zh.includes(turn.line)) continue;
+    const speaker = turn.speaker || "Speaker";
+    zh += `\n${speaker}:${turn.line}`;
+    pinyin += `\n${speaker}: ${turn.pinyin}`;
+    const enLine = turn.translationEn || turn.translationVi;
+    if (enLine) en += `\n${speaker}: ${enLine}`;
   }
   return { zh, pinyin, en: en || base.en };
 }
+
 
 function buildVocabQuestion(lesson: ChineseConvLesson, idx: number) {
   const vocab = lesson.vocabulary || [];
