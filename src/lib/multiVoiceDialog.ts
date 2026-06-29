@@ -188,7 +188,7 @@ function playWebSpeechFallback(lines: DialogLine[], lang: DialogLang, options: P
   lines.forEach((line, i) => {
     const utt = new SpeechSynthesisUtterance(line.text);
     utt.lang = lang === "zh" ? "zh-CN" : "en-US";
-    utt.rate = options.rate ?? 0.95;
+    utt.rate = options.rate ?? 1.15;
     if (line.speaker) {
       const key = line.speaker.toLowerCase();
       let idx = roster.indexOf(key);
@@ -210,7 +210,7 @@ export async function playMultiVoiceDialog(
   if (!lines.length) return;
 
   const myToken = ++cancelToken;
-  const speed = options.rate ?? 1.0;
+  const speed = options.rate ?? 1.15;
   const roster: Array<{ key: string; voice: string }> = [];
 
   options.onStart?.();
