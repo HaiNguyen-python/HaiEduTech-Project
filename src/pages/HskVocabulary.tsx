@@ -97,7 +97,7 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Front - Compact: Hanzi + (pinyin · badge · audio) + meanings inline */}
-        <div className="absolute inset-0 rounded-xl border border-border bg-card p-4 flex flex-col items-center justify-center gap-1.5" style={{ backfaceVisibility: "hidden" }}>
+        <div className="absolute inset-0 rounded-xl border border-border bg-card p-4 flex flex-col items-center justify-center gap-2.5" style={{ backfaceVisibility: "hidden" }}>
           <Badge className={levelColors[word.level] + " text-[10px] px-1.5 py-0 absolute top-2 left-2"}>{word.level}</Badge>
           <HanziWord characters={word.character} size={92} />
           <div className="flex items-center gap-2 flex-wrap justify-center">
@@ -106,9 +106,9 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
               <Volume2 className="w-4 h-4 text-primary" />
             </button>
           </div>
-          <p className="text-xs text-center leading-tight">
+          <p className="text-xs text-center leading-tight flex items-center justify-center gap-3 flex-wrap">
             <span className="font-semibold text-foreground">{word.definition.en}</span>
-            <span className="text-muted-foreground"> · </span>
+            <span className="text-border">|</span>
             <span className="text-primary font-medium">{word.definition.vi}</span>
           </p>
         </div>
@@ -754,10 +754,11 @@ const HskVocabulary = () => {
                               <div className="p-4">
 
                                 {/* One-line header: pinyin · en · vi · actions */}
-                                <div className="flex items-center gap-2 flex-wrap mb-2">
+                                <div className="flex items-center gap-4 flex-wrap mb-2">
                                   <p className="text-base text-primary font-bold">{w.pinyin}</p>
+                                  <span className="text-border">|</span>
                                   <span className="text-sm font-semibold text-foreground">{w.definition.en}</span>
-                                  <span className="text-muted-foreground text-xs">·</span>
+                                  <span className="text-border">|</span>
                                   <span className="text-sm text-primary font-medium">{w.definition.vi}</span>
                                   <div className="ml-auto flex items-center gap-0.5">
                                     <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-md hover:bg-primary/10 transition-colors">
