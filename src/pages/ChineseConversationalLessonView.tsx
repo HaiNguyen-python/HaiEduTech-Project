@@ -72,8 +72,12 @@ const ChineseConversationalLessonView = () => {
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese");
   const [showAccessModal, setShowAccessModal] = useState(false);
 
-  const lesson = lessonId ? getChineseConvLessonById(lessonId) : null;
+  const baseLesson = lessonId ? getChineseConvLessonById(lessonId) : null;
   const pillar = lessonId ? getChinesePillarByLessonId(lessonId) : null;
+  const lesson = useMemo(() => {
+    if (!baseLesson) return null;
+    return { ...baseLesson, listeningChallenge: expandChineseListeningChallenge(baseLesson) };
+  }, [baseLesson]);
 
   useEffect(() => {
     if (lesson && pillar && hasAccess) {
