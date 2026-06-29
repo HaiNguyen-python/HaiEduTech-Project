@@ -20,6 +20,8 @@ import { protagonistFor, bannerImageFor } from "@/lib/conversationalSituationVis
 import { playMultiVoiceDialog, stopMultiVoiceDialog } from "@/lib/multiVoiceDialog";
 import { expandListeningChallenge } from "@/lib/listeningChallengeExpander";
 import DialogAudioPlayer from "@/components/DialogAudioPlayer";
+import { getSituationTips } from "@/lib/situationTips";
+
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
 const STORAGE_KEY = "conv-eng-progress";
@@ -290,7 +292,28 @@ const ConversationalLessonView = () => {
                           );
                         })}
                       </div>
+
+                      {/* Topic tips - takeaways for the situation */}
+                      {(() => {
+                        const tips = getSituationTips(situation.title, situation.description, situation.descriptionVi);
+                        return (
+                          <div className="mt-6 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-emerald-500/5 p-4">
+                            <p className="text-xs font-bold uppercase tracking-wide text-primary mb-2">
+                              💡 {t("Mẹo cho tình huống này", "Tips for this situation")}
+                            </p>
+                            <ul className="space-y-2">
+                              {tips.map((tip, ti) => (
+                                <li key={ti} className="text-sm leading-snug flex gap-2">
+                                  <span className="text-primary shrink-0">▸</span>
+                                  <span>{t(tip.vi, tip.en)}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        );
+                      })()}
                     </CardContent>
+
                   </Card>
                 </motion.div>
                 );
