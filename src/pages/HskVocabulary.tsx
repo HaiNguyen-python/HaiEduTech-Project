@@ -89,21 +89,28 @@ const HanziWord = ({ characters, size }: { characters: string; size: number }) =
 const HskFlashcard = ({ word }: { word: HskWord }) => {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div className="cursor-pointer perspective-1000 h-60" onClick={() => setFlipped(!flipped)}>
+    <div className="cursor-pointer perspective-1000 h-52" onClick={() => setFlipped(!flipped)}>
       <motion.div
         className="relative w-full h-full"
         animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ duration: 0.5 }}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Front - Show Hanzi (stroke order) + Pinyin */}
-        <div className="absolute inset-0 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-2" style={{ backfaceVisibility: "hidden" }}>
-          <HanziWord characters={word.character} size={110} />
-          <p className="text-base text-primary font-medium">{word.pinyin}</p>
-          <Badge className={levelColors[word.level]}>{word.level}</Badge>
-          <button onClick={(e) => { e.stopPropagation(); speakChinese(word.character); }} className="mt-1 p-2 rounded-full hover:bg-primary/10 transition-colors">
-            <Volume2 className="w-5 h-5 text-primary" />
-          </button>
+        {/* Front - Compact: Hanzi + (pinyin · badge · audio) + meanings inline */}
+        <div className="absolute inset-0 rounded-xl border border-border bg-card p-4 flex flex-col items-center justify-center gap-1.5" style={{ backfaceVisibility: "hidden" }}>
+          <HanziWord characters={word.character} size={92} />
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <p className="text-sm text-primary font-semibold">{word.pinyin}</p>
+            <Badge className={levelColors[word.level] + " text-[10px] px-1.5 py-0"}>{word.level}</Badge>
+            <button onClick={(e) => { e.stopPropagation(); speakChinese(word.character); }} className="p-1 rounded-full hover:bg-primary/10 transition-colors">
+              <Volume2 className="w-4 h-4 text-primary" />
+            </button>
+          </div>
+          <p className="text-xs text-center leading-tight">
+            <span className="font-semibold text-foreground">{word.definition.en}</span>
+            <span className="text-muted-foreground"> · </span>
+            <span className="text-primary font-medium">{word.definition.vi}</span>
+          </p>
         </div>
         {/* Back - Show Definition, Example, Category */}
         <div className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
