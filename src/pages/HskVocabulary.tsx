@@ -754,6 +754,15 @@ const HskVocabulary = () => {
                                 <div className="flex items-start justify-between gap-2 mb-2">
                                   <p className="text-lg text-primary font-bold">{w.pinyin}</p>
                                   <div className="flex items-center gap-0.5">
+                              <div className="p-4">
+                                {/* One-line header: pinyin · badge · en · vi · actions */}
+                                <div className="flex items-center gap-2 flex-wrap mb-2">
+                                  <p className="text-base text-primary font-bold">{w.pinyin}</p>
+                                  <Badge className={levelColors[w.level] + " text-[10px] px-1.5 py-0"}>{w.level}</Badge>
+                                  <span className="text-sm font-semibold text-foreground">{w.definition.en}</span>
+                                  <span className="text-muted-foreground text-xs">·</span>
+                                  <span className="text-sm text-primary font-medium">{w.definition.vi}</span>
+                                  <div className="ml-auto flex items-center gap-0.5">
                                     <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-md hover:bg-primary/10 transition-colors">
                                       <Volume2 className="w-4 h-4 text-primary" />
                                     </button>
@@ -762,11 +771,6 @@ const HskVocabulary = () => {
                                     </button>
                                   </div>
                                 </div>
-                                <div className="flex items-center gap-1.5 mb-2">
-                                  <Badge className={levelColors[w.level] + " text-xs px-2 py-0.5"}>{w.level}</Badge>
-                                </div>
-                                <p className="text-base text-foreground font-semibold leading-snug">{w.definition.en}</p>
-                                <p className="text-base text-primary font-medium leading-snug">{w.definition.vi}</p>
                                 <div className="mt-2 p-3 rounded-lg bg-secondary/50">
                                   <p className="text-lg font-bold text-foreground leading-snug">{w.example}</p>
                                   <p className="text-sm text-muted-foreground mt-1">{w.examplePinyin}</p>
