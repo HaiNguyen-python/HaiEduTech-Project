@@ -13,6 +13,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import ConversationalRoleplay from "@/components/ConversationalRoleplay";
+import { expandChineseListeningChallenge } from "@/lib/chineseListeningChallengeExpander";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
