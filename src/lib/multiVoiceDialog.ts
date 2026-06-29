@@ -211,17 +211,21 @@ export async function playMultiVoiceDialog(
 
   const myToken = ++cancelToken;
   const speed = options.rate ?? 1.0;
-  const roster: string[] = [];
+  const roster: Array<{ key: string; voice: string }> = [];
 
   options.onStart?.();
+
+  // Pre-assign voices in order so later lines pick from remaining genders.
+  const lineVoices = lines.map((line) => voiceForSpeaker(line.speaker, line.text, roster));
 
   // Prefetch first line, then start playback while remaining lines fetch in parallel.
   const urls: (string | null)[] = new Array(lines.length).fill(null);
   const fetchPromises = lines.map((line, i) =>
-    fetchLineAudio(line.text, voiceForSpeaker(line.speaker, roster), lang, speed).then((u) => {
+    fetchLineAudio(line.text, lineVoices[i], lang, speed).then((u) => {
       urls[i] = u;
     }),
   );
+
 
   // Wait for first line to be ready before starting playback
   await fetchPromises[0];
