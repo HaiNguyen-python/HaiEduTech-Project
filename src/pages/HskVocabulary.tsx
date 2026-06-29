@@ -754,10 +754,11 @@ const HskVocabulary = () => {
                               <div className="p-4">
 
                                 {/* One-line header: pinyin · en · vi · actions */}
-                                <div className="flex items-center gap-2 flex-wrap mb-2">
+                                <div className="flex items-center gap-4 flex-wrap mb-2">
                                   <p className="text-base text-primary font-bold">{w.pinyin}</p>
+                                  <span className="text-border">|</span>
                                   <span className="text-sm font-semibold text-foreground">{w.definition.en}</span>
-                                  <span className="text-muted-foreground text-xs">·</span>
+                                  <span className="text-border">|</span>
                                   <span className="text-sm text-primary font-medium">{w.definition.vi}</span>
                                   <div className="ml-auto flex items-center gap-0.5">
                                     <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-md hover:bg-primary/10 transition-colors">
