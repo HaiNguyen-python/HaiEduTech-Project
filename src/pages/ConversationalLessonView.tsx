@@ -22,6 +22,7 @@ import { expandListeningChallenge } from "@/lib/listeningChallengeExpander";
 import DialogAudioPlayer from "@/components/DialogAudioPlayer";
 import { getSituationTips } from "@/lib/situationTips";
 import { highlightKeywords } from "@/lib/highlightKeywords";
+import VocabReviewQuiz from "@/components/conversational/VocabReviewQuiz";
 
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
