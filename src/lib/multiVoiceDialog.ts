@@ -51,24 +51,110 @@ export function parseDialog(transcript: string): DialogLine[] {
   return out;
 }
 
-// Diverse, natural OpenAI voices. Order picked for clear contrast between
-// adjacent speakers (male/female alternation, different timbres).
-const VOICE_PALETTE = ["nova", "onyx", "shimmer", "echo", "fable", "alloy", "sage", "ash"] as const;
+// OpenAI TTS voices grouped by perceived gender so we can match speaker names.
+const MALE_VOICES = ["onyx", "echo", "ash", "fable", "verse"] as const;
+const FEMALE_VOICES = ["nova", "shimmer", "coral", "sage"] as const;
+const NEUTRAL_VOICES = ["alloy", "ballad"] as const;
 
-function voiceForSpeaker(speaker: string | null, roster: string[]): string {
-  const key = (speaker ?? "narrator").toLowerCase();
-  let idx = roster.indexOf(key);
-  if (idx < 0) {
-    roster.push(key);
-    idx = roster.length - 1;
-  }
-  // Bias: common labels get distinct, recognizable voices.
-  if (/^(you|me|narrator|narator)$/.test(key)) return "nova";
-  if (/^(hr|interviewer|host|teacher|boss|manager|david)$/.test(key)) return "onyx";
-  if (/^(candidate|guest|student|customer|client)$/.test(key)) return "shimmer";
-  if (/^speaker$/.test(key)) return "echo";
-  return VOICE_PALETTE[idx % VOICE_PALETTE.length];
+// Common first names → gender. Lowercase keys. Covers English + a handful of
+// CJK/Vietnamese/European names common in lesson dialogs.
+const NAME_GENDER: Record<string, "m" | "f"> = {
+  // Male
+  david: "m", john: "m", james: "m", michael: "m", robert: "m", william: "m",
+  daniel: "m", thomas: "m", richard: "m", mark: "m", paul: "m", peter: "m",
+  steven: "m", andrew: "m", brian: "m", kevin: "m", jason: "m", ryan: "m",
+  matthew: "m", joshua: "m", tom: "m", tim: "m", jack: "m", henry: "m",
+  george: "m", harry: "m", alex: "m", adam: "m", ben: "m", sam: "m",
+  chris: "m", mike: "m", jake: "m", liam: "m", noah: "m", ethan: "m",
+  oliver: "m", lucas: "m", leo: "m", max: "m", nick: "m", tony: "m",
+  edward: "m", frank: "m", carl: "m", eric: "m", jeff: "m", scott: "m",
+  hai: "m", minh: "m", tuan: "m", long: "m", nam: "m", hung: "m", dung: "m",
+  wei: "m", ming: "m", jun: "m", liming: "m", "li ming": "m", zhang: "m", wang: "m",
+  // Female
+  sarah: "f", emma: "f", olivia: "f", sophia: "f", ava: "f", isabella: "f",
+  mia: "f", amelia: "f", emily: "f", charlotte: "f", grace: "f", lily: "f",
+  hannah: "f", anna: "f", maria: "f", linda: "f", patricia: "f", jennifer: "f",
+  jessica: "f", ashley: "f", amanda: "f", lisa: "f", nancy: "f", karen: "f",
+  laura: "f", helen: "f", rachel: "f", rebecca: "f", michelle: "f", kim: "f",
+  rose: "f", ruby: "f", chloe: "f", zoe: "f", ella: "f", hazel: "f",
+  alice: "f", betty: "f", clara: "f", diana: "f", eve: "f", fiona: "f",
+  julia: "f", kate: "f", katie: "f", lucy: "f", molly: "f", nina: "f",
+  hoa: "f", lan: "f", mai: "f", linh: "f", thu: "f", trang: "f", huong: "f",
+  thuy: "f", phuong: "f", anh: "f", ngoc: "f", yen: "f",
+  mei: "f", lan2: "f", xia: "f", ling: "f", yan: "f", hui: "f",
+};
+
+function guessGenderFromName(name: string): "m" | "f" | null {
+  const key = name.toLowerCase().trim();
+  if (NAME_GENDER[key]) return NAME_GENDER[key];
+  // Try first token only (e.g. "Mr. David" → "david")
+  const first = key.replace(/^(mr|mrs|ms|miss|dr|prof)\.?\s+/, "").split(/\s+/)[0];
+  return NAME_GENDER[first] ?? null;
 }
+
+// Scan text for self-introductions and extract a likely gender.
+function guessGenderFromText(text: string): "m" | "f" | null {
+  const patterns = [
+    /\bI['']?m\s+([A-Z][a-z]+)/,
+    /\bmy name is\s+([A-Z][a-z]+)/i,
+    /\bthis is\s+([A-Z][a-z]+)/i,
+    /\bcall me\s+([A-Z][a-z]+)/i,
+  ];
+  for (const re of patterns) {
+    const m = text.match(re);
+    if (m) {
+      const g = guessGenderFromName(m[1]);
+      if (g) return g;
+    }
+  }
+  // Pronoun fallback
+  if (/\b(he|his|him|mr\.?)\b/i.test(text)) return "m";
+  if (/\b(she|her|hers|mrs\.?|ms\.?)\b/i.test(text)) return "f";
+  return null;
+}
+
+function voiceForSpeaker(
+  speaker: string | null,
+  text: string,
+  roster: Array<{ key: string; voice: string }>,
+): string {
+  const rawKey = (speaker ?? `__line_${text.slice(0, 12)}`).toLowerCase().trim();
+  const existing = roster.find((r) => r.key === rawKey);
+  if (existing) return existing.voice;
+
+  // Determine gender: from speaker label first, then from text content.
+  let gender: "m" | "f" | null = null;
+  if (speaker) {
+    const lower = speaker.toLowerCase().trim();
+    if (/(^|\s)(you|me|narrator|narator|i)$/.test(lower)) {
+      gender = guessGenderFromText(text);
+    } else if (/^(hr|interviewer|host|teacher|boss|manager|sir|mr\.?)/.test(lower)) {
+      gender = "m";
+    } else if (/^(mrs\.?|ms\.?|miss|madam|lady)/.test(lower)) {
+      gender = "f";
+    } else {
+      gender = guessGenderFromName(speaker) ?? guessGenderFromText(text);
+    }
+  } else {
+    gender = guessGenderFromText(text);
+  }
+
+  // Pick a voice from the matching pool, avoiding voices already used by other
+  // speakers in this dialog so people sound distinct.
+  const used = new Set(roster.map((r) => r.voice));
+  const pool: readonly string[] =
+    gender === "m" ? MALE_VOICES
+    : gender === "f" ? FEMALE_VOICES
+    : NEUTRAL_VOICES;
+  let chosen = pool.find((v) => !used.has(v));
+  if (!chosen) {
+    // All preferred voices used — recycle by roster index within the pool.
+    chosen = pool[roster.length % pool.length];
+  }
+  roster.push({ key: rawKey, voice: chosen });
+  return chosen;
+}
+
 
 interface PlayOptions {
   rate?: number;
@@ -125,17 +211,21 @@ export async function playMultiVoiceDialog(
 
   const myToken = ++cancelToken;
   const speed = options.rate ?? 1.0;
-  const roster: string[] = [];
+  const roster: Array<{ key: string; voice: string }> = [];
 
   options.onStart?.();
+
+  // Pre-assign voices in order so later lines pick from remaining genders.
+  const lineVoices = lines.map((line) => voiceForSpeaker(line.speaker, line.text, roster));
 
   // Prefetch first line, then start playback while remaining lines fetch in parallel.
   const urls: (string | null)[] = new Array(lines.length).fill(null);
   const fetchPromises = lines.map((line, i) =>
-    fetchLineAudio(line.text, voiceForSpeaker(line.speaker, roster), lang, speed).then((u) => {
+    fetchLineAudio(line.text, lineVoices[i], lang, speed).then((u) => {
       urls[i] = u;
     }),
   );
+
 
   // Wait for first line to be ready before starting playback
   await fetchPromises[0];
