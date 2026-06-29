@@ -151,6 +151,11 @@ const ProfessionalProjects = () => {
         </div>
       </div>
 
+      {/* Flagship Data Engineering annotated code samples */}
+      {(activePillar === "data-eng" || activePillar === "all") && (
+        <DataEngFlagshipCode />
+      )}
+
       {/* Project list */}
       <div className="grid sm:grid-cols-2 gap-4">
         {filtered.map((p, i) => {
