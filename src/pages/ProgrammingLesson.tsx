@@ -472,7 +472,10 @@ const ProgrammingLessonPage = () => {
   }, [pillar]);
 
   useEffect(() => {
-    const m = allProgrammingModules.find(m => m.id === moduleId);
+    const m =
+      moduleId === FLAGSHIP_DE_MODULE.id
+        ? FLAGSHIP_DE_MODULE
+        : allProgrammingModules.find(m => m.id === moduleId);
     if (m) {
       setMod(m);
       const l = lessonId ? m.lessons.find(l => l.id === lessonId) : m.lessons[0];
@@ -483,6 +486,7 @@ const ProgrammingLessonPage = () => {
       touchStreak();
     }
   }, [moduleId, lessonId, touchStreak]);
+
 
   useEffect(() => {
     if (lesson) {
