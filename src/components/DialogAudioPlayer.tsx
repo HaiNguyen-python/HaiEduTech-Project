@@ -135,20 +135,25 @@ const DialogAudioPlayer = ({ transcript, lang, accentClass }: Props) => {
         aria-label="Audio progress"
       />
 
-      {/* Speed slider */}
+      {/* Speed selector */}
       <div className="flex items-center gap-3">
         <span className="text-xs text-muted-foreground shrink-0">🎚 Speed</span>
-        <Slider
-          value={[rate]}
-          min={0.9}
-          max={1.3}
-          step={0.05}
-          onValueChange={handleRate}
-          className="flex-1"
+        <select
+          value={rate.toFixed(2)}
+          onChange={(e) => {
+            const r = parseFloat(e.target.value);
+            setRate(r);
+            if (audioRef.current) audioRef.current.playbackRate = r;
+          }}
+          className="text-xs font-medium tabular-nums border rounded-md px-2 py-1 bg-background"
           aria-label="Playback speed"
-        />
-        <span className="text-xs font-medium tabular-nums w-12 text-right">{rate.toFixed(2)}x</span>
+        >
+          {[0.9, 1.0, 1.1, 1.15, 1.2, 1.25, 1.3].map((v) => (
+            <option key={v} value={v.toFixed(2)}>{v.toFixed(2)}x</option>
+          ))}
+        </select>
       </div>
+
 
       {status === "error" && (
         <div className="flex items-center gap-2 text-xs text-destructive">
