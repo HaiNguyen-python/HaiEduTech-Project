@@ -745,17 +745,17 @@ const HskVocabulary = () => {
                       ) : (
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                           {groups[cat].map(w => (
-                            <div key={w.character + w.category} className="rounded-xl border-[3px] border-primary/40 bg-card overflow-hidden hover:border-primary/70 shadow-sm hover:shadow-md transition-all">
+                            <div key={w.character + w.category} className="relative rounded-xl border-[3px] border-primary/40 bg-card overflow-hidden hover:border-primary/70 shadow-sm hover:shadow-md transition-all">
+                              <Badge className={levelColors[w.level] + " text-[10px] px-1.5 py-0 absolute top-2 left-2 z-10"}>{w.level}</Badge>
                               {/* Stroke order area */}
                               <div className="bg-secondary/30 flex items-center justify-center p-2">
                                 <HanziWord characters={w.character} size={64} />
                               </div>
                               <div className="p-4">
 
-                                {/* One-line header: pinyin · badge · en · vi · actions */}
+                                {/* One-line header: pinyin · en · vi · actions */}
                                 <div className="flex items-center gap-2 flex-wrap mb-2">
                                   <p className="text-base text-primary font-bold">{w.pinyin}</p>
-                                  <Badge className={levelColors[w.level] + " text-[10px] px-1.5 py-0"}>{w.level}</Badge>
                                   <span className="text-sm font-semibold text-foreground">{w.definition.en}</span>
                                   <span className="text-muted-foreground text-xs">·</span>
                                   <span className="text-sm text-primary font-medium">{w.definition.vi}</span>
