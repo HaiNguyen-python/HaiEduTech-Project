@@ -31,32 +31,43 @@ const hash = (s: string): number => {
 
 function extendTranscript(lesson: ConvLesson, base: string): string {
   if (base.length >= MIN_TRANSCRIPT_CHARS) return base;
-  const extraLines: string[] = [];
+  const situations = lesson.keySituations || [];
+  if (!situations.length) return base;
 
-  for (const sit of lesson.keySituations || []) {
+  // Pick the ONE situation whose sampleDialogue best matches the base
+  // transcript, so the appended lines belong to the same scene/conversation
+  // (no mixing "elevator pitch" with "post-presentation chat", etc).
+  let bestSit = situations[0];
+  let bestScore = -1;
+  for (const sit of situations) {
+    let score = 0;
     for (const turn of sit.sampleDialogue || []) {
       const line = turn.line?.trim();
-      if (!line) continue;
-      // Skip lines already present in transcript
-      if (base.includes(line)) continue;
-      const speaker = turn.speaker?.trim() || "Speaker";
-      extraLines.push(`${speaker}: ${line}`);
+      if (line && base.includes(line)) score += line.length;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestSit = sit;
     }
   }
 
-  if (!extraLines.length) return base;
+  // Fallback: if no situation overlaps, pick deterministically by lesson id.
+  if (bestScore <= 0) {
+    const seed = hash(lesson.id) % situations.length;
+    bestSit = situations[seed];
+  }
 
-  // Interleave so we hit min length without dumping one situation entirely.
   let result = base.trim();
-  const seed = hash(lesson.id);
-  const picked = shuffleStable(extraLines, seed);
-  let i = 0;
-  while (result.length < MIN_TRANSCRIPT_CHARS && i < picked.length) {
-    result += `\n${picked[i]}`;
-    i++;
+  for (const turn of bestSit.sampleDialogue || []) {
+    if (result.length >= MIN_TRANSCRIPT_CHARS) break;
+    const line = turn.line?.trim();
+    if (!line || result.includes(line)) continue;
+    const speaker = turn.speaker?.trim() || "Speaker";
+    result += `\n${speaker}: ${line}`;
   }
   return result;
 }
+
 
 function buildVocabQuestion(
   lesson: ConvLesson,
