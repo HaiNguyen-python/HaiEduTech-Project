@@ -35,7 +35,7 @@ function shuffle<T>(arr: T[], seed: number): T[] {
 const escapeReg = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const VocabReviewQuiz = ({ vocabulary }: Props) => {
-  const { t, language } = useLanguage();
+  const { t, lang: language } = useLanguage();
   const [mcqAns, setMcqAns] = useState<Record<number, number>>({});
   const [fillAns, setFillAns] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
