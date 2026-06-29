@@ -769,7 +769,11 @@ const ProgrammingLessonPage = () => {
                         Bấm các nút bên dưới để commit, tạo branch, hoặc merge - rồi xem đồ thị Gitflow tự cập nhật cùng terminal log JetBrains Mono.
                       </p>
                       <GitBranchingSimulator />
-                    </div>
+                  </div>
+
+                  {/* 10 Data Engineering Projects - inline showcase on data-eng lessons */}
+                  {pillar === "data-eng" && <DataEngFlagshipCode />}
+
                   )}
 
                   {/* Code Example - use the lesson's declared language so syntax
