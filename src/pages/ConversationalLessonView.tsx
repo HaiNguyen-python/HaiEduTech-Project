@@ -21,6 +21,7 @@ import { playMultiVoiceDialog, stopMultiVoiceDialog } from "@/lib/multiVoiceDial
 import { expandListeningChallenge } from "@/lib/listeningChallengeExpander";
 import DialogAudioPlayer from "@/components/DialogAudioPlayer";
 import { getSituationTips } from "@/lib/situationTips";
+import { highlightKeywords } from "@/lib/highlightKeywords";
 
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
