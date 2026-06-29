@@ -15,6 +15,7 @@ import {
   type ProjectDifficulty,
   type ProjectPillar,
 } from "@/data/professionalProjects";
+import DataEngFlagshipCode from "@/components/programming/DataEngFlagshipCode";
 
 const PILLAR_META: Record<ProjectPillar, { label: string; labelEn: string; emoji: string; color: string }> = {
   python: { label: "Python", labelEn: "Python", emoji: "🐍", color: "from-emerald-500 to-green-600" },
@@ -150,6 +151,11 @@ const ProfessionalProjects = () => {
           ))}
         </div>
       </div>
+
+      {/* Flagship Data Engineering annotated code samples */}
+      {(activePillar === "data-eng" || activePillar === "all") && (
+        <DataEngFlagshipCode />
+      )}
 
       {/* Project list */}
       <div className="grid sm:grid-cols-2 gap-4">
