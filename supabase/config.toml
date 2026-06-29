@@ -1,5 +1,8 @@
 project_id = "ldbrjxtqcnrbdimexrif"
 
+[functions.exercise-helper]
+verify_jwt = false
+
 [functions.finnish-tts]
 verify_jwt = false
 
