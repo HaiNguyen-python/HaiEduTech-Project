@@ -339,13 +339,7 @@ const ConversationalLessonView = () => {
                     <Button
                       variant="default"
                       size="sm"
-                      onClick={() => {
-                        speechSynthesis.cancel();
-                        const utt = new SpeechSynthesisUtterance(lesson.listeningChallenge.transcript);
-                        utt.lang = "en-US";
-                        utt.rate = 0.85;
-                        speechSynthesis.speak(utt);
-                      }}
+                      onClick={() => playMultiVoiceDialog(lesson.listeningChallenge.transcript, "en", { rate: 0.9 })}
                       className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white"
                     >
                       <Play className="h-4 w-4 mr-1" />
@@ -354,20 +348,14 @@ const ConversationalLessonView = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => {
-                        speechSynthesis.cancel();
-                        const utt = new SpeechSynthesisUtterance(lesson.listeningChallenge.transcript);
-                        utt.lang = "en-US";
-                        utt.rate = 0.65;
-                        speechSynthesis.speak(utt);
-                      }}
+                      onClick={() => playMultiVoiceDialog(lesson.listeningChallenge.transcript, "en", { rate: 0.7 })}
                     >
                       🐢 {t("Nghe chậm", "Slow")}
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => speechSynthesis.cancel()}
+                      onClick={() => stopMultiVoiceDialog()}
                     >
                       ⏹ {t("Dừng", "Stop")}
                     </Button>
