@@ -352,7 +352,13 @@ const ChineseConversationalLessonView = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Auto-generated vocab review quiz */}
+            <div className="mt-6">
+              <ChineseVocabReviewQuiz vocabulary={lesson.vocabulary} />
+            </div>
           </TabsContent>
+
 
           {/* STRUCTURES TAB */}
           <TabsContent value="structures">
