@@ -11,7 +11,10 @@
 import type { ConvLesson, ListeningChallenge } from "@/data/conversationalCurriculum";
 
 const MIN_QUESTIONS = 5;
-const MIN_TRANSCRIPT_CHARS = 520; // ~ 90-110s of slow TTS
+// Note: we intentionally no longer auto-pad the transcript with lines from
+// unrelated situations. The original transcript is curated and the questions
+// are written against it; appending off-topic dialogue made the recording
+// feel disjointed and broke comprehension question logic.
 
 const shuffleStable = <T,>(arr: T[], seed: number): T[] => {
   const out = arr.slice();
