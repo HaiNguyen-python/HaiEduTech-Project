@@ -20,6 +20,8 @@ import LessonModuleRadar, { writeLessonScore } from "@/components/programming/Le
 import BackToTopButton from "@/components/programming/BackToTopButton";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
 import ExerciseWorkspace from "@/components/programming/ExerciseWorkspace";
+import DataEngFlagshipCode from "@/components/programming/DataEngFlagshipCode";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
@@ -666,6 +668,22 @@ const ProgrammingLessonPage = () => {
                     <Play className="w-4 h-4" />
                     Run Code Online
                   </a>
+
+                  {pillar === "data-eng" && (
+                    <Sheet>
+                      <SheetTrigger asChild>
+                        <button className="w-full mt-2 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-amber-500/40 bg-gradient-to-r from-amber-500/10 to-orange-500/10 text-amber-700 dark:text-amber-300 text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.97]">
+                          <BookOpen className="w-4 h-4" />
+                          10 Data Engineering Projects
+                        </button>
+                      </SheetTrigger>
+                      <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
+                        <div className="pt-6">
+                          <DataEngFlagshipCode />
+                        </div>
+                      </SheetContent>
+                    </Sheet>
+                  )}
                 </div>
               </div>
 
