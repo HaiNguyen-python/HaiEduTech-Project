@@ -1,5 +1,5 @@
 // Interactive Conversational English lesson view with situations, vocab, listening, and roleplay
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { icons, ArrowLeft, BookOpen, Mic, Volume2, ChevronRight, CheckCircle, Award, Play, MessageCircle, Lock, Loader2 } from "lucide-react";
@@ -18,6 +18,7 @@ import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
 import { protagonistFor, bannerImageFor } from "@/lib/conversationalSituationVisuals";
 import { playMultiVoiceDialog, stopMultiVoiceDialog } from "@/lib/multiVoiceDialog";
+import { expandListeningChallenge } from "@/lib/listeningChallengeExpander";
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
 const STORAGE_KEY = "conv-eng-progress";
@@ -59,8 +60,12 @@ const ConversationalLessonView = () => {
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-english");
   const [showAccessModal, setShowAccessModal] = useState(false);
 
-  const lesson = lessonId ? getConvLessonById(lessonId) : null;
+  const baseLesson = lessonId ? getConvLessonById(lessonId) : null;
   const pillar = lessonId ? getPillarByLessonId(lessonId) : null;
+  const lesson = useMemo(() => {
+    if (!baseLesson) return null;
+    return { ...baseLesson, listeningChallenge: expandListeningChallenge(baseLesson) };
+  }, [baseLesson]);
 
   // Reset listening state when switching lessons
   useEffect(() => {

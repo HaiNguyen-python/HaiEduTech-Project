@@ -1,5 +1,5 @@
 // Interactive Chinese Conversational lesson view with situations, vocab, structures, listening, and roleplay
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { icons, ArrowLeft, BookOpen, Volume2, ChevronRight, CheckCircle, Award, Play, MessageCircle, Lock, Loader2, Globe } from "lucide-react";
@@ -13,6 +13,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import ConversationalRoleplay from "@/components/ConversationalRoleplay";
+import { expandChineseListeningChallenge } from "@/lib/chineseListeningChallengeExpander";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
@@ -72,8 +73,12 @@ const ChineseConversationalLessonView = () => {
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese");
   const [showAccessModal, setShowAccessModal] = useState(false);
 
-  const lesson = lessonId ? getChineseConvLessonById(lessonId) : null;
+  const baseLesson = lessonId ? getChineseConvLessonById(lessonId) : null;
   const pillar = lessonId ? getChinesePillarByLessonId(lessonId) : null;
+  const lesson = useMemo(() => {
+    if (!baseLesson) return null;
+    return { ...baseLesson, listeningChallenge: expandChineseListeningChallenge(baseLesson) };
+  }, [baseLesson]);
 
   useEffect(() => {
     if (lesson && pillar && hasAccess) {
