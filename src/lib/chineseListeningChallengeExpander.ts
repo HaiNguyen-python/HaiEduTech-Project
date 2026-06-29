@@ -48,9 +48,9 @@ function extendChineseTranscript(
       bestSit = sit;
     }
   }
-  if (bestScore <= 0) {
-    bestSit = situations[hash(lesson.id) % situations.length];
-  }
+  // No real overlap → don't pad with unrelated scene content.
+  if (bestScore <= 0) return base;
+
 
   let zh = base.zh.trim();
   let pinyin = base.pinyin.trim();
