@@ -669,21 +669,6 @@ const ProgrammingLessonPage = () => {
                     Run Code Online
                   </a>
 
-                  {pillar === "data-eng" && (
-                    <Sheet>
-                      <SheetTrigger asChild>
-                        <button className="w-full mt-2 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-amber-500/40 bg-gradient-to-r from-amber-500/10 to-orange-500/10 text-amber-700 dark:text-amber-300 text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.97]">
-                          <BookOpen className="w-4 h-4" />
-                          10 Data Engineering Projects
-                        </button>
-                      </SheetTrigger>
-                      <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
-                        <div className="pt-6">
-                          <DataEngFlagshipCode />
-                        </div>
-                      </SheetContent>
-                    </Sheet>
-                  )}
                 </div>
               </div>
 
@@ -784,8 +769,13 @@ const ProgrammingLessonPage = () => {
                         Bấm các nút bên dưới để commit, tạo branch, hoặc merge - rồi xem đồ thị Gitflow tự cập nhật cùng terminal log JetBrains Mono.
                       </p>
                       <GitBranchingSimulator />
-                    </div>
+                  </div>
+
                   )}
+
+                  {/* 10 Data Engineering Projects - inline showcase on data-eng lessons */}
+                  {pillar === "data-eng" && <DataEngFlagshipCode />}
+
 
                   {/* Code Example - use the lesson's declared language so syntax
                       highlighting matches (Python / TS / JS / SQL / Bash, etc.). */}
