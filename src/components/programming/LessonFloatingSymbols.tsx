@@ -156,7 +156,7 @@ interface Props {
  * Themed floating background symbols for a programming pillar.
  * Renders inside a relatively-positioned parent (fills with absolute inset-0).
  */
-const LessonFloatingSymbols = ({ pillarId, count = 22, className = "" }: Props) => {
+const LessonFloatingSymbols = ({ pillarId, count = 11, className = "" }: Props) => {
   const symbols = (pillarId && PILLAR_SYMBOLS[pillarId]) || PILLAR_SYMBOLS["python"];
   const particles = useMemo(
     () => generateParticles(symbols, count, `${pillarId || "default"}-${count}`),

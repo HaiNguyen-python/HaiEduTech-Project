@@ -6,7 +6,7 @@ const SYMBOLS = ["</>", "{}", "AI", "α", "π", "中", "Suomi", "EN", "ML", "λ"
  * Subtle canvas-based EduTech particles: floating code/AI/language symbols.
  * Desktop-only. Respects prefers-reduced-motion.
  */
-const TechParticles = ({ count = 22, className = "" }: { count?: number; className?: string }) => {
+const TechParticles = ({ count = 11, className = "" }: { count?: number; className?: string }) => {
   const ref = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {

@@ -43,7 +43,7 @@ const ChineseRouteParticles = () => {
 
   return (
     <Suspense fallback={null}>
-      <FloatingChineseParticles fullPage count={48} />
+      <FloatingChineseParticles fullPage count={24} />
     </Suspense>
   );
 };
