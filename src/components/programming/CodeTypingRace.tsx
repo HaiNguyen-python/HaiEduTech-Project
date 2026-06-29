@@ -394,25 +394,64 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
       ? "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30"
       : "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/30";
 
+  const explainStartedRef = useRef(false);
   const fetchExplanation = async () => {
-    if (explainLoading || explanation) return;
+    if (explainStartedRef.current || explanation) return;
+    explainStartedRef.current = true;
     setExplainLoading(true);
     setExplainError("");
+
+    const callOnce = async (timeoutMs: number) => {
+      const invokePromise = supabase.functions
+        .invoke("explain-code", {
+          body: { code: snippet, language: langKey || "python", lessonContext: lessonTitle || "" },
+        })
+        .then(({ data, error }) => {
+          if (error) throw error;
+          if ((data as any)?.error) throw new Error((data as any).error);
+          return data;
+        });
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("explain_timeout")), timeoutMs),
+      );
+      return Promise.race([invokePromise, timeoutPromise]);
+    };
+
+
     try {
-      const { data, error } = await supabase.functions.invoke("explain-code", {
-        body: { code: snippet, language: langKey || "python", lessonContext: lessonTitle || "" },
-      });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
+      let data: any;
+      try {
+        data = await callOnce(15000);
+      } catch {
+        // Retry once with a longer budget if first attempt timed out / failed transiently.
+        data = await callOnce(20000);
+      }
       setExplanation(data?.explanation || "");
       setQuiz(Array.isArray(data?.quiz) ? data.quiz : []);
       setQuizAnswers({});
     } catch (e) {
+      explainStartedRef.current = false;
       setExplainError(e instanceof Error ? e.message : "Không thể tải giải thích. Thử lại nhé!");
     } finally {
       setExplainLoading(false);
     }
   };
+
+  // Reset prefetch guard whenever the snippet changes.
+  useEffect(() => {
+    explainStartedRef.current = false;
+  }, [snippet]);
+
+  // Prefetch explanation once the learner is well into the snippet so the
+  // result is usually ready by the time they finish typing.
+  useEffect(() => {
+    if (done) return;
+    if (snippet.length === 0) return;
+    if (typed.length / snippet.length >= 0.6) {
+      fetchExplanation();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [typed.length, snippet]);
 
   // Auto-fetch explanation once the user finishes the snippet.
   useEffect(() => {
