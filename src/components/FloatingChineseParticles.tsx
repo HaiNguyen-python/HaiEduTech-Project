@@ -87,7 +87,7 @@ interface Props {
   fullPage?: boolean;
 }
 
-const FloatingChineseParticles = ({ count = 12, paused = false, fullPage = false }: Props) => {
+const FloatingChineseParticles = ({ count = 6, paused = false, fullPage = false }: Props) => {
   const particles = useMemo(() => generateParticles(count), [count]);
 
   return (
