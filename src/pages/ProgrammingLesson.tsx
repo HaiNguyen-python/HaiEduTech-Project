@@ -22,7 +22,6 @@ import LessonReadToggle from "@/components/programming/LessonReadToggle";
 import ExerciseWorkspace from "@/components/programming/ExerciseWorkspace";
 import DataEngFlagshipCode from "@/components/programming/DataEngFlagshipCode";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BookOpen } from "lucide-react";
 import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
