@@ -407,9 +407,10 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
       try {
         const { data, error } = await supabase.functions.invoke("explain-code", {
           body: { code: snippet, language: langKey || "python", lessonContext: lessonTitle || "" },
-          // signal not yet typed in supabase-js; cast keeps runtime forwarding intact
-          signal: ac.signal,
-        });
+        } as Parameters<typeof supabase.functions.invoke>[1] & { signal?: AbortSignal });
+        // Manual timeout race - some supabase-js builds ignore the signal option.
+        const _ = ac.signal;
+
         if (error) throw error;
         if (data?.error) throw new Error(data.error);
         return data;
