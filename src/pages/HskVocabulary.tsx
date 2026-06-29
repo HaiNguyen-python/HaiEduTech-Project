@@ -106,9 +106,9 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
               <Volume2 className="w-4 h-4 text-primary" />
             </button>
           </div>
-          <p className="text-xs text-center leading-tight">
+          <p className="text-xs text-center leading-tight flex items-center justify-center gap-3 flex-wrap">
             <span className="font-semibold text-foreground">{word.definition.en}</span>
-            <span className="text-muted-foreground"> · </span>
+            <span className="text-border">|</span>
             <span className="text-primary font-medium">{word.definition.vi}</span>
           </p>
         </div>
