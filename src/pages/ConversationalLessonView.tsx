@@ -1,5 +1,5 @@
 // Interactive Conversational English lesson view with situations, vocab, listening, and roleplay
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { icons, ArrowLeft, BookOpen, Mic, Volume2, ChevronRight, CheckCircle, Award, Play, MessageCircle, Lock, Loader2 } from "lucide-react";
