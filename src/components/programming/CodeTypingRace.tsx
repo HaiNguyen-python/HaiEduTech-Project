@@ -402,22 +402,21 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     setExplainError("");
 
     const callOnce = async (timeoutMs: number) => {
-      const ac = new AbortController();
-      const timer = setTimeout(() => ac.abort(), timeoutMs);
-      try {
-        const { data, error } = await supabase.functions.invoke("explain-code", {
+      const invokePromise = supabase.functions
+        .invoke("explain-code", {
           body: { code: snippet, language: langKey || "python", lessonContext: lessonTitle || "" },
-        } as Parameters<typeof supabase.functions.invoke>[1] & { signal?: AbortSignal });
-        // Manual timeout race - some supabase-js builds ignore the signal option.
-        const _ = ac.signal;
-
-        if (error) throw error;
-        if (data?.error) throw new Error(data.error);
-        return data;
-      } finally {
-        clearTimeout(timer);
-      }
+        })
+        .then(({ data, error }) => {
+          if (error) throw error;
+          if ((data as any)?.error) throw new Error((data as any).error);
+          return data;
+        });
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("explain_timeout")), timeoutMs),
+      );
+      return Promise.race([invokePromise, timeoutPromise]);
     };
+
 
     try {
       let data: any;
