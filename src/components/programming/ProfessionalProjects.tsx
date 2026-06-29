@@ -15,7 +15,7 @@ import {
   type ProjectDifficulty,
   type ProjectPillar,
 } from "@/data/professionalProjects";
-import DataEngFlagshipCode from "@/components/programming/DataEngFlagshipCode";
+
 
 const PILLAR_META: Record<ProjectPillar, { label: string; labelEn: string; emoji: string; color: string }> = {
   python: { label: "Python", labelEn: "Python", emoji: "🐍", color: "from-emerald-500 to-green-600" },
