@@ -142,14 +142,32 @@ If this is the first message (no prior messages from the student), start by sett
 - Add pronunciation tips in brackets when relevant: [pronounced: ih-SPESH-uh-lee]`;
     }
 
-    const response = await fetch("https://api.perplexity.ai/chat/completions", {
+    // Use Lovable AI Gateway (Gemini) for Chinese to get accurate Pinyin.
+    // Perplexity Sonar tends to mis-tone Chinese characters.
+    const useLovableAI = language === "chinese";
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+
+    const endpoint = useLovableAI
+      ? "https://ai.gateway.lovable.dev/v1/chat/completions"
+      : "https://api.perplexity.ai/chat/completions";
+    const apiKey = useLovableAI ? LOVABLE_API_KEY : PERPLEXITY_API_KEY;
+    const model = useLovableAI ? "google/gemini-2.5-flash" : "sonar";
+
+    if (useLovableAI && !LOVABLE_API_KEY) {
+      console.error("LOVABLE_API_KEY missing for Chinese roleplay");
+      return new Response(JSON.stringify({ error: "AI service is not configured." }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "sonar",
+        model,
         messages: [
           { role: "system", content: systemPrompt },
           ...messages,
