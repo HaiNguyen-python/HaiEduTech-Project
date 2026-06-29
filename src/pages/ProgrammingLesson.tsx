@@ -771,10 +771,11 @@ const ProgrammingLessonPage = () => {
                       <GitBranchingSimulator />
                   </div>
 
+                  )}
+
                   {/* 10 Data Engineering Projects - inline showcase on data-eng lessons */}
                   {pillar === "data-eng" && <DataEngFlagshipCode />}
 
-                  )}
 
                   {/* Code Example - use the lesson's declared language so syntax
                       highlighting matches (Python / TS / JS / SQL / Bash, etc.). */}
