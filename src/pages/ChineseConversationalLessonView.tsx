@@ -38,6 +38,7 @@ const markLessonComplete = (id: string) => {
 // Speak Chinese text using Google TTS proxy + native fallback.
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import { playMultiVoiceDialog, stopMultiVoiceDialog, parseDialog } from "@/lib/multiVoiceDialog";
+import DialogAudioPlayer from "@/components/DialogAudioPlayer";
 const speakChinese = (text: string, rate = 0.85) => {
   stopChineseTts();
   void playChineseTts(text, { playbackRate: rate, speechRate: rate });
