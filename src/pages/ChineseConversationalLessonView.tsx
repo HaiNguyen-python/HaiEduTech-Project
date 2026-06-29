@@ -17,6 +17,7 @@ import { expandChineseListeningChallenge } from "@/lib/chineseListeningChallenge
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
+import ChineseVocabReviewQuiz from "@/components/conversational/ChineseVocabReviewQuiz";
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
 const STORAGE_KEY = "conv-cn-progress";
