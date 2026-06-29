@@ -751,10 +751,7 @@ const HskVocabulary = () => {
                                 <HanziWord characters={w.character} size={64} />
                               </div>
                               <div className="p-4">
-                                <div className="flex items-start justify-between gap-2 mb-2">
-                                  <p className="text-lg text-primary font-bold">{w.pinyin}</p>
-                                  <div className="flex items-center gap-0.5">
-                              <div className="p-4">
+
                                 {/* One-line header: pinyin · badge · en · vi · actions */}
                                 <div className="flex items-center gap-2 flex-wrap mb-2">
                                   <p className="text-base text-primary font-bold">{w.pinyin}</p>
