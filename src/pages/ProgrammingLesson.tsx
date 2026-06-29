@@ -270,8 +270,13 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
     "prompt-engineering": ["prog-prompt-engineering"],
   };
   const ids = directIds[pillar] || [];
-  return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
+  const base = allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
+  // Append the Data Engineering flagship showcase as its own sidebar entry,
+  // right after the regular data-eng modules.
+  if (pillar === "data-eng") return [...base, FLAGSHIP_DE_MODULE];
+  return base;
 }
+
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
