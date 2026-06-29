@@ -783,9 +783,11 @@ const ProgrammingLessonPage = () => {
                     <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn || lesson.exercise)}</p>
                     <ExerciseWorkspace
                       lessonId={`${moduleId}-${lessonId}`}
+                      exercise={t(lesson.exercise, lesson.exerciseEn || lesson.exercise)}
                       sampleCode={lesson.code}
                       language={detectCodeLanguage(lesson.code, lesson.codeLanguage)}
                     />
+
                   </div>
 
                   {/* Quiz */}
