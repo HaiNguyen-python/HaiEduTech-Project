@@ -1,5 +1,5 @@
 // Interactive Chinese Conversational lesson view with situations, vocab, structures, listening, and roleplay
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { icons, ArrowLeft, BookOpen, Volume2, ChevronRight, CheckCircle, Award, Play, MessageCircle, Lock, Loader2, Globe } from "lucide-react";
