@@ -190,12 +190,39 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "prompt-engineering": ["prompt-eng"],
 };
 
+// Virtual sidebar entry for the 10 Data Engineering Projects showcase.
+// Lives only in memory - not in allProgrammingModules - so it never pollutes
+// other course filters; resolved manually inside this page.
+const FLAGSHIP_DE_MODULE: ProgrammingModule = {
+  id: "prog-de-flagship",
+  title: "10 Data Engineering Projects",
+  titleEn: "10 Data Engineering Projects",
+  icon: "🏗️",
+  color: "from-amber-500 to-rose-600",
+  description: "10 mẫu code Data Engineering thực chiến từ các công ty lớn, kèm bình luận chi tiết.",
+  descriptionEn: "10 real-world Data Engineering code samples from top companies, with rich comments.",
+  course: "data-eng",
+  lessons: [{
+    id: "flagship",
+    title: "10 dự án Data Engineering",
+    titleEn: "10 Data Engineering Projects",
+    theory: "",
+    theoryEn: "",
+    code: "",
+    codeLanguage: "text",
+    exercise: "",
+    exerciseEn: "",
+    quiz: [],
+  }],
+};
+
 function getPillarForModule(moduleId: string): string | null {
   // Check direct ID match first
   const directMap: Record<string, string> = {
     "prog-ai-foundation": "ai-foundation",
     "prog-sql": "sql",
     "prog-data-pipeline": "data-eng",
+    "prog-de-flagship": "data-eng",
     "prog-ml": "ml",
     "prog-cybersecurity": "cybersecurity",
     "prog-prompt-engineering": "prompt-engineering",
@@ -209,6 +236,8 @@ function getPillarForModule(moduleId: string): string | null {
   };
   if (directMap[moduleId]) return directMap[moduleId];
 
+  if (moduleId === FLAGSHIP_DE_MODULE.id) return "data-eng";
+
   const mod = allProgrammingModules.find(m => m.id === moduleId);
   if (!mod) return null;
   for (const [pillar, courses] of Object.entries(PILLAR_COURSES)) {
@@ -216,6 +245,7 @@ function getPillarForModule(moduleId: string): string | null {
   }
   return null;
 }
+
 
 function getPillarModules(pillar: string): ProgrammingModule[] {
   const courses = PILLAR_COURSES[pillar] || [];
@@ -240,8 +270,13 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
     "prompt-engineering": ["prog-prompt-engineering"],
   };
   const ids = directIds[pillar] || [];
-  return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
+  const base = allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
+  // Append the Data Engineering flagship showcase as its own sidebar entry,
+  // right after the regular data-eng modules.
+  if (pillar === "data-eng") return [...base, FLAGSHIP_DE_MODULE];
+  return base;
 }
+
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
@@ -437,7 +472,10 @@ const ProgrammingLessonPage = () => {
   }, [pillar]);
 
   useEffect(() => {
-    const m = allProgrammingModules.find(m => m.id === moduleId);
+    const m =
+      moduleId === FLAGSHIP_DE_MODULE.id
+        ? FLAGSHIP_DE_MODULE
+        : allProgrammingModules.find(m => m.id === moduleId);
     if (m) {
       setMod(m);
       const l = lessonId ? m.lessons.find(l => l.id === lessonId) : m.lessons[0];
@@ -448,6 +486,7 @@ const ProgrammingLessonPage = () => {
       touchStreak();
     }
   }, [moduleId, lessonId, touchStreak]);
+
 
   useEffect(() => {
     if (lesson) {
@@ -680,9 +719,19 @@ const ProgrammingLessonPage = () => {
                 <div className="absolute inset-0 z-0 bg-background/25" aria-hidden="true" />
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 space-y-8" key={lesson.id}>
+                  {mod.id === "prog-de-flagship" ? (
+                    <>
+                      <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
+                        🏗️ 10 Data Engineering Projects
+                      </h1>
+                      <DataEngFlagshipCode />
+                    </>
+                  ) : (
+                  <>
                   <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
                     {mod.icon} {t(lesson.title, lesson.titleEn)}
                   </h1>
+
 
                   {/* Mark-as-read toggle + module progress bar (universal across every pillar) */}
                   <LessonReadToggle
@@ -773,8 +822,6 @@ const ProgrammingLessonPage = () => {
 
                   )}
 
-                  {/* 10 Data Engineering Projects - inline showcase on data-eng lessons */}
-                  {pillar === "data-eng" && <DataEngFlagshipCode />}
 
 
                   {/* Code Example - use the lesson's declared language so syntax
@@ -1082,7 +1129,10 @@ const ProgrammingLessonPage = () => {
                   )}
 
                   {/* Lesson Feedback widget rendered globally in App.tsx - do not double-mount here */}
+                  </>
+                  )}
                 </motion.div>
+
               </div>
             </div>
               </div>
