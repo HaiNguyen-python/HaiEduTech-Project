@@ -59,8 +59,12 @@ const ConversationalLessonView = () => {
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-english");
   const [showAccessModal, setShowAccessModal] = useState(false);
 
-  const lesson = lessonId ? getConvLessonById(lessonId) : null;
+  const baseLesson = lessonId ? getConvLessonById(lessonId) : null;
   const pillar = lessonId ? getPillarByLessonId(lessonId) : null;
+  const lesson = useMemo(() => {
+    if (!baseLesson) return null;
+    return { ...baseLesson, listeningChallenge: expandListeningChallenge(baseLesson) };
+  }, [baseLesson]);
 
   // Reset listening state when switching lessons
   useEffect(() => {
