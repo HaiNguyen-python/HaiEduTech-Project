@@ -353,6 +353,9 @@ const ConversationalLessonView = () => {
                 </motion.div>
               ))}
             </div>
+            <div className="mt-6">
+              <VocabReviewQuiz vocabulary={lesson.vocabulary as any} />
+            </div>
           </TabsContent>
 
           {/* LISTENING TAB */}
