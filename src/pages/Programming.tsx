@@ -695,9 +695,6 @@ const Programming = () => {
                     </Link>
                   ))}
                 </div>
-
-                {/* Data Engineering flagship annotated code samples */}
-                {activePillar === "data-eng" && <DataEngFlagshipCode />}
               </motion.div>
             </AnimatePresence>
 
