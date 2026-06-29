@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
-import { speakChinese } from "@/lib/chineseTts";
+import { playChineseTts } from "@/lib/chineseTts";
 
 interface VocabItem {
   hanzi: string;
