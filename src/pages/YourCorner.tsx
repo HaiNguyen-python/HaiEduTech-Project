@@ -490,8 +490,21 @@ export default function YourCorner() {
                     />
                   ))}
                   {hasMore && (
-                    <div ref={loadMoreRef} className="py-6 text-center text-sm text-muted-foreground">
-                      {loadingMore ? t("Đang tải thêm...", "Loading more...") : t("Cuộn để xem thêm", "Scroll for more")}
+                    <div ref={loadMoreRef} className="py-6 flex flex-col items-center gap-2 text-sm text-muted-foreground">
+                      <button
+                        type="button"
+                        onClick={() => loadMore()}
+                        disabled={loadingMore}
+                        className="px-5 py-2 rounded-full bg-primary/10 hover:bg-primary/20 text-primary font-medium transition disabled:opacity-50"
+                      >
+                        {loadingMore ? t("Đang tải thêm...", "Loading more...") : t("Tải thêm bài viết", "Load more posts")}
+                      </button>
+                      <span className="text-xs opacity-70">{t("Hoặc cuộn xuống để tự động tải", "Or scroll down to auto-load")}</span>
+                    </div>
+                  )}
+                  {!hasMore && filtered.length > 0 && (
+                    <div className="py-6 text-center text-xs text-muted-foreground">
+                      {t("Bạn đã xem hết bài viết 🎉", "You've reached the end 🎉")}
                     </div>
                   )}
                 </>
