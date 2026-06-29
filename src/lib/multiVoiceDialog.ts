@@ -113,6 +113,11 @@ function guessGenderFromText(text: string): "m" | "f" | null {
   return null;
 }
 
+export function assignVoicesForDialog(lines: DialogLine[]): string[] {
+  const roster: Array<{ key: string; voice: string }> = [];
+  return lines.map((l) => voiceForSpeaker(l.speaker, l.text, roster));
+}
+
 function voiceForSpeaker(
   speaker: string | null,
   text: string,
