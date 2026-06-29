@@ -88,7 +88,7 @@ interface Props {
   fullPage?: boolean;
 }
 
-const FloatingEnglishParticles = ({ count = 11, paused = false, fullPage = false }: Props) => {
+const FloatingEnglishParticles = ({ count = 6, paused = false, fullPage = false }: Props) => {
   const particles = useMemo(() => generateParticles(count), [count]);
 
   return (

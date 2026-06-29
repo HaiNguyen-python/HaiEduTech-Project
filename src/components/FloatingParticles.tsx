@@ -80,7 +80,7 @@ interface FloatingParticlesProps {
  * Uses GPU-accelerated transforms for smooth performance.
  * Must be placed inside a relative-positioned container.
  */
-const FloatingParticles = ({ count = 9, paused = false }: FloatingParticlesProps) => {
+const FloatingParticles = ({ count = 5, paused = false }: FloatingParticlesProps) => {
   const particles = useMemo(() => generateParticles(count), [count]);
 
   return (
