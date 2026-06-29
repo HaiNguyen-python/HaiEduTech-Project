@@ -36,9 +36,24 @@ const markLessonComplete = (id: string) => {
 
 // Speak Chinese text using Google TTS proxy + native fallback.
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
+import { playMultiVoiceDialog, stopMultiVoiceDialog, parseDialog } from "@/lib/multiVoiceDialog";
 const speakChinese = (text: string, rate = 0.85) => {
   stopChineseTts();
   void playChineseTts(text, { playbackRate: rate, speechRate: rate });
+};
+const speakChineseDialog = (text: string, rate = 0.85) => {
+  stopChineseTts();
+  const lines = parseDialog(text);
+  const hasMultipleSpeakers = new Set(lines.map((l) => l.speaker).filter(Boolean)).size > 1;
+  if (hasMultipleSpeakers) {
+    playMultiVoiceDialog(text, "zh", { rate });
+  } else {
+    void playChineseTts(text, { playbackRate: rate, speechRate: rate });
+  }
+};
+const stopChineseDialog = () => {
+  stopChineseTts();
+  stopMultiVoiceDialog();
 };
 
 const ChineseConversationalLessonView = () => {
