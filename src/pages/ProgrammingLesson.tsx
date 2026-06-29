@@ -19,6 +19,7 @@ import LearningRecommendation from "@/components/LearningRecommendation";
 import LessonModuleRadar, { writeLessonScore } from "@/components/programming/LessonModuleRadar";
 import BackToTopButton from "@/components/programming/BackToTopButton";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
+import ExerciseWorkspace from "@/components/programming/ExerciseWorkspace";
 import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
@@ -780,6 +781,11 @@ const ProgrammingLessonPage = () => {
                       Practice Exercise
                     </h2>
                     <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn || lesson.exercise)}</p>
+                    <ExerciseWorkspace
+                      lessonId={`${moduleId}-${lessonId}`}
+                      sampleCode={lesson.code}
+                      language={detectCodeLanguage(lesson.code, lesson.codeLanguage)}
+                    />
                   </div>
 
                   {/* Quiz */}
