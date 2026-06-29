@@ -1090,7 +1090,10 @@ const ProgrammingLessonPage = () => {
                   )}
 
                   {/* Lesson Feedback widget rendered globally in App.tsx - do not double-mount here */}
+                  </>
+                  )}
                 </motion.div>
+
               </div>
             </div>
               </div>
