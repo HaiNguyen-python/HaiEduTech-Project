@@ -97,7 +97,7 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Front - Compact: Hanzi + (pinyin · badge · audio) + meanings inline */}
-        <div className="absolute inset-0 rounded-xl border border-border bg-card p-4 flex flex-col items-center justify-center gap-1.5" style={{ backfaceVisibility: "hidden" }}>
+        <div className="absolute inset-0 rounded-xl border border-border bg-card p-4 flex flex-col items-center justify-center gap-2.5" style={{ backfaceVisibility: "hidden" }}>
           <Badge className={levelColors[word.level] + " text-[10px] px-1.5 py-0 absolute top-2 left-2"}>{word.level}</Badge>
           <HanziWord characters={word.character} size={92} />
           <div className="flex items-center gap-2 flex-wrap justify-center">
