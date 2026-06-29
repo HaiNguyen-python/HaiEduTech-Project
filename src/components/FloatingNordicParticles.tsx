@@ -96,7 +96,7 @@ interface Props {
 /**
  * Fixed-to-viewport, behind-content floating particles. Mount once per page.
  */
-const FloatingNordicParticles = ({ variant, count = 55, paused = false }: Props) => {
+const FloatingNordicParticles = ({ variant, count = 28, paused = false }: Props) => {
   const pool = variant === "swedish" ? SWEDISH_SYMBOLS : FINNISH_SYMBOLS;
   const particles = useMemo(() => generateParticles(pool, count), [pool, count]);
 
