@@ -34,7 +34,7 @@ export type FeedPost = {
   my_vote: number | null;
 };
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 function mapPosts(payload: any): FeedPost[] {
   const authorMap = new Map<string, FeedAuthor>();
