@@ -11,7 +11,10 @@
 import type { ConvLesson, ListeningChallenge } from "@/data/conversationalCurriculum";
 
 const MIN_QUESTIONS = 5;
-const MIN_TRANSCRIPT_CHARS = 520; // ~ 90-110s of slow TTS
+// Note: we intentionally no longer auto-pad the transcript with lines from
+// unrelated situations. The original transcript is curated and the questions
+// are written against it; appending off-topic dialogue made the recording
+// feel disjointed and broke comprehension question logic.
 
 const shuffleStable = <T,>(arr: T[], seed: number): T[] => {
   const out = arr.slice();
@@ -30,15 +33,15 @@ const hash = (s: string): number => {
 };
 
 function extendTranscript(lesson: ConvLesson, base: string): string {
-  if (base.length >= MIN_TRANSCRIPT_CHARS) return base;
+  // Only extend if the base is very short (< 200 chars) AND we can find a
+  // situation whose sample dialogue clearly overlaps the base (so the appended
+  // lines are part of the same scene, not a different one).
+  if (base.length >= 200) return base;
   const situations = lesson.keySituations || [];
   if (!situations.length) return base;
 
-  // Pick the ONE situation whose sampleDialogue best matches the base
-  // transcript, so the appended lines belong to the same scene/conversation
-  // (no mixing "elevator pitch" with "post-presentation chat", etc).
   let bestSit = situations[0];
-  let bestScore = -1;
+  let bestScore = 0;
   for (const sit of situations) {
     let score = 0;
     for (const turn of sit.sampleDialogue || []) {
@@ -50,16 +53,12 @@ function extendTranscript(lesson: ConvLesson, base: string): string {
       bestSit = sit;
     }
   }
-
-  // Fallback: if no situation overlaps, pick deterministically by lesson id.
-  if (bestScore <= 0) {
-    const seed = hash(lesson.id) % situations.length;
-    bestSit = situations[seed];
-  }
+  // No real overlap → leave the transcript as-is (better short than off-topic).
+  if (bestScore <= 0) return base;
 
   let result = base.trim();
   for (const turn of bestSit.sampleDialogue || []) {
-    if (result.length >= MIN_TRANSCRIPT_CHARS) break;
+    if (result.length >= 400) break;
     const line = turn.line?.trim();
     if (!line || result.includes(line)) continue;
     const speaker = turn.speaker?.trim() || "Speaker";

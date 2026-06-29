@@ -38,6 +38,7 @@ const markLessonComplete = (id: string) => {
 // Speak Chinese text using Google TTS proxy + native fallback.
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import { playMultiVoiceDialog, stopMultiVoiceDialog, parseDialog } from "@/lib/multiVoiceDialog";
+import DialogAudioPlayer from "@/components/DialogAudioPlayer";
 const speakChinese = (text: string, rate = 0.85) => {
   stopChineseTts();
   void playChineseTts(text, { playbackRate: rate, speechRate: rate });
@@ -467,20 +468,17 @@ const ChineseConversationalLessonView = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    <Button variant="default" size="sm" onClick={() => speakChineseDialog(lesson.listeningChallenge.transcript, 0.85)} className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white">
-                      <Play className="h-4 w-4 mr-1" /> ▶ Play Audio
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={() => speakChineseDialog(lesson.listeningChallenge.transcript, 0.6)}>
-                      🐢 Slow
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={() => stopChineseDialog()}>
-                      ⏹ Stop
-                    </Button>
+                  <DialogAudioPlayer
+                    transcript={lesson.listeningChallenge.transcript}
+                    lang="zh"
+                    accentClass="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white"
+                  />
+                  <div className="flex flex-wrap gap-2 mt-3">
                     <Button variant="outline" size="sm" onClick={() => setListeningRevealed(!listeningRevealed)}>
                       {listeningRevealed ? "👁 Hide Transcript" : "📝 Show Transcript"}
                     </Button>
                   </div>
+
                   <AnimatePresence>
                     {listeningRevealed && (
                       <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="bg-muted/50 p-4 rounded-lg space-y-2">
