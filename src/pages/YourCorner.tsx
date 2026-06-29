@@ -102,10 +102,19 @@ export default function YourCorner() {
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) loadMore();
       },
-      { rootMargin: "300px 0px" },
+      { rootMargin: "600px 0px", threshold: 0 },
     );
     io.observe(el);
-    return () => io.disconnect();
+    // Fallback: window scroll listener in case the sentinel is hidden by layout/overflow.
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top - window.innerHeight < 600) loadMore();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [hasMore, loadMore, posts.length]);
 
   // Realtime presence — who is currently on Your Corner
