@@ -680,9 +680,19 @@ const ProgrammingLessonPage = () => {
                 <div className="absolute inset-0 z-0 bg-background/25" aria-hidden="true" />
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 space-y-8" key={lesson.id}>
+                  {mod.id === "prog-de-flagship" ? (
+                    <>
+                      <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
+                        🏗️ 10 Data Engineering Projects
+                      </h1>
+                      <DataEngFlagshipCode />
+                    </>
+                  ) : (
+                  <>
                   <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
                     {mod.icon} {t(lesson.title, lesson.titleEn)}
                   </h1>
+
 
                   {/* Mark-as-read toggle + module progress bar (universal across every pillar) */}
                   <LessonReadToggle
