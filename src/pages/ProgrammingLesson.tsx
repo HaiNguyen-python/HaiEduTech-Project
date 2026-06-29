@@ -626,68 +626,79 @@ const ProgrammingLessonPage = () => {
                     {pillarModules.map((pm) => {
                       const isExpanded = expandedModules.has(pm.id);
                       const isCurrentModule = pm.id === mod.id;
-                      return (
-                        <div key={pm.id}>
-                          <button
-                            onClick={() => {
-                              setExpandedModules(prev => {
-                                const next = new Set(prev);
-                                if (next.has(pm.id)) next.delete(pm.id);
-                                else next.add(pm.id);
-                                return next;
-                              });
-                            }}
-                            className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
-                              isCurrentModule
-                                ? "bg-primary/10 text-primary"
-                                : "text-foreground hover:bg-secondary"
-                            }`}
-                          >
-                            <span className="text-base shrink-0">{pm.icon}</span>
-                            <span className="truncate flex-1">{t(pm.title, pm.titleEn)}</span>
-                            <ChevronDown className={`w-3 h-3 shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
-                          </button>
-                          {isExpanded && (
-                            <div className="ml-3 mt-1 space-y-0.5 border-l-2 border-border pl-2">
-                              {pm.lessons.map((l, i) => {
-                                const isActive = lesson.id === l.id && mod.id === pm.id;
-                                const isEnhanced = cachedLessonKeys.has(`${pm.id}::${l.id}`);
-                                return (
-                                  <button
-                                    key={l.id}
-                                    onClick={() => {
-                                      if (pm.id !== mod.id) {
-                                        window.history.pushState({}, '', `/programming/${pm.id}`);
-                                        setMod(pm);
-                                      }
-                                      switchLesson(l);
-                                    }}
-                                    className={`w-full text-left px-2 py-1.5 rounded-md text-xs transition-all flex items-center gap-2 ${
-                                      isActive
-                                        ? "bg-primary/10 text-primary font-medium"
-                                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                                    }`}
-                                  >
-                                    {pm.lessons.length > 1 && (
-                                      <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                                        isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-                                      }`}>
-                                        {i + 1}
-                                      </span>
-                                    )}
-                                    <span className="truncate flex-1">{t(l.title, l.titleEn)}</span>
-                                    {isEnhanced && (
-                                      <span
-                                        title="AI Deep-Dive ready"
-                                        className="shrink-0 text-[10px] leading-none text-violet-500 dark:text-violet-300"
-                                      >
-                                        ✨
-                                      </span>
-                                    )}
-                                  </button>
-                                );
-                              })}
-                            </div>
+                       const isFlagship = pm.id === FLAGSHIP_DE_MODULE.id;
+                       return (
+                         <div key={pm.id}>
+                           <button
+                             onClick={() => {
+                               if (isFlagship) {
+                                 if (pm.id !== mod.id) {
+                                   window.history.pushState({}, '', `/programming/${pm.id}`);
+                                   setMod(pm);
+                                 }
+                                 switchLesson(pm.lessons[0]);
+                                 return;
+                               }
+                               setExpandedModules(prev => {
+                                 const next = new Set(prev);
+                                 if (next.has(pm.id)) next.delete(pm.id);
+                                 else next.add(pm.id);
+                                 return next;
+                               });
+                             }}
+                             className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
+                               isCurrentModule
+                                 ? "bg-primary/10 text-primary"
+                                 : "text-foreground hover:bg-secondary"
+                             }`}
+                           >
+                             <span className="text-base shrink-0">{pm.icon}</span>
+                             <span className="truncate flex-1">{t(pm.title, pm.titleEn)}</span>
+                             {!isFlagship && (
+                               <ChevronDown className={`w-3 h-3 shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                             )}
+                           </button>
+                           {!isFlagship && isExpanded && (
+                             <div className="ml-3 mt-1 space-y-0.5 border-l-2 border-border pl-2">
+                               {pm.lessons.map((l, i) => {
+                                 const isActive = lesson.id === l.id && mod.id === pm.id;
+                                 const isEnhanced = cachedLessonKeys.has(`${pm.id}::${l.id}`);
+                                 return (
+                                   <button
+                                     key={l.id}
+                                     onClick={() => {
+                                       if (pm.id !== mod.id) {
+                                         window.history.pushState({}, '', `/programming/${pm.id}`);
+                                         setMod(pm);
+                                       }
+                                       switchLesson(l);
+                                     }}
+                                     className={`w-full text-left px-2 py-1.5 rounded-md text-xs transition-all flex items-center gap-2 ${
+                                       isActive
+                                         ? "bg-primary/10 text-primary font-medium"
+                                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                                     }`}
+                                   >
+                                     {pm.lessons.length > 1 && (
+                                       <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                                         isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                                       }`}>
+                                         {i + 1}
+                                       </span>
+                                     )}
+                                     <span className="truncate flex-1">{t(l.title, l.titleEn)}</span>
+                                     {isEnhanced && (
+                                       <span
+                                         title="AI Deep-Dive ready"
+                                         className="shrink-0 text-[10px] leading-none text-violet-500 dark:text-violet-300"
+                                       >
+                                         ✨
+                                       </span>
+                                     )}
+                                   </button>
+                                 );
+                               })}
+                             </div>
                           )}
                         </div>
                       );
