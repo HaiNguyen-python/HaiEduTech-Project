@@ -20,6 +20,8 @@ import { protagonistFor, bannerImageFor } from "@/lib/conversationalSituationVis
 import { playMultiVoiceDialog, stopMultiVoiceDialog } from "@/lib/multiVoiceDialog";
 import { expandListeningChallenge } from "@/lib/listeningChallengeExpander";
 import DialogAudioPlayer from "@/components/DialogAudioPlayer";
+import { getSituationTips } from "@/lib/situationTips";
+
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
 const STORAGE_KEY = "conv-eng-progress";
