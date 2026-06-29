@@ -12,7 +12,7 @@ import { dataEngFlagshipProjects } from "@/data/dataEngFlagshipCode";
  */
 const DataEngFlagshipCode = () => {
   const { t } = useLanguage();
-  const [openId, setOpenId] = useState<string | null>(dataEngFlagshipProjects[0]?.id ?? null);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   return (
     <section className="mb-10">
