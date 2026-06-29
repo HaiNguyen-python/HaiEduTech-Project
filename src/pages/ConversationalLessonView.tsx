@@ -287,7 +287,7 @@ const ConversationalLessonView = () => {
                               </div>
                               <div className={`max-w-[78%] px-5 py-3.5 rounded-2xl text-sm ${s.bubble} ${isRight ? "rounded-br-sm" : "rounded-bl-sm"}`}>
                                 <p className={`text-[10px] font-bold mb-0.5 ${line.speaker === "You" ? "text-white/80" : "text-muted-foreground"}`}>{displayName}</p>
-                                <p className="leading-snug">{line.line}</p>
+                                <p className="leading-snug">{highlightKeywords(line.line, lesson.vocabulary.map(v => v.term))}</p>
                               </div>
                             </div>
                           );
