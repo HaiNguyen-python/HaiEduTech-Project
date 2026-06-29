@@ -158,7 +158,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
           {mcq.map((q, qi) => (
             <div key={qi} className="space-y-2 rounded-lg border border-border bg-card/60 p-3">
               <div className="flex items-center gap-2">
-                <button onClick={() => speakChinese(q.hanzi)} className="text-red-500 hover:text-red-600">
+                <button onClick={() => playChineseTts(q.hanzi)} className="text-red-500 hover:text-red-600">
                   <Volume2 className="h-4 w-4" />
                 </button>
                 <span className="font-bold text-xl text-red-600">{q.hanzi}</span>
