@@ -17,6 +17,7 @@ import LessonFloatingSymbols from "@/components/programming/LessonFloatingSymbol
 import BackToTopButton from "@/components/programming/BackToTopButton";
 import DailyCodeChallenge from "@/components/programming/DailyCodeChallenge";
 import ProfessionalProjects from "@/components/programming/ProfessionalProjects";
+import DataEngFlagshipCode from "@/components/programming/DataEngFlagshipCode";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
@@ -694,6 +695,9 @@ const Programming = () => {
                     </Link>
                   ))}
                 </div>
+
+                {/* Data Engineering flagship annotated code samples */}
+                {activePillar === "data-eng" && <DataEngFlagshipCode />}
               </motion.div>
             </AnimatePresence>
 

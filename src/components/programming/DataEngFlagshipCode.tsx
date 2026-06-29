@@ -23,8 +23,7 @@ const DataEngFlagshipCode = () => {
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="font-display font-bold text-xl sm:text-2xl text-foreground">
-              {t("📖 10 dự án Data Engineering lớn - đọc code có bình luận",
-                 "📖 10 Flagship Data Engineering Projects - Annotated Code")}
+              {t("10 Data Engineering Projects", "10 Data Engineering Projects")}
             </h2>
             <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
               {t(
