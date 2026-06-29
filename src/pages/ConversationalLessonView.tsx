@@ -17,6 +17,7 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
 import { protagonistFor, bannerImageFor } from "@/lib/conversationalSituationVisuals";
+import { playMultiVoiceDialog, stopMultiVoiceDialog } from "@/lib/multiVoiceDialog";
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
 const STORAGE_KEY = "conv-eng-progress";
