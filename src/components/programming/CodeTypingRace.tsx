@@ -407,7 +407,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
       try {
         const { data, error } = await supabase.functions.invoke("explain-code", {
           body: { code: snippet, language: langKey || "python", lessonContext: lessonTitle || "" },
-          // @ts-expect-error - supabase-js forwards signal to fetch
+          // signal not yet typed in supabase-js; cast keeps runtime forwarding intact
           signal: ac.signal,
         });
         if (error) throw error;
