@@ -1104,7 +1104,7 @@ const SuperDictionary = () => {
 
                     {!translateOutput && !translateLoading && !translateError && (
                       <p className="text-[11px] text-muted-foreground italic">
-                        💡 {t("Hỗ trợ Anh – Trung – Phần Lan – Việt. Có thể dịch câu, đoạn văn, hoặc cả bài đọc ngắn.", "Supports English, Chinese, Finnish, Vietnamese. Translate sentences, paragraphs, or short passages.")}
+                        💡 {t("Hỗ trợ Anh – Trung – Phần Lan – Thụy Điển – Việt. Có thể dịch câu, đoạn văn, hoặc cả bài đọc ngắn.", "Supports English, Chinese, Finnish, Swedish, Vietnamese. Translate sentences, paragraphs, or short passages.")}
                       </p>
                     )}
                   </TabsContent>
