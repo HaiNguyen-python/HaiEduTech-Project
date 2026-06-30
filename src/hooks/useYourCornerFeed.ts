@@ -34,6 +34,7 @@ export type FeedPost = {
   my_vote: number | null;
 };
 
+const FIRST_PAGE_SIZE = 5; // small first batch for fast initial paint
 const PAGE_SIZE = 10;
 
 function mapPosts(payload: any): FeedPost[] {
