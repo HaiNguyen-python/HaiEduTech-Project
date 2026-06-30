@@ -695,13 +695,14 @@ const SuperDictionary = () => {
           <>
             <motion.div
               {...motionProps}
-              drag
+              drag={isLg}
               dragControls={dragControls}
               dragListener={false}
               dragMomentum={false}
               dragElastic={0}
-              dragConstraints={dragConstraintsRef}
+              dragConstraints={isLg ? dragConstraintsRef : undefined}
               onDragEnd={(_, info) => {
+                if (!isLg) return;
                 persistPosition(position.x + info.offset.x, position.y + info.offset.y);
               }}
               className={panelClasses}
