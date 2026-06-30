@@ -59,6 +59,44 @@ const MIN_WIDTH = 360;
 const MAX_WIDTH = 900;
 const MIN_HEIGHT = 360;
 const MAX_HEIGHT_VH = 92; // % of viewport
+const DESKTOP_PANEL_LEFT = 12;
+const DESKTOP_PANEL_TOP = 80;
+const VIEWPORT_MARGIN = 8;
+const MIN_VISIBLE_HEADER = 56;
+
+const getDesktopPanelHeight = (height: number) => {
+  if (typeof window === "undefined") return MIN_HEIGHT;
+  const maxHeightPx = (window.innerHeight * MAX_HEIGHT_VH) / 100;
+  return height === 0
+    ? Math.min(maxHeightPx, Math.max(MIN_HEIGHT, window.innerHeight - 100))
+    : Math.min(Math.max(height, MIN_HEIGHT), maxHeightPx);
+};
+
+const getDesktopDragConstraints = (panelSize: { w: number; h: number }) => {
+  if (typeof window === "undefined") {
+    return { left: 0, right: 0, top: 0, bottom: 0 };
+  }
+
+  const availableWidth = Math.max(MIN_WIDTH, window.innerWidth - VIEWPORT_MARGIN * 2);
+  const panelWidth = Math.min(Math.max(panelSize.w, MIN_WIDTH), Math.min(MAX_WIDTH, availableWidth));
+  const panelHeight = Math.min(getDesktopPanelHeight(panelSize.h), Math.max(MIN_HEIGHT, window.innerHeight - VIEWPORT_MARGIN * 2));
+  const left = VIEWPORT_MARGIN - DESKTOP_PANEL_LEFT;
+  const right = Math.max(left, window.innerWidth - VIEWPORT_MARGIN - DESKTOP_PANEL_LEFT - panelWidth);
+  const top = VIEWPORT_MARGIN - DESKTOP_PANEL_TOP;
+  const bottomByFullPanel = window.innerHeight - VIEWPORT_MARGIN - DESKTOP_PANEL_TOP - panelHeight;
+  const bottomByHeader = window.innerHeight - VIEWPORT_MARGIN - DESKTOP_PANEL_TOP - MIN_VISIBLE_HEADER;
+  const bottom = Math.max(top, Math.min(bottomByFullPanel, bottomByHeader));
+
+  return { left, right, top, bottom };
+};
+
+const clampPanelPosition = (pos: { x: number; y: number }, panelSize: { w: number; h: number }) => {
+  const bounds = getDesktopDragConstraints(panelSize);
+  return {
+    x: Math.min(Math.max(pos.x, bounds.left), bounds.right),
+    y: Math.min(Math.max(pos.y, bounds.top), bounds.bottom),
+  };
+};
 
 // Colored chip per part-of-speech for fast scanning
 const posChip = (pos: string): string => {
@@ -174,7 +212,6 @@ const SuperDictionary = () => {
 
   // Drag-to-move position (offset from default anchored position)
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const dragConstraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
 
   // Resize state - width + height (px). height = 0 means auto.
@@ -189,21 +226,25 @@ const SuperDictionary = () => {
     } catch {
       // ignore
     }
+    let restoredSize = { w: DEFAULT_WIDTH, h: DEFAULT_HEIGHT };
     try {
-      const p = JSON.parse(localStorage.getItem(POSITION_KEY) || "null");
-      if (p && typeof p.x === "number" && typeof p.y === "number") {
-        setPosition(p);
+      const s = JSON.parse(localStorage.getItem(SIZE_KEY) || "null");
+      if (s && typeof s.w === "number" && typeof s.h === "number") {
+        restoredSize = {
+          w: Math.min(Math.max(s.w, MIN_WIDTH), MAX_WIDTH),
+          h: s.h === 0 ? 0 : Math.max(s.h, MIN_HEIGHT),
+        };
       }
     } catch {
       // ignore
     }
+    setSize(restoredSize);
     try {
-      const s = JSON.parse(localStorage.getItem(SIZE_KEY) || "null");
-      if (s && typeof s.w === "number" && typeof s.h === "number") {
-        setSize({
-          w: Math.min(Math.max(s.w, MIN_WIDTH), MAX_WIDTH),
-          h: s.h === 0 ? 0 : Math.max(s.h, MIN_HEIGHT),
-        });
+      const p = JSON.parse(localStorage.getItem(POSITION_KEY) || "null");
+      if (p && typeof p.x === "number" && typeof p.y === "number") {
+        const safePosition = clampPanelPosition(p, restoredSize);
+        setPosition(safePosition);
+        localStorage.setItem(POSITION_KEY, JSON.stringify(safePosition));
       }
     } catch {
       // ignore
@@ -225,9 +266,10 @@ const SuperDictionary = () => {
   }, []);
 
   const persistPosition = useCallback((x: number, y: number) => {
-    setPosition({ x, y });
-    localStorage.setItem(POSITION_KEY, JSON.stringify({ x, y }));
-  }, []);
+    const safePosition = clampPanelPosition({ x, y }, size);
+    setPosition(safePosition);
+    localStorage.setItem(POSITION_KEY, JSON.stringify(safePosition));
+  }, [size]);
 
   const resetPosition = useCallback(() => {
     setPosition({ x: 0, y: 0 });
@@ -273,6 +315,26 @@ const SuperDictionary = () => {
     (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
     localStorage.setItem(SIZE_KEY, JSON.stringify(size));
   }, [size]);
+
+  useEffect(() => {
+    const keepPanelReachable = () => {
+      if (typeof window === "undefined" || !window.matchMedia?.("(min-width: 1024px)").matches) return;
+      setPosition((current) => {
+        const safePosition = clampPanelPosition(current, size);
+        if (safePosition.x === current.x && safePosition.y === current.y) return current;
+        try {
+          localStorage.setItem(POSITION_KEY, JSON.stringify(safePosition));
+        } catch {
+          // ignore
+        }
+        return safePosition;
+      });
+    };
+
+    if (isOpen) keepPanelReachable();
+    window.addEventListener("resize", keepPanelReachable);
+    return () => window.removeEventListener("resize", keepPanelReachable);
+  }, [isOpen, size]);
 
   const pushRecent = useCallback((word: string) => {
     const w = word.trim().toLowerCase();
