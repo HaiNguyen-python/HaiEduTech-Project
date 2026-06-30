@@ -16,8 +16,8 @@ const BodySchema = z.object({
 
 const PollSchema = z.object({
   question: z.string(),
-  options: z.array(z.string()).length(4),
-  correct_index: z.number().int().min(0).max(3),
+  options: z.array(z.string()).min(2).max(6),
+  correct_index: z.number().int().min(0).max(5),
   explanation: z.string(),
 });
 
