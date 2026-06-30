@@ -58,6 +58,7 @@ const HealthMonitorTab = lazy(() => import("@/components/admin/HealthMonitorTab"
 const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
 const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
 const ResearchProjectsAdminTab = lazy(() => import("@/components/admin/ResearchProjectsAdminTab"));
+const SuspiciousActivityCard = lazy(() => import("@/components/admin/SuspiciousActivityCard"));
 
 // Priority colors
 const PRIORITY_COLORS = {
