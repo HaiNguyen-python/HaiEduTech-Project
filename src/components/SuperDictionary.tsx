@@ -644,13 +644,16 @@ const SuperDictionary = () => {
     ? {
         width: `${size.w}px`,
         height: size.h === 0 ? `min(${MAX_HEIGHT_VH}vh, calc(100vh - 100px))` : `${size.h}px`,
+        touchAction: "auto",
       }
-    : {};
+    : { touchAction: "auto" };
 
+  // Only enable drag on desktop. On mobile, framer-motion's `drag` prop applies
+  // `touch-action: none` which breaks native scrolling inside the panel.
   const motionProps = {
-    initial: { opacity: 0, x: -40 + position.x, y: position.y },
-    animate: { opacity: 1, x: position.x, y: position.y },
-    exit: { opacity: 0, x: -40 + position.x, y: position.y },
+    initial: { opacity: 0, x: -40 + (isLg ? position.x : 0), y: isLg ? position.y : 0 },
+    animate: { opacity: 1, x: isLg ? position.x : 0, y: isLg ? position.y : 0 },
+    exit: { opacity: 0, x: -40 + (isLg ? position.x : 0), y: isLg ? position.y : 0 },
     transition: { type: "spring" as const, damping: 26, stiffness: 280 },
   };
 
@@ -692,13 +695,14 @@ const SuperDictionary = () => {
           <>
             <motion.div
               {...motionProps}
-              drag
+              drag={isLg}
               dragControls={dragControls}
               dragListener={false}
               dragMomentum={false}
               dragElastic={0}
-              dragConstraints={dragConstraintsRef}
+              dragConstraints={isLg ? dragConstraintsRef : undefined}
               onDragEnd={(_, info) => {
+                if (!isLg) return;
                 persistPosition(position.x + info.offset.x, position.y + info.offset.y);
               }}
               className={panelClasses}
@@ -753,7 +757,7 @@ const SuperDictionary = () => {
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-y-auto px-4 py-3">
+              <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-3" style={{ WebkitOverflowScrolling: "touch" }}>
                 <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ActiveTab)}>
                   <TabsList className="w-full h-9 mb-3 sticky top-0 z-10 grid grid-cols-4">
                     <TabsTrigger value="dictionary" className="text-xs h-8 px-1">📖 {t("Từ điển", "Dict")}</TabsTrigger>
