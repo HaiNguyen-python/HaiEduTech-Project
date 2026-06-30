@@ -771,6 +771,11 @@ const AdminDashboard = () => {
 
               {/* ===== STUDENTS TAB ===== */}
               <TabsContent value="students">
+                <div className="mb-6">
+                  <Suspense fallback={<div className="h-24 flex items-center justify-center"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>}>
+                    <SuspiciousActivityCard />
+                  </Suspense>
+                </div>
                 <div className="grid lg:grid-cols-3 gap-6">
                   {/* Student List */}
                   <div className="lg:col-span-2">
