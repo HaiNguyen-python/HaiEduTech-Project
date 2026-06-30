@@ -68,8 +68,10 @@ export function useYourCornerFeed(enabled: boolean) {
   const offsetRef = useRef(0);
 
   const fetchFeed = useCallback(async () => {
+    // First paint: fetch a small batch, then top-up in background to PAGE_SIZE.
+    const firstSize = offsetRef.current === 0 ? FIRST_PAGE_SIZE : PAGE_SIZE;
     const { data, error } = await supabase.rpc("get_your_corner_feed", {
-      _limit: PAGE_SIZE,
+      _limit: firstSize,
       _offset: 0,
     });
     if (error || !data) {
@@ -80,8 +82,30 @@ export function useYourCornerFeed(enabled: boolean) {
     const mapped = mapPosts(data);
     setPosts(mapped);
     offsetRef.current = mapped.length;
-    setHasMore(mapped.length >= PAGE_SIZE);
+    setHasMore(mapped.length >= firstSize);
     setLoading(false);
+
+    // Background top-up so users can scroll without waiting
+    if (firstSize === FIRST_PAGE_SIZE && mapped.length >= FIRST_PAGE_SIZE) {
+      const topup = PAGE_SIZE - FIRST_PAGE_SIZE;
+      if (topup > 0) {
+        const { data: more } = await supabase.rpc("get_your_corner_feed", {
+          _limit: topup,
+          _offset: FIRST_PAGE_SIZE,
+        });
+        if (more) {
+          const extra = mapPosts(more);
+          setPosts((prev) => {
+            const seen = new Set(prev.map((p) => p.id));
+            const merged = [...prev];
+            extra.forEach((p) => { if (!seen.has(p.id)) merged.push(p); });
+            return merged;
+          });
+          offsetRef.current = FIRST_PAGE_SIZE + extra.length;
+          setHasMore(extra.length >= topup);
+        }
+      }
+    }
   }, []);
 
   const loadMore = useCallback(async () => {
