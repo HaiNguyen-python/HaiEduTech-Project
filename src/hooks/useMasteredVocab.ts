@@ -12,6 +12,22 @@ import { awardPetXP } from "@/hooks/usePetXP";
 
 export const MASTERY_UPDATED_EVENT = "vocab-mastery-updated";
 
+// Anti-gaming: enforce a 3-second cooldown between marking words as mastered.
+// Prevents users from clicking through 200+ words/minute just to farm XP/leaderboard.
+const MASTERY_COOLDOWN_MS = 3000;
+const MASTERY_COOLDOWN_KEY = "vocab_mastery_last_marked_at";
+
+const isOnCooldown = (): boolean => {
+  try {
+    const last = Number(localStorage.getItem(MASTERY_COOLDOWN_KEY) || "0");
+    return Date.now() - last < MASTERY_COOLDOWN_MS;
+  } catch { return false; }
+};
+
+const stampCooldown = () => {
+  try { localStorage.setItem(MASTERY_COOLDOWN_KEY, String(Date.now())); } catch { /* noop */ }
+};
+
 const storageKey = (subject: string) => `vocab_mastered_${subject}`;
 
 const readLocal = (subject: string): Set<string> => {
