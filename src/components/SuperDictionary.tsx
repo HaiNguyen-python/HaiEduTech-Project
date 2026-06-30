@@ -30,15 +30,16 @@ import { toast } from "sonner";
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus" | "translate";
-type DictLang = "en" | "zh" | "fi" | "vi";
+type DictLang = "en" | "zh" | "fi" | "sv" | "vi";
 
 const LANG_LABEL: Record<DictLang, string> = {
   en: "🇬🇧 English",
   zh: "🇨🇳 中文",
   fi: "🇫🇮 Suomi",
+  sv: "🇸🇪 Svenska",
   vi: "🇻🇳 Tiếng Việt",
 };
-const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "vi"];
+const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "sv", "vi"];
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
@@ -49,6 +50,7 @@ const SUGGESTIONS_BY_LANG: Record<DictLang, string[]> = {
   en: ["ambiguous", "perspective", "significant"],
   zh: ["学习", "朋友", "希望"],
   fi: ["kiitos", "ystävä", "oppia"],
+  sv: ["hej", "tack", "vänskap"],
   vi: ["học tập", "hi vọng", "bạn bè"],
 };
 
@@ -853,6 +855,7 @@ const SuperDictionary = () => {
                               dictLang === "en" ? t("Nhập từ tiếng Anh...", "Enter an English word...") :
                               dictLang === "zh" ? t("Nhập từ tiếng Trung (Hán tự)...", "Enter a Chinese word (Hanzi)...") :
                               dictLang === "fi" ? t("Nhập từ tiếng Phần Lan...", "Enter a Finnish word...") :
+                              dictLang === "sv" ? t("Nhập từ tiếng Thụy Điển...", "Enter a Swedish word...") :
                               t("Nhập từ tiếng Việt...", "Enter a Vietnamese word...")
                             }
                             onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}
@@ -1101,7 +1104,7 @@ const SuperDictionary = () => {
 
                     {!translateOutput && !translateLoading && !translateError && (
                       <p className="text-[11px] text-muted-foreground italic">
-                        💡 {t("Hỗ trợ Anh – Trung – Phần Lan – Việt. Có thể dịch câu, đoạn văn, hoặc cả bài đọc ngắn.", "Supports English, Chinese, Finnish, Vietnamese. Translate sentences, paragraphs, or short passages.")}
+                        💡 {t("Hỗ trợ Anh – Trung – Phần Lan – Thụy Điển – Việt. Có thể dịch câu, đoạn văn, hoặc cả bài đọc ngắn.", "Supports English, Chinese, Finnish, Swedish, Vietnamese. Translate sentences, paragraphs, or short passages.")}
                       </p>
                     )}
                   </TabsContent>
