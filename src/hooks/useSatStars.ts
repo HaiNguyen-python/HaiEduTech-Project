@@ -54,7 +54,18 @@ export const useSatStar = (key: string | undefined) => {
     if (wasMarked) set.delete(key);
     else set.add(key);
     writeSet(set);
-    if (!wasMarked) awardPetXP(10, "quiz:sat", { celebrate: true });
+    // Anti-gaming: only award XP when ≥3s since last star toggle.
+    if (!wasMarked) {
+      try {
+        const last = Number(localStorage.getItem("sat-stars-last-xp-at") || "0");
+        if (Date.now() - last >= 3000) {
+          localStorage.setItem("sat-stars-last-xp-at", String(Date.now()));
+          awardPetXP(10, "quiz:sat", { celebrate: true });
+        }
+      } catch {
+        awardPetXP(10, "quiz:sat", { celebrate: true });
+      }
+    }
   }, [key]);
 
   return { marked, toggle };
