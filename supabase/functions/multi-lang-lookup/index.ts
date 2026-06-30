@@ -112,13 +112,13 @@ Deno.serve(async (req) => {
       method: "POST",
       headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-2.5-flash-lite",
         messages: [
           { role: "system", content: system },
           { role: "user", content: `Look up the word: ${word}` },
         ],
-        temperature: 0.1,
-        max_tokens: 1200,
+        temperature: 0,
+        max_tokens: 600,
         response_format: { type: "json_object" },
       }),
     });
