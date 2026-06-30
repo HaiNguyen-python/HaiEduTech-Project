@@ -744,13 +744,6 @@ const SuperDictionary = () => {
         )}
       </AnimatePresence>
 
-      {/* Drag constraints container - full viewport on lg+ only */}
-      <div
-        ref={dragConstraintsRef}
-        className="hidden lg:block fixed inset-0 z-[55] pointer-events-none"
-        aria-hidden
-      />
-
       {/* Side panel / modal */}
       <AnimatePresence>
         {isOpen && (
@@ -762,7 +755,7 @@ const SuperDictionary = () => {
               dragListener={false}
               dragMomentum={false}
               dragElastic={0}
-              dragConstraints={isLg ? dragConstraintsRef : undefined}
+              dragConstraints={isLg ? getDesktopDragConstraints(size) : undefined}
               onDragEnd={(_, info) => {
                 if (!isLg) return;
                 persistPosition(position.x + info.offset.x, position.y + info.offset.y);
