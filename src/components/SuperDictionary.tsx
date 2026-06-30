@@ -644,13 +644,16 @@ const SuperDictionary = () => {
     ? {
         width: `${size.w}px`,
         height: size.h === 0 ? `min(${MAX_HEIGHT_VH}vh, calc(100vh - 100px))` : `${size.h}px`,
+        touchAction: "auto",
       }
-    : {};
+    : { touchAction: "auto" };
 
+  // Only enable drag on desktop. On mobile, framer-motion's `drag` prop applies
+  // `touch-action: none` which breaks native scrolling inside the panel.
   const motionProps = {
-    initial: { opacity: 0, x: -40 + position.x, y: position.y },
-    animate: { opacity: 1, x: position.x, y: position.y },
-    exit: { opacity: 0, x: -40 + position.x, y: position.y },
+    initial: { opacity: 0, x: -40 + (isLg ? position.x : 0), y: isLg ? position.y : 0 },
+    animate: { opacity: 1, x: isLg ? position.x : 0, y: isLg ? position.y : 0 },
+    exit: { opacity: 0, x: -40 + (isLg ? position.x : 0), y: isLg ? position.y : 0 },
     transition: { type: "spring" as const, damping: 26, stiffness: 280 },
   };
 
