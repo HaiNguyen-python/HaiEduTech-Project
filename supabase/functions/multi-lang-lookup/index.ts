@@ -14,6 +14,7 @@ const LANG_NAMES: Record<string, string> = {
   en: "English",
   zh: "Simplified Chinese (Mandarin) — use Hanzi for the headword; provide Pinyin with tone marks",
   fi: "Finnish — provide the base dictionary form and IPA phonetic",
+  sv: "Swedish — provide the base dictionary form (with article en/ett for nouns) and IPA phonetic",
   vi: "Vietnamese — provide the diacritic spelling and rough IPA",
 };
 
