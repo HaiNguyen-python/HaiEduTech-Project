@@ -1,5 +1,5 @@
 import { createOpenAICompatible } from "npm:@ai-sdk/openai-compatible";
-import { generateObject } from "npm:ai";
+import { generateText } from "npm:ai";
 import { z } from "npm:zod";
 
 const corsHeaders = {
@@ -14,12 +14,15 @@ const BodySchema = z.object({
   lang: z.enum(["vi", "en"]).optional().default("vi"),
 });
 
-const PollSchema = z.object({
-  question: z.string(),
-  options: z.array(z.string()).min(2).max(6),
-  correct_index: z.number().int().min(0).max(5),
-  explanation: z.string(),
-});
+function extractJson(raw: string): any | null {
+  if (!raw) return null;
+  // strip ```json fences
+  const cleaned = raw.replace(/```json\s*/gi, "").replace(/```/g, "").trim();
+  try { return JSON.parse(cleaned); } catch {}
+  const m = cleaned.match(/\{[\s\S]*\}/);
+  if (m) { try { return JSON.parse(m[0]); } catch {} }
+  return null;
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -39,11 +42,32 @@ Deno.serve(async (req) => {
   const { subject, topic, lang } = parsed.data;
 
   const subjectLabel = subject || "General study";
-  const topicLine = topic?.trim() ? `Specific topic / hint: ${topic.trim()}` : "Pick a useful sub-topic the teacher would test.";
+  const topicLine = topic?.trim() ? `Chủ đề cụ thể: ${topic.trim()}` : "Chọn một chủ đề ôn tập hữu ích.";
 
   const prompt = lang === "vi"
-    ? `Bạn là giáo viên HaiEduTech tạo câu hỏi trắc nghiệm ÔN TẬP cho học viên.\nMôn: ${subjectLabel}\n${topicLine}\n\nYêu cầu:\n- Câu hỏi ngắn gọn, rõ ràng.\n- Đúng 4 đáp án, CHỈ MỘT đáp án đúng.\n- Đáp án sai phải hợp lý.\n- Mỗi đáp án tối đa 80 ký tự. Câu hỏi tối đa 220 ký tự.\n- Trả về tiếng Việt (giữ thuật ngữ tiếng Anh nếu cần).\n- explanation: 1-2 câu ngắn.`
-    : `You are a HaiEduTech teacher creating a REVIEW multiple-choice question.\nSubject: ${subjectLabel}\n${topicLine}\n\nRequirements:\n- Clear, concise review question.\n- EXACTLY 4 options, ONLY ONE correct.\n- Plausible distractors.\n- Each option <= 80 chars. Question <= 220 chars.\n- explanation: 1-2 short sentences.`;
+    ? `Bạn là giáo viên HaiEduTech. Tạo MỘT câu hỏi trắc nghiệm ôn tập.
+Môn: ${subjectLabel}
+${topicLine}
+
+CHỈ trả về JSON thuần (không markdown, không lời dẫn) theo đúng format:
+{"question":"...","options":["A","B","C","D"],"correct_index":0,"explanation":"..."}
+
+Quy tắc:
+- 4 đáp án, chỉ 1 đáp án đúng.
+- Câu hỏi <=220 ký tự, mỗi đáp án <=80 ký tự.
+- Tiếng Việt (giữ thuật ngữ tiếng Anh nếu cần).
+- explanation: 1-2 câu.`
+    : `You are a HaiEduTech teacher. Create ONE review multiple-choice question.
+Subject: ${subjectLabel}
+${topicLine}
+
+Return ONLY pure JSON (no markdown, no preamble) in this exact format:
+{"question":"...","options":["A","B","C","D"],"correct_index":0,"explanation":"..."}
+
+Rules:
+- 4 options, only 1 correct.
+- Question <=220 chars, each option <=80 chars.
+- explanation: 1-2 short sentences.`;
 
   try {
     const provider = createOpenAICompatible({
@@ -51,14 +75,22 @@ Deno.serve(async (req) => {
       baseURL: "https://ai.gateway.lovable.dev/v1",
       headers: { "Lovable-API-Key": key, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
     });
-    const { object } = await generateObject({
+    const { text } = await generateText({
       model: provider("google/gemini-2.5-flash"),
       prompt,
-      schema: PollSchema,
     });
-    return new Response(JSON.stringify(object), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    const result = extractJson(text);
+    if (!result || typeof result.question !== "string" || !Array.isArray(result.options) || result.options.length < 2) {
+      return new Response(JSON.stringify({ error: "AI trả về dữ liệu không hợp lệ", code: "AI_ERROR", raw: text?.slice(0, 400) }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const options = result.options.slice(0, 6).map((o: any) => String(o).trim()).filter(Boolean);
+    const correct_index = Number.isInteger(result.correct_index) && result.correct_index >= 0 && result.correct_index < options.length ? result.correct_index : 0;
+    return new Response(JSON.stringify({
+      question: String(result.question).trim(),
+      options,
+      correct_index,
+      explanation: String(result.explanation ?? "").trim(),
+    }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e: any) {
     const msg = String(e?.message || e);
     const rawStatus = Number(e?.statusCode ?? e?.status ?? e?.cause?.statusCode ?? 0);
