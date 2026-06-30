@@ -96,14 +96,24 @@ export function useMasteredVocab(subject: string) {
     setMastered(prev => {
       const next = new Set(prev);
       const wasMastered = next.has(word);
+
+      // Anti-gaming: if adding (not removing) a word too fast, save locally but
+      // skip XP + DB write. Real learners pause >3s per word; spammers don't.
+      if (!wasMastered && isOnCooldown()) {
+        next.add(word);
+        writeLocal(subject, next);
+        return next;
+      }
+
       if (wasMastered) next.delete(word);
-      else next.add(word);
+      else {
+        next.add(word);
+        stampCooldown();
+      }
       writeLocal(subject, next);
-      // Award Pet XP only when a NEW word is being mastered (not when un-mastering)
       if (!wasMastered) {
         awardPetXP(5, `vocab:${subject}`, { celebrate: false });
       }
-      // Fire-and-forget DB sync
       const uid = userIdRef.current;
       if (uid) {
         if (wasMastered) {
@@ -120,12 +130,13 @@ export function useMasteredVocab(subject: string) {
           (supabase as any)
             .from("user_vocab_mastered")
             .insert({ user_id: uid, subject, word })
-            .then(() => {
+            .then(({ error }: { error: any }) => {
+              // Burst-protection trigger may reject – not a real failure for the user.
+              if (error && !String(error?.message || "").includes("rate_limit")) {
+                console.debug("vocab mastery insert error:", error?.message);
+              }
               window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
             });
-          // Log vocab mastery into the central activity pipeline so the RL
-          // dispatcher counts vocabulary review as meaningful engagement.
-          // Fire-and-forget: never blocks the UI.
           import("@/hooks/useActivityLogger").then(({ logStudentActivity }) => {
             logStudentActivity({
               activityType: "vocab_mastered",
