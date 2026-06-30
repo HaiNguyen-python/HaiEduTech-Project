@@ -105,7 +105,7 @@ Deno.serve(async (req) => {
       `- "definitionEn" is the English meaning. "definitionVi" is the Vietnamese meaning.\n` +
       `- Always include one short natural example sentence in the source language plus its Vietnamese translation in "exampleVi".\n` +
       `- For Chinese: "phonetic" must be Pinyin with tone marks; "word" must be the Hanzi.\n` +
-      `- For Finnish/English: "phonetic" is IPA in slashes.\n` +
+      `- For Finnish/Swedish/English: "phonetic" is IPA in slashes.\n` +
       `- For Vietnamese: "phonetic" may be empty or a rough IPA.\n` +
       `- Output ONLY the JSON object. No \`\`\`json fences, no extra text, no citation markers.`;
 
