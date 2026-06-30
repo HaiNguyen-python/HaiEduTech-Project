@@ -757,7 +757,7 @@ const SuperDictionary = () => {
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-y-auto px-4 py-3">
+              <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-3" style={{ WebkitOverflowScrolling: "touch" }}>
                 <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ActiveTab)}>
                   <TabsList className="w-full h-9 mb-3 sticky top-0 z-10 grid grid-cols-4">
                     <TabsTrigger value="dictionary" className="text-xs h-8 px-1">📖 {t("Từ điển", "Dict")}</TabsTrigger>
