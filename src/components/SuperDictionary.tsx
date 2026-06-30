@@ -30,15 +30,16 @@ import { toast } from "sonner";
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus" | "translate";
-type DictLang = "en" | "zh" | "fi" | "vi";
+type DictLang = "en" | "zh" | "fi" | "sv" | "vi";
 
 const LANG_LABEL: Record<DictLang, string> = {
   en: "🇬🇧 English",
   zh: "🇨🇳 中文",
   fi: "🇫🇮 Suomi",
+  sv: "🇸🇪 Svenska",
   vi: "🇻🇳 Tiếng Việt",
 };
-const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "vi"];
+const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "sv", "vi"];
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
@@ -49,6 +50,7 @@ const SUGGESTIONS_BY_LANG: Record<DictLang, string[]> = {
   en: ["ambiguous", "perspective", "significant"],
   zh: ["学习", "朋友", "希望"],
   fi: ["kiitos", "ystävä", "oppia"],
+  sv: ["hej", "tack", "vänskap"],
   vi: ["học tập", "hi vọng", "bạn bè"],
 };
 
