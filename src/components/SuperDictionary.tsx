@@ -855,6 +855,7 @@ const SuperDictionary = () => {
                               dictLang === "en" ? t("Nhập từ tiếng Anh...", "Enter an English word...") :
                               dictLang === "zh" ? t("Nhập từ tiếng Trung (Hán tự)...", "Enter a Chinese word (Hanzi)...") :
                               dictLang === "fi" ? t("Nhập từ tiếng Phần Lan...", "Enter a Finnish word...") :
+                              dictLang === "sv" ? t("Nhập từ tiếng Thụy Điển...", "Enter a Swedish word...") :
                               t("Nhập từ tiếng Việt...", "Enter a Vietnamese word...")
                             }
                             onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}
