@@ -58,6 +58,7 @@ const HealthMonitorTab = lazy(() => import("@/components/admin/HealthMonitorTab"
 const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
 const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
 const ResearchProjectsAdminTab = lazy(() => import("@/components/admin/ResearchProjectsAdminTab"));
+const SuspiciousActivityCard = lazy(() => import("@/components/admin/SuspiciousActivityCard"));
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -770,6 +771,11 @@ const AdminDashboard = () => {
 
               {/* ===== STUDENTS TAB ===== */}
               <TabsContent value="students">
+                <div className="mb-6">
+                  <Suspense fallback={<div className="h-24 flex items-center justify-center"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>}>
+                    <SuspiciousActivityCard />
+                  </Suspense>
+                </div>
                 <div className="grid lg:grid-cols-3 gap-6">
                   {/* Student List */}
                   <div className="lg:col-span-2">

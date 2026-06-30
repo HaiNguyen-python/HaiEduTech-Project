@@ -1,96 +1,72 @@
-## Mục tiêu
+## Vấn đề
 
-Tăng độ sâu nội dung lý thuyết (theory) cho toàn bộ bài học trong mục Programming, với trọng tâm là Data Engineering - bổ sung khái niệm nền, cơ chế bên trong, ví dụ thực tế, trade-off, best-practice và checklist - mà không làm xáo trộn dữ liệu code/quiz/exercise hiện có.
+Dữ liệu hiện tại cho thấy có hành vi "spam sao" rõ ràng:
+- 1 học viên đánh dấu **1.206 từ "đã thuộc" trong 1 phút** (24/06)
+- Nhiều phiên 200-400 từ/phút - không thể là học thật
+- Top tháng trước có người đạt 770 từ chỉ trong vài ngày
 
-## Cách tiếp cận
+Nguyên nhân: `useMasteredVocab.ts` và `SatStarToggle` ghi `user_vocab_mastered` / `awardPetXP` ngay khi click sao, không kiểm tra thời gian xem từ, không có cooldown, không có xác thực hiểu nghĩa.
 
-Tạo một module phụ trợ `src/data/curriculum/theoryExtensions.ts` chứa các khối "Deep-Dive" theo `lessonId`, rồi nối vào cuối `theory`/`theoryEn` lúc render trong `ProgrammingLesson.tsx`. Cách này:
+## Giải pháp - 3 lớp bảo vệ
 
-- Không phá vỡ file curriculum gốc (giữ git diff sạch, dễ rollback)
-- Cho phép viết nội dung dài (1500-3500 ký tự/bài) với nhiều H2, ví dụ code, bảng so sánh
-- Tương thích với nút "AI Deep-Dive" hiện có (chỉ append khi không bật enhanced mode)
+### Lớp 1: Chống spam ở nguồn (client + DB)
 
-## Phạm vi nội dung
+- **Cooldown 3 giây/từ**: trong `useMasteredVocab.ts`, trước khi insert kiểm tra `lastMarkedAt` - nếu < 3s từ lần đánh dấu trước thì chỉ lưu localStorage, không ghi DB và không award XP.
+- **Trigger DB chặn burst**: tạo trigger trên `user_vocab_mastered` BEFORE INSERT - nếu user đã có >= 8 row trong 60 giây gần nhất thì raise exception. Đây là rào cuối cùng kể cả khi client bị bypass.
+- Áp dụng tương tự cho `SatStarToggle` (chỉ award XP nếu lần toggle trước cách >= 3s).
 
-**1. Data Engineering (ưu tiên cao - viết kỹ nhất, ~2500-3500 ký tự/bài)**
+### Lớp 2: Đếm từ "hợp lệ" thay vì đếm thô (fair count)
 
-Bao phủ toàn bộ 14 bài hiện có:
-- de-pd-1 DataFrame & Series, de-pd-* (Pandas basics)
-- de-clean-1 Missing Values & Duplicates
-- de-ingest-1 Reading Multiple Sources (CSV/JSON/Parquet/API/DB)
-- de-etl-1 ETL vs ELT
-- de-model-1 Star & Snowflake Schema
-- de-wh-1 OLAP & Warehouse
-- de-bs-1 Batch & Streaming
-- de-dq-1 Data Quality Framework
-- de-orch-1 DAGs & Airflow
-- de-cloud-1 Cloud Platforms (AWS/GCP/Azure)
-- de-prod-1 Production Best Practices
-- de-lake-1 Lakehouse, de-dbt-1 dbt, de-cdc-1 CDC, de-obs-1 Data Observability
+Tạo function `get_fair_mastered_count(user_id, start, end)`:
+- Group theo `date_trunc('minute', reviewed_at)`
+- **Cap tối đa 8 từ/phút** mỗi user (học thật ~5-8 từ/phút là rất nhanh rồi)
+- **Cap 200 từ/ngày** mỗi user
+- Trả về `valid_count` (đã cap) + `raw_count` để admin so sánh
 
-Mỗi bài bổ sung các mục:
-- Bối cảnh & "Vì sao khái niệm này tồn tại"
-- Cơ chế bên trong (engine, memory layout, execution plan)
-- Ví dụ thực tế công ty (Shopee/Tiki/Spotify/Uber pattern)
-- Bảng so sánh trade-off
-- Anti-pattern thường gặp
-- Checklist trước khi merge PR
-- Liên hệ sang khái niệm bài kế tiếp
+### Lớp 3: Công thức Student of the Month công bằng hơn
 
-**2. Các mục còn lại (~1200-2000 ký tự/bài)**
-
-- SQL (sqlLessons): bổ sung query plan, B-Tree index, MVCC, normalization examples
-- ML (mlLessons): bias-variance, regularization intuition, evaluation pitfalls
-- Cloud (cloudLessons/cloudExpansion): shared responsibility, cost model, IaC
-- Cybersecurity: STRIDE threat model, OWASP mapping, secure SDLC
-- Web Dev: rendering pipeline, hydration, CDN/cache, accessibility
-- Software Eng: SOLID examples, CI/CD pipeline anatomy, code review heuristics
-- AI Foundation / NLP / DL / RL: chỉ bài nào theory < 1500 ký tự
-- Programming basics & Python pathway: chỉ bài nào theory ngắn
-
-## Triển khai kỹ thuật
+Cập nhật `get_monthly_top_students` với:
 
 ```text
-src/data/curriculum/
-├── theoryExtensions.ts     (NEW - map<lessonId, {vi, en}>)
-└── ...
-src/pages/ProgrammingLesson.tsx
-└── append theoryExtensions[lesson.id] vào markdown trước khi render
+fair_words   = fair_mastered_count (đã cap ở Lớp 2)
+fair_acts    = activities có time_spent_seconds >= 15s
+                (loại bỏ click qua loa, mỗi loại activity cap 50/ngày)
+fair_minutes = online_minutes nhưng cap 240 phút/ngày
+                (chống mở tab cả ngày để cộng dồn)
+fair_days    = login_days (giữ nguyên - khó gian lận)
+
+Quality bonus (×1.0 - 1.3):
+  + 0.10 nếu có >= 3 loại activity khác nhau trong tháng
+  + 0.10 nếu có ielts/toeic/speaking scored activity với score >= 5
+  + 0.10 nếu fair_days >= 10
+
+total_score = (fair_words×1 + fair_acts×2 + fair_minutes×3 + fair_days×4) × bonus
 ```
 
-Snippet render (chèn quanh dòng 738-748):
+### Lớp 4: Minh bạch & giám sát
 
-```ts
-const ext = theoryExtensions[lesson.id];
-const baseTheory = lang === "vi"
-  ? (lesson.theory || lesson.theoryEn || "")
-  : (lesson.theoryEn || lesson.theory || "");
-const extText = ext ? (lang === "vi" ? ext.vi : ext.en) : "";
-const merged = extText ? `${baseTheory}\n\n${extText}` : baseTheory;
-```
+- Thêm cột **"Fairness"** trong admin UI (`MonthlyTopStudents` admin view) hiển thị `raw_words / fair_words` để phát hiện chênh lệch lớn.
+- Tab **"Suspicious Activity"** trong admin: list user có raw_words / fair_words > 3 (tức bị cap đáng kể).
+- Trên trang chủ vẫn chỉ hiện Top 3 nhưng dùng `fair_score`.
 
-Nội dung tuân thủ quy ước project:
-- Không có em-dash `—`, chỉ dùng `-`
-- Không có cụm "thầy Hải"
-- Markdown chuẩn, code block có ngôn ngữ rõ ràng
-- Song ngữ Việt-Anh đầy đủ
+## Kỹ thuật triển khai
 
-## Quy mô & cách chia nhỏ
+**Migration:**
+1. Trigger `prevent_vocab_mastered_burst` trên `user_vocab_mastered`
+2. Function `get_fair_mastered_count(_uid uuid, _start ts, _end ts)` - dùng subquery với LEAST(count_per_minute, 8) rồi SUM
+3. Rewrite `get_monthly_top_students` dùng các CTE fair_words / fair_acts / fair_minutes + quality bonus
+4. Function `get_user_fairness_breakdown(_uid)` cho admin
 
-Để giữ chất lượng và không vượt token mỗi turn, sẽ giao hàng theo nhiều file/turn:
+**Frontend:**
+5. `src/hooks/useMasteredVocab.ts` - thêm 3s cooldown + dedup queue
+6. `src/components/sat/SatStarToggle.tsx` - thêm cooldown trước `awardPetXP`
+7. Tạo `src/components/admin/SuspiciousActivityTab.tsx` - hiện chênh lệch raw vs fair
+8. Cập nhật `MonthlySummaryCard` ghi chú "Điểm công bằng (đã loại spam)"
 
-1. Turn 1: Tạo `theoryExtensions.ts` (skeleton + Data Eng 14 bài)
-2. Turn 2: Thêm SQL + Software Eng + Web Dev
-3. Turn 3: Thêm Cloud + Cybersecurity + ML
-4. Turn 4: Phần còn lại (AI/NLP/DL/RL/Python) - chỉ bài ngắn
+**Recompute:** Sau khi deploy, gọi `get_monthly_top_students(10)` để xem bảng xếp hạng mới và so sánh với hiện tại - dự kiến học viên 1.206 từ/phút sẽ tụt khỏi top.
 
-Cập nhật `ProgrammingLesson.tsx` ngay ở turn 1 để Data Eng hiển thị deep-dive trước.
+## Không thay đổi
 
-## Ngoài phạm vi
-
-- Không sửa quiz, exercise, code, testCases
-- Không đổi schema database `programming_theory_cache`
-- Không tạo lesson mới
-- Không động vào AI Deep-Dive edge function
-
-Bạn duyệt plan để mình bắt đầu Turn 1 (Data Engineering) nhé?
+- Không xóa data cũ trong `user_vocab_mastered` (chỉ thay đổi cách đếm)
+- Không thay đổi UX cho học viên học thật - cooldown 3s không cảm nhận được khi học bình thường
+- Không động vào pet XP đã tích lũy

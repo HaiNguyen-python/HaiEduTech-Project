@@ -192,10 +192,10 @@ const MonthlyTopStudents = () => {
                   )}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground italic">
+              <p className="text-xs text-muted-foreground italic max-w-xl">
                 {t(
-                  "Tiêu chí: chuyên cần (số ngày học), từ vựng đã thuộc, bài học hoàn thành và thời gian học.",
-                  "Criteria: attendance (study days), words mastered, lessons completed, and study time.",
+                  "Tiêu chí công bằng: số ngày đi học, từ vựng học thật (cap 8 từ/phút - 200 từ/ngày để chống spam dấu sao), bài học có thời gian luyện ≥15s, và thời gian học (cap 4h/ngày). Cộng thêm bonus 10% cho mỗi tiêu chí: đa dạng ≥3 loại bài, có bài chấm điểm ≥5, học ≥10 ngày.",
+                  "Fair scoring: study days, genuinely learned words (capped at 8/min - 200/day to prevent star-spam), lessons with ≥15s practice time, and study time (capped 4h/day). +10% bonus each for: ≥3 activity types, scored task ≥5, ≥10 study days.",
                 )}
               </p>
             </div>

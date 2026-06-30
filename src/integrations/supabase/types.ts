@@ -3617,6 +3617,13 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_fair_mastered_count: {
+        Args: { _end: string; _start: string; _user_id: string }
+        Returns: {
+          fair_count: number
+          raw_count: number
+        }[]
+      }
       get_mastery_leaderboard: {
         Args: { _subject: string }
         Returns: {
@@ -3634,7 +3641,9 @@ export type Database = {
           login_days: number
           mastered_words: number
           online_minutes: number
+          quality_bonus: number
           rank: number
+          raw_words: number
           total_score: number
           user_id: string
         }[]
@@ -3667,6 +3676,17 @@ export type Database = {
       get_student_summary: {
         Args: { _period?: string; _user_id: string }
         Returns: Json
+      }
+      get_suspicious_vocab_activity: {
+        Args: { _days?: number; _limit?: number }
+        Returns: {
+          display_name: string
+          fair_count: number
+          inflation_ratio: number
+          peak_per_minute: number
+          raw_count: number
+          user_id: string
+        }[]
       }
       get_top_dictionary_lookups: {
         Args: { _days?: number; _lang?: string; _limit?: number }
