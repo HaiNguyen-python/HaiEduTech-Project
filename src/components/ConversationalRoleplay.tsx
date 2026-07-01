@@ -231,41 +231,90 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     });
   }, [input, messages, isLoading, selectedTopic, lessonTitle, pillar]);
 
-  // Voice recording using Web Speech API
+  // Voice recording using Web Speech API — continuous mode so learners are
+  // not cut off mid-sentence. Auto-submit only after ~2.5s of silence, or
+  // when the user taps the mic again to stop.
+  const finishRecording = useCallback((send: boolean) => {
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
+    manualStopRef.current = true;
+    try { recognitionRef.current?.stop(); } catch { /* noop */ }
+    setIsRecording(false);
+    const finalText = (finalTranscriptRef.current + " " + (input || "")).trim();
+    if (send && finalText) {
+      finalTranscriptRef.current = "";
+      setInput("");
+      sendMessage(finalText);
+    }
+  }, [input, sendMessage]);
+
   const toggleRecording = useCallback(() => {
     if (isRecording) {
-      // Stop recording
-      if (mediaRecorderRef.current) {
-        mediaRecorderRef.current.stop();
+      finishRecording(true);
+      return;
+    }
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert(t("Trình duyệt không hỗ trợ nhận diện giọng nói", "Speech recognition is not supported in this browser"));
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = langCode;
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+
+    manualStopRef.current = false;
+    finalTranscriptRef.current = "";
+    setInput("");
+
+    const resetSilenceTimer = () => {
+      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = setTimeout(() => {
+        // Long pause — treat as end of turn
+        finishRecording(true);
+      }, 2500);
+    };
+
+    recognition.onresult = (event: any) => {
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const res = event.results[i];
+        if (res.isFinal) {
+          finalTranscriptRef.current += res[0].transcript + " ";
+        } else {
+          interim += res[0].transcript;
+        }
+      }
+      setInput((finalTranscriptRef.current + interim).trim());
+      resetSilenceTimer();
+    };
+
+    recognition.onerror = (e: any) => {
+      // Ignore transient no-speech / aborted errors so the mic keeps listening.
+      if (e?.error === "no-speech" || e?.error === "aborted") return;
+      setIsRecording(false);
+    };
+
+    recognition.onend = () => {
+      // Auto-restart if the browser closed the stream but user hasn't stopped.
+      if (!manualStopRef.current) {
+        try { recognition.start(); return; } catch { /* fallthrough */ }
       }
       setIsRecording(false);
-    } else {
-      // Start speech recognition if available
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        const recognition = new SpeechRecognition();
-        recognition.lang = langCode;
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
+    };
 
-        recognition.onresult = (event: any) => {
-          const transcript = event.results[0][0].transcript;
-          if (transcript) {
-            sendMessage(transcript);
-          }
-          setIsRecording(false);
-        };
-
-        recognition.onerror = () => setIsRecording(false);
-        recognition.onend = () => setIsRecording(false);
-
-        recognition.start();
-        setIsRecording(true);
-      } else {
-        alert(t("Trình duyệt không hỗ trợ nhận diện giọng nói", "Speech recognition is not supported in this browser"));
-      }
+    recognitionRef.current = recognition;
+    try {
+      recognition.start();
+      setIsRecording(true);
+      resetSilenceTimer();
+    } catch {
+      setIsRecording(false);
     }
-  }, [isRecording, sendMessage, t]);
+  }, [isRecording, finishRecording, langCode, t]);
 
   // Text-to-speech for AI messages
   const speakText = (text: string) => {
