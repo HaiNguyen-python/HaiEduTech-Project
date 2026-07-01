@@ -492,9 +492,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
                 }
               }}
               placeholder={isRecording
-                ? t("🎤 Đang nghe...", "🎤 Listening...")
+                ? t("🎤 Đang nghe... cứ nói thoải mái", "🎤 Listening... take your time")
                 : t("Nhập tin nhắn bằng tiếng Anh...", "Type your message in English...")}
-              disabled={isLoading || isRecording}
+              disabled={isLoading}
               rows={1}
               className="w-full resize-none rounded-xl border bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50"
             />
@@ -513,7 +513,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
         {isRecording && (
           <p className="text-xs text-center text-red-500 mt-2 animate-pulse">
-            {t("🎤 Đang nghe... Nói tiếng Anh rồi dừng lại", "🎤 Listening... Speak in English then stop")}
+            {t("🎤 Đang nghe... Nói xong tạm dừng 2 giây hoặc bấm mic để gửi", "🎤 Listening... pause 2s or tap the mic to send")}
           </p>
         )}
       </div>
