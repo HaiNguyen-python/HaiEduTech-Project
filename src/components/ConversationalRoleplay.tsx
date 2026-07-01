@@ -123,6 +123,10 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const messageTimestamps = useRef<number[]>([]);
+  const recognitionRef = useRef<any>(null);
+  const manualStopRef = useRef(false);
+  const finalTranscriptRef = useRef("");
+  const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Rate limit: max 20 messages per minute
   const isRateLimited = useCallback(() => {
