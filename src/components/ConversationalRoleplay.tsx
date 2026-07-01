@@ -495,8 +495,8 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
                 ? t("🎤 Đang nghe... cứ nói thoải mái", "🎤 Listening... take your time")
                 : t("Nhập tin nhắn bằng tiếng Anh...", "Type your message in English...")}
               disabled={isLoading}
-              rows={1}
-              className="w-full resize-none rounded-xl border bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50"
+              rows={isRecording ? 4 : Math.min(6, Math.max(1, input.split("\n").length + Math.floor(input.length / 60)))}
+              className={`w-full resize-none rounded-xl border bg-background px-4 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50 transition-all ${isRecording ? "min-h-[110px] ring-2 ring-red-300 bg-red-50/40 dark:bg-red-950/20" : ""}`}
             />
           </div>
 
