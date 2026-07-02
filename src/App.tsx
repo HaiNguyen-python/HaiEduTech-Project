@@ -282,6 +282,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <GlobalBackButton />
           <Routes>
             <Route path="/" element={<LazyRoute><RootEntry /></LazyRoute>} />
             <Route path="/home" element={<LazyRoute><Index /></LazyRoute>} />
