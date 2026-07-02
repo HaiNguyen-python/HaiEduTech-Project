@@ -620,26 +620,26 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       : t("Bạn luyện nói", "Speaking Buddy");
 
   const LeftHelperPanel = () => (
-    <aside className="hidden xl:flex flex-col gap-3 w-56 shrink-0">
-      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-primary mb-2">
+    <aside className="hidden xl:flex flex-col gap-3 w-64 shrink-0">
+      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-4 shadow-sm">
+        <p className="text-sm font-extrabold uppercase tracking-wide text-primary mb-3">
           {t("💬 Cấu trúc hữu ích", "💬 Handy Structures")}
         </p>
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {structures.map((s) => (
-            <li key={s} className="text-xs leading-snug text-foreground/85 border-l-2 border-primary/40 pl-2">
+            <li key={s} className="text-sm font-semibold leading-snug text-foreground border-l-[3px] border-primary/60 pl-2.5">
               {s}
             </li>
           ))}
         </ul>
       </div>
-      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 mb-2">
+      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-4 shadow-sm">
+        <p className="text-sm font-extrabold uppercase tracking-wide text-emerald-600 mb-3">
           {t("📚 Từ vựng gợi ý", "📚 Suggested Vocab")}
         </p>
         <div className="flex flex-wrap gap-1.5">
           {vocab.map((w) => (
-            <span key={w} className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+            <span key={w} className="text-sm font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/40">
               {w}
             </span>
           ))}
@@ -647,7 +647,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
         {business && (
           <div className="mt-3 pt-3 border-t flex flex-col items-center">
             <img src={businessChibi} alt="" width={96} height={96} loading="lazy" className="w-24 h-24 object-contain drop-shadow" />
-            <p className="text-[10px] text-muted-foreground italic mt-1 text-center">
+            <p className="text-xs font-medium text-muted-foreground italic mt-1 text-center">
               {t("Chào mừng đến buổi họp!", "Ready for business!")}
             </p>
           </div>
