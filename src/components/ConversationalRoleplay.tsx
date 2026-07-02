@@ -316,13 +316,50 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     }
   }, [isRecording, finishRecording, langCode, t]);
 
-  // Text-to-speech for AI messages
-  const speakText = (text: string) => {
-    const clean = text.replace(/[*#_`~\[\]()]/g, "").replace(/💡.*$/gm, "");
-    const utterance = new SpeechSynthesisUtterance(clean);
-    utterance.lang = langCode;
-    utterance.rate = 0.9;
-    speechSynthesis.speak(utterance);
+  // Text-to-speech for AI messages - uses OpenAI natural voices (dialog-tts)
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+  const speakText = async (text: string) => {
+    const clean = text
+      .replace(/\*\*.*?\*\*/g, (m) => m.replace(/\*\*/g, ""))
+      .replace(/[*#_`~\[\]()]/g, "")
+      .replace(/💡.*$/gm, "")
+      .replace(/🎯.*$/gm, "")
+      .trim();
+    if (!clean) return;
+
+    // Stop any playing audio
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause();
+      currentAudioRef.current = null;
+    }
+
+    const langMap: Record<string, string> = { english: "en", chinese: "zh", finnish: "fi" };
+    const voiceMap: Record<string, string> = { english: "nova", chinese: "shimmer", finnish: "sage" };
+    const lang = langMap[language] ?? "en";
+    const voice = voiceMap[language] ?? "nova";
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/dialog-tts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ text: clean.slice(0, 800), voice, lang, speed: 1.0 }),
+      });
+      if (!res.ok) throw new Error(`tts ${res.status}`);
+      const data = await res.json();
+      const audio = new Audio(`data:${data.mimeType};base64,${data.audioBase64}`);
+      currentAudioRef.current = audio;
+      await audio.play();
+    } catch (err) {
+      // Fallback to system voice if natural TTS fails
+      console.warn("dialog-tts failed, falling back to system voice", err);
+      const utterance = new SpeechSynthesisUtterance(clean);
+      utterance.lang = langCode;
+      utterance.rate = 0.95;
+      speechSynthesis.speak(utterance);
+    }
   };
 
   const resetChat = () => {
