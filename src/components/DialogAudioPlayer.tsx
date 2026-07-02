@@ -26,6 +26,8 @@ const formatTime = (s: number): string => {
 const DialogAudioPlayer = ({ transcript, lang, accentClass }: Props) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const urlRef = useRef<string | null>(null);
+  const loadPromiseRef = useRef<Promise<HTMLAudioElement | null> | null>(null);
+  const busyRef = useRef(false);
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
@@ -37,6 +39,7 @@ const DialogAudioPlayer = ({ transcript, lang, accentClass }: Props) => {
     if (audioRef.current) { try { audioRef.current.pause(); } catch { /* ignore */ } }
     if (urlRef.current) { URL.revokeObjectURL(urlRef.current); urlRef.current = null; }
     audioRef.current = null;
+    loadPromiseRef.current = null;
     setStatus("idle");
     setPlaying(false);
     setCurrent(0);
@@ -49,32 +52,55 @@ const DialogAudioPlayer = ({ transcript, lang, accentClass }: Props) => {
     if (urlRef.current) URL.revokeObjectURL(urlRef.current);
   }, []);
 
-  const ensureLoaded = async (): Promise<HTMLAudioElement | null> => {
-    if (audioRef.current) return audioRef.current;
+  const ensureLoaded = (): Promise<HTMLAudioElement | null> => {
+    if (audioRef.current) return Promise.resolve(audioRef.current);
+    if (loadPromiseRef.current) return loadPromiseRef.current;
     setStatus("loading");
-    const res = await prepareDialogAudio(transcript, lang);
-    if (!res) { setStatus("error"); return null; }
-    urlRef.current = res.url;
-    const a = new Audio(res.url);
-    a.playbackRate = rate;
-    a.ontimeupdate = () => setCurrent(a.currentTime);
-    a.onloadedmetadata = () => setDuration(isFinite(a.duration) ? a.duration : res.duration);
-    a.onended = () => setPlaying(false);
-    a.onpause = () => setPlaying(false);
-    a.onplay = () => setPlaying(true);
-    audioRef.current = a;
-    setDuration(res.duration);
-    setStatus("ready");
-    return a;
+    const p = (async () => {
+      const res = await prepareDialogAudio(transcript, lang);
+      if (!res) { setStatus("error"); loadPromiseRef.current = null; return null; }
+      // If a concurrent reset happened, discard this result.
+      if (loadPromiseRef.current !== p) {
+        try { URL.revokeObjectURL(res.url); } catch { /* ignore */ }
+        return null;
+      }
+      urlRef.current = res.url;
+      const a = new Audio(res.url);
+      a.playbackRate = rate;
+      a.ontimeupdate = () => setCurrent(a.currentTime);
+      a.onloadedmetadata = () => setDuration(isFinite(a.duration) ? a.duration : res.duration);
+      a.onended = () => setPlaying(false);
+      a.onpause = () => setPlaying(false);
+      a.onplay = () => setPlaying(true);
+      audioRef.current = a;
+      setDuration(res.duration);
+      setStatus("ready");
+      return a;
+    })();
+    loadPromiseRef.current = p;
+    return p;
   };
 
   const handlePlayPause = async () => {
-    const a = await ensureLoaded();
-    if (!a) return;
-    if (a.paused) {
-      try { await a.play(); } catch { /* ignore */ }
-    } else {
-      a.pause();
+    if (busyRef.current) return;
+    busyRef.current = true;
+    try {
+      const a = await ensureLoaded();
+      if (!a) return;
+      // Stop any other DialogAudioPlayer currently playing on the page.
+      try {
+        document.querySelectorAll<HTMLAudioElement>("audio[data-dialog-audio]").forEach((el) => {
+          if (el !== a && !el.paused) { try { el.pause(); } catch { /* ignore */ } }
+        });
+      } catch { /* ignore */ }
+      a.setAttribute("data-dialog-audio", "1");
+      if (a.paused) {
+        try { a.currentTime = a.currentTime; await a.play(); } catch { /* ignore */ }
+      } else {
+        a.pause();
+      }
+    } finally {
+      busyRef.current = false;
     }
   };
 
