@@ -589,6 +589,8 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     setMessages([]);
     setHasStarted(false);
     setSelectedTopic("");
+    setAiSpeaking(false);
+    lastSpokenIdxRef.current = -1;
     speechSynthesis.cancel();
     if (currentAudioRef.current) { currentAudioRef.current.pause(); currentAudioRef.current = null; }
   };
