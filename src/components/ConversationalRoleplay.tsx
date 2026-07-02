@@ -126,6 +126,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const recognitionRef = useRef<any>(null);
   const manualStopRef = useRef(false);
   const keepListeningRef = useRef(false);
+  const speechActiveRef = useRef(false);
   const finalTranscriptRef = useRef("");
   const liveTranscriptRef = useRef("");
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -243,6 +244,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     }
     manualStopRef.current = true;
     keepListeningRef.current = false;
+    speechActiveRef.current = false;
     try { recognitionRef.current?.stop(); } catch { /* noop */ }
     setIsRecording(false);
     const finalText = liveTranscriptRef.current.trim();
@@ -272,6 +274,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
     manualStopRef.current = false;
     keepListeningRef.current = true;
+    speechActiveRef.current = false;
     finalTranscriptRef.current = "";
     liveTranscriptRef.current = "";
     setInput("");
@@ -280,9 +283,23 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       if (!hasSpeech) return;
       if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
       silenceTimerRef.current = setTimeout(() => {
+        if (speechActiveRef.current) return;
         // Long natural pause - treat as end of turn.
         finishRecording(true);
       }, 6500);
+    };
+
+    recognition.onspeechstart = () => {
+      speechActiveRef.current = true;
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+        silenceTimerRef.current = null;
+      }
+    };
+
+    recognition.onspeechend = () => {
+      speechActiveRef.current = false;
+      resetSilenceTimer(liveTranscriptRef.current.trim().length > 0);
     };
 
     recognition.onresult = (event: any) => {
@@ -298,12 +315,13 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       const transcript = (finalTranscriptRef.current + interim).replace(/\s+/g, " ").trim();
       liveTranscriptRef.current = transcript;
       setInput(transcript);
-      resetSilenceTimer(transcript.length > 0);
     };
 
     recognition.onerror = (e: any) => {
       // Ignore transient no-speech / aborted errors so the mic keeps listening.
       if (e?.error === "no-speech" || e?.error === "aborted") return;
+      keepListeningRef.current = false;
+      speechActiveRef.current = false;
       setIsRecording(false);
     };
 
@@ -313,6 +331,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
         window.setTimeout(() => {
           if (!keepListeningRef.current || manualStopRef.current) return;
           try {
+            speechActiveRef.current = false;
             recognition.start();
             setIsRecording(true);
           } catch { /* browser may still be closing the previous session */ }
@@ -328,6 +347,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       setIsRecording(true);
     } catch {
       keepListeningRef.current = false;
+      speechActiveRef.current = false;
       setIsRecording(false);
     }
   }, [isRecording, finishRecording, langCode, t]);
