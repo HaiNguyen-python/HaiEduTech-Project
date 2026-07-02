@@ -678,6 +678,5 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     </div>
   );
 };
-};
 
 export default ConversationalRoleplay;
