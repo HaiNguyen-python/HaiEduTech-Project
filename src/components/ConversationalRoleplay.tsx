@@ -479,37 +479,25 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
             {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
           </Button>
 
-          {/* Text input */}
+          {/* Live transcript display (read-only, voice-only mode) */}
           <div className="flex-1 relative">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  sendMessage();
-                }
-              }}
-              placeholder={isRecording
+            <div
+              className={`w-full min-h-[56px] rounded-xl border bg-background px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap transition-all ${
+                isRecording
+                  ? "min-h-[110px] ring-2 ring-red-300 bg-red-50/40 dark:bg-red-950/20"
+                  : ""
+              } ${!input ? "text-muted-foreground italic" : "text-foreground"}`}
+              aria-live="polite"
+            >
+              {input || (isRecording
                 ? t("🎤 Đang nghe... cứ nói thoải mái", "🎤 Listening... take your time")
-                : t("Nhập tin nhắn bằng tiếng Anh...", "Type your message in English...")}
-              disabled={isLoading}
-              rows={isRecording ? 4 : Math.min(6, Math.max(1, input.split("\n").length + Math.floor(input.length / 60)))}
-              className={`w-full resize-none rounded-xl border bg-background px-4 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50 transition-all ${isRecording ? "min-h-[110px] ring-2 ring-red-300 bg-red-50/40 dark:bg-red-950/20" : ""}`}
-            />
+                : t("Bấm mic và nói để bắt đầu luyện nói", "Tap the mic and speak to practice"))}
+            </div>
           </div>
-
-          {/* Send button */}
-          <Button
-            onClick={() => sendMessage()}
-            disabled={!input.trim() || isLoading}
-            size="icon"
-            className="shrink-0 h-10 w-10 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600"
-          >
-            <Send className="h-4 w-4" />
-          </Button>
         </div>
+
+
+
 
         {isRecording && (
           <p className="text-xs text-center text-red-500 mt-2 animate-pulse">

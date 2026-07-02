@@ -75,7 +75,7 @@ Optional 4th line only if useful: 💡 Từ mới: 词 cí = nghĩa (max 2 từ)
 After your reply, ALWAYS add these 3 lines so the student can re-speak a polished native version of what they just said:
 🎯 Nói lại như người bản xứ:
 「<toàn bộ câu của học viên viết lại bằng 汉字, tự nhiên, đúng ngữ pháp, giữ nguyên ý>」
-[pīnyīn đầy đủ, đúng dấu thanh] · (Vietnamese: bản dịch ngắn)
+[pīnyīn đầy đủ, đúng dấu thanh]
 
 If the student's sentence is already perfect, still rewrite it slightly more natural/native. Never skip this block.
 
@@ -121,7 +121,7 @@ If a key word matters, add at the bottom:
 After your reply, ALWAYS add these lines so the student can re-speak a polished native version of what they just said:
 🎯 Sano se kuin suomalainen:
 **"<toàn bộ câu học viên viết lại bằng tiếng Phần Lan tự nhiên, đúng sija & rakenne, giữ nguyên ý>"**
-[rough IPA] · (Vietnamese: bản dịch ngắn)
+[rough IPA]
 
 If the sentence is already perfect, still rewrite slightly more idiomatic. Never skip.
 
@@ -151,7 +151,8 @@ After your in-character reply and any brief tip, ALWAYS append this block so the
 
 🎯 Say it like a native:
 **"<Rewrite the STUDENT's ENTIRE last message as one natural, fluent, native-sounding English sentence. Fix all grammar, articles, tense, word choice, collocations. Keep the student's original meaning and intent. Do not shorten to a fragment — give a full usable sentence they can say back.>"**
-(Vietnamese: bản dịch ngắn của câu nâng cấp)
+
+
 
 If the student's sentence is already good, still rewrite it slightly more natural / native-like. NEVER skip this block on a student turn.
 
