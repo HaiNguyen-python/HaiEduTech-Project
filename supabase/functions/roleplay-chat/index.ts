@@ -151,7 +151,8 @@ After your in-character reply and any brief tip, ALWAYS append this block so the
 
 🎯 Say it like a native:
 **"<Rewrite the STUDENT's ENTIRE last message as one natural, fluent, native-sounding English sentence. Fix all grammar, articles, tense, word choice, collocations. Keep the student's original meaning and intent. Do not shorten to a fragment — give a full usable sentence they can say back.>"**
-(Vietnamese: bản dịch ngắn của câu nâng cấp)
+
+
 
 If the student's sentence is already good, still rewrite it slightly more natural / native-like. NEVER skip this block on a student turn.
 
