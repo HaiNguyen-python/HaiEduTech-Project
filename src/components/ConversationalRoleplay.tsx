@@ -760,6 +760,21 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
         </div>
       </div>
 
+      {/* Speaker stage: two chibi characters with lip-sync animation */}
+      <div className="relative flex items-end justify-between gap-3 px-6 py-3 border-b bg-gradient-to-b from-background/60 to-background/20 backdrop-blur-sm">
+        <TalkingChibi src={partnerAvatar} speaking={aiSpeaking} label={partnerLabel} side="left" />
+        <div className="flex-1 text-center text-xs sm:text-sm font-semibold text-muted-foreground italic">
+          {aiSpeaking
+            ? t("AI đang nói...", "AI is speaking...")
+            : isRecording
+              ? t("Bạn đang nói...", "You're speaking...")
+              : t("Nhấn mic để đối thoại", "Tap the mic to talk")}
+        </div>
+        <TalkingChibi src={studentAvatar} speaking={isRecording} label={t("Bạn", "You")} side="right" />
+      </div>
+
+
+
 
       {/* Messages */}
       <div ref={chatContainerRef} className="relative flex-1 overflow-y-auto p-4 space-y-3">
