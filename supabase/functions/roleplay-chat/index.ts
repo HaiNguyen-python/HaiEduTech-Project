@@ -121,7 +121,7 @@ If a key word matters, add at the bottom:
 After your reply, ALWAYS add these lines so the student can re-speak a polished native version of what they just said:
 🎯 Sano se kuin suomalainen:
 **"<toàn bộ câu học viên viết lại bằng tiếng Phần Lan tự nhiên, đúng sija & rakenne, giữ nguyên ý>"**
-[rough IPA] · (Vietnamese: bản dịch ngắn)
+[rough IPA]
 
 If the sentence is already perfect, still rewrite slightly more idiomatic. Never skip.
 
