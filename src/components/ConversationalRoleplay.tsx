@@ -638,6 +638,8 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const sceneBg = bannerImageFor(selectedTopic);
   const business = isBusinessPillar(pillar, lessonTitle);
   const partnerAvatar = pickPartnerAvatar(`${lessonTitle}::${selectedTopic}`);
+  // Student mascot = the opposite chibi so both characters look distinct on stage
+  const studentAvatar = partnerAvatar === businessManChibi ? businessWomanChibi : businessManChibi;
   const topicPack = detectTopicPack(pillar, lessonTitle, selectedTopic);
   const { structures, vocab } = getHelperSets(language, business, topicPack);
   const partnerLabel = language === "chinese"
@@ -645,6 +647,47 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     : language === "finnish"
       ? t("Bạn luyện nói", "Speaking Buddy")
       : t("Bạn luyện nói", "Speaking Buddy");
+
+  // Chibi with mouth-movement animation used on the speaker stage
+  const TalkingChibi = ({ src, speaking, label, side }: { src: string; speaking: boolean; label: string; side: "left" | "right" }) => (
+    <div className="flex flex-col items-center gap-1 shrink-0">
+      <div className="relative">
+        <motion.div
+          animate={speaking ? { y: [0, -3, 0], rotate: side === "left" ? [0, -2, 2, 0] : [0, 2, -2, 0] } : { y: 0, rotate: 0 }}
+          transition={speaking ? { duration: 0.55, repeat: Infinity, ease: "easeInOut" } : { duration: 0.3 }}
+          className="relative"
+        >
+          <img
+            src={src}
+            alt={label}
+            width={96}
+            height={96}
+            className={`w-20 h-20 sm:w-24 sm:h-24 object-contain drop-shadow-lg ${side === "right" ? "scale-x-[-1]" : ""}`}
+          />
+          {/* Mouth overlay: a small oval that opens/closes to fake lip sync */}
+          <motion.span
+            aria-hidden
+            className="absolute left-1/2 -translate-x-1/2 bg-rose-500/90 rounded-full pointer-events-none"
+            style={{ top: "63%" }}
+            animate={speaking ? { height: [2, 8, 3, 9, 2], width: [8, 10, 9, 11, 8], opacity: 0.85 } : { height: 2, width: 8, opacity: 0.55 }}
+            transition={speaking ? { duration: 0.45, repeat: Infinity, ease: "easeInOut" } : { duration: 0.2 }}
+          />
+        </motion.div>
+        {speaking && (
+          <motion.span
+            aria-hidden
+            className="absolute -inset-1 rounded-full border-2 border-emerald-400/60 pointer-events-none"
+            animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0.2, 0.6] }}
+            transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
+          />
+        )}
+      </div>
+      <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${speaking ? "bg-emerald-500 text-white" : "bg-muted text-muted-foreground"}`}>
+        {speaking ? t("🗣 Đang nói", "🗣 Speaking") : label}
+      </span>
+    </div>
+  );
+
 
   const TopHelperPanel = () => (
     <div className="hidden md:grid grid-cols-2 gap-3 mb-3">
