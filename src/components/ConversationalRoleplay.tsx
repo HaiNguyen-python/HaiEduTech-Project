@@ -674,7 +674,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       {/* Chat header */}
       <div className="relative flex items-center justify-between px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
         <div className="flex items-center gap-2">
-          <img src={business ? businessChibi : roleplayMascot} alt="" className="h-8 w-8 rounded-full bg-white/90 p-0.5 object-contain" width={32} height={32} />
+          <img src={partnerAvatar} alt="" className="h-8 w-8 rounded-full bg-white/90 p-0.5 object-contain" width={32} height={32} />
           <div>
             <p className="text-sm font-bold">{partnerLabel}</p>
             <p className="text-[10px] opacity-80 truncate max-w-[200px]">{selectedTopic}</p>
@@ -704,7 +704,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
             className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             {msg.role === "assistant" && (
-              <img src={roleplayMascot} alt="" className="w-9 h-9 rounded-full bg-white shadow-md shrink-0 mt-1 p-0.5" width={36} height={36} />
+              <img src={partnerAvatar} alt="" className="w-9 h-9 rounded-full bg-white shadow-md shrink-0 mt-1 p-0.5" width={36} height={36} />
             )}
             <div className={`max-w-[80%] ${msg.role === "user" ? "order-first" : ""}`}>
               <div className={`p-3 rounded-2xl text-sm shadow-sm ${
@@ -740,7 +740,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
         {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
           <div className="flex gap-2 items-center">
-            <img src={roleplayMascot} alt="" className="w-9 h-9 rounded-full bg-white shadow-md p-0.5" width={36} height={36} />
+            <img src={partnerAvatar} alt="" className="w-9 h-9 rounded-full bg-white shadow-md p-0.5" width={36} height={36} />
             <div className="bg-card/95 backdrop-blur-sm border p-3 rounded-2xl rounded-bl-sm shadow-sm">
               <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
             </div>
