@@ -6,7 +6,7 @@ import { Send, Mic, MicOff, RotateCcw, Sparkles, Volume2, User, Loader2 } from "
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
-import roleplayMascot from "@/assets/roleplay-mascot.png";
+
 import businessChibi from "@/assets/chibi-business-vest.png";
 import businessManChibi from "@/assets/chibi-business-man.png";
 import businessWomanChibi from "@/assets/chibi-business-woman.png";
