@@ -659,8 +659,8 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   return (
     <div className="flex gap-4 items-start">
       <LeftHelperPanel />
-      {(() => null)()}
       <div className="flex-1 min-w-0 flex flex-col h-[620px] sm:h-[760px] xl:h-[820px] bg-card rounded-xl border overflow-hidden relative">
+
 
 
       {/* Scene background */}
