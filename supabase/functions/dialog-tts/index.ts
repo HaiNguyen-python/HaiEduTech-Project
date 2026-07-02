@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
     const rawText = typeof body?.text === "string" ? body.text : "";
     const voiceInput = typeof body?.voice === "string" ? body.voice.toLowerCase() : "alloy";
     const voice = ALLOWED_VOICES.has(voiceInput) ? voiceInput : "alloy";
-    const lang = body?.lang === "zh" ? "zh" : "en";
+    const lang = typeof body?.lang === "string" ? body.lang.toLowerCase() : "en";
     const speed = typeof body?.speed === "number" && body.speed >= 0.7 && body.speed <= 1.2
       ? body.speed
       : 1.0;
@@ -55,9 +55,14 @@ Deno.serve(async (req) => {
       });
     }
 
-    const instructions = lang === "zh"
-      ? "Speak in clear, natural Mandarin Chinese with a warm, friendly tone. Use natural pacing and expressive intonation, as a real person would in conversation."
-      : "Speak in clear, natural conversational English with a warm, friendly tone. Use natural pacing, expressive intonation, and gentle emphasis as a real person would.";
+    const instructionMap: Record<string, string> = {
+      zh: "Speak in clear, natural Mandarin Chinese with a warm, friendly tone. Use natural pacing and expressive intonation, as a real person would in conversation.",
+      fi: "Speak in clear, natural Finnish with a warm, friendly tone. Use natural pacing and expressive intonation, as a real Finnish speaker would.",
+      sv: "Speak in clear, natural Swedish with a warm, friendly tone. Use natural pacing and expressive intonation, as a real Swedish speaker would.",
+      vi: "Speak in clear, natural Vietnamese with a warm, friendly tone and correct tonal pronunciation, as a real Vietnamese speaker would.",
+      en: "Speak in clear, natural conversational English with a warm, friendly tone. Use natural pacing, expressive intonation, and gentle emphasis as a real person would.",
+    };
+    const instructions = instructionMap[lang] ?? instructionMap.en;
 
     const ttsRes = await fetch("https://ai.gateway.lovable.dev/v1/audio/speech", {
       method: "POST",
