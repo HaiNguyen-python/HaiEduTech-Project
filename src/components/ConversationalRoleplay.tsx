@@ -671,7 +671,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       {/* Chat header */}
       <div className="relative flex items-center justify-between px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
         <div className="flex items-center gap-2">
-          <img src={partnerAvatar} alt="" className="h-8 w-8 rounded-full bg-white/90 p-0.5 object-contain" width={32} height={32} />
+          <img src={partnerAvatar} alt="" className="h-11 w-11 rounded-full bg-white/90 p-0.5 object-contain" width={44} height={44} />
           <div>
             <p className="text-lg sm:text-xl font-extrabold leading-tight">{partnerLabel}</p>
             <p className="text-sm sm:text-base font-semibold opacity-95 truncate max-w-[420px]">{selectedTopic}</p>
