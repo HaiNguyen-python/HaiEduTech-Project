@@ -491,9 +491,59 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
   // Chat interface
   const sceneBg = bannerImageFor(selectedTopic);
+  const business = isBusinessPillar(pillar, lessonTitle);
+  const structures = business ? BUSINESS_STRUCTURES : GENERAL_STRUCTURES;
+  const vocab = business ? BUSINESS_VOCAB : GENERAL_VOCAB;
+  const partnerLabel = language === "chinese"
+    ? t("Bạn luyện nói", "Speaking Buddy")
+    : language === "finnish"
+      ? t("Bạn luyện nói", "Speaking Buddy")
+      : t("Bạn luyện nói", "Speaking Buddy");
+
+  const SidePanel = ({ side }: { side: "left" | "right" }) => (
+    <aside className="hidden xl:flex flex-col gap-3 w-56 shrink-0">
+      {side === "left" ? (
+        <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-primary mb-2">
+            {t("💬 Cấu trúc hữu ích", "💬 Handy Structures")}
+          </p>
+          <ul className="space-y-1.5">
+            {structures.map((s) => (
+              <li key={s} className="text-xs leading-snug text-foreground/85 border-l-2 border-primary/40 pl-2">
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 mb-2">
+            {t("📚 Từ vựng gợi ý", "📚 Suggested Vocab")}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {vocab.map((w) => (
+              <span key={w} className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                {w}
+              </span>
+            ))}
+          </div>
+          {business && (
+            <div className="mt-3 pt-3 border-t flex flex-col items-center">
+              <img src={businessChibi} alt="" width={96} height={96} loading="lazy" className="w-24 h-24 object-contain drop-shadow" />
+              <p className="text-[10px] text-muted-foreground italic mt-1 text-center">
+                {t("Chào mừng đến buổi họp!", "Ready for business!")}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </aside>
+  );
 
   return (
-    <div className="flex flex-col h-[500px] sm:h-[600px] bg-card rounded-xl border overflow-hidden relative">
+    <div className="flex gap-4 items-start">
+      <SidePanel side="left" />
+      <div className="flex-1 flex flex-col h-[500px] sm:h-[600px] bg-card rounded-xl border overflow-hidden relative">
       {/* Scene background */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-25 dark:opacity-15 pointer-events-none"
@@ -504,9 +554,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       {/* Chat header */}
       <div className="relative flex items-center justify-between px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
         <div className="flex items-center gap-2">
-          <img src={roleplayMascot} alt="" className="h-8 w-8 rounded-full bg-white/90 p-0.5" width={32} height={32} />
+          <img src={business ? businessChibi : roleplayMascot} alt="" className="h-8 w-8 rounded-full bg-white/90 p-0.5 object-contain" width={32} height={32} />
           <div>
-            <p className="text-sm font-bold">{t("Luyện nói AI", "AI Roleplay")}</p>
+            <p className="text-sm font-bold">{partnerLabel}</p>
             <p className="text-[10px] opacity-80 truncate max-w-[200px]">{selectedTopic}</p>
           </div>
         </div>
