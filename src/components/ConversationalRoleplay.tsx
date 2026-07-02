@@ -11,46 +11,155 @@ import businessChibi from "@/assets/chibi-business-vest.png";
 import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
 
 // Handy phrases & structures shown in side panels during voice practice.
-// Chosen to work across most Conversational lessons; extra sets kick in for
-// business/professional pillars so learners have context-appropriate scaffolds.
-const GENERAL_STRUCTURES = [
-  "I think that ...",
-  "In my opinion, ...",
-  "It depends on ...",
-  "One reason is ...",
-  "For example, ...",
-  "On the other hand, ...",
-  "That's a good point, but ...",
-  "Could you explain ...?",
-  "What do you mean by ...?",
-  "I'd say ...",
+// Language- and topic-aware: general core + business + topical add-ons so
+// learners always see scaffolds that match the current scenario.
+
+// ---------- ENGLISH ----------
+const EN_GENERAL_STRUCTURES = [
+  "I think that ...", "In my opinion, ...", "It depends on ...",
+  "One reason is ...", "For example, ...", "On the other hand, ...",
+  "That's a good point, but ...", "Could you explain ...?",
+  "What do you mean by ...?", "I'd say ...", "If I were you, I would ...",
+  "It seems to me that ...", "The way I see it, ...", "To be honest, ...",
+  "Speaking of which, ...", "Have you ever thought about ...?",
+  "What if we ...?", "I couldn't agree more.", "I see your point, however ...",
+  "Let me put it this way: ...",
 ];
-const GENERAL_VOCAB = [
-  "actually", "basically", "honestly", "definitely",
-  "kind of", "sort of", "to be fair", "I guess",
+const EN_GENERAL_VOCAB = [
+  "actually", "basically", "honestly", "definitely", "obviously",
+  "kind of", "sort of", "to be fair", "I guess", "somehow",
   "make sense", "figure out", "come up with", "look forward to",
+  "hang out", "keep in touch", "get along", "run into",
+  "point out", "bring up", "end up", "turn out",
 ];
-const BUSINESS_STRUCTURES = [
-  "Let's kick off the meeting with ...",
-  "The main agenda today is ...",
-  "Just to clarify, ...",
-  "Could we circle back to ...?",
-  "Let's take that offline.",
-  "The action item for me is ...",
-  "From a business perspective, ...",
-  "Long story short, ...",
-  "Let's align on ...",
-  "Moving forward, we should ...",
+const EN_BUSINESS_STRUCTURES = [
+  "Let's kick off the meeting with ...", "The main agenda today is ...",
+  "Just to clarify, ...", "Could we circle back to ...?",
+  "Let's take that offline.", "The action item for me is ...",
+  "From a business perspective, ...", "Long story short, ...",
+  "Let's align on ...", "Moving forward, we should ...",
+  "To summarise the key takeaways, ...", "Can I get your buy-in on ...?",
+  "Let's park that for now.", "Do we have bandwidth to ...?",
+  "What's the timeline for ...?", "I'd like to loop in ...",
 ];
-const BUSINESS_VOCAB = [
-  "agenda", "stakeholder", "deliverable", "deadline",
-  "milestone", "KPI", "ROI", "follow up",
-  "touch base", "on the same page", "get the ball rolling", "reach out",
+const EN_BUSINESS_VOCAB = [
+  "agenda", "stakeholder", "deliverable", "deadline", "milestone",
+  "KPI", "ROI", "follow up", "touch base", "on the same page",
+  "get the ball rolling", "reach out", "bandwidth", "leverage",
+  "streamline", "ramp up", "scope", "roadmap", "synergy", "buy-in",
+];
+
+// Topic add-ons (English)
+const EN_TOPIC_PACKS: Record<string, { s: string[]; v: string[] }> = {
+  travel: {
+    s: ["I'd like to book ...", "Is there a direct flight to ...?", "How do I get to ...?", "Do you have any rooms available?"],
+    v: ["itinerary", "boarding pass", "check-in", "layover", "sightseeing", "book in advance"],
+  },
+  food: {
+    s: ["Could I see the menu, please?", "What do you recommend?", "I'll have the ...", "Could we get the bill?"],
+    v: ["appetizer", "main course", "dessert", "spicy", "vegetarian", "medium rare"],
+  },
+  shopping: {
+    s: ["How much is this?", "Do you have this in ...?", "Can I try it on?", "Is there a discount?"],
+    v: ["fitting room", "receipt", "refund", "on sale", "brand new", "a bargain"],
+  },
+  health: {
+    s: ["I've been feeling ...", "It hurts when I ...", "Should I see a doctor?", "How often should I take it?"],
+    v: ["symptom", "prescription", "check-up", "side effect", "sore throat", "run a fever"],
+  },
+  interview: {
+    s: ["Thank you for the opportunity.", "One of my strengths is ...", "In my previous role, I ...", "A challenge I overcame was ..."],
+    v: ["strength", "weakness", "achievement", "responsibility", "team player", "problem-solver"],
+  },
+};
+
+// ---------- CHINESE ----------
+const ZH_GENERAL_STRUCTURES = [
+  "我觉得 ... (Wǒ juéde ...)", "我认为 ... (Wǒ rènwéi ...)",
+  "对我来说 ... (Duì wǒ láishuō ...)", "比如说 ... (Bǐrú shuō ...)",
+  "一方面 ... 另一方面 ...", "虽然 ... 但是 ...", "如果 ... 就 ...",
+  "你觉得怎么样? (Nǐ juéde zěnmeyàng?)", "为什么呢? (Wèishéme ne?)",
+  "可以再说一遍吗? (Kěyǐ zàishuō yíbiàn ma?)",
+  "我不太明白 ... (Wǒ bú tài míngbái ...)", "听起来不错。(Tīng qǐlái búcuò.)",
+];
+const ZH_GENERAL_VOCAB = [
+  "其实 qíshí", "当然 dāngrán", "可能 kěnéng", "也许 yěxǔ",
+  "一般 yìbān", "特别 tèbié", "有点儿 yǒudiǎnr", "非常 fēicháng",
+  "习惯 xíguàn", "喜欢 xǐhuān", "打算 dǎsuàn", "希望 xīwàng",
+];
+const ZH_BUSINESS_STRUCTURES = [
+  "我们开始开会吧。", "今天的议程是 ...", "请让我确认一下 ...",
+  "关于这个问题, 我建议 ...", "下一步我们要 ...", "我会跟进这件事。",
+];
+const ZH_BUSINESS_VOCAB = [
+  "会议 huìyì", "项目 xiàngmù", "客户 kèhù", "报告 bàogào",
+  "计划 jìhuà", "合作 hézuò", "预算 yùsuàn", "目标 mùbiāo",
+];
+
+// ---------- FINNISH ----------
+const FI_GENERAL_STRUCTURES = [
+  "Minun mielestäni ...", "Olen sitä mieltä, että ...",
+  "Se riippuu ...", "Esimerkiksi ...", "Toisaalta ... toisaalta ...",
+  "Vaikka ..., silti ...", "Jos ..., niin ...",
+  "Mitä mieltä olet?", "Voitko selittää tarkemmin?",
+  "En ole aivan varma.", "Kuulostaa hyvältä!", "Olen samaa mieltä.",
+];
+const FI_GENERAL_VOCAB = [
+  "itse asiassa", "yleensä", "ehkä", "varmasti",
+  "vähän", "todella", "tietysti", "melko",
+  "tykätä", "haluta", "aikoa", "toivoa",
+];
+const FI_BUSINESS_STRUCTURES = [
+  "Aloitetaan kokous.", "Tämän päivän aihe on ...",
+  "Haluaisin tarkentaa ...", "Ehdotan, että ...",
+  "Seuraava askel on ...", "Palaan asiaan pian.",
+];
+const FI_BUSINESS_VOCAB = [
+  "kokous", "projekti", "asiakas", "raportti",
+  "suunnitelma", "yhteistyö", "budjetti", "tavoite",
 ];
 
 const isBusinessPillar = (pillar?: string, lessonTitle?: string) => {
   const s = `${pillar ?? ""} ${lessonTitle ?? ""}`.toLowerCase();
   return /business|professional|work|office|meeting|presentation|interview|negotiat|corporate/.test(s);
+};
+
+const detectTopicPack = (pillar?: string, lessonTitle?: string, topic?: string): string | null => {
+  const s = `${pillar ?? ""} ${lessonTitle ?? ""} ${topic ?? ""}`.toLowerCase();
+  if (/travel|trip|flight|hotel|airport|tour/.test(s)) return "travel";
+  if (/food|restaurant|menu|cook|eat|cuisine/.test(s)) return "food";
+  if (/shop|store|buy|market|mall|purchase/.test(s)) return "shopping";
+  if (/health|doctor|hospital|medic|clinic|symptom/.test(s)) return "health";
+  if (/interview|resume|cv|hiring|recruit/.test(s)) return "interview";
+  return null;
+};
+
+const getHelperSets = (
+  language: string,
+  business: boolean,
+  topicPack: string | null,
+): { structures: string[]; vocab: string[] } => {
+  if (language === "chinese") {
+    return {
+      structures: business ? [...ZH_BUSINESS_STRUCTURES, ...ZH_GENERAL_STRUCTURES.slice(0, 6)] : ZH_GENERAL_STRUCTURES,
+      vocab: business ? [...ZH_BUSINESS_VOCAB, ...ZH_GENERAL_VOCAB.slice(0, 6)] : ZH_GENERAL_VOCAB,
+    };
+  }
+  if (language === "finnish") {
+    return {
+      structures: business ? [...FI_BUSINESS_STRUCTURES, ...FI_GENERAL_STRUCTURES.slice(0, 6)] : FI_GENERAL_STRUCTURES,
+      vocab: business ? [...FI_BUSINESS_VOCAB, ...FI_GENERAL_VOCAB.slice(0, 6)] : FI_GENERAL_VOCAB,
+    };
+  }
+  // English (default)
+  const base = business
+    ? { s: EN_BUSINESS_STRUCTURES, v: EN_BUSINESS_VOCAB }
+    : { s: EN_GENERAL_STRUCTURES, v: EN_GENERAL_VOCAB };
+  const pack = topicPack ? EN_TOPIC_PACKS[topicPack] : null;
+  return {
+    structures: pack ? [...pack.s, ...base.s] : base.s,
+    vocab: pack ? [...pack.v, ...base.v] : base.v,
+  };
 };
 
 type Msg = { role: "user" | "assistant"; content: string };
@@ -492,8 +601,8 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   // Chat interface
   const sceneBg = bannerImageFor(selectedTopic);
   const business = isBusinessPillar(pillar, lessonTitle);
-  const structures = business ? BUSINESS_STRUCTURES : GENERAL_STRUCTURES;
-  const vocab = business ? BUSINESS_VOCAB : GENERAL_VOCAB;
+  const topicPack = detectTopicPack(pillar, lessonTitle, selectedTopic);
+  const { structures, vocab } = getHelperSets(language, business, topicPack);
   const partnerLabel = language === "chinese"
     ? t("Bạn luyện nói", "Speaking Buddy")
     : language === "finnish"
