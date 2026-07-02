@@ -494,6 +494,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
                 : t("Bấm mic và nói để bắt đầu luyện nói", "Tap the mic and speak to practice"))}
             </div>
           </div>
+        </div>
+
+
 
 
         {isRecording && (
