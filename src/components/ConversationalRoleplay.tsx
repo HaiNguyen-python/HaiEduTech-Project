@@ -519,7 +519,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
   // Text-to-speech for AI messages - uses OpenAI natural voices (dialog-tts)
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
-  const speakText = async (text: string) => {
+  const speakText = useCallback(async (text: string) => {
     const clean = text
       .replace(/\*\*.*?\*\*/g, (m) => m.replace(/\*\*/g, ""))
       .replace(/[*#_`~\[\]()]/g, "")
@@ -530,9 +530,10 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
     // Stop any playing audio
     if (currentAudioRef.current) {
-      currentAudioRef.current.pause();
+      try { currentAudioRef.current.pause(); } catch { /* ignore */ }
       currentAudioRef.current = null;
     }
+    speechSynthesis.cancel();
 
     const langMap: Record<string, string> = { english: "en", chinese: "zh", finnish: "fi" };
     const voiceMap: Record<string, string> = { english: "nova", chinese: "shimmer", finnish: "sage" };
@@ -552,6 +553,10 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       const data = await res.json();
       const audio = new Audio(`data:${data.mimeType};base64,${data.audioBase64}`);
       currentAudioRef.current = audio;
+      audio.onplay = () => setAiSpeaking(true);
+      audio.onended = () => setAiSpeaking(false);
+      audio.onpause = () => setAiSpeaking(false);
+      audio.onerror = () => setAiSpeaking(false);
       await audio.play();
     } catch (err) {
       // Fallback to system voice if natural TTS fails
@@ -559,9 +564,26 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       const utterance = new SpeechSynthesisUtterance(clean);
       utterance.lang = langCode;
       utterance.rate = 0.95;
+      utterance.onstart = () => setAiSpeaking(true);
+      utterance.onend = () => setAiSpeaking(false);
+      utterance.onerror = () => setAiSpeaking(false);
       speechSynthesis.speak(utterance);
     }
-  };
+  }, [language, langCode]);
+
+  // Auto-play AI reply once streaming finishes for a natural conversation feel
+  useEffect(() => {
+    if (isLoading) return;
+    if (!messages.length) return;
+    const lastIdx = messages.length - 1;
+    const last = messages[lastIdx];
+    if (last.role !== "assistant" || !last.content) return;
+    if (last.content.startsWith("⚠️")) return;
+    if (lastSpokenIdxRef.current === lastIdx) return;
+    lastSpokenIdxRef.current = lastIdx;
+    void speakText(last.content);
+  }, [isLoading, messages, speakText]);
+
 
   const resetChat = () => {
     setMessages([]);
