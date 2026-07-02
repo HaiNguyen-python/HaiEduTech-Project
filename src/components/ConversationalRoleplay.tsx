@@ -6,9 +6,19 @@ import { Send, Mic, MicOff, RotateCcw, Sparkles, Volume2, User, Loader2 } from "
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
-import roleplayMascot from "@/assets/roleplay-mascot.png";
+
 import businessChibi from "@/assets/chibi-business-vest.png";
+import businessManChibi from "@/assets/chibi-business-man.png";
+import businessWomanChibi from "@/assets/chibi-business-woman.png";
 import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
+
+// Pick a professional mascot (man/woman) based on a stable hash of the topic
+// so learners see consistent character variety across scenarios.
+const pickPartnerAvatar = (seed: string) => {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) | 0;
+  return Math.abs(h) % 2 === 0 ? businessManChibi : businessWomanChibi;
+};
 
 // Handy phrases & structures shown in side panels during voice practice.
 // Language- and topic-aware: general core + business + topical add-ons so
@@ -601,6 +611,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   // Chat interface
   const sceneBg = bannerImageFor(selectedTopic);
   const business = isBusinessPillar(pillar, lessonTitle);
+  const partnerAvatar = pickPartnerAvatar(`${lessonTitle}::${selectedTopic}`);
   const topicPack = detectTopicPack(pillar, lessonTitle, selectedTopic);
   const { structures, vocab } = getHelperSets(language, business, topicPack);
   const partnerLabel = language === "chinese"
@@ -610,26 +621,26 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       : t("Bạn luyện nói", "Speaking Buddy");
 
   const LeftHelperPanel = () => (
-    <aside className="hidden xl:flex flex-col gap-3 w-56 shrink-0">
-      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-primary mb-2">
+    <aside className="hidden xl:flex flex-col gap-3 w-64 shrink-0">
+      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-4 shadow-sm">
+        <p className="text-sm font-extrabold uppercase tracking-wide text-primary mb-3">
           {t("💬 Cấu trúc hữu ích", "💬 Handy Structures")}
         </p>
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {structures.map((s) => (
-            <li key={s} className="text-xs leading-snug text-foreground/85 border-l-2 border-primary/40 pl-2">
+            <li key={s} className="text-sm font-semibold leading-snug text-foreground border-l-[3px] border-primary/60 pl-2.5">
               {s}
             </li>
           ))}
         </ul>
       </div>
-      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 mb-2">
+      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-4 shadow-sm">
+        <p className="text-sm font-extrabold uppercase tracking-wide text-emerald-600 mb-3">
           {t("📚 Từ vựng gợi ý", "📚 Suggested Vocab")}
         </p>
         <div className="flex flex-wrap gap-1.5">
           {vocab.map((w) => (
-            <span key={w} className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+            <span key={w} className="text-sm font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/40">
               {w}
             </span>
           ))}
@@ -637,7 +648,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
         {business && (
           <div className="mt-3 pt-3 border-t flex flex-col items-center">
             <img src={businessChibi} alt="" width={96} height={96} loading="lazy" className="w-24 h-24 object-contain drop-shadow" />
-            <p className="text-[10px] text-muted-foreground italic mt-1 text-center">
+            <p className="text-xs font-medium text-muted-foreground italic mt-1 text-center">
               {t("Chào mừng đến buổi họp!", "Ready for business!")}
             </p>
           </div>
@@ -649,7 +660,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   return (
     <div className="flex gap-4 items-start">
       <LeftHelperPanel />
-      <div className="flex-1 min-w-0 flex flex-col h-[500px] sm:h-[600px] bg-card rounded-xl border overflow-hidden relative">
+      <div className="flex-1 min-w-0 flex flex-col h-[620px] sm:h-[760px] xl:h-[820px] bg-card rounded-xl border overflow-hidden relative">
+
+
 
       {/* Scene background */}
       <div
@@ -661,7 +674,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       {/* Chat header */}
       <div className="relative flex items-center justify-between px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
         <div className="flex items-center gap-2">
-          <img src={business ? businessChibi : roleplayMascot} alt="" className="h-8 w-8 rounded-full bg-white/90 p-0.5 object-contain" width={32} height={32} />
+          <img src={partnerAvatar} alt="" className="h-8 w-8 rounded-full bg-white/90 p-0.5 object-contain" width={32} height={32} />
           <div>
             <p className="text-sm font-bold">{partnerLabel}</p>
             <p className="text-[10px] opacity-80 truncate max-w-[200px]">{selectedTopic}</p>
@@ -691,7 +704,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
             className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             {msg.role === "assistant" && (
-              <img src={roleplayMascot} alt="" className="w-9 h-9 rounded-full bg-white shadow-md shrink-0 mt-1 p-0.5" width={36} height={36} />
+              <img src={partnerAvatar} alt="" className="w-9 h-9 rounded-full bg-white shadow-md shrink-0 mt-1 p-0.5" width={36} height={36} />
             )}
             <div className={`max-w-[80%] ${msg.role === "user" ? "order-first" : ""}`}>
               <div className={`p-3 rounded-2xl text-sm shadow-sm ${
@@ -727,7 +740,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
         {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
           <div className="flex gap-2 items-center">
-            <img src={roleplayMascot} alt="" className="w-9 h-9 rounded-full bg-white shadow-md p-0.5" width={36} height={36} />
+            <img src={partnerAvatar} alt="" className="w-9 h-9 rounded-full bg-white shadow-md p-0.5" width={36} height={36} />
             <div className="bg-card/95 backdrop-blur-sm border p-3 rounded-2xl rounded-bl-sm shadow-sm">
               <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
             </div>
