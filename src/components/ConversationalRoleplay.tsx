@@ -125,7 +125,10 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const messageTimestamps = useRef<number[]>([]);
   const recognitionRef = useRef<any>(null);
   const manualStopRef = useRef(false);
+  const keepListeningRef = useRef(false);
+  const speechActiveRef = useRef(false);
   const finalTranscriptRef = useRef("");
+  const liveTranscriptRef = useRef("");
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Rate limit: max 20 messages per minute
@@ -231,24 +234,27 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     });
   }, [input, messages, isLoading, selectedTopic, lessonTitle, pillar]);
 
-  // Voice recording using Web Speech API — continuous mode so learners are
-  // not cut off mid-sentence. Auto-submit only after ~2.5s of silence, or
-  // when the user taps the mic again to stop.
+  // Voice recording using Web Speech API - continuous mode so learners are
+  // not cut off mid-sentence. Auto-submit only after a longer natural pause,
+  // or when the user taps the mic again to stop.
   const finishRecording = useCallback((send: boolean) => {
     if (silenceTimerRef.current) {
       clearTimeout(silenceTimerRef.current);
       silenceTimerRef.current = null;
     }
     manualStopRef.current = true;
+    keepListeningRef.current = false;
+    speechActiveRef.current = false;
     try { recognitionRef.current?.stop(); } catch { /* noop */ }
     setIsRecording(false);
-    const finalText = (finalTranscriptRef.current + " " + (input || "")).trim();
+    const finalText = liveTranscriptRef.current.trim();
     if (send && finalText) {
       finalTranscriptRef.current = "";
+      liveTranscriptRef.current = "";
       setInput("");
       sendMessage(finalText);
     }
-  }, [input, sendMessage]);
+  }, [sendMessage]);
 
   const toggleRecording = useCallback(() => {
     if (isRecording) {
@@ -267,15 +273,33 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     recognition.maxAlternatives = 1;
 
     manualStopRef.current = false;
+    keepListeningRef.current = true;
+    speechActiveRef.current = false;
     finalTranscriptRef.current = "";
+    liveTranscriptRef.current = "";
     setInput("");
 
-    const resetSilenceTimer = () => {
+    const resetSilenceTimer = (hasSpeech: boolean) => {
+      if (!hasSpeech) return;
       if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
       silenceTimerRef.current = setTimeout(() => {
-        // Long pause — treat as end of turn
+        if (speechActiveRef.current) return;
+        // Long natural pause - treat as end of turn.
         finishRecording(true);
-      }, 2500);
+      }, 6500);
+    };
+
+    recognition.onspeechstart = () => {
+      speechActiveRef.current = true;
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+        silenceTimerRef.current = null;
+      }
+    };
+
+    recognition.onspeechend = () => {
+      speechActiveRef.current = false;
+      resetSilenceTimer(liveTranscriptRef.current.trim().length > 0);
     };
 
     recognition.onresult = (event: any) => {
@@ -288,20 +312,31 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
           interim += res[0].transcript;
         }
       }
-      setInput((finalTranscriptRef.current + interim).trim());
-      resetSilenceTimer();
+      const transcript = (finalTranscriptRef.current + interim).replace(/\s+/g, " ").trim();
+      liveTranscriptRef.current = transcript;
+      setInput(transcript);
     };
 
     recognition.onerror = (e: any) => {
       // Ignore transient no-speech / aborted errors so the mic keeps listening.
       if (e?.error === "no-speech" || e?.error === "aborted") return;
+      keepListeningRef.current = false;
+      speechActiveRef.current = false;
       setIsRecording(false);
     };
 
     recognition.onend = () => {
       // Auto-restart if the browser closed the stream but user hasn't stopped.
-      if (!manualStopRef.current) {
-        try { recognition.start(); return; } catch { /* fallthrough */ }
+      if (keepListeningRef.current && !manualStopRef.current) {
+        window.setTimeout(() => {
+          if (!keepListeningRef.current || manualStopRef.current) return;
+          try {
+            speechActiveRef.current = false;
+            recognition.start();
+            setIsRecording(true);
+          } catch { /* browser may still be closing the previous session */ }
+        }, 250);
+        return;
       }
       setIsRecording(false);
     };
@@ -310,8 +345,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     try {
       recognition.start();
       setIsRecording(true);
-      resetSilenceTimer();
     } catch {
+      keepListeningRef.current = false;
+      speechActiveRef.current = false;
       setIsRecording(false);
     }
   }, [isRecording, finishRecording, langCode, t]);
@@ -539,7 +575,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
         {isRecording && (
           <p className="text-xs text-center text-red-500 mt-2 animate-pulse">
-            {t("🎤 Đang nghe... Nói xong tạm dừng 2 giây hoặc bấm mic để gửi", "🎤 Listening... pause 2s or tap the mic to send")}
+            {t("🎤 Đang nghe... Nói xong tạm dừng khoảng 6 giây hoặc bấm mic để gửi", "🎤 Listening... pause about 6s or tap the mic to send")}
           </p>
         )}
       </div>
