@@ -280,6 +280,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const [selectedTopic, setSelectedTopic] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [aiSpeaking, setAiSpeaking] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -293,6 +294,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const finalTranscriptRef = useRef("");
   const liveTranscriptRef = useRef("");
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastSpokenIdxRef = useRef<number>(-1);
 
   // Rate limit: max 20 messages per minute
   const isRateLimited = useCallback(() => {
