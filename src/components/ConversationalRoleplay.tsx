@@ -8,7 +8,17 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
 import roleplayMascot from "@/assets/roleplay-mascot.png";
 import businessChibi from "@/assets/chibi-business-vest.png";
+import businessManChibi from "@/assets/chibi-business-man.png";
+import businessWomanChibi from "@/assets/chibi-business-woman.png";
 import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
+
+// Pick a professional mascot (man/woman) based on a stable hash of the topic
+// so learners see consistent character variety across scenarios.
+const pickPartnerAvatar = (seed: string) => {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) | 0;
+  return Math.abs(h) % 2 === 0 ? businessManChibi : businessWomanChibi;
+};
 
 // Handy phrases & structures shown in side panels during voice practice.
 // Language- and topic-aware: general core + business + topical add-ons so
