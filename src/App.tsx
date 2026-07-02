@@ -13,7 +13,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { RouteErrorBoundary } from "@/components/RouteErrorBoundary";
-import GlobalBackButton from "@/components/GlobalBackButton";
 
 // Lazy-loaded route shells (off the critical path for first paint)
 const Index = lazy(() => import("./pages/Index.tsx"));
@@ -283,7 +282,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <GlobalBackButton />
           <Routes>
             <Route path="/" element={<LazyRoute><RootEntry /></LazyRoute>} />
             <Route path="/home" element={<LazyRoute><Index /></LazyRoute>} />
