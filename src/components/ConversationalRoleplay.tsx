@@ -500,50 +500,48 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       ? t("Bạn luyện nói", "Speaking Buddy")
       : t("Bạn luyện nói", "Speaking Buddy");
 
-  const SidePanel = ({ side }: { side: "left" | "right" }) => (
+  const LeftHelperPanel = () => (
     <aside className="hidden xl:flex flex-col gap-3 w-56 shrink-0">
-      {side === "left" ? (
-        <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-primary mb-2">
-            {t("💬 Cấu trúc hữu ích", "💬 Handy Structures")}
-          </p>
-          <ul className="space-y-1.5">
-            {structures.map((s) => (
-              <li key={s} className="text-xs leading-snug text-foreground/85 border-l-2 border-primary/40 pl-2">
-                {s}
-              </li>
-            ))}
-          </ul>
+      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
+        <p className="text-[11px] font-bold uppercase tracking-wide text-primary mb-2">
+          {t("💬 Cấu trúc hữu ích", "💬 Handy Structures")}
+        </p>
+        <ul className="space-y-1.5">
+          {structures.map((s) => (
+            <li key={s} className="text-xs leading-snug text-foreground/85 border-l-2 border-primary/40 pl-2">
+              {s}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
+        <p className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 mb-2">
+          {t("📚 Từ vựng gợi ý", "📚 Suggested Vocab")}
+        </p>
+        <div className="flex flex-wrap gap-1.5">
+          {vocab.map((w) => (
+            <span key={w} className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+              {w}
+            </span>
+          ))}
         </div>
-      ) : (
-        <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-3 shadow-sm">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 mb-2">
-            {t("📚 Từ vựng gợi ý", "📚 Suggested Vocab")}
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {vocab.map((w) => (
-              <span key={w} className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-                {w}
-              </span>
-            ))}
+        {business && (
+          <div className="mt-3 pt-3 border-t flex flex-col items-center">
+            <img src={businessChibi} alt="" width={96} height={96} loading="lazy" className="w-24 h-24 object-contain drop-shadow" />
+            <p className="text-[10px] text-muted-foreground italic mt-1 text-center">
+              {t("Chào mừng đến buổi họp!", "Ready for business!")}
+            </p>
           </div>
-          {business && (
-            <div className="mt-3 pt-3 border-t flex flex-col items-center">
-              <img src={businessChibi} alt="" width={96} height={96} loading="lazy" className="w-24 h-24 object-contain drop-shadow" />
-              <p className="text-[10px] text-muted-foreground italic mt-1 text-center">
-                {t("Chào mừng đến buổi họp!", "Ready for business!")}
-              </p>
-            </div>
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </aside>
   );
 
   return (
     <div className="flex gap-4 items-start">
-      <SidePanel side="left" />
-      <div className="flex-1 flex flex-col h-[500px] sm:h-[600px] bg-card rounded-xl border overflow-hidden relative">
+      <LeftHelperPanel />
+      <div className="flex-1 min-w-0 flex flex-col h-[500px] sm:h-[600px] bg-card rounded-xl border overflow-hidden relative">
+
       {/* Scene background */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-25 dark:opacity-15 pointer-events-none"
