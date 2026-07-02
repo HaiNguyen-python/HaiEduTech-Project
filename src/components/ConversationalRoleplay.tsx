@@ -7,7 +7,51 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
 import roleplayMascot from "@/assets/roleplay-mascot.png";
+import businessChibi from "@/assets/chibi-business-vest.png";
 import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
+
+// Handy phrases & structures shown in side panels during voice practice.
+// Chosen to work across most Conversational lessons; extra sets kick in for
+// business/professional pillars so learners have context-appropriate scaffolds.
+const GENERAL_STRUCTURES = [
+  "I think that ...",
+  "In my opinion, ...",
+  "It depends on ...",
+  "One reason is ...",
+  "For example, ...",
+  "On the other hand, ...",
+  "That's a good point, but ...",
+  "Could you explain ...?",
+  "What do you mean by ...?",
+  "I'd say ...",
+];
+const GENERAL_VOCAB = [
+  "actually", "basically", "honestly", "definitely",
+  "kind of", "sort of", "to be fair", "I guess",
+  "make sense", "figure out", "come up with", "look forward to",
+];
+const BUSINESS_STRUCTURES = [
+  "Let's kick off the meeting with ...",
+  "The main agenda today is ...",
+  "Just to clarify, ...",
+  "Could we circle back to ...?",
+  "Let's take that offline.",
+  "The action item for me is ...",
+  "From a business perspective, ...",
+  "Long story short, ...",
+  "Let's align on ...",
+  "Moving forward, we should ...",
+];
+const BUSINESS_VOCAB = [
+  "agenda", "stakeholder", "deliverable", "deadline",
+  "milestone", "KPI", "ROI", "follow up",
+  "touch base", "on the same page", "get the ball rolling", "reach out",
+];
+
+const isBusinessPillar = (pillar?: string, lessonTitle?: string) => {
+  const s = `${pillar ?? ""} ${lessonTitle ?? ""}`.toLowerCase();
+  return /business|professional|work|office|meeting|presentation|interview|negotiat|corporate/.test(s);
+};
 
 type Msg = { role: "user" | "assistant"; content: string };
 
