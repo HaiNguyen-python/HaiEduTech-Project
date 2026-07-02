@@ -367,6 +367,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     setHasStarted(false);
     setSelectedTopic("");
     speechSynthesis.cancel();
+    if (currentAudioRef.current) { currentAudioRef.current.pause(); currentAudioRef.current = null; }
   };
 
   // Topic selection screen
