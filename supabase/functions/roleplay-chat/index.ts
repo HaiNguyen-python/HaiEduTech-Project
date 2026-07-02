@@ -75,7 +75,7 @@ Optional 4th line only if useful: 💡 Từ mới: 词 cí = nghĩa (max 2 từ)
 After your reply, ALWAYS add these 3 lines so the student can re-speak a polished native version of what they just said:
 🎯 Nói lại như người bản xứ:
 「<toàn bộ câu của học viên viết lại bằng 汉字, tự nhiên, đúng ngữ pháp, giữ nguyên ý>」
-[pīnyīn đầy đủ, đúng dấu thanh] · (Vietnamese: bản dịch ngắn)
+[pīnyīn đầy đủ, đúng dấu thanh]
 
 If the student's sentence is already perfect, still rewrite it slightly more natural/native. Never skip this block.
 
