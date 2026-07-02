@@ -672,7 +672,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
         )}
       </div>
       </div>
-      <SidePanel side="right" />
+      
     </div>
   );
 };
