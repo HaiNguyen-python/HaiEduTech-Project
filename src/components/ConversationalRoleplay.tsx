@@ -673,8 +673,11 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
           </p>
         )}
       </div>
+      </div>
+      <SidePanel side="right" />
     </div>
   );
+};
 };
 
 export default ConversationalRoleplay;
