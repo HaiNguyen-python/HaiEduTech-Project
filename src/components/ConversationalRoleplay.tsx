@@ -620,24 +620,29 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       ? t("Bạn luyện nói", "Speaking Buddy")
       : t("Bạn luyện nói", "Speaking Buddy");
 
-  const LeftHelperPanel = () => (
-    <aside className="hidden xl:flex flex-col gap-3 w-64 shrink-0">
+  const TopHelperPanel = () => (
+    <div className="hidden md:grid grid-cols-2 gap-3 mb-3">
       <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-4 shadow-sm">
         <p className="text-sm font-extrabold uppercase tracking-wide text-primary mb-3">
           {t("💬 Cấu trúc hữu ích", "💬 Handy Structures")}
         </p>
-        <ul className="space-y-2">
+        <div className="flex flex-wrap gap-1.5">
           {structures.map((s) => (
-            <li key={s} className="text-sm font-semibold leading-snug text-foreground border-l-[3px] border-primary/60 pl-2.5">
+            <span key={s} className="text-sm font-semibold px-2.5 py-1 rounded-lg bg-primary/10 text-foreground border-l-[3px] border-primary/60">
               {s}
-            </li>
+            </span>
           ))}
-        </ul>
+        </div>
       </div>
       <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-4 shadow-sm">
-        <p className="text-sm font-extrabold uppercase tracking-wide text-emerald-600 mb-3">
-          {t("📚 Từ vựng gợi ý", "📚 Suggested Vocab")}
-        </p>
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <p className="text-sm font-extrabold uppercase tracking-wide text-emerald-600">
+            {t("📚 Từ vựng gợi ý", "📚 Suggested Vocab")}
+          </p>
+          {business && (
+            <img src={businessChibi} alt="" width={40} height={40} loading="lazy" className="w-10 h-10 object-contain drop-shadow shrink-0" />
+          )}
+        </div>
         <div className="flex flex-wrap gap-1.5">
           {vocab.map((w) => (
             <span key={w} className="text-sm font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/40">
@@ -645,22 +650,14 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
             </span>
           ))}
         </div>
-        {business && (
-          <div className="mt-3 pt-3 border-t flex flex-col items-center">
-            <img src={businessChibi} alt="" width={96} height={96} loading="lazy" className="w-24 h-24 object-contain drop-shadow" />
-            <p className="text-xs font-medium text-muted-foreground italic mt-1 text-center">
-              {t("Chào mừng đến buổi họp!", "Ready for business!")}
-            </p>
-          </div>
-        )}
       </div>
-    </aside>
+    </div>
   );
 
   return (
-    <div className="flex gap-4 items-start">
-      <LeftHelperPanel />
-      <div className="flex-1 min-w-0 flex flex-col h-[620px] sm:h-[760px] xl:h-[820px] bg-card rounded-xl border overflow-hidden relative">
+    <div className="flex flex-col">
+      <TopHelperPanel />
+      <div className="w-full flex flex-col h-[620px] sm:h-[760px] xl:h-[880px] bg-card rounded-xl border overflow-hidden relative">
 
 
 
