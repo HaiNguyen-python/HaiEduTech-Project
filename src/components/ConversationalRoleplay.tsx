@@ -601,8 +601,8 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   // Chat interface
   const sceneBg = bannerImageFor(selectedTopic);
   const business = isBusinessPillar(pillar, lessonTitle);
-  const structures = business ? BUSINESS_STRUCTURES : GENERAL_STRUCTURES;
-  const vocab = business ? BUSINESS_VOCAB : GENERAL_VOCAB;
+  const topicPack = detectTopicPack(pillar, lessonTitle, selectedTopic);
+  const { structures, vocab } = getHelperSets(language, business, topicPack);
   const partnerLabel = language === "chinese"
     ? t("Bạn luyện nói", "Speaking Buddy")
     : language === "finnish"
