@@ -112,10 +112,19 @@ const VFFCertificate = () => {
                   <div className="text-sm max-w-2xl mx-auto">
                     has successfully completed the <strong>Vietnamese for Foreigners - Level {level}</strong> course under the CEFR framework, achieving a checkpoint score of <strong style={{ color: "#059669" }}>{score}%</strong>.
                   </div>
-                  <div className="pt-4 flex justify-around max-w-xl mx-auto text-sm">
+                  <div className="pt-4 flex justify-around items-end max-w-2xl mx-auto text-sm">
                     <div>
                       <div className="font-bold text-xl italic" style={{ fontFamily: "cursive", color: "#0f766e" }}>Mr. Hai</div>
                       <div className="border-t border-slate-400 mt-1 pt-1 text-xs">Instructor · HaiEduTech Founder</div>
+                    </div>
+                    <div>
+                      <img
+                        alt="Verify QR"
+                        width={80}
+                        height={80}
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(`https://haiedutech.com/verify/vff-${level}-${(name || "student").replace(/\s+/g, "-").toLowerCase()}`)}`}
+                      />
+                      <div className="text-[10px] text-slate-500 mt-1">Scan to verify</div>
                     </div>
                     <div>
                       <div className="font-bold text-xl" style={{ color: "#0f766e" }}>{today}</div>

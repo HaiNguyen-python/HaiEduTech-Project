@@ -111,5 +111,13 @@ export function useVFFProgress() {
     setProgress({ ...defaultProgress });
   }, []);
 
-  return { progress, recordPlacement, recordLesson, recordCheckpoint, reset };
+  const hydrate = useCallback((patch: Partial<VFFProgress>) => {
+    setProgress(prev => {
+      const next: VFFProgress = { ...prev, ...patch, levelUnlocked: { ...prev.levelUnlocked, ...(patch.levelUnlocked || {}) } };
+      saveProgress(next);
+      return next;
+    });
+  }, []);
+
+  return { progress, recordPlacement, recordLesson, recordCheckpoint, reset, hydrate };
 }

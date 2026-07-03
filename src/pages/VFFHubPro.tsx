@@ -4,7 +4,7 @@
  */
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Flame, GraduationCap, Trophy, Route, Sparkles, Mic, BookOpen, Award, CheckCircle2, Lock, Headphones, PenLine, MessageCircle, Compass, Layers } from "lucide-react";
+import { ArrowLeft, Flame, GraduationCap, Trophy, Route, Sparkles, Mic, BookOpen, Award, CheckCircle2, Lock, Headphones, PenLine, MessageCircle, Compass, Layers, Film, TrendingUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -16,6 +16,7 @@ import { Progress } from "@/components/ui/progress";
 import { vffLevelA1, vffLevelB1 } from "@/data/vietnamese/vffLevels";
 import { vffLevelA2 } from "@/data/vietnamese/vffLevelA2";
 import { useVFFProgress } from "@/hooks/useVFFProgress";
+import { useVFFCloudSync } from "@/hooks/useVFFCloudSync";
 
 const A2_LESSON_COUNT = vffLevelA2.lessons.length;
 
@@ -25,7 +26,8 @@ const A2_LESSON_COUNT = vffLevelA2.lessons.length;
 const VFFHubPro = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const { progress } = useVFFProgress();
+  const { progress, hydrate } = useVFFProgress();
+  useVFFCloudSync(progress, hydrate);
 
   const a1Done = vffLevelA1.lessons.filter(l => (progress.lessonsCompleted[l.id] ?? 0) >= 80).length;
   const b1Done = vffLevelB1.lessons.filter(l => (progress.lessonsCompleted[l.id] ?? 0) >= 80).length;
@@ -117,9 +119,12 @@ const VFFHubPro = () => {
                 )}
               </p>
               <div className="flex flex-wrap gap-3">
-                <Button size="lg" onClick={() => navigate("/learn-vietnamese/for-foreigners/placement")} className="bg-gradient-to-r from-primary to-emerald-500 text-white">
+                <Button size="lg" onClick={() => navigate("/learn-vietnamese/for-foreigners/placement-adaptive")} className="bg-gradient-to-r from-primary to-emerald-500 text-white">
                   <Sparkles className="w-4 h-4 mr-2" />
-                  {t("Làm bài kiểm tra xếp lớp", "Take Placement Test")}
+                  {t("Kiểm tra thích ứng (mới)", "Adaptive Test (new)")}
+                </Button>
+                <Button size="lg" variant="outline" onClick={() => navigate("/learn-vietnamese/for-foreigners/placement")}>
+                  {t("Kiểm tra 15 câu", "15-Q Placement")}
                 </Button>
                 <Button size="lg" variant="outline" onClick={() => navigate("/learn-vietnamese/for-foreigners/lab/pronunciation")}>
                   <Mic className="w-4 h-4 mr-2" />
@@ -210,6 +215,9 @@ const VFFHubPro = () => {
               { to: "/learn-vietnamese/for-foreigners/lab/reading", icon: BookOpen, color: "text-amber-600", vi: "Luyện đọc", en: "Reading Lab", desc: ["Bài đọc phân cấp có glossary + câu hỏi.", "Graded passages with glossary + Qs."] },
               { to: "/learn-vietnamese/for-foreigners/lab/writing", icon: PenLine, color: "text-fuchsia-500", vi: "Luyện viết", en: "Writing Lab", desc: ["Gõ dấu Telex/VNI + ghép câu.", "Telex/VNI typing + sentence builder."] },
               { to: "/learn-vietnamese/for-foreigners/lab/roleplay", icon: MessageCircle, color: "text-rose-500", vi: "Đóng vai", en: "Speaking Roleplay", desc: ["4 kịch bản: cà phê, Grab, chợ, phòng khám.", "4 scenarios: cafe, Grab, market, clinic."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/roleplay-ai", icon: Sparkles, color: "text-rose-600", vi: "Đóng vai với AI ⭐", en: "AI Roleplay ⭐", desc: ["Nói tiếng Việt tự do - AI đóng vai bản xứ.", "Free speech - AI plays a native speaker."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/video", icon: Film, color: "text-amber-600", vi: "Xem video văn hóa", en: "Video Immersion", desc: ["Video YouTube + lời thoại + quiz.", "YouTube clips + transcripts + quiz."] },
+              { to: "/learn-vietnamese/for-foreigners/analytics", icon: TrendingUp, color: "text-blue-500", vi: "Phân tích kỹ năng", en: "Skill Analytics", desc: ["Biểu đồ 5 kỹ năng + gợi ý bài học.", "5-skill radar + lesson suggestions."] },
               { to: "/learn-vietnamese/for-foreigners/lab/flashcards", icon: Layers, color: "text-violet-500", vi: "Thẻ ghi nhớ SRS", en: "SRS Flashcards", desc: ["Ôn từ vựng theo lặp lại ngắt quãng.", "Vocab spaced-repetition review."] },
               { to: "/learn-vietnamese/for-foreigners/lab/culture", icon: Compass, color: "text-amber-500", vi: "Cẩm nang văn hóa", en: "Culture Guide", desc: ["Tết, cà phê, chợ, gia đình - Do & Don't.", "Tet, coffee, markets, family - Do & Don't."] },
               { to: "/learn-vietnamese/for-foreigners/lab/grammar", icon: BookOpen, color: "text-sky-500", vi: "Tham chiếu ngữ pháp", en: "Grammar Reference", desc: ["25 điểm ngữ pháp cốt lõi A1-B1.", "25 core grammar points A1-B1."] },

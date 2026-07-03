@@ -1,10 +1,10 @@
 /**
  * @file VFFWritingLab.tsx
- * @description Diacritic typing drills + sentence builder.
+ * @description Diacritic typing drills, sentence builder, and AI writing grader.
  */
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, PenLine, CheckCircle2, XCircle, Shuffle, Type, Blocks } from "lucide-react";
+import { ArrowLeft, PenLine, CheckCircle2, XCircle, Shuffle, Type, Blocks, Sparkles, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -12,7 +12,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const diacriticDrills = [
   { plain: "cam on", target: "cảm ơn", en: "thank you", telex: "car mown" },
@@ -160,6 +164,124 @@ const SentenceBuilder = () => {
   );
 };
 
+const AI_PROMPTS = [
+  { id: "self", vi: "Giới thiệu bản thân (30-60 từ): tên, tuổi, quốc tịch, nghề nghiệp.", en: "Self-intro (30-60 words): name, age, nationality, job." },
+  { id: "market", vi: "Kể lại một lần bạn đi chợ ở Việt Nam (50-100 từ).", en: "Describe a market trip in Vietnam (50-100 words)." },
+  { id: "weekend", vi: "Kế hoạch cuối tuần của bạn (40-80 từ).", en: "Your weekend plans (40-80 words)." },
+];
+
+interface GradeResult {
+  scores?: { diacritics: number; grammar: number; vocabulary: number; coherence: number };
+  overall?: number;
+  summary_vi?: string;
+  summary_en?: string;
+  corrections?: { original: string; suggestion: string; reason_en: string }[];
+}
+
+const AIGrader = () => {
+  const { t } = useLanguage();
+  const [promptId, setPromptId] = useState(AI_PROMPTS[0].id);
+  const [text, setText] = useState("");
+  const [level, setLevel] = useState<"A1" | "A2" | "B1">("A1");
+  const [busy, setBusy] = useState(false);
+  const [result, setResult] = useState<GradeResult | null>(null);
+
+  const submit = async () => {
+    if (!text.trim() || busy) return;
+    setBusy(true); setResult(null);
+    try {
+      const prompt = AI_PROMPTS.find(p => p.id === promptId)!;
+      const { data, error } = await supabase.functions.invoke("vff-writing-grade", {
+        body: { prompt: `${prompt.vi} / ${prompt.en}`, text, level },
+      });
+      if (error) throw error;
+      if (data?.error === "rate_limit") { toast.error(t("Quá nhiều yêu cầu, thử lại sau.", "Too many requests.")); return; }
+      if (data?.error === "credits") { toast.error(t("Hết credit AI.", "AI credits exhausted.")); return; }
+      if (data?.error) { toast.error(t("Lỗi AI", "AI error")); return; }
+      setResult(data as GradeResult);
+      // Save to cloud if signed in (best-effort)
+      const { data: sess } = await supabase.auth.getSession();
+      if (sess.session?.user.id) {
+        await supabase.from("vff_writing_submissions").insert({
+          user_id: sess.session.user.id,
+          prompt: `${prompt.vi} / ${prompt.en}`,
+          learner_text: text,
+          scores: (data.scores || {}) as never,
+          feedback: { corrections: data.corrections || [], summary_vi: data.summary_vi, summary_en: data.summary_en } as never,
+          overall_score: data.overall ?? null,
+          level,
+        });
+      }
+    } catch {
+      toast.error(t("Lỗi kết nối", "Connection error"));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Card className="border-2 border-fuchsia-500/25">
+      <CardContent className="pt-5 space-y-4">
+        <div>
+          <label className="text-sm font-semibold mb-1 block">{t("Đề bài", "Prompt")}</label>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {AI_PROMPTS.map(p => (
+              <Button key={p.id} size="sm" variant={promptId === p.id ? "default" : "outline"} onClick={() => setPromptId(p.id)}>
+                {t(p.vi.slice(0, 20) + "...", p.en.slice(0, 20) + "...")}
+              </Button>
+            ))}
+          </div>
+          <div className="text-xs text-muted-foreground">{t(AI_PROMPTS.find(p => p.id === promptId)!.vi, AI_PROMPTS.find(p => p.id === promptId)!.en)}</div>
+        </div>
+        <div className="flex gap-2">
+          {(["A1", "A2", "B1"] as const).map(l => (
+            <Button key={l} size="sm" variant={level === l ? "default" : "outline"} onClick={() => setLevel(l)}>{l}</Button>
+          ))}
+        </div>
+        <Textarea rows={6} value={text} onChange={e => setText(e.target.value)} placeholder={t("Viết bằng tiếng Việt có dấu...", "Write in Vietnamese with diacritics...")} />
+        <Button onClick={submit} disabled={busy || !text.trim()} className="w-full">
+          {busy ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("AI đang chấm...", "Grading...")}</> : <><Sparkles className="w-4 h-4 mr-2" />{t("Chấm bài", "Grade my writing")}</>}
+        </Button>
+
+        {result && (
+          <div className="space-y-3 pt-2">
+            <div className="p-4 rounded-xl bg-gradient-to-br from-fuchsia-500/10 to-primary/10 border">
+              <div className="text-center">
+                <div className="text-xs text-muted-foreground">{t("Điểm tổng", "Overall")}</div>
+                <div className="text-4xl font-black bg-gradient-to-r from-fuchsia-500 to-primary bg-clip-text text-transparent">{result.overall ?? "-"}/10</div>
+              </div>
+              {result.scores && (
+                <div className="grid grid-cols-4 gap-2 mt-3 text-center text-xs">
+                  {Object.entries(result.scores).map(([k, v]) => (
+                    <div key={k}><Badge variant="outline">{v}/10</Badge><div className="mt-1 capitalize">{k}</div></div>
+                  ))}
+                </div>
+              )}
+            </div>
+            {result.summary_en && <div className="text-sm p-3 rounded-lg bg-muted"><strong>Feedback:</strong> {result.summary_en}<div className="italic text-xs mt-1 text-muted-foreground">{result.summary_vi}</div></div>}
+            {result.corrections && result.corrections.length > 0 && (
+              <div>
+                <div className="text-sm font-semibold mb-2">{t("Sửa lỗi", "Corrections")}</div>
+                <ul className="space-y-2">
+                  {result.corrections.map((c, i) => (
+                    <li key={i} className="p-2.5 rounded-lg border-2 border-amber-500/30 bg-amber-500/5 text-sm">
+                      <div className="line-through text-red-600">{c.original}</div>
+                      <div className="text-emerald-600 font-medium">→ {c.suggestion}</div>
+                      <div className="text-xs text-muted-foreground italic mt-1">{c.reason_en}</div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+
+
 const VFFWritingLab = () => {
   const { t } = useLanguage();
   return (
@@ -178,12 +300,14 @@ const VFFWritingLab = () => {
           </div>
 
           <Tabs defaultValue="diacritic">
-            <TabsList className="grid grid-cols-2 w-full">
+            <TabsList className="grid grid-cols-3 w-full">
               <TabsTrigger value="diacritic"><Type className="w-4 h-4 mr-2" />{t("Gõ dấu", "Diacritics")}</TabsTrigger>
-              <TabsTrigger value="builder"><Blocks className="w-4 h-4 mr-2" />{t("Ghép câu", "Sentence Builder")}</TabsTrigger>
+              <TabsTrigger value="builder"><Blocks className="w-4 h-4 mr-2" />{t("Ghép câu", "Builder")}</TabsTrigger>
+              <TabsTrigger value="ai"><Sparkles className="w-4 h-4 mr-2" />{t("AI chấm", "AI Grader")}</TabsTrigger>
             </TabsList>
             <TabsContent value="diacritic" className="mt-4"><DiacriticDrill /></TabsContent>
             <TabsContent value="builder" className="mt-4"><SentenceBuilder /></TabsContent>
+            <TabsContent value="ai" className="mt-4"><AIGrader /></TabsContent>
           </Tabs>
         </div>
       </main>

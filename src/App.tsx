@@ -189,6 +189,10 @@ const VFFWritingLab = lazy(() => import("./pages/VFFWritingLab.tsx"));
 const VFFSpeakingRoleplay = lazy(() => import("./pages/VFFSpeakingRoleplay.tsx"));
 const VFFCultureHub = lazy(() => import("./pages/VFFCultureHub.tsx"));
 const VFFFlashcards = lazy(() => import("./pages/VFFFlashcards.tsx"));
+const VFFRoleplayAI = lazy(() => import("./pages/VFFRoleplayAI.tsx"));
+const VFFVideoLounge = lazy(() => import("./pages/VFFVideoLounge.tsx"));
+const VFFAnalytics = lazy(() => import("./pages/VFFAnalytics.tsx"));
+const VFFPlacementAdaptive = lazy(() => import("./pages/VFFPlacementAdaptive.tsx"));
 
 const VietnameseDictation = lazy(() => import("./pages/VietnameseDictation.tsx"));
 const VietnamesePoetry = lazy(() => import("./pages/VietnamesePoetry.tsx"));
@@ -425,6 +429,10 @@ const App = () => (
             <Route path="/learn-vietnamese/for-foreigners/lab/roleplay" element={<LazyRoute><VFFSpeakingRoleplay /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/lab/culture" element={<LazyRoute><VFFCultureHub /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/lab/flashcards" element={<LazyRoute><VFFFlashcards /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/roleplay-ai" element={<LazyRoute><VFFRoleplayAI /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/video" element={<LazyRoute><VFFVideoLounge /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/analytics" element={<LazyRoute><VFFAnalytics /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/placement-adaptive" element={<LazyRoute><VFFPlacementAdaptive /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/certificate" element={<LazyRoute><VFFCertificate /></LazyRoute>} />
 
             <Route path="/learn-vietnamese/for-foreigners/legacy" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
