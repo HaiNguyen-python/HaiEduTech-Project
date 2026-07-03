@@ -20,7 +20,7 @@ import { useVFFProgress } from "@/hooks/useVFFProgress";
 const A2_LESSON_COUNT = vffLevelA2.lessons.length;
 
 
-const A2_LESSON_COUNT = 5;
+
 
 const VFFHubPro = () => {
   const { t } = useLanguage();
