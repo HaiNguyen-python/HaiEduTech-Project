@@ -189,6 +189,10 @@ const VFFWritingLab = lazy(() => import("./pages/VFFWritingLab.tsx"));
 const VFFSpeakingRoleplay = lazy(() => import("./pages/VFFSpeakingRoleplay.tsx"));
 const VFFCultureHub = lazy(() => import("./pages/VFFCultureHub.tsx"));
 const VFFFlashcards = lazy(() => import("./pages/VFFFlashcards.tsx"));
+const VFFRoleplayAI = lazy(() => import("./pages/VFFRoleplayAI.tsx"));
+const VFFVideoLounge = lazy(() => import("./pages/VFFVideoLounge.tsx"));
+const VFFAnalytics = lazy(() => import("./pages/VFFAnalytics.tsx"));
+const VFFPlacementAdaptive = lazy(() => import("./pages/VFFPlacementAdaptive.tsx"));
 
 const VietnameseDictation = lazy(() => import("./pages/VietnameseDictation.tsx"));
 const VietnamesePoetry = lazy(() => import("./pages/VietnamesePoetry.tsx"));
