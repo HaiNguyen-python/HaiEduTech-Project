@@ -38,7 +38,7 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       "Receptionist: We meet at the entrance of Ashford Park, near the west gate.\n" +
       "Caller: Great. How can I pay?\n" +
       "Receptionist: A bank transfer is easiest. And your mobile number, in case the weather changes?\n" +
-      "Caller: It's oh-seven-eight-two, four-five-six, one-nine-three-four.\n" +
+      "Caller: It's oh seven eight two, four five six, one nine three four.\n" +
       "Receptionist: Perfect. You'll receive a confirmation email within twenty-four hours.",
     rate: 0.9,
     formTitle: "NORTHLIGHT PHOTOGRAPHY - WORKSHOP BOOKING",
