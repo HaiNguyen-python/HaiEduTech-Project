@@ -17,12 +17,12 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { vffLevelA1, vffLevelB1, VFFLevel, VFFLevelLesson } from "@/data/vietnamese/vffLevels";
 import { useVFFProgress } from "@/hooks/useVFFProgress";
-import { speakVietnamese } from "@/lib/vietnameseTts";
+import { playVietnameseTts } from "@/lib/vietnameseTts";
 
 type LevelKey = "a1" | "b1";
 
 const speak = (text: string, rate = 0.9) => {
-  speakVietnamese(text, { rate }).catch(() => { /* ignore */ });
+  playVietnameseTts(text, { playbackRate: rate, speechRate: rate * 0.85 }).catch(() => { /* ignore */ });
 };
 
 function SpeakButton({ text, className }: { text: string; className?: string }) {
