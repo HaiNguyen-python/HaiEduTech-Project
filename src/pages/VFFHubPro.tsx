@@ -4,7 +4,7 @@
  */
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Flame, GraduationCap, Trophy, Route, Sparkles, Mic, BookOpen, Award, CheckCircle2, Lock, Headphones, PenLine, MessageCircle, Compass, Layers } from "lucide-react";
+import { ArrowLeft, Flame, GraduationCap, Trophy, Route, Sparkles, Mic, BookOpen, Award, CheckCircle2, Lock, Headphones, PenLine, MessageCircle, Compass, Layers, Film, TrendingUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -16,6 +16,7 @@ import { Progress } from "@/components/ui/progress";
 import { vffLevelA1, vffLevelB1 } from "@/data/vietnamese/vffLevels";
 import { vffLevelA2 } from "@/data/vietnamese/vffLevelA2";
 import { useVFFProgress } from "@/hooks/useVFFProgress";
+import { useVFFCloudSync } from "@/hooks/useVFFCloudSync";
 
 const A2_LESSON_COUNT = vffLevelA2.lessons.length;
 
@@ -25,7 +26,8 @@ const A2_LESSON_COUNT = vffLevelA2.lessons.length;
 const VFFHubPro = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const { progress } = useVFFProgress();
+  const { progress, hydrate } = useVFFProgress();
+  useVFFCloudSync(progress, hydrate);
 
   const a1Done = vffLevelA1.lessons.filter(l => (progress.lessonsCompleted[l.id] ?? 0) >= 80).length;
   const b1Done = vffLevelB1.lessons.filter(l => (progress.lessonsCompleted[l.id] ?? 0) >= 80).length;
