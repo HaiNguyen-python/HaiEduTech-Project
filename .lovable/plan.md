@@ -1,72 +1,87 @@
-## Vấn đề
+# Kế hoạch: Vietnamese for Foreigners - Professional Edition
 
-Dữ liệu hiện tại cho thấy có hành vi "spam sao" rõ ràng:
-- 1 học viên đánh dấu **1.206 từ "đã thuộc" trong 1 phút** (24/06)
-- Nhiều phiên 200-400 từ/phút - không thể là học thật
-- Top tháng trước có người đạt 770 từ chỉ trong vài ngày
+## Bối cảnh
 
-Nguyên nhân: `useMasteredVocab.ts` và `SatStarToggle` ghi `user_vocab_mastered` / `awardPetXP` ngay khi click sao, không kiểm tra thời gian xem từ, không có cooldown, không có xác thực hiểu nghĩa.
+Đã có `/learn-vietnamese/for-foreigners` với 5 module chủ đề (Xưng hô, Ẩm thực, Di chuyển, Kết bạn, Công sở) + Survival. Nội dung tốt nhưng **thiếu lộ trình chuẩn theo cấp độ, thiếu bảng chữ cái/phát âm bài bản, thiếu ngữ pháp nền tảng, thiếu đánh giá/chứng chỉ**. Mục tiêu: biến thành khóa học chuẩn quốc tế cho người nước ngoài học tiếng Việt.
 
-## Giải pháp - 3 lớp bảo vệ
+## Mục tiêu
 
-### Lớp 1: Chống spam ở nguồn (client + DB)
+1. Lộ trình rõ ràng theo **CEFR A1 → A2 → B1** (tương đương chuẩn VSL/ACTFL).
+2. Nền tảng phát âm/ngữ pháp **có hệ thống**, không nhảy thẳng vào tình huống.
+3. Trải nghiệm học **tương tác** (nghe-nói-đọc-viết) với chấm tự động.
+4. Có **placement test + progress tracking + certificate** khi hoàn thành cấp độ.
+5. Giao diện **song ngữ EN/VI mặc định EN** (người nước ngoài là user chính).
 
-- **Cooldown 3 giây/từ**: trong `useMasteredVocab.ts`, trước khi insert kiểm tra `lastMarkedAt` - nếu < 3s từ lần đánh dấu trước thì chỉ lưu localStorage, không ghi DB và không award XP.
-- **Trigger DB chặn burst**: tạo trigger trên `user_vocab_mastered` BEFORE INSERT - nếu user đã có >= 8 row trong 60 giây gần nhất thì raise exception. Đây là rào cuối cùng kể cả khi client bị bypass.
-- Áp dụng tương tự cho `SatStarToggle` (chỉ award XP nếu lần toggle trước cách >= 3s).
-
-### Lớp 2: Đếm từ "hợp lệ" thay vì đếm thô (fair count)
-
-Tạo function `get_fair_mastered_count(user_id, start, end)`:
-- Group theo `date_trunc('minute', reviewed_at)`
-- **Cap tối đa 8 từ/phút** mỗi user (học thật ~5-8 từ/phút là rất nhanh rồi)
-- **Cap 200 từ/ngày** mỗi user
-- Trả về `valid_count` (đã cap) + `raw_count` để admin so sánh
-
-### Lớp 3: Công thức Student of the Month công bằng hơn
-
-Cập nhật `get_monthly_top_students` với:
+## Kiến trúc trang mới
 
 ```text
-fair_words   = fair_mastered_count (đã cap ở Lớp 2)
-fair_acts    = activities có time_spent_seconds >= 15s
-                (loại bỏ click qua loa, mỗi loại activity cap 50/ngày)
-fair_minutes = online_minutes nhưng cap 240 phút/ngày
-                (chống mở tab cả ngày để cộng dồn)
-fair_days    = login_days (giữ nguyên - khó gian lận)
-
-Quality bonus (×1.0 - 1.3):
-  + 0.10 nếu có >= 3 loại activity khác nhau trong tháng
-  + 0.10 nếu có ielts/toeic/speaking scored activity với score >= 5
-  + 0.10 nếu fair_days >= 10
-
-total_score = (fair_words×1 + fair_acts×2 + fair_minutes×3 + fair_days×4) × bonus
+/learn-vietnamese/for-foreigners  (Hub - redesign)
+├── Placement Test  (10-15 câu → gợi ý cấp độ A1/A2/B1)
+├── Level A1 - Foundation  (Survival Vietnamese)
+│   ├── 1. Alphabet & Pronunciation  (29 chữ + 6 thanh + minimal pairs)
+│   ├── 2. Numbers, Time, Dates
+│   ├── 3. Greetings & Self-introduction
+│   ├── 4. Family & Pronouns (anh/chị/em system)
+│   ├── 5. Basic Grammar: SVO, classifiers, "là"
+│   └── A1 Checkpoint Test
+├── Level A2 - Everyday Life  (module hiện có tái cấu trúc)
+│   ├── Food & Ordering | Transport | Shopping | Directions
+│   ├── Grammar: past/future markers (đã/đang/sẽ), questions
+│   └── A2 Checkpoint Test
+├── Level B1 - Fluency
+│   ├── Work & Email | Health | News reading | Opinions
+│   ├── Grammar: passive, relative clauses, conjunctions
+│   └── B1 Checkpoint + Certificate
+├── Skill Labs (cross-level)
+│   ├── Listening Lab  (dialogue TTS 0.8x/1x, gap-fill)
+│   ├── Pronunciation Lab  (record + Web Speech API scoring, hiện có ở /english/pronunciation - port sang VI)
+│   ├── Writing Lab  (diacritic typing drills, sentence builder)
+│   └── Culture Notes (giữ module hiện có làm tài liệu bổ trợ)
+└── My Progress  (streak, mastered words, badges A1/A2/B1)
 ```
 
-### Lớp 4: Minh bạch & giám sát
+## Nội dung cần thêm (data)
 
-- Thêm cột **"Fairness"** trong admin UI (`MonthlyTopStudents` admin view) hiển thị `raw_words / fair_words` để phát hiện chênh lệch lớn.
-- Tab **"Suspicious Activity"** trong admin: list user có raw_words / fair_words > 3 (tức bị cap đáng kể).
-- Trên trang chủ vẫn chỉ hiện Top 3 nhưng dùng `fair_score`.
+- `a1Foundation.ts`: 5 lessons × (10 vocab + 3 dialogues + 5 quiz + pronunciation drill)
+- `a2Everyday.ts`: tái sử dụng `detailedVFFModules` + bổ sung grammar block mỗi lesson
+- `b1Fluency.ts`: 5 lessons mới cho công việc/tin tức/quan điểm
+- `placementTestVFF.ts`: 15 câu adaptive (5 A1 + 5 A2 + 5 B1)
+- `vffGrammarPoints.ts`: 25 điểm ngữ pháp cốt lõi (SVO, classifier, tense markers, questions, negation, comparison, passive, relative clause…)
+- `vffMinimalPairs.ts`: cặp phát âm dễ nhầm (ma/má/mà/mả/mã/mạ, ăn/anh, ê/ơ…)
 
-## Kỹ thuật triển khai
+## Tính năng UI mới
 
-**Migration:**
-1. Trigger `prevent_vocab_mastered_burst` trên `user_vocab_mastered`
-2. Function `get_fair_mastered_count(_uid uuid, _start ts, _end ts)` - dùng subquery với LEAST(count_per_minute, 8) rồi SUM
-3. Rewrite `get_monthly_top_students` dùng các CTE fair_words / fair_acts / fair_minutes + quality bonus
-4. Function `get_user_fairness_breakdown(_uid)` cho admin
+1. **Level roadmap** ngang (giống Duolingo path) với node A1→A2→B1, unlock theo checkpoint.
+2. **Placement Test wizard** 3 bước, kết quả gợi ý start level + lưu localStorage `vff_level`.
+3. **Grammar Card** component: công thức + 3 ví dụ + common mistake (như English Grammar hiện có).
+4. **Pronunciation Recorder**: Web Speech API `vi-VN`, so sánh transcript → % accuracy (tái dùng pattern từ Finnish/English Speaking).
+5. **Diacritic Typing Drill**: gõ có dấu (Telex/VNI helper), chấm tự động.
+6. **Certificate modal** PDF khi đạt ≥80% checkpoint (dùng jsPDF đã có).
 
-**Frontend:**
-5. `src/hooks/useMasteredVocab.ts` - thêm 3s cooldown + dedup queue
-6. `src/components/sat/SatStarToggle.tsx` - thêm cooldown trước `awardPetXP`
-7. Tạo `src/components/admin/SuspiciousActivityTab.tsx` - hiện chênh lệch raw vs fair
-8. Cập nhật `MonthlySummaryCard` ghi chú "Điểm công bằng (đã loại spam)"
+## Chi tiết kỹ thuật
 
-**Recompute:** Sau khi deploy, gọi `get_monthly_top_students(10)` để xem bảng xếp hạng mới và so sánh với hiện tại - dự kiến học viên 1.206 từ/phút sẽ tụt khỏi top.
+- Route mới: `/learn-vietnamese/for-foreigners/a1`, `/a2`, `/b1`, `/placement`, `/labs/:type`
+- Progress: bảng Supabase `vff_progress` (user_id, level, lesson_id, score, completed_at) + RLS + GRANT theo chuẩn dự án; fallback localStorage cho guest.
+- TTS: dùng edge function `vietnamese-tts` hiện có, rate 0.85 cho A1, 1.0 cho B1.
+- IPA: dùng `vietnameseToIpa` sẵn có cho mọi vocab entry.
+- i18n: mặc định EN cho VFF pages (override `useLanguage` khi vào section này lần đầu).
+- SEO: title "Learn Vietnamese - A1/A2/B1 Course for Foreigners | HaiEduTech".
+- Tuân thủ Core rules: gradient Royal Blue → Emerald, semantic tokens, không hardcode màu, mobile-first.
 
-## Không thay đổi
+## Phạm vi giai đoạn 1 (đề xuất triển khai ngay)
 
-- Không xóa data cũ trong `user_vocab_mastered` (chỉ thay đổi cách đếm)
-- Không thay đổi UX cho học viên học thật - cooldown 3s không cảm nhận được khi học bình thường
-- Không động vào pet XP đã tích lũy
+1. Redesign Hub `/for-foreigners` với level roadmap + placement CTA.
+2. Tạo Level A1 hoàn chỉnh: 5 lessons + checkpoint + pronunciation lab.
+3. Wrap module hiện có thành Level A2.
+4. Placement Test 15 câu.
+5. Progress tracking (localStorage + Supabase table).
+
+Giai đoạn 2 (sau khi phase 1 ổn): Level B1, Writing Lab, Certificate PDF, tích hợp AI grading cho speaking.
+
+## Câu hỏi cần xác nhận
+
+- Đồng ý phạm vi Phase 1 như trên, hay muốn làm gọn hơn (chỉ A1 + Placement) / mở rộng hơn (gồm cả B1 luôn)?
+- Có cần **giọng nói người bản xứ thu sẵn** (mp3) cho A1 phát âm, hay dùng TTS Google là đủ?
+- Có phát hành **certificate PDF có chữ ký thầy Hải** khi hoàn thành mỗi level không?
+
+làm hết tất cả phần trên, nhớ rà soát lại và đảm bảo tính chuyên nghiệp nhất cho phần nội dung 
