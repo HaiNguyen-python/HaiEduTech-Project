@@ -35,7 +35,7 @@ const VFFRoleplayAI = () => {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
-  const recogRef = useRef<SpeechRecognition | null>(null);
+  const recogRef = useRef<any>(null);
 
   useEffect(() => {
     setMessages([{ role: "assistant", content: scenario.opening }]);
@@ -68,7 +68,7 @@ const VFFRoleplayAI = () => {
   };
 
   const startListen = () => {
-    const W = window as unknown as { SpeechRecognition?: typeof SpeechRecognition; webkitSpeechRecognition?: typeof SpeechRecognition };
+    const W = window as any;
     const SR = W.SpeechRecognition || W.webkitSpeechRecognition;
     if (!SR) { toast.error(t("Trình duyệt không hỗ trợ mic. Dùng Chrome.", "Browser doesn't support mic. Use Chrome.")); return; }
     const r = new SR();
