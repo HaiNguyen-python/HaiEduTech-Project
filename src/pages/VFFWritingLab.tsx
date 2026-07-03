@@ -182,12 +182,14 @@ const VFFWritingLab = () => {
           </div>
 
           <Tabs defaultValue="diacritic">
-            <TabsList className="grid grid-cols-2 w-full">
+            <TabsList className="grid grid-cols-3 w-full">
               <TabsTrigger value="diacritic"><Type className="w-4 h-4 mr-2" />{t("Gõ dấu", "Diacritics")}</TabsTrigger>
-              <TabsTrigger value="builder"><Blocks className="w-4 h-4 mr-2" />{t("Ghép câu", "Sentence Builder")}</TabsTrigger>
+              <TabsTrigger value="builder"><Blocks className="w-4 h-4 mr-2" />{t("Ghép câu", "Builder")}</TabsTrigger>
+              <TabsTrigger value="ai"><Sparkles className="w-4 h-4 mr-2" />{t("AI chấm", "AI Grader")}</TabsTrigger>
             </TabsList>
             <TabsContent value="diacritic" className="mt-4"><DiacriticDrill /></TabsContent>
             <TabsContent value="builder" className="mt-4"><SentenceBuilder /></TabsContent>
+            <TabsContent value="ai" className="mt-4"><AIGrader /></TabsContent>
           </Tabs>
         </div>
       </main>
