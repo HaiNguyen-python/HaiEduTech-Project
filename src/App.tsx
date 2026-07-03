@@ -429,6 +429,10 @@ const App = () => (
             <Route path="/learn-vietnamese/for-foreigners/lab/roleplay" element={<LazyRoute><VFFSpeakingRoleplay /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/lab/culture" element={<LazyRoute><VFFCultureHub /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/lab/flashcards" element={<LazyRoute><VFFFlashcards /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/roleplay-ai" element={<LazyRoute><VFFRoleplayAI /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/video" element={<LazyRoute><VFFVideoLounge /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/analytics" element={<LazyRoute><VFFAnalytics /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/placement-adaptive" element={<LazyRoute><VFFPlacementAdaptive /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/certificate" element={<LazyRoute><VFFCertificate /></LazyRoute>} />
 
             <Route path="/learn-vietnamese/for-foreigners/legacy" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
