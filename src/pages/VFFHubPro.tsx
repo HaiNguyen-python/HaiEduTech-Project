@@ -29,7 +29,7 @@ const VFFHubPro = () => {
 
   const a1Done = vffLevelA1.lessons.filter(l => (progress.lessonsCompleted[l.id] ?? 0) >= 80).length;
   const b1Done = vffLevelB1.lessons.filter(l => (progress.lessonsCompleted[l.id] ?? 0) >= 80).length;
-  const a2Done = Object.keys(progress.lessonsCompleted).filter(k => k.startsWith("vff-")).length;
+  const a2Done = vffLevelA2.lessons.filter(l => (progress.lessonsCompleted[l.id] ?? 0) >= 80).length;
 
   const overallPct = Math.round(
     ((a1Done + Math.min(a2Done, A2_LESSON_COUNT) + b1Done) / (vffLevelA1.lessons.length + A2_LESSON_COUNT + vffLevelB1.lessons.length)) * 100
