@@ -14,7 +14,8 @@ import { ieltsListeningPracticeSetsExpansion3 } from "@/data/ieltsListeningPract
 import { ieltsListeningPracticeSetsExpansion4 } from "@/data/ieltsListeningPracticeExpansion4";
 import { ieltsListeningPracticeSetsExpansion5 } from "@/data/ieltsListeningPracticeExpansion5";
 import { ieltsListeningPracticeSetsExpansion6 } from "@/data/ieltsListeningPracticeExpansion6";
-const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion, ...ieltsListeningPracticeSetsExpansion2, ...ieltsListeningPracticeSetsExpansion3, ...ieltsListeningPracticeSetsExpansion4, ...ieltsListeningPracticeSetsExpansion5, ...ieltsListeningPracticeSetsExpansion6];
+import { ieltsListeningPracticeSetsExpansion7 } from "@/data/ieltsListeningPracticeExpansion7";
+const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion, ...ieltsListeningPracticeSetsExpansion2, ...ieltsListeningPracticeSetsExpansion3, ...ieltsListeningPracticeSetsExpansion4, ...ieltsListeningPracticeSetsExpansion5, ...ieltsListeningPracticeSetsExpansion6, ...ieltsListeningPracticeSetsExpansion7];
 
 import ListeningPracticeSetCard from "@/components/ielts/ListeningPracticeSetCard";
 
