@@ -119,9 +119,12 @@ const VFFHubPro = () => {
                 )}
               </p>
               <div className="flex flex-wrap gap-3">
-                <Button size="lg" onClick={() => navigate("/learn-vietnamese/for-foreigners/placement")} className="bg-gradient-to-r from-primary to-emerald-500 text-white">
+                <Button size="lg" onClick={() => navigate("/learn-vietnamese/for-foreigners/placement-adaptive")} className="bg-gradient-to-r from-primary to-emerald-500 text-white">
                   <Sparkles className="w-4 h-4 mr-2" />
-                  {t("Làm bài kiểm tra xếp lớp", "Take Placement Test")}
+                  {t("Kiểm tra thích ứng (mới)", "Adaptive Test (new)")}
+                </Button>
+                <Button size="lg" variant="outline" onClick={() => navigate("/learn-vietnamese/for-foreigners/placement")}>
+                  {t("Kiểm tra 15 câu", "15-Q Placement")}
                 </Button>
                 <Button size="lg" variant="outline" onClick={() => navigate("/learn-vietnamese/for-foreigners/lab/pronunciation")}>
                   <Mic className="w-4 h-4 mr-2" />
