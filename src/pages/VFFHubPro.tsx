@@ -204,34 +204,29 @@ const VFFHubPro = () => {
             {t("Phòng luyện kỹ năng", "Skill Labs")}
           </h2>
           <div className="grid md:grid-cols-3 gap-4 mb-10">
-            <Link to="/learn-vietnamese/for-foreigners/lab/pronunciation">
-              <Card className="h-full hover:shadow-lg hover:border-primary/40 transition-all cursor-pointer">
-                <CardContent className="pt-5">
-                  <Mic className="w-8 h-8 text-emerald-500 mb-2" />
-                  <h3 className="font-bold mb-1">{t("Luyện phát âm", "Pronunciation Lab")}</h3>
-                  <p className="text-sm text-muted-foreground">{t("6 thanh + cặp đối lập + ghi âm chấm điểm.", "6 tones + minimal pairs + record-and-score.")}</p>
-                </CardContent>
-              </Card>
-            </Link>
-            <Link to="/learn-vietnamese/for-foreigners/lab/grammar">
-              <Card className="h-full hover:shadow-lg hover:border-primary/40 transition-all cursor-pointer">
-                <CardContent className="pt-5">
-                  <BookOpen className="w-8 h-8 text-blue-500 mb-2" />
-                  <h3 className="font-bold mb-1">{t("Tham chiếu ngữ pháp", "Grammar Reference")}</h3>
-                  <p className="text-sm text-muted-foreground">{t("25 điểm ngữ pháp cốt lõi từ A1 đến B1.", "25 core grammar points from A1 to B1.")}</p>
-                </CardContent>
-              </Card>
-            </Link>
-            <Link to="/learn-vietnamese/for-foreigners/certificate">
-              <Card className="h-full hover:shadow-lg hover:border-primary/40 transition-all cursor-pointer">
-                <CardContent className="pt-5">
-                  <Award className="w-8 h-8 text-amber-500 mb-2" />
-                  <h3 className="font-bold mb-1">{t("Chứng chỉ", "My Certificate")}</h3>
-                  <p className="text-sm text-muted-foreground">{t("Nhận chứng chỉ khi vượt qua bài kiểm tra ≥80%.", "Get your certificate after passing a checkpoint ≥80%.")}</p>
-                </CardContent>
-              </Card>
-            </Link>
+            {[
+              { to: "/learn-vietnamese/for-foreigners/lab/pronunciation", icon: Mic, color: "text-emerald-500", vi: "Luyện phát âm", en: "Pronunciation Lab", desc: ["6 thanh + cặp đối lập + ghi âm chấm điểm.", "6 tones + minimal pairs + record-and-score."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/listening", icon: Headphones, color: "text-blue-500", vi: "Luyện nghe", en: "Listening Lab", desc: ["8 bài nghe A1-B1, 3 tốc độ, gap-fill.", "8 A1-B1 dialogues, 3 speeds, gap-fill."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/reading", icon: BookOpen, color: "text-amber-600", vi: "Luyện đọc", en: "Reading Lab", desc: ["Bài đọc phân cấp có glossary + câu hỏi.", "Graded passages with glossary + Qs."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/writing", icon: PenLine, color: "text-fuchsia-500", vi: "Luyện viết", en: "Writing Lab", desc: ["Gõ dấu Telex/VNI + ghép câu.", "Telex/VNI typing + sentence builder."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/roleplay", icon: MessageCircle, color: "text-rose-500", vi: "Đóng vai", en: "Speaking Roleplay", desc: ["4 kịch bản: cà phê, Grab, chợ, phòng khám.", "4 scenarios: cafe, Grab, market, clinic."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/flashcards", icon: Layers, color: "text-violet-500", vi: "Thẻ ghi nhớ SRS", en: "SRS Flashcards", desc: ["Ôn từ vựng theo lặp lại ngắt quãng.", "Vocab spaced-repetition review."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/culture", icon: Compass, color: "text-amber-500", vi: "Cẩm nang văn hóa", en: "Culture Guide", desc: ["Tết, cà phê, chợ, gia đình - Do & Don't.", "Tet, coffee, markets, family - Do & Don't."] },
+              { to: "/learn-vietnamese/for-foreigners/lab/grammar", icon: BookOpen, color: "text-sky-500", vi: "Tham chiếu ngữ pháp", en: "Grammar Reference", desc: ["25 điểm ngữ pháp cốt lõi A1-B1.", "25 core grammar points A1-B1."] },
+              { to: "/learn-vietnamese/for-foreigners/certificate", icon: Award, color: "text-amber-500", vi: "Chứng chỉ", en: "My Certificate", desc: ["Nhận chứng chỉ khi checkpoint ≥80%.", "Certificate when checkpoint ≥80%."] },
+            ].map(({ to, icon: Icon, color, vi, en, desc }) => (
+              <Link key={to} to={to}>
+                <Card className="h-full hover:shadow-lg hover:border-primary/40 transition-all cursor-pointer">
+                  <CardContent className="pt-5">
+                    <Icon className={`w-8 h-8 mb-2 ${color}`} />
+                    <h3 className="font-bold mb-1">{t(vi, en)}</h3>
+                    <p className="text-sm text-muted-foreground">{t(desc[0], desc[1])}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
           </div>
+
 
           {/* Learning approach */}
           <div className="rounded-xl border-2 border-dashed border-primary/25 p-6 bg-gradient-to-br from-primary/5 to-transparent">
