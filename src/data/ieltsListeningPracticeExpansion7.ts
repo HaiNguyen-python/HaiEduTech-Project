@@ -40,7 +40,7 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       "Receptionist: A bank transfer is easiest. And your mobile number, in case the weather changes?\n" +
       "Caller: It's oh-seven-eight-two, four-five-six, one-nine-three-four.\n" +
       "Receptionist: Perfect. You'll receive a confirmation email within twenty-four hours.",
-    rate: 0.85,
+    rate: 0.9,
     formTitle: "NORTHLIGHT PHOTOGRAPHY - WORKSHOP BOOKING",
     formLayout:
       "STAFF HANDLING CALL\n" +
@@ -92,7 +92,7 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       "If you're travelling with children, our free family activity today is a fruit-tasting session in the yellow tent, starting at eleven.\n" +
       "Parking is limited on the square itself, so we recommend the multi-storey car park behind the library, which is free at weekends.\n" +
       "Finally, all our vendors accept cards, but a few of the smaller producers still prefer cash for orders under five pounds.",
-    rate: 0.85,
+    rate: 0.9,
     questions: [
       {
         type: "mcq",
@@ -162,7 +162,7 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       "Josh: I'd rather do that than the presentation. My writing is stronger than my speaking.\n" +
       "Emma: Perfect - then I'll deliver the class presentation next Friday.\n" +
       "Tutor: Sounds balanced. I'll also provide the background music tracks from the university library.",
-    rate: 0.85,
+    rate: 0.9,
     questions: [
       { type: "matching", prompt: "Writing the script: ___", answer: "A" },
       { type: "matching", prompt: "Filming the footage: ___", answer: "B" },
@@ -195,7 +195,7 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       "Fourth, medicine. Compounds first isolated from reef organisms are now used in treatments for cancer, arthritis and, more recently, certain viral infections.\n" +
       "Finally, the economic value. Global reef tourism generates an estimated thirty-six billion dollars every year, supporting jobs in more than seventy countries.\n" +
       "The bad news, of course, is that half of the world's shallow reefs have already been lost since nineteen fifty, mainly because of rising sea temperatures.",
-    rate: 0.85,
+    rate: 0.9,
     questions: [
       { type: "fill-in", prompt: "Coral reefs cover less than ___ per cent of the ocean floor.", answer: "one" },
       { type: "fill-in", prompt: "They support around a ___ of all known marine species.", answer: "quarter" },
