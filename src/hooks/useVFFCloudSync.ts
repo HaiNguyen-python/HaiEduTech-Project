@@ -32,7 +32,7 @@ export function useVFFCloudSync(progress: VFFProgress, hydrate: (p: Partial<VFFP
       const { data: sess } = await supabase.auth.getSession();
       const uid = sess.session?.user.id;
       if (!uid) return;
-      await supabase.from("vff_progress").upsert({ user_id: uid, data: progress as unknown as Record<string, unknown>, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
+      await supabase.from("vff_progress").upsert({ user_id: uid, data: progress as never, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
     }, 800);
     return () => clearTimeout(t);
   }, [progress]);
