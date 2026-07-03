@@ -3212,6 +3212,96 @@ export type Database = {
         }
         Relationships: []
       }
+      vff_audio_clips: {
+        Row: {
+          audio_url: string
+          clip_key: string
+          created_at: string
+          id: string
+          level: string
+          region: string
+          speaker: string | null
+          text_en: string | null
+          text_vi: string
+        }
+        Insert: {
+          audio_url: string
+          clip_key: string
+          created_at?: string
+          id?: string
+          level: string
+          region?: string
+          speaker?: string | null
+          text_en?: string | null
+          text_vi: string
+        }
+        Update: {
+          audio_url?: string
+          clip_key?: string
+          created_at?: string
+          id?: string
+          level?: string
+          region?: string
+          speaker?: string | null
+          text_en?: string | null
+          text_vi?: string
+        }
+        Relationships: []
+      }
+      vff_progress: {
+        Row: {
+          data: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          data?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          data?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vff_writing_submissions: {
+        Row: {
+          created_at: string
+          feedback: Json
+          id: string
+          learner_text: string
+          level: string | null
+          overall_score: number | null
+          prompt: string
+          scores: Json
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          feedback?: Json
+          id?: string
+          learner_text: string
+          level?: string | null
+          overall_score?: number | null
+          prompt: string
+          scores?: Json
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          feedback?: Json
+          id?: string
+          learner_text?: string
+          level?: string | null
+          overall_score?: number | null
+          prompt?: string
+          scores?: Json
+          user_id?: string
+        }
+        Relationships: []
+      }
       vietnamese_dictionary: {
         Row: {
           collocations_synonyms: Json
