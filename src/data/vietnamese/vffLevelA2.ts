@@ -5,9 +5,10 @@
 import type { VFFLevel } from "./vffLevels";
 
 export const vffLevelA2: VFFLevel = {
-  id: "a1", // will be overridden; keeps type happy
-  cefr: "A1",
+  id: "a2",
+  cefr: "A2",
   title: "A2 - Đời sống hàng ngày",
+
   titleEn: "A2 - Everyday Life",
   tagline: "6 tình huống thực tế: ăn uống, đi lại, mua sắm, hỏi đường, sức khỏe, thời tiết.",
   taglineEn: "6 real scenarios: food, transport, shopping, directions, health, weather.",

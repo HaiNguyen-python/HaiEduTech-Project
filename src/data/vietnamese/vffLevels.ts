@@ -64,8 +64,8 @@ export interface VFFLevelLesson {
 }
 
 export interface VFFLevel {
-  id: "a1" | "b1";
-  cefr: "A1" | "B1";
+  id: "a1" | "a2" | "b1";
+  cefr: "A1" | "A2" | "B1";
   title: string;
   titleEn: string;
   tagline: string;
@@ -75,6 +75,7 @@ export interface VFFLevel {
   lessons: VFFLevelLesson[];
   checkpoint: VFFQuizItem[];
 }
+
 
 // ============================================================
 // LEVEL A1 - Foundation (Survival Vietnamese) - 5 lessons

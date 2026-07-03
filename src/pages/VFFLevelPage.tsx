@@ -16,10 +16,12 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { vffLevelA1, vffLevelB1, VFFLevel, VFFLevelLesson } from "@/data/vietnamese/vffLevels";
+import { vffLevelA2 } from "@/data/vietnamese/vffLevelA2";
 import { useVFFProgress } from "@/hooks/useVFFProgress";
 import { playVietnameseTts } from "@/lib/vietnameseTts";
 
-type LevelKey = "a1" | "b1";
+type LevelKey = "a1" | "a2" | "b1";
+
 
 const speak = (text: string, rate = 0.9) => {
   playVietnameseTts(text, { playbackRate: rate, speechRate: rate * 0.85 }).catch(() => { /* ignore */ });
@@ -318,8 +320,9 @@ const VFFLevelPage = ({ levelKey }: { levelKey: LevelKey }) => {
   const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
   const [showCheckpoint, setShowCheckpoint] = useState(false);
 
-  const level = levelKey === "a1" ? vffLevelA1 : vffLevelB1;
-  const unlocked = levelKey === "a1" ? progress.levelUnlocked.A1 : progress.levelUnlocked.B1;
+  const level = levelKey === "a1" ? vffLevelA1 : levelKey === "a2" ? vffLevelA2 : vffLevelB1;
+  const unlocked = levelKey === "a1" ? progress.levelUnlocked.A1 : levelKey === "a2" ? progress.levelUnlocked.A2 : progress.levelUnlocked.B1;
+
   const activeLesson = level.lessons.find(l => l.id === activeLessonId);
 
   const doneCount = level.lessons.filter(l => (progress.lessonsCompleted[l.id] ?? 0) >= 80).length;
