@@ -4,7 +4,7 @@
  */
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Flame, GraduationCap, Trophy, Route, Sparkles, Mic, BookOpen, Award, CheckCircle2, Lock } from "lucide-react";
+import { ArrowLeft, Flame, GraduationCap, Trophy, Route, Sparkles, Mic, BookOpen, Award, CheckCircle2, Lock, Headphones, PenLine, MessageCircle, Compass, Layers } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -14,7 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { vffLevelA1, vffLevelB1 } from "@/data/vietnamese/vffLevels";
+import { vffLevelA2 } from "@/data/vietnamese/vffLevelA2";
 import { useVFFProgress } from "@/hooks/useVFFProgress";
+
+const A2_LESSON_COUNT = vffLevelA2.lessons.length;
+
 
 const A2_LESSON_COUNT = 5;
 
