@@ -183,6 +183,13 @@ const VFFLevelPage = lazy(() => import("./pages/VFFLevelPage.tsx"));
 const VFFPronunciationLab = lazy(() => import("./pages/VFFPronunciationLab.tsx"));
 const VFFGrammarReference = lazy(() => import("./pages/VFFGrammarReference.tsx"));
 const VFFCertificate = lazy(() => import("./pages/VFFCertificate.tsx"));
+const VFFListeningLab = lazy(() => import("./pages/VFFListeningLab.tsx"));
+const VFFReadingLab = lazy(() => import("./pages/VFFReadingLab.tsx"));
+const VFFWritingLab = lazy(() => import("./pages/VFFWritingLab.tsx"));
+const VFFSpeakingRoleplay = lazy(() => import("./pages/VFFSpeakingRoleplay.tsx"));
+const VFFCultureHub = lazy(() => import("./pages/VFFCultureHub.tsx"));
+const VFFFlashcards = lazy(() => import("./pages/VFFFlashcards.tsx"));
+
 const VietnameseDictation = lazy(() => import("./pages/VietnameseDictation.tsx"));
 const VietnamesePoetry = lazy(() => import("./pages/VietnamesePoetry.tsx"));
 const VietnameseAlphabet = lazy(() => import("./pages/VietnameseAlphabet.tsx"));
@@ -408,10 +415,18 @@ const App = () => (
             <Route path="/learn-vietnamese/for-foreigners/placement" element={<LazyRoute><VFFPlacementTest /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/a1" element={<LazyRoute><VFFLevelPage levelKey="a1" /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/b1" element={<LazyRoute><VFFLevelPage levelKey="b1" /></LazyRoute>} />
-            <Route path="/learn-vietnamese/for-foreigners/a2" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/a2" element={<LazyRoute><VFFLevelPage levelKey="a2" /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/a2-legacy" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/lab/pronunciation" element={<LazyRoute><VFFPronunciationLab /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/lab/grammar" element={<LazyRoute><VFFGrammarReference /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/listening" element={<LazyRoute><VFFListeningLab /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/reading" element={<LazyRoute><VFFReadingLab /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/writing" element={<LazyRoute><VFFWritingLab /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/roleplay" element={<LazyRoute><VFFSpeakingRoleplay /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/culture" element={<LazyRoute><VFFCultureHub /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/lab/flashcards" element={<LazyRoute><VFFFlashcards /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/certificate" element={<LazyRoute><VFFCertificate /></LazyRoute>} />
+
             <Route path="/learn-vietnamese/for-foreigners/legacy" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
             <Route path="/learn-vietnamese/national-anthem" element={<LazyRoute><NationalAnthem /></LazyRoute>} />
             <Route path="/learn-vietnamese/dictation" element={<LazyRoute><VietnameseDictation /></LazyRoute>} />
