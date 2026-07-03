@@ -1,10 +1,10 @@
 /**
  * @file VFFWritingLab.tsx
- * @description Diacritic typing drills + sentence builder.
+ * @description Diacritic typing drills, sentence builder, and AI writing grader.
  */
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, PenLine, CheckCircle2, XCircle, Shuffle, Type, Blocks } from "lucide-react";
+import { ArrowLeft, PenLine, CheckCircle2, XCircle, Shuffle, Type, Blocks, Sparkles, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -12,7 +12,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const diacriticDrills = [
   { plain: "cam on", target: "cảm ơn", en: "thank you", telex: "car mown" },
