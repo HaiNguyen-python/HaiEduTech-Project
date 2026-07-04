@@ -1,5 +1,5 @@
 // IELTS Writing skill progress chart — 4 official criteria with distinct colors
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
@@ -7,16 +7,16 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { TrendingUp, Target, Sparkles } from "lucide-react";
+import { TrendingUp, Target, Sparkles, Lightbulb, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Official IELTS Writing criteria + a dedicated color per criterion
 const CRITERIA = [
-  { key: "TR", labelVi: "Task Response",       labelEn: "Task Response",              color: "#3B82F6" }, // blue
-  { key: "CC", labelVi: "Coherence & Cohesion", labelEn: "Coherence & Cohesion",      color: "#10B981" }, // emerald
-  { key: "LR", labelVi: "Lexical Resource",    labelEn: "Lexical Resource",           color: "#F59E0B" }, // amber
-  { key: "GR", labelVi: "Grammar & Accuracy",  labelEn: "Grammatical Range & Accuracy", color: "#EF4444" }, // red
+  { key: "TR", labelVi: "Task Response",        labelEn: "Task Response",                 color: "#3B82F6" },
+  { key: "CC", labelVi: "Coherence & Cohesion", labelEn: "Coherence & Cohesion",          color: "#10B981" },
+  { key: "LR", labelVi: "Lexical Resource",     labelEn: "Lexical Resource",              color: "#F59E0B" },
+  { key: "GR", labelVi: "Grammar & Accuracy",   labelEn: "Grammatical Range & Accuracy",  color: "#EF4444" },
 ] as const;
 
 type CritKey = typeof CRITERIA[number]["key"];
@@ -30,6 +30,18 @@ interface Attempt {
 
 interface AggRow { key: CritKey; label: string; score: number; color: string; fullMark: number; }
 
+// Coaching links per criterion (tab within IeltsWritingPractice)
+const COACH: Record<CritKey, { tabVi: string; tabEn: string; tab: string; tipVi: string; tipEn: string }> = {
+  TR: { tab: "idea",     tabVi: "Idea Practice",    tabEn: "Idea Practice",
+        tipVi: "Trả lời đủ ý, đúng đề, có luận điểm rõ ràng.", tipEn: "Fully address the prompt with clear position & ideas." },
+  CC: { tab: "cohesion", tabVi: "Cohesion Lab",     tabEn: "Cohesion Lab",
+        tipVi: "Dùng linkers đa dạng, sắp xếp câu logic, dùng đại từ tham chiếu.", tipEn: "Use varied linkers, logical order, reference words." },
+  LR: { tab: "phrase",   tabVi: "Phrase Practice",  tabEn: "Phrase Practice",
+        tipVi: "Nâng cấp từ vựng: collocation, paraphrase, tránh lặp từ.", tipEn: "Upgrade vocabulary: collocations, paraphrasing, avoid repetition." },
+  GR: { tab: "grammar",  tabVi: "Grammar Practice", tabEn: "Grammar Practice",
+        tipVi: "Đa dạng cấu trúc: mệnh đề phức, đảo ngữ, cleft, đúng thì.", tipEn: "Vary structures: complex clauses, inversion, cleft, tenses." },
+};
+
 function matchCriterion(label: string): CritKey | null {
   const l = label.toLowerCase();
   if (l.includes("task") && (l.includes("response") || l.includes("achievement"))) return "TR";
@@ -39,33 +51,51 @@ function matchCriterion(label: string): CritKey | null {
   return null;
 }
 
-interface Props { taskType?: 1 | 2 | "all"; }
+interface Props {
+  taskType?: 1 | 2 | "all";
+  liveResult?: { overall: number; criteria: { label: string; score: number }[] } | null;
+  refreshKey?: number;
+}
 
-const WritingSkillChart = ({ taskType = "all" }: Props) => {
+const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0 }: Props) => {
   const { t } = useLanguage();
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
     (async () => {
       setLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { setAttempts([]); setLoading(false); return; }
-      let q = supabase
+      if (!user) { if (!cancelled) { setAttempts([]); setLoading(false); } return; }
+      const { data } = await supabase
         .from("writing_attempts")
         .select("created_at, overall_score, task_type, result")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
         .limit(30);
-      const { data } = await q;
-      setAttempts((data as Attempt[]) || []);
-      setLoading(false);
+      if (!cancelled) { setAttempts((data as Attempt[]) || []); setLoading(false); }
     })();
-  }, []);
+    return () => { cancelled = true; };
+  }, [refreshKey, liveResult?.overall]);
 
-  const filtered = attempts.filter(a => taskType === "all" || a.task_type === taskType);
+  // Merge just-graded liveResult so scores appear instantly without waiting for DB reload
+  const merged = useMemo<Attempt[]>(() => {
+    const base = attempts;
+    if (!liveResult?.criteria?.length) return base;
+    const already = base[0]?.overall_score === liveResult.overall
+      && JSON.stringify(base[0]?.result?.criteria) === JSON.stringify(liveResult.criteria);
+    if (already) return base;
+    return [{
+      created_at: new Date().toISOString(),
+      overall_score: liveResult.overall,
+      task_type: typeof taskType === "number" ? taskType : null,
+      result: liveResult,
+    }, ...base];
+  }, [attempts, liveResult, taskType]);
 
-  // Aggregate: average score per criterion across filtered attempts
+  const filtered = merged.filter(a => taskType === "all" || a.task_type === taskType || a.task_type == null);
+
   const perCritScores: Record<CritKey, number[]> = { TR: [], CC: [], LR: [], GR: [] };
   filtered.forEach(a => {
     const crits = Array.isArray(a.result?.criteria) ? a.result.criteria : [];
@@ -81,7 +111,6 @@ const WritingSkillChart = ({ taskType = "all" }: Props) => {
     return { key: c.key, label: t(c.labelVi, c.labelEn), score: Number(avg.toFixed(1)), color: c.color, fullMark: 9 };
   });
 
-  // Latest attempt per criterion
   const latest: AggRow[] = CRITERIA.map(c => {
     const first = filtered.find(a => Array.isArray(a.result?.criteria)
       && a.result.criteria.some((cr: any) => matchCriterion(String(cr.label || "")) === c.key));
@@ -89,7 +118,6 @@ const WritingSkillChart = ({ taskType = "all" }: Props) => {
     return { key: c.key, label: t(c.labelVi, c.labelEn), score: cr?.score || 0, color: c.color, fullMark: 9 };
   });
 
-  // Trend data: reverse chronological -> chronological
   const trend = [...filtered].reverse().map((a, i) => {
     const row: Record<string, any> = { idx: i + 1, date: new Date(a.created_at).toLocaleDateString() };
     (a.result?.criteria || []).forEach((c: any) => {
@@ -101,6 +129,20 @@ const WritingSkillChart = ({ taskType = "all" }: Props) => {
   });
 
   const targetBand = 7;
+
+  const scrollToTab = (tabValue: string) => {
+    const trigger = document.querySelector<HTMLButtonElement>(`[role="tab"][value="${tabValue}"]`)
+      || Array.from(document.querySelectorAll<HTMLButtonElement>('[role="tab"]'))
+           .find(el => el.getAttribute("data-state") !== undefined && el.textContent?.toLowerCase().includes(tabValue));
+    if (trigger) {
+      trigger.click();
+      trigger.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  // Weakest criterion (only among those with data)
+  const scored = radarData.filter(r => r.score > 0);
+  const weakest = scored.length ? scored.reduce((a, b) => (a.score <= b.score ? a : b)) : null;
 
   if (loading) {
     return (
@@ -233,7 +275,7 @@ const WritingSkillChart = ({ taskType = "all" }: Props) => {
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={trend} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="idx" tick={{ fontSize: 10 }} stroke="hsl(var(--muted-foreground))" label={{ value: t("Bài số", "Attempt"), position: "insideBottom", offset: -3, style: { fontSize: 10, fill: "hsl(var(--muted-foreground))" } }} />
+                  <XAxis dataKey="idx" tick={{ fontSize: 10 }} stroke="hsl(var(--muted-foreground))" />
                   <YAxis domain={[0, 9]} tick={{ fontSize: 10 }} stroke="hsl(var(--muted-foreground))" />
                   <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -255,6 +297,37 @@ const WritingSkillChart = ({ taskType = "all" }: Props) => {
             </div>
           ))}
         </div>
+
+        {weakest && (() => {
+          const coach = COACH[weakest.key];
+          return (
+            <div
+              className="mt-4 p-4 rounded-xl border-2 flex flex-col md:flex-row md:items-center gap-3"
+              style={{ borderColor: weakest.color, backgroundColor: `${weakest.color}12` }}
+            >
+              <div className="flex items-start gap-3 flex-1">
+                <div className="p-2 rounded-lg" style={{ backgroundColor: `${weakest.color}25` }}>
+                  <Lightbulb className="w-5 h-5" style={{ color: weakest.color }} />
+                </div>
+                <div className="flex-1">
+                  <div className="text-xs font-semibold uppercase tracking-wide" style={{ color: weakest.color }}>
+                    {t("Tiêu chí cần cải thiện nhất", "Weakest criterion")} · {weakest.label} · {weakest.score.toFixed(1)}/9
+                  </div>
+                  <p className="text-sm mt-1">{t(coach.tipVi, coach.tipEn)}</p>
+                </div>
+              </div>
+              <Button
+                size="sm"
+                onClick={() => scrollToTab(coach.tab)}
+                style={{ backgroundColor: weakest.color, color: "white" }}
+                className="hover:opacity-90 shrink-0"
+              >
+                {t("Luyện tập ngay", "Practice now")}: {t(coach.tabVi, coach.tabEn)}
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
+            </div>
+          );
+        })()}
       </CardContent>
     </Card>
   );
