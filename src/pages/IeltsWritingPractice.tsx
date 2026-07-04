@@ -553,6 +553,29 @@ const IeltsWritingPractice = () => {
             <GrammarPractice taskType={taskType} />
           </TabsContent>
 
+          <TabsContent value="cohesion" className="space-y-4">
+            <div className="flex items-center gap-3 flex-wrap mb-4">
+              <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit">
+                <button onClick={() => setTaskType(1)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 1 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  Task 1
+                </button>
+                <button onClick={() => setTaskType(2)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 2 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  Task 2
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t(
+                  "Luyện Coherence & Cohesion - 1 trong 4 tiêu chí chấm IELTS Writing: ngân hàng liên từ, nối câu, sắp xếp đoạn văn, và AI phân tích cohesion đoạn của bạn.",
+                  "Practise Coherence & Cohesion - 1 of 4 IELTS Writing criteria: linker bank, sentence linking, paragraph reordering, and AI cohesion analyser."
+                )}
+              </p>
+            </div>
+            <CohesionLab taskType={taskType} />
+          </TabsContent>
+
+
           <TabsContent value="essay">
         {/* Controls */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
