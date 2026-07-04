@@ -237,6 +237,35 @@ const PhrasePractice = ({ taskType }: Props) => {
     setRewriteText("");
     setRewriteResult(null);
     setShowAnswer(false);
+    setSavedGrade(false);
+    setSavedRewrite(false);
+  };
+
+  const handleSaveGrade = async () => {
+    if (!selectedPhrase || !result || savedGrade || savingGrade) return;
+    setSavingGrade(true);
+    const timestamp = new Date().toLocaleString();
+    const block =
+      `<p><strong>📝 "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em></p>` +
+      `<p><strong>My sentence:</strong> ${escapeHtmlStr(userSentence.trim())}</p>` +
+      `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtmlStr(result.upgradedVersion || "")}</p>`;
+    await appendToNotebook(block);
+    setSavedGrade(true);
+    setSavingGrade(false);
+  };
+
+  const handleSaveRewrite = async () => {
+    if (!selectedPhrase || !result || !rewriteResult || savedRewrite || savingRewrite) return;
+    setSavingRewrite(true);
+    const cleanUpgraded = result.upgradedVersion.replace(/\*\*/g, "");
+    const timestamp = new Date().toLocaleString();
+    const block =
+      `<p><strong>✍️ Rewrite "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em> - ${rewriteResult.accuracy}%</p>` +
+      `<p><strong>My rewrite:</strong> ${escapeHtmlStr(rewriteText.trim())}</p>` +
+      `<p><strong>Model answer:</strong> ${escapeHtmlStr(cleanUpgraded)}</p>`;
+    await appendToNotebook(block);
+    setSavedRewrite(true);
+    setSavingRewrite(false);
   };
 
   const escapeHtml = escapeHtmlStr;
