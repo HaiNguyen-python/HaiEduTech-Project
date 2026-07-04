@@ -341,7 +341,7 @@ const GrammarPractice = ({ taskType }: Props) => {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => { setSentence(""); setResult(null); }}
+                    onClick={() => { setSentence(""); setResult(null); setSaved(false); }}
                     disabled={grading}
                   >
                     <RotateCcw className="w-4 h-4 mr-2" />
