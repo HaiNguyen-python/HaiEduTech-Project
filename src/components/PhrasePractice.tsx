@@ -221,13 +221,8 @@ const PhrasePractice = ({ taskType }: Props) => {
         localStorage.setItem(key, JSON.stringify(existing.slice(0, 50)));
       } catch {}
 
-      // Append entry to Notebook
-      const timestamp = new Date().toLocaleString();
-      const newBlock =
-        `<p><strong>📝 "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em></p>` +
-        `<p><strong>My sentence:</strong> ${escapeHtmlStr(userSentence.trim())}</p>` +
-        `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtmlStr(result.upgradedVersion || "")}</p>`;
-      await appendToNotebook(newBlock);
+      setSavedGrade(false);
+      setSavedRewrite(false);
     } catch (e) {
       console.error(e);
       toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));
