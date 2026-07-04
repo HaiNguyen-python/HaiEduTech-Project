@@ -11,7 +11,7 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen, Send, Loader2, CheckCircle2, XCircle, Lightbulb,
-  ArrowUp, RotateCcw, Sparkles, GraduationCap, Eye,
+  ArrowUp, RotateCcw, Sparkles, GraduationCap, Eye, BookmarkPlus, BookmarkCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -60,6 +60,8 @@ const GrammarPractice = ({ taskType }: Props) => {
   const [sentence, setSentence] = useState("");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const filtered = useMemo(() => {
     if (activeCategory === "all") return IELTS_GRAMMAR;
     return IELTS_GRAMMAR.filter((g) => g.category === activeCategory);
@@ -69,40 +71,60 @@ const GrammarPractice = ({ taskType }: Props) => {
     setSelected(g);
     setSentence("");
     setResult(null);
+    setSaved(false);
   };
 
-  const appendToNotebook = async (block: string) => {
+  const appendToNotebook = async (block: string): Promise<boolean> => {
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) return;
+      if (!userData?.user) {
+        toast.message(t("Đăng nhập để lưu vào sổ tay", "Sign in to save to your notebook"));
+        return false;
+      }
       const title = `IELTS Grammar Practice Task ${taskType}`;
-      const { data: rows } = await supabase
+      const { data: rows, error: fetchErr } = await supabase
         .from("student_notebooks")
         .select("id, content")
         .eq("user_id", userData.user.id)
         .eq("title", title)
         .order("updated_at", { ascending: false })
         .limit(1);
+      if (fetchErr) {
+        toast.error(t(`Lưu thất bại: ${fetchErr.message}`, `Save failed: ${fetchErr.message}`));
+        return false;
+      }
       const existing = rows && rows.length > 0 ? rows[0] : null;
       const nowIso = new Date().toISOString();
       if (existing) {
-        await supabase
+        const { error } = await supabase
           .from("student_notebooks")
           .update({ content: `${existing.content || ""}<hr/>${block}`, updated_at: nowIso })
           .eq("id", existing.id)
           .eq("user_id", userData.user.id);
+        if (error) {
+          toast.error(t(`Lưu thất bại: ${error.message}`, `Save failed: ${error.message}`));
+          return false;
+        }
       } else {
-        await supabase.from("student_notebooks").insert({
+        const { error } = await supabase.from("student_notebooks").insert({
           user_id: userData.user.id,
           title,
           subject: "ielts",
           content: block,
           is_public: false,
         });
+        if (error) {
+          toast.error(t(`Lưu thất bại: ${error.message}`, `Save failed: ${error.message}`));
+          return false;
+        }
       }
       window.dispatchEvent(new CustomEvent("notebook:updated"));
+      toast.success(t("Đã lưu vào Sổ tay ghi chú", "Saved to your Notebook"));
+      return true;
     } catch (e) {
       console.error("Grammar notebook save error:", e);
+      toast.error(t("Không thể lưu sổ tay", "Could not save to notebook"));
+      return false;
     }
   };
 
@@ -135,19 +157,26 @@ const GrammarPractice = ({ taskType }: Props) => {
       }
       const r = data as GradeResult;
       setResult(r);
-
-      const ts = new Date().toLocaleString();
-      const block =
-        `<p><strong>🎯 ${escapeHtml(selected.structure)}</strong> <em>(${ts})</em></p>` +
-        `<p><strong>My sentence:</strong> ${escapeHtml(sentence.trim())}</p>` +
-        `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtml(r.upgradedVersion || "")}</p>`;
-      appendToNotebook(block);
+      setSaved(false);
     } catch (e) {
       console.error(e);
       toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));
     } finally {
       setGrading(false);
     }
+  };
+
+  const handleSave = async () => {
+    if (!selected || !result || saved || saving) return;
+    setSaving(true);
+    const ts = new Date().toLocaleString();
+    const block =
+      `<p><strong>🎯 ${escapeHtml(selected.structure)}</strong> <em>(${ts})</em></p>` +
+      `<p><strong>My sentence:</strong> ${escapeHtml(sentence.trim())}</p>` +
+      `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtml(result.upgradedVersion || "")}</p>`;
+    const ok = await appendToNotebook(block);
+    if (ok) setSaved(true);
+    setSaving(false);
   };
 
   const scoreColor = (s: number) =>
@@ -312,7 +341,7 @@ const GrammarPractice = ({ taskType }: Props) => {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => { setSentence(""); setResult(null); }}
+                    onClick={() => { setSentence(""); setResult(null); setSaved(false); }}
                     disabled={grading}
                   >
                     <RotateCcw className="w-4 h-4 mr-2" />
@@ -346,6 +375,22 @@ const GrammarPractice = ({ taskType }: Props) => {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
+                      <div className="flex justify-end">
+                        <Button
+                          size="sm"
+                          variant={saved ? "outline" : "default"}
+                          onClick={handleSave}
+                          disabled={saved || saving}
+                        >
+                          {saving ? (
+                            <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" />{t("Đang lưu...", "Saving...")}</>
+                          ) : saved ? (
+                            <><BookmarkCheck className="w-4 h-4 mr-1.5 text-emerald-600" />{t("Đã lưu vào Sổ tay", "Saved to Notebook")}</>
+                          ) : (
+                            <><BookmarkPlus className="w-4 h-4 mr-1.5" />{t("Lưu vào Sổ tay", "Save to Notebook")}</>
+                          )}
+                        </Button>
+                      </div>
                       <div className={`flex items-start gap-2 p-3 rounded-lg ${
                         result.phraseUsedCorrectly ? "bg-emerald-500/10" : "bg-amber-500/10"
                       }`}>

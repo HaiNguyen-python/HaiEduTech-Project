@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen, PenLine, Eye } from "lucide-react";
+import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen, PenLine, Eye, BookmarkPlus, BookmarkCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -55,6 +55,10 @@ const PhrasePractice = ({ taskType }: Props) => {
     tone: "success" | "warn" | "error";
   } | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [savedGrade, setSavedGrade] = useState(false);
+  const [savedRewrite, setSavedRewrite] = useState(false);
+  const [savingGrade, setSavingGrade] = useState(false);
+  const [savingRewrite, setSavingRewrite] = useState(false);
 
   const categories = taskType === 1 ? TASK1_CATEGORIES : TASK2_CATEGORIES;
 
@@ -71,6 +75,8 @@ const PhrasePractice = ({ taskType }: Props) => {
     setRewriteText("");
     setRewriteResult(null);
     setShowAnswer(false);
+    setSavedGrade(false);
+    setSavedRewrite(false);
   };
 
   const escapeHtmlStr = (s: string) =>
@@ -215,13 +221,8 @@ const PhrasePractice = ({ taskType }: Props) => {
         localStorage.setItem(key, JSON.stringify(existing.slice(0, 50)));
       } catch {}
 
-      // Append entry to Notebook
-      const timestamp = new Date().toLocaleString();
-      const newBlock =
-        `<p><strong>📝 "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em></p>` +
-        `<p><strong>My sentence:</strong> ${escapeHtmlStr(userSentence.trim())}</p>` +
-        `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtmlStr(result.upgradedVersion || "")}</p>`;
-      await appendToNotebook(newBlock);
+      setSavedGrade(false);
+      setSavedRewrite(false);
     } catch (e) {
       console.error(e);
       toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));
@@ -236,6 +237,35 @@ const PhrasePractice = ({ taskType }: Props) => {
     setRewriteText("");
     setRewriteResult(null);
     setShowAnswer(false);
+    setSavedGrade(false);
+    setSavedRewrite(false);
+  };
+
+  const handleSaveGrade = async () => {
+    if (!selectedPhrase || !result || savedGrade || savingGrade) return;
+    setSavingGrade(true);
+    const timestamp = new Date().toLocaleString();
+    const block =
+      `<p><strong>📝 "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em></p>` +
+      `<p><strong>My sentence:</strong> ${escapeHtmlStr(userSentence.trim())}</p>` +
+      `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtmlStr(result.upgradedVersion || "")}</p>`;
+    await appendToNotebook(block);
+    setSavedGrade(true);
+    setSavingGrade(false);
+  };
+
+  const handleSaveRewrite = async () => {
+    if (!selectedPhrase || !result || !rewriteResult || savedRewrite || savingRewrite) return;
+    setSavingRewrite(true);
+    const cleanUpgraded = result.upgradedVersion.replace(/\*\*/g, "");
+    const timestamp = new Date().toLocaleString();
+    const block =
+      `<p><strong>✍️ Rewrite "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em> - ${rewriteResult.accuracy}%</p>` +
+      `<p><strong>My rewrite:</strong> ${escapeHtmlStr(rewriteText.trim())}</p>` +
+      `<p><strong>Model answer:</strong> ${escapeHtmlStr(cleanUpgraded)}</p>`;
+    await appendToNotebook(block);
+    setSavedRewrite(true);
+    setSavingRewrite(false);
   };
 
   const escapeHtml = escapeHtmlStr;
@@ -293,14 +323,7 @@ const PhrasePractice = ({ taskType }: Props) => {
       tone = "error";
     }
     setRewriteResult({ accuracy, diffHtml, message, tone });
-
-    // Append rewrite attempt to notebook
-    const timestamp = new Date().toLocaleString();
-    const block =
-      `<p><strong>✍️ Rewrite "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em> - ${accuracy}%</p>` +
-      `<p><strong>My rewrite:</strong> ${escapeHtmlStr(rewriteText.trim())}</p>` +
-      `<p><strong>Model answer:</strong> ${escapeHtmlStr(cleanUpgraded)}</p>`;
-    await appendToNotebook(block);
+    setSavedRewrite(false);
   };
 
   const handleResetRewrite = () => {
@@ -489,6 +512,23 @@ const PhrasePractice = ({ taskType }: Props) => {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
+                      {/* Save to notebook */}
+                      <div className="flex justify-end">
+                        <Button
+                          size="sm"
+                          variant={savedGrade ? "outline" : "default"}
+                          onClick={handleSaveGrade}
+                          disabled={savedGrade || savingGrade}
+                        >
+                          {savingGrade ? (
+                            <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" />{t("Đang lưu...", "Saving...")}</>
+                          ) : savedGrade ? (
+                            <><BookmarkCheck className="w-4 h-4 mr-1.5 text-emerald-600" />{t("Đã lưu vào Sổ tay", "Saved to Notebook")}</>
+                          ) : (
+                            <><BookmarkPlus className="w-4 h-4 mr-1.5" />{t("Lưu vào Sổ tay", "Save to Notebook")}</>
+                          )}
+                        </Button>
+                      </div>
                       {/* Phrase usage */}
                       <div className={`flex items-start gap-2 p-3 rounded-lg ${
                         result.phraseUsedCorrectly ? "bg-emerald-500/10" : "bg-amber-500/10"
@@ -596,6 +636,22 @@ const PhrasePractice = ({ taskType }: Props) => {
                               className="text-sm leading-relaxed bg-background/60 p-2 rounded"
                               dangerouslySetInnerHTML={{ __html: rewriteResult.diffHtml }}
                             />
+                            <div className="flex justify-end mt-2">
+                              <Button
+                                size="sm"
+                                variant={savedRewrite ? "outline" : "secondary"}
+                                onClick={handleSaveRewrite}
+                                disabled={savedRewrite || savingRewrite}
+                              >
+                                {savingRewrite ? (
+                                  <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" />{t("Đang lưu...", "Saving...")}</>
+                                ) : savedRewrite ? (
+                                  <><BookmarkCheck className="w-4 h-4 mr-1.5 text-emerald-600" />{t("Đã lưu", "Saved")}</>
+                                ) : (
+                                  <><BookmarkPlus className="w-4 h-4 mr-1.5" />{t("Lưu câu này vào Sổ tay", "Save this to Notebook")}</>
+                                )}
+                              </Button>
+                            </div>
                           </motion.div>
                         )}
                       </div>
