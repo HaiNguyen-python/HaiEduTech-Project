@@ -74,38 +74,57 @@ const GrammarPractice = ({ taskType }: Props) => {
     setSaved(false);
   };
 
-  const appendToNotebook = async (block: string) => {
+  const appendToNotebook = async (block: string): Promise<boolean> => {
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) return;
+      if (!userData?.user) {
+        toast.message(t("Đăng nhập để lưu vào sổ tay", "Sign in to save to your notebook"));
+        return false;
+      }
       const title = `IELTS Grammar Practice Task ${taskType}`;
-      const { data: rows } = await supabase
+      const { data: rows, error: fetchErr } = await supabase
         .from("student_notebooks")
         .select("id, content")
         .eq("user_id", userData.user.id)
         .eq("title", title)
         .order("updated_at", { ascending: false })
         .limit(1);
+      if (fetchErr) {
+        toast.error(t(`Lưu thất bại: ${fetchErr.message}`, `Save failed: ${fetchErr.message}`));
+        return false;
+      }
       const existing = rows && rows.length > 0 ? rows[0] : null;
       const nowIso = new Date().toISOString();
       if (existing) {
-        await supabase
+        const { error } = await supabase
           .from("student_notebooks")
           .update({ content: `${existing.content || ""}<hr/>${block}`, updated_at: nowIso })
           .eq("id", existing.id)
           .eq("user_id", userData.user.id);
+        if (error) {
+          toast.error(t(`Lưu thất bại: ${error.message}`, `Save failed: ${error.message}`));
+          return false;
+        }
       } else {
-        await supabase.from("student_notebooks").insert({
+        const { error } = await supabase.from("student_notebooks").insert({
           user_id: userData.user.id,
           title,
           subject: "ielts",
           content: block,
           is_public: false,
         });
+        if (error) {
+          toast.error(t(`Lưu thất bại: ${error.message}`, `Save failed: ${error.message}`));
+          return false;
+        }
       }
       window.dispatchEvent(new CustomEvent("notebook:updated"));
+      toast.success(t("Đã lưu vào Sổ tay ghi chú", "Saved to your Notebook"));
+      return true;
     } catch (e) {
       console.error("Grammar notebook save error:", e);
+      toast.error(t("Không thể lưu sổ tay", "Could not save to notebook"));
+      return false;
     }
   };
 
