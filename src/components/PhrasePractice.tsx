@@ -636,6 +636,22 @@ const PhrasePractice = ({ taskType }: Props) => {
                               className="text-sm leading-relaxed bg-background/60 p-2 rounded"
                               dangerouslySetInnerHTML={{ __html: rewriteResult.diffHtml }}
                             />
+                            <div className="flex justify-end mt-2">
+                              <Button
+                                size="sm"
+                                variant={savedRewrite ? "outline" : "secondary"}
+                                onClick={handleSaveRewrite}
+                                disabled={savedRewrite || savingRewrite}
+                              >
+                                {savingRewrite ? (
+                                  <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" />{t("Đang lưu...", "Saving...")}</>
+                                ) : savedRewrite ? (
+                                  <><BookmarkCheck className="w-4 h-4 mr-1.5 text-emerald-600" />{t("Đã lưu", "Saved")}</>
+                                ) : (
+                                  <><BookmarkPlus className="w-4 h-4 mr-1.5" />{t("Lưu câu này vào Sổ tay", "Save this to Notebook")}</>
+                                )}
+                              </Button>
+                            </div>
                           </motion.div>
                         )}
                       </div>
