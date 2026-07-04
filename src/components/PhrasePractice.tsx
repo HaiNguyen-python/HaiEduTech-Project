@@ -55,6 +55,10 @@ const PhrasePractice = ({ taskType }: Props) => {
     tone: "success" | "warn" | "error";
   } | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [savedGrade, setSavedGrade] = useState(false);
+  const [savedRewrite, setSavedRewrite] = useState(false);
+  const [savingGrade, setSavingGrade] = useState(false);
+  const [savingRewrite, setSavingRewrite] = useState(false);
 
   const categories = taskType === 1 ? TASK1_CATEGORIES : TASK2_CATEGORIES;
 
