@@ -522,7 +522,7 @@ const SwedishInteractiveCurriculum = () => {
                                 <td className="py-2 pr-3 text-foreground/90">{t(w.vi, w.en)}</td>
                                 <td className="py-2 pr-3 text-foreground/80">
                                   <div className="italic">"{w.example}"</div>
-                                  <div className="text-xs text-muted-foreground mt-0.5">{t(w.exampleVi, w.example)}</div>
+                                  <div className="text-xs text-muted-foreground mt-0.5">{t(w.exampleVi, w.exampleEn)}</div>
                                 </td>
                                 <td className="py-2 text-right">
                                   <SpeakButton text={w.example} label={t("Phát", "Play")} />
