@@ -60,6 +60,8 @@ const GrammarPractice = ({ taskType }: Props) => {
   const [sentence, setSentence] = useState("");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const filtered = useMemo(() => {
     if (activeCategory === "all") return IELTS_GRAMMAR;
     return IELTS_GRAMMAR.filter((g) => g.category === activeCategory);
@@ -69,6 +71,7 @@ const GrammarPractice = ({ taskType }: Props) => {
     setSelected(g);
     setSentence("");
     setResult(null);
+    setSaved(false);
   };
 
   const appendToNotebook = async (block: string) => {
