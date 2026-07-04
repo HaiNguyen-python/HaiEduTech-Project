@@ -312,9 +312,18 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
 
-  // Only use words that actually appear in their example, otherwise the blank is meaningless.
+  // Build a Unicode-aware "whole word" regex for the target. JS's `\b` uses
+  // ASCII \w only, so it fails on å/ä/ö (e.g. "kött", "äpple") and the blank
+  // never gets inserted -> the answer would stay in the sentence. We use
+  // \p{L} lookarounds so any Swedish letter counts as part of the word.
+  const buildRe = (word: string) => {
+    const esc = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp(`(^|[^\\p{L}])(${esc})(?=[^\\p{L}]|$)`, "iu");
+  };
+
+  // Only keep words whose example actually contains the target as a whole word.
   const cloze_pool = useMemo(
-    () => pool.filter(w => norm(w.example).includes(norm(w.sv))),
+    () => pool.filter(w => w.example && buildRe(w.sv).test(w.example)),
     [pool]
   );
   const qs = useMemo(() => shuffle(cloze_pool).slice(0, 10), [cloze_pool]);
@@ -331,8 +340,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
   if (!q || i >= qs.length)
     return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); }} />;
 
-  const re = new RegExp(`\\b${q.sv.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
-  const sentenceWithBlank = q.example.replace(re, "_____");
+  const sentenceWithBlank = q.example.replace(buildRe(q.sv), "$1_____");
   const reveal = picked != null;
 
   return (
