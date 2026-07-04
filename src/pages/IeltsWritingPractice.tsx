@@ -484,22 +484,26 @@ const IeltsWritingPractice = () => {
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs defaultValue="essay" className="w-full">
-          <TabsList className="grid w-full max-w-3xl grid-cols-4 mb-6">
-            <TabsTrigger value="essay" className="gap-2">
+          <TabsList className="grid w-full max-w-4xl grid-cols-3 md:grid-cols-5 mb-6 h-auto">
+            <TabsTrigger value="essay" className="gap-1.5 py-2">
               <PenLine className="w-4 h-4" />
-              {t("Viết bài luận", "Essay Writing")}
+              <span className="text-xs md:text-sm">{t("Viết bài luận", "Essay Writing")}</span>
             </TabsTrigger>
-            <TabsTrigger value="idea" className="gap-2">
+            <TabsTrigger value="idea" className="gap-1.5 py-2">
               <Lightbulb className="w-4 h-4" />
-              {t("Luyện ý tưởng", "Idea Practice")}
+              <span className="text-xs md:text-sm">{t("Luyện ý tưởng", "Idea Practice")}</span>
             </TabsTrigger>
-            <TabsTrigger value="phrase" className="gap-2">
+            <TabsTrigger value="phrase" className="gap-1.5 py-2">
               <Sparkles className="w-4 h-4" />
-              {t("Luyện cụm từ", "Phrase Practice")}
+              <span className="text-xs md:text-sm">{t("Luyện cụm từ", "Phrase Practice")}</span>
             </TabsTrigger>
-            <TabsTrigger value="grammar" className="gap-2">
+            <TabsTrigger value="grammar" className="gap-1.5 py-2">
               <GraduationCap className="w-4 h-4" />
-              {t("Luyện ngữ pháp", "Grammar Practice")}
+              <span className="text-xs md:text-sm">{t("Luyện ngữ pháp", "Grammar Practice")}</span>
+            </TabsTrigger>
+            <TabsTrigger value="cohesion" className="gap-1.5 py-2">
+              <Link2 className="w-4 h-4" />
+              <span className="text-xs md:text-sm">{t("Cohesion Lab", "Cohesion Lab")}</span>
             </TabsTrigger>
           </TabsList>
 
