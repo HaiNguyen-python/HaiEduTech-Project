@@ -75,6 +75,8 @@ const PhrasePractice = ({ taskType }: Props) => {
     setRewriteText("");
     setRewriteResult(null);
     setShowAnswer(false);
+    setSavedGrade(false);
+    setSavedRewrite(false);
   };
 
   const escapeHtmlStr = (s: string) =>
