@@ -210,7 +210,10 @@ const MatchingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }
   const PAIRS = 5;
   const [round, setRound] = useState(0);
   const round_pool = useMemo(() => shuffle(pool).slice(0, PAIRS), [pool, round]);
-  const [left] = useState(() => round_pool); // svenska
+  // IMPORTANT: `left` must be derived from `round_pool` every render, otherwise
+  // the second round would keep the FIRST round's Swedish words on the left
+  // while the right side re-shuffles from the new pool (bug: no possible matches).
+  const left = round_pool;
   const [right, setRight] = useState<SwedishWord[]>(() => shuffle(round_pool));
   const [pickedLeft, setPickedLeft] = useState<string | null>(null);
   const [matched, setMatched] = useState<Set<string>>(new Set());
