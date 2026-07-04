@@ -157,19 +157,26 @@ const GrammarPractice = ({ taskType }: Props) => {
       }
       const r = data as GradeResult;
       setResult(r);
-
-      const ts = new Date().toLocaleString();
-      const block =
-        `<p><strong>🎯 ${escapeHtml(selected.structure)}</strong> <em>(${ts})</em></p>` +
-        `<p><strong>My sentence:</strong> ${escapeHtml(sentence.trim())}</p>` +
-        `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtml(r.upgradedVersion || "")}</p>`;
-      appendToNotebook(block);
+      setSaved(false);
     } catch (e) {
       console.error(e);
       toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));
     } finally {
       setGrading(false);
     }
+  };
+
+  const handleSave = async () => {
+    if (!selected || !result || saved || saving) return;
+    setSaving(true);
+    const ts = new Date().toLocaleString();
+    const block =
+      `<p><strong>🎯 ${escapeHtml(selected.structure)}</strong> <em>(${ts})</em></p>` +
+      `<p><strong>My sentence:</strong> ${escapeHtml(sentence.trim())}</p>` +
+      `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtml(result.upgradedVersion || "")}</p>`;
+    const ok = await appendToNotebook(block);
+    if (ok) setSaved(true);
+    setSaving(false);
   };
 
   const scoreColor = (s: number) =>
