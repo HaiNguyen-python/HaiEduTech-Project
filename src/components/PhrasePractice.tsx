@@ -512,6 +512,23 @@ const PhrasePractice = ({ taskType }: Props) => {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
+                      {/* Save to notebook */}
+                      <div className="flex justify-end">
+                        <Button
+                          size="sm"
+                          variant={savedGrade ? "outline" : "default"}
+                          onClick={handleSaveGrade}
+                          disabled={savedGrade || savingGrade}
+                        >
+                          {savingGrade ? (
+                            <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" />{t("Đang lưu...", "Saving...")}</>
+                          ) : savedGrade ? (
+                            <><BookmarkCheck className="w-4 h-4 mr-1.5 text-emerald-600" />{t("Đã lưu vào Sổ tay", "Saved to Notebook")}</>
+                          ) : (
+                            <><BookmarkPlus className="w-4 h-4 mr-1.5" />{t("Lưu vào Sổ tay", "Save to Notebook")}</>
+                          )}
+                        </Button>
+                      </div>
                       {/* Phrase usage */}
                       <div className={`flex items-start gap-2 p-3 rounded-lg ${
                         result.phraseUsedCorrectly ? "bg-emerald-500/10" : "bg-amber-500/10"
