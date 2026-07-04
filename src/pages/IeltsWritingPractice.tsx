@@ -578,10 +578,6 @@ const IeltsWritingPractice = () => {
 
 
           <TabsContent value="essay">
-        {/* Writing skill radar/gap/trend based on 4 IELTS criteria */}
-        <div className="mb-6">
-          <WritingSkillChart taskType={taskType} />
-        </div>
         {/* Controls */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="flex flex-wrap items-center gap-3 mb-6 p-4 bg-muted/30 rounded-xl border">
