@@ -29,7 +29,8 @@ import { useUserRole } from "@/hooks/useUserRole";
 import PhrasePractice from "@/components/PhrasePractice";
 import GrammarPractice from "@/components/GrammarPractice";
 import IdeaPractice from "@/components/IdeaPractice";
-import { Sparkles, PenLine, GraduationCap, Lightbulb } from "lucide-react";
+import CohesionLab from "@/components/CohesionLab";
+import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2 } from "lucide-react";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
