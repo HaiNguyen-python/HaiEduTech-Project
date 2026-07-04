@@ -323,14 +323,7 @@ const PhrasePractice = ({ taskType }: Props) => {
       tone = "error";
     }
     setRewriteResult({ accuracy, diffHtml, message, tone });
-
-    // Append rewrite attempt to notebook
-    const timestamp = new Date().toLocaleString();
-    const block =
-      `<p><strong>✍️ Rewrite "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em> - ${accuracy}%</p>` +
-      `<p><strong>My rewrite:</strong> ${escapeHtmlStr(rewriteText.trim())}</p>` +
-      `<p><strong>Model answer:</strong> ${escapeHtmlStr(cleanUpgraded)}</p>`;
-    await appendToNotebook(block);
+    setSavedRewrite(false);
   };
 
   const handleResetRewrite = () => {
