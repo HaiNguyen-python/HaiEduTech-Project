@@ -29,7 +29,8 @@ import { useUserRole } from "@/hooks/useUserRole";
 import PhrasePractice from "@/components/PhrasePractice";
 import GrammarPractice from "@/components/GrammarPractice";
 import IdeaPractice from "@/components/IdeaPractice";
-import { Sparkles, PenLine, GraduationCap, Lightbulb } from "lucide-react";
+import CohesionLab from "@/components/CohesionLab";
+import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2 } from "lucide-react";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
@@ -483,22 +484,26 @@ const IeltsWritingPractice = () => {
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs defaultValue="essay" className="w-full">
-          <TabsList className="grid w-full max-w-3xl grid-cols-4 mb-6">
-            <TabsTrigger value="essay" className="gap-2">
+          <TabsList className="grid w-full max-w-4xl grid-cols-3 md:grid-cols-5 mb-6 h-auto">
+            <TabsTrigger value="essay" className="gap-1.5 py-2">
               <PenLine className="w-4 h-4" />
-              {t("Viết bài luận", "Essay Writing")}
+              <span className="text-xs md:text-sm">{t("Viết bài luận", "Essay Writing")}</span>
             </TabsTrigger>
-            <TabsTrigger value="idea" className="gap-2">
+            <TabsTrigger value="idea" className="gap-1.5 py-2">
               <Lightbulb className="w-4 h-4" />
-              {t("Luyện ý tưởng", "Idea Practice")}
+              <span className="text-xs md:text-sm">{t("Luyện ý tưởng", "Idea Practice")}</span>
             </TabsTrigger>
-            <TabsTrigger value="phrase" className="gap-2">
+            <TabsTrigger value="phrase" className="gap-1.5 py-2">
               <Sparkles className="w-4 h-4" />
-              {t("Luyện cụm từ", "Phrase Practice")}
+              <span className="text-xs md:text-sm">{t("Luyện cụm từ", "Phrase Practice")}</span>
             </TabsTrigger>
-            <TabsTrigger value="grammar" className="gap-2">
+            <TabsTrigger value="grammar" className="gap-1.5 py-2">
               <GraduationCap className="w-4 h-4" />
-              {t("Luyện ngữ pháp", "Grammar Practice")}
+              <span className="text-xs md:text-sm">{t("Luyện ngữ pháp", "Grammar Practice")}</span>
+            </TabsTrigger>
+            <TabsTrigger value="cohesion" className="gap-1.5 py-2">
+              <Link2 className="w-4 h-4" />
+              <span className="text-xs md:text-sm">{t("Cohesion Lab", "Cohesion Lab")}</span>
             </TabsTrigger>
           </TabsList>
 
@@ -547,6 +552,29 @@ const IeltsWritingPractice = () => {
             </div>
             <GrammarPractice taskType={taskType} />
           </TabsContent>
+
+          <TabsContent value="cohesion" className="space-y-4">
+            <div className="flex items-center gap-3 flex-wrap mb-4">
+              <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit">
+                <button onClick={() => setTaskType(1)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 1 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  Task 1
+                </button>
+                <button onClick={() => setTaskType(2)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 2 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  Task 2
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t(
+                  "Luyện Coherence & Cohesion - 1 trong 4 tiêu chí chấm IELTS Writing: ngân hàng liên từ, nối câu, sắp xếp đoạn văn, và AI phân tích cohesion đoạn của bạn.",
+                  "Practise Coherence & Cohesion - 1 of 4 IELTS Writing criteria: linker bank, sentence linking, paragraph reordering, and AI cohesion analyser."
+                )}
+              </p>
+            </div>
+            <CohesionLab taskType={taskType} />
+          </TabsContent>
+
 
           <TabsContent value="essay">
         {/* Controls */}

@@ -1,116 +1,61 @@
-# Phase 3 - Vietnamese for Foreigners (VFF)
+## Mục tiêu
 
-Sau khi Phase 1 (A1/B1 + Placement + Pronunciation Lab) và Phase 2 (A2 + 6 Skill Labs + SRS) đã hoàn tất, Phase 3 tập trung vào **chiều sâu AI, âm thanh chuẩn bản ngữ, và đồng bộ đám mây** để module đạt chuẩn thương mại.
+Thêm tab **"Coherence & Cohesion"** (Liên kết & Mạch lạc) trong `/ielts-writing-practice` để học viên luyện tiêu chí C&C - một trong 4 tiêu chí chấm IELTS Writing, kèm chấm AI + lưu Sổ tay như các tab hiện có.
 
-## 1. AI Speaking Roleplay Pro (nâng cấp)
+## Cấu trúc tab mới
 
-Nâng `VFFSpeakingRoleplay` từ cây thoại tĩnh sang hội thoại AI thực sự.
+Tab thứ 5: **Cohesion Lab** (icon `Link2`), có 4 chế độ luyện con dạng sub-tabs:
 
-- Edge function `vff-roleplay-ai` gọi Lovable AI Gateway (google/gemini-2.5-flash) đóng vai: Cô bán phở, Anh Grab, Lễ tân khách sạn, Bác sĩ, Cảnh sát giao thông.
-- Web Speech API (`vi-VN`) → text → AI phản hồi tiếng Việt + gợi ý bản dịch EN.
-- Chấm điểm: độ tự nhiên, ngữ pháp, dùng đúng đại từ (anh/chị/em/cô/chú).
-- Nút "Xin gợi ý" khi bí, và "Rewind" để nói lại.
+### 1. Linker Bank (Ngân hàng liên từ)
+Kho ~120 liên từ/cụm nối chia theo 10 nhóm chức năng:
+- Adding (moreover, in addition, furthermore...)
+- Contrasting (however, nevertheless, on the contrary...)
+- Cause / Effect (consequently, as a result, owing to...)
+- Exemplifying (for instance, to illustrate...)
+- Sequencing (initially, subsequently, ultimately...)
+- Summarising (in essence, to conclude...)
+- Emphasising (notably, above all...)
+- Conceding (admittedly, granted that...)
+- Comparing (similarly, likewise...)
+- Referencing (this trend, such a phenomenon, the former/latter...)
 
-## 2. Native Speaker Audio Pack
+Mỗi liên từ: nghĩa tiếng Việt, band (B2/C1), Task 1 hay 2 hay cả hai, ví dụ mẫu, cảnh báo dùng sai phổ biến (VD: "Besides" không dùng đầu câu formal). UI giống Phrase Bank hiện có, học viên viết câu → AI chấm (dùng lại edge function `grade-phrase-sentence`, truyền linker làm "phrase").
 
-Thay TTS bằng audio bản ngữ cho 200 câu lõi A1 + 150 câu A2.
+### 2. Sentence Linking (Nối 2 câu)
+Hiển thị 2 câu rời (VD: *"Public transport reduces traffic. It also cuts emissions."*), học viên viết lại thành 1 câu mạch lạc dùng liên từ phù hợp. AI so sánh với 2-3 phương án chuẩn Band 7+, cho điểm cohesion và gợi ý phương án hay hơn. ~40 cặp câu (20 Task 1 + 20 Task 2).
 
-- Tạo bucket Storage `vff-audio` (public read).
-- Bảng `vff_audio_clips` (id, level, key, url, speaker, region North/South).
-- Fallback: nếu chưa có clip → dùng `playVietnameseTts`.
-- Component `NativeAudioButton` với chọn giọng Bắc/Nam.
-- Bước đầu dùng ElevenLabs qua edge function `vff-tts-native` để pre-generate & cache vào Storage (chạy 1 lần, không tốn credit runtime).
+### 3. Paragraph Reordering (Sắp xếp đoạn văn)
+Cho 4-6 câu bị xáo trộn của 1 đoạn Band 8+ mẫu. Học viên kéo-thả (dnd-kit) để sắp lại đúng thứ tự logic. Sau khi submit: highlight referencing words (this, such, these) và topic sentence để giải thích vì sao thứ tự đó mạch lạc. ~25 đoạn (Task 1 body, Task 2 body, cả introduction & conclusion).
 
-## 3. Adaptive Placement Test 2.0
+### 4. Cohesion Analyser (Phân tích đoạn văn của bạn)
+Textarea 80-200 từ, học viên dán đoạn văn của mình. AI trả về:
+- **Cohesion score** 0-9 theo IELTS descriptor
+- **Linking devices map**: liệt kê tất cả từ nối đã dùng, đánh dấu overused/mechanical/missing
+- **Reference chain analysis**: kiểm tra dùng "this/these/such" có rõ referent không
+- **Paragraph structure**: có topic sentence, supporting, concluding không
+- **Rewrite Band 8+**: đoạn văn upgraded, bold các cohesive devices mới
 
-Nâng `VFFPlacementTest` từ 15 câu tĩnh → adaptive.
+## File mới
 
-- Item bank 60 câu (20/level) trong `vffPlacementBank.ts`, gắn độ khó 1-5.
-- Thuật toán 2-PL đơn giản: đúng → khó hơn, sai → dễ hơn; dừng khi độ tin cậy > 0.8 hoặc đạt 20 câu.
-- Kết quả trả về: CEFR level, điểm mạnh/yếu theo 4 kỹ năng, lộ trình đề xuất.
-
-## 4. AI Writing Grader
-
-Bổ sung tab "AI Chấm bài" vào `VFFWritingLab`.
-
-- Edge function `vff-writing-grade` (Lovable AI gemini-2.5-flash) chấm: dấu thanh, ngữ pháp, từ vựng, mạch lạc (0-10 mỗi tiêu chí).
-- Highlight lỗi inline + gợi ý sửa song ngữ.
-- Lưu bài + điểm vào `vff_writing_submissions` cho lịch sử tiến bộ.
-
-## 5. Culture Video Immersion
-
-Thêm trang `VFFVideoLounge.tsx`.
-
-- 12 clip YouTube nhúng theo chủ đề (đường phố Hà Nội, phở, Tết, chợ nổi...).
-- Mỗi clip: transcript song ngữ VI/EN có timestamp, quiz 3 câu, glossary 5 từ.
-- Data: `vffVideoBank.ts`.
-
-## 6. Cloud Sync tiến độ
-
-Chuyển `useVFFProgress` từ localStorage-only sang **hybrid** localStorage + Supabase.
-
-- Bảng `vff_progress` (user_id, level_key, lesson_id, score, mastered_words jsonb, streak, updated_at).
-- RLS: mỗi user chỉ đọc/ghi row của mình. GRANT cho authenticated + service_role.
-- Guest vẫn dùng localStorage; đăng nhập → merge lên cloud.
-
-## 7. Weakness Radar + Learning Path
-
-Trang `VFFAnalytics.tsx`: biểu đồ Recharts radar 5 kỹ năng (Nghe/Nói/Đọc/Viết/Phát âm) dựa trên điểm đã lưu; gợi ý 3 bài học ưu tiên tuần này.
-
-## 8. Certificate 2.0
-
-Nâng `VFFCertificate`: yêu cầu ≥ 80% ở cả 3 checkpoint A1/A2/B1 + hoàn thành ≥ 1 lần Speaking Roleplay + 1 bài Writing chấm ≥ 7. Chứng chỉ có QR verify link công khai.
-
----
-
-## Chi tiết kỹ thuật
-
-**Files sẽ tạo mới:**
-
-- `supabase/functions/vff-roleplay-ai/index.ts`
-- `supabase/functions/vff-writing-grade/index.ts`
-- `supabase/functions/vff-tts-native/index.ts` (pre-gen script)
-- `src/data/vietnamese/vffPlacementBank.ts`
-- `src/data/vietnamese/vffVideoBank.ts`
-- `src/components/vff/NativeAudioButton.tsx`
-- `src/pages/VFFVideoLounge.tsx`
-- `src/pages/VFFAnalytics.tsx`
-- `src/hooks/useVFFCloudSync.ts`
-
-**Files sẽ sửa:**
-
-- `src/pages/VFFSpeakingRoleplay.tsx` (thêm chế độ AI)
-- `src/pages/VFFWritingLab.tsx` (thêm tab AI Chấm)
-- `src/pages/VFFPlacementTest.tsx` (thuật toán adaptive)
-- `src/pages/VFFCertificate.tsx` (điều kiện + QR)
-- `src/pages/VFFHubPro.tsx` (thêm card Video, Analytics)
-- `src/hooks/useVFFProgress.ts` (hybrid sync)
-- `src/App.tsx` (2 route mới)
-
-**Migration DB:**
-
-```sql
-create table public.vff_progress (...);
-create table public.vff_audio_clips (...);
-create table public.vff_writing_submissions (...);
--- GRANT + RLS đầy đủ
+```
+src/data/ieltsCohesionBank.ts        - 120 linkers + 40 sentence pairs + 25 reorder paragraphs
+src/components/CohesionLab.tsx       - Sub-tabs shell (4 chế độ)
+src/components/cohesion/LinkerBank.tsx
+src/components/cohesion/SentenceLinking.tsx
+src/components/cohesion/ParagraphReorder.tsx
+src/components/cohesion/CohesionAnalyser.tsx
+supabase/functions/analyse-cohesion/index.ts  - Edge function dùng Lovable AI (google/gemini-3-flash-preview)
 ```
 
-**Credits/chi phí:** Roleplay + Writing dùng Lovable AI gemini-2.5-flash (rẻ). Native audio pre-generate 1 lần, runtime free.
+## File sửa
 
----
+- `src/pages/IeltsWritingPractice.tsx`: TabsList từ `grid-cols-4` → `grid-cols-5`, thêm tab "Cohesion Lab" với icon `Link2`.
+- Tái sử dụng edge function `grade-phrase-sentence` cho Linker Bank và Sentence Linking (truyền linker/cặp câu làm phrase target).
 
-## Thứ tự triển khai đề xuất
+## Tích hợp Sổ tay
 
-1. Cloud Sync (nền cho các phần sau lưu điểm)
-2. AI Speaking Roleplay Pro
-3. AI Writing Grader
-4. Adaptive Placement 2.0
-5. Native Audio Pack (A1 trước, A2 sau)
-6. Video Lounge + Analytics + Certificate 2.0
+Mọi câu/đoạn học viên submit đều có nút **"Lưu vào Sổ tay"** giống cơ chế trong PhrasePractice/GrammarPractice, ghi vào note title `IELTS Cohesion Practice Task N` và phát event `notebook:updated`.
 
-Muốn triển khai **toàn bộ Phase 3** hay chọn 2-3 mục ưu tiên trước? Và có muốn đầu tư Native Speaker Audio (ElevenLabs) ngay không, hay tiếp tục TTS cho tới Phase 4?
+## Câu hỏi trước khi triển khai
 
-&nbsp;
-
-làm toàn bộ 
+Xem câu hỏi phía dưới - tôi cần chốt scope trước khi build.
