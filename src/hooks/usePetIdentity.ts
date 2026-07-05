@@ -10,8 +10,10 @@
  *   pet_identity_name  -> string ("Pixel", "Coco"…)
  *   pet_identity_skin  -> one of PET_SKINS[].id
  */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import chatbotIcon from "@/assets/chatbot-icon.png";
+
 import aiChibiRobot from "@/assets/ai-chibi-robot.png";
 import chibiRobot from "@/assets/chibi-robot.png";
 import chibiOwl from "@/assets/chibi-owl.png";
