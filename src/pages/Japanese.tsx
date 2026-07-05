@@ -446,8 +446,11 @@ const Japanese = () => {
             <TabsTrigger value="greetings">💬 {t("Chào hỏi", "Greetings")}</TabsTrigger>
             <TabsTrigger value="numbers">🔢 {t("Số & Giờ", "Numbers")}</TabsTrigger>
             <TabsTrigger value="vocab">📖 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
+            <TabsTrigger value="kanji">🈴 {t("Kanji cơ bản", "Basic Kanji")}</TabsTrigger>
+            <TabsTrigger value="dialogues">🗣️ {t("Hội thoại", "Dialogues")}</TabsTrigger>
             <TabsTrigger value="grammar">✍️ {t("Ngữ pháp", "Grammar")}</TabsTrigger>
           </TabsList>
+
 
           <TabsContent value="overview" className="mt-6">
             <Card className="p-6 space-y-4">
