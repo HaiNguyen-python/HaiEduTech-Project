@@ -459,18 +459,21 @@ const Japanese = () => {
               </h2>
               <p className="text-slate-700 leading-relaxed">
                 {t(
-                  "Lộ trình đề xuất cho người mới: học Hiragana → Katakana → 15 câu chào hỏi → số đếm → 40 từ N5 → 6 điểm ngữ pháp cốt lõi. Mỗi ngày 20 phút là đủ để bạn tự giới thiệu bản thân trong 2 tuần.",
-                  "Suggested roadmap: Hiragana → Katakana → 15 greetings → numbers → 40 N5 vocabulary → 6 core grammar points. Twenty minutes a day is enough to introduce yourself within two weeks."
+                  "Lộ trình đề xuất: Hiragana → Katakana → 15 câu chào hỏi → số đếm → 56 từ N5 (8 chủ đề) → 12 Kanji cốt lõi → 6 hội thoại thực tế → 12 điểm ngữ pháp. Mỗi ngày 20 phút, sau 3 tuần bạn có thể tự giới thiệu, gọi món và hỏi đường.",
+                  "Suggested roadmap: Hiragana → Katakana → 15 greetings → numbers → 56 N5 words across 8 topics → 12 essential Kanji → 6 real-life dialogues → 12 grammar points. Twenty minutes a day gets you self-introducing, ordering food and asking directions in 3 weeks."
                 )}
               </p>
               <ul className="grid md:grid-cols-2 gap-3 text-sm">
                 <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🈶 {t("46 chữ Hiragana + 46 Katakana", "46 Hiragana + 46 Katakana characters")}</li>
                 <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">💬 {t("15 câu chào hỏi thực dụng", "15 practical greetings")}</li>
                 <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🔢 {t("Số đếm 1–10.000 & cách hỏi giờ", "Numbers 1–10,000 & telling time")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">📖 {t("32 từ vựng N5 theo chủ đề", "32 N5 words by topic")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">✍️ {t("6 điểm ngữ pháp N5 cốt lõi", "6 core N5 grammar points")}</li>
+                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">📖 {t("56 từ vựng N5 · 8 chủ đề (màu sắc, thức ăn, ngày, thời tiết, địa điểm...)", "56 N5 words · 8 topics (colors, food, days, weather, places...)")}</li>
+                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🈴 {t("12 Kanji cốt lõi kèm âm On / Kun", "12 essential Kanji with On / Kun readings")}</li>
+                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🗣️ {t("6 đoạn hội thoại thực tế (nhà hàng, mua sắm, hỏi đường...)", "6 real-life dialogues (restaurant, shopping, directions...)")}</li>
+                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">✍️ {t("12 điểm ngữ pháp N5 cốt lõi", "12 core N5 grammar points")}</li>
                 <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🔊 {t("Nghe phát âm bằng 1 cú click", "One-click pronunciation")}</li>
               </ul>
+
             </Card>
           </TabsContent>
 
