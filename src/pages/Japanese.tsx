@@ -534,6 +534,68 @@ const Japanese = () => {
             ))}
           </TabsContent>
 
+          <TabsContent value="kanji" className="mt-6">
+            <Card className="p-6">
+              <h3 className="text-xl font-bold mb-2 text-rose-700">🈴 {t("12 Kanji cốt lõi N5", "12 essential N5 Kanji")}</h3>
+              <p className="text-sm text-slate-600 mb-4">
+                {t(
+                  "Kanji có 2 cách đọc: âm On (từ gốc Hán) và âm Kun (thuần Nhật). Bấm để nghe phát âm.",
+                  "Each Kanji has two readings: On (Sino-Japanese) and Kun (native). Click to hear it."
+                )}
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {KANJI_BASIC.map((k) => (
+                  <button
+                    key={k.kanji}
+                    onClick={() => speakJa(k.kanji)}
+                    className="flex items-start gap-3 rounded-lg border border-pink-200 bg-white hover:bg-pink-50 p-3 text-left transition"
+                  >
+                    <div className="text-4xl font-bold text-rose-700 shrink-0 w-14 text-center">{k.kanji}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold text-slate-800">
+                        {uiLang === "vi" ? k.meaning_vi : k.meaning_en}
+                      </div>
+                      <div className="text-xs text-slate-600 mt-1">
+                        <span className="font-semibold">On:</span> {k.on}
+                        <span className="mx-2">·</span>
+                        <span className="font-semibold">Kun:</span> {k.kun}
+                      </div>
+                      <div className="text-xs text-pink-700 mt-1 italic">{k.example}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="dialogues" className="mt-6 space-y-6">
+            {DIALOGUES.map((d, i) => (
+              <Card key={i} className="p-6">
+                <h3 className="text-xl font-bold text-rose-700 mb-1">{d.title}</h3>
+                <p className="text-sm text-slate-600 italic mb-4">{d.scene}</p>
+                <div className="space-y-3">
+                  {d.lines.map((ln, j) => (
+                    <div key={j} className="flex items-start gap-3 p-3 rounded-lg bg-pink-50/60 border border-pink-100">
+                      <div className="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 text-white flex items-center justify-center font-bold">
+                        {ln.speaker}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-base font-semibold text-slate-800">{ln.jp}</div>
+                        <div className="text-sm text-pink-700 italic">{ln.romaji}</div>
+                        <div className="text-sm text-slate-600 mt-1">{uiLang === "vi" ? ln.vi : ln.en}</div>
+                      </div>
+                      <Button size="sm" variant="outline" onClick={() => speakJa(ln.jp)} className="shrink-0">
+                        <Volume2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            ))}
+          </TabsContent>
+
+
+
           <TabsContent value="grammar" className="mt-6 space-y-4">
             {GRAMMAR.map((g, i) => (
               <Card key={i} className="p-6">
