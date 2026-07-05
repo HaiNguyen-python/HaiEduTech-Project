@@ -53,7 +53,9 @@ const ACTIVITY_LABELS: Record<string, string> = {
   vocab_mastery: "Vocab Mastery",
   vocab_mastered: "Vocab Mastered",
   vocab_mastered_group: "Từ vựng đã thuộc",
+  speaking_coach_group: "Speaking Coach",
   writing_practice: "Writing Practice",
+
   speaking_practice: "Speaking Practice",
   conv_chinese: "Hội thoại Tiếng Trung",
   conv_chinese_exercise: "Bài tập Tiếng Trung",
