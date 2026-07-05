@@ -257,7 +257,11 @@ const Navbar = () => {
     ] },
     { to: "/programming/cybersecurity", label: t("Cybersecurity", "Cybersecurity"), icon: Shield },
     { to: "/programming/nlp", label: t("NLP - Xử lý Ngôn ngữ", "NLP - Language Processing"), icon: Languages },
-    { to: "/programming/edtech", label: t("EdTech", "EdTech"), icon: GraduationCap },
+    { to: "#prog-edtech-group", label: t("EdTech", "EdTech"), icon: GraduationCap, groupLabel: "prog-edtech", children: [
+      { to: "/programming/edtech", label: t("📚 EdTech Lessons", "📚 EdTech Lessons"), icon: GraduationCap },
+      { to: "/edtech-research", label: t("🔬 EdTech Research", "🔬 EdTech Research"), icon: FlaskConical },
+      { to: "/dich-vu-web", label: t("🎨 EdTech Design", "🎨 EdTech Design"), icon: PenTool },
+    ] },
     
     { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Rocket, groupLabel: "prog-career", children: [
       { to: "/programming/career-roadmap", label: t("Career Roadmap", "Career Roadmap"), icon: Sparkles },
