@@ -1,0 +1,1 @@
+ALTER TABLE public.chatbot_conversations ADD COLUMN IF NOT EXISTS pet_skin TEXT;
