@@ -359,6 +359,7 @@ export type Database = {
           messages: Json
           pet_level: number | null
           pet_name: string | null
+          pet_skin: string | null
           updated_at: string
           user_id: string
         }
@@ -371,6 +372,7 @@ export type Database = {
           messages?: Json
           pet_level?: number | null
           pet_name?: string | null
+          pet_skin?: string | null
           updated_at?: string
           user_id: string
         }
@@ -383,6 +385,7 @@ export type Database = {
           messages?: Json
           pet_level?: number | null
           pet_name?: string | null
+          pet_skin?: string | null
           updated_at?: string
           user_id?: string
         }

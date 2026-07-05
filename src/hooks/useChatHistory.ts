@@ -74,13 +74,43 @@ export function useChatHistory(petName?: string, petLevel?: number) {
         .maybeSingle();
       if (cancelled) return;
       const remote = Array.isArray(data?.messages) ? (data!.messages as ChatMsg[]) : [];
-      // Use whichever transcript is longer (handles cases where the last
-      // debounced server write failed but local mirror succeeded, or vice versa).
-      const chosen = error || remote.length < localBackup.length ? localBackup : remote;
+      // Server is the source of truth so the same account sees the same
+      // conversation on iPhone / iPad / desktop. Fall back to the local
+      // mirror only if the server call failed OR the server has no history
+      // yet (first-time login on a device that already had guest chat).
+      const chosen = error ? localBackup : (remote.length > 0 ? remote : localBackup);
       setInitial(chosen);
+
     })();
     return () => { cancelled = true; };
   }, [userId]);
+
+  // Cross-device sync: when the tab becomes visible again (e.g. user switches
+  // from iPhone to iPad), refetch the server transcript so both devices show
+  // the same conversation instead of a stale local copy.
+  useEffect(() => {
+    if (!userId) return;
+    const refresh = async () => {
+      if (document.visibilityState !== "visible") return;
+      const { data } = await (supabase as any)
+        .from("chatbot_conversations")
+        .select("messages")
+        .eq("user_id", userId)
+        .maybeSingle();
+      const remote = Array.isArray(data?.messages) ? (data!.messages as ChatMsg[]) : [];
+      if (remote.length > latestRef.current.length) {
+        writeLocal(userKey(userId), remote);
+        setInitial(remote);
+      }
+    };
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("focus", refresh);
+    return () => {
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("focus", refresh);
+    };
+  }, [userId]);
+
 
   /** Persist (debounced server, immediate localStorage) the latest transcript. */
   const persist = useCallback((messages: ChatMsg[]) => {

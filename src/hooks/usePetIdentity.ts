@@ -10,8 +10,10 @@
  *   pet_identity_name  -> string ("Pixel", "Coco"…)
  *   pet_identity_skin  -> one of PET_SKINS[].id
  */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import chatbotIcon from "@/assets/chatbot-icon.png";
+
 import aiChibiRobot from "@/assets/ai-chibi-robot.png";
 import chibiRobot from "@/assets/chibi-robot.png";
 import chibiOwl from "@/assets/chibi-owl.png";
@@ -66,6 +68,8 @@ const DEFAULT_NAME = "Pixel";
 export function usePetIdentity() {
   const [name, setNameState] = useState<string>(DEFAULT_NAME);
   const [skinId, setSkinState] = useState<string>(PET_SKINS[0].id);
+  const userIdRef = useRef<string | null>(null);
+  const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Hydrate from localStorage once
   useEffect(() => {
@@ -75,6 +79,40 @@ export function usePetIdentity() {
       if (n) setNameState(n);
       if (s && PET_SKINS.some(p => p.id === s)) setSkinState(s);
     } catch { /* localStorage blocked */ }
+  }, []);
+
+  // Cross-device sync via Supabase: pull the last saved pet identity for
+  // this user on sign-in, so opening the app on iPad / iPhone / desktop
+  // shows the same pet name & skin.
+  useEffect(() => {
+    let cancelled = false;
+    const pull = async (uid: string) => {
+      const { data } = await (supabase as any)
+        .from("chatbot_conversations")
+        .select("pet_name, pet_skin")
+        .eq("user_id", uid)
+        .maybeSingle();
+      if (cancelled || !data) return;
+      if (data.pet_name) {
+        setNameState(data.pet_name);
+        try { localStorage.setItem(NAME_KEY, data.pet_name); } catch { /* ignore */ }
+      }
+      if (data.pet_skin && PET_SKINS.some(p => p.id === data.pet_skin)) {
+        setSkinState(data.pet_skin);
+        try { localStorage.setItem(SKIN_KEY, data.pet_skin); } catch { /* ignore */ }
+      }
+    };
+    supabase.auth.getUser().then(({ data }) => {
+      const uid = data.user?.id ?? null;
+      userIdRef.current = uid;
+      if (uid) pull(uid);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      const uid = session?.user?.id ?? null;
+      userIdRef.current = uid;
+      if (uid) pull(uid);
+    });
+    return () => { cancelled = true; sub.subscription.unsubscribe(); };
   }, []);
 
   // Listen for cross-tab/component updates
@@ -99,20 +137,38 @@ export function usePetIdentity() {
     };
   }, []);
 
+  /** Push pet identity to Supabase so it follows the user across devices. */
+  const pushRemote = useCallback((patch: { pet_name?: string; pet_skin?: string }) => {
+    const uid = userIdRef.current;
+    if (!uid) return;
+    if (syncTimer.current) clearTimeout(syncTimer.current);
+    syncTimer.current = setTimeout(async () => {
+      await (supabase as any)
+        .from("chatbot_conversations")
+        .upsert(
+          { user_id: uid, ...patch, updated_at: new Date().toISOString() },
+          { onConflict: "user_id" }
+        );
+    }, 400);
+  }, []);
+
   const setName = useCallback((next: string) => {
     const clean = next.trim().slice(0, 18) || DEFAULT_NAME;
     setNameState(clean);
     try { localStorage.setItem(NAME_KEY, clean); } catch { /* ignore */ }
     window.dispatchEvent(new CustomEvent("pet:identity-changed"));
-  }, []);
+    pushRemote({ pet_name: clean });
+  }, [pushRemote]);
 
   const setSkin = useCallback((id: string) => {
     if (!PET_SKINS.some(p => p.id === id)) return;
     setSkinState(id);
     try { localStorage.setItem(SKIN_KEY, id); } catch { /* ignore */ }
     window.dispatchEvent(new CustomEvent("pet:identity-changed"));
-  }, []);
+    pushRemote({ pet_skin: id });
+  }, [pushRemote]);
 
   const skin = PET_SKINS.find(p => p.id === skinId) ?? PET_SKINS[0];
   return { name, skin, skinId, setName, setSkin };
 }
+
