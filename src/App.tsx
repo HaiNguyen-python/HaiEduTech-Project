@@ -95,6 +95,7 @@ const EnglishFunFacts = lazy(() => import("./pages/EnglishFunFacts.tsx"));
 const EnglishIdioms = lazy(() => import("./pages/EnglishIdioms.tsx"));
 const EnglishCourse = lazy(() => import("./pages/EnglishCourse.tsx"));
 const Chinese = lazy(() => import("./pages/Chinese.tsx"));
+const Japanese = lazy(() => import("./pages/Japanese.tsx"));
 const ChineseCourse = lazy(() => import("./pages/ChineseCourse.tsx"));
 const Programming = lazy(() => import("./pages/Programming.tsx"));
 const ProgrammingLesson = lazy(() => import("./pages/ProgrammingLesson.tsx"));
