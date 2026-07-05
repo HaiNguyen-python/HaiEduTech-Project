@@ -257,7 +257,11 @@ const Navbar = () => {
     ] },
     { to: "/programming/cybersecurity", label: t("Cybersecurity", "Cybersecurity"), icon: Shield },
     { to: "/programming/nlp", label: t("NLP - Xử lý Ngôn ngữ", "NLP - Language Processing"), icon: Languages },
-    { to: "/programming/edtech", label: t("EdTech", "EdTech"), icon: GraduationCap },
+    { to: "#prog-edtech-group", label: t("EdTech", "EdTech"), icon: GraduationCap, groupLabel: "prog-edtech", children: [
+      { to: "/programming/edtech", label: t("📚 EdTech Lessons", "📚 EdTech Lessons"), icon: GraduationCap },
+      { to: "/edtech-research", label: t("🔬 EdTech Research", "🔬 EdTech Research"), icon: FlaskConical },
+      { to: "/dich-vu-web", label: t("🎨 EdTech Design", "🎨 EdTech Design"), icon: PenTool },
+    ] },
     
     { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Rocket, groupLabel: "prog-career", children: [
       { to: "/programming/career-roadmap", label: t("Career Roadmap", "Career Roadmap"), icon: Sparkles },
@@ -286,18 +290,21 @@ const Navbar = () => {
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap },
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: englishSubs, key: "en" },
-    { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
+    { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
+    { to: "/japanese", label: t("Tiếng Nhật", "Japanese"), icon: Globe, subs: [
+      { to: "/japanese", label: t("🌸 Tổng quan Tiếng Nhật", "🌸 Japanese Overview") },
+      { to: "/japanese?tab=kana", label: t("🈶 Hiragana & Katakana", "🈶 Hiragana & Katakana") },
+      { to: "/japanese?tab=greetings", label: t("💬 Chào hỏi & Giao tiếp", "💬 Greetings & Conversation") },
+      { to: "/japanese?tab=numbers", label: t("🔢 Số đếm & Thời gian", "🔢 Numbers & Time") },
+      { to: "/japanese?tab=vocab", label: t("📖 Từ vựng N5", "📖 N5 Vocabulary") },
+      { to: "/japanese?tab=grammar", label: t("✍️ Ngữ pháp N5", "✍️ N5 Grammar") },
+    ], key: "jp" },
     { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: finnishSubs, key: "fi" },
     { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: swedishSubs, key: "sv" },
     { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
 
-    // Study Abroad ("Du Học") menu item is temporarily hidden — replaced by EdTech hub.
-    // { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
-    { to: "/edtech-research", label: t("EdTech Research & Design", "EdTech Research & Design"), icon: FlaskConical, key: "edtech", subs: [
-      { to: "/edtech-research", label: t("🔬 EdTech Research", "🔬 EdTech Research") },
-      { to: "/dich-vu-web", label: t("🎨 Thiết kế Software Giáo dục", "🎨 EdTech Software Design") },
-    ] },
+    // Study Abroad and standalone EdTech entries are hidden — EdTech is now nested inside Programming.
     { to: "/your-corner", label: t("Your Corner", "Your Corner"), icon: Users },
   ];
 

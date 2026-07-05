@@ -95,6 +95,7 @@ const EnglishFunFacts = lazy(() => import("./pages/EnglishFunFacts.tsx"));
 const EnglishIdioms = lazy(() => import("./pages/EnglishIdioms.tsx"));
 const EnglishCourse = lazy(() => import("./pages/EnglishCourse.tsx"));
 const Chinese = lazy(() => import("./pages/Chinese.tsx"));
+const Japanese = lazy(() => import("./pages/Japanese.tsx"));
 const ChineseCourse = lazy(() => import("./pages/ChineseCourse.tsx"));
 const Programming = lazy(() => import("./pages/Programming.tsx"));
 const ProgrammingLesson = lazy(() => import("./pages/ProgrammingLesson.tsx"));
@@ -322,6 +323,7 @@ const App = () => (
             <Route path="/english/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
             <Route path="/english/learn/:moduleId/:lessonId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
             <Route path="/chinese" element={<LazyRoute><Chinese /></LazyRoute>} />
+            <Route path="/japanese" element={<LazyRoute><Japanese /></LazyRoute>} />
             <Route path="/chinese/conversational/curriculum" element={<LazyRoute><ChineseConversationalDashboard /></LazyRoute>} />
             <Route path="/chinese/conversational/learn/:lessonId" element={<LazyRoute><ChineseConversationalLessonView /></LazyRoute>} />
             <Route path="/chinese/culture" element={<LazyRoute><ChineseCultureHub /></LazyRoute>} />
