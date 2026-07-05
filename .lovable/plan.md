@@ -1,61 +1,47 @@
-## Mục tiêu
+# Kế hoạch – Menu Navbar + Japanese cơ bản
 
-Thêm tab **"Coherence & Cohesion"** (Liên kết & Mạch lạc) trong `/ielts-writing-practice` để học viên luyện tiêu chí C&C - một trong 4 tiêu chí chấm IELTS Writing, kèm chấm AI + lưu Sổ tay như các tab hiện có.
+Mục tiêu tiết kiệm credits: tất cả thay đổi tập trung trong 2 file (`src/components/Navbar.tsx` + 1 trang Japanese mới nhỏ gọn), không tạo backend, không sinh ảnh AI.
 
-## Cấu trúc tab mới
+## 1. Ẩn "EdTech Research & Design" khỏi thanh menu chính
+- Trong `src/components/Navbar.tsx`, xóa mục top-level `edtech` (dòng 297–300).
 
-Tab thứ 5: **Cohesion Lab** (icon `Link2`), có 4 chế độ luyện con dạng sub-tabs:
+## 2. Gộp vào mục **EdTech** trong Programming
+- Đổi dòng 260 (`/programming/edtech`) thành một nhóm có `children` (giống pattern `prog-ai-data-group`), hover sẽ hiện 3 lựa chọn:
+  - **📚 EdTech Lessons** → `/programming/edtech` (các bài học EdTech hiện có)
+  - **🔬 EdTech Research** → `/edtech-research`
+  - **🎨 EdTech Design** → `/dich-vu-web`
 
-### 1. Linker Bank (Ngân hàng liên từ)
-Kho ~120 liên từ/cụm nối chia theo 10 nhóm chức năng:
-- Adding (moreover, in addition, furthermore...)
-- Contrasting (however, nevertheless, on the contrary...)
-- Cause / Effect (consequently, as a result, owing to...)
-- Exemplifying (for instance, to illustrate...)
-- Sequencing (initially, subsequently, ultimately...)
-- Summarising (in essence, to conclude...)
-- Emphasising (notably, above all...)
-- Conceding (admittedly, granted that...)
-- Comparing (similarly, likewise...)
-- Referencing (this trend, such a phenomenon, the former/latter...)
+## 3. Thêm mục **Japanese** (Tiếng Nhật) + sắp xếp lại thứ tự menu
+Thứ tự mới trong `baseLinks`:
+`Home – About – English – Vietnamese – Chinese – Japanese – Finnish – Swedish – Programming – Your Corner`
 
-Mỗi liên từ: nghĩa tiếng Việt, band (B2/C1), Task 1 hay 2 hay cả hai, ví dụ mẫu, cảnh báo dùng sai phổ biến (VD: "Besides" không dùng đầu câu formal). UI giống Phrase Bank hiện có, học viên viết câu → AI chấm (dùng lại edge function `grade-phrase-sentence`, truyền linker làm "phrase").
+Thêm `japaneseSubs` với các mục cơ bản trỏ tới trang `/japanese` (dạng tab):
+- 🌸 Tổng quan Tiếng Nhật (`/japanese`)
+- 🈶 Hiragana & Katakana (`/japanese?tab=kana`)
+- 💬 Chào hỏi & Giao tiếp cơ bản (`/japanese?tab=greetings`)
+- 🔢 Số đếm & Thời gian (`/japanese?tab=numbers`)
+- 📖 Từ vựng N5 (`/japanese?tab=vocab`)
+- ✍️ Ngữ pháp N5 cơ bản (`/japanese?tab=grammar`)
 
-### 2. Sentence Linking (Nối 2 câu)
-Hiển thị 2 câu rời (VD: *"Public transport reduces traffic. It also cuts emissions."*), học viên viết lại thành 1 câu mạch lạc dùng liên từ phù hợp. AI so sánh với 2-3 phương án chuẩn Band 7+, cho điểm cohesion và gợi ý phương án hay hơn. ~40 cặp câu (20 Task 1 + 20 Task 2).
+## 4. Tạo trang Japanese cơ bản
+Tạo 1 file duy nhất `src/pages/Japanese.tsx` (self-contained, không cần data files riêng, để tiết kiệm credits):
+- Layout: banner hồng-đỏ (sakura theme) + Tabs shadcn cho 5 chuyên mục nói trên.
+- **Kana tab**: bảng Hiragana + Katakana (46 ký tự mỗi bảng) với romaji, click để nghe TTS (dùng browser `speechSynthesis` với `ja-JP` — không tốn edge function).
+- **Greetings tab**: ~15 câu chào hỏi (Kanji/Kana – Romaji – Nghĩa VI/EN – nút phát âm).
+- **Numbers tab**: 1–10, 11–100, cách đọc giờ/ngày.
+- **Vocab tab**: ~40 từ N5 theo chủ đề (gia đình, đồ vật, động từ), có nút phát âm.
+- **Grammar tab**: 6 điểm ngữ pháp N5 (は/が, です/だ, を, に/へ, ます-form, thì hiện tại/quá khứ) — mỗi điểm 1 giải thích ngắn + 2 ví dụ.
+- Đăng ký route `/japanese` trong `src/App.tsx` (lazy import).
 
-### 3. Paragraph Reordering (Sắp xếp đoạn văn)
-Cho 4-6 câu bị xáo trộn của 1 đoạn Band 8+ mẫu. Học viên kéo-thả (dnd-kit) để sắp lại đúng thứ tự logic. Sau khi submit: highlight referencing words (this, such, these) và topic sentence để giải thích vì sao thứ tự đó mạch lạc. ~25 đoạn (Task 1 body, Task 2 body, cả introduction & conclusion).
+## 5. Chi tiết kỹ thuật
+- Không thêm dependency, không tạo bảng DB, không dùng AI Gateway.
+- TTS phát âm dùng `window.speechSynthesis` với `lang="ja-JP"` (native browser, miễn phí).
+- Không đụng logic khác của navbar; chỉ 2 files thay đổi + 1 file mới:
+  - `src/components/Navbar.tsx` (chỉnh mảng subs + baseLinks)
+  - `src/pages/Japanese.tsx` (mới)
+  - `src/App.tsx` (thêm 1 route)
 
-### 4. Cohesion Analyser (Phân tích đoạn văn của bạn)
-Textarea 80-200 từ, học viên dán đoạn văn của mình. AI trả về:
-- **Cohesion score** 0-9 theo IELTS descriptor
-- **Linking devices map**: liệt kê tất cả từ nối đã dùng, đánh dấu overused/mechanical/missing
-- **Reference chain analysis**: kiểm tra dùng "this/these/such" có rõ referent không
-- **Paragraph structure**: có topic sentence, supporting, concluding không
-- **Rewrite Band 8+**: đoạn văn upgraded, bold các cohesive devices mới
+## Ước tính credits
+Rất nhỏ — 1 trang tự chứa + 2 edit navbar/route. Nằm gọn trong 5 daily credits.
 
-## File mới
-
-```
-src/data/ieltsCohesionBank.ts        - 120 linkers + 40 sentence pairs + 25 reorder paragraphs
-src/components/CohesionLab.tsx       - Sub-tabs shell (4 chế độ)
-src/components/cohesion/LinkerBank.tsx
-src/components/cohesion/SentenceLinking.tsx
-src/components/cohesion/ParagraphReorder.tsx
-src/components/cohesion/CohesionAnalyser.tsx
-supabase/functions/analyse-cohesion/index.ts  - Edge function dùng Lovable AI (google/gemini-3-flash-preview)
-```
-
-## File sửa
-
-- `src/pages/IeltsWritingPractice.tsx`: TabsList từ `grid-cols-4` → `grid-cols-5`, thêm tab "Cohesion Lab" với icon `Link2`.
-- Tái sử dụng edge function `grade-phrase-sentence` cho Linker Bank và Sentence Linking (truyền linker/cặp câu làm phrase target).
-
-## Tích hợp Sổ tay
-
-Mọi câu/đoạn học viên submit đều có nút **"Lưu vào Sổ tay"** giống cơ chế trong PhrasePractice/GrammarPractice, ghi vào note title `IELTS Cohesion Practice Task N` và phát event `notebook:updated`.
-
-## Câu hỏi trước khi triển khai
-
-Xem câu hỏi phía dưới - tôi cần chốt scope trước khi build.
+Bạn duyệt để mình build nhé?
