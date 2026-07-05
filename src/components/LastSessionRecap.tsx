@@ -389,11 +389,14 @@ export default function LastSessionRecap() {
                   {a.score != null && (
                     <div className="flex items-center gap-1 text-sm font-semibold">
                       <Star className="w-4 h-4 text-yellow-500" />
-                      {a.metadata?.grouped
+                      {a.activity_type === "vocab_mastered_group"
                         ? `+${a.score}`
-                        : `${a.score}/${a.max_score || "?"}`}
+                        : a.activity_type === "speaking_coach_group"
+                          ? `${a.metadata?.count || 1} lượt`
+                          : `${a.score}/${a.max_score || "?"}`}
                     </div>
                   )}
+
                 </div>
               ))}
             </TabsContent>
