@@ -74,10 +74,13 @@ export function useChatHistory(petName?: string, petLevel?: number) {
         .maybeSingle();
       if (cancelled) return;
       const remote = Array.isArray(data?.messages) ? (data!.messages as ChatMsg[]) : [];
-      // Use whichever transcript is longer (handles cases where the last
-      // debounced server write failed but local mirror succeeded, or vice versa).
-      const chosen = error || remote.length < localBackup.length ? localBackup : remote;
+      // Server is the source of truth so the same account sees the same
+      // conversation on iPhone / iPad / desktop. Fall back to the local
+      // mirror only if the server call failed OR the server has no history
+      // yet (first-time login on a device that already had guest chat).
+      const chosen = error ? localBackup : (remote.length > 0 ? remote : localBackup);
       setInitial(chosen);
+
     })();
     return () => { cancelled = true; };
   }, [userId]);
