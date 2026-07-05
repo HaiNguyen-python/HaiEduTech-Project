@@ -222,23 +222,39 @@ export default function LastSessionRecap() {
               (activity.score != null || activity.activity_id != null)
           );
 
-          // Gom các bản ghi "vocab_mastered" lại theo (domain + subject) để
-          // tránh hiển thị mỗi từ vựng một dòng — vừa rối vừa tốn bộ nhớ.
-          // Mỗi nhóm chỉ hiện 1 dòng tóm tắt "+N từ".
+          // Gom các bản ghi "vocab_mastered" lại theo (domain + subject) và
+          // gom các phiên "speaking_coach_*" theo ngôn ngữ — tránh việc
+          // hiển thị mỗi lần luyện speaking mỗi dòng, làm ngập popup Ôn lại.
           const vocabGroups = new Map<string, { count: number; latest: Activity; subjects: Set<string> }>();
-          const nonVocab: Activity[] = [];
+          const speakingGroups = new Map<string, { count: number; latest: Activity; totalScore: number; totalMax: number }>();
+          const nonGrouped: Activity[] = [];
           for (const a of rawVisible) {
             const isVocab = a.activity_type === "vocab_mastered" || a.activity_type === "vocab_mastery";
-            if (!isVocab) { nonVocab.push(a); continue; }
-            const subject = (a.metadata?.subject as string) || a.domain || "vocab";
-            const key = `${a.domain || "?"}::${subject}`;
-            const g = vocabGroups.get(key);
-            if (g) {
-              g.count += 1;
-              g.subjects.add(subject);
-              if (new Date(a.created_at) > new Date(g.latest.created_at)) g.latest = a;
+            const isSpeaking = a.activity_type.startsWith("speaking_coach_");
+            if (isVocab) {
+              const subject = (a.metadata?.subject as string) || a.domain || "vocab";
+              const key = `${a.domain || "?"}::${subject}`;
+              const g = vocabGroups.get(key);
+              if (g) {
+                g.count += 1;
+                g.subjects.add(subject);
+                if (new Date(a.created_at) > new Date(g.latest.created_at)) g.latest = a;
+              } else {
+                vocabGroups.set(key, { count: 1, latest: a, subjects: new Set([subject]) });
+              }
+            } else if (isSpeaking) {
+              const key = a.activity_type;
+              const g = speakingGroups.get(key);
+              if (g) {
+                g.count += 1;
+                g.totalScore += a.score || 0;
+                g.totalMax += a.max_score || 10;
+                if (new Date(a.created_at) > new Date(g.latest.created_at)) g.latest = a;
+              } else {
+                speakingGroups.set(key, { count: 1, latest: a, totalScore: a.score || 0, totalMax: a.max_score || 10 });
+              }
             } else {
-              vocabGroups.set(key, { count: 1, latest: a, subjects: new Set([subject]) });
+              nonGrouped.push(a);
             }
           }
           const vocabSummary: Activity[] = Array.from(vocabGroups.values()).map((g) => ({
@@ -249,10 +265,22 @@ export default function LastSessionRecap() {
             max_score: g.count,
             metadata: { ...(g.latest.metadata || {}), grouped: true, count: g.count },
           }));
+          const speakingSummary: Activity[] = Array.from(speakingGroups.entries()).map(([key, g]) => {
+            const langLabel = key.replace("speaking_coach_", "");
+            return {
+              ...g.latest,
+              activity_type: "speaking_coach_group",
+              activity_id: `Speaking Coach · ${langLabel} · ${g.count} lượt luyện`,
+              score: g.totalScore,
+              max_score: g.totalMax,
+              metadata: { ...(g.latest.metadata || {}), grouped: true, count: g.count, language: langLabel },
+            };
+          });
 
-          const visibleActivities = [...vocabSummary, ...nonVocab]
+          const visibleActivities = [...vocabSummary, ...speakingSummary, ...nonGrouped]
             .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
             .slice(0, 10);
+
 
           setActivities(visibleActivities);
           setWritings((writRes.data as WritingAttempt[]) || []);
