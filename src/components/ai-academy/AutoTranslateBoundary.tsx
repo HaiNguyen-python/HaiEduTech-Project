@@ -253,17 +253,18 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
     // characterData (which we don't observe to avoid loops) or via
     // portals that mount outside the mutation record. Re-scan every
     // 2s for the first 20s, then every 10s, to catch stragglers.
+    const slowIntervalRef: { current: number | null } = { current: null };
     let ticks = 0;
     const interval = window.setInterval(() => {
       ticks += 1;
       try { walk(); } catch { /* detached */ }
       if (ticks === 10) {
         clearInterval(interval);
-        const slow = window.setInterval(() => { try { walk(); } catch { /* detached */ } }, 10000);
-        slowIntervalRef.current = slow;
+        slowIntervalRef.current = window.setInterval(() => {
+          try { walk(); } catch { /* detached */ }
+        }, 10000);
       }
     }, 2000);
-    const slowIntervalRef = { current: null as number | null };
 
     return () => {
       if (scheduled != null) clearTimeout(scheduled);
