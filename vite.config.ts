@@ -11,6 +11,8 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/supabase/vite";
 
+const APP_VERSION = String(Date.now());
+
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -19,7 +21,20 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  plugins: [react(), mode === "development" && componentTagger(), mcpPlugin()].filter(Boolean),
+  define: {
+    __APP_VERSION__: JSON.stringify(APP_VERSION),
+  },
+  plugins: [
+    react(),
+    mode === "development" && componentTagger(),
+    mcpPlugin(),
+    {
+      name: "html-app-version",
+      transformIndexHtml(html) {
+        return html.replace(/__APP_VERSION__/g, APP_VERSION);
+      },
+    },
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
