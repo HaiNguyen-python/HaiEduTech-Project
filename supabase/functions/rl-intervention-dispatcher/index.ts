@@ -166,9 +166,13 @@ function computeSnapshot(
   const priorAvg =
     prior.length > 0 ? prior.reduce((a, r) => a + r.score! / (r.max_score || 10), 0) / prior.length : 0
 
-  const lastActive = meaningful.length > 0 ? new Date(meaningful[meaningful.length - 1].created_at) : null
-  const daysInactive = lastActive
-    ? Math.floor((now.getTime() - lastActive.getTime()) / 86400_000)
+  // Compute inactivity from ALL activity rows (including daily_login /
+  // session_heartbeat). A student that logged in yesterday IS active, even
+  // if they didn't submit a scored exercise — filtering those out was giving
+  // false "chưa hoạt động N ngày" pings.
+  const lastActiveRow = rows.length > 0 ? new Date(rows[rows.length - 1].created_at) : null;
+  const daysInactive = lastActiveRow
+    ? Math.floor((now.getTime() - lastActiveRow.getTime()) / 86400_000)
     : ANALYSIS_WINDOW_DAYS
 
   // Per activity_type avg → strongest/weakest

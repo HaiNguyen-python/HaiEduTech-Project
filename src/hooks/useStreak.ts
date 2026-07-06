@@ -9,7 +9,16 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-const todayKey = () => new Date().toISOString().split("T")[0];
+/** Local calendar date key (YYYY-MM-DD) — uses the browser's timezone
+ * so a study session late at night doesn't get bucketed into "yesterday"
+ * (which was the root cause of false "N ngày chưa học" alerts). */
+const dateKey = (d: Date = new Date()) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+const todayKey = () => dateKey();
 
 export function useStreak(enabled = true) {
   const [streak, setStreak] = useState(0);
@@ -60,22 +69,21 @@ export function useStreak(enabled = true) {
         if (error) throw error;
 
         const dateSet = new Set(
-          (data || []).map((r) => new Date(r.created_at).toISOString().split("T")[0])
+          (data || []).map((r) => dateKey(new Date(r.created_at)))
         );
 
         let count = 0;
         const cursor = new Date();
         // Allow streak to start from today OR yesterday (timezone tolerant).
-        if (!dateSet.has(cursor.toISOString().split("T")[0])) {
+        if (!dateSet.has(dateKey(cursor))) {
           cursor.setDate(cursor.getDate() - 1);
-          if (!dateSet.has(cursor.toISOString().split("T")[0])) {
+          if (!dateSet.has(dateKey(cursor))) {
             if (!cancelled) { setStreak(0); setLoading(false); }
             return;
           }
         }
         for (let i = 0; i < 400; i++) {
-          const k = cursor.toISOString().split("T")[0];
-          if (dateSet.has(k)) {
+          if (dateSet.has(dateKey(cursor))) {
             count++;
             cursor.setDate(cursor.getDate() - 1);
           } else {
