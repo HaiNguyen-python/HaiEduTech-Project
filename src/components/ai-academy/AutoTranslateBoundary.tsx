@@ -151,8 +151,8 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
       }
     };
 
-    const walk = () => {
-      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    const walk = (scope: Node = root) => {
+      const walker = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT, {
         acceptNode: (n) => {
           const text = (n.nodeValue || "").trim();
           if (!text) return NodeFilter.FILTER_REJECT;
@@ -171,15 +171,39 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
 
     walk();
 
-    const mo = new MutationObserver(() => {
-      window.requestAnimationFrame(walk);
+    // Debounced observer so scrolling / motion-driven DOM churn doesn't
+    // trigger a full tree walk on every frame. We only watch childList
+    // (new mounts) and never characterData (which our own writes would
+    // fire, causing loops). Walk only the subtree of the mutation target.
+    let pendingTargets = new Set<Node>();
+    let scheduled: number | null = null;
+    const scheduleWalk = () => {
+      if (scheduled != null) return;
+      scheduled = window.setTimeout(() => {
+        scheduled = null;
+        const targets = pendingTargets;
+        pendingTargets = new Set();
+        targets.forEach((t) => {
+          try { walk(t); } catch { /* node detached */ }
+        });
+      }, 300);
+    };
+
+    const mo = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type !== "childList") continue;
+        if (m.addedNodes.length === 0) continue;
+        pendingTargets.add(m.target);
+      }
+      if (pendingTargets.size > 0) scheduleWalk();
     });
-    mo.observe(root, { childList: true, subtree: true, characterData: true });
+    mo.observe(root, { childList: true, subtree: true });
 
     const onFlush = () => walk();
     listeners.add(onFlush);
 
     return () => {
+      if (scheduled != null) clearTimeout(scheduled);
       mo.disconnect();
       listeners.delete(onFlush);
     };
