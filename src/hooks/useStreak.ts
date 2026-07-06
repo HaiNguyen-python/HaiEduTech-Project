@@ -69,22 +69,21 @@ export function useStreak(enabled = true) {
         if (error) throw error;
 
         const dateSet = new Set(
-          (data || []).map((r) => new Date(r.created_at).toISOString().split("T")[0])
+          (data || []).map((r) => dateKey(new Date(r.created_at)))
         );
 
         let count = 0;
         const cursor = new Date();
         // Allow streak to start from today OR yesterday (timezone tolerant).
-        if (!dateSet.has(cursor.toISOString().split("T")[0])) {
+        if (!dateSet.has(dateKey(cursor))) {
           cursor.setDate(cursor.getDate() - 1);
-          if (!dateSet.has(cursor.toISOString().split("T")[0])) {
+          if (!dateSet.has(dateKey(cursor))) {
             if (!cancelled) { setStreak(0); setLoading(false); }
             return;
           }
         }
         for (let i = 0; i < 400; i++) {
-          const k = cursor.toISOString().split("T")[0];
-          if (dateSet.has(k)) {
+          if (dateSet.has(dateKey(cursor))) {
             count++;
             cursor.setDate(cursor.getDate() - 1);
           } else {
