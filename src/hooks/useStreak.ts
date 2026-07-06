@@ -9,7 +9,16 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-const todayKey = () => new Date().toISOString().split("T")[0];
+/** Local calendar date key (YYYY-MM-DD) — uses the browser's timezone
+ * so a study session late at night doesn't get bucketed into "yesterday"
+ * (which was the root cause of false "N ngày chưa học" alerts). */
+const dateKey = (d: Date = new Date()) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+const todayKey = () => dateKey();
 
 export function useStreak(enabled = true) {
   const [streak, setStreak] = useState(0);
