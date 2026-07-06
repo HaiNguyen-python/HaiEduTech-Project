@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => ({
     mcpPlugin(),
     {
       name: "html-app-version",
-      transformIndexHtml(html) {
+      transformIndexHtml(html: string) {
         return html.replace(/__APP_VERSION__/g, APP_VERSION);
       },
     },
