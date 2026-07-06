@@ -86,8 +86,8 @@ const flush = async () => {
   if (pending.size === 0) return;
   const batch = Array.from(pending);
   pending.clear();
-  for (let i = 0; i < batch.length; i += 60) {
-    const slice = batch.slice(i, i + 60);
+  for (let i = 0; i < batch.length; i += 25) {
+    const slice = batch.slice(i, i + 25);
     try {
       const { data, error } = await supabase.functions.invoke("translate-vi-en", { body: { texts: slice } });
       if (error) { console.error(error); continue; }
