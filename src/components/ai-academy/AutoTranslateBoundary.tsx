@@ -17,9 +17,9 @@ const CJK = /[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]/;
 // Reject cached translations that leaked the numbered-prompt prefix (e.g. "1. ", "23. ").
 const LEADING_NUM = /^\s*\d{1,3}\.\s+/;
 
-// v4 - bumped after raising edge-fn max_tokens from 400→8000 and shrinking
-// batch size 60→25 (v3 cache held truncated / missing translations).
-const STORAGE_PREFIX = "aiacad_tr_v4_";
+// v5 - added retry (3x), parallel chunks, in-flight dedup, and periodic
+// re-walk to catch VN nodes updated via characterData (which we don't observe).
+const STORAGE_PREFIX = "aiacad_tr_v5_";
 
 const hash = (s: string): string => {
   let h = 0x811c9dc5;
