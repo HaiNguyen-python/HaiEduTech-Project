@@ -17,9 +17,9 @@ const CJK = /[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]/;
 // Reject cached translations that leaked the numbered-prompt prefix (e.g. "1. ", "23. ").
 const LEADING_NUM = /^\s*\d{1,3}\.\s+/;
 
-// v4 - bumped after raising edge-fn max_tokens from 400→8000 and shrinking
-// batch size 60→25 (v3 cache held truncated / missing translations).
-const STORAGE_PREFIX = "aiacad_tr_v4_";
+// v5 - added retry (3x), parallel chunks, in-flight dedup, and periodic
+// re-walk to catch VN nodes updated via characterData (which we don't observe).
+const STORAGE_PREFIX = "aiacad_tr_v5_";
 
 const hash = (s: string): string => {
   let h = 0x811c9dc5;
@@ -72,14 +72,19 @@ const isVietnamese = (s: string) => {
 };
 
 const pending = new Set<string>();
+const inFlight = new Set<string>();
+const failCount = new Map<string, number>();
+const MAX_RETRIES = 3;
 let flushTimer: number | null = null;
 const listeners = new Set<() => void>();
 
 const requestTranslation = (vi: string) => {
   if (cache.has(vi) && isValidEnglish(cache.get(vi)!)) return;
+  if (inFlight.has(vi)) return;                    // already being translated
+  if ((failCount.get(vi) ?? 0) >= MAX_RETRIES) return; // give up after N retries
   pending.add(vi);
   if (flushTimer != null) return;
-  flushTimer = window.setTimeout(flush, 200);
+  flushTimer = window.setTimeout(flush, 80);       // faster first flush
 };
 
 const flush = async () => {
@@ -87,19 +92,60 @@ const flush = async () => {
   if (pending.size === 0) return;
   const batch = Array.from(pending);
   pending.clear();
-  for (let i = 0; i < batch.length; i += 25) {
-    const slice = batch.slice(i, i + 25);
+  batch.forEach((v) => inFlight.add(v));
+
+  // Fire batches in parallel (bounded) so 200 strings don't serialize into 8
+  // sequential edge-fn calls. Each call has its own 30s upstream timeout.
+  const CHUNK = 20;
+  const chunks: string[][] = [];
+  for (let i = 0; i < batch.length; i += CHUNK) chunks.push(batch.slice(i, i + CHUNK));
+
+  const runChunk = async (slice: string[]) => {
     try {
-      const { data, error } = await supabase.functions.invoke("translate-vi-en", { body: { texts: slice } });
-      if (error) { console.error(error); continue; }
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 25000);
+      const { data, error } = await supabase.functions.invoke("translate-vi-en", {
+        body: { texts: slice },
+      });
+      window.clearTimeout(timeoutId);
+      if (error) throw error;
       const arr: string[] = data?.translations ?? [];
       slice.forEach((vi, idx) => {
         const en = arr[idx];
-        if (typeof en === "string" && en.trim() && isValidEnglish(en)) cachePut(vi, en);
+        if (typeof en === "string" && en.trim() && isValidEnglish(en) && en.trim() !== vi.trim()) {
+          cachePut(vi, en);
+          failCount.delete(vi);
+        } else {
+          failCount.set(vi, (failCount.get(vi) ?? 0) + 1);
+        }
       });
-    } catch (e) { console.error("translate batch failed", e); }
+    } catch (e) {
+      console.error("translate batch failed", e);
+      slice.forEach((vi) => failCount.set(vi, (failCount.get(vi) ?? 0) + 1));
+    } finally {
+      slice.forEach((v) => inFlight.delete(v));
+      // Notify listeners after each chunk so translated pieces appear
+      // progressively instead of waiting for the whole batch.
+      listeners.forEach((fn) => fn());
+    }
+  };
+
+  // Up to 4 chunks in parallel
+  const CONCURRENCY = 4;
+  for (let i = 0; i < chunks.length; i += CONCURRENCY) {
+    await Promise.all(chunks.slice(i, i + CONCURRENCY).map(runChunk));
   }
-  listeners.forEach((fn) => fn());
+
+  // Auto-retry: any string that failed on this pass but is still under the
+  // retry cap gets re-queued so we don't leave Vietnamese on screen.
+  const retryable: string[] = [];
+  batch.forEach((v) => {
+    if (!cache.has(v) && (failCount.get(v) ?? 0) < MAX_RETRIES) retryable.push(v);
+  });
+  if (retryable.length > 0) {
+    retryable.forEach((v) => pending.add(v));
+    if (flushTimer == null) flushTimer = window.setTimeout(flush, 800);
+  }
 };
 
 interface Props {
@@ -203,8 +249,27 @@ const AutoTranslateBoundary: React.FC<Props> = ({ children, enabled = true }) =>
     const onFlush = () => walk();
     listeners.add(onFlush);
 
+    // Periodic safety re-walk: some sandboxes update text via
+    // characterData (which we don't observe to avoid loops) or via
+    // portals that mount outside the mutation record. Re-scan every
+    // 2s for the first 20s, then every 10s, to catch stragglers.
+    const slowIntervalRef: { current: number | null } = { current: null };
+    let ticks = 0;
+    const interval = window.setInterval(() => {
+      ticks += 1;
+      try { walk(); } catch { /* detached */ }
+      if (ticks === 10) {
+        clearInterval(interval);
+        slowIntervalRef.current = window.setInterval(() => {
+          try { walk(); } catch { /* detached */ }
+        }, 10000);
+      }
+    }, 2000);
+
     return () => {
       if (scheduled != null) clearTimeout(scheduled);
+      clearInterval(interval);
+      if (slowIntervalRef.current != null) clearInterval(slowIntervalRef.current);
       mo.disconnect();
       listeners.delete(onFlush);
     };
