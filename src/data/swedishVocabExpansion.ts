@@ -114,4 +114,22 @@ export const SWEDISH_WORDS_EXPANSION: SwedishWord[] = [
   w("abx6","trygghet","[ˈtrʏɡːheːt]","n.","sự an toàn","security/safety","Trygghet är viktigt för barn.","An toàn quan trọng với trẻ em.","Security is important for children.","B1","abstract","en"),
   w("abx7","frihet","[ˈfriːheːt]","n.","sự tự do","freedom","Frihet är en mänsklig rättighet.","Tự do là quyền con người.","Freedom is a human right.","B1","abstract","en"),
   w("abx8","kärlek","[ˈɕæːrlɛk]","n.","tình yêu","love","Kärlek övervinner allt.","Tình yêu vượt qua tất cả.","Love conquers all.","B1","abstract","en"),
+  // ───── WEATHER (A1) ─────
+  w("wthx1","väder","[ˈvɛːdɛr]","n.","thời tiết","weather","Hur är vädret idag?","Thời tiết hôm nay thế nào?","How's the weather today?","A1","weather","ett"),
+  w("wthx2","sol","[suːl]","n.","mặt trời","sun","Solen skiner i dag.","Hôm nay có nắng.","The sun is shining today.","A1","weather","en"),
+  w("wthx3","regn","[rɛŋn]","n.","mưa","rain","Det kommer regn i morgon.","Ngày mai có mưa.","Rain is coming tomorrow.","A1","weather","ett"),
+  w("wthx4","snö","[snøː]","n.","tuyết","snow","Det snöar mycket i norr.","Tuyết rơi nhiều ở miền bắc.","It snows a lot in the north.","A1","weather","en"),
+  w("wthx5","vind","[vɪnd]","n.","gió","wind","Det blåser en kall vind.","Có một cơn gió lạnh.","A cold wind is blowing.","A1","weather","en"),
+  w("wthx6","moln","[mʊln]","n.","đám mây","cloud","Himlen är full av moln.","Trời đầy mây.","The sky is full of clouds.","A1","weather","ett"),
+  w("wthx7","varm","[varm]","adj.","ấm/nóng","warm","Sommaren är varm i Sverige.","Mùa hè Thụy Điển ấm.","Summer is warm in Sweden.","A1","weather"),
+  w("wthx8","kall","[kalː]","adj.","lạnh","cold","Vintern är kall och mörk.","Mùa đông lạnh và tối.","Winter is cold and dark.","A1","weather"),
+  // ───── SEASONS (A1) ─────
+  w("seax1","vår","[voːr]","n.","mùa xuân","spring","På våren blommar körsbärsträden.","Mùa xuân hoa anh đào nở.","In spring the cherry trees bloom.","A1","seasons","en"),
+  w("seax2","sommar","[ˈsɔmːar]","n.","mùa hè","summer","Vi åker till landet på sommaren.","Chúng tôi về quê mùa hè.","We go to the countryside in summer.","A1","seasons","en"),
+  w("seax3","höst","[hœst]","n.","mùa thu","autumn","På hösten faller löven.","Mùa thu lá rụng.","In autumn the leaves fall.","A1","seasons","en"),
+  w("seax4","vinter","[ˈvɪntɛr]","n.","mùa đông","winter","Vintern varar länge här.","Mùa đông dài ở đây.","Winter lasts a long time here.","A1","seasons","en"),
+  // ───── WEEKDAYS (A1) ─────
+  w("wdx1","måndag","[ˈmɔnːdɑː]","n.","thứ Hai","Monday","På måndag börjar kursen.","Thứ Hai khoá học bắt đầu.","The course starts on Monday.","A1","weekdays","en"),
+  w("wdx2","fredag","[ˈfreːdɑː]","n.","thứ Sáu","Friday","Vi har fika på fredag.","Thứ Sáu chúng tôi ăn fika.","We have fika on Friday.","A1","weekdays","en"),
+  w("wdx3","helg","[hɛlj]","n.","cuối tuần","weekend","Ha en trevlig helg!","Chúc cuối tuần vui vẻ!","Have a nice weekend!","A1","weekdays","en"),
 ];

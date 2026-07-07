@@ -1,50 +1,40 @@
-# Plan: version sync + AI Academy English rewrite
+# Plan: Expand Swedish lesson content across all sections (≤ 5 credits)
 
-## 1) Force users onto the latest build (cache sync)
+## Constraint
 
-Root cause: browsers keep the old `index.html` / JS chunks in HTTP cache and Service Worker-style state, so returning students see stale UI after we ship.
+Budget capped at ~5 daily credits, so this is a lean, high-impact append pass. No refactors, no new components, no AI generation. All additions are hand-authored appends to existing data files so they surface automatically through the current UI.
 
-Actions:
-- **`index.html` no-cache headers** - add `<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">`, `Pragma: no-cache`, `Expires: 0`. The HTML shell is tiny; hashed JS/CSS chunks stay long-cached (safe because filenames change per build).
-- **Build version stamp** - inject `import.meta.env.VITE_BUILD_ID` (git sha or `Date.now()` at build) into `window.__APP_VERSION__` via a small Vite `define`. Write it into a `<meta name="app-version">` in `index.html`.
-- **Runtime version checker** (`src/lib/versionCheck.ts`) - every 5 min and on `visibilitychange`, fetch `/index.html?ts=<now>` with `cache: 'no-store'`, read the `app-version` meta. If it differs from `window.__APP_VERSION__`, show a small toast "New version available - Reload" with a button that calls `location.reload()`. Auto-reload silently if no unsaved chatbot input.
-- **Chunk-load error self-heal** - global handler for `window.addEventListener('error', ...)` catching `Loading chunk ... failed` / `Failed to fetch dynamically imported module` (common when old tabs load new chunk names). On match, `sessionStorage`-guard against loops and `location.reload()`.
-- **Clear legacy caches once** - on first load with a new version, run `caches.keys().then(k => k.forEach(caches.delete))` to wipe any residual SW caches.
+## Scope: one meaningful addition per major section
 
-Mount the checker inside `src/App.tsx` so it runs on every route.
 
-## 2) AI Academy: all-English + scroll perf fix
+| #   | Section                    | File                                                                    | Addition                                                                                   |
+| --- | -------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| 1   | Beginner (A1) - Vocabulary | `src/data/swedishVocabExpansion.ts`                                     | +15 A1 words: weather, seasons, weekdays (with EN gloss, En/Ett article, example sentence) |
+| 2   | YKI A2 - Reading           | `src/data/swedishReadingPassages.ts`                                    | +1 A2 passage "På vårdcentralen" (doctor visit, ~180 words) with 5 comprehension Qs        |
+| 3   | YKI A2 - Listening         | `src/data/swedishListeningExercises.ts`                                 | +1 A2 dialogue "Bokning av tid" (booking an appointment) with transcript + 4 Qs            |
+| 4   | YKI B1 - Writing           | `src/data/swedishWritingPrompts.ts`                                     | +2 B1 opinion-letter prompts (miljö, kollektivtrafik) with outline + sample band-hint      |
+| 5   | Speaking Lab               | `src/data/swedishSpeakingPrompts.ts` + `swedishSpeakingModelAnswers.ts` | +3 monologue prompts (family, hometown, favourite season) with 60-90s model answers        |
 
-Root cause of Vietnamese leakage: page source in `src/pages/AIAcademy.tsx` (1888 lines) + sandbox components are still written in Vietnamese. The `AutoTranslateBoundary` patches text nodes at runtime via a `MutationObserver` + `TreeWalker` + edge-function calls - this is exactly why scrolling stutters (every scroll-triggered animation/mount fires the observer, walks the tree, and schedules rAF work).
 
-Actions:
-- **Rewrite the copy in English at source** - convert every Vietnamese string in `src/pages/AIAcademy.tsx` and the ~25 sandbox components under `src/components/ai-academy/` to English. Keep JSX/markup untouched; only string literals change. Use the existing English translations already cached in `AutoTranslateBoundary` as the starting draft where possible, then human-polish. (Big diff but mechanical.)
-- **Remove `<AutoTranslateBoundary>` wrapper** from `AIAcademy.tsx` once source is English. Keep the file for now (marked deprecated) to avoid breaking imports elsewhere; delete after verification.
-- **Kill runtime translation cost** - no more MutationObserver, no `translate-vi-en` edge-function batches, no per-node `nodeValue` writes on scroll. This alone should restore 60fps scrolling.
-- **Additional scroll perf wins** in AI Academy:
-  - Replace `FloatingAIIcons` continuous framer-motion loops on scroll-visible area with CSS `@keyframes` + `will-change: transform` (GPU only, no React re-renders).
-  - Add `content-visibility: auto; contain-intrinsic-size: 600px;` to each sandbox card wrapper so off-screen sections skip layout/paint.
-  - Convert the long section list to lazy render: use `IntersectionObserver` (or `react-intersection-observer`) so sandboxes below the fold mount only when near viewport.
-  - Ensure images in the page use `loading="lazy"` and `decoding="async"`.
-  - Debounce/disable heavy framer-motion `whileHover` scale animations behind `prefers-reduced-motion`.
+Sections that already have deep content (Alphabet, Daily Plan, Interactive Curriculum, Svenskfinland, Vocab Mega 1-7) are intentionally NOT touched this pass to stay within budget - they'll be next-batch candidates.
 
-## Files touched
+## Content quality rules (applied to every item)
 
-- `index.html` - cache meta, version meta placeholder
-- `vite.config.ts` - `define: { __APP_VERSION__: JSON.stringify(...) }`
-- `src/App.tsx` - mount `useVersionCheck()`
-- `src/lib/versionCheck.ts` (new) - polling + toast + chunk-error handler
-- `src/pages/AIAcademy.tsx` - English rewrite + remove boundary + perf tweaks (content-visibility, lazy mount)
-- `src/components/ai-academy/*.tsx` - translate source strings to English
-- `src/components/ai-academy/AutoTranslateBoundary.tsx` - keep file, no-op export (deprecated) to avoid churn if imported elsewhere
+- Swedish text is authentic (En/Ett correct, V2 word order, standard rikssvenska spelling).
+- Every new item has an English gloss/translation (no Vietnamese in new Swedish learning content, matching the recent AI Academy EN-only rule for foreign-language labs).
+- Reading + listening passages include 4-5 comprehension questions with answer keys.
+- Writing prompts include a 3-bullet outline + one band-B1 sample opener.
+- Speaking model answers are 60-90 seconds spoken length (~110-160 words).
+- No em-dashes (project rule); use hyphens.
 
-## Out of scope
+## Out of scope this pass
 
-- Changing the app's global `vi/en` toggle behaviour (English stays selectable app-wide as today).
-- Redesigning AI Academy visuals.
+- No new files, no new routes, no UI changes.
+- No AI/edge-function calls (keeps credit use to the file edits themselves).
+- No changes to translation, cache, or streak systems.
 
-## Technical notes
+## Verification
 
-- Cache strategy is HTML-no-cache + hashed-assets-long-cache; this is the standard Vite pattern and needs no server config changes on Lovable hosting.
-- The version toast respects `useLanguage()` for its own label ("Phiên bản mới - Tải lại" / "New version - Reload").
-- Rewriting ~26 files' Vietnamese strings is the bulk of the work; I'll batch parallel edits per file group (page, sandboxes A-M, sandboxes N-Z) to stay within a few credits.
+After edits: read each modified file's tail to confirm arrays parse, then rely on the running dev server (no manual build) - Vite will surface any syntax error immediately in the preview.
+
+chỉ làm trong 3 credits thôi 
