@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // ---------- TTS ----------
 function speakJa(text: string) {
@@ -422,8 +424,10 @@ const Japanese = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50">
+      <Navbar />
       {/* Hero */}
       <div className="relative overflow-hidden bg-gradient-to-r from-rose-500 via-pink-500 to-red-500 text-white">
+
         <div className="max-w-6xl mx-auto px-4 py-12 relative">
           <div className="text-6xl mb-2">🌸</div>
           <h1 className="text-3xl md:text-4xl font-extrabold mb-2">
@@ -612,6 +616,7 @@ const Japanese = () => {
           </TabsContent>
         </Tabs>
       </div>
+      <Footer />
     </div>
   );
 };
