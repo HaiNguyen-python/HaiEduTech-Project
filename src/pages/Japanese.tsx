@@ -616,6 +616,7 @@ const Japanese = () => {
           </TabsContent>
         </Tabs>
       </div>
+      <Footer />
     </div>
   );
 };
