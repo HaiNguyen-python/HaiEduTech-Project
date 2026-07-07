@@ -3681,6 +3681,8 @@ const _rawAllIeltsLectures: IeltsLecture[] = [
   ...speakingExpansion6,
   ...readingExpansion,
   ...listeningExpansion,
+  ...highFreqVocabLectures,
+
 
   ...tipsAndHacks,
   ...tipsExpansion,
