@@ -102,7 +102,7 @@ const FloatingNordicParticles = ({ variant, count = 14, paused = false }: Props)
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       aria-hidden="true"
     >
       {particles.map((p) => (
