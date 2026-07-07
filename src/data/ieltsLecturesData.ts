@@ -3658,6 +3658,7 @@ import { grammarCoreExpansion, vocabCoreExpansion, tipsCoreExpansion } from "./i
 import { padLectureQuizzes } from "./ieltsLectureQuizPadder";
 import { readingExpansion } from "./ieltsLecturesReadingExpansion";
 import { listeningExpansion } from "./ieltsLecturesListeningExpansion";
+import { highFreqVocabLectures } from "./ieltsLecturesHighFreqVocab";
 import { ieltsLecturesExpansion4 } from "./ieltsLecturesExpansion4";
 import { ieltsLecturesExpansion5 } from "./ieltsLecturesExpansion5";
 
