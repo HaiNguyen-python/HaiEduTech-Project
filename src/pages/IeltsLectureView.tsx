@@ -24,6 +24,7 @@ import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansion
 import RichTheoryText from "@/components/ielts/RichTheoryText";
 import { lectureExpansions } from "@/data/ieltsLectureExpansion";
 import SEO from "@/components/SEO";
+import FloatingIeltsParticles from "@/components/FloatingIeltsParticles";
 import { getSpeakingHeroImage } from "@/data/ieltsSpeakingHeroImages";
 
 // Split long example strings into multiple lines when they contain several
@@ -180,8 +181,11 @@ const IeltsLectureView = () => {
     URL.revokeObjectURL(url);
   };
 
+  const particleVariant = (["writing", "speaking", "reading", "listening"] as const).find(v => lecture.pillar?.toLowerCase().includes(v)) ?? "all";
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <FloatingIeltsParticles variant={particleVariant} count={12} />
       <SEO
         title={`${lecture.title} - IELTS Lecture`}
         description={(lecture.description || lecture.title).slice(0, 158)}
