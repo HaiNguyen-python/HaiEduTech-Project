@@ -1101,6 +1101,20 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                   </motion.div>
                 )}
 
+                {/* Nordic-language recognition tip (fi/sv need Chrome desktop + internet) */}
+                {speechSupported && (language === "finnish" || language === "swedish") && (
+                  <div className="flex items-start gap-2 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-xl text-xs text-blue-700 dark:text-blue-300">
+                    <Info className="w-4 h-4 shrink-0 mt-0.5" />
+                    <span>
+                      {t(
+                        `Mẹo: Nhận dạng ${language === "finnish" ? "tiếng Phần Lan (fi-FI)" : "tiếng Thụy Điển (sv-SE)"} hoạt động tốt nhất trên Chrome/Edge (máy tính) khi có internet. Nói rõ, gần mic, tránh tiếng ồn. Hệ thống đã tự bỏ qua khác biệt dấu (ä/ö/å) để chấm công bằng hơn.`,
+                        `Tip: ${language === "finnish" ? "Finnish (fi-FI)" : "Swedish (sv-SE)"} recognition works best on desktop Chrome/Edge with internet. Speak clearly and close to the mic. Diacritic differences (ä/ö/å) are auto-tolerated when scoring.`
+                      )}
+                    </span>
+                  </div>
+                )}
+
+
                 {/* Browser not supported warning */}
                 {!speechSupported && (
                   <div className="flex items-center gap-2 p-3 bg-amber-50 dark:bg-amber-950/20 rounded-xl text-sm text-amber-700 dark:text-amber-400">
