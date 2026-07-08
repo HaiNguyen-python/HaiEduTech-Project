@@ -178,11 +178,24 @@ const levenshtein = (a: string, b: string): number => {
   return dp[a.length][b.length];
 };
 
+// Fold Nordic / Latin diacritics so ASR (which occasionally drops umlauts on
+// fi-FI / sv-SE, especially on mobile Chrome) still matches the expected word.
+// Example: ASR "hyva" ↔ target "hyvä", or "hor" ↔ "hör".
+const foldDiacritics = (s: string): string =>
+  s.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/ø/g, "o").replace(/æ/g, "a").replace(/ß/g, "ss");
+
 const matchStatus = (spokenWord: string, expected: string): WordResult["status"] | null => {
   if (spokenWord === expected || isNumberEquivalent(spokenWord, expected)) return "correct";
-  // Substring/prefix tolerance - handles plural, tense, particles, etc.
+  // Diacritic-insensitive exact match (Finnish ä/ö, Swedish å/ä/ö, etc.)
+  const sf = foldDiacritics(spokenWord);
+  const ef = foldDiacritics(expected);
+  if (sf === ef) return "correct";
+  // Substring/prefix tolerance - handles plural, tense, particles, agglutination.
   if (expected.length >= 4 && (spokenWord.startsWith(expected.slice(0, Math.max(3, expected.length - 2))) || expected.startsWith(spokenWord.slice(0, Math.max(3, spokenWord.length - 2))))) return "close";
-  const dist = levenshtein(spokenWord, expected);
+  if (ef.length >= 4 && (sf.startsWith(ef.slice(0, Math.max(3, ef.length - 2))) || ef.startsWith(sf.slice(0, Math.max(3, sf.length - 2))))) return "close";
+  // Compare on folded forms so ä/ö differences don't inflate distance.
+  const dist = Math.min(levenshtein(spokenWord, expected), levenshtein(sf, ef));
   // More forgiving thresholds so learners aren't punished for minor mispronunciations
   const threshold = expected.length <= 3 ? 1 : expected.length <= 5 ? 2 : expected.length <= 8 ? 3 : 4;
   return dist <= threshold ? "close" : null;
@@ -1087,6 +1100,20 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                     {micError}
                   </motion.div>
                 )}
+
+                {/* Nordic-language recognition tip (fi/sv need Chrome desktop + internet) */}
+                {speechSupported && (language === "finnish" || language === "swedish") && (
+                  <div className="flex items-start gap-2 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-xl text-xs text-blue-700 dark:text-blue-300">
+                    <Info className="w-4 h-4 shrink-0 mt-0.5" />
+                    <span>
+                      {t(
+                        `Mẹo: Nhận dạng ${language === "finnish" ? "tiếng Phần Lan (fi-FI)" : "tiếng Thụy Điển (sv-SE)"} hoạt động tốt nhất trên Chrome/Edge (máy tính) khi có internet. Nói rõ, gần mic, tránh tiếng ồn. Hệ thống đã tự bỏ qua khác biệt dấu (ä/ö/å) để chấm công bằng hơn.`,
+                        `Tip: ${language === "finnish" ? "Finnish (fi-FI)" : "Swedish (sv-SE)"} recognition works best on desktop Chrome/Edge with internet. Speak clearly and close to the mic. Diacritic differences (ä/ö/å) are auto-tolerated when scoring.`
+                      )}
+                    </span>
+                  </div>
+                )}
+
 
                 {/* Browser not supported warning */}
                 {!speechSupported && (

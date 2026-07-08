@@ -399,6 +399,7 @@ const b1Extra: SpeakingTheme[] = [
 
 import { swedishB2Extra } from "./speakingCoachSwedishExpansion2";
 import { swedishA1A2Extra } from "./speakingCoachSwedishExpansion3";
+import { swedishExtra4 } from "./speakingCoachSwedishExpansion4";
 
 export const swedishThemes: SpeakingTheme[] = [
   ...a1, ...a1Extra,
@@ -406,4 +407,5 @@ export const swedishThemes: SpeakingTheme[] = [
   ...b1, ...b1Extra,
   ...swedishA1A2Extra,
   ...swedishB2Extra,
+  ...swedishExtra4,
 ];
