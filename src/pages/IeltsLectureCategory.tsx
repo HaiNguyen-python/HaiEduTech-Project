@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useIeltsLectureProgress } from "@/hooks/useIeltsLectureProgress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingIeltsParticles from "@/components/FloatingIeltsParticles";
 import SEO from "@/components/SEO";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -159,8 +160,11 @@ const IeltsLectureCategory = () => {
   const totalLectures = allInCategory.length;
   const progressPercent = totalLectures > 0 ? Math.round((totalCompleted / totalLectures) * 100) : 0;
 
+  const catVariant = (["writing", "speaking", "reading", "listening"] as const).find(v => catKey?.toLowerCase().includes(v)) ?? "all";
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <FloatingIeltsParticles variant={catVariant} count={12} />
       <SEO
         title={`${meta.titleEn} | HaiEduTech`}
         description={meta.descEn}
