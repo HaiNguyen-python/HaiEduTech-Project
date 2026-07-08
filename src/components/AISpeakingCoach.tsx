@@ -315,6 +315,16 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     setResults(null);
     setAccuracy(null);
 
+    // Ensure any prior recognition instance is fully aborted before starting a
+    // new one. Failing to do so is the #1 cause of the "aborted" / "already
+    // started" errors students report on mobile Safari / Chrome.
+    if (recognitionRef.current) {
+      try { recognitionRef.current.onend = null; } catch { /* noop */ }
+      try { recognitionRef.current.onerror = null; } catch { /* noop */ }
+      try { recognitionRef.current.abort(); } catch { /* noop */ }
+      recognitionRef.current = null;
+    }
+
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
 
@@ -325,6 +335,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
 
     accumulatedTranscriptRef.current = "";
     manualStopRef.current = false;
+    let hadError = false;
+    let restartAttempts = 0;
 
     recognition.onstart = () => {
       setIsRecording(true);
@@ -346,40 +358,77 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       // Persist whichever transcript is most complete so we can grade
       // even if the user stops before a "final" result is emitted.
       const bestTranscript = finalTranscript || interimTranscript;
-      if (bestTranscript) accumulatedTranscriptRef.current = bestTranscript;
+      if (bestTranscript) {
+        accumulatedTranscriptRef.current = bestTranscript;
+        // Any incoming speech clears a transient "no speech" warning.
+        setMicError(null);
+      }
       setTranscript(bestTranscript);
     };
 
     recognition.onend = () => {
       setIsListening(false);
-      // Only grade if user manually stopped
-      if (manualStopRef.current) {
-        // Use accumulated transcript if current transcript is interim
+      // Only grade if user manually stopped OR a hard error occurred
+      if (manualStopRef.current || hadError) {
         if (accumulatedTranscriptRef.current) {
           setTranscript(accumulatedTranscriptRef.current);
         }
         setIsRecording(false);
-      } else {
-        // Auto-ended (e.g. silence) - restart if still recording
-        // This keeps listening until user clicks Stop
-        try { recognition.start(); } catch {}
+        return;
       }
+      // Auto-ended (silence). Retry silently up to 3 times, then give up
+      // gracefully instead of throwing "aborted" at the student.
+      if (restartAttempts >= 3) {
+        setIsRecording(false);
+        return;
+      }
+      restartAttempts += 1;
+      try { recognition.start(); } catch { setIsRecording(false); }
     };
 
     recognition.onerror = (event: any) => {
+      const err = event?.error;
+      // "aborted" is almost always benign: it fires when we call .abort()
+      // (navigation, re-init, unmount) or when the browser preempts the
+      // session. Suppress it silently — surfacing it as a red error confuses
+      // students who see it after tapping Stop or switching sentence.
+      if (err === "aborted") {
+        setIsListening(false);
+        return;
+      }
+      // "no-speech" is soft: if we already captured something, keep it;
+      // otherwise show a friendly hint. Do NOT terminate the recording — let
+      // onend decide whether to retry.
+      if (err === "no-speech") {
+        if (!accumulatedTranscriptRef.current) {
+          setMicError(t("Chưa nghe được. Em nói to hơn hoặc lại gần mic nhé.", "Didn't catch that. Speak a bit louder or move closer to the mic."));
+        }
+        return;
+      }
+      hadError = true;
       setIsRecording(false);
       setIsListening(false);
-      if (event.error === "not-allowed") {
+      if (err === "not-allowed" || err === "service-not-allowed") {
         setMicError(t("Vui lòng cho phép truy cập microphone trong cài đặt trình duyệt.", "Please allow microphone access in your browser settings."));
-      } else if (event.error === "no-speech") {
-        setMicError(t("Không nghe thấy giọng nói. Hãy nói rõ hơn.", "No speech detected. Please speak more clearly."));
+      } else if (err === "audio-capture") {
+        setMicError(t("Không tìm thấy microphone. Kiểm tra thiết bị và thử lại.", "No microphone found. Please check your device and try again."));
+      } else if (err === "network") {
+        setMicError(t("Mất kết nối tới dịch vụ nhận dạng. Kiểm tra internet rồi thử lại.", "Lost connection to the recognition service. Check your internet and try again."));
       } else {
-        setMicError(t(`Lỗi nhận dạng giọng nói: ${event.error}`, `Speech recognition error: ${event.error}`));
+        setMicError(t("Không thể nhận dạng lúc này. Em thử lại nhé.", "Speech recognition is unavailable right now. Please try again."));
       }
     };
 
     recognitionRef.current = recognition;
-    recognition.start();
+    try {
+      recognition.start();
+    } catch {
+      // Some browsers throw if start() is called too quickly after abort().
+      // Retry once on the next tick.
+      setTimeout(() => {
+        try { recognition.start(); } catch { setIsRecording(false); }
+      }, 120);
+    }
   }, [speechSupported, currentSentence, config.speechLang, t]);
 
   // Stop recording and process results.
