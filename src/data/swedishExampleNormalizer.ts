@@ -180,11 +180,11 @@ const VERB_TEMPLATES: Tmpl[] = [
 ];
 
 const ADJ_TEMPLATES: Tmpl[] = [
-  { sv: "Huset är {W}.", vi: "Ngôi nhà thì {VI}.", en: "The house is {EN}." },
   { sv: "Boken är mycket {W}.", vi: "Quyển sách rất {VI}.", en: "The book is very {EN}." },
-  { sv: "Maten är {W} idag.", vi: "Hôm nay đồ ăn thì {VI}.", en: "The food is {EN} today." },
   { sv: "Min vän är {W}.", vi: "Bạn của tôi thì {VI}.", en: "My friend is {EN}." },
-  { sv: "Vädret är {W} på morgonen.", vi: "Buổi sáng thời tiết thì {VI}.", en: "The weather is {EN} in the morning." },
+  { sv: "Bilen är {W} idag.", vi: "Chiếc xe hôm nay thì {VI}.", en: "The car is {EN} today." },
+  { sv: "Filmen är verkligen {W}.", vi: "Bộ phim thực sự {VI}.", en: "The movie is really {EN}." },
+  { sv: "Läraren är alltid {W}.", vi: "Giáo viên luôn {VI}.", en: "The teacher is always {EN}." },
 ];
 
 const ADV_TEMPLATES: Tmpl[] = [
