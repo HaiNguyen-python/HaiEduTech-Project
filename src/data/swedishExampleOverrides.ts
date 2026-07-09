@@ -223,7 +223,40 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   huvud:         { sv: "Jag har huvudvärk och behöver vila.",               vi: "Tôi bị đau đầu và cần nghỉ.",                          en: "I have a headache and need to rest." },
   mage:          { sv: "Barnet har ont i magen.",                           vi: "Đứa bé đau bụng.",                                     en: "The child has a stomach ache." },
   tand:          { sv: "Han borstar tänderna två gånger om dagen.",         vi: "Anh ấy đánh răng hai lần một ngày.",                    en: "He brushes his teeth twice a day." },
+
+  // ─────────────── SEASONS ───────────────
+  vår:           { sv: "På våren blommar körsbärsträden.",                  vi: "Vào mùa xuân cây anh đào nở hoa.",                       en: "In spring the cherry trees bloom." },
+  sommar:        { sv: "På sommaren badar vi i havet varje dag.",           vi: "Mùa hè chúng tôi tắm biển mỗi ngày.",                    en: "In summer we swim in the sea every day." },
+  höst:          { sv: "På hösten faller löven från träden.",               vi: "Vào mùa thu lá rụng khỏi cây.",                          en: "In autumn the leaves fall from the trees." },
+  vinter:        { sv: "Vintern i Sverige är lång och mörk.",               vi: "Mùa đông ở Thụy Điển dài và tối.",                      en: "Winter in Sweden is long and dark." },
+
+  // ─────────────── TRANSPORT & DIRECTIONS ───────────────
+  bil:           { sv: "Min bil står på parkeringen bakom huset.",          vi: "Xe của tôi đậu ở bãi đỗ sau nhà.",                       en: "My car is in the parking lot behind the house." },
+  flygplan:      { sv: "Flygplanet landar om tjugo minuter.",               vi: "Máy bay hạ cánh trong hai mươi phút nữa.",               en: "The plane lands in twenty minutes." },
+  gata:          { sv: "Vår gata är väldigt lugn på kvällen.",              vi: "Đường phố chúng tôi rất yên tĩnh vào buổi tối.",         en: "Our street is very quiet in the evening." },
+  väg:           { sv: "Vägen till stugan är smal och krokig.",             vi: "Đường đến căn nhà gỗ hẹp và quanh co.",                  en: "The road to the cottage is narrow and winding." },
+  station:       { sv: "Vi möts vid stationen klockan sex.",                vi: "Chúng ta gặp nhau ở nhà ga lúc sáu giờ.",                en: "We'll meet at the station at six." },
+  hållplats:     { sv: "Bussen stannar vid nästa hållplats.",               vi: "Xe buýt sẽ dừng ở trạm kế tiếp.",                        en: "The bus stops at the next stop." },
+
+  // ─────────────── HOME ───────────────
+  hus:           { sv: "Vi bor i ett rött hus på landet.",                  vi: "Chúng tôi sống trong một căn nhà đỏ ở nông thôn.",       en: "We live in a red house in the countryside." },
+  lägenhet:      { sv: "Min lägenhet ligger på tredje våningen.",           vi: "Căn hộ của tôi ở tầng ba.",                             en: "My apartment is on the third floor." },
+  rum:           { sv: "Mitt rum är litet men mysigt.",                     vi: "Phòng của tôi nhỏ nhưng ấm cúng.",                       en: "My room is small but cozy." },
+  kök:           { sv: "Vi lagar mat i köket varje kväll.",                 vi: "Chúng tôi nấu ăn trong bếp mỗi tối.",                    en: "We cook in the kitchen every evening." },
+  badrum:        { sv: "Badrummet är precis bredvid sovrummet.",            vi: "Phòng tắm nằm ngay cạnh phòng ngủ.",                     en: "The bathroom is right next to the bedroom." },
+  sovrum:        { sv: "Sovrummet har ett stort fönster.",                  vi: "Phòng ngủ có một cửa sổ lớn.",                          en: "The bedroom has a large window." },
+  trädgård:      { sv: "På sommaren äter vi middag i trädgården.",          vi: "Mùa hè chúng tôi ăn tối ở trong vườn.",                  en: "In summer we have dinner in the garden." },
+  lampa:         { sv: "Kan du tända lampan, det är mörkt.",                vi: "Bạn bật đèn lên đi, trong phòng tối rồi.",               en: "Can you turn on the lamp, it's dark." },
+
+  // ─────────────── WORK ───────────────
+  chef:          { sv: "Min chef är väldigt hjälpsam.",                     vi: "Sếp của tôi rất nhiệt tình giúp đỡ.",                    en: "My boss is very helpful." },
+  möte:          { sv: "Vi har ett möte klockan tio i morgon.",             vi: "Chúng tôi có một cuộc họp lúc mười giờ ngày mai.",       en: "We have a meeting at ten tomorrow." },
+  projekt:       { sv: "Projektet ska vara klart innan jul.",               vi: "Dự án phải hoàn tất trước Giáng sinh.",                  en: "The project must be finished before Christmas." },
+  elev:          { sv: "Eleven ställer många frågor på lektionen.",         vi: "Học sinh đặt nhiều câu hỏi trong tiết học.",             en: "The student asks many questions in class." },
+  skola:         { sv: "Skolan börjar klockan åtta på morgonen.",           vi: "Trường bắt đầu lúc tám giờ sáng.",                       en: "School starts at eight in the morning." },
+
 };
+
 
 /** Lookup helper used by the example normalizer. */
 export function getSwedishExampleOverride(sv: string): SwedishExampleOverride | undefined {
