@@ -40,6 +40,7 @@ import { toast } from "@/hooks/use-toast";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import { ensureSwedishIpa } from "@/lib/swedishIpa";
 import SwedishVocabReviewModes from "@/components/swedish/SwedishVocabReviewModes";
 
 import {
