@@ -86,7 +86,7 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
         <p className="mt-3 text-[11px] text-muted-foreground">{t("Bấm để nghe lại", "Tap to replay")}</p>
         {reveal && (
           <p className="mt-3 text-2xl font-bold text-foreground">
-            {q.sv} <span className="text-base text-muted-foreground font-mono">{q.ipa ?? ""}</span>
+            {q.sv} <span className="text-base text-muted-foreground font-mono">{ensureSwedishIpa(q.sv, q.ipa)}</span>
           </p>
         )}
       </div>
