@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import { ensureSwedishIpa } from "@/lib/swedishIpa";
 import type { SwedishWord } from "@/data/swedishVocabBank";
 
 /* -------------------------------- helpers --------------------------------- */
@@ -86,7 +87,7 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
         <p className="mt-3 text-[11px] text-muted-foreground">{t("Bấm để nghe lại", "Tap to replay")}</p>
         {reveal && (
           <p className="mt-3 text-2xl font-bold text-foreground">
-            {q.sv} <span className="text-base text-muted-foreground font-mono">{q.ipa ?? ""}</span>
+            {q.sv} <span className="text-base text-muted-foreground font-mono">{ensureSwedishIpa(q.sv, q.ipa)}</span>
           </p>
         )}
       </div>
@@ -163,7 +164,7 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
               <Volume2 className="h-4 w-4 text-primary" />
             </button>
             <span className="text-xl font-bold text-foreground">{q.sv}</span>
-            {q.ipa && <span className="font-mono text-xs text-muted-foreground">{q.ipa}</span>}
+            <span className="font-mono text-xs text-muted-foreground">{ensureSwedishIpa(q.sv, q.ipa)}</span>
           </div>
         )}
       </div>

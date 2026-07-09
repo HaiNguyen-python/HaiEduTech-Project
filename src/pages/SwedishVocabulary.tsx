@@ -40,6 +40,7 @@ import { toast } from "@/hooks/use-toast";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import { ensureSwedishIpa } from "@/lib/swedishIpa";
 import SwedishVocabReviewModes from "@/components/swedish/SwedishVocabReviewModes";
 
 import {
@@ -247,9 +248,7 @@ const Flashcard = ({
             <p className="text-xl md:text-2xl font-bold text-foreground leading-tight">{word.sv}</p>
             <Badge className={levelColors[word.level]} variant="outline">{word.level}</Badge>
           </div>
-          {word.ipa && (
-            <p className="font-mono text-xs text-muted-foreground mt-0.5">{word.ipa}</p>
-          )}
+          <p className="font-mono text-xs text-muted-foreground mt-0.5">{ensureSwedishIpa(word.sv, word.ipa)}</p>
           <p className="text-[11px] italic text-muted-foreground">{word.pos}</p>
         </div>
         <div className="flex items-center gap-1 shrink-0">
