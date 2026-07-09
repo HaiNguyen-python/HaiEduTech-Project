@@ -148,6 +148,81 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   biblioteket:   { sv: "Jag lånar böcker på biblioteket.",                  vi: "Tôi mượn sách ở thư viện.",                            en: "I borrow books at the library." },
   brev:          { sv: "Jag skriver ett brev till min mormor.",             vi: "Tôi viết một lá thư cho bà ngoại.",                    en: "I write a letter to my grandma." },
   // 'fråga' as a noun is handled together with the verb override above.
+
+  // ─────────────── PLURAL-ONLY CLOTHING (no "en/ett" article) ───────────────
+  byxor:         { sv: "Jag köper nya byxor i affären.",                    vi: "Tôi mua quần mới ở cửa hàng.",                         en: "I am buying new trousers at the shop." },
+  jeans:         { sv: "Hon har blå jeans på sig idag.",                    vi: "Hôm nay cô ấy mặc quần jean xanh.",                    en: "She is wearing blue jeans today." },
+  glasögon:      { sv: "Jag behöver mina glasögon för att läsa.",           vi: "Tôi cần kính để đọc.",                                 en: "I need my glasses to read." },
+  handskar:      { sv: "På vintern har jag varma handskar på mig.",         vi: "Mùa đông tôi đeo găng tay ấm.",                        en: "In winter I wear warm gloves." },
+  strumpor:      { sv: "Han tar på sig rena strumpor på morgonen.",         vi: "Anh ấy đi tất sạch vào buổi sáng.",                    en: "He puts on clean socks in the morning." },
+  skor:          { sv: "Mina nya skor är bekväma.",                         vi: "Đôi giày mới của tôi rất thoải mái.",                  en: "My new shoes are comfortable." },
+  kläder:        { sv: "Vi köper kläder till barnen på lördag.",            vi: "Chúng tôi mua quần áo cho bọn trẻ vào thứ bảy.",       en: "We are buying clothes for the children on Saturday." },
+  shorts:        { sv: "På sommaren har jag shorts och t-shirt.",           vi: "Mùa hè tôi mặc quần short và áo phông.",               en: "In summer I wear shorts and a T-shirt." },
+
+  // ─────────────── COMMON A1 ADJECTIVES ───────────────
+  gammal:        { sv: "Min farfar är väldigt gammal men pigg.",            vi: "Ông nội tôi rất già nhưng khoẻ.",                      en: "My grandpa is very old but healthy." },
+  ung:           { sv: "Hon är fortfarande ung och nyfiken.",               vi: "Cô ấy vẫn còn trẻ và tò mò.",                          en: "She is still young and curious." },
+  ny:            { sv: "Jag har köpt en ny telefon.",                       vi: "Tôi vừa mua một chiếc điện thoại mới.",                en: "I have bought a new phone." },
+  stor:          { sv: "De bor i ett stort hus utanför stan.",              vi: "Họ sống trong một ngôi nhà lớn ngoài thành phố.",       en: "They live in a big house outside the city." },
+  liten:         { sv: "Jag har en liten katt hemma.",                      vi: "Tôi có một con mèo nhỏ ở nhà.",                        en: "I have a small cat at home." },
+  vacker:        { sv: "Stockholm är en vacker stad om sommaren.",          vi: "Stockholm là một thành phố đẹp vào mùa hè.",            en: "Stockholm is a beautiful city in summer." },
+  ful:           { sv: "Vädret är riktigt fult idag.",                      vi: "Hôm nay thời tiết thật xấu.",                          en: "The weather is really ugly today." },
+  rolig:         { sv: "Filmen vi såg i går var väldigt rolig.",            vi: "Bộ phim chúng tôi xem hôm qua rất vui.",                en: "The movie we watched yesterday was very funny." },
+  tråkig:        { sv: "Boken är lite tråkig efter första kapitlet.",       vi: "Quyển sách hơi chán sau chương đầu.",                   en: "The book is a bit boring after the first chapter." },
+  snäll:         { sv: "Vår granne är alltid snäll mot barnen.",            vi: "Hàng xóm luôn tử tế với bọn trẻ.",                     en: "Our neighbour is always kind to the children." },
+  billig:        { sv: "Kaffet på det här kaféet är väldigt billigt.",      vi: "Cà phê ở quán này rất rẻ.",                            en: "The coffee at this café is very cheap." },
+  dyr:           { sv: "Biobiljetter är ganska dyra i Stockholm.",          vi: "Vé xem phim khá đắt ở Stockholm.",                     en: "Cinema tickets are quite expensive in Stockholm." },
+  glad:          { sv: "Jag är glad över att träffa dig igen.",             vi: "Tôi vui vì được gặp lại bạn.",                          en: "I am happy to see you again." },
+  ledsen:        { sv: "Hon är ledsen för att hunden är sjuk.",             vi: "Cô ấy buồn vì con chó bị ốm.",                          en: "She is sad because the dog is ill." },
+  trött:         { sv: "Jag är trött efter en lång arbetsdag.",             vi: "Tôi mệt sau một ngày làm việc dài.",                    en: "I am tired after a long workday." },
+  sjuk:          { sv: "Mitt barn är sjukt och stannar hemma idag.",        vi: "Con tôi bị ốm và ở nhà hôm nay.",                       en: "My child is sick and stays home today." },
+  frisk:         { sv: "Efter en veckas vila är han frisk igen.",           vi: "Sau một tuần nghỉ ngơi anh ấy đã khỏe lại.",            en: "After a week of rest he is healthy again." },
+  varm:          { sv: "Kaffet är fortfarande varmt.",                      vi: "Cà phê vẫn còn ấm.",                                    en: "The coffee is still warm." },
+  kall:          { sv: "Vintern i Sverige är väldigt kall.",                vi: "Mùa đông ở Thụy Điển rất lạnh.",                        en: "The winter in Sweden is very cold." },
+  bra:           { sv: "Middagen smakade riktigt bra.",                     vi: "Bữa tối thật sự rất ngon.",                             en: "The dinner tasted really good." },
+  dålig:         { sv: "Jag mår lite dåligt idag.",                         vi: "Hôm nay tôi thấy hơi mệt.",                             en: "I feel a bit unwell today." },
+  intressant:    { sv: "Föreläsningen var mycket intressant.",              vi: "Bài giảng rất thú vị.",                                 en: "The lecture was very interesting." },
+  viktig:        { sv: "Sömn är viktigt för hälsan.",                       vi: "Giấc ngủ rất quan trọng cho sức khỏe.",                 en: "Sleep is important for health." },
+  svår:          { sv: "Svensk uttal är svårt i början.",                   vi: "Phát âm tiếng Thụy Điển khó lúc đầu.",                  en: "Swedish pronunciation is difficult at first." },
+  lätt:          { sv: "Läxan idag är ganska lätt.",                        vi: "Bài tập hôm nay khá dễ.",                               en: "Today's homework is quite easy." },
+  snabb:         { sv: "Tåget till Malmö är snabbt.",                       vi: "Tàu đi Malmö rất nhanh.",                               en: "The train to Malmö is fast." },
+  långsam:       { sv: "Bussen är långsam i rusningstrafiken.",             vi: "Xe buýt chậm vào giờ cao điểm.",                        en: "The bus is slow during rush hour." },
+
+  // ─────────────── COMMON A1 MODAL / ABSTRACT VERBS ───────────────
+  historia:      { sv: "Jag läser om Sveriges historia på biblioteket.",    vi: "Tôi đọc về lịch sử Thụy Điển ở thư viện.",              en: "I read about Sweden's history at the library." },
+
+  // ─────────────── WEATHER ───────────────
+  regn:          { sv: "Ta med paraply, det kommer regn idag.",             vi: "Nhớ mang ô, hôm nay sẽ có mưa.",                        en: "Bring an umbrella, there will be rain today." },
+  snö:           { sv: "Barnen leker i snön hela dagen.",                   vi: "Bọn trẻ chơi trong tuyết cả ngày.",                     en: "The children play in the snow all day." },
+  sol:           { sv: "Solen skiner starkt på himlen.",                    vi: "Mặt trời chiếu sáng rực trên bầu trời.",                en: "The sun shines brightly in the sky." },
+  moln:          { sv: "Det finns många moln på himlen idag.",              vi: "Hôm nay trên trời có nhiều mây.",                       en: "There are many clouds in the sky today." },
+  vind:          { sv: "En kall vind blåser från norr.",                    vi: "Một cơn gió lạnh thổi từ phía bắc.",                    en: "A cold wind is blowing from the north." },
+  åska:          { sv: "På sommaren har vi ofta åska på kvällen.",          vi: "Mùa hè chúng tôi thường có sấm sét vào buổi tối.",      en: "In summer we often have thunder in the evening." },
+
+  // ─────────────── FOOD ───────────────
+  bröd:          { sv: "Jag köper färskt bröd på morgonen.",                vi: "Tôi mua bánh mì tươi vào buổi sáng.",                   en: "I buy fresh bread in the morning." },
+  smör:          { sv: "Kan du räcka mig smöret, tack?",                    vi: "Bạn đưa giúp tôi lọ bơ được không?",                    en: "Can you pass me the butter, please?" },
+  ost:           { sv: "Vi äter ost och bröd till frukost.",                vi: "Chúng tôi ăn phô mai với bánh mì vào bữa sáng.",         en: "We eat cheese and bread for breakfast." },
+  mjölk:         { sv: "Jag dricker ett glas mjölk varje kväll.",           vi: "Tôi uống một ly sữa mỗi tối.",                          en: "I drink a glass of milk every evening." },
+  kaffe:         { sv: "En kopp kaffe på morgonen väcker mig.",             vi: "Một ly cà phê buổi sáng giúp tôi tỉnh táo.",            en: "A cup of coffee in the morning wakes me up." },
+  te:            { sv: "Jag föredrar te framför kaffe.",                    vi: "Tôi thích trà hơn cà phê.",                             en: "I prefer tea to coffee." },
+  vatten:        { sv: "Drick mycket vatten när det är varmt.",             vi: "Uống nhiều nước khi trời nóng.",                        en: "Drink plenty of water when it's hot." },
+  äpple:         { sv: "Jag äter ett äpple varje dag efter lunchen.",       vi: "Tôi ăn một quả táo mỗi ngày sau bữa trưa.",             en: "I eat an apple every day after lunch." },
+  banan:         { sv: "En banan är en bra mellanmål före träning.",        vi: "Chuối là món ăn nhẹ tốt trước khi tập.",                en: "A banana is a good snack before exercise." },
+  kött:          { sv: "Vi äter inte så mycket kött i familjen.",           vi: "Gia đình tôi không ăn nhiều thịt.",                     en: "We don't eat much meat in our family." },
+  fisk:          { sv: "På fredagar äter vi ofta fisk.",                    vi: "Thứ Sáu chúng tôi thường ăn cá.",                       en: "On Fridays we often eat fish." },
+  soppa:         { sv: "Han lagar en varm soppa till lunch.",               vi: "Anh ấy nấu một tô súp ấm cho bữa trưa.",                en: "He is cooking a warm soup for lunch." },
+  ris:           { sv: "Vi äter ris med kyckling och grönsaker.",           vi: "Chúng tôi ăn cơm với gà và rau.",                       en: "We eat rice with chicken and vegetables." },
+  potatis:       { sv: "Potatis är en vanlig svensk maträtt.",              vi: "Khoai tây là món phổ biến ở Thụy Điển.",                en: "Potatoes are a common Swedish dish." },
+
+  // ─────────────── BODY (plurals + specific contexts) ───────────────
+  hår:           { sv: "Hon har långt, mörkt hår.",                         vi: "Cô ấy có mái tóc đen dài.",                             en: "She has long, dark hair." },
+  öga:           { sv: "Barnet har stora blå ögon.",                        vi: "Đứa bé có đôi mắt xanh to.",                            en: "The child has big blue eyes." },
+  hand:          { sv: "Tvätta händerna innan du äter.",                    vi: "Rửa tay trước khi ăn.",                                 en: "Wash your hands before eating." },
+  fot:           { sv: "Mina fötter gör ont efter promenaden.",             vi: "Chân tôi đau sau khi đi bộ.",                          en: "My feet hurt after the walk." },
+  huvud:         { sv: "Jag har huvudvärk och behöver vila.",               vi: "Tôi bị đau đầu và cần nghỉ.",                          en: "I have a headache and need to rest." },
+  mage:          { sv: "Barnet har ont i magen.",                           vi: "Đứa bé đau bụng.",                                     en: "The child has a stomach ache." },
+  tand:          { sv: "Han borstar tänderna två gånger om dagen.",         vi: "Anh ấy đánh răng hai lần một ngày.",                    en: "He brushes his teeth twice a day." },
 };
 
 /** Lookup helper used by the example normalizer. */
