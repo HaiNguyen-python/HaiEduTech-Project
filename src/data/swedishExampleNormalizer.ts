@@ -141,9 +141,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Hennes {W} heter Anna.", vi: "{VI_C} của cô ấy tên là Anna.", en: "Her {EN} is named Anna." },
   ],
   numbers: [
-    { sv: "Jag har {W} möten idag.", vi: "Hôm nay tôi có {VI} cuộc họp.", en: "I have {EN} meetings today." },
-    { sv: "Vi ses snart igen.", vi: "Hẹn gặp lại sớm.", en: "See you again soon." },
-    { sv: "Ordet '{W}' används ofta i vardagen.", vi: "Từ '{VI}' được dùng thường xuyên trong cuộc sống.", en: "The word '{EN}' is often used in daily life." },
+    { sv: "Klockan är {W} nu.", vi: "Bây giờ là {VI} giờ.", en: "It is {EN} o'clock now." },
+    { sv: "Vi träffas klockan {W}.", vi: "Chúng ta gặp nhau lúc {VI} giờ.", en: "We meet at {EN} o'clock." },
+    { sv: "Han kommer om {W} minuter.", vi: "Anh ấy đến sau {VI} phút.", en: "He arrives in {EN} minutes." },
   ],
   abstract: [
     { sv: "{W_C} är viktig{ETT} i livet.", vi: "{VI_C} rất quan trọng trong cuộc sống.", en: "{EN_C} is important in life." },
@@ -180,11 +180,11 @@ const VERB_TEMPLATES: Tmpl[] = [
 ];
 
 const ADJ_TEMPLATES: Tmpl[] = [
-  { sv: "Huset är {W}.", vi: "Ngôi nhà thì {VI}.", en: "The house is {EN}." },
   { sv: "Boken är mycket {W}.", vi: "Quyển sách rất {VI}.", en: "The book is very {EN}." },
-  { sv: "Maten är {W} idag.", vi: "Hôm nay đồ ăn thì {VI}.", en: "The food is {EN} today." },
   { sv: "Min vän är {W}.", vi: "Bạn của tôi thì {VI}.", en: "My friend is {EN}." },
-  { sv: "Vädret är {W} på morgonen.", vi: "Buổi sáng thời tiết thì {VI}.", en: "The weather is {EN} in the morning." },
+  { sv: "Bilen är {W} idag.", vi: "Chiếc xe hôm nay thì {VI}.", en: "The car is {EN} today." },
+  { sv: "Filmen är verkligen {W}.", vi: "Bộ phim thực sự {VI}.", en: "The movie is really {EN}." },
+  { sv: "Läraren är alltid {W}.", vi: "Giáo viên luôn {VI}.", en: "The teacher is always {EN}." },
 ];
 
 const ADV_TEMPLATES: Tmpl[] = [
