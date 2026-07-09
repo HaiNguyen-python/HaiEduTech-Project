@@ -164,7 +164,7 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
               <Volume2 className="h-4 w-4 text-primary" />
             </button>
             <span className="text-xl font-bold text-foreground">{q.sv}</span>
-            {q.ipa && <span className="font-mono text-xs text-muted-foreground">{q.ipa}</span>}
+            <span className="font-mono text-xs text-muted-foreground">{ensureSwedishIpa(q.sv, q.ipa)}</span>
           </div>
         )}
       </div>
