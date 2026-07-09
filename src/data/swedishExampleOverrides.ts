@@ -223,7 +223,63 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   huvud:         { sv: "Jag har huvudvärk och behöver vila.",               vi: "Tôi bị đau đầu và cần nghỉ.",                          en: "I have a headache and need to rest." },
   mage:          { sv: "Barnet har ont i magen.",                           vi: "Đứa bé đau bụng.",                                     en: "The child has a stomach ache." },
   tand:          { sv: "Han borstar tänderna två gånger om dagen.",         vi: "Anh ấy đánh răng hai lần một ngày.",                    en: "He brushes his teeth twice a day." },
+
+  // ─────────────── WEATHER & SEASONS ───────────────
+  regn:          { sv: "Det kommer mycket regn i höst.",                    vi: "Mùa thu có rất nhiều mưa.",                             en: "There is a lot of rain in autumn." },
+  snö:           { sv: "På vintern ligger snön djup i norra Sverige.",      vi: "Mùa đông tuyết phủ dày ở miền bắc Thụy Điển.",           en: "In winter the snow lies deep in northern Sweden." },
+  sol:           { sv: "Solen skiner varmt på sommaren.",                   vi: "Mặt trời chiếu ấm áp vào mùa hè.",                       en: "The sun shines warmly in summer." },
+  vind:          { sv: "Vinden är stark vid kusten idag.",                  vi: "Hôm nay gió mạnh ở bờ biển.",                           en: "The wind is strong on the coast today." },
+  moln:          { sv: "Himlen är full av mörka moln.",                     vi: "Bầu trời đầy những đám mây đen.",                       en: "The sky is full of dark clouds." },
+  vår:           { sv: "På våren blommar körsbärsträden.",                  vi: "Vào mùa xuân cây anh đào nở hoa.",                       en: "In spring the cherry trees bloom." },
+  sommar:        { sv: "På sommaren badar vi i havet varje dag.",           vi: "Mùa hè chúng tôi tắm biển mỗi ngày.",                    en: "In summer we swim in the sea every day." },
+  höst:          { sv: "På hösten faller löven från träden.",               vi: "Vào mùa thu lá rụng khỏi cây.",                          en: "In autumn the leaves fall from the trees." },
+  vinter:        { sv: "Vintern i Sverige är lång och mörk.",               vi: "Mùa đông ở Thụy Điển dài và tối.",                      en: "Winter in Sweden is long and dark." },
+
+  // ─────────────── TRANSPORT & DIRECTIONS ───────────────
+  buss:          { sv: "Bussen till centrum går var tionde minut.",         vi: "Xe buýt vào trung tâm chạy mỗi mười phút.",              en: "The bus to the city center runs every ten minutes." },
+  tåg:           { sv: "Tåget till Stockholm är försenat.",                 vi: "Tàu đi Stockholm bị trễ.",                              en: "The train to Stockholm is delayed." },
+  bil:           { sv: "Min bil står på parkeringen bakom huset.",          vi: "Xe của tôi đậu ở bãi đỗ sau nhà.",                       en: "My car is in the parking lot behind the house." },
+  cykel:         { sv: "Jag åker cykel till jobbet på sommaren.",           vi: "Mùa hè tôi đi xe đạp đến chỗ làm.",                      en: "I ride a bicycle to work in summer." },
+  flygplan:      { sv: "Flygplanet landar om tjugo minuter.",               vi: "Máy bay hạ cánh trong hai mươi phút nữa.",               en: "The plane lands in twenty minutes." },
+  gata:          { sv: "Vår gata är väldigt lugn på kvällen.",              vi: "Đường phố chúng tôi rất yên tĩnh vào buổi tối.",         en: "Our street is very quiet in the evening." },
+  väg:           { sv: "Vägen till stugan är smal och krokig.",             vi: "Đường đến căn nhà gỗ hẹp và quanh co.",                  en: "The road to the cottage is narrow and winding." },
+  station:       { sv: "Vi möts vid stationen klockan sex.",                vi: "Chúng ta gặp nhau ở nhà ga lúc sáu giờ.",                en: "We'll meet at the station at six." },
+  hållplats:     { sv: "Bussen stannar vid nästa hållplats.",               vi: "Xe buýt sẽ dừng ở trạm kế tiếp.",                        en: "The bus stops at the next stop." },
+
+  // ─────────────── HOME ───────────────
+  hus:           { sv: "Vi bor i ett rött hus på landet.",                  vi: "Chúng tôi sống trong một căn nhà đỏ ở nông thôn.",       en: "We live in a red house in the countryside." },
+  lägenhet:      { sv: "Min lägenhet ligger på tredje våningen.",           vi: "Căn hộ của tôi ở tầng ba.",                             en: "My apartment is on the third floor." },
+  rum:           { sv: "Mitt rum är litet men mysigt.",                     vi: "Phòng của tôi nhỏ nhưng ấm cúng.",                       en: "My room is small but cozy." },
+  kök:           { sv: "Vi lagar mat i köket varje kväll.",                 vi: "Chúng tôi nấu ăn trong bếp mỗi tối.",                    en: "We cook in the kitchen every evening." },
+  badrum:        { sv: "Badrummet är precis bredvid sovrummet.",            vi: "Phòng tắm nằm ngay cạnh phòng ngủ.",                     en: "The bathroom is right next to the bedroom." },
+  sovrum:        { sv: "Sovrummet har ett stort fönster.",                  vi: "Phòng ngủ có một cửa sổ lớn.",                          en: "The bedroom has a large window." },
+  trädgård:      { sv: "På sommaren äter vi middag i trädgården.",          vi: "Mùa hè chúng tôi ăn tối ở trong vườn.",                  en: "In summer we have dinner in the garden." },
+  lampa:         { sv: "Kan du tända lampan, det är mörkt.",                vi: "Bạn bật đèn lên đi, trong phòng tối rồi.",               en: "Can you turn on the lamp, it's dark." },
+
+  // ─────────────── WORK ───────────────
+  jobb:          { sv: "Jag har ett nytt jobb på ett IT-företag.",          vi: "Tôi có một công việc mới ở một công ty CNTT.",           en: "I have a new job at an IT company." },
+  kontor:        { sv: "Vårt kontor ligger i centrum.",                     vi: "Văn phòng chúng tôi ở trung tâm.",                       en: "Our office is in the city center." },
+  chef:          { sv: "Min chef är väldigt hjälpsam.",                     vi: "Sếp của tôi rất nhiệt tình giúp đỡ.",                    en: "My boss is very helpful." },
+  möte:          { sv: "Vi har ett möte klockan tio i morgon.",             vi: "Chúng tôi có một cuộc họp lúc mười giờ ngày mai.",       en: "We have a meeting at ten tomorrow." },
+  projekt:       { sv: "Projektet ska vara klart innan jul.",               vi: "Dự án phải hoàn tất trước Giáng sinh.",                  en: "The project must be finished before Christmas." },
+  lärare:        { sv: "Vår lärare pratar tydligt och långsamt.",           vi: "Giáo viên của chúng tôi nói rõ và chậm.",                en: "Our teacher speaks clearly and slowly." },
+  elev:          { sv: "Eleven ställer många frågor på lektionen.",         vi: "Học sinh đặt nhiều câu hỏi trong tiết học.",             en: "The student asks many questions in class." },
+  skola:         { sv: "Skolan börjar klockan åtta på morgonen.",           vi: "Trường bắt đầu lúc tám giờ sáng.",                       en: "School starts at eight in the morning." },
+
+  // ─────────────── OPINION / DAILY ADJ ───────────────
+  bra:           { sv: "Filmen var riktigt bra i går kväll.",               vi: "Bộ phim tối qua thật sự rất hay.",                       en: "The film was really good last night." },
+  dålig:         { sv: "Vädret är dåligt i dag, det regnar hela tiden.",    vi: "Thời tiết hôm nay tệ, mưa suốt.",                        en: "The weather is bad today, it rains all the time." },
+  snäll:         { sv: "Min granne är väldigt snäll mot barnen.",           vi: "Hàng xóm của tôi rất tử tế với bọn trẻ.",                en: "My neighbor is very kind to the children." },
+  intressant:    { sv: "Boken jag läser är verkligen intressant.",          vi: "Cuốn sách tôi đang đọc thật sự thú vị.",                  en: "The book I'm reading is really interesting." },
+  tråkig:        { sv: "Föreläsningen var lång och lite tråkig.",           vi: "Bài giảng dài và hơi nhàm chán.",                        en: "The lecture was long and a bit boring." },
+  lätt:          { sv: "Uppgiften var lätt att förstå.",                    vi: "Bài tập dễ hiểu.",                                       en: "The task was easy to understand." },
+  svår:          { sv: "Uttalet på svenska är svårt i början.",             vi: "Phát âm tiếng Thụy Điển khó lúc mới học.",               en: "Swedish pronunciation is hard at the beginning." },
+  ny:            { sv: "Jag köpte en ny telefon i går.",                    vi: "Tôi mua một cái điện thoại mới hôm qua.",                 en: "I bought a new phone yesterday." },
+  gammal:        { sv: "Min farfar bor i ett gammalt hus.",                 vi: "Ông nội tôi sống trong một ngôi nhà cũ.",                 en: "My grandpa lives in an old house." },
+  stor:          { sv: "De bor i en stor lägenhet i centrum.",              vi: "Họ sống trong một căn hộ lớn ở trung tâm.",               en: "They live in a large apartment downtown." },
+  liten:         { sv: "Vi har en liten hund som heter Bella.",             vi: "Chúng tôi có một con chó nhỏ tên là Bella.",              en: "We have a small dog named Bella." },
 };
+
 
 /** Lookup helper used by the example normalizer. */
 export function getSwedishExampleOverride(sv: string): SwedishExampleOverride | undefined {
