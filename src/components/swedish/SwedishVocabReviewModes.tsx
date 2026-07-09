@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import { ensureSwedishIpa } from "@/lib/swedishIpa";
 import type { SwedishWord } from "@/data/swedishVocabBank";
 
 /* -------------------------------- helpers --------------------------------- */
