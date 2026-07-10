@@ -277,7 +277,7 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   smörgås:       { sv: "Jag brukar äta en smörgås till frukost.",           vi: "Tôi thường ăn bánh mì kẹp cho bữa sáng.",                en: "I usually have a sandwich for breakfast." },
 
   // Places / directions
-  station:       { sv: "Tågstationen ligger fem minuter härifrån.",         vi: "Ga tàu cách đây năm phút.",                              en: "The train station is five minutes from here." },
+  tågstation:    { sv: "Tågstationen ligger fem minuter härifrån.",         vi: "Ga tàu cách đây năm phút.",                              en: "The train station is five minutes from here." },
   flygplats:     { sv: "Flygplatsen ligger utanför staden.",                vi: "Sân bay nằm ở ngoại ô thành phố.",                       en: "The airport is outside the city." },
   sjukhus:       { sv: "Sjukhuset är öppet dygnet runt.",                   vi: "Bệnh viện mở cửa suốt ngày đêm.",                        en: "The hospital is open around the clock." },
   bibliotek:     { sv: "Barnen lånar böcker på biblioteket.",               vi: "Bọn trẻ mượn sách ở thư viện.",                          en: "The children borrow books at the library." },
