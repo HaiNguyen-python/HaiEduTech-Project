@@ -81,6 +81,100 @@ const OVERRIDES: Record<string, string> = {
   "morgon": "ˈmɔrːɔn",
   "kväll": "kvɛl",
   "tid": "tiːd",
+
+  // ── Extended common vocabulary (hand-checked) ──
+  // Pronouns / function words
+  "du": "dʉː", "han": "han", "hon": "hʊn", "vi": "viː", "ni": "niː",
+  "min": "miːn", "din": "diːn", "sin": "siːn", "vår": "voːr", "er": "eːr",
+  "eller": "ˈɛlːɛr", "men": "mɛn", "om": "ɔm", "av": "ɑːv", "efter": "ˈɛftɛr",
+  "före": "ˈføːrɛ", "under": "ˈɵndɛr", "över": "ˈøːvɛr", "mellan": "ˈmɛlːan",
+  "utan": "ˈʉːtan", "andra": "ˈandra", "alla": "ˈalːa", "ingen": "ˈɪŋːɛn",
+  "något": "ˈnoːɡɔt", "någon": "ˈnoːɡɔn", "detta": "ˈdɛtːa", "den": "dɛn",
+  "denna": "ˈdɛnːa", "dessa": "ˈdɛsːa",
+
+  // High-frequency verbs
+  "gå": "ɡoː", "gick": "jɪk", "göra": "ˈjøːra", "gör": "jœr", "gjorde": "ˈjuːɖɛ",
+  "säga": "ˈsɛːja", "sa": "sɑː", "sagt": "sakt",
+  "se": "seː", "ser": "seːr", "såg": "soːɡ",
+  "komma": "ˈkɔmːa", "kom": "kɔm", "kommer": "ˈkɔmːɛr",
+  "ta": "tɑː", "tar": "tɑːr", "tog": "tuːɡ",
+  "ge": "jeː", "ger": "jeːr", "gav": "ɡɑːv",
+  "veta": "ˈveːta", "vet": "veːt", "visste": "ˈvɪsːtɛ",
+  "tro": "truː", "tror": "truːr",
+  "tycka": "ˈtʏkːa", "tänka": "ˈtɛŋːka",
+  "höra": "ˈhøːra", "hör": "høːr",
+  "läsa": "ˈlɛːsa", "skriva": "ˈskriːva", "prata": "ˈprɑːta", "tala": "ˈtɑːla",
+  "titta": "ˈtɪtːa", "lyssna": "ˈlʏsːna",
+  "sova": "ˈsoːva", "vakna": "ˈvakːna",
+  "äta": "ˈɛːta", "dricka": "ˈdrɪkːa",
+  "köpa": "ˈɕøːpa", "sälja": "ˈsɛlːja", "betala": "bɛˈtɑːla",
+  "arbeta": "ˈarːˌbeːta", "jobba": "ˈjɔbːa",
+  "bo": "buː", "bor": "buːr",
+  "resa": "ˈreːsa", "åka": "ˈoːka", "köra": "ˈɕøːra",
+  "springa": "ˈsprɪŋːa", "simma": "ˈsɪmːa", "cykla": "ˈsʏklːa",
+  "börja": "ˈbœrːja", "sluta": "ˈslʉːta",
+  "hjälpa": "ˈjɛlːpa", "vänta": "ˈvɛnːta",
+  "öppna": "ˈœpːna", "stänga": "ˈstɛŋːa",
+  "träffa": "ˈtrɛfːa", "möta": "ˈmøːta",
+  "laga": "ˈlɑːɡa", "städa": "ˈstɛːda", "tvätta": "ˈtvɛtːa", "diska": "ˈdɪskːa",
+
+  // Adjectives
+  "stor": "stuːr", "liten": "ˈliːtɛn", "lång": "lɔŋ", "kort": "kʊʈ",
+  "hög": "høːɡ", "låg": "loːɡ", "ny": "nyː", "gammal": "ˈɡamːal",
+  "ung": "ɵŋ", "snabb": "snab", "långsam": "ˈlɔŋːsam",
+  "god": "ɡuːd", "dålig": "ˈdoːlɪɡ", "fin": "fiːn", "ful": "fʉːl",
+  "vacker": "ˈvakːɛr", "rolig": "ˈruːlɪɡ", "tråkig": "ˈtroːkɪɡ",
+  "svår": "svoːr", "lätt": "lɛt", "enkel": "ˈɛŋːkɛl",
+  "trött": "trœt", "pigg": "pɪɡ", "sjuk": "ɧʉːk", "frisk": "frɪsk",
+  "rik": "riːk", "fattig": "ˈfatːɪɡ", "dyr": "dyːr", "billig": "ˈbɪlːɪɡ",
+  "viktig": "ˈvɪktːɪɡ", "farlig": "ˈfɑːɭɪɡ", "säker": "ˈsɛːkɛr",
+  "rätt": "rɛt", "fel": "feːl", "sann": "san",
+  "svensk": "svɛnsk", "engelsk": "ˈɛŋːɛlsk",
+
+  // Nouns — body
+  "huvud": "ˈhʉːvɵd", "hår": "hoːr", "öga": "ˈøːɡa", "öra": "ˈøːra",
+  "näsa": "ˈnɛːsa", "mun": "mɵn", "tand": "tand", "hals": "hals",
+  "arm": "arm", "hand": "hand", "finger": "ˈfɪŋːɛr", "ben": "beːn",
+  "fot": "fuːt", "rygg": "rʏɡ", "mage": "ˈmɑːɡɛ", "ansikte": "ˈansɪktɛ",
+
+  // Nouns — home / daily
+  "dörr": "dœr", "fönster": "ˈfœnːstɛr", "bord": "buːɖ", "stol": "stuːl",
+  "säng": "sɛŋ", "soffa": "ˈsɔfːa", "lampa": "ˈlampa",
+  "kök": "ɕøːk", "badrum": "ˈbɑːdrɵm", "sovrum": "ˈsoːvrɵm", "rum": "rɵm",
+  "lägenhet": "ˈlɛːɡɛnˌheːt", "trädgård": "ˈtrɛːdˌɡoːɖ",
+
+  // Nouns — food
+  "bröd": "brøːd", "smör": "smœr", "ost": "ʊst", "ägg": "ɛɡ", "mjölk": "mjœlk",
+  "kaffe": "ˈkafːɛ", "te": "teː", "juice": "jʊs", "öl": "øːl", "vin": "viːn",
+  "kött": "ɕœt", "fisk": "fɪsk", "kyckling": "ˈɕʏklɪŋ",
+  "frukt": "frɵkt", "grönsak": "ˈɡrøːnsak", "äpple": "ˈɛplːɛ", "banan": "baˈnɑːn",
+  "potatis": "pʊˈtɑːtɪs", "ris": "riːs", "pasta": "ˈpasta", "sallad": "ˈsalːad",
+  "socker": "ˈsɔkːɛr", "salt": "salt", "peppar": "ˈpɛpːar",
+
+  // Nouns — nature / weather
+  "sol": "suːl", "måne": "ˈmoːnɛ", "himmel": "ˈhɪmːɛl", "moln": "mʊln",
+  "regn": "rɛŋn", "snö": "snøː", "vind": "vɪnd", "väder": "ˈvɛːdɛr",
+  "sommar": "ˈsɔmːar", "vinter": "ˈvɪntɛr", "höst": "hœst", "vår": "voːr",
+  "sjö": "ɧøː", "hav": "hɑːv", "berg": "bærj", "skog": "skuːɡ", "träd": "trɛːd",
+
+  // Nouns — transport / places
+  "bil": "biːl", "buss": "bɵs", "tåg": "toːɡ", "cykel": "ˈsʏkːɛl",
+  "flygplan": "ˈflyːɡˌplɑːn", "båt": "boːt",
+  "gata": "ˈɡɑːta", "väg": "vɛːɡ", "bro": "bruː", "torg": "tɔrj",
+  "affär": "aˈfæːr", "butik": "bʉˈtiːk", "restaurang": "ˌrɛstɔˈraŋ",
+
+  // Numbers
+  "noll": "nɔl", "en": "ɛn", "två": "tvoː", "tre": "treː", "fyra": "ˈfyːra",
+  "fem": "fɛm", "sex": "sɛks", "sju": "ɧʉː", "åtta": "ˈɔtːa", "nio": "ˈniːʊ",
+  "tio": "ˈtiːʊ", "elva": "ˈɛlːva", "tolv": "tɔlv", "tretton": "ˈtrɛtːɔn",
+  "hundra": "ˈhɵndra", "tusen": "ˈtʉːsɛn",
+
+  // Time / days
+  "måndag": "ˈmɔnːˌdɑːɡ", "tisdag": "ˈtiːsˌdɑːɡ", "onsdag": "ˈuːnsˌdɑːɡ",
+  "torsdag": "ˈtuːʂˌdɑːɡ", "fredag": "ˈfreːˌdɑːɡ", "lördag": "ˈlœːɖɑːɡ",
+  "söndag": "ˈsœnːˌdɑːɡ",
+  "idag": "ɪˈdɑːɡ", "imorgon": "ɪˈmɔrːɔn", "igår": "ɪˈɡoːr",
+  "vecka": "ˈvɛkːa", "månad": "ˈmoːnad",
 };
 
 const FRONT_VOWELS = new Set(["e", "i", "y", "ä", "ö"]);
