@@ -165,11 +165,60 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Hon spelar {W} med vänner.", vi: "Cô ấy chơi {VI} với bạn bè.", en: "She plays {EN} with friends." },
     { sv: "Vi övar {W} varje vecka.", vi: "Chúng tôi luyện {VI} mỗi tuần.", en: "We practice {EN} every week." },
   ],
+  directions: [
+    { sv: "Ursäkta, var ligger {ART}{W}?",              vi: "Xin lỗi, {ARTVI}{VI} nằm ở đâu?",              en: "Excuse me, where is the {EN}?" },
+    { sv: "Vi tar {ART}{W} till centrum.",              vi: "Chúng tôi đi {ARTVI}{VI} vào trung tâm.",       en: "We take {ARTEN}{EN} to the city center." },
+    { sv: "Kan du visa {ART}{W} på kartan?",            vi: "Bạn có thể chỉ {ARTVI}{VI} trên bản đồ không?", en: "Can you show me the {EN} on the map?" },
+  ],
+  travel: [
+    { sv: "På semestern besöker vi {W}.",               vi: "Vào kỳ nghỉ chúng tôi đến {VI}.",              en: "On vacation we visit {EN}." },
+    { sv: "Jag packar {ART}{W} inför resan.",           vi: "Tôi soạn {ARTVI}{VI} trước chuyến đi.",         en: "I pack {ARTEN}{EN} for the trip." },
+    { sv: "Vi bokar {ART}{W} online.",                  vi: "Chúng tôi đặt {ARTVI}{VI} trên mạng.",          en: "We book {ARTEN}{EN} online." },
+  ],
+  health: [
+    { sv: "Läkaren pratar om {W} med patienten.",       vi: "Bác sĩ nói về {VI} với bệnh nhân.",             en: "The doctor talks about {EN} with the patient." },
+    { sv: "{MIN_C} {W} känns bättre idag.",             vi: "{VI_C} của tôi hôm nay đỡ hơn.",                en: "My {EN} feels better today." },
+    { sv: "Vi går till sjukhuset för {W}.",             vi: "Chúng tôi đến bệnh viện vì {VI}.",              en: "We go to the hospital for {EN}." },
+  ],
+  emotions: [
+    { sv: "Jag känner mycket {W} idag.",                vi: "Hôm nay tôi cảm thấy rất {VI}.",                en: "I feel a lot of {EN} today." },
+    { sv: "Hon visar sin {W} för familjen.",            vi: "Cô ấy thể hiện {VI} với gia đình.",             en: "She shows her {EN} to the family." },
+    { sv: "{W_C} är en naturlig del av livet.",         vi: "{VI_C} là một phần tự nhiên của cuộc sống.",     en: "{EN_C} is a natural part of life." },
+  ],
+  opinion: [
+    { sv: "Vad tycker du om {W}?",                      vi: "Bạn nghĩ gì về {VI}?",                          en: "What do you think about {EN}?" },
+    { sv: "Jag håller med om {W}.",                     vi: "Tôi đồng ý về {VI}.",                           en: "I agree about {EN}." },
+    { sv: "Vi diskuterar {W} tillsammans.",             vi: "Chúng tôi cùng thảo luận về {VI}.",             en: "We discuss {EN} together." },
+  ],
+  daily: [
+    { sv: "Jag {W_verbfree} varje morgon.",             vi: "Mỗi sáng tôi {VI}.",                            en: "I do {EN} every morning." },
+    { sv: "{W_C} är en viktig del av min dag.",         vi: "{VI_C} là một phần quan trọng trong ngày của tôi.", en: "{EN_C} is an important part of my day." },
+    { sv: "Efter middagen brukar jag {W_verbfree}.",     vi: "Sau bữa tối tôi thường {VI}.",                  en: "After dinner I usually do {EN}." },
+  ],
+  greetings: [
+    { sv: "På svenska säger vi '{W}' när vi träffas.",  vi: "Trong tiếng Thụy Điển ta nói '{W}' khi gặp nhau (nghĩa là {VI}).", en: "In Swedish we say '{W}' when we meet (meaning '{EN}')." },
+    { sv: "Han sa '{W}' med ett leende.",               vi: "Anh ấy nói '{W}' với một nụ cười.",              en: "He said '{W}' with a smile." },
+  ],
   default: [
     { sv: "Det här är {ART}{W}.", vi: "Đây là {ARTVI}{VI}.", en: "This is {ARTEN}{EN}." },
     { sv: "Jag ser {ART}{W} där.", vi: "Tôi thấy {ARTVI}{VI} ở đó.", en: "I see {ARTEN}{EN} over there." },
     { sv: "Vi har {ART}{W} här.", vi: "Chúng tôi có {ARTVI}{VI} ở đây.", en: "We have {ARTEN}{EN} here." },
   ],
+};
+
+// Category aliases → point synonym keys at existing template buckets.
+const CATEGORY_ALIAS: Record<string, string> = {
+  technology: "tech",
+  tech_devices: "tech",
+  transportation: "transport",
+  house: "home",
+  living: "home",
+  jobs: "work",
+  study: "education",
+  school: "education",
+  numbers_time: "numbers",
+  time: "numbers",
+  nature_weather: "nature",
 };
 
 // Verb templates use modal + infinitive so any Swedish infinitive fits
