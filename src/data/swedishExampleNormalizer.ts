@@ -329,7 +329,8 @@ function templatesFor(word: SwedishWord): Tmpl[] {
   if (pos.startsWith("prep")) return PREP_TEMPLATES;
   if (pos.startsWith("conj")) return CONJ_TEMPLATES;
   // nouns, phrases, pronouns, numerals → noun-style by category
-  const cat = (word.category || "default").toLowerCase();
+  const rawCat = (word.category || "default").toLowerCase();
+  const cat = CATEGORY_ALIAS[rawCat] || rawCat;
   return NOUN_TEMPLATES[cat] || NOUN_TEMPLATES.default;
 }
 
