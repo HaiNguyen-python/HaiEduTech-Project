@@ -172,11 +172,14 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
 };
 
+// Verb templates use modal + infinitive so any Swedish infinitive fits
+// grammatically and the sentence stays semantically natural.
 const VERB_TEMPLATES: Tmpl[] = [
-  { sv: "Vi lär oss hur man säger '{W}' på svenska.", vi: "Chúng tôi đang học cách nói '{W}' bằng tiếng Thụy Điển.", en: "We are learning how to say '{W}' in Swedish." },
-  { sv: "Ordet '{W}' används ofta i vardagen.", vi: "Từ '{W}' (nghĩa là {VI}) được dùng thường xuyên trong cuộc sống.", en: "The word '{W}' (meaning '{EN}') is often used in everyday life." },
-  { sv: "På svenska betyder '{W}' '{EN}'.", vi: "Trong tiếng Thụy Điển, '{W}' nghĩa là '{VI}'.", en: "In Swedish, '{W}' means '{EN}'." },
-  { sv: "Försök att använda '{W}' i en mening idag.", vi: "Hãy thử dùng '{W}' trong một câu hôm nay.", en: "Try to use '{W}' in a sentence today." },
+  { sv: "Jag brukar {W} på helgerna.",           vi: "Tôi thường {VI} vào cuối tuần.",             en: "I usually {EN} on weekends." },
+  { sv: "Vi ska {W} tillsammans i morgon.",      vi: "Ngày mai chúng tôi sẽ {VI} cùng nhau.",       en: "We are going to {EN} together tomorrow." },
+  { sv: "Kan du {W} lite långsammare, tack?",    vi: "Bạn có thể {VI} chậm hơn một chút không?",     en: "Can you {EN} a little slower, please?" },
+  { sv: "Hon vill {W} efter jobbet.",            vi: "Cô ấy muốn {VI} sau giờ làm.",                en: "She wants to {EN} after work." },
+  { sv: "Det är kul att {W} med vänner.",        vi: "Thật vui khi được {VI} cùng bạn bè.",          en: "It is fun to {EN} with friends." },
 ];
 
 const ADJ_TEMPLATES: Tmpl[] = [
