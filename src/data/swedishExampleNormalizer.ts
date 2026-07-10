@@ -191,9 +191,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Vi diskuterar {W} tillsammans.",             vi: "Chúng tôi cùng thảo luận về {VI}.",             en: "We discuss {EN} together." },
   ],
   daily: [
-    { sv: "Jag {W_verbfree} varje morgon.",             vi: "Mỗi sáng tôi {VI}.",                            en: "I do {EN} every morning." },
     { sv: "{W_C} är en viktig del av min dag.",         vi: "{VI_C} là một phần quan trọng trong ngày của tôi.", en: "{EN_C} is an important part of my day." },
-    { sv: "Efter middagen brukar jag {W_verbfree}.",     vi: "Sau bữa tối tôi thường {VI}.",                  en: "After dinner I usually do {EN}." },
+    { sv: "Jag tänker på {W} varje morgon.",            vi: "Mỗi sáng tôi nghĩ về {VI}.",                    en: "I think about {EN} every morning." },
+    { sv: "Efter middagen pratar vi om {W}.",           vi: "Sau bữa tối chúng tôi nói về {VI}.",             en: "After dinner we talk about {EN}." },
   ],
   greetings: [
     { sv: "På svenska säger vi '{W}' när vi träffas.",  vi: "Trong tiếng Thụy Điển ta nói '{W}' khi gặp nhau (nghĩa là {VI}).", en: "In Swedish we say '{W}' when we meet (meaning '{EN}')." },
