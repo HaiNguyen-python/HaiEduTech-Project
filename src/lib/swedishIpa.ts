@@ -125,7 +125,7 @@ const OVERRIDES: Record<string, string> = {
   "god": "ɡuːd", "dålig": "ˈdoːlɪɡ", "fin": "fiːn", "ful": "fʉːl",
   "vacker": "ˈvakːɛr", "rolig": "ˈruːlɪɡ", "tråkig": "ˈtroːkɪɡ",
   "svår": "svoːr", "lätt": "lɛt", "enkel": "ˈɛŋːkɛl",
-  "trött": "trœt", "pigg": "pɪɡ", "sjuk": "ɧʉːk", "frisk": "frɪsk",
+  "trött": "trœt", "pigg": "pɪɡ", "frisk": "frɪsk",
   "rik": "riːk", "fattig": "ˈfatːɪɡ", "dyr": "dyːr", "billig": "ˈbɪlːɪɡ",
   "viktig": "ˈvɪktːɪɡ", "farlig": "ˈfɑːɭɪɡ", "säker": "ˈsɛːkɛr",
   "rätt": "rɛt", "fel": "feːl", "sann": "san",
@@ -146,7 +146,7 @@ const OVERRIDES: Record<string, string> = {
   // Nouns — food
   "bröd": "brøːd", "smör": "smœr", "ost": "ʊst", "ägg": "ɛɡ", "mjölk": "mjœlk",
   "kaffe": "ˈkafːɛ", "te": "teː", "juice": "jʊs", "öl": "øːl", "vin": "viːn",
-  "kött": "ɕœt", "fisk": "fɪsk", "kyckling": "ˈɕʏklɪŋ",
+  "fisk": "fɪsk", "kyckling": "ˈɕʏklɪŋ",
   "frukt": "frɵkt", "grönsak": "ˈɡrøːnsak", "äpple": "ˈɛplːɛ", "banan": "baˈnɑːn",
   "potatis": "pʊˈtɑːtɪs", "ris": "riːs", "pasta": "ˈpasta", "sallad": "ˈsalːad",
   "socker": "ˈsɔkːɛr", "salt": "salt", "peppar": "ˈpɛpːar",
@@ -154,7 +154,7 @@ const OVERRIDES: Record<string, string> = {
   // Nouns — nature / weather
   "sol": "suːl", "måne": "ˈmoːnɛ", "himmel": "ˈhɪmːɛl", "moln": "mʊln",
   "regn": "rɛŋn", "snö": "snøː", "vind": "vɪnd", "väder": "ˈvɛːdɛr",
-  "sommar": "ˈsɔmːar", "vinter": "ˈvɪntɛr", "höst": "hœst", "vår": "voːr",
+  "sommar": "ˈsɔmːar", "vinter": "ˈvɪntɛr", "höst": "hœst",
   "sjö": "ɧøː", "hav": "hɑːv", "berg": "bærj", "skog": "skuːɡ", "träd": "trɛːd",
 
   // Nouns — transport / places
@@ -164,8 +164,8 @@ const OVERRIDES: Record<string, string> = {
   "affär": "aˈfæːr", "butik": "bʉˈtiːk", "restaurang": "ˌrɛstɔˈraŋ",
 
   // Numbers
-  "noll": "nɔl", "en": "ɛn", "två": "tvoː", "tre": "treː", "fyra": "ˈfyːra",
-  "fem": "fɛm", "sex": "sɛks", "sju": "ɧʉː", "åtta": "ˈɔtːa", "nio": "ˈniːʊ",
+  "noll": "nɔl", "två": "tvoː", "tre": "treː", "fyra": "ˈfyːra",
+  "fem": "fɛm", "sex": "sɛks", "åtta": "ˈɔtːa", "nio": "ˈniːʊ",
   "tio": "ˈtiːʊ", "elva": "ˈɛlːva", "tolv": "tɔlv", "tretton": "ˈtrɛtːɔn",
   "hundra": "ˈhɵndra", "tusen": "ˈtʉːsɛn",
 
