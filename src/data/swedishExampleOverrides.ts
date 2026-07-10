@@ -256,44 +256,36 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   skola:         { sv: "Skolan börjar klockan åtta på morgonen.",           vi: "Trường bắt đầu lúc tám giờ sáng.",                       en: "School starts at eight in the morning." },
 
   // ─────────────── EXTRA CURATED (semantic audit pass) ───────────────
-  // Modal / auxiliary verbs — auto template produces "Jag vill kunna" style awkwardness.
-  kunna:         { sv: "Jag vill kunna prata svenska flytande.",            vi: "Tôi muốn có thể nói tiếng Thụy Điển trôi chảy.",         en: "I want to be able to speak Swedish fluently." },
-  måste:         { sv: "Vi måste gå hem nu, det är sent.",                  vi: "Chúng tôi phải về nhà bây giờ, muộn rồi.",              en: "We must go home now, it's late." },
-  vilja:         { sv: "Barnen vill alltid ha glass efter middagen.",       vi: "Bọn trẻ luôn muốn ăn kem sau bữa tối.",                 en: "The children always want ice cream after dinner." },
+  // Modal / auxiliary verbs where the auto template reads unnaturally.
   få:            { sv: "Kan jag få ett glas vatten, tack?",                 vi: "Cho tôi xin một ly nước được không?",                   en: "May I have a glass of water, please?" },
   böra:          { sv: "Du bör dricka mer vatten varje dag.",               vi: "Bạn nên uống nhiều nước hơn mỗi ngày.",                 en: "You should drink more water every day." },
   låta:          { sv: "Låt barnen leka i parken en stund.",                vi: "Hãy để bọn trẻ chơi trong công viên một lát.",           en: "Let the children play in the park for a while." },
-  förstå:        { sv: "Jag förstår inte vad han säger.",                   vi: "Tôi không hiểu anh ấy nói gì.",                          en: "I don't understand what he is saying." },
+  hinna:         { sv: "Vi hinner inte fika innan mötet.",                  vi: "Chúng tôi không kịp uống cà phê trước cuộc họp.",        en: "We don't have time for a coffee before the meeting." },
+  orka:          { sv: "Jag orkar inte träna idag, jag är trött.",          vi: "Hôm nay tôi không đủ sức tập luyện, tôi mệt.",           en: "I don't have the energy to work out today, I'm tired." },
 
-  // Adjectives — templates need natural predicate agreement
-  rolig:         { sv: "Filmen igår kväll var väldigt rolig.",              vi: "Bộ phim tối qua rất vui.",                              en: "The movie last night was very funny." },
-  tråkig:        { sv: "Föreläsningen var tråkig och lång.",                vi: "Bài giảng vừa chán vừa dài.",                            en: "The lecture was boring and long." },
-  vacker:        { sv: "Solnedgången vid havet är vacker.",                 vi: "Hoàng hôn bên biển thật đẹp.",                          en: "The sunset by the sea is beautiful." },
-  ful:           { sv: "Vädret är riktigt fult idag.",                      vi: "Thời tiết hôm nay thật xấu.",                           en: "The weather is really ugly today." },
-  snabb:         { sv: "Tåget till Malmö är väldigt snabbt.",               vi: "Tàu đi Malmö rất nhanh.",                                en: "The train to Malmö is very fast." },
-  långsam:       { sv: "Bussen var långsam på grund av trafiken.",          vi: "Xe buýt đi chậm vì kẹt xe.",                             en: "The bus was slow because of the traffic." },
+  // Adjectives (safe pred. agreement)
   farlig:        { sv: "Det är farligt att köra utan bilbälte.",            vi: "Lái xe không thắt dây an toàn rất nguy hiểm.",           en: "It is dangerous to drive without a seat belt." },
   säker:         { sv: "Är du säker på att du låste dörren?",               vi: "Bạn có chắc là đã khoá cửa chưa?",                       en: "Are you sure you locked the door?" },
+  ren:           { sv: "Köket är rent efter att jag städat.",               vi: "Bếp sạch sau khi tôi dọn xong.",                         en: "The kitchen is clean after I've tidied up." },
+  smutsig:       { sv: "Skorna är smutsiga efter promenaden.",              vi: "Đôi giày bẩn sau khi đi dạo.",                           en: "The shoes are dirty after the walk." },
+  tung:          { sv: "Väskan är för tung att bära ensam.",                vi: "Cái túi quá nặng, một mình không xách nổi.",             en: "The bag is too heavy to carry alone." },
 
-  // Body / health
-  huvud:         { sv: "Jag har ont i huvudet idag.",                       vi: "Hôm nay tôi bị đau đầu.",                                en: "I have a headache today." },
-  öga:           { sv: "Barnet har blå ögon som sin mamma.",                vi: "Đứa bé có mắt xanh giống mẹ.",                           en: "The child has blue eyes like her mother." },
-  hand:          { sv: "Tvätta händerna innan du äter.",                    vi: "Rửa tay trước khi ăn.",                                  en: "Wash your hands before you eat." },
-  fot:           { sv: "Efter promenaden gjorde fötterna ont.",             vi: "Sau khi đi bộ, chân tôi đau nhức.",                     en: "After the walk my feet hurt." },
-
-  // Nature / weather
-  regn:          { sv: "Efter regnet luktar luften friskt.",                vi: "Sau cơn mưa, không khí thơm mát.",                       en: "After the rain the air smells fresh." },
-  snö:           { sv: "Barnen bygger en snögubbe i snön.",                 vi: "Bọn trẻ đắp người tuyết trong tuyết.",                  en: "The children are building a snowman in the snow." },
-  vind:          { sv: "Vinden blåser starkt vid kusten idag.",             vi: "Hôm nay gió thổi mạnh ở bờ biển.",                       en: "The wind is blowing strongly by the coast today." },
-  sommar:        { sv: "På sommaren är det ljust nästan hela natten.",      vi: "Mùa hè trời sáng gần như suốt đêm.",                     en: "In summer it is light almost all night." },
-  vinter:        { sv: "Vintern i norra Sverige är mörk och kall.",         vi: "Mùa đông ở miền bắc Thụy Điển tối và lạnh.",             en: "Winter in northern Sweden is dark and cold." },
-
-  // Food (natural context)
+  // Food / meals
   frukost:       { sv: "Jag äter frukost klockan sju varje morgon.",        vi: "Tôi ăn sáng lúc bảy giờ mỗi ngày.",                     en: "I have breakfast at seven every morning." },
   lunch:         { sv: "Vi tar lunch tillsammans på jobbet.",               vi: "Chúng tôi ăn trưa cùng nhau ở chỗ làm.",                 en: "We have lunch together at work." },
-  middag:        { sv: "Middagen är klar om tio minuter.",                  vi: "Bữa tối sẽ xong sau mười phút nữa.",                     en: "Dinner will be ready in ten minutes." },
-  kött:          { sv: "Jag äter inte kött, jag är vegetarian.",            vi: "Tôi không ăn thịt, tôi ăn chay.",                        en: "I don't eat meat, I'm a vegetarian." },
-  fisk:          { sv: "På fredagar äter vi ofta fisk.",                    vi: "Vào thứ Sáu chúng tôi thường ăn cá.",                    en: "On Fridays we often eat fish." },
+  fika:          { sv: "Vi tar en fika med kaffe och kanelbullar.",         vi: "Chúng tôi ngồi cà phê với bánh quế.",                   en: "We have a fika with coffee and cinnamon buns." },
+  smörgås:       { sv: "Jag brukar äta en smörgås till frukost.",           vi: "Tôi thường ăn bánh mì kẹp cho bữa sáng.",                en: "I usually have a sandwich for breakfast." },
+
+  // Places / directions
+  station:       { sv: "Tågstationen ligger fem minuter härifrån.",         vi: "Ga tàu cách đây năm phút.",                              en: "The train station is five minutes from here." },
+  flygplats:     { sv: "Flygplatsen ligger utanför staden.",                vi: "Sân bay nằm ở ngoại ô thành phố.",                       en: "The airport is outside the city." },
+  sjukhus:       { sv: "Sjukhuset är öppet dygnet runt.",                   vi: "Bệnh viện mở cửa suốt ngày đêm.",                        en: "The hospital is open around the clock." },
+  bibliotek:     { sv: "Barnen lånar böcker på biblioteket.",               vi: "Bọn trẻ mượn sách ở thư viện.",                          en: "The children borrow books at the library." },
+
+  // Time
+  timme:         { sv: "Lektionen tar en timme.",                           vi: "Tiết học kéo dài một tiếng.",                            en: "The lesson takes one hour." },
+  minut:         { sv: "Bussen kommer om fem minuter.",                     vi: "Xe buýt sẽ đến trong năm phút nữa.",                    en: "The bus is coming in five minutes." },
+  helg:          { sv: "På helgen brukar vi sova länge.",                   vi: "Cuối tuần chúng tôi thường ngủ nướng.",                  en: "On weekends we usually sleep in." },
 };
 
 
