@@ -165,6 +165,40 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Hon spelar {W} med vänner.", vi: "Cô ấy chơi {VI} với bạn bè.", en: "She plays {EN} with friends." },
     { sv: "Vi övar {W} varje vecka.", vi: "Chúng tôi luyện {VI} mỗi tuần.", en: "We practice {EN} every week." },
   ],
+  directions: [
+    { sv: "Ursäkta, var ligger {ART}{W}?",              vi: "Xin lỗi, {ARTVI}{VI} nằm ở đâu?",              en: "Excuse me, where is the {EN}?" },
+    { sv: "Vi tar {ART}{W} till centrum.",              vi: "Chúng tôi đi {ARTVI}{VI} vào trung tâm.",       en: "We take {ARTEN}{EN} to the city center." },
+    { sv: "Kan du visa {ART}{W} på kartan?",            vi: "Bạn có thể chỉ {ARTVI}{VI} trên bản đồ không?", en: "Can you show me the {EN} on the map?" },
+  ],
+  travel: [
+    { sv: "På semestern besöker vi {W}.",               vi: "Vào kỳ nghỉ chúng tôi đến {VI}.",              en: "On vacation we visit {EN}." },
+    { sv: "Jag packar {ART}{W} inför resan.",           vi: "Tôi soạn {ARTVI}{VI} trước chuyến đi.",         en: "I pack {ARTEN}{EN} for the trip." },
+    { sv: "Vi bokar {ART}{W} online.",                  vi: "Chúng tôi đặt {ARTVI}{VI} trên mạng.",          en: "We book {ARTEN}{EN} online." },
+  ],
+  health: [
+    { sv: "Läkaren pratar om {W} med patienten.",       vi: "Bác sĩ nói về {VI} với bệnh nhân.",             en: "The doctor talks about {EN} with the patient." },
+    { sv: "{MIN_C} {W} känns bättre idag.",             vi: "{VI_C} của tôi hôm nay đỡ hơn.",                en: "My {EN} feels better today." },
+    { sv: "Vi går till sjukhuset för {W}.",             vi: "Chúng tôi đến bệnh viện vì {VI}.",              en: "We go to the hospital for {EN}." },
+  ],
+  emotions: [
+    { sv: "Jag känner mycket {W} idag.",                vi: "Hôm nay tôi cảm thấy rất {VI}.",                en: "I feel a lot of {EN} today." },
+    { sv: "Hon visar sin {W} för familjen.",            vi: "Cô ấy thể hiện {VI} với gia đình.",             en: "She shows her {EN} to the family." },
+    { sv: "{W_C} är en naturlig del av livet.",         vi: "{VI_C} là một phần tự nhiên của cuộc sống.",     en: "{EN_C} is a natural part of life." },
+  ],
+  opinion: [
+    { sv: "Vad tycker du om {W}?",                      vi: "Bạn nghĩ gì về {VI}?",                          en: "What do you think about {EN}?" },
+    { sv: "Jag håller med om {W}.",                     vi: "Tôi đồng ý về {VI}.",                           en: "I agree about {EN}." },
+    { sv: "Vi diskuterar {W} tillsammans.",             vi: "Chúng tôi cùng thảo luận về {VI}.",             en: "We discuss {EN} together." },
+  ],
+  daily: [
+    { sv: "{W_C} är en viktig del av min dag.",         vi: "{VI_C} là một phần quan trọng trong ngày của tôi.", en: "{EN_C} is an important part of my day." },
+    { sv: "Jag tänker på {W} varje morgon.",            vi: "Mỗi sáng tôi nghĩ về {VI}.",                    en: "I think about {EN} every morning." },
+    { sv: "Efter middagen pratar vi om {W}.",           vi: "Sau bữa tối chúng tôi nói về {VI}.",             en: "After dinner we talk about {EN}." },
+  ],
+  greetings: [
+    { sv: "På svenska säger vi '{W}' när vi träffas.",  vi: "Trong tiếng Thụy Điển ta nói '{W}' khi gặp nhau (nghĩa là {VI}).", en: "In Swedish we say '{W}' when we meet (meaning '{EN}')." },
+    { sv: "Han sa '{W}' med ett leende.",               vi: "Anh ấy nói '{W}' với một nụ cười.",              en: "He said '{W}' with a smile." },
+  ],
   default: [
     { sv: "Det här är {ART}{W}.", vi: "Đây là {ARTVI}{VI}.", en: "This is {ARTEN}{EN}." },
     { sv: "Jag ser {ART}{W} där.", vi: "Tôi thấy {ARTVI}{VI} ở đó.", en: "I see {ARTEN}{EN} over there." },
@@ -172,11 +206,29 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
 };
 
+// Category aliases → point synonym keys at existing template buckets.
+const CATEGORY_ALIAS: Record<string, string> = {
+  technology: "tech",
+  tech_devices: "tech",
+  transportation: "transport",
+  house: "home",
+  living: "home",
+  jobs: "work",
+  study: "education",
+  school: "education",
+  numbers_time: "numbers",
+  time: "numbers",
+  nature_weather: "nature",
+};
+
+// Verb templates use modal + infinitive so any Swedish infinitive fits
+// grammatically and the sentence stays semantically natural.
 const VERB_TEMPLATES: Tmpl[] = [
-  { sv: "Vi lär oss hur man säger '{W}' på svenska.", vi: "Chúng tôi đang học cách nói '{W}' bằng tiếng Thụy Điển.", en: "We are learning how to say '{W}' in Swedish." },
-  { sv: "Ordet '{W}' används ofta i vardagen.", vi: "Từ '{W}' (nghĩa là {VI}) được dùng thường xuyên trong cuộc sống.", en: "The word '{W}' (meaning '{EN}') is often used in everyday life." },
-  { sv: "På svenska betyder '{W}' '{EN}'.", vi: "Trong tiếng Thụy Điển, '{W}' nghĩa là '{VI}'.", en: "In Swedish, '{W}' means '{EN}'." },
-  { sv: "Försök att använda '{W}' i en mening idag.", vi: "Hãy thử dùng '{W}' trong một câu hôm nay.", en: "Try to use '{W}' in a sentence today." },
+  { sv: "Jag brukar {W} på helgerna.",           vi: "Tôi thường {VI} vào cuối tuần.",             en: "I usually {EN} on weekends." },
+  { sv: "Vi ska {W} tillsammans i morgon.",      vi: "Ngày mai chúng tôi sẽ {VI} cùng nhau.",       en: "We are going to {EN} together tomorrow." },
+  { sv: "Kan du {W} lite långsammare, tack?",    vi: "Bạn có thể {VI} chậm hơn một chút không?",     en: "Can you {EN} a little slower, please?" },
+  { sv: "Hon vill {W} efter jobbet.",            vi: "Cô ấy muốn {VI} sau giờ làm.",                en: "She wants to {EN} after work." },
+  { sv: "Det är kul att {W} med vänner.",        vi: "Thật vui khi được {VI} cùng bạn bè.",          en: "It is fun to {EN} with friends." },
 ];
 
 const ADJ_TEMPLATES: Tmpl[] = [
@@ -277,7 +329,8 @@ function templatesFor(word: SwedishWord): Tmpl[] {
   if (pos.startsWith("prep")) return PREP_TEMPLATES;
   if (pos.startsWith("conj")) return CONJ_TEMPLATES;
   // nouns, phrases, pronouns, numerals → noun-style by category
-  const cat = (word.category || "default").toLowerCase();
+  const rawCat = (word.category || "default").toLowerCase();
+  const cat = CATEGORY_ALIAS[rawCat] || rawCat;
   return NOUN_TEMPLATES[cat] || NOUN_TEMPLATES.default;
 }
 

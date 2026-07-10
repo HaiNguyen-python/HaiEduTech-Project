@@ -57,12 +57,12 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   1: {
     patterns: [
       p("Hej, jag heter ___.", "Chào, tôi tên là ___.", "Hi, my name is ___.", [
-        { sv: "Hej, jag heter Linh.", ipa: "/hɛj, jaɡ heːtɛr lɪnh./", vi: "Chào, tôi tên Linh.", en: "Hi, I'm Linh." },
-        { sv: "Hej, jag heter Anna.", ipa: "/hɛj, jaɡ heːtɛr anɑː./", vi: "Chào, tôi tên Anna.", en: "Hi, I'm Anna." },
+        { sv: "Hej, jag heter Linh.", vi: "Chào, tôi tên Linh.", en: "Hi, I'm Linh." },
+        { sv: "Hej, jag heter Anna.", vi: "Chào, tôi tên Anna.", en: "Hi, I'm Anna." },
       ]),
       p("Tack så ___ !", "Cảm ơn rất ___ !", "Thanks ___!", [
-        { sv: "Tack så mycket!", ipa: "/takk sɔ mʏkɕɛt!/", vi: "Cảm ơn rất nhiều!", en: "Thanks a lot!" },
-        { sv: "Tack så jättemycket!", ipa: "/takk sɔ jɛteːmʏkɕɛt!/", vi: "Cảm ơn vô cùng!", en: "Thanks a million!" },
+        { sv: "Tack så mycket!", vi: "Cảm ơn rất nhiều!", en: "Thanks a lot!" },
+        { sv: "Tack så jättemycket!", vi: "Cảm ơn vô cùng!", en: "Thanks a million!" },
       ]),
     ],
     listening: {
@@ -91,12 +91,12 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   2: {
     patterns: [
       p("Hej, hur mår ___?", "Chào, ___ khoẻ không?", "Hi, how is ___?", [
-        { sv: "Hej, hur mår du?", ipa: "/hɛj, hɵr mɔr dʉː?/", vi: "Chào, bạn khoẻ không?", en: "Hi, how are you?" },
-        { sv: "Hej, hur mår han?", ipa: "/hɛj, hɵr mɔr han?/", vi: "Anh ấy khoẻ không?", en: "How is he?" },
+        { sv: "Hej, hur mår du?", vi: "Chào, bạn khoẻ không?", en: "Hi, how are you?" },
+        { sv: "Hej, hur mår han?", vi: "Anh ấy khoẻ không?", en: "How is he?" },
       ]),
       p("Det är ___ , tack.", "___ , cảm ơn.", "It's ___, thanks.", [
-        { sv: "Det är bra, tack.", ipa: "/dɛt ɛr bra, takk./", vi: "Khoẻ, cảm ơn.", en: "I'm good, thanks." },
-        { sv: "Det är så där, tack.", ipa: "/dɛt ɛr sɔ dɛr, takk./", vi: "Tàm tạm thôi, cảm ơn.", en: "So-so, thanks." },
+        { sv: "Det är bra, tack.", vi: "Khoẻ, cảm ơn.", en: "I'm good, thanks." },
+        { sv: "Det är så där, tack.", vi: "Tàm tạm thôi, cảm ơn.", en: "So-so, thanks." },
       ]),
     ],
     listening: {
@@ -125,11 +125,11 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   3: {
     patterns: [
       p("Jag heter ___ och jag är ___ år.", "Tôi tên ___ và ___ tuổi.", "I'm ___ and I'm ___ years old.", [
-        { sv: "Jag heter Mai och jag är tjugofem år.", ipa: "/jaɡ heːtɛr mɑːiː ɔɕ jaɡ ɛr ɕʉːɡuːfɛm ɔr./", vi: "Tôi tên Mai và 25 tuổi.", en: "I'm Mai and 25 years old." },
+        { sv: "Jag heter Mai och jag är tjugofem år.", vi: "Tôi tên Mai và 25 tuổi.", en: "I'm Mai and 25 years old." },
       ]),
       p("Jag kommer från ___ .", "Tôi đến từ ___ .", "I come from ___.", [
-        { sv: "Jag kommer från Vietnam.", ipa: "/jaɡ kɔmɛr frɔn viːɛtnam./", vi: "Tôi đến từ Việt Nam.", en: "I come from Vietnam." },
-        { sv: "Jag kommer från Hanoi.", ipa: "/jaɡ kɔmɛr frɔn hɑːnuːiː./", vi: "Tôi đến từ Hà Nội.", en: "I come from Hanoi." },
+        { sv: "Jag kommer från Vietnam.", vi: "Tôi đến từ Việt Nam.", en: "I come from Vietnam." },
+        { sv: "Jag kommer från Hanoi.", vi: "Tôi đến từ Hà Nội.", en: "I come from Hanoi." },
       ]),
     ],
     listening: {
@@ -158,12 +158,12 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   4: {
     patterns: [
       p("Det är ___ .", "Đây là ___ .", "It is ___.", [
-        { sv: "Det är en bok.", ipa: "/dɛt ɛr ɛn bɔk./", vi: "Đây là 1 cuốn sách.", en: "It's a book." },
-        { sv: "Det är ett bord.", ipa: "/dɛt ɛr ɛt bɔɖ./", vi: "Đây là 1 cái bàn.", en: "It's a table." },
+        { sv: "Det är en bok.", vi: "Đây là 1 cuốn sách.", en: "It's a book." },
+        { sv: "Det är ett bord.", vi: "Đây là 1 cái bàn.", en: "It's a table." },
       ]),
       p("___ är ___ .", "___ thì ___ .", "___ is ___.", [
-        { sv: "Bilen är röd.", ipa: "/biːlɛn ɛr rœd./", vi: "Cái xe màu đỏ.", en: "The car is red." },
-        { sv: "Huset är stort.", ipa: "/hʉːsɛt ɛr stɔʈ./", vi: "Ngôi nhà to.", en: "The house is big." },
+        { sv: "Bilen är röd.", vi: "Cái xe màu đỏ.", en: "The car is red." },
+        { sv: "Huset är stort.", vi: "Ngôi nhà to.", en: "The house is big." },
       ]),
     ],
     listening: {
@@ -192,12 +192,12 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   5: {
     patterns: [
       p("Jag har ___ .", "Tôi có ___ .", "I have ___.", [
-        { sv: "Jag har en katt.", ipa: "/jaɡ har ɛn kat./", vi: "Tôi có 1 con mèo.", en: "I have a cat." },
-        { sv: "Jag har två syskon.", ipa: "/jaɡ har tvɔ sʏskɔn./", vi: "Tôi có 2 anh chị em.", en: "I have 2 siblings." },
+        { sv: "Jag har en katt.", vi: "Tôi có 1 con mèo.", en: "I have a cat." },
+        { sv: "Jag har två syskon.", vi: "Tôi có 2 anh chị em.", en: "I have 2 siblings." },
       ]),
       p("Min ___ heter ___ .", "___ của tôi tên ___ .", "My ___ is named ___.", [
-        { sv: "Min mamma heter Hoa.", ipa: "/mɪn mama heːtɛr huːɑː./", vi: "Mẹ tôi tên Hoa.", en: "My mom is Hoa." },
-        { sv: "Min bror heter Nam.", ipa: "/mɪn brɔr heːtɛr nam./", vi: "Anh tôi tên Nam.", en: "My brother is Nam." },
+        { sv: "Min mamma heter Hoa.", vi: "Mẹ tôi tên Hoa.", en: "My mom is Hoa." },
+        { sv: "Min bror heter Nam.", vi: "Anh tôi tên Nam.", en: "My brother is Nam." },
       ]),
     ],
     listening: {
@@ -226,11 +226,11 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   6: {
     patterns: [
       p("Klockan är ___ .", "Bây giờ là ___ giờ.", "It's ___ o'clock.", [
-        { sv: "Klockan är sju.", ipa: "/klɔkkan ɛr ɧʉː./", vi: "Bây giờ 7 giờ.", en: "It's 7." },
-        { sv: "Klockan är halv åtta.", ipa: "/klɔkkan ɛr halv ɔtɑː./", vi: "Bây giờ 7 rưỡi.", en: "It's half past 7." },
+        { sv: "Klockan är sju.", vi: "Bây giờ 7 giờ.", en: "It's 7." },
+        { sv: "Klockan är halv åtta.", vi: "Bây giờ 7 rưỡi.", en: "It's half past 7." },
       ]),
       p("Idag är det ___ .", "Hôm nay là ___ .", "Today is ___.", [
-        { sv: "Idag är det måndag.", ipa: "/iːdaɡ ɛr dɛt mɔndaɡ./", vi: "Hôm nay thứ Hai.", en: "Today is Monday." },
+        { sv: "Idag är det måndag.", vi: "Hôm nay thứ Hai.", en: "Today is Monday." },
       ]),
     ],
     listening: {
@@ -259,11 +259,11 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   7: {
     patterns: [
       p("Är du ___ ?", "Bạn có ___ không?", "Are you ___?", [
-        { sv: "Är du svensk?", ipa: "/ɛr dɵ svɛnsk?/", vi: "Bạn là người Thụy Điển à?", en: "Are you Swedish?" },
+        { sv: "Är du svensk?", vi: "Bạn là người Thụy Điển à?", en: "Are you Swedish?" },
       ]),
       p("Ja, jag är ___ . / Nej, jag är inte ___ .", "Có / Không.", "Yes / No.", [
-        { sv: "Ja, jag är student.", ipa: "/ja, jaɡ ɛr stʉːdɛnt./", vi: "Có, tôi là sinh viên.", en: "Yes, I'm a student." },
-        { sv: "Nej, jag är inte lärare.", ipa: "/nɛj, jaɡ ɛr ɪntɛ lɛːrɑːreː./", vi: "Không, tôi không phải giáo viên.", en: "No, I'm not a teacher." },
+        { sv: "Ja, jag är student.", vi: "Có, tôi là sinh viên.", en: "Yes, I'm a student." },
+        { sv: "Nej, jag är inte lärare.", vi: "Không, tôi không phải giáo viên.", en: "No, I'm not a teacher." },
       ]),
     ],
     listening: {
@@ -293,10 +293,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   8: {
     patterns: [
       p("Vad kostar ___ ?", "___ giá bao nhiêu?", "How much is ___?", [
-        { sv: "Vad kostar mjölken?", ipa: "/vad kɔstar mjœlɕɛn?/", vi: "Sữa bao nhiêu tiền?", en: "How much is the milk?" },
+        { sv: "Vad kostar mjölken?", vi: "Sữa bao nhiêu tiền?", en: "How much is the milk?" },
       ]),
       p("Det kostar ___ kronor.", "Giá ___ vương miện.", "It costs ___ kronor.", [
-        { sv: "Det kostar tjugofem kronor.", ipa: "/dɛt kɔstar ɕʉːɡuːfɛm kruːnɔr./", vi: "25 kr.", en: "25 kr." },
+        { sv: "Det kostar tjugofem kronor.", vi: "25 kr.", en: "25 kr." },
       ]),
     ],
     listening: {
@@ -325,11 +325,11 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   9: {
     patterns: [
       p("Jag vill ha ___ , tack.", "Cho tôi ___ , cảm ơn.", "I'd like ___, please.", [
-        { sv: "Jag vill ha en kaffe, tack.", ipa: "/jaɡ vɪl hɑː ɛn kafɛ, takk./", vi: "Cho tôi 1 cà phê.", en: "A coffee, please." },
-        { sv: "Jag vill ha en kanelbulle.", ipa: "/jaɡ vɪl hɑː ɛn kɑːnɛlbɵleː./", vi: "Cho 1 bánh quế.", en: "A cinnamon bun." },
+        { sv: "Jag vill ha en kaffe, tack.", vi: "Cho tôi 1 cà phê.", en: "A coffee, please." },
+        { sv: "Jag vill ha en kanelbulle.", vi: "Cho 1 bánh quế.", en: "A cinnamon bun." },
       ]),
       p("Får jag ___ ?", "Tôi có thể ___ được không?", "May I ___?", [
-        { sv: "Får jag betala?", ipa: "/fɔr jaɡ beːtɑːlɑː?/", vi: "Cho tôi thanh toán?", en: "May I pay?" },
+        { sv: "Får jag betala?", vi: "Cho tôi thanh toán?", en: "May I pay?" },
       ]),
     ],
     listening: {
@@ -358,10 +358,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   10: {
     patterns: [
       p("Var ligger ___ ?", "___ ở đâu?", "Where is ___?", [
-        { sv: "Var ligger tunnelbanan?", ipa: "/var lɪɡɛr tɵnɛlbɑːnan?/", vi: "Tàu điện ở đâu?", en: "Where's the metro?" },
+        { sv: "Var ligger tunnelbanan?", vi: "Tàu điện ở đâu?", en: "Where's the metro?" },
       ]),
       p("Gå ___ och sväng ___ .", "Đi ___ rồi rẽ ___ .", "Go ___ then turn ___.", [
-        { sv: "Gå rakt fram och sväng höger.", ipa: "/ɡɔ rakt fram ɔɕ svɛŋ høːjɛr./", vi: "Đi thẳng rồi rẽ phải.", en: "Go straight then right." },
+        { sv: "Gå rakt fram och sväng höger.", vi: "Đi thẳng rồi rẽ phải.", en: "Go straight then right." },
       ]),
     ],
     listening: {
@@ -390,10 +390,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   11: {
     patterns: [
       p("Jag äter ___ till ___ .", "Tôi ăn ___ vào ___ .", "I eat ___ for ___.", [
-        { sv: "Jag äter gröt till frukost.", ipa: "/jaɡ ɛːtɛr ɡrœt tɪl frʉːkɔst./", vi: "Tôi ăn cháo yến mạch buổi sáng.", en: "Oats for breakfast." },
+        { sv: "Jag äter gröt till frukost.", vi: "Tôi ăn cháo yến mạch buổi sáng.", en: "Oats for breakfast." },
       ]),
       p("Jag dricker ___ .", "Tôi uống ___ .", "I drink ___.", [
-        { sv: "Jag dricker te varje morgon.", ipa: "/jaɡ drɪkɕɛr tɛ varjɛ mɔrɡɔn./", vi: "Tôi uống trà mỗi sáng.", en: "Tea every morning." },
+        { sv: "Jag dricker te varje morgon.", vi: "Tôi uống trà mỗi sáng.", en: "Tea every morning." },
       ]),
     ],
     listening: {
@@ -422,11 +422,11 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   12: {
     patterns: [
       p("Den / Det är ___ .", "Nó là ___ (màu / size).", "It is ___.", [
-        { sv: "Tröjan är blå.", ipa: "/trøːjan ɛr bloː./", vi: "Áo màu xanh.", en: "The sweater is blue." },
-        { sv: "Huset är stort.", ipa: "/hʉːsɛt ɛr stɔʈ./", vi: "Nhà to.", en: "The house is big." },
+        { sv: "Tröjan är blå.", vi: "Áo màu xanh.", en: "The sweater is blue." },
+        { sv: "Huset är stort.", vi: "Nhà to.", en: "The house is big." },
       ]),
       p("Jag har en ___ ___ .", "Tôi có 1 cái ___ ___ .", "I have a ___ ___.", [
-        { sv: "Jag har en röd jacka.", ipa: "/jaɡ har ɛn rœd jakkɑː./", vi: "Tôi có 1 áo khoác đỏ.", en: "I have a red jacket." },
+        { sv: "Jag har en röd jacka.", vi: "Tôi có 1 áo khoác đỏ.", en: "I have a red jacket." },
       ]),
     ],
     listening: {
@@ -455,11 +455,11 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   13: {
     patterns: [
       p("Vilket väder är det idag?", "Hôm nay thời tiết thế nào?", "What's the weather?", [
-        { sv: "Det är soligt idag.", ipa: "/dɛt ɛr suːlɪɡt iːdaɡ./", vi: "Hôm nay nắng.", en: "Sunny today." },
+        { sv: "Det är soligt idag.", vi: "Hôm nay nắng.", en: "Sunny today." },
       ]),
       p("Det ___ .", "Trời ___ .", "It is ___.", [
-        { sv: "Det regnar.", ipa: "/dɛt rɛŋnar./", vi: "Trời mưa.", en: "It rains." },
-        { sv: "Det snöar.", ipa: "/dɛt snøːar./", vi: "Trời tuyết.", en: "It snows." },
+        { sv: "Det regnar.", vi: "Trời mưa.", en: "It rains." },
+        { sv: "Det snöar.", vi: "Trời tuyết.", en: "It snows." },
       ]),
     ],
     listening: {
@@ -488,7 +488,7 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   14: {
     patterns: [
       p("Sammanfatta vad du lärt: jag kan ___ .", "Tổng kết: tôi đã biết ___ .", "I learned to ___.", [
-        { sv: "Jag kan presentera mig själv.", ipa: "/jaɡ kan preːsɛnteːra mɪɡ ɧɛlv./", vi: "Tôi tự giới thiệu được.", en: "Self-intro." },
+        { sv: "Jag kan presentera mig själv.", vi: "Tôi tự giới thiệu được.", en: "Self-intro." },
       ]),
     ],
     listening: {
@@ -518,11 +518,11 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   15: {
     patterns: [
       p("Jag har ont i ___ .", "Tôi đau ___ .", "I have pain in ___.", [
-        { sv: "Jag har ont i huvudet.", ipa: "/jaɡ har ɔnt ɪ hʉːvʉːdɛt./", vi: "Tôi đau đầu.", en: "Headache." },
-        { sv: "Jag har ont i magen.", ipa: "/jaɡ har ɔnt ɪ mɑːjɛn./", vi: "Tôi đau bụng.", en: "Stomachache." },
+        { sv: "Jag har ont i huvudet.", vi: "Tôi đau đầu.", en: "Headache." },
+        { sv: "Jag har ont i magen.", vi: "Tôi đau bụng.", en: "Stomachache." },
       ]),
       p("Min ___ värker.", "___ của tôi nhức.", "My ___ aches.", [
-        { sv: "Min rygg värker.", ipa: "/mɪn rʏɡ vɛrɕɛr./", vi: "Lưng tôi nhức.", en: "Back aches." },
+        { sv: "Min rygg värker.", vi: "Lưng tôi nhức.", en: "Back aches." },
       ]),
     ],
     listening: {
@@ -551,10 +551,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   16: {
     patterns: [
       p("Mitt hem har ___ .", "Nhà tôi có ___ .", "My home has ___.", [
-        { sv: "Mitt hem har två rum.", ipa: "/mɪt hɛm har tvɔ rɵm./", vi: "Nhà tôi 2 phòng.", en: "2 rooms." },
+        { sv: "Mitt hem har två rum.", vi: "Nhà tôi 2 phòng.", en: "2 rooms." },
       ]),
       p("I ___ finns det ___ .", "Trong ___ có ___ .", "In ___ there is ___.", [
-        { sv: "I köket finns det ett bord.", ipa: "/ɪ ɕøːɕɛt fɪns dɛt ɛt bɔɖ./", vi: "Bếp có 1 cái bàn.", en: "Kitchen has a table." },
+        { sv: "I köket finns det ett bord.", vi: "Bếp có 1 cái bàn.", en: "Kitchen has a table." },
       ]),
     ],
     listening: {
@@ -583,10 +583,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   17: {
     patterns: [
       p("Jag jobbar som ___ .", "Tôi làm ___ .", "I work as ___.", [
-        { sv: "Jag jobbar som lärare.", ipa: "/jaɡ jɔbar sɔm lɛːrɑːreː./", vi: "Tôi là giáo viên.", en: "I'm a teacher." },
+        { sv: "Jag jobbar som lärare.", vi: "Tôi là giáo viên.", en: "I'm a teacher." },
       ]),
       p("Jag jobbar på ___ .", "Tôi làm ở ___ .", "I work at ___.", [
-        { sv: "Jag jobbar på sjukhus.", ipa: "/jaɡ jɔbar pɔ ɧɵkhɵs./", vi: "Làm ở bệnh viện.", en: "At a hospital." },
+        { sv: "Jag jobbar på sjukhus.", vi: "Làm ở bệnh viện.", en: "At a hospital." },
       ]),
     ],
     listening: {
@@ -615,10 +615,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   18: {
     patterns: [
       p("På fritiden ___ jag ___ .", "Rảnh rỗi tôi ___ .", "In free time I ___.", [
-        { sv: "På fritiden läser jag böcker.", ipa: "/pɔ friːtiːdɛn lɛːsɛr jaɡ bœkɕɛr./", vi: "Rảnh tôi đọc sách.", en: "Read books." },
+        { sv: "På fritiden läser jag böcker.", vi: "Rảnh tôi đọc sách.", en: "Read books." },
       ]),
       p("Jag tycker om att ___ .", "Tôi thích ___ .", "I like to ___.", [
-        { sv: "Jag tycker om att simma.", ipa: "/jaɡ tʏkɕɛr ɔm at sɪmɑː./", vi: "Tôi thích bơi.", en: "Like swimming." },
+        { sv: "Jag tycker om att simma.", vi: "Tôi thích bơi.", en: "Like swimming." },
       ]),
     ],
     listening: {
@@ -647,10 +647,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   19: {
     patterns: [
       p("Jag ska ___ ikväll.", "Tối nay tôi sẽ ___ .", "I will ___ tonight.", [
-        { sv: "Jag ska träffa en vän ikväll.", ipa: "/jaɡ ska trɛfɑː ɛn vɛn ɪkvɛl./", vi: "Tối tôi sẽ gặp bạn.", en: "Meet a friend tonight." },
+        { sv: "Jag ska träffa en vän ikväll.", vi: "Tối tôi sẽ gặp bạn.", en: "Meet a friend tonight." },
       ]),
       p("Vill du ___ ?", "Bạn muốn ___ không?", "Want to ___?", [
-        { sv: "Vill du gå på bio?", ipa: "/vɪl dɵ ɡɔ pɔ biːuː?/", vi: "Đi xem phim không?", en: "Wanna go to cinema?" },
+        { sv: "Vill du gå på bio?", vi: "Đi xem phim không?", en: "Wanna go to cinema?" },
       ]),
     ],
     listening: {
@@ -679,10 +679,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   20: {
     patterns: [
       p("Idag är det ___ .", "Hôm nay là ___ .", "Today is ___.", [
-        { sv: "Idag är det midsommar.", ipa: "/iːdaɡ ɛr dɛt mɪdsɔmar./", vi: "Hôm nay là Hạ chí.", en: "Midsummer." },
+        { sv: "Idag är det midsommar.", vi: "Hôm nay là Hạ chí.", en: "Midsummer." },
       ]),
       p("Vi firar ___ med ___ .", "Chúng ta đón ___ với ___ .", "We celebrate ___ with ___.", [
-        { sv: "Vi firar jul med familjen.", ipa: "/vɪ fiːrar jɵl mɛd fɑːmɪljɛn./", vi: "Chúng tôi đón Noel với gia đình.", en: "Christmas with family." },
+        { sv: "Vi firar jul med familjen.", vi: "Chúng tôi đón Noel với gia đình.", en: "Christmas with family." },
       ]),
     ],
     listening: {
@@ -711,7 +711,7 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   21: {
     patterns: [
       p("Förra veckan ___ jag ___ .", "Tuần trước tôi ___ .", "Last week I ___.", [
-        { sv: "Förra veckan åkte jag till Malmö.", ipa: "/fœra vɛkkan ɔktɛ jaɡ tɪl malmøː./", vi: "Tuần trước tôi đi Malmö.", en: "Went to Malmö." },
+        { sv: "Förra veckan åkte jag till Malmö.", vi: "Tuần trước tôi đi Malmö.", en: "Went to Malmö." },
       ]),
     ],
     listening: {
@@ -741,7 +741,7 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   22: {
     patterns: [
       p("Vad heter du? / Var bor du? / Vad jobbar du med?", "Hỏi đời tư cơ bản.", "Basic small-talk Qs.", [
-        { sv: "Hej, vad heter du?", ipa: "/hɛj, vad heːtɛr dʉː?/", vi: "Chào, bạn tên gì?", en: "Hi, your name?" },
+        { sv: "Hej, vad heter du?", vi: "Chào, bạn tên gì?", en: "Hi, your name?" },
       ]),
     ],
     listening: {
@@ -770,7 +770,7 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   23: {
     patterns: [
       p("Hej, det är ___ . Kan jag prata med ___ ?", "Chào, ___ đây. Cho gặp ___ ?", "Hi, ___ speaking. May I talk to ___?", [
-        { sv: "Hej, det är Linh. Kan jag prata med Anna?", ipa: "/hɛj, dɛt ɛr lɪnh. kan jaɡ prɑːta mɛd anɑː?/", vi: "Linh đây, cho gặp Anna?", en: "Linh speaking, may I talk to Anna?" },
+        { sv: "Hej, det är Linh. Kan jag prata med Anna?", vi: "Linh đây, cho gặp Anna?", en: "Linh speaking, may I talk to Anna?" },
       ]),
     ],
     listening: {
@@ -799,10 +799,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   24: {
     patterns: [
       p("Vad är det här på svenska?", "Cái này tiếng Thụy Điển là gì?", "What's this in Swedish?", [
-        { sv: "Vad är det här på svenska?", ipa: "/vad ɛr dɛt hɛr pɔ svɛnskɑː?/", vi: "Cái này tiếng Thụy Điển?", en: "What's this in Swedish?" },
+        { sv: "Vad är det här på svenska?", vi: "Cái này tiếng Thụy Điển?", en: "What's this in Swedish?" },
       ]),
       p("Kan du säga det igen, tack?", "Bạn nhắc lại được không?", "Can you say it again?", [
-        { sv: "Kan du säga det igen, tack?", ipa: "/kan dɵ sɛːɡa dɛt iːjɛn, takk?/", vi: "Nhắc lại đi.", en: "Say again please." },
+        { sv: "Kan du säga det igen, tack?", vi: "Nhắc lại đi.", en: "Say again please." },
       ]),
     ],
     listening: {
@@ -831,7 +831,7 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   25: {
     patterns: [
       p("Jag bokade ___ för ___ .", "Tôi đặt ___ cho ___ .", "I booked ___ for ___.", [
-        { sv: "Jag bokade ett rum för två nätter.", ipa: "/jaɡ buːkɑːdeː ɛt rɵm fœr tvɔ nɛtɛr./", vi: "Tôi đặt 1 phòng 2 đêm.", en: "Room for 2 nights." },
+        { sv: "Jag bokade ett rum för två nätter.", vi: "Tôi đặt 1 phòng 2 đêm.", en: "Room for 2 nights." },
       ]),
     ],
     listening: {
@@ -860,7 +860,7 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   26: {
     patterns: [
       p("Tåget till ___ avgår klockan ___ .", "Tàu đi ___ khởi hành lúc ___ .", "Train to ___ leaves at ___.", [
-        { sv: "Tåget till Malmö avgår klockan tio.", ipa: "/toːjɛt tɪl malmøː avɡɔr klɔkkan tiːuː./", vi: "Tàu Malmö 10 giờ chạy.", en: "Malmö train at 10." },
+        { sv: "Tåget till Malmö avgår klockan tio.", vi: "Tàu Malmö 10 giờ chạy.", en: "Malmö train at 10." },
       ]),
     ],
     listening: {
@@ -889,10 +889,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   27: {
     patterns: [
       p("Det är förbjudet att ___ .", "Cấm ___ .", "Forbidden to ___.", [
-        { sv: "Det är förbjudet att röka.", ipa: "/dɛt ɛr fœrbjʉːdɛt at røːkɑː./", vi: "Cấm hút thuốc.", en: "No smoking." },
+        { sv: "Det är förbjudet att röka.", vi: "Cấm hút thuốc.", en: "No smoking." },
       ]),
       p("Du ska ___ .", "Bạn cần ___ .", "You must ___.", [
-        { sv: "Du ska sopsortera.", ipa: "/dɵ ska sɔpsɔʈeːrɑː./", vi: "Bạn cần phân loại rác.", en: "You must sort waste." },
+        { sv: "Du ska sopsortera.", vi: "Bạn cần phân loại rác.", en: "You must sort waste." },
       ]),
     ],
     listening: {
@@ -921,10 +921,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   28: {
     patterns: [
       p("Får jag ___ ?", "Tôi có thể ___ không?", "May I ___?", [
-        { sv: "Får jag sitta här?", ipa: "/fɔr jaɡ sɪta hɛr?/", vi: "Tôi ngồi đây được không?", en: "May I sit?" },
+        { sv: "Får jag sitta här?", vi: "Tôi ngồi đây được không?", en: "May I sit?" },
       ]),
       p("Skulle du kunna ___ ?", "Bạn có thể ___ giúp không?", "Could you ___?", [
-        { sv: "Skulle du kunna hjälpa mig?", ipa: "/skɵlɛ dɵ kɵna hjɛlpa mɪɡ?/", vi: "Giúp tôi được không?", en: "Could you help?" },
+        { sv: "Skulle du kunna hjälpa mig?", vi: "Giúp tôi được không?", en: "Could you help?" },
       ]),
     ],
     listening: {
@@ -954,7 +954,7 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   29: {
     patterns: [
       p("Imorgon ska jag ___ .", "Mai tôi sẽ ___ .", "Tomorrow I will ___.", [
-        { sv: "Imorgon ska jag göra YKI-provet.", ipa: "/iːmɔrɡɔn ska jaɡ jøːrɑː yːɕɪpruːvɛt./", vi: "Mai tôi thi YKI.", en: "Tomorrow YKI test." },
+        { sv: "Imorgon ska jag göra YKI-provet.", vi: "Mai tôi thi YKI.", en: "Tomorrow YKI test." },
       ]),
     ],
     listening: {
@@ -983,10 +983,10 @@ export const SWEDISH_A1_DAILY_DEEP: Record<number, DailyDeep> = {
   30: {
     patterns: [
       p("Jag har lärt mig ___ .", "Tôi đã học được ___ .", "I learned ___.", [
-        { sv: "Jag har lärt mig hälsa, fika och resa.", ipa: "/jaɡ har lɛʈ mɪɡ hɛlsa, fiːkɑː ɔɕ reːsɑː./", vi: "Tôi học chào hỏi, fika và đi lại.", en: "Learned greetings, fika, travel." },
+        { sv: "Jag har lärt mig hälsa, fika och resa.", vi: "Tôi học chào hỏi, fika và đi lại.", en: "Learned greetings, fika, travel." },
       ]),
       p("Nästa mål: ___ .", "Mục tiêu tiếp: ___ .", "Next goal: ___.", [
-        { sv: "Nästa mål: A2-nivå.", ipa: "/nɛsta mɔl: a2niːvoː./", vi: "Mục tiêu: trình A2.", en: "Next: A2." },
+        { sv: "Nästa mål: A2-nivå.", vi: "Mục tiêu: trình A2.", en: "Next: A2." },
       ]),
     ],
     listening: {
