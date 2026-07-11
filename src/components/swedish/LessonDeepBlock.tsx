@@ -12,6 +12,7 @@ import { CheckCircle2, XCircle, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LESSON_DEEP } from "@/data/swedishLessonDeep";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
+import { LessonGrammarExerciseBlock } from "@/components/swedish/LessonGrammarExerciseBlock";
 
 interface Props {
   id: string;
