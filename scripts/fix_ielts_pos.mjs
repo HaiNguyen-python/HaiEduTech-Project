@@ -135,14 +135,18 @@ for (const rel of FILES) {
   let fileChanged = 0;
 
   // Object-literal form: { word: "X", ..., partOfSpeech: "Y", ... }
-  out = out.replace(
-    /(\{\s*word:\s*"([^"]+)"[^}]*?partOfSpeech:\s*")([a-zA-Z ]+)(")/g,
-    (m, pre, word, oldPos, post) => {
-      const newPos = inferPos(word);
-      if (newPos && newPos !== oldPos.trim()) { fileChanged++; return pre + newPos + post; }
-      return m;
-    },
-  );
+  // Match entry-per-line style; walk each line individually.
+  out = out.split("\n").map(line => {
+    const m = line.match(/word:\s*"([^"]+)"[\s\S]*?partOfSpeech:\s*"([a-zA-Z ]+)"/);
+    if (!m) return line;
+    const [, word, oldPos] = m;
+    const newPos = inferPos(word);
+    if (newPos && newPos !== oldPos.trim()) {
+      fileChanged++;
+      return line.replace(`partOfSpeech: "${oldPos}"`, `partOfSpeech: "${newPos}"`);
+    }
+    return line;
+  }).join("\n");
 
   // Helper form: w("word", "ipa", "level", "vi", "en", "example", "category", "pos", ...)
   out = out.replace(
