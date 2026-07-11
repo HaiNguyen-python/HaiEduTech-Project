@@ -63,6 +63,8 @@ export const LessonDeepBlock = ({ id, lang, t }: Props) => {
         </div>
       )}
 
+      <LessonGrammarExerciseBlock id={id} t={t} />
+
       {deep.dialogue && (
         <div className="rounded-md border border-teal-500/30 bg-teal-500/5 p-3">
           <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-teal-600 dark:text-teal-300">
