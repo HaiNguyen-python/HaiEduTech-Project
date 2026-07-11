@@ -12,6 +12,7 @@ import { CheckCircle2, XCircle, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LESSON_DEEP } from "@/data/swedishLessonDeep";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
+import { LessonGrammarExerciseBlock } from "@/components/swedish/LessonGrammarExerciseBlock";
 
 interface Props {
   id: string;
@@ -61,6 +62,8 @@ export const LessonDeepBlock = ({ id, lang, t }: Props) => {
           )}
         </div>
       )}
+
+      <LessonGrammarExerciseBlock id={id} t={t} />
 
       {deep.dialogue && (
         <div className="rounded-md border border-teal-500/30 bg-teal-500/5 p-3">
