@@ -300,6 +300,10 @@ export const SwedishA1DailyPlan = () => {
                                   </p>
                                 </div>
                               )}
+
+                              {/* Extended grammar + exercises */}
+                              <SwedishA1GrammarExpansionBlock day={d.day} />
+
                               {SWEDISH_A1_DAILY_EXTRAS[d.day].dialog && (
                                 <div className="rounded-lg border border-sky-500/30 bg-sky-500/5 p-3">
                                   <div className="mb-2 text-xs font-semibold text-sky-700 dark:text-sky-300">
