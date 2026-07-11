@@ -354,22 +354,6 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   kväll:         { sv: "På kvällen tittar vi på tv.",                       vi: "Buổi tối chúng tôi xem tivi.",                            en: "In the evening we watch TV." },
   natt:          { sv: "God natt, sov gott!",                               vi: "Chúc ngủ ngon nhé!",                                      en: "Good night, sleep well!" },
 
-  // ─────────────── ADJECTIVES (avoid gender-agreement bugs) ───────────────
-  gammal:        { sv: "Min farmor är väldigt gammal.",                     vi: "Bà nội tôi rất già.",                                     en: "My grandma is very old." },
-  liten:         { sv: "Vi bor i en liten lägenhet.",                       vi: "Chúng tôi sống trong một căn hộ nhỏ.",                    en: "We live in a small apartment." },
-  stor:          { sv: "De har ett stort hus på landet.",                   vi: "Họ có một ngôi nhà lớn ở nông thôn.",                     en: "They have a big house in the countryside." },
-  ny:            { sv: "Jag har köpt en ny cykel.",                         vi: "Tôi vừa mua một chiếc xe đạp mới.",                       en: "I have bought a new bicycle." },
-  hög:           { sv: "Berget är väldigt högt.",                           vi: "Ngọn núi rất cao.",                                       en: "The mountain is very high." },
-  låg:           { sv: "Priset är ganska lågt idag.",                       vi: "Giá hôm nay khá thấp.",                                   en: "The price is quite low today." },
-  bra:           { sv: "Maten är riktigt bra här.",                         vi: "Đồ ăn ở đây rất ngon.",                                   en: "The food is really good here." },
-  dålig:         { sv: "Vädret är dåligt idag.",                            vi: "Thời tiết hôm nay xấu.",                                  en: "The weather is bad today." },
-  varm:          { sv: "Kaffet är fortfarande varmt.",                      vi: "Cà phê vẫn còn nóng.",                                    en: "The coffee is still warm." },
-  kall:          { sv: "Vintern i Sverige är väldigt kall.",                vi: "Mùa đông ở Thụy Điển rất lạnh.",                          en: "Winter in Sweden is very cold." },
-  snäll:         { sv: "Läraren är alltid snäll mot eleverna.",             vi: "Giáo viên luôn tốt bụng với học sinh.",                   en: "The teacher is always kind to the students." },
-  trött:         { sv: "Jag är väldigt trött efter jobbet.",                vi: "Tôi rất mệt sau giờ làm.",                                en: "I am very tired after work." },
-  glad:          { sv: "Barnen är glada när det snöar.",                    vi: "Bọn trẻ vui khi trời có tuyết.",                          en: "The children are happy when it snows." },
-  ledsen:        { sv: "Hon ser ledsen ut idag.",                           vi: "Hôm nay cô ấy trông buồn.",                              en: "She looks sad today." },
-
   // ─────────────── ADVERBS ───────────────
   ofta:          { sv: "Jag går ofta till gymmet.",                         vi: "Tôi thường xuyên đi tập gym.",                            en: "I often go to the gym." },
   sällan:        { sv: "Han äter sällan kött.",                             vi: "Anh ấy hiếm khi ăn thịt.",                                en: "He rarely eats meat." },
@@ -378,7 +362,6 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   ibland:        { sv: "Ibland tar vi bussen till stan.",                   vi: "Đôi khi chúng tôi đi xe buýt vào thành phố.",             en: "Sometimes we take the bus to town." },
   snabbt:        { sv: "Han pratar mycket snabbt.",                         vi: "Anh ấy nói rất nhanh.",                                   en: "He speaks very quickly." },
   långsamt:      { sv: "Kan du prata lite långsammare, tack?",              vi: "Bạn nói chậm lại một chút được không?",                   en: "Can you speak a little more slowly, please?" },
-  bra_adv:       { sv: "Hon sjunger väldigt bra.",                          vi: "Cô ấy hát rất hay.",                                      en: "She sings very well." },
   hemma:         { sv: "Jag är hemma hela dagen.",                          vi: "Tôi ở nhà cả ngày.",                                      en: "I am home all day." },
   ute:           { sv: "Barnen leker ute i trädgården.",                    vi: "Bọn trẻ chơi ngoài vườn.",                                en: "The children are playing outside in the garden." },
   inne:          { sv: "Det är varmare inne än ute.",                       vi: "Trong nhà ấm hơn ngoài trời.",                            en: "It is warmer inside than outside." },
