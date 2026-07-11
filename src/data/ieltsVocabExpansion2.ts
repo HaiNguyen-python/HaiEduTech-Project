@@ -24,15 +24,15 @@ const w = (
 
 export const ieltsVocabExpansion2: IeltsWord[] = [
   // Education
-  w("scaffolding", "/ˈskæf.əl.dɪŋ/", "C1", "hỗ trợ học tập có cấu trúc", "structured support that gradually transfers responsibility to learners", "Effective scaffolding helps weaker students reach grade-level work.", "Education", "noun", ["instructional support"], ["scaffolding techniques"]),
-  w("interdisciplinary", "/ˌɪn.təˌdɪs.əˈplɪn.ər.i/", "C1", "liên ngành", "involving two or more academic disciplines", "Climate science is an inherently interdisciplinary field.", "Education", "adj", ["cross-disciplinary"], ["interdisciplinary research"]),
+  w("scaffolding", "/ˈskæf.əl.dɪŋ/", "C1", "hỗ trợ học tập có cấu trúc", "structured support that gradually transfers responsibility to learners", "Effective scaffolding helps weaker students reach grade-level work.", "Education", "adjective", ["instructional support"], ["scaffolding techniques"]),
+  w("interdisciplinary", "/ˌɪn.təˌdɪs.əˈplɪn.ər.i/", "C1", "liên ngành", "involving two or more academic disciplines", "Climate science is an inherently interdisciplinary field.", "Education", "adjective", ["cross-disciplinary"], ["interdisciplinary research"]),
   w("vocational", "/vəʊˈkeɪ.ʃən.əl/", "B2", "thuộc nghề nghiệp", "relating to occupational skills training", "Germany's vocational pathways rival traditional university routes.", "Education", "adj", ["occupational"], ["vocational training"]),
   w("dropout rate", "/ˈdrɒp.aʊt reɪt/", "B2", "tỷ lệ bỏ học", "the proportion of students who leave education early", "Targeted scholarships reduced the dropout rate by 18%.", "Education", "noun", [], ["high dropout rate"]),
   w("standardised testing", "/ˈstæn.də.daɪzd ˈtest.ɪŋ/", "B2", "thi chuẩn hóa", "exams scored uniformly across cohorts", "Standardised testing remains controversial among educators.", "Education", "noun", [], ["over-reliance on standardised testing"]),
 
   // Society
   w("polarisation", "/ˌpəʊ.lər.aɪˈzeɪ.ʃən/", "C1", "phân cực", "division into two sharply contrasting groups", "Social media has accelerated political polarisation.", "Society", "noun", ["division"], ["growing polarisation"]),
-  w("disenfranchised", "/ˌdɪs.ɪnˈfræn.tʃaɪzd/", "C1", "bị tước quyền", "deprived of power or rights", "Reforms aim to re-enfranchise disenfranchised communities.", "Society", "adj", ["marginalised"], ["disenfranchised voters"]),
+  w("disenfranchised", "/ˌdɪs.ɪnˈfræn.tʃaɪzd/", "C1", "bị tước quyền", "deprived of power or rights", "Reforms aim to re-enfranchise disenfranchised communities.", "Society", "adjective", ["marginalised"], ["disenfranchised voters"]),
   w("upward mobility", "/ˈʌp.wəd məʊˈbɪl.ə.ti/", "C1", "thăng tiến xã hội", "ability to rise in social class", "Quality education is a key driver of upward mobility.", "Society", "noun", [], ["limited upward mobility"]),
   w("social fabric", "/ˈsəʊ.ʃəl ˈfæb.rɪk/", "C1", "kết cấu xã hội", "the underlying network of relationships in a community", "Mass migration can fray a country's social fabric.", "Society", "noun", [], ["preserve the social fabric"]),
   w("civic duty", "/ˈsɪv.ɪk ˈdʒuː.ti/", "B2", "nghĩa vụ công dân", "responsibility expected of a citizen", "Voting is widely viewed as a civic duty.", "Society", "noun", [], ["fulfil a civic duty"]),
@@ -43,7 +43,7 @@ export const ieltsVocabExpansion2: IeltsWord[] = [
   w("conservation", "/ˌkɒn.səˈveɪ.ʃən/", "B2", "bảo tồn", "protection of the natural environment", "Marine conservation requires international cooperation.", "Environment", "noun", ["preservation"], ["wildlife conservation"]),
   w("sustainability", "/səˌsteɪ.nəˈbɪl.ə.ti/", "B2", "tính bền vững", "the ability to maintain at a certain level over time", "Long-term sustainability must guide urban planning.", "Environment", "noun", [], ["environmental sustainability"]),
   w("ecological footprint", "/ˌiː.kəˈlɒdʒ.ɪ.kəl ˈfʊt.prɪnt/", "C1", "dấu chân sinh thái", "measure of human demand on ecosystems", "Wealthy nations have an outsized ecological footprint.", "Environment", "noun", [], ["calculate the ecological footprint"]),
-  w("greenwashing", "/ˈɡriːnˌwɒʃ.ɪŋ/", "C1", "tẩy xanh / quảng cáo xanh giả", "misleading claims that a product is environmentally friendly", "Regulators are cracking down on corporate greenwashing.", "Environment", "noun", [], ["accusations of greenwashing"]),
+  w("greenwashing", "/ˈɡriːnˌwɒʃ.ɪŋ/", "C1", "tẩy xanh / quảng cáo xanh giả", "misleading claims that a product is environmentally friendly", "Regulators are cracking down on corporate greenwashing.", "Environment", "adjective", [], ["accusations of greenwashing"]),
 
   // Health
   w("preventive care", "/prɪˈven.tɪv keər/", "B2", "y tế dự phòng", "healthcare aimed at preventing illness", "Investment in preventive care reduces long-term costs.", "Health", "noun", [], ["preventive care programmes"]),
@@ -63,7 +63,7 @@ export const ieltsVocabExpansion2: IeltsWord[] = [
   w("remote working", "/rɪˈməʊt ˈwɜː.kɪŋ/", "B2", "làm việc từ xa", "performing one's job outside a traditional office", "Remote working has reshaped commuting patterns.", "Work & Career", "noun", ["teleworking"], ["embrace remote working"]),
   w("gig economy", "/ɡɪɡ ɪˈkɒn.ə.mi/", "C1", "kinh tế ngắn hạn", "labour market dominated by short-term contracts", "Riders in the gig economy lack traditional benefits.", "Work & Career", "noun", [], ["gig-economy workers"]),
   w("workplace diversity", "/ˈwɜːk.pleɪs daɪˈvɜː.sə.ti/", "B2", "đa dạng nơi làm việc", "presence of varied backgrounds in employees", "Workplace diversity is linked to better innovation outcomes.", "Work & Career", "noun", [], ["promote workplace diversity"]),
-  w("upskilling", "/ˌʌpˈskɪl.ɪŋ/", "C1", "nâng cao kỹ năng", "teaching employees new advanced skills", "Continuous upskilling protects workers from automation.", "Work & Career", "noun", ["reskilling"], ["invest in upskilling"]),
+  w("upskilling", "/ˌʌpˈskɪl.ɪŋ/", "C1", "nâng cao kỹ năng", "teaching employees new advanced skills", "Continuous upskilling protects workers from automation.", "Work & Career", "adjective", ["reskilling"], ["invest in upskilling"]),
   w("work-life balance", "/wɜːk laɪf ˈbæl.əns/", "B2", "cân bằng công việc – cuộc sống", "the equilibrium between work and personal life", "Flexible hours help employees maintain work-life balance.", "Work & Career", "noun", [], ["healthy work-life balance"]),
 
   // Economy
@@ -104,7 +104,7 @@ export const ieltsVocabExpansion2: IeltsWord[] = [
   w("repatriation", "/riːˌpæt.riˈeɪ.ʃən/", "C1", "hồi hương", "the return of someone to their own country", "Voluntary repatriation programmes assisted thousands of refugees.", "Migration & Identity", "noun", [], ["voluntary repatriation"]),
   w("brain gain", "/breɪn ɡeɪn/", "C1", "thu hút chất xám", "the inflow of skilled workers", "Returning graduates contribute to a nation's brain gain.", "Migration & Identity", "noun", [], ["brain gain effect"]),
   w("multiculturalism", "/ˌmʌl.tiˈkʌl.tʃər.əl.ɪ.zəm/", "C1", "đa văn hóa", "presence of several distinct cultural groups in a society", "Canada's multiculturalism is enshrined in law.", "Migration & Identity", "noun", [], ["embrace multiculturalism"]),
-  w("indigenous", "/ɪnˈdɪdʒ.ə.nəs/", "C1", "bản địa", "originating naturally in a particular place", "Indigenous languages deserve official recognition.", "Migration & Identity", "adj", ["native"], ["indigenous communities"]),
+  w("indigenous", "/ɪnˈdɪdʒ.ə.nəs/", "C1", "bản địa", "originating naturally in a particular place", "Indigenous languages deserve official recognition.", "Migration & Identity", "adjective", ["native"], ["indigenous communities"]),
 ];
 
 export default ieltsVocabExpansion2;

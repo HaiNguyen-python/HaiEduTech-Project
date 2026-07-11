@@ -24,7 +24,7 @@ const w = (
 export const ieltsVocabExpansion3: IeltsWord[] = [
   // Globalisation & Economy
   w("supply chain", "/səˈplaɪ tʃeɪn/", "B2", "chuỗi cung ứng", "system of organisations involved in moving a product from supplier to customer", "Global supply chains were disrupted by the pandemic.", "Economy", "noun", [], ["global supply chain", "supply chain disruption"]),
-  w("outsourcing", "/ˈaʊtˌsɔː.sɪŋ/", "C1", "thuê ngoài", "delegating tasks to external providers", "Outsourcing customer service overseas cut operating costs.", "Economy", "noun", [], ["outsourcing strategy"]),
+  w("outsourcing", "/ˈaʊtˌsɔː.sɪŋ/", "C1", "thuê ngoài", "delegating tasks to external providers", "Outsourcing customer service overseas cut operating costs.", "Economy", "adjective", [], ["outsourcing strategy"]),
   w("protectionism", "/prəˈtek.ʃən.ɪ.zəm/", "C1", "chủ nghĩa bảo hộ", "policy of restricting imports", "Rising protectionism threatens global trade growth.", "Economy", "noun", [], ["trade protectionism"]),
   w("entrepreneurship", "/ˌɒn.trə.prəˈnɜː.ʃɪp/", "C1", "tinh thần khởi nghiệp", "the activity of starting and managing businesses", "Universities now teach entrepreneurship alongside science.", "Economy", "noun", ["enterprise"], ["foster entrepreneurship"]),
 
@@ -50,11 +50,11 @@ export const ieltsVocabExpansion3: IeltsWord[] = [
   // Urban planning
   w("infrastructure", "/ˈɪn.frəˌstrʌk.tʃər/", "B2", "cơ sở hạ tầng", "physical structures needed for a society", "Investment in infrastructure spurs economic growth.", "Urban Planning", "noun", [], ["transport infrastructure"]),
   w("congestion", "/kənˈdʒes.tʃən/", "B2", "ùn tắc", "overcrowding, especially of traffic", "Bus lanes have eased congestion in the city centre.", "Urban Planning", "noun", ["jam"], ["traffic congestion"]),
-  w("zoning", "/ˈzəʊ.nɪŋ/", "C1", "quy hoạch phân vùng", "the dividing of land into areas for specific uses", "Mixed-use zoning encourages walkable neighbourhoods.", "Urban Planning", "noun", [], ["zoning laws"]),
+  w("zoning", "/ˈzəʊ.nɪŋ/", "C1", "quy hoạch phân vùng", "the dividing of land into areas for specific uses", "Mixed-use zoning encourages walkable neighbourhoods.", "Urban Planning", "adjective", [], ["zoning laws"]),
   w("public transport", "/ˈpʌb.lɪk ˈtrænz.pɔːt/", "B2", "giao thông công cộng", "shared transit systems open to the public", "Affordable public transport reduces inequality.", "Urban Planning", "noun", [], ["expand public transport"]),
 
   // Culture & Heritage
-  w("indigenous", "/ɪnˈdɪdʒ.ə.nəs/", "C1", "bản địa", "native to a particular place", "Indigenous languages risk disappearing within a generation.", "Culture & Arts", "adj", ["native"], ["indigenous community"]),
+  w("indigenous", "/ɪnˈdɪdʒ.ə.nəs/", "C1", "bản địa", "native to a particular place", "Indigenous languages risk disappearing within a generation.", "Culture & Arts", "adjective", ["native"], ["indigenous community"]),
   w("intangible heritage", "/ɪnˈtæn.dʒə.bəl ˈher.ɪ.tɪdʒ/", "C1", "di sản phi vật thể", "non-physical aspects of cultural inheritance", "Folk songs are part of a community's intangible heritage.", "Culture & Arts", "noun", [], ["safeguard intangible heritage"]),
   w("cultural exchange", "/ˈkʌl.tʃər.əl ɪksˈtʃeɪndʒ/", "B2", "giao lưu văn hóa", "sharing of cultural ideas and practices", "Student exchange programs foster cultural exchange.", "Culture & Arts", "noun", [], ["promote cultural exchange"]),
 
