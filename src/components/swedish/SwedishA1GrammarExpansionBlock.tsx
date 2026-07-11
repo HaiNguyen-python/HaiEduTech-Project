@@ -22,8 +22,7 @@ interface Props {
 }
 
 export function SwedishA1GrammarExpansionBlock({ day }: Props) {
-  const { language } = useLanguage();
-  const t = (vi: string, en: string) => (language === "vi" ? vi : en);
+  const { t } = useLanguage();
   const data: GrammarExpansion | undefined = SWEDISH_A1_GRAMMAR_EXPANSION[day];
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [checked, setChecked] = useState<Record<number, boolean>>({});
