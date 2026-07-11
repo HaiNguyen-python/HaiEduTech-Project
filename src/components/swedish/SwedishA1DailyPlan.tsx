@@ -36,8 +36,10 @@ import { SWEDISH_A1_DAILY_PLAN, type DailyLesson, type DailyFocus } from "@/data
 import { toast } from "@/hooks/use-toast";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { SWEDISH_A1_DAILY_EXTRAS } from "@/data/swedishA1DailyExtras";
+import { SWEDISH_A1_GRAMMAR_EXPANSION } from "@/data/swedishA1GrammarExpansion";
 import { getDailyDeep } from "@/data/swedishA1DailyDeep";
 import { SwedishA1DeepTheory } from "@/components/swedish/SwedishA1DeepTheory";
+import { SwedishA1GrammarExpansionBlock } from "@/components/swedish/SwedishA1GrammarExpansionBlock";
 
 const STORAGE_KEY = "haiedu_swedish_a1_daily_v1";
 
@@ -298,6 +300,10 @@ export const SwedishA1DailyPlan = () => {
                                   </p>
                                 </div>
                               )}
+
+                              {/* Extended grammar + exercises */}
+                              <SwedishA1GrammarExpansionBlock day={d.day} />
+
                               {SWEDISH_A1_DAILY_EXTRAS[d.day].dialog && (
                                 <div className="rounded-lg border border-sky-500/30 bg-sky-500/5 p-3">
                                   <div className="mb-2 text-xs font-semibold text-sky-700 dark:text-sky-300">

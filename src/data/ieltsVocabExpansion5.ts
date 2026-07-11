@@ -27,7 +27,7 @@ export const ieltsVocabExpansion5: IeltsWord[] = [
   w("critical thinking", "/ˈkrɪt.ɪ.kəl ˈθɪŋ.kɪŋ/", "B2", "tư duy phản biện", "the objective analysis of facts to form a judgement", "Critical thinking should be taught from primary school.", "Education", "noun", [], []),
   w("vocational", "/vəʊˈkeɪ.ʃən.əl/", "B2", "hướng nghiệp", "relating to job-specific skills", "Vocational training prepares students for the workforce.", "Education", "adjective", [], ["vocational training"]),
   w("scholarship", "/ˈskɒl.ə.ʃɪp/", "B1", "học bổng", "money awarded to a student for study", "She won a full scholarship to Oxford.", "Education", "noun", ["grant", "bursary"], ["full scholarship", "merit scholarship"]),
-  w("undergraduate", "/ˌʌn.dəˈɡrædʒ.u.ət/", "B2", "sinh viên đại học", "a university student who has not yet completed a degree", "Most undergraduates live on campus.", "Education", "noun", [], []),
+  w("undergraduate", "/ˌʌn.dəˈɡrædʒ.u.ət/", "B2", "sinh viên đại học", "a university student who has not yet completed a degree", "Most undergraduates live on campus.", "Education", "verb", [], []),
   w("plagiarism", "/ˈpleɪ.dʒə.rɪ.zəm/", "C1", "đạo văn", "using another's work as one's own", "Universities use software to detect plagiarism.", "Education", "noun", [], []),
   w("tuition fee", "/tjuˈɪʃ.ən fiː/", "B1", "học phí", "money paid for education", "Tuition fees have risen sharply in the UK.", "Education", "noun", [], []),
   w("compulsory", "/kəmˈpʌl.sər.i/", "B2", "bắt buộc", "required by law or rules", "Education is compulsory until age 16.", "Education", "adjective", ["mandatory"], ["compulsory subject"]),
@@ -53,7 +53,7 @@ export const ieltsVocabExpansion5: IeltsWord[] = [
   w("mental health", "/ˈmen.təl helθ/", "B1", "sức khỏe tâm thần", "emotional and psychological wellbeing", "Universities now offer mental-health support.", "Health", "noun", [], []),
   w("nutritious", "/njuːˈtrɪʃ.əs/", "B1", "bổ dưỡng", "containing many of the substances needed for health", "Nutritious school meals improve concentration.", "Health", "adjective", ["nourishing"], []),
   w("epidemic", "/ˌep.ɪˈdem.ɪk/", "B2", "dịch bệnh", "a widespread occurrence of an infectious disease", "The flu epidemic strained hospitals.", "Health", "noun", [], ["flu epidemic"]),
-  w("wellbeing", "/ˌwelˈbiː.ɪŋ/", "B2", "sự khỏe mạnh", "the state of being comfortable and healthy", "Green spaces enhance urban wellbeing.", "Health", "noun", [], []),
+  w("wellbeing", "/ˌwelˈbiː.ɪŋ/", "B2", "sự khỏe mạnh", "the state of being comfortable and healthy", "Green spaces enhance urban wellbeing.", "Health", "adjective", [], []),
   w("preventive", "/prɪˈven.tɪv/", "B2", "có tính phòng ngừa", "intended to prevent disease", "Preventive medicine saves health systems money.", "Health", "adjective", [], ["preventive measure"]),
   w("chronic", "/ˈkrɒn.ɪk/", "B2", "mãn tính", "lasting for a long time", "Chronic stress weakens the immune system.", "Health", "adjective", [], ["chronic illness"]),
 
