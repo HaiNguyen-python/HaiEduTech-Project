@@ -103,7 +103,10 @@ Rules:
     const { text } = await generateText({
       model: provider("google/gemini-2.5-flash"),
       prompt,
+      maxOutputTokens: 800,
+      providerOptions: { lovable: { response_format: { type: "json_object" } } },
     });
+
     const result = extractJson(text);
     if (!result || typeof result.question !== "string" || !Array.isArray(result.options) || result.options.length < 2) {
       return new Response(JSON.stringify({ error: "AI trả về dữ liệu không hợp lệ", code: "AI_ERROR", raw: text?.slice(0, 400) }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
