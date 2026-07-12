@@ -16,13 +16,38 @@ const BodySchema = z.object({
 
 function extractJson(raw: string): any | null {
   if (!raw) return null;
-  // strip ```json fences
-  const cleaned = raw.replace(/```json\s*/gi, "").replace(/```/g, "").trim();
-  try { return JSON.parse(cleaned); } catch {}
-  const m = cleaned.match(/\{[\s\S]*\}/);
-  if (m) { try { return JSON.parse(m[0]); } catch {} }
-  return null;
+  // Strip markdown fences using ```, ''' or """ (any language tag).
+  let cleaned = raw
+    .replace(/^\s*(?:`{3,}|'{3,}|"{3,})\s*[a-zA-Z]*\s*/m, "")
+    .replace(/(?:`{3,}|'{3,}|"{3,})\s*$/m, "")
+    .trim();
+
+  const tryParse = (s: string) => { try { return JSON.parse(s); } catch { return null; } };
+  const repair = (s: string) => s
+    .replace(/,(\s*[}\]])/g, "$1")      // trailing commas
+    .replace(/[\x00-\x1F\x7F]/g, " ");  // control chars
+
+  // Isolate the outermost JSON object if there's surrounding text.
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start !== -1 && end > start) cleaned = cleaned.slice(start, end + 1);
+
+  let out = tryParse(cleaned) ?? tryParse(repair(cleaned));
+  if (out) return out;
+
+  // Truncation recovery: close unbalanced brackets and retry.
+  let s = repair(cleaned);
+  // If the last option string is unterminated, close the quote.
+  const quotes = (s.match(/"/g) || []).length;
+  if (quotes % 2 === 1) s += '"';
+  // Close open arrays/objects.
+  const opens = (s.match(/\{/g) || []).length - (s.match(/\}/g) || []).length;
+  const openArr = (s.match(/\[/g) || []).length - (s.match(/\]/g) || []).length;
+  s = s + "]".repeat(Math.max(0, openArr)) + "}".repeat(Math.max(0, opens));
+  s = s.replace(/,(\s*[}\]])/g, "$1");
+  return tryParse(s);
 }
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -78,7 +103,10 @@ Rules:
     const { text } = await generateText({
       model: provider("google/gemini-2.5-flash"),
       prompt,
+      maxOutputTokens: 800,
+      providerOptions: { lovable: { response_format: { type: "json_object" } } },
     });
+
     const result = extractJson(text);
     if (!result || typeof result.question !== "string" || !Array.isArray(result.options) || result.options.length < 2) {
       return new Response(JSON.stringify({ error: "AI trả về dữ liệu không hợp lệ", code: "AI_ERROR", raw: text?.slice(0, 400) }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
