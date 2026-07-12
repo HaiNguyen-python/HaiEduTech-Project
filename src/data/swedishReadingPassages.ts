@@ -979,3 +979,7 @@ export const SWEDISH_READING_PASSAGES: SwedishReadingPassage[] = [
     estimatedMinutes: 7,
   },
 ];
+
+// ─── Expansion: additional passages pulled from expansion file ───
+import { SWEDISH_READING_PASSAGES_EXPANSION } from "./swedishReadingPassagesExpansion";
+SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION);

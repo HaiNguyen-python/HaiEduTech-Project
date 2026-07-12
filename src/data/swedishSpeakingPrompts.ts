@@ -472,3 +472,7 @@ export const SWEDISH_SPEAKING_PROMPTS: SwedishSpeakingPrompt[] = [
     tipVi: "B1: dùng 'jämfört med' (so với), 'sammanfattningsvis' (tóm lại), 'föredrar' (thích hơn). Nêu ý kiến rõ ràng và có lý do.",
   },
 ];
+
+// ─── Expansion: additional prompts pulled from expansion file ───
+import { SWEDISH_SPEAKING_PROMPTS_EXPANSION } from "./swedishSpeakingPromptsExpansion";
+SWEDISH_SPEAKING_PROMPTS.push(...SWEDISH_SPEAKING_PROMPTS_EXPANSION);
