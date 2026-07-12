@@ -299,3 +299,7 @@ export const SWEDISH_WRITING_PROMPTS: SwedishWritingPrompt[] = [
     tipVi: "B1: 'spelar en avgörande roll' + 'enligt min åsikt' = collocation học thuật B1.",
   },
 ];
+
+// ─── Expansion: additional prompts pulled from expansion file ───
+import { SWEDISH_WRITING_PROMPTS_EXPANSION } from "./swedishWritingPromptsExpansion";
+SWEDISH_WRITING_PROMPTS.push(...SWEDISH_WRITING_PROMPTS_EXPANSION);
