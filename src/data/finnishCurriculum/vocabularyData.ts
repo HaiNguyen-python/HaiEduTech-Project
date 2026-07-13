@@ -139,7 +139,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'ammattikoulun' puhekieli?", options: ["amis", "ammis", "amko", "amsku"], answer: 0, explanation: "'Amis' on puhekielen muoto." },
-          { question: "Mitä 'tentti' tarkoittaa?", options: ["Läksy", "Tentti", "Arvosana", "Kurssi"], answer: 1, explanation: "'Tentti' = exam." },
+          { question: "Mitä 'tentti' tarkoittaa?", options: ["Homework", "Exam", "Grade", "Course"], answer: 1, explanation: "'Tentti' = exam." },
           { question: "Missä voi opiskella?", options: ["Kaupassa", "Kirjastossa", "Apteekissa", "Postissa"], answer: 1, explanation: "Kirjastossa voi opiskella (at the library)." },
           { question: "Milloin lukukausi alkaa?", options: ["Tammikuussa", "Kesäkuussa", "Syyskuussa", "Joulukuussa"], answer: 2, explanation: "Lukukausi alkaa syyskuussa." },
           { question: "Mikä on 'opettajan' puhekieli?", options: ["ope", "oppi", "opi", "opet"], answer: 0, explanation: "'Ope' on puhekielen muoto." },
