@@ -661,7 +661,7 @@ Coffee culture is central to Finnish life. Learn to order, chat, and enjoy a caf
           { question: "Mitä 'kuntosali' tarkoittaa?", options: ["Swimming pool", "Gym", "Stadium", "Park"], answer: 1, explanation: "Kuntosali = gym (phòng gym)" },
           { question: "Mikä on 'uimahalli'?", options: ["Lake", "Beach", "Swimming pool", "Water park"], answer: 2, explanation: "Uimahalli = swimming pool (bể bơi)" },
           { question: "Miten sanot 'I swim'?", options: ["Uin", "Juoksen", "Kävelen", "Harjoittelen"], answer: 0, explanation: "Uin = I swim" },
-          { question: "Mikä on 'sauna'?", options: ["Shower", "Sauna", "Bath", "Hot tub"], answer: 1, explanation: "Sauna is a Finnish invention - a steam bath" },
+          { question: "Mikä on 'uimahallin' tyypillinen osa Suomessa?", options: ["Waterslide", "Sauna", "Wave pool", "Diving board"], answer: 1, explanation: "Almost every Finnish uimahalli has a sauna - a traditional steam bath." },
           { question: "Mitä 'venyttely' tarkoittaa?", options: ["Running", "Lifting", "Stretching", "Swimming"], answer: 2, explanation: "Venyttely = stretching (giãn cơ)" },
         ],
       },

@@ -37,7 +37,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'keittiö' englanniksi?", options: ["Bedroom", "Kitchen", "Bathroom", "Living room"], answer: 1, explanation: "'Keittiö' tarkoittaa 'kitchen'." },
-          { question: "'Nukun makuuhuoneessa' - mitä se tarkoittaa?", options: ["Syön keittiössä", "Nukun makuuhuoneessa", "Luen olohuoneessa", "Käyn suihkussa"], answer: 1, explanation: "'Nukun makuuhuoneessa' = I sleep in the bedroom." },
+          { question: "'Nukun makuuhuoneessa' - mitä se tarkoittaa?", options: ["I eat in the kitchen", "I sleep in the bedroom", "I read in the living room", "I take a shower"], answer: 1, explanation: "'Nukun makuuhuoneessa' = I sleep in the bedroom." },
           { question: "Missä taulu on?", options: ["Lattialla", "Pöydällä", "Seinällä", "Tuolilla"], answer: 2, explanation: "Taulu on seinällä (on the wall)." },
           { question: "Mikä on 'ovi'?", options: ["Window", "Door", "Floor", "Wall"], answer: 1, explanation: "'Ovi' = door." },
           { question: "Mitä tarkoittaa 'Avaa ikkuna'?", options: ["Close the door", "Open the window", "Turn on the lamp", "Sit on the chair"], answer: 1, explanation: "'Avaa ikkuna' = Open the window." },
@@ -66,7 +66,7 @@ export const finnishVocabModules: FinnishModule[] = [
           { word: "sähkö", partOfSpeech: "noun", meaningEn: "electricity", meaningVi: "điện", example: "Sähkölasku on iso talvella.", exampleEn: "The electricity bill is high in winter.", category: "Home" },
         ],
         quiz: [
-          { question: "Mikä on 'vuokrasopimus'?", options: ["Vuokranmaksu", "Vuokrasopimus", "Muuttoyritys", "Hissi"], answer: 1, explanation: "'Vuokrasopimus' = lease agreement." },
+          { question: "Mikä on 'vuokrasopimus'?", options: ["Rent payment", "Lease agreement", "Moving company", "Elevator"], answer: 1, explanation: "'Vuokrasopimus' = lease agreement." },
           { question: "Mikä on 'remontin' puhekieli?", options: ["remppa", "remsku", "renkki", "remmi"], answer: 0, explanation: "'Remppa' on puhekielen muoto sanasta 'remontti'." },
           { question: "Missä maito on?", options: ["Pöydällä", "Jääkaapissa", "Seinällä", "Lattialla"], answer: 1, explanation: "Maito on jääkaapissa (in the fridge)." },
           { question: "Mitä 'sähkö' tarkoittaa?", options: ["Water", "Gas", "Electricity", "Heat"], answer: 2, explanation: "'Sähkö' = electricity." },
@@ -110,7 +110,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'työn' puhekieli?", options: ["duuni", "homma", "juttu", "keikka"], answer: 0, explanation: "'Duuni' on yleisin puhekielen muoto sanasta 'työ'." },
-          { question: "Mitä 'haastattelu' tarkoittaa?", options: ["Hakemus", "Haastattelu", "Kokous", "Palkka"], answer: 1, explanation: "'Haastattelu' = interview." },
+          { question: "Mitä 'haastattelu' tarkoittaa?", options: ["Application", "Interview", "Meeting", "Salary"], answer: 1, explanation: "'Haastattelu' = interview." },
           { question: "Mikä on 'ansioluettelo'?", options: ["Työpaikkailmoitus", "CV", "Työsopimus", "Tutkinto"], answer: 1, explanation: "'Ansioluettelo' = CV/resume." },
           { question: "Milloin palkka maksetaan?", options: ["Kuun alussa", "Kuun lopussa", "Joka viikko", "Joka päivä"], answer: 1, explanation: "Palkka maksetaan kuun lopussa." },
           { question: "Mikä on 'työvuoro'?", options: ["Holiday", "Work shift", "Meeting", "Break"], answer: 1, explanation: "'Työvuoro' = work shift." },
@@ -139,7 +139,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'ammattikoulun' puhekieli?", options: ["amis", "ammis", "amko", "amsku"], answer: 0, explanation: "'Amis' on puhekielen muoto." },
-          { question: "Mitä 'tentti' tarkoittaa?", options: ["Läksy", "Tentti", "Arvosana", "Kurssi"], answer: 1, explanation: "'Tentti' = exam." },
+          { question: "Mitä 'tentti' tarkoittaa?", options: ["Homework", "Exam", "Grade", "Course"], answer: 1, explanation: "'Tentti' = exam." },
           { question: "Missä voi opiskella?", options: ["Kaupassa", "Kirjastossa", "Apteekissa", "Postissa"], answer: 1, explanation: "Kirjastossa voi opiskella (at the library)." },
           { question: "Milloin lukukausi alkaa?", options: ["Tammikuussa", "Kesäkuussa", "Syyskuussa", "Joulukuussa"], answer: 2, explanation: "Lukukausi alkaa syyskuussa." },
           { question: "Mikä on 'opettajan' puhekieli?", options: ["ope", "oppi", "opi", "opet"], answer: 0, explanation: "'Ope' on puhekielen muoto." },
@@ -183,10 +183,10 @@ export const finnishVocabModules: FinnishModule[] = [
           { word: "sairausloma", partOfSpeech: "noun", meaningEn: "sick leave", meaningVi: "nghỉ ốm", example: "Olen sairauslomalla.", exampleEn: "I am on sick leave.", puhekieli: "saikku", category: "Health" },
         ],
         quiz: [
-          { question: "'Olen sairas' - mitä se tarkoittaa?", options: ["Olen väsynyt", "Olen sairas", "Olen iloinen", "Olen nälkäinen"], answer: 1, explanation: "'Olen sairas' = I am sick." },
-          { question: "Mikä on 'päivystys'?", options: ["Apteekki", "Päivystys", "Ambulanssi", "Sairaala"], answer: 1, explanation: "'Päivystys' = emergency room." },
+          { question: "'Olen sairas' - mitä se tarkoittaa?", options: ["I am tired", "I am sick", "I am happy", "I am hungry"], answer: 1, explanation: "'Olen sairas' = I am sick." },
+          { question: "Mikä on 'päivystys'?", options: ["Pharmacy", "Emergency room", "Ambulance", "Hospital ward"], answer: 1, explanation: "'Päivystys' = emergency room." },
           { question: "Mikä on 'päivystyksen' puhekieli?", options: ["päikkäri", "päikky", "päivis", "päike"], answer: 0, explanation: "'Päikkäri' on puhekielen muoto." },
-          { question: "Mitä tarkoittaa 'ajanvaraus'?", options: ["Lääke", "Ajanvaraus", "Oireet", "Resepti"], answer: 1, explanation: "'Ajanvaraus' = appointment." },
+          { question: "Mitä tarkoittaa 'ajanvaraus'?", options: ["Medicine", "Appointment", "Symptoms", "Prescription"], answer: 1, explanation: "'Ajanvaraus' = appointment." },
           { question: "Mikä on 'sairausloman' puhekieli?", options: ["saikku", "sairu", "saika", "lomis"], answer: 0, explanation: "'Saikku' on puhekielen muoto." },
           { question: "Mitä lääkäri kirjoittaa?", options: ["Lomakkeen", "Reseptin", "Kirjeen", "Hakemuksen"], answer: 1, explanation: "Lääkäri kirjoittaa reseptin (prescription)." },
         ],
@@ -253,7 +253,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'raitiovaunun' puhekieli?", options: ["ratikka", "spåra", "Molemmat A ja B", "raisu"], answer: 2, explanation: "Sekä 'ratikka' että 'spåra' ovat puhekielen muotoja." },
-          { question: "Mitä 'pysäkki' tarkoittaa?", options: ["Lippu", "Kartta", "Pysäkki", "Raide"], answer: 2, explanation: "'Pysäkki' = bus/tram stop." },
+          { question: "Mitä 'pysäkki' tarkoittaa?", options: ["Ticket", "Map", "Bus/tram stop", "Platform"], answer: 2, explanation: "'Pysäkki' = bus/tram stop." },
           { question: "Mistä juna lähtee?", options: ["Pysäkiltä", "Raiteelta", "Kadulta", "Asemalta"], answer: 1, explanation: "Juna lähtee raiteelta (from the platform)." },
           { question: "Mitä tarkoittaa 'aikataulu'?", options: ["Ticket", "Timetable", "Platform", "Station"], answer: 1, explanation: "'Aikataulu' = timetable." },
           { question: "Mikä on 'matkan' puhekieli?", options: ["reissu", "matsku", "trippu", "retki"], answer: 0, explanation: "'Reissu' on puhekielen muoto." },

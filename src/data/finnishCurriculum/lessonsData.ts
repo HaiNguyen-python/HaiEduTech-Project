@@ -366,7 +366,7 @@ The imperfect is used to talk about completed actions in the past.
           },
         ],
         quiz: [
-          { question: "'Kerro itsestäsi' - mitä sinun pitää tehdä?", options: ["Kysy kysymys", "Kerro itsestäsi", "Kirjoita viesti", "Lue teksti"], answer: 1, explanation: "'Kerro itsestäsi' = Tell about yourself." },
+          { question: "'Kerro itsestäsi' - mitä sinun pitää tehdä?", options: ["Ask a question", "Introduce yourself", "Write a message", "Read a text"], answer: 1, explanation: "'Kerro itsestäsi' = Tell about yourself / introduce yourself." },
           { question: "Miksi Maria hakee työtä?", options: ["Hän tarvitsee rahaa", "Hän pitää asiakaspalvelusta", "Hän on opiskelija", "Hän asuu lähellä"], answer: 1, explanation: "Maria pitää asiakaspalvelusta ja haluaa oppia lisää." },
           { question: "'Milloin voit aloittaa?' - mitä kysytään?", options: ["Palkkaa", "Aloitusaikaa", "Kokemusta", "Koulutusta"], answer: 1, explanation: "'Milloin voit aloittaa?' kysyy aloitusaikaa." },
           { question: "Mikä on 'asiakaspalvelu'?", options: ["Customer service", "Sales", "Marketing", "Management"], answer: 0, explanation: "'Asiakaspalvelu' = customer service." },
