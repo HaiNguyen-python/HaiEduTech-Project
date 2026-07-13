@@ -183,8 +183,8 @@ export const finnishVocabModules: FinnishModule[] = [
           { word: "sairausloma", partOfSpeech: "noun", meaningEn: "sick leave", meaningVi: "nghỉ ốm", example: "Olen sairauslomalla.", exampleEn: "I am on sick leave.", puhekieli: "saikku", category: "Health" },
         ],
         quiz: [
-          { question: "'Olen sairas' - mitä se tarkoittaa?", options: ["Olen väsynyt", "Olen sairas", "Olen iloinen", "Olen nälkäinen"], answer: 1, explanation: "'Olen sairas' = I am sick." },
-          { question: "Mikä on 'päivystys'?", options: ["Apteekki", "Päivystys", "Ambulanssi", "Sairaala"], answer: 1, explanation: "'Päivystys' = emergency room." },
+          { question: "'Olen sairas' - mitä se tarkoittaa?", options: ["I am tired", "I am sick", "I am happy", "I am hungry"], answer: 1, explanation: "'Olen sairas' = I am sick." },
+          { question: "Mikä on 'päivystys'?", options: ["Pharmacy", "Emergency room", "Ambulance", "Hospital ward"], answer: 1, explanation: "'Päivystys' = emergency room." },
           { question: "Mikä on 'päivystyksen' puhekieli?", options: ["päikkäri", "päikky", "päivis", "päike"], answer: 0, explanation: "'Päikkäri' on puhekielen muoto." },
           { question: "Mitä tarkoittaa 'ajanvaraus'?", options: ["Lääke", "Ajanvaraus", "Oireet", "Resepti"], answer: 1, explanation: "'Ajanvaraus' = appointment." },
           { question: "Mikä on 'sairausloman' puhekieli?", options: ["saikku", "sairu", "saika", "lomis"], answer: 0, explanation: "'Saikku' on puhekielen muoto." },
