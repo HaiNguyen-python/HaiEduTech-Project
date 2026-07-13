@@ -86,9 +86,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Jag tycker om {W}.", vi: "Tôi thích {VI}.", en: "I like {EN}." },
   ],
   body: [
-    { sv: "{MIN_C} {W} gör ont idag.", vi: "{VI_C} của tôi hôm nay bị đau.", en: "My {EN} hurts today." },
-    { sv: "Hon pekar på {SIN} {W}.", vi: "Cô ấy chỉ vào {VI} của mình.", en: "She points at her {EN}." },
-    { sv: "Barnet rör vid {SIN} {W}.", vi: "Đứa trẻ chạm vào {VI} của mình.", en: "The child touches its {EN}." },
+    { sv: "Jag har ont i {MIN} {W} idag.", vi: "Hôm nay tôi bị đau ở {VI}.", en: "I have pain in my {EN} today." },
+    { sv: "Han rör vid {SIN} {W} försiktigt.", vi: "Anh ấy chạm nhẹ vào {VI} của mình.", en: "He touches his {EN} carefully." },
+    { sv: "Läkaren undersöker {MIN} {W}.", vi: "Bác sĩ khám {VI} của tôi.", en: "The doctor examines my {EN}." },
   ],
   clothing: [
     { sv: "Hon har {ART}{W} på sig.", vi: "Cô ấy đang mặc {ARTVI}{VI}.", en: "She is wearing {ARTEN}{EN}." },
