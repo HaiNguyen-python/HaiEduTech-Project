@@ -181,9 +181,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Vi går till sjukhuset för {W}.",             vi: "Chúng tôi đến bệnh viện vì {VI}.",              en: "We go to the hospital for {EN}." },
   ],
   emotions: [
-    { sv: "Jag känner mycket {W} idag.",                vi: "Hôm nay tôi cảm thấy rất {VI}.",                en: "I feel a lot of {EN} today." },
-    { sv: "Hon visar sin {W} för familjen.",            vi: "Cô ấy thể hiện {VI} với gia đình.",             en: "She shows her {EN} to the family." },
-    { sv: "{W_C} är en naturlig del av livet.",         vi: "{VI_C} là một phần tự nhiên của cuộc sống.",     en: "{EN_C} is a natural part of life." },
+    { sv: "Hon känner stor {W} idag.", vi: "Hôm nay cô ấy cảm thấy {VI} nhiều.", en: "She feels great {EN} today." },
+    { sv: "{W_C} är en naturlig del av livet.", vi: "{VI_C} là một phần tự nhiên của cuộc sống.", en: "{EN_C} is a natural part of life." },
+    { sv: "Filmen väckte mycket {W} hos publiken.", vi: "Bộ phim khơi gợi nhiều {VI} nơi khán giả.", en: "The film stirred a lot of {EN} in the audience." },
   ],
   opinion: [
     { sv: "Vad tycker du om {W}?",                      vi: "Bạn nghĩ gì về {VI}?",                          en: "What do you think about {EN}?" },
