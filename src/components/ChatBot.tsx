@@ -322,22 +322,28 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Re-hydrate whenever the authenticated user changes (login / logout / switch account).
-  // Without this, a user who opens the app while logged-out then logs in would never see
-  // their saved transcript because hydratedRef would already be sealed for the guest state.
+  // Re-hydrate whenever the authenticated user changes OR the hook signals a
+  // fresh server pull (visibility/focus → cross-device sync). Reset the flag
+  // so the next hydration effect runs, then adopt the newly loaded transcript.
   useEffect(() => {
     hydratedRef.current = false;
-  }, [chatHistory.userId]);
+  }, [chatHistory.userId, chatHistory.syncVersion]);
 
-  // Hydrate the saved chat transcript once it arrives from the server
+  // Hydrate the saved chat transcript once it arrives from the server.
   useEffect(() => {
     if (hydratedRef.current) return;
     if (chatHistory.initial === null) return; // still loading
-    if (chatHistory.initial.length > 0) {
-      setMessages(chatHistory.initial);
-    }
+    // Only overwrite local state when the loaded transcript is actually
+    // different — otherwise a routine visibility refresh would nuke a
+    // half-streamed assistant message.
+    setMessages((prev) => {
+      const next = chatHistory.initial ?? [];
+      if (prev.length > next.length) return prev;
+      const same = prev.length === next.length && prev.every((m, i) => m.role === next[i].role && m.content === next[i].content);
+      return same ? prev : next;
+    });
     hydratedRef.current = true;
-  }, [chatHistory.initial]);
+  }, [chatHistory.initial, chatHistory.syncVersion]);
 
   // Persist transcript whenever it changes (debounced inside the hook).
   // Only persist after hydration so we don't clobber the saved row with an empty array.
@@ -346,6 +352,7 @@ const ChatBot = () => {
     if (messages.length === 0) return;
     chatHistory.persist(messages);
   }, [messages, chatHistory]);
+
 
   // Check lockout status on mount
   useEffect(() => {

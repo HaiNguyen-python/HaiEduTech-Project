@@ -8,6 +8,12 @@
  *
  * Also mirrors to localStorage so guests (and logged-in users between
  * debounced writes / network failures) never lose their conversation.
+ *
+ * Cross-device sync: exposes a `syncVersion` counter that ticks whenever
+ * a fresh server transcript is pulled (login, tab focus, visibility). The
+ * ChatBot re-hydrates its local `messages` state whenever this counter
+ * changes so the same account sees the same conversation on phone / iPad
+ * / laptop.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -37,11 +43,21 @@ function writeLocal(key: string, messages: ChatMsg[]) {
   }
 }
 
+function sameTranscript(a: ChatMsg[], b: ChatMsg[]) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i += 1) {
+    if (a[i].role !== b[i].role || a[i].content !== b[i].content) return false;
+  }
+  return true;
+}
+
 export function useChatHistory(petName?: string, petLevel?: number) {
   const [userId, setUserId] = useState<string | null>(null);
   const [initial, setInitial] = useState<ChatMsg[] | null>(null);
+  const [syncVersion, setSyncVersion] = useState(0);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const latestRef = useRef<ChatMsg[]>([]);
+  const lastLoadedRef = useRef<ChatMsg[]>([]);
 
   // Resolve auth user
   useEffect(() => {
@@ -55,15 +71,19 @@ export function useChatHistory(petName?: string, petLevel?: number) {
     return () => { mounted = false; sub.subscription.unsubscribe(); };
   }, []);
 
-  // Hydrate the saved conversation when the user becomes known.
-  // Prefer the server transcript; fall back to localStorage so guests and
-  // users on flaky networks still see their previous messages.
+  // Hydrate saved conversation when userId changes (login/logout/switch).
+  // Reset `initial` to null first so the consumer clearly sees "loading"
+  // and doesn't reuse a previous account's transcript.
   useEffect(() => {
     let cancelled = false;
+    setInitial(null);
     (async () => {
       if (!userId) {
-        // Guest: local-only history
-        setInitial(readLocal(GUEST_KEY));
+        const local = readLocal(GUEST_KEY);
+        if (cancelled) return;
+        lastLoadedRef.current = local;
+        setInitial(local);
+        setSyncVersion((v) => v + 1);
         return;
       }
       const localBackup = readLocal(userKey(userId));
@@ -74,13 +94,16 @@ export function useChatHistory(petName?: string, petLevel?: number) {
         .maybeSingle();
       if (cancelled) return;
       const remote = Array.isArray(data?.messages) ? (data!.messages as ChatMsg[]) : [];
-      // Server is the source of truth so the same account sees the same
-      // conversation on iPhone / iPad / desktop. Fall back to the local
-      // mirror only if the server call failed OR the server has no history
-      // yet (first-time login on a device that already had guest chat).
+      // Server is source of truth. Fall back to local mirror only if server
+      // call failed OR server has no history yet (first-time login on a
+      // device that already had guest chat).
       const chosen = error ? localBackup : (remote.length > 0 ? remote : localBackup);
+      lastLoadedRef.current = chosen;
+      // Keep the local mirror aligned with what we just loaded so a later
+      // reload without network still shows the same conversation.
+      writeLocal(userKey(userId), chosen);
       setInitial(chosen);
-
+      setSyncVersion((v) => v + 1);
     })();
     return () => { cancelled = true; };
   }, [userId]);
@@ -98,10 +121,17 @@ export function useChatHistory(petName?: string, petLevel?: number) {
         .eq("user_id", userId)
         .maybeSingle();
       const remote = Array.isArray(data?.messages) ? (data!.messages as ChatMsg[]) : [];
-      if (remote.length > latestRef.current.length) {
-        writeLocal(userKey(userId), remote);
-        setInitial(remote);
-      }
+      // Only overwrite when remote is strictly newer/different than what we
+      // currently have locally. If our in-memory transcript is longer (user
+      // just typed a message that hasn't finished streaming/saving yet), keep
+      // it — the debounced save will push it upstream shortly.
+      if (remote.length === 0) return;
+      if (remote.length < latestRef.current.length) return;
+      if (sameTranscript(remote, latestRef.current)) return;
+      lastLoadedRef.current = remote;
+      writeLocal(userKey(userId), remote);
+      setInitial(remote);
+      setSyncVersion((v) => v + 1);
     };
     document.addEventListener("visibilitychange", refresh);
     window.addEventListener("focus", refresh);
@@ -110,7 +140,6 @@ export function useChatHistory(petName?: string, petLevel?: number) {
       window.removeEventListener("focus", refresh);
     };
   }, [userId]);
-
 
   /** Persist (debounced server, immediate localStorage) the latest transcript. */
   const persist = useCallback((messages: ChatMsg[]) => {
@@ -177,13 +206,15 @@ export function useChatHistory(petName?: string, petLevel?: number) {
   /** Wipe the saved transcript (called from a "Clear chat" button). */
   const clear = useCallback(async () => {
     latestRef.current = [];
+    lastLoadedRef.current = [];
     try { localStorage.removeItem(GUEST_KEY); } catch { /* ignore */ }
     if (userId) {
       try { localStorage.removeItem(userKey(userId)); } catch { /* ignore */ }
       await (supabase as any).from("chatbot_conversations").delete().eq("user_id", userId);
     }
     setInitial([]);
+    setSyncVersion((v) => v + 1);
   }, [userId]);
 
-  return { initial, persist, clear, userId };
+  return { initial, persist, clear, userId, syncVersion };
 }
