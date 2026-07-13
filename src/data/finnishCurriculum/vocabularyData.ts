@@ -37,7 +37,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'keittiö' englanniksi?", options: ["Bedroom", "Kitchen", "Bathroom", "Living room"], answer: 1, explanation: "'Keittiö' tarkoittaa 'kitchen'." },
-          { question: "'Nukun makuuhuoneessa' - mitä se tarkoittaa?", options: ["Syön keittiössä", "Nukun makuuhuoneessa", "Luen olohuoneessa", "Käyn suihkussa"], answer: 1, explanation: "'Nukun makuuhuoneessa' = I sleep in the bedroom." },
+          { question: "'Nukun makuuhuoneessa' - mitä se tarkoittaa?", options: ["I eat in the kitchen", "I sleep in the bedroom", "I read in the living room", "I take a shower"], answer: 1, explanation: "'Nukun makuuhuoneessa' = I sleep in the bedroom." },
           { question: "Missä taulu on?", options: ["Lattialla", "Pöydällä", "Seinällä", "Tuolilla"], answer: 2, explanation: "Taulu on seinällä (on the wall)." },
           { question: "Mikä on 'ovi'?", options: ["Window", "Door", "Floor", "Wall"], answer: 1, explanation: "'Ovi' = door." },
           { question: "Mitä tarkoittaa 'Avaa ikkuna'?", options: ["Close the door", "Open the window", "Turn on the lamp", "Sit on the chair"], answer: 1, explanation: "'Avaa ikkuna' = Open the window." },
