@@ -253,7 +253,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'raitiovaunun' puhekieli?", options: ["ratikka", "spåra", "Molemmat A ja B", "raisu"], answer: 2, explanation: "Sekä 'ratikka' että 'spåra' ovat puhekielen muotoja." },
-          { question: "Mitä 'pysäkki' tarkoittaa?", options: ["Lippu", "Kartta", "Pysäkki", "Raide"], answer: 2, explanation: "'Pysäkki' = bus/tram stop." },
+          { question: "Mitä 'pysäkki' tarkoittaa?", options: ["Ticket", "Map", "Bus/tram stop", "Platform"], answer: 2, explanation: "'Pysäkki' = bus/tram stop." },
           { question: "Mistä juna lähtee?", options: ["Pysäkiltä", "Raiteelta", "Kadulta", "Asemalta"], answer: 1, explanation: "Juna lähtee raiteelta (from the platform)." },
           { question: "Mitä tarkoittaa 'aikataulu'?", options: ["Ticket", "Timetable", "Platform", "Station"], answer: 1, explanation: "'Aikataulu' = timetable." },
           { question: "Mikä on 'matkan' puhekieli?", options: ["reissu", "matsku", "trippu", "retki"], answer: 0, explanation: "'Reissu' on puhekielen muoto." },
