@@ -186,7 +186,7 @@ export const finnishVocabModules: FinnishModule[] = [
           { question: "'Olen sairas' - mitä se tarkoittaa?", options: ["I am tired", "I am sick", "I am happy", "I am hungry"], answer: 1, explanation: "'Olen sairas' = I am sick." },
           { question: "Mikä on 'päivystys'?", options: ["Pharmacy", "Emergency room", "Ambulance", "Hospital ward"], answer: 1, explanation: "'Päivystys' = emergency room." },
           { question: "Mikä on 'päivystyksen' puhekieli?", options: ["päikkäri", "päikky", "päivis", "päike"], answer: 0, explanation: "'Päikkäri' on puhekielen muoto." },
-          { question: "Mitä tarkoittaa 'ajanvaraus'?", options: ["Lääke", "Ajanvaraus", "Oireet", "Resepti"], answer: 1, explanation: "'Ajanvaraus' = appointment." },
+          { question: "Mitä tarkoittaa 'ajanvaraus'?", options: ["Medicine", "Appointment", "Symptoms", "Prescription"], answer: 1, explanation: "'Ajanvaraus' = appointment." },
           { question: "Mikä on 'sairausloman' puhekieli?", options: ["saikku", "sairu", "saika", "lomis"], answer: 0, explanation: "'Saikku' on puhekielen muoto." },
           { question: "Mitä lääkäri kirjoittaa?", options: ["Lomakkeen", "Reseptin", "Kirjeen", "Hakemuksen"], answer: 1, explanation: "Lääkäri kirjoittaa reseptin (prescription)." },
         ],
