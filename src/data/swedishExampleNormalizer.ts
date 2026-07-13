@@ -141,9 +141,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Hennes {W} heter Anna.", vi: "{VI_C} của cô ấy tên là Anna.", en: "Her {EN} is named Anna." },
   ],
   numbers: [
-    { sv: "Klockan är {W} nu.", vi: "Bây giờ là {VI} giờ.", en: "It is {EN} o'clock now." },
-    { sv: "Vi träffas klockan {W}.", vi: "Chúng ta gặp nhau lúc {VI} giờ.", en: "We meet at {EN} o'clock." },
-    { sv: "Han kommer om {W} minuter.", vi: "Anh ấy đến sau {VI} phút.", en: "He arrives in {EN} minutes." },
+    { sv: "I klassen finns det {W} elever.", vi: "Trong lớp có {VI} học sinh.", en: "There are {EN} students in the class." },
+    { sv: "Han köpte {W} äpplen på marknaden.", vi: "Anh ấy mua {VI} quả táo ở chợ.", en: "He bought {EN} apples at the market." },
+    { sv: "Vi behöver {W} minuter till.", vi: "Chúng tôi cần thêm {VI} phút nữa.", en: "We need {EN} more minutes." },
   ],
   abstract: [
     { sv: "{W_C} är viktig{ETT} i livet.", vi: "{VI_C} rất quan trọng trong cuộc sống.", en: "{EN_C} is important in life." },
