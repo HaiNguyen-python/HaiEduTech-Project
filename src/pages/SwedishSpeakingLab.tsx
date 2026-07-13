@@ -82,6 +82,11 @@ const SwedishSpeakingLab = () => {
   const startTsRef = useRef<number>(0);
   const tickRef = useRef<number | null>(null);
   const manualStopRef = useRef(false);
+  // Text already finalized in previous recognition sessions (before auto-restart).
+  const committedRef = useRef("");
+  // Text finalized in the CURRENT session — flushed into committedRef on onend.
+  const sessionFinalRef = useRef("");
+
 
   const prompts = useMemo(
     () => SWEDISH_SPEAKING_PROMPTS.filter((p) => p.level === level),
