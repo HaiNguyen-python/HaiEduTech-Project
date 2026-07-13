@@ -66,7 +66,7 @@ export const finnishVocabModules: FinnishModule[] = [
           { word: "sähkö", partOfSpeech: "noun", meaningEn: "electricity", meaningVi: "điện", example: "Sähkölasku on iso talvella.", exampleEn: "The electricity bill is high in winter.", category: "Home" },
         ],
         quiz: [
-          { question: "Mikä on 'vuokrasopimus'?", options: ["Vuokranmaksu", "Vuokrasopimus", "Muuttoyritys", "Hissi"], answer: 1, explanation: "'Vuokrasopimus' = lease agreement." },
+          { question: "Mikä on 'vuokrasopimus'?", options: ["Rent payment", "Lease agreement", "Moving company", "Elevator"], answer: 1, explanation: "'Vuokrasopimus' = lease agreement." },
           { question: "Mikä on 'remontin' puhekieli?", options: ["remppa", "remsku", "renkki", "remmi"], answer: 0, explanation: "'Remppa' on puhekielen muoto sanasta 'remontti'." },
           { question: "Missä maito on?", options: ["Pöydällä", "Jääkaapissa", "Seinällä", "Lattialla"], answer: 1, explanation: "Maito on jääkaapissa (in the fridge)." },
           { question: "Mitä 'sähkö' tarkoittaa?", options: ["Water", "Gas", "Electricity", "Heat"], answer: 2, explanation: "'Sähkö' = electricity." },
