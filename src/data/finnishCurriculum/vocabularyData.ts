@@ -110,7 +110,7 @@ export const finnishVocabModules: FinnishModule[] = [
         ],
         quiz: [
           { question: "Mikä on 'työn' puhekieli?", options: ["duuni", "homma", "juttu", "keikka"], answer: 0, explanation: "'Duuni' on yleisin puhekielen muoto sanasta 'työ'." },
-          { question: "Mitä 'haastattelu' tarkoittaa?", options: ["Hakemus", "Haastattelu", "Kokous", "Palkka"], answer: 1, explanation: "'Haastattelu' = interview." },
+          { question: "Mitä 'haastattelu' tarkoittaa?", options: ["Application", "Interview", "Meeting", "Salary"], answer: 1, explanation: "'Haastattelu' = interview." },
           { question: "Mikä on 'ansioluettelo'?", options: ["Työpaikkailmoitus", "CV", "Työsopimus", "Tutkinto"], answer: 1, explanation: "'Ansioluettelo' = CV/resume." },
           { question: "Milloin palkka maksetaan?", options: ["Kuun alussa", "Kuun lopussa", "Joka viikko", "Joka päivä"], answer: 1, explanation: "Palkka maksetaan kuun lopussa." },
           { question: "Mikä on 'työvuoro'?", options: ["Holiday", "Work shift", "Meeting", "Break"], answer: 1, explanation: "'Työvuoro' = work shift." },
