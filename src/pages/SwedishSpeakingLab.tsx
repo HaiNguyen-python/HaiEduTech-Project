@@ -131,24 +131,37 @@ const SwedishSpeakingLab = () => {
     setElapsed(0);
     setResult(null);
 
+    committedRef.current = "";
+    sessionFinalRef.current = "";
+
     const rec = new Ctor();
     rec.lang = "sv-SE";
     rec.continuous = true;
     rec.interimResults = true;
-    let finalText = "";
     rec.onresult = (ev) => {
+      // Rebuild session text from scratch every event: the results array
+      // contains ALL segments from this recognition session (final + interim),
+      // so accumulating with `+=` across events duplicates final segments.
+      let sessionFinal = "";
       let interim = "";
       const results = ev.results as ArrayLike<ArrayLike<{ transcript: string }> & { isFinal?: boolean }>;
       for (let i = 0; i < results.length; i += 1) {
         const r = results[i] as ArrayLike<{ transcript: string }> & { isFinal?: boolean };
         const text = r[0].transcript;
-        if (r.isFinal) finalText += text + " ";
+        if (r.isFinal) sessionFinal += text + " ";
         else interim += text;
       }
-      setTranscript((finalText + interim).trim());
+      sessionFinalRef.current = sessionFinal;
+      setTranscript((committedRef.current + sessionFinal + interim).replace(/\s+/g, " ").trim());
     };
     rec.onerror = () => { /* swallow errors so we can restart */ };
     rec.onend = () => {
+      // Move this session's final text into the committed buffer so the next
+      // auto-restarted session starts fresh and doesn't re-emit old segments.
+      if (sessionFinalRef.current) {
+        committedRef.current = (committedRef.current + sessionFinalRef.current).replace(/\s+/g, " ").trim() + " ";
+        sessionFinalRef.current = "";
+      }
       // Auto-restart unless user manually stopped, for continuous recognition.
       if (!manualStopRef.current) {
         try { rec.start(); } catch { /* noop */ }
@@ -156,6 +169,7 @@ const SwedishSpeakingLab = () => {
         setRecording(false);
       }
     };
+
 
     recRef.current = rec;
     manualStopRef.current = false;
