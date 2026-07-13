@@ -240,19 +240,19 @@ const ADJ_TEMPLATES: Tmpl[] = [
 ];
 
 const ADV_TEMPLATES: Tmpl[] = [
-  { sv: "Hon gör det {W}.", vi: "Cô ấy làm điều đó một cách {VI}.", en: "She does it {EN}." },
-  { sv: "Han pratar svenska {W}.", vi: "Anh ấy nói tiếng Thụy Điển {VI}.", en: "He speaks Swedish {EN}." },
-  { sv: "Vi arbetar {W} på kontoret.", vi: "Chúng tôi làm việc {VI} ở văn phòng.", en: "We work {EN} at the office." },
+  { sv: "På svenska betyder '{W}' ungefär '{VI}'.", vi: "Trong tiếng Thụy Điển, '{W}' nghĩa là '{VI}'.", en: "In Swedish, '{W}' means roughly '{EN}'." },
+  { sv: "Han svarar '{W}' när jag frågar.", vi: "Anh ấy trả lời '{W}' ({VI}) khi tôi hỏi.", en: "He answers '{W}' ({EN}) when I ask." },
+  { sv: "Ordet '{W}' används ofta i talat språk.", vi: "Từ '{W}' ({VI}) thường được dùng trong giao tiếp.", en: "The word '{W}' ({EN}) is often used in spoken language." },
 ];
 
 const PREP_TEMPLATES: Tmpl[] = [
-  { sv: "Boken ligger {W} bordet.", vi: "Quyển sách ở {VI} cái bàn.", en: "The book is {EN} the table." },
-  { sv: "Vi går {W} skolan.", vi: "Chúng tôi đi {VI} trường.", en: "We go {EN} the school." },
+  { sv: "Prepositionen '{W}' motsvarar '{VI}' på vietnamesiska.", vi: "Giới từ '{W}' tương ứng với '{VI}' trong tiếng Việt.", en: "The preposition '{W}' corresponds to '{EN}' in English." },
+  { sv: "Vi använder '{W}' för att uttrycka '{VI}'.", vi: "Chúng ta dùng '{W}' để diễn đạt ý '{VI}'.", en: "We use '{W}' to express the meaning '{EN}'." },
 ];
 
 const CONJ_TEMPLATES: Tmpl[] = [
-  { sv: "Jag gillar te {W} jag gillar kaffe.", vi: "Tôi thích trà {VI} tôi thích cà phê.", en: "I like tea {EN} I like coffee." },
-  { sv: "Hon stannar hemma {W} det regnar.", vi: "Cô ấy ở nhà {VI} trời mưa.", en: "She stays home {EN} it rains." },
+  { sv: "Bindeordet '{W}' betyder '{VI}' på vietnamesiska.", vi: "Liên từ '{W}' nghĩa là '{VI}' trong tiếng Việt.", en: "The conjunction '{W}' means '{EN}' in English." },
+  { sv: "Vi använder '{W}' för att koppla ihop två satser.", vi: "Ta dùng '{W}' ({VI}) để nối hai mệnh đề.", en: "We use '{W}' ({EN}) to link two clauses." },
 ];
 
 /* --------------------------- article helpers ----------------------------- */
