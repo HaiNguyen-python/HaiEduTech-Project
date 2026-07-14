@@ -303,3 +303,7 @@ export const SWEDISH_WRITING_PROMPTS: SwedishWritingPrompt[] = [
 // ─── Expansion: additional prompts pulled from expansion file ───
 import { SWEDISH_WRITING_PROMPTS_EXPANSION } from "./swedishWritingPromptsExpansion";
 SWEDISH_WRITING_PROMPTS.push(...SWEDISH_WRITING_PROMPTS_EXPANSION);
+
+// ─── Expansion 2: additional prompts ───
+import { SWEDISH_WRITING_PROMPTS_EXPANSION_2 } from "./swedishWritingPromptsExpansion2";
+SWEDISH_WRITING_PROMPTS.push(...SWEDISH_WRITING_PROMPTS_EXPANSION_2);
