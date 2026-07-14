@@ -93,6 +93,7 @@ const About = lazy(() => import("./pages/About.tsx"));
 const EdTechWebService = lazy(() => import("./pages/EdTechWebService.tsx"));
 const EdTechResearch = lazy(() => import("./pages/EdTechResearch.tsx"));
 const YourCorner = lazy(() => import("./pages/YourCorner.tsx"));
+const LifestyleAcademy = lazy(() => import("./pages/LifestyleAcademy.tsx"));
 const English = lazy(() => import("./pages/English.tsx"));
 const EnglishFunFacts = lazy(() => import("./pages/EnglishFunFacts.tsx"));
 const EnglishIdioms = lazy(() => import("./pages/EnglishIdioms.tsx"));
