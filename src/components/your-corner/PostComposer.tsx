@@ -170,8 +170,8 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         return;
       }
       pollPayload = { question: q, options: opts, subject: subject ?? null, allow_change: true };
-    } else if (!trimmed) {
-      toast.error("Hãy nhập nội dung");
+    } else if (!trimmed && imageFiles.length === 0) {
+      toast.error("Hãy nhập nội dung hoặc thêm hình");
       return;
     }
 
@@ -181,24 +181,26 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
     }
     setSubmitting(true);
     try {
-      let imageUrl: string | null = null;
-      if (imageFile) {
-        const ext = imageFile.name.split(".").pop() || "jpg";
-        const path = `your-corner/${userId}/${Date.now()}.${ext}`;
+      const uploadedUrls: string[] = [];
+      for (let i = 0; i < imageFiles.length; i++) {
+        const f = imageFiles[i];
+        const ext = (f.name.split(".").pop() || "jpg").toLowerCase();
+        const path = `your-corner/${userId}/${Date.now()}-${i}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
         const up = await supabase.storage
           .from("marketing-images")
-          .upload(path, imageFile, { upsert: false, contentType: imageFile.type });
+          .upload(path, f, { upsert: false, contentType: f.type });
         if (up.error) throw up.error;
         const { data } = supabase.storage.from("marketing-images").getPublicUrl(path);
-        imageUrl = data.publicUrl;
+        uploadedUrls.push(data.publicUrl);
       }
 
       const now = new Date().toISOString();
-      const newPost = {
+      const newPost: any = {
         id: crypto.randomUUID(),
         user_id: userId,
         content: trimmed || (pollPayload ? `📊 ${pollPayload.question}` : ""),
-        image_url: imageUrl,
+        image_url: uploadedUrls[0] ?? null,
+        image_urls: uploadedUrls.length > 0 ? uploadedUrls : null,
         subject: subject ?? null,
         mood: mood ?? null,
         visibility,
@@ -208,7 +210,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       };
 
       const abortController = new AbortController();
-      const timeoutId = window.setTimeout(() => abortController.abort(), 4500);
+      const timeoutId = window.setTimeout(() => abortController.abort(), 8000);
       const insertQuery = supabase.from("your_corner_posts").insert(newPost as any);
       const { error } = await (async () => {
         try {
@@ -223,7 +225,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
 
       // Reset form & dismiss spinner immediately - don't wait for feed refresh
       setContent("");
-      clearImage();
+      clearImages();
       setSubject(null);
       setMood(null);
       setVisibility("public");
