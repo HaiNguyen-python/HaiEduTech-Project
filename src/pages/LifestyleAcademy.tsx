@@ -9,7 +9,7 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Wallet,
@@ -266,6 +266,7 @@ const cardVariants = {
 const LifestyleAcademy = () => {
   const { t, lang } = useLanguage();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [mood, setMood] = useState<MoodKey>("ready");
@@ -288,6 +289,17 @@ const LifestyleAcademy = () => {
       });
     }
   }, [searchParams]);
+
+  // Handle hash-based navigation (e.g. #micro-coach) even when already on this page.
+  useEffect(() => {
+    const hash = location.hash?.replace(/^#/, "");
+    if (!hash) return;
+    // Delay so the target element exists after render.
+    const id = window.setTimeout(() => {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+    return () => window.clearTimeout(id);
+  }, [location.hash, location.key]);
 
   const activeMood = MOODS.find((m) => m.key === mood) ?? MOODS[2];
   const activePillarForLesson = PILLARS.find((p) => p.key === activeMood.lessonPillar)!;
