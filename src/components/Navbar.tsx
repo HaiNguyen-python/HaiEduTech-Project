@@ -263,7 +263,7 @@ const Navbar = () => {
       { to: "/dich-vu-web", label: t("🎨 EdTech Design", "🎨 EdTech Design"), icon: PenTool },
     ] },
     
-    { to: "#prog-startup-group", label: t("🚀 Startup", "🚀 Startup"), icon: Rocket, groupLabel: "prog-startup", children: [
+    { to: "#prog-startup-group", label: t("Startup", "Startup"), icon: Rocket, groupLabel: "prog-startup", children: [
       { to: "/programming/startup", label: t("Tổng quan Startup Tech", "Startup Tech Overview"), icon: Compass },
       { to: "/programming/startup/roadmap", label: t("Lộ trình Founder 0→1", "Founder Roadmap 0→1"), icon: Sparkles },
       { to: "/programming/startup-1-founder/su-1-1", label: t("Bài học Startup (30)", "Startup Lessons (30)"), icon: GraduationCap },
