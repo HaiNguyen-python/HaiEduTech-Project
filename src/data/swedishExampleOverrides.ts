@@ -450,11 +450,6 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   anteckningar:   { sv: "Jag läser mina anteckningar innan provet.",          vi: "Tôi đọc lại ghi chú của mình trước bài kiểm tra.",         en: "I read my notes before the test." },
 
   // ─────────── Weather & nature (semantic override so template doesn't misfire) ───────────
-  regn:           { sv: "Det regnar mycket i Sverige på hösten.",             vi: "Ở Thụy Điển trời mưa nhiều vào mùa thu.",                  en: "It rains a lot in Sweden in the autumn." },
-  snö:            { sv: "På vintern faller mycket snö i norra Sverige.",      vi: "Vào mùa đông tuyết rơi nhiều ở miền bắc Thụy Điển.",       en: "In winter a lot of snow falls in northern Sweden." },
-  moln:           { sv: "Himlen är full av vita moln idag.",                  vi: "Hôm nay bầu trời đầy những đám mây trắng.",                en: "The sky is full of white clouds today." },
-  sol:            { sv: "Solen skiner starkt på sommaren.",                   vi: "Mặt trời chiếu sáng mạnh vào mùa hè.",                     en: "The sun shines brightly in the summer." },
-  vind:           { sv: "En kall vind blåser från havet.",                    vi: "Một cơn gió lạnh thổi từ biển vào.",                       en: "A cold wind blows in from the sea." },
   hav:            { sv: "Vi simmar i havet varje sommar.",                    vi: "Chúng tôi bơi ở biển mỗi mùa hè.",                         en: "We swim in the sea every summer." },
   skog:           { sv: "På helgen går vi i skogen och plockar bär.",         vi: "Cuối tuần chúng tôi vào rừng hái quả mọng.",               en: "On weekends we walk in the forest and pick berries." },
   fjäll:          { sv: "På vintern åker vi skidor i fjällen.",               vi: "Vào mùa đông chúng tôi trượt tuyết trên núi.",             en: "In winter we ski in the mountains." },
@@ -463,17 +458,13 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   temperatur:     { sv: "Temperaturen sjunker snabbt på kvällen.",            vi: "Nhiệt độ giảm nhanh vào buổi tối.",                        en: "The temperature drops quickly in the evening." },
 
   // ─────────── Food & meals ───────────
-  lunch:          { sv: "Vi äter lunch klockan tolv på jobbet.",              vi: "Chúng tôi ăn trưa lúc mười hai giờ ở chỗ làm.",             en: "We have lunch at twelve at work." },
   frukt:          { sv: "Barn behöver äta frukt varje dag.",                  vi: "Trẻ em cần ăn trái cây mỗi ngày.",                          en: "Children need to eat fruit every day." },
-  fisk:           { sv: "Han lagar fisk med potatis till middag.",            vi: "Anh ấy nấu cá với khoai tây cho bữa tối.",                  en: "He cooks fish with potatoes for dinner." },
-  kött:           { sv: "Vegetarianer äter inte kött.",                       vi: "Người ăn chay không ăn thịt.",                              en: "Vegetarians do not eat meat." },
 
   // ─────────── Home & furniture ───────────
   bord:           { sv: "Vi sitter runt bordet och äter middag.",             vi: "Chúng tôi ngồi quanh bàn và ăn tối.",                       en: "We sit around the table and eat dinner." },
   stol:           { sv: "Sätt dig på stolen vid fönstret.",                   vi: "Hãy ngồi vào chiếc ghế cạnh cửa sổ.",                       en: "Sit on the chair by the window." },
   säng:           { sv: "Jag går och lägger mig i sängen klockan elva.",      vi: "Tôi đi ngủ trên giường lúc mười một giờ.",                   en: "I go to bed at eleven o'clock." },
   dörr:           { sv: "Kan du stänga dörren, tack?",                        vi: "Bạn có thể đóng cửa được không?",                            en: "Can you close the door, please?" },
-  kök:            { sv: "Vi lagar mat i köket varje kväll.",                  vi: "Chúng tôi nấu ăn trong bếp mỗi tối.",                        en: "We cook food in the kitchen every evening." },
 
   // ─────────── Transport & travel ───────────
   buss:           { sv: "Jag tar bussen till jobbet varje morgon.",           vi: "Tôi đi xe buýt đến chỗ làm mỗi sáng.",                       en: "I take the bus to work every morning." },
@@ -483,7 +474,6 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   semester:       { sv: "På sommaren åker vi på semester till Grekland.",     vi: "Vào mùa hè chúng tôi đi nghỉ ở Hy Lạp.",                     en: "In summer we go on vacation to Greece." },
   sväng:          { sv: "Ta första svängen till höger vid ljuset.",           vi: "Rẽ vào lối rẽ đầu tiên bên phải ở đèn giao thông.",           en: "Take the first turn to the right at the traffic light." },
   jul:            { sv: "I Sverige firar familjer jul den 24 december.",      vi: "Ở Thụy Điển các gia đình đón lễ Giáng sinh vào ngày 24 tháng 12.", en: "In Sweden families celebrate Christmas on December 24." },
-  höst:           { sv: "På hösten blir löven gula och röda.",                vi: "Vào mùa thu lá cây chuyển sang màu vàng và đỏ.",             en: "In the autumn the leaves turn yellow and red." },
 
   // ─────────── Work & study ───────────
   lön:            { sv: "Hon får sin lön den 25:e varje månad.",              vi: "Cô ấy nhận lương vào ngày 25 hằng tháng.",                   en: "She gets her salary on the 25th of every month." },
@@ -505,7 +495,6 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
 
   // ─────────── Shopping ───────────
   rabatt:         { sv: "Butiken ger 20 procent rabatt på skor idag.",        vi: "Cửa hàng giảm giá 20% giày dép hôm nay.",                    en: "The shop gives a 20% discount on shoes today." },
-  skor:           { sv: "Hon köper nya skor i affären.",                      vi: "Cô ấy mua giày mới ở cửa hàng.",                             en: "She buys new shoes at the shop." },
 
   // ─────────── Tech ───────────
   mobil:          { sv: "Min mobil är helt slut på batteri.",                 vi: "Điện thoại của tôi đã hết sạch pin.",                        en: "My phone is completely out of battery." },
