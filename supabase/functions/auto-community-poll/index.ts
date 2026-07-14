@@ -65,13 +65,14 @@ Deno.serve(async (req) => {
     .gte("created_at", twoDaysAgo)
     .not("poll", "is", null)
     .limit(1);
-  // If we already posted an auto-poll very recently, skip
+  // If we already posted an auto-poll very recently, skip.
+  // Detection: any staff-authored poll post in the last 2 days that carries our marker hashtag.
   const { data: recentAny } = await admin
     .from("your_corner_posts")
     .select("id, content, created_at")
     .gte("created_at", twoDaysAgo)
     .not("poll", "is", null)
-    .ilike("content", "%[AutoPoll]%")
+    .ilike("content", "%#OnTapCungThayHai%")
     .limit(1);
   if (recentAny && recentAny.length > 0) {
     return new Response(JSON.stringify({ skipped: "recent_auto_poll_exists" }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
