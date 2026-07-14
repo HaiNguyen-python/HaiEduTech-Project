@@ -39,6 +39,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey, type LifestyleLesson } from "@/data/lifestyleAcademyLessons";
 
@@ -138,9 +145,9 @@ const PILLARS: Pillar[] = [
     titleVi: "Thân thể Khoẻ mạnh",
     titleEn: "Physical Wellness",
     taglineVi:
-      "Thân thể là nền móng — không có nó, mọi ước mơ đều dừng lại.",
+      "Thân thể là nền móng - không có nó, mọi ước mơ đều dừng lại.",
     taglineEn:
-      "Your body is the foundation — without it, every dream stalls.",
+      "Your body is the foundation - without it, every dream stalls.",
     sampleCourseVi:
       "Nền tảng sức khoẻ bền vững: Ngủ, Vận động, Dinh dưỡng & Nghỉ ngơi",
     sampleCourseEn:
@@ -192,8 +199,8 @@ const MOODS: MoodPrescription[] = [
     labelEn: "Overwhelmed",
     gradient: "from-amber-400/20 to-rose-400/20",
     Icon: Flame,
-    quoteVi: "Bạn không cần làm mọi thứ. Bạn chỉ cần làm điều tiếp theo — thật sự tốt.",
-    quoteEn: "You do not need to do everything. Only the next thing — done well.",
+    quoteVi: "Bạn không cần làm mọi thứ. Bạn chỉ cần làm điều tiếp theo - thật sự tốt.",
+    quoteEn: "You do not need to do everything. Only the next thing - done well.",
     quoteAuthor: "Elisabeth Elliot",
     lessonPillar: "presence",
     lessonTitleVi: "Kỹ thuật 'một điều duy nhất' & tư duy Stoic",
@@ -237,7 +244,7 @@ const MOODS: MoodPrescription[] = [
     labelEn: "Unmotivated",
     gradient: "from-slate-400/20 to-amber-400/20",
     Icon: Heart,
-    quoteVi: "Kỷ luật là chọn điều bạn thực sự muốn — thay vì điều bạn muốn ngay lúc này.",
+    quoteVi: "Kỷ luật là chọn điều bạn thực sự muốn - thay vì điều bạn muốn ngay lúc này.",
     quoteEn: "Discipline is choosing what you want most over what you want now.",
     quoteAuthor: "Abraham Lincoln",
     lessonPillar: "finance",
@@ -269,13 +276,14 @@ const LifestyleAcademy = () => {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [mood, setMood] = useState<MoodKey>("ready");
+  const [activePillar, setActivePillar] = useState<PillarKey | null>(null);
 
-  // Read ?pillar=... from URL on load
+  // Read ?pillar=... from URL on load: filter the lessons AND open the modal
   useEffect(() => {
     const p = searchParams.get("pillar") as FilterKey | null;
     if (p && FILTERS.some((f) => f.key === p)) {
       setFilter(p);
-      // Scroll to pillars section after paint
+      if (p !== "all") setActivePillar(p as PillarKey);
       requestAnimationFrame(() => {
         document.getElementById("pillars")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
@@ -317,12 +325,12 @@ const LifestyleAcademy = () => {
     <div className="min-h-screen bg-background text-foreground">
       <SEO
         title={t(
-          "HaiEduTech Lifestyle Academy — Tài chính, Ứng xử, Khí chất & Thân thể",
-          "HaiEduTech Lifestyle Academy — Finance, Etiquette, Presence & Wellness",
+          "HaiEduTech Lifestyle Academy - Tài chính, Ứng xử, Khí chất & Thân thể",
+          "HaiEduTech Lifestyle Academy - Finance, Etiquette, Presence & Wellness",
         )}
         description={t(
-          "Học viện lối sống HaiEduTech: 4 trụ cột cho công dân toàn cầu — tài chính thông minh, ứng xử tinh tế, khí chất bản lĩnh và thân thể khoẻ mạnh.",
-          "HaiEduTech Lifestyle Academy: four pillars for global citizens — smart finance, elegant eloquence, inner presence, and lasting physical wellness.",
+          "Học viện lối sống HaiEduTech: 4 trụ cột cho công dân toàn cầu - tài chính thông minh, ứng xử tinh tế, khí chất bản lĩnh và thân thể khoẻ mạnh.",
+          "HaiEduTech Lifestyle Academy: four pillars for global citizens - smart finance, elegant eloquence, inner presence, and lasting physical wellness.",
         )}
         path="/lifestyle-academy"
       />
@@ -355,8 +363,8 @@ const LifestyleAcademy = () => {
 
               <p className="mt-5 text-lg md:text-xl leading-relaxed text-slate-700 dark:text-slate-300 max-w-2xl">
                 {t(
-                  "Vun bồi thói quen tài chính thông minh, phong thái giao tiếp tinh tế, khí chất – bản lĩnh nội tâm và thân thể khoẻ mạnh — cho công dân toàn cầu.",
-                  "Cultivate smart financial habits, elegant eloquence, inner presence & resilience, and a truly healthy body — for global citizens.",
+                  "Vun bồi thói quen tài chính thông minh, phong thái giao tiếp tinh tế, khí chất – bản lĩnh nội tâm và thân thể khoẻ mạnh - cho công dân toàn cầu.",
+                  "Cultivate smart financial habits, elegant eloquence, inner presence & resilience, and a truly healthy body - for global citizens.",
                 )}
               </p>
 
@@ -413,8 +421,8 @@ const LifestyleAcademy = () => {
               </h2>
               <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl">
                 {t(
-                  "Bộ khung phát triển toàn diện — chọn trụ cột phù hợp với hành trình hiện tại của bạn.",
-                  "A holistic growth framework — choose the pillar that fits where you are now.",
+                  "Bộ khung phát triển toàn diện - chọn trụ cột phù hợp với hành trình hiện tại của bạn.",
+                  "A holistic growth framework - choose the pillar that fits where you are now.",
                 )}
               </p>
             </div>
@@ -437,7 +445,7 @@ const LifestyleAcademy = () => {
                   whileHover={{ y: -4 }}
                   transition={{ type: "spring", stiffness: 260, damping: 22 }}
                 >
-                  <PillarCard pillar={p} onExplore={() => setFilter(p.key)} />
+                  <PillarCard pillar={p} onExplore={() => setActivePillar(p.key)} />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -500,8 +508,8 @@ const LifestyleAcademy = () => {
               </h2>
               <p className="mt-2 text-slate-600 dark:text-slate-400">
                 {t(
-                  "Chọn cảm xúc hiện tại — chúng tôi sẽ gợi ý một bài học 3 phút và một câu nhắc phù hợp.",
-                  "Pick how you feel right now — we'll surface a 3-minute lesson and a fitting reminder.",
+                  "Chọn cảm xúc hiện tại - chúng tôi sẽ gợi ý một bài học 3 phút và một câu nhắc phù hợp.",
+                  "Pick how you feel right now - we'll surface a 3-minute lesson and a fitting reminder.",
                 )}
               </p>
             </div>
@@ -566,7 +574,7 @@ const LifestyleAcademy = () => {
                         <blockquote className="text-lg md:text-xl font-medium leading-relaxed text-slate-800 dark:text-slate-100">
                           {lang === "vi" ? activeMood.quoteVi : activeMood.quoteEn}
                         </blockquote>
-                        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">— {activeMood.quoteAuthor}</p>
+                        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">- {activeMood.quoteAuthor}</p>
                       </div>
 
                       <div className="my-6 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-700" />
@@ -632,7 +640,7 @@ const LifestyleAcademy = () => {
               </h2>
               <p className="mt-4 text-emerald-50/90 md:text-lg">
                 {t(
-                  "Mỗi ngày 3 phút. Mỗi tuần một thói quen. Sau một năm — một con người khác.",
+                  "Mỗi ngày 3 phút. Mỗi tuần một thói quen. Sau một năm - một con người khác.",
                   "Three minutes a day. One habit a week. A different person a year from now.",
                 )}
               </p>
@@ -651,6 +659,13 @@ const LifestyleAcademy = () => {
           </div>
         </section>
       </main>
+
+      {/* ────────── Pillar Lessons Modal ────────── */}
+      <PillarLessonsDialog
+        pillarKey={activePillar}
+        onOpenChange={(o) => !o && setActivePillar(null)}
+      />
+
 
       <Footer />
     </div>
@@ -727,11 +742,11 @@ const PillarCard = ({ pillar, onExplore }: PillarCardProps) => {
         <div className="mt-6 flex-1" />
 
         <Button
-          variant="ghost"
+          variant="outline"
           onClick={onExplore}
-          className="mt-4 -mx-2 justify-between text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+          className="mt-4 justify-between border-slate-200 bg-white text-slate-800 hover:bg-slate-900 hover:text-white hover:border-slate-900 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-emerald-500 dark:hover:text-white dark:hover:border-emerald-500"
         >
-          <span>{t("Khám phá bài học", "Explore lessons")}</span>
+          <span className="font-semibold">{t("Xem tất cả bài học", "See all lessons")}</span>
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </Button>
       </CardContent>
@@ -855,16 +870,165 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
 
           <div className="flex-1" />
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={() => setOpen((v) => !v)}
-            className="mt-4 -mx-2 justify-between text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="mt-4 justify-between border-slate-200 bg-white text-slate-800 hover:bg-slate-900 hover:text-white hover:border-slate-900 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-emerald-500 dark:hover:text-white dark:hover:border-emerald-500"
           >
-            <span>{open ? t("Thu gọn", "Collapse") : t("Xem bài học đầy đủ", "Open full lesson")}</span>
+            <span className="font-semibold">{open ? t("Thu gọn", "Collapse") : t("Xem bài học đầy đủ", "Open full lesson")}</span>
             <ArrowRight className={`h-4 w-4 transition-transform ${open ? "rotate-90" : ""}`} />
           </Button>
         </CardContent>
       </Card>
     </motion.div>
+  );
+};
+
+// ─── Pillar Lessons Dialog - full curriculum for a pillar ──
+interface PillarLessonsDialogProps {
+  pillarKey: PillarKey | null;
+  onOpenChange: (open: boolean) => void;
+}
+const PillarLessonsDialog = ({ pillarKey, onOpenChange }: PillarLessonsDialogProps) => {
+  const { t, lang } = useLanguage();
+  const pillar = pillarKey ? PILLARS.find((p) => p.key === pillarKey) : null;
+  const lessons = pillarKey ? LIFESTYLE_LESSONS.filter((l) => l.pillar === pillarKey) : [];
+
+  if (!pillar) return null;
+  const PillarIcon = pillar.Icon;
+
+  const levelLabel = {
+    foundation: { vi: "Nền tảng", en: "Foundation" },
+    intermediate: { vi: "Trung cấp", en: "Intermediate" },
+    mastery: { vi: "Nâng cao", en: "Mastery" },
+  };
+
+  return (
+    <Dialog open={!!pillarKey} onOpenChange={onOpenChange}>
+      <DialogContent
+        className="max-w-5xl max-h-[92vh] overflow-hidden p-0 gap-0 border-slate-200 dark:border-slate-800"
+      >
+        {/* Hero */}
+        <div className={`relative overflow-hidden bg-gradient-to-br ${pillar.iconBg} px-6 py-8 md:px-10 md:py-10 text-white`}>
+          <div aria-hidden className="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-white/20 blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-black/10 blur-3xl" />
+          <div className="relative flex items-start gap-4">
+            <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur ring-1 ring-white/30">
+              <PillarIcon className="h-7 w-7" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-xs md:text-sm font-medium uppercase tracking-widest text-white/80">
+                {lang === "vi" ? pillar.titleEn : pillar.titleVi}
+              </p>
+              <DialogHeader className="text-left space-y-1">
+                <DialogTitle className="text-2xl md:text-3xl font-bold text-white">
+                  {lang === "vi" ? pillar.titleVi : pillar.titleEn}
+                </DialogTitle>
+                <DialogDescription className="text-white/90 text-sm md:text-base">
+                  {lang === "vi" ? pillar.taglineVi : pillar.taglineEn}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 backdrop-blur">
+                  <BookOpen className="h-3.5 w-3.5" />
+                  {lessons.length} {t("bài học", "lessons")}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 backdrop-blur">
+                  <Clock className="h-3.5 w-3.5" />
+                  {lessons.reduce((s, l) => s + l.minutes, 0)} {t("phút tổng", "total min")}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scrollable curriculum */}
+        <div className="max-h-[62vh] overflow-y-auto px-5 py-6 md:px-8 md:py-8 bg-slate-50 dark:bg-slate-950">
+          <ol className="space-y-6">
+            {lessons.map((lesson, idx) => {
+              const MediumIcon = lesson.medium === "audio" ? Headphones : lesson.medium === "practice" ? Target : BookOpen;
+              return (
+                <li
+                  key={lesson.id}
+                  className="relative rounded-2xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70"
+                >
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <span className={`inline-flex h-9 w-9 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${pillar.iconBg} text-white font-bold text-sm shadow-md`}>
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400">
+                        <span className={pillar.accentText}>
+                          {lang === "vi" ? levelLabel[lesson.level].vi : levelLabel[lesson.level].en}
+                        </span>
+                        <span>·</span>
+                        <span className="inline-flex items-center gap-1">
+                          <Clock className="h-3 w-3" /> {lesson.minutes} {t("phút", "min")}
+                        </span>
+                        <span>·</span>
+                        <span className="inline-flex items-center gap-1">
+                          <MediumIcon className="h-3 w-3" />
+                          {lesson.medium === "audio" ? t("Nghe", "Audio") : lesson.medium === "practice" ? t("Thực hành", "Practice") : t("Đọc", "Read")}
+                        </span>
+                      </div>
+                      <h4 className="mt-1 text-base md:text-lg font-bold text-slate-900 dark:text-slate-50 leading-snug">
+                        {lang === "vi" ? lesson.titleVi : lesson.titleEn}
+                      </h4>
+                      <p className="mt-1.5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        {lang === "vi" ? lesson.subtitleVi : lesson.subtitleEn}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid gap-4 md:grid-cols-2">
+                    <div className="rounded-lg border border-slate-200/70 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-950/40">
+                      <p className="text-[11px] uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">
+                        <Compass className="mr-1 inline h-3.5 w-3.5" />
+                        {t("Khung tư duy", "Framework")}
+                      </p>
+                      <p className="mt-1 text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                        {lang === "vi" ? lesson.frameworkVi : lesson.frameworkEn}
+                      </p>
+                    </div>
+                    <div className="rounded-lg border border-dashed border-amber-300/60 bg-amber-50/60 p-3 dark:border-amber-400/30 dark:bg-amber-500/10">
+                      <p className="text-[11px] uppercase tracking-wider font-semibold text-amber-700 dark:text-amber-400">
+                        {t("Câu hỏi phản chiếu", "Reflection prompt")}
+                      </p>
+                      <p className="mt-1 text-sm italic text-slate-700 dark:text-slate-200 leading-relaxed">
+                        {lang === "vi" ? lesson.reflectionVi : lesson.reflectionEn}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <p className="text-[11px] uppercase tracking-wider font-semibold text-teal-600 dark:text-teal-400">
+                      {t("Điểm cốt lõi", "Core takeaways")}
+                    </p>
+                    <ul className="mt-2 grid gap-2 md:grid-cols-2">
+                      {lesson.takeaways.map((tk, i2) => (
+                        <li key={i2} className="flex gap-2 text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                          <span aria-hidden className={`mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br ${pillar.iconBg}`} />
+                          <span>{lang === "vi" ? tk.vi : tk.en}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-4 rounded-lg border border-dashed border-emerald-300/60 bg-emerald-50/60 p-3 dark:border-emerald-400/30 dark:bg-emerald-500/10">
+                    <p className="text-[11px] uppercase tracking-wider font-semibold text-emerald-700 dark:text-emerald-400">
+                      <Target className="mr-1 inline h-3.5 w-3.5" />
+                      {t("Bài tập thực hành 7-14 ngày", "7-14 day practical drill")}
+                    </p>
+                    <p className="mt-1 text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                      {lang === "vi" ? lesson.drillVi : lesson.drillEn}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
