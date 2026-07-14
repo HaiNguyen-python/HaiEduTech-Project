@@ -305,7 +305,7 @@ const Navbar = () => {
     { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/lifestyle-academy", label: t("Lifestyle", "Lifestyle"), icon: Heart, subs: [
       { to: "/lifestyle-academy", label: t("🌿 Tổng quan Lifestyle Academy", "🌿 Lifestyle Academy Overview") },
-      { to: "/lifestyle-academy#pillars", label: t("🧭 4 Trụ cột cốt lõi", "🧭 The 4 Core Pillars") },
+      
       { to: "/lifestyle-academy?pillar=finance", label: t("💰 Tài chính Thông minh", "💰 Smart Finance") },
       { to: "/lifestyle-academy?pillar=etiquette", label: t("💬 Nghệ thuật Ứng xử", "💬 Eloquence & Etiquette") },
       { to: "/lifestyle-academy?pillar=presence", label: t("🌟 Khí chất & Bản lĩnh", "🌟 Presence & Resilience") },
