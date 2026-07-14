@@ -27,10 +27,12 @@ interface Props {
   mentionables?: Mentionable[];
 }
 
+const MAX_IMAGES = 6;
+
 export default function PostComposer({ userId, onPosted, userName, userAvatar, mentionables = [] }: Props) {
   const [content, setContent] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [subject, setSubject] = useState<SubjectKey | null>(null);
   const [mood, setMood] = useState<string | null>(null);
