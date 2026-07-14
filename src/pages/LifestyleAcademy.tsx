@@ -269,16 +269,22 @@ const LifestyleAcademy = () => {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [mood, setMood] = useState<MoodKey>("ready");
-  const [activePillar, setActivePillar] = useState<PillarKey | null>(null);
 
-  // Read ?pillar=... from URL on load: filter the lessons AND open the modal
+  // Scroll helper: filter by pillar then scroll to the deep-dive lessons section.
+  const openPillarLessons = (key: PillarKey) => {
+    setFilter(key);
+    requestAnimationFrame(() => {
+      document.getElementById("lessons")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
+  // Read ?pillar=... from URL on load: filter and jump straight to the lessons.
   useEffect(() => {
     const p = searchParams.get("pillar") as FilterKey | null;
     if (p && FILTERS.some((f) => f.key === p)) {
       setFilter(p);
-      if (p !== "all") setActivePillar(p as PillarKey);
       requestAnimationFrame(() => {
-        document.getElementById("pillars")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById(p !== "all" ? "lessons" : "pillars")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
   }, [searchParams]);
