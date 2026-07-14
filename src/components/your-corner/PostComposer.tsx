@@ -27,10 +27,12 @@ interface Props {
   mentionables?: Mentionable[];
 }
 
+const MAX_IMAGES = 6;
+
 export default function PostComposer({ userId, onPosted, userName, userAvatar, mentionables = [] }: Props) {
   const [content, setContent] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [subject, setSubject] = useState<SubjectKey | null>(null);
   const [mood, setMood] = useState<string | null>(null);
@@ -106,19 +108,41 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
 
 
 
-  const pickImage = (f: File | null) => {
-    if (!f) return;
-    if (f.size > 5 * 1024 * 1024) {
-      toast.error("Hình quá lớn (tối đa 5MB)");
+  const pickImages = (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const arr = Array.from(files);
+    const remainingSlots = MAX_IMAGES - imageFiles.length;
+    if (remainingSlots <= 0) {
+      toast.error(`Tối đa ${MAX_IMAGES} hình`);
       return;
     }
-    setImageFile(f);
-    setImagePreview(URL.createObjectURL(f));
+    const accepted: File[] = [];
+    for (const f of arr.slice(0, remainingSlots)) {
+      if (f.size > 5 * 1024 * 1024) {
+        toast.error(`"${f.name}" quá lớn (tối đa 5MB)`);
+        continue;
+      }
+      if (!f.type.startsWith("image/")) continue;
+      accepted.push(f);
+    }
+    if (accepted.length === 0) return;
+    setImageFiles((prev) => [...prev, ...accepted]);
+    setImagePreviews((prev) => [...prev, ...accepted.map((f) => URL.createObjectURL(f))]);
   };
 
-  const clearImage = () => {
-    setImageFile(null);
-    setImagePreview(null);
+  const removeImageAt = (i: number) => {
+    setImageFiles((prev) => prev.filter((_, idx) => idx !== i));
+    setImagePreviews((prev) => {
+      const next = prev.filter((_, idx) => idx !== i);
+      try { URL.revokeObjectURL(prev[i]); } catch {}
+      return next;
+    });
+  };
+
+  const clearImages = () => {
+    imagePreviews.forEach((u) => { try { URL.revokeObjectURL(u); } catch {} });
+    setImageFiles([]);
+    setImagePreviews([]);
     if (fileRef.current) fileRef.current.value = "";
   };
 
@@ -146,8 +170,8 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         return;
       }
       pollPayload = { question: q, options: opts, subject: subject ?? null, allow_change: true };
-    } else if (!trimmed) {
-      toast.error("Hãy nhập nội dung");
+    } else if (!trimmed && imageFiles.length === 0) {
+      toast.error("Hãy nhập nội dung hoặc thêm hình");
       return;
     }
 
@@ -157,24 +181,26 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
     }
     setSubmitting(true);
     try {
-      let imageUrl: string | null = null;
-      if (imageFile) {
-        const ext = imageFile.name.split(".").pop() || "jpg";
-        const path = `your-corner/${userId}/${Date.now()}.${ext}`;
+      const uploadedUrls: string[] = [];
+      for (let i = 0; i < imageFiles.length; i++) {
+        const f = imageFiles[i];
+        const ext = (f.name.split(".").pop() || "jpg").toLowerCase();
+        const path = `your-corner/${userId}/${Date.now()}-${i}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
         const up = await supabase.storage
           .from("marketing-images")
-          .upload(path, imageFile, { upsert: false, contentType: imageFile.type });
+          .upload(path, f, { upsert: false, contentType: f.type });
         if (up.error) throw up.error;
         const { data } = supabase.storage.from("marketing-images").getPublicUrl(path);
-        imageUrl = data.publicUrl;
+        uploadedUrls.push(data.publicUrl);
       }
 
       const now = new Date().toISOString();
-      const newPost = {
+      const newPost: any = {
         id: crypto.randomUUID(),
         user_id: userId,
         content: trimmed || (pollPayload ? `📊 ${pollPayload.question}` : ""),
-        image_url: imageUrl,
+        image_url: uploadedUrls[0] ?? null,
+        image_urls: uploadedUrls.length > 0 ? uploadedUrls : null,
         subject: subject ?? null,
         mood: mood ?? null,
         visibility,
@@ -184,7 +210,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       };
 
       const abortController = new AbortController();
-      const timeoutId = window.setTimeout(() => abortController.abort(), 4500);
+      const timeoutId = window.setTimeout(() => abortController.abort(), 8000);
       const insertQuery = supabase.from("your_corner_posts").insert(newPost as any);
       const { error } = await (async () => {
         try {
@@ -199,7 +225,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
 
       // Reset form & dismiss spinner immediately - don't wait for feed refresh
       setContent("");
-      clearImage();
+      clearImages();
       setSubject(null);
       setMood(null);
       setVisibility("public");
@@ -275,16 +301,21 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         </div>
       )}
 
-      {imagePreview && (
-        <div className="relative inline-block ml-14">
-          <img src={imagePreview} alt="preview" className="max-h-64 rounded-lg" />
-          <button
-            onClick={clearImage}
-            className="absolute top-2 right-2 bg-background/80 rounded-full p-1 hover:bg-background"
-            aria-label="Xoá hình"
-          >
-            <X className="w-4 h-4" />
-          </button>
+      {imagePreviews.length > 0 && (
+        <div className="ml-14 grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {imagePreviews.map((src, i) => (
+            <div key={src} className="relative group aspect-square">
+              <img src={src} alt={`preview-${i + 1}`} className="w-full h-full object-cover rounded-lg" />
+              <button
+                type="button"
+                onClick={() => removeImageAt(i)}
+                className="absolute top-1 right-1 bg-background/80 rounded-full p-1 hover:bg-background opacity-90 group-hover:opacity-100"
+                aria-label="Xoá hình"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
         </div>
       )}
 
@@ -377,17 +408,22 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
           ref={fileRef}
           type="file"
           accept="image/*"
+          multiple
           className="hidden"
-          onChange={(e) => pickImage(e.target.files?.[0] ?? null)}
+          onChange={(e) => {
+            pickImages(e.target.files);
+            if (e.target) e.target.value = "";
+          }}
         />
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => fileRef.current?.click()}
+          disabled={imageFiles.length >= MAX_IMAGES}
           className="text-emerald-600 hover:text-emerald-700 px-2 h-8 text-xs"
         >
-          <ImagePlus className="w-4 h-4 mr-1" /> Hình
+          <ImagePlus className="w-4 h-4 mr-1" /> Hình {imageFiles.length > 0 ? `(${imageFiles.length}/${MAX_IMAGES})` : ""}
         </Button>
 
         <Button
@@ -498,7 +534,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         <div className="ml-auto">
           <Button
             onClick={submit}
-            disabled={submitting || (!content.trim() && !(pollMode && pollQuestion.trim() && pollOptions.filter((o) => o.trim()).length >= 2))}
+            disabled={submitting || (!content.trim() && imageFiles.length === 0 && !(pollMode && pollQuestion.trim() && pollOptions.filter((o) => o.trim()).length >= 2))}
             size="sm"
             className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white shadow-md disabled:opacity-50"
           >

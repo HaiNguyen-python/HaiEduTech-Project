@@ -46,6 +46,7 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(post.content);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
@@ -326,20 +327,65 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
         />
       )}
 
-      {post.image_url && (
-        <button
-          type="button"
-          onClick={() => setLightboxOpen(true)}
-          className="block w-full overflow-hidden rounded-lg group"
-        >
-          <img
-            src={post.image_url}
-            alt="post"
-            loading="lazy"
-            className="rounded-lg max-h-[500px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-          />
-        </button>
-      )}
+      {(() => {
+        const gallery = (post.image_urls && post.image_urls.length > 0)
+          ? post.image_urls
+          : (post.image_url ? [post.image_url] : []);
+        if (gallery.length === 0) return null;
+        const gridClass =
+          gallery.length === 1 ? "grid-cols-1"
+          : gallery.length === 2 ? "grid-cols-2"
+          : gallery.length === 3 ? "grid-cols-3"
+          : "grid-cols-2 sm:grid-cols-3";
+        return (
+          <>
+            <div className={`grid ${gridClass} gap-1.5`}>
+              {gallery.map((src, i) => (
+                <button
+                  key={src + i}
+                  type="button"
+                  onClick={() => { setLightboxIndex(i); setLightboxOpen(true); }}
+                  className={`block overflow-hidden rounded-lg group ${gallery.length === 1 ? "" : "aspect-square"}`}
+                >
+                  <img
+                    src={src}
+                    alt={`post-${i + 1}`}
+                    loading="lazy"
+                    className={`w-full ${gallery.length === 1 ? "max-h-[500px] object-cover" : "h-full object-cover"} transition-transform duration-300 group-hover:scale-[1.03]`}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+              <DialogContent className="max-w-5xl p-2 bg-background/95 backdrop-blur">
+                <div className="flex items-center justify-center gap-2">
+                  {gallery.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => setLightboxIndex((i) => (i - 1 + gallery.length) % gallery.length)}
+                      className="shrink-0 px-3 py-2 rounded-full bg-muted hover:bg-muted/80"
+                      aria-label="Trước"
+                    >‹</button>
+                  )}
+                  <img src={gallery[lightboxIndex] ?? gallery[0]} alt="post" className="w-full h-auto max-h-[85vh] object-contain rounded" />
+                  {gallery.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => setLightboxIndex((i) => (i + 1) % gallery.length)}
+                      className="shrink-0 px-3 py-2 rounded-full bg-muted hover:bg-muted/80"
+                      aria-label="Sau"
+                    >›</button>
+                  )}
+                </div>
+                {gallery.length > 1 && (
+                  <p className="text-center text-xs text-muted-foreground mt-2">{lightboxIndex + 1} / {gallery.length}</p>
+                )}
+              </DialogContent>
+            </Dialog>
+          </>
+        );
+      })()}
 
       {post.poll && (
         <PollBlock
@@ -351,15 +397,6 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
           onChanged={onChanged}
         />
       )}
-
-
-      <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
-        <DialogContent className="max-w-5xl p-2 bg-background/95 backdrop-blur">
-          {post.image_url && (
-            <img src={post.image_url} alt="post" className="w-full h-auto max-h-[85vh] object-contain rounded" />
-          )}
-        </DialogContent>
-      </Dialog>
 
 
       <div className="flex items-center gap-1 border-t pt-2 flex-wrap">
