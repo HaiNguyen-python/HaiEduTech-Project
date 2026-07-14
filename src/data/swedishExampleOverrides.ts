@@ -438,7 +438,7 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   actionfilm:     { sv: "Vi tittar på en spännande actionfilm i kväll.",      vi: "Tối nay chúng tôi xem một bộ phim hành động hấp dẫn.",     en: "We are watching an exciting action movie tonight." },
   addera:         { sv: "Läraren ber oss addera talen på tavlan.",            vi: "Cô giáo yêu cầu chúng tôi cộng các số trên bảng.",         en: "The teacher asks us to add the numbers on the board." },
   album:          { sv: "Hon lyssnar på ett nytt album på Spotify.",          vi: "Cô ấy nghe một album mới trên Spotify.",                   en: "She is listening to a new album on Spotify." },
-  allergisk:      { sv: "Han är allergisk mot pollen på våren.",              vi: "Anh ấy bị dị ứng với phấn hoa vào mùa xuân.",              en: "He is allergic to pollen in the spring." },
+  
   ambulans:       { sv: "Ambulansen kommer snabbt till olycksplatsen.",       vi: "Xe cấp cứu đến hiện trường vụ tai nạn rất nhanh.",         en: "The ambulance quickly arrives at the accident scene." },
   ananas:         { sv: "Jag äter ananas till efterrätt.",                    vi: "Tôi ăn dứa làm món tráng miệng.",                          en: "I eat pineapple for dessert." },
   animation:      { sv: "Barnen tittar på en rolig animation på TV.",         vi: "Bọn trẻ xem một bộ phim hoạt hình vui nhộn trên TV.",      en: "The children watch a funny animation on TV." },
