@@ -46,6 +46,7 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(post.content);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
