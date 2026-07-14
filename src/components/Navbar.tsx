@@ -263,6 +263,14 @@ const Navbar = () => {
       { to: "/dich-vu-web", label: t("🎨 EdTech Design", "🎨 EdTech Design"), icon: PenTool },
     ] },
     
+    { to: "#prog-startup-group", label: t("🚀 Startup", "🚀 Startup"), icon: Rocket, groupLabel: "prog-startup", children: [
+      { to: "/programming/startup", label: t("Tổng quan Startup Tech", "Startup Tech Overview"), icon: Compass },
+      { to: "/programming/startup/roadmap", label: t("Lộ trình Founder 0→1", "Founder Roadmap 0→1"), icon: Sparkles },
+      { to: "/programming/startup-1-founder/su-1-1", label: t("Bài học Startup (30)", "Startup Lessons (30)"), icon: GraduationCap },
+      { to: "/programming/startup/case-studies", label: t("Case Studies VN & Global", "Case Studies VN & Global"), icon: Trophy },
+      { to: "/programming/startup/toolkit", label: t("Startup Toolkit", "Startup Toolkit"), icon: Workflow },
+      { to: "/programming/startup/pitch-simulator", label: t("Pitch Simulator (AI Investor)", "Pitch Simulator (AI Investor)"), icon: MessagesSquare },
+    ] },
     { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Rocket, groupLabel: "prog-career", children: [
       { to: "/programming/career-roadmap", label: t("Career Roadmap", "Career Roadmap"), icon: Sparkles },
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
