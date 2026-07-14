@@ -171,9 +171,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Kan du visa {ART}{W} på kartan?",            vi: "Bạn có thể chỉ {ARTVI}{VI} trên bản đồ không?", en: "Can you show me the {EN} on the map?" },
   ],
   travel: [
-    { sv: "På semestern besöker vi {W}.",               vi: "Vào kỳ nghỉ chúng tôi đến {VI}.",              en: "On vacation we visit {EN}." },
-    { sv: "Jag packar {ART}{W} inför resan.",           vi: "Tôi soạn {ARTVI}{VI} trước chuyến đi.",         en: "I pack {ARTEN}{EN} for the trip." },
-    { sv: "Vi bokar {ART}{W} online.",                  vi: "Chúng tôi đặt {ARTVI}{VI} trên mạng.",          en: "We book {ARTEN}{EN} online." },
+    { sv: "Vi pratar om {W} inför resan.",              vi: "Chúng tôi nói về {VI} trước chuyến đi.",         en: "We talk about {EN} before the trip." },
+    { sv: "Jag läser om {W} i reseguiden.",             vi: "Tôi đọc về {VI} trong sách hướng dẫn du lịch.",   en: "I read about {EN} in the travel guide." },
+    { sv: "Vi planerar {W} tillsammans.",               vi: "Chúng tôi cùng nhau lên kế hoạch cho {VI}.",     en: "We plan {EN} together." },
   ],
   health: [
     { sv: "Läkaren pratar om {W} med patienten.",       vi: "Bác sĩ nói về {VI} với bệnh nhân.",             en: "The doctor talks about {EN} with the patient." },
