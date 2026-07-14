@@ -445,7 +445,7 @@ const LifestyleAcademy = () => {
                   whileHover={{ y: -4 }}
                   transition={{ type: "spring", stiffness: 260, damping: 22 }}
                 >
-                  <PillarCard pillar={p} onExplore={() => setFilter(p.key)} />
+                  <PillarCard pillar={p} onExplore={() => setActivePillar(p.key)} />
                 </motion.div>
               ))}
             </AnimatePresence>
