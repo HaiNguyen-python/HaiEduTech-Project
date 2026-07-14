@@ -471,7 +471,7 @@ const LifestyleAcademy = () => {
         {/* ────────── 4 Core Pillars ────────── */}
         <section id="pillars" className="relative overflow-hidden container mx-auto px-4 py-16 md:py-20 scroll-mt-32">
           <FloatingLifestyleIcons count={14} />
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
                 {t("4 Trụ cột cốt lõi", "The 4 Core Pillars")}
