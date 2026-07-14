@@ -20,6 +20,7 @@ export type FeedPost = {
   user_id: string;
   content: string;
   image_url: string | null;
+  image_urls: string[] | null;
   subject: string | null;
   mood: string | null;
   visibility: string | null;
