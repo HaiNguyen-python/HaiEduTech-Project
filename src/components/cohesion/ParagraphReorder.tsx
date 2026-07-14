@@ -134,7 +134,14 @@ const ParagraphReorder = ({ taskType }: Props) => {
   const isCorrect = order.length > 0 && order.every((v, i) => v === i);
   const correctCount = order.filter((v, i) => v === i).length;
 
-  const goNext = () => setIdx((idx + 1) % pool.length);
+  const goNext = () => {
+    const nextIdx = (idx + 1) % pool.length;
+    const nextItem = pool[nextIdx];
+    if (nextItem) setOrder(shuffleIndices(nextItem.sentences.length));
+    setChecked(false);
+    setSaved(false);
+    setIdx(nextIdx);
+  };
 
   const handleCheck = () => {
     setChecked(true);
@@ -197,6 +204,10 @@ const ParagraphReorder = ({ taskType }: Props) => {
         </CardHeader>
         <CardContent className="space-y-2">
           {order.map((sentenceIdx, i) => {
+            const sentence = current.sentences[sentenceIdx];
+            // Guard: order can be briefly stale after switching to a paragraph
+            // with fewer sentences (before the reshuffle effect runs).
+            if (typeof sentence !== "string") return null;
             const correctHere = checked && sentenceIdx === i;
             const wrongHere = checked && sentenceIdx !== i;
             return (
@@ -220,7 +231,7 @@ const ParagraphReorder = ({ taskType }: Props) => {
                 </div>
                 <Badge variant="outline" className="mt-1 shrink-0 font-mono text-xs">{i + 1}</Badge>
                 <p className="text-[15px] leading-relaxed text-foreground flex-1">
-                  {highlightMarkers(current.sentences[sentenceIdx])}
+                  {highlightMarkers(sentence)}
                 </p>
               </div>
             );
