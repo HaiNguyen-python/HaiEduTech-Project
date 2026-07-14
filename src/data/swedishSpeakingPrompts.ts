@@ -476,3 +476,7 @@ export const SWEDISH_SPEAKING_PROMPTS: SwedishSpeakingPrompt[] = [
 // ─── Expansion: additional prompts pulled from expansion file ───
 import { SWEDISH_SPEAKING_PROMPTS_EXPANSION } from "./swedishSpeakingPromptsExpansion";
 SWEDISH_SPEAKING_PROMPTS.push(...SWEDISH_SPEAKING_PROMPTS_EXPANSION);
+
+// ─── Expansion 2: additional prompts ───
+import { SWEDISH_SPEAKING_PROMPTS_EXPANSION_2 } from "./swedishSpeakingPromptsExpansion2";
+SWEDISH_SPEAKING_PROMPTS.push(...SWEDISH_SPEAKING_PROMPTS_EXPANSION_2);

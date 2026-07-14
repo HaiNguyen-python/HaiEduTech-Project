@@ -1365,3 +1365,7 @@ export const SWEDISH_LISTENING_EXERCISES: SwedishListeningExercise[] = [
 // ─── Expansion: additional exercises pulled from expansion file ───
 import { SWEDISH_LISTENING_EXERCISES_EXPANSION } from "./swedishListeningExercisesExpansion";
 SWEDISH_LISTENING_EXERCISES.push(...SWEDISH_LISTENING_EXERCISES_EXPANSION);
+
+// ─── Expansion 2: additional exercises ───
+import { SWEDISH_LISTENING_EXERCISES_EXPANSION_2 } from "./swedishListeningExercisesExpansion2";
+SWEDISH_LISTENING_EXERCISES.push(...SWEDISH_LISTENING_EXERCISES_EXPANSION_2);

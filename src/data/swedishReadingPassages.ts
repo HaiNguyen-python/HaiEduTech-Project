@@ -983,3 +983,7 @@ export const SWEDISH_READING_PASSAGES: SwedishReadingPassage[] = [
 // ─── Expansion: additional passages pulled from expansion file ───
 import { SWEDISH_READING_PASSAGES_EXPANSION } from "./swedishReadingPassagesExpansion";
 SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION);
+
+// ─── Expansion 2: additional passages ───
+import { SWEDISH_READING_PASSAGES_EXPANSION_2 } from "./swedishReadingPassagesExpansion2";
+SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION_2);
