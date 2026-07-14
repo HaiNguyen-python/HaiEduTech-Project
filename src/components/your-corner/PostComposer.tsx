@@ -301,16 +301,21 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         </div>
       )}
 
-      {imagePreview && (
-        <div className="relative inline-block ml-14">
-          <img src={imagePreview} alt="preview" className="max-h-64 rounded-lg" />
-          <button
-            onClick={clearImage}
-            className="absolute top-2 right-2 bg-background/80 rounded-full p-1 hover:bg-background"
-            aria-label="Xoá hình"
-          >
-            <X className="w-4 h-4" />
-          </button>
+      {imagePreviews.length > 0 && (
+        <div className="ml-14 grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {imagePreviews.map((src, i) => (
+            <div key={src} className="relative group aspect-square">
+              <img src={src} alt={`preview-${i + 1}`} className="w-full h-full object-cover rounded-lg" />
+              <button
+                type="button"
+                onClick={() => removeImageAt(i)}
+                className="absolute top-1 right-1 bg-background/80 rounded-full p-1 hover:bg-background opacity-90 group-hover:opacity-100"
+                aria-label="Xoá hình"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
         </div>
       )}
 
