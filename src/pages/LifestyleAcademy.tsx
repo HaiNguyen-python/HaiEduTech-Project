@@ -39,13 +39,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey, type LifestyleLesson } from "@/data/lifestyleAcademyLessons";
 
