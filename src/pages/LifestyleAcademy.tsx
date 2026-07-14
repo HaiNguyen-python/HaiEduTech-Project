@@ -41,6 +41,50 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey, type LifestyleLesson } from "@/data/lifestyleAcademyLessons";
+import FloatingLifestyleIcons from "@/components/lifestyle/FloatingLifestyleIcons";
+
+// Pillar-specific styles used across cards for consistent theming.
+const PILLAR_STYLES: Record<LifestylePillarKey, {
+  border: string;
+  borderStrong: string;
+  bannerFrom: string;
+  bannerTo: string;
+  chipBg: string;
+  emojis: string[];
+}> = {
+  finance: {
+    border: "border-amber-300/70 dark:border-amber-500/40",
+    borderStrong: "hover:border-amber-400 dark:hover:border-amber-400/70",
+    bannerFrom: "from-amber-100 via-yellow-50 to-orange-100",
+    bannerTo: "dark:from-amber-500/20 dark:via-yellow-500/10 dark:to-orange-500/20",
+    chipBg: "bg-amber-50 dark:bg-amber-500/10",
+    emojis: ["💰", "📈", "💎", "🏦"],
+  },
+  etiquette: {
+    border: "border-emerald-300/70 dark:border-emerald-500/40",
+    borderStrong: "hover:border-emerald-400 dark:hover:border-emerald-400/70",
+    bannerFrom: "from-emerald-100 via-teal-50 to-cyan-100",
+    bannerTo: "dark:from-emerald-500/20 dark:via-teal-500/10 dark:to-cyan-500/20",
+    chipBg: "bg-emerald-50 dark:bg-emerald-500/10",
+    emojis: ["💬", "🤝", "🌍", "🎓"],
+  },
+  presence: {
+    border: "border-teal-300/70 dark:border-teal-500/40",
+    borderStrong: "hover:border-teal-400 dark:hover:border-teal-400/70",
+    bannerFrom: "from-teal-100 via-slate-50 to-emerald-100",
+    bannerTo: "dark:from-teal-500/20 dark:via-slate-500/10 dark:to-emerald-500/20",
+    chipBg: "bg-teal-50 dark:bg-teal-500/10",
+    emojis: ["🧘", "🛡️", "🔥", "🎯"],
+  },
+  wellness: {
+    border: "border-rose-300/70 dark:border-rose-500/40",
+    borderStrong: "hover:border-rose-400 dark:hover:border-rose-400/70",
+    bannerFrom: "from-rose-100 via-orange-50 to-amber-100",
+    bannerTo: "dark:from-rose-500/20 dark:via-orange-500/10 dark:to-amber-500/20",
+    chipBg: "bg-rose-50 dark:bg-rose-500/10",
+    emojis: ["💪", "🥗", "😴", "🌿"],
+  },
+};
 
 // ─────────────────────────────────────────────────────────
 // Types & data
@@ -352,6 +396,7 @@ const LifestyleAcademy = () => {
         <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-emerald-50 via-white to-amber-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 pt-28 lg:pt-32">
           <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl dark:bg-emerald-500/10" />
           <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-amber-300/25 blur-3xl dark:bg-amber-400/10" />
+          <FloatingLifestyleIcons count={22} />
 
           <div className="container relative mx-auto px-4 py-16 md:py-24">
             <motion.div
@@ -424,8 +469,9 @@ const LifestyleAcademy = () => {
         </section>
 
         {/* ────────── 4 Core Pillars ────────── */}
-        <section id="pillars" className="container mx-auto px-4 py-16 md:py-20 scroll-mt-32">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+        <section id="pillars" className="relative overflow-hidden container mx-auto px-4 py-16 md:py-20 scroll-mt-32">
+          <FloatingLifestyleIcons count={14} />
+          <div className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
                 {t("4 Trụ cột cốt lõi", "The 4 Core Pillars")}
@@ -442,7 +488,7 @@ const LifestyleAcademy = () => {
             </Badge>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="relative z-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <AnimatePresence mode="popLayout">
               {filteredPillars.map((p, i) => (
                 <motion.div
@@ -470,8 +516,9 @@ const LifestyleAcademy = () => {
         </section>
 
         {/* ────────── In-depth Lessons ────────── */}
-        <section id="lessons" className="border-y border-border/60 bg-gradient-to-br from-white to-emerald-50/40 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
-          <div className="container mx-auto px-4 py-16 md:py-20">
+        <section id="lessons" className="relative overflow-hidden border-y border-border/60 bg-gradient-to-br from-white to-emerald-50/40 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
+          <FloatingLifestyleIcons count={18} />
+          <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
             <div className="mb-8 max-w-2xl">
               <Badge variant="outline" className="mb-3 border-teal-400/50 bg-teal-50/70 text-teal-700 dark:border-teal-400/40 dark:bg-teal-500/10 dark:text-teal-300">
                 <Lightbulb className="mr-1.5 h-3.5 w-3.5" />
@@ -774,6 +821,11 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
     mastery: { vi: "Nâng cao", en: "Mastery" },
   }[lesson.level];
 
+  const styles = PILLAR_STYLES[lesson.pillar];
+  const emojis = lesson.illustrationEmojis && lesson.illustrationEmojis.length > 0
+    ? lesson.illustrationEmojis
+    : styles.emojis;
+
   return (
     <motion.div
       layout
@@ -782,7 +834,58 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: Math.min(index * 0.04, 0.3), duration: 0.35, ease: "easeOut" }}
     >
-      <Card className="h-full border-slate-200/80 bg-white/95 hover:shadow-lg hover:shadow-emerald-500/10 dark:border-slate-800 dark:bg-slate-900/70 transition-shadow">
+      <Card
+        className={[
+          "h-full overflow-hidden border-2 bg-white/95 transition-all",
+          "hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-0.5",
+          styles.border,
+          styles.borderStrong,
+          "dark:bg-slate-900/70",
+        ].join(" ")}
+      >
+        {/* Illustration banner - pillar-tinted gradient with floating emoji cluster */}
+        <div
+          aria-hidden
+          className={[
+            "relative h-24 w-full overflow-hidden bg-gradient-to-br",
+            styles.bannerFrom,
+            styles.bannerTo,
+          ].join(" ")}
+        >
+          {/* Large watermark icon */}
+          <span
+            className={`absolute -right-3 -bottom-3 inline-flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br ${pillar.iconBg} text-white opacity-25 blur-[0.5px]`}
+          >
+            <Icon className="h-14 w-14" />
+          </span>
+          {/* Emoji cluster (illustration) */}
+          <div className="absolute inset-0 flex items-center gap-4 pl-5">
+            {emojis.slice(0, 4).map((e, i) => (
+              <motion.span
+                key={`${e}-${i}`}
+                className="select-none text-3xl md:text-4xl drop-shadow-sm"
+                animate={{
+                  y: [0, -4, 0, 3, 0],
+                  rotate: [0, 4, -3, 2, 0],
+                }}
+                transition={{
+                  duration: 6 + i * 0.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.4,
+                }}
+                style={{ filter: "saturate(1.05)" }}
+              >
+                {e}
+              </motion.span>
+            ))}
+          </div>
+          {/* Level chip */}
+          <span className={`absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-100 ${styles.chipBg} backdrop-blur`}>
+            {lang === "vi" ? levelLabel.vi : levelLabel.en}
+          </span>
+        </div>
+
         <CardContent className="p-6 flex flex-col h-full">
           <div className="flex items-start gap-3">
             <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${pillar.iconBg} text-white shadow-md`}>
@@ -827,6 +930,18 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
                 className="overflow-hidden"
               >
                 <div className="mt-5 space-y-4 border-t border-slate-200/70 pt-4 dark:border-slate-800">
+                  {/* Why it matters */}
+                  {(lang === "vi" ? lesson.whyItMattersVi : lesson.whyItMattersEn) && (
+                    <div className={`rounded-lg border-l-4 ${styles.border} bg-gradient-to-br ${styles.bannerFrom} ${styles.bannerTo} p-3`}>
+                      <p className="text-[11px] uppercase tracking-wider font-semibold text-slate-700 dark:text-slate-200">
+                        {t("Vì sao điều này quan trọng", "Why it matters")}
+                      </p>
+                      <p className="mt-1 text-sm font-medium text-slate-800 dark:text-slate-100">
+                        {lang === "vi" ? lesson.whyItMattersVi : lesson.whyItMattersEn}
+                      </p>
+                    </div>
+                  )}
+
                   <div>
                     <p className="text-[11px] uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">
                       <Compass className="mr-1 inline h-3.5 w-3.5" />
@@ -836,6 +951,22 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
                       {lang === "vi" ? lesson.frameworkVi : lesson.frameworkEn}
                     </p>
                   </div>
+
+                  {/* Deep-dive narrative */}
+                  {((lang === "vi" ? lesson.deepDiveVi : lesson.deepDiveEn) ?? []).length > 0 && (
+                    <div>
+                      <p className="text-[11px] uppercase tracking-wider font-semibold text-slate-600 dark:text-slate-300">
+                        {t("Đào sâu", "Deep dive")}
+                      </p>
+                      <div className="mt-2 space-y-2">
+                        {(lang === "vi" ? lesson.deepDiveVi! : lesson.deepDiveEn!).map((para, idx) => (
+                          <p key={idx} className="text-sm leading-relaxed text-slate-700 dark:text-slate-200">
+                            {para}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div>
                     <p className="text-[11px] uppercase tracking-wider font-semibold text-teal-600 dark:text-teal-400">

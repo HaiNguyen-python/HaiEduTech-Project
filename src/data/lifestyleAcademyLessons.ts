@@ -29,6 +29,14 @@ export interface LifestyleLesson {
   /** A concrete 5-15 minute drill to internalise the lesson. */
   drillVi: string;
   drillEn: string;
+  /** Optional deeper narrative - 2-4 paragraphs of expanded context. */
+  deepDiveVi?: string[];
+  deepDiveEn?: string[];
+  /** Optional "why it matters" bilingual paragraph. */
+  whyItMattersVi?: string;
+  whyItMattersEn?: string;
+  /** Optional emoji cluster used for the card illustration banner. */
+  illustrationEmojis?: string[];
 }
 
 // ─────────────────────────────────────────────────────────
@@ -759,6 +767,7 @@ const wellness: LifestyleLesson[] = [
 
 import { LIFESTYLE_LESSONS_EXPANSION } from "./lifestyleAcademyLessonsExpansion";
 import { LIFESTYLE_LESSONS_EXPANSION_2 } from "./lifestyleAcademyLessonsExpansion2";
+import { LIFESTYLE_LESSONS_EXPANSION_3 } from "./lifestyleAcademyLessonsExpansion3";
 
 const byPillar = (source: LifestyleLesson[], key: LifestylePillarKey) =>
   source.filter((l) => l.pillar === key);
@@ -766,9 +775,9 @@ const byPillar = (source: LifestyleLesson[], key: LifestylePillarKey) =>
 // Interleave expansion lessons per pillar so each pillar reads as a continuous
 // curriculum (foundation -> intermediate -> mastery) instead of being split.
 export const LIFESTYLE_LESSONS: LifestyleLesson[] = [
-  ...finance,   ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "finance"),
-  ...etiquette, ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "etiquette"),
-  ...presence,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "presence"),
-  ...wellness,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "wellness"),
+  ...finance,   ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "finance"),
+  ...etiquette, ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "etiquette"),
+  ...presence,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "presence"),
+  ...wellness,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "wellness"),
 ];
 
