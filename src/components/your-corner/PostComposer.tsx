@@ -408,17 +408,22 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
           ref={fileRef}
           type="file"
           accept="image/*"
+          multiple
           className="hidden"
-          onChange={(e) => pickImage(e.target.files?.[0] ?? null)}
+          onChange={(e) => {
+            pickImages(e.target.files);
+            if (e.target) e.target.value = "";
+          }}
         />
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => fileRef.current?.click()}
+          disabled={imageFiles.length >= MAX_IMAGES}
           className="text-emerald-600 hover:text-emerald-700 px-2 h-8 text-xs"
         >
-          <ImagePlus className="w-4 h-4 mr-1" /> Hình
+          <ImagePlus className="w-4 h-4 mr-1" /> Hình {imageFiles.length > 0 ? `(${imageFiles.length}/${MAX_IMAGES})` : ""}
         </Button>
 
         <Button
