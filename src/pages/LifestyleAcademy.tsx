@@ -488,7 +488,7 @@ const LifestyleAcademy = () => {
             </Badge>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="relative z-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <AnimatePresence mode="popLayout">
               {filteredPillars.map((p, i) => (
                 <motion.div
