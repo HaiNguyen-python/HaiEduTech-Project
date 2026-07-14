@@ -3821,6 +3821,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_room_participant: { Args: { _room_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       is_super_admin: { Args: { _user_id: string }; Returns: boolean }
       move_to_dlq: {
