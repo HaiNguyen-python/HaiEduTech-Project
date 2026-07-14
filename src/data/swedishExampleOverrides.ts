@@ -446,7 +446,7 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   anlända:        { sv: "Tåget anländer till stationen klockan tio.",         vi: "Tàu đến ga lúc mười giờ.",                                 en: "The train arrives at the station at ten." },
   ansöka:         { sv: "Hon vill ansöka om ett stipendium i Finland.",       vi: "Cô ấy muốn nộp đơn xin học bổng ở Phần Lan.",              en: "She wants to apply for a scholarship in Finland." },
   antalet:        { sv: "Antalet elever i klassen ökar varje år.",            vi: "Số học sinh trong lớp tăng lên mỗi năm.",                  en: "The number of students in the class grows every year." },
-  anteckna:       { sv: "Studenterna antecknar viktiga ord under lektionen.", vi: "Học sinh ghi chú các từ quan trọng trong tiết học.",       en: "The students take notes on important words during class." },
+  
   anteckningar:   { sv: "Jag läser mina anteckningar innan provet.",          vi: "Tôi đọc lại ghi chú của mình trước bài kiểm tra.",         en: "I read my notes before the test." },
 };
 
