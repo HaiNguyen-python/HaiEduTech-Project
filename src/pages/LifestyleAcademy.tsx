@@ -659,11 +659,7 @@ const LifestyleAcademy = () => {
         </section>
       </main>
 
-      {/* ────────── Pillar Lessons Modal ────────── */}
-      <PillarLessonsDialog
-        pillarKey={activePillar}
-        onOpenChange={(o) => !o && setActivePillar(null)}
-      />
+
 
 
       <Footer />
