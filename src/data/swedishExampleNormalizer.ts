@@ -93,7 +93,7 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   clothing: [
     { sv: "Hon har {ART}{W} på sig.", vi: "Cô ấy đang mặc {ARTVI}{VI}.", en: "She is wearing {ARTEN}{EN}." },
     { sv: "Jag köper {ART}{NY} {W}.", vi: "Tôi mua {ARTVI}{VI} mới.", en: "I am buying a new {EN}." },
-    { sv: "{MIN_C} {W} är blå.", vi: "{VI_C} của tôi màu xanh.", en: "My {EN} is blue." },
+    { sv: "{MIN_C} {W} är fin{ETT}.", vi: "{VI_C} của tôi rất đẹp.", en: "My {EN} is nice." },
   ],
   home: [
     { sv: "Vi har {ART}{W} hemma.", vi: "Chúng tôi có {ARTVI}{VI} ở nhà.", en: "We have {ARTEN}{EN} at home." },
