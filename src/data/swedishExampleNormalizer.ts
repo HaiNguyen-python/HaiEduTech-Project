@@ -93,7 +93,7 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   clothing: [
     { sv: "Hon har {ART}{W} på sig.", vi: "Cô ấy đang mặc {ARTVI}{VI}.", en: "She is wearing {ARTEN}{EN}." },
     { sv: "Jag köper {ART}{NY} {W}.", vi: "Tôi mua {ARTVI}{VI} mới.", en: "I am buying a new {EN}." },
-    { sv: "{MIN_C} {W} är blå.", vi: "{VI_C} của tôi màu xanh.", en: "My {EN} is blue." },
+    { sv: "{MIN_C} {W} är fin{ETT}.", vi: "{VI_C} của tôi rất đẹp.", en: "My {EN} is nice." },
   ],
   home: [
     { sv: "Vi har {ART}{W} hemma.", vi: "Chúng tôi có {ARTVI}{VI} ở nhà.", en: "We have {ARTEN}{EN} at home." },
@@ -112,8 +112,8 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
   weather: [
     { sv: "Vi pratar ofta om {W} i Sverige.", vi: "Ở Thụy Điển chúng tôi thường nói về {VI}.", en: "In Sweden we often talk about {EN}." },
-    { sv: "På vintern förekommer {W} i norra Sverige.", vi: "Vào mùa đông {VI} thường xuất hiện ở miền bắc Thụy Điển.", en: "In winter {EN} occurs in northern Sweden." },
-    { sv: "Väderleksrapporten nämner {W} idag.", vi: "Bản tin thời tiết hôm nay có nhắc đến {VI}.", en: "The weather report mentions {EN} today." },
+    { sv: "Väderprognosen nämner {W} i dag.", vi: "Bản tin thời tiết hôm nay có nhắc đến {VI}.", en: "The weather forecast mentions {EN} today." },
+    { sv: "Många människor pratar om {W} när vädret ändras.", vi: "Nhiều người nói về {VI} khi thời tiết thay đổi.", en: "Many people talk about {EN} when the weather changes." },
   ],
   tech: [
     { sv: "Jag använder {ART}{W} varje dag.", vi: "Tôi dùng {ARTVI}{VI} mỗi ngày.", en: "I use {ARTEN}{EN} every day." },
@@ -137,13 +137,13 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
   family: [
     { sv: "{MIN_C} {W} bor i Sverige.", vi: "{VI_C} của tôi sống ở Thụy Điển.", en: "My {EN} lives in Sweden." },
-    { sv: "Jag älskar {MIN} {W}.", vi: "Tôi yêu {VI} của tôi.", en: "I love my {EN}." },
-    { sv: "Hennes {W} heter Anna.", vi: "{VI_C} của cô ấy tên là Anna.", en: "Her {EN} is named Anna." },
+    { sv: "Jag älskar {MIN} {W}.", vi: "Tôi yêu {VI} của mình.", en: "I love my {EN}." },
+    { sv: "Jag pratar ofta med {MIN} {W}.", vi: "Tôi thường nói chuyện với {VI} của mình.", en: "I often talk with my {EN}." },
   ],
   numbers: [
     { sv: "Vi lär oss om {W} i matteboken.", vi: "Chúng tôi học về {VI} trong sách toán.", en: "We learn about {EN} in the math book." },
     { sv: "Läraren skriver {W} på tavlan.", vi: "Giáo viên viết {VI} lên bảng.", en: "The teacher writes {EN} on the board." },
-    { sv: "Vi pratar om {W} i klassen.", vi: "Chúng tôi nói về {VI} ở lớp.", en: "We talk about {EN} in class." },
+    { sv: "Kan du säga {W} på svenska?", vi: "Bạn có thể nói {VI} bằng tiếng Thụy Điển không?", en: "Can you say {EN} in Swedish?" },
   ],
   abstract: [
     { sv: "{W_C} är viktig{ETT} i livet.", vi: "{VI_C} rất quan trọng trong cuộc sống.", en: "{EN_C} is important in life." },
@@ -181,7 +181,7 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Tidningen skriver om {W} idag.",             vi: "Báo hôm nay viết về {VI}.",                      en: "The newspaper writes about {EN} today." },
   ],
   emotions: [
-    { sv: "Hon känner stor {W} idag.", vi: "Hôm nay cô ấy cảm thấy {VI} nhiều.", en: "She feels great {EN} today." },
+    { sv: "Hon känner mycket {W} idag.", vi: "Hôm nay cô ấy cảm thấy nhiều {VI}.", en: "She feels a lot of {EN} today." },
     { sv: "{W_C} är en naturlig del av livet.", vi: "{VI_C} là một phần tự nhiên của cuộc sống.", en: "{EN_C} is a natural part of life." },
     { sv: "Filmen väckte mycket {W} hos publiken.", vi: "Bộ phim khơi gợi nhiều {VI} nơi khán giả.", en: "The film stirred a lot of {EN} in the audience." },
   ],
