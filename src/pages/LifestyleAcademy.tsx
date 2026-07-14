@@ -468,52 +468,6 @@ const LifestyleAcademy = () => {
           </div>
         </section>
 
-        {/* ────────── 4 Core Pillars ────────── */}
-        <section id="pillars" className="relative overflow-hidden container mx-auto px-4 py-16 md:py-20 scroll-mt-32">
-          <FloatingLifestyleIcons count={14} />
-          <div className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-                {t("4 Trụ cột cốt lõi", "The 4 Core Pillars")}
-              </h2>
-              <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl">
-                {t(
-                  "Bộ khung phát triển toàn diện - chọn trụ cột phù hợp với hành trình hiện tại của bạn.",
-                  "A holistic growth framework - choose the pillar that fits where you are now.",
-                )}
-              </p>
-            </div>
-            <Badge variant="secondary" className="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-              {filteredPillars.length} / {PILLARS.length} {t("hiển thị", "showing")}
-            </Badge>
-          </div>
-
-          <div className="relative z-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            <AnimatePresence mode="popLayout">
-              {filteredPillars.map((p, i) => (
-                <motion.div
-                  key={p.key}
-                  layout
-                  custom={i}
-                  variants={cardVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit={{ opacity: 0, y: 8 }}
-                  whileHover={{ y: -4 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                >
-                  <PillarCard pillar={p} onExplore={() => openPillarLessons(p.key)} />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-
-            {filteredPillars.length === 0 && (
-              <div className="col-span-full py-16 text-center text-slate-500 dark:text-slate-400">
-                {t("Không tìm thấy trụ cột phù hợp với từ khoá này.", "No pillar matches this search.")}
-              </div>
-            )}
-          </div>
-        </section>
 
         {/* ────────── In-depth Lessons ────────── */}
         <section id="lessons" className="relative overflow-hidden border-y border-border/60 bg-gradient-to-br from-white to-emerald-50/40 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
