@@ -74,7 +74,7 @@ export default function FloatingLifestyleIcons({ count = 24 }: Props) {
   const particles = useMemo(() => generate(count), [count]);
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
       {particles.map((p) => (
         <motion.span
           key={p.id}
