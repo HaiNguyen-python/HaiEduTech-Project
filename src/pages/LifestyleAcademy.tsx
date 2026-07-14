@@ -515,7 +515,8 @@ const LifestyleAcademy = () => {
         </section>
 
         {/* ────────── In-depth Lessons ────────── */}
-        <section id="lessons" className="border-y border-border/60 bg-gradient-to-br from-white to-emerald-50/40 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
+        <section id="lessons" className="relative overflow-hidden border-y border-border/60 bg-gradient-to-br from-white to-emerald-50/40 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
+          <FloatingLifestyleIcons count={18} />
           <div className="container mx-auto px-4 py-16 md:py-20">
             <div className="mb-8 max-w-2xl">
               <Badge variant="outline" className="mb-3 border-teal-400/50 bg-teal-50/70 text-teal-700 dark:border-teal-400/40 dark:bg-teal-500/10 dark:text-teal-300">
