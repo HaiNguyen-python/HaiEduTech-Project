@@ -121,9 +121,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Han köper {ART}{W} online.", vi: "Anh ấy mua {ARTVI}{VI} trên mạng.", en: "He buys {ARTEN}{EN} online." },
   ],
   shopping: [
-    { sv: "Jag går till {ART}{W} på lördag.", vi: "Tôi đi đến {ARTVI}{VI} vào thứ bảy.", en: "I go to {ARTEN}{EN} on Saturday." },
-    { sv: "Det här är {ART}stor{ETT} {W}.", vi: "Đây là {ARTVI}{VI} lớn.", en: "This is a big {EN}." },
-    { sv: "Jag behöver {ART}{W}.", vi: "Tôi cần {ARTVI}{VI}.", en: "I need {ARTEN}{EN}." },
+    { sv: "Jag skriver {W} på inköpslistan.", vi: "Tôi ghi {VI} vào danh sách mua sắm.", en: "I write {EN} on the shopping list." },
+    { sv: "Vi letar efter {W} i affären.", vi: "Chúng tôi tìm {VI} trong cửa hàng.", en: "We look for {EN} in the shop." },
+    { sv: "Jag behöver {ART}{W} i veckan.", vi: "Tuần này tôi cần {ARTVI}{VI}.", en: "I need {ARTEN}{EN} this week." },
   ],
   education: [
     { sv: "Vi lär oss om {W} i skolan.", vi: "Chúng tôi học về {VI} ở trường.", en: "We learn about {EN} at school." },
