@@ -41,7 +41,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey, type LifestyleLesson } from "@/data/lifestyleAcademyLessons";
-import FloatingLifestyleIcons from "@/components/lifestyle/FloatingLifestyleIcons";
+
 
 // Pillar-specific styles used across cards for consistent theming.
 const PILLAR_STYLES: Record<LifestylePillarKey, {
@@ -323,7 +323,7 @@ const LifestyleAcademy = () => {
     });
   };
 
-  // Read ?pillar=... from URL on load: filter and jump straight to the lessons.
+  // Read ?pillar=... from URL: filter and jump to lessons. If absent, reset to All.
   useEffect(() => {
     const p = searchParams.get("pillar") as FilterKey | null;
     if (p && FILTERS.some((f) => f.key === p)) {
@@ -331,6 +331,10 @@ const LifestyleAcademy = () => {
       requestAnimationFrame(() => {
         document.getElementById(p !== "all" ? "lessons" : "pillars")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
+    } else {
+      // No pillar param (e.g. clicked "Overview" or "Micro-Coach") → reset filter so
+      // the user does not see stale filtering from a previous click.
+      setFilter("all");
     }
   }, [searchParams]);
 
@@ -396,7 +400,7 @@ const LifestyleAcademy = () => {
         <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-emerald-50 via-white to-amber-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 pt-28 lg:pt-32">
           <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl dark:bg-emerald-500/10" />
           <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-amber-300/25 blur-3xl dark:bg-amber-400/10" />
-          <FloatingLifestyleIcons count={22} />
+          
 
           <div className="container relative mx-auto px-4 py-16 md:py-24">
             <motion.div
@@ -471,7 +475,7 @@ const LifestyleAcademy = () => {
 
         {/* ────────── In-depth Lessons ────────── */}
         <section id="lessons" className="relative overflow-hidden border-y border-border/60 bg-gradient-to-br from-white to-emerald-50/40 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
-          <FloatingLifestyleIcons count={18} />
+          
           <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
             <div className="mb-8 max-w-2xl">
               <Badge variant="outline" className="mb-3 border-teal-400/50 bg-teal-50/70 text-teal-700 dark:border-teal-400/40 dark:bg-teal-500/10 dark:text-teal-300">
@@ -776,9 +780,6 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
   }[lesson.level];
 
   const styles = PILLAR_STYLES[lesson.pillar];
-  const emojis = lesson.illustrationEmojis && lesson.illustrationEmojis.length > 0
-    ? lesson.illustrationEmojis
-    : styles.emojis;
 
   return (
     <motion.div
@@ -797,45 +798,17 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
           "dark:bg-slate-900/70",
         ].join(" ")}
       >
-        {/* Illustration banner - pillar-tinted gradient with floating emoji cluster */}
+        {/* Slim pillar-tinted header strip with level chip only (no decorative icons) */}
         <div
           aria-hidden
           className={[
-            "relative h-24 w-full overflow-hidden bg-gradient-to-br",
+            "relative h-3 w-full bg-gradient-to-r",
             styles.bannerFrom,
             styles.bannerTo,
           ].join(" ")}
-        >
-          {/* Large watermark icon */}
-          <span
-            className={`absolute -right-3 -bottom-3 inline-flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br ${pillar.iconBg} text-white opacity-25 blur-[0.5px]`}
-          >
-            <Icon className="h-14 w-14" />
-          </span>
-          {/* Emoji cluster (illustration) */}
-          <div className="absolute inset-0 flex items-center gap-4 pl-5">
-            {emojis.slice(0, 4).map((e, i) => (
-              <motion.span
-                key={`${e}-${i}`}
-                className="select-none text-3xl md:text-4xl drop-shadow-sm"
-                animate={{
-                  y: [0, -4, 0, 3, 0],
-                  rotate: [0, 4, -3, 2, 0],
-                }}
-                transition={{
-                  duration: 6 + i * 0.6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.4,
-                }}
-                style={{ filter: "saturate(1.05)" }}
-              >
-                {e}
-              </motion.span>
-            ))}
-          </div>
-          {/* Level chip */}
-          <span className={`absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-100 ${styles.chipBg} backdrop-blur`}>
+        />
+        <div className="relative">
+          <span className={`absolute -top-3 right-3 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-100 ${styles.chipBg} border border-slate-200/70 dark:border-slate-700 shadow-sm`}>
             {lang === "vi" ? levelLabel.vi : levelLabel.en}
           </span>
         </div>
