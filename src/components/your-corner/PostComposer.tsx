@@ -534,7 +534,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         <div className="ml-auto">
           <Button
             onClick={submit}
-            disabled={submitting || (!content.trim() && !(pollMode && pollQuestion.trim() && pollOptions.filter((o) => o.trim()).length >= 2))}
+            disabled={submitting || (!content.trim() && imageFiles.length === 0 && !(pollMode && pollQuestion.trim() && pollOptions.filter((o) => o.trim()).length >= 2))}
             size="sm"
             className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white shadow-md disabled:opacity-50"
           >
