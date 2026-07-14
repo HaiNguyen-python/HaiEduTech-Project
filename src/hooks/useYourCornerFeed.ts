@@ -13,6 +13,8 @@ export type PollData = {
   options: string[];
   subject?: string | null;
   allow_change?: boolean;
+  correct_index?: number | null;
+  explanation?: string | null;
 };
 
 export type FeedPost = {

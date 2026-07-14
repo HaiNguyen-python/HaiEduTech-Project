@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { BarChart3, Check, Vote, Trophy } from "lucide-react";
+import { BarChart3, Check, Vote, Trophy, CheckCircle2, XCircle, Lightbulb } from "lucide-react";
 import type { PollData } from "@/hooks/useYourCornerFeed";
 import {
   ResponsiveContainer,
@@ -98,6 +98,10 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
           const count = localVotes[String(idx)] ?? 0;
           const pct = total > 0 ? Math.round((count / total) * 100) : 0;
           const isMine = localVote === idx;
+          const hasQuiz = typeof poll.correct_index === "number";
+          const isCorrect = hasQuiz && poll.correct_index === idx;
+          const revealCorrect = hasVoted && hasQuiz && isCorrect;
+          const revealWrongPick = hasVoted && hasQuiz && isMine && !isCorrect;
           return (
             <button
               key={idx}
@@ -105,9 +109,13 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
               onClick={() => vote(idx)}
               disabled={pending !== null || (hasVoted && !allowChange)}
               className={`relative w-full text-left rounded-lg border overflow-hidden transition group ${
-                isMine
-                  ? "border-emerald-500 bg-emerald-500/10"
-                  : "border-border bg-background/60 hover:border-primary/40"
+                revealCorrect
+                  ? "border-emerald-500 bg-emerald-500/15 ring-1 ring-emerald-500/40"
+                  : revealWrongPick
+                    ? "border-red-500 bg-red-500/10"
+                    : isMine
+                      ? "border-emerald-500 bg-emerald-500/10"
+                      : "border-border bg-background/60 hover:border-primary/40"
               } ${hasVoted && !allowChange ? "cursor-default" : "cursor-pointer"} disabled:opacity-80`}
             >
               {hasVoted && (
@@ -118,8 +126,17 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
                 />
               )}
               <div className="relative flex items-center gap-2 px-3 py-2 text-sm">
-                {isMine && <Check className="w-4 h-4 text-emerald-600 shrink-0" />}
-                <span className="flex-1 break-words">{opt}</span>
+                {revealCorrect ? (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                ) : revealWrongPick ? (
+                  <XCircle className="w-4 h-4 text-red-600 shrink-0" />
+                ) : isMine ? (
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                ) : null}
+                <span className="flex-1 break-words">
+                  <span className="font-semibold mr-1">{String.fromCharCode(65 + idx)}.</span>
+                  {opt}
+                </span>
                 {hasVoted && (
                   <span className="text-xs font-semibold text-muted-foreground tabular-nums">
                     {pct}% · {count}
@@ -130,6 +147,39 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
           );
         })}
       </div>
+
+      {hasVoted && typeof poll.correct_index === "number" && (
+        <div
+          className={`rounded-lg border p-3 text-sm space-y-1 animate-in fade-in slide-in-from-bottom-1 ${
+            localVote === poll.correct_index
+              ? "border-emerald-500/40 bg-emerald-500/10"
+              : "border-amber-500/40 bg-amber-500/10"
+          }`}
+        >
+          <div className="flex items-center gap-1.5 font-bold">
+            {localVote === poll.correct_index ? (
+              <>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <span className="text-emerald-700 dark:text-emerald-400">Chính xác!</span>
+              </>
+            ) : (
+              <>
+                <XCircle className="w-4 h-4 text-red-600" />
+                <span className="text-amber-700 dark:text-amber-400">
+                  Chưa đúng - Đáp án: {String.fromCharCode(65 + poll.correct_index)}. {poll.options[poll.correct_index]}
+                </span>
+              </>
+            )}
+          </div>
+          {poll.explanation && (
+            <div className="flex items-start gap-1.5 text-foreground/85 leading-relaxed">
+              <Lightbulb className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
+              <span>{poll.explanation}</span>
+            </div>
+          )}
+        </div>
+      )}
+
 
       {hasVoted && (
         <div className="rounded-lg border border-border/60 bg-background/80 p-3 space-y-2 animate-in fade-in slide-in-from-bottom-1">

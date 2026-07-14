@@ -130,9 +130,10 @@ Quy tắc:
     const emojiMap: Record<string, string> = { IELTS: "📘", Programming: "💻", General: "🤖" };
     const label = subject === "General" ? "AI" : subject;
     const emoji = emojiMap[subject] ?? "📊";
-    const content = `${emoji} [AutoPoll] Câu hỏi ôn tập ${label} hôm nay!\n\n🎯 ${q}\n\n💡 Đáp án đúng: ${String.fromCharCode(65 + correct)}. ${options[correct]}${expl ? `\n📝 ${expl}` : ""}\n\n#${label}${subject === "General" ? " #AI" : ""} #HaiEduTech`;
+    // Caption: chỉ giữ tiêu đề ngắn + hashtag. KHÔNG lộ đáp án/giải thích ở caption.
+    const content = `${emoji} [AutoPoll] Câu hỏi ôn tập ${label} hôm nay!\n\n#${label}${subject === "General" ? " #AI" : ""} #HaiEduTech #OnTapCungThayHai`;
 
-    const poll = { question: q, options, subject, allow_change: true };
+    const poll = { question: q, options, subject, allow_change: true, correct_index: correct, explanation: expl };
 
     const { data: inserted, error: insErr } = await admin
       .from("your_corner_posts")
