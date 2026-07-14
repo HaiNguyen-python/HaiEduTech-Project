@@ -23,10 +23,11 @@ import { edtechResearchMethodsModules } from "./edtechResearchMethods";
 import { programmingInteractiveLabsModules } from "./programmingInteractiveLabs";
 import { programmingMasteryLabsModules } from "./programmingMasteryLabs";
 import { cybersecurityModules } from "./cybersecurityLessons";
+import { startupModules } from "./startupLessons";
 import type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase } from "./types";
 
 export type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase };
-export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, nlpExpansionModules, nlpProductionModules, nlpAdvancedModules, rlModules, softwareEngModules, webDevModules, edtechModules, edtechExpansionModules, edtechAdvancedModules, edtechGlobalResearchModules, edtechAiInEdtechModules, edtechResearchMethodsModules, programmingInteractiveLabsModules, programmingMasteryLabsModules, cybersecurityModules };
+export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, nlpExpansionModules, nlpProductionModules, nlpAdvancedModules, rlModules, softwareEngModules, webDevModules, edtechModules, edtechExpansionModules, edtechAdvancedModules, edtechGlobalResearchModules, edtechAiInEdtechModules, edtechResearchMethodsModules, programmingInteractiveLabsModules, programmingMasteryLabsModules, cybersecurityModules, startupModules };
 
 // Combined expanded modules array
 export const expandedModules: ExtendedProgrammingModule[] = [
