@@ -41,6 +41,50 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey, type LifestyleLesson } from "@/data/lifestyleAcademyLessons";
+import FloatingLifestyleIcons from "@/components/lifestyle/FloatingLifestyleIcons";
+
+// Pillar-specific styles used across cards for consistent theming.
+const PILLAR_STYLES: Record<LifestylePillarKey, {
+  border: string;
+  borderStrong: string;
+  bannerFrom: string;
+  bannerTo: string;
+  chipBg: string;
+  emojis: string[];
+}> = {
+  finance: {
+    border: "border-amber-300/70 dark:border-amber-500/40",
+    borderStrong: "hover:border-amber-400 dark:hover:border-amber-400/70",
+    bannerFrom: "from-amber-100 via-yellow-50 to-orange-100",
+    bannerTo: "dark:from-amber-500/20 dark:via-yellow-500/10 dark:to-orange-500/20",
+    chipBg: "bg-amber-50 dark:bg-amber-500/10",
+    emojis: ["💰", "📈", "💎", "🏦"],
+  },
+  etiquette: {
+    border: "border-emerald-300/70 dark:border-emerald-500/40",
+    borderStrong: "hover:border-emerald-400 dark:hover:border-emerald-400/70",
+    bannerFrom: "from-emerald-100 via-teal-50 to-cyan-100",
+    bannerTo: "dark:from-emerald-500/20 dark:via-teal-500/10 dark:to-cyan-500/20",
+    chipBg: "bg-emerald-50 dark:bg-emerald-500/10",
+    emojis: ["💬", "🤝", "🌍", "🎓"],
+  },
+  presence: {
+    border: "border-teal-300/70 dark:border-teal-500/40",
+    borderStrong: "hover:border-teal-400 dark:hover:border-teal-400/70",
+    bannerFrom: "from-teal-100 via-slate-50 to-emerald-100",
+    bannerTo: "dark:from-teal-500/20 dark:via-slate-500/10 dark:to-emerald-500/20",
+    chipBg: "bg-teal-50 dark:bg-teal-500/10",
+    emojis: ["🧘", "🛡️", "🔥", "🎯"],
+  },
+  wellness: {
+    border: "border-rose-300/70 dark:border-rose-500/40",
+    borderStrong: "hover:border-rose-400 dark:hover:border-rose-400/70",
+    bannerFrom: "from-rose-100 via-orange-50 to-amber-100",
+    bannerTo: "dark:from-rose-500/20 dark:via-orange-500/10 dark:to-amber-500/20",
+    chipBg: "bg-rose-50 dark:bg-rose-500/10",
+    emojis: ["💪", "🥗", "😴", "🌿"],
+  },
+};
 
 // ─────────────────────────────────────────────────────────
 // Types & data
