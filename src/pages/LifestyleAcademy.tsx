@@ -396,6 +396,7 @@ const LifestyleAcademy = () => {
         <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-emerald-50 via-white to-amber-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 pt-28 lg:pt-32">
           <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl dark:bg-emerald-500/10" />
           <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-amber-300/25 blur-3xl dark:bg-amber-400/10" />
+          <FloatingLifestyleIcons count={22} />
 
           <div className="container relative mx-auto px-4 py-16 md:py-24">
             <motion.div
