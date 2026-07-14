@@ -177,8 +177,8 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
   health: [
     { sv: "Läkaren pratar om {W} med patienten.",       vi: "Bác sĩ nói về {VI} với bệnh nhân.",             en: "The doctor talks about {EN} with the patient." },
-    { sv: "{MIN_C} {W} känns bättre idag.",             vi: "{VI_C} của tôi hôm nay đỡ hơn.",                en: "My {EN} feels better today." },
-    { sv: "Vi går till sjukhuset för {W}.",             vi: "Chúng tôi đến bệnh viện vì {VI}.",              en: "We go to the hospital for {EN}." },
+    { sv: "Vi lär oss om {W} på sjukhuset.",            vi: "Chúng tôi tìm hiểu về {VI} ở bệnh viện.",        en: "We learn about {EN} at the hospital." },
+    { sv: "Tidningen skriver om {W} idag.",             vi: "Báo hôm nay viết về {VI}.",                      en: "The newspaper writes about {EN} today." },
   ],
   emotions: [
     { sv: "Hon känner stor {W} idag.", vi: "Hôm nay cô ấy cảm thấy {VI} nhiều.", en: "She feels great {EN} today." },
