@@ -358,7 +358,7 @@ export const LIFESTYLE_LESSONS_EXPANSION_2: LifestyleLesson[] = [
 
   // ── WELLNESS ────────────────────────────────────────────
   {
-    id: "wel-06",
+    id: "wel-09",
     pillar: "wellness",
     level: "mastery",
     minutes: 11,
@@ -397,7 +397,7 @@ export const LIFESTYLE_LESSONS_EXPANSION_2: LifestyleLesson[] = [
       "1 week: log every plant food eaten. Target >25. Add one fermented food 5 days a week.",
   },
   {
-    id: "wel-07",
+    id: "wel-10",
     pillar: "wellness",
     level: "mastery",
     minutes: 12,
@@ -436,7 +436,7 @@ export const LIFESTYLE_LESSONS_EXPANSION_2: LifestyleLesson[] = [
       "14 days: alarm every 30 min - stand for 60 seconds. Morning and evening, 5 min of the 3 chest openers.",
   },
   {
-    id: "wel-08",
+    id: "wel-11",
     pillar: "wellness",
     level: "mastery",
     minutes: 12,
