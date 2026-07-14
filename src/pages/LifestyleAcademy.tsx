@@ -821,6 +821,11 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
     mastery: { vi: "Nâng cao", en: "Mastery" },
   }[lesson.level];
 
+  const styles = PILLAR_STYLES[lesson.pillar];
+  const emojis = lesson.illustrationEmojis && lesson.illustrationEmojis.length > 0
+    ? lesson.illustrationEmojis
+    : styles.emojis;
+
   return (
     <motion.div
       layout
@@ -829,7 +834,58 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: Math.min(index * 0.04, 0.3), duration: 0.35, ease: "easeOut" }}
     >
-      <Card className="h-full border-slate-200/80 bg-white/95 hover:shadow-lg hover:shadow-emerald-500/10 dark:border-slate-800 dark:bg-slate-900/70 transition-shadow">
+      <Card
+        className={[
+          "h-full overflow-hidden border-2 bg-white/95 transition-all",
+          "hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-0.5",
+          styles.border,
+          styles.borderStrong,
+          "dark:bg-slate-900/70",
+        ].join(" ")}
+      >
+        {/* Illustration banner - pillar-tinted gradient with floating emoji cluster */}
+        <div
+          aria-hidden
+          className={[
+            "relative h-24 w-full overflow-hidden bg-gradient-to-br",
+            styles.bannerFrom,
+            styles.bannerTo,
+          ].join(" ")}
+        >
+          {/* Large watermark icon */}
+          <span
+            className={`absolute -right-3 -bottom-3 inline-flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br ${pillar.iconBg} text-white opacity-25 blur-[0.5px]`}
+          >
+            <Icon className="h-14 w-14" />
+          </span>
+          {/* Emoji cluster (illustration) */}
+          <div className="absolute inset-0 flex items-center gap-4 pl-5">
+            {emojis.slice(0, 4).map((e, i) => (
+              <motion.span
+                key={`${e}-${i}`}
+                className="select-none text-3xl md:text-4xl drop-shadow-sm"
+                animate={{
+                  y: [0, -4, 0, 3, 0],
+                  rotate: [0, 4, -3, 2, 0],
+                }}
+                transition={{
+                  duration: 6 + i * 0.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.4,
+                }}
+                style={{ filter: "saturate(1.05)" }}
+              >
+                {e}
+              </motion.span>
+            ))}
+          </div>
+          {/* Level chip */}
+          <span className={`absolute top-2 right-2 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-100 ${styles.chipBg} backdrop-blur`}>
+            {lang === "vi" ? levelLabel.vi : levelLabel.en}
+          </span>
+        </div>
+
         <CardContent className="p-6 flex flex-col h-full">
           <div className="flex items-start gap-3">
             <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${pillar.iconBg} text-white shadow-md`}>
@@ -874,6 +930,18 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
                 className="overflow-hidden"
               >
                 <div className="mt-5 space-y-4 border-t border-slate-200/70 pt-4 dark:border-slate-800">
+                  {/* Why it matters */}
+                  {(lang === "vi" ? lesson.whyItMattersVi : lesson.whyItMattersEn) && (
+                    <div className={`rounded-lg border-l-4 ${styles.border} bg-gradient-to-br ${styles.bannerFrom} ${styles.bannerTo} p-3`}>
+                      <p className="text-[11px] uppercase tracking-wider font-semibold text-slate-700 dark:text-slate-200">
+                        {t("Vì sao điều này quan trọng", "Why it matters")}
+                      </p>
+                      <p className="mt-1 text-sm font-medium text-slate-800 dark:text-slate-100">
+                        {lang === "vi" ? lesson.whyItMattersVi : lesson.whyItMattersEn}
+                      </p>
+                    </div>
+                  )}
+
                   <div>
                     <p className="text-[11px] uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">
                       <Compass className="mr-1 inline h-3.5 w-3.5" />
@@ -883,6 +951,22 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
                       {lang === "vi" ? lesson.frameworkVi : lesson.frameworkEn}
                     </p>
                   </div>
+
+                  {/* Deep-dive narrative */}
+                  {((lang === "vi" ? lesson.deepDiveVi : lesson.deepDiveEn) ?? []).length > 0 && (
+                    <div>
+                      <p className="text-[11px] uppercase tracking-wider font-semibold text-slate-600 dark:text-slate-300">
+                        {t("Đào sâu", "Deep dive")}
+                      </p>
+                      <div className="mt-2 space-y-2">
+                        {(lang === "vi" ? lesson.deepDiveVi! : lesson.deepDiveEn!).map((para, idx) => (
+                          <p key={idx} className="text-sm leading-relaxed text-slate-700 dark:text-slate-200">
+                            {para}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div>
                     <p className="text-[11px] uppercase tracking-wider font-semibold text-teal-600 dark:text-teal-400">
