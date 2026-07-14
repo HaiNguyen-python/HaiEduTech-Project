@@ -29,6 +29,14 @@ export interface LifestyleLesson {
   /** A concrete 5-15 minute drill to internalise the lesson. */
   drillVi: string;
   drillEn: string;
+  /** Optional deeper narrative - 2-4 paragraphs of expanded context. */
+  deepDiveVi?: string[];
+  deepDiveEn?: string[];
+  /** Optional "why it matters" bilingual paragraph. */
+  whyItMattersVi?: string;
+  whyItMattersEn?: string;
+  /** Optional emoji cluster used for the card illustration banner. */
+  illustrationEmojis?: string[];
 }
 
 // ─────────────────────────────────────────────────────────
