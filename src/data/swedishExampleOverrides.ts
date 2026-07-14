@@ -432,6 +432,22 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   utbildning:     { sv: "God utbildning öppnar många dörrar.",                vi: "Giáo dục tốt mở ra nhiều cánh cửa.",                       en: "A good education opens many doors." },
   utveckla:       { sv: "Teamet utvecklar en ny app för mobilen.",            vi: "Nhóm phát triển một ứng dụng mới cho điện thoại.",         en: "The team is developing a new mobile app." },
   åsikt:          { sv: "Min åsikt är att vi behöver mer tid.",               vi: "Ý kiến của tôi là chúng ta cần thêm thời gian.",           en: "My opinion is that we need more time." },
+
+  // ─────────── A2 headwords that fell back to generic templates (curated) ───────────
+  absolut:        { sv: "Hon var absolut säker på sitt svar.",                vi: "Cô ấy hoàn toàn chắc chắn với câu trả lời của mình.",     en: "She was absolutely sure of her answer." },
+  actionfilm:     { sv: "Vi tittar på en spännande actionfilm i kväll.",      vi: "Tối nay chúng tôi xem một bộ phim hành động hấp dẫn.",     en: "We are watching an exciting action movie tonight." },
+  addera:         { sv: "Läraren ber oss addera talen på tavlan.",            vi: "Cô giáo yêu cầu chúng tôi cộng các số trên bảng.",         en: "The teacher asks us to add the numbers on the board." },
+  album:          { sv: "Hon lyssnar på ett nytt album på Spotify.",          vi: "Cô ấy nghe một album mới trên Spotify.",                   en: "She is listening to a new album on Spotify." },
+  
+  ambulans:       { sv: "Ambulansen kommer snabbt till olycksplatsen.",       vi: "Xe cấp cứu đến hiện trường vụ tai nạn rất nhanh.",         en: "The ambulance quickly arrives at the accident scene." },
+  ananas:         { sv: "Jag äter ananas till efterrätt.",                    vi: "Tôi ăn dứa làm món tráng miệng.",                          en: "I eat pineapple for dessert." },
+  animation:      { sv: "Barnen tittar på en rolig animation på TV.",         vi: "Bọn trẻ xem một bộ phim hoạt hình vui nhộn trên TV.",      en: "The children watch a funny animation on TV." },
+  ankomst:        { sv: "Vår ankomst till Stockholm var lite försenad.",      vi: "Chuyến đến Stockholm của chúng tôi hơi bị trễ.",           en: "Our arrival in Stockholm was slightly delayed." },
+  anlända:        { sv: "Tåget anländer till stationen klockan tio.",         vi: "Tàu đến ga lúc mười giờ.",                                 en: "The train arrives at the station at ten." },
+  ansöka:         { sv: "Hon vill ansöka om ett stipendium i Finland.",       vi: "Cô ấy muốn nộp đơn xin học bổng ở Phần Lan.",              en: "She wants to apply for a scholarship in Finland." },
+  antalet:        { sv: "Antalet elever i klassen ökar varje år.",            vi: "Số học sinh trong lớp tăng lên mỗi năm.",                  en: "The number of students in the class grows every year." },
+  
+  anteckningar:   { sv: "Jag läser mina anteckningar innan provet.",          vi: "Tôi đọc lại ghi chú của mình trước bài kiểm tra.",         en: "I read my notes before the test." },
 };
 
 

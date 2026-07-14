@@ -162,8 +162,8 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
   hobbies: [
     { sv: "Jag gillar {W} på fritiden.", vi: "Tôi thích {VI} vào lúc rảnh.", en: "I enjoy {EN} in my free time." },
-    { sv: "Hon spelar {W} med vänner.", vi: "Cô ấy chơi {VI} với bạn bè.", en: "She plays {EN} with friends." },
-    { sv: "Vi övar {W} varje vecka.", vi: "Chúng tôi luyện {VI} mỗi tuần.", en: "We practice {EN} every week." },
+    { sv: "Vi pratar ofta om {W} tillsammans.", vi: "Chúng tôi thường nói về {VI} cùng nhau.", en: "We often talk about {EN} together." },
+    { sv: "Många ungdomar är intresserade av {W}.", vi: "Nhiều bạn trẻ quan tâm đến {VI}.", en: "Many young people are interested in {EN}." },
   ],
   directions: [
     { sv: "Ursäkta, var ligger {ART}{W}?",              vi: "Xin lỗi, {ARTVI}{VI} nằm ở đâu?",              en: "Excuse me, where is the {EN}?" },
@@ -171,14 +171,14 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Kan du visa {ART}{W} på kartan?",            vi: "Bạn có thể chỉ {ARTVI}{VI} trên bản đồ không?", en: "Can you show me the {EN} on the map?" },
   ],
   travel: [
-    { sv: "På semestern besöker vi {W}.",               vi: "Vào kỳ nghỉ chúng tôi đến {VI}.",              en: "On vacation we visit {EN}." },
-    { sv: "Jag packar {ART}{W} inför resan.",           vi: "Tôi soạn {ARTVI}{VI} trước chuyến đi.",         en: "I pack {ARTEN}{EN} for the trip." },
-    { sv: "Vi bokar {ART}{W} online.",                  vi: "Chúng tôi đặt {ARTVI}{VI} trên mạng.",          en: "We book {ARTEN}{EN} online." },
+    { sv: "Vi pratar om {W} inför resan.",              vi: "Chúng tôi nói về {VI} trước chuyến đi.",         en: "We talk about {EN} before the trip." },
+    { sv: "Jag läser om {W} i reseguiden.",             vi: "Tôi đọc về {VI} trong sách hướng dẫn du lịch.",   en: "I read about {EN} in the travel guide." },
+    { sv: "Vi planerar {W} tillsammans.",               vi: "Chúng tôi cùng nhau lên kế hoạch cho {VI}.",     en: "We plan {EN} together." },
   ],
   health: [
     { sv: "Läkaren pratar om {W} med patienten.",       vi: "Bác sĩ nói về {VI} với bệnh nhân.",             en: "The doctor talks about {EN} with the patient." },
-    { sv: "{MIN_C} {W} känns bättre idag.",             vi: "{VI_C} của tôi hôm nay đỡ hơn.",                en: "My {EN} feels better today." },
-    { sv: "Vi går till sjukhuset för {W}.",             vi: "Chúng tôi đến bệnh viện vì {VI}.",              en: "We go to the hospital for {EN}." },
+    { sv: "Vi lär oss om {W} på sjukhuset.",            vi: "Chúng tôi tìm hiểu về {VI} ở bệnh viện.",        en: "We learn about {EN} at the hospital." },
+    { sv: "Tidningen skriver om {W} idag.",             vi: "Báo hôm nay viết về {VI}.",                      en: "The newspaper writes about {EN} today." },
   ],
   emotions: [
     { sv: "Hon känner stor {W} idag.", vi: "Hôm nay cô ấy cảm thấy {VI} nhiều.", en: "She feels great {EN} today." },

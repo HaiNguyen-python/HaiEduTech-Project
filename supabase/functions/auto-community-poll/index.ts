@@ -65,13 +65,14 @@ Deno.serve(async (req) => {
     .gte("created_at", twoDaysAgo)
     .not("poll", "is", null)
     .limit(1);
-  // If we already posted an auto-poll very recently, skip
+  // If we already posted an auto-poll very recently, skip.
+  // Detection: any staff-authored poll post in the last 2 days that carries our marker hashtag.
   const { data: recentAny } = await admin
     .from("your_corner_posts")
     .select("id, content, created_at")
     .gte("created_at", twoDaysAgo)
     .not("poll", "is", null)
-    .ilike("content", "%[AutoPoll]%")
+    .ilike("content", "%#OnTapCungThayHai%")
     .limit(1);
   if (recentAny && recentAny.length > 0) {
     return new Response(JSON.stringify({ skipped: "recent_auto_poll_exists" }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -131,7 +132,7 @@ Quy tắc:
     const label = subject === "General" ? "AI" : subject;
     const emoji = emojiMap[subject] ?? "📊";
     // Caption: chỉ giữ tiêu đề ngắn + hashtag. KHÔNG lộ đáp án/giải thích ở caption.
-    const content = `${emoji} [AutoPoll] Câu hỏi ôn tập ${label} hôm nay!\n\n#${label}${subject === "General" ? " #AI" : ""} #HaiEduTech #OnTapCungThayHai`;
+    const content = `${emoji} Câu hỏi ôn tập ${label} hôm nay!\n\n#${label}${subject === "General" ? " #AI" : ""} #HaiEduTech #OnTapCungThayHai`;
 
     const poll = { question: q, options, subject, allow_change: true, correct_index: correct, explanation: expl };
 
