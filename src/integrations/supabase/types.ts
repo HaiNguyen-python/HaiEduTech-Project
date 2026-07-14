@@ -3611,6 +3611,7 @@ export type Database = {
           created_at: string
           id: string
           image_url: string | null
+          image_urls: Json | null
           mood: string | null
           poll: Json | null
           subject: string | null
@@ -3619,10 +3620,11 @@ export type Database = {
           visibility: string
         }
         Insert: {
-          content: string
+          content?: string
           created_at?: string
           id?: string
           image_url?: string | null
+          image_urls?: Json | null
           mood?: string | null
           poll?: Json | null
           subject?: string | null
@@ -3635,6 +3637,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          image_urls?: Json | null
           mood?: string | null
           poll?: Json | null
           subject?: string | null
