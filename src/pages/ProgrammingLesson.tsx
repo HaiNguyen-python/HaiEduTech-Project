@@ -188,6 +188,8 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "edtech": ["edtech"],
   "cybersecurity": ["cybersecurity"],
   "prompt-engineering": ["prompt-eng"],
+  "startup": ["startup"],
+
 };
 
 // Virtual sidebar entry for the 10 Data Engineering Projects showcase.

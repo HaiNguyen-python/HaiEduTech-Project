@@ -104,6 +104,11 @@ const ChineseCourse = lazy(() => import("./pages/ChineseCourse.tsx"));
 const Programming = lazy(() => import("./pages/Programming.tsx"));
 const ProgrammingLesson = lazy(() => import("./pages/ProgrammingLesson.tsx"));
 const AIAcademy = lazy(() => import("./pages/AIAcademy.tsx"));
+const StartupHub = lazy(() => import("./pages/StartupHub.tsx"));
+const StartupRoadmap = lazy(() => import("./pages/StartupRoadmap.tsx"));
+const StartupCaseStudies = lazy(() => import("./pages/StartupCaseStudies.tsx"));
+const StartupToolkit = lazy(() => import("./pages/StartupToolkit.tsx"));
+const StartupPitchSimulator = lazy(() => import("./pages/StartupPitchSimulator.tsx"));
 const ScratchAdventure = lazy(() => import("./pages/ScratchAdventure.tsx"));
 const AIGrading = lazy(() => import("./pages/AIGrading.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
@@ -356,6 +361,11 @@ const App = () => (
             <Route path="/programming/arcade" element={<LazyRoute><ProgrammingArcade /></LazyRoute>} />
             <Route path="/programming/ai-academy" element={<LazyRoute><AIAcademy /></LazyRoute>} />
             <Route path="/ai-academy" element={<Navigate to="/programming/ai-academy" replace />} />
+            <Route path="/programming/startup" element={<LazyRoute><StartupHub /></LazyRoute>} />
+            <Route path="/programming/startup/roadmap" element={<LazyRoute><StartupRoadmap /></LazyRoute>} />
+            <Route path="/programming/startup/case-studies" element={<LazyRoute><StartupCaseStudies /></LazyRoute>} />
+            <Route path="/programming/startup/toolkit" element={<LazyRoute><StartupToolkit /></LazyRoute>} />
+            <Route path="/programming/startup/pitch-simulator" element={<LazyRoute><StartupPitchSimulator /></LazyRoute>} />
             <Route path="/programming/scratch-adventure" element={<LazyRoute><ScratchAdventure /></LazyRoute>} />
             <Route path="/programming/nlp" element={<LazyRoute><PillarHub /></LazyRoute>} />
             <Route path="/programming/edtech" element={<LazyRoute><PillarHub /></LazyRoute>} />
