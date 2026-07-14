@@ -758,15 +758,17 @@ const wellness: LifestyleLesson[] = [
 ];
 
 import { LIFESTYLE_LESSONS_EXPANSION } from "./lifestyleAcademyLessonsExpansion";
+import { LIFESTYLE_LESSONS_EXPANSION_2 } from "./lifestyleAcademyLessonsExpansion2";
 
-const byPillar = (key: LifestylePillarKey) =>
-  LIFESTYLE_LESSONS_EXPANSION.filter((l) => l.pillar === key);
+const byPillar = (source: LifestyleLesson[], key: LifestylePillarKey) =>
+  source.filter((l) => l.pillar === key);
 
 // Interleave expansion lessons per pillar so each pillar reads as a continuous
 // curriculum (foundation -> intermediate -> mastery) instead of being split.
 export const LIFESTYLE_LESSONS: LifestyleLesson[] = [
-  ...finance, ...byPillar("finance"),
-  ...etiquette, ...byPillar("etiquette"),
-  ...presence, ...byPillar("presence"),
-  ...wellness, ...byPillar("wellness"),
+  ...finance,   ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "finance"),
+  ...etiquette, ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "etiquette"),
+  ...presence,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "presence"),
+  ...wellness,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "wellness"),
 ];
+
