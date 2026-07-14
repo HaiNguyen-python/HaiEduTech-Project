@@ -448,6 +448,61 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   antalet:        { sv: "Antalet elever i klassen ökar varje år.",            vi: "Số học sinh trong lớp tăng lên mỗi năm.",                  en: "The number of students in the class grows every year." },
   
   anteckningar:   { sv: "Jag läser mina anteckningar innan provet.",          vi: "Tôi đọc lại ghi chú của mình trước bài kiểm tra.",         en: "I read my notes before the test." },
+
+  // ─────────── Weather & nature (semantic override so template doesn't misfire) ───────────
+  hav:            { sv: "Vi simmar i havet varje sommar.",                    vi: "Chúng tôi bơi ở biển mỗi mùa hè.",                         en: "We swim in the sea every summer." },
+  skog:           { sv: "På helgen går vi i skogen och plockar bär.",         vi: "Cuối tuần chúng tôi vào rừng hái quả mọng.",               en: "On weekends we walk in the forest and pick berries." },
+  fjäll:          { sv: "På vintern åker vi skidor i fjällen.",               vi: "Vào mùa đông chúng tôi trượt tuyết trên núi.",             en: "In winter we ski in the mountains." },
+  träd:           { sv: "Ett stort träd växer utanför mitt fönster.",         vi: "Một cây to mọc bên ngoài cửa sổ nhà tôi.",                 en: "A big tree grows outside my window." },
+  natur:          { sv: "Svenskarna älskar naturen och friluftsliv.",         vi: "Người Thụy Điển yêu thiên nhiên và các hoạt động ngoài trời.", en: "Swedes love nature and outdoor life." },
+  temperatur:     { sv: "Temperaturen sjunker snabbt på kvällen.",            vi: "Nhiệt độ giảm nhanh vào buổi tối.",                        en: "The temperature drops quickly in the evening." },
+
+  // ─────────── Food & meals ───────────
+  frukt:          { sv: "Barn behöver äta frukt varje dag.",                  vi: "Trẻ em cần ăn trái cây mỗi ngày.",                          en: "Children need to eat fruit every day." },
+
+  // ─────────── Home & furniture ───────────
+  bord:           { sv: "Vi sitter runt bordet och äter middag.",             vi: "Chúng tôi ngồi quanh bàn và ăn tối.",                       en: "We sit around the table and eat dinner." },
+  stol:           { sv: "Sätt dig på stolen vid fönstret.",                   vi: "Hãy ngồi vào chiếc ghế cạnh cửa sổ.",                       en: "Sit on the chair by the window." },
+  säng:           { sv: "Jag går och lägger mig i sängen klockan elva.",      vi: "Tôi đi ngủ trên giường lúc mười một giờ.",                   en: "I go to bed at eleven o'clock." },
+  dörr:           { sv: "Kan du stänga dörren, tack?",                        vi: "Bạn có thể đóng cửa được không?",                            en: "Can you close the door, please?" },
+
+  // ─────────── Transport & travel ───────────
+  buss:           { sv: "Jag tar bussen till jobbet varje morgon.",           vi: "Tôi đi xe buýt đến chỗ làm mỗi sáng.",                       en: "I take the bus to work every morning." },
+  tåg:            { sv: "Tåget till Malmö avgår om tio minuter.",             vi: "Tàu đi Malmö sẽ khởi hành sau mười phút.",                   en: "The train to Malmö leaves in ten minutes." },
+  biljett:        { sv: "Jag köper en biljett till Stockholm.",               vi: "Tôi mua một vé đi Stockholm.",                               en: "I buy a ticket to Stockholm." },
+  hotell:         { sv: "Vi bor på ett trevligt hotell nära stationen.",      vi: "Chúng tôi ở tại một khách sạn dễ thương gần nhà ga.",         en: "We stay at a nice hotel near the station." },
+  semester:       { sv: "På sommaren åker vi på semester till Grekland.",     vi: "Vào mùa hè chúng tôi đi nghỉ ở Hy Lạp.",                     en: "In summer we go on vacation to Greece." },
+  sväng:          { sv: "Ta första svängen till höger vid ljuset.",           vi: "Rẽ vào lối rẽ đầu tiên bên phải ở đèn giao thông.",           en: "Take the first turn to the right at the traffic light." },
+  jul:            { sv: "I Sverige firar familjer jul den 24 december.",      vi: "Ở Thụy Điển các gia đình đón lễ Giáng sinh vào ngày 24 tháng 12.", en: "In Sweden families celebrate Christmas on December 24." },
+
+  // ─────────── Work & study ───────────
+  lön:            { sv: "Hon får sin lön den 25:e varje månad.",              vi: "Cô ấy nhận lương vào ngày 25 hằng tháng.",                   en: "She gets her salary on the 25th of every month." },
+  kollega:        { sv: "Min kollega hjälper mig med rapporten.",             vi: "Đồng nghiệp của tôi giúp tôi hoàn thành báo cáo.",           en: "My colleague helps me with the report." },
+  kurs:           { sv: "Jag går en svenskkurs på universitetet.",            vi: "Tôi đang học một khoá tiếng Thụy Điển ở trường đại học.",     en: "I take a Swedish course at the university." },
+  prov:           { sv: "Vi har ett viktigt prov på fredag.",                 vi: "Chúng tôi có một bài kiểm tra quan trọng vào thứ Sáu.",      en: "We have an important test on Friday." },
+  examen:         { sv: "Hon tar examen från gymnasiet i juni.",              vi: "Cô ấy tốt nghiệp trung học vào tháng sáu.",                  en: "She graduates from high school in June." },
+  stipendium:     { sv: "Han fick ett stipendium för att studera i Finland.", vi: "Anh ấy được cấp học bổng để du học ở Phần Lan.",             en: "He got a scholarship to study in Finland." },
+
+  // ─────────── Health ───────────
+  medicin:        { sv: "Han tar sin medicin varje morgon.",                  vi: "Anh ấy uống thuốc mỗi sáng.",                                en: "He takes his medicine every morning." },
+  apotek:         { sv: "Jag hämtar medicinen på apoteket.",                  vi: "Tôi đến lấy thuốc ở hiệu thuốc.",                            en: "I pick up the medicine at the pharmacy." },
+  recept:         { sv: "Läkaren skriver ett recept åt patienten.",           vi: "Bác sĩ kê đơn thuốc cho bệnh nhân.",                         en: "The doctor writes a prescription for the patient." },
+
+  // ─────────── Society & culture ───────────
+  skatt:          { sv: "Alla vuxna måste betala skatt i Sverige.",           vi: "Mọi người trưởng thành đều phải đóng thuế ở Thụy Điển.",     en: "All adults have to pay tax in Sweden." },
+  kultur:         { sv: "Sverige har en rik kultur och historia.",            vi: "Thụy Điển có một nền văn hoá và lịch sử phong phú.",         en: "Sweden has a rich culture and history." },
+  tradition:      { sv: "Midsommar är en viktig tradition i Sverige.",        vi: "Lễ hội Trung hạ là một truyền thống quan trọng ở Thụy Điển.", en: "Midsummer is an important tradition in Sweden." },
+
+  // ─────────── Shopping ───────────
+  rabatt:         { sv: "Butiken ger 20 procent rabatt på skor idag.",        vi: "Cửa hàng giảm giá 20% giày dép hôm nay.",                    en: "The shop gives a 20% discount on shoes today." },
+
+  // ─────────── Tech ───────────
+  mobil:          { sv: "Min mobil är helt slut på batteri.",                 vi: "Điện thoại của tôi đã hết sạch pin.",                        en: "My phone is completely out of battery." },
+  film:           { sv: "Vi såg en riktigt bra film i går kväll.",            vi: "Tối qua chúng tôi đã xem một bộ phim rất hay.",              en: "We saw a really good film last night." },
+
+  // ─────────── Numbers ───────────
+  elva:           { sv: "Klockan är elva och det är dags att sova.",          vi: "Đã mười một giờ, đến giờ đi ngủ rồi.",                       en: "It is eleven o'clock and time to sleep." },
+  tolv:           { sv: "Vi äter lunch klockan tolv.",                        vi: "Chúng tôi ăn trưa lúc mười hai giờ.",                        en: "We have lunch at twelve o'clock." },
 };
 
 

@@ -111,9 +111,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Jag tycker mycket om {W}.", vi: "Tôi rất thích {VI}.", en: "I like {EN} very much." },
   ],
   weather: [
-    { sv: "Idag är det {W} ute.", vi: "Hôm nay trời {VI} bên ngoài.", en: "Today it is {EN} outside." },
-    { sv: "På vintern är det ofta {W} i Sverige.", vi: "Vào mùa đông ở Thụy Điển thường {VI}.", en: "In winter it is often {EN} in Sweden." },
-    { sv: "Vädret är {W} den här veckan.", vi: "Thời tiết tuần này {VI}.", en: "The weather is {EN} this week." },
+    { sv: "Vi pratar ofta om {W} i Sverige.", vi: "Ở Thụy Điển chúng tôi thường nói về {VI}.", en: "In Sweden we often talk about {EN}." },
+    { sv: "På vintern förekommer {W} i norra Sverige.", vi: "Vào mùa đông {VI} thường xuất hiện ở miền bắc Thụy Điển.", en: "In winter {EN} occurs in northern Sweden." },
+    { sv: "Väderleksrapporten nämner {W} idag.", vi: "Bản tin thời tiết hôm nay có nhắc đến {VI}.", en: "The weather report mentions {EN} today." },
   ],
   tech: [
     { sv: "Jag använder {ART}{W} varje dag.", vi: "Tôi dùng {ARTVI}{VI} mỗi ngày.", en: "I use {ARTEN}{EN} every day." },
@@ -121,9 +121,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Han köper {ART}{W} online.", vi: "Anh ấy mua {ARTVI}{VI} trên mạng.", en: "He buys {ARTEN}{EN} online." },
   ],
   shopping: [
-    { sv: "Jag går till {ART}{W} på lördag.", vi: "Tôi đi đến {ARTVI}{VI} vào thứ bảy.", en: "I go to {ARTEN}{EN} on Saturday." },
-    { sv: "Det här är {ART}stor{ETT} {W}.", vi: "Đây là {ARTVI}{VI} lớn.", en: "This is a big {EN}." },
-    { sv: "Jag behöver {ART}{W}.", vi: "Tôi cần {ARTVI}{VI}.", en: "I need {ARTEN}{EN}." },
+    { sv: "Jag skriver {W} på inköpslistan.", vi: "Tôi ghi {VI} vào danh sách mua sắm.", en: "I write {EN} on the shopping list." },
+    { sv: "Vi letar efter {W} i affären.", vi: "Chúng tôi tìm {VI} trong cửa hàng.", en: "We look for {EN} in the shop." },
+    { sv: "Jag behöver {ART}{W} i veckan.", vi: "Tuần này tôi cần {ARTVI}{VI}.", en: "I need {ARTEN}{EN} this week." },
   ],
   education: [
     { sv: "Vi lär oss om {W} i skolan.", vi: "Chúng tôi học về {VI} ở trường.", en: "We learn about {EN} at school." },
@@ -141,9 +141,9 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Hennes {W} heter Anna.", vi: "{VI_C} của cô ấy tên là Anna.", en: "Her {EN} is named Anna." },
   ],
   numbers: [
-    { sv: "I klassen finns det {W} elever.", vi: "Trong lớp có {VI} học sinh.", en: "There are {EN} students in the class." },
-    { sv: "Han köpte {W} äpplen på marknaden.", vi: "Anh ấy mua {VI} quả táo ở chợ.", en: "He bought {EN} apples at the market." },
-    { sv: "Vi behöver {W} minuter till.", vi: "Chúng tôi cần thêm {VI} phút nữa.", en: "We need {EN} more minutes." },
+    { sv: "Vi lär oss om {W} i matteboken.", vi: "Chúng tôi học về {VI} trong sách toán.", en: "We learn about {EN} in the math book." },
+    { sv: "Läraren skriver {W} på tavlan.", vi: "Giáo viên viết {VI} lên bảng.", en: "The teacher writes {EN} on the board." },
+    { sv: "Vi pratar om {W} i klassen.", vi: "Chúng tôi nói về {VI} ở lớp.", en: "We talk about {EN} in class." },
   ],
   abstract: [
     { sv: "{W_C} är viktig{ETT} i livet.", vi: "{VI_C} rất quan trọng trong cuộc sống.", en: "{EN_C} is important in life." },
