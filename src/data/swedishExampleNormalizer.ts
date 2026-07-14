@@ -112,8 +112,8 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
   weather: [
     { sv: "Vi pratar ofta om {W} i Sverige.", vi: "Ở Thụy Điển chúng tôi thường nói về {VI}.", en: "In Sweden we often talk about {EN}." },
-    { sv: "På vintern förekommer {W} i norra Sverige.", vi: "Vào mùa đông {VI} thường xuất hiện ở miền bắc Thụy Điển.", en: "In winter {EN} occurs in northern Sweden." },
-    { sv: "Väderleksrapporten nämner {W} idag.", vi: "Bản tin thời tiết hôm nay có nhắc đến {VI}.", en: "The weather report mentions {EN} today." },
+    { sv: "Väderprognosen nämner {W} i dag.", vi: "Bản tin thời tiết hôm nay có nhắc đến {VI}.", en: "The weather forecast mentions {EN} today." },
+    { sv: "Många människor pratar om {W} när vädret ändras.", vi: "Nhiều người nói về {VI} khi thời tiết thay đổi.", en: "Many people talk about {EN} when the weather changes." },
   ],
   tech: [
     { sv: "Jag använder {ART}{W} varje dag.", vi: "Tôi dùng {ARTVI}{VI} mỗi ngày.", en: "I use {ARTEN}{EN} every day." },
