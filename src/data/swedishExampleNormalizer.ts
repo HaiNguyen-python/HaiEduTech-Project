@@ -137,13 +137,13 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
   family: [
     { sv: "{MIN_C} {W} bor i Sverige.", vi: "{VI_C} của tôi sống ở Thụy Điển.", en: "My {EN} lives in Sweden." },
-    { sv: "Jag älskar {MIN} {W}.", vi: "Tôi yêu {VI} của tôi.", en: "I love my {EN}." },
-    { sv: "Hennes {W} heter Anna.", vi: "{VI_C} của cô ấy tên là Anna.", en: "Her {EN} is named Anna." },
+    { sv: "Jag älskar {MIN} {W}.", vi: "Tôi yêu {VI} của mình.", en: "I love my {EN}." },
+    { sv: "Jag pratar ofta med {MIN} {W}.", vi: "Tôi thường nói chuyện với {VI} của mình.", en: "I often talk with my {EN}." },
   ],
   numbers: [
     { sv: "Vi lär oss om {W} i matteboken.", vi: "Chúng tôi học về {VI} trong sách toán.", en: "We learn about {EN} in the math book." },
     { sv: "Läraren skriver {W} på tavlan.", vi: "Giáo viên viết {VI} lên bảng.", en: "The teacher writes {EN} on the board." },
-    { sv: "Vi pratar om {W} i klassen.", vi: "Chúng tôi nói về {VI} ở lớp.", en: "We talk about {EN} in class." },
+    { sv: "Kan du säga {W} på svenska?", vi: "Bạn có thể nói {VI} bằng tiếng Thụy Điển không?", en: "Can you say {EN} in Swedish?" },
   ],
   abstract: [
     { sv: "{W_C} är viktig{ETT} i livet.", vi: "{VI_C} rất quan trọng trong cuộc sống.", en: "{EN_C} is important in life." },
