@@ -108,19 +108,41 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
 
 
 
-  const pickImage = (f: File | null) => {
-    if (!f) return;
-    if (f.size > 5 * 1024 * 1024) {
-      toast.error("Hình quá lớn (tối đa 5MB)");
+  const pickImages = (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const arr = Array.from(files);
+    const remainingSlots = MAX_IMAGES - imageFiles.length;
+    if (remainingSlots <= 0) {
+      toast.error(`Tối đa ${MAX_IMAGES} hình`);
       return;
     }
-    setImageFile(f);
-    setImagePreview(URL.createObjectURL(f));
+    const accepted: File[] = [];
+    for (const f of arr.slice(0, remainingSlots)) {
+      if (f.size > 5 * 1024 * 1024) {
+        toast.error(`"${f.name}" quá lớn (tối đa 5MB)`);
+        continue;
+      }
+      if (!f.type.startsWith("image/")) continue;
+      accepted.push(f);
+    }
+    if (accepted.length === 0) return;
+    setImageFiles((prev) => [...prev, ...accepted]);
+    setImagePreviews((prev) => [...prev, ...accepted.map((f) => URL.createObjectURL(f))]);
   };
 
-  const clearImage = () => {
-    setImageFile(null);
-    setImagePreview(null);
+  const removeImageAt = (i: number) => {
+    setImageFiles((prev) => prev.filter((_, idx) => idx !== i));
+    setImagePreviews((prev) => {
+      const next = prev.filter((_, idx) => idx !== i);
+      try { URL.revokeObjectURL(prev[i]); } catch {}
+      return next;
+    });
+  };
+
+  const clearImages = () => {
+    imagePreviews.forEach((u) => { try { URL.revokeObjectURL(u); } catch {} });
+    setImageFiles([]);
+    setImagePreviews([]);
     if (fileRef.current) fileRef.current.value = "";
   };
 
