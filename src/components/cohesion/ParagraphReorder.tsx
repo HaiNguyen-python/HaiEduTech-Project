@@ -197,6 +197,10 @@ const ParagraphReorder = ({ taskType }: Props) => {
         </CardHeader>
         <CardContent className="space-y-2">
           {order.map((sentenceIdx, i) => {
+            const sentence = current.sentences[sentenceIdx];
+            // Guard: order can be briefly stale after switching to a paragraph
+            // with fewer sentences (before the reshuffle effect runs).
+            if (typeof sentence !== "string") return null;
             const correctHere = checked && sentenceIdx === i;
             const wrongHere = checked && sentenceIdx !== i;
             return (
@@ -220,7 +224,7 @@ const ParagraphReorder = ({ taskType }: Props) => {
                 </div>
                 <Badge variant="outline" className="mt-1 shrink-0 font-mono text-xs">{i + 1}</Badge>
                 <p className="text-[15px] leading-relaxed text-foreground flex-1">
-                  {highlightMarkers(current.sentences[sentenceIdx])}
+                  {highlightMarkers(sentence)}
                 </p>
               </div>
             );
