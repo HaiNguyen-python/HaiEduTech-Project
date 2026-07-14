@@ -162,8 +162,8 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
   ],
   hobbies: [
     { sv: "Jag gillar {W} på fritiden.", vi: "Tôi thích {VI} vào lúc rảnh.", en: "I enjoy {EN} in my free time." },
-    { sv: "Hon spelar {W} med vänner.", vi: "Cô ấy chơi {VI} với bạn bè.", en: "She plays {EN} with friends." },
-    { sv: "Vi övar {W} varje vecka.", vi: "Chúng tôi luyện {VI} mỗi tuần.", en: "We practice {EN} every week." },
+    { sv: "Vi pratar ofta om {W} tillsammans.", vi: "Chúng tôi thường nói về {VI} cùng nhau.", en: "We often talk about {EN} together." },
+    { sv: "Många ungdomar är intresserade av {W}.", vi: "Nhiều bạn trẻ quan tâm đến {VI}.", en: "Many young people are interested in {EN}." },
   ],
   directions: [
     { sv: "Ursäkta, var ligger {ART}{W}?",              vi: "Xin lỗi, {ARTVI}{VI} nằm ở đâu?",              en: "Excuse me, where is the {EN}?" },
