@@ -134,7 +134,14 @@ const ParagraphReorder = ({ taskType }: Props) => {
   const isCorrect = order.length > 0 && order.every((v, i) => v === i);
   const correctCount = order.filter((v, i) => v === i).length;
 
-  const goNext = () => setIdx((idx + 1) % pool.length);
+  const goNext = () => {
+    const nextIdx = (idx + 1) % pool.length;
+    const nextItem = pool[nextIdx];
+    if (nextItem) setOrder(shuffleIndices(nextItem.sentences.length));
+    setChecked(false);
+    setSaved(false);
+    setIdx(nextIdx);
+  };
 
   const handleCheck = () => {
     setChecked(true);
