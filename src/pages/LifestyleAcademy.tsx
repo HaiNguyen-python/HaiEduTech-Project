@@ -737,9 +737,8 @@ const PillarCard = ({ pillar, onExplore }: PillarCardProps) => {
         <div className="mt-6 flex-1" />
 
         <Button
-          variant="outline"
           onClick={onExplore}
-          className="mt-4 justify-between border-slate-200 bg-white text-slate-800 hover:bg-slate-900 hover:text-white hover:border-slate-900 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-emerald-500 dark:hover:text-white dark:hover:border-emerald-500"
+          className="mt-4 justify-between border-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/25 hover:from-emerald-600 hover:to-teal-600 hover:text-white hover:shadow-md hover:shadow-emerald-500/30"
         >
           <span className="font-semibold">{t("Xem tất cả bài học", "See all lessons")}</span>
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -865,9 +864,8 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
 
           <div className="flex-1" />
           <Button
-            variant="outline"
             onClick={() => setOpen((v) => !v)}
-            className="mt-4 justify-between border-slate-200 bg-white text-slate-800 hover:bg-slate-900 hover:text-white hover:border-slate-900 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-emerald-500 dark:hover:text-white dark:hover:border-emerald-500"
+            className="mt-4 justify-between border-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/25 hover:from-emerald-600 hover:to-teal-600 hover:text-white hover:shadow-md hover:shadow-emerald-500/30"
           >
             <span className="font-semibold">{open ? t("Thu gọn", "Collapse") : t("Xem bài học đầy đủ", "Open full lesson")}</span>
             <ArrowRight className={`h-4 w-4 transition-transform ${open ? "rotate-90" : ""}`} />
