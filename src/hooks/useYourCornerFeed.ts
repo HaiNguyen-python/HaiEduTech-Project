@@ -46,6 +46,7 @@ function mapPosts(payload: any): FeedPost[] {
     user_id: p.user_id,
     content: p.content,
     image_url: p.image_url,
+    image_urls: Array.isArray(p.image_urls) ? p.image_urls : (p.image_urls ?? null),
     subject: p.subject,
     mood: p.mood,
     visibility: p.visibility,
