@@ -75,6 +75,7 @@ export default function YourCorner() {
         user_id: newRow.user_id,
         content: newRow.content,
         image_url: newRow.image_url,
+        image_urls: newRow.image_urls ?? null,
         subject: newRow.subject,
         mood: newRow.mood,
         visibility: newRow.visibility,
