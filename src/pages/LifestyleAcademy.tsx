@@ -742,11 +742,11 @@ const PillarCard = ({ pillar, onExplore }: PillarCardProps) => {
         <div className="mt-6 flex-1" />
 
         <Button
-          variant="ghost"
+          variant="outline"
           onClick={onExplore}
-          className="mt-4 -mx-2 justify-between text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+          className="mt-4 justify-between border-slate-200 bg-white text-slate-800 hover:bg-slate-900 hover:text-white hover:border-slate-900 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-emerald-500 dark:hover:text-white dark:hover:border-emerald-500"
         >
-          <span>{t("Khám phá bài học", "Explore lessons")}</span>
+          <span className="font-semibold">{t("Xem tất cả bài học", "See all lessons")}</span>
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </Button>
       </CardContent>
