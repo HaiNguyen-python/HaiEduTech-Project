@@ -39,6 +39,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey, type LifestyleLesson } from "@/data/lifestyleAcademyLessons";
 
@@ -138,9 +145,9 @@ const PILLARS: Pillar[] = [
     titleVi: "Thân thể Khoẻ mạnh",
     titleEn: "Physical Wellness",
     taglineVi:
-      "Thân thể là nền móng — không có nó, mọi ước mơ đều dừng lại.",
+      "Thân thể là nền móng - không có nó, mọi ước mơ đều dừng lại.",
     taglineEn:
-      "Your body is the foundation — without it, every dream stalls.",
+      "Your body is the foundation - without it, every dream stalls.",
     sampleCourseVi:
       "Nền tảng sức khoẻ bền vững: Ngủ, Vận động, Dinh dưỡng & Nghỉ ngơi",
     sampleCourseEn:
@@ -192,8 +199,8 @@ const MOODS: MoodPrescription[] = [
     labelEn: "Overwhelmed",
     gradient: "from-amber-400/20 to-rose-400/20",
     Icon: Flame,
-    quoteVi: "Bạn không cần làm mọi thứ. Bạn chỉ cần làm điều tiếp theo — thật sự tốt.",
-    quoteEn: "You do not need to do everything. Only the next thing — done well.",
+    quoteVi: "Bạn không cần làm mọi thứ. Bạn chỉ cần làm điều tiếp theo - thật sự tốt.",
+    quoteEn: "You do not need to do everything. Only the next thing - done well.",
     quoteAuthor: "Elisabeth Elliot",
     lessonPillar: "presence",
     lessonTitleVi: "Kỹ thuật 'một điều duy nhất' & tư duy Stoic",
@@ -237,7 +244,7 @@ const MOODS: MoodPrescription[] = [
     labelEn: "Unmotivated",
     gradient: "from-slate-400/20 to-amber-400/20",
     Icon: Heart,
-    quoteVi: "Kỷ luật là chọn điều bạn thực sự muốn — thay vì điều bạn muốn ngay lúc này.",
+    quoteVi: "Kỷ luật là chọn điều bạn thực sự muốn - thay vì điều bạn muốn ngay lúc này.",
     quoteEn: "Discipline is choosing what you want most over what you want now.",
     quoteAuthor: "Abraham Lincoln",
     lessonPillar: "finance",
@@ -269,13 +276,14 @@ const LifestyleAcademy = () => {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [mood, setMood] = useState<MoodKey>("ready");
+  const [activePillar, setActivePillar] = useState<PillarKey | null>(null);
 
-  // Read ?pillar=... from URL on load
+  // Read ?pillar=... from URL on load: filter the lessons AND open the modal
   useEffect(() => {
     const p = searchParams.get("pillar") as FilterKey | null;
     if (p && FILTERS.some((f) => f.key === p)) {
       setFilter(p);
-      // Scroll to pillars section after paint
+      if (p !== "all") setActivePillar(p as PillarKey);
       requestAnimationFrame(() => {
         document.getElementById("pillars")?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
@@ -317,12 +325,12 @@ const LifestyleAcademy = () => {
     <div className="min-h-screen bg-background text-foreground">
       <SEO
         title={t(
-          "HaiEduTech Lifestyle Academy — Tài chính, Ứng xử, Khí chất & Thân thể",
-          "HaiEduTech Lifestyle Academy — Finance, Etiquette, Presence & Wellness",
+          "HaiEduTech Lifestyle Academy - Tài chính, Ứng xử, Khí chất & Thân thể",
+          "HaiEduTech Lifestyle Academy - Finance, Etiquette, Presence & Wellness",
         )}
         description={t(
-          "Học viện lối sống HaiEduTech: 4 trụ cột cho công dân toàn cầu — tài chính thông minh, ứng xử tinh tế, khí chất bản lĩnh và thân thể khoẻ mạnh.",
-          "HaiEduTech Lifestyle Academy: four pillars for global citizens — smart finance, elegant eloquence, inner presence, and lasting physical wellness.",
+          "Học viện lối sống HaiEduTech: 4 trụ cột cho công dân toàn cầu - tài chính thông minh, ứng xử tinh tế, khí chất bản lĩnh và thân thể khoẻ mạnh.",
+          "HaiEduTech Lifestyle Academy: four pillars for global citizens - smart finance, elegant eloquence, inner presence, and lasting physical wellness.",
         )}
         path="/lifestyle-academy"
       />
@@ -355,8 +363,8 @@ const LifestyleAcademy = () => {
 
               <p className="mt-5 text-lg md:text-xl leading-relaxed text-slate-700 dark:text-slate-300 max-w-2xl">
                 {t(
-                  "Vun bồi thói quen tài chính thông minh, phong thái giao tiếp tinh tế, khí chất – bản lĩnh nội tâm và thân thể khoẻ mạnh — cho công dân toàn cầu.",
-                  "Cultivate smart financial habits, elegant eloquence, inner presence & resilience, and a truly healthy body — for global citizens.",
+                  "Vun bồi thói quen tài chính thông minh, phong thái giao tiếp tinh tế, khí chất – bản lĩnh nội tâm và thân thể khoẻ mạnh - cho công dân toàn cầu.",
+                  "Cultivate smart financial habits, elegant eloquence, inner presence & resilience, and a truly healthy body - for global citizens.",
                 )}
               </p>
 
@@ -413,8 +421,8 @@ const LifestyleAcademy = () => {
               </h2>
               <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl">
                 {t(
-                  "Bộ khung phát triển toàn diện — chọn trụ cột phù hợp với hành trình hiện tại của bạn.",
-                  "A holistic growth framework — choose the pillar that fits where you are now.",
+                  "Bộ khung phát triển toàn diện - chọn trụ cột phù hợp với hành trình hiện tại của bạn.",
+                  "A holistic growth framework - choose the pillar that fits where you are now.",
                 )}
               </p>
             </div>
@@ -500,8 +508,8 @@ const LifestyleAcademy = () => {
               </h2>
               <p className="mt-2 text-slate-600 dark:text-slate-400">
                 {t(
-                  "Chọn cảm xúc hiện tại — chúng tôi sẽ gợi ý một bài học 3 phút và một câu nhắc phù hợp.",
-                  "Pick how you feel right now — we'll surface a 3-minute lesson and a fitting reminder.",
+                  "Chọn cảm xúc hiện tại - chúng tôi sẽ gợi ý một bài học 3 phút và một câu nhắc phù hợp.",
+                  "Pick how you feel right now - we'll surface a 3-minute lesson and a fitting reminder.",
                 )}
               </p>
             </div>
@@ -566,7 +574,7 @@ const LifestyleAcademy = () => {
                         <blockquote className="text-lg md:text-xl font-medium leading-relaxed text-slate-800 dark:text-slate-100">
                           {lang === "vi" ? activeMood.quoteVi : activeMood.quoteEn}
                         </blockquote>
-                        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">— {activeMood.quoteAuthor}</p>
+                        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">- {activeMood.quoteAuthor}</p>
                       </div>
 
                       <div className="my-6 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-700" />
@@ -632,7 +640,7 @@ const LifestyleAcademy = () => {
               </h2>
               <p className="mt-4 text-emerald-50/90 md:text-lg">
                 {t(
-                  "Mỗi ngày 3 phút. Mỗi tuần một thói quen. Sau một năm — một con người khác.",
+                  "Mỗi ngày 3 phút. Mỗi tuần một thói quen. Sau một năm - một con người khác.",
                   "Three minutes a day. One habit a week. A different person a year from now.",
                 )}
               </p>
