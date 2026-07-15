@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 import {
   Target, TrendingUp, Calendar, Flame, LogIn, BookOpen,
   BarChart3, Clock, Award, ArrowRight, Activity, Heart,
-  Mic, PenTool, Code, Sparkles, Quote, UserCog,
+  Mic, PenTool, Code, Sparkles, Quote, UserCog, ShieldCheck,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback, useMemo } from "react";
