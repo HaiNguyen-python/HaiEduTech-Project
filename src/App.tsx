@@ -21,6 +21,9 @@ if (typeof window !== "undefined") initVersionCheck();
 const Index = lazy(() => import("./pages/Index.tsx"));
 const Welcome = lazy(() => import("./pages/Welcome.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.tsx"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService.tsx"));
+const CookieConsentBanner = lazy(() => import("./components/gdpr/CookieConsentBanner.tsx"));
 
 /** Decides whether to show the splash welcome or the home page on `/`. */
 const RootEntry = () => {
