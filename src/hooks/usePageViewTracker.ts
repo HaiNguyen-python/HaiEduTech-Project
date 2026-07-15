@@ -33,8 +33,11 @@ export const usePageViewTracker = () => {
   const lastPathRef = useRef<string>("");
   const lastRowIdRef = useRef<string | null>(null);
   const accessTokenRef = useRef<string | null>(null);
+  const { analyticalAllowed } = useCookieConsent();
 
   useEffect(() => {
+    // Respect GDPR consent: skip analytical tracking unless the user opted in.
+    if (!analyticalAllowed) return;
     const currentPath = location.pathname + location.search;
 
     // Update time_on_page for previous row before logging the new one
