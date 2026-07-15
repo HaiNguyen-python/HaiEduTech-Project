@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useCookieConsent } from "@/hooks/useCookieConsent";
 
 /**
  * Page View Tracker
