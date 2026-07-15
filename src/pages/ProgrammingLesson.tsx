@@ -373,7 +373,9 @@ const ProgrammingLessonPage = () => {
         },
       });
       if (error) throw error;
-      if (data?.markdown) {
+      if (data?.fallback) {
+        if (!silent) toast.warning("AI Deep-Dive is temporarily unavailable. Showing base theory.");
+      } else if (data?.markdown) {
         setEnhancedMd(data.markdown);
         if (autoSwitch) setUseEnhanced(true);
         if (!silent) toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
