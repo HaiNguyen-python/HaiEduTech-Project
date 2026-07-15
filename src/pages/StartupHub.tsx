@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Rocket, Compass, GraduationCap, Trophy, Workflow, MessagesSquare, Sparkles, ArrowRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { startupModules } from "@/data/curriculum/startupLessons";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -17,7 +19,9 @@ const StartupHub = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-amber-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-amber-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <Helmet>
         <title>Startup Tech Track - HaiEduTech</title>
         <meta name="description" content="Learn to build a tech startup from 0 to 1: 6 modules, 30 lessons, VN case studies, and an AI investor pitch simulator." />
@@ -98,6 +102,8 @@ const StartupHub = () => {
         </div>
       </div>
     </div>
+    <Footer />
+  </>
   );
 };
 

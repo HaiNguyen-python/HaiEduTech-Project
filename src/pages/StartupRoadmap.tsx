@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Lightbulb, MessageCircle, Wrench, Rocket, TrendingUp, Coins, Trophy, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -24,7 +26,9 @@ const stages = [
 const StartupRoadmap = () => {
   const { t, lang } = useLanguage();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 dark:from-slate-950 dark:to-slate-900">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 dark:from-slate-950 dark:to-slate-900">
       <Helmet><title>{t("Lộ trình Founder 0→1 - Startup", "Founder Roadmap 0→1 - Startup")}</title></Helmet>
       <div className="max-w-4xl mx-auto px-4 py-10">
         <Link to="/programming/startup" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
@@ -62,6 +66,8 @@ const StartupRoadmap = () => {
         </div>
       </div>
     </div>
+    <Footer />
+  </>
   );
 };
 

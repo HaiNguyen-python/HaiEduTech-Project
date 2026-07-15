@@ -1,4 +1,6 @@
 import { Helmet } from "react-helmet-async";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -92,7 +94,9 @@ const CASES: Case[] = [
 const StartupCaseStudies = () => {
   const { t } = useLanguage();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 dark:from-slate-950 dark:to-slate-900">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 dark:from-slate-950 dark:to-slate-900">
       <Helmet><title>{t("Case Studies - Startup Tech", "Case Studies - Startup Tech")}</title></Helmet>
       <div className="max-w-6xl mx-auto px-4 py-10">
         <Link to="/programming/startup" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
@@ -129,6 +133,8 @@ const StartupCaseStudies = () => {
         </div>
       </div>
     </div>
+    <Footer />
+  </>
   );
 };
 

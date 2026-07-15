@@ -503,6 +503,21 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   // ─────────── Numbers ───────────
   elva:           { sv: "Klockan är elva och det är dags att sova.",          vi: "Đã mười một giờ, đến giờ đi ngủ rồi.",                       en: "It is eleven o'clock and time to sleep." },
   tolv:           { sv: "Vi äter lunch klockan tolv.",                        vi: "Chúng tôi ăn trưa lúc mười hai giờ.",                        en: "We have lunch at twelve o'clock." },
+
+  // ─────────── Extra: emotions & abstract nouns (avoid awkward auto-templates) ───────────
+  glädje:         { sv: "Hon känner stor glädje när hon träffar sin familj.", vi: "Cô ấy cảm thấy rất vui khi gặp gia đình.",                   en: "She feels great joy when she meets her family." },
+  sorg:           { sv: "Han bär en tyst sorg efter förlusten.",              vi: "Anh ấy mang trong lòng nỗi buồn lặng lẽ sau mất mát.",       en: "He carries a quiet sorrow after the loss." },
+  rädsla:         { sv: "Barnet känner rädsla för mörkret på natten.",         vi: "Đứa trẻ sợ bóng tối vào ban đêm.",                           en: "The child feels fear of the dark at night." },
+  ilska:          { sv: "Han försöker lugna sin ilska genom att andas djupt.", vi: "Anh ấy cố gắng làm dịu cơn giận bằng cách hít thở sâu.",     en: "He tries to calm his anger by breathing deeply." },
+  kärlek:         { sv: "Föräldrars kärlek till barnen är villkorslös.",       vi: "Tình yêu của cha mẹ dành cho con cái là vô điều kiện.",       en: "Parents' love for their children is unconditional." },
+  hopp:           { sv: "Vi håller alltid ett litet hopp om en bättre morgondag.", vi: "Chúng tôi luôn giữ một chút hy vọng về ngày mai tốt hơn.", en: "We always keep a little hope for a better tomorrow." },
+  frihet:         { sv: "Frihet är viktigt för ett demokratiskt samhälle.",    vi: "Tự do rất quan trọng đối với một xã hội dân chủ.",           en: "Freedom is important for a democratic society." },
+  fred:           { sv: "Alla länder önskar fred i världen.",                  vi: "Mọi quốc gia đều mong muốn hoà bình trên thế giới.",         en: "All countries wish for peace in the world." },
+  tid:            { sv: "Jag har inte tid att prata just nu.",                 vi: "Bây giờ tôi không có thời gian để nói chuyện.",              en: "I do not have time to talk right now." },
+  liv:            { sv: "Hon lever ett lyckligt liv med sin familj.",          vi: "Cô ấy đang sống một cuộc sống hạnh phúc bên gia đình.",      en: "She lives a happy life with her family." },
+  framtid:        { sv: "Vi planerar för en tryggare framtid.",                vi: "Chúng tôi đang lên kế hoạch cho một tương lai an toàn hơn.", en: "We are planning for a safer future." },
+  vänskap:        { sv: "Sann vänskap håller i hela livet.",                   vi: "Tình bạn thật sự bền chặt suốt cả cuộc đời.",                en: "True friendship lasts a whole lifetime." },
+  drömmar:        { sv: "Ungdomar har många drömmar om framtiden.",            vi: "Người trẻ có nhiều ước mơ về tương lai.",                    en: "Young people have many dreams about the future." },
 };
 
 

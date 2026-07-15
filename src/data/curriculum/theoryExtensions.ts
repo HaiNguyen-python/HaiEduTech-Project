@@ -3708,8 +3708,10 @@ Training-serving skew (different feature computation offline vs online) is the #
 
 
 
+import { startupTheoryExtensions } from "./startupTheoryExtensions";
+
 export function getTheoryExtension(lessonId: string, lang: "vi" | "en"): string {
-  const ext = theoryExtensions[lessonId];
+  const ext = theoryExtensions[lessonId] ?? startupTheoryExtensions[lessonId];
   if (!ext) return "";
   return lang === "vi" ? ext.vi : ext.en;
 }

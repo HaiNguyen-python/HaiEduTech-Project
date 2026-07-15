@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Loader2, Sparkles, Trophy, AlertTriangle, MessageCircleQuestion, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -88,7 +90,9 @@ const StartupPitchSimulator = () => {
     : result?.verdict === "Maybe" ? "from-amber-500 to-orange-500" : "from-rose-500 to-pink-600";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-fuchsia-50 to-pink-50 dark:from-slate-950 dark:to-slate-900">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-br from-fuchsia-50 to-pink-50 dark:from-slate-950 dark:to-slate-900">
       <Helmet><title>{t("Pitch Simulator - AI Investor", "Pitch Simulator - AI Investor")}</title></Helmet>
       <div className="max-w-5xl mx-auto px-4 py-10">
         <Link to="/programming/startup" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
@@ -168,6 +172,8 @@ const StartupPitchSimulator = () => {
         )}
       </div>
     </div>
+    <Footer />
+  </>
   );
 };
 
