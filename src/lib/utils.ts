@@ -28,3 +28,17 @@ export function boldAndSanitize(text: string): { __html: string } {
   const bolded = text.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-primary">$1</span>');
   return sanitizeHtml(bolded);
 }
+
+/**
+ * Sanitize free-text user input before persisting or forwarding to an LLM.
+ * Trims whitespace, strips control characters (except newline/tab), and enforces
+ * a length cap. Returns a plain string safe for storage; further HTML rendering
+ * should still go through sanitizeHtml/DOMPurify.
+ */
+export function sanitizeText(input: unknown, maxLen = 5000): string {
+  if (typeof input !== "string") return "";
+  // Strip C0 control chars except \n (0x0A) and \t (0x09), and DEL (0x7F).
+  // eslint-disable-next-line no-control-regex
+  const stripped = input.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+  return stripped.trim().slice(0, maxLen);
+}
