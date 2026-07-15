@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Coins, Timer, TrendingUp, Layers } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -71,7 +73,9 @@ const StartupToolkit = () => {
   const fmt = (n: number) => n.toLocaleString("vi-VN");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-950 dark:to-slate-900">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-950 dark:to-slate-900">
       <Helmet><title>{t("Startup Toolkit - Calculators", "Startup Toolkit - Calculators")}</title></Helmet>
       <div className="max-w-6xl mx-auto px-4 py-10">
         <Link to="/programming/startup" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
@@ -142,6 +146,8 @@ const StartupToolkit = () => {
         </div>
       </div>
     </div>
+    <Footer />
+  </>
   );
 };
 
