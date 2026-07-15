@@ -21,6 +21,9 @@ if (typeof window !== "undefined") initVersionCheck();
 const Index = lazy(() => import("./pages/Index.tsx"));
 const Welcome = lazy(() => import("./pages/Welcome.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.tsx"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService.tsx"));
+const CookieConsentBanner = lazy(() => import("./components/gdpr/CookieConsentBanner.tsx"));
 
 /** Decides whether to show the splash welcome or the home page on `/`. */
 const RootEntry = () => {
@@ -532,11 +535,14 @@ const App = () => (
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
             {/* /unsubscribe is registered earlier — duplicate removed */}
+            <Route path="/privacy" element={<LazyRoute><PrivacyPolicy /></LazyRoute>} />
+            <Route path="/terms" element={<LazyRoute><TermsOfService /></LazyRoute>} />
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
           <Suspense fallback={null}><EnglishRouteParticles /></Suspense>
           <Suspense fallback={null}><ChineseRouteParticles /></Suspense>
           <DeferredGlobalWidgets />
+          <Suspense fallback={null}><CookieConsentBanner /></Suspense>
 
 
         </BrowserRouter>

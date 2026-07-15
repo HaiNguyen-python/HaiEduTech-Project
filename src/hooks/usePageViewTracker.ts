@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useCookieConsent } from "@/hooks/useCookieConsent";
 
 /**
  * Page View Tracker
@@ -32,8 +33,11 @@ export const usePageViewTracker = () => {
   const lastPathRef = useRef<string>("");
   const lastRowIdRef = useRef<string | null>(null);
   const accessTokenRef = useRef<string | null>(null);
+  const { analyticalAllowed } = useCookieConsent();
 
   useEffect(() => {
+    // Respect GDPR consent: skip analytical tracking unless the user opted in.
+    if (!analyticalAllowed) return;
     const currentPath = location.pathname + location.search;
 
     // Update time_on_page for previous row before logging the new one
@@ -88,7 +92,7 @@ export const usePageViewTracker = () => {
     };
 
     logView();
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search, analyticalAllowed]);
 
   // Flush time on unload
   useEffect(() => {
