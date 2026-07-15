@@ -516,7 +516,6 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   tid:            { sv: "Jag har inte tid att prata just nu.",                 vi: "Bây giờ tôi không có thời gian để nói chuyện.",              en: "I do not have time to talk right now." },
   liv:            { sv: "Hon lever ett lyckligt liv med sin familj.",          vi: "Cô ấy đang sống một cuộc sống hạnh phúc bên gia đình.",      en: "She lives a happy life with her family." },
   framtid:        { sv: "Vi planerar för en tryggare framtid.",                vi: "Chúng tôi đang lên kế hoạch cho một tương lai an toàn hơn.", en: "We are planning for a safer future." },
-  framtid:        { sv: "Vi planerar för en tryggare framtid.",                vi: "Chúng tôi đang lên kế hoạch cho một tương lai an toàn hơn.", en: "We are planning for a safer future." },
   vänskap:        { sv: "Sann vänskap håller i hela livet.",                   vi: "Tình bạn thật sự bền chặt suốt cả cuộc đời.",                en: "True friendship lasts a whole lifetime." },
   drömmar:        { sv: "Ungdomar har många drömmar om framtiden.",            vi: "Người trẻ có nhiều ước mơ về tương lai.",                    en: "Young people have many dreams about the future." },
 };
