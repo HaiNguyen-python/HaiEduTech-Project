@@ -92,7 +92,7 @@ export const usePageViewTracker = () => {
     };
 
     logView();
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search, analyticalAllowed]);
 
   // Flush time on unload
   useEffect(() => {
