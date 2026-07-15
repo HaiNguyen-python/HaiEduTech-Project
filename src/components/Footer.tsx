@@ -121,6 +121,15 @@ const Footer = () => {
             <span>© {new Date().getFullYear()} HaiEduTech - {t("Kỹ sư · Nhà giáo dục · Gia sư đa ngôn ngữ", "Engineer · Educator · Multilingual Tutor")}</span>
             <span className="text-muted-foreground">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</span>
           </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <Link to="/privacy" className="hover:text-foreground transition-colors">
+              {t("Chính sách bảo mật", "Privacy Policy")}
+            </Link>
+            <span aria-hidden="true">·</span>
+            <Link to="/terms" className="hover:text-foreground transition-colors">
+              {t("Điều khoản dịch vụ", "Terms of Service")}
+            </Link>
+          </div>
           <p className="text-[12px] text-muted-foreground text-center">
             Copyright © {new Date().getFullYear()} HaiEduTech, ILC. All rights reserved. Developed by Teacher Hai.
           </p>
