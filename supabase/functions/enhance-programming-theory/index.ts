@@ -322,10 +322,18 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
     if (!ppxResp.ok) {
       const txt = await ppxResp.text();
       console.error("Perplexity error:", ppxResp.status, txt);
-      return new Response(JSON.stringify({ error: "AI provider error", status: ppxResp.status }), {
-        status: 502,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({
+          cached: false,
+          fallback: true,
+          error: "AI provider temporarily unavailable",
+          status: ppxResp.status,
+          markdown: "",
+          citations: [],
+          illustrations: [],
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
     const data = await ppxResp.json();
@@ -338,10 +346,17 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
     if (outerFence) markdown = outerFence[1].trim();
 
     if (!markdown.trim()) {
-      return new Response(JSON.stringify({ error: "Empty AI response" }), {
-        status: 502,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({
+          cached: false,
+          fallback: true,
+          error: "Empty AI response",
+          markdown: "",
+          citations: [],
+          illustrations: [],
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
     // 4. Extract & strip the trailing illustrations JSON block + remove Perplexity citation markers like [1][2][3]
