@@ -535,11 +535,14 @@ const App = () => (
             <Route path="/songs/:lang" element={<LazyRoute><SongsLibraryPage /></LazyRoute>} />
             <Route path="/specialized-language" element={<LazyRoute><SpecializedLanguage /></LazyRoute>} />
             {/* /unsubscribe is registered earlier — duplicate removed */}
+            <Route path="/privacy" element={<LazyRoute><PrivacyPolicy /></LazyRoute>} />
+            <Route path="/terms" element={<LazyRoute><TermsOfService /></LazyRoute>} />
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
           <Suspense fallback={null}><EnglishRouteParticles /></Suspense>
           <Suspense fallback={null}><ChineseRouteParticles /></Suspense>
           <DeferredGlobalWidgets />
+          <Suspense fallback={null}><CookieConsentBanner /></Suspense>
 
 
         </BrowserRouter>
