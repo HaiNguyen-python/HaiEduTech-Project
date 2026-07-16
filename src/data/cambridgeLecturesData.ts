@@ -950,3 +950,6 @@ const rawCambridgeLectures: CambridgeLecture[] = [
   ...cambridgeLecturesGrammar2,
   ...cambridgeLecturesGrammar3,
 ];
+
+// Merge extra KET practice + quiz items into every KET lecture at load time.
+export const allCambridgeLectures: CambridgeLecture[] = rawCambridgeLectures.map(applyKetBoost);
