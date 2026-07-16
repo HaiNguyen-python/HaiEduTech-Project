@@ -344,7 +344,7 @@ export function applyKetBoost<T extends { id: string; level: string; practiceSet
   const boost = boosts[l.id] ?? genericKetBoost;
   return {
     ...l,
-    practiceSet: [...(l.practiceSet ?? []), ...boost.practice],
-    quiz: [...(l.quiz ?? []), ...boost.quiz],
+    practiceSet: [...(l.practiceSet ?? []), ...boost.practice, ...ketUniversalExtraPractice],
+    quiz: [...(l.quiz ?? []), ...boost.quiz, ...ketUniversalExtraQuiz],
   };
 }
