@@ -54,8 +54,10 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
+  // seed bumps on every "Try again" so useMemo picks a fresh random set
+  const [seed, setSeed] = useState(0);
 
-  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool]);
+  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool, seed]);
   const q = qs[i];
   const gloss = (w: SwedishWord) => (lang === "vi" ? w.vi : w.en);
   const options = useMemo(() => {
@@ -66,8 +68,9 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
   // Auto-play prompt audio when a new question shows
   useEffect(() => { if (q) speak(q.sv); }, [q]);
 
-  if (!q) return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); }} />;
-  if (i >= qs.length) return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); }} />;
+  const restart = () => { setI(0); setPicked(null); setScore(0); setSeed(s => s + 1); };
+  if (!q) return <DonePanel score={score} total={qs.length} onRetry={restart} />;
+  if (i >= qs.length) return <DonePanel score={score} total={qs.length} onRetry={restart} />;
 
   const reveal = picked != null;
   return (
