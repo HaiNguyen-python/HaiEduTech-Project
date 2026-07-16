@@ -135,14 +135,15 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
   const [value, setValue] = useState("");
   const [result, setResult] = useState<"idle" | "correct" | "close" | "wrong">("idle");
   const [score, setScore] = useState(0);
+  const [seed, setSeed] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool]);
+  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool, seed]);
   const q = qs[i];
   useEffect(() => { inputRef.current?.focus(); }, [i]);
 
   if (!q || i >= qs.length)
-    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setValue(""); setResult("idle"); setScore(0); }} />;
+    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setValue(""); setResult("idle"); setScore(0); setSeed(s => s + 1); }} />;
 
   const check = () => {
     const target = norm(q.sv);
