@@ -421,6 +421,9 @@ const SpeedMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
     setOpts(shuffle([gloss(target), ...distract]));
   }, [pool, lang]);
 
+  // Auto-play the Swedish word aloud whenever a new question appears in Speed mode
+  useEffect(() => { if (q && running) speak(q.sv); }, [q, running]);
+
   const start = () => {
     setScore(0); setStreak(0); setTime(60); setRunning(true); newQ();
   };
