@@ -6,6 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC.
  */
 import type { CambridgePracticeItem, CambridgeQuizQuestion } from "./cambridgeLecturesData";
+import { ketUniversalExtraPractice, ketUniversalExtraQuiz } from "./cambridgeKetPracticeBoost2";
 
 interface KetBoost {
   practice: CambridgePracticeItem[];
