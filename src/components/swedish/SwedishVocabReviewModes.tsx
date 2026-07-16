@@ -54,8 +54,10 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
+  // seed bumps on every "Try again" so useMemo picks a fresh random set
+  const [seed, setSeed] = useState(0);
 
-  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool]);
+  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool, seed]);
   const q = qs[i];
   const gloss = (w: SwedishWord) => (lang === "vi" ? w.vi : w.en);
   const options = useMemo(() => {
@@ -66,8 +68,9 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
   // Auto-play prompt audio when a new question shows
   useEffect(() => { if (q) speak(q.sv); }, [q]);
 
-  if (!q) return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); }} />;
-  if (i >= qs.length) return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); }} />;
+  const restart = () => { setI(0); setPicked(null); setScore(0); setSeed(s => s + 1); };
+  if (!q) return <DonePanel score={score} total={qs.length} onRetry={restart} />;
+  if (i >= qs.length) return <DonePanel score={score} total={qs.length} onRetry={restart} />;
 
   const reveal = picked != null;
   return (
@@ -132,14 +135,15 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
   const [value, setValue] = useState("");
   const [result, setResult] = useState<"idle" | "correct" | "close" | "wrong">("idle");
   const [score, setScore] = useState(0);
+  const [seed, setSeed] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool]);
+  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool, seed]);
   const q = qs[i];
   useEffect(() => { inputRef.current?.focus(); }, [i]);
 
   if (!q || i >= qs.length)
-    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setValue(""); setResult("idle"); setScore(0); }} />;
+    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setValue(""); setResult("idle"); setScore(0); setSeed(s => s + 1); }} />;
 
   const check = () => {
     const target = norm(q.sv);
@@ -312,6 +316,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
+  const [seed, setSeed] = useState(0);
 
   // Build a Unicode-aware "whole word" regex for the target. JS's `\b` uses
   // ASCII \w only, so it fails on å/ä/ö (e.g. "kött", "äpple") and the blank
@@ -327,7 +332,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
     () => pool.filter(w => w.example && buildRe(w.sv).test(w.example)),
     [pool]
   );
-  const qs = useMemo(() => shuffle(cloze_pool).slice(0, 10), [cloze_pool]);
+  const qs = useMemo(() => shuffle(cloze_pool).slice(0, 10), [cloze_pool, seed]);
   const q = qs[i];
   const options = useMemo(() => {
     if (!q) return [];
@@ -339,7 +344,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
   if (cloze_pool.length < 4)
     return <EmptyPanel msg={t("Cần ít nhất 4 từ có câu ví dụ phù hợp.", "Need at least 4 words with cloze-friendly examples.")} />;
   if (!q || i >= qs.length)
-    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); }} />;
+    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); setSeed(s => s + 1); }} />;
 
   const sentenceWithBlank = q.example.replace(buildRe(q.sv), "$1_____");
   const reveal = picked != null;
@@ -415,6 +420,9 @@ const SpeedMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
     setQ(target);
     setOpts(shuffle([gloss(target), ...distract]));
   }, [pool, lang]);
+
+  // Auto-play the Swedish word aloud whenever a new question appears in Speed mode
+  useEffect(() => { if (q && running) speak(q.sv); }, [q, running]);
 
   const start = () => {
     setScore(0); setStreak(0); setTime(60); setRunning(true); newQ();
