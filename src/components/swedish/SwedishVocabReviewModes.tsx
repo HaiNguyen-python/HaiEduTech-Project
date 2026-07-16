@@ -316,6 +316,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
+  const [seed, setSeed] = useState(0);
 
   // Build a Unicode-aware "whole word" regex for the target. JS's `\b` uses
   // ASCII \w only, so it fails on å/ä/ö (e.g. "kött", "äpple") and the blank
@@ -331,7 +332,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
     () => pool.filter(w => w.example && buildRe(w.sv).test(w.example)),
     [pool]
   );
-  const qs = useMemo(() => shuffle(cloze_pool).slice(0, 10), [cloze_pool]);
+  const qs = useMemo(() => shuffle(cloze_pool).slice(0, 10), [cloze_pool, seed]);
   const q = qs[i];
   const options = useMemo(() => {
     if (!q) return [];
@@ -343,7 +344,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
   if (cloze_pool.length < 4)
     return <EmptyPanel msg={t("Cần ít nhất 4 từ có câu ví dụ phù hợp.", "Need at least 4 words with cloze-friendly examples.")} />;
   if (!q || i >= qs.length)
-    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); }} />;
+    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); setSeed(s => s + 1); }} />;
 
   const sentenceWithBlank = q.example.replace(buildRe(q.sv), "$1_____");
   const reveal = picked != null;
