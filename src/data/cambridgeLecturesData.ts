@@ -917,8 +917,9 @@ import { cambridgeLecturesExpansion11 } from "./cambridgeLecturesExpansion11";
 import { cambridgeLecturesGrammar } from "./cambridgeLecturesGrammar";
 import { cambridgeLecturesGrammar2 } from "./cambridgeLecturesGrammar2";
 import { cambridgeLecturesGrammar3 } from "./cambridgeLecturesGrammar3";
+import { applyKetBoost } from "./cambridgeKetPracticeBoost";
 
-export const allCambridgeLectures: CambridgeLecture[] = [
+const rawCambridgeLectures: CambridgeLecture[] = [
   startersColors,
   startersPrepositions,
   moversDifferences,
