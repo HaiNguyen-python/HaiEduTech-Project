@@ -518,6 +518,26 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   framtid:        { sv: "Vi planerar för en tryggare framtid.",                vi: "Chúng tôi đang lên kế hoạch cho một tương lai an toàn hơn.", en: "We are planning for a safer future." },
   vänskap:        { sv: "Sann vänskap håller i hela livet.",                   vi: "Tình bạn thật sự bền chặt suốt cả cuộc đời.",                en: "True friendship lasts a whole lifetime." },
   drömmar:        { sv: "Ungdomar har många drömmar om framtiden.",            vi: "Người trẻ có nhiều ước mơ về tương lai.",                    en: "Young people have many dreams about the future." },
+
+  // ─────────── Swedish vocabulary page semantic cleanup ───────────
+  // These items were previously shown with safe but too generic templates.
+  app:            { sv: "Jag använder bankens app för att betala räkningar.",   vi: "Tôi dùng ứng dụng của ngân hàng để trả hoá đơn.",              en: "I use the bank's app to pay bills." },
+  blodtryck:      { sv: "Sjuksköterskan mäter mitt blodtryck på vårdcentralen.", vi: "Y tá đo huyết áp của tôi ở trạm y tế.",                       en: "The nurse measures my blood pressure at the health centre." },
+  boardingkort:   { sv: "Visa ditt boardingkort innan du går ombord på planet.", vi: "Hãy xuất trình thẻ lên máy bay trước khi lên máy bay.",       en: "Show your boarding pass before you board the plane." },
+  "boka om":     { sv: "Jag måste boka om min tid hos tandläkaren.",           vi: "Tôi phải đặt lại lịch hẹn với nha sĩ.",                        en: "I have to reschedule my dentist appointment." },
+  bostadsrätt:    { sv: "De köpte en bostadsrätt nära tunnelbanan.",            vi: "Họ mua một căn hộ sở hữu gần tàu điện ngầm.",                  en: "They bought a co-op apartment near the metro." },
+  bot:            { sv: "Han fick en bot för att han parkerade fel.",           vi: "Anh ấy bị phạt vì đỗ xe sai chỗ.",                              en: "He got a fine because he parked in the wrong place." },
+  bredd:          { sv: "Mät bordets bredd innan du köper en duk.",             vi: "Hãy đo chiều rộng của bàn trước khi mua khăn trải bàn.",        en: "Measure the width of the table before buying a tablecloth." },
+  budskap:        { sv: "Filmens budskap är att vänskap är viktigare än pengar.", vi: "Thông điệp của bộ phim là tình bạn quan trọng hơn tiền bạc.", en: "The film's message is that friendship is more important than money." },
+  bugg:           { sv: "Utvecklaren fixade en bugg i appen i morse.",          vi: "Lập trình viên đã sửa một lỗi trong ứng dụng sáng nay.",        en: "The developer fixed a bug in the app this morning." },
+  burr:           { sv: "Kattens burr fastnade på min mörka jacka.",            vi: "Lông mèo dính vào áo khoác tối màu của tôi.",                  en: "The cat's fur stuck to my dark jacket." },
+  bötesbelopp:    { sv: "Bötesbeloppet beror på hur allvarligt felet är.",      vi: "Mức tiền phạt phụ thuộc vào mức độ nghiêm trọng của lỗi.",      en: "The fine amount depends on how serious the offence is." },
+  bro:            { sv: "Bron över älven är stängd för reparation.",            vi: "Cây cầu bắc qua sông đang đóng để sửa chữa.",                   en: "The bridge over the river is closed for repairs." },
+  färg:           { sv: "Vilken färg vill du ha på väggen?",                   vi: "Bạn muốn tường có màu gì?",                                    en: "What colour do you want on the wall?" },
+  gratis:         { sv: "Museet är gratis för barn under tolv år.",             vi: "Bảo tàng miễn phí cho trẻ em dưới mười hai tuổi.",              en: "The museum is free for children under twelve." },
+  konsert:        { sv: "Vi går på konsert i Göteborg på lördag.",              vi: "Thứ Bảy chúng tôi đi xem hoà nhạc ở Göteborg.",                 en: "We are going to a concert in Gothenburg on Saturday." },
+  låt:            { sv: "Den här låten spelas ofta på radion.",                 vi: "Bài hát này thường được phát trên radio.",                      en: "This song is often played on the radio." },
+  solglasögon:    { sv: "Ta med solglasögon, solen är stark i dag.",            vi: "Mang kính râm đi, hôm nay nắng mạnh.",                          en: "Bring sunglasses, the sun is strong today." },
 };
 
 
