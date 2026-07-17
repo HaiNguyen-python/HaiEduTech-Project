@@ -212,7 +212,7 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
 
 const MatchingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) => {
   const { t } = useLanguage();
-  const PAIRS = 5;
+  const PAIRS = 10;
   const [round, setRound] = useState(0);
   const round_pool = useMemo(() => shuffle(pool).slice(0, PAIRS), [pool, round]);
   // IMPORTANT: `left` must be derived from `round_pool` every render, otherwise
