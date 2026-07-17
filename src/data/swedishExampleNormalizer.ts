@@ -246,6 +246,12 @@ const NUMERAL_TEMPLATES: Tmpl[] = [
   { sv: "Barnen lär sig säga '{W}' på svenska.", vi: "Bọn trẻ học nói '{W}' bằng tiếng Thụy Điển.", en: "The children learn to say '{W}' in Swedish." },
 ];
 
+const PRONOUN_TEMPLATES: Tmpl[] = [
+  { sv: "I texten används pronomenet '{W}' tydligt.", vi: "Trong bài đọc, đại từ '{W}' được dùng rõ ràng.", en: "In the text, the pronoun '{W}' is used clearly." },
+  { sv: "Läraren skriver en mening med '{W}' på tavlan.", vi: "Giáo viên viết một câu với '{W}' lên bảng.", en: "The teacher writes a sentence with '{W}' on the board." },
+  { sv: "Vi övar på att använda '{W}' i en kort fråga.", vi: "Chúng tôi luyện dùng '{W}' trong một câu hỏi ngắn.", en: "We practise using '{W}' in a short question." },
+];
+
 const ADV_TEMPLATES: Tmpl[] = [
   { sv: "På svenska använder vi ofta ordet '{W}'.", vi: "Trong tiếng Thụy Điển, chúng ta thường dùng từ '{W}'.", en: "In Swedish, we often use the word '{W}'." },
   { sv: "Han svarar med ordet '{W}' när det passar.", vi: "Anh ấy trả lời bằng từ '{W}' khi phù hợp.", en: "He answers with the word '{W}' when it fits." },
@@ -332,6 +338,7 @@ function templatesFor(word: SwedishWord): Tmpl[] {
   const pos = word.pos.toLowerCase();
   if (pos.startsWith("phr")) return PHRASE_TEMPLATES;
   if (pos.startsWith("num")) return NUMERAL_TEMPLATES;
+  if (pos.startsWith("pron")) return PRONOUN_TEMPLATES;
   if (pos.startsWith("v")) return VERB_TEMPLATES;
   if (pos.startsWith("adj")) return ADJ_TEMPLATES;
   if (pos.startsWith("adv")) return ADV_TEMPLATES;
