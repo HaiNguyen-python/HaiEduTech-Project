@@ -1,95 +1,92 @@
-## Security & GDPR Compliance Implementation Plan
+# Kế hoạch: Swedish Performance Dashboard
 
-Comprehensive audit + GDPR features across 3 phases. All new code will use English-only comments and match the existing Royal Blue → Soft Emerald design system (light + dark mode ready).
+Đã tăng số cặp Match từ 5 → 10 (xong).
+
+Dưới đây là kế hoạch xây trang **/swedish/performance** (hoặc tab trong SwedishBeginner) để visualize toàn bộ hành trình học tiếng Thụy Điển và tự động xếp level.
+
+## 1. Nguồn dữ liệu (đã có sẵn)
+
+| Nguồn | Nội dung | Bảng/Key |
+|---|---|---|
+| Mastered vocab | Từ đã "thuộc" (star) | `user_mastered_vocab` (subject='swedish') + localStorage fallback |
+| Vocab bank tổng | ~800+ từ Swedish có gắn level A1/A2/B1/B2 | `swedishVocab*` files |
+| Review modes | Listen/Type/Match/Cloze/Speed accuracy | `activity_log` (type=`swedish_vocab_review`) |
+| Speaking Coach | Accuracy % từng câu | `activity_log` (type=`speaking_coach_swedish`) |
+| Writing/Speaking YKI | Điểm 0-5 mỗi criteria | edge `grade-swedish-yki` → `activity_log` |
+| Reading/Listening | % đúng bài tập | `activity_log` |
+| Session time | Phút online theo Swedish routes | `page_view_log` filter `/swedish/*` |
+
+## 2. Thuật toán xếp level (CEFR ↔ YKI)
+
+Tính điểm tổng hợp 4 kỹ năng, mỗi kỹ năng 0-100:
+
+```text
+Vocabulary score  = mastered_count có trọng số theo level
+                    (A1=1, A2=2, B1=4, B2=8) → chuẩn hóa /max
+Reading score     = avg(accuracy các bài reading gần nhất, weight theo level)
+Listening score   = avg(accuracy listening + review Listen mode)
+Speaking score    = avg(Speaking Coach accuracy, YKI speaking overall*20)
+Writing score     = avg(YKI writing overall*20, cloze/type accuracy)
+```
+
+Ngưỡng level (overall = trung bình 4 kỹ năng, cần ≥3/4 kỹ năng đạt ngưỡng):
+
+```text
+A1 (YKI 1):  ≥ 25   — ~150 từ A1, đọc hiểu câu ngắn
+A2 (YKI 2):  ≥ 45   — ~400 từ, viết đoạn 30 từ, nói giới thiệu
+B1 (YKI 3):  ≥ 65   — ~800 từ, đọc bài 200 từ, viết 80 từ
+B2 (YKI 4):  ≥ 82   — thảo luận, viết luận, YKI grade ≥ 3.5
+```
+
+## 3. UI Layout (route mới `/swedish/performance`)
+
+```text
+┌─────────────────────────────────────────────────────┐
+│  🇸🇪 Trình độ hiện tại: A2 → B1  (điểm 58/100)      │
+│  [progress bar tới B1] · Còn 7 điểm nữa!            │
+├──────────────────┬──────────────────────────────────┤
+│ Radar 4 kỹ năng  │  KPI cards:                      │
+│ (Recharts)       │  • Từ đã thuộc 312/800           │
+│                  │  • Streak 12 ngày                │
+│                  │  • Giờ học Swedish 24h           │
+│                  │  • YKI dự kiến: Cấp 2            │
+├──────────────────┴──────────────────────────────────┤
+│  Bar chart: Từ vựng theo level (A1/A2/B1/B2)        │
+├─────────────────────────────────────────────────────┤
+│  Line chart: Tiến bộ 30 ngày (accuracy trung bình) │
+├─────────────────────────────────────────────────────┤
+│  Heatmap ô vuông 7×N: hoạt động mỗi ngày (GitHub)  │
+├─────────────────────────────────────────────────────┤
+│  Recommendations (rule-based):                      │
+│  • "Speaking yếu nhất (42) → gợi ý Speaking Coach" │
+│  • "Đã đủ điều kiện thi thử YKI A2"                │
+└─────────────────────────────────────────────────────┘
+```
+
+## 4. Chi tiết kỹ thuật
+
+- **File mới**: `src/pages/SwedishPerformance.tsx` + hook `src/hooks/useSwedishPerformance.ts`
+- **Helper**: `src/lib/swedishLevelEngine.ts` — hàm `computeSwedishLevel(stats): { cefr, yki, score, breakdown }`
+- **Query**: 1 RPC `get_swedish_performance(_user_id)` gộp `activity_log` + `user_mastered_vocab` (giảm round-trip); fallback client-side aggregate cho guest dùng localStorage
+- **Chart lib**: Recharts (đã có) - Radar, Bar, Line, custom heatmap div grid
+- **Route**: add vào `App.tsx`, link từ `SwedishBeginner.tsx` header ("📊 Trình độ của tôi")
+- **Guest mode**: đọc localStorage `mastered_swedish_*`, `swedish_review_stats_*`
+- **i18n**: dùng `useLanguage().t(vi, en)` xuyên suốt
+
+## 5. Trigger cập nhật
+
+- Component fetch on mount + realtime channel `activity_log` filter `user_id=eq.{uid}`
+- Cache 60s (React Query hoặc useState + useEffect)
+
+## 6. Phạm vi giai đoạn 1 (ship trước)
+
+1. `swedishLevelEngine.ts` + unit test nhẹ
+2. `useSwedishPerformance` (chỉ client-side aggregate, không cần RPC)
+3. Trang `/swedish/performance` với Radar + KPI + Bar theo level + Recommendations
+4. Link vào navbar Swedish
+
+Giai đoạn 2: RPC gộp, heatmap, line chart 30 ngày, so sánh với trung bình cộng đồng.
 
 ---
 
-### Phase 1 — Frontend Security & Data Minimization
-
-**1.1 XSS / Input sanitization audit**
-- Sweep every `dangerouslySetInnerHTML` usage (found in `PostCard.tsx`, `GeneratedLessonView.tsx`, `AIAcademy.tsx`, `Notebook.tsx`, `LessonDetail.tsx`, `LanguageLessonView.tsx`, `PhrasePractice.tsx`, etc.) and ensure each one routes through `sanitizeHtml()` in `src/lib/utils.ts` (DOMPurify).
-- Extend `src/lib/utils.ts` with a `sanitizeText(input, maxLen)` helper that trims, strips control chars, and enforces length caps. Apply to: `Signup.tsx` (fullName), `DailyReportForm.tsx` (summary/feedback), Your Corner composer, essay/writing textareas, chatbot input.
-- Add Zod schemas where forms currently rely on manual `if` checks (signup, contact, essay submissions).
-
-**1.2 localStorage / sessionStorage audit**
-- Create `src/lib/safeStorage.ts` — wrapper that (a) namespaces keys under `het:` , (b) refuses to write values matching PII regexes (email, VN phone, JWT-shaped strings), (c) logs a dev-only warning.
-- Rewrite direct `localStorage.setItem` calls that store user info to go through this helper. Progress/XP/streak numeric caches are fine (no PII); focus is anywhere `email`, `full_name`, `phone`, or raw tokens might leak.
-- Note: Supabase JS client already stores its session in localStorage — this is expected and cannot be changed; document it in the privacy policy instead.
-
-**1.3 Secure API transport**
-- Confirm `VITE_SUPABASE_URL` is `https://…` (it is). Add a runtime assert in `src/integrations/supabase/client.ts`? No — file is auto-generated, do NOT edit. Instead add the assert in `src/main.tsx` (throws in dev if URL is not https).
-- Audit any `fetch(` calls in `src/` for hardcoded `http://` — replace or remove.
-
----
-
-### Phase 2 — GDPR User-Facing Features
-
-**2.1 Cookie Consent Banner**
-- New component `src/components/gdpr/CookieConsentBanner.tsx`, mounted globally in `src/App.tsx`.
-- Bottom-fixed, glass-card, brand gradient accent, slide-up animation via Framer Motion.
-- Three actions: **Accept All**, **Reject Non-Essential**, **Manage Preferences** (opens a modal with two toggles: Functional, Analytical — Essential is always-on and disabled).
-- Choice persisted to `localStorage` key `het:cookie-consent-v1` as `{ essential:true, functional, analytical, ts }`.
-- Export `useCookieConsent()` hook. Analytics/tracking (`usePageViewTracker`, any third-party scripts) short-circuit if `analytical` is false.
-- Bilingual (VI/EN) via `LanguageContext`.
-
-**2.2 Privacy Policy & Terms pages**
-- New routes: `/privacy` → `src/pages/PrivacyPolicy.tsx`, `/terms` → `src/pages/TermsOfService.tsx`. Wired in `src/App.tsx`.
-- Sections in Privacy: data collected (name, email, learning progress, voice data for Speaking Coach, uploaded documents), lawful basis, purpose, processors (Supabase EU region, Lovable AI Gateway, Perplexity), retention, user rights under GDPR Art. 15–22, right-to-be-forgotten workflow, contact (contact@haiedutech.com).
-- Terms: acceptable use, account rules, IP, disclaimers, governing law.
-- Both bilingual, semantic HTML, single H1, proper meta description + canonical.
-- Add footer links to both pages in `src/components/Footer.tsx`.
-
-**2.3 Privacy & Data self-service tab**
-- New tab "Privacy & Data" inside `src/pages/Dashboard.tsx` (Radix Tabs).
-- **Export My Personal Data:** client-side fetch of the current user's rows across `profiles`, `student_profiles`, `student_activity_log` (last 12 months), `user_vocab_mastered`, `student_notebooks`, `student_submissions`, `writing_drafts`, `daily_reports`, `your_corner_posts/comments/reactions`. Package as JSON, trigger download `haiedutech-export-<uid>-<date>.json`.
-- **Delete My Account:** double-confirm modal (type "DELETE" + password re-auth) → calls new edge function `delete-my-account` which:
-  - verifies JWT
-  - deletes rows from all user-owned tables (helper SQL function `public.delete_user_data(uuid)` with `security definer`, invoked via RPC)
-  - deletes storage objects under the user's prefixes in `student-documents`, `report-attachments`, `marketing-images/your-corner/<uid>`
-  - calls `supabase.auth.admin.deleteUser()` using `SUPABASE_SERVICE_ROLE_KEY` (server-only)
-  - returns success → frontend signs out and redirects to `/`.
-
-**Backend for 2.3 (single migration + edge function):**
-- Migration creates `public.delete_user_data(_uid uuid)` `security definer` that deletes from every user-scoped table listed above, guarded so it can only delete rows where `user_id = _uid`. Grant execute to `authenticated`.
-- Edge function `supabase/functions/delete-my-account/index.ts` with CORS + JWT validation + Zod body schema.
-
----
-
-### Phase 3 — SUPABASE_SECURITY.md
-
-New file at repo root documenting (developer-facing, not shown to users):
-- RLS enforcement examples for `profiles`, `student_profiles`, `student_submissions`, `student_notebooks`, `writing_drafts`, `daily_reports`, `your_corner_*` — the `auth.uid() = user_id` pattern with SELECT/INSERT/UPDATE/DELETE templates.
-- Public-schema GRANT rules (mirroring project standard).
-- Roles pattern (`user_roles` + `has_role()` security definer, no roles column on profiles).
-- Anon vs. service_role key handling: publishable/anon key is safe in the browser bundle (already in `.env` VITE_ vars), service role key stays server-side only inside edge functions, never in client code.
-- Secret management via Lovable Cloud secrets tools; no `.env` for secrets.
-- Signed URLs for private buckets (`student-documents`, `report-attachments`).
-- Rate-limit + moderation hooks for user-generated content.
-
----
-
-### Files summary
-
-New:
-- `src/lib/safeStorage.ts`
-- `src/components/gdpr/CookieConsentBanner.tsx`, `CookiePreferencesModal.tsx`
-- `src/hooks/useCookieConsent.ts`
-- `src/pages/PrivacyPolicy.tsx`, `src/pages/TermsOfService.tsx`
-- `src/components/dashboard/PrivacyDataTab.tsx`
-- `supabase/functions/delete-my-account/index.ts`
-- 1 migration: `delete_user_data()` function
-- `SUPABASE_SECURITY.md`
-
-Edited:
-- `src/lib/utils.ts` (add `sanitizeText`)
-- `src/App.tsx` (routes + mount banner)
-- `src/components/Footer.tsx` (Privacy/Terms links)
-- `src/pages/Dashboard.tsx` (Privacy & Data tab)
-- `src/pages/Signup.tsx`, `src/components/assistant/DailyReportForm.tsx`, chatbot/essay inputs (apply `sanitizeText` + Zod)
-- `src/hooks/usePageViewTracker.ts` (respect analytical consent)
-- `src/main.tsx` (HTTPS runtime assert)
-
-### Notes
-- Account deletion is irreversible — modal will make that explicit. No 30-day grace.
-- Voice recordings from Speaking Coach are processed in-browser (Web Speech API) and not persisted server-side today; the Privacy Policy will state this accurately.
-- The Supabase auth session token in localStorage is a framework requirement; documented rather than removed.
+**Xác nhận để mình build giai đoạn 1?** Hoặc bạn muốn chỉnh ngưỡng level / thêm/bớt biểu đồ nào?
