@@ -471,6 +471,7 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   tåg:            { sv: "Tåget till Malmö avgår om tio minuter.",             vi: "Tàu đi Malmö sẽ khởi hành sau mười phút.",                   en: "The train to Malmö leaves in ten minutes." },
   biljett:        { sv: "Jag köper en biljett till Stockholm.",               vi: "Tôi mua một vé đi Stockholm.",                               en: "I buy a ticket to Stockholm." },
   hotell:         { sv: "Vi bor på ett trevligt hotell nära stationen.",      vi: "Chúng tôi ở tại một khách sạn dễ thương gần nhà ga.",         en: "We stay at a nice hotel near the station." },
+  hostel:         { sv: "Vi bokade ett hostel nära stationen.",               vi: "Chúng tôi đã đặt một nhà nghỉ gần nhà ga.",                    en: "We booked a hostel near the station." },
   semester:       { sv: "På sommaren åker vi på semester till Grekland.",     vi: "Vào mùa hè chúng tôi đi nghỉ ở Hy Lạp.",                     en: "In summer we go on vacation to Greece." },
   sväng:          { sv: "Ta första svängen till höger vid ljuset.",           vi: "Rẽ vào lối rẽ đầu tiên bên phải ở đèn giao thông.",           en: "Take the first turn to the right at the traffic light." },
   jul:            { sv: "I Sverige firar familjer jul den 24 december.",      vi: "Ở Thụy Điển các gia đình đón lễ Giáng sinh vào ngày 24 tháng 12.", en: "In Sweden families celebrate Christmas on December 24." },
