@@ -13,6 +13,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
 import { playFinnishTts } from "@/lib/finnishTts";
 import { playSwedishTts } from "@/lib/swedishTts";
+import { generateSwedishIpa } from "@/lib/swedishIpa";
 import { supabase } from "@/integrations/supabase/client";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 
@@ -1046,9 +1047,13 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                   <p className="text-sm text-muted-foreground italic">{currentSentence.translation}</p>
 
                   {/* IPA / Pinyin */}
-                  {currentSentence.ipa && (
-                    <p className="text-xs text-primary font-mono">{currentSentence.ipa}</p>
-                  )}
+                  {(() => {
+                    const ipa = currentSentence.ipa
+                      || (language === "swedish" ? `/${generateSwedishIpa(currentSentence.text)}/` : "");
+                    return ipa ? (
+                      <p className="text-xs text-primary font-mono">{ipa}</p>
+                    ) : null;
+                  })()}
                 </div>
 
                 {/* Accuracy bar */}
