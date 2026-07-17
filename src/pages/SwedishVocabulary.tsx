@@ -548,14 +548,18 @@ const SwedishVocabulary = () => {
                     `${SWEDISH_WORDS.length}+ words by YKI level, with sv-SE audio, bilingual examples and an MCQ drill over your mastered ⭐ list.`
                   )}
                 </p>
-                <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                <div className="mt-3 flex flex-wrap gap-2 text-xs items-center">
                   <span className="rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 px-2 py-0.5 font-semibold">
                     ⭐ {mastered.size} {t("đã thuộc", "mastered")}
                   </span>
                   <span className="rounded-full bg-card border border-border px-2 py-0.5 text-muted-foreground">
                     {filtered.length} / {SWEDISH_WORDS.length} {t("từ hiển thị", "shown")}
                   </span>
+                  <a href="/swedish/performance" className="rounded-full bg-gradient-to-r from-primary to-emerald-500 text-primary-foreground px-3 py-0.5 font-semibold hover:opacity-90 transition-opacity">
+                    📊 {t("Xem trình độ của tôi", "View my level")}
+                  </a>
                 </div>
+
               </div>
             </div>
           </motion.div>
