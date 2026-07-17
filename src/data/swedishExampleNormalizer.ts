@@ -141,7 +141,7 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Jag pratar ofta med {MIN} {W}.", vi: "Tôi thường nói chuyện với {VI} của mình.", en: "I often talk with my {EN}." },
   ],
   numbers: [
-    { sv: "På svenska använder vi ordet '{W}' när vi pratar om tid eller tal.", vi: "Trong tiếng Thụy Điển ta dùng từ '{W}' khi nói về thời gian hoặc con số.", en: "In Swedish we use the word '{W}' when talking about time or numbers." },
+    { sv: "I uppgiften använder vi ordet '{W}'.", vi: "Trong bài tập, chúng tôi dùng từ '{W}'.", en: "In the exercise, we use the word '{W}'." },
     { sv: "Läraren skriver '{W}' på tavlan.", vi: "Giáo viên viết '{W}' lên bảng.", en: "The teacher writes '{W}' on the board." },
     { sv: "Kan du säga '{W}' på svenska?", vi: "Bạn có thể nói '{W}' bằng tiếng Thụy Điển không?", en: "Can you say '{W}' in Swedish?" },
   ],
@@ -247,19 +247,19 @@ const NUMERAL_TEMPLATES: Tmpl[] = [
 ];
 
 const ADV_TEMPLATES: Tmpl[] = [
-  { sv: "På svenska betyder '{W}' ungefär '{VI}'.", vi: "Trong tiếng Thụy Điển, '{W}' nghĩa là '{VI}'.", en: "In Swedish, '{W}' means roughly '{EN}'." },
-  { sv: "Han svarar '{W}' när jag frågar.", vi: "Anh ấy trả lời '{W}' ({VI}) khi tôi hỏi.", en: "He answers '{W}' ({EN}) when I ask." },
-  { sv: "Ordet '{W}' används ofta i talat språk.", vi: "Từ '{W}' ({VI}) thường được dùng trong giao tiếp.", en: "The word '{W}' ({EN}) is often used in spoken language." },
+  { sv: "På svenska använder vi ofta ordet '{W}'.", vi: "Trong tiếng Thụy Điển, chúng ta thường dùng từ '{W}'.", en: "In Swedish, we often use the word '{W}'." },
+  { sv: "Han svarar med ordet '{W}' när det passar.", vi: "Anh ấy trả lời bằng từ '{W}' khi phù hợp.", en: "He answers with the word '{W}' when it fits." },
+  { sv: "Ordet '{W}' används ofta i talat språk.", vi: "Từ '{W}' thường được dùng trong giao tiếp.", en: "The word '{W}' is often used in spoken language." },
 ];
 
 const PREP_TEMPLATES: Tmpl[] = [
-  { sv: "Prepositionen '{W}' motsvarar '{VI}' på vietnamesiska.", vi: "Giới từ '{W}' tương ứng với '{VI}' trong tiếng Việt.", en: "The preposition '{W}' corresponds to '{EN}' in English." },
-  { sv: "Vi använder '{W}' för att uttrycka '{VI}'.", vi: "Chúng ta dùng '{W}' để diễn đạt ý '{VI}'.", en: "We use '{W}' to express the meaning '{EN}'." },
+  { sv: "Prepositionen '{W}' står ofta före en plats.", vi: "Giới từ '{W}' thường đứng trước một địa điểm.", en: "The preposition '{W}' often comes before a place." },
+  { sv: "Vi övar på prepositionen '{W}' i en mening.", vi: "Chúng ta luyện giới từ '{W}' trong một câu.", en: "We practise the preposition '{W}' in a sentence." },
 ];
 
 const CONJ_TEMPLATES: Tmpl[] = [
-  { sv: "Bindeordet '{W}' betyder '{VI}' på vietnamesiska.", vi: "Liên từ '{W}' nghĩa là '{VI}' trong tiếng Việt.", en: "The conjunction '{W}' means '{EN}' in English." },
-  { sv: "Vi använder '{W}' för att koppla ihop två satser.", vi: "Ta dùng '{W}' ({VI}) để nối hai mệnh đề.", en: "We use '{W}' ({EN}) to link two clauses." },
+  { sv: "Bindeordet '{W}' kopplar ihop två satser.", vi: "Liên từ '{W}' nối hai mệnh đề với nhau.", en: "The conjunction '{W}' links two clauses." },
+  { sv: "Vi använder '{W}' i en längre mening.", vi: "Ta dùng '{W}' trong một câu dài hơn.", en: "We use '{W}' in a longer sentence." },
 ];
 
 /* --------------------------- article helpers ----------------------------- */
