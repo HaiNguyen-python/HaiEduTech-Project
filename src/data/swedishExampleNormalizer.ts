@@ -106,14 +106,14 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Det står {ART}{W} på gatan.", vi: "Có {ARTVI}{VI} trên đường.", en: "There is {ARTEN}{EN} on the street." },
   ],
   nature: [
-    { sv: "Vi pratar om {W} när vi beskriver naturen.", vi: "Chúng tôi nói về {VI} khi miêu tả thiên nhiên.", en: "We talk about {EN} when describing nature." },
-    { sv: "Barnen lär sig ordet '{W}' på en naturlektion.", vi: "Bọn trẻ học từ '{W}' trong một bài học về thiên nhiên.", en: "The children learn the word '{W}' in a nature lesson." },
-    { sv: "I texten om naturen nämns {W}.", vi: "Trong bài đọc về thiên nhiên có nhắc đến {VI}.", en: "The text about nature mentions {EN}." },
+    { sv: "I skogen ser vi {ART}{W} på nära håll.", vi: "Trong rừng chúng tôi nhìn thấy {ARTVI}{VI} ở gần.", en: "In the forest we see {ARTEN}{EN} up close." },
+    { sv: "Barnen tycker om att titta på {W} i naturen.", vi: "Bọn trẻ thích ngắm {VI} trong thiên nhiên.", en: "The children like watching {EN} in nature." },
+    { sv: "Vi tar en bild av {ART}{W} på promenaden.", vi: "Chúng tôi chụp ảnh {ARTVI}{VI} khi đi dạo.", en: "We take a picture of the {EN} on our walk." },
   ],
   weather: [
-    { sv: "Vi pratar ofta om {W} i Sverige.", vi: "Ở Thụy Điển chúng tôi thường nói về {VI}.", en: "In Sweden we often talk about {EN}." },
-    { sv: "Väderprognosen nämner {W} i dag.", vi: "Bản tin thời tiết hôm nay có nhắc đến {VI}.", en: "The weather forecast mentions {EN} today." },
-    { sv: "Många människor pratar om {W} när vädret ändras.", vi: "Nhiều người nói về {VI} khi thời tiết thay đổi.", en: "Many people talk about {EN} when the weather changes." },
+    { sv: "I dag har vi {W} i Stockholm.", vi: "Hôm nay ở Stockholm có {VI}.", en: "Today we have {EN} in Stockholm." },
+    { sv: "På hösten kommer det ofta {W}.", vi: "Vào mùa thu thường có {VI}.", en: "In autumn there is often {EN}." },
+    { sv: "Ta med paraply om det blir {W}.", vi: "Nhớ mang ô nếu có {VI}.", en: "Bring an umbrella if there is {EN}." },
   ],
   tech: [
     { sv: "Ordet '{W}' är vanligt när vi pratar om teknik.", vi: "Từ '{W}' thường gặp khi nói về công nghệ.", en: "The word '{W}' is common when we talk about technology." },
