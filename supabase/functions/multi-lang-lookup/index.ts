@@ -16,6 +16,7 @@ const LANG_NAMES: Record<string, string> = {
   fi: "Finnish — provide the base dictionary form and IPA phonetic",
   sv: "Swedish — provide the base dictionary form (with article en/ett for nouns) and IPA phonetic",
   vi: "Vietnamese — provide the diacritic spelling and rough IPA",
+  ja: "Japanese — provide the headword in native script (kanji/kana) plus Hiragana reading and IPA/Romaji in phonetic",
 };
 
 async function sha256Hex(s: string): Promise<string> {

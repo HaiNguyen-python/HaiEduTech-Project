@@ -26,11 +26,33 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { playEnglishTts } from "@/lib/englishTts";
+import { playChineseTts } from "@/lib/chineseTts";
+import { playFinnishTts } from "@/lib/finnishTts";
+import { playSwedishTts } from "@/lib/swedishTts";
+import { playVietnameseTts } from "@/lib/vietnameseTts";
+import { playJapaneseTts } from "@/lib/japaneseTts";
+
+// Play pronunciation for the current dictionary language, regardless of
+// whether the lookup entry contains an audio URL. Uses the same reliable
+// proxy-first TTS engines used elsewhere in the app.
+const playLookupAudio = (word: string, lang: DictLang) => {
+  const text = (word || "").trim();
+  if (!text) return;
+  switch (lang) {
+    case "en": return playEnglishTts(text);
+    case "zh": return playChineseTts(text);
+    case "fi": return playFinnishTts(text);
+    case "sv": return playSwedishTts(text);
+    case "vi": return playVietnameseTts(text);
+    case "ja": return playJapaneseTts(text);
+  }
+};
 
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus" | "translate";
-type DictLang = "en" | "zh" | "fi" | "sv" | "vi";
+type DictLang = "en" | "zh" | "fi" | "sv" | "vi" | "ja";
 
 const LANG_LABEL: Record<DictLang, string> = {
   en: "🇬🇧 English",
@@ -38,8 +60,9 @@ const LANG_LABEL: Record<DictLang, string> = {
   fi: "🇫🇮 Suomi",
   sv: "🇸🇪 Svenska",
   vi: "🇻🇳 Tiếng Việt",
+  ja: "🇯🇵 日本語",
 };
-const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "sv", "vi"];
+const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "sv", "vi", "ja"];
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
@@ -52,6 +75,7 @@ const SUGGESTIONS_BY_LANG: Record<DictLang, string[]> = {
   fi: ["kiitos", "ystävä", "oppia"],
   sv: ["hej", "tack", "vänskap"],
   vi: ["học tập", "hi vọng", "bạn bè"],
+  ja: ["ありがとう", "友達", "勉強"],
 };
 
 // Size limits (px) for resizable panel on lg+
@@ -856,6 +880,7 @@ const SuperDictionary = () => {
                               dictLang === "zh" ? t("Nhập từ tiếng Trung (Hán tự)...", "Enter a Chinese word (Hanzi)...") :
                               dictLang === "fi" ? t("Nhập từ tiếng Phần Lan...", "Enter a Finnish word...") :
                               dictLang === "sv" ? t("Nhập từ tiếng Thụy Điển...", "Enter a Swedish word...") :
+                              dictLang === "ja" ? t("Nhập từ tiếng Nhật (kanji/kana)...", "Enter a Japanese word (kanji/kana)...") :
                               t("Nhập từ tiếng Việt...", "Enter a Vietnamese word...")
                             }
                             onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}
@@ -930,15 +955,28 @@ const SuperDictionary = () => {
                             <span className="text-sm text-muted-foreground font-mono">{dictResult.phonetic}</span>
                           )}
                           <div className="ml-auto flex items-center gap-1">
-                            {dictResult.phonetics?.find((p: any) => p.audio) && (
-                              <button
-                                onClick={() => { const a = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio); a.play().catch(() => {}); }}
-                                className="p-1.5 rounded-full hover:bg-primary/10 text-primary"
-                                title={t("Nghe phát âm", "Play audio")}
-                              >
-                                <Volume2 className="w-4 h-4" />
-                              </button>
-                            )}
+                            {/* Universal audio button — always available. Prefer the dictionary
+                                API audio URL when present, otherwise use the per-language TTS
+                                engines (proxy → direct → native speechSynthesis). */}
+                            <button
+                              onClick={async () => {
+                                const audioUrl = dictResult.phonetics?.find((p: any) => p.audio)?.audio as string | undefined;
+                                if (audioUrl) {
+                                  try {
+                                    const a = new Audio(audioUrl);
+                                    await a.play();
+                                    return;
+                                  } catch { /* fall through to TTS */ }
+                                }
+                                const ok = await playLookupAudio(dictResult.word, dictLang);
+                                if (!ok) toast.error(t("Không phát được âm thanh", "Could not play audio"));
+                              }}
+                              className="p-1.5 rounded-full hover:bg-primary/10 text-primary"
+                              title={t("Nghe phát âm", "Play audio")}
+                              aria-label={t("Nghe phát âm", "Play audio")}
+                            >
+                              <Volume2 className="w-4 h-4" />
+                            </button>
                             <Button
                               size="sm"
                               variant={savedWord === dictResult.word ? "secondary" : "default"}
