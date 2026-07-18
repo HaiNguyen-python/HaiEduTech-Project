@@ -143,6 +143,15 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
     );
   }
 
+  // Reconcile the local mastered count with the server-side leaderboard score.
+  // The DB may lag behind localStorage (or vice versa) — always display the
+  // greater of the two so both rows show the same number.
+  const userEntry = entries.find(e => e.user_id === currentUserId);
+  const reconciledScore = Math.max(userEntry?.score || 0, currentCount || 0);
+  const displayEntries = entries
+    .map(e => (e.user_id === currentUserId ? { ...e, score: reconciledScore } : e))
+    .sort((a, b) => b.score - a.score);
+
   return (
     <div className="rounded-xl border border-border bg-card/50 p-4 space-y-2">
       <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
@@ -150,13 +159,13 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
         {label || t("BXH Từ vựng đã thuộc", "Mastered Words Ranking")}
       </h3>
 
-      {entries.length === 0 ? (
+      {displayEntries.length === 0 ? (
         <p className="text-xs text-muted-foreground text-center py-4">
           {t("Chưa có ai. Hãy là người đầu tiên!", "No one yet. Be the first!")}
         </p>
       ) : (
         <div className="max-h-[400px] overflow-y-auto space-y-2 pr-1">
-          {entries.map((entry, i) => {
+          {displayEntries.map((entry, i) => {
             const isCurrentUser = entry.user_id === currentUserId;
             return (
               <motion.div
@@ -189,10 +198,10 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
         </div>
       )}
 
-      {currentCount > 0 && (
+      {reconciledScore > 0 && (
         <div className="mt-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/30 text-xs">
           <span className="text-primary font-bold">
-            {t("Bạn đã thuộc", "You mastered")}: {currentCount} {t("từ", "words")}
+            {t("Bạn đã thuộc", "You mastered")}: {reconciledScore} {t("từ", "words")}
           </span>
         </div>
       )}
