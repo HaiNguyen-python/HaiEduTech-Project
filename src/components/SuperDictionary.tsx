@@ -26,6 +26,28 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { playEnglishTts } from "@/lib/englishTts";
+import { playChineseTts } from "@/lib/chineseTts";
+import { playFinnishTts } from "@/lib/finnishTts";
+import { playSwedishTts } from "@/lib/swedishTts";
+import { playVietnameseTts } from "@/lib/vietnameseTts";
+import { playJapaneseTts } from "@/lib/japaneseTts";
+
+// Play pronunciation for the current dictionary language, regardless of
+// whether the lookup entry contains an audio URL. Uses the same reliable
+// proxy-first TTS engines used elsewhere in the app.
+const playLookupAudio = (word: string, lang: DictLang) => {
+  const text = (word || "").trim();
+  if (!text) return;
+  switch (lang) {
+    case "en": return playEnglishTts(text);
+    case "zh": return playChineseTts(text);
+    case "fi": return playFinnishTts(text);
+    case "sv": return playSwedishTts(text);
+    case "vi": return playVietnameseTts(text);
+    case "ja": return playJapaneseTts(text);
+  }
+};
 
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
