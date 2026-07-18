@@ -562,8 +562,6 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   "hur många":    { sv: "Hur många syskon har du?",                           vi: "Bạn có mấy anh chị em?",                                          en: "How many siblings do you have?" },
   "hur mår du":   { sv: "Hej Anna, hur mår du i dag?",                        vi: "Chào Anna, hôm nay bạn thế nào?",                                 en: "Hi Anna, how are you today?" },
   "hur är det":   { sv: "Hej! Hur är det med dig?",                           vi: "Chào! Bạn dạo này thế nào?",                                      en: "Hi! How are things with you?" },
-  hus:            { sv: "Vi bor i ett rött hus på landet.",                    vi: "Chúng tôi sống trong một ngôi nhà đỏ ở vùng quê.",                en: "We live in a red house in the countryside." },
-  hotell:         { sv: "Vi bor på ett trevligt hotell nära stationen.",       vi: "Chúng tôi ở tại một khách sạn dễ chịu gần nhà ga.",              en: "We stay at a nice hotel near the station." },
 };
 
 
