@@ -13,6 +13,9 @@ verify_jwt = false
 [functions.swedish-tts]
 verify_jwt = false
 
+[functions.japanese-tts]
+verify_jwt = false
+
 [functions.dictionary-lookup]
 verify_jwt = false
 
