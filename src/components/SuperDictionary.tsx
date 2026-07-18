@@ -30,7 +30,7 @@ import { toast } from "sonner";
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus" | "translate";
-type DictLang = "en" | "zh" | "fi" | "sv" | "vi";
+type DictLang = "en" | "zh" | "fi" | "sv" | "vi" | "ja";
 
 const LANG_LABEL: Record<DictLang, string> = {
   en: "🇬🇧 English",
@@ -38,8 +38,9 @@ const LANG_LABEL: Record<DictLang, string> = {
   fi: "🇫🇮 Suomi",
   sv: "🇸🇪 Svenska",
   vi: "🇻🇳 Tiếng Việt",
+  ja: "🇯🇵 日本語",
 };
-const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "sv", "vi"];
+const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "sv", "vi", "ja"];
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
@@ -52,6 +53,7 @@ const SUGGESTIONS_BY_LANG: Record<DictLang, string[]> = {
   fi: ["kiitos", "ystävä", "oppia"],
   sv: ["hej", "tack", "vänskap"],
   vi: ["học tập", "hi vọng", "bạn bè"],
+  ja: ["ありがとう", "友達", "勉強"],
 };
 
 // Size limits (px) for resizable panel on lg+
