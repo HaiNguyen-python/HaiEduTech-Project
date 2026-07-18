@@ -551,6 +551,17 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   dal:            { sv: "Byn ligger i en grön dal mellan bergen.",              vi: "Ngôi làng nằm trong một thung lũng xanh giữa các ngọn núi.",    en: "The village lies in a green valley between the mountains." },
   data:           { sv: "Forskarna samlar in data från hela landet.",           vi: "Các nhà nghiên cứu thu thập dữ liệu từ khắp cả nước.",          en: "The researchers collect data from across the country." },
   "de flesta":    { sv: "De flesta svenskar dricker kaffe varje dag.",          vi: "Đa số người Thụy Điển uống cà phê mỗi ngày.",                    en: "Most Swedes drink coffee every day." },
+
+  // ─────────────── H-batch (screenshot cleanup) ───────────────
+  hund:           { sv: "Vår hund springer glatt i trädgården.",              vi: "Con chó nhà tôi chạy vui vẻ trong vườn.",                        en: "Our dog runs happily in the garden." },
+  hundra:         { sv: "Jag har hundra kronor kvar i plånboken.",            vi: "Tôi còn một trăm kronor trong ví.",                              en: "I have a hundred kronor left in my wallet." },
+  hungrig:        { sv: "Efter träningen är jag alltid hungrig.",             vi: "Sau khi tập luyện tôi luôn thấy đói.",                           en: "After training I am always hungry." },
+  hur:            { sv: "Hur kommer man till centralstationen?",              vi: "Làm thế nào để tới ga trung tâm?",                                en: "How do you get to the central station?" },
+  "hur dags":     { sv: "Hur dags börjar mötet i morgon?",                    vi: "Cuộc họp ngày mai bắt đầu lúc mấy giờ?",                         en: "What time does the meeting start tomorrow?" },
+  "hur mycket":   { sv: "Hur mycket kostar den här tröjan?",                  vi: "Cái áo len này giá bao nhiêu?",                                   en: "How much does this sweater cost?" },
+  "hur många":    { sv: "Hur många syskon har du?",                           vi: "Bạn có mấy anh chị em?",                                          en: "How many siblings do you have?" },
+  "hur mår du":   { sv: "Hej Anna, hur mår du i dag?",                        vi: "Chào Anna, hôm nay bạn thế nào?",                                 en: "Hi Anna, how are you today?" },
+  "hur är det":   { sv: "Hej! Hur är det med dig?",                           vi: "Chào! Bạn dạo này thế nào?",                                      en: "Hi! How are things with you?" },
 };
 
 

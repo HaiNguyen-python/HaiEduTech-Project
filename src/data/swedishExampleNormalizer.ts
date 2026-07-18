@@ -106,14 +106,14 @@ const NOUN_TEMPLATES: Record<string, Tmpl[]> = {
     { sv: "Det står {ART}{W} på gatan.", vi: "Có {ARTVI}{VI} trên đường.", en: "There is {ARTEN}{EN} on the street." },
   ],
   nature: [
-    { sv: "Vi pratar om {W} när vi beskriver naturen.", vi: "Chúng tôi nói về {VI} khi miêu tả thiên nhiên.", en: "We talk about {EN} when describing nature." },
-    { sv: "Barnen lär sig ordet '{W}' på en naturlektion.", vi: "Bọn trẻ học từ '{W}' trong một bài học về thiên nhiên.", en: "The children learn the word '{W}' in a nature lesson." },
-    { sv: "I texten om naturen nämns {W}.", vi: "Trong bài đọc về thiên nhiên có nhắc đến {VI}.", en: "The text about nature mentions {EN}." },
+    { sv: "I skogen ser vi {ART}{W} på nära håll.", vi: "Trong rừng chúng tôi nhìn thấy {ARTVI}{VI} ở gần.", en: "In the forest we see {ARTEN}{EN} up close." },
+    { sv: "Barnen tycker om att titta på {W} i naturen.", vi: "Bọn trẻ thích ngắm {VI} trong thiên nhiên.", en: "The children like watching {EN} in nature." },
+    { sv: "Vi tar en bild av {ART}{W} på promenaden.", vi: "Chúng tôi chụp ảnh {ARTVI}{VI} khi đi dạo.", en: "We take a picture of the {EN} on our walk." },
   ],
   weather: [
-    { sv: "Vi pratar ofta om {W} i Sverige.", vi: "Ở Thụy Điển chúng tôi thường nói về {VI}.", en: "In Sweden we often talk about {EN}." },
-    { sv: "Väderprognosen nämner {W} i dag.", vi: "Bản tin thời tiết hôm nay có nhắc đến {VI}.", en: "The weather forecast mentions {EN} today." },
-    { sv: "Många människor pratar om {W} när vädret ändras.", vi: "Nhiều người nói về {VI} khi thời tiết thay đổi.", en: "Many people talk about {EN} when the weather changes." },
+    { sv: "I dag har vi {W} i Stockholm.", vi: "Hôm nay ở Stockholm có {VI}.", en: "Today we have {EN} in Stockholm." },
+    { sv: "På hösten kommer det ofta {W}.", vi: "Vào mùa thu thường có {VI}.", en: "In autumn there is often {EN}." },
+    { sv: "Ta med paraply om det blir {W}.", vi: "Nhớ mang ô nếu có {VI}.", en: "Bring an umbrella if there is {EN}." },
   ],
   tech: [
     { sv: "Ordet '{W}' är vanligt när vi pratar om teknik.", vi: "Từ '{W}' thường gặp khi nói về công nghệ.", en: "The word '{W}' is common when we talk about technology." },
@@ -230,26 +230,26 @@ const VERB_TEMPLATES: Tmpl[] = [
 ];
 
 const ADJ_TEMPLATES: Tmpl[] = [
-  { sv: "Ordet '{W}' beskriver en egenskap.", vi: "Từ '{W}' miêu tả một đặc điểm.", en: "The word '{W}' describes a quality." },
-  { sv: "I meningen används adjektivet '{W}'.", vi: "Trong câu này có dùng tính từ '{W}'.", en: "The adjective '{W}' is used in the sentence." },
-  { sv: "Läraren ger ett exempel med adjektivet '{W}'.", vi: "Giáo viên đưa ra một ví dụ với tính từ '{W}'.", en: "The teacher gives an example with the adjective '{W}'." },
+  { sv: "Filmen vi såg i går var {W}.", vi: "Bộ phim chúng tôi xem hôm qua thật {VI}.", en: "The film we saw yesterday was {EN}." },
+  { sv: "Boken jag läser är riktigt {W}.", vi: "Cuốn sách tôi đang đọc thật sự {VI}.", en: "The book I am reading is really {EN}." },
+  { sv: "Vädret i dag känns {W}.", vi: "Thời tiết hôm nay có cảm giác {VI}.", en: "The weather today feels {EN}." },
 ];
 
 const PHRASE_TEMPLATES: Tmpl[] = [
-  { sv: "Jag använder uttrycket '{W}' i rätt situation.", vi: "Tôi dùng cụm '{W}' trong tình huống phù hợp.", en: "I use the expression '{W}' in the right situation." },
-  { sv: "På svenska kan man säga '{W}' i vardagen.", vi: "Trong tiếng Thụy Điển, ta có thể nói '{W}' trong đời sống hằng ngày.", en: "In Swedish, you can say '{W}' in daily life." },
-  { sv: "Vi övar på frasen '{W}' på lektionen.", vi: "Chúng tôi luyện cụm '{W}' trong tiết học.", en: "We practise the phrase '{W}' in the lesson." },
+  { sv: "'{W}?' frågade han när jag kom hem.", vi: "'{W}?' anh ấy hỏi khi tôi về nhà.", en: "'{W}?' he asked when I got home." },
+  { sv: "Hon log och sa: '{W}'.", vi: "Cô ấy mỉm cười và nói: '{W}'.", en: "She smiled and said: '{W}'." },
+  { sv: "Vi använder '{W}' varje dag hemma.", vi: "Chúng tôi dùng cụm '{W}' mỗi ngày ở nhà.", en: "We use '{W}' every day at home." },
 ];
 
 const NUMERAL_TEMPLATES: Tmpl[] = [
-  { sv: "Läraren skriver talet '{W}' på tavlan.", vi: "Giáo viên viết số '{W}' lên bảng.", en: "The teacher writes the number '{W}' on the board." },
-  { sv: "Barnen lär sig säga '{W}' på svenska.", vi: "Bọn trẻ học nói '{W}' bằng tiếng Thụy Điển.", en: "The children learn to say '{W}' in Swedish." },
+  { sv: "Jag har {W} böcker i väskan.", vi: "Tôi có {VI} cuốn sách trong túi.", en: "I have {EN} books in my bag." },
+  { sv: "Vi är {W} personer i familjen.", vi: "Gia đình chúng tôi có {VI} người.", en: "We are {EN} people in the family." },
+  { sv: "Kaffet kostar {W} kronor.", vi: "Cà phê giá {VI} kronor.", en: "The coffee costs {EN} kronor." },
 ];
 
 const PRONOUN_TEMPLATES: Tmpl[] = [
-  { sv: "I texten används pronomenet '{W}' tydligt.", vi: "Trong bài đọc, đại từ '{W}' được dùng rõ ràng.", en: "In the text, the pronoun '{W}' is used clearly." },
-  { sv: "Läraren skriver en mening med '{W}' på tavlan.", vi: "Giáo viên viết một câu với '{W}' lên bảng.", en: "The teacher writes a sentence with '{W}' on the board." },
-  { sv: "Vi övar på att använda '{W}' i en kort fråga.", vi: "Chúng tôi luyện dùng '{W}' trong một câu hỏi ngắn.", en: "We practise using '{W}' in a short question." },
+  { sv: "'{W_C}' är ett vanligt ord i svenska samtal.", vi: "'{W_C}' là một từ thường gặp trong hội thoại tiếng Thụy Điển.", en: "'{W_C}' is a common word in Swedish conversations." },
+  { sv: "Kan du säga '{W}' i en hel mening?", vi: "Bạn có thể dùng '{W}' trong một câu hoàn chỉnh không?", en: "Can you use '{W}' in a full sentence?" },
 ];
 
 const ADV_TEMPLATES: Tmpl[] = [
