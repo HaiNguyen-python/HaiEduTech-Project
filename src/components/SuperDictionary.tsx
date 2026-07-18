@@ -954,15 +954,28 @@ const SuperDictionary = () => {
                             <span className="text-sm text-muted-foreground font-mono">{dictResult.phonetic}</span>
                           )}
                           <div className="ml-auto flex items-center gap-1">
-                            {dictResult.phonetics?.find((p: any) => p.audio) && (
-                              <button
-                                onClick={() => { const a = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio); a.play().catch(() => {}); }}
-                                className="p-1.5 rounded-full hover:bg-primary/10 text-primary"
-                                title={t("Nghe phát âm", "Play audio")}
-                              >
-                                <Volume2 className="w-4 h-4" />
-                              </button>
-                            )}
+                            {/* Universal audio button — always available. Prefer the dictionary
+                                API audio URL when present, otherwise use the per-language TTS
+                                engines (proxy → direct → native speechSynthesis). */}
+                            <button
+                              onClick={async () => {
+                                const audioUrl = dictResult.phonetics?.find((p: any) => p.audio)?.audio as string | undefined;
+                                if (audioUrl) {
+                                  try {
+                                    const a = new Audio(audioUrl);
+                                    await a.play();
+                                    return;
+                                  } catch { /* fall through to TTS */ }
+                                }
+                                const ok = await playLookupAudio(dictResult.word, dictLang);
+                                if (!ok) toast.error(t("Không phát được âm thanh", "Could not play audio"));
+                              }}
+                              className="p-1.5 rounded-full hover:bg-primary/10 text-primary"
+                              title={t("Nghe phát âm", "Play audio")}
+                              aria-label={t("Nghe phát âm", "Play audio")}
+                            >
+                              <Volume2 className="w-4 h-4" />
+                            </button>
                             <Button
                               size="sm"
                               variant={savedWord === dictResult.word ? "secondary" : "default"}
