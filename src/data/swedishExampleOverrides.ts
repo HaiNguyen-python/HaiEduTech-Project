@@ -539,6 +539,18 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   konsert:        { sv: "Vi går på konsert i Göteborg på lördag.",              vi: "Thứ Bảy chúng tôi đi xem hoà nhạc ở Göteborg.",                 en: "We are going to a concert in Gothenburg on Saturday." },
   låt:            { sv: "Den här låten spelas ofta på radion.",                 vi: "Bài hát này thường được phát trên radio.",                      en: "This song is often played on the radio." },
   solglasögon:    { sv: "Ta med solglasögon, solen är stark i dag.",            vi: "Mang kính râm đi, hôm nay nắng mạnh.",                          en: "Bring sunglasses, the sun is strong today." },
+
+  // ─────────────── B1 CLARIFICATIONS (screenshot batch) ───────────────
+  cell:           { sv: "Kroppen består av miljarder celler.",                  vi: "Cơ thể được cấu tạo từ hàng tỷ tế bào.",                         en: "The body is made up of billions of cells." },
+  cement:         { sv: "Arbetarna blandar cement för att bygga en mur.",       vi: "Các công nhân trộn xi măng để xây một bức tường.",              en: "The workers mix cement to build a wall." },
+  champagne:      { sv: "Vi skålar med champagne på nyårsafton.",               vi: "Chúng tôi nâng ly rượu sâm panh vào đêm giao thừa.",            en: "We toast with champagne on New Year's Eve." },
+  chockad:        { sv: "Hon blev chockad när hon fick nyheten.",               vi: "Cô ấy bị sốc khi nghe tin.",                                    en: "She was shocked when she heard the news." },
+  csn:            { sv: "Många studenter tar lån från CSN för att plugga.",     vi: "Nhiều sinh viên vay tiền từ CSN để đi học.",                    en: "Many students take loans from CSN to study." },
+  curling:        { sv: "Sverige vann en medalj i curling i OS.",               vi: "Thụy Điển đã giành một huy chương môn curling ở Olympic.",      en: "Sweden won a medal in curling at the Olympics." },
+  cykelbana:      { sv: "Cykla på cykelbanan, inte på trottoaren.",             vi: "Hãy đi xe đạp trên làn xe đạp, đừng đi trên vỉa hè.",           en: "Cycle on the bike lane, not on the sidewalk." },
+  dal:            { sv: "Byn ligger i en grön dal mellan bergen.",              vi: "Ngôi làng nằm trong một thung lũng xanh giữa các ngọn núi.",    en: "The village lies in a green valley between the mountains." },
+  data:           { sv: "Forskarna samlar in data från hela landet.",           vi: "Các nhà nghiên cứu thu thập dữ liệu từ khắp cả nước.",          en: "The researchers collect data from across the country." },
+  "de flesta":    { sv: "De flesta svenskar dricker kaffe varje dag.",          vi: "Đa số người Thụy Điển uống cà phê mỗi ngày.",                    en: "Most Swedes drink coffee every day." },
 };
 
 
