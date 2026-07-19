@@ -315,6 +315,10 @@ const MEASURE_UNITS = new Set([
   "centimeter", "meter", "kilometer", "gram", "kilo", "kilogram", "liter", "deciliter", "millimeter", "mil",
 ]);
 
+const NATURE_MASS_OR_PLANTS = new Set(["blomma", "blommor", "bär", "blåbär", "björk", "träd", "skog"]);
+
+const FOOD_MASS_NOUNS = new Set(["choklad", "pasta", "ris", "bröd", "smör", "ost", "socker", "salt", "peppar"]);
+
 const PLACE_NOUNS = new Set([
   "affär", "bar", "bibliotek", "biblioteket", "biograf", "bokhandel", "busshållplats", "café", "centrum", "gym", "hotell", "kassa", "kyrka", "museum", "restaurang", "sjukhus", "skola", "station", "tågstation", "flygplats", "tunnelbana", "hållplats", "gate", "campingplats", "by", "stad",
 ]);
@@ -358,6 +362,19 @@ const ADVERB_EXAMPLES: Record<string, Tmpl> = {
   långsamt: { sv: "Tala långsamt, tack.", vi: "Làm ơn nói chậm thôi.", en: "Speak slowly, please." },
   tidigt: { sv: "Jag vaknar tidigt på vardagar.", vi: "Tôi thức dậy sớm vào các ngày trong tuần.", en: "I wake up early on weekdays." },
   sent: { sv: "Tåget kommer sent ikväll.", vi: "Tối nay tàu đến muộn.", en: "The train arrives late tonight." },
+};
+
+const MEASURE_EXAMPLES: Record<string, Tmpl> = {
+  centimeter: { sv: "Bordet är nittio centimeter brett.", vi: "Cái bàn rộng chín mươi xăng-ti-mét.", en: "The table is ninety centimeters wide." },
+  millimeter: { sv: "Skruven är fem millimeter bred.", vi: "Con ốc rộng năm mi-li-mét.", en: "The screw is five millimeters wide." },
+  meter: { sv: "Rummet är fyra meter långt.", vi: "Căn phòng dài bốn mét.", en: "The room is four meters long." },
+  kilometer: { sv: "Det är tre kilometer till stationen.", vi: "Từ đây đến nhà ga là ba ki-lô-mét.", en: "It is three kilometers to the station." },
+  mil: { sv: "Vi kör två mil till stugan.", vi: "Chúng tôi lái xe hai mươi ki-lô-mét đến căn nhà nghỉ.", en: "We drive twenty kilometers to the cabin." },
+  gram: { sv: "Jag köper femhundra gram äpplen.", vi: "Tôi mua năm trăm gam táo.", en: "I buy five hundred grams of apples." },
+  kilo: { sv: "Väskan väger tio kilo.", vi: "Cái túi nặng mười ký.", en: "The bag weighs ten kilos." },
+  kilogram: { sv: "Paketet väger två kilogram.", vi: "Gói hàng nặng hai ki-lô-gam.", en: "The package weighs two kilograms." },
+  liter: { sv: "Receptet behöver en liter mjölk.", vi: "Công thức cần một lít sữa.", en: "The recipe needs one liter of milk." },
+  deciliter: { sv: "Häll i två deciliter vatten.", vi: "Đổ vào hai đề-xi-lít nước.", en: "Pour in two deciliters of water." },
 };
 
 const ETT_PLACE_NOUNS = new Set(["bibliotek", "café", "centrum", "gym", "hotell", "museum", "sjukhus"]);
@@ -473,17 +490,36 @@ function directExampleFor(word: SwedishWord): Tmpl | undefined {
     return { sv: `Jag har en ${word.sv} jacka på mig idag.`, vi: `Hôm nay tôi mặc một chiếc áo khoác màu ${word.vi}.`, en: `I am wearing a ${word.en} jacket today.` };
   }
 
+  if (MEASURE_EXAMPLES[sv]) return MEASURE_EXAMPLES[sv];
+
   if (BEVERAGES.has(sv)) {
     return { sv: `Jag dricker ${word.sv} till frukost.`, vi: `Tôi uống ${word.vi} vào bữa sáng.`, en: `I drink ${word.en} for breakfast.` };
   }
 
-  if (MEASURE_UNITS.has(sv)) {
-    return { sv: `Bordet är nittio ${word.sv} brett.`, vi: `Cái bàn rộng chín mươi ${word.vi}.`, en: `The table is ninety ${word.en}s wide.` };
+  if (FOOD_MASS_NOUNS.has(sv)) {
+    return { sv: `Jag äter ${word.sv} efter middagen.`, vi: `Tôi ăn ${word.vi} sau bữa tối.`, en: `I eat ${word.en} after dinner.` };
+  }
+
+  if (NATURE_MASS_OR_PLANTS.has(sv)) {
+    if (/björk|träd/.test(sv)) {
+      return { sv: `Det står ${word.article || "ett"} ${word.sv} nära huset.`, vi: `Có một ${word.vi} gần ngôi nhà.`, en: `There is ${artEN(word.en, word).full}${word.en} near the house.` };
+    }
+    if (/skog/.test(sv)) {
+      return { sv: "Vi promenerar i skogen på söndag.", vi: "Chủ nhật chúng tôi đi dạo trong rừng.", en: "We walk in the forest on Sunday." };
+    }
+    return { sv: `Vi plockar ${word.sv} i parken.`, vi: `Chúng tôi hái ${word.vi} trong công viên.`, en: `We pick ${word.en} in the park.` };
   }
 
   if (PLACE_NOUNS.has(sv)) {
     const article = word.article || fallbackSwedishArticle(sv);
     const enArticle = artEN(word.en, word).full;
+    if (/busshållplats|hållplats|station|tågstation/.test(sv)) {
+      return {
+        sv: `Jag väntar vid ${article} ${word.sv} på morgonen.`,
+        vi: `Buổi sáng tôi chờ ở một ${word.vi}.`,
+        en: `In the morning I wait at ${enArticle}${word.en}.`,
+      };
+    }
     return {
       sv: `Vi går till ${article} ${word.sv} på kvällen.`,
       vi: `Buổi tối chúng tôi đi đến một ${word.vi}.`,
