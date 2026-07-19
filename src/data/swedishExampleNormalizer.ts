@@ -364,6 +364,15 @@ const ADVERB_EXAMPLES: Record<string, Tmpl> = {
   långsamt: { sv: "Tala långsamt, tack.", vi: "Làm ơn nói chậm thôi.", en: "Speak slowly, please." },
   tidigt: { sv: "Jag vaknar tidigt på vardagar.", vi: "Tôi thức dậy sớm vào các ngày trong tuần.", en: "I wake up early on weekdays." },
   sent: { sv: "Tåget kommer sent ikväll.", vi: "Tối nay tàu đến muộn.", en: "The train arrives late tonight." },
+  "för sent": { sv: "Bussen kommer för sent idag.", vi: "Hôm nay xe buýt đến quá muộn.", en: "The bus arrives too late today." },
+  "för tidigt": { sv: "Vi kom för tidigt till mötet.", vi: "Chúng tôi đến cuộc họp quá sớm.", en: "We arrived too early for the meeting." },
+};
+
+const PHRASE_EXAMPLES: Record<string, Tmpl> = {
+  "det går bra": { sv: "Det går bra att sitta här.", vi: "Ngồi ở đây cũng được.", en: "It is fine to sit here." },
+  "det gör inget": { sv: "Du kom lite sent, men det gör inget.", vi: "Bạn đến hơi muộn, nhưng không sao.", en: "You came a little late, but it does not matter." },
+  "det är bra": { sv: "Det är bra att du frågar.", vi: "Bạn hỏi như vậy là tốt.", en: "It is good that you ask." },
+  "det är dåligt": { sv: "Det är dåligt att missa bussen varje morgon.", vi: "Việc lỡ xe buýt mỗi sáng là không tốt.", en: "It is bad to miss the bus every morning." },
 };
 
 const MEASURE_EXAMPLES: Record<string, Tmpl> = {
@@ -466,6 +475,7 @@ function directExampleFor(word: SwedishWord): Tmpl | undefined {
   const sv = lowerHeadword(word);
   if (PRONOUN_EXAMPLES[sv]) return PRONOUN_EXAMPLES[sv];
   if (ADVERB_EXAMPLES[sv]) return ADVERB_EXAMPLES[sv];
+  if (PHRASE_EXAMPLES[sv]) return PHRASE_EXAMPLES[sv];
 
   if (MONTHS.has(sv)) {
     return { sv: `I ${word.sv} börjar många nya kurser.`, vi: `Vào ${word.vi}, nhiều khóa học mới bắt đầu.`, en: `In ${word.en}, many new courses start.` };
