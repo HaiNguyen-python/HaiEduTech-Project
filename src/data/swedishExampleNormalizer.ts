@@ -360,6 +360,12 @@ const ADVERB_EXAMPLES: Record<string, Tmpl> = {
   sent: { sv: "Tåget kommer sent ikväll.", vi: "Tối nay tàu đến muộn.", en: "The train arrives late tonight." },
 };
 
+const ETT_PLACE_NOUNS = new Set(["bibliotek", "café", "centrum", "gym", "hotell", "museum", "sjukhus"]);
+
+function fallbackSwedishArticle(headword: string): "en" | "ett" {
+  return ETT_PLACE_NOUNS.has(headword.toLowerCase()) ? "ett" : "en";
+}
+
 /* --------------------------- article helpers ----------------------------- */
 
 function artSV(word: SwedishWord): { full: string; capWord: string } {
@@ -432,7 +438,8 @@ function lowerHeadword(word: SwedishWord): string {
 
 function isPluralLike(word: SwedishWord): boolean {
   const sv = lowerHeadword(word);
-  return /\b(plural|flowers|clothes|trousers|jeans|glasses|shoes|socks)\b/i.test(`${word.pos} ${word.en}`) ||
+  return /\b(plural|flowers|clothes|trousers|jeans|glasses|shoes|socks|beans|berries|luggage|furniture)\b/i.test(`${word.pos} ${word.en}`) ||
+    PLURAL_OR_MASS_EN.has(clean(word.en).toLowerCase()) ||
     /(?:or|ar|er|r|n)$/.test(sv) && !word.article;
 }
 
@@ -464,6 +471,24 @@ function directExampleFor(word: SwedishWord): Tmpl | undefined {
 
   if (COLORS.has(sv)) {
     return { sv: `Jag har en ${word.sv} jacka på mig idag.`, vi: `Hôm nay tôi mặc một chiếc áo khoác màu ${word.vi}.`, en: `I am wearing a ${word.en} jacket today.` };
+  }
+
+  if (BEVERAGES.has(sv)) {
+    return { sv: `Jag dricker ${word.sv} till frukost.`, vi: `Tôi uống ${word.vi} vào bữa sáng.`, en: `I drink ${word.en} for breakfast.` };
+  }
+
+  if (MEASURE_UNITS.has(sv)) {
+    return { sv: `Bordet är nittio ${word.sv} brett.`, vi: `Cái bàn rộng chín mươi ${word.vi}.`, en: `The table is ninety ${word.en}s wide.` };
+  }
+
+  if (PLACE_NOUNS.has(sv)) {
+    const article = word.article || fallbackSwedishArticle(sv);
+    const enArticle = artEN(word.en, word).full;
+    return {
+      sv: `Vi går till ${article} ${word.sv} på kvällen.`,
+      vi: `Buổi tối chúng tôi đi đến một ${word.vi}.`,
+      en: `In the evening we go to ${enArticle}${word.en}.`,
+    };
   }
 
   return undefined;
@@ -523,7 +548,7 @@ function semanticTemplateFor(word: SwedishWord): Tmpl | undefined {
       return { sv: "På flygplatsen behöver jag {ART}{W}.", vi: "Ở sân bay tôi cần {ARTVI}{VI}.", en: "At the airport I need {ARTEN}{EN}." };
     }
     if (/hotell|rum|camping|stuga|plats|bar|café|museum|kyrka|gate|by|stad|land/.test(sv)) {
-      return { sv: "Vi går till {ART}{W} efter frukost.", vi: "Chúng tôi đi đến {ARTVI}{VI} sau bữa sáng.", en: "We go to the {EN} after breakfast." };
+      return { sv: "Vi går till {ART}{W} på kvällen.", vi: "Buổi tối chúng tôi đi đến {ARTVI}{VI}.", en: "In the evening we go to the {EN}." };
     }
     return { sv: "Vi planerar {W} före resan.", vi: "Chúng tôi chuẩn bị {VI} trước chuyến đi.", en: "We plan {EN} before the trip." };
   }
@@ -549,6 +574,10 @@ function semanticTemplateFor(word: SwedishWord): Tmpl | undefined {
   if (cat === "shopping") {
     if (/kassa|cashier/.test(`${sv} ${en}`)) return { sv: "Jag betalar i kassan.", vi: "Tôi thanh toán ở quầy thu ngân.", en: "I pay at the cashier." };
     if (/kvitto|receipt/.test(`${sv} ${en}`)) return { sv: "Kan jag få ett kvitto, tack?", vi: "Cho tôi xin hoá đơn được không?", en: "May I have a receipt, please?" };
+    if (PLACE_NOUNS.has(sv)) {
+      const article = word.article || fallbackSwedishArticle(sv);
+      return { sv: `Vi går till ${article} ${word.sv} efter jobbet.`, vi: `Sau giờ làm chúng tôi đi đến một ${word.vi}.`, en: `After work we go to ${artEN(word.en, word).full}${word.en}.` };
+    }
     return { sv: "Jag köper {ART}{W} i affären.", vi: "Tôi mua {ARTVI}{VI} trong cửa hàng.", en: "I buy {ARTEN}{EN} in the shop." };
   }
 
