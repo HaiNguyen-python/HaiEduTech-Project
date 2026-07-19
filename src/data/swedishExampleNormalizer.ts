@@ -307,6 +307,22 @@ const COUNTRIES_AND_CITIES = new Set([
 
 const COLORS = new Set(["blå", "brun", "grå", "grön", "gul", "röd", "svart", "vit", "rosa", "orange", "lila"]);
 
+const BEVERAGES = new Set([
+  "kaffe", "te", "mjölk", "vatten", "juice", "cola", "läsk", "öl", "vin", "cappuccino", "espresso", "latte",
+]);
+
+const MEASURE_UNITS = new Set([
+  "centimeter", "meter", "kilometer", "gram", "kilo", "kilogram", "liter", "deciliter", "millimeter", "mil",
+]);
+
+const PLACE_NOUNS = new Set([
+  "affär", "bar", "bibliotek", "biblioteket", "biograf", "bokhandel", "busshållplats", "café", "centrum", "gym", "hotell", "kassa", "kyrka", "museum", "restaurang", "sjukhus", "skola", "station", "tågstation", "flygplats", "tunnelbana", "hållplats", "gate", "campingplats", "by", "stad",
+]);
+
+const PLURAL_OR_MASS_EN = new Set([
+  "beans", "berries", "blueberries", "clothes", "flowers", "furniture", "glasses", "jeans", "luggage", "opening hours", "pasta", "rice", "shorts", "trousers", "water",
+]);
+
 const ORDINALS: Record<string, { vi: string; en: string; noun: string }> = {
   första: { vi: "đầu tiên", en: "first", noun: "dagen" },
   andra: { vi: "thứ hai", en: "second", noun: "platsen" },
@@ -358,9 +374,11 @@ function artVI(word: SwedishWord): { full: string; capWord: string } {
   return { full: "", capWord: "" };
 }
 
-function artEN(en: string): { full: string; capWord: string } {
+function artEN(en: string, word?: SwedishWord): { full: string; capWord: string } {
   const word = stripTo(en).trim();
   if (!word) return { full: "", capWord: "" };
+  const lower = word.toLowerCase();
+  if (word && (!arguments[1]?.article && (PLURAL_OR_MASS_EN.has(lower) || /s$/.test(lower)))) return { full: "", capWord: "" };
   const useAn = /^[aeiouAEIOU]/.test(word);
   return useAn
     ? { full: "an ", capWord: "An " }
@@ -373,7 +391,7 @@ function fill(tmpl: Tmpl, w: SwedishWord): Tmpl {
   const EN = stripTo(clean(w.en));
   const aSV = artSV(w);
   const aVI = artVI(w);
-  const aEN = artEN(w.en);
+  const aEN = artEN(w.en, w);
 
   const replaceAll = (str: string, find: string, repl: string) =>
     str.split(find).join(repl);
