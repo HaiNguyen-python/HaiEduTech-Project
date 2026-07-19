@@ -251,21 +251,21 @@ const CATEGORY_ALIAS: Record<string, string> = {
 // Verb templates use modal + infinitive so any Swedish infinitive fits
 // grammatically and the sentence stays semantically natural.
 const VERB_TEMPLATES: Tmpl[] = [
-  { sv: "På lektionen övar vi ordet '{W}'.", vi: "Trong tiết học, chúng tôi luyện từ '{W}'.", en: "In the lesson, we practise the word '{W}'." },
-  { sv: "Läraren visar ett exempel med '{W}'.", vi: "Giáo viên đưa ra một ví dụ với '{W}'.", en: "The teacher shows an example with '{W}'." },
-  { sv: "Jag skriver '{W}' i min ordlista.", vi: "Tôi ghi '{W}' vào danh sách từ vựng của mình.", en: "I write '{W}' in my vocabulary list." },
+  { sv: "Jag försöker {W} lite svenska varje dag.", vi: "Tôi cố gắng {VI} một chút tiếng Thụy Điển mỗi ngày.", en: "I try to {EN} a little Swedish every day." },
+  { sv: "Hon vill {W} efter jobbet.", vi: "Cô ấy muốn {VI} sau giờ làm.", en: "She wants to {EN} after work." },
+  { sv: "Vi kan {W} tillsammans i morgon.", vi: "Ngày mai chúng tôi có thể {VI} cùng nhau.", en: "We can {EN} together tomorrow." },
 ];
 
 const ADJ_TEMPLATES: Tmpl[] = [
-  { sv: "Filmen vi såg i går var {W}.", vi: "Bộ phim chúng tôi xem hôm qua thật {VI}.", en: "The film we saw yesterday was {EN}." },
-  { sv: "Boken jag läser är riktigt {W}.", vi: "Cuốn sách tôi đang đọc thật sự {VI}.", en: "The book I am reading is really {EN}." },
-  { sv: "Vädret i dag känns {W}.", vi: "Thời tiết hôm nay có cảm giác {VI}.", en: "The weather today feels {EN}." },
+  { sv: "Det känns {W} hemma idag.", vi: "Hôm nay ở nhà có cảm giác {VI}.", en: "It feels {EN} at home today." },
+  { sv: "Min dag är ganska {W}.", vi: "Ngày của tôi khá {VI}.", en: "My day is quite {EN}." },
+  { sv: "Rummet ser {W} ut efter städningen.", vi: "Căn phòng trông {VI} sau khi dọn dẹp.", en: "The room looks {EN} after cleaning." },
 ];
 
 const PHRASE_TEMPLATES: Tmpl[] = [
   { sv: "'{W}?' frågade han när jag kom hem.", vi: "'{W}?' anh ấy hỏi khi tôi về nhà.", en: "'{W}?' he asked when I got home." },
   { sv: "Hon log och sa: '{W}'.", vi: "Cô ấy mỉm cười và nói: '{W}'.", en: "She smiled and said: '{W}'." },
-  { sv: "Vi använder '{W}' varje dag hemma.", vi: "Chúng tôi dùng cụm '{W}' mỗi ngày ở nhà.", en: "We use '{W}' every day at home." },
+  { sv: "På kaféet säger han: '{W}'.", vi: "Ở quán cà phê anh ấy nói: '{W}'.", en: "At the café he says: '{W}'." },
 ];
 
 const NUMERAL_TEMPLATES: Tmpl[] = [
@@ -275,25 +275,74 @@ const NUMERAL_TEMPLATES: Tmpl[] = [
 ];
 
 const PRONOUN_TEMPLATES: Tmpl[] = [
-  { sv: "'{W_C}' är ett vanligt ord i svenska samtal.", vi: "'{W_C}' là một từ thường gặp trong hội thoại tiếng Thụy Điển.", en: "'{W_C}' is a common word in Swedish conversations." },
-  { sv: "Kan du säga '{W}' i en hel mening?", vi: "Bạn có thể dùng '{W}' trong một câu hoàn chỉnh không?", en: "Can you use '{W}' in a full sentence?" },
+  { sv: "{W_C} kommer hem efter jobbet.", vi: "{VI_C} về nhà sau giờ làm.", en: "{EN_C} comes home after work." },
+  { sv: "Jag pratar med {W} på bussen.", vi: "Tôi nói chuyện với {VI} trên xe buýt.", en: "I talk with {EN} on the bus." },
 ];
 
 const ADV_TEMPLATES: Tmpl[] = [
-  { sv: "På svenska använder vi ofta ordet '{W}'.", vi: "Trong tiếng Thụy Điển, chúng ta thường dùng từ '{W}'.", en: "In Swedish, we often use the word '{W}'." },
-  { sv: "Han svarar med ordet '{W}' när det passar.", vi: "Anh ấy trả lời bằng từ '{W}' khi phù hợp.", en: "He answers with the word '{W}' when it fits." },
-  { sv: "Ordet '{W}' används ofta i talat språk.", vi: "Từ '{W}' thường được dùng trong giao tiếp.", en: "The word '{W}' is often used in spoken language." },
+  { sv: "Jag är {W} hemma.", vi: "Tôi đang {VI} ở nhà.", en: "I am {EN} at home." },
+  { sv: "Vi går {W} efter mötet.", vi: "Chúng tôi đi {VI} sau cuộc họp.", en: "We go {EN} after the meeting." },
+  { sv: "Hon kommer {W} med bussen.", vi: "Cô ấy đến {VI} bằng xe buýt.", en: "She comes {EN} by bus." },
 ];
 
 const PREP_TEMPLATES: Tmpl[] = [
-  { sv: "Prepositionen '{W}' står ofta före en plats.", vi: "Giới từ '{W}' thường đứng trước một địa điểm.", en: "The preposition '{W}' often comes before a place." },
-  { sv: "Vi övar på prepositionen '{W}' i en mening.", vi: "Chúng ta luyện giới từ '{W}' trong một câu.", en: "We practise the preposition '{W}' in a sentence." },
+  { sv: "Boken ligger {W} bordet.", vi: "Quyển sách nằm {VI} cái bàn.", en: "The book is {EN} the table." },
+  { sv: "Vi går {W} stationen efter jobbet.", vi: "Chúng tôi đi {VI} nhà ga sau giờ làm.", en: "We go {EN} the station after work." },
 ];
 
 const CONJ_TEMPLATES: Tmpl[] = [
-  { sv: "Bindeordet '{W}' kopplar ihop två satser.", vi: "Liên từ '{W}' nối hai mệnh đề với nhau.", en: "The conjunction '{W}' links two clauses." },
-  { sv: "Vi använder '{W}' i en längre mening.", vi: "Ta dùng '{W}' trong một câu dài hơn.", en: "We use '{W}' in a longer sentence." },
+  { sv: "Jag dricker kaffe {W} äter en bulle.", vi: "Tôi uống cà phê {VI} ăn một chiếc bánh.", en: "I drink coffee {EN} eat a bun." },
+  { sv: "Hon är trött {W} hon går ändå till jobbet.", vi: "Cô ấy mệt {VI} vẫn đi làm.", en: "She is tired {EN} still goes to work." },
 ];
+
+const MONTHS = new Set([
+  "januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december",
+]);
+
+const WEEKDAYS = new Set(["måndag", "tisdag", "onsdag", "torsdag", "fredag", "lördag", "söndag"]);
+
+const COUNTRIES_AND_CITIES = new Set([
+  "argentina", "australien", "belgien", "brasilien", "danmark", "egypten", "england", "finland", "frankrike", "grekland", "indien", "island", "italien", "japan", "kanada", "kina", "malmö", "norge", "ryssland", "spanien", "stockholm", "storbritannien", "sverige", "sydkorea", "thailand", "tyskland", "uppsala", "usa", "vietnam", "göteborg",
+]);
+
+const COLORS = new Set(["blå", "brun", "grå", "grön", "gul", "röd", "svart", "vit", "rosa", "orange", "lila"]);
+
+const ORDINALS: Record<string, { vi: string; en: string; noun: string }> = {
+  första: { vi: "đầu tiên", en: "first", noun: "dagen" },
+  andra: { vi: "thứ hai", en: "second", noun: "platsen" },
+  tredje: { vi: "thứ ba", en: "third", noun: "gången" },
+};
+
+const PRONOUN_EXAMPLES: Record<string, Tmpl> = {
+  alla: { sv: "Alla i klassen hjälper varandra.", vi: "Tất cả mọi người trong lớp giúp đỡ nhau.", en: "Everyone in the class helps each other." },
+  allt: { sv: "Tack för allt du har gjort.", vi: "Cảm ơn vì tất cả những gì bạn đã làm.", en: "Thank you for everything you have done." },
+  de: { sv: "De bor nära stationen.", vi: "Họ sống gần nhà ga.", en: "They live near the station." },
+  den: { sv: "Jag tar den röda jackan.", vi: "Tôi lấy chiếc áo khoác màu đỏ đó.", en: "I take the red jacket." },
+  det: { sv: "Det är kallt ute idag.", vi: "Hôm nay ngoài trời lạnh.", en: "It is cold outside today." },
+  deras: { sv: "Deras lägenhet ligger nära parken.", vi: "Căn hộ của họ nằm gần công viên.", en: "Their apartment is near the park." },
+  er: { sv: "Är det här er bil?", vi: "Đây có phải xe của các bạn không?", en: "Is this your car?" },
+  du: { sv: "Du pratar svenska mycket bra.", vi: "Bạn nói tiếng Thụy Điển rất tốt.", en: "You speak Swedish very well." },
+  han: { sv: "Han arbetar på ett sjukhus.", vi: "Anh ấy làm việc ở bệnh viện.", en: "He works at a hospital." },
+  hon: { sv: "Hon läser en bok på balkongen.", vi: "Cô ấy đọc sách ngoài ban công.", en: "She reads a book on the balcony." },
+  jag: { sv: "Jag heter Anna och bor i Åbo.", vi: "Tôi tên Anna và sống ở Turku.", en: "My name is Anna and I live in Turku." },
+  ni: { sv: "Ni kan sitta här vid fönstret.", vi: "Các bạn có thể ngồi đây cạnh cửa sổ.", en: "You can sit here by the window." },
+  vi: { sv: "Vi äter middag tillsammans ikväll.", vi: "Tối nay chúng tôi ăn tối cùng nhau.", en: "We have dinner together tonight." },
+};
+
+const ADVERB_EXAMPLES: Record<string, Tmpl> = {
+  där: { sv: "Väskan står där vid dörren.", vi: "Cái túi ở đó cạnh cửa.", en: "The bag is there by the door." },
+  här: { sv: "Kom hit och sitt här.", vi: "Lại đây và ngồi ở đây.", en: "Come here and sit here." },
+  idag: { sv: "Idag har jag svenska lektion.", vi: "Hôm nay tôi có tiết tiếng Thụy Điển.", en: "Today I have a Swedish lesson." },
+  igår: { sv: "Igår regnade det hela kvällen.", vi: "Hôm qua trời mưa suốt buổi tối.", en: "Yesterday it rained all evening." },
+  imorgon: { sv: "Imorgon åker vi till Helsingfors.", vi: "Ngày mai chúng tôi đi Helsinki.", en: "Tomorrow we go to Helsinki." },
+  kanske: { sv: "Kanske kommer hon lite senare.", vi: "Có lẽ cô ấy sẽ đến muộn hơn một chút.", en: "Maybe she will come a little later." },
+  lite: { sv: "Jag pratar lite svenska.", vi: "Tôi nói được một chút tiếng Thụy Điển.", en: "I speak a little Swedish." },
+  mycket: { sv: "Tack så mycket för hjälpen.", vi: "Cảm ơn rất nhiều vì đã giúp.", en: "Thank you very much for the help." },
+  snabbt: { sv: "Bussen kör snabbt genom staden.", vi: "Xe buýt chạy nhanh qua thành phố.", en: "The bus drives quickly through the city." },
+  långsamt: { sv: "Tala långsamt, tack.", vi: "Làm ơn nói chậm thôi.", en: "Speak slowly, please." },
+  tidigt: { sv: "Jag vaknar tidigt på vardagar.", vi: "Tôi thức dậy sớm vào các ngày trong tuần.", en: "I wake up early on weekdays." },
+  sent: { sv: "Tåget kommer sent ikväll.", vi: "Tối nay tàu đến muộn.", en: "The train arrives late tonight." },
+};
 
 /* --------------------------- article helpers ----------------------------- */
 
