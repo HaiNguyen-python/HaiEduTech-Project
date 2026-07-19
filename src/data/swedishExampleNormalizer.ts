@@ -556,24 +556,47 @@ function semanticTemplateFor(word: SwedishWord): Tmpl | undefined {
   const vi = clean(word.vi).toLowerCase();
 
   if (pos.startsWith("adj")) {
-    if (/angry|happy|sad|tired|hungry|afraid|nervous|calm|worried|proud|sick|healthy|unemployed|free/.test(en) ||
-        /giận|vui|buồn|mệt|đói|sợ|lo|bình tĩnh|ốm|khoẻ|thất nghiệp|rảnh/.test(vi)) {
+    // Emotional / state adjectives — word-boundary regex so "glutenfri" and
+    // "laktosfri" don't accidentally match "free" and produce nonsense.
+    if (/\b(angry|happy|sad|tired|hungry|afraid|scared|nervous|calm|worried|proud|sick|healthy|unemployed|free|lonely|excited|bored|shy|shocked|ashamed|jealous|surprised|relaxed|stressed|confused)\b/.test(en) ||
+        /giận|vui|buồn|mệt|đói|sợ|lo|bình tĩnh|ốm|khoẻ|thất nghiệp|rảnh|cô đơn|háo hức|chán|nhút nhát|sốc|xấu hổ|ghen|ngạc nhiên|thư giãn|căng thẳng|bối rối/.test(vi)) {
       return { sv: "Jag känner mig {W} idag.", vi: "Hôm nay tôi cảm thấy {VI}.", en: "I feel {EN} today." };
     }
-    if (/hot|warm|cold|tasty|sweet|salty|spicy|fresh/.test(en) || /nóng|ấm|lạnh|ngon|ngọt|mặn|cay|tươi/.test(vi)) {
-      return { sv: "Soppan är {W}.", vi: "Món súp {VI}.", en: "The soup is {EN}." };
+    if (/\b(hot|warm|cold|tasty|sweet|salty|spicy|fresh|frozen|delicious|bitter|sour)\b/.test(en) || /nóng|ấm|lạnh|ngon|ngọt|mặn|cay|tươi|đông lạnh|đắng|chua/.test(vi)) {
+      return { sv: "Maten är {W} idag.", vi: "Hôm nay món ăn {VI}.", en: "The food is {EN} today." };
     }
-    if (/tall|high|low|long|short|wide|narrow|big|small/.test(en) || /cao|thấp|dài|ngắn|rộng|hẹp|to|nhỏ/.test(vi)) {
+    if (/\b(cozy|homely|comfortable|nice|beautiful|ugly|quiet|noisy|bright|dark)\b/.test(en) || /ấm cúng|thoải mái|đẹp|xấu|yên tĩnh|ồn|sáng|tối/.test(vi)) {
+      return { sv: "Rummet känns {W} på kvällen.", vi: "Căn phòng cảm thấy {VI} vào buổi tối.", en: "The room feels {EN} in the evening." };
+    }
+    if (/\b(tall|high|low|long|short|wide|narrow|big|small|large|deep)\b/.test(en) || /cao|thấp|dài|ngắn|rộng|hẹp|to|nhỏ|sâu/.test(vi)) {
       return { sv: "Vägen är {W} idag.", vi: "Con đường hôm nay {VI}.", en: "The road is {EN} today." };
     }
-    if (/clean|dirty|heavy|light|empty|full|old|new/.test(en) || /sạch|bẩn|nặng|nhẹ|trống|đầy|cũ|mới/.test(vi)) {
+    if (/\b(clean|dirty|heavy|light|empty|full|old|new)\b/.test(en) || /sạch|bẩn|nặng|nhẹ|trống|đầy|cũ|mới/.test(vi)) {
       return { sv: "Väskan är {W} efter resan.", vi: "Cái túi {VI} sau chuyến đi.", en: "The bag is {EN} after the trip." };
     }
-    return { sv: "Situationen är {W} just nu.", vi: "Tình huống lúc này {VI}.", en: "The situation is {EN} right now." };
+    // Universally grammatical fallback for any remaining adjective.
+    return { sv: "Det där är verkligen {W}.", vi: "Điều đó thật sự {VI}.", en: "That is really {EN}." };
   }
 
   if (pos.startsWith("adv")) {
-    return { sv: "Hon kommer {W} till mötet.", vi: "Cô ấy đến cuộc họp {VI}.", en: "She comes {EN} to the meeting." };
+    // Bucket adverbs by semantic cue so the frame carries the word naturally.
+    if (/\b(soon|now|later|already|immediately|suddenly|recently|often|always|never|usually|rarely|seldom|yesterday|today|tomorrow|early|late|still|again|just)\b/.test(en) ||
+        /sớm|muộn|ngay|đột nhiên|gần đây|thường|luôn|không bao giờ|hiếm khi|hôm qua|hôm nay|ngày mai|vẫn|lại|vừa mới/.test(vi)) {
+      return { sv: "Han ringer sin mamma {W}.", vi: "Anh ấy gọi mẹ {VI}.", en: "He calls his mother {EN}." };
+    }
+    if (/\b(carefully|politely|clearly|quickly|slowly|loudly|softly|gently|nicely|rudely|calmly|kindly)\b/.test(en) ||
+        /cẩn thận|lịch sự|rõ ràng|nhanh|chậm|to tiếng|nhẹ nhàng|dịu dàng|tử tế|thô lỗ|bình tĩnh/.test(vi)) {
+      return { sv: "Hon pratar {W} med sina vänner.", vi: "Cô ấy nói chuyện {VI} với bạn bè.", en: "She speaks {EN} with her friends." };
+    }
+    if (/\b(very|quite|almost|exactly|completely|mostly|mainly|partly|only|hardly|barely|extremely|incredibly|absolutely|really|probably|hopefully|fortunately|unfortunately|approximately|precisely|primarily|gradually|regularly|constantly)\b/.test(en) ||
+        /rất|khá|gần như|chính xác|hoàn toàn|chủ yếu|phần lớn|một phần|chỉ|hầu như không|cực kỳ|có lẽ|hy vọng|may mắn|đáng tiếc|khoảng|dần dần|đều đặn|liên tục/.test(vi)) {
+      return { sv: "Han har {W} rätt i det han säger.", vi: "Điều anh ấy nói {VI} đúng.", en: "What he says is {EN} correct." };
+    }
+    if (/\b(up|down|away|somewhere|anywhere|everywhere|nowhere|here|there|inside|outside|home)\b/.test(en) ||
+        /trên|dưới|đi vắng|đâu đó|khắp nơi|không đâu|ở đây|ở đó|trong|ngoài/.test(vi)) {
+      return { sv: "Katten sitter {W} just nu.", vi: "Con mèo đang ngồi {VI} lúc này.", en: "The cat is sitting {EN} right now." };
+    }
+    return { sv: "Det passar bra {W}.", vi: "Nó phù hợp {VI}.", en: "That fits well {EN}." };
   }
 
   if (pos.startsWith("pron")) {
@@ -581,7 +604,9 @@ function semanticTemplateFor(word: SwedishWord): Tmpl | undefined {
   }
 
   if (pos.startsWith("v")) {
-    return { sv: "Jag vill {W} efter jobbet.", vi: "Tôi muốn {VI} sau giờ làm.", en: "I want to {EN} after work." };
+    // Universally grammatical verb frame — works for transitive and
+    // intransitive verbs without needing an object slot.
+    return { sv: "Det är bra att kunna {W} på svenska.", vi: "Biết cách {VI} bằng tiếng Thụy Điển là điều tốt.", en: "It's good to be able to {EN} in Swedish." };
   }
 
   if (pos.startsWith("phr")) {
