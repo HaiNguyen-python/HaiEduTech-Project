@@ -218,6 +218,30 @@ const FLAGSHIP_DE_MODULE: ProgrammingModule = {
   }],
 };
 
+// Deterministic permutation so quiz options aren't stuck on B every time.
+// Same lesson + question always yields the same order (stable UX across renders),
+// while different questions get different orderings.
+function seededPermutation(seed: string, n: number): number[] {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  const rand = () => {
+    h = Math.imul(h ^ (h >>> 15), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    h ^= h >>> 16;
+    return (h >>> 0) / 4294967296;
+  };
+  const arr = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+
 function getPillarForModule(moduleId: string): string | null {
   // Check direct ID match first
   const directMap: Record<string, string> = {
