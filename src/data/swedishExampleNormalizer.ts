@@ -374,12 +374,12 @@ function artVI(word: SwedishWord): { full: string; capWord: string } {
   return { full: "", capWord: "" };
 }
 
-function artEN(en: string, word?: SwedishWord): { full: string; capWord: string } {
-  const word = stripTo(en).trim();
-  if (!word) return { full: "", capWord: "" };
-  const lower = word.toLowerCase();
-  if (word && (!arguments[1]?.article && (PLURAL_OR_MASS_EN.has(lower) || /s$/.test(lower)))) return { full: "", capWord: "" };
-  const useAn = /^[aeiouAEIOU]/.test(word);
+function artEN(en: string, swedishWord?: SwedishWord): { full: string; capWord: string } {
+  const head = stripTo(en).trim();
+  if (!head) return { full: "", capWord: "" };
+  const lower = head.toLowerCase();
+  if (!swedishWord?.article && (PLURAL_OR_MASS_EN.has(lower) || /s$/.test(lower))) return { full: "", capWord: "" };
+  const useAn = /^[aeiouAEIOU]/.test(head);
   return useAn
     ? { full: "an ", capWord: "An " }
     : { full: "a ", capWord: "A " };
