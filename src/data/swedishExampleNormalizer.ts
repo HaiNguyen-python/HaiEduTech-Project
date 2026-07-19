@@ -32,6 +32,8 @@ const GENERIC_SV = [
   /\bI texten används ordet\b/i,
   /\bHan svarar med ordet\b/i,
   /\bPå svenska använder vi ofta ordet\b/i,
+  /^Vi använder ["'].+?["'] ofta\./,
+  /^Vi säger ["'].+?["'] ofta\./,
   /\banvänds ofta i talat språk\b/i,
   /\bKan du säga ['"].+?['"] i en hel mening\?/i,
   /\bVi använder ['"].+?['"] varje dag hemma\./i,
@@ -502,12 +504,14 @@ function directExampleFor(word: SwedishWord): Tmpl | undefined {
 
   if (NATURE_MASS_OR_PLANTS.has(sv)) {
     if (/björk|träd/.test(sv)) {
-      return { sv: `Det står ${word.article || "ett"} ${word.sv} nära huset.`, vi: `Có một ${word.vi} gần ngôi nhà.`, en: `There is ${artEN(word.en, word).full}${word.en} near the house.` };
+      const article = word.article || (sv === "björk" ? "en" : "ett");
+      return { sv: `Det står ${article} ${word.sv} nära huset.`, vi: `Có một ${word.vi} gần ngôi nhà.`, en: `There is ${artEN(word.en, word).full}${word.en} near the house.` };
     }
     if (/skog/.test(sv)) {
       return { sv: "Vi promenerar i skogen på söndag.", vi: "Chủ nhật chúng tôi đi dạo trong rừng.", en: "We walk in the forest on Sunday." };
     }
-    return { sv: `Vi plockar ${word.sv} i parken.`, vi: `Chúng tôi hái ${word.vi} trong công viên.`, en: `We pick ${word.en} in the park.` };
+    const englishPlural = sv === "blåbär" ? "blueberries" : sv === "bär" ? "berries" : word.en;
+    return { sv: `Vi plockar ${word.sv} i parken.`, vi: `Chúng tôi hái ${word.vi} trong công viên.`, en: `We pick ${englishPlural} in the park.` };
   }
 
   if (PLACE_NOUNS.has(sv)) {
