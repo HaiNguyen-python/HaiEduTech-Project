@@ -562,6 +562,11 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   "hur många":    { sv: "Hur många syskon har du?",                           vi: "Bạn có mấy anh chị em?",                                          en: "How many siblings do you have?" },
   "hur mår du":   { sv: "Hej Anna, hur mår du i dag?",                        vi: "Chào Anna, hôm nay bạn thế nào?",                                 en: "Hi Anna, how are you today?" },
   "hur är det":   { sv: "Hej! Hur är det med dig?",                           vi: "Chào! Bạn dạo này thế nào?",                                      en: "Hi! How are things with you?" },
+
+  // ─────────────── Dietary / participle adjectives ───────────────
+  glutenfri:      { sv: "Brödet i den här affären är glutenfritt.",           vi: "Bánh mì trong cửa hàng này không có gluten.",                    en: "The bread in this shop is gluten-free." },
+  laktosfri:      { sv: "Jag dricker laktosfri mjölk varje morgon.",          vi: "Tôi uống sữa không lactose mỗi sáng.",                          en: "I drink lactose-free milk every morning." },
+  somnande:       { sv: "Barnet ligger somnande i sin säng.",                 vi: "Đứa bé đang thiu thiu ngủ trên giường.",                        en: "The child is lying half-asleep in bed." },
 };
 
 

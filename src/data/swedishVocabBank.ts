@@ -256,6 +256,7 @@ const _SWEDISH_CORE_WORDS: SwedishWord[] = [
 import { SWEDISH_WORDS_EXPANSION } from "./swedishVocabExpansion";
 import { SWEDISH_WORDS_EXPANSION_2 } from "./swedishVocabExpansion2";
 import { SWEDISH_WORDS_EXPANSION_3 } from "./swedishVocabExpansion3";
+import { SWEDISH_WORDS_EXPANSION_4 } from "./swedishVocabExpansion4";
 import { SWEDISH_WORDS_MEGA } from "./swedishVocabMega";
 import { SWEDISH_WORDS_MEGA_2 } from "./swedishVocabMega2";
 import { SWEDISH_WORDS_MEGA_3 } from "./swedishVocabMega3";
@@ -276,6 +277,7 @@ const _ALL_RAW: SwedishWord[] = [
   ...SWEDISH_WORDS_EXPANSION,
   ...SWEDISH_WORDS_EXPANSION_2,
   ...SWEDISH_WORDS_EXPANSION_3,
+  ...SWEDISH_WORDS_EXPANSION_4,
   ...SWEDISH_WORDS_MEGA,
   ...SWEDISH_WORDS_MEGA_2,
   ...SWEDISH_WORDS_MEGA_3,
