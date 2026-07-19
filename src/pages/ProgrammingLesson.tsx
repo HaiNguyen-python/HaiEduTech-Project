@@ -903,13 +903,18 @@ const ProgrammingLessonPage = () => {
                         const questionText = lang === "en" ? ((q as any).questionEn ?? en?.q ?? q.question) : q.question;
                         const optionTexts = lang === "en" ? ((q as any).optionsEn ?? en?.opts ?? q.options) : q.options;
                         const explanationText = lang === "en" ? ((q as any).explanationEn ?? en?.exp ?? q.explanation) : q.explanation;
+                        // Permute display order (deterministic per lesson+question) so the
+                        // correct answer isn't always at position B. answers[qi] still stores
+                        // the ORIGINAL option index, so all scoring logic below is unchanged.
+                        const perm = seededPermutation(`${lesson.id}::${qi}::${q.question}`, optionTexts.length);
                         return (
                         <div key={qi} className="space-y-2">
                           <p className="text-sm font-medium text-foreground">{qi + 1}. {questionText}</p>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {optionTexts.map((opt, oi) => {
-                              const selected = answers[qi] === oi;
-                              const isCorrect = q.answer === oi;
+                            {perm.map((originalIdx, displayIdx) => {
+                              const opt = optionTexts[originalIdx];
+                              const selected = answers[qi] === originalIdx;
+                              const isCorrect = q.answer === originalIdx;
                               let cls = "px-3 py-2 rounded-lg text-sm text-left transition-all border ";
                               if (showResults) {
                                 if (isCorrect) cls += "border-green-500 bg-green-500/10 text-green-700";
@@ -920,20 +925,21 @@ const ProgrammingLessonPage = () => {
                               }
                               return (
                                 <button
-                                  key={oi}
-                                  onClick={() => handleAnswer(qi, oi)}
+                                  key={displayIdx}
+                                  onClick={() => handleAnswer(qi, originalIdx)}
                                   role="radio"
                                   aria-checked={selected}
-                                  aria-label={`${t("Đáp án", "Option")} ${String.fromCharCode(65 + oi)}: ${opt}${showResults ? (isCorrect ? ` - ${t("đúng", "correct")}` : selected ? ` - ${t("sai", "wrong")}` : "") : ""}`}
+                                  aria-label={`${t("Đáp án", "Option")} ${String.fromCharCode(65 + displayIdx)}: ${opt}${showResults ? (isCorrect ? ` - ${t("đúng", "correct")}` : selected ? ` - ${t("sai", "wrong")}` : "") : ""}`}
                                   disabled={showResults}
                                   className={cls}
                                 >
                                   {showResults && isCorrect && <CheckCircle className="w-3.5 h-3.5 inline mr-1.5" />}
                                   {showResults && selected && !isCorrect && <XCircle className="w-3.5 h-3.5 inline mr-1.5" />}
-                                  <span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span> {opt}
+                                  <span className="font-semibold mr-1">{String.fromCharCode(65 + displayIdx)}.</span> {opt}
                                 </button>
                               );
                             })}
+
                           </div>
                           {showResults && <p className="text-xs text-muted-foreground ml-1 mt-1">💬 {explanationText}</p>}
                         </div>
