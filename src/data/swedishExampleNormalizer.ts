@@ -408,10 +408,151 @@ function fill(tmpl: Tmpl, w: SwedishWord): Tmpl {
   return { sv: sub(tmpl.sv), vi: sub(tmpl.vi), en: sub(tmpl.en) };
 }
 
+function lowerHeadword(word: SwedishWord): string {
+  return clean(word.sv).toLowerCase();
+}
+
+function isPluralLike(word: SwedishWord): boolean {
+  const sv = lowerHeadword(word);
+  return /\b(plural|flowers|clothes|trousers|jeans|glasses|shoes|socks)\b/i.test(`${word.pos} ${word.en}`) ||
+    /(?:or|ar|er|r|n)$/.test(sv) && !word.article;
+}
+
+function directExampleFor(word: SwedishWord): Tmpl | undefined {
+  const sv = lowerHeadword(word);
+  if (PRONOUN_EXAMPLES[sv]) return PRONOUN_EXAMPLES[sv];
+  if (ADVERB_EXAMPLES[sv]) return ADVERB_EXAMPLES[sv];
+
+  if (MONTHS.has(sv)) {
+    return { sv: `I ${word.sv} börjar många nya kurser.`, vi: `Vào ${word.vi}, nhiều khóa học mới bắt đầu.`, en: `In ${word.en}, many new courses start.` };
+  }
+
+  if (WEEKDAYS.has(sv)) {
+    return { sv: `På ${word.sv} har vi svenska efter jobbet.`, vi: `Vào ${word.vi}, chúng tôi học tiếng Thụy Điển sau giờ làm.`, en: `On ${word.en}, we have Swedish after work.` };
+  }
+
+  if (COUNTRIES_AND_CITIES.has(sv)) {
+    return { sv: `Vi vill besöka ${word.sv} nästa sommar.`, vi: `Chúng tôi muốn đến ${word.vi} vào mùa hè tới.`, en: `We want to visit ${word.en} next summer.` };
+  }
+
+  if (ORDINALS[sv]) {
+    const ordinal = ORDINALS[sv];
+    return { sv: `Jag tar ${word.sv} ${ordinal.noun} ledigt.`, vi: `Tôi nghỉ ngày ${ordinal.vi}.`, en: `I take the ${ordinal.en} day off.` };
+  }
+
+  if (sv === "halv") {
+    return { sv: "Vi delar en halv pizza till lunch.", vi: "Chúng tôi chia nửa chiếc pizza cho bữa trưa.", en: "We share half a pizza for lunch." };
+  }
+
+  if (COLORS.has(sv)) {
+    return { sv: `Jag har en ${word.sv} jacka på mig idag.`, vi: `Hôm nay tôi mặc một chiếc áo khoác màu ${word.vi}.`, en: `I am wearing a ${word.en} jacket today.` };
+  }
+
+  return undefined;
+}
+
+function semanticTemplateFor(word: SwedishWord): Tmpl | undefined {
+  const direct = directExampleFor(word);
+  if (direct) return direct;
+
+  const pos = (word.pos || "").toLowerCase();
+  const rawCat = (word.category || "default").toLowerCase();
+  const cat = CATEGORY_ALIAS[rawCat] || rawCat;
+  const sv = lowerHeadword(word);
+  const en = clean(word.en).toLowerCase();
+  const vi = clean(word.vi).toLowerCase();
+
+  if (pos.startsWith("adj")) {
+    if (/angry|happy|sad|tired|hungry|afraid|nervous|calm|worried|proud|sick|healthy|unemployed|free/.test(en) ||
+        /giận|vui|buồn|mệt|đói|sợ|lo|bình tĩnh|ốm|khoẻ|thất nghiệp|rảnh/.test(vi)) {
+      return { sv: "Jag känner mig {W} idag.", vi: "Hôm nay tôi cảm thấy {VI}.", en: "I feel {EN} today." };
+    }
+    if (/hot|warm|cold|tasty|sweet|salty|spicy|fresh/.test(en) || /nóng|ấm|lạnh|ngon|ngọt|mặn|cay|tươi/.test(vi)) {
+      return { sv: "Soppan är {W}.", vi: "Món súp {VI}.", en: "The soup is {EN}." };
+    }
+    if (/tall|high|low|long|short|wide|narrow|big|small/.test(en) || /cao|thấp|dài|ngắn|rộng|hẹp|to|nhỏ/.test(vi)) {
+      return { sv: "Vägen är {W} idag.", vi: "Con đường hôm nay {VI}.", en: "The road is {EN} today." };
+    }
+    if (/clean|dirty|heavy|light|empty|full|old|new/.test(en) || /sạch|bẩn|nặng|nhẹ|trống|đầy|cũ|mới/.test(vi)) {
+      return { sv: "Väskan är {W} efter resan.", vi: "Cái túi {VI} sau chuyến đi.", en: "The bag is {EN} after the trip." };
+    }
+    return { sv: "Situationen är {W} just nu.", vi: "Tình huống lúc này {VI}.", en: "The situation is {EN} right now." };
+  }
+
+  if (pos.startsWith("adv")) {
+    return { sv: "Hon kommer {W} till mötet.", vi: "Cô ấy đến cuộc họp {VI}.", en: "She comes {EN} to the meeting." };
+  }
+
+  if (pos.startsWith("pron")) {
+    return { sv: "Jag tänker på {W} idag.", vi: "Hôm nay tôi nghĩ đến {VI}.", en: "I think about {EN} today." };
+  }
+
+  if (pos.startsWith("v")) {
+    return { sv: "Jag vill {W} efter jobbet.", vi: "Tôi muốn {VI} sau giờ làm.", en: "I want to {EN} after work." };
+  }
+
+  if (pos.startsWith("phr")) {
+    return { sv: "Hon säger: '{W}'.", vi: "Cô ấy nói: '{W}'.", en: "She says: '{W}'." };
+  }
+
+  if (pos.startsWith("num")) return pick(NUMERAL_TEMPLATES, `${word.id}|${word.sv}|num`);
+
+  if (cat === "travel") {
+    if (/jul|nyår|påsk|midsommar|halloween|födelsedag|bröllop|fest|afton|dagen|fyrverkeri|maj/.test(sv)) {
+      return { sv: "Vi firar {W} med familjen.", vi: "Chúng tôi ăn mừng {VI} cùng gia đình.", en: "We celebrate {EN} with the family." };
+    }
+    if (/pass|bagage|resväska|biljett|boardingkort|visum/.test(sv)) {
+      return { sv: "På flygplatsen behöver jag {ART}{W}.", vi: "Ở sân bay tôi cần {ARTVI}{VI}.", en: "At the airport I need {ARTEN}{EN}." };
+    }
+    if (/hotell|rum|camping|stuga|plats|bar|café|museum|kyrka|gate|by|stad|land/.test(sv)) {
+      return { sv: "Vi går till {ART}{W} efter frukost.", vi: "Chúng tôi đi đến {ARTVI}{VI} sau bữa sáng.", en: "We go to the {EN} after breakfast." };
+    }
+    return { sv: "Vi planerar {W} före resan.", vi: "Chúng tôi chuẩn bị {VI} trước chuyến đi.", en: "We plan {EN} before the trip." };
+  }
+
+  if (cat === "home") {
+    return isPluralLike(word)
+      ? { sv: "Hemma använder vi {W} varje dag.", vi: "Ở nhà chúng tôi dùng {VI} mỗi ngày.", en: "At home we use {EN} every day." }
+      : { sv: "Hemma använder vi {ART}{W} varje dag.", vi: "Ở nhà chúng tôi dùng {ARTVI}{VI} mỗi ngày.", en: "At home we use {ARTEN}{EN} every day." };
+  }
+
+  if (cat === "hobbies") {
+    return { sv: "På fritiden tycker jag om {W}.", vi: "Lúc rảnh tôi thích {VI}.", en: "In my free time I like {EN}." };
+  }
+
+  if (cat === "technology") {
+    return { sv: "Jag använder {W} på mobilen varje dag.", vi: "Tôi dùng {VI} trên điện thoại mỗi ngày.", en: "I use {EN} on my phone every day." };
+  }
+
+  if (cat === "numbers") {
+    return { sv: "Mötet börjar om {ART}{W}.", vi: "Cuộc họp bắt đầu sau {ARTVI}{VI}.", en: "The meeting starts in {ARTEN}{EN}." };
+  }
+
+  if (cat === "shopping") {
+    if (/kassa|cashier/.test(`${sv} ${en}`)) return { sv: "Jag betalar i kassan.", vi: "Tôi thanh toán ở quầy thu ngân.", en: "I pay at the cashier." };
+    if (/kvitto|receipt/.test(`${sv} ${en}`)) return { sv: "Kan jag få ett kvitto, tack?", vi: "Cho tôi xin hoá đơn được không?", en: "May I have a receipt, please?" };
+    return { sv: "Jag köper {ART}{W} i affären.", vi: "Tôi mua {ARTVI}{VI} trong cửa hàng.", en: "I buy {ARTEN}{EN} in the shop." };
+  }
+
+  if (cat === "education") {
+    return { sv: "Eleven arbetar med {ART}{W} i skolan.", vi: "Học sinh làm việc với {ARTVI}{VI} ở trường.", en: "The student works with {ARTEN}{EN} at school." };
+  }
+
+  if (cat === "work") {
+    return { sv: "På jobbet behöver vi {ART}{W} idag.", vi: "Hôm nay ở chỗ làm chúng tôi cần {ARTVI}{VI}.", en: "At work we need {ARTEN}{EN} today." };
+  }
+
+  if (cat === "abstract" || cat === "opinion" || cat === "society") {
+    return { sv: "Vi pratar om {W} på mötet.", vi: "Chúng tôi nói về {VI} trong cuộc họp.", en: "We talk about {EN} in the meeting." };
+  }
+
+  return undefined;
+}
+
 /* ------------------------ main normalization ----------------------------- */
 
 function templatesFor(word: SwedishWord): Tmpl[] {
-  const pos = word.pos.toLowerCase();
+  const pos = (word.pos || "").toLowerCase();
   if (pos.startsWith("phr")) return PHRASE_TEMPLATES;
   if (pos.startsWith("num")) return NUMERAL_TEMPLATES;
   if (pos.startsWith("pron")) return PRONOUN_TEMPLATES;
@@ -449,7 +590,23 @@ export function normalizeSwedishWordExamples(word: SwedishWord): SwedishWord {
     };
   }
 
-  // 2) Otherwise, fall back to category/POS-aware template generation.
+  // 2) Keep already natural hand-written source examples. Only regenerate
+  //    examples that look like generic/meta filler or known awkward patterns.
+  if (!isAutoGenerated(word)) return word;
+
+  // 3) Prefer semantic, category-aware examples for common difficult groups.
+  const semantic = semanticTemplateFor(word);
+  if (semantic) {
+    const filled = fill(semantic, word);
+    return {
+      ...word,
+      example: filled.sv,
+      exampleVi: filled.vi,
+      exampleEn: filled.en,
+    };
+  }
+
+  // 4) Otherwise, fall back to category/POS-aware template generation.
   const tmpls = templatesFor(word);
   const chosen = pick(tmpls, `${word.id}|${word.sv}`);
   const filled = fill(chosen, word);
