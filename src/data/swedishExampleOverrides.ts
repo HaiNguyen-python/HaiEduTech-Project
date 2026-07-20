@@ -567,6 +567,32 @@ export const SWEDISH_EXAMPLE_OVERRIDES: Record<string, SwedishExampleOverride> =
   glutenfri:      { sv: "Brödet i den här affären är glutenfritt.",           vi: "Bánh mì trong cửa hàng này không có gluten.",                    en: "The bread in this shop is gluten-free." },
   laktosfri:      { sv: "Jag dricker laktosfri mjölk varje morgon.",          vi: "Tôi uống sữa không lactose mỗi sáng.",                          en: "I drink lactose-free milk every morning." },
   somnande:       { sv: "Barnet ligger somnande i sin säng.",                 vi: "Đứa bé đang thiu thiu ngủ trên giường.",                        en: "The child is lying half-asleep in bed." },
+
+  // ─────────────── Fixes for screenshot A2 template issues ───────────────
+  bensinstation:  { sv: "Vi stannar vid en bensinstation för att tanka.",     vi: "Chúng tôi dừng ở trạm xăng để đổ xăng.",                        en: "We stop at a gas station to fill up." },
+  beställa:       { sv: "Kan jag beställa en kopp kaffe, tack?",              vi: "Cho tôi đặt một tách cà phê được không?",                        en: "May I order a cup of coffee, please?" },
+  betyg:          { sv: "Han fick ett bra betyg på provet.",                  vi: "Anh ấy được điểm cao trong bài kiểm tra.",                       en: "He got a good grade on the test." },
+  bi:             { sv: "Ett bi flyger runt blommorna i trädgården.",         vi: "Một con ong bay quanh những bông hoa trong vườn.",               en: "A bee is flying around the flowers in the garden." },
+  biologi:        { sv: "Min dotter tycker om biologi i skolan.",             vi: "Con gái tôi thích môn sinh học ở trường.",                       en: "My daughter likes biology at school." },
+  bita:           { sv: "Var försiktig, hunden kan bita.",                    vi: "Cẩn thận, con chó có thể cắn.",                                  en: "Be careful, the dog might bite." },
+  bjuda:          { sv: "Vi bjuder våra vänner på middag på fredag.",         vi: "Chúng tôi mời bạn bè ăn tối vào thứ Sáu.",                       en: "We are inviting our friends to dinner on Friday." },
+  björn:          { sv: "I skogen kan man ibland se en björn.",               vi: "Trong rừng đôi khi có thể thấy một con gấu.",                     en: "In the forest you can sometimes see a bear." },
+  beige:          { sv: "Hon har en beige kappa som passar allt.",            vi: "Cô ấy có chiếc áo khoác màu be hợp với mọi thứ.",                en: "She has a beige coat that goes with everything." },
+  belgien:        { sv: "Bryssel är huvudstad i Belgien.",                    vi: "Brussels là thủ đô của Bỉ.",                                     en: "Brussels is the capital of Belgium." },
+  bestämma:       { sv: "Jag har inte bestämt mig än.",                       vi: "Tôi vẫn chưa quyết định.",                                       en: "I haven't decided yet." },
+  betalning:      { sv: "Betalningen ska ske senast den femtonde.",           vi: "Việc thanh toán phải hoàn tất chậm nhất vào ngày 15.",           en: "The payment must be made by the fifteenth." },
+
+  // ─────────────── Extra logic fixes for common A1/A2 nouns ───────────────
+  badrock:        { sv: "Efter duschen tar jag på mig badrocken.",            vi: "Sau khi tắm tôi mặc áo choàng tắm.",                             en: "After the shower I put on my bathrobe." },
+  blomma:         { sv: "Mamma köper en röd blomma till farmor.",             vi: "Mẹ mua một bông hoa đỏ tặng bà nội.",                            en: "Mum buys a red flower for grandma." },
+  bok:            { sv: "Jag läser en bok innan jag sover.",                  vi: "Tôi đọc một cuốn sách trước khi ngủ.",                           en: "I read a book before I sleep." },
+  båt:            { sv: "På sommaren åker vi båt i skärgården.",              vi: "Mùa hè chúng tôi đi thuyền ở quần đảo.",                         en: "In summer we go by boat in the archipelago." },
+  fågel:          { sv: "En liten fågel sjunger utanför fönstret.",           vi: "Một chú chim nhỏ hót ngoài cửa sổ.",                             en: "A little bird is singing outside the window." },
+  kyrka:          { sv: "Kyrkan i byn är över hundra år gammal.",             vi: "Nhà thờ trong làng đã hơn trăm năm tuổi.",                       en: "The church in the village is over a hundred years old." },
+  penna:          { sv: "Kan jag låna en penna av dig?",                      vi: "Tôi mượn bạn một cây bút được không?",                           en: "May I borrow a pen from you?" },
+  stjärna:        { sv: "På natten ser vi många stjärnor på himlen.",         vi: "Ban đêm chúng tôi thấy nhiều ngôi sao trên trời.",              en: "At night we see many stars in the sky." },
+  strand:         { sv: "På sommaren är stranden full av folk.",              vi: "Mùa hè bãi biển đông người.",                                    en: "In summer the beach is full of people." },
+  öl:             { sv: "Han beställer en kall öl på restaurangen.",          vi: "Anh ấy gọi một cốc bia mát ở nhà hàng.",                         en: "He orders a cold beer at the restaurant." },
 };
 
 
