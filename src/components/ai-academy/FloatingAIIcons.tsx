@@ -33,21 +33,23 @@ const seed = (i: number) => {
 };
 
 const FloatingAIIcons = () => {
+  // Respect user preference for reduced motion (also skips heavy animation on low-power devices via CSS)
   const items = useMemo<Item[]>(() => {
     const out: Item[] = [];
-    for (let i = 0; i < 22; i++) {
+    // Reduced from 22 -> 10 to prevent jank on the AI Academy hub
+    for (let i = 0; i < 10; i++) {
       const isEmoji = seed(i + 1) > 0.55;
       out.push({
         kind: isEmoji ? "emoji" : "icon",
         Comp: isEmoji ? undefined : ICONS[Math.floor(seed(i + 2) * ICONS.length)],
         emoji: isEmoji ? EMOJIS[Math.floor(seed(i + 3) * EMOJIS.length)] : undefined,
-        top: seed(i + 4) * 95,
-        left: seed(i + 5) * 95,
-        size: 22 + Math.floor(seed(i + 6) * 26),
+        top: seed(i + 4) * 92,
+        left: seed(i + 5) * 92,
+        size: 22 + Math.floor(seed(i + 6) * 22),
         color: COLORS[Math.floor(seed(i + 7) * COLORS.length)],
-        duration: 9 + seed(i + 8) * 8,
+        duration: 12 + seed(i + 8) * 10,
         delay: seed(i + 9) * 6,
-        drift: 12 + seed(i + 10) * 18,
+        drift: 10 + seed(i + 10) * 14,
       });
     }
     return out;
@@ -56,17 +58,16 @@ const FloatingAIIcons = () => {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden hidden md:block motion-reduce:hidden"
     >
       {items.map((it, i) => (
         <motion.div
           key={i}
-          className={`absolute ${it.color} opacity-[0.18] dark:opacity-[0.22] will-change-transform`}
+          className={`absolute ${it.color} opacity-[0.16] will-change-transform`}
           style={{ top: `${it.top}%`, left: `${it.left}%`, fontSize: it.size }}
           animate={{
             y: [0, -it.drift, 0, it.drift, 0],
             x: [0, it.drift / 2, 0, -it.drift / 2, 0],
-            rotate: [0, 360],
           }}
           transition={{
             duration: it.duration,

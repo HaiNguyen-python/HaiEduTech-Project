@@ -1660,7 +1660,7 @@ const ChatBot = () => {
                   placeholder={
                     chatLocked
                       ? t("Chat đã bị khóa...", "Chat is locked...")
-                      : t("Hỏi thầy Hải... (Shift+Enter để xuống dòng)", "Ask Teacher Hai... (Shift+Enter for new line)")
+                      : t("Hỏi thầy Hải...", "Ask Teacher Hai...")
                   }
                   className="min-w-0 flex-1 resize-none rounded-xl border border-border bg-secondary px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:opacity-50 max-h-32"
                   disabled={isLoading || chatLocked}
