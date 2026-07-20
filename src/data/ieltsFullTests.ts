@@ -63,4 +63,65 @@ export const IELTS_FULL_TESTS: FullTest[] = [
     durationMinutes: 60,
     passageIds: ["rx-cam-7", "rx-cam-9", "rx-2"],
   },
+  // ============ Wave 5 - 10 new full tests ============
+  {
+    id: "ft-9",
+    title: "Full Test 9 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-12", "rx-cam-13", "rx-cam-14"],
+  },
+  {
+    id: "ft-10",
+    title: "Full Test 10 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-15", "rx-cam-16", "rx-cam-17"],
+  },
+  {
+    id: "ft-11",
+    title: "Full Test 11 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-18", "rx-cam-19", "rx-cam-20"],
+  },
+  {
+    id: "ft-12",
+    title: "Full Test 12 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-21", "rx-cam-22", "rx-cam-23"],
+  },
+  {
+    id: "ft-13",
+    title: "Full Test 13 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-24", "rx-cam-25", "rx-cam-26"],
+  },
+  {
+    id: "ft-14",
+    title: "Full Test 14 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-12", "rx-cam-15", "rx-cam-18"],
+  },
+  {
+    id: "ft-15",
+    title: "Full Test 15 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-13", "rx-cam-16", "rx-cam-22"],
+  },
+  {
+    id: "ft-16",
+    title: "Full Test 16 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-14", "rx-cam-17", "rx-cam-26"],
+  },
+  {
+    id: "ft-17",
+    title: "Full Test 17 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-19", "rx-cam-23", "rx-cam-25"],
+  },
+  {
+    id: "ft-18",
+    title: "Full Test 18 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-20", "rx-cam-21", "rx-cam-24"],
+  },
 ];
