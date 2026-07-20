@@ -36,6 +36,7 @@ import {
 import { IELTS_FULL_READING_EXAMS_EXPANSION } from "@/data/ieltsFullReadingExamsExpansion";
 import { IELTS_FULL_READING_EXAMS_EXPANSION2 } from "@/data/ieltsFullReadingExamsExpansion2";
 import { IELTS_FULL_READING_EXAMS_EXPANSION3 } from "@/data/ieltsFullReadingExamsExpansion3";
+import { IELTS_FULL_READING_EXAMS_EXPANSION4 } from "@/data/ieltsFullReadingExamsExpansion4";
 import { READING_PASSAGE_EXTENSIONS } from "@/data/ieltsReadingPassageExtensions";
 import { READING_QUESTION_EXTENSIONS } from "@/data/ieltsReadingQuestionExtensions";
 import { READING_VOCAB, type ReadingVocabItem } from "@/data/ieltsReadingVocab";
@@ -43,7 +44,7 @@ import { IELTS_FULL_TESTS, type FullTest } from "@/data/ieltsFullTests";
 
 // Extend each exam's passage AND questions so each passage carries 13-14 Qs
 // like a real Cambridge IELTS Reading paper.
-const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION, ...IELTS_FULL_READING_EXAMS_EXPANSION2, ...IELTS_FULL_READING_EXAMS_EXPANSION3].map(e => {
+const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION, ...IELTS_FULL_READING_EXAMS_EXPANSION2, ...IELTS_FULL_READING_EXAMS_EXPANSION3, ...IELTS_FULL_READING_EXAMS_EXPANSION4].map(e => {
   const extra = READING_PASSAGE_EXTENSIONS[e.id];
   const extraQs = READING_QUESTION_EXTENSIONS[e.id];
   let merged = extra ? { ...e, passage: e.passage + extra } : { ...e };
