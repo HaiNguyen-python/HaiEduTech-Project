@@ -23,11 +23,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import { playSwedishTtsScript, stopSwedishTts } from "@/lib/swedishTts";
 import {
   SWEDISH_LISTENING_EXERCISES,
   type SwedishListeningExercise,
 } from "@/data/swedishListeningExercises";
+import { getSwedishListeningQuestion } from "@/data/swedishListeningQuestionsSv";
 import type { SwedishLevel } from "@/data/swedishWritingPrompts";
 
 const LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
