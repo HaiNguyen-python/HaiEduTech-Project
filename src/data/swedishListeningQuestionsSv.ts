@@ -108,6 +108,21 @@ export const SWEDISH_LISTENING_QUESTIONS_SV: Record<string, string> = {
   "Đầu tư vào lĩnh vực gì?": "Inom vilket område investeras det?",
   "Đến năm nào ô tô mới phải là xe điện?": "Från vilket år måste nya bilar vara elbilar?",
   "Ủ bột bao lâu?": "Hur länge ska degen jäsa?",
+
+  // ── Expansion 3 (A1) ──
+  "Erik sẽ làm gì sau giờ học?": "Vad ska Erik göra efter skolan?",
+  "Anh ấy chơi với ai?": "Vem spelar han med?",
+  "Mẹ Maria làm nghề gì?": "Vad arbetar Marias mamma som?",
+  "Em trai Maria bao nhiêu tuổi?": "Hur gammal är Marias lillebror?",
+  "Cả nhà thích làm gì cùng nhau?": "Vad tycker familjen om att göra tillsammans?",
+  "Peter tìm gì đầu tiên?": "Vad letar Peter efter först?",
+  "Bánh mì ở đâu?": "Var ligger brödet?",
+  "Thứ Ba Lisa làm gì?": "Vad gör Lisa på tisdag?",
+  "Cuối tuần Lisa làm gì?": "Vad gör Lisa på helgen?",
+  "Đi ga trung tâm mất bao lâu?": "Hur lång tid tar det till centralstationen?",
+  "Vé một lượt giá bao nhiêu?": "Vad kostar en enkel biljett?",
+  "Nhiệt độ ở Stockholm hôm nay?": "Vad är temperaturen i Stockholm idag?",
+  "Ở Malmö có gì vào buổi chiều?": "Vad händer i Malmö på eftermiddagen?",
 };
 
 export const getSwedishListeningQuestion = (viText: string): string | null =>
