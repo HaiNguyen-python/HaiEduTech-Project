@@ -265,11 +265,14 @@ const SwedishListeningLab = () => {
                 const userAns = answers[q.id];
                 const isCorrect = submitted && userAns === q.correctIndex;
                 const isWrong = submitted && typeof userAns === "number" && userAns !== q.correctIndex;
+                const questionSv = getSwedishListeningQuestion(q.questionVi);
                 return (
                   <div key={q.id} className="space-y-2">
                     <div className="font-semibold text-sm text-foreground">
-                      {qi + 1}. {q.questionVi}
-                      <span className="ml-2 text-xs text-muted-foreground italic">({q.questionEn})</span>
+                      {qi + 1}. {questionSv || q.questionVi}
+                      {questionSv && (
+                        <span className="ml-2 text-xs text-muted-foreground italic">({q.questionVi})</span>
+                      )}
                     </div>
                     <div className="grid gap-2">
                       {q.options.map((opt, oi) => {
