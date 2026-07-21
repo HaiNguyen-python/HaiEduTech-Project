@@ -272,8 +272,15 @@ const SwedishReadingLab = () => {
                   q.kind === "mcq"
                     ? t("Trắc nghiệm", "MCQ")
                     : q.kind === "truefalse"
-                    ? t("Đúng/Sai", "True/False")
-                    : t("Từ vựng", "Vocab");
+                    ? t("Đúng/Sai", "Sant/Falskt")
+                    : q.kind === "vocab"
+                    ? t("Từ vựng", "Ordförråd")
+                    : q.kind === "gapfill"
+                    ? t("Điền từ", "Lucktext")
+                    : q.kind === "heading"
+                    ? t("Chọn tiêu đề", "Rubrikval")
+                    : t("Câu trả lời ngắn", "Kort svar");
+                const questionSv = q.questionSv || getSwedishReadingQuestion(q.questionVi);
                 return (
                   <div key={q.id} className="space-y-2">
                     <div className="flex items-start gap-2">
@@ -281,8 +288,10 @@ const SwedishReadingLab = () => {
                         {kindLabel}
                       </Badge>
                       <div className="font-semibold text-sm text-foreground">
-                        {qi + 1}. {q.questionVi}
-                        <span className="ml-2 text-xs text-muted-foreground italic">({q.questionEn})</span>
+                        {qi + 1}. {questionSv || q.questionVi}
+                        {questionSv && (
+                          <span className="ml-2 text-xs text-muted-foreground italic">({q.questionVi})</span>
+                        )}
                       </div>
                     </div>
                     <div className="grid gap-2">
