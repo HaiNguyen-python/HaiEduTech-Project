@@ -239,3 +239,180 @@ export const playSwedishTts = async (text: string, options: SwedishTtsOptions = 
   }
 };
 
+// ─────────────────────────────────────────────────────────────────────────
+// Full-script playback: splits long scripts into TTS-safe chunks (~180 chars)
+// and plays them sequentially so audio never gets truncated mid-sentence.
+// If the script contains speaker markers (" — " em-dash between turns),
+// each turn is played with a distinct playbackRate to simulate multiple
+// voices, so learners can distinguish speakers.
+// ─────────────────────────────────────────────────────────────────────────
+
+const MAX_TTS_CHUNK = 180; // Google translate_tts practical limit (~200)
+
+// Voice profiles: alternating playbackRate slightly changes perceived pitch
+// so two speakers in a dialogue sound different even though the underlying
+// TTS voice is the same sv-SE voice.
+const VOICE_PROFILES = [
+  { rate: 1.0, detune: 0 },
+  { rate: 0.94, detune: -220 },   // slightly slower / lower — "speaker B"
+  { rate: 1.06, detune: 180 },    // slightly faster / higher — "speaker C"
+  { rate: 0.9, detune: -320 },
+];
+
+const splitIntoTurns = (script: string): string[] => {
+  // Speaker turns are separated by " — " (em-dash) in our exercise data.
+  // Fallback: treat the whole script as a single turn.
+  const parts = script.split(/\s+—\s+/g).map((s) => s.trim()).filter(Boolean);
+  return parts.length > 0 ? parts : [script.trim()];
+};
+
+const splitIntoChunks = (text: string, max = MAX_TTS_CHUNK): string[] => {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return [clean];
+  // Split on sentence-ish boundaries first, then re-pack up to max chars.
+  const sentences = clean.split(/(?<=[.!?…])\s+/);
+  const chunks: string[] = [];
+  let buf = "";
+  for (const s of sentences) {
+    if (!s) continue;
+    if ((buf + " " + s).trim().length > max) {
+      if (buf) chunks.push(buf.trim());
+      if (s.length > max) {
+        // Very long sentence — fall back to comma / space splits.
+        const sub = s.split(/,\s+/);
+        let sb = "";
+        for (const p of sub) {
+          if ((sb + ", " + p).length > max) {
+            if (sb) chunks.push(sb.trim().replace(/,$/, ""));
+            sb = p;
+          } else {
+            sb = sb ? `${sb}, ${p}` : p;
+          }
+        }
+        if (sb) chunks.push(sb.trim());
+        buf = "";
+      } else {
+        buf = s;
+      }
+    } else {
+      buf = buf ? `${buf} ${s}` : s;
+    }
+  }
+  if (buf) chunks.push(buf.trim());
+  return chunks.filter((c) => c.length > 0);
+};
+
+const fetchProxyAudio = async (text: string): Promise<{ audioBase64: string; mimeType: string } | null> => {
+  try {
+    const payload = await invokeTtsFunction<SwedishTtsProxyResponse | null>("swedish-tts", { text });
+    if (!payload?.audioBase64) return null;
+    return { audioBase64: payload.audioBase64, mimeType: payload.mimeType || "audio/mpeg" };
+  } catch {
+    return null;
+  }
+};
+
+const playBufferWithProfile = async (
+  arrayBuffer: ArrayBuffer,
+  playbackRate: number,
+  detune: number,
+): Promise<void> => {
+  const ctx = unlockAudioContext();
+  if (!ctx) throw new Error("web_audio_unavailable");
+  if (ctx.state === "suspended") await ctx.resume();
+  const buffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
+  await new Promise<void>((resolve, reject) => {
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.playbackRate.value = playbackRate;
+    try { source.detune.value = detune; } catch { /* detune unsupported in some browsers */ }
+    source.connect(ctx.destination);
+    activeSource = source;
+    source.onended = () => {
+      if (activeSource === source) activeSource = null;
+      source.disconnect();
+      resolve();
+    };
+    try { source.start(0); } catch (error) { reject(error); }
+  });
+};
+
+interface SwedishScriptOptions {
+  playbackRate?: number;
+  multiVoice?: boolean;
+  onStatus?: (status: SwedishTtsStatus, info?: { source?: SwedishTtsSource; reason?: string }) => void;
+}
+
+// Playback state token — increments on stop so any in-flight sequence knows
+// to abort between chunks.
+let sequenceToken = 0;
+const originalStop = stopSwedishTts;
+export const stopSwedishSequence = () => {
+  sequenceToken += 1;
+  originalStop();
+};
+
+export const playSwedishTtsScript = async (
+  script: string,
+  options: SwedishScriptOptions = {},
+): Promise<boolean> => {
+  if (typeof window === "undefined") return false;
+  const normalized = script.trim();
+  if (!normalized) return false;
+  const basePlaybackRate = options.playbackRate ?? 0.9;
+  const multiVoice = options.multiVoice !== false;
+  const onStatus = options.onStatus;
+
+  sequenceToken += 1;
+  const myToken = sequenceToken;
+  unlockAudioContext();
+
+  const turns = splitIntoTurns(normalized);
+  onStatus?.("loading", { source: "proxy" });
+  onStatus?.("playing", { source: "proxy" });
+
+  let anySuccess = false;
+  for (let turnIdx = 0; turnIdx < turns.length; turnIdx += 1) {
+    if (myToken !== sequenceToken) return anySuccess;
+    const profile = multiVoice && turns.length > 1
+      ? VOICE_PROFILES[turnIdx % VOICE_PROFILES.length]
+      : VOICE_PROFILES[0];
+    const turn = turns[turnIdx];
+    const chunks = splitIntoChunks(turn);
+
+    for (const chunk of chunks) {
+      if (myToken !== sequenceToken) return anySuccess;
+      const audio = await fetchProxyAudio(chunk);
+      if (myToken !== sequenceToken) return anySuccess;
+
+      if (audio) {
+        const bytes = decodeBase64ToArrayBuffer(audio.audioBase64);
+        try {
+          await playBufferWithProfile(bytes, basePlaybackRate * profile.rate, profile.detune);
+          anySuccess = true;
+          continue;
+        } catch { /* fall through to HTMLAudio */ }
+        try {
+          await playFromUrl(`data:${audio.mimeType};base64,${audio.audioBase64}`, basePlaybackRate * profile.rate);
+          anySuccess = true;
+          continue;
+        } catch { /* fall through to native */ }
+      }
+
+      // Proxy failed for this chunk — use native voice
+      try {
+        await speakWithNativeSwedishVoice(chunk, (options.playbackRate ?? 0.85) * profile.rate);
+        anySuccess = true;
+      } catch { /* skip chunk */ }
+    }
+
+    // Small gap between speakers for readability.
+    if (turnIdx < turns.length - 1 && myToken === sequenceToken) {
+      await new Promise((r) => setTimeout(r, 280));
+    }
+  }
+
+  onStatus?.(anySuccess ? "ended" : "error", { source: "proxy" });
+  return anySuccess;
+};
+
