@@ -19,9 +19,11 @@ export type SwedishReadingType =
 
 export interface SwedishReadingQuestion {
   id: string;
-  kind: "mcq" | "truefalse" | "vocab";
+  kind: "mcq" | "truefalse" | "vocab" | "gapfill" | "heading" | "shortanswer";
   questionVi: string;
   questionEn: string;
+  /** Native sv-SE version shown as primary text in the UI (YKI style). */
+  questionSv?: string;
   /** For MCQ/vocab: 2–4 options. For T/F: omit (use ["Sant","Falskt"] auto). */
   options?: { sv: string; vi: string }[];
   correctIndex: number;
