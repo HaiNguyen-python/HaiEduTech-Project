@@ -85,7 +85,7 @@ const SwedishListeningLab = () => {
     }
     setPlaying(true);
     try {
-      await playSwedishTts(active.scriptSv, { playbackRate: rate });
+      await playSwedishTtsScript(active.scriptSv, { playbackRate: rate, multiVoice: true });
     } catch (e) {
       toast({
         title: t("Lỗi phát âm", "Playback error"),
