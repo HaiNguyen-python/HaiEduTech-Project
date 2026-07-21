@@ -23,11 +23,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import { playSwedishTtsScript, stopSwedishTts } from "@/lib/swedishTts";
 import {
   SWEDISH_LISTENING_EXERCISES,
   type SwedishListeningExercise,
 } from "@/data/swedishListeningExercises";
+import { getSwedishListeningQuestion } from "@/data/swedishListeningQuestionsSv";
 import type { SwedishLevel } from "@/data/swedishWritingPrompts";
 
 const LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
@@ -84,7 +85,7 @@ const SwedishListeningLab = () => {
     }
     setPlaying(true);
     try {
-      await playSwedishTts(active.scriptSv, { playbackRate: rate });
+      await playSwedishTtsScript(active.scriptSv, { playbackRate: rate, multiVoice: true });
     } catch (e) {
       toast({
         title: t("Lỗi phát âm", "Playback error"),
@@ -264,11 +265,14 @@ const SwedishListeningLab = () => {
                 const userAns = answers[q.id];
                 const isCorrect = submitted && userAns === q.correctIndex;
                 const isWrong = submitted && typeof userAns === "number" && userAns !== q.correctIndex;
+                const questionSv = getSwedishListeningQuestion(q.questionVi);
                 return (
                   <div key={q.id} className="space-y-2">
                     <div className="font-semibold text-sm text-foreground">
-                      {qi + 1}. {q.questionVi}
-                      <span className="ml-2 text-xs text-muted-foreground italic">({q.questionEn})</span>
+                      {qi + 1}. {questionSv || q.questionVi}
+                      {questionSv && (
+                        <span className="ml-2 text-xs text-muted-foreground italic">({q.questionVi})</span>
+                      )}
                     </div>
                     <div className="grid gap-2">
                       {q.options.map((opt, oi) => {

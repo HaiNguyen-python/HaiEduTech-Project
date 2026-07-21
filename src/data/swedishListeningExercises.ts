@@ -1369,3 +1369,7 @@ SWEDISH_LISTENING_EXERCISES.push(...SWEDISH_LISTENING_EXERCISES_EXPANSION);
 // ─── Expansion 2: additional exercises ───
 import { SWEDISH_LISTENING_EXERCISES_EXPANSION_2 } from "./swedishListeningExercisesExpansion2";
 SWEDISH_LISTENING_EXERCISES.push(...SWEDISH_LISTENING_EXERCISES_EXPANSION_2);
+
+// ─── Expansion 3: extra A1 exercises with multi-voice dialogues ───
+import { SWEDISH_LISTENING_EXERCISES_EXPANSION_3 } from "./swedishListeningExercisesExpansion3";
+SWEDISH_LISTENING_EXERCISES.push(...SWEDISH_LISTENING_EXERCISES_EXPANSION_3);
