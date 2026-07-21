@@ -105,6 +105,9 @@ const Index = () => {
     <LazySection><ModernTechTools /></LazySection>
     <SectionDivider flip />
     <LazySection><SuccessMetrics /></LazySection>
+    <SectionDivider />
+    <LazySection><WorldVisitorMap /></LazySection>
+    
     
     <Footer />
   </div>
