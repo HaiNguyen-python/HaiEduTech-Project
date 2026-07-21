@@ -29,6 +29,7 @@ import {
   SWEDISH_READING_PASSAGES,
   type SwedishReadingPassage,
 } from "@/data/swedishReadingPassages";
+import { getSwedishReadingQuestion } from "@/data/swedishReadingQuestionsSv";
 import type { SwedishLevel } from "@/data/swedishWritingPrompts";
 
 const LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
