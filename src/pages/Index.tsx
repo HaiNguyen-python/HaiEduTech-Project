@@ -18,6 +18,7 @@ const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
 const MonthlyTopStudents = lazy(() => import("@/components/home/MonthlyTopStudents"));
+const WorldVisitorMap = lazy(() => import("@/components/home/WorldVisitorMap"));
 
 
 const SectionPlaceholder = () => (
@@ -104,6 +105,9 @@ const Index = () => {
     <LazySection><ModernTechTools /></LazySection>
     <SectionDivider flip />
     <LazySection><SuccessMetrics /></LazySection>
+    <SectionDivider />
+    <LazySection><WorldVisitorMap /></LazySection>
+    
     
     <Footer />
   </div>

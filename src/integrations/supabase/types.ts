@@ -665,6 +665,27 @@ export type Database = {
         }
         Relationships: []
       }
+      country_visits: {
+        Row: {
+          country_code: string
+          country_name: string
+          updated_at: string
+          visits: number
+        }
+        Insert: {
+          country_code: string
+          country_name: string
+          updated_at?: string
+          visits?: number
+        }
+        Update: {
+          country_code?: string
+          country_name?: string
+          updated_at?: string
+          visits?: number
+        }
+        Relationships: []
+      }
       course_access: {
         Row: {
           course_id: string
@@ -3821,6 +3842,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      increment_country_visit: {
+        Args: { _code: string; _name: string }
+        Returns: undefined
       }
       is_room_participant: { Args: { _room_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
