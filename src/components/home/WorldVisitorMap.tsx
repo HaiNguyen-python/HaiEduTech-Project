@@ -284,8 +284,6 @@ const WorldVisitorMap = () => {
                         (props.ISO_A2 as string) ||
                         (props.iso_a2 as string) ||
                         (props["ISO3166-1-Alpha-2"] as string) ||
-                        (props.iso_a2 as string) ||
-                        (props.ISO_A2 as string) ||
                         (props["Alpha-2"] as string) ||
                         "";
                       const normalizedCode = code.toUpperCase();
@@ -376,7 +374,7 @@ const WorldVisitorMap = () => {
               <div
                 className="h-2 w-24 rounded"
                 style={{
-                  background: "linear-gradient(to right, #bfdbfe, #60a5fa, #2563eb, #1d4ed8)",
+                  background: "linear-gradient(to right, #34d399, #10b981, #3b82f6, #1d4ed8)",
                 }}
               />
               <span className="text-muted-foreground">{t("Nhiều", "High")}</span>
