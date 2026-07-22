@@ -50,14 +50,8 @@ async function reportVisitorCountry() {
   try {
     if (typeof window === "undefined") return;
     if (sessionStorage.getItem(SESSION_FLAG)) return;
-    const res = await fetch("https://ipapi.co/json/", { cache: "no-store" });
-    if (!res.ok) return;
-    const data = await res.json();
-    const code: string | undefined = data?.country_code;
-    const name: string | undefined = data?.country_name;
-    if (!code || code.length !== 2) return;
-    sessionStorage.setItem(SESSION_FLAG, "1");
-    await supabase.rpc("increment_country_visit" as never, { _code: code, _name: name || code } as never);
+    const { data, error } = await supabase.functions.invoke("track-country-visit", { body: {} });
+    if (!error && data?.success) sessionStorage.setItem(SESSION_FLAG, "1");
   } catch {
     // ignore
   }
