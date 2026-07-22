@@ -64,7 +64,7 @@ async function reportVisitorCountry() {
 }
 
 const WorldVisitorMap = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [rows, setRows] = useState<CountryRow[]>([]);
   const [hovered, setHovered] = useState<{ code: string; name: string; visits: number } | null>(null);
 
