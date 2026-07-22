@@ -5,15 +5,16 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState, memo } from "react";
-import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
 import { scaleLog } from "d3-scale";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Globe2, TrendingUp, Users, MapPin } from "lucide-react";
 
-// TopoJSON of world countries (ISO-3166-1 alpha-2 in `properties.iso_a2`)
-const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+// GeoJSON with ISO-3166-1 alpha-2 country codes. The previous TopoJSON source only
+// exposed numeric IDs, so the database country codes could not match map shapes.
+const GEO_URL = "https://cdn.jsdelivr.net/gh/nvkelso/natural-earth-vector@master/geojson/ne_110m_admin_0_countries.geojson";
 
 type CountryRow = { country_code: string; country_name: string; visits: number };
 
@@ -33,6 +34,21 @@ const COUNTRY_NAMES: Record<string, string> = {
   JP: "Japan",
   KR: "South Korea",
   NL: "The Netherlands",
+};
+
+const COUNTRY_CENTERS: Record<string, [number, number]> = {
+  AU: [134, -25],
+  CA: [-106, 56],
+  DE: [10, 51],
+  FI: [26, 64],
+  FR: [2, 46],
+  GB: [-2, 54],
+  JP: [138, 37],
+  KR: [128, 36],
+  NL: [5, 52],
+  SG: [104, 1.3],
+  US: [-98, 39],
+  VN: [106, 16],
 };
 
 function getLocaleCountry() {
@@ -107,8 +123,19 @@ const WorldVisitorMap = () => {
     const { data } = await supabase
       .from("country_visits" as never)
       .select("country_code,country_name,visits")
-      .order("visits", { ascending: false });
-    if (Array.isArray(data)) setRows(data as unknown as CountryRow[]);
+      .gt("visits", 0)
+      .order("visits", { ascending: false })
+      .limit(250);
+    if (Array.isArray(data)) {
+      const cleanRows = (data as unknown as CountryRow[])
+        .map((row) => ({
+          ...row,
+          country_code: row.country_code.toUpperCase(),
+          visits: Number(row.visits) || 0,
+        }))
+        .filter((row) => /^[A-Z]{2}$/.test(row.country_code) && row.visits > 0);
+      setRows(cleanRows);
+    }
   };
 
   useEffect(() => {
@@ -152,7 +179,7 @@ const WorldVisitorMap = () => {
     const domainMax = Math.max(2, maxVisits);
     return scaleLog<string>()
       .domain([1, domainMax])
-      .range(["#bfdbfe", "#1d4ed8"])
+      .range(["#34d399", "#1d4ed8"])
       .clamp(true);
   }, [maxVisits]);
 
@@ -162,6 +189,13 @@ const WorldVisitorMap = () => {
   );
 
   const continentMax = Math.max(1, ...Object.values(continents));
+  const mapMarkers = useMemo(
+    () => top
+      .map((row) => ({ ...row, center: COUNTRY_CENTERS[row.country_code.toUpperCase()] }))
+      .filter((row): row is CountryRow & { center: [number, number] } => Boolean(row.center))
+      .slice(0, 10),
+    [top]
+  );
 
   return (
     <section className="py-14 sm:py-20 bg-gradient-to-b from-background via-primary/5 to-background">
@@ -247,20 +281,24 @@ const WorldVisitorMap = () => {
                     geographies.map((geo) => {
                       const props = geo.properties as Record<string, unknown>;
                       const code =
+                        (props.ISO_A2 as string) ||
+                        (props.iso_a2 as string) ||
+                        (props["ISO3166-1-Alpha-2"] as string) ||
                         (props.iso_a2 as string) ||
                         (props.ISO_A2 as string) ||
                         (props["Alpha-2"] as string) ||
                         "";
-                      const name = (props.name as string) || (props.NAME as string) || "";
-                      const row = code ? byCode.get(code.toUpperCase()) : undefined;
-                      const fill = row ? (colorScale(Math.max(1, row.visits)) as string) : "hsl(var(--muted))";
+                      const normalizedCode = code.toUpperCase();
+                      const name = (props.NAME as string) || (props.ADMIN as string) || (props.name as string) || "";
+                      const row = normalizedCode ? byCode.get(normalizedCode) : undefined;
+                      const fill = row ? (colorScale(Math.max(1, row.visits)) as string) : "hsl(var(--muted) / 0.55)";
                       return (
                         <Geography
                           key={geo.rsmKey}
                           geography={geo}
                           onMouseEnter={() =>
                             setHovered({
-                              code: code || "?",
+                              code: normalizedCode || "?",
                               name: row?.country_name || name || code || "Unknown",
                               visits: row?.visits ?? 0,
                             })
@@ -269,23 +307,43 @@ const WorldVisitorMap = () => {
                           style={{
                             default: {
                               fill,
-                              stroke: "hsl(var(--background))",
-                              strokeWidth: 0.4,
+                              stroke: row ? "hsl(var(--background))" : "hsl(var(--border) / 0.55)",
+                              strokeWidth: row ? 0.75 : 0.35,
                               outline: "none",
-                              transition: "fill 200ms ease",
+                              transition: "fill 200ms ease, stroke 200ms ease, filter 200ms ease",
+                              filter: row ? "drop-shadow(0 0 6px rgba(16, 185, 129, 0.45))" : "none",
                             },
                             hover: {
-                              fill: row ? "#0f172a" : "hsl(var(--muted-foreground) / 0.5)",
+                              fill: row ? "#10b981" : "hsl(var(--muted-foreground) / 0.45)",
                               outline: "none",
                               cursor: "pointer",
                             },
-                            pressed: { fill: "#0f172a", outline: "none" },
+                            pressed: { fill: row ? "#059669" : "hsl(var(--muted-foreground) / 0.45)", outline: "none" },
                           }}
                         />
                       );
                     })
                   }
                 </Geographies>
+                {mapMarkers.map((row, index) => {
+                  const radius = Math.max(4, Math.min(15, 4 + (row.visits / Math.max(1, maxVisits)) * 11));
+                  return (
+                    <Marker key={row.country_code} coordinates={row.center}>
+                      <circle
+                        r={radius + 4}
+                        fill="rgba(16, 185, 129, 0.18)"
+                        stroke="rgba(16, 185, 129, 0.35)"
+                        strokeWidth={1}
+                      />
+                      <circle
+                        r={radius}
+                        fill={index === 0 ? "#1d4ed8" : "#10b981"}
+                        stroke="hsl(var(--background))"
+                        strokeWidth={1.6}
+                      />
+                    </Marker>
+                  );
+                })}
               </ZoomableGroup>
             </ComposableMap>
 
