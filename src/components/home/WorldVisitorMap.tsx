@@ -19,6 +19,36 @@ type CountryRow = { country_code: string; country_name: string; visits: number }
 
 const SESSION_FLAG = "hai-country-visit-logged";
 
+const COUNTRY_NAMES: Record<string, string> = {
+  VN: "Vietnam",
+  US: "United States",
+  GB: "United Kingdom",
+  FI: "Finland",
+  SE: "Sweden",
+  DE: "Germany",
+  FR: "France",
+  AU: "Australia",
+  CA: "Canada",
+  SG: "Singapore",
+  JP: "Japan",
+  KR: "South Korea",
+  NL: "The Netherlands",
+};
+
+function getLocaleCountry() {
+  const locales = [navigator.language, ...(navigator.languages || [])].filter(Boolean);
+  for (const locale of locales) {
+    const normalized = locale.toLowerCase();
+    if (normalized === "vi") return { code: "VN", name: COUNTRY_NAMES.VN };
+    const match = locale.match(/[-_]([A-Za-z]{2})\b/);
+    if (match?.[1]) {
+      const code = match[1].toUpperCase();
+      return { code, name: COUNTRY_NAMES[code] || code };
+    }
+  }
+  return null;
+}
+
 // Simple continent lookup by ISO alpha-2 (top ~120 countries relevant to the audience).
 const CONTINENT_BY_CODE: Record<string, string> = {
   VN: "Asia", CN: "Asia", JP: "Asia", KR: "Asia", TW: "Asia", HK: "Asia", TH: "Asia", ID: "Asia",
@@ -50,14 +80,19 @@ async function reportVisitorCountry() {
   try {
     if (typeof window === "undefined") return;
     if (sessionStorage.getItem(SESSION_FLAG)) return;
-    const res = await fetch("https://ipapi.co/json/", { cache: "no-store" });
-    if (!res.ok) return;
-    const data = await res.json();
-    const code: string | undefined = data?.country_code;
-    const name: string | undefined = data?.country_name;
-    if (!code || code.length !== 2) return;
-    sessionStorage.setItem(SESSION_FLAG, "1");
-    await supabase.rpc("increment_country_visit" as never, { _code: code, _name: name || code } as never);
+    const { data, error } = await supabase.functions.invoke("track-country-visit", { body: {} });
+    if (!error && data?.success) {
+      sessionStorage.setItem(SESSION_FLAG, "1");
+      return;
+    }
+
+    const fallback = getLocaleCountry();
+    if (!fallback) return;
+    const { error: fallbackError } = await supabase.rpc("increment_country_visit" as never, {
+      _code: fallback.code,
+      _name: fallback.name,
+    } as never);
+    if (!fallbackError) sessionStorage.setItem(SESSION_FLAG, "1");
   } catch {
     // ignore
   }
