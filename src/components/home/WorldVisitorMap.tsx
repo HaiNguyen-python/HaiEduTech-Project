@@ -363,7 +363,7 @@ const WorldVisitorMap = () => {
                         <span className="flex items-center gap-1.5">
                           <span>{c.emoji}</span>
                           <span className="font-medium">
-                            {language === "vi" ? c.vi : c.en}
+                            {lang === "vi" ? c.vi : c.en}
                           </span>
                         </span>
                         <span className="text-muted-foreground">{v}</span>
