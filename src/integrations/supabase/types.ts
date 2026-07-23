@@ -2822,6 +2822,48 @@ export type Database = {
           },
         ]
       }
+      study_goals: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          progress_pct: number
+          status: string
+          target_date: string | null
+          target_metric: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          progress_pct?: number
+          status?: string
+          target_date?: string | null
+          target_metric?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          progress_pct?: number
+          status?: string
+          target_date?: string | null
+          target_metric?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       study_journey_milestones: {
         Row: {
           completed_at: string | null
@@ -2854,6 +2896,65 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      study_tasks: {
+        Row: {
+          ai_rationale: string | null
+          completed_at: string | null
+          contribution_pct: number
+          created_at: string
+          difficulty: number
+          due_date: string | null
+          goal_id: string | null
+          id: string
+          is_ai_suggested: boolean
+          notes: string | null
+          priority: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_rationale?: string | null
+          completed_at?: string | null
+          contribution_pct?: number
+          created_at?: string
+          difficulty?: number
+          due_date?: string | null
+          goal_id?: string | null
+          id?: string
+          is_ai_suggested?: boolean
+          notes?: string | null
+          priority?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_rationale?: string | null
+          completed_at?: string | null
+          contribution_pct?: number
+          created_at?: string
+          difficulty?: number
+          due_date?: string | null
+          goal_id?: string | null
+          id?: string
+          is_ai_suggested?: boolean
+          notes?: string | null
+          priority?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_tasks_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "study_goals"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       suppressed_emails: {
         Row: {
