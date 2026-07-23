@@ -17,11 +17,14 @@ interface Props {
 const PRIO_STYLES: Record<string, string> = {
   high: "bg-rose-500/15 text-rose-600 border-rose-500/30",
   medium: "bg-amber-500/15 text-amber-600 border-amber-500/30",
-  low: "bg-slate-500/15 text-slate-600 border-slate-500/30",
+  low: "bg-emerald-500/15 text-emerald-600 border-emerald-500/30",
 };
 
+const PRIO_LABEL_VI: Record<string, string> = { high: "Khó", medium: "Vừa", low: "Dễ" };
+const PRIO_LABEL_EN: Record<string, string> = { high: "Difficult", medium: "Medium", low: "Easy" };
+
 export default function TaskList({ tasks, goals, onToggle, onDelete, emptyLabel }: Props) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const goalMap = new Map(goals.map((g) => [g.id, g]));
 
   if (tasks.length === 0) {
@@ -49,11 +52,8 @@ export default function TaskList({ tasks, goals, onToggle, onDelete, emptyLabel 
               <div className={`text-sm ${done ? "line-through" : "font-medium"}`}>{task.title}</div>
               <div className="flex flex-wrap items-center gap-1.5 mt-1">
                 <Badge variant="outline" className={`text-[10px] py-0 px-1.5 ${PRIO_STYLES[task.priority]}`}>
-                  {task.priority}
+                  {lang === "vi" ? PRIO_LABEL_VI[task.priority] : PRIO_LABEL_EN[task.priority]}
                 </Badge>
-                <span className="text-[10px] text-muted-foreground">
-                  {"●".repeat(task.difficulty)}{"○".repeat(5 - task.difficulty)}
-                </span>
                 {g && (
                   <Badge variant="secondary" className="text-[10px] py-0 px-1.5 gap-1">
                     <Target className="w-2.5 h-2.5" />
