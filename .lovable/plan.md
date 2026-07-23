@@ -1,62 +1,57 @@
-# To-do List & Study Goal Module
+## Goals & To-do polish plan
 
-New Dashboard tab placed between **Overview** and **Counseling**, wiring long-term goals, daily tasks, analytics, and an AI Coach — persisted in Lovable Cloud.
+### 1. Faster Add button (TaskComposer)
+Problem: Add waits for the `align-study-task` AI edge function before inserting, so users wait 1-3s.
+Fix: Optimistic insert first (goal_id=null, contribution_pct=0). Fire AI alignment in the background; when it returns, `UPDATE study_tasks` with goal_id / contribution_pct / ai_rationale and patch local state. Add button reflects immediately; alignment chip appears a moment later.
 
-## 1. Backend (migration)
+### 2. Clearer priority labels -> difficulty labels
+Rename the Select in `TaskComposer.tsx` and the priority pills in `TaskList.tsx`:
+- `low` -> "Easy Task" (VI: "Dễ")
+- `medium` -> "Medium Task" (VI: "Vừa")
+- `high` -> "Difficult Task" (VI: "Khó")
 
-Two new tables under `public`, RLS scoped to `auth.uid()`:
+Keep the underlying DB `priority` values (`low|medium|high`) unchanged to avoid a migration. Only labels/copy change. Adjust `PRIO_STYLES` color mapping accordingly (Easy=emerald, Medium=amber, Difficult=rose) and drop the redundant 5-dot `difficulty` display since priority now encodes it. `weightForTask` keeps its current numeric weights.
 
-**`study_goals`**
-- `title`, `description`, `category` (ielts / yki / hsk / programming / other)
-- `target_date`, `target_metric` (text, e.g. "Band 7.5")
-- `progress_pct` (numeric 0-100, user-updatable)
-- `status` (active / completed / archived)
+### 3. Auto-progress from real learning activity
+Data source: `student_activity_log` (already populated by every practice module: IELTS, HSK, Programming, Speaking Coach, etc.) plus `user_vocab_mastered`.
 
-**`study_tasks`**
-- `goal_id` (nullable FK → `study_goals`)
-- `title`, `notes`
-- `priority` (high / medium / low)
-- `difficulty` (1-5)
-- `contribution_pct` (numeric, AI-assigned weight toward linked goal)
-- `due_date` (date), `completed_at` (timestamptz), `is_ai_suggested` (bool)
+Mechanism:
+- Map `StudyGoal.category` to activity buckets:
+  - `ielts` -> activity_type LIKE 'ielts_%' + vocab subject IELTS
+  - `hsk` -> hsk_/hskk_/conv_chinese/vocab subject HSK
+  - `yki` -> conv_finnish/speaking_coach_finnish/vocab subject Finnish
+  - `programming` -> python_/sql_/coding_ etc.
+  - `other` -> counts any activity
+- New helper `useGoalActivityProgress(goal)` fetches, since `goal.created_at`, the count of matching activities and mastered words scoped to the current user.
+- Compute `activity_progress_pct = min(100, activities * 0.5% + mastered_words * 0.3%)` (tunable per category), capped so activity alone can reach ~60% of a goal - remaining ~40% comes from checked tasks.
+- Display in `GoalCard`: split progress bar shows "Tasks X% + Activity Y% = Total Z%". Goal's stored `progress_pct` becomes `tasks_pct + activity_pct` clamped to 100 (computed live; DB field still stores manual/task-based number for backward-compat).
+- Also surface an "Activity feed" mini list on the card (last 3 relevant activities).
 
-Full CRUD grants for `authenticated`, `ALL` for `service_role`, standard `updated_at` trigger. No anon access.
+### 4. Replace "Behind Schedule" warning with encouragement
+In `GoalCard.tsx`, when `isLagging` is true, replace the amber "Behind schedule - add tasks today" strip with a rotating motivational line (VI/EN), e.g. "Cố lên! Mỗi bước nhỏ hôm nay là một chiến thắng lớn ngày mai." / "Keep going - small steps today build big wins tomorrow." Pick from a small pool (5-6 lines) seeded by goal.id for stability, styled indigo/emerald instead of amber.
 
-## 2. AI edge functions (Lovable AI Gateway, `google/gemini-2.5-flash`)
+### 5. Full QA sweep before publish
+Verify and fix any of:
+- Toggle-complete no longer double-adds contribution if user un-checks then re-checks (subtract on uncheck).
+- Delete goal cascades: unlink tasks (`goal_id = null`) so orphan tasks remain visible.
+- Empty-goal analytics: gauge/heatmap render at 0 without NaN.
+- `progress_pct` never exceeds 100 or goes negative.
+- Overdue goals show ETA gracefully.
+- Dark mode contrast on new labels/motivation banner.
+- Mobile: TaskComposer wraps, no overflow.
 
-- **`align-study-task`** — input: task title + user's active goals. Output JSON `{ goal_id, contribution_pct (0-2), rationale }`. Called on task create.
-- **`recommend-study-tasks`** — input: goals + last 14 days task completion stats. Output 2-3 tasks `{ title, priority, difficulty, goal_id, contribution_pct, reason }`. Called on-demand by the AI Coach widget.
+### 6. Suggested next-step features
+Presented as a short list at the end of the plan so you can pick which to build later:
+- Recurring tasks ("every Mon/Wed/Fri") + streak per goal.
+- Pomodoro timer per task with time logged into `student_activity_log`.
+- Weekly review card: AI summary of what worked / what to change.
+- Sub-tasks / checklist inside a task.
+- Shareable goal card (image export) for social motivation.
+- Goal templates (IELTS 6.5 -> 7.5 in 90 days, YKI A2 in 60 days, HSK 3 in 45 days).
+- Calendar view + drag-drop reschedule.
+- Push/email nudge when daily completion < 40% by 20:00.
 
-Both use `streamText`/`generateText` with a small Zod `Output.object` schema, wrapped in `NoObjectGeneratedError` fallback.
-
-## 3. Frontend components (`src/components/dashboard/todo-goal/`)
-
-- `TodoGoalTab.tsx` — section shell, 2-column responsive grid (goals left, tasks right; analytics full-width below).
-- `GoalList.tsx` + `GoalCard.tsx` — glass card, gradient progress bar, AI-estimated completion date computed from 14-day velocity vs remaining %.
-- `GoalFormDialog.tsx` — create/edit goal.
-- `TaskList.tsx` + `TaskItem.tsx` — checkbox, priority pill, difficulty dots, linked-goal chip with contribution badge (`+0.8% → IELTS 7.5`).
-- `TaskComposer.tsx` — quick-add input; on submit calls `align-study-task`, then inserts.
-- `AnalyticsPanel.tsx`:
-  - **Daily Completion Gauge** (Recharts `RadialBarChart`) — weighted by task `contribution_pct` + priority.
-  - **30-Day Heatmap** — CSS grid of 30 cells, opacity scaled by completion ratio; hover tooltip.
-  - **Goal Bridge Chart** (`ComposedChart`) — bar = daily task contribution, line = cumulative goal progress.
-- `AICoachWidget.tsx` — indigo gradient card, "Get today's plan" button → `recommend-study-tasks`; each suggestion has "One-Click Add" that inserts the task pre-linked.
-
-Shared: `useStudyGoals`, `useStudyTasks` hooks (Supabase queries + optimistic updates); `lib/studyGoalMath.ts` for velocity / ETA / weighted completion calculations. Offline fallback via `localStorage` mirror when unauthenticated.
-
-## 4. Dashboard wiring (`src/pages/Dashboard.tsx`)
-
-- Add `TabsTrigger value="todo"` between `overview` and `counseling` with `Target` lucide icon, label `t("Mục tiêu & Việc cần làm", "Goals & To-do")`.
-- Add matching `TabsContent value="todo"` rendering `<TodoGoalTab userId={user.id} />`.
-
-## 5. Design system
-
-Uses existing tokens only — `bg-card/60 backdrop-blur`, `border-border`, gradient `from-emerald-500 to-teal-500` (completion), `amber-500` (warning: goal lagging), `indigo-500` (AI). No hardcoded colors in components beyond Recharts fill props sourced from CSS vars. Full dark-mode via existing theme.
-
-## Technical notes
-
-- Recharts already in project; no new deps.
-- AI calls debounced; task alignment is best-effort — insert succeeds even if AI errors (falls back to `contribution_pct = 0`, `goal_id = null`).
-- Weighted daily completion: `Σ(completed.contribution × priorityWeight) / Σ(planned.contribution × priorityWeight)` where priority weights = {high:1.5, med:1, low:0.7}.
-- ETA: `remaining_pct / avg_daily_progress_pct_last_14d` → added to today; clamped and labeled "insufficient data" when velocity is 0.
-- All comments in English; Vietnamese/English UI strings via existing `useLanguage().t`.
+### Technical notes
+- Files to edit: `TaskComposer.tsx`, `TaskList.tsx`, `GoalCard.tsx`, `useStudyGoalsTasks.ts`, `studyGoalMath.ts`, plus new hook `useGoalActivityProgress.ts`.
+- No schema changes required. Activity progress is derived at read-time from `student_activity_log` + `user_vocab_mastered`.
+- Toggle-uncheck fix: subtract `contribution_pct` from goal when un-completing.

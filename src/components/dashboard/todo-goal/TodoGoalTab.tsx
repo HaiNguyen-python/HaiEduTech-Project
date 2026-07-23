@@ -17,7 +17,7 @@ interface Props { userId: string | null; }
 
 export default function TodoGoalTab({ userId }: Props) {
   const { t } = useLanguage();
-  const { goals, tasks, loading, createGoal, updateGoal, deleteGoal, createTask, toggleTask, deleteTask } = useStudyGoalsTasks(userId);
+  const { goals, tasks, loading, createGoal, updateGoal, deleteGoal, createTask, patchTask, toggleTask, deleteTask } = useStudyGoalsTasks(userId);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editGoal, setEditGoal] = useState<StudyGoal | null>(null);
 
@@ -59,6 +59,7 @@ export default function TodoGoalTab({ userId }: Props) {
                 key={g.id}
                 goal={g}
                 tasks={tasks}
+                userId={userId}
                 onEdit={() => { setEditGoal(g); setDialogOpen(true); }}
                 onDelete={() => deleteGoal(g.id)}
               />
@@ -70,7 +71,7 @@ export default function TodoGoalTab({ userId }: Props) {
       {/* Tasks + AI coach */}
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-3">
-          <TaskComposer goals={goals} onCreate={createTask} />
+          <TaskComposer goals={goals} onCreate={createTask} onPatch={patchTask} />
           <div>
             <h3 className="text-sm font-semibold mb-2">{t("Hôm nay", "Today")} <span className="text-muted-foreground font-normal">({today.length})</span></h3>
             <TaskList tasks={today} goals={goals} onToggle={toggleTask} onDelete={deleteTask} />
