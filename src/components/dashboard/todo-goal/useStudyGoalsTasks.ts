@@ -44,7 +44,15 @@ export function useStudyGoalsTasks(userId: string | null) {
 
   const deleteGoal = async (id: string) => {
     setGoals((prev) => prev.filter((g) => g.id !== id));
+    // Unlink tasks from the goal instead of deleting them.
+    setTasks((prev) => prev.map((t) => (t.goal_id === id ? { ...t, goal_id: null, contribution_pct: 0 } : t)));
+    await supabase.from("study_tasks").update({ goal_id: null, contribution_pct: 0 }).eq("goal_id", id);
     await supabase.from("study_goals").delete().eq("id", id);
+  };
+
+  const patchTask = (id: string, patch: Partial<StudyTask>) => {
+    setTasks((prev) => prev.map((x) => (x.id === id ? { ...x, ...patch } as StudyTask : x)));
+    supabase.from("study_tasks").update(patch as any).eq("id", id);
   };
 
   const createTask = async (input: Partial<StudyTask>) => {
@@ -72,15 +80,18 @@ export function useStudyGoalsTasks(userId: string | null) {
   const toggleTask = async (id: string) => {
     const t = tasks.find((x) => x.id === id);
     if (!t) return;
-    const nextCompleted = t.completed_at ? null : new Date().toISOString();
+    const wasCompleted = !!t.completed_at;
+    const nextCompleted = wasCompleted ? null : new Date().toISOString();
     setTasks((prev) => prev.map((x) => (x.id === id ? { ...x, completed_at: nextCompleted } : x)));
     await supabase.from("study_tasks").update({ completed_at: nextCompleted }).eq("id", id);
 
-    // Bump linked goal progress when completing.
-    if (nextCompleted && t.goal_id) {
+    // Adjust linked goal progress: add on complete, subtract on uncheck.
+    if (t.goal_id) {
       const g = goals.find((gg) => gg.id === t.goal_id);
       if (g) {
-        const next = Math.min(100, Number(g.progress_pct || 0) + Number(t.contribution_pct || 0));
+        const delta = Number(t.contribution_pct || 0);
+        const raw = Number(g.progress_pct || 0) + (wasCompleted ? -delta : delta);
+        const next = Math.max(0, Math.min(100, raw));
         await updateGoal(g.id, { progress_pct: next });
       }
     }
@@ -91,5 +102,5 @@ export function useStudyGoalsTasks(userId: string | null) {
     await supabase.from("study_tasks").delete().eq("id", id);
   };
 
-  return { goals, tasks, loading, reload: load, createGoal, updateGoal, deleteGoal, createTask, toggleTask, deleteTask };
+  return { goals, tasks, loading, reload: load, createGoal, updateGoal, deleteGoal, createTask, patchTask, toggleTask, deleteTask };
 }
