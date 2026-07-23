@@ -899,6 +899,12 @@ const Dashboard = () => {
             )}
               </TabsContent>
 
+              <TabsContent value="todo">
+                <TodoGoalTab userId={user?.id ?? null} />
+              </TabsContent>
+
+
+
               <TabsContent value="counseling">
                 {user ? (
                   <CounselingHub userId={user.id} />
