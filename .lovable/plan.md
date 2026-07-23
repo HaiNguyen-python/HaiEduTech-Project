@@ -1,92 +1,62 @@
-# Kế hoạch: Swedish Performance Dashboard
+# To-do List & Study Goal Module
 
-Đã tăng số cặp Match từ 5 → 10 (xong).
+New Dashboard tab placed between **Overview** and **Counseling**, wiring long-term goals, daily tasks, analytics, and an AI Coach — persisted in Lovable Cloud.
 
-Dưới đây là kế hoạch xây trang **/swedish/performance** (hoặc tab trong SwedishBeginner) để visualize toàn bộ hành trình học tiếng Thụy Điển và tự động xếp level.
+## 1. Backend (migration)
 
-## 1. Nguồn dữ liệu (đã có sẵn)
+Two new tables under `public`, RLS scoped to `auth.uid()`:
 
-| Nguồn | Nội dung | Bảng/Key |
-|---|---|---|
-| Mastered vocab | Từ đã "thuộc" (star) | `user_mastered_vocab` (subject='swedish') + localStorage fallback |
-| Vocab bank tổng | ~800+ từ Swedish có gắn level A1/A2/B1/B2 | `swedishVocab*` files |
-| Review modes | Listen/Type/Match/Cloze/Speed accuracy | `activity_log` (type=`swedish_vocab_review`) |
-| Speaking Coach | Accuracy % từng câu | `activity_log` (type=`speaking_coach_swedish`) |
-| Writing/Speaking YKI | Điểm 0-5 mỗi criteria | edge `grade-swedish-yki` → `activity_log` |
-| Reading/Listening | % đúng bài tập | `activity_log` |
-| Session time | Phút online theo Swedish routes | `page_view_log` filter `/swedish/*` |
+**`study_goals`**
+- `title`, `description`, `category` (ielts / yki / hsk / programming / other)
+- `target_date`, `target_metric` (text, e.g. "Band 7.5")
+- `progress_pct` (numeric 0-100, user-updatable)
+- `status` (active / completed / archived)
 
-## 2. Thuật toán xếp level (CEFR ↔ YKI)
+**`study_tasks`**
+- `goal_id` (nullable FK → `study_goals`)
+- `title`, `notes`
+- `priority` (high / medium / low)
+- `difficulty` (1-5)
+- `contribution_pct` (numeric, AI-assigned weight toward linked goal)
+- `due_date` (date), `completed_at` (timestamptz), `is_ai_suggested` (bool)
 
-Tính điểm tổng hợp 4 kỹ năng, mỗi kỹ năng 0-100:
+Full CRUD grants for `authenticated`, `ALL` for `service_role`, standard `updated_at` trigger. No anon access.
 
-```text
-Vocabulary score  = mastered_count có trọng số theo level
-                    (A1=1, A2=2, B1=4, B2=8) → chuẩn hóa /max
-Reading score     = avg(accuracy các bài reading gần nhất, weight theo level)
-Listening score   = avg(accuracy listening + review Listen mode)
-Speaking score    = avg(Speaking Coach accuracy, YKI speaking overall*20)
-Writing score     = avg(YKI writing overall*20, cloze/type accuracy)
-```
+## 2. AI edge functions (Lovable AI Gateway, `google/gemini-2.5-flash`)
 
-Ngưỡng level (overall = trung bình 4 kỹ năng, cần ≥3/4 kỹ năng đạt ngưỡng):
+- **`align-study-task`** — input: task title + user's active goals. Output JSON `{ goal_id, contribution_pct (0-2), rationale }`. Called on task create.
+- **`recommend-study-tasks`** — input: goals + last 14 days task completion stats. Output 2-3 tasks `{ title, priority, difficulty, goal_id, contribution_pct, reason }`. Called on-demand by the AI Coach widget.
 
-```text
-A1 (YKI 1):  ≥ 25   — ~150 từ A1, đọc hiểu câu ngắn
-A2 (YKI 2):  ≥ 45   — ~400 từ, viết đoạn 30 từ, nói giới thiệu
-B1 (YKI 3):  ≥ 65   — ~800 từ, đọc bài 200 từ, viết 80 từ
-B2 (YKI 4):  ≥ 82   — thảo luận, viết luận, YKI grade ≥ 3.5
-```
+Both use `streamText`/`generateText` with a small Zod `Output.object` schema, wrapped in `NoObjectGeneratedError` fallback.
 
-## 3. UI Layout (route mới `/swedish/performance`)
+## 3. Frontend components (`src/components/dashboard/todo-goal/`)
 
-```text
-┌─────────────────────────────────────────────────────┐
-│  🇸🇪 Trình độ hiện tại: A2 → B1  (điểm 58/100)      │
-│  [progress bar tới B1] · Còn 7 điểm nữa!            │
-├──────────────────┬──────────────────────────────────┤
-│ Radar 4 kỹ năng  │  KPI cards:                      │
-│ (Recharts)       │  • Từ đã thuộc 312/800           │
-│                  │  • Streak 12 ngày                │
-│                  │  • Giờ học Swedish 24h           │
-│                  │  • YKI dự kiến: Cấp 2            │
-├──────────────────┴──────────────────────────────────┤
-│  Bar chart: Từ vựng theo level (A1/A2/B1/B2)        │
-├─────────────────────────────────────────────────────┤
-│  Line chart: Tiến bộ 30 ngày (accuracy trung bình) │
-├─────────────────────────────────────────────────────┤
-│  Heatmap ô vuông 7×N: hoạt động mỗi ngày (GitHub)  │
-├─────────────────────────────────────────────────────┤
-│  Recommendations (rule-based):                      │
-│  • "Speaking yếu nhất (42) → gợi ý Speaking Coach" │
-│  • "Đã đủ điều kiện thi thử YKI A2"                │
-└─────────────────────────────────────────────────────┘
-```
+- `TodoGoalTab.tsx` — section shell, 2-column responsive grid (goals left, tasks right; analytics full-width below).
+- `GoalList.tsx` + `GoalCard.tsx` — glass card, gradient progress bar, AI-estimated completion date computed from 14-day velocity vs remaining %.
+- `GoalFormDialog.tsx` — create/edit goal.
+- `TaskList.tsx` + `TaskItem.tsx` — checkbox, priority pill, difficulty dots, linked-goal chip with contribution badge (`+0.8% → IELTS 7.5`).
+- `TaskComposer.tsx` — quick-add input; on submit calls `align-study-task`, then inserts.
+- `AnalyticsPanel.tsx`:
+  - **Daily Completion Gauge** (Recharts `RadialBarChart`) — weighted by task `contribution_pct` + priority.
+  - **30-Day Heatmap** — CSS grid of 30 cells, opacity scaled by completion ratio; hover tooltip.
+  - **Goal Bridge Chart** (`ComposedChart`) — bar = daily task contribution, line = cumulative goal progress.
+- `AICoachWidget.tsx` — indigo gradient card, "Get today's plan" button → `recommend-study-tasks`; each suggestion has "One-Click Add" that inserts the task pre-linked.
 
-## 4. Chi tiết kỹ thuật
+Shared: `useStudyGoals`, `useStudyTasks` hooks (Supabase queries + optimistic updates); `lib/studyGoalMath.ts` for velocity / ETA / weighted completion calculations. Offline fallback via `localStorage` mirror when unauthenticated.
 
-- **File mới**: `src/pages/SwedishPerformance.tsx` + hook `src/hooks/useSwedishPerformance.ts`
-- **Helper**: `src/lib/swedishLevelEngine.ts` — hàm `computeSwedishLevel(stats): { cefr, yki, score, breakdown }`
-- **Query**: 1 RPC `get_swedish_performance(_user_id)` gộp `activity_log` + `user_mastered_vocab` (giảm round-trip); fallback client-side aggregate cho guest dùng localStorage
-- **Chart lib**: Recharts (đã có) - Radar, Bar, Line, custom heatmap div grid
-- **Route**: add vào `App.tsx`, link từ `SwedishBeginner.tsx` header ("📊 Trình độ của tôi")
-- **Guest mode**: đọc localStorage `mastered_swedish_*`, `swedish_review_stats_*`
-- **i18n**: dùng `useLanguage().t(vi, en)` xuyên suốt
+## 4. Dashboard wiring (`src/pages/Dashboard.tsx`)
 
-## 5. Trigger cập nhật
+- Add `TabsTrigger value="todo"` between `overview` and `counseling` with `Target` lucide icon, label `t("Mục tiêu & Việc cần làm", "Goals & To-do")`.
+- Add matching `TabsContent value="todo"` rendering `<TodoGoalTab userId={user.id} />`.
 
-- Component fetch on mount + realtime channel `activity_log` filter `user_id=eq.{uid}`
-- Cache 60s (React Query hoặc useState + useEffect)
+## 5. Design system
 
-## 6. Phạm vi giai đoạn 1 (ship trước)
+Uses existing tokens only — `bg-card/60 backdrop-blur`, `border-border`, gradient `from-emerald-500 to-teal-500` (completion), `amber-500` (warning: goal lagging), `indigo-500` (AI). No hardcoded colors in components beyond Recharts fill props sourced from CSS vars. Full dark-mode via existing theme.
 
-1. `swedishLevelEngine.ts` + unit test nhẹ
-2. `useSwedishPerformance` (chỉ client-side aggregate, không cần RPC)
-3. Trang `/swedish/performance` với Radar + KPI + Bar theo level + Recommendations
-4. Link vào navbar Swedish
+## Technical notes
 
-Giai đoạn 2: RPC gộp, heatmap, line chart 30 ngày, so sánh với trung bình cộng đồng.
-
----
-
-**Xác nhận để mình build giai đoạn 1?** Hoặc bạn muốn chỉnh ngưỡng level / thêm/bớt biểu đồ nào?
+- Recharts already in project; no new deps.
+- AI calls debounced; task alignment is best-effort — insert succeeds even if AI errors (falls back to `contribution_pct = 0`, `goal_id = null`).
+- Weighted daily completion: `Σ(completed.contribution × priorityWeight) / Σ(planned.contribution × priorityWeight)` where priority weights = {high:1.5, med:1, low:0.7}.
+- ETA: `remaining_pct / avg_daily_progress_pct_last_14d` → added to today; clamped and labeled "insufficient data" when velocity is 0.
+- All comments in English; Vietnamese/English UI strings via existing `useLanguage().t`.
