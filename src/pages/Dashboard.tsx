@@ -8,6 +8,7 @@ import PteSkillRings from "@/components/pte/PteSkillRings";
 import GrammarProgressCard from "@/components/dashboard/GrammarProgressCard";
 import PersonalInfo from "@/components/dashboard/PersonalInfo";
 import PrivacyDataTab from "@/components/dashboard/PrivacyDataTab";
+import TodoGoalTab from "@/components/dashboard/todo-goal/TodoGoalTab";
 import { usePteSkillStats } from "@/hooks/usePteSkillStats";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
