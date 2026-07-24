@@ -152,6 +152,12 @@ const HeroSection = () => {
             </motion.div>
           </div>
 
+          {/* AI Path Simulator - glassmorphism morphing card */}
+          <div className="mt-10 flex justify-center lg:justify-end">
+            <AIPathSimulatorCard />
+          </div>
+
+
           <LearningJourneyTimeline />
         </div>
       </div>

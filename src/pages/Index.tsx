@@ -14,11 +14,15 @@ import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SectionDivider from "@/components/SectionDivider";
 import HomeChibiFunFacts from "@/components/decorations/HomeChibiFunFacts";
 import { useLanguage } from "@/contexts/LanguageContext";
+import AmbientOrbs from "@/components/home/AmbientOrbs";
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
 const MonthlyTopStudents = lazy(() => import("@/components/home/MonthlyTopStudents"));
 const WorldVisitorMap = lazy(() => import("@/components/home/WorldVisitorMap"));
+const BentoOfferings = lazy(() => import("@/components/home/BentoOfferings"));
+const ScrollRoadmap = lazy(() => import("@/components/home/ScrollRoadmap"));
+const TryItLivePlayground = lazy(() => import("@/components/home/TryItLivePlayground"));
 
 
 const SectionPlaceholder = () => (
