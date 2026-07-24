@@ -61,6 +61,7 @@ const Index = () => {
   const { t } = useLanguage();
   return (
   <div className="min-h-screen bg-background relative">
+    <AmbientOrbs />
     <SEO
       title="HaiEduTech | AI-Powered Learning for IELTS, HSK, AI Academy & Coding"
       description="AI-powered personalized learning for IELTS, TOEIC, HSK, Finnish YKI, Python, and AI Academy for grades 6–12 - by HaiEduTech."
@@ -102,15 +103,22 @@ const Index = () => {
     <SectionDivider flip />
     <LazySection><MonthlyTopStudents /></LazySection>
     <SectionDivider />
+    <LazySection><BentoOfferings /></LazySection>
+    <SectionDivider flip />
     <CoursesOverview />
-    <SectionDivider flip />
+    <SectionDivider />
     <LazySection><LearningRoadmaps /></LazySection>
-    <SectionDivider />
-    <LazySection><ModernTechTools /></LazySection>
     <SectionDivider flip />
-    <LazySection><SuccessMetrics /></LazySection>
+    <LazySection><ScrollRoadmap /></LazySection>
     <SectionDivider />
+    <LazySection><TryItLivePlayground /></LazySection>
+    <SectionDivider flip />
+    <LazySection><ModernTechTools /></LazySection>
+    <SectionDivider />
+    <LazySection><SuccessMetrics /></LazySection>
+    <SectionDivider flip />
     <LazySection><WorldVisitorMap /></LazySection>
+    
     
     
     <Footer />
