@@ -1,13 +1,15 @@
-// Goal card with combined task + activity progress, ETA, and motivational nudge.
+// Goal card with combined task + activity progress, ETA, motivational nudge, and impact dialog.
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Target, TrendingUp, Pencil, Trash2, Sparkles, Activity } from "lucide-react";
+import { Calendar, Target, TrendingUp, Pencil, Trash2, Sparkles, Activity, BarChart3 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { StudyGoal, StudyTask } from "./types";
 import { estimatedCompletionDate, isLagging } from "./studyGoalMath";
 import { useGoalActivityProgress } from "./useGoalActivityProgress";
+import GoalImpactDialog from "./GoalImpactDialog";
 
 interface Props {
   goal: StudyGoal;
