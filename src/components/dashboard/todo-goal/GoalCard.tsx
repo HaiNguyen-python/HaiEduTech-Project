@@ -1,13 +1,15 @@
-// Goal card with combined task + activity progress, ETA, and motivational nudge.
+// Goal card with combined task + activity progress, ETA, motivational nudge, and impact dialog.
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Target, TrendingUp, Pencil, Trash2, Sparkles, Activity } from "lucide-react";
+import { Calendar, Target, TrendingUp, Pencil, Trash2, Sparkles, Activity, BarChart3 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { StudyGoal, StudyTask } from "./types";
 import { estimatedCompletionDate, isLagging } from "./studyGoalMath";
 import { useGoalActivityProgress } from "./useGoalActivityProgress";
+import GoalImpactDialog from "./GoalImpactDialog";
 
 interface Props {
   goal: StudyGoal;
@@ -42,6 +44,7 @@ function hashPick<T>(seed: string, arr: T[]): T {
 
 export default function GoalCard({ goal, tasks, userId, onEdit, onDelete }: Props) {
   const { t, lang } = useLanguage();
+  const [impactOpen, setImpactOpen] = useState(false);
   const activity = useGoalActivityProgress(userId, goal);
   const taskPct = Math.round(Number(goal.progress_pct || 0));
   const totalPct = Math.min(100, taskPct + Math.round(activity.activityPct));
@@ -70,6 +73,7 @@ export default function GoalCard({ goal, tasks, userId, onEdit, onDelete }: Prop
             </div>
           </div>
           <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button size="icon" variant="ghost" className="h-7 w-7" title={t("Xem tác động", "See impact")} onClick={() => setImpactOpen(true)}><BarChart3 className="w-3.5 h-3.5" /></Button>
             <Button size="icon" variant="ghost" className="h-7 w-7" onClick={onEdit}><Pencil className="w-3.5 h-3.5" /></Button>
             <Button size="icon" variant="ghost" className="h-7 w-7 hover:text-destructive" onClick={onDelete}><Trash2 className="w-3.5 h-3.5" /></Button>
           </div>
@@ -118,6 +122,7 @@ export default function GoalCard({ goal, tasks, userId, onEdit, onDelete }: Prop
           </div>
         )}
       </CardContent>
+      <GoalImpactDialog open={impactOpen} onOpenChange={setImpactOpen} goal={goal} tasks={tasks} userId={userId} />
     </Card>
   );
 }

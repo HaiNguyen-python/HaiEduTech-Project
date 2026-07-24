@@ -1,57 +1,118 @@
-## Goals & To-do polish plan
+# Kế hoạch: Sửa AI Coach và nâng cấp Goals & To-do thành điểm nhấn
 
-### 1. Faster Add button (TaskComposer)
-Problem: Add waits for the `align-study-task` AI edge function before inserting, so users wait 1-3s.
-Fix: Optimistic insert first (goal_id=null, contribution_pct=0). Fire AI alignment in the background; when it returns, `UPDATE study_tasks` with goal_id / contribution_pct / ai_rationale and patch local state. Add button reflects immediately; alignment chip appears a moment later.
+## 1. Chẩn đoán "No suggestions right now"
 
-### 2. Clearer priority labels -> difficulty labels
-Rename the Select in `TaskComposer.tsx` and the priority pills in `TaskList.tsx`:
-- `low` -> "Easy Task" (VI: "Dễ")
-- `medium` -> "Medium Task" (VI: "Vừa")
-- `high` -> "Difficult Task" (VI: "Khó")
+Log edge function `recommend-study-tasks` cho thấy:
+```
+ERROR AI error 402 payment_required "Not enough credits"
+```
 
-Keep the underlying DB `priority` values (`low|medium|high`) unchanged to avoid a migration. Only labels/copy change. Adjust `PRIO_STYLES` color mapping accordingly (Easy=emerald, Medium=amber, Difficult=rose) and drop the redundant 5-dot `difficulty` display since priority now encodes it. `weightForTask` keeps its current numeric weights.
+Nguyên nhân xác định:
+- Function đang dùng model `google/gemini-2.5-flash` (không còn free-tier), trong khi chuẩn dự án là `google/gemini-3.6-flash`.
+- Khi AI 402, function trả `{tasks: [], error: "AI 402"}` nhưng client chỉ đọc `tasks` → hiện "No suggestions right now" thay vì lỗi thật.
+- Không có fallback deterministic khi AI unavailable → user không thấy gợi ý nào.
 
-### 3. Auto-progress from real learning activity
-Data source: `student_activity_log` (already populated by every practice module: IELTS, HSK, Programming, Speaking Coach, etc.) plus `user_vocab_mastered`.
+## 2. Fix trực tiếp AI Coach
 
-Mechanism:
-- Map `StudyGoal.category` to activity buckets:
-  - `ielts` -> activity_type LIKE 'ielts_%' + vocab subject IELTS
-  - `hsk` -> hsk_/hskk_/conv_chinese/vocab subject HSK
-  - `yki` -> conv_finnish/speaking_coach_finnish/vocab subject Finnish
-  - `programming` -> python_/sql_/coding_ etc.
-  - `other` -> counts any activity
-- New helper `useGoalActivityProgress(goal)` fetches, since `goal.created_at`, the count of matching activities and mastered words scoped to the current user.
-- Compute `activity_progress_pct = min(100, activities * 0.5% + mastered_words * 0.3%)` (tunable per category), capped so activity alone can reach ~60% of a goal - remaining ~40% comes from checked tasks.
-- Display in `GoalCard`: split progress bar shows "Tasks X% + Activity Y% = Total Z%". Goal's stored `progress_pct` becomes `tasks_pct + activity_pct` clamped to 100 (computed live; DB field still stores manual/task-based number for backward-compat).
-- Also surface an "Activity feed" mini list on the card (last 3 relevant activities).
+**Edge function `recommend-study-tasks`:**
+- Đổi model sang `google/gemini-3.6-flash` (miễn phí đến 13/10/2026).
+- Nếu AI trả 402/429: trả về gợi ý fallback tạo bằng heuristic (xem §3) thay vì mảng rỗng.
+- Trả thêm `source: "ai" | "fallback"` để UI hiển thị badge.
 
-### 4. Replace "Behind Schedule" warning with encouragement
-In `GoalCard.tsx`, when `isLagging` is true, replace the amber "Behind schedule - add tasks today" strip with a rotating motivational line (VI/EN), e.g. "Cố lên! Mỗi bước nhỏ hôm nay là một chiến thắng lớn ngày mai." / "Keep going - small steps today build big wins tomorrow." Pick from a small pool (5-6 lines) seeded by goal.id for stability, styled indigo/emerald instead of amber.
+**Edge function `align-study-task`:** cùng đổi model sang `google/gemini-3.6-flash`.
 
-### 5. Full QA sweep before publish
-Verify and fix any of:
-- Toggle-complete no longer double-adds contribution if user un-checks then re-checks (subtract on uncheck).
-- Delete goal cascades: unlink tasks (`goal_id = null`) so orphan tasks remain visible.
-- Empty-goal analytics: gauge/heatmap render at 0 without NaN.
-- `progress_pct` never exceeds 100 or goes negative.
-- Overdue goals show ETA gracefully.
-- Dark mode contrast on new labels/motivation banner.
-- Mobile: TaskComposer wraps, no overflow.
+**`AICoachWidget.tsx`:**
+- Hiển thị rõ lỗi (credit, network) thay vì generic message.
+- Auto-fetch lần đầu khi có goal (không cần click Get plan mới thấy).
+- Nút "Refresh" thay cho "Get plan"; hiện badge "AI" / "Smart fallback".
 
-### 6. Suggested next-step features
-Presented as a short list at the end of the plan so you can pick which to build later:
-- Recurring tasks ("every Mon/Wed/Fri") + streak per goal.
-- Pomodoro timer per task with time logged into `student_activity_log`.
-- Weekly review card: AI summary of what worked / what to change.
-- Sub-tasks / checklist inside a task.
-- Shareable goal card (image export) for social motivation.
-- Goal templates (IELTS 6.5 -> 7.5 in 90 days, YKI A2 in 60 days, HSK 3 in 45 days).
-- Calendar view + drag-drop reschedule.
-- Push/email nudge when daily completion < 40% by 20:00.
+## 3. Heuristic Fallback Engine (không phụ thuộc AI)
 
-### Technical notes
-- Files to edit: `TaskComposer.tsx`, `TaskList.tsx`, `GoalCard.tsx`, `useStudyGoalsTasks.ts`, `studyGoalMath.ts`, plus new hook `useGoalActivityProgress.ts`.
-- No schema changes required. Activity progress is derived at read-time from `student_activity_log` + `user_vocab_mastered`.
-- Toggle-uncheck fix: subtract `contribution_pct` from goal when un-completing.
+File mới `src/components/dashboard/todo-goal/smartRecommender.ts`:
+- Với mỗi active goal, tính `lag = expectedProgress - actualProgress` dựa trên deadline.
+- Chọn 2-3 goal lag nhiều nhất → map sang task template theo `category`:
+  - `ielts` → "Luyện 15' Speaking Coach", "Học 10 từ IELTS vocab bank", "Làm 1 passage Reading practice"
+  - `hsk` → "Ôn 20 Hanzi HSK", "1 bài Chinese listening", "Roleplay 10' Chinese"
+  - `yki` → "1 exercise YKI A2 listening", "Học 15 từ Finnish vocab", "Viết đoạn 50 từ Finnish"
+  - `programming` → "Giải 1 Python challenge", "Xem 1 lecture Programming", "1 SQL quiz"
+  - `other` → gợi ý chung
+- Ưu tiên high nếu lag > 15%, medium 5-15%, low < 5%.
+- Contribution 0.4-1.2% tuỳ difficulty.
+- Dùng làm fallback khi AI lỗi, và cũng dùng làm seed cho prompt AI (AI sẽ tinh chỉnh chứ không bịa từ đầu).
+
+## 4. Điểm nhấn mới: "Learning DNA -> Goal" data pipeline
+
+Đây là phần biến module thành flagship. Ý tưởng: cho học sinh THẤY hoạt động học hàng ngày trên HaiEduTech đóng góp vào từng goal thế nào.
+
+### 4.1 Activity Contribution Feed
+Component mới `ActivityContributionFeed.tsx`:
+- Đọc `student_activity_log` + `user_vocab_mastered` từ khi tạo goal.
+- Nhóm theo ngày, phân loại theo goal category (dùng lại `matches()` trong `useGoalActivityProgress`).
+- Hiển thị timeline: "Hôm qua bạn học 12 từ IELTS -> +3.6% cho goal 'IELTS 8.5'".
+- Icon per activity type, có link "View details" -> /activity-log.
+
+### 4.2 Goal Impact Breakdown (per-goal)
+Mở rộng `GoalCard.tsx`:
+- Nút "See impact" mở dialog `GoalImpactDialog.tsx` gồm 3 tab:
+  1. **Sources** - Pie chart: đóng góp từ Tasks (thủ công) vs Activities (tự động), tách theo loại hoạt động (lectures / vocab / speaking / practice tests).
+  2. **Weekly trend** - Line chart 8 tuần: minutes học + %progress đạt được, so với "required velocity" (đường mục tiêu để hoàn thành đúng deadline).
+  3. **Forecast** - Simulator: kéo slider "phút học/ngày" (0-120) → tính lại ETA, hiển thị "Nếu bạn học 45'/ngày, bạn sẽ đạt goal sớm 12 ngày".
+
+### 4.3 On-track vs Off-track banner
+Ở đầu tab, thêm `GoalHealthStrip.tsx`:
+- 4 KPI lớn: On-track goals / At-risk goals / Study minutes tuần này / Streak days.
+- Nếu có goal off-track: banner emerald->amber gradient với 1 CTA "Xem gợi ý AI".
+
+### 4.4 Weekly AI Review
+Widget `WeeklyReviewCard.tsx` + edge function `weekly-goal-review`:
+- Mỗi thứ 2, tự động chạy 1 lần khi mở dashboard (cache 7 ngày trong `study_weekly_reviews` table mới).
+- AI nhận: goals, task completion 7 ngày qua, activity minutes theo domain -> viết nhận xét ngắn + 3 điều nên làm tuần này.
+- Có nút "Add all 3 to my to-do".
+
+### 4.5 Smart Auto-linking cho Activity
+Không chỉ task được align, mà mỗi buổi học trên trang cũng cộng vào goal:
+- Đã có `useGoalActivityProgress` (đọc `activity_pct` client-side, cap 60%).
+- Nâng cấp: lưu snapshot vào cột mới `study_goals.activity_progress_pct` mỗi lần load để hiện trong analytics và không bị mất khi user rời tab.
+
+## 5. Analytics Panel nâng cấp
+
+`AnalyticsPanel.tsx` bổ sung:
+- **Study Minutes vs Target** bar chart 14 ngày (từ `student_activity_log` duration).
+- **Category mix** stacked bar: mỗi ngày bao nhiêu % dành cho IELTS/HSK/YKI/Programming.
+- **Streak & Best day** badges.
+- Fix `grid-cols-15` (không tồn tại trong Tailwind) - dùng inline style như hiện tại nhưng thêm class rõ ràng.
+
+## 6. UI polish
+
+- Empty state "No tasks yet" → thêm CTA "Get 3 AI ideas".
+- Priority badge: đổi màu Easy=emerald, Medium=amber, Difficult=rose (nhất quán VI/EN).
+- Motivational line: mở rộng pool lên 20 câu, đổi mỗi 3h trong ngày.
+- Loading skeleton cho GoalCard.
+
+## Files sẽ thay đổi / tạo mới
+
+**Sửa:**
+- `supabase/functions/recommend-study-tasks/index.ts` - model + fallback
+- `supabase/functions/align-study-task/index.ts` - model
+- `src/components/dashboard/todo-goal/AICoachWidget.tsx` - auto-fetch + rõ lỗi
+- `src/components/dashboard/todo-goal/GoalCard.tsx` - nút See impact
+- `src/components/dashboard/todo-goal/AnalyticsPanel.tsx` - thêm 2 chart, fix grid
+- `src/components/dashboard/todo-goal/TodoGoalTab.tsx` - lắp health strip + weekly review + feed
+- `src/components/dashboard/todo-goal/useGoalActivityProgress.ts` - persist snapshot
+
+**Tạo mới:**
+- `src/components/dashboard/todo-goal/smartRecommender.ts`
+- `src/components/dashboard/todo-goal/ActivityContributionFeed.tsx`
+- `src/components/dashboard/todo-goal/GoalImpactDialog.tsx`
+- `src/components/dashboard/todo-goal/GoalHealthStrip.tsx`
+- `src/components/dashboard/todo-goal/WeeklyReviewCard.tsx`
+- `supabase/functions/weekly-goal-review/index.ts`
+- Migration: thêm cột `activity_progress_pct` cho `study_goals`, tạo bảng `study_weekly_reviews`.
+
+## Technical notes
+
+- Toàn bộ AI calls dùng `google/gemini-3.6-flash` qua `https://ai.gateway.lovable.dev/v1/chat/completions` với header `Lovable-API-Key`.
+- Handle 402/429 rõ ràng (toast + fallback path).
+- Charts dùng recharts đã có (không thêm dependency).
+- Toàn bộ comment code bằng tiếng Anh (theo core rule).
+- Mobile-first: dialog full-screen dưới `md`, grid 1 cột dưới `lg`.

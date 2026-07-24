@@ -10,6 +10,8 @@ import TaskList from "./TaskList";
 import TaskComposer from "./TaskComposer";
 import AnalyticsPanel from "./AnalyticsPanel";
 import AICoachWidget from "./AICoachWidget";
+import GoalHealthStrip from "./GoalHealthStrip";
+import ActivityContributionFeed from "./ActivityContributionFeed";
 import type { StudyGoal } from "./types";
 import { todaysTasks } from "./studyGoalMath";
 
@@ -37,6 +39,9 @@ export default function TodoGoalTab({ userId }: Props) {
 
   return (
     <div className="space-y-6">
+      {/* Health KPI strip */}
+      <GoalHealthStrip goals={goals} tasks={tasks} userId={userId} />
+
       {/* Goals section */}
       <section>
         <div className="flex items-center justify-between mb-3">
@@ -86,6 +91,12 @@ export default function TodoGoalTab({ userId }: Props) {
         <div>
           <AICoachWidget goals={goals} tasks={tasks} onAdd={createTask} />
         </div>
+      </section>
+
+      {/* Learning -> Goals contribution feed */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">{t("Học tập -> Mục tiêu", "Learning -> Goals")}</h2>
+        <ActivityContributionFeed userId={userId} goals={goals} />
       </section>
 
       {/* Analytics */}

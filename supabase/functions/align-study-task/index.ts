@@ -55,7 +55,7 @@ Respond with ONLY compact JSON: {"goal_id":"<id or null>","contribution_pct":<nu
       method: "POST",
       headers: { "Content-Type": "application/json", "Lovable-API-Key": key },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-3.6-flash",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.3,
       }),
