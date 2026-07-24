@@ -15,6 +15,7 @@ import TechParticles from "@/components/TechParticles";
 import TypingHeadline from "@/components/TypingHeadline";
 import LearningJourneyTimeline from "@/components/LearningJourneyTimeline";
 import FloatingChibi from "@/components/FloatingChibi";
+import AIPathSimulatorCard from "@/components/home/AIPathSimulatorCard";
 import chibiReading from "@/assets/chibi-reading.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
@@ -150,6 +151,12 @@ const HeroSection = () => {
               </div>
             </motion.div>
           </div>
+
+          {/* AI Path Simulator - glassmorphism morphing card */}
+          <div className="mt-10 flex justify-center lg:justify-end">
+            <AIPathSimulatorCard />
+          </div>
+
 
           <LearningJourneyTimeline />
         </div>

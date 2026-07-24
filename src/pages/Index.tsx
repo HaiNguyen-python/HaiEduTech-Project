@@ -14,11 +14,15 @@ import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SectionDivider from "@/components/SectionDivider";
 import HomeChibiFunFacts from "@/components/decorations/HomeChibiFunFacts";
 import { useLanguage } from "@/contexts/LanguageContext";
+import AmbientOrbs from "@/components/home/AmbientOrbs";
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
 const MonthlyTopStudents = lazy(() => import("@/components/home/MonthlyTopStudents"));
 const WorldVisitorMap = lazy(() => import("@/components/home/WorldVisitorMap"));
+const BentoOfferings = lazy(() => import("@/components/home/BentoOfferings"));
+const ScrollRoadmap = lazy(() => import("@/components/home/ScrollRoadmap"));
+const TryItLivePlayground = lazy(() => import("@/components/home/TryItLivePlayground"));
 
 
 const SectionPlaceholder = () => (
@@ -57,6 +61,7 @@ const Index = () => {
   const { t } = useLanguage();
   return (
   <div className="min-h-screen bg-background relative">
+    <AmbientOrbs />
     <SEO
       title="HaiEduTech | AI-Powered Learning for IELTS, HSK, AI Academy & Coding"
       description="AI-powered personalized learning for IELTS, TOEIC, HSK, Finnish YKI, Python, and AI Academy for grades 6–12 - by HaiEduTech."
@@ -98,15 +103,22 @@ const Index = () => {
     <SectionDivider flip />
     <LazySection><MonthlyTopStudents /></LazySection>
     <SectionDivider />
+    <LazySection><BentoOfferings /></LazySection>
+    <SectionDivider flip />
     <CoursesOverview />
-    <SectionDivider flip />
+    <SectionDivider />
     <LazySection><LearningRoadmaps /></LazySection>
-    <SectionDivider />
-    <LazySection><ModernTechTools /></LazySection>
     <SectionDivider flip />
-    <LazySection><SuccessMetrics /></LazySection>
+    <LazySection><ScrollRoadmap /></LazySection>
     <SectionDivider />
+    <LazySection><TryItLivePlayground /></LazySection>
+    <SectionDivider flip />
+    <LazySection><ModernTechTools /></LazySection>
+    <SectionDivider />
+    <LazySection><SuccessMetrics /></LazySection>
+    <SectionDivider flip />
     <LazySection><WorldVisitorMap /></LazySection>
+    
     
     
     <Footer />
