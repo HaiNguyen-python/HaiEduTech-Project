@@ -81,12 +81,26 @@ async function detectCountry(req: Request): Promise<CountryInfo | null> {
   return null;
 }
 
+const BOT_UA_REGEX = /bot|crawler|spider|crawling|slurp|bingpreview|facebookexternalhit|embedly|quora|slackbot|vkshare|w3c_validator|redditbot|applebot|whatsapp|telegrambot|pinterest|semrush|ahrefs|mj12bot|dotbot|petalbot|gptbot|chatgpt|claudebot|anthropic|perplexity|ccbot|dataforseo|headlesschrome|phantomjs|puppeteer|playwright|lighthouse|python-requests|curl\/|wget\//i;
+
+function isLikelyBot(req: Request): boolean {
+  const ua = (req.headers.get("user-agent") || "").toLowerCase();
+  if (!ua) return true;
+  return BOT_UA_REGEX.test(ua);
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    if (isLikelyBot(req)) {
+      return new Response(
+        JSON.stringify({ success: false, reason: "bot_filtered" }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
     const country = await detectCountry(req);
     if (!country) {
       return new Response(
@@ -94,6 +108,7 @@ serve(async (req) => {
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
+
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
