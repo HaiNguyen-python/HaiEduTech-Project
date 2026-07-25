@@ -1106,6 +1106,7 @@ const IeltsReadingPractice: React.FC = () => {
             </TabsList>
 
             <TabsContent value="full-test" className="mt-6">
+              <ReadingProgressChart refreshKey={chartRefreshKey} />
               <div className="mb-4 rounded-xl border-2 border-dashed border-primary/30 bg-gradient-to-r from-primary/5 to-emerald-500/5 p-4">
                 <h2 className="text-base font-bold text-foreground flex items-center gap-2">
                   <Trophy className="w-5 h-5 text-primary" />
