@@ -754,13 +754,16 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
       )}
 
       {q.type === "fill-blank" && (
-        <div className="pl-9">
+        <div className="pl-9 space-y-1.5">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-primary/80">
+            {wordCountHint(q.answer, isVi)}
+          </p>
           <input
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             disabled={submitted}
-            placeholder="Type your answer..."
+            placeholder={isVi ? "Nhập câu trả lời..." : "Type your answer..."}
             className={cn(
               "w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30",
               submitted && (correct ? "border-emerald-500" : wrong ? "border-destructive" : "")
