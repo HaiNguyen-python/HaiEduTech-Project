@@ -654,8 +654,8 @@ interface QBlockProps {
 }
 
 const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus, flagged, onToggleFlag }) => {
-  const { language } = useLanguage();
-  const isVi = language === "vi";
+  const { lang } = useLanguage();
+  const isVi = lang === "vi";
   const correct = submitted && value.trim().toLowerCase() === q.answer.toLowerCase();
   const wrong = submitted && value && !correct;
 
