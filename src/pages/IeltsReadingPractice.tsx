@@ -1052,6 +1052,8 @@ const IeltsReadingPractice: React.FC = () => {
   const { t } = useLanguage();
   const [activeExam, setActiveExam] = useState<ReadingExam | null>(null);
   const [activeFullTest, setActiveFullTest] = useState<FullTest | null>(null);
+  // Refresh the progress chart whenever an exam room closes
+  const chartRefreshKey = (activeExam ? 0 : 1) + (activeFullTest ? 0 : 2);
 
 
 
