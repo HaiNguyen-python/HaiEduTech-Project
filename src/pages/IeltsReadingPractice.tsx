@@ -886,6 +886,7 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
         mode: "full_test",
       },
     });
+    pushAttempt({ id: test.id, title: test.title, mode: "full", score, total: totalQs });
   }, [submitted, test, score, totalQs, secondsLeft]);
 
   const currentPassage = passages[activePassage];
