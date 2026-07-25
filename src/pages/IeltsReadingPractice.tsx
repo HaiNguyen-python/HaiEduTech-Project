@@ -457,6 +457,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
         mode: "single_exam",
       },
     });
+    pushAttempt({ id: exam.id, title: exam.title, mode: "single", score, total: exam.questions.length });
   }, [submitted, exam, score, secondsLeft]);
 
   const handleSubmit = () => setSubmitted(true);
