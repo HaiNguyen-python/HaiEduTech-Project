@@ -145,13 +145,18 @@ const WorldVisitorMap = () => {
     (async () => {
       await refreshData();
       await reportVisitorCountry();
-      // Fetch again after logging our own visit so the map reflects it immediately.
       if (alive) await refreshData();
+      // Fetch total registered students (profiles count).
+      const { count } = await supabase
+        .from("profiles" as never)
+        .select("id", { count: "exact", head: true });
+      if (alive && typeof count === "number") setTotalStudents(count);
     })();
     return () => {
       alive = false;
     };
   }, []);
+
 
   const { byCode, maxVisits, totalCountries, totalVisits, top, continents } = useMemo(() => {
     const map = new Map<string, CountryRow>();
