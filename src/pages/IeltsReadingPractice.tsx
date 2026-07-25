@@ -42,6 +42,9 @@ import { READING_PASSAGE_EXTENSIONS } from "@/data/ieltsReadingPassageExtensions
 import { READING_QUESTION_EXTENSIONS } from "@/data/ieltsReadingQuestionExtensions";
 import { READING_VOCAB, type ReadingVocabItem } from "@/data/ieltsReadingVocab";
 import { IELTS_FULL_TESTS, type FullTest } from "@/data/ieltsFullTests";
+import { shuffleHeadingsInExam } from "@/lib/ieltsReadingShuffle";
+import { pushAttempt } from "@/lib/ieltsReadingHistory";
+import ReadingProgressChart from "@/components/ielts/ReadingProgressChart";
 
 // Extend each exam's passage AND questions so each passage carries 13-14 Qs
 // like a real Cambridge IELTS Reading paper.
@@ -50,10 +53,38 @@ const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAM
   const extraQs = READING_QUESTION_EXTENSIONS[e.id];
   let merged = extra ? { ...e, passage: e.passage + extra } : { ...e };
   if (extraQs && extraQs.length) merged = { ...merged, questions: [...merged.questions, ...extraQs] };
+  // De-bias matching-headings so the correct label is not always "i"
+  merged = shuffleHeadingsInExam(merged);
   return merged;
 });
 const IELTS_FULL_READING_EXAMS: ReadingExam[] = _MERGED_EXAMS;
 const EXAMS_BY_ID: Record<string, ReadingExam> = Object.fromEntries(IELTS_FULL_READING_EXAMS.map(e => [e.id, e]));
+
+// Word-count hint for fill-in-the-blank answers, mirroring the real IELTS
+// "NO MORE THAN X WORDS AND/OR A NUMBER" instruction.
+const wordCountHint = (answer: string, isVi: boolean): string => {
+  const clean = (answer || "").trim();
+  const hasNumber = /\d/.test(clean);
+  const words = clean.split(/\s+/).filter(Boolean).length;
+  const cap = Math.max(1, Math.min(3, words));
+  const en =
+    cap === 1
+      ? hasNumber
+        ? "Write NO MORE THAN ONE WORD AND/OR A NUMBER."
+        : "Write ONE WORD only."
+      : cap === 2
+        ? "Write NO MORE THAN TWO WORDS AND/OR A NUMBER."
+        : "Write NO MORE THAN THREE WORDS AND/OR A NUMBER.";
+  const vi =
+    cap === 1
+      ? hasNumber
+        ? "Viết KHÔNG QUÁ MỘT TỪ VÀ/HOẶC MỘT CON SỐ."
+        : "Chỉ viết MỘT TỪ duy nhất."
+      : cap === 2
+        ? "Viết KHÔNG QUÁ HAI TỪ VÀ/HOẶC MỘT CON SỐ."
+        : "Viết KHÔNG QUÁ BA TỪ VÀ/HOẶC MỘT CON SỐ.";
+  return isVi ? vi : en;
+};
 
 // ============================================================
 // Shared exam-room UI helpers
