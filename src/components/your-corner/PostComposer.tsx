@@ -211,8 +211,8 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
 
       const abortController = new AbortController();
       const timeoutId = window.setTimeout(() => abortController.abort(), 8000);
-      const insertQuery = supabase.from("your_corner_posts").insert(newPost as any);
-      const { error } = await (async () => {
+      const insertQuery = supabase.from("your_corner_posts").insert(newPost as any).select("id").single();
+      const { data: inserted, error } = await (async () => {
         try {
           return await (typeof (insertQuery as any).abortSignal === "function"
             ? (insertQuery as any).abortSignal(abortController.signal)
@@ -235,6 +235,13 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       toast.success(pollPayload ? "Đã đăng poll! 📊" : "Đã đăng bài! 🎉");
       // Defer parent update to next tick so the spinner UI flushes first
       setTimeout(() => onPosted(newPost), 0);
+      // Fire-and-forget: Coach Hai auto-praise comment (+ optional grammar correction).
+      const newPostId = (inserted as any)?.id;
+      if (newPostId && trimmed) {
+        supabase.functions
+          .invoke("auto-praise-comment", { body: { postId: newPostId, content: trimmed } })
+          .catch(() => { /* silent */ });
+      }
       return;
     } catch (e: any) {
       toast.error(e?.name === "AbortError" ? "Kết nối chậm, vui lòng thử lại" : e?.message || "Không đăng được bài");
