@@ -10,7 +10,7 @@ import { scaleLog } from "d3-scale";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Globe2, TrendingUp, Users, MapPin } from "lucide-react";
+import { Globe2, TrendingUp, Users, MapPin, GraduationCap } from "lucide-react";
 
 // GeoJSON with ISO-3166-1 alpha-2 country codes. The previous TopoJSON source only
 // exposed numeric IDs, so the database country codes could not match map shapes.
@@ -117,7 +117,9 @@ async function reportVisitorCountry() {
 const WorldVisitorMap = () => {
   const { t, lang } = useLanguage();
   const [rows, setRows] = useState<CountryRow[]>([]);
+  const [totalStudents, setTotalStudents] = useState<number>(0);
   const [hovered, setHovered] = useState<{ code: string; name: string; visits: number } | null>(null);
+
 
   const refreshData = async () => {
     const { data } = await supabase
@@ -143,13 +145,18 @@ const WorldVisitorMap = () => {
     (async () => {
       await refreshData();
       await reportVisitorCountry();
-      // Fetch again after logging our own visit so the map reflects it immediately.
       if (alive) await refreshData();
+      // Fetch total registered students (profiles count).
+      const { count } = await supabase
+        .from("profiles" as never)
+        .select("id", { count: "exact", head: true });
+      if (alive && typeof count === "number") setTotalStudents(count);
     })();
     return () => {
       alive = false;
     };
   }, []);
+
 
   const { byCode, maxVisits, totalCountries, totalVisits, top, continents } = useMemo(() => {
     const map = new Map<string, CountryRow>();
@@ -218,7 +225,7 @@ const WorldVisitorMap = () => {
         </div>
 
         {/* KPI strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6 max-w-5xl mx-auto">
           <div className="rounded-xl border border-border/60 bg-card/70 backdrop-blur-sm p-4 flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-primary/15 flex items-center justify-center">
               <MapPin className="w-5 h-5 text-primary" />
@@ -238,9 +245,21 @@ const WorldVisitorMap = () => {
               <div className="text-[11px] uppercase tracking-wide text-muted-foreground">
                 {t("Tổng lượt truy cập", "Total visits")}
               </div>
-              <div className="text-xl font-bold">{totalVisits}</div>
+              <div className="text-xl font-bold">{totalVisits.toLocaleString()}</div>
             </div>
           </div>
+          <div className="rounded-xl border border-border/60 bg-card/70 backdrop-blur-sm p-4 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-blue-500/15 flex items-center justify-center">
+              <GraduationCap className="w-5 h-5 text-blue-600" />
+            </div>
+            <div>
+              <div className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                {t("Tổng học viên", "Total students")}
+              </div>
+              <div className="text-xl font-bold">{totalStudents.toLocaleString()}</div>
+            </div>
+          </div>
+
           <div className="rounded-xl border border-border/60 bg-card/70 backdrop-blur-sm p-4 flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-amber-500/15 flex items-center justify-center">
               <TrendingUp className="w-5 h-5 text-amber-600" />
