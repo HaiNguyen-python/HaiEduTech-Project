@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { estimateContribution } from "./estimateContribution";
 import type { StudyGoal, StudyTask } from "./types";
 
 interface Props {
@@ -20,16 +21,25 @@ export default function TaskComposer({ goals, onCreate, onPatch }: Props) {
   const [priority, setPriority] = useState<"high" | "medium" | "low">("medium");
   const [loading, setLoading] = useState(false);
 
+  // Live estimate so users see the linked main goal and % as they type.
+  const estimate = estimateContribution(title, goals);
+  const estimatedGoal = estimate.goalId ? goals.find((g) => g.id === estimate.goalId) : null;
+
   const submit = async () => {
     const value = title.trim();
     if (!value || loading) return;
     setLoading(true);
-    // Insert immediately without waiting for AI alignment.
-    const created = await onCreate({ title: value, priority, goal_id: null, contribution_pct: 0 });
+    // Insert immediately with the client-side estimate so the % is visible right away.
+    const created = await onCreate({
+      title: value,
+      priority,
+      goal_id: estimate.goalId,
+      contribution_pct: estimate.pct,
+    });
     setTitle("");
     setLoading(false);
 
-    // Fire-and-forget AI alignment in the background.
+    // Fire-and-forget AI alignment refines the estimate in the background.
     if (created && goals.length > 0 && onPatch) {
       supabase.functions
         .invoke("align-study-task", {
@@ -41,13 +51,13 @@ export default function TaskComposer({ goals, onCreate, onPatch }: Props) {
         .then(({ data }) => {
           if (!data) return;
           const patch: Partial<StudyTask> = {
-            goal_id: data.goal_id ?? null,
-            contribution_pct: Number(data.contribution_pct) || 0,
+            goal_id: data.goal_id ?? estimate.goalId,
+            contribution_pct: Number(data.contribution_pct) || estimate.pct,
             ai_rationale: data.rationale ?? null,
           };
           onPatch(created.id, patch);
         })
-        .catch(() => { /* silent - task already saved */ });
+        .catch(() => { /* silent - task already saved with estimate */ });
     }
   };
 
@@ -73,6 +83,12 @@ export default function TaskComposer({ goals, onCreate, onPatch }: Props) {
         <Plus className="w-4 h-4" />
         {t("Thêm", "Add")}
       </Button>
+      {estimatedGoal && (
+        <div className="w-full text-[11px] text-muted-foreground sm:pl-1">
+          {t("Liên kết mục tiêu", "Linked to")}: <span className="font-medium text-foreground">{estimatedGoal.title.slice(0, 40)}</span>
+          <span className="ml-1 text-emerald-600 font-semibold">+{estimate.pct.toFixed(1)}%</span>
+        </div>
+      )}
     </div>
   );
 }

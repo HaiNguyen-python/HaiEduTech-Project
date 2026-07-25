@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -10,6 +10,8 @@ import StarterKit from "@tiptap/starter-kit";
 import Color from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
 
 interface Notebook {
   id: string;
@@ -101,7 +103,14 @@ const FloatingNotebook = () => {
 
   // Tiptap editor — onUpdate triggers a React re-render so auto-save fires.
   const editor = useEditor({
-    extensions: [StarterKit, TextStyle, Color, Highlight.configure({ multicolor: true })],
+    extensions: [
+      StarterKit,
+      TextStyle,
+      Color,
+      Highlight.configure({ multicolor: true }),
+      TaskList,
+      TaskItem.configure({ nested: true }),
+    ],
     content: "",
     editorProps: {
       attributes: {
@@ -750,6 +759,7 @@ const FloatingNotebook = () => {
                 { icon: Underline, action: () => editor?.chain().focus().toggleUnderline().run(), active: editor?.isActive("underline") },
                 { icon: List, action: () => editor?.chain().focus().toggleBulletList().run(), active: editor?.isActive("bulletList") },
                 { icon: ListOrdered, action: () => editor?.chain().focus().toggleOrderedList().run(), active: editor?.isActive("orderedList") },
+                { icon: ListChecks, action: () => editor?.chain().focus().toggleTaskList().run(), active: editor?.isActive("taskList") },
               ].map(({ icon: Icon, action, active }, i) => (
                 <button
                   key={i}
