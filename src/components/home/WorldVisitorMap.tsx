@@ -117,7 +117,9 @@ async function reportVisitorCountry() {
 const WorldVisitorMap = () => {
   const { t, lang } = useLanguage();
   const [rows, setRows] = useState<CountryRow[]>([]);
+  const [totalStudents, setTotalStudents] = useState<number>(0);
   const [hovered, setHovered] = useState<{ code: string; name: string; visits: number } | null>(null);
+
 
   const refreshData = async () => {
     const { data } = await supabase
