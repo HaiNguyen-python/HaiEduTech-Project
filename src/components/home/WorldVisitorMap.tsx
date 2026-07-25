@@ -10,7 +10,7 @@ import { scaleLog } from "d3-scale";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Globe2, TrendingUp, Users, MapPin } from "lucide-react";
+import { Globe2, TrendingUp, Users, MapPin, GraduationCap } from "lucide-react";
 
 // GeoJSON with ISO-3166-1 alpha-2 country codes. The previous TopoJSON source only
 // exposed numeric IDs, so the database country codes could not match map shapes.
