@@ -41,6 +41,8 @@
         "@tanstack/react-query": "^5.83.0",
         "@tiptap/extension-color": "^3.22.3",
         "@tiptap/extension-highlight": "^3.22.3",
+        "@tiptap/extension-task-item": "^3.29.0",
+        "@tiptap/extension-task-list": "^3.29.0",
         "@tiptap/extension-text-style": "^3.22.3",
         "@tiptap/extension-underline": "^3.22.2",
         "@tiptap/pm": "^3.22.2",
@@ -567,6 +569,10 @@
     "@tiptap/extension-paragraph": ["@tiptap/extension-paragraph@3.22.4", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@tiptap/extension-paragraph/-/extension-paragraph-3.22.4.tgz", { "peerDependencies": { "@tiptap/core": "3.22.4" } }, "sha512-de6dFkIhigiENESY6rNJ3yTVS/337ybfP30dNPudTwGe9oAu9ZCS+04j6QCvXSjhlI3ULiv7wiSHqrP26Gd+Hw=="],
 
     "@tiptap/extension-strike": ["@tiptap/extension-strike@3.22.4", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@tiptap/extension-strike/-/extension-strike-3.22.4.tgz", { "peerDependencies": { "@tiptap/core": "3.22.4" } }, "sha512-aRHWQj42HiailXSC9LkKYM3jWMcSeGwOjbqM4PiuxQZmHVDRFmeHkfJItOdn2cSHaO0vuEVK+TvrWUWsBFi3pg=="],
+
+    "@tiptap/extension-task-item": ["@tiptap/extension-task-item@3.29.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@tiptap/extension-task-item/-/extension-task-item-3.29.0.tgz", { "peerDependencies": { "@tiptap/extension-list": "3.29.0" } }, "sha512-JWA7zzhwPAseeeUs/xnwl4jPkDPXgclqVHk1VM7b4O6h7m7NOMsh7XuTIzKUr4bNTFxKbKUB/v5s/tDRqO4Esg=="],
+
+    "@tiptap/extension-task-list": ["@tiptap/extension-task-list@3.29.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@tiptap/extension-task-list/-/extension-task-list-3.29.0.tgz", { "peerDependencies": { "@tiptap/extension-list": "3.29.0" } }, "sha512-+W8TJtZR2W3lFvmnD4orcgQdxQ7qH0lrYtSewX7VX7+taPC4cMes7taYzX21d0F3uU77er3GaQIJNxh7dsgu5A=="],
 
     "@tiptap/extension-text": ["@tiptap/extension-text@3.22.4", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@tiptap/extension-text/-/extension-text-3.22.4.tgz", { "peerDependencies": { "@tiptap/core": "3.22.4" } }, "sha512-mM69uUW5cSxIhyEpWXi/YcfyupcJMDLCPEfYi62awH0iOP/LRoCv/nHjJq4Hyj/KxRJbe8HKwIUnqaCUf7m5Pg=="],
 
