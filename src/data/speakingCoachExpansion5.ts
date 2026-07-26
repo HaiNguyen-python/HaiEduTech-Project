@@ -7,7 +7,7 @@ export const englishExtraThemes5: SpeakingTheme[] = [
   {
     id: "en-b2-opinions", name: "Debates & Opinions", nameVi: "Tranh luận & Quan điểm", icon: "💬", level: "B2",
     sentences: [
-      { id: "en5-o1", text: "I tend to agree with the idea that remote work boosts productivity.", translation: "Tôi có xu hướng đồng ý rằng làm việc từ xa giúp tăng năng suất.", ipa: "/ajˈ tɛˈnd tuˈ ʌgɹiˈ wɪˈð ðʌ ajdiˈʌ ðæˈt ɹɪmowˈt wɚˈk buˈsts pɹowˌdʌktɪˈvʌti/", difficulty: "medium", theme: "opinions" },
+      { id: "en5-o1", text: "I tend to agree with the idea that remote work boosts productivity.", translation: "Tôi có xu hướng đồng ý rằng làm việc từ xa giúp tăng năng suất.", ipa: "/aɪ tɛnd tə ʌgɹi wɪð ðə aɪdiʌ ðæt ɹɪmoʊt wərˈk busts pɹoʊˌdʌktɪvʌti/", difficulty: "medium", theme: "opinions" },
       { id: "en5-o2", text: "From my perspective, social media has done more harm than good.", translation: "Theo quan điểm của tôi, mạng xã hội gây hại nhiều hơn lợi.", difficulty: "medium", theme: "opinions" },
       { id: "en5-o3", text: "While I see your point, I'm not entirely convinced by that argument.", translation: "Tuy hiểu ý bạn nhưng tôi không hoàn toàn bị thuyết phục.", difficulty: "hard", theme: "opinions" },
       { id: "en5-o4", text: "There's a strong case for investing more in renewable energy.", translation: "Có lý lẽ vững chắc cho việc đầu tư nhiều hơn vào năng lượng tái tạo.", difficulty: "hard", theme: "opinions" },
@@ -22,7 +22,7 @@ export const englishExtraThemes5: SpeakingTheme[] = [
   {
     id: "en-b2-environment", name: "Environment & Society", nameVi: "Môi trường & Xã hội", icon: "🌍", level: "B2",
     sentences: [
-      { id: "en5-e1", text: "Climate change is arguably the most pressing issue of our generation.", translation: "Biến đổi khí hậu được xem là vấn đề cấp bách nhất của thế hệ chúng ta.", ipa: "/klajˈmʌt ʧejˈnʤ ɪˈz ɑˈɹgjuʌbli ðʌ mowˈst pɹɛˈsɪŋ ɪˈʃu ʌˈv awˈɚ ʤɛˌnɚejˈʃʌn/", difficulty: "hard", theme: "environment" },
+      { id: "en5-e1", text: "Climate change is arguably the most pressing issue of our generation.", translation: "Biến đổi khí hậu được xem là vấn đề cấp bách nhất của thế hệ chúng ta.", ipa: "/klaɪmʌt ʧeɪnʤ ɪz ɑɹgjuʌbli ðə moʊst pɹɛsɪŋ ɪʃu əv aʊər ʤɛˌnəreɪʃʌn/", difficulty: "hard", theme: "environment" },
       { id: "en5-e2", text: "Governments should impose stricter regulations on single-use plastics.", translation: "Chính phủ nên áp đặt quy định nghiêm ngặt hơn với nhựa dùng một lần.", difficulty: "hard", theme: "environment" },
       { id: "en5-e3", text: "Public transport is far more sustainable than private vehicles.", translation: "Giao thông công cộng bền vững hơn nhiều so với xe cá nhân.", difficulty: "medium", theme: "environment" },
       { id: "en5-e4", text: "Many cities are struggling to cope with rising sea levels.", translation: "Nhiều thành phố đang vật lộn để đối phó mực nước biển dâng.", difficulty: "hard", theme: "environment" },
@@ -37,7 +37,7 @@ export const englishExtraThemes5: SpeakingTheme[] = [
   {
     id: "en-c1-academic", name: "Academic & Professional", nameVi: "Học thuật & Chuyên nghiệp", icon: "🎓", level: "C1",
     sentences: [
-      { id: "en5-a1", text: "The findings of this study suggest a strong correlation between sleep and performance.", translation: "Kết quả nghiên cứu cho thấy mối tương quan mạnh giữa giấc ngủ và hiệu suất.", ipa: "/ðʌ fajˈndɪŋz ʌˈv ðɪˈs stʌˈdi sʌgʤɛˈst ʌ stɹɔˈŋ kɔˌɹʌlejˈʃʌn bɪtwiˈn sliˈp ʌnd pɚfɔˈɹmʌns/", difficulty: "hard", theme: "academic" },
+      { id: "en5-a1", text: "The findings of this study suggest a strong correlation between sleep and performance.", translation: "Kết quả nghiên cứu cho thấy mối tương quan mạnh giữa giấc ngủ và hiệu suất.", ipa: "/ðə faɪndɪŋz əv ðɪs stʌdi sʌgʤɛst ə stɹɔŋ kɔˌɹʌleɪʃʌn bɪtwin slip ənd pərfɔɹmʌns/", difficulty: "hard", theme: "academic" },
       { id: "en5-a2", text: "It is widely acknowledged that early intervention yields the best outcomes.", translation: "Người ta thừa nhận rộng rãi rằng can thiệp sớm cho kết quả tốt nhất.", difficulty: "hard", theme: "academic" },
       { id: "en5-a3", text: "Were we to overlook these factors, our conclusions would be deeply flawed.", translation: "Nếu chúng ta bỏ qua các yếu tố này, kết luận sẽ sai lệch nghiêm trọng.", difficulty: "hard", theme: "academic" },
       { id: "en5-a4", text: "This methodology has both its merits and its inherent limitations.", translation: "Phương pháp này có cả ưu điểm lẫn hạn chế cố hữu.", difficulty: "hard", theme: "academic" },
