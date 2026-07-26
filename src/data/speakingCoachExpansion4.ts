@@ -7,7 +7,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-health", name: "Health & Wellness", nameVi: "Sức khỏe & Thể chất", icon: "🏥",
     sentences: [
-      { id: "en4-h1", text: "I try to drink eight glasses of water every day.", translation: "Tôi cố gắng uống tám cốc nước mỗi ngày.", ipa: "/aɪ tɹaɪ tə dɹɪŋk eɪt glæsʌz əv wɔtər ɛvəri deɪ/", difficulty: "easy", theme: "health" },
+      { id: "en4-h1", text: "I try to drink eight glasses of water every day.", translation: "Tôi cố gắng uống tám cốc nước mỗi ngày.", ipa: "/aɪ tɹaɪ tə dɹɪŋk eɪt glæsəz əv wɔtər ɛvəri deɪ/", difficulty: "easy", theme: "health" },
       { id: "en4-h2", text: "Regular exercise keeps both my body and mind healthy.", translation: "Tập thể dục đều đặn giúp cả cơ thể và tinh thần khỏe mạnh.", difficulty: "medium", theme: "health" },
       { id: "en4-h3", text: "I usually go to bed before eleven on weekdays.", translation: "Tôi thường đi ngủ trước mười một giờ vào ngày thường.", difficulty: "easy", theme: "health" },
       { id: "en4-h4", text: "Stress can have a serious impact on long-term health.", translation: "Căng thẳng có thể ảnh hưởng nghiêm trọng đến sức khỏe lâu dài.", difficulty: "hard", theme: "health" },
@@ -20,7 +20,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-tech", name: "Technology & AI", nameVi: "Công nghệ & AI", icon: "🤖",
     sentences: [
-      { id: "en4-t1", text: "I use my phone for almost everything these days.", translation: "Dạo này tôi dùng điện thoại cho hầu hết mọi việc.", ipa: "/aɪ jus maɪ foʊn fɔːr ɔlmoʊˌst ɛvɹiθɪˌŋ ðiz deɪz/", difficulty: "easy", theme: "tech" },
+      { id: "en4-t1", text: "I use my phone for almost everything these days.", translation: "Dạo này tôi dùng điện thoại cho hầu hết mọi việc.", ipa: "/aɪ jus maɪ foʊn fɔːr ɔlmoʊst ɛvɹiθɪŋ ðiːz deɪz/", difficulty: "easy", theme: "tech" },
       { id: "en4-t2", text: "Artificial intelligence is changing the way we work.", translation: "Trí tuệ nhân tạo đang thay đổi cách chúng ta làm việc.", difficulty: "medium", theme: "tech" },
       { id: "en4-t3", text: "Could you help me set up the Wi-Fi password?", translation: "Bạn giúp tôi cài mật khẩu Wi-Fi được không?", difficulty: "easy", theme: "tech" },
       { id: "en4-t4", text: "Many companies are adopting remote work tools to stay competitive.", translation: "Nhiều công ty đang áp dụng công cụ làm việc từ xa để giữ tính cạnh tranh.", difficulty: "hard", theme: "tech" },
@@ -33,7 +33,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-environment", name: "Environment & Climate", nameVi: "Môi trường & Khí hậu", icon: "🌍",
     sentences: [
-      { id: "en4-en1", text: "We should recycle paper, plastic and glass at home.", translation: "Chúng ta nên tái chế giấy, nhựa và thủy tinh tại nhà.", ipa: "/wi ʃʊd ɹisaɪkʌl peɪpər plæstɪk ənd glæs æt hoʊm/", difficulty: "easy", theme: "environment" },
+      { id: "en4-en1", text: "We should recycle paper, plastic and glass at home.", translation: "Chúng ta nên tái chế giấy, nhựa và thủy tinh tại nhà.", ipa: "/wi ʃʊd ɹisaɪkəl peɪpər plæstɪk ənd glæs æt hoʊm/", difficulty: "easy", theme: "environment" },
       { id: "en4-en2", text: "Climate change is one of the most urgent issues today.", translation: "Biến đổi khí hậu là một trong những vấn đề cấp bách nhất hiện nay.", difficulty: "medium", theme: "environment" },
       { id: "en4-en3", text: "I usually carry a reusable bottle instead of buying plastic ones.", translation: "Tôi thường mang chai dùng lại thay vì mua chai nhựa.", difficulty: "medium", theme: "environment" },
       { id: "en4-en4", text: "Cities should invest more in public transport and green spaces.", translation: "Các thành phố nên đầu tư nhiều hơn vào giao thông công cộng và không gian xanh.", difficulty: "hard", theme: "environment" },
@@ -46,7 +46,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-education", name: "Education & Learning", nameVi: "Giáo dục & Học tập", icon: "🎓",
     sentences: [
-      { id: "en4-ed1", text: "I am studying English to improve my career opportunities.", translation: "Tôi đang học tiếng Anh để cải thiện cơ hội nghề nghiệp.", ipa: "/aɪ eɪ ɛm stʌdiɪŋ ɪŋglɪʃ tə ɪmpɹuv maɪ kərɪɹ ɑˌpərtunʌtiz/", difficulty: "easy", theme: "education" },
+      { id: "en4-ed1", text: "I am studying English to improve my career opportunities.", translation: "Tôi đang học tiếng Anh để cải thiện cơ hội nghề nghiệp.", ipa: "/aɪ eɪ ɛm stədiɪŋ ɪŋglɪʃ tə ɪmpɹuv maɪ kərɪɹ ɑpərtunətiz/", difficulty: "easy", theme: "education" },
       { id: "en4-ed2", text: "Online courses make learning much more flexible.", translation: "Khóa học trực tuyến giúp việc học linh hoạt hơn nhiều.", difficulty: "medium", theme: "education" },
       { id: "en4-ed3", text: "What was your favorite subject in school?", translation: "Môn học bạn thích nhất ở trường là gì?", difficulty: "easy", theme: "education" },
       { id: "en4-ed4", text: "I believe lifelong learning is the key to staying relevant.", translation: "Tôi tin rằng học tập suốt đời là chìa khóa để không bị lạc hậu.", difficulty: "hard", theme: "education" },
@@ -59,7 +59,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-sports", name: "Sports & Fitness", nameVi: "Thể thao & Thể hình", icon: "⚽",
     sentences: [
-      { id: "en4-s1", text: "I play football with my friends every Sunday morning.", translation: "Tôi chơi bóng đá với bạn bè vào sáng Chủ nhật hàng tuần.", ipa: "/aɪ pleɪ fʊtbɔˌl wɪð maɪ fɹɛndz ɛvəri sʌndeɪˌ mɔɹnɪŋ/", difficulty: "easy", theme: "sports" },
+      { id: "en4-s1", text: "I play football with my friends every Sunday morning.", translation: "Tôi chơi bóng đá với bạn bè vào sáng Chủ nhật hàng tuần.", ipa: "/aɪ pleɪ fʊtbɔl wɪð maɪ fɹɛndz ɛvəri səndeɪ mɔɹnɪŋ/", difficulty: "easy", theme: "sports" },
       { id: "en4-s2", text: "Running in the park helps me clear my mind.", translation: "Chạy bộ trong công viên giúp tôi thư giãn đầu óc.", difficulty: "medium", theme: "sports" },
       { id: "en4-s3", text: "Which sport do you enjoy watching the most?", translation: "Bạn thích xem môn thể thao nào nhất?", difficulty: "easy", theme: "sports" },
       { id: "en4-s4", text: "Professional athletes train for many hours every single day.", translation: "Vận động viên chuyên nghiệp tập luyện nhiều giờ mỗi ngày.", difficulty: "medium", theme: "sports" },
@@ -72,7 +72,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-movies", name: "Movies & Entertainment", nameVi: "Phim ảnh & Giải trí", icon: "🎬",
     sentences: [
-      { id: "en4-mv1", text: "I watched a really interesting documentary last night.", translation: "Tối qua tôi xem một bộ phim tài liệu rất thú vị.", ipa: "/aɪ wɑʧt ə ɹɪli ɪntɹʌstɪŋ dɑˌkjʌmɛntəri læst naɪt/", difficulty: "easy", theme: "movies" },
+      { id: "en4-mv1", text: "I watched a really interesting documentary last night.", translation: "Tối qua tôi xem một bộ phim tài liệu rất thú vị.", ipa: "/aɪ wɑʧt ə ɹɪli ɪntɹəstɪŋ dɑkjəmɛntəri læst naɪt/", difficulty: "easy", theme: "movies" },
       { id: "en4-mv2", text: "What kind of movies do you usually enjoy?", translation: "Bạn thường thích xem thể loại phim nào?", difficulty: "easy", theme: "movies" },
       { id: "en4-mv3", text: "Streaming services have completely changed how we watch TV.", translation: "Dịch vụ phát trực tuyến đã thay đổi hoàn toàn cách chúng ta xem TV.", difficulty: "medium", theme: "movies" },
       { id: "en4-mv4", text: "The soundtrack of that film was absolutely stunning.", translation: "Nhạc phim đó thực sự xuất sắc.", difficulty: "medium", theme: "movies" },
@@ -85,7 +85,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-family", name: "Family & Relationships", nameVi: "Gia đình & Quan hệ", icon: "👨‍👩‍👧",
     sentences: [
-      { id: "en4-fa1", text: "I have one older sister and a younger brother.", translation: "Tôi có một chị gái và một em trai.", ipa: "/aɪ hæv wʌn oʊldər sɪstər ənd ə jʌŋgər bɹʌðər/", difficulty: "easy", theme: "family" },
+      { id: "en4-fa1", text: "I have one older sister and a younger brother.", translation: "Tôi có một chị gái và một em trai.", ipa: "/aɪ hæv wən oʊldər sɪstər ənd ə jəŋgər bɹəðər/", difficulty: "easy", theme: "family" },
       { id: "en4-fa2", text: "Family dinners are very important in our culture.", translation: "Bữa cơm gia đình rất quan trọng trong văn hóa của chúng tôi.", difficulty: "medium", theme: "family" },
       { id: "en4-fa3", text: "My parents have been married for over thirty years.", translation: "Bố mẹ tôi đã kết hôn hơn ba mươi năm.", difficulty: "medium", theme: "family" },
       { id: "en4-fa4", text: "Strong relationships are built on trust and honest communication.", translation: "Các mối quan hệ vững chắc được xây dựng trên niềm tin và giao tiếp trung thực.", difficulty: "hard", theme: "family" },
@@ -98,7 +98,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-future", name: "Dreams & Future Plans", nameVi: "Ước mơ & Kế hoạch tương lai", icon: "🌟",
     sentences: [
-      { id: "en4-fu1", text: "I hope to travel to Japan within the next two years.", translation: "Tôi hy vọng được đi Nhật trong vòng hai năm tới.", ipa: "/aɪ hoʊp tə tɹævʌl tə ʤʌpæn wɪðɪn ðə nɛkst tu jɪɹz/", difficulty: "medium", theme: "future" },
+      { id: "en4-fu1", text: "I hope to travel to Japan within the next two years.", translation: "Tôi hy vọng được đi Nhật trong vòng hai năm tới.", ipa: "/aɪ hoʊp tə tɹævəl tə ʤəpæn wɪðɪn ðə nɛkst tu jɪɹz/", difficulty: "medium", theme: "future" },
       { id: "en4-fu2", text: "My dream is to open my own small café.", translation: "Ước mơ của tôi là mở một quán cà phê nhỏ của riêng mình.", difficulty: "easy", theme: "future" },
       { id: "en4-fu3", text: "What do you see yourself doing five years from now?", translation: "Bạn thấy mình sẽ làm gì trong năm năm tới?", difficulty: "medium", theme: "future" },
       { id: "en4-fu4", text: "I would like to learn at least one more foreign language.", translation: "Tôi muốn học thêm ít nhất một ngoại ngữ nữa.", difficulty: "medium", theme: "future" },
@@ -111,7 +111,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-news", name: "News & Current Events", nameVi: "Tin tức & Sự kiện", icon: "📰",
     sentences: [
-      { id: "en4-n1", text: "I usually check the news on my phone in the morning.", translation: "Tôi thường xem tin tức trên điện thoại vào buổi sáng.", ipa: "/aɪ juʒʌwʌli ʧɛk ðə nuz ɑn maɪ foʊn ɪn ðə mɔɹnɪŋ/", difficulty: "easy", theme: "news" },
+      { id: "en4-n1", text: "I usually check the news on my phone in the morning.", translation: "Tôi thường xem tin tức trên điện thoại vào buổi sáng.", ipa: "/aɪ juʒəwəli ʧɛk ðə nuz ɑːn maɪ foʊn ɪn ðə mɔɹnɪŋ/", difficulty: "easy", theme: "news" },
       { id: "en4-n2", text: "Have you heard about the latest tech announcement?", translation: "Bạn đã nghe tin tức công nghệ mới nhất chưa?", difficulty: "medium", theme: "news" },
       { id: "en4-n3", text: "It is important to verify sources before sharing information.", translation: "Quan trọng là kiểm chứng nguồn trước khi chia sẻ thông tin.", difficulty: "hard", theme: "news" },
       { id: "en4-n4", text: "Local newspapers still play an important role in communities.", translation: "Báo địa phương vẫn đóng vai trò quan trọng trong cộng đồng.", difficulty: "hard", theme: "news" },
@@ -124,7 +124,7 @@ export const englishExtraThemes4: SpeakingTheme[] = [
   {
     id: "en-culture", name: "Culture & Traditions", nameVi: "Văn hóa & Truyền thống", icon: "🎎",
     sentences: [
-      { id: "en4-c1", text: "Every culture has its own unique festivals and customs.", translation: "Mỗi nền văn hóa có lễ hội và phong tục riêng độc đáo.", ipa: "/ɛvəri kʌlʧər hæz ɪts oʊn junik fɛstʌvʌlz ənd kʌstʌmz/", difficulty: "medium", theme: "culture" },
+      { id: "en4-c1", text: "Every culture has its own unique festivals and customs.", translation: "Mỗi nền văn hóa có lễ hội và phong tục riêng độc đáo.", ipa: "/ɛvəri kəlʧər hæz ɪts oʊn junik fɛstəvəlz ənd kəstəmz/", difficulty: "medium", theme: "culture" },
       { id: "en4-c2", text: "Lunar New Year is the most important holiday in my country.", translation: "Tết Nguyên Đán là ngày lễ quan trọng nhất ở đất nước tôi.", difficulty: "medium", theme: "culture" },
       { id: "en4-c3", text: "Trying local food is the best way to understand a culture.", translation: "Thử món ăn địa phương là cách tốt nhất để hiểu một nền văn hóa.", difficulty: "medium", theme: "culture" },
       { id: "en4-c4", text: "I love how music can cross language barriers.", translation: "Tôi thích cách âm nhạc có thể vượt qua rào cản ngôn ngữ.", difficulty: "hard", theme: "culture" },
