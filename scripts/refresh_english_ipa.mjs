@@ -19,6 +19,7 @@ const files = [
   "src/data/speakingCoachExpansion4.ts",
   "src/data/speakingCoachExpansion5.ts",
   "src/data/speakingCoachTopUp.ts",
+  "src/data/speakingCoachExpansion6.ts",
 ];
 
 // Curated overrides — used verbatim, no post-processing.
@@ -145,7 +146,7 @@ const sentenceToIpa = (text) => {
 // Match every entry with an English id, capturing the whole `ipa: "..."` field
 // (with optional surrounding whitespace and trailing comma).
 const entryRegex =
-  /(\{\s*id:\s*["'](?:en|tu-en)-[^"']+["'][^}]*?text:\s*(["'])((?:\\.|(?!\2).)*)\2[^}]*?)(,\s*ipa:\s*"[^"]*")?(\s*,\s*difficulty:)/g;
+  /(\{\s*id:\s*["'](?:en\d*|tu-en\d*)-[^"']+["'][^}]*?text:\s*(["'])((?:\\.|(?!\2).)*)\2[^}]*?)(,\s*ipa:\s*"[^"]*")?(\s*,\s*difficulty:)/g;
 
 let patched = 0;
 let skipped = 0;
