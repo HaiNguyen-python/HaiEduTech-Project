@@ -887,6 +887,7 @@ import { englishExtraThemes3, chineseExtraThemes3, vietnameseExtraThemes3, finni
 import { finnishExtraThemes4 } from "./speakingCoachFinnishExpansion";
 import { englishExtraThemes4, chineseExtraThemes4, vietnameseExtraThemes4, finnishExtraThemes5 } from "./speakingCoachExpansion4";
 import { englishExtraThemes5, chineseExtraThemes5, vietnameseExtraThemes5, finnishExtraThemes6 } from "./speakingCoachExpansion5";
+import { englishExtraThemes6 } from "./speakingCoachExpansion6";
 import { swedishThemes } from "./speakingCoachSwedishExpansion";
 import { applyTopUps } from "./speakingCoachTopUp";
 
@@ -895,7 +896,7 @@ export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
     lang: "English",
     langCode: "en",
     speechLang: "en-US",
-    themes: applyTopUps([...englishThemes, ...englishExtraThemes, ...englishExtraThemes2, ...englishExtraThemes3, ...englishExtraThemes4, ...englishExtraThemes5]),
+    themes: applyTopUps([...englishThemes, ...englishExtraThemes, ...englishExtraThemes2, ...englishExtraThemes3, ...englishExtraThemes4, ...englishExtraThemes5, ...englishExtraThemes6]),
   },
   finnish: {
     lang: "Suomi",
