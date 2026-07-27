@@ -11,7 +11,8 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Zap, RefreshCcw, Trophy, Sparkles, CheckCircle2, XCircle, Layers } from "lucide-react";
+import { Zap, RefreshCcw, Trophy, Sparkles, CheckCircle2, XCircle, Layers, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   playSuccessSound,
   playFailureSound,
