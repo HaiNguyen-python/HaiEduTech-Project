@@ -315,7 +315,7 @@ export const MatchPairs = ({
           onClick={reset}
           className="text-[11px] text-violet-600 hover:underline"
         >
-          ↻ Xáo lại bài
+          {t("↻ Xáo lại bài", "↻ Shuffle deck")}
         </button>
       )}
     </div>
