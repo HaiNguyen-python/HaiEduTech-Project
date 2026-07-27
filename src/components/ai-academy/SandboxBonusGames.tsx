@@ -194,7 +194,7 @@ export type Pair = { a: string; b: string };
 type Card = { id: string; pairKey: string; text: string; side: "a" | "b" };
 
 export const MatchPairs = ({
-  title = "🧩 Ghép cặp khái niệm",
+  title,
   accent = "from-violet-500 to-fuchsia-600",
   border = "border-violet-400/40",
   pairs,
@@ -204,6 +204,8 @@ export const MatchPairs = ({
   border?: string;
   pairs: Pair[];
 }) => {
+  const { t } = useLanguage();
+  const headerTitle = title ?? t("🧩 Ghép cặp khái niệm", "🧩 Match the pairs");
   const [round, setRound] = useState(0);
   const cards = useMemo<Card[]>(() => {
     const list: Card[] = [];
