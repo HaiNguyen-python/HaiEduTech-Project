@@ -301,10 +301,10 @@ export const MatchPairs = ({
             className="flex items-center justify-between gap-2 p-2 rounded-lg bg-emerald-500/15 border border-emerald-400/40"
           >
             <span className="text-sm font-bold text-emerald-700 dark:text-emerald-200 flex items-center gap-1">
-              <Sparkles className="w-4 h-4" /> Hoàn hảo! Ghép đủ {pairs.length} cặp.
+              <Sparkles className="w-4 h-4" /> {t(`Hoàn hảo! Ghép đủ ${pairs.length} cặp.`, `Perfect! Matched all ${pairs.length} pairs.`)}
             </span>
             <Button size="sm" onClick={reset} className={`bg-gradient-to-r ${accent} text-white`}>
-              <RefreshCcw className="w-3.5 h-3.5 mr-1" /> Ván mới
+              <RefreshCcw className="w-3.5 h-3.5 mr-1" /> {t("Ván mới", "New round")}
             </Button>
           </motion.div>
         )}
