@@ -363,6 +363,12 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     // recognizer restarts with a fresh event.results array.
     let committedFromPriorSessions = "";
 
+    // Count of consecutive silent restarts (no new speech since last restart).
+    // Reset whenever fresh speech comes in so a learner speaking a long
+    // sentence in chunks never runs out of retries mid-utterance.
+    let silentRestarts = 0;
+    let lastSpeechAt = Date.now();
+
     recognition.onresult = (event: any) => {
       let finalTranscript = "";
       let interimTranscript = "";
@@ -385,8 +391,17 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         accumulatedTranscriptRef.current = combined;
         // Any incoming speech clears a transient "no speech" warning.
         setMicError(null);
+        // Fresh speech: reset silent-restart budget so the learner has the
+        // full retry window again for the remainder of the sentence.
+        silentRestarts = 0;
+        lastSpeechAt = Date.now();
       }
       setTranscript(combined);
+    };
+
+    recognition.onspeechstart = () => {
+      lastSpeechAt = Date.now();
+      silentRestarts = 0;
     };
 
     recognition.onend = () => {
@@ -404,13 +419,16 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         setIsRecording(false);
         return;
       }
-      // Auto-ended (silence). Retry silently up to 6 times so learners have
-      // enough time to finish long Chinese / multi-clause sentences before we
-      // give up. zh-CN ASR times out faster than en-US on Chrome mobile.
-      if (restartAttempts >= 6) {
+      // Auto-ended (silence). Give up only after many *consecutive* silent
+      // restarts with no fresh speech, OR after a hard wall-clock ceiling.
+      // Consecutive silent onend cycles usually fire ~1s apart on Chrome,
+      // so ~15 restarts is roughly 15s of true silence before we stop.
+      const totalSilentMs = Date.now() - lastSpeechAt;
+      if (silentRestarts >= 15 && totalSilentMs > 12000) {
         setIsRecording(false);
         return;
       }
+      silentRestarts += 1;
       restartAttempts += 1;
       try { recognition.start(); } catch { setIsRecording(false); }
     };
