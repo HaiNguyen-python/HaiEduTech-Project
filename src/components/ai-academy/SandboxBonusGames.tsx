@@ -24,7 +24,7 @@ import {
 export type TFItem = { q: string; a: boolean; why?: string };
 
 export const TrueFalseRapid = ({
-  title = "⚡ Tia chớp Đúng / Sai",
+  title,
   accent = "from-amber-500 to-orange-600",
   border = "border-amber-400/40",
   items,
@@ -34,12 +34,14 @@ export const TrueFalseRapid = ({
   border?: string;
   items: TFItem[];
 }) => {
+  const { t } = useLanguage();
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [picked, setPicked] = useState<boolean | null>(null);
   const [done, setDone] = useState(false);
 
   const cur = items[idx];
+  const headerTitle = title ?? t("⚡ Tia chớp Đúng / Sai", "⚡ True / False Lightning");
 
   const pick = (ans: boolean) => {
     if (picked !== null) return;
@@ -50,14 +52,17 @@ export const TrueFalseRapid = ({
     } else {
       playFailureSound();
     }
-    window.setTimeout(() => {
-      if (idx + 1 >= items.length) {
-        setDone(true);
-      } else {
-        setIdx((i) => i + 1);
-        setPicked(null);
-      }
-    }, 950);
+    // No auto-advance - user reads explanation, then clicks Next.
+  };
+
+  const goNext = () => {
+    if (picked === null) return;
+    if (idx + 1 >= items.length) {
+      setDone(true);
+    } else {
+      setIdx((i) => i + 1);
+      setPicked(null);
+    }
   };
 
   const reset = () => {
@@ -67,22 +72,24 @@ export const TrueFalseRapid = ({
     setDone(false);
   };
 
+  const isLast = idx + 1 >= items.length;
+
   return (
     <div className={`rounded-2xl border-2 ${border} bg-gradient-to-br from-amber-500/10 to-orange-500/10 p-3 space-y-2`}>
       <div className="flex items-center gap-2">
         <Zap className="w-4 h-4 text-amber-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-amber-700 dark:text-amber-300">
-          {title}
+          {headerTitle}
         </h4>
         <span className="ml-auto text-xs font-bold text-amber-700 dark:text-amber-300">
-          Điểm: {score}
+          {t("Điểm", "Score")}: {score}
         </span>
       </div>
 
       {!done ? (
         <>
           <div className="text-[11px] text-muted-foreground">
-            Câu {idx + 1} / {items.length}
+            {t("Câu", "Sentence")} {idx + 1} / {items.length}
           </div>
           <motion.div
             key={idx}
@@ -103,7 +110,7 @@ export const TrueFalseRapid = ({
                   : "bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-400/40"
               }`}
             >
-              {picked === cur.a ? "✅ Chính xác - " : "❌ Chưa đúng - "}
+              {picked === cur.a ? t("✅ Chính xác - ", "✅ Correct - ") : t("❌ Chưa đúng - ", "❌ Not quite - ")}
               {cur.why}
             </motion.div>
           )}
@@ -120,7 +127,7 @@ export const TrueFalseRapid = ({
                   : "bg-emerald-500/15 border-emerald-400/60 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/25"
               }`}
             >
-              <CheckCircle2 className="w-4 h-4 inline mr-1" /> Đúng
+              <CheckCircle2 className="w-4 h-4 inline mr-1" /> {t("Đúng", "True")}
             </button>
             <button
               disabled={picked !== null}
@@ -133,9 +140,26 @@ export const TrueFalseRapid = ({
                   : "bg-rose-500/15 border-rose-400/60 text-rose-700 dark:text-rose-200 hover:bg-rose-500/25"
               }`}
             >
-              <XCircle className="w-4 h-4 inline mr-1" /> Sai
+              <XCircle className="w-4 h-4 inline mr-1" /> {t("Sai", "False")}
             </button>
           </div>
+
+          {picked !== null && (
+            <motion.div
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex justify-end pt-1"
+            >
+              <Button
+                onClick={goNext}
+                size="sm"
+                className={`bg-gradient-to-r ${accent} text-white font-bold`}
+              >
+                {isLast ? t("Xem kết quả", "See results") : t("Câu tiếp theo", "Next question")}
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
+            </motion.div>
+          )}
         </>
       ) : (
         <motion.div
@@ -145,17 +169,17 @@ export const TrueFalseRapid = ({
         >
           <Trophy className="w-10 h-10 mx-auto text-amber-500" />
           <div className="text-2xl font-black text-amber-700 dark:text-amber-300">
-            {score} / {items.length * 10} điểm
+            {score} / {items.length * 10} {t("điểm", "points")}
           </div>
           <p className="text-sm text-muted-foreground">
             {score === items.length * 10
-              ? "🌟 Tuyệt đối! Bạn là cao thủ rồi!"
+              ? t("🌟 Tuyệt đối! Bạn là cao thủ rồi!", "🌟 Perfect! You are a master!")
               : score >= items.length * 6
-              ? "👏 Khá lắm - chơi lại để full điểm nhé!"
-              : "💪 Đọc lại lý thuyết rồi thử lại nha."}
+              ? t("👏 Khá lắm - chơi lại để full điểm nhé!", "👏 Well done - replay to get full marks!")
+              : t("💪 Đọc lại lý thuyết rồi thử lại nha.", "💪 Review the theory and try again.")}
           </p>
           <Button onClick={reset} className={`bg-gradient-to-r ${accent} text-white`}>
-            <RefreshCcw className="w-4 h-4 mr-1" /> Chơi lại
+            <RefreshCcw className="w-4 h-4 mr-1" /> {t("Chơi lại", "Play again")}
           </Button>
         </motion.div>
       )}
