@@ -258,7 +258,7 @@ export const MatchPairs = ({
       <div className="flex items-center gap-2">
         <Layers className="w-4 h-4 text-violet-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-violet-700 dark:text-violet-300">
-          {title}
+          {headerTitle}
         </h4>
         <span className="ml-auto text-xs font-bold text-violet-700 dark:text-violet-300">
           {matched.size} / {pairs.length}
