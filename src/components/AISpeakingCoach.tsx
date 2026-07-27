@@ -357,6 +357,12 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       setIsListening(true);
     };
 
+    // Text captured & finalized in PRIOR recognition sessions (before an
+    // auto-restart). Kept here so long Chinese sentences that trigger a
+    // silence-driven onend mid-sentence don't lose the first half when the
+    // recognizer restarts with a fresh event.results array.
+    let committedFromPriorSessions = "";
+
     recognition.onresult = (event: any) => {
       let finalTranscript = "";
       let interimTranscript = "";
@@ -369,19 +375,27 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         }
       }
 
-      // Persist whichever transcript is most complete so we can grade
-      // even if the user stops before a "final" result is emitted.
-      const bestTranscript = finalTranscript || interimTranscript;
-      if (bestTranscript) {
-        accumulatedTranscriptRef.current = bestTranscript;
+      // Combine anything committed in previous sessions with what we have
+      // captured so far in this session (final + interim). Doing it this way
+      // is critical for long CJK sentences where zh-CN ASR silence timeouts
+      // are aggressive and fire multiple onend / onstart cycles per utterance.
+      const sessionTranscript = finalTranscript + (interimTranscript ? (finalTranscript ? " " : "") + interimTranscript : "");
+      const combined = (committedFromPriorSessions + (committedFromPriorSessions && sessionTranscript ? " " : "") + sessionTranscript).trim();
+      if (combined) {
+        accumulatedTranscriptRef.current = combined;
         // Any incoming speech clears a transient "no speech" warning.
         setMicError(null);
       }
-      setTranscript(bestTranscript);
+      setTranscript(combined);
     };
 
     recognition.onend = () => {
       setIsListening(false);
+      // Preserve whatever this session captured before restarting, so the
+      // next onresult can prepend it to the fresh results array.
+      if (accumulatedTranscriptRef.current) {
+        committedFromPriorSessions = accumulatedTranscriptRef.current;
+      }
       // Only grade if user manually stopped OR a hard error occurred
       if (manualStopRef.current || hadError) {
         if (accumulatedTranscriptRef.current) {
@@ -390,9 +404,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         setIsRecording(false);
         return;
       }
-      // Auto-ended (silence). Retry silently up to 3 times, then give up
-      // gracefully instead of throwing "aborted" at the student.
-      if (restartAttempts >= 3) {
+      // Auto-ended (silence). Retry silently up to 6 times so learners have
+      // enough time to finish long Chinese / multi-clause sentences before we
+      // give up. zh-CN ASR times out faster than en-US on Chrome mobile.
+      if (restartAttempts >= 6) {
         setIsRecording(false);
         return;
       }
