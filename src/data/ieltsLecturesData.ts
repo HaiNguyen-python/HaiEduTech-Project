@@ -3707,7 +3707,7 @@ const _rawAllIeltsLectures: IeltsLecture[] = [
  * (questions are derived from each lecture's own goldenSecret, cheatSheet,
  * strategySteps, mistakesToAvoid, vocabHighlights, etc).
  */
-export const allIeltsLectures: IeltsLecture[] = padLectureQuizzes(_rawAllIeltsLectures);
+export const allIeltsLectures: IeltsLecture[] = padLectureQuizzes(enrichWritingLectures(_rawAllIeltsLectures));
 
 
 export const PILLAR_META = {
