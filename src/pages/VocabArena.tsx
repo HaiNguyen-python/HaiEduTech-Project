@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import type { GameQuestion, GameResult } from "@/components/vocab-arena/GameEngine";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import chibiWarrior from "@/assets/chibi-vocab-warrior.png";
 import chibiClassroom from "@/assets/chibi-vocab-classroom.png";
 import chibiGamer from "@/assets/chibi-vocab-gamer.png";
