@@ -3656,6 +3656,7 @@ import { speakingExpansion6 } from "./ieltsLecturesSpeakingExpansion6";
 import { writingExpansion10 } from "./ieltsLecturesWritingExpansion10";
 import { grammarCoreExpansion, vocabCoreExpansion, tipsCoreExpansion } from "./ieltsLecturesCoreExpansion";
 import { padLectureQuizzes } from "./ieltsLectureQuizPadder";
+import { enrichWritingLectures } from "./ieltsWritingLectureEnricher";
 import { readingExpansion } from "./ieltsLecturesReadingExpansion";
 import { listeningExpansion } from "./ieltsLecturesListeningExpansion";
 import { highFreqVocabLectures } from "./ieltsLecturesHighFreqVocab";
