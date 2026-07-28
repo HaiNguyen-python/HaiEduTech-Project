@@ -136,26 +136,115 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
   const [result, setResult] = useState<"idle" | "correct" | "close" | "wrong">("idle");
   const [score, setScore] = useState(0);
   const [seed, setSeed] = useState(0);
+  // Wrong words collected during main round for the review round.
+  const [wrongWords, setWrongWords] = useState<SwedishWord[]>([]);
+  // Separate queue when we're re-drilling wrong words.
+  const [reviewQueue, setReviewQueue] = useState<SwedishWord[] | null>(null);
+  const [reviewIdx, setReviewIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const qs = useMemo(() => shuffle(pool).slice(0, 10), [pool, seed]);
-  const q = qs[i];
-  useEffect(() => { inputRef.current?.focus(); }, [i]);
+  const mainQs = useMemo(() => shuffle(pool).slice(0, 10), [pool, seed]);
+  const inReview = reviewQueue !== null;
+  const qs = inReview ? (reviewQueue as SwedishWord[]) : mainQs;
+  const idx = inReview ? reviewIdx : i;
+  const q = qs[idx];
+  useEffect(() => { inputRef.current?.focus(); }, [idx, inReview]);
 
-  if (!q || i >= qs.length)
-    return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setValue(""); setResult("idle"); setScore(0); setSeed(s => s + 1); }} />;
+  const resetAll = () => {
+    setI(0); setValue(""); setResult("idle"); setScore(0); setSeed(s => s + 1);
+    setWrongWords([]); setReviewQueue(null); setReviewIdx(0);
+  };
+
+  // Main round finished — show summary with optional review of wrong words.
+  if (!inReview && (!q || i >= mainQs.length)) {
+    return (
+      <div className="rounded-xl border border-border bg-card p-5 md:p-6 space-y-4">
+        <DonePanel score={score} total={mainQs.length} onRetry={resetAll} />
+        {wrongWords.length > 0 && (
+          <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 space-y-3">
+            <div className="flex items-center gap-2 text-sm font-semibold text-amber-700 dark:text-amber-300">
+              <Lightbulb className="h-4 w-4" />
+              {t(
+                `Bạn gõ sai ${wrongWords.length} từ. Luyện lại để nhớ chắc chắn.`,
+                `You missed ${wrongWords.length} word${wrongWords.length > 1 ? "s" : ""}. Retype them to lock them in.`
+              )}
+            </div>
+            <ul className="flex flex-wrap gap-2 text-sm">
+              {wrongWords.map(w => (
+                <li key={w.id} className="rounded-md border border-border bg-background px-2 py-1">
+                  <span className="font-semibold text-foreground">{w.sv}</span>
+                  <span className="text-muted-foreground"> — {lang === "vi" ? w.vi : w.en}</span>
+                </li>
+              ))}
+            </ul>
+            <Button
+              onClick={() => {
+                setReviewQueue(shuffle(wrongWords));
+                setReviewIdx(0);
+                setValue(""); setResult("idle");
+              }}
+              className="gap-2"
+            >
+              <RotateCcw className="h-4 w-4" />
+              {t("Luyện lại từ sai", "Retype wrong words")}
+            </Button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Review round finished — celebrate & offer full restart.
+  if (inReview && idx >= qs.length) {
+    return (
+      <div className="rounded-xl border border-border bg-card p-5 md:p-6 space-y-4">
+        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-5 text-center space-y-2">
+          <Sparkles className="h-6 w-6 text-emerald-600 dark:text-emerald-400 mx-auto" />
+          <p className="font-semibold text-emerald-700 dark:text-emerald-300">
+            {t("Đã luyện xong tất cả từ sai! 🎉", "You've reviewed every missed word! 🎉")}
+          </p>
+        </div>
+        <Button onClick={resetAll} className="gap-2 w-full sm:w-auto">
+          <RotateCcw className="h-4 w-4" /> {t("Vòng mới", "New round")}
+        </Button>
+      </div>
+    );
+  }
 
   const check = () => {
     const target = norm(q.sv);
     const guess = norm(value);
-    if (target === guess) { setResult("correct"); setScore(s => s + 1); }
-    else if (stripDiacritics(target) === stripDiacritics(guess) && guess.length > 0) { setResult("close"); setScore(s => s + 1); }
-    else setResult("wrong");
+    if (target === guess) {
+      setResult("correct");
+      if (!inReview) setScore(s => s + 1);
+    } else if (stripDiacritics(target) === stripDiacritics(guess) && guess.length > 0) {
+      setResult("close");
+      if (!inReview) setScore(s => s + 1);
+    } else {
+      setResult("wrong");
+      if (!inReview) setWrongWords(prev => (prev.some(w => w.id === q.id) ? prev : [...prev, q]));
+    }
+  };
+
+  const goNext = () => {
+    setValue(""); setResult("idle");
+    if (inReview) setReviewIdx(n => n + 1);
+    else setI(n => n + 1);
   };
 
   return (
     <div className="rounded-xl border border-border bg-card p-5 md:p-6 space-y-4">
-      <HeaderBar i={i + 1} total={qs.length} score={score} />
+      {inReview ? (
+        <div className="flex items-center justify-between text-xs">
+          <span className="inline-flex items-center gap-1.5 font-semibold text-amber-700 dark:text-amber-300">
+            <RotateCcw className="h-3.5 w-3.5" />
+            {t("Vòng luyện lại từ sai", "Wrong-word review round")}
+          </span>
+          <span className="text-muted-foreground">{idx + 1}/{qs.length}</span>
+        </div>
+      ) : (
+        <HeaderBar i={i + 1} total={mainQs.length} score={score} />
+      )}
       <div className="rounded-xl bg-gradient-to-br from-emerald-500/10 to-sky-500/10 border border-emerald-500/20 p-6 text-center">
         <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
           {t("Gõ từ tiếng Thụy Điển cho nghĩa sau", "Type the Swedish word for this meaning")}
@@ -177,7 +266,7 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
           ref={inputRef}
           value={value}
           onChange={e => setValue(e.target.value)}
-          onKeyDown={e => { if (e.key === "Enter") result === "idle" ? check() : (setI(i + 1), setValue(""), setResult("idle")); }}
+          onKeyDown={e => { if (e.key === "Enter") result === "idle" ? check() : goNext(); }}
           placeholder={t("Gõ tại đây… (gợi ý: bắt đầu bằng “" + q.sv.charAt(0) + "”)",
                          "Type here… (hint: starts with “" + q.sv.charAt(0) + "”)")}
           className="flex-1 min-w-[180px]"
@@ -188,7 +277,7 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
             <CheckCircle2 className="h-4 w-4" /> {t("Kiểm tra", "Check")}
           </Button>
         ) : (
-          <Button onClick={() => { setI(i + 1); setValue(""); setResult("idle"); }} className="gap-2">
+          <Button onClick={goNext} className="gap-2">
             {t("Câu tiếp", "Next")} <ArrowRight className="h-4 w-4" />
           </Button>
         )}
