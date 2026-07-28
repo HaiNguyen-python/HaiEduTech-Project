@@ -343,7 +343,22 @@ const SwedishReadingLab = () => {
                   className="w-full"
                   size="lg"
                   disabled={!allAnswered}
-                  onClick={() => setSubmitted(true)}
+                  onClick={() => {
+                    setSubmitted(true);
+                    const correct = active.questions.reduce(
+                      (acc, q) => acc + (answers[q.id] === q.correctIndex ? 1 : 0),
+                      0,
+                    );
+                    // Log Swedish reading attempt for Dashboard/Admin analytics.
+                    void logStudentActivity({
+                      activityType: "swedish_reading",
+                      activityId: active.id,
+                      score: correct,
+                      maxScore: active.questions.length,
+                      domain: "english",
+                      metadata: { level: active.level, type: (active as any).type ?? null },
+                    });
+                  }}
                 >
                   {allAnswered
                     ? t("Nộp bài & xem đáp án", "Submit & see answers")
