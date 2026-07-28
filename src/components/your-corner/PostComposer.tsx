@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown, BarChart3, Plus, Trash2 } from "lucide-react";
 
 import { toast } from "sonner";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { SUBJECTS, MOODS, SubjectKey, subjectMap, VISIBILITY_OPTIONS, Visibility, visibilityMap } from "@/lib/yourCornerMeta";
 import {
   Popover,
@@ -233,6 +234,14 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       resetPoll();
       setSubmitting(false);
       toast.success(pollPayload ? "Đã đăng poll! 📊" : "Đã đăng bài! 🎉");
+      // Log community post so Admin/Dashboard sees engagement.
+      void logStudentActivity({
+        activityType: "community_post",
+        score: 1,
+        maxScore: 1,
+        domain: "english",
+        metadata: { subject: subject ?? null, mood: mood ?? null, hasPoll: !!pollPayload, visibility },
+      });
       // Defer parent update to next tick so the spinner UI flushes first
       setTimeout(() => onPosted(newPost), 0);
       // Fire-and-forget: Coach Hai auto-praise comment (+ optional grammar correction).

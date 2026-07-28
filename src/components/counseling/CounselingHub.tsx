@@ -5,6 +5,7 @@ import {
   Smile, BarChart3, Lightbulb, Phone, Lock, Brain, Quote, ArrowRight, X, Check, AlertCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
@@ -212,6 +213,14 @@ const ChatSection = ({ userId }: { userId: string }) => {
           .single();
         if (created) setConversationId(created.id);
       }
+      // Log counseling session turn for analytics (Compass AI).
+      void logStudentActivity({
+        activityType: "counseling_session",
+        score: 1,
+        maxScore: 1,
+        domain: "english",
+        metadata: { mode, distress: isDistress, turns: finalMessages.length },
+      });
     } catch (e: any) {
       toast.error(e.message || "Network error");
       setMessages(messages);
