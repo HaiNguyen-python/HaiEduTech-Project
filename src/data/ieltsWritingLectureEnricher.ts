@@ -1292,16 +1292,16 @@ export function enrichWritingLecture(l: IeltsLecture): IeltsLecture {
   const isWriting = l.skill === "writing" || /^writing-/.test(l.id);
   if (!isWriting) return l;
 
-  const pack = packForId(l.id);
+  const topic = detectTopic(l.id);
+  const pack = PACK_BY_TOPIC[topic];
+  const theory = THEORY[topic];
 
-  // Practical examples: if 0-1 items OR the only item looks like the generic
-  // "Apply the framework on a past paper" placeholder, prepend topic-specific
-  // examples so the tab always shows on-topic material first.
+  // Practical examples
   const current = l.practicalExamples || [];
   const looksGeneric =
     current.length <= 1 &&
     current.some(e =>
-      /apply the framework on a past paper|time yourself on a real cambridge/i.test(
+      /apply the framework on a past paper|time yourself on a real cambridge|apply this framework to a past ielts prompt|drill it on a real prompt/i.test(
         `${e.context || ""} ${e.example || ""}`,
       ),
     );
@@ -1317,7 +1317,7 @@ export function enrichWritingLecture(l: IeltsLecture): IeltsLecture {
     mergedExamples = current;
   }
 
-  // Vocab: fill up to TARGET_VOCAB with topic-specific words.
+  // Vocab
   const currentVocab = l.vocabHighlights || [];
   let mergedVocab: VocabHighlight[];
   if (currentVocab.length === 0) {
@@ -1330,12 +1330,20 @@ export function enrichWritingLecture(l: IeltsLecture): IeltsLecture {
     mergedVocab = currentVocab;
   }
 
+  // Theory: swap in topic-specific strategy steps + mistakes when the lecture
+  // is still using the generic mk() factory content.
+  const strategySteps = hasGenericStrategy(l.strategySteps) ? theory.strategySteps : l.strategySteps;
+  const mistakesToAvoid = hasGenericMistakes(l.mistakesToAvoid) ? theory.mistakesToAvoid : l.mistakesToAvoid;
+
   return {
     ...l,
+    strategySteps,
+    mistakesToAvoid,
     practicalExamples: mergedExamples,
     vocabHighlights: mergedVocab,
   };
 }
+
 
 /** Enriches an entire lecture array in one call. */
 export function enrichWritingLectures(list: IeltsLecture[]): IeltsLecture[] {
