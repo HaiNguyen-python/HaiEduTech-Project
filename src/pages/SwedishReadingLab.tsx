@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import {
   SWEDISH_READING_PASSAGES,
   type SwedishReadingPassage,

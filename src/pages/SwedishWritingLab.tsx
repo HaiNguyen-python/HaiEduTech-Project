@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import {
   SWEDISH_WRITING_PROMPTS,
   type SwedishWritingPrompt,
@@ -91,6 +92,16 @@ const SwedishWritingLab = () => {
       });
       if (error) throw error;
       setResult(data as GradeResult);
+      // Log Swedish writing attempt for analytics.
+      const graded = data as GradeResult;
+      void logStudentActivity({
+        activityType: "swedish_writing",
+        activityId: active.id,
+        score: Number(graded?.overall) || 0,
+        maxScore: 5,
+        domain: "english",
+        metadata: { level: active.level, wordCount, ykiLevel: graded?.ykiLevel },
+      });
       toast({
         title: t("Đã chấm xong", "Graded"),
         description: t("Cuộn xuống xem phản hồi.", "Scroll down to see feedback."),

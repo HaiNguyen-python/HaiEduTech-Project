@@ -24,6 +24,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { playSwedishTtsScript, stopSwedishTts } from "@/lib/swedishTts";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import {
   SWEDISH_LISTENING_EXERCISES,
   type SwedishListeningExercise,
@@ -324,7 +325,22 @@ const SwedishListeningLab = () => {
                   className="w-full"
                   size="lg"
                   disabled={!allAnswered}
-                  onClick={() => setSubmitted(true)}
+                  onClick={() => {
+                    setSubmitted(true);
+                    const correct = active.questions.reduce(
+                      (acc, q) => acc + (answers[q.id] === q.correctIndex ? 1 : 0),
+                      0,
+                    );
+                    // Log Swedish listening attempt for analytics.
+                    void logStudentActivity({
+                      activityType: "swedish_listening",
+                      activityId: active.id,
+                      score: correct,
+                      maxScore: active.questions.length,
+                      domain: "english",
+                      metadata: { level: active.level },
+                    });
+                  }}
                 >
                   {allAnswered
                     ? t("Nộp bài & xem đáp án", "Submit & see answers")

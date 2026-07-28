@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Loader2, Sparkles, Trophy, AlertTriangle, MessageCircleQuestion, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "@/hooks/use-toast";
 
@@ -78,7 +79,16 @@ const StartupPitchSimulator = () => {
       const { data, error } = await supabase.functions.invoke("startup-pitch-critic", { body: form });
       if (error) throw error;
       if ((data as any)?.error) throw new Error((data as any).error);
-      setResult(data as Result);
+      const pitchResult = data as Result;
+      setResult(pitchResult);
+      // Log Startup pitch attempt for analytics (Programming domain).
+      void logStudentActivity({
+        activityType: "startup_pitch",
+        score: Number(pitchResult?.overallScore) || 0,
+        maxScore: 100,
+        domain: "programming",
+        metadata: { verdict: pitchResult?.verdict, startupName: form.startupName },
+      });
     } catch (e) {
       toast({ title: t("Lỗi", "Error"), description: (e as Error).message, variant: "destructive" });
     } finally {

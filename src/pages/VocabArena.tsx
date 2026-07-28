@@ -123,6 +123,15 @@ const VocabArena = () => {
           accuracy,
           time_spent_seconds: totalSec,
         });
+        // Also log to student_activity_log so Admin/Dashboard analytics see the duel.
+        void logStudentActivity({
+          activityType: "vocab_arena_duel",
+          score: Math.round(accuracy * 10),
+          maxScore: 10,
+          timeSpentSeconds: totalSec,
+          domain: "english",
+          metadata: { correct: gameResult.correct, total: gameResult.total, maxStreak: gameResult.maxStreak },
+        });
       }
     } catch (e) {
       console.error("Failed to save score:", e);
