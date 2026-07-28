@@ -7,7 +7,12 @@
  *   hand-crafted content pack. Applied inside `ieltsLecturesData.ts` so all
  *   writing lectures automatically become richer and on-topic.
  */
-import type { IeltsLecture, VocabHighlight } from "./ieltsLecturesData";
+import type {
+  IeltsLecture,
+  VocabHighlight,
+  StrategyStep,
+  MistakeToAvoid,
+} from "./ieltsLecturesData";
 
 type Example = IeltsLecture["practicalExamples"][number];
 
@@ -873,36 +878,402 @@ const WRITING_GENERIC: Pack = {
 // ---------------------------------------------------------------------------
 // Topic router
 // ---------------------------------------------------------------------------
-function packForId(id: string): Pack {
+type TopicKey =
+  | "t1-overview" | "t1-trends" | "t1-bar-pie" | "t1-table" | "t1-process"
+  | "t1-map" | "t1-letter" | "t1-mixed"
+  | "t2-opinion" | "t2-agree-disagree" | "t2-discussion" | "t2-problem-solution"
+  | "t2-double-question" | "t2-adv-dis" | "t2-cohesion" | "t2-paragraph"
+  | "t2-intro-conclusion" | "t2-lexical" | "t2-grammar" | "t2-task-analysis"
+  | "t2-traps" | "t2-ideas-examples" | "generic";
+
+function detectTopic(id: string): TopicKey {
   const s = id.toLowerCase();
-  // Task 1
-  if (/(letter|complaint|thank-you|job-application|semi-formal|informal|formal)/.test(s)) return T1_LETTER;
-  if (/(overview)/.test(s)) return T1_OVERVIEW;
-  if (/(trend|line-chart|line-graph|dynamic-vs-static|time-expressions|tense-and-time|units-and-numbers|storytelling-numbers|trend-vocabulary|comparison-language|comparison-structures|comparison-table|paraphrasing-the-intro|reading-the-question)/.test(s)) return T1_TRENDS;
-  if (/(bar|pie)/.test(s)) return T1_BAR_PIE;
-  if (/(table)/.test(s)) return T1_TABLE;
-  if (/(process|describe-process|process-and-map)/.test(s)) return T1_PROCESS;
-  if (/(map)/.test(s)) return T1_MAP;
-  if (/(mixed-chart|multi-chart|multiple-charts|mixed-trends-language|mixed-overview|cohesion-without-firstly|band-7-pitfalls|grouping|data-grouping)/.test(s)) return T1_MIXED;
+  if (/(letter|complaint|thank-you|job-application|semi-formal|informal|formal)/.test(s)) return "t1-letter";
+  if (/(overview)/.test(s)) return "t1-overview";
+  if (/(trend|line-chart|line-graph|dynamic-vs-static|time-expressions|tense-and-time|units-and-numbers|storytelling-numbers|trend-vocabulary|comparison-language|comparison-structures|comparison-table|paraphrasing-the-intro|reading-the-question)/.test(s)) return "t1-trends";
+  if (/(bar|pie)/.test(s)) return "t1-bar-pie";
+  if (/(table)/.test(s)) return "t1-table";
+  if (/(process|describe-process|process-and-map)/.test(s)) return "t1-process";
+  if (/(map)/.test(s)) return "t1-map";
+  if (/(mixed-chart|multi-chart|multiple-charts|mixed-trends-language|mixed-overview|cohesion-without-firstly|band-7-pitfalls|grouping|data-grouping)/.test(s)) return "t1-mixed";
 
-  // Task 2
-  if (/(opinion|to-what-extent)/.test(s)) return T2_OPINION;
-  if (/(agree-disagree|agree|disagree|positive-negative)/.test(s)) return T2_AGREE_DISAGREE;
-  if (/(discussion|both-views)/.test(s)) return T2_DISCUSSION;
-  if (/(problem-solution|causes-effects|problem|solution)/.test(s)) return T2_PROBLEM_SOLUTION;
-  if (/(two-part-question|double-question|mixed-question-types|question-types-map)/.test(s)) return T2_DOUBLE_QUESTION;
-  if (/(advantages-disadvantages)/.test(s)) return T2_ADV_DIS;
-  if (/(cohesion|linker|cohesive|coherence)/.test(s)) return T2_COHESION;
-  if (/(paragraph|peel|3-layer|topic-sentences|supporting-examples)/.test(s)) return T2_PARAGRAPH;
-  if (/(introduction|conclusion|paraphrasing)/.test(s)) return T2_INTRO_CONCLUSION;
-  if (/(lexical|vocabulary-upgrades|nominalisation|paraphras)/.test(s)) return T2_LEXICAL;
-  if (/(grammar|band8|band-8|hypothetical-conditionals|counter-?argument|counterargument)/.test(s)) return T2_GRAMMAR;
-  if (/(understanding-the-task|thesis-statement)/.test(s)) return T2_TASK_ANALYSIS;
-  if (/(vn-learner|band-7-mistakes|traps)/.test(s)) return T2_TRAPS;
-  if (/(idea-generation|examples-and-evidence)/.test(s)) return T2_IDEAS_EXAMPLES;
-
-  return WRITING_GENERIC;
+  if (/(opinion|to-what-extent)/.test(s)) return "t2-opinion";
+  if (/(agree-disagree|agree|disagree|positive-negative)/.test(s)) return "t2-agree-disagree";
+  if (/(discussion|both-views)/.test(s)) return "t2-discussion";
+  if (/(problem-solution|causes-effects|problem|solution)/.test(s)) return "t2-problem-solution";
+  if (/(two-part-question|double-question|mixed-question-types|question-types-map)/.test(s)) return "t2-double-question";
+  if (/(advantages-disadvantages)/.test(s)) return "t2-adv-dis";
+  if (/(cohesion|linker|cohesive|coherence)/.test(s)) return "t2-cohesion";
+  if (/(paragraph|peel|3-layer|topic-sentences|supporting-examples)/.test(s)) return "t2-paragraph";
+  if (/(introduction|conclusion|paraphrasing)/.test(s)) return "t2-intro-conclusion";
+  if (/(lexical|vocabulary-upgrades|nominalisation|paraphras)/.test(s)) return "t2-lexical";
+  if (/(grammar|band8|band-8|hypothetical-conditionals|counter-?argument|counterargument)/.test(s)) return "t2-grammar";
+  if (/(understanding-the-task|thesis-statement)/.test(s)) return "t2-task-analysis";
+  if (/(vn-learner|band-7-mistakes|traps)/.test(s)) return "t2-traps";
+  if (/(idea-generation|examples-and-evidence)/.test(s)) return "t2-ideas-examples";
+  return "generic";
 }
+
+const PACK_BY_TOPIC: Record<TopicKey, Pack> = {
+  "t1-overview": T1_OVERVIEW, "t1-trends": T1_TRENDS, "t1-bar-pie": T1_BAR_PIE,
+  "t1-table": T1_TABLE, "t1-process": T1_PROCESS, "t1-map": T1_MAP,
+  "t1-letter": T1_LETTER, "t1-mixed": T1_MIXED,
+  "t2-opinion": T2_OPINION, "t2-agree-disagree": T2_AGREE_DISAGREE,
+  "t2-discussion": T2_DISCUSSION, "t2-problem-solution": T2_PROBLEM_SOLUTION,
+  "t2-double-question": T2_DOUBLE_QUESTION, "t2-adv-dis": T2_ADV_DIS,
+  "t2-cohesion": T2_COHESION, "t2-paragraph": T2_PARAGRAPH,
+  "t2-intro-conclusion": T2_INTRO_CONCLUSION, "t2-lexical": T2_LEXICAL,
+  "t2-grammar": T2_GRAMMAR, "t2-task-analysis": T2_TASK_ANALYSIS,
+  "t2-traps": T2_TRAPS, "t2-ideas-examples": T2_IDEAS_EXAMPLES,
+  "generic": WRITING_GENERIC,
+};
+
+function packForId(id: string): Pack {
+  return PACK_BY_TOPIC[detectTopic(id)];
+}
+
+// ---------------------------------------------------------------------------
+// THEORY PACKS (strategy steps + mistakes) — replaces generic mk() content
+// ---------------------------------------------------------------------------
+const step = (
+  n: number, title: string, titleVi: string, description: string, descriptionVi: string, example?: string,
+): StrategyStep => ({ step: n, title, titleVi, description, descriptionVi, ...(example ? { example } : {}) });
+
+const mist = (mistake: string, mistakeVi: string, why: string, whyVi: string): MistakeToAvoid =>
+  ({ mistake, mistakeVi, why, whyVi });
+
+interface TheoryPack { strategySteps: StrategyStep[]; mistakesToAvoid: MistakeToAvoid[]; }
+
+const THEORY: Record<TopicKey, TheoryPack> = {
+  "t1-overview": {
+    strategySteps: [
+      step(1, "Read every axis, unit and time span first", "Đọc trục, đơn vị và mốc thời gian trước", "Note what is measured (%, millions, kg), the categories, and whether the data is a single year or a period. This shapes the tense of your overview.", "Ghi lại đơn vị (%, triệu, kg), các hạng mục và khoảng thời gian. Điều này quyết định thì trong overview."),
+      step(2, "Group data by BEHAVIOUR, not order", "Nhóm dữ liệu theo HÀNH VI, không theo thứ tự", "Bundle items that rose together, fell together, or stayed flat. Ignore the visual order in the chart.", "Gộp các mục cùng tăng, cùng giảm hoặc đi ngang. Bỏ qua thứ tự hiển thị."),
+      step(3, "Write TWO overview sentences with NO numbers", "Viết 2 câu overview KHÔNG dùng số", "Sentence 1 = headline trend across ALL data. Sentence 2 = the single biggest comparison or exception.", "Câu 1 = xu hướng chính cho TOÀN BỘ dữ liệu. Câu 2 = so sánh lớn nhất hoặc ngoại lệ."),
+      step(4, "Place the overview RIGHT AFTER the introduction", "Đặt overview NGAY SAU mở bài", "Examiners look for it in paragraph 2. Signal it with 'Overall,' or 'It is clear that,'.", "Giám khảo tìm ở đoạn 2. Mở bằng 'Overall,' hoặc 'It is clear that,'."),
+    ],
+    mistakesToAvoid: [
+      mist("Putting specific numbers in the overview", "Đưa số cụ thể vào overview", "The overview must summarise, not quote data. Numbers belong in the body paragraphs only.", "Overview để tổng quát, không trích số. Số liệu chỉ nên xuất hiện trong body."),
+      mist("Describing every line/bar one by one", "Mô tả từng đường/cột một cách rời rạc", "Listing items individually shows no ability to group data — a Band 6 ceiling.", "Liệt kê rời rạc cho thấy không biết nhóm dữ liệu — trần Band 6."),
+      mist("Skipping the overview entirely", "Bỏ hẳn phần overview", "No overview automatically caps Task Achievement at Band 5.", "Không có overview tự động giới hạn Task Achievement ở Band 5."),
+    ],
+  },
+  "t1-trends": {
+    strategySteps: [
+      step(1, "Identify the trend TYPE for each line", "Xác định LOẠI xu hướng cho mỗi đường", "Label each line: steady rise, sharp fall, fluctuation, plateau, peak-then-drop. Write the label on the question paper.", "Gán nhãn từng đường: tăng đều, giảm mạnh, dao động, chững, đỉnh rồi giảm."),
+      step(2, "Choose the trend verb + adverb pair", "Chọn cặp động từ + trạng từ", "Match verb to speed (soar/edge up), adverb to degree (sharply, marginally). Never repeat the same pair.", "Ghép động từ theo tốc độ (soar/edge up) và trạng từ theo mức độ (sharply, marginally)."),
+      step(3, "Anchor with EXACT figures and dates", "Neo số liệu và mốc thời gian CHÍNH XÁC", "Every trend sentence needs the start value, end value and time frame — 'from X in 1990 to Y in 2020'.", "Mỗi câu trend cần giá trị đầu, cuối và mốc thời gian — 'from X in 1990 to Y in 2020'."),
+      step(4, "Add ONE comparison sentence per paragraph", "Thêm 1 câu so sánh mỗi đoạn", "Compare two lines with 'while', 'whereas', 'in contrast', 'twice as', 'narrowed the gap to'.", "So sánh 2 đường bằng 'while', 'whereas', 'twice as', 'narrowed the gap to'."),
+    ],
+    mistakesToAvoid: [
+      mist("Repeating 'increase' and 'decrease' throughout", "Lặp 'increase' và 'decrease' khắp bài", "Lexical Resource drops to Band 5-6 with no verb variety.", "Lexical Resource rớt còn 5-6 nếu động từ không đa dạng."),
+      mist("Using future tense for historical data", "Dùng thì tương lai cho dữ liệu quá khứ", "Grammar band drops instantly — use past simple / present perfect only.", "Điểm ngữ pháp rớt ngay — chỉ dùng quá khứ đơn / hiện tại hoàn thành."),
+      mist("Writing 'up' and 'down' instead of trend verbs", "Dùng 'up' và 'down' thay vì động từ trend", "'Up' and 'down' are informal fillers with no academic value.", "'Up' và 'down' là từ đệm không mang giá trị học thuật."),
+    ],
+  },
+  "t1-bar-pie": {
+    strategySteps: [
+      step(1, "Read the axis or legend labels carefully", "Đọc kỹ trục và chú giải", "Note whether values are % of total, absolute numbers, or per capita — the answer changes the language.", "Xác định giá trị là % tổng, số tuyệt đối hay bình quân — sẽ đổi cách viết."),
+      step(2, "Pair up categories with SIMILAR behaviour", "Ghép các hạng mục có HÀNH VI giống nhau", "Group cities/countries that follow the same pattern into one sentence rather than listing separately.", "Nhóm các thành phố/quốc gia cùng xu hướng vào một câu."),
+      step(3, "Use fraction and ratio language for pies", "Dùng ngôn ngữ phân số/tỷ lệ cho pie", "'A third', 'roughly half', 'six times as much', 'accounts for 70%' — always include ONE ratio per pie paragraph.", "'A third', 'roughly half', 'six times as much', 'accounts for 70%'."),
+      step(4, "End with the outlier or the dominant slice", "Kết bằng ngoại lệ hoặc phần lớn nhất", "Highlight what makes the chart special: the largest, smallest, or category that behaves oppositely.", "Nhấn phần lớn nhất, nhỏ nhất hoặc ngược xu hướng."),
+    ],
+    mistakesToAvoid: [
+      mist("Adding percentages that don't sum to 100 in a pie", "Cộng phần trăm không bằng 100 khi mô tả pie", "Rounding errors give inaccurate data reporting — Task Achievement drops.", "Sai số làm chệch dữ liệu — mất điểm Task Achievement."),
+      mist("Describing bars in the order they appear", "Mô tả cột theo đúng thứ tự hiển thị", "Order-based description shows no grouping ability. Regroup by size or by behaviour.", "Mô tả theo thứ tự cho thấy không biết nhóm — hãy nhóm theo kích thước hoặc hành vi."),
+      mist("Confusing 'percent' with 'percentage point'", "Nhầm 'percent' với 'percentage point'", "A rise from 10% to 15% is 5 percentage points, not 5%. Examiners notice this.", "Tăng từ 10% lên 15% là 5 điểm phần trăm, không phải 5%."),
+    ],
+  },
+  "t1-table": {
+    strategySteps: [
+      step(1, "Scan for the 3 extremes only", "Chỉ quét 3 giá trị cực đoan", "Highest, lowest and biggest change. Circle those 3 cells and IGNORE the rest.", "Cao nhất, thấp nhất và thay đổi lớn nhất. Khoanh 3 ô và bỏ qua phần còn lại."),
+      step(2, "Use the row/column headers as your paragraph plan", "Dùng tiêu đề hàng/cột làm dàn ý", "Body 1 = one row or column. Body 2 = the contrast row/column.", "Body 1 = một hàng/cột. Body 2 = hàng/cột đối lập."),
+      step(3, "Include a proportional comparison", "Đưa vào so sánh theo tỷ lệ", "'Nearly double', 'more than treble', 'roughly one quarter' — one per body paragraph.", "'Gần gấp đôi', 'hơn gấp ba', 'khoảng một phần tư' — mỗi body 1 lần."),
+      step(4, "Verify units before you commit a figure", "Kiểm tra đơn vị trước khi viết số", "Thousands vs millions is the #1 careless error in tables.", "Nhầm nghìn với triệu là lỗi bất cẩn phổ biến nhất."),
+    ],
+    mistakesToAvoid: [
+      mist("Trying to describe every cell", "Cố mô tả mọi ô", "Selective reporting is the official IELTS instruction. Reporting all cells kills coherence.", "IELTS yêu cầu chọn lọc — mô tả tất cả sẽ mất coherence."),
+      mist("Ignoring the year/time header", "Bỏ qua tiêu đề năm/thời gian", "Missing the time frame means wrong tense throughout — Grammar drops a full band.", "Bỏ qua thời gian dẫn đến sai thì toàn bài — Grammar rớt 1 band."),
+      mist("Copying numbers straight from the table", "Copy nguyên số từ bảng", "Round large numbers ('roughly 2.4 million') to sound more natural.", "Làm tròn số lớn ('khoảng 2,4 triệu') cho tự nhiên hơn."),
+    ],
+  },
+  "t1-process": {
+    strategySteps: [
+      step(1, "Count the stages and note branch points", "Đếm số bước và các điểm rẽ nhánh", "Number every stage on the diagram. Note if two paths merge or split.", "Đánh số mọi bước. Ghi rõ chỗ hai luồng nhập/tách."),
+      step(2, "Switch to the passive voice throughout", "Chuyển hoàn toàn sang câu bị động", "Task 1 processes use passive: 'the beans are washed', 'the mixture is heated'.", "Task 1 process dùng bị động: 'the beans are washed', 'the mixture is heated'."),
+      step(3, "Sequence with signposts: begins → then → finally", "Dùng dấu chỉ dẫn: begins → then → finally", "Rotate 'first', 'once', 'subsequently', 'after which', 'in the final stage'.", "Xoay 'first', 'once', 'subsequently', 'after which', 'in the final stage'."),
+      step(4, "Close with the output and (if cyclic) the loop", "Kết bằng thành phẩm hoặc quay lại đầu chu trình", "'…the finished product is packed for delivery' or 'completing the cycle'.", "'…the finished product is packed for delivery' hoặc 'completing the cycle'."),
+    ],
+    mistakesToAvoid: [
+      mist("Adding personal opinion or reasons", "Thêm ý kiến cá nhân hoặc lý do", "Task 1 is descriptive only. Any 'because I think' language loses Task Achievement.", "Task 1 chỉ mô tả — thêm 'because I think' mất điểm."),
+      mist("Using active voice with generic 'they/people'", "Dùng chủ động với 'they/people' chung chung", "'They pour the mixture' is Band 5. Passive is the standard.", "'They pour the mixture' là Band 5. Bị động là chuẩn."),
+      mist("Skipping the overview of total stages", "Bỏ qua overview về tổng số bước", "'The process consists of X main stages, beginning with… and ending with…' is mandatory.", "'The process consists of X main stages…' là bắt buộc."),
+    ],
+  },
+  "t1-map": {
+    strategySteps: [
+      step(1, "Orient using compass directions", "Định hướng bằng phương hướng la bàn", "Mark N/S/E/W on the map. Anchor every change with a direction.", "Ghi N/S/E/W lên bản đồ. Mỗi thay đổi neo theo phương hướng."),
+      step(2, "Group changes by TYPE, not location", "Nhóm thay đổi theo LOẠI, không theo vị trí", "Body 1 = removals/demolitions. Body 2 = additions/expansions.", "Body 1 = xoá/phá bỏ. Body 2 = thêm mới/mở rộng."),
+      step(3, "Choose the right tense per timeline", "Chọn thì đúng theo mốc thời gian", "Past → present perfect passive ('has been demolished'). Future plan → 'will be built' / 'is set to'.", "Past → hiện tại hoàn thành bị động. Kế hoạch → 'will be built' / 'is set to'."),
+      step(4, "End the overview with FUNCTION change", "Kết overview bằng sự thay đổi CHỨC NĂNG", "Say what the area became overall (industrial → residential, empty → commercial).", "Nêu khu vực đã đổi công năng gì (công nghiệp → dân cư)."),
+    ],
+    mistakesToAvoid: [
+      mist("Naming every building one by one", "Gọi tên từng công trình", "Building-by-building narration kills coherence. Group by change type.", "Kể từng công trình sẽ mất coherence — nhóm theo loại thay đổi."),
+      mist("Mixing past and future maps in one paragraph", "Trộn bản đồ quá khứ và tương lai vào 1 đoạn", "Tenses collide and Grammar drops. Body 1 = past changes, Body 2 = planned changes.", "Thì bị lẫn — Body 1 quá khứ, Body 2 kế hoạch."),
+      mist("Using 'here', 'there', 'this place'", "Dùng 'here', 'there', 'this place'", "Vague location words replace exact directions and lose marks.", "Từ chỉ vị trí mơ hồ thay cho phương hướng cụ thể sẽ mất điểm."),
+    ],
+  },
+  "t1-letter": {
+    strategySteps: [
+      step(1, "Identify the tone: formal / semi-formal / informal", "Xác định giọng: trang trọng / bán trang trọng / thân mật", "Read the prompt for 'friend' (informal), 'manager' (semi-formal), 'company' (formal).", "Đọc đề tìm 'friend' (thân mật), 'manager' (bán trang trọng), 'company' (trang trọng)."),
+      step(2, "Cover all 3 bullet points as separate paragraphs", "Trả lời 3 gạch đầu dòng thành 3 đoạn", "One paragraph per bullet keeps Task Achievement intact.", "Mỗi bullet 1 đoạn giữ trọn Task Achievement."),
+      step(3, "Match opening AND closing to the tone", "Chọn mở-kết đồng bộ với giọng", "Formal → Dear Sir/Yours faithfully. Named → Dear Ms X/Yours sincerely. Informal → Hi/Best wishes.", "Trang trọng → Dear Sir/Yours faithfully. Có tên → Dear Ms X/Yours sincerely. Thân mật → Hi/Best."),
+      step(4, "Hit 170-190 words with polite functional phrases", "Viết 170-190 từ với cụm chức năng lịch sự", "'I am writing to…', 'I would appreciate it if…', 'Please let me know…'", "'I am writing to…', 'I would appreciate it if…', 'Please let me know…'"),
+    ],
+    mistakesToAvoid: [
+      mist("Mixing formal and informal in one letter", "Trộn trang trọng và thân mật trong 1 thư", "'Dear Sir, Hey what's up' collapses tone consistency — Task Response drops.", "'Dear Sir, Hey what's up' phá nhất quán giọng — Task Response rớt."),
+      mist("Missing one of the three bullet points", "Bỏ 1 trong 3 gạch đầu dòng", "Missing a bullet automatically caps Task Achievement at Band 5.", "Bỏ 1 bullet giới hạn Task Achievement ở Band 5."),
+      mist("Using contractions in a formal letter", "Dùng viết tắt trong thư trang trọng", "'I'm', 'don't', 'can't' break formal register instantly.", "'I'm', 'don't', 'can't' phá register trang trọng."),
+    ],
+  },
+  "t1-mixed": {
+    strategySteps: [
+      step(1, "Identify each chart's role", "Xác định vai trò từng biểu đồ", "Which chart shows the trend, which shows the breakdown? Label each before writing.", "Biểu đồ nào cho trend, biểu đồ nào cho tỷ lệ? Ghi nhãn trước khi viết."),
+      step(2, "Write ONE joint overview covering both", "Viết 1 overview chung cho cả hai", "Use 'while', 'accompanied by', 'reflected in' to link the two data sources.", "Dùng 'while', 'accompanied by', 'reflected in' để nối hai nguồn."),
+      step(3, "Anchor each body in one chart, supported by the other", "Mỗi body chính từ 1 biểu đồ, hỗ trợ từ biểu đồ còn lại", "Body 1 = chart A + 1 supporting fact from B. Body 2 = chart B + 1 supporting fact from A.", "Body 1 = chart A + 1 dữ kiện từ B. Body 2 = ngược lại."),
+      step(4, "Cross-reference at least twice", "Đối chiếu chéo ít nhất 2 lần", "'This is mirrored by…', 'A similar pattern appears in…' — Band 7.5+ move.", "'This is mirrored by…', 'A similar pattern appears in…' — nước đi Band 7.5+."),
+    ],
+    mistakesToAvoid: [
+      mist("Writing 'The bar chart shows… The pie chart shows…'", "Viết 'The bar chart shows… The pie chart shows…'", "Two isolated descriptions kill cohesion. Always LINK the two charts.", "Hai mô tả tách rời phá cohesion — luôn LIÊN KẾT hai biểu đồ."),
+      mist("Comparing incompatible units", "So sánh hai đơn vị không tương thích", "Comparing dollars in one chart to percentages in the other confuses the reader.", "So sánh đô-la với phần trăm gây khó hiểu."),
+      mist("Overloading the overview with numbers from both charts", "Nhồi số của cả 2 biểu đồ vào overview", "Overview stays big-picture — numbers only appear in body paragraphs.", "Overview giữ tổng quan — số chỉ đưa vào body."),
+    ],
+  },
+  "t2-opinion": {
+    strategySteps: [
+      step(1, "Decode: what is the exact opinion asked?", "Giải mã: đề hỏi quan điểm gì?", "'To what extent…?' = degree scale. 'Do you agree…?' = for/against. State YOUR position immediately.", "'To what extent…?' = mức độ. 'Do you agree…?' = tán thành/phản đối."),
+      step(2, "Commit to a clear stance in the thesis", "Chốt lập trường rõ trong thesis", "'I firmly agree', 'I largely agree', 'I disagree' + 2 reasons that become Body 1 and Body 2.", "'I firmly agree', 'I largely agree', 'I disagree' + 2 lý do làm Body 1, Body 2."),
+      step(3, "Build each body around ONE deep reason", "Mỗi body triển khai 1 lý do sâu", "Point → Explain → Example (real study/city/figure) → Link back to thesis (PEEL).", "Point → Explain → Example (nghiên cứu/thành phố/số thật) → Link về thesis."),
+      step(4, "Restate the position with fresh wording in the conclusion", "Diễn đạt lại lập trường bằng từ mới trong kết bài", "Do not copy the thesis. Use synonyms and one forward-looking sentence.", "Không copy thesis — dùng từ đồng nghĩa và 1 câu hướng tương lai."),
+    ],
+    mistakesToAvoid: [
+      mist("Sitting on the fence", "Không chọn phe rõ ràng", "'It has good and bad sides' with no personal stance caps Task Response at Band 5.", "'Có mặt tốt mặt xấu' không có quan điểm cá nhân giới hạn Task Response ở Band 5."),
+      mist("Changing opinion between body and conclusion", "Đổi quan điểm giữa body và kết bài", "Inconsistent stance destroys Task Response — commit to ONE position from thesis to conclusion.", "Quan điểm mâu thuẫn phá Task Response — giữ 1 lập trường từ đầu đến cuối."),
+      mist("Listing reasons without developing any", "Liệt kê nhiều lý do mà không triển khai", "Two deep reasons beat five shallow ones — always.", "Hai lý do sâu luôn tốt hơn năm lý do hời hợt."),
+    ],
+  },
+  "t2-agree-disagree": {
+    strategySteps: [
+      step(1, "Choose full, partial, or opposite agreement", "Chọn đồng ý hoàn toàn / một phần / phản đối", "Partial agreement ('I agree with X but reject Y') is the strongest Band 7+ move.", "Đồng ý một phần ('agree with X but reject Y') là nước đi Band 7+ mạnh nhất."),
+      step(2, "State position + scope in the thesis", "Nêu lập trường + phạm vi trong thesis", "'I strongly agree that A, but partly disagree about B, because…'", "'I strongly agree that A, but partly disagree about B, because…'"),
+      step(3, "Concede fairly, then refute with specifics", "Thừa nhận phía đối lập, rồi phản biện có dẫn chứng", "'Admittedly, X has some merit… However, this ignores…' — Band 8 signature.", "'Admittedly, X has some merit… However, this ignores…' — dấu ấn Band 8."),
+      step(4, "Close with a nuanced restatement", "Kết bằng câu diễn đạt lại tinh tế", "Reinforce the split ('agree on principle, disagree on scope') and add a forward-looking line.", "Củng cố sự phân biệt (đồng ý nguyên tắc, không đồng ý về mức độ)."),
+    ],
+    mistakesToAvoid: [
+      mist("Blind 100% agreement or disagreement", "Đồng ý/phản đối 100% mù quáng", "One-sided essays cap Task Response at 6.5. Show critical thinking.", "Bài một chiều giới hạn Task Response ở 6.5 — cần tư duy phản biện."),
+      mist("Confusing 'agree/disagree' with 'discuss both views'", "Nhầm 'agree/disagree' với 'discuss both views'", "Discussion essays require both views AND your opinion — different structure.", "Discussion cần cả hai quan điểm CỘNG quan điểm cá nhân — khác cấu trúc."),
+      mist("Using 'I 100% agree' or 'It's 100% wrong'", "Dùng 'I 100% agree' hoặc 'It's 100% wrong'", "Extreme language sounds unacademic. Use 'largely', 'to a significant extent'.", "Ngôn ngữ cực đoan thiếu học thuật — dùng 'largely', 'to a significant extent'."),
+    ],
+  },
+  "t2-discussion": {
+    strategySteps: [
+      step(1, "Signal BOTH views + your opinion in the thesis", "Báo hiệu CẢ HAI quan điểm + ý kiến cá nhân trong thesis", "'This essay will examine both A and B, before arguing that B is preferable.'", "'Bài viết sẽ phân tích cả A và B, trước khi khẳng định B thuyết phục hơn.'"),
+      step(2, "Present view A fairly and specifically in Body 1", "Trình bày view A khách quan trong Body 1", "Even if you disagree, describe view A with real examples — not a strawman.", "Dù không đồng tình, vẫn mô tả view A có ví dụ thật — không dựng người rơm."),
+      step(3, "Pivot to Body 2 with 'On the other hand, and in my view'", "Chuyển sang Body 2 bằng 'On the other hand, and in my view'", "This phrase seamlessly weaves your own opinion into the second view.", "Cụm này lồng ý kiến cá nhân vào view thứ hai một cách mượt."),
+      step(4, "Conclude by naming the winning view + why", "Kết bằng cách nêu view thắng + lý do", "'On balance, view B is more convincing because…' — no new evidence.", "'On balance, view B is more convincing because…' — không thêm bằng chứng mới."),
+    ],
+    mistakesToAvoid: [
+      mist("Presenting only one view", "Chỉ trình bày một quan điểm", "Missing view A caps Task Response at Band 5 automatically.", "Thiếu view A tự giới hạn Task Response ở Band 5."),
+      mist("Forgetting to give your own opinion", "Quên nêu quan điểm cá nhân", "'Discuss AND give your opinion' — the AND is mandatory. No opinion = Band 5.", "'Discuss AND give your opinion' — chữ AND là bắt buộc."),
+      mist("Giving the opinion only in the conclusion", "Chỉ nêu quan điểm ở kết bài", "Opinion must appear in the thesis AND be developed inside Body 2.", "Quan điểm phải xuất hiện ở thesis VÀ được triển khai trong Body 2."),
+    ],
+  },
+  "t2-problem-solution": {
+    strategySteps: [
+      step(1, "Distinguish CAUSES from EFFECTS from PROBLEMS", "Phân biệt CAUSE, EFFECT và PROBLEM", "Read the prompt twice — 'causes' asks why; 'problems' asks impact; 'effects' asks consequence.", "Đọc đề 2 lần — 'causes' hỏi vì sao; 'problems' hỏi hậu quả; 'effects' hỏi tác động."),
+      step(2, "Pick ONE deep cause and ONE matching solution", "Chọn 1 nguyên nhân sâu + 1 giải pháp tương ứng", "Two shallow causes = Band 6. One analysed cause + one matched solution = Band 7+.", "Hai lý do nông = Band 6. Một lý do sâu + giải pháp khớp = Band 7+."),
+      step(3, "Name the agent, mechanism and real example", "Nêu chủ thể, cơ chế và ví dụ thật", "Solutions must say WHO acts, HOW, and cite a REAL city/policy that proves it works.", "Giải pháp phải nêu AI làm, LÀM THẾ NÀO và ví dụ thành phố/chính sách thật."),
+      step(4, "Match solution to cause explicitly", "Nối giải pháp với nguyên nhân rõ ràng", "'This addresses the earlier cause of X by…' — do not float unrelated fixes.", "'Giải pháp này xử lý nguyên nhân X bằng…' — không đưa giải pháp lạc."),
+    ],
+    mistakesToAvoid: [
+      mist("Listing 'The government should…' with no mechanism", "Chỉ viết 'The government should…' không cơ chế", "Vague solutions with no how/who/where score Band 6 at most.", "Giải pháp mơ hồ không có cơ chế chỉ đạt Band 6."),
+      mist("Naming problems that don't match the causes", "Nêu vấn đề không khớp nguyên nhân", "Task Response drops if the solution doesn't answer YOUR cause paragraph.", "Task Response rớt nếu giải pháp không đáp lại nguyên nhân đã nêu."),
+      mist("Confusing symptoms with root causes", "Nhầm triệu chứng với nguyên nhân gốc", "'Traffic is bad because cars are slow' is a symptom, not a cause.", "'Kẹt xe vì xe chậm' là triệu chứng, không phải nguyên nhân."),
+    ],
+  },
+  "t2-double-question": {
+    strategySteps: [
+      step(1, "Locate both questions in the prompt", "Xác định 2 câu hỏi trong đề", "Underline each question separately — often 'Why…?' + 'Is this positive/negative?'.", "Gạch chân từng câu hỏi — thường là 'Why…?' + 'Is this positive/negative?'."),
+      step(2, "Answer BOTH in the thesis", "Trả lời CẢ HAI ngay trong thesis", "Two mini-answers, one for each question. Never delay one to the conclusion.", "Hai câu trả lời nhỏ, không hoãn câu nào tới kết bài."),
+      step(3, "Give each question its own body paragraph", "Mỗi câu hỏi 1 body riêng", "Body 1 = question 1. Body 2 = question 2. Do not merge.", "Body 1 = câu 1. Body 2 = câu 2. Không trộn."),
+      step(4, "Balance depth — do not favour one question", "Cân bằng độ sâu — không thiên vị 1 câu", "Two developed reasons per body. Equal word count keeps Task Response at 7+.", "Hai lý do triển khai mỗi body, độ dài cân bằng để Task Response ≥ 7."),
+    ],
+    mistakesToAvoid: [
+      mist("Answering only one question", "Chỉ trả lời 1 câu hỏi", "Missing one question caps Task Response at Band 5 automatically.", "Bỏ 1 câu hỏi tự động giới hạn Task Response ở Band 5."),
+      mist("Merging both questions into one big paragraph", "Trộn 2 câu hỏi vào 1 đoạn lớn", "Coherence collapses — examiners want clear paragraphing per question.", "Coherence sụp — giám khảo cần phân đoạn rõ theo từng câu."),
+      mist("Making the second answer much shorter", "Trả lời câu 2 quá ngắn", "Imbalance signals you ran out of ideas — Task Response drops.", "Mất cân bằng cho thấy bí ý — Task Response rớt."),
+    ],
+  },
+  "t2-adv-dis": {
+    strategySteps: [
+      step(1, "Decide: 'discuss both' or 'do advantages outweigh'?", "Xác định dạng: 'discuss both' hay 'outweigh'?", "'Outweigh' variants require YOUR verdict. 'Discuss' variants do not.", "Dạng 'outweigh' cần kết luận của bạn; dạng 'discuss' thì không."),
+      step(2, "State your verdict in the thesis for outweigh essays", "Nêu kết luận trong thesis với dạng outweigh", "'On balance, the benefits clearly outweigh the drawbacks because…'", "'On balance, the benefits clearly outweigh the drawbacks because…'"),
+      step(3, "Develop TWO advantages deeply, then offset ONE disadvantage", "Triển khai 2 lợi ích sâu, rồi bù trừ 1 nhược điểm", "Two developed pros > four shallow pros. Offset the con to strengthen your verdict.", "Hai lợi ích sâu > bốn lợi ích nông. Bù trừ nhược điểm để củng cố kết luận."),
+      step(4, "Weigh both sides in the conclusion", "Cân đo cả hai bên trong kết bài", "'Although X, the greater impact of Y makes the change worthwhile.'", "'Although X, the greater impact of Y makes the change worthwhile.'"),
+    ],
+    mistakesToAvoid: [
+      mist("Treating 'outweigh' like 'discuss both'", "Xử lý 'outweigh' giống 'discuss both'", "Skipping the verdict caps Task Response at Band 5.", "Bỏ kết luận giới hạn Task Response ở Band 5."),
+      mist("Listing 2 pros vs 2 cons with no comparison", "Liệt kê 2 pros vs 2 cons không so sánh", "Lists without evaluation give a Band 6 ceiling.", "Danh sách không đánh giá giới hạn ở Band 6."),
+      mist("Introducing a new advantage in the conclusion", "Đưa lợi ích mới vào kết bài", "New ideas in conclusions violate structure — Coherence drops.", "Ý mới trong kết bài phá cấu trúc — Coherence rớt."),
+    ],
+  },
+  "t2-cohesion": {
+    strategySteps: [
+      step(1, "Rotate linkers — never repeat within one paragraph", "Xoay linker — không lặp trong 1 đoạn", "Body 1 opener ≠ Body 2 opener. 'The first…' → 'Equally important…' → 'A further…'.", "Mở Body 1 ≠ mở Body 2. 'The first…' → 'Equally important…' → 'A further…'."),
+      step(2, "Prefer PRONOUN reference over linking words", "Ưu tiên đại từ tham chiếu hơn từ nối", "'This', 'these measures', 'the former' cohere invisibly and beat over-used 'Moreover'.", "'This', 'these measures', 'the former' cohesive tự nhiên hơn 'Moreover' bị lạm dụng."),
+      step(3, "Cap linker density at max 4 sentence-openers per essay", "Giới hạn tối đa 4 linker ở đầu câu mỗi bài", "More than 4 signals memorised template — Coherence drops from 7 to 6.", "Quá 4 báo hiệu template học thuộc — Coherence rớt từ 7 xuống 6."),
+      step(4, "Use SUBSTITUTION to avoid noun repetition", "Dùng THAY THẾ để tránh lặp danh từ", "'Some cities banned cars, and others are considering doing so.' 'Others' + 'doing so' replace long noun phrases.", "'Others' + 'doing so' thay cụm danh từ dài."),
+    ],
+    mistakesToAvoid: [
+      mist("Starting every paragraph with 'Firstly / Secondly'", "Mở mọi đoạn bằng 'Firstly / Secondly'", "Template linkers cap Coherence at Band 6.", "Linker học thuộc giới hạn Coherence ở Band 6."),
+      mist("Overusing 'Moreover' and 'Furthermore'", "Lạm dụng 'Moreover' và 'Furthermore'", "Repeating additive linkers signals limited range — Band 6.5 ceiling.", "Lặp linker cộng thêm cho thấy giới hạn — trần 6.5."),
+      mist("Placing linkers mid-sentence without commas", "Đặt linker giữa câu không có dấu phẩy", "'The plan however failed' → punctuation error — Grammar drops.", "'The plan however failed' — sai dấu, mất điểm ngữ pháp."),
+    ],
+  },
+  "t2-paragraph": {
+    strategySteps: [
+      step(1, "Open with a POSITION-taking topic sentence", "Mở đoạn bằng câu chủ đề có LẬP TRƯỜNG", "'Cars deliver unmatched convenience, yet impose hidden costs' — packs stance + 2 nouns to develop.", "'Cars deliver unmatched convenience, yet impose hidden costs' — có lập trường + 2 danh từ để triển khai."),
+      step(2, "Follow with EXPLAIN — the mechanism", "Tiếp theo là EXPLAIN — cơ chế", "One sentence saying WHY the topic sentence is true.", "Một câu giải thích VÌ SAO topic sentence đúng."),
+      step(3, "Anchor with EVIDENCE — a real city, study or figure", "Neo bằng EVIDENCE — thành phố, nghiên cứu, số thật", "'Helsinki cut NO₂ by 22% after tram expansion in 2017.' Real specifics beat vague claims.", "'Helsinki cut NO₂ by 22% after tram expansion in 2017.' Cụ thể hơn khẳng định mơ hồ."),
+      step(4, "Close with ECHO — link back to the thesis", "Kết đoạn bằng ECHO — nối về thesis", "One sentence tying the evidence back to your overall position.", "Một câu buộc bằng chứng trở về lập trường chung."),
+    ],
+    mistakesToAvoid: [
+      mist("Writing weak topic sentences ('X has good and bad sides')", "Câu chủ đề yếu ('X có mặt tốt và xấu')", "Neutral topic sentences show no position — Task Response drops.", "Câu chủ đề trung tính không có lập trường — Task Response rớt."),
+      mist("Cramming two ideas into one body paragraph", "Nhồi 2 ý vào 1 body", "One idea per paragraph is a Band 7 rule. Split them.", "Một ý một đoạn là chuẩn Band 7 — tách ra."),
+      mist("Skipping the ECHO / link-back sentence", "Bỏ câu ECHO / nối về thesis", "Without the link-back, cohesion between body and thesis breaks.", "Không có câu link-back, cohesion giữa body và thesis đứt gãy."),
+    ],
+  },
+  "t2-intro-conclusion": {
+    strategySteps: [
+      step(1, "Ditch 'Nowadays' — open with a specific hook", "Bỏ 'Nowadays' — mở bằng hook cụ thể", "'The rapid expansion of AI has forced governments to rethink…' Topic-specific > generic.", "'The rapid expansion of AI has forced governments to rethink…' Cụ thể > chung chung."),
+      step(2, "Paraphrase the prompt in ONE sentence", "Paraphrase đề trong 1 câu", "Change 70% of the words. Keep the idea, replace vocab and grammar structure.", "Đổi 70% từ vựng. Giữ ý, thay từ và cấu trúc."),
+      step(3, "State thesis with 2 signposts to Body 1 & 2", "Nêu thesis với 2 dấu hiệu về Body 1 và 2", "'…for two reasons: A (Body 1) and B (Body 2).' The reader knows the roadmap instantly.", "'…for two reasons: A (Body 1) and B (Body 2).' Người đọc thấy bản đồ ngay."),
+      step(4, "Write a 2-sentence conclusion: restate + forward-looking", "Viết kết bài 2 câu: nhắc lại + hướng tương lai", "Sentence 1 = 'To sum up' + paraphrased thesis. Sentence 2 = prediction or recommendation.", "Câu 1 = 'To sum up' + paraphrased thesis. Câu 2 = dự báo hoặc khuyến nghị."),
+    ],
+    mistakesToAvoid: [
+      mist("Opening with 'Nowadays, the world is developing very fast'", "Mở bằng 'Nowadays, the world is developing very fast'", "Examiners flag this as memorised — Task Response caps at 6.", "Giám khảo đánh dấu học thuộc — Task Response bị chặn ở 6."),
+      mist("Adding new evidence in the conclusion", "Thêm bằng chứng mới trong kết bài", "New examples in conclusions violate structure — Coherence drops.", "Ví dụ mới ở kết bài phá cấu trúc — Coherence rớt."),
+      mist("Copying the prompt word-for-word in the introduction", "Copy nguyên đề vào mở bài", "Copied prompts do not count toward the word count and hurt Lexical Resource.", "Câu copy không được tính từ và làm mất điểm Lexical Resource."),
+    ],
+  },
+  "t2-lexical": {
+    strategySteps: [
+      step(1, "Upgrade weak keywords first", "Nâng cấp các từ khoá yếu trước tiên", "big → substantial; good → highly beneficial; bad → detrimental; many → a considerable proportion.", "big → substantial; good → highly beneficial; bad → detrimental."),
+      step(2, "Prefer collocations over single fancy words", "Ưu tiên collocation hơn từ đơn hoa mỹ", "'Pressing public-health concern' scores higher than a rare word misused.", "'Pressing public-health concern' cao điểm hơn từ hiếm dùng sai."),
+      step(3, "Nominalise for academic tone", "Danh từ hoá cho giọng học thuật", "'When governments regulate industry…' → 'Government regulation of industry…'.", "'Khi chính phủ điều tiết…' → 'Government regulation…'"),
+      step(4, "Rotate synonyms — never repeat within a paragraph", "Xoay từ đồng nghĩa — không lặp trong 1 đoạn", "Build a 3-word rotation for each key noun: 'children / minors / young people'.", "Xoay 3 từ cho mỗi danh từ chính: 'children / minors / young people'."),
+    ],
+    mistakesToAvoid: [
+      mist("Thesaurus-swapping without checking collocation", "Đổi từ theo từ điển đồng nghĩa mà không kiểm tra collocation", "'Make a large hospital' instead of 'large-scale hospital' — Band 6 signal.", "'Make a large hospital' thay vì 'large-scale hospital' — dấu hiệu Band 6."),
+      mist("Using rare words in the wrong register", "Dùng từ hiếm sai register", "One misused Band 9 word can drop Lexical Resource by a whole band.", "Một từ Band 9 dùng sai có thể tụt Lexical Resource cả 1 band."),
+      mist("Repeating the prompt's main noun 6+ times", "Lặp danh từ chính của đề hơn 6 lần", "Lack of paraphrase = Band 6 ceiling on Lexical Resource.", "Thiếu paraphrase = trần Band 6 cho Lexical Resource."),
+    ],
+  },
+  "t2-grammar": {
+    strategySteps: [
+      step(1, "Aim for 4 out of 5 target structures per essay", "Nhắm đạt 4/5 cấu trúc mục tiêu mỗi bài", "Complex sentence • Conditional • Passive • Relative clause • Modal of speculation.", "Câu phức • Điều kiện • Bị động • Mệnh đề quan hệ • Modal phỏng đoán."),
+      step(2, "Deploy ONE conditional per essay (mixed if possible)", "Dùng 1 câu điều kiện (hỗn hợp nếu được)", "'If governments had acted earlier, we would not be facing this crisis today.'", "'If governments had acted earlier, we would not be facing this crisis today.'"),
+      step(3, "Insert 2-3 relative clauses to add detail", "Thêm 2-3 mệnh đề quan hệ để bổ sung chi tiết", "'…the tram network, which was expanded in 2017, cut emissions by 22%.'", "'…the tram network, which was expanded in 2017, cut emissions by 22%.'"),
+      step(4, "Use ONE advanced structure sparingly (inversion / cleft)", "Dùng 1 cấu trúc nâng cao có chừng mực", "'Never has the government faced a bigger challenge.' Once per essay — twice looks forced.", "'Never has the government faced a bigger challenge.' Một lần/bài — hai lần là gượng."),
+    ],
+    mistakesToAvoid: [
+      mist("Only simple sentences throughout", "Chỉ dùng câu đơn suốt bài", "No complex sentences = Band 5-6 Grammar automatically.", "Không có câu phức = Grammar tự động Band 5-6."),
+      mist("Forcing inversion in every paragraph", "Ép đảo ngữ mọi đoạn", "Overused advanced structures look memorised and drop Grammar.", "Lạm dụng cấu trúc nâng cao trông học thuộc và mất điểm."),
+      mist("Punctuating complex sentences incorrectly", "Sai dấu câu phức", "Missing commas after subordinate clauses is Band 6 signal.", "Thiếu dấu phẩy sau mệnh đề phụ là dấu hiệu Band 6."),
+    ],
+  },
+  "t2-task-analysis": {
+    strategySteps: [
+      step(1, "Identify the question TYPE first (Opinion, Discussion, etc.)", "Xác định DẠNG đề trước tiên", "Misreading the type is the #1 cause of Band 5 in Task 2.", "Đọc sai dạng là lý do #1 khiến rơi Band 5."),
+      step(2, "Underline TASK VERB + SCOPE + COMPARISON", "Gạch chân ĐỘNG TỪ + PHẠM VI + SO SÁNH", "Miss any of the three and Task Response drops immediately.", "Bỏ 1 trong 3 sẽ mất điểm Task Response ngay."),
+      step(3, "Restate the prompt — change 70%+ of the words", "Diễn đạt lại đề — đổi ≥ 70% từ", "'It is often argued that long-standing cultural celebrations no longer hold their meaning.'", "'It is often argued that long-standing cultural celebrations no longer hold their meaning.'"),
+      step(4, "Turn the underlined keywords into your 2 thesis reasons", "Biến từ khoá đã gạch thành 2 lý do trong thesis", "Each keyword maps directly to a body paragraph.", "Mỗi từ khoá ánh xạ trực tiếp về một body."),
+    ],
+    mistakesToAvoid: [
+      mist("Writing without identifying the question type", "Viết mà không xác định dạng đề", "Wrong structure = Band 5 no matter how good the vocabulary.", "Sai cấu trúc = Band 5 dù từ vựng có hay."),
+      mist("Copying the prompt verbatim in the intro", "Copy nguyên đề trong mở bài", "Copied words are not counted; Lexical Resource suffers.", "Từ copy không được tính; Lexical Resource giảm."),
+      mist("Ignoring qualifiers like 'to what extent' or 'main reasons'", "Bỏ qua từ hạn định 'to what extent', 'main reasons'", "Qualifiers change the required answer structure.", "Từ hạn định thay đổi cấu trúc trả lời."),
+    ],
+  },
+  "t2-traps": {
+    strategySteps: [
+      step(1, "Ban template openers ('Nowadays', 'In recent years')", "Cấm mở bài mẫu ('Nowadays', 'In recent years')", "All are flagged as memorised. Open with a topic-specific hook instead.", "Đều bị đánh dấu học thuộc. Mở bằng hook cụ thể."),
+      step(2, "Think in English collocations, not Vietnamese translations", "Tư duy bằng collocation tiếng Anh, không dịch từ tiếng Việt", "'quan tâm đến giáo dục' → 'prioritise education', not 'interest to education'.", "'quan tâm đến giáo dục' → 'prioritise education'."),
+      step(3, "Rotate cohesive devices — cap 'Firstly/Secondly' at zero", "Xoay từ nối — 'Firstly/Secondly' = 0", "Use 'The first and most compelling reason', 'Equally important', 'A further consideration'.", "Dùng 'The first and most compelling reason', 'Equally important', 'A further consideration'."),
+      step(4, "Show critical thinking — never 100% agreement", "Thể hiện tư duy phản biện — không đồng ý 100%", "Even in strong-opinion essays, one 'admittedly…' sentence lifts Task Response.", "Kể cả bài quan điểm mạnh, một câu 'admittedly…' cũng nâng Task Response."),
+    ],
+    mistakesToAvoid: [
+      mist("Word-for-word translation from Vietnamese", "Dịch từng chữ từ tiếng Việt", "Produces unnatural collocations examiners flag immediately.", "Tạo collocation không tự nhiên bị giám khảo phát hiện ngay."),
+      mist("Using memorised 'template' introductions", "Dùng mở bài mẫu học thuộc", "Templates cap Task Response at Band 6.", "Template giới hạn Task Response ở Band 6."),
+      mist("Extreme absolute language ('100%', 'always', 'never')", "Ngôn ngữ tuyệt đối ('100%', 'always', 'never')", "Sounds simplistic and unacademic — Lexical Resource drops.", "Nghe đơn giản, thiếu học thuật — Lexical Resource rớt."),
+    ],
+  },
+  "t2-ideas-examples": {
+    strategySteps: [
+      step(1, "Brainstorm through the 5-lens method", "Sinh ý theo phương pháp 5 lăng kính", "Economic • Social • Environmental • Health • Educational — pick the 2 strongest.", "Kinh tế • Xã hội • Môi trường • Sức khoẻ • Giáo dục — chọn 2 lăng kính mạnh nhất."),
+      step(2, "Prefer real examples over hypotheticals", "Ưu tiên ví dụ thật hơn giả định", "Named country + year + figure = Band 8 example.", "Tên nước + năm + số = ví dụ Band 8."),
+      step(3, "Develop each example — do not drop it in", "Triển khai ví dụ — đừng chỉ ném vào", "Add mechanism ('this happened because…') and result ('leading to…').", "Thêm cơ chế ('nhờ vì…') và kết quả ('dẫn đến…')."),
+      step(4, "One example per body paragraph — no more", "Mỗi body 1 ví dụ — không hơn", "Multiple undeveloped examples score lower than one fully developed example.", "Nhiều ví dụ hời hợt điểm thấp hơn 1 ví dụ triển khai kỹ."),
+    ],
+    mistakesToAvoid: [
+      mist("Generic 'many studies show'", "Chung chung 'many studies show'", "Fake or unnamed evidence is Band 6 max.", "Bằng chứng giả hoặc không nêu tên = trần Band 6."),
+      mist("Dropping examples without linking to the point", "Ném ví dụ mà không nối về point", "Isolated examples hurt cohesion — always link back.", "Ví dụ tách rời phá cohesion — luôn nối về point."),
+      mist("Inventing statistics with impossible precision", "Bịa số liệu quá chi tiết", "'97.4% of people said X' looks fabricated — round instead ('roughly a third').", "'97.4% of people said X' trông bịa — làm tròn thay ('khoảng một phần ba')."),
+    ],
+  },
+  "generic": {
+    strategySteps: [
+      step(1, "Decode the task type and scope", "Giải mã dạng đề và phạm vi", "Underline the task verb, scope and any qualifiers ('to what extent', 'main').", "Gạch chân động từ, phạm vi và từ hạn định."),
+      step(2, "Plan a 4-paragraph skeleton in 4 minutes", "Lập dàn ý 4 đoạn trong 4 phút", "Thesis + 2 topic sentences + 1 forward-looking conclusion line.", "Thesis + 2 câu chủ đề + 1 câu kết hướng tương lai."),
+      step(3, "Write with academic register and PEEL bodies", "Viết bằng văn phong học thuật + body PEEL", "Point → Explain → Example → Link back. No contractions.", "Point → Explain → Example → Link back. Không viết tắt."),
+      step(4, "Proofread the cheap-mark zones for 3 minutes", "Soát lỗi vùng dễ ăn điểm trong 3 phút", "Articles, plurals, subject-verb agreement, spelling of task keywords.", "Mạo từ, số nhiều, hoà hợp chủ-vị, chính tả từ khoá đề bài."),
+    ],
+    mistakesToAvoid: [
+      mist("Writing without planning", "Viết mà không lập dàn ý", "Unplanned essays drift off-topic — Task Response drops.", "Bài không dàn ý sẽ lạc đề — Task Response rớt."),
+      mist("Memorised phrases dropped without context", "Cụm học thuộc dùng không đúng ngữ cảnh", "Examiners detect templates and penalise Lexical Resource.", "Giám khảo nhận ra template và trừ điểm Lexical Resource."),
+      mist("Ignoring the word limit (under 250 / over 320)", "Bỏ qua giới hạn từ (< 250 / > 320)", "Under-length essays are penalised; over-length invites more mistakes.", "Viết ngắn bị trừ; viết quá dài dễ sai."),
+    ],
+  },
+};
+
+// Signature strings from generic mk() factories across expansion4-10
+const GENERIC_STRATEGY_TITLES = new Set([
+  "Analyse the prompt carefully",
+  "Diagnose the prompt",
+  "Decode the question type in 60 seconds",
+  "Understand the goal of this lesson",
+  "Decode the task",
+]);
+const GENERIC_MISTAKE_MARKERS = [
+  "Translating directly from Vietnamese",
+  "Skipping the planning phase",
+  "Writing without planning",
+  "Memorised phrases used inappropriately",
+];
+
+function hasGenericStrategy(steps: StrategyStep[]): boolean {
+  if (!steps || steps.length === 0) return true;
+  const firstTitle = steps[0]?.title?.trim() || "";
+  return GENERIC_STRATEGY_TITLES.has(firstTitle);
+}
+
+function hasGenericMistakes(mistakes: MistakeToAvoid[]): boolean {
+  if (!mistakes || mistakes.length === 0) return true;
+  const joined = mistakes.map(m => m.mistake).join(" | ");
+  return GENERIC_MISTAKE_MARKERS.some(marker => joined.includes(marker));
+}
+
+
 
 // ---------------------------------------------------------------------------
 // Public enricher
@@ -921,16 +1292,16 @@ export function enrichWritingLecture(l: IeltsLecture): IeltsLecture {
   const isWriting = l.skill === "writing" || /^writing-/.test(l.id);
   if (!isWriting) return l;
 
-  const pack = packForId(l.id);
+  const topic = detectTopic(l.id);
+  const pack = PACK_BY_TOPIC[topic];
+  const theory = THEORY[topic];
 
-  // Practical examples: if 0-1 items OR the only item looks like the generic
-  // "Apply the framework on a past paper" placeholder, prepend topic-specific
-  // examples so the tab always shows on-topic material first.
+  // Practical examples
   const current = l.practicalExamples || [];
   const looksGeneric =
     current.length <= 1 &&
     current.some(e =>
-      /apply the framework on a past paper|time yourself on a real cambridge/i.test(
+      /apply the framework on a past paper|time yourself on a real cambridge|apply this framework to a past ielts prompt|drill it on a real prompt/i.test(
         `${e.context || ""} ${e.example || ""}`,
       ),
     );
@@ -946,7 +1317,7 @@ export function enrichWritingLecture(l: IeltsLecture): IeltsLecture {
     mergedExamples = current;
   }
 
-  // Vocab: fill up to TARGET_VOCAB with topic-specific words.
+  // Vocab
   const currentVocab = l.vocabHighlights || [];
   let mergedVocab: VocabHighlight[];
   if (currentVocab.length === 0) {
@@ -959,12 +1330,20 @@ export function enrichWritingLecture(l: IeltsLecture): IeltsLecture {
     mergedVocab = currentVocab;
   }
 
+  // Theory: swap in topic-specific strategy steps + mistakes when the lecture
+  // is still using the generic mk() factory content.
+  const strategySteps = hasGenericStrategy(l.strategySteps) ? theory.strategySteps : l.strategySteps;
+  const mistakesToAvoid = hasGenericMistakes(l.mistakesToAvoid) ? theory.mistakesToAvoid : l.mistakesToAvoid;
+
   return {
     ...l,
+    strategySteps,
+    mistakesToAvoid,
     practicalExamples: mergedExamples,
     vocabHighlights: mergedVocab,
   };
 }
+
 
 /** Enriches an entire lecture array in one call. */
 export function enrichWritingLectures(list: IeltsLecture[]): IeltsLecture[] {
