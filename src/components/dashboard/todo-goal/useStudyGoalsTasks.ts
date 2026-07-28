@@ -1,6 +1,7 @@
 // React hook: load and mutate goals and tasks with Supabase + optimistic updates.
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import type { StudyGoal, StudyTask } from "./types";
 
 export function useStudyGoalsTasks(userId: string | null) {
@@ -84,6 +85,17 @@ export function useStudyGoalsTasks(userId: string | null) {
     const nextCompleted = wasCompleted ? null : new Date().toISOString();
     setTasks((prev) => prev.map((x) => (x.id === id ? { ...x, completed_at: nextCompleted } : x)));
     await supabase.from("study_tasks").update({ completed_at: nextCompleted }).eq("id", id);
+    // Log completion (not un-check) so Dashboard/Admin see goal progress activity.
+    if (!wasCompleted) {
+      void logStudentActivity({
+        activityType: "study_goal_progress",
+        activityId: id,
+        score: 1,
+        maxScore: 1,
+        domain: "english",
+        metadata: { taskId: id, goalId: t.goal_id, contributionPct: t.contribution_pct },
+      });
+    }
 
     // Adjust linked goal progress: add on complete, subtract on uncheck.
     if (t.goal_id) {

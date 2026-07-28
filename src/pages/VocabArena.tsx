@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import type { GameQuestion, GameResult } from "@/components/vocab-arena/GameEngine";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import chibiWarrior from "@/assets/chibi-vocab-warrior.png";
 import chibiClassroom from "@/assets/chibi-vocab-classroom.png";
 import chibiGamer from "@/assets/chibi-vocab-gamer.png";
@@ -122,6 +123,15 @@ const VocabArena = () => {
           max_streak: gameResult.maxStreak,
           accuracy,
           time_spent_seconds: totalSec,
+        });
+        // Also log to student_activity_log so Admin/Dashboard analytics see the duel.
+        void logStudentActivity({
+          activityType: "vocab_arena_duel",
+          score: Math.round(accuracy * 10),
+          maxScore: 10,
+          timeSpentSeconds: totalSec,
+          domain: "english",
+          metadata: { correct: gameResult.correct, total: gameResult.total, maxStreak: gameResult.maxStreak },
         });
       }
     } catch (e) {
