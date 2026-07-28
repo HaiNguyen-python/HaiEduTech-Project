@@ -28,9 +28,10 @@ function inferDomain(activityType: string, metadata?: Record<string, any>): Lear
     t === "pinyin_drill" || t === "hanzi_recognition" || t === "speaking_coach_chinese" ||
     t.includes("chinese")
   ) return "chinese";
-  // Programming
+  // Programming (incl. Startup track — tech founders)
   if (
     t.startsWith("python") || t.startsWith("sql") || t === "coding_quiz" ||
+    t.startsWith("startup_") ||
     t.includes("programming") || t.includes("scratch") || t.includes("ml_") || t.includes("spark")
   ) return "programming";
   // Vocab mastery follows its subject
