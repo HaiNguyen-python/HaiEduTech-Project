@@ -3657,6 +3657,7 @@ import { writingExpansion10 } from "./ieltsLecturesWritingExpansion10";
 import { grammarCoreExpansion, vocabCoreExpansion, tipsCoreExpansion } from "./ieltsLecturesCoreExpansion";
 import { padLectureQuizzes } from "./ieltsLectureQuizPadder";
 import { enrichWritingLectures } from "./ieltsWritingLectureEnricher";
+import { enrichSpeakingLectures } from "./ieltsSpeakingLectureEnricher";
 import { readingExpansion } from "./ieltsLecturesReadingExpansion";
 import { listeningExpansion } from "./ieltsLecturesListeningExpansion";
 import { highFreqVocabLectures } from "./ieltsLecturesHighFreqVocab";
@@ -3707,7 +3708,7 @@ const _rawAllIeltsLectures: IeltsLecture[] = [
  * (questions are derived from each lecture's own goldenSecret, cheatSheet,
  * strategySteps, mistakesToAvoid, vocabHighlights, etc).
  */
-export const allIeltsLectures: IeltsLecture[] = padLectureQuizzes(enrichWritingLectures(_rawAllIeltsLectures));
+export const allIeltsLectures: IeltsLecture[] = padLectureQuizzes(enrichSpeakingLectures(enrichWritingLectures(_rawAllIeltsLectures)));
 
 
 export const PILLAR_META = {
