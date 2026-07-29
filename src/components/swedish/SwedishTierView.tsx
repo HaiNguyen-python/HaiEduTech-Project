@@ -1859,19 +1859,19 @@ const SimulatorSpeaking = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   );
 };
 
-const SimulatorWidget = () => {
+const SimulatorWidget = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   const { t } = useLanguage();
   return (
     <Card className="border-primary/30">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          {t("YKI Thử Thách 4 Kỹ Năng", "YKI 4-Skills Challenge")}
+          {t("YKI Thử Thách 4 Kỹ Năng", "YKI 4-Skills Challenge")} · {tierId.toUpperCase()}
         </CardTitle>
         <p className="text-sm text-muted-foreground">
           {t(
-            "Mô phỏng cấu trúc đề thi YKI Ruotsi với 4 kỹ năng riêng biệt.",
-            "Simulates the YKI Swedish exam structure across the four separate skills."
+            "Mô phỏng cấu trúc đề thi YKI Ruotsi. Mọi đề bài và đáp án đều bằng tiếng Thụy Điển.",
+            "Simulates the YKI Swedish exam. All prompts and options stay in Swedish."
           )}
         </p>
       </CardHeader>
@@ -1891,9 +1891,9 @@ const SimulatorWidget = () => {
               {t("Nói", "Speak")}
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="read" className="mt-4"><SimulatorReading /></TabsContent>
-          <TabsContent value="write" className="mt-4"><SimulatorWriting /></TabsContent>
-          <TabsContent value="speak" className="mt-4"><SimulatorSpeaking /></TabsContent>
+          <TabsContent value="read" className="mt-4"><SimulatorReading tierId={tierId} /></TabsContent>
+          <TabsContent value="write" className="mt-4"><SimulatorWriting tierId={tierId} /></TabsContent>
+          <TabsContent value="speak" className="mt-4"><SimulatorSpeaking tierId={tierId} /></TabsContent>
         </Tabs>
       </CardContent>
     </Card>
@@ -1915,7 +1915,7 @@ export const SwedishTierView = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
     <div className="space-y-8">
       <GlobalIndicator />
       <TierCard tier={tier} index={0} />
-      <SimulatorWidget />
+      <SimulatorWidget tierId={tierId} />
     </div>
   );
 };
