@@ -1522,80 +1522,268 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
 /* YKI Test Simulator widget                                                   */
 /* -------------------------------------------------------------------------- */
 
-const READING_Q = {
-  passageVi:
-    "Thông báo: 'Hissen i Mannerheimvägen 12 är ur funktion mellan 8.00 och 14.00 på fredag på grund av reparation. Använd trapporna.'",
-  passageEn:
-    "Notice: 'The lift at Mannerheimvägen 12 is out of order between 8.00 and 14.00 on Friday due to repair. Please use the stairs.'",
-  question: { vi: "Có thể đi thang máy lúc 10 giờ sáng thứ Sáu.", en: "It is possible to use the lift at 10:00 on Friday." },
-  options: [
-    { id: "true", vi: "Đúng (Sant)", en: "True (Sant)" },
-    { id: "false", vi: "Sai (Falskt)", en: "False (Falskt)" },
-    { id: "nm", vi: "Không đề cập (Nämns inte)", en: "Not mentioned (Nämns inte)" },
+// YKI Reading bank: Swedish is ALWAYS primary (this is a Swedish exam).
+// vi/en are short hints shown only under the Swedish stem so the item stays authentic.
+type ReadingItem = {
+  passageSv: string;
+  hintVi: string;
+  hintEn: string;
+  questionSv: string;
+  questionHintVi: string;
+  questionHintEn: string;
+  answer: "true" | "false" | "nm";
+  explanationSv: string;
+  explanationVi: string;
+  explanationEn: string;
+};
+
+const READING_BANK: Record<"a1" | "a2" | "b1", ReadingItem[]> = {
+  a1: [
+    {
+      passageSv: "Skylt vid affären: 'Öppet måndag–fredag 9–20. Lördag 10–18. Söndag stängt.'",
+      hintVi: "Biển hiệu cửa hàng: giờ mở cửa các ngày.",
+      hintEn: "Shop sign: opening hours by day.",
+      questionSv: "Affären är öppen på söndag.",
+      questionHintVi: "Cửa hàng có mở cửa Chủ nhật không?",
+      questionHintEn: "Is the shop open on Sunday?",
+      answer: "false",
+      explanationSv: "På söndag är affären stängd.",
+      explanationVi: "Chủ nhật cửa hàng đóng cửa (stängt).",
+      explanationEn: "On Sunday the shop is closed (stängt).",
+    },
+    {
+      passageSv: "SMS från Anna: 'Hej! Jag är sjuk idag. Jag kommer inte till skolan.'",
+      hintVi: "Tin nhắn: Anna hôm nay bị ốm.",
+      hintEn: "Text: Anna is sick today.",
+      questionSv: "Anna går till skolan idag.",
+      questionHintVi: "Anna có đi học hôm nay không?",
+      questionHintEn: "Does Anna go to school today?",
+      answer: "false",
+      explanationSv: "Anna är sjuk och stannar hemma.",
+      explanationVi: "Anna ốm nên không đến trường.",
+      explanationEn: "Anna is sick and stays home.",
+    },
   ],
-  answer: "false",
+  a2: [
+    {
+      passageSv: "Meddelande: 'Bussen linje 4 går inte mellan 10.00 och 12.00 på lördag. Ta linje 7 istället.'",
+      hintVi: "Thông báo: Xe buýt tuyến 4 tạm ngưng, dùng tuyến 7.",
+      hintEn: "Notice: Bus line 4 is paused; use line 7 instead.",
+      questionSv: "Man kan åka buss 4 klockan 11 på lördag.",
+      questionHintVi: "Có thể đi buýt số 4 lúc 11h thứ Bảy không?",
+      questionHintEn: "Can you take bus 4 at 11:00 on Saturday?",
+      answer: "false",
+      explanationSv: "Linje 4 kör inte kl. 10–12 på lördag.",
+      explanationVi: "Tuyến 4 không chạy 10-12h thứ Bảy.",
+      explanationEn: "Line 4 does not run 10-12 on Saturday.",
+    },
+    {
+      passageSv: "Notis på jobbet: 'Kaffemaskinen är trasig. Reparatören kommer på torsdag.'",
+      hintVi: "Thông báo tại chỗ làm: Máy pha cà phê hỏng, thợ đến thứ Năm.",
+      hintEn: "Workplace notice: coffee machine broken, technician comes Thursday.",
+      questionSv: "Reparatören lagar maskinen på tisdag.",
+      questionHintVi: "Thợ đến sửa vào thứ Ba đúng không?",
+      questionHintEn: "Does the technician come on Tuesday?",
+      answer: "false",
+      explanationSv: "Reparatören kommer på torsdag, inte tisdag.",
+      explanationVi: "Thợ đến thứ Năm, không phải thứ Ba.",
+      explanationEn: "The technician comes on Thursday, not Tuesday.",
+    },
+  ],
+  b1: [
+    {
+      passageSv:
+        "Meddelande i trapphuset: 'Hissen på Mannerheimvägen 12 är ur funktion mellan kl. 8.00 och 14.00 på fredag på grund av reparation. Använd trapporna.'",
+      hintVi: "Thông báo cầu thang: thang máy hỏng 8-14h thứ Sáu.",
+      hintEn: "Stairwell notice: lift out of order 8-14 on Friday.",
+      questionSv: "Man kan använda hissen klockan 10.00 på fredag.",
+      questionHintVi: "Có thể dùng thang máy lúc 10h thứ Sáu không?",
+      questionHintEn: "Can you use the lift at 10:00 on Friday?",
+      answer: "false",
+      explanationSv: "Hissen är ur funktion just kl. 8-14 på fredag.",
+      explanationVi: "Thang máy hỏng đúng khung 8-14h thứ Sáu.",
+      explanationEn: "The lift is out of order exactly 8-14 on Friday.",
+    },
+    {
+      passageSv:
+        "E-post från chefen: 'Mötet flyttas från tisdag till onsdag kl. 13.00. Ni får agendan senast måndag kväll. Hör av er om ni inte kan delta.'",
+      hintVi: "Email từ sếp: cuộc họp dời sang thứ Tư 13h, gửi agenda muộn nhất tối thứ Hai.",
+      hintEn: "Email from the boss: meeting moved to Wednesday 13:00, agenda by Monday evening.",
+      questionSv: "Deltagarna får agendan på fredag.",
+      questionHintVi: "Người tham dự nhận agenda vào thứ Sáu đúng không?",
+      questionHintEn: "Do participants receive the agenda on Friday?",
+      answer: "false",
+      explanationSv: "Agendan skickas senast måndag kväll.",
+      explanationVi: "Agenda gửi muộn nhất tối thứ Hai.",
+      explanationEn: "The agenda is sent by Monday evening at the latest.",
+    },
+    {
+      passageSv:
+        "Artikel: 'Enligt en ny undersökning cyklar allt fler helsingforsare till jobbet, även på vintern. Staden planerar därför fler upplysta cykelvägar under de kommande två åren.'",
+      hintVi: "Bài báo: người Helsinki đạp xe đi làm nhiều hơn, thành phố sẽ mở thêm đường xe đạp có đèn.",
+      hintEn: "Article: more Helsinki residents cycle to work; the city will add lit cycle paths.",
+      questionSv: "Staden ska bygga fler cykelvägar med belysning.",
+      questionHintVi: "Thành phố có xây thêm đường xe đạp có đèn không?",
+      questionHintEn: "Will the city build more lit cycle paths?",
+      answer: "true",
+      explanationSv: "Texten säger uttryckligen 'fler upplysta cykelvägar'.",
+      explanationVi: "Bài đọc nói rõ 'nhiều đường xe đạp có đèn hơn'.",
+      explanationEn: "The text explicitly says 'more lit cycle paths'.",
+    },
+    {
+      passageSv:
+        "Bibliotekets regler: 'Låntagare får låna högst 30 böcker samtidigt. Lånetiden är fyra veckor och kan förlängas två gånger om ingen annan reserverat boken.'",
+      hintVi: "Nội quy thư viện: mượn tối đa 30 cuốn, 4 tuần, gia hạn 2 lần nếu không ai đặt.",
+      hintEn: "Library rules: max 30 books, 4 weeks, renewable twice if no reservation.",
+      questionSv: "Man kan förlänga lånet hur många gånger som helst.",
+      questionHintVi: "Có thể gia hạn không giới hạn số lần không?",
+      questionHintEn: "Can you renew a loan an unlimited number of times?",
+      answer: "false",
+      explanationSv: "Man kan förlänga endast två gånger.",
+      explanationVi: "Chỉ được gia hạn 2 lần.",
+      explanationEn: "You can renew only two times.",
+    },
+    {
+      passageSv:
+        "Radioannons: 'Nästa vecka öppnar en ny thailändsk restaurang på Storgatan. Under öppningsveckan får alla gäster en gratis dessert.'",
+      hintVi: "Quảng cáo: nhà hàng Thái mới trên Storgatan, tuần khai trương tặng tráng miệng miễn phí.",
+      hintEn: "Ad: new Thai restaurant on Storgatan, free dessert during opening week.",
+      questionSv: "Restaurangen serverar japansk mat.",
+      questionHintVi: "Nhà hàng có phục vụ đồ Nhật không?",
+      questionHintEn: "Does the restaurant serve Japanese food?",
+      answer: "false",
+      explanationSv: "Restaurangen är thailändsk, inte japansk.",
+      explanationVi: "Nhà hàng Thái, không phải Nhật.",
+      explanationEn: "The restaurant is Thai, not Japanese.",
+    },
+  ],
 };
 
-const WRITING_PROMPT = {
-  vi: "Viết một email bằng tiếng Thụy Điển gửi chủ nhà giải thích rằng đường ống nước trong bếp đang bị rò rỉ. Đề xuất thời gian thợ có thể đến sửa. (60–80 từ)",
-  en: "Write an email in Swedish to your landlord explaining that a pipe in the kitchen is leaking. Suggest a time when a plumber can visit. (60–80 words)",
+const WRITING_PROMPTS: Record<"a1" | "a2" | "b1", { sv: string; hintVi: string; hintEn: string; min: number; max: number }> = {
+  a1: {
+    sv: "Skriv ett kort SMS till din vän. Berätta vad du gör idag och fråga vad hen gör. (30-50 ord)",
+    hintVi: "Viết tin nhắn ngắn cho bạn: hôm nay bạn làm gì và hỏi bạn của bạn làm gì. (30-50 từ)",
+    hintEn: "Short text to a friend: what you are doing today and ask what they are doing. (30-50 words)",
+    min: 30,
+    max: 50,
+  },
+  a2: {
+    sv: "Skriv ett meddelande till din lärare och förklara varför du inte kunde komma till lektionen igår. Föreslå när du kan ta igen lektionen. (50-70 ord)",
+    hintVi: "Viết tin cho giáo viên giải thích vì sao vắng học hôm qua và đề xuất giờ học bù. (50-70 từ)",
+    hintEn: "Message to your teacher explaining why you missed yesterday's lesson and suggest a make-up time. (50-70 words)",
+    min: 50,
+    max: 70,
+  },
+  b1: {
+    sv: "Skriv ett e-postmeddelande till din hyresvärd på svenska. Förklara att ett rör i köket läcker och föreslå en tid när en rörmokare kan komma. (60-80 ord)",
+    hintVi: "Viết email cho chủ nhà: đường ống bếp bị rò rỉ, đề xuất giờ thợ đến sửa. (60-80 từ)",
+    hintEn: "Email to your landlord: a kitchen pipe is leaking, propose a time for a plumber. (60-80 words)",
+    min: 60,
+    max: 80,
+  },
 };
 
-const SimulatorReading = () => {
-  const { t } = useLanguage();
+const SPEAKING_PROMPTS: Record<"a1" | "a2" | "b1", { sv: string; hintVi: string; hintEn: string; seconds: number }> = {
+  a1: {
+    sv: "Berätta om din familj. Du har 20 sekunder.",
+    hintVi: "Kể về gia đình bạn trong 20 giây.",
+    hintEn: "Talk about your family for 20 seconds.",
+    seconds: 20,
+  },
+  a2: {
+    sv: "Berätta om en typisk dag i ditt liv. Du har 30 sekunder.",
+    hintVi: "Kể về một ngày điển hình của bạn trong 30 giây.",
+    hintEn: "Describe a typical day in your life for 30 seconds.",
+    seconds: 30,
+  },
+  b1: {
+    sv: "Berätta om dina fritidsintressen och varför du tycker om dem. Du har 30 sekunder.",
+    hintVi: "Kể về sở thích và lý do bạn thích chúng trong 30 giây.",
+    hintEn: "Talk about your hobbies and why you enjoy them for 30 seconds.",
+    seconds: 30,
+  },
+};
+
+const OPTION_LABELS = [
+  { id: "true" as const, sv: "Sant" },
+  { id: "false" as const, sv: "Falskt" },
+  { id: "nm" as const, sv: "Nämns inte" },
+];
+
+const SimulatorReading = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
+  const { t, lang } = useLanguage();
+  const bank = READING_BANK[tierId] ?? READING_BANK.b1;
+  const [idx, setIdx] = useState(0);
   const [choice, setChoice] = useState<string>("");
   const [submitted, setSubmitted] = useState(false);
-  const correct = choice === READING_Q.answer;
+  const item = bank[idx];
+  const correct = choice === item.answer;
+  const next = () => {
+    setIdx((i) => (i + 1) % bank.length);
+    setChoice("");
+    setSubmitted(false);
+  };
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-muted/40 p-4">
-        <div className="mb-1 text-xs font-semibold text-muted-foreground">Läsförståelse · Hörförståelse</div>
-        <p className="text-sm leading-relaxed text-foreground">{t(READING_Q.passageVi, READING_Q.passageEn)}</p>
+        <div className="mb-1 flex items-center justify-between text-xs font-semibold text-muted-foreground">
+          <span>Läsförståelse · {tierId.toUpperCase()}</span>
+          <span>{idx + 1} / {bank.length}</span>
+        </div>
+        <p className="text-sm leading-relaxed text-foreground">🇸🇪 {item.passageSv}</p>
+        <p className="mt-1 text-xs italic text-muted-foreground">{t(item.hintVi, item.hintEn)}</p>
       </div>
       <div>
-        <p className="mb-2 text-sm font-semibold">{t(READING_Q.question.vi, READING_Q.question.en)}</p>
+        <p className="mb-1 text-sm font-semibold">🇸🇪 {item.questionSv}</p>
+        <p className="mb-2 text-xs italic text-muted-foreground">{t(item.questionHintVi, item.questionHintEn)}</p>
         <RadioGroup value={choice} onValueChange={(v) => { setChoice(v); setSubmitted(false); }}>
-          {READING_Q.options.map((o, oi) => (
+          {OPTION_LABELS.map((o, oi) => (
             <div key={o.id} className="flex items-center gap-2 rounded-md border border-border/60 p-2">
-              <RadioGroupItem id={`r-${o.id}`} value={o.id} />
-              <Label htmlFor={`r-${o.id}`} className="cursor-pointer text-sm"><span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span>{t(o.vi, o.en)}</Label>
+              <RadioGroupItem id={`r-${tierId}-${idx}-${o.id}`} value={o.id} />
+              <Label htmlFor={`r-${tierId}-${idx}-${o.id}`} className="cursor-pointer text-sm">
+                <span className="font-semibold mr-1">{String.fromCharCode(65 + oi)}.</span>{o.sv}
+              </Label>
             </div>
           ))}
         </RadioGroup>
       </div>
-      <Button disabled={!choice} onClick={() => setSubmitted(true)}>{t("Kiểm tra", "Check answer")}</Button>
+      <div className="flex flex-wrap gap-2">
+        <Button disabled={!choice} onClick={() => setSubmitted(true)}>{t("Kiểm tra", "Check answer")}</Button>
+        <Button variant="outline" onClick={next}>{t("Câu tiếp theo", "Next question")}</Button>
+      </div>
       {submitted && (
         <div className={`rounded-md border p-3 text-sm ${correct ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" : "border-rose-500/40 bg-rose-500/10 text-rose-700 dark:text-rose-300"}`}>
-          {correct
-            ? t("Chính xác! Thợ sửa đang làm việc từ 8–14h.", "Correct! The lift is being repaired 8–14.")
-            : t("Chưa đúng. Thang máy hỏng từ 8–14h.", "Not quite. The lift is out of order 8–14.")}
+          <p className="font-semibold">🇸🇪 {correct ? "Rätt!" : "Fel."} {item.explanationSv}</p>
+          <p className="mt-1 text-xs italic opacity-80">{lang === "vi" ? item.explanationVi : item.explanationEn}</p>
         </div>
       )}
     </div>
   );
 };
 
-const SimulatorWriting = () => {
+const SimulatorWriting = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   const { t } = useLanguage();
+  const prompt = WRITING_PROMPTS[tierId] ?? WRITING_PROMPTS.b1;
   const [text, setText] = useState("");
   const words = text.trim().split(/\s+/).filter(Boolean).length;
-  const onTarget = words >= 60 && words <= 80;
+  const onTarget = words >= prompt.min && words <= prompt.max;
   return (
     <div className="space-y-3">
       <div className="rounded-lg border bg-muted/40 p-4 text-sm leading-relaxed">
-        <div className="mb-1 text-xs font-semibold text-muted-foreground">Skriftlig färdighet</div>
-        {t(WRITING_PROMPT.vi, WRITING_PROMPT.en)}
+        <div className="mb-1 text-xs font-semibold text-muted-foreground">Skriftlig färdighet · {tierId.toUpperCase()}</div>
+        <p className="text-foreground">🇸🇪 {prompt.sv}</p>
+        <p className="mt-1 text-xs italic text-muted-foreground">{t(prompt.hintVi, prompt.hintEn)}</p>
       </div>
-      <Textarea value={text} onChange={(e) => setText(e.target.value)} rows={8} placeholder={t("Viết câu trả lời bằng tiếng Thụy Điển…", "Write your reply in Swedish…")} />
+      <Textarea value={text} onChange={(e) => setText(e.target.value)} rows={8} placeholder="Skriv ditt svar på svenska…" />
       <div className="flex items-center justify-between text-xs">
         <span className={onTarget ? "text-emerald-600" : "text-muted-foreground"}>
-          {words} {t("từ", "words")} {onTarget && "✓"}
+          {words} {t("từ", "words")} · {t("mục tiêu", "target")} {prompt.min}-{prompt.max} {onTarget && "✓"}
         </span>
         <Button
           size="sm"
           variant="outline"
-          disabled={words < 30}
-          onClick={() => toast({ title: t("Đã lưu nháp", "Draft saved"), description: t("Tiếp tục luyện trên trang YKI B1.", "Keep practising on the YKI B1 page.") })}
+          disabled={words < prompt.min / 2}
+          onClick={() => toast({ title: t("Đã lưu nháp", "Draft saved"), description: t("Tiếp tục luyện trên trang YKI.", "Keep practising on the YKI page.") })}
         >
           {t("Lưu nháp", "Save draft")}
         </Button>
@@ -1604,11 +1792,12 @@ const SimulatorWriting = () => {
   );
 };
 
-const SimulatorSpeaking = () => {
+const SimulatorSpeaking = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   const { t } = useLanguage();
+  const prompt = SPEAKING_PROMPTS[tierId] ?? SPEAKING_PROMPTS.b1;
+  const TOTAL = prompt.seconds;
   const [recording, setRecording] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const TOTAL = 30;
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -1626,7 +1815,7 @@ const SimulatorSpeaking = () => {
       });
     }, 1000);
     return () => { if (intervalRef.current) window.clearInterval(intervalRef.current); };
-  }, [recording]);
+  }, [recording, TOTAL]);
 
   const start = () => { setElapsed(0); setRecording(true); };
   const stop = () => setRecording(false);
@@ -1636,11 +1825,9 @@ const SimulatorSpeaking = () => {
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-muted/40 p-4 text-sm leading-relaxed">
-        <div className="mb-1 text-xs font-semibold text-muted-foreground">Muntlig färdighet</div>
-        {t(
-          "Prompt: 'Berätta om dina fritidsintressen. Du har 30 sekunder.' (Hãy nói về sở thích cá nhân trong 30 giây.)",
-          "Prompt: 'Berätta om dina fritidsintressen. Du har 30 sekunder.' (Talk about your hobbies for 30 seconds.)"
-        )}
+        <div className="mb-1 text-xs font-semibold text-muted-foreground">Muntlig färdighet · {tierId.toUpperCase()}</div>
+        <p className="text-foreground">🇸🇪 {prompt.sv}</p>
+        <p className="mt-1 text-xs italic text-muted-foreground">{t(prompt.hintVi, prompt.hintEn)}</p>
       </div>
       <div className="rounded-xl border bg-card p-5 text-center">
         <div className={`mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full ${recording ? "animate-pulse bg-rose-500/20 text-rose-500" : "bg-muted text-muted-foreground"}`}>
