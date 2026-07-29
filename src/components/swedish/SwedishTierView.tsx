@@ -1003,41 +1003,59 @@ const A2_LESSONS: Lesson[] = [
 const B1_LESSONS: Lesson[] = [
   {
     id: "b1-sub",
-    titleVi: "Mệnh đề phụ nâng cao (Bisatser)",
-    titleEn: "Advanced subordinate clauses",
-    descVi: "Mệnh đề với att, eftersom, fastän, om — trạng từ inte đứng TRƯỚC động từ.",
-    descEn: "Clauses with att, eftersom, fastän, om — adverb 'inte' goes BEFORE the verb.",
+    titleVi: "Mệnh đề phụ nâng cao (Bisatser) + Quy tắc BIFF",
+    titleEn: "Advanced subordinate clauses + BIFF rule",
+    descVi: "Mệnh đề với att, eftersom, fastän, om, när, medan, innan - trạng từ 'inte/aldrig/ofta' đứng TRƯỚC động từ chính. Đây là ranh giới rõ nhất giữa A2 và B1.",
+    descEn: "Clauses with att, eftersom, fastän, om, när, medan, innan - adverbs 'inte/aldrig/ofta' go BEFORE the finite verb. This is the clearest A2→B1 marker.",
     skills: ["write", "read"],
-    formula: "BIFF: I Bisats kommer Inte Före Finita verbet  →  …att jag inte vet.",
+    formula: "BIFF: I Bisats kommer Inte Före Finita verbet  →  '…att jag inte vet.' / '…eftersom hon aldrig sover.'",
     examples: [
       { sv: "Jag tror att hon inte kommer idag.",            vi: "Tôi nghĩ là cô ấy không đến hôm nay.",          en: "I think she isn't coming today." },
-      { sv: "Vi stannar hemma eftersom det regnar.",          vi: "Chúng tôi ở nhà vì trời đang mưa.",             en: "We're staying home because it's raining." },
+      { sv: "Vi stannar hemma eftersom det regnar mycket.",  vi: "Chúng tôi ở nhà vì trời mưa nhiều.",            en: "We're staying home because it's raining heavily." },
       { sv: "Fastän han är trött, fortsätter han att jobba.", vi: "Mặc dù anh ấy mệt, anh vẫn tiếp tục làm việc.", en: "Although he is tired, he keeps working." },
+      { sv: "Om du inte förstår, fråga läraren.",             vi: "Nếu bạn không hiểu, hãy hỏi giáo viên.",         en: "If you don't understand, ask the teacher." },
+      { sv: "Hon säger att hon aldrig äter kött.",            vi: "Cô ấy nói rằng cô không bao giờ ăn thịt.",       en: "She says she never eats meat." },
+      { sv: "Ring mig när du är hemma igen.",                 vi: "Gọi cho tôi khi bạn về nhà.",                    en: "Call me when you are home again." },
     ],
-    tipVi: "Nhớ BIFF: trong bisats, 'inte' đứng TRƯỚC động từ. Đây là dấu hiệu rõ nhất của B1 vs A2.",
-    tipEn: "Remember BIFF: in subordinate clauses, 'inte' goes BEFORE the verb. This is the clearest B1 vs A2 marker.",
+    vocab: [
+      { sv: "att",       vi: "rằng (liên từ)",         en: "that (conjunction)" },
+      { sv: "eftersom",  vi: "vì / bởi vì",             en: "because" },
+      { sv: "fastän",    vi: "mặc dù",                  en: "although" },
+      { sv: "om",        vi: "nếu",                     en: "if" },
+      { sv: "när",       vi: "khi",                     en: "when" },
+      { sv: "medan",     vi: "trong khi",               en: "while" },
+      { sv: "innan",     vi: "trước khi",               en: "before" },
+    ],
+    tipVi: "Nhớ BIFF: trong bisats, 'inte/aldrig/ofta' đứng TRƯỚC động từ chính. Sai BIFF = mất ngay 0.5-1.0 điểm Grammar trong Skriva B1.",
+    tipEn: "Remember BIFF: in subordinate clauses, adverbs like 'inte/aldrig/ofta' go BEFORE the finite verb. Missing BIFF costs 0.5-1.0 Grammar points on Skriva B1.",
   },
   {
     id: "b1-inv",
-    titleVi: "Câu đảo ngữ & liên kết logic",
-    titleEn: "Inversion & logical connectors",
-    descVi: "Liên từ däremot, dessutom, alltså, trots det — nối ý mượt mà.",
-    descEn: "Connectors däremot, dessutom, alltså, trots det — smooth idea flow.",
+    titleVi: "Câu đảo ngữ (V2) & liên từ liên kết logic",
+    titleEn: "V2 inversion & logical connectors",
+    descVi: "Khi trạng ngữ đứng đầu câu (Idag, På sommaren, Därför…), động từ luôn ở vị trí thứ 2 - chủ ngữ nhảy ra sau. Kết hợp với liên từ däremot, dessutom, alltså, trots det, dessvärre để nối ý mượt.",
+    descEn: "When an adverbial starts the sentence (Idag, På sommaren, Därför…), the verb stays in position 2 and the subject moves after it. Combine with connectors däremot, dessutom, alltså, trots det, dessvärre for smooth flow.",
     skills: ["write", "speak"],
+    formula: "[Adverbial] + [VERB] + [Subject] + …   →   'Igår gick jag på bio.' / 'Därför stannar vi hemma.'",
     examples: [
       { sv: "Maten var god. Dessutom var den billig.",       vi: "Đồ ăn ngon. Hơn nữa, lại rẻ.",                 en: "The food was good. Moreover, it was cheap." },
       { sv: "Han älskar sport, däremot tycker hon inte om det.", vi: "Anh ấy mê thể thao, trái lại cô ấy không thích.", en: "He loves sport; she, on the other hand, doesn't." },
       { sv: "Det regnade, alltså stannade vi hemma.",         vi: "Trời mưa, vì vậy chúng tôi ở nhà.",            en: "It was raining, so we stayed home." },
+      { sv: "Trots det gick vi ut på promenad.",              vi: "Dù vậy chúng tôi vẫn đi dạo.",                  en: "Despite that we still went for a walk." },
+      { sv: "På sommaren badar vi varje dag.",                vi: "Vào mùa hè chúng tôi tắm biển mỗi ngày.",       en: "In summer we swim every day." },
     ],
     vocab: [
-      { sv: "däremot",   vi: "trái lại",    en: "on the other hand" },
-      { sv: "dessutom",  vi: "hơn nữa",     en: "moreover" },
-      { sv: "alltså",    vi: "vì vậy",      en: "therefore" },
-      { sv: "trots det", vi: "dù vậy",      en: "despite that" },
+      { sv: "däremot",    vi: "trái lại",       en: "on the other hand" },
+      { sv: "dessutom",   vi: "hơn nữa",         en: "moreover" },
+      { sv: "alltså",     vi: "vì vậy",          en: "therefore" },
+      { sv: "trots det",  vi: "dù vậy",          en: "despite that" },
+      { sv: "dessvärre",  vi: "tiếc là / đáng tiếc", en: "unfortunately" },
+      { sv: "för övrigt", vi: "ngoài ra",        en: "besides" },
     ],
-    tipVi: "Dùng ít nhất 2 liên từ trong bài viết YKI B1 — giám khảo chấm điểm 'cohesion' rất cao.",
-    tipEn: "Use at least 2 connectors in YKI B1 writing — examiners weight 'cohesion' heavily.",
+    tipVi: "Dùng ít nhất 2 liên từ trong bài viết YKI B1 - giám khảo chấm điểm 'cohesion' rất cao. Đầu câu là trạng ngữ ⇒ đảo động từ ngay!",
+    tipEn: "Use at least 2 connectors in YKI B1 writing - examiners weight 'cohesion' heavily. Sentence starts with an adverbial ⇒ invert the verb immediately!",
   },
+
   {
     id: "b1-vocab",
     titleVi: "Từ vựng chuyên đề: Môi trường, Giáo dục, Việc làm",
@@ -1656,53 +1674,192 @@ const READING_BANK: Record<"a1" | "a2" | "b1", ReadingItem[]> = {
       explanationVi: "Nhà hàng Thái, không phải Nhật.",
       explanationEn: "The restaurant is Thai, not Japanese.",
     },
+    // ═══════════ B1 LONG-FORM PASSAGES (YKI Keskitaso style) ═══════════
+    {
+      passageSv:
+        "Insändare i Hufvudstadsbladet: 'Kollektivtrafiken i Vasa fungerar illa på kvällarna'\n\nJag har bott i Vasa i sju år och tar bussen varje dag till mitt arbete. På dagen fungerar linjerna bra, men efter klockan 20 blir det svårt att röra sig utan bil. Många linjer slutar redan klockan 21.30, och på söndagar är turerna glesa hela dagen.\n\nDetta drabbar särskilt studenter, sjukvårdspersonal och restauranganställda som ofta jobbar sena kvällar. Om staden vill att fler ska välja bort bilen, måste vi också få pålitlig kollektivtrafik på kvällar och helger.\n\nJag föreslår att staden inför en 'nattlinje' fram till klockan 24, åtminstone mellan järnvägsstationen och de största bostadsområdena. Det skulle också vara tryggare för unga som är ute på kvällarna.\n\nMed vänliga hälsningar,\nAnna Lehtinen, sjukskötare",
+      hintVi: "Bài viết bạn đọc: giao thông công cộng ở Vaasa yếu vào buổi tối, đề xuất mở tuyến đêm.",
+      hintEn: "Reader's letter: Vaasa evening public transport is weak; proposes a night line.",
+      questionSv: "Anna föreslår en nattlinje som går fram till midnatt.",
+      questionHintVi: "Anna có đề nghị mở tuyến đêm chạy tới nửa đêm không?",
+      questionHintEn: "Does Anna propose a night line running until midnight?",
+      answer: "true",
+      explanationSv: "Hon skriver: 'inför en nattlinje fram till klockan 24' - dvs. midnatt.",
+      explanationVi: "Cô viết: mở 'tuyến đêm chạy tới 24h' = nửa đêm.",
+      explanationEn: "She writes: introduce 'a night line until 24:00' - i.e. midnight.",
+    },
+    {
+      passageSv:
+        "Insändare i Hufvudstadsbladet: 'Kollektivtrafiken i Vasa fungerar illa på kvällarna'\n\nJag har bott i Vasa i sju år och tar bussen varje dag till mitt arbete. På dagen fungerar linjerna bra, men efter klockan 20 blir det svårt att röra sig utan bil. Många linjer slutar redan klockan 21.30, och på söndagar är turerna glesa hela dagen.\n\nDetta drabbar särskilt studenter, sjukvårdspersonal och restauranganställda som ofta jobbar sena kvällar. Om staden vill att fler ska välja bort bilen, måste vi också få pålitlig kollektivtrafik på kvällar och helger.\n\nJag föreslår att staden inför en 'nattlinje' fram till klockan 24, åtminstone mellan järnvägsstationen och de största bostadsområdena. Det skulle också vara tryggare för unga som är ute på kvällarna.\n\nMed vänliga hälsningar,\nAnna Lehtinen, sjukskötare",
+      hintVi: "(cùng đoạn văn trên) - câu hỏi 2.",
+      hintEn: "(same passage) - question 2.",
+      questionSv: "Enligt Anna fungerar busstrafiken lika bra dygnet runt.",
+      questionHintVi: "Theo Anna, xe buýt hoạt động tốt cả ngày lẫn đêm đúng không?",
+      questionHintEn: "According to Anna, does bus service work equally well around the clock?",
+      answer: "false",
+      explanationSv: "Hon säger uttryckligen att kvällarna och söndagarna är problematiska.",
+      explanationVi: "Cô nói rõ buổi tối và Chủ nhật hoạt động kém.",
+      explanationEn: "She explicitly says evenings and Sundays are poor.",
+    },
+    {
+      passageSv:
+        "Nyhet - Yle Nyheter\n\nAllt fler unga i Svenskfinland väljer att studera vidare på yrkeshögskola i stället för universitet. Enligt en färsk undersökning som gjordes bland 1 200 gymnasister har intresset för praktiska yrken vuxit med tolv procent på tre år.\n\nStuderande nämner tre huvudorsaker: kortare studietid, tydligare arbetsmarknad och möjligheten att göra praktik redan under första året. En av de mest populära utbildningarna är sjukskötare, där efterfrågan på arbetskraft är stor både i Vasa, Åbo och huvudstadsregionen.\n\nSamtidigt varnar experter för att också universiteten behöver studerande, särskilt inom svenskspråkig lärarutbildning där bristen är akut. 'Vi behöver båda utbildningsvägarna', säger utbildningsforskaren Maria Sandberg.",
+      hintVi: "Bài báo Yle: nhiều bạn trẻ Svenskfinland chọn yrkeshögskola thay vì đại học.",
+      hintEn: "Yle article: more Swedish-speaking Finnish youth pick vocational college over university.",
+      questionSv: "Intresset för yrkeshögskola har minskat under de senaste åren.",
+      questionHintVi: "Sự quan tâm tới yrkeshögskola có giảm trong những năm gần đây không?",
+      questionHintEn: "Has interest in vocational college fallen in recent years?",
+      answer: "false",
+      explanationSv: "Texten säger att intresset har vuxit med tolv procent på tre år.",
+      explanationVi: "Bài đọc nói tăng 12% trong 3 năm.",
+      explanationEn: "The text says interest grew 12% over three years.",
+    },
+    {
+      passageSv:
+        "Nyhet - Yle Nyheter\n\nAllt fler unga i Svenskfinland väljer att studera vidare på yrkeshögskola i stället för universitet. Enligt en färsk undersökning som gjordes bland 1 200 gymnasister har intresset för praktiska yrken vuxit med tolv procent på tre år.\n\nStuderande nämner tre huvudorsaker: kortare studietid, tydligare arbetsmarknad och möjligheten att göra praktik redan under första året. En av de mest populära utbildningarna är sjukskötare, där efterfrågan på arbetskraft är stor både i Vasa, Åbo och huvudstadsregionen.\n\nSamtidigt varnar experter för att också universiteten behöver studerande, särskilt inom svenskspråkig lärarutbildning där bristen är akut. 'Vi behöver båda utbildningsvägarna', säger utbildningsforskaren Maria Sandberg.",
+      hintVi: "(cùng đoạn văn trên) - câu 2 về giáo viên tiếng Thụy Điển.",
+      hintEn: "(same passage) - question 2 on Swedish-language teachers.",
+      questionSv: "Det finns brist på lärare inom den svenskspråkiga lärarutbildningen.",
+      questionHintVi: "Có thiếu giáo viên trong ngành đào tạo sư phạm tiếng Thụy Điển không?",
+      questionHintEn: "Is there a shortage of Swedish-language teachers?",
+      answer: "true",
+      explanationSv: "Experten säger att bristen är 'akut' inom svenskspråkig lärarutbildning.",
+      explanationVi: "Chuyên gia nói tình trạng thiếu là 'cấp bách'.",
+      explanationEn: "The expert says the shortage is 'acute'.",
+    },
+    {
+      passageSv:
+        "E-post från HR till nyanställd\n\nHej Minh,\n\nVälkommen till oss på Wärtsilä! Vi ser fram emot att träffa dig på måndag den 3 mars kl. 8.30. Din närmaste chef Petra Sjögren tar emot dig i receptionen på Runsorvägen 4 i Vasa.\n\nFör att första arbetsdagen ska bli så smidig som möjligt ber vi dig ta med följande: giltigt pass eller ID-kort, ditt skattekort samt bankuppgifter för lön. Kläder är ledigt-formella - du behöver alltså ingen kostym, men helst inte shorts.\n\nUnder första veckan kommer du att gå igenom en introduktionsutbildning på svenska och engelska. Vi rekommenderar därför att du tar med en anteckningsbok. Fika står företaget för, så det behöver du inte oroa dig för.\n\nOm något är oklart, hör av dig till mig direkt.\n\nHälsningar,\nJohan Backman, HR-koordinator",
+      hintVi: "Email HR: chuẩn bị ngày đầu đi làm - mang gì và mặc gì.",
+      hintEn: "HR email: what to bring and wear on the first workday.",
+      questionSv: "Företaget kräver att Minh bär kostym på första arbetsdagen.",
+      questionHintVi: "Công ty có bắt Minh mặc vest ngày đầu không?",
+      questionHintEn: "Does the company require Minh to wear a suit on the first day?",
+      answer: "false",
+      explanationSv: "Texten säger 'ledigt-formella' och 'ingen kostym'.",
+      explanationVi: "Bài đọc nói 'trang phục lịch sự thoải mái', không cần vest.",
+      explanationEn: "Text says 'smart casual' and no suit needed.",
+    },
+    {
+      passageSv:
+        "E-post från HR till nyanställd\n\nHej Minh,\n\nVälkommen till oss på Wärtsilä! Vi ser fram emot att träffa dig på måndag den 3 mars kl. 8.30. Din närmaste chef Petra Sjögren tar emot dig i receptionen på Runsorvägen 4 i Vasa.\n\nFör att första arbetsdagen ska bli så smidig som möjligt ber vi dig ta med följande: giltigt pass eller ID-kort, ditt skattekort samt bankuppgifter för lön. Kläder är ledigt-formella - du behöver alltså ingen kostym, men helst inte shorts.\n\nUnder första veckan kommer du att gå igenom en introduktionsutbildning på svenska och engelska. Vi rekommenderar därför att du tar med en anteckningsbok. Fika står företaget för, så det behöver du inte oroa dig för.\n\nOm något är oklart, hör av dig till mig direkt.\n\nHälsningar,\nJohan Backman, HR-koordinator",
+      hintVi: "(cùng email) - câu 2 về giới thiệu nhân viên mới.",
+      hintEn: "(same email) - question 2 on onboarding.",
+      questionSv: "Introduktionsutbildningen hålls både på svenska och engelska.",
+      questionHintVi: "Đào tạo hội nhập có bằng cả tiếng Thụy Điển và Anh không?",
+      questionHintEn: "Is the onboarding held in both Swedish and English?",
+      answer: "true",
+      explanationSv: "Texten säger 'introduktionsutbildning på svenska och engelska'.",
+      explanationVi: "Email nói đào tạo bằng cả 2 thứ tiếng.",
+      explanationEn: "The email says onboarding in both languages.",
+    },
+    {
+      passageSv:
+        "Debattartikel: 'Distansarbete - fördel eller fälla?'\n\nSedan pandemin har distansarbete blivit vardag för många finländare. Å ena sidan är fördelarna tydliga: mindre restid, lugnare arbetsmiljö och möjlighet att bo längre bort från kontoret. Många familjer har flyttat till mindre orter där bostäderna är billigare och naturen ligger närmare.\n\nÅ andra sidan finns risker. Forskning från Arbetshälsoinstitutet visar att ensamheten ökar och gränsen mellan arbete och fritid suddas ut. Var tredje distansarbetare känner sig mindre delaktig i sitt team, och en av fem uppger att de arbetar mer övertid än förut.\n\nExperter rekommenderar en hybridmodell: två till tre dagar på kontoret och resten hemma. Så behåller man både flexibiliteten och den sociala kontakten. Det viktigaste, säger arbetsforskaren, är att chefen aktivt bokar in korta videosamtal - inte bara långa möten.",
+      hintVi: "Bài phản biện: làm việc từ xa - lợi và hại, khuyến nghị mô hình hybrid.",
+      hintEn: "Op-ed: remote work pros/cons, recommends a hybrid model.",
+      questionSv: "Enligt texten är hybridmodellen den lösning som experter rekommenderar.",
+      questionHintVi: "Theo bài viết, mô hình hybrid có phải là giải pháp được chuyên gia khuyến nghị không?",
+      questionHintEn: "According to the text, is hybrid the expert-recommended solution?",
+      answer: "true",
+      explanationSv: "Texten säger uttryckligen 'Experter rekommenderar en hybridmodell'.",
+      explanationVi: "Bài đọc nói rõ 'Chuyên gia khuyến nghị mô hình hybrid'.",
+      explanationEn: "Text explicitly says experts recommend a hybrid model.",
+    },
+    {
+      passageSv:
+        "Debattartikel: 'Distansarbete - fördel eller fälla?'\n\nSedan pandemin har distansarbete blivit vardag för många finländare. Å ena sidan är fördelarna tydliga: mindre restid, lugnare arbetsmiljö och möjlighet att bo längre bort från kontoret. Många familjer har flyttat till mindre orter där bostäderna är billigare och naturen ligger närmare.\n\nÅ andra sidan finns risker. Forskning från Arbetshälsoinstitutet visar att ensamheten ökar och gränsen mellan arbete och fritid suddas ut. Var tredje distansarbetare känner sig mindre delaktig i sitt team, och en av fem uppger att de arbetar mer övertid än förut.\n\nExperter rekommenderar en hybridmodell: två till tre dagar på kontoret och resten hemma. Så behåller man både flexibiliteten och den sociala kontakten. Det viktigaste, säger arbetsforskaren, är att chefen aktivt bokar in korta videosamtal - inte bara långa möten.",
+      hintVi: "(cùng bài) - câu 2 về số liệu.",
+      hintEn: "(same op-ed) - question 2 on statistics.",
+      questionSv: "Var femte distansarbetare tjänar mer pengar än förut.",
+      questionHintVi: "1/5 người làm từ xa kiếm được nhiều tiền hơn trước - đúng không?",
+      questionHintEn: "One in five remote workers earns more than before - true?",
+      answer: "nm",
+      explanationSv: "Texten nämner 'en av fem arbetar mer övertid' - inte att de tjänar mer.",
+      explanationVi: "Bài chỉ nói 1/5 làm quá giờ nhiều hơn - không nói về lương.",
+      explanationEn: "Text says one in five works more overtime - nothing about earnings.",
+    },
+    {
+      passageSv:
+        "Meddelande från fastighetsbolaget till hyresgäster\n\nBästa hyresgäst,\n\nUnder veckan 12-16 maj kommer vi att byta ut samtliga fönster i huset på Rådhusgatan 8. Arbetet påverkar ditt hem enligt följande:\n\n1. Måndag och tisdag: fönstren i vardagsrummet byts. Möbler bör flyttas minst en meter från fönstret.\n2. Onsdag: fönstret i sovrummet. Vi rekommenderar att du sover hos vän eller släkting den natten.\n3. Torsdag: köksfönster - inget behöver flyttas, men huset kommer att vara dammigt.\n4. Fredag: efterarbete och städning.\n\nHantverkarna har egen nyckel och kommer in mellan kl. 8 och 16. Efter arbetet fungerar dina fönster bättre och husets värmekostnader minskar med cirka 15 procent.\n\nOm du har husdjur, informera oss senast en vecka innan.\n\nVänliga hälsningar,\nFastighets Ab Nordfast",
+      hintVi: "Thông báo thay cửa sổ 5 ngày, chi tiết từng ngày phòng.",
+      hintEn: "Notice: 5-day window replacement, day-by-day details.",
+      questionSv: "Hyresgästen måste flytta möbler i vardagsrummet innan måndag och tisdag.",
+      questionHintVi: "Người thuê có phải dời đồ trong phòng khách trước thứ Hai và Ba không?",
+      questionHintEn: "Must the tenant move living-room furniture before Mon/Tue?",
+      answer: "true",
+      explanationSv: "Texten säger 'Möbler bör flyttas minst en meter från fönstret' måndag-tisdag.",
+      explanationVi: "Thông báo yêu cầu dời đồ ít nhất 1m khỏi cửa sổ vào Thứ Hai-Ba.",
+      explanationEn: "Notice requires moving furniture at least 1m from windows Mon-Tue.",
+    },
   ],
 };
 
-const WRITING_PROMPTS: Record<"a1" | "a2" | "b1", { sv: string; hintVi: string; hintEn: string; min: number; max: number }> = {
-  a1: {
-    sv: "Skriv ett kort SMS till din vän. Berätta vad du gör idag och fråga vad hen gör. (30-50 ord)",
-    hintVi: "Viết tin nhắn ngắn cho bạn: hôm nay bạn làm gì và hỏi bạn của bạn làm gì. (30-50 từ)",
-    hintEn: "Short text to a friend: what you are doing today and ask what they are doing. (30-50 words)",
-    min: 30,
-    max: 50,
-  },
-  a2: {
-    sv: "Skriv ett meddelande till din lärare och förklara varför du inte kunde komma till lektionen igår. Föreslå när du kan ta igen lektionen. (50-70 ord)",
-    hintVi: "Viết tin cho giáo viên giải thích vì sao vắng học hôm qua và đề xuất giờ học bù. (50-70 từ)",
-    hintEn: "Message to your teacher explaining why you missed yesterday's lesson and suggest a make-up time. (50-70 words)",
-    min: 50,
-    max: 70,
-  },
-  b1: {
-    sv: "Skriv ett e-postmeddelande till din hyresvärd på svenska. Förklara att ett rör i köket läcker och föreslå en tid när en rörmokare kan komma. (60-80 ord)",
-    hintVi: "Viết email cho chủ nhà: đường ống bếp bị rò rỉ, đề xuất giờ thợ đến sửa. (60-80 từ)",
-    hintEn: "Email to your landlord: a kitchen pipe is leaking, propose a time for a plumber. (60-80 words)",
-    min: 60,
-    max: 80,
-  },
+
+type WritingPrompt = { sv: string; hintVi: string; hintEn: string; min: number; max: number };
+type SpeakingPrompt = { sv: string; hintVi: string; hintEn: string; seconds: number };
+
+const WRITING_PROMPTS: Record<"a1" | "a2" | "b1", WritingPrompt[]> = {
+  a1: [
+    {
+      sv: "Skriv ett kort SMS till din vän. Berätta vad du gör idag och fråga vad hen gör. (30-50 ord)",
+      hintVi: "Viết tin nhắn ngắn cho bạn: hôm nay bạn làm gì và hỏi bạn của bạn làm gì. (30-50 từ)",
+      hintEn: "Short text to a friend: what you are doing today and ask what they are doing. (30-50 words)",
+      min: 30, max: 50,
+    },
+  ],
+  a2: [
+    {
+      sv: "Skriv ett meddelande till din lärare och förklara varför du inte kunde komma till lektionen igår. Föreslå när du kan ta igen lektionen. (50-70 ord)",
+      hintVi: "Viết tin cho giáo viên giải thích vì sao vắng học hôm qua và đề xuất giờ học bù. (50-70 từ)",
+      hintEn: "Message to your teacher explaining why you missed yesterday's lesson and suggest a make-up time. (50-70 words)",
+      min: 50, max: 70,
+    },
+  ],
+  b1: [
+    {
+      sv: "Skriv ett e-postmeddelande till din hyresvärd. Förklara att ett rör i köket läcker och föreslå en tid när en rörmokare kan komma. Använd 'eftersom' och 'därför'. (80-120 ord)",
+      hintVi: "Email cho chủ nhà: ống nước bếp rò rỉ, đề xuất giờ thợ đến sửa. Dùng 'eftersom' và 'därför'. (80-120 từ)",
+      hintEn: "Email to the landlord: kitchen pipe is leaking, propose a plumber time. Use 'eftersom' and 'därför'. (80-120 words)",
+      min: 80, max: 120,
+    },
+    {
+      sv: "Skriv en insändare till Hufvudstadsbladet om kollektivtrafiken i din stad. Ge minst två argument och ett konkret förslag. Använd 'å ena sidan / å andra sidan'. (100-140 ord)",
+      hintVi: "Viết thư ngỏ báo Hbl về giao thông công cộng: 2 lý do + 1 đề xuất. Dùng 'một mặt/mặt khác'. (100-140 từ)",
+      hintEn: "Write a reader's letter to Hbl about public transport: 2 arguments + 1 concrete proposal. Use 'on one hand / on the other'. (100-140 words)",
+      min: 100, max: 140,
+    },
+    {
+      sv: "Skriv en opinionstext om distansarbete. Ta ställning för eller emot och motivera med minst tre skäl. Avsluta med 'Sammanfattningsvis…'. (120-160 ord)",
+      hintVi: "Bài quan điểm về làm việc từ xa: ủng hộ hoặc phản đối + 3 lý do. Kết bằng 'Sammanfattningsvis…'. (120-160 từ)",
+      hintEn: "Opinion piece on remote work: for or against + at least 3 reasons. Close with 'Sammanfattningsvis…'. (120-160 words)",
+      min: 120, max: 160,
+    },
+    {
+      sv: "Skriv ett personligt brev där du söker en praktikplats på ett IT-företag i Vasa. Berätta om din bakgrund, dina styrkor och varför just detta företag. (100-140 ord)",
+      hintVi: "Thư ứng tuyển thực tập tại công ty IT ở Vaasa: nền tảng, điểm mạnh, lý do chọn công ty. (100-140 từ)",
+      hintEn: "Cover letter for an IT internship in Vasa: background, strengths, why this company. (100-140 words)",
+      min: 100, max: 140,
+    },
+  ],
 };
 
-const SPEAKING_PROMPTS: Record<"a1" | "a2" | "b1", { sv: string; hintVi: string; hintEn: string; seconds: number }> = {
-  a1: {
-    sv: "Berätta om din familj. Du har 20 sekunder.",
-    hintVi: "Kể về gia đình bạn trong 20 giây.",
-    hintEn: "Talk about your family for 20 seconds.",
-    seconds: 20,
-  },
-  a2: {
-    sv: "Berätta om en typisk dag i ditt liv. Du har 30 sekunder.",
-    hintVi: "Kể về một ngày điển hình của bạn trong 30 giây.",
-    hintEn: "Describe a typical day in your life for 30 seconds.",
-    seconds: 30,
-  },
-  b1: {
-    sv: "Berätta om dina fritidsintressen och varför du tycker om dem. Du har 30 sekunder.",
-    hintVi: "Kể về sở thích và lý do bạn thích chúng trong 30 giây.",
-    hintEn: "Talk about your hobbies and why you enjoy them for 30 seconds.",
-    seconds: 30,
-  },
+const SPEAKING_PROMPTS: Record<"a1" | "a2" | "b1", SpeakingPrompt[]> = {
+  a1: [
+    { sv: "Berätta om din familj. Du har 20 sekunder.", hintVi: "Kể về gia đình bạn trong 20 giây.", hintEn: "Talk about your family for 20 seconds.", seconds: 20 },
+  ],
+  a2: [
+    { sv: "Berätta om en typisk dag i ditt liv. Du har 30 sekunder.", hintVi: "Kể về một ngày điển hình của bạn trong 30 giây.", hintEn: "Describe a typical day in your life for 30 seconds.", seconds: 30 },
+  ],
+  b1: [
+    { sv: "Berätta om dina fritidsintressen och förklara varför de är viktiga för dig. (45 sekunder)", hintVi: "Kể về sở thích và giải thích vì sao chúng quan trọng với bạn (45s).", hintEn: "Talk about your hobbies and why they matter to you (45s).", seconds: 45 },
+    { sv: "Diskutera för- och nackdelar med att bo i en storstad jämfört med en småstad. (60 sekunder)", hintVi: "So sánh lợi/hại khi sống ở thành phố lớn vs. thị trấn nhỏ (60s).", hintEn: "Compare pros/cons of big-city vs small-town life (60s).", seconds: 60 },
+    { sv: "Ge din åsikt om distansarbete. Använd 'å ena sidan / å andra sidan'. (60 sekunder)", hintVi: "Cho ý kiến về làm việc từ xa - dùng 'một mặt/mặt khác' (60s).", hintEn: "Give your view on remote work - use 'on one hand/on the other' (60s).", seconds: 60 },
+    { sv: "Beskriv ett resmål du gärna vill besöka och motivera varför just det stället. (45 sekunder)", hintVi: "Kể về một địa điểm bạn muốn đến và lý do (45s).", hintEn: "Describe a place you want to visit and why (45s).", seconds: 45 },
+    { sv: "Berätta om ett problem i din stad och föreslå en lösning. (60 sekunder)", hintVi: "Nêu một vấn đề trong thành phố bạn và đề xuất giải pháp (60s).", hintEn: "Describe a problem in your city and propose a solution (60s).", seconds: 60 },
+  ],
 };
+
 
 const OPTION_LABELS = [
   { id: "true" as const, sv: "Sant" },
@@ -1730,8 +1887,9 @@ const SimulatorReading = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
           <span>Läsförståelse · {tierId.toUpperCase()}</span>
           <span>{idx + 1} / {bank.length}</span>
         </div>
-        <p className="text-sm leading-relaxed text-foreground">🇸🇪 {item.passageSv}</p>
-        <p className="mt-1 text-xs italic text-muted-foreground">{t(item.hintVi, item.hintEn)}</p>
+        <p className="text-sm leading-relaxed text-foreground whitespace-pre-line">🇸🇪 {item.passageSv}</p>
+        <p className="mt-2 text-xs italic text-muted-foreground">{t(item.hintVi, item.hintEn)}</p>
+
       </div>
       <div>
         <p className="mb-1 text-sm font-semibold">🇸🇪 {item.questionSv}</p>
@@ -1763,39 +1921,54 @@ const SimulatorReading = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
 
 const SimulatorWriting = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   const { t } = useLanguage();
-  const prompt = WRITING_PROMPTS[tierId] ?? WRITING_PROMPTS.b1;
+  const bank = WRITING_PROMPTS[tierId] ?? WRITING_PROMPTS.b1;
+  const [idx, setIdx] = useState(0);
+  const prompt = bank[idx];
   const [text, setText] = useState("");
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   const onTarget = words >= prompt.min && words <= prompt.max;
+  const nextPrompt = () => { setIdx((i) => (i + 1) % bank.length); setText(""); };
   return (
     <div className="space-y-3">
       <div className="rounded-lg border bg-muted/40 p-4 text-sm leading-relaxed">
-        <div className="mb-1 text-xs font-semibold text-muted-foreground">Skriftlig färdighet · {tierId.toUpperCase()}</div>
+        <div className="mb-1 flex items-center justify-between text-xs font-semibold text-muted-foreground">
+          <span>Skriftlig färdighet · {tierId.toUpperCase()}</span>
+          <span>{idx + 1} / {bank.length}</span>
+        </div>
         <p className="text-foreground">🇸🇪 {prompt.sv}</p>
         <p className="mt-1 text-xs italic text-muted-foreground">{t(prompt.hintVi, prompt.hintEn)}</p>
       </div>
       <Textarea value={text} onChange={(e) => setText(e.target.value)} rows={8} placeholder="Skriv ditt svar på svenska…" />
-      <div className="flex items-center justify-between text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
         <span className={onTarget ? "text-emerald-600" : "text-muted-foreground"}>
           {words} {t("từ", "words")} · {t("mục tiêu", "target")} {prompt.min}-{prompt.max} {onTarget && "✓"}
         </span>
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={words < prompt.min / 2}
-          onClick={() => toast({ title: t("Đã lưu nháp", "Draft saved"), description: t("Tiếp tục luyện trên trang YKI.", "Keep practising on the YKI page.") })}
-        >
-          {t("Lưu nháp", "Save draft")}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={words < prompt.min / 2}
+            onClick={() => toast({ title: t("Đã lưu nháp", "Draft saved"), description: t("Tiếp tục luyện trên trang YKI.", "Keep practising on the YKI page.") })}
+          >
+            {t("Lưu nháp", "Save draft")}
+          </Button>
+          {bank.length > 1 && (
+            <Button size="sm" variant="ghost" onClick={nextPrompt}>{t("Đề khác", "Next prompt")}</Button>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
+
 const SimulatorSpeaking = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   const { t } = useLanguage();
-  const prompt = SPEAKING_PROMPTS[tierId] ?? SPEAKING_PROMPTS.b1;
+  const bank = SPEAKING_PROMPTS[tierId] ?? SPEAKING_PROMPTS.b1;
+  const [idx, setIdx] = useState(0);
+  const prompt = bank[idx];
   const TOTAL = prompt.seconds;
+
   const [recording, setRecording] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const intervalRef = useRef<number | null>(null);
@@ -1825,10 +1998,24 @@ const SimulatorSpeaking = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-muted/40 p-4 text-sm leading-relaxed">
-        <div className="mb-1 text-xs font-semibold text-muted-foreground">Muntlig färdighet · {tierId.toUpperCase()}</div>
+        <div className="mb-1 flex items-center justify-between text-xs font-semibold text-muted-foreground">
+          <span>Muntlig färdighet · {tierId.toUpperCase()}</span>
+          <span>{idx + 1} / {bank.length}</span>
+        </div>
         <p className="text-foreground">🇸🇪 {prompt.sv}</p>
         <p className="mt-1 text-xs italic text-muted-foreground">{t(prompt.hintVi, prompt.hintEn)}</p>
+        {bank.length > 1 && (
+          <Button
+            size="sm"
+            variant="ghost"
+            className="mt-2 h-auto p-0 text-xs text-primary hover:bg-transparent"
+            onClick={() => { setIdx((i) => (i + 1) % bank.length); setElapsed(0); setRecording(false); }}
+          >
+            {t("→ Đề khác", "→ Next prompt")}
+          </Button>
+        )}
       </div>
+
       <div className="rounded-xl border bg-card p-5 text-center">
         <div className={`mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full ${recording ? "animate-pulse bg-rose-500/20 text-rose-500" : "bg-muted text-muted-foreground"}`}>
           <Mic className="h-7 w-7" />
