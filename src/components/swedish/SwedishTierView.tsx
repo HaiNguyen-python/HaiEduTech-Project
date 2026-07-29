@@ -1656,8 +1656,127 @@ const READING_BANK: Record<"a1" | "a2" | "b1", ReadingItem[]> = {
       explanationVi: "Nhà hàng Thái, không phải Nhật.",
       explanationEn: "The restaurant is Thai, not Japanese.",
     },
+    // ═══════════ B1 LONG-FORM PASSAGES (YKI Keskitaso style) ═══════════
+    {
+      passageSv:
+        "Insändare i Hufvudstadsbladet: 'Kollektivtrafiken i Vasa fungerar illa på kvällarna'\n\nJag har bott i Vasa i sju år och tar bussen varje dag till mitt arbete. På dagen fungerar linjerna bra, men efter klockan 20 blir det svårt att röra sig utan bil. Många linjer slutar redan klockan 21.30, och på söndagar är turerna glesa hela dagen.\n\nDetta drabbar särskilt studenter, sjukvårdspersonal och restauranganställda som ofta jobbar sena kvällar. Om staden vill att fler ska välja bort bilen, måste vi också få pålitlig kollektivtrafik på kvällar och helger.\n\nJag föreslår att staden inför en 'nattlinje' fram till klockan 24, åtminstone mellan järnvägsstationen och de största bostadsområdena. Det skulle också vara tryggare för unga som är ute på kvällarna.\n\nMed vänliga hälsningar,\nAnna Lehtinen, sjukskötare",
+      hintVi: "Bài viết bạn đọc: giao thông công cộng ở Vaasa yếu vào buổi tối, đề xuất mở tuyến đêm.",
+      hintEn: "Reader's letter: Vaasa evening public transport is weak; proposes a night line.",
+      questionSv: "Anna föreslår en nattlinje som går fram till midnatt.",
+      questionHintVi: "Anna có đề nghị mở tuyến đêm chạy tới nửa đêm không?",
+      questionHintEn: "Does Anna propose a night line running until midnight?",
+      answer: "true",
+      explanationSv: "Hon skriver: 'inför en nattlinje fram till klockan 24' - dvs. midnatt.",
+      explanationVi: "Cô viết: mở 'tuyến đêm chạy tới 24h' = nửa đêm.",
+      explanationEn: "She writes: introduce 'a night line until 24:00' - i.e. midnight.",
+    },
+    {
+      passageSv:
+        "Insändare i Hufvudstadsbladet: 'Kollektivtrafiken i Vasa fungerar illa på kvällarna'\n\nJag har bott i Vasa i sju år och tar bussen varje dag till mitt arbete. På dagen fungerar linjerna bra, men efter klockan 20 blir det svårt att röra sig utan bil. Många linjer slutar redan klockan 21.30, och på söndagar är turerna glesa hela dagen.\n\nDetta drabbar särskilt studenter, sjukvårdspersonal och restauranganställda som ofta jobbar sena kvällar. Om staden vill att fler ska välja bort bilen, måste vi också få pålitlig kollektivtrafik på kvällar och helger.\n\nJag föreslår att staden inför en 'nattlinje' fram till klockan 24, åtminstone mellan järnvägsstationen och de största bostadsområdena. Det skulle också vara tryggare för unga som är ute på kvällarna.\n\nMed vänliga hälsningar,\nAnna Lehtinen, sjukskötare",
+      hintVi: "(cùng đoạn văn trên) - câu hỏi 2.",
+      hintEn: "(same passage) - question 2.",
+      questionSv: "Enligt Anna fungerar busstrafiken lika bra dygnet runt.",
+      questionHintVi: "Theo Anna, xe buýt hoạt động tốt cả ngày lẫn đêm đúng không?",
+      questionHintEn: "According to Anna, does bus service work equally well around the clock?",
+      answer: "false",
+      explanationSv: "Hon säger uttryckligen att kvällarna och söndagarna är problematiska.",
+      explanationVi: "Cô nói rõ buổi tối và Chủ nhật hoạt động kém.",
+      explanationEn: "She explicitly says evenings and Sundays are poor.",
+    },
+    {
+      passageSv:
+        "Nyhet - Yle Nyheter\n\nAllt fler unga i Svenskfinland väljer att studera vidare på yrkeshögskola i stället för universitet. Enligt en färsk undersökning som gjordes bland 1 200 gymnasister har intresset för praktiska yrken vuxit med tolv procent på tre år.\n\nStuderande nämner tre huvudorsaker: kortare studietid, tydligare arbetsmarknad och möjligheten att göra praktik redan under första året. En av de mest populära utbildningarna är sjukskötare, där efterfrågan på arbetskraft är stor både i Vasa, Åbo och huvudstadsregionen.\n\nSamtidigt varnar experter för att också universiteten behöver studerande, särskilt inom svenskspråkig lärarutbildning där bristen är akut. 'Vi behöver båda utbildningsvägarna', säger utbildningsforskaren Maria Sandberg.",
+      hintVi: "Bài báo Yle: nhiều bạn trẻ Svenskfinland chọn yrkeshögskola thay vì đại học.",
+      hintEn: "Yle article: more Swedish-speaking Finnish youth pick vocational college over university.",
+      questionSv: "Intresset för yrkeshögskola har minskat under de senaste åren.",
+      questionHintVi: "Sự quan tâm tới yrkeshögskola có giảm trong những năm gần đây không?",
+      questionHintEn: "Has interest in vocational college fallen in recent years?",
+      answer: "false",
+      explanationSv: "Texten säger att intresset har vuxit med tolv procent på tre år.",
+      explanationVi: "Bài đọc nói tăng 12% trong 3 năm.",
+      explanationEn: "The text says interest grew 12% over three years.",
+    },
+    {
+      passageSv:
+        "Nyhet - Yle Nyheter\n\nAllt fler unga i Svenskfinland väljer att studera vidare på yrkeshögskola i stället för universitet. Enligt en färsk undersökning som gjordes bland 1 200 gymnasister har intresset för praktiska yrken vuxit med tolv procent på tre år.\n\nStuderande nämner tre huvudorsaker: kortare studietid, tydligare arbetsmarknad och möjligheten att göra praktik redan under första året. En av de mest populära utbildningarna är sjukskötare, där efterfrågan på arbetskraft är stor både i Vasa, Åbo och huvudstadsregionen.\n\nSamtidigt varnar experter för att också universiteten behöver studerande, särskilt inom svenskspråkig lärarutbildning där bristen är akut. 'Vi behöver båda utbildningsvägarna', säger utbildningsforskaren Maria Sandberg.",
+      hintVi: "(cùng đoạn văn trên) - câu 2 về giáo viên tiếng Thụy Điển.",
+      hintEn: "(same passage) - question 2 on Swedish-language teachers.",
+      questionSv: "Det finns brist på lärare inom den svenskspråkiga lärarutbildningen.",
+      questionHintVi: "Có thiếu giáo viên trong ngành đào tạo sư phạm tiếng Thụy Điển không?",
+      questionHintEn: "Is there a shortage of Swedish-language teachers?",
+      answer: "true",
+      explanationSv: "Experten säger att bristen är 'akut' inom svenskspråkig lärarutbildning.",
+      explanationVi: "Chuyên gia nói tình trạng thiếu là 'cấp bách'.",
+      explanationEn: "The expert says the shortage is 'acute'.",
+    },
+    {
+      passageSv:
+        "E-post från HR till nyanställd\n\nHej Minh,\n\nVälkommen till oss på Wärtsilä! Vi ser fram emot att träffa dig på måndag den 3 mars kl. 8.30. Din närmaste chef Petra Sjögren tar emot dig i receptionen på Runsorvägen 4 i Vasa.\n\nFör att första arbetsdagen ska bli så smidig som möjligt ber vi dig ta med följande: giltigt pass eller ID-kort, ditt skattekort samt bankuppgifter för lön. Kläder är ledigt-formella - du behöver alltså ingen kostym, men helst inte shorts.\n\nUnder första veckan kommer du att gå igenom en introduktionsutbildning på svenska och engelska. Vi rekommenderar därför att du tar med en anteckningsbok. Fika står företaget för, så det behöver du inte oroa dig för.\n\nOm något är oklart, hör av dig till mig direkt.\n\nHälsningar,\nJohan Backman, HR-koordinator",
+      hintVi: "Email HR: chuẩn bị ngày đầu đi làm - mang gì và mặc gì.",
+      hintEn: "HR email: what to bring and wear on the first workday.",
+      questionSv: "Företaget kräver att Minh bär kostym på första arbetsdagen.",
+      questionHintVi: "Công ty có bắt Minh mặc vest ngày đầu không?",
+      questionHintEn: "Does the company require Minh to wear a suit on the first day?",
+      answer: "false",
+      explanationSv: "Texten säger 'ledigt-formella' och 'ingen kostym'.",
+      explanationVi: "Bài đọc nói 'trang phục lịch sự thoải mái', không cần vest.",
+      explanationEn: "Text says 'smart casual' and no suit needed.",
+    },
+    {
+      passageSv:
+        "E-post från HR till nyanställd\n\nHej Minh,\n\nVälkommen till oss på Wärtsilä! Vi ser fram emot att träffa dig på måndag den 3 mars kl. 8.30. Din närmaste chef Petra Sjögren tar emot dig i receptionen på Runsorvägen 4 i Vasa.\n\nFör att första arbetsdagen ska bli så smidig som möjligt ber vi dig ta med följande: giltigt pass eller ID-kort, ditt skattekort samt bankuppgifter för lön. Kläder är ledigt-formella - du behöver alltså ingen kostym, men helst inte shorts.\n\nUnder första veckan kommer du att gå igenom en introduktionsutbildning på svenska och engelska. Vi rekommenderar därför att du tar med en anteckningsbok. Fika står företaget för, så det behöver du inte oroa dig för.\n\nOm något är oklart, hör av dig till mig direkt.\n\nHälsningar,\nJohan Backman, HR-koordinator",
+      hintVi: "(cùng email) - câu 2 về giới thiệu nhân viên mới.",
+      hintEn: "(same email) - question 2 on onboarding.",
+      questionSv: "Introduktionsutbildningen hålls både på svenska och engelska.",
+      questionHintVi: "Đào tạo hội nhập có bằng cả tiếng Thụy Điển và Anh không?",
+      questionHintEn: "Is the onboarding held in both Swedish and English?",
+      answer: "true",
+      explanationSv: "Texten säger 'introduktionsutbildning på svenska och engelska'.",
+      explanationVi: "Email nói đào tạo bằng cả 2 thứ tiếng.",
+      explanationEn: "The email says onboarding in both languages.",
+    },
+    {
+      passageSv:
+        "Debattartikel: 'Distansarbete - fördel eller fälla?'\n\nSedan pandemin har distansarbete blivit vardag för många finländare. Å ena sidan är fördelarna tydliga: mindre restid, lugnare arbetsmiljö och möjlighet att bo längre bort från kontoret. Många familjer har flyttat till mindre orter där bostäderna är billigare och naturen ligger närmare.\n\nÅ andra sidan finns risker. Forskning från Arbetshälsoinstitutet visar att ensamheten ökar och gränsen mellan arbete och fritid suddas ut. Var tredje distansarbetare känner sig mindre delaktig i sitt team, och en av fem uppger att de arbetar mer övertid än förut.\n\nExperter rekommenderar en hybridmodell: två till tre dagar på kontoret och resten hemma. Så behåller man både flexibiliteten och den sociala kontakten. Det viktigaste, säger arbetsforskaren, är att chefen aktivt bokar in korta videosamtal - inte bara långa möten.",
+      hintVi: "Bài phản biện: làm việc từ xa - lợi và hại, khuyến nghị mô hình hybrid.",
+      hintEn: "Op-ed: remote work pros/cons, recommends a hybrid model.",
+      questionSv: "Enligt texten är hybridmodellen den lösning som experter rekommenderar.",
+      questionHintVi: "Theo bài viết, mô hình hybrid có phải là giải pháp được chuyên gia khuyến nghị không?",
+      questionHintEn: "According to the text, is hybrid the expert-recommended solution?",
+      answer: "true",
+      explanationSv: "Texten säger uttryckligen 'Experter rekommenderar en hybridmodell'.",
+      explanationVi: "Bài đọc nói rõ 'Chuyên gia khuyến nghị mô hình hybrid'.",
+      explanationEn: "Text explicitly says experts recommend a hybrid model.",
+    },
+    {
+      passageSv:
+        "Debattartikel: 'Distansarbete - fördel eller fälla?'\n\nSedan pandemin har distansarbete blivit vardag för många finländare. Å ena sidan är fördelarna tydliga: mindre restid, lugnare arbetsmiljö och möjlighet att bo längre bort från kontoret. Många familjer har flyttat till mindre orter där bostäderna är billigare och naturen ligger närmare.\n\nÅ andra sidan finns risker. Forskning från Arbetshälsoinstitutet visar att ensamheten ökar och gränsen mellan arbete och fritid suddas ut. Var tredje distansarbetare känner sig mindre delaktig i sitt team, och en av fem uppger att de arbetar mer övertid än förut.\n\nExperter rekommenderar en hybridmodell: två till tre dagar på kontoret och resten hemma. Så behåller man både flexibiliteten och den sociala kontakten. Det viktigaste, säger arbetsforskaren, är att chefen aktivt bokar in korta videosamtal - inte bara långa möten.",
+      hintVi: "(cùng bài) - câu 2 về số liệu.",
+      hintEn: "(same op-ed) - question 2 on statistics.",
+      questionSv: "Var femte distansarbetare tjänar mer pengar än förut.",
+      questionHintVi: "1/5 người làm từ xa kiếm được nhiều tiền hơn trước - đúng không?",
+      questionHintEn: "One in five remote workers earns more than before - true?",
+      answer: "nm",
+      explanationSv: "Texten nämner 'en av fem arbetar mer övertid' - inte att de tjänar mer.",
+      explanationVi: "Bài chỉ nói 1/5 làm quá giờ nhiều hơn - không nói về lương.",
+      explanationEn: "Text says one in five works more overtime - nothing about earnings.",
+    },
+    {
+      passageSv:
+        "Meddelande från fastighetsbolaget till hyresgäster\n\nBästa hyresgäst,\n\nUnder veckan 12-16 maj kommer vi att byta ut samtliga fönster i huset på Rådhusgatan 8. Arbetet påverkar ditt hem enligt följande:\n\n1. Måndag och tisdag: fönstren i vardagsrummet byts. Möbler bör flyttas minst en meter från fönstret.\n2. Onsdag: fönstret i sovrummet. Vi rekommenderar att du sover hos vän eller släkting den natten.\n3. Torsdag: köksfönster - inget behöver flyttas, men huset kommer att vara dammigt.\n4. Fredag: efterarbete och städning.\n\nHantverkarna har egen nyckel och kommer in mellan kl. 8 och 16. Efter arbetet fungerar dina fönster bättre och husets värmekostnader minskar med cirka 15 procent.\n\nOm du har husdjur, informera oss senast en vecka innan.\n\nVänliga hälsningar,\nFastighets Ab Nordfast",
+      hintVi: "Thông báo thay cửa sổ 5 ngày, chi tiết từng ngày phòng.",
+      hintEn: "Notice: 5-day window replacement, day-by-day details.",
+      questionSv: "Hyresgästen måste flytta möbler i vardagsrummet innan måndag och tisdag.",
+      questionHintVi: "Người thuê có phải dời đồ trong phòng khách trước thứ Hai và Ba không?",
+      questionHintEn: "Must the tenant move living-room furniture before Mon/Tue?",
+      answer: "true",
+      explanationSv: "Texten säger 'Möbler bör flyttas minst en meter från fönstret' måndag-tisdag.",
+      explanationVi: "Thông báo yêu cầu dời đồ ít nhất 1m khỏi cửa sổ vào Thứ Hai-Ba.",
+      explanationEn: "Notice requires moving furniture at least 1m from windows Mon-Tue.",
+    },
   ],
 };
+
 
 const WRITING_PROMPTS: Record<"a1" | "a2" | "b1", { sv: string; hintVi: string; hintEn: string; min: number; max: number }> = {
   a1: {
