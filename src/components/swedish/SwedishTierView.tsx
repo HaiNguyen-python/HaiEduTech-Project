@@ -1946,8 +1946,11 @@ const SimulatorWriting = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
 
 const SimulatorSpeaking = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   const { t } = useLanguage();
-  const prompt = SPEAKING_PROMPTS[tierId] ?? SPEAKING_PROMPTS.b1;
+  const bank = SPEAKING_PROMPTS[tierId] ?? SPEAKING_PROMPTS.b1;
+  const [idx, setIdx] = useState(0);
+  const prompt = bank[idx];
   const TOTAL = prompt.seconds;
+
   const [recording, setRecording] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const intervalRef = useRef<number | null>(null);
