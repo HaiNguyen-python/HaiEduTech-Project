@@ -1778,50 +1778,70 @@ const READING_BANK: Record<"a1" | "a2" | "b1", ReadingItem[]> = {
 };
 
 
-const WRITING_PROMPTS: Record<"a1" | "a2" | "b1", { sv: string; hintVi: string; hintEn: string; min: number; max: number }> = {
-  a1: {
-    sv: "Skriv ett kort SMS till din vän. Berätta vad du gör idag och fråga vad hen gör. (30-50 ord)",
-    hintVi: "Viết tin nhắn ngắn cho bạn: hôm nay bạn làm gì và hỏi bạn của bạn làm gì. (30-50 từ)",
-    hintEn: "Short text to a friend: what you are doing today and ask what they are doing. (30-50 words)",
-    min: 30,
-    max: 50,
-  },
-  a2: {
-    sv: "Skriv ett meddelande till din lärare och förklara varför du inte kunde komma till lektionen igår. Föreslå när du kan ta igen lektionen. (50-70 ord)",
-    hintVi: "Viết tin cho giáo viên giải thích vì sao vắng học hôm qua và đề xuất giờ học bù. (50-70 từ)",
-    hintEn: "Message to your teacher explaining why you missed yesterday's lesson and suggest a make-up time. (50-70 words)",
-    min: 50,
-    max: 70,
-  },
-  b1: {
-    sv: "Skriv ett e-postmeddelande till din hyresvärd på svenska. Förklara att ett rör i köket läcker och föreslå en tid när en rörmokare kan komma. (60-80 ord)",
-    hintVi: "Viết email cho chủ nhà: đường ống bếp bị rò rỉ, đề xuất giờ thợ đến sửa. (60-80 từ)",
-    hintEn: "Email to your landlord: a kitchen pipe is leaking, propose a time for a plumber. (60-80 words)",
-    min: 60,
-    max: 80,
-  },
+type WritingPrompt = { sv: string; hintVi: string; hintEn: string; min: number; max: number };
+type SpeakingPrompt = { sv: string; hintVi: string; hintEn: string; seconds: number };
+
+const WRITING_PROMPTS: Record<"a1" | "a2" | "b1", WritingPrompt[]> = {
+  a1: [
+    {
+      sv: "Skriv ett kort SMS till din vän. Berätta vad du gör idag och fråga vad hen gör. (30-50 ord)",
+      hintVi: "Viết tin nhắn ngắn cho bạn: hôm nay bạn làm gì và hỏi bạn của bạn làm gì. (30-50 từ)",
+      hintEn: "Short text to a friend: what you are doing today and ask what they are doing. (30-50 words)",
+      min: 30, max: 50,
+    },
+  ],
+  a2: [
+    {
+      sv: "Skriv ett meddelande till din lärare och förklara varför du inte kunde komma till lektionen igår. Föreslå när du kan ta igen lektionen. (50-70 ord)",
+      hintVi: "Viết tin cho giáo viên giải thích vì sao vắng học hôm qua và đề xuất giờ học bù. (50-70 từ)",
+      hintEn: "Message to your teacher explaining why you missed yesterday's lesson and suggest a make-up time. (50-70 words)",
+      min: 50, max: 70,
+    },
+  ],
+  b1: [
+    {
+      sv: "Skriv ett e-postmeddelande till din hyresvärd. Förklara att ett rör i köket läcker och föreslå en tid när en rörmokare kan komma. Använd 'eftersom' och 'därför'. (80-120 ord)",
+      hintVi: "Email cho chủ nhà: ống nước bếp rò rỉ, đề xuất giờ thợ đến sửa. Dùng 'eftersom' và 'därför'. (80-120 từ)",
+      hintEn: "Email to the landlord: kitchen pipe is leaking, propose a plumber time. Use 'eftersom' and 'därför'. (80-120 words)",
+      min: 80, max: 120,
+    },
+    {
+      sv: "Skriv en insändare till Hufvudstadsbladet om kollektivtrafiken i din stad. Ge minst två argument och ett konkret förslag. Använd 'å ena sidan / å andra sidan'. (100-140 ord)",
+      hintVi: "Viết thư ngỏ báo Hbl về giao thông công cộng: 2 lý do + 1 đề xuất. Dùng 'một mặt/mặt khác'. (100-140 từ)",
+      hintEn: "Write a reader's letter to Hbl about public transport: 2 arguments + 1 concrete proposal. Use 'on one hand / on the other'. (100-140 words)",
+      min: 100, max: 140,
+    },
+    {
+      sv: "Skriv en opinionstext om distansarbete. Ta ställning för eller emot och motivera med minst tre skäl. Avsluta med 'Sammanfattningsvis…'. (120-160 ord)",
+      hintVi: "Bài quan điểm về làm việc từ xa: ủng hộ hoặc phản đối + 3 lý do. Kết bằng 'Sammanfattningsvis…'. (120-160 từ)",
+      hintEn: "Opinion piece on remote work: for or against + at least 3 reasons. Close with 'Sammanfattningsvis…'. (120-160 words)",
+      min: 120, max: 160,
+    },
+    {
+      sv: "Skriv ett personligt brev där du söker en praktikplats på ett IT-företag i Vasa. Berätta om din bakgrund, dina styrkor och varför just detta företag. (100-140 ord)",
+      hintVi: "Thư ứng tuyển thực tập tại công ty IT ở Vaasa: nền tảng, điểm mạnh, lý do chọn công ty. (100-140 từ)",
+      hintEn: "Cover letter for an IT internship in Vasa: background, strengths, why this company. (100-140 words)",
+      min: 100, max: 140,
+    },
+  ],
 };
 
-const SPEAKING_PROMPTS: Record<"a1" | "a2" | "b1", { sv: string; hintVi: string; hintEn: string; seconds: number }> = {
-  a1: {
-    sv: "Berätta om din familj. Du har 20 sekunder.",
-    hintVi: "Kể về gia đình bạn trong 20 giây.",
-    hintEn: "Talk about your family for 20 seconds.",
-    seconds: 20,
-  },
-  a2: {
-    sv: "Berätta om en typisk dag i ditt liv. Du har 30 sekunder.",
-    hintVi: "Kể về một ngày điển hình của bạn trong 30 giây.",
-    hintEn: "Describe a typical day in your life for 30 seconds.",
-    seconds: 30,
-  },
-  b1: {
-    sv: "Berätta om dina fritidsintressen och varför du tycker om dem. Du har 30 sekunder.",
-    hintVi: "Kể về sở thích và lý do bạn thích chúng trong 30 giây.",
-    hintEn: "Talk about your hobbies and why you enjoy them for 30 seconds.",
-    seconds: 30,
-  },
+const SPEAKING_PROMPTS: Record<"a1" | "a2" | "b1", SpeakingPrompt[]> = {
+  a1: [
+    { sv: "Berätta om din familj. Du har 20 sekunder.", hintVi: "Kể về gia đình bạn trong 20 giây.", hintEn: "Talk about your family for 20 seconds.", seconds: 20 },
+  ],
+  a2: [
+    { sv: "Berätta om en typisk dag i ditt liv. Du har 30 sekunder.", hintVi: "Kể về một ngày điển hình của bạn trong 30 giây.", hintEn: "Describe a typical day in your life for 30 seconds.", seconds: 30 },
+  ],
+  b1: [
+    { sv: "Berätta om dina fritidsintressen och förklara varför de är viktiga för dig. (45 sekunder)", hintVi: "Kể về sở thích và giải thích vì sao chúng quan trọng với bạn (45s).", hintEn: "Talk about your hobbies and why they matter to you (45s).", seconds: 45 },
+    { sv: "Diskutera för- och nackdelar med att bo i en storstad jämfört med en småstad. (60 sekunder)", hintVi: "So sánh lợi/hại khi sống ở thành phố lớn vs. thị trấn nhỏ (60s).", hintEn: "Compare pros/cons of big-city vs small-town life (60s).", seconds: 60 },
+    { sv: "Ge din åsikt om distansarbete. Använd 'å ena sidan / å andra sidan'. (60 sekunder)", hintVi: "Cho ý kiến về làm việc từ xa - dùng 'một mặt/mặt khác' (60s).", hintEn: "Give your view on remote work - use 'on one hand/on the other' (60s).", seconds: 60 },
+    { sv: "Beskriv ett resmål du gärna vill besöka och motivera varför just det stället. (45 sekunder)", hintVi: "Kể về một địa điểm bạn muốn đến và lý do (45s).", hintEn: "Describe a place you want to visit and why (45s).", seconds: 45 },
+    { sv: "Berätta om ett problem i din stad och föreslå en lösning. (60 sekunder)", hintVi: "Nêu một vấn đề trong thành phố bạn và đề xuất giải pháp (60s).", hintEn: "Describe a problem in your city and propose a solution (60s).", seconds: 60 },
+  ],
 };
+
 
 const OPTION_LABELS = [
   { id: "true" as const, sv: "Sant" },
