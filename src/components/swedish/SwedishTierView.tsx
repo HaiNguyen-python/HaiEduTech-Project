@@ -1903,34 +1903,46 @@ const SimulatorReading = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
 
 const SimulatorWriting = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   const { t } = useLanguage();
-  const prompt = WRITING_PROMPTS[tierId] ?? WRITING_PROMPTS.b1;
+  const bank = WRITING_PROMPTS[tierId] ?? WRITING_PROMPTS.b1;
+  const [idx, setIdx] = useState(0);
+  const prompt = bank[idx];
   const [text, setText] = useState("");
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   const onTarget = words >= prompt.min && words <= prompt.max;
+  const nextPrompt = () => { setIdx((i) => (i + 1) % bank.length); setText(""); };
   return (
     <div className="space-y-3">
       <div className="rounded-lg border bg-muted/40 p-4 text-sm leading-relaxed">
-        <div className="mb-1 text-xs font-semibold text-muted-foreground">Skriftlig färdighet · {tierId.toUpperCase()}</div>
+        <div className="mb-1 flex items-center justify-between text-xs font-semibold text-muted-foreground">
+          <span>Skriftlig färdighet · {tierId.toUpperCase()}</span>
+          <span>{idx + 1} / {bank.length}</span>
+        </div>
         <p className="text-foreground">🇸🇪 {prompt.sv}</p>
         <p className="mt-1 text-xs italic text-muted-foreground">{t(prompt.hintVi, prompt.hintEn)}</p>
       </div>
       <Textarea value={text} onChange={(e) => setText(e.target.value)} rows={8} placeholder="Skriv ditt svar på svenska…" />
-      <div className="flex items-center justify-between text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
         <span className={onTarget ? "text-emerald-600" : "text-muted-foreground"}>
           {words} {t("từ", "words")} · {t("mục tiêu", "target")} {prompt.min}-{prompt.max} {onTarget && "✓"}
         </span>
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={words < prompt.min / 2}
-          onClick={() => toast({ title: t("Đã lưu nháp", "Draft saved"), description: t("Tiếp tục luyện trên trang YKI.", "Keep practising on the YKI page.") })}
-        >
-          {t("Lưu nháp", "Save draft")}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={words < prompt.min / 2}
+            onClick={() => toast({ title: t("Đã lưu nháp", "Draft saved"), description: t("Tiếp tục luyện trên trang YKI.", "Keep practising on the YKI page.") })}
+          >
+            {t("Lưu nháp", "Save draft")}
+          </Button>
+          {bank.length > 1 && (
+            <Button size="sm" variant="ghost" onClick={nextPrompt}>{t("Đề khác", "Next prompt")}</Button>
+          )}
+        </div>
       </div>
     </div>
   );
 };
+
 
 const SimulatorSpeaking = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   const { t } = useLanguage();
