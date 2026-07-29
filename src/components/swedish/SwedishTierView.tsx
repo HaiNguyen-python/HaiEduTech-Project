@@ -1980,10 +1980,24 @@ const SimulatorSpeaking = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-muted/40 p-4 text-sm leading-relaxed">
-        <div className="mb-1 text-xs font-semibold text-muted-foreground">Muntlig färdighet · {tierId.toUpperCase()}</div>
+        <div className="mb-1 flex items-center justify-between text-xs font-semibold text-muted-foreground">
+          <span>Muntlig färdighet · {tierId.toUpperCase()}</span>
+          <span>{idx + 1} / {bank.length}</span>
+        </div>
         <p className="text-foreground">🇸🇪 {prompt.sv}</p>
         <p className="mt-1 text-xs italic text-muted-foreground">{t(prompt.hintVi, prompt.hintEn)}</p>
+        {bank.length > 1 && (
+          <Button
+            size="sm"
+            variant="ghost"
+            className="mt-2 h-auto p-0 text-xs text-primary hover:bg-transparent"
+            onClick={() => { setIdx((i) => (i + 1) % bank.length); setElapsed(0); setRecording(false); }}
+          >
+            {t("→ Đề khác", "→ Next prompt")}
+          </Button>
+        )}
       </div>
+
       <div className="rounded-xl border bg-card p-5 text-center">
         <div className={`mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full ${recording ? "animate-pulse bg-rose-500/20 text-rose-500" : "bg-muted text-muted-foreground"}`}>
           <Mic className="h-7 w-7" />
