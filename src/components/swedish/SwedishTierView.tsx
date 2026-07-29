@@ -1730,8 +1730,9 @@ const SimulatorReading = ({ tierId }: { tierId: "a1" | "a2" | "b1" }) => {
           <span>Läsförståelse · {tierId.toUpperCase()}</span>
           <span>{idx + 1} / {bank.length}</span>
         </div>
-        <p className="text-sm leading-relaxed text-foreground">🇸🇪 {item.passageSv}</p>
-        <p className="mt-1 text-xs italic text-muted-foreground">{t(item.hintVi, item.hintEn)}</p>
+        <p className="text-sm leading-relaxed text-foreground whitespace-pre-line">🇸🇪 {item.passageSv}</p>
+        <p className="mt-2 text-xs italic text-muted-foreground">{t(item.hintVi, item.hintEn)}</p>
+
       </div>
       <div>
         <p className="mb-1 text-sm font-semibold">🇸🇪 {item.questionSv}</p>
