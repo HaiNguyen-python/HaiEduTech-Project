@@ -47,6 +47,9 @@ export const sampleEssays70PlusExtra2: SampleEssay[] = [
     },
     chartConfig: {
       type: "line",
+      xKey: "name",
+      yKeys: ["City A", "City B", "City C"],
+      yLabel: "kWh per month",
       data: [
         { name: "2000", "City A": 400, "City B": 300, "City C": 200 },
         { name: "2005", "City A": 500, "City B": 350, "City C": 240 },
@@ -91,6 +94,9 @@ export const sampleEssays70PlusExtra2: SampleEssay[] = [
     },
     chartConfig: {
       type: "bar",
+      xKey: "name",
+      yKeys: ["2010", "2022"],
+      yLabel: "% owning a bicycle",
       data: [
         { name: "Under 18", "2010": 70, "2022": 75 },
         { name: "18-30", "2010": 35, "2022": 65 },
