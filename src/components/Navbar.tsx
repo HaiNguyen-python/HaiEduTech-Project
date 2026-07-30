@@ -478,12 +478,10 @@ const Navbar = () => {
                             </Link>
                           )}
 
-                          {!isTeacher && (
-                            <button onClick={() => { setUpgradeOpen(true); setUserMenuOpen(false); }}
-                              className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors">
-                              <Crown className="w-3.5 h-3.5" /> {t("Nâng Cấp Tài Khoản", "Upgrade Account")}
-                            </button>
-                          )}
+                          <button onClick={() => { setUpgradeOpen(true); setUserMenuOpen(false); }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors">
+                            <Crown className="w-3.5 h-3.5" /> {t("Nâng Cấp Tài Khoản", "Upgrade Account")}
+                          </button>
                           <div className="border-t border-border my-1" />
                           <button onClick={() => { handleLogout(); setUserMenuOpen(false); }}
                             className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors">
