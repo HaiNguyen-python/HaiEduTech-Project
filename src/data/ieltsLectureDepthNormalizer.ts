@@ -693,6 +693,17 @@ const MIN_CHEATS = 6;
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
+// Signature text produced by the generic mk() lecture factories - these
+// examples say nothing lecture-specific and must be dropped, not padded around.
+const GENERIC_EXAMPLE_RE =
+  /apply the framework above|apply this framework to a past ielts prompt|apply the framework on a past paper|time yourself on a real cambridge|drill it on a real prompt|typical band 7\+ sentence pattern/i;
+
+function stripGenericExamples(current: Example[]): Example[] {
+  return current.filter(
+    e => !GENERIC_EXAMPLE_RE.test(`${e.context || ""} ${e.example || ""} ${e.explanation || ""}`),
+  );
+}
+
 function topUpExamples(current: Example[], pack: Example[]): Example[] {
   if (current.length >= MIN_EXAMPLES) return current;
   const seen = new Set(current.map(e => norm(e.example || "")));
@@ -780,7 +791,7 @@ export function normalizeLectureDepth(l: IeltsLecture): IeltsLecture {
   return {
     ...l,
     strategySteps: topUpSteps(l.strategySteps || [], pack.steps),
-    practicalExamples: topUpExamples(l.practicalExamples || [], pack.examples),
+    practicalExamples: topUpExamples(stripGenericExamples(l.practicalExamples || []), pack.examples),
     vocabHighlights: topUpVocab(l.vocabHighlights || [], pack.vocab),
     mistakesToAvoid: topUpMistakes(l.mistakesToAvoid || [], pack.mistakes),
     cheatSheetPoints: topUpCheats(l.cheatSheetPoints || [], pack.cheats),
