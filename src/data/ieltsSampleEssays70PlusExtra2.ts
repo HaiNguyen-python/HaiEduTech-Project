@@ -94,6 +94,9 @@ export const sampleEssays70PlusExtra2: SampleEssay[] = [
     },
     chartConfig: {
       type: "bar",
+      xKey: "name",
+      yKeys: ["2010", "2022"],
+      yLabel: "% owning a bicycle",
       data: [
         { name: "Under 18", "2010": 70, "2022": 75 },
         { name: "18-30", "2010": 35, "2022": 65 },
