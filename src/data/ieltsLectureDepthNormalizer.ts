@@ -685,6 +685,46 @@ function packFor(id: string, skill?: string): Pack {
 // Normalizer
 // ===========================================================================
 
+// Two legacy lectures still carry a "diagnose / apply / review" self-study
+// template instead of real exam theory. Replace them outright.
+const GENERIC_STEP_TITLES = new Set([
+  "Diagnose your weakness",
+  "Apply the targeted technique",
+  "Review and refine",
+  "Understand the goal of this lesson",
+]);
+
+const STEP_OVERRIDES: Record<string, StrategyStep[]> = {
+  "writing-task2-problem-solution": [
+    step(1, "Split the prompt into problem-side and solution-side", "Tách đề thành phần vấn đề và phần giải pháp",
+      "Underline the problem noun phrase and check whether the task asks for causes, solutions, or both - the essay must mirror that split exactly.",
+      "Gạch chân cụm danh từ chỉ vấn đề và xác định đề hỏi nguyên nhân, giải pháp hay cả hai - bố cục bài phải phản chiếu đúng như vậy."),
+    step(2, "Choose two problems you can actually solve", "Chọn hai vấn đề mà bạn thực sự giải quyết được",
+      "Each solution in Body 2 must answer a problem named in Body 1. Mismatched problem-solution pairs are the biggest Task Response leak in this essay type.",
+      "Mỗi giải pháp ở Body 2 phải trả lời một vấn đề đã nêu ở Body 1. Ghép lệch vấn đề - giải pháp là lỗi mất điểm Task Response lớn nhất."),
+    step(3, "Write solutions with agent + mechanism + outcome", "Viết giải pháp theo công thức chủ thể + cơ chế + kết quả",
+      "'Municipal authorities (agent) could introduce congestion charging (mechanism), which would price short car journeys off the road (outcome).'",
+      "'Chính quyền thành phố (chủ thể) có thể áp phí tắc đường (cơ chế), qua đó loại bỏ các chuyến xe ngắn (kết quả).'"),
+    step(4, "Evaluate feasibility in one clause per solution", "Đánh giá tính khả thi bằng một mệnh đề cho mỗi giải pháp",
+      "Adding 'though this would require sustained public funding' shows critical judgement, which lifts Task Response from 6.5 to 7.5.",
+      "Thêm 'dù điều này cần ngân sách công duy trì lâu dài' thể hiện tư duy phản biện, nâng Task Response từ 6.5 lên 7.5."),
+  ],
+  "speaking-part2-abstract-topics": [
+    step(1, "Anchor the abstract cue card to one concrete case", "Neo đề trừu tượng vào một trường hợp cụ thể",
+      "'Describe a change that improved your life' becomes 'the month I switched from night shifts to a 9-to-5' - abstractions are impossible to narrate for two minutes.",
+      "'Tả một thay đổi giúp cuộc sống tốt hơn' thành 'tháng tôi chuyển từ ca đêm sang giờ hành chính' - ý trừu tượng không thể kể đủ 2 phút."),
+    step(2, "Define the abstract term in your opening line", "Định nghĩa khái niệm trừu tượng ngay câu mở",
+      "'By success I really mean feeling in control of my own time, rather than earning more.' This frames the whole long turn and adds a complex clause immediately.",
+      "'Với tôi, thành công nghĩa là làm chủ thời gian của mình, chứ không phải kiếm nhiều tiền hơn.' Câu này định khung cả bài và tạo mệnh đề phức ngay lập tức."),
+    step(3, "Alternate concrete narration and abstract reflection", "Xen kẽ kể chuyện cụ thể và suy ngẫm trừu tượng",
+      "Two sentences of story, then one sentence of meaning. This rhythm keeps the content vivid while still demonstrating abstract, Band 8 lexis.",
+      "Hai câu kể chuyện, rồi một câu rút ý nghĩa. Nhịp này giữ nội dung sinh động mà vẫn thể hiện từ vựng trừu tượng Band 8."),
+    step(4, "Reserve the last 20 seconds for reflection", "Dành 20 giây cuối để suy ngẫm",
+      "Close with what the experience revealed ('what it taught me was that…'), which signals you controlled the full two minutes.",
+      "Kết bằng điều bạn rút ra ('điều đó dạy tôi rằng…'), cho thấy bạn kiểm soát trọn 2 phút."),
+  ],
+};
+
 const MIN_EXAMPLES = 4;
 const MIN_VOCAB = 8;
 const MIN_MISTAKES = 3;
@@ -790,7 +830,12 @@ export function normalizeLectureDepth(l: IeltsLecture): IeltsLecture {
 
   return {
     ...l,
-    strategySteps: topUpSteps(l.strategySteps || [], pack.steps),
+    strategySteps:
+      STEP_OVERRIDES[l.id] ||
+      topUpSteps(
+        (l.strategySteps || []).filter(s => !GENERIC_STEP_TITLES.has((s.title || "").trim())),
+        pack.steps,
+      ),
     practicalExamples: topUpExamples(stripGenericExamples(l.practicalExamples || []), pack.examples),
     vocabHighlights: topUpVocab(l.vocabHighlights || [], pack.vocab),
     mistakesToAvoid: topUpMistakes(l.mistakesToAvoid || [], pack.mistakes),
