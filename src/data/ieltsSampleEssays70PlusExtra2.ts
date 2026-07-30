@@ -47,6 +47,9 @@ export const sampleEssays70PlusExtra2: SampleEssay[] = [
     },
     chartConfig: {
       type: "line",
+      xKey: "name",
+      yKeys: ["City A", "City B", "City C"],
+      yLabel: "kWh per month",
       data: [
         { name: "2000", "City A": 400, "City B": 300, "City C": 200 },
         { name: "2005", "City A": 500, "City B": 350, "City C": 240 },
