@@ -772,6 +772,15 @@ function topUpVocab(current: VocabHighlight[], pack: VocabHighlight[]): VocabHig
   return out;
 }
 
+// Leftovers from the same legacy self-study template - they carry no
+// exam-specific reasoning, so drop them before topping up.
+const GENERIC_MISTAKE_RE =
+  /skipping the review step|not practising enough|rushing through the lesson|ignoring the theory/i;
+
+function stripGenericMistakes(current: MistakeToAvoid[]): MistakeToAvoid[] {
+  return current.filter(m => !GENERIC_MISTAKE_RE.test(m.mistake || ""));
+}
+
 function topUpMistakes(current: MistakeToAvoid[], pack: MistakeToAvoid[]): MistakeToAvoid[] {
   if (current.length >= MIN_MISTAKES) return current;
   const seen = new Set(current.map(m => norm(m.mistake)));
@@ -838,7 +847,7 @@ export function normalizeLectureDepth(l: IeltsLecture): IeltsLecture {
       ),
     practicalExamples: topUpExamples(stripGenericExamples(l.practicalExamples || []), pack.examples),
     vocabHighlights: topUpVocab(l.vocabHighlights || [], pack.vocab),
-    mistakesToAvoid: topUpMistakes(l.mistakesToAvoid || [], pack.mistakes),
+    mistakesToAvoid: topUpMistakes(stripGenericMistakes(l.mistakesToAvoid || []), pack.mistakes),
     cheatSheetPoints: topUpCheats(l.cheatSheetPoints || [], pack.cheats),
   };
 }
