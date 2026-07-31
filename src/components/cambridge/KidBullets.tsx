@@ -4,6 +4,7 @@
  * young learners never face a wall of text.
  */
 import { ReactNode } from "react";
+import { kidSpeak } from "@/lib/cambridgeKidSpeak";
 
 interface KidBulletsProps {
   text: string;
@@ -17,7 +18,10 @@ interface KidBulletsProps {
   minSplitLength?: number;
   /** Optional prefix rendered before the first bullet (e.g. an emoji) */
   leading?: string;
+  /** Cambridge level - drives how strongly the wording is simplified */
+  level?: string;
 }
+
 
 /** Split a paragraph into short readable chunks. */
 export const splitToBullets = (raw: string, minSplitLength = 110): string[] => {
