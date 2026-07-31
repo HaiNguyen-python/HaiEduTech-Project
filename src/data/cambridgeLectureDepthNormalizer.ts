@@ -451,7 +451,10 @@ export function normalizeCambridgeLectureDepth(
     const extra = buildSteps(lecture.skill, lecture.level, topic, topicVi).filter(
       s => !existing.has(s.title.toLowerCase().trim())
     );
-    steps = [...steps, ...extra.slice(0, MIN_STEPS - steps.length)];
+    steps = [
+      ...steps,
+      ...extra.slice(0, MIN_STEPS - steps.length).map((s, i) => ({ ...s, step: steps.length + i + 1 })),
+    ];
   }
   steps = steps.map((s, i) => ({ ...s, step: i + 1 }));
 
