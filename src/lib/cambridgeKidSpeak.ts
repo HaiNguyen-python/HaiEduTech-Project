@@ -28,7 +28,7 @@ const GLOSSARY_EN: [RegExp, string][] = [
   [/\bproductive skills?\b/gi, "speaking and writing"],
   [/\breceptive skills?\b/gi, "listening and reading"],
   [/\bacquisition\b/gi, "learning"],
-  [/\butteranc(e|es)\b/gi, "sentence$1".replace("$1", "")],
+  [/\butteranc(?:e|es)\b/gi, "sentence"],
   [/\bNative speakers store language as chunks, not single words\.?/gi,
     "Good speakers remember whole little phrases, not just one word."],
 ];
@@ -44,7 +44,7 @@ const GLOSSARY_KIDS: [RegExp, string][] = [
   [/\bcandidates?\b/gi, "children"],
   [/\bexaminer\b/gi, "friendly teacher in the test"],
   [/\bassessment\b/gi, "test"],
-  [/\bcompetenc(y|ies)\b/gi, "skill$1".replace("$1", "s")],
+  [/\bcompetenc(?:y|ies)\b/gi, "skills"],
   [/\bconsolidat(e|ion)\b/gi, "practise again"],
   [/\bvocabulary items?\b/gi, "words"],
   [/\bproduce your own example sentences\b/gi, "make your own sentences"],
