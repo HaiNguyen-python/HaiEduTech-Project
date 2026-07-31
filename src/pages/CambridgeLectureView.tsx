@@ -16,6 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingBalloons from "@/components/FloatingBalloons";
+import KidBullets from "@/components/cambridge/KidBullets";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG } from "@/data/cambridgeLecturesData";
 import { enrichCambridgeLecture } from "@/lib/cambridgeEnrichment";
@@ -130,9 +131,12 @@ const CambridgeLectureView = () => {
             <h1 className="text-slate-900 font-bold mb-3" style={{ fontSize: "26px", lineHeight: "1.4" }}>
               {t(lecture.titleVi, lecture.title)}
             </h1>
-            <p className="text-slate-700" style={{ fontSize: "18px", lineHeight: "1.8" }}>
-              {t(lecture.descriptionVi, lecture.description)}
-            </p>
+            <KidBullets
+              text={t(lecture.descriptionVi, lecture.description)}
+              marker="🔹"
+              className="text-slate-700"
+              style={{ fontSize: "18px", lineHeight: "1.8" }}
+            />
 
             {/* Lesson context bar - short & visual */}
             <div className="mt-5 flex items-center gap-3 p-4 rounded-2xl bg-white/80 border-2 border-amber-200 shadow-sm">
@@ -155,9 +159,12 @@ const CambridgeLectureView = () => {
                 <Target className="w-5 h-5 text-emerald-600" />
                 <span className="text-sm font-bold text-emerald-700 uppercase tracking-wide">{t("Mục tiêu học tập", "Learning Objective")}</span>
               </div>
-              <p className="text-slate-700" style={{ fontSize: "18px", lineHeight: "1.8" }}>
-                {t(lecture.learningObjectiveVi, lecture.learningObjective)}
-              </p>
+              <KidBullets
+                text={t(lecture.learningObjectiveVi, lecture.learningObjective)}
+                marker="✅"
+                className="text-slate-700"
+                style={{ fontSize: "17px", lineHeight: "1.8" }}
+              />
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}
@@ -167,9 +174,12 @@ const CambridgeLectureView = () => {
                 <FileSearch className="w-5 h-5 text-blue-600" />
                 <span className="text-sm font-bold text-blue-700 uppercase tracking-wide">{t("Mẫu đề thi", "Exam Pattern")}</span>
               </div>
-              <p className="text-slate-700" style={{ fontSize: "18px", lineHeight: "1.8" }}>
-                {t(lecture.examPatternVi, lecture.examPattern)}
-              </p>
+              <KidBullets
+                text={t(lecture.examPatternVi, lecture.examPattern)}
+                marker="📝"
+                className="text-slate-700"
+                style={{ fontSize: "17px", lineHeight: "1.8" }}
+              />
             </motion.div>
           </div>
 
@@ -182,9 +192,12 @@ const CambridgeLectureView = () => {
               <span className="text-3xl">👨‍🏫</span>
               <div>
                 <p className="text-sm font-bold text-violet-700 mb-1.5">Teacher Hai says:</p>
-                <p className="text-slate-900" style={{ fontSize: "20px", lineHeight: "1.8" }}>
-                  {t(lecture.welcomeMessageVi, lecture.welcomeMessage)}
-                </p>
+                <KidBullets
+                  text={t(lecture.welcomeMessageVi, lecture.welcomeMessage)}
+                  marker="💬"
+                  className="text-slate-900"
+                  style={{ fontSize: "19px", lineHeight: "1.8" }}
+                />
               </div>
             </div>
           </motion.div>
@@ -232,7 +245,14 @@ const CambridgeLectureView = () => {
                   </div>
                   <div>
                     <p className="text-slate-900 font-semibold" style={{ fontSize: "18px" }}>{t(s.titleVi, s.title)}</p>
-                    <p className="text-slate-700 text-sm mt-0.5" style={{ lineHeight: "1.8" }}>{t(s.detailVi, s.detail)}</p>
+                    <div className="mt-1">
+                      <KidBullets
+                        text={t(s.detailVi, s.detail)}
+                        marker="👉"
+                        className="text-slate-700"
+                        style={{ fontSize: "16px", lineHeight: "1.75" }}
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -247,9 +267,12 @@ const CambridgeLectureView = () => {
           </div>
           {showParentInfo && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="mb-6 p-5 rounded-xl bg-[#A855F7]/10 border border-[#A855F7]/20">
-              <p className="text-purple-800" style={{ fontSize: "18px", lineHeight: "1.8" }}>
-                {t(lecture.parentInfoVi, lecture.parentInfo)}
-              </p>
+              <KidBullets
+                text={t(lecture.parentInfoVi, lecture.parentInfo)}
+                marker="👨‍👩‍👧"
+                className="text-purple-800"
+                style={{ fontSize: "17px", lineHeight: "1.8" }}
+              />
             </motion.div>
           )}
 
@@ -284,17 +307,16 @@ const CambridgeLectureView = () => {
                         {t(d.headingVi, d.heading)}
                       </h3>
                     </div>
-                    <div className="space-y-2.5">
+                    <ul className="space-y-2">
                       {sentences.map((s, si) => (
-                        <p
-                          key={si}
-                          className="text-slate-700"
-                          style={{ fontSize: "14px", lineHeight: "1.7" }}
-                        >
-                          {s}
-                        </p>
+                        <li key={si} className="flex items-start gap-2">
+                          <span className="mt-[3px] text-xs opacity-70 select-none">🔹</span>
+                          <span className="text-slate-700" style={{ fontSize: "14px", lineHeight: "1.7" }}>
+                            {s}
+                          </span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                 );
               })}
@@ -349,9 +371,14 @@ const CambridgeLectureView = () => {
                         <p className="text-purple-700 text-xs font-bold uppercase tracking-wide mb-1">
                           {t(`Quy tắc #${i + 1}`, `Rule #${i + 1}`)}
                         </p>
-                        <p className="text-slate-900 font-semibold mb-2" style={{ fontSize: "18px", lineHeight: "1.7" }}>
-                          {t(rule.ruleVi, rule.rule)}
-                        </p>
+                        <div className="mb-2">
+                          <KidBullets
+                            text={t(rule.ruleVi, rule.rule)}
+                            marker="📐"
+                            className="text-slate-900 font-semibold"
+                            style={{ fontSize: "18px", lineHeight: "1.7" }}
+                          />
+                        </div>
                         <div className="p-3 rounded-lg bg-white/70 border border-slate-200">
                           <p className="text-amber-700 text-xs font-bold uppercase tracking-wide mb-1">{t("Ví dụ", "Example")}</p>
                           <p className="text-slate-700 text-sm italic">"{rule.example}"</p>
@@ -391,16 +418,26 @@ const CambridgeLectureView = () => {
                           <AlertTriangle className="w-5 h-5 text-red-600" />
                           <span className="text-red-700 font-bold text-sm uppercase tracking-wide">{t(`Lỗi #${i + 1}: Sai phổ biến`, `Mistake #${i + 1}: Common pitfall`)}</span>
                         </div>
-                        <p className="text-red-800 mb-3" style={{ fontSize: "18px", lineHeight: "1.8" }}>
-                          ❌ {t(w.mistakeVi, w.mistake)}
-                        </p>
+                        <div className="mb-3">
+                          <KidBullets
+                            text={t(w.mistakeVi, w.mistake)}
+                            marker="❌"
+                            leading="❌"
+                            className="text-red-800"
+                            style={{ fontSize: "17px", lineHeight: "1.8" }}
+                          />
+                        </div>
                         <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                           <p className="text-emerald-700 text-xs font-bold uppercase tracking-wide mb-1">
                             {t("Cách làm đúng", "The fix")}
                           </p>
-                          <p className="text-emerald-800" style={{ fontSize: "18px", lineHeight: "1.8" }}>
-                            ✅ {t(w.tipVi, w.tip)}
-                          </p>
+                          <KidBullets
+                            text={t(w.tipVi, w.tip)}
+                            marker="✅"
+                            leading="✅"
+                            className="text-emerald-800"
+                            style={{ fontSize: "17px", lineHeight: "1.8" }}
+                          />
                         </div>
                       </div>
                     </div>
@@ -450,9 +487,12 @@ const CambridgeLectureView = () => {
                             {isContextual ? t("Ngữ cảnh / Mô tả", "Context / Picture") : t("Yêu cầu", "Instruction")}
                           </span>
                         </div>
-                        <p className="text-amber-900" style={{ fontSize: "16px", lineHeight: "1.7" }}>
-                          {instructionText}
-                        </p>
+                        <KidBullets
+                          text={instructionText}
+                          marker="🔸"
+                          className="text-amber-900"
+                          style={{ fontSize: "16px", lineHeight: "1.7" }}
+                        />
                       </div>
 
                       {/* Actual question prompt */}
@@ -508,9 +548,12 @@ const CambridgeLectureView = () => {
                             <Lightbulb className="w-4 h-4 text-amber-600" />
                             {t("Giải thích của thầy Hải", "Teacher Hai's Explanation")}
                           </p>
-                          <p className="text-emerald-900" style={{ fontSize: "15px", lineHeight: "1.8" }}>
-                            {t(p.explanationVi, p.explanation)}
-                          </p>
+                          <KidBullets
+                            text={t(p.explanationVi, p.explanation)}
+                            marker="💡"
+                            className="text-emerald-900"
+                            style={{ fontSize: "15px", lineHeight: "1.8" }}
+                          />
                         </motion.div>
                       )}
                     </CardContent>
