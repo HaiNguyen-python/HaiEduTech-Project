@@ -117,8 +117,8 @@ export const kidSpeak = (raw: string, level: KidLevel = "starters"): string => {
   // Fix a/an after word swaps (e.g. "an examiner" -> "an friendly teacher").
   text = text
     .replace(/\ban (?=[bcdfgjklmnpqrstvwxyz])/gi, (m) => (m[0] === "A" ? "A " : "a "))
-    .replace(/\ba (?=[aeiou])/g, "an ")
-    .replace(/\bA (?=[aeiou])/g, "An ");
+    .replace(/\ba (?=[aeio])/g, "an ")
+    .replace(/\bA (?=[AaEeIiOo])/g, "An ");
 
   if (!young) return text;
 
