@@ -23,14 +23,29 @@ interface KidBulletsProps {
 }
 
 
+/** Placeholder used while quoted spans are protected from sentence splitting. */
+const Q_OPEN = "\uE000";
+const Q_CLOSE = "\uE001";
+
+/** Hide sentence-ending punctuation inside quotes so quotes stay in one bullet. */
+const maskQuotes = (s: string) =>
+  s.replace(/["“”'']([^"“”]{0,300}?)["“”'']/g, (m) =>
+    m.replace(/\./g, Q_OPEN).replace(/\?/g, Q_CLOSE)
+  );
+
+const unmaskQuotes = (s: string) =>
+  s.split(Q_OPEN).join(".").split(Q_CLOSE).join("?");
+
 /** Split a paragraph into short readable chunks. */
 export const splitToBullets = (raw: string, minSplitLength = 110): string[] => {
   const text = (raw || "").trim();
   if (!text) return [];
   if (text.length < minSplitLength) return [text];
 
+  const masked = maskQuotes(text);
+
   // 1) Split on existing separators authors already use.
-  let parts = text
+  let parts = masked
     .split(/\s+(?:→|->|·|•)\s+/g)
     .flatMap((chunk) => chunk.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹ0-9"“(])/g))
     .map((s) => s.trim())
@@ -46,8 +61,24 @@ export const splitToBullets = (raw: string, minSplitLength = 110): string[] => {
       : [chunk]
   );
 
-  return parts.length ? parts : [text];
+  // 3) Merge very short fragments back into the previous bullet so children
+  //    never see a dangling half-sentence on its own line.
+  const merged: string[] = [];
+  for (const part of parts) {
+    const clean = unmaskQuotes(part);
+    const prev = merged[merged.length - 1];
+    const tooShort = clean.replace(/[^A-Za-zÀ-ỹ0-9]/g, "").length < 18;
+    const opensQuote = prev ? (prev.match(/["“”]/g)?.length ?? 0) % 2 === 1 : false;
+    if (prev && (tooShort || opensQuote)) {
+      merged[merged.length - 1] = `${prev} ${clean}`.replace(/\s{2,}/g, " ");
+    } else {
+      merged.push(clean);
+    }
+  }
+
+  return merged.length ? merged : [text];
 };
+
 
 const KidBullets = ({
   text,
