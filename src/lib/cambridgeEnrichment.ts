@@ -99,7 +99,7 @@ const TARGET_QUIZ = 8;
 const TARGET_RULES = 6;
 const TARGET_WATCHOUT = 4;
 const TARGET_VOCAB = 10;
-const TARGET_PRACTICE = 5;
+const TARGET_PRACTICE = 6;
 const TARGET_STEPS = 5;
 
 function pickDistractors<T>(pool: T[], correct: T, count: number, key: (x: T) => string): T[] {
