@@ -132,6 +132,7 @@ const CambridgeLectureView = () => {
               {t(lecture.titleVi, lecture.title)}
             </h1>
             <KidBullets
+              level={lecture.level}
               text={t(lecture.descriptionVi, lecture.description)}
               marker="🔹"
               className="text-slate-700"
@@ -160,6 +161,7 @@ const CambridgeLectureView = () => {
                 <span className="text-sm font-bold text-emerald-700 uppercase tracking-wide">{t("Mục tiêu học tập", "Learning Objective")}</span>
               </div>
               <KidBullets
+                level={lecture.level}
                 text={t(lecture.learningObjectiveVi, lecture.learningObjective)}
                 marker="✅"
                 className="text-slate-700"
@@ -175,6 +177,7 @@ const CambridgeLectureView = () => {
                 <span className="text-sm font-bold text-blue-700 uppercase tracking-wide">{t("Mẫu đề thi", "Exam Pattern")}</span>
               </div>
               <KidBullets
+                level={lecture.level}
                 text={t(lecture.examPatternVi, lecture.examPattern)}
                 marker="📝"
                 className="text-slate-700"
@@ -193,6 +196,7 @@ const CambridgeLectureView = () => {
               <div>
                 <p className="text-sm font-bold text-violet-700 mb-1.5">Teacher Hai says:</p>
                 <KidBullets
+                  level={lecture.level}
                   text={t(lecture.welcomeMessageVi, lecture.welcomeMessage)}
                   marker="💬"
                   className="text-slate-900"
@@ -247,6 +251,7 @@ const CambridgeLectureView = () => {
                     <p className="text-slate-900 font-semibold" style={{ fontSize: "18px" }}>{t(s.titleVi, s.title)}</p>
                     <div className="mt-1">
                       <KidBullets
+                        level={lecture.level}
                         text={t(s.detailVi, s.detail)}
                         marker="👉"
                         className="text-slate-700"
@@ -268,6 +273,7 @@ const CambridgeLectureView = () => {
           {showParentInfo && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="mb-6 p-5 rounded-xl bg-[#A855F7]/10 border border-[#A855F7]/20">
               <KidBullets
+                level={lecture.level}
                 text={t(lecture.parentInfoVi, lecture.parentInfo)}
                 marker="👨‍👩‍👧"
                 className="text-purple-800"
@@ -373,6 +379,7 @@ const CambridgeLectureView = () => {
                         </p>
                         <div className="mb-2">
                           <KidBullets
+                            level={lecture.level}
                             text={t(rule.ruleVi, rule.rule)}
                             marker="📐"
                             className="text-slate-900 font-semibold"
@@ -420,6 +427,7 @@ const CambridgeLectureView = () => {
                         </div>
                         <div className="mb-3">
                           <KidBullets
+                            level={lecture.level}
                             text={t(w.mistakeVi, w.mistake)}
                             marker="❌"
                             leading="❌"
@@ -432,6 +440,7 @@ const CambridgeLectureView = () => {
                             {t("Cách làm đúng", "The fix")}
                           </p>
                           <KidBullets
+                            level={lecture.level}
                             text={t(w.tipVi, w.tip)}
                             marker="✅"
                             leading="✅"
@@ -488,6 +497,7 @@ const CambridgeLectureView = () => {
                           </span>
                         </div>
                         <KidBullets
+                          level={lecture.level}
                           text={instructionText}
                           marker="🔸"
                           className="text-amber-900"
@@ -549,6 +559,7 @@ const CambridgeLectureView = () => {
                             {t("Giải thích của thầy Hải", "Teacher Hai's Explanation")}
                           </p>
                           <KidBullets
+                            level={lecture.level}
                             text={t(p.explanationVi, p.explanation)}
                             marker="💡"
                             className="text-emerald-900"
