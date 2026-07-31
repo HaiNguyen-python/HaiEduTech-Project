@@ -56,8 +56,10 @@ const KidBullets = ({
   style = { fontSize: "17px", lineHeight: "1.75" },
   minSplitLength = 110,
   leading,
+  level,
 }: KidBulletsProps) => {
-  const bullets = splitToBullets(text, minSplitLength);
+  const bullets = splitToBullets(kidSpeak(text, level), minSplitLength);
+
   if (bullets.length === 0) return null;
 
   if (bullets.length === 1) {
