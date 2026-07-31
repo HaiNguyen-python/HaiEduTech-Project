@@ -919,6 +919,7 @@ import { cambridgeLecturesGrammar2 } from "./cambridgeLecturesGrammar2";
 import { cambridgeLecturesGrammar3 } from "./cambridgeLecturesGrammar3";
 import { applyKetBoost } from "./cambridgeKetPracticeBoost";
 import { expandCambridgeLecture } from "./cambridgeLectureExpander";
+import { dedupeCambridgeLectureIds, normalizeCambridgeLectureDepth } from "./cambridgeLectureDepthNormalizer";
 
 const rawCambridgeLectures: CambridgeLecture[] = [
   startersColors,
@@ -953,6 +954,7 @@ const rawCambridgeLectures: CambridgeLecture[] = [
 ];
 
 // Merge KET boost + universal level-aware breadth/depth expander into every lecture.
-export const allCambridgeLectures: CambridgeLecture[] = rawCambridgeLectures
+export const allCambridgeLectures: CambridgeLecture[] = dedupeCambridgeLectureIds(rawCambridgeLectures)
   .map(applyKetBoost)
-  .map(expandCambridgeLecture);
+  .map(expandCambridgeLecture)
+  .map(normalizeCambridgeLectureDepth);
