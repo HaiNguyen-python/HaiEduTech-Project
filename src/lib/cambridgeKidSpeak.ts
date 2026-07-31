@@ -122,14 +122,19 @@ export const kidSpeak = (raw: string, level: KidLevel = "starters"): string => {
 
   if (!young) return text;
 
-  // Break very long sentences so kids never face a 200-character wall.
+  // Break very long sentences so kids never face a 200-character wall,
+  // but never cut inside a quoted worked example.
+  const QM = "\uE002";
+  const masked = text.replace(/["“”]([^"“”]{0,300}?)["“”]/g, (m) =>
+    m.replace(/([.!?])/g, QM)
+  );
   const limit = 140;
-  const sentences = text
+  const sentences = masked
     .split(/(?<=[.!?])\s+/)
     .flatMap((s) => splitLongSentence(s.trim(), limit))
     .filter(Boolean);
 
-  return sentences.join(" ");
+  return sentences.join(" ").split(QM).join(".");
 };
 
 export default kidSpeak;
