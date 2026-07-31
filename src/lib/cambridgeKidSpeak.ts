@@ -114,6 +114,12 @@ export const kidSpeak = (raw: string, level: KidLevel = "starters"): string => {
   // Remove double spaces created by replacements.
   text = text.replace(/\s{2,}/g, " ").replace(/\s+([.,!?])/g, "$1");
 
+  // Fix a/an after word swaps (e.g. "an examiner" -> "an friendly teacher").
+  text = text
+    .replace(/\ban (?=[bcdfgjklmnpqrstvwxyz])/gi, (m) => (m[0] === "A" ? "A " : "a "))
+    .replace(/\ba (?=[aeiou])/g, "an ")
+    .replace(/\bA (?=[aeiou])/g, "An ");
+
   if (!young) return text;
 
   // Break very long sentences so kids never face a 200-character wall.
