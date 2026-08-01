@@ -13,7 +13,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
 import { playFinnishTts } from "@/lib/finnishTts";
 import { playSwedishTts } from "@/lib/swedishTts";
-import { generateSwedishIpa } from "@/lib/swedishIpa";
+import { transcribeSwedishSentence, swedishSoundTipsFor } from "@/lib/swedishSentenceIpa";
 import { supabase } from "@/integrations/supabase/client";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 
