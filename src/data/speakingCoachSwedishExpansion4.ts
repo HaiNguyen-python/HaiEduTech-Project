@@ -20,7 +20,7 @@ const b1Travel: SpeakingTheme = {
 };
 
 const b2Climate: SpeakingTheme = {
-  id: "sv-climate", name: "Klimat & miljö", nameVi: "Khí hậu & môi trường", icon: "🌍", level: "B2",
+  id: "sv-climate", name: "Hållbarhet & energi", nameVi: "Phát triển bền vững & năng lượng", icon: "♻️", level: "B2",
   sentences: [
     { id: "sv-cl1", text: "Klimatförändringarna påverkar redan svenska vintrar tydligt.", translation: "Biến đổi khí hậu đã rõ rệt ảnh hưởng đến mùa đông Thụy Điển.", difficulty: "hard", theme: "environment" },
     { id: "sv-cl2", text: "Vi måste minska våra utsläpp av växthusgaser drastiskt.", translation: "Chúng ta phải giảm mạnh phát thải khí nhà kính.", difficulty: "hard", theme: "environment" },
