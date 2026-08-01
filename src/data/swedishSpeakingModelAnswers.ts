@@ -11,6 +11,8 @@ export interface SwedishSpeakingModelAnswer {
   bandNote: string; // why this answer reaches the target band
 }
 
+import { SWEDISH_SPEAKING_MODEL_ANSWERS_EXPANSION } from "./swedishSpeakingModelAnswersExpansion";
+
 /** Keyed by SwedishSpeakingPrompt.id */
 export const SWEDISH_SPEAKING_MODEL_ANSWERS: Record<string, SwedishSpeakingModelAnswer> = {
   // ─── A1 ───
@@ -78,4 +80,5 @@ export const SWEDISH_SPEAKING_MODEL_ANSWERS: Record<string, SwedishSpeakingModel
     vi: "Tôi nghĩ học từ xa có cả ưu và nhược. Ưu là học sinh học mọi lúc mọi nơi, nhược là mất tương tác xã hội với bạn. Hơn nữa dễ mất động lực nếu không có lịch rõ và hỗ trợ ở nhà. Vì vậy tôi đề xuất trường kết hợp lớp trực tiếp và số — vừa linh hoạt vừa có cộng đồng.",
     bandNote: "B1: 'medan / dessutom / därför' chuỗi liên từ logic — Coherence cao.",
   },
+  ...SWEDISH_SPEAKING_MODEL_ANSWERS_EXPANSION,
 };
