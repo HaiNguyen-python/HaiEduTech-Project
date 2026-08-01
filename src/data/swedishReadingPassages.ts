@@ -993,3 +993,7 @@ SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION_2);
 // ─── Expansion 3: extra A1/A2 passages + YKI-style question formats ───
 import { SWEDISH_READING_PASSAGES_EXPANSION_3 } from "./swedishReadingPassagesExpansion3";
 SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION_3);
+
+// ─── Expansion pack 4 (A1-B1, native sv questions) ───
+import { SWEDISH_READING_PASSAGES_EXPANSION_4 } from "./swedishReadingPassagesExpansion4";
+SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION_4);
