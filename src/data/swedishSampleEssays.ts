@@ -18,6 +18,10 @@ export interface SwedishSampleEssay {
   highlights: string[];
 }
 
+import { SWEDISH_SAMPLE_ESSAYS_EXPANSION } from "./swedishSampleEssaysExpansion";
+
+
+
 export const SWEDISH_SAMPLE_ESSAYS: SwedishSampleEssay[] = [
   // ───────────────────────────── A1 ─────────────────────────────
   {
