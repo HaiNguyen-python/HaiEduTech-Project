@@ -264,7 +264,7 @@ export const SWEDISH_LISTENING_EXERCISES_EXPANSION_3: SwedishListeningExercise[]
     recommendedRate: 0.85,
   },
   {
-    id: "lis-a1-vader-idag",
+    id: "lis-a1-vaderprognos-dagen",
     level: "A1",
     titleVi: "Thời tiết hôm nay",
     titleEn: "Today's weather",
