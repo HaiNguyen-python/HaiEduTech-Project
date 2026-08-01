@@ -20,7 +20,7 @@ const b1: SpeakingTheme[] = [
     ],
   },
   {
-    id: "sv-money", name: "Ekonomi & budget", nameVi: "Tài chính & chi tiêu", icon: "💰", level: "B1",
+    id: "sv-budget", name: "Ekonomi & budget", nameVi: "Tài chính & chi tiêu", icon: "💰", level: "B1",
     sentences: [
       { id: "sv-mo-b1", text: "Jag gör en budget i början av varje månad.", translation: "Đầu mỗi tháng tôi lập ngân sách.", difficulty: "hard", theme: "money" },
       { id: "sv-mo-b2", text: "Hyran äter upp nästan halva min lön.", translation: "Tiền thuê nhà chiếm gần một nửa lương của tôi.", difficulty: "hard", theme: "money" },
