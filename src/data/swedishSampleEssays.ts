@@ -489,4 +489,5 @@ export const SWEDISH_SAMPLE_ESSAYS: SwedishSampleEssay[] = [
       "Khuyến nghị giải pháp thực tế (2-3 ngày/tuần + gặp mặt) — thể hiện tư duy cân bằng, điểm Coherence cao.",
     ],
   },
+  ...SWEDISH_SAMPLE_ESSAYS_EXPANSION,
 ];
