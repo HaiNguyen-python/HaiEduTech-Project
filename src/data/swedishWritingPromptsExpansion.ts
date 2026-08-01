@@ -26,7 +26,7 @@ export const SWEDISH_WRITING_PROMPTS_EXPANSION: SwedishWritingPrompt[] = [
     tipVi: "A1: dùng 'brukar' + động từ nguyên mẫu để nói thói quen. Mỗi câu 1 mốc thời gian.",
   },
   {
-    id: "w-a1-shopping-list",
+    id: "w-a1-lapp-rumskamrat",
     level: "A1",
     titleVi: "Ghi chú mua sắm cho bạn cùng phòng",
     titleEn: "Shopping note for a roommate",
@@ -43,7 +43,7 @@ export const SWEDISH_WRITING_PROMPTS_EXPANSION: SwedishWritingPrompt[] = [
 
   // ───── A2 ─────
   {
-    id: "w-a2-complaint",
+    id: "w-a2-klagomal-hyresvard",
     level: "A2",
     titleVi: "Email phàn nàn với chủ nhà",
     titleEn: "Complaint email to landlord",

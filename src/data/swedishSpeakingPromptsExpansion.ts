@@ -10,7 +10,7 @@ import type { SwedishSpeakingPrompt } from "./swedishSpeakingPrompts";
 export const SWEDISH_SPEAKING_PROMPTS_EXPANSION: SwedishSpeakingPrompt[] = [
   // ───── A1 ─────
   {
-    id: "s-a1-family",
+    id: "s-a1-familj-basic",
     level: "A1",
     titleVi: "Kể về gia đình",
     titleEn: "Talk about your family",
@@ -44,7 +44,7 @@ export const SWEDISH_SPEAKING_PROMPTS_EXPANSION: SwedishSpeakingPrompt[] = [
 
   // ───── A2 ─────
   {
-    id: "s-a2-hometown",
+    id: "s-a2-hemstad-vietnam",
     level: "A2",
     titleVi: "Quê hương của bạn",
     titleEn: "Your hometown",
@@ -95,7 +95,7 @@ export const SWEDISH_SPEAKING_PROMPTS_EXPANSION: SwedishSpeakingPrompt[] = [
     tipVi: "B1: 'å andra sidan', 'enligt min åsikt', 'sammanfattningsvis' - collocation quan trọng để đạt Band 4-5.",
   },
   {
-    id: "s-b1-environment",
+    id: "s-b1-miljo-personligt",
     level: "B1",
     titleVi: "Bạn làm gì cho môi trường?",
     titleEn: "What do you do for the environment?",

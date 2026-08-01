@@ -219,7 +219,7 @@ export const SWEDISH_SPEAKING_PROMPTS: SwedishSpeakingPrompt[] = [
   },
   // ───── A1 expansion v2 ─────
   {
-    id: "s-a1-food",
+    id: "s-a1-favoritmat",
     level: "A1",
     titleVi: "Món ăn yêu thích",
     titleEn: "Favourite food",
