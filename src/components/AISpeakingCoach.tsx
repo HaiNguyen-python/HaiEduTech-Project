@@ -1079,14 +1079,37 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                   {/* Translation */}
                   <p className="text-sm text-muted-foreground italic">{currentSentence.translation}</p>
 
-                  {/* IPA / Pinyin */}
+                  {/* IPA / Pinyin + Swedish pronunciation coaching */}
                   {(() => {
                     const ipa = currentSentence.ipa
-                      || (language === "swedish" ? `/${generateSwedishIpa(currentSentence.text)}/` : "");
-                    return ipa ? (
-                      <p className="text-xs text-primary font-mono">{ipa}</p>
-                    ) : null;
+                      || (language === "swedish" ? transcribeSwedishSentence(currentSentence.text) : "");
+                    const tips = language === "swedish" ? swedishSoundTipsFor(currentSentence.text, 2) : [];
+                    if (!ipa && tips.length === 0) return null;
+                    return (
+                      <div className="space-y-2">
+                        {ipa && <p className="text-xs text-primary font-mono break-words">{ipa}</p>}
+                        {tips.length > 0 && (
+                          <div className="grid gap-2 sm:grid-cols-2">
+                            {tips.map((tip) => (
+                              <div
+                                key={tip.id}
+                                className="rounded-xl border border-border bg-muted/40 p-2.5 text-left"
+                              >
+                                <p className="text-xs font-semibold text-foreground">
+                                  {t(tip.labelVi, tip.labelEn)}{" "}
+                                  <span className="font-mono text-primary">{tip.symbol}</span>
+                                </p>
+                                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                                  {t(tip.tipVi, tip.tipEn)}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
                   })()}
+
                 </div>
 
                 {/* Accuracy bar */}
