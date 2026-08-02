@@ -447,12 +447,15 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     const recognition = new SpeechRecognition();
 
     recognition.lang = config.speechLang;
-    recognition.continuous = true;
+    // Continuous sessions are unreliable on Apple WebKit: keep a single shot
+    // there so audio is not dropped between restarts.
+    recognition.continuous = !isAppleWebkit;
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
 
     accumulatedTranscriptRef.current = "";
     manualStopRef.current = false;
+    recordStartedAtRef.current = Date.now();
     let hadError = false;
     let restartAttempts = 0;
 
