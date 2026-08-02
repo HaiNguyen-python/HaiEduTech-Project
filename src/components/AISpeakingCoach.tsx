@@ -1391,7 +1391,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                               />
                             ))}
                           </div>
-                          {t("Dừng", "Stop")}
+                          {t("Dừng", "Stop")} {listenSeconds > 0 && `· ${listenSeconds}s`}
                         </>
                       ) : (
                         <>
