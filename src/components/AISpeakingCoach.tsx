@@ -264,6 +264,26 @@ const compareWords = (target: string, spoken: string): WordResult[] => {
       }
     }
 
+    if (bestIndex >= 0 && bestStatus === "correct") {
+      spokenIndex = bestIndex + 1;
+      return { word: spokenWords[bestIndex], expected, status: bestStatus };
+    }
+
+    // Compound tolerance: Swedish/Finnish compounds ("tunnelbanestation") are often
+    // returned by ASR as 2-3 separate words, which used to score as wrong.
+    if (expected.length >= 8) {
+      for (let span = 2; span <= 3; span++) {
+        for (let i = spokenIndex; i + span <= spokenWords.length; i++) {
+          const joined = spokenWords.slice(i, i + span).join("");
+          const status = matchStatus(joined, expected);
+          if (status === "correct" || (status === "close" && !bestStatus)) {
+            spokenIndex = i + span;
+            return { word: joined, expected, status };
+          }
+        }
+      }
+    }
+
     if (bestIndex >= 0 && bestStatus) {
       const word = spokenWords[bestIndex];
       spokenIndex = bestIndex + 1;
@@ -275,6 +295,7 @@ const compareWords = (target: string, spoken: string): WordResult[] => {
     return { word: fallbackWord || expected, expected, status: fallbackWord ? "wrong" : "missing" };
   });
 };
+
 
 // Calculate accuracy percentage - gentler: "close" counts as 0.75 (was 0.5)
 const calcAccuracy = (results: WordResult[]): number => {
