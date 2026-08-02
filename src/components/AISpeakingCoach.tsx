@@ -126,18 +126,55 @@ const isNumberEquivalent = (a: string, b: string): boolean => {
   return false;
 };
 
-// Common contractions and speech-recognition variants expanded before scoring.
-const contractionExpansions: Record<string, string> = {
-  "i'm": "i am", im: "i am", "don't": "do not", dont: "do not", "doesn't": "does not", doesnt: "does not",
-  "can't": "cannot", cant: "cannot", "won't": "will not", wont: "will not", "it's": "it is", its: "it is",
-  "i've": "i have", ive: "i have", "i'll": "i will", ill: "i will", "we're": "we are", were: "we are",
-  "they're": "they are", theyre: "they are", "you're": "you are", youre: "you are",
-  "isn't": "is not", isnt: "is not", "aren't": "are not", arent: "are not",
-  "wasn't": "was not", wasnt: "was not", "weren't": "were not", werent: "were not",
-  "that's": "that is", thats: "that is", "there's": "there is", theres: "there is",
-  "what's": "what is", whats: "what is", "who's": "who is", whos: "who is",
-  "let's": "let us", lets: "let us", "he's": "he is", hes: "he is", "she's": "she is", shes: "she is",
+// Contractions WITH an apostrophe. These are always safe to expand because the
+// apostrophe removes the ambiguity ("it's" is never the possessive "its").
+const apostropheContractions: Record<string, string> = {
+  "i'm": "i am", "i've": "i have", "i'll": "i will", "i'd": "i would",
+  "don't": "do not", "doesn't": "does not", "didn't": "did not",
+  "can't": "cannot", "couldn't": "could not", "won't": "will not", "wouldn't": "would not",
+  "shouldn't": "should not", "mustn't": "must not", "shan't": "shall not",
+  "isn't": "is not", "aren't": "are not", "wasn't": "was not", "weren't": "were not",
+  "haven't": "have not", "hasn't": "has not", "hadn't": "had not",
+  "it's": "it is", "that's": "that is", "there's": "there is", "here's": "here is",
+  "what's": "what is", "who's": "who is", "how's": "how is", "where's": "where is",
+  "let's": "let us", "he's": "he is", "she's": "she is",
+  "we're": "we are", "they're": "they are", "you're": "you are",
+  "we've": "we have", "they've": "they have", "you've": "you have",
+  "we'll": "we will", "they'll": "they will", "you'll": "you will",
+  "he'll": "he will", "she'll": "she will", "it'll": "it will",
+  "we'd": "we would", "they'd": "they would", "you'd": "you would",
+  "he'd": "he would", "she'd": "she would",
+  "would've": "would have", "could've": "could have", "should've": "should have",
 };
+
+// Bare (apostrophe-less) spellings that ASR sometimes returns. Only forms with
+// NO valid non-contraction meaning are listed here — "its", "were", "ill",
+// "lets", "hes", "shes", "wed" are deliberately excluded because expanding them
+// would corrupt legitimate words.
+const bareContractions: Record<string, string> = {
+  im: "i am", ive: "i have", dont: "do not", doesnt: "does not", didnt: "did not",
+  cant: "cannot", couldnt: "could not", wont: "will not", wouldnt: "would not",
+  shouldnt: "should not", mustnt: "must not",
+  isnt: "is not", arent: "are not", wasnt: "was not", werent: "were not",
+  havent: "have not", hasnt: "has not", hadnt: "had not",
+  thats: "that is", theres: "there is", whats: "what is", whos: "who is",
+  theyre: "they are", youre: "you are", theyve: "they have", youve: "you have",
+  youll: "you will", theyll: "they will",
+};
+
+// Symbols ASR renders as words (and vice versa) — expanded so "50%" and
+// "fifty percent" grade the same.
+const symbolWords: Array<[RegExp, string]> = [
+  [/%/g, " percent "],
+  [/\$/g, " dollars "],
+  [/€/g, " euros "],
+  [/£/g, " pounds "],
+  [/&/g, " and "],
+  [/°/g, " degrees "],
+  [/\+/g, " plus "],
+  [/=/g, " equals "],
+  [/@/g, " at "],
+];
 
 // Normalize text for comparison.
 // For CJK (Chinese/Japanese/Korean) we split per Han character because the text
@@ -145,8 +182,14 @@ const contractionExpansions: Record<string, string> = {
 const CJK_RANGE = /[\u3400-\u9fff\uf900-\ufaff]/;
 const normalize = (text: string): string[] => {
   let cleaned = text.toLowerCase().replace(/[’`]/g, "'");
-  for (const [variant, expansion] of Object.entries(contractionExpansions)) {
-    cleaned = cleaned.replace(new RegExp(`\\b${variant.replace("'", "['’]?")}\\b`, "g"), expansion);
+  for (const [variant, expansion] of Object.entries(apostropheContractions)) {
+    cleaned = cleaned.replace(new RegExp(`\\b${variant.replace("'", "['’]")}\\b`, "g"), expansion);
+  }
+  for (const [variant, expansion] of Object.entries(bareContractions)) {
+    cleaned = cleaned.replace(new RegExp(`\\b${variant}\\b`, "g"), expansion);
+  }
+  for (const [pattern, word] of symbolWords) {
+    cleaned = cleaned.replace(pattern, word);
   }
   cleaned = cleaned
     .replace(/[.,!?;:"()（）。，！？、""''…·\[\]{}]/g, " ")
@@ -277,11 +320,15 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   const [showBadgePanel, setShowBadgePanel] = useState(false);
   const [newBadge, setNewBadge] = useState<SpeakingBadge | null>(null);
   const [sessionScore, setSessionScore] = useState(0);
+  // Elapsed listening time (seconds) so the learner can see the mic is live.
+  const [listenSeconds, setListenSeconds] = useState(0);
 
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
   const manualStopRef = useRef(false);
   const accumulatedTranscriptRef = useRef("");
+  // Wall-clock start of the current recording, used for the hard 60s ceiling.
+  const recordStartedAtRef = useRef(0);
 
   // Reset all state when language changes
   useEffect(() => {
@@ -320,14 +367,71 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     return "webkitSpeechRecognition" in window || "SpeechRecognition" in window;
   }, []);
 
+  // iOS / Safari cannot keep a continuous session alive reliably: the auto
+  // restart loop drops audio there, so we run a single-shot session instead.
+  const isAppleWebkit = useMemo(() => {
+    if (typeof navigator === "undefined") return false;
+    const ua = navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && (navigator as any).maxTouchPoints > 1);
+    const isSafari = /Safari/.test(ua) && !/Chrome|Chromium|Edg|OPR/.test(ua);
+    return isIOS || isSafari;
+  }, []);
+
+  // Verify the microphone can actually be opened before starting recognition.
+  // Without this, a denied permission or a missing device surfaces as a generic
+  // "recognition unavailable" message that students cannot act on.
+  const ensureMicrophoneAccess = useCallback(async (): Promise<boolean> => {
+    if (typeof window !== "undefined" && !window.isSecureContext) {
+      setMicError(t(
+        "Trang cần chạy trên HTTPS để dùng microphone.",
+        "The page must run over HTTPS to use the microphone."
+      ));
+      return false;
+    }
+    if (!navigator.mediaDevices?.getUserMedia) return true; // Let recognition try anyway
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Release immediately: SpeechRecognition opens its own capture stream.
+      stream.getTracks().forEach((track) => track.stop());
+      return true;
+    } catch (err: any) {
+      const name = err?.name || "";
+      if (name === "NotAllowedError" || name === "SecurityError") {
+        setMicError(t(
+          "Vui lòng cho phép truy cập microphone trong cài đặt trình duyệt.",
+          "Please allow microphone access in your browser settings."
+        ));
+      } else if (name === "NotFoundError" || name === "OverconstrainedError") {
+        setMicError(t(
+          "Không tìm thấy microphone. Kiểm tra thiết bị và thử lại.",
+          "No microphone found. Please check your device and try again."
+        ));
+      } else {
+        setMicError(t(
+          "Không mở được microphone. Đóng các ứng dụng đang dùng mic rồi thử lại.",
+          "Could not open the microphone. Close other apps using it and try again."
+        ));
+      }
+      return false;
+    }
+  }, [t]);
+
   // Initialize speech recognition
-  const startRecognition = useCallback(() => {
+  const startRecognition = useCallback(async () => {
     if (!speechSupported || !currentSentence) return;
 
     setMicError(null);
     setTranscript("");
     setResults(null);
     setAccuracy(null);
+    setListenSeconds(0);
+    // Allow the same sentence to be graded again on a repeat attempt: without
+    // this reset an identical transcript is silently skipped and the learner
+    // sees no feedback at all.
+    lastProcessedTranscriptRef.current = "";
+
+    const micReady = await ensureMicrophoneAccess();
+    if (!micReady) return;
 
     // Ensure any prior recognition instance is fully aborted before starting a
     // new one. Failing to do so is the #1 cause of the "aborted" / "already
@@ -343,12 +447,15 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     const recognition = new SpeechRecognition();
 
     recognition.lang = config.speechLang;
-    recognition.continuous = true;
+    // Continuous sessions are unreliable on Apple WebKit: keep a single shot
+    // there so audio is not dropped between restarts.
+    recognition.continuous = !isAppleWebkit;
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
 
     accumulatedTranscriptRef.current = "";
     manualStopRef.current = false;
+    recordStartedAtRef.current = Date.now();
     let hadError = false;
     let restartAttempts = 0;
 
@@ -419,12 +526,26 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         setIsRecording(false);
         return;
       }
+      // Apple WebKit: single-shot session, so an auto end means the utterance
+      // is finished. Commit it and grade instead of restarting.
+      if (isAppleWebkit) {
+        if (accumulatedTranscriptRef.current) setTranscript(accumulatedTranscriptRef.current);
+        setIsRecording(false);
+        return;
+      }
+      // Hard 60s ceiling: never leave the mic open indefinitely.
+      if (Date.now() - recordStartedAtRef.current > 60000) {
+        if (accumulatedTranscriptRef.current) setTranscript(accumulatedTranscriptRef.current);
+        setIsRecording(false);
+        return;
+      }
       // Auto-ended (silence). Give up only after many *consecutive* silent
       // restarts with no fresh speech, OR after a hard wall-clock ceiling.
       // Consecutive silent onend cycles usually fire ~1s apart on Chrome,
       // so ~15 restarts is roughly 15s of true silence before we stop.
       const totalSilentMs = Date.now() - lastSpeechAt;
       if (silentRestarts >= 15 && totalSilentMs > 12000) {
+        if (accumulatedTranscriptRef.current) setTranscript(accumulatedTranscriptRef.current);
         setIsRecording(false);
         return;
       }
@@ -476,7 +597,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         try { recognition.start(); } catch { setIsRecording(false); }
       }, 120);
     }
-  }, [speechSupported, currentSentence, config.speechLang, t]);
+  }, [speechSupported, currentSentence, config.speechLang, t, isAppleWebkit, ensureMicrophoneAccess]);
 
   // Stop recording and process results.
   // We DO NOT flip isRecording=false here - we wait for `onend` so the latest
@@ -491,6 +612,34 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       // Fallback if recognition was never started
       setIsRecording(false);
     }
+  }, []);
+
+  // Visible listening timer + hard stop at 60s so the mic is never left open.
+  useEffect(() => {
+    if (!isRecording) return;
+    const id = window.setInterval(() => {
+      setListenSeconds((s) => {
+        const next = s + 1;
+        if (next >= 60) stopRecognition();
+        return next;
+      });
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [isRecording, stopRecognition]);
+
+  // Release the microphone when the component unmounts. Without this the
+  // recognizer keeps auto-restarting after the student navigates away.
+  useEffect(() => {
+    return () => {
+      const rec = recognitionRef.current;
+      if (!rec) return;
+      manualStopRef.current = true;
+      try { rec.onend = null; } catch { /* noop */ }
+      try { rec.onerror = null; } catch { /* noop */ }
+      try { rec.onresult = null; } catch { /* noop */ }
+      try { rec.abort(); } catch { /* noop */ }
+      recognitionRef.current = null;
+    };
   }, []);
 
   // Check and award new badges
@@ -1162,18 +1311,25 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                   </motion.div>
                 )}
 
-                {/* Nordic-language recognition tip (fi/sv need Chrome desktop + internet) */}
-                {speechSupported && (language === "finnish" || language === "swedish") && (
+                {/* Recognition tip: all languages need Chrome/Edge + internet;
+                    Apple WebKit runs single-shot so the hint differs there. */}
+                {speechSupported && (
                   <div className="flex items-start gap-2 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-xl text-xs text-blue-700 dark:text-blue-300">
                     <Info className="w-4 h-4 shrink-0 mt-0.5" />
                     <span>
-                      {t(
-                        `Mẹo: Nhận dạng ${language === "finnish" ? "tiếng Phần Lan (fi-FI)" : "tiếng Thụy Điển (sv-SE)"} hoạt động tốt nhất trên Chrome/Edge (máy tính) khi có internet. Nói rõ, gần mic, tránh tiếng ồn. Hệ thống đã tự bỏ qua khác biệt dấu (ä/ö/å) để chấm công bằng hơn.`,
-                        `Tip: ${language === "finnish" ? "Finnish (fi-FI)" : "Swedish (sv-SE)"} recognition works best on desktop Chrome/Edge with internet. Speak clearly and close to the mic. Diacritic differences (ä/ö/å) are auto-tolerated when scoring.`
-                      )}
+                      {isAppleWebkit
+                        ? t(
+                            `Mẹo: Trên Safari/iOS, mic chỉ ghi 1 lượt mỗi lần bấm — nói cả câu rồi bấm Dừng. Để chính xác nhất, dùng Chrome/Edge trên máy tính.`,
+                            `Tip: On Safari/iOS the mic records one take per tap - say the whole sentence, then tap Stop. For best accuracy use Chrome/Edge on desktop.`
+                          )
+                        : t(
+                            `Mẹo: Nhận dạng ${config.speechLang} hoạt động tốt nhất trên Chrome/Edge (máy tính) khi có internet. Nói rõ, gần mic, tránh tiếng ồn. Hệ thống tự bỏ qua khác biệt dấu và dạng viết tắt (I'm / I am) khi chấm.`,
+                            `Tip: ${config.speechLang} recognition works best on desktop Chrome/Edge with internet. Speak clearly and close to the mic. Diacritics and contractions (I'm / I am) are auto-tolerated when scoring.`
+                          )}
                     </span>
                   </div>
                 )}
+
 
 
                 {/* Browser not supported warning */}
@@ -1235,7 +1391,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                               />
                             ))}
                           </div>
-                          {t("Dừng", "Stop")}
+                          {t("Dừng", "Stop")} {listenSeconds > 0 && `· ${listenSeconds}s`}
                         </>
                       ) : (
                         <>
