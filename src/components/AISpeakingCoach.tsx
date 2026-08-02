@@ -526,12 +526,26 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         setIsRecording(false);
         return;
       }
+      // Apple WebKit: single-shot session, so an auto end means the utterance
+      // is finished. Commit it and grade instead of restarting.
+      if (isAppleWebkit) {
+        if (accumulatedTranscriptRef.current) setTranscript(accumulatedTranscriptRef.current);
+        setIsRecording(false);
+        return;
+      }
+      // Hard 60s ceiling: never leave the mic open indefinitely.
+      if (Date.now() - recordStartedAtRef.current > 60000) {
+        if (accumulatedTranscriptRef.current) setTranscript(accumulatedTranscriptRef.current);
+        setIsRecording(false);
+        return;
+      }
       // Auto-ended (silence). Give up only after many *consecutive* silent
       // restarts with no fresh speech, OR after a hard wall-clock ceiling.
       // Consecutive silent onend cycles usually fire ~1s apart on Chrome,
       // so ~15 restarts is roughly 15s of true silence before we stop.
       const totalSilentMs = Date.now() - lastSpeechAt;
       if (silentRestarts >= 15 && totalSilentMs > 12000) {
+        if (accumulatedTranscriptRef.current) setTranscript(accumulatedTranscriptRef.current);
         setIsRecording(false);
         return;
       }
