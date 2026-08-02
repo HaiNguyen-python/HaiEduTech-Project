@@ -130,11 +130,11 @@ const WORD_IPA: Record<string, string> = {
   "morgon": "ˈmɔrːɔn", "morgonen": "ˈmɔrːɔnɛn", "kväll": "kvɛl", "kvällen": "ˈkvɛlːɛn",
   "lördag": "ˈlœːɖɑːɡ", "lördagar": "ˈlœːɖɑːɡar", "fredag": "ˈfreːˌdɑːɡ",
   "maj": "maj", "juli": "ˈjʉːlɪ", "midsommar": "ˈmɪsːˌɔmar", "gånger": "ˈɡɔŋːɛr",
-  "längе": "ˈlɛŋːɛ", "länge": "ˈlɛŋːɛ", "snart": "snɑːʈ", "före": "ˈføːrɛ",
+  "länge": "ˈlɛŋːɛ", "snart": "snɑːʈ", "före": "ˈføːrɛ",
   // Verbs
   "vara": "ˈvɑːra", "ha": "hɑː", "blivit": "ˈbliːvɪt", "finns": "fɪns",
   "ligger": "ˈlɪɡːɛr", "sitter": "ˈsɪtːɛr", "står": "stoːr", "håller": "ˈhɔlːɛr",
-  "får": "foːr", "få": "foː", "ta": "tɑː", "komma": "ˈkɔmːa", "vilja": "ˈvɪlja",
+  "få": "foː", "ta": "tɑː", "komma": "ˈkɔmːa", "vilja": "ˈvɪlja",
   "kunna": "ˈkɵnːa", "göra": "ˈjøːra", "gå": "ɡoː", "gått": "ɡɔt", "mår": "moːr",
   "boka": "ˈbuːka", "betala": "bɛˈtɑːla", "läsa": "ˈlɛːsa", "lyssna": "ˈlʏsːna",
   "prata": "ˈprɑːta", "berätta": "bɛˈrɛtːa", "fråga": "ˈfroːɡa", "frågor": "ˈfroːɡɔr",
