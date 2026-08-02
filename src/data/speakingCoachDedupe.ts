@@ -10,14 +10,13 @@
 
 interface DedupableSentence {
   id: string;
-  [key: string]: unknown;
 }
 
 interface DedupableTheme {
   id: string;
   sentences: DedupableSentence[];
-  [key: string]: unknown;
 }
+
 
 export function dedupeSpeakingThemes<T extends DedupableTheme>(themes: T[]): T[] {
   const themeSeen = new Map<string, number>();
