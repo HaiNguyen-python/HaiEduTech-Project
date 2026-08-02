@@ -1311,18 +1311,25 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                   </motion.div>
                 )}
 
-                {/* Nordic-language recognition tip (fi/sv need Chrome desktop + internet) */}
-                {speechSupported && (language === "finnish" || language === "swedish") && (
+                {/* Recognition tip: all languages need Chrome/Edge + internet;
+                    Apple WebKit runs single-shot so the hint differs there. */}
+                {speechSupported && (
                   <div className="flex items-start gap-2 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-xl text-xs text-blue-700 dark:text-blue-300">
                     <Info className="w-4 h-4 shrink-0 mt-0.5" />
                     <span>
-                      {t(
-                        `Mẹo: Nhận dạng ${language === "finnish" ? "tiếng Phần Lan (fi-FI)" : "tiếng Thụy Điển (sv-SE)"} hoạt động tốt nhất trên Chrome/Edge (máy tính) khi có internet. Nói rõ, gần mic, tránh tiếng ồn. Hệ thống đã tự bỏ qua khác biệt dấu (ä/ö/å) để chấm công bằng hơn.`,
-                        `Tip: ${language === "finnish" ? "Finnish (fi-FI)" : "Swedish (sv-SE)"} recognition works best on desktop Chrome/Edge with internet. Speak clearly and close to the mic. Diacritic differences (ä/ö/å) are auto-tolerated when scoring.`
-                      )}
+                      {isAppleWebkit
+                        ? t(
+                            `Mẹo: Trên Safari/iOS, mic chỉ ghi 1 lượt mỗi lần bấm — nói cả câu rồi bấm Dừng. Để chính xác nhất, dùng Chrome/Edge trên máy tính.`,
+                            `Tip: On Safari/iOS the mic records one take per tap - say the whole sentence, then tap Stop. For best accuracy use Chrome/Edge on desktop.`
+                          )
+                        : t(
+                            `Mẹo: Nhận dạng ${config.speechLang} hoạt động tốt nhất trên Chrome/Edge (máy tính) khi có internet. Nói rõ, gần mic, tránh tiếng ồn. Hệ thống tự bỏ qua khác biệt dấu và dạng viết tắt (I'm / I am) khi chấm.`,
+                            `Tip: ${config.speechLang} recognition works best on desktop Chrome/Edge with internet. Speak clearly and close to the mic. Diacritics and contractions (I'm / I am) are auto-tolerated when scoring.`
+                          )}
                     </span>
                   </div>
                 )}
+
 
 
                 {/* Browser not supported warning */}
