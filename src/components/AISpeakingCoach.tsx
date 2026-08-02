@@ -320,11 +320,15 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   const [showBadgePanel, setShowBadgePanel] = useState(false);
   const [newBadge, setNewBadge] = useState<SpeakingBadge | null>(null);
   const [sessionScore, setSessionScore] = useState(0);
+  // Elapsed listening time (seconds) so the learner can see the mic is live.
+  const [listenSeconds, setListenSeconds] = useState(0);
 
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
   const manualStopRef = useRef(false);
   const accumulatedTranscriptRef = useRef("");
+  // Wall-clock start of the current recording, used for the hard 60s ceiling.
+  const recordStartedAtRef = useRef(0);
 
   // Reset all state when language changes
   useEffect(() => {
