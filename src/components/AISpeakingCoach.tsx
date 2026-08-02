@@ -126,18 +126,55 @@ const isNumberEquivalent = (a: string, b: string): boolean => {
   return false;
 };
 
-// Common contractions and speech-recognition variants expanded before scoring.
-const contractionExpansions: Record<string, string> = {
-  "i'm": "i am", im: "i am", "don't": "do not", dont: "do not", "doesn't": "does not", doesnt: "does not",
-  "can't": "cannot", cant: "cannot", "won't": "will not", wont: "will not", "it's": "it is", its: "it is",
-  "i've": "i have", ive: "i have", "i'll": "i will", ill: "i will", "we're": "we are", were: "we are",
-  "they're": "they are", theyre: "they are", "you're": "you are", youre: "you are",
-  "isn't": "is not", isnt: "is not", "aren't": "are not", arent: "are not",
-  "wasn't": "was not", wasnt: "was not", "weren't": "were not", werent: "were not",
-  "that's": "that is", thats: "that is", "there's": "there is", theres: "there is",
-  "what's": "what is", whats: "what is", "who's": "who is", whos: "who is",
-  "let's": "let us", lets: "let us", "he's": "he is", hes: "he is", "she's": "she is", shes: "she is",
+// Contractions WITH an apostrophe. These are always safe to expand because the
+// apostrophe removes the ambiguity ("it's" is never the possessive "its").
+const apostropheContractions: Record<string, string> = {
+  "i'm": "i am", "i've": "i have", "i'll": "i will", "i'd": "i would",
+  "don't": "do not", "doesn't": "does not", "didn't": "did not",
+  "can't": "cannot", "couldn't": "could not", "won't": "will not", "wouldn't": "would not",
+  "shouldn't": "should not", "mustn't": "must not", "shan't": "shall not",
+  "isn't": "is not", "aren't": "are not", "wasn't": "was not", "weren't": "were not",
+  "haven't": "have not", "hasn't": "has not", "hadn't": "had not",
+  "it's": "it is", "that's": "that is", "there's": "there is", "here's": "here is",
+  "what's": "what is", "who's": "who is", "how's": "how is", "where's": "where is",
+  "let's": "let us", "he's": "he is", "she's": "she is",
+  "we're": "we are", "they're": "they are", "you're": "you are",
+  "we've": "we have", "they've": "they have", "you've": "you have",
+  "we'll": "we will", "they'll": "they will", "you'll": "you will",
+  "he'll": "he will", "she'll": "she will", "it'll": "it will",
+  "we'd": "we would", "they'd": "they would", "you'd": "you would",
+  "he'd": "he would", "she'd": "she would",
+  "would've": "would have", "could've": "could have", "should've": "should have",
 };
+
+// Bare (apostrophe-less) spellings that ASR sometimes returns. Only forms with
+// NO valid non-contraction meaning are listed here — "its", "were", "ill",
+// "lets", "hes", "shes", "wed" are deliberately excluded because expanding them
+// would corrupt legitimate words.
+const bareContractions: Record<string, string> = {
+  im: "i am", ive: "i have", dont: "do not", doesnt: "does not", didnt: "did not",
+  cant: "cannot", couldnt: "could not", wont: "will not", wouldnt: "would not",
+  shouldnt: "should not", mustnt: "must not",
+  isnt: "is not", arent: "are not", wasnt: "was not", werent: "were not",
+  havent: "have not", hasnt: "has not", hadnt: "had not",
+  thats: "that is", theres: "there is", whats: "what is", whos: "who is",
+  theyre: "they are", youre: "you are", theyve: "they have", youve: "you have",
+  youll: "you will", theyll: "they will",
+};
+
+// Symbols ASR renders as words (and vice versa) — expanded so "50%" and
+// "fifty percent" grade the same.
+const symbolWords: Array<[RegExp, string]> = [
+  [/%/g, " percent "],
+  [/\$/g, " dollars "],
+  [/€/g, " euros "],
+  [/£/g, " pounds "],
+  [/&/g, " and "],
+  [/°/g, " degrees "],
+  [/\+/g, " plus "],
+  [/=/g, " equals "],
+  [/@/g, " at "],
+];
 
 // Normalize text for comparison.
 // For CJK (Chinese/Japanese/Korean) we split per Han character because the text
@@ -145,8 +182,14 @@ const contractionExpansions: Record<string, string> = {
 const CJK_RANGE = /[\u3400-\u9fff\uf900-\ufaff]/;
 const normalize = (text: string): string[] => {
   let cleaned = text.toLowerCase().replace(/[’`]/g, "'");
-  for (const [variant, expansion] of Object.entries(contractionExpansions)) {
-    cleaned = cleaned.replace(new RegExp(`\\b${variant.replace("'", "['’]?")}\\b`, "g"), expansion);
+  for (const [variant, expansion] of Object.entries(apostropheContractions)) {
+    cleaned = cleaned.replace(new RegExp(`\\b${variant.replace("'", "['’]")}\\b`, "g"), expansion);
+  }
+  for (const [variant, expansion] of Object.entries(bareContractions)) {
+    cleaned = cleaned.replace(new RegExp(`\\b${variant}\\b`, "g"), expansion);
+  }
+  for (const [pattern, word] of symbolWords) {
+    cleaned = cleaned.replace(pattern, word);
   }
   cleaned = cleaned
     .replace(/[.,!?;:"()（）。，！？、""''…·\[\]{}]/g, " ")
