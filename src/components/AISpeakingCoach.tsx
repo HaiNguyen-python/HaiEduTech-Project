@@ -597,7 +597,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         try { recognition.start(); } catch { setIsRecording(false); }
       }, 120);
     }
-  }, [speechSupported, currentSentence, config.speechLang, t]);
+  }, [speechSupported, currentSentence, config.speechLang, t, isAppleWebkit, ensureMicrophoneAccess]);
 
   // Stop recording and process results.
   // We DO NOT flip isRecording=false here - we wait for `onend` so the latest
@@ -612,6 +612,34 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       // Fallback if recognition was never started
       setIsRecording(false);
     }
+  }, []);
+
+  // Visible listening timer + hard stop at 60s so the mic is never left open.
+  useEffect(() => {
+    if (!isRecording) return;
+    const id = window.setInterval(() => {
+      setListenSeconds((s) => {
+        const next = s + 1;
+        if (next >= 60) stopRecognition();
+        return next;
+      });
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [isRecording, stopRecognition]);
+
+  // Release the microphone when the component unmounts. Without this the
+  // recognizer keeps auto-restarting after the student navigates away.
+  useEffect(() => {
+    return () => {
+      const rec = recognitionRef.current;
+      if (!rec) return;
+      manualStopRef.current = true;
+      try { rec.onend = null; } catch { /* noop */ }
+      try { rec.onerror = null; } catch { /* noop */ }
+      try { rec.onresult = null; } catch { /* noop */ }
+      try { rec.abort(); } catch { /* noop */ }
+      recognitionRef.current = null;
+    };
   }, []);
 
   // Check and award new badges
