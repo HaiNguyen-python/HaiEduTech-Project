@@ -192,10 +192,7 @@ const longVowelMap: Record<string, string> = {
 const isVowel = (c: string) => c in shortVowelMap;
 
 /* -------------------- Main transcriber -------------------- */
-export function generateSwedishIpa(input: string): string {
-  const word = input.trim().toLowerCase();
-  if (!word) return "";
-  if (OVERRIDES[word]) return `/${OVERRIDES[word]}/`;
+
 
 /* Inflectional endings that are always unstressed. Soft k/g must NOT apply to
    the front vowel of these endings: "köket" is /ˈɕøːkɛt/, not /ˈɕøːɕɛt/. */
