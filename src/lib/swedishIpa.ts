@@ -333,7 +333,8 @@ export function generateSwedishIpa(input: string): string {
 
     // Doubled consonant = geminate: mark it with the length sign instead of
     // repeating the letter ("veckan" → /ˈvɛkːan/, not /ˈvɛkkan/).
-    if (!isVowel(c) && c === c2) { out.push("ː"); i += 2; }
+    // Word-final doubled letters are not lengthened ("katt" → /kat/).
+    if (!isVowel(c) && c === c2) { if (i + 2 < chars.length) out.push("ː"); i += 2; }
     else i++;
   }
 

@@ -207,6 +207,10 @@ const WORD_IPA: Record<string, string> = {
   "inför": "ˈɪnˌfœr", "intervjun": "ɪntɛrˈvjʉːn", "betyder": "bɛˈtyːdɛr",
   "någonsin": "ˈnoːɡɔnsɪn", "wifi": "ˈwajfaj", "bankid": "ˈbaŋkiːd",
   "lan": "lɑːn", "anna": "ˈanːa",
+  "sin": "sɪn", "rekommenderar": "ˌrɛkɔmɛnˈdeːrar", "tjugoåtta": "ˈɕʉːɡʊˌɔtːa",
+  "tjugofem": "ˌɕʉːɡʊˈfɛm", "sjutton": "ˈɧɵtːɔn", "födelsedag": "ˈføːdɛlsɛˌdɑːɡ",
+  "föräldrar": "fœˈrɛldrar", "vardagen": "ˈvɑːɖaˌdɑːɡɛn", "farmor": "ˈfɑːrˌmuːr",
+  "mjölken": "ˈmjœlkɛn", "sikt": "sɪkt", "å": "oː",
 };
 
 
