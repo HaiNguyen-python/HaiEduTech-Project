@@ -331,8 +331,9 @@ export function generateSwedishIpa(input: string): string {
       default: out.push(c);
     }
 
-    // Skip second half of doubled consonants
-    if (!isVowel(c) && c === c2) i += 2;
+    // Doubled consonant = geminate: mark it with the length sign instead of
+    // repeating the letter ("veckan" → /ˈvɛkːan/, not /ˈvɛkkan/).
+    if (!isVowel(c) && c === c2) { out.push("ː"); i += 2; }
     else i++;
   }
 
@@ -340,6 +341,7 @@ export function generateSwedishIpa(input: string): string {
   const raw = out.join("").replace(/(.)\1+/g, "$1$1").replace(/ːː+/g, "ː");
   return `/${raw}/`;
 }
+
 
 
 /**
