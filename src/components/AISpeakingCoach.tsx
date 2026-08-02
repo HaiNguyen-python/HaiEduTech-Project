@@ -264,6 +264,26 @@ const compareWords = (target: string, spoken: string): WordResult[] => {
       }
     }
 
+    if (bestIndex >= 0 && bestStatus === "correct") {
+      spokenIndex = bestIndex + 1;
+      return { word: spokenWords[bestIndex], expected, status: bestStatus };
+    }
+
+    // Compound tolerance: Swedish/Finnish compounds ("tunnelbanestation") are often
+    // returned by ASR as 2-3 separate words, which used to score as wrong.
+    if (expected.length >= 8) {
+      for (let span = 2; span <= 3; span++) {
+        for (let i = spokenIndex; i + span <= spokenWords.length; i++) {
+          const joined = spokenWords.slice(i, i + span).join("");
+          const status = matchStatus(joined, expected);
+          if (status === "correct" || (status === "close" && !bestStatus)) {
+            spokenIndex = i + span;
+            return { word: joined, expected, status };
+          }
+        }
+      }
+    }
+
     if (bestIndex >= 0 && bestStatus) {
       const word = spokenWords[bestIndex];
       spokenIndex = bestIndex + 1;
@@ -275,6 +295,7 @@ const compareWords = (target: string, spoken: string): WordResult[] => {
     return { word: fallbackWord || expected, expected, status: fallbackWord ? "wrong" : "missing" };
   });
 };
+
 
 // Calculate accuracy percentage - gentler: "close" counts as 0.75 (was 0.5)
 const calcAccuracy = (results: WordResult[]): number => {
@@ -780,8 +801,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRecording, transcript, currentSentence, selectedTheme]);
 
-  // Play demo audio (TTS)
-  const playDemo = useCallback(async () => {
+  // Play demo audio (TTS). `slow` gives learners a syllable-by-syllable pace.
+  const playDemo = useCallback(async (slow = false) => {
     if (!currentSentence || isPlayingDemo) return;
     setIsPlayingDemo(true);
 
@@ -789,11 +810,16 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       if (language === "finnish") {
         await playFinnishTts(currentSentence.text);
       } else if (language === "swedish") {
-        await playSwedishTts(currentSentence.text, { playbackRate: 0.9 });
+        // playSwedishTts resolves false when every engine in the chain fails -
+        // without this check the button looked like it worked but stayed silent.
+        const ok = await playSwedishTts(currentSentence.text, { playbackRate: slow ? 0.6 : 0.9 });
+        if (!ok) {
+          toast.error(t("Không thể phát âm thanh tiếng Thụy Điển. Hãy thử lại.", "Could not play Swedish audio. Please try again."));
+        }
       } else {
         const utterance = new SpeechSynthesisUtterance(currentSentence.text);
         utterance.lang = config.speechLang;
-        utterance.rate = 0.85;
+        utterance.rate = slow ? 0.6 : 0.85;
         utterance.onend = () => setIsPlayingDemo(false);
         utterance.onerror = () => setIsPlayingDemo(false);
         window.speechSynthesis.speak(utterance);
@@ -804,6 +830,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     }
     setIsPlayingDemo(false);
   }, [currentSentence, language, config.speechLang, isPlayingDemo, t]);
+
 
   // Navigate sentences
   const goNext = () => {
@@ -1349,13 +1376,26 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                   <Button
                     variant="outline"
                     size="lg"
-                    onClick={playDemo}
+                    onClick={() => playDemo(false)}
                     disabled={isPlayingDemo}
                     className="gap-2"
                   >
                     <Volume2 className={`w-5 h-5 ${isPlayingDemo ? "animate-pulse text-primary" : ""}`} />
                     {t("Nghe mẫu", "Listen")}
                   </Button>
+
+                  {/* Slow playback - helps with Swedish sj-/tj- clusters and long vowels */}
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => playDemo(true)}
+                    disabled={isPlayingDemo}
+                    className="gap-2"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    {t("Nghe chậm", "Slow")}
+                  </Button>
+
 
                   {/* Record / Stop */}
                   <motion.div

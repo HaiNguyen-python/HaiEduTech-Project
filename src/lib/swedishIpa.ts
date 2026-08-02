@@ -192,6 +192,18 @@ const longVowelMap: Record<string, string> = {
 const isVowel = (c: string) => c in shortVowelMap;
 
 /* -------------------- Main transcriber -------------------- */
+
+
+/* Inflectional endings that are always unstressed. Soft k/g must NOT apply to
+   the front vowel of these endings: "köket" is /ˈɕøːkɛt/, not /ˈɕøːɕɛt/. */
+const UNSTRESSED_ENDINGS = new Set([
+  "e", "en", "et", "er", "ern", "ens", "ets", "erna", "ena",
+  "or", "orna", "ar", "arna", "arne", "ad", "at", "as", "an", "ande", "andet",
+]);
+
+/* Prefixes that push the main stress onto the second syllable (betala, förklara). */
+const UNSTRESSED_PREFIXES = ["be", "för", "ge", "åter", "miss"];
+
 export function generateSwedishIpa(input: string): string {
   const word = input.trim().toLowerCase();
   if (!word) return "";
@@ -199,24 +211,63 @@ export function generateSwedishIpa(input: string): string {
 
   const chars = word.split("");
   const out: string[] = [];
-  let i = 0;
 
-  // Determine vowel length: for each vowel we look at the following consonant cluster
-  // until next vowel or end. If cluster length === 1 → long, ≥ 2 → short, 0 → long.
+  /* ---- Syllable structure: index of the first vowel of every vowel group ---- */
+  const groupVowelStart: number[] = [];
+  for (let k = 0; k < chars.length; k++) {
+    if (isVowel(chars[k]) && !(k > 0 && isVowel(chars[k - 1]))) groupVowelStart.push(k);
+  }
+  const syllables = groupVowelStart.length;
+
+  // Which syllable carries the main stress (0-based).
+  let stressedGroup = 0;
+  if (syllables >= 3 && UNSTRESSED_PREFIXES.some((p) => word.startsWith(p))) stressedGroup = 1;
+
+  // Character index where the stressed syllable's onset begins.
+  let stressOnsetIndex = 0;
+  if (stressedGroup > 0) {
+    const prevVowel = groupVowelStart[stressedGroup - 1];
+    let end = prevVowel;
+    while (end + 1 < chars.length && isVowel(chars[end + 1])) end++;
+    stressOnsetIndex = end + 1;
+  }
+
+  const groupOf = (idx: number): number => {
+    let g = -1;
+    for (let k = 0; k < groupVowelStart.length; k++) if (groupVowelStart[k] <= idx) g = k;
+    return g;
+  };
+
+  /* Long vowel only in the stressed syllable with at most one following consonant.
+     Unstressed syllables (especially inflectional endings) keep short vowels:
+     "varje" → /ˈvarjɛ/, "kyrka" → /ˈɕʏrka/, not /varjeː/, /ɕʏrkɑː/. */
   const vowelIsLong = (idx: number): boolean => {
+    if (groupOf(idx) !== stressedGroup) return false;
     let j = idx + 1;
     let cons = 0;
     while (j < chars.length && !isVowel(chars[j])) { cons++; j++; }
-    if (cons === 0) return true;
-    if (cons === 1) return true;
-    return false;
+    return cons <= 1;
   };
 
+  /* True when the front vowel at `idx` opens an unstressed inflectional ending,
+     which blocks the soft-k / soft-g rule. */
+  const startsUnstressedEnding = (idx: number): boolean =>
+    UNSTRESSED_ENDINGS.has(word.slice(idx));
+
+  let i = 0;
   while (i < chars.length) {
+    // Main stress marker (only meaningful for polysyllabic words).
+    if (syllables > 1 && i === stressOnsetIndex) out.push("ˈ");
+
     const c = chars[i];
     const c2 = chars[i + 1] ?? "";
     const c3 = chars[i + 2] ?? "";
     const next = chars[i + 1] ?? "";
+
+    // Word-initial silent consonant before j: hj-, lj-, dj-, gj- → /j/.
+    if (i === 0 && c2 === "j" && (c === "h" || c === "l" || c === "d" || c === "g")) {
+      out.push("j"); i += 2; continue;
+    }
 
     // 3-letter digraphs
     if (c === "s" && c2 === "k" && c3 === "j") { out.push("ɧ"); i += 3; continue; }
@@ -225,7 +276,7 @@ export function generateSwedishIpa(input: string): string {
 
     // 2-letter digraphs
     if (c === "s" && c2 === "j") { out.push("ɧ"); i += 2; continue; }
-    if (c === "s" && c2 === "k" && FRONT_VOWELS.has(c3)) { out.push("ɧ"); i += 2; continue; }
+    if (c === "s" && c2 === "k" && FRONT_VOWELS.has(c3) && !startsUnstressedEnding(i + 2)) { out.push("ɧ"); i += 2; continue; }
     if (c === "t" && c2 === "j") { out.push("ɕ"); i += 2; continue; }
     if (c === "k" && c2 === "j") { out.push("ɕ"); i += 2; continue; }
     if (c === "c" && c2 === "h") { out.push("ɕ"); i += 2; continue; }
@@ -239,16 +290,13 @@ export function generateSwedishIpa(input: string): string {
     if (c === "r" && c2 === "n") { out.push("ɳ"); i += 2; continue; }
     if (c === "r" && c2 === "l") { out.push("ɭ"); i += 2; continue; }
 
-    // Double consonant collapses to single phoneme (length shortens preceding vowel already)
-    if (!isVowel(c) && c === c2) {
-      // skip second letter
-      // fallthrough to single-consonant mapping using c
+    // Soft k / g / c before a front vowel — skipped when that vowel belongs to
+    // an unstressed inflectional ending (köket, boken, taket).
+    if (FRONT_VOWELS.has(next) && !startsUnstressedEnding(i + 1)) {
+      if (c === "k") { out.push("ɕ"); i++; continue; }
+      if (c === "g") { out.push("j"); i++; continue; }
+      if (c === "c") { out.push("s"); i++; continue; }
     }
-
-    // Soft k / g before front vowel
-    if (c === "k" && FRONT_VOWELS.has(next)) { out.push("ɕ"); i++; continue; }
-    if (c === "g" && FRONT_VOWELS.has(next)) { out.push("j"); i++; continue; }
-    if (c === "c" && FRONT_VOWELS.has(next)) { out.push("s"); i++; continue; }
 
     // Vowels with length calculation
     if (isVowel(c)) {
@@ -283,8 +331,10 @@ export function generateSwedishIpa(input: string): string {
       default: out.push(c);
     }
 
-    // Skip second half of doubled consonants
-    if (!isVowel(c) && c === c2) i += 2;
+    // Doubled consonant = geminate: mark it with the length sign instead of
+    // repeating the letter ("veckan" → /ˈvɛkːan/, not /ˈvɛkkan/).
+    // Word-final doubled letters are not lengthened ("katt" → /kat/).
+    if (!isVowel(c) && c === c2) { if (i + 2 < chars.length) out.push("ː"); i += 2; }
     else i++;
   }
 
@@ -292,6 +342,8 @@ export function generateSwedishIpa(input: string): string {
   const raw = out.join("").replace(/(.)\1+/g, "$1$1").replace(/ːː+/g, "ː");
   return `/${raw}/`;
 }
+
+
 
 /**
  * Return the entry's own IPA if present, otherwise derive one from the Swedish

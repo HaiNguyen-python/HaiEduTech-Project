@@ -51,7 +51,7 @@ const a1More: SpeakingTheme[] = [
   {
     id: "sv-feelings", name: "Känslor", nameVi: "Cảm xúc & trạng thái", icon: "😊", level: "A1",
     sentences: [
-      { id: "sv-fe1", text: "Jag är jätteglad idag!", translation: "Hôm nay tôi rất vui!", difficulty: "easy", theme: "feelings" },
+      { id: "sv-fe1", text: "Jag känner mig lugn och utvilad idag.", translation: "Hôm nay tôi thấy bình tĩnh và thoải mái.", difficulty: "easy", theme: "feelings" },
       { id: "sv-fe2", text: "Hon känner sig trött efter jobbet.", translation: "Cô ấy thấy mệt sau giờ làm.", difficulty: "easy", theme: "feelings" },
       { id: "sv-fe3", text: "Jag är hungrig och törstig.", translation: "Tôi đói và khát.", difficulty: "easy", theme: "feelings" },
       { id: "sv-fe4", text: "Han är arg på mig.", translation: "Anh ấy giận tôi.", difficulty: "easy", theme: "feelings" },
@@ -76,7 +76,7 @@ const a2More: SpeakingTheme[] = [
       { id: "sv-do5", text: "Jag är allergisk mot pollen på våren.", translation: "Tôi bị dị ứng phấn hoa vào mùa xuân.", difficulty: "medium", theme: "doctor" },
       { id: "sv-do6", text: "Hur ofta ska jag ta tabletterna?", translation: "Tôi uống viên thuốc bao lâu một lần?", difficulty: "medium", theme: "doctor" },
       { id: "sv-do7", text: "Jag har sovit dåligt hela veckan.", translation: "Cả tuần tôi ngủ không ngon.", difficulty: "medium", theme: "doctor" },
-      { id: "sv-do8", text: "Ryggen gör ont när jag sitter länge.", translation: "Lưng tôi đau khi ngồi lâu.", difficulty: "medium", theme: "doctor" },
+      { id: "sv-do8", text: "Hur länge ska jag ta medicinen?", translation: "Tôi phải uống thuốc trong bao lâu?", difficulty: "medium", theme: "doctor" },
       { id: "sv-do9", text: "Behöver jag boka en ny tid?", translation: "Tôi có cần đặt lịch hẹn mới không?", difficulty: "medium", theme: "doctor" },
       { id: "sv-do10", text: "Tack, jag mår mycket bättre nu.", translation: "Cảm ơn, tôi thấy đỡ hơn nhiều rồi.", difficulty: "medium", theme: "doctor" },
     ],
@@ -84,7 +84,7 @@ const a2More: SpeakingTheme[] = [
   {
     id: "sv-bank-post", name: "Bank & post", nameVi: "Ngân hàng & bưu điện", icon: "🏦", level: "A2",
     sentences: [
-      { id: "sv-bp1", text: "Jag skulle vilja öppna ett bankkonto.", translation: "Tôi muốn mở tài khoản ngân hàng.", difficulty: "medium", theme: "bank" },
+      { id: "sv-bp1", text: "Vilka papper behöver jag för att bli kund här?", translation: "Tôi cần giấy tờ gì để mở tài khoản ở đây?", difficulty: "medium", theme: "bank" },
       { id: "sv-bp2", text: "Behöver jag personnummer för det här?", translation: "Tôi có cần mã số định danh không?", difficulty: "medium", theme: "bank" },
       { id: "sv-bp3", text: "Hur länge tar överföringen?", translation: "Chuyển khoản mất bao lâu?", difficulty: "medium", theme: "bank" },
       { id: "sv-bp4", text: "Jag vill skicka det här paketet till Vietnam.", translation: "Tôi muốn gửi gói hàng này đến Việt Nam.", difficulty: "medium", theme: "post" },

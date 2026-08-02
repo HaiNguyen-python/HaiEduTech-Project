@@ -45,7 +45,7 @@ const a1: SpeakingTheme[] = [
       { id: "e5-sv-bb6", text: "Mina ögon är torra av skärmen.", translation: "Mắt tôi khô vì nhìn màn hình.", difficulty: "medium", theme: "body" },
       { id: "e5-sv-bb7", text: "Jag tränar tre gånger i veckan.", translation: "Tôi tập thể dục ba lần một tuần.", difficulty: "easy", theme: "body" },
       { id: "e5-sv-bb8", text: "Jag har feber och känner mig sjuk.", translation: "Tôi bị sốt và cảm thấy mệt.", difficulty: "medium", theme: "body" },
-      { id: "e5-sv-bb9", text: "Ryggen gör ont när jag sitter länge.", translation: "Lưng tôi đau khi ngồi lâu.", difficulty: "medium", theme: "body" },
+      { id: "e5-sv-bb9", text: "Jag har ont i nacken efter en lång arbetsdag.", translation: "Tôi bị đau cổ sau một ngày làm việc dài.", difficulty: "medium", theme: "body" },
       { id: "e5-sv-bb10", text: "Jag mår mycket bättre idag, tack.", translation: "Hôm nay tôi khỏe hơn nhiều, cảm ơn.", difficulty: "easy", theme: "body" },
     ],
   },
@@ -53,7 +53,7 @@ const a1: SpeakingTheme[] = [
     id: "sv-home-basic", name: "Hemma & vardag", nameVi: "Ở nhà & đồ đạc", icon: "🛋️", level: "A1",
     sentences: [
       { id: "e5-sv-hb1", text: "Vi bor i en lägenhet med tre rum.", translation: "Chúng tôi sống trong căn hộ ba phòng.", difficulty: "easy", theme: "home" },
-      { id: "e5-sv-hb2", text: "Köket är litet men ljust.", translation: "Nhà bếp nhỏ nhưng sáng.", difficulty: "easy", theme: "home" },
+      { id: "e5-sv-hb2", text: "Vi äter frukost i köket varje morgon.", translation: "Chúng tôi ăn sáng trong bếp mỗi buổi sáng.", difficulty: "easy", theme: "home" },
       { id: "e5-sv-hb3", text: "Soffan står vid fönstret.", translation: "Ghế sofa đặt cạnh cửa sổ.", difficulty: "easy", theme: "home" },
       { id: "e5-sv-hb4", text: "Jag städar badrummet på lördagar.", translation: "Tôi dọn phòng tắm vào thứ Bảy.", difficulty: "medium", theme: "home" },
       { id: "e5-sv-hb5", text: "Kan du stänga dörren, tack?", translation: "Bạn đóng cửa giúp nhé?", difficulty: "easy", theme: "home" },
@@ -115,9 +115,9 @@ const a2: SpeakingTheme[] = [
   {
     id: "sv-restaurant", name: "På restaurang", nameVi: "Ở nhà hàng", icon: "🍜", level: "A2",
     sentences: [
-      { id: "e5-sv-re1", text: "Ett bord för två, tack.", translation: "Cho bàn hai người, cảm ơn.", difficulty: "easy", theme: "restaurant" },
+      { id: "e5-sv-re1", text: "Har ni ett ledigt bord vid fönstret?", translation: "Các bạn còn bàn trống cạnh cửa sổ không?", difficulty: "easy", theme: "restaurant" },
       { id: "e5-sv-re2", text: "Kan jag få se menyn, tack?", translation: "Cho tôi xem thực đơn nhé?", difficulty: "easy", theme: "restaurant" },
-      { id: "e5-sv-re3", text: "Vad rekommenderar du idag?", translation: "Hôm nay bạn gợi ý món gì?", difficulty: "medium", theme: "restaurant" },
+      { id: "e5-sv-re3", text: "Finns det något vegetariskt på menyn?", translation: "Trong thực đơn có món chay nào không?", difficulty: "medium", theme: "restaurant" },
       { id: "e5-sv-re4", text: "Jag är allergisk mot nötter.", translation: "Tôi bị dị ứng với các loại hạt.", difficulty: "medium", theme: "restaurant" },
       { id: "e5-sv-re5", text: "Finns det något vegetariskt alternativ?", translation: "Có món chay nào không?", difficulty: "medium", theme: "restaurant" },
       { id: "e5-sv-re6", text: "Maten var verkligen god, tack.", translation: "Món ăn thực sự ngon, cảm ơn.", difficulty: "easy", theme: "restaurant" },
