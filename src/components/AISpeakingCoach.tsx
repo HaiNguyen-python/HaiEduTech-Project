@@ -1355,13 +1355,26 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                   <Button
                     variant="outline"
                     size="lg"
-                    onClick={playDemo}
+                    onClick={() => playDemo(false)}
                     disabled={isPlayingDemo}
                     className="gap-2"
                   >
                     <Volume2 className={`w-5 h-5 ${isPlayingDemo ? "animate-pulse text-primary" : ""}`} />
                     {t("Nghe mẫu", "Listen")}
                   </Button>
+
+                  {/* Slow playback - helps with Swedish sj-/tj- clusters and long vowels */}
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => playDemo(true)}
+                    disabled={isPlayingDemo}
+                    className="gap-2"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    {t("Nghe chậm", "Slow")}
+                  </Button>
+
 
                   {/* Record / Stop */}
                   <motion.div
