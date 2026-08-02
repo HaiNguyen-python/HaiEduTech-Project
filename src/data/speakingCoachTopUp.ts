@@ -65,18 +65,18 @@ export const themeTopUps: Record<string, SpeakingSentence[]> = {
     { id: "tu-en-fam2", text: "We usually have dinner together every Sunday.", translation: "Chúng tôi thường ăn tối cùng nhau vào mỗi Chủ nhật.", ipa: "/wi juʒəwəli hæv dɪnər təgɛðər ɛvəri səndeɪ/", difficulty: "medium", theme: "family" },
   ],
   "en-feelings": [
-    { id: "tu-en-fe1", text: "I felt a bit tired after work today.", translation: "Hôm nay tôi cảm thấy hơi mệt sau giờ làm.", ipa: "/aɪ fɛlt ə bɪt taɪərd æftər wərˈk tədeɪ/", difficulty: "easy", theme: "feelings" },
-    { id: "tu-en-fe2", text: "She looked surprised when she heard the news.", translation: "Cô ấy có vẻ ngạc nhiên khi nghe tin.", ipa: "/ʃi lʊkt sərpɹaɪzd wɛn ʃi hərˈd ðə nuz/", difficulty: "medium", theme: "feelings" },
+    { id: "tu-en-fe1", text: "I felt a bit tired after work today.", translation: "Hôm nay tôi cảm thấy hơi mệt sau giờ làm.", ipa: "/aɪ fɛlt ə bɪt taɪərd æftər wərk tədeɪ/", difficulty: "easy", theme: "feelings" },
+    { id: "tu-en-fe2", text: "She looked surprised when she heard the news.", translation: "Cô ấy có vẻ ngạc nhiên khi nghe tin.", ipa: "/ʃi lʊkt sərpɹaɪzd wɛn ʃi hərd ðə nuz/", difficulty: "medium", theme: "feelings" },
     { id: "tu-en-fe3", text: "I was deeply moved by his honest speech.", translation: "Tôi xúc động sâu sắc trước bài phát biểu chân thành của anh ấy.", ipa: "/aɪ wəz dipli muvd baɪ hɪz ɑnəst spiʧ/", difficulty: "hard", theme: "feelings" },
-    { id: "tu-en-fe4", text: "Honestly, I'm feeling a little overwhelmed lately.", translation: "Thật lòng mà nói, dạo này tôi cảm thấy hơi quá tải.", ipa: "/ɑnəstli aɪm filɪŋ ə ˈlɪtəl ˌoʊvərˈwɛlmd leɪtli/", difficulty: "hard", theme: "feelings" },
+    { id: "tu-en-fe4", text: "Honestly, I'm feeling a little overwhelmed lately.", translation: "Thật lòng mà nói, dạo này tôi cảm thấy hơi quá tải.", ipa: "/ɑnəstli aɪm filɪŋ ə ˈlɪtəl ˌoʊvərwɛlmd leɪtli/", difficulty: "hard", theme: "feelings" },
   ],
   "en-future": [
-    { id: "tu-en-fu1", text: "In five years, I hope to work abroad.", translation: "Trong năm năm tới, tôi hy vọng được làm việc ở nước ngoài.", ipa: "/ɪn faɪv jɪɹz aɪ hoʊp tə wərˈk əbɹɔd/", difficulty: "medium", theme: "future" },
+    { id: "tu-en-fu1", text: "In five years, I hope to work abroad.", translation: "Trong năm năm tới, tôi hy vọng được làm việc ở nước ngoài.", ipa: "/ɪn faɪv jɪɹz aɪ hoʊp tə wərk əbɹɔd/", difficulty: "medium", theme: "future" },
     { id: "tu-en-fu2", text: "Technology will probably change our daily routines completely.", translation: "Công nghệ có lẽ sẽ thay đổi hoàn toàn thói quen hàng ngày của chúng ta.", ipa: "/tɛknɑləʤi wɪl pɹɑbəbli ʧeɪnʤ ˈaʊər deɪli ɹutinz kəmplitli/", difficulty: "hard", theme: "future" },
   ],
   "en-hobbies": [
     { id: "tu-en-ho1", text: "I love taking photos of nature on the weekend.", translation: "Tôi thích chụp ảnh thiên nhiên vào cuối tuần.", ipa: "/aɪ ləv teɪkɪŋ foʊtoʊz əv neɪʧər ɑːn ðə wikɛnd/", difficulty: "easy", theme: "hobbies" },
-    { id: "tu-en-ho2", text: "Playing the guitar helps me relax after a long day.", translation: "Chơi guitar giúp tôi thư giãn sau một ngày dài.", ipa: "/pleɪˈɪŋ ðə gɪtɑɹ hɛlps mi ɹɪlæks æftər ə lɔŋ deɪ/", difficulty: "medium", theme: "hobbies" },
+    { id: "tu-en-ho2", text: "Playing the guitar helps me relax after a long day.", translation: "Chơi guitar giúp tôi thư giãn sau một ngày dài.", ipa: "/pleɪɪŋ ðə gɪtɑɹ hɛlps mi ɹɪlæks æftər ə lɔŋ deɪ/", difficulty: "medium", theme: "hobbies" },
     { id: "tu-en-ho3", text: "Lately I've been getting into pottery and ceramics.", translation: "Gần đây tôi đang dần thích nghệ thuật gốm sứ.", ipa: "/leɪtli aɪv bɪn gɛtɪŋ ɪntu pɑtəri ənd səræmɪks/", difficulty: "hard", theme: "hobbies" },
   ],
   "en-jobinterview": [
@@ -88,7 +88,7 @@ export const themeTopUps: Record<string, SpeakingSentence[]> = {
     { id: "tu-en-mo2", text: "Investing wisely can really change your financial future.", translation: "Đầu tư khôn ngoan thực sự có thể thay đổi tương lai tài chính của bạn.", ipa: "/ɪnvɛstɪŋ waɪzli kæn ɹɪli ʧeɪnʤ jɔːr fɪˈnænʃəl ˈfjuːtʃər/", difficulty: "hard", theme: "money" },
   ],
   "en-movies": [
-    { id: "tu-en-mv1", text: "My favorite genre is science fiction.", translation: "Thể loại yêu thích của tôi là khoa học viễn tưởng.", ipa: "/maɪ feɪvərɪt ʒɑnɹə ɪz saɪˈʌns fɪkʃən/", difficulty: "easy", theme: "movies" },
+    { id: "tu-en-mv1", text: "My favorite genre is science fiction.", translation: "Thể loại yêu thích của tôi là khoa học viễn tưởng.", ipa: "/maɪ feɪvərɪt ʒɑnɹə ɪz saɪʌns fɪkʃən/", difficulty: "easy", theme: "movies" },
     { id: "tu-en-mv2", text: "The cinematography in that film was absolutely stunning.", translation: "Quay phim trong bộ phim đó thực sự tuyệt đẹp.", ipa: "/ðə sɪnɪmətɑgɹəfi ɪn ðæt fɪlm wəz æbsəlutli stənɪŋ/", difficulty: "hard", theme: "movies" },
   ],
   "en-restaurant": [
