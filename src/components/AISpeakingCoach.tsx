@@ -363,14 +363,71 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     return "webkitSpeechRecognition" in window || "SpeechRecognition" in window;
   }, []);
 
+  // iOS / Safari cannot keep a continuous session alive reliably: the auto
+  // restart loop drops audio there, so we run a single-shot session instead.
+  const isAppleWebkit = useMemo(() => {
+    if (typeof navigator === "undefined") return false;
+    const ua = navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && (navigator as any).maxTouchPoints > 1);
+    const isSafari = /Safari/.test(ua) && !/Chrome|Chromium|Edg|OPR/.test(ua);
+    return isIOS || isSafari;
+  }, []);
+
+  // Verify the microphone can actually be opened before starting recognition.
+  // Without this, a denied permission or a missing device surfaces as a generic
+  // "recognition unavailable" message that students cannot act on.
+  const ensureMicrophoneAccess = useCallback(async (): Promise<boolean> => {
+    if (typeof window !== "undefined" && !window.isSecureContext) {
+      setMicError(t(
+        "Trang cần chạy trên HTTPS để dùng microphone.",
+        "The page must run over HTTPS to use the microphone."
+      ));
+      return false;
+    }
+    if (!navigator.mediaDevices?.getUserMedia) return true; // Let recognition try anyway
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Release immediately: SpeechRecognition opens its own capture stream.
+      stream.getTracks().forEach((track) => track.stop());
+      return true;
+    } catch (err: any) {
+      const name = err?.name || "";
+      if (name === "NotAllowedError" || name === "SecurityError") {
+        setMicError(t(
+          "Vui lòng cho phép truy cập microphone trong cài đặt trình duyệt.",
+          "Please allow microphone access in your browser settings."
+        ));
+      } else if (name === "NotFoundError" || name === "OverconstrainedError") {
+        setMicError(t(
+          "Không tìm thấy microphone. Kiểm tra thiết bị và thử lại.",
+          "No microphone found. Please check your device and try again."
+        ));
+      } else {
+        setMicError(t(
+          "Không mở được microphone. Đóng các ứng dụng đang dùng mic rồi thử lại.",
+          "Could not open the microphone. Close other apps using it and try again."
+        ));
+      }
+      return false;
+    }
+  }, [t]);
+
   // Initialize speech recognition
-  const startRecognition = useCallback(() => {
+  const startRecognition = useCallback(async () => {
     if (!speechSupported || !currentSentence) return;
 
     setMicError(null);
     setTranscript("");
     setResults(null);
     setAccuracy(null);
+    setListenSeconds(0);
+    // Allow the same sentence to be graded again on a repeat attempt: without
+    // this reset an identical transcript is silently skipped and the learner
+    // sees no feedback at all.
+    lastProcessedTranscriptRef.current = "";
+
+    const micReady = await ensureMicrophoneAccess();
+    if (!micReady) return;
 
     // Ensure any prior recognition instance is fully aborted before starting a
     // new one. Failing to do so is the #1 cause of the "aborted" / "already
