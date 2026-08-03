@@ -45,7 +45,11 @@ export interface DeepModelText {
 
 export interface DeepQuizItem {
   q: string;
+  /** English mirror of the question (optional; see swedishLessonQuizEn.ts). */
+  qEn?: string;
   options: string[];
+  /** English mirror of the options, same order. */
+  optionsEn?: string[];
   answer: number;
   explainVi: string;
   explainEn: string;

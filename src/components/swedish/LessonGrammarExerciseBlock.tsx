@@ -25,9 +25,11 @@ export const LessonGrammarExerciseBlock = ({ id, t }: Props) => {
   const [checked, setChecked] = useState<Record<number, boolean>>({});
   if (!data) return null;
 
-  const isCorrect = (i: number, expected: string) => {
+  const isCorrect = (i: number, expected: string, accepted?: string[]) => {
     const u = norm(answers[i] || "");
-    return !!u && (u === norm(expected) || norm(expected).includes(u));
+    if (!u) return false;
+    const all = [expected, ...(accepted || [])].map(norm);
+    return all.some((a) => u === a || a.includes(u));
   };
   const reset = () => { setAnswers({}); setChecked({}); };
 
@@ -70,7 +72,7 @@ export const LessonGrammarExerciseBlock = ({ id, t }: Props) => {
         <div className="space-y-2">
           {data.exercises.map((ex, i) => {
             const done = checked[i];
-            const ok = done && isCorrect(i, ex.answer);
+            const ok = done && isCorrect(i, ex.answer, ex.answers);
             return (
               <div key={i} className="rounded-md border border-fuchsia-500/20 bg-background/60 p-2">
                 <div className="mb-1.5 text-xs font-medium sm:text-sm">

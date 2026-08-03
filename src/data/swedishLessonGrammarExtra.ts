@@ -10,7 +10,10 @@
 export interface LessonGrammarExercise {
   qVi: string;
   qEn: string;
+  /** Main expected answer (shown to the learner when they miss it). */
   answer: string;
+  /** Extra accepted spellings / translations (English + Swedish variants). */
+  answers?: string[];
   hintVi?: string;
   hintEn?: string;
 }
@@ -31,7 +34,8 @@ const E = (
   answer: string,
   hintVi?: string,
   hintEn?: string,
-): LessonGrammarExercise => ({ qVi, qEn, answer, hintVi, hintEn });
+  answers?: string[],
+): LessonGrammarExercise => ({ qVi, qEn, answer, hintVi, hintEn, answers });
 
 export const LESSON_GRAMMAR_EXTRA: Record<string, LessonGrammarExtra> = {
   "a1-pron": {
@@ -46,7 +50,11 @@ export const LESSON_GRAMMAR_EXTRA: Record<string, LessonGrammarExtra> = {
     exercises: [
       E("Từ nào có nguyên âm DÀI: 'mat' hay 'matt'?", "Which has a LONG vowel: 'mat' or 'matt'?", "mat"),
       E("Điền: 'Solen är ___.' (nóng)", "Fill: 'The sun is ___.' (hot)", "het"),
-      E("Đoán chiều dài: 'kall' – nguyên âm dài hay ngắn?", "Vowel length in 'kall'?", "ngắn"),
+      E("Đoán chiều dài: 'kall' - nguyên âm dài hay ngắn?", "Vowel length in 'kall'?", "kort", undefined, undefined, [
+        "kort",
+        "short",
+        "ngắn",
+      ]),
     ],
   },
   "a1-self": {
