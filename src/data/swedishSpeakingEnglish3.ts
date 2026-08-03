@@ -83,7 +83,7 @@ export const SWEDISH_EN_3: Record<string, string> = {
   "e5-sv-re2": "Could I see the menu, please?",
   "e5-sv-re3": "Is there anything vegetarian on the menu?",
   "e5-sv-re4": "I am allergic to nuts.",
-  "e5-sv-re5": "Is there a vegetarian option?",
+  "e5-sv-re5": "Could I have the dish without onion, please?",
   "e5-sv-re6": "The food was really good, thank you.",
   "e5-sv-re7": "Could we have the bill, please?",
   "e5-sv-re8": "We would like to split the bill.",
