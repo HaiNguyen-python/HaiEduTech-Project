@@ -9,6 +9,8 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
+import { LESSON_DEEP_A2 } from "@/data/swedishLessonDeepA2";
+
 export interface DeepGrammarTable {
   titleVi: string;
   titleEn: string;
@@ -64,7 +66,7 @@ export interface LessonDeepDive {
   quiz?: DeepQuizItem[];
 }
 
-export const LESSON_DEEP: Record<string, LessonDeepDive> = {
+const LESSON_DEEP_A1: Record<string, LessonDeepDive> = {
   /* ============================ A1 - BATCH A ============================ */
 
   "a1-pron": {
@@ -1062,4 +1064,9 @@ export const LESSON_DEEP: Record<string, LessonDeepDive> = {
       },
     ],
   },
+};
+
+export const LESSON_DEEP: Record<string, LessonDeepDive> = {
+  ...LESSON_DEEP_A1,
+  ...LESSON_DEEP_A2,
 };
