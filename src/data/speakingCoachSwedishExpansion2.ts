@@ -88,7 +88,7 @@ export const swedishB2Extra: SpeakingTheme[] = [
       { id: "sv-env2-5", text: "Jag försöker handla second hand så ofta jag kan.", translation: "Tôi cố mua đồ cũ thường xuyên nhất có thể.", difficulty: "hard", theme: "environment" },
       { id: "sv-env2-6", text: "Flygskam har påverkat många svenskars resvanor.", translation: "'Xấu hổ vì đi máy bay' đã tác động tới thói quen đi lại của người Thụy Điển.", difficulty: "hard", theme: "environment" },
       { id: "sv-env2-7", text: "Biologisk mångfald är minst lika viktig som klimatet.", translation: "Đa dạng sinh học quan trọng không kém khí hậu.", difficulty: "hard", theme: "environment" },
-      { id: "sv-env2-8", text: "Vi behöver minska vårt köttkonsumtion drastiskt.", translation: "Chúng ta cần giảm tiêu thụ thịt một cách mạnh mẽ.", difficulty: "hard", theme: "environment" },
+      { id: "sv-env2-8", text: "Vi behöver minska vår köttkonsumtion drastiskt.", translation: "Chúng ta cần giảm tiêu thụ thịt một cách mạnh mẽ.", difficulty: "hard", theme: "environment" },
       { id: "sv-env2-9", text: "Företag måste ta ansvar för hela sin värdekedja.", translation: "Doanh nghiệp phải chịu trách nhiệm trên toàn chuỗi giá trị.", difficulty: "hard", theme: "environment" },
       { id: "sv-env2-10", text: "Individuella val räcker inte, vi behöver systemförändringar.", translation: "Lựa chọn cá nhân không đủ, cần thay đổi cả hệ thống.", difficulty: "hard", theme: "environment" },
     ],

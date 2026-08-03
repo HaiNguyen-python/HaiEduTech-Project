@@ -119,7 +119,7 @@ const a2: SpeakingTheme[] = [
       { id: "e5-sv-re2", text: "Kan jag få se menyn, tack?", translation: "Cho tôi xem thực đơn nhé?", difficulty: "easy", theme: "restaurant" },
       { id: "e5-sv-re3", text: "Finns det något vegetariskt på menyn?", translation: "Trong thực đơn có món chay nào không?", difficulty: "medium", theme: "restaurant" },
       { id: "e5-sv-re4", text: "Jag är allergisk mot nötter.", translation: "Tôi bị dị ứng với các loại hạt.", difficulty: "medium", theme: "restaurant" },
-      { id: "e5-sv-re5", text: "Finns det något vegetariskt alternativ?", translation: "Có món chay nào không?", difficulty: "medium", theme: "restaurant" },
+      { id: "e5-sv-re5", text: "Kan jag få maten utan lök, tack?", translation: "Cho tôi món không có hành nhé?", difficulty: "medium", theme: "restaurant" },
       { id: "e5-sv-re6", text: "Maten var verkligen god, tack.", translation: "Món ăn thực sự ngon, cảm ơn.", difficulty: "easy", theme: "restaurant" },
       { id: "e5-sv-re7", text: "Kan vi få notan, tack?", translation: "Cho chúng tôi xin hóa đơn nhé?", difficulty: "easy", theme: "restaurant" },
       { id: "e5-sv-re8", text: "Vi vill dela på räkningen.", translation: "Chúng tôi muốn chia tiền hóa đơn.", difficulty: "medium", theme: "restaurant" },
