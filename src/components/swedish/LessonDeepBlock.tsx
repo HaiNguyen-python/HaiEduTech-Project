@@ -7,12 +7,15 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useState } from "react";
-import { CheckCircle2, XCircle, Volume2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { CheckCircle2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LESSON_DEEP } from "@/data/swedishLessonDeep";
+import { lessonQuizEn } from "@/data/swedishLessonQuizEn";
+import { shuffleQuizOptions } from "@/lib/swedishQuizShuffle";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { LessonGrammarExerciseBlock } from "@/components/swedish/LessonGrammarExerciseBlock";
+
 
 interface Props {
   id: string;
@@ -135,27 +138,52 @@ export const LessonDeepBlock = ({ id, lang, t }: Props) => {
         </div>
       )}
 
-      {deep.quiz && deep.quiz.length > 0 && <DeepQuizBlock items={deep.quiz} lang={lang} t={t} />}
+      {deep.quiz && deep.quiz.length > 0 && (
+        <DeepQuizBlock lessonId={id} items={deep.quiz} lang={lang} t={t} />
+      )}
     </div>
   );
 };
 
 interface QuizItem {
   q: string;
+  qEn?: string;
   options: string[];
+  optionsEn?: string[];
   answer: number;
   explainVi: string;
   explainEn: string;
 }
 
 interface QuizProps {
+  lessonId: string;
   items: QuizItem[];
   lang: string;
   t: (vi: string, en: string) => string;
 }
 
-const DeepQuizBlock = ({ items, lang, t }: QuizProps) => {
+const DeepQuizBlock = ({ lessonId, items, lang, t }: QuizProps) => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
+
+  // Shuffle options once per lesson so the correct answer is not always "B".
+  const prepared = useMemo(
+    () =>
+      items.map((q, qi) => {
+        const en = lessonQuizEn(lessonId, qi);
+        const optionsEn = q.optionsEn ?? en?.options;
+        const shuffled = shuffleQuizOptions(`${lessonId}#${qi}`, q.options, q.answer, optionsEn);
+        return {
+          q: q.q,
+          qEn: q.qEn ?? en?.q ?? q.q,
+          options: shuffled.options,
+          optionsEn: shuffled.optionsEn,
+          answer: shuffled.answer,
+          explainVi: q.explainVi,
+          explainEn: q.explainEn,
+        };
+      }),
+    [items, lessonId],
+  );
 
   return (
     <div className="rounded-md border border-cyan-500/30 bg-cyan-500/5 p-3">
@@ -163,17 +191,18 @@ const DeepQuizBlock = ({ items, lang, t }: QuizProps) => {
         {t("✅ Tự kiểm tra cuối bài", "✅ Self-check quiz")}
       </div>
       <ol className="space-y-3">
-        {items!.map((q, qi) => {
+        {prepared.map((q, qi) => {
           const chosen = answers[qi];
           const isCorrect = chosen === q.answer;
           const isAnswered = chosen !== undefined;
+          const options = lang === "vi" ? q.options : q.optionsEn ?? q.options;
           return (
             <li key={qi} className="rounded-md bg-card/60 border border-border/40 p-2.5 text-xs sm:text-sm">
               <div className="mb-2 font-medium text-foreground">
-                {qi + 1}. {q.q}
+                {qi + 1}. {t(q.q, q.qEn)}
               </div>
               <div className="grid grid-cols-1 gap-1.5">
-                {q.options.map((opt, oi) => {
+                {options.map((opt, oi) => {
                   const isThisChosen = chosen === oi;
                   const correctness =
                     isAnswered && oi === q.answer
@@ -221,7 +250,5 @@ const DeepQuizBlock = ({ items, lang, t }: QuizProps) => {
   );
 };
 
-// Suppress unused-import warning (Volume2 reserved for future inline use)
-void Volume2;
-
 export default LessonDeepBlock;
+
