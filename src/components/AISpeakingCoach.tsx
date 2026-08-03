@@ -14,6 +14,8 @@ import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type 
 import { playFinnishTts } from "@/lib/finnishTts";
 import { playSwedishTts } from "@/lib/swedishTts";
 import { transcribeSwedishSentence, swedishSoundTipsFor } from "@/lib/swedishSentenceIpa";
+import { swedishSentenceEn } from "@/data/swedishSpeakingEnglishIndex";
+
 import { supabase } from "@/integrations/supabase/client";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 
