@@ -1252,8 +1252,13 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                     )}
                   </div>
 
-                  {/* Translation */}
-                  <p className="text-sm text-muted-foreground italic">{currentSentence.translation}</p>
+                  {/* Translation: VI when UI is Vietnamese, EN when UI is English */}
+                  <p className="text-sm text-muted-foreground italic">
+                    {language === "swedish"
+                      ? t(currentSentence.translation, swedishSentenceEn(currentSentence.id) || currentSentence.translation)
+                      : currentSentence.translation}
+                  </p>
+
 
                   {/* IPA / Pinyin + Swedish pronunciation coaching */}
                   {(() => {
