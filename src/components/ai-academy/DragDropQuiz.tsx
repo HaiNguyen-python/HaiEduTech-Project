@@ -58,9 +58,9 @@ const DragDropQuiz = ({ questions, onComplete }: Props) => {
     return (
       <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border-2 border-emerald-400/40">
         <Trophy className="w-12 h-12 mx-auto text-amber-500 mb-2" />
-        <h4 className="font-display font-bold text-lg">Hoàn thành Quiz! 🎉</h4>
+        <h4 className="font-display font-bold text-lg">Quiz complete! 🎉</h4>
         <p className="text-sm text-muted-foreground">
-          Điểm: <b>{totalScore}/{questions.length}</b>
+          Score: <b>{totalScore}/{questions.length}</b>
         </p>
       </div>
     );
@@ -70,7 +70,7 @@ const DragDropQuiz = ({ questions, onComplete }: Props) => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <p className="text-sm font-semibold">{q.prompt}</p>
-        <span className="text-[11px] text-muted-foreground">Câu {qIdx + 1}/{questions.length}</span>
+        <span className="text-[11px] text-muted-foreground">Question {qIdx + 1}/{questions.length}</span>
       </div>
 
       {/* Items pool */}
@@ -146,7 +146,7 @@ const DragDropQuiz = ({ questions, onComplete }: Props) => {
         onClick={handleSubmit}
         className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 text-white"
       >
-        {submitted ? "Đang chấm..." : "Kiểm tra"}
+        {submitted ? "Checking..." : "Check"}
       </Button>
     </div>
   );

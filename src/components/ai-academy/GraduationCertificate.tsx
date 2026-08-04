@@ -43,7 +43,7 @@ function formatDate(d: Date): string {
 
 export default function GraduationCertificate({ open, onClose, studentName, seed }: Props) {
   const [editing, setEditing] = useState(false);
-  const [name, setName] = useState(studentName || "Học sinh HaiEduTech");
+  const [name, setName] = useState(studentName || "HaiEduTech Student");
 
   useEffect(() => {
     if (studentName) setName(studentName);
@@ -60,7 +60,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
 
   const handleShare = () => {
     const url = window.location.href;
-    const text = `Mình vừa hoàn thành khoá học AI Academy của HaiEduTech với 36/36 sao! 🎓`;
+    const text = `I just completed the HaiEduTech AI Academy course with 36/36 stars! 🎓`;
     window.open(
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`,
       "_blank",
@@ -80,7 +80,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
           onClick={onClose}
           role="dialog"
           aria-modal="true"
-          aria-label="Chứng chỉ tốt nghiệp AI Academy"
+          aria-label="AI Academy Graduation Certificate"
         >
           <motion.div
             initial={{ scale: 0.92, y: 24, opacity: 0 }}
@@ -144,7 +144,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
                   className="mt-[2%] font-serif font-bold text-[#1a1a2e] tracking-wide"
                   style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif", fontSize: "clamp(1.4rem,3.6vw,2.8rem)" }}
                 >
-                  CHỨNG CHỈ HOÀN THÀNH KHÓA HỌC
+                  CERTIFICATE OF COURSE COMPLETION
                 </h1>
                 <div
                   className="text-[#6b5a2e] italic tracking-wider"
@@ -165,7 +165,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
                   className="mt-[2.5%] text-[#3a3a4a]"
                   style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(0.85rem,1.7vw,1.2rem)" }}
                 >
-                  Trân trọng chứng nhận em <span className="italic text-[#6b5a2e]">/ This is to certify that:</span>
+                  This is to proudly certify that <span className="italic text-[#6b5a2e]">/ This is to certify that:</span>
                 </p>
 
                 {/* Student name (calligraphic) */}
@@ -184,7 +184,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
                     type="button"
                     onClick={() => setEditing((v) => !v)}
                     className="print:hidden opacity-0 group-hover:opacity-100 transition text-[#c9a84c] hover:text-[#a08736]"
-                    aria-label="Sửa tên"
+                    aria-label="Edit name"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
@@ -197,11 +197,11 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
                   className="mt-[2%] max-w-[85%] text-[#3a3a4a] leading-snug"
                   style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(0.85rem,1.7vw,1.2rem)" }}
                 >
-                  Đã hoàn thành xuất sắc khóa học{" "}
+                  Has excellently completed the{" "}
                   <span className="font-bold text-[#1a1a2e]">
-                    Trí tuệ nhân tạo Phổ thông (AI Academy)
+                    Artificial Intelligence for Students (AI Academy)
                   </span>
-                  {" "}gồm <span className="font-bold">12 chuyên đề</span> công nghệ thực hành chuyên sâu, đạt thành tích <span className="font-bold text-[#c9a84c]">36/36 sao ⭐</span>.
+                  {" "}course, covering <span className="font-bold">12 in-depth practical topics</span>, achieving a score of <span className="font-bold text-[#c9a84c]">36/36 stars ⭐</span>.
                 </p>
 
                 {/* Footer area */}
@@ -212,7 +212,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
                       className="text-[#6b5a2e] uppercase tracking-widest"
                       style={{ fontSize: "clamp(0.55rem,0.9vw,0.75rem)" }}
                     >
-                      Ngày cấp · Issue Date
+                      Issue Date
                     </div>
                     <div
                       className="font-bold text-[#1a1a2e]"
@@ -224,7 +224,7 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
                       className="mt-1 text-[#6b5a2e] uppercase tracking-widest"
                       style={{ fontSize: "clamp(0.55rem,0.9vw,0.75rem)" }}
                     >
-                      Mã chứng chỉ · ID
+                      Certificate ID
                     </div>
                     <div
                       className="font-mono font-bold text-[#1a1a2e]"
@@ -286,12 +286,12 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
                 <Input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Nhập tên đầy đủ của em"
+                  placeholder="Enter full name"
                   className="text-center font-semibold"
                   maxLength={60}
                   autoFocus
                 />
-                <Button size="icon" onClick={() => setEditing(false)} aria-label="Xong">
+                <Button size="icon" onClick={() => setEditing(false)} aria-label="Done">
                   <Check className="w-4 h-4" />
                 </Button>
               </div>
@@ -303,17 +303,17 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
                 onClick={handlePrint}
                 className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white font-bold shadow-lg"
               >
-                <Printer className="w-4 h-4 mr-2" /> Tải về PDF / Máy in
+                <Printer className="w-4 h-4 mr-2" /> Download PDF / Print
               </Button>
               <Button
                 onClick={handleShare}
                 variant="outline"
                 className="font-bold border-2"
               >
-                <Share2 className="w-4 h-4 mr-2" /> Chia sẻ lên Facebook
+                <Share2 className="w-4 h-4 mr-2" /> Share on Facebook
               </Button>
               <Button onClick={onClose} variant="ghost" className="font-bold">
-                <X className="w-4 h-4 mr-2" /> Đóng
+                <X className="w-4 h-4 mr-2" /> Close
               </Button>
             </div>
           </motion.div>
