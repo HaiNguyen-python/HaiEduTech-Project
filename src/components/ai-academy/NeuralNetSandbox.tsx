@@ -12,17 +12,17 @@ import { BonusGames } from "./SandboxBonusGames";
 import { BestMatchPick } from "./SandboxMiniActivity";
 
 const NN_TF = [
-  { q: "Não AI mô phỏng các tế bào thần kinh gọi là neuron.", a: true },
-  { q: "AI 'học' bằng cách điều chỉnh hàng triệu trọng số.", a: true },
-  { q: "Mỗi neuron có cảm xúc giống con người.", a: false, why: "Neuron chỉ là phép toán: input × weight + bias." },
-  { q: "Càng nhiều dữ liệu huấn luyện, AI càng dự đoán chuẩn hơn.", a: true },
-  { q: "Mạng neuron sâu (Deep Learning) chỉ có 1 lớp ẩn.", a: false, why: "'Sâu' = nhiều lớp ẩn xếp chồng (có khi hàng trăm)." },
+  { q: "AI brains simulate nerve cells called neurons.", a: true },
+  { q: "AI 'learns' by adjusting millions of weights.", a: true },
+  { q: "Each neuron has human-like emotions.", a: false, why: "A neuron is just math: input times weight plus bias." },
+  { q: "More training data usually makes AI predictions more accurate.", a: true },
+  { q: "A deep neural network (Deep Learning) has only 1 hidden layer.", a: false, why: "'Deep' means many stacked hidden layers - sometimes hundreds." },
 ];
 const NN_PAIRS = [
-  { a: "Weight (trọng số)", b: "Con số gắn vào mỗi đường nối" },
-  { a: "Activation", b: "Hàm 'bật / tắt' tín hiệu của neuron" },
-  { a: "Backpropagation", b: "Cách AI sửa trọng số khi sai" },
-  { a: "Epoch", b: "1 lần học hết toàn bộ dữ liệu" },
+  { a: "Weight", b: "The number attached to each connection" },
+  { a: "Activation", b: "The 'on/off' function of a neuron's signal" },
+  { a: "Backpropagation", b: "How AI corrects its weights after a mistake" },
+  { a: "Epoch", b: "One full pass through all the training data" },
 ];
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
@@ -94,7 +94,7 @@ const NeuralNetSandbox = () => {
         </svg>
 
         <div className="text-center mt-2">
-          <div className="text-[11px] uppercase tracking-wider text-emerald-300 font-bold">Dự đoán điểm thi</div>
+          <div className="text-[11px] uppercase tracking-wider text-emerald-300 font-bold">Predicted Exam Score</div>
           <motion.div
             key={score}
             initial={{ scale: 0.9, opacity: 0.6 }}
@@ -109,14 +109,14 @@ const NeuralNetSandbox = () => {
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="p-3 rounded-xl border bg-card">
           <div className="flex items-center justify-between text-sm mb-2">
-            <span>📚 Giờ học / ngày</span>
+            <span>📚 Study Hours / Day</span>
             <span className="font-bold text-emerald-600">{study}h</span>
           </div>
           <Slider value={[study]} min={0} max={10} step={0.5} onValueChange={(v) => setStudy(v[0])} />
         </div>
         <div className="p-3 rounded-xl border bg-card">
           <div className="flex items-center justify-between text-sm mb-2">
-            <span>😴 Giờ ngủ / ngày</span>
+            <span>😴 Sleep Hours / Day</span>
             <span className="font-bold text-cyan-600">{sleep}h</span>
           </div>
           <Slider value={[sleep]} min={3} max={12} step={0.5} onValueChange={(v) => setSleep(v[0])} />
@@ -125,24 +125,24 @@ const NeuralNetSandbox = () => {
 
       <p className="text-xs text-muted-foreground flex items-start gap-2">
         <Brain className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
-        Đường nối sáng hơn = "trọng số" lớn hơn. Não AI thật học hàng triệu trọng số như vậy để dự đoán mọi thứ - từ điểm thi đến giá nhà.
+        A brighter connection means a bigger "weight". Real AI brains learn millions of weights like this to predict everything - from exam scores to house prices.
       </p>
 
       <BestMatchPick
-        title="🎯 Đoán đầu ra của Neural Net"
-        hint="Với mỗi tình huống đầu vào, chọn xem mạng neuron sẽ dự đoán kết quả nào hợp lý nhất."
+        title="🎯 Guess the Neural Net Output"
+        hint="For each input scenario, pick the most reasonable prediction the network would make."
         accent="from-emerald-500 to-teal-600"
         border="border-emerald-400/40"
         options={[
-          { id: "low", label: "Điểm thấp 📉" },
-          { id: "mid", label: "Điểm trung bình 😐" },
-          { id: "high", label: "Điểm cao 🚀" },
+          { id: "low", label: "Low score 📉" },
+          { id: "mid", label: "Average score 😐" },
+          { id: "high", label: "High score 🚀" },
         ]}
         items={[
-          { prompt: "Học 8h/ngày · Ngủ 8h/ngày", correctId: "high" },
-          { prompt: "Học 0h/ngày · Ngủ 12h/ngày", correctId: "low" },
-          { prompt: "Học 3h/ngày · Ngủ 4h/ngày (thiếu ngủ)", correctId: "mid" },
-          { prompt: "Học 6h/ngày · Ngủ 7h/ngày", correctId: "high" },
+          { prompt: "Studies 8h/day - Sleeps 8h/day", correctId: "high" },
+          { prompt: "Studies 0h/day - Sleeps 12h/day", correctId: "low" },
+          { prompt: "Studies 3h/day - Sleeps 4h/day (sleep-deprived)", correctId: "mid" },
+          { prompt: "Studies 6h/day - Sleeps 7h/day", correctId: "high" },
         ]}
       />
 
