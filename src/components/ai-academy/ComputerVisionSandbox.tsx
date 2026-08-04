@@ -1,6 +1,6 @@
 /**
- * ComputerVisionSandbox - "Siêu thám tử AI".
- * Student dresses an avatar with accessories (kính râm / râu giả / mũ / khẩu trang),
+ * ComputerVisionSandbox - "AI Super Detective".
+ * Student dresses an avatar with accessories (sunglasses / fake beard / hat / mask),
  * then a scanline radar effect sweeps the face and outputs a recognition
  * confidence. Each successful scan triggers a star-worthy bounce + chime.
  */
@@ -26,10 +26,10 @@ const ACCESSORIES: {
   /** Each accessory hides a few face landmarks → drops the AI confidence. */
   penalty: number;
 }[] = [
-  { id: "glasses", emoji: "🕶️", label: "Kính râm", penalty: 6 },
-  { id: "beard", emoji: "🧔", label: "Râu giả", penalty: 4 },
-  { id: "hat", emoji: "🎩", label: "Mũ", penalty: 3 },
-  { id: "mask", emoji: "😷", label: "Khẩu trang", penalty: 14 },
+  { id: "glasses", emoji: "🕶️", label: "Sunglasses", penalty: 6 },
+  { id: "beard", emoji: "🧔", label: "Fake beard", penalty: 4 },
+  { id: "hat", emoji: "🎩", label: "Hat", penalty: 3 },
+  { id: "mask", emoji: "😷", label: "Mask", penalty: 14 },
 ];
 
 interface Props {
@@ -65,7 +65,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
     const conf = Math.max(38, 99 - penalty - Math.floor(Math.random() * 3));
     setTimeout(() => {
       setScanning(false);
-      setResult({ name: "Bé Lan", conf });
+      setResult({ name: "Lan", conf });
       if (conf >= 75) {
         playSuccessSound();
         onSuccess?.();
@@ -111,7 +111,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
           >
             <img
               src={lanFace}
-              alt="Bé Lan - học sinh trong ví dụ nhận diện khuôn mặt"
+              alt="Lan - the student in this face-recognition example"
               width={512}
               height={512}
               loading="lazy"
@@ -274,7 +274,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
             }`}
           >
             <ScanFace className="inline w-4 h-4 mr-1.5 shrink-0" />
-            Nhận diện: {result.name} · Độ tự tin: {result.conf}%
+            Recognized: {result.name} · Confidence: {result.conf}%
           </motion.div>
         )}
       </AnimatePresence>
@@ -306,7 +306,7 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
           className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white min-h-[44px]"
         >
           <Sparkles className="w-4 h-4 mr-1" />
-          {scanning ? "Đang quét…" : "Quét khuôn mặt"}
+          {scanning ? "Scanning…" : "Scan face"}
         </Button>
         <Button onClick={reset} variant="outline" className="min-h-[44px]">
           <RefreshCcw className="w-4 h-4 mr-1" /> Reset
@@ -314,8 +314,8 @@ const CVSandbox: React.FC<Props> = ({ onSuccess }) => {
       </div>
 
       <p className="text-xs text-muted-foreground">
-        💡 Mỗi phụ kiện che một số <b>điểm mốc khuôn mặt</b> (mắt, mũi, miệng).
-        Càng che nhiều, độ tự tin của AI càng giảm - y hệt FaceID đời thực.
+        💡 Each accessory hides some <b>facial landmarks</b> (eyes, nose, mouth).
+        The more it hides, the lower the AI's confidence - just like real FaceID.
       </p>
 
       {/* Bonus mini-games to fill remaining space below the main scanner */}

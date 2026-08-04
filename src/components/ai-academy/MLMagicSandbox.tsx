@@ -15,17 +15,17 @@ import { BestMatchPick } from "./SandboxMiniActivity";
 type Tab = "tree" | "kmeans";
 
 const ML_TF = [
-  { q: "Supervised Learning cần dữ liệu đã gắn nhãn để học.", a: true },
-  { q: "K-Means là thuật toán Unsupervised - tự tìm nhóm.", a: true },
-  { q: "Decision Tree luôn cần GPU mạnh mới chạy được.", a: false, why: "Cây quyết định rất nhẹ - chạy được cả trên điện thoại." },
-  { q: "Càng nhiều dữ liệu chất lượng, mô hình ML càng chính xác.", a: true },
-  { q: "Unsupervised Learning có sẵn đáp án đúng cho mỗi mẫu.", a: false, why: "Không - nó tự tìm cấu trúc mà không có nhãn." },
+  { q: "Supervised Learning needs labeled data to learn from.", a: true },
+  { q: "K-Means is an Unsupervised algorithm - it finds groups on its own.", a: true },
+  { q: "A Decision Tree always needs a powerful GPU to run.", a: false, why: "Decision trees are lightweight - they can even run on a phone." },
+  { q: "The more quality data you have, the more accurate an ML model becomes.", a: true },
+  { q: "Unsupervised Learning already has the correct answer for each sample.", a: false, why: "No - it finds patterns on its own without any labels." },
 ];
 const ML_PAIRS = [
-  { a: "Supervised", b: "Học có nhãn - như giáo viên chỉ bài" },
-  { a: "Unsupervised", b: "Tự gom nhóm - không cần nhãn" },
-  { a: "Decision Tree", b: "Hỏi Yes/No theo nhánh" },
-  { a: "K-Means", b: "Tìm K trung tâm nhóm gần nhất" },
+  { a: "Supervised", b: "Learning with labels - like a teacher pointing things out" },
+  { a: "Unsupervised", b: "Grouping data on its own - no labels needed" },
+  { a: "Decision Tree", b: "Asks Yes/No questions down a branch" },
+  { a: "K-Means", b: "Finds the K nearest group centers" },
 ];
 
 // ============== Decision Tree ==============
@@ -38,19 +38,19 @@ type Node = {
 };
 
 const TREE: Node = {
-  q: "Vỏ trái cây có trơn không?",
+  q: "Is the fruit's skin smooth?",
   yes: {
-    q: "Màu vàng?",
-    yes: { fruit: "Chuối", emoji: "🍌" },
+    q: "Is it yellow?",
+    yes: { fruit: "Banana", emoji: "🍌" },
     no: {
-      q: "Có vị chua?",
-      yes: { fruit: "Cam", emoji: "🍊" },
-      no: { fruit: "Táo", emoji: "🍎" },
+      q: "Does it taste sour?",
+      yes: { fruit: "Orange", emoji: "🍊" },
+      no: { fruit: "Apple", emoji: "🍎" },
     },
   },
   no: {
-    q: "Có gai?",
-    yes: { fruit: "Sầu riêng", emoji: "🥭" },
+    q: "Does it have spikes?",
+    yes: { fruit: "Durian", emoji: "🥭" },
     no: { fruit: "Kiwi", emoji: "🥝" },
   },
 };
@@ -70,7 +70,7 @@ const DecisionTreeGame = () => {
     <div className="rounded-xl bg-card/60 border border-border p-4 space-y-4">
       <div className="flex items-center gap-2 text-sm text-foreground/70">
         <TreePine className="w-4 h-4 text-emerald-500" />
-        AI đoán trái cây bằng cách hỏi 1 chuỗi câu hỏi Yes/No
+        AI guesses the fruit by asking a chain of Yes/No questions
       </div>
 
       {/* Path of questions */}
@@ -91,9 +91,9 @@ const DecisionTreeGame = () => {
               {n.fruit ? (
                 <div className="text-center">
                   <div className="text-5xl mb-2">{n.emoji}</div>
-                  <div className="font-bold text-lg">AI đoán: {n.fruit}!</div>
+                  <div className="font-bold text-lg">AI's guess: {n.fruit}!</div>
                   <div className="text-xs text-foreground/60 mt-1">
-                    Cây quyết định đã đi {path.length - 1} bước để phân loại.
+                    The decision tree took {path.length - 1} steps to classify it.
                   </div>
                 </div>
               ) : (
@@ -107,15 +107,15 @@ const DecisionTreeGame = () => {
       {!current.fruit ? (
         <div className="flex gap-2">
           <Button onClick={() => answer("yes")} className="flex-1 bg-emerald-500 hover:bg-emerald-600">
-            Có ✅
+            Yes ✅
           </Button>
           <Button onClick={() => answer("no")} variant="outline" className="flex-1">
-            Không ❌
+            No ❌
           </Button>
         </div>
       ) : (
         <Button onClick={reset} variant="outline" className="w-full">
-          <RotateCcw className="w-4 h-4 mr-2" /> Thử lại với trái cây khác
+          <RotateCcw className="w-4 h-4 mr-2" /> Try again with another fruit
         </Button>
       )}
     </div>
@@ -206,11 +206,11 @@ const KMeansGame = () => {
     <div className="rounded-xl bg-card/60 border border-border p-4 space-y-4">
       <div className="flex items-center gap-2 text-sm text-foreground/70">
         <Wand2 className="w-4 h-4 text-fuchsia-500" />
-        AI tự gom nhóm - không ai dạy nhãn. Đổi K rồi bấm "Học thêm 1 bước".
+        AI groups points on its own - nobody labeled them. Change K, then hit "Learn one more step".
       </div>
 
       <div className="flex items-center gap-4">
-        <span className="text-sm font-semibold">K = {k} nhóm</span>
+        <span className="text-sm font-semibold">K = {k} groups</span>
         <div className="flex-1">
           <Slider value={[k]} min={2} max={4} step={1} onValueChange={(v) => setK(v[0])} />
         </div>
@@ -270,7 +270,7 @@ const KMeansGame = () => {
 
       <div className="flex items-center gap-2">
         <Button onClick={step} className="flex-1">
-          <Sparkles className="w-4 h-4 mr-2" /> Học thêm 1 bước (vòng {iter})
+          <Sparkles className="w-4 h-4 mr-2" /> Learn one more step (round {iter})
         </Button>
         <Button onClick={reset} variant="outline">
           <RotateCcw className="w-4 h-4" />
@@ -278,8 +278,8 @@ const KMeansGame = () => {
       </div>
 
       <p className="text-xs text-foreground/60">
-        💡 Mỗi vòng, các "trung tâm nhóm" (★) di chuyển về giữa các bạn gần nhất. Sau vài vòng, AI
-        tìm ra <b>{k} nhóm</b> tự nhiên mà không cần ai dạy.
+        💡 Each round, the "group centers" (★) move toward the nearest points. After a few
+        rounds, the AI finds <b>{k} natural groups</b> without anyone teaching it.
       </p>
     </div>
   );
@@ -295,7 +295,7 @@ const MLMagicSandbox = () => {
       <div>
         <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-500/15 to-fuchsia-500/15 border border-emerald-400/40 text-[11px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-            🧪 Activity 1 · Phòng thí nghiệm
+            🧪 Activity 1 · Lab
           </div>
           <div className="flex gap-1.5 p-1 bg-muted/40 rounded-lg">
             <button
@@ -304,7 +304,7 @@ const MLMagicSandbox = () => {
                 tab === "tree" ? "bg-background shadow text-foreground" : "text-foreground/60"
               }`}
             >
-              🌳 Cây quyết định
+              🌳 Decision Tree
             </button>
             <button
               onClick={() => setTab("kmeans")}
@@ -331,8 +331,8 @@ const MLMagicSandbox = () => {
       </div>
 
       <BestMatchPick
-        title="🔍 Activity 2 · Supervised hay Unsupervised?"
-        hint="Mỗi tình huống thuộc loại học có giám sát (có nhãn) hay không giám sát (tự gom nhóm)?"
+        title="🔍 Activity 2 · Supervised or Unsupervised?"
+        hint="Is each scenario an example of learning with labels (supervised) or grouping on its own (unsupervised)?"
         accent="from-emerald-500 to-fuchsia-600"
         border="border-emerald-400/40"
         options={[
@@ -340,12 +340,12 @@ const MLMagicSandbox = () => {
           { id: "uns", label: "🪄 Unsupervised" },
         ]}
         items={[
-          { prompt: "Phân loại email là spam / không spam (đã có 10.000 email gắn nhãn)", correctId: "sup" },
-          { prompt: "Tự nhóm 1 triệu khách hàng thành các phân khúc thị trường", correctId: "uns" },
-          { prompt: "Dự đoán giá nhà từ dữ liệu nhà đã bán + giá thật", correctId: "sup" },
-          { prompt: "AI tự tìm các chủ đề thường xuất hiện trong bài báo (không gắn sẵn chủ đề)", correctId: "uns" },
-          { prompt: "Nhận diện chữ số viết tay (đã có ảnh + nhãn 0-9)", correctId: "sup" },
-          { prompt: "Phát hiện giao dịch ngân hàng bất thường khi chưa biết kiểu lừa đảo", correctId: "uns" },
+          { prompt: "Classifying emails as spam / not spam (10,000 labeled emails already exist)", correctId: "sup" },
+          { prompt: "Automatically grouping a million customers into market segments", correctId: "uns" },
+          { prompt: "Predicting house prices from past sales data plus real prices", correctId: "sup" },
+          { prompt: "AI finds recurring topics in news articles (no topics tagged beforehand)", correctId: "uns" },
+          { prompt: "Recognizing handwritten digits (images already labeled 0-9)", correctId: "sup" },
+          { prompt: "Spotting unusual bank transactions without knowing the fraud pattern in advance", correctId: "uns" },
         ]}
       />
 

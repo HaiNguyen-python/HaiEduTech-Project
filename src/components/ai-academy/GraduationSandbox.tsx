@@ -9,31 +9,31 @@ import { BonusGames } from "./SandboxBonusGames";
 import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const GR_TF = [
-  { q: "Hoàn thành đồ án giúp bạn tổng hợp kiến thức đã học.", a: true },
-  { q: "Trình bày đồ án không cần luyện tập.", a: false, why: "Luyện trước giúp tự tin & rõ ý." },
-  { q: "Một đề tài tốt nên có vấn đề thực tế cần giải quyết.", a: true },
-  { q: "Bằng AI Academy có thể in ra để khoe ba mẹ.", a: true },
-  { q: "Học AI xong là không cần học thêm gì nữa.", a: false, why: "AI thay đổi hàng tháng - cần học suốt đời." },
+  { q: "Finishing a capstone project helps you pull together everything you learned.", a: true },
+  { q: "You don't need to practice before presenting a project.", a: false, why: "Practicing first builds confidence and sharpens your message." },
+  { q: "A good project topic should solve a real-world problem.", a: true },
+  { q: "You can print your AI Academy certificate to show your parents.", a: true },
+  { q: "Once you finish learning AI, there's nothing left to learn.", a: false, why: "AI changes every month - it takes lifelong learning to keep up." },
 ];
 const GR_PAIRS = [
-  { a: "Capstone", b: "Đồ án tốt nghiệp tổng kết khoá" },
-  { a: "Pitch", b: "Bài thuyết trình ngắn về ý tưởng" },
-  { a: "Portfolio", b: "Bộ sưu tập sản phẩm để khoe" },
-  { a: "Lifelong learning", b: "Tinh thần học suốt đời" },
+  { a: "Capstone", b: "A final project that wraps up the whole course" },
+  { a: "Pitch", b: "A short presentation of your idea" },
+  { a: "Portfolio", b: "A collection of projects to show off" },
+  { a: "Lifelong learning", b: "The mindset of learning forever" },
 ];
 
 const TOPICS = [
-  { id: "vision", label: "Computer Vision cho FaceID", emoji: "👁️" },
-  { id: "nlp", label: "Chatbot tiếng Việt thông minh", emoji: "💬" },
-  { id: "genai", label: "Trợ lý sáng tạo nội dung", emoji: "✨" },
-  { id: "agent", label: "AI Agent tự động hoá học tập", emoji: "🤖" },
-  { id: "smart", label: "Smart City giảm kẹt xe", emoji: "🏙️" },
+  { id: "vision", label: "Computer Vision for FaceID", emoji: "👁️" },
+  { id: "nlp", label: "A smart chatbot", emoji: "💬" },
+  { id: "genai", label: "A creative content assistant", emoji: "✨" },
+  { id: "agent", label: "An AI agent that automates studying", emoji: "🤖" },
+  { id: "smart", label: "Smart City traffic solutions", emoji: "🏙️" },
 ];
 
 const GraduationSandbox = () => {
   const [topic, setTopic] = useState(TOPICS[0]);
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("Học viên HaiEduTech");
+  const [name, setName] = useState("HaiEduTech Student");
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -48,7 +48,7 @@ const GraduationSandbox = () => {
   return (
     <div className="space-y-2">
       <p className="text-xs text-muted-foreground">
-        🎓 Chọn chủ đề đồ án rồi tạo <b>Bằng tốt nghiệp AI Academy</b> mang tên bạn.
+        🎓 Pick a project topic, then generate your <b>AI Academy Diploma</b> with your name on it.
       </p>
 
       <div className="grid grid-cols-1 gap-1.5">
@@ -73,7 +73,7 @@ const GraduationSandbox = () => {
         className="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-amber-400 via-fuchsia-500 to-purple-600 shadow-lg active:scale-95"
       >
         <Sparkles className="w-4 h-4 inline mr-1" />
-        Tạo bằng tốt nghiệp
+        Generate diploma
       </button>
 
       {open && (
@@ -97,14 +97,14 @@ const GraduationSandbox = () => {
               HaiEduTech · AI Academy
             </div>
             <h2 className="font-display font-black text-3xl sm:text-4xl bg-gradient-to-r from-amber-600 via-fuchsia-600 to-purple-700 bg-clip-text text-transparent mt-2">
-              Bằng tốt nghiệp AI
+              AI Diploma
             </h2>
-            <p className="text-sm text-slate-700 mt-4">Trao tặng học viên</p>
+            <p className="text-sm text-slate-700 mt-4">Awarded to</p>
             <p className="font-display font-black text-2xl sm:text-3xl text-slate-900 mt-1">
               {name}
             </p>
             <p className="text-sm text-slate-700 mt-4 max-w-md mx-auto">
-              Đã hoàn thành xuất sắc tất cả các chặng AI Academy và bảo vệ thành công đồ án:
+              For excellently completing every stage of AI Academy and successfully defending the project:
             </p>
             <p className="font-bold text-base sm:text-lg text-fuchsia-700 mt-1">
               {topic.emoji} {topic.label}
@@ -112,12 +112,12 @@ const GraduationSandbox = () => {
 
             <div className="mt-6 flex items-end justify-between gap-3 text-[11px] text-slate-600">
               <div className="text-left">
-                <div className="border-t border-slate-400 pt-1 w-32">Ngày cấp</div>
-                <div>{new Date().toLocaleDateString("vi-VN")}</div>
+                <div className="border-t border-slate-400 pt-1 w-32">Date issued</div>
+                <div>{new Date().toLocaleDateString("en-US")}</div>
               </div>
               <div className="text-4xl">🏆</div>
               <div className="text-right">
-                <div className="border-t border-slate-400 pt-1 w-32">Thầy Nguyễn Hải</div>
+                <div className="border-t border-slate-400 pt-1 w-32">Mr. Nguyen Hai</div>
                 <div>Founder · HaiEduTech</div>
               </div>
             </div>
@@ -126,36 +126,36 @@ const GraduationSandbox = () => {
               onClick={print}
               className="mt-6 px-5 py-2 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-fuchsia-600 shadow active:scale-95 print:hidden"
             >
-              <Printer className="w-4 h-4 inline mr-1" /> In bằng
+              <Printer className="w-4 h-4 inline mr-1" /> Print diploma
             </button>
           </div>
         </div>
       )}
 
       <ChipFilter
-        title="🎤 Cấu trúc pitch deck 5 phút"
-        hint="Một bài pitch đỉnh cao gồm các slide cốt lõi. Bật từng slide để điểm pitch tăng lên."
+        title="🎤 The 5-minute pitch deck structure"
+        hint="A killer pitch has a few core slides. Turn on each one to raise your pitch score."
         baseline={10}
         positive
         goal={80}
-        goodLabel="Pitch của bạn đã đủ thuyết phục ✅"
-        badLabel="Còn thiếu slide quan trọng - bật thêm nhé"
-        metricLabel="Điểm Pitch"
+        goodLabel="Your pitch is convincing enough now ✅"
+        badLabel="Still missing key slides - turn on a few more"
+        metricLabel="Pitch Score"
         accent="from-amber-500 to-fuchsia-600"
         border="border-amber-400/40"
         options={[
-          { id: "1", label: "🎯 Vấn đề thực tế (Problem)", weight: 18 },
-          { id: "2", label: "💡 Giải pháp AI (Solution)", weight: 18 },
-          { id: "3", label: "🎬 Demo trực tiếp", weight: 18 },
-          { id: "4", label: "📊 Kết quả số liệu", weight: 14 },
-          { id: "5", label: "👥 Team & lời cảm ơn", weight: 12 },
-          { id: "6", label: "📞 Call to action / liên hệ", weight: 10 },
+          { id: "1", label: "🎯 The real problem", weight: 18 },
+          { id: "2", label: "💡 The AI solution", weight: 18 },
+          { id: "3", label: "🎬 Live demo", weight: 18 },
+          { id: "4", label: "📊 Results and data", weight: 14 },
+          { id: "5", label: "👥 Team and thanks", weight: 12 },
+          { id: "6", label: "📞 Call to action / contact", weight: 10 },
         ]}
       />
 
       <BestMatchPick
-        title="🧠 Ôn tập toàn khoá - bạn còn nhớ?"
-        hint="Mỗi mô tả tương ứng với chặng AI Academy nào?"
+        title="🧠 Full-course review - do you remember?"
+        hint="Which AI Academy stage does each description belong to?"
         accent="from-amber-500 to-fuchsia-600"
         border="border-amber-400/40"
         options={[
@@ -169,14 +169,14 @@ const GraduationSandbox = () => {
           { id: "agent", label: "AI Agent" },
         ]}
         items={[
-          { prompt: "AI nhận diện khuôn mặt cho FaceID iPhone", correctId: "vision" },
-          { prompt: "Chatbot Kiki hiểu teen-code 'k bít' = 'không biết'", correctId: "nlp" },
-          { prompt: "Mạng nhiều lớp neuron điều chỉnh trọng số khi sai", correctId: "nn" },
-          { prompt: "ChatGPT viết văn, Midjourney vẽ ảnh từ prompt", correctId: "genai" },
-          { prompt: "AI tự lái xe học qua Reward & Punishment", correctId: "rl" },
-          { prompt: "Amazon dừng AI tuyển dụng vì thiên vị giới", correctId: "ethics" },
-          { prompt: "Ghép mặt người khác lên video - cần forensic", correctId: "deepfake" },
-          { prompt: "Tự lập kế hoạch nhiều bước, gọi tool đặt vé bay", correctId: "agent" },
+          { prompt: "AI recognizes faces for iPhone FaceID", correctId: "vision" },
+          { prompt: "A chatbot understands slang like 'idk' meaning 'I don't know'", correctId: "nlp" },
+          { prompt: "A multi-layer network of neurons adjusts its weights when it's wrong", correctId: "nn" },
+          { prompt: "ChatGPT writes text, Midjourney draws images from a prompt", correctId: "genai" },
+          { prompt: "A self-driving car learns through Reward and Punishment", correctId: "rl" },
+          { prompt: "Amazon scrapped a hiring AI because it was biased against women", correctId: "ethics" },
+          { prompt: "Swapping someone's face onto a video - needs forensic checks", correctId: "deepfake" },
+          { prompt: "Planning multiple steps on its own and calling a tool to book a flight", correctId: "agent" },
         ]}
       />
 
