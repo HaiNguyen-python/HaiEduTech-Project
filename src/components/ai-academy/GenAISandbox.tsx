@@ -1,8 +1,8 @@
 /**
- * GenAISandbox - "Prompt → Picture"
+ * GenAISandbox - "Prompt -> Picture"
  * Students pick a subject, style and mood; the mock "AI" composes an emoji
  * scene + descriptive caption. Teaches the idea of prompt engineering for
- * generative models like Midjourney / DALL·E.
+ * generative models like Midjourney / DALL-E.
  */
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
@@ -12,37 +12,37 @@ import { BonusGames } from "./SandboxBonusGames";
 import { BestMatchPick } from "./SandboxMiniActivity";
 
 const GEN_TF = [
-  { q: "Generative AI tạo ra nội dung mới chưa từng tồn tại.", a: true },
-  { q: "Prompt càng mơ hồ → kết quả càng đẹp.", a: false, why: "Ngược lại: prompt càng cụ thể (chủ thể + style + mood) càng đẹp." },
-  { q: "ChatGPT có thể bịa thông tin - gọi là Hallucination.", a: true },
-  { q: "Midjourney là AI vẽ tranh từ prompt văn bản.", a: true },
-  { q: "AI tạo sinh không cần dữ liệu huấn luyện.", a: false, why: "Nó học từ HÀNG TỶ ảnh / bài viết trên Internet." },
+  { q: "Generative AI creates new content that never existed before.", a: true },
+  { q: "The vaguer a prompt is, the more beautiful the result.", a: false, why: "It's the opposite - a specific prompt (subject + style + mood) gives better results." },
+  { q: "ChatGPT can make up facts that sound convincing - this is called hallucination.", a: true },
+  { q: "Midjourney generates images from a text prompt.", a: true },
+  { q: "Generative AI doesn't need any training data.", a: false, why: "It learns from BILLIONS of images and texts on the Internet." },
 ];
 const GEN_PAIRS = [
-  { a: "Prompt", b: "Câu lệnh ra cho AI" },
-  { a: "Hallucination", b: "AI bịa thông tin trông như thật" },
-  { a: "Seed", b: "Số ngẫu nhiên - đổi seed ra ảnh khác" },
-  { a: "Style", b: "Phong cách: anime, 3D, watercolor…" },
+  { a: "Prompt", b: "The instruction you give to AI" },
+  { a: "Hallucination", b: "AI making up information that sounds real" },
+  { a: "Seed", b: "A random number - changing it produces a different image" },
+  { a: "Style", b: "A visual look: anime, 3D, watercolor..." },
 ];
 
 const SUBJECTS = [
-  { id: "cat", emoji: "🐱", label: "mèo" },
-  { id: "astronaut", emoji: "🧑‍🚀", label: "phi hành gia" },
-  { id: "dragon", emoji: "🐉", label: "rồng" },
-  { id: "robot", emoji: "🤖", label: "robot" },
-  { id: "samurai", emoji: "🥷", label: "ninja" },
+  { id: "cat", emoji: "🐱", label: "a cat" },
+  { id: "astronaut", emoji: "🧑‍🚀", label: "an astronaut" },
+  { id: "dragon", emoji: "🐉", label: "a dragon" },
+  { id: "robot", emoji: "🤖", label: "a robot" },
+  { id: "samurai", emoji: "🥷", label: "a ninja" },
 ];
 const STYLES = [
-  { id: "anime", emoji: "🎌", label: "phong cách anime" },
-  { id: "watercolor", emoji: "🎨", label: "tranh màu nước" },
-  { id: "pixel", emoji: "👾", label: "pixel-art retro" },
-  { id: "3d", emoji: "🧊", label: "render 3D Pixar" },
+  { id: "anime", emoji: "🎌", label: "anime style" },
+  { id: "watercolor", emoji: "🎨", label: "watercolor painting" },
+  { id: "pixel", emoji: "👾", label: "retro pixel art" },
+  { id: "3d", emoji: "🧊", label: "Pixar-style 3D render" },
 ];
 const MOODS = [
-  { id: "neon", emoji: "🌃", label: "đêm neon cyberpunk" },
-  { id: "forest", emoji: "🌲", label: "khu rừng huyền bí" },
-  { id: "space", emoji: "🌌", label: "ngoài vũ trụ" },
-  { id: "beach", emoji: "🏖️", label: "bãi biển hoàng hôn" },
+  { id: "neon", emoji: "🌃", label: "neon cyberpunk night" },
+  { id: "forest", emoji: "🌲", label: "mysterious forest" },
+  { id: "space", emoji: "🌌", label: "outer space" },
+  { id: "beach", emoji: "🏖️", label: "sunset beach" },
 ];
 
 const Pick = <T extends { id: string; emoji: string; label: string }>({
@@ -107,22 +107,22 @@ const GenAISandbox = () => {
         </motion.div>
         <div className="absolute bottom-2 left-2 right-2 text-center">
           <span className="inline-block px-3 py-1 rounded-full bg-black/50 backdrop-blur text-white text-xs font-mono">
-            “{s.label} {st.label}, {m.label}” ✨
+            "{s.label}, {st.label}, {m.label}" ✨
           </span>
         </div>
       </div>
 
       <div className="space-y-2">
         <div>
-          <div className="text-[11px] font-bold uppercase text-muted-foreground mb-1">1. Chủ thể</div>
+          <div className="text-[11px] font-bold uppercase text-muted-foreground mb-1">1. Subject</div>
           <Pick list={SUBJECTS} value={subject} onChange={setSubject} color="bg-pink-500" />
         </div>
         <div>
-          <div className="text-[11px] font-bold uppercase text-muted-foreground mb-1">2. Phong cách</div>
+          <div className="text-[11px] font-bold uppercase text-muted-foreground mb-1">2. Style</div>
           <Pick list={STYLES} value={style} onChange={setStyle} color="bg-purple-500" />
         </div>
         <div>
-          <div className="text-[11px] font-bold uppercase text-muted-foreground mb-1">3. Bối cảnh</div>
+          <div className="text-[11px] font-bold uppercase text-muted-foreground mb-1">3. Setting</div>
           <Pick list={MOODS} value={mood} onChange={setMood} color="bg-indigo-500" />
         </div>
       </div>
@@ -131,30 +131,30 @@ const GenAISandbox = () => {
         onClick={() => setSeed((x) => x + 1)}
         className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white"
       >
-        <Wand2 className="w-4 h-4 mr-1" /> Tạo lại (Re-roll)
+        <Wand2 className="w-4 h-4 mr-1" /> Regenerate (re-roll)
       </Button>
 
       <p className="text-xs text-muted-foreground flex items-start gap-2">
         <Sparkles className="w-3.5 h-3.5 mt-0.5 text-pink-500 shrink-0" />
-        <span>Prompt = công thức nấu ăn cho AI. Càng <b>cụ thể</b> (chủ thể + phong cách + bối cảnh), ảnh càng đẹp. Đây là kỹ năng <b>Prompt Engineering</b> mà các kỹ sư AI đang được trả lương cao!</span>
+        <span>A prompt is like a recipe for AI. The more <b>specific</b> it is (subject + style + setting), the better the image. This skill is called <b>Prompt Engineering</b>, and AI engineers are paid well for it!</span>
       </p>
 
       <BestMatchPick
-        title="🔮 Đoán prompt từ ảnh"
-        hint="Mỗi 'ảnh AI' bên dưới được sinh từ một prompt. Hãy đoán prompt nào tạo ra nó!"
+        title="🔮 Guess the prompt from the image"
+        hint="Each 'AI image' below was generated from a prompt. Guess which prompt created it!"
         accent="from-pink-500 to-purple-600"
         border="border-pink-400/40"
         options={[
-          { id: "cat-cyber", label: "mèo · cyberpunk · neon" },
-          { id: "astro-space", label: "phi hành gia · 3D · vũ trụ" },
-          { id: "dragon-water", label: "rồng · watercolor · rừng" },
-          { id: "robot-beach", label: "robot · pixel · biển hoàng hôn" },
+          { id: "cat-cyber", label: "cat · cyberpunk · neon" },
+          { id: "astro-space", label: "astronaut · 3D · space" },
+          { id: "dragon-water", label: "dragon · watercolor · forest" },
+          { id: "robot-beach", label: "robot · pixel · sunset beach" },
         ]}
         items={[
-          { prompt: "🐱🌃 (mèo phát sáng giữa thành phố neon)", correctId: "cat-cyber" },
-          { prompt: "🧑‍🚀🌌 (phi hành gia 3D giữa các vì sao)", correctId: "astro-space" },
-          { prompt: "🐉🌲 (rồng màu nước giữa rừng huyền bí)", correctId: "dragon-water" },
-          { prompt: "🤖🏖️ (robot 8-bit trên bãi biển vàng cam)", correctId: "robot-beach" },
+          { prompt: "🐱🌃 (a glowing cat in a neon-lit city)", correctId: "cat-cyber" },
+          { prompt: "🧑‍🚀🌌 (a 3D astronaut among the stars)", correctId: "astro-space" },
+          { prompt: "🐉🌲 (a watercolor dragon in a mysterious forest)", correctId: "dragon-water" },
+          { prompt: "🤖🏖️ (an 8-bit robot on an orange sunset beach)", correctId: "robot-beach" },
         ]}
       />
 

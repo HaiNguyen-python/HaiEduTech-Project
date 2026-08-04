@@ -9,17 +9,17 @@ import { BonusGames } from "./SandboxBonusGames";
 import { BestMatchPick } from "./SandboxMiniActivity";
 
 const AG_TF = [
-  { q: "AI Agent có thể gọi nhiều 'công cụ' (tools) khác nhau.", a: true },
-  { q: "Một agent chỉ làm được 1 việc duy nhất.", a: false, why: "Agent xâu chuỗi nhiều bước: fetch → suy luận → hành động." },
-  { q: "Pipeline = chuỗi các bước nối tiếp nhau.", a: true },
-  { q: "ChatGPT 'Browse + Code Interpreter' là một dạng AI Agent.", a: true },
-  { q: "Agent không cần điều kiện rẽ nhánh.", a: false, why: "Nó cần kiểm tra (if mưa thì SMS, nếu không thì lưu log)." },
+  { q: "An AI agent can call several different 'tools'.", a: true },
+  { q: "An agent can only ever do one single task.", a: false, why: "An agent chains multiple steps together: fetch -> reason -> act." },
+  { q: "A pipeline is a chain of steps executed one after another.", a: true },
+  { q: "ChatGPT with 'Browse + Code Interpreter' is a form of AI agent.", a: true },
+  { q: "Agents never need conditional branching.", a: false, why: "They often need conditions, like 'if it's raining, send an SMS; otherwise log it'." },
 ];
 const AG_PAIRS = [
-  { a: "Tool calling", b: "Agent gọi hàm bên ngoài" },
-  { a: "Pipeline", b: "Chuỗi các node thực thi nối tiếp" },
-  { a: "Condition", b: "Bước rẽ nhánh dựa trên dữ liệu" },
-  { a: "Memory", b: "Lưu lại ngữ cảnh cho lần sau" },
+  { a: "Tool calling", b: "The agent invoking an external function" },
+  { a: "Pipeline", b: "A chain of nodes executed in sequence" },
+  { a: "Condition", b: "A branching step based on data" },
+  { a: "Memory", b: "Storing context for later use" },
 ];
 
 type NodeKind = "fetch" | "condition" | "sms" | "translate" | "summarize";
@@ -27,7 +27,7 @@ const PALETTE: { kind: NodeKind; label: string; icon: typeof Cloud; color: strin
   { kind: "fetch", label: "Fetch Weather", icon: Cloud, color: "from-sky-500 to-cyan-500" },
   { kind: "condition", label: "Condition Check", icon: GitBranch, color: "from-amber-500 to-orange-500" },
   { kind: "sms", label: "Send SMS", icon: MessageCircle, color: "from-emerald-500 to-teal-500" },
-  { kind: "translate", label: "Translate VI↔EN", icon: Sparkles, color: "from-fuchsia-500 to-purple-500" },
+  { kind: "translate", label: "Translate VI<->EN", icon: Sparkles, color: "from-fuchsia-500 to-purple-500" },
   { kind: "summarize", label: "Summarize News", icon: Sparkles, color: "from-rose-500 to-pink-500" },
 ];
 
@@ -60,7 +60,7 @@ const AgentWorkflowSandbox = () => {
   return (
     <div className="space-y-2">
       <p className="text-xs text-muted-foreground">
-        🧩 Chạm để thêm node vào pipeline. Bấm <b>Run</b> xem agent thực thi từng bước.
+        🧩 Tap to add nodes to the pipeline. Hit <b>Run</b> to watch the agent execute each step.
       </p>
 
       {/* Palette */}
@@ -82,7 +82,7 @@ const AgentWorkflowSandbox = () => {
       <div className="min-h-[140px] rounded-2xl border-2 border-dashed border-indigo-400/40 bg-indigo-500/5 p-3">
         {pipeline.length === 0 ? (
           <div className="h-full flex items-center justify-center text-xs text-muted-foreground py-8">
-            👆 Chọn ít nhất 2 node để xây pipeline
+            👆 Pick at least 2 nodes to build a pipeline
           </div>
         ) : (
           <div className="flex flex-wrap items-center gap-1.5">
@@ -134,7 +134,7 @@ const AgentWorkflowSandbox = () => {
           className="flex-1 py-2 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-blue-600 disabled:opacity-40 active:scale-95"
         >
           <Play className="w-4 h-4 inline mr-1" />
-          {running ? "Đang chạy..." : "Run Agent"}
+          {running ? "Running..." : "Run Agent"}
         </button>
         <button
           onClick={reset}
@@ -145,8 +145,8 @@ const AgentWorkflowSandbox = () => {
       </div>
 
       <BestMatchPick
-        title="🧰 Chọn đúng tool cho từng việc"
-        hint="Agent cần chọn công cụ phù hợp với từng yêu cầu."
+        title="🧰 Pick the right tool for each task"
+        hint="An agent needs to choose the correct tool for each request."
         accent="from-indigo-500 to-blue-600"
         border="border-indigo-400/40"
         options={[
@@ -156,29 +156,29 @@ const AgentWorkflowSandbox = () => {
           { id: "mail", label: "📧 Email" },
         ]}
         items={[
-          { prompt: "Tổng hợp tin AI mới nhất tuần này", correctId: "search" },
-          { prompt: "Vẽ biểu đồ doanh thu từ file Excel", correctId: "code" },
-          { prompt: "Đặt lịch họp với 3 bạn vào thứ 6 lúc 8h", correctId: "cal" },
-          { prompt: "Gửi mail cảm ơn cho danh sách khách hàng", correctId: "mail" },
+          { prompt: "Summarize this week's latest AI news", correctId: "search" },
+          { prompt: "Chart revenue data from an Excel file", correctId: "code" },
+          { prompt: "Schedule a meeting with 3 friends on Friday at 8am", correctId: "cal" },
+          { prompt: "Send a thank-you email to a list of customers", correctId: "mail" },
         ]}
       />
 
       <BestMatchPick
-        title="📋 Sắp xếp đúng thứ tự kế hoạch agent"
-        hint="Một agent đặt vé máy bay nên làm những bước này theo thứ tự nào?"
+        title="📋 Order the agent's flight-booking plan correctly"
+        hint="What order should an agent booking a flight follow these steps in?"
         accent="from-indigo-500 to-blue-600"
         border="border-indigo-400/40"
         options={[
-          { id: "1", label: "Bước 1" },
-          { id: "2", label: "Bước 2" },
-          { id: "3", label: "Bước 3" },
-          { id: "4", label: "Bước 4" },
+          { id: "1", label: "Step 1" },
+          { id: "2", label: "Step 2" },
+          { id: "3", label: "Step 3" },
+          { id: "4", label: "Step 4" },
         ]}
         items={[
-          { prompt: "Hỏi user: ngày bay, sân bay đi/đến, ngân sách", correctId: "1" },
-          { prompt: "Search nhiều hãng (VietJet, Bamboo, VNA) so giá", correctId: "2" },
-          { prompt: "Đề xuất 3 chuyến rẻ nhất + xác nhận với user", correctId: "3" },
-          { prompt: "Gọi API thanh toán và gửi vé qua email", correctId: "4" },
+          { prompt: "Ask the user: travel date, departure/arrival airport, budget", correctId: "1" },
+          { prompt: "Search multiple airlines (VietJet, Bamboo, Vietnam Airlines) to compare prices", correctId: "2" },
+          { prompt: "Suggest the 3 cheapest flights and confirm with the user", correctId: "3" },
+          { prompt: "Call the payment API and email the ticket", correctId: "4" },
         ]}
       />
 

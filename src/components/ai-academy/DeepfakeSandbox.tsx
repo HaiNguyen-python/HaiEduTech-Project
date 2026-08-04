@@ -8,17 +8,17 @@ import { BonusGames } from "./SandboxBonusGames";
 import { BestMatchPick } from "./SandboxMiniActivity";
 
 const DF_TF = [
-  { q: "Deepfake là video / ảnh do AI tạo trông như người thật.", a: true },
-  { q: "Deepfake luôn dễ phát hiện bằng mắt thường.", a: false, why: "Nhiều deepfake rất tinh vi - cần soi artifact (mép, bóng, răng…)." },
-  { q: "Nên kiểm chứng nguồn trước khi chia sẻ video lạ.", a: true },
-  { q: "Tai và bóng đổ thường là điểm AI deepfake hay lỗi.", a: true },
-  { q: "Deepfake không bị xem là vi phạm pháp luật.", a: false, why: "Nhiều nước (VN, EU, Mỹ) đã có luật xử phạt deepfake lừa đảo." },
+  { q: "A deepfake is an AI-generated video or image that looks like a real person.", a: true },
+  { q: "Deepfakes are always easy to spot with the naked eye.", a: false, why: "Many deepfakes are very convincing - you need to look for artifacts (edges, shadows, teeth)." },
+  { q: "You should verify the source before sharing an unfamiliar video.", a: true },
+  { q: "Ears and shadows are common spots where deepfake AI makes mistakes.", a: true },
+  { q: "Deepfakes are never considered illegal.", a: false, why: "Many countries (Vietnam, EU, US) now have laws that punish fraudulent deepfakes." },
 ];
 const DF_PAIRS = [
-  { a: "GAN", b: "Mạng AI sinh ra ảnh giả" },
-  { a: "Artifact", b: "Dấu vết lỗi do AI để lại" },
-  { a: "Liveness check", b: "Kiểm tra người thật trước camera" },
-  { a: "Watermark", b: "Dấu chìm tố cáo nội dung do AI tạo" },
+  { a: "GAN", b: "An AI network that generates fake images" },
+  { a: "Artifact", b: "A trace of error left behind by the AI" },
+  { a: "Liveness check", b: "Verifying a real person is in front of the camera" },
+  { a: "Watermark", b: "A hidden mark flagging AI-generated content" },
 ];
 
 type Frame = {
@@ -32,7 +32,7 @@ type Frame = {
 const FRAMES: Frame[] = [
   {
     id: "real",
-    label: "Ảnh thật",
+    label: "Real photo",
     emoji: "🧑‍🎓",
     bg: "from-emerald-400/30 via-teal-400/20 to-cyan-400/30",
     artifacts: [],
@@ -43,9 +43,9 @@ const FRAMES: Frame[] = [
     emoji: "🤖",
     bg: "from-rose-400/30 via-pink-400/20 to-fuchsia-400/30",
     artifacts: [
-      { x: 25, y: 30, hint: "Mép tai bị mờ" },
-      { x: 70, y: 55, hint: "Bóng đổ sai hướng" },
-      { x: 50, y: 78, hint: "Răng méo, không khớp" },
+      { x: 25, y: 30, hint: "Blurred ear edge" },
+      { x: 70, y: 55, hint: "Shadow facing the wrong way" },
+      { x: 50, y: 78, hint: "Distorted, mismatched teeth" },
     ],
   },
 ];
@@ -68,7 +68,10 @@ const DeepfakeSandbox = () => {
   return (
     <div className="space-y-2">
       <p className="text-xs text-muted-foreground">
-        🔍 Di chuột (hoặc chạm) lên từng ảnh để soi <b>kính lúp</b> tìm dấu vết deepfake.
+        🔍 Move your mouse (or tap) over each photo to use the <b>magnifier</b> and look for deepfake traces.
+      </p>
+      <p className="text-xs font-semibold text-rose-600 dark:text-rose-400">
+        ⚠️ Safety note: never use deepfake tools to impersonate real people without consent - it can be harmful and, in many places, illegal.
       </p>
       <div className="grid grid-cols-2 gap-3">
         {FRAMES.map((f) => (
@@ -134,7 +137,7 @@ const DeepfakeSandbox = () => {
               : "border-border hover:border-emerald-400"
           }`}
         >
-          <ShieldCheck className="w-4 h-4 inline mr-1" /> Trái là thật
+          <ShieldCheck className="w-4 h-4 inline mr-1" /> Left is real
         </button>
         <button
           onClick={() => setVerdict("fake")}
@@ -144,7 +147,7 @@ const DeepfakeSandbox = () => {
               : "border-border hover:border-rose-400"
           }`}
         >
-          <ShieldAlert className="w-4 h-4 inline mr-1" /> Phải là giả
+          <ShieldAlert className="w-4 h-4 inline mr-1" /> Right is fake
         </button>
       </div>
 
@@ -157,28 +160,28 @@ const DeepfakeSandbox = () => {
           }`}
         >
           {verdict === "fake"
-            ? "✅ Chính xác! Ảnh phải có 3 lỗi: mép tai mờ, bóng sai, răng méo."
-            : "❌ Sai rồi - soi kỹ ảnh phải sẽ thấy artifact của deepfake."}
+            ? "✅ Correct! The right photo has 3 tells: a blurred ear edge, a mismatched shadow, and distorted teeth."
+            : "❌ Not quite - look closer at the right photo to spot the deepfake artifacts."}
         </div>
       )}
 
       <BestMatchPick
-        title="🕵️ Bằng chứng nào tố cáo deepfake?"
-        hint="Ghép mỗi dấu hiệu với loại bằng chứng phù hợp nhất."
+        title="🕵️ Which evidence exposes a deepfake?"
+        hint="Match each clue to the type of evidence it belongs to."
         accent="from-rose-500 to-fuchsia-600"
         border="border-rose-400/40"
         options={[
-          { id: "visual", label: "👁️ Bằng chứng hình ảnh" },
-          { id: "audio", label: "🔊 Bằng chứng âm thanh" },
-          { id: "meta", label: "📂 Bằng chứng metadata" },
-          { id: "behav", label: "🧠 Bằng chứng hành vi" },
+          { id: "visual", label: "👁️ Visual evidence" },
+          { id: "audio", label: "🔊 Audio evidence" },
+          { id: "meta", label: "📂 Metadata evidence" },
+          { id: "behav", label: "🧠 Behavioral evidence" },
         ]}
         items={[
-          { prompt: "Viền tóc/tai mờ, răng méo khi cười", correctId: "visual" },
-          { prompt: "Chớp mắt bất thường, ánh sáng không khớp nền", correctId: "visual" },
-          { prompt: "Giọng nói thiếu hơi thở, ngữ điệu phẳng", correctId: "audio" },
-          { prompt: "File MP4 không có thông tin máy quay gốc", correctId: "meta" },
-          { prompt: "'Mẹ' nhắn tin lúc 3h sáng đòi chuyển tiền gấp", correctId: "behav" },
+          { prompt: "Blurry hairline/ears, distorted teeth when smiling", correctId: "visual" },
+          { prompt: "Unnatural blinking, lighting that doesn't match the background", correctId: "visual" },
+          { prompt: "A voice missing natural breathing, with flat intonation", correctId: "audio" },
+          { prompt: "An MP4 file with no original camera metadata", correctId: "meta" },
+          { prompt: "'Mom' texts at 3am urgently asking for a money transfer", correctId: "behav" },
         ]}
       />
 
