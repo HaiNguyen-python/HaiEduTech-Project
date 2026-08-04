@@ -13,39 +13,39 @@ import { BonusGames } from "./SandboxBonusGames";
 import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const REC_TF = [
-  { q: "TikTok & YouTube dùng hệ gợi ý để chọn video cho bạn.", a: true },
-  { q: "Hệ gợi ý đo độ giống nhau bằng cosine similarity.", a: true },
-  { q: "Ngưỡng quá cao sẽ tạo ra 'filter bubble'.", a: true, why: "Bạn chỉ thấy nội dung lặp lại sở thích - thiếu đa dạng." },
-  { q: "Vector sở thích chỉ có 1 con số duy nhất.", a: false, why: "Vector có nhiều chiều (thể thao, nhạc, khoa học…)." },
-  { q: "Spotify gợi ý nhạc cũng dùng nguyên lý tương tự.", a: true },
+  { q: "TikTok & YouTube use recommender systems to choose videos for you.", a: true },
+  { q: "Recommender systems measure similarity using cosine similarity.", a: true },
+  { q: "A threshold that's too high creates a 'filter bubble'.", a: true, why: "You only see content matching your existing interests - low diversity." },
+  { q: "An interest vector only has a single number.", a: false, why: "A vector has many dimensions (sports, music, science...)." },
+  { q: "Spotify's music recommendations use the same underlying principle.", a: true },
 ];
 const REC_PAIRS = [
-  { a: "Cosine similarity", b: "Đo độ giống giữa 2 vector" },
-  { a: "User vector", b: "Sở thích người dùng dạng số" },
-  { a: "Filter bubble", b: "Bị mắc kẹt trong vùng nội dung quen" },
-  { a: "Hit rate", b: "% nội dung được gợi ý" },
+  { a: "Cosine similarity", b: "Measures how alike two vectors are" },
+  { a: "User vector", b: "A user's interests represented as numbers" },
+  { a: "Filter bubble", b: "Being stuck seeing only familiar content" },
+  { a: "Hit rate", b: "% of content recommended" },
 ];
 
-const TOPICS = ["⚽ Thể thao", "🎮 Game", "🎵 Nhạc", "🔬 Khoa học", "🎨 Nghệ thuật"];
+const TOPICS = ["⚽ Sports", "🎮 Gaming", "🎵 Music", "🔬 Science", "🎨 Art"];
 
 type Vec5 = [number, number, number, number, number];
 
 const PERSONAS: { id: string; emoji: string; name: string; v: Vec5 }[] = [
-  { id: "p1", emoji: "👦", name: "Bin (game thủ)",   v: [0.2, 1.0, 0.4, 0.1, 0.1] },
-  { id: "p2", emoji: "👧", name: "Mai (yêu nhạc)",   v: [0.1, 0.2, 1.0, 0.1, 0.6] },
-  { id: "p3", emoji: "🧑", name: "Khoa (mê khoa học)", v: [0.1, 0.3, 0.2, 1.0, 0.3] },
-  { id: "p4", emoji: "👩", name: "Linh (vẽ tranh)",  v: [0.0, 0.1, 0.4, 0.3, 1.0] },
+  { id: "p1", emoji: "👦", name: "Jake (gamer)",         v: [0.2, 1.0, 0.4, 0.1, 0.1] },
+  { id: "p2", emoji: "👧", name: "Mia (music lover)",    v: [0.1, 0.2, 1.0, 0.1, 0.6] },
+  { id: "p3", emoji: "🧑", name: "Kai (science nerd)",   v: [0.1, 0.3, 0.2, 1.0, 0.3] },
+  { id: "p4", emoji: "👩", name: "Lina (painter)",       v: [0.0, 0.1, 0.4, 0.3, 1.0] },
 ];
 
 const CONTENT: { id: string; emoji: string; title: string; v: Vec5 }[] = [
-  { id: "c1", emoji: "⚽", title: "Highlight World Cup",   v: [1.0, 0.1, 0.2, 0.0, 0.1] },
-  { id: "c2", emoji: "🎮", title: "Mẹo chơi Minecraft",     v: [0.1, 1.0, 0.1, 0.2, 0.2] },
-  { id: "c3", emoji: "🎼", title: "Cover nhạc Trịnh",      v: [0.0, 0.0, 1.0, 0.0, 0.5] },
-  { id: "c4", emoji: "🚀", title: "NASA phóng tên lửa",     v: [0.1, 0.2, 0.0, 1.0, 0.1] },
-  { id: "c5", emoji: "🖼️", title: "Triển lãm Van Gogh",    v: [0.0, 0.0, 0.3, 0.2, 1.0] },
-  { id: "c6", emoji: "🏀", title: "Skill bóng rổ NBA",      v: [0.9, 0.1, 0.2, 0.0, 0.1] },
-  { id: "c7", emoji: "🎧", title: "Lo-fi học bài",         v: [0.0, 0.1, 0.8, 0.1, 0.3] },
-  { id: "c8", emoji: "🤖", title: "AI tự lái xe",         v: [0.0, 0.4, 0.0, 0.9, 0.2] },
+  { id: "c1", emoji: "⚽", title: "World Cup highlights",    v: [1.0, 0.1, 0.2, 0.0, 0.1] },
+  { id: "c2", emoji: "🎮", title: "Minecraft build tips",    v: [0.1, 1.0, 0.1, 0.2, 0.2] },
+  { id: "c3", emoji: "🎼", title: "Acoustic guitar cover",   v: [0.0, 0.0, 1.0, 0.0, 0.5] },
+  { id: "c4", emoji: "🚀", title: "NASA rocket launch",      v: [0.1, 0.2, 0.0, 1.0, 0.1] },
+  { id: "c5", emoji: "🖼️", title: "Van Gogh exhibit tour",  v: [0.0, 0.0, 0.3, 0.2, 1.0] },
+  { id: "c6", emoji: "🏀", title: "NBA skills highlights",   v: [0.9, 0.1, 0.2, 0.0, 0.1] },
+  { id: "c7", emoji: "🎧", title: "Lo-fi study beats",       v: [0.0, 0.1, 0.8, 0.1, 0.3] },
+  { id: "c8", emoji: "🤖", title: "Self-driving car AI",     v: [0.0, 0.4, 0.0, 0.9, 0.2] },
 ];
 
 const cosine = (a: Vec5, b: Vec5) => {
@@ -73,7 +73,7 @@ const RecsysSandbox = () => {
       {/* Persona picker */}
       <div className="rounded-2xl border-2 border-amber-400/40 bg-amber-500/5 p-3">
         <div className="text-[11px] font-bold uppercase text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1">
-          <Users className="w-3 h-3" /> ① Chọn người dùng
+          <Users className="w-3 h-3" /> ① Pick a user
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {PERSONAS.map((p) => (
@@ -103,12 +103,12 @@ const RecsysSandbox = () => {
       {/* Threshold */}
       <div className="rounded-2xl border-2 border-orange-400/40 bg-orange-500/5 p-3">
         <div className="flex items-center justify-between text-sm mb-2">
-          <span className="font-bold text-orange-700 dark:text-orange-300">② Ngưỡng tương đồng</span>
+          <span className="font-bold text-orange-700 dark:text-orange-300">② Similarity threshold</span>
           <span className="font-black text-lg text-orange-600">{threshold}%</span>
         </div>
         <Slider value={[threshold]} min={20} max={95} step={5} onValueChange={(v) => setThreshold(v[0])} />
         <div className="mt-2 text-xs text-muted-foreground">
-          Ngưỡng càng cao → AI chỉ gợi ý nội dung <b>cực kỳ</b> giống sở thích. Quá cao = thiếu đa dạng (filter bubble).
+          Higher threshold → AI only recommends content that's <b>extremely</b> close to interests. Too high = low diversity (filter bubble).
         </div>
       </div>
 
@@ -116,7 +116,7 @@ const RecsysSandbox = () => {
       <div className="rounded-2xl border-2 border-rose-400/40 bg-gradient-to-br from-rose-500/5 to-amber-500/5 p-3">
         <div className="flex items-center justify-between mb-2">
           <div className="text-[11px] font-bold uppercase text-rose-700 dark:text-rose-300 flex items-center gap-1">
-            <Sparkles className="w-3 h-3" /> ③ Feed gợi ý
+            <Sparkles className="w-3 h-3" /> ③ Recommended feed
           </div>
           <div className="text-xs">
             Hit-rate: <b className="text-rose-600">{hitRate}%</b> ({recs.length}/{CONTENT.length})
@@ -145,33 +145,33 @@ const RecsysSandbox = () => {
       </div>
 
       <p className="text-xs text-muted-foreground">
-        💡 YouTube & TikTok tính cosine similarity giữa <b>vector sở thích</b> của bạn và hàng tỷ video - chỉ những video vượt ngưỡng mới xuất hiện trên feed.
+        💡 YouTube & TikTok compute cosine similarity between your <b>interest vector</b> and billions of videos - only videos above the threshold show up in your feed.
       </p>
 
       <ChipFilter
-        title="🎬 Trộn vector sở thích của bạn"
-        hint="Chọn các chủ đề bạn hay xem trên TikTok. Càng nhiều tín hiệu rõ ràng → AI càng dễ gợi ý đúng (similarity cao)."
+        title="🎬 Build your own interest vector"
+        hint="Pick the topics you often watch on TikTok. More clear signals → AI recommends more accurately (higher similarity)."
         baseline={20}
         positive
         goal={70}
-        goodLabel="Vector sở thích rõ ràng - AI gợi ý chính xác!"
-        badLabel="AI chưa hiểu bạn - hãy bật thêm vài chủ đề bạn thực sự thích."
-        metricLabel="Độ chính xác gợi ý"
+        goodLabel="Your interest vector is clear - AI can recommend accurately!"
+        badLabel="AI doesn't know you yet - turn on a few topics you truly like."
+        metricLabel="Recommendation accuracy"
         accent="from-orange-500 to-rose-500"
         border="border-orange-400/40"
         options={[
-          { id: "sport", label: "⚽ Thể thao", weight: 14 },
-          { id: "game", label: "🎮 Game", weight: 14 },
-          { id: "music", label: "🎵 Nhạc Vpop", weight: 12 },
-          { id: "food", label: "🍜 Food review", weight: 12 },
-          { id: "study", label: "📚 Học tiếng Anh", weight: 16 },
-          { id: "tech", label: "💻 Công nghệ", weight: 12 },
+          { id: "sport", label: "⚽ Sports", weight: 14 },
+          { id: "game", label: "🎮 Gaming", weight: 14 },
+          { id: "music", label: "🎵 Pop music", weight: 12 },
+          { id: "food", label: "🍜 Food reviews", weight: 12 },
+          { id: "study", label: "📚 Learning English", weight: 16 },
+          { id: "tech", label: "💻 Technology", weight: 12 },
         ]}
       />
 
       <BestMatchPick
-        title="🎯 Thuật toán gợi ý nào phù hợp nhất?"
-        hint="Mỗi nền tảng dưới đây dùng kiểu recommender nào là chính?"
+        title="🎯 Which recommender algorithm fits best?"
+        hint="Which type of recommender does each platform below mainly use?"
         accent="from-orange-500 to-rose-500"
         border="border-orange-400/40"
         options={[
@@ -181,11 +181,11 @@ const RecsysSandbox = () => {
           { id: "pop", label: "🔥 Popularity-based" },
         ]}
         items={[
-          { prompt: "TikTok For You - học từ video bạn xem & like", correctId: "collab" },
-          { prompt: "Spotify 'Có thể bạn cũng thích' theo thể loại bài đang nghe", correctId: "content" },
-          { prompt: "Top trending YouTube hôm nay", correctId: "pop" },
-          { prompt: "Netflix - kết hợp sở thích bạn + người dùng giống bạn", correctId: "hybrid" },
-          { prompt: "Shopee 'Sản phẩm tương tự' theo mô tả/ảnh", correctId: "content" },
+          { prompt: "TikTok For You - learns from videos you watch & like", correctId: "collab" },
+          { prompt: "Spotify 'You might also like' based on the genre you're playing", correctId: "content" },
+          { prompt: "Today's Top Trending on YouTube", correctId: "pop" },
+          { prompt: "Netflix - combines your taste + tastes of similar users", correctId: "hybrid" },
+          { prompt: "Shopee 'Similar products' based on description/image", correctId: "content" },
         ]}
       />
 
