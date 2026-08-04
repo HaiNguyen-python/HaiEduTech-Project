@@ -1,7 +1,7 @@
 /**
  * MiniCVChallenges - two bite-sized Computer Vision mini-games:
  *  1) "Pixel Reveal" - guess the image while it's still pixelated/blurred.
- *  2) "Đoán độ tự tin" - slider where the student predicts AI confidence
+ *  2) "Guess the Confidence" - slider where the student predicts AI confidence
  *     for a given scene, then we reveal the true number.
  * Both reward sound + bounce and live entirely on the client.
  */
@@ -17,14 +17,14 @@ import { playSuccessSound, playFailureSound, bounceVariant } from "@/lib/aiAcade
 type Puzzle = { emoji: string; label: string; options: string[] };
 
 const PUZZLES: Puzzle[] = [
-  { emoji: "🐱", label: "Mèo",       options: ["Mèo", "Chó", "Thỏ", "Cáo"] },
-  { emoji: "🚗", label: "Ô tô",      options: ["Xe máy", "Ô tô", "Xe buýt", "Tàu hỏa"] },
-  { emoji: "🌳", label: "Cây xanh",  options: ["Hoa", "Cỏ", "Cây xanh", "Bụi rậm"] },
-  { emoji: "🍕", label: "Pizza",     options: ["Bánh mì", "Pizza", "Hamburger", "Bánh ngọt"] },
-  { emoji: "✈️", label: "Máy bay",   options: ["Tàu hỏa", "Tên lửa", "Máy bay", "Khinh khí cầu"] },
-  { emoji: "🐘", label: "Voi",       options: ["Tê giác", "Voi", "Hà mã", "Trâu"] },
-  { emoji: "⚽", label: "Quả bóng",  options: ["Quả bóng", "Đồng hồ", "Mặt trăng", "Bánh xe"] },
-  { emoji: "🌻", label: "Hoa hướng dương", options: ["Hoa hồng", "Hoa cúc", "Hoa hướng dương", "Hoa sen"] },
+  { emoji: "🐱", label: "Cat",       options: ["Cat", "Dog", "Rabbit", "Fox"] },
+  { emoji: "🚗", label: "Car",       options: ["Motorbike", "Car", "Bus", "Train"] },
+  { emoji: "🌳", label: "Tree",      options: ["Flower", "Grass", "Tree", "Bush"] },
+  { emoji: "🍕", label: "Pizza",     options: ["Bread", "Pizza", "Hamburger", "Cake"] },
+  { emoji: "✈️", label: "Airplane",  options: ["Train", "Rocket", "Airplane", "Hot air balloon"] },
+  { emoji: "🐘", label: "Elephant",  options: ["Rhino", "Elephant", "Hippo", "Buffalo"] },
+  { emoji: "⚽", label: "Soccer ball",  options: ["Soccer ball", "Clock", "Moon", "Wheel"] },
+  { emoji: "🌻", label: "Sunflower", options: ["Rose", "Daisy", "Sunflower", "Lotus"] },
 ];
 
 const BLUR_STEPS = [24, 14, 7, 3, 0];
@@ -73,12 +73,12 @@ const PixelReveal = () => {
       <div className="flex items-center gap-2">
         <Eye className="w-4 h-4 text-emerald-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-          🔍 Mini-game: AI nhìn thấy gì? (Pixel Reveal)
+          🔍 Mini-game: What does the AI see? (Pixel Reveal)
         </h4>
       </div>
       <p className="text-[13px] text-foreground/85">
-        Đoán đúng vật thể khi ảnh còn <b>mờ</b> để được nhiều điểm. Càng phải bấm “Rõ hơn” nhiều lần, điểm càng ít -
-        đây chính là cách AI thị giác cần đủ <b>pixel</b> để nhận diện chính xác.
+        Guess the object correctly while the image is still <b>blurry</b> to earn more points. The more times you tap "Sharpen", the fewer points you get -
+        that's exactly how computer vision needs enough <b>pixels</b> to recognize things accurately.
       </p>
 
       <div className="relative mx-auto w-full max-w-[260px] aspect-square rounded-2xl bg-gradient-to-br from-slate-900 to-slate-700 grid place-items-center overflow-hidden border-2 border-cyan-400/40 shadow-inner">
@@ -96,7 +96,7 @@ const PixelReveal = () => {
           Pixel level {level + 1}/{BLUR_STEPS.length}
         </div>
         <div className="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-emerald-500/90 text-white text-[11px] font-bold">
-          Điểm tối đa: {POINTS[level]}
+          Max points: {POINTS[level]}
         </div>
       </div>
 
@@ -134,14 +134,14 @@ const PixelReveal = () => {
             variant="outline"
             className="min-h-[40px]"
           >
-            <ZoomIn className="w-4 h-4 mr-1" /> Rõ hơn 1 chút
+            <ZoomIn className="w-4 h-4 mr-1" /> Sharpen a bit
           </Button>
         ) : (
           <Button
             onClick={reset}
             className="bg-gradient-to-r from-emerald-500 to-cyan-600 text-white min-h-[40px]"
           >
-            <RefreshCcw className="w-4 h-4 mr-1" /> Ảnh khác
+            <RefreshCcw className="w-4 h-4 mr-1" /> Try again
           </Button>
         )}
         <AnimatePresence>
@@ -155,8 +155,8 @@ const PixelReveal = () => {
               }`}
             >
               {score && score > 0
-                ? `🎉 +${score} điểm - Đáp án: ${puzzle.label}`
-                : `😅 Sai rồi - Đáp án: ${puzzle.label}`}
+                ? `🎉 +${score} points - Answer: ${puzzle.label}`
+                : `😅 Wrong - Answer: ${puzzle.label}`}
             </motion.span>
           )}
         </AnimatePresence>
@@ -169,11 +169,11 @@ const PixelReveal = () => {
 // Mini-game 2 - Confidence predictor
 // ============================================================
 const SCENES = [
-  { emoji: "🐱", desc: "Ảnh con mèo rõ nét, đủ sáng", actual: 97 },
-  { emoji: "🌫️🐶", desc: "Ảnh con chó trong sương mù dày", actual: 54 },
-  { emoji: "🌙🚗", desc: "Ảnh xe ô tô chụp lúc nửa đêm", actual: 62 },
-  { emoji: "📸✨", desc: "Ảnh selfie có flash, cận cảnh khuôn mặt", actual: 94 },
-  { emoji: "🌧️🚦", desc: "Đèn giao thông qua kính ô tô đầy nước mưa", actual: 48 },
+  { emoji: "🐱", desc: "A sharp, well-lit photo of a cat", actual: 97 },
+  { emoji: "🌫️🐶", desc: "A dog photo taken in thick fog", actual: 54 },
+  { emoji: "🌙🚗", desc: "A car photo shot at midnight", actual: 62 },
+  { emoji: "📸✨", desc: "A close-up flash selfie", actual: 94 },
+  { emoji: "🌧️🚦", desc: "A traffic light seen through a rain-covered car window", actual: 48 },
 ];
 
 const ConfidencePredictor = () => {
@@ -186,7 +186,7 @@ const ConfidencePredictor = () => {
   const scene = SCENES[sceneIdx];
   const diff = revealed ? Math.abs(guess - scene.actual) : 0;
   const verdict =
-    diff <= 8 ? "Tuyệt vời!" : diff <= 18 ? "Khá sát!" : "Hơi chệch rồi 😅";
+    diff <= 8 ? "Excellent!" : diff <= 18 ? "Pretty close!" : "A bit off 😅";
 
   const reveal = () => {
     setRevealed(true);
@@ -206,7 +206,7 @@ const ConfidencePredictor = () => {
       <div className="flex items-center gap-2">
         <Target className="w-4 h-4 text-fuchsia-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-fuchsia-700 dark:text-fuchsia-300">
-          🎯 Mini-game: Đoán độ tự tin của AI
+          🎯 Mini-game: Guess the AI's confidence
         </h4>
       </div>
 
@@ -217,7 +217,7 @@ const ConfidencePredictor = () => {
 
       <div>
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[13px] text-muted-foreground">Dự đoán của bạn</span>
+          <span className="text-[13px] text-muted-foreground">Your guess</span>
           <span className="text-base font-black text-fuchsia-600">{guess}%</span>
         </div>
         <input
@@ -238,10 +238,10 @@ const ConfidencePredictor = () => {
           className="p-3 rounded-xl bg-fuchsia-500/10 border border-fuchsia-400/40 text-sm"
         >
           <div className="font-bold text-foreground">
-            AI thật trả lời: <span className="text-fuchsia-600">{scene.actual}%</span>
+            The real AI answered: <span className="text-fuchsia-600">{scene.actual}%</span>
           </div>
           <div className="text-foreground/85 mt-0.5">
-            Lệch <b>{diff}%</b> - {verdict}
+            Off by <b>{diff}%</b> - {verdict}
           </div>
         </motion.div>
       )}
@@ -252,11 +252,11 @@ const ConfidencePredictor = () => {
             onClick={reveal}
             className="bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white min-h-[40px]"
           >
-            <Sparkles className="w-4 h-4 mr-1" /> Hé lộ đáp án
+            <Sparkles className="w-4 h-4 mr-1" /> Reveal answer
           </Button>
         ) : (
           <Button onClick={nextScene} variant="outline" className="min-h-[40px]">
-            <RefreshCcw className="w-4 h-4 mr-1" /> Cảnh khác
+            <RefreshCcw className="w-4 h-4 mr-1" /> Next scene
           </Button>
         )}
       </div>

@@ -13,39 +13,39 @@ import { BonusGames } from "./SandboxBonusGames";
 import { BestMatchPick } from "./SandboxMiniActivity";
 
 const CAP_TF = [
-  { q: "Một trợ lý AI tốt cần kết hợp nhiều mô-đun (vision, NLP, ethics…).", a: true },
-  { q: "Chỉ cần 1 mô-đun NLP là đủ để làm trợ lý đa năng.", a: false, why: "Trợ lý mạnh cần kết hợp nhiều năng lực." },
-  { q: "Bộ lọc đạo đức giúp AI từ chối yêu cầu nguy hiểm.", a: true },
-  { q: "Càng nhiều mô-đun thì trợ lý càng tốn tài nguyên.", a: true },
-  { q: "AI sẵn sàng đi làm mà không cần đánh giá an toàn.", a: false, why: "Mọi sản phẩm AI phải qua kiểm thử đạo đức + an toàn." },
+  { q: "A good AI assistant combines several modules (vision, NLP, ethics...).", a: true },
+  { q: "One NLP module alone is enough to build a versatile assistant.", a: false, why: "A strong assistant needs multiple combined capabilities, not just language." },
+  { q: "An ethics filter helps AI refuse dangerous requests.", a: true },
+  { q: "The more modules an assistant has, the more resources it consumes.", a: true },
+  { q: "AI is ready to deploy without any safety review.", a: false, why: "Every AI product must pass ethics and safety testing before release." },
 ];
 const CAP_PAIRS = [
-  { a: "Vision module", b: "Mắt - nhận diện ảnh / camera" },
-  { a: "NLP module", b: "Hiểu và tạo ngôn ngữ" },
-  { a: "Neural core", b: "Bộ não suy luận" },
-  { a: "Ethics layer", b: "Lớp bảo vệ đạo đức & an toàn" },
+  { a: "Vision module", b: "Eyes - recognizes images/camera feeds" },
+  { a: "NLP module", b: "Understands and generates language" },
+  { a: "Neural core", b: "The reasoning brain" },
+  { a: "Ethics layer", b: "Protects against unsafe or harmful outputs" },
 ];
 
 type ModuleId = "vision" | "nlp" | "brain" | "ethics" | "rl" | "iot";
 
 const MODULES: { id: ModuleId; emoji: string; label: string; color: string }[] = [
-  { id: "vision", emoji: "👁️", label: "Mắt thần (Vision)",        color: "from-cyan-400 to-blue-500" },
-  { id: "nlp",    emoji: "💬", label: "Ngôn ngữ (NLP)",           color: "from-fuchsia-400 to-purple-500" },
-  { id: "brain",  emoji: "🧠", label: "Não bộ (Neural Net)",      color: "from-emerald-400 to-teal-500" },
-  { id: "ethics", emoji: "🛡️", label: "Đạo đức (Ethics)",         color: "from-purple-400 to-violet-500" },
-  { id: "rl",     emoji: "🎮", label: "Tự học (RL)",              color: "from-emerald-400 to-cyan-500" },
-  { id: "iot",    emoji: "📡", label: "Kết nối IoT",              color: "from-cyan-400 to-sky-500" },
+  { id: "vision", emoji: "👁️", label: "Vision (Eyes)",        color: "from-cyan-400 to-blue-500" },
+  { id: "nlp",    emoji: "💬", label: "Language (NLP)",       color: "from-fuchsia-400 to-purple-500" },
+  { id: "brain",  emoji: "🧠", label: "Brain (Neural Net)",   color: "from-emerald-400 to-teal-500" },
+  { id: "ethics", emoji: "🛡️", label: "Ethics",               color: "from-purple-400 to-violet-500" },
+  { id: "rl",     emoji: "🎮", label: "Self-Learning (RL)",   color: "from-emerald-400 to-cyan-500" },
+  { id: "iot",    emoji: "📡", label: "IoT Connection",       color: "from-cyan-400 to-sky-500" },
 ];
 
 const REQUIRED: ModuleId[] = ["vision", "nlp", "brain", "ethics"];
 
 const BOOT_LINES = [
-  "🔌 Khởi động lõi xử lý...",
-  "👁️ Hiệu chỉnh camera nhận diện...",
-  "💬 Nạp mô hình ngôn ngữ tiếng Việt...",
-  "🧠 Kích hoạt 86 tỷ neuron mô phỏng...",
-  "🛡️ Bật bộ lọc đạo đức & an toàn...",
-  "✅ Trợ lý AI sẵn sàng phục vụ!",
+  "🔌 Booting processing core...",
+  "👁️ Calibrating recognition camera...",
+  "💬 Loading language model...",
+  "🧠 Activating 86 billion simulated neurons...",
+  "🛡️ Enabling ethics and safety filters...",
+  "✅ AI assistant ready to serve!",
 ];
 
 const CapstoneSandbox = () => {
@@ -90,7 +90,7 @@ const CapstoneSandbox = () => {
       {/* Module library */}
       <div className="rounded-2xl border-2 border-amber-400/40 bg-amber-500/5 p-3">
         <div className="text-[11px] font-bold uppercase text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1">
-          <Cpu className="w-3 h-3" /> Kho mô-đun (chạm để lắp / gỡ)
+          <Cpu className="w-3 h-3" /> Module library (tap to install/remove)
         </div>
         <div className="grid grid-cols-3 gap-2">
           {MODULES.map((m) => {
@@ -116,7 +116,7 @@ const CapstoneSandbox = () => {
             );
           })}
         </div>
-        <p className="text-[10px] text-muted-foreground mt-2">★ = mô-đun bắt buộc để khởi động lõi</p>
+        <p className="text-[10px] text-muted-foreground mt-2">★ = required module to boot the core</p>
       </div>
 
       {/* Core assembly */}
@@ -153,7 +153,7 @@ const CapstoneSandbox = () => {
               </AnimatePresence>
             </div>
             <div className="text-xs text-purple-200">
-              {installed.length} / {MODULES.length} mô-đun · {REQUIRED.filter((r) => installed.includes(r)).length}/{REQUIRED.length} bắt buộc
+              {installed.length} / {MODULES.length} modules · {REQUIRED.filter((r) => installed.includes(r)).length}/{REQUIRED.length} required
             </div>
           </div>
         )}
@@ -194,7 +194,7 @@ const CapstoneSandbox = () => {
             <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 to-purple-500 text-white text-xs font-black">
               <Sparkles className="w-3 h-3" /> AI Certified Guru
             </div>
-            <p className="text-sm text-purple-100 mt-2">Trợ lý AI của bạn đã sẵn sàng! 🎉</p>
+            <p className="text-sm text-purple-100 mt-2">Your AI assistant is ready! 🎉</p>
           </motion.div>
         )}
       </div>
@@ -206,24 +206,24 @@ const CapstoneSandbox = () => {
             disabled={!allReq || booting}
             className="flex-1 bg-gradient-to-r from-amber-500 via-purple-500 to-fuchsia-500 text-white"
           >
-            <Sparkles className="w-4 h-4 mr-1" /> {booting ? "Đang khởi động..." : "Khởi động trợ lý"}
+            <Sparkles className="w-4 h-4 mr-1" /> {booting ? "Starting..." : "Start the assistant"}
           </Button>
         ) : (
           <Button onClick={reset} variant="outline" className="flex-1">
-            <RefreshCcw className="w-4 h-4 mr-1" /> Lắp ráp lại
+            <RefreshCcw className="w-4 h-4 mr-1" /> Rebuild
           </Button>
         )}
       </div>
 
       {!allReq && !ready && (
         <p className="text-xs text-rose-600 dark:text-rose-400 text-center">
-          ⚠️ Cần đủ 4 mô-đun ★ (Mắt thần, Ngôn ngữ, Não bộ, Đạo đức) để khởi động.
+          ⚠️ You need all 4 ★ modules (Vision, Language, Brain, Ethics) to start.
         </p>
       )}
 
       <BestMatchPick
-        title="🧩 Activity 2 · Ghép mô-đun với chức năng"
-        hint="Mỗi mô-đun trong trợ lý AI đảm nhận một vai trò khác nhau - hãy ghép đúng."
+        title="🧩 Activity 2 · Match modules to their function"
+        hint="Each module in the AI assistant handles a different role - match them correctly."
         accent="from-amber-500 to-fuchsia-600"
         border="border-amber-400/40"
         options={[
@@ -235,12 +235,12 @@ const CapstoneSandbox = () => {
           { id: "iot", label: "📡 IoT" },
         ]}
         items={[
-          { prompt: "Phân tích camera để nhận diện người vào nhà", correctId: "vision" },
-          { prompt: "Trả lời câu hỏi bằng tiếng Việt tự nhiên", correctId: "nlp" },
-          { prompt: "Từ chối yêu cầu chế tạo vũ khí", correctId: "ethics" },
-          { prompt: "Suy luận từ dữ liệu để đưa ra quyết định", correctId: "brain" },
-          { prompt: "Tự học cách điều khiển robot qua thử-sai", correctId: "rl" },
-          { prompt: "Đọc nhiệt độ từ cảm biến trong nhà thông minh", correctId: "iot" },
+          { prompt: "Analyze camera footage to recognize someone entering the house", correctId: "vision" },
+          { prompt: "Answer questions in natural, fluent English", correctId: "nlp" },
+          { prompt: "Refuse a request to build a weapon", correctId: "ethics" },
+          { prompt: "Reason over data to make a decision", correctId: "brain" },
+          { prompt: "Learn to control a robot through trial and error", correctId: "rl" },
+          { prompt: "Read the temperature from a smart-home sensor", correctId: "iot" },
         ]}
       />
 

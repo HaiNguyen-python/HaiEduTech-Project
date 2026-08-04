@@ -1,5 +1,5 @@
 /**
- * CareersMapSandbox - Pick 2-3 interests, highlight matching AI careers in VN
+ * CareersMapSandbox - Pick 2-3 interests, highlight matching AI careers in Vietnam
  * with salary ranges. Helps students see "AI is for me too".
  */
 import { useState } from "react";
@@ -9,36 +9,36 @@ import { BonusGames } from "./SandboxBonusGames";
 import { BestMatchPick } from "./SandboxMiniActivity";
 
 const INTERESTS = [
-  { id: "math", label: "Toán / Logic", emoji: "🔢" },
-  { id: "art", label: "Vẽ / Thiết kế", emoji: "🎨" },
-  { id: "lang", label: "Ngôn ngữ / Viết", emoji: "📝" },
-  { id: "code", label: "Code / Máy tính", emoji: "💻" },
-  { id: "people", label: "Giao tiếp / Tâm lý", emoji: "🤝" },
-  { id: "game", label: "Game / Sáng tạo", emoji: "🎮" },
+  { id: "math", label: "Math / Logic", emoji: "🔢" },
+  { id: "art", label: "Drawing / Design", emoji: "🎨" },
+  { id: "lang", label: "Language / Writing", emoji: "📝" },
+  { id: "code", label: "Code / Computers", emoji: "💻" },
+  { id: "people", label: "Communication / Psychology", emoji: "🤝" },
+  { id: "game", label: "Games / Creativity", emoji: "🎮" },
 ];
 
 type Career = { name: string; salary: string; company: string; needs: string[] };
 const CAREERS: Career[] = [
-  { name: "AI / ML Engineer", salary: "30–80 triệu/tháng", company: "VinAI, FPT.AI, Zalo, VNG", needs: ["math", "code"] },
-  { name: "Data Scientist", salary: "25–60 triệu/tháng", company: "MoMo, Shopee, Tiki", needs: ["math", "code"] },
-  { name: "Prompt Engineer", salary: "20–50 triệu/tháng", company: "Mọi startup AI", needs: ["lang", "code"] },
-  { name: "AI Product Manager", salary: "40–100 triệu/tháng", company: "Vingroup, FPT", needs: ["people", "code"] },
-  { name: "AI UX / Designer", salary: "20–45 triệu/tháng", company: "Canva, Lovable, Figma", needs: ["art", "people"] },
-  { name: "Generative AI Artist", salary: "15–40 triệu/tháng", company: "Studio quảng cáo, phim", needs: ["art", "game"] },
-  { name: "Game AI Developer", salary: "25–55 triệu/tháng", company: "VNG, Sky Mavis", needs: ["code", "game"] },
-  { name: "Conversational AI Linguist", salary: "20–40 triệu/tháng", company: "Zalo, Kiki, Sun*", needs: ["lang", "people"] },
+  { name: "AI / ML Engineer", salary: "$1,200-3,200/month", company: "VinAI, FPT.AI, Zalo, VNG", needs: ["math", "code"] },
+  { name: "Data Scientist", salary: "$1,000-2,400/month", company: "MoMo, Shopee, Tiki", needs: ["math", "code"] },
+  { name: "Prompt Engineer", salary: "$800-2,000/month", company: "Almost any AI startup", needs: ["lang", "code"] },
+  { name: "AI Product Manager", salary: "$1,600-4,000/month", company: "Vingroup, FPT", needs: ["people", "code"] },
+  { name: "AI UX / Designer", salary: "$800-1,800/month", company: "Canva, Lovable, Figma", needs: ["art", "people"] },
+  { name: "Generative AI Artist", salary: "$600-1,600/month", company: "Ad agencies, film studios", needs: ["art", "game"] },
+  { name: "Game AI Developer", salary: "$1,000-2,200/month", company: "VNG, Sky Mavis", needs: ["code", "game"] },
+  { name: "Conversational AI Linguist", salary: "$800-1,600/month", company: "Zalo, Kiki, Sun*", needs: ["lang", "people"] },
 ];
 
 const TF = [
-  { q: "Nghề AI cần biết code mới làm được.", a: false, why: "Prompt Engineer, AI PM, AI Linguist không cần code thành thạo." },
-  { q: "VinAI, FPT.AI, Zalo AI Lab là các công ty AI hàng đầu VN.", a: true },
-  { q: "Học AI từ cấp 3 sẽ dễ vào ngành hơn.", a: true },
-  { q: "Lương kỹ sư AI VN cao hơn nhiều ngành khác.", a: true },
+  { q: "You need strong coding skills to work in any AI career.", a: false, why: "Roles like Prompt Engineer, AI PM, and AI Linguist don't require heavy coding." },
+  { q: "VinAI, FPT.AI, and Zalo AI Lab are leading AI companies in Vietnam.", a: true },
+  { q: "Learning AI in high school makes it easier to enter the field later.", a: true },
+  { q: "AI engineer salaries in Vietnam are much higher than many other fields.", a: true },
 ];
 const PAIRS = [
   { a: "VinAI Research", b: "Vingroup - Computer Vision" },
-  { a: "Zalo AI Lab", b: "Chatbot Kiki tiếng Việt" },
-  { a: "FPT.AI", b: "Trợ lý ảo doanh nghiệp" },
+  { a: "Zalo AI Lab", b: "Kiki, a Vietnamese-language chatbot" },
+  { a: "FPT.AI", b: "Virtual assistants for businesses" },
   { a: "Sky Mavis", b: "Axie Infinity - Game AI" },
 ];
 
@@ -61,7 +61,7 @@ const CareersMapSandbox = () => {
     <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       <div className="rounded-2xl border-2 border-violet-400/40 bg-violet-500/5 p-3">
         <h4 className="text-sm font-bold text-violet-700 dark:text-violet-300 mb-2 flex items-center gap-1">
-          <Sparkles className="w-4 h-4" /> Bạn thích cái gì? (chọn 2–3)
+          <Sparkles className="w-4 h-4" /> What do you enjoy? (pick 2-3)
         </h4>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {INTERESTS.map((it) => (
@@ -83,12 +83,12 @@ const CareersMapSandbox = () => {
 
       <div>
         <h4 className="text-sm font-bold text-foreground mb-2 flex items-center gap-1">
-          <Briefcase className="w-4 h-4 text-emerald-600" /> Nghề AI phù hợp với bạn:
+          <Briefcase className="w-4 h-4 text-emerald-600" /> AI careers that fit you:
         </h4>
         {picked.size === 0 ? (
-          <p className="text-sm text-muted-foreground italic">Chọn sở thích để xem gợi ý nghề.</p>
+          <p className="text-sm text-muted-foreground italic">Pick some interests to see career suggestions.</p>
         ) : matches.length === 0 ? (
-          <p className="text-sm text-muted-foreground italic">Chưa có kết quả - thử kết hợp sở thích khác.</p>
+          <p className="text-sm text-muted-foreground italic">No matches yet - try a different combination of interests.</p>
         ) : (
           <ul className="space-y-2">
             {matches.map((c, i) => (
@@ -103,7 +103,7 @@ const CareersMapSandbox = () => {
                   <span className="font-bold text-emerald-700 dark:text-emerald-300">{c.name}</span>
                   <span className="text-xs text-amber-600 font-bold">💰 {c.salary}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-0.5">Công ty VN: {c.company}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">VN companies: {c.company}</p>
               </motion.li>
             ))}
           </ul>
@@ -111,21 +111,21 @@ const CareersMapSandbox = () => {
       </div>
 
       <BestMatchPick
-        title="🛤️ Xếp đúng giai đoạn lộ trình lớp 10 → việc đầu tiên"
-        hint="Mỗi cột mốc nên rơi vào giai đoạn nào của hành trình AI?"
+        title="🛤️ Sort each milestone into the right stage of the journey"
+        hint="Which stage of the high-school-to-first-job AI journey does each milestone belong to?"
         accent="from-violet-500 to-fuchsia-600"
         border="border-violet-400/40"
         options={[
-          { id: "hs", label: "🎒 Cấp 3" },
-          { id: "uni", label: "🎓 Đại học" },
-          { id: "first", label: "💼 Việc đầu tiên" },
+          { id: "hs", label: "🎒 High school" },
+          { id: "uni", label: "🎓 University" },
+          { id: "first", label: "💼 First job" },
         ]}
         items={[
-          { prompt: "Học Python cơ bản, chơi Teachable Machine, làm 1 dự án nhỏ trên Lovable", correctId: "hs" },
-          { prompt: "Đạt IELTS 6.5+, học Toán Xác suất, mở GitHub, tham gia AI Olympic", correctId: "hs" },
-          { prompt: "Thi vào FPT/BK/UIT ngành AI, làm dự án mở GitHub, dự AI Hackathon", correctId: "uni" },
-          { prompt: "Intern tại VinAI / Zalo / Misa, đọc paper, viết blog kỹ thuật", correctId: "uni" },
-          { prompt: "Junior AI/ML Engineer hoặc Prompt Engineer 25–40tr/tháng", correctId: "first" },
+          { prompt: "Learn basic Python, try Teachable Machine, build one small project on Lovable", correctId: "hs" },
+          { prompt: "Score IELTS 6.5+, study probability, start a GitHub, join an AI Olympiad", correctId: "hs" },
+          { prompt: "Get into an AI program at FPT/BK/UIT, publish projects on GitHub, join an AI hackathon", correctId: "uni" },
+          { prompt: "Intern at VinAI / Zalo / MISA, read research papers, write a technical blog", correctId: "uni" },
+          { prompt: "Junior AI/ML Engineer or Prompt Engineer earning $1,000-1,600/month", correctId: "first" },
         ]}
       />
 

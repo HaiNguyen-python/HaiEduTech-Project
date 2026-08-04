@@ -13,43 +13,43 @@ import { BestMatchPick } from "./SandboxMiniActivity";
 type Claim = { text: string; isTrue: boolean; explain: string };
 const CLAIMS: Claim[] = [
   {
-    text: "Thủ đô của Việt Nam là Hà Nội, có dân số khoảng 8 triệu người.",
+    text: "The capital of Vietnam is Hanoi, with a population of around 8 million people.",
     isTrue: true,
-    explain: "Đúng - Hà Nội ~ 8.4 triệu dân (2024). Số liệu hợp lý, dễ kiểm chứng.",
+    explain: "True - Hanoi has about 8.4 million residents (2024). The number is reasonable and easy to verify.",
   },
   {
-    text: "Chủ tịch Hồ Chí Minh từng giành giải Nobel Hòa bình năm 1954.",
+    text: "President Ho Chi Minh won the Nobel Peace Prize in 1954.",
     isTrue: false,
-    explain: "Hallucination! Bác Hồ chưa bao giờ nhận giải Nobel. AI bịa con số cụ thể để nghe đáng tin.",
+    explain: "Hallucination! Ho Chi Minh never received a Nobel Prize. The AI invented a specific-sounding detail to seem credible.",
   },
   {
-    text: "Công thức tính diện tích hình tròn là π × r².",
+    text: "The formula for the area of a circle is π × r².",
     isTrue: true,
-    explain: "Đúng - công thức kinh điển, kiểm tra dễ bằng SGK Toán 8.",
+    explain: "True - this is the classic formula, easy to check in any grade-8 math textbook.",
   },
   {
-    text: "Albert Einstein đã viết cuốn sách 'Thuyết tương đối cho trẻ em' năm 1923 bán được 2 triệu bản.",
+    text: "Albert Einstein wrote a book called 'Relativity for Kids' in 1923 that sold 2 million copies.",
     isTrue: false,
-    explain: "Hallucination! Einstein chưa từng viết sách tên đó. Cảnh báo: số liệu cực kỳ cụ thể nhưng không kiểm chứng được.",
+    explain: "Hallucination! Einstein never wrote a book by that name. Warning sign: extremely specific numbers that can't be verified.",
   },
   {
-    text: "Tổng thống Mỹ Donald Trump đã ký Hiệp định Paris về khí hậu năm 2017.",
+    text: "US President Donald Trump signed the Paris climate agreement in 2017.",
     isTrue: false,
-    explain: "Hallucination! Trump RÚT khỏi Paris năm 2017 (ngược lại). AI nhầm chiều của sự kiện - lỗi rất phổ biến.",
+    explain: "Hallucination! Trump actually WITHDREW from the Paris agreement in 2017 - the opposite happened. AI mixed up the direction of the event, a very common error.",
   },
 ];
 
 const TF = [
-  { q: "AI thỉnh thoảng 'bịa' thông tin nghe rất hợp lý.", a: true },
-  { q: "Càng cụ thể (con số, tên người), càng phải nghi ngờ AI bịa.", a: true },
-  { q: "ChatGPT luôn chính xác 100% với câu hỏi lịch sử.", a: false, why: "ChatGPT có hallucination - đặc biệt với chi tiết lịch sử." },
-  { q: "Phải kiểm chứng AI bằng nguồn thứ 2 (Wikipedia, sách, thầy cô).", a: true },
+  { q: "AI sometimes 'makes up' information that sounds completely plausible.", a: true },
+  { q: "The more specific a claim is (exact numbers, names), the more you should double-check it.", a: true },
+  { q: "ChatGPT is always 100% accurate on history questions.", a: false, why: "ChatGPT can hallucinate - especially with historical details." },
+  { q: "You should verify AI answers with a second source (Wikipedia, books, a teacher).", a: true },
 ];
 const PAIRS = [
-  { a: "Hallucination", b: "AI bịa thông tin nghe có vẻ thật" },
-  { a: "Cross-check", b: "Kiểm chứng bằng nguồn thứ 2" },
-  { a: "Source citation", b: "Yêu cầu AI trích nguồn" },
-  { a: "Red flag", b: "Dấu hiệu đáng nghi: số liệu lạ" },
+  { a: "Hallucination", b: "AI inventing information that sounds true" },
+  { a: "Cross-check", b: "Verifying with a second, independent source" },
+  { a: "Source citation", b: "Asking the AI to cite where it got the info" },
+  { a: "Red flag", b: "A warning sign, like an oddly specific number" },
 ];
 
 const FactCheckSandbox = () => {
@@ -60,7 +60,7 @@ const FactCheckSandbox = () => {
   return (
     <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       <p className="text-sm text-muted-foreground">
-        Mỗi câu dưới đây do ChatGPT viết. Hãy đánh dấu <b>ĐÚNG</b> hay <b>BỊA</b>, rồi bấm "Tiết lộ".
+        Each statement below was written by ChatGPT. Mark it <b>TRUE</b> or <b>HALLUCINATION</b>, then hit "Check answers".
       </p>
 
       <div className="space-y-2">
@@ -87,7 +87,7 @@ const FactCheckSandbox = () => {
                   onClick={() => setPicks((p) => ({ ...p, [i]: true }))}
                   className="text-xs"
                 >
-                  <CheckCircle2 className="w-3 h-3 mr-1" /> Đúng
+                  <CheckCircle2 className="w-3 h-3 mr-1" /> True
                 </Button>
                 <Button
                   size="sm"
@@ -96,7 +96,7 @@ const FactCheckSandbox = () => {
                   onClick={() => setPicks((p) => ({ ...p, [i]: false }))}
                   className="text-xs"
                 >
-                  <XCircle className="w-3 h-3 mr-1" /> Bịa
+                  <XCircle className="w-3 h-3 mr-1" /> Hallucination
                 </Button>
               </div>
               {revealed && (
@@ -116,7 +116,7 @@ const FactCheckSandbox = () => {
           disabled={revealed || Object.keys(picks).length < CLAIMS.length}
           className="flex-1 bg-gradient-to-r from-amber-500 to-rose-500 text-white"
         >
-          🔍 Tiết lộ đáp án
+          🔍 Check answers
         </Button>
         <Button onClick={() => { setPicks({}); setRevealed(false); }} variant="outline">
           Reset
@@ -124,27 +124,27 @@ const FactCheckSandbox = () => {
       </div>
       {revealed && (
         <p className="text-center font-bold text-lg">
-          Bạn đúng <span className="text-emerald-500">{correct}/{CLAIMS.length}</span> câu - kỹ năng fact-check
-          {correct >= 4 ? " 🌟 xuất sắc!" : correct >= 3 ? " 👍 khá tốt." : " cần luyện thêm."}
+          You got <span className="text-emerald-500">{correct}/{CLAIMS.length}</span> right - your fact-checking skills are
+          {correct >= 4 ? " 🌟 excellent!" : correct >= 3 ? " 👍 pretty good." : " still improving - try again."}
         </p>
       )}
 
       <BestMatchPick
-        title="🔗 Ghép tuyên bố với nguồn kiểm chứng tốt nhất"
-        hint="Nếu bạn cần fact-check một tuyên bố, đâu là nguồn đáng tin nhất?"
+        title="🔗 Match each claim to the best source to verify it"
+        hint="If you need to fact-check a claim, which source is most trustworthy?"
         accent="from-amber-500 to-rose-600"
         border="border-amber-400/40"
         options={[
-          { id: "wiki", label: "📚 Wikipedia/SGK" },
-          { id: "gov", label: "🏛️ Trang chính phủ" },
+          { id: "wiki", label: "📚 Wikipedia/textbook" },
+          { id: "gov", label: "🏛️ Government website" },
           { id: "scholar", label: "🔬 Google Scholar" },
-          { id: "news", label: "📰 Báo lớn (VnExpress, Tuổi Trẻ)" },
+          { id: "news", label: "📰 Major news outlet (VnExpress, Tuoi Tre)" },
         ]}
         items={[
-          { prompt: "Dân số Hà Nội năm 2024", correctId: "gov" },
-          { prompt: "Công thức tính diện tích hình tròn", correctId: "wiki" },
-          { prompt: "Kết quả nghiên cứu mới về AlphaFold", correctId: "scholar" },
-          { prompt: "Tin tức bóng đá hôm qua", correctId: "news" },
+          { prompt: "Hanoi's population in 2024", correctId: "gov" },
+          { prompt: "The formula for the area of a circle", correctId: "wiki" },
+          { prompt: "New research findings about AlphaFold", correctId: "scholar" },
+          { prompt: "Yesterday's football match results", correctId: "news" },
         ]}
       />
 

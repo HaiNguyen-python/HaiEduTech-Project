@@ -14,17 +14,17 @@ import { BonusGames } from "./SandboxBonusGames";
 import { BestMatchPick } from "./SandboxMiniActivity";
 
 const IOT_TF = [
-  { q: "AIoT = AI + IoT (cảm biến kết nối Internet).", a: true },
-  { q: "Đèn giao thông thông minh tự thay đổi theo lưu lượng xe.", a: true },
-  { q: "Cảm biến IoT chỉ thu thập dữ liệu, không gửi đi đâu.", a: false, why: "IoT phải truyền dữ liệu về cloud / edge để xử lý." },
-  { q: "Singapore dùng AIoT để giảm 20-40% kẹt xe.", a: true },
-  { q: "Edge computing nghĩa là xử lý ngay tại thiết bị.", a: true },
+  { q: "AIoT = AI + IoT (Internet-connected sensors).", a: true },
+  { q: "Smart traffic lights change automatically based on traffic flow.", a: true },
+  { q: "IoT sensors only collect data and never send it anywhere.", a: false, why: "IoT devices must transmit data to the cloud or edge for processing." },
+  { q: "Singapore uses AIoT to cut traffic jams by 20-40%.", a: true },
+  { q: "Edge computing means processing data right on the device.", a: true },
 ];
 const IOT_PAIRS = [
-  { a: "Sensor", b: "Thiết bị đo (nhiệt độ, ánh sáng, xe…)" },
-  { a: "Actuator", b: "Bộ phận hành động (mở đèn, quay quạt)" },
-  { a: "Edge AI", b: "AI chạy ngay trên thiết bị nhỏ" },
-  { a: "Smart City", b: "Thành phố dùng AIoT để vận hành" },
+  { a: "Sensor", b: "A device that measures things (temperature, light, cars...)" },
+  { a: "Actuator", b: "The part that acts (turns on a light, spins a fan)" },
+  { a: "Edge AI", b: "AI running directly on a small device" },
+  { a: "Smart City", b: "A city that runs on AIoT" },
 ];
 
 type Lane = "N" | "S" | "E" | "W";
@@ -130,15 +130,15 @@ const AIoTSandbox = () => {
 
         <div className="grid grid-cols-3 gap-2 mt-2 text-center text-xs">
           <div className="rounded-lg bg-cyan-500/10 border border-cyan-400/30 py-1.5">
-            <div className="opacity-70">Đèn xanh</div>
+            <div className="opacity-70">Green Light</div>
             <div className="font-black text-base text-emerald-300">{activeLane}</div>
           </div>
           <div className="rounded-lg bg-cyan-500/10 border border-cyan-400/30 py-1.5">
-            <div className="opacity-70">Đi qua</div>
+            <div className="opacity-70">Passed</div>
             <div className="font-black text-base text-cyan-300">{throughput}</div>
           </div>
           <div className="rounded-lg bg-cyan-500/10 border border-cyan-400/30 py-1.5">
-            <div className="opacity-70">Chờ TB</div>
+            <div className="opacity-70">Avg Wait</div>
             <div className="font-black text-base text-amber-300">{avgWait}</div>
           </div>
         </div>
@@ -148,14 +148,14 @@ const AIoTSandbox = () => {
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="p-3 rounded-xl border bg-card">
           <div className="flex items-center justify-between text-sm mb-2">
-            <span>🚦 Ngưỡng kẹt xe</span>
-            <span className="font-bold text-cyan-600">{threshold} xe</span>
+            <span>🚦 Congestion Threshold</span>
+            <span className="font-bold text-cyan-600">{threshold} cars</span>
           </div>
           <Slider value={[threshold]} min={2} max={10} step={1} onValueChange={(v) => setThreshold(v[0])} />
         </div>
         <div className="p-3 rounded-xl border bg-card">
           <div className="flex items-center justify-between text-sm mb-2">
-            <span>⏱️ Thời gian xanh</span>
+            <span>⏱️ Green Phase Duration</span>
             <span className="font-bold text-cyan-600">{phase}s</span>
           </div>
           <Slider value={[phase]} min={2} max={10} step={1} onValueChange={(v) => setPhase(v[0])} />
@@ -164,32 +164,32 @@ const AIoTSandbox = () => {
 
       <div className="flex gap-2">
         <Button onClick={() => setRunning((r) => !r)} className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white">
-          {running ? <><Pause className="w-4 h-4 mr-1" /> Tạm dừng</> : <><Play className="w-4 h-4 mr-1" /> Tiếp tục</>}
+          {running ? <><Pause className="w-4 h-4 mr-1" /> Pause</> : <><Play className="w-4 h-4 mr-1" /> Resume</>}
         </Button>
         <Button onClick={reset} variant="outline">Reset</Button>
       </div>
 
       <p className="text-xs text-muted-foreground flex items-start gap-2">
         <Cpu className="w-3.5 h-3.5 mt-0.5 text-cyan-500 shrink-0" />
-        <span>Cảm biến IoT đếm xe → vi điều khiển chạy luật <b>If-Else</b> → bật đèn xanh cho luồng đông nhất. Singapore, Tokyo, Hà Nội đang dùng nguyên lý này để giảm 20-40% kẹt xe.</span>
+        <span>An IoT sensor counts cars, a microcontroller runs an <b>If-Else</b> rule, and the busiest lane gets the green light. Singapore, Tokyo, and Hanoi use this exact principle to cut traffic jams by 20-40%.</span>
       </p>
 
       <BestMatchPick
-        title="🏠 Tủ lạnh thông minh nên làm gì?"
-        hint="Với mỗi tín hiệu cảm biến, chọn hành động AIoT hợp lý nhất mà tủ lạnh thông minh nên gửi tới điện thoại bạn."
+        title="🏠 What should a smart fridge do?"
+        hint="For each sensor signal, pick the smartest AIoT action the fridge should send to your phone."
         accent="from-cyan-500 to-blue-600"
         border="border-cyan-400/40"
         options={[
-          { id: "alert", label: "🔔 Gửi cảnh báo" },
-          { id: "order", label: "🛒 Tự đặt hàng" },
-          { id: "cool", label: "❄️ Tăng độ lạnh" },
-          { id: "nothing", label: "💤 Không làm gì" },
+          { id: "alert", label: "🔔 Send an alert" },
+          { id: "order", label: "🛒 Auto-order" },
+          { id: "cool", label: "❄️ Lower the temperature" },
+          { id: "nothing", label: "💤 Do nothing" },
         ]}
         items={[
-          { prompt: "Cảm biến: cửa tủ mở quá 2 phút", correctId: "alert" },
-          { prompt: "Cảm biến: hộp sữa sắp hết hạn 2 ngày nữa", correctId: "alert" },
-          { prompt: "Cảm biến: hết sữa hoàn toàn", correctId: "order" },
-          { prompt: "Cảm biến: nhiệt độ ngăn mát lên 12°C (bình thường 4°C)", correctId: "cool" },
+          { prompt: "Sensor: fridge door has been open for over 2 minutes", correctId: "alert" },
+          { prompt: "Sensor: milk carton expires in 2 days", correctId: "alert" },
+          { prompt: "Sensor: milk is completely out", correctId: "order" },
+          { prompt: "Sensor: fridge temperature rose to 12C (normal is 4C)", correctId: "cool" },
         ]}
       />
 

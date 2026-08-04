@@ -14,17 +14,17 @@ import { BonusGames } from "./SandboxBonusGames";
 import { BestMatchPick } from "./SandboxMiniActivity";
 
 const RL_TF = [
-  { q: "RL học bằng cơ chế Thưởng – Phạt.", a: true },
-  { q: "AlphaGo của DeepMind dùng RL để học cờ vây.", a: true },
-  { q: "RL cần ai đó gắn nhãn từng hành động đúng/sai.", a: false, why: "Không cần nhãn - agent thử sai và nhận điểm số." },
-  { q: "Tesla Autopilot huấn luyện qua hàng tỷ km mô phỏng.", a: true },
-  { q: "Agent là tên gọi của 'người chơi' trong RL.", a: true },
+  { q: "RL learns through a Reward - Penalty mechanism.", a: true },
+  { q: "DeepMind's AlphaGo used RL to learn the game of Go.", a: true },
+  { q: "RL requires someone to label every action as right or wrong.", a: false, why: "No labels needed - the agent tries, fails, and receives a score instead." },
+  { q: "Tesla Autopilot trains on billions of simulated kilometers.", a: true },
+  { q: "Agent is the name for the 'player' in RL.", a: true },
 ];
 const RL_PAIRS = [
-  { a: "Agent", b: "Nhân vật ra quyết định" },
-  { a: "Environment", b: "Thế giới agent sống trong đó" },
-  { a: "Reward", b: "Điểm thưởng khi làm đúng" },
-  { a: "Policy", b: "Chiến lược chọn hành động" },
+  { a: "Agent", b: "The character that makes decisions" },
+  { a: "Environment", b: "The world the agent lives in" },
+  { a: "Reward", b: "Points earned for a correct action" },
+  { a: "Policy", b: "The strategy for choosing actions" },
 ];
 
 type Cell = "empty" | "coin" | "obstacle" | "goal";
@@ -158,9 +158,9 @@ const RLSandbox = () => {
         </div>
 
         <div className="flex items-center justify-between mt-2 text-sm">
-          <div className="text-emerald-300">Bước: <b>{step}</b></div>
+          <div className="text-emerald-300">Step: <b>{step}</b></div>
           <div className="text-cyan-300">
-            Điểm: <motion.span key={score} initial={{ scale: 1.3 }} animate={{ scale: 1 }} className="font-black text-lg">{score}</motion.span>
+            Score: <motion.span key={score} initial={{ scale: 1.3 }} animate={{ scale: 1 }} className="font-black text-lg">{score}</motion.span>
           </div>
         </div>
       </div>
@@ -169,14 +169,14 @@ const RLSandbox = () => {
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="p-3 rounded-xl border bg-card">
           <div className="flex items-center justify-between text-sm mb-2">
-            <span className="flex items-center gap-1"><Coins className="w-4 h-4 text-amber-500" /> Thưởng / xu</span>
+            <span className="flex items-center gap-1"><Coins className="w-4 h-4 text-amber-500" /> Reward / coin</span>
             <span className="font-bold text-amber-600">+{reward}</span>
           </div>
           <Slider value={[reward]} min={0} max={20} step={1} onValueChange={(v) => setReward(v[0])} />
         </div>
         <div className="p-3 rounded-xl border bg-card">
           <div className="flex items-center justify-between text-sm mb-2">
-            <span className="flex items-center gap-1"><Bomb className="w-4 h-4 text-rose-500" /> Phạt / chướng ngại</span>
+            <span className="flex items-center gap-1"><Bomb className="w-4 h-4 text-rose-500" /> Penalty / obstacle</span>
             <span className="font-bold text-rose-600">-{penalty}</span>
           </div>
           <Slider value={[penalty]} min={0} max={20} step={1} onValueChange={(v) => setPenalty(v[0])} />
@@ -185,7 +185,7 @@ const RLSandbox = () => {
 
       <div className="flex gap-2">
         <Button onClick={run} disabled={running} className="flex-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white">
-          <Play className="w-4 h-4 mr-1" /> {running ? "Đang chạy…" : "Chạy mô phỏng"}
+          <Play className="w-4 h-4 mr-1" /> {running ? "Running..." : "Run Simulation"}
         </Button>
         <Button onClick={reset} variant="outline">
           <RefreshCcw className="w-4 h-4 mr-1" /> Reset
@@ -194,12 +194,12 @@ const RLSandbox = () => {
 
       <p className="text-xs text-muted-foreground flex items-start gap-2">
         <Car className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
-        <span>Khi <b>phạt &gt; thưởng</b>, agent học cách <b>tránh</b> chướng ngại. Xe tự lái của Tesla & Waymo huấn luyện theo cơ chế Thưởng–Phạt y hệt thế này - chỉ là lớn hơn hàng tỷ lần.</span>
+        <span>When <b>penalty &gt; reward</b>, the agent learns to <b>avoid</b> obstacles. Tesla and Waymo self-driving cars train on the exact same Reward-Penalty loop - just billions of times bigger.</span>
       </p>
 
       <BestMatchPick
-        title="🎮 Reward hay Penalty? Phân loại tín hiệu RL"
-        hint="Trong huấn luyện xe tự lái, mỗi hành vi nên cho thưởng hay phạt?"
+        title="🎮 Reward or Penalty? Classify the RL signal"
+        hint="When training a self-driving car, should each behavior get a reward or a penalty?"
         accent="from-emerald-500 to-cyan-600"
         border="border-emerald-400/40"
         options={[
@@ -208,12 +208,12 @@ const RLSandbox = () => {
           { id: "neutral", label: "➖ Neutral (0)" },
         ]}
         items={[
-          { prompt: "Xe giữ đúng làn đường suốt 10 giây", correctId: "reward" },
-          { prompt: "Xe đâm vào chướng ngại", correctId: "penalty" },
-          { prompt: "Xe phanh gấp không cần thiết", correctId: "penalty" },
-          { prompt: "Xe về đích an toàn nhanh hơn mục tiêu", correctId: "reward" },
-          { prompt: "Xe dừng đúng đèn đỏ", correctId: "reward" },
-          { prompt: "Xe đứng yên không di chuyển", correctId: "neutral" },
+          { prompt: "Car stays in its lane for 10 straight seconds", correctId: "reward" },
+          { prompt: "Car crashes into an obstacle", correctId: "penalty" },
+          { prompt: "Car brakes hard for no reason", correctId: "penalty" },
+          { prompt: "Car reaches the goal safely, faster than target", correctId: "reward" },
+          { prompt: "Car stops correctly at a red light", correctId: "reward" },
+          { prompt: "Car stays parked and never moves", correctId: "neutral" },
         ]}
       />
 

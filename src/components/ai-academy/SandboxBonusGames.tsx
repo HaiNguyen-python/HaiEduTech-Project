@@ -1,9 +1,9 @@
 /**
  * SandboxBonusGames - two compact, reusable mini-games used across every
- * AI Academy sandbox so each lesson always has ≥3 hands-on activities.
+ * AI Academy sandbox so each lesson always has 3+ hands-on activities.
  *
- *  • TrueFalseRapid - 5-question lightning round. +10 mỗi câu đúng.
- *  • MatchPairs     - flip-cards memory game ghép cặp khái niệm ↔ ví dụ.
+ *  • TrueFalseRapid - 5-question lightning round. +10 points per correct answer.
+ *  • MatchPairs     - flip-cards memory game matching concepts to examples.
  *
  * Both are data-driven (pass topic-specific content in via props) and live
  * 100% on the client.
@@ -41,7 +41,7 @@ export const TrueFalseRapid = ({
   const [done, setDone] = useState(false);
 
   const cur = items[idx];
-  const headerTitle = title ?? t("⚡ Tia chớp Đúng / Sai", "⚡ True / False Lightning");
+  const headerTitle = title ?? t("⚡ True / False Lightning", "⚡ True / False Lightning");
 
   const pick = (ans: boolean) => {
     if (picked !== null) return;
@@ -82,14 +82,14 @@ export const TrueFalseRapid = ({
           {headerTitle}
         </h4>
         <span className="ml-auto text-xs font-bold text-amber-700 dark:text-amber-300">
-          {t("Điểm", "Score")}: {score}
+          {t("Score", "Score")}: {score}
         </span>
       </div>
 
       {!done ? (
         <>
           <div className="text-[11px] text-muted-foreground">
-            {t("Câu", "Sentence")} {idx + 1} / {items.length}
+            {t("Question", "Sentence")} {idx + 1} / {items.length}
           </div>
           <motion.div
             key={idx}
@@ -110,7 +110,7 @@ export const TrueFalseRapid = ({
                   : "bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-400/40"
               }`}
             >
-              {picked === cur.a ? t("✅ Chính xác - ", "✅ Correct - ") : t("❌ Chưa đúng - ", "❌ Not quite - ")}
+              {picked === cur.a ? t("✅ Correct - ", "✅ Correct - ") : t("❌ Not quite - ", "❌ Not quite - ")}
               {cur.why}
             </motion.div>
           )}
@@ -127,7 +127,7 @@ export const TrueFalseRapid = ({
                   : "bg-emerald-500/15 border-emerald-400/60 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/25"
               }`}
             >
-              <CheckCircle2 className="w-4 h-4 inline mr-1" /> {t("Đúng", "True")}
+              <CheckCircle2 className="w-4 h-4 inline mr-1" /> {t("True", "True")}
             </button>
             <button
               disabled={picked !== null}
@@ -140,7 +140,7 @@ export const TrueFalseRapid = ({
                   : "bg-rose-500/15 border-rose-400/60 text-rose-700 dark:text-rose-200 hover:bg-rose-500/25"
               }`}
             >
-              <XCircle className="w-4 h-4 inline mr-1" /> {t("Sai", "False")}
+              <XCircle className="w-4 h-4 inline mr-1" /> {t("False", "False")}
             </button>
           </div>
 
@@ -155,7 +155,7 @@ export const TrueFalseRapid = ({
                 size="sm"
                 className={`bg-gradient-to-r ${accent} text-white font-bold`}
               >
-                {isLast ? t("Xem kết quả", "See results") : t("Câu tiếp theo", "Next question")}
+                {isLast ? t("See results", "See results") : t("Next question", "Next question")}
                 <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
             </motion.div>
@@ -169,17 +169,17 @@ export const TrueFalseRapid = ({
         >
           <Trophy className="w-10 h-10 mx-auto text-amber-500" />
           <div className="text-2xl font-black text-amber-700 dark:text-amber-300">
-            {score} / {items.length * 10} {t("điểm", "points")}
+            {score} / {items.length * 10} {t("points", "points")}
           </div>
           <p className="text-sm text-muted-foreground">
             {score === items.length * 10
-              ? t("🌟 Tuyệt đối! Bạn là cao thủ rồi!", "🌟 Perfect! You are a master!")
+              ? t("🌟 Perfect! You are a master!", "🌟 Perfect! You are a master!")
               : score >= items.length * 6
-              ? t("👏 Khá lắm - chơi lại để full điểm nhé!", "👏 Well done - replay to get full marks!")
-              : t("💪 Đọc lại lý thuyết rồi thử lại nha.", "💪 Review the theory and try again.")}
+              ? t("👏 Well done - replay to get full marks!", "👏 Well done - replay to get full marks!")
+              : t("💪 Review the theory and try again.", "💪 Review the theory and try again.")}
           </p>
           <Button onClick={reset} className={`bg-gradient-to-r ${accent} text-white`}>
-            <RefreshCcw className="w-4 h-4 mr-1" /> {t("Chơi lại", "Play again")}
+            <RefreshCcw className="w-4 h-4 mr-1" /> {t("Play again", "Play again")}
           </Button>
         </motion.div>
       )}
@@ -205,7 +205,7 @@ export const MatchPairs = ({
   pairs: Pair[];
 }) => {
   const { t } = useLanguage();
-  const headerTitle = title ?? t("🧩 Ghép cặp khái niệm", "🧩 Match the pairs");
+  const headerTitle = title ?? t("🧩 Match the pairs", "🧩 Match the pairs");
   const [round, setRound] = useState(0);
   const cards = useMemo<Card[]>(() => {
     const list: Card[] = [];
@@ -301,10 +301,10 @@ export const MatchPairs = ({
             className="flex items-center justify-between gap-2 p-2 rounded-lg bg-emerald-500/15 border border-emerald-400/40"
           >
             <span className="text-sm font-bold text-emerald-700 dark:text-emerald-200 flex items-center gap-1">
-              <Sparkles className="w-4 h-4" /> {t(`Hoàn hảo! Ghép đủ ${pairs.length} cặp.`, `Perfect! Matched all ${pairs.length} pairs.`)}
+              <Sparkles className="w-4 h-4" /> {t(`Perfect! Matched all ${pairs.length} pairs.`, `Perfect! Matched all ${pairs.length} pairs.`)}
             </span>
             <Button size="sm" onClick={reset} className={`bg-gradient-to-r ${accent} text-white`}>
-              <RefreshCcw className="w-3.5 h-3.5 mr-1" /> {t("Ván mới", "New round")}
+              <RefreshCcw className="w-3.5 h-3.5 mr-1" /> {t("New round", "New round")}
             </Button>
           </motion.div>
         )}
@@ -315,7 +315,7 @@ export const MatchPairs = ({
           onClick={reset}
           className="text-[11px] text-violet-600 hover:underline"
         >
-          {t("↻ Xáo lại bài", "↻ Shuffle deck")}
+          {t("↻ Shuffle deck", "↻ Shuffle deck")}
         </button>
       )}
     </div>

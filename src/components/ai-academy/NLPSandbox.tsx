@@ -1,10 +1,11 @@
 /**
  * NLPSandbox - "Train your Chatbot" + extra hands-on NLP toys.
  *
- *  1. Intent trainer (keyword → reply) - student dạy chatbot rồi thử chat.
- *  2. Sentiment Meter - phân tích cảm xúc câu tiếng Việt bằng từ điển mini.
- *  3. Tokenizer Live - gõ câu, xem cách AI cắt thành tokens + ID số.
- *  4. Teen-code Normalizer - chuẩn hoá teen-code về tiếng Việt chuẩn.
+ *  1. Intent trainer (keyword -> reply) - student trains a chatbot, then chats with it.
+ *  2. Sentiment Meter - detects emotion in a sentence using a mini dictionary.
+ *  3. Tokenizer Live - type a sentence, see how AI splits it into tokens + numeric IDs.
+ *  4. Teen-code Normalizer - normalizes Vietnamese teen slang into standard Vietnamese.
+ *     (Kept as Vietnamese sample data on purpose - this demo is about Vietnamese text.)
  *  5. + 2 bonus games (True/False, Match Pairs).
  */
 import { useMemo, useState } from "react";
@@ -35,9 +36,9 @@ type ChatMsg = { who: "user" | "bot"; text: string };
 
 const IntentTrainer = () => {
   const [intents, setIntents] = useState<Intent[]>([
-    { id: "1", keyword: "hello", reply: "Xin chào bạn! 👋" },
-    { id: "2", keyword: "homework", reply: "Mình giúp bạn ôn bài nhé! 📚" },
-    { id: "3", keyword: "game", reply: "Học xong rồi chơi nha 🎮" },
+    { id: "1", keyword: "hello", reply: "Hey there! 👋" },
+    { id: "2", keyword: "homework", reply: "I'll help you review! 📚" },
+    { id: "3", keyword: "game", reply: "Finish studying first, then let's play 🎮" },
   ]);
   const [keyword, setKeyword] = useState("");
   const [reply, setReply] = useState("");
@@ -50,24 +51,24 @@ const IntentTrainer = () => {
     const r = reply.trim();
     if (!k) {
       setFlash("keyword");
-      toast({ title: "Thiếu từ khoá", description: "Hãy nhập từ khoá để bot nhận biết.", variant: "destructive" });
+      toast({ title: "Missing keyword", description: "Type a keyword so the bot can recognize it.", variant: "destructive" });
       window.setTimeout(() => setFlash(null), 900);
       return;
     }
     if (!r) {
       setFlash("reply");
-      toast({ title: "Thiếu câu trả lời", description: "Hãy nhập câu trả lời tự động cho bot.", variant: "destructive" });
+      toast({ title: "Missing reply", description: "Type the bot's automatic reply.", variant: "destructive" });
       window.setTimeout(() => setFlash(null), 900);
       return;
     }
     if (intents.some((i) => i.keyword === k)) {
-      toast({ title: "Trùng từ khoá", description: `'${k}' đã có sẵn - sửa câu trả lời ở danh sách trên.`, variant: "destructive" });
+      toast({ title: "Keyword already used", description: `'${k}' already exists - edit its reply in the list above.`, variant: "destructive" });
       return;
     }
     setIntents((p) => [...p, { id: Date.now().toString(), keyword: k, reply: r }]);
     setKeyword("");
     setReply("");
-    toast({ title: "✅ Đã thêm intent", description: `'${k}' → "${r.slice(0, 40)}${r.length > 40 ? "…" : ""}"` });
+    toast({ title: "✅ Intent added", description: `'${k}' → "${r.slice(0, 40)}${r.length > 40 ? "…" : ""}"` });
   };
 
   const removeIntent = (id: string) => setIntents((p) => p.filter((i) => i.id !== id));
@@ -77,7 +78,7 @@ const IntentTrainer = () => {
     if (!msg) return;
     const lower = msg.toLowerCase();
     const hit = intents.find((i) => lower.includes(i.keyword));
-    const r = hit ? hit.reply : "Mình chưa được dạy câu này 🤖 - hãy thêm intent mới ở bên trái!";
+    const r = hit ? hit.reply : "I haven't been trained on this yet 🤖 - add a new intent on the left!";
     setChat((p) => [...p, { who: "user", text: msg }, { who: "bot", text: r }]);
     setInput("");
   };
@@ -88,7 +89,7 @@ const IntentTrainer = () => {
       <div className="rounded-2xl border-2 border-fuchsia-400/40 bg-fuchsia-500/5 p-4">
         <div className="flex items-center gap-2 mb-2">
           <Bot className="w-4 h-4 text-fuchsia-600" />
-          <h4 className="font-bold text-sm">🧠 Dạy chatbot (Intents)</h4>
+          <h4 className="font-bold text-sm">🧠 Train the chatbot (Intents)</h4>
         </div>
         <div className="space-y-2 max-h-40 overflow-y-auto mb-2">
           {intents.map((i) => (
@@ -105,14 +106,14 @@ const IntentTrainer = () => {
         </div>
         <div className="space-y-2">
           <Input
-            placeholder="① Từ khoá (vd: bài tập)"
+            placeholder="① Keyword (e.g. homework)"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addIntent()}
             className={`text-sm transition ${flash === "keyword" ? "border-rose-500 ring-2 ring-rose-300" : ""}`}
           />
           <Input
-            placeholder="② Câu trả lời tự động của bot"
+            placeholder="② The bot's automatic reply"
             value={reply}
             onChange={(e) => setReply(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addIntent()}
@@ -124,10 +125,10 @@ const IntentTrainer = () => {
             disabled={!keyword.trim() || !reply.trim()}
             className="w-full bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white disabled:opacity-50"
           >
-            <Plus className="w-4 h-4 mr-1" /> Thêm intent
+            <Plus className="w-4 h-4 mr-1" /> Add intent
           </Button>
           <p className="text-[11px] text-muted-foreground">
-            💡 Điền cả 2 ô rồi bấm <b>Thêm intent</b> (hoặc nhấn Enter).
+            💡 Fill in both fields, then press <b>Add intent</b> (or hit Enter).
           </p>
         </div>
       </div>
@@ -136,12 +137,12 @@ const IntentTrainer = () => {
       <div className="rounded-2xl border-2 border-purple-400/40 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 p-3.5 flex flex-col">
         <div className="flex items-center gap-2 mb-2">
           <MessageSquare className="w-4 h-4 text-purple-600" />
-          <h4 className="font-bold text-sm">💬 Thử nói với bot</h4>
+          <h4 className="font-bold text-sm">💬 Try chatting with the bot</h4>
         </div>
         <div className="flex-1 min-h-[180px] max-h-[260px] overflow-y-auto space-y-2 mb-2 p-2 rounded-lg bg-background/60">
           {chat.length === 0 && (
             <p className="text-xs text-muted-foreground text-center py-8">
-              Gõ "hello" hoặc "game" để bot trả lời 👇
+              Type "hello" or "game" to get a reply 👇
             </p>
           )}
           <AnimatePresence initial={false}>
@@ -167,7 +168,7 @@ const IntentTrainer = () => {
         </div>
         <div className="flex gap-2">
           <Input
-            placeholder="Nhắn gì đó..."
+            placeholder="Type a message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send()}
@@ -184,19 +185,19 @@ const IntentTrainer = () => {
 
 /* ───────────────────────── 2. Sentiment Meter ───────────────────────── */
 
-const POS_WORDS = ["yêu", "thích", "tuyệt", "hay", "vui", "đẹp", "mê", "tốt", "ngon", "đỉnh", "xuất sắc", "happy", "love", "good", "great", "nice", "đáng yêu", "thú vị"];
-const NEG_WORDS = ["chán", "ghét", "tệ", "buồn", "dở", "xấu", "kinh", "ngu", "phí", "thất vọng", "bad", "hate", "sad", "boring", "horrible", "ức chế", "khó chịu"];
+const POS_WORDS = ["love", "like", "amazing", "good", "happy", "beautiful", "great", "nice", "delicious", "awesome", "excellent", "fun", "adorable", "interesting"];
+const NEG_WORDS = ["boring", "hate", "terrible", "sad", "bad", "ugly", "awful", "stupid", "waste", "disappointed", "annoying", "frustrating"];
 
 const SAMPLES = [
-  "Phim hay quá trời luôn, tôi mê tít!",
-  "Chán òm, phí cả buổi tối.",
-  "Hôm nay trời đẹp, mình rất vui 😍",
-  "Dở tệ, không xem nổi quá 5 phút.",
-  "Cô giáo dạy thú vị, mình yêu lớp học này.",
+  "This movie is amazing, I loved every minute!",
+  "So boring, total waste of the evening.",
+  "The weather is beautiful today, I feel great 😍",
+  "Terrible, I couldn't watch more than 5 minutes.",
+  "The teacher makes class interesting, I love this course.",
 ];
 
 const SentimentMeter = () => {
-  const [text, setText] = useState("Phim hay quá trời luôn, tôi mê tít!");
+  const [text, setText] = useState("This movie is amazing, I loved every minute!");
 
   const analysis = useMemo(() => {
     const lower = text.toLowerCase();
@@ -216,11 +217,11 @@ const SentimentMeter = () => {
       <div className="flex items-center gap-2">
         <Smile className="w-4 h-4 text-emerald-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-          💖 Sentiment Meter - AI đoán cảm xúc câu
+          💖 Sentiment Meter - AI guesses the mood of a sentence
         </h4>
       </div>
       <p className="text-[12px] text-muted-foreground">
-        Gõ một câu, AI mini đếm từ tích cực/tiêu cực rồi đoán cảm xúc.
+        Type a sentence - the mini AI counts positive/negative words and guesses the sentiment.
       </p>
 
       <textarea
@@ -228,7 +229,7 @@ const SentimentMeter = () => {
         onChange={(e) => setText(e.target.value)}
         rows={2}
         className="w-full text-sm p-2 rounded-lg border-2 border-border bg-card focus:border-emerald-400 outline-none"
-        placeholder="Gõ câu tiếng Việt..."
+        placeholder="Type a sentence..."
       />
 
       <div className="flex flex-wrap gap-1.5">
@@ -266,7 +267,7 @@ const SentimentMeter = () => {
           }`}
         >
           {analysis.verdict === "pos" ? <Smile className="w-4 h-4" /> : analysis.verdict === "neg" ? <Frown className="w-4 h-4" /> : <Meh className="w-4 h-4" />}
-          {analysis.verdict === "pos" ? "Tích cực" : analysis.verdict === "neg" ? "Tiêu cực" : "Trung tính"}
+          {analysis.verdict === "pos" ? "Positive" : analysis.verdict === "neg" ? "Negative" : "Neutral"}
         </motion.div>
         <div className="text-xs text-muted-foreground">
           +{analysis.pos.length} | -{analysis.neg.length}
@@ -290,7 +291,7 @@ const SentimentMeter = () => {
 /* ───────────────────────── 3. Tokenizer Live ───────────────────────── */
 
 const TokenizerLive = () => {
-  const [text, setText] = useState("Xin chào, hôm nay học AI rất vui!");
+  const [text, setText] = useState("Hi, learning AI today is really fun!");
   const tokens = useMemo(() => {
     return text
       .toLowerCase()
@@ -299,7 +300,7 @@ const TokenizerLive = () => {
       .filter(Boolean);
   }, [text]);
 
-  // Stable hash → ID (toy embedding)
+  // Stable hash -> ID (toy embedding)
   const idOf = (t: string) => {
     let h = 0;
     for (let i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) >>> 0;
@@ -313,23 +314,23 @@ const TokenizerLive = () => {
       <div className="flex items-center gap-2">
         <Hash className="w-4 h-4 text-cyan-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
-          # Tokenizer Live - AI nhìn câu bạn như thế nào?
+          # Tokenizer Live - how does AI "see" your sentence?
         </h4>
       </div>
       <p className="text-[12px] text-muted-foreground">
-        Trước khi "đọc", AI cắt câu thành <b>tokens</b> và đổi mỗi token thành 1 con số (token ID).
+        Before "reading" a sentence, AI splits it into <b>tokens</b> and turns each token into a number (token ID).
       </p>
 
       <Input
         value={text}
         onChange={(e) => setText(e.target.value)}
         className="text-sm"
-        placeholder="Gõ câu của bạn..."
+        placeholder="Type your sentence..."
       />
 
       <div className="flex flex-wrap gap-1.5 min-h-[44px]">
         {tokens.length === 0 ? (
-          <span className="text-xs text-muted-foreground">- Chưa có token -</span>
+          <span className="text-xs text-muted-foreground">- No tokens yet -</span>
         ) : (
           tokens.map((t, i) => (
             <motion.span
@@ -346,13 +347,15 @@ const TokenizerLive = () => {
       </div>
 
       <div className="text-[11px] text-muted-foreground">
-        Số token: <b>{tokens.length}</b> · ChatGPT thật tính tiền theo… đúng cái này 😅
+        Token count: <b>{tokens.length}</b> · Real ChatGPT usage is billed by exactly this 😅
       </div>
     </div>
   );
 };
 
 /* ───────────────────────── 4. Teen-code Normalizer ───────────────────────── */
+/* Kept as Vietnamese sample data on purpose - this demo teaches how AI
+ * normalizes Vietnamese internet slang ("teen-code") into standard Vietnamese. */
 
 const TEEN_MAP: Record<string, string> = {
   "k": "không", "ko": "không", "kh": "không", "hok": "không",
@@ -375,6 +378,7 @@ const TEEN_MAP: Record<string, string> = {
   "lun": "luôn",
 };
 
+// Sample Vietnamese teen-code sentences (kept in Vietnamese - the demo is about Vietnamese slang).
 const TEEN_SAMPLES = [
   "k bít lm bt zùm vs",
   "iu qá đi mất r",
@@ -405,11 +409,11 @@ const TeenCodeNormalizer = () => {
       <div className="flex items-center gap-2">
         <Wand2 className="w-4 h-4 text-orange-600" />
         <h4 className="font-bold text-sm uppercase tracking-wide text-orange-700 dark:text-orange-300">
-          🪄 Teen-code → Tiếng Việt chuẩn
+          🪄 Teen-code → standard Vietnamese (sample kept in Vietnamese)
         </h4>
       </div>
       <p className="text-[12px] text-muted-foreground">
-        Trước khi xử lý tiếng Việt, AI phải <b>chuẩn hoá</b> teen-code về dạng từ điển.
+        Before processing Vietnamese text, AI must first <b>normalize</b> teen slang into dictionary form.
       </p>
 
       <Input
@@ -432,7 +436,7 @@ const TeenCodeNormalizer = () => {
 
       <div className="p-3 rounded-xl bg-card border border-border min-h-[44px]">
         <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
-          AI hiểu là:
+          AI understands this as:
         </div>
         <div className="text-sm leading-relaxed">
           {normalized.map((n, i) => (
@@ -448,7 +452,7 @@ const TeenCodeNormalizer = () => {
 
       <div className="text-[11px] text-muted-foreground flex items-center gap-2">
         <RefreshCcw className="w-3 h-3" />
-        Đã chuẩn hoá <b className="text-orange-600">{changedCount}</b> từ teen-code.
+        Normalized <b className="text-orange-600">{changedCount}</b> teen-code words.
       </div>
     </div>
   );
@@ -457,18 +461,18 @@ const TeenCodeNormalizer = () => {
 /* ───────────────────────── Topic-specific bonus content ─────────────────────── */
 
 const NLP_TF = [
-  { q: "AI hiểu chữ tiếng Việt trực tiếp như con người.", a: false, why: "AI biến chữ thành số (tokens) trước khi xử lý." },
-  { q: "Intent là 'ý định' của người dùng (vd: hỏi giá).", a: true, why: "Chatbot phân loại câu vào các intent." },
-  { q: "Phân tích cảm xúc gọi là Sentiment Analysis.", a: true },
-  { q: "Teen-code 'k bít' chuẩn hoá thành 'không biết'.", a: true },
-  { q: "ChatGPT đếm chữ cái để tính tiền.", a: false, why: "Nó đếm theo TOKEN - gần giống số 'từ con'." },
+  { q: "AI understands text directly, the same way a human does.", a: false, why: "AI first turns text into numbers (tokens) before processing it." },
+  { q: "'Intent' means what the user wants to do (e.g. asking for a price).", a: true, why: "Chatbots classify sentences into intents to decide how to reply." },
+  { q: "Detecting emotion in text is called Sentiment Analysis.", a: true },
+  { q: "Vietnamese teen-code 'k bít' normalizes to 'không biết' (don't know).", a: true },
+  { q: "ChatGPT counts letters to calculate billing.", a: false, why: "It counts TOKENS - roughly chunks of words, not individual letters." },
 ];
 
 const NLP_PAIRS = [
-  { a: "Tokenization", b: "Cắt câu thành các đơn vị nhỏ" },
-  { a: "Intent", b: "Ý định người dùng (hỏi giá, chào…)" },
-  { a: "Sentiment", b: "Cảm xúc tích cực / tiêu cực" },
-  { a: "Translation", b: "Dịch máy (VI ↔ EN)" },
+  { a: "Tokenization", b: "Splitting a sentence into small units" },
+  { a: "Intent", b: "What the user wants (ask price, greet...)" },
+  { a: "Sentiment", b: "Positive or negative emotion" },
+  { a: "Translation", b: "Machine translation (VI <-> EN)" },
 ];
 
 /* ───────────────────────── Root export ─────────────────────── */
@@ -480,8 +484,8 @@ const NLPSandbox = () => (
     <TokenizerLive />
     <TeenCodeNormalizer />
     <BestMatchPick
-      title="🗣️ Ứng dụng NLP - nhận diện tác vụ"
-      hint="Mỗi tính năng quen thuộc thuộc loại tác vụ NLP nào?"
+      title="🗣️ NLP in real apps - spot the task"
+      hint="Which NLP task does each familiar feature belong to?"
       accent="from-fuchsia-500 to-purple-600"
       border="border-fuchsia-400/40"
       options={[
@@ -491,11 +495,11 @@ const NLPSandbox = () => (
         { id: "sum", label: "📰 Summarization" },
       ]}
       items={[
-        { prompt: "Shopee tự gắn nhãn review 1-5 sao theo lời bình", correctId: "sent" },
-        { prompt: "Google Dịch từ tiếng Việt sang tiếng Anh", correctId: "trans" },
-        { prompt: "Báo VnExpress AI tóm tắt 5 dòng cho bài 1000 từ", correctId: "sum" },
-        { prompt: "Apple Maps tự nhận ra 'Hồ Gươm' là địa danh", correctId: "ner" },
-        { prompt: "Lazada gom comment tiêu cực để cảnh báo shop", correctId: "sent" },
+        { prompt: "Shopee auto-labels reviews as 1-5 stars from the comment text", correctId: "sent" },
+        { prompt: "Google Translate converts English into Spanish", correctId: "trans" },
+        { prompt: "A news app AI summarizes a 1,000-word article into 5 lines", correctId: "sum" },
+        { prompt: "Apple Maps recognizes 'Times Square' as a place name", correctId: "ner" },
+        { prompt: "Lazada groups negative comments to alert the seller", correctId: "sent" },
       ]}
     />
 

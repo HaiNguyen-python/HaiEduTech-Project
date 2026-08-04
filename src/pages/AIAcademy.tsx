@@ -1,10 +1,11 @@
 /**
- * AI Academy - gamified AI hub for Vietnamese middle & high school students.
- * 3 visual tracks: Computer Vision, NLP, Neural Networks. Each has a
- * story-driven concept panel + interactive sandbox + drag-drop quiz.
- * Progress + reward badges persist in localStorage; track completions also
- * log to Supabase student_activity_log when the user is signed in.
+ * AI Academy - gamified AI hub for middle & high school students.
+ * All content is authored in English (English-medium track).
+ * Each lesson has a story-driven concept panel + interactive sandbox +
+ * drag-drop quiz. Progress + reward badges persist in localStorage; track
+ * completions also log to Supabase student_activity_log when signed in.
  */
+
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -93,7 +94,7 @@ import GraduationCertificate from "@/components/ai-academy/GraduationCertificate
 import XPStreakHUD from "@/components/ai-academy/XPStreakHUD";
 import { useAIAcademyXP } from "@/hooks/useAIAcademyXP";
 
-import AutoTranslateBoundary from "@/components/ai-academy/AutoTranslateBoundary";
+// AI Academy content is authored in English, so no runtime translation layer.
 import StudySmartSandbox from "@/components/ai-academy/StudySmartSandbox";
 import CareersMapSandbox from "@/components/ai-academy/CareersMapSandbox";
 import FactCheckSandbox from "@/components/ai-academy/FactCheckSandbox";
@@ -105,18 +106,19 @@ import heroBg from "@/assets/ai-academy-hero-bg.jpg";
 import chibiRobot from "@/assets/ai-chibi-robot.png";
 
 /**
- * SmartText - renders long Vietnamese paragraphs as bullet points
- * when 3+ sentences are detected, otherwise as a single paragraph.
+ * SmartText - renders long paragraphs as bullet points when 3+ sentences are
+ * detected, otherwise as a single paragraph.
  * Strips inline HTML to keep things safe (only used for plain text fields).
  */
 const SmartText = ({ text, className = "", html = false }: { text: string; className?: string; html?: boolean }) => {
-  // Protect common Vietnamese/English abbreviations from being split mid-sentence.
-  const ABBR = ["TP.", "GS.", "TS.", "PGS.", "Th.S", "Ths.", "Ph.D", "Mr.", "Mrs.", "Ms.", "St.", "vs.", "Dr.", "ĐH."];
+  // Protect common abbreviations from being split mid-sentence.
+  const ABBR = ["Prof.", "Dr.", "Mr.", "Mrs.", "Ms.", "St.", "vs.", "Ph.D", "e.g.", "i.e.", "approx."];
   const PLACEHOLDER = "\u0001";
   let safe = text;
   ABBR.forEach((a) => { safe = safe.split(a).join(a.replace(/\./g, PLACEHOLDER)); });
   // Also protect numbered list markers like "1.", "2.", "10." so they don't trigger a split.
   safe = safe.replace(/(\b\d{1,2})\.(?=\s)/g, `$1${PLACEHOLDER}`);
+
 
   // Only split on real sentence boundaries (. ! ?). Em-dash " - " is parenthetical
   // and must NOT split - keeping it intact preserves the original meaning.
@@ -1331,9 +1333,10 @@ const AIAcademy = () => {
       } catch (_e) { /* ignore */ }
     } else {
       toast({
-        title: "Gần được rồi! 💪",
-        description: `Điểm: ${score}/${track.quiz.length} - thử lại để mở khóa huy hiệu nhé.`,
+        title: "So close! 💪",
+        description: `Score: ${score}/${track.quiz.length} - try again to unlock the badge.`,
       });
+
     }
   };
 
@@ -1343,8 +1346,9 @@ const AIAcademy = () => {
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-background dark:to-slate-950">
       <SEO
-        title="AI Academy cho học sinh THCS & THPT | HaiEduTech"
-        description="Học AI siêu trực quan dành cho học sinh cấp 2-3: Computer Vision, NLP Chatbot, Mạng thần kinh nhân tạo. Sandbox tương tác, quiz kéo thả, huy hiệu và phần thưởng."
+        title="AI Academy for Teen Students | HaiEduTech"
+        description="Hands-on AI lessons for ages 11-18: computer vision, NLP chatbots, neural networks, AI ethics and safety. Interactive sandboxes, drag-and-drop quizzes, badges and a graduation certificate."
+
         path="/programming/ai-academy"
       />
       <FloatingAIIcons />
@@ -1357,12 +1361,12 @@ const AIAcademy = () => {
       </div>
       <div className="relative z-10">
       <Navbar />
-      <AutoTranslateBoundary>
       <div className="container mx-auto px-4 sm:px-6 pt-6 pb-16 max-w-6xl">
         {/* Breadcrumb */}
         <Link to="/programming" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary mb-4">
-          <ArrowLeft className="w-3 h-3" /> Lập trình
+          <ArrowLeft className="w-3 h-3" /> Programming
         </Link>
+
 
         {/* Hero with AI image background + animated chibi robot */}
         <motion.div
@@ -1386,7 +1390,7 @@ const AIAcademy = () => {
           {/* Animated chibi robot - top/right corner */}
           <motion.img
             src={chibiRobot}
-            alt="Robot trợ lý AI Academy"
+            alt="AI Academy robot assistant"
             className="absolute right-2 sm:right-4 lg:right-8 bottom-2 sm:bottom-3 w-20 sm:w-32 lg:w-44 h-auto drop-shadow-2xl select-none pointer-events-none"
             animate={{ y: [0, -12, 0], rotate: [-3, 3, -3] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
@@ -1394,30 +1398,31 @@ const AIAcademy = () => {
 
           <div className="relative">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-bold mb-3">
-              <Sparkles className="w-3 h-3" /> AI ACADEMY · CẤP 2 – CẤP 3
+              <Sparkles className="w-3 h-3" /> AI ACADEMY · AGES 11-18
             </div>
             <h1 className="text-3xl sm:text-5xl font-display font-black leading-tight mb-2 drop-shadow-lg">
-              Học AI siêu vui 🚀
+              Learn AI the fun way 🚀
             </h1>
             <p className="text-white/95 max-w-2xl text-sm sm:text-base pr-24 sm:pr-36 lg:pr-48 drop-shadow">
-              {TRACKS.length - 1} chặng phiêu lưu trực quan - chạm, kéo, thả, dạy bot, vẽ neuron. Hoàn thành để mở khoá huy hiệu, sao thưởng và Chứng chỉ tốt nghiệp!
+              {TRACKS.length - 1} hands-on lessons - tap, drag, drop, train a bot, wire up neurons. Finish them to unlock badges, stars and your Graduation Certificate.
             </p>
 
             {/* Progress strip */}
             <div className="mt-5 grid grid-cols-3 gap-3 max-w-xl">
               <div className="rounded-xl bg-white/20 backdrop-blur-md p-3 border border-white/20">
-                <div className="text-xs opacity-90">⭐ Sao</div>
+                <div className="text-xs opacity-90">⭐ Stars</div>
                 <div className="text-xl font-black">{totalStars}/{TRACKS.length * 3}</div>
               </div>
               <div className="rounded-xl bg-white/20 backdrop-blur-md p-3 border border-white/20">
-                <div className="text-xs opacity-90">🏅 Huy hiệu</div>
+                <div className="text-xs opacity-90">🏅 Badges</div>
                 <div className="text-xl font-black">{totalBadges}/{TRACKS.length}</div>
               </div>
               <div className="rounded-xl bg-white/20 backdrop-blur-md p-3 border border-white/20">
-                <div className="text-xs opacity-90">📊 Tiến độ</div>
+                <div className="text-xs opacity-90">📊 Progress</div>
                 <div className="text-xl font-black">{Math.round(overallPct)}%</div>
               </div>
             </div>
+
             <Progress value={overallPct} className="mt-3 h-2 bg-white/20" />
           </div>
         </motion.div>
@@ -1456,7 +1461,7 @@ const AIAcademy = () => {
                 <div className={`absolute -top-16 -right-16 w-48 h-48 rounded-full bg-gradient-to-br ${t.gradient} opacity-20 blur-2xl group-hover:opacity-40 transition`} />
                 {/* Lesson number badge - sequence in the easy→hard path */}
                 <div className={`absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r ${t.gradient} text-white text-[11px] font-black shadow-md`}>
-                  <span className="opacity-90">Bài</span>
+                  <span className="opacity-90">Lesson</span>
                   <span className="text-sm leading-none">{String(lessonNo).padStart(2, "0")}</span>
                 </div>
                 <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${t.gradient} flex items-center justify-center text-2xl text-white shadow-lg mb-3`}>
@@ -1531,19 +1536,19 @@ const AIAcademy = () => {
             </div>
             <div className="flex-1 text-center sm:text-left">
               <div className={`text-[10px] uppercase tracking-widest font-bold mb-1 ${certificateUnlocked ? "text-amber-700 dark:text-amber-300" : "text-muted-foreground"}`}>
-                Chứng chỉ tốt nghiệp · Graduation Certificate
+                Graduation Certificate
               </div>
               {certificateUnlocked ? (
                 <h3 className="font-display font-black text-lg sm:text-2xl text-foreground leading-tight">
-                  Chúc mừng! Em đã đạt {totalStars}/{maxStars} sao 🌟
+                  Congratulations! You earned {totalStars}/{maxStars} stars 🌟
                 </h3>
               ) : (
                 <h3 className="font-bold text-sm sm:text-base text-foreground leading-snug">
-                  Hoàn thành {TRACKS.length - 1} bài học và đạt {maxStars}/{maxStars} sao để mở khoá Chứng chỉ tốt nghiệp!
+                  Finish all {TRACKS.length - 1} lessons and collect {maxStars}/{maxStars} stars to unlock your Graduation Certificate.
                 </h3>
               )}
               <div className="mt-1 text-xs text-muted-foreground">
-                Tiến độ hiện tại: <span className="font-bold text-foreground">{totalStars}/{maxStars} sao</span>
+                Current progress: <span className="font-bold text-foreground">{totalStars}/{maxStars} stars</span>
               </div>
             </div>
             {certificateUnlocked ? (
@@ -1558,13 +1563,14 @@ const AIAcademy = () => {
                 transition={{ boxShadow: { duration: 1.8, repeat: Infinity, ease: "easeOut" } }}
                 className="shrink-0 px-5 sm:px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-500 text-white font-black text-sm sm:text-base shadow-xl"
               >
-                🎓 Nhận chứng chỉ tốt nghiệp của bạn
+                🎓 Claim your Graduation Certificate
               </motion.button>
             ) : (
               <div className="shrink-0 px-5 py-3 rounded-2xl bg-muted text-muted-foreground font-bold text-sm inline-flex items-center gap-2 border-2 border-dashed border-border">
-                <Lock className="w-4 h-4" /> Chưa mở khoá
+                <Lock className="w-4 h-4" /> Locked
               </div>
             )}
+
           </div>
         </motion.div>
 
@@ -1598,14 +1604,15 @@ const AIAcademy = () => {
                   <div className="rounded-3xl border-2 border-border bg-card p-5 space-y-4">
                     <div className="flex items-center gap-2">
                       <Rocket className="w-4 h-4 text-purple-600" />
-                      <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">📖 Câu chuyện</h3>
+                      <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">📖 The story</h3>
                     </div>
 
                     {TRACK_ILLUSTRATIONS[activeTrack.id] && (
                       <div className="rounded-2xl overflow-hidden border border-border/50 shadow-sm ring-1 ring-purple-500/10">
                         <img
                           src={TRACK_ILLUSTRATIONS[activeTrack.id]}
-                          alt={`Minh họa bài học ${activeTrack.title}`}
+                          alt={`Lesson illustration: ${activeTrack.title}`}
+
                           loading="lazy"
                           width={1024}
                           height={768}
@@ -1651,7 +1658,7 @@ const AIAcademy = () => {
 
 
 
-                    {/* ===== Extended educational content (Đợt 1) ===== */}
+                    {/* ===== Extended educational content ===== */}
                     {(() => {
                       const extra = TRACK_EXTRAS[activeTrack.id];
                       if (!extra) return null;
@@ -1671,7 +1678,7 @@ const AIAcademy = () => {
                             <div className="flex items-center gap-2 mb-2">
                               <Lightbulb className="w-4 h-4 text-amber-600" />
                               <h4 className="font-bold text-amber-700 dark:text-amber-300 text-sm uppercase tracking-wide">
-                                💡 Mẹo vàng của thầy Hải
+                                💡 Teacher Hai's golden tip
                               </h4>
                             </div>
                             <SmartText text={extra.goldenTip} className="text-[15px] text-foreground leading-relaxed italic font-medium" />
@@ -1681,7 +1688,7 @@ const AIAcademy = () => {
                           <details className="p-4 rounded-2xl border-2 border-indigo-400/40 bg-indigo-500/5 group">
                             <summary className="flex items-center gap-2 cursor-pointer font-bold text-sm text-indigo-700 dark:text-indigo-300">
                               <BookOpen className="w-4 h-4" />
-                              📖 Từ điển AI ({extra.glossary.length} thuật ngữ)
+                              📖 AI glossary ({extra.glossary.length} terms)
                             </summary>
                             <ul className="mt-3 space-y-2 list-none">
                               {extra.glossary.map((g, i) => (
@@ -1701,7 +1708,7 @@ const AIAcademy = () => {
                             <div className="flex items-center gap-2 mb-2">
                               <Briefcase className="w-4 h-4 text-emerald-600" />
                               <h4 className="font-bold text-emerald-700 dark:text-emerald-300 text-sm uppercase tracking-wide">
-                                🎯 Nghề tương lai liên quan
+                                🎯 Related future careers
                               </h4>
                             </div>
                             <ul className="space-y-1">
@@ -1719,7 +1726,7 @@ const AIAcademy = () => {
                             <div className="flex items-center gap-2 mb-2">
                               <Home className="w-4 h-4 text-fuchsia-600" />
                               <h4 className="font-bold text-fuchsia-700 dark:text-fuchsia-300 text-sm uppercase tracking-wide">
-                                🏠 Thử sức ở nhà
+                                🏠 Try it at home
                               </h4>
                             </div>
                             <SmartText text={extra.homework} className="text-[15px] text-foreground leading-relaxed" />
@@ -1730,7 +1737,7 @@ const AIAcademy = () => {
                             <div className="flex items-center gap-2 mb-2">
                               <ExternalLink className="w-4 h-4 text-cyan-600" />
                               <h4 className="font-bold text-cyan-700 dark:text-cyan-300 text-sm uppercase tracking-wide">
-                                🔗 Chơi với AI thật
+                                🔗 Play with real AI tools
                               </h4>
                             </div>
                             <div className="space-y-1.5">
@@ -1769,7 +1776,7 @@ const AIAcademy = () => {
                   <div className="rounded-3xl border-2 border-cyan-400/30 bg-gradient-to-br from-cyan-500/5 to-fuchsia-500/5 p-5">
                     <div className="flex items-center gap-2 mb-3">
                       <Zap className="w-4 h-4 text-cyan-600" />
-                      <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">🎮 Sandbox tương tác</h3>
+                      <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">🎮 Interactive sandbox</h3>
                     </div>
                     <activeTrack.Sandbox />
                   </div>
@@ -1780,7 +1787,7 @@ const AIAcademy = () => {
                   <div className="flex items-center gap-2 mb-3">
                     <Trophy className="w-4 h-4 text-amber-600" />
                     <h3 className="font-bold text-sm uppercase tracking-wider text-amber-700 dark:text-amber-400">
-                      🧩 Mini Quiz - Kéo & Thả
+                      🧩 Mini Quiz - Drag & Drop
                     </h3>
                   </div>
                   <DragDropQuiz
@@ -1797,7 +1804,7 @@ const AIAcademy = () => {
                       <div className="flex items-center gap-2 mb-3">
                         <Sparkles className="w-4 h-4 text-indigo-600" />
                         <h3 className="font-bold text-sm uppercase tracking-wider text-indigo-700 dark:text-indigo-400">
-                          🎯 Luyện thêm - Trắc nghiệm
+                          🎯 Extra practice - Multiple choice
                         </h3>
                       </div>
                       <MultipleChoiceQuiz
@@ -1809,7 +1816,7 @@ const AIAcademy = () => {
                       <div className="flex items-center gap-2 mb-3">
                         <Sparkles className="w-4 h-4 text-teal-600" />
                         <h3 className="font-bold text-sm uppercase tracking-wider text-teal-700 dark:text-teal-400">
-                          🎬 Tình huống đời thực
+                          🎬 Real-life scenarios
                         </h3>
                       </div>
                       <ScenarioQuiz
@@ -1825,12 +1832,12 @@ const AIAcademy = () => {
 
           {!activeTrack && (
             <div className="text-center py-12 text-muted-foreground text-sm">
-              👆 Chọn một chặng ở trên để bắt đầu cuộc phiêu lưu AI!
+              👆 Pick a lesson above to start your AI adventure!
             </div>
           )}
         </div>
       </div>
-      </AutoTranslateBoundary>
+
 
       {/* Reward overlay */}
       <AnimatePresence>
@@ -1851,9 +1858,9 @@ const AIAcademy = () => {
             >
               <div className="text-6xl mb-2">{overlay.track.badge.emoji}</div>
               <Award className="w-10 h-10 mx-auto mb-2" />
-              <h3 className="text-2xl font-display font-black mb-1">Chúc mừng!</h3>
+              <h3 className="text-2xl font-display font-black mb-1">Congratulations!</h3>
               <p className="text-white/90 mb-3">
-                Bạn vừa mở khoá huy hiệu <b>{overlay.track.badge.name}</b> 🏅
+                You just unlocked the <b>{overlay.track.badge.name}</b> badge 🏅
               </p>
               <div className="flex items-center justify-center gap-1 mb-4">
                 {[1, 2, 3].map((s) => (
@@ -1864,8 +1871,9 @@ const AIAcademy = () => {
                 onClick={() => setOverlay(null)}
                 className="bg-white text-purple-700 hover:bg-white/90 font-bold w-full"
               >
-                <CheckCircle2 className="w-4 h-4 mr-1" /> Tiếp tục phiêu lưu
+                <CheckCircle2 className="w-4 h-4 mr-1" /> Continue the adventure
               </Button>
+
             </motion.div>
           </motion.div>
         )}

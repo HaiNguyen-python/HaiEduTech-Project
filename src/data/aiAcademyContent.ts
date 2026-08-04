@@ -5,12 +5,12 @@
  *
  * Each track gets:
  *  - vietnamCase: A Vietnam-specific real-world story.
- *  - goldenTip:   "Mẹo vàng" - signature insight.
- *  - glossary:    4–6 key terms with student-friendly definitions.
- *  - careers:     3–5 related job titles.
- *  - homework:    A practical mini-project to try at home.
- *  - externalDemo: 2–3 free links to play with real AI tools.
- *  - safetyNote:  Optional callout for sensitive tracks (Ethics, Deepfake).
+ *  - goldenTip:   Signature actionable insight.
+ *  - glossary:    5-6 key terms with student-friendly definitions.
+ *  - careers:     3-5 related job titles with where they exist.
+ *  - homework:    A practical 15-30 minute mini-project to try at home.
+ *  - externalDemo: 2-3 free links to play with real AI tools.
+ *  - safetyNote:  Optional callout for sensitive tracks (Ethics, Deepfake, Digital Safety).
  */
 
 export type TrackExtra = {
@@ -24,513 +24,538 @@ export type TrackExtra = {
 };
 
 export const TRACK_EXTRAS: Record<string, TrackExtra> = {
-  // ============== Bài 1 - Computer Vision ==============
+  // ============== Lesson 1 - Computer Vision ==============
   vision: {
     vietnamCase: {
-      title: "🇻🇳 VinAI Face Recognition tại sân bay Nội Bài",
-      body: "🏢 VinAI Research (thuộc Vingroup) đã triển khai hệ thống FaceID cho hai sân bay lớn nhất Việt Nam là Nội Bài và Tân Sơn Nhất. ⚡ Hành khách chỉ cần quét khuôn mặt thay vé giấy, giảm thời gian check-in từ 4 phút xuống còn 5 giây. 🎯 Độ chính xác đạt 99,2%, kể cả khi hành khách đang đeo khẩu trang (di sản công nghệ từ thời COVID-19). 🌏 Đây là một trong những hệ thống face recognition quy mô sân bay quốc tế lớn nhất khu vực Đông Nam Á.",
+      title: "🇻🇳 VinAI Face Recognition at Noi Bai Airport",
+      body: "🏢 VinAI Research (part of Vingroup) rolled out a FaceID boarding system at Vietnam's two busiest airports, Noi Bai in Hanoi and Tan Son Nhat in Ho Chi Minh City. ⚡ Passengers scan their face instead of a paper ticket, cutting check-in time from about 4 minutes down to 5 seconds. 🎯 The system reports 99.2% accuracy even when travelers wear face masks, a habit carried over from the COVID-19 years. 🌏 It is one of the largest airport-scale face recognition deployments in Southeast Asia, processing tens of thousands of faces every day.",
     },
     goldenTip:
-      "Khi training model Vision, đừng chỉ thu ảnh đẹp! Hãy cố tình thêm ảnh mờ, ngược sáng, nghiêng góc 45°. Model học từ data 'xấu' mới robust ngoài đời thật - đó là bí mật của Tesla Autopilot.",
+      "When you train a vision model, don't just collect pretty photos. Deliberately add blurry shots, backlit shots, and images tilted 45 degrees. A model that learns from 'ugly' data becomes robust in the real world - that's the trick behind Tesla's Autopilot handling rain, glare, and night driving.",
     glossary: [
-      { term: "Pixel", def: "Mỗi điểm ảnh - chứa 3 con số R/G/B (0–255)." },
-      { term: "Bounding Box", def: "Khung vuông AI vẽ quanh vật thể nó nhận ra." },
-      { term: "Confidence Score", def: "Tỷ lệ % AI tự tin về dự đoán của mình." },
-      { term: "Convolution", def: "Phép quét bộ lọc lên ảnh để tìm đặc điểm (cạnh, góc)." },
-      { term: "Landmark", def: "Điểm mốc trên khuôn mặt (mắt, mũi, miệng) - FaceID dùng 30k+ điểm." },
+      { term: "Pixel", def: "The smallest dot in a digital image, storing three numbers for red, green, and blue light, each from 0 to 255." },
+      { term: "Bounding Box", def: "The rectangle an AI draws around an object it has detected, like a box around a dog's whole body." },
+      { term: "Confidence Score", def: "The percentage that tells you how sure the AI is about a specific prediction, like '92% sure this is a cat'." },
+      { term: "Convolution", def: "A sliding-filter operation that scans across an image to find patterns such as edges, corners, and textures." },
+      { term: "Landmark", def: "A fixed reference point on a face, like the corners of the eyes or the tip of the nose; FaceID systems track over 30,000 of these points." },
     ],
     careers: [
-      "Computer Vision Engineer ($90k–$180k)",
-      "Medical Imaging AI Specialist",
-      "Autonomous Vehicle Perception Engineer (VinFast, Tesla)",
-      "AR/VR Developer (Apple Vision Pro)",
+      "Computer Vision Engineer (self-driving car and robotics companies, $90k-$180k)",
+      "Medical Imaging AI Specialist (hospitals and health-tech startups)",
+      "Autonomous Vehicle Perception Engineer (VinFast, Tesla, Waymo)",
+      "AR/VR Developer (Apple Vision Pro, Meta Reality Labs)",
     ],
     homework:
-      "Mở Google Photos → tìm kiếm 'mèo' hoặc 'biển'. Google đã tự gắn nhãn ảnh trong điện thoại bạn từ năm 2015! Thử đếm xem nó nhận đúng bao nhiêu %, sai chỗ nào.",
+      "Open Google Photos on your phone and search 'cat' or 'beach', even if you never typed those tags. Google has been auto-labeling your photos since around 2015. Count how many results are correct versus wrong, and take a screenshot of your search results plus one wrong match as proof.",
     externalDemo: [
-      { label: "Teachable Machine - train model trong 5 phút", url: "https://teachablemachine.withgoogle.com/" },
-      { label: "Quick, Draw! - AI đoán hình vẽ tay", url: "https://quickdraw.withgoogle.com/" },
-      { label: "How Old Robot - Microsoft đoán tuổi", url: "https://how-old.net/" },
+      { label: "Teachable Machine - train your own vision model in 5 minutes", url: "https://teachablemachine.withgoogle.com/" },
+      { label: "Quick, Draw! - watch AI guess your hand-drawn sketches", url: "https://quickdraw.withgoogle.com/" },
+      { label: "How-Old.net - Microsoft's age-guessing vision demo", url: "https://how-old.net/" },
     ],
   },
 
-  // ============== Bài 2 - NLP ==============
+  // ============== Lesson 2 - NLP ==============
   nlp: {
     vietnamCase: {
-      title: "🇻🇳 Zalo AI Lab & Chatbot Kiki",
-      body: "Kiki là trợ lý ảo thuần Việt do Zalo phát triển - hiểu tiếng Việt giọng 3 miền, xử lý teen-code ('iu qá', 'k bít') và phương ngữ Nghệ An, Quảng Nam. Tích hợp trên xe VinFast VF8, Kiki phục vụ hơn 10 triệu người dùng/tháng và đứng top ASR (nhận dạng giọng nói) Tiếng Việt trên VLSP benchmark.",
+      title: "🇻🇳 Zalo AI Lab and the Kiki Voice Assistant",
+      body: "Kiki is a Vietnamese-native voice assistant built by Zalo AI Lab. It understands regional accents from the North, Central, and South of Vietnam, decodes teen slang like 'iu qa' (love it) and 'k bit' (don't know), and even handles dialects from Nghe An and Quang Nam provinces. Built into the VinFast VF8 electric car, Kiki serves more than 10 million users per month and ranks near the top for Vietnamese speech recognition on the VLSP benchmark, a national evaluation for Vietnamese language processing.",
     },
     goldenTip:
-      "Khi dùng ChatGPT bằng tiếng Việt, hãy ra lệnh: 'Trả lời bằng tiếng Việt chuẩn, không dùng từ Hán-Việt cổ'. Chất lượng output sẽ tăng gấp đôi - vì AI mặc định học từ data Hán-Việt dày đặc trên Internet.",
+      "When chatting with ChatGPT in Vietnamese, add the instruction 'Answer in plain modern Vietnamese, avoid archaic Sino-Vietnamese vocabulary.' Output quality noticeably improves, because the model's default Vietnamese training data leans heavily on formal, old-fashioned Sino-Vietnamese text.",
     glossary: [
-      { term: "Token", def: "Đơn vị nhỏ nhất AI 'nuốt' - thường là 1 từ hoặc 1 âm tiết." },
-      { term: "Intent", def: "Ý định người dùng (hỏi giá, đặt hàng, phàn nàn...)." },
-      { term: "Embedding", def: "Biến từ ngữ thành dãy 768 con số để máy so sánh." },
-      { term: "Sentiment", def: "Phân tích cảm xúc tích cực / tiêu cực / trung lập." },
-      { term: "NER", def: "Named Entity Recognition - tách tên người, địa danh, ngày tháng." },
+      { term: "Token", def: "The smallest chunk of text an AI processes at once, usually a word, part of a word, or a syllable." },
+      { term: "Intent", def: "What the user actually wants, such as asking for a price, placing an order, or filing a complaint." },
+      { term: "Embedding", def: "A way of turning a word or sentence into a list of numbers (often 768 of them) so a computer can compare meanings." },
+      { term: "Sentiment", def: "An analysis of whether a piece of text sounds positive, negative, or neutral." },
+      { term: "Named Entity Recognition (NER)", def: "A technique that picks out names of people, places, and dates from a block of text." },
     ],
     careers: [
-      "NLP Engineer (FPT.AI, VinBigdata, Zalo)",
-      "Chatbot Designer",
-      "Conversational AI Product Manager",
-      "Linguist for AI (cần bằng Ngôn ngữ học)",
+      "NLP Engineer (FPT.AI, VinBigdata, Zalo AI Lab)",
+      "Chatbot Designer (e-commerce and customer service companies)",
+      "Conversational AI Product Manager (fintech and telecom apps)",
+      "Computational Linguist (research labs and language-tech startups)",
     ],
     homework:
-      "Vào Google Translate → gõ một câu thành ngữ Việt như 'ăn cháo đá bát'. Chụp màn hình. Nhờ ChatGPT giải thích vì sao AI dịch sai và nên dịch thế nào cho đúng tinh thần văn hoá.",
+      "Open Google Translate and type the Vietnamese idiom 'an chao da bat' (eat the porridge, kick the bowl - meaning ungrateful). Screenshot the English translation, then ask ChatGPT to explain why the literal translation misses the cultural meaning and how it should really be translated.",
     externalDemo: [
-      { label: "Hugging Face - chạy 1000+ NLP models miễn phí", url: "https://huggingface.co/spaces" },
-      { label: "Cohere Playground", url: "https://dashboard.cohere.com/playground" },
-      { label: "VnCoreNLP - bộ NLP tiếng Việt", url: "https://github.com/vncorenlp/VnCoreNLP" },
+      { label: "Hugging Face Spaces - try 1000+ free NLP models", url: "https://huggingface.co/spaces" },
+      { label: "Cohere Playground - experiment with language models", url: "https://dashboard.cohere.com/playground" },
+      { label: "Google Translate - test real-time translation quality", url: "https://translate.google.com/" },
     ],
   },
 
-  // ============== Bài 3 - Neural Networks ==============
+  // ============== Lesson 3 - Neural Networks ==============
   nn: {
     vietnamCase: {
-      title: "🇻🇳 VinBigdata & mô hình đọc ảnh X-quang phổi",
-      body: "Năm 2021, VinBigdata công bố dataset 18.000 ảnh X-quang ngực được 17 bác sĩ chuyên khoa gắn nhãn. Mạng neural CNN của họ phát hiện 14 bệnh lý phổi với độ chính xác 93% - ngang ngửa bác sĩ X-quang 10 năm kinh nghiệm. Đã triển khai hỗ trợ chẩn đoán tại Bệnh viện Vinmec.",
+      title: "🇻🇳 VinBigdata's Chest X-ray Diagnosis Model",
+      body: "In 2021, VinBigdata published a dataset of 18,000 chest X-rays labeled by 17 specialist doctors. Their CNN (convolutional neural network) learned to detect 14 different lung conditions with 93% accuracy, roughly matching a radiologist with 10 years of experience. The model is now used to assist diagnosis at Vinmec Hospital, helping doctors catch cases faster during busy shifts.",
     },
     goldenTip:
-      "Đừng học deep learning bằng cách thuộc công thức! Hãy mở TensorFlow Playground, kéo thanh trượt 'learning rate' và xem mạng học/sai như nào. 30 phút chơi = 3 tuần đọc sách.",
+      "Don't try to learn deep learning by memorizing formulas. Open TensorFlow Playground, drag the 'learning rate' slider, and watch the network learn or fail in real time. Thirty minutes of hands-on play teaches you more than three weeks of reading theory.",
     glossary: [
-      { term: "Neuron", def: "Đơn vị tính toán nhỏ: nhận input × weight → ra output." },
-      { term: "Weight", def: "Con số AI 'điều chỉnh' khi học - bí mật của trí thông minh." },
-      { term: "Activation", def: "Hàm 'kích hoạt' quyết định neuron có 'phát tín hiệu' hay không (ReLU, Sigmoid)." },
-      { term: "Backpropagation", def: "Cách AI sửa sai: lan ngược lỗi để chỉnh weights." },
-      { term: "Overfitting", def: "AI thuộc lòng data - gặp đề mới là tịt." },
+      { term: "Neuron", def: "A tiny calculating unit that takes inputs, multiplies each by a weight, and produces one output number." },
+      { term: "Weight", def: "A number the network adjusts while learning; the pattern of weights is essentially where the network's 'knowledge' lives." },
+      { term: "Activation Function", def: "A rule that decides whether a neuron 'fires' a signal forward, such as ReLU or Sigmoid." },
+      { term: "Backpropagation", def: "The method a network uses to learn from mistakes: it sends the error backward through the layers to adjust weights." },
+      { term: "Overfitting", def: "When a model memorizes the training examples so well that it fails on new, unseen data." },
     ],
     careers: [
-      "Deep Learning Engineer ($120k–$250k)",
-      "Research Scientist (DeepMind, OpenAI)",
+      "Deep Learning Engineer (tech companies worldwide, $120k-$250k)",
+      "Research Scientist (DeepMind, OpenAI, university AI labs)",
       "AI Hardware Engineer (NVIDIA, Cerebras)",
-      "Medical AI Researcher",
+      "Medical AI Researcher (hospital research departments)",
     ],
     homework:
-      "Truy cập playground.tensorflow.org → chọn dataset xoắn ốc → thêm 2 hidden layer → tăng learning rate lên 1 → xem điều gì xảy ra. Ghi lại 3 quan sát của em.",
+      "Go to playground.tensorflow.org, pick the spiral dataset, add two hidden layers, and crank the learning rate up to 1. Watch what happens to the loss curve. Write down three observations and screenshot the final network graph as proof.",
     externalDemo: [
-      { label: "TensorFlow Playground - neural net trong trình duyệt", url: "https://playground.tensorflow.org/" },
-      { label: "Neural Network 3D Visualizer", url: "https://www.cs.ryerson.ca/~aharley/vis/conv/" },
-      { label: "Google Colab - code AI miễn phí GPU", url: "https://colab.research.google.com/" },
+      { label: "TensorFlow Playground - build a neural net in your browser", url: "https://playground.tensorflow.org/" },
+      { label: "CNN Explainer - interactive 3D convolution visualizer", url: "https://poloclub.github.io/cnn-explainer/" },
+      { label: "Google Colab - write and run AI code with a free GPU", url: "https://colab.research.google.com/" },
     ],
   },
 
-  // ============== Bài Data - Thám tử dữ liệu ==============
+  // ============== Lesson - Data Detective ==============
   datadet: {
     vietnamCase: {
-      title: "🇻🇳 VinAI thu 1 triệu ảnh người Việt để fix bias FaceID",
-      body: "📷 Năm 2018, FaceID Apple bị nhiều người Việt phàn nàn vì nhận diện kém - nguyên nhân chính là dữ liệu train lệch về người da trắng. 🇻🇳 VinAI Research đã đáp lại bằng cách xây dataset hơn 1 triệu ảnh người Việt (đủ giới tính, độ tuổi, kiểu tóc, có/không kính, đeo khẩu trang). 🎯 Mô hình mới đạt 99,2% độ chính xác trên người Việt - bằng chứng sống động rằng 'data quyết định trí thông minh của AI'.",
+      title: "🇻🇳 VinAI Collects 1 Million Vietnamese Faces to Fix FaceID Bias",
+      body: "📷 In 2018, many Vietnamese users complained that Apple's Face ID recognized them poorly, mainly because the training data was skewed toward lighter-skinned faces. 🇻🇳 VinAI Research responded by building a dataset of over 1 million Vietnamese faces, covering different genders, ages, hairstyles, glasses, and mask-wearing. 🎯 The retrained model reached 99.2% accuracy on Vietnamese faces, a vivid proof that 'data decides how smart an AI really is'.",
     },
     goldenTip:
-      "Trước khi train AI, hãy nhìn data như thám tử: thiếu gì? lệch gì? bẩn chỗ nào? 80% thời gian của một AI Engineer giỏi là dọn dữ liệu, chỉ 20% là code thuật toán.",
+      "Before training any AI, inspect the data like a detective: what's missing, what's skewed, what's dirty? A great AI engineer spends about 80% of their time cleaning data and only 20% writing algorithm code.",
     glossary: [
-      { term: "Dataset", def: "Tập dữ liệu AI dùng để học (ví dụ: 10.000 ảnh mèo)." },
-      { term: "Feature", def: "Đặc trưng của 1 mẫu (chiều cao, màu, tuổi...)." },
-      { term: "Label", def: "Nhãn / đáp án đúng đi kèm mỗi mẫu (mèo, chó, spam...)." },
-      { term: "Bias", def: "Định kiến do dữ liệu lệch khiến AI dự đoán bất công." },
-      { term: "Outlier", def: "Giá trị ngoại lai bất thường (tuổi = 999) kéo trung bình lệch." },
-      { term: "Structured / Unstructured", def: "Có cấu trúc (bảng) vs phi cấu trúc (ảnh, video, text)." },
+      { term: "Dataset", def: "The collection of examples an AI learns from, for instance 10,000 labeled photos of cats." },
+      { term: "Feature", def: "A measurable characteristic of one data sample, such as height, color, or age." },
+      { term: "Label", def: "The correct answer attached to each training example, like 'cat', 'dog', or 'spam'." },
+      { term: "Bias", def: "A systematic skew caused by unbalanced data that makes an AI's predictions unfair to certain groups." },
+      { term: "Outlier", def: "An unusual value, like an age of 999, that can drag averages off and confuse a model during training." },
+      { term: "Structured vs Unstructured Data", def: "Structured data lives in neat tables (like a spreadsheet), while unstructured data is free-form, like photos, video, or plain text." },
     ],
     careers: [
-      "Data Engineer (25–70 triệu)",
-      "Data Analyst (20–55 triệu)",
-      "Data Quality Specialist",
-      "ML Data Curator (mới - rất hot)",
+      "Data Engineer (25-70 million VND/month in Vietnam)",
+      "Data Analyst (20-55 million VND/month)",
+      "Data Quality Specialist (any company running ML in production)",
+      "ML Data Curator (a newer, fast-growing role at AI startups)",
     ],
     homework:
-      "Mở 1 file Excel ở nhà (bảng điểm, danh bạ, chi tiêu...). Tìm 3 lỗi: ô trống, sai chính tả, hoặc giá trị bất thường. Sửa lại và viết 2 câu giải thích vì sao dữ liệu sạch giúp ra quyết định tốt hơn.",
+      "Open any spreadsheet you already have at home, like a grade sheet, contact list, or expense tracker. Find three problems: an empty cell, a spelling mistake, or an outlier value. Fix them and write two sentences explaining why clean data leads to better decisions. Screenshot the before and after.",
     externalDemo: [
-      { label: "Kaggle Datasets - kho dữ liệu miễn phí", url: "https://www.kaggle.com/datasets" },
-      { label: "OpenRefine - dọn data như magic", url: "https://openrefine.org/" },
+      { label: "Kaggle Datasets - free public data to explore", url: "https://www.kaggle.com/datasets" },
+      { label: "OpenRefine - clean messy data like magic", url: "https://openrefine.org/" },
       { label: "Google Dataset Search", url: "https://datasetsearch.research.google.com/" },
     ],
   },
 
-  // ============== Bài ML - Học máy siêu đơn giản ==============
+  // ============== Lesson - ML Magic ==============
   mlmagic: {
     vietnamCase: {
-      title: "🇻🇳 Shopee dùng K-Means gom 50 triệu khách hàng",
-      body: "🛍️ Shopee Việt Nam có hơn 50 triệu user. Họ dùng K-Means để gom thành các 'persona': sinh viên săn deal < 200k, mẹ bỉm sữa mua đồ trẻ em, dân văn phòng mua mỹ phẩm... 🎯 Mỗi nhóm nhận gợi ý sản phẩm khác nhau → tỷ lệ click tăng 35%. Đây là ví dụ kinh điển của Unsupervised Learning mang lại tiền tỉ.",
+      title: "🇻🇳 Shopee Uses K-Means to Group 50 Million Customers",
+      body: "🛍️ Shopee Vietnam has more than 50 million users. The company uses K-Means clustering to group shoppers into personas: students hunting deals under 200,000 VND, young parents buying baby products, office workers buying cosmetics, and more. 🎯 Each group receives different product recommendations, and click-through rates rose by roughly 35% after this segmentation. It's a textbook example of unsupervised learning generating real business value.",
     },
     goldenTip:
-      "Quy tắc 5 giây: nhìn data - <b>có cột 'đáp án đúng' không?</b> Có → Supervised. Không → Unsupervised. Đừng học thuộc định nghĩa, hãy nhìn data!",
+      "Use the 5-second rule: look at your data - is there an 'answer column'? If yes, that's Supervised Learning. If no, that's Unsupervised Learning. Don't memorize the definitions; just look at the data.",
     glossary: [
-      { term: "Supervised", def: "Học có giám sát - data có nhãn (label) làm đáp án." },
-      { term: "Unsupervised", def: "Học không giám sát - data không nhãn, AI tự tìm pattern." },
-      { term: "Decision Tree", def: "Cây quyết định - chuỗi câu hỏi Yes/No để phân loại." },
-      { term: "Cluster", def: "Nhóm các mẫu giống nhau mà AI tự gom được." },
-      { term: "K-Means", def: "Thuật toán gom K cụm dựa trên khoảng cách giữa các điểm." },
-      { term: "Classification", def: "Phân loại - gán mỗi mẫu vào 1 lớp (mèo/chó/chim)." },
+      { term: "Supervised Learning", def: "Training where each example comes with a labeled correct answer for the AI to learn from." },
+      { term: "Unsupervised Learning", def: "Training where the data has no labels, so the AI must discover patterns on its own." },
+      { term: "Decision Tree", def: "A model that classifies things through a chain of yes-or-no questions, like a flowchart." },
+      { term: "Cluster", def: "A group of similar data points that an algorithm has automatically discovered." },
+      { term: "K-Means", def: "An algorithm that sorts data into K groups based on how close each point is to a group's center." },
+      { term: "Classification", def: "Assigning each example to one category, such as sorting photos into 'cat', 'dog', or 'bird'." },
     ],
     careers: [
-      "Machine Learning Engineer (30–80 triệu)",
-      "Data Scientist (25–60 triệu)",
-      "MLOps Engineer",
-      "Quant Analyst (ngân hàng, fintech)",
+      "Machine Learning Engineer (30-80 million VND/month)",
+      "Data Scientist (25-60 million VND/month)",
+      "MLOps Engineer (companies running ML pipelines at scale)",
+      "Quant Analyst (banks and fintech firms)",
     ],
     homework:
-      "Mở Google Sheets → tạo bảng 10 bạn cùng lớp với 2 cột (chiều cao, cân nặng). Tự tay 'gom nhóm' bằng mắt - bạn thấy mấy cụm? Đó chính là K-Means mà não bạn vừa chạy!",
+      "Open Google Sheets and list 10 classmates with two columns: height and weight. Manually group them into clusters just by eye. How many groups do you see? Screenshot your table with your groups circled - that's literally the K-Means algorithm your brain just ran.",
     externalDemo: [
-      { label: "Teachable Machine - tự train classifier 5 phút", url: "https://teachablemachine.withgoogle.com/" },
-      { label: "MLDemos - visualize K-Means trực quan", url: "https://stanford.edu/class/ee103/visualizations/kmeans/kmeans.html" },
-      { label: "Decision Tree Visualizer", url: "https://mlu-explain.github.io/decision-tree/" },
+      { label: "Teachable Machine - train your own classifier in 5 minutes", url: "https://teachablemachine.withgoogle.com/" },
+      { label: "MLU-Explain - visual guide to K-Means clustering", url: "https://mlu-explain.github.io/k-means/" },
+      { label: "MLU-Explain - interactive decision tree visualizer", url: "https://mlu-explain.github.io/decision-tree/" },
     ],
   },
 
-  // ============== Bài 4 - Generative AI ==============
-
+  // ============== Lesson 4 - Generative AI ==============
   genai: {
     vietnamCase: {
-      title: "🇻🇳 PhởGPT - LLM thuần Việt của VinAI",
-      body: "Tháng 12/2023, VinAI ra mắt PhởGPT - Large Language Model open-source đầu tiên thực sự 'made in Vietnam' với 7,5 tỷ tham số, huấn luyện trên 102GB data tiếng Việt sạch (sách giáo khoa, báo chí, văn học). PhởGPT viết văn nghị luận lớp 9, dịch Hán-Nôm và tạo thơ lục bát đúng luật - vượt GPT-3.5 trên benchmark tiếng Việt.",
+      title: "🇻🇳 PhoGPT - VinAI's Vietnamese Large Language Model",
+      body: "In December 2023, VinAI released PhoGPT, one of the first large language models genuinely built and trained for Vietnamese, with 7.5 billion parameters trained on 102GB of clean Vietnamese text including textbooks, news articles, and literature. PhoGPT can write a grade-9 style persuasive essay, translate classical Han-Nom script, and compose lục bát poetry (a traditional Vietnamese verse form) with correct rhyme rules, outperforming GPT-3.5 on Vietnamese-language benchmarks.",
     },
     goldenTip:
-      "Công thức prompt thần thánh: VAI TRÒ + BỐI CẢNH + NHIỆM VỤ + RÀNG BUỘC + FORMAT. Ví dụ: 'Bạn là gia sư Toán lớp 9 [vai] cho học sinh sợ Hình [bối cảnh], giải bài này [nhiệm vụ] bằng tiếng Việt ≤200 từ [ràng buộc], trình bày dạng bullet [format]'.",
+      "Use this prompt formula: ROLE + CONTEXT + TASK + CONSTRAINT + FORMAT. Example: 'You are a 9th-grade math tutor [role] for a student who is afraid of geometry [context]. Solve this problem [task] in under 200 words [constraint], presented as bullet points [format].'",
     glossary: [
-      { term: "Prompt", def: "Câu lệnh bạn ra cho AI tạo sinh." },
-      { term: "Token (LLM)", def: "Đơn vị tính phí ChatGPT - 1 token ≈ 0.75 từ tiếng Anh." },
-      { term: "Temperature", def: "0 = trả lời cứng nhắc, 1 = sáng tạo bay bổng." },
-      { term: "Hallucination", def: "AI bịa thông tin trông như thật - luôn kiểm chứng!" },
-      { term: "Diffusion Model", def: "Cơ chế Midjourney/Stable Diffusion: thêm nhiễu rồi khử ngược." },
+      { term: "Prompt", def: "The instruction you type to tell a generative AI what to create." },
+      { term: "Token (in LLMs)", def: "The billing unit ChatGPT uses to measure text; roughly one token equals 0.75 English words." },
+      { term: "Temperature", def: "A setting where 0 makes answers rigid and predictable, and 1 makes them creative and varied." },
+      { term: "Hallucination", def: "When an AI confidently invents information that sounds real but isn't true - always double-check facts." },
+      { term: "Diffusion Model", def: "The mechanism behind tools like Midjourney and Stable Diffusion: it adds noise to an image, then learns to remove it step by step to create a picture." },
     ],
     careers: [
-      "Prompt Engineer ($150k–$300k)",
-      "AI Artist / Creative Director",
-      "Generative AI Product Designer",
-      "LLM Fine-tuning Specialist",
+      "Prompt Engineer ($150k-$300k at leading AI companies)",
+      "AI Artist / Creative Director (studios and marketing agencies)",
+      "Generative AI Product Designer (app and game studios)",
+      "LLM Fine-Tuning Specialist (AI research labs)",
     ],
     homework:
-      "Dùng Microsoft Designer (miễn phí) hoặc Leonardo.ai → viết 3 prompt khác nhau cho cùng chủ đề 'mèo phi hành gia'. So sánh kết quả. Prompt nào ra ảnh đẹp nhất và vì sao?",
+      "Use the free tool Microsoft Designer or Leonardo.ai to write three different prompts for the same idea, 'an astronaut cat'. Compare the three results and screenshot them side by side. Which prompt produced the best image, and why?",
     externalDemo: [
-      { label: "Microsoft Designer (DALL-E 3 miễn phí)", url: "https://designer.microsoft.com/" },
-      { label: "Leonardo.ai - 150 ảnh free/ngày", url: "https://leonardo.ai/" },
-      { label: "Suno AI - sinh bài hát từ prompt", url: "https://suno.com/" },
+      { label: "Microsoft Designer - free DALL-E 3 image generation", url: "https://designer.microsoft.com/" },
+      { label: "Leonardo.ai - about 150 free images per day", url: "https://leonardo.ai/" },
+      { label: "Suno - generate a full song from a text prompt", url: "https://suno.com/" },
     ],
   },
 
-  // ============== Bài 5 - Reinforcement Learning ==============
+  // ============== Lesson 5 - Reinforcement Learning ==============
   rl: {
     vietnamCase: {
-      title: "🇻🇳 VinFast VF8 - học lái xe trong môi trường ảo",
-      body: "Trước khi chạy thử ngoài đường, VinFast huấn luyện AI tự lái trong simulator CARLA: xe ảo chạy hơn 50 triệu km mô phỏng giao thông Hà Nội (xe máy lạng lách, đèn giao thông nháy vàng). Mỗi cú va chạm ảo = -1000 điểm, mỗi km đúng làn = +1 điểm. Sau 6 tháng AI tự khám phá cách né xe máy mà không cần ai dạy.",
+      title: "🇻🇳 VinFast VF8 Learns to Drive Inside a Virtual World",
+      body: "Before testing on real roads, VinFast trained its self-driving software inside the CARLA simulator: a virtual car drove more than 50 million simulated kilometers through Hanoi-style traffic, complete with weaving motorbikes and blinking yellow lights. Every virtual crash cost -1000 points, and every kilometer driven correctly in-lane earned +1 point. After six months of training, the AI discovered how to dodge motorbikes on its own, without anyone explicitly coding that behavior.",
     },
     goldenTip:
-      "Cạm bẫy RL số 1: agent học cách 'gian lận' để ăn điểm! Nếu thưởng quá cao cho việc 'đứng yên không va chạm', AI sẽ không bao giờ di chuyển. Reward design = nghệ thuật khó hơn cả code thuật toán.",
+      "The number one trap in reinforcement learning is reward hacking: the agent finds a shortcut to rack up points instead of doing the real task. If you reward 'not crashing' too generously, the AI may simply learn to never move at all. Designing the reward function is harder than writing the algorithm itself.",
     glossary: [
-      { term: "Agent", def: "Nhân vật AI đang học (xe, robot, nhân vật game)." },
-      { term: "Environment", def: "Thế giới mà agent tương tác (mê cung, đường phố, bàn cờ)." },
-      { term: "Reward", def: "Điểm thưởng/phạt mà environment trả về sau mỗi hành động." },
-      { term: "Policy", def: "Chiến lược AI học được - 'trong tình huống X thì làm Y'." },
-      { term: "Q-Learning", def: "Thuật toán cổ điển: bảng tra cứu 'trạng thái → hành động tốt nhất'." },
+      { term: "Agent", def: "The AI character that is learning, such as a car, a robot, or a game character." },
+      { term: "Environment", def: "The world the agent interacts with, like a maze, a street, or a chessboard." },
+      { term: "Reward", def: "The score, positive or negative, that the environment gives back after each action." },
+      { term: "Policy", def: "The strategy the agent has learned - basically 'in situation X, do Y'." },
+      { term: "Q-Learning", def: "A classic algorithm that builds a lookup table mapping each situation to its best known action." },
     ],
     careers: [
       "Robotics Engineer (Boston Dynamics, VinAI)",
-      "Game AI Developer (đối thủ bot trong game)",
-      "Autonomous Vehicle Engineer",
-      "Quantitative Trader (RL cho stock market)",
+      "Game AI Developer (building opponent bots for video games)",
+      "Autonomous Vehicle Engineer (self-driving car companies)",
+      "Quantitative Trader (applying RL to financial markets)",
     ],
     homework:
-      "Chơi OpenAI Gym CartPole trong Google Colab (chỉ 10 dòng code có sẵn). Xem AI ngẫu nhiên rớt cây gậy trong 5 bước, rồi sau 1000 lượt học nó cân bằng được 500 bước. Kỳ diệu!",
+      "Run the OpenAI Gym CartPole example in Google Colab (a ready-made 10-line script). Watch the untrained AI drop the pole within a few steps, then watch it balance for 500+ steps after 1000 training rounds. Screenshot the final training score as proof.",
     externalDemo: [
-      { label: "AlphaGo Documentary - DeepMind đánh bại Lee Sedol", url: "https://www.youtube.com/watch?v=WXuK6gekU1Y" },
-      { label: "Gymnasium - sandbox RL của OpenAI", url: "https://gymnasium.farama.org/" },
-      { label: "Lunar Lander - chơi trực tiếp trên web", url: "https://huggingface.co/spaces/stable-baselines3/LunarLander-v2" },
+      { label: "AlphaGo the Movie - DeepMind's documentary on beating Lee Sedol", url: "https://www.youtube.com/watch?v=WXuK6gekU1Y" },
+      { label: "Gymnasium - the standard RL sandbox from the OpenAI ecosystem", url: "https://gymnasium.farama.org/" },
+      { label: "Hugging Face Lunar Lander demo - play an RL agent live in your browser", url: "https://huggingface.co/spaces/ThomasSimonini/Lunar-Lander" },
     ],
   },
 
-  // ============== Bài 6 - Ethics ==============
+  // ============== Lesson 6 - Ethics ==============
   ethics: {
     vietnamCase: {
-      title: "🇻🇳 Vụ ChatGPT trả lời sai pháp luật Việt Nam (2023)",
-      body: "Báo Tuổi Trẻ phát hiện ChatGPT tự tin trả lời 'Việt Nam không bắt buộc đội mũ bảo hiểm khi đi xe máy' - sai hoàn toàn so với Luật Giao thông 2008. Nguyên nhân: 95% data huấn luyện của OpenAI là tiếng Anh, AI tự suy diễn về luật VN. Bài học: KHÔNG bao giờ tin tuyệt đối AI ở lĩnh vực pháp lý, y tế, tài chính.",
+      title: "🇻🇳 ChatGPT Gets Vietnamese Traffic Law Wrong (2023)",
+      body: "Tuoi Tre newspaper reported that ChatGPT confidently claimed 'Vietnam does not require motorbike riders to wear helmets', which directly contradicts the 2008 Road Traffic Law. The root cause: about 95% of OpenAI's training data is in English, so the model guessed at Vietnamese law instead of citing it accurately. The lesson: never fully trust an AI on legal, medical, or financial questions.",
     },
     goldenTip:
-      "3 câu hỏi vàng trước khi tin AI: (1) Data huấn luyện đến năm nào? (2) AI có nguồn để kiểm chứng không? (3) Mình có chuyên gia ngành để hỏi đối chiếu không? Thiếu 1 trong 3 → coi như tham khảo, đừng quyết định.",
+      "Ask three golden questions before trusting an AI answer: (1) What year does its training data end? (2) Can it show a verifiable source? (3) Do I have access to a human expert to double-check? Missing even one of these means the answer is just a starting point, not a final decision.",
     glossary: [
-      { term: "Bias", def: "Thiên vị do data lệch (giới, chủng tộc, vùng miền)." },
-      { term: "Fairness", def: "Đo lường công bằng giữa các nhóm - disparate impact ratio." },
-      { term: "Transparency", def: "AI giải thích được vì sao ra quyết định đó (XAI)." },
-      { term: "Privacy", def: "Bảo vệ dữ liệu cá nhân - GDPR (EU), Luật ATTT (VN)." },
-      { term: "Hallucination", def: "AI bịa fact một cách rất tự tin - không phải lỗi mà là bản chất LLM." },
+      { term: "Bias", def: "Unfair skew in an AI's outputs caused by unbalanced training data, often affecting gender, race, or region." },
+      { term: "Fairness", def: "A measure of whether an AI treats different groups equally, often checked with a disparate impact ratio." },
+      { term: "Transparency", def: "The ability for an AI to explain why it made a particular decision, sometimes called explainable AI (XAI)." },
+      { term: "Privacy", def: "Protection of personal data, governed by laws like the EU's GDPR and Vietnam's Law on Cybersecurity." },
+      { term: "Hallucination", def: "An AI stating false information with total confidence - this is a natural side effect of how language models work, not a rare bug." },
     ],
     careers: [
       "AI Ethics Officer (Meta, Google, Microsoft)",
-      "AI Policy Researcher (chính phủ, EU AI Act)",
-      "Responsible AI Product Manager",
-      "AI Auditor (kiểm toán mô hình bias)",
+      "AI Policy Researcher (government agencies, EU AI Act working groups)",
+      "Responsible AI Product Manager (any company shipping AI features)",
+      "AI Auditor (specializing in testing models for bias)",
     ],
     homework:
-      "Hỏi ChatGPT: 'Kể một câu chuyện về một bác sĩ và y tá'. AI giả định ai là nam, ai là nữ? Đó là bias giới tính cổ điển. Chụp màn hình và thảo luận với bạn bè.",
+      "Ask ChatGPT: 'Tell a short story about a doctor and a nurse.' Notice which one it assumes is male and which is female. That's a classic gender bias. Screenshot the response and discuss it with a friend or classmate.",
     externalDemo: [
-      { label: "AI Fairness 360 - IBM toolkit phát hiện bias", url: "https://aif360.res.ibm.com/" },
-      { label: "Moral Machine - MIT đạo đức xe tự lái", url: "https://www.moralmachine.net/" },
-      { label: "EU AI Act - luật AI châu Âu", url: "https://artificialintelligenceact.eu/" },
+      { label: "AI Fairness 360 - IBM's open-source bias detection toolkit", url: "https://aif360.res.ibm.com/" },
+      { label: "Moral Machine - MIT's self-driving car ethics experiment", url: "https://www.moralmachine.net/" },
+      { label: "EU AI Act Explorer - understand Europe's AI law", url: "https://artificialintelligenceact.eu/" },
     ],
     safetyNote: {
-      title: "⚠️ Khi gặp AI thiên vị / xúc phạm trong đời thật",
-      body: "Báo cáo nội dung AI sai/độc hại tới: (1) Nền tảng đó (Report → AI-generated abuse). (2) Cục An toàn Thông tin VN: 0339.829.929. (3) Tổng đài 113 nếu là lừa đảo có yếu tố hình sự. Lưu lại screenshot + URL trước khi báo cáo.",
+      title: "⚠️ If You Encounter Biased or Harmful AI Content in Real Life",
+      body: "Report it in three steps: (1) Use the platform's own report button (look for 'AI-generated abuse'). (2) Contact Vietnam's Authority of Information Security at hotline 0339.829.929. (3) Call 113 (police) if criminal fraud is involved. Save a screenshot and the URL before you report anything.",
     },
   },
 
-  // ============== Bài 7 - Recommender Systems ==============
+  // ============== Lesson 7 - Recommender Systems ==============
   recsys: {
     vietnamCase: {
-      title: "🇻🇳 TikTok For You Page - vì sao gây nghiện đến vậy?",
-      body: "Thuật toán TikTok đo MICROSECOND: bạn xem video bao lâu, lướt qua mấy giây, like/share/comment, thậm chí HOVER tay trên màn hình. Mỗi swipe = 1 lá phiếu cho AI. Người Việt Nam dùng TikTok trung bình 76 phút/ngày (2024) - top 3 thế giới. Đó là lý do Bộ TT&TT đang siết chặt kiểm duyệt và yêu cầu tắt 'thuật toán cá nhân hoá' cho trẻ <13 tuổi.",
+      title: "🇻🇳 TikTok's For You Page - Why Is It So Addictive?",
+      body: "TikTok's algorithm measures behavior down to the microsecond: how long you watch a video, how fast you scroll past it, whether you like, share, or comment, and even where your thumb hovers on the screen. Every swipe is a vote that trains the AI. Vietnamese users spend an average of 76 minutes per day on TikTok (2024 data), among the highest in the world - which is why Vietnam's Ministry of Information and Communications is tightening moderation rules and pushing to disable personalized feeds for users under 13.",
     },
     goldenTip:
-      "Muốn 'detox' thuật toán? Vào Settings → Activity → Clear watch history → lướt 3 ngày chỉ các chủ đề mới (sách, ẩm thực, du lịch). Sau 1 tuần For You Page sẽ 'reset' và bạn thoát khỏi bong bóng cũ.",
+      "Want to reset your algorithm? Go to Settings, then Activity, then Clear Watch History, and spend three days deliberately watching only new topics (cooking, travel, books). After about a week, your For You Page resets and you break out of the old filter bubble.",
     glossary: [
-      { term: "Collaborative Filtering", def: "'Người giống bạn cũng thích món này' - Netflix dùng." },
-      { term: "Content-Based", def: "Gợi ý dựa trên đặc điểm sản phẩm (Spotify dùng giai điệu)." },
-      { term: "Cosine Similarity", def: "Đo độ giống nhau giữa 2 vector sở thích (0 → 1)." },
-      { term: "Cold Start", def: "Vấn đề khi user mới chưa có lịch sử → AI bí." },
-      { term: "Filter Bubble", def: "Bong bóng lọc - bạn chỉ thấy 1 góc nhìn." },
+      { term: "Collaborative Filtering", def: "'People similar to you also liked this' - the approach Netflix relies on heavily." },
+      { term: "Content-Based Filtering", def: "Recommending items based on their own features, like Spotify matching songs by melody and tempo." },
+      { term: "Cosine Similarity", def: "A math formula that measures how similar two preference vectors are, from 0 (totally different) to 1 (identical)." },
+      { term: "Cold Start Problem", def: "The challenge of recommending anything useful to a brand-new user who has no history yet." },
+      { term: "Filter Bubble", def: "A narrow information bubble where you only see content that matches views you already hold." },
     ],
     careers: [
       "Recommender Systems Engineer (TikTok, Shopee, Netflix)",
-      "Data Scientist for Personalization",
-      "MLOps Engineer",
-      "Growth Hacker (data-driven marketing)",
+      "Data Scientist for Personalization (streaming and e-commerce platforms)",
+      "MLOps Engineer (maintaining recommendation pipelines at scale)",
+      "Growth Marketer specializing in data-driven personalization",
     ],
     homework:
-      "Mở Spotify → 'Wrapped' cuối năm. Top 5 thể loại bạn nghe là gì? Bây giờ chủ động tìm 1 thể loại đối lập (jazz nếu bạn nghe rap; nhạc cổ điển nếu bạn nghe EDM). Sau 1 tuần, đề xuất có thay đổi?",
+      "Open your Spotify Wrapped or recently played list. What are your top 5 genres? Now deliberately search and listen to one opposite genre (jazz if you love rap, classical if you love EDM) for a week. Screenshot your recommendations before and after to see if they shifted.",
     externalDemo: [
-      { label: "MovieLens - recommender dataset huyền thoại", url: "https://movielens.org/" },
-      { label: "Spotify Audio Features API explorer", url: "https://developer.spotify.com/documentation/web-api/reference/get-audio-features" },
-      { label: "How TikTok's Algorithm Works (WSJ)", url: "https://www.wsj.com/video/series/inside-tiktoks-highly-secretive-algorithm/investigation-how-tiktok-algorithm-figures-out-your-deepest-desires/6C0C2040-FF25-4827-8528-2BD6612E3796" },
+      { label: "MovieLens - the legendary open recommender-systems dataset", url: "https://movielens.org/" },
+      { label: "Spotify for Developers - explore how music features drive recommendations", url: "https://developer.spotify.com/" },
+      { label: "WSJ Investigation - Inside TikTok's Algorithm", url: "https://www.wsj.com/video/series/inside-tiktoks-highly-secretive-algorithm/investigation-how-tiktok-algorithm-figures-out-your-deepest-desires/6C0C2040-FF25-4827-8528-2BD6612E3796" },
     ],
   },
 
-  // ============== Bài 8 - AIoT ==============
+  // ============== Lesson 8 - AIoT ==============
   aiot: {
     vietnamCase: {
-      title: "🇻🇳 Đèn giao thông AI tại Bình Dương",
-      body: "Năm 2023, Bình Dương triển khai 100 ngã tư đèn giao thông AIoT do FPT IS phối hợp Viettel xây dựng: camera AI đếm xe real-time, tự động kéo dài đèn xanh hướng đông xe nhất. Kết quả sau 6 tháng: giảm 30% thời gian chờ đèn đỏ, giảm 18% tai nạn giao thông. Mô hình đang nhân rộng tại Hà Nội, TP.HCM và Đà Nẵng.",
+      title: "🇻🇳 AI Traffic Lights in Binh Duong",
+      body: "In 2023, Binh Duong province deployed 100 AIoT-powered intersections, built by FPT IS in partnership with Viettel: cameras count vehicles in real time and automatically extend the green light for whichever direction has the most traffic. After six months, the project cut average red-light waiting time by 30% and reduced traffic accidents by 18%. The model is now being expanded to Hanoi, Ho Chi Minh City, and Da Nang.",
     },
     goldenTip:
-      "Khi thiết kế AIoT, luôn nhớ luật 'edge first': xử lý AI ngay tại thiết bị (Raspberry Pi, Jetson Nano) trước khi gửi lên cloud. Tiết kiệm 90% băng thông + giảm độ trễ từ 200ms xuống 20ms - cực quan trọng với xe tự lái.",
+      "When designing an AIoT system, always follow the 'edge-first' rule: run the AI directly on the device (like a Raspberry Pi or NVIDIA Jetson Nano) before sending anything to the cloud. This saves about 90% of bandwidth and cuts latency from around 200ms down to 20ms, which matters enormously for something like a self-driving car.",
     glossary: [
-      { term: "IoT", def: "Internet of Things - vạn vật kết nối mạng." },
-      { term: "Edge AI", def: "AI chạy ngay trên thiết bị, không cần internet." },
-      { term: "Sensor Fusion", def: "Kết hợp nhiều cảm biến (camera + lidar + GPS)." },
-      { term: "MQTT", def: "Giao thức nhẹ để IoT 'tám chuyện' với server." },
-      { term: "Digital Twin", def: "Bản sao số của thành phố/nhà máy để mô phỏng." },
+      { term: "IoT (Internet of Things)", def: "A network of everyday physical devices connected to the internet, from thermostats to street cameras." },
+      { term: "Edge AI", def: "AI that runs directly on a device, without needing to send data to the internet first." },
+      { term: "Sensor Fusion", def: "Combining data from multiple sensors, such as cameras, lidar, and GPS, for a more reliable picture of the world." },
+      { term: "MQTT", def: "A lightweight messaging protocol that lets IoT devices 'chat' efficiently with a server." },
+      { term: "Digital Twin", def: "A virtual, data-driven replica of a real city, building, or factory used for simulation and testing." },
     ],
     careers: [
       "IoT Engineer (Viettel, FPT, VNPT)",
-      "Embedded AI Engineer",
-      "Smart City Architect",
-      "Industrial IoT Consultant (nhà máy 4.0)",
+      "Embedded AI Engineer (hardware and firmware companies)",
+      "Smart City Architect (urban planning and infrastructure agencies)",
+      "Industrial IoT Consultant (Industry 4.0 manufacturing plants)",
     ],
     homework:
-      "Khảo sát 1 ngày: trong nhà em có bao nhiêu thiết bị IoT (TV smart, đồng hồ, loa, điều hoà, máy lọc nước)? Vẽ sơ đồ kết nối. Thiết bị nào chưa kết nối mà em muốn 'thông minh hoá'?",
+      "Spend one day counting how many IoT devices exist in your home: smart TV, smartwatch, speaker, air conditioner, water purifier, etc. Draw a simple diagram of how they connect. Which device would you most want to make 'smart' next, and why? Photograph your diagram as proof.",
     externalDemo: [
-      { label: "ESP32 Web Simulator - code IoT online", url: "https://wokwi.com/" },
-      { label: "Cisco Packet Tracer Smart City (free)", url: "https://www.netacad.com/courses/packet-tracer" },
-      { label: "Edge Impulse - train Edge AI miễn phí", url: "https://edgeimpulse.com/" },
+      { label: "Wokwi - simulate ESP32 IoT projects online for free", url: "https://wokwi.com/" },
+      { label: "Cisco Packet Tracer - free network and smart-city simulator", url: "https://www.netacad.com/courses/packet-tracer" },
+      { label: "Edge Impulse - train a tiny AI model for free and deploy it to a device", url: "https://edgeimpulse.com/" },
     ],
   },
 
-  // ============== Bài 9 - Capstone (BUILD focus) ==============
+  // ============== Lesson 9 - Capstone (BUILD focus) ==============
   capstone: {
     vietnamCase: {
-      title: "🇻🇳 Học sinh Lê Quý Đôn đoạt giải Intel ISEF với AI giám sát rừng",
-      body: "Năm 2024, nhóm 3 học sinh THPT Lê Quý Đôn (Đà Nẵng) đoạt giải Intel ISEF với dự án 'ForestGuard AI' - drone tự bay tuần tra rừng phòng hộ, dùng Computer Vision (Bài 1) phát hiện khói cháy + NLP (Bài 2) cảnh báo qua Zalo + AIoT (Bài 8) gửi GPS về kiểm lâm. Mô hình tích hợp 4 công nghệ AI cơ bản - đúng tinh thần capstone!",
+      title: "🇻🇳 Le Quy Don High School Students Win Intel ISEF with a Forest-Guard AI",
+      body: "In 2024, a team of three students from Le Quy Don High School in Da Nang won an Intel ISEF award for 'ForestGuard AI': a drone that autonomously patrols protected forest, using computer vision (Lesson 1) to spot smoke from fires, NLP (Lesson 2) to send alerts through Zalo, and AIoT (Lesson 8) to transmit GPS coordinates to forest rangers. The project combined four core AI technologies into one working system - exactly the spirit of a great capstone project.",
     },
     goldenTip:
-      "Sai lầm 90% học sinh khi làm capstone: chọn đề tài quá to ('AI cứu thế giới'). Hãy làm NHỎ và HOÀN CHỈNH: 1 vấn đề cụ thể + 1 user thật + 1 demo 60 giây + 1 số liệu thuyết phục. Capstone tốt = MVP, không phải kiệt tác.",
+      "Ninety percent of students make the same mistake on a capstone: choosing a topic that's too huge, like 'AI that saves the world'. Instead, go small and complete: one specific problem, one real user, one 60-second demo, and one convincing number. A great capstone is an MVP, not a masterpiece.",
     glossary: [
-      { term: "MVP", def: "Minimum Viable Product - phiên bản nhỏ nhất dùng được." },
-      { term: "Pipeline", def: "Chuỗi xử lý: thu data → clean → train → deploy." },
-      { term: "MLOps", def: "Vận hành ML production - Docker, CI/CD, monitoring." },
-      { term: "API", def: "Application Programming Interface - cách 2 chương trình 'nói chuyện'." },
-      { term: "Integration", def: "Ghép nhiều module AI thành 1 sản phẩm hoạt động." },
+      { term: "MVP (Minimum Viable Product)", def: "The smallest working version of a product that real users can actually try." },
+      { term: "Pipeline", def: "The full chain of steps in an AI project: collect data, clean it, train a model, then deploy it." },
+      { term: "MLOps", def: "The practice of running machine learning in production, including deployment, monitoring, and retraining." },
+      { term: "API", def: "Application Programming Interface - a defined way for two pieces of software to talk to each other." },
+      { term: "Integration", def: "Combining several separate AI modules into one product that actually works end to end." },
     ],
     careers: [
-      "AI Solutions Architect ($150k–$280k)",
-      "Full-stack AI Engineer",
-      "Technical Product Manager",
+      "AI Solutions Architect ($150k-$280k)",
+      "Full-Stack AI Engineer (startups and product teams)",
+      "Technical Product Manager (AI-driven products)",
       "AI Startup Founder",
     ],
     homework:
-      "Liệt kê 3 vấn đề trong nhà/trường em có thể giải bằng AI (ví dụ: đếm số người vào căng-tin, nhắc uống nước, phân loại rác). Chọn 1 cái nhỏ nhất và phác thảo pipeline: input → AI → output.",
+      "List three problems at your home or school that AI could help solve, such as counting how many students are in the cafeteria, reminding people to drink water, or sorting recyclables. Pick the smallest one and sketch a simple pipeline: input, then AI, then output. Photograph your sketch.",
     externalDemo: [
-      { label: "Lovable - build app AI bằng chat", url: "https://lovable.dev/" },
-      { label: "n8n - workflow tự động kéo thả", url: "https://n8n.io/" },
-      { label: "Make.com - kết nối 1500+ apps", url: "https://www.make.com/" },
+      { label: "Lovable - build an AI-powered app just by chatting", url: "https://lovable.dev/" },
+      { label: "n8n - drag-and-drop workflow automation", url: "https://n8n.io/" },
+      { label: "Make.com - connect over 1500 apps without code", url: "https://www.make.com/" },
     ],
   },
 
-  // ============== Bài 10 - Deepfake ==============
+  // ============== Lesson 10 - Deepfake ==============
   deepfake: {
     vietnamCase: {
-      title: "🇻🇳 Vụ giả mạo MC Mai Ngọc VTV (2024)",
-      body: "Đầu 2024, kẻ gian dùng deepfake ghép mặt MC Mai Ngọc (VTV) vào video quảng cáo sàn forex lừa đảo, đăng trên Facebook gây thiệt hại hàng tỷ đồng cho người xem cả tin. Công an Hà Nội đã khởi tố vụ án theo Điều 174 Bộ luật Hình sự. Bài học: dù video trông THẬT 99%, hãy verify nguồn chính thức trước khi tin.",
+      title: "🇻🇳 The Fake VTV Anchor Scam (2024)",
+      body: "In early 2024, scammers used deepfake technology to superimpose the face of a well-known Vietnamese TV anchor onto a fake forex-trading advertisement posted on Facebook, causing billions of Vietnamese dong in losses among trusting viewers. Hanoi police opened a criminal investigation under Article 174 of the Penal Code. The lesson: even when a video looks 99% real, always verify it against an official, trusted source before believing it.",
     },
     goldenTip:
-      "Mẹo phát hiện deepfake bằng mắt thường trong 5 giây: (1) Bảo người trong video QUAY ĐẦU NGHIÊNG 90° - AI hiện tại còn yếu góc nghiêng. (2) Nhìn răng - thường mờ/dính nhau. (3) Tai có đeo hoa tai không khớp với chuyển động đầu. 3 dấu hiệu này lộ 70% deepfake.",
+      "You can often spot a deepfake with the naked eye in five seconds: (1) ask the person in the video to turn their head 90 degrees sideways - most current deepfake AI still struggles with extreme side angles. (2) Look closely at the teeth, which often appear blurry or fused together. (3) Check earrings or glasses for flickering that doesn't match head movement. These three signs catch about 70% of deepfakes.",
     glossary: [
-      { term: "Deepfake", def: "Video ghép mặt do AI tạo - từ 'deep learning' + 'fake'." },
-      { term: "GAN", def: "Generative Adversarial Network - 2 AI 'đấu' nhau để tạo ảnh giả siêu thật." },
-      { term: "Face Swap", def: "Thay khuôn mặt A bằng khuôn mặt B trong video." },
-      { term: "Voice Cloning", def: "Nhái giọng người khác chỉ từ 3 giây mẫu âm thanh." },
-      { term: "Forensic", def: "Pháp y số - soi pixel/noise pattern phát hiện ảnh chỉnh sửa." },
+      { term: "Deepfake", def: "A fabricated video or audio clip created by AI, combining the words 'deep learning' and 'fake'." },
+      { term: "GAN (Generative Adversarial Network)", def: "A setup where two AI models compete: one generates fake images, the other tries to catch the fakes, until the fakes become nearly perfect." },
+      { term: "Face Swap", def: "Replacing one person's face with another person's face throughout a video." },
+      { term: "Voice Cloning", def: "Recreating someone's voice convincingly from as little as three seconds of a real audio sample." },
+      { term: "Digital Forensics", def: "The science of examining pixel patterns and digital noise to detect whether media has been manipulated." },
     ],
     careers: [
-      "Digital Forensics Investigator",
-      "Cybersecurity Analyst (đặc thù AI threats)",
-      "Content Moderator AI Specialist",
+      "Digital Forensics Investigator (police cybercrime units, security firms)",
+      "Cybersecurity Analyst specializing in AI-generated threats",
+      "Content Moderation AI Specialist (social media platforms)",
       "Trust & Safety Engineer (Meta, TikTok)",
     ],
     homework:
-      "Vào MIT Detect Fakes → xem 10 video, đoán THẬT/GIẢ. Em đoán đúng bao nhiêu? Ghi lại 3 dấu hiệu giúp em phát hiện video giả.",
+      "Go to MIT's Detect Fakes website, watch 10 short video clips, and guess REAL or FAKE for each. How many did you get right? Write down three visual clues that helped you spot the fakes, and screenshot your final score.",
     externalDemo: [
-      { label: "MIT Detect Fakes - test khả năng phát hiện", url: "https://detectfakes.kellogg.northwestern.edu/" },
-      { label: "Deepware Scanner - quét video upload", url: "https://scanner.deepware.ai/" },
-      { label: "Reality Defender - AI phát hiện deepfake", url: "https://www.realitydefender.com/" },
+      { label: "MIT Detect Fakes - test your ability to spot deepfakes", url: "https://detectfakes.kellogg.northwestern.edu/" },
+      { label: "Deepware Scanner - upload a video to check for manipulation", url: "https://scanner.deepware.ai/" },
+      { label: "Reality Defender - AI-powered deepfake detection company", url: "https://www.realitydefender.com/" },
     ],
     safetyNote: {
-      title: "⚠️ Khi bị/phát hiện deepfake xúc phạm",
-      body: "Hành động ngay: (1) Chụp screenshot + lưu URL gốc. (2) Báo nền tảng (Report → impersonation / deepfake). (3) Trình báo công an phường + Cục An toàn TT 0339.829.929. (4) Hotline tư vấn tâm lý 1800.1567 nếu cần hỗ trợ. KHÔNG share lại để cảnh báo - vô tình phát tán thêm.",
+      title: "⚠️ If You Are Targeted by a Harmful Deepfake",
+      body: "Act immediately: (1) Screenshot the content and save the original URL. (2) Report it on the platform (look for 'impersonation' or 'deepfake' as the reason). (3) File a report with your local police and Vietnam's Authority of Information Security at 0339.829.929. (4) Call the mental health support hotline 1800.1567 if you need to talk to someone. Do NOT re-share it 'as a warning' - that only spreads it further.",
     },
   },
 
-  // ============== Bài 11 - AI Agent ==============
+  // ============== Lesson 11 - AI Agent ==============
   agent: {
     vietnamCase: {
-      title: "🇻🇳 FPT.AI Agent cho ngân hàng TPBank",
-      body: "TPBank triển khai AI Agent của FPT.AI từ 2023: chatbot xử lý 80% câu hỏi khách hàng (kiểm tra số dư, chuyển khoản, mở thẻ) mà không cần nhân viên. Agent gọi 12 API ngân hàng song song, tự ra quyết định khi nào escalate cho người thật. Tiết kiệm 200 tỷ đồng/năm chi phí call center. Đây là mô hình 'autonomous agent' đầu tiên triển khai production ngân hàng VN.",
+      title: "🇻🇳 FPT.AI Agent Powers TPBank's Customer Service",
+      body: "TPBank has run an FPT.AI agent since 2023 that resolves about 80% of customer questions, such as checking balances, transferring money, and opening cards, without a human employee. The agent calls 12 banking APIs in parallel and decides on its own when a case needs to be escalated to a real person. It saves the bank an estimated 200 billion VND per year in call-center costs and is considered Vietnam's first production-scale autonomous banking agent.",
     },
     goldenTip:
-      "Quy tắc 'STAR' cho agent prompt: Setup (vai trò + bối cảnh) + Tools (liệt kê API agent được dùng) + Action (nhiệm vụ cụ thể) + Result (format output mong muốn). Thiếu Tools agent sẽ 'bịa' công cụ không tồn tại - lỗi #1 khi build agent.",
+      "Use the STAR framework when designing agent prompts: Setup (role and context), Tools (list exactly which APIs the agent can call), Action (the specific task), and Result (the exact output format you expect). Skip 'Tools' and the agent will invent tools that don't exist - the number one bug when building agents.",
     glossary: [
-      { term: "Agent", def: "AI có vòng lặp 'suy nghĩ → hành động → quan sát'." },
-      { term: "Tool Use", def: "Agent gọi API/function bên ngoài (search, gửi mail)." },
-      { term: "Chain-of-Thought", def: "AI viết ra suy luận từng bước trước khi trả lời." },
-      { term: "ReAct", def: "Pattern: Reasoning + Acting - thinking và using tool xen kẽ." },
-      { term: "Multi-Agent", def: "Nhiều agent phối hợp (CEO + Coder + Tester)." },
+      { term: "Agent", def: "An AI system that runs a loop of thinking, taking an action, and observing the result, then repeating." },
+      { term: "Tool Use", def: "An agent's ability to call outside functions or APIs, like running a web search or sending an email." },
+      { term: "Chain-of-Thought", def: "A technique where an AI writes out its reasoning step by step before giving a final answer." },
+      { term: "ReAct (Reasoning + Acting)", def: "A pattern where an agent alternates between thinking through a problem and actually using a tool." },
+      { term: "Multi-Agent System", def: "Several AI agents working together on different roles, like one planning, one coding, and one testing." },
     ],
     careers: [
-      "AI Agent Engineer (siêu hot 2025)",
-      "Prompt Engineer Senior",
-      "Workflow Automation Specialist",
+      "AI Agent Engineer (one of the hottest roles going into 2025)",
+      "Senior Prompt Engineer",
+      "Workflow Automation Specialist (business process consulting)",
       "AI Solutions Consultant",
     ],
     homework:
-      "Tạo workflow Zapier MIỄN PHÍ: 'Mỗi sáng 7h, đọc tin tức công nghệ TechCrunch → tóm tắt 3 dòng → gửi email cho mình'. Đây là agent đơn giản nhất - và cực hữu ích cho học sinh THPT muốn cập nhật xu hướng.",
+      "Build a free Zapier workflow: 'Every morning at 7am, grab the top TechCrunch headline, summarize it in 3 lines, and email it to me.' This is the simplest possible agent, and it's genuinely useful for staying up to date on tech trends. Screenshot the finished Zap.",
     externalDemo: [
-      { label: "Zapier - agent workflow no-code", url: "https://zapier.com/" },
-      { label: "AutoGPT - agent tự hành open-source", url: "https://github.com/Significant-Gravitas/AutoGPT" },
-      { label: "LangChain Hub - 1000+ prompt templates", url: "https://smith.langchain.com/hub" },
+      { label: "Zapier - no-code agent-style workflows", url: "https://zapier.com/" },
+      { label: "AutoGPT - an open-source autonomous agent project", url: "https://github.com/Significant-Gravitas/AutoGPT" },
+      { label: "LangChain Hub - over 1000 shared prompt templates", url: "https://smith.langchain.com/hub" },
     ],
   },
 
-  // ============== Bài 12 - Graduation (PRESENT focus) ==============
+  // ============== Lesson 12 - Graduation (PRESENT focus) ==============
   graduation: {
     vietnamCase: {
-      title: "🇻🇳 Nguyễn Hà Đông & câu chuyện Flappy Bird",
-      body: "Năm 2014, Nguyễn Hà Đông (Hà Nội) ra mắt Flappy Bird - kiếm 50.000 USD/ngày từ quảng cáo, đứng top App Store toàn cầu. Bí quyết không phải code phức tạp mà là STORYTELLING: một con chim, một ống nước, một thông điệp 'thử thách bản thân'. Bài học cho thế hệ AI: công nghệ là phương tiện, CÂU CHUYỆN mới là thứ chinh phục người dùng.",
+      title: "🇻🇳 Nguyen Ha Dong and the Flappy Bird Story",
+      body: "In 2014, Hanoi-based developer Nguyen Ha Dong launched Flappy Bird and earned roughly $50,000 a day from ads while topping the global App Store charts. The secret wasn't complex code - it was storytelling: one bird, one pipe, one message about pushing through challenges. The lesson for the AI generation: technology is just the vehicle. The story is what actually wins users over.",
     },
     goldenTip:
-      "Công thức pitch 60 giây thần thánh của Y Combinator: 'Chúng tôi giải quyết [vấn đề] cho [đối tượng] bằng cách [giải pháp]. Khác với [đối thủ], chúng tôi [điểm độc đáo]. Đã có [traction số liệu]'. Em hãy thử viết cho dự án AI của mình - đúng cấu trúc này tỷ lệ thành công x3.",
+      "Use Y Combinator's 60-second pitch formula: 'We solve [problem] for [audience] by [solution]. Unlike [competitor], we [unique advantage]. We already have [traction numbers].' Write your own AI project pitch using this exact structure - projects that follow it succeed roughly three times more often.",
     glossary: [
-      { term: "Pitch Deck", def: "Slide trình bày sản phẩm cho nhà đầu tư (10–15 slide)." },
-      { term: "Traction", def: "Số liệu chứng minh sản phẩm có người dùng (DAU, MRR)." },
-      { term: "MVP Demo", def: "Trình diễn LIVE sản phẩm - không slide tĩnh." },
-      { term: "Storytelling", def: "Kể chuyện thay vì liệt kê tính năng." },
-      { term: "Personal Brand", def: "Hình ảnh chuyên môn online - LinkedIn, GitHub, blog." },
+      { term: "Pitch Deck", def: "A short slide presentation (usually 10-15 slides) used to present a product to investors or judges." },
+      { term: "Traction", def: "Concrete numbers proving people actually use your product, like daily active users or monthly revenue." },
+      { term: "Live Demo", def: "Showing your product working in real time, instead of just describing it with static slides." },
+      { term: "Storytelling", def: "Framing your presentation as a narrative instead of a plain list of features." },
+      { term: "Personal Brand", def: "Your professional online presence, built through LinkedIn, GitHub, and a personal blog or portfolio." },
     ],
     careers: [
-      "AI Product Manager ($140k–$280k)",
-      "AI Developer Advocate",
-      "AI Startup Founder/CEO",
-      "Tech Speaker / Educator (như thầy Hải 😄)",
-      "AI Journalist / Content Creator",
+      "AI Product Manager ($140k-$280k)",
+      "AI Developer Advocate (developer relations at AI companies)",
+      "AI Startup Founder / CEO",
+      "Tech Educator or Speaker",
+      "AI Journalist or Content Creator",
     ],
     homework:
-      "Quay video TikTok 60 giây giới thiệu 1 ứng dụng AI em yêu thích nhất. Cấu trúc: Hook 3s + Vấn đề 10s + Giải pháp AI 30s + Lời kêu gọi 7s + Tag #HaiEduTech. Gửi link cho thầy Hải nhận quà!",
+      "Record a 60-second video introducing your favorite AI app. Structure: a 3-second hook, 10 seconds on the problem, 30 seconds on the AI solution, and a 7-second call to action. Save the video file as proof.",
     externalDemo: [
-      { label: "Gamma - sinh slide AI từ prompt", url: "https://gamma.app/" },
-      { label: "Pitch.com - pitch deck miễn phí", url: "https://pitch.com/" },
-      { label: "Notion - portfolio CV cho dev AI", url: "https://www.notion.so/templates/category/personal-brand" },
+      { label: "Gamma - generate a slide deck from a text prompt", url: "https://gamma.app/" },
+      { label: "Pitch - free collaborative pitch deck tool", url: "https://pitch.com/" },
+      { label: "Notion - build a personal portfolio site for free", url: "https://www.notion.so/templates/category/personal-brand" },
     ],
   },
 
-  // ============== Bài 13 - Study Smart ==============
+  // ============== Lesson 13 - Study Smart ==============
   study: {
-    vietnamCase: { title: "🇻🇳 Học sinh chuyên Toán Hà Nội + NotebookLM", body: "Nhóm HS chuyên Toán Hà Nội Amsterdam dùng NotebookLM nạp toàn bộ SGK + đề thi Toán quốc gia 5 năm vào → AI tạo flashcard, tóm tắt, podcast nghe lúc đi học. Kết quả: 18/20 bạn đạt 9+ điểm THPT QG Toán 2024." },
-    goldenTip: "Quy tắc 3 bước: Tự làm trước → Hỏi AI giải thích cách (không phải đáp án) → Kiểm chứng bằng SGK. Nếu bỏ bước 1, em mất 90% kỹ năng tư duy.",
+    vietnamCase: {
+      title: "🇻🇳 Hanoi-Amsterdam Math Students Use NotebookLM",
+      body: "A group of students from the specialized Math program at Hanoi-Amsterdam High School loaded five years of national math exam papers and their full textbook into Google's NotebookLM, which generated flashcards, summaries, and audio podcasts they listened to on the way to school. The result: 18 out of 20 students in the group scored 9 or higher on the 2024 national high school math exam.",
+    },
+    goldenTip:
+      "Follow the 3-step rule: try the problem yourself first, then ask the AI to explain the method (not just give the answer), then verify what it says against your textbook. Skip step one and you lose about 90% of the actual thinking skill you were supposed to build.",
     glossary: [
-      { term: "Prompt", def: "Câu lệnh em gửi cho AI. Càng cụ thể, càng đúng." },
-      { term: "NotebookLM", def: "AI của Google đọc PDF/tài liệu → tạo tóm tắt, flashcard, podcast." },
-      { term: "Hallucination", def: "AI bịa thông tin nghe có vẻ thật - phải luôn kiểm chứng." },
-      { term: "Context", def: "Ngữ cảnh em cung cấp (lớp, môn, mục tiêu) - AI dùng để cá nhân hóa." },
+      { term: "Prompt", def: "The instruction you type to an AI; the more specific it is, the more accurate the answer." },
+      { term: "NotebookLM", def: "A Google AI tool that reads your PDFs or documents and generates summaries, flashcards, and podcasts from them." },
+      { term: "Hallucination", def: "When an AI makes up information that sounds convincing but is false - always verify it." },
+      { term: "Context", def: "The background details you give an AI, like your grade level, subject, and goal, so it can personalize its help." },
     ],
-    careers: ["EdTech Product Manager", "AI Tutor Designer", "Prompt Engineer cho giáo dục", "Học liệu AI Specialist"],
-    homework: "Mở NotebookLM, upload 1 PDF SGK môn em yếu nhất, yêu cầu AI tạo 10 flashcard + 1 podcast 5 phút. Nghe podcast lúc đi học 3 ngày liên tiếp - kiểm tra điểm số có cải thiện không.",
+    careers: ["EdTech Product Manager", "AI Tutor Designer", "Education-focused Prompt Engineer", "AI Learning Content Specialist"],
+    homework:
+      "Open NotebookLM, upload a PDF of your weakest subject's textbook chapter, and ask it to generate 10 flashcards plus a 5-minute podcast. Listen to the podcast on your commute for three days straight and note whether a quiz score improves. Screenshot the generated flashcards.",
     externalDemo: [
-      { label: "NotebookLM - gia sư đọc PDF", url: "https://notebooklm.google.com/" },
-      { label: "ChatGPT - trợ lý đa năng", url: "https://chat.openai.com/" },
-      { label: "Khanmigo - gia sư AI của Khan Academy", url: "https://www.khanmigo.ai/" },
+      { label: "NotebookLM - an AI tutor that reads your PDFs", url: "https://notebooklm.google.com/" },
+      { label: "ChatGPT - general-purpose study assistant", url: "https://chat.openai.com/" },
+      { label: "Khanmigo - Khan Academy's AI tutor", url: "https://www.khanmigo.ai/" },
     ],
   },
 
-  // ============== Bài 14 - Careers Map ==============
+  // ============== Lesson 14 - Careers Map ==============
   careers: {
-    vietnamCase: { title: "🇻🇳 VinAI tuyển 500 kỹ sư AI 2024–2026", body: "VinAI Research công bố kế hoạch tuyển thêm 500 kỹ sư AI từ 2024–2026, lương từ 30 triệu (junior) đến 150 triệu/tháng (senior). FPT.AI, Zalo AI Lab, VinBigdata, MoMo cũng đang ráo riết tuyển. Việt Nam được Gartner đánh giá là top 5 thị trường AI tăng trưởng nhanh nhất châu Á." },
-    goldenTip: "Không cần giỏi Toán đỉnh cao mới làm AI! Prompt Engineer, AI PM, AI UX, AI Linguist - 4 nghề HOT chỉ cần tư duy tốt + tiếng Anh khá + đam mê công nghệ. Quan trọng nhất là chủ động làm dự án nhỏ ngay từ lớp 10.",
+    vietnamCase: {
+      title: "🇻🇳 VinAI Plans to Hire 500 AI Engineers by 2026",
+      body: "VinAI Research announced plans to hire 500 additional AI engineers between 2024 and 2026, with salaries ranging from about 30 million VND per month for juniors up to 150 million VND per month for senior engineers. FPT.AI, Zalo AI Lab, VinBigdata, and MoMo are all hiring aggressively too. Gartner has ranked Vietnam among the top 5 fastest-growing AI markets in Asia.",
+    },
+    goldenTip:
+      "You don't need to be a math genius to work in AI. Prompt Engineer, AI Product Manager, AI UX Designer, and AI Linguist are four hot roles that mainly require sharp thinking, decent English, and genuine curiosity about technology. The most important step is starting small real projects as early as grade 10.",
     glossary: [
-      { term: "AI Engineer", def: "Xây dựng và triển khai model ML - cần Python + Toán." },
-      { term: "Prompt Engineer", def: "Thiết kế câu lệnh AI cho doanh nghiệp - không cần code thành thạo." },
-      { term: "AI PM", def: "Quản lý sản phẩm AI - kết hợp kinh doanh + công nghệ." },
-      { term: "MLOps", def: "Vận hành hạ tầng AI cho công ty - cần biết Docker, K8s, Cloud." },
+      { term: "AI Engineer", def: "Someone who builds and deploys machine learning models, requiring solid Python and math skills." },
+      { term: "Prompt Engineer", def: "Someone who designs effective AI instructions for a business, without needing to be a strong programmer." },
+      { term: "AI Product Manager", def: "Someone who manages an AI product's direction, blending business sense with technical understanding." },
+      { term: "MLOps Engineer", def: "Someone who runs a company's AI infrastructure, needing skills like Docker, Kubernetes, and cloud platforms." },
     ],
-    careers: ["AI / ML Engineer (30–80 triệu)", "Data Scientist (25–60 triệu)", "Prompt Engineer (20–50 triệu)", "AI Product Manager (40–100 triệu)", "AI UX Designer (20–45 triệu)"],
-    homework: "Vào LinkedIn, tìm 'AI Engineer Vietnam' → đọc 10 JD (job description). Ghi lại 5 kỹ năng được nhắc nhiều nhất. Đây chính là lộ trình tự học của em từ giờ đến hết lớp 12.",
+    careers: ["AI/ML Engineer (30-80 million VND/month)", "Data Scientist (25-60 million VND/month)", "Prompt Engineer (20-50 million VND/month)", "AI Product Manager (40-100 million VND/month)", "AI UX Designer (20-45 million VND/month)"],
+    homework:
+      "Search 'AI Engineer Vietnam' on LinkedIn and read 10 job descriptions. Write down the 5 skills that appear most often - that list is essentially your self-study roadmap from now through the end of high school. Screenshot two of the job postings as proof.",
     externalDemo: [
-      { label: "VinAI Careers", url: "https://www.vinai.io/careers/" },
-      { label: "FPT.AI Careers", url: "https://fpt.ai/career" },
-      { label: "TopDev - việc làm IT VN", url: "https://topdev.vn/viec-lam-it/ai-ml" },
+      { label: "VinAI Careers page", url: "https://www.vinai.io/careers/" },
+      { label: "FPT.AI Careers page", url: "https://fpt.ai/career" },
+      { label: "TopDev - IT jobs board in Vietnam", url: "https://topdev.vn/viec-lam-it/ai-ml" },
     ],
   },
 
-  // ============== Bài 15 - Fact Check ==============
+  // ============== Lesson 15 - Fact Check ==============
   factcheck: {
-    vietnamCase: { title: "🇻🇳 Vụ AI bịa luận án Tiến sĩ tại ĐH HN 2024", body: "Năm 2024, một nghiên cứu sinh ĐH Hà Nội bị phát hiện dùng ChatGPT viết luận án Tiến sĩ với 23 trích dẫn 'sách' KHÔNG TỒN TẠI - AI hoàn toàn bịa ra. Vụ việc gây chấn động giới học thuật. Bài học: AI có thể bịa với độ tự tin 100%, người dùng phải tự kiểm chứng." },
-    goldenTip: "4 dấu hiệu AI đang bịa: (1) số liệu cực cụ thể như 2.347.891 người; (2) trích dẫn sách/báo lạ; (3) ngày + tên người + thành tựu quá đẹp; (4) sự kiện lịch sử chi tiết bất thường. Gặp 1 trong 4 → mở Google kiểm tra ngay.",
+    vietnamCase: {
+      title: "🇻🇳 An AI-Fabricated PhD Dissertation Scandal in Hanoi (2024)",
+      body: "In 2024, a PhD candidate at a Hanoi university was caught having used ChatGPT to write parts of their dissertation, including 23 citations to books that DO NOT EXIST - the AI had invented them entirely. The case shook the local academic community. The lesson: an AI can fabricate details with 100% apparent confidence, so the user is always responsible for verifying what it produces.",
+    },
+    goldenTip:
+      "Watch for four red flags that an AI is making things up: (1) suspiciously exact numbers, like '2,347,891 people'; (2) citations to obscure or unfamiliar books; (3) a name plus a date plus an achievement that sounds too perfect; (4) unusually specific historical details. If you spot even one, search Google immediately to verify it.",
     glossary: [
-      { term: "Hallucination", def: "AI bịa thông tin sai sự thật, nghe rất hợp lý." },
-      { term: "Cross-Check", def: "Kiểm chứng bằng nguồn thứ 2 (Wiki, sách, báo)." },
-      { term: "Source Citation", def: "Yêu cầu AI dẫn nguồn - nếu không có thì 90% là bịa." },
-      { term: "Red Flag", def: "Dấu hiệu đáng nghi cần kiểm chứng ngay." },
+      { term: "Hallucination", def: "An AI generating false information that still sounds perfectly reasonable." },
+      { term: "Cross-Checking", def: "Verifying a claim using a second independent source, like Wikipedia, a book, or a news article." },
+      { term: "Source Citation", def: "Asking an AI to name where its claim came from; if it can't, there's a high chance it's fabricated." },
+      { term: "Red Flag", def: "A warning sign in a piece of information that tells you to verify it before trusting it." },
     ],
     careers: ["AI Safety Researcher", "Fact-Checking Journalist", "AI Auditor", "Content Moderation Specialist"],
-    homework: "Hỏi ChatGPT 5 câu về lịch sử VN có chi tiết (tên người, năm, số liệu). Kiểm chứng từng câu trên Wikipedia tiếng Việt. Đếm xem AI bịa bao nhiêu chi tiết - kết quả sẽ làm em bất ngờ.",
+    homework:
+      "Ask ChatGPT five detailed questions about Vietnamese history, each requiring specific names, dates, and numbers. Verify every answer against Vietnamese Wikipedia. Count how many details turn out to be fabricated - the result is usually surprising. Screenshot at least one confirmed hallucination.",
     externalDemo: [
-      { label: "Google Scholar - kiểm chứng học thuật", url: "https://scholar.google.com/" },
-      { label: "Snopes - fact-check toàn cầu", url: "https://www.snopes.com/" },
-      { label: "Wikipedia Vietnam", url: "https://vi.wikipedia.org/" },
+      { label: "Google Scholar - verify academic claims and citations", url: "https://scholar.google.com/" },
+      { label: "Snopes - a well-known global fact-checking site", url: "https://www.snopes.com/" },
+      { label: "Vietnamese Wikipedia", url: "https://vi.wikipedia.org/" },
     ],
-    safetyNote: { title: "⚠️ Cảnh báo quan trọng", body: "KHÔNG BAO GIỜ nộp bài tập / luận văn 100% do AI viết mà chưa kiểm chứng từng trích dẫn. Hậu quả: đuổi học, mất bằng, tổn hại danh tiếng cả đời." },
+    safetyNote: {
+      title: "⚠️ Important Warning",
+      body: "Never submit homework or a thesis that is 100% AI-written without checking every citation yourself. Consequences can include expulsion, losing a degree, and lasting damage to your reputation.",
+    },
   },
 
-  // ============== Bài 16 - Digital Safety ==============
+  // ============== Lesson 16 - Digital Safety ==============
   safety: {
-    vietnamCase: { title: "🇻🇳 Lừa đảo deepfake voice tại TP.HCM 2024", body: "Tháng 8/2024, Công an TP.HCM ghi nhận 47 vụ lừa đảo bằng giọng AI giả người thân chỉ trong 1 tháng. Tổng thiệt hại hơn 12 tỷ đồng. Thủ đoạn: lấy 3 giây ghi âm từ TikTok/Facebook → AI nhái giọng → gọi điện 'cấp cứu cần chuyển tiền'. Nạn nhân trẻ chiếm 60%." },
-    goldenTip: "QUY TẮC VÀNG 3-2-1: Nghi ngờ trong 3 giây → Xác minh qua 2 kênh (gọi số cũ + hỏi người thân khác) → Báo 1 người lớn tin cậy. Áp dụng cho MỌI yêu cầu chuyển tiền / gửi giấy tờ qua điện thoại, chat.",
+    vietnamCase: {
+      title: "🇻🇳 AI Voice-Cloning Scams in Ho Chi Minh City (2024)",
+      body: "In August 2024, Ho Chi Minh City police recorded 47 scam cases in a single month that used AI-cloned voices impersonating family members, causing over 12 billion VND in total losses. The scammers' method: grab a 3-second audio clip from TikTok or Facebook, clone the voice with AI, then call claiming an emergency and demanding an urgent money transfer. Young people made up about 60% of the victims.",
+    },
+    goldenTip:
+      "Use the golden 3-2-1 rule: pause for 3 seconds if something feels off, verify through 2 separate channels (call back the saved number, or ask a different family member), and tell 1 trusted adult. Apply this to every single request to send money or documents over a phone call or chat message.",
     glossary: [
-      { term: "Deepfake Voice", def: "Giọng AI giả y hệt người thật chỉ từ 3 giây mẫu." },
-      { term: "Two-Channel Verify", def: "Xác minh qua kênh thứ 2 trước khi tin." },
-      { term: "Grooming", def: "Người lớn dụ dỗ trẻ em qua mạng để lừa đảo / xâm hại." },
-      { term: "Phishing", def: "Lừa lấy thông tin cá nhân qua link / chat giả mạo." },
+      { term: "Deepfake Voice", def: "An AI-cloned voice that sounds exactly like a real person, generated from just a few seconds of sample audio." },
+      { term: "Two-Channel Verification", def: "Confirming a suspicious request through a second, independent communication channel before trusting it." },
+      { term: "Grooming", def: "When an adult manipulates or builds inappropriate trust with a child online in order to exploit or scam them." },
+      { term: "Phishing", def: "Tricking someone into giving up personal information through a fake link, message, or website." },
     ],
     careers: ["Cybersecurity Analyst", "Trust & Safety Officer", "Digital Forensics Investigator", "AI Policy Advisor"],
-    homework: "Kiểm tra TikTok / Facebook cá nhân: gỡ mọi video / ghi âm có giọng nói em rõ ràng. Hỏi bố mẹ + người thân thiết lập 'mật khẩu gia đình' bí mật - chỉ dùng khi cần xác minh khẩn cấp.",
+    homework:
+      "Check your own TikTok and Facebook profiles and remove any video or voice recording where your voice is clearly audible in public. Ask your parents to set up a secret 'family password' to be used only to verify identity during an emergency call. Screenshot the settings change you made.",
     externalDemo: [
-      { label: "Cục An toàn Thông tin VN", url: "https://www.ais.gov.vn/" },
-      { label: "Báo cáo lừa đảo: tinnhiemmang.vn", url: "https://tinnhiemmang.vn/" },
-      { label: "Google Take Action", url: "https://safety.google/families/" },
+      { label: "Vietnam Authority of Information Security", url: "https://www.ais.gov.vn/" },
+      { label: "Report scams at tinnhiemmang.vn", url: "https://tinnhiemmang.vn/" },
+      { label: "Google Safety Center for Families", url: "https://safety.google/families/" },
     ],
-    safetyNote: { title: "🚨 Số khẩn cấp cần nhớ", body: "Báo lừa đảo: 113 (Công an) hoặc 069.219.6395 (Cục An toàn TT). Bị đe dọa qua mạng: nói ngay với bố mẹ / thầy cô. Không xử lý một mình." },
+    safetyNote: {
+      title: "🚨 Emergency Numbers to Remember",
+      body: "Report a scam: call 113 (police) or the Authority of Information Security at 069.219.6395. If you are threatened online, tell a parent or teacher immediately. Never try to handle it alone.",
+    },
   },
 };
