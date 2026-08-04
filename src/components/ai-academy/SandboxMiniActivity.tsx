@@ -24,11 +24,11 @@ export const ChipFilter = ({
   baseline = 50,
   positive = true,
   goal,
-  goodLabel = "Tốt",
-  badLabel = "Cảnh báo",
+  goodLabel = "Good",
+  badLabel = "Warning",
   accent = "from-emerald-500 to-teal-600",
   border = "border-emerald-400/40",
-  metricLabel = "Điểm fairness",
+  metricLabel = "Fairness score",
 }: {
   title: string;
   hint?: string;
@@ -271,8 +271,8 @@ export const BestMatchPick = ({
             }`}
           >
             {score === items.length
-              ? "🌟 Hoàn hảo! Bạn đã hiểu rất rõ phần này."
-              : `Đúng ${score}/${items.length}. Xem lại đáp án đúng (xanh) rồi thử lại nhé!`}
+              ? "🌟 Perfect! You understand this part very well."
+              : `Correct: ${score}/${items.length}. Review the correct answers (green) and try again!`}
           </motion.div>
         )}
       </AnimatePresence>
@@ -284,11 +284,11 @@ export const BestMatchPick = ({
             onClick={check}
             className={`flex-1 bg-gradient-to-r ${accent} text-white`}
           >
-            <CheckCircle2 className="w-4 h-4 mr-1" /> Chấm điểm
+            <CheckCircle2 className="w-4 h-4 mr-1" /> Check
           </Button>
         ) : (
           <Button onClick={reset} className={`flex-1 bg-gradient-to-r ${accent} text-white`}>
-            <RefreshCcw className="w-4 h-4 mr-1" /> Thử lại
+            <RefreshCcw className="w-4 h-4 mr-1" /> Try again
           </Button>
         )}
       </div>

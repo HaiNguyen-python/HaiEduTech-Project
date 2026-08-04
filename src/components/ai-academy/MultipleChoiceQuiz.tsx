@@ -70,12 +70,12 @@ const MultipleChoiceQuiz = ({ questions, onComplete }: Props) => {
     return (
       <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-pink-500/10 border-2 border-indigo-400/40">
         <Trophy className="w-10 h-10 mx-auto text-amber-500 mb-2" />
-        <h4 className="font-display font-bold text-lg">Hoàn thành! 🎉</h4>
+        <h4 className="font-display font-bold text-lg">Complete! 🎉</h4>
         <p className="text-sm text-muted-foreground mb-3">
-          Điểm: <b>{score}/{questions.length}</b>
+          Score: <b>{score}/{questions.length}</b>
         </p>
         <Button size="sm" variant="outline" onClick={reset}>
-          <RotateCcw className="w-3 h-3 mr-1" /> Làm lại
+          <RotateCcw className="w-3 h-3 mr-1" /> Try again
         </Button>
       </div>
     );
@@ -129,7 +129,7 @@ const MultipleChoiceQuiz = ({ questions, onComplete }: Props) => {
           className="rounded-xl border-2 border-indigo-400/40 bg-indigo-500/5 p-3"
         >
           <p className="text-xs leading-relaxed">
-            <span className="font-bold text-indigo-700 dark:text-indigo-300">💬 Giải thích: </span>
+            <span className="font-bold text-indigo-700 dark:text-indigo-300">💬 Explanation: </span>
             {q.explanation}
           </p>
           <Button
@@ -137,7 +137,7 @@ const MultipleChoiceQuiz = ({ questions, onComplete }: Props) => {
             onClick={next}
             className="mt-3 w-full bg-gradient-to-r from-indigo-500 to-pink-500 text-white"
           >
-            {qIdx + 1 < questions.length ? "Câu tiếp →" : "Xem kết quả"}
+            {qIdx + 1 < questions.length ? "Next →" : "See results"}
           </Button>
         </motion.div>
       )}
