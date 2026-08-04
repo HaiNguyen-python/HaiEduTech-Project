@@ -24,57 +24,57 @@ const PATTERNS: Pattern[] = [
     id: "role",
     emoji: "🎭",
     name: "Role Prompting",
-    desc: "Gán cho AI một VAI TRÒ cụ thể để nó trả lời như chuyên gia.",
-    template: "Bạn là {VAI TRÒ}. Hãy {YÊU CẦU} cho {ĐỐI TƯỢNG}, theo phong cách {PHONG CÁCH}.",
-    example: "Bạn là gia sư Toán THPT 15 năm kinh nghiệm. Hãy giải thích Đạo hàm cho học sinh lớp 11 mất gốc, dùng ví dụ thực tế từ tốc độ ô tô.",
+    desc: "Give the AI a specific ROLE so it answers like an expert.",
+    template: "You are a {ROLE}. Please {TASK} for {AUDIENCE}, in a {STYLE} style.",
+    example: "You are a math tutor with 15 years of experience. Explain derivatives to an 11th grader who's fallen behind, using a real-world car speed example.",
   },
   {
     id: "fewshot",
     emoji: "📚",
     name: "Few-shot",
-    desc: "Cho AI 2–3 VÍ DỤ mẫu trước khi hỏi, AI sẽ bắt chước phong cách.",
-    template: "Ví dụ 1: {INPUT_1} → {OUTPUT_1}\nVí dụ 2: {INPUT_2} → {OUTPUT_2}\nBây giờ: {INPUT_MỚI} →",
-    example: "Ví dụ 1: 'Hôm nay nắng đẹp' → 😊 tích cực\nVí dụ 2: 'Bài kiểm tra khó quá' → 😞 tiêu cực\nBây giờ: 'Đi học sớm mệt thật' →",
+    desc: "Give the AI 2-3 sample EXAMPLES before asking - it will copy the style.",
+    template: "Example 1: {INPUT_1} → {OUTPUT_1}\nExample 2: {INPUT_2} → {OUTPUT_2}\nNow: {NEW_INPUT} →",
+    example: "Example 1: 'The weather is lovely today' → 😊 positive\nExample 2: 'That test was so hard' → 😞 negative\nNow: 'Waking up early for school is exhausting' →",
   },
   {
     id: "cot",
     emoji: "🧠",
     name: "Chain-of-Thought (CoT)",
-    desc: "Yêu cầu AI 'suy nghĩ từng bước' trước khi trả lời - tăng độ chính xác 30–50%.",
-    template: "{CÂU HỎI}\nHãy suy nghĩ TỪNG BƯỚC trước khi đưa ra đáp án cuối cùng.",
-    example: "Mẹ có 7 quả táo, cho con 3 quả, mẹ mua thêm 5 quả. Mẹ có bao nhiêu? Hãy suy nghĩ TỪNG BƯỚC.",
+    desc: "Ask the AI to 'think step by step' before answering - raises accuracy by 30-50%.",
+    template: "{QUESTION}\nThink STEP BY STEP before giving your final answer.",
+    example: "Mom has 7 apples, gives 3 to her son, then buys 5 more. How many does she have now? Think STEP BY STEP.",
   },
   {
     id: "react",
     emoji: "🤖",
     name: "ReAct (Reason + Act)",
-    desc: "AI luân phiên giữa SUY NGHĨ và HÀNH ĐỘNG (gọi tool, search, tính toán).",
-    template: "Bạn có các tool: [search, calculator, calendar].\nMục tiêu: {GOAL}\nMỗi lượt trả về JSON: {thought, action, action_input}.",
-    example: "Tool: [search, calculator]. Mục tiêu: 'Tìm dân số Hà Nội rồi tính 5% là bao nhiêu'. Bắt đầu.",
+    desc: "The AI alternates between THINKING and ACTING (calling a tool, searching, calculating).",
+    template: "You have these tools: [search, calculator, calendar].\nGoal: {GOAL}\nEach turn, return JSON: {thought, action, action_input}.",
+    example: "Tools: [search, calculator]. Goal: 'Find the population of Hanoi, then calculate 5% of it'. Begin.",
   },
   {
     id: "critic",
     emoji: "🔍",
     name: "Self-Critique",
-    desc: "Bắt AI tự CHẤM ĐIỂM và SỬA câu trả lời của chính nó.",
-    template: "{CÂU HỎI}\nSau khi trả lời, hãy tự đánh giá điểm 1–10 và viết lại bản tốt hơn.",
-    example: "Viết đoạn 100 từ về 'Vì sao nên đọc sách'. Sau đó tự chấm 1–10 và viết bản v2 cải thiện điểm yếu.",
+    desc: "Make the AI GRADE and IMPROVE its own answer.",
+    template: "{QUESTION}\nAfter answering, rate yourself 1-10 and write a better version.",
+    example: "Write a 100-word paragraph on 'Why reading matters'. Then rate it 1-10 and write an improved v2 fixing the weak points.",
   },
 ];
 
 const PL_TF = [
-  { q: "Chain-of-Thought yêu cầu AI suy nghĩ từng bước trước khi trả lời.", a: true },
-  { q: "Few-shot là cho AI vài ví dụ mẫu để bắt chước.", a: true },
-  { q: "Role Prompting bắt đầu bằng 'Bạn là một chuyên gia X...'.", a: true },
-  { q: "Prompt càng ngắn càng tốt, không cần ngữ cảnh.", a: false, why: "Ngược lại - prompt giàu ngữ cảnh cho kết quả chính xác hơn." },
-  { q: "ReAct = AI suy luận + gọi tool (search, calc) luân phiên.", a: true },
+  { q: "Chain-of-Thought asks the AI to think step by step before answering.", a: true },
+  { q: "Few-shot means giving the AI a few sample examples to imitate.", a: true },
+  { q: "Role Prompting typically starts with 'You are an expert in X...'.", a: true },
+  { q: "The shorter a prompt, the better - context isn't needed.", a: false, why: "The opposite is true - a prompt rich in context gives more accurate results." },
+  { q: "ReAct = the AI reasons and calls tools (search, calculator) alternately.", a: true },
 ];
 const PL_PAIRS = [
-  { a: "Role", b: "Bạn là chuyên gia X..." },
-  { a: "Few-shot", b: "Cho AI vài ví dụ mẫu" },
-  { a: "CoT", b: "Suy nghĩ từng bước" },
-  { a: "ReAct", b: "Suy luận + gọi tool" },
-  { a: "Self-Critique", b: "AI tự chấm điểm & sửa" },
+  { a: "Role", b: "You are an expert in X..." },
+  { a: "Few-shot", b: "Give the AI a few sample examples" },
+  { a: "CoT", b: "Think step by step" },
+  { a: "ReAct", b: "Reason + call tools" },
+  { a: "Self-Critique", b: "AI grades and fixes itself" },
 ];
 
 const PromptLabSandbox = () => {
@@ -98,7 +98,7 @@ const PromptLabSandbox = () => {
     <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       <div className="rounded-2xl border-2 border-purple-400/40 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 p-3">
         <h4 className="text-sm font-bold text-purple-700 dark:text-purple-300 mb-2 flex items-center gap-1">
-          <Wand2 className="w-4 h-4" /> 5 Pattern phải biết của Prompt Engineer
+          <Wand2 className="w-4 h-4" /> 5 patterns every Prompt Engineer must know
         </h4>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {PATTERNS.map((it) => (
@@ -123,7 +123,7 @@ const PromptLabSandbox = () => {
         <div className="rounded-lg bg-card border border-border p-2 text-xs font-mono whitespace-pre-wrap text-muted-foreground">
           {p.template}
         </div>
-        <label className="text-xs font-bold text-fuchsia-700 dark:text-fuchsia-300">✍️ Thử viết prompt theo pattern này:</label>
+        <label className="text-xs font-bold text-fuchsia-700 dark:text-fuchsia-300">✍️ Try writing a prompt using this pattern:</label>
         <Textarea
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
@@ -131,35 +131,35 @@ const PromptLabSandbox = () => {
           className="text-sm font-mono"
         />
         <Button onClick={copy} size="sm" variant="outline" className="border-fuchsia-400/50 text-fuchsia-700 dark:text-fuchsia-300">
-          {copied ? <><CheckCircle2 className="w-3 h-3 mr-1" /> Đã copy!</> : <><Copy className="w-3 h-3 mr-1" /> Copy prompt</>}
+          {copied ? <><CheckCircle2 className="w-3 h-3 mr-1" /> Copied!</> : <><Copy className="w-3 h-3 mr-1" /> Copy prompt</>}
         </Button>
       </motion.div>
 
       <ChipFilter
-        title="✨ Yếu tố làm prompt MẠNH"
-        hint="Bật từng yếu tố để xem điểm prompt tăng. Đây là checklist của senior Prompt Engineer."
+        title="✨ What makes a prompt STRONG"
+        hint="Toggle each factor on to watch the prompt score rise. This is a senior Prompt Engineer's checklist."
         baseline={15}
         positive
         goal={80}
-        goodLabel="Prompt của bạn đã đủ chuyên nghiệp ✅"
-        badLabel="Còn thiếu - bật thêm vài yếu tố"
-        metricLabel="Điểm chuyên môn"
+        goodLabel="Your prompt is professional-grade ✅"
+        badLabel="Still missing something - toggle on more factors"
+        metricLabel="Expertise score"
         accent="from-purple-500 to-fuchsia-600"
         border="border-purple-400/40"
         options={[
-          { id: "1", label: "🎭 Vai trò rõ ràng", weight: 14 },
-          { id: "2", label: "🎯 Mục tiêu cụ thể", weight: 14 },
-          { id: "3", label: "📚 2–3 ví dụ mẫu", weight: 12 },
-          { id: "4", label: "🧠 Yêu cầu CoT", weight: 12 },
-          { id: "5", label: "📐 Format đầu ra (JSON/bảng)", weight: 12 },
-          { id: "6", label: "🚫 Ràng buộc (≤300 từ, tiếng Việt)", weight: 10 },
-          { id: "7", label: "🔁 Tự critique cuối câu trả lời", weight: 10 },
+          { id: "1", label: "🎭 Clear role", weight: 14 },
+          { id: "2", label: "🎯 Specific goal", weight: 14 },
+          { id: "3", label: "📚 2-3 sample examples", weight: 12 },
+          { id: "4", label: "🧠 Asks for CoT", weight: 12 },
+          { id: "5", label: "📐 Output format (JSON/table)", weight: 12 },
+          { id: "6", label: "🚫 Constraints (≤300 words, English)", weight: 10 },
+          { id: "7", label: "🔁 Self-critique at the end", weight: 10 },
         ]}
       />
 
       <BestMatchPick
-        title="🧪 Ghép pattern phù hợp"
-        hint="Với mỗi nhu cầu, pattern prompt nào hợp nhất?"
+        title="🧪 Match the pattern to the need"
+        hint="For each need, which prompt pattern fits best?"
         accent="from-purple-500 to-fuchsia-600"
         border="border-purple-400/40"
         options={[
@@ -170,11 +170,11 @@ const PromptLabSandbox = () => {
           { id: "critic", label: "Self-Critique" },
         ]}
         items={[
-          { prompt: "Cần AI giải bài Toán nhiều bước chính xác", correctId: "cot" },
-          { prompt: "Cần AI phân loại cảm xúc đúng style của em", correctId: "fewshot" },
-          { prompt: "Cần AI trả lời như một bác sĩ đa khoa", correctId: "role" },
-          { prompt: "Cần AI search web + tính toán xen kẽ", correctId: "react" },
-          { prompt: "Cần AI tự sửa bài essay tiếng Anh của em", correctId: "critic" },
+          { prompt: "Need AI to solve a multi-step math problem accurately", correctId: "cot" },
+          { prompt: "Need AI to classify sentiment exactly in your own style", correctId: "fewshot" },
+          { prompt: "Need AI to answer like a general practitioner doctor", correctId: "role" },
+          { prompt: "Need AI to search the web and calculate back and forth", correctId: "react" },
+          { prompt: "Need AI to self-edit your English essay", correctId: "critic" },
         ]}
       />
 

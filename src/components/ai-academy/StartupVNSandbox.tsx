@@ -11,35 +11,35 @@ import { BonusGames } from "./SandboxBonusGames";
 import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
 const SU_TF = [
-  { q: "MVP = Minimum Viable Product - phiên bản nhỏ nhất giải quyết được vấn đề.", a: true },
-  { q: "VinAI, Got It, Misa, ELSA Speak là các startup AI gốc Việt thành công.", a: true },
-  { q: "Khởi nghiệp nhất định phải có $1 triệu USD vốn ban đầu.", a: false, why: "Nhiều startup VN bắt đầu từ <100 triệu VND." },
-  { q: "Lean Startup khuyên: Build → Measure → Learn liên tục.", a: true },
-  { q: "Pitch deck 10 slide là chuẩn quốc tế cho seed round.", a: true },
+  { q: "MVP = Minimum Viable Product - the smallest version that solves the problem.", a: true },
+  { q: "VinAI, Got It, Misa, and ELSA Speak are all successful Vietnamese-founded AI startups.", a: true },
+  { q: "A startup must have $1 million USD in initial funding.", a: false, why: "Many Vietnamese startups begin with under 100 million VND." },
+  { q: "Lean Startup advises: Build → Measure → Learn, continuously.", a: true },
+  { q: "A 10-slide pitch deck is the international standard for a seed round.", a: true },
 ];
 const SU_PAIRS = [
-  { a: "MVP", b: "Phiên bản nhỏ nhất khả dụng" },
-  { a: "PMF", b: "Product-Market Fit - sản phẩm khớp thị trường" },
-  { a: "Pivot", b: "Đổi hướng khi mô hình cũ không chạy" },
-  { a: "Burn rate", b: "Tốc độ đốt tiền mỗi tháng" },
-  { a: "Runway", b: "Số tháng còn sống với tiền hiện có" },
+  { a: "MVP", b: "Smallest viable version of a product" },
+  { a: "PMF", b: "Product-Market Fit" },
+  { a: "Pivot", b: "Changing direction when the old model fails" },
+  { a: "Burn rate", b: "Speed of spending cash each month" },
+  { a: "Runway", b: "Months of survival left with current cash" },
 ];
 
 type Component = { id: string; label: string; weight: number };
 const PROBLEM: Component[] = [
-  { id: "p1", label: "Vấn đề rõ ràng, đo được bằng số", weight: 18 },
-  { id: "p2", label: "Có > 1 triệu người gặp vấn đề ở VN", weight: 14 },
-  { id: "p3", label: "Người dùng SẴN SÀNG trả tiền giải quyết", weight: 16 },
+  { id: "p1", label: "A clear, measurable problem", weight: 18 },
+  { id: "p2", label: "Over 1 million people in Vietnam face this problem", weight: 14 },
+  { id: "p3", label: "Users are WILLING to pay to solve it", weight: 16 },
 ];
 const SOLUTION: Component[] = [
-  { id: "s1", label: "Dùng AI giải quyết, không chỉ nói 'có AI'", weight: 14 },
-  { id: "s2", label: "MVP làm được trong 1 tháng", weight: 12 },
-  { id: "s3", label: "Trải nghiệm 10× tốt hơn cách cũ", weight: 16 },
+  { id: "s1", label: "Actually uses AI, not just claims to have AI", weight: 14 },
+  { id: "s2", label: "MVP buildable in 1 month", weight: 12 },
+  { id: "s3", label: "10x better experience than the old way", weight: 16 },
 ];
 const GTM: Component[] = [
-  { id: "g1", label: "Kênh phân phối: TikTok/Zalo OA/Trường học", weight: 10 },
-  { id: "g2", label: "Mô hình giá rõ ràng (Freemium / SaaS)", weight: 12 },
-  { id: "g3", label: "Có 100 user thử nghiệm trước khi gọi vốn", weight: 14 },
+  { id: "g1", label: "Distribution channel: TikTok / Zalo OA / schools", weight: 10 },
+  { id: "g2", label: "Clear pricing model (Freemium / SaaS)", weight: 12 },
+  { id: "g3", label: "100 test users before raising funding", weight: 14 },
 ];
 
 const StartupVNSandbox = () => {
@@ -62,9 +62,9 @@ const StartupVNSandbox = () => {
   }, [problem, solution, gtm, team]);
 
   const verdict =
-    score >= 80 ? { t: "🏆 Investor sẽ rót vốn seed!", c: "from-emerald-500 to-teal-600", k: "text-emerald-600" } :
-    score >= 55 ? { t: "🤝 Có tiềm năng - cần thêm dữ liệu", c: "from-amber-500 to-orange-500", k: "text-amber-600" } :
-                  { t: "⚠️ Chưa đủ thuyết phục - sửa lại MVP", c: "from-rose-500 to-pink-500", k: "text-rose-600" };
+    score >= 80 ? { t: "🏆 An investor would fund your seed round!", c: "from-emerald-500 to-teal-600", k: "text-emerald-600" } :
+    score >= 55 ? { t: "🤝 Promising - needs more data", c: "from-amber-500 to-orange-500", k: "text-amber-600" } :
+                  { t: "⚠️ Not convincing yet - rework your MVP", c: "from-rose-500 to-pink-500", k: "text-rose-600" };
 
   const Row = ({ title, list, picked, setter }: { title: string; list: Component[]; picked: Set<string>; setter: (n: Set<string>) => void }) => (
     <div className="rounded-xl border border-border bg-card p-3">
@@ -94,19 +94,19 @@ const StartupVNSandbox = () => {
     <div className="space-y-3 sm:space-y-4 [&>*+*]:pt-3 sm:[&>*+*]:pt-4 [&>*+*]:border-t [&>*+*]:border-border/40">
       <div className="rounded-2xl border-2 border-orange-400/40 bg-gradient-to-br from-orange-500/10 to-rose-500/10 p-3">
         <h4 className="text-sm font-bold text-orange-700 dark:text-orange-300 mb-1 flex items-center gap-1">
-          <Rocket className="w-4 h-4" /> Lean Canvas mini - tự xây startup AI Việt
+          <Rocket className="w-4 h-4" /> Mini Lean Canvas - build your own Vietnamese AI startup
         </h4>
-        <p className="text-xs text-muted-foreground">Chọn các viên gạch xây ý tưởng. Investor sẽ chấm điểm cuối cùng.</p>
+        <p className="text-xs text-muted-foreground">Pick the building blocks of your idea. An investor will score the final result.</p>
       </div>
 
-      <Row title="🎯 1. Vấn đề (Problem)" list={PROBLEM} picked={problem} setter={setProblem} />
-      <Row title="💡 2. Giải pháp AI (Solution)" list={SOLUTION} picked={solution} setter={setSolution} />
-      <Row title="📣 3. Tiếp cận thị trường (Go-To-Market)" list={GTM} picked={gtm} setter={setGtm} />
+      <Row title="🎯 1. Problem" list={PROBLEM} picked={problem} setter={setProblem} />
+      <Row title="💡 2. AI Solution" list={SOLUTION} picked={solution} setter={setSolution} />
+      <Row title="📣 3. Go-To-Market" list={GTM} picked={gtm} setter={setGtm} />
 
       <div className="p-3 rounded-xl border bg-card">
         <div className="flex items-center justify-between text-sm mb-2">
-          <span>👥 Team kỹ sư + kinh doanh + design</span>
-          <span className="font-bold text-orange-600">{team} người</span>
+          <span>👥 Team: engineering + business + design</span>
+          <span className="font-bold text-orange-600">{team} people</span>
         </div>
         <Slider value={[team]} min={1} max={5} step={1} onValueChange={(v) => setTeam(v[0])} />
       </div>
@@ -123,29 +123,29 @@ const StartupVNSandbox = () => {
       </motion.div>
 
       <ChipFilter
-        title="🏢 Học từ các startup AI Việt thành công"
-        hint="Bật các yếu tố thật sự giúp các startup AI Việt thành công."
+        title="🏢 Learn from successful Vietnamese AI startups"
+        hint="Toggle on the factors that truly helped Vietnamese AI startups succeed."
         baseline={15}
         positive
         goal={80}
-        goodLabel="Bạn đã hiểu công thức thành công ✅"
-        badLabel="Còn vài yếu tố quan trọng chưa bật"
-        metricLabel="Hiểu biết Startup"
+        goodLabel="You've grasped the success formula ✅"
+        badLabel="A few key factors are still off"
+        metricLabel="Startup knowledge"
         accent="from-orange-500 to-rose-600"
         border="border-orange-400/40"
         options={[
-          { id: "1", label: "✅ ELSA Speak: AI luyện phát âm tiếng Anh cho người Việt", weight: 18 },
-          { id: "2", label: "✅ Misa AVA: AI cho kế toán SME - đúng pain point", weight: 16 },
-          { id: "3", label: "✅ VinAI ViT5: model NLP riêng cho tiếng Việt", weight: 16 },
-          { id: "4", label: "✅ Got It: nền tảng AI tutor xuất khẩu sang Mỹ", weight: 14 },
-          { id: "5", label: "❌ Sao chép y nguyên ChatGPT rồi bán cao hơn", weight: -20 },
-          { id: "6", label: "❌ Gọi vốn trước khi có 1 user trả tiền", weight: -15 },
+          { id: "1", label: "✅ ELSA Speak: AI English pronunciation coach for Vietnamese learners", weight: 18 },
+          { id: "2", label: "✅ Misa AVA: AI for SME accounting - solves a real pain point", weight: 16 },
+          { id: "3", label: "✅ VinAI ViT5: an NLP model built specifically for Vietnamese", weight: 16 },
+          { id: "4", label: "✅ Got It: AI tutoring platform exported to the US market", weight: 14 },
+          { id: "5", label: "❌ Copy ChatGPT exactly and sell it at a higher price", weight: -20 },
+          { id: "6", label: "❌ Raise funding before having a single paying user", weight: -15 },
         ]}
       />
 
       <BestMatchPick
-        title="🚀 Sản phẩm AI VN nào giải vấn đề nào?"
-        hint="Ghép đúng startup với pain point họ giải quyết."
+        title="🚀 Which Vietnamese AI product solves which problem?"
+        hint="Match each startup to the pain point it solves."
         accent="from-orange-500 to-rose-600"
         border="border-orange-400/40"
         options={[
@@ -155,16 +155,16 @@ const StartupVNSandbox = () => {
           { id: "got", label: "Got It" },
         ]}
         items={[
-          { prompt: "Người Việt nói tiếng Anh khó được hiểu - cần luyện phát âm", correctId: "elsa" },
-          { prompt: "Kế toán SME tốn 5 tiếng/ngày nhập hoá đơn thủ công", correctId: "misa" },
-          { prompt: "Lái xe ô tô VN không rảnh tay để bấm điện thoại", correctId: "kiki" },
-          { prompt: "Học sinh Mỹ cần gia sư AI on-demand 24/7", correctId: "got" },
+          { prompt: "Vietnamese speakers struggle to be understood in English - need pronunciation practice", correctId: "elsa" },
+          { prompt: "SME accountants spend 5 hours a day manually entering invoices", correctId: "misa" },
+          { prompt: "Vietnamese drivers can't use their hands to tap the phone while driving", correctId: "kiki" },
+          { prompt: "US students need an on-demand AI tutor 24/7", correctId: "got" },
         ]}
       />
 
       <p className="text-xs text-muted-foreground flex items-start gap-2">
         <TrendingUp className="w-3.5 h-3.5 mt-0.5 text-orange-500 shrink-0" />
-        Bí mật của thầy Hải: Tất cả startup AI Việt thành công đều giải quyết một <b>vấn đề rất Việt Nam</b> (tiếng Việt, văn hoá, quy trình SME). Đừng cố làm "ChatGPT phiên bản VN" - hãy tìm vấn đề ChatGPT KHÔNG giải được.
+        Mr. Hai's secret: every successful Vietnamese AI startup solves a problem that's deeply <b>local</b> (Vietnamese language, culture, SME workflows). Don't try to build "ChatGPT for Vietnam" - find the problem ChatGPT CAN'T solve.
       </p>
 
       <BonusGames tfItems={SU_TF} matchPairs={SU_PAIRS} accent="from-orange-500 to-rose-600" border="border-orange-400/40" />
