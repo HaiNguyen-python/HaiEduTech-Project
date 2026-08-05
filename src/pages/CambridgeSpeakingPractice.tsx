@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Mic, Square, RotateCcw, Star, Volume2, Sparkles, Loader2, ArrowLeft, Lightbulb, MessageSquare } from "lucide-react";
+import { Mic, Square, RotateCcw, Star, Volume2, Sparkles, Loader2, ArrowLeft, Lightbulb, MessageSquare, Image as ImageIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
@@ -17,6 +17,8 @@ import {
   tasksByLevel,
   type CambridgeSpeakLevel,
 } from "@/data/cambridgeSpeakingTasks";
+import { imageForTask, pictureHint } from "@/data/cambridgeSpeakingImages";
+
 
 interface Criterion { label: string; stars: number; feedback: string }
 interface SpeakResult {
@@ -396,6 +398,22 @@ const CambridgeSpeakingPractice = () => {
           <p className="text-lg font-semibold text-slate-800 leading-relaxed">{task.prompt}</p>
           <p className="text-sm text-slate-500 mt-1 italic">{task.promptVi}</p>
 
+          {taskImage && (
+            <figure className="mt-4">
+              <img
+                src={taskImage}
+                alt={`${task.topic} - ${task.part} exam picture`}
+                loading="lazy"
+                className="w-full rounded-xl border-2 border-slate-200 bg-white"
+              />
+              <figcaption className="mt-2 text-xs font-semibold text-slate-600 flex items-center gap-1">
+                <ImageIcon className="w-3.5 h-3.5" />
+                {t(pictureHint(task.part).vi, pictureHint(task.part).en)}
+              </figcaption>
+            </figure>
+          )}
+
+
           <div className="flex flex-wrap gap-2 mt-3">
             <Button size="sm" variant="outline" onClick={speakPrompt} className="border-2 gap-1">
               <Volume2 className="w-4 h-4" />{t("Nghe câu hỏi", "Hear the question")}
@@ -449,6 +467,20 @@ const CambridgeSpeakingPractice = () => {
               </Button>
             )}
             <span className={`text-sm font-black tabular-nums ${isRecording ? "text-rose-600 animate-pulse" : "text-slate-600"}`}>{mmss}</span>
+            {isRecording && (
+              <span className="flex items-center gap-2" aria-label="microphone level">
+                <span className="h-2.5 w-28 rounded-full bg-slate-200 overflow-hidden">
+                  <span
+                    className="block h-full rounded-full transition-all duration-100"
+                    style={{ width: `${Math.round(micLevel * 100)}%`, background: micLevel > 0.12 ? "#10B981" : "#F59E0B" }}
+                  />
+                </span>
+                <span className="text-xs font-bold text-slate-500">
+                  {micLevel > 0.12 ? t("Nghe tốt", "Sounds good") : t("Nói to hơn nhé", "Speak louder")}
+                </span>
+              </span>
+            )}
+
             {(hasRecording || liveTranscript) && !isRecording && (
               <>
                 <Button onClick={handleGrade} disabled={loading} className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold">
