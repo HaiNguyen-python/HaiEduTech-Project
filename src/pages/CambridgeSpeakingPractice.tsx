@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Mic, Square, RotateCcw, Star, Volume2, Sparkles, Loader2, ArrowLeft, Lightbulb, MessageSquare } from "lucide-react";
+import { Mic, Square, RotateCcw, Star, Volume2, Sparkles, Loader2, ArrowLeft, Lightbulb, MessageSquare, Image as ImageIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
@@ -17,6 +17,8 @@ import {
   tasksByLevel,
   type CambridgeSpeakLevel,
 } from "@/data/cambridgeSpeakingTasks";
+import { imageForTask, pictureHint } from "@/data/cambridgeSpeakingImages";
+
 
 interface Criterion { label: string; stars: number; feedback: string }
 interface SpeakResult {
@@ -65,15 +67,28 @@ const CambridgeSpeakingPractice = () => {
   const [result, setResult] = useState<SpeakResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showSample, setShowSample] = useState(false);
+  const [micLevel, setMicLevel] = useState(0);
+
+  const MAX_SECONDS = 180;
 
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<number | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const meterRafRef = useRef<number | null>(null);
+  const heardSoundRef = useRef(false);
+  const sessionBaseRef = useRef("");
+
+  const stopRecordingRef = useRef<(() => void) | null>(null);
+
 
   const tasks = useMemo(() => tasksByLevel(level), [level]);
   const task = tasks[taskIndex] || tasks[0];
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
+  const taskImage = task ? imageForTask(task.id) : undefined;
+
 
   useEffect(() => () => { if (audioUrl) URL.revokeObjectURL(audioUrl); }, [audioUrl]);
 
@@ -87,6 +102,8 @@ const CambridgeSpeakingPractice = () => {
     setShowSample(false);
     setAudioUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
     chunksRef.current = [];
+    sessionBaseRef.current = "";
+    heardSoundRef.current = false;
   }, []);
 
   const initRecognition = useCallback((): ISpeechRecognition | null => {
@@ -104,57 +121,166 @@ const CambridgeSpeakingPractice = () => {
         if (e.results[i].isFinal) live += e.results[i][0].transcript + " ";
         else temp += e.results[i][0].transcript;
       }
-      setLiveTranscript(live.trim());
+      // Merge with text captured before the recogniser restarted mid-answer.
+      const merged = `${sessionBaseRef.current} ${live}`.trim();
+      setLiveTranscript(merged);
       setInterim(temp);
     };
-    rec.onerror = (e) => { if (e.error === "not-allowed") setError(t("Hãy cho phép dùng micro nhé!", "Please allow microphone access!")); };
+    rec.onerror = (e) => {
+      // "no-speech" and "aborted" are normal during pauses - never surface them.
+      if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+        setError(t("Hãy cho phép dùng micro nhé!", "Please allow microphone access!"));
+      } else if (e.error === "audio-capture") {
+        setError(t("Máy không nhận được micro. Hãy kiểm tra micro nhé!", "No microphone input detected. Please check your microphone."));
+      }
+    };
     rec.onend = () => {
+      // The engine stops itself after a pause; keep what we have and restart.
       if (recorderRef.current?.state === "recording") {
-        try { rec.start(); } catch { /* already running */ }
+        setLiveTranscript((prev) => { sessionBaseRef.current = prev; return prev; });
+        setTimeout(() => {
+          if (recorderRef.current?.state === "recording") {
+            try { rec.start(); } catch { /* already running */ }
+          }
+        }, 150);
       }
     };
     return rec;
   }, [t]);
 
+
+  // Pick a container the browser can actually record (Safari cannot do webm).
+  const pickMimeType = (): string | undefined => {
+    const candidates = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"];
+    const MR = window.MediaRecorder as typeof MediaRecorder & { isTypeSupported?: (t: string) => boolean };
+    if (!MR?.isTypeSupported) return undefined;
+    return candidates.find((c) => MR.isTypeSupported!(c));
+  };
+
+  // Live input meter so a student can see the mic is really picking sound up.
+  const startMeter = (stream: MediaStream) => {
+    try {
+      const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const ctx = new Ctx();
+      audioCtxRef.current = ctx;
+      const source = ctx.createMediaStreamSource(stream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 512;
+      source.connect(analyser);
+      const buf = new Uint8Array(analyser.frequencyBinCount);
+      const tick = () => {
+        analyser.getByteTimeDomainData(buf);
+        let peak = 0;
+        for (let i = 0; i < buf.length; i++) peak = Math.max(peak, Math.abs(buf[i] - 128));
+        const lvl = Math.min(1, peak / 60);
+        setMicLevel(lvl);
+        if (lvl > 0.12) heardSoundRef.current = true;
+        meterRafRef.current = requestAnimationFrame(tick);
+      };
+      tick();
+    } catch { /* meter is optional */ }
+  };
+
+  const stopMeter = () => {
+    if (meterRafRef.current) cancelAnimationFrame(meterRafRef.current);
+    meterRafRef.current = null;
+    audioCtxRef.current?.close().catch(() => undefined);
+    audioCtxRef.current = null;
+    setMicLevel(0);
+  };
+
   const startRecording = async () => {
     reset();
+    heardSoundRef.current = false;
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+      });
+      streamRef.current = stream;
+      const mimeType = pickMimeType();
+      const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
       recorderRef.current = recorder;
       chunksRef.current = [];
       recorder.ondataavailable = (e) => { if (e.data.size > 0) chunksRef.current.push(e.data); };
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
-        setAudioUrl(URL.createObjectURL(blob));
-        setHasRecording(blob.size > 1000);
-        stream.getTracks().forEach((tr) => tr.stop());
+        const blob = new Blob(chunksRef.current, { type: recorder.mimeType || mimeType || "audio/webm" });
+        setAudioUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return blob.size > 0 ? URL.createObjectURL(blob) : null; });
+        setHasRecording(blob.size > 1200);
+        streamRef.current?.getTracks().forEach((tr) => tr.stop());
+        streamRef.current = null;
         chunksRef.current = [];
       };
-      recorder.start();
+      // Timeslice keeps chunks flushing so a long answer is never lost.
+      recorder.start(1000);
+      startMeter(stream);
       setIsRecording(true);
       const rec = initRecognition();
       if (rec) {
         recognitionRef.current = rec;
         try { rec.start(); } catch { /* ignore */ }
+      } else {
+        setError(t(
+          "Trình duyệt này không nhận dạng giọng nói. Em vẫn thu âm được, hãy dùng Chrome hoặc Edge để được chấm điểm.",
+          "This browser cannot recognise speech. You can still record - use Chrome or Edge to get a score."
+        ));
       }
-      timerRef.current = window.setInterval(() => setTimer((s) => s + 1), 1000);
-    } catch {
-      setError(t("Không mở được micro. Hãy cho phép truy cập micro.", "Could not open the microphone. Please allow access."));
+      timerRef.current = window.setInterval(() => {
+        setTimer((s) => {
+          const next = s + 1;
+          if (next >= MAX_SECONDS) stopRecordingRef.current?.();
+          return next;
+        });
+      }, 1000);
+    } catch (e) {
+      const name = (e as { name?: string })?.name;
+      setError(name === "NotAllowedError"
+        ? t("Em chưa cho phép dùng micro. Hãy bấm vào ổ khoá trên thanh địa chỉ và cho phép micro.", "Microphone permission was blocked. Allow the microphone in your browser settings and try again.")
+        : name === "NotFoundError"
+          ? t("Máy không tìm thấy micro nào. Hãy cắm tai nghe có micro rồi thử lại.", "No microphone was found. Plug in a headset and try again.")
+          : t("Không mở được micro. Hãy thử lại.", "Could not open the microphone. Please try again."));
     }
   };
 
-  const stopRecording = () => {
-    recorderRef.current?.stop();
+  const stopRecording = useCallback(() => {
+    if (recorderRef.current?.state === "recording") {
+      try { recorderRef.current.requestData?.(); } catch { /* optional */ }
+      recorderRef.current.stop();
+    }
     setIsRecording(false);
     if (timerRef.current) window.clearInterval(timerRef.current);
+    timerRef.current = null;
+    stopMeter();
     if (recognitionRef.current) {
       recognitionRef.current.onend = null;
-      recognitionRef.current.stop();
+      try { recognitionRef.current.stop(); } catch { /* ignore */ }
       recognitionRef.current = null;
     }
-    setInterim("");
-  };
+    // Keep any words that never got finalised by the recogniser.
+    setInterim((tempText) => {
+      if (tempText.trim()) setLiveTranscript((prev) => (prev ? `${prev} ${tempText}`.trim() : tempText.trim()));
+      return "";
+    });
+    if (!heardSoundRef.current) {
+      setError(t(
+        "Máy gần như không nghe thấy tiếng. Hãy nói to hơn và đưa micro gần miệng hơn nhé!",
+        "We could hardly hear any sound. Speak louder and move closer to the microphone!"
+      ));
+    }
+  }, [t]);
+
+  // Lets the countdown auto-stop call the latest stopRecording.
+  stopRecordingRef.current = stopRecording;
+
+  // Always release the mic, timer and meter when leaving the page.
+  useEffect(() => () => {
+    if (timerRef.current) window.clearInterval(timerRef.current);
+    if (meterRafRef.current) cancelAnimationFrame(meterRafRef.current);
+    audioCtxRef.current?.close().catch(() => undefined);
+    if (recognitionRef.current) { recognitionRef.current.onend = null; try { recognitionRef.current.stop(); } catch { /* ignore */ } }
+    if (recorderRef.current?.state === "recording") { try { recorderRef.current.stop(); } catch { /* ignore */ } }
+    streamRef.current?.getTracks().forEach((tr) => tr.stop());
+  }, []);
+
 
   const speakPrompt = async () => {
     try { await playEnglishTts(task.prompt, { accent: "en-GB", playbackRate: level === "starters" || level === "movers" ? 0.8 : 0.95 }); }
@@ -274,6 +400,22 @@ const CambridgeSpeakingPractice = () => {
           <p className="text-lg font-semibold text-slate-800 leading-relaxed">{task.prompt}</p>
           <p className="text-sm text-slate-500 mt-1 italic">{task.promptVi}</p>
 
+          {taskImage && (
+            <figure className="mt-4">
+              <img
+                src={taskImage}
+                alt={`${task.topic} - ${task.part} exam picture`}
+                loading="lazy"
+                className="w-full max-h-[420px] object-contain rounded-xl border-2 border-slate-200 bg-white"
+              />
+              <figcaption className="mt-2 text-xs font-semibold text-slate-600 flex items-center gap-1">
+                <ImageIcon className="w-3.5 h-3.5" />
+                {t(pictureHint(task.part).vi, pictureHint(task.part).en)}
+              </figcaption>
+            </figure>
+          )}
+
+
           <div className="flex flex-wrap gap-2 mt-3">
             <Button size="sm" variant="outline" onClick={speakPrompt} className="border-2 gap-1">
               <Volume2 className="w-4 h-4" />{t("Nghe câu hỏi", "Hear the question")}
@@ -327,6 +469,20 @@ const CambridgeSpeakingPractice = () => {
               </Button>
             )}
             <span className={`text-sm font-black tabular-nums ${isRecording ? "text-rose-600 animate-pulse" : "text-slate-600"}`}>{mmss}</span>
+            {isRecording && (
+              <span className="flex items-center gap-2" aria-label="microphone level">
+                <span className="h-2.5 w-28 rounded-full bg-slate-200 overflow-hidden">
+                  <span
+                    className="block h-full rounded-full transition-all duration-100"
+                    style={{ width: `${Math.round(micLevel * 100)}%`, background: micLevel > 0.12 ? "#10B981" : "#F59E0B" }}
+                  />
+                </span>
+                <span className="text-xs font-bold text-slate-500">
+                  {micLevel > 0.12 ? t("Nghe tốt", "Sounds good") : t("Nói to hơn nhé", "Speak louder")}
+                </span>
+              </span>
+            )}
+
             {(hasRecording || liveTranscript) && !isRecording && (
               <>
                 <Button onClick={handleGrade} disabled={loading} className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold">
