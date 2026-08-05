@@ -87,6 +87,8 @@ const CambridgeSpeakingPractice = () => {
   const tasks = useMemo(() => tasksByLevel(level), [level]);
   const task = tasks[taskIndex] || tasks[0];
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
+  const taskImage = task ? imageForTask(task.id) : undefined;
+
 
   useEffect(() => () => { if (audioUrl) URL.revokeObjectURL(audioUrl); }, [audioUrl]);
 
