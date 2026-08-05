@@ -129,6 +129,7 @@ const Navbar = () => {
     { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
       { to: "/cambridge-lectures", label: t("🎓 Cambridge Lectures & Test Prep", "🎓 Cambridge Lectures & Test Prep") },
       { to: "/cambridge-yle-vocabulary", label: t("🌈 Cambridge YLE Vocabulary & Arcade", "🌈 Cambridge YLE Vocabulary & Arcade") },
+      { to: "/cambridge-speaking-practice", label: t("🎤 Cambridge Speaking Practice", "🎤 Cambridge Speaking Practice") },
     ] },
 
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
