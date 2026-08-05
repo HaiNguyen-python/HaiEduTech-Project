@@ -65,11 +65,20 @@ const CambridgeSpeakingPractice = () => {
   const [result, setResult] = useState<SpeakResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showSample, setShowSample] = useState(false);
+  const [micLevel, setMicLevel] = useState(0);
+
+  const MAX_SECONDS = 180;
 
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<number | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const meterRafRef = useRef<number | null>(null);
+  const heardSoundRef = useRef(false);
+  const stopRecordingRef = useRef<(() => void) | null>(null);
+
 
   const tasks = useMemo(() => tasksByLevel(level), [level]);
   const task = tasks[taskIndex] || tasks[0];
