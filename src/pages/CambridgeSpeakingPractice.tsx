@@ -406,7 +406,7 @@ const CambridgeSpeakingPractice = () => {
                 src={taskImage}
                 alt={`${task.topic} - ${task.part} exam picture`}
                 loading="lazy"
-                className="w-full rounded-xl border-2 border-slate-200 bg-white"
+                className="w-full max-h-[420px] object-contain rounded-xl border-2 border-slate-200 bg-white"
               />
               <figcaption className="mt-2 text-xs font-semibold text-slate-600 flex items-center gap-1">
                 <ImageIcon className="w-3.5 h-3.5" />
