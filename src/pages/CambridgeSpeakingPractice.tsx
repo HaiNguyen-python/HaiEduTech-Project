@@ -96,6 +96,8 @@ const CambridgeSpeakingPractice = () => {
     setShowSample(false);
     setAudioUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
     chunksRef.current = [];
+    sessionBaseRef.current = "";
+    heardSoundRef.current = false;
   }, []);
 
   const initRecognition = useCallback((): ISpeechRecognition | null => {
@@ -113,17 +115,33 @@ const CambridgeSpeakingPractice = () => {
         if (e.results[i].isFinal) live += e.results[i][0].transcript + " ";
         else temp += e.results[i][0].transcript;
       }
-      setLiveTranscript(live.trim());
+      // Merge with text captured before the recogniser restarted mid-answer.
+      const merged = `${sessionBaseRef.current} ${live}`.trim();
+      setLiveTranscript(merged);
       setInterim(temp);
     };
-    rec.onerror = (e) => { if (e.error === "not-allowed") setError(t("Hãy cho phép dùng micro nhé!", "Please allow microphone access!")); };
+    rec.onerror = (e) => {
+      // "no-speech" and "aborted" are normal during pauses - never surface them.
+      if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+        setError(t("Hãy cho phép dùng micro nhé!", "Please allow microphone access!"));
+      } else if (e.error === "audio-capture") {
+        setError(t("Máy không nhận được micro. Hãy kiểm tra micro nhé!", "No microphone input detected. Please check your microphone."));
+      }
+    };
     rec.onend = () => {
+      // The engine stops itself after a pause; keep what we have and restart.
       if (recorderRef.current?.state === "recording") {
-        try { rec.start(); } catch { /* already running */ }
+        setLiveTranscript((prev) => { sessionBaseRef.current = prev; return prev; });
+        setTimeout(() => {
+          if (recorderRef.current?.state === "recording") {
+            try { rec.start(); } catch { /* already running */ }
+          }
+        }, 150);
       }
     };
     return rec;
   }, [t]);
+
 
   // Pick a container the browser can actually record (Safari cannot do webm).
   const pickMimeType = (): string | undefined => {
