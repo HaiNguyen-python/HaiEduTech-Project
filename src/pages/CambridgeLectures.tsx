@@ -180,8 +180,15 @@ const CambridgeLectures = () => {
             >
               🏆 {t("Luyện đề YLE", "YLE Test Prep")}
             </button>
+            <Link
+              to="/cambridge-speaking-practice"
+              className="px-4 py-2 rounded-xl text-sm font-bold transition text-slate-700 hover:bg-slate-100"
+            >
+              🎤 {t("Luyện nói Cambridge", "Speaking Practice")}
+            </Link>
           </div>
         </section>
+
 
         {view === "testprep" ? (
           <TestPrepInline t={t} />
