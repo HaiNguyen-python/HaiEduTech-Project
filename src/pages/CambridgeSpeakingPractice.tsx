@@ -77,6 +77,8 @@ const CambridgeSpeakingPractice = () => {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const meterRafRef = useRef<number | null>(null);
   const heardSoundRef = useRef(false);
+  const sessionBaseRef = useRef("");
+
   const stopRecordingRef = useRef<(() => void) | null>(null);
 
 
