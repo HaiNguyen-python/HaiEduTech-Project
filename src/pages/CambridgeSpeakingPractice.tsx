@@ -397,8 +397,26 @@ const CambridgeSpeakingPractice = () => {
             <span className="text-xs font-bold text-slate-500">· {t("Nói tối thiểu", "Speak at least")} {task.minSeconds}s</span>
           </div>
 
-          <p className="text-lg font-semibold text-slate-800 leading-relaxed">{task.prompt}</p>
-          <p className="text-sm text-slate-500 mt-1 italic">{task.promptVi}</p>
+          <div className="space-y-2">
+            {splitPrompt(task.prompt).map((line, i) => (
+              <div key={i} className="rounded-xl border-2 border-slate-200 bg-white p-3 flex items-start gap-2">
+                <span className="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style={{ background: `${levelMeta.color}22`, color: levelMeta.color }}>
+                  {i + 1}
+                </span>
+                <p className="text-[17px] font-semibold text-slate-800 leading-relaxed flex-1">{line}</p>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  aria-label="Listen to this question"
+                  className="h-8 w-8 flex-shrink-0 text-slate-500"
+                  onClick={() => playEnglishTts(line, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                >
+                  <Volume2 className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+
 
           {taskImage && (
             <figure className="mt-4">
