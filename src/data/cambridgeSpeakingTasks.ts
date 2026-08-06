@@ -1,6 +1,7 @@
 // Cambridge Speaking Practice task bank (Starters -> PET)
 // Each task mirrors a real Cambridge speaking part format.
 import { cambridgeSpeakingTasksExpansion } from "./cambridgeSpeakingTasksExpansion";
+import { cambridgeSpeakingTasksExpansion2 } from "./cambridgeSpeakingTasksExpansion2";
 
 export type CambridgeSpeakLevel = "starters" | "movers" | "flyers" | "ket" | "pet";
 
@@ -276,6 +277,7 @@ export const cambridgeSpeakingTasks: CambridgeSpeakingTask[] = [
 export const allCambridgeSpeakingTasks: CambridgeSpeakingTask[] = [
   ...cambridgeSpeakingTasks,
   ...cambridgeSpeakingTasksExpansion,
+  ...cambridgeSpeakingTasksExpansion2,
 ];
 
 const LEVEL_ORDER: CambridgeSpeakLevel[] = ["starters", "movers", "flyers", "ket", "pet"];
