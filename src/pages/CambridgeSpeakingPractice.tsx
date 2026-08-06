@@ -516,14 +516,6 @@ const CambridgeSpeakingPractice = () => {
                     </div>
 
                   </div>
-                  <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-3">
-                    <p className="text-xs font-black uppercase text-emerald-700 mb-1">{t("Mẫu câu hữu ích", "Useful language")}</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {task.usefulLanguage.map((u) => (
-                        <span key={u} className="px-2 py-1 rounded-lg bg-white border border-emerald-200 text-xs font-semibold text-slate-700">{u}</span>
-                      ))}
-                    </div>
-                  </div>
                   <div className="rounded-xl bg-amber-50 border border-amber-200 p-3">
                     <p className="text-xs font-black uppercase text-amber-700 mb-1">{t("Câu trả lời mẫu", "Model answer")}</p>
                     <p className="text-sm text-slate-700">{task.sampleAnswer}</p>
