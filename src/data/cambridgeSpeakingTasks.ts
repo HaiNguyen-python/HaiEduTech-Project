@@ -281,6 +281,7 @@ export const allCambridgeSpeakingTasks: CambridgeSpeakingTask[] = [
   ...cambridgeSpeakingTasksExpansion,
   ...cambridgeSpeakingTasksExpansion2,
   ...cambridgeSpeakingTasksExpansion3,
+  ...cambridgeSpeakingTasksExpansion4,
 ];
 
 const LEVEL_ORDER: CambridgeSpeakLevel[] = ["starters", "movers", "flyers", "ket", "pet"];
