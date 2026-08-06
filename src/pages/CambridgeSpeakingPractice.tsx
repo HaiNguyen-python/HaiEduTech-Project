@@ -89,19 +89,23 @@ const CambridgeSpeakingPractice = () => {
 
 
   const tasks = useMemo(() => tasksByLevel(level), [level]);
-  // Chip labels: number repeated topics so no two chips look identical.
-  const chipLabels = useMemo(() => {
-    const total = new Map<string, number>();
-    tasks.forEach((tk) => total.set(tk.topic, (total.get(tk.topic) || 0) + 1));
-    const seen = new Map<string, number>();
-    return tasks.map((tk) => {
-      if ((total.get(tk.topic) || 0) < 2) return tk.topic;
-      const n = (seen.get(tk.topic) || 0) + 1;
-      seen.set(tk.topic, n);
-      return `${tk.topic} ${n}`;
+  // Group tasks by topic so each chip = one topic with several questions inside.
+  const topicGroups = useMemo(() => {
+    const map = new Map<string, { label: string; indices: number[] }>();
+    tasks.forEach((tk, i) => {
+      const key = tk.topic.trim().toLowerCase();
+      const g = map.get(key);
+      if (g) g.indices.push(i);
+      else map.set(key, { label: tk.topic.trim(), indices: [i] });
     });
+    return Array.from(map.values());
   }, [tasks]);
   const task = tasks[taskIndex] || tasks[0];
+  const currentGroup = useMemo(
+    () => topicGroups.find((g) => g.indices.includes(taskIndex)) || topicGroups[0],
+    [topicGroups, taskIndex]
+  );
+  const posInGroup = currentGroup ? currentGroup.indices.indexOf(taskIndex) : 0;
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
   const taskImage = task ? imageForTask(task.id) : undefined;
 
