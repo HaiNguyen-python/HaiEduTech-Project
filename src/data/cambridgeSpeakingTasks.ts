@@ -3,6 +3,7 @@
 import { cambridgeSpeakingTasksExpansion } from "./cambridgeSpeakingTasksExpansion";
 import { cambridgeSpeakingTasksExpansion2 } from "./cambridgeSpeakingTasksExpansion2";
 import { cambridgeSpeakingTasksExpansion3 } from "./cambridgeSpeakingTasksExpansion3";
+import { cambridgeSpeakingTasksExpansion4 } from "./cambridgeSpeakingTasksExpansion4";
 
 export type CambridgeSpeakLevel = "starters" | "movers" | "flyers" | "ket" | "pet";
 
