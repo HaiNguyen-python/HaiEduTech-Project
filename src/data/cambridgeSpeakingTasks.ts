@@ -12,7 +12,7 @@ export interface CambridgeSpeakingTask {
   part: string;          // e.g. "Part 1 - Scene card"
   topic: string;
   prompt: string;        // What the examiner says
-  promptVi: string;      // Vietnamese support for young learners
+  promptVi?: string;     // Legacy Vietnamese support (no longer shown on screen)
   examiner: string[];    // Follow-up questions the examiner may ask
   usefulLanguage: string[];
   sampleAnswer: string;
