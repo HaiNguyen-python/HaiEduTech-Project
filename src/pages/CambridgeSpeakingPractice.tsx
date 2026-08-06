@@ -108,6 +108,10 @@ const CambridgeSpeakingPractice = () => {
   const posInGroup = currentGroup ? currentGroup.indices.indexOf(taskIndex) : 0;
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
   const taskImage = task ? imageForTask(task.id) : undefined;
+  const wordBank = useMemo(
+    () => (task ? wordBankForTask(task.topic, task.level) : []),
+    [task]
+  );
 
 
   useEffect(() => () => { if (audioUrl) URL.revokeObjectURL(audioUrl); }, [audioUrl]);
