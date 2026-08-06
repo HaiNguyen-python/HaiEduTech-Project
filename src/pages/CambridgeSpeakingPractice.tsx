@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Mic, Square, RotateCcw, Star, Volume2, Sparkles, Loader2, ArrowLeft, Lightbulb, MessageSquare, Image as ImageIcon } from "lucide-react";
+import { Mic, Square, RotateCcw, Star, Volume2, Sparkles, Loader2, ArrowLeft, Lightbulb, MessageSquare, Image as ImageIcon, BookOpen } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
@@ -18,6 +18,7 @@ import {
   type CambridgeSpeakLevel,
 } from "@/data/cambridgeSpeakingTasks";
 import { imageForTask, pictureHint } from "@/data/cambridgeSpeakingImages";
+import { wordBankForTask } from "@/data/cambridgeSpeakingWordBank";
 
 
 interface Criterion { label: string; stars: number; feedback: string }
