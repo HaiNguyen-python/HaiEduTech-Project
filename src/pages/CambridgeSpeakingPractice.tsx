@@ -472,9 +472,14 @@ const CambridgeSpeakingPractice = () => {
                 <div className="mt-4 space-y-3">
                   <div className="rounded-xl bg-sky-50 border border-sky-200 p-3">
                     <p className="text-xs font-black uppercase text-sky-700 mb-1">{t("Câu hỏi giám thị có thể hỏi", "Examiner may also ask")}</p>
-                    <ul className="list-disc pl-5 text-sm text-slate-700 space-y-0.5">
-                      {task.examiner.map((q) => <li key={q}>{q}</li>)}
-                    </ul>
+                    <div className="space-y-1.5">
+                      {task.examiner.map((q) => (
+                        <div key={q} className="rounded-lg bg-white border border-sky-200 px-2.5 py-2 text-sm font-semibold text-slate-700">
+                          {q}
+                        </div>
+                      ))}
+                    </div>
+
                   </div>
                   <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-3">
                     <p className="text-xs font-black uppercase text-emerald-700 mb-1">{t("Mẫu câu hữu ích", "Useful language")}</p>
