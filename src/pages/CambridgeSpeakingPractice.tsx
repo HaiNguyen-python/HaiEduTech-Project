@@ -41,7 +41,30 @@ interface ISpeechRecognition extends EventTarget {
   onend: (() => void) | null;
 }
 
+/**
+ * Split an examiner prompt into single questions / instructions so each
+ * box on screen holds exactly one question.
+ */
+const splitPrompt = (raw: string): string[] => {
+  const parts = (raw || "")
+    .replace(/\s+/g, " ")
+    .split(/(?<=[.!?])\s+/g)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  // Merge a very short fragment into the previous line (e.g. "Ready?").
+  const out: string[] = [];
+  for (const p of parts) {
+    if (out.length && p.replace(/[^A-Za-z0-9]/g, "").length < 8 && !p.endsWith("?")) {
+      out[out.length - 1] = `${out[out.length - 1]} ${p}`;
+    } else {
+      out.push(p);
+    }
+  }
+  return out.length ? out : [raw];
+};
+
 const StarRow = ({ value, size = 22 }: { value: number; size?: number }) => (
+
   <span className="inline-flex items-center gap-0.5">
     {[1, 2, 3, 4, 5].map((i) => (
       <Star
@@ -85,6 +108,18 @@ const CambridgeSpeakingPractice = () => {
 
 
   const tasks = useMemo(() => tasksByLevel(level), [level]);
+  // Chip labels: number repeated topics so no two chips look identical.
+  const chipLabels = useMemo(() => {
+    const total = new Map<string, number>();
+    tasks.forEach((tk) => total.set(tk.topic, (total.get(tk.topic) || 0) + 1));
+    const seen = new Map<string, number>();
+    return tasks.map((tk) => {
+      if ((total.get(tk.topic) || 0) < 2) return tk.topic;
+      const n = (seen.get(tk.topic) || 0) + 1;
+      seen.set(tk.topic, n);
+      return `${tk.topic} ${n}`;
+    });
+  }, [tasks]);
   const task = tasks[taskIndex] || tasks[0];
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
   const taskImage = task ? imageForTask(task.id) : undefined;
@@ -382,7 +417,7 @@ const CambridgeSpeakingPractice = () => {
                 i === taskIndex ? "bg-slate-900 text-white border-slate-900" : "bg-white/80 text-slate-700 border-slate-200 hover:border-slate-400"
               }`}
             >
-              {tk.topic}
+              {chipLabels[i]}
             </button>
           ))}
         </div>
@@ -397,8 +432,26 @@ const CambridgeSpeakingPractice = () => {
             <span className="text-xs font-bold text-slate-500">· {t("Nói tối thiểu", "Speak at least")} {task.minSeconds}s</span>
           </div>
 
-          <p className="text-lg font-semibold text-slate-800 leading-relaxed">{task.prompt}</p>
-          <p className="text-sm text-slate-500 mt-1 italic">{task.promptVi}</p>
+          <div className="space-y-2">
+            {splitPrompt(task.prompt).map((line, i) => (
+              <div key={i} className="rounded-xl border-2 border-slate-200 bg-white p-3 flex items-start gap-2">
+                <span className="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style={{ background: `${levelMeta.color}22`, color: levelMeta.color }}>
+                  {i + 1}
+                </span>
+                <p className="text-[17px] font-semibold text-slate-800 leading-relaxed flex-1">{line}</p>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  aria-label="Listen to this question"
+                  className="h-8 w-8 flex-shrink-0 text-slate-500"
+                  onClick={() => playEnglishTts(line, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                >
+                  <Volume2 className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+
 
           {taskImage && (
             <figure className="mt-4">
@@ -431,9 +484,14 @@ const CambridgeSpeakingPractice = () => {
                 <div className="mt-4 space-y-3">
                   <div className="rounded-xl bg-sky-50 border border-sky-200 p-3">
                     <p className="text-xs font-black uppercase text-sky-700 mb-1">{t("Câu hỏi giám thị có thể hỏi", "Examiner may also ask")}</p>
-                    <ul className="list-disc pl-5 text-sm text-slate-700 space-y-0.5">
-                      {task.examiner.map((q) => <li key={q}>{q}</li>)}
-                    </ul>
+                    <div className="space-y-1.5">
+                      {task.examiner.map((q) => (
+                        <div key={q} className="rounded-lg bg-white border border-sky-200 px-2.5 py-2 text-sm font-semibold text-slate-700">
+                          {q}
+                        </div>
+                      ))}
+                    </div>
+
                   </div>
                   <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-3">
                     <p className="text-xs font-black uppercase text-emerald-700 mb-1">{t("Mẫu câu hữu ích", "Useful language")}</p>
