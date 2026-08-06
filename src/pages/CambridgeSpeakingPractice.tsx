@@ -392,19 +392,25 @@ const CambridgeSpeakingPractice = () => {
         </div>
         <p className="text-sm text-slate-600 mb-5 font-medium">{t(levelMeta.blurbVi, levelMeta.blurb)}</p>
 
-        {/* Task chips */}
+        {/* Topic chips - one chip per topic, questions live inside the card */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {tasks.map((tk, i) => (
-            <button
-              key={tk.id}
-              onClick={() => { setTaskIndex(i); reset(); }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition-all ${
-                i === taskIndex ? "bg-slate-900 text-white border-slate-900" : "bg-white/80 text-slate-700 border-slate-200 hover:border-slate-400"
-              }`}
-            >
-              {chipLabels[i]}
-            </button>
-          ))}
+          {topicGroups.map((g) => {
+            const active = currentGroup === g;
+            return (
+              <button
+                key={g.label}
+                onClick={() => { setTaskIndex(g.indices[0]); reset(); }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition-all ${
+                  active ? "bg-slate-900 text-white border-slate-900" : "bg-white/80 text-slate-700 border-slate-200 hover:border-slate-400"
+                }`}
+              >
+                {g.label}
+                {g.indices.length > 1 && (
+                  <span className={`ml-1.5 ${active ? "text-white/70" : "text-slate-400"}`}>×{g.indices.length}</span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Task card */}
@@ -415,27 +421,41 @@ const CambridgeSpeakingPractice = () => {
             </span>
             <span className="text-xs font-bold text-slate-500">{task.topic}</span>
             <span className="text-xs font-bold text-slate-500">· {t("Nói tối thiểu", "Speak at least")} {task.minSeconds}s</span>
-          </div>
-
-          <div className="space-y-2">
-            {splitPrompt(task.prompt).map((line, i) => (
-              <div key={i} className="rounded-xl border-2 border-slate-200 bg-white p-3 flex items-start gap-2">
-                <span className="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style={{ background: `${levelMeta.color}22`, color: levelMeta.color }}>
-                  {i + 1}
+            {currentGroup && currentGroup.indices.length > 1 && (
+              <div className="ml-auto flex items-center gap-2">
+                <span className="text-xs font-bold text-slate-500">
+                  {t("Câu", "Question")} {posInGroup + 1}/{currentGroup.indices.length}
                 </span>
-                <p className="text-[17px] font-semibold text-slate-800 leading-relaxed flex-1">{line}</p>
                 <Button
-                  size="icon"
-                  variant="ghost"
-                  aria-label="Listen to this question"
-                  className="h-8 w-8 flex-shrink-0 text-slate-500"
-                  onClick={() => playEnglishTts(line, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                  size="sm"
+                  variant="outline"
+                  className="border-2 gap-1 h-8"
+                  onClick={() => {
+                    const next = currentGroup.indices[(posInGroup + 1) % currentGroup.indices.length];
+                    setTaskIndex(next);
+                    reset();
+                  }}
                 >
-                  <Volume2 className="w-4 h-4" />
+                  {t("Câu tiếp theo", "Next question")}
+                  <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
                 </Button>
               </div>
-            ))}
+            )}
           </div>
+
+          <div className="rounded-xl border-2 border-slate-200 bg-white p-4 flex items-start gap-3">
+            <p className="text-[17px] font-semibold text-slate-800 leading-relaxed flex-1 whitespace-pre-wrap">{task.prompt}</p>
+            <Button
+              size="icon"
+              variant="ghost"
+              aria-label="Listen to the question"
+              className="h-8 w-8 flex-shrink-0 text-slate-500"
+              onClick={() => playEnglishTts(task.prompt, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+            >
+              <Volume2 className="w-4 h-4" />
+            </Button>
+          </div>
+
 
 
           {taskImage && (
