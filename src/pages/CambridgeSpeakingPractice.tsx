@@ -456,6 +456,24 @@ const CambridgeSpeakingPractice = () => {
             </Button>
           </div>
 
+          {/* Useful language - always visible so students can borrow phrases */}
+          <div className="mt-3 rounded-xl bg-emerald-50 border-2 border-emerald-200 p-3">
+            <p className="text-xs font-black uppercase text-emerald-700 mb-2 flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5" />
+              {t("Từ vựng & mẫu câu nên dùng", "Useful words & sentence frames")}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {task.usefulLanguage.map((u) => (
+                <button
+                  key={u}
+                  onClick={() => playEnglishTts(u, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                  className="px-2.5 py-1.5 rounded-lg bg-white border border-emerald-200 text-[13px] font-semibold text-slate-700 hover:border-emerald-400 transition-colors"
+                >
+                  {u}
+                </button>
+              ))}
+            </div>
+          </div>
 
 
           {taskImage && (
