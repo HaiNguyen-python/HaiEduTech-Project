@@ -475,6 +475,33 @@ const CambridgeSpeakingPractice = () => {
             </div>
           </div>
 
+          {/* Word bank - extra vocabulary so children always have material to speak with */}
+          {wordBank.length > 0 && (
+            <div className="mt-3 rounded-xl bg-sky-50 border-2 border-sky-200 p-3">
+              <p className="text-xs font-black uppercase text-sky-700 mb-2 flex items-center gap-1">
+                <BookOpen className="w-3.5 h-3.5" />
+                {t("Ngân hàng từ vựng cho câu này", "Word bank for this question")}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {wordBank.map((word) => (
+                  <button
+                    key={word.en}
+                    onClick={() => playEnglishTts(word.en, { accent: "en-GB", playbackRate: 0.8 }).catch(() => undefined)}
+                    className="px-2.5 py-1.5 rounded-lg bg-white border border-sky-200 text-left hover:border-sky-400 transition-colors"
+                  >
+                    <span className="block text-[13px] font-bold text-slate-800">{word.en}</span>
+                    <span className="block text-[11px] text-slate-500">{word.vi}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="mt-2 text-[11px] text-sky-700 font-semibold">
+                {t("Bấm vào từ để nghe cách đọc, rồi dùng ít nhất 3 từ trong câu trả lời.", "Tap a word to hear it, then use at least 3 of them in your answer.")}
+              </p>
+            </div>
+          )}
+
+
+
 
           {taskImage && (
             <figure className="mt-4">
