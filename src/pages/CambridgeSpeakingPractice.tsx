@@ -108,6 +108,18 @@ const CambridgeSpeakingPractice = () => {
 
 
   const tasks = useMemo(() => tasksByLevel(level), [level]);
+  // Chip labels: number repeated topics so no two chips look identical.
+  const chipLabels = useMemo(() => {
+    const total = new Map<string, number>();
+    tasks.forEach((tk) => total.set(tk.topic, (total.get(tk.topic) || 0) + 1));
+    const seen = new Map<string, number>();
+    return tasks.map((tk) => {
+      if ((total.get(tk.topic) || 0) < 2) return tk.topic;
+      const n = (seen.get(tk.topic) || 0) + 1;
+      seen.set(tk.topic, n);
+      return `${tk.topic} ${n}`;
+    });
+  }, [tasks]);
   const task = tasks[taskIndex] || tasks[0];
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
   const taskImage = task ? imageForTask(task.id) : undefined;
@@ -405,7 +417,7 @@ const CambridgeSpeakingPractice = () => {
                 i === taskIndex ? "bg-slate-900 text-white border-slate-900" : "bg-white/80 text-slate-700 border-slate-200 hover:border-slate-400"
               }`}
             >
-              {tk.topic}
+              {chipLabels[i]}
             </button>
           ))}
         </div>
