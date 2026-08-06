@@ -41,27 +41,8 @@ interface ISpeechRecognition extends EventTarget {
   onend: (() => void) | null;
 }
 
-/**
- * Split an examiner prompt into single questions / instructions so each
- * box on screen holds exactly one question.
- */
-const splitPrompt = (raw: string): string[] => {
-  const parts = (raw || "")
-    .replace(/\s+/g, " ")
-    .split(/(?<=[.!?])\s+/g)
-    .map((s) => s.trim())
-    .filter(Boolean);
-  // Merge a very short fragment into the previous line (e.g. "Ready?").
-  const out: string[] = [];
-  for (const p of parts) {
-    if (out.length && p.replace(/[^A-Za-z0-9]/g, "").length < 8 && !p.endsWith("?")) {
-      out[out.length - 1] = `${out[out.length - 1]} ${p}`;
-    } else {
-      out.push(p);
-    }
-  }
-  return out.length ? out : [raw];
-};
+
+
 
 const StarRow = ({ value, size = 22 }: { value: number; size?: number }) => (
 
