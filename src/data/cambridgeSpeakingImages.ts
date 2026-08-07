@@ -122,6 +122,8 @@ export const imageForSpeakingTask = (task: SpeakingImageTask): string | undefine
 export const pictureHint = (part: string): { vi: string; en: string } => {
   if (/differences/i.test(part)) return { vi: "So sánh hai tranh A và B rồi nói các điểm khác nhau.", en: "Compare pictures A and B and say what is different." };
   if (/story/i.test(part)) return { vi: "Nhìn các tranh theo thứ tự rồi kể lại câu chuyện.", en: "Look at the pictures in order, then tell the story." };
+  if (/odd one out/i.test(part)) return { vi: "Nhìn nhóm tranh, chọn tranh khác loại và giải thích vì sao.", en: "Look at the set, choose the odd one out and say why." };
+  if (/object cards/i.test(part)) return { vi: "Nhìn thẻ hình và nói về từng đồ vật.", en: "Look at the card and talk about each object." };
   if (/photo|Long turn/i.test(part)) return { vi: "Mô tả bức ảnh: người, nơi, hành động, cảm xúc.", en: "Describe the photo: people, place, actions, feelings." };
   return { vi: "Nhìn tranh và trả lời câu hỏi của giám thị.", en: "Look at the picture and answer the examiner." };
 };
