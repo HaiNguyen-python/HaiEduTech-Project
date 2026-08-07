@@ -131,16 +131,6 @@ export const cambridgeSpeakingImages: Record<string, string> = {
   "pe-x5-11": flTownPlaces,
   "pe-x5-14": flKitchenDiff,
   "pe-x5-18": keCafe,
-};
-
-export const imageForTask = (id: string): string | undefined => cambridgeSpeakingImages[id];
-
-// Short instruction shown with the picture, per level.
-export const pictureHint = (part: string): { vi: string; en: string } => {
-  if (/differences/i.test(part)) return { vi: "So sánh hai tranh và nói các điểm khác nhau.", en: "Compare the two pictures and say what is different." };
-  if (/story/i.test(part)) return { vi: "Nhìn các tranh theo thứ tự rồi kể lại câu chuyện.", en: "Look at the pictures in order, then tell the story." };
-  if (/photo|Long turn/i.test(part)) return { vi: "Mô tả bức ảnh: người, nơi, hành động, cảm xúc.", en: "Describe the photo: people, place, actions, feelings." };
-  return { vi: "Nhìn tranh và trả lời câu hỏi của giám thị.", en: "Look at the picture and answer the examiner." };
   "st-x6-5": stBedroom,
   "st-x6-8": mvParkDiff,
   "st-x6-10": stToys,
@@ -177,4 +167,14 @@ export const pictureHint = (part: string): { vi: string; en: string } => {
   "pe-x6-10": keSport,
   "pe-x6-14": keCelebration,
   "pe-x6-17": keMarket,
+};
+
+export const imageForTask = (id: string): string | undefined => cambridgeSpeakingImages[id];
+
+// Short instruction shown with the picture, per level.
+export const pictureHint = (part: string): { vi: string; en: string } => {
+  if (/differences/i.test(part)) return { vi: "So sánh hai tranh và nói các điểm khác nhau.", en: "Compare the two pictures and say what is different." };
+  if (/story/i.test(part)) return { vi: "Nhìn các tranh theo thứ tự rồi kể lại câu chuyện.", en: "Look at the pictures in order, then tell the story." };
+  if (/photo|Long turn/i.test(part)) return { vi: "Mô tả bức ảnh: người, nơi, hành động, cảm xúc.", en: "Describe the photo: people, place, actions, feelings." };
+  return { vi: "Nhìn tranh và trả lời câu hỏi của giám thị.", en: "Look at the picture and answer the examiner." };
 };
