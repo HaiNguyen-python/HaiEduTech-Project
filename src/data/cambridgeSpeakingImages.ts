@@ -96,10 +96,15 @@ const SCENE_DEFAULTS: Record<string, string> = {
 
 // Does the wording actually ask the student to look at something?
 const NEEDS_PICTURE =
-  /look at|these pictures|the pictures|this picture|the picture|photo|photograph|scene|differences/i;
+  /look at|these (?:two |three |four |five |six )?pictures|the pictures|this picture|the picture|picture story|photo|photograph|scene|differences|odd one out/i;
+
+// Exam parts that are always picture-based, whatever the prompt wording is.
+const PICTURE_PARTS =
+  /find the differences|picture story|describe the picture|photo|scene card|scene description|long turn|object cards|odd one out/i;
 
 export const needsPicture = (task: SpeakingImageTask): boolean =>
-  NEEDS_PICTURE.test(task.prompt) || NEEDS_PICTURE.test(task.part);
+  PICTURE_PARTS.test(task.part) || NEEDS_PICTURE.test(task.prompt) || NEEDS_PICTURE.test(task.part);
+
 
 export const imageForSpeakingTask = (task: SpeakingImageTask): string | undefined => {
   if (!needsPicture(task)) return undefined;
