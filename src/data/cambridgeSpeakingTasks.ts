@@ -6,6 +6,7 @@ import { cambridgeSpeakingTasksExpansion3 } from "./cambridgeSpeakingTasksExpans
 import { cambridgeSpeakingTasksExpansion4 } from "./cambridgeSpeakingTasksExpansion4";
 import { cambridgeSpeakingTasksExpansion5 } from "./cambridgeSpeakingTasksExpansion5";
 import { cambridgeSpeakingTasksExpansion6 } from "./cambridgeSpeakingTasksExpansion6";
+import { cambridgeSpeakingTasksExpansion7 } from "./cambridgeSpeakingTasksExpansion7";
 
 export type CambridgeSpeakLevel = "starters" | "movers" | "flyers" | "ket" | "pet";
 
@@ -286,6 +287,7 @@ export const allCambridgeSpeakingTasks: CambridgeSpeakingTask[] = [
   ...cambridgeSpeakingTasksExpansion4,
   ...cambridgeSpeakingTasksExpansion5,
   ...cambridgeSpeakingTasksExpansion6,
+  ...cambridgeSpeakingTasksExpansion7,
 ];
 
 const LEVEL_ORDER: CambridgeSpeakLevel[] = ["starters", "movers", "flyers", "ket", "pet"];
