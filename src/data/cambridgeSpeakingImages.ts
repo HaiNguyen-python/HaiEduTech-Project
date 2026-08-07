@@ -96,10 +96,15 @@ const SCENE_DEFAULTS: Record<string, string> = {
 
 // Does the wording actually ask the student to look at something?
 const NEEDS_PICTURE =
-  /look at|these pictures|the pictures|this picture|the picture|photo|photograph|scene|differences/i;
+  /look at|these (?:two |three |four |five |six )?pictures|the pictures|this picture|the picture|picture story|photo|photograph|scene|differences|odd one out/i;
+
+// Exam parts that are always picture-based, whatever the prompt wording is.
+const PICTURE_PARTS =
+  /find the differences|picture story|describe the picture|photo|scene card|scene description|long turn|object cards|odd one out/i;
 
 export const needsPicture = (task: SpeakingImageTask): boolean =>
-  NEEDS_PICTURE.test(task.prompt) || NEEDS_PICTURE.test(task.part);
+  PICTURE_PARTS.test(task.part) || NEEDS_PICTURE.test(task.prompt) || NEEDS_PICTURE.test(task.part);
+
 
 export const imageForSpeakingTask = (task: SpeakingImageTask): string | undefined => {
   if (!needsPicture(task)) return undefined;
@@ -117,6 +122,8 @@ export const imageForSpeakingTask = (task: SpeakingImageTask): string | undefine
 export const pictureHint = (part: string): { vi: string; en: string } => {
   if (/differences/i.test(part)) return { vi: "So sánh hai tranh A và B rồi nói các điểm khác nhau.", en: "Compare pictures A and B and say what is different." };
   if (/story/i.test(part)) return { vi: "Nhìn các tranh theo thứ tự rồi kể lại câu chuyện.", en: "Look at the pictures in order, then tell the story." };
+  if (/odd one out/i.test(part)) return { vi: "Nhìn nhóm tranh, chọn tranh khác loại và giải thích vì sao.", en: "Look at the set, choose the odd one out and say why." };
+  if (/object cards/i.test(part)) return { vi: "Nhìn thẻ hình và nói về từng đồ vật.", en: "Look at the card and talk about each object." };
   if (/photo|Long turn/i.test(part)) return { vi: "Mô tả bức ảnh: người, nơi, hành động, cảm xúc.", en: "Describe the photo: people, place, actions, feelings." };
   return { vi: "Nhìn tranh và trả lời câu hỏi của giám thị.", en: "Look at the picture and answer the examiner." };
 };
