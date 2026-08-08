@@ -4,11 +4,12 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Clock, ChevronLeft, ChevronRight, CheckCircle2, XCircle, RotateCcw, Award, ArrowLeft, BookOpen, TimerOff, Loader2 } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, CheckCircle2, XCircle, RotateCcw, Award, ArrowLeft, BookOpen, TimerOff, Loader2, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS, type CambridgeMockExam as ExamType, type CambridgeMockQuestion } from "@/data/cambridgeMockExamData";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 
 type ExamPhase = "loading" | "taking" | "result" | "review";
 
@@ -274,8 +275,16 @@ const CambridgeMockExam = () => {
                 </div>
 
                 {currentQuestion.passage && (
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 mb-4 text-[#94A3B8] text-sm leading-relaxed italic">
-                    {currentQuestion.passage}
+                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 mb-4">
+                    <p className="text-[#94A3B8] text-sm leading-relaxed italic">{currentQuestion.passage}</p>
+                    <Button
+                      onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { rate: 0.9 }); }}
+                      size="sm"
+                      variant="outline"
+                      className="mt-3 border-white/20 text-white hover:bg-white/10"
+                    >
+                      <Volume2 className="w-4 h-4 mr-2" /> {t("Nghe đoạn này", "Listen")}
+                    </Button>
                   </div>
                 )}
 

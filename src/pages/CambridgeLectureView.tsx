@@ -22,20 +22,6 @@ import { allCambridgeLectures, LEVEL_CONFIG } from "@/data/cambridgeLecturesData
 import { enrichCambridgeLecture } from "@/lib/cambridgeEnrichment";
 import { illustrationForLecture } from "@/data/cambridgeLectureImages";
 import { buildWorkedExamples, buildWalkthrough } from "@/lib/cambridgeExamples";
-import startersFun from "@/assets/cambridge/starters-fun.jpg";
-import moversFun from "@/assets/cambridge/movers-fun.jpg";
-import flyersFun from "@/assets/cambridge/flyers-fun.jpg";
-import ketFun from "@/assets/cambridge/ket-fun.jpg";
-import petFun from "@/assets/cambridge/pet-fun.jpg";
-
-const ILLUSTRATIONS: Record<string, string> = {
-  starters: startersFun,
-  movers: moversFun,
-  flyers: flyersFun,
-  ket: ketFun,
-  pet: petFun,
-};
-
 /** Skill metadata: gives every lecture a clear context label */
 const SKILL_META: Record<string, { icon: JSX.Element; labelEn: string; labelVi: string }> = {
   listening: { icon: <Headphones className="w-3.5 h-3.5" />, labelEn: "Listening", labelVi: "Nghe" },
