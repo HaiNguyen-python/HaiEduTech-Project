@@ -20,6 +20,8 @@ import KidBullets from "@/components/cambridge/KidBullets";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG } from "@/data/cambridgeLecturesData";
 import { enrichCambridgeLecture } from "@/lib/cambridgeEnrichment";
+import { illustrationForLecture } from "@/data/cambridgeLectureImages";
+import { buildWorkedExamples, buildWalkthrough } from "@/lib/cambridgeExamples";
 import startersFun from "@/assets/cambridge/starters-fun.jpg";
 import moversFun from "@/assets/cambridge/movers-fun.jpg";
 import flyersFun from "@/assets/cambridge/flyers-fun.jpg";
