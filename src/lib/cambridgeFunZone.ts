@@ -62,20 +62,20 @@ const scrambleWord = (word: string, seed: number) => {
 const CHANT_PATTERNS: ((w: string[], topic: string) => string[])[] = [
   (w, topic) => [
     `Clap, clap! We learn about ${topic}!`,
-    `${w[0]} and ${w[1]}, say them twice!`,
-    `${w[2]} and ${w[3]}, say them nice!`,
+    `"${w[0]}" and "${w[1]}" - say them twice!`,
+    `"${w[2]}" and "${w[3]}" - say them nice!`,
     `Clap, clap! Now I know ${topic}!`,
   ],
   (w, topic) => [
-    `One, two - I can say ${w[0]}!`,
-    `Three, four - I can say ${w[1]}!`,
-    `Five, six - ${w[2]} and ${w[3]} too!`,
+    `One, two - I can say "${w[0]}"!`,
+    `Three, four - I can say "${w[1]}"!`,
+    `Five, six - "${w[2]}" and "${w[3]}" too!`,
     `${topic} is easy, look at me!`,
   ],
   (w, topic) => [
     `Hello, hello, it's ${topic} time!`,
-    `${w[0]}, ${w[1]} - that's my rhyme!`,
-    `${w[2]}, ${w[3]} - I say them loud!`,
+    `"${w[0]}", "${w[1]}" - that's my rhyme!`,
+    `"${w[2]}", "${w[3]}" - I say them loud!`,
     `I speak English and I feel proud!`,
   ],
 ];
