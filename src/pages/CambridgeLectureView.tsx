@@ -17,6 +17,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingBalloons from "@/components/FloatingBalloons";
 import KidBullets from "@/components/cambridge/KidBullets";
+import FunZone from "@/components/cambridge/FunZone";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG } from "@/data/cambridgeLecturesData";
 import { enrichCambridgeLecture } from "@/lib/cambridgeEnrichment";
@@ -340,6 +341,9 @@ const CambridgeLectureView = () => {
               </TabsTrigger>
               <TabsTrigger value="quiz" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-700 text-slate-700 text-sm px-4 py-2">
                 ⭐ Quiz
+              </TabsTrigger>
+              <TabsTrigger value="fun" className="data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-700 text-slate-700 text-sm px-4 py-2">
+                🎪 {t("Vui học", "Fun Zone")}
               </TabsTrigger>
             </TabsList>
 
@@ -847,6 +851,20 @@ const CambridgeLectureView = () => {
                   <Star className="w-5 h-5 mr-2" /> {t(`Nộp bài (${Object.keys(quizAnswers).length}/${lecture.quiz.length})`, `Submit Quiz (${Object.keys(quizAnswers).length}/${lecture.quiz.length})`)}
                 </Button>
               )}
+            </TabsContent>
+
+            {/* Fun Zone - chants, riddles, scramble games and rewards */}
+            <TabsContent value="fun">
+              <div className="mb-5 p-4 rounded-xl bg-pink-500/[0.06] border border-pink-300 flex items-start gap-3">
+                <span className="text-2xl">🎪</span>
+                <p className="text-slate-700 text-sm leading-relaxed">
+                  {t(
+                    "Học xong rồi thì chơi thôi! Hát chant, đoán từ bí ẩn, xếp lại chữ cái, đọc uốn lưỡi và chơi 2 trò chơi cùng bố mẹ hoặc bạn bè. Làm đúng hết sẽ nhận sticker thưởng!",
+                    "Lesson done - now let's play! Sing the chant, guess the mystery words, unscramble the letters, try the tongue twister and play 2 games with a parent or friend. Finish everything to unlock a sticker reward!"
+                  )}
+                </p>
+              </div>
+              <FunZone lecture={lecture} />
             </TabsContent>
           </Tabs>
 
