@@ -341,6 +341,9 @@ const CambridgeLectureView = () => {
               <TabsTrigger value="quiz" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-700 text-slate-700 text-sm px-4 py-2">
                 ⭐ Quiz
               </TabsTrigger>
+              <TabsTrigger value="fun" className="data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-700 text-slate-700 text-sm px-4 py-2">
+                🎪 {t("Vui học", "Fun Zone")}
+              </TabsTrigger>
             </TabsList>
 
             {/* Rules */}
