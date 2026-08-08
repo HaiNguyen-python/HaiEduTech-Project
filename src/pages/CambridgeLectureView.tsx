@@ -851,6 +851,20 @@ const CambridgeLectureView = () => {
                 </Button>
               )}
             </TabsContent>
+
+            {/* Fun Zone - chants, riddles, scramble games and rewards */}
+            <TabsContent value="fun">
+              <div className="mb-5 p-4 rounded-xl bg-pink-500/[0.06] border border-pink-300 flex items-start gap-3">
+                <span className="text-2xl">🎪</span>
+                <p className="text-slate-700 text-sm leading-relaxed">
+                  {t(
+                    "Học xong rồi thì chơi thôi! Hát chant, đoán từ bí ẩn, xếp lại chữ cái, đọc uốn lưỡi và chơi 2 trò chơi cùng bố mẹ hoặc bạn bè. Làm đúng hết sẽ nhận sticker thưởng!",
+                    "Lesson done - now let's play! Sing the chant, guess the mystery words, unscramble the letters, try the tongue twister and play 2 games with a parent or friend. Finish everything to unlock a sticker reward!"
+                  )}
+                </p>
+              </div>
+              <FunZone lecture={lecture} />
+            </TabsContent>
           </Tabs>
 
           {/* Teacher Hai's Secret Tip */}
