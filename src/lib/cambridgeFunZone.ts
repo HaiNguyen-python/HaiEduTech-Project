@@ -240,13 +240,24 @@ const REWARDS: { en: string; vi: string }[] = [
   { en: "🦁 Brave Voice trophy - you spoke out loud!", vi: "🦁 Cúp Giọng Nói Dũng Cảm - em đã nói to!" },
 ];
 
-/** Clean topic label used in chants (no emoji, first idea only). */
-const topicOf = (lecture: CambridgeLecture) =>
-  lecture.title
+/** Clean topic label used in chants (no emoji, no leading verb, first idea only). */
+const VERB_LEAD =
+  /^(master|learn|learning|discover|practise|practice|explore|meet|use|using|build|say|tell|talk about|understand|know|crack|unlock|win|boost|grow|start|remember|beat|nail|revise)\s+(the\s+|your\s+|a\s+|an\s+)?/i;
+
+const topicOf = (lecture: CambridgeLecture) => {
+  const raw = lecture.title
     .replace(/^[^A-Za-z]+/, "")
     .split(/\s*[&:\-–]\s*/)[0]
     .trim()
-    .toLowerCase() || "English";
+    .replace(VERB_LEAD, "")
+    .toLowerCase()
+    .trim();
+  return raw.length > 2 ? raw : "English";
+};
+
+/** Capitalise a chant line so it always reads like a real sentence. */
+const capitaliseLines = (lines: string[]) =>
+  lines.map((l) => l.charAt(0).toUpperCase() + l.slice(1));
 
 const YOUNG: CambridgeLevel[] = ["starters", "movers", "flyers"];
 
