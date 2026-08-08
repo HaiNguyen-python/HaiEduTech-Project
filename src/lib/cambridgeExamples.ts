@@ -54,9 +54,9 @@ const SKILL_DIALOGUES: Record<CambridgeSkill, ((w: string, topic: string) => Wor
   ],
   "reading-writing": [
     (w, topic) => [
-      { speaker: "Text", text: `Our ${topic} club meets every Saturday. Members must bring their own "${w}" list.` },
-      { speaker: "Question", text: `What do members need to bring?` },
-      { speaker: "Answer", text: `Their own "${w}" list - the text says "must bring", so it is a requirement.` },
+      { speaker: "Text", text: `In today's lesson about ${topic}, remember one key word: "${w}". You must use it correctly in your answer.` },
+      { speaker: "Question", text: `What must you do with the key word?` },
+      { speaker: "Answer", text: `Use it correctly - the text says "must use", so it is a requirement.` },
     ],
     (w, topic) => [
       { speaker: "Text", text: `I like ${topic} because the word "${w}" is easy to remember.` },

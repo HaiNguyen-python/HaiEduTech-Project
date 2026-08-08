@@ -67,6 +67,7 @@ interface TopicRule {
 
 /** Ordered: the first matching rule wins, so put specific topics first. */
 const TOPIC_RULES: TopicRule[] = [
+  { keys: ["letter", "email", "note to", "postcard", "message", "article", "story writing", "punctuation", "spelling rule"], src: topicWriting, captionEn: "Plan on paper for 1 minute before you write.", captionVi: "Hãy phác thảo 1 phút trên giấy trước khi viết." },
   { keys: ["animal", "pet", "zoo", "farm animal", "insect"], src: stAnimals, captionEn: "Point at each animal and say its name aloud.", captionVi: "Chỉ vào từng con vật và đọc to tên của nó." },
   { keys: ["fruit", "vegetable"], src: stFruit, captionEn: "Name the fruit you can see, then say the one you like best.", captionVi: "Gọi tên các loại quả em thấy, rồi nói quả em thích nhất." },
   { keys: ["food", "drink", "meal", "breakfast", "lunch", "dinner", "restaurant", "menu"], src: stFood, captionEn: "Find the food words in the picture before you read the rules.", captionVi: "Tìm các từ về đồ ăn trong tranh trước khi đọc phần quy tắc." },
