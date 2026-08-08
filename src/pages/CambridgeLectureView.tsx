@@ -17,6 +17,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingBalloons from "@/components/FloatingBalloons";
 import KidBullets from "@/components/cambridge/KidBullets";
+import FunZone from "@/components/cambridge/FunZone";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG } from "@/data/cambridgeLecturesData";
 import { enrichCambridgeLecture } from "@/lib/cambridgeEnrichment";
