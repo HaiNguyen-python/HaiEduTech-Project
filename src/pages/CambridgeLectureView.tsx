@@ -206,11 +206,10 @@ const CambridgeLectureView = () => {
             </div>
           </motion.div>
 
-          {/* Kid-friendly level illustration */}
+          {/* Topic illustration (falls back to the level picture) */}
           {(() => {
-            const key = lecture.illustrationKey ?? lecture.level;
-            const src = ILLUSTRATIONS[key];
-            if (!src) return null;
+            const illo = illustration;
+            if (!illo?.src) return null;
             return (
               <motion.figure
                 initial={{ opacity: 0, scale: 0.97 }}
@@ -219,15 +218,15 @@ const CambridgeLectureView = () => {
                 className="mb-6 rounded-2xl overflow-hidden border border-slate-200 bg-white/70"
               >
                 <img
-                  src={src}
-                  alt={`${lecture.level} fun illustration`}
+                  src={illo.src}
+                  alt={t(`Tranh minh họa: ${lecture.titleVi}`, `Illustration for ${lecture.title}`)}
                   loading="lazy"
                   width={1024}
                   height={640}
                   className="w-full h-auto object-cover"
                 />
-                <figcaption className="text-center text-sm italic text-slate-700 py-2">
-                  {t(`Cùng học ${lecture.level.toUpperCase()} thật vui nhé! 🎉`, `Let's enjoy ${lecture.level.toUpperCase()} together! 🎉`)}
+                <figcaption className="text-center text-sm italic text-slate-700 py-2 px-3">
+                  🖼️ {t(illo.captionVi, illo.captionEn)}
                 </figcaption>
               </motion.figure>
             );
