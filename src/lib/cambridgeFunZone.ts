@@ -270,7 +270,7 @@ export function buildFunZone(lecture: CambridgeLecture): FunZone {
 
   // Chant needs 4 words - repeat the list if the lecture has fewer.
   const chantWords = Array.from({ length: 4 }, (_, i) => words[(seed + i) % Math.max(1, words.length)] ?? "English");
-  const chant = pick(CHANT_PATTERNS, seed)(chantWords, topic);
+  const chant = capitaliseLines(pick(CHANT_PATTERNS, seed)(chantWords, topic));
 
   // Riddles: guess the word from its meaning, with 3 sibling words as options.
   const riddles: FunRiddle[] = vocab.slice(0, 3).map((v, i) => {
