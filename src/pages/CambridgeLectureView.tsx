@@ -51,6 +51,9 @@ const CambridgeLectureView = () => {
   const rawLecture = useMemo(() => allCambridgeLectures.find(l => l.id === lectureId), [lectureId]);
   const lecture = useMemo(() => (rawLecture ? enrichCambridgeLecture(rawLecture) : null), [rawLecture]);
   const lectureIndex = useMemo(() => allCambridgeLectures.findIndex(l => l.id === lectureId), [lectureId]);
+  const illustration = useMemo(() => (lecture ? illustrationForLecture(lecture) : null), [lecture]);
+  const workedExamples = useMemo(() => (lecture ? buildWorkedExamples(lecture) : []), [lecture]);
+  const walkthrough = useMemo(() => (lecture ? buildWalkthrough(lecture) : null), [lecture]);
   const nextLecture = lectureIndex >= 0 && lectureIndex < allCambridgeLectures.length - 1 ? allCambridgeLectures[lectureIndex + 1] : null;
 
   // Quiz state
