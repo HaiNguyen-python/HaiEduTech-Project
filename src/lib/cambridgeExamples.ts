@@ -42,44 +42,44 @@ const hash = (s: string) => {
 const SKILL_DIALOGUES: Record<CambridgeSkill, ((w: string, topic: string) => WorkedExampleLine[])[]> = {
   listening: [
     (w, topic) => [
-      { speaker: "Audio", text: `Woman: We can meet at the ${topic} at four o'clock.` },
+      { speaker: "Audio", text: `Woman: Let's talk about ${topic} at four o'clock.` },
       { speaker: "Audio", text: `Man: Four is difficult - can we say half past four?` },
       { speaker: "Answer", text: `4:30 - the LAST time you hear is the agreed one (keyword: "${w}").` },
     ],
     (w, topic) => [
-      { speaker: "Audio", text: `Boy: Is the ${w} in the bag?` },
+      { speaker: "Audio", text: `Boy: Is the "${w}" in the bag?` },
       { speaker: "Audio", text: `Girl: No, it was, but now it's on the table.` },
       { speaker: "Answer", text: `on the table - "but now" cancels the first place.` },
     ],
   ],
   "reading-writing": [
     (w, topic) => [
-      { speaker: "Text", text: `Our ${topic} club meets every Saturday. Members must bring their own ${w}.` },
+      { speaker: "Text", text: `Our ${topic} club meets every Saturday. Members must bring their own "${w}" list.` },
       { speaker: "Question", text: `What do members need to bring?` },
-      { speaker: "Answer", text: `their own ${w} - the text says "must bring", so it is a requirement.` },
+      { speaker: "Answer", text: `Their own "${w}" list - the text says "must bring", so it is a requirement.` },
     ],
     (w, topic) => [
-      { speaker: "Text", text: `I like the ${topic} because my ${w} is always there.` },
+      { speaker: "Text", text: `I like ${topic} because the word "${w}" is easy to remember.` },
       { speaker: "Question", text: `Why does the writer like it?` },
-      { speaker: "Answer", text: `Because of the ${w} - look for the word "because".` },
+      { speaker: "Answer", text: `Because "${w}" is easy to remember - look for the word "because".` },
     ],
   ],
   speaking: [
     (w, topic) => [
-      { speaker: "Examiner", text: `Tell me about the ${topic}.` },
-      { speaker: "Student", text: `In my ${topic} there is a ${w}. I use it every day because it is very useful.` },
+      { speaker: "Examiner", text: `Tell me about ${topic}.` },
+      { speaker: "Student", text: `When I talk about ${topic}, I always think of "${w}". I use that word every day because it is very useful.` },
       { speaker: "Tip", text: `Answer + reason = a full mark answer. Never stop after three words.` },
     ],
     (w, topic) => [
-      { speaker: "Examiner", text: `Do you like the ${topic}? Why?` },
-      { speaker: "Student", text: `Yes, I do. I love the ${w} the most, because it makes me feel happy.` },
+      { speaker: "Examiner", text: `Do you like ${topic}? Why?` },
+      { speaker: "Student", text: `Yes, I do. I like "${w}" the most, because it makes me feel happy.` },
       { speaker: "Tip", text: `Yes/No + detail + feeling. Three parts, one breath.` },
     ],
   ],
   vocabulary: [
     (w, topic) => [
       { speaker: "Word", text: `${w}` },
-      { speaker: "In a sentence", text: `My favourite ${topic} word is "${w}" and I use it when I talk about my day.` },
+      { speaker: "In a sentence", text: `My favourite word about ${topic} is "${w}", and I use it when I talk about my day.` },
       { speaker: "Tip", text: `Learn the word inside a sentence, never alone.` },
     ],
     (w, topic) => [
@@ -90,14 +90,14 @@ const SKILL_DIALOGUES: Record<CambridgeSkill, ((w: string, topic: string) => Wor
   ],
   grammar: [
     (w, topic) => [
-      { speaker: "Pattern", text: `subject + verb + ${w}` },
-      { speaker: "Correct", text: `She has got a new ${w}.` },
-      { speaker: "Wrong", text: `She have got a new ${w}. → "she" always takes "has".` },
+      { speaker: "Pattern", text: `subject + verb + object (example word: "${w}")` },
+      { speaker: "Correct", text: `She has got a new "${w}" in her notebook.` },
+      { speaker: "Wrong", text: `She have got a new "${w}". → "she" always takes "has".` },
     ],
     (w, topic) => [
       { speaker: "Pattern", text: `question word + auxiliary + subject + verb` },
-      { speaker: "Correct", text: `Where did you buy that ${w}?` },
-      { speaker: "Wrong", text: `Where you bought that ${w}? → keep "did" and the base verb.` },
+      { speaker: "Correct", text: `Where did you learn the word "${w}"?` },
+      { speaker: "Wrong", text: `Where you learned the word "${w}"? → keep "did" and the base verb.` },
     ],
   ],
 };
@@ -139,7 +139,12 @@ function buildExtras(lecture: CambridgeLecture, ruleIndex: number): string[] {
 export function buildWorkedExamples(lecture: CambridgeLecture): WorkedExample[] {
   const rules = (lecture.illustratedRules ?? []).slice(0, 4);
   const vocab = lecture.vocabulary ?? [];
-  const topic = lecture.title.replace(/^[^A-Za-z]+/, "").toLowerCase();
+  // Clean topic label: drop emoji, keep only the first idea before & / : / -
+  const topic = lecture.title
+    .replace(/^[^A-Za-z]+/, "")
+    .split(/\s*[&:\-–]\s*/)[0]
+    .trim()
+    .toLowerCase() || "this topic";
   const dialogues = SKILL_DIALOGUES[lecture.skill] ?? SKILL_DIALOGUES.vocabulary;
   const turns = YOUR_TURN[lecture.level];
 
