@@ -343,6 +343,9 @@ const CambridgeLectureView = () => {
               <TabsTrigger value="watchout" className="data-[state=active]:bg-red-500/20 data-[state=active]:text-red-700 text-slate-700 text-sm px-4 py-2">
                 🐉 {t("Cảnh báo", "Watch Out!")}
               </TabsTrigger>
+              <TabsTrigger value="examples" className="data-[state=active]:bg-fuchsia-500/20 data-[state=active]:text-fuchsia-700 text-slate-700 text-sm px-4 py-2">
+                🧩 {t("Ví dụ chi tiết", "Worked Examples")}
+              </TabsTrigger>
               <TabsTrigger value="practice" className="data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-700 text-slate-700 text-sm px-4 py-2">
                 ✏️ {t("Luyện tập", "Practice")}
               </TabsTrigger>
