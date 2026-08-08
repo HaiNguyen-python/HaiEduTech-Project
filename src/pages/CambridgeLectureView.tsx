@@ -462,6 +462,145 @@ const CambridgeLectureView = () => {
               </div>
             </TabsContent>
 
+            {/* Worked Examples: model sentences, mini dialogues, exam walkthrough */}
+            <TabsContent value="examples">
+              <div className="mb-5 p-4 rounded-xl bg-fuchsia-500/[0.05] border border-fuchsia-500/20 flex items-start gap-3">
+                <Sparkles className="w-5 h-5 text-fuchsia-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-fuchsia-800 font-bold text-sm mb-1">
+                    {t("Ví dụ chi tiết - học qua câu thật", "Worked Examples - learn from real sentences")}
+                  </p>
+                  <p className="text-slate-700 text-sm leading-relaxed">
+                    {t(
+                      "Mỗi quy tắc đi kèm câu mẫu, câu mở rộng, hội thoại ngắn kiểu phòng thi và một việc nhỏ để em tự làm.",
+                      "Each rule comes with a model sentence, extra sentences, a short exam-style dialogue and one small task for you."
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              {illustration?.src && (
+                <figure className="mb-6 rounded-2xl overflow-hidden border border-slate-200 bg-white/70">
+                  <img
+                    src={illustration.src}
+                    alt={t(`Tranh minh họa: ${lecture.titleVi}`, `Illustration for ${lecture.title}`)}
+                    loading="lazy"
+                    className="w-full h-auto object-cover"
+                  />
+                  <figcaption className="text-center text-sm italic text-slate-700 py-2 px-3">
+                    🖼️ {t(illustration.captionVi, illustration.captionEn)}
+                  </figcaption>
+                </figure>
+              )}
+
+              <div className="space-y-4">
+                {workedExamples.map((ex, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="rounded-2xl p-5 border border-slate-200 bg-white/75 backdrop-blur-sm"
+                  >
+                    <div className="flex items-start gap-4">
+                      <span className="text-3xl flex-shrink-0">{ex.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-fuchsia-700 text-xs font-bold uppercase tracking-wide mb-1">
+                          {t(`Ví dụ #${i + 1}`, `Example #${i + 1}`)}
+                        </p>
+                        <KidBullets
+                          level={lecture.level}
+                          text={t(ex.focusVi, ex.focus)}
+                          marker="🎯"
+                          className="text-slate-900 font-semibold mb-3"
+                          style={{ fontSize: "17px", lineHeight: "1.7" }}
+                        />
+
+                        <div className="p-3 rounded-lg bg-emerald-500/[0.07] border border-emerald-500/25 mb-3">
+                          <p className="text-emerald-700 text-xs font-bold uppercase tracking-wide mb-1">
+                            {t("Câu mẫu", "Model sentence")}
+                          </p>
+                          <p className="text-slate-800 text-[16px] italic">"{ex.model}"</p>
+                        </div>
+
+                        {ex.extras.length > 0 && (
+                          <div className="mb-3">
+                            <p className="text-slate-500 text-xs font-bold uppercase tracking-wide mb-1">
+                              {t("Câu mở rộng", "More sentences")}
+                            </p>
+                            <ul className="list-disc pl-5 space-y-1 text-slate-700 text-[15px]">
+                              {ex.extras.map((line, j) => (
+                                <li key={j}>{line}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        <div className="rounded-lg border border-slate-200 overflow-hidden mb-3">
+                          <p className="px-3 py-1.5 bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wide">
+                            {t("Hội thoại ngắn kiểu phòng thi", "Short exam-style dialogue")}
+                          </p>
+                          <div className="divide-y divide-slate-100">
+                            {ex.dialogue.map((line, j) => (
+                              <div key={j} className="px-3 py-2 flex gap-2 text-[15px]">
+                                <span className="font-bold text-violet-700 shrink-0 min-w-[86px]">{line.speaker}:</span>
+                                <span className="text-slate-800">{line.text}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="p-3 rounded-lg bg-amber-500/[0.08] border border-amber-500/25">
+                          <p className="text-amber-800 text-sm">
+                            ✍️ <span className="font-bold">{t("Em thử nhé: ", "Your turn: ")}</span>
+                            {t(ex.yourTurnVi, ex.yourTurn)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {walkthrough && (
+                <div className="mt-6 rounded-2xl p-5 border border-violet-300/60 bg-violet-500/[0.05]">
+                  <div className="flex items-center gap-2 mb-3">
+                    <FileSearch className="w-5 h-5 text-violet-600" />
+                    <span className="text-sm font-bold text-violet-700 uppercase tracking-wide">
+                      {t("Giải chi tiết một câu đề thi", "Exam question walkthrough")}
+                    </span>
+                  </div>
+                  <p className="text-slate-700 text-sm mb-2">{t(walkthrough.instructionVi, walkthrough.instruction)}</p>
+                  <p className="text-slate-900 font-semibold text-[16px] mb-3">{walkthrough.question}</p>
+                  <div className="space-y-2 mb-4">
+                    {walkthrough.options.map((opt, oi) => (
+                      <div
+                        key={oi}
+                        className={`px-3 py-2 rounded-lg text-[15px] border ${
+                          oi === walkthrough.answer
+                            ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-800 font-semibold"
+                            : "bg-white/70 border-slate-200 text-slate-700"
+                        }`}
+                      >
+                        <span className="font-bold mr-2">{String.fromCharCode(65 + oi)}</span>
+                        {opt}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="space-y-2">
+                    {walkthrough.steps.map((s, si) => (
+                      <div key={si} className="p-3 rounded-lg bg-white/75 border border-slate-200">
+                        <p className="text-violet-700 text-xs font-bold uppercase tracking-wide mb-1">
+                          {t(s.labelVi, s.label)}
+                        </p>
+                        <p className="text-slate-800 text-[15px] leading-relaxed">{t(s.detailVi, s.detail)}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </TabsContent>
+
             {/* Practice */}
             <TabsContent value="practice">
               {/* Context intro for the Practice tab */}
