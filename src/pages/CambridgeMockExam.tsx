@@ -278,7 +278,7 @@ const CambridgeMockExam = () => {
                   <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 mb-4">
                     <p className="text-[#94A3B8] text-sm leading-relaxed italic">{currentQuestion.passage}</p>
                     <Button
-                      onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { rate: 0.9 }); }}
+                      onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { playbackRate: 0.9 }); }}
                       size="sm"
                       variant="outline"
                       className="mt-3 border-white/20 text-white hover:bg-white/10"
