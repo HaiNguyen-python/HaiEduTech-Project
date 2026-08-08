@@ -194,7 +194,7 @@ const FunZone = ({ lecture }: FunZoneProps) => {
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">
-                {(t(g.howVi, g.how) as unknown as string[]).map((line, li) => (
+                {t(g.howVi.join("|"), g.how.join("|")).split("|").map((line, li) => (
                   <li key={li} className="flex gap-2 text-slate-700" style={{ fontSize: "16px", lineHeight: "1.7" }}>
                     <span className="font-black text-emerald-600">{li + 1}.</span>
                     <span>{line}</span>
