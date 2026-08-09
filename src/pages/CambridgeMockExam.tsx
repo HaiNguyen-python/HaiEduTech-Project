@@ -114,10 +114,10 @@ const CambridgeMockExam = () => {
 
   if (!exam && phase !== "loading") {
     return (
-      <div className="min-h-screen bg-[#0A0E1A] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F5F8FC] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-white text-xl mb-4">{t("Không tìm thấy đề thi.", "Exam not found.")}</p>
-          <Button onClick={() => navigate("/cambridge-lectures")} variant="outline" className="border-white/20 text-white">
+          <p className="text-[#0F172A] text-xl mb-4">{t("Không tìm thấy đề thi.", "Exam not found.")}</p>
+          <Button onClick={() => navigate("/cambridge-lectures")} variant="outline" className="border-slate-300 text-[#0F172A]">
             <ArrowLeft className="w-4 h-4 mr-2" /> {t("Quay lại", "Go back")}
           </Button>
         </div>
@@ -127,8 +127,8 @@ const CambridgeMockExam = () => {
 
   if (phase === "loading" || !exam) {
     return (
-      <div className="min-h-screen bg-[#0A0E1A] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[#C4B5FD]" />
+      <div className="min-h-screen bg-[#F5F8FC] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#6D28D9]" />
       </div>
     );
   }
@@ -142,39 +142,39 @@ const CambridgeMockExam = () => {
   if (phase === "result") {
     const pct = Math.round((score / exam.totalQuestions) * 100);
     return (
-      <div className="min-h-screen bg-[#0A0E1A] text-white p-4 md:p-8">
+      <div className="min-h-screen bg-[#F5F8FC] text-[#0F172A] p-4 md:p-8">
         <div className="max-w-3xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
             <Award className="w-16 h-16 mx-auto mb-4" style={{ color: levelCfg.color }} />
             <h1 className="text-3xl font-bold mb-2">{t("Kết quả thi", "Exam Results")}</h1>
-            <p className="text-[#94A3B8]">{t(exam.titleVi, exam.title)}</p>
+            <p className="text-[#475569]">{t(exam.titleVi, exam.title)}</p>
           </motion.div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 mb-6 text-center">
+          <div className="rounded-2xl border border-slate-200 bg-white p-8 mb-6 text-center">
             <div className="text-6xl font-black mb-2" style={{ color: pct >= 80 ? "#4ade80" : pct >= 60 ? "#facc15" : "#f87171" }}>
               {pct}%
             </div>
-            <p className="text-[#94A3B8] text-lg">{score}/{exam.totalQuestions} {t("câu đúng", "correct")}</p>
+            <p className="text-[#334155] text-lg">{score}/{exam.totalQuestions} {t("câu đúng", "correct")}</p>
           </div>
 
           {/* Section breakdown */}
           <div className="grid gap-3 mb-8">
             {Object.entries(sectionStats).map(([section, stats]) => (
-              <div key={section} className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/[0.03]">
-                <span className="font-medium text-[#C4B5FD]">{section}</span>
-                <span className="text-white font-bold">{stats.correct}/{stats.total} ({Math.round((stats.correct / stats.total) * 100)}%)</span>
+              <div key={section} className="flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white">
+                <span className="font-medium text-[#6D28D9]">{section}</span>
+                <span className="text-[#0F172A] font-bold">{stats.correct}/{stats.total} ({Math.round((stats.correct / stats.total) * 100)}%)</span>
               </div>
             ))}
           </div>
 
           <div className="flex flex-wrap gap-3 justify-center">
-            <Button onClick={() => setPhase("review")} variant="outline" className="border-white/20 text-white hover:bg-white/10">
+            <Button onClick={() => setPhase("review")} variant="outline" className="border-slate-300 text-[#0F172A] hover:bg-slate-100">
               <BookOpen className="w-4 h-4 mr-2" /> {t("Xem đáp án", "Review Answers")}
             </Button>
             <Button onClick={() => { setAnswers({}); setCurrentQ(0); setTimeLeft(exam.duration * 60); setPhase("taking"); }} className="bg-gradient-to-r from-[#A78BFA] to-[#7C3AED]">
               <RotateCcw className="w-4 h-4 mr-2" /> {t("Làm lại", "Retake")}
             </Button>
-            <Button onClick={() => navigate("/cambridge-lectures")} variant="outline" className="border-white/20 text-white hover:bg-white/10">
+            <Button onClick={() => navigate("/cambridge-lectures")} variant="outline" className="border-slate-300 text-[#0F172A] hover:bg-slate-100">
               <ArrowLeft className="w-4 h-4 mr-2" /> {t("Quay lại", "Back")}
             </Button>
           </div>
@@ -186,10 +186,10 @@ const CambridgeMockExam = () => {
   // REVIEW
   if (phase === "review") {
     return (
-      <div className="min-h-screen bg-[#0A0E1A] text-white p-4 md:p-8">
+      <div className="min-h-screen bg-[#F5F8FC] text-[#0F172A] p-4 md:p-8">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Button onClick={() => setPhase("result")} variant="ghost" className="text-white hover:bg-white/10">
+            <Button onClick={() => setPhase("result")} variant="ghost" className="text-[#0F172A] hover:bg-slate-100">
               <ArrowLeft className="w-4 h-4 mr-2" /> {t("Kết quả", "Results")}
             </Button>
             <h1 className="text-xl font-bold">{t("Xem đáp án", "Review Answers")}</h1>
@@ -201,22 +201,22 @@ const CambridgeMockExam = () => {
                 const userAns = answers[q.id];
                 const isCorrect = userAns === q.correctAnswer;
                 return (
-                  <div key={q.id} className={`p-5 rounded-xl border ${isCorrect ? "border-emerald-500/30 bg-emerald-500/5" : "border-red-500/30 bg-red-500/5"}`}>
+                  <div key={q.id} className={`p-5 rounded-xl border ${isCorrect ? "border-emerald-300 bg-emerald-50" : "border-red-300 bg-red-50"}`}>
                     <div className="flex items-start gap-3 mb-3">
-                      <span className="text-sm font-bold text-[#94A3B8] shrink-0">Q{idx + 1}</span>
-                      <span className="text-xs px-2 py-0.5 rounded bg-white/10 text-[#94A3B8]">{q.section}</span>
-                      {isCorrect ? <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 ml-auto" /> : <XCircle className="w-5 h-5 text-red-400 shrink-0 ml-auto" />}
+                      <span className="text-base font-bold text-[#475569] shrink-0">Q{idx + 1}</span>
+                      <span className="text-sm px-2.5 py-1 rounded bg-slate-100 text-[#334155] font-semibold">{q.section}</span>
+                      {isCorrect ? <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 ml-auto" /> : <XCircle className="w-5 h-5 text-red-600 shrink-0 ml-auto" />}
                     </div>
-                    {q.passage && <p className="text-sm text-[#64748B] italic mb-2">{q.passage}</p>}
-                    <p className="font-medium mb-3">{q.question}</p>
+                    {q.passage && <p className="text-base text-[#475569] italic mb-2">{q.passage}</p>}
+                    <p className="text-lg font-semibold mb-3">{q.question}</p>
                     <div className="space-y-2">
                       {q.options.map((opt, oi) => (
-                        <div key={oi} className={`px-3 py-2 rounded-lg text-sm ${oi === q.correctAnswer ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : oi === userAns && !isCorrect ? "bg-red-500/20 text-red-300 border border-red-500/30" : "bg-white/5 text-[#94A3B8]"}`}>
+                        <div key={oi} className={`px-3 py-2 rounded-lg text-base ${oi === q.correctAnswer ? "bg-emerald-100 text-emerald-700 border border-emerald-300" : oi === userAns && !isCorrect ? "bg-red-100 text-red-700 border border-red-300" : "bg-slate-100 text-[#475569]"}`}>
                           {String.fromCharCode(65 + oi)}. {opt}
                         </div>
                       ))}
                     </div>
-                    <p className="mt-3 text-sm text-[#94A3B8]">💡 {q.explanation}</p>
+                    <p className="mt-3 text-base text-[#334155]">💡 {q.explanation}</p>
                   </div>
                 );
               })}
@@ -229,30 +229,30 @@ const CambridgeMockExam = () => {
 
   // TAKING
   return (
-    <div className="min-h-screen bg-[#0A0E1A] text-white flex flex-col">
+    <div className="min-h-screen bg-[#F5F8FC] text-[#0F172A] flex flex-col">
       {/* Top bar */}
-      <div className="sticky top-0 z-20 bg-[#0A0E1A]/95 backdrop-blur-md border-b border-white/10 px-4 py-3">
+      <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 py-3">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-3">
-            <Button onClick={() => navigate("/cambridge-lectures")} variant="ghost" size="sm" className="text-[#94A3B8] hover:text-white hover:bg-white/10">
+            <Button onClick={() => navigate("/cambridge-lectures")} variant="ghost" size="sm" className="text-[#334155] hover:text-[#0F172A] hover:bg-slate-100">
               <ArrowLeft className="w-4 h-4" />
             </Button>
             <div>
-              <h1 className="font-bold text-sm md:text-base truncate">{t(exam.titleVi, exam.title)}</h1>
+              <h1 className="font-bold text-base md:text-lg truncate">{t(exam.titleVi, exam.title)}</h1>
               <div className="flex items-center gap-2">
                 <span className="text-xs px-2 py-0.5 rounded" style={{ background: `${levelCfg.color}20`, color: levelCfg.color }}>{levelCfg.emoji} {levelCfg.label}</span>
-                <span className="text-xs text-[#64748B]">{answeredCount}/{exam.totalQuestions}</span>
+                <span className="text-xs text-[#475569]">{answeredCount}/{exam.totalQuestions}</span>
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             {isTimed ? (
-              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-sm font-bold ${timeLeft < 60 ? "bg-red-500/20 text-red-300 animate-pulse" : timeLeft < 300 ? "bg-amber-500/20 text-amber-300" : "bg-white/10 text-white"}`}>
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-base font-bold ${timeLeft < 60 ? "bg-red-100 text-red-700 animate-pulse" : timeLeft < 300 ? "bg-amber-100 text-amber-700" : "bg-slate-200 text-[#0F172A]"}`}>
                 <Clock className="w-4 h-4" /> {formatTime(timeLeft)}
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 text-[#94A3B8] text-sm">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 text-[#334155] text-base">
                 <TimerOff className="w-4 h-4" /> {t("Không giới hạn", "Untimed")}
               </div>
             )}
@@ -271,24 +271,24 @@ const CambridgeMockExam = () => {
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-sm font-bold" style={{ color: levelCfg.color }}>Q{currentQ + 1}/{exam.totalQuestions}</span>
-                  <span className="text-xs px-2 py-0.5 rounded bg-white/10 text-[#94A3B8]">{currentQuestion.section}</span>
+                  <span className="text-sm px-2.5 py-1 rounded bg-slate-100 text-[#334155] font-semibold">{currentQuestion.section}</span>
                 </div>
 
                 {currentQuestion.passage && (
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 mb-4">
-                    <p className="text-[#94A3B8] text-sm leading-relaxed italic">{currentQuestion.passage}</p>
+                  <div className="p-4 rounded-xl bg-white border border-slate-200 mb-4">
+                    <p className="text-[#1E293B] text-base md:text-lg leading-relaxed">{currentQuestion.passage}</p>
                     <Button
                       onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { playbackRate: 0.9 }); }}
                       size="sm"
                       variant="outline"
-                      className="mt-3 border-white/20 text-white hover:bg-white/10"
+                      className="mt-3 border-slate-300 text-[#0F172A] hover:bg-slate-100"
                     >
                       <Volume2 className="w-4 h-4 mr-2" /> {t("Nghe đoạn này", "Listen")}
                     </Button>
                   </div>
                 )}
 
-                <h2 className="text-lg md:text-xl font-semibold mb-6 leading-relaxed">{currentQuestion.question}</h2>
+                <h2 className="text-xl md:text-2xl font-bold mb-6 leading-relaxed">{currentQuestion.question}</h2>
 
                 <div className="space-y-3">
                   {currentQuestion.options.map((opt, oi) => {
@@ -297,9 +297,9 @@ const CambridgeMockExam = () => {
                       <button
                         key={oi}
                         onClick={() => handleAnswer(currentQuestion.id, oi)}
-                        className={`w-full text-left px-5 py-4 rounded-xl border transition-all duration-200 text-base ${selected ? "border-[#A78BFA] bg-[#A78BFA]/15 text-white" : "border-white/10 bg-white/[0.03] text-[#CBD5E1] hover:bg-white/[0.06] hover:border-white/20"}`}
+                        className={`w-full text-left px-5 py-4 rounded-xl border-2 transition-all duration-200 text-base md:text-lg ${selected ? "border-[#7C3AED] bg-[#EDE9FE] text-[#0F172A]" : "border-slate-200 bg-white text-[#0F172A] hover:bg-slate-50 hover:border-slate-300"}`}
                       >
-                        <span className="font-bold mr-3 text-[#A78BFA]">{String.fromCharCode(65 + oi)}</span>
+                        <span className="font-bold mr-3 text-[#6D28D9]">{String.fromCharCode(65 + oi)}</span>
                         {opt}
                       </button>
                     );
@@ -308,10 +308,10 @@ const CambridgeMockExam = () => {
               </div>
 
               <div className="flex items-center justify-between pt-4">
-                <Button onClick={() => setCurrentQ(Math.max(0, currentQ - 1))} variant="ghost" disabled={currentQ === 0} className="text-[#94A3B8] hover:text-white hover:bg-white/10">
+                <Button onClick={() => setCurrentQ(Math.max(0, currentQ - 1))} variant="ghost" disabled={currentQ === 0} className="text-[#334155] hover:text-[#0F172A] hover:bg-slate-100">
                   <ChevronLeft className="w-4 h-4 mr-1" /> {t("Trước", "Prev")}
                 </Button>
-                <Button onClick={() => setCurrentQ(Math.min(questions.length - 1, currentQ + 1))} variant="ghost" disabled={currentQ === questions.length - 1} className="text-[#94A3B8] hover:text-white hover:bg-white/10">
+                <Button onClick={() => setCurrentQ(Math.min(questions.length - 1, currentQ + 1))} variant="ghost" disabled={currentQ === questions.length - 1} className="text-[#334155] hover:text-[#0F172A] hover:bg-slate-100">
                   {t("Sau", "Next")} <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
               </div>
@@ -320,8 +320,8 @@ const CambridgeMockExam = () => {
         </div>
 
         {/* Answer grid sidebar - desktop */}
-        <div className="hidden lg:block w-64 border-l border-white/10 p-4">
-          <h3 className="text-sm font-bold text-[#94A3B8] mb-3">{t("Bảng đáp án", "Answer Grid")}</h3>
+        <div className="hidden lg:block w-64 border-l border-slate-200 p-4">
+          <h3 className="text-base font-bold text-[#475569] mb-3">{t("Bảng đáp án", "Answer Grid")}</h3>
           <div className="grid grid-cols-5 gap-2">
             {questions.map((q, idx) => {
               const answered = answers[q.id] !== undefined;
@@ -330,7 +330,7 @@ const CambridgeMockExam = () => {
                 <button
                   key={q.id}
                   onClick={() => setCurrentQ(idx)}
-                  className={`w-9 h-9 rounded-lg text-xs font-bold transition-all ${isCurrent ? "ring-2 ring-[#A78BFA] bg-[#A78BFA]/20 text-white" : answered ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-white/5 text-[#475569] border border-white/10 hover:bg-white/10"}`}
+                  className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${isCurrent ? "ring-2 ring-[#7C3AED] bg-[#EDE9FE] text-[#4C1D95]" : answered ? "bg-emerald-100 text-emerald-700 border border-emerald-300" : "bg-slate-100 text-[#64748B] border border-slate-200 hover:bg-slate-100"}`}
                 >
                   {idx + 1}
                 </button>
