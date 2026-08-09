@@ -117,7 +117,7 @@ const CambridgeMockExam = () => {
       <div className="min-h-screen bg-[#F5F8FC] flex items-center justify-center">
         <div className="text-center">
           <p className="text-[#0F172A] text-xl mb-4">{t("Không tìm thấy đề thi.", "Exam not found.")}</p>
-          <Button onClick={() => navigate("/cambridge-lectures")} variant="outline" className="border-slate-300 text-white">
+          <Button onClick={() => navigate("/cambridge-lectures")} variant="outline" className="border-slate-300 text-[#0F172A]">
             <ArrowLeft className="w-4 h-4 mr-2" /> {t("Quay lại", "Go back")}
           </Button>
         </div>
@@ -168,13 +168,13 @@ const CambridgeMockExam = () => {
           </div>
 
           <div className="flex flex-wrap gap-3 justify-center">
-            <Button onClick={() => setPhase("review")} variant="outline" className="border-slate-300 text-white hover:bg-slate-100">
+            <Button onClick={() => setPhase("review")} variant="outline" className="border-slate-300 text-[#0F172A] hover:bg-slate-100">
               <BookOpen className="w-4 h-4 mr-2" /> {t("Xem đáp án", "Review Answers")}
             </Button>
             <Button onClick={() => { setAnswers({}); setCurrentQ(0); setTimeLeft(exam.duration * 60); setPhase("taking"); }} className="bg-gradient-to-r from-[#A78BFA] to-[#7C3AED]">
               <RotateCcw className="w-4 h-4 mr-2" /> {t("Làm lại", "Retake")}
             </Button>
-            <Button onClick={() => navigate("/cambridge-lectures")} variant="outline" className="border-slate-300 text-white hover:bg-slate-100">
+            <Button onClick={() => navigate("/cambridge-lectures")} variant="outline" className="border-slate-300 text-[#0F172A] hover:bg-slate-100">
               <ArrowLeft className="w-4 h-4 mr-2" /> {t("Quay lại", "Back")}
             </Button>
           </div>
@@ -189,7 +189,7 @@ const CambridgeMockExam = () => {
       <div className="min-h-screen bg-[#F5F8FC] text-[#0F172A] p-4 md:p-8">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Button onClick={() => setPhase("result")} variant="ghost" className="text-white hover:bg-slate-100">
+            <Button onClick={() => setPhase("result")} variant="ghost" className="text-[#0F172A] hover:bg-slate-100">
               <ArrowLeft className="w-4 h-4 mr-2" /> {t("Kết quả", "Results")}
             </Button>
             <h1 className="text-xl font-bold">{t("Xem đáp án", "Review Answers")}</h1>
@@ -234,7 +234,7 @@ const CambridgeMockExam = () => {
       <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 py-3">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-3">
-            <Button onClick={() => navigate("/cambridge-lectures")} variant="ghost" size="sm" className="text-[#475569] hover:text-[#0F172A] hover:bg-slate-100">
+            <Button onClick={() => navigate("/cambridge-lectures")} variant="ghost" size="sm" className="text-[#334155] hover:text-[#0F172A] hover:bg-slate-100">
               <ArrowLeft className="w-4 h-4" />
             </Button>
             <div>
@@ -248,7 +248,7 @@ const CambridgeMockExam = () => {
 
           <div className="flex items-center gap-3">
             {isTimed ? (
-              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-base font-bold ${timeLeft < 60 ? "bg-red-100 text-red-700 animate-pulse" : timeLeft < 300 ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-white"}`}>
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-base font-bold ${timeLeft < 60 ? "bg-red-100 text-red-700 animate-pulse" : timeLeft < 300 ? "bg-amber-100 text-amber-700" : "bg-slate-200 text-[#0F172A]"}`}>
                 <Clock className="w-4 h-4" /> {formatTime(timeLeft)}
               </div>
             ) : (
@@ -281,7 +281,7 @@ const CambridgeMockExam = () => {
                       onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { playbackRate: 0.9 }); }}
                       size="sm"
                       variant="outline"
-                      className="mt-3 border-slate-300 text-white hover:bg-slate-100"
+                      className="mt-3 border-slate-300 text-[#0F172A] hover:bg-slate-100"
                     >
                       <Volume2 className="w-4 h-4 mr-2" /> {t("Nghe đoạn này", "Listen")}
                     </Button>
@@ -308,10 +308,10 @@ const CambridgeMockExam = () => {
               </div>
 
               <div className="flex items-center justify-between pt-4">
-                <Button onClick={() => setCurrentQ(Math.max(0, currentQ - 1))} variant="ghost" disabled={currentQ === 0} className="text-[#475569] hover:text-[#0F172A] hover:bg-slate-100">
+                <Button onClick={() => setCurrentQ(Math.max(0, currentQ - 1))} variant="ghost" disabled={currentQ === 0} className="text-[#334155] hover:text-[#0F172A] hover:bg-slate-100">
                   <ChevronLeft className="w-4 h-4 mr-1" /> {t("Trước", "Prev")}
                 </Button>
-                <Button onClick={() => setCurrentQ(Math.min(questions.length - 1, currentQ + 1))} variant="ghost" disabled={currentQ === questions.length - 1} className="text-[#475569] hover:text-[#0F172A] hover:bg-slate-100">
+                <Button onClick={() => setCurrentQ(Math.min(questions.length - 1, currentQ + 1))} variant="ghost" disabled={currentQ === questions.length - 1} className="text-[#334155] hover:text-[#0F172A] hover:bg-slate-100">
                   {t("Sau", "Next")} <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
               </div>
