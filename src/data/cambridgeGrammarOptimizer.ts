@@ -233,6 +233,33 @@ const buildGapDrills = (lecture: CambridgeLecture): CambridgePracticeItem[] => {
     .filter(Boolean) as CambridgePracticeItem[];
 };
 
+/**
+ * Accuracy quiz built from the lesson's own example sentences: learners must pick
+ * the sentence with correct form and word order among corrupted versions. This
+ * trains the exact skill grammar gap-fill questions test.
+ */
+const buildAccuracyQuiz = (lecture: CambridgeLecture): CambridgeQuizQuestion[] => {
+  const sources = [
+    ...(lecture.illustratedRules ?? []).map((r) => modelSentence(r.example || "")),
+    ...(lecture.vocabulary ?? []).map((v) => (v.example || "").trim()),
+  ].filter((sentence) => sentence.split(" ").length >= 4);
+
+  return Array.from(new Set(sources))
+    .map((sentence) => {
+      const wrong = Array.from(
+        new Set([corruptEnding(sentence), corruptOrder(sentence), corruptMissing(sentence)].filter(Boolean))
+      ).filter((w) => norm(w) !== norm(sentence));
+      if (wrong.length < 3) return null;
+      return {
+        question: `Which sentence is completely correct? (${sentence.split(" ")[0]}...)`,
+        options: [sentence, ...wrong.slice(0, 3)],
+        answer: 0,
+        explanation: `"${sentence}" has the right word order and endings; the others drop a word, drop an ending or swap the order.`,
+      } as CambridgeQuizQuestion;
+    })
+    .filter(Boolean) as CambridgeQuizQuestion[];
+};
+
 /* ------------------------------------------------------------------ */
 /* Optimizer                                                           */
 /* ------------------------------------------------------------------ */
@@ -276,10 +303,27 @@ export function optimizeCambridgeGrammarLecture(lecture: CambridgeLecture): Camb
     ...buildGapDrills(lecture),
   ]);
   if (practiceSet.length < MIN_PRACTICE) {
+    practiceSet = dedupe([
+      ...practiceSet,
+      ...buildAccuracyQuiz(lecture).map((q) => ({
+        instruction: "Choose the sentence with no mistakes.",
+        instructionVi: "Chọn câu không có lỗi.",
+        question: q.question,
+        options: q.options,
+        answer: q.answer,
+        explanation: q.explanation,
+        explanationVi: "Câu đúng giữ đủ từ, đúng đuôi và đúng trật tự từ.",
+      })),
+    ]).slice(0, Math.max(MIN_PRACTICE, practiceSet.length));
+  }
+  if (practiceSet.length < MIN_PRACTICE) {
     practiceSet = dedupe([...practiceSet, ...offTopicPractice]).slice(0, Math.max(MIN_PRACTICE, practiceSet.length));
   }
 
   let quiz = dedupe([...onTopicQuiz, ...buildRuleQuiz(lecture)]);
+  if (quiz.length < MIN_QUIZ) {
+    quiz = dedupe([...quiz, ...buildAccuracyQuiz(lecture)]).slice(0, Math.max(MIN_QUIZ, quiz.length));
+  }
   if (quiz.length < MIN_QUIZ) {
     quiz = dedupe([...quiz, ...offTopicQuiz]).slice(0, Math.max(MIN_QUIZ, quiz.length));
   }
