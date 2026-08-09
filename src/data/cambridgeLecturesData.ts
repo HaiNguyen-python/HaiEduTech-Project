@@ -920,6 +920,7 @@ import { cambridgeLecturesGrammar3 } from "./cambridgeLecturesGrammar3";
 import { applyKetBoost } from "./cambridgeKetPracticeBoost";
 import { expandCambridgeLecture } from "./cambridgeLectureExpander";
 import { dedupeCambridgeLectureIds, normalizeCambridgeLectureDepth } from "./cambridgeLectureDepthNormalizer";
+import { optimizeCambridgeGrammarLecture } from "./cambridgeGrammarOptimizer";
 
 const rawCambridgeLectures: CambridgeLecture[] = [
   startersColors,
@@ -957,4 +958,5 @@ const rawCambridgeLectures: CambridgeLecture[] = [
 export const allCambridgeLectures: CambridgeLecture[] = dedupeCambridgeLectureIds(rawCambridgeLectures)
   .map(applyKetBoost)
   .map(expandCambridgeLecture)
-  .map(normalizeCambridgeLectureDepth);
+  .map(normalizeCambridgeLectureDepth)
+  .map(optimizeCambridgeGrammarLecture);
