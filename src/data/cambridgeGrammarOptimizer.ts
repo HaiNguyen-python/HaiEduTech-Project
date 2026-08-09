@@ -87,13 +87,16 @@ const splitTail = (sentence: string) => {
   return { body: (m?.[1] ?? sentence).trim(), tail: m?.[2] ?? "" };
 };
 
-/** Wrong word order: swap the first two words. */
+/**
+ * Wrong word order: swap the last two words. Tail swaps almost never produce a
+ * second valid sentence, unlike swapping the opening words (which can create a
+ * grammatical question), so the distractor stays clearly wrong.
+ */
 const corruptOrder = (sentence: string) => {
   const { body, tail } = splitTail(sentence);
   const words = body.split(" ");
   if (words.length < 3) return "";
-  const swapped = [words[1], words[0].toLowerCase(), ...words.slice(2)];
-  swapped[0] = swapped[0].charAt(0).toUpperCase() + swapped[0].slice(1);
+  const swapped = [...words.slice(0, -2), words[words.length - 1], words[words.length - 2]];
   const out = swapped.join(" ") + tail;
   return norm(out) === norm(sentence) ? "" : out;
 };
