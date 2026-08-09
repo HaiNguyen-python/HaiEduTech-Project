@@ -493,7 +493,7 @@ const pet2: CambridgeMockExam = {
       { id: 28, section: "Listening", passage: "Listen: 'The IT department recommends changing your password every 90 days for security.'", question: "How often should passwords be changed?", options: ["Every 30 days", "Every 60 days", "Every 90 days", "Every year"], correctAnswer: 2, explanation: "Every 90 days." },
       { id: 29, section: "Listening", passage: "Listen: 'I completed a coding bootcamp last summer. It was 12 weeks of intensive training in web development.'", question: "What did the speaker study?", options: ["Design", "Marketing", "Web development", "Data science"], correctAnswer: 2, explanation: "Web development." },
       { id: 30, section: "Listening", passage: "Listen: 'The annual company conference will be held online this year due to travel restrictions.'", question: "Why is the conference online?", options: ["Cost", "Travel restrictions", "Technical issues", "Employee preference"], correctAnswer: 1, explanation: "Due to travel restrictions." },
-      { id: 31, section: "Listening", passage: "Listen: 'Start-ups in the tech industry raised a record $620 billion in funding last year.'", question: "How much funding was raised?", options: ["$420 billion", "$ 520 billion", "$620 billion", "$720 billion"], correctAnswer: 2, explanation: "$620 billion." },
+      { id: 31, section: "Listening", passage: "Listen: 'Start-ups in the tech industry raised a record $620 billion in funding last year.'", question: "How much funding was raised?", options: ["$420 billion", "$520 billion", "$620 billion", "$720 billion"], correctAnswer: 2, explanation: "$620 billion." },
       { id: 32, section: "Listening", passage: "Listen: 'I've been using project management software for the past three years. It's improved our team's productivity by about 40%.'", question: "How much has productivity improved?", options: ["20%", "30%", "40%", "50%"], correctAnswer: 2, explanation: "About 40%." },
       { id: 33, section: "Listening", passage: "Listen: 'The job interview will consist of three stages: a phone screening, a technical test, and a final in-person interview.'", question: "How many stages are there?", options: ["2", "3", "4", "5"], correctAnswer: 1, explanation: "Three stages." },
       { id: 34, section: "Listening", passage: "Listen: 'Flexible working hours mean I can start anytime between 7 and 10 AM.'", question: "What's the latest the speaker can start?", options: ["8 AM", "9 AM", "10 AM", "11 AM"], correctAnswer: 2, explanation: "Between 7 and 10 AM." },
@@ -514,6 +514,8 @@ const pet2: CambridgeMockExam = {
 };
 
 import { cambridgeMockExamExpansion } from "./cambridgeMockExamExpansion";
+import { cambridgeMockExamExpansion2 } from "./cambridgeMockExamExpansion2";
+import { cambridgeMockExamExpansion3 } from "./cambridgeMockExamExpansion3";
 
 import { normalizeCambridgeMockExam } from "./cambridgeMockExamNormalizer";
 
@@ -521,6 +523,8 @@ import { normalizeCambridgeMockExam } from "./cambridgeMockExamNormalizer";
 export const cambridgeMockExams: CambridgeMockExam[] = [
   starters1, starters2, movers1, movers2, flyers1, flyers2, ket1, ket2, pet1, pet2,
   ...cambridgeMockExamExpansion,
+  ...cambridgeMockExamExpansion2,
+  ...cambridgeMockExamExpansion3,
 ].map(normalizeCambridgeMockExam);
 
 export const CAMBRIDGE_LEVEL_LABELS: Record<string, { label: string; labelVi: string; emoji: string; color: string; bgClass: string }> = {
