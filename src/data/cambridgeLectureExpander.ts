@@ -407,6 +407,15 @@ const LEVEL_PACKS: Record<CambridgeLevel, LevelPack> = {
 export function expandCambridgeLecture(l: CambridgeLecture): CambridgeLecture {
   const pack = LEVEL_PACKS[l.level];
   if (!pack) return l;
+  // Grammar lectures stay topic-pure: generic level drills and rules would test a
+  // different grammar point than the lesson itself, so only breadth material is added.
+  if (l.skill === "grammar") {
+    return {
+      ...l,
+      vocabulary: [...(l.vocabulary ?? []), ...pack.vocabulary],
+      watchOut: [...(l.watchOut ?? []), ...pack.watchOut],
+    };
+  }
   return {
     ...l,
     vocabulary: [...(l.vocabulary ?? []), ...pack.vocabulary],
