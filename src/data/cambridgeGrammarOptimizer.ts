@@ -260,6 +260,21 @@ const buildAccuracyQuiz = (lecture: CambridgeLecture): CambridgeQuizQuestion[] =
     .filter(Boolean) as CambridgeQuizQuestion[];
 };
 
+/** Quiz version of the watch-out list: pick the rule that repairs a typical error. */
+const buildMistakeQuiz = (lecture: CambridgeLecture): CambridgeQuizQuestion[] => {
+  const list = (lecture.watchOut ?? []).filter((w) => w.mistake && w.tip);
+  if (list.length < 4) return [];
+  return list.map((w, i) => {
+    const others = list.filter((_, j) => j !== i).map((o) => o.tip);
+    return {
+      question: `Exam trap: ${w.mistake} Which rule fixes it?`,
+      options: [w.tip, others[0], others[1], others[2]].filter(Boolean),
+      answer: 0,
+      explanation: w.tip,
+    } as CambridgeQuizQuestion;
+  });
+};
+
 /* ------------------------------------------------------------------ */
 /* Optimizer                                                           */
 /* ------------------------------------------------------------------ */
@@ -322,7 +337,7 @@ export function optimizeCambridgeGrammarLecture(lecture: CambridgeLecture): Camb
 
   let quiz = dedupe([...onTopicQuiz, ...buildRuleQuiz(lecture)]);
   if (quiz.length < MIN_QUIZ) {
-    quiz = dedupe([...quiz, ...buildAccuracyQuiz(lecture)]).slice(0, Math.max(MIN_QUIZ, quiz.length));
+    quiz = dedupe([...quiz, ...buildMistakeQuiz(lecture), ...buildAccuracyQuiz(lecture)]).slice(0, Math.max(MIN_QUIZ, quiz.length));
   }
   if (quiz.length < MIN_QUIZ) {
     quiz = dedupe([...quiz, ...offTopicQuiz]).slice(0, Math.max(MIN_QUIZ, quiz.length));
