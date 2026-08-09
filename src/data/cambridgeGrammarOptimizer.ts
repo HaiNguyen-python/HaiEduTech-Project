@@ -82,6 +82,17 @@ const isOnTopic = (text: string, keywords: string[]) => {
 /* Drill generators (deterministic, derived from the lesson itself)     */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Rule examples are often written as "active → passive" or "wrong ✗ / right ✓".
+ * Only the final model sentence should be drilled, so trim everything before the
+ * last arrow / tick marker.
+ */
+const modelSentence = (example: string) => {
+  const cleaned = example.replace(/[✗✔✓]/g, " ").replace(/\s+/g, " ").trim();
+  const parts = cleaned.split(/\s*(?:→|->|=>|\/)\s*/);
+  return (parts[parts.length - 1] || cleaned).trim();
+};
+
 const splitTail = (sentence: string) => {
   const m = sentence.match(/^(.*?)([.!?]*)$/s);
   return { body: (m?.[1] ?? sentence).trim(), tail: m?.[2] ?? "" };
@@ -125,7 +136,7 @@ const corruptMissing = (sentence: string) => {
 const buildRuleDrills = (lecture: CambridgeLecture): CambridgePracticeItem[] =>
   (lecture.illustratedRules ?? [])
     .map((rule) => {
-      const example = (rule.example || "").trim();
+      const example = modelSentence(rule.example || "");
       if (example.length < 12) return null;
       const wrong = [corruptOrder(example), corruptEnding(example), corruptMissing(example)]
         .filter(Boolean)
@@ -162,17 +173,64 @@ const buildMistakeDrills = (lecture: CambridgeLecture): CambridgePracticeItem[] 
 };
 
 const buildRuleQuiz = (lecture: CambridgeLecture): CambridgeQuizQuestion[] => {
-  const rules = (lecture.illustratedRules ?? []).filter((r) => (r.example || "").length > 10);
-  if (rules.length < 4) return [];
-  return rules.map((rule, i) => {
-    const others = rules.filter((_, j) => j !== i).map((r) => r.example);
-    return {
-      question: `Which example shows this rule: "${rule.rule}"`,
-      options: [rule.example, others[0], others[1], others[2]].filter(Boolean),
-      answer: 0,
-      explanation: `${rule.rule} -> "${rule.example}"`,
-    } as CambridgeQuizQuestion;
-  });
+  const rules = (lecture.illustratedRules ?? [])
+    .map((r) => ({ rule: r.rule, example: modelSentence(r.example || "") }))
+    .filter((r) => r.example.length > 10);
+  if (rules.length < 2) return [];
+  return rules
+    .map((rule, i) => {
+      const others = rules.filter((_, j) => j !== i).map((r) => r.example);
+      // When the lesson has few rules, pad the distractors with corrupted versions
+      // of the model sentence so every quiz item still has four choices.
+      const padding = [corruptOrder(rule.example), corruptEnding(rule.example), corruptMissing(rule.example)].filter(Boolean);
+      const options = Array.from(new Set([rule.example, ...others, ...padding])).slice(0, 4);
+      if (options.length < 4) return null;
+      return {
+        question: `Which example shows this rule: "${rule.rule}"`,
+        options,
+        answer: 0,
+        explanation: `${rule.rule} -> "${rule.example}"`,
+      } as CambridgeQuizQuestion;
+    })
+    .filter(Boolean) as CambridgeQuizQuestion[];
+};
+
+/** Extra on-topic gap-fill drills built from the lesson's own model sentences. */
+const buildGapDrills = (lecture: CambridgeLecture): CambridgePracticeItem[] => {
+  const rules = (lecture.illustratedRules ?? [])
+    .map((r) => ({ rule: r.rule, ruleVi: r.ruleVi, example: modelSentence(r.example || "") }))
+    .filter((r) => r.example.split(" ").length >= 4);
+
+  return rules
+    .map((r) => {
+      const { body, tail } = splitTail(r.example);
+      const words = body.split(" ");
+      // Blank a content word from the middle of the sentence.
+      const idx = words.findIndex((w, i) => i > 0 && i < words.length - 1 && w.replace(/[^A-Za-z']/g, "").length > 2);
+      if (idx === -1) return null;
+      const target = words[idx].replace(/[^A-Za-z']/g, "");
+      const distractors = Array.from(
+        new Set(
+          [
+            target.endsWith("s") ? target.replace(/s$/, "") : `${target}s`,
+            target.endsWith("ing") ? target.replace(/ing$/, "") : `${target}ing`,
+            target.endsWith("ed") ? target.replace(/ed$/, "") : `${target}ed`,
+          ].filter((d) => d && d.toLowerCase() !== target.toLowerCase())
+        )
+      ).slice(0, 3);
+      if (distractors.length < 3) return null;
+      const question = [...words.slice(0, idx), "___", ...words.slice(idx + 1)].join(" ") + tail;
+      return {
+        instruction: "Complete the sentence with the right form.",
+        instructionVi: "Điền dạng đúng vào câu.",
+        question,
+        options: [target, ...distractors],
+        answer: 0,
+        explanation: `${r.rule} Correct form: "${target}".`,
+        explanationVi: `${r.ruleVi} Dạng đúng: "${target}".`,
+      } as CambridgePracticeItem;
+    })
+    .filter(Boolean) as CambridgePracticeItem[];
 };
 
 /* ------------------------------------------------------------------ */
@@ -215,6 +273,7 @@ export function optimizeCambridgeGrammarLecture(lecture: CambridgeLecture): Camb
     ...onTopicPractice,
     ...buildRuleDrills(lecture),
     ...buildMistakeDrills(lecture),
+    ...buildGapDrills(lecture),
   ]);
   if (practiceSet.length < MIN_PRACTICE) {
     practiceSet = dedupe([...practiceSet, ...offTopicPractice]).slice(0, Math.max(MIN_PRACTICE, practiceSet.length));
