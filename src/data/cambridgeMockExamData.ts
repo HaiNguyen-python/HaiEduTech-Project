@@ -515,10 +515,13 @@ const pet2: CambridgeMockExam = {
 
 import { cambridgeMockExamExpansion } from "./cambridgeMockExamExpansion";
 
+import { normalizeCambridgeMockExam } from "./cambridgeMockExamNormalizer";
+
+// Balanced answer keys + full bilingual explanations on every question.
 export const cambridgeMockExams: CambridgeMockExam[] = [
   starters1, starters2, movers1, movers2, flyers1, flyers2, ket1, ket2, pet1, pet2,
   ...cambridgeMockExamExpansion,
-];
+].map(normalizeCambridgeMockExam);
 
 export const CAMBRIDGE_LEVEL_LABELS: Record<string, { label: string; labelVi: string; emoji: string; color: string; bgClass: string }> = {
   starters: { label: "STARTERS", labelVi: "STARTERS", emoji: "🎨", color: "#FF6B6B", bgClass: "bg-[#FF6B6B]/10" },
