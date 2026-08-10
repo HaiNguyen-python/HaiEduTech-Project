@@ -163,7 +163,7 @@ const SwedishReadingLab = () => {
               <SelectTrigger className="w-full h-auto py-2.5 text-left">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="max-h-[60vh]">
+              <SelectContent position="popper" side="bottom" align="start" sideOffset={6} avoidCollisions={false} className="max-h-[55vh] w-[var(--radix-select-trigger-width)]">
                 {passages.map((p) => (
                   <SelectItem key={p.id} value={p.id} className="text-sm">
                     <span className="mr-1.5">{TYPE_EMOJI[p.type]}</span>
