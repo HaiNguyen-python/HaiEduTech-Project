@@ -21,7 +21,7 @@ interface Props {
 }
 
 const SwedishReadingNotes = ({ textSv, keyVocab }: Props) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const grammar = useMemo(() => buildGrammarNotes(textSv), [textSv]);
   const words = useMemo(() => buildHardWords(textSv, keyVocab), [textSv, keyVocab]);
 
@@ -95,7 +95,7 @@ const SwedishReadingNotes = ({ textSv, keyVocab }: Props) => {
                       {w.sv}
                     </span>
                     <span className="ml-2 text-[13px] text-foreground">
-                      {language === "vi" ? w.vi : w.en || w.vi}
+                      {lang === "vi" ? w.vi : w.en || w.vi}
                     </span>
                   </div>
                 </li>
