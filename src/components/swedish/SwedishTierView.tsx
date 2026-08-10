@@ -28,6 +28,7 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { svTitle } from "@/data/swedishLessonTitlesSv";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "@/hooks/use-toast";
 import { LESSON_DETAILS } from "@/data/swedishLessonDetails";
@@ -1365,7 +1366,7 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
               <div className="text-xs font-bold uppercase tracking-wider opacity-90">
                 YKI {tier.ykiLevel} · {tier.level} · {t(tier.taglineVi, tier.taglineEn)}
               </div>
-              <h3 className="mt-1 font-display text-lg font-bold sm:text-xl">{t(tier.titleVi, tier.titleEn)}</h3>
+              <h3 className="mt-1 font-display text-lg font-bold sm:text-xl">{svTitle(tier.id) || t(tier.titleVi, tier.titleEn)}</h3>
               <p className="mt-1 text-sm leading-relaxed opacity-95">{t(tier.focusVi, tier.focusEn)}</p>
             </div>
           </div>
@@ -1387,8 +1388,13 @@ const TierCard = ({ tier, index }: { tier: Tier; index: number }) => {
                       ))}
                     </div>
                     <h4 className="text-sm font-semibold text-foreground sm:text-base">
-                      {t(l.titleVi, l.titleEn)}
+                      {svTitle(l.id) || t(l.titleVi, l.titleEn)}
                     </h4>
+                    {svTitle(l.id) && (
+                      <span className="text-[11px] italic text-muted-foreground">
+                        {t(l.titleVi, l.titleEn)}
+                      </span>
+                    )}
                     <p className="text-xs leading-relaxed text-muted-foreground">
                       {t(l.descVi, l.descEn)}
                     </p>

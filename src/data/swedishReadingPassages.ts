@@ -997,3 +997,7 @@ SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION_3);
 // ─── Expansion pack 4 (A1-B1, native sv questions) ───
 import { SWEDISH_READING_PASSAGES_EXPANSION_4 } from "./swedishReadingPassagesExpansion4";
 SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION_4);
+
+// ─── Expansion pack 5 (extra A1/A2 passages, native sv questions) ───
+import { SWEDISH_READING_PASSAGES_EXPANSION_5 } from "./swedishReadingPassagesExpansion5";
+SWEDISH_READING_PASSAGES.push(...SWEDISH_READING_PASSAGES_EXPANSION_5);
