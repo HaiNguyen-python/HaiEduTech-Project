@@ -28,7 +28,7 @@ const SwedishReadingNotes = ({ textSv, keyVocab }: Props) => {
   if (grammar.length === 0 && words.length === 0) return null;
 
   return (
-    <div className="mt-6 grid gap-4 lg:grid-cols-2">
+    <div className="mb-6 grid gap-4 lg:grid-cols-2">
       {grammar.length > 0 && (
         <Card className="border-indigo-500/25 bg-indigo-500/[0.04]">
           <CardHeader className="pb-3">
