@@ -31,6 +31,7 @@ import {
   SWEDISH_READING_PASSAGES,
   type SwedishReadingPassage,
 } from "@/data/swedishReadingPassages";
+import SwedishReadingNotes from "@/components/swedish/SwedishReadingNotes";
 import { getSwedishReadingQuestion } from "@/data/swedishReadingQuestionsSv";
 import type { SwedishLevel } from "@/data/swedishWritingPrompts";
 
@@ -253,6 +254,9 @@ const SwedishReadingLab = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Grammar + hard vocab notes for this passage */}
+          <SwedishReadingNotes textSv={active.textSv} keyVocab={active.keyVocab} />
 
           {/* Questions */}
           <Card>
