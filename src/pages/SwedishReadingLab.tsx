@@ -235,23 +235,6 @@ const SwedishReadingLab = () => {
                   </div>
                 )}
               </div>
-
-              <div>
-                <div className="text-xs font-semibold text-muted-foreground mb-2">
-                  🔑 {t("Từ khoá", "Key vocab")}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {active.keyVocab.map((v, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center gap-1 rounded-md border bg-card px-2 py-1 text-xs"
-                    >
-                      <span className="font-semibold text-primary">{v.sv}</span>
-                      <span className="text-muted-foreground">— {v.vi}</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
             </CardContent>
           </Card>
 
