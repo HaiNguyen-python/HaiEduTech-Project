@@ -194,7 +194,7 @@ export const SWEDISH_READING_PASSAGES_EXPANSION_6: SwedishReadingPassage[] = [
   {
     id: "rd6-a1-lakartid",
     level: "A1",
-    type: "message",
+    type: "email",
     titleSv: "SMS: Tid hos vårdcentralen",
     titleVi: "Tin nhắn: Lịch hẹn trạm y tế",
     titleEn: "SMS: Appointment at the health centre",
