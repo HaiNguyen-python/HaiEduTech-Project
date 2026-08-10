@@ -24,7 +24,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import { playSwedishTtsScript, stopSwedishSequence } from "@/lib/swedishTts";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import {
   SWEDISH_READING_PASSAGES,
@@ -61,10 +62,10 @@ const SwedishReadingLab = () => {
   const active: SwedishReadingPassage =
     passages.find((p) => p.id === activeId) || passages[0];
 
-  useEffect(() => () => { stopSwedishTts(); }, []);
+  useEffect(() => () => { stopSwedishSequence(); }, []);
 
   const resetState = () => {
-    stopSwedishTts();
+    stopSwedishSequence();
     setPlaying(false);
     setShowTranslation(false);
     setAnswers({});
@@ -85,13 +86,14 @@ const SwedishReadingLab = () => {
 
   const handleListen = async () => {
     if (playing) {
-      stopSwedishTts();
+      stopSwedishSequence();
       setPlaying(false);
       return;
     }
     setPlaying(true);
     try {
-      await playSwedishTts(active.textSv, { playbackRate: 0.95 });
+      // Play the whole passage: chunked sequential playback so nothing is cut off.
+      await playSwedishTtsScript(active.textSv, { playbackRate: 0.95, multiVoice: false });
     } catch (e) {
       toast({
         title: t("Lỗi phát âm", "Playback error"),
@@ -144,47 +146,45 @@ const SwedishReadingLab = () => {
             </p>
           </header>
 
-          {/* Level + passage picker */}
-          <Tabs value={level} onValueChange={(v) => onPickLevel(v as SwedishLevel)} className="mb-6">
+          {/* Level + passage picker (compact dropdown) */}
+          <Tabs value={level} onValueChange={(v) => onPickLevel(v as SwedishLevel)} className="mb-4">
             <TabsList className="grid w-full grid-cols-3">
               {LEVELS.map((lvl) => (
                 <TabsTrigger key={lvl} value={lvl}>{lvl}</TabsTrigger>
               ))}
             </TabsList>
-            {LEVELS.map((lvl) => (
-              <TabsContent key={lvl} value={lvl} className="mt-4 grid sm:grid-cols-2 gap-2">
-                {passages.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => onPickPassage(p.id)}
-                    className={`text-left rounded-lg border p-3 transition ${
-                      p.id === activeId
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/40"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="font-semibold text-sm text-foreground">
-                        <span className="mr-1">{TYPE_EMOJI[p.type]}</span>
-                        {p.titleVi}
-                      </div>
-                      <Badge variant="outline" className="text-[10px] uppercase">{p.type}</Badge>
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{p.titleEn}</div>
-                  </button>
-                ))}
-              </TabsContent>
-            ))}
           </Tabs>
+
+          <div className="mb-6">
+            <div className="text-xs font-semibold text-muted-foreground mb-1.5">
+              {t(`Chọn bài đọc (${passages.length} bài)`, `Choose a text (${passages.length})`)}
+            </div>
+            <Select value={active.id} onValueChange={onPickPassage}>
+              <SelectTrigger className="w-full h-auto py-2.5 text-left">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="max-h-[60vh]">
+                {passages.map((p) => (
+                  <SelectItem key={p.id} value={p.id} className="text-sm">
+                    <span className="mr-1.5">{TYPE_EMOJI[p.type]}</span>
+                    {p.titleSv}
+                    <span className="ml-2 text-[10px] uppercase text-muted-foreground">{p.type}</span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Passage card */}
           <Card className="mb-6 border-primary/20">
             <CardHeader>
               <CardTitle className="flex items-center justify-between gap-3">
                 <div className="flex flex-col">
-                  <span className="text-base sm:text-lg">{active.titleVi}</span>
-                  <span className="text-xs text-muted-foreground italic mt-0.5">
+                  <span className="text-base sm:text-lg">
                     {TYPE_EMOJI[active.type]} {active.titleSv}
+                  </span>
+                  <span className="text-xs text-muted-foreground italic mt-0.5">
+                    {t(active.titleVi, active.titleEn)}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -290,9 +290,6 @@ const SwedishReadingLab = () => {
                       </Badge>
                       <div className="font-semibold text-sm text-foreground">
                         {qi + 1}. {questionSv || q.questionVi}
-                        {questionSv && (
-                          <span className="ml-2 text-xs text-muted-foreground italic">({q.questionVi})</span>
-                        )}
                       </div>
                     </div>
                     <div className="grid gap-2">
@@ -314,7 +311,6 @@ const SwedishReadingLab = () => {
                               {String.fromCharCode(65 + oi)}.
                             </span>
                             <span className="text-foreground">{opt.sv}</span>
-                            <span className="ml-2 text-xs text-muted-foreground">— {opt.vi}</span>
                           </button>
                         );
                       })}
