@@ -13,8 +13,9 @@ import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import {
   BookOpen, Eye, EyeOff, CheckCircle2, XCircle, Sparkles, RotateCcw,
-  Clock, Volume2,
+  Clock, Volume2, Check,
 } from "lucide-react";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
