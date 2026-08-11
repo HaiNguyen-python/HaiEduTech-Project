@@ -307,7 +307,7 @@ const SwedishReadingLab = () => {
                         {kindLabel}
                       </Badge>
                       <div className="font-semibold text-sm text-foreground">
-                        {qi + 1}. {questionSv || q.questionVi}
+                        {qi + 1}. {questionSv || q.questionEn}
                       </div>
                     </div>
                     <div className="grid gap-2">
