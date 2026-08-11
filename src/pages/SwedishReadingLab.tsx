@@ -162,8 +162,14 @@ const SwedishReadingLab = () => {
           </Tabs>
 
           <div className="mb-6">
-            <div className="text-xs font-semibold text-muted-foreground mb-1.5">
-              {t(`Chọn bài đọc (${passages.length} bài)`, `Choose a text (${passages.length})`)}
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <div className="text-xs font-semibold text-muted-foreground">
+                {t(`Chọn bài đọc (${passages.length} bài)`, `Choose a text (${passages.length})`)}
+              </div>
+              <Badge variant="outline" className="text-[10px] gap-1 border-emerald-500/40 text-emerald-600">
+                <Check className="w-3 h-3" />
+                {t(`Đã đọc: ${doneCount}`, `Read: ${doneCount}`)}
+              </Badge>
             </div>
             <Select value={active.id} onValueChange={onPickPassage}>
               <SelectTrigger className="w-full h-auto py-2.5 text-left">
@@ -172,12 +178,13 @@ const SwedishReadingLab = () => {
               <SelectContent position="popper" side="bottom" align="start" sideOffset={6} avoidCollisions={false} className="max-h-[55vh] w-[var(--radix-select-trigger-width)]">
                 {passages.map((p) => (
                   <SelectItem key={p.id} value={p.id} className="text-sm">
-                    <span className="mr-1.5">{TYPE_EMOJI[p.type]}</span>
+                    <span className="mr-1.5">{isDone(p.id) ? "✅" : TYPE_EMOJI[p.type]}</span>
                     {p.titleSv}
                     <span className="ml-2 text-[10px] uppercase text-muted-foreground">{p.type}</span>
                   </SelectItem>
                 ))}
               </SelectContent>
+
             </Select>
           </div>
 
