@@ -404,13 +404,17 @@ export const buildHardWords = (
   }
 
   // Always keep the curated key vocab of the passage as a fallback / supplement.
+  // English meaning is required so the glossary stays English-only.
   for (const kv of keyVocab) {
     const key = kv.sv.toLowerCase();
     if (seen.has(key)) continue;
     if (out.length >= max) break;
+    const en = getSwedishVocabEn(kv.sv);
+    if (!en) continue;
     seen.add(key);
-    out.push({ sv: kv.sv, vi: kv.vi });
+    out.push({ sv: kv.sv, vi: kv.vi, en });
   }
 
   return out;
 };
+
