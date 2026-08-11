@@ -402,6 +402,13 @@ const SwedishReadingLab = () => {
               )}
             </CardContent>
           </Card>
+
+          {/* Post-reading vocabulary + grammar review drills */}
+          <SwedishReadingReviewQuiz
+            passageId={active.id}
+            textSv={active.textSv}
+            keyVocab={active.keyVocab}
+          />
         </div>
       </main>
       <Footer />
