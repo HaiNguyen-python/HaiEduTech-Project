@@ -58,6 +58,8 @@ const SwedishReadingLab = () => {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [submitted, setSubmitted] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const { isDone, toggle: toggleDone, count: doneCount } = useSwedishReadPassages();
+
 
   const passages = useMemo(
     () => SWEDISH_READING_PASSAGES.filter((p) => p.level === level),
