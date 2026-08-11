@@ -90,7 +90,47 @@ export const SWEDISH_READING_QUESTIONS_SV: Record<string, string> = {
   "Bây giờ mỗi đêm người viết ngủ mấy tiếng?": "Hur många timmar sover skribenten per natt nu?",
   "Tiêu đề nào phù hợp bài blog nhất?": "Vilken rubrik passar bloggtexten bäst?",
   "Điền vào: Sau một tháng, người viết có thể ngủ trong ___ phút.": "Fyll i: Efter en månad kan skribenten somna inom ___ minuter.",
+  "Tiền thuê đã gồm internet.": "Hyran inkluderar internet.",
+  "Cho phép nuôi thú cưng.": "Husdjur är tillåtna.",
+  "Có thể dùng máy rửa bát trong thời gian này.": "Man kan använda diskmaskinen under den tiden.",
+  "Linh nghĩ người Thụy Điển thô lỗ ngay từ đầu nhưng sau hiểu họ tôn trọng sự riêng tư.":
+    "Linh tyckte först att svenskarna var oartiga, men förstod senare att de respekterar integriteten.",
+  "Linh không thích fika.": "Linh tycker inte om fika.",
+  "Fika luôn phải dùng cà phê đen, không gì khác.": "Till fika måste man alltid dricka svart kaffe, inget annat.",
+  "Nghiên cứu cho thấy fika làm giảm năng suất.": "Forskningen visar att fika minskar produktiviteten.",
+  "Người thu nhập thấp được giới phê bình cho là sẽ bị ảnh hưởng nặng nhất.":
+    "Kritikerna menar att låginkomsttagare drabbas hårdast.",
+  "Thành phố sẽ đầu tư 2 tỷ kronor vào tàu điện ngầm.": "Staden ska investera två miljarder kronor i tunnelbanan.",
+  "Người kể nhìn thấy một con älg uống nước bên hồ.": "Berättaren såg en älg dricka vatten vid sjön.",
+  "Bà nội không thích yên tĩnh của thiên nhiên.": "Farmor tycker inte om naturens tystnad.",
+  "Bột nở lần đầu trong 60 phút.": "Degen jäser första gången i 60 minuter.",
+  "Cắt thành 24 miếng.": "Man skär degen i 24 bitar.",
+  "Đại học Lund tìm thấy fika làm giảm năng suất.": "Lunds universitet fann att fika minskar produktiviteten.",
+  "Sinh viên cũng dùng fika để ôn bài.": "Studenter använder också fika för att repetera.",
+  "Xe buýt đêm chạy lúc 2h.": "Nattbussen går klockan 02.00.",
+  "Cuối tuần xe chạy 20 phút/chuyến.": "På helgen går bussen var tjugonde minut.",
+  "Người bán không giúp khiêng đồ.": "Säljaren hjälper inte med att bära.",
+  "Chỉ nhận tiền mặt hoặc Swish.": "Betalning sker endast med kontanter eller Swish.",
+  "Friluftsliv hiểu là thể thao mạo hiểm.": "Friluftsliv betyder extremsport.",
+  "Friluftsfrämjandet làm dự án hội nhập.": "Friluftsfrämjandet driver integrationsprojekt.",
+  "Maria có sốt 39 độ.": "Maria har 39 graders feber.",
+  "Bác sĩ cho rằng cô bị viêm phổi.": "Läkaren tror att hon har lunginflammation.",
+  "Trẻ em được ở phòng giặt một mình.": "Barn får vara i tvättstugan utan vuxen.",
+  "Phòng giặt mở đến 22h.": "Tvättstugan är öppen till klockan 22.",
+  "Người mua có thể trả bằng Swish.": "Köparen kan betala med Swish.",
+  "Tác giả nói sisu nghĩa là không bao giờ mệt.": "Författaren säger att sisu betyder att aldrig bli trött.",
+  "Có suất chiếu 14:00 vào thứ Hai.": "Det finns en visning klockan 14.00 på måndag.",
+  "Được ăn uống trong phòng đọc.": "Man får äta och dricka i läsesalen.",
+  "Phải trả sách trong 4 tuần.": "Böckerna ska lämnas tillbaka inom fyra veckor.",
+  "Anna ở nhà buổi sáng các ngày trong tuần.": "Anna är hemma på förmiddagen på vardagar.",
+  "Người viết sẽ có triển lãm tháng tới.": "Skribenten ska ha en utställning nästa månad.",
+  "Kế hoạch đến năm 2030 là gấp đôi số làn xe đạp.": "Planen är att fördubbla antalet cykelvägar till 2030.",
+  "Giới phê bình hài lòng với kế hoạch của chính phủ.": "Kritikerna är nöjda med regeringens plan.",
+  "Erik có nuôi chó.": "Erik har en hund.",
+  "Phim bắt đầu lúc 7 giờ tối.": "Filmen börjar klockan sju på kvällen.",
+
 };
+
 
 export const getSwedishReadingQuestion = (viText: string): string | null =>
   SWEDISH_READING_QUESTIONS_SV[viText] ?? null;

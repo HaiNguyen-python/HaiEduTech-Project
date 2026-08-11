@@ -13,8 +13,9 @@ import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import {
   BookOpen, Eye, EyeOff, CheckCircle2, XCircle, Sparkles, RotateCcw,
-  Clock, Volume2,
+  Clock, Volume2, Check,
 } from "lucide-react";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -33,7 +34,9 @@ import {
 } from "@/data/swedishReadingPassages";
 import SwedishReadingNotes from "@/components/swedish/SwedishReadingNotes";
 import { getSwedishReadingQuestion } from "@/data/swedishReadingQuestionsSv";
+import { useSwedishReadPassages } from "@/hooks/useSwedishReadPassages";
 import type { SwedishLevel } from "@/data/swedishWritingPrompts";
+
 
 const LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
 
@@ -55,6 +58,8 @@ const SwedishReadingLab = () => {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [submitted, setSubmitted] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const { isDone, toggle: toggleDone, count: doneCount } = useSwedishReadPassages();
+
 
   const passages = useMemo(
     () => SWEDISH_READING_PASSAGES.filter((p) => p.level === level),
@@ -157,8 +162,14 @@ const SwedishReadingLab = () => {
           </Tabs>
 
           <div className="mb-6">
-            <div className="text-xs font-semibold text-muted-foreground mb-1.5">
-              {t(`Chọn bài đọc (${passages.length} bài)`, `Choose a text (${passages.length})`)}
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <div className="text-xs font-semibold text-muted-foreground">
+                {t(`Chọn bài đọc (${passages.length} bài)`, `Choose a text (${passages.length})`)}
+              </div>
+              <Badge variant="outline" className="text-[10px] gap-1 border-emerald-500/40 text-emerald-600">
+                <Check className="w-3 h-3" />
+                {t(`Đã đọc: ${doneCount}`, `Read: ${doneCount}`)}
+              </Badge>
             </div>
             <Select value={active.id} onValueChange={onPickPassage}>
               <SelectTrigger className="w-full h-auto py-2.5 text-left">
@@ -167,12 +178,13 @@ const SwedishReadingLab = () => {
               <SelectContent position="popper" side="bottom" align="start" sideOffset={6} avoidCollisions={false} className="max-h-[55vh] w-[var(--radix-select-trigger-width)]">
                 {passages.map((p) => (
                   <SelectItem key={p.id} value={p.id} className="text-sm">
-                    <span className="mr-1.5">{TYPE_EMOJI[p.type]}</span>
+                    <span className="mr-1.5">{isDone(p.id) ? "✅" : TYPE_EMOJI[p.type]}</span>
                     {p.titleSv}
                     <span className="ml-2 text-[10px] uppercase text-muted-foreground">{p.type}</span>
                   </SelectItem>
                 ))}
               </SelectContent>
+
             </Select>
           </div>
 
@@ -218,6 +230,25 @@ const SwedishReadingLab = () => {
                     ? t("Ẩn bản dịch", "Hide translation")
                     : t("Hiện bản dịch tiếng Việt", "Show Vietnamese translation")}
                 </Button>
+                <Button
+                  size="sm"
+                  variant={isDone(active.id) ? "default" : "outline"}
+                  onClick={() => {
+                    const nowDone = toggleDone(active.id);
+                    toast({
+                      title: nowDone
+                        ? t("Đã đánh dấu là đã đọc ✅", "Marked as read ✅")
+                        : t("Đã bỏ đánh dấu", "Unmarked"),
+                    });
+                  }}
+                  className="gap-2"
+                >
+                  <Check className="w-4 h-4" />
+                  {isDone(active.id)
+                    ? t("Đã đọc", "Read")
+                    : t("Đánh dấu đã đọc", "Mark as read")}
+                </Button>
+
                 <span className="text-xs text-muted-foreground ml-auto">
                   {wordCount} {t("từ", "words")}
                 </span>
@@ -276,7 +307,7 @@ const SwedishReadingLab = () => {
                         {kindLabel}
                       </Badge>
                       <div className="font-semibold text-sm text-foreground">
-                        {qi + 1}. {questionSv || q.questionVi}
+                        {qi + 1}. {questionSv || q.questionEn}
                       </div>
                     </div>
                     <div className="grid gap-2">
