@@ -21,7 +21,7 @@ interface Props {
 }
 
 const SwedishReadingNotes = ({ textSv, keyVocab }: Props) => {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const grammar = useMemo(() => buildGrammarNotes(textSv), [textSv]);
   const words = useMemo(() => buildHardWords(textSv, keyVocab), [textSv, keyVocab]);
 
