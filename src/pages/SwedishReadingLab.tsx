@@ -230,6 +230,25 @@ const SwedishReadingLab = () => {
                     ? t("Ẩn bản dịch", "Hide translation")
                     : t("Hiện bản dịch tiếng Việt", "Show Vietnamese translation")}
                 </Button>
+                <Button
+                  size="sm"
+                  variant={isDone(active.id) ? "default" : "outline"}
+                  onClick={() => {
+                    const nowDone = toggleDone(active.id);
+                    toast({
+                      title: nowDone
+                        ? t("Đã đánh dấu là đã đọc ✅", "Marked as read ✅")
+                        : t("Đã bỏ đánh dấu", "Unmarked"),
+                    });
+                  }}
+                  className="gap-2"
+                >
+                  <Check className="w-4 h-4" />
+                  {isDone(active.id)
+                    ? t("Đã đọc", "Read")
+                    : t("Đánh dấu đã đọc", "Mark as read")}
+                </Button>
+
                 <span className="text-xs text-muted-foreground ml-auto">
                   {wordCount} {t("từ", "words")}
                 </span>
