@@ -34,7 +34,9 @@ import {
 } from "@/data/swedishReadingPassages";
 import SwedishReadingNotes from "@/components/swedish/SwedishReadingNotes";
 import { getSwedishReadingQuestion } from "@/data/swedishReadingQuestionsSv";
+import { useSwedishReadPassages } from "@/hooks/useSwedishReadPassages";
 import type { SwedishLevel } from "@/data/swedishWritingPrompts";
+
 
 const LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
 
