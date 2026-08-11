@@ -10,6 +10,8 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
+import { getSwedishVocabEn } from "@/data/swedishReadingVocabEn";
+
 export interface GrammarNote {
   id: string;
   /** Swedish label of the structure, e.g. "ska + infinitiv". */
