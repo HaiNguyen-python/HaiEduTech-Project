@@ -126,6 +126,9 @@ export const SWEDISH_READING_QUESTIONS_SV: Record<string, string> = {
   "Người viết sẽ có triển lãm tháng tới.": "Skribenten ska ha en utställning nästa månad.",
   "Kế hoạch đến năm 2030 là gấp đôi số làn xe đạp.": "Planen är att fördubbla antalet cykelvägar till 2030.",
   "Giới phê bình hài lòng với kế hoạch của chính phủ.": "Kritikerna är nöjda med regeringens plan.",
+  "Erik có nuôi chó.": "Erik har en hund.",
+  "Phim bắt đầu lúc 7 giờ tối.": "Filmen börjar klockan sju på kvällen.",
+
 };
 
 
