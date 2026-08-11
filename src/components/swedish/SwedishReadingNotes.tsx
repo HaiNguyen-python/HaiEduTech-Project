@@ -95,8 +95,9 @@ const SwedishReadingNotes = ({ textSv, keyVocab }: Props) => {
                       {w.sv}
                     </span>
                     <span className="ml-2 text-[13px] text-foreground">
-                      {lang === "vi" ? w.vi : w.en || w.vi}
+                      {w.en || w.vi}
                     </span>
+
                   </div>
                 </li>
               ))}
