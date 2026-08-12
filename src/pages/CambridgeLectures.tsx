@@ -49,7 +49,7 @@ const SKILL_ICONS: Record<CambridgeSkill, React.ComponentType<{ className?: stri
 
 const CambridgeLectures = () => {
   const { t } = useLanguage();
-  const [view, setView] = useState<"lectures" | "testprep">("lectures");
+  const [view, setView] = useState<"lectures" | "testprep">("testprep");
   const [activeLevel, setActiveLevel] = useState("all");
   const [activeSkill, setActiveSkill] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
