@@ -8,6 +8,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
@@ -73,8 +75,6 @@ const CambridgeSpeakingPractice = () => {
   const [error, setError] = useState<string | null>(null);
   const [showSample, setShowSample] = useState(false);
   const [micLevel, setMicLevel] = useState(0);
-  const [topicQuery, setTopicQuery] = useState("");
-  const [showAllTopics, setShowAllTopics] = useState(false);
 
 
   const MAX_SECONDS = 180;
@@ -123,16 +123,6 @@ const CambridgeSpeakingPractice = () => {
     return Array.from(map.values()).sort((a, b) => a.part.localeCompare(b.part));
   }, [topicGroups, tasks]);
 
-  const VISIBLE_SECTIONS = 2;
-  const visibleSections = useMemo(() => {
-    const q = topicQuery.trim().toLowerCase();
-    if (q) {
-      return sections
-        .map((s) => ({ ...s, groups: s.groups.filter((g) => g.label.toLowerCase().includes(q)) }))
-        .filter((s) => s.groups.length > 0);
-    }
-    return showAllTopics ? sections : sections.slice(0, VISIBLE_SECTIONS);
-  }, [sections, topicQuery, showAllTopics]);
 
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
   const taskImage = task ? imageForSpeakingTask(task) : undefined;
@@ -410,7 +400,7 @@ const CambridgeSpeakingPractice = () => {
           {CAMBRIDGE_SPEAK_LEVELS.map((l) => (
             <button
               key={l.key}
-              onClick={() => { setLevel(l.key); setTaskIndex(0); setTopicQuery(""); setShowAllTopics(false); reset(); }}
+              onClick={() => { setLevel(l.key); setTaskIndex(0); reset(); }}
               className="px-4 py-2 rounded-full text-sm font-bold border-2 transition-all bg-white/85"
               style={{
                 borderColor: l.color,
@@ -424,9 +414,9 @@ const CambridgeSpeakingPractice = () => {
         </div>
         <p className="text-sm text-slate-600 mb-5 font-medium">{t(levelMeta.blurbVi, levelMeta.blurb)}</p>
 
-        {/* Topic picker - grouped by exam part, searchable, collapsible */}
+        {/* Topic picker - single compact dropdown grouped by exam part */}
         <div className="rounded-2xl border-2 border-white/70 bg-white/70 backdrop-blur-sm p-4 mb-6 shadow-sm">
-          <div className="flex flex-wrap items-center gap-3 mb-3">
+          <div className="flex flex-wrap items-center gap-3 mb-2">
             <p className="text-sm font-black uppercase tracking-wide text-slate-700 flex items-center gap-1.5">
               <MessageSquare className="w-4 h-4" />
               {t("Chọn chủ đề", "Choose a topic")}
@@ -434,68 +424,44 @@ const CambridgeSpeakingPractice = () => {
                 ({topicGroups.length} {t("chủ đề", "topics")} · {tasks.length} {t("câu", "questions")})
               </span>
             </p>
-            <input
-              value={topicQuery}
-              onChange={(e) => setTopicQuery(e.target.value)}
-              placeholder={t("Tìm chủ đề...", "Search a topic...")}
-              className="ml-auto w-full sm:w-56 rounded-full border-2 border-slate-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-slate-700 outline-none focus:border-slate-400"
-            />
           </div>
-
-          {visibleSections.length === 0 && (
-            <p className="text-sm font-semibold text-slate-500 py-2">
-              {t("Không tìm thấy chủ đề nào.", "No topic matches that search.")}
-            </p>
-          )}
-
-          <div className="space-y-4">
-            {visibleSections.map((section) => (
-              <div key={section.part}>
-                <p className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-2">
-                  {section.part}
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                  {section.groups.map((g) => {
-                    const active = currentGroup === g;
-                    return (
-                      <button
-                        key={g.label}
-                        onClick={() => { setTaskIndex(g.indices[0]); reset(); }}
-                        className={`flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-left text-[13px] font-bold border-2 transition-all ${
-                          active
-                            ? "bg-slate-900 text-white border-slate-900 shadow-md"
-                            : "bg-white text-slate-700 border-slate-200 hover:border-slate-400 hover:shadow-sm"
-                        }`}
-                      >
-                        <span className="truncate">{g.label}</span>
-                        <span
-                          className={`flex-shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${
-                            active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
-                          }`}
-                        >
-                          {g.indices.length}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {!topicQuery && sections.length > VISIBLE_SECTIONS && (
-            <Button
-              size="sm"
-              variant="ghost"
-              className="mt-3 text-slate-700 font-bold"
-              onClick={() => setShowAllTopics((s) => !s)}
+          <Select
+            value={currentGroup ? currentGroup.label : undefined}
+            onValueChange={(label) => {
+              const g = topicGroups.find((x) => x.label === label);
+              if (g) { setTaskIndex(g.indices[0]); reset(); }
+            }}
+          >
+            <SelectTrigger className="w-full h-auto py-2.5 bg-white border-2 border-slate-200 text-left text-sm font-bold text-slate-800">
+              <SelectValue placeholder={t("Chọn chủ đề...", "Choose a topic...")} />
+            </SelectTrigger>
+            <SelectContent
+              position="popper"
+              side="bottom"
+              align="start"
+              sideOffset={6}
+              avoidCollisions={false}
+              className="max-h-[55vh] w-[var(--radix-select-trigger-width)]"
             >
-              {showAllTopics
-                ? t("Thu gọn danh sách chủ đề", "Show fewer topics")
-                : t("Xem tất cả chủ đề", "Show all topics")}
-            </Button>
-          )}
+              {sections.map((section) => (
+                <SelectGroup key={section.part}>
+                  <SelectLabel className="text-[11px] font-black uppercase tracking-widest text-slate-500">
+                    {section.part}
+                  </SelectLabel>
+                  {section.groups.map((g) => (
+                    <SelectItem key={g.label} value={g.label} className="text-sm font-semibold">
+                      {g.label}
+                      <span className="ml-2 text-[10px] font-black text-slate-400">
+                        {g.indices.length} {t("câu", "Qs")}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
+
 
 
         {/* Task card */}

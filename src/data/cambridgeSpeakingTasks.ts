@@ -7,6 +7,8 @@ import { cambridgeSpeakingTasksExpansion4 } from "./cambridgeSpeakingTasksExpans
 import { cambridgeSpeakingTasksExpansion5 } from "./cambridgeSpeakingTasksExpansion5";
 import { cambridgeSpeakingTasksExpansion6 } from "./cambridgeSpeakingTasksExpansion6";
 import { cambridgeSpeakingTasksExpansion7 } from "./cambridgeSpeakingTasksExpansion7";
+import { sanitizeSpeakingTasks } from "./cambridgeSpeakingSanitize";
+
 
 export type CambridgeSpeakLevel = "starters" | "movers" | "flyers" | "ket" | "pet";
 
@@ -292,8 +294,13 @@ export const allCambridgeSpeakingTasks: CambridgeSpeakingTask[] = [
 
 const LEVEL_ORDER: CambridgeSpeakLevel[] = ["starters", "movers", "flyers", "ket", "pet"];
 
+/** Cleaned bank: no duplicate prompts, unique ids, merged topic labels. */
+export const cleanCambridgeSpeakingTasks: CambridgeSpeakingTask[] =
+  sanitizeSpeakingTasks(allCambridgeSpeakingTasks);
+
 export const tasksByLevel = (level: CambridgeSpeakLevel) =>
-  allCambridgeSpeakingTasks
+  cleanCambridgeSpeakingTasks
     .filter((t) => t.level === level)
     .sort((a, b) => LEVEL_ORDER.indexOf(a.level) - LEVEL_ORDER.indexOf(b.level));
+
 

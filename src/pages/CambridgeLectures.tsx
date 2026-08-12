@@ -49,7 +49,7 @@ const SKILL_ICONS: Record<CambridgeSkill, React.ComponentType<{ className?: stri
 
 const CambridgeLectures = () => {
   const { t } = useLanguage();
-  const [view, setView] = useState<"lectures" | "testprep">("lectures");
+  const [view, setView] = useState<"lectures" | "testprep">("testprep");
   const [activeLevel, setActiveLevel] = useState("all");
   const [activeSkill, setActiveSkill] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -165,15 +165,9 @@ const CambridgeLectures = () => {
           </div>
         </section>
 
-        {/* View toggle: Lectures vs Test Prep */}
+        {/* View toggle: Lectures tab temporarily hidden */}
         <section className="container mx-auto px-4 pt-4">
           <div className="inline-flex p-1 rounded-2xl bg-white/80 border-2 border-white shadow-md gap-1">
-            <button
-              onClick={() => setView("lectures")}
-              className={`px-4 py-2 rounded-xl text-sm font-bold transition ${view === "lectures" ? "bg-gradient-to-r from-violet-500 to-pink-500 text-white shadow" : "text-slate-700 hover:bg-slate-100"}`}
-            >
-              📚 {t("Bài giảng", "Lectures")}
-            </button>
             <button
               onClick={() => setView("testprep")}
               className={`px-4 py-2 rounded-xl text-sm font-bold transition ${view === "testprep" ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow" : "text-slate-700 hover:bg-slate-100"}`}
@@ -188,6 +182,7 @@ const CambridgeLectures = () => {
             </Link>
           </div>
         </section>
+
 
 
         {view === "testprep" ? (
