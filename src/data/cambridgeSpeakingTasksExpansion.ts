@@ -126,7 +126,7 @@ export const cambridgeSpeakingTasksExpansion: CambridgeSpeakingTask[] = [
     minSeconds: 25,
   },
   {
-    id: "fl-9", level: "flyers", part: "Part 2 - Information exchange", topic: "Places in my town",
+    id: "fl-9", level: "flyers", part: "Part 4 - Personal questions", topic: "Places in my town",
     prompt: "Look at these places. Tell me which ones are in your town and what you do there.",
     promptVi: "Nhìn các địa điểm này. Nơi nào có ở thị trấn của em và em làm gì ở đó?",
     examiner: ["How often do you go there?", "How do you get there?", "Which place is missing in your town?"],
