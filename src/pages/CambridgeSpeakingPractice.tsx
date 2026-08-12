@@ -400,7 +400,7 @@ const CambridgeSpeakingPractice = () => {
           {CAMBRIDGE_SPEAK_LEVELS.map((l) => (
             <button
               key={l.key}
-              onClick={() => { setLevel(l.key); setTaskIndex(0); setTopicQuery(""); setShowAllTopics(false); reset(); }}
+              onClick={() => { setLevel(l.key); setTaskIndex(0); reset(); }}
               className="px-4 py-2 rounded-full text-sm font-bold border-2 transition-all bg-white/85"
               style={{
                 borderColor: l.color,
