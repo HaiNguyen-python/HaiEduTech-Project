@@ -7,6 +7,8 @@ import { cambridgeSpeakingTasksExpansion4 } from "./cambridgeSpeakingTasksExpans
 import { cambridgeSpeakingTasksExpansion5 } from "./cambridgeSpeakingTasksExpansion5";
 import { cambridgeSpeakingTasksExpansion6 } from "./cambridgeSpeakingTasksExpansion6";
 import { cambridgeSpeakingTasksExpansion7 } from "./cambridgeSpeakingTasksExpansion7";
+import { sanitizeSpeakingTasks } from "./cambridgeSpeakingSanitize";
+
 
 export type CambridgeSpeakLevel = "starters" | "movers" | "flyers" | "ket" | "pet";
 
