@@ -40,7 +40,59 @@ const canonicalTopicKey = (topic: string) => {
 };
 
 /**
- * Deduplicate tasks and unify topic labels.
+ * Official Cambridge speaking parts for each level. Any label outside this list
+ * is remapped so the exam structure shown to students is always correct.
+ *   Starters : 1 Scene card | 2 Object cards | 3 Personal questions
+ *   Movers   : 1 Find the differences | 2 Picture story | 3 Odd one out | 4 Personal questions
+ *   Flyers   : 1 Find the differences | 2 Information exchange | 3 Picture story | 4 Personal questions
+ *   A2 Key   : 1 Interview | 2 Discussion
+ *   B1 Prelim: 1 Interview | 2 Long turn | 3 Collaborative task | 4 Discussion
+ */
+const normalizePart = (level: string, part: string, prompt: string): string => {
+  const p = part.toLowerCase();
+  const q = prompt.toLowerCase();
+  const isOdd = /odd one out/.test(p);
+  const isStory = /picture story/.test(p) || (!isOdd && /\bstory\b/.test(q));
+  const isDiff = /differen/.test(p) || (!isOdd && !isStory && /(my picture|your picture).*differen|differences/.test(q));
+  const isPersonal = /personal|interview/.test(p);
+  const isInfo = /information exchange/.test(p);
+  const isDescribe = /describe|scene description|photo descri|photo discussion|discussion/.test(p);
+
+  if (level === "starters") {
+    if (isPersonal) return "Part 3 - Personal questions";
+    if (/object/.test(p)) return "Part 2 - Object cards";
+    return "Part 1 - Scene card";
+  }
+  if (level === "movers") {
+    if (isOdd) return "Part 3 - Odd one out";
+    if (isDiff) return "Part 1 - Find the differences";
+    if (isStory) return "Part 2 - Picture story";
+    if (isPersonal) return "Part 4 - Personal questions";
+    return "Warm-up - Describe the picture";
+  }
+  if (level === "flyers") {
+    if (isOdd) return "Warm-up - Odd one out";
+    if (isDiff) return "Part 1 - Find the differences";
+    if (isInfo) return "Part 2 - Information exchange";
+    if (isStory) return "Part 3 - Picture story";
+    if (isPersonal) return "Part 4 - Personal questions";
+    return "Warm-up - Describe the picture";
+  }
+  if (level === "ket") {
+    if (isPersonal) return "Part 1 - Interview";
+    return "Part 2 - Discussion";
+  }
+  // pet
+  if (/long turn/.test(p)) return "Part 2 - Long turn";
+  if (/collaborative/.test(p)) return "Part 3 - Collaborative task";
+  if (/discussion/.test(p) && !/photo/.test(p)) return "Part 4 - Discussion";
+  if (isPersonal) return "Part 1 - Interview";
+  if (isDescribe) return "Part 2 - Long turn";
+  return part;
+};
+
+/**
+ * Deduplicate tasks, unify topic labels and correct exam part labels.
  * The first occurrence of a prompt wins; later copies are dropped.
  * The first label seen for a topic key becomes the display label for all of them.
  */
@@ -49,6 +101,7 @@ export const sanitizeSpeakingTasks = (tasks: CambridgeSpeakingTask[]): Cambridge
   const seenId = new Set<string>();
   const labelByKey = new Map<string, string>();
   const out: CambridgeSpeakingTask[] = [];
+
 
   for (const task of tasks) {
     const pk = promptKey(task);
@@ -65,7 +118,9 @@ export const sanitizeSpeakingTasks = (tasks: CambridgeSpeakingTask[]): Cambridge
     if (!labelByKey.has(key)) labelByKey.set(key, task.topic.trim());
     const topic = labelByKey.get(key)!;
 
-    out.push({ ...task, id, topic });
+    const part = normalizePart(task.level, task.part, task.prompt);
+
+    out.push({ ...task, id, topic, part });
   }
 
   return out;
