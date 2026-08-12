@@ -118,7 +118,9 @@ export const sanitizeSpeakingTasks = (tasks: CambridgeSpeakingTask[]): Cambridge
     if (!labelByKey.has(key)) labelByKey.set(key, task.topic.trim());
     const topic = labelByKey.get(key)!;
 
-    out.push({ ...task, id, topic });
+    const part = normalizePart(task.level, task.part, task.prompt);
+
+    out.push({ ...task, id, topic, part });
   }
 
   return out;
