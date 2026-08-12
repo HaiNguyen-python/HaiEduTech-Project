@@ -51,9 +51,9 @@ const canonicalTopicKey = (topic: string) => {
 const normalizePart = (level: string, part: string, prompt: string): string => {
   const p = part.toLowerCase();
   const q = prompt.toLowerCase();
-  const isStory = /picture story|story/.test(p) || /\bstory\b/.test(q);
-  const isDiff = /differen/.test(p) || /differen/.test(q);
   const isOdd = /odd one out/.test(p);
+  const isStory = /picture story/.test(p) || (!isOdd && /\bstory\b/.test(q));
+  const isDiff = /differen/.test(p) || (!isOdd && !isStory && /(my picture|your picture).*differen|differences/.test(q));
   const isPersonal = /personal|interview/.test(p);
   const isInfo = /information exchange/.test(p);
   const isDescribe = /describe|scene description|photo descri|photo discussion|discussion/.test(p);
@@ -64,17 +64,17 @@ const normalizePart = (level: string, part: string, prompt: string): string => {
     return "Part 1 - Scene card";
   }
   if (level === "movers") {
+    if (isOdd) return "Part 3 - Odd one out";
     if (isDiff) return "Part 1 - Find the differences";
     if (isStory) return "Part 2 - Picture story";
-    if (isOdd) return "Part 3 - Odd one out";
     if (isPersonal) return "Part 4 - Personal questions";
     return "Warm-up - Describe the picture";
   }
   if (level === "flyers") {
+    if (isOdd) return "Warm-up - Odd one out";
     if (isDiff) return "Part 1 - Find the differences";
     if (isInfo) return "Part 2 - Information exchange";
     if (isStory) return "Part 3 - Picture story";
-    if (isOdd) return "Warm-up - Odd one out";
     if (isPersonal) return "Part 4 - Personal questions";
     return "Warm-up - Describe the picture";
   }
