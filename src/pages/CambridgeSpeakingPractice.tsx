@@ -75,8 +75,6 @@ const CambridgeSpeakingPractice = () => {
   const [error, setError] = useState<string | null>(null);
   const [showSample, setShowSample] = useState(false);
   const [micLevel, setMicLevel] = useState(0);
-  const [topicQuery, setTopicQuery] = useState("");
-  const [showAllTopics, setShowAllTopics] = useState(false);
 
 
   const MAX_SECONDS = 180;
@@ -125,16 +123,6 @@ const CambridgeSpeakingPractice = () => {
     return Array.from(map.values()).sort((a, b) => a.part.localeCompare(b.part));
   }, [topicGroups, tasks]);
 
-  const VISIBLE_SECTIONS = 2;
-  const visibleSections = useMemo(() => {
-    const q = topicQuery.trim().toLowerCase();
-    if (q) {
-      return sections
-        .map((s) => ({ ...s, groups: s.groups.filter((g) => g.label.toLowerCase().includes(q)) }))
-        .filter((s) => s.groups.length > 0);
-    }
-    return showAllTopics ? sections : sections.slice(0, VISIBLE_SECTIONS);
-  }, [sections, topicQuery, showAllTopics]);
 
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
   const taskImage = task ? imageForSpeakingTask(task) : undefined;
