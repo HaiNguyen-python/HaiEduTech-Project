@@ -127,8 +127,8 @@ const Navbar = () => {
     { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 Foundational English") },
     // Foundation (everyday English)
     { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
-      { to: "/cambridge-lectures", label: t("🎓 Cambridge Lectures & Test Prep", "🎓 Cambridge Lectures & Test Prep") },
-      { to: "/cambridge-yle-vocabulary", label: t("🌈 Cambridge YLE Vocabulary & Arcade", "🌈 Cambridge YLE Vocabulary & Arcade") },
+      { to: "/cambridge-lectures", label: t("🎓 Cambridge Test Prep", "🎓 Cambridge Test Prep") },
+      { to: "/cambridge-yle-vocabulary", label: t("🌈 Cambridge YLE Vocabulary & Games", "🌈 Cambridge YLE Vocabulary & Games") },
       { to: "/cambridge-speaking-practice", label: t("🎤 Cambridge Speaking Practice", "🎤 Cambridge Speaking Practice") },
     ] },
 
