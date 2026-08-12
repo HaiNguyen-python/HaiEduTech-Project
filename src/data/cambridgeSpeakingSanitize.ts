@@ -60,7 +60,7 @@ const normalizePart = (level: string, part: string, prompt: string): string => {
 
   if (level === "starters") {
     if (isPersonal) return "Part 3 - Personal questions";
-    if (/object|card/.test(p)) return "Part 2 - Object cards";
+    if (/object/.test(p)) return "Part 2 - Object cards";
     return "Part 1 - Scene card";
   }
   if (level === "movers") {
