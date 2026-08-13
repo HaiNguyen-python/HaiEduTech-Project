@@ -957,6 +957,23 @@ const ProgrammingLessonPage = () => {
                           writeLessonScore(mod.id, lesson.id, Math.round((quizScore / lesson.quiz.length) * 100));
                           const passed = quizScore / lesson.quiz.length >= 0.6;
 
+                          // Feed the Learning DNA dashboard with a real graded attempt.
+                          void logStudentActivity({
+                            activityType: "programming_lesson_quiz",
+                            activityId: `${mod.id}:${lesson.id}`,
+                            score: quizScore,
+                            maxScore: lesson.quiz.length,
+                            domain: "programming",
+                            metadata: {
+                              moduleId: mod.id,
+                              lessonId: lesson.id,
+                              lessonTitle: lesson.title,
+                              pillar: pillar || mod.course || mod.id,
+                              passed,
+                            },
+                          });
+
+
                           // Unified Programming XP - award when learner passes (>=60%)
                           if (passed) {
                             const pillarId = pillar || mod.course || mod.id;
