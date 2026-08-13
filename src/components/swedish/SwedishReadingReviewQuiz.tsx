@@ -236,7 +236,22 @@ const SwedishReadingReviewQuiz = ({ passageId, textSv, keyVocab }: Props) => {
             })}
 
             {!submitted ? (
-              <Button className="w-full" disabled={!answeredAll} onClick={() => setSubmitted(true)}>
+              <Button
+                className="w-full"
+                disabled={!answeredAll}
+                onClick={() => {
+                  setSubmitted(true);
+                  // Feed the Learning DNA dashboard with a real graded attempt.
+                  void logStudentActivity({
+                    activityType: "swedish_reading_review",
+                    activityId: passageId,
+                    score,
+                    maxScore: tasks.length,
+                    metadata: { passageId, round, taskKinds: tasks.map((k) => k.kind) },
+                  });
+                }}
+              >
+
                 {answeredAll
                   ? t("Kiểm tra đáp án", "Check answers")
                   : t("Hãy làm hết các bài tập", "Complete all tasks first")}
