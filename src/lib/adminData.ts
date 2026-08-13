@@ -28,6 +28,9 @@ export const SPEAKING_ACTIVITY_TYPES = [
   "conv_chinese_exercise",
   // HSKK Chinese speaking
   "hskk_speaking",
+  // Swedish + Cambridge speaking
+  "speaking_coach_swedish",
+  "cambridge_speaking",
 ];
 
 export const WRITING_ACTIVITY_TYPES = [
@@ -37,6 +40,7 @@ export const WRITING_ACTIVITY_TYPES = [
   "hsk_writing",
   "toeic_writing",
   "finnish_writing",
+  "swedish_writing",
 ];
 
 export function isLearningActivity(activityType?: string | null) {

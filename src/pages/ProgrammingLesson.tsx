@@ -17,6 +17,8 @@ import { updateSkillScore } from "@/components/SkillRadarChart";
 import SkillRadarChart from "@/components/SkillRadarChart";
 import LearningRecommendation from "@/components/LearningRecommendation";
 import LessonModuleRadar, { writeLessonScore } from "@/components/programming/LessonModuleRadar";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
+
 import BackToTopButton from "@/components/programming/BackToTopButton";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
 import ExerciseWorkspace from "@/components/programming/ExerciseWorkspace";
@@ -956,6 +958,23 @@ const ProgrammingLessonPage = () => {
                           // Per-lesson score drives the lesson-level radar chart.
                           writeLessonScore(mod.id, lesson.id, Math.round((quizScore / lesson.quiz.length) * 100));
                           const passed = quizScore / lesson.quiz.length >= 0.6;
+
+                          // Feed the Learning DNA dashboard with a real graded attempt.
+                          void logStudentActivity({
+                            activityType: "programming_lesson_quiz",
+                            activityId: `${mod.id}:${lesson.id}`,
+                            score: quizScore,
+                            maxScore: lesson.quiz.length,
+                            domain: "programming",
+                            metadata: {
+                              moduleId: mod.id,
+                              lessonId: lesson.id,
+                              lessonTitle: lesson.title,
+                              pillar: pillar || mod.course || mod.id,
+                              passed,
+                            },
+                          });
+
 
                           // Unified Programming XP - award when learner passes (>=60%)
                           if (passed) {

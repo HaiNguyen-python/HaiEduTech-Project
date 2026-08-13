@@ -59,6 +59,8 @@ const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
 const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
 const ResearchProjectsAdminTab = lazy(() => import("@/components/admin/ResearchProjectsAdminTab"));
 const SuspiciousActivityCard = lazy(() => import("@/components/admin/SuspiciousActivityCard"));
+const LearningDnaExportButton = lazy(() => import("@/components/admin/LearningDnaExportButton"));
+
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -889,13 +891,22 @@ const AdminDashboard = () => {
                   {/* Student Detail - Spider Chart + Domain Breakdown */}
                   <div>
                     <Card className="sticky top-24">
-                      <CardHeader>
+                      <CardHeader className="space-y-3">
                         <CardTitle className="text-lg">
                           {selectedStudent
                             ? `${t("Hồ sơ học tập", "Learning DNA")}: ${selectedStudent.fullName}`
                             : t("Chọn học sinh", "Select a student")}
                         </CardTitle>
+                        {selectedStudent && (
+                          <Suspense fallback={null}>
+                            <LearningDnaExportButton
+                              userId={selectedStudent.userId}
+                              studentName={selectedStudent.fullName}
+                            />
+                          </Suspense>
+                        )}
                       </CardHeader>
+
                       <CardContent>
                         {selectedStudent && spiderData.length > 0 ? (
                           <>

@@ -357,6 +357,8 @@ const esc = (s: string) =>
 
 const NO_DATA = "Chưa có dữ liệu / No data";
 
+const shortName = (s: string) => (s.length > 30 ? s.slice(0, 29) + "…" : s);
+
 function pageOpen(): string {
   return `<section style="width:${PAGE_W}px;height:${PAGE_H}px;box-sizing:border-box;padding:0;background:#ffffff;color:${INK};font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;position:relative;overflow:hidden;">`;
 }
@@ -366,11 +368,11 @@ function header(data: ReportData, subtitleVi: string, subtitleEn: string): strin
     <div style="display:flex;justify-content:space-between;align-items:flex-end;">
       <div>
         <div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;opacity:.9;">HaiEduTech</div>
-        <div style="font-size:26px;font-weight:700;margin-top:4px;">Báo cáo học tập / Learning Report</div>
+        <div style="font-size:23px;font-weight:700;margin-top:4px;white-space:nowrap;">Báo cáo học tập / Learning Report</div>
         <div style="font-size:15px;margin-top:6px;opacity:.95;">${esc(subtitleVi)} · ${esc(subtitleEn)}</div>
       </div>
       <div style="text-align:right;font-size:12px;line-height:1.7;opacity:.95;">
-        <div style="font-size:17px;font-weight:700;">${esc(data.studentName)}</div>
+        <div style="font-size:16px;font-weight:700;white-space:nowrap;">${esc(shortName(data.studentName))}</div>
         <div>${esc(data.periodLabelVi)} / ${esc(data.periodLabelEn)}</div>
         <div>Xuất ngày / Issued: ${data.generatedAt.toLocaleDateString("vi-VN")}</div>
       </div>
@@ -385,11 +387,11 @@ function footer(pageNo: number, total: number): string {
   </div>`;
 }
 
-function statCard(labelVi: string, labelEn: string, value: string, color: string): string {
-  return `<div style="flex:1;border:1px solid ${BORDER};border-radius:12px;padding:14px 16px;background:#F8FAFC;">
+function statCard(labelVi: string, labelEn: string, value: string, color: string, valueSize = 24): string {
+  return `<div style="flex:1;height:92px;box-sizing:border-box;border:1px solid ${BORDER};border-radius:12px;padding:12px 16px;background:#F8FAFC;">
     <div style="font-size:11px;color:${MUTED};text-transform:uppercase;letter-spacing:.6px;">${esc(labelEn)}</div>
     <div style="font-size:12px;color:${MUTED};margin-top:1px;">${esc(labelVi)}</div>
-    <div style="font-size:25px;font-weight:700;color:${color};margin-top:8px;">${esc(value)}</div>
+    <div style="font-size:${valueSize}px;font-weight:700;color:${color};margin-top:6px;line-height:1.15;">${esc(value)}</div>
   </div>`;
 }
 
@@ -403,11 +405,11 @@ function sectionTitle(vi: string, en: string): string {
 /** Inline SVG radar chart (max 8 axes). */
 function radarSvg(points: Array<{ label: string; value: number }>): string {
   if (points.length < 3) {
-    return `<div style="height:270px;display:flex;align-items:center;justify-content:center;color:${MUTED};font-size:13px;">${NO_DATA}</div>`;
+    return `<div style="height:260px;display:flex;align-items:center;justify-content:center;color:${MUTED};font-size:13px;">${NO_DATA}</div>`;
   }
-  const cx = 175;
-  const cy = 150;
-  const r = 105;
+  const cx = 195;
+  const cy = 140;
+  const r = 96;
   const n = points.length;
   const angle = (i: number) => (Math.PI * 2 * i) / n - Math.PI / 2;
   const at = (i: number, rad: number) => [cx + Math.cos(angle(i)) * rad, cy + Math.sin(angle(i)) * rad];
@@ -422,16 +424,16 @@ function radarSvg(points: Array<{ label: string; value: number }>): string {
   points.forEach((p, i) => {
     const [x, y] = at(i, r);
     spokes += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${BORDER}" stroke-width="1"/>`;
-    const [lx, ly] = at(i, r + 24);
+    const [lx, ly] = at(i, r + 20);
     const anchor = lx > cx + 6 ? "start" : lx < cx - 6 ? "end" : "middle";
-    const text = p.label.length > 20 ? p.label.slice(0, 19) + "…" : p.label;
+    const text = p.label.length > 16 ? p.label.slice(0, 15) + "…" : p.label;
     labels += `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="10" fill="${MUTED}" text-anchor="${anchor}">${esc(text)} ${p.value}</text>`;
   });
   const shape = points
     .map((p, i) => at(i, (Math.max(0, Math.min(10, p.value)) / 10) * r).map((v) => v.toFixed(1)).join(","))
     .join(" ");
 
-  return `<svg width="350" height="300" viewBox="0 0 350 300">${grid}${spokes}
+  return `<svg width="390" height="280" viewBox="0 0 390 280">${grid}${spokes}
     <polygon points="${shape}" fill="${BRAND_BLUE}33" stroke="${BRAND_BLUE}" stroke-width="2"/>
     ${points.map((p, i) => {
       const [x, y] = at(i, (Math.max(0, Math.min(10, p.value)) / 10) * r);
@@ -463,10 +465,10 @@ function domainBars(data: ReportData): string {
 function timelineSvg(points: ReportData["timeline"]): string {
   const usable = points.filter((p) => p.avg != null) as Array<{ label: string; avg: number; count: number }>;
   if (usable.length < 2) {
-    return `<div style="height:200px;display:flex;align-items:center;justify-content:center;color:${MUTED};font-size:13px;">${NO_DATA}</div>`;
+    return `<div style="height:172px;display:flex;align-items:center;justify-content:center;color:${MUTED};font-size:13px;">${NO_DATA}</div>`;
   }
-  const w = 660;
-  const h = 200;
+  const w = 640;
+  const h = 172;
   const padL = 34;
   const padB = 28;
   const padT = 12;
@@ -570,11 +572,11 @@ export function buildReportPages(data: ReportData): string[] {
       <div style="display:flex;gap:12px;margin-bottom:22px;">
         ${statCard("Ngày có học", "Active days", String(data.activeDays), "#0EA5E9")}
         ${statCard("Chuỗi ngày dài nhất", "Best streak", `${data.bestStreak}`, "#F59E0B")}
-        ${statCard("Xu hướng", "Trend", trendText[data.trend], data.trend === "declining" ? "#EF4444" : INK)}
+        ${statCard("Xu hướng", "Trend", trendText[data.trend], data.trend === "declining" ? "#EF4444" : INK, 17)}
       </div>
 
       <div style="display:flex;gap:24px;align-items:flex-start;">
-        <div style="width:350px;">
+        <div style="width:390px;">
           ${sectionTitle("Learning DNA", "Skill radar (0-10)")}
           ${radarSvg(data.radar)}
         </div>
@@ -597,7 +599,7 @@ export function buildReportPages(data: ReportData): string[] {
     ${header(data, "Chi tiết kỹ năng & nhận xét", "Skill detail & teacher notes")}
     <div style="padding:24px 40px 0;">
       ${sectionTitle("Bảng chi tiết từng kỹ năng", "Skill-by-skill breakdown")}
-      ${skillTable(data.skills)}
+      ${skillTable(data.skills.slice(0, 9))}
 
       <div style="display:flex;gap:20px;margin-top:22px;">
         <div style="flex:1;">
@@ -614,6 +616,7 @@ export function buildReportPages(data: ReportData): string[] {
         ${sectionTitle("Nhận xét & gợi ý luyện tập", "Notes & practice suggestions")}
         <div style="border:1px solid ${BORDER};border-radius:12px;padding:16px 18px;background:#F8FAFC;">
           ${data.notesVi
+            .slice(0, 3)
             .map(
               (vi, i) => `<div style="margin-bottom:11px;">
             <div style="font-size:13px;line-height:1.5;">• ${esc(vi)}</div>
@@ -624,9 +627,8 @@ export function buildReportPages(data: ReportData): string[] {
         </div>
       </div>
 
-      <div style="margin-top:18px;font-size:11.5px;color:${MUTED};line-height:1.6;">
-        Số lượt học gần nhất: ${fmtDate(data.lastActiveAt)} · Số lượt luyện Speaking: ${data.speakingCount} · Số lượt luyện Writing: ${data.writingCount}<br/>
-        Mọi số liệu trong báo cáo được lấy trực tiếp từ nhật ký hoạt động của học viên trên hệ thống HaiEduTech, không có số liệu ước lượng ngoài phần band IELTS quy đổi.
+      <div style="margin-top:12px;font-size:11px;color:${MUTED};line-height:1.5;">
+        Gần nhất: ${fmtDate(data.lastActiveAt)} · Speaking: ${data.speakingCount} lượt · Writing: ${data.writingCount} lượt · Số liệu lấy trực tiếp từ nhật ký học tập HaiEduTech.
       </div>
     </div>
     ${footer(2, 2)}
