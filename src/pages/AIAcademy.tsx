@@ -35,6 +35,8 @@ import AIoTSandbox from "@/components/ai-academy/AIoTSandbox";
 import CapstoneSandbox from "@/components/ai-academy/CapstoneSandbox";
 import DragDropQuiz, { type DDQuestion } from "@/components/ai-academy/DragDropQuiz";
 import MultipleChoiceQuiz from "@/components/ai-academy/MultipleChoiceQuiz";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
+
 import ScenarioQuiz from "@/components/ai-academy/ScenarioQuiz";
 import { QUIZ_EXTRAS } from "@/data/aiAcademyQuizExtras";
 import DeepfakeSandbox from "@/components/ai-academy/DeepfakeSandbox";
