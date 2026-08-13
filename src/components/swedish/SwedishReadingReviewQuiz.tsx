@@ -19,6 +19,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SwedishAudioButton } from "@/components/swedish/SwedishAudioButton";
 import { buildReadingReviewQuiz, normalizeAnswer, type ReviewTask } from "@/lib/swedishReadingReview";
 import { cn } from "@/lib/utils";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
+
 
 interface Props {
   passageId: string;
