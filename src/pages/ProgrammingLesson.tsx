@@ -17,6 +17,8 @@ import { updateSkillScore } from "@/components/SkillRadarChart";
 import SkillRadarChart from "@/components/SkillRadarChart";
 import LearningRecommendation from "@/components/LearningRecommendation";
 import LessonModuleRadar, { writeLessonScore } from "@/components/programming/LessonModuleRadar";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
+
 import BackToTopButton from "@/components/programming/BackToTopButton";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
 import ExerciseWorkspace from "@/components/programming/ExerciseWorkspace";
