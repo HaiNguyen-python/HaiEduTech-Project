@@ -1308,6 +1308,17 @@ const AIAcademy = () => {
     awardXP(xpGain, "quiz");
     if (starsGained > 0) awardXP(0, "star");
 
+    // Feed the Learning DNA dashboard with a real graded attempt.
+    void logStudentActivity({
+      activityType: "ai_academy_track",
+      activityId: track.id,
+      score,
+      maxScore: Math.max(track.quiz?.length ?? score, 1),
+      domain: "programming",
+      metadata: { trackId: track.id, trackTitle: track.title, stars: newStars, passed },
+    });
+
+
     if (passed) {
       confetti({ particleCount: 180, spread: 110, origin: { y: 0.6 } });
       setTimeout(() => confetti({
