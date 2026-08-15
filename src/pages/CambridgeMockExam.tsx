@@ -427,7 +427,7 @@ const CambridgeMockExam = () => {
                     </div>
                   )}
 
-                  <h2 className="text-xl md:text-2xl font-bold mb-6 leading-relaxed">{currentQuestion.question}</h2>
+                  <h2 className="text-lg md:text-xl font-bold mb-5 leading-relaxed">{currentQuestion.question}</h2>
 
                   <div className="space-y-3">
                     {currentQuestion.options.map((opt, oi) => {
