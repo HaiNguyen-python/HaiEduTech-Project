@@ -1,6 +1,8 @@
 // IELTS Speaking Practice - Comprehensive question database with vocabulary support
 // Each question includes useful language, model structures, brainstorming ideas, and model answers
-// Total: 110 Part 1 + 101 Part 2 + 110 Part 3 questions
+// Total: 110 Part 1 + 101 Part 2 + 110 Part 3 questions (plus expansion bank)
+import { SPEAKING_PRACTICE_EXPANSION } from "./speakingPracticeExpansion";
+
 
 export interface VocabItem {
   phrase: string;
@@ -13803,12 +13805,13 @@ const part3PracticeQuestions: SpeakingPracticeQuestion[] = [
   }
 ];
 
-// Export all questions grouped by part
+// Export all questions grouped by part (base bank + expansion bank)
 export const speakingPracticeData = {
-  part1: part1PracticeQuestions,
-  part2: part2PracticeQuestions,
-  part3: part3PracticeQuestions,
+  part1: [...part1PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part1],
+  part2: [...part2PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part2],
+  part3: [...part3PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part3],
 };
+
 
 // Get all topics for a given part
 export const getTopicsByPart = (part: 1 | 2 | 3): string[] => {
