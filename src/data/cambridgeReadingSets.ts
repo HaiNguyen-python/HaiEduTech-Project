@@ -1778,7 +1778,7 @@ export const CAMBRIDGE_READING_SETS: Record<string, CambridgeReadingSet[]> =
       "passage": "Airport Announcement Information. Passengers travelling on flight BA245 to Madrid should now proceed to gate twelve, as boarding will begin in twenty minutes. Please have your boarding pass and passport ready to show to the staff at the gate. Passengers with young children or those needing extra assistance are welcome to board first. All hand luggage must fit under the seat in front of you or in the overhead lockers, and should not weigh more than seven kilograms. Due to bad weather in Madrid, the flight may be delayed by up to thirty minutes after boarding, so please remain patient and stay near the gate area. If you have any questions about your flight, please speak to a member of staff at the information desk near gate ten. We thank you for your patience and wish you a pleasant journey.",
       "questions": [
         {
-          "question": "Which gate should passengers go to?",
+          "question": "Which gate should passengers on flight BA245 go to?",
           "options": [
             "Gate ten",
             "Gate eleven",
