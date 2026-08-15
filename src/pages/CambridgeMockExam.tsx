@@ -286,7 +286,7 @@ const CambridgeMockExam = () => {
                         <p className="mb-2 text-sm font-black uppercase tracking-wide text-[#1D4ED8]">
                           📖 {t(`Bài đọc ${group.index} - câu ${group.from}-${group.to}`, `Text ${group.index} - questions ${group.from}-${group.to}`)}
                         </p>
-                        <p className="whitespace-pre-wrap text-base leading-relaxed text-[#1E293B]">{group.passage}</p>
+                        <p className="whitespace-pre-wrap text-lg leading-8 text-[#111827]">{group.passage}</p>
                       </div>
                     )}
                     <div className={`p-5 rounded-2xl border-2 ${isCorrect ? "border-emerald-300 bg-emerald-50" : "border-red-300 bg-red-50"}`}>
@@ -367,24 +367,25 @@ const CambridgeMockExam = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex max-w-6xl mx-auto w-full">
+      <div className="flex-1 flex max-w-7xl mx-auto w-full">
         <div className="flex-1 p-4 md:p-6">
-          <div className={currentGroup ? "grid gap-5 lg:grid-cols-2" : ""}>
+          <div className={currentGroup ? "grid gap-5 lg:grid-cols-[1.15fr_1fr]" : ""}>
             {/* Reading text panel - stays visible for every question of the group */}
             {currentGroup && (
               <div className="lg:sticky lg:top-40 lg:self-start">
-                <div className="rounded-2xl border-2 border-[#93C5FD] bg-[#F5FAFF] p-4 md:p-5">
+                <div className="rounded-2xl border-2 border-[#93C5FD] bg-[#F5FAFF] p-5 md:p-6">
                   <button
                     onClick={() => setTextOpen(o => !o)}
-                    className="mb-2 flex w-full items-center gap-2 text-left lg:cursor-default"
+                    className="mb-3 flex w-full items-center gap-2 text-left lg:cursor-default"
                   >
-                    <span className="text-sm font-black uppercase tracking-wide text-[#1D4ED8]">
+                    <span className="text-base font-black uppercase tracking-wide text-[#1D4ED8]">
                       📖 {t(`Bài đọc ${currentGroup.index} - câu ${currentGroup.from}-${currentGroup.to}`, `Text ${currentGroup.index} - questions ${currentGroup.from}-${currentGroup.to}`)}
                     </span>
-                    <ChevronDown className={`ml-auto h-4 w-4 text-[#1D4ED8] transition-transform lg:hidden ${textOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`ml-auto h-5 w-5 text-[#1D4ED8] transition-transform lg:hidden ${textOpen ? "rotate-180" : ""}`} />
                   </button>
                   <div className={`${textOpen ? "block" : "hidden"} lg:block`}>
-                    <p className="whitespace-pre-wrap text-base leading-relaxed text-[#1E293B] md:text-lg">{currentGroup.passage}</p>
+                    <p className="whitespace-pre-wrap text-lg md:text-xl leading-8 md:leading-9 text-[#111827]">{currentGroup.passage}</p>
+
                     <Button
                       onClick={() => { stopEnglishTts(); playEnglishTts(currentGroup.passage, { playbackRate: 0.9 }); }}
                       size="sm"
@@ -414,7 +415,7 @@ const CambridgeMockExam = () => {
                       <p className="mb-2 flex items-center gap-2 text-sm font-black uppercase tracking-wide text-[#BE185D]">
                         <Headphones className="h-4 w-4" /> {t("Phần nghe", "Listening")}
                       </p>
-                      <p className="text-[#1E293B] text-base md:text-lg leading-relaxed">{currentQuestion.passage}</p>
+                      <p className="text-[#111827] text-lg md:text-xl leading-8">{currentQuestion.passage}</p>
                       <Button
                         onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { playbackRate: 0.9 }); }}
                         size="sm"
@@ -426,7 +427,7 @@ const CambridgeMockExam = () => {
                     </div>
                   )}
 
-                  <h2 className="text-xl md:text-2xl font-bold mb-6 leading-relaxed">{currentQuestion.question}</h2>
+                  <h2 className="text-lg md:text-xl font-bold mb-5 leading-relaxed">{currentQuestion.question}</h2>
 
                   <div className="space-y-3">
                     {currentQuestion.options.map((opt, oi) => {
