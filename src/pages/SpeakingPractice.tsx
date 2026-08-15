@@ -1074,20 +1074,31 @@ ${suggestionsHtml}
                         </span>
                       )}
                     </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleGrammarCheck}
-                      disabled={checkingGrammar || !candidateNotes.trim()}
-                      className="text-xs gap-1.5 h-7"
-                    >
-                      {checkingGrammar ? (
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                      ) : (
-                        <PenLine className="w-3 h-3" />
-                      )}
-                      {t("Kiểm tra ngữ pháp", "Check Grammar")}
-                    </Button>
+                    <div className="flex items-center gap-1.5">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setNotesExpanded(!notesExpanded)}
+                        className="text-xs gap-1.5 h-7"
+                      >
+                        {notesExpanded ? <Minimize2 className="w-3 h-3" /> : <Maximize2 className="w-3 h-3" />}
+                        {notesExpanded ? t("Thu nhỏ", "Collapse") : t("Mở rộng", "Expand")}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleGrammarCheck}
+                        disabled={checkingGrammar || !candidateNotes.trim()}
+                        className="text-xs gap-1.5 h-7"
+                      >
+                        {checkingGrammar ? (
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                        ) : (
+                          <PenLine className="w-3 h-3" />
+                        )}
+                        {t("Kiểm tra ngữ pháp", "Check Grammar")}
+                      </Button>
+                    </div>
                   </div>
 
                   {selectedPart === 2 && (
@@ -1112,16 +1123,19 @@ ${suggestionsHtml}
                           "Quick notes - ideas & vocabulary..."
                         )
                     }
-                    className={`w-full rounded-lg border-0 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-0 resize-none ${
-                      selectedPart === 2 ? "min-h-[160px]" : "min-h-[80px]"
+                    className={`w-full rounded-lg border-0 bg-transparent text-base md:text-lg text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-0 resize-y ${
+                      notesExpanded
+                        ? "min-h-[420px]"
+                        : selectedPart === 2 ? "min-h-[180px]" : "min-h-[120px]"
                     }`}
                     style={{
-                      backgroundImage: "repeating-linear-gradient(transparent, transparent 27px, hsl(var(--border) / 0.3) 27px, hsl(var(--border) / 0.3) 28px)",
+                      backgroundImage: "repeating-linear-gradient(transparent, transparent 31px, hsl(var(--border) / 0.3) 31px, hsl(var(--border) / 0.3) 32px)",
                       backgroundPositionY: "4px",
-                      lineHeight: "28px",
+                      lineHeight: "32px",
                       paddingTop: "4px",
                     }}
                   />
+
 
                   {/* Grammar Check Results */}
                   <AnimatePresence>
