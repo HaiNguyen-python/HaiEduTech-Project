@@ -13,6 +13,11 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {
+  HIRAGANA_DAKUTEN, HIRAGANA_YOON, KATAKANA_DAKUTEN,
+  GREETINGS_EXTRA, COUNTERS, VOCAB_EXTRA, KANJI_EXTRA,
+  DIALOGUES_EXTRA, GRAMMAR_EXTRA, JA_QUIZ,
+} from "@/data/japaneseExpansion";
 
 // ---------- TTS ----------
 function speakJa(text: string) {
@@ -369,6 +374,13 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
 
 
 // ---------- UI helpers ----------
+// ---------- Merged (base + expansion) datasets ----------
+const ALL_GREETINGS: Phrase[] = [...GREETINGS, ...GREETINGS_EXTRA];
+const ALL_VOCAB = [...VOCAB, ...VOCAB_EXTRA];
+const ALL_KANJI = [...KANJI_BASIC, ...KANJI_EXTRA];
+const ALL_DIALOGUES = [...DIALOGUES, ...DIALOGUES_EXTRA];
+const ALL_GRAMMAR = [...GRAMMAR, ...GRAMMAR_EXTRA];
+
 const KanaGrid = ({ rows, label }: { rows: Array<[string, string]>; label: string }) => (
   <div>
     <h3 className="text-xl font-bold mb-3 text-pink-700">{label}</h3>
@@ -453,6 +465,7 @@ const Japanese = () => {
             <TabsTrigger value="kanji">🈴 {t("Kanji cơ bản", "Basic Kanji")}</TabsTrigger>
             <TabsTrigger value="dialogues">🗣️ {t("Hội thoại", "Dialogues")}</TabsTrigger>
             <TabsTrigger value="grammar">✍️ {t("Ngữ pháp", "Grammar")}</TabsTrigger>
+            <TabsTrigger value="quiz">🧠 {t("Ôn tập", "Quiz")}</TabsTrigger>
           </TabsList>
 
 
@@ -483,14 +496,17 @@ const Japanese = () => {
 
           <TabsContent value="kana" className="mt-6 space-y-6">
             <Card className="p-6"><KanaGrid rows={HIRAGANA} label={t("Hiragana (ひらがな)", "Hiragana (ひらがな)")} /></Card>
+            <Card className="p-6"><KanaGrid rows={HIRAGANA_DAKUTEN} label={t("Hiragana biến âm (だくてん)", "Hiragana voiced (dakuten)")} /></Card>
+            <Card className="p-6"><KanaGrid rows={HIRAGANA_YOON} label={t("Hiragana ghép âm (ようおん)", "Hiragana contracted (yōon)")} /></Card>
             <Card className="p-6"><KanaGrid rows={KATAKANA} label={t("Katakana (カタカナ)", "Katakana (カタカナ)")} /></Card>
+            <Card className="p-6"><KanaGrid rows={KATAKANA_DAKUTEN} label={t("Katakana biến âm (ダクテン)", "Katakana voiced (dakuten)")} /></Card>
           </TabsContent>
 
           <TabsContent value="greetings" className="mt-6">
             <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-rose-700">💬 {t("15 câu chào hỏi cơ bản", "15 basic greetings")}</h3>
+              <h3 className="text-xl font-bold mb-3 text-rose-700">💬 {t(`${ALL_GREETINGS.length} câu chào hỏi & giao tiếp cơ bản`, `${ALL_GREETINGS.length} everyday greetings & phrases`)}</h3>
               <div className="divide-y divide-pink-100">
-                {GREETINGS.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
+                {ALL_GREETINGS.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
               </div>
             </Card>
           </TabsContent>
@@ -528,10 +544,19 @@ const Japanese = () => {
                 {TIME_WORDS.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
               </div>
             </Card>
+            {COUNTERS.map((c) => (
+              <Card key={c.title} className="p-6">
+                <h3 className="text-xl font-bold mb-1 text-rose-700">{c.title}</h3>
+                <p className="text-sm text-slate-600 mb-3">{uiLang === "vi" ? c.note_vi : c.note_en}</p>
+                <div className="divide-y divide-pink-100">
+                  {c.items.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
+                </div>
+              </Card>
+            ))}
           </TabsContent>
 
           <TabsContent value="vocab" className="mt-6 space-y-6">
-            {VOCAB.map(group => (
+            {ALL_VOCAB.map(group => (
               <Card key={group.topic} className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-rose-700">{group.topic}</h3>
                 <div className="divide-y divide-pink-100">
@@ -543,7 +568,7 @@ const Japanese = () => {
 
           <TabsContent value="kanji" className="mt-6">
             <Card className="p-6">
-              <h3 className="text-xl font-bold mb-2 text-rose-700">🈴 {t("12 Kanji cốt lõi N5", "12 essential N5 Kanji")}</h3>
+              <h3 className="text-xl font-bold mb-2 text-rose-700">🈴 {t(`${ALL_KANJI.length} Kanji cốt lõi N5`, `${ALL_KANJI.length} essential N5 Kanji`)}</h3>
               <p className="text-sm text-slate-600 mb-4">
                 {t(
                   "Kanji có 2 cách đọc: âm On (từ gốc Hán) và âm Kun (thuần Nhật). Bấm để nghe phát âm.",
@@ -551,7 +576,7 @@ const Japanese = () => {
                 )}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {KANJI_BASIC.map((k) => (
+                {ALL_KANJI.map((k) => (
                   <button
                     key={k.kanji}
                     onClick={() => speakJa(k.kanji)}
@@ -576,7 +601,7 @@ const Japanese = () => {
           </TabsContent>
 
           <TabsContent value="dialogues" className="mt-6 space-y-6">
-            {DIALOGUES.map((d, i) => (
+            {ALL_DIALOGUES.map((d, i) => (
               <Card key={i} className="p-6">
                 <h3 className="text-xl font-bold text-rose-700 mb-1">{d.title}</h3>
                 <p className="text-sm text-slate-600 italic mb-4">{d.scene}</p>
@@ -604,7 +629,7 @@ const Japanese = () => {
 
 
           <TabsContent value="grammar" className="mt-6 space-y-4">
-            {GRAMMAR.map((g, i) => (
+            {ALL_GRAMMAR.map((g, i) => (
               <Card key={i} className="p-6">
                 <h3 className="text-lg font-bold text-rose-700 mb-2">{g.title}</h3>
                 <p className="text-slate-700 mb-3">{g.explain}</p>
