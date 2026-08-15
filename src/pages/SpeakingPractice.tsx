@@ -11,7 +11,7 @@ import {
   Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
   Users, MapPin, Package, Calendar, Sparkles, StickyNote, CheckCircle2, Loader2,
-  PenLine, Star, TrendingUp, Trash2, BookmarkPlus
+  PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
