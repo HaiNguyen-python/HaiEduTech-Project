@@ -415,7 +415,7 @@ const CambridgeMockExam = () => {
                       <p className="mb-2 flex items-center gap-2 text-sm font-black uppercase tracking-wide text-[#BE185D]">
                         <Headphones className="h-4 w-4" /> {t("Phần nghe", "Listening")}
                       </p>
-                      <p className="text-[#1E293B] text-base md:text-lg leading-relaxed">{currentQuestion.passage}</p>
+                      <p className="text-[#111827] text-lg md:text-xl leading-8">{currentQuestion.passage}</p>
                       <Button
                         onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { playbackRate: 0.9 }); }}
                         size="sm"
