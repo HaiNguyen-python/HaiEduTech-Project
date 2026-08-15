@@ -100,14 +100,20 @@ Post caption: """${rawContent.slice(0, 600)}"""
 Tasks:
 1. Write a short 1-sentence praise that reflects the SPECIFIC topic/content of the post (not generic).
 2. If the caption is in English and has grammar OR spelling mistakes, provide a corrected version.
-   If the caption is not English, or has no clear issues, set "corrected" to null.
+   - Keep the same numbered items as the original post (1., 2., 3., etc.) if they exist.
+   - Put each numbered item on its OWN line with a blank line between items.
+   - If the caption is not English, or has no clear issues, set "corrected" to null.
 
 Respond with ONLY compact JSON:
-{"praise":"Well done ${studentName}! <specific 1 sentence praise>","corrected":"<full corrected caption or null>"}
+{"praise":"Well done ${studentName}! <specific 1 sentence praise>","corrected":"<full corrected caption, each numbered item on its own line, or null>"}
 
 The praise MUST start exactly with: "Well done ${studentName}!"
 If corrected is not null, the final comment will be formatted as:
-"<praise> I would like to give you a better version of your work: <corrected>"`;
+"<praise>
+
+I would like to give you a better version of your work:
+
+<corrected, one item per line>"`;
 
       try {
         const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
