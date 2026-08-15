@@ -16,6 +16,21 @@ function stripHtml(s: string) {
   return (s || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+/**
+ * Ensure each numbered item in a list starts on its own line with a blank line between items.
+ * Converts patterns like "1. ... 2. ..." into clearly separated block text.
+ */
+function normalizeNumberedList(text: string): string {
+  if (!text) return "";
+  return text
+    .replace(/\s*(\d+\.\s)/g, "\n$1") // put each "N. " on a new line
+    .replace(/\n\n+/g, "\n") // collapse excess blank lines
+    .trim()
+    .split("\n")
+    .map((line) => line.trim())
+    .join("\n\n"); // one blank line between items
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
@@ -85,14 +100,20 @@ Post caption: """${rawContent.slice(0, 600)}"""
 Tasks:
 1. Write a short 1-sentence praise that reflects the SPECIFIC topic/content of the post (not generic).
 2. If the caption is in English and has grammar OR spelling mistakes, provide a corrected version.
-   If the caption is not English, or has no clear issues, set "corrected" to null.
+   - Keep the same numbered items as the original post (1., 2., 3., etc.) if they exist.
+   - Put each numbered item on its OWN line with a blank line between items.
+   - If the caption is not English, or has no clear issues, set "corrected" to null.
 
 Respond with ONLY compact JSON:
-{"praise":"Well done ${studentName}! <specific 1 sentence praise>","corrected":"<full corrected caption or null>"}
+{"praise":"Well done ${studentName}! <specific 1 sentence praise>","corrected":"<full corrected caption, each numbered item on its own line, or null>"}
 
 The praise MUST start exactly with: "Well done ${studentName}!"
 If corrected is not null, the final comment will be formatted as:
-"<praise> I would like to give you a better version of your work: <corrected>"`;
+"<praise>
+
+I would like to give you a better version of your work:
+
+<corrected, one item per line>"`;
 
       try {
         const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -113,13 +134,16 @@ If corrected is not null, the final comment will be formatted as:
           if (first !== -1 && last !== -1) {
             const parsed = JSON.parse(cleaned.slice(first, last + 1));
             let praise: string = (parsed.praise || "").trim();
-            const corrected: string | null = parsed.corrected && String(parsed.corrected).trim() ? String(parsed.corrected).trim() : null;
+            const correctedRaw: string = parsed.corrected && String(parsed.corrected).trim() ? String(parsed.corrected).trim() : "";
             if (!praise.toLowerCase().startsWith("well done")) {
               praise = `Well done ${studentName}! ${praise}`;
             }
-            commentText = corrected
-              ? `${praise} I would like to give you a better version of your work: ${corrected}`
-              : praise;
+            if (correctedRaw) {
+              const corrected = normalizeNumberedList(correctedRaw);
+              commentText = `${praise}\n\nI would like to give you a better version of your work:\n\n${corrected}`;
+            } else {
+              commentText = praise;
+            }
           }
         }
       } catch (_e) { /* fall back to default praise */ }
