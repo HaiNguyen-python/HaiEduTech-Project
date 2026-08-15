@@ -134,13 +134,16 @@ I would like to give you a better version of your work:
           if (first !== -1 && last !== -1) {
             const parsed = JSON.parse(cleaned.slice(first, last + 1));
             let praise: string = (parsed.praise || "").trim();
-            const corrected: string | null = parsed.corrected && String(parsed.corrected).trim() ? String(parsed.corrected).trim() : null;
+            const correctedRaw: string = parsed.corrected && String(parsed.corrected).trim() ? String(parsed.corrected).trim() : "";
             if (!praise.toLowerCase().startsWith("well done")) {
               praise = `Well done ${studentName}! ${praise}`;
             }
-            commentText = corrected
-              ? `${praise} I would like to give you a better version of your work: ${corrected}`
-              : praise;
+            if (correctedRaw) {
+              const corrected = normalizeNumberedList(correctedRaw);
+              commentText = `${praise}\n\nI would like to give you a better version of your work:\n\n${corrected}`;
+            } else {
+              commentText = praise;
+            }
           }
         }
       } catch (_e) { /* fall back to default praise */ }
