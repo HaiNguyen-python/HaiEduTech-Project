@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trophy, Target, Clock, Sparkles, ArrowRight, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useDisplayName } from "@/hooks/useDisplayName";
 import { useUserRole } from "@/hooks/useUserRole";
 
 interface NotifRow {
@@ -123,10 +124,7 @@ const AssignmentReminderModal = () => {
   if (!user) return null;
 
   const completionPct = monthlyTotal > 0 ? Math.round((monthlyDone / monthlyTotal) * 100) : 0;
-  const displayName =
-    (user.user_metadata?.full_name as string | undefined)?.split(" ").slice(-1)[0] ||
-    user.email?.split("@")[0] ||
-    "bạn";
+  const displayName = resolvedName.split(" ").slice(-1)[0] || "bạn";
 
   return (
     <AnimatePresence>

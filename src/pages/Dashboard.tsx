@@ -20,6 +20,7 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useDisplayName } from "@/hooks/useDisplayName";
 import type { User } from "@supabase/supabase-js";
 import { buildGrammarProgressSnapshot, type GrammarProgressSnapshot } from "@/lib/grammarProgress";
 import MonthlySummaryCard from "@/components/dashboard/MonthlySummaryCard";
@@ -129,6 +130,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const resolvedName = useDisplayName(user, t("Học sinh", "Student"));
   const [displayName, setDisplayName] = useState("");
   const pteStats = usePteSkillStats();
 
@@ -176,13 +178,7 @@ const Dashboard = () => {
       .select("full_name")
       .eq("id", user.id)
       .maybeSingle();
-    setDisplayName(
-      profile?.full_name ||
-      user.user_metadata?.full_name ||
-      user.user_metadata?.name ||
-      user.email?.split("@")[0] ||
-      "Student"
-    );
+    setDisplayName(profile?.full_name || resolvedName);
 
     // Fetch all activities for this user
     const { data: activities } = await supabase
