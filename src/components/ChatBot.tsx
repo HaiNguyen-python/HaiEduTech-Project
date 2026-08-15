@@ -322,6 +322,17 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // When the panel opens (or a saved transcript is hydrated), jump straight to
+  // the latest message instead of leaving the user at the top of the history.
+  useEffect(() => {
+    if (!open) return;
+    const jump = () => messagesEndRef.current?.scrollIntoView({ behavior: "auto", block: "end" });
+    jump();
+    const t1 = setTimeout(jump, 60);
+    const t2 = setTimeout(jump, 250);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [open, expanded, chatHistory.syncVersion]);
+
   // Re-hydrate whenever the authenticated user changes OR the hook signals a
   // fresh server pull (visibility/focus → cross-device sync). Reset the flag
   // so the next hydration effect runs, then adopt the newly loaded transcript.
