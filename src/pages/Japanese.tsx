@@ -414,6 +414,7 @@ const PhraseRow = ({ p, lang }: { p: Phrase; lang: "vi" | "en" }) => (
 
 // ---------- Page ----------
 const Japanese = () => {
+  const [quizPicks, setQuizPicks] = useState<Record<number, number>>({});
   const { lang, t } = useLanguage();
   const [params, setParams] = useSearchParams();
   const initialTab = params.get("tab") || "overview";
@@ -638,6 +639,42 @@ const Japanese = () => {
                 </div>
               </Card>
             ))}
+          </TabsContent>
+
+          <TabsContent value="quiz" className="mt-6">
+            <Card className="p-6">
+              <h3 className="text-xl font-bold mb-3 text-rose-700">🧠 {t("Tự kiểm tra N5", "N5 self-check")}</h3>
+              <div className="space-y-5">
+                {JA_QUIZ.map((q, i) => (
+                  <div key={i} className="rounded-lg border border-pink-200 bg-white p-4">
+                    <div className="font-semibold text-slate-800 mb-2">{i + 1}. {q.q}</div>
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {q.options.map((op, j) => (
+                        <button
+                          key={j}
+                          onClick={() => setQuizPicks((prev) => ({ ...prev, [i]: j }))}
+                          className={`rounded-md border p-2 text-left text-sm transition ${
+                            quizPicks[i] === j
+                              ? j === q.answer
+                                ? "border-emerald-400 bg-emerald-50 text-emerald-800"
+                                : "border-rose-400 bg-rose-50 text-rose-800"
+                              : "border-pink-200 bg-white hover:bg-pink-50"
+                          }`}
+                        >
+                          {op}
+                        </button>
+                      ))}
+                    </div>
+                    {quizPicks[i] !== undefined && (
+                      <p className="mt-2 text-sm text-slate-700">
+                        {quizPicks[i] === q.answer ? "✅ " : "❌ "}
+                        {uiLang === "vi" ? q.explain_vi : q.explain_en}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
