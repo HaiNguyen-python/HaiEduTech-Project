@@ -9,6 +9,7 @@
  */
 import type { SwedishWord } from "./swedishVocabBank";
 import { getSwedishExampleOverride } from "./swedishExampleOverrides";
+import { getSwedishSemanticFix } from "./swedishExampleSemanticFixes";
 
 /* --------------------------- detection helpers --------------------------- */
 
