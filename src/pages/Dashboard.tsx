@@ -141,11 +141,19 @@ const Dashboard = () => {
         const meta = session.user.user_metadata;
         if (meta?.full_name || meta?.avatar_url) {
           setTimeout(async () => {
-            await supabase.from('profiles').upsert({
-              id: session.user.id,
-              full_name: meta.full_name || meta.name || null,
-              avatar_url: meta.avatar_url || meta.picture || null,
-            }, { onConflict: 'id' });
+            // Only fill in fields the student has not set themselves, so a
+            // custom display name survives every new sign-in.
+            const { data: existing } = await supabase
+              .from('profiles')
+              .select('full_name, avatar_url')
+              .eq('id', session.user.id)
+              .maybeSingle();
+            const patch: Record<string, unknown> = { id: session.user.id };
+            if (!existing?.full_name) patch.full_name = meta.full_name || meta.name || null;
+            if (!existing?.avatar_url) patch.avatar_url = meta.avatar_url || meta.picture || null;
+            if (Object.keys(patch).length > 1) {
+              await supabase.from('profiles').upsert(patch as never, { onConflict: 'id' });
+            }
           }, 0);
         }
       }

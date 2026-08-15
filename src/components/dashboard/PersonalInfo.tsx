@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { broadcastDisplayName } from "@/hooks/useDisplayName";
 
 interface PersonalInfoProps {
   userId: string;
@@ -85,7 +86,16 @@ const PersonalInfo = ({ userId, email }: PersonalInfoProps) => {
       avatar_url: parsed.data.avatar_url || null,
       updated_at: new Date().toISOString(),
     };
-    const { error } = await (supabase as any).from("profiles").update(payload).eq("id", userId);
+    // Upsert so the row is created if it does not exist yet.
+    const { error } = await (supabase as any)
+      .from("profiles")
+      .upsert({ id: userId, ...payload }, { onConflict: "id" });
+    if (!error) {
+      // Keep auth metadata in sync so no later sign-in restores the old name,
+      // and tell every mounted view (navbar, dashboard) about the new name.
+      await supabase.auth.updateUser({ data: { full_name: parsed.data.full_name } });
+      broadcastDisplayName(userId, parsed.data.full_name);
+    }
     setSaving(false);
     if (error) {
       toast.error(t("Lưu thất bại", "Failed to save"));

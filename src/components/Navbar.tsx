@@ -62,11 +62,9 @@ const Navbar = () => {
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  // Get display name from user metadata or email
-  const displayName = user?.user_metadata?.full_name
-    || user?.user_metadata?.name
-    || user?.email?.split("@")[0]
-    || "User";
+  // Display name comes from the saved profile first (see useDisplayName),
+  // so a student renaming themselves in Dashboard shows up everywhere.
+  const displayName = useDisplayName(user, "User");
 
   // Close user menu on outside click
   useEffect(() => {
