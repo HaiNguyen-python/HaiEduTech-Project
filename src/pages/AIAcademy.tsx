@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchProfileName } from "@/hooks/useDisplayName";
 import { sanitizeHtml } from "@/lib/utils";
 import CVSandbox from "@/components/ai-academy/ComputerVisionSandbox";
 import NLPSandbox from "@/components/ai-academy/NLPSandbox";
@@ -1278,7 +1279,9 @@ const AIAcademy = () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!mounted || !user) return;
         const meta = (user.user_metadata || {}) as Record<string, unknown>;
-        const name = (meta.full_name as string) || (meta.name as string) || user.email?.split("@")[0] || "";
+        // Saved profile name wins over (possibly stale) OAuth metadata.
+        const savedName = await fetchProfileName(user.id);
+        const name = savedName || (meta.full_name as string) || (meta.name as string) || user.email?.split("@")[0] || "";
         setStudentName(name);
         setStudentSeed(user.id);
       } catch { /* ignore */ }

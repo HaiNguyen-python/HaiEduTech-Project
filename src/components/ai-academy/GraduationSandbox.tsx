@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { GraduationCap, Printer, X, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchProfileName } from "@/hooks/useDisplayName";
 import { BonusGames } from "./SandboxBonusGames";
 import { ChipFilter, BestMatchPick } from "./SandboxMiniActivity";
 
@@ -36,9 +37,12 @@ const GraduationSandbox = () => {
   const [name, setName] = useState("HaiEduTech Student");
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      const meta = data.user?.user_metadata as { full_name?: string } | undefined;
-      const fn = meta?.full_name || data.user?.email?.split("@")[0];
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return;
+      const meta = data.user.user_metadata as { full_name?: string } | undefined;
+      // Saved profile name wins over OAuth metadata.
+      const saved = await fetchProfileName(data.user.id);
+      const fn = saved || meta?.full_name || data.user.email?.split("@")[0];
       if (fn) setName(fn);
     });
   }, []);

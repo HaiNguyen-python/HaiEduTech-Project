@@ -18,6 +18,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useStreak } from "@/hooks/useStreak";
+import { useDisplayName } from "@/hooks/useDisplayName";
 import teacherLogo from "@/assets/teacher-logo.webp";
 import teacherWave from "@/assets/teacher-wave.webp";
 import robotIconImg from "@/assets/ai-chibi-robot.png";
@@ -62,11 +63,9 @@ const Navbar = () => {
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  // Get display name from user metadata or email
-  const displayName = user?.user_metadata?.full_name
-    || user?.user_metadata?.name
-    || user?.email?.split("@")[0]
-    || "User";
+  // Display name comes from the saved profile first (see useDisplayName),
+  // so a student renaming themselves in Dashboard shows up everywhere.
+  const displayName = useDisplayName(user, "User");
 
   // Close user menu on outside click
   useEffect(() => {

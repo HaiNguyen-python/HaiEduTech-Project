@@ -20,6 +20,7 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useDisplayName } from "@/hooks/useDisplayName";
 import type { User } from "@supabase/supabase-js";
 import { buildGrammarProgressSnapshot, type GrammarProgressSnapshot } from "@/lib/grammarProgress";
 import MonthlySummaryCard from "@/components/dashboard/MonthlySummaryCard";
@@ -129,6 +130,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const resolvedName = useDisplayName(user, t("Học sinh", "Student"));
   const [displayName, setDisplayName] = useState("");
   const pteStats = usePteSkillStats();
 
@@ -141,11 +143,19 @@ const Dashboard = () => {
         const meta = session.user.user_metadata;
         if (meta?.full_name || meta?.avatar_url) {
           setTimeout(async () => {
-            await supabase.from('profiles').upsert({
-              id: session.user.id,
-              full_name: meta.full_name || meta.name || null,
-              avatar_url: meta.avatar_url || meta.picture || null,
-            }, { onConflict: 'id' });
+            // Only fill in fields the student has not set themselves, so a
+            // custom display name survives every new sign-in.
+            const { data: existing } = await supabase
+              .from('profiles')
+              .select('full_name, avatar_url')
+              .eq('id', session.user.id)
+              .maybeSingle();
+            const patch: Record<string, unknown> = { id: session.user.id };
+            if (!existing?.full_name) patch.full_name = meta.full_name || meta.name || null;
+            if (!existing?.avatar_url) patch.avatar_url = meta.avatar_url || meta.picture || null;
+            if (Object.keys(patch).length > 1) {
+              await supabase.from('profiles').upsert(patch as never, { onConflict: 'id' });
+            }
           }, 0);
         }
       }
@@ -168,13 +178,7 @@ const Dashboard = () => {
       .select("full_name")
       .eq("id", user.id)
       .maybeSingle();
-    setDisplayName(
-      profile?.full_name ||
-      user.user_metadata?.full_name ||
-      user.user_metadata?.name ||
-      user.email?.split("@")[0] ||
-      "Student"
-    );
+    setDisplayName(profile?.full_name || resolvedName);
 
     // Fetch all activities for this user
     const { data: activities } = await supabase
