@@ -25,9 +25,15 @@ import {
   type ShadowingSentence,
 } from "@/data/shadowingSentences";
 import { SHADOWING_EXPANSION } from "@/data/shadowingSentencesExpansion";
+import { SHADOWING_EXPANSION_2 } from "@/data/shadowingSentencesExpansion2";
 
-// Combined library - base C1/C2 grammar drills + IELTS Part 1/2/3 expansion
-const SHADOWING_SENTENCES: ShadowingSentence[] = [...BASE_SENTENCES, ...SHADOWING_EXPANSION];
+// Combined library - base C1/C2 grammar drills + IELTS Part 1/2/3 expansions
+const SHADOWING_SENTENCES: ShadowingSentence[] = [
+  ...BASE_SENTENCES,
+  ...SHADOWING_EXPANSION,
+  ...SHADOWING_EXPANSION_2,
+];
+
 
 // Web Speech API types (minimal)
 interface ISR {
