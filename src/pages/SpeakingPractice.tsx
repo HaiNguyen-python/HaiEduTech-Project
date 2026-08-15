@@ -132,6 +132,9 @@ const SpeakingPractice = () => {
   const [grammarCheckResult, setGrammarCheckResult] = useState<any>(null);
   const [checkingGrammar, setCheckingGrammar] = useState(false);
   const [notesSaved, setNotesSaved] = useState(false);
+  // Quick Notes can be expanded to a large writing area so students see all their notes.
+  const [notesExpanded, setNotesExpanded] = useState(false);
+
   // Bookmark / practiced questions (per part)
   const [bookmarkedIds, setBookmarkedIds] = useState<Record<string, boolean>>({});
   // Score history for progress chart
