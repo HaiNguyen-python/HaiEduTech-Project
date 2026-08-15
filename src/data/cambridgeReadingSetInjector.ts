@@ -17,12 +17,16 @@ export const withCambridgeReadingSets = (exam: CambridgeMockExam): CambridgeMock
   const sets = CAMBRIDGE_READING_SETS[exam.id];
   if (!sets || sets.length === 0) return exam;
 
-  // Skip papers that already ship their own reading-text groups.
-  const alreadyHasGroups = exam.questions.some((q, i) => {
-    const next = exam.questions[i + 1];
-    return q.section === "Reading & Writing" && !!q.passage && next?.passage === q.passage;
-  });
-  if (alreadyHasGroups) return exam;
+  // Skip papers that already ship at least two reading-text groups of their own.
+  let existingGroups = 0;
+  for (let i = 0; i < exam.questions.length; i++) {
+    const q = exam.questions[i];
+    if (q.section === "Reading & Writing" && q.passage && exam.questions[i + 1]?.passage === q.passage) {
+      existingGroups++;
+      while (i + 1 < exam.questions.length && exam.questions[i + 1].passage === q.passage) i++;
+    }
+  }
+  if (existingGroups >= 2) return exam;
 
   const injected: CambridgeMockQuestion[] = sets.flatMap((set) =>
     set.questions.map((q) => ({
