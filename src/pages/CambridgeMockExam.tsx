@@ -286,7 +286,7 @@ const CambridgeMockExam = () => {
                         <p className="mb-2 text-sm font-black uppercase tracking-wide text-[#1D4ED8]">
                           📖 {t(`Bài đọc ${group.index} - câu ${group.from}-${group.to}`, `Text ${group.index} - questions ${group.from}-${group.to}`)}
                         </p>
-                        <p className="whitespace-pre-wrap text-base leading-relaxed text-[#1E293B]">{group.passage}</p>
+                        <p className="whitespace-pre-wrap text-lg leading-8 text-[#111827]">{group.passage}</p>
                       </div>
                     )}
                     <div className={`p-5 rounded-2xl border-2 ${isCorrect ? "border-emerald-300 bg-emerald-50" : "border-red-300 bg-red-50"}`}>
