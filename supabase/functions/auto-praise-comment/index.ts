@@ -16,6 +16,21 @@ function stripHtml(s: string) {
   return (s || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+/**
+ * Ensure each numbered item in a list starts on its own line with a blank line between items.
+ * Converts patterns like "1. ... 2. ..." into clearly separated block text.
+ */
+function normalizeNumberedList(text: string): string {
+  if (!text) return "";
+  return text
+    .replace(/\s*(\d+\.\s)/g, "\n$1") // put each "N. " on a new line
+    .replace(/\n\n+/g, "\n") // collapse excess blank lines
+    .trim()
+    .split("\n")
+    .map((line) => line.trim())
+    .join("\n\n"); // one blank line between items
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
