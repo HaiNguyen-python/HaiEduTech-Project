@@ -293,7 +293,7 @@ const ket1: CambridgeMockExam = {
   totalQuestions: 40,
   questions: [
     // Reading & Writing (25)
-    { id: 1, section: "Reading & Writing", passage: "NOTICE: City Library - Monday to Friday: 9 AM – 7 PM. Saturday: 10 AM – 4 PM. Closed on Sundays and public holidays. Free WiFi available. Children's reading area on the 2nd floor.", question: "When is the library open on Saturday?", options: ["9 AM – 7 PM", "10 AM – 4 PM", "10 AM – 7 PM", "Closed"], correctAnswer: 1, explanation: "Saturday hours: 10 AM – 4 PM." },
+    { id: 1, section: "Reading & Writing", passage: "NOTICE: City Library - Monday to Friday: 9 AM - 7 PM. Saturday: 10 AM - 4 PM. Closed on Sundays and public holidays. Free WiFi available. Children's reading area on the 2nd floor.", question: "When is the library open on Saturday?", options: ["9 AM - 7 PM", "10 AM - 4 PM", "10 AM - 7 PM", "Closed"], correctAnswer: 1, explanation: "Saturday hours: 10 AM - 4 PM." },
     { id: 2, section: "Reading & Writing", question: "Where is the children's area?", options: ["Ground floor", "1st floor", "2nd floor", "3rd floor"], correctAnswer: 2, explanation: "Children's reading area on the 2nd floor." },
     { id: 3, section: "Reading & Writing", question: "Choose the best response: 'Would you like a cup of tea?' - '___'", options: ["No, I'm not.", "Yes, please.", "I like tea.", "Tea is nice."], correctAnswer: 1, explanation: "'Yes, please' is the polite response to an offer." },
     { id: 4, section: "Reading & Writing", question: "Complete: 'She ___ to the gym three times a week.'", options: ["go", "goes", "going", "gone"], correctAnswer: 1, explanation: "Third person singular: 'goes'." },
