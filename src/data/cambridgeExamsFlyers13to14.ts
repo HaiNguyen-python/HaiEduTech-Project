@@ -113,4 +113,38 @@ const f14Rw: Tuple[] = [
   ["How does the writer feel after a week on the farm?", ["Tired and sad", "Happy and relaxed", "Bored", "Worried"], 1, "The passage says 'I always feel happy and relaxed after a week on the farm'.", "Đoạn văn nói người viết luôn cảm thấy vui vẻ và thư giãn sau một tuần ở trang trại.", p14a],
   ["How many pieces of fruit and vegetables should children eat every day?", ["Three", "Four", "Five", "Ten"], 2, "The passage says children should eat five pieces of fruit and vegetables every day.", "Đoạn văn nói trẻ em nên ăn năm phần trái cây và rau củ mỗi ngày.", p14b],
   ["What do fruit and vegetables give our bodies?", ["Sugar only", "Important vitamins", "Extra weight", "Nothing useful"], 1, "The passage says fruit and vegetables give our bodies important vitamins.", "Đoạn văn nói trái cây và rau củ cung cấp cho cơ thể những vitamin quan trọng.", p14b],
+  ["Which fruits are easy to carry to school?", ["Melons and pumpkins", "Apples, bananas and oranges", "Potatoes and peas", "Grapes only"], 1, "The passage says apples, bananas and oranges are easy to carry to school for lunch.", "Đoạn văn nói táo, chuối và cam dễ mang đến trường cho bữa trưa.", p14b],
+  ["What should children drink instead of sugary drinks?", ["Coffee", "Water", "Hot chocolate", "Fruit juice with sugar"], 1, "The passage says drinking water instead of sugary drinks helps our bodies work well.", "Đoạn văn nói uống nước thay vì đồ uống có đường giúp cơ thể hoạt động tốt.", p14b],
+  ["Why is sleeping enough hours important?", ["It makes children hungry", "It helps the body grow and rest", "It stops exercise", "It gives vitamins"], 1, "The passage says sleeping enough hours at night helps the body grow and rest.", "Đoạn văn nói ngủ đủ giấc giúp cơ thể phát triển và nghỉ ngơi.", p14b],
+  ["How will children feel if they follow all the advice?", ["Tired and weak", "Strong and full of energy", "Hungry all day", "Sleepy at school"], 1, "The passage says they will feel strong and full of energy.", "Đoạn văn nói các em sẽ cảm thấy khỏe mạnh và tràn đầy năng lượng.", p14b],
+  ["What special day did the school have last week?", ["Sports Day", "Healthy Food Day", "Book Day", "Music Day"], 1, "The passage says 'our school had a Healthy Food Day'.", "Đoạn văn nói 'our school had a Healthy Food Day' (trường có Ngày Thực phẩm Lành mạnh).", p14c],
+  ["What did Miss Parker's class make?", ["Vegetable soup", "A huge fruit salad", "Fruit juice", "Bread"], 1, "The passage says Miss Parker's class made a huge fruit salad.", "Đoạn văn nói lớp của cô Parker đã làm một đĩa salad trái cây lớn.", p14c],
+  ["What was in Mr. Kim's class soup?", ["Rice and fish", "Carrots, potatoes and peas", "Melon and grapes", "Only water"], 1, "The passage says the soup had carrots, potatoes and peas.", "Đoạn văn nói món súp có cà rốt, khoai tây và đậu Hà Lan.", p14c],
+  ["What did children have to guess in the competition?", ["The price of the basket", "How many different vegetables were in a basket", "Who cooked the soup", "The name of the nurse"], 1, "The competition was to guess how many different vegetables were in a big basket.", "Cuộc thi là đoán xem có bao nhiêu loại rau khác nhau trong một cái giỏ lớn.", p14c],
+  ["What did the winner receive?", ["A fruit salad", "A certificate and a small prize", "A basket of vegetables", "Nothing"], 1, "The passage says the winner got a special certificate and a small prize.", "Đoạn văn nói người thắng nhận được một giấy chứng nhận đặc biệt và một phần thưởng nhỏ.", p14c],
+  ["Who talked to the students at the end of the day?", ["A farmer", "A nurse", "The head teacher", "A cook"], 1, "The passage says a nurse talked to us about why fresh food helps us grow strong.", "Đoạn văn nói một cô điều dưỡng đã nói với chúng tôi vì sao thức ăn tươi giúp cơ thể khỏe mạnh.", p14c],
 ];
+const f14Ls: Tuple[] = [
+  ["What does Ben help with on the farm?", ["Painting the barn", "Collecting the eggs", "Driving the tractor", "Cooking dinner"], 1, "Ben says he helps collect the eggs every morning.", "Ben nói cậu ấy giúp thu trứng mỗi buổi sáng.", "Listen: 'Anna: What do you do on the farm? Ben: I help collect the eggs every morning.'"],
+  ["What animals does grandmother keep?", ["Horses and sheep", "Chickens and cows", "Ducks only", "Goats"], 1, "Ben says his grandmother keeps chickens and cows.", "Ben nói bà của cậu ấy nuôi gà và bò.", "Listen: 'Anna: Which animals are on the farm? Ben: My grandmother keeps chickens and cows.'"],
+  ["How many pieces of fruit does the girl eat each day?", ["Two", "Three", "Five", "Seven"], 2, "The girl says she eats five pieces of fruit every day.", "Cô bé nói mình ăn năm phần trái cây mỗi ngày.", "Listen: 'Anna: I eat five pieces of fruit every day. Ben: That is very healthy.'"],
+  ["What does Ben drink at lunchtime now?", ["Cola", "Water", "Sweet tea", "Milkshake"], 1, "Ben says he drinks water at lunchtime now.", "Ben nói giờ cậu ấy uống nước lọc vào bữa trưa.", "Listen: 'Anna: What do you drink at lunch? Ben: I drink water now, not cola.'"],
+  ["When does the family watch the sunset?", ["In the morning", "In the evening", "At midnight", "At lunchtime"], 1, "Ben says they sit outside in the evening and watch the sunset.", "Ben nói buổi tối cả nhà ngồi ngoài sân ngắm mặt trời lặn.", "Listen: 'Anna: When do you watch the sunset? Ben: In the evening, we sit outside together.'"],
+  ["What vegetable did the girl grow in her garden?", ["Peppers", "Carrots", "Onions", "Cabbage"], 1, "The girl says she grew carrots in her garden.", "Cô bé nói mình đã trồng cà rốt trong vườn.", "Listen: 'Anna: I grew carrots in my garden this year. Ben: They look great.'"],
+  ["What did the class make for Healthy Food Day?", ["A cake", "A fruit salad", "Pizza", "Biscuits"], 1, "Ben says the class made a fruit salad for Healthy Food Day.", "Ben nói lớp đã làm salad trái cây cho Ngày Thực phẩm Lành mạnh.", "Listen: 'Anna: What did your class make? Ben: We made a big fruit salad.'"],
+  ["How often does Ben play sport?", ["Once a week", "Every day", "Never", "Only at weekends"], 1, "Ben says he plays sport every day after school.", "Ben nói cậu ấy chơi thể thao mỗi ngày sau giờ học.", "Listen: 'Anna: How often do you play sport? Ben: Every day after school.'"],
+  ["Where does the family get their milk?", ["From a shop", "From their cows", "From a neighbour", "From the market"], 1, "Ben says the milk comes from their own cows.", "Ben nói sữa lấy từ những con bò của gia đình.", "Listen: 'Anna: Where is the milk from? Ben: It is fresh milk from our cows.'"],
+  ["What time does the girl go to bed?", ["At eight o'clock", "At nine o'clock", "At ten o'clock", "At eleven o'clock"], 1, "The girl says she goes to bed at nine o'clock to sleep enough.", "Cô bé nói mình đi ngủ lúc chín giờ để ngủ đủ giấc.", "Listen: 'Anna: I go to bed at nine o'clock so I sleep enough. Ben: Good idea.'"],
+];
+
+const flyers14: CambridgeMockExam = {
+  id: "cambridge-flyers-14",
+  title: "Flyers Mock Test 14 - Farms & Healthy Food",
+  titleVi: "Đề thi thử Flyers 14 - Trang trại & Thực phẩm lành mạnh",
+  level: "flyers",
+  duration: 30,
+  totalQuestions: 28,
+  questions: build(f14Rw, f14Ls),
+};
+
+export const cambridgeExamsFlyers13to14: CambridgeMockExam[] = [flyers13, flyers14];

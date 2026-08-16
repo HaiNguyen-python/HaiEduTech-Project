@@ -70,7 +70,7 @@ const s13Rw: Tuple[] = [
 ];
 const s13Ls: Tuple[] = [
   ["What is the boy holding?", ["A book", "A pencil", "A ruler", "A bag"], 0, "The boy is holding a book.", "Cậu bé đang cầm một quyển sách.", "Listen: 'Look, I am holding my new book.'"],
-  ["What colour is the pencil case?", ["Red", "Blue", "Green", "Yellow"], 1, "The pencil case is blue.", "Hộp bút màu xanh dương.", "Listen: 'My pencil case is blue.'"],
+  ["What colour is the girl's school bag?", ["Red", "Blue", "Green", "Yellow"], 1, "The girl says her school bag is blue.", "Cô bé nói cặp sách của mình màu xanh dương.", "Listen: 'My school bag is blue.'"],
   ["Where is the ruler?", ["On the desk", "In the bag", "Under the chair", "On the board"], 0, "The ruler is on the desk.", "Cái thước đang ở trên bàn.", "Listen: 'My ruler is on the desk.'"],
   ["How many crayons does the girl have?", ["Six", "Seven", "Eight", "Nine"], 2, "The girl has eight crayons.", "Cô bé có tám cây bút sáp màu.", "Listen: 'I have eight crayons in my box.'"],
   ["What does the teacher want the class to do?", ["Sing a song", "Open their books", "Go outside", "Draw a picture"], 1, "The teacher wants the class to open their books.", "Cô giáo muốn cả lớp mở sách ra.", "Listen: 'Children, please open your books now.'"],

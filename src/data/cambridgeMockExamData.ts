@@ -526,6 +526,11 @@ import { cambridgeExamsMovers11to12 } from "./cambridgeExamsMovers11to12";
 import { cambridgeExamsFlyers11to12 } from "./cambridgeExamsFlyers11to12";
 import { cambridgeExamsKet11to12 } from "./cambridgeExamsKet11to12";
 import { cambridgeExamsPet12to13 } from "./cambridgeExamsPet12to13";
+import { cambridgeExamsStarters13to14 } from "./cambridgeExamsStarters13to14";
+import { cambridgeExamsMovers13to14 } from "./cambridgeExamsMovers13to14";
+import { cambridgeExamsFlyers13to14 } from "./cambridgeExamsFlyers13to14";
+import { cambridgeExamsKet13to14 } from "./cambridgeExamsKet13to14";
+import { cambridgeExamsPet14to15 } from "./cambridgeExamsPet14to15";
 import { withCambridgeReadingSets } from "./cambridgeReadingSetInjector";
 
 import { normalizeCambridgeMockExam } from "./cambridgeMockExamNormalizer";
@@ -548,6 +553,11 @@ export const cambridgeMockExams: CambridgeMockExam[] = [
   ...cambridgeExamsFlyers11to12,
   ...cambridgeExamsKet11to12,
   ...cambridgeExamsPet12to13,
+  ...cambridgeExamsStarters13to14,
+  ...cambridgeExamsMovers13to14,
+  ...cambridgeExamsFlyers13to14,
+  ...cambridgeExamsKet13to14,
+  ...cambridgeExamsPet14to15,
 ].map(withCambridgeReadingSets).map(equalizeCambridgeMockExam).map(normalizeCambridgeMockExam);
 
 export const CAMBRIDGE_LEVEL_LABELS: Record<string, { label: string; labelVi: string; emoji: string; color: string; bgClass: string }> = {
