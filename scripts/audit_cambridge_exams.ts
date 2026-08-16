@@ -11,6 +11,7 @@ import { cambridgeMockExams } from "../src/data/cambridgeMockExamData";
 const issues: string[] = [];
 const byLevel: Record<string, number[]> = {};
 const keyCount = [0, 0, 0, 0];
+const standalone: string[] = [];
 
 for (const exam of cambridgeMockExams) {
   (byLevel[exam.level] ??= []).push(exam.questions.length);
@@ -46,8 +47,9 @@ for (const exam of cambridgeMockExams) {
     if (q.section === "Listening" && !q.passage) issues.push(`${at}: listening without script`);
   });
 
-  if (readingWithoutPassage > 0)
-    issues.push(`${exam.id}: ${readingWithoutPassage} reading question(s) without a passage`);
+  // Standalone vocabulary/grammar items (official Reading & Writing Parts 1-3)
+  // legitimately have no passage; report as information only.
+  if (readingWithoutPassage > 0) standalone.push(`${exam.id}:${readingWithoutPassage}`);
 }
 
 console.log("Total exams:", cambridgeMockExams.length);
@@ -61,5 +63,6 @@ console.log(
   "Answer key spread:",
   keyCount.map((c, i) => `${"ABCD"[i]}=${((c / total) * 100).toFixed(1)}%`).join(" ")
 );
+console.log("Standalone R&W items per paper:", standalone.join(" "));
 console.log("Issues:", issues.length);
 issues.slice(0, 80).forEach((i) => console.log(" -", i));
