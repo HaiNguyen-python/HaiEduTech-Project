@@ -5,9 +5,8 @@
  *              sticky level filter so children and parents can find a paper fast.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, GraduationCap, Trophy, BookOpenCheck } from "lucide-react";
+import { GraduationCap, Trophy } from "lucide-react";
 import { cambridgeMockExams } from "@/data/cambridgeMockExamData";
 import TestPrepBoard from "@/components/cambridge/TestPrepBoard";
 import { Button } from "@/components/ui/button";
@@ -17,62 +16,8 @@ import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
 
-type Level = "starters" | "movers" | "flyers" | "ket" | "pet";
-
-const LEVEL_ORDER: Level[] = ["starters", "movers", "flyers", "ket", "pet"];
-
-const LEVEL_META: Record<Level, { cefr: string; age: string; ageVi: string; blurb: string; blurbVi: string }> = {
-  starters: {
-    cefr: "Pre-A1",
-    age: "ages 6-8",
-    ageVi: "6-8 tuổi",
-    blurb: "First words, colours, animals and very simple sentences.",
-    blurbVi: "Từ đầu tiên, màu sắc, con vật và câu rất đơn giản.",
-  },
-  movers: {
-    cefr: "A1",
-    age: "ages 8-10",
-    ageVi: "8-10 tuổi",
-    blurb: "Everyday topics, past simple and short stories.",
-    blurbVi: "Chủ đề hằng ngày, thì quá khứ đơn và truyện ngắn.",
-  },
-  flyers: {
-    cefr: "A2",
-    age: "ages 9-12",
-    ageVi: "9-12 tuổi",
-    blurb: "Longer texts, present perfect and school projects.",
-    blurbVi: "Bài đọc dài hơn, thì hiện tại hoàn thành và dự án ở trường.",
-  },
-  ket: {
-    cefr: "A2",
-    age: "ages 11-14",
-    ageVi: "11-14 tuổi",
-    blurb: "Emails, notices and real-life A2 reading and listening.",
-    blurbVi: "Email, thông báo và bài đọc - nghe A2 thực tế.",
-  },
-  pet: {
-    cefr: "B1",
-    age: "ages 13+",
-    ageVi: "13 tuổi trở lên",
-    blurb: "Articles and opinion texts at independent B1 level.",
-    blurbVi: "Bài báo và bài nêu ý kiến ở trình độ B1 độc lập.",
-  },
-};
-
 const CambridgeYleTestPrep = () => {
   const { t } = useLanguage();
-  const [filter, setFilter] = useState<Level | "all">("all");
-
-  const grouped = useMemo(
-    () =>
-      LEVEL_ORDER.map((level) => ({
-        level,
-        exams: cambridgeMockExams.filter((e) => e.level === level),
-      })),
-    []
-  );
-
-  const visible = filter === "all" ? grouped : grouped.filter((g) => g.level === filter);
   const totalExams = cambridgeMockExams.length;
 
   return (
