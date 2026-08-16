@@ -73,7 +73,6 @@ const p12Rw: Tuple[] = [
   ["What else needs to be updated according to the text?", ["School curriculums", "Old electricity networks", "Hospital equipment", "Space telescopes"], 1, "Old electricity networks need to be updated to handle power from different sources.", "Mạng lưới điện cũ cần được nâng cấp để xử lý điện từ nhiều nguồn khác nhau.", p12c],
   ["Scientists ___ studying the effects of climate change for decades.", ["study", "have been", "are", "was"], 1, "Present perfect continuous shows an action continuing over time: have been.", "Hiện tại hoàn thành tiếp diễn diễn tả hành động kéo dài qua thời gian: have been.", undefined],
   ["If we ___ more renewable energy, pollution would decrease.", ["use", "used", "will use", "using"], 1, "Second conditional uses past simple in the if-clause: used.", "Câu điều kiện loại 2 dùng thì quá khứ đơn ở mệnh đề if: used.", undefined],
-  ["The new satellite, ___ was launched last month, is already sending data.", ["who", "which", "whose", "when"], 1, "'Which' is used to refer to a thing (the satellite) in a non-defining clause.", "'Which' dùng để chỉ vật (vệ tinh) trong mệnh đề quan hệ không xác định.", undefined],
 ];
 
 const p12Ls: Tuple[] = [
