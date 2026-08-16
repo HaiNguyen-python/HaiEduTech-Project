@@ -16,7 +16,7 @@ type SectionTarget = { reading: number; listening: number; duration: number };
 export const CAMBRIDGE_LEVEL_TARGETS: Record<string, SectionTarget> = {
   starters: { reading: 15, listening: 10, duration: 20 },
   movers: { reading: 15, listening: 10, duration: 25 },
-  flyers: { reading: 18, listening: 12, duration: 30 },
+  flyers: { reading: 18, listening: 10, duration: 30 },
   ket: { reading: 20, listening: 10, duration: 40 },
   pet: { reading: 21, listening: 10, duration: 45 },
 };
