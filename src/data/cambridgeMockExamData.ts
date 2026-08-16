@@ -524,6 +524,7 @@ import { cambridgeExamsPet7to11 } from "./cambridgeExamsPet7to11";
 import { withCambridgeReadingSets } from "./cambridgeReadingSetInjector";
 
 import { normalizeCambridgeMockExam } from "./cambridgeMockExamNormalizer";
+import { equalizeCambridgeMockExam } from "./cambridgeMockExamEqualizer";
 
 // Balanced answer keys + full bilingual explanations on every question.
 // Older papers get their missing reading texts injected before normalisation.
@@ -537,7 +538,7 @@ export const cambridgeMockExams: CambridgeMockExam[] = [
   ...cambridgeExamsFlyers6to10,
   ...cambridgeExamsKet6to10,
   ...cambridgeExamsPet7to11,
-].map(withCambridgeReadingSets).map(normalizeCambridgeMockExam);
+].map(withCambridgeReadingSets).map(equalizeCambridgeMockExam).map(normalizeCambridgeMockExam);
 
 export const CAMBRIDGE_LEVEL_LABELS: Record<string, { label: string; labelVi: string; emoji: string; color: string; bgClass: string }> = {
   starters: { label: "STARTERS", labelVi: "STARTERS", emoji: "🎨", color: "#FF6B6B", bgClass: "bg-[#FF6B6B]/10" },

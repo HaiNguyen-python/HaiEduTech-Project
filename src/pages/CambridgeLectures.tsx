@@ -18,6 +18,7 @@ import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG, type CambridgeLecture, type CambridgeLevel, type CambridgeSkill } from "@/data/cambridgeLecturesData";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
+import TestPrepBoard from "@/components/cambridge/TestPrepBoard";
 
 // Level filter tabs with vibrant emojis
 const LEVEL_FILTERS: { key: string; label: string; labelVi: string; emoji: string }[] = [
