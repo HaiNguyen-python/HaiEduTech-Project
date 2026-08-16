@@ -120,7 +120,7 @@ const s12Rw: Tuple[] = [
 ];
 const s12Ls: Tuple[] = [
   ["What is the girl wearing on her head?", ["A hat", "A scarf", "Glasses", "Nothing"], 0, "The girl is wearing a hat.", "Cô bé đang đội một chiếc mũ.", "Listen: 'I am wearing a hat because it is cold.'"],
-  ["What is the weather like today?", ["Sunny", "Snowy", "Rainy", "Windy"], 1, "The weather is snowy today.", "Thời tiết hôm nay có tuyết.", "Listen: 'Look outside, it is snowy today!'"],
+  ["What can you see outside now?", ["Sun", "Snow", "Rain", "Clouds"], 1, "The speaker says it is snowy outside.", "Người nói nói bên ngoài đang có tuyết.", "Listen: 'Look outside, it is snowy today!'"],
   ["What colour are the boy's shoes?", ["Black", "White", "Brown", "Red"], 3, "The boy's shoes are red.", "Giày của cậu bé màu đỏ.", "Listen: 'My new shoes are red.'"],
   ["What does the girl wear when it rains?", ["A sun hat", "A raincoat", "Shorts", "A swimsuit"], 1, "The girl wears a raincoat when it rains.", "Cô bé mặc áo mưa khi trời mưa.", "Listen: 'When it rains, I wear my yellow raincoat.'"],
   ["What is Dad putting on?", ["His coat", "His hat", "His gloves", "His scarf"], 0, "Dad is putting on his coat.", "Bố đang mặc áo khoác vào.", "Listen: 'Dad is putting on his warm coat now.'"],

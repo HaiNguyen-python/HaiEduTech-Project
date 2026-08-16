@@ -75,7 +75,7 @@ const k11Rw: Tuple[] = [
   ["What does the teacher say the girls are learning?", ["Cooking and cleaning", "Business, saving, and working together", "Reading and writing", "Painting and drawing"], 1, "The teacher says they are learning about business, saving, and working together.", "Cô giáo nói các em đang học về kinh doanh, tiết kiệm và làm việc cùng nhau.", p11d],
 ];
 const k11Ls: Tuple[] = [
-  ["How much does the scarf cost?", ["Five pounds", "Eight pounds", "Ten pounds", "Twelve pounds"], 2, "The woman says the scarf costs ten pounds.", "Người phụ nữ nói chiếc khăn có giá mười bảng.", "Listen: 'Excuse me, how much is this scarf?' 'It's ten pounds, madam.'"],
+  ["What price does the shop assistant give for the scarf?", ["Five pounds", "Eight pounds", "Ten pounds", "Twelve pounds"], 2, "The woman says the scarf costs ten pounds.", "Người phụ nữ nói chiếc khăn có giá mười bảng.", "Listen: 'Excuse me, how much is this scarf?' 'It's ten pounds, madam.'"],
   ["What is the boy buying for his sister?", ["A book", "A hat", "A bag", "A watch"], 1, "The boy is buying a hat for his sister.", "Cậu bé đang mua một chiếc mũ cho chị gái.", "Listen: 'I'd like to buy this hat as a gift for my sister.'"],
   ["Which floor is the shoe shop on?", ["Ground floor", "First floor", "Second floor", "Third floor"], 2, "The shoe shop is on the second floor.", "Cửa hàng giày ở tầng hai.", "Listen: 'The shoe shop is on the second floor, next to the cafe.'"],
   ["What time does the shop close today?", ["5 o'clock", "6 o'clock", "7 o'clock", "8 o'clock"], 2, "The shop closes at 7 o'clock today.", "Cửa hàng đóng cửa lúc 7 giờ hôm nay.", "Listen: 'We close at seven o'clock today because it's Friday.'"],
