@@ -21,6 +21,8 @@ import confetti from "canvas-confetti";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS, type CambridgeMockExam as ExamType } from "@/data/cambridgeMockExamData";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
+import { findEvidenceSentence, splitSentences } from "@/lib/cambridgeEvidence";
+
 import {
   ExamProgressPath, ExamCheerBubble, ExamStickerBoard, LEVEL_MASCOT,
   readSoundPref, writeSoundPref, playChime,
