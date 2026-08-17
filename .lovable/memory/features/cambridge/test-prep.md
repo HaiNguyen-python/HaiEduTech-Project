@@ -1,9 +1,14 @@
 ---
 name: Cambridge YLE Test Prep
-description: 70 papers (14 per level), equal question counts per level, shared grouped board component, audit script
+description: 75 papers (15 per level), equal question counts per level, hidden listening scripts, evidence sentences in review, shared grouped board, audit script
 type: feature
 ---
-- 70 mock papers: 14 each for Starters, Movers, Flyers, KET, PET.
+- 75 mock papers: 15 each for Starters, Movers, Flyers, KET, PET.
+- Listening scripts are hidden by default in the exam runner: students press Listen first and can
+  reveal the script with "Show script" (state resets on every question change).
+- Review screen shows the evidence sentence from the reading text / listening script that proves the
+  key, via `src/lib/cambridgeEvidence.ts` (`findEvidenceSentence`, sentence number for reading).
+
 - Equal question count inside each level, enforced by `src/data/cambridgeMockExamEqualizer.ts`:
   Starters 25 (15R/10L, 20m), Movers 25 (15R/10L, 25m), Flyers 28 (18R/10L, 30m),
   KET 30 (20R/10L, 40m), PET 31 (21R/10L, 45m). Extra questions in older papers are trimmed,
