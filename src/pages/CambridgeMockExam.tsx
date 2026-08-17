@@ -462,11 +462,8 @@ const CambridgeMockExam = () => {
                       </div>
                       {scriptOpen ? (
                         <p className="mt-3 text-[#111827] text-lg md:text-xl leading-8">{currentQuestion.passage}</p>
-                      ) : (
-                        <p className="mt-3 text-base text-[#64748B]">
-                          {t("Nghe trước rồi mới xem lời thoại nhé!", "Listen first - open the script only if you need it.")}
-                        </p>
-                      )}
+                      ) : null}
+
                     </div>
                   )}
 
