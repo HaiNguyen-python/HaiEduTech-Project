@@ -286,6 +286,10 @@ const CambridgeMockExam = () => {
                 const isCorrect = userAns === q.correctAnswer;
                 const group = textGroups[idx];
                 const showText = group && (idx === 0 || textGroups[idx - 1] !== group);
+                // Point students at the exact line of the text that proves the key.
+                const sourceText = group?.passage ?? q.passage;
+                const evidence = findEvidenceSentence(sourceText, q.question, q.options[q.correctAnswer] ?? "");
+                const evidenceNo = evidence && sourceText ? splitSentences(sourceText).indexOf(evidence) + 1 : 0;
                 return (
                   <div key={q.id}>
                     {showText && (
@@ -311,9 +315,20 @@ const CambridgeMockExam = () => {
                           </div>
                         ))}
                       </div>
+                      {evidence && (
+                        <div className="mt-3 rounded-xl border-2 border-[#93C5FD] bg-[#EFF6FF] p-3">
+                          <p className="mb-1 text-sm font-black uppercase tracking-wide text-[#1D4ED8]">
+                            🔎 {q.section === "Listening"
+                              ? t("Câu trong lời thoại", "Line in the script")
+                              : t(`Câu ${evidenceNo} trong bài nhắc đến điều này`, `Sentence ${evidenceNo} of the text proves it`)}
+                          </p>
+                          <p className="text-base italic leading-7 text-[#111827]">"{evidence}"</p>
+                        </div>
+                      )}
                       <p className="mt-3 text-base text-[#334155]">💡 {q.explanation}</p>
                       {isVi && q.explanationVi && <p className="mt-1 text-base text-[#475569]">🇻🇳 {q.explanationVi}</p>}
                     </div>
+
                   </div>
                 );
               })}
