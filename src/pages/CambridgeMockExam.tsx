@@ -83,6 +83,10 @@ const CambridgeMockExam = () => {
 
   const [pop, setPop] = useState<{ emoji: string; key: number } | null>(null);
 
+  // Hide the listening script again whenever the student moves to another question.
+  useEffect(() => { setScriptOpen(false); }, [currentQ]);
+
+
   useEffect(() => {
     if (!examId) return;
     const found = cambridgeMockExams.find(e => e.id === examId);
