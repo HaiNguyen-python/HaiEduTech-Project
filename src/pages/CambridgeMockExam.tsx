@@ -78,6 +78,9 @@ const CambridgeMockExam = () => {
   const [sectionStats, setSectionStats] = useState<Record<string, { correct: number; total: number }>>({});
   const [soundOn, setSoundOn] = useState(false);
   const [textOpen, setTextOpen] = useState(true);
+  // Listening scripts start hidden: students should listen before reading the words.
+  const [scriptOpen, setScriptOpen] = useState(false);
+
   const [pop, setPop] = useState<{ emoji: string; key: number } | null>(null);
 
   useEffect(() => {
