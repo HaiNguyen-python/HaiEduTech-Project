@@ -409,23 +409,43 @@ const CambridgeMockExam = () => {
                     </span>
                   </div>
 
-                  {/* Listening script card */}
+                  {/* Listening card - script stays hidden until the student asks for it */}
                   {isListening && currentQuestion.passage && (
                     <div className="p-4 rounded-2xl bg-white border-2 border-[#FBCFE8] mb-4">
                       <p className="mb-2 flex items-center gap-2 text-sm font-black uppercase tracking-wide text-[#BE185D]">
                         <Headphones className="h-4 w-4" /> {t("Phần nghe", "Listening")}
                       </p>
-                      <p className="text-[#111827] text-lg md:text-xl leading-8">{currentQuestion.passage}</p>
-                      <Button
-                        onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { playbackRate: 0.9 }); }}
-                        size="sm"
-                        variant="outline"
-                        className="mt-3 border-2 border-[#FBCFE8] bg-white text-[#BE185D] hover:bg-[#FDF2F8] hover:text-[#9D174D]"
-                      >
-                        <Volume2 className="w-4 h-4 mr-2" /> {t("Nghe đoạn này", "Listen")}
-                      </Button>
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!.replace(/^\s*Listen:\s*/i, ""), { playbackRate: 0.9 }); }}
+                          size="sm"
+                          variant="outline"
+                          className="border-2 border-[#FBCFE8] bg-white text-[#BE185D] hover:bg-[#FDF2F8] hover:text-[#9D174D]"
+                        >
+                          <Volume2 className="w-4 h-4 mr-2" /> {t("Nghe đoạn này", "Listen")}
+                        </Button>
+                        <Button
+                          onClick={() => setScriptOpen(o => !o)}
+                          size="sm"
+                          variant="outline"
+                          className="border-2 border-slate-200 bg-white text-[#334155] hover:bg-slate-50 hover:text-[#0F172A]"
+                        >
+                          {scriptOpen
+                            ? t("Ẩn lời thoại", "Hide script")
+                            : t("Hiện lời thoại", "Show script")}
+                          <ChevronDown className={`ml-2 h-4 w-4 transition-transform ${scriptOpen ? "rotate-180" : ""}`} />
+                        </Button>
+                      </div>
+                      {scriptOpen ? (
+                        <p className="mt-3 text-[#111827] text-lg md:text-xl leading-8">{currentQuestion.passage}</p>
+                      ) : (
+                        <p className="mt-3 text-base text-[#64748B]">
+                          {t("Nghe trước rồi mới xem lời thoại nhé!", "Listen first - open the script only if you need it.")}
+                        </p>
+                      )}
                     </div>
                   )}
+
 
                   <h2 className="text-lg md:text-xl font-bold mb-5 leading-relaxed">{currentQuestion.question}</h2>
 
