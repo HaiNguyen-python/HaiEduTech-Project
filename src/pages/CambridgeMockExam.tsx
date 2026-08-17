@@ -21,6 +21,8 @@ import confetti from "canvas-confetti";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS, type CambridgeMockExam as ExamType } from "@/data/cambridgeMockExamData";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
+import { findEvidenceSentence, splitSentences } from "@/lib/cambridgeEvidence";
+
 import {
   ExamProgressPath, ExamCheerBubble, ExamStickerBoard, LEVEL_MASCOT,
   readSoundPref, writeSoundPref, playChime,
@@ -78,7 +80,14 @@ const CambridgeMockExam = () => {
   const [sectionStats, setSectionStats] = useState<Record<string, { correct: number; total: number }>>({});
   const [soundOn, setSoundOn] = useState(false);
   const [textOpen, setTextOpen] = useState(true);
+  // Listening scripts start hidden: students should listen before reading the words.
+  const [scriptOpen, setScriptOpen] = useState(false);
+
   const [pop, setPop] = useState<{ emoji: string; key: number } | null>(null);
+
+  // Hide the listening script again whenever the student moves to another question.
+  useEffect(() => { setScriptOpen(false); }, [currentQ]);
+
 
   useEffect(() => {
     if (!examId) return;
@@ -279,6 +288,10 @@ const CambridgeMockExam = () => {
                 const isCorrect = userAns === q.correctAnswer;
                 const group = textGroups[idx];
                 const showText = group && (idx === 0 || textGroups[idx - 1] !== group);
+                // Point students at the exact line of the text that proves the key.
+                const sourceText = group?.passage ?? q.passage;
+                const evidence = findEvidenceSentence(sourceText, q.question, q.options[q.correctAnswer] ?? "");
+                const evidenceNo = evidence && sourceText ? splitSentences(sourceText).indexOf(evidence) + 1 : 0;
                 return (
                   <div key={q.id}>
                     {showText && (
@@ -304,9 +317,20 @@ const CambridgeMockExam = () => {
                           </div>
                         ))}
                       </div>
+                      {evidence && (
+                        <div className="mt-3 rounded-xl border-2 border-[#93C5FD] bg-[#EFF6FF] p-3">
+                          <p className="mb-1 text-sm font-black uppercase tracking-wide text-[#1D4ED8]">
+                            🔎 {q.section === "Listening"
+                              ? t("Câu trong lời thoại", "Line in the script")
+                              : t(`Câu ${evidenceNo} trong bài nhắc đến điều này`, `Sentence ${evidenceNo} of the text proves it`)}
+                          </p>
+                          <p className="text-base italic leading-7 text-[#111827]">"{evidence}"</p>
+                        </div>
+                      )}
                       <p className="mt-3 text-base text-[#334155]">💡 {q.explanation}</p>
                       {isVi && q.explanationVi && <p className="mt-1 text-base text-[#475569]">🇻🇳 {q.explanationVi}</p>}
                     </div>
+
                   </div>
                 );
               })}
@@ -409,23 +433,43 @@ const CambridgeMockExam = () => {
                     </span>
                   </div>
 
-                  {/* Listening script card */}
+                  {/* Listening card - script stays hidden until the student asks for it */}
                   {isListening && currentQuestion.passage && (
                     <div className="p-4 rounded-2xl bg-white border-2 border-[#FBCFE8] mb-4">
                       <p className="mb-2 flex items-center gap-2 text-sm font-black uppercase tracking-wide text-[#BE185D]">
                         <Headphones className="h-4 w-4" /> {t("Phần nghe", "Listening")}
                       </p>
-                      <p className="text-[#111827] text-lg md:text-xl leading-8">{currentQuestion.passage}</p>
-                      <Button
-                        onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!, { playbackRate: 0.9 }); }}
-                        size="sm"
-                        variant="outline"
-                        className="mt-3 border-2 border-[#FBCFE8] bg-white text-[#BE185D] hover:bg-[#FDF2F8] hover:text-[#9D174D]"
-                      >
-                        <Volume2 className="w-4 h-4 mr-2" /> {t("Nghe đoạn này", "Listen")}
-                      </Button>
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!.replace(/^\s*Listen:\s*/i, ""), { playbackRate: 0.9 }); }}
+                          size="sm"
+                          variant="outline"
+                          className="border-2 border-[#FBCFE8] bg-white text-[#BE185D] hover:bg-[#FDF2F8] hover:text-[#9D174D]"
+                        >
+                          <Volume2 className="w-4 h-4 mr-2" /> {t("Nghe đoạn này", "Listen")}
+                        </Button>
+                        <Button
+                          onClick={() => setScriptOpen(o => !o)}
+                          size="sm"
+                          variant="outline"
+                          className="border-2 border-slate-200 bg-white text-[#334155] hover:bg-slate-50 hover:text-[#0F172A]"
+                        >
+                          {scriptOpen
+                            ? t("Ẩn lời thoại", "Hide script")
+                            : t("Hiện lời thoại", "Show script")}
+                          <ChevronDown className={`ml-2 h-4 w-4 transition-transform ${scriptOpen ? "rotate-180" : ""}`} />
+                        </Button>
+                      </div>
+                      {scriptOpen ? (
+                        <p className="mt-3 text-[#111827] text-lg md:text-xl leading-8">{currentQuestion.passage}</p>
+                      ) : (
+                        <p className="mt-3 text-base text-[#64748B]">
+                          {t("Nghe trước rồi mới xem lời thoại nhé!", "Listen first - open the script only if you need it.")}
+                        </p>
+                      )}
                     </div>
                   )}
+
 
                   <h2 className="text-lg md:text-xl font-bold mb-5 leading-relaxed">{currentQuestion.question}</h2>
 
