@@ -33,9 +33,9 @@ export const edtechAdvancedModules: ExtendedProgrammingModule[] = [
 
 ## 1. 🧠 Đường cong quên Ebbinghaus
 
-Trí nhớ phai theo hàm mũ: `R(t) = e^(-t / S)` với `S` = "stability". Mỗi lần ôn đúng → `S` tăng → khoảng cách lần ôn tiếp tăng.
+Trí nhớ phai theo hàm mũ: \`R(t) = e^(-t / S)\` với \`S\` = "stability". Mỗi lần ôn đúng → \`S\` tăng → khoảng cách lần ôn tiếp tăng.
 
-```
+\`\`\`
    Retention
      1.0 │●
          │ \\
@@ -46,13 +46,13 @@ Trí nhớ phai theo hàm mũ: `R(t) = e^(-t / S)` với `S` = "stability". Mỗ
      0.2 │                    ‾‾●_____
          └──────────────────────────────▶ ngày
               1    3    7    14    30
-```
+\`\`\`
 
 ## 2. ⚙️ Thuật toán SM-2 (Anki, 1987)
 
-Mỗi review nhận điểm `q ∈ {0..5}` (0 = quên hẳn, 5 = nhớ hoàn hảo).
+Mỗi review nhận điểm \`q ∈ {0..5}\` (0 = quên hẳn, 5 = nhớ hoàn hảo).
 
-```
+\`\`\`
    if q < 3:
        repetitions = 0
        interval    = 1                      # reset
@@ -64,7 +64,7 @@ Mỗi review nhận điểm `q ∈ {0..5}` (0 = quên hẳn, 5 = nhớ hoàn h�
 
    EF = max(1.3, EF + 0.1 - (5-q)*(0.08 + (5-q)*0.02))
    next_due = today + interval days
-```
+\`\`\`
 
 Đơn giản, đã hoạt động 38 năm.
 
@@ -78,7 +78,7 @@ Mô hình 3 biến cho mỗi thẻ:
 | **S** Stability | Bao lâu kiến thức "bám" trước khi R rơi xuống ngưỡng |
 | **R** Retrievability | Xác suất nhớ lại ngay bây giờ |
 
-Lập lịch theo **target retention** (vd 90%): giải ngược `R = exp(-t/S)` → `t = -S · ln(0.9)`.
+Lập lịch theo **target retention** (vd 90%): giải ngược \`R = exp(-t/S)\` → \`t = -S · ln(0.9)\`.
 
 So với SM-2:
 
@@ -91,11 +91,11 @@ So với SM-2:
 
 ## 4. 🏗️ Schema bảng review tối thiểu
 
-```
+\`\`\`
    reviews(user_id, card_id, ts, rating 1–4,
            prev_interval_d, new_interval_d,
            stability, difficulty)
-```
+\`\`\`
 
 Quy tắc:
 - **Immutable**: không sửa review cũ → cần re-fit FSRS thì replay log.
@@ -119,9 +119,9 @@ Quy tắc:
 
 ## 1. \u{1F9E0} The Ebbinghaus Forgetting Curve
 
-Memory decays exponentially: `R(t) = e^(-t / S)` where `S` = "stability". Every correct review increases `S`, which stretches the gap until the next review.
+Memory decays exponentially: \`R(t) = e^(-t / S)\` where \`S\` = "stability". Every correct review increases \`S\`, which stretches the gap until the next review.
 
-```
+\`\`\`
    Retention
      1.0 │●
          │ \\
@@ -132,13 +132,13 @@ Memory decays exponentially: `R(t) = e^(-t / S)` where `S` = "stability". Every 
      0.2 │                    ‾‾●_____
          └──────────────────────────────▶ days
               1    3    7    14    30
-```
+\`\`\`
 
 ## 2. ⚙️ The SM-2 Algorithm (Anki, 1987)
 
-Every review gets a quality score `q ∈ {0..5}` (0 = complete blackout, 5 = perfect recall).
+Every review gets a quality score \`q ∈ {0..5}\` (0 = complete blackout, 5 = perfect recall).
 
-```
+\`\`\`
    if q < 3:
        repetitions = 0
        interval    = 1                      # reset
@@ -150,7 +150,7 @@ Every review gets a quality score `q ∈ {0..5}` (0 = complete blackout, 5 = per
 
    EF = max(1.3, EF + 0.1 - (5-q)*(0.08 + (5-q)*0.02))
    next_due = today + interval days
-```
+\`\`\`
 
 Simple, and it has worked for 38 years.
 
@@ -164,7 +164,7 @@ A 3-variable model per card:
 | **S** Stability | How long the memory "sticks" before R falls to a threshold |
 | **R** Retrievability | Probability of recalling it right now |
 
-Scheduling uses a **target retention** (e.g. 90%): solve `R = exp(-t/S)` backwards → `t = -S · ln(0.9)`.
+Scheduling uses a **target retention** (e.g. 90%): solve \`R = exp(-t/S)\` backwards → \`t = -S · ln(0.9)\`.
 
 Compared to SM-2:
 
@@ -177,11 +177,11 @@ Compared to SM-2:
 
 ## 4. 🏗️ Minimal Review-Table Schema
 
-```
+\`\`\`
    reviews(user_id, card_id, ts, rating 1–4,
            prev_interval_d, new_interval_d,
            stability, difficulty)
-```
+\`\`\`
 
 Rules:
 - **Immutable**: never edit old reviews - if you need to re-fit FSRS, replay the log.
@@ -250,25 +250,25 @@ for q in [3, 4, 5, 5, 4, 5]:
 
 Đề cố định: học sinh giỏi chán, học sinh yếu nản. Adaptive testing chọn câu **theo trình độ ước lượng** → mỗi câu mang nhiều thông tin nhất.
 
-```
+\`\`\`
                        Trình độ θ
        ───────────────────────────────────────▶
        weak   ─────  ●  ─────────  ●  ───────  strong
                    user A                user B
        câu cho A: vừa sức A         câu cho B: vừa sức B
-```
+\`\`\`
 
 ## 2. 📐 IRT 2PL - Item Response Theory 2 tham số
 
-Xác suất học sinh trình độ `θ` trả lời đúng câu có độ khó `b`, độ phân biệt `a`:
+Xác suất học sinh trình độ \`θ\` trả lời đúng câu có độ khó \`b\`, độ phân biệt \`a\`:
 
-```
+\`\`\`
                           1
    P(correct | θ, a, b) = ─────────────────
                           1 + exp(-a (θ - b))
-```
+\`\`\`
 
-```
+\`\`\`
    P
    1 ┤              ____________  a lớn → đường cong dốc
      │            /                (câu phân biệt tốt)
@@ -276,24 +276,24 @@ Xác suất học sinh trình độ `θ` trả lời đúng câu có độ khó 
      │       /
    0 ┤_____/_______________________ θ
             b
-```
+\`\`\`
 
 Thuật toán adaptive:
-1. Đoán `θ₀` từ profile.
-2. Chọn câu có `b ≈ θ` (tối đa Fisher information).
-3. Cập nhật `θ` bằng MAP/MLE sau mỗi câu.
-4. Dừng khi sai số chuẩn `SE(θ) < ngưỡng` (vd 0.3).
+1. Đoán \`θ₀\` từ profile.
+2. Chọn câu có \`b ≈ θ\` (tối đa Fisher information).
+3. Cập nhật \`θ\` bằng MAP/MLE sau mỗi câu.
+4. Dừng khi sai số chuẩn \`SE(θ) < ngưỡng\` (vd 0.3).
 
 ## 3. 🪜 Mastery Learning (Bloom)
 
-Một skill được coi là **mastered** khi `P(correct) ≥ 0.85` trên N câu liên tiếp. Cấu trúc curriculum thành **đồ thị tiền-điều kiện**:
+Một skill được coi là **mastered** khi \`P(correct) ≥ 0.85\` trên N câu liên tiếp. Cấu trúc curriculum thành **đồ thị tiền-điều kiện**:
 
-```
+\`\`\`
    addition ─┐
              ├─▶ multiplication ─┐
    counting ─┘                   ├─▶ fractions ─▶ algebra
                   ─── subtraction ┘
-```
+\`\`\`
 
 Học sinh chỉ unlock node con khi tất cả node cha đạt mastery.
 
@@ -311,7 +311,7 @@ Phần thưởng = Δ mastery sau bài, hoặc engagement (hoàn thành / không
 
 ## 5. 🔁 Vòng adaptive loop hoàn chỉnh
 
-```
+\`\`\`
    ┌──────────────────────────────────────────────────────────┐
    │  PROFILE (θ per skill)                                   │
    └──────────────┬───────────────────────────────────────────┘
@@ -329,13 +329,13 @@ Phần thưởng = Δ mastery sau bài, hoặc engagement (hoàn thành / không
    │           mastery ← rolling_window_correct()             │
    │           log immutable cho RL/feedback loop sau         │
    └──────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## 6. ⚠️ Bẫy
 
-- Chọn quá nhiều câu `b ≈ θ` → user thấy mọi câu đều ~50/50 → frustrating. Thêm chút "easy win" định kỳ.
+- Chọn quá nhiều câu \`b ≈ θ\` → user thấy mọi câu đều ~50/50 → frustrating. Thêm chút "easy win" định kỳ.
 - Mastery không có thời gian phai → đánh giá sai 1 tháng sau. Kết hợp với spaced repetition (bài trước).
-- Bandit không có `min_pulls` → bài mới chưa bao giờ thắng, vĩnh viễn ngủ yên.
+- Bandit không có \`min_pulls\` → bài mới chưa bao giờ thắng, vĩnh viễn ngủ yên.
 
 ## ✨ Nâng cấp 2026 - Adaptive thông minh hơn
 
@@ -498,7 +498,7 @@ Tutor đúng nghĩa = **LLM + retrieval trên curriculum của bạn + state c�
 
 ## 2. 🏗️ Kiến trúc tham chiếu
 
-```
+\`\`\`
    ┌────────────────────────────────────────────────────────────┐
    │  STUDENT MESSAGE                                           │
    └──────────────┬─────────────────────────────────────────────┘
@@ -528,7 +528,7 @@ Tutor đúng nghĩa = **LLM + retrieval trên curriculum của bạn + state c�
    └──────────┬────────────┘    └────────────────────────────┘
               ▼
         Trả về cho học sinh
-```
+\`\`\`
 
 ## 3. 🧰 Persona theo lứa tuổi
 
@@ -731,7 +731,7 @@ Yêu cầu thực tế:
 
 ## 2. 📐 Rubric-first, không phải LLM-first
 
-```
+\`\`\`
    rubric.json
    {
      "task_response":  {weight: 0.25, scale: 0-9, anchors: {...}},
@@ -739,13 +739,13 @@ Yêu cầu thực tế:
      "lexical":        {weight: 0.25, ...},
      "grammar":        {weight: 0.25, ...}
    }
-```
+\`\`\`
 
 LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập luận sắc bén, ví dụ cụ thể; 5 = lập luận rời rạc"). Tổng điểm = weighted sum + rounding nửa band (IELTS).
 
 ## 3. 🔁 Pipeline IELTS Writing thực chiến
 
-```
+\`\`\`
    ┌───────────────────────────────────────────────────────────┐
    │  ESSAY                                                    │
    └───────────────┬───────────────────────────────────────────┘
@@ -769,7 +769,7 @@ LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập l
    │  Calibration layer: nếu confidence low hoặc gần biên,     │
    │   route → human grader (sampling 10–20%)                  │
    └───────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## 4. 🎙️ Speaking - khác essay ở đâu?
 
@@ -992,12 +992,12 @@ print(json.dumps(result, ensure_ascii=False, indent=2))`,
 
 Một học sinh có thể đoán đúng, copy đáp án, hoặc thuộc lòng mà không hiểu. **Knowledge Tracing (KT)** là bài toán **ước lượng xác suất học sinh đã nắm kỹ năng** dựa trên lịch sử trả lời.
 
-```
+\`\`\`
    Lịch sử:       Q1✓  Q2✗  Q3✓  Q4✓  Q5✗  Q6✓
    Skill:         past-tense   articles    past-tense  ...
    KT model →     P(mastery past-tense) = 0.82
                   P(mastery articles)   = 0.41
-```
+\`\`\`
 
 ## 2. 🧮 BKT (Bayesian Knowledge Tracing) - kinh điển 1995
 
@@ -1005,31 +1005,31 @@ Một học sinh có thể đoán đúng, copy đáp án, hoặc thuộc lòng m
 
 | Param | Ý nghĩa | Khoảng điển hình |
 |-------|---------|------------------|
-| `p_init` | P(biết trước khi học) | 0.1 – 0.3 |
-| `p_learn` | P(học được sau 1 lần thử) | 0.05 – 0.2 |
-| `p_slip` | P(biết nhưng trả lời SAI) | 0.05 – 0.1 |
-| `p_guess` | P(không biết nhưng trả lời ĐÚNG) | 0.1 – 0.25 |
+| \`p_init\` | P(biết trước khi học) | 0.1 – 0.3 |
+| \`p_learn\` | P(học được sau 1 lần thử) | 0.05 – 0.2 |
+| \`p_slip\` | P(biết nhưng trả lời SAI) | 0.05 – 0.1 |
+| \`p_guess\` | P(không biết nhưng trả lời ĐÚNG) | 0.1 – 0.25 |
 
 Cập nhật Bayes sau mỗi câu:
 
-```
+\`\`\`
    Nếu ĐÚNG:    p_known' = p_known * (1 - p_slip) /
                             [ p_known * (1 - p_slip) + (1 - p_known) * p_guess ]
    Nếu SAI:     p_known' = p_known * p_slip /
                             [ p_known * p_slip + (1 - p_known) * (1 - p_guess) ]
    Sau đó học:  p_known  = p_known' + (1 - p_known') * p_learn
-```
+\`\`\`
 
 ## 3. 🧠 DKT (Deep Knowledge Tracing, 2015) - RNN/Transformer
 
 BKT giả định độc lập giữa kỹ năng → kém khi kỹ năng liên quan (past simple ↔ past perfect). DKT dùng **RNN/Transformer** học embedding kỹ năng tự động → bắt được phụ thuộc.
 
-```
+\`\`\`
         x_1 ─▶ ┌────┐
         x_2 ─▶ │RNN ├─▶ h_t ─▶ Dense ─▶ P(đúng câu kế tiếp về mỗi skill)
         x_3 ─▶ └────┘
         x_t = (skill_id, correct?)
-```
+\`\`\`
 
 ## 4. 🪜 Mastery threshold - khi nào coi là "đã master"?
 
@@ -1043,16 +1043,16 @@ Kết hợp với **Spaced Repetition**: đạt 0.85 → đưa vào lịch ôn d
 
 ## 5. 🔗 Skill Graph - bản đồ phụ thuộc
 
-```
+\`\`\`
               [present simple]
                   │
                   ▼
               [past simple] ───▶ [past perfect]
                   │                  │
                   └────▶ [future] ◀──┘
-```
+\`\`\`
 
-Khi học sinh kẹt ở `past perfect`, hệ thống tự **gợi ý ôn lại `past simple`** (prerequisite) chứ không cố nhồi bài khó hơn.
+Khi học sinh kẹt ở \`past perfect\`, hệ thống tự **gợi ý ôn lại \`past simple\`** (prerequisite) chứ không cố nhồi bài khó hơn.
 
 ## 6. ⚠️ Bẫy
 
@@ -1228,13 +1228,13 @@ for i, c in enumerate(history, 1):
 
 Trong EdTech, **aha moment** không phải khi user đăng ký, mà khi họ **lần đầu cảm nhận tiến bộ rõ rệt** (hoàn thành bài đầu tiên + thấy mastery bar nhảy).
 
-```
+\`\`\`
    signup ─▶ first lesson ─▶ first quiz pass ─▶ first streak day 2
      100%      72%             48%                 31%   ← AHA cluster
                                                    │
                                                    ▼
                                     user 30× nhiều khả năng retain
-```
+\`\`\`
 
 Mục tiêu onboarding: **đưa càng nhiều user qua cụm aha càng nhanh**.
 
@@ -1253,7 +1253,7 @@ Quy tắc: **mỗi 1 click thừa = ~10% drop**. Verify-by-email là kẻ giết
 
 Empty state là **cơ hội dạy**, không phải lỗi UI. Mẫu tốt:
 
-```
+\`\`\`
    ┌──────────────────────────────────────────────┐
    │  👋 Chào bạn! Hãy thử bài đầu tiên:           │
    │                                              │
@@ -1262,7 +1262,7 @@ Empty state là **cơ hội dạy**, không phải lỗi UI. Mẫu tốt:
    │  💡 Sau bài này, bạn sẽ nhận badge "First    │
    │     Step" và mở khoá Coding Lab.             │
    └──────────────────────────────────────────────┘
-```
+\`\`\`
 
 Yếu tố bắt buộc: **CTA duy nhất**, **thời gian dự kiến**, **phần thưởng cụ thể**.
 
@@ -1309,13 +1309,13 @@ Output: học sinh thấy bài đầu **đúng trình độ, đúng mục tiêu,
 
 In EdTech, the **aha moment** is not when a user signs up, but when they **first feel real progress** (finishing the first lesson + seeing the mastery bar jump).
 
-```
+\`\`\`
    signup -> first lesson -> first quiz pass -> first streak day 2
      100%      72%             48%                 31%   <- AHA cluster
                                                    |
                                                    v
                                      user is 30x more likely to retain
-```
+\`\`\`
 
 Onboarding's goal: **push as many users through the aha cluster as fast as possible**.
 
@@ -1334,7 +1334,7 @@ Rule of thumb: **every 1 extra click = ~10% drop**. Email verification is a sile
 
 An empty state is a **teaching opportunity**, not a UI bug. A good pattern:
 
-```
+\`\`\`
    +------------------------------------------------+
    |  👋 Hi there! Try your first lesson:            |
    |                                                  |
@@ -1343,7 +1343,7 @@ An empty state is a **teaching opportunity**, not a UI bug. A good pattern:
    |  💡 After this lesson you'll earn the "First    |
    |     Step" badge and unlock the Coding Lab.      |
    +------------------------------------------------+
-```
+\`\`\`
 
 Required elements: **a single CTA**, **expected time**, **a concrete reward**.
 
@@ -1384,14 +1384,14 @@ Output: the student sees a first lesson that is **at the right level, matching t
 - **Cohort + funnel** are 2 mandatory dashboards. Every new feature must report the "D1/D7/D30 delta" after a 2-week A/B test.
 
 `,
-        code: `# Nhập các lớp cần thiết từ thư viện `dataclasses` để tạo lớp dữ liệu.
+        code: `# Nhập các lớp cần thiết từ thư viện \`dataclasses\` để tạo lớp dữ liệu.
 from dataclasses import dataclass
-# Nhập các đối tượng `datetime` và `timedelta` từ thư viện `datetime` để làm việc với ngày và thời gian.
+# Nhập các đối tượng \`datetime\` và \`timedelta\` từ thư viện \`datetime\` để làm việc với ngày và thời gian.
 from datetime import datetime, timedelta
-# Nhập `Optional` từ thư viện `typing` để chỉ ra rằng một giá trị có thể là một kiểu cụ thể hoặc `None`.
+# Nhập \`Optional\` từ thư viện \`typing\` để chỉ ra rằng một giá trị có thể là một kiểu cụ thể hoặc \`None\`.
 from typing import Optional
 
-# Định nghĩa một lớp dữ liệu (dataclass) tên là `Learner`.
+# Định nghĩa một lớp dữ liệu (dataclass) tên là \`Learner\`.
 # Dataclass tự động tạo các phương thức như __init__, __repr__ cho chúng ta.
 @dataclass
 class Learner:
@@ -1411,15 +1411,15 @@ class Learner:
 QUIET_HOURS = range(21, 24)  # don't push 21:00–08:00
 
 # Định nghĩa hàm kiểm tra xem thời gian hiện tại có nằm trong "giờ yên tĩnh" hay không.
-# Đầu vào: `now` (thời gian hiện tại).
-# Đầu ra: `True` nếu đang trong giờ yên tĩnh, `False` nếu không.
+# Đầu vào: \`now\` (thời gian hiện tại).
+# Đầu ra: \`True\` nếu đang trong giờ yên tĩnh, \`False\` nếu không.
 def in_quiet_hours(now: datetime) -> bool:
     # Trả về True nếu giờ hiện tại nằm trong QUIET_HOURS (21, 22, 23) hoặc nhỏ hơn 8 (0, 1, ..., 7).
     return now.hour in QUIET_HOURS or now.hour < 8
 
-# Định nghĩa hàm `pick_trigger` để chọn loại thông báo (trigger) phù hợp cho người học.
-# Đầu vào: `l` (đối tượng Learner), `now` (thời gian hiện tại).
-# Đầu ra: Một chuỗi mô tả loại thông báo hoặc `None` nếu không có thông báo nào phù hợp.
+# Định nghĩa hàm \`pick_trigger\` để chọn loại thông báo (trigger) phù hợp cho người học.
+# Đầu vào: \`l\` (đối tượng Learner), \`now\` (thời gian hiện tại).
+# Đầu ra: Một chuỗi mô tả loại thông báo hoặc \`None\` nếu không có thông báo nào phù hợp.
 def pick_trigger(l: Learner, now: datetime) -> Optional[str]:
     # Bước 1: Kiểm tra xem có đang trong giờ yên tĩnh không.
     # Nếu có, không gửi thông báo nào.
@@ -1455,7 +1455,7 @@ now = datetime(2026, 5, 29, 20, 5)
 # Khởi tạo một đối tượng Learner với các thông tin giả định.
 # Người học có ID "u1", đăng ký 10 ngày trước, hoạt động lần cuối 1 ngày trước, có chuỗi 3 ngày, hoàn thành 4 bài.
 l = Learner("u1", now - timedelta(days=10), now - timedelta(days=1), 3, 4)
-# Gọi hàm `pick_trigger` để xác định thông báo cho người học `l` tại thời điểm `now`.
+# Gọi hàm \`pick_trigger\` để xác định thông báo cho người học \`l\` tại thời điểm \`now\`.
 # In kết quả ra màn hình.
 # Kết quả mong đợi: "streak_save:keep your streak alive" vì l.streak_days >= 2, inactive >= 1 và now.hour == 20.
 print(pick_trigger(l, now))`,
@@ -1489,7 +1489,7 @@ Netflix gợi phim **thích** → tối đa hoá click. EdTech gợi bài **nên
 
 ## 2. 🎯 Khung Zone of Proximal Development (Vygotsky)
 
-```
+\`\`\`
    khó │ ░░░░░░░░░░░░░░░░ frustration zone (bỏ)
        │ ░░░░░░░░░░░░░░░░
        │ ████████████████  ← ZPD (sweet spot)
@@ -1497,7 +1497,7 @@ Netflix gợi phim **thích** → tối đa hoá click. EdTech gợi bài **nên
    dễ  │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ boredom zone (chán)
        └──────────────────
               khả năng người học
-```
+\`\`\`
 
 Mục tiêu: chọn bài có **xác suất pass ≈ 0.6–0.8** dựa trên mastery hiện tại.
 
@@ -1513,7 +1513,7 @@ Production: **lai cả ba** - KG để hợp lệ, CF để đa dạng, content 
 
 ## 4. 🪜 Pipeline gợi ý
 
-```
+\`\`\`
    ┌──────────────────────────────────────────────┐
    │ 1. Candidate generation (200 bài hợp lệ)     │
    │    - lọc theo prerequisite đã thoả           │
@@ -1531,7 +1531,7 @@ Production: **lai cả ba** - KG để hợp lệ, CF để đa dạng, content 
    │ 4. Constraints                                │
    │    daily cap, không gợi bài đã pass <7 ngày   │
    └──────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## 5. ❄️ Cold-start (user mới)
 
@@ -1551,7 +1551,7 @@ Netflix recommends movies you'll **like** -> maximizing clicks. EdTech recommend
 
 ## 2. 🎯 The Zone of Proximal Development framework (Vygotsky)
 
-```
+\`\`\`
    hard | ################ frustration zone (quits)
         | ################
         | ################  <- ZPD (sweet spot)
@@ -1559,7 +1559,7 @@ Netflix recommends movies you'll **like** -> maximizing clicks. EdTech recommend
    easy | ################ boredom zone (bored)
         +------------------
               learner ability
-```
+\`\`\`
 
 Goal: pick a lesson with a **pass probability of about 0.6-0.8** based on current mastery.
 
@@ -1575,7 +1575,7 @@ Production: **hybridize all three** - the knowledge graph ensures validity, coll
 
 ## 4. 🪜 Recommendation pipeline
 
-```
+\`\`\`
    +------------------------------------------------+
    | 1. Candidate generation (200 valid lessons)     |
    |    - filter by satisfied prerequisites          |
@@ -1594,7 +1594,7 @@ Production: **hybridize all three** - the knowledge graph ensures validity, coll
    |    daily cap, don't recommend lessons passed    |
    |    less than 7 days ago                         |
    +------------------------------------------------+
-```
+\`\`\`
 
 ## 5. ❄️ Cold-start (new user)
 
@@ -1748,7 +1748,7 @@ Người học EdTech có thể là **trẻ em < 13** (Mỹ) hoặc **< 16** (EU
 
 ## 3. 🚦 Nguyên tắc Data Minimization
 
-```
+\`\`\`
    ┌──────────────────────────────────────────────┐
    │  THU CÀNG ÍT CÀNG TỐT                        │
    │  ─────────────────────────────────────────── │
@@ -1758,7 +1758,7 @@ Người học EdTech có thể là **trẻ em < 13** (Mỹ) hoặc **< 16** (EU
    │  ❌ Ảnh khuôn mặt user-uploaded              │
    │  ✅ Avatar chibi chọn từ thư viện            │
    └──────────────────────────────────────────────┘
-```
+\`\`\`
 
 ## 4. 🔐 Patterns đúng cho EdTech trẻ em
 
@@ -1773,11 +1773,11 @@ Người học EdTech có thể là **trẻ em < 13** (Mỹ) hoặc **< 16** (EU
 
 ## 5. 🧹 Data lifecycle
 
-```
+\`\`\`
    collect ─▶ encrypt at rest ─▶ retention timer ─▶ purge
                                       ▲                │
                                       └─ user/parent xoá ┘
-```
+\`\`\`
 
 Retention rule mẫu: log hoạt động 90 ngày, kết quả học 2 năm, audio recording 7 ngày, **không có** raw PII trong analytics warehouse (chỉ pseudonymous ID).
 
@@ -1804,7 +1804,7 @@ EdTech learners can be **children under 13** (US) or **under 16** (EU). Data pro
 
 ## 3. 🚦 The Data Minimization principle
 
-```
+\`\`\`
    +------------------------------------------------+
    |  COLLECT AS LITTLE AS POSSIBLE                  |
    |  ------------------------------------------------ |
@@ -1814,7 +1814,7 @@ EdTech learners can be **children under 13** (US) or **under 16** (EU). Data pro
    |  ❌ User-uploaded face photos                    |
    |  ✅ Chibi avatar picked from a library           |
    +------------------------------------------------+
-```
+\`\`\`
 
 ## 4. 🔐 Correct patterns for children's EdTech
 
@@ -1829,11 +1829,11 @@ EdTech learners can be **children under 13** (US) or **under 16** (EU). Data pro
 
 ## 5. 🧹 Data lifecycle
 
-```
+\`\`\`
    collect -> encrypt at rest -> retention timer -> purge
                                        ^                |
                                        +- user/parent deletes -+
-```
+\`\`\`
 
 Sample retention rule: activity logs 90 days, learning results 2 years, audio recordings 7 days, and **no** raw PII in the analytics warehouse (only pseudonymous IDs).
 
@@ -1844,9 +1844,9 @@ Sample retention rule: activity logs 90 days, learning results 2 years, audio re
 - "Anonymous" data with 3 attributes (zip + age + gender) can re-identify 87% of people.
 - Letting teachers export the full class's data to their own machine -> loss of control, and you're still liable.
 `,
-        code: `# Nhập các lớp và hàm cần thiết từ thư viện `datetime` để làm việc với ngày giờ.
+        code: `# Nhập các lớp và hàm cần thiết từ thư viện \`datetime\` để làm việc với ngày giờ.
 from datetime import datetime, timedelta
-# Nhập các lớp và hàm cần thiết từ thư viện `dataclasses` để tạo các lớp dữ liệu gọn gàng.
+# Nhập các lớp và hàm cần thiết từ thư viện \`dataclasses\` để tạo các lớp dữ liệu gọn gàng.
 from dataclasses import dataclass, field
 
 # Định nghĩa một từ điển chứa số ngày lưu trữ (retention days) cho từng loại dữ liệu.
@@ -1863,21 +1863,21 @@ RETENTION_DAYS = {
 # Dataclass giúp tạo các lớp đơn giản để lưu trữ dữ liệu.
 @dataclass
 class Record:
-    # Trường `kind` (loại) của bản ghi, ví dụ: "audio_recording".
+    # Trường \`kind\` (loại) của bản ghi, ví dụ: "audio_recording".
     kind: str
-    # Trường `created_at` (thời gian tạo) của bản ghi, kiểu datetime.
+    # Trường \`created_at\` (thời gian tạo) của bản ghi, kiểu datetime.
     created_at: datetime
-    # Trường `data` (dữ liệu) của bản ghi, là một từ điển.
-    # `default_factory=dict` đảm bảo mỗi đối tượng Record có một từ điển `data` riêng biệt.
+    # Trường \`data\` (dữ liệu) của bản ghi, là một từ điển.
+    # \`default_factory=dict\` đảm bảo mỗi đối tượng Record có một từ điển \`data\` riêng biệt.
     data: dict = field(default_factory=dict)
 
 # Định nghĩa hàm kiểm tra xem một bản ghi có nên bị xóa (purge) hay không.
 # Đầu vào:
-#   - `r`: Một đối tượng `Record` cần kiểm tra.
-#   - `now`: Thời điểm hiện tại (kiểu datetime) để so sánh.
-# Đầu ra: `True` nếu bản ghi nên bị xóa, `False` nếu không.
+#   - \`r\`: Một đối tượng \`Record\` cần kiểm tra.
+#   - \`now\`: Thời điểm hiện tại (kiểu datetime) để so sánh.
+# Đầu ra: \`True\` nếu bản ghi nên bị xóa, \`False\` nếu không.
 def should_purge(r: Record, now: datetime) -> bool:
-    # Lấy số ngày lưu trữ cho loại bản ghi này từ từ điển `RETENTION_DAYS`.
+    # Lấy số ngày lưu trữ cho loại bản ghi này từ từ điển \`RETENTION_DAYS\`.
     # Nếu không tìm thấy loại bản ghi, mặc định là 30 ngày.
     days = RETENTION_DAYS.get(r.kind, 30)
     # Nếu số ngày lưu trữ là 0, có nghĩa là bản ghi này không được phép lưu trữ.
@@ -1891,9 +1891,9 @@ def should_purge(r: Record, now: datetime) -> bool:
 
 # Định nghĩa hàm kiểm tra xem một người có phải là trẻ vị thành niên hay không.
 # Đầu vào:
-#   - `age`: Tuổi của người đó (số nguyên).
-#   - `jurisdiction`: Khu vực pháp lý (quốc gia, ví dụ: "US", "EU").
-# Đầu ra: `True` nếu là trẻ vị thành niên, `False` nếu không.
+#   - \`age\`: Tuổi của người đó (số nguyên).
+#   - \`jurisdiction\`: Khu vực pháp lý (quốc gia, ví dụ: "US", "EU").
+# Đầu ra: \`True\` nếu là trẻ vị thành niên, \`False\` nếu không.
 def is_minor(age: int, jurisdiction: str) -> bool:
     # Định nghĩa tuổi giới hạn (cap) cho từng khu vực pháp lý.
     # Nếu khu vực không có trong danh sách, mặc định là 16 tuổi.
@@ -1902,11 +1902,11 @@ def is_minor(age: int, jurisdiction: str) -> bool:
     return age < cap
 
 # Định nghĩa hàm kiểm tra xem một người có cần sự đồng ý của phụ huynh hay không.
-# Hàm này chỉ đơn giản gọi hàm `is_minor` để xác định.
+# Hàm này chỉ đơn giản gọi hàm \`is_minor\` để xác định.
 # Đầu vào:
-#   - `age`: Tuổi của người đó (số nguyên).
-#   - `jurisdiction`: Khu vực pháp lý.
-# Đầu ra: `True` nếu cần sự đồng ý của phụ huynh, `False` nếu không.
+#   - \`age\`: Tuổi của người đó (số nguyên).
+#   - \`jurisdiction\`: Khu vực pháp lý.
+# Đầu ra: \`True\` nếu cần sự đồng ý của phụ huynh, \`False\` nếu không.
 def requires_parental_consent(age: int, jurisdiction: str) -> bool:
     # Trả về kết quả của việc kiểm tra xem người đó có phải là trẻ vị thành niên hay không.
     return is_minor(age, jurisdiction)
@@ -1919,7 +1919,7 @@ records = [
     Record("audio_recording", now - timedelta(days=10)),
     # Kết quả bài học, tạo cách đây 400 ngày.
     Record("lesson_result",   now - timedelta(days=400)),
-    # Dữ liệu PII thô trong phân tích, tạo ngay tại thời điểm `now`.
+    # Dữ liệu PII thô trong phân tích, tạo ngay tại thời điểm \`now\`.
     Record("raw_pii_in_analytics", now),
 ]
 # Lặp qua từng bản ghi trong danh sách.
