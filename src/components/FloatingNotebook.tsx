@@ -101,6 +101,15 @@ const FloatingNotebook = () => {
   // Resizable state
   const resizing = useRef<null | "right" | "bottom" | "corner">(null);
 
+  // Editor font size (px), remembered per device for accessibility.
+  const [fontSize, setFontSize] = useState<number>(() => {
+    const raw = Number(localStorage.getItem("notebook-font-size"));
+    return raw >= 12 && raw <= 32 ? raw : 14;
+  });
+  useEffect(() => {
+    localStorage.setItem("notebook-font-size", String(fontSize));
+  }, [fontSize]);
+
   // Tiptap editor — onUpdate triggers a React re-render so auto-save fires.
   const editor = useEditor({
     extensions: [
@@ -114,11 +123,12 @@ const FloatingNotebook = () => {
     content: "",
     editorProps: {
       attributes: {
-        class: "prose prose-sm max-w-none focus:outline-none min-h-[280px] px-3 py-2 text-sm text-foreground notebook-editor",
+        class: "prose max-w-none focus:outline-none min-h-[280px] px-3 py-2 text-foreground notebook-editor",
       },
     },
     onUpdate: () => setEditorTick((t) => t + 1),
   });
+
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
