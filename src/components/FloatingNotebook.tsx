@@ -410,10 +410,12 @@ const FloatingNotebook = () => {
 
       // Build a styled offscreen container for rendering.
       const wrap = document.createElement("div");
-      const WRAP_W = 794; // CSS px width matching A4 at 96dpi
+      // Content is rendered at the exact width of the A4 text column so the
+      // PDF keeps real page margins on every side.
+      const WRAP_W = 666; // CSS px == 499.5pt text column (A4 minus 48pt sides)
       wrap.style.cssText = `
         position: fixed; left: -10000px; top: 0;
-        width: ${WRAP_W}px; padding: 56px 64px; background: #ffffff;
+        width: ${WRAP_W}px; padding: 0; background: #ffffff;
         font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
         color: #0f172a; line-height: 1.7; box-sizing: border-box;
       `;
@@ -429,10 +431,6 @@ const FloatingNotebook = () => {
           <div style="display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; background:linear-gradient(90deg,#3B82F6,#10B981); color:#fff;">${subjLabel}</div>
         </div>
         <div id="pdf-body" style="font-size:${Math.min(18, Math.max(13, fontSize))}px;">${getContent() || "<p><em>Chưa có nội dung</em></p>"}</div>
-        <div data-pdf-block style="margin-top:32px; padding-top:12px; border-top:1px solid #e2e8f0; font-size:10px; color:#94a3b8; display:flex; justify-content:space-between;">
-          <span>© ${new Date().getFullYear()} HaiEduTech · haiedutech.com</span>
-          <span>Xuất từ Sổ tay học sinh</span>
-        </div>
       `;
       // Keep body blocks readable and prevent tight lists in the PDF.
       const body = wrap.querySelector("#pdf-body") as HTMLElement | null;
@@ -456,9 +454,13 @@ const FloatingNotebook = () => {
         const pdf = new jsPDF({ unit: "pt", format: "a4" });
         const pageW = pdf.internal.pageSize.getWidth();
         const pageH = pdf.internal.pageSize.getHeight();
-        const cssToPt = pageW / WRAP_W;          // CSS px -> PDF pt
+        const MX = 48;    // left/right margin (pt)
+        const MTOP = 44;  // top margin (pt)
+        const MBOT = 66;  // bottom margin (pt): footer line + page number live here
+        const contentPtW = pageW - MX * 2;
+        const cssToPt = contentPtW / WRAP_W;     // CSS px -> PDF pt
         const pxPerCss = canvas.width / WRAP_W;  // canvas px per CSS px
-        const pageCssH = pageH / cssToPt;        // usable CSS px per page
+        const pageCssH = (pageH - MTOP - MBOT) / cssToPt; // usable CSS px per page
 
         // Collect safe break offsets (bottom of every top-level block) so a
         // page break never cuts through a line of text.
@@ -501,9 +503,31 @@ const FloatingNotebook = () => {
           ctx.fillRect(0, 0, slice.width, slice.height);
           ctx.drawImage(canvas, 0, sy, canvas.width, sh, 0, 0, canvas.width, sh);
           if (page > 0) pdf.addPage();
-          pdf.addImage(slice.toDataURL("image/jpeg", 0.95), "JPEG", 0, 0, pageW, (sh / pxPerCss) * cssToPt);
+          pdf.addImage(
+            slice.toDataURL("image/jpeg", 0.95),
+            "JPEG",
+            MX,
+            MTOP,
+            contentPtW,
+            (sh / pxPerCss) * cssToPt,
+          );
           page += 1;
           start = end;
+        }
+        // Footer band (brand line + page number) drawn as real vector text on
+        // every page, so it never gets cut by pagination.
+        const total = pdf.getNumberOfPages();
+        for (let i = 1; i <= total; i += 1) {
+          pdf.setPage(i);
+          pdf.setDrawColor(226, 232, 240);
+          pdf.setLineWidth(0.6);
+          pdf.line(MX, pageH - 46, pageW - MX, pageH - 46);
+          pdf.setFontSize(8);
+          pdf.setTextColor(148, 163, 184);
+          pdf.text(`© ${new Date().getFullYear()} HaiEduTech · haiedutech.com`, MX, pageH - 33);
+          pdf.text("Xuat tu So tay hoc sinh", pageW - MX, pageH - 33, { align: "right" });
+          pdf.setFontSize(9);
+          pdf.text(`${i} / ${total}`, pageW / 2, pageH - 18, { align: "center" });
         }
         const fname = (title || "ghi-chu").replace(/[^\p{L}\p{N}\-_ ]+/gu, "").trim().replace(/\s+/g, "-").slice(0, 60) || "ghi-chu";
         pdf.save(`${fname}.pdf`);
