@@ -410,10 +410,12 @@ const FloatingNotebook = () => {
 
       // Build a styled offscreen container for rendering.
       const wrap = document.createElement("div");
-      const WRAP_W = 794; // CSS px width matching A4 at 96dpi
+      // Content is rendered at the exact width of the A4 text column so the
+      // PDF keeps real page margins on every side.
+      const WRAP_W = 666; // CSS px == 499.5pt text column (A4 minus 48pt sides)
       wrap.style.cssText = `
         position: fixed; left: -10000px; top: 0;
-        width: ${WRAP_W}px; padding: 56px 64px; background: #ffffff;
+        width: ${WRAP_W}px; padding: 0; background: #ffffff;
         font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
         color: #0f172a; line-height: 1.7; box-sizing: border-box;
       `;
@@ -456,9 +458,13 @@ const FloatingNotebook = () => {
         const pdf = new jsPDF({ unit: "pt", format: "a4" });
         const pageW = pdf.internal.pageSize.getWidth();
         const pageH = pdf.internal.pageSize.getHeight();
-        const cssToPt = pageW / WRAP_W;          // CSS px -> PDF pt
+        const MX = 48;    // left/right margin (pt)
+        const MTOP = 44;  // top margin (pt)
+        const MBOT = 52;  // bottom margin (pt), leaves room for page numbers
+        const contentPtW = pageW - MX * 2;
+        const cssToPt = contentPtW / WRAP_W;     // CSS px -> PDF pt
         const pxPerCss = canvas.width / WRAP_W;  // canvas px per CSS px
-        const pageCssH = pageH / cssToPt;        // usable CSS px per page
+        const pageCssH = (pageH - MTOP - MBOT) / cssToPt; // usable CSS px per page
 
         // Collect safe break offsets (bottom of every top-level block) so a
         // page break never cuts through a line of text.
@@ -501,9 +507,24 @@ const FloatingNotebook = () => {
           ctx.fillRect(0, 0, slice.width, slice.height);
           ctx.drawImage(canvas, 0, sy, canvas.width, sh, 0, 0, canvas.width, sh);
           if (page > 0) pdf.addPage();
-          pdf.addImage(slice.toDataURL("image/jpeg", 0.95), "JPEG", 0, 0, pageW, (sh / pxPerCss) * cssToPt);
+          pdf.addImage(
+            slice.toDataURL("image/jpeg", 0.95),
+            "JPEG",
+            MX,
+            MTOP,
+            contentPtW,
+            (sh / pxPerCss) * cssToPt,
+          );
           page += 1;
           start = end;
+        }
+        // Page numbers inside the bottom margin.
+        const total = pdf.getNumberOfPages();
+        for (let i = 1; i <= total; i += 1) {
+          pdf.setPage(i);
+          pdf.setFontSize(9);
+          pdf.setTextColor(150, 160, 175);
+          pdf.text(`${i} / ${total}`, pageW / 2, pageH - 24, { align: "center" });
         }
         const fname = (title || "ghi-chu").replace(/[^\p{L}\p{N}\-_ ]+/gu, "").trim().replace(/\s+/g, "-").slice(0, 60) || "ghi-chu";
         pdf.save(`${fname}.pdf`);
