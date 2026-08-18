@@ -63,7 +63,40 @@ Benjamin Bloom (University of Chicago) so sánh 3 nhóm học sinh:
 \`\`\`
 
 > 🧪 Đo Cohen's d giữa pre và post. Nếu d > 0.8 → bạn vừa tái hiện hiệu ứng Bloom trong 45 phút.`,
-        theoryEn: `In 1984, Benjamin Bloom showed that one-to-one tutoring lifted students two standard deviations above the conventional class average - the famous 2-Sigma Problem. Modern EdTech (Khan Academy adaptive paths, Khanmigo, HaiEduTech AI Coach) tries to close this gap with adaptive learning, AI tutors, and mastery learning. VanLehn (2011) later reported a more realistic ~0.79σ effect for human tutoring, but the design lessons still drive product decisions today.`,
+        theoryEn: `## 🧠 A Shocking 1984 Discovery
+
+Benjamin Bloom (University of Chicago) compared 3 groups of students:
+
+\`\`\`
+   Average student (Conventional)             ████████░░░░░░░░░  ~50th %
+   Mastery Learning                            ████████████░░░░░  ~84th %  (+1σ)
+   One-to-One Tutoring                         ████████████████░  ~98th %  (+2σ)
+\`\`\`
+
+→ Students who got 1:1 tutoring outperformed 98% of their peers. This gap of 2 standard deviations is called **Bloom's 2-Sigma Problem**: how can 30 students in a classroom get results as good as being tutored 1-on-1?
+
+## 🤖 How Does Modern EdTech Answer This?
+
+1. **Adaptive learning** (Khan Academy, Duolingo, HaiEduTech): every student gets a personal path based on IRT (Item Response Theory) + mastery tracking.
+2. **AI Tutor** (Khanmigo, MagicSchool, HaiEduTech AI Coach): simulates a 1:1 teacher using an LLM with RAG over the curriculum.
+3. **Mastery Learning** (Bloom 1968 → ALEKS, Mathia): students cannot move to a new lesson until they hit 80%+ mastery.
+
+## 📚 Source Reading
+
+- 🔗 [Bloom (1984) - The 2 Sigma Problem](https://web.mit.edu/5.95/readings/bloom-two-sigma.pdf) (MIT PDF mirror)
+- 🔗 [VanLehn (2011) - Relative effectiveness of human tutoring](https://scholar.google.com/scholar?q=VanLehn+2011+relative+effectiveness+human+tutoring) - the real-world effect is closer to ~0.79σ, not the full 2σ.
+
+## 🎯 A Classroom Activity to Try (45 minutes)
+
+\`\`\`
+   ┌─────────────────────┐   ┌──────────────────────┐   ┌─────────────────────┐
+   │ 1. Pre-test 10 qs   │ ─▶│ 2. AI Tutor 1-on-1   │ ─▶│ 3. Post-test 10 qs │
+   │   (placement test)  │   │    20 min (Khanmigo  │   │   compare the delta │
+   │                     │   │    or HaiEdu Coach)  │   │                     │
+   └─────────────────────┘   └──────────────────────┘   └─────────────────────┘
+\`\`\`
+
+> 🧪 Measure Cohen's d between pre and post. If d > 0.8, you have just reproduced Bloom's effect in 45 minutes.`,
         code: `# Compute Cohen's d for a pre/post tutoring experiment
 from math import sqrt
 
@@ -89,24 +122,36 @@ print(f"Cohen's d = {cohens_d(pre, post):.2f}")
             options: ["0.5σ", "1σ", "2σ", "3σ"],
             answer: 2,
             explanation: "Bloom (1984) báo cáo hiệu ứng ~2σ giữa nhóm 1-1 và nhóm conventional.",
+            questionEn: "Bloom's 2-Sigma Problem claims 1:1 tutoring raises students by how many standard deviations compared to a normal class?",
+            optionsEn: ["0.5σ", "1σ", "2σ", "3σ"],
+            explanationEn: "Bloom (1984) reported a ~2σ effect between the 1:1 tutoring group and the conventional group.",
           },
           {
             question: "VanLehn (2011) báo cáo hiệu ứng thực tế của human tutoring gần với mức nào?",
             options: ["~0.2σ", "~0.79σ", "~2σ", "~4σ"],
             answer: 1,
             explanation: "VanLehn đo lại nhiều nghiên cứu, kết luận hiệu ứng quanh d ≈ 0.79σ - vẫn lớn nhưng thấp hơn Bloom.",
+            questionEn: "VanLehn (2011) reported the real-world effect of human tutoring close to which value?",
+            optionsEn: ["~0.2σ", "~0.79σ", "~2σ", "~4σ"],
+            explanationEn: "VanLehn re-analysed many studies and concluded the effect is around d ≈ 0.79σ - still large, but lower than Bloom's figure.",
           },
           {
             question: "Cohen's d = 0.8 được coi là?",
             options: ["Hiệu ứng nhỏ", "Hiệu ứng trung bình", "Hiệu ứng lớn", "Không có hiệu ứng"],
             answer: 2,
             explanation: "Theo Cohen, d≈0.2 small, 0.5 medium, 0.8+ large.",
+            questionEn: "A Cohen's d of 0.8 is considered?",
+            optionsEn: ["A small effect", "A medium effect", "A large effect", "No effect"],
+            explanationEn: "By Cohen's convention, d≈0.2 is small, 0.5 is medium, and 0.8+ is large.",
           },
           {
             question: "Cách EdTech hiện đại tiệm cận hiệu ứng 1-1 KHÔNG bao gồm?",
             options: ["Adaptive learning", "AI Tutor", "Mastery Learning", "Bài giảng video dài 2h không tương tác"],
             answer: 3,
             explanation: "Video dài không tương tác là conventional teaching, không tái hiện hiệu ứng 1-1.",
+            questionEn: "Which of these is NOT a way modern EdTech tries to approximate the 1:1 tutoring effect?",
+            optionsEn: ["Adaptive learning", "AI Tutor", "Mastery Learning", "A non-interactive 2-hour lecture video"],
+            explanationEn: "A long non-interactive video is conventional teaching, and does not reproduce the 1:1 effect.",
           },
         ],
       },
@@ -225,6 +270,9 @@ print(f"Estimated curve: error = {a:.2f} * opp^(-{b:.2f})")
             options: ["MIT", "Stanford", "Carnegie Mellon", "Harvard"],
             answer: 2,
             explanation: "PSLC là dự án của Carnegie Mellon University (CMU).",
+            questionEn: "PSLC's DataShop belongs to which university?",
+            optionsEn: ["MIT", "Stanford", "Carnegie Mellon", "Harvard"],
+            explanationEn: "PSLC is a project of Carnegie Mellon University (CMU).",
           },
           {
             question: "Knowledge Component (KC) là gì?",
@@ -236,18 +284,32 @@ print(f"Estimated curve: error = {a:.2f} * opp^(-{b:.2f})")
             ],
             answer: 1,
             explanation: "KC là đơn vị kiến thức nguyên tử mà 1 step luyện tập đụng tới.",
+            questionEn: "What is a Knowledge Component (KC)?",
+            optionsEn: [
+              "A textbook chapter",
+              "The smallest unit of knowledge tied to one problem step",
+              "A CSV file",
+              "A deep learning model",
+            ],
+            explanationEn: "A KC is the atomic unit of knowledge that a single practice step touches.",
           },
           {
             question: "Learning curve thường tuân theo dạng?",
             options: ["Tuyến tính", "Hàm mũ tăng", "Power law giảm", "Hằng số"],
             answer: 2,
             explanation: "error = a · opportunity^(-b) - power law giảm.",
+            questionEn: "Learning curves typically follow which shape?",
+            optionsEn: ["Linear", "Increasing exponential", "Decaying power law", "Constant"],
+            explanationEn: "error = a · opportunity^(-b) - a decaying power law.",
           },
           {
             question: "Thuật toán BKT do ai đề xuất?",
             options: ["Bloom 1984", "Corbett & Anderson 1995", "Vygotsky 1978", "Skinner 1953"],
             answer: 1,
             explanation: "Corbett & Anderson (1995) giới thiệu Bayesian Knowledge Tracing tại CMU.",
+            questionEn: "Who proposed the BKT algorithm?",
+            optionsEn: ["Bloom 1984", "Corbett & Anderson 1995", "Vygotsky 1978", "Skinner 1953"],
+            explanationEn: "Corbett & Anderson (1995) introduced Bayesian Knowledge Tracing at CMU.",
           },
         ],
       },
@@ -367,12 +429,18 @@ for l in learners:
             options: ["~50%", "~30%", "~5-10%", "~90%"],
             answer: 2,
             explanation: "Reich (2014) báo cáo completion ~5-10% cho hầu hết MOOC mở.",
+            questionEn: "What is a typical completion rate for a MOOC?",
+            optionsEn: ["~50%", "~30%", "~5-10%", "~90%"],
+            explanationEn: "Reich (2014) reported completion of ~5-10% for most open MOOCs.",
           },
           {
             question: "Kizilcec chia học viên MOOC thành bao nhiêu nhóm hành vi?",
             options: ["2", "4", "6", "8"],
             answer: 1,
             explanation: "Completing, Auditing, Disengaging, Sampling - 4 cụm hành vi.",
+            questionEn: "How many behavior clusters did Kizilcec split MOOC learners into?",
+            optionsEn: ["2", "4", "6", "8"],
+            explanationEn: "Completing, Auditing, Disengaging, Sampling - 4 behavioral clusters.",
           },
           {
             question: "MOOC pivot (Reich & Ruipérez-Valiente 2019) chỉ điều gì?",
@@ -384,6 +452,14 @@ for l in learners:
             ],
             answer: 0,
             explanation: "Ngành MOOC dịch chuyển sang model doanh nghiệp + chứng chỉ trả phí.",
+            questionEn: "What does the 'MOOC pivot' (Reich & Ruipérez-Valiente 2019) refer to?",
+            optionsEn: [
+              "MOOCs shifting from free B2C to paid B2B/credentialing",
+              "MOOCs shifting to video-only learning",
+              "MOOCs being abandoned entirely",
+              "MOOCs being replaced by VR",
+            ],
+            explanationEn: "The MOOC industry pivoted toward a corporate model plus paid certification.",
           },
           {
             question: "Ai là 2 giáo sư Stanford khởi xướng MOOC AI 2011?",
@@ -395,6 +471,14 @@ for l in learners:
             ],
             answer: 1,
             explanation: "Thrun & Norvig dạy khoá AI 2011 với ~160k học viên, dẫn tới Udacity.",
+            questionEn: "Which two Stanford professors launched the 2011 AI MOOC?",
+            optionsEn: [
+              "Andrew Ng & Daphne Koller",
+              "Sebastian Thrun & Peter Norvig",
+              "Fei-Fei Li & Chris Manning",
+              "Jeff Dean & Andrej Karpathy",
+            ],
+            explanationEn: "Thrun & Norvig taught the 2011 AI course with ~160k learners, which led to Udacity.",
           },
         ],
       },
@@ -516,24 +600,36 @@ print(f"[{str(elapsed).zfill(2)}:00] ✓ Done")`,
             options: ["1995", "2001", "2008", "2012"],
             answer: 1,
             explanation: "MIT công bố toàn bộ tài liệu khoá học miễn phí năm 2001.",
+            questionEn: "In what year did MIT OpenCourseWare launch?",
+            optionsEn: ["1995", "2001", "2008", "2012"],
+            explanationEn: "MIT released all its course materials for free in 2001.",
           },
           {
             question: "Thí nghiệm 'Hole in the Wall' do ai thực hiện?",
             options: ["Salman Khan", "Sugata Mitra", "Sebastian Thrun", "Benjamin Bloom"],
             answer: 1,
             explanation: "Sugata Mitra (NIIT, Newcastle Univ.) thực hiện thí nghiệm này từ 1999 tại Delhi.",
+            questionEn: "Who conducted the 'Hole in the Wall' experiment?",
+            optionsEn: ["Salman Khan", "Sugata Mitra", "Sebastian Thrun", "Benjamin Bloom"],
+            explanationEn: "Sugata Mitra (NIIT, Newcastle Univ.) ran this experiment starting in 1999 in Delhi.",
           },
           {
             question: "5 nguyên tắc SOLE không bao gồm?",
             options: ["Big Question", "Self-Organised Groups", "Public Output", "Punishment for wrong answers"],
             answer: 3,
             explanation: "SOLE cấm trừng phạt; người lớn (Granny Cloud) chỉ động viên.",
+            questionEn: "Which of these is NOT one of the 5 SOLE elements?",
+            optionsEn: ["Big Question", "Self-Organised Groups", "Public Output", "Punishment for wrong answers"],
+            explanationEn: "SOLE forbids punishment; adults (the Granny Cloud) only encourage.",
           },
           {
             question: "MIT OCW có khoảng bao nhiêu khoá học tính đến 2025?",
             options: ["~250", "~2.500", "~25.000", "~250.000"],
             answer: 1,
             explanation: "OCW công bố hơn 2.500 khoá học từ MIT.",
+            questionEn: "About how many courses does MIT OCW host as of 2025?",
+            optionsEn: ["~250", "~2,500", "~25,000", "~250,000"],
+            explanationEn: "OCW has published more than 2,500 MIT courses.",
           },
         ],
       },
@@ -677,18 +773,27 @@ print(audit("HaiEduTech AI Coach", {
             options: ["3", "5", "7", "10"],
             answer: 1,
             explanation: "5 nguyên tắc: inclusive growth, human-centred values, transparency, robustness, accountability.",
+            questionEn: "How many core principles does the OECD AI Recommendation list?",
+            optionsEn: ["3", "5", "7", "10"],
+            explanationEn: "5 principles: inclusive growth, human-centred values, transparency, robustness, accountability.",
           },
           {
             question: "UNESCO GenAI Guidance (2023) khuyến nghị độ tuổi tối thiểu dùng chatbot AI không giám sát là?",
             options: ["8", "10", "13", "16"],
             answer: 2,
             explanation: "UNESCO khuyến nghị ngưỡng 13 tuổi - phù hợp COPPA/GDPR-K.",
+            questionEn: "What minimum age does UNESCO's GenAI Guidance (2023) recommend for unsupervised AI chatbot use?",
+            optionsEn: ["8", "10", "13", "16"],
+            explanationEn: "UNESCO recommends a threshold of age 13 - aligned with COPPA/GDPR-K.",
           },
           {
             question: "Beijing Consensus on AI and Education do tổ chức nào ban hành?",
             options: ["OECD", "UNESCO", "World Bank", "WTO"],
             answer: 1,
             explanation: "UNESCO tổ chức hội nghị Bắc Kinh 2019 và ban hành consensus này.",
+            questionEn: "Which organization issued the Beijing Consensus on AI and Education?",
+            optionsEn: ["OECD", "UNESCO", "World Bank", "WTO"],
+            explanationEn: "UNESCO held the 2019 Beijing conference and issued this consensus.",
           },
           {
             question: "Nguyên tắc 'transparency & explainability' yêu cầu điều gì?",
@@ -700,6 +805,14 @@ print(audit("HaiEduTech AI Coach", {
             ],
             answer: 1,
             explanation: "OECD yêu cầu AI giải thích được quyết định để con người kiểm tra.",
+            questionEn: "What does the 'transparency & explainability' principle require?",
+            optionsEn: [
+              "Making the AI's source code public",
+              "Being able to explain how the AI reaches its decisions",
+              "The AI must be free of charge",
+              "The AI must run on-device",
+            ],
+            explanationEn: "OECD requires AI decisions to be explainable so humans can audit them.",
           },
         ],
       },
