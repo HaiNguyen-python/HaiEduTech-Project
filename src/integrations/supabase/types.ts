@@ -3917,6 +3917,7 @@ export type Database = {
           word: string
         }[]
       }
+      get_user_streak: { Args: { _user_id: string }; Returns: number }
       get_weekly_vocab_achievers: {
         Args: { _subject: string; _threshold?: number }
         Returns: {

@@ -56,42 +56,14 @@ export function useStreak(enabled = true) {
           localStorage.setItem(lastKey, today);
         }
 
-        // 2) Fetch recent activity dates and compute streak ending today/yesterday.
-        const since = new Date();
-        since.setDate(since.getDate() - 400);
-        const { data, error } = await supabase
-          .from("student_activity_log")
-          .select("created_at")
-          .eq("user_id", user.id)
-          .gte("created_at", since.toISOString())
-          .order("created_at", { ascending: false })
-          .limit(1000);
+        // 2) Compute the streak server-side over the full history.
+        // (A client-side query is unreliable: heavy users have tens of thousands
+        // of activity rows, so any row limit truncates the date set and caps the streak.)
+        const { data: rpcStreak, error } = await supabase.rpc("get_user_streak", { _user_id: user.id });
         if (error) throw error;
 
-        const dateSet = new Set(
-          (data || []).map((r) => dateKey(new Date(r.created_at)))
-        );
+        if (!cancelled) { setStreak(Number(rpcStreak) || 0); setLoading(false); }
 
-        let count = 0;
-        const cursor = new Date();
-        // Allow streak to start from today OR yesterday (timezone tolerant).
-        if (!dateSet.has(dateKey(cursor))) {
-          cursor.setDate(cursor.getDate() - 1);
-          if (!dateSet.has(dateKey(cursor))) {
-            if (!cancelled) { setStreak(0); setLoading(false); }
-            return;
-          }
-        }
-        for (let i = 0; i < 400; i++) {
-          if (dateSet.has(dateKey(cursor))) {
-            count++;
-            cursor.setDate(cursor.getDate() - 1);
-          } else {
-            break;
-          }
-        }
-
-        if (!cancelled) { setStreak(count); setLoading(false); }
       } catch (e) {
         console.error("useStreak error:", e);
         if (!cancelled) setLoading(false);
