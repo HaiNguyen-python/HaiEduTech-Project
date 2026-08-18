@@ -431,10 +431,6 @@ const FloatingNotebook = () => {
           <div style="display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; background:linear-gradient(90deg,#3B82F6,#10B981); color:#fff;">${subjLabel}</div>
         </div>
         <div id="pdf-body" style="font-size:${Math.min(18, Math.max(13, fontSize))}px;">${getContent() || "<p><em>Chưa có nội dung</em></p>"}</div>
-        <div data-pdf-block style="margin-top:32px; padding-top:12px; border-top:1px solid #e2e8f0; font-size:10px; color:#94a3b8; display:flex; justify-content:space-between;">
-          <span>© ${new Date().getFullYear()} HaiEduTech · haiedutech.com</span>
-          <span>Xuất từ Sổ tay học sinh</span>
-        </div>
       `;
       // Keep body blocks readable and prevent tight lists in the PDF.
       const body = wrap.querySelector("#pdf-body") as HTMLElement | null;
@@ -460,7 +456,7 @@ const FloatingNotebook = () => {
         const pageH = pdf.internal.pageSize.getHeight();
         const MX = 48;    // left/right margin (pt)
         const MTOP = 44;  // top margin (pt)
-        const MBOT = 52;  // bottom margin (pt), leaves room for page numbers
+        const MBOT = 66;  // bottom margin (pt): footer line + page number live here
         const contentPtW = pageW - MX * 2;
         const cssToPt = contentPtW / WRAP_W;     // CSS px -> PDF pt
         const pxPerCss = canvas.width / WRAP_W;  // canvas px per CSS px
@@ -518,13 +514,20 @@ const FloatingNotebook = () => {
           page += 1;
           start = end;
         }
-        // Page numbers inside the bottom margin.
+        // Footer band (brand line + page number) drawn as real vector text on
+        // every page, so it never gets cut by pagination.
         const total = pdf.getNumberOfPages();
         for (let i = 1; i <= total; i += 1) {
           pdf.setPage(i);
+          pdf.setDrawColor(226, 232, 240);
+          pdf.setLineWidth(0.6);
+          pdf.line(MX, pageH - 46, pageW - MX, pageH - 46);
+          pdf.setFontSize(8);
+          pdf.setTextColor(148, 163, 184);
+          pdf.text(`© ${new Date().getFullYear()} HaiEduTech · haiedutech.com`, MX, pageH - 33);
+          pdf.text("Xuat tu So tay hoc sinh", pageW - MX, pageH - 33, { align: "right" });
           pdf.setFontSize(9);
-          pdf.setTextColor(150, 160, 175);
-          pdf.text(`${i} / ${total}`, pageW / 2, pageH - 24, { align: "center" });
+          pdf.text(`${i} / ${total}`, pageW / 2, pageH - 18, { align: "center" });
         }
         const fname = (title || "ghi-chu").replace(/[^\p{L}\p{N}\-_ ]+/gu, "").trim().replace(/\s+/g, "-").slice(0, 60) || "ghi-chu";
         pdf.save(`${fname}.pdf`);
