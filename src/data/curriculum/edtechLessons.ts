@@ -742,25 +742,104 @@ TUTOR: { "feedback_vi": "Gần đúng! 'He' là ngôi 3 số ít - động từ 
 6. **Bỏ PII redaction** → log lưu tên/email vi phạm GDPR.
 7. **Không A/B test prompt** → không biết phiên bản nào dạy tốt hơn.
 `,
-        theoryEn: `## 1. 🤖 Tutor vs plain chatbot
-A tutor follows Socratic pedagogy, knows the student's profile + recent errors + goal, gives specific corrective feedback, logs mastery, and runs inside a strict system-prompt guardrail. A chatbot just answers.
+        theoryEn: `## 1. 🤖 AI Tutor vs a plain chatbot
 
-## 2. 🧱 Architecture
-Pre-processor (profile + last errors + goal) → system prompt + history → LLM → post-processor (validate JSON, log mastery, safety + PII filter) → UI / TTS.
+| Criterion | Plain chatbot (raw ChatGPT) | A real AI Tutor |
+|-----------|------------------------------|------------------|
+| **Goal** | Answer fast | Help the student **truly understand** |
+| **Method** | Gives the answer | Socratic - asks guiding questions |
+| **Context** | Forgets right after the chat | Remembers level, recent errors, goals |
+| **Feedback** | Generic "Good job!" | "You forgot the trailing 's' - 3rd person singular" |
+| **Assessment** | Not logged | Logs mastery, feeds the adaptive engine |
+| **Constraints** | Open-ended | Strict system prompt + guardrails |
 
-## 3. 📝 Prompt levels
-- **L1:** one-line role - too vague.
-- **L2:** add Socratic rules (no answers, one error at a time, end with a question, max 60 words).
-- **L3 production:** require strict JSON schema so the FE can render structured feedback and persist topic tags.
+> 🎓 **Philosophy:** a good AI tutor is like an **experienced math tutor**: they NEVER solve the problem for the student - they only ask *"What do you notice at this step?"* until the student spots the mistake themselves.
 
-## 4. 🔄 Few-shot examples
-Add 2–3 worked examples in the system prompt; the LLM imitates tone and length.
+## 2. 🧱 Full architecture of an AI Tutor
 
-## 5. 🧠 Memory tiers
-Short-term (context window), mid-term (rolling summary every 20 turns), long-term (profile + mastery map).
+\`\`\`
+┌───────────────┐   ┌─────────────────┐   ┌──────────────┐
+│ Student input │──▶│ Pre-processor   │──▶│  LLM call    │
+│ (msg / audio) │   │ • Load profile  │   │  + system    │
+└───────────────┘   │ • Recent errors │   │    prompt    │
+                    │ • Goal (band)   │   │  + history   │
+                    │ • Tokenize/STT  │   └──────┬───────┘
+                    └─────────────────┘          │
+                                                  ▼
+┌───────────────┐   ┌─────────────────┐   ┌──────────────┐
+│   UI / TTS    │◀──│ Post-processor  │◀──│ LLM response │
+│   render      │   │ • Validate JSON │   │  (Socratic   │
+└───────────────┘   │ • Log mastery   │   │   question)  │
+                    │ • Safety filter │   └──────────────┘
+                    │ • PII redact    │
+                    └─────────────────┘
+\`\`\`
 
-## 6. ⚠️ Pitfalls
-No guardrails; no mastery logging; bloated prompts (>2k tokens); no fallback on LLM error; no rate limit; PII in logs; never A/B testing prompts.
+### Role of each layer
+- **Pre-processor:** merges \`student_profile + last_5_errors + goal\` into the context. Cuts cost by **only sending errors relevant to the current topic**.
+- **System prompt:** the "contract" that keeps the AI in role. Must state: tone, length, what it may/may not do.
+- **Post-processor:** parses JSON, checks safety (no guideline violations), logs mastery by \`topic_id\`.
+
+## 3. 📝 System prompt templates by level
+
+### Level 1 - Basic (one line, ineffective)
+\`\`\`
+"You are an English tutor helping students study for IELTS."
+\`\`\`
+👉 Too vague. The LLM easily "slips" into giving the answer directly.
+
+### Level 2 - Structured Socratic
+\`\`\`
+You are an IELTS Writing tutor. The student is currently Band {{band}}, target {{goal}}.
+STRICT RULES:
+1. Do NOT give the answer right away. Ask one guiding question first.
+2. Point out ONE most important error, with a corrected example.
+3. End with the question: "Want to try again?"
+4. Maximum 60 words.
+5. If the student asks an off-topic question (not IELTS), redirect politely.
+\`\`\`
+
+### Level 3 - Production (with JSON output for parsing)
+\`\`\`
+You are an IELTS Writing examiner tutor, Band {{band}}.
+Return JSON following this schema:
+{
+  "feedback_vi": "...",       // Vietnamese, < 80 words
+  "socratic_question": "...", // one guiding question
+  "topic_tag": "tense|article|cohesion|vocab|...",
+  "is_correct": boolean,
+  "next_action": "retry|new_question|explain"
+}
+\`\`\`
+
+## 4. 🔄 Few-shot examples improve quality
+
+Add 2-3 sample examples to the system prompt → the LLM imitates the exact tone & length:
+\`\`\`
+Good example:
+Student: "He go to school."
+TUTOR: { "feedback_vi": "Almost there! 'He' is 3rd person singular - what ending does the verb need?",
+         "socratic_question": "Try conjugating 'go' again?",
+         "topic_tag": "tense-3rd-person-s", ... }
+\`\`\`
+
+## 5. 🧠 Memory & Personalization
+
+| Memory type | Stored where | Used for |
+|-------------|---------------|----------|
+| **Short-term** | LLM context window | last 5-10 turns of conversation |
+| **Mid-term** | DB summary every 20 turns | "Student often makes article mistakes, strong vocab" |
+| **Long-term** | Profile + mastery map | Adaptive lesson planning |
+
+## 6. ⚠️ Common pitfalls
+
+1. **Letting the LLM "say whatever it wants"** → loses pedagogy, blurts out the answer.
+2. **Not logging mastery** → the AI does not remember how far the student has progressed.
+3. **Prompt too long (>2k tokens)** → cost increases + LLM ignores the last rules.
+4. **No fallback when the LLM fails** → app crashes or replies "I don't understand".
+5. **No rate limit** → one student spams → $100/day.
+6. **Skipping PII redaction** → logs storing names/emails violate GDPR.
+7. **Never A/B testing prompts** → you never know which version teaches better.
 `,
         code: `# Pseudo-code cho 1 vòng tutor
 def tutor_reply(student_msg, profile, history):
@@ -781,11 +860,11 @@ print(tutor_reply("He go to school", {"id":1,"subject":"English","band":5.5}, []
         exercise: "Thêm rule: nếu học sinh sai cùng topic 3 lần → tutor chuyển sang giải thích trực tiếp thay vì hỏi.",
         exerciseEn: "Add a rule: if the student fails the same topic 3 times → switch from Socratic to direct explanation.",
         quiz: [
-          { question: "AI Tutor khác chatbot thường ở chỗ?", options: ["Đẹp hơn", "Có sư phạm + profile học sinh", "Chạy nhanh hơn", "Rẻ hơn"], answer: 1, explanation: "Tutor có pedagogy và personalization, không chỉ trả lời." },
-          { question: "Socratic method nghĩa là?", options: ["Cho đáp án ngay", "Đặt câu hỏi dẫn dắt", "Phạt sai", "Khen tất cả"], answer: 1, explanation: "Socratic giúp học sinh tự khám phá → nhớ sâu hơn." },
-          { question: "System prompt giữ vai trò gì?", options: ["Trang trí", "Ràng buộc hành vi AI để sư phạm", "Tăng tốc", "Giảm token"], answer: 1, explanation: "System prompt là 'hợp đồng' giữ AI đi đúng vai trò sư phạm." },
-          { question: "Vì sao cần log mastery sau mỗi lượt?", options: ["Để báo cáo doanh thu", "Để adaptive system điều chỉnh độ khó", "Để tăng SEO", "Không cần"], answer: 1, explanation: "Mastery log nuôi adaptive engine và báo cáo tiến bộ." },
-          { question: "Bẫy lớn nhất khi triển khai AI tutor?", options: ["UI xấu", "Không ràng buộc sư phạm → trả lời tuỳ tiện", "API chậm", "Quá rẻ"], answer: 1, explanation: "Không có guardrail sư phạm → mất giá trị giáo dục." },
+          { question: "AI Tutor khác chatbot thường ở chỗ?", options: ["Đẹp hơn", "Có sư phạm + profile học sinh", "Chạy nhanh hơn", "Rẻ hơn"], answer: 1, explanation: "Tutor có pedagogy và personalization, không chỉ trả lời.", questionEn: "How does an AI Tutor differ from a plain chatbot?", optionsEn: ["It looks nicer", "It has pedagogy + a student profile", "It runs faster", "It is cheaper"], explanationEn: "A tutor has pedagogy and personalization, not just answers." },
+          { question: "Socratic method nghĩa là?", options: ["Cho đáp án ngay", "Đặt câu hỏi dẫn dắt", "Phạt sai", "Khen tất cả"], answer: 1, explanation: "Socratic giúp học sinh tự khám phá → nhớ sâu hơn.", questionEn: "What does the Socratic method mean?", optionsEn: ["Give the answer immediately", "Ask guiding questions", "Punish mistakes", "Praise everything"], explanationEn: "Socratic questioning helps students discover the answer themselves - deeper retention." },
+          { question: "System prompt giữ vai trò gì?", options: ["Trang trí", "Ràng buộc hành vi AI để sư phạm", "Tăng tốc", "Giảm token"], answer: 1, explanation: "System prompt là 'hợp đồng' giữ AI đi đúng vai trò sư phạm.", questionEn: "What role does the system prompt play?", optionsEn: ["Decoration", "Constrains AI behavior to stay pedagogical", "Speeds things up", "Reduces tokens"], explanationEn: "The system prompt is a 'contract' that keeps the AI in its pedagogical role." },
+          { question: "Vì sao cần log mastery sau mỗi lượt?", options: ["Để báo cáo doanh thu", "Để adaptive system điều chỉnh độ khó", "Để tăng SEO", "Không cần"], answer: 1, explanation: "Mastery log nuôi adaptive engine và báo cáo tiến bộ.", questionEn: "Why log mastery after every turn?", optionsEn: ["To report revenue", "So the adaptive system can adjust difficulty", "To boost SEO", "It's not needed"], explanationEn: "Mastery logs feed the adaptive engine and progress reports." },
+          { question: "Bẫy lớn nhất khi triển khai AI tutor?", options: ["UI xấu", "Không ràng buộc sư phạm → trả lời tuỳ tiện", "API chậm", "Quá rẻ"], answer: 1, explanation: "Không có guardrail sư phạm → mất giá trị giáo dục.", questionEn: "What is the biggest pitfall when deploying an AI tutor?", optionsEn: ["Ugly UI", "No pedagogical guardrails → answers however it wants", "Slow API", "Too cheap"], explanationEn: "Without pedagogical guardrails you lose the educational value." },
         ],
       },
       {
@@ -892,27 +971,101 @@ Schema:
 6. **Không monitor drift** - mô hình LLM update → chấm có thể tăng/giảm 0.5 band bất ngờ.
 `,
         theoryEn: `## 1. 📝 Why auto-grading is hard
-Band 6 vs Band 7 essays look similar to machines; the difference is argument depth, cohesion, lexical range. LLMs since 2022 reach 0.85+ correlation with human raters on IELTS Writing.
 
-## 2. 🧅 Three-layer pipeline
-- **L1 Surface** (regex/wordcount/spell) - < 50ms, near-zero cost.
-- **L2 Statistical** (TF-IDF/cosine vs Band-8 reference) - topic + plagiarism.
-- **L3 Semantic** (LLM rubric) - slow & costly; only run after L1/L2 pass.
+A Band 6 and a Band 7 IELTS essay look very similar to a machine: same length, same topic, few spelling mistakes. The difference lies in **depth of argument, cohesion, lexical range** - things only humans could grade before 2022. LLMs changed the game: GPT-4 grading IELTS Writing reaches a **0.85+ correlation** with manual grading (close to the inter-rater agreement between two human examiners).
 
-## 3. 🎤 Speaking pipeline
-Audio → STT (Whisper) → WER vs sample (pronunciation) → LLM rubric (fluency, lexical, grammar). Always weight WER by STT confidence to avoid penalising STT errors.
+## 2. 🧅 Three-layer grading architecture
 
-## 4. 🧪 Rubric prompting
-Force the LLM to return strict JSON with per-criterion scores, evidence quotes, and top-3 improvements. JSON unlocks UI rendering and DB analytics.
+| Layer | Technique | Question it answers | Cost | Time |
+|-------|-----------|----------------------|------|------|
+| **L1 Surface** | Regex, word count, spell-check, language detection | Are there at least 250 words? Off-topic language? | ~0 | < 50ms |
+| **L2 Statistical** | TF-IDF, cosine similarity vs Band-8 sample essays | On-topic? Copied from a canned answer? | cheap | < 200ms |
+| **L3 Semantic** | LLM with rubric prompting | Why Band 6.5? Exactly which errors? | expensive | 3-8s |
 
-## 5. 🛡️ Reliability tricks
-Schema validator + retry; temperature = 0 + median of 3 calls; truncate to avoid length bias; cache by essay hash; plagiarism filter before L3.
+**Pipeline:** every essay passes L1 first (reject empty/spam), then L2 (plagiarism + topic match detection), and only then reaches L3 (the most expensive layer).
 
-## 6. 📈 Calibration
-Score 100 human-graded essays with the LLM, target Pearson > 0.8 and MAE < 0.5 bands; iterate prompts and few-shot examples.
+## 3. 🎤 Speaking Grading Pipeline
 
-## 7. ⚠️ Pitfalls
-One total score (useless), unstructured output, no cache, blind trust without teacher review, grading sub-50-word stubs, ignoring model drift.
+\`\`\`
+┌────────┐  ┌────────┐  ┌──────────┐  ┌────────────┐  ┌───────────┐
+│ Audio  │─▶│  STT   │─▶│  WER vs  │─▶│  LLM rubric │─▶│ Final band│
+│ (.wav) │  │Whisper │  │  sample  │  │  scoring    │  │ + feedback│
+└────────┘  └────────┘  └──────────┘  └────────────┘  └───────────┘
+                            │
+                            ▼
+                      pronunciation
+                          score
+\`\`\`
+
+### WER (Word Error Rate)
+\`\`\`
+WER = (Substitutions + Insertions + Deletions) / Total_words
+\`\`\`
+- WER = 0 → perfect pronunciation.
+- WER < 0.15 → fluent.
+- WER > 0.3 → hard to understand.
+
+> ⚠️ **Careful:** STT itself has errors (~5-10%). Use the **confidence score** from STT to discard guessed words before computing WER.
+
+## 4. 🧪 Rubric Prompting - the "soul" of L3
+
+### Sample prompt for IELTS Writing Task 2
+\`\`\`
+You are a certified IELTS examiner. Grade the essay using the official rubric
+(band 0-9, in 0.5 steps) across 4 criteria:
+
+1. Task Response - does it answer the question, is the position clear
+2. Coherence & Cohesion - paragraphing, linking words
+3. Lexical Resource - varied vocabulary, correct collocations
+4. Grammatical Range & Accuracy - complex sentences, correct tenses
+
+RULES:
+- Return JSON matching the schema below.
+- Each criterion: include one explanation sentence + one quoted example from the essay.
+- Overall = average of the 4 criteria, rounded to 0.5.
+
+Schema:
+{
+  "scores": { "task": 6.5, "coherence": 6.0, "lexical": 6.5, "grammar": 6.0 },
+  "overall": 6.5,
+  "feedback_per_criterion": { "task": "...", ... },
+  "top_3_improvements": ["...", "...", "..."],
+  "highlighted_strengths": ["..."]
+}
+\`\`\`
+
+### Why require JSON?
+- Frontend renders each criterion as a bar chart.
+- DB stores structured data for per-skill progress reports.
+- Easy to validate (Zod / Pydantic) → fail fast if the LLM omits a field.
+
+## 5. 🛡️ Validation & Reliability
+
+| Issue | Solution |
+|-------|----------|
+| LLM returns malformed JSON | Schema validator + retry with a "fix the JSON" prompt |
+| LLM scores fluctuate between calls | Set **temperature = 0**, call 3 times and take the median |
+| LLM bias (length bias) | Truncate the essay to a standard length before grading |
+| Student pastes a sample Band 9 essay | Plagiarism check at L2 before reaching L3 |
+| Cost exceeds budget | Cache by hash(essay) - identical resubmissions = 1 call |
+
+## 6. 📈 Calibration against real human grading
+
+To know how accurate the AI is:
+1. Take 100 essays already graded by 2 human examiners (ground truth).
+2. Have the LLM grade the same 100 essays.
+3. Compute **Pearson correlation** and **Mean Absolute Error (MAE)**.
+4. Target: correlation > 0.8, MAE < 0.5 band.
+5. If not met → refine the prompt, add few-shot examples.
+
+## 7. ⚠️ The biggest pitfalls
+
+1. **Giving a single overall score** → students don't know what to fix.
+2. **Not requiring JSON** → hard to parse, cannot build a good UI.
+3. **No caching** → cost explodes with repeated essays.
+4. **Blind trust in the LLM** - must have a "request teacher review" option for important bands.
+5. **Skipping auto-grading for writing under 50 words** → feeding the LLM 5 words is pointless and wastes tokens.
+6. **Not monitoring drift** - the underlying LLM updates → grades can shift up/down 0.5 band unexpectedly.
 `,
         code: `import json, re
 
@@ -935,11 +1088,11 @@ print(json.dumps(fake_llm_grade(ESSAY), indent=2, ensure_ascii=False))`,
         exercise: "Tính band tổng = trung bình 4 tiêu chí (làm tròn 0.5). Thêm warning nếu word_count < 250.",
         exerciseEn: "Compute overall band = average of 4 criteria (rounded to 0.5). Warn if word_count < 250.",
         quiz: [
-          { question: "Lớp 'surface' kiểm tra gì?", options: ["Ý nghĩa sâu", "Số từ, chính tả, định dạng", "Cảm xúc", "Logic"], answer: 1, explanation: "Surface là kiểm tra hình thức: đủ từ, đúng định dạng, lỗi chính tả." },
-          { question: "WER trong speaking dùng để?", options: ["Đo tốc độ mạng", "Đo độ chính xác phát âm bằng so khớp text", "Đo cảm xúc", "Đo độ dài"], answer: 1, explanation: "WER so text từ STT với câu mẫu → tỉ lệ lỗi." },
-          { question: "Vì sao bắt LLM trả JSON?", options: ["Để đẹp", "Để code FE parse và hiển thị từng tiêu chí", "Để LLM nghĩ kỹ hơn", "Để tốn ít token"], answer: 1, explanation: "JSON cho phép hiển thị rubric chi tiết và lưu DB." },
-          { question: "Bẫy lớn nhất của chấm tự động?", options: ["Quá đắt", "Chỉ trả 1 điểm tổng, không feedback cụ thể", "Quá chậm", "Quá chính xác"], answer: 1, explanation: "1 điểm tổng không giúp học sinh sửa - phải có feedback theo tiêu chí." },
-          { question: "Speaking grading thường kết hợp?", options: ["STT + WER + LLM rubric", "Chỉ STT", "Chỉ LLM", "Chỉ regex"], answer: 0, explanation: "Pipeline 3 bước cho điểm chính xác và feedback giàu." },
+          { question: "Lớp 'surface' kiểm tra gì?", options: ["Ý nghĩa sâu", "Số từ, chính tả, định dạng", "Cảm xúc", "Logic"], answer: 1, explanation: "Surface là kiểm tra hình thức: đủ từ, đúng định dạng, lỗi chính tả.", questionEn: "What does the 'surface' layer check?", optionsEn: ["Deep meaning", "Word count, spelling, format", "Emotion", "Logic"], explanationEn: "Surface checks form: enough words, correct format, spelling errors." },
+          { question: "WER trong speaking dùng để?", options: ["Đo tốc độ mạng", "Đo độ chính xác phát âm bằng so khớp text", "Đo cảm xúc", "Đo độ dài"], answer: 1, explanation: "WER so text từ STT với câu mẫu → tỉ lệ lỗi.", questionEn: "What is WER used for in speaking grading?", optionsEn: ["Measuring network speed", "Measuring pronunciation accuracy by comparing text", "Measuring emotion", "Measuring length"], explanationEn: "WER compares the STT transcript with the reference sentence to get an error rate." },
+          { question: "Vì sao bắt LLM trả JSON?", options: ["Để đẹp", "Để code FE parse và hiển thị từng tiêu chí", "Để LLM nghĩ kỹ hơn", "Để tốn ít token"], answer: 1, explanation: "JSON cho phép hiển thị rubric chi tiết và lưu DB.", questionEn: "Why force the LLM to return JSON?", optionsEn: ["To look nice", "So the FE code can parse and display each criterion", "So the LLM thinks harder", "To use fewer tokens"], explanationEn: "JSON lets you render the detailed rubric and store it in a DB." },
+          { question: "Bẫy lớn nhất của chấm tự động?", options: ["Quá đắt", "Chỉ trả 1 điểm tổng, không feedback cụ thể", "Quá chậm", "Quá chính xác"], answer: 1, explanation: "1 điểm tổng không giúp học sinh sửa - phải có feedback theo tiêu chí.", questionEn: "What is the biggest pitfall in auto-grading?", optionsEn: ["Too expensive", "Only returning one overall score, no specific feedback", "Too slow", "Too accurate"], explanationEn: "A single overall score doesn't help students fix anything - per-criterion feedback is needed." },
+          { question: "Speaking grading thường kết hợp?", options: ["STT + WER + LLM rubric", "Chỉ STT", "Chỉ LLM", "Chỉ regex"], answer: 0, explanation: "Pipeline 3 bước cho điểm chính xác và feedback giàu.", questionEn: "What does speaking grading typically combine?", optionsEn: ["STT + WER + LLM rubric", "STT only", "LLM only", "Regex only"], explanationEn: "The 3-step pipeline gives accurate scores and rich feedback." },
         ],
       },
       {
@@ -1044,28 +1197,101 @@ Recommendation chỉ tối ưu **relevance** sẽ làm người học chán. Th�
 5. **Không refresh model định kỳ** → recommendation lệch theo cohort cũ.
 6. **Quên giải thích "vì sao gợi bài này"** → giảm trust. Thêm dòng "Vì bạn vừa hoàn thành X."
 `,
-        theoryEn: `## 1. 🎯 Why EdTech recommendation matters
-A mature platform has 500–5000 lessons; personalized recommendations boost course completion ~38% (Coursera 2019). Goal is **retention + learning velocity**, not just CTR.
+        theoryEn: `## 1. 🎯 Why recommendation matters in EdTech
 
-## 2. 🧰 Three strategies
-- **Rule-based / knowledge graph:** prerequisite DAG. Simple, explainable, no personalization.
-- **Content-based:** embed lesson features (topic vector via embeddings, difficulty, skill mix, duration); cosine similarity. Handles new users; risks filter bubble.
-- **Collaborative filtering:** user × lesson matrix, ALS/SVD. Surfaces surprising patterns but suffers cold start.
+A mature EdTech platform has **500-5000 lessons**. Students log in and face the question "What should I learn next?" → most either pick randomly or leave the app. According to Coursera research (2019): **personalized recommendations increase course completion by 38%** compared to a flat list.
 
-## 3. 📐 Hybrid formula
-\`score = w1·mastery_gap + w2·similarity + w3·popularity + w4·prereq_ready − w5·freshness_penalty\`. Tune weights via A/B on completion, mastery growth, time-to-mastery, D7.
+> 🎯 **Dual goal:** (a) increase retention (keep users engaged) and (b) increase learning velocity (progress faster) - NOT just click-through rate like e-commerce recommendation.
 
-## 4. 🧊 Cold start
-New users → 3-question onboarding. New lessons → metadata-only ranking. Both new → cohort popularity.
+## 2. 🧰 Three common strategies - deep dive
 
-## 5. 🌈 Diversity
-Add **MMR** to penalize near-duplicates, **ε-greedy** for 10% exploration, and weekly skill-balance constraints.
+### a) Rule-based (Knowledge Graph)
+Lessons have **prerequisite** relations (A must be done before B). Represented as a directed graph:
+\`\`\`
+"Simple present" ──▶ "Present continuous" ──▶ "Present perfect"
+        │                                          │
+        ▼                                          ▼
+"Yes/No questions"                        "Present perfect passive"
+\`\`\`
 
-## 6. 📊 Metrics
-Precision@k, NDCG@k, mastery lift (the metric EdTech actually needs), coverage (avoid Matthew effect).
+- ✅ **Pros:** easy to explain to teachers; no need for large data.
+- ❌ **Cons:** rigid, cannot see individual preferences.
 
-## 7. ⚠️ Pitfalls
-Recommending only easy lessons; no diversity; missing prereq hard-gate; optimizing CTR like TikTok; never retraining; no "why this lesson" explanation → low trust.
+### b) Content-based Filtering
+Each lesson has a **feature vector** (topic, difficulty, skills, length). Find lessons whose vector is close to lessons the student liked/mastered well.
+
+| Feature | How to compute |
+|---------|-----------------|
+| **Topic** | TF-IDF on transcript, or embedding (text-embedding-3-small) |
+| **Difficulty** | IRT parameter b, or level 1-5 |
+| **Skill mix** | One-hot: [listening, reading, vocab, grammar, speaking] |
+| **Duration** | Estimated minutes |
+
+Similarity = cosine of 2 vectors → > 0.7 is considered "similar".
+
+- ✅ **Pros:** handles new students (just need to know what they like).
+- ❌ **Cons:** "filter bubble" - only suggests similar lessons, no discovery of new topics.
+
+### c) Collaborative Filtering
+"Students like you also studied lesson X." A user × lesson matrix with ratings (mastery achieved). Use SVD / ALS / Matrix Factorization to find latent factors.
+
+- ✅ **Pros:** detects surprising patterns ("HSK 2 students often like culture podcasts").
+- ❌ **Cons:** **Cold start** - new students or new lessons have no data.
+
+## 3. 📐 Hybrid Scoring - a practical formula
+
+No need to choose one - combine all three:
+
+\`\`\`
+score(lesson) = w1 · mastery_gap(skill)
+              + w2 · topic_similarity(history)
+              + w3 · popularity(global)
+              + w4 · prereq_ready(graph)
+              − w5 · freshness_penalty(last_24h)
+\`\`\`
+
+| Weight | Initial recommendation | Tuned by |
+|--------|--------------------------|----------|
+| w1 (mastery_gap) | 0.5 | Higher → prioritize weak skills |
+| w2 (similarity) | 0.3 | Higher → stronger personalization |
+| w3 (popularity) | 0.2 | Avoids cold start |
+| w4 (prereq) | 1.0 (hard gate) | Never recommend without enough prereqs |
+| w5 (freshness) | 0.1 | Avoids repeating a lesson just done |
+
+> 🔧 **Tune weights via A/B testing** on 4 metrics: completion rate, mastery growth, time-to-mastery, D7 retention.
+
+## 4. 🧊 Cold Start - always a problem to solve
+
+| Situation | Solution |
+|-----------|----------|
+| **New student** | Ask 3 onboarding questions (goal, level, interests) → initialize profile |
+| **New lesson** | Rely on metadata (topic, difficulty) - fallback to content-based |
+| **Both new** | Show "most popular in a similar cohort" (by age/goal) |
+
+## 5. 🌈 Diversity & Serendipity
+
+Recommendation that only optimizes **relevance** will bore learners. Add:
+- **MMR (Maximal Marginal Relevance):** lowers the score for lessons too similar to ones already recommended.
+- **ε-greedy exploration:** 10% of recommendations are **random** within the top 50 → discover new topics.
+- **Skill balance:** ensure recommendations cover all 4 skills across the week (don't spam listening).
+
+## 6. 📊 Evaluation Metrics
+
+| Metric | What it measures | Note |
+|--------|--------------------|------|
+| **Precision@k** | Of the top-k recommendations, how many were clicked | Easy to measure, but biased toward short-term relevance |
+| **NDCG@k** | Accounts for position in the list | Better for ranking |
+| **Mastery lift** | Δ mastery after following the recommendation | **The metric EdTech actually needs** |
+| **Coverage** | % of lessons ever recommended | Avoids the "Matthew effect" (rich get richer) |
+
+## 7. ⚠️ Common pitfalls
+
+1. **Only recommending easy lessons** → fake engagement boost, no real progress.
+2. **Ignoring diversity** → students get bored, high drop-off.
+3. **No hard gate on prerequisites** → recommends lessons too hard → frustration.
+4. **Optimizing only click-through** → becomes like TikTok, loses educational value.
+5. **Not refreshing the model periodically** → recommendations drift toward an old cohort.
+6. **Forgetting to explain "why this lesson"** → lowers trust. Add a line like "Because you just finished X."
 `,
         code: `lessons = [
     {"id": "g1", "topic": "grammar", "popularity": 0.8},
@@ -1087,11 +1313,11 @@ for l in ranked:
         exercise: "Thêm yếu tố 'freshness' (-0.1 nếu học sinh vừa làm bài đó trong 24h qua). In ra top-2.",
         exerciseEn: "Add a 'freshness' factor (-0.1 if user did the lesson in last 24h). Print top-2.",
         quiz: [
-          { question: "Mastery gap cao có nghĩa?", options: ["Học sinh giỏi kỹ năng đó", "Học sinh yếu kỹ năng đó, cần luyện", "Bài quá khó", "Không có ý nghĩa"], answer: 1, explanation: "Gap = 1 - mastery → cao = yếu = nên gợi ý." },
-          { question: "Collaborative filtering dựa trên?", options: ["Nội dung bài", "Hành vi của học sinh tương tự", "Giá tiền", "Màu sắc UI"], answer: 1, explanation: "Tìm pattern từ người dùng giống nhau (Netflix, Spotify)." },
-          { question: "Cold start là vấn đề gì?", options: ["Server lạnh", "Không có dữ liệu cho học sinh / bài mới", "Internet chậm", "Hết pin"], answer: 1, explanation: "Học sinh mới chưa có history → collaborative không hoạt động." },
-          { question: "Vì sao kết hợp 3 chiến thuật?", options: ["Cho vui", "Mỗi cách bù khuyết điểm của cách khác", "Để code dài", "Không cần"], answer: 1, explanation: "Hybrid mạnh hơn từng cách riêng lẻ." },
-          { question: "Bẫy khi chỉ đề xuất bài dễ?", options: ["Tăng tự tin nhưng không tiến bộ", "Học sinh giỏi nhanh", "Tiết kiệm thời gian", "Không có bẫy"], answer: 0, explanation: "Phải có thử thách vừa sức (zone of proximal development)." },
+          { question: "Mastery gap cao có nghĩa?", options: ["Học sinh giỏi kỹ năng đó", "Học sinh yếu kỹ năng đó, cần luyện", "Bài quá khó", "Không có ý nghĩa"], answer: 1, explanation: "Gap = 1 - mastery → cao = yếu = nên gợi ý.", questionEn: "What does a high mastery gap mean?", optionsEn: ["The student is good at that skill", "The student is weak at that skill and needs practice", "The lesson is too hard", "It has no meaning"], explanationEn: "Gap = 1 - mastery → high = weak = should be recommended." },
+          { question: "Collaborative filtering dựa trên?", options: ["Nội dung bài", "Hành vi của học sinh tương tự", "Giá tiền", "Màu sắc UI"], answer: 1, explanation: "Tìm pattern từ người dùng giống nhau (Netflix, Spotify).", questionEn: "What is collaborative filtering based on?", optionsEn: ["Lesson content", "Behavior of similar students", "Price", "UI color"], explanationEn: "It finds patterns from similar users (Netflix, Spotify)." },
+          { question: "Cold start là vấn đề gì?", options: ["Server lạnh", "Không có dữ liệu cho học sinh / bài mới", "Internet chậm", "Hết pin"], answer: 1, explanation: "Học sinh mới chưa có history → collaborative không hoạt động.", questionEn: "What is the cold start problem?", optionsEn: ["A cold server", "No data for new students / lessons", "Slow internet", "Dead battery"], explanationEn: "New students have no history yet → collaborative filtering doesn't work." },
+          { question: "Vì sao kết hợp 3 chiến thuật?", options: ["Cho vui", "Mỗi cách bù khuyết điểm của cách khác", "Để code dài", "Không cần"], answer: 1, explanation: "Hybrid mạnh hơn từng cách riêng lẻ.", questionEn: "Why combine all 3 strategies?", optionsEn: ["Just for fun", "Each one compensates for the weaknesses of the others", "To make the code longer", "It's not necessary"], explanationEn: "A hybrid approach is stronger than any single strategy alone." },
+          { question: "Bẫy khi chỉ đề xuất bài dễ?", options: ["Tăng tự tin nhưng không tiến bộ", "Học sinh giỏi nhanh", "Tiết kiệm thời gian", "Không có bẫy"], answer: 0, explanation: "Phải có thử thách vừa sức (zone of proximal development).", questionEn: "What is the pitfall of only recommending easy lessons?", optionsEn: ["Boosts confidence but no real progress", "Students improve quickly", "Saves time", "There is no pitfall"], explanationEn: "Learners need challenges within their zone of proximal development." },
         ],
       },
     ],

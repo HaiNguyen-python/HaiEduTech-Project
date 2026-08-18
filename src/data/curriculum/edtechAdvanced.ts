@@ -345,7 +345,106 @@ Phần thưởng = Δ mastery sau bài, hoặc engagement (hoàn thành / không
 - **Cảnh báo**: adaptive quá nhanh = học sinh không có "comfort zone" → drop-off. Luôn để 20% bài "ngon ăn" tạo momentum.
 
 `,
-        theoryEn: `Static tests fail both ends of the curve. Adaptive testing uses IRT to pick items where item difficulty ≈ learner ability θ, updating θ after each answer until SE(θ) drops below a threshold. Mastery Learning models the curriculum as a prerequisite graph; a skill unlocks the next when correctness exceeds ~0.85. When several lessons fit, frame next-lesson selection as a multi-armed bandit (Thompson Sampling works well). Combine with spaced repetition so mastery doesn't silently decay.`,
+        theoryEn: `![Adaptive learning system overview](/lesson-illustrations/edtech-adaptive-learning.jpg)
+
+## 1. 🎯 Why "static tests" fail every student
+
+Fixed tests: strong students get bored, weak students get discouraged. Adaptive testing picks each item **based on the estimated ability** so every question carries the most information possible.
+
+\\`\\`\\`
+                       Ability θ
+       ───────────────────────────────────────▶
+       weak   ─────  ●  ─────────  ●  ───────  strong
+                   user A                user B
+       item for A: matches A's level    item for B: matches B's level
+\\`\\`\\`
+
+## 2. 📐 IRT 2PL - 2-Parameter Item Response Theory
+
+The probability that a learner of ability \\`θ\\` answers correctly an item with difficulty \\`b\\` and discrimination \\`a\\`:
+
+\\`\\`\\`
+                          1
+   P(correct | θ, a, b) = ─────────────────
+                          1 + exp(-a (θ - b))
+\\`\\`\\`
+
+\\`\\`\\`
+   P
+   1 ┤              ____________  large a → steep curve
+     │            /                (item discriminates well)
+   0.5┤  ─ ─ ─ ─/─ ─ ─ ─ ─        crosses 0.5 at θ = b
+     │       /
+   0 ┤_____/_______________________ θ
+             b
+\\`\\`\\`
+
+Adaptive algorithm:
+1. Guess an initial \\`θ₀\\` from the learner's profile.
+2. Pick an item with \\`b ≈ θ\\` (maximizes Fisher information).
+3. Update \\`θ\\` via MAP/MLE after each item.
+4. Stop when the standard error \\`SE(θ) < threshold\\` (e.g. 0.3).
+
+## 3. 🪜 Mastery Learning (Bloom)
+
+A skill is considered **mastered** when \\`P(correct) ≥ 0.85\\` across N consecutive items. Structure the curriculum as a **prerequisite graph**:
+
+\\`\\`\\`
+   addition ─┐
+             ├─▶ multiplication ─┐
+   counting ─┘                   ├─▶ fractions ─▶ algebra
+                   ─── subtraction ┘
+\\`\\`\\`
+
+A learner only unlocks a child node once every parent node has reached mastery.
+
+## 4. 🎰 Multi-Armed Bandits - choosing the next lesson
+
+When several lessons fit equally well, use a bandit to balance **explore** (try a new item that might help) vs **exploit** (repeat an item known to work).
+
+| Algorithm | Pro | Con |
+|------------|----|----|
+| **ε-greedy** | Very simple | Poorly directed exploration |
+| **UCB1** | Good regret guarantees | Needs accurate counts |
+| **Thompson Sampling** | Bayesian, works well in practice | Needs a prior |
+
+Reward = Δ mastery after the lesson, or engagement (completion / no drop-off).
+
+## 5. 🔁 The complete adaptive loop
+
+\\`\\`\\`
+   ┌──────────────────────────────────────────────────────────┐
+   │  PROFILE (θ per skill)                                   │
+   └──────────────┬───────────────────────────────────────────┘
+                  ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  POLICY: pick skill (mastery gap) → pick item (IRT)      │
+   │          ─OR─ bandit pick from a short-list              │
+   └──────────────┬───────────────────────────────────────────┘
+                  ▼
+              user answers
+                  │
+                  ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  UPDATE: θ ← bayes_update(θ, response)                   │
+   │           mastery ← rolling_window_correct()             │
+   │           log immutably for a later RL/feedback loop     │
+   └──────────────────────────────────────────────────────────┘
+\\`\\`\\`
+
+## 6. ⚠️ Pitfalls
+
+- Picking too many items with \\`b ≈ θ\\` makes every item feel like a coin flip → frustrating. Sprinkle in periodic "easy wins."
+- Mastery with no time decay → wrong assessment a month later. Combine with spaced repetition (previous lesson).
+- A bandit without \\`min_pulls\\` means a new lesson never gets a fair shot and sleeps forever.
+
+## ✨ 2026 upgrade - smarter adaptivity
+
+- **2-Parameter IRT** (difficulty + discrimination) is still the backbone of CAT (Computerized Adaptive Testing). The Duolingo English Test and GMAT Focus both use it.
+- **Multi-Armed Bandits** vs **A/B testing**: bandits win once you have ≥ 5 variants and want continuous optimization. EXP3 handles non-stationary settings (students change week to week).
+- **Reinforcement Learning** (DeepTutor, AlphaTutor 2025): a policy picks the next lesson to maximize "Δmastery − α·time_spent". Harder to tune but outperforms IRT by about 12%.
+- **Warning**: adapting too fast means students never get a "comfort zone" → drop-off. Always keep 20% of items "easy" to build momentum.
+`,
         code: `import math, random
 
 def p_correct(theta: float, a: float, b: float) -> float:
@@ -478,7 +577,98 @@ Default **Socratic**: hỏi ngược → user tự tìm → tutor confirm. Chuy�
 - **Fallback to human**: phát hiện "distress signal" (buồn, tự ti, bạo lực) → ngắt tutor, chuyển teacher_contact_requests. Đã triển khai ở Counseling Hub.
 
 `,
-        theoryEn: `A real AI tutor ≠ plain ChatGPT. It's an LLM grounded on YOUR curriculum (RAG), aware of the learner's state (current lesson, mastery, age), and wrapped in a safety pre/post filter. Default to Socratic prompting and switch to solution-first only after repeated failure or explicit request. Tune persona to age band. Evaluate beyond thumbs up/down - track groundedness, pedagogy score, age-appropriateness (Flesch), and resolution rate. Watch for hallucination from internet access, runaway memory, and >3s latency that loses young learners.`,
+        theoryEn: `![AI tutor with RAG on curriculum and safety guardrails](/lesson-illustrations/edtech-ai-tutor-rag.jpg)
+
+## 1. 🎯 Why "plain ChatGPT" isn't enough as a tutor
+
+- It invents facts absent from your curriculum → contradicts the lessons.
+- It replies at the wrong level (college-level explanations for a 5th grader).
+- It doesn't know what lesson the student is on or what they've already mastered.
+
+A real tutor = **LLM + retrieval over YOUR curriculum + student state + a safety layer**.
+
+## 2. 🏗️ Reference architecture
+
+\\`\\`\\`
+   ┌────────────────────────────────────────────────────────────┐
+   │  STUDENT MESSAGE                                           │
+   └──────────────┬─────────────────────────────────────────────┘
+                  ▼
+   ┌───────────────────────┐    ┌────────────────────────────┐
+   │ Safety Pre-filter     │───▶│ block self-harm, NSFW,     │
+   │ (regex + classifier)  │    │ personal data leaks        │
+   └──────────┬────────────┘    └────────────────────────────┘
+              ▼
+   ┌────────────────────────────────────────────────────────────┐
+   │ Context Builder                                            │
+   │   • current_lesson, mastery, learner_age                   │
+   │   • RAG: top-k chunks from the curriculum vector DB        │
+   │   • last 5 exchanges (rolling memory)                      │
+   └──────────────┬─────────────────────────────────────────────┘
+                  ▼
+   ┌────────────────────────────────────────────────────────────┐
+   │ LLM with a structured prompt                                │
+   │   [persona] a gentle teacher for age {age}                 │
+   │   [grounding] use ONLY the context below; say so if it's   │
+   │               missing                                       │
+   │   [pedagogy] ask a guiding question before giving the      │
+   │              answer; Socratic style                         │
+   └──────────────┬─────────────────────────────────────────────┘
+                  ▼
+   ┌───────────────────────┐    ┌────────────────────────────┐
+   │ Safety Post-filter    │───▶│ check citations, length,   │
+   │                       │    │ age-appropriate language   │
+   └──────────┬────────────┘    └────────────────────────────┘
+              ▼
+        Return to the student
+\\`\\`\\`
+
+## 3. 🧰 Persona by age band
+
+| Age | Tone | Sample opener |
+|---------|------|-----------------|
+| 6-10 | Playful, toy/animal examples | "Imagine your cat has 3 apples..." |
+| 11-14 | Encourage self-discovery | "Before I solve it, try guessing..." |
+| 15-18 | Academic + real-world application | "This idea is used in finance when..." |
+| Adult | Concise, jargon allowed | "TL;DR: ..." |
+
+## 4. 🧪 Socratic vs solution-first
+
+Default to **Socratic**: ask a guiding question → the user works it out → the tutor confirms. Switch to solution-first when:
+
+- The user has failed the same concept ≥ 2 times.
+- The user explicitly asks to "just show me the solution."
+- Time-on-task > 5 minutes with no progress.
+
+## 5. 🛡️ EdTech-specific safety
+
+- **PII redaction**: never store names/phone numbers/addresses in logs sent to the LLM.
+- **Self-harm escalation**: detection → return a hotline number and flag teacher_contact_requests.
+- **Academic integrity**: if a user pastes a currently-running exam question, politely refuse.
+- **Bias audit**: run a 200-item eval set covering race/gender sensitivity every release.
+
+## 6. 📏 Measurement - not just thumbs up/down
+
+| Metric | How it's measured |
+|--------|---------|
+| **Groundedness** | % of replies with a valid citation from a retrieved chunk |
+| **Pedagogy score** | LLM-judge rating Socratic vs spoon-feeding |
+| **Age-appropriateness** | Flesch reading ease, tone classifier |
+| **Resolution** | % of sessions ending with "I get it now" (self-report + post-quiz pass) |
+
+## 7. ⚠️ Pitfalls
+
+- Giving the LLM internet access breaks grounding and increases hallucination.
+- Unbounded memory lets old context dominate replies and burns tokens. A rolling 5-10 turns is enough.
+- Ignoring latency: a tutor that feels slower than 3s loses a child's attention. Stream tokens and use a small LLM for intent classification.
+
+## ✨ 2026 upgrade - a safer tutor for children
+
+- **3-layer guardrails**: (1) a hardened system prompt + spotlighting, (2) Llama-Guard / ShieldGemma on both input and output, (3) a **dedicated toxicity classifier** for Vietnamese (PhoBERT-toxic).
+- **COPPA/GDPR-K**: data from children under 13 requires parental consent and deletion on request. Never let chat logs with PII leak into training data.
+- **Socratic tutoring**: instead of giving the answer, ask 2-3 guiding questions. Evaluate with "% of turns where the LLM answers without revealing the key answer" - target ≥ 80%.
+- **Fallback to a human**: detecting a "distress signal" (sadness, low self-esteem, violence) should pause the tutor and route to teacher_contact_requests. Already deployed in the Counseling Hub.
+`,
         code: `# Minimal child-safe tutor skeleton - pseudocode-ish but runnable
 import re, json
 
@@ -622,7 +812,98 @@ LLM chấm **từng tiêu chí riêng** với anchor cụ thể (vd "9 = lập l
 - **Speaking grading**: WER không đủ - cần đánh giá fluency (WPM, filled pauses), pronunciation (GOP score) và content riêng.
 
 `,
-        theoryEn: `Trustworthy auto-grading is rubric-first, not LLM-first: score each criterion independently with concrete anchors, weight and round to the band. Run pre-checks (word count, off-topic, copy-paste). For speaking, use word-confidence ASR, fluency (WPM, fillers), phoneme-level pronunciation, and grade transcript coherence like an essay. Calibrate against a gold set of human-graded items, target QWK ≥ 0.75, watch drift on every model/prompt change, and route low-confidence cases to humans. Audit for demographic bias and always return actionable feedback, not just a number.`,
+        theoryEn: `![AI auto-grading essay and speaking with rubric](/lesson-illustrations/edtech-auto-grading.jpg)
+
+## 1. 🎯 Auto-grading isn't "let the LLM assign a score and call it done"
+
+Real-world requirements:
+- **Reliable**: same essay, same rubric → score varies by ±0.5 at most.
+- **Explainable**: the student understands why they got 6.5 and how to fix it.
+- **Fair**: doesn't penalize accent / regional spelling / an unusual (but valid) topic angle.
+- **Auditable**: teachers can review quickly, and logs are enough to re-grade.
+
+## 2. 📐 Rubric-first, not LLM-first
+
+\\`\\`\\`
+   rubric.json
+   {
+     "task_response":  {weight: 0.25, scale: 0-9, anchors: {...}},
+     "coherence":      {weight: 0.25, ...},
+     "lexical":        {weight: 0.25, ...},
+     "grammar":        {weight: 0.25, ...}
+   }
+\\`\\`\\`
+
+The LLM grades **each criterion separately** against concrete anchors (e.g. "9 = sharp argument, concrete examples; 5 = disjointed argument"). The total score = weighted sum + rounding to a half-band (IELTS style).
+
+## 3. 🔁 A real-world IELTS Writing pipeline
+
+\\`\\`\\`
+   ┌───────────────────────────────────────────────────────────┐
+   │  ESSAY                                                    │
+   └───────────────┬───────────────────────────────────────────┘
+                   ▼
+   ┌───────────────────────────────────────────────────────────┐
+   │  Pre-check: word count, off-topic detector, copy-paste    │
+   │             flag, AI-generated detector (informational)   │
+   └───────────────┬───────────────────────────────────────────┘
+                   ▼
+   ┌───────────────────────────────────────────────────────────┐
+   │  Per-criterion grader (LLM-judge, JSON-mode)              │
+   │   → {task: 6, coherence: 7, lexical: 6, grammar: 7,       │
+   │      evidence: [quote spans], feedback: str}              │
+   └───────────────┬───────────────────────────────────────────┘
+                   ▼
+   ┌───────────────────────────────────────────────────────────┐
+   │  Aggregator: weighted → round to half-band → confidence   │
+   └───────────────┬───────────────────────────────────────────┘
+                   ▼
+   ┌───────────────────────────────────────────────────────────┐
+   │  Calibration layer: if confidence is low or near a        │
+   │   boundary, route → human grader (sample 10-20%)          │
+   └───────────────────────────────────────────────────────────┘
+\\`\\`\\`
+
+## 4. 🎙️ Speaking - how is it different from essays?
+
+| Issue | Handling |
+|--------|------------|
+| ASR mis-hears a word → unfair penalty | Use **word confidence**; only penalize when the student truly errs (against context) |
+| Regional accent | Multi-accent ASR + don't grade pronunciation against a single "standard" accent |
+| Fluency | WPM in the range [100, 180]; filler ratio ("um", "uh") |
+| Pronunciation | Phoneme-level scoring (e.g. Azure Pronunciation Assessment) |
+| Coherence | The LLM grades the transcript with a rubric similar to essays |
+
+## 5. 🧪 Calibration - verifying reliability
+
+| Step | Description |
+|------|-------------|
+| **Gold set** | 200 essays graded by 2 IELTS-certified teachers, take the median |
+| **Agreement** | Quadratic Weighted Kappa (QWK) between AI and human; target ≥ 0.75 |
+| **Drift watch** | Re-run the gold set on every model/prompt change; alert if QWK drops > 0.05 |
+| **Human-in-the-loop** | Sample 10-20% of real essays for teacher review; update the rubric |
+
+## 6. 🛡️ Anti-cheating and bias
+
+- The **AI-generated detector** is a signal, not proof - don't auto-deduct points from it.
+- An **off-topic detector** (cosine similarity between prompt and essay) blocks memorized essays.
+- **Demographic blind**: never send names/nationality to the LLM.
+- **Disparate impact audit**: compare average scores by class/nationality - investigate if the gap exceeds σ.
+
+## 7. ⚠️ Pitfalls
+
+- Grading with one prompt → one total score loses explainability. Always go per-criterion.
+- LLMs drift "generous" over time → gold-set checks need to run periodically.
+- Returning a score with no **actionable feedback** ("improve cohesive devices") is useless.
+
+## ✨ 2026 upgrade - fair grading
+
+- **Per-criterion rubrics** (task achievement, coherence, lexical, grammar) beat one overall score. Variance drops 3-4x, and parents accept it more readily.
+- **Calibrate against humans**: take 200 hand-graded essays → compute Quadratic Weighted Kappa (QWK). Target QWK ≥ 0.7 before trusting it in production.
+- **Bias audit**: split essays by gender/region → check the score gap. A 2025 IELTS auto-grader was sued over a 0.3-band gap between Asian and European ESL speakers.
+- **Show your work**: return feedback that **cites specific sentences** ("Sentence 3 uses 'although' at the start of an independent clause"). Builds trust and creates teachable moments.
+- **Speaking grading**: WER isn't enough - you also need fluency (WPM, filled pauses), pronunciation (GOP score), and content evaluated separately.
+`,
         code: `# Per-criterion rubric grader stub (LLM call faked)
 # Đây là một đoạn mã giả lập việc chấm điểm bài luận dựa trên các tiêu chí (rubric).
 # Nó giả lập cuộc gọi đến một mô hình ngôn ngữ lớn (LLM) để chấm điểm.
@@ -787,7 +1068,87 @@ Khi học sinh kẹt ở \`past perfect\`, hệ thống tự **gợi ý ôn lạ
 - **Explainability**: parents/teachers cần biết "vì sao con tôi chưa đạt". Visualize mastery dưới dạng radar chart per skill - đã làm ở Student Dashboard.
 
 `,
-        theoryEn: `Knowledge Tracing estimates the probability a learner has mastered a skill from their answer history. BKT (1995) uses 4 params per skill (p_init, p_learn, p_slip, p_guess) with Bayesian updates. DKT (2015) uses RNN/Transformer to capture skill dependencies missed by BKT. Use a 0.85 mastery threshold (industry standard) and pair KT with spaced repetition to fight forgetting. Maintain a prerequisite skill graph so the system reroutes to fundamentals when a learner stalls. Watch for cold start, dirty skill tags, and ignoring time decay.`,
+        theoryEn: `![Knowledge tracing: mastery curve and Bayesian network](/lesson-illustrations/edtech-knowledge-tracing.jpg)
+
+## 1. 🎯 The problem: "answered correctly" ≠ "understood"
+
+A student can guess correctly, copy an answer, or memorize without understanding. **Knowledge Tracing (KT)** is the problem of **estimating the probability a student has mastered a skill** from their answer history.
+
+\\`\\`\\`
+   History:       Q1✓  Q2✗  Q3✓  Q4✓  Q5✗  Q6✓
+   Skill:         past-tense   articles    past-tense  ...
+   KT model →     P(mastery past-tense) = 0.82
+                  P(mastery articles)   = 0.41
+\\`\\`\\`
+
+## 2. 🧮 BKT (Bayesian Knowledge Tracing) - the classic, 1995
+
+4 parameters per skill:
+
+| Param | Meaning | Typical range |
+|-------|---------|------------------|
+| \\`p_init\\` | P(already knew it before this lesson) | 0.1 - 0.3 |
+| \\`p_learn\\` | P(learns it after one attempt) | 0.05 - 0.2 |
+| \\`p_slip\\` | P(knows it but answers WRONG) | 0.05 - 0.1 |
+| \\`p_guess\\` | P(doesn't know it but answers RIGHT) | 0.1 - 0.25 |
+
+Bayesian update after every item:
+
+\\`\\`\\`
+   If CORRECT:  p_known' = p_known * (1 - p_slip) /
+                            [ p_known * (1 - p_slip) + (1 - p_known) * p_guess ]
+   If WRONG:    p_known' = p_known * p_slip /
+                            [ p_known * p_slip + (1 - p_known) * (1 - p_guess) ]
+   Then learn:  p_known  = p_known' + (1 - p_known') * p_learn
+\\`\\`\\`
+
+## 3. 🧠 DKT (Deep Knowledge Tracing, 2015) - RNN/Transformer
+
+BKT assumes skills are independent of each other → weak when skills are related (past simple ↔ past perfect). DKT uses an **RNN/Transformer** to learn skill embeddings automatically → captures these dependencies.
+
+\\`\\`\\`
+        x_1 ─▶ ┌────┐
+        x_2 ─▶ │RNN ├─▶ h_t ─▶ Dense ─▶ P(correct on the next item, per skill)
+        x_3 ─▶ └────┘
+        x_t = (skill_id, correct?)
+\\`\\`\\`
+
+## 4. 🪜 Mastery threshold - when is a skill "mastered"?
+
+| Threshold | Consequence |
+|--------|--------|
+| 0.70 | Fast progress, but a lot gets forgotten afterward |
+| **0.85** | Good balance (ASSISTments, Khan, Duolingo) |
+| 0.95 | Slow, time-consuming; suited to certification |
+
+Combine with **Spaced Repetition**: once 0.85 is reached, add it to a long-term review schedule (mastered isn't "done forever").
+
+## 5. 🔗 Skill Graph - the dependency map
+
+\\`\\`\\`
+              [present simple]
+                  │
+                  ▼
+              [past simple] ───▶ [past perfect]
+                  │                  │
+                  └────▶ [future] ◀──┘
+\\`\\`\\`
+
+When a student is stuck on \\`past perfect\\`, the system automatically **suggests reviewing \\`past simple\\`** (the prerequisite) instead of forcing harder material.
+
+## 6. ⚠️ Pitfalls
+
+- **Cold start**: no data yet → use a sensible prior (e.g. default low mastery for HSK 1).
+- **Dirty skill tagging**: one item tagged with 5 skills dilutes the KT signal. Keep each item to ≤ 2 primary skills.
+- **Time decay**: ignoring forgetting over time → combining KT with spaced repetition (SRS) is mandatory.
+
+## ✨ 2026 upgrade - measuring "truly known"
+
+- **BKT vs DKT vs SAKT**: BKT is easy to understand, DKT is stronger but needs ≥10K students, and SAKT (transformer-based) is the current SOTA on ASSISTments 2024.
+- **Hierarchical mastery**: one skill = several subskills (subtract → borrow → multi-digit). Only unlock a skill once 80% of its subskills reach ≥ 0.85 mastery.
+- **Forgetting in KT**: mastery isn't monotonically increasing - it must decay over time. Models like DKT-Forget or KTM handle this.
+- **Explainability**: parents/teachers need to know "why hasn't my child reached mastery yet." Visualize mastery as a radar chart per skill - already implemented in the Student Dashboard.
+`,
         code: `# Định nghĩa một hàm để cập nhật xác suất người học biết một kỹ năng
 # Hàm này thực hiện một bước cập nhật trong mô hình Bayesian Knowledge Tracing (BKT)
 # Đầu vào:
@@ -942,7 +1303,87 @@ Output: học sinh thấy bài đầu **đúng trình độ, đúng mục tiêu,
 - **Cohort + funnel** là 2 dashboard bắt buộc. Mọi feature mới phải báo cáo "delta D1/D7/D30" sau A/B test 2 tuần.
 
 `,
-        theoryEn: `The aha moment in EdTech isn't sign-up - it's the first felt sense of progress (first quiz pass + mastery bar moving). Optimize onboarding to push more users into that cluster fast. Audit friction click-by-click (every extra click ≈ 10% drop). Replace empty states with single-CTA teaching moments. Wire behavioral triggers with strict frequency caps (≤1/day, 8 AM – 9 PM local) and deep links. Replace marketing tours with a 3-question intake (goal, level, time/day) that personalizes the first lesson so aha lands in under 10 minutes.`,
+        theoryEn: `![Onboarding funnel: signup -> first lesson -> aha moment -> habit loop](/lesson-illustrations/edtech-onboarding-funnel.jpg)
+
+## 1. 🎯 The "aha moment" - the moment that decides retention
+
+In EdTech, the **aha moment** is not when a user signs up, but when they **first feel real progress** (finishing the first lesson + seeing the mastery bar jump).
+
+\`\`\`
+   signup -> first lesson -> first quiz pass -> first streak day 2
+     100%      72%             48%                 31%   <- AHA cluster
+                                                   |
+                                                   v
+                                     user is 30x more likely to retain
+\`\`\`
+
+Onboarding's goal: **push as many users through the aha cluster as fast as possible**.
+
+## 2. 🚪 Friction audit - counting clicks to value
+
+| Step | Clicks | Time | Drop |
+|------|-------|-----------|------|
+| Landing -> Signup | 1 | 5s | 35% |
+| Signup -> Email verify | 1 + email | 2 min | 22% |
+| Verify -> First lesson | 3 | 90s | 18% |
+| First lesson -> Quiz pass | quiz | 4 min | 28% |
+
+Rule of thumb: **every 1 extra click = ~10% drop**. Email verification is a silent killer - consider a magic link or OAuth instead.
+
+## 3. 🧪 Empty state ≠ blank page
+
+An empty state is a **teaching opportunity**, not a UI bug. A good pattern:
+
+\`\`\`
+   +------------------------------------------------+
+   |  👋 Hi there! Try your first lesson:            |
+   |                                                  |
+   |  [ ▶ Start with "Hello, World!" - 3 minutes ]   |
+   |                                                  |
+   |  💡 After this lesson you'll earn the "First    |
+   |     Step" badge and unlock the Coding Lab.      |
+   +------------------------------------------------+
+\`\`\`
+
+Required elements: **a single CTA**, **expected time**, **a concrete reward**.
+
+## 4. 📣 Behavioral triggers - push the right person at the right time
+
+| Trigger | When it fires | Channel | Goal |
+|---------|--------------|---------|------|
+| Welcome | T+0 | In-app + email | Set expectations + CTA for lesson 1 |
+| Lesson nudge | T+24h, hasn't studied | Push | 5-minute lesson |
+| Streak save | Streak at risk, 22:00 | Push | Protect the streak |
+| Win-back | 7d inactive | Email | Personalized "new" lesson |
+| Re-engagement | 30d inactive | Email | Showcase progress + gentle nudge |
+
+**Rule**: at most **1 push/day**, never before 8 AM or after 9 PM local time. Every notification must have a **deep link straight to the action** (not just to home).
+
+## 5. 🧭 Personalized onboarding via skill assessment
+
+Instead of 5 intro screens, ask 3 golden questions:
+
+1. **Goal** (study abroad / job / hobby) -> roadmap.
+2. **Current level** (a 3-question quiz) -> adaptive start at the right level.
+3. **Time per day** (5/15/30 minutes) -> size of the first lesson.
+
+Output: the student sees a first lesson that is **at the right level, matching their goal, and the right length** -> aha in under 10 minutes.
+
+## 6. ⚠️ Common traps
+
+- **A 12-screen "show-and-tell" onboarding** - users bounce immediately. Rule: teach by **doing**, not by **telling**.
+- **Streak shaming in the first week** - it drives out weak users before they get a chance to bond with the product.
+- **Not measuring cohorts by onboarding version** - you never know which change helped or hurt.
+
+## ✨ 2026 upgrade - activation in practice
+
+- **Quantify the aha moment**: use cohort analysis to find the action that D7-retained users take in their first 24h. Duolingo: "complete 2 lessons + turn on notifications" -> retention x3.
+- **Empty-state design**: the very first state must have a clear CTA and a sample example. Don't let a student see an empty list -> 60% will bounce immediately.
+- **Behavioral activation loops**: trigger (push) -> action (lesson) -> variable reward (XP, badge, streak) -> investment (saved progress). This applies Nir Eyal's Hook Model.
+- **Notification cap**: ≤1 push/day for new students, ≤3 for power users. Exceeding the cap makes opt-out rates rise non-linearly.
+- **Cohort + funnel** are 2 mandatory dashboards. Every new feature must report the "D1/D7/D30 delta" after a 2-week A/B test.
+
+`,
         code: `# Nhập các lớp cần thiết từ thư viện \`dataclasses\` để tạo lớp dữ liệu.
 from dataclasses import dataclass
 # Nhập các đối tượng \`datetime\` và \`timedelta\` từ thư viện \`datetime\` để làm việc với ngày và thời gian.
@@ -1024,11 +1465,16 @@ print(pick_trigger(l, now))`,
         exerciseEn:
           "Add a frequency cap: if the user already received ≥1 push in the last 24h, return None regardless of trigger.",
         quiz: [
-          { question: "Aha moment trong EdTech là?", options: ["Lúc đăng ký", "Lần đầu cảm nhận tiến bộ rõ rệt (vd quiz pass + mastery nhảy)", "Khi mở app", "Khi xoá tài khoản"], answer: 1, explanation: "User vượt qua aha cluster có khả năng retain cao hơn nhiều lần." },
-          { question: "Vì sao verify-by-email hại onboarding?", options: ["Bảo mật yếu", "Tạo break ~2 phút và 22% drop - phá đà tiến tới aha", "Tốn DB", "Không hại"], answer: 1, explanation: "Magic-link / OAuth giảm drop đáng kể." },
-          { question: "Empty state nên có gì?", options: ["Logo to", "Một CTA duy nhất + thời gian dự kiến + phần thưởng cụ thể", "3 banner ads", "Không quan trọng"], answer: 1, explanation: "Empty state là cơ hội dạy bằng hành động, không phải lỗi UI." },
-          { question: "Quy tắc tần suất push hợp lý?", options: ["Càng nhiều càng tốt", "≤1/ngày, tránh 21:00–08:00 địa phương", "Mỗi giờ", "Không có quy tắc"], answer: 1, explanation: "Vượt cap → unsubscribe và đánh giá thấp app store." },
-          { question: "Onboarding 12 màn show-and-tell vấn đề gì?", options: ["Quá đắt", "Dạy bằng kể thay vì làm - user bỏ trước khi chạm aha", "Quá nhanh", "Không vấn đề"], answer: 1, explanation: "Onboarding tốt dạy bằng hành động + phản hồi tức thì." },
+          { question: "Aha moment trong EdTech là?", options: ["Lúc đăng ký", "Lần đầu cảm nhận tiến bộ rõ rệt (vd quiz pass + mastery nhảy)", "Khi mở app", "Khi xoá tài khoản"], answer: 1, explanation: "User vượt qua aha cluster có khả năng retain cao hơn nhiều lần.",
+            questionEn: "What is the aha moment in EdTech?", optionsEn: ["Signing up", "The first time they feel clear progress (e.g. a quiz pass + mastery jump)", "Opening the app", "Deleting the account"], explanationEn: "Users who pass through the aha cluster are far more likely to retain." },
+          { question: "Vì sao verify-by-email hại onboarding?", options: ["Bảo mật yếu", "Tạo break ~2 phút và 22% drop - phá đà tiến tới aha", "Tốn DB", "Không hại"], answer: 1, explanation: "Magic-link / OAuth giảm drop đáng kể.",
+            questionEn: "Why does email verification hurt onboarding?", optionsEn: ["Weak security", "It creates a ~2-minute break and a 22% drop - killing momentum toward the aha moment", "Wastes DB space", "It doesn't hurt"], explanationEn: "Magic links / OAuth significantly reduce this drop." },
+          { question: "Empty state nên có gì?", options: ["Logo to", "Một CTA duy nhất + thời gian dự kiến + phần thưởng cụ thể", "3 banner ads", "Không quan trọng"], answer: 1, explanation: "Empty state là cơ hội dạy bằng hành động, không phải lỗi UI.",
+            questionEn: "What should an empty state contain?", optionsEn: ["A big logo", "A single CTA + expected time + a concrete reward", "3 banner ads", "It doesn't matter"], explanationEn: "An empty state is a chance to teach by action, not a UI flaw." },
+          { question: "Quy tắc tần suất push hợp lý?", options: ["Càng nhiều càng tốt", "≤1/ngày, tránh 21:00–08:00 địa phương", "Mỗi giờ", "Không có quy tắc"], answer: 1, explanation: "Vượt cap → unsubscribe và đánh giá thấp app store.",
+            questionEn: "What's a sensible push frequency rule?", optionsEn: ["As many as possible", "≤1/day, avoid 9 PM-8 AM local time", "Every hour", "No rule needed"], explanationEn: "Exceeding the cap drives up unsubscribes and low app-store ratings." },
+          { question: "Onboarding 12 màn show-and-tell vấn đề gì?", options: ["Quá đắt", "Dạy bằng kể thay vì làm - user bỏ trước khi chạm aha", "Quá nhanh", "Không vấn đề"], answer: 1, explanation: "Onboarding tốt dạy bằng hành động + phản hồi tức thì.",
+            questionEn: "What's wrong with a 12-screen show-and-tell onboarding?", optionsEn: ["Too expensive", "It teaches by telling instead of doing - users leave before reaching the aha moment", "Too fast", "Nothing wrong"], explanationEn: "Good onboarding teaches through action + instant feedback." },
         ],
       },
       {
@@ -1099,7 +1545,69 @@ Production: **lai cả ba** - KG để hợp lệ, CF để đa dạng, content 
 - **Popularity bias**: bài hot luôn được gợi → bài tốt nhưng mới chết yểu. Inject randomness ε=0.05.
 - **Reward hack**: tối ưu CTR → gợi bài siêu dễ. Tối ưu **mastery growth/tuần**, không phải click.
 `,
-        theoryEn: `Educational recommenders optimize mastery growth, not clicks. Aim for the ZPD (~60–80% pass probability). Combine content-based, collaborative filtering, and knowledge-graph approaches. Pipeline: candidate generation → ranking → MMR diversity → constraints. Solve cold-start with surveys + adaptive placement quiz. Beware filter bubbles, popularity bias, and reward hacking - explicitly inject weak-skill practice and randomness.`,
+        theoryEn: `## 1. 🧭 How this differs from commercial recommenders
+
+Netflix recommends movies you'll **like** -> maximizing clicks. EdTech recommends lessons you **should study** -> maximizing **mastery growth** and **sustained motivation**. Recommending a lesson that's too easy = boring; too hard = users quit; just right = "flow".
+
+## 2. 🎯 The Zone of Proximal Development framework (Vygotsky)
+
+\`\`\`
+   hard | ################ frustration zone (quits)
+        | ################
+        | ################  <- ZPD (sweet spot)
+        | ################
+   easy | ################ boredom zone (bored)
+        +------------------
+              learner ability
+\`\`\`
+
+Goal: pick a lesson with a **pass probability of about 0.6-0.8** based on current mastery.
+
+## 3. 🧮 Three algorithm families
+
+| Approach | Mechanism | Strength / Weakness |
+|------|--------|-----------|
+| **Content-based** | Lessons similar in skill tags | Good cold-start / narrow |
+| **Collaborative filtering** | "Students like you studied X next" | Broad discovery / needs data |
+| **Knowledge-graph + mastery** | Prerequisite DAG + mastery score | Pedagogically sound / hard to build |
+
+Production: **hybridize all three** - the knowledge graph ensures validity, collaborative filtering adds diversity, content-based handles cold-start.
+
+## 4. 🪜 Recommendation pipeline
+
+\`\`\`
+   +------------------------------------------------+
+   | 1. Candidate generation (200 valid lessons)     |
+   |    - filter by satisfied prerequisites          |
+   |    - filter by user's level                     |
+   +------------------------------------------------+
+   | 2. Scoring (ranking)                            |
+   |    score = 0.5*mastery_gap                      |
+   |          + 0.2*novelty                          |
+   |          + 0.2*similar_users                    |
+   |          - 0.1*recent_seen                      |
+   +------------------------------------------------+
+   | 3. Diversity re-rank (MMR)                      |
+   |    avoid 5 lessons on the same topic in a row   |
+   +------------------------------------------------+
+   | 4. Constraints                                  |
+   |    daily cap, don't recommend lessons passed    |
+   |    less than 7 days ago                         |
+   +------------------------------------------------+
+\`\`\`
+
+## 5. ❄️ Cold-start (new user)
+
+- Ask 3-5 survey questions (goal, self-assessed level).
+- Run an **adaptive placement quiz** of 8-12 questions (IRT) to estimate theta.
+- Map theta -> an entry node in the knowledge graph.
+
+## 6. ⚠️ Traps
+
+- **Pedagogical filter bubble**: only recommending topics the learner is strong in -> they never develop weak skills. You must **interleave** about 20% "weak skill" lessons.
+- **Popularity bias**: hot lessons always get recommended -> good but new lessons die quietly. Inject randomness with epsilon = 0.05.
+- **Reward hacking**: optimizing CTR -> recommends super easy lessons. Optimize **mastery growth per week**, not clicks.
+`,
         code: `# Nhập các thư viện cần thiết.
 # 'math' để sử dụng các hàm toán học như exp (số mũ).
 # 'random' để tạo số ngẫu nhiên.
@@ -1206,11 +1714,16 @@ for l in recommend(cat, me): print(l.id, l.skill, round(l.difficulty,2), round(s
         exerciseEn:
           "Add MMR re-rank on the top-5 candidates so no two consecutive items share the same skill.",
         quiz: [
-          { question: "Mục tiêu recommender EdTech khác Netflix ở chỗ?", options: ["Không khác", "Tối đa mastery growth + động lực, không phải click/watch time", "Đa dạng hơn", "Rẻ hơn"], answer: 1, explanation: "Mục tiêu giáo dục ≠ thương mại - tối ưu CTR sẽ gợi bài siêu dễ." },
-          { question: "ZPD nói rằng bài nên có pass_prob ≈?", options: ["0.1", "0.6–0.8", "0.95", "0.5 chính xác"], answer: 1, explanation: "Vừa sức = sweet spot 60–80%." },
-          { question: "Filter bubble sư phạm là?", options: ["Bug UI", "Chỉ gợi điểm mạnh → user không phát triển kỹ năng yếu", "Bài giảng quá dài", "Caching"], answer: 1, explanation: "Cần inject ~20% bài kỹ năng yếu." },
-          { question: "Cold-start tốt cho EdTech là?", options: ["Đoán random", "Survey + adaptive placement quiz IRT để ước lượng θ", "Đợi 1 tháng", "Hỏi giáo viên"], answer: 1, explanation: "Vài câu IRT tốt hơn nhiều survey thuần." },
-          { question: "Popularity bias khắc phục bằng?", options: ["Không gợi bài hot", "ε-greedy / random 5% để bài mới có cơ hội", "Tăng giá bài hot", "Không có cách"], answer: 1, explanation: "Khám phá ngẫu nhiên giúp tránh winner-takes-all." },
+          { question: "Mục tiêu recommender EdTech khác Netflix ở chỗ?", options: ["Không khác", "Tối đa mastery growth + động lực, không phải click/watch time", "Đa dạng hơn", "Rẻ hơn"], answer: 1, explanation: "Mục tiêu giáo dục ≠ thương mại - tối ưu CTR sẽ gợi bài siêu dễ.",
+            questionEn: "How does an EdTech recommender's goal differ from Netflix's?", optionsEn: ["No difference", "It maximizes mastery growth + motivation, not clicks/watch time", "It's more diverse", "It's cheaper"], explanationEn: "Educational goals differ from commercial ones - optimizing for CTR ends up recommending overly easy lessons." },
+          { question: "ZPD nói rằng bài nên có pass_prob ≈?", options: ["0.1", "0.6–0.8", "0.95", "0.5 chính xác"], answer: 1, explanation: "Vừa sức = sweet spot 60–80%.",
+            questionEn: "The ZPD framework suggests a lesson should have pass_prob approximately?", optionsEn: ["0.1", "0.6-0.8", "0.95", "Exactly 0.5"], explanationEn: "The 'just right' sweet spot is 60-80%." },
+          { question: "Filter bubble sư phạm là?", options: ["Bug UI", "Chỉ gợi điểm mạnh → user không phát triển kỹ năng yếu", "Bài giảng quá dài", "Caching"], answer: 1, explanation: "Cần inject ~20% bài kỹ năng yếu.",
+            questionEn: "What is a pedagogical filter bubble?", optionsEn: ["A UI bug", "Only recommending strengths -> the user never develops weak skills", "Lessons that are too long", "A caching issue"], explanationEn: "You need to inject about 20% weak-skill lessons." },
+          { question: "Cold-start tốt cho EdTech là?", options: ["Đoán random", "Survey + adaptive placement quiz IRT để ước lượng θ", "Đợi 1 tháng", "Hỏi giáo viên"], answer: 1, explanation: "Vài câu IRT tốt hơn nhiều survey thuần.",
+            questionEn: "What is a good cold-start approach for EdTech?", optionsEn: ["Guess randomly", "A survey + an adaptive IRT placement quiz to estimate theta", "Wait a month", "Ask the teacher"], explanationEn: "A few IRT questions outperform a purely survey-based approach." },
+          { question: "Popularity bias khắc phục bằng?", options: ["Không gợi bài hot", "ε-greedy / random 5% để bài mới có cơ hội", "Tăng giá bài hot", "Không có cách"], answer: 1, explanation: "Khám phá ngẫu nhiên giúp tránh winner-takes-all.",
+            questionEn: "How do you fix popularity bias?", optionsEn: ["Never recommend hot lessons", "Epsilon-greedy / 5% randomness so new lessons get a chance", "Raise the price of hot lessons", "There's no fix"], explanationEn: "Random exploration helps avoid a winner-takes-all outcome." },
         ],
       },
       {
@@ -1275,7 +1788,62 @@ Retention rule mẫu: log hoạt động 90 ngày, kết quả học 2 năm, aud
 - "Anonymous" mà có 3 thuộc tính (zip + tuổi + giới tính) = re-identify được 87% người.
 - Cho phép giáo viên export full class data về máy → mất kiểm soát, vẫn là bạn chịu trách nhiệm.
 `,
-        theoryEn: `EdTech faces stricter privacy law because users may be minors: COPPA (<13, US, parental consent), GDPR-K (<16, EU), FERPA (US school records), PIPL (China, <14), and Vietnam's 2025 PDP law (<15). Apply data minimization (no real names if a nickname will do), parent gates, email-verified parental consent, ban third-party ad SDKs, support right-to-be-forgotten with cascading deletes, and enforce strict retention timers. Avoid quasi-identifiers that re-enable re-identification.`,
+        theoryEn: `## 1. ⚖️ Why is EdTech scrutinized so closely?
+
+EdTech learners can be **children under 13** (US) or **under 16** (EU). Data protection laws for children's data are **many times stricter** than laws for adults - violations mean multi-million-dollar fines and app store removal.
+
+## 2. 🗺️ Map of the laws
+
+| Law | Scope | Age | Core requirement |
+|------|---------|------|--------------|
+| **COPPA** (US) | US services collecting children's PII | <13 | Verifiable Parental Consent (VPC) before collection |
+| **GDPR-K** (EU) | Any processing of EU citizens' PII | <16 (each country may lower to 13) | Lawful basis + parental consent |
+| **FERPA** (US) | School education records | any age | School is in control, vendor is a 'school official' |
+| **PIPL** (China) | Chinese citizens | <14 | Separate consent for minors |
+| **PDP Law 2025** (Vietnam) | Vietnamese citizens | <15 needs parent | Similar to GDPR, with education exceptions |
+
+## 3. 🚦 The Data Minimization principle
+
+\`\`\`
+   +------------------------------------------------+
+   |  COLLECT AS LITTLE AS POSSIBLE                  |
+   |  ------------------------------------------------ |
+   |  ❌ Full name + address + birthdate + gender    |
+   |  ✅ Nickname + age-bucket (8-10, 11-13)          |
+   |                                                  |
+   |  ❌ User-uploaded face photos                    |
+   |  ✅ Chibi avatar picked from a library           |
+   +------------------------------------------------+
+\`\`\`
+
+## 4. 🔐 Correct patterns for children's EdTech
+
+| Pattern | Description |
+|---------|-------|
+| **Parent gate** | A multiplication problem to unlock Settings (blocks kids from changing consent themselves) |
+| **Parent email verification** | Magic link to the parent's email before collecting PII |
+| **No third-party tracking** | ABSOLUTELY no Facebook Pixel or personalized-ad GA on children's pages |
+| **No DMs between users** | Or if present, must be moderated + premade messages only |
+| **Right to be forgotten** | Delete-account button -> real-time cascading delete, not just "hiding" |
+| **Audit log** | Staff access to PII must be logged |
+
+## 5. 🧹 Data lifecycle
+
+\`\`\`
+   collect -> encrypt at rest -> retention timer -> purge
+                                       ^                |
+                                       +- user/parent deletes -+
+\`\`\`
+
+Sample retention rule: activity logs 90 days, learning results 2 years, audio recordings 7 days, and **no** raw PII in the analytics warehouse (only pseudonymous IDs).
+
+## 6. ⚠️ Common traps
+
+- "We don't share it with anyone" - but your ad/analytics SDKs share it for you. **Audit every SDK**.
+- Storing IP + user-agent forever -> that's still indirect PII.
+- "Anonymous" data with 3 attributes (zip + age + gender) can re-identify 87% of people.
+- Letting teachers export the full class's data to their own machine -> loss of control, and you're still liable.
+`,
         code: `# Nhập các lớp và hàm cần thiết từ thư viện \`datetime\` để làm việc với ngày giờ.
 from datetime import datetime, timedelta
 # Nhập các lớp và hàm cần thiết từ thư viện \`dataclasses\` để tạo các lớp dữ liệu gọn gàng.
@@ -1378,11 +1946,16 @@ for age, juris in [(10,"US"), (14,"EU"), (15,"VN"), (18,"US")]:
         exerciseEn:
           "Write pseudonymize(record) that replaces real user_id with HMAC-SHA256(salt + user_id) and strips name/email fields from the analytics copy.",
         quiz: [
-          { question: "COPPA bảo vệ trẻ em dưới?", options: ["10", "13", "16", "18"], answer: 1, explanation: "<13 ở Mỹ, cần Verifiable Parental Consent." },
-          { question: "GDPR-K có thể hạ tuổi consent xuống tối thiểu?", options: ["10", "13 (mỗi nước EU tự chọn 13–16)", "16 mọi nơi", "18"], answer: 1, explanation: "Mặc định 16, mỗi quốc gia có thể hạ xuống tối thiểu 13." },
-          { question: "Bẫy 'anonymous' tệ nhất là?", options: ["UI xấu", "Quasi-identifiers (zip+age+gender) re-identify ~87% người", "Tốn DB", "Không có"], answer: 1, explanation: "Latanya Sweeney 2000 và các nghiên cứu sau đều xác nhận." },
-          { question: "Parent gate (phép tính nhân) dùng để?", options: ["Vui", "Chặn trẻ em tự đổi consent / mua hàng", "Test toán", "Bảo mật server"], answer: 1, explanation: "Một cổng kiểm tra người lớn nhanh, không có PII." },
-          { question: "Khi user xoá tài khoản, EdTech nên?", options: ["Soft delete vĩnh viễn", "Cascade xoá thật trong khung thời gian luật quy định + audit log", "Giữ để báo cáo", "Bán cho bên thứ 3"], answer: 1, explanation: "Right to be forgotten là bắt buộc; soft-delete vô thời hạn = vi phạm." },
+          { question: "COPPA bảo vệ trẻ em dưới?", options: ["10", "13", "16", "18"], answer: 1, explanation: "<13 ở Mỹ, cần Verifiable Parental Consent.",
+            questionEn: "COPPA protects children under what age?", optionsEn: ["10", "13", "16", "18"], explanationEn: "Under 13 in the US, requiring Verifiable Parental Consent." },
+          { question: "GDPR-K có thể hạ tuổi consent xuống tối thiểu?", options: ["10", "13 (mỗi nước EU tự chọn 13–16)", "16 mọi nơi", "18"], answer: 1, explanation: "Mặc định 16, mỗi quốc gia có thể hạ xuống tối thiểu 13.",
+            questionEn: "GDPR-K allows the consent age to be lowered to a minimum of?", optionsEn: ["10", "13 (each EU country chooses between 13-16)", "16 everywhere", "18"], explanationEn: "The default is 16, but each country may lower it to a minimum of 13." },
+          { question: "Bẫy 'anonymous' tệ nhất là?", options: ["UI xấu", "Quasi-identifiers (zip+age+gender) re-identify ~87% người", "Tốn DB", "Không có"], answer: 1, explanation: "Latanya Sweeney 2000 và các nghiên cứu sau đều xác nhận.",
+            questionEn: "What's the worst 'anonymous' data trap?", optionsEn: ["Ugly UI", "Quasi-identifiers (zip+age+gender) can re-identify ~87% of people", "It wastes DB space", "There is none"], explanationEn: "Latanya Sweeney's 2000 study and later research both confirm this." },
+          { question: "Parent gate (phép tính nhân) dùng để?", options: ["Vui", "Chặn trẻ em tự đổi consent / mua hàng", "Test toán", "Bảo mật server"], answer: 1, explanation: "Một cổng kiểm tra người lớn nhanh, không có PII.",
+            questionEn: "What is a parent gate (multiplication problem) used for?", optionsEn: ["Fun", "Blocking kids from changing consent / making purchases themselves", "Testing math skills", "Server security"], explanationEn: "It's a quick adult-check gate that collects no PII." },
+          { question: "Khi user xoá tài khoản, EdTech nên?", options: ["Soft delete vĩnh viễn", "Cascade xoá thật trong khung thời gian luật quy định + audit log", "Giữ để báo cáo", "Bán cho bên thứ 3"], answer: 1, explanation: "Right to be forgotten là bắt buộc; soft-delete vô thời hạn = vi phạm.",
+            questionEn: "When a user deletes their account, EdTech should?", optionsEn: ["Soft-delete forever", "Do a real cascading delete within the legally required timeframe + log it", "Keep it for reporting", "Sell it to a third party"], explanationEn: "Right to be forgotten is mandatory; indefinite soft-delete is a violation." },
         ],
       },
     ],
