@@ -74,36 +74,57 @@ Không phải cứ thêm sao + huy hiệu là tốt. **Game hoá đúng** phải
 5. **Không có offline mode** → mạng yếu = mất bài học.
 6. **Lạm dụng AI** → AI trả lời thay vì hướng dẫn → mất tính sư phạm.
 `,
-        theoryEn: `## 1. 🎓 What is EdTech?
+        theoryEn: `## 1. 🎓 What is EdTech? Full definition
 
-EdTech uses web, mobile, AI, and data to help learners progress **faster, deeper, and with more joy**. Good EdTech is grounded in **learning science** - 50 years of cognitive research - not just shiny UI.
+**EdTech (Education Technology)** means using technology - web, mobile, AI, big data - to help learners **progress faster, go deeper, enjoy learning more, and learn more equitably**. Good EdTech is **NOT** just "digitizing textbooks": it must redesign the learning experience based on what cognitive science has proven over the last 50 years.
 
-### Three generations
-1. **Gen 1 (2000s):** LMS (Moodle, Blackboard) - content storage + quizzes.
-2. **Gen 2 (2010s):** MOOC + Duolingo - interactive content + gamification.
-3. **Gen 3 (2020s+):** AI tutors, adaptive learning, speech grading - real-time personalization.
+> 💡 **Distinction:** "Digital learning" = putting content on a screen. "EdTech" = using data + AI + pedagogy to **personalize** the path for each learner.
 
-## 2. 🧠 Four golden principles + supporting science
+### Three generations of EdTech
+1. **Gen 1 (2000s)** - LMS like Moodle, Blackboard: mainly document storage + quizzes.
+2. **Gen 2 (2010s)** - MOOCs (Coursera, edX), Duolingo: interactive content + gamification.
+3. **Gen 3 (2020s+)** - AI tutors, adaptive learning, speech grading: real-time personalization.
 
-- **Spaced Repetition** - review just before forgetting (Ebbinghaus curve).
-- **Retrieval Practice** - actively recall beats re-reading 3× (Roediger 2006 testing effect).
-- **Interleaving** - mix problem types so the brain learns to discriminate.
-- **Feedback Loop** - corrections within 2s preserve motivation and prevent error fossilization.
-- **Desirable Difficulty** (Bjork): slightly above current ability gives the strongest retention.
-- **Dual Coding** (Paivio): image + word doubles recall.
-- **Worked Examples** (Sweller): for novices, show fully-solved examples before practice.
+## 2. 🧠 Four golden principles of Learning Science
 
-## 3. 🏗️ Architecture stack
+| Principle | Brain mechanism | Product application |
+|-----------|------------------|----------------------|
+| **Spaced Repetition** | Ebbinghaus forgetting curve: reviewing right before forgetting strengthens synapses | Anki, HSK Vocab Bank, IELTS Mastered Words |
+| **Retrieval Practice** | "Testing effect" (Roediger 2006): actively recalling is stronger than re-reading 3× | End-of-lesson quiz, two-way flashcards, fill-in-the-blank |
+| **Interleaving** | Mixing question types forces the brain to switch context → sharper discrimination in memory | Mix listening + grammar + vocab in one session |
+| **Feedback Loop** | Dopamine + correction window: feedback within <2s sustains motivation | Instant AI grading band, IPA pronunciation check |
+
+### Equally important supporting principles
+- **Desirable Difficulty (Bjork):** a task slightly harder than current ability produces longer retention than an easy task.
+- **Dual Coding (Paivio):** pairing image + text doubles recall (this is why vocab cards include illustrations).
+- **Worked Examples (Sweller):** for beginners, showing a fully-solved example is more effective than forcing them to solve alone.
+
+## 3. 🏗️ Architecture of a typical EdTech product
 
 :::diagram type="edtech-architecture":::
 
-Frontend (React/RN, PWA) → API (REST/Edge Functions) → Database (Postgres + vector) → AI services (TTS, STT, LLM, embeddings) → Analytics (events, cohorts, A/B). Every layer must be **versioned and instrumented** so you can experiment safely.
+**Required layers:**
+- **Content layer:** lessons, questions, audio - versioned so you can A/B test.
+- **Progress layer:** stores mastery, streak, XP, last review time.
+- **Adaptive engine:** picks the next lesson based on mastery_gap.
+- **AI gateway:** wraps LLM/TTS/STT with rate limiting + cost monitoring.
+- **Analytics:** an event stream to measure Activation/Retention/Mastery.
 
-## 4. 🎮 Purposeful gamification
-Stars only when **mastery threshold is hit**, streaks for **consistency**, leaderboards based on **relative progress** - never raw scores.
+## 4. 🎮 Purposeful Gamification
 
-## 5. ⚠️ Common pitfalls
-Over-gamification, no mastery tracking, hard-coded level locks, ignoring mobile-first, no offline support, AI giving answers instead of guiding.
+Adding stars and badges is not automatically good. **Correct gamification** must be tied to learning behavior:
+- ⭐ Award stars **only when mastery is reached** (not simply for opening the app).
+- 🔥 Use streaks to encourage **consistency** (the brain needs repetition to consolidate memory).
+- 🏆 Leaderboards should be based on **relative progress**, not absolute score - otherwise weaker students get discouraged.
+
+## 5. ⚠️ Common traps when building EdTech
+
+1. **Over-gamification** → students play just to earn stars without absorbing knowledge.
+2. **Not measuring mastery** → no one knows who needs help; every decision is a guess.
+3. **Content locked hard by level** → strong students are held back, weak students are left behind.
+4. **Ignoring mobile-first** → over 70% of Vietnamese students use a phone.
+5. **No offline mode** → weak network = lost lesson.
+6. **Overusing AI** → AI answers instead of guiding → loses its pedagogical value.
 `,
         code: `# Mô phỏng đơn giản: ghi nhận một lần học và tính tỉ lệ nhớ
 sessions = [
@@ -125,11 +146,16 @@ for w, st in stats.items():
         exercise: "Thêm 2 phiên học mới và in ra danh sách từ có accuracy < 70% (cần ôn thêm).",
         exerciseEn: "Add 2 more sessions and print words with accuracy < 70% (need more practice).",
         quiz: [
-          { question: "Spaced Repetition giúp điều gì?", options: ["Học nhanh hơn 1 đêm", "Ôn đúng lúc sắp quên để nhớ lâu", "Tăng tốc độ đọc", "Giảm số bài tập"], answer: 1, explanation: "Spaced Repetition lên lịch ôn ngay trước khi não quên - nhớ lâu với ít công sức nhất." },
-          { question: "Retrieval practice là gì?", options: ["Đọc đi đọc lại", "Chủ động gợi nhớ thông tin (làm quiz)", "Xem video", "Ghi chép"], answer: 1, explanation: "Gợi nhớ chủ động hiệu quả hơn nhiều so với đọc lại thụ động." },
-          { question: "EdTech tốt cần đo lường gì nhất?", options: ["Thời gian online", "Mastery / tiến bộ thực sự", "Số lượt mở app", "Màu sắc UI"], answer: 1, explanation: "Đo mastery giúp biết ai đã hiểu và ai cần hỗ trợ thêm." },
-          { question: "Interleaving nghĩa là gì?", options: ["Học một chủ đề duy nhất", "Trộn nhiều dạng bài / chủ đề trong một buổi", "Học liên tục không nghỉ", "Học theo nhóm"], answer: 1, explanation: "Trộn dạng bài giúp não phân biệt và nhớ sâu hơn." },
-          { question: "Vì sao feedback loop quan trọng?", options: ["Để app đẹp hơn", "Người học sửa sai ngay, ngăn lỗi đóng băng", "Để tăng doanh thu", "Không quan trọng"], answer: 1, explanation: "Phản hồi nhanh giúp người học sửa lỗi trước khi nó in vào trí nhớ dài hạn." },
+          { question: "Spaced Repetition giúp điều gì?", options: ["Học nhanh hơn 1 đêm", "Ôn đúng lúc sắp quên để nhớ lâu", "Tăng tốc độ đọc", "Giảm số bài tập"], answer: 1, explanation: "Spaced Repetition lên lịch ôn ngay trước khi não quên - nhớ lâu với ít công sức nhất.",
+            questionEn: "What does Spaced Repetition help with?", optionsEn: ["Learning faster in one night", "Reviewing right before forgetting to retain longer", "Increasing reading speed", "Reducing the number of exercises"], explanationEn: "Spaced Repetition schedules a review right before the brain forgets - maximum retention with minimum effort." },
+          { question: "Retrieval practice là gì?", options: ["Đọc đi đọc lại", "Chủ động gợi nhớ thông tin (làm quiz)", "Xem video", "Ghi chép"], answer: 1, explanation: "Gợi nhớ chủ động hiệu quả hơn nhiều so với đọc lại thụ động.",
+            questionEn: "What is retrieval practice?", optionsEn: ["Reading the material over and over", "Actively recalling information (e.g. taking a quiz)", "Watching a video", "Taking notes"], explanationEn: "Actively recalling information is far more effective than passively re-reading it." },
+          { question: "EdTech tốt cần đo lường gì nhất?", options: ["Thời gian online", "Mastery / tiến bộ thực sự", "Số lượt mở app", "Màu sắc UI"], answer: 1, explanation: "Đo mastery giúp biết ai đã hiểu và ai cần hỗ trợ thêm.",
+            questionEn: "What should good EdTech measure most?", optionsEn: ["Time spent online", "Mastery / real progress", "Number of app opens", "UI color scheme"], explanationEn: "Measuring mastery reveals who has truly understood and who still needs support." },
+          { question: "Interleaving nghĩa là gì?", options: ["Học một chủ đề duy nhất", "Trộn nhiều dạng bài / chủ đề trong một buổi", "Học liên tục không nghỉ", "Học theo nhóm"], answer: 1, explanation: "Trộn dạng bài giúp não phân biệt và nhớ sâu hơn.",
+            questionEn: "What does interleaving mean?", optionsEn: ["Studying a single topic only", "Mixing several exercise types / topics in one session", "Studying continuously without breaks", "Studying in groups"], explanationEn: "Mixing question types helps the brain discriminate between them and remember more deeply." },
+          { question: "Vì sao feedback loop quan trọng?", options: ["Để app đẹp hơn", "Người học sửa sai ngay, ngăn lỗi đóng băng", "Để tăng doanh thu", "Không quan trọng"], answer: 1, explanation: "Phản hồi nhanh giúp người học sửa lỗi trước khi nó in vào trí nhớ dài hạn.",
+            questionEn: "Why does the feedback loop matter?", optionsEn: ["To make the app look nicer", "Learners can correct mistakes right away, preventing error fossilization", "To increase revenue", "It does not matter"], explanationEn: "Fast feedback lets learners fix errors before they get imprinted into long-term memory." },
         ],
       },
       {
@@ -226,25 +252,93 @@ Khi mới làm sản phẩm EdTech, **bắt đầu bằng SM-2** rồi nâng c�
 4. **Bỏ qua "leech" cards** (sai > 8 lần) → cần đánh dấu để giáo viên xem lại nội dung.
 5. **Đo q sai** - nếu UI chỉ có nút "Đúng/Sai" thì mất thông tin granular của thang 0–5.
 `,
-        theoryEn: `## 1. 🧠 Ebbinghaus forgetting curve
+        theoryEn: `## 1. 🧠 Ebbinghaus forgetting curve - the root of Spaced Repetition
 
-Without review, retention drops to ~50% after 1 day and ~20% after a month. Spaced Repetition schedules each review **right before the curve crashes** - minimal effort, maximum retention.
+In 1885, Hermann Ebbinghaus experimented on himself and discovered that after learning new information, the forgetting rate follows a roughly **negative exponential** curve:
+- After **20 minutes**, ~40% is forgotten.
+- After **1 day**, ~50-70% is forgotten.
+- After **6 days**, ~75% is forgotten.
+- After **31 days**, ~80% is forgotten (without review).
 
-## 2. 📐 SM-2 algorithm (core of Anki / SuperMemo)
+\`\`\`
+  Retention %
+   100│●
+      │ \\
+    80│  ●_
+      │    \\__       (no review)
+    60│       \\___
+      │           \\____
+    40│                \\_____
+      │                      \\____
+    20│                           \\____
+      │                                 \\____
+     0└────────────────────────────────────────▶ Time
+       0   20m  1h   1d   6d   31d
+\`\`\`
 
-Each card stores **EF** (easiness factor, default 2.5), **interval** (days to next review), and **repetitions** (consecutive correct streak). After rating \`q ∈ [0..5]\`:
-- If \`q < 3\` → reset repetitions to 0 and interval to 1.
-- Else: first correct → 1 day, second → 6 days, then \`interval × EF\`.
-- Always update \`EF = max(1.3, EF + 0.1 - (5-q)*(0.08 + (5-q)*0.02))\`.
+**Spaced Repetition** places every review **right when the curve has just dropped to ~80%** - just before it is fully forgotten. Each successful review "resets" the curve and makes it **decay slower** afterward - which is why the interval grows exponentially.
 
-## 3. 🎯 Why it works
-Hard cards shrink in interval and EF; easy cards exponentially grow (weeks → months → years). Daily due-load self-balances around 5–10% of the deck.
+## 2. 📐 The SM-2 algorithm (core of Anki, SuperMemo, Mochi)
 
-## 4. 🆚 SM-2 vs newer
-**SM-2** (1987) is simple and good enough for 95% of cases. **FSRS** (2022+) replaced SM-2 in Anki 23+ using a Difficulty/Stability/Retrievability model - adopt it once you have > 10k reviews to fit.
+SM-2 (Piotr Wozniak, 1987) was the first publicly published algorithm. Each flashcard stores 3 variables:
 
-## 5. ⚠️ Pitfalls
-EF floor 1.3 missing → cards "vanish"; not resetting repetitions on q<3; no daily new-card cap; ignoring leech cards (failed > 8×); collapsing q into binary correct/wrong loses granularity.
+| Variable | Meaning | Initial value |
+|----------|---------|----------------|
+| **EF** (easiness factor) | How "easy" the card is for this learner | 2.5 |
+| **interval** | Days until the next review | 0 |
+| **repetitions** | Number of consecutive correct answers | 0 |
+
+After each rating \`q ∈ [0..5]\` (0 = total blank, 5 = perfect recall):
+
+\`\`\`
+if q < 3:                          # Wrong answer -> treat as learning from scratch
+    repetitions = 0
+    interval    = 1
+else:                              # Correct answer
+    if repetitions == 0: interval = 1
+    elif repetitions == 1: interval = 6
+    else:                interval = round(interval * EF)
+    repetitions += 1
+
+# Update EF for every q (even q<3, so "hard" cards get progressively harder)
+EF = max(1.3, EF + 0.1 - (5-q)*(0.08 + (5-q)*0.02))
+\`\`\`
+
+### Day-by-day example for 1 card
+| Day | q | repetitions | interval | EF | Note |
+|-----|---|--------------|----------|------|------|
+| 0 | – | 0 | 0 | 2.50 | New card |
+| 1 | 5 | 1 | 1 | 2.60 | Easy correct |
+| 2 | 4 | 2 | 6 | 2.60 | Still correct |
+| 8 | 5 | 3 | 16 | 2.70 | Easy correct → interval stretches |
+| 24 | 2 | 0 | 1 | 2.46 | **Forgotten!** reset |
+
+> 🔑 **Insight:** EF only changes gradually (±0.15 per review), so a card needs **dozens of reviews** before the system truly "understands" its real difficulty for the learner.
+
+## 3. 🎯 Why SM-2 works
+
+- **Hard card** → short interval, EF drops → the learner meets it again soon to reinforce it.
+- **Easy card** → interval multiplies by EF (weeks → months → years).
+- **Self-balancing workload**: the number of "due" cards each day stabilizes around 5-10% of the deck.
+- **Personalization**: the same card can have a different EF for each learner.
+
+## 4. 🆚 SM-2 vs later generations
+
+| Algorithm | Year | Key difference |
+|-----------|------|-----------------|
+| **SM-2** | 1987 | Simple, 3 variables - good enough for 95% of use cases |
+| **SM-17** | 2016 | Two-way forgetting model using ML - much more complex |
+| **FSRS** | 2022+ | Free Spaced Repetition Scheduler, now replaces SM-2 in Anki 23+, based on the DSR model (Difficulty/Stability/Retrievability) |
+
+When building a new EdTech product, **start with SM-2** and upgrade to FSRS once you have > 10k review sessions to train on.
+
+## 5. ⚠️ Implementation pitfalls
+
+1. **Forgetting the EF ≥ 1.3 floor** → EF drifts toward 0 → interval becomes 0 → the card "vanishes" or loops forever.
+2. **Not resetting repetitions when q<3** → the learner keeps forgetting but the card still gets a stretched schedule → frustration.
+3. **No cap on new cards per day** → suddenly 500 cards are "due" next week → the learner gives up.
+4. **Ignoring "leech" cards** (failed > 8 times) → they should be flagged for a teacher to review the content.
+5. **Measuring q incorrectly** - if the UI only has "Right/Wrong" buttons, you lose the granular information of the 0-5 scale.
 `,
         code: `# Định nghĩa hàm sm2 để cập nhật thông tin thẻ học sau mỗi lần ôn tập.
 # Đầu vào:
@@ -297,11 +391,16 @@ for q in [5, 4, 5, 2, 5]:
         exercise: "Mô phỏng 20 lần ôn với điểm ngẫu nhiên (random 0-5). In ra interval cuối cùng và tổng số ngày đã giả lập.",
         exerciseEn: "Simulate 20 reviews with random scores 0-5. Print final interval and total simulated days.",
         quiz: [
-          { question: "Khi người học trả lời sai (q<3), điều gì xảy ra với repetitions?", options: ["Tăng 1", "Reset về 0", "Giữ nguyên", "Tăng 2"], answer: 1, explanation: "Sai → coi như học lại từ đầu, repetitions = 0 và interval = 1." },
-          { question: "EF không được nhỏ hơn?", options: ["1.0", "1.3", "2.0", "0.5"], answer: 1, explanation: "SM-2 chặn EF ≥ 1.3 để tránh card bị giãn lịch quá ngắn vô tận." },
-          { question: "Sau lần ôn đúng thứ 2, interval đặt thành?", options: ["1", "3", "6", "10"], answer: 2, explanation: "Lần 1 → 1 ngày, lần 2 → 6 ngày, sau đó nhân với EF." },
-          { question: "SM-2 lấy cảm hứng từ?", options: ["Định luật Newton", "Đường cong quên Ebbinghaus", "Định luật Moore", "Lý thuyết game"], answer: 1, explanation: "SM-2 (Piotr Wozniak) dựa trên nghiên cứu quên của Ebbinghaus." },
-          { question: "Mục tiêu của SM-2?", options: ["Học càng nhiều càng tốt mỗi ngày", "Ôn đúng lúc sắp quên, tối ưu công sức", "Phạt người sai", "Không có mục tiêu"], answer: 1, explanation: "Tối thiểu công sức – tối đa độ nhớ dài hạn." },
+          { question: "Khi người học trả lời sai (q<3), điều gì xảy ra với repetitions?", options: ["Tăng 1", "Reset về 0", "Giữ nguyên", "Tăng 2"], answer: 1, explanation: "Sai → coi như học lại từ đầu, repetitions = 0 và interval = 1.",
+            questionEn: "When the learner answers wrong (q<3), what happens to repetitions?", optionsEn: ["It increases by 1", "It resets to 0", "It stays the same", "It increases by 2"], explanationEn: "A wrong answer means starting over: repetitions = 0 and interval = 1." },
+          { question: "EF không được nhỏ hơn?", options: ["1.0", "1.3", "2.0", "0.5"], answer: 1, explanation: "SM-2 chặn EF ≥ 1.3 để tránh card bị giãn lịch quá ngắn vô tận.",
+            questionEn: "EF must never go below?", optionsEn: ["1.0", "1.3", "2.0", "0.5"], explanationEn: "SM-2 enforces EF ≥ 1.3 to prevent a card's schedule from collapsing to near-zero intervals forever." },
+          { question: "Sau lần ôn đúng thứ 2, interval đặt thành?", options: ["1", "3", "6", "10"], answer: 2, explanation: "Lần 1 → 1 ngày, lần 2 → 6 ngày, sau đó nhân với EF.",
+            questionEn: "After the 2nd correct review, the interval is set to?", optionsEn: ["1", "3", "6", "10"], explanationEn: "1st correct → 1 day, 2nd correct → 6 days, and afterward interval × EF." },
+          { question: "SM-2 lấy cảm hứng từ?", options: ["Định luật Newton", "Đường cong quên Ebbinghaus", "Định luật Moore", "Lý thuyết game"], answer: 1, explanation: "SM-2 (Piotr Wozniak) dựa trên nghiên cứu quên của Ebbinghaus.",
+            questionEn: "SM-2 was inspired by?", optionsEn: ["Newton's laws", "The Ebbinghaus forgetting curve", "Moore's law", "Game theory"], explanationEn: "SM-2 (by Piotr Wozniak) is based on Ebbinghaus's forgetting research." },
+          { question: "Mục tiêu của SM-2?", options: ["Học càng nhiều càng tốt mỗi ngày", "Ôn đúng lúc sắp quên, tối ưu công sức", "Phạt người sai", "Không có mục tiêu"], answer: 1, explanation: "Tối thiểu công sức – tối đa độ nhớ dài hạn.",
+            questionEn: "What is SM-2's goal?", optionsEn: ["Learn as much as possible every day", "Review right before forgetting, minimizing effort", "Punish wrong answers", "It has no goal"], explanationEn: "Minimum effort, maximum long-term retention." },
         ],
       },
       {
@@ -391,28 +490,82 @@ mastered = (mastery ≥ 0.85)
 `,
         theoryEn: `## 1. 🎯 What is Adaptive Learning?
 
-The system **automatically tunes difficulty to the learner**, keeping them in Vygotsky's Zone of Proximal Development: hard enough to grow, not so hard they quit.
+A system that **automatically raises or lowers difficulty based on the learner's results** - like a personal coach: weak at listening today → more listening tomorrow; mastered present simple today → move on to present perfect.
 
-Two main schools: **rule-based** (if ≥80% correct → level up), **statistical** (IRT, BKT, DKT - used by TOEIC/SAT). Start rule-based, graduate to BKT after 5k sessions, IRT/DKT past 100k.
+Unlike **one-size-fits-all** (the whole class does the same lesson), Adaptive Learning keeps every student in Vygotsky's **Zone of Proximal Development** - just challenging enough to grow, not so easy it's boring nor so hard it's discouraging.
 
-## 2. 📊 Mastery via EMA
+### Two main schools
+| Approach | Principle | Pros | Cons |
+|----------|-----------|------|------|
+| **Rule-based** | If/else: ≥80% correct → level up; ≥50% wrong → level down | Simple, easy to explain | Rigid, does not learn from data |
+| **Item Response Theory (IRT)** | 2-parameter probability model: student ability θ × item difficulty b | Gold standard (TOEIC, SAT, GMAT) | Needs large data to calibrate |
+| **Bayesian Knowledge Tracing (BKT)** | Markov model with 4 probabilities (init, learn, slip, guess) | Balances accuracy and complexity | Hard to debug when wrong |
+| **Deep Knowledge Tracing (DKT)** | LSTM over the interaction sequence | Captures complex patterns | Black box, hard to explain to parents |
 
-\`mastery = α·correct + (1-α)·mastery\`. α=0.1 = "long memory", α=0.3 = default, α=0.5+ = fast cram-mode.
+> 🎯 **Practical advice:** start with rule-based (about 1 week to build), add BKT once you have > 5k sessions (about 1 month), upgrade to IRT/DKT once you scale past 100k sessions.
 
-## 3. 🧪 "Mastered" requires multiple conditions
-mastery ≥ 0.85 AND 3 most-recent correct AND ≥ 5 attempts AND response time ≤ 2× baseline (filters lucky guesses).
+## 2. 📊 Mastery Score - how do you measure "understood"?
 
-### Four tiers drive adaptive decisions
-- 🟥 Struggling (<0.4) → easier + worked examples
-- 🟧 Learning (0.4–0.65) → same level + hints
-- 🟨 Practicing (0.65–0.85) → harder + interleave
-- 🟩 Mastered (≥0.85 + streak) → spaced repetition, new topic
+Mastery is usually computed with an **Exponential Moving Average (EMA)** instead of a plain average, because recent results reflect current ability better:
 
-## 4. 🔁 Adaptive loop
-Select → answer → update mastery → decide next difficulty → periodically re-calibrate item difficulty.
+\`\`\`
+mastery_new = α × is_correct + (1 - α) × mastery_old
+\`\`\`
 
-## 5. ⚠️ Pitfalls
-Changing difficulty after < 5 samples; ignoring response time (rewards lucky guesses); never calibrating items; declaring mastery too easily; never decaying mastery on long absence; one model for every skill type.
+| α | Behavior | When to use |
+|---|----------|-------------|
+| **0.1** | "Long memory" - reacts slowly | Foundational skills (reading comprehension, core grammar) |
+| **0.3** | Balanced | Default for most skills |
+| **0.5+** | Sensitive, fluctuates | Skills being crammed right before an exam |
+
+### Example over 10 answers (α=0.3, initial mastery 0.5)
+\`\`\`
+Turn: 1   2   3   4   5   6   7   8   9   10
+Result: ✓   ✓   ✗   ✓   ✓   ✓   ✗   ✓   ✓   ✓
+Mastery: .65 .76 .53 .67 .77 .84 .59 .71 .80 .86
+\`\`\`
+
+## 3. 🧪 When do you call it "Mastered"?
+
+A single condition is too easy to game. Use an **AND** of multiple conditions:
+
+\`\`\`
+mastered = (mastery ≥ 0.85)
+         AND (3 most recent answers correct in a row)
+         AND (total attempts ≥ 5)
+         AND (average response time ≤ 2× baseline)
+\`\`\`
+
+The 4th condition guards against **"fast random guessing"**: if a student answers too quickly (<1s), they are likely clicking randomly or have memorized the answer's position rather than understanding it.
+
+### Four result tiers that drive the adaptive engine
+| Tier | mastery | System action |
+|------|---------|-----------------|
+| 🟥 **Struggling** | < 0.4 | Lower difficulty, provide a worked example |
+| 🟧 **Learning** | 0.4-0.65 | Keep difficulty, add scaffolding (hints) |
+| 🟨 **Practicing** | 0.65-0.85 | Increase difficulty slightly, interleave |
+| 🟩 **Mastered** | ≥ 0.85 + streak | Move to spaced repetition, unlock new topic |
+
+## 4. 🔁 The Adaptive loop in a product
+
+\`\`\`
+   ┌──────────────────────────────────────────────┐
+   │  1. Select a question by mastery + target difficulty │
+   │  2. Learner answers                           │
+   │  3. Update mastery (EMA) + log the event      │
+   │  4. Decide next: same / harder / easier       │
+   │  5. (periodically) Re-calibrate item difficulty │
+   └──────────────────────────────────────────────┘
+\`\`\`
+
+## 5. ⚠️ Common pitfalls
+
+1. **Raising difficulty too fast** → the student gets discouraged. Rule of thumb: need ≥ 5 samples before deciding to change.
+2. **Ignoring response time** → random guesses still count as correct.
+3. **Not calibrating item difficulty** - a question that looked "hard" when written can actually be easy.
+4. **Overly optimistic mastery** (1 correct answer = mastered) → false sense of progress.
+5. **Never decaying mastery over time** - a student who took a 6-month break should not still be "mastered".
+6. **Forcing one model on every skill type** - vocabulary needs a higher α than grammar.
 `,
         code: `# Định nghĩa một lớp (class) tên là Skill để mô hình hóa một kỹ năng hoặc kiến thức.
 # Lớp này sẽ theo dõi mức độ thành thạo và lịch sử các lần thực hành gần đây.

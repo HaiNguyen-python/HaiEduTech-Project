@@ -163,11 +163,11 @@ print(f"D7 retention = {d7_retention(events):.0%}")`,
         exerciseEn:
           "Write activation_rate(events) → % of users with ≥3 lesson_done events in the first 24h after signup.",
         quiz: [
-          { question: "Vì sao 'tổng phút online' là vanity metric?", options: ["Khó tính", "Không đổi quyết định gì cụ thể; có thể tăng nhờ spam noti", "Quá chính xác", "Riêng tư"], answer: 1, explanation: "Vanity metric đẹp nhưng không hướng dẫn hành động." },
-          { question: "Cohort analysis giúp phát hiện?", options: ["Bug front-end", "Regression theo từng tuần ra mắt, ẩn trong số trung bình", "Tốc độ API", "Số DB index"], answer: 1, explanation: "Cohort tách user theo tuần đăng ký để so phiên bản app." },
-          { question: "Vì sao event nên immutable?", options: ["Để dễ sửa", "Để audit, replay, A/B chính xác về sau", "Tiết kiệm dung lượng", "Không cần thiết"], answer: 1, explanation: "Sửa event = mất sự thật lịch sử → mọi metric sai." },
-          { question: "Healthy D7 retention với EdTech tốt là?", options: [">5%", ">25%", ">75%", ">95%"], answer: 1, explanation: ">25% D7 là benchmark mạnh cho EdTech tự học." },
-          { question: "Bẫy 'chỉ nhìn trung bình' nghĩa là?", options: ["Bỏ qua đuôi phân phối - người yếu nhất cần giúp nhất", "Median tốt hơn mean", "Không có ý nghĩa", "Chỉ nên dùng mode"], answer: 0, explanation: "Trung bình che giấu nhóm cần hỗ trợ; nên xem phân vị 10/50/90." },
+          { question: "Vì sao 'tổng phút online' là vanity metric?", options: ["Khó tính", "Không đổi quyết định gì cụ thể; có thể tăng nhờ spam noti", "Quá chính xác", "Riêng tư"], answer: 1, explanation: "Vanity metric đẹp nhưng không hướng dẫn hành động.", questionEn: "Why is 'total minutes online' a vanity metric?", optionsEn: ["Hard to compute", "It doesn't drive any specific decision; can be inflated by spam notifications", "Too precise", "Private"], explanationEn: "Vanity metrics look nice but don't guide action." },
+          { question: "Cohort analysis giúp phát hiện?", options: ["Bug front-end", "Regression theo từng tuần ra mắt, ẩn trong số trung bình", "Tốc độ API", "Số DB index"], answer: 1, explanation: "Cohort tách user theo tuần đăng ký để so phiên bản app.", questionEn: "What does cohort analysis help detect?", optionsEn: ["Frontend bugs", "Release-by-release regressions hidden inside overall averages", "API speed", "Number of DB indexes"], explanationEn: "Cohorts split users by signup week to compare app versions." },
+          { question: "Vì sao event nên immutable?", options: ["Để dễ sửa", "Để audit, replay, A/B chính xác về sau", "Tiết kiệm dung lượng", "Không cần thiết"], answer: 1, explanation: "Sửa event = mất sự thật lịch sử → mọi metric sai.", questionEn: "Why should events be immutable?", optionsEn: ["Easier to edit", "For accurate auditing, replay, and A/B analysis later", "Saves storage", "Not necessary"], explanationEn: "Editing events destroys the historical truth → every metric becomes wrong." },
+          { question: "Healthy D7 retention với EdTech tốt là?", options: [">5%", ">25%", ">75%", ">95%"], answer: 1, explanation: ">25% D7 là benchmark mạnh cho EdTech tự học.", questionEn: "A healthy D7 retention for good EdTech is?", optionsEn: [">5%", ">25%", ">75%", ">95%"], explanationEn: ">25% D7 is a strong benchmark for self-study EdTech." },
+          { question: "Bẫy 'chỉ nhìn trung bình' nghĩa là?", options: ["Bỏ qua đuôi phân phối - người yếu nhất cần giúp nhất", "Median tốt hơn mean", "Không có ý nghĩa", "Chỉ nên dùng mode"], answer: 0, explanation: "Trung bình che giấu nhóm cần hỗ trợ; nên xem phân vị 10/50/90.", questionEn: "The 'looking only at averages' trap means?", optionsEn: ["Ignoring the distribution tail - the weakest learners need help the most", "Median is better than mean", "It's meaningless", "Only the mode should be used"], explanationEn: "Averages hide the group that needs support; look at p10/p50/p90 instead." },
         ],
       },
       {
@@ -277,11 +277,11 @@ for day, atts in [(1,1), (7,1), (30,1), (30,5)]:
         exerciseEn:
           "Add tier(xp_total) returning 'Bronze' (<500) / 'Silver' (<2000) / 'Gold' (<5000) / 'Platinum'.",
         quiz: [
-          { question: "Variable reward mạnh hơn fixed reward vì?", options: ["Rẻ hơn", "Kích hoạt hệ dopamine mạnh hơn nhờ yếu tố bất ngờ", "Dễ code", "Đẹp UI"], answer: 1, explanation: "Slot-machine effect: bất ngờ giữ chân tốt hơn đều đặn." },
-          { question: "Dark pattern nào sau đây cần TRÁNH trong EdTech?", options: ["Streak shaming", "Mastery bar", "Avatar chibi", "Leaderboard tuần ngắn"], answer: 0, explanation: "Streak shaming gây lo âu, đặc biệt với học sinh nhỏ." },
-          { question: "Investment trong Hook loop nghĩa là?", options: ["Đầu tư tiền", "User để lại thứ có giá trị (streak, collection) khiến quay lại dễ hơn", "Quảng cáo", "Nâng cấp server"], answer: 1, explanation: "Investment làm tăng switching cost theo cách lành mạnh (sở hữu)." },
-          { question: "Vì sao nên decay XP cho bài lặp dễ?", options: ["Phạt user", "Tránh XP farming, giữ XP gắn với học thật", "Tiết kiệm DB", "Không có lý do"], answer: 1, explanation: "Không decay → user farm bài dễ thay vì học bài khó." },
-          { question: "Trụ cột 'Identity' trong gamification gồm?", options: ["Avatar, badge, danh hiệu", "API key", "Hệ DB", "Caching"], answer: 0, explanation: "Cảm giác 'tôi là ai trong nền tảng' là động lực dài hạn." },
+          { question: "Variable reward mạnh hơn fixed reward vì?", options: ["Rẻ hơn", "Kích hoạt hệ dopamine mạnh hơn nhờ yếu tố bất ngờ", "Dễ code", "Đẹp UI"], answer: 1, explanation: "Slot-machine effect: bất ngờ giữ chân tốt hơn đều đặn.", questionEn: "Variable rewards are stronger than fixed rewards because?", optionsEn: ["Cheaper", "They trigger a stronger dopamine response through surprise", "Easier to code", "Nicer UI"], explanationEn: "The slot-machine effect: surprise retains users better than routine." },
+          { question: "Dark pattern nào sau đây cần TRÁNH trong EdTech?", options: ["Streak shaming", "Mastery bar", "Avatar chibi", "Leaderboard tuần ngắn"], answer: 0, explanation: "Streak shaming gây lo âu, đặc biệt với học sinh nhỏ.", questionEn: "Which dark pattern should be AVOIDED in EdTech?", optionsEn: ["Streak shaming", "Mastery bar", "Chibi avatar", "Short weekly leaderboard"], explanationEn: "Streak shaming causes anxiety, especially in young learners." },
+          { question: "Investment trong Hook loop nghĩa là?", options: ["Đầu tư tiền", "User để lại thứ có giá trị (streak, collection) khiến quay lại dễ hơn", "Quảng cáo", "Nâng cấp server"], answer: 1, explanation: "Investment làm tăng switching cost theo cách lành mạnh (sở hữu).", questionEn: "'Investment' in the Hook loop means?", optionsEn: ["Investing money", "The user leaves behind something valuable (streak, collection) that makes returning easier", "Advertising", "Upgrading the server"], explanationEn: "Investment raises switching cost in a healthy way (ownership)." },
+          { question: "Vì sao nên decay XP cho bài lặp dễ?", options: ["Phạt user", "Tránh XP farming, giữ XP gắn với học thật", "Tiết kiệm DB", "Không có lý do"], answer: 1, explanation: "Không decay → user farm bài dễ thay vì học bài khó.", questionEn: "Why decay XP for repeated easy lessons?", optionsEn: ["To punish users", "To prevent XP farming, keeping XP tied to real learning", "To save DB space", "No reason"], explanationEn: "Without decay, users farm easy lessons instead of tackling hard ones." },
+          { question: "Trụ cột 'Identity' trong gamification gồm?", options: ["Avatar, badge, danh hiệu", "API key", "Hệ DB", "Caching"], answer: 0, explanation: "Cảm giác 'tôi là ai trong nền tảng' là động lực dài hạn.", questionEn: "The 'Identity' pillar of gamification includes?", optionsEn: ["Avatar, badges, titles", "API key", "Database system", "Caching"], explanationEn: "The sense of 'who I am on this platform' is a long-term motivator." },
         ],
       },
       {
@@ -429,11 +429,11 @@ print(f"Δ mastery = {diff:+.3f}, t ≈ {t:.2f}  →  {'có ý nghĩa' if abs(t)
         exerciseEn:
           "Write srm_check(n_a, n_b) warning if the split is more skewed than 55/45 - a sign of bias.",
         quiz: [
-          { question: "Vì sao không nên peek p-value mỗi ngày?", options: ["Tốn server", "Tăng false-positive nghiêm trọng (multiple testing)", "Vi phạm RLS", "Không có vấn đề"], answer: 1, explanation: "Peeking biến α=5% thành 30%+ thực tế." },
-          { question: "Sample Ratio Mismatch nghĩa là?", options: ["Sample quá nhỏ", "Tỉ lệ phân nhánh lệch khỏi thiết kế (vd 60/40)", "Quá nhiều nhánh", "Hết RAM"], answer: 1, explanation: "SRM cho thấy assignment hỏng - kết quả không đáng tin." },
-          { question: "Novelty effect là?", options: ["Bug mới", "User hứng thú tạm thời với phiên bản mới, hết sau 1–2 tuần", "Tốc độ tăng", "Token mới"], answer: 1, explanation: "Phải chạy đủ dài để vượt qua giai đoạn novelty." },
-          { question: "p < 0.05 nghĩa là?", options: ["B chắc chắn tốt hơn", "Có bằng chứng B khác A - vẫn cần nhìn effect size và CI", "B tốt 95%", "Không có ý nghĩa"], answer: 1, explanation: "Phải kết hợp effect size và khoảng tin cậy để diễn giải." },
-          { question: "Khi nào dừng experiment sớm?", options: ["Khi cảm thấy đủ", "Khi nhánh B gây hại rõ (harm threshold) hoặc dùng khung Bayesian", "Khi sếp yêu cầu", "Bất cứ lúc nào"], answer: 1, explanation: "Dừng sớm tuỳ tiện làm hỏng tính thống kê - chỉ dừng vì harm hoặc Bayesian." },
+          { question: "Vì sao không nên peek p-value mỗi ngày?", options: ["Tốn server", "Tăng false-positive nghiêm trọng (multiple testing)", "Vi phạm RLS", "Không có vấn đề"], answer: 1, explanation: "Peeking biến α=5% thành 30%+ thực tế.", questionEn: "Why shouldn't you peek at the p-value every day?", optionsEn: ["Wastes server resources", "Severely inflates false positives (multiple testing)", "Violates RLS", "No problem at all"], explanationEn: "Peeking turns a nominal α=5% into an actual 30%+." },
+          { question: "Sample Ratio Mismatch nghĩa là?", options: ["Sample quá nhỏ", "Tỉ lệ phân nhánh lệch khỏi thiết kế (vd 60/40)", "Quá nhiều nhánh", "Hết RAM"], answer: 1, explanation: "SRM cho thấy assignment hỏng - kết quả không đáng tin.", questionEn: "Sample Ratio Mismatch means?", optionsEn: ["Sample too small", "The branch split deviates from the design (e.g. 60/40)", "Too many branches", "Out of RAM"], explanationEn: "SRM shows the assignment is broken - results can't be trusted." },
+          { question: "Novelty effect là?", options: ["Bug mới", "User hứng thú tạm thời với phiên bản mới, hết sau 1–2 tuần", "Tốc độ tăng", "Token mới"], answer: 1, explanation: "Phải chạy đủ dài để vượt qua giai đoạn novelty.", questionEn: "The novelty effect is?", optionsEn: ["A new bug", "Users' temporary excitement about the new version, fading after 1-2 weeks", "Increased speed", "A new token"], explanationEn: "Experiments must run long enough to get past the novelty phase." },
+          { question: "p < 0.05 nghĩa là?", options: ["B chắc chắn tốt hơn", "Có bằng chứng B khác A - vẫn cần nhìn effect size và CI", "B tốt 95%", "Không có ý nghĩa"], answer: 1, explanation: "Phải kết hợp effect size và khoảng tin cậy để diễn giải.", questionEn: "p < 0.05 means?", optionsEn: ["B is definitely better", "There's evidence B differs from A - still need to check effect size and CI", "B is 95% good", "It means nothing"], explanationEn: "Effect size and confidence interval must be combined for interpretation." },
+          { question: "Khi nào dừng experiment sớm?", options: ["Khi cảm thấy đủ", "Khi nhánh B gây hại rõ (harm threshold) hoặc dùng khung Bayesian", "Khi sếp yêu cầu", "Bất cứ lúc nào"], answer: 1, explanation: "Dừng sớm tuỳ tiện làm hỏng tính thống kê - chỉ dừng vì harm hoặc Bayesian.", questionEn: "When is it OK to stop an experiment early?", optionsEn: ["Whenever it feels like enough", "When variant B shows clear harm (harm threshold) or using a Bayesian framework", "When the boss asks", "Anytime"], explanationEn: "Arbitrary early stopping breaks statistical validity - only stop for harm or via Bayesian methods." },
         ],
       },
     ],
@@ -456,7 +456,91 @@ print(f"Δ mastery = {diff:+.3f}, t ≈ {t:.2f}  →  {'có ý nghĩa' if abs(t)
         titleEn: "Top 10 EdTech Academic Papers from the University of Helsinki",
         level: 4,
         difficulty: "advanced",
-        theoryEn: `Why read research from the University of Helsinki (UH)? Finland leads PISA, and UH is the largest producer of educational knowledge in the Nordics. Professors such as Hannele Niemi, Kirsti Lonka, Kai Hakkarainen, Auli Toom, Sami Paavola, Minna Lakkala, Erika Löfström, Anne Nevgi, Liisa Postareff, and Katariina Salmela-Aro publish on AIED, CSCL, sustainable pedagogy, multiliteracy, engagement and study burnout. This lesson curates 10 must-read papers with direct Google Scholar links plus the official UH portals: HELDA (helda.helsinki.fi) and the UH research portal (researchportal.helsinki.fi).`,
+        theoryEn: `## 🎓 Why Read Research from the University of Helsinki?
+
+Finland is consistently ranked among the world's top performers in PISA, and the **University of Helsinki (UH)** is the largest producer of educational knowledge in the Nordics. UH professors (Hannele Niemi, Kirsti Lonka, Kai Hakkarainen, Auli Toom, Sami Paavola, Minna Lakkala, Erika Löfström, Anne Nevgi, Liisa Postareff, Katariina Salmela-Aro...) have published thousands of studies on:
+
+- AI in education (AIED)
+- Computer-Supported Collaborative Learning (CSCL)
+- Sustainable pedagogy
+- Multiliteracy and digital literacy
+- Mental health & study engagement (engagement, burnout)
+
+> 📚 Fast-reading tip: for each paper, read **Abstract → Conclusion → Figures** first. Only go back to the Method section if it looks especially relevant.
+
+---
+
+## 📖 10 Curated Must-Reads
+
+### 1. AI in Learning: Preparing Grounds for Future Learning
+- **Lead author:** Hannele Niemi (UH, Professor Emerita of Education)
+- **Summary:** An overview of how AI is reshaping the classroom, from adaptive learning to data ethics. Foundational reading for any teacher who wants to use AI humanely.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Hannele+Niemi+AI+in+learning+preparing+grounds)
+
+### 2. Engaging Learning Environments for the Future - Phenomenon-Based Learning
+- **Lead author:** Kirsti Lonka (UH, Professor of Educational Psychology)
+- **Summary:** The "phenomenon-based learning" model - cross-subject learning organized around real-world phenomena - became the standard of Finland's national curriculum in 2016.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Kirsti+Lonka+phenomenon-based+learning)
+
+### 3. The Knowledge Creation Metaphor - A Third Approach to Learning
+- **Lead authors:** Sami Paavola & Kai Hakkarainen (UH)
+- **Summary:** Introduces a "third metaphor" of learning (alongside acquisition and participation): learning as **creating new knowledge**. A guiding principle for any collaborative EdTech platform.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Paavola+Hakkarainen+knowledge+creation+metaphor)
+
+### 4. Networked Expertise - Professional and Educational Perspectives
+- **Lead authors:** Kai Hakkarainen, Sami Paavola, Kirsti Lonka (UH)
+- **Summary:** A landmark work on "networked expertise" - explaining why connected learning groups outperform isolated experts in the digital era.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Hakkarainen+networked+expertise)
+
+### 5. Designing Pedagogical Infrastructures for Trialogical Learning
+- **Lead authors:** Minna Lakkala, Liisa Ilomäki, Sami Paavola (UH)
+- **Summary:** The "trialogical learning" framework - designing lessons around a **shared knowledge artifact**. A template for any project-based platform.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Lakkala+Paavola+trialogical+learning+design)
+
+### 6. Teacher Education in Finland - Research-Based Curriculum
+- **Lead authors:** Auli Toom & Jukka Husu (UH, Faculty of Educational Sciences)
+- **Summary:** Analyzes why every Finnish teacher holds a Master's degree and is trained under the "research-based teacher education" model.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Auli+Toom+research-based+teacher+education+Finland)
+
+### 7. Schoolwork Engagement and Burnout Among Finnish Students
+- **Lead author:** Katariina Salmela-Aro (UH, Professor of Educational Psychology)
+- **Summary:** The EDA (Engagement) and SBI (Study Burnout Inventory) scales - the gold standard for measuring engagement and academic burnout. Applicable to any LMS.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Salmela-Aro+schoolwork+engagement+burnout)
+
+### 8. Conceptions of Teaching and Approaches to Teaching in Higher Education
+- **Lead authors:** Liisa Postareff & Sari Lindblom-Ylänne (UH, Centre for University Teaching and Learning)
+- **Summary:** Describes the "teacher-focused → student-focused" spectrum - used to improve university teaching and design EdTech courses for adults.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Postareff+Lindblom-Yl%C3%A4nne+conceptions+of+teaching)
+
+### 9. Ethics in Educational Research and AI-Supported Learning
+- **Lead author:** Erika Löfström (UH, Professor of Education)
+- **Summary:** An ethics framework for educational research - especially important when an LMS collects behavioral data from minors.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Erika+L%C3%B6fstr%C3%B6m+ethics+educational+research)
+
+### 10. Approaches to Learning and Study Success in Higher Education
+- **Lead authors:** Anne Nevgi & Sari Lindblom-Ylänne (UH)
+- **Summary:** Links "deep / surface / strategic approach" to academic performance - the basis for adaptive systems that recommend the right study strategy.
+- 🔗 [Read on Google Scholar](https://scholar.google.com/scholar?q=Anne+Nevgi+approaches+to+learning+higher+education)
+
+---
+
+## 🧭 How to Use This Reading List
+
+\`\`\`
+   ┌────────────┐    ┌─────────────┐    ┌────────────────┐
+   │ 1. Pick    │ ─▶ │ 2. Read 30' │ ─▶ │ 3. Note 3      │
+   │   1 paper  │    │   (Abstract │    │   applications │
+   │   /week    │    │   + Concl.) │    │   for class/app│
+   └────────────┘    └─────────────┘    └────────────────┘
+\`\`\`
+
+> 💡 Each paper is a "pedagogical brick". Read all 10 and you'll have built an EdTech foundation as solid as Finland's.
+
+## 🔗 Official UH Research Portals
+
+- **HELDA** (UH's thesis & article repository): [helda.helsinki.fi](https://helda.helsinki.fi)
+- **TUHAT** (UH's research portal): [researchportal.helsinki.fi](https://researchportal.helsinki.fi)
+- **Faculty of Educational Sciences:** [helsinki.fi/en/faculty-educational-sciences](https://www.helsinki.fi/en/faculty-educational-sciences)`,
         theory: `## 🎓 Vì sao đọc nghiên cứu từ Đại học Helsinki?
 
 Phần Lan luôn nằm trong top thế giới về PISA, và **Đại học Helsinki (UH)** là trung tâm sản xuất tri thức giáo dục lớn nhất Bắc Âu. Các giáo sư của UH (Hannele Niemi, Kirsti Lonka, Kai Hakkarainen, Auli Toom, Sami Paavola, Minna Lakkala, Erika Löfström, Anne Nevgi, Liisa Postareff, Katariina Salmela-Aro…) đã xuất bản hàng nghìn nghiên cứu về:
