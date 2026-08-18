@@ -408,8 +408,10 @@ const CambridgeMockExam = () => {
                       📖 {currentGroup.from === currentGroup.to
                         ? t(`Bài đọc ${currentGroup.index} - câu ${currentGroup.from}`, `Text ${currentGroup.index} - question ${currentGroup.from}`)
                         : t(`Bài đọc ${currentGroup.index} - câu ${currentGroup.from}-${currentGroup.to}`, `Text ${currentGroup.index} - questions ${currentGroup.from}-${currentGroup.to}`)}
-
+                    </span>
+                    <ChevronDown className={`ml-auto h-5 w-5 text-[#1D4ED8] transition-transform lg:hidden ${textOpen ? "rotate-180" : ""}`} />
                   </button>
+
                   <div className={`${textOpen ? "block" : "hidden"} lg:block`}>
                     <p className="whitespace-pre-wrap text-lg md:text-xl leading-8 md:leading-9 text-[#111827]">{currentGroup.passage}</p>
 
