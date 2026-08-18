@@ -539,6 +539,7 @@ import { cambridgeExamsPet16 } from "./cambridgeExamsPet16";
 import { withCambridgeReadingSets } from "./cambridgeReadingSetInjector";
 
 import { normalizeCambridgeMockExam } from "./cambridgeMockExamNormalizer";
+import { withCambridgeOrphanPassages } from "./cambridgeReadingOrphanPassages";
 import { equalizeCambridgeMockExam } from "./cambridgeMockExamEqualizer";
 
 // Balanced answer keys + full bilingual explanations on every question.
@@ -568,7 +569,7 @@ export const cambridgeMockExams: CambridgeMockExam[] = [
   ...cambridgeExamsFlyers15,
   ...cambridgeExamsKet15,
   ...cambridgeExamsPet16,
-].map(withCambridgeReadingSets).map(equalizeCambridgeMockExam).map(normalizeCambridgeMockExam);
+].map(withCambridgeReadingSets).map(withCambridgeOrphanPassages).map(equalizeCambridgeMockExam).map(normalizeCambridgeMockExam);
 
 export const CAMBRIDGE_LEVEL_LABELS: Record<string, { label: string; labelVi: string; emoji: string; color: string; bgClass: string }> = {
   starters: { label: "STARTERS", labelVi: "STARTERS", emoji: "🎨", color: "#FF6B6B", bgClass: "bg-[#FF6B6B]/10" },

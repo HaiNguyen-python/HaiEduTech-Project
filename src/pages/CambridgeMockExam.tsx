@@ -49,12 +49,14 @@ const buildTextGroups = (exam: ExamType | null): Record<number, TextGroup> => {
     if (q.section === "Reading & Writing" && q.passage) {
       let j = i;
       while (j + 1 < qs.length && qs[j + 1].section === "Reading & Writing" && qs[j + 1].passage === q.passage) j += 1;
-      if (j > i) {
-        textIndex += 1;
-        const group: TextGroup = { passage: q.passage, from: i + 1, to: j + 1, index: textIndex };
-        for (let k = i; k <= j; k += 1) map[k] = group;
-      }
+      // Single-question texts also get a group so their passage is always
+      // rendered (previously only shared texts were shown, so standalone
+      // notices/emails disappeared and the question looked context-free).
+      textIndex += 1;
+      const group: TextGroup = { passage: q.passage, from: i + 1, to: j + 1, index: textIndex };
+      for (let k = i; k <= j; k += 1) map[k] = group;
       i = j + 1;
+
     } else {
       i += 1;
     }
@@ -403,10 +405,13 @@ const CambridgeMockExam = () => {
                     className="mb-3 flex w-full items-center gap-2 text-left lg:cursor-default"
                   >
                     <span className="text-base font-black uppercase tracking-wide text-[#1D4ED8]">
-                      📖 {t(`Bài đọc ${currentGroup.index} - câu ${currentGroup.from}-${currentGroup.to}`, `Text ${currentGroup.index} - questions ${currentGroup.from}-${currentGroup.to}`)}
+                      📖 {currentGroup.from === currentGroup.to
+                        ? t(`Bài đọc ${currentGroup.index} - câu ${currentGroup.from}`, `Text ${currentGroup.index} - question ${currentGroup.from}`)
+                        : t(`Bài đọc ${currentGroup.index} - câu ${currentGroup.from}-${currentGroup.to}`, `Text ${currentGroup.index} - questions ${currentGroup.from}-${currentGroup.to}`)}
                     </span>
                     <ChevronDown className={`ml-auto h-5 w-5 text-[#1D4ED8] transition-transform lg:hidden ${textOpen ? "rotate-180" : ""}`} />
                   </button>
+
                   <div className={`${textOpen ? "block" : "hidden"} lg:block`}>
                     <p className="whitespace-pre-wrap text-lg md:text-xl leading-8 md:leading-9 text-[#111827]">{currentGroup.passage}</p>
 
