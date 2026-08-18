@@ -454,7 +454,7 @@ const FloatingNotebook = () => {
     }
   }, [title, subject, getContent, toast]);
 
-  // Auto-save after 2.5s of inactivity (sync-safe). editorTick ensures the
+  // Auto-save after a short pause (sync-safe). editorTick ensures the
   // effect actually re-fires on every keystroke.
   // ALSO mirrors every change to localStorage immediately so a tab close,
   // network blip or quick close before debounce never loses typing.
@@ -469,7 +469,7 @@ const FloatingNotebook = () => {
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     autoSaveTimer.current = setTimeout(() => {
       handleSave();
-    }, 1200);
+    }, 500);
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
   }, [editorTick, title, subject, open, user, selectedId, handleSave, writeDraft, getContent]);
 
@@ -478,10 +478,8 @@ const FloatingNotebook = () => {
   const draftRestoredRef = useRef(false);
   useEffect(() => {
     if (!open || !user || !editor || draftRestoredRef.current) return;
-    // Wait until the saved-notes list has finished loading. Without this,
-    // a stale "new" draft would set userCreatingNew=true and block the
-    // auto-open of the user's most recent saved note — which is what
-    // made students think their old notes had disappeared.
+    // Wait until the saved-notes list has finished loading so we can compare
+    // the draft against the server state.
     if (listLoading) return;
     try {
       const raw = localStorage.getItem(draftKey(null));
@@ -491,29 +489,38 @@ const FloatingNotebook = () => {
       }
       const draft = JSON.parse(raw) as { title: string; subject: string; content: string };
       const stripped = (draft.content || "").replace(/<[^>]*>/g, "").trim();
-      // Only restore a "new" draft when it actually has meaningful content
-      // AND the user has no other saved notes to fall back on. Otherwise
-      // prefer showing their saved notes — the draft is still safe in
-      // localStorage and they can recover it by clicking "Tạo mới".
+      // Only restore a "new" draft when it actually has meaningful content.
       if (stripped.length < 3 && !draft.title?.trim()) {
         draftRestoredRef.current = true;
         return;
       }
-      if (notebooks.length > 0) {
+      // If this draft was already promoted to a saved note (same content),
+      // don't restore it as a duplicate "new" note.
+      const alreadySaved = notebooks.some(
+        (nb) => (nb.content || "").replace(/<[^>]*>/g, "").trim() === stripped
+      );
+      if (alreadySaved) {
+        clearDraft(null);
         draftRestoredRef.current = true;
         return;
       }
+      // Restore the unsaved draft even when other saved notes exist — losing
+      // typed content was the top complaint. It is promoted to the server by
+      // the auto-save effect right after this.
       userCreatingNew.current = true;
       setSelectedId(null);
       setTitle(draft.title || "");
       setSubject(draft.subject || "general");
-      skipNextAutoSave.current = true;
       editor.commands.setContent(draft.content || "");
       lastSyncedUpdatedAt.current = null;
       draftRestoredRef.current = true;
       toast({ title: "Đã khôi phục bản nháp chưa lưu" });
+      // Promote immediately so a page reset can never lose it again.
+      setTimeout(() => { void handleSave(); }, 100);
     } catch { /* ignore */ }
-  }, [open, user, editor, draftKey, toast, listLoading, notebooks.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, user, editor, draftKey, toast, listLoading, notebooks, clearDraft]);
+
 
 
   // Flush-save on panel close so quick edits (< debounce window) survive.
