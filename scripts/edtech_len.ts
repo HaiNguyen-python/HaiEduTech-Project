@@ -1,0 +1,10 @@
+import { edtechModules, edtechExpansionModules, edtechAdvancedModules, edtechGlobalResearchModules, edtechAiInEdtechModules, edtechResearchMethodsModules, edtechPracticumModules, edtechProductLandscapeModules } from "../src/data/curriculum/index";
+const all = [...edtechModules, ...edtechExpansionModules, ...edtechAdvancedModules, ...edtechGlobalResearchModules, ...edtechAiInEdtechModules, ...edtechResearchMethodsModules, ...edtechPracticumModules, ...edtechProductLandscapeModules];
+const rows: any[] = [];
+for (const m of all) for (const l of m.lessons) rows.push({m: m.id, l: l.id, vi: l.theory.length, en: l.theoryEn.length, diff: Math.abs(l.theory.length-l.theoryEn.length), q: l.quiz.length});
+rows.sort((a,b)=>a.vi-b.vi);
+console.log("total lessons", rows.length);
+for (const r of rows.slice(0,20)) console.log(r);
+console.log("--- biggest VI/EN gap");
+rows.sort((a,b)=>b.diff/Math.max(b.vi,1)-a.diff/Math.max(a.vi,1));
+for (const r of rows.slice(0,15)) console.log(r);

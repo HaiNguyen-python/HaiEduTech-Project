@@ -1,0 +1,3 @@
+import { edtechModules, edtechExpansionModules, edtechAdvancedModules, edtechGlobalResearchModules, edtechAiInEdtechModules, edtechResearchMethodsModules, edtechPracticumModules, edtechProductLandscapeModules } from "../src/data/curriculum/index";
+const all = [...edtechModules, ...edtechExpansionModules, ...edtechAdvancedModules, ...edtechGlobalResearchModules, ...edtechAiInEdtechModules, ...edtechResearchMethodsModules, ...edtechPracticumModules, ...edtechProductLandscapeModules];
+for (const m of all) { console.log("#", m.id, "|", m.titleEn); for (const l of m.lessons) console.log("  ", l.id, "|", l.title, "||", l.titleEn); }
