@@ -895,16 +895,14 @@ const CLARITY: Record<string, ClarityEntry> = {
   },
 };
 
-const MARKER = "<!-- edtech-clarity -->";
+const MARKER = "## 🧭";
 
 const buildBlock = (e: ClarityEntry, en: boolean) => {
   const terms = (en ? e.termsEn : e.terms)
     .map(([t, d]) => `| **${t}** | ${d} |`)
     .join("\n");
   if (en) {
-    return `${MARKER}
-
-## 🧭 In one sentence
+    return `## 🧭 In one sentence
 
 > ${e.gistEn}
 
@@ -922,9 +920,7 @@ ${e.exampleEn}
 
 ${e.mistakeEn}`;
   }
-  return `${MARKER}
-
-## 🧭 Tóm lại trong một câu
+  return `## 🧭 Tóm lại trong một câu
 
 > ${e.gist}
 
