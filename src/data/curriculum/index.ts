@@ -20,6 +20,7 @@ import { edtechAdvancedModules } from "./edtechAdvanced";
 import { edtechGlobalResearchModules } from "./edtechGlobalResearch";
 import { edtechAiInEdtechModules } from "./edtechAiInEdtech";
 import { edtechResearchMethodsModules } from "./edtechResearchMethods";
+import { edtechPracticumModules } from "./edtechPracticum";
 import { programmingInteractiveLabsModules } from "./programmingInteractiveLabs";
 import { programmingMasteryLabsModules } from "./programmingMasteryLabs";
 import { cybersecurityModules } from "./cybersecurityLessons";
@@ -27,7 +28,7 @@ import { startupModules } from "./startupLessons";
 import type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase } from "./types";
 
 export type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase };
-export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, nlpExpansionModules, nlpProductionModules, nlpAdvancedModules, rlModules, softwareEngModules, webDevModules, edtechModules, edtechExpansionModules, edtechAdvancedModules, edtechGlobalResearchModules, edtechAiInEdtechModules, edtechResearchMethodsModules, programmingInteractiveLabsModules, programmingMasteryLabsModules, cybersecurityModules, startupModules };
+export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, nlpExpansionModules, nlpProductionModules, nlpAdvancedModules, rlModules, softwareEngModules, webDevModules, edtechModules, edtechExpansionModules, edtechAdvancedModules, edtechGlobalResearchModules, edtechAiInEdtechModules, edtechResearchMethodsModules, edtechPracticumModules, programmingInteractiveLabsModules, programmingMasteryLabsModules, cybersecurityModules, startupModules };
 
 // Combined expanded modules array
 export const expandedModules: ExtendedProgrammingModule[] = [
@@ -52,6 +53,7 @@ export const expandedModules: ExtendedProgrammingModule[] = [
   ...edtechGlobalResearchModules,
   ...edtechAiInEdtechModules,
   ...edtechResearchMethodsModules,
+  ...edtechPracticumModules,
   ...programmingInteractiveLabsModules,
   ...programmingMasteryLabsModules,
   ...cybersecurityModules,
