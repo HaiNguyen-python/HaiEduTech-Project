@@ -906,14 +906,43 @@ const FloatingNotebook = () => {
                   </div>
                 )}
               </div>
+
+              {/* Font size control */}
+              <div className="flex items-center gap-1 ml-auto rounded-md px-1" style={{ border: `1px solid ${theme.border}` }}>
+                <button
+                  type="button"
+                  onClick={() => setFontSize((s) => Math.max(12, s - 2))}
+                  disabled={fontSize <= 12}
+                  className="px-1.5 py-0.5 rounded text-xs hover:bg-primary/10 disabled:opacity-40"
+                  title="Giảm cỡ chữ"
+                  style={{ color: theme.text }}
+                >
+                  A-
+                </button>
+                <span className="text-[10px] tabular-nums" style={{ color: theme.text, opacity: 0.7 }}>{fontSize}</span>
+                <button
+                  type="button"
+                  onClick={() => setFontSize((s) => Math.min(32, s + 2))}
+                  disabled={fontSize >= 32}
+                  className="px-1.5 py-0.5 rounded text-sm font-semibold hover:bg-primary/10 disabled:opacity-40"
+                  title="Tăng cỡ chữ"
+                  style={{ color: theme.text }}
+                >
+                  A+
+                </button>
+              </div>
             </div>
 
             {/* Editor */}
             <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
-              <div className="rounded-md h-full overflow-auto" style={{ backgroundColor: theme.editorBg, border: `1px solid ${theme.border}` }}>
+              <div
+                className="rounded-md h-full overflow-auto"
+                style={{ backgroundColor: theme.editorBg, border: `1px solid ${theme.border}`, fontSize: `${fontSize}px` }}
+              >
                 <EditorContent editor={editor} />
               </div>
             </div>
+
 
             {/* Footer */}
             <div className="flex items-center justify-between px-3 py-2 text-xs" style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
