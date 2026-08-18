@@ -49,12 +49,14 @@ const buildTextGroups = (exam: ExamType | null): Record<number, TextGroup> => {
     if (q.section === "Reading & Writing" && q.passage) {
       let j = i;
       while (j + 1 < qs.length && qs[j + 1].section === "Reading & Writing" && qs[j + 1].passage === q.passage) j += 1;
-      if (j > i) {
-        textIndex += 1;
-        const group: TextGroup = { passage: q.passage, from: i + 1, to: j + 1, index: textIndex };
-        for (let k = i; k <= j; k += 1) map[k] = group;
-      }
+      // Single-question texts also get a group so their passage is always
+      // rendered (previously only shared texts were shown, so standalone
+      // notices/emails disappeared and the question looked context-free).
+      textIndex += 1;
+      const group: TextGroup = { passage: q.passage, from: i + 1, to: j + 1, index: textIndex };
+      for (let k = i; k <= j; k += 1) map[k] = group;
       i = j + 1;
+
     } else {
       i += 1;
     }
