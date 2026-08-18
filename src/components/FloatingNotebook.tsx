@@ -428,7 +428,7 @@ const FloatingNotebook = () => {
           <h1 style="font-size:26px; font-weight:800; margin:6px 0 4px; color:#0f172a;">${(title || "Ghi chú không tiêu đề").replace(/[<>]/g, "")}</h1>
           <div style="display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; background:linear-gradient(90deg,#3B82F6,#10B981); color:#fff;">${subjLabel}</div>
         </div>
-        <div id="pdf-body" style="font-size:14px;">${getContent() || "<p><em>Chưa có nội dung</em></p>"}</div>
+        <div id="pdf-body" style="font-size:${Math.min(18, Math.max(13, fontSize))}px;">${getContent() || "<p><em>Chưa có nội dung</em></p>"}</div>
         <div data-pdf-block style="margin-top:32px; padding-top:12px; border-top:1px solid #e2e8f0; font-size:10px; color:#94a3b8; display:flex; justify-content:space-between;">
           <span>© ${new Date().getFullYear()} HaiEduTech · haiedutech.com</span>
           <span>Xuất từ Sổ tay học sinh</span>
@@ -516,7 +516,7 @@ const FloatingNotebook = () => {
       console.error("PDF export error:", err);
       toast({ title: "Lỗi xuất PDF", variant: "destructive" });
     }
-  }, [title, subject, getContent, toast]);
+  }, [title, subject, getContent, toast, fontSize]);
 
   // Auto-save after a short pause (sync-safe). editorTick ensures the
   // effect actually re-fires on every keystroke.
