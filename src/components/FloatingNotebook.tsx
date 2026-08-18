@@ -101,6 +101,15 @@ const FloatingNotebook = () => {
   // Resizable state
   const resizing = useRef<null | "right" | "bottom" | "corner">(null);
 
+  // Editor font size (px), remembered per device for accessibility.
+  const [fontSize, setFontSize] = useState<number>(() => {
+    const raw = Number(localStorage.getItem("notebook-font-size"));
+    return raw >= 12 && raw <= 32 ? raw : 14;
+  });
+  useEffect(() => {
+    localStorage.setItem("notebook-font-size", String(fontSize));
+  }, [fontSize]);
+
   // Tiptap editor — onUpdate triggers a React re-render so auto-save fires.
   const editor = useEditor({
     extensions: [
@@ -114,11 +123,12 @@ const FloatingNotebook = () => {
     content: "",
     editorProps: {
       attributes: {
-        class: "prose prose-sm max-w-none focus:outline-none min-h-[280px] px-3 py-2 text-sm text-foreground notebook-editor",
+        class: "prose max-w-none focus:outline-none min-h-[280px] px-3 py-2 text-foreground notebook-editor",
       },
     },
     onUpdate: () => setEditorTick((t) => t + 1),
   });
+
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -400,47 +410,100 @@ const FloatingNotebook = () => {
 
       // Build a styled offscreen container for rendering.
       const wrap = document.createElement("div");
+      const WRAP_W = 794; // CSS px width matching A4 at 96dpi
       wrap.style.cssText = `
         position: fixed; left: -10000px; top: 0;
-        width: 794px; padding: 56px 64px; background: #ffffff;
+        width: ${WRAP_W}px; padding: 56px 64px; background: #ffffff;
         font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-        color: #0f172a; line-height: 1.7;
+        color: #0f172a; line-height: 1.7; box-sizing: border-box;
       `;
       const today = new Date().toLocaleDateString("vi-VN", { year: "numeric", month: "long", day: "numeric" });
       const subjLabel = (subject || "general").replace(/\b\w/g, (c) => c.toUpperCase());
       wrap.innerHTML = `
-        <div style="border-bottom: 3px solid #3B82F6; padding-bottom: 16px; margin-bottom: 24px;">
+        <div data-pdf-block style="border-bottom: 3px solid #3B82F6; padding-bottom: 16px; margin-bottom: 24px;">
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
             <div style="font-size:11px; font-weight:700; letter-spacing:2px; color:#3B82F6; text-transform:uppercase;">HaiEduTech · Sổ tay học sinh</div>
             <div style="font-size:11px; color:#64748b;">${today}</div>
           </div>
-          <h1 style="font-size:28px; font-weight:800; margin:6px 0 4px; color:#0f172a;">${(title || "Ghi chú không tiêu đề").replace(/[<>]/g, "")}</h1>
+          <h1 style="font-size:26px; font-weight:800; margin:6px 0 4px; color:#0f172a;">${(title || "Ghi chú không tiêu đề").replace(/[<>]/g, "")}</h1>
           <div style="display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; background:linear-gradient(90deg,#3B82F6,#10B981); color:#fff;">${subjLabel}</div>
         </div>
-        <div style="font-size:14px;">${getContent() || "<p><em>Chưa có nội dung</em></p>"}</div>
-        <div style="margin-top:32px; padding-top:12px; border-top:1px solid #e2e8f0; font-size:10px; color:#94a3b8; display:flex; justify-content:space-between;">
+        <div id="pdf-body" style="font-size:${Math.min(18, Math.max(13, fontSize))}px;">${getContent() || "<p><em>Chưa có nội dung</em></p>"}</div>
+        <div data-pdf-block style="margin-top:32px; padding-top:12px; border-top:1px solid #e2e8f0; font-size:10px; color:#94a3b8; display:flex; justify-content:space-between;">
           <span>© ${new Date().getFullYear()} HaiEduTech · haiedutech.com</span>
           <span>Xuất từ Sổ tay học sinh</span>
         </div>
       `;
+      // Keep body blocks readable and prevent tight lists in the PDF.
+      const body = wrap.querySelector("#pdf-body") as HTMLElement | null;
+      if (body) {
+        body.querySelectorAll<HTMLElement>("p, li, h1, h2, h3, h4, blockquote").forEach((el) => {
+          el.style.margin = el.tagName === "LI" ? "2px 0" : "0 0 10px";
+          el.style.lineHeight = "1.65";
+        });
+        body.querySelectorAll<HTMLElement>("ul, ol").forEach((el) => {
+          el.style.margin = "0 0 12px";
+          el.style.paddingLeft = "22px";
+        });
+        body.querySelectorAll<HTMLElement>("img").forEach((el) => {
+          el.style.maxWidth = "100%";
+          el.style.height = "auto";
+        });
+      }
       document.body.appendChild(wrap);
       try {
         const canvas = await html2canvas(wrap, { scale: 2, backgroundColor: "#ffffff", useCORS: true });
-        const imgData = canvas.toDataURL("image/jpeg", 0.92);
         const pdf = new jsPDF({ unit: "pt", format: "a4" });
         const pageW = pdf.internal.pageSize.getWidth();
         const pageH = pdf.internal.pageSize.getHeight();
-        const imgW = pageW;
-        const imgH = (canvas.height * imgW) / canvas.width;
-        let heightLeft = imgH;
-        let position = 0;
-        pdf.addImage(imgData, "JPEG", 0, position, imgW, imgH);
-        heightLeft -= pageH;
-        while (heightLeft > 0) {
-          position = heightLeft - imgH;
-          pdf.addPage();
-          pdf.addImage(imgData, "JPEG", 0, position, imgW, imgH);
-          heightLeft -= pageH;
+        const cssToPt = pageW / WRAP_W;          // CSS px -> PDF pt
+        const pxPerCss = canvas.width / WRAP_W;  // canvas px per CSS px
+        const pageCssH = pageH / cssToPt;        // usable CSS px per page
+
+        // Collect safe break offsets (bottom of every top-level block) so a
+        // page break never cuts through a line of text.
+        const wrapTop = wrap.getBoundingClientRect().top;
+        const breaks: number[] = [];
+        const collect = (el: Element) => {
+          const r = el.getBoundingClientRect();
+          breaks.push(r.bottom - wrapTop);
+        };
+        wrap.querySelectorAll(":scope > [data-pdf-block]").forEach(collect);
+        if (body) {
+          body.querySelectorAll(":scope > *").forEach((child) => {
+            collect(child);
+            // List items are also valid break points.
+            child.querySelectorAll(":scope > li").forEach(collect);
+          });
+        }
+        const totalCss = wrap.scrollHeight;
+        const sorted = Array.from(new Set(breaks.filter((b) => b > 0 && b < totalCss))).sort((a, b) => a - b);
+
+        let start = 0;
+        let page = 0;
+        const GAP = 6; // small breathing space after each break
+        while (start < totalCss - 1) {
+          const limit = start + pageCssH;
+          let end = totalCss;
+          if (limit < totalCss) {
+            const candidates = sorted.filter((b) => b > start + 40 && b <= limit);
+            end = candidates.length ? candidates[candidates.length - 1] + GAP : limit;
+          }
+          const sy = Math.round(start * pxPerCss);
+          const sh = Math.min(Math.round((end - start) * pxPerCss), canvas.height - sy);
+          if (sh <= 0) break;
+          const slice = document.createElement("canvas");
+          slice.width = canvas.width;
+          slice.height = sh;
+          const ctx = slice.getContext("2d");
+          if (!ctx) break;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, slice.width, slice.height);
+          ctx.drawImage(canvas, 0, sy, canvas.width, sh, 0, 0, canvas.width, sh);
+          if (page > 0) pdf.addPage();
+          pdf.addImage(slice.toDataURL("image/jpeg", 0.95), "JPEG", 0, 0, pageW, (sh / pxPerCss) * cssToPt);
+          page += 1;
+          start = end;
         }
         const fname = (title || "ghi-chu").replace(/[^\p{L}\p{N}\-_ ]+/gu, "").trim().replace(/\s+/g, "-").slice(0, 60) || "ghi-chu";
         pdf.save(`${fname}.pdf`);
@@ -448,11 +511,12 @@ const FloatingNotebook = () => {
       } finally {
         document.body.removeChild(wrap);
       }
+
     } catch (err) {
       console.error("PDF export error:", err);
       toast({ title: "Lỗi xuất PDF", variant: "destructive" });
     }
-  }, [title, subject, getContent, toast]);
+  }, [title, subject, getContent, toast, fontSize]);
 
   // Auto-save after a short pause (sync-safe). editorTick ensures the
   // effect actually re-fires on every keystroke.
@@ -842,14 +906,43 @@ const FloatingNotebook = () => {
                   </div>
                 )}
               </div>
+
+              {/* Font size control */}
+              <div className="flex items-center gap-1 ml-auto rounded-md px-1" style={{ border: `1px solid ${theme.border}` }}>
+                <button
+                  type="button"
+                  onClick={() => setFontSize((s) => Math.max(12, s - 2))}
+                  disabled={fontSize <= 12}
+                  className="px-1.5 py-0.5 rounded text-xs hover:bg-primary/10 disabled:opacity-40"
+                  title="Giảm cỡ chữ"
+                  style={{ color: theme.text }}
+                >
+                  A-
+                </button>
+                <span className="text-[10px] tabular-nums" style={{ color: theme.text, opacity: 0.7 }}>{fontSize}</span>
+                <button
+                  type="button"
+                  onClick={() => setFontSize((s) => Math.min(32, s + 2))}
+                  disabled={fontSize >= 32}
+                  className="px-1.5 py-0.5 rounded text-sm font-semibold hover:bg-primary/10 disabled:opacity-40"
+                  title="Tăng cỡ chữ"
+                  style={{ color: theme.text }}
+                >
+                  A+
+                </button>
+              </div>
             </div>
 
             {/* Editor */}
             <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
-              <div className="rounded-md h-full overflow-auto" style={{ backgroundColor: theme.editorBg, border: `1px solid ${theme.border}` }}>
+              <div
+                className="rounded-md h-full overflow-auto"
+                style={{ backgroundColor: theme.editorBg, border: `1px solid ${theme.border}`, fontSize: `${fontSize}px` }}
+              >
                 <EditorContent editor={editor} />
               </div>
             </div>
+
 
             {/* Footer */}
             <div className="flex items-center justify-between px-3 py-2 text-xs" style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
