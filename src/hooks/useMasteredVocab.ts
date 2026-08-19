@@ -29,6 +29,7 @@ const stampCooldown = () => {
 };
 
 const storageKey = (subject: string) => `vocab_mastered_${subject}`;
+const pendingKey = (subject: string) => `vocab_mastered_pending_${subject}`;
 
 const readLocal = (subject: string): Set<string> => {
   try {
@@ -46,6 +47,34 @@ const writeLocal = (subject: string, set: Set<string>) => {
     localStorage.setItem(storageKey(subject), JSON.stringify([...set]));
   } catch {/* noop */}
 };
+
+/**
+ * Words that could not reach the database yet (offline, or rejected by the
+ * server-side burst limiter of max 8 marks / 60s). Without this queue the word
+ * stayed in localStorage only, so the leaderboard score was permanently lower
+ * than the "You mastered N words" number shown to the student.
+ */
+const readPending = (subject: string): string[] => {
+  try {
+    const raw = localStorage.getItem(pendingKey(subject));
+    return raw ? (JSON.parse(raw) as string[]) : [];
+  } catch { return []; }
+};
+
+const writePending = (subject: string, words: string[]) => {
+  try {
+    if (words.length === 0) localStorage.removeItem(pendingKey(subject));
+    else localStorage.setItem(pendingKey(subject), JSON.stringify([...new Set(words)]));
+  } catch {/* noop */}
+};
+
+const queuePending = (subject: string, word: string) => {
+  writePending(subject, [...readPending(subject), word]);
+};
+
+const isRateLimit = (error: any) =>
+  String(error?.message || "").includes("rate_limit");
+
 
 export function useMasteredVocab(subject: string) {
   const [mastered, setMastered] = useState<Set<string>>(() => readLocal(subject));
