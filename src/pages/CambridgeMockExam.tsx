@@ -334,8 +334,25 @@ const CambridgeMockExam = () => {
                           <p className="text-base italic leading-7 text-[#111827]">"{evidence}"</p>
                         </div>
                       )}
-                      <p className="mt-3 text-base text-[#334155]">💡 {q.explanation}</p>
-                      {isVi && q.explanationVi && <p className="mt-1 text-base text-[#475569]">🇻🇳 {q.explanationVi}</p>}
+                      {(() => {
+                        const help = buildReviewExplanation({
+                          section: q.section,
+                          question: q.question,
+                          correct: q.options[q.correctAnswer] ?? "",
+                          explanation: q.explanation,
+                          explanationVi: q.explanationVi,
+                          hasEvidence: Boolean(evidence),
+                        });
+                        return (
+                          <div className="mt-3 rounded-xl border-2 border-amber-200 bg-amber-50/70 p-3">
+                            <p className="mb-1 text-sm font-black uppercase tracking-wide text-amber-700">
+                              💡 {t("Giải thích", "Why this answer")}
+                            </p>
+                            <p className="text-base leading-7 text-[#334155]">{help.en}</p>
+                            {isVi && <p className="mt-1 text-base leading-7 text-[#475569]">🇻🇳 {help.vi}</p>}
+                          </div>
+                        );
+                      })()}
                     </div>
 
                   </div>
