@@ -337,12 +337,18 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   else if (pos === "adv") pool = ADV_TEMPLATES;
   else pool = NOUN_POOLS[entry.category] || GENERIC;
 
-  const start = hash(word) % pool.length;
-  for (let i = 0; i < pool.length; i++) {
-    const t = pool[(start + i) % pool.length];
-    const out = render(t, word, entry.definition.en);
-    if (out) return { example: out[0], exampleEn: out[1] };
+  // Category templates come first (best semantic fit); neutral generic ones are
+  // only used when no category template can be inflected safely.
+  const chains = pool === GENERIC ? [GENERIC] : [pool, GENERIC];
+  for (const chain of chains) {
+    const start = hash(word) % chain.length;
+    for (let i = 0; i < chain.length; i++) {
+      const t = chain[(start + i) % chain.length];
+      const out = render(t, word, entry.definition.en);
+      if (out) return { example: out[0], exampleEn: out[1] };
+    }
   }
+
   // Last resort: nominative-only generic sentence (always grammatical).
   const gloss = entry.definition.en.replace(/^to\s+/i, "");
   return {
