@@ -32,14 +32,14 @@ function unsupported(word: string): boolean {
 
 /** Consonant gradation strong -> weak, applied to the final syllable only. */
 const GRADATION: [RegExp, string][] = [
-  [/kk([aouyäö])$/, "k$1"],
-  [/pp([aouyäö])$/, "p$1"],
-  [/tt([aouyäö])$/, "t$1"],
-  [/nk([aouyäö])$/, "ng$1"],
-  [/mp([aouyäö])$/, "mm$1"],
-  [/lt([aouyäö])$/, "ll$1"],
-  [/nt([aouyäö])$/, "nn$1"],
-  [/rt([aouyäö])$/, "rr$1"],
+  [/kk([aouyäöi])$/, "k$1"],
+  [/pp([aouyäöi])$/, "p$1"],
+  [/tt([aouyäöi])$/, "t$1"],
+  [/nk([aouyäöi])$/, "ng$1"],
+  [/mp([aouyäöi])$/, "mm$1"],
+  [/lt([aouyäöi])$/, "ll$1"],
+  [/nt([aouyäöi])$/, "nn$1"],
+  [/rt([aouyäöi])$/, "rr$1"],
 ];
 
 /** Single k/p/t between vowels is irregular (katu->kadun, lupa->luvan, aika->ajan). */
