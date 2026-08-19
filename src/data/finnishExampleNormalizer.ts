@@ -124,7 +124,7 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "part", fi: "Yritän ymmärtää {w} paremmin.", en: "I try to understand the {en} better." },
   ],
   Education: [
-    { form: "iness", fi: "Opiskelen {w} joka viikko.", en: "I study in the {en} every week." },
+    { form: "iness", fi: "Opiskelen {w} joka viikko.", en: "I study in the {en} every week.", needs: /(school|university|class|course|institute|library|centre|center|academy|kindergarten|college|group|lesson)/i },
     { form: "part", fi: "Opiskelen {w} suomen kurssilla.", en: "I study the {en} in the Finnish course." },
     { form: "elat", fi: "Opettaja kertoi {w} tarkemmin.", en: "The teacher explained more about the {en}." },
     { form: "nom", fi: "{W} on hyödyllinen YKI-kokeessa.", en: "The {en} is useful in the YKI exam." },
@@ -243,12 +243,11 @@ const VERB_TEMPLATES: Template[] = [
 
 const ADJ_TEMPLATES: Template[] = [
   { fi: "Mielestäni tämä on aika {w}.", en: "In my opinion this is quite {en}.", form: "nom" },
-  { fi: "Se tuntui minusta hyvin {w}.", en: "It felt very {en} to me.", form: "nom" },
   { fi: "Kaikki sanoivat, että se oli {w}.", en: "Everyone said that it was {en}.", form: "nom" },
   { fi: "Tämä tehtävä ei ollut lainkaan {w}.", en: "This exercise was not {en} at all.", form: "nom" },
   { fi: "Eilen ilta oli todella {w}.", en: "Yesterday evening was really {en}.", form: "nom" },
   { fi: "Suomen kielen opiskelu on välillä {w}.", en: "Studying Finnish is sometimes {en}.", form: "nom" },
-  { fi: "Uusi tilanne vaikutti minusta {w}.", en: "The new situation seemed {en} to me.", form: "nom" },
+  { fi: "Uusi tilanne on minulle {w}.", en: "The new situation is {en} for me.", form: "nom" },
 ];
 
 const NUM_TEMPLATES: Template[] = [
@@ -257,6 +256,17 @@ const NUM_TEMPLATES: Template[] = [
   { fi: "Laskun vastaus on {w}.", en: "The answer to the sum is {en}.", form: "nom" },
   { fi: "Bussi numero {w} menee keskustaan.", en: "Bus number {en} goes to the city centre.", form: "nom" },
   { fi: "Sivulla {w} on hyvä harjoitus.", en: "On page {en} there is a good exercise.", form: "nom" },
+];
+
+const CONJUNCTIONS = new Set([
+  "ja", "tai", "mutta", "koska", "että", "jos", "kun", "kuitenkin", "siksi", "siis",
+  "vaikka", "sekä", "joten", "eli", "vai", "kunnes", "jotta", "mikäli",
+]);
+
+const CONJ_TEMPLATES: Template[] = [
+  { fi: "Opiskelen suomea, {w} haluan töihin Suomeen.", en: "I study Finnish, {en} I want to work in Finland.", form: "nom" },
+  { fi: "Menen kauppaan, {w} kotona ei ole maitoa.", en: "I am going to the shop, {en} there is no milk at home.", form: "nom" },
+  { fi: "Luin tekstin, {w} tein tehtävät.", en: "I read the text, {en} I did the exercises.", form: "nom" },
 ];
 
 const ADV_TEMPLATES: Template[] = [
@@ -341,7 +351,7 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   if (/^verb/.test(pos)) pool = VERB_TEMPLATES;
   else if (/^adj/.test(pos)) pool = ADJ_TEMPLATES;
   else if (isNumeral) pool = NUM_TEMPLATES;
-  else if (/^adv/.test(pos)) pool = ADV_TEMPLATES;
+  else if (/^adv/.test(pos) || CONJUNCTIONS.has(word)) pool = CONJUNCTIONS.has(word) ? CONJ_TEMPLATES : ADV_TEMPLATES;
   else { pool = NOUN_POOLS[entry.category] || GENERIC; nounLike = true; }
 
   // Category templates come first (best semantic fit); neutral generic noun
