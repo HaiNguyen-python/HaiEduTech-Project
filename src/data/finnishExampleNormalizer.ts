@@ -24,6 +24,8 @@ interface Template {
   form: Form;
   fi: string; // {w} = inflected word, {W} = capitalized inflected word
   en: string; // {en} = English gloss, {En} = capitalized gloss
+  /** Optional guard: template is used only when the English gloss matches. */
+  needs?: RegExp;
 }
 
 /* ------------------------------ noun templates ----------------------------- */
@@ -128,13 +130,13 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "nom", fi: "{W} on hyödyllinen YKI-kokeessa.", en: "The {en} is useful in the YKI exam." },
   ],
   "Work & Professions": [
-    { form: "nom", fi: "{W} tekee työtä sairaalassa.", en: "The {en} works at a hospital." },
+    { form: "nom", fi: "{W} tekee työtä sairaalassa.", en: "The {en} works at a hospital.", needs: /(doctor|nurse|therapist|psycholog|dentist|surgeon|midwife|assistant|specialist|ist$|er$|or$)/i },
     { form: "part", fi: "Etsin {w} verkkosivuilta.", en: "I am looking for a {en} on the website." },
     { form: "elat", fi: "Keskustelimme {w} työpaikkahaastattelussa.", en: "We discussed the {en} in the job interview." },
     { form: "nom", fi: "Haluaisin joskus olla {w}.", en: "I would like to be a {en} some day." },
   ],
   Transport: [
-    { form: "nom", fi: "{W} lähtee asemalta kello kaksi.", en: "The {en} leaves the station at two o'clock." },
+    { form: "nom", fi: "{W} lähtee asemalta kello kaksi.", en: "The {en} leaves the station at two o'clock.", needs: /(train|bus|tram|metro|coach|ferry|boat|flight|plane)/i },
     { form: "iness", fi: "Luen kirjaa {w}.", en: "I read a book on the {en}." },
     { form: "part", fi: "Odotan {w} pysäkillä.", en: "I am waiting for the {en} at the stop." },
     { form: "elat", fi: "Kysyin lisätietoja {w} neuvonnasta.", en: "I asked for more information about the {en} at the info desk." },
@@ -302,6 +304,7 @@ function inflect(word: string, form: Form): string | null {
 }
 
 function render(t: Template, word: string, gloss: string): string[] | null {
+  if (t.needs && !t.needs.test(gloss)) return null;
   const form = inflect(word, t.form);
   if (!form) return null;
   const fi = t.fi.replace("{W}", capitalize(form)).replace("{w}", form);
@@ -336,7 +339,7 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   // Only real numerals may use the arithmetic templates; many nouns in the
   // "Numbers & Math" category are mislabelled as "num" in the raw data.
   const isNumeral = /^(numeral|num)/.test(pos) && /^[a-zäö\s-]+$/.test(word) &&
-    /(one|two|three|four|five|six|seven|eight|nine|ten|hundred|thousand|million|first|second|third|\d)/i.test(entry.definition.en);
+    /(\\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|teen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|first|second|third|fourth|fifth)/i.test(entry.definition.en);
   let pool: Template[];
   let nounLike = false;
   if (/^verb/.test(pos)) pool = VERB_TEMPLATES;
