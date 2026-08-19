@@ -697,6 +697,18 @@ ${suggestionsHtml}
             <Sparkles className="w-4 h-4 mr-1.5" />
             {t("Luyện Shadowing", "Shadowing Practice")}
           </Button>
+          <Button
+            onClick={() => setMode("srs")}
+            variant={mode === "srs" ? "default" : "secondary"}
+            className={mode === "srs" ? "shadow-lg scale-105 bg-gradient-to-r from-amber-500 to-primary" : ""}
+            size="lg"
+          >
+            <RotateCcw className="w-4 h-4 mr-1.5" />
+            {t("Luyện lại (SRS)", "Review (SRS)")}
+            {srsDue.length > 0 && (
+              <Badge variant="destructive" className="ml-2 text-xs">{srsDue.length}</Badge>
+            )}
+          </Button>
           {mode === "part" && (
             <Button onClick={shuffleQuestions} variant="outline" size="lg" className="ml-auto">
               <Shuffle className="w-4 h-4 mr-2" /> {t("Đảo câu hỏi", "Shuffle")}
@@ -704,7 +716,9 @@ ${suggestionsHtml}
           )}
         </div>
 
-        {mode === "shadow" ? (
+        {mode === "srs" ? (
+          <SpeakingSrsPanel />
+        ) : mode === "shadow" ? (
           <ShadowingPractice />
         ) : (
         <>
