@@ -19,8 +19,10 @@ export function isBackHarmony(word: string): boolean {
     if (BACK_VOWELS.includes(w[i])) return true;
     if (FRONT_VOWELS.includes(w[i])) return false;
   }
-  return true;
+  // Only neutral vowels (e, i) -> front endings: ilves -> ilveksestä, meri -> meressä.
+  return false;
 }
+
 
 const harmA = (w: string) => (isBackHarmony(w) ? "a" : "ä");
 const harmO = (w: string) => (isBackHarmony(w) ? "o" : "ö");
