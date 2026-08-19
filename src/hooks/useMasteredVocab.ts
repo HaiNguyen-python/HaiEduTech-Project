@@ -78,6 +78,7 @@ const isRateLimit = (error: any) =>
 
 export function useMasteredVocab(subject: string) {
   const [mastered, setMastered] = useState<Set<string>>(() => readLocal(subject));
+  const [pendingCount, setPendingCount] = useState<number>(() => readPending(subject).length);
   const userIdRef = useRef<string | null>(null);
   const loadedFromDbRef = useRef(false);
 
@@ -90,6 +91,7 @@ export function useMasteredVocab(subject: string) {
     /** Push queued words one by one; a rate-limited word stays queued for later. */
     const drainPending = async (uid: string) => {
       const queue = readPending(subject);
+      setPendingCount(queue.length);
       if (queue.length === 0 || cancelled) return;
       const word = queue[0];
       const { error } = await (supabase as any)
@@ -98,10 +100,13 @@ export function useMasteredVocab(subject: string) {
       if (cancelled) return;
       if (!error || !isRateLimit(error)) {
         // Success, or a permanent error (e.g. duplicate) — stop retrying it.
-        writePending(subject, queue.slice(1));
+        const rest = queue.slice(1);
+        writePending(subject, rest);
+        setPendingCount(rest.length);
         window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
       }
     };
+
 
     const sync = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -132,14 +137,18 @@ export function useMasteredVocab(subject: string) {
         ]);
       }
       // Local set = DB set + anything still waiting to sync.
-      const localSet = new Set<string>([...dbSet, ...readPending(subject)]);
+      const stillPending = readPending(subject);
+      const localSet = new Set<string>([...dbSet, ...stillPending]);
       writeLocal(subject, localSet);
       if (!cancelled) {
         setMastered(localSet);
+        setPendingCount(stillPending.length);
         loadedFromDbRef.current = true;
         window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
       }
+      window.clearInterval(drainTimer);
       drainTimer = window.setInterval(() => { void drainPending(user.id); }, 12_000);
+
     };
     sync();
     // Re-sync on sign-in (covers guest → logged-in transitions)
@@ -165,7 +174,10 @@ export function useMasteredVocab(subject: string) {
       if (!wasMastered && isOnCooldown()) {
         next.add(word);
         writeLocal(subject, next);
-        if (userIdRef.current) queuePending(subject, word);
+        if (userIdRef.current) {
+          queuePending(subject, word);
+          setPendingCount(readPending(subject).length);
+        }
         return next;
       }
 
@@ -182,7 +194,9 @@ export function useMasteredVocab(subject: string) {
       const uid = userIdRef.current;
       if (uid) {
         if (wasMastered) {
-          writePending(subject, readPending(subject).filter(w => w !== word));
+          const kept = readPending(subject).filter(w => w !== word);
+          writePending(subject, kept);
+          setPendingCount(kept.length);
           (supabase as any)
             .from("user_vocab_mastered")
             .delete()
@@ -198,7 +212,10 @@ export function useMasteredVocab(subject: string) {
             .insert({ user_id: uid, subject, word })
             .then(({ error }: { error: any }) => {
               // Burst limiter rejected it: retry later instead of losing the word.
-              if (error && isRateLimit(error)) queuePending(subject, word);
+              if (error && isRateLimit(error)) {
+                queuePending(subject, word);
+                setPendingCount(readPending(subject).length);
+              }
               else if (error) console.debug("vocab mastery insert error:", error?.message);
               window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
             });
@@ -220,5 +237,5 @@ export function useMasteredVocab(subject: string) {
     });
   }, [subject]);
 
-  return { mastered, setMastered, toggle };
+  return { mastered, setMastered, toggle, pendingCount };
 }

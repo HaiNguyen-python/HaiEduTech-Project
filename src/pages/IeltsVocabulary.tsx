@@ -596,7 +596,7 @@ const IeltsVocabulary = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
-  const { mastered, toggle: toggleMastered } = useMasteredVocab("ielts");
+  const { mastered, toggle: toggleMastered, pendingCount } = useMasteredVocab("ielts");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
   const pageContainerRef = useRef<HTMLDivElement>(null);
@@ -676,6 +676,12 @@ const IeltsVocabulary = () => {
               <div className="flex flex-wrap items-center gap-3 mt-3 text-sm">
                 <span className="text-muted-foreground">{t("Đã thuộc", "Mastered")}: <strong className="text-primary">{mastered.size}</strong></span>
                 <span className="text-muted-foreground">{t("Cần ôn", "Need Review")}: <strong className="text-orange-400">{ieltsVocabData.length - mastered.size}</strong></span>
+                {pendingCount > 0 && (
+                  <span className="text-xs text-muted-foreground">
+                    {t(`Đang đồng bộ ${pendingCount} từ lên bảng xếp hạng...`, `Syncing ${pendingCount} word(s) to the leaderboard...`)}
+                  </span>
+                )}
+
               </div>
             </div>
 

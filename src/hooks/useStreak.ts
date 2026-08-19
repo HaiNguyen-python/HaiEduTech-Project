@@ -9,16 +9,19 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-/** Local calendar date key (YYYY-MM-DD) — uses the browser's timezone
- * so a study session late at night doesn't get bucketed into "yesterday"
- * (which was the root cause of false "N ngày chưa học" alerts). */
-const dateKey = (d: Date = new Date()) => {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-};
+/** Calendar date key (YYYY-MM-DD) in Vietnam time — the same day boundary the
+ * server-side streak functions use (`get_user_streak`, `get_streak_leaderboard`).
+ * Using the device timezone here made a student abroad skip the daily_login row
+ * for a Vietnam day, which broke the streak. */
+const dateKey = (d: Date = new Date()) =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Ho_Chi_Minh",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(d);
 const todayKey = () => dateKey();
+
 
 export function useStreak(enabled = true) {
   const [streak, setStreak] = useState(0);
