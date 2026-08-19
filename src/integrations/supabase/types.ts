@@ -2607,6 +2607,66 @@ export type Database = {
         }
         Relationships: []
       }
+      speaking_srs_items: {
+        Row: {
+          attempts: number
+          content: string
+          content_key: string
+          created_at: string
+          due_at: string
+          id: string
+          item_type: string
+          last_reviewed_at: string | null
+          mastered: boolean
+          part: number | null
+          question_id: string | null
+          stage: number
+          target: string | null
+          tip: string | null
+          topic: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attempts?: number
+          content: string
+          content_key: string
+          created_at?: string
+          due_at?: string
+          id?: string
+          item_type: string
+          last_reviewed_at?: string | null
+          mastered?: boolean
+          part?: number | null
+          question_id?: string | null
+          stage?: number
+          target?: string | null
+          tip?: string | null
+          topic?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attempts?: number
+          content?: string
+          content_key?: string
+          created_at?: string
+          due_at?: string
+          id?: string
+          item_type?: string
+          last_reviewed_at?: string | null
+          mastered?: boolean
+          part?: number | null
+          question_id?: string | null
+          stage?: number
+          target?: string | null
+          tip?: string | null
+          topic?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       student_activity_log: {
         Row: {
           activity_id: string | null
