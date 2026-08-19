@@ -185,7 +185,7 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "part", fi: "Kaikkien pitää noudattaa {w}.", en: "Everyone must follow the {en}." },
     { form: "nom", fi: "{W} suojelee ihmisiä.", en: "The {en} protects people." },
     { form: "elat", fi: "Poliisi kertoi {w} tarkemmin.", en: "The police explained the {en} in more detail." },
-    { form: "iness", fi: "Ohje mainitaan {w}.", en: "The instruction is mentioned in the {en}." },
+    { form: "elat", fi: "Opettaja kertoi meille {w}.", en: "The teacher told us about the {en}." },
   ],
   Environment: [
     { form: "part", fi: "Meidän pitää suojella {w}.", en: "We must protect the {en}." },
@@ -329,7 +329,10 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   const override = getFinnishExampleOverride(word);
   if (override) return { example: override.fi, exampleEn: override.en };
 
-  const pos = (entry.partOfSpeech || "noun").toLowerCase();
+  let pos = (entry.partOfSpeech || "noun").toLowerCase();
+  // Many participial adjectives are tagged as nouns in the raw data
+  // (hermostunut, kiinnostava). Route them to the adjective templates.
+  if (/^noun/.test(pos) && /(nut|nyt|nnut|va|vä|ton|tön)$/.test(word) && !/\s/.test(word)) pos = "adj";
   // Only real numerals may use the arithmetic templates; many nouns in the
   // "Numbers & Math" category are mislabelled as "num" in the raw data.
   const isNumeral = /^(numeral|num)/.test(pos) && /^[a-zäö\s-]+$/.test(word) &&
