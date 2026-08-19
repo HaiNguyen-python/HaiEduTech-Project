@@ -182,6 +182,7 @@ export function useMasteredVocab(subject: string) {
       const uid = userIdRef.current;
       if (uid) {
         if (wasMastered) {
+          writePending(subject, readPending(subject).filter(w => w !== word));
           (supabase as any)
             .from("user_vocab_mastered")
             .delete()
@@ -196,12 +197,12 @@ export function useMasteredVocab(subject: string) {
             .from("user_vocab_mastered")
             .insert({ user_id: uid, subject, word })
             .then(({ error }: { error: any }) => {
-              // Burst-protection trigger may reject – not a real failure for the user.
-              if (error && !String(error?.message || "").includes("rate_limit")) {
-                console.debug("vocab mastery insert error:", error?.message);
-              }
+              // Burst limiter rejected it: retry later instead of losing the word.
+              if (error && isRateLimit(error)) queuePending(subject, word);
+              else if (error) console.debug("vocab mastery insert error:", error?.message);
               window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
             });
+
           import("@/hooks/useActivityLogger").then(({ logStudentActivity }) => {
             logStudentActivity({
               activityType: "vocab_mastered",
