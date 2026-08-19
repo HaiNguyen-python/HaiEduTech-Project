@@ -137,7 +137,7 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "nom", fi: "{W} lähtee asemalta kello kaksi.", en: "The {en} leaves the station at two o'clock." },
     { form: "iness", fi: "Luen kirjaa {w}.", en: "I read a book on the {en}." },
     { form: "part", fi: "Odotan {w} pysäkillä.", en: "I am waiting for the {en} at the stop." },
-    { form: "elat", fi: "Kysyin {w} aikataulusta.", en: "I asked about the {en} timetable." },
+    { form: "elat", fi: "Kysyin lisätietoja {w} neuvonnasta.", en: "I asked for more information about the {en} at the info desk." },
   ],
   "City & Places": [
     { form: "iness", fi: "Käyn {w} kerran viikossa.", en: "I visit the {en} once a week." },
@@ -173,7 +173,7 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "part", fi: "Seuraan {w} joka päivä.", en: "I follow the {en} every day." },
     { form: "nom", fi: "{W} kertoi asiasta ensimmäisenä.", en: "The {en} reported the matter first." },
     { form: "elat", fi: "Kuulin uutisen {w}.", en: "I heard the news from the {en}." },
-    { form: "part", fi: "Kirjoitin {w} lyhyen kommentin.", en: "I wrote a short comment about the {en}." },
+    { form: "elat", fi: "Kirjoitin {w} lyhyen kommentin.", en: "I wrote a short comment about the {en}." },
   ],
   "Government & Society": [
     { form: "nom", fi: "{W} tekee päätökset yhdessä.", en: "The {en} makes decisions together." },
@@ -247,6 +247,10 @@ const ADJ_TEMPLATES: Template[] = [
   { fi: "Kirja oli mielestäni {w}.", en: "In my opinion the book was {en}.", form: "nom" },
   { fi: "Tämä tehtävä ei ollut lainkaan {w}.", en: "This exercise was not {en} at all.", form: "nom" },
   { fi: "Kaupunki on kesällä {w}.", en: "The city is {en} in the summer.", form: "nom" },
+  { fi: "Uusi suunnitelma on melko {w}.", en: "The new plan is fairly {en}.", form: "nom" },
+  { fi: "Työaikatauluni on tällä viikolla {w}.", en: "My work schedule is {en} this week.", form: "nom" },
+  { fi: "Mielestäni tämä ratkaisu on {w}.", en: "In my opinion this solution is {en}.", form: "nom" },
+  { fi: "Naapurini on aina {w}.", en: "My neighbour is always {en}.", form: "nom" },
 ];
 
 const NUM_TEMPLATES: Template[] = [
@@ -331,7 +335,7 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   else if (pos === "adj") pool = ADJ_TEMPLATES;
   else if (pos === "num") pool = NUM_TEMPLATES;
   else if (pos === "adv") pool = ADV_TEMPLATES;
-  else pool = [...(NOUN_POOLS[entry.category] || []), ...GENERIC];
+  else pool = NOUN_POOLS[entry.category] || GENERIC;
 
   const start = hash(word) % pool.length;
   for (let i = 0; i < pool.length; i++) {
