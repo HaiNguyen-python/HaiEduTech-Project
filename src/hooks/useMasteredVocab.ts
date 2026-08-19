@@ -137,14 +137,18 @@ export function useMasteredVocab(subject: string) {
         ]);
       }
       // Local set = DB set + anything still waiting to sync.
-      const localSet = new Set<string>([...dbSet, ...readPending(subject)]);
+      const stillPending = readPending(subject);
+      const localSet = new Set<string>([...dbSet, ...stillPending]);
       writeLocal(subject, localSet);
       if (!cancelled) {
         setMastered(localSet);
+        setPendingCount(stillPending.length);
         loadedFromDbRef.current = true;
         window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
       }
+      window.clearInterval(drainTimer);
       drainTimer = window.setInterval(() => { void drainPending(user.id); }, 12_000);
+
     };
     sync();
     // Re-sync on sign-in (covers guest → logged-in transitions)
