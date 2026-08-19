@@ -175,6 +175,19 @@ const speakWithNativeEnglishVoice = async (text: string, accent: EnglishAccent, 
   });
 };
 
+const playOneChunk = async (
+  chunk: string,
+  accent: EnglishAccent,
+  playbackRate: number,
+  speechRate: number,
+) => {
+  try { await playFromProxy(chunk, accent, playbackRate); return true; } catch { /* fallthrough */ }
+  for (const build of buildDirectEndpoints(accent)) {
+    try { await playFromUrl(build(chunk), playbackRate); return true; } catch { /* try next */ }
+  }
+  try { await speakWithNativeEnglishVoice(chunk, accent, speechRate); return true; } catch { return false; }
+};
+
 export const playEnglishTts = async (text: string, options: EnglishTtsOptions = {}) => {
   if (typeof window === "undefined") return false;
   const normalized = text.trim();
@@ -183,9 +196,16 @@ export const playEnglishTts = async (text: string, options: EnglishTtsOptions = 
   const playbackRate = options.playbackRate ?? 0.95;
   const speechRate = options.speechRate ?? 0.85;
 
-  try { await playFromProxy(normalized, accent, playbackRate); return true; } catch { /* fallthrough */ }
-  for (const build of buildDirectEndpoints(accent)) {
-    try { await playFromUrl(build(normalized), playbackRate); return true; } catch { /* try next */ }
+  const chunks = splitIntoChunks(normalized);
+  playToken += 1;
+  const token = playToken;
+  let any = false;
+  for (const chunk of chunks) {
+    if (token !== playToken) return any;
+    const ok = await playOneChunk(chunk, accent, playbackRate, speechRate);
+    any = any || ok;
+    if (token !== playToken) return any;
   }
-  try { await speakWithNativeEnglishVoice(normalized, accent, speechRate); return true; } catch { return false; }
+  return any;
 };
+
