@@ -1,0 +1,203 @@
+/**
+ * @file finnishExampleOverrides.ts
+ * @description Hand-written, 100% natural Finnish example sentences for the most
+ *              frequent A1 words and for words whose inflection is irregular
+ *              (so the automatic generator must not touch them).
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ */
+
+export interface FinnishExampleOverride {
+  fi: string;
+  en: string;
+}
+
+export const FINNISH_EXAMPLE_OVERRIDES: Record<string, FinnishExampleOverride> = {
+  // ---------------- Home & Housing ----------------
+  koti: { fi: "Minun kotini on Helsingissä.", en: "My home is in Helsinki." },
+  talo: { fi: "Asumme vanhassa puutalossa.", en: "We live in an old wooden house." },
+  asunto: { fi: "Vuokrasin pienen asunnon keskustasta.", en: "I rented a small apartment downtown." },
+  huone: { fi: "Asunnossa on kolme huonetta.", en: "The apartment has three rooms." },
+  keittiö: { fi: "Syön aamupalaa keittiössä.", en: "I eat breakfast in the kitchen." },
+  makuuhuone: { fi: "Nukun makuuhuoneessa hyvin.", en: "I sleep well in the bedroom." },
+  olohuone: { fi: "Katsomme televisiota olohuoneessa.", en: "We watch television in the living room." },
+  kylpyhuone: { fi: "Kylpyhuoneessa on suihku ja pyyhkeet.", en: "There is a shower and towels in the bathroom." },
+  vessa: { fi: "Anteeksi, missä vessa on?", en: "Excuse me, where is the toilet?" },
+  parveke: { fi: "Kesällä juon kahvia parvekkeella.", en: "In summer I drink coffee on the balcony." },
+  piha: { fi: "Lapset pelaavat pihalla.", en: "The children are playing in the yard." },
+  katto: { fi: "Talon katto on punainen.", en: "The roof of the house is red." },
+  seinä: { fi: "Ripustin kuvan seinälle.", en: "I hung a picture on the wall." },
+  lattia: { fi: "Lattia on juuri pesty.", en: "The floor has just been washed." },
+  ovi: { fi: "Sulje ovi, ulkona on kylmä.", en: "Close the door, it is cold outside." },
+  ikkuna: { fi: "Avaan ikkunan, koska täällä on kuuma.", en: "I am opening the window because it is hot here." },
+  porras: { fi: "Nousen portaat kolmanteen kerrokseen.", en: "I walk up the stairs to the third floor." },
+  hissi: { fi: "Hissi on rikki, joten kävelen.", en: "The elevator is broken, so I walk." },
+  sänky: { fi: "Menen sänkyyn kello yksitoista.", en: "I go to bed at eleven o'clock." },
+  pöytä: { fi: "Ruoka on jo pöydällä.", en: "The food is already on the table." },
+  tuoli: { fi: "Istu tuolille, ole hyvä.", en: "Sit down on the chair, please." },
+  sohva: { fi: "Sohva on pehmeä ja mukava.", en: "The sofa is soft and comfortable." },
+  jääkaappi: { fi: "Maito on jääkaapissa.", en: "The milk is in the fridge." },
+  sauna: { fi: "Menemme saunaan lauantai-iltana.", en: "We go to the sauna on Saturday evening." },
+
+  // ---------------- Food & Drink ----------------
+  ruoka: { fi: "Ruoka maistuu tänään erityisen hyvältä.", en: "The food tastes especially good today." },
+  vesi: { fi: "Juon vettä joka aterialla.", en: "I drink water with every meal." },
+  maito: { fi: "Ostin litran maitoa kaupasta.", en: "I bought a litre of milk at the shop." },
+  kahvi: { fi: "Suomalaiset juovat paljon kahvia.", en: "Finns drink a lot of coffee." },
+  tee: { fi: "Juon illalla mieluummin teetä kuin kahvia.", en: "In the evening I prefer tea to coffee." },
+  leipä: { fi: "Syön aamiaisella leipää ja juustoa.", en: "For breakfast I eat bread and cheese." },
+  ruisleipä: { fi: "Ruisleipä on tummaa ja terveellistä.", en: "Rye bread is dark and healthy." },
+  juusto: { fi: "Tämä juusto on liian suolaista.", en: "This cheese is too salty." },
+  liha: { fi: "En syö lihaa, olen kasvissyöjä.", en: "I do not eat meat, I am a vegetarian." },
+  kala: { fi: "Isoäiti paistoi kalaa illalliseksi.", en: "Grandmother fried fish for dinner." },
+  peruna: { fi: "Keitän perunoita kaksikymmentä minuuttia.", en: "I boil potatoes for twenty minutes." },
+  omena: { fi: "Otan omenan mukaan kouluun.", en: "I take an apple with me to school." },
+  marja: { fi: "Poimimme marjoja metsässä heinäkuussa.", en: "We pick berries in the forest in July." },
+  mustikka: { fi: "Mustikat kasvavat suomalaisessa metsässä.", en: "Blueberries grow in the Finnish forest." },
+  aamiainen: { fi: "Aamiainen alkaa kello seitsemän.", en: "Breakfast starts at seven o'clock." },
+  lounas: { fi: "Syön lounasta työpaikan ravintolassa.", en: "I eat lunch at the workplace restaurant." },
+  illallinen: { fi: "Illallinen on valmis puoli seitsemältä.", en: "Dinner is ready at half past six." },
+  pasha: { fi: "Pasha on perinteinen pääsiäisherkku.", en: "Pasha is a traditional Easter treat." },
+
+  // ---------------- Body & Health ----------------
+  pää: { fi: "Minua särkee pää tänään.", en: "My head aches today." },
+  käsi: { fi: "Pese kädet ennen ruokailua.", en: "Wash your hands before eating." },
+  jalka: { fi: "Loukkasin jalkani jalkapallossa.", en: "I hurt my leg playing football." },
+  silmä: { fi: "Hänellä on siniset silmät.", en: "She has blue eyes." },
+  suu: { fi: "Avaa suu, sanoi hammaslääkäri.", en: "Open your mouth, said the dentist." },
+  sydän: { fi: "Sydän lyö nopeasti juoksun jälkeen.", en: "The heart beats fast after running." },
+  lääkäri: { fi: "Varasin ajan lääkärille maanantaiksi.", en: "I booked an appointment with the doctor for Monday." },
+  sairaala: { fi: "Isoisä on sairaalassa viikon.", en: "Grandfather is in the hospital for a week." },
+  terveys: { fi: "Uni ja liikunta ovat tärkeitä terveydelle.", en: "Sleep and exercise are important for health." },
+  kipu: { fi: "Kipu meni ohi lääkkeen jälkeen.", en: "The pain went away after the medicine." },
+  flunssa: { fi: "Minulla on flunssa, joten jään kotiin.", en: "I have a cold, so I am staying home." },
+
+  // ---------------- Family & People ----------------
+  perhe: { fi: "Perheeni asuu Tampereella.", en: "My family lives in Tampere." },
+  äiti: { fi: "Äiti soittaa minulle joka sunnuntai.", en: "Mum calls me every Sunday." },
+  isä: { fi: "Isä opetti minut hiihtämään.", en: "Dad taught me to ski." },
+  lapsi: { fi: "Meillä on kaksi lasta.", en: "We have two children." },
+  poika: { fi: "Poika aloittaa koulun elokuussa.", en: "The boy starts school in August." },
+  tyttö: { fi: "Tyttö lukee kirjaa sohvalla.", en: "The girl is reading a book on the sofa." },
+  ystävä: { fi: "Tapaan ystäväni kirjastossa.", en: "I am meeting my friend at the library." },
+  naapuri: { fi: "Naapuri auttoi minua muutossa.", en: "The neighbour helped me with the move." },
+  mies: { fi: "Mies odottaa bussia pysäkillä.", en: "The man is waiting for the bus at the stop." },
+  nainen: { fi: "Nainen työskentelee sairaanhoitajana.", en: "The woman works as a nurse." },
+  vauva: { fi: "Vauva nukkuu nyt rauhallisesti.", en: "The baby is sleeping peacefully now." },
+
+  // ---------------- Time & Calendar ----------------
+  aika: { fi: "Minulla ei ole aikaa tänään.", en: "I do not have time today." },
+  päivä: { fi: "Tänään on kaunis päivä.", en: "Today is a beautiful day." },
+  viikko: { fi: "Ensi viikolla alkaa suomen kurssi.", en: "The Finnish course starts next week." },
+  kuukausi: { fi: "Maksan vuokran joka kuukausi.", en: "I pay the rent every month." },
+  vuosi: { fi: "Olen asunut Suomessa kolme vuotta.", en: "I have lived in Finland for three years." },
+  tunti: { fi: "Odotin junaa kaksi tuntia.", en: "I waited for the train for two hours." },
+  minuutti: { fi: "Bussi lähtee viiden minuutin kuluttua.", en: "The bus leaves in five minutes." },
+  aamu: { fi: "Aamulla juon kahvia ja luen uutiset.", en: "In the morning I drink coffee and read the news." },
+  ilta: { fi: "Illalla kävelen koiran kanssa.", en: "In the evening I walk with the dog." },
+  yö: { fi: "Yöllä kaupunki on hiljainen.", en: "At night the city is quiet." },
+  maanantai: { fi: "Maanantaina menen töihin kello kahdeksan.", en: "On Monday I go to work at eight." },
+  viikonloppu: { fi: "Viikonloppuna lepään ja käyn saunassa.", en: "At the weekend I rest and go to the sauna." },
+  kesä: { fi: "Kesällä aurinko paistaa myöhään.", en: "In summer the sun shines late." },
+  talvi: { fi: "Talvella on lunta ja pimeää.", en: "In winter there is snow and darkness." },
+  kevät: { fi: "Keväällä lumi sulaa nopeasti.", en: "In spring the snow melts quickly." },
+  syksy: { fi: "Syksyllä lehdet muuttuvat keltaisiksi.", en: "In autumn the leaves turn yellow." },
+
+  // ---------------- Work, school, city ----------------
+  työ: { fi: "Menen työhön joka aamu pyörällä.", en: "I go to work by bike every morning." },
+  opettaja: { fi: "Opettaja selittää kieliopin selkeästi.", en: "The teacher explains the grammar clearly." },
+  oppilas: { fi: "Oppilas kysyi hyvän kysymyksen.", en: "The student asked a good question." },
+  koulu: { fi: "Koulu alkaa kello yhdeksän.", en: "School starts at nine o'clock." },
+  yliopisto: { fi: "Opiskelen yliopistossa tietotekniikkaa.", en: "I study computer science at the university." },
+  kirjasto: { fi: "Lainaan kirjoja kirjastosta joka kuukausi.", en: "I borrow books from the library every month." },
+  kauppa: { fi: "Kauppa on auki kymmeneen asti.", en: "The shop is open until ten." },
+  kaupunki: { fi: "Kaupunki on kaunis kesällä.", en: "The city is beautiful in summer." },
+  kirja: { fi: "Luen kirjaa joka ilta ennen nukkumista.", en: "I read a book every evening before sleeping." },
+  raha: { fi: "Säästän rahaa uuteen tietokoneeseen.", en: "I am saving money for a new computer." },
+  bussi: { fi: "Bussi tulee viiden minuutin päästä.", en: "The bus is coming in five minutes." },
+  juna: { fi: "Juna Helsinkiin lähtee laiturilta kaksi.", en: "The train to Helsinki leaves from platform two." },
+  auto: { fi: "Auto on korjaamolla tällä viikolla.", en: "The car is at the garage this week." },
+
+  // ---------------- Nature & weather ----------------
+  metsä: { fi: "Kävelen metsässä sunnuntaisin.", en: "I walk in the forest on Sundays." },
+  järvi: { fi: "Uimme järvessä koko kesän.", en: "We swim in the lake all summer." },
+  meri: { fi: "Meri on tyyni tänä iltana.", en: "The sea is calm this evening." },
+  lumi: { fi: "Lunta tuli yön aikana paljon.", en: "A lot of snow fell during the night." },
+  sade: { fi: "Sade alkoi heti, kun lähdin ulos.", en: "The rain started as soon as I went out." },
+  aurinko: { fi: "Aurinko nousee kuudelta.", en: "The sun rises at six." },
+  sää: { fi: "Millainen sää on huomenna?", en: "What is the weather like tomorrow?" },
+  luonto: { fi: "Suomen luonto on rauhallinen ja puhdas.", en: "Finnish nature is peaceful and clean." },
+
+  // ---------------- Common verbs ----------------
+  olla: { fi: "Haluan olla kotona tänä iltana.", en: "I want to be at home this evening." },
+  mennä: { fi: "Minun täytyy mennä nyt bussiin.", en: "I have to go to the bus now." },
+  tulla: { fi: "Voitko tulla käymään huomenna?", en: "Can you come and visit tomorrow?" },
+  tehdä: { fi: "Mitä haluat tehdä viikonloppuna?", en: "What do you want to do at the weekend?" },
+  syödä: { fi: "Menemme syömään ravintolaan kello kuusi.", en: "We are going to eat at a restaurant at six." },
+  juoda: { fi: "Haluatko juoda kahvia vai teetä?", en: "Do you want to drink coffee or tea?" },
+  puhua: { fi: "Opettelen puhumaan suomea joka päivä.", en: "I am learning to speak Finnish every day." },
+  lukea: { fi: "Pidän lukemisesta ennen nukkumaanmenoa.", en: "I like reading before going to bed." },
+  kirjoittaa: { fi: "Minun pitää kirjoittaa sähköposti pomolle.", en: "I have to write an email to my boss." },
+  asua: { fi: "Haluaisin asua meren lähellä.", en: "I would like to live near the sea." },
+  ostaa: { fi: "Aion ostaa uudet talvikengät.", en: "I am going to buy new winter shoes." },
+  nukkua: { fi: "Yritän nukkua kahdeksan tuntia yössä.", en: "I try to sleep eight hours a night." },
+  opiskella: { fi: "Aloitin opiskelemaan suomea viime vuonna.", en: "I started studying Finnish last year." },
+  auttaa: { fi: "Voitko auttaa minua tämän lomakkeen kanssa?", en: "Can you help me with this form?" },
+
+  // ---------------- Common adjectives ----------------
+  hyvä: { fi: "Tämä on hyvä paikka opiskella.", en: "This is a good place to study." },
+  huono: { fi: "Sää on tänään huono, joten jään sisälle.", en: "The weather is bad today, so I am staying inside." },
+  iso: { fi: "Meillä on iso keittiö.", en: "We have a big kitchen." },
+  pieni: { fi: "Asuntoni on pieni mutta valoisa.", en: "My apartment is small but bright." },
+  kaunis: { fi: "Järvi on kaunis auringonlaskun aikaan.", en: "The lake is beautiful at sunset." },
+  kylmä: { fi: "Ulkona on kylmä, ota takki mukaan.", en: "It is cold outside, take a jacket with you." },
+  kuuma: { fi: "Kahvi on liian kuuma juotavaksi.", en: "The coffee is too hot to drink." },
+  uusi: { fi: "Ostin uuden puhelimen viime viikolla.", en: "I bought a new phone last week." },
+  vanha: { fi: "Tämä talo on hyvin vanha.", en: "This house is very old." },
+  valkoinen: { fi: "Talvella maisema on valkoinen.", en: "In winter the landscape is white." },
+  musta: { fi: "Minulla on musta takki.", en: "I have a black coat." },
+  punainen: { fi: "Punainen mökki näkyy järven rannalta.", en: "The red cottage is visible from the lake shore." },
+  sininen: { fi: "Suomen lippu on sinivalkoinen.", en: "The Finnish flag is blue and white." },
+  vihreä: { fi: "Kesällä metsä on tummanvihreä.", en: "In summer the forest is dark green." },
+  keltainen: { fi: "Syksyllä lehdet ovat keltaisia.", en: "In autumn the leaves are yellow." },
+
+  // ---------------- Numbers ----------------
+  nolla: { fi: "Lämpömittari näyttää nolla astetta.", en: "The thermometer shows zero degrees." },
+  yksi: { fi: "Otan vain yhden kupin kahvia.", en: "I will take only one cup of coffee." },
+  kaksi: { fi: "Meillä on kaksi lasta.", en: "We have two children." },
+  kolme: { fi: "Asunnossa on kolme huonetta.", en: "The apartment has three rooms." },
+  neljä: { fi: "Tapaamme kello neljä kirjastossa.", en: "We meet at four o'clock at the library." },
+  viisi: { fi: "Juna lähtee viiden minuutin kuluttua.", en: "The train leaves in five minutes." },
+  kuusi: { fi: "Herään joka päivä kello kuusi.", en: "I wake up at six o'clock every day." },
+  seitsemän: { fi: "Kauppa avautuu seitsemältä.", en: "The shop opens at seven." },
+  kahdeksan: { fi: "Työpäivä kestää kahdeksan tuntia.", en: "The working day lasts eight hours." },
+  yhdeksän: { fi: "Koulu alkaa yhdeksältä.", en: "School starts at nine." },
+  kymmenen: { fi: "Kävelen kymmenen kilometriä viikossa.", en: "I walk ten kilometres a week." },
+  sata: { fi: "Lippu maksoi sata euroa.", en: "The ticket cost one hundred euros." },
+  tuhat: { fi: "Kaupungissa asuu tuhat opiskelijaa.", en: "A thousand students live in the town." },
+
+  // ---------------- Adverbs & conjunctions ----------------
+  ja: { fi: "Ostin leipää ja maitoa.", en: "I bought bread and milk." },
+  tai: { fi: "Juon teetä tai kahvia aamulla.", en: "I drink tea or coffee in the morning." },
+  mutta: { fi: "Haluaisin tulla, mutta minulla on töitä.", en: "I would like to come, but I have work." },
+  koska: { fi: "Jään kotiin, koska olen kipeä.", en: "I am staying home because I am sick." },
+  jos: { fi: "Jos sää on kaunis, menemme rannalle.", en: "If the weather is nice, we will go to the beach." },
+  kun: { fi: "Soita minulle, kun pääset kotiin.", en: "Call me when you get home." },
+  vaikka: { fi: "Menen ulos, vaikka sataa.", en: "I am going out even though it is raining." },
+  että: { fi: "Luulen, että juna on myöhässä.", en: "I think that the train is late." },
+  myös: { fi: "Minä opiskelen myös ruotsia.", en: "I also study Swedish." },
+  usein: { fi: "Käyn usein kirjastossa iltapäivällä.", en: "I often visit the library in the afternoon." },
+  aina: { fi: "Juon aina kahvin aamiaisella.", en: "I always drink coffee with breakfast." },
+  koskaan: { fi: "En ole koskaan käynyt Lapissa.", en: "I have never been to Lapland." },
+  nyt: { fi: "Minun täytyy lähteä nyt.", en: "I have to leave now." },
+  huomenna: { fi: "Huomenna alkaa uusi kurssi.", en: "A new course starts tomorrow." },
+  eilen: { fi: "Eilen kävin uimahallissa.", en: "Yesterday I went to the swimming pool." },
+  hitaasti: { fi: "Voitko puhua hitaasti, ole hyvä?", en: "Could you speak slowly, please?" },
+  nopeasti: { fi: "Hän vastasi kysymykseen nopeasti.", en: "He answered the question quickly." },
+  hyvin: { fi: "Nukuin viime yönä hyvin.", en: "I slept well last night." },
+};
+
+/** Returns a curated example for a word, if one exists. */
+export function getFinnishExampleOverride(word: string): FinnishExampleOverride | null {
+  return FINNISH_EXAMPLE_OVERRIDES[word.toLowerCase()] ?? null;
+}
+
