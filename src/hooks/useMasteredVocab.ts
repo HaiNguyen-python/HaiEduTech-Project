@@ -78,6 +78,7 @@ const isRateLimit = (error: any) =>
 
 export function useMasteredVocab(subject: string) {
   const [mastered, setMastered] = useState<Set<string>>(() => readLocal(subject));
+  const [pendingCount, setPendingCount] = useState<number>(() => readPending(subject).length);
   const userIdRef = useRef<string | null>(null);
   const loadedFromDbRef = useRef(false);
 
@@ -90,6 +91,7 @@ export function useMasteredVocab(subject: string) {
     /** Push queued words one by one; a rate-limited word stays queued for later. */
     const drainPending = async (uid: string) => {
       const queue = readPending(subject);
+      setPendingCount(queue.length);
       if (queue.length === 0 || cancelled) return;
       const word = queue[0];
       const { error } = await (supabase as any)
@@ -98,10 +100,13 @@ export function useMasteredVocab(subject: string) {
       if (cancelled) return;
       if (!error || !isRateLimit(error)) {
         // Success, or a permanent error (e.g. duplicate) — stop retrying it.
-        writePending(subject, queue.slice(1));
+        const rest = queue.slice(1);
+        writePending(subject, rest);
+        setPendingCount(rest.length);
         window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
       }
     };
+
 
     const sync = async () => {
       const { data: { user } } = await supabase.auth.getUser();
