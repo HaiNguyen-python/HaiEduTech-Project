@@ -110,7 +110,8 @@ const PART2_CATEGORIES: Record<string, { label: string; icon: React.ReactNode; t
 const SpeakingPractice = () => {
   const { t } = useLanguage();
   const [selectedPart, setSelectedPart] = useState<1 | 2 | 3>(1);
-  const [mode, setMode] = useState<"part" | "shadow">("part");
+  const [mode, setMode] = useState<"part" | "shadow" | "srs">("part");
+  const { due: srsDue, addFromResult: addSrsFromResult } = useSpeakingSrs();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [selectedQuestionIdx, setSelectedQuestionIdx] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
