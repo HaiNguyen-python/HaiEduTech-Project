@@ -596,7 +596,7 @@ const IeltsVocabulary = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
-  const { mastered, toggle: toggleMastered } = useMasteredVocab("ielts");
+  const { mastered, toggle: toggleMastered, pendingCount } = useMasteredVocab("ielts");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
   const pageContainerRef = useRef<HTMLDivElement>(null);
