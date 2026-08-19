@@ -33,10 +33,18 @@ const GENERIC: Template[] = [
   { form: "nom", fi: "Missä {w} on nyt?", en: "Where is the {en} now?" },
   { form: "part", fi: "Katson {w} tarkasti.", en: "I am looking at the {en} carefully." },
   { form: "elat", fi: "Puhuimme {w} eilen oppitunnilla.", en: "We talked about the {en} in class yesterday." },
-  { form: "nom", fi: "Tuolla on {w}.", en: "There is a {en} over there." },
   { form: "part", fi: "Tarvitsen {w} tänään.", en: "I need the {en} today." },
   { form: "nom", fi: "Onko sinulla {w}?", en: "Do you have a {en}?" },
+  { form: "part", fi: "Muistan {w} hyvin lapsuudesta.", en: "I remember the {en} well from childhood." },
+  { form: "nom", fi: "Opin, mitä {w} tarkoittaa suomeksi.", en: "I learned what the {en} means in Finnish." },
+  { form: "part", fi: "Ystäväni suositteli minulle {w}.", en: "My friend recommended the {en} to me." },
+  { form: "nom", fi: "{W} kiinnostaa minua todella paljon.", en: "The {en} interests me a great deal." },
+  { form: "iness", fi: "Kaikki tapahtui {w} nopeasti.", en: "Everything happened quickly in the {en}." },
+  { form: "part", fi: "Haluan ymmärtää {w} paremmin.", en: "I want to understand the {en} better." },
+  { form: "gen", fi: "Tämän {w} merkitys on minulle selvä.", en: "The meaning of this {en} is clear to me." },
+  { form: "nom", fi: "Kirjoitin muistiin, millainen {w} on.", en: "I wrote down what the {en} is like." },
 ];
+
 
 const NOUN_POOLS: Record<string, Template[]> = {
   "Home & Housing": [
