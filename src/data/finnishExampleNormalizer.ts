@@ -130,15 +130,15 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "nom", fi: "{W} on hyödyllinen YKI-kokeessa.", en: "The {en} is useful in the YKI exam." },
   ],
   "Work & Professions": [
-    { form: "nom", fi: "{W} tekee työtä sairaalassa.", en: "The {en} works at a hospital.", needs: /(doctor|nurse|therapist|psycholog|dentist|surgeon|midwife|assistant|specialist|ist$|er$|or$)/i },
+    { form: "nom", fi: "{W} tekee työtä sairaalassa.", en: "The {en} works at a hospital.", needs: /(teacher|doctor|nurse|engineer|police|driver|chef|cook|lawyer|researcher|professor|programmer|therapist|dentist|scientist|psycholog|surgeon|midwife|pharmacist|electrician|plumber|architect|journalist|accountant|cleaner|carpenter|farmer|guard|secretary|manager|waiter|barber|veterinar)/i },
     { form: "part", fi: "Etsin {w} verkkosivuilta.", en: "I am looking for a {en} on the website." },
     { form: "elat", fi: "Keskustelimme {w} työpaikkahaastattelussa.", en: "We discussed the {en} in the job interview." },
     { form: "nom", fi: "Haluaisin joskus olla {w}.", en: "I would like to be a {en} some day." },
   ],
   Transport: [
     { form: "nom", fi: "{W} lähtee asemalta kello kaksi.", en: "The {en} leaves the station at two o'clock.", needs: /(train|bus|tram|metro|coach|ferry|boat|flight|plane)/i },
-    { form: "iness", fi: "Luen kirjaa {w}.", en: "I read a book on the {en}." },
-    { form: "part", fi: "Odotan {w} pysäkillä.", en: "I am waiting for the {en} at the stop." },
+    { form: "iness", fi: "Luen kirjaa {w}.", en: "I read a book on the {en}.", needs: /(train|bus|tram|metro|coach|ferry|boat|plane|flight)/i },
+    { form: "part", fi: "Odotan {w} pysäkillä.", en: "I am waiting for the {en} at the stop.", needs: /(train|bus|tram|metro|coach|taxi)/i },
     { form: "elat", fi: "Kysyin lisätietoja {w} neuvonnasta.", en: "I asked for more information about the {en} at the info desk." },
   ],
   "City & Places": [
@@ -242,17 +242,13 @@ const VERB_TEMPLATES: Template[] = [
 ];
 
 const ADJ_TEMPLATES: Template[] = [
-  { fi: "Tämä huone on hyvin {w}.", en: "This room is very {en}.", form: "nom" },
-  { fi: "Ruoka oli tänään todella {w}.", en: "The food was really {en} today.", form: "nom" },
-  { fi: "Sää on tänään aika {w}.", en: "The weather is quite {en} today.", form: "nom" },
-  { fi: "Uusi opettajani on erittäin {w}.", en: "My new teacher is very {en}.", form: "nom" },
-  { fi: "Kirja oli mielestäni {w}.", en: "In my opinion the book was {en}.", form: "nom" },
+  { fi: "Mielestäni tämä on aika {w}.", en: "In my opinion this is quite {en}.", form: "nom" },
+  { fi: "Se tuntui minusta hyvin {w}.", en: "It felt very {en} to me.", form: "nom" },
+  { fi: "Kaikki sanoivat, että se oli {w}.", en: "Everyone said that it was {en}.", form: "nom" },
   { fi: "Tämä tehtävä ei ollut lainkaan {w}.", en: "This exercise was not {en} at all.", form: "nom" },
-  { fi: "Kaupunki on kesällä {w}.", en: "The city is {en} in the summer.", form: "nom" },
-  { fi: "Uusi suunnitelma on melko {w}.", en: "The new plan is fairly {en}.", form: "nom" },
-  { fi: "Työaikatauluni on tällä viikolla {w}.", en: "My work schedule is {en} this week.", form: "nom" },
-  { fi: "Mielestäni tämä ratkaisu on {w}.", en: "In my opinion this solution is {en}.", form: "nom" },
-  { fi: "Naapurini on aina {w}.", en: "My neighbour is always {en}.", form: "nom" },
+  { fi: "Eilen ilta oli todella {w}.", en: "Yesterday evening was really {en}.", form: "nom" },
+  { fi: "Suomen kielen opiskelu on välillä {w}.", en: "Studying Finnish is sometimes {en}.", form: "nom" },
+  { fi: "Uusi tilanne vaikutti minusta {w}.", en: "The new situation seemed {en} to me.", form: "nom" },
 ];
 
 const NUM_TEMPLATES: Template[] = [
