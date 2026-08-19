@@ -554,6 +554,27 @@ ${suggestionsHtml}
       setResult(fallback);
       recordScore(fallback);
     }
+    // Collect the weak points into the spaced repetition queue (1/3/7 days)
+    if (gradedResult) {
+      const graded = gradedResult;
+      (async () => {
+        try {
+          const added = await addSrsFromResult(
+            { ...graded, transcript: graded.transcript || transcriptForGrading },
+            { part: selectedPart, topic: currentQ?.topic, questionId: currentQ?.id }
+          );
+          if (added > 0) {
+            toast({
+              title: t("Đã thêm vào mục Luyện lại (SRS)", "Added to Review (SRS)"),
+              description: t(
+                `${added} câu/cụm cần luyện lại đã được lên lịch ôn theo chu kỳ 1 - 3 - 7 ngày.`,
+                `${added} items were scheduled for review on the 1 - 3 - 7 day cycle.`
+              ),
+            });
+          }
+        } catch (e) { console.error("speaking srs collect failed", e); }
+      })();
+    }
     setLoading(false);
     // Band 8.0+ upgrade feature removed to keep grading fast and focused
     // on score + error correction so learners can self-review.
