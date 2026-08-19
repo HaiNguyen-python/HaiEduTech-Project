@@ -174,7 +174,10 @@ export function useMasteredVocab(subject: string) {
       if (!wasMastered && isOnCooldown()) {
         next.add(word);
         writeLocal(subject, next);
-        if (userIdRef.current) queuePending(subject, word);
+        if (userIdRef.current) {
+          queuePending(subject, word);
+          setPendingCount(readPending(subject).length);
+        }
         return next;
       }
 
@@ -191,7 +194,9 @@ export function useMasteredVocab(subject: string) {
       const uid = userIdRef.current;
       if (uid) {
         if (wasMastered) {
-          writePending(subject, readPending(subject).filter(w => w !== word));
+          const kept = readPending(subject).filter(w => w !== word);
+          writePending(subject, kept);
+          setPendingCount(kept.length);
           (supabase as any)
             .from("user_vocab_mastered")
             .delete()
@@ -207,7 +212,10 @@ export function useMasteredVocab(subject: string) {
             .insert({ user_id: uid, subject, word })
             .then(({ error }: { error: any }) => {
               // Burst limiter rejected it: retry later instead of losing the word.
-              if (error && isRateLimit(error)) queuePending(subject, word);
+              if (error && isRateLimit(error)) {
+                queuePending(subject, word);
+                setPendingCount(readPending(subject).length);
+              }
               else if (error) console.debug("vocab mastery insert error:", error?.message);
               window.dispatchEvent(new CustomEvent(MASTERY_UPDATED_EVENT, { detail: { subject } }));
             });
@@ -229,5 +237,5 @@ export function useMasteredVocab(subject: string) {
     });
   }, [subject]);
 
-  return { mastered, setMastered, toggle };
+  return { mastered, setMastered, toggle, pendingCount };
 }
