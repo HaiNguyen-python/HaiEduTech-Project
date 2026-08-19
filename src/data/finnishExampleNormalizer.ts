@@ -37,7 +37,7 @@ const GENERIC: Template[] = [
   { form: "part", fi: "Opettaja selitti {w} rauhallisesti.", en: "The teacher explained the {en} calmly." },
   { form: "gen", fi: "Tämän {w} merkitys on minulle selvä.", en: "The meaning of this {en} is clear to me." },
   { form: "nom", fi: "Kirjoitin muistiin, millainen {w} on.", en: "I wrote down what the {en} is like." },
-  { form: "part", fi: "Luin {w} suomenkielisestä artikkelista.", en: "I read about the {en} in a Finnish article." },
+  { form: "elat", fi: "Luin {w} suomenkielisestä artikkelista.", en: "I read about the {en} in a Finnish article." },
 ];
 
 
