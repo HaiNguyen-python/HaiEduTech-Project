@@ -21,6 +21,7 @@ import confetti from "canvas-confetti";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS, type CambridgeMockExam as ExamType } from "@/data/cambridgeMockExamData";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
+import { formatCambridgePassage } from "@/lib/cambridgePassageFormat";
 import { findEvidenceSentence, splitSentences } from "@/lib/cambridgeEvidence";
 
 import {
@@ -301,7 +302,11 @@ const CambridgeMockExam = () => {
                         <p className="mb-2 text-sm font-black uppercase tracking-wide text-[#1D4ED8]">
                           📖 {t(`Bài đọc ${group.index} - câu ${group.from}-${group.to}`, `Text ${group.index} - questions ${group.from}-${group.to}`)}
                         </p>
-                        <p className="whitespace-pre-wrap text-lg leading-8 text-[#111827]">{group.passage}</p>
+                        <div className="space-y-3">
+                          {formatCambridgePassage(group.passage).map((para, pi) => (
+                            <p key={pi} className="text-lg leading-8 text-[#111827]">{para}</p>
+                          ))}
+                        </div>
                       </div>
                     )}
                     <div className={`p-5 rounded-2xl border-2 ${isCorrect ? "border-emerald-300 bg-emerald-50" : "border-red-300 bg-red-50"}`}>
@@ -413,7 +418,11 @@ const CambridgeMockExam = () => {
                   </button>
 
                   <div className={`${textOpen ? "block" : "hidden"} lg:block`}>
-                    <p className="whitespace-pre-wrap text-lg md:text-xl leading-8 md:leading-9 text-[#111827]">{currentGroup.passage}</p>
+                    <div className="space-y-4">
+                      {formatCambridgePassage(currentGroup.passage).map((para, pi) => (
+                        <p key={pi} className="text-lg md:text-xl leading-8 md:leading-9 text-[#111827] indent-0">{para}</p>
+                      ))}
+                    </div>
 
                     <Button
                       onClick={() => { stopEnglishTts(); playEnglishTts(currentGroup.passage, { playbackRate: 0.9 }); }}
@@ -466,7 +475,11 @@ const CambridgeMockExam = () => {
                         </Button>
                       </div>
                       {scriptOpen ? (
-                        <p className="mt-3 text-[#111827] text-lg md:text-xl leading-8">{currentQuestion.passage}</p>
+                        <div className="mt-3 space-y-3">
+                          {formatCambridgePassage(currentQuestion.passage).map((para, pi) => (
+                            <p key={pi} className="text-[#111827] text-lg md:text-xl leading-8">{para}</p>
+                          ))}
+                        </div>
                       ) : null}
 
                     </div>
