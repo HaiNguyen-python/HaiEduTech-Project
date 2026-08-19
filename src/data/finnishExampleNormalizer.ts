@@ -179,7 +179,7 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "nom", fi: "{W} tekee päätökset yhdessä.", en: "The {en} makes decisions together." },
     { form: "elat", fi: "Keskustelimme {w} kansalaisopistossa.", en: "We discussed the {en} at the adult education centre." },
     { form: "part", fi: "Kansalaiset seuraavat {w} tarkasti.", en: "Citizens follow the {en} closely." },
-    { form: "iness", fi: "Asia käsitellään {w}.", en: "The matter is handled in the {en}." },
+    { form: "nom", fi: "{W} vaikuttaa monen ihmisen arkeen.", en: "The {en} affects the daily life of many people." },
   ],
   "Law & Safety": [
     { form: "part", fi: "Kaikkien pitää noudattaa {w}.", en: "Everyone must follow the {en}." },
@@ -330,16 +330,21 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   if (override) return { example: override.fi, exampleEn: override.en };
 
   const pos = (entry.partOfSpeech || "noun").toLowerCase();
+  // Only real numerals may use the arithmetic templates; many nouns in the
+  // "Numbers & Math" category are mislabelled as "num" in the raw data.
+  const isNumeral = /^(numeral|num)/.test(pos) && /^[a-zäö\s-]+$/.test(word) &&
+    /(one|two|three|four|five|six|seven|eight|nine|ten|hundred|thousand|million|first|second|third|\d)/i.test(entry.definition.en);
   let pool: Template[];
-  if (pos === "verb") pool = VERB_TEMPLATES;
-  else if (pos === "adj") pool = ADJ_TEMPLATES;
-  else if (pos === "num") pool = NUM_TEMPLATES;
-  else if (pos === "adv") pool = ADV_TEMPLATES;
-  else pool = NOUN_POOLS[entry.category] || GENERIC;
+  let nounLike = false;
+  if (/^verb/.test(pos)) pool = VERB_TEMPLATES;
+  else if (/^adj/.test(pos)) pool = ADJ_TEMPLATES;
+  else if (isNumeral) pool = NUM_TEMPLATES;
+  else if (/^adv/.test(pos)) pool = ADV_TEMPLATES;
+  else { pool = NOUN_POOLS[entry.category] || GENERIC; nounLike = true; }
 
-  // Category templates come first (best semantic fit); neutral generic ones are
-  // only used when no category template can be inflected safely.
-  const chains = pool === GENERIC ? [GENERIC] : [pool, GENERIC];
+  // Category templates come first (best semantic fit); neutral generic noun
+  // templates are only a fallback, and only for noun-like entries.
+  const chains = nounLike && pool !== GENERIC ? [pool, GENERIC] : [pool];
   for (const chain of chains) {
     const start = hash(word) % chain.length;
     for (let i = 0; i < chain.length; i++) {
