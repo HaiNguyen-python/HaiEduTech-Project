@@ -37,6 +37,8 @@ import {
 import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresIdeas";
 import ShadowingPractice from "@/components/ShadowingPractice";
+import SpeakingSrsPanel from "@/components/ielts/SpeakingSrsPanel";
+import { useSpeakingSrs } from "@/hooks/useSpeakingSrs";
 
 // Grading result interfaces
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
@@ -108,7 +110,8 @@ const PART2_CATEGORIES: Record<string, { label: string; icon: React.ReactNode; t
 const SpeakingPractice = () => {
   const { t } = useLanguage();
   const [selectedPart, setSelectedPart] = useState<1 | 2 | 3>(1);
-  const [mode, setMode] = useState<"part" | "shadow">("part");
+  const [mode, setMode] = useState<"part" | "shadow" | "srs">("part");
+  const { due: srsDue, addFromResult: addSrsFromResult } = useSpeakingSrs();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [selectedQuestionIdx, setSelectedQuestionIdx] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
@@ -551,6 +554,27 @@ ${suggestionsHtml}
       setResult(fallback);
       recordScore(fallback);
     }
+    // Collect the weak points into the spaced repetition queue (1/3/7 days)
+    if (gradedResult) {
+      const graded = gradedResult;
+      (async () => {
+        try {
+          const added = await addSrsFromResult(
+            { ...graded, transcript: graded.transcript || transcriptForGrading },
+            { part: selectedPart, topic: currentQ?.topic, questionId: currentQ?.id }
+          );
+          if (added > 0) {
+            toast({
+              title: t("Đã thêm vào mục Luyện lại (SRS)", "Added to Review (SRS)"),
+              description: t(
+                `${added} câu/cụm cần luyện lại đã được lên lịch ôn theo chu kỳ 1 - 3 - 7 ngày.`,
+                `${added} items were scheduled for review on the 1 - 3 - 7 day cycle.`
+              ),
+            });
+          }
+        } catch (e) { console.error("speaking srs collect failed", e); }
+      })();
+    }
     setLoading(false);
     // Band 8.0+ upgrade feature removed to keep grading fast and focused
     // on score + error correction so learners can self-review.
@@ -694,6 +718,18 @@ ${suggestionsHtml}
             <Sparkles className="w-4 h-4 mr-1.5" />
             {t("Luyện Shadowing", "Shadowing Practice")}
           </Button>
+          <Button
+            onClick={() => setMode("srs")}
+            variant={mode === "srs" ? "default" : "secondary"}
+            className={mode === "srs" ? "shadow-lg scale-105 bg-gradient-to-r from-amber-500 to-primary" : ""}
+            size="lg"
+          >
+            <RotateCcw className="w-4 h-4 mr-1.5" />
+            {t("Luyện lại (SRS)", "Review (SRS)")}
+            {srsDue.length > 0 && (
+              <Badge variant="destructive" className="ml-2 text-xs">{srsDue.length}</Badge>
+            )}
+          </Button>
           {mode === "part" && (
             <Button onClick={shuffleQuestions} variant="outline" size="lg" className="ml-auto">
               <Shuffle className="w-4 h-4 mr-2" /> {t("Đảo câu hỏi", "Shuffle")}
@@ -701,7 +737,9 @@ ${suggestionsHtml}
           )}
         </div>
 
-        {mode === "shadow" ? (
+        {mode === "srs" ? (
+          <SpeakingSrsPanel />
+        ) : mode === "shadow" ? (
           <ShadowingPractice />
         ) : (
         <>
