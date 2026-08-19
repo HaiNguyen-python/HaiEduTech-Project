@@ -23,6 +23,7 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { formatCambridgePassage } from "@/lib/cambridgePassageFormat";
 import { findEvidenceSentence, splitSentences } from "@/lib/cambridgeEvidence";
+import { buildReviewExplanation } from "@/lib/cambridgeReviewExplanation";
 
 import {
   ExamProgressPath, ExamCheerBubble, ExamStickerBoard, LEVEL_MASCOT,
