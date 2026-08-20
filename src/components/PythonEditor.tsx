@@ -283,14 +283,43 @@ sys.stderr = io.StringIO()
         </pre>
       </div>
 
+      {/* Output mismatch helper - shows expected vs actual side by side */}
+      {!passed && mismatch && !hasError && (
+        <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/40 p-4 space-y-3">
+          <p className="text-sm font-semibold text-yellow-600">
+            {t("Chưa khớp kết quả mong đợi - so sánh bên dưới nhé!", "Not matching the expected output yet - compare below!")}
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <p className="text-xs font-semibold text-muted-foreground mb-1">{t("Mong đợi", "Expected")}</p>
+              <pre className="p-3 rounded-lg bg-[#1e1e1e] text-green-400 text-xs font-mono overflow-auto max-h-40 whitespace-pre-wrap">
+                {mismatch.expected}
+              </pre>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-muted-foreground mb-1">{t("Kết quả của bạn", "Your output")}</p>
+              <pre className="p-3 rounded-lg bg-[#1e1e1e] text-orange-300 text-xs font-mono overflow-auto max-h-40 whitespace-pre-wrap">
+                {mismatch.got}
+              </pre>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Pass Banner */}
       {passed && (
-        <div className="rounded-xl bg-green-500/10 border border-green-500/40 p-5 text-center space-y-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
-           <p className="text-lg font-bold text-green-600">
-             🎉 Congratulations! You passed Challenge {challenge.number}!
-           </p>
-           <p className="text-sm text-muted-foreground">Keep going to the next challenge!</p>
-          
+        <div className="rounded-xl bg-gradient-to-r from-green-500/15 to-blue-500/15 border border-green-500/40 p-5 text-center space-y-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          <p className="text-2xl">🎉🏆✨</p>
+          <p className="text-lg font-bold text-green-600">
+            {t(
+              `Xuất sắc! Bạn đã hoàn thành thử thách ${challenge.number}!`,
+              `Congratulations! You passed Challenge ${challenge.number}!`,
+            )}
+          </p>
+          <p className="text-sm font-semibold text-primary">+10 XP</p>
+          <p className="text-sm text-muted-foreground">
+            {t("Tiến lên thử thách tiếp theo nhé!", "Keep going to the next challenge!")}
+          </p>
         </div>
       )}
 
