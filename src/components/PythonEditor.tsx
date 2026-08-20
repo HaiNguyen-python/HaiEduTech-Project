@@ -85,6 +85,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setAiHelp("");
     setHasError(false);
     setShowHints(false);
+    setMismatch(null);
   }, [challenge.id]);
 
   // Auto-save
