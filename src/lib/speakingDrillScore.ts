@@ -68,39 +68,73 @@ const levenshtein = (a: string, b: string): number => {
 
 const status = (spoken: string, expected: string): DrillWordStatus | null => {
   if (spoken === expected) return "correct";
-  if (expected.length >= 4 && (spoken.startsWith(expected.slice(0, expected.length - 2)) ||
-      expected.startsWith(spoken.slice(0, Math.max(3, spoken.length - 2))))) return "close";
+  // Short function words must match (almost) exactly - otherwise "is"/"it" style
+  // near-misses swallow the wrong word and knock the whole alignment sideways.
+  if (expected.length <= 3 || spoken.length <= 3) return null;
+  if (
+    spoken.startsWith(expected.slice(0, expected.length - 2)) ||
+    expected.startsWith(spoken.slice(0, Math.max(3, spoken.length - 2)))
+  )
+    return "close";
   const dist = levenshtein(spoken, expected);
-  const threshold = expected.length <= 3 ? 1 : expected.length <= 5 ? 2 : expected.length <= 8 ? 3 : 4;
+  const threshold = expected.length <= 5 ? 1 : expected.length <= 8 ? 2 : 3;
   return dist <= threshold ? "close" : null;
 };
 
-/** Forward-searching comparison so extra words do not shift everything to wrong. */
-export const compareDrillWords = (target: string, spoken: string): DrillWordResult[] => {
-  const targetWords = normalizeDrillText(target);
-  const spokenWords = normalizeDrillText(spoken);
-  let cursor = 0;
+const scoreOf = (s: DrillWordStatus | null): number =>
+  s === "correct" ? 2 : s === "close" ? 1.5 : -1;
 
-  return targetWords.map((expected) => {
-    let bestIndex = -1;
-    let bestStatus: DrillWordStatus | null = null;
-    for (let i = cursor; i < spokenWords.length; i++) {
-      const s = status(spokenWords[i], expected);
-      if (s) {
-        bestIndex = i;
-        bestStatus = s;
-        if (s === "correct") break;
+/**
+ * Global sequence alignment (Needleman-Wunsch) between the model sentence and
+ * what was recognised. A greedy scan used to cascade into "all wrong" as soon as
+ * one word was missed, which made correct readings score very low.
+ */
+export const compareDrillWords = (target: string, spoken: string): DrillWordResult[] => {
+  const a = normalizeDrillText(target);
+  const b = normalizeDrillText(spoken);
+  const GAP = -1;
+
+  const dp: number[][] = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = 1; i <= a.length; i++) dp[i][0] = dp[i - 1][0] + GAP;
+  for (let j = 1; j <= b.length; j++) dp[0][j] = dp[0][j - 1] + GAP;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] = Math.max(
+        dp[i - 1][j - 1] + scoreOf(status(b[j - 1], a[i - 1])),
+        dp[i - 1][j] + GAP,
+        dp[i][j - 1] + GAP,
+      );
+    }
+  }
+
+  // Walk back from the corner to build a per-target-word result list.
+  const out: DrillWordResult[] = [];
+  let i = a.length;
+  let j = b.length;
+  while (i > 0) {
+    if (j > 0) {
+      const st = status(b[j - 1], a[i - 1]);
+      if (dp[i][j] === dp[i - 1][j - 1] + scoreOf(st)) {
+        out.push({
+          expected: a[i - 1],
+          spoken: b[j - 1],
+          status: st ?? "wrong",
+        });
+        i--;
+        j--;
+        continue;
+      }
+      if (dp[i][j] === dp[i][j - 1] + GAP) {
+        j--;
+        continue;
       }
     }
-    if (bestIndex >= 0 && bestStatus) {
-      cursor = bestIndex + 1;
-      return { expected, spoken: spokenWords[bestIndex], status: bestStatus };
-    }
-    const fallback = spokenWords[cursor];
-    if (fallback) cursor += 1;
-    return { expected, spoken: fallback, status: fallback ? "wrong" : "missing" };
-  });
+    out.push({ expected: a[i - 1], status: "missing" });
+    i--;
+  }
+  return out.reverse();
 };
+
 
 export const drillAccuracy = (results: DrillWordResult[]): number => {
   if (results.length === 0) return 0;

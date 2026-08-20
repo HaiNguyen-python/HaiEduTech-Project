@@ -26,6 +26,7 @@ import { getTypesByPart, getStepLabel } from "@/data/speakingTemplateTypes";
 import { getStepDrill } from "@/data/speakingTemplateDrills";
 import { getStepVariants } from "@/data/speakingTemplateVariants";
 import TemplateSentenceDrill from "@/components/ielts/TemplateSentenceDrill";
+import { renderHighlighted } from "@/lib/highlightStructure";
 
 const SpeakingTemplateLab = () => {
   const { t } = useLanguage();
@@ -203,10 +204,8 @@ const SpeakingTemplateLab = () => {
                   </CollapsibleTrigger>
 
                   <CollapsibleContent>
-                    <div className="px-3 pb-3 pt-1 space-y-2.5 border-t bg-muted/20">
-                      <p className="text-xs md:text-sm text-muted-foreground pt-2">
-                        {t(step.goalVi, step.goalEn)}
-                      </p>
+                    <div className="px-3 pb-3 pt-3 space-y-2.5 border-t bg-muted/20">
+
 
                       {drill && (
                         <div className="flex gap-2 rounded-md border border-primary/25 bg-primary/5 p-2">
@@ -289,28 +288,30 @@ const SpeakingTemplateLab = () => {
             <Badge variant="default" className="text-[11px]">{type.example.band}</Badge>
           </div>
           <div className="rounded-lg border bg-background p-3">
-            <p className="text-xs font-semibold text-muted-foreground mb-1">
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-1">
               {t("Câu hỏi mẫu", "Sample question")}
             </p>
-            <p className="text-sm md:text-base font-medium text-foreground whitespace-pre-wrap">
+            <p className="text-sm md:text-base font-bold text-foreground whitespace-pre-wrap">
               {type.example.question}
             </p>
           </div>
           <div className="space-y-2">
             {type.example.lines.map((line, i) => {
               const step = getStepLabel(framework.steps, line.stepId);
+              const lineDrill = getStepDrill(type.id, line.stepId);
               return (
                 <div key={i} className="rounded-lg border bg-background p-3">
-                  <Badge variant="secondary" className="text-[11px] mb-1.5">
+                  <Badge variant="secondary" className="text-[11px] font-bold mb-1.5">
                     {step ? t(step.labelVi, step.labelEn) : line.stepId}
                   </Badge>
                   <p className="text-sm md:text-base text-foreground/90 leading-relaxed whitespace-pre-wrap">
-                    {line.text}
+                    {renderHighlighted(line.text, lineDrill?.highlight)}
                   </p>
                 </div>
               );
             })}
           </div>
+
         </CardContent>
       </Card>
 

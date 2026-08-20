@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
+import { renderHighlighted } from "@/lib/highlightStructure";
 import {
   compareDrillWords,
   drillAccuracy,
@@ -29,25 +30,6 @@ interface Props {
   highlight?: string[];
 }
 
-/** Bold the target structures inside the model sentence. */
-const renderHighlighted = (sentence: string, highlight?: string[]) => {
-  if (!highlight?.length) return sentence;
-  const escaped = highlight
-    .filter(Boolean)
-    .map((h) => h.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-    .sort((a, b) => b.length - a.length);
-  if (!escaped.length) return sentence;
-  const parts = sentence.split(new RegExp(`(${escaped.join("|")})`, "gi"));
-  return parts.map((part, i) =>
-    highlight.some((h) => h.toLowerCase() === part.toLowerCase()) ? (
-      <strong key={i} className="font-bold text-primary">
-        {part}
-      </strong>
-    ) : (
-      <span key={i}>{part}</span>
-    ),
-  );
-};
 
 const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) => {
   const { t } = useLanguage();
@@ -56,6 +38,9 @@ const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) =
   const [results, setResults] = useState<DrillWordResult[] | null>(null);
   const [accuracy, setAccuracy] = useState<number | null>(null);
   const [heard, setHeard] = useState("");
+  /** Live (interim) transcript so students can see the mic is picking them up. */
+  const [live, setLive] = useState("");
+
   const recognitionRef = useRef<any>(null);
   const manualStopRef = useRef(false);
   const transcriptRef = useRef("");
@@ -123,6 +108,8 @@ const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) =
     setResults(null);
     setAccuracy(null);
     setHeard("");
+    setLive("");
+
 
     try { recognitionRef.current?.abort(); } catch { /* noop */ }
     const Ctor = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -139,18 +126,30 @@ const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) =
       let text = "";
       for (let i = 0; i < event.results.length; i++) text += `${event.results[i][0].transcript} `;
       transcriptRef.current = text.trim();
+      setLive(transcriptRef.current);
     };
     recognition.onerror = (event: any) => {
-      setRecording(false);
-      if (event?.error === "not-allowed") {
+      if (event?.error === "not-allowed" || event?.error === "service-not-allowed") {
+        setRecording(false);
         toast.error(t("Hãy cho phép dùng micro", "Please allow microphone access"));
+        return;
       }
+      // "no-speech" / "aborted" happen often on Chrome; onend handles the retry.
     };
     recognition.onend = () => {
+      // Chrome ends the session after a short silence. Keep listening until the
+      // student presses Stop, otherwise a correct reading can be lost entirely.
+      if (!manualStopRef.current) {
+        try {
+          recognition.start();
+          return;
+        } catch { /* fall through to grading */ }
+      }
       setRecording(false);
       grade(transcriptRef.current);
       recognitionRef.current = null;
     };
+
 
     recognitionRef.current = recognition;
     try {
@@ -206,10 +205,17 @@ const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) =
       </div>
 
       {recording && (
-        <p className="text-xs text-red-600 animate-pulse">
-          🎙 {t("Đang nghe... hãy đọc cả câu rồi bấm Dừng.", "Listening... say the whole sentence, then press Stop.")}
-        </p>
+        <div className="space-y-1">
+          <p className="text-xs text-red-600 animate-pulse">
+            🎙 {t("Đang nghe... hãy đọc cả câu rồi bấm Dừng.", "Listening... say the whole sentence, then press Stop.")}
+          </p>
+          <p className="text-xs text-muted-foreground italic min-h-[1rem]">
+            {live || t("(chưa nghe thấy gì)", "(nothing picked up yet)")}
+          </p>
+        </div>
       )}
+
+
 
       {results && (
         <div className="space-y-1.5 rounded-md border bg-muted/40 p-2.5">
