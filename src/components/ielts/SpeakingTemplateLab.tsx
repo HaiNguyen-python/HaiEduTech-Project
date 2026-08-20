@@ -23,6 +23,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { getSpeakingTemplate } from "@/data/speakingAnswerTemplates";
 import { getTypesByPart, getStepLabel } from "@/data/speakingTemplateTypes";
 import { getStepDrill } from "@/data/speakingTemplateDrills";
+import { getStepVariants } from "@/data/speakingTemplateVariants";
 import TemplateSentenceDrill from "@/components/ielts/TemplateSentenceDrill";
 
 const SpeakingTemplateLab = () => {
