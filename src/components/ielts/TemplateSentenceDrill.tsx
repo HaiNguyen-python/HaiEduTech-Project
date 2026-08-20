@@ -205,10 +205,17 @@ const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) =
       </div>
 
       {recording && (
-        <p className="text-xs text-red-600 animate-pulse">
-          🎙 {t("Đang nghe... hãy đọc cả câu rồi bấm Dừng.", "Listening... say the whole sentence, then press Stop.")}
-        </p>
+        <div className="space-y-1">
+          <p className="text-xs text-red-600 animate-pulse">
+            🎙 {t("Đang nghe... hãy đọc cả câu rồi bấm Dừng.", "Listening... say the whole sentence, then press Stop.")}
+          </p>
+          <p className="text-xs text-muted-foreground italic min-h-[1rem]">
+            {live || t("(chưa nghe thấy gì)", "(nothing picked up yet)")}
+          </p>
+        </div>
       )}
+
+
 
       {results && (
         <div className="space-y-1.5 rounded-md border bg-muted/40 p-2.5">
