@@ -85,6 +85,14 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
 }
 
 /**
+ * Shared entry point for every Python surface in the app.
+ * Guarantees a single Pyodide version so the lockfile always matches.
+ */
+export function ensurePyodideRuntime(needsScientific = false): Promise<PyodideAPI> {
+  return ensurePyodide(needsScientific, () => {});
+}
+
+/**
  * Preload Pyodide in the background as soon as the user lands on a Python lesson.
  * Safe to call multiple times - uses the same singleton promise.
  */
@@ -93,6 +101,7 @@ export function preloadPyodide() {
   if (window.__haiPyodide || window.__haiPyodidePromise) return;
   void ensurePyodide(false, () => {});
 }
+
 
 export interface RunResult {
   stdout: string;
