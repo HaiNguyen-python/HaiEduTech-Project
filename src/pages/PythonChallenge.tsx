@@ -43,7 +43,7 @@ const FormattedProblem = ({ text }: { text: string }) => {
     const parts = s.split(/(`[^`]+`)/g);
     return parts.map((p, i) =>
       p.startsWith("`") && p.endsWith("`") ? (
-        <code key={i} className="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-mono text-[0.85em] break-words">
+        <code key={i} className="px-1 py-0.5 rounded bg-primary/10 text-primary font-mono text-[0.9em] break-words">
           {p.slice(1, -1)}
         </code>
       ) : (
