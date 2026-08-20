@@ -1096,15 +1096,6 @@ ${suggestionsHtml}
               </CardContent>
             </Card>
 
-            {/* Structured answer framework (PREP / cue-card blocks / AREA + Balance) */}
-            <SpeakingAnswerTemplate
-              part={selectedPart}
-              questionId={currentQ?.id}
-              question={currentQ?.question}
-              onInsertToNotes={(outline) =>
-                setCandidateNotes((prev) => (prev.trim() ? `${prev.trim()}\n\n${outline}` : outline))
-              }
-            />
 
             {/* Candidate Notes - Sticky Note style */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
