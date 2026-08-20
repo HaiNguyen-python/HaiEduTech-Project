@@ -199,6 +199,7 @@ sys.stderr = io.StringIO()
     setPassed(false);
     setAiHelp("");
     setHasError(false);
+    setMismatch(null);
   };
 
   return (
