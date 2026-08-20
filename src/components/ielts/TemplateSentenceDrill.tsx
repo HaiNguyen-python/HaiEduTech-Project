@@ -38,6 +38,9 @@ const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) =
   const [results, setResults] = useState<DrillWordResult[] | null>(null);
   const [accuracy, setAccuracy] = useState<number | null>(null);
   const [heard, setHeard] = useState("");
+  /** Live (interim) transcript so students can see the mic is picking them up. */
+  const [live, setLive] = useState("");
+
   const recognitionRef = useRef<any>(null);
   const manualStopRef = useRef(false);
   const transcriptRef = useRef("");
