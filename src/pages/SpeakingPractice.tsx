@@ -38,6 +38,8 @@ import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresIdeas";
 import ShadowingPractice from "@/components/ShadowingPractice";
 import SpeakingSrsPanel from "@/components/ielts/SpeakingSrsPanel";
+import SpeakingAnswerTemplate from "@/components/ielts/SpeakingAnswerTemplate";
+
 import { useSpeakingSrs } from "@/hooks/useSpeakingSrs";
 
 // Grading result interfaces
@@ -1094,8 +1096,19 @@ ${suggestionsHtml}
               </CardContent>
             </Card>
 
+            {/* Structured answer framework (PREP / cue-card blocks / AREA + Balance) */}
+            <SpeakingAnswerTemplate
+              part={selectedPart}
+              questionId={currentQ?.id}
+              question={currentQ?.question}
+              onInsertToNotes={(outline) =>
+                setCandidateNotes((prev) => (prev.trim() ? `${prev.trim()}\n\n${outline}` : outline))
+              }
+            />
+
             {/* Candidate Notes - Sticky Note style */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+
               <Card className={`border-2 ${selectedPart === 2 ? "border-amber-300 dark:border-amber-600 bg-amber-50/50 dark:bg-amber-950/20" : "border-dashed border-muted-foreground/20 bg-yellow-50/30 dark:bg-yellow-950/10"}`}>
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-center justify-between mb-3">
