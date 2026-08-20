@@ -154,71 +154,105 @@ const SpeakingTemplateLab = () => {
             )}
           </p>
 
-          {framework.steps.map((step, idx) => {
-            const drill = getStepDrill(type.id, step.id);
-            const main = type.example.lines.find((l) => l.stepId === step.id)?.text;
-            const stepScore = scores[step.id] ?? 0;
-            return (
-              <div key={step.id} className="rounded-lg border bg-muted/20 p-3 space-y-2.5">
-                <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <p className="text-sm md:text-base font-bold text-foreground">
-                    {idx + 1}. {t(step.labelVi, step.labelEn)}
-                    {stepScore >= 80 && <span className="ml-1.5 text-emerald-600">✓</span>}
-                  </p>
-                  <Badge variant="secondary" className="text-[11px] gap-1">
-                    <Clock className="w-3 h-3" />~{step.seconds}s
-                  </Badge>
-                </div>
-                <p className="text-xs md:text-sm text-muted-foreground">{t(step.goalVi, step.goalEn)}</p>
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => setOpenStep(null)}>
+              <ChevronsDownUp className="w-4 h-4" />
+              {t("Thu gọn tất cả", "Collapse all")}
+            </Button>
+          </div>
 
-                {drill && (
-                  <div className="flex gap-2 rounded-md border border-primary/25 bg-primary/5 p-2">
-                    <GraduationCap className="w-4 h-4 mt-0.5 text-primary shrink-0" />
-                    <p className="text-xs md:text-sm text-foreground/85">
-                      <span className="font-bold">{t("Cấu trúc cần nhớ: ", "Structure to memorise: ")}</span>
-                      {t(drill.focusVi, drill.focusEn)}
-                    </p>
-                  </div>
-                )}
-
-                {main && (
-                  <TemplateSentenceDrill
-                    sentence={main}
-                    label={t("Câu mẫu 1", "Model 1")}
-                    highlight={drill?.highlight}
-                    onScore={(s) => recordScore(step.id, s)}
-                  />
-                )}
-                {drill?.alt && (
-                  <TemplateSentenceDrill
-                    sentence={drill.alt}
-                    label={t("Câu mẫu 2 (biến thể)", "Model 2 (variation)")}
-                    highlight={drill.highlight}
-                    onScore={(s) => recordScore(step.id, s)}
-                  />
-                )}
-                {getStepVariants(type.id, step.id).map((v, i) => (
-                  <div key={i} className="space-y-1.5">
-                    <div className="flex gap-2 rounded-md border border-emerald-500/25 bg-emerald-500/5 p-2">
-                      <GraduationCap className="w-4 h-4 mt-0.5 text-emerald-600 shrink-0" />
-                      <p className="text-xs md:text-sm text-foreground/85">
-                        <span className="font-bold">
-                          {t("Cấu trúc khác: ", "Another structure: ")}
-                        </span>
-                        {t(v.focusVi, v.focusEn)}
-                      </p>
-                    </div>
-                    <TemplateSentenceDrill
-                      sentence={v.text}
-                      label={t(`Câu mẫu ${i + 3} (cấu trúc khác)`, `Model ${i + 3} (different structure)`)}
-                      highlight={v.highlight}
-                      onScore={(s) => recordScore(step.id, s)}
+          <div className="space-y-2.5">
+            {framework.steps.map((step, idx) => {
+              const drill = getStepDrill(type.id, step.id);
+              const main = type.example.lines.find((l) => l.stepId === step.id)?.text;
+              const stepScore = scores[step.id] ?? 0;
+              const isOpen = openStep === step.id;
+              return (
+                <Collapsible
+                  key={step.id}
+                  open={isOpen}
+                  onOpenChange={(o) => setOpenStep(o ? step.id : null)}
+                  className="rounded-xl border bg-card overflow-hidden"
+                >
+                  <CollapsibleTrigger className="w-full text-left px-3 py-3 flex items-center gap-2.5 hover:bg-muted/40 transition-colors">
+                    <span className="w-7 h-7 shrink-0 rounded-full bg-primary/10 text-primary text-sm font-bold flex items-center justify-center">
+                      {idx + 1}
+                    </span>
+                    <span className="flex-1 min-w-0">
+                      <span className="block text-sm md:text-base font-bold text-foreground">
+                        {t(step.labelVi, step.labelEn)}
+                        {stepScore >= 80 && <span className="ml-1.5 text-emerald-600">✓</span>}
+                      </span>
+                      <span className="block text-xs md:text-sm text-muted-foreground line-clamp-1">
+                        {t(step.goalVi, step.goalEn)}
+                      </span>
+                    </span>
+                    <Badge variant="secondary" className="text-[11px] gap-1 shrink-0 hidden sm:flex">
+                      <Clock className="w-3 h-3" />~{step.seconds}s
+                    </Badge>
+                    <ChevronDown
+                      className={`w-4 h-4 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
                     />
-                  </div>
-                ))}
-              </div>
-            );
-          })}
+                  </CollapsibleTrigger>
+
+                  <CollapsibleContent>
+                    <div className="px-3 pb-3 pt-1 space-y-2.5 border-t bg-muted/20">
+                      <p className="text-xs md:text-sm text-muted-foreground pt-2">
+                        {t(step.goalVi, step.goalEn)}
+                      </p>
+
+                      {drill && (
+                        <div className="flex gap-2 rounded-md border border-primary/25 bg-primary/5 p-2">
+                          <GraduationCap className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+                          <p className="text-xs md:text-sm text-foreground/85">
+                            <span className="font-bold">{t("Cấu trúc cần nhớ: ", "Structure to memorise: ")}</span>
+                            {t(drill.focusVi, drill.focusEn)}
+                          </p>
+                        </div>
+                      )}
+
+                      {main && (
+                        <TemplateSentenceDrill
+                          sentence={main}
+                          label={t("Câu mẫu 1", "Model 1")}
+                          highlight={drill?.highlight}
+                          onScore={(s) => recordScore(step.id, s)}
+                        />
+                      )}
+                      {drill?.alt && (
+                        <TemplateSentenceDrill
+                          sentence={drill.alt}
+                          label={t("Câu mẫu 2 (biến thể)", "Model 2 (variation)")}
+                          highlight={drill.highlight}
+                          onScore={(s) => recordScore(step.id, s)}
+                        />
+                      )}
+                      {getStepVariants(type.id, step.id).map((v, i) => (
+                        <div key={i} className="space-y-1.5">
+                          <div className="flex gap-2 rounded-md border border-emerald-500/25 bg-emerald-500/5 p-2">
+                            <GraduationCap className="w-4 h-4 mt-0.5 text-emerald-600 shrink-0" />
+                            <p className="text-xs md:text-sm text-foreground/85">
+                              <span className="font-bold">
+                                {t("Cấu trúc khác: ", "Another structure: ")}
+                              </span>
+                              {t(v.focusVi, v.focusEn)}
+                            </p>
+                          </div>
+                          <TemplateSentenceDrill
+                            sentence={v.text}
+                            label={t(`Câu mẫu ${i + 3} (cấu trúc khác)`, `Model ${i + 3} (different structure)`)}
+                            highlight={v.highlight}
+                            onScore={(s) => recordScore(step.id, s)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+              );
+            })}
+          </div>
+
 
           <div className="flex flex-wrap gap-2">
             <Button
