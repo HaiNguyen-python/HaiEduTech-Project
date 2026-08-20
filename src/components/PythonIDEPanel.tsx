@@ -37,54 +37,41 @@ const PythonIDEPanel = ({ initialCode = '# Write your Python code here\nprint("H
     setAiHelp("");
   }, [initialCode]);
 
-  // Load Pyodide
+  // Load Pyodide from the shared singleton (single pinned version)
   useEffect(() => {
-    if (window._pyodide) {
-      pyodideRef.current = window._pyodide;
-      setPyodideReady(true);
-      setLoadingPyodide(false);
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js";
-    script.onload = async () => {
+    let cancelled = false;
+    (async () => {
       try {
-        const pyodide = await window.loadPyodide!({
-          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/",
-        });
-        window._pyodide = pyodide;
-        pyodideRef.current = pyodide;
+        const py = await ensurePyodideRuntime();
+        if (cancelled) return;
+        pyodideRef.current = py;
         setPyodideReady(true);
-      } catch (e) {
-        console.error("Pyodide load error:", e);
-        setOutput("Failed to load Python runtime.");
+      } catch {
+        if (!cancelled) setOutput("Failed to load Python runtime.");
+      } finally {
+        if (!cancelled) setLoadingPyodide(false);
       }
-      setLoadingPyodide(false);
+    })();
+    return () => {
+      cancelled = true;
     };
-    script.onerror = () => {
-      setLoadingPyodide(false);
-      setOutput("Failed to load Python runtime.");
-    };
-    document.head.appendChild(script);
   }, []);
 
   const runCode = useCallback(async () => {
-    if (!pyodideRef.current) return;
     setRunning(true);
     setOutput("");
     setHasError(false);
     setAiHelp("");
     try {
-      pyodideRef.current.runPython(`
-import sys, io
-sys.stdout = io.StringIO()
-sys.stderr = io.StringIO()
-`);
-      pyodideRef.current.runPython(code);
-      const stdout = pyodideRef.current.runPython("sys.stdout.getvalue()");
-      const stderr = pyodideRef.current.runPython("sys.stderr.getvalue()");
-      const result = (stdout || "").trimEnd();
-      const errResult = (stderr || "").trimEnd();
+      const py = pyodideRef.current ?? (await ensurePyodideRuntime());
+      pyodideRef.current = py;
+      let stdout = "";
+      let stderr = "";
+      py.setStdout({ batched: (s: string) => (stdout += s + "\n") });
+      py.setStderr({ batched: (s: string) => (stderr += s + "\n") });
+      await py.runPythonAsync(code);
+      const result = stdout.trimEnd();
+      const errResult = stderr.trimEnd();
       if (errResult) {
         setOutput(result ? `${result}\n\n⚠️ ${errResult}` : `❌ Error:\n${errResult}`);
         setHasError(true);
@@ -92,13 +79,14 @@ sys.stderr = io.StringIO()
         setOutput(result || "(No output)");
       }
     } catch (err: any) {
-      const lines = (err.message || String(err)).split("\n");
+      const lines = (err?.message || String(err)).split("\n");
       const pyErr = lines.filter((l: string) => !l.includes("at ") && !l.includes("wasm")).join("\n");
       setOutput(`❌ Error:\n${pyErr}`);
       setHasError(true);
     }
     setRunning(false);
   }, [code]);
+
 
   const askAiDebug = async () => {
     setAiLoading(true);
