@@ -203,10 +203,8 @@ const SpeakingTemplateLab = () => {
                   </CollapsibleTrigger>
 
                   <CollapsibleContent>
-                    <div className="px-3 pb-3 pt-1 space-y-2.5 border-t bg-muted/20">
-                      <p className="text-xs md:text-sm text-muted-foreground pt-2">
-                        {t(step.goalVi, step.goalEn)}
-                      </p>
+                    <div className="px-3 pb-3 pt-3 space-y-2.5 border-t bg-muted/20">
+
 
                       {drill && (
                         <div className="flex gap-2 rounded-md border border-primary/25 bg-primary/5 p-2">
