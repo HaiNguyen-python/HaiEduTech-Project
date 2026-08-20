@@ -9101,7 +9101,7 @@ const part2PracticeQuestions: SpeakingPracticeQuestion[] = [
     "model_answer": "I'd like to talk about a childhood punishment, which is something that has always been close to my heart. **An inspiring figure** perfectly describes this experience because it truly was remarkable. What I remember most vividly is the sense of discovery and growth that came with it. I believe that **to look up to someone** played a huge role in shaping how I view this topic today. Overall, this experience taught me the value of **a role model**, and I would highly recommend it to anyone looking for a similar transformative experience."
   },
   {
-    "id": "p2-an-important-decision",
+    "id": "p2-a-quick-decision",
     "part": 2,
     "topic": "An Important Decision",
     "question": "Describe a decision you made quickly.",
