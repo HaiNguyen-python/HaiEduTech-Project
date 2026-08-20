@@ -8,7 +8,7 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { LayoutTemplate, Clock, Copy, Lightbulb, ListChecks, Sparkles } from "lucide-react";
+import { LayoutTemplate, Clock, Lightbulb, ListChecks, Sparkles, GraduationCap, RotateCcw } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,9 +20,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { toast } from "sonner";
 import { getSpeakingTemplate } from "@/data/speakingAnswerTemplates";
 import { getTypesByPart, getStepLabel } from "@/data/speakingTemplateTypes";
+import { getStepDrill } from "@/data/speakingTemplateDrills";
+import TemplateSentenceDrill from "@/components/ielts/TemplateSentenceDrill";
 
 const SpeakingTemplateLab = () => {
   const { t } = useLanguage();
@@ -36,54 +37,31 @@ const SpeakingTemplateLab = () => {
 
   const type = types.find((x) => x.id === typeId) || types[0];
   const framework = useMemo(() => getSpeakingTemplate(part), [part]);
-  const storageKey = `speaking-template-lab-${type?.id || "none"}`;
+  const storageKey = `speaking-template-drill-${type?.id || "none"}`;
 
-  const [values, setValues] = useState<Record<string, string>>({});
+  /** Best recorded accuracy per step id. */
+  const [scores, setScores] = useState<Record<string, number>>({});
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem(storageKey);
-      setValues(raw ? JSON.parse(raw) : {});
+      setScores(raw ? JSON.parse(raw) : {});
     } catch {
-      setValues({});
+      setScores({});
     }
   }, [storageKey]);
 
-  useEffect(() => {
-    const id = setTimeout(() => {
-      try {
-        if (Object.values(values).some((v) => v?.trim())) {
-          localStorage.setItem(storageKey, JSON.stringify(values));
-        }
-      } catch { /* storage unavailable */ }
-    }, 400);
-    return () => clearTimeout(id);
-  }, [values, storageKey]);
+  const recordScore = (stepId: string, score: number) => {
+    setScores((prev) => {
+      const next = { ...prev, [stepId]: Math.max(prev[stepId] ?? 0, score) };
+      try { localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* storage unavailable */ }
+      return next;
+    });
+  };
 
   if (!type) return null;
 
-  const buildOutline = () => {
-    const lines = [
-      `${t("Dạng câu hỏi", "Question type")}: ${t(type.labelVi, type.labelEn)} (Part ${part})`,
-      `${framework.name} (${framework.totalSecondsLabel})`,
-    ];
-    framework.steps.forEach((s) => {
-      const own = (values[s.id] || "").trim();
-      lines.push(`• ${t(s.labelVi, s.labelEn)}: ${own || t("(điền ý của bạn)", "(add your idea)")}`);
-    });
-    return lines.join("\n");
-  };
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(buildOutline());
-      toast.success(t("Đã copy dàn ý - dán vào Sổ tay của bạn", "Outline copied - paste it into your notebook"));
-    } catch {
-      toast.error(t("Không thể copy", "Could not copy"));
-    }
-  };
-
-  const filled = framework.steps.filter((s) => (values[s.id] || "").trim()).length;
+  const mastered = framework.steps.filter((s) => (scores[s.id] ?? 0) >= 80).length;
 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -98,8 +76,8 @@ const SpeakingTemplateLab = () => {
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
                 {t(
-                  "Chọn Part và dạng câu hỏi, học khung cấu trúc chuẩn, xem bài mẫu Band 7.5 rồi tự viết dàn ý của mình.",
-                  "Pick a part and a question type, learn the framework, study a Band 7.5 model, then draft your own outline.",
+                  "Chọn Part và dạng câu hỏi, nghe câu mẫu hoàn chỉnh cho từng bước rồi thu âm đọc lại để nhớ khung, cấu trúc và ngữ pháp.",
+                  "Pick a part and a question type, listen to a complete model sentence for every step, then record yourself saying it back to memorise the framework, structure and grammar.",
                 )}
               </p>
             </div>
@@ -156,7 +134,7 @@ const SpeakingTemplateLab = () => {
         </CardContent>
       </Card>
 
-      {/* Framework steps + student drafting */}
+      {/* Framework steps - speaking drills (listen + record, no typing) */}
       <Card>
         <CardContent className="pt-5 pb-5 space-y-4">
           <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -164,62 +142,76 @@ const SpeakingTemplateLab = () => {
               {t("Khung cấu trúc", "The framework")} - {framework.name}
             </h3>
             <Badge variant="outline" className="text-xs">
-              {filled}/{framework.steps.length} {t("bước đã viết", "steps drafted")}
+              {mastered}/{framework.steps.length} {t("bước đã luyện", "steps practised")}
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground">{t(framework.taglineVi, framework.taglineEn)}</p>
+          <p className="text-xs md:text-sm text-muted-foreground">
+            {t(
+              "Nghe câu mẫu, rồi bấm Thu âm và đọc lại đúng câu đó để nhớ khung, cấu trúc và ngữ pháp.",
+              "Listen to the model sentence, then hit Record and say it back to memorise the framework, structure and grammar.",
+            )}
+          </p>
 
-          {framework.steps.map((step, idx) => (
-            <div key={step.id} className="rounded-lg border bg-background p-3 space-y-2">
-              <div className="flex items-center justify-between gap-2 flex-wrap">
-                <p className="text-sm md:text-base font-bold text-foreground">
-                  {idx + 1}. {t(step.labelVi, step.labelEn)}
-                </p>
-                <Badge variant="secondary" className="text-[11px] gap-1">
-                  <Clock className="w-3 h-3" />~{step.seconds}s
-                </Badge>
+          {framework.steps.map((step, idx) => {
+            const drill = getStepDrill(type.id, step.id);
+            const main = type.example.lines.find((l) => l.stepId === step.id)?.text;
+            const stepScore = scores[step.id] ?? 0;
+            return (
+              <div key={step.id} className="rounded-lg border bg-muted/20 p-3 space-y-2.5">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <p className="text-sm md:text-base font-bold text-foreground">
+                    {idx + 1}. {t(step.labelVi, step.labelEn)}
+                    {stepScore >= 80 && <span className="ml-1.5 text-emerald-600">✓</span>}
+                  </p>
+                  <Badge variant="secondary" className="text-[11px] gap-1">
+                    <Clock className="w-3 h-3" />~{step.seconds}s
+                  </Badge>
+                </div>
+                <p className="text-xs md:text-sm text-muted-foreground">{t(step.goalVi, step.goalEn)}</p>
+
+                {drill && (
+                  <div className="flex gap-2 rounded-md border border-primary/25 bg-primary/5 p-2">
+                    <GraduationCap className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+                    <p className="text-xs md:text-sm text-foreground/85">
+                      <span className="font-bold">{t("Cấu trúc cần nhớ: ", "Structure to memorise: ")}</span>
+                      {t(drill.focusVi, drill.focusEn)}
+                    </p>
+                  </div>
+                )}
+
+                {main && (
+                  <TemplateSentenceDrill
+                    sentence={main}
+                    label={t("Câu mẫu 1", "Model 1")}
+                    highlight={drill?.highlight}
+                    onScore={(s) => recordScore(step.id, s)}
+                  />
+                )}
+                {drill?.alt && (
+                  <TemplateSentenceDrill
+                    sentence={drill.alt}
+                    label={t("Câu mẫu 2 (biến thể)", "Model 2 (variation)")}
+                    highlight={drill.highlight}
+                    onScore={(s) => recordScore(step.id, s)}
+                  />
+                )}
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">{t(step.goalVi, step.goalEn)}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {step.starters.map((s, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() =>
-                      setValues((v) => ({
-                        ...v,
-                        [step.id]: v[step.id]?.trim() ? `${v[step.id]} ${s}` : s,
-                      }))
-                    }
-                    className="text-[11px] md:text-xs rounded-full border border-primary/30 bg-primary/5 px-2.5 py-1 text-foreground/90 hover:bg-primary/15 transition-colors text-left"
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-              <textarea
-                value={values[step.id] || ""}
-                onChange={(e) => setValues((v) => ({ ...v, [step.id]: e.target.value }))}
-                placeholder={t(step.placeholderVi, step.placeholderEn)}
-                className="w-full min-h-[60px] rounded-md border bg-background px-2.5 py-2 text-sm md:text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y"
-              />
-            </div>
-          ))}
+            );
+          })}
 
           <div className="flex flex-wrap gap-2">
-            <Button size="sm" variant="outline" className="gap-1.5" onClick={handleCopy}>
-              <Copy className="w-4 h-4" />
-              {t("Copy dàn ý", "Copy outline")}
-            </Button>
             <Button
               size="sm"
-              variant="ghost"
+              variant="outline"
+              className="gap-1.5"
               onClick={() => {
-                setValues({});
+                setScores({});
                 try { localStorage.removeItem(storageKey); } catch { /* ignore */ }
               }}
             >
-              {t("Xóa hết", "Clear all")}
+              <RotateCcw className="w-4 h-4" />
+              {t("Luyện lại tất cả", "Practise all again")}
             </Button>
           </div>
         </CardContent>

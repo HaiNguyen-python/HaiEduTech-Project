@@ -1,9 +1,9 @@
 ---
 name: IELTS Speaking Template Lab
-description: Template Practice is its own mode next to Shadowing Practice, with per-question-type frameworks and annotated Band 7.5 examples
+description: Template Practice is its own mode next to Shadowing Practice - per-question-type frameworks drilled by listening to and recording complete model sentences (no typing)
 type: feature
 ---
-- "Template Practice" is a standalone mode button on /ielts-speaking-practice, placed next to Shadowing Practice. It must NOT be embedded inside the Part 1/2/3 question view (keeps that UI clean - only Quick Notes there).
+- "Template Practice" is a standalone mode button on /ielts-speaking-practice, next to Shadowing Practice. It must NOT be embedded inside the Part 1/2/3 question view.
 - `src/components/ielts/SpeakingTemplateLab.tsx` + `src/data/speakingTemplateTypes.ts`: question types per part (Part 1: like/frequency/past-now/would; Part 2: person/place/object/event/activity; Part 3: opinion/why/compare/future/pros-cons).
-- Each type: framework steps (PREP / cue-card blocks / AREA + Balance from `speakingAnswerTemplates.ts`), Band 7.0+ starters, teacher tip, annotated Band 7.5 model answer, 4 extra practice questions.
-- Student drafts persist in localStorage key `speaking-template-lab-{typeId}`.
+- No text inputs in the Lab. Each framework step is a speaking drill: 2 complete model sentences (main from the Band 7.5 example + a variation in `src/data/speakingTemplateDrills.ts`), the trained grammar pattern bolded, "Structure to memorise" note, Listen / Slow (englishTts, en-GB) and Record buttons.
+- `src/components/ielts/TemplateSentenceDrill.tsx` records via Web Speech API (en-GB, continuous) and scores with `src/lib/speakingDrillScore.ts`; step counts as practised at >= 80%. Best score per step persists in localStorage key `speaking-template-drill-{typeId}`.
