@@ -130,8 +130,9 @@ export const SPEAKING_STEP_DRILLS: Record<string, StepDrill> = {
   },
   "p2-person:details": {
     alt: "To give you some background, she's in her late forties, she runs a small pharmacy in Hue, and I've known her all my life.",
-    focusVi: "'To give you some background' + hiện tại đơn miêu tả + 'in her forties' nói tuổi.",
-    focusEn: "'To give you some background' + present simple description + 'in her forties' for age.",
+    focusVi: "'To give you some background' + chuỗi mệnh đề hiện tại đơn (she's..., she runs..., I've known...) để liệt kê thông tin nền.",
+    focusEn: "'To give you some background' + a chain of present-simple clauses (she's..., she runs..., I've known...) to list background facts.",
+
     highlight: ["To give you some background", "in her late forties"],
   },
   "p2-person:story": {
