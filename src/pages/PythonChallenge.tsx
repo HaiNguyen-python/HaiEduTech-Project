@@ -257,8 +257,12 @@ const PythonChallengePage = () => {
                     <FormattedProblem text={challenge.description} />
                     {challenge.testCases.length > 0 && (
                       <div className="mt-4 pt-4 border-t border-border">
-                        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Expected output:</p>
-                        <pre className="text-sm font-mono bg-secondary rounded-lg p-4 text-foreground whitespace-pre overflow-x-auto leading-relaxed">{challenge.testCases[0].expected}</pre>
+                        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                          {t("Kết quả mong đợi:", "Expected output:")}
+                        </p>
+                        <div className="text-sm font-mono bg-secondary rounded-lg p-4 text-foreground whitespace-pre-wrap break-words overflow-y-auto max-h-56 leading-relaxed">
+                          {challenge.testCases[0].expected}
+                        </div>
                       </div>
                     )}
                   </div>
