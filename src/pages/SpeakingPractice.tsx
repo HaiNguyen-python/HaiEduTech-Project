@@ -11,7 +11,7 @@ import {
   Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
   Users, MapPin, Package, Calendar, Sparkles, StickyNote, CheckCircle2, Loader2,
-  PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2
+  PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2, LayoutTemplate
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -38,7 +38,7 @@ import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresIdeas";
 import ShadowingPractice from "@/components/ShadowingPractice";
 import SpeakingSrsPanel from "@/components/ielts/SpeakingSrsPanel";
-import SpeakingAnswerTemplate from "@/components/ielts/SpeakingAnswerTemplate";
+import SpeakingTemplateLab from "@/components/ielts/SpeakingTemplateLab";
 
 import { useSpeakingSrs } from "@/hooks/useSpeakingSrs";
 
@@ -112,7 +112,7 @@ const PART2_CATEGORIES: Record<string, { label: string; icon: React.ReactNode; t
 const SpeakingPractice = () => {
   const { t } = useLanguage();
   const [selectedPart, setSelectedPart] = useState<1 | 2 | 3>(1);
-  const [mode, setMode] = useState<"part" | "shadow" | "srs">("part");
+  const [mode, setMode] = useState<"part" | "shadow" | "template" | "srs">("part");
   const { due: srsDue, addFromResult: addSrsFromResult } = useSpeakingSrs();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [selectedQuestionIdx, setSelectedQuestionIdx] = useState(0);
@@ -721,6 +721,15 @@ ${suggestionsHtml}
             {t("Luyện Shadowing", "Shadowing Practice")}
           </Button>
           <Button
+            onClick={() => setMode("template")}
+            variant={mode === "template" ? "default" : "secondary"}
+            className={mode === "template" ? "shadow-lg scale-105 bg-gradient-to-r from-emerald-500 to-primary" : ""}
+            size="lg"
+          >
+            <LayoutTemplate className="w-4 h-4 mr-1.5" />
+            {t("Luyện Template", "Template Practice")}
+          </Button>
+          <Button
             onClick={() => setMode("srs")}
             variant={mode === "srs" ? "default" : "secondary"}
             className={mode === "srs" ? "shadow-lg scale-105 bg-gradient-to-r from-amber-500 to-primary" : ""}
@@ -741,8 +750,11 @@ ${suggestionsHtml}
 
         {mode === "srs" ? (
           <SpeakingSrsPanel />
+        ) : mode === "template" ? (
+          <SpeakingTemplateLab />
         ) : mode === "shadow" ? (
           <ShadowingPractice />
+
         ) : (
         <>
 
@@ -1096,15 +1108,6 @@ ${suggestionsHtml}
               </CardContent>
             </Card>
 
-            {/* Structured answer framework (PREP / cue-card blocks / AREA + Balance) */}
-            <SpeakingAnswerTemplate
-              part={selectedPart}
-              questionId={currentQ?.id}
-              question={currentQ?.question}
-              onInsertToNotes={(outline) =>
-                setCandidateNotes((prev) => (prev.trim() ? `${prev.trim()}\n\n${outline}` : outline))
-              }
-            />
 
             {/* Candidate Notes - Sticky Note style */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
