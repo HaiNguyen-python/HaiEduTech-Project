@@ -23,6 +23,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { getSpeakingTemplate } from "@/data/speakingAnswerTemplates";
 import { getTypesByPart, getStepLabel } from "@/data/speakingTemplateTypes";
 import { getStepDrill } from "@/data/speakingTemplateDrills";
+import { getStepVariants } from "@/data/speakingTemplateVariants";
 import TemplateSentenceDrill from "@/components/ielts/TemplateSentenceDrill";
 
 const SpeakingTemplateLab = () => {
@@ -196,6 +197,25 @@ const SpeakingTemplateLab = () => {
                     onScore={(s) => recordScore(step.id, s)}
                   />
                 )}
+                {getStepVariants(type.id, step.id).map((v, i) => (
+                  <div key={i} className="space-y-1.5">
+                    <div className="flex gap-2 rounded-md border border-emerald-500/25 bg-emerald-500/5 p-2">
+                      <GraduationCap className="w-4 h-4 mt-0.5 text-emerald-600 shrink-0" />
+                      <p className="text-xs md:text-sm text-foreground/85">
+                        <span className="font-bold">
+                          {t("Cấu trúc khác: ", "Another structure: ")}
+                        </span>
+                        {t(v.focusVi, v.focusEn)}
+                      </p>
+                    </div>
+                    <TemplateSentenceDrill
+                      sentence={v.text}
+                      label={t(`Câu mẫu ${i + 3} (cấu trúc khác)`, `Model ${i + 3} (different structure)`)}
+                      highlight={v.highlight}
+                      onScore={(s) => recordScore(step.id, s)}
+                    />
+                  </div>
+                ))}
               </div>
             );
           })}
