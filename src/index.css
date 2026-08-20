@@ -287,6 +287,14 @@
   text-decoration: line-through;
   opacity: 0.6;
 }
+/* Whiteboard drawings inserted into a note */
+.notebook-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid hsl(var(--border));
+  margin: 0.5em 0;
+}
 
 /* =================== LEARN PROGRAMMING - THEORY TYPOGRAPHY ===================
    Self-contained, optimized for long-form reading. Isolated from global

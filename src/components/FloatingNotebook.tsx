@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +12,8 @@ import { TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
+import Image from "@tiptap/extension-image";
+import NotebookWhiteboard from "@/components/notebook/NotebookWhiteboard";
 
 interface Notebook {
   id: string;
@@ -90,8 +92,32 @@ const FloatingNotebook = () => {
   const { toast } = useToast();
 
   const defaultSize = { width: 460, height: 600 };
-  const [size, setSize] = useState(defaultSize);
+  // Remember the panel size per device so a teacher who works on a big board
+  // does not have to re-enlarge the notebook every session.
+  const [size, setSize] = useState(() => {
+    try {
+      const raw = JSON.parse(localStorage.getItem("notebook-size") || "null");
+      if (raw && typeof raw.width === "number" && typeof raw.height === "number") {
+        return {
+          width: clamp(raw.width, 360, window.innerWidth - 20),
+          height: clamp(raw.height, 360, window.innerHeight - 40),
+        };
+      }
+    } catch { /* ignore */ }
+    return defaultSize;
+  });
   const [position, setPosition] = useState(() => getDefaultPosition(defaultSize.width, defaultSize.height));
+  const [maximized, setMaximized] = useState(() => localStorage.getItem("notebook-maximized") === "1");
+  // "notes" = rich text editor, "board" = live whiteboard for teaching.
+  const [tab, setTab] = useState<"notes" | "board">("notes");
+  const preMaximize = useRef<{ size: { width: number; height: number }; position: { x: number; y: number } } | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("notebook-size", JSON.stringify(size));
+  }, [size]);
+  useEffect(() => {
+    localStorage.setItem("notebook-maximized", maximized ? "1" : "0");
+  }, [maximized]);
 
   // Draggable state
   const dragging = useRef(false);
@@ -99,7 +125,9 @@ const FloatingNotebook = () => {
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Resizable state
-  const resizing = useRef<null | "right" | "bottom" | "corner">(null);
+  const resizing = useRef<null | "right" | "bottom" | "corner" | "left" | "top">(null);
+  const resizeStart = useRef({ x: 0, y: 0, width: 0, height: 0, left: 0, top: 0 });
+
 
   // Editor font size (px), remembered per device for accessibility.
   const [fontSize, setFontSize] = useState<number>(() => {
@@ -119,6 +147,8 @@ const FloatingNotebook = () => {
       Highlight.configure({ multicolor: true }),
       TaskList,
       TaskItem.configure({ nested: true }),
+      // Whiteboard drawings are inserted as inline images.
+      Image.configure({ inline: false, allowBase64: true }),
     ],
     content: "",
     editorProps: {
@@ -658,32 +688,115 @@ const FloatingNotebook = () => {
     };
   }, [position]);
 
-  // Resize handlers
-  const onResizeStart = useCallback((edge: "right" | "bottom" | "corner") => (e: React.MouseEvent | React.TouchEvent) => {
-    resizing.current = edge;
-    e.preventDefault();
-    e.stopPropagation();
-  }, []);
+  // Resize handlers - any edge/corner, capped only by the viewport so the
+  // notebook can be stretched to almost full screen for teaching.
+  const onResizeStart = useCallback(
+    (edge: "right" | "bottom" | "corner" | "left" | "top") => (e: React.MouseEvent | React.TouchEvent) => {
+      resizing.current = edge;
+      const point = "touches" in e ? e.touches[0] : (e as React.MouseEvent);
+      resizeStart.current = {
+        x: point.clientX,
+        y: point.clientY,
+        width: size.width,
+        height: size.height,
+        left: position.x,
+        top: position.y,
+      };
+      setMaximized(false);
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    [size, position],
+  );
+
+  // Insert a whiteboard drawing into the current note as an inline image, then
+  // jump back to the note tab so the teacher sees where it landed.
+  const handleInsertDrawing = useCallback(
+    (dataUrl: string) => {
+      if (!editor || !dataUrl) return;
+      editor.chain().focus().setImage({ src: dataUrl, alt: "Bảng trắng" }).run();
+      setEditorTick((t) => t + 1);
+      setTab("notes");
+      toast({ title: "Đã chèn bản vẽ vào ghi chú" });
+    },
+    [editor, toast],
+  );
 
   // Reset position
   const handleResetPosition = useCallback(() => {
     setPosition(getDefaultPosition(size.width, size.height));
   }, [size]);
 
+  // Maximize / restore the panel.
+  const toggleMaximize = useCallback(() => {
+    if (maximized) {
+      const prev = preMaximize.current;
+      if (prev) {
+        setSize(prev.size);
+        setPosition({
+          x: clamp(prev.position.x, 10, Math.max(10, window.innerWidth - prev.size.width)),
+          y: clamp(prev.position.y, 10, Math.max(10, window.innerHeight - 80)),
+        });
+      }
+      setMaximized(false);
+      return;
+    }
+    preMaximize.current = { size, position };
+    setSize({ width: window.innerWidth - 32, height: window.innerHeight - 80 });
+    setPosition({ x: 16, y: 56 });
+    setMaximized(true);
+  }, [maximized, size, position]);
+
+  // Keep the maximized panel glued to the viewport when the window changes.
+  useEffect(() => {
+    if (!maximized) return;
+    const onWinResize = () => {
+      setSize({ width: window.innerWidth - 32, height: window.innerHeight - 80 });
+      setPosition({ x: 16, y: 56 });
+    };
+    onWinResize();
+    window.addEventListener("resize", onWinResize);
+    return () => window.removeEventListener("resize", onWinResize);
+  }, [maximized]);
+
   useEffect(() => {
     const onMove = (clientX: number, clientY: number) => {
       if (dragging.current) {
         setPosition({
-          x: clamp(clientX - dragOffset.current.x, 0, window.innerWidth - size.width),
-          y: clamp(clientY - dragOffset.current.y, 10, window.innerHeight - 100),
+          x: clamp(clientX - dragOffset.current.x, 0, Math.max(0, window.innerWidth - size.width)),
+          y: clamp(clientY - dragOffset.current.y, 10, Math.max(10, window.innerHeight - 100)),
         });
       }
       if (resizing.current) {
-        const newWidth = resizing.current !== "bottom" ? clamp(clientX - position.x, 360, 800) : size.width;
-        const newHeight = resizing.current !== "right" ? clamp(clientY - position.y, 400, 900) : size.height;
-        setSize({ width: newWidth, height: newHeight });
+        const edge = resizing.current;
+        const start = resizeStart.current;
+        const maxW = window.innerWidth - 20;
+        const maxH = window.innerHeight - 40;
+        let width = size.width;
+        let height = size.height;
+        let x = position.x;
+        let y = position.y;
+
+        if (edge === "right" || edge === "corner") {
+          width = clamp(clientX - start.left, 360, maxW);
+        } else if (edge === "left") {
+          const right = start.left + start.width;
+          width = clamp(right - clientX, 360, maxW);
+          x = right - width;
+        }
+        if (edge === "bottom" || edge === "corner") {
+          height = clamp(clientY - start.top, 320, maxH);
+        } else if (edge === "top") {
+          const bottom = start.top + start.height;
+          height = clamp(bottom - clientY, 320, maxH);
+          y = bottom - height;
+        }
+
+        setSize({ width, height });
+        if (x !== position.x || y !== position.y) setPosition({ x: Math.max(0, x), y: Math.max(0, y) });
       }
     };
+
 
     const onMouseMove = (e: MouseEvent) => onMove(e.clientX, e.clientY);
     const onTouchMove = (e: TouchEvent) => {
@@ -778,6 +891,14 @@ const FloatingNotebook = () => {
                 <button onClick={handleResetPosition} className="p-1.5 rounded-md hover:bg-black/10" title="Reset vị trí" style={{ color: theme.text }}>
                   <RotateCcw size={14} />
                 </button>
+                <button
+                  onClick={toggleMaximize}
+                  className="p-1.5 rounded-md hover:bg-black/10"
+                  title={maximized ? "Thu nhỏ" : "Phóng to toàn màn hình"}
+                  style={{ color: theme.text }}
+                >
+                  {maximized ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+                </button>
                 <button onClick={handleNew} className="p-1.5 rounded-md hover:bg-black/10" title="Tạo mới" style={{ color: theme.text }}>
                   <Plus size={16} />
                 </button>
@@ -785,6 +906,25 @@ const FloatingNotebook = () => {
                   <X size={16} />
                 </button>
               </div>
+            </div>
+
+            {/* Tabs: rich text notes vs live whiteboard */}
+            <div className="px-3 pt-2 flex items-center gap-1">
+              {([
+                { key: "notes" as const, label: "Ghi chú", Icon: FileText },
+                { key: "board" as const, label: "Bảng trắng", Icon: PenLine },
+              ]).map(({ key, label, Icon }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setTab(key)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                    tab === key ? "bg-primary text-primary-foreground" : "hover:bg-accent text-muted-foreground"
+                  }`}
+                >
+                  <Icon size={13} /> {label}
+                </button>
+              ))}
             </div>
 
             {/* Saved notes selector - compact dropdown */}
@@ -847,7 +987,7 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Rich text toolbar */}
-            <div className="px-3 pt-2 flex items-center gap-1 flex-wrap">
+            <div className={`px-3 pt-2 flex items-center gap-1 flex-wrap ${tab === "notes" ? "" : "hidden"}`}>
               {[
                 { icon: Bold, action: () => editor?.chain().focus().toggleBold().run(), active: editor?.isActive("bold") },
                 { icon: Italic, action: () => editor?.chain().focus().toggleItalic().run(), active: editor?.isActive("italic") },
@@ -957,15 +1097,21 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Editor */}
-            <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
-              <div
-                className="rounded-md h-full overflow-auto"
-                style={{ backgroundColor: theme.editorBg, border: `1px solid ${theme.border}`, fontSize: `${fontSize}px` }}
-              >
-                <EditorContent editor={editor} />
+            {/* Editor / Whiteboard */}
+            {tab === "notes" ? (
+              <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
+                <div
+                  className="rounded-md h-full overflow-auto"
+                  style={{ backgroundColor: theme.editorBg, border: `1px solid ${theme.border}`, fontSize: `${fontSize}px` }}
+                >
+                  <EditorContent editor={editor} />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="px-3 pt-2 flex-1 min-h-0">
+                <NotebookWhiteboard onInsert={handleInsertDrawing} />
+              </div>
+            )}
 
 
             {/* Footer */}
