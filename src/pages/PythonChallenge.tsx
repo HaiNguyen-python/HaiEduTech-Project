@@ -16,20 +16,34 @@ const difficultyColors = {
   hard: "bg-red-500/10 text-red-600 border-red-500/30",
 };
 
+/** Tidy up spacing artefacts so text never shows " ." or double spaces. */
+const tidy = (s: string) =>
+  s
+    .replace(/[ \t]+/g, " ")
+    .replace(/\s+([.,;:!?])/g, "$1")
+    .replace(/([([])\s+/g, "$1")
+    .replace(/\s+([)\]])/g, "$1")
+    .trim();
+
+/**
+ * Splits a paragraph into sentences without cutting inside quotes:
+ * a closing quote / bracket after the final punctuation stays with its sentence.
+ */
+const splitSentences = (s: string): string[] =>
+  (s.match(/[^.!?]+[.!?]+['"’”)\]]*(?=\s|$)|[^.!?]+$/g) || [s]).map(x => x.trim()).filter(Boolean);
+
 /**
  * Formats a dense problem description into readable blocks:
- * - Splits on sentences and bullet markers ("-", "•", numbered lists)
- * - Renders inline `code` spans
- * - Renders bullet lists when bullet markers are detected
+ * - Keeps author line breaks, groups consecutive "-" / "•" lines into one list
+ * - Also handles bullets written inline on a single line
+ * - Renders inline `code` spans and never splits a sentence inside quotes
  */
 const FormattedProblem = ({ text }: { text: string }) => {
-  // Normalize line breaks; treat literal " - " and " • " as bullet separators
-  // when they appear after a colon-introduced clause.
   const renderInline = (s: string) => {
     const parts = s.split(/(`[^`]+`)/g);
     return parts.map((p, i) =>
       p.startsWith("`") && p.endsWith("`") ? (
-        <code key={i} className="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-mono text-[0.85em]">
+        <code key={i} className="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-mono text-[0.85em] break-words">
           {p.slice(1, -1)}
         </code>
       ) : (
@@ -38,40 +52,54 @@ const FormattedProblem = ({ text }: { text: string }) => {
     );
   };
 
-  // Split into top-level blocks on existing newlines first.
-  const rawBlocks = text.split(/\r?\n+/).map(b => b.trim()).filter(Boolean);
-
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const blocks: { type: "p" | "ul"; items: string[] }[] = [];
-  for (const block of rawBlocks) {
-    // Detect inline bullets like "Foo: - one - two - three" or "- one - two"
-    const bulletMatches = block.match(/(?:^|\s)[-•]\s+/g);
-    if (bulletMatches && bulletMatches.length >= 2) {
-      // Find optional intro before the first bullet
-      const firstIdx = block.search(/(?:^|\s)[-•]\s+/);
-      const intro = block.slice(0, firstIdx).trim().replace(/[:：]$/, "").trim();
-      const rest = block.slice(firstIdx).trim();
-      const items = rest
+
+  const pushParagraph = (block: string) => {
+    const clean = tidy(block);
+    if (!clean) return;
+    // Only break up genuinely long paragraphs, two sentences per block.
+    if (clean.length > 260) {
+      const sentences = splitSentences(clean);
+      for (let i = 0; i < sentences.length; i += 2) {
+        blocks.push({ type: "p", items: [sentences.slice(i, i + 2).join(" ")] });
+      }
+    } else {
+      blocks.push({ type: "p", items: [clean] });
+    }
+  };
+
+  const bulletLine = /^[-•*]\s+/;
+
+  for (const line of lines) {
+    if (bulletLine.test(line)) {
+      const item = tidy(line.replace(bulletLine, ""));
+      const last = blocks[blocks.length - 1];
+      if (last && last.type === "ul") last.items.push(item);
+      else blocks.push({ type: "ul", items: [item] });
+      continue;
+    }
+
+    // Inline bullets on one line: "Foo: - one - two - three"
+    const inline = line.match(/(?:^|\s)[-•]\s+/g);
+    if (inline && inline.length >= 2) {
+      const firstIdx = line.search(/(?:^|\s)[-•]\s+/);
+      const intro = tidy(line.slice(0, firstIdx).replace(/[:：]$/, ""));
+      const items = line
+        .slice(firstIdx)
         .split(/(?:^|\s)[-•]\s+/)
-        .map(s => s.trim())
+        .map(s => tidy(s))
         .filter(Boolean);
       if (intro) blocks.push({ type: "p", items: [intro + ":"] });
       blocks.push({ type: "ul", items });
-    } else {
-      // Split very long paragraphs into sentence groups (every 2 sentences)
-      const sentences = block.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g) || [block];
-      const trimmed = sentences.map(s => s.trim()).filter(Boolean);
-      if (trimmed.length > 2) {
-        for (let i = 0; i < trimmed.length; i += 2) {
-          blocks.push({ type: "p", items: [trimmed.slice(i, i + 2).join(" ")] });
-        }
-      } else {
-        blocks.push({ type: "p", items: [block] });
-      }
+      continue;
     }
+
+    pushParagraph(line);
   }
 
   return (
-    <div className="space-y-3 text-[15px] text-secondary-foreground leading-relaxed">
+    <div className="space-y-3 text-[15px] text-secondary-foreground leading-relaxed break-words">
       {blocks.map((b, i) =>
         b.type === "p" ? (
           <p key={i}>{renderInline(b.items[0])}</p>
