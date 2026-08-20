@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
+import { renderHighlighted } from "@/lib/highlightStructure";
 import {
   compareDrillWords,
   drillAccuracy,
@@ -29,25 +30,6 @@ interface Props {
   highlight?: string[];
 }
 
-/** Bold the target structures inside the model sentence. */
-const renderHighlighted = (sentence: string, highlight?: string[]) => {
-  if (!highlight?.length) return sentence;
-  const escaped = highlight
-    .filter(Boolean)
-    .map((h) => h.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-    .sort((a, b) => b.length - a.length);
-  if (!escaped.length) return sentence;
-  const parts = sentence.split(new RegExp(`(${escaped.join("|")})`, "gi"));
-  return parts.map((part, i) =>
-    highlight.some((h) => h.toLowerCase() === part.toLowerCase()) ? (
-      <strong key={i} className="font-bold text-primary">
-        {part}
-      </strong>
-    ) : (
-      <span key={i}>{part}</span>
-    ),
-  );
-};
 
 const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) => {
   const { t } = useLanguage();
