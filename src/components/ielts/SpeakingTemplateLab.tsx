@@ -8,7 +8,8 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { LayoutTemplate, Clock, Lightbulb, ListChecks, Sparkles, GraduationCap, RotateCcw } from "lucide-react";
+import { LayoutTemplate, Clock, Lightbulb, ListChecks, Sparkles, GraduationCap, RotateCcw, ChevronDown, ChevronsDownUp } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
