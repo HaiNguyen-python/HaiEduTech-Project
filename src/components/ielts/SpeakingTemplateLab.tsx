@@ -26,6 +26,7 @@ import { getTypesByPart, getStepLabel } from "@/data/speakingTemplateTypes";
 import { getStepDrill } from "@/data/speakingTemplateDrills";
 import { getStepVariants } from "@/data/speakingTemplateVariants";
 import TemplateSentenceDrill from "@/components/ielts/TemplateSentenceDrill";
+import { renderHighlighted } from "@/lib/highlightStructure";
 
 const SpeakingTemplateLab = () => {
   const { t } = useLanguage();
