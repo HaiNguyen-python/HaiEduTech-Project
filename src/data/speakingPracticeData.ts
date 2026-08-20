@@ -13805,12 +13805,14 @@ const part3PracticeQuestions: SpeakingPracticeQuestion[] = [
   }
 ];
 
-// Export all questions grouped by part (base bank + expansion bank)
-export const speakingPracticeData = {
+// Export all questions grouped by part (base bank + expansion bank),
+// re-filed by the classifier so cue cards only ever live in Part 2
+// and duplicate ids/questions are removed.
+export const speakingPracticeData = classifySpeakingBanks({
   part1: [...part1PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part1],
   part2: [...part2PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part2],
   part3: [...part3PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part3],
-};
+});
 
 
 // Get all topics for a given part
