@@ -2,6 +2,7 @@
 // Each question includes useful language, model structures, brainstorming ideas, and model answers
 // Total: 110 Part 1 + 101 Part 2 + 110 Part 3 questions (plus expansion bank)
 import { SPEAKING_PRACTICE_EXPANSION } from "./speakingPracticeExpansion";
+import { classifySpeakingBanks } from "./speakingPartClassifier";
 
 
 export interface VocabItem {
@@ -9101,7 +9102,7 @@ const part2PracticeQuestions: SpeakingPracticeQuestion[] = [
     "model_answer": "I'd like to talk about a childhood punishment, which is something that has always been close to my heart. **An inspiring figure** perfectly describes this experience because it truly was remarkable. What I remember most vividly is the sense of discovery and growth that came with it. I believe that **to look up to someone** played a huge role in shaping how I view this topic today. Overall, this experience taught me the value of **a role model**, and I would highly recommend it to anyone looking for a similar transformative experience."
   },
   {
-    "id": "p2-an-important-decision",
+    "id": "p2-a-quick-decision",
     "part": 2,
     "topic": "An Important Decision",
     "question": "Describe a decision you made quickly.",
@@ -13805,18 +13806,20 @@ const part3PracticeQuestions: SpeakingPracticeQuestion[] = [
   }
 ];
 
-// Export all questions grouped by part (base bank + expansion bank)
-export const speakingPracticeData = {
+// Export all questions grouped by part (base bank + expansion bank),
+// re-filed by the classifier so cue cards only ever live in Part 2
+// and duplicate ids/questions are removed.
+export const speakingPracticeData = classifySpeakingBanks({
   part1: [...part1PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part1],
   part2: [...part2PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part2],
   part3: [...part3PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part3],
-};
+});
 
 
 // Get all topics for a given part
 export const getTopicsByPart = (part: 1 | 2 | 3): string[] => {
   const questions = speakingPracticeData[`part${part}`];
-  return [...new Set(questions.map(q => q.topic))];
+  return [...new Set(questions.map((q) => q.topic))] as string[];
 };
 
 // Get questions for a given part and optional topic filter
