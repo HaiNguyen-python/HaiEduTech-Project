@@ -43,6 +43,8 @@ const SpeakingTemplateLab = () => {
 
   /** Best recorded accuracy per step id. */
   const [scores, setScores] = useState<Record<string, number>>({});
+  /** Currently expanded framework step (accordion behaviour). */
+  const [openStep, setOpenStep] = useState<string | null>(null);
 
   useEffect(() => {
     try {
