@@ -2,6 +2,7 @@
 // Each question includes useful language, model structures, brainstorming ideas, and model answers
 // Total: 110 Part 1 + 101 Part 2 + 110 Part 3 questions (plus expansion bank)
 import { SPEAKING_PRACTICE_EXPANSION } from "./speakingPracticeExpansion";
+import { classifySpeakingBanks } from "./speakingPartClassifier";
 
 
 export interface VocabItem {
@@ -13818,7 +13819,7 @@ export const speakingPracticeData = classifySpeakingBanks({
 // Get all topics for a given part
 export const getTopicsByPart = (part: 1 | 2 | 3): string[] => {
   const questions = speakingPracticeData[`part${part}`];
-  return [...new Set(questions.map(q => q.topic))];
+  return [...new Set(questions.map((q) => q.topic))] as string[];
 };
 
 // Get questions for a given part and optional topic filter
