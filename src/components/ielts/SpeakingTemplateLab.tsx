@@ -55,6 +55,10 @@ const SpeakingTemplateLab = () => {
     }
   }, [storageKey]);
 
+  useEffect(() => {
+    setOpenStep(null);
+  }, [storageKey]);
+
   const recordScore = (stepId: string, score: number) => {
     setScores((prev) => {
       const next = { ...prev, [stepId]: Math.max(prev[stepId] ?? 0, score) };
