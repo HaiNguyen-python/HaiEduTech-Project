@@ -121,18 +121,30 @@ const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) =
       let text = "";
       for (let i = 0; i < event.results.length; i++) text += `${event.results[i][0].transcript} `;
       transcriptRef.current = text.trim();
+      setLive(transcriptRef.current);
     };
     recognition.onerror = (event: any) => {
-      setRecording(false);
-      if (event?.error === "not-allowed") {
+      if (event?.error === "not-allowed" || event?.error === "service-not-allowed") {
+        setRecording(false);
         toast.error(t("Hãy cho phép dùng micro", "Please allow microphone access"));
+        return;
       }
+      // "no-speech" / "aborted" happen often on Chrome; onend handles the retry.
     };
     recognition.onend = () => {
+      // Chrome ends the session after a short silence. Keep listening until the
+      // student presses Stop, otherwise a correct reading can be lost entirely.
+      if (!manualStopRef.current) {
+        try {
+          recognition.start();
+          return;
+        } catch { /* fall through to grading */ }
+      }
       setRecording(false);
       grade(transcriptRef.current);
       recognitionRef.current = null;
     };
+
 
     recognitionRef.current = recognition;
     try {
