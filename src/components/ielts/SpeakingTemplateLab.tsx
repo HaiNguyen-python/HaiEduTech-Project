@@ -76,8 +76,8 @@ const SpeakingTemplateLab = () => {
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
                 {t(
-                  "Chọn Part và dạng câu hỏi, học khung cấu trúc chuẩn, xem bài mẫu Band 7.5 rồi tự viết dàn ý của mình.",
-                  "Pick a part and a question type, learn the framework, study a Band 7.5 model, then draft your own outline.",
+                  "Chọn Part và dạng câu hỏi, nghe câu mẫu hoàn chỉnh cho từng bước rồi thu âm đọc lại để nhớ khung, cấu trúc và ngữ pháp.",
+                  "Pick a part and a question type, listen to a complete model sentence for every step, then record yourself saying it back to memorise the framework, structure and grammar.",
                 )}
               </p>
             </div>
