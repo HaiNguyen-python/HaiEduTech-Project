@@ -66,12 +66,16 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
     onStatus("Downloading Python runtime (~10MB, one-time)…");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const w = window as any;
-    let baseUsed = PYODIDE_CDNS[0];
-    if (!w.loadPyodide) {
+    // Always load OUR pinned version's script - reusing a foreign loadPyodide
+    // from another version causes "Lock file version doesn't match" errors.
+    let baseUsed: string = w.__haiPyodideBase;
+    if (!baseUsed) {
       baseUsed = await loadScriptWithFallback("pyodide.js");
+      w.__haiPyodideBase = baseUsed;
     }
     onStatus("Starting Python interpreter…");
     const py: PyodideAPI = await w.loadPyodide({ indexURL: baseUsed });
+
     if (needsScientific) {
       onStatus("Loading numpy + pandas (~6MB extra)…");
       await py.loadPackage(["numpy", "pandas"]);
@@ -85,6 +89,14 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
 }
 
 /**
+ * Shared entry point for every Python surface in the app.
+ * Guarantees a single Pyodide version so the lockfile always matches.
+ */
+export function ensurePyodideRuntime(needsScientific = false): Promise<PyodideAPI> {
+  return ensurePyodide(needsScientific, () => {});
+}
+
+/**
  * Preload Pyodide in the background as soon as the user lands on a Python lesson.
  * Safe to call multiple times - uses the same singleton promise.
  */
@@ -93,6 +105,7 @@ export function preloadPyodide() {
   if (window.__haiPyodide || window.__haiPyodidePromise) return;
   void ensurePyodide(false, () => {});
 }
+
 
 export interface RunResult {
   stdout: string;

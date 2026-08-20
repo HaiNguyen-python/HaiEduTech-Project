@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { PythonChallenge } from "@/data/pythonChallenges";
 import confetti from "canvas-confetti";
+import { ensurePyodideRuntime } from "@/components/python/PyodideRunner";
+
 
 interface Props {
   challenge: PythonChallenge;
@@ -94,40 +96,27 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     return () => clearTimeout(timer);
   }, [code, challenge.id]);
 
-  // Load Pyodide
+  // Load Pyodide through the shared singleton runner (single version, no lockfile clash)
   useEffect(() => {
-    if (window._pyodide) {
-      pyodideRef.current = window._pyodide;
-      setPyodideReady(true);
-      setLoadingPyodide(false);
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js";
-    script.onload = async () => {
+    let cancelled = false;
+    (async () => {
       try {
-        const pyodide = await window.loadPyodide!({
-          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/",
-        });
-        window._pyodide = pyodide;
-        pyodideRef.current = pyodide;
+        const py = await ensurePyodideRuntime();
+        if (cancelled) return;
+        pyodideRef.current = py;
         setPyodideReady(true);
       } catch (e) {
-        console.error("Pyodide load error:", e);
-        setOutput("Failed to load Python runtime. Please refresh.");
+        if (!cancelled) setOutput("Failed to load Python runtime. Please refresh.");
+      } finally {
+        if (!cancelled) setLoadingPyodide(false);
       }
-      setLoadingPyodide(false);
+    })();
+    return () => {
+      cancelled = true;
     };
-    script.onerror = () => {
-      setLoadingPyodide(false);
-      setOutput("Failed to load Python runtime. Check your connection.");
-    };
-    document.head.appendChild(script);
   }, []);
 
   const runCode = useCallback(async () => {
-    if (!pyodideRef.current) return;
     setRunning(true);
     setOutput("");
     setHasError(false);
@@ -135,17 +124,17 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setMismatch(null);
 
     try {
-      pyodideRef.current.runPython(`
-import sys, io
-sys.stdout = io.StringIO()
-sys.stderr = io.StringIO()
-`);
-      pyodideRef.current.runPython(code);
-      const stdout = pyodideRef.current.runPython("sys.stdout.getvalue()");
-      const stderr = pyodideRef.current.runPython("sys.stderr.getvalue()");
+      const py = pyodideRef.current ?? (await ensurePyodideRuntime());
+      pyodideRef.current = py;
+      let stdout = "";
+      let stderr = "";
+      py.setStdout({ batched: (s: string) => (stdout += s + "\n") });
+      py.setStderr({ batched: (s: string) => (stderr += s + "\n") });
 
-      const result = (stdout || "").trimEnd();
-      const errResult = (stderr || "").trimEnd();
+      await py.runPythonAsync(code);
+
+      const result = stdout.trimEnd();
+      const errResult = stderr.trimEnd();
 
       if (errResult) {
         setOutput(result ? `${result}\n\n⚠️ ${errResult}` : `❌ Error:\n${errResult}`);
@@ -167,7 +156,7 @@ sys.stderr = io.StringIO()
         }
       }
     } catch (err: any) {
-      const errMsg = err.message || String(err);
+      const errMsg = err?.message || String(err);
       // Extract just the Python error from the Pyodide traceback
       const lines = errMsg.split("\n");
       const pyErr = lines.filter((l: string) => !l.includes("at ") && !l.includes("wasm")).join("\n");
@@ -175,7 +164,8 @@ sys.stderr = io.StringIO()
       setHasError(true);
     }
     setRunning(false);
-  }, [code, challenge, onPass]);
+  }, [code, challenge, onPass, passed]);
+
 
   const askAiDebug = async () => {
     setAiLoading(true);
