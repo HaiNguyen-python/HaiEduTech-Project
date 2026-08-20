@@ -101,6 +101,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setOutput("");
     setHasError(false);
     setAiHelp("");
+    setMismatch(null);
 
     try {
       pyodideRef.current.runPython(`
@@ -121,16 +122,17 @@ sys.stderr = io.StringIO()
       } else {
         setOutput(result || "(No output)");
 
-        // Check test cases
-        const allPassed = challenge.testCases.every(tc => {
-          const expected = tc.expected.trimEnd();
-          return result === expected;
-        });
+        // Accept the reference output or any verified test case, comparing
+        // line by line so trailing spaces / CRLF never fail a correct answer.
+        const targets = [challenge.expectedOutput, ...challenge.testCases.map(tc => tc.expected)];
+        const isCorrect = targets.some(target => normalize(result) === normalize(target));
 
-        if (allPassed) {
+        if (isCorrect) {
+          if (!passed) celebrate();
           setPassed(true);
           onPass?.();
-          confetti({ particleCount: 120, spread: 70, origin: { y: 0.7 } });
+        } else {
+          setMismatch({ expected: challenge.expectedOutput.trimEnd(), got: result || "(No output)" });
         }
       }
     } catch (err: any) {
