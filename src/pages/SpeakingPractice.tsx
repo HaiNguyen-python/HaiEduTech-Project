@@ -38,6 +38,8 @@ import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresIdeas";
 import ShadowingPractice from "@/components/ShadowingPractice";
 import SpeakingSrsPanel from "@/components/ielts/SpeakingSrsPanel";
+import SpeakingAnswerTemplate from "@/components/ielts/SpeakingAnswerTemplate";
+
 import { useSpeakingSrs } from "@/hooks/useSpeakingSrs";
 
 // Grading result interfaces
