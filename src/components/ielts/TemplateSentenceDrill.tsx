@@ -108,6 +108,8 @@ const TemplateSentenceDrill = ({ sentence, label, onScore, highlight }: Props) =
     setResults(null);
     setAccuracy(null);
     setHeard("");
+    setLive("");
+
 
     try { recognitionRef.current?.abort(); } catch { /* noop */ }
     const Ctor = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
