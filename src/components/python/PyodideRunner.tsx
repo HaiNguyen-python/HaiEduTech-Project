@@ -66,12 +66,16 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
     onStatus("Downloading Python runtime (~10MB, one-time)…");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const w = window as any;
-    let baseUsed = PYODIDE_CDNS[0];
-    if (!w.loadPyodide) {
+    // Always load OUR pinned version's script - reusing a foreign loadPyodide
+    // from another version causes "Lock file version doesn't match" errors.
+    let baseUsed: string = w.__haiPyodideBase;
+    if (!baseUsed) {
       baseUsed = await loadScriptWithFallback("pyodide.js");
+      w.__haiPyodideBase = baseUsed;
     }
     onStatus("Starting Python interpreter…");
     const py: PyodideAPI = await w.loadPyodide({ indexURL: baseUsed });
+
     if (needsScientific) {
       onStatus("Loading numpy + pandas (~6MB extra)…");
       await py.loadPackage(["numpy", "pandas"]);
