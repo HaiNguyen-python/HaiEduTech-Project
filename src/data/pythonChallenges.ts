@@ -4695,3 +4695,19 @@ export const pythonChallenges: PythonChallenge[] = [
     ]
   }
 ];
+
+/** Look up a challenge by its zero-padded id (e.g. "007"). */
+export const getChallengeById = (id: string): PythonChallenge | undefined =>
+  pythonChallenges.find((c) => c.id === id);
+
+/** The challenge after the given id, or undefined at the end of the list. */
+export const getNextChallenge = (id: string): PythonChallenge | undefined => {
+  const idx = pythonChallenges.findIndex((c) => c.id === id);
+  return idx >= 0 ? pythonChallenges[idx + 1] : undefined;
+};
+
+/** The challenge before the given id, or undefined at the start of the list. */
+export const getPrevChallenge = (id: string): PythonChallenge | undefined => {
+  const idx = pythonChallenges.findIndex((c) => c.id === id);
+  return idx > 0 ? pythonChallenges[idx - 1] : undefined;
+};
