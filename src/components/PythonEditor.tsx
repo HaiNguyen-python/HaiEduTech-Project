@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { PythonChallenge } from "@/data/pythonChallenges";
 import confetti from "canvas-confetti";
+import { ensurePyodideRuntime } from "@/components/python/PyodideRunner";
+
 
 interface Props {
   challenge: PythonChallenge;
