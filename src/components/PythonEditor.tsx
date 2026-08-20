@@ -22,6 +22,35 @@ declare global {
 
 const STORAGE_KEY = (id: string) => `haiedu_challenge_${id}`;
 
+/** Compare outputs line by line, ignoring trailing spaces and CRLF noise. */
+const normalize = (s: string) =>
+  s
+    .replace(/\r\n/g, "\n")
+    .split("\n")
+    .map((line) => line.replace(/\s+$/, ""))
+    .join("\n")
+    .replace(/\n+$/, "");
+
+/** Multi-burst confetti + XP toast so a correct answer feels rewarding. */
+const celebrate = () => {
+  const shoot = (x: number, delay: number) =>
+    setTimeout(
+      () =>
+        confetti({
+          particleCount: 90,
+          spread: 75,
+          startVelocity: 45,
+          origin: { x, y: 0.7 },
+          colors: ["#3B82F6", "#10B981", "#facc15", "#f97316"],
+          disableForReducedMotion: true,
+        }),
+      delay,
+    );
+  shoot(0.5, 0);
+  shoot(0.2, 180);
+  shoot(0.8, 320);
+};
+
 const PythonEditor = ({ challenge, onPass }: Props) => {
   const { t } = useLanguage();
   const [code, setCode] = useState(challenge.starterCode);
@@ -34,6 +63,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   const [aiHelp, setAiHelp] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [mismatch, setMismatch] = useState<{ expected: string; got: string } | null>(null);
   const pyodideRef = useRef<any>(null);
 
   // Load saved code
