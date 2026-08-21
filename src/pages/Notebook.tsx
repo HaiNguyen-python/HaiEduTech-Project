@@ -17,9 +17,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search, FileDown } from "lucide-react";
+import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search, FileDown, Share2 } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { format } from "date-fns";
+import ShareNotebookDialog from "@/components/notebook/ShareNotebookDialog";
+import SharedWithMeList from "@/components/notebook/SharedWithMeList";
+
 
 const stripHtml = (html: string) => (html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 const sanitize = (html: string) =>
