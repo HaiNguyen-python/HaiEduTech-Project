@@ -75,6 +75,8 @@ const Notebook = () => {
   const [viewNote, setViewNote] = useState<(Notebook & { profile_name?: string }) | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSubject, setFilterSubject] = useState("all");
+  const [shareNote, setShareNote] = useState<Notebook | null>(null);
+
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
