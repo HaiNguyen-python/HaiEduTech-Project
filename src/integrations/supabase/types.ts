@@ -1927,6 +1927,44 @@ export type Database = {
         }
         Relationships: []
       }
+      notebook_shares: {
+        Row: {
+          created_at: string
+          hidden_by_recipient: boolean
+          id: string
+          notebook_id: string
+          owner_id: string
+          recipient_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          hidden_by_recipient?: boolean
+          id?: string
+          notebook_id: string
+          owner_id: string
+          recipient_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          hidden_by_recipient?: boolean
+          id?: string
+          notebook_id?: string
+          owner_id?: string
+          recipient_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notebook_shares_notebook_id_fkey"
+            columns: ["notebook_id"]
+            isOneToOne: false
+            referencedRelation: "student_notebooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       page_view_log: {
         Row: {
           created_at: string
@@ -3878,6 +3916,10 @@ export type Database = {
     }
     Functions: {
       award_global_scholar_badge: { Args: never; Returns: Json }
+      can_read_shared_notebook: {
+        Args: { _notebook_id: string }
+        Returns: boolean
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -4013,6 +4055,30 @@ export type Database = {
       is_room_participant: { Args: { _room_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       is_super_admin: { Args: { _user_id: string }; Returns: boolean }
+      list_notebook_share_recipients: {
+        Args: { _notebook_id: string }
+        Returns: {
+          recipient_avatar: string
+          recipient_id: string
+          recipient_name: string
+          share_id: string
+        }[]
+      }
+      list_notebooks_shared_with_me: {
+        Args: never
+        Returns: {
+          content: string
+          notebook_id: string
+          owner_avatar: string
+          owner_id: string
+          owner_name: string
+          share_id: string
+          shared_at: string
+          subject: string
+          title: string
+          updated_at: string
+        }[]
+      }
       move_to_dlq: {
         Args: {
           dlq_name: string
@@ -4033,6 +4099,10 @@ export type Database = {
           msg_id: number
           read_ct: number
         }[]
+      }
+      share_notebook: {
+        Args: { _notebook_id: string; _recipient_ids: string[] }
+        Returns: number
       }
     }
     Enums: {
