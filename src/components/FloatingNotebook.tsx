@@ -1166,7 +1166,15 @@ const FloatingNotebook = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ShareNotebookDialog
+        notebookId={selectedId}
+        noteTitle={title}
+        open={shareOpen}
+        onOpenChange={setShareOpen}
+      />
     </>
+
   );
 };
 
