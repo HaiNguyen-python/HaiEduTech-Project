@@ -14,6 +14,10 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Image from "@tiptap/extension-image";
 import NotebookWhiteboard from "@/components/notebook/NotebookWhiteboard";
+import ShareNotebookDialog from "@/components/notebook/ShareNotebookDialog";
+import SharedWithMeList from "@/components/notebook/SharedWithMeList";
+
+
 
 interface Notebook {
   id: string;
