@@ -403,19 +403,40 @@ const NotebookWhiteboard = ({ onInsert }: Props) => {
 
         <span className="w-px h-5 bg-border mx-1" />
 
-        {palette.map((c) => (
-          <button
-            key={c}
-            type="button"
-            onClick={() => {
-              setColor(c);
-              if (tool === "eraser") setTool("pen");
+        <div className="flex items-center gap-1 flex-wrap max-w-[220px]">
+          {palette.map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => {
+                setColor(c);
+                if (tool === "eraser") setTool("pen");
+              }}
+              className={`w-5 h-5 rounded-full border transition-transform hover:scale-125 ${color === c && tool !== "eraser" ? "ring-2 ring-primary ring-offset-1" : ""}`}
+              style={{ backgroundColor: c, borderColor: "hsl(var(--border))" }}
+              title="Màu bút"
+            />
+          ))}
+          {/* Free colour picker for anything outside the presets */}
+          <label
+            className="w-5 h-5 rounded-full border border-border overflow-hidden cursor-pointer relative"
+            title="Chọn màu tự do"
+            style={{
+              background:
+                "conic-gradient(#dc2626,#f59e0b,#facc15,#10B981,#3B82F6,#9333ea,#dc2626)",
             }}
-            className={`w-5 h-5 rounded-full border transition-transform hover:scale-125 ${color === c && tool !== "eraser" ? "ring-2 ring-primary ring-offset-1" : ""}`}
-            style={{ backgroundColor: c, borderColor: "hsl(var(--border))" }}
-            title="Màu bút"
-          />
-        ))}
+          >
+            <input
+              type="color"
+              value={color}
+              onChange={(e) => {
+                setColor(e.target.value);
+                if (tool === "eraser") setTool("pen");
+              }}
+              className="absolute inset-0 opacity-0 cursor-pointer"
+            />
+          </label>
+        </div>
 
         <span className="w-px h-5 bg-border mx-1" />
 
