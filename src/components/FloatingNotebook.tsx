@@ -936,7 +936,8 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Saved notes selector - compact dropdown */}
-            <div className="px-3 pt-2 flex items-center gap-2">
+            <div className={`px-3 pt-2 flex items-center gap-2 ${tab === "shared" ? "hidden" : ""}`}>
+
               <select
                 value={selectedId || ""}
                 onChange={(e) => {
