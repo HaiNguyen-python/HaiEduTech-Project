@@ -30,6 +30,7 @@ export interface SharedNotebook {
   owner_name: string;
   owner_avatar: string | null;
   shared_at: string;
+  can_edit: boolean;
 }
 
 export interface ShareRecipient {
@@ -37,6 +38,7 @@ export interface ShareRecipient {
   recipient_id: string;
   recipient_name: string;
   recipient_avatar: string | null;
+  can_edit: boolean;
 }
 
 /** People the current user can share with (same directory as Your Corner). */
@@ -50,12 +52,38 @@ export const fetchDirectory = async (): Promise<DirectoryPerson[]> => {
 export const shareNotebook = async (
   notebookId: string,
   recipientIds: string[],
+  canEdit = false,
 ): Promise<string | null> => {
   if (!recipientIds.length) return "no_recipients";
   const { error } = await db.rpc("share_notebook", {
     _notebook_id: notebookId,
     _recipient_ids: recipientIds,
+    _can_edit: canEdit,
   });
+  return error ? error.message : null;
+};
+
+/** Owner switches a recipient between view-only and edit. */
+export const setSharePermission = async (
+  shareId: string,
+  canEdit: boolean,
+): Promise<string | null> => {
+  const { error } = await db.rpc("set_notebook_share_permission", {
+    _share_id: shareId,
+    _can_edit: canEdit,
+  });
+  return error ? error.message : null;
+};
+
+/** Recipient with edit rights saves changes back to the shared note. */
+export const updateSharedNotebook = async (
+  notebookId: string,
+  patch: { title?: string; content?: string },
+): Promise<string | null> => {
+  const { error } = await db
+    .from("student_notebooks")
+    .update({ ...patch, updated_at: new Date().toISOString() })
+    .eq("id", notebookId);
   return error ? error.message : null;
 };
 
