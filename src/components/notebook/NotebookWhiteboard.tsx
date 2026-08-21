@@ -37,10 +37,41 @@ interface Stroke {
   points: Point[];
 }
 
-const PEN_COLORS = ["#0f172a", "#dc2626", "#3B82F6", "#10B981", "#ea580c", "#9333ea"];
-const CHALK_COLORS = ["#ffffff", "#fde68a", "#fca5a5", "#93c5fd", "#86efac", "#f9a8d4"];
+// Rich palettes so a lesson can colour-code freely on either board style.
+const PEN_COLORS = [
+  "#0f172a", "#475569", "#dc2626", "#ea580c", "#f59e0b", "#facc15",
+  "#10B981", "#059669", "#3B82F6", "#1d4ed8", "#9333ea", "#db2777",
+];
+const CHALK_COLORS = [
+  "#ffffff", "#e2e8f0", "#fde68a", "#fca5a5", "#f9a8d4", "#c4b5fd",
+  "#93c5fd", "#67e8f9", "#86efac", "#bef264", "#fdba74", "#f0abfc",
+];
 const WIDTHS = [2, 4, 8];
 const MAX_STROKES = 4000;
+
+/** Pen-shaped SVG cursor (hotspot at the nib) so drawing feels precise. */
+const penCursor = (hex: string) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+<path d="M3 25l1.6-5.4L18.2 6a2.6 2.6 0 013.7 0l1.1 1.1a2.6 2.6 0 010 3.7L9.4 24.4 4 26z" fill="${hex}" stroke="#ffffff" stroke-width="1.4"/>
+<path d="M18 6.4l3.6 3.6" stroke="#ffffff" stroke-width="1.4"/>
+<path d="M3 25l2.6.9L4 26z" fill="#ffffff"/></svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}") 2 26, crosshair`;
+};
+
+/** Highlighter cursor. */
+const markerCursor = (hex: string) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+<path d="M4 24h8l1.5-3H6z" fill="${hex}" stroke="#ffffff" stroke-width="1.2"/>
+<path d="M8 20l9.5-13a2.4 2.4 0 013.6-.3l1.6 1.6a2.4 2.4 0 01-.2 3.5L13 20z" fill="${hex}" opacity="0.75" stroke="#ffffff" stroke-width="1.2"/></svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}") 4 24, crosshair`;
+};
+
+/** Eraser cursor. */
+const eraserCursor = () => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+<rect x="4" y="12" width="18" height="10" rx="2" transform="rotate(-30 13 17)" fill="#f8fafc" stroke="#0f172a" stroke-width="1.6"/></svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}") 14 14, cell`;
+};
 
 const STORAGE_KEY = "notebook-whiteboard-strokes";
 const BG_KEY = "notebook-whiteboard-bg";
