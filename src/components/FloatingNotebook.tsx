@@ -1107,7 +1107,7 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Editor / Whiteboard */}
+            {/* Editor / Whiteboard / Shared with me */}
             {tab === "notes" ? (
               <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
                 <div
@@ -1117,9 +1117,13 @@ const FloatingNotebook = () => {
                   <EditorContent editor={editor} />
                 </div>
               </div>
-            ) : (
+            ) : tab === "board" ? (
               <div className="px-3 pt-2 flex-1 min-h-0">
                 <NotebookWhiteboard onInsert={handleInsertDrawing} />
+              </div>
+            ) : (
+              <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
+                <SharedWithMeList compact />
               </div>
             )}
 
@@ -1128,6 +1132,11 @@ const FloatingNotebook = () => {
             <div className="flex items-center justify-between px-3 py-2 text-xs" style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
               <span>{wordCount} từ</span>
               <div className="flex items-center gap-2">
+                {selectedId && (
+                  <button onClick={() => setShareOpen(true)} className="p-1.5 rounded-md hover:bg-primary/10 text-primary" title="Chia sẻ ghi chú với học viên">
+                    <Share2 size={14} />
+                  </button>
+                )}
                 <button onClick={handleExportPdf} disabled={!title.trim()} className="p-1.5 rounded-md hover:bg-primary/10 text-primary disabled:opacity-40" title="Xuất PDF">
                   <Download size={14} />
                 </button>
@@ -1136,6 +1145,7 @@ const FloatingNotebook = () => {
                     <Trash2 size={14} />
                   </button>
                 )}
+
                 <button
                   onClick={handleSave}
                   disabled={saving}
