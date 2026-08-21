@@ -516,8 +516,16 @@ const NotebookWhiteboard = ({ onInsert }: Props) => {
       <div ref={wrapRef} className="flex-1 min-h-[220px] rounded-md overflow-hidden border border-border">
         <canvas
           ref={canvasRef}
-          className="block cursor-crosshair touch-none"
-          style={{ touchAction: "none" }}
+          className="block touch-none"
+          style={{
+            touchAction: "none",
+            cursor:
+              tool === "eraser"
+                ? eraserCursor()
+                : tool === "highlight"
+                  ? markerCursor(color)
+                  : penCursor(color),
+          }}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={endStroke}
