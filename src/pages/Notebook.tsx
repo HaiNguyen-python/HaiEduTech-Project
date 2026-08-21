@@ -351,8 +351,10 @@ const Notebook = () => {
         <Tabs defaultValue="my-notes">
           <TabsList>
             <TabsTrigger value="my-notes">📝 Ghi chú của tôi ({notebooks.length})</TabsTrigger>
+            <TabsTrigger value="shared-with-me">🤝 Được chia sẻ với tôi</TabsTrigger>
             {isTeacher && <TabsTrigger value="all-notes">👁️ Tất cả học sinh ({allNotebooks.length})</TabsTrigger>}
           </TabsList>
+
 
           {/* Filters */}
           <div className="flex flex-col sm:flex-row gap-3 my-4">
