@@ -6,29 +6,18 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useCallback, useEffect, useState } from "react";
-import DOMPurify from "dompurify";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Clock, Copy, Eye, EyeOff, RefreshCw, Share2, User } from "lucide-react";
+import { BookOpen, Clock, Copy, Eye, EyeOff, Pencil, RefreshCw, Share2, User } from "lucide-react";
+import SharedNoteEditor from "@/components/notebook/SharedNoteEditor";
 import {
   fetchSharedWithMe,
   hideSharedNotebook,
   saveSharedCopy,
   type SharedNotebook,
 } from "@/lib/notebookShareService";
-
-const sanitize = (html: string) =>
-  DOMPurify.sanitize(html || "", {
-    ALLOWED_TAGS: [
-      "p", "br", "hr", "strong", "em", "u", "b", "i", "ul", "ol", "li", "span",
-      "div", "h1", "h2", "h3", "h4", "blockquote", "code", "pre", "img", "label", "input",
-    ],
-    ALLOWED_ATTR: ["class", "style", "src", "alt", "width", "height", "type", "checked", "data-checked", "data-type"],
-    ALLOWED_URI_REGEXP: /^(?:data:image\/(?:png|jpeg|gif|webp);base64,|https?:)/i,
-  });
 
 const stripHtml = (html: string) =>
   (html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
@@ -42,7 +31,7 @@ const SharedWithMeList = ({ compact = false }: Props) => {
   const { toast } = useToast();
   const [notes, setNotes] = useState<SharedNotebook[]>([]);
   const [loading, setLoading] = useState(true);
-  const [preview, setPreview] = useState<SharedNotebook | null>(null);
+  const [openNote, setOpenNote] = useState<SharedNotebook | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -91,6 +80,19 @@ const SharedWithMeList = ({ compact = false }: Props) => {
     );
   }
 
+  if (openNote) {
+    return (
+      <SharedNoteEditor
+        note={openNote}
+        compact={compact}
+        onBack={() => {
+          setOpenNote(null);
+          load();
+        }}
+      />
+    );
+  }
+
   return (
     <>
       <div className="flex items-center justify-between mb-2">
@@ -122,8 +124,15 @@ const SharedWithMeList = ({ compact = false }: Props) => {
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <Button variant="ghost" size="icon" onClick={() => setPreview(note)} title="Xem">
-                    <Eye className="w-4 h-4" />
+                  <Button
+                    variant={note.can_edit ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setOpenNote(note)}
+                    className="gap-1 h-8"
+                    title={note.can_edit ? "Mở & chỉnh sửa" : "Mở (chỉ xem)"}
+                  >
+                    {note.can_edit ? <Pencil className="w-3.5 h-3.5" /> : <BookOpen className="w-3.5 h-3.5" />}
+                    {note.can_edit ? "Mở & sửa" : "Mở"}
                   </Button>
                   <Button variant="ghost" size="icon" onClick={() => handleCopy(note)} title="Lưu bản sao">
                     <Copy className="w-4 h-4" />
@@ -138,33 +147,6 @@ const SharedWithMeList = ({ compact = false }: Props) => {
         ))}
       </div>
 
-      <Dialog open={!!preview} onOpenChange={() => setPreview(null)}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-base">
-              {preview?.title || "Ghi chú"}
-              <Badge variant="secondary">{preview?.subject}</Badge>
-            </DialogTitle>
-          </DialogHeader>
-          {preview && (
-            <div>
-              <p className="text-xs text-muted-foreground mb-3 flex items-center gap-2">
-                <User className="w-3 h-3" /> {preview.owner_name} ·{" "}
-                {new Date(preview.updated_at).toLocaleString("vi-VN")} · chỉ đọc
-              </p>
-              <div
-                className="text-sm leading-relaxed bg-muted/30 rounded-lg p-4 min-h-[200px] prose prose-sm max-w-none dark:prose-invert [&_img]:max-w-full [&_hr]:my-3 [&_p]:my-1.5"
-                dangerouslySetInnerHTML={{ __html: sanitize(preview.content) }}
-              />
-              <div className="flex justify-end mt-3">
-                <Button size="sm" onClick={() => handleCopy(preview)} className="gap-2">
-                  <Copy className="w-4 h-4" /> Lưu bản sao vào sổ của tôi
-                </Button>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </>
   );
 };

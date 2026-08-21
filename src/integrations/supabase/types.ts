@@ -1929,6 +1929,7 @@ export type Database = {
       }
       notebook_shares: {
         Row: {
+          can_edit: boolean
           created_at: string
           hidden_by_recipient: boolean
           id: string
@@ -1938,6 +1939,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          can_edit?: boolean
           created_at?: string
           hidden_by_recipient?: boolean
           id?: string
@@ -1947,6 +1949,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          can_edit?: boolean
           created_at?: string
           hidden_by_recipient?: boolean
           id?: string
@@ -3916,6 +3919,10 @@ export type Database = {
     }
     Functions: {
       award_global_scholar_badge: { Args: never; Returns: Json }
+      can_edit_shared_notebook: {
+        Args: { _notebook_id: string }
+        Returns: boolean
+      }
       can_read_shared_notebook: {
         Args: { _notebook_id: string }
         Returns: boolean
@@ -4058,6 +4065,7 @@ export type Database = {
       list_notebook_share_recipients: {
         Args: { _notebook_id: string }
         Returns: {
+          can_edit: boolean
           recipient_avatar: string
           recipient_id: string
           recipient_name: string
@@ -4067,6 +4075,7 @@ export type Database = {
       list_notebooks_shared_with_me: {
         Args: never
         Returns: {
+          can_edit: boolean
           content: string
           notebook_id: string
           owner_avatar: string
@@ -4100,10 +4109,23 @@ export type Database = {
           read_ct: number
         }[]
       }
-      share_notebook: {
-        Args: { _notebook_id: string; _recipient_ids: string[] }
-        Returns: number
+      set_notebook_share_permission: {
+        Args: { _can_edit: boolean; _share_id: string }
+        Returns: undefined
       }
+      share_notebook:
+        | {
+            Args: { _notebook_id: string; _recipient_ids: string[] }
+            Returns: number
+          }
+        | {
+            Args: {
+              _can_edit?: boolean
+              _notebook_id: string
+              _recipient_ids: string[]
+            }
+            Returns: number
+          }
     }
     Enums: {
       agency_lead_status: "new" | "in_discussion" | "won" | "lost"

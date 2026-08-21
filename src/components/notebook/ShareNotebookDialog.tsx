@@ -11,11 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Search, Share2, UserMinus, Loader2 } from "lucide-react";
+import { Search, Share2, UserMinus, Loader2, Eye, Pencil } from "lucide-react";
 import {
   fetchDirectory,
   fetchShareRecipients,
   shareNotebook,
+  setSharePermission,
   unshareNotebook,
   type DirectoryPerson,
   type ShareRecipient,
@@ -36,6 +37,7 @@ const ShareNotebookDialog = ({ notebookId, noteTitle, open, onOpenChange }: Prop
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
 
   useEffect(() => {
     if (!open || !notebookId) return;
@@ -66,13 +68,16 @@ const ShareNotebookDialog = ({ notebookId, noteTitle, open, onOpenChange }: Prop
   const handleShare = async () => {
     if (!notebookId || !selected.length) return;
     setSharing(true);
-    const err = await shareNotebook(notebookId, selected);
+    const err = await shareNotebook(notebookId, selected, canEdit);
     setSharing(false);
     if (err) {
       toast({ title: "Không chia sẻ được", description: err, variant: "destructive" });
       return;
     }
-    toast({ title: "Đã chia sẻ ✅", description: `${selected.length} người sẽ thấy ghi chú này` });
+    toast({
+      title: "Đã chia sẻ ✅",
+      description: `${selected.length} người có thể ${canEdit ? "xem và chỉnh sửa" : "xem"} ghi chú này`,
+    });
     setSelected([]);
     setRecipients(await fetchShareRecipients(notebookId));
   };
@@ -84,6 +89,18 @@ const ShareNotebookDialog = ({ notebookId, noteTitle, open, onOpenChange }: Prop
       return;
     }
     setRecipients((prev) => prev.filter((r) => r.share_id !== shareId));
+  };
+
+  const handleTogglePermission = async (r: ShareRecipient) => {
+    const next = !r.can_edit;
+    const err = await setSharePermission(r.share_id, next);
+    if (err) {
+      toast({ title: "Lỗi", description: err, variant: "destructive" });
+      return;
+    }
+    setRecipients((prev) =>
+      prev.map((x) => (x.share_id === r.share_id ? { ...x, can_edit: next } : x)),
+    );
   };
 
   const allSelectableIds = useMemo(
@@ -111,13 +128,48 @@ const ShareNotebookDialog = ({ notebookId, noteTitle, open, onOpenChange }: Prop
           <p className="text-sm text-muted-foreground -mt-2 truncate">{noteTitle}</p>
         )}
 
+        <div className="rounded-md border border-border p-2 flex flex-wrap items-center gap-2">
+          <span className="text-xs font-medium">Quyền cho người được chọn:</span>
+          <div className="flex gap-1">
+            <Button
+              size="sm"
+              variant={canEdit ? "outline" : "default"}
+              onClick={() => setCanEdit(false)}
+              className="h-8 gap-1 text-xs"
+            >
+              <Eye className="w-3.5 h-3.5" /> Chỉ xem
+            </Button>
+            <Button
+              size="sm"
+              variant={canEdit ? "default" : "outline"}
+              onClick={() => setCanEdit(true)}
+              className="h-8 gap-1 text-xs"
+            >
+              <Pencil className="w-3.5 h-3.5" /> Có thể chỉnh sửa
+            </Button>
+          </div>
+        </div>
+
         {recipients.length > 0 && (
-          <div className="rounded-md border border-border p-2 max-h-24 overflow-y-auto">
-            <p className="text-xs font-medium mb-2">Đang chia sẻ với ({recipients.length})</p>
+          <div className="rounded-md border border-border p-2 max-h-28 overflow-y-auto">
+            <p className="text-xs font-medium mb-2">
+              Đang chia sẻ với ({recipients.length}) - nhấn nhãn quyền để đổi
+            </p>
             <div className="flex flex-wrap gap-1.5">
               {recipients.map((r) => (
                 <Badge key={r.share_id} variant="secondary" className="gap-1 pr-1 text-sm">
                   {r.recipient_name || "Học viên"}
+                  <button
+                    onClick={() => handleTogglePermission(r)}
+                    className={`ml-1 rounded px-1.5 py-0.5 text-[11px] font-medium ${
+                      r.can_edit
+                        ? "bg-primary/15 text-primary"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                    title="Đổi quyền xem / chỉnh sửa"
+                  >
+                    {r.can_edit ? "Có thể sửa" : "Chỉ xem"}
+                  </button>
                   <button
                     onClick={() => handleRevoke(r.share_id)}
                     className="ml-0.5 rounded hover:text-destructive"
