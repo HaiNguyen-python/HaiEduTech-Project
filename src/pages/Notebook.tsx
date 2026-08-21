@@ -510,6 +510,15 @@ const Notebook = () => {
         </DialogContent>
       </Dialog>
 
+      <ShareNotebookDialog
+        notebookId={shareNote?.id ?? null}
+        noteTitle={shareNote?.title}
+        open={!!shareNote}
+        onOpenChange={(o) => { if (!o) setShareNote(null); }}
+      />
+
+
+
       <Footer />
     </div>
   );
