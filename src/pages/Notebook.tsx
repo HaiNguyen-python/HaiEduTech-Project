@@ -428,6 +428,12 @@ const Notebook = () => {
             )}
           </TabsContent>
 
+          <TabsContent value="shared-with-me">
+            <SharedWithMeList />
+          </TabsContent>
+
+
+
           {isTeacher && (
             <TabsContent value="all-notes">
               {filterNotes(allNotebooks).length === 0 ? (
