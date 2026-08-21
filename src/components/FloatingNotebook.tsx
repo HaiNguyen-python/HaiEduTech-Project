@@ -108,8 +108,10 @@ const FloatingNotebook = () => {
   });
   const [position, setPosition] = useState(() => getDefaultPosition(defaultSize.width, defaultSize.height));
   const [maximized, setMaximized] = useState(() => localStorage.getItem("notebook-maximized") === "1");
-  // "notes" = rich text editor, "board" = live whiteboard for teaching.
-  const [tab, setTab] = useState<"notes" | "board">("notes");
+  // "notes" = rich text editor, "board" = live whiteboard, "shared" = notes others shared with me.
+  const [tab, setTab] = useState<"notes" | "board" | "shared">("notes");
+  const [shareOpen, setShareOpen] = useState(false);
+
   const preMaximize = useRef<{ size: { width: number; height: number }; position: { x: number; y: number } } | null>(null);
 
   useEffect(() => {
