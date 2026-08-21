@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText, Share2, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -14,6 +14,10 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Image from "@tiptap/extension-image";
 import NotebookWhiteboard from "@/components/notebook/NotebookWhiteboard";
+import ShareNotebookDialog from "@/components/notebook/ShareNotebookDialog";
+import SharedWithMeList from "@/components/notebook/SharedWithMeList";
+
+
 
 interface Notebook {
   id: string;
@@ -108,8 +112,10 @@ const FloatingNotebook = () => {
   });
   const [position, setPosition] = useState(() => getDefaultPosition(defaultSize.width, defaultSize.height));
   const [maximized, setMaximized] = useState(() => localStorage.getItem("notebook-maximized") === "1");
-  // "notes" = rich text editor, "board" = live whiteboard for teaching.
-  const [tab, setTab] = useState<"notes" | "board">("notes");
+  // "notes" = rich text editor, "board" = live whiteboard, "shared" = notes others shared with me.
+  const [tab, setTab] = useState<"notes" | "board" | "shared">("notes");
+  const [shareOpen, setShareOpen] = useState(false);
+
   const preMaximize = useRef<{ size: { width: number; height: number }; position: { x: number; y: number } } | null>(null);
 
   useEffect(() => {
@@ -908,12 +914,14 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Tabs: rich text notes vs live whiteboard */}
+            {/* Tabs: rich text notes, live whiteboard, notes shared with me */}
             <div className="px-3 pt-2 flex items-center gap-1">
               {([
                 { key: "notes" as const, label: "Ghi chú", Icon: FileText },
                 { key: "board" as const, label: "Bảng trắng", Icon: PenLine },
+                { key: "shared" as const, label: "Được chia sẻ", Icon: Users },
               ]).map(({ key, label, Icon }) => (
+
                 <button
                   key={key}
                   type="button"
@@ -928,7 +936,8 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Saved notes selector - compact dropdown */}
-            <div className="px-3 pt-2 flex items-center gap-2">
+            <div className={`px-3 pt-2 flex items-center gap-2 ${tab === "shared" ? "hidden" : ""}`}>
+
               <select
                 value={selectedId || ""}
                 onChange={(e) => {
@@ -970,7 +979,8 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Title + Subject */}
-            <div className="px-3 pt-2 flex gap-2">
+            <div className={`px-3 pt-2 flex gap-2 ${tab === "shared" ? "hidden" : ""}`}>
+
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -1097,7 +1107,7 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Editor / Whiteboard */}
+            {/* Editor / Whiteboard / Shared with me */}
             {tab === "notes" ? (
               <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
                 <div
@@ -1107,9 +1117,13 @@ const FloatingNotebook = () => {
                   <EditorContent editor={editor} />
                 </div>
               </div>
-            ) : (
+            ) : tab === "board" ? (
               <div className="px-3 pt-2 flex-1 min-h-0">
                 <NotebookWhiteboard onInsert={handleInsertDrawing} />
+              </div>
+            ) : (
+              <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
+                <SharedWithMeList compact />
               </div>
             )}
 
@@ -1118,6 +1132,11 @@ const FloatingNotebook = () => {
             <div className="flex items-center justify-between px-3 py-2 text-xs" style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
               <span>{wordCount} từ</span>
               <div className="flex items-center gap-2">
+                {selectedId && (
+                  <button onClick={() => setShareOpen(true)} className="p-1.5 rounded-md hover:bg-primary/10 text-primary" title="Chia sẻ ghi chú với học viên">
+                    <Share2 size={14} />
+                  </button>
+                )}
                 <button onClick={handleExportPdf} disabled={!title.trim()} className="p-1.5 rounded-md hover:bg-primary/10 text-primary disabled:opacity-40" title="Xuất PDF">
                   <Download size={14} />
                 </button>
@@ -1126,6 +1145,7 @@ const FloatingNotebook = () => {
                     <Trash2 size={14} />
                   </button>
                 )}
+
                 <button
                   onClick={handleSave}
                   disabled={saving}
@@ -1146,7 +1166,15 @@ const FloatingNotebook = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ShareNotebookDialog
+        notebookId={selectedId}
+        noteTitle={title}
+        open={shareOpen}
+        onOpenChange={setShareOpen}
+      />
     </>
+
   );
 };
 

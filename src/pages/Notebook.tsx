@@ -17,9 +17,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search, FileDown } from "lucide-react";
+import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search, FileDown, Share2 } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { format } from "date-fns";
+import ShareNotebookDialog from "@/components/notebook/ShareNotebookDialog";
+import SharedWithMeList from "@/components/notebook/SharedWithMeList";
+
 
 const stripHtml = (html: string) => (html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 const sanitize = (html: string) =>
@@ -72,6 +75,8 @@ const Notebook = () => {
   const [viewNote, setViewNote] = useState<(Notebook & { profile_name?: string }) | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSubject, setFilterSubject] = useState("all");
+  const [shareNote, setShareNote] = useState<Notebook | null>(null);
+
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -346,8 +351,10 @@ const Notebook = () => {
         <Tabs defaultValue="my-notes">
           <TabsList>
             <TabsTrigger value="my-notes">📝 Ghi chú của tôi ({notebooks.length})</TabsTrigger>
+            <TabsTrigger value="shared-with-me">🤝 Được chia sẻ với tôi</TabsTrigger>
             {isTeacher && <TabsTrigger value="all-notes">👁️ Tất cả học sinh ({allNotebooks.length})</TabsTrigger>}
           </TabsList>
+
 
           {/* Filters */}
           <div className="flex flex-col sm:flex-row gap-3 my-4">
@@ -407,7 +414,9 @@ const Notebook = () => {
                         </div>
                         <div className="flex gap-1 shrink-0">
                           <Button variant="ghost" size="icon" onClick={() => setViewNote(note)} title="Xem"><Eye className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => setShareNote(note)} title="Chia sẻ với học viên"><Share2 className="w-4 h-4" /></Button>
                           <Button variant="ghost" size="icon" onClick={() => handleExportPDF(note)} title="Xuất PDF"><FileDown className="w-4 h-4" /></Button>
+
                           <Button variant="ghost" size="icon" onClick={() => handleEdit(note)} title="Sửa"><Edit className="w-4 h-4" /></Button>
                           <Button variant="ghost" size="icon" onClick={() => handleDelete(note.id)} className="text-destructive hover:text-destructive" title="Xóa"><Trash2 className="w-4 h-4" /></Button>
                         </div>
@@ -418,6 +427,12 @@ const Notebook = () => {
               </div>
             )}
           </TabsContent>
+
+          <TabsContent value="shared-with-me">
+            <SharedWithMeList />
+          </TabsContent>
+
+
 
           {isTeacher && (
             <TabsContent value="all-notes">
@@ -494,6 +509,15 @@ const Notebook = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      <ShareNotebookDialog
+        notebookId={shareNote?.id ?? null}
+        noteTitle={shareNote?.title}
+        open={!!shareNote}
+        onOpenChange={(o) => { if (!o) setShareNote(null); }}
+      />
+
+
 
       <Footer />
     </div>
