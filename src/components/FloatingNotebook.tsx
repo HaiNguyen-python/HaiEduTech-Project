@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText, Share2, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
