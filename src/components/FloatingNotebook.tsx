@@ -914,12 +914,14 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Tabs: rich text notes vs live whiteboard */}
+            {/* Tabs: rich text notes, live whiteboard, notes shared with me */}
             <div className="px-3 pt-2 flex items-center gap-1">
               {([
                 { key: "notes" as const, label: "Ghi chú", Icon: FileText },
                 { key: "board" as const, label: "Bảng trắng", Icon: PenLine },
+                { key: "shared" as const, label: "Được chia sẻ", Icon: Users },
               ]).map(({ key, label, Icon }) => (
+
                 <button
                   key={key}
                   type="button"
