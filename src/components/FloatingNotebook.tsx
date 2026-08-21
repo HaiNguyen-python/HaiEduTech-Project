@@ -979,7 +979,8 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Title + Subject */}
-            <div className="px-3 pt-2 flex gap-2">
+            <div className={`px-3 pt-2 flex gap-2 ${tab === "shared" ? "hidden" : ""}`}>
+
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
