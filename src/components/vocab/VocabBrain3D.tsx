@@ -10,7 +10,7 @@ import { useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, type ThreeEvent } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { buildSynapses, tierForDays, type BrainNeuron } from "./vocabBrainModel";
+import { buildScaffold, buildSynapses, tierForDays, type BrainNeuron } from "./vocabBrainModel";
 
 interface Props {
   neurons: BrainNeuron[];
@@ -73,7 +73,7 @@ const NeuronCloud = ({ neurons, onSelect, selected }: Props) => {
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
       const isSelected = selected === n.word;
-      size[i] = 0.055 * info.scale * (isSelected ? 2.1 : 1);
+      size[i] = 0.085 * info.scale * (isSelected ? 2.1 : 1);
       alpha[i] = isSelected ? 1 : info.alpha;
       phase[i] = (i % 97) / 97;
     });
@@ -107,6 +107,12 @@ const NeuronCloud = ({ neurons, onSelect, selected }: Props) => {
     return { geometry: g, synapseGeometry: sg };
   }, [neurons, selected]);
 
+  const scaffoldGeometry = useMemo(() => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(buildScaffold(), 3));
+    return g;
+  }, []);
+
   useFrame(({ clock }) => {
     if (matRef.current) matRef.current.uniforms.uTime.value = clock.getElapsedTime();
   });
@@ -119,6 +125,19 @@ const NeuronCloud = ({ neurons, onSelect, selected }: Props) => {
 
   return (
     <group>
+      {/* Cortex scaffold: faint tissue so the brain shape always reads. */}
+      <points geometry={scaffoldGeometry} raycast={() => null}>
+        <pointsMaterial
+          color="#60a5fa"
+          size={0.016}
+          sizeAttenuation
+          transparent
+          opacity={0.22}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
+
       <lineSegments geometry={synapseGeometry}>
         <lineBasicMaterial vertexColors transparent opacity={0.28} blending={THREE.AdditiveBlending} depthWrite={false} />
       </lineSegments>

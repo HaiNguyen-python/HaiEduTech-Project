@@ -6,7 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useRef } from "react";
-import { tierForDays, type BrainNeuron } from "./vocabBrainModel";
+import { buildScaffold, tierForDays, type BrainNeuron } from "./vocabBrainModel";
 
 interface Props {
   neurons: BrainNeuron[];
@@ -16,6 +16,7 @@ interface Props {
 
 const VocabBrain2D = ({ neurons, onSelect, selected }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const scaffoldRef = useRef<Float32Array>(buildScaffold(900));
   const projected = useRef<{ word: string; sx: number; sy: number }[]>([]);
 
   useEffect(() => {
@@ -43,6 +44,18 @@ const VocabBrain2D = ({ neurons, onSelect, selected }: Props) => {
       const cos = Math.cos(angle);
       const sin = Math.sin(angle);
       const list: { word: string; sx: number; sy: number }[] = [];
+
+      // Faint scaffold tissue first.
+      const scaffold = scaffoldRef.current;
+      ctx.fillStyle = "#60a5fa";
+      ctx.globalAlpha = 0.18;
+      for (let i = 0; i < scaffold.length; i += 3) {
+        const sxx = scaffold[i] * cos - scaffold[i + 2] * sin;
+        ctx.beginPath();
+        ctx.arc(cx + sxx * scale, cy - scaffold[i + 1] * scale, 0.9, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
 
       const sorted = [...neurons].sort((a, b) => (a.x * sin + a.z * cos) - (b.x * sin + b.z * cos));
       sorted.forEach(n => {

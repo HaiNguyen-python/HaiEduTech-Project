@@ -137,3 +137,18 @@ export const buildSynapses = (neurons: BrainNeuron[], maxLinks = 900): [number, 
   }
   return pairs;
 };
+
+/**
+ * Dim, non-interactive scaffold points so the brain silhouette is always
+ * readable even when the learner has only a handful of words.
+ */
+export const buildScaffold = (count = 1600): Float32Array => {
+  const arr = new Float32Array(count * 3);
+  for (let i = 0; i < count; i += 1) {
+    const { x, y, z } = brainPosition(`scaffold-${i}`);
+    arr[i * 3] = x;
+    arr[i * 3 + 1] = y;
+    arr[i * 3 + 2] = z;
+  }
+  return arr;
+};
