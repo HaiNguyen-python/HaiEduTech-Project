@@ -12,13 +12,16 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { Brain, CalendarDays, Flame, RotateCcw, Target, TrendingUp, Volume2 } from "lucide-react";
+import { Brain, CalendarDays, Crosshair, Flame, Pause, Play, RotateCcw, Search, Sparkles, Target, TrendingUp, Type, Volume2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { playEnglishTts } from "@/lib/englishTts";
 import { buildNeurons, TIER_ORDER, tierForDays, tierInfo, type BrainNeuron } from "./vocabBrainModel";
 import VocabBrain2D from "./VocabBrain2D";
+
+type LabelDensity = "low" | "medium" | "high";
+
 
 const VocabBrain3D = lazy(() => import("./VocabBrain3D"));
 
@@ -80,6 +83,12 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
   const [selected, setSelected] = useState<string | null>(null);
   const [webgl] = useState<boolean>(() => hasWebGL());
   const [glFailed, setGlFailed] = useState(false);
+  const [showLabels, setShowLabels] = useState(true);
+  const [density, setDensity] = useState<LabelDensity>("medium");
+  const [paused, setPaused] = useState(false);
+  const [viewKey, setViewKey] = useState(0);
+  const [query, setQuery] = useState("");
+
 
   useEffect(() => {
     let cancelled = false;
@@ -200,7 +209,31 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
     { key: "revise", vi: "Cần ôn lại ngay", en: "Revise now" },
   ];
 
+  const DENSITIES: { key: LabelDensity; vi: string; en: string }[] = [
+    { key: "low", vi: "Ít", en: "Few" },
+    { key: "medium", vi: "Vừa", en: "Some" },
+    { key: "high", vi: "Nhiều", en: "Many" },
+  ];
+
   const use3D = webgl && !glFailed;
+
+  const focusWord = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return null;
+    const hit = allNeurons.find(n => n.word.toLowerCase() === q)
+      || allNeurons.find(n => n.word.toLowerCase().startsWith(q));
+    return hit?.word ?? null;
+  }, [query, allNeurons]);
+
+  const brainProps = {
+    neurons,
+    onSelect: setSelected,
+    selected,
+    showLabels,
+    density,
+    paused,
+    focusWord,
+  };
 
   return (
     <section className="mt-10 rounded-2xl border border-border bg-card/60 p-4 sm:p-6">
@@ -210,8 +243,8 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
           {t("Bộ não từ vựng của bạn", "Your vocabulary brain")}
         </h2>
         <p className="text-sm text-muted-foreground">
-          {t("Mỗi từ đã thuộc là một neuron. Từ mới ôn sẽ sáng rực, từ lâu không ôn sẽ mờ dần - đúng như cách bộ não lưu và quên thông tin.",
-             "Each mastered word is a neuron. Recently reviewed words glow; words left alone fade away - just like human memory.")}
+          {t("Mỗi từ đã thuộc là một neuron có chữ hiện ngay trên bộ não. Từ mới ôn sẽ sáng rực, từ lâu không ôn sẽ mờ dần - đúng như cách bộ não lưu và quên thông tin.",
+             "Each mastered word is a labelled neuron on the brain. Recently reviewed words glow; words left alone fade away - just like human memory.")}
         </p>
       </div>
 
@@ -223,24 +256,19 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
         {stat(<CalendarDays className="h-3.5 w-3.5" />, avgAccuracy === null ? "-" : `${avgAccuracy}%`, t("Độ chính xác Practice", "Practice accuracy"), "text-indigo-500")}
       </div>
 
-      <div className="mb-4 flex flex-wrap items-center gap-2">
-        {FILTERS.map(f => (
-          <Button key={f.key} size="sm" variant={filter === f.key ? "default" : "outline"} onClick={() => setFilter(f.key)}>
-            {t(f.vi, f.en)}
-          </Button>
-        ))}
-        {nextMilestone && (
+      {nextMilestone && (
+        <div className="mb-3">
           <Badge variant="outline">
             {t(
               `Còn ${nextMilestone.words - totalMastered} từ nữa để đạt mốc ${nextMilestone.words} từ (Band ${nextMilestone.band})`,
               `${nextMilestone.words - totalMastered} words to reach ${nextMilestone.words} words (Band ${nextMilestone.band})`,
             )}
           </Badge>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Brain viewport */}
-      <div className="relative h-[420px] overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-slate-950 to-slate-900 sm:h-[520px]">
+      <div className="relative h-[520px] overflow-hidden rounded-2xl border border-border bg-[radial-gradient(ellipse_at_center,theme(colors.slate.800),theme(colors.slate.950)_70%)] lg:h-[620px]">
         {loading ? (
           <div className="flex h-full items-center justify-center text-sm text-slate-300">
             {t("Đang tải bộ não...", "Loading your brain...")}
@@ -261,23 +289,94 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
         ) : use3D ? (
           <Suspense fallback={<div className="flex h-full items-center justify-center text-sm text-slate-300">{t("Đang dựng mô hình 3D...", "Building the 3D model...")}</div>}>
             <ErrorSafe onError={() => setGlFailed(true)}>
-              <VocabBrain3D neurons={neurons} onSelect={setSelected} selected={selected} />
+              <VocabBrain3D key={viewKey} {...brainProps} />
             </ErrorSafe>
           </Suspense>
         ) : (
-          <VocabBrain2D neurons={neurons} onSelect={setSelected} selected={selected} />
+          <VocabBrain2D {...brainProps} />
         )}
 
         {totalMastered > 0 && !loading && (
-          <div className="pointer-events-none absolute left-3 top-3 rounded-lg bg-black/40 px-2.5 py-1.5 text-[11px] text-slate-200 backdrop-blur">
-            {t("Kéo để xoay · cuộn để zoom · bấm vào neuron để xem từ",
-               "Drag to rotate · scroll to zoom · click a neuron to see the word")}
-          </div>
+          <>
+            {/* Floating control bar */}
+            <div className="absolute inset-x-3 top-3 flex flex-wrap items-center gap-2 rounded-xl bg-black/45 p-2 backdrop-blur">
+              {FILTERS.map(f => (
+                <Button
+                  key={f.key}
+                  size="sm"
+                  variant={filter === f.key ? "default" : "secondary"}
+                  className="h-8"
+                  onClick={() => setFilter(f.key)}
+                >
+                  {t(f.vi, f.en)}
+                </Button>
+              ))}
+              <span className="mx-1 h-6 w-px bg-white/20" />
+              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setShowLabels(v => !v)}>
+                {showLabels ? <Type className="h-3.5 w-3.5" /> : <Sparkles className="h-3.5 w-3.5" />}
+                {showLabels ? t("Đang hiện chữ", "Labels on") : t("Chỉ chấm sáng", "Dots only")}
+              </Button>
+              {showLabels && (
+                <div className="flex items-center gap-1 rounded-lg bg-white/10 p-0.5">
+                  {DENSITIES.map(d => (
+                    <button
+                      key={d.key}
+                      onClick={() => setDensity(d.key)}
+                      className={`rounded-md px-2 py-1 text-[11px] font-semibold transition ${
+                        density === d.key ? "bg-primary text-primary-foreground" : "text-slate-200 hover:bg-white/10"
+                      }`}
+                    >
+                      {t(d.vi, d.en)}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setPaused(v => !v)}>
+                {paused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
+                {paused ? t("Xoay tiếp", "Rotate") : t("Tạm dừng", "Pause")}
+              </Button>
+              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setViewKey(k => k + 1)}>
+                <Crosshair className="h-3.5 w-3.5" />
+                {t("Góc nhìn gốc", "Reset view")}
+              </Button>
+              <div className="relative ml-auto">
+                <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+                <input
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  placeholder={t("Tìm từ...", "Find a word...")}
+                  className="h-8 w-40 rounded-lg border border-white/15 bg-white/10 pl-7 pr-2 text-xs text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/60"
+                />
+              </div>
+            </div>
+
+            <div className="pointer-events-none absolute bottom-3 left-3 rounded-lg bg-black/45 px-2.5 py-1.5 text-[11px] text-slate-200 backdrop-blur">
+              {t("Kéo để xoay · cuộn để zoom · bấm vào từ để xem chi tiết",
+                 "Drag to rotate · scroll to zoom · click a word for details")}
+            </div>
+
+            {/* Legend inside the viewport */}
+            <div className="pointer-events-none absolute bottom-3 right-3 hidden flex-col gap-1 rounded-xl bg-black/45 p-2.5 text-[11px] backdrop-blur sm:flex">
+              {TIER_ORDER.map(tier => {
+                const info = tierInfo(tier);
+                return (
+                  <span key={tier} className="flex items-center gap-1.5 text-slate-300">
+                    <span
+                      className="inline-block h-2.5 w-2.5 rounded-full"
+                      style={{ backgroundColor: info.color, opacity: Math.max(info.alpha, 0.35) }}
+                    />
+                    {t(info.vi, info.en)}
+                    <span className="ml-auto font-semibold text-white">{tierCounts[tier] || 0}</span>
+                  </span>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
 
-      {/* Legend */}
-      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+      {/* Legend (mobile) */}
+      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:hidden">
         {TIER_ORDER.map(tier => {
           const info = tierInfo(tier);
           return (
@@ -291,6 +390,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
           );
         })}
       </div>
+
 
       {needRevise > 0 && (
         <div className="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-amber-300/60 bg-amber-50 p-3 text-sm dark:border-amber-500/30 dark:bg-amber-500/10">
@@ -324,7 +424,13 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
                 ? t("Ôn hôm nay", "Reviewed today")
                 : t(`Ôn ${selectedInfo.days} ngày trước`, `Reviewed ${selectedInfo.days} days ago`)}
             </span>
+            {onPractice && (
+              <Button size="sm" variant="outline" className="ml-auto" onClick={onPractice}>
+                {t("Ôn lại từ này", "Practise this word")}
+              </Button>
+            )}
           </div>
+
           {selectedInfo.meta?.definitionVi && (
             <p className="mt-2 text-sm text-foreground">{selectedInfo.meta.definitionVi}</p>
           )}
