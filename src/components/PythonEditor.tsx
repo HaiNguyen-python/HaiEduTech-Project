@@ -181,8 +181,9 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setAiLoading(false);
   };
 
+  /** Clear the editor back to a blank file. */
   const resetCode = () => {
-    setCode(challenge.starterCode);
+    setCode("");
     localStorage.removeItem(STORAGE_KEY(challenge.id));
     setOutput("");
     setPassed(false);
@@ -202,9 +203,17 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
             <span className="w-3 h-3 rounded-full bg-green-500/70" />
             <span className="text-xs text-muted-foreground ml-2 font-mono">challenge_{challenge.id}.py</span>
           </div>
-          <button onClick={resetCode} className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors">
-            <RotateCcw className="w-3 h-3" /> Reset
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setCode(challenge.starterCode)}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t("Chèn khung mẫu", "Insert template")}
+            </button>
+            <button onClick={resetCode} className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors">
+              <RotateCcw className="w-3 h-3" /> {t("Xóa hết", "Clear")}
+            </button>
+          </div>
         </div>
         <CodeMirror
           value={code}
@@ -212,6 +221,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
           theme={vscodeDark}
           extensions={[python()]}
           height="280px"
+          placeholder={t("# Viết code Python của bạn ở đây...", "# Write your Python code here...")}
           basicSetup={{ lineNumbers: true, foldGutter: true, autocompletion: true }}
           className="text-sm"
         />
