@@ -629,21 +629,42 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
   const [quizSize, setQuizSize] = useState<number>(20);
+  const [mode, setMode] = useState<ExMode>("all");
+  // Typing questions
+  const [typed, setTyped] = useState("");
+  const [typedResult, setTypedResult] = useState<null | boolean>(null);
+  // Per-type stats + wrong questions for the "retry mistakes" flow
+  const [stats, setStats] = useState<TypeStats>({});
+  const [wrongQs, setWrongQs] = useState<ExQuestion[]>([]);
+
+  const startWith = useCallback((qs: ExQuestion[]) => {
+    setQuestions(qs);
+    setCurrent(0);
+    setSelected(null);
+    setTyped("");
+    setTypedResult(null);
+    setScore(0);
+    setFinished(false);
+    setStats({});
+    setWrongQs([]);
+    scoreSavedRef.current = false;
+  }, []);
 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
     const size = Math.min(quizSize, words.length);
-    setQuestions(buildQuestions(words, allWords && allWords.length > 4 ? allWords : words, size));
-    setCurrent(0);
-    setSelected(null);
-    setScore(0);
-    setFinished(false);
-    scoreSavedRef.current = false;
-  }, [words, allWords, quizSize]);
+    startWith(buildQuestions(words, allWords && allWords.length > 4 ? allWords : words, size, mode));
+  }, [words, allWords, quizSize, mode, startWith]);
+
+  const retryWrong = useCallback(() => {
+    if (wrongQs.length === 0) return;
+    startWith(shuffle(wrongQs));
+  }, [wrongQs, startWith]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
     scoreSavedRef.current = true;
+    mergeTypeStats(stats);
     (async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -657,16 +678,44 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
 
   useEffect(() => { generateQuiz(); }, [generateQuiz]);
 
+  // Record one answer into the per-type stats + wrong list.
+  const record = (q: ExQuestion, correct: boolean) => {
+    setStats(prev => {
+      const cur = prev[q.type] || { correct: 0, total: 0 };
+      return { ...prev, [q.type]: { correct: cur.correct + (correct ? 1 : 0), total: cur.total + 1 } };
+    });
+    if (!correct) setWrongQs(prev => [...prev, q]);
+  };
+
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
+    const q = questions[current];
+    if (!q) return;
     setSelected(idx);
-    if (idx === questions[current]?.correct) setScore(s => s + 1);
+    const ok = idx === q.correct;
+    if (ok) setScore(s => s + 1);
+    record(q, ok);
+  };
+
+  const checkTyped = () => {
+    const q = questions[current];
+    if (!q || typedResult !== null) return;
+    const ok = normalizeText(typed) === normalizeText(q.answerText || q.word.word);
+    setTypedResult(ok);
+    if (ok) setScore(s => s + 1);
+    record(q, ok);
   };
 
   const handleNext = () => {
     if (current + 1 >= questions.length) setFinished(true);
-    else { setCurrent(c => c + 1); setSelected(null); }
+    else {
+      setCurrent(c => c + 1);
+      setSelected(null);
+      setTyped("");
+      setTypedResult(null);
+    }
   };
+
 
   if (words.length < 4) return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
