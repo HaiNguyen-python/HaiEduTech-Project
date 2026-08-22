@@ -451,9 +451,13 @@ ${result.errors.map(e => `
                               <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-secondary to-transparent" />
                             )}
                           </div>
-                        ) : (
+                        ) : upgradeLoading ? (
                           <p className="text-sm text-muted-foreground italic">
                             {t("AI đang nâng cấp bài viết lên Band 8.0+...", "AI is upgrading your essay to Band 8.0+...")}
+                          </p>
+                        ) : (
+                          <p className="text-sm text-destructive">
+                            {t("Chưa tạo được bài mẫu Band 8.0+. Hãy bấm Thử lại.", "The Band 8.0+ version could not be generated. Press Retry.")}
                           </p>
                         )}
                       </div>
