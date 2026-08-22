@@ -55,7 +55,8 @@ const celebrate = () => {
 
 const PythonEditor = ({ challenge, onPass }: Props) => {
   const { t } = useLanguage();
-  const [code, setCode] = useState(challenge.starterCode);
+  // Learners type everything from scratch - the editor starts completely blank.
+  const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
   const [running, setRunning] = useState(false);
   const [pyodideReady, setPyodideReady] = useState(false);
