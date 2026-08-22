@@ -251,7 +251,7 @@ const PythonChallengePage = () => {
 
                   {/* Description */}
                   <div className="glass-card rounded-xl p-5 mb-6">
-                    <h2 className="font-semibold text-foreground text-base mb-3 flex items-center gap-2">
+                    <h2 className="font-semibold text-foreground text-lg mb-3 flex items-center gap-2">
                       <Trophy className="w-4 h-4 text-yellow-500" /> Problem
                     </h2>
                     <FormattedProblem text={challenge.description} />
@@ -260,7 +260,7 @@ const PythonChallengePage = () => {
                         <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
                           {t("Kết quả mong đợi:", "Expected output:")}
                         </p>
-                        <div className="text-sm font-mono bg-secondary rounded-lg p-4 text-foreground whitespace-pre-wrap break-words overflow-y-auto max-h-56 leading-relaxed">
+                        <div className="text-[15px] font-mono bg-secondary rounded-lg p-4 text-foreground whitespace-pre-wrap break-words overflow-y-auto max-h-56 leading-relaxed">
                           {challenge.testCases[0].expected}
                         </div>
                       </div>
