@@ -44,13 +44,7 @@ const AIGrading = () => {
     setUpgradeLoading(false);
 
     // Fire upgrade in parallel
-    const upgradePromise = supabase.functions
-      .invoke("upgrade-writing", { body: { essay: text, taskType: 2 } })
-      .then(({ data, error }) => {
-        if (error) throw error;
-        return (data as { upgraded?: string })?.upgraded || "";
-      })
-      .catch((e) => { console.error("Upgrade error:", e); return ""; });
+    const upgradePromise = fetchUpgradedEssay(text, 2);
 
     try {
       const { data, error } = await supabase.functions.invoke("grade-writing", {
