@@ -242,10 +242,10 @@ const NeuronCloud = ({
       <points geometry={scaffoldOuter} raycast={() => null}>
         <pointsMaterial
           color="#93c5fd"
-          size={0.012}
+          size={0.015}
           sizeAttenuation
           transparent
-          opacity={0.3}
+          opacity={0.45}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
