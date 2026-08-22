@@ -45,8 +45,6 @@ const BAND_MILESTONES = [
   { words: 800, band: "8.0" },
 ];
 
-import type { DecayTier } from "./vocabBrainModel";
-
 type Filter = "all" | "fresh" | "fading" | "revise" | `tier:${DecayTier}`;
 
 interface LookupResult {
