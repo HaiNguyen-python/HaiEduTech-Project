@@ -831,6 +831,8 @@ const IeltsVocabulary = () => {
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
               <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
+            ) : viewMode === "flashcard" ? (
+              <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
               // Group paginated words by category so each topic shows its own section
               const groups = paginated.reduce<Record<string, IeltsWord[]>>((acc, w) => {
@@ -850,17 +852,8 @@ const IeltsVocabulary = () => {
                         <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
                       </div>
 
-                      {viewMode === "flashcard" ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                          <AnimatePresence mode="popLayout">
-                            {groups[cat].map(w => (
-                              <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                                <Flashcard word={w} />
-                              </motion.div>
-                            ))}
-                          </AnimatePresence>
-                        </div>
-                      ) : (
+                      {(
+
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                           {groups[cat].map(w => (
                             <motion.div
