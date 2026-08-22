@@ -371,15 +371,27 @@ const InlineTypeExample = ({ word, t }: { word: IeltsWord; t: (vi: string, en: s
 
 // ── Multi-type Vocabulary Exercise ──
 type ExType =
-  | "meaning"     // word → English definition
-  | "reverse"     // Vietnamese meaning → word
-  | "fillBlank"   // example with blank → word
-  | "synonym"     // word → synonym
-  | "listening"   // audio → word
-  | "defEn"       // English definition → word
-  | "collocation" // word → correct collocation
-  | "scramble"    // scrambled letters → word
-  | "context";    // word → which example uses it
+  | "meaning"     // word -> English definition
+  | "reverse"     // Vietnamese meaning -> word
+  | "fillBlank"   // example with blank -> word
+  | "synonym"     // word -> synonym
+  | "listening"   // audio -> word
+  | "defEn"       // English definition -> word
+  | "collocation" // word -> correct collocation
+  | "scramble"    // scrambled letters -> word
+  | "context"     // word -> which example uses it
+  | "antonymOdd"  // pick the word that does NOT belong to the meaning group
+  | "wordForm"    // pick the part of speech
+  | "topic"       // pick the IELTS topic of the word
+  | "typeWord"    // type the word from its Vietnamese meaning
+  | "dictation"   // listen, then type the word
+  | "ipa";        // pick the correct phonetic transcription
+
+// Practice focus filters offered to the learner.
+export type ExMode = "all" | "choice" | "typing" | "audio";
+
+const TYPING_TYPES: ExType[] = ["typeWord", "dictation"];
+const AUDIO_TYPES: ExType[] = ["listening", "dictation", "ipa"];
 
 interface ExQuestion {
   type: ExType;
@@ -388,6 +400,8 @@ interface ExQuestion {
   options: string[];
   correct: number;
   hint?: string;
+  /** Present for typing questions - the expected text answer. */
+  answerText?: string;
 }
 
 // Scramble letters of a word while guaranteeing it differs from original
@@ -401,20 +415,84 @@ const scrambleLetters = (w: string): string => {
   return letters.reverse().join("");
 };
 
-const buildQuestions = (words: IeltsWord[], allWords: IeltsWord[], quizSize = 12): ExQuestion[] => {
+const POS_POOL = ["noun", "verb", "adjective", "adverb"];
+
+const buildQuestions = (
+  words: IeltsWord[],
+  allWords: IeltsWord[],
+  quizSize = 12,
+  mode: ExMode = "all",
+): ExQuestion[] => {
   const distractorPool = allWords.length > 4 ? allWords : words;
   const picked = shuffle(words).slice(0, quizSize);
+  const lastTypeRef: { value: ExType | null } = { value: null };
 
-  return picked.map((w, idx) => {
-    // Cycle through available types based on word data
-    const candidates: ExType[] = ["meaning", "reverse", "listening", "defEn", "scramble"];
+  const buildOne = (w: IeltsWord, idx: number): ExQuestion => {
+    // Types available for this specific word (data-dependent)
+    let candidates: ExType[] = ["meaning", "reverse", "listening", "defEn", "scramble", "wordForm", "topic", "typeWord", "dictation", "ipa", "antonymOdd"];
     if (w.example && w.example.toLowerCase().includes(w.word.toLowerCase())) {
       candidates.push("fillBlank", "context");
     }
     if (w.synonyms && w.synonyms.length > 0) candidates.push("synonym");
     if (w.collocations && w.collocations.length > 0) candidates.push("collocation");
-    const type = candidates[idx % candidates.length];
+    if (!w.partOfSpeech) candidates = candidates.filter(c => c !== "wordForm");
+    if (!w.ipa) candidates = candidates.filter(c => c !== "ipa");
 
+    // Apply the learner's focus filter
+    if (mode === "typing") candidates = candidates.filter(c => TYPING_TYPES.includes(c));
+    else if (mode === "audio") candidates = candidates.filter(c => AUDIO_TYPES.includes(c));
+    else if (mode === "choice") candidates = candidates.filter(c => !TYPING_TYPES.includes(c));
+    if (candidates.length === 0) candidates = ["meaning"];
+
+    // Rotate through the pool and avoid two identical types in a row
+    let type = candidates[idx % candidates.length];
+    if (type === lastTypeRef.value && candidates.length > 1) {
+      type = candidates[(idx + 1) % candidates.length];
+    }
+    lastTypeRef.value = type;
+
+    if (type === "typeWord") {
+      const hint = `${w.word[0].toUpperCase()}${"_".repeat(Math.max(w.word.length - 1, 0))} (${w.word.length} ${"chars"})`;
+      return { type, word: w, prompt: w.definition.vi, options: [], correct: 0, answerText: w.word, hint };
+    }
+    if (type === "dictation") {
+      return { type, word: w, prompt: w.word, options: [], correct: 0, answerText: w.word, hint: w.definition.vi };
+    }
+    if (type === "wordForm") {
+      const correctPos = (w.partOfSpeech || "noun").toLowerCase();
+      const wrongs = POS_POOL.filter(p => p !== correctPos).slice(0, 3);
+      const opts = shuffle([correctPos, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctPos) };
+    }
+    if (type === "topic") {
+      const wrongs = shuffle(IELTS_CATEGORIES.filter(c => c !== w.category)).slice(0, 3);
+      const opts = shuffle([w.category, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.category) };
+    }
+    if (type === "ipa") {
+      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word && x.ipa && x.ipa !== w.ipa)).slice(0, 3).map(x => x.ipa);
+      const opts = shuffle([w.ipa, ...wrongs]);
+      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.ipa) };
+    }
+    if (type === "antonymOdd") {
+      // 3 words share the target's topic, the odd one comes from another topic.
+      const sameTopic = shuffle(distractorPool.filter(x => x.category === w.category && x.word !== w.word)).slice(0, 2);
+      const odd = shuffle(distractorPool.filter(x => x.category !== w.category))[0];
+      if (!odd || sameTopic.length < 2) {
+        const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
+        const optsFallback = shuffle([w.definition.en, ...wrongs]);
+        return { type: "meaning", word: w, prompt: w.word, options: optsFallback, correct: optsFallback.indexOf(w.definition.en) };
+      }
+      const opts = shuffle([w.word, ...sameTopic.map(x => x.word), odd.word]);
+      return {
+        type,
+        word: w,
+        prompt: `${w.word} / ${sameTopic.map(x => x.word).join(" / ")} / ${odd.word}`,
+        options: opts,
+        correct: opts.indexOf(odd.word),
+        hint: w.category,
+      };
+    }
     if (type === "reverse") {
       const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
       const opts = shuffle([w.word, ...wrongs]);
@@ -492,7 +570,10 @@ const buildQuestions = (words: IeltsWord[], allWords: IeltsWord[], quizSize = 12
     const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
     const opts = shuffle([w.definition.en, ...wrongs]);
     return { type: "meaning", word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.definition.en) };
-  });
+  };
+
+  const built = picked.map((w, idx) => buildOne(w, idx));
+  return built;
 };
 
 const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
@@ -505,6 +586,39 @@ const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
   collocation: { vi: "Chọn cụm từ đi kèm", en: "Pick the collocation", emoji: "🧩" },
   scramble: { vi: "Sắp xếp lại chữ cái", en: "Unscramble the letters", emoji: "🔤" },
   context: { vi: "Câu nào dùng đúng từ này?", en: "Which sentence uses it?", emoji: "💬" },
+  antonymOdd: { vi: "Tìm từ khác nhóm nghĩa", en: "Find the odd word out", emoji: "🚫" },
+  wordForm: { vi: "Từ này thuộc từ loại nào?", en: "Which part of speech?", emoji: "🏷️" },
+  topic: { vi: "Từ này thuộc chủ đề nào?", en: "Which IELTS topic?", emoji: "🗂️" },
+  typeWord: { vi: "Gõ lại từ theo nghĩa", en: "Type the word from meaning", emoji: "⌨️" },
+  dictation: { vi: "Nghe rồi gõ lại từ", en: "Listen & type the word", emoji: "🎙️" },
+  ipa: { vi: "Chọn phiên âm đúng", en: "Pick the correct IPA", emoji: "🔊" },
+};
+
+const MODE_LABELS: Record<ExMode, { vi: string; en: string }> = {
+  all: { vi: "Tất cả dạng", en: "All types" },
+  choice: { vi: "Chỉ trắc nghiệm", en: "Multiple choice only" },
+  typing: { vi: "Chỉ gõ chữ", en: "Typing only" },
+  audio: { vi: "Chỉ nghe", en: "Listening only" },
+};
+
+// Per-type accuracy stats used by the performance radar chart.
+export const TYPE_STATS_KEY = "vocab_type_stats_ielts";
+export type TypeStats = Record<string, { correct: number; total: number }>;
+
+const readTypeStats = (): TypeStats => {
+  try { return JSON.parse(localStorage.getItem(TYPE_STATS_KEY) || "{}") as TypeStats; } catch { return {}; }
+};
+
+const mergeTypeStats = (session: TypeStats) => {
+  try {
+    const saved = readTypeStats();
+    Object.entries(session).forEach(([k, v]) => {
+      const prev = saved[k] || { correct: 0, total: 0 };
+      saved[k] = { correct: prev.correct + v.correct, total: prev.total + v.total };
+    });
+    localStorage.setItem(TYPE_STATS_KEY, JSON.stringify(saved));
+    window.dispatchEvent(new CustomEvent("vocab-type-stats-updated"));
+  } catch { /* ignore */ }
 };
 
 const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: IeltsWord[]; t: (vi: string, en: string) => string }) => {
