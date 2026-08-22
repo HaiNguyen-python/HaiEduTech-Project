@@ -11,3 +11,5 @@ Replaces the old vocabulary performance charts (VocabPerformanceCharts.tsx delet
 - Memory decay tiers by days since review: fresh <=1 (green), recent <=6 (blue), fading <=20 (indigo), weak <=45 (slate), forgotten >45 - color, opacity and point size all decay.
 - Data: `user_vocab_mastered` (subject = 'ielts', reviewed_at/created_at) merged with localStorage set; `game_scores` for practice accuracy.
 - Versions pinned for React 18: @react-three/fiber ^8, @react-three/drei ^9.
+- Word labels are HTML (absolutely positioned over the canvas, projected in `LabelProjector`), NOT drei `Text`/troika - troika's blob worker fails in some environments and left the Suspense fallback stuck on "Building the 3D model...". Dim tiers get a lighter label ink (#cbd5e1) so text stays readable.
+
