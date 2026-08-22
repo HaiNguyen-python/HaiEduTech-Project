@@ -354,6 +354,39 @@ const FloatingNotebook = () => {
     return () => window.removeEventListener("notebook:updated", handler as EventListener);
   }, [selectedId, fetchNotebooks, reloadSelectedNote]);
 
+  // Live collaboration: when a shared editor (student with edit rights) or
+  // another device changes the note we currently have open, pull that version
+  // in immediately so everybody sees the same content.
+  useEffect(() => {
+    if (!selectedId || !editor) return;
+    const channel = supabase
+      .channel(`notebook-live-${selectedId}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "student_notebooks", filter: `id=eq.${selectedId}` },
+        (payload) => {
+          const row = payload.new as { content?: string; title?: string; updated_at?: string };
+          if (!row?.updated_at) return;
+          // Ignore our own write (already reflected locally).
+          if (lastSyncedUpdatedAt.current && row.updated_at <= lastSyncedUpdatedAt.current) return;
+          if (savingRef.current) return;
+          const incoming = row.content || "";
+          const html = incoming.includes("<") ? incoming : `<p>${incoming}</p>`;
+          if (editor.getHTML() === html) {
+            lastSyncedUpdatedAt.current = row.updated_at;
+            return;
+          }
+          skipNextAutoSave.current = true;
+          editor.commands.setContent(html);
+          if (row.title) setTitle(row.title);
+          lastSyncedUpdatedAt.current = row.updated_at;
+        },
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [selectedId, editor]);
+
+
   const handleSave = useCallback(async () => {
     if (!user) return;
     if (savingRef.current) return; // prevent concurrent inserts → duplicates
