@@ -144,11 +144,19 @@ export const buildSynapses = (neurons: BrainNeuron[], maxLinks = 900): [number, 
  */
 export const buildScaffold = (count = 1600): Float32Array => {
   const arr = new Float32Array(count * 3);
+  // Sequential hashes correlate visibly (they draw spirals), so drive the
+  // placement with a linear congruential generator for an even cortex fill.
+  let seed = 0x9e3779b9;
+  const next = () => {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    return seed / 0x100000000;
+  };
   for (let i = 0; i < count; i += 1) {
-    const { x, y, z } = brainPosition(`scaffold-${i}`);
+    const { x, y, z } = brainPositionFromRandoms(next(), next(), next(), next());
     arr[i * 3] = x;
     arr[i * 3 + 1] = y;
     arr[i * 3 + 2] = z;
   }
   return arr;
 };
+
