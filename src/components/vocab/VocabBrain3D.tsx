@@ -130,8 +130,15 @@ const LabelProjector = ({
           word: neuron.word,
           left: (sx * 0.5 + 0.5) * 100,
           top: (-sy * 0.5 + 0.5) * 100,
-          color: isKey ? "#ffffff" : info.color,
-          opacity: isKey ? 1 : Math.max(info.alpha, 0.78),
+          // Label text is always readable: dim tiers get a lighter ink than
+          // their neuron dot so the word stays legible on the dark canvas.
+          color: isKey
+            ? "#ffffff"
+            : neuron.days > 20
+              ? "#cbd5e1"
+              : info.color,
+          opacity: isKey ? 1 : Math.max(info.alpha, 0.9),
+
           key: isKey,
         };
       }),
