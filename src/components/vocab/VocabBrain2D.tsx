@@ -1,22 +1,36 @@
 /**
  * @file VocabBrain2D.tsx
  * @description Canvas-2D fallback for the vocabulary brain, used when WebGL is
- * unavailable. Same decay colours, rotating projection, no three.js.
+ * unavailable. Same decay colours, rotating projection and word labels, no three.js.
  *
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useRef } from "react";
-import { buildScaffold, tierForDays, type BrainNeuron } from "./vocabBrainModel";
+import { buildScaffold, pickLabelCandidates, tierForDays, type BrainNeuron, type LabelCandidate } from "./vocabBrainModel";
 
 interface Props {
   neurons: BrainNeuron[];
   onSelect: (word: string) => void;
   selected: string | null;
+  showLabels?: boolean;
+  density?: "low" | "medium" | "high";
+  paused?: boolean;
+  focusWord?: string | null;
 }
 
-const VocabBrain2D = ({ neurons, onSelect, selected }: Props) => {
+const DENSITY_LIMIT = { low: 14, medium: 28, high: 48 } as const;
+
+const VocabBrain2D = ({
+  neurons,
+  onSelect,
+  selected,
+  showLabels = true,
+  density = "medium",
+  paused = false,
+  focusWord = null,
+}: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const scaffoldRef = useRef<Float32Array>(buildScaffold(900));
+  const scaffoldRef = useRef<Float32Array>(buildScaffold(1600));
   const projected = useRef<{ word: string; sx: number; sy: number }[]>([]);
 
   useEffect(() => {
@@ -47,8 +61,8 @@ const VocabBrain2D = ({ neurons, onSelect, selected }: Props) => {
 
       // Faint scaffold tissue first.
       const scaffold = scaffoldRef.current;
-      ctx.fillStyle = "#60a5fa";
-      ctx.globalAlpha = 0.18;
+      ctx.fillStyle = "#93c5fd";
+      ctx.globalAlpha = 0.2;
       for (let i = 0; i < scaffold.length; i += 3) {
         const sxx = scaffold[i] * cos - scaffold[i + 2] * sin;
         ctx.beginPath();
@@ -58,6 +72,7 @@ const VocabBrain2D = ({ neurons, onSelect, selected }: Props) => {
       ctx.globalAlpha = 1;
 
       const sorted = [...neurons].sort((a, b) => (a.x * sin + a.z * cos) - (b.x * sin + b.z * cos));
+      const candidates: LabelCandidate[] = [];
       sorted.forEach(n => {
         const x = n.x * cos - n.z * sin;
         const z = n.x * sin + n.z * cos;
@@ -65,7 +80,9 @@ const VocabBrain2D = ({ neurons, onSelect, selected }: Props) => {
         const sx = cx + x * scale * (0.9 + depth * 0.2);
         const sy = cy - n.y * scale * (0.9 + depth * 0.2);
         const info = tierForDays(n.days);
-        const isSel = selected === n.word;
+        const isSel =
+          selected?.toLowerCase() === n.word.toLowerCase() ||
+          focusWord?.toLowerCase() === n.word.toLowerCase();
         const r = (isSel ? 5.5 : 2.4) * info.scale * (0.6 + depth * 0.7);
         ctx.globalAlpha = Math.min(1, (isSel ? 1 : info.alpha) * (0.45 + depth * 0.65));
         ctx.fillStyle = info.color;
@@ -73,15 +90,38 @@ const VocabBrain2D = ({ neurons, onSelect, selected }: Props) => {
         ctx.arc(sx, sy, r, 0, Math.PI * 2);
         ctx.fill();
         list.push({ word: n.word, sx, sy });
+        candidates.push({ neuron: n, sx, sy, facing: depth * 2 - 0.6 });
       });
       ctx.globalAlpha = 1;
+
+      if (showLabels) {
+        const forced = [selected, focusWord].filter((v): v is string => !!v);
+        const labels = pickLabelCandidates(candidates, DENSITY_LIMIT[density], 46, forced);
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        labels.forEach(({ neuron, sx, sy }) => {
+          const info = tierForDays(neuron.days);
+          const isKey =
+            selected?.toLowerCase() === neuron.word.toLowerCase() ||
+            focusWord?.toLowerCase() === neuron.word.toLowerCase();
+          ctx.font = `${isKey ? 700 : 600} ${isKey ? 15 : 12}px ui-sans-serif, system-ui, sans-serif`;
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = "rgba(2,6,23,0.9)";
+          ctx.globalAlpha = isKey ? 1 : Math.max(info.alpha, 0.5);
+          ctx.strokeText(neuron.word, sx, sy - 11);
+          ctx.fillStyle = isKey ? "#ffffff" : info.color;
+          ctx.fillText(neuron.word, sx, sy - 11);
+        });
+        ctx.globalAlpha = 1;
+      }
+
       projected.current = list;
-      angle += 0.0035;
+      if (!paused) angle += 0.0035;
       raf = requestAnimationFrame(draw);
     };
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
-  }, [neurons, selected]);
+  }, [neurons, selected, showLabels, density, paused, focusWord]);
 
   const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();

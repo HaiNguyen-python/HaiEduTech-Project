@@ -67,8 +67,8 @@ const rand = (word: string, salt: number): number => (hash(`${word}#${salt}`) % 
 
 /**
  * Place a point on a brain-like surface from four uniform randoms: two
- * ellipsoid hemispheres separated by a mid-line fissure, plus a small
- * cerebellum lobe at the lower back.
+ * ellipsoid hemispheres with gyri/sulci ripples separated by a mid-line
+ * fissure, plus a cerebellum lobe and a short brain stem.
  */
 export const brainPositionFromRandoms = (
   r1: number,
@@ -76,47 +76,68 @@ export const brainPositionFromRandoms = (
   r3: number,
   r4: number,
 ): { x: number; y: number; z: number } => {
-
-
-  const cerebellum = r4 > 0.86; // ~14% of words sit in the lower-back lobe
+  const cerebellum = r4 > 0.84 && r4 <= 0.96; // ~12% lower-back lobe
+  const stem = r4 > 0.96;                     // ~4% brain stem
 
   // Spherical sampling (uniform on the sphere), then squashed into shape.
   const u = r1 * 2 - 1;                 // cos(phi)
   const theta = r2 * Math.PI * 2;
   const s = Math.sqrt(Math.max(0, 1 - u * u));
-  // Keep the cloud close to the cortex surface (shell between 0.72 and 1).
-  const shell = 0.74 + r3 * 0.26;
+  // Keep the cloud close to the cortex surface (thin shell).
+  let shell = 0.82 + r3 * 0.18;
 
-  let x = s * Math.cos(theta) * shell;
-  let y = u * shell;
-  let z = s * Math.sin(theta) * shell;
+  // Gyri / sulci: multi-frequency ripple on the radius so the surface folds.
+  const folds =
+    Math.sin(theta * 6) * 0.045 +
+    Math.sin(u * Math.PI * 5 + theta * 3) * 0.04 +
+    Math.sin(theta * 11 + u * 7) * 0.022;
 
-  if (cerebellum) {
-    // Small squashed lobe behind and below the cerebrum.
+  let x = s * Math.cos(theta);
+  let y = u;
+  let z = s * Math.sin(theta);
+
+  if (stem) {
+    // Narrow stem dropping below the cerebrum, slightly to the back.
     return {
-      x: x * 0.42,
-      y: y * 0.26 - 0.78,
-      z: z * 0.32 - 0.72,
+      x: x * 0.13,
+      y: -0.62 - r3 * 0.42,
+      z: z * 0.13 - 0.24,
     };
   }
 
-  // Cerebrum: wider than tall, longer front-to-back.
-  x *= 0.92;
-  y *= 0.74;
-  z *= 1.16;
+  if (cerebellum) {
+    // Small ridged lobe behind and below the cerebrum.
+    const c = shell + folds * 0.6;
+    return {
+      x: x * c * 0.44,
+      y: y * c * 0.24 - 0.74,
+      z: z * c * 0.34 - 0.74,
+    };
+  }
 
-  // Push points away from the mid-sagittal plane to carve the fissure.
+  shell += folds;
+  x *= shell;
+  y *= shell;
+  z *= shell;
+
+  // Cerebrum: wider than tall, longer front-to-back.
+  x *= 0.9;
+  y *= 0.74;
+  z *= 1.18;
+
+  // Push points away from the mid-sagittal plane to carve a deeper fissure.
   const side = x >= 0 ? 1 : -1;
-  x = side * (Math.abs(x) * 0.86 + 0.14);
+  x = side * (Math.abs(x) * 0.8 + 0.2);
 
   // Flatten the very top a touch and lift the whole cerebrum.
   y = y * (1 - 0.12 * Math.abs(x)) + 0.16;
 
-  // Frontal lobe slightly narrower than the occipital area.
-  if (z > 0) x *= 0.92;
+  // Frontal lobe narrower than the occipital area.
+  if (z > 0) x *= 0.9;
 
   return { x, y, z };
 };
+
 
 /** Deterministic per-word placement. */
 export const brainPosition = (word: string) =>
@@ -167,3 +188,45 @@ export const buildScaffold = (count = 1600): Float32Array => {
   return arr;
 };
 
+
+export interface LabelCandidate {
+  neuron: BrainNeuron;
+  /** Projected screen-ish coordinates in the caller's space. */
+  sx: number;
+  sy: number;
+  /** Facing score: 1 = straight at the viewer. */
+  facing: number;
+}
+
+/**
+ * Pick which neurons should show a text label: front-facing first, freshest and
+ * most-urgent words prioritised, then thinned out so labels never overlap.
+ */
+export const pickLabelCandidates = (
+  items: LabelCandidate[],
+  limit: number,
+  minDistance: number,
+  forced: string[] = [],
+): LabelCandidate[] => {
+  const forcedSet = new Set(forced.filter(Boolean).map(w => w.toLowerCase()));
+  const priority = (c: LabelCandidate) => {
+    if (forcedSet.has(c.neuron.word.toLowerCase())) return 1000;
+    // Front-facing matters most, then "needs revision", then freshness.
+    const urgency = c.neuron.days > 20 ? 0.5 : c.neuron.days <= 1 ? 0.35 : 0.1;
+    return c.facing + urgency;
+  };
+
+  const sorted = [...items]
+    .filter(c => forcedSet.has(c.neuron.word.toLowerCase()) || c.facing > 0.1)
+    .sort((a, b) => priority(b) - priority(a));
+
+  const kept: LabelCandidate[] = [];
+  const min2 = minDistance * minDistance;
+  for (const c of sorted) {
+    if (kept.length >= limit) break;
+    const isForced = forcedSet.has(c.neuron.word.toLowerCase());
+    if (!isForced && kept.some(k => (k.sx - c.sx) ** 2 + (k.sy - c.sy) ** 2 < min2)) continue;
+    kept.push(c);
+  }
+  return kept;
+};
