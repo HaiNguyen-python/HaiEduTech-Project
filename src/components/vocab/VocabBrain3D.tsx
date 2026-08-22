@@ -252,29 +252,41 @@ const NeuronCloud = ({
 
   return (
     <group>
-      {/* Cortex scaffold: faint tissue so the brain shape always reads. */}
+      {/* Cortex scaffold: three layers of tissue so the brain shape reads clearly. */}
       <points geometry={scaffoldOuter} raycast={() => null}>
         <pointsMaterial
-          color="#93c5fd"
-          size={0.015}
+          color="#bfdbfe"
+          size={0.014}
           sizeAttenuation
           transparent
-          opacity={0.45}
+          opacity={0.6}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
       </points>
-      <points geometry={scaffoldInner} raycast={() => null}>
+      <points geometry={scaffoldMid} raycast={() => null}>
         <pointsMaterial
-          color="#3b82f6"
-          size={0.01}
+          color="#60a5fa"
+          size={0.011}
           sizeAttenuation
           transparent
-          opacity={0.12}
+          opacity={0.26}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
       </points>
+      <points geometry={scaffoldCore} raycast={() => null}>
+        <pointsMaterial
+          color="#1d4ed8"
+          size={0.009}
+          sizeAttenuation
+          transparent
+          opacity={0.14}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
+
 
       <lineSegments geometry={synapseGeometry}>
         <lineBasicMaterial vertexColors transparent opacity={0.28} blending={THREE.AdditiveBlending} depthWrite={false} />
