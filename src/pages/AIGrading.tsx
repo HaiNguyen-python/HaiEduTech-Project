@@ -433,6 +433,14 @@ ${result.errors.map(e => `
                               </button>
                             </div>
                           )}
+                          {!result.upgraded && !upgradeLoading && (
+                            <button
+                              onClick={() => retryUpgrade()}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors"
+                            >
+                              <RefreshCw className="w-4 h-4" /> {t("Thử lại", "Retry")}
+                            </button>
+                          )}
                         </div>
                         {result.upgraded ? (
                           <div className={`text-sm text-secondary-foreground leading-relaxed ${!showFullUpgraded ? "max-h-40 overflow-hidden relative" : ""}`}>
