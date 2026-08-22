@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { playEnglishTts } from "@/lib/englishTts";
-import { buildNeurons, TIER_ORDER, tierForDays, tierInfo, type BrainNeuron } from "./vocabBrainModel";
+import { buildNeurons, TIER_ORDER, tierForDays, tierInfo, type BrainNeuron, type DecayTier } from "./vocabBrainModel";
 import VocabBrain2D from "./VocabBrain2D";
 
 type LabelDensity = "low" | "medium" | "high" | "all";
