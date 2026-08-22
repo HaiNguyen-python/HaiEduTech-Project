@@ -22,6 +22,7 @@ import SmartReviewColumn from "@/components/SmartReviewColumn";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { supabase } from "@/integrations/supabase/client";
 import { IELTS_EXAMPLE_VI } from "@/data/ieltsExampleVi";
+import VocabPerformanceCharts from "@/components/vocab/VocabPerformanceCharts";
 
 const WORDS_PER_PAGE = 10;
 
@@ -1306,6 +1307,18 @@ const IeltsVocabulary = () => {
             <WeeklyVocabAchievers subject="ielts" threshold={20} />
           </div>
           </div>
+          {/* Vocabulary performance dashboard (always at the very bottom) */}
+          <VocabPerformanceCharts
+            subject="ielts"
+            localMasteredCount={mastered.size}
+            t={t}
+            typeLabel={(type) => {
+              const lbl = TYPE_LABELS[type as ExType];
+              return lbl ? t(lbl.vi, lbl.en) : type;
+            }}
+            typeStatsKey={TYPE_STATS_KEY}
+          />
+
           <div className="lg:hidden mt-6 space-y-4">
             <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
             <StudyStreakLeaderboard />
