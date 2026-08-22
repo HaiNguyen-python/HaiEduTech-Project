@@ -908,6 +908,11 @@ const IeltsWritingPractice = () => {
                             {copied ? t("Đã sao chép", "Copied") : t("Sao chép", "Copy")}
                           </Button>
                         )}
+                        {!result.upgraded && !upgradeLoading && (
+                          <Button variant="outline" size="sm" onClick={() => retryUpgrade()}>
+                            <RefreshCw className="w-4 h-4 mr-1" /> {t("Thử lại", "Retry")}
+                          </Button>
+                        )}
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -915,9 +920,13 @@ const IeltsWritingPractice = () => {
                         <div className="prose prose-sm dark:prose-invert max-w-none bg-muted/30 p-4 rounded-lg">
                           <ReactMarkdown>{result.upgraded}</ReactMarkdown>
                         </div>
-                      ) : (
+                      ) : upgradeLoading ? (
                         <p className="text-sm text-muted-foreground italic">
                           {t("AI đang nâng cấp bài viết lên Band 8.0+...", "AI is upgrading your essay to Band 8.0+...")}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-destructive">
+                          {t("Chưa tạo được bài mẫu Band 8.0+. Hãy bấm Thử lại.", "The Band 8.0+ version could not be generated. Press Retry.")}
                         </p>
                       )}
                     </CardContent>
