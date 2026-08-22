@@ -13,6 +13,7 @@ import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import {
   buildScaffold,
+  buildScaffoldShell,
   buildSynapses,
   pickLabelCandidates,
   tierForDays,
@@ -20,7 +21,7 @@ import {
   type LabelCandidate,
 } from "./vocabBrainModel";
 
-export type LabelDensity = "low" | "medium" | "high";
+export type LabelDensity = "low" | "medium" | "high" | "all";
 
 interface Props {
   neurons: BrainNeuron[];
@@ -44,7 +45,8 @@ interface ScreenLabel {
   key: boolean;
 }
 
-const DENSITY_LIMIT: Record<LabelDensity, number> = { low: 22, medium: 48, high: 90 };
+const DENSITY_LIMIT: Record<LabelDensity, number> = { low: 40, medium: 90, high: 180, all: 100000 };
+
 
 const VERT = /* glsl */ `
   attribute float aSize;
