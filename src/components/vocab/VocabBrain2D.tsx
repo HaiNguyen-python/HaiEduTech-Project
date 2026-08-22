@@ -100,10 +100,11 @@ const VocabBrain2D = ({
 
       if (showLabels) {
         const forced = [selected, focusWord].filter((v): v is string => !!v);
-        const labels = pickLabelCandidates(candidates, DENSITY_LIMIT[density], 46, forced);
+        const minDist = density === "all" ? 26 : density === "high" ? 32 : 44;
+        const labels = pickLabelCandidates(candidates, DENSITY_LIMIT[density], minDist, forced, -0.8);
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        labels.forEach(({ neuron, sx, sy }) => {
+        labels.forEach(({ neuron, sx, sy, facing }) => {
           const info = tierForDays(neuron.days);
           const isKey =
             selected?.toLowerCase() === neuron.word.toLowerCase() ||
@@ -111,12 +112,13 @@ const VocabBrain2D = ({
           ctx.font = `${isKey ? 700 : 600} ${isKey ? 15 : 12}px ui-sans-serif, system-ui, sans-serif`;
           ctx.lineWidth = 3;
           ctx.strokeStyle = "rgba(2,6,23,0.9)";
-          ctx.globalAlpha = isKey ? 1 : Math.max(info.alpha, 0.5);
+          ctx.globalAlpha = isKey ? 1 : facing < 0.05 ? 0.4 : 0.95;
           ctx.strokeText(neuron.word, sx, sy - 11);
-          ctx.fillStyle = isKey ? "#ffffff" : info.color;
+          ctx.fillStyle = isKey ? "#ffffff" : info.labelInk;
           ctx.fillText(neuron.word, sx, sy - 11);
         });
         ctx.globalAlpha = 1;
+
       }
 
       projected.current = list;
