@@ -471,7 +471,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
-  const [quizSize, setQuizSize] = useState<number>(12);
+  const [quizSize, setQuizSize] = useState<number>(20);
 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
@@ -559,7 +559,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
             onChange={(e) => setQuizSize(Number(e.target.value))}
             className="rounded-md border border-border bg-card px-2 py-1 text-sm"
           >
-            {[5, 10, 12, 15, 20, 30, 50, 100, 200].map(n => (
+            {[5, 10, 20, 30, 50, 100, 200, 300, 500].map(n => (
               <option key={n} value={n} disabled={n > words.length && n !== 5}>
                 {n} {n > words.length ? `(${t("chỉ có", "only")} ${words.length})` : ""}
               </option>
@@ -937,7 +937,7 @@ const IeltsVocabulary = () => {
             })()}
 
             {/* Pagination (hide in exercise mode) */}
-            {viewMode !== "exercise" && totalPages > 1 && (
+            {viewMode === "list" && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                   <ChevronLeft className="w-4 h-4" />
