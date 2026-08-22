@@ -69,19 +69,17 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   const [mismatch, setMismatch] = useState<{ expected: string; got: string } | null>(null);
   const pyodideRef = useRef<any>(null);
 
-  // Load saved code
+  // Load saved code (the learner's own work only - never a template)
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY(challenge.id));
-    // Migrate stale legacy starter code (used `def solve(...)`) when the
-    // current challenge no longer uses functions.
-    const isStaleLegacy =
-      saved &&
-      /def\s+solve\s*\(/.test(saved) &&
-      !/def\s+solve\s*\(/.test(challenge.starterCode);
-    if (saved && !isStaleLegacy) setCode(saved);
+    // Drop any previously auto-saved starter template so the editor stays blank.
+    const isTemplateOnly =
+      !!saved &&
+      (saved.trim() === challenge.starterCode.trim() || /#\s*Your code here/.test(saved));
+    if (saved && !isTemplateOnly) setCode(saved);
     else {
-      if (isStaleLegacy) localStorage.removeItem(STORAGE_KEY(challenge.id));
-      setCode(challenge.starterCode);
+      if (isTemplateOnly) localStorage.removeItem(STORAGE_KEY(challenge.id));
+      setCode("");
     }
     setPassed(false);
     setOutput("");
