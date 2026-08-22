@@ -197,7 +197,21 @@ export const buildScaffold = (count = 1600): Float32Array => {
 };
 
 
+/**
+ * Scaffold layer built from the same brain geometry, optionally shrunk towards
+ * the centre so several layers together read as a solid volume instead of a
+ * hollow sphere.
+ */
+export const buildScaffoldShell = (count: number, radiusScale = 1): Float32Array => {
+  const src = buildScaffold(count);
+  if (radiusScale === 1) return src;
+  const out = new Float32Array(src.length);
+  for (let i = 0; i < src.length; i += 1) out[i] = src[i] * radiusScale;
+  return out;
+};
+
 export interface LabelCandidate {
+
   neuron: BrainNeuron;
   /** Projected screen-ish coordinates in the caller's space. */
   sx: number;
