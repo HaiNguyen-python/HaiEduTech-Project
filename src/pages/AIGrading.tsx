@@ -92,7 +92,25 @@ const AIGrading = () => {
     setShowFullUpgraded(false);
   };
 
-  const handleDownloadPDF = () => {
+  // Generate (or regenerate) the Band 8.0+ version on demand.
+  const retryUpgrade = async (): Promise<string> => {
+    if (!text.trim()) return "";
+    setUpgradeLoading(true);
+    const { upgraded, error } = await fetchUpgradedEssay(text, 2);
+    setUpgradeLoading(false);
+    if (upgraded) {
+      setResult((prev) => (prev ? { ...prev, upgraded } : prev));
+    } else {
+      toast({
+        title: t("Chưa tạo được bài mẫu Band 8.0+", "Band 8.0+ version not ready"),
+        description: error || t("Hãy thử lại sau ít phút.", "Please try again in a moment."),
+        variant: "destructive",
+      });
+    }
+    return upgraded;
+  };
+
+  const handleDownloadPDF = async () => {
     if (!result) return;
 
     // Never export an empty Band 8.0+ section: generate it first if missing.
