@@ -109,8 +109,8 @@ const LabelProjector = ({
     camDir.current.copy(camera.position).normalize();
     const dist = camera.position.length();
     // Zoomed in -> more labels; far away -> fewer.
-    const zoomFactor = THREE.MathUtils.clamp(3.6 / Math.max(dist, 0.001), 0.45, 1.8);
-    const limit = Math.round(DENSITY_LIMIT[density] * zoomFactor);
+    const zoomFactor = THREE.MathUtils.clamp(3.6 / Math.max(dist, 0.001), 0.6, 2.2);
+    const limit = Math.round(DENSITY_LIMIT[density] * (density === "all" ? 1 : zoomFactor));
 
     const items: LabelCandidate[] = neurons.map(n => {
       v.current.set(n.x, n.y, n.z);
@@ -120,32 +120,32 @@ const LabelProjector = ({
     });
 
     const forced = [selected, focusWord].filter((w): w is string => !!w);
-    const picked = pickLabelCandidates(items, limit, 0.09, forced);
+    // Tighter spacing + negative facing threshold: words on the far side of the
+    // brain are still labelled, only dimmer, so many more words are visible.
+    const minDist = density === "all" ? 0.035 : density === "high" ? 0.05 : 0.065;
+    const picked = pickLabelCandidates(items, limit, minDist, forced, -0.8);
 
     onLabels(
-      picked.map(({ neuron, sx, sy }) => {
+      picked.map(({ neuron, sx, sy, facing }) => {
         const info = tierForDays(neuron.days);
         const isKey =
           selected?.toLowerCase() === neuron.word.toLowerCase() ||
           focusWord?.toLowerCase() === neuron.word.toLowerCase();
+        const backside = facing < 0.05;
         return {
           word: neuron.word,
           left: (sx * 0.5 + 0.5) * 100,
           top: (-sy * 0.5 + 0.5) * 100,
-          // Label text is always readable: dim tiers get a lighter ink than
-          // their neuron dot so the word stays legible on the dark canvas.
-          color: isKey
-            ? "#ffffff"
-            : neuron.days > 20
-              ? "#cbd5e1"
-              : info.color,
-          opacity: isKey ? 1 : Math.max(info.alpha, 0.9),
-
+          // Each memory level keeps its own hue, in a lighter ink so the word
+          // stays readable on the dark canvas.
+          color: isKey ? "#ffffff" : info.labelInk,
+          opacity: isKey ? 1 : backside ? 0.4 : 0.95,
           key: isKey,
         };
       }),
     );
   });
+
 
   return null;
 };
