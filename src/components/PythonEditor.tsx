@@ -116,6 +116,10 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   }, []);
 
   const runCode = useCallback(async () => {
+    if (!code.trim()) {
+      setOutput(t("Hãy viết code trước khi chạy nhé!", "Write some code first!"));
+      return;
+    }
     setRunning(true);
     setOutput("");
     setHasError(false);
@@ -163,7 +167,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
       setHasError(true);
     }
     setRunning(false);
-  }, [code, challenge, onPass, passed]);
+  }, [code, challenge, onPass, passed, t]);
 
 
   const askAiDebug = async () => {
