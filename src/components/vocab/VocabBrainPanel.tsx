@@ -20,7 +20,7 @@ import { playEnglishTts } from "@/lib/englishTts";
 import { buildNeurons, TIER_ORDER, tierForDays, tierInfo, type BrainNeuron } from "./vocabBrainModel";
 import VocabBrain2D from "./VocabBrain2D";
 
-type LabelDensity = "low" | "medium" | "high";
+type LabelDensity = "low" | "medium" | "high" | "all";
 
 
 const VocabBrain3D = lazy(() => import("./VocabBrain3D"));
