@@ -66,14 +66,17 @@ const hash = (s: string): number => {
 const rand = (word: string, salt: number): number => (hash(`${word}#${salt}`) % 100000) / 100000;
 
 /**
- * Place a word on a brain-like surface: two ellipsoid hemispheres separated by
- * a mid-line fissure, plus a small cerebellum lobe at the lower back.
+ * Place a point on a brain-like surface from four uniform randoms: two
+ * ellipsoid hemispheres separated by a mid-line fissure, plus a small
+ * cerebellum lobe at the lower back.
  */
-export const brainPosition = (word: string): { x: number; y: number; z: number } => {
-  const r1 = rand(word, 1);
-  const r2 = rand(word, 2);
-  const r3 = rand(word, 3);
-  const r4 = rand(word, 4);
+export const brainPositionFromRandoms = (
+  r1: number,
+  r2: number,
+  r3: number,
+  r4: number,
+): { x: number; y: number; z: number } => {
+
 
   const cerebellum = r4 > 0.86; // ~14% of words sit in the lower-back lobe
 
