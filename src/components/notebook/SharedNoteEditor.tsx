@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   ArrowLeft, Bold, Copy, Eye, Highlighter, Italic, List, ListChecks, Loader2, Pencil, Save,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   fetchSharedWithMe,
   saveSharedCopy,
@@ -85,7 +86,27 @@ const SharedNoteEditor = ({ note, onBack, compact = false }: Props) => {
     [note.notebook_id, canEdit],
   );
 
-  // Live refresh from the owner while nobody is typing locally.
+  // Realtime: any edit by the owner or another editor lands here instantly.
+  useEffect(() => {
+    if (!editor) return;
+    const channel = supabase
+      .channel(`shared-note-live-${note.notebook_id}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "student_notebooks", filter: `id=eq.${note.notebook_id}` },
+        (payload) => {
+          if (typingRef.current) return;
+          const incoming = ((payload.new as { content?: string })?.content) || "";
+          if (incoming === remoteRef.current || incoming === editor.getHTML()) return;
+          remoteRef.current = incoming;
+          editor.commands.setContent(incoming, { emitUpdate: false } as never);
+        },
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [editor, note.notebook_id]);
+
+  // Polling fallback in case the realtime socket drops.
   useEffect(() => {
     const id = window.setInterval(async () => {
       if (typingRef.current || !editor) return;

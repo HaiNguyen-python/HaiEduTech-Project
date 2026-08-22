@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { BookOpen, Clock, Copy, Eye, EyeOff, Pencil, RefreshCw, Share2, User } from "lucide-react";
 import SharedNoteEditor from "@/components/notebook/SharedNoteEditor";
+import { supabase } from "@/integrations/supabase/client";
 import {
   fetchSharedWithMe,
   hideSharedNotebook,
@@ -41,9 +42,17 @@ const SharedWithMeList = ({ compact = false }: Props) => {
 
   useEffect(() => {
     load();
-    // Live refresh while a teacher is presenting.
+    // Live refresh while a teacher is presenting (realtime + polling fallback).
+    const channel = supabase
+      .channel("shared-notebooks-list")
+      .on("postgres_changes", { event: "*", schema: "public", table: "notebook_shares" }, () => { void load(); })
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "student_notebooks" }, () => { void load(); })
+      .subscribe();
     const id = window.setInterval(load, 20000);
-    return () => window.clearInterval(id);
+    return () => {
+      window.clearInterval(id);
+      supabase.removeChannel(channel);
+    };
   }, [load]);
 
   const handleHide = async (note: SharedNotebook) => {
