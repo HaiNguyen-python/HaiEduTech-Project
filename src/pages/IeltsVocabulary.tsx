@@ -452,7 +452,7 @@ const buildQuestions = (
     lastTypeRef.value = type;
 
     if (type === "typeWord") {
-      const hint = `${w.word[0].toUpperCase()}${"_".repeat(Math.max(w.word.length - 1, 0))} (${w.word.length} ${"chars"})`;
+      const hint = `${w.word[0].toUpperCase()}${" _".repeat(Math.max(w.word.length - 1, 0))}  (${w.word.length})`;
       return { type, word: w, prompt: w.definition.vi, options: [], correct: 0, answerText: w.word, hint };
     }
     if (type === "dictation") {
@@ -840,6 +840,55 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
             </button>
             <p className="text-sm text-muted-foreground">{t("Nhấn để nghe lại", "Tap to listen again")}</p>
           </div>
+        ) : q.type === "dictation" ? (
+          <div className="flex flex-col items-center gap-3 py-4">
+            <button onClick={() => speak(q.word.word)} className="p-6 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors">
+              <Volume2 className="w-10 h-10 text-primary" />
+            </button>
+            <p className="text-sm text-muted-foreground">{t("Nghe rồi gõ lại từ bạn nghe được", "Listen, then type the word you hear")}</p>
+            {q.hint && <p className="text-sm italic text-muted-foreground">{t("Gợi ý:", "Hint:")} {q.hint}</p>}
+          </div>
+        ) : q.type === "typeWord" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Nghĩa tiếng Việt:", "Vietnamese meaning:")}</p>
+            <h3 className="text-2xl font-bold text-foreground mb-2">{q.prompt}</h3>
+            <p className="text-sm font-mono text-muted-foreground">{q.hint}</p>
+            <p className="text-sm text-muted-foreground mt-2">{t("Gõ từ tiếng Anh tương ứng:", "Type the matching English word:")}</p>
+          </>
+        ) : q.type === "wordForm" ? (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-foreground">{q.prompt}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            <p className="text-sm italic text-muted-foreground mb-1">"{q.word.example}"</p>
+            <p className="text-sm text-muted-foreground">{t("Từ này thuộc từ loại nào?", "Which part of speech is it?")}</p>
+          </>
+        ) : q.type === "topic" ? (
+          <>
+            <h3 className="text-3xl font-bold text-foreground mb-2">{q.prompt}</h3>
+            <p className="text-sm text-muted-foreground mb-1">{q.word.definition.en}</p>
+            <p className="text-sm text-muted-foreground">{t("Từ này thường dùng cho chủ đề IELTS nào?", "Which IELTS topic does it belong to?")}</p>
+          </>
+        ) : q.type === "ipa" ? (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-foreground">{q.prompt}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            <p className="text-sm text-muted-foreground">{t("Nghe và chọn phiên âm đúng:", "Listen and pick the correct transcription:")}</p>
+          </>
+        ) : q.type === "antonymOdd" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">
+              {t(`Ba từ dưới đây cùng chủ đề "${q.hint}". Chọn từ KHÔNG cùng nhóm:`, `Three of these belong to "${q.hint}". Pick the one that does NOT:`)}
+            </p>
+            <h3 className="text-lg font-semibold text-foreground leading-relaxed">{q.prompt}</h3>
+          </>
         ) : q.type === "reverse" ? (
           <>
             <p className="text-xs text-muted-foreground mb-2">{t("Nghĩa tiếng Việt:", "Vietnamese meaning:")}</p>
@@ -909,6 +958,35 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
           </>
         )}
       </div>
+      {isTyping ? (
+        <div className="rounded-xl border border-border bg-card p-5">
+          <input
+            value={typed}
+            onChange={e => setTyped(e.target.value)}
+            onKeyDown={e => { if (e.key === "Enter") { typedResult === null ? checkTyped() : handleNext(); } }}
+            disabled={typedResult !== null}
+            placeholder={t("Gõ từ tại đây...", "Type the word here...")}
+            autoFocus
+            className={`w-full rounded-lg border-2 bg-background px-4 py-3 text-lg font-semibold outline-none transition-colors ${
+              typedResult === null ? "border-border focus:border-primary"
+                : typedResult ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"
+            }`}
+          />
+          {typedResult === null ? (
+            <Button onClick={checkTyped} disabled={!typed.trim()} className="mt-4 w-full">
+              {t("Kiểm tra", "Check")}
+            </Button>
+          ) : (
+            <div className="mt-4 flex items-center gap-2 text-sm font-semibold">
+              {typedResult ? (
+                <><CheckCircle className="h-5 w-5 text-green-500" /> <span className="text-green-600">{t("Chính xác!", "Correct!")}</span></>
+              ) : (
+                <><XCircle className="h-5 w-5 text-red-500" /> <span className="text-red-600">{t("Đáp án đúng:", "Correct answer:")} {q.answerText}</span></>
+              )}
+            </div>
+          )}
+        </div>
+      ) : (
       <div className="space-y-3">
         {q.options.map((opt, idx) => {
           let cls = "rounded-xl border p-4 cursor-pointer transition-all text-sm text-foreground ";
@@ -933,7 +1011,8 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
           );
         })}
       </div>
-      {selected !== null && (
+      )}
+      {(selected !== null || typedResult !== null) && (
         <div className="flex justify-between items-center mt-6 gap-3 flex-wrap">
           <p className="text-sm text-muted-foreground italic">
             <strong className="text-foreground not-italic">{q.word.word}</strong> - {q.word.definition.vi}
