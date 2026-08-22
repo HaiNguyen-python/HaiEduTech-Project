@@ -118,6 +118,10 @@ export const brainPositionFromRandoms = (
   return { x, y, z };
 };
 
+/** Deterministic per-word placement. */
+export const brainPosition = (word: string) =>
+  brainPositionFromRandoms(rand(word, 1), rand(word, 2), rand(word, 3), rand(word, 4));
+
 /** Build the neuron list from words + days-since-review. */
 export const buildNeurons = (items: { word: string; days: number }[]): BrainNeuron[] =>
   items.map(({ word, days }) => ({ word, days, ...brainPosition(word) }));
