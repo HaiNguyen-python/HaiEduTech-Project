@@ -73,9 +73,18 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY(challenge.id));
     // Drop any previously auto-saved starter template so the editor stays blank.
+    const norm = (s: string) =>
+      s.replace(/\r/g, "").split("\n").map((l) => l.trimEnd()).filter((l) => l.trim() !== "").join("\n").trim();
+    // Comment-only / placeholder content counts as a template, not real student work.
+    const isCommentOnly = (s: string) =>
+      norm(s).length > 0 && norm(s).split("\n").every((l) => l.trimStart().startsWith("#"));
     const isTemplateOnly =
       !!saved &&
-      (saved.trim() === challenge.starterCode.trim() || /#\s*Your code here/.test(saved));
+      (norm(saved) === norm(challenge.starterCode) ||
+        /#\s*Your code here/i.test(saved) ||
+        /#\s*Viết code/i.test(saved) ||
+        isCommentOnly(saved) ||
+        norm(saved) === "");
     if (saved && !isTemplateOnly) setCode(saved);
     else {
       if (isTemplateOnly) localStorage.removeItem(STORAGE_KEY(challenge.id));
