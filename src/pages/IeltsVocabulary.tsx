@@ -732,8 +732,9 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   if (questions.length === 0) return <p className="text-muted-foreground text-center py-12">{t("Đang tạo bài tập...", "Generating exercises...")}</p>;
 
   if (finished) {
+    const rows = Object.entries(stats).sort((a, b) => b[1].total - a[1].total);
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div className="flex flex-col items-center justify-center py-12 text-center">
         <div className="text-6xl mb-4">{score >= 10 ? "🏆" : score >= 7 ? "👍" : "💪"}</div>
         <h3 className="text-2xl font-bold text-foreground mb-2">{score}/{questions.length}</h3>
         <p className="text-muted-foreground mb-6">
@@ -741,9 +742,47 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
            score >= 7 ? t("Khá tốt! Hãy tiếp tục ôn luyện.", "Good job! Keep practicing.") :
            t("Cần ôn thêm. Hãy thử lại nhé!", "Needs more review. Try again!")}
         </p>
-        <Button onClick={generateQuiz} className="gap-2 mb-6">
-          <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}
-        </Button>
+
+        {/* Accuracy by question type */}
+        {rows.length > 0 && (
+          <div className="mb-6 w-full max-w-lg rounded-xl border border-border bg-card p-4 text-left">
+            <h4 className="mb-3 text-sm font-bold text-foreground">
+              {t("Đúng/sai theo dạng câu hỏi", "Accuracy by question type")}
+            </h4>
+            <div className="space-y-2">
+              {rows.map(([type, v]) => {
+                const lbl = TYPE_LABELS[type as ExType];
+                const pct = v.total ? Math.round((v.correct / v.total) * 100) : 0;
+                return (
+                  <div key={type} className="flex items-center gap-3 text-sm">
+                    <span className="w-44 shrink-0 truncate text-muted-foreground">
+                      {lbl ? `${lbl.emoji} ${t(lbl.vi, lbl.en)}` : type}
+                    </span>
+                    <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
+                      <div
+                        className={`h-full rounded-full ${pct >= 80 ? "bg-emerald-500" : pct >= 50 ? "bg-amber-500" : "bg-red-500"}`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <span className="w-16 shrink-0 text-right font-semibold text-foreground">{v.correct}/{v.total}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
+          <Button onClick={generateQuiz} className="gap-2">
+            <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}
+          </Button>
+          {wrongQs.length > 0 && (
+            <Button variant="outline" onClick={retryWrong} className="gap-2">
+              <XCircle className="w-4 h-4 text-red-500" />
+              {t(`Luyện lại ${wrongQs.length} câu sai`, `Retry ${wrongQs.length} mistakes`)}
+            </Button>
+          )}
+        </div>
         <div className="w-full max-w-sm">
           <GameLeaderboard gameType="vocab-ielts" currentScore={score} />
         </div>
@@ -754,11 +793,12 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const q = questions[current];
   if (!q) return null;
   const label = TYPE_LABELS[q.type];
+  const isTyping = TYPING_TYPES.includes(q.type);
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-sm">
           <label className="text-muted-foreground">{t("Số câu hỏi:", "Questions:")}</label>
           <select
             value={quizSize}
@@ -771,11 +811,22 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
               </option>
             ))}
           </select>
+          <label className="ml-2 text-muted-foreground">{t("Dạng bài:", "Focus:")}</label>
+          <select
+            value={mode}
+            onChange={(e) => setMode(e.target.value as ExMode)}
+            className="rounded-md border border-border bg-card px-2 py-1 text-sm"
+          >
+            {(Object.keys(MODE_LABELS) as ExMode[]).map(m => (
+              <option key={m} value={m}>{t(MODE_LABELS[m].vi, MODE_LABELS[m].en)}</option>
+            ))}
+          </select>
           <Button size="sm" variant="outline" onClick={generateQuiz} className="ml-2">
             <RotateCcw className="w-3 h-3 mr-1" /> {t("Tạo mới", "New quiz")}
           </Button>
         </div>
       </div>
+
       <div className="flex items-center justify-between mb-6">
         <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
         <Badge variant="outline" className="text-xs">{label.emoji} {t(label.vi, label.en)}</Badge>
