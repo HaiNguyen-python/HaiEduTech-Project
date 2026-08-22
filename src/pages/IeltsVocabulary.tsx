@@ -53,62 +53,164 @@ const shuffle = <T,>(arr: T[]): T[] => {
   return a;
 };
 
-// Flashcard component
-// Flashcard component - auto-height, no internal scrollbar, high-contrast text
-const Flashcard = ({ word }: { word: IeltsWord }) => {
+// ── Single large flashcard deck (one card on screen at a time) ──
+const DECK_SIZES = [10, 20, 30, 50, 100, 200, 0]; // 0 = all filtered words
+
+const FlashcardDeck = ({
+  words,
+  t,
+  mastered,
+  onStar,
+}: {
+  words: IeltsWord[];
+  t: (vi: string, en: string) => string;
+  mastered: Set<string>;
+  onStar: (word: string, e: React.MouseEvent) => void;
+}) => {
+  const [deckSize, setDeckSize] = useState<number>(20);
+  const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+
+  const deck = useMemo(() => {
+    const limit = deckSize === 0 ? words.length : Math.min(deckSize, words.length);
+    return words.slice(0, limit);
+  }, [words, deckSize]);
+
+  useEffect(() => { setIndex(0); setFlipped(false); }, [deckSize, words]);
+  useEffect(() => { setFlipped(false); }, [index]);
+
+  const total = deck.length;
+  const word = deck[Math.min(index, Math.max(total - 1, 0))];
+
+  if (!word) {
+    return <p className="py-12 text-center text-muted-foreground">{t("Không có từ nào", "No words available")}</p>;
+  }
+
+  const go = (delta: number) => {
+    stopEnglishTts();
+    setIndex(i => (i + delta + total) % total);
+  };
+  const isMastered = mastered.has(word.word);
+
   return (
-    <div className="cursor-pointer" onClick={() => setFlipped(!flipped)}>
-      {!flipped ? (
-        <motion.div
-          key="front"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          className="rounded-xl bg-white dark:bg-card flex flex-col items-center justify-center gap-3"
-          style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
-        >
-          <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} size={80} />
-          <h3 className="font-extrabold" style={{ fontSize: "1.5rem", color: "#111827" }}>{word.word}</h3>
-          <p className="font-mono" style={{ fontSize: "0.875rem", color: "#4b5563" }}>{word.ipa}</p>
-          <div className="flex items-center gap-1.5">
-            <Badge className={levelColors[word.level]}>{word.level}</Badge>
-            {word.partOfSpeech && <Badge variant="secondary" className="text-xs italic">{word.partOfSpeech}</Badge>}
-          </div>
-          <button onClick={(e) => { e.stopPropagation(); speak(word.word); }} className="mt-2 p-2 rounded-full hover:bg-primary/10 transition-colors">
-            <Volume2 size={20} style={{ color: "#4b5563" }} />
+    <div className="mx-auto w-full max-w-3xl">
+      {/* Deck controls */}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-sm">
+          <label className="text-muted-foreground">{t("Số thẻ muốn lật:", "Cards to flip:")}</label>
+          <select
+            value={deckSize}
+            onChange={e => setDeckSize(Number(e.target.value))}
+            className="rounded-md border border-border bg-card px-2 py-1 text-sm"
+          >
+            {DECK_SIZES.map(n => (
+              <option key={n} value={n} disabled={n !== 0 && n > words.length}>
+                {n === 0 ? `${t("Tất cả", "All")} (${words.length})` : n}
+              </option>
+            ))}
+          </select>
+        </div>
+        <span className="text-sm font-semibold text-primary">{index + 1} / {total}</span>
+      </div>
+
+      {/* Progress bar */}
+      <div className="mb-4 h-2 w-full overflow-hidden rounded-full bg-secondary">
+        <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${((index + 1) / total) * 100}%` }} />
+      </div>
+
+      {/* The big card */}
+      <div
+        onClick={() => setFlipped(f => !f)}
+        className="relative cursor-pointer select-none rounded-2xl bg-white dark:bg-card p-6 sm:p-10"
+        style={{ border: "2px solid hsl(var(--primary) / 0.35)", boxShadow: "0 12px 30px -12px hsl(var(--primary) / 0.35)", minHeight: "26rem" }}
+      >
+        <div className="absolute right-4 top-4 flex items-center gap-1">
+          <button
+            onClick={e => { e.stopPropagation(); speak(word.word); }}
+            className="rounded-full p-2 transition-colors hover:bg-primary/10"
+            aria-label={t("Nghe phát âm", "Play pronunciation")}
+          >
+            <Volume2 size={22} style={{ color: "#4b5563" }} />
           </button>
-        </motion.div>
-      ) : (
-        <motion.div
-          key="back"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          className="rounded-xl bg-white dark:bg-card flex flex-col justify-center gap-2"
-          style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
-        >
-          <p className="font-semibold break-words" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{word.definition.en}</p>
-          <p className="font-bold break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
-          <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}><span className="font-semibold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>{word.example}</p>
-          {IELTS_EXAMPLE_VI[word.example?.trim() ?? ""] && (
-            <p className="break-words" style={{ fontSize: "0.9375rem", color: "#047857", lineHeight: 1.6, fontWeight: 500 }}>
-              <span className="font-semibold" style={{ color: "#047857" }}>→ </span>{IELTS_EXAMPLE_VI[word.example.trim()]}
-            </p>
-          )}
-          {word.synonyms && word.synonyms.length > 0 && (
-            <div className="mt-2 rounded-md" style={{ backgroundColor: "#ecfdf5", padding: "0.5rem 0.75rem" }}>
-              <p className="break-words" style={{ fontSize: "0.875rem", color: "#065f46", lineHeight: 1.6 }}>
-                <span className="font-semibold">Syn: </span>{word.synonyms.join(" • ")}
+          <motion.button
+            onClick={e => { e.stopPropagation(); onStar(word.word, e); }}
+            whileTap={{ scale: 1.4 }}
+            className="rounded-full p-2 transition-colors hover:bg-yellow-500/10"
+            aria-label={t("Đánh dấu đã thuộc", "Mark as mastered")}
+          >
+            <Star
+              size={22}
+              className={isMastered ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
+              style={isMastered ? {} : { color: "#4b5563" }}
+            />
+          </motion.button>
+        </div>
+
+        <AnimatePresence mode="wait">
+          {!flipped ? (
+            <motion.div
+              key={`front-${word.word}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="flex flex-col items-center justify-center gap-4 pt-6 text-center"
+            >
+              <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} size={132} />
+              <h3 className="font-extrabold" style={{ fontSize: "2.75rem", lineHeight: 1.1, color: "#111827" }}>{word.word}</h3>
+              <p className="font-mono" style={{ fontSize: "1.15rem", color: "#4b5563" }}>{word.ipa}</p>
+              <div className="flex items-center gap-2">
+                <Badge className={levelColors[word.level]}>{word.level}</Badge>
+                {word.partOfSpeech && <Badge variant="secondary" className="italic">{word.partOfSpeech}</Badge>}
+                <Badge variant="outline">{word.category}</Badge>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">{t("Chạm vào thẻ để xem nghĩa", "Tap the card to reveal the meaning")}</p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={`back-${word.word}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="flex flex-col justify-center gap-3 pt-6"
+            >
+              <p className="font-bold break-words" style={{ fontSize: "1.75rem", color: "#1d4ed8", lineHeight: 1.35 }}>{word.definition.vi}</p>
+              <p className="font-semibold break-words" style={{ fontSize: "1.125rem", color: "#374151", lineHeight: 1.6 }}>{word.definition.en}</p>
+              <p className="italic break-words" style={{ fontSize: "1.0625rem", color: "#374151", lineHeight: 1.6 }}>
+                <span className="font-semibold not-italic" style={{ color: "#1d4ed8" }}>E.g. </span>{word.example}
               </p>
-            </div>
+              {IELTS_EXAMPLE_VI[word.example?.trim() ?? ""] && (
+                <p className="break-words" style={{ fontSize: "1rem", color: "#047857", lineHeight: 1.6, fontWeight: 500 }}>
+                  <span className="font-semibold">→ </span>{IELTS_EXAMPLE_VI[word.example.trim()]}
+                </p>
+              )}
+              {word.synonyms && word.synonyms.length > 0 && (
+                <div className="mt-1 rounded-md" style={{ backgroundColor: "#ecfdf5", padding: "0.65rem 0.85rem" }}>
+                  <p className="break-words" style={{ fontSize: "1rem", color: "#065f46", lineHeight: 1.6 }}>
+                    <span className="font-semibold">Syn: </span>{word.synonyms.join(" • ")}
+                  </p>
+                </div>
+              )}
+            </motion.div>
           )}
-          <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
-        </motion.div>
-      )}
+        </AnimatePresence>
+      </div>
+
+      {/* Navigation */}
+      <div className="mt-4 flex items-center gap-3">
+        <Button variant="outline" className="flex-1 gap-2" onClick={() => go(-1)}>
+          <ChevronLeft className="w-4 h-4" /> {t("Thẻ trước", "Previous")}
+        </Button>
+        <Button variant="outline" className="gap-2" onClick={() => setFlipped(f => !f)}>
+          <RotateCcw className="w-4 h-4" /> {t("Lật thẻ", "Flip")}
+        </Button>
+        <Button variant="outline" className="flex-1 gap-2" onClick={() => go(1)}>
+          {t("Thẻ sau", "Next")} <ChevronRight className="w-4 h-4" />
+        </Button>
+      </div>
     </div>
   );
 };
+
 
 // ── Inline Type-the-example widget (always visible per word card) ──
 const normalizeText = (s: string) =>
@@ -369,7 +471,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
-  const [quizSize, setQuizSize] = useState<number>(12);
+  const [quizSize, setQuizSize] = useState<number>(20);
 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
@@ -457,7 +559,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
             onChange={(e) => setQuizSize(Number(e.target.value))}
             className="rounded-md border border-border bg-card px-2 py-1 text-sm"
           >
-            {[5, 10, 12, 15, 20, 30, 50, 100, 200].map(n => (
+            {[5, 10, 20, 30, 50, 100, 200, 300, 500].map(n => (
               <option key={n} value={n} disabled={n > words.length && n !== 5}>
                 {n} {n > words.length ? `(${t("chỉ có", "only")} ${words.length})` : ""}
               </option>
@@ -729,6 +831,8 @@ const IeltsVocabulary = () => {
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
               <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
+            ) : viewMode === "flashcard" ? (
+              <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
               // Group paginated words by category so each topic shows its own section
               const groups = paginated.reduce<Record<string, IeltsWord[]>>((acc, w) => {
@@ -748,17 +852,8 @@ const IeltsVocabulary = () => {
                         <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
                       </div>
 
-                      {viewMode === "flashcard" ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                          <AnimatePresence mode="popLayout">
-                            {groups[cat].map(w => (
-                              <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                                <Flashcard word={w} />
-                              </motion.div>
-                            ))}
-                          </AnimatePresence>
-                        </div>
-                      ) : (
+                      {(
+
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                           {groups[cat].map(w => (
                             <motion.div
@@ -842,7 +937,7 @@ const IeltsVocabulary = () => {
             })()}
 
             {/* Pagination (hide in exercise mode) */}
-            {viewMode !== "exercise" && totalPages > 1 && (
+            {viewMode === "list" && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                   <ChevronLeft className="w-4 h-4" />
