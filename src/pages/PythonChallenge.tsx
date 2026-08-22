@@ -99,7 +99,7 @@ const FormattedProblem = ({ text }: { text: string }) => {
   }
 
   return (
-    <div className="space-y-3 text-[15px] text-secondary-foreground leading-relaxed break-words">
+    <div className="space-y-3 text-[17px] text-secondary-foreground leading-relaxed break-words">
       {blocks.map((b, i) =>
         b.type === "p" ? (
           <p key={i}>{renderInline(b.items[0])}</p>
