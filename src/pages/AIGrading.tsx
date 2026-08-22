@@ -95,6 +95,19 @@ const AIGrading = () => {
   const handleDownloadPDF = () => {
     if (!result) return;
 
+    // Never export an empty Band 8.0+ section: generate it first if missing.
+    let upgradedText = result.upgraded;
+    if (!upgradedText?.trim()) {
+      toast({
+        title: t("Đang tạo bài mẫu Band 8.0+", "Preparing Band 8.0+ version"),
+        description: t("Vui lòng đợi vài giây trước khi xuất file.", "Please wait a few seconds before the export opens."),
+      });
+      upgradedText = await retryUpgrade();
+    }
+    const upgradedHtml = upgradedText?.trim()
+      ? upgradedText.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>")
+      : `<em>${t("Bài mẫu Band 8.0+ chưa được tạo. Hãy bấm Thử lại rồi xuất file lần nữa.", "The Band 8.0+ version has not been generated yet. Press Retry, then export again.")}</em>`;
+
     // Build HTML for PDF-like rendering
     const html = `
 <!DOCTYPE html>
