@@ -22,6 +22,8 @@ export type DecayTier = "fresh" | "recent" | "fading" | "weak" | "forgotten";
 export interface TierInfo {
   tier: DecayTier;
   color: string;
+  /** Lighter version of `color`, used for text so labels stay readable. */
+  labelInk: string;
   /** 0.15 - 1, used for point opacity / alpha. */
   alpha: number;
   /** Relative point size multiplier. */
@@ -30,12 +32,17 @@ export interface TierInfo {
   en: string;
 }
 
+/**
+ * Five clearly separated memory levels: green = solid, blue = still good,
+ * amber/orange = fading, red = practically forgotten. The hue itself tells the
+ * learner which words need attention, without reading the legend.
+ */
 const TIERS: Record<DecayTier, Omit<TierInfo, "tier">> = {
-  fresh:     { color: "#10b981", alpha: 1.0,  scale: 1.35, vi: "Vừa ôn",        en: "Just reviewed" },
-  recent:    { color: "#3b82f6", alpha: 0.85, scale: 1.1,  vi: "Còn tươi",      en: "Still fresh" },
-  fading:    { color: "#6366f1", alpha: 0.55, scale: 0.9,  vi: "Bắt đầu phai",  en: "Starting to fade" },
-  weak:      { color: "#94a3b8", alpha: 0.32, scale: 0.75, vi: "Sắp quên",      en: "Almost forgotten" },
-  forgotten: { color: "#64748b", alpha: 0.16, scale: 0.6,  vi: "Đã quên",       en: "Forgotten" },
+  fresh:     { color: "#10b981", labelInk: "#6ee7b7", alpha: 1.0,  scale: 1.4,  vi: "Nhớ chắc",      en: "Solid" },
+  recent:    { color: "#3b82f6", labelInk: "#93c5fd", alpha: 0.9,  scale: 1.2,  vi: "Còn tốt",       en: "Still good" },
+  fading:    { color: "#f59e0b", labelInk: "#fcd34d", alpha: 0.78, scale: 1.05, vi: "Bắt đầu phai",  en: "Starting to fade" },
+  weak:      { color: "#f97316", labelInk: "#fdba74", alpha: 0.66, scale: 0.95, vi: "Cần ôn gấp",    en: "Needs revision" },
+  forgotten: { color: "#ef4444", labelInk: "#fca5a5", alpha: 0.55, scale: 0.85, vi: "Đã quên",       en: "Forgotten" },
 };
 
 export const TIER_ORDER: DecayTier[] = ["fresh", "recent", "fading", "weak", "forgotten"];
@@ -51,6 +58,7 @@ export const tierForDays = (days: number): TierInfo => {
 };
 
 export const tierInfo = (tier: DecayTier): TierInfo => ({ tier, ...TIERS[tier] });
+
 
 /** Stable 32-bit string hash (FNV-1a) so a word always lands in the same spot. */
 const hash = (s: string): number => {
@@ -189,7 +197,21 @@ export const buildScaffold = (count = 1600): Float32Array => {
 };
 
 
+/**
+ * Scaffold layer built from the same brain geometry, optionally shrunk towards
+ * the centre so several layers together read as a solid volume instead of a
+ * hollow sphere.
+ */
+export const buildScaffoldShell = (count: number, radiusScale = 1): Float32Array => {
+  const src = buildScaffold(count);
+  if (radiusScale === 1) return src;
+  const out = new Float32Array(src.length);
+  for (let i = 0; i < src.length; i += 1) out[i] = src[i] * radiusScale;
+  return out;
+};
+
 export interface LabelCandidate {
+
   neuron: BrainNeuron;
   /** Projected screen-ish coordinates in the caller's space. */
   sx: number;
@@ -207,6 +229,8 @@ export const pickLabelCandidates = (
   limit: number,
   minDistance: number,
   forced: string[] = [],
+  /** Lower this to also label neurons on the far side of the brain. */
+  minFacing = 0.1,
 ): LabelCandidate[] => {
   const forcedSet = new Set(forced.filter(Boolean).map(w => w.toLowerCase()));
   const priority = (c: LabelCandidate) => {
@@ -217,8 +241,9 @@ export const pickLabelCandidates = (
   };
 
   const sorted = [...items]
-    .filter(c => forcedSet.has(c.neuron.word.toLowerCase()) || c.facing > 0.1)
+    .filter(c => forcedSet.has(c.neuron.word.toLowerCase()) || c.facing > minFacing)
     .sort((a, b) => priority(b) - priority(a));
+
 
   const kept: LabelCandidate[] = [];
   const min2 = minDistance * minDistance;

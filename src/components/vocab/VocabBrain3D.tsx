@@ -13,6 +13,7 @@ import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import {
   buildScaffold,
+  buildScaffoldShell,
   buildSynapses,
   pickLabelCandidates,
   tierForDays,
@@ -20,7 +21,7 @@ import {
   type LabelCandidate,
 } from "./vocabBrainModel";
 
-export type LabelDensity = "low" | "medium" | "high";
+export type LabelDensity = "low" | "medium" | "high" | "all";
 
 interface Props {
   neurons: BrainNeuron[];
@@ -44,7 +45,8 @@ interface ScreenLabel {
   key: boolean;
 }
 
-const DENSITY_LIMIT: Record<LabelDensity, number> = { low: 22, medium: 48, high: 90 };
+const DENSITY_LIMIT: Record<LabelDensity, number> = { low: 40, medium: 90, high: 180, all: 100000 };
+
 
 const VERT = /* glsl */ `
   attribute float aSize;
@@ -107,8 +109,8 @@ const LabelProjector = ({
     camDir.current.copy(camera.position).normalize();
     const dist = camera.position.length();
     // Zoomed in -> more labels; far away -> fewer.
-    const zoomFactor = THREE.MathUtils.clamp(3.6 / Math.max(dist, 0.001), 0.45, 1.8);
-    const limit = Math.round(DENSITY_LIMIT[density] * zoomFactor);
+    const zoomFactor = THREE.MathUtils.clamp(3.6 / Math.max(dist, 0.001), 0.6, 2.2);
+    const limit = Math.round(DENSITY_LIMIT[density] * (density === "all" ? 1 : zoomFactor));
 
     const items: LabelCandidate[] = neurons.map(n => {
       v.current.set(n.x, n.y, n.z);
@@ -118,32 +120,32 @@ const LabelProjector = ({
     });
 
     const forced = [selected, focusWord].filter((w): w is string => !!w);
-    const picked = pickLabelCandidates(items, limit, 0.09, forced);
+    // Tighter spacing + negative facing threshold: words on the far side of the
+    // brain are still labelled, only dimmer, so many more words are visible.
+    const minDist = density === "all" ? 0.035 : density === "high" ? 0.05 : 0.065;
+    const picked = pickLabelCandidates(items, limit, minDist, forced, -0.8);
 
     onLabels(
-      picked.map(({ neuron, sx, sy }) => {
+      picked.map(({ neuron, sx, sy, facing }) => {
         const info = tierForDays(neuron.days);
         const isKey =
           selected?.toLowerCase() === neuron.word.toLowerCase() ||
           focusWord?.toLowerCase() === neuron.word.toLowerCase();
+        const backside = facing < 0.05;
         return {
           word: neuron.word,
           left: (sx * 0.5 + 0.5) * 100,
           top: (-sy * 0.5 + 0.5) * 100,
-          // Label text is always readable: dim tiers get a lighter ink than
-          // their neuron dot so the word stays legible on the dark canvas.
-          color: isKey
-            ? "#ffffff"
-            : neuron.days > 20
-              ? "#cbd5e1"
-              : info.color,
-          opacity: isKey ? 1 : Math.max(info.alpha, 0.9),
-
+          // Each memory level keeps its own hue, in a lighter ink so the word
+          // stays readable on the dark canvas.
+          color: isKey ? "#ffffff" : info.labelInk,
+          opacity: isKey ? 1 : backside ? 0.4 : 0.95,
           key: isKey,
         };
       }),
     );
   });
+
 
   return null;
 };
@@ -179,7 +181,7 @@ const NeuronCloud = ({
       const isSelected =
         selected?.toLowerCase() === n.word.toLowerCase() ||
         focusWord?.toLowerCase() === n.word.toLowerCase();
-      size[i] = 0.085 * info.scale * (isSelected ? 2.1 : 1);
+      size[i] = 0.1 * info.scale * (isSelected ? 2.2 : 1);
       alpha[i] = isSelected ? 1 : info.alpha;
       phase[i] = (i % 97) / 97;
     });
@@ -213,22 +215,27 @@ const NeuronCloud = ({
     return { geometry: g, synapseGeometry: sg };
   }, [neurons, selected, focusWord]);
 
-  // Two scaffold layers: a crisp outer shell for the silhouette and a very dim
-  // inner cloud so the brain reads as a solid volume.
+  // Three anatomical scaffold layers built from the same brain geometry:
+  // a dense silhouette shell, a mid volume layer and a dim core, so the shape
+  // reads as a real brain instead of a hollow ball.
   const scaffoldOuter = useMemo(() => {
     const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(buildScaffold(3600), 3));
+    g.setAttribute("position", new THREE.BufferAttribute(buildScaffold(9000), 3));
     return g;
   }, []);
 
-  const scaffoldInner = useMemo(() => {
-    const src = buildScaffold(1800);
-    const inner = new Float32Array(src.length);
-    for (let i = 0; i < src.length; i += 1) inner[i] = src[i] * 0.82;
+  const scaffoldMid = useMemo(() => {
     const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(inner, 3));
+    g.setAttribute("position", new THREE.BufferAttribute(buildScaffoldShell(4500, 0.86), 3));
     return g;
   }, []);
+
+  const scaffoldCore = useMemo(() => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(buildScaffoldShell(2600, 0.62), 3));
+    return g;
+  }, []);
+
 
   useFrame(({ clock }) => {
     if (matRef.current) matRef.current.uniforms.uTime.value = clock.getElapsedTime();
@@ -245,29 +252,41 @@ const NeuronCloud = ({
 
   return (
     <group>
-      {/* Cortex scaffold: faint tissue so the brain shape always reads. */}
+      {/* Cortex scaffold: three layers of tissue so the brain shape reads clearly. */}
       <points geometry={scaffoldOuter} raycast={() => null}>
         <pointsMaterial
-          color="#93c5fd"
-          size={0.015}
+          color="#bfdbfe"
+          size={0.014}
           sizeAttenuation
           transparent
-          opacity={0.45}
+          opacity={0.6}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
       </points>
-      <points geometry={scaffoldInner} raycast={() => null}>
+      <points geometry={scaffoldMid} raycast={() => null}>
         <pointsMaterial
-          color="#3b82f6"
-          size={0.01}
+          color="#60a5fa"
+          size={0.011}
           sizeAttenuation
           transparent
-          opacity={0.12}
+          opacity={0.26}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
       </points>
+      <points geometry={scaffoldCore} raycast={() => null}>
+        <pointsMaterial
+          color="#1d4ed8"
+          size={0.009}
+          sizeAttenuation
+          transparent
+          opacity={0.14}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
+
 
       <lineSegments geometry={synapseGeometry}>
         <lineBasicMaterial vertexColors transparent opacity={0.28} blending={THREE.AdditiveBlending} depthWrite={false} />
@@ -293,22 +312,8 @@ const NeuronCloud = ({
         />
       </points>
 
-      {/* Translucent cortex shell + rim glow so the shape reads as a brain. */}
-      <mesh scale={[0.98, 0.8, 1.24]} position={[0, 0.16, 0]}>
-        <sphereGeometry args={[0.92, 40, 28]} />
-        <meshBasicMaterial color="#3b82f6" transparent opacity={0.05} side={THREE.BackSide} />
-      </mesh>
-      <mesh scale={[1.04, 0.86, 1.3]} position={[0, 0.16, 0]}>
-        <sphereGeometry args={[0.94, 40, 28]} />
-        <meshBasicMaterial
-          color="#10b981"
-          transparent
-          opacity={0.035}
-          side={THREE.BackSide}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
+
+
 
       {hoveredNeuron && (
         <mesh position={[hoveredNeuron.x, hoveredNeuron.y, hoveredNeuron.z]}>

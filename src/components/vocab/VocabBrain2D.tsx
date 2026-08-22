@@ -13,12 +13,13 @@ interface Props {
   onSelect: (word: string) => void;
   selected: string | null;
   showLabels?: boolean;
-  density?: "low" | "medium" | "high";
+  density?: "low" | "medium" | "high" | "all";
   paused?: boolean;
   focusWord?: string | null;
 }
 
-const DENSITY_LIMIT = { low: 14, medium: 28, high: 48 } as const;
+const DENSITY_LIMIT = { low: 26, medium: 55, high: 110, all: 100000 } as const;
+
 
 const VocabBrain2D = ({
   neurons,
@@ -59,17 +60,20 @@ const VocabBrain2D = ({
       const sin = Math.sin(angle);
       const list: { word: string; sx: number; sy: number }[] = [];
 
-      // Faint scaffold tissue first.
+      // Faint scaffold tissue first (two layers for a solid volume feel).
       const scaffold = scaffoldRef.current;
-      ctx.fillStyle = "#93c5fd";
-      ctx.globalAlpha = 0.2;
-      for (let i = 0; i < scaffold.length; i += 3) {
-        const sxx = scaffold[i] * cos - scaffold[i + 2] * sin;
-        ctx.beginPath();
-        ctx.arc(cx + sxx * scale, cy - scaffold[i + 1] * scale, 0.9, 0, Math.PI * 2);
-        ctx.fill();
+      for (const [radius, alpha, dot, tint] of [[1, 0.28, 1, "#bfdbfe"], [0.8, 0.14, 0.8, "#60a5fa"]] as const) {
+        ctx.fillStyle = tint;
+        ctx.globalAlpha = alpha;
+        for (let i = 0; i < scaffold.length; i += 3) {
+          const sxx = (scaffold[i] * cos - scaffold[i + 2] * sin) * radius;
+          ctx.beginPath();
+          ctx.arc(cx + sxx * scale, cy - scaffold[i + 1] * radius * scale, dot, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
       ctx.globalAlpha = 1;
+
 
       const sorted = [...neurons].sort((a, b) => (a.x * sin + a.z * cos) - (b.x * sin + b.z * cos));
       const candidates: LabelCandidate[] = [];
@@ -96,10 +100,11 @@ const VocabBrain2D = ({
 
       if (showLabels) {
         const forced = [selected, focusWord].filter((v): v is string => !!v);
-        const labels = pickLabelCandidates(candidates, DENSITY_LIMIT[density], 46, forced);
+        const minDist = density === "all" ? 26 : density === "high" ? 32 : 44;
+        const labels = pickLabelCandidates(candidates, DENSITY_LIMIT[density], minDist, forced, -0.8);
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        labels.forEach(({ neuron, sx, sy }) => {
+        labels.forEach(({ neuron, sx, sy, facing }) => {
           const info = tierForDays(neuron.days);
           const isKey =
             selected?.toLowerCase() === neuron.word.toLowerCase() ||
@@ -107,12 +112,13 @@ const VocabBrain2D = ({
           ctx.font = `${isKey ? 700 : 600} ${isKey ? 15 : 12}px ui-sans-serif, system-ui, sans-serif`;
           ctx.lineWidth = 3;
           ctx.strokeStyle = "rgba(2,6,23,0.9)";
-          ctx.globalAlpha = isKey ? 1 : Math.max(info.alpha, 0.5);
+          ctx.globalAlpha = isKey ? 1 : facing < 0.05 ? 0.4 : 0.95;
           ctx.strokeText(neuron.word, sx, sy - 11);
-          ctx.fillStyle = isKey ? "#ffffff" : info.color;
+          ctx.fillStyle = isKey ? "#ffffff" : info.labelInk;
           ctx.fillText(neuron.word, sx, sy - 11);
         });
         ctx.globalAlpha = 1;
+
       }
 
       projected.current = list;
