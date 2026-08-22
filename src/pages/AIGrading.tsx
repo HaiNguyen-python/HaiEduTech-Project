@@ -177,7 +177,7 @@ ${result.errors.map(e => `
 </div>`).join("")}
 
 <h2>✨ Band 8.0+ Upgraded Version</h2>
-<div class="upgraded">${result.upgraded.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')}</div>
+<div class="upgraded">${upgradedHtml}</div>
 
 <h2>🎯 Next Steps</h2>
 <p>${result.advice}</p>
