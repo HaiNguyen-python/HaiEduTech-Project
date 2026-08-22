@@ -13,12 +13,13 @@ interface Props {
   onSelect: (word: string) => void;
   selected: string | null;
   showLabels?: boolean;
-  density?: "low" | "medium" | "high";
+  density?: "low" | "medium" | "high" | "all";
   paused?: boolean;
   focusWord?: string | null;
 }
 
-const DENSITY_LIMIT = { low: 14, medium: 28, high: 48 } as const;
+const DENSITY_LIMIT = { low: 26, medium: 55, high: 110, all: 100000 } as const;
+
 
 const VocabBrain2D = ({
   neurons,
