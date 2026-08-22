@@ -55,7 +55,8 @@ const celebrate = () => {
 
 const PythonEditor = ({ challenge, onPass }: Props) => {
   const { t } = useLanguage();
-  const [code, setCode] = useState(challenge.starterCode);
+  // Learners type everything from scratch - the editor starts completely blank.
+  const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
   const [running, setRunning] = useState(false);
   const [pyodideReady, setPyodideReady] = useState(false);
@@ -68,19 +69,17 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   const [mismatch, setMismatch] = useState<{ expected: string; got: string } | null>(null);
   const pyodideRef = useRef<any>(null);
 
-  // Load saved code
+  // Load saved code (the learner's own work only - never a template)
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY(challenge.id));
-    // Migrate stale legacy starter code (used `def solve(...)`) when the
-    // current challenge no longer uses functions.
-    const isStaleLegacy =
-      saved &&
-      /def\s+solve\s*\(/.test(saved) &&
-      !/def\s+solve\s*\(/.test(challenge.starterCode);
-    if (saved && !isStaleLegacy) setCode(saved);
+    // Drop any previously auto-saved starter template so the editor stays blank.
+    const isTemplateOnly =
+      !!saved &&
+      (saved.trim() === challenge.starterCode.trim() || /#\s*Your code here/.test(saved));
+    if (saved && !isTemplateOnly) setCode(saved);
     else {
-      if (isStaleLegacy) localStorage.removeItem(STORAGE_KEY(challenge.id));
-      setCode(challenge.starterCode);
+      if (isTemplateOnly) localStorage.removeItem(STORAGE_KEY(challenge.id));
+      setCode("");
     }
     setPassed(false);
     setOutput("");
@@ -117,6 +116,10 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   }, []);
 
   const runCode = useCallback(async () => {
+    if (!code.trim()) {
+      setOutput(t("Hãy viết code trước khi chạy nhé!", "Write some code first!"));
+      return;
+    }
     setRunning(true);
     setOutput("");
     setHasError(false);
@@ -164,7 +167,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
       setHasError(true);
     }
     setRunning(false);
-  }, [code, challenge, onPass, passed]);
+  }, [code, challenge, onPass, passed, t]);
 
 
   const askAiDebug = async () => {
@@ -182,8 +185,9 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setAiLoading(false);
   };
 
+  /** Clear the editor back to a blank file. */
   const resetCode = () => {
-    setCode(challenge.starterCode);
+    setCode("");
     localStorage.removeItem(STORAGE_KEY(challenge.id));
     setOutput("");
     setPassed(false);
@@ -203,9 +207,17 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
             <span className="w-3 h-3 rounded-full bg-green-500/70" />
             <span className="text-xs text-muted-foreground ml-2 font-mono">challenge_{challenge.id}.py</span>
           </div>
-          <button onClick={resetCode} className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors">
-            <RotateCcw className="w-3 h-3" /> Reset
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setCode(challenge.starterCode)}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t("Chèn khung mẫu", "Insert template")}
+            </button>
+            <button onClick={resetCode} className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors">
+              <RotateCcw className="w-3 h-3" /> {t("Xóa hết", "Clear")}
+            </button>
+          </div>
         </div>
         <CodeMirror
           value={code}
@@ -213,6 +225,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
           theme={vscodeDark}
           extensions={[python()]}
           height="280px"
+          placeholder={t("# Viết code Python của bạn ở đây...", "# Write your Python code here...")}
           basicSetup={{ lineNumbers: true, foldGutter: true, autocompletion: true }}
           className="text-sm"
         />
