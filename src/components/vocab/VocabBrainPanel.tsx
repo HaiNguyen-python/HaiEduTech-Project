@@ -147,6 +147,10 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
 
   const neurons = useMemo(() => {
     if (filter === "all") return allNeurons;
+    if (filter.startsWith("tier:")) {
+      const wanted = filter.slice(5) as DecayTier;
+      return allNeurons.filter(n => tierForDays(n.days).tier === wanted);
+    }
     if (filter === "fresh") return allNeurons.filter(n => n.days <= 6);
     if (filter === "fading") return allNeurons.filter(n => n.days > 6 && n.days <= 20);
     return allNeurons.filter(n => n.days > 20);
