@@ -217,6 +217,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
     { key: "low", vi: "Ít", en: "Few" },
     { key: "medium", vi: "Vừa", en: "Some" },
     { key: "high", vi: "Nhiều", en: "Many" },
+    { key: "all", vi: "Tất cả", en: "All" },
   ];
 
   const use3D = webgl && !glFailed;
