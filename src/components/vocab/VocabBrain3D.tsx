@@ -131,7 +131,7 @@ const LabelProjector = ({
           left: (sx * 0.5 + 0.5) * 100,
           top: (-sy * 0.5 + 0.5) * 100,
           color: isKey ? "#ffffff" : info.color,
-          opacity: isKey ? 1 : Math.max(info.alpha, 0.5),
+          opacity: isKey ? 1 : Math.max(info.alpha, 0.78),
           key: isKey,
         };
       }),
