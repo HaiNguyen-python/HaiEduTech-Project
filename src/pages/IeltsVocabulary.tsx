@@ -22,7 +22,7 @@ import SmartReviewColumn from "@/components/SmartReviewColumn";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { supabase } from "@/integrations/supabase/client";
 import { IELTS_EXAMPLE_VI } from "@/data/ieltsExampleVi";
-import VocabPerformanceCharts from "@/components/vocab/VocabPerformanceCharts";
+import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
 
 const WORDS_PER_PAGE = 10;
 
@@ -1327,16 +1327,25 @@ const IeltsVocabulary = () => {
             />
             <WeeklyVocabAchievers subject="ielts" threshold={20} />
           </div>
-          {/* Vocabulary performance dashboard (always at the very bottom) */}
-          <VocabPerformanceCharts
+          {/* Memory brain visualisation (always at the very bottom) */}
+          <VocabBrainPanel
             subject="ielts"
-            localMasteredCount={mastered.size}
+            localWords={[...mastered]}
             t={t}
-            typeLabel={(type) => {
-              const lbl = TYPE_LABELS[type as ExType];
-              return lbl ? t(lbl.vi, lbl.en) : type;
+            lookupWord={(w) => {
+              const found = ieltsVocabData.find(x => x.word === w);
+              if (!found) return null;
+              return {
+                word: found.word,
+                phonetic: found.ipa,
+                definitionVi: found.definition.vi,
+                definitionEn: found.definition.en,
+              };
             }}
-            typeStatsKey={TYPE_STATS_KEY}
+            onPractice={() => {
+              setViewMode("exercise");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           />
         </div>
       </div>
