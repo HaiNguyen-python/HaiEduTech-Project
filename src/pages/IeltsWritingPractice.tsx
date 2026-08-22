@@ -14,6 +14,7 @@ import WritingGuidePanel from "@/components/WritingGuidePanel";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { fetchUpgradedEssay } from "@/lib/upgradeWriting";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
