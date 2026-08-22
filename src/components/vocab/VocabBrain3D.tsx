@@ -181,7 +181,7 @@ const NeuronCloud = ({
       const isSelected =
         selected?.toLowerCase() === n.word.toLowerCase() ||
         focusWord?.toLowerCase() === n.word.toLowerCase();
-      size[i] = 0.085 * info.scale * (isSelected ? 2.1 : 1);
+      size[i] = 0.1 * info.scale * (isSelected ? 2.2 : 1);
       alpha[i] = isSelected ? 1 : info.alpha;
       phase[i] = (i % 97) / 97;
     });
