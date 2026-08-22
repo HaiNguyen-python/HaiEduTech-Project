@@ -229,6 +229,8 @@ export const pickLabelCandidates = (
   limit: number,
   minDistance: number,
   forced: string[] = [],
+  /** Lower this to also label neurons on the far side of the brain. */
+  minFacing = 0.1,
 ): LabelCandidate[] => {
   const forcedSet = new Set(forced.filter(Boolean).map(w => w.toLowerCase()));
   const priority = (c: LabelCandidate) => {
@@ -239,8 +241,9 @@ export const pickLabelCandidates = (
   };
 
   const sorted = [...items]
-    .filter(c => forcedSet.has(c.neuron.word.toLowerCase()) || c.facing > 0.1)
+    .filter(c => forcedSet.has(c.neuron.word.toLowerCase()) || c.facing > minFacing)
     .sort((a, b) => priority(b) - priority(a));
+
 
   const kept: LabelCandidate[] = [];
   const min2 = minDistance * minDistance;
