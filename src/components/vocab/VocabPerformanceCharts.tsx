@@ -320,7 +320,15 @@ const VocabPerformanceCharts = ({
                     label={{ value: `${m.words} - Band ${m.band}`, position: "insideTopRight", fontSize: 11 }}
                   />
                 ))}
-                <Area type="monotone" dataKey="total" stroke="hsl(var(--primary))" strokeWidth={2.5} fill="url(#vocabFill)" />
+                <Area
+                  type="monotone"
+                  dataKey="total"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2.5}
+                  fill="url(#vocabFill)"
+                  dot={{ r: 3, strokeWidth: 1 }}
+                  activeDot={{ r: 5 }}
+                />
               </AreaChart>
             </ResponsiveContainer>
           )}
