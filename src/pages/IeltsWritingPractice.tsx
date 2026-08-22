@@ -14,6 +14,7 @@ import WritingGuidePanel from "@/components/WritingGuidePanel";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { fetchUpgradedEssay } from "@/lib/upgradeWriting";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -232,13 +233,7 @@ const IeltsWritingPractice = () => {
     );
 
     // Fire upgrade in parallel — independent of grading
-    const upgradePromise = supabase.functions
-      .invoke("upgrade-writing", { body: { essay, taskType } })
-      .then(({ data, error }) => {
-        if (error) throw error;
-        return (data as { upgraded?: string })?.upgraded || "";
-      })
-      .catch((e) => { console.error("Upgrade error:", e); return ""; });
+    const upgradePromise = fetchUpgradedEssay(essay, taskType);
 
     try {
       const result = await Promise.race([
@@ -258,9 +253,16 @@ const IeltsWritingPractice = () => {
       setUpgradeLoading(true);
 
       // Await upgrade and merge
-      const upgraded = await upgradePromise;
+      const { upgraded, error: upgradeError } = await upgradePromise;
       setResult((prev) => (prev ? { ...prev, upgraded } : prev));
       setUpgradeLoading(false);
+      if (!upgraded) {
+        toast({
+          title: t("Chưa tạo được bài mẫu Band 8.0+", "Band 8.0+ version not ready"),
+          description: upgradeError || t("Hãy bấm Thử lại để tạo lại bài mẫu.", "Press Retry to generate it again."),
+          variant: "destructive",
+        });
+      }
 
       // Save to history if user is logged in
       try {
@@ -403,9 +405,38 @@ const IeltsWritingPractice = () => {
     return s;
   };
 
-  const handleDownloadPDF = () => {
+  // Generate (or regenerate) the Band 8.0+ version on demand.
+  const retryUpgrade = async (): Promise<string> => {
+    if (!essay.trim()) return "";
+    setUpgradeLoading(true);
+    const { upgraded, error } = await fetchUpgradedEssay(essay, taskType);
+    setUpgradeLoading(false);
+    if (upgraded) {
+      setResult((prev) => (prev ? { ...prev, upgraded } : prev));
+    } else {
+      toast({
+        title: t("Chưa tạo được bài mẫu Band 8.0+", "Band 8.0+ version not ready"),
+        description: error || t("Hãy thử lại sau ít phút.", "Please try again in a moment."),
+        variant: "destructive",
+      });
+    }
+    return upgraded;
+  };
+
+  const handleDownloadPDF = async () => {
     if (!result || !currentPrompt) return;
-    const upgradedHtml = plainTextToParagraphHtml(result.upgraded, taskType === 2);
+    // Never export an empty Band 8.0+ section: generate it first if missing.
+    let upgradedText = result.upgraded;
+    if (!upgradedText?.trim()) {
+      toast({
+        title: t("Đang tạo bài mẫu Band 8.0+", "Preparing Band 8.0+ version"),
+        description: t("Vui lòng đợi vài giây trước khi xuất file.", "Please wait a few seconds before the export opens."),
+      });
+      upgradedText = await retryUpgrade();
+    }
+    const upgradedHtml = upgradedText?.trim()
+      ? plainTextToParagraphHtml(upgradedText, taskType === 2)
+      : `<p><em>${escapeHtml(t("Bài mẫu Band 8.0+ chưa được tạo. Hãy bấm Thử lại trong phần Band 8.0+ rồi xuất file lần nữa.", "The Band 8.0+ version has not been generated yet. Use the Retry button in the Band 8.0+ section, then export again."))}</em></p>`;
     const adviceHtml = plainTextToParagraphHtml(result.advice);
     const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>IELTS Writing Report</title>
     <style>body{font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:40px;color:#222}
@@ -877,6 +908,11 @@ const IeltsWritingPractice = () => {
                             {copied ? t("Đã sao chép", "Copied") : t("Sao chép", "Copy")}
                           </Button>
                         )}
+                        {!result.upgraded && !upgradeLoading && (
+                          <Button variant="outline" size="sm" onClick={() => retryUpgrade()}>
+                            <RefreshCw className="w-4 h-4 mr-1" /> {t("Thử lại", "Retry")}
+                          </Button>
+                        )}
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -884,9 +920,13 @@ const IeltsWritingPractice = () => {
                         <div className="prose prose-sm dark:prose-invert max-w-none bg-muted/30 p-4 rounded-lg">
                           <ReactMarkdown>{result.upgraded}</ReactMarkdown>
                         </div>
-                      ) : (
+                      ) : upgradeLoading ? (
                         <p className="text-sm text-muted-foreground italic">
                           {t("AI đang nâng cấp bài viết lên Band 8.0+...", "AI is upgrading your essay to Band 8.0+...")}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-destructive">
+                          {t("Chưa tạo được bài mẫu Band 8.0+. Hãy bấm Thử lại.", "The Band 8.0+ version could not be generated. Press Retry.")}
                         </p>
                       )}
                     </CardContent>

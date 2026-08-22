@@ -7,6 +7,9 @@ import { Brain, FileText, Mic, Send, Loader2, AlertCircle, BookOpen, ChevronDown
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import SpeakingGrader from "@/components/SpeakingGrader";
+import { fetchUpgradedEssay } from "@/lib/upgradeWriting";
+import { RefreshCw } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 
 interface CriteriaDetail {
@@ -44,13 +47,7 @@ const AIGrading = () => {
     setUpgradeLoading(false);
 
     // Fire upgrade in parallel
-    const upgradePromise = supabase.functions
-      .invoke("upgrade-writing", { body: { essay: text, taskType: 2 } })
-      .then(({ data, error }) => {
-        if (error) throw error;
-        return (data as { upgraded?: string })?.upgraded || "";
-      })
-      .catch((e) => { console.error("Upgrade error:", e); return ""; });
+    const upgradePromise = fetchUpgradedEssay(text, 2);
 
     try {
       const { data, error } = await supabase.functions.invoke("grade-writing", {
@@ -63,9 +60,16 @@ const AIGrading = () => {
       setLoading(false);
       setUpgradeLoading(true);
 
-      const upgraded = await upgradePromise;
+      const { upgraded, error: upgradeError } = await upgradePromise;
       setResult((prev) => (prev ? { ...prev, upgraded } : prev));
       setUpgradeLoading(false);
+      if (!upgraded) {
+        toast({
+          title: t("Chưa tạo được bài mẫu Band 8.0+", "Band 8.0+ version not ready"),
+          description: upgradeError || t("Hãy bấm Thử lại để tạo lại bài mẫu.", "Press Retry to generate it again."),
+          variant: "destructive",
+        });
+      }
     } catch (e) {
       console.error("Grading error:", e);
       // Keep a minimal fallback
@@ -88,8 +92,39 @@ const AIGrading = () => {
     setShowFullUpgraded(false);
   };
 
-  const handleDownloadPDF = () => {
+  // Generate (or regenerate) the Band 8.0+ version on demand.
+  const retryUpgrade = async (): Promise<string> => {
+    if (!text.trim()) return "";
+    setUpgradeLoading(true);
+    const { upgraded, error } = await fetchUpgradedEssay(text, 2);
+    setUpgradeLoading(false);
+    if (upgraded) {
+      setResult((prev) => (prev ? { ...prev, upgraded } : prev));
+    } else {
+      toast({
+        title: t("Chưa tạo được bài mẫu Band 8.0+", "Band 8.0+ version not ready"),
+        description: error || t("Hãy thử lại sau ít phút.", "Please try again in a moment."),
+        variant: "destructive",
+      });
+    }
+    return upgraded;
+  };
+
+  const handleDownloadPDF = async () => {
     if (!result) return;
+
+    // Never export an empty Band 8.0+ section: generate it first if missing.
+    let upgradedText = result.upgraded;
+    if (!upgradedText?.trim()) {
+      toast({
+        title: t("Đang tạo bài mẫu Band 8.0+", "Preparing Band 8.0+ version"),
+        description: t("Vui lòng đợi vài giây trước khi xuất file.", "Please wait a few seconds before the export opens."),
+      });
+      upgradedText = await retryUpgrade();
+    }
+    const upgradedHtml = upgradedText?.trim()
+      ? upgradedText.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>")
+      : `<em>${t("Bài mẫu Band 8.0+ chưa được tạo. Hãy bấm Thử lại rồi xuất file lần nữa.", "The Band 8.0+ version has not been generated yet. Press Retry, then export again.")}</em>`;
 
     // Build HTML for PDF-like rendering
     const html = `
@@ -142,7 +177,7 @@ ${result.errors.map(e => `
 </div>`).join("")}
 
 <h2>✨ Band 8.0+ Upgraded Version</h2>
-<div class="upgraded">${result.upgraded.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')}</div>
+<div class="upgraded">${upgradedHtml}</div>
 
 <h2>🎯 Next Steps</h2>
 <p>${result.advice}</p>
@@ -398,6 +433,14 @@ ${result.errors.map(e => `
                               </button>
                             </div>
                           )}
+                          {!result.upgraded && !upgradeLoading && (
+                            <button
+                              onClick={() => retryUpgrade()}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors"
+                            >
+                              <RefreshCw className="w-4 h-4" /> {t("Thử lại", "Retry")}
+                            </button>
+                          )}
                         </div>
                         {result.upgraded ? (
                           <div className={`text-sm text-secondary-foreground leading-relaxed ${!showFullUpgraded ? "max-h-40 overflow-hidden relative" : ""}`}>
@@ -408,9 +451,13 @@ ${result.errors.map(e => `
                               <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-secondary to-transparent" />
                             )}
                           </div>
-                        ) : (
+                        ) : upgradeLoading ? (
                           <p className="text-sm text-muted-foreground italic">
                             {t("AI đang nâng cấp bài viết lên Band 8.0+...", "AI is upgrading your essay to Band 8.0+...")}
+                          </p>
+                        ) : (
+                          <p className="text-sm text-destructive">
+                            {t("Chưa tạo được bài mẫu Band 8.0+. Hãy bấm Thử lại.", "The Band 8.0+ version could not be generated. Press Retry.")}
                           </p>
                         )}
                       </div>
