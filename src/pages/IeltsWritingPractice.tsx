@@ -253,9 +253,16 @@ const IeltsWritingPractice = () => {
       setUpgradeLoading(true);
 
       // Await upgrade and merge
-      const upgraded = await upgradePromise;
+      const { upgraded, error: upgradeError } = await upgradePromise;
       setResult((prev) => (prev ? { ...prev, upgraded } : prev));
       setUpgradeLoading(false);
+      if (!upgraded) {
+        toast({
+          title: t("Chưa tạo được bài mẫu Band 8.0+", "Band 8.0+ version not ready"),
+          description: upgradeError || t("Hãy bấm Thử lại để tạo lại bài mẫu.", "Press Retry to generate it again."),
+          variant: "destructive",
+        });
+      }
 
       // Save to history if user is logged in
       try {
