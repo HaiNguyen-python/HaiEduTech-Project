@@ -232,13 +232,7 @@ const IeltsWritingPractice = () => {
     );
 
     // Fire upgrade in parallel — independent of grading
-    const upgradePromise = supabase.functions
-      .invoke("upgrade-writing", { body: { essay, taskType } })
-      .then(({ data, error }) => {
-        if (error) throw error;
-        return (data as { upgraded?: string })?.upgraded || "";
-      })
-      .catch((e) => { console.error("Upgrade error:", e); return ""; });
+    const upgradePromise = fetchUpgradedEssay(essay, taskType);
 
     try {
       const result = await Promise.race([
