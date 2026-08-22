@@ -215,22 +215,27 @@ const NeuronCloud = ({
     return { geometry: g, synapseGeometry: sg };
   }, [neurons, selected, focusWord]);
 
-  // Two scaffold layers: a crisp outer shell for the silhouette and a very dim
-  // inner cloud so the brain reads as a solid volume.
+  // Three anatomical scaffold layers built from the same brain geometry:
+  // a dense silhouette shell, a mid volume layer and a dim core, so the shape
+  // reads as a real brain instead of a hollow ball.
   const scaffoldOuter = useMemo(() => {
     const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(buildScaffold(3600), 3));
+    g.setAttribute("position", new THREE.BufferAttribute(buildScaffold(9000), 3));
     return g;
   }, []);
 
-  const scaffoldInner = useMemo(() => {
-    const src = buildScaffold(1800);
-    const inner = new Float32Array(src.length);
-    for (let i = 0; i < src.length; i += 1) inner[i] = src[i] * 0.82;
+  const scaffoldMid = useMemo(() => {
     const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(inner, 3));
+    g.setAttribute("position", new THREE.BufferAttribute(buildScaffoldShell(4500, 0.86), 3));
     return g;
   }, []);
+
+  const scaffoldCore = useMemo(() => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(buildScaffoldShell(2600, 0.62), 3));
+    return g;
+  }, []);
+
 
   useFrame(({ clock }) => {
     if (matRef.current) matRef.current.uniforms.uTime.value = clock.getElapsedTime();
