@@ -360,19 +360,26 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
                  "Drag to rotate · scroll to zoom · click a word for details")}
             </div>
 
-            {/* Legend inside the viewport */}
-            <div className="pointer-events-none absolute bottom-3 right-3 hidden flex-col gap-1 rounded-xl bg-black/45 p-2.5 text-[11px] backdrop-blur sm:flex">
+            {/* Colour legend inside the viewport - click a level to filter it */}
+            <div className="absolute bottom-3 right-3 hidden flex-col gap-1 rounded-xl bg-black/50 p-2.5 text-[11px] backdrop-blur sm:flex">
               {TIER_ORDER.map(tier => {
                 const info = tierInfo(tier);
+                const active = filter === `tier:${tier}`;
                 return (
-                  <span key={tier} className="flex items-center gap-1.5 text-slate-300">
+                  <button
+                    key={tier}
+                    onClick={() => setFilter(active ? "all" : `tier:${tier}`)}
+                    className={`flex items-center gap-1.5 rounded-md px-1.5 py-0.5 text-left transition ${
+                      active ? "bg-white/20 text-white" : "text-slate-300 hover:bg-white/10"
+                    }`}
+                  >
                     <span
-                      className="inline-block h-2.5 w-2.5 rounded-full"
-                      style={{ backgroundColor: info.color, opacity: Math.max(info.alpha, 0.35) }}
+                      className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+                      style={{ backgroundColor: info.color, boxShadow: `0 0 8px ${info.color}` }}
                     />
                     {t(info.vi, info.en)}
-                    <span className="ml-auto font-semibold text-white">{tierCounts[tier] || 0}</span>
-                  </span>
+                    <span className="ml-auto pl-2 font-semibold text-white">{tierCounts[tier] || 0}</span>
+                  </button>
                 );
               })}
             </div>
@@ -381,20 +388,28 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
       </div>
 
       {/* Legend (mobile) */}
-      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:hidden">
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-xs sm:hidden">
         {TIER_ORDER.map(tier => {
           const info = tierInfo(tier);
+          const active = filter === `tier:${tier}`;
           return (
-            <span key={tier} className="flex items-center gap-1.5 text-muted-foreground">
+            <button
+              key={tier}
+              onClick={() => setFilter(active ? "all" : `tier:${tier}`)}
+              className={`flex items-center gap-1.5 rounded-full border px-2 py-1 ${
+                active ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground"
+              }`}
+            >
               <span
                 className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: info.color, opacity: Math.max(info.alpha, 0.3) }}
+                style={{ backgroundColor: info.color }}
               />
               {t(info.vi, info.en)} <span className="font-semibold text-foreground">{tierCounts[tier] || 0}</span>
-            </span>
+            </button>
           );
         })}
       </div>
+
 
 
       {needRevise > 0 && (
