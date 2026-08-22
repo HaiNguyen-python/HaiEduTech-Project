@@ -60,17 +60,20 @@ const VocabBrain2D = ({
       const sin = Math.sin(angle);
       const list: { word: string; sx: number; sy: number }[] = [];
 
-      // Faint scaffold tissue first.
+      // Faint scaffold tissue first (two layers for a solid volume feel).
       const scaffold = scaffoldRef.current;
-      ctx.fillStyle = "#93c5fd";
-      ctx.globalAlpha = 0.2;
-      for (let i = 0; i < scaffold.length; i += 3) {
-        const sxx = scaffold[i] * cos - scaffold[i + 2] * sin;
-        ctx.beginPath();
-        ctx.arc(cx + sxx * scale, cy - scaffold[i + 1] * scale, 0.9, 0, Math.PI * 2);
-        ctx.fill();
+      for (const [radius, alpha, dot, tint] of [[1, 0.28, 1, "#bfdbfe"], [0.8, 0.14, 0.8, "#60a5fa"]] as const) {
+        ctx.fillStyle = tint;
+        ctx.globalAlpha = alpha;
+        for (let i = 0; i < scaffold.length; i += 3) {
+          const sxx = (scaffold[i] * cos - scaffold[i + 2] * sin) * radius;
+          ctx.beginPath();
+          ctx.arc(cx + sxx * scale, cy - scaffold[i + 1] * radius * scale, dot, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
       ctx.globalAlpha = 1;
+
 
       const sorted = [...neurons].sort((a, b) => (a.x * sin + a.z * cos) - (b.x * sin + b.z * cos));
       const candidates: LabelCandidate[] = [];
