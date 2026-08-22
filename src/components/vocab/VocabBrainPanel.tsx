@@ -11,7 +11,7 @@
  *
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { Brain, CalendarDays, Flame, RotateCcw, Target, TrendingUp, Volume2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -341,7 +341,6 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
  * Minimal error boundary: if WebGL context creation throws we silently fall back
  * to the 2D brain instead of blanking the page.
  */
-import React from "react";
 class ErrorSafe extends React.Component<{ onError: () => void; children: React.ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
