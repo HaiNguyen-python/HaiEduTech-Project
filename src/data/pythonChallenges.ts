@@ -3754,8 +3754,8 @@ export const pythonChallenges: PythonChallenge[] = [
   {
     "id": "121",
     "number": 121,
-    "title": "Recursive Factorial",
-    "titleVi": "Giai thừa đệ quy",
+    "title": "Recursive Factorial of 5",
+    "titleVi": "Giai thừa đệ quy của 5",
     "difficulty": "medium",
     "section": "Functions",
     "description": "Write a recursive function `solve(n)` that calculates the factorial of a non-negative integer `n`. The factorial of 0 is 1. The factorial of a positive integer `n` is the product of all positive integers less than or equal to `n`.",
