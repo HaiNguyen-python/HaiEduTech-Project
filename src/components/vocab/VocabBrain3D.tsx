@@ -363,10 +363,11 @@ const VocabBrain3D = ({
       {/* Word labels drawn in DOM space so the text stays perfectly crisp. */}
       {showLabels && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          {labels.map(l => (
+          {labels.map((l, i) => (
             <button
-              key={l.word}
+              key={`${l.word}-${i}`}
               onClick={() => onSelect(l.word)}
+
               style={{
                 left: `${l.left}%`,
                 top: `${l.top}%`,
