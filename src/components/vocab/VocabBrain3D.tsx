@@ -312,22 +312,8 @@ const NeuronCloud = ({
         />
       </points>
 
-      {/* Translucent cortex shell + rim glow so the shape reads as a brain. */}
-      <mesh scale={[0.98, 0.8, 1.24]} position={[0, 0.16, 0]}>
-        <sphereGeometry args={[0.92, 40, 28]} />
-        <meshBasicMaterial color="#3b82f6" transparent opacity={0.05} side={THREE.BackSide} />
-      </mesh>
-      <mesh scale={[1.04, 0.86, 1.3]} position={[0, 0.16, 0]}>
-        <sphereGeometry args={[0.94, 40, 28]} />
-        <meshBasicMaterial
-          color="#10b981"
-          transparent
-          opacity={0.035}
-          side={THREE.BackSide}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
+
+
 
       {hoveredNeuron && (
         <mesh position={[hoveredNeuron.x, hoveredNeuron.y, hoveredNeuron.z]}>
