@@ -405,9 +405,38 @@ const IeltsWritingPractice = () => {
     return s;
   };
 
-  const handleDownloadPDF = () => {
+  // Generate (or regenerate) the Band 8.0+ version on demand.
+  const retryUpgrade = async (): Promise<string> => {
+    if (!essay.trim()) return "";
+    setUpgradeLoading(true);
+    const { upgraded, error } = await fetchUpgradedEssay(essay, taskType);
+    setUpgradeLoading(false);
+    if (upgraded) {
+      setResult((prev) => (prev ? { ...prev, upgraded } : prev));
+    } else {
+      toast({
+        title: t("Chưa tạo được bài mẫu Band 8.0+", "Band 8.0+ version not ready"),
+        description: error || t("Hãy thử lại sau ít phút.", "Please try again in a moment."),
+        variant: "destructive",
+      });
+    }
+    return upgraded;
+  };
+
+  const handleDownloadPDF = async () => {
     if (!result || !currentPrompt) return;
-    const upgradedHtml = plainTextToParagraphHtml(result.upgraded, taskType === 2);
+    // Never export an empty Band 8.0+ section: generate it first if missing.
+    let upgradedText = result.upgraded;
+    if (!upgradedText?.trim()) {
+      toast({
+        title: t("Đang tạo bài mẫu Band 8.0+", "Preparing Band 8.0+ version"),
+        description: t("Vui lòng đợi vài giây trước khi xuất file.", "Please wait a few seconds before the export opens."),
+      });
+      upgradedText = await retryUpgrade();
+    }
+    const upgradedHtml = upgradedText?.trim()
+      ? plainTextToParagraphHtml(upgradedText, taskType === 2)
+      : `<p><em>${escapeHtml(t("Bài mẫu Band 8.0+ chưa được tạo. Hãy bấm Thử lại trong phần Band 8.0+ rồi xuất file lần nữa.", "The Band 8.0+ version has not been generated yet. Use the Retry button in the Band 8.0+ section, then export again."))}</em></p>`;
     const adviceHtml = plainTextToParagraphHtml(result.advice);
     const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>IELTS Writing Report</title>
     <style>body{font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:40px;color:#222}
