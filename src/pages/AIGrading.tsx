@@ -7,6 +7,9 @@ import { Brain, FileText, Mic, Send, Loader2, AlertCircle, BookOpen, ChevronDown
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import SpeakingGrader from "@/components/SpeakingGrader";
+import { fetchUpgradedEssay } from "@/lib/upgradeWriting";
+import { RefreshCw } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 
 interface CriteriaDetail {
