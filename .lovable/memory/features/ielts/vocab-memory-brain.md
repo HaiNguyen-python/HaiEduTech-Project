@@ -23,3 +23,9 @@ Replaces the old vocabulary performance charts (VocabPerformanceCharts.tsx delet
 - Zones: `short` (surface), `consolidating`, `long` (reviews >= 4 and stability >= 20). Neuron radius = `1 - consolidation*0.58`, so long-term words sit in a green glowing core; `sx/sy/sz` keep the original surface spot for the replay animation.
 - `replay` prop (0..1, null = off) on VocabBrain3D/2D lerps surface -> real depth; panel drives it over 6s via the "Xem quá trình" button.
 - Panel adds memory-balance bar with zone filters (`zone:<zone>` filter keys), memory health %, at-risk-in-7-days, Daily Review Mission (10 weakest at-risk words), long-term badges 10/50/100/300, and a per-word SVG forgetting curve (now vs if reviewed today).
+
+## Data flow completed (2026-08-24)
+
+- `src/lib/vocabReview.ts` is the single writer of a review: bumps `reviewed_at`, `review_count`, `last_interval_days` and fires `VOCAB_REVIEW_EVENT`; `markReviewedToday` keeps today's reviewed words in localStorage (Vietnam day) for mission progress.
+- Review sources now: Smart Review queue (`useReviewQueue`), a correct answer in `VocabExercise` (once per word per session), and flipping a starred flashcard.
+- `VocabBrainPanel` reloads rows on `MASTERY_UPDATED_EVENT` / `VOCAB_REVIEW_EVENT` (1.2s debounce), shows mission progress N/10 with ticked words, and `onPractice(priorityWords)` sends urgent words to `VocabExercise` so the quiz drills them first. Streak card uses `max(local rows, useStreak server value)`.

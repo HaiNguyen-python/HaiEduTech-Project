@@ -11,12 +11,15 @@
  *
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Activity, Brain, CalendarDays, Crosshair, Flame, Hourglass, Lock, Pause, Play, RotateCcw, Search, Sparkles, Target, TrendingUp, Type, Volume2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { playEnglishTts } from "@/lib/englishTts";
+import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
+import { useStreak } from "@/hooks/useStreak";
+import { readReviewedToday, VOCAB_REVIEW_EVENT } from "@/lib/vocabReview";
 import {
   buildNeurons,
   consolidation,
@@ -75,7 +78,7 @@ interface Props {
   t: (vi: string, en: string) => string;
   lookupWord?: (word: string) => LookupResult | null;
   /** Jump to the practice tab so learners can revise fading words. */
-  onPractice?: () => void;
+  onPractice?: (priorityWords?: string[]) => void;
 }
 
 interface MasteredRow {
@@ -127,6 +130,10 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
   const [viewKey, setViewKey] = useState(0);
   const [query, setQuery] = useState("");
   const [replay, setReplay] = useState<number | null>(null);
+  /** Words already reviewed today - drives the daily mission progress. */
+  const [reviewedToday, setReviewedToday] = useState<string[]>(() => readReviewedToday(subject));
+  /** Server-side streak (same source as the Dashboard) so numbers never diverge. */
+  const { streak: serverStreak } = useStreak(true);
 
   // Consolidation replay: 6 seconds from "everything is short-term" to today.
   useEffect(() => {
@@ -146,39 +153,58 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
   }, [replay === null]);
 
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data: auth } = await supabase.auth.getUser();
-      const uid = auth?.user?.id;
-      if (!uid) { if (!cancelled) { setSignedIn(false); setLoading(false); } return; }
-      if (!cancelled) setSignedIn(true);
+  /** Load the memory rows. Re-runs whenever a star or a review is recorded. */
+  const loadRows = useCallback(async () => {
+    const { data: auth } = await supabase.auth.getUser();
+    const uid = auth?.user?.id;
+    if (!uid) { setSignedIn(false); setLoading(false); return; }
+    setSignedIn(true);
 
-      const [vocabRes, scoreRes] = await Promise.all([
-        (supabase as any)
-          .from("user_vocab_mastered")
-          .select("word, reviewed_at, created_at, review_count, last_interval_days")
-          .eq("user_id", uid)
-          .eq("subject", subject)
-          .limit(5000),
-        (supabase as any)
-          .from("game_scores")
-          .select("accuracy, created_at")
-          .eq("user_id", uid)
-          .eq("game_type", `vocab-${subject}`)
-          .order("created_at", { ascending: false })
-          .limit(20),
-      ]);
-      if (cancelled) return;
-      setRows((vocabRes.data || []) as MasteredRow[]);
-      const accs = ((scoreRes.data || []) as { accuracy: number | null }[])
-        .map(r => r.accuracy)
-        .filter((a): a is number => typeof a === "number");
-      setAvgAccuracy(accs.length ? Math.round(accs.reduce((s, a) => s + a, 0) / accs.length) : null);
-      setLoading(false);
-    })();
-    return () => { cancelled = true; };
+    const [vocabRes, scoreRes] = await Promise.all([
+      (supabase as any)
+        .from("user_vocab_mastered")
+        .select("word, reviewed_at, created_at, review_count, last_interval_days")
+        .eq("user_id", uid)
+        .eq("subject", subject)
+        .limit(5000),
+      (supabase as any)
+        .from("game_scores")
+        .select("accuracy, created_at")
+        .eq("user_id", uid)
+        .eq("game_type", `vocab-${subject}`)
+        .order("created_at", { ascending: false })
+        .limit(20),
+    ]);
+    setRows((vocabRes.data || []) as MasteredRow[]);
+    const accs = ((scoreRes.data || []) as { accuracy: number | null }[])
+      .map(r => r.accuracy)
+      .filter((a): a is number => typeof a === "number");
+    setAvgAccuracy(accs.length ? Math.round(accs.reduce((s, a) => s + a, 0) / accs.length) : null);
+    setLoading(false);
   }, [subject]);
+
+  useEffect(() => { void loadRows(); }, [loadRows]);
+
+  // Live refresh: starring a word or finishing a review used to require a full
+  // page reload before the brain changed. Debounced so a fast practice round
+  // does not fire one query per answer.
+  useEffect(() => {
+    let timer: number | undefined;
+    const schedule = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        void loadRows();
+        setReviewedToday(readReviewedToday(subject));
+      }, 1200);
+    };
+    window.addEventListener(MASTERY_UPDATED_EVENT, schedule);
+    window.addEventListener(VOCAB_REVIEW_EVENT, schedule);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener(MASTERY_UPDATED_EVENT, schedule);
+      window.removeEventListener(VOCAB_REVIEW_EVENT, schedule);
+    };
+  }, [loadRows, subject]);
 
   const todayKey = useMemo(() => vnDayKey(new Date().toISOString()), []);
 
@@ -258,6 +284,12 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
     () => [...atRisk].sort((a, b) => a.strength - b.strength).slice(0, 10),
     [atRisk],
   );
+
+  /** How many mission words the learner has already reviewed today. */
+  const missionDone = useMemo(() => {
+    const done = new Set(reviewedToday.map(w => w.toLowerCase()));
+    return mission.filter(n => done.has(n.word.toLowerCase())).length;
+  }, [mission, reviewedToday]);
 
   const earnedBadges = LONG_TERM_BADGES.filter(n => zoneCounts.long >= n);
   const nextBadge = LONG_TERM_BADGES.find(n => zoneCounts.long < n);
@@ -377,7 +409,8 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
         {stat(<Activity className="h-3.5 w-3.5" />, `${memoryHealth}%`, t("Sức khỏe bộ nhớ", "Memory health"), "text-violet-500")}
         {stat(<RotateCcw className="h-3.5 w-3.5" />, String(atRisk.length), t("Sắp quên trong 7 ngày", "Fading within 7 days"), "text-amber-600")}
         {stat(<TrendingUp className="h-3.5 w-3.5" />, String(last7), t("Từ mới 7 ngày", "New in 7 days"), "text-emerald-600")}
-        {stat(<Flame className="h-3.5 w-3.5" />, String(streak), t("Chuỗi ngày học từ", "Vocab study streak"), "text-orange-500")}
+        {/* Server streak wins when higher: it counts every study activity, not just vocab rows. */}
+        {stat(<Flame className="h-3.5 w-3.5" />, String(Math.max(streak, serverStreak ?? 0)), t("Chuỗi ngày học từ", "Vocab study streak"), "text-orange-500")}
         {stat(<CalendarDays className="h-3.5 w-3.5" />, avgAccuracy === null ? "-" : `${avgAccuracy}%`, t("Độ chính xác Practice", "Practice accuracy"), "text-indigo-500")}
       </div>
 
@@ -434,26 +467,45 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
           <div className="flex flex-wrap items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-sm font-bold text-foreground">
-              {t(`Nhiệm vụ hôm nay: ôn ${mission.length} từ để giữ bộ não sáng`,
-                 `Today's mission: review ${mission.length} words to keep your brain bright`)}
+              {missionDone >= mission.length
+                ? t("Hoàn thành nhiệm vụ hôm nay! Bộ não của bạn đang rất sáng.",
+                     "Today's mission complete! Your brain is shining.")
+                : t(`Nhiệm vụ hôm nay: ôn ${mission.length} từ để giữ bộ não sáng`,
+                     `Today's mission: review ${mission.length} words to keep your brain bright`)}
+            </span>
+            <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-bold text-primary">
+              {missionDone}/{mission.length}
             </span>
             {onPractice && (
-              <Button size="sm" className="ml-auto" onClick={onPractice}>
+              <Button size="sm" className="ml-auto" onClick={() => onPractice(mission.map(n => n.word))}>
                 {t("Bắt đầu nhiệm vụ", "Start mission")}
               </Button>
             )}
           </div>
+          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+            <div
+              className="h-full rounded-full bg-primary transition-all"
+              style={{ width: `${(missionDone / Math.max(1, mission.length)) * 100}%` }}
+            />
+          </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {mission.map(n => (
-              <button
-                key={n.word}
-                onClick={() => setSelected(n.word)}
-                className="rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-foreground hover:border-primary"
-              >
-                {n.word}
-                <span className="ml-1.5 text-[10px] font-bold text-amber-600">{Math.round(n.strength * 100)}%</span>
-              </button>
-            ))}
+            {mission.map(n => {
+              const done = reviewedToday.some(w => w.toLowerCase() === n.word.toLowerCase());
+              return (
+                <button
+                  key={n.word}
+                  onClick={() => setSelected(n.word)}
+                  className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition ${
+                    done
+                      ? "border-emerald-400 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300"
+                      : "border-border bg-background text-foreground hover:border-primary"
+                  }`}
+                >
+                  {done ? "✓ " : ""}{n.word}
+                  <span className="ml-1.5 text-[10px] font-bold text-amber-600">{Math.round(n.strength * 100)}%</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
@@ -654,7 +706,9 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
                `${needRevise} words are fading - revise them now to keep the memory.`)}
           </span>
           {onPractice && (
-            <Button size="sm" onClick={onPractice}>{t("Luyện lại ngay", "Practice now")}</Button>
+            <Button size="sm" onClick={() => onPractice(allNeurons.filter(n => n.days > 20).map(n => n.word))}>
+              {t("Luyện lại ngay", "Practice now")}
+            </Button>
           )}
         </div>
       )}
@@ -686,7 +740,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
               {t(`Độ nhớ ${Math.round(selectedInfo.strength * 100)}%`, `Retention ${Math.round(selectedInfo.strength * 100)}%`)}
             </span>
             {onPractice && (
-              <Button size="sm" variant="outline" className="ml-auto" onClick={onPractice}>
+              <Button size="sm" variant="outline" className="ml-auto" onClick={() => onPractice([selected])}>
                 {t("Ôn lại từ này", "Practise this word")}
               </Button>
             )}

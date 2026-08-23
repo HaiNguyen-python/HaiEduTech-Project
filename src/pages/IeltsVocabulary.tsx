@@ -23,6 +23,7 @@ import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { supabase } from "@/integrations/supabase/client";
 import { IELTS_EXAMPLE_VI } from "@/data/ieltsExampleVi";
 import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 const WORDS_PER_PAGE = 10;
 
@@ -82,6 +83,15 @@ const FlashcardDeck = ({
 
   const total = deck.length;
   const word = deck[Math.min(index, Math.max(total - 1, 0))];
+
+  /** Flipping a mastered card to read its meaning counts as one review. */
+  const flashReviewedRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    if (!flipped || !word || !mastered.has(word.word)) return;
+    if (flashReviewedRef.current.has(word.word)) return;
+    flashReviewedRef.current.add(word.word);
+    void recordVocabReviewTracked("ielts", [word.word]);
+  }, [flipped, word, mastered]);
 
   const go = useCallback((delta: number) => {
     stopEnglishTts();
@@ -423,9 +433,11 @@ const buildQuestions = (
   allWords: IeltsWord[],
   quizSize = 12,
   mode: ExMode = "all",
+  /** Keep the incoming order (used when the memory brain sends urgent words first). */
+  preserveOrder = false,
 ): ExQuestion[] => {
   const distractorPool = allWords.length > 4 ? allWords : words;
-  const picked = shuffle(words).slice(0, quizSize);
+  const picked = (preserveOrder ? words : shuffle(words)).slice(0, quizSize);
   const lastTypeRef: { value: ExType | null } = { value: null };
 
   const buildOne = (w: IeltsWord, idx: number): ExQuestion => {
@@ -622,13 +634,21 @@ const mergeTypeStats = (session: TypeStats) => {
   } catch { /* ignore */ }
 };
 
-const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: IeltsWord[]; t: (vi: string, en: string) => string }) => {
+const VocabExercise = ({ words, allWords, t, priorityWords }: {
+  words: IeltsWord[];
+  allWords?: IeltsWord[];
+  t: (vi: string, en: string) => string;
+  /** Words the memory brain asked to drill first (today's review mission). */
+  priorityWords?: string[];
+}) => {
   const [questions, setQuestions] = useState<ExQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
+  /** Words already counted as reviewed in this session (avoids double counting). */
+  const reviewedRef = useRef<Set<string>>(new Set());
   const [quizSize, setQuizSize] = useState<number>(20);
   const [mode, setMode] = useState<ExMode>("all");
   // Typing questions
@@ -654,8 +674,17 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
     const size = Math.min(quizSize, words.length);
-    startWith(buildQuestions(words, allWords && allWords.length > 4 ? allWords : words, size, mode));
-  }, [words, allWords, quizSize, mode, startWith]);
+    // The memory brain can hand over the words that are about to be forgotten:
+    // drill those first, then fill the rest of the quiz with the other words.
+    const priority = new Set((priorityWords || []).map(w => w.toLowerCase()));
+    const ordered = priority.size > 0
+      ? [
+          ...shuffle(words.filter(w => priority.has(w.word.toLowerCase()))),
+          ...shuffle(words.filter(w => !priority.has(w.word.toLowerCase()))),
+        ]
+      : words;
+    startWith(buildQuestions(ordered, allWords && allWords.length > 4 ? allWords : words, size, mode, priority.size > 0));
+  }, [words, allWords, quizSize, mode, startWith, priorityWords]);
 
   const retryWrong = useCallback(() => {
     if (wrongQs.length === 0) return;
@@ -686,6 +715,13 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
       return { ...prev, [q.type]: { correct: cur.correct + (correct ? 1 : 0), total: cur.total + 1 } };
     });
     if (!correct) setWrongQs(prev => [...prev, q]);
+    // A correct answer is a real spaced-repetition review: it pushes the word
+    // deeper towards long-term memory in the Vocabulary Brain. Once per session
+    // per word so a "retry mistakes" round cannot inflate the repetition count.
+    if (correct && !reviewedRef.current.has(q.word.word)) {
+      reviewedRef.current.add(q.word.word);
+      void recordVocabReviewTracked("ielts", [q.word.word]);
+    }
   };
 
   const handleSelect = (idx: number) => {
@@ -1035,6 +1071,8 @@ const IeltsVocabulary = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+  /** Urgent words sent over by the memory brain's daily mission. */
+  const [missionWords, setMissionWords] = useState<string[]>([]);
   const { mastered, toggle: toggleMastered, pendingCount } = useMasteredVocab("ielts");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
@@ -1167,7 +1205,7 @@ const IeltsVocabulary = () => {
 
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
-              <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
+              <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} priorityWords={missionWords} />
             ) : viewMode === "flashcard" ? (
               <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
@@ -1342,7 +1380,10 @@ const IeltsVocabulary = () => {
                 definitionEn: found.definition.en,
               };
             }}
-            onPractice={() => {
+            onPractice={(priority) => {
+              // The brain hands over the words about to be forgotten so the
+              // practice round drills exactly those first.
+              setMissionWords(priority && priority.length > 0 ? priority : []);
               setViewMode("exercise");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
