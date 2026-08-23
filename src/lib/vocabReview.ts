@@ -93,9 +93,15 @@ export const markReviewedToday = (subject: string, words: string[]) => {
   } catch { /* ignore */ }
 };
 
-/** Convenience wrapper: record the review and track it for today's mission. */
+/**
+ * Convenience wrapper: record the review in the database and always track it
+ * locally so the daily mission progress also works for guests / offline stars.
+ */
 export const recordVocabReviewTracked = async (subject: string, words: string[]) => {
+  markReviewedToday(subject, words);
   const n = await recordVocabReview(subject, words);
-  if (n > 0) markReviewedToday(subject, words);
+  if (n === 0) {
+    window.dispatchEvent(new CustomEvent(VOCAB_REVIEW_EVENT, { detail: { subject, count: 0 } }));
+  }
   return n;
 };
