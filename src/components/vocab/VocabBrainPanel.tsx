@@ -285,6 +285,12 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
     [atRisk],
   );
 
+  /** How many mission words the learner has already reviewed today. */
+  const missionDone = useMemo(() => {
+    const done = new Set(reviewedToday.map(w => w.toLowerCase()));
+    return mission.filter(n => done.has(n.word.toLowerCase())).length;
+  }, [mission, reviewedToday]);
+
   const earnedBadges = LONG_TERM_BADGES.filter(n => zoneCounts.long >= n);
   const nextBadge = LONG_TERM_BADGES.find(n => zoneCounts.long < n);
 
