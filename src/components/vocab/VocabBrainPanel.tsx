@@ -130,6 +130,10 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
   const [viewKey, setViewKey] = useState(0);
   const [query, setQuery] = useState("");
   const [replay, setReplay] = useState<number | null>(null);
+  /** Words already reviewed today - drives the daily mission progress. */
+  const [reviewedToday, setReviewedToday] = useState<string[]>(() => readReviewedToday(subject));
+  /** Server-side streak (same source as the Dashboard) so numbers never diverge. */
+  const { streak: serverStreak } = useStreak(true);
 
   // Consolidation replay: 6 seconds from "everything is short-term" to today.
   useEffect(() => {
