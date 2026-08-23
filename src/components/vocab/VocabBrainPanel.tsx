@@ -78,7 +78,7 @@ interface Props {
   t: (vi: string, en: string) => string;
   lookupWord?: (word: string) => LookupResult | null;
   /** Jump to the practice tab so learners can revise fading words. */
-  onPractice?: () => void;
+  onPractice?: (priorityWords?: string[]) => void;
 }
 
 interface MasteredRow {
