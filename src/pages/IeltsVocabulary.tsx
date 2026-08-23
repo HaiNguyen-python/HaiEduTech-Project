@@ -638,6 +638,8 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
+  /** Words already counted as reviewed in this session (avoids double counting). */
+  const reviewedRef = useRef<Set<string>>(new Set());
   const [quizSize, setQuizSize] = useState<number>(20);
   const [mode, setMode] = useState<ExMode>("all");
   // Typing questions
