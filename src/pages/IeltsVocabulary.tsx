@@ -424,9 +424,11 @@ const buildQuestions = (
   allWords: IeltsWord[],
   quizSize = 12,
   mode: ExMode = "all",
+  /** Keep the incoming order (used when the memory brain sends urgent words first). */
+  preserveOrder = false,
 ): ExQuestion[] => {
   const distractorPool = allWords.length > 4 ? allWords : words;
-  const picked = shuffle(words).slice(0, quizSize);
+  const picked = (preserveOrder ? words : shuffle(words)).slice(0, quizSize);
   const lastTypeRef: { value: ExType | null } = { value: null };
 
   const buildOne = (w: IeltsWord, idx: number): ExQuestion => {
