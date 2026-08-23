@@ -110,7 +110,8 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
     return () => {
       mountedRef.current = false;
       window.removeEventListener(MASTERY_UPDATED_EVENT, onLocal);
-      window.clearTimeout(timer);
+      window.removeEventListener("focus", onFocus);
+
       unsubscribe();
     };
   }, [subject, fetchLeaderboard]);
