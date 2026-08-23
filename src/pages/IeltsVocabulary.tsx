@@ -623,7 +623,13 @@ const mergeTypeStats = (session: TypeStats) => {
   } catch { /* ignore */ }
 };
 
-const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: IeltsWord[]; t: (vi: string, en: string) => string }) => {
+const VocabExercise = ({ words, allWords, t, priorityWords }: {
+  words: IeltsWord[];
+  allWords?: IeltsWord[];
+  t: (vi: string, en: string) => string;
+  /** Words the memory brain asked to drill first (today's review mission). */
+  priorityWords?: string[];
+}) => {
   const [questions, setQuestions] = useState<ExQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
