@@ -92,6 +92,11 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
       timer = window.setTimeout(() => fetchLeaderboard(true), 350);
     };
     window.addEventListener(MASTERY_UPDATED_EVENT, onLocal);
+    // Refresh when the student comes back to the tab so the ranking is current.
+    const onFocus = () => fetchLeaderboard(true);
+    window.addEventListener("focus", onFocus);
+
+
 
     const unsubscribe = subscribeTable(
       "user_vocab_mastered",
