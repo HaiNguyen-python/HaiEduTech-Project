@@ -409,7 +409,8 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
         {stat(<Activity className="h-3.5 w-3.5" />, `${memoryHealth}%`, t("Sức khỏe bộ nhớ", "Memory health"), "text-violet-500")}
         {stat(<RotateCcw className="h-3.5 w-3.5" />, String(atRisk.length), t("Sắp quên trong 7 ngày", "Fading within 7 days"), "text-amber-600")}
         {stat(<TrendingUp className="h-3.5 w-3.5" />, String(last7), t("Từ mới 7 ngày", "New in 7 days"), "text-emerald-600")}
-        {stat(<Flame className="h-3.5 w-3.5" />, String(streak), t("Chuỗi ngày học từ", "Vocab study streak"), "text-orange-500")}
+        {/* Server streak wins when higher: it counts every study activity, not just vocab rows. */}
+        {stat(<Flame className="h-3.5 w-3.5" />, String(Math.max(streak, serverStreak ?? 0)), t("Chuỗi ngày học từ", "Vocab study streak"), "text-orange-500")}
         {stat(<CalendarDays className="h-3.5 w-3.5" />, avgAccuracy === null ? "-" : `${avgAccuracy}%`, t("Độ chính xác Practice", "Practice accuracy"), "text-indigo-500")}
       </div>
 
