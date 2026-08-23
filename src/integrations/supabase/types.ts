@@ -3415,6 +3415,8 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          last_interval_days: number | null
+          review_count: number
           reviewed_at: string
           subject: string
           user_id: string
@@ -3423,6 +3425,8 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          last_interval_days?: number | null
+          review_count?: number
           reviewed_at?: string
           subject: string
           user_id: string
@@ -3431,6 +3435,8 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          last_interval_days?: number | null
+          review_count?: number
           reviewed_at?: string
           subject?: string
           user_id?: string

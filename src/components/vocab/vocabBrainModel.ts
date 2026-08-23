@@ -11,11 +11,98 @@ export interface BrainNeuron {
   word: string;
   /** Days since the word was last reviewed (0 = today). */
   days: number;
+  /** How many times the learner has reviewed this word (>= 1). */
+  reviews: number;
+  /** Gap in days between the two most recent reviews (spacing effect). */
+  lastInterval: number;
+  /** 0-1 retention estimate right now (Ebbinghaus). */
+  strength: number;
+  /** Memory zone: cortex surface (short) -> deep core (long). */
+  zone: MemoryZone;
   /** Deterministic position, right-handed, roughly within [-1.4, 1.4]. */
   x: number;
   y: number;
   z: number;
+  /** Position the word had while it was still pure short-term memory. */
+  sx: number;
+  sy: number;
+  sz: number;
 }
+
+export type MemoryZone = "short" | "consolidating" | "long";
+
+export interface ZoneInfo {
+  zone: MemoryZone;
+  color: string;
+  vi: string;
+  en: string;
+}
+
+export const ZONE_ORDER: MemoryZone[] = ["short", "consolidating", "long"];
+
+const ZONES: Record<MemoryZone, Omit<ZoneInfo, "zone">> = {
+  short:         { color: "#38bdf8", vi: "Bộ nhớ ngắn hạn",  en: "Short-term" },
+  consolidating: { color: "#a855f7", vi: "Đang chuyển",       en: "Consolidating" },
+  long:          { color: "#22c55e", vi: "Bộ nhớ dài hạn",    en: "Long-term" },
+};
+
+export const zoneInfo = (zone: MemoryZone): ZoneInfo => ({ zone, ...ZONES[zone] });
+
+export interface MemoryInput {
+  /** Days since the last review. */
+  days: number;
+  /** Total number of reviews (>= 1). */
+  reviews: number;
+  /** Days between the two most recent reviews. */
+  lastInterval?: number;
+}
+
+/**
+ * Memory stability in days: how long it takes retention to drop to ~37%.
+ * More repetitions and longer successful gaps between them both make the trace
+ * far more durable (spacing effect), so a word reviewed once decays in days
+ * while a word reviewed six times survives for months.
+ */
+export const memoryStability = ({ reviews, lastInterval = 0 }: MemoryInput): number => {
+  const reps = Math.max(1, reviews);
+  const spacing = 1 + Math.min(lastInterval, 30) / 12; // 1 - 3.5x
+  return 2.2 * Math.pow(1.85, reps - 1) * spacing;
+};
+
+/** Ebbinghaus retention 0-1 for a word right now. */
+export const memoryStrength = (input: MemoryInput): number => {
+  const s = memoryStability(input);
+  return Math.max(0, Math.min(1, Math.exp(-Math.max(0, input.days) / s)));
+};
+
+/** Retention this word would still have `days` from now. */
+export const retentionAfter = (input: MemoryInput, days: number): number =>
+  Math.max(0, Math.min(1, Math.exp(-Math.max(0, days) / memoryStability(input))));
+
+/** Days until retention falls to `target` (default 60% = time to revise). */
+export const daysUntilRetention = (input: MemoryInput, target = 0.6): number => {
+  const s = memoryStability(input);
+  const total = -Math.log(target) * s;
+  return Math.max(0, Math.round(total - Math.max(0, input.days)));
+};
+
+/**
+ * Which memory zone a word lives in. Long-term needs both repetition and a
+ * durable trace, so cramming a word five times in one day does not count.
+ */
+export const memoryZone = (input: MemoryInput): MemoryZone => {
+  const stability = memoryStability(input);
+  if (input.reviews >= 4 && stability >= 20) return "long";
+  if (input.reviews >= 2 && stability >= 6) return "consolidating";
+  return "short";
+};
+
+/** 0 (surface / short-term) to 1 (deep core / long-term). */
+export const consolidation = (input: MemoryInput): number => {
+  const s = memoryStability(input);
+  return Math.max(0, Math.min(1, Math.log(s / 2.2) / Math.log(60 / 2.2)));
+};
+
 
 export type DecayTier = "fresh" | "recent" | "fading" | "weak" | "forgotten";
 
@@ -151,9 +238,36 @@ export const brainPositionFromRandoms = (
 export const brainPosition = (word: string) =>
   brainPositionFromRandoms(rand(word, 1), rand(word, 2), rand(word, 3), rand(word, 4));
 
-/** Build the neuron list from words + days-since-review. */
-export const buildNeurons = (items: { word: string; days: number }[]): BrainNeuron[] =>
-  items.map(({ word, days }) => ({ word, days, ...brainPosition(word) }));
+/**
+ * Build the neuron list. Words that have been rehearsed several times over
+ * spaced days sink from the bright cortex surface towards the deep long-term
+ * core, so the picture itself teaches how consolidation works.
+ */
+export const buildNeurons = (
+  items: { word: string; days: number; reviews?: number; lastInterval?: number }[],
+): BrainNeuron[] =>
+  items.map(({ word, days, reviews = 1, lastInterval = 0 }) => {
+    const surface = brainPosition(word);
+    const input: MemoryInput = { days, reviews, lastInterval };
+    const depth = consolidation(input);
+    // 1 = cortex surface, 0.42 = deep core.
+    const radius = 1 - depth * 0.58;
+    return {
+      word,
+      days,
+      reviews: Math.max(1, reviews),
+      lastInterval,
+      strength: memoryStrength(input),
+      zone: memoryZone(input),
+      x: surface.x * radius,
+      y: surface.y * radius,
+      z: surface.z * radius,
+      sx: surface.x,
+      sy: surface.y,
+      sz: surface.z,
+    };
+  });
+
 
 /** Nearest-neighbour synapse pairs (index pairs) for the connective fibres. */
 export const buildSynapses = (neurons: BrainNeuron[], maxLinks = 900): [number, number][] => {
