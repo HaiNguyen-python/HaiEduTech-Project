@@ -23,6 +23,7 @@ import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { supabase } from "@/integrations/supabase/client";
 import { IELTS_EXAMPLE_VI } from "@/data/ieltsExampleVi";
 import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 const WORDS_PER_PAGE = 10;
 
