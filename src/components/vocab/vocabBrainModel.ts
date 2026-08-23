@@ -238,9 +238,36 @@ export const brainPositionFromRandoms = (
 export const brainPosition = (word: string) =>
   brainPositionFromRandoms(rand(word, 1), rand(word, 2), rand(word, 3), rand(word, 4));
 
-/** Build the neuron list from words + days-since-review. */
-export const buildNeurons = (items: { word: string; days: number }[]): BrainNeuron[] =>
-  items.map(({ word, days }) => ({ word, days, ...brainPosition(word) }));
+/**
+ * Build the neuron list. Words that have been rehearsed several times over
+ * spaced days sink from the bright cortex surface towards the deep long-term
+ * core, so the picture itself teaches how consolidation works.
+ */
+export const buildNeurons = (
+  items: { word: string; days: number; reviews?: number; lastInterval?: number }[],
+): BrainNeuron[] =>
+  items.map(({ word, days, reviews = 1, lastInterval = 0 }) => {
+    const surface = brainPosition(word);
+    const input: MemoryInput = { days, reviews, lastInterval };
+    const depth = consolidation(input);
+    // 1 = cortex surface, 0.42 = deep core.
+    const radius = 1 - depth * 0.58;
+    return {
+      word,
+      days,
+      reviews: Math.max(1, reviews),
+      lastInterval,
+      strength: memoryStrength(input),
+      zone: memoryZone(input),
+      x: surface.x * radius,
+      y: surface.y * radius,
+      z: surface.z * radius,
+      sx: surface.x,
+      sy: surface.y,
+      sz: surface.z,
+    };
+  });
+
 
 /** Nearest-neighbour synapse pairs (index pairs) for the connective fibres. */
 export const buildSynapses = (neurons: BrainNeuron[], maxLinks = 900): [number, number][] => {
