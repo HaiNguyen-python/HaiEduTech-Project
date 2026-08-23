@@ -16,6 +16,8 @@ interface Props {
   density?: "low" | "medium" | "high" | "all";
   paused?: boolean;
   focusWord?: string | null;
+  /** Consolidation replay progress (0 = surface, 1 = real depth, null = off). */
+  replay?: number | null;
 }
 
 const DENSITY_LIMIT = { low: 26, medium: 55, high: 110, all: 100000 } as const;
@@ -29,6 +31,7 @@ const VocabBrain2D = ({
   density = "medium",
   paused = false,
   focusWord = null,
+  replay = null,
 }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const scaffoldRef = useRef<Float32Array>(buildScaffold(1600));
@@ -75,7 +78,14 @@ const VocabBrain2D = ({
       ctx.globalAlpha = 1;
 
 
-      const sorted = [...neurons].sort((a, b) => (a.x * sin + a.z * cos) - (b.x * sin + b.z * cos));
+      const k = replay === null ? 1 : Math.max(0, Math.min(1, replay));
+      const placed = neurons.map(n => ({
+        ...n,
+        x: n.sx + (n.x - n.sx) * k,
+        y: n.sy + (n.y - n.sy) * k,
+        z: n.sz + (n.z - n.sz) * k,
+      }));
+      const sorted = [...placed].sort((a, b) => (a.x * sin + a.z * cos) - (b.x * sin + b.z * cos));
       const candidates: LabelCandidate[] = [];
       sorted.forEach(n => {
         const x = n.x * cos - n.z * sin;
@@ -127,7 +137,7 @@ const VocabBrain2D = ({
     };
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
-  }, [neurons, selected, showLabels, density, paused, focusWord]);
+  }, [neurons, selected, showLabels, density, paused, focusWord, replay]);
 
   const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
