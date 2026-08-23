@@ -12,7 +12,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { Brain, CalendarDays, Crosshair, Flame, Pause, Play, RotateCcw, Search, Sparkles, Target, TrendingUp, Type, Volume2 } from "lucide-react";
+import { Activity, Brain, CalendarDays, Crosshair, Flame, Hourglass, Lock, Pause, Play, RotateCcw, Search, Sparkles, Target, TrendingUp, Type, Volume2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -94,6 +94,22 @@ const hasWebGL = (): boolean => {
     const c = document.createElement("canvas");
     return !!(c.getContext("webgl2") || c.getContext("webgl"));
   } catch { return false; }
+};
+
+/**
+ * Tiny SVG forgetting curve: the solid line is what happens if the learner does
+ * nothing, the dashed line is what happens if the word is reviewed today.
+ */
+const ForgettingCurve = ({ now, ifReviewed }: { now: number[]; ifReviewed: number[] }) => {
+  const path = (values: number[]) =>
+    values.map((v, i) => `${i === 0 ? "M" : "L"} ${(i / (values.length - 1)) * 280} ${60 - v * 54}`).join(" ");
+  return (
+    <svg viewBox="0 0 280 64" className="h-16 w-full">
+      <line x1="0" y1={60 - 0.6 * 54} x2="280" y2={60 - 0.6 * 54} stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" className="text-muted-foreground" />
+      <path d={path(ifReviewed)} fill="none" stroke="#10b981" strokeWidth="2" strokeDasharray="5 4" />
+      <path d={path(now)} fill="none" stroke="#f97316" strokeWidth="2" />
+    </svg>
+  );
 };
 
 const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPractice }: Props) => {
@@ -348,18 +364,126 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
           {t("Bộ não từ vựng của bạn", "Your vocabulary brain")}
         </h2>
         <p className="text-sm text-muted-foreground">
-          {t("Mỗi từ đã thuộc là một neuron có chữ hiện ngay trên bộ não. Từ mới ôn sẽ sáng rực, từ lâu không ôn sẽ mờ dần - đúng như cách bộ não lưu và quên thông tin.",
-             "Each mastered word is a labelled neuron on the brain. Recently reviewed words glow; words left alone fade away - just like human memory.")}
+          {t("Từ mới học nằm ở lớp vỏ ngoài (bộ nhớ ngắn hạn) và mờ đi rất nhanh. Mỗi lần ôn lại cách nhau vài ngày, từ đó chìm dần vào lõi sáng bên trong: bộ nhớ dài hạn, nơi rất khó quên.",
+             "Newly learned words sit on the outer cortex (short-term memory) and fade fast. Each spaced review sinks a word deeper towards the glowing core: long-term memory, where it is hard to forget.")}
         </p>
       </div>
 
       {/* Stat cards */}
-      <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {stat(<Target className="h-3.5 w-3.5" />, String(totalMastered), t("Tổng từ đã thuộc", "Total mastered"), "text-primary")}
+        {stat(<Lock className="h-3.5 w-3.5" />, String(zoneCounts.long), t("Đã vào dài hạn", "In long-term"), "text-emerald-600")}
+        {stat(<Hourglass className="h-3.5 w-3.5" />, String(zoneCounts.short), t("Còn ở ngắn hạn", "Still short-term"), "text-sky-500")}
+        {stat(<Activity className="h-3.5 w-3.5" />, `${memoryHealth}%`, t("Sức khỏe bộ nhớ", "Memory health"), "text-violet-500")}
+        {stat(<RotateCcw className="h-3.5 w-3.5" />, String(atRisk.length), t("Sắp quên trong 7 ngày", "Fading within 7 days"), "text-amber-600")}
         {stat(<TrendingUp className="h-3.5 w-3.5" />, String(last7), t("Từ mới 7 ngày", "New in 7 days"), "text-emerald-600")}
         {stat(<Flame className="h-3.5 w-3.5" />, String(streak), t("Chuỗi ngày học từ", "Vocab study streak"), "text-orange-500")}
         {stat(<CalendarDays className="h-3.5 w-3.5" />, avgAccuracy === null ? "-" : `${avgAccuracy}%`, t("Độ chính xác Practice", "Practice accuracy"), "text-indigo-500")}
       </div>
+
+      {/* Memory zones: short-term vs long-term balance */}
+      {totalMastered > 0 && (
+        <div className="mb-4 rounded-xl border border-border bg-card p-4">
+          <div className="mb-2 flex flex-wrap items-center gap-2 text-sm font-semibold text-foreground">
+            <Brain className="h-4 w-4 text-primary" />
+            {t("Cân bằng bộ nhớ", "Memory balance")}
+            <span className="text-xs font-normal text-muted-foreground">
+              {t("Bấm vào một vùng để chỉ xem các từ trong vùng đó", "Click a zone to show only its words")}
+            </span>
+          </div>
+          <div className="flex h-3 w-full overflow-hidden rounded-full bg-muted">
+            {ZONE_ORDER.map(z => (
+              <div
+                key={z}
+                style={{
+                  width: `${(zoneCounts[z] / Math.max(1, totalMastered)) * 100}%`,
+                  backgroundColor: zoneInfo(z).color,
+                }}
+              />
+            ))}
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {ZONE_ORDER.map(z => {
+              const info = zoneInfo(z);
+              const active = filter === `zone:${z}`;
+              return (
+                <button
+                  key={z}
+                  onClick={() => setFilter(active ? "all" : `zone:${z}`)}
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                    active ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: info.color }} />
+                  {t(info.vi, info.en)}
+                  <span className="font-extrabold text-foreground">{zoneCounts[z]}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {t("Ôn lại một từ sau vài ngày là cách duy nhất để đẩy nó từ vỏ ngoài vào lõi dài hạn.",
+               "Reviewing a word a few days later is the only way to push it from the outer cortex into the long-term core.")}
+          </p>
+        </div>
+      )}
+
+      {/* Daily review mission */}
+      {mission.length > 0 && (
+        <div className="mb-4 rounded-xl border border-primary/30 bg-primary/5 p-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <span className="text-sm font-bold text-foreground">
+              {t(`Nhiệm vụ hôm nay: ôn ${mission.length} từ để giữ bộ não sáng`,
+                 `Today's mission: review ${mission.length} words to keep your brain bright`)}
+            </span>
+            {onPractice && (
+              <Button size="sm" className="ml-auto" onClick={onPractice}>
+                {t("Bắt đầu nhiệm vụ", "Start mission")}
+              </Button>
+            )}
+          </div>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {mission.map(n => (
+              <button
+                key={n.word}
+                onClick={() => setSelected(n.word)}
+                className="rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-foreground hover:border-primary"
+              >
+                {n.word}
+                <span className="ml-1.5 text-[10px] font-bold text-amber-600">{Math.round(n.strength * 100)}%</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Long-term memory badges */}
+      {totalMastered > 0 && (
+        <div className="mb-4 flex flex-wrap items-center gap-2 text-xs">
+          {LONG_TERM_BADGES.map(n => {
+            const earned = earnedBadges.includes(n);
+            return (
+              <span
+                key={n}
+                className={`rounded-full border px-2.5 py-1 font-semibold ${
+                  earned
+                    ? "border-emerald-400 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300"
+                    : "border-border text-muted-foreground"
+                }`}
+              >
+                {earned ? "🏅" : "🔒"} {t(`${n} từ dài hạn`, `${n} long-term words`)}
+              </span>
+            );
+          })}
+          {nextBadge && (
+            <span className="text-muted-foreground">
+              {t(`Còn ${nextBadge - zoneCounts.long} từ nữa để mở huy hiệu tiếp theo`,
+                 `${nextBadge - zoneCounts.long} more words to unlock the next badge`)}
+            </span>
+          )}
+        </div>
+      )}
 
       {nextMilestone && (
         <div className="mb-3">
@@ -439,6 +563,16 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
               <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setPaused(v => !v)}>
                 {paused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
                 {paused ? t("Xoay tiếp", "Rotate") : t("Tạm dừng", "Pause")}
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="h-8 gap-1.5"
+                onClick={() => setReplay(0)}
+                disabled={replay !== null}
+              >
+                <Play className="h-3.5 w-3.5" />
+                {replay === null ? t("Xem quá trình", "Replay consolidation") : t("Đang chạy...", "Playing...")}
               </Button>
               <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setViewKey(k => k + 1)}>
                 <Crosshair className="h-3.5 w-3.5" />
@@ -539,16 +673,47 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
             <Badge style={{ backgroundColor: selectedInfo.tier.color }} className="text-white">
               {t(selectedInfo.tier.vi, selectedInfo.tier.en)}
             </Badge>
+            <Badge variant="outline" style={{ borderColor: selectedInfo.zone.color, color: selectedInfo.zone.color }}>
+              {t(selectedInfo.zone.vi, selectedInfo.zone.en)}
+            </Badge>
             <span className="text-xs text-muted-foreground">
               {selectedInfo.days === 0
                 ? t("Ôn hôm nay", "Reviewed today")
                 : t(`Ôn ${selectedInfo.days} ngày trước`, `Reviewed ${selectedInfo.days} days ago`)}
+              {" · "}
+              {t(`${selectedInfo.reviews} lần ôn`, `${selectedInfo.reviews} reviews`)}
+              {" · "}
+              {t(`Độ nhớ ${Math.round(selectedInfo.strength * 100)}%`, `Retention ${Math.round(selectedInfo.strength * 100)}%`)}
             </span>
             {onPractice && (
               <Button size="sm" variant="outline" className="ml-auto" onClick={onPractice}>
                 {t("Ôn lại từ này", "Practise this word")}
               </Button>
             )}
+          </div>
+
+          <div className="mt-3 rounded-lg border border-border bg-card p-3">
+            <div className="mb-1 flex flex-wrap items-center gap-3 text-xs">
+              <span className="flex items-center gap-1.5 font-semibold text-orange-600">
+                <span className="inline-block h-0.5 w-4 bg-orange-500" />
+                {t("Nếu không ôn", "If you do nothing")}
+              </span>
+              <span className="flex items-center gap-1.5 font-semibold text-emerald-600">
+                <span className="inline-block h-0.5 w-4 border-t-2 border-dashed border-emerald-500" />
+                {t("Nếu ôn lại hôm nay", "If you review today")}
+              </span>
+              <span className="ml-auto text-muted-foreground">
+                {t("30 ngày tới", "Next 30 days")}
+              </span>
+            </div>
+            <ForgettingCurve now={selectedInfo.curveNow} ifReviewed={selectedInfo.curveIfReviewed} />
+            <p className="text-xs text-muted-foreground">
+              {selectedInfo.dueIn <= 0
+                ? t("Nên ôn ngay hôm nay - độ nhớ đã xuống dưới 60%.",
+                    "Review it today - retention has already dropped below 60%.")
+                : t(`Nên ôn lại trong khoảng ${selectedInfo.dueIn} ngày nữa để giữ độ nhớ trên 60%.`,
+                    `Review again in about ${selectedInfo.dueIn} days to keep retention above 60%.`)}
+            </p>
           </div>
 
           {selectedInfo.meta?.definitionVi && (
