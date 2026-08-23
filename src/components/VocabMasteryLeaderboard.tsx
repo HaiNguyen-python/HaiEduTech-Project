@@ -143,21 +143,33 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
     );
   }
 
-  // Reconcile the local mastered count with the server-side leaderboard score.
-  // The DB may lag behind localStorage (or vice versa) — always display the
-  // greater of the two so both rows show the same number.
+  // The ranking must always show the SAVED score (database = single source of
+  // truth). Previously the local count could inflate the current user's row,
+  // which made the ranking disagree with everyone else's numbers. Any local
+  // words that have not reached the database yet are surfaced separately as a
+  // "syncing" hint instead of being added to the rank.
   const userEntry = entries.find(e => e.user_id === currentUserId);
-  const reconciledScore = Math.max(userEntry?.score || 0, currentCount || 0);
-  const displayEntries = entries
-    .map(e => (e.user_id === currentUserId ? { ...e, score: reconciledScore } : e))
-    .sort((a, b) => b.score - a.score);
+  const serverScore = userEntry?.score || 0;
+  const notSynced = Math.max(0, (currentCount || 0) - serverScore);
+  const displayEntries = [...entries].sort((a, b) => b.score - a.score);
 
   return (
     <div className="rounded-xl border border-border bg-card/50 p-4 space-y-2">
-      <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
-        <Trophy className="w-4 h-4 text-amber-400" />
-        {label || t("BXH Từ vựng đã thuộc", "Mastered Words Ranking")}
+      <h3 className="text-sm font-bold text-foreground flex items-center justify-between gap-2 mb-3">
+        <span className="flex items-center gap-2">
+          <Trophy className="w-4 h-4 text-amber-400" />
+          {label || t("BXH Từ vựng đã thuộc", "Mastered Words Ranking")}
+        </span>
+        <button
+          type="button"
+          onClick={() => fetchLeaderboard(true)}
+          title={t("Cập nhật điểm", "Refresh scores")}
+          className="p-1 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+        >
+          <RefreshCw className="w-3.5 h-3.5" />
+        </button>
       </h3>
+
 
       {displayEntries.length === 0 ? (
         <p className="text-xs text-muted-foreground text-center py-4">
