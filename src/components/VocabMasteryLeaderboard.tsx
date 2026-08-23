@@ -210,13 +210,19 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
         </div>
       )}
 
-      {reconciledScore > 0 && (
-        <div className="mt-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/30 text-xs">
-          <span className="text-primary font-bold">
-            {t("Bạn đã thuộc", "You mastered")}: {reconciledScore} {t("từ", "words")}
+      {(serverScore > 0 || notSynced > 0) && (
+        <div className="mt-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/30 text-xs space-y-1">
+          <span className="block text-primary font-bold">
+            {t("Bạn đã thuộc", "You mastered")}: {serverScore} {t("từ", "words")}
           </span>
+          {notSynced > 0 && (
+            <span className="block text-muted-foreground">
+              {t(`Đang đồng bộ thêm ${notSynced} từ...`, `Syncing ${notSynced} more word(s)...`)}
+            </span>
+          )}
         </div>
       )}
+
     </div>
   );
 };
