@@ -34,7 +34,7 @@ export async function syncMasteredCount(_subject: string, _count: number) {
   /* no-op */
 }
 
-const TTL_MS = 300_000; // 5 phút - giảm gọi RPC nặng
+const TTL_MS = 60_000; // 1 minute — keeps displayed scores close to the DB truth
 
 const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryLeaderboardProps) => {
   const { t } = useLanguage();
@@ -92,6 +92,11 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
       timer = window.setTimeout(() => fetchLeaderboard(true), 350);
     };
     window.addEventListener(MASTERY_UPDATED_EVENT, onLocal);
+    // Refresh when the student comes back to the tab so the ranking is current.
+    const onFocus = () => fetchLeaderboard(true);
+    window.addEventListener("focus", onFocus);
+
+
 
     const unsubscribe = subscribeTable(
       "user_vocab_mastered",
@@ -105,7 +110,10 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
     return () => {
       mountedRef.current = false;
       window.removeEventListener(MASTERY_UPDATED_EVENT, onLocal);
+      window.removeEventListener("focus", onFocus);
       window.clearTimeout(timer);
+
+
       unsubscribe();
     };
   }, [subject, fetchLeaderboard]);
@@ -143,21 +151,33 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
     );
   }
 
-  // Reconcile the local mastered count with the server-side leaderboard score.
-  // The DB may lag behind localStorage (or vice versa) — always display the
-  // greater of the two so both rows show the same number.
+  // The ranking must always show the SAVED score (database = single source of
+  // truth). Previously the local count could inflate the current user's row,
+  // which made the ranking disagree with everyone else's numbers. Any local
+  // words that have not reached the database yet are surfaced separately as a
+  // "syncing" hint instead of being added to the rank.
   const userEntry = entries.find(e => e.user_id === currentUserId);
-  const reconciledScore = Math.max(userEntry?.score || 0, currentCount || 0);
-  const displayEntries = entries
-    .map(e => (e.user_id === currentUserId ? { ...e, score: reconciledScore } : e))
-    .sort((a, b) => b.score - a.score);
+  const serverScore = userEntry?.score || 0;
+  const notSynced = Math.max(0, (currentCount || 0) - serverScore);
+  const displayEntries = [...entries].sort((a, b) => b.score - a.score);
 
   return (
     <div className="rounded-xl border border-border bg-card/50 p-4 space-y-2">
-      <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
-        <Trophy className="w-4 h-4 text-amber-400" />
-        {label || t("BXH Từ vựng đã thuộc", "Mastered Words Ranking")}
+      <h3 className="text-sm font-bold text-foreground flex items-center justify-between gap-2 mb-3">
+        <span className="flex items-center gap-2">
+          <Trophy className="w-4 h-4 text-amber-400" />
+          {label || t("BXH Từ vựng đã thuộc", "Mastered Words Ranking")}
+        </span>
+        <button
+          type="button"
+          onClick={() => fetchLeaderboard(true)}
+          title={t("Cập nhật điểm", "Refresh scores")}
+          className="p-1 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+        >
+          <RefreshCw className="w-3.5 h-3.5" />
+        </button>
       </h3>
+
 
       {displayEntries.length === 0 ? (
         <p className="text-xs text-muted-foreground text-center py-4">
@@ -198,13 +218,19 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
         </div>
       )}
 
-      {reconciledScore > 0 && (
-        <div className="mt-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/30 text-xs">
-          <span className="text-primary font-bold">
-            {t("Bạn đã thuộc", "You mastered")}: {reconciledScore} {t("từ", "words")}
+      {(serverScore > 0 || notSynced > 0) && (
+        <div className="mt-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/30 text-xs space-y-1">
+          <span className="block text-primary font-bold">
+            {t("Bạn đã thuộc", "You mastered")}: {serverScore} {t("từ", "words")}
           </span>
+          {notSynced > 0 && (
+            <span className="block text-muted-foreground">
+              {t(`Đang đồng bộ thêm ${notSynced} từ...`, `Syncing ${notSynced} more word(s)...`)}
+            </span>
+          )}
         </div>
       )}
+
     </div>
   );
 };
