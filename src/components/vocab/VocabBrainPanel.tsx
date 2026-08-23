@@ -146,39 +146,58 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
   }, [replay === null]);
 
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data: auth } = await supabase.auth.getUser();
-      const uid = auth?.user?.id;
-      if (!uid) { if (!cancelled) { setSignedIn(false); setLoading(false); } return; }
-      if (!cancelled) setSignedIn(true);
+  /** Load the memory rows. Re-runs whenever a star or a review is recorded. */
+  const loadRows = useCallback(async () => {
+    const { data: auth } = await supabase.auth.getUser();
+    const uid = auth?.user?.id;
+    if (!uid) { setSignedIn(false); setLoading(false); return; }
+    setSignedIn(true);
 
-      const [vocabRes, scoreRes] = await Promise.all([
-        (supabase as any)
-          .from("user_vocab_mastered")
-          .select("word, reviewed_at, created_at, review_count, last_interval_days")
-          .eq("user_id", uid)
-          .eq("subject", subject)
-          .limit(5000),
-        (supabase as any)
-          .from("game_scores")
-          .select("accuracy, created_at")
-          .eq("user_id", uid)
-          .eq("game_type", `vocab-${subject}`)
-          .order("created_at", { ascending: false })
-          .limit(20),
-      ]);
-      if (cancelled) return;
-      setRows((vocabRes.data || []) as MasteredRow[]);
-      const accs = ((scoreRes.data || []) as { accuracy: number | null }[])
-        .map(r => r.accuracy)
-        .filter((a): a is number => typeof a === "number");
-      setAvgAccuracy(accs.length ? Math.round(accs.reduce((s, a) => s + a, 0) / accs.length) : null);
-      setLoading(false);
-    })();
-    return () => { cancelled = true; };
+    const [vocabRes, scoreRes] = await Promise.all([
+      (supabase as any)
+        .from("user_vocab_mastered")
+        .select("word, reviewed_at, created_at, review_count, last_interval_days")
+        .eq("user_id", uid)
+        .eq("subject", subject)
+        .limit(5000),
+      (supabase as any)
+        .from("game_scores")
+        .select("accuracy, created_at")
+        .eq("user_id", uid)
+        .eq("game_type", `vocab-${subject}`)
+        .order("created_at", { ascending: false })
+        .limit(20),
+    ]);
+    setRows((vocabRes.data || []) as MasteredRow[]);
+    const accs = ((scoreRes.data || []) as { accuracy: number | null }[])
+      .map(r => r.accuracy)
+      .filter((a): a is number => typeof a === "number");
+    setAvgAccuracy(accs.length ? Math.round(accs.reduce((s, a) => s + a, 0) / accs.length) : null);
+    setLoading(false);
   }, [subject]);
+
+  useEffect(() => { void loadRows(); }, [loadRows]);
+
+  // Live refresh: starring a word or finishing a review used to require a full
+  // page reload before the brain changed. Debounced so a fast practice round
+  // does not fire one query per answer.
+  useEffect(() => {
+    let timer: number | undefined;
+    const schedule = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        void loadRows();
+        setReviewedToday(readReviewedToday(subject));
+      }, 1200);
+    };
+    window.addEventListener(MASTERY_UPDATED_EVENT, schedule);
+    window.addEventListener(VOCAB_REVIEW_EVENT, schedule);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener(MASTERY_UPDATED_EVENT, schedule);
+      window.removeEventListener(VOCAB_REVIEW_EVENT, schedule);
+    };
+  }, [loadRows, subject]);
 
   const todayKey = useMemo(() => vnDayKey(new Date().toISOString()), []);
 
