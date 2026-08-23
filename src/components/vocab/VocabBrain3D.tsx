@@ -7,7 +7,7 @@
  *
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -33,6 +33,11 @@ interface Props {
   paused?: boolean;
   /** Word typed in the search box - always labelled and highlighted. */
   focusWord?: string | null;
+  /**
+   * Consolidation replay: 0 = every word sits on the cortex surface (as if just
+   * learned), 1 = words sit at their real depth. `null` disables the replay.
+   */
+  replay?: number | null;
 }
 
 /** A label ready to be drawn in DOM space (percentages of the canvas box). */
@@ -155,6 +160,7 @@ const NeuronCloud = ({
   onSelect,
   selected,
   focusWord,
+  replay = null,
   onHover,
 }: Props & { onHover: (n: BrainNeuron | null) => void }) => {
   const matRef = useRef<THREE.ShaderMaterial>(null);
@@ -237,6 +243,21 @@ const NeuronCloud = ({
   }, []);
 
 
+  // Replay: interpolate each neuron between its short-term surface spot and its
+  // real (consolidated) depth so learners watch words sink into long-term memory.
+  useEffect(() => {
+    if (replay === null) return;
+    const attr = geometry.getAttribute("position") as THREE.BufferAttribute;
+    const arr = attr.array as Float32Array;
+    const k = Math.max(0, Math.min(1, replay));
+    neurons.forEach((n, i) => {
+      arr[i * 3] = n.sx + (n.x - n.sx) * k;
+      arr[i * 3 + 1] = n.sy + (n.y - n.sy) * k;
+      arr[i * 3 + 2] = n.sz + (n.z - n.sz) * k;
+    });
+    attr.needsUpdate = true;
+  }, [replay, neurons, geometry]);
+
   useFrame(({ clock }) => {
     if (matRef.current) matRef.current.uniforms.uTime.value = clock.getElapsedTime();
   });
@@ -288,6 +309,18 @@ const NeuronCloud = ({
       </points>
 
 
+      {/* Long-term memory core: the deeper a word sits, the more consolidated it is. */}
+      <mesh raycast={() => null}>
+        <sphereGeometry args={[0.44, 24, 24]} />
+        <meshBasicMaterial
+          color="#22c55e"
+          transparent
+          opacity={0.12}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+
       <lineSegments geometry={synapseGeometry}>
         <lineBasicMaterial vertexColors transparent opacity={0.28} blending={THREE.AdditiveBlending} depthWrite={false} />
       </lineSegments>
@@ -333,6 +366,7 @@ const VocabBrain3D = ({
   density = "medium",
   paused = false,
   focusWord = null,
+  replay = null,
 }: Props) => {
   const [labels, setLabels] = useState<ScreenLabel[]>([]);
   const [hoveredWord, setHoveredWord] = useState<string | null>(null);
@@ -351,6 +385,7 @@ const VocabBrain3D = ({
           onSelect={onSelect}
           selected={selected}
           focusWord={focusWord}
+          replay={replay}
           onHover={(n) => setHoveredWord(n?.word ?? null)}
         />
         {showLabels && (
