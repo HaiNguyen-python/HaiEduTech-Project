@@ -704,6 +704,13 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
       return { ...prev, [q.type]: { correct: cur.correct + (correct ? 1 : 0), total: cur.total + 1 } };
     });
     if (!correct) setWrongQs(prev => [...prev, q]);
+    // A correct answer is a real spaced-repetition review: it pushes the word
+    // deeper towards long-term memory in the Vocabulary Brain. Once per session
+    // per word so a "retry mistakes" round cannot inflate the repetition count.
+    if (correct && !reviewedRef.current.has(q.word.word)) {
+      reviewedRef.current.add(q.word.word);
+      void recordVocabReviewTracked("ielts", [q.word.word]);
+    }
   };
 
   const handleSelect = (idx: number) => {
