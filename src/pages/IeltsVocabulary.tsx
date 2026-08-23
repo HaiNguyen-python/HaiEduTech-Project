@@ -661,8 +661,17 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
     const size = Math.min(quizSize, words.length);
-    startWith(buildQuestions(words, allWords && allWords.length > 4 ? allWords : words, size, mode));
-  }, [words, allWords, quizSize, mode, startWith]);
+    // The memory brain can hand over the words that are about to be forgotten:
+    // drill those first, then fill the rest of the quiz with the other words.
+    const priority = new Set((priorityWords || []).map(w => w.toLowerCase()));
+    const ordered = priority.size > 0
+      ? [
+          ...shuffle(words.filter(w => priority.has(w.word.toLowerCase()))),
+          ...shuffle(words.filter(w => !priority.has(w.word.toLowerCase()))),
+        ]
+      : words;
+    startWith(buildQuestions(ordered, allWords && allWords.length > 4 ? allWords : words, size, mode));
+  }, [words, allWords, quizSize, mode, startWith, priorityWords]);
 
   const retryWrong = useCallback(() => {
     if (wrongQs.length === 0) return;
