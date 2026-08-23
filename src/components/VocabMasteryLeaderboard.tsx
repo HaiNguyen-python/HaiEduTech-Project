@@ -34,7 +34,7 @@ export async function syncMasteredCount(_subject: string, _count: number) {
   /* no-op */
 }
 
-const TTL_MS = 300_000; // 5 phút - giảm gọi RPC nặng
+const TTL_MS = 60_000; // 1 minute — keeps displayed scores close to the DB truth
 
 const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryLeaderboardProps) => {
   const { t } = useLanguage();
