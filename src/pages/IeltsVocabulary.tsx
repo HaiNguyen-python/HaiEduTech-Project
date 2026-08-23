@@ -1071,6 +1071,8 @@ const IeltsVocabulary = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+  /** Urgent words sent over by the memory brain's daily mission. */
+  const [missionWords, setMissionWords] = useState<string[]>([]);
   const { mastered, toggle: toggleMastered, pendingCount } = useMasteredVocab("ielts");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
@@ -1203,7 +1205,7 @@ const IeltsVocabulary = () => {
 
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
-              <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
+              <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} priorityWords={missionWords} />
             ) : viewMode === "flashcard" ? (
               <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
