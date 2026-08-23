@@ -84,6 +84,15 @@ const FlashcardDeck = ({
   const total = deck.length;
   const word = deck[Math.min(index, Math.max(total - 1, 0))];
 
+  /** Flipping a mastered card to read its meaning counts as one review. */
+  const flashReviewedRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    if (!flipped || !word || !mastered.has(word.word)) return;
+    if (flashReviewedRef.current.has(word.word)) return;
+    flashReviewedRef.current.add(word.word);
+    void recordVocabReviewTracked("ielts", [word.word]);
+  }, [flipped, word, mastered]);
+
   const go = useCallback((delta: number) => {
     stopEnglishTts();
     setFlipped(false);
