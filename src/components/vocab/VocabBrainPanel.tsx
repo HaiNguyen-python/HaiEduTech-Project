@@ -17,7 +17,21 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { playEnglishTts } from "@/lib/englishTts";
-import { buildNeurons, TIER_ORDER, tierForDays, tierInfo, type BrainNeuron, type DecayTier } from "./vocabBrainModel";
+import {
+  buildNeurons,
+  consolidation,
+  daysUntilRetention,
+  memoryZone,
+  retentionAfter,
+  TIER_ORDER,
+  tierForDays,
+  tierInfo,
+  ZONE_ORDER,
+  zoneInfo,
+  type BrainNeuron,
+  type DecayTier,
+  type MemoryZone,
+} from "./vocabBrainModel";
 import VocabBrain2D from "./VocabBrain2D";
 
 type LabelDensity = "low" | "medium" | "high" | "all";
@@ -45,7 +59,7 @@ const BAND_MILESTONES = [
   { words: 800, band: "8.0" },
 ];
 
-type Filter = "all" | "fresh" | "fading" | "revise" | `tier:${DecayTier}`;
+type Filter = "all" | "fresh" | "fading" | "revise" | `tier:${DecayTier}` | `zone:${MemoryZone}`;
 
 interface LookupResult {
   word: string;
@@ -64,7 +78,15 @@ interface Props {
   onPractice?: () => void;
 }
 
-interface MasteredRow { word: string; reviewed_at: string | null; created_at: string | null }
+interface MasteredRow {
+  word: string;
+  reviewed_at: string | null;
+  created_at: string | null;
+  review_count: number | null;
+  last_interval_days: number | null;
+}
+
+const LONG_TERM_BADGES = [10, 50, 100, 300];
 
 /** WebGL support probe (cached once per session). */
 const hasWebGL = (): boolean => {
@@ -88,6 +110,24 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
   const [paused, setPaused] = useState(false);
   const [viewKey, setViewKey] = useState(0);
   const [query, setQuery] = useState("");
+  const [replay, setReplay] = useState<number | null>(null);
+
+  // Consolidation replay: 6 seconds from "everything is short-term" to today.
+  useEffect(() => {
+    if (replay === null) return;
+    let raf = 0;
+    const start = performance.now();
+    const tick = () => {
+      const k = Math.min(1, (performance.now() - start) / 6000);
+      setReplay(k);
+      if (k < 1) raf = requestAnimationFrame(tick);
+      else window.setTimeout(() => setReplay(null), 900);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+    // Only restart when the replay is (re)started from null.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [replay === null]);
 
 
   useEffect(() => {
@@ -101,7 +141,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
       const [vocabRes, scoreRes] = await Promise.all([
         (supabase as any)
           .from("user_vocab_mastered")
-          .select("word, reviewed_at, created_at")
+          .select("word, reviewed_at, created_at, review_count, last_interval_days")
           .eq("user_id", uid)
           .eq("subject", subject)
           .limit(5000),
@@ -126,27 +166,40 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
 
   const todayKey = useMemo(() => vnDayKey(new Date().toISOString()), []);
 
-  /** word -> days since last review (DB rows first, local stars as "today"). */
-  const wordDays = useMemo(() => {
-    const map = new Map<string, number>();
+  /** word -> memory record (DB rows first, local stars count as reviewed today). */
+  const wordStats = useMemo(() => {
+    const map = new Map<string, { days: number; reviews: number; lastInterval: number }>();
     rows.forEach(r => {
       const iso = r.reviewed_at || r.created_at;
       if (!iso) return;
-      const d = daysBetween(vnDayKey(iso), todayKey);
+      const days = daysBetween(vnDayKey(iso), todayKey);
+      const reviews = Math.max(1, r.review_count ?? 1);
+      let lastInterval = r.last_interval_days ?? 0;
+      // No recorded gap yet: infer it from first-learned to last-reviewed.
+      if (!lastInterval && r.created_at && r.reviewed_at) {
+        const span = daysBetween(vnDayKey(r.created_at), vnDayKey(r.reviewed_at));
+        lastInterval = reviews > 1 ? Math.round(span / (reviews - 1)) : 0;
+      }
       const prev = map.get(r.word);
-      map.set(r.word, prev === undefined ? d : Math.min(prev, d));
+      if (!prev || days < prev.days) map.set(r.word, { days, reviews, lastInterval });
     });
-    localWords.forEach(w => { if (!map.has(w)) map.set(w, 0); });
+    localWords.forEach(w => {
+      if (!map.has(w)) map.set(w, { days: 0, reviews: 1, lastInterval: 0 });
+    });
     return map;
   }, [rows, localWords, todayKey]);
 
   const allNeurons: BrainNeuron[] = useMemo(
-    () => buildNeurons([...wordDays.entries()].map(([word, days]) => ({ word, days }))),
-    [wordDays],
+    () => buildNeurons([...wordStats.entries()].map(([word, s]) => ({ word, ...s }))),
+    [wordStats],
   );
 
   const neurons = useMemo(() => {
     if (filter === "all") return allNeurons;
+    if (filter.startsWith("zone:")) {
+      const wanted = filter.slice(5) as MemoryZone;
+      return allNeurons.filter(n => n.zone === wanted);
+    }
     if (filter.startsWith("tier:")) {
       const wanted = filter.slice(5) as DecayTier;
       return allNeurons.filter(n => tierForDays(n.days).tier === wanted);
@@ -164,6 +217,34 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
     });
     return c;
   }, [allNeurons]);
+
+  const zoneCounts = useMemo(() => {
+    const c: Record<MemoryZone, number> = { short: 0, consolidating: 0, long: 0 };
+    allNeurons.forEach(n => { c[n.zone] += 1; });
+    return c;
+  }, [allNeurons]);
+
+  /** Average retention across every word: the "memory health" of the brain. */
+  const memoryHealth = useMemo(() => {
+    if (allNeurons.length === 0) return 0;
+    const sum = allNeurons.reduce((acc, n) => acc + n.strength, 0);
+    return Math.round((sum / allNeurons.length) * 100);
+  }, [allNeurons]);
+
+  /** Words that will drop below 60% retention within a week. */
+  const atRisk = useMemo(
+    () => allNeurons.filter(n => daysUntilRetention({ days: n.days, reviews: n.reviews, lastInterval: n.lastInterval }) <= 7),
+    [allNeurons],
+  );
+
+  /** Today's mission: the 10 most urgent words to rescue. */
+  const mission = useMemo(
+    () => [...atRisk].sort((a, b) => a.strength - b.strength).slice(0, 10),
+    [atRisk],
+  );
+
+  const earnedBadges = LONG_TERM_BADGES.filter(n => zoneCounts.long >= n);
+  const nextBadge = LONG_TERM_BADGES.find(n => zoneCounts.long < n);
 
   const totalMastered = allNeurons.length;
   const last7 = allNeurons.filter(n => n.days <= 7).length;
@@ -195,9 +276,27 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
 
   const selectedInfo = useMemo(() => {
     if (!selected) return null;
-    const days = wordDays.get(selected) ?? 0;
-    return { days, tier: tierForDays(days), meta: lookupWord?.(selected) || null };
-  }, [selected, wordDays, lookupWord]);
+    const neuron = allNeurons.find(n => n.word === selected);
+    const stat = wordStats.get(selected);
+    const days = neuron?.days ?? stat?.days ?? 0;
+    const reviews = neuron?.reviews ?? 1;
+    const lastInterval = neuron?.lastInterval ?? 0;
+    const input = { days, reviews, lastInterval };
+    return {
+      days,
+      reviews,
+      lastInterval,
+      strength: neuron?.strength ?? 0,
+      zone: zoneInfo(neuron?.zone ?? memoryZone(input)),
+      dueIn: daysUntilRetention(input),
+      /** Curve now vs the curve the word would get if reviewed today. */
+      curveNow: Array.from({ length: 31 }, (_, i) => retentionAfter(input, days + i)),
+      curveIfReviewed: Array.from({ length: 31 }, (_, i) =>
+        retentionAfter({ days: 0, reviews: reviews + 1, lastInterval: Math.max(lastInterval, days) }, i)),
+      tier: tierForDays(days),
+      meta: lookupWord?.(selected) || null,
+    };
+  }, [selected, allNeurons, wordStats, lookupWord]);
 
   const stat = (icon: React.ReactNode, value: string, label: string, tone: string) => (
     <div className="rounded-xl border border-border bg-card p-4">
@@ -238,6 +337,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
     density,
     paused,
     focusWord,
+    replay,
   };
 
   return (
