@@ -739,7 +739,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
               {t(`Độ nhớ ${Math.round(selectedInfo.strength * 100)}%`, `Retention ${Math.round(selectedInfo.strength * 100)}%`)}
             </span>
             {onPractice && (
-              <Button size="sm" variant="outline" className="ml-auto" onClick={onPractice}>
+              <Button size="sm" variant="outline" className="ml-auto" onClick={() => onPractice([selected])}>
                 {t("Ôn lại từ này", "Practise this word")}
               </Button>
             )}
