@@ -11,12 +11,15 @@
  *
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Activity, Brain, CalendarDays, Crosshair, Flame, Hourglass, Lock, Pause, Play, RotateCcw, Search, Sparkles, Target, TrendingUp, Type, Volume2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { playEnglishTts } from "@/lib/englishTts";
+import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
+import { useStreak } from "@/hooks/useStreak";
+import { readReviewedToday, VOCAB_REVIEW_EVENT } from "@/lib/vocabReview";
 import {
   buildNeurons,
   consolidation,
