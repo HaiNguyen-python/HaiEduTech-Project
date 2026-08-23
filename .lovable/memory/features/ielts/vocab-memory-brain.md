@@ -15,3 +15,11 @@ Replaces the old vocabulary performance charts (VocabPerformanceCharts.tsx delet
 - Versions pinned for React 18: @react-three/fiber ^8, @react-three/drei ^9.
 - Word labels are HTML (absolutely positioned over the canvas, projected in `LabelProjector`), NOT drei `Text`/troika - troika's blob worker fails in some environments and left the Suspense fallback stuck on "Building the 3D model...". Dim tiers get a lighter label ink (#cbd5e1) so text stays readable.
 
+
+## Short-term vs long-term memory (2026-08-23)
+
+- `user_vocab_mastered` gained `review_count` (default 1) and `last_interval_days`; `useReviewQueue.markReviewed` increments both.
+- `vocabBrainModel.ts` adds `memoryStability` / `memoryStrength` / `retentionAfter` / `daysUntilRetention` / `memoryZone` / `consolidation` (Ebbinghaus `exp(-days/stability)`, stability = `2.2 * 1.85^(reps-1) * spacing`).
+- Zones: `short` (surface), `consolidating`, `long` (reviews >= 4 and stability >= 20). Neuron radius = `1 - consolidation*0.58`, so long-term words sit in a green glowing core; `sx/sy/sz` keep the original surface spot for the replay animation.
+- `replay` prop (0..1, null = off) on VocabBrain3D/2D lerps surface -> real depth; panel drives it over 6s via the "Xem quá trình" button.
+- Panel adds memory-balance bar with zone filters (`zone:<zone>` filter keys), memory health %, at-risk-in-7-days, Daily Review Mission (10 weakest at-risk words), long-term badges 10/50/100/300, and a per-word SVG forgetting curve (now vs if reviewed today).
