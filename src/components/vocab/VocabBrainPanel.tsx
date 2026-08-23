@@ -705,7 +705,9 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
                `${needRevise} words are fading - revise them now to keep the memory.`)}
           </span>
           {onPractice && (
-            <Button size="sm" onClick={onPractice}>{t("Luyện lại ngay", "Practice now")}</Button>
+            <Button size="sm" onClick={() => onPractice(allNeurons.filter(n => n.days > 20).map(n => n.word))}>
+              {t("Luyện lại ngay", "Practice now")}
+            </Button>
           )}
         </div>
       )}
