@@ -466,26 +466,45 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
           <div className="flex flex-wrap items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-sm font-bold text-foreground">
-              {t(`Nhiệm vụ hôm nay: ôn ${mission.length} từ để giữ bộ não sáng`,
-                 `Today's mission: review ${mission.length} words to keep your brain bright`)}
+              {missionDone >= mission.length
+                ? t("Hoàn thành nhiệm vụ hôm nay! Bộ não của bạn đang rất sáng.",
+                     "Today's mission complete! Your brain is shining.")
+                : t(`Nhiệm vụ hôm nay: ôn ${mission.length} từ để giữ bộ não sáng`,
+                     `Today's mission: review ${mission.length} words to keep your brain bright`)}
+            </span>
+            <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-bold text-primary">
+              {missionDone}/{mission.length}
             </span>
             {onPractice && (
-              <Button size="sm" className="ml-auto" onClick={onPractice}>
+              <Button size="sm" className="ml-auto" onClick={() => onPractice(mission.map(n => n.word))}>
                 {t("Bắt đầu nhiệm vụ", "Start mission")}
               </Button>
             )}
           </div>
+          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+            <div
+              className="h-full rounded-full bg-primary transition-all"
+              style={{ width: `${(missionDone / Math.max(1, mission.length)) * 100}%` }}
+            />
+          </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {mission.map(n => (
-              <button
-                key={n.word}
-                onClick={() => setSelected(n.word)}
-                className="rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-foreground hover:border-primary"
-              >
-                {n.word}
-                <span className="ml-1.5 text-[10px] font-bold text-amber-600">{Math.round(n.strength * 100)}%</span>
-              </button>
-            ))}
+            {mission.map(n => {
+              const done = reviewedToday.some(w => w.toLowerCase() === n.word.toLowerCase());
+              return (
+                <button
+                  key={n.word}
+                  onClick={() => setSelected(n.word)}
+                  className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition ${
+                    done
+                      ? "border-emerald-400 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300"
+                      : "border-border bg-background text-foreground hover:border-primary"
+                  }`}
+                >
+                  {done ? "✓ " : ""}{n.word}
+                  <span className="ml-1.5 text-[10px] font-bold text-amber-600">{Math.round(n.strength * 100)}%</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
