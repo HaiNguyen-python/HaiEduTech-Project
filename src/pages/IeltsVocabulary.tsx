@@ -1378,7 +1378,10 @@ const IeltsVocabulary = () => {
                 definitionEn: found.definition.en,
               };
             }}
-            onPractice={() => {
+            onPractice={(priority) => {
+              // The brain hands over the words about to be forgotten so the
+              // practice round drills exactly those first.
+              setMissionWords(priority && priority.length > 0 ? priority : []);
               setViewMode("exercise");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
