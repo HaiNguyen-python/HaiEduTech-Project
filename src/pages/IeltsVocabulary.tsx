@@ -672,7 +672,7 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
           ...shuffle(words.filter(w => !priority.has(w.word.toLowerCase()))),
         ]
       : words;
-    startWith(buildQuestions(ordered, allWords && allWords.length > 4 ? allWords : words, size, mode));
+    startWith(buildQuestions(ordered, allWords && allWords.length > 4 ? allWords : words, size, mode, priority.size > 0));
   }, [words, allWords, quizSize, mode, startWith, priorityWords]);
 
   const retryWrong = useCallback(() => {
