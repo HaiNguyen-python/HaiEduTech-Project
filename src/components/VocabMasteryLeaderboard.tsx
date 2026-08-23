@@ -111,6 +111,8 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
       mountedRef.current = false;
       window.removeEventListener(MASTERY_UPDATED_EVENT, onLocal);
       window.removeEventListener("focus", onFocus);
+      window.clearTimeout(timer);
+
 
       unsubscribe();
     };
