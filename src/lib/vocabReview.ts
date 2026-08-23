@@ -1,0 +1,101 @@
+/**
+ * @file vocabReview.ts
+ * @description Single place that records a spaced-repetition review of a
+ * mastered vocabulary word. Before this helper existed only the 14-day
+ * "Smart review" column ever bumped `review_count`, so no word could ever reach
+ * long-term memory in the Vocabulary Brain. Every practice/flashcard path now
+ * funnels through here.
+ *
+ * For each word it updates `public.user_vocab_mastered`:
+ *  - `reviewed_at`        -> now()
+ *  - `review_count`       -> +1 (repetition number, drives memory stability)
+ *  - `last_interval_days` -> days since the previous review (spacing effect)
+ *
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ */
+import { supabase } from "@/integrations/supabase/client";
+
+/** Fired after at least one review row was written, so the brain can refresh. */
+export const VOCAB_REVIEW_EVENT = "vocab-review-recorded";
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Record a review for the given words. Words that are not in the mastered table
+ * are silently skipped (nothing to consolidate yet). Never throws: a failed
+ * review must not break the practice session.
+ *
+ * @returns number of rows actually updated.
+ */
+export async function recordVocabReview(subject: string, words: string[]): Promise<number> {
+  const unique = [...new Set(words.map(w => w.trim()).filter(Boolean))];
+  if (unique.length === 0) return 0;
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return 0;
+
+    const { data: rows, error } = await (supabase as any)
+      .from("user_vocab_mastered")
+      .select("word, reviewed_at, review_count")
+      .eq("user_id", user.id)
+      .eq("subject", subject)
+      .in("word", unique);
+    if (error || !rows || rows.length === 0) return 0;
+
+    const nowIso = new Date().toISOString();
+    let updated = 0;
+    for (const row of rows as { word: string; reviewed_at: string | null; review_count: number | null }[]) {
+      const previous = row.reviewed_at ? new Date(row.reviewed_at).getTime() : Date.now();
+      const gapDays = Math.max(0, Math.floor((Date.now() - previous) / DAY_MS));
+      const { error: upErr } = await (supabase as any)
+        .from("user_vocab_mastered")
+        .update({
+          reviewed_at: nowIso,
+          review_count: Math.max(1, row.review_count ?? 1) + 1,
+          last_interval_days: gapDays,
+        })
+        .eq("user_id", user.id)
+        .eq("subject", subject)
+        .eq("word", row.word);
+      if (!upErr) updated += 1;
+    }
+    if (updated > 0) {
+      window.dispatchEvent(new CustomEvent(VOCAB_REVIEW_EVENT, { detail: { subject, count: updated } }));
+    }
+    return updated;
+  } catch {
+    return 0;
+  }
+}
+
+/** Local key of the words already reviewed today (mission progress, Vietnam day). */
+export const reviewedTodayKey = (subject: string) => `vocab_reviewed_today_${subject}`;
+
+const vnDay = () =>
+  new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Ho_Chi_Minh", year: "numeric", month: "2-digit", day: "2-digit" })
+    .format(new Date());
+
+/** Words reviewed today (used for the daily mission progress bar). */
+export const readReviewedToday = (subject: string): string[] => {
+  try {
+    const raw = localStorage.getItem(reviewedTodayKey(subject));
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as { day: string; words: string[] };
+    return parsed.day === vnDay() ? parsed.words : [];
+  } catch { return []; }
+};
+
+/** Append words to today's reviewed list (deduplicated, resets each Vietnam day). */
+export const markReviewedToday = (subject: string, words: string[]) => {
+  try {
+    const merged = [...new Set([...readReviewedToday(subject), ...words])];
+    localStorage.setItem(reviewedTodayKey(subject), JSON.stringify({ day: vnDay(), words: merged }));
+  } catch { /* ignore */ }
+};
+
+/** Convenience wrapper: record the review and track it for today's mission. */
+export const recordVocabReviewTracked = async (subject: string, words: string[]) => {
+  const n = await recordVocabReview(subject, words);
+  if (n > 0) markReviewedToday(subject, words);
+  return n;
+};
