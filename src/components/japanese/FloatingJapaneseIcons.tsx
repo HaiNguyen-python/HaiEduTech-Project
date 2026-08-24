@@ -75,7 +75,7 @@ export default function FloatingJapaneseIcons({ count = 18 }: Props) {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-10 hidden overflow-hidden md:block motion-reduce:hidden"
+      className="pointer-events-none fixed inset-0 z-0 hidden overflow-hidden md:block motion-reduce:hidden"
     >
       {particles.map((p) => (
         <motion.span
