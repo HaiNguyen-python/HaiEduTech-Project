@@ -51,6 +51,14 @@ const MiniGames = ({ onBack }: Props) => {
 
   useEffect(() => { setPlayerName(name); }, [name]);
 
+  // A word being read aloud must not keep talking over the next screen.
+  useEffect(
+    () => () => {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
+    },
+    [game, runId]
+  );
+
   if (game === "menu") {
     const totalGames: GameKey[] = ["memory", "hunt", "sprint", "synonym", "scramble", "collocation", "oddone", "cloze", "listen"];
     const grandBest = totalGames.reduce((acc, g) => {
@@ -953,10 +961,17 @@ const WordScramble = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => vo
   const scrambled = useMemo(() => {
     if (!w) return "";
     let s = w.word;
-    for (let i = 0; i < 5; i++) {
-      const arr = shuffle(s.split(""));
-      s = arr.join("");
+    for (let i = 0; i < 12; i++) {
+      s = shuffle(s.split("")).join("");
       if (s.toLowerCase() !== w.word.toLowerCase()) break;
+    }
+    // Last resort: swap two different letters so the prompt is never the
+    // unscrambled word itself (happens with short repeated-letter words).
+    if (s.toLowerCase() === w.word.toLowerCase()) {
+      const arr = s.split("");
+      const j = arr.findIndex((c) => c.toLowerCase() !== arr[0].toLowerCase());
+      if (j > 0) [arr[0], arr[j]] = [arr[j], arr[0]];
+      s = arr.join("");
     }
     return s.toUpperCase();
   }, [w]);
