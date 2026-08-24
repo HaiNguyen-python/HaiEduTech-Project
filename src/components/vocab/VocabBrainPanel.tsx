@@ -232,6 +232,12 @@ const VocabBrainPanel = ({
 
   const todayKey = useMemo(() => vnDayKey(new Date().toISOString()), []);
 
+  /** Stored mastery key -> displayed neuron text (identity unless `labelOf`). */
+  const label = useCallback(
+    (stored: string) => (labelOf ? labelOf(stored) || stored : stored),
+    [labelOf],
+  );
+
   /** word -> memory record (DB rows first, local stars count as reviewed today). */
   const wordStats = useMemo(() => {
     const map = new Map<string, { days: number; reviews: number; lastInterval: number }>();
@@ -246,14 +252,16 @@ const VocabBrainPanel = ({
         const span = daysBetween(vnDayKey(r.created_at), vnDayKey(r.reviewed_at));
         lastInterval = reviews > 1 ? Math.round(span / (reviews - 1)) : 0;
       }
-      const prev = map.get(r.word);
-      if (!prev || days < prev.days) map.set(r.word, { days, reviews, lastInterval });
+      const key = label(r.word);
+      const prev = map.get(key);
+      if (!prev || days < prev.days) map.set(key, { days, reviews, lastInterval });
     });
     localWords.forEach(w => {
-      if (!map.has(w)) map.set(w, { days: 0, reviews: 1, lastInterval: 0 });
+      const key = label(w);
+      if (!map.has(key)) map.set(key, { days: 0, reviews: 1, lastInterval: 0 });
     });
     return map;
-  }, [rows, localWords, todayKey]);
+  }, [rows, localWords, todayKey, label]);
 
   const allNeurons: BrainNeuron[] = useMemo(
     () => buildNeurons([...wordStats.entries()].map(([word, s]) => ({ word, ...s }))),
