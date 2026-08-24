@@ -595,7 +595,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
           key={s.label}
           variant="ghost"
           onClick={() => s.tier && setTierFilter(tierFilter === s.tier ? null : s.tier)}
-          className={`h-auto min-h-16 justify-start rounded-none px-4 py-3 text-left transition-colors ${s.tier ? "hover:bg-muted/50" : "cursor-default"}`}
+          className={`classroom-control h-auto min-h-16 justify-start rounded-none px-4 py-3 text-left ${s.tier ? "hover:bg-muted/70" : "cursor-default"}`}
         >
           <s.icon className={`w-4 h-4 shrink-0 ${s.color}`} />
           <span className="min-w-0">
@@ -617,8 +617,8 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
             key={tier}
             variant="ghost"
             onClick={() => setTierFilter(active ? null : tier)}
-            className={`h-auto w-full justify-start gap-2 rounded-md border px-2.5 py-2 text-sm font-medium transition-all ${
-              active ? "border-primary bg-primary/10 text-foreground" : "border-transparent text-muted-foreground hover:border-border hover:bg-muted/60"
+            className={`classroom-control h-auto w-full justify-start gap-2 rounded-md border px-2.5 py-2 text-sm font-semibold ${
+              active ? "border-primary bg-primary/10 text-foreground shadow-sm" : "border-transparent text-foreground/80 hover:border-border hover:bg-muted/80 hover:text-foreground"
             }`}
           >
             <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: m.color }} />
@@ -631,7 +631,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
         <Button
           variant="ghost"
           onClick={gotoFirstAlert}
-          className="mt-2 h-auto w-full gap-1.5 rounded-md border border-destructive/30 bg-destructive/10 px-2.5 py-2 text-xs font-semibold text-destructive hover:bg-destructive/15"
+          className="classroom-control mt-2 h-auto w-full gap-1.5 rounded-md border border-destructive/30 bg-destructive/10 px-2.5 py-2 text-xs font-semibold text-destructive hover:bg-destructive/20 hover:text-destructive"
         >
           <Target className="w-3 h-3" /> {t("Tới em cần chú ý", "Go to attention")}
         </Button>
@@ -640,7 +640,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
         <Button
           variant="ghost"
           onClick={() => { setTierFilter(null); setQuery(""); }}
-          className="h-auto w-full gap-1 rounded-md border border-border px-2.5 py-2 text-xs text-muted-foreground hover:bg-muted/60"
+          className="classroom-control h-auto w-full gap-1 rounded-md border border-border px-2.5 py-2 text-xs text-foreground/80 hover:bg-muted/80 hover:text-foreground"
         >
           <RotateCcw className="w-3 h-3" /> {t("Xóa lọc", "Clear")}
         </Button>
@@ -651,7 +651,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   const iconControl = (label: string, icon: ReactNode, action: () => void) => (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-9 w-9" onClick={action} aria-label={label}>{icon}</Button>
+        <Button variant="ghost" size="icon" className="classroom-control h-9 w-9 text-foreground/80 hover:bg-muted hover:text-foreground" onClick={action} aria-label={label}>{icon}</Button>
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>
@@ -660,7 +660,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   return (
     <TooltipProvider delayDuration={200}>
     <Card className={`font-classroom-body mb-6 overflow-hidden border-border/60 classroom-command-shadow ${full ? "fixed inset-3 z-50 overflow-auto bg-background" : ""}`}>
-      <CardHeader className="border-b border-border/50 bg-card/90 px-4 py-4 backdrop-blur-md sm:px-6">
+      <CardHeader className="border-b border-border/50 bg-card px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary"><School className="h-5 w-5" /></span>
@@ -678,7 +678,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   { key: "top", label: t("Từ trên", "Top view") },
                   { key: "alert", label: t("Cần chú ý", "Attention") },
                 ] as const).map((preset, index) => (
-                  <Button key={preset.key} variant={index === 0 ? "secondary" : "ghost"} size="sm" className="h-8 rounded-sm px-3 text-xs" onClick={() => applyPreset(preset.key)}>{preset.label}</Button>
+                  <Button key={preset.key} variant={index === 0 ? "secondary" : "ghost"} size="sm" className="classroom-control h-8 rounded-sm px-3 text-xs text-foreground hover:text-foreground" onClick={() => applyPreset(preset.key)}>{preset.label}</Button>
                 ))}
               </div>
             )}
@@ -706,7 +706,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                       variant="ghost"
                       key={seat.student.userId}
                       onClick={() => onSelectStudent(seat.student)}
-                      className={`h-auto justify-start text-left p-3 rounded-md border transition-all hover:shadow-md ${
+                      className={`classroom-control h-auto justify-start rounded-md border p-3 text-left hover:bg-muted/50 hover:text-foreground hover:shadow-md ${
                         selectedUserId === seat.student.userId ? "border-primary ring-1 ring-primary/40" : "border-border/60"
                       }`}
                       style={{ backgroundColor: `${m.color}14` }}
@@ -736,18 +736,18 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                 <div className="flex gap-2 overflow-x-auto pb-1">
                   {TIER_ORDER.map((tier) => {
                     const meta = TIER_META[tier];
-                    return <Button key={tier} variant={tierFilter === tier ? "secondary" : "outline"} size="sm" className="shrink-0 gap-1.5" onClick={() => setTierFilter(tierFilter === tier ? null : tier)}><span className="h-2 w-2 rounded-full" style={{ backgroundColor: meta.color }} />{vi ? meta.vi : meta.en} {counts[tier]}</Button>;
+                    return <Button key={tier} variant={tierFilter === tier ? "secondary" : "outline"} size="sm" className="classroom-control shrink-0 gap-1.5 text-foreground hover:text-foreground" onClick={() => setTierFilter(tierFilter === tier ? null : tier)}><span className="h-2 w-2 rounded-full" style={{ backgroundColor: meta.color }} />{vi ? meta.vi : meta.en} {counts[tier]}</Button>;
                   })}
                 </div>
               </div>
               <div className={`grid overflow-hidden rounded-md border border-border/70 bg-card shadow-xl xl:grid-cols-[minmax(0,1fr)_300px] ${canvasHeight}`}>
                 <div ref={stageRef} className="relative min-h-0 overflow-hidden bg-[hsl(var(--classroom-canvas))]">
-                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1 rounded-md border border-border/60 bg-card/90 p-1.5 shadow-lg backdrop-blur-xl">
+                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1 rounded-md border border-border bg-card p-1.5 shadow-lg">
                   {([
                     { key: "class", icon: LayoutGrid, label: t("Toàn lớp", "Whole class") },
                     { key: "top", icon: ScanLine, label: t("Từ trên", "Top view") },
                     { key: "alert", icon: Target, label: t("Cần chú ý", "Attention") },
-                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="sm" className="gap-1.5" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /><span className="hidden sm:inline">{preset.label}</span></Button>)}
+                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="sm" className="classroom-control gap-1.5 text-foreground hover:bg-muted hover:text-foreground" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /><span className="hidden sm:inline">{preset.label}</span></Button>)}
                 </div>
                 <Canvas
                   shadows
@@ -801,7 +801,8 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   <OrbitControls
                     ref={controls}
                     enablePan
-                    maxPolarAngle={Math.PI / 2.05}
+                    minPolarAngle={0.18}
+                    maxPolarAngle={Math.PI / 2.2}
                     minDistance={4}
                     maxDistance={40}
                     target={[0, 1, 0]}
