@@ -195,7 +195,7 @@ const VocabBrainPanel = ({
         .from("game_scores")
         .select("accuracy, created_at")
         .eq("user_id", uid)
-        .eq("game_type", `vocab-${subject}`)
+        .eq("game_type", accuracyGameType || `vocab-${subject}`)
         .order("created_at", { ascending: false })
         .limit(20),
     ]);
@@ -205,7 +205,7 @@ const VocabBrainPanel = ({
       .filter((a): a is number => typeof a === "number");
     setAvgAccuracy(accs.length ? Math.round(accs.reduce((s, a) => s + a, 0) / accs.length) : null);
     setLoading(false);
-  }, [subject]);
+  }, [subject, accuracyGameType]);
 
   useEffect(() => { void loadRows(); }, [loadRows]);
 
@@ -344,7 +344,7 @@ const VocabBrainPanel = ({
     return count;
   }, [rows, localWords, todayKey]);
 
-  const nextMilestone = BAND_MILESTONES.find(m => m.words > totalMastered);
+  const nextMilestone = milestones.find(m => m.words > totalMastered);
 
   const selectedInfo = useMemo(() => {
     if (!selected) return null;
@@ -745,7 +745,7 @@ const VocabBrainPanel = ({
             {selectedInfo.meta?.phonetic && (
               <span className="text-sm text-muted-foreground">/{selectedInfo.meta.phonetic.replace(/^\/|\/$/g, "")}/</span>
             )}
-            <Button size="icon" variant="outline" className="h-8 w-8" onClick={() => playEnglishTts(selected)}>
+            <Button size="icon" variant="outline" className="h-8 w-8" onClick={() => (speak ? speak(selected) : playEnglishTts(selected))}>
               <Volume2 className="h-4 w-4" />
             </Button>
             <Badge style={{ backgroundColor: selectedInfo.tier.color }} className="text-white">
