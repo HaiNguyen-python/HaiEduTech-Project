@@ -114,6 +114,18 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
     setLoading(false);
   };
 
+  // Students used to be stuck on the waiting screen if they joined the wrong
+  // room. Leaving removes their participant row so the lobby stays accurate.
+  const handleLeaveRoom = async () => {
+    if (participantId) {
+      await supabase.from("game_participants").delete().eq("id", participantId);
+    }
+    setParticipantId(null);
+    setRoomId(null);
+    setPhase("join");
+    onBack();
+  };
+
   const fetchLeaderboard = async () => {
     if (!roomId) return;
     const { data, error } = await supabase
@@ -254,6 +266,9 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
             </div>
           ))}
         </div>
+        <Button variant="outline" className="mt-6" onClick={handleLeaveRoom}>
+          {t("Rời phòng", "Leave room")}
+        </Button>
       </div>
     );
   }
@@ -265,6 +280,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
         <GameEngine
           questions={questions}
           lives={roomSettings.lives}
+          onQuit={handleLeaveRoom}
           onGameEnd={handleGameEnd}
           onProgress={(update) => {
             if (participantId) {
