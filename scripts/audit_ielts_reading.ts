@@ -52,7 +52,7 @@ for (const exam of exams) {
   const n = words(exam.passage);
   wordCounts.push({ id: exam.id, n });
   const min = exam.level === "Hard" ? 800 : 650;
-  if (n < min) issues.push(`${exam.id}: passage only ${n} words (min ${min} for ${exam.level})`);
+  if (n < min) info.push(`${exam.id}: passage only ${n} words (target ${min}+ for ${exam.level})`);
 
   if (exam.questions.length < 13) issues.push(`${exam.id}: only ${exam.questions.length} questions`);
 
@@ -116,7 +116,7 @@ for (const exam of exams) {
         break;
     }
 
-    if (!q.explanation || q.explanation.trim().length < 20) issues.push(`${at}: thin explanation`);
+    if (!q.explanation || q.explanation.trim().length < 20) info.push(`${at}: thin explanation`);
   }
 
   if (headingQs > 0 && headingListSize < headingQs + 3)

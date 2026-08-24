@@ -28,7 +28,10 @@ const hashString = (s: string): number => {
   return h >>> 0;
 };
 
-const LABELS = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii", "xiii"];
+const LABELS = [
+  "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x",
+  "xi", "xii", "xiii", "xiv", "xv", "xvi", "xvii", "xviii", "xix", "xx",
+];
 
 /** Generic distractor headings: plausible academic phrasings that fit no paragraph. */
 const DISTRACTOR_HEADINGS = [
