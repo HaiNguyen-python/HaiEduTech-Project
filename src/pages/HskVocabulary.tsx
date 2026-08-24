@@ -159,6 +159,8 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
   const scoreSavedRef = useRef(false);
   const [quizSize, setQuizSize] = useState<number>(10);
   const autoPlayedRef = useRef<number>(-1);
+  /** Characters already credited with a review this session (no double counting). */
+  const reviewedRef = useRef<Set<string>>(new Set());
 
   const generateQuiz = useCallback(() => {
     if (masteredWords.length < 4) {
