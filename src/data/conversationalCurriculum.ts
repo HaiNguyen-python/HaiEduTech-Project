@@ -216,9 +216,10 @@ export const conversationalPillars: ConvPillar[] = [
           titleVi: "Đặt bàn nhà hàng",
           transcript: "Host: Good evening, how can I help? Caller: I'd like a table for four on Friday at 7pm. Host: Let me check... We have a spot at 7:30. Caller: That works. Under the name Johnson, please. Host: Do any guests have dietary restrictions? Caller: One person is vegetarian. Host: Noted, we have several vegetarian options. See you Friday!",
           questions: [
-            { q: "How many people is the reservation for?", qVi: "Đặt bàn cho bao nhiêu người?", options: ["2", "3", "4", "5"], answer: 2 },
+            { q: "How many people is the reservation for?", qVi: "Đặt bàn cho bao nhiêu người?", options: ["4", "3", "2", "5"], answer: 0 },
             { q: "What time was available?", qVi: "Giờ nào còn trống?", options: ["7:00", "7:15", "7:30", "8:00"], answer: 2 },
-            { q: "What dietary restriction was mentioned?", qVi: "Chế độ ăn kiêng nào được đề cập?", options: ["Gluten-free", "Vegan", "Vegetarian", "Halal"], answer: 2 },
+            { q: "What dietary restriction was mentioned?", qVi: "Chế độ ăn kiêng nào được đề cập?", options: ["Gluten-free", "Vegetarian", "Vegan", "Halal"], answer: 1 },
+
           ],
         },
         speakingTopics: ["Describe your favorite restaurant", "Role-play: Complain politely about cold food", "Explain Vietnamese cuisine to a foreigner", "Discuss food delivery apps"],
