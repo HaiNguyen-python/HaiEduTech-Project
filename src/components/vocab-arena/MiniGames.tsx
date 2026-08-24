@@ -546,7 +546,7 @@ const WordHunt = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => void; 
     if (done && mode === "solo" && !saved) {
       sfx("win");
       setSaved(saveHighScore("hunt", scoreA));
-      void logArenaGame({ game: "hunt", score: scoreA, accuracy: correctWords.length / ROUNDS, maxCombo: fx.maxCombo, correctWords });
+      void logArenaGame({ game: "hunt", score: scoreA, accuracy: correctWords.length / ROUNDS, maxStreak: fx.maxCombo, correctWords });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, mode, scoreA, saved]);
@@ -679,7 +679,7 @@ const DefinitionSprint = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () =
     if (done && mode === "solo" && !saved) {
       sfx("win");
       setSaved(saveHighScore("sprint", scoreA));
-      void logArenaGame({ game: "sprint", score: scoreA, accuracy: correctWords.length / ROUNDS, maxCombo: fx.maxCombo, correctWords });
+      void logArenaGame({ game: "sprint", score: scoreA, accuracy: correctWords.length / ROUNDS, maxStreak: fx.maxCombo, correctWords });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, mode, scoreA, saved]);
@@ -830,7 +830,7 @@ const SynonymShowdown = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () =>
     if (done && mode === "solo" && !saved) {
       sfx("win");
       setSaved(saveHighScore("synonym", scoreA));
-      void logArenaGame({ game: "synonym", score: scoreA, accuracy: correctWords.length / ROUNDS, maxCombo: fx.maxCombo, correctWords });
+      void logArenaGame({ game: "synonym", score: scoreA, accuracy: correctWords.length / ROUNDS, maxStreak: fx.maxCombo, correctWords });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, mode, scoreA, saved]);
