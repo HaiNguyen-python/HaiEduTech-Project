@@ -12,5 +12,5 @@ type: feature
 - Do NOT use drei `<Text>` here: the troika default font is blocked by CSP and Suspense never resolves (blank canvas). Use `<Html>` panels instead.
 - Perf: shared module-level geometries + per-tier materials, ONE `useFrame` in `Room` driving all avatars via a registered ref map, `frameloop` drops to "demand" when off-screen or tab hidden, antialias off above 40 students, dpr capped at 1.5.
 - Flat 2D grid fallback auto-enabled on mobile / prefers-reduced-motion, same rank order.
-- UI direction: bright academic "Glass Command Center" with Sora headings, Manrope body, segmented camera controls, compact icon actions, and a left glass filter rail.
+- UI direction: Scandinavian "Spatial Management Hub" with Urbanist headings, Epilogue body, realistic classroom architecture, a large 3D stage, bottom camera HUD, and right management rail.
 - Large-class label policy: all seats show compact rank markers; full name/score labels are reserved for top 3, alert-tier, search matches, hover, and selection to prevent visual overlap.
