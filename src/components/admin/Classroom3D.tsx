@@ -7,7 +7,7 @@
  *   Falls back to a 2D colour grid on mobile / reduced motion.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useMemo, useRef, useState, useEffect, Suspense, useCallback } from "react";
+import { useMemo, useRef, useState, useEffect, Suspense, useCallback, type ReactNode } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, RoundedBox } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
@@ -15,6 +15,7 @@ import * as THREE from "three";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { normalizeForSearch } from "@/lib/adminData";
 import type { StudentState } from "@/lib/rlEngine";
@@ -33,7 +34,12 @@ import {
 import {
   School, Search, Maximize2, Minimize2, ChevronDown, ChevronUp,
   Eye, Users, Boxes, RotateCcw, Trophy, AlertTriangle, Activity, TrendingUp, Target,
+  LayoutGrid, ScanLine, UserRound,
 } from "lucide-react";
+import "@fontsource/sora/600.css";
+import "@fontsource/sora/700.css";
+import "@fontsource/manrope/400.css";
+import "@fontsource/manrope/600.css";
 
 interface Props {
   students: StudentState[];
@@ -120,6 +126,7 @@ const StudentAvatar = ({
   dimmed,
   selected,
   crowded,
+  showFullLabel,
   vi,
   register,
   onHover,
@@ -129,6 +136,7 @@ const StudentAvatar = ({
   dimmed: boolean;
   selected: boolean;
   crowded: boolean;
+  showFullLabel: boolean;
   vi: boolean;
   register: (e: AnimEntry | null, id: string) => void;
   onHover: (seat: ClassroomSeat | null) => void;
@@ -204,23 +212,27 @@ const StudentAvatar = ({
         )}
       </group>
 
-      {/* name tag above the head - always facing the camera */}
+      {/* Progressive labels keep large classes readable. */}
       <Html position={[0, 1.72, 0]} center distanceFactor={13} zIndexRange={[20, 0]}>
         <div
-          className="pointer-events-none select-none whitespace-nowrap rounded-full border px-2 py-[3px] shadow-sm"
+          className={`classroom-label pointer-events-none select-none whitespace-nowrap border shadow-sm ${showFullLabel ? "px-2 py-1" : "px-1.5 py-0.5"}`}
           style={{
             borderColor: meta.color,
-            background: dimmed ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.96)",
+            background: dimmed ? "hsl(var(--classroom-surface) / 0.35)" : "hsl(var(--classroom-surface) / 0.94)",
             opacity: dimmed ? 0.35 : 1,
             fontSize: crowded ? 11 : 13,
             lineHeight: 1.15,
           }}
         >
           <span className="font-bold" style={{ color: meta.color }}>#{seat.rank}</span>
-          <span className="mx-1 font-semibold text-slate-900">
-            {crowded ? shortName(seat.student.fullName) : seat.student.fullName}
-          </span>
-          <span className="text-slate-500">{seat.student.avgScore ? `${seat.student.avgScore}/10` : (vi ? "chưa có" : "n/a")}</span>
+          {showFullLabel && (
+            <>
+              <span className="mx-1 font-semibold text-foreground">
+                {crowded ? shortName(seat.student.fullName) : seat.student.fullName}
+              </span>
+              <span className="text-muted-foreground">{seat.student.avgScore ? `${seat.student.avgScore}/10` : (vi ? "chưa có" : "n/a")}</span>
+            </>
+          )}
         </div>
       </Html>
     </group>
@@ -239,6 +251,7 @@ const Room = ({
   topNames,
   vi,
   dimSet,
+  labelSet,
   crowded,
   selectedUserId,
   onHover,
@@ -253,6 +266,7 @@ const Room = ({
   topNames: string[];
   vi: boolean;
   dimSet: Set<string> | null;
+  labelSet: Set<string>;
   crowded: boolean;
   selectedUserId?: string | null;
   onHover: (s: ClassroomSeat | null) => void;
@@ -315,7 +329,7 @@ const Room = ({
                 ? `${alertCount} ${vi ? "học sinh cần chú ý" : "students need attention"}`
                 : vi ? "Không có học sinh cần can thiệp" : "No students need intervention"}
             </p>
-            {topNames.length > 0 && (
+            {(topNames?.length ?? 0) > 0 && (
               <p className="text-[13px] text-slate-600 mt-1">
                 🏆 {vi ? "Top 3" : "Top 3"}: {topNames.join(" · ")}
               </p>
@@ -331,6 +345,7 @@ const Room = ({
           dimmed={!!dimSet && !dimSet.has(seat.student.userId)}
           selected={selectedUserId === seat.student.userId}
           crowded={crowded}
+          showFullLabel={labelSet.has(seat.student.userId)}
           vi={vi}
           register={register}
           onHover={onHover}
@@ -356,6 +371,8 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   const [visible, setVisible] = useState(true);
   const controls = useRef<OrbitControlsImpl | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
+  const safeStudents = students ?? [];
+  const safeLastActivityByUser = lastActivityByUser ?? new Map<string, LastActivity>();
 
   // Reduced motion / small screens -> 2D grid mode
   useEffect(() => {
@@ -383,8 +400,8 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   }, [flat, open]);
 
   const { seats, cols, rows } = useMemo(
-    () => buildClassroomLayout(students, lastActivityByUser, seating),
-    [students, lastActivityByUser, seating],
+    () => buildClassroomLayout(safeStudents, safeLastActivityByUser, seating),
+    [safeStudents, safeLastActivityByUser, seating],
   );
   const counts = useMemo(() => tierCounts(seats), [seats]);
   const crowded = seats.length > 40;
@@ -413,6 +430,24 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
     }
     return s;
   }, [seats, tierFilter, query]);
+
+  const selectedSeat = useMemo(
+    () => seats.find((seat) => seat.student.userId === selectedUserId) || null,
+    [seats, selectedUserId],
+  );
+
+  const labelSet = useMemo(() => {
+    const labels = new Set<string>();
+    const q = normalizeForSearch(query);
+    for (const seat of seats) {
+      const isPriority = seat.rank <= 3 || seat.tier === "alert";
+      const isMatch = !!q && normalizeForSearch(seat.student.fullName).includes(q);
+      if (isPriority || isMatch || seat.student.userId === selectedUserId || seat.student.userId === hovered?.student.userId) {
+        labels.add(seat.student.userId);
+      }
+    }
+    return labels;
+  }, [hovered, query, seats, selectedUserId]);
 
   const applyPreset = (p: CameraPreset) => {
     const c = controls.current;
@@ -443,122 +478,119 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   const canvasHeight = full ? "h-[calc(100vh-190px)]" : "h-[440px] sm:h-[560px]";
 
   const statChips = (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 divide-x divide-y border-b border-border/60 sm:grid-cols-4 sm:divide-y-0">
       {[
-        { icon: Users, label: t("Học sinh", "Students"), value: students.length, tier: null as ClassroomTier | null, color: "text-primary" },
+        { icon: Users, label: t("Học sinh", "Students"), value: safeStudents.length, tier: null as ClassroomTier | null, color: "text-primary" },
         { icon: Activity, label: t("Học tuần này", "Active this week"), value: stats.activeWeek, tier: null, color: "text-emerald-600" },
         { icon: AlertTriangle, label: t("Điểm dưới 5", "Below 5/10"), value: stats.lowScore, tier: "alert" as ClassroomTier, color: "text-red-600" },
         { icon: TrendingUp, label: t("Đang tiến bộ", "Improving"), value: stats.improving, tier: "progress" as ClassroomTier, color: "text-green-600" },
       ].map((s) => (
-        <button
+        <Button
           key={s.label}
+          variant="ghost"
           onClick={() => s.tier && setTierFilter(tierFilter === s.tier ? null : s.tier)}
-          className={`flex items-center gap-2 rounded-xl border border-border/60 px-3 py-2 text-left transition-colors ${s.tier ? "hover:bg-muted/60" : "cursor-default"}`}
+          className={`h-auto min-h-16 justify-start rounded-none px-4 py-3 text-left transition-colors ${s.tier ? "hover:bg-muted/50" : "cursor-default"}`}
         >
           <s.icon className={`w-4 h-4 shrink-0 ${s.color}`} />
           <span className="min-w-0">
-            <span className="block text-base font-bold tabular-nums leading-none">{s.value}</span>
-            <span className="block text-[11px] text-muted-foreground truncate">{s.label}</span>
+            <span className="font-classroom-heading block text-lg font-bold tabular-nums leading-none">{s.value}</span>
+            <span className="block text-xs text-muted-foreground truncate">{s.label}</span>
           </span>
-        </button>
+        </Button>
       ))}
     </div>
   );
 
   const legend = (
-    <div className="flex flex-wrap gap-2">
+    <div className="space-y-1.5">
       {TIER_ORDER.map((tier) => {
         const m = TIER_META[tier];
         const active = tierFilter === tier;
         return (
-          <button
+          <Button
             key={tier}
+            variant="ghost"
             onClick={() => setTierFilter(active ? null : tier)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-medium transition-all ${
-              active ? "border-primary bg-primary/10 text-foreground" : "border-border/60 text-muted-foreground hover:bg-muted/60"
+            className={`h-auto w-full justify-start gap-2 rounded-md border px-2.5 py-2 text-sm font-medium transition-all ${
+              active ? "border-primary bg-primary/10 text-foreground" : "border-transparent text-muted-foreground hover:border-border hover:bg-muted/60"
             }`}
           >
             <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: m.color }} />
             {vi ? m.vi : m.en}
-            <span className="tabular-nums font-bold">{counts[tier]}</span>
-          </button>
+            <span className="ml-auto tabular-nums font-bold">{counts[tier]}</span>
+          </Button>
         );
       })}
       {counts.alert > 0 && (
-        <button
+        <Button
+          variant="ghost"
           onClick={gotoFirstAlert}
-          className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-red-300 bg-red-50 text-xs font-medium text-red-700 hover:bg-red-100 dark:bg-red-950/40 dark:border-red-800 dark:text-red-300"
+          className="mt-2 h-auto w-full gap-1.5 rounded-md border border-destructive/30 bg-destructive/10 px-2.5 py-2 text-xs font-semibold text-destructive hover:bg-destructive/15"
         >
           <Target className="w-3 h-3" /> {t("Tới em cần chú ý", "Go to attention")}
-        </button>
+        </Button>
       )}
       {(tierFilter || query) && (
-        <button
+        <Button
+          variant="ghost"
           onClick={() => { setTierFilter(null); setQuery(""); }}
-          className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-border/60 text-xs text-muted-foreground hover:bg-muted/60"
+          className="h-auto w-full gap-1 rounded-md border border-border px-2.5 py-2 text-xs text-muted-foreground hover:bg-muted/60"
         >
           <RotateCcw className="w-3 h-3" /> {t("Xóa lọc", "Clear")}
-        </button>
+        </Button>
       )}
     </div>
   );
 
+  const iconControl = (label: string, icon: ReactNode, action: () => void) => (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="ghost" size="icon" className="h-9 w-9" onClick={action} aria-label={label}>{icon}</Button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+  );
+
   return (
-    <Card className={`mb-6 border-border/60 ${full ? "fixed inset-3 z-50 overflow-auto bg-background shadow-2xl" : ""}`}>
-      <CardHeader className="pb-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <School className="w-5 h-5 text-primary" />
-            {t("Lớp học 3D trực quan", "Interactive 3D Classroom")}
-            <span className="text-xs font-normal text-muted-foreground">
-              {students.length} {t("học sinh", "students")}
-            </span>
-          </CardTitle>
+    <TooltipProvider delayDuration={200}>
+    <Card className={`font-classroom-body mb-6 overflow-hidden border-border/60 classroom-command-shadow ${full ? "fixed inset-3 z-50 overflow-auto bg-background" : ""}`}>
+      <CardHeader className="border-b border-border/50 bg-card/90 px-4 py-4 backdrop-blur-md sm:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary"><School className="h-5 w-5" /></span>
+            <div>
+              <CardTitle className="font-classroom-heading text-lg font-semibold">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
+              <p className="mt-0.5 text-sm text-muted-foreground">{safeStudents.length} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
+            </div>
+          </div>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => setSeating((m) => (m === "rank" ? "attention" : "rank"))}
-            >
-              {seating === "rank" ? <Trophy className="w-3.5 h-3.5" /> : <AlertTriangle className="w-3.5 h-3.5" />}
-              {seating === "rank" ? t("Xếp theo thứ hạng", "Seated by rank") : t("Ưu tiên cần chú ý", "Attention first")}
-            </Button>
-            <Button variant="outline" size="sm" className="gap-1.5" onClick={() => setFlat((f) => !f)}>
-              {flat ? <Boxes className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-              {flat ? t("Chế độ 3D", "3D mode") : t("Chế độ phẳng", "Flat mode")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => setFull((f) => !f)}>
-              {full ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setOpen((o) => !o)}>
-              {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </Button>
+            {!flat && (
+              <div className="hidden rounded-md bg-muted p-1 lg:flex">
+                {([
+                  { key: "class", label: t("Toàn lớp", "Whole class") },
+                  { key: "top", label: t("Từ trên", "Top view") },
+                  { key: "alert", label: t("Cần chú ý", "Attention") },
+                ] as const).map((preset, index) => (
+                  <Button key={preset.key} variant={index === 0 ? "secondary" : "ghost"} size="sm" className="h-8 rounded-sm px-3 text-xs" onClick={() => applyPreset(preset.key)}>{preset.label}</Button>
+                ))}
+              </div>
+            )}
+            {iconControl(seating === "rank" ? t("Ưu tiên học sinh cần chú ý", "Attention-first seating") : t("Xếp lại theo thứ hạng", "Ranked seating"), seating === "rank" ? <Trophy className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />, () => setSeating((mode) => mode === "rank" ? "attention" : "rank"))}
+            {iconControl(flat ? t("Chế độ 3D", "3D mode") : t("Chế độ phẳng", "Flat mode"), flat ? <Boxes className="h-4 w-4" /> : <Eye className="h-4 w-4" />, () => setFlat((value) => !value))}
+            {iconControl(full ? t("Thu nhỏ", "Exit fullscreen") : t("Toàn màn hình", "Fullscreen"), full ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />, () => setFull((value) => !value))}
+            {iconControl(open ? t("Thu gọn", "Collapse") : t("Mở rộng", "Expand"), open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />, () => setOpen((value) => !value))}
           </div>
         </div>
       </CardHeader>
 
       {open && (
-        <CardContent className="space-y-3">
+        <CardContent className="p-0">
           {statChips}
-          <div className="flex flex-col lg:flex-row lg:items-center gap-3">
-            <div className="relative w-full lg:max-w-xs">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t("Tìm học sinh...", "Find a student...")}
-                className="pl-8 h-9"
-              />
-            </div>
-            {legend}
-          </div>
-
-          {students.length === 0 ? (
+          {safeStudents.length === 0 ? (
             <p className="text-muted-foreground text-center py-10">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
           ) : flat ? (
             /* ---------- 2D fallback grid (same ranking order) ---------- */
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4">
               {seats
                 .filter((s) => !dimSet || dimSet.has(s.student.userId))
                 .map((seat) => {
@@ -588,28 +620,51 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                 })}
             </div>
           ) : (
-            <>
-              <div className="flex flex-wrap gap-2">
-                {([
-                  { key: "class", label: t("Toàn lớp", "Whole class") },
-                  { key: "top", label: t("Nhìn từ trên", "Top view") },
-                  { key: "alert", label: t("Hàng cần chú ý", "Attention row") },
-                ] as const).map((p) => (
-                  <Button key={p.key} variant="secondary" size="sm" onClick={() => applyPreset(p.key)}>
-                    {p.label}
-                  </Button>
-                ))}
-                <span className="flex items-center gap-1 text-xs text-muted-foreground ml-1">
-                  <Users className="w-3.5 h-3.5" />
-                  {t("Chỗ ngồi theo thứ hạng học tập · kéo để quay · bấm avatar để xem chi tiết",
-                     "Seats follow academic rank · drag to rotate · click an avatar for details")}
-                </span>
+            <div className="relative bg-[hsl(var(--classroom-canvas))] p-3 sm:p-4">
+              <div className="mb-3 space-y-2 lg:hidden">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-card pl-8" />
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1">
+                  {TIER_ORDER.map((tier) => {
+                    const meta = TIER_META[tier];
+                    return <Button key={tier} variant={tierFilter === tier ? "secondary" : "outline"} size="sm" className="shrink-0 gap-1.5" onClick={() => setTierFilter(tierFilter === tier ? null : tier)}><span className="h-2 w-2 rounded-full" style={{ backgroundColor: meta.color }} />{vi ? meta.vi : meta.en} {counts[tier]}</Button>;
+                  })}
+                </div>
               </div>
-
               <div
                 ref={stageRef}
-                className={`relative w-full ${canvasHeight} rounded-xl overflow-hidden border border-border/60 bg-gradient-to-b from-sky-50 to-slate-100 dark:from-slate-900 dark:to-slate-800`}
+                className={`relative w-full ${canvasHeight} overflow-hidden rounded-md border border-border/70 bg-[hsl(var(--classroom-canvas))]`}
               >
+                <aside className="absolute left-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/85 p-3 shadow-lg backdrop-blur-xl lg:block">
+                  <div className="relative mb-3">
+                    <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-background/80 pl-8" />
+                  </div>
+                  <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground">{t("Trạng thái lớp", "Class status")}</p>
+                  {legend}
+                </aside>
+                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center rounded-md border border-border/60 bg-card/85 p-1 shadow-lg backdrop-blur-xl lg:hidden">
+                  {([
+                    { key: "class", icon: LayoutGrid, label: t("Toàn lớp", "Whole class") },
+                    { key: "top", icon: ScanLine, label: t("Từ trên", "Top view") },
+                    { key: "alert", icon: Target, label: t("Cần chú ý", "Attention") },
+                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="icon" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /></Button>)}
+                </div>
+                {selectedSeat && (
+                  <aside className="absolute right-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/90 p-4 shadow-lg backdrop-blur-xl xl:block">
+                    <div className="mb-3 flex items-start justify-between gap-2">
+                      <div><p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p><p className="text-xs text-muted-foreground">#{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}</p></div>
+                      <UserRound className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm">
+                      <div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div>
+                      <div><p className="text-xs text-muted-foreground">{t("Hoạt động", "Activities")}</p><b>{selectedSeat.student.totalActivities}</b></div>
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground">{formatLastActive(selectedSeat.lastActiveMs, vi)}</p>
+                  </aside>
+                )}
                 <Canvas
                   shadows={false}
                   dpr={[1, 1.5]}
@@ -633,6 +688,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                       topNames={stats.topNames}
                       vi={vi}
                       dimSet={dimSet}
+                      labelSet={labelSet}
                       crowded={crowded}
                       selectedUserId={selectedUserId}
                       onHover={setHovered}
@@ -667,11 +723,12 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   />
                 </Canvas>
               </div>
-            </>
+            </div>
           )}
         </CardContent>
       )}
     </Card>
+    </TooltipProvider>
   );
 };
 
