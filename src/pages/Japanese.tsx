@@ -1,6 +1,6 @@
 /**
  * @file Japanese.tsx
- * @description Basic Japanese learning hub (N5) — Kana, Greetings, Numbers, Vocab, Grammar.
+ * @description Basic Japanese learning hub (N5) - Kana, Greetings, Numbers, Vocab, Grammar.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
@@ -291,7 +291,7 @@ const DIALOGUES: Array<{ title: string; scene: string; lines: Array<{ speaker: s
 
 const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
   {
-    title: "1. は (wa) — Trợ từ chủ đề",
+    title: "1. は (wa) - Trợ từ chủ đề",
     explain: "Đứng sau chủ đề của câu. Đọc là 'wa' dù viết là は. Dùng để giới thiệu điều bạn muốn nói tới.",
     examples: [
       { jp: "わたしは がくせいです。", romaji: "Watashi wa gakusei desu.", vi: "Tôi là học sinh.", en: "I am a student." },
@@ -299,7 +299,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "2. です / だ — Là / thì / ở",
+    title: "2. です / だ - Là / thì / ở",
     explain: "です là dạng lịch sự nghĩa 'là'. Phủ định: じゃありません. Quá khứ: でした.",
     examples: [
       { jp: "せんせいです。", romaji: "Sensei desu.", vi: "Là giáo viên.", en: "I am a teacher." },
@@ -307,7 +307,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "3. を (o) — Trợ từ tân ngữ",
+    title: "3. を (o) - Trợ từ tân ngữ",
     explain: "Đứng sau tân ngữ trực tiếp của động từ. Đọc là 'o'.",
     examples: [
       { jp: "ほんを よみます。", romaji: "Hon o yomimasu.", vi: "Đọc sách.", en: "I read a book." },
@@ -315,7 +315,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "4. に / へ — Chỉ nơi đến, thời điểm",
+    title: "4. に / へ - Chỉ nơi đến, thời điểm",
     explain: "に chỉ thời điểm hoặc điểm đến; へ (đọc 'e') chỉ hướng di chuyển.",
     examples: [
       { jp: "がっこうに いきます。", romaji: "Gakkō ni ikimasu.", vi: "Tôi đến trường.", en: "I go to school." },
@@ -323,7 +323,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "5. Dạng ます — Động từ lịch sự",
+    title: "5. Dạng ます - Động từ lịch sự",
     explain: "Đuôi ます (masu) làm cho động từ lịch sự. Phủ định: ません. Quá khứ: ました / ませんでした.",
     examples: [
       { jp: "たべます。", romaji: "Tabemasu.", vi: "Tôi ăn.", en: "I eat." },
@@ -339,7 +339,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "7. の — Trợ từ sở hữu / bổ nghĩa",
+    title: "7. の - Trợ từ sở hữu / bổ nghĩa",
     explain: "Nối hai danh từ, danh từ đứng trước bổ nghĩa cho danh từ đứng sau. Giống 'của' trong tiếng Việt.",
     examples: [
       { jp: "わたしの ほんです。", romaji: "Watashi no hon desu.", vi: "Là sách của tôi.", en: "It's my book." },
@@ -347,7 +347,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "8. も — Cũng",
+    title: "8. も - Cũng",
     explain: "Thay thế は khi muốn nói 'cũng vậy'.",
     examples: [
       { jp: "わたしも がくせいです。", romaji: "Watashi mo gakusei desu.", vi: "Tôi cũng là học sinh.", en: "I am also a student." },
@@ -355,7 +355,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "9. で — Nơi diễn ra hành động / phương tiện",
+    title: "9. で - Nơi diễn ra hành động / phương tiện",
     explain: "Chỉ nơi hành động xảy ra (khác với に - điểm đến), hoặc chỉ phương tiện di chuyển.",
     examples: [
       { jp: "レストランで たべます。", romaji: "Resutoran de tabemasu.", vi: "Ăn ở nhà hàng.", en: "I eat at a restaurant." },
@@ -371,7 +371,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "11. ~たい — Muốn làm gì",
+    title: "11. ~たい - Muốn làm gì",
     explain: "Bỏ ます của động từ, thêm たい để diễn tả nguyện vọng của bản thân.",
     examples: [
       { jp: "にほんに いきたいです。", romaji: "Nihon ni ikitai desu.", vi: "Tôi muốn đi Nhật.", en: "I want to go to Japan." },
@@ -379,7 +379,7 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
     ],
   },
   {
-    title: "12. ~てください — Xin hãy làm gì",
+    title: "12. ~てください - Xin hãy làm gì",
     explain: "Dùng để yêu cầu lịch sự. Cần chia động từ về dạng て trước.",
     examples: [
       { jp: "みてください。", romaji: "Mite kudasai.", vi: "Xin hãy xem.", en: "Please look." },
