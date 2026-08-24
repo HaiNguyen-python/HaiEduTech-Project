@@ -617,7 +617,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
           aria-label="Questions"
           className="overflow-y-auto bg-background flex-1 min-h-[40vh] lg:min-h-0"
         >
-          <div className="max-w-2xl mx-auto px-5 md:px-8 py-6 md:py-8 space-y-6">
+          <div className="max-w-5xl mx-auto px-3 md:px-6 py-6 md:py-8 space-y-6">
             {!submitted && exam.questions.map((q) => (
               <QuestionBlock
                 key={q.number}
@@ -1159,7 +1159,7 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
         </div>
 
         <section aria-label="Questions" className="overflow-y-auto bg-background flex-1 min-h-[40vh] lg:min-h-0">
-          <div className="max-w-2xl mx-auto px-5 md:px-8 py-6 md:py-8 space-y-6">
+          <div className="max-w-5xl mx-auto px-3 md:px-6 py-6 md:py-8 space-y-6">
             <div className="text-xs text-muted-foreground">
               {t(
                 `Câu hỏi ${passageOffsets[activePassage]}–${passageOffsets[activePassage] + currentPassage.questions.length - 1}`,
@@ -1285,7 +1285,7 @@ const IeltsReadingPractice: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {IELTS_FULL_TESTS.map(ft => {
                   const ps = ft.passageIds.map(id => EXAMS_BY_ID[id]).filter(Boolean);
-                  const totalQs = ps.reduce((a, p) => a + p.questions.length, 0);
+                  const totalQs = ps.length === 3 ? 40 : ps.reduce((a, p) => a + p.questions.length, 0);
                   return (
                     <motion.div
                       key={ft.id}
