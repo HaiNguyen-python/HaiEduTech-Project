@@ -319,9 +319,9 @@ const VocabBrainPanel = ({
 
   /** How many mission words the learner has already reviewed today. */
   const missionDone = useMemo(() => {
-    const done = new Set(reviewedToday.map(w => w.toLowerCase()));
+    const done = new Set(reviewedToday.map(w => label(w).toLowerCase()));
     return mission.filter(n => done.has(n.word.toLowerCase())).length;
-  }, [mission, reviewedToday]);
+  }, [mission, reviewedToday, label]);
 
   const earnedBadges = LONG_TERM_BADGES.filter(n => zoneCounts.long >= n);
   const nextBadge = LONG_TERM_BADGES.find(n => zoneCounts.long < n);
@@ -522,7 +522,7 @@ const VocabBrainPanel = ({
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {mission.map(n => {
-              const done = reviewedToday.some(w => w.toLowerCase() === n.word.toLowerCase());
+              const done = reviewedToday.some(w => label(w).toLowerCase() === n.word.toLowerCase());
               return (
                 <button
                   key={n.word}
