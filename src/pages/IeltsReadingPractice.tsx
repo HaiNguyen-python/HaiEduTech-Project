@@ -40,7 +40,14 @@ import { IELTS_FULL_READING_EXAMS_EXPANSION4 } from "@/data/ieltsFullReadingExam
 import { IELTS_FULL_READING_EXAMS_EXPANSION5 } from "@/data/ieltsFullReadingExamsExpansion5";
 import { IELTS_FULL_READING_EXAMS_HARD } from "@/data/ieltsFullReadingExamsHard";
 import { IELTS_FULL_READING_EXAMS_HARD2 } from "@/data/ieltsFullReadingExamsHard2";
+import { IELTS_FULL_READING_EXAMS_HARD3 } from "@/data/ieltsFullReadingExamsHard3";
+import { IELTS_FULL_READING_EXAMS_HARD4 } from "@/data/ieltsFullReadingExamsHard4";
 import { READING_PASSAGE_EXTENSIONS } from "@/data/ieltsReadingPassageExtensions";
+import { READING_PASSAGE_EXTENSIONS_2 } from "@/data/ieltsReadingPassageExtensions2";
+import { READING_PASSAGE_EXTENSIONS_3 } from "@/data/ieltsReadingPassageExtensions3";
+import { READING_PASSAGE_EXTENSIONS_4 } from "@/data/ieltsReadingPassageExtensions4";
+import { READING_NOT_GIVEN_EXTENSIONS } from "@/data/ieltsReadingNotGivenExtensions";
+import { READING_EXPLANATION_FALLBACK } from "@/data/ieltsReadingExplanationFallback";
 import { READING_QUESTION_EXTENSIONS } from "@/data/ieltsReadingQuestionExtensions";
 import { READING_VOCAB, type ReadingVocabItem } from "@/data/ieltsReadingVocab";
 import { IELTS_FULL_TESTS, type FullTest } from "@/data/ieltsFullTests";
@@ -51,15 +58,30 @@ import ReadingProgressChart from "@/components/ielts/ReadingProgressChart";
 
 // Extend each exam's passage AND questions so each passage carries 13-14 Qs
 // like a real Cambridge IELTS Reading paper.
-const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION, ...IELTS_FULL_READING_EXAMS_EXPANSION2, ...IELTS_FULL_READING_EXAMS_EXPANSION3, ...IELTS_FULL_READING_EXAMS_EXPANSION4, ...IELTS_FULL_READING_EXAMS_EXPANSION5, ...IELTS_FULL_READING_EXAMS_HARD, ...IELTS_FULL_READING_EXAMS_HARD2].map(e => {
-  const extra = READING_PASSAGE_EXTENSIONS[e.id];
-  const extraQs = READING_QUESTION_EXTENSIONS[e.id];
+const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION, ...IELTS_FULL_READING_EXAMS_EXPANSION2, ...IELTS_FULL_READING_EXAMS_EXPANSION3, ...IELTS_FULL_READING_EXAMS_EXPANSION4, ...IELTS_FULL_READING_EXAMS_EXPANSION5, ...IELTS_FULL_READING_EXAMS_HARD, ...IELTS_FULL_READING_EXAMS_HARD2, ...IELTS_FULL_READING_EXAMS_HARD3, ...IELTS_FULL_READING_EXAMS_HARD4].map(e => {
+  const extra = ((READING_PASSAGE_EXTENSIONS[e.id] ?? "") + (READING_PASSAGE_EXTENSIONS_2[e.id] ?? "") + (READING_PASSAGE_EXTENSIONS_3[e.id] ?? "") + (READING_PASSAGE_EXTENSIONS_4[e.id] ?? "")) || undefined;
+  const extraQs = [...(READING_QUESTION_EXTENSIONS[e.id] ?? []), ...(READING_NOT_GIVEN_EXTENSIONS[e.id] ?? [])];
   let merged = extra ? { ...e, passage: e.passage + extra } : { ...e };
-  if (extraQs && extraQs.length) merged = { ...merged, questions: [...merged.questions, ...extraQs] };
+  if (extraQs.length) merged = { ...merged, questions: [...merged.questions, ...extraQs] };
+  // Guarantee every question has a review explanation (generated fallbacks quote
+  // the passage evidence). Applied before shuffling so no label is referenced.
+  merged = {
+    ...merged,
+    questions: merged.questions.map(q =>
+      q.explanation && q.explanation.trim().length >= 40
+        ? q
+        : { ...q, explanation: READING_EXPLANATION_FALLBACK[`${merged.id}#${q.number}`] ?? q.explanation }
+    ),
+  };
   // De-bias matching-headings so the correct label is not always "i"
   merged = shuffleHeadingsInExam(merged);
   return merged;
 });
+// Display difficulty without the blunt word "Hard": levels are shown in
+// exam-style wording instead.
+const LEVEL_LABEL: Record<string, string> = { Hard: "Advanced", Medium: "Standard", Easy: "Foundation" };
+const levelLabel = (l: string) => LEVEL_LABEL[l] ?? l;
+
 const IELTS_FULL_READING_EXAMS: ReadingExam[] = _MERGED_EXAMS;
 const EXAMS_BY_ID: Record<string, ReadingExam> = Object.fromEntries(IELTS_FULL_READING_EXAMS.map(e => [e.id, e]));
 
@@ -493,7 +515,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
 
           <div className="font-semibold text-sm text-foreground truncate flex-1 min-w-[160px]">
             📖 {exam.title}
-            <Badge variant="outline" className="ml-2 text-[10px]">{exam.level}</Badge>
+            <Badge variant="outline" className="ml-2 text-[10px]">{levelLabel(exam.level)}</Badge>
           </div>
 
           {/* Timer */}
@@ -1310,7 +1332,7 @@ const IeltsReadingPractice: React.FC = () => {
                     className="rounded-xl border bg-card p-4 hover:shadow-lg transition-all"
                   >
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      <Badge variant="secondary" className="text-[10px]">{exam.level}</Badge>
+                      <Badge variant="secondary" className="text-[10px]">{levelLabel(exam.level)}</Badge>
                       <span className="text-[11px] text-muted-foreground inline-flex items-center gap-1">
                         <Clock className="w-3 h-3" /> {exam.durationMinutes} min
                       </span>

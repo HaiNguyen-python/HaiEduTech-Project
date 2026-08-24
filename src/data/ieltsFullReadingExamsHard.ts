@@ -16,7 +16,7 @@ export const IELTS_FULL_READING_EXAMS_HARD: ReadingExam[] = [
   // ============================================================
   {
     id: "rx-hard-1",
-    title: "Hard Test 1 - The Economics of Extinction",
+    title: "Test 31 - The Economics of Extinction",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "The Economics of Extinction",
@@ -136,7 +136,7 @@ G. What has become clear over three decades is that the two vocabularies are not
   // ============================================================
   {
     id: "rx-hard-2",
-    title: "Hard Test 2 - Reading the Rings",
+    title: "Test 32 - Reading the Rings",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "Reading the Rings",
@@ -258,7 +258,7 @@ G. The field's reputation now rests on an unusual combination of qualities. It i
   // ============================================================
   {
     id: "rx-hard-3",
-    title: "Hard Test 3 - Measuring Minds",
+    title: "Test 33 - Measuring Minds",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "Measuring Minds: A Short History of the Standardised Test",

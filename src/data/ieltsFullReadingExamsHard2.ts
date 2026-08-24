@@ -14,7 +14,7 @@ export const IELTS_FULL_READING_EXAMS_HARD2: ReadingExam[] = [
   // ============================================================
   {
     id: "rx-hard-4",
-    title: "Hard Test 4 - Soft Defences",
+    title: "Test 34 - Soft Defences",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "Soft Defences: Rethinking the Coastal Wall",
@@ -136,7 +136,7 @@ G. What has changed most is the treatment of time. A wall is designed for a fixe
   // ============================================================
   {
     id: "rx-hard-5",
-    title: "Hard Test 5 - The Function of Play",
+    title: "Test 35 - The Function of Play",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "The Function of Play",
@@ -256,7 +256,7 @@ G. The likely resolution is that the search for a single function was misconceiv
   // ============================================================
   {
     id: "rx-hard-6",
-    title: "Hard Test 6 - The Tin Problem",
+    title: "Test 36 - The Tin Problem",
     level: "Hard",
     durationMinutes: 20,
     passageTitle: "The Tin Problem",
