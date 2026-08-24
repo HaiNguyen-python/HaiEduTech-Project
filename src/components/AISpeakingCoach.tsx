@@ -897,6 +897,18 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   };
 
   // Total sentence count - level filter applies to ALL languages now
+  // Only offer level chips that actually have themes for this language.
+  const availableLevels = useMemo(() => {
+    const order = ["A1", "A2", "B1", "B2", "C1"] as const;
+    const present = new Set(config.themes.map((th) => th.level));
+    return ["all", ...order.filter((lv) => present.has(lv))] as Array<"all" | "A1" | "A2" | "B1" | "B2" | "C1">;
+  }, [config.themes]);
+
+  // Reset a stored filter that no longer exists for this language.
+  useEffect(() => {
+    if (levelFilter !== "all" && !availableLevels.includes(levelFilter)) setLevelFilter("all");
+  }, [availableLevels, levelFilter]);
+
   const visibleThemes = useMemo(() => {
     if (levelFilter === "all") return config.themes;
     return config.themes.filter((th) => th.level === levelFilter);
@@ -943,7 +955,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           <span className="text-xs text-muted-foreground font-medium">
             {t("Cấp độ", "Level")}:
           </span>
-          {(["all", "A1", "A2", "B1", "B2", "C1"] as const).map((lv) => (
+          {availableLevels.map((lv) => (
             <button
               key={lv}
               onClick={() => setLevelFilter(lv)}
