@@ -101,8 +101,8 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       {
         type: "mcq",
         prompt: "How many stalls did the market open with in 2008?",
-        options: ["Ten", "Twelve", "Twenty", "Sixty"],
-        answer: 1,
+        options: ["Twelve", "Ten", "Twenty", "Sixty"],
+        answer: 0,
       },
       {
         type: "mcq",
@@ -119,14 +119,14 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       {
         type: "mcq",
         prompt: "The free family activity today is a:",
-        options: ["Cooking demonstration", "Fruit-tasting session", "Craft workshop", "Farm-animal show"],
-        answer: 1,
+        options: ["Cooking demonstration", "Craft workshop", "Farm-animal show", "Fruit-tasting session"],
+        answer: 3,
       },
       {
         type: "mcq",
         prompt: "The recommended weekend parking is:",
-        options: ["On the square", "Behind the library", "Next to the yellow tent", "Beside the clock tower"],
-        answer: 1,
+        options: ["Behind the library", "On the square", "Next to the yellow tent", "Beside the clock tower"],
+        answer: 0,
       },
       {
         type: "mcq",
@@ -134,10 +134,10 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
         options: ["£2", "£5", "£10", "£20"],
         answer: 1,
       },
-      { type: "mcq", prompt: "All the stalls now use packaging that is:", options: ["recycled", "compostable", "reusable", "paper only"], answer: 1 },
-      { type: "mcq", prompt: "The flower stall is beside the:", options: ["clock tower", "yellow tent", "main entrance", "library"], answer: 2 },
+      { type: "mcq", prompt: "All the stalls now use packaging that is:", options: ["recycled", "reusable", "compostable", "paper only"], answer: 2 },
+      { type: "mcq", prompt: "The flower stall is beside the:", options: ["clock tower", "yellow tent", "library", "main entrance"], answer: 3 },
       { type: "mcq", prompt: "In heavy rain the market moves into:", options: ["the covered hall", "the library", "the car park", "the yellow tent"], answer: 0 },
-      { type: "mcq", prompt: "New traders should contact the market office:", options: ["in person", "by phone", "by email", "through a form"], answer: 2 },
+      { type: "mcq", prompt: "New traders should contact the market office:", options: ["in person", "by email", "by phone", "through a form"], answer: 1 },
     ],
   },
 
