@@ -525,7 +525,7 @@ const Room = ({
 
 /* ----------------------------------------------------------------- exports */
 
-const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, selectedUserId }: Props) => {
+const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, onOpenStudentTab, selectedUserId }: Props) => {
   const { t, lang } = useLanguage();
   const vi = lang === "vi";
   const [open, setOpen] = useState(true);
@@ -891,9 +891,52 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   <div className="p-4">
                     {selectedSeat ? (
                       <div>
-                        <div className="mb-3 flex items-start justify-between gap-2"><div><p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p><p className="text-xs text-muted-foreground">#{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}</p></div><UserRound className="h-5 w-5 text-primary" /></div>
-                        <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm"><div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div><div><p className="text-xs text-muted-foreground">{t("Hoạt động", "Activities")}</p><b>{selectedSeat.student.totalActivities}</b></div></div>
-                        <p className="mt-3 text-xs text-muted-foreground">{formatLastActive(selectedSeat.lastActiveMs, vi)}</p>
+                        <div className="mb-3 flex items-start justify-between gap-2">
+                          <div>
+                            <p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p>
+                            <span
+                              className="mt-1 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-semibold"
+                              style={{ backgroundColor: `${TIER_META[selectedSeat.tier].color}1f`, color: TIER_META[selectedSeat.tier].color }}
+                            >
+                              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: TIER_META[selectedSeat.tier].color }} />
+                              #{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}
+                            </span>
+                          </div>
+                          <UserRound className="h-5 w-5 text-primary" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm">
+                          <div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div>
+                          <div><p className="text-xs text-muted-foreground">{t("Hoạt động", "Activities")}</p><b>{selectedSeat.student.totalActivities}</b></div>
+                          <div>
+                            <p className="text-xs text-muted-foreground">{t("Xu hướng", "Trend")}</p>
+                            <b className={selectedSeat.student.recentTrend === "declining" ? "text-red-600" : selectedSeat.student.recentTrend === "improving" ? "text-emerald-600" : ""}>
+                              {selectedSeat.student.recentTrend === "improving"
+                                ? t("Tiến bộ ↗", "Improving ↗")
+                                : selectedSeat.student.recentTrend === "declining"
+                                  ? t("Đi xuống ↘", "Declining ↘")
+                                  : t("Ổn định →", "Stable →")}
+                            </b>
+                          </div>
+                          <div>
+                            <p className="text-xs text-muted-foreground">{t("Tuần này", "This week")}</p>
+                            <b className={selectedSeat.activeThisWeek ? "text-emerald-600" : "text-muted-foreground"}>
+                              {selectedSeat.activeThisWeek ? t("Có học", "Active") : t("Chưa học", "Inactive")}
+                            </b>
+                          </div>
+                        </div>
+                        <p className="mt-3 text-xs text-muted-foreground">
+                          {t("Hoạt động cuối", "Last activity")}: {formatLastActive(selectedSeat.lastActiveMs, vi)}
+                        </p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <Button size="sm" variant="outline" className="classroom-control h-8 text-xs" onClick={() => focusSeat(selectedSeat)}>
+                            <ScanLine className="mr-1 h-3.5 w-3.5" />{t("Xem tại chỗ", "Focus seat")}
+                          </Button>
+                          {onOpenStudentTab && (
+                            <Button size="sm" variant="ghost" className="classroom-control h-8 text-xs" onClick={onOpenStudentTab}>
+                              <Eye className="mr-1 h-3.5 w-3.5" />{t("Chi tiết đầy đủ", "Full details")}
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     ) : (
                       <div className="py-3 text-center"><Armchair className="mx-auto mb-2 h-6 w-6 text-muted-foreground" /><p className="text-sm font-medium">{t("Chọn một học sinh trong lớp", "Select a student in the room")}</p><p className="mt-1 text-xs text-muted-foreground">{t("Thông tin học tập sẽ hiện tại đây", "Learning details will appear here")}</p></div>
