@@ -9,17 +9,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ArrowLeft, Headphones, Clock, ListChecks, Play } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ieltsListeningPracticeSets as _BASE_LIST } from "@/data/ieltsListeningPractice";
-import { ieltsListeningPracticeSetsExpansion } from "@/data/ieltsListeningPracticeExpansion";
-import { ieltsListeningPracticeSetsExpansion2 } from "@/data/ieltsListeningPracticeExpansion2";
-import { ieltsListeningPracticeSetsExpansion3 } from "@/data/ieltsListeningPracticeExpansion3";
-import { ieltsListeningPracticeSetsExpansion4 } from "@/data/ieltsListeningPracticeExpansion4";
-import { ieltsListeningPracticeSetsExpansion5 } from "@/data/ieltsListeningPracticeExpansion5";
-import { ieltsListeningPracticeSetsExpansion6 } from "@/data/ieltsListeningPracticeExpansion6";
-import { ieltsListeningPracticeSetsExpansion7 } from "@/data/ieltsListeningPracticeExpansion7";
+import { ALL_LISTENING_SETS as ieltsListeningPracticeSets } from "@/data/ieltsListeningAllSets";
 import { IELTS_FULL_LISTENING_TESTS } from "@/data/ieltsFullListeningTests";
 import ListeningFullTestEngine from "@/components/ielts/ListeningFullTestEngine";
-const ieltsListeningPracticeSets = [..._BASE_LIST, ...ieltsListeningPracticeSetsExpansion, ...ieltsListeningPracticeSetsExpansion2, ...ieltsListeningPracticeSetsExpansion3, ...ieltsListeningPracticeSetsExpansion4, ...ieltsListeningPracticeSetsExpansion5, ...ieltsListeningPracticeSetsExpansion6, ...ieltsListeningPracticeSetsExpansion7];
 
 import ListeningPracticeSetCard from "@/components/ielts/ListeningPracticeSetCard";
 
