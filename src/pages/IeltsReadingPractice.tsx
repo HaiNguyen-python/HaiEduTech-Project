@@ -38,17 +38,20 @@ import { IELTS_FULL_READING_EXAMS_EXPANSION2 } from "@/data/ieltsFullReadingExam
 import { IELTS_FULL_READING_EXAMS_EXPANSION3 } from "@/data/ieltsFullReadingExamsExpansion3";
 import { IELTS_FULL_READING_EXAMS_EXPANSION4 } from "@/data/ieltsFullReadingExamsExpansion4";
 import { IELTS_FULL_READING_EXAMS_EXPANSION5 } from "@/data/ieltsFullReadingExamsExpansion5";
+import { IELTS_FULL_READING_EXAMS_HARD } from "@/data/ieltsFullReadingExamsHard";
+import { IELTS_FULL_READING_EXAMS_HARD2 } from "@/data/ieltsFullReadingExamsHard2";
 import { READING_PASSAGE_EXTENSIONS } from "@/data/ieltsReadingPassageExtensions";
 import { READING_QUESTION_EXTENSIONS } from "@/data/ieltsReadingQuestionExtensions";
 import { READING_VOCAB, type ReadingVocabItem } from "@/data/ieltsReadingVocab";
 import { IELTS_FULL_TESTS, type FullTest } from "@/data/ieltsFullTests";
 import { shuffleHeadingsInExam } from "@/lib/ieltsReadingShuffle";
+import { isReadingAnswerCorrect, readingAnswerLabel } from "@/lib/ieltsReadingAnswer";
 import { pushAttempt } from "@/lib/ieltsReadingHistory";
 import ReadingProgressChart from "@/components/ielts/ReadingProgressChart";
 
 // Extend each exam's passage AND questions so each passage carries 13-14 Qs
 // like a real Cambridge IELTS Reading paper.
-const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION, ...IELTS_FULL_READING_EXAMS_EXPANSION2, ...IELTS_FULL_READING_EXAMS_EXPANSION3, ...IELTS_FULL_READING_EXAMS_EXPANSION4, ...IELTS_FULL_READING_EXAMS_EXPANSION5].map(e => {
+const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAMS_EXPANSION, ...IELTS_FULL_READING_EXAMS_EXPANSION2, ...IELTS_FULL_READING_EXAMS_EXPANSION3, ...IELTS_FULL_READING_EXAMS_EXPANSION4, ...IELTS_FULL_READING_EXAMS_EXPANSION5, ...IELTS_FULL_READING_EXAMS_HARD, ...IELTS_FULL_READING_EXAMS_HARD2].map(e => {
   const extra = READING_PASSAGE_EXTENSIONS[e.id];
   const extraQs = READING_QUESTION_EXTENSIONS[e.id];
   let merged = extra ? { ...e, passage: e.passage + extra } : { ...e };
@@ -188,7 +191,7 @@ const PostSubmitReview: React.FC<PostSubmitReviewProps> = ({ exam, questions, an
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const correctCount = questions.filter(q => (answers[q.number] || "").trim().toLowerCase() === q.answer.toLowerCase()).length;
+  const correctCount = questions.filter(q => isReadingAnswerCorrect(q, answers[q.number] || "")).length;
   const wrongCount = questions.length - correctCount;
 
   const vocab: ReadingVocabItem[] = useMemo(() => {
@@ -265,7 +268,7 @@ const PostSubmitReview: React.FC<PostSubmitReviewProps> = ({ exam, questions, an
         <ol className="space-y-2 text-sm">
           {questions.map(q => {
             const user = (answers[q.number] || "").trim();
-            const isCorrect = user.toLowerCase() === q.answer.toLowerCase();
+            const isCorrect = isReadingAnswerCorrect(q, user);
             return (
               <li key={q.number} className={cn(
                 "rounded-lg border px-3 py-2",
@@ -283,7 +286,7 @@ const PostSubmitReview: React.FC<PostSubmitReviewProps> = ({ exam, questions, an
                       {!isCorrect && (
                         <>
                           <span className="text-muted-foreground"> · {t("Đáp án:", "Answer:")} </span>
-                          <span className="text-emerald-700 dark:text-emerald-300 font-semibold">{q.answer}</span>
+                          <span className="text-emerald-700 dark:text-emerald-300 font-semibold">{readingAnswerLabel(q)}</span>
                         </>
                       )}
                     </div>
@@ -421,7 +424,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
     let s = 0;
     for (const q of exam.questions) {
       const ans = (answers[q.number] || "").trim().toLowerCase();
-      if (ans && ans === q.answer.toLowerCase()) s += 1;
+      if (isReadingAnswerCorrect(q, ans)) s += 1;
     }
     return s;
   }, [answers, exam.questions]);
@@ -506,7 +509,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
           <div className="flex flex-wrap gap-1 items-center">
             {exam.questions.map((q) => {
               const answered = !!answers[q.number];
-              const correct = submitted && (answers[q.number] || "").trim().toLowerCase() === q.answer.toLowerCase();
+              const correct = submitted && isReadingAnswerCorrect(q, answers[q.number] || "");
               const wrong = submitted && !correct;
               const isFlagged = flagged.has(q.number);
               return (
@@ -657,7 +660,7 @@ interface QBlockProps {
 const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus, flagged, onToggleFlag }) => {
   const { lang } = useLanguage();
   const isVi = lang === "vi";
-  const correct = submitted && value.trim().toLowerCase() === q.answer.toLowerCase();
+  const correct = submitted && isReadingAnswerCorrect(q, value);
   const wrong = submitted && value && !correct;
 
   return (
@@ -693,6 +696,12 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
           : wrong ? <XCircle className="w-5 h-5 text-destructive ml-auto shrink-0" /> : null
         )}
       </div>
+
+      {q.instruction && (
+        <p className="pl-9 mb-2 text-[11px] font-semibold uppercase tracking-wide text-primary/80">
+          {q.instruction}
+        </p>
+      )}
 
       {q.type === "multiple-choice" && q.options && (
         <div className="space-y-2 pl-9">
@@ -773,11 +782,105 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
         </div>
       )}
 
+      {(q.type === "tfng" || q.type === "ynng") && (
+        <div className="pl-9 flex flex-wrap gap-2">
+          {(q.type === "tfng" ? ["True", "False", "Not Given"] : ["Yes", "No", "Not Given"]).map((opt) => {
+            const selected = value === opt;
+            const isCorrect = submitted && opt.toLowerCase() === q.answer.trim().toLowerCase();
+            return (
+              <button
+                key={opt}
+                type="button"
+                disabled={submitted}
+                onClick={() => onChange(opt)}
+                className={cn(
+                  "rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors",
+                  submitted
+                    ? isCorrect
+                      ? "border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                      : selected
+                        ? "border-destructive bg-destructive/10 text-destructive"
+                        : "border-border text-muted-foreground"
+                    : selected
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border text-foreground hover:border-primary/50"
+                )}
+              >
+                {opt}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {(q.type === "matching-features" || q.type === "matching-endings" || q.type === "summary-completion") && (
+        <div className="pl-9 space-y-2">
+          <ul className="rounded-lg border border-dashed bg-muted/40 p-2.5 space-y-1 text-xs text-foreground">
+            {(q.features || q.endings || q.wordBank || []).map((o) => (
+              <li key={o.label}><span className="font-bold text-primary">{o.label}.</span> {o.text}</li>
+            ))}
+          </ul>
+          <select
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            disabled={submitted}
+            className={cn(
+              "w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30",
+              submitted && (correct ? "border-emerald-500" : wrong ? "border-destructive" : "")
+            )}
+          >
+            <option value="">{isVi ? "- Chọn đáp án -" : "- Select your answer -"}</option>
+            {(q.features || q.endings || q.wordBank || []).map((o) => (
+              <option key={o.label} value={o.label}>{o.label}. {o.text}</option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {q.type === "mcq-multi" && q.options && (
+        <div className="pl-9 space-y-2">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-primary/80">
+            {isVi ? "Chọn HAI đáp án." : "Choose TWO letters."}
+          </p>
+          {q.options.map((opt, i) => {
+            const letter = String.fromCharCode(65 + i);
+            const picked = value.toUpperCase().split(/[^A-Z]+/).filter(Boolean);
+            const selected = picked.includes(letter);
+            const isCorrect = submitted && (q.answers || []).map(a => a.toUpperCase()).includes(letter);
+            const toggle = () => {
+              const next = selected ? picked.filter(l => l !== letter) : [...picked, letter].slice(-2);
+              onChange(next.sort().join(""));
+            };
+            return (
+              <label
+                key={opt}
+                onClick={(e) => { e.preventDefault(); if (!submitted) toggle(); }}
+                className={cn(
+                  "flex items-start gap-2 rounded-lg border px-3 py-2 text-sm cursor-pointer transition-colors",
+                  submitted
+                    ? isCorrect
+                      ? "border-emerald-500 bg-emerald-500/10 text-emerald-900 dark:text-emerald-200"
+                      : selected
+                        ? "border-destructive bg-destructive/10"
+                        : "border-border text-muted-foreground"
+                    : selected
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/40"
+                )}
+              >
+                <input type="checkbox" checked={selected} readOnly disabled={submitted} className="mt-1 accent-primary" />
+                <span><span className="font-bold mr-1">{letter}.</span>{opt}</span>
+              </label>
+            );
+          })}
+        </div>
+      )}
+
       {submitted && (
         <div className="mt-3 pl-9 text-xs space-y-1">
           {!correct && (
             <p className="text-emerald-700 dark:text-emerald-400">
-              ✓ {q.answer}
+              ✓ {readingAnswerLabel(q)}
             </p>
           )}
           {q.explanation && (
@@ -846,7 +949,7 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
     let s = 0;
     for (const item of flat) {
       const ans = (answers[item.globalNumber] || "").trim().toLowerCase();
-      if (ans && ans === item.q.answer.toLowerCase()) s += 1;
+      if (isReadingAnswerCorrect(item.q, ans)) s += 1;
     }
     return s;
   }, [answers, flat]);
@@ -935,7 +1038,7 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
         <div className="container mx-auto px-3 sm:px-4 pb-2 flex flex-wrap gap-1">
           {flat.map(item => {
             const answered = !!answers[item.globalNumber];
-            const correct = submitted && (answers[item.globalNumber] || "").trim().toLowerCase() === item.q.answer.toLowerCase();
+            const correct = submitted && isReadingAnswerCorrect(item.q, answers[item.globalNumber] || "");
             const wrong = submitted && !correct;
             return (
               <button

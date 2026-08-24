@@ -124,4 +124,29 @@ export const IELTS_FULL_TESTS: FullTest[] = [
     durationMinutes: 60,
     passageIds: ["rx-cam-20", "rx-cam-21", "rx-cam-24"],
   },
+  // ============ Wave 6 - high-difficulty full tests ============
+  {
+    id: "ft-19",
+    title: "Full Test 19 - Academic HARD (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-hard-1", "rx-hard-2", "rx-hard-3"],
+  },
+  {
+    id: "ft-20",
+    title: "Full Test 20 - Academic HARD (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-hard-4", "rx-hard-5", "rx-hard-6"],
+  },
+  {
+    id: "ft-21",
+    title: "Full Test 21 - Academic HARD (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-hard-2", "rx-hard-4", "rx-hard-6"],
+  },
+  {
+    id: "ft-22",
+    title: "Full Test 22 - Academic HARD (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-hard-3", "rx-hard-5", "rx-hard-1"],
+  },
 ];
