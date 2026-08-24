@@ -60,6 +60,7 @@ const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechRe
 const ResearchProjectsAdminTab = lazy(() => import("@/components/admin/ResearchProjectsAdminTab"));
 const SuspiciousActivityCard = lazy(() => import("@/components/admin/SuspiciousActivityCard"));
 const LearningDnaExportButton = lazy(() => import("@/components/admin/LearningDnaExportButton"));
+const Classroom3D = lazy(() => import("@/components/admin/Classroom3D"));
 
 
 // Priority colors
@@ -609,6 +610,14 @@ const AdminDashboard = () => {
 
               {/* ===== GLOBAL OVERVIEW TAB ===== */}
               <TabsContent value="overview">
+                {/* 3D classroom - visual class management */}
+                <Classroom3D
+                  students={studentStates}
+                  lastActivityByUser={lastActivityByUser}
+                  classAvg={classStats.classAvg}
+                  onSelectStudent={(s) => { handleSelectStudent(s); setTabGroup("students"); setActiveTab("students"); }}
+                  selectedUserId={selectedStudent?.userId ?? null}
+                />
                 <div className="grid lg:grid-cols-2 gap-6">
                   {/* Domain Distribution Pie */}
                   <Card>
