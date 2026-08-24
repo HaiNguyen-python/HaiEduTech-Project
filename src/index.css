@@ -64,25 +64,32 @@
     --hero-gradient: linear-gradient(135deg, hsl(199 89% 96%), hsl(173 58% 95%));
 
     /* Classroom command center */
-    --classroom-canvas: 210 40% 98%;
-    --classroom-surface: 0 0% 100%;
-    --classroom-blue: 217 91% 60%;
-    --classroom-success: 160 84% 39%;
+    --classroom-canvas: 32 32% 94%;
+    --classroom-surface: 30 40% 99%;
+    --classroom-blue: 105 19% 47%;
+    --classroom-success: 103 22% 33%;
     --classroom-alert: 0 84% 60%;
-    --classroom-grid: 214 32% 91%;
-    --classroom-wood: 37 42% 74%;
-    --classroom-wall: 210 40% 98%;
-    --classroom-board: 168 46% 16%;
-    --classroom-daylight: 46 100% 94%;
-    --classroom-shadow: 0 20px 45px hsl(217 91% 35% / 0.10);
+    --classroom-grid: 26 24% 84%;
+    --classroom-wood: 31 45% 74%;
+    --classroom-wall: 32 31% 95%;
+    --classroom-board: 143 29% 23%;
+    --classroom-daylight: 28 72% 89%;
+    --classroom-terracotta: 13 47% 53%;
+    --classroom-sage: 105 19% 56%;
+    --classroom-shadow: 0 20px 45px hsl(14 28% 30% / 0.14);
   }
 }
 
 @layer utilities {
-  .font-classroom-heading { font-family: "Urbanist", sans-serif; letter-spacing: 0; }
-  .font-classroom-body { font-family: "Epilogue", sans-serif; letter-spacing: 0; }
+  .font-classroom-heading { font-family: "Outfit", sans-serif; letter-spacing: 0; }
+  .font-classroom-body { font-family: "Figtree", sans-serif; letter-spacing: 0; }
   .classroom-command-shadow { box-shadow: var(--classroom-shadow); }
-  .classroom-label { border-radius: 6px; font-family: "Epilogue", sans-serif; letter-spacing: 0; }
+  .classroom-label { border-radius: 6px; font-family: "Figtree", sans-serif; letter-spacing: 0; }
+  .classroom-board-panel {
+    border-color: hsl(var(--classroom-sage) / 0.45);
+    background: hsl(var(--classroom-board) / 0.96);
+    box-shadow: inset 0 0 28px hsl(var(--classroom-sage) / 0.12), 0 14px 32px hsl(var(--classroom-board) / 0.28);
+  }
   .classroom-control {
     transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
     -webkit-font-smoothing: antialiased;
