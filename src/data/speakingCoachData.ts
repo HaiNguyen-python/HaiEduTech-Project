@@ -889,6 +889,8 @@ import { englishExtraThemes4, chineseExtraThemes4, vietnameseExtraThemes4, finni
 import { englishExtraThemes5, chineseExtraThemes5, vietnameseExtraThemes5, finnishExtraThemes6 } from "./speakingCoachExpansion5";
 import { englishExtraThemes6 } from "./speakingCoachExpansion6";
 import { swedishThemes } from "./speakingCoachSwedishExpansion";
+import { japaneseThemes1 } from "./speakingCoachJapaneseExpansion";
+import { japaneseThemes2 } from "./speakingCoachJapaneseExpansion2";
 import { applyTopUps } from "./speakingCoachTopUp";
 import { dedupeSpeakingThemes } from "./speakingCoachDedupe";
 
