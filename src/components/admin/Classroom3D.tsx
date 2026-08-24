@@ -52,9 +52,9 @@ interface Props {
 type CameraPreset = "class" | "top" | "alert";
 
 const PRESETS: Record<CameraPreset, [number, number, number]> = {
-  class: [0, 11, 20],
-  top: [0, 22, 0.01],
-  alert: [0, 4.5, -9],
+  class: [0, 10.5, 22],
+  top: [0, 25, 0.01],
+  alert: [0, 5.2, -7.5],
 };
 
 /* ----------------------------------------------- shared geometry (one copy) */
@@ -190,6 +190,7 @@ const StudentAvatar = ({
       <group
         ref={body}
         position={[0, 0.46, 0]}
+        scale={1.12}
         onPointerOver={(e) => { e.stopPropagation(); onHover(seat); }}
         onPointerOut={(e) => { e.stopPropagation(); onHover(null); }}
         onClick={(e) => { e.stopPropagation(); onSelect(seat); }}
@@ -228,14 +229,14 @@ const StudentAvatar = ({
       </group>
 
       {/* Progressive labels keep large classes readable. */}
-      <Html position={[0, 1.72, 0]} center distanceFactor={13} zIndexRange={[20, 0]}>
+      <Html position={[0, 1.84, 0]} center distanceFactor={12.5} zIndexRange={[20, 0]}>
         <div
-          className={`classroom-label pointer-events-none select-none whitespace-nowrap border shadow-sm ${showFullLabel ? "px-2 py-1" : "px-1.5 py-0.5"}`}
+          className={`classroom-label pointer-events-none select-none whitespace-nowrap border shadow-md ${selected ? "ring-2 ring-primary/40" : ""} ${showFullLabel ? "px-2 py-1" : "px-1.5 py-0.5"}`}
           style={{
             borderColor: meta.color,
-            background: dimmed ? "hsl(var(--classroom-surface) / 0.35)" : "hsl(var(--classroom-surface) / 0.94)",
+            background: dimmed ? "hsl(var(--classroom-surface) / 0.42)" : "hsl(var(--classroom-surface) / 0.98)",
             opacity: dimmed ? 0.35 : 1,
-            fontSize: crowded ? 11 : 13,
+            fontSize: crowded ? 12 : 13,
             lineHeight: 1.15,
           }}
         >
@@ -266,6 +267,12 @@ const ROOM_MATERIALS = {
   pot: new THREE.MeshStandardMaterial({ color: "#e7e1d6", roughness: 0.76 }),
   shelf: new THREE.MeshStandardMaterial({ color: "#a98d68", roughness: 0.7 }),
   board: new THREE.MeshStandardMaterial({ color: "#163d35", roughness: 0.38 }),
+  posterBlue: new THREE.MeshStandardMaterial({ color: "#2563eb", roughness: 0.7 }),
+  posterGreen: new THREE.MeshStandardMaterial({ color: "#10b981", roughness: 0.7 }),
+  posterGold: new THREE.MeshStandardMaterial({ color: "#f4c95d", roughness: 0.68 }),
+  bookRed: new THREE.MeshStandardMaterial({ color: "#dc5b58", roughness: 0.76 }),
+  bookBlue: new THREE.MeshStandardMaterial({ color: "#4f78b8", roughness: 0.76 }),
+  bookGreen: new THREE.MeshStandardMaterial({ color: "#4c956c", roughness: 0.76 }),
 };
 
 const WindowWall = ({ width, depth }: { width: number; depth: number }) => (
@@ -307,13 +314,23 @@ const ClassroomShell = ({ width, depth }: { width: number; depth: number }) => (
     ))}
     <mesh position={[0, 3.2, -depth / 2]}><boxGeometry args={[width, 6.4, 0.18]} /><primitive object={ROOM_MATERIALS.wall} attach="material" /></mesh>
     <mesh position={[width / 2, 3.2, 0]}><boxGeometry args={[0.18, 6.4, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
-    <mesh position={[0, 6.35, 0]}><boxGeometry args={[width, 0.16, depth]} /><primitive object={ROOM_MATERIALS.wall} attach="material" /></mesh>
     <WindowWall width={width} depth={depth} />
+    {/* Open ceiling: slim suspended lights preserve the overhead camera view. */}
     {[-width * 0.25, width * 0.25].map((x) => (
-      <group key={x} position={[x, 6.12, -0.5]}>
-        <mesh><boxGeometry args={[2.8, 0.09, 0.62]} /><meshStandardMaterial color="#ffffff" emissive="#fff7d6" emissiveIntensity={0.35} /></mesh>
+      <group key={x} position={[x, 5.65, -depth * 0.2]}>
+        <mesh position={[0, 0.42, 0]}><cylinderGeometry args={[0.018, 0.018, 0.84, 8]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+        <mesh><boxGeometry args={[2.4, 0.07, 0.34]} /><meshStandardMaterial color="#ffffff" emissive="#fff7d6" emissiveIntensity={0.55} /></mesh>
       </group>
     ))}
+    {/* Calm wall art sits above eye level and never covers student labels. */}
+    <group position={[width / 2 - 0.11, 3.85, depth * 0.2]} rotation={[0, -Math.PI / 2, 0]}>
+      {[ROOM_MATERIALS.posterBlue, ROOM_MATERIALS.posterGreen, ROOM_MATERIALS.posterGold].map((material, index) => (
+        <group key={index} position={[(index - 1) * 1.45, 0, 0]}>
+          <mesh><boxGeometry args={[1.05, 1.35, 0.06]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+          <mesh position={[0, 0, 0.04]}><planeGeometry args={[0.87, 1.13]} /><primitive object={material} attach="material" /></mesh>
+        </group>
+      ))}
+    </group>
     <Plant position={[width / 2 - 0.8, 0, -depth / 2 + 0.9]} />
     <Plant position={[-width / 2 + 0.85, 0, -depth / 2 + 0.8]} scale={0.8} />
   </group>
@@ -324,6 +341,12 @@ const TeacherZone = ({ width, depth }: { width: number; depth: number }) => (
     <group position={[width / 2 - 2, 0, -depth / 2 + 1.4]}>
       {[0, 0.7, 1.4, 2.1].map((y) => <mesh key={y} position={[0, y + 0.18, 0]}><boxGeometry args={[1.7, 0.12, 0.65]} /><primitive object={ROOM_MATERIALS.shelf} attach="material" /></mesh>)}
       {[-0.65, 0.65].map((x) => <mesh key={x} position={[x, 1.25, 0]}><boxGeometry args={[0.1, 2.7, 0.65]} /><primitive object={ROOM_MATERIALS.shelf} attach="material" /></mesh>)}
+      {[0.36, 0.52, 0.7, 1.06, 1.22, 1.4, 1.76, 1.94].map((y, index) => (
+        <mesh key={`book-${index}`} position={[-0.46 + (index % 4) * 0.3, y, 0]}>
+          <boxGeometry args={[0.19, 0.38, 0.42]} />
+          <primitive object={[ROOM_MATERIALS.bookBlue, ROOM_MATERIALS.bookGreen, ROOM_MATERIALS.bookRed][index % 3]} attach="material" />
+        </mesh>
+      ))}
     </group>
     <group position={[width / 2 - 3.3, 0, -depth / 2 + 0.8]}>
       <mesh position={[0, 0.82, 0]}><boxGeometry args={[2.1, 0.12, 0.85]} /><primitive object={WOOD} attach="material" /></mesh>
