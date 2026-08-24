@@ -18,6 +18,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { lazy, Suspense } from "react";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
@@ -355,6 +356,8 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const [questions, setQuestions] = useState<ExQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
+  /** Words already credited with a review this session (no double counting). */
+  const reviewedRef = useRef<Set<string>>(new Set());
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const scoreSavedRef = useRef(false);
@@ -390,7 +393,16 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
     setSelected(idx);
-    if (idx === questions[current]?.correct) setScore(s => s + 1);
+    if (idx === questions[current]?.correct) {
+      setScore(s => s + 1);
+      // A correct answer is a real review: it feeds the memory brain so the word
+      // can consolidate into long-term memory instead of only fading.
+      const word = questions[current]?.word?.word;
+      if (word && !reviewedRef.current.has(word)) {
+        reviewedRef.current.add(word);
+        void recordVocabReviewTracked("finnish-vocab", [word]);
+      }
+    }
   };
 
   const handleNext = () => {
