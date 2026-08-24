@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingJapaneseIcons from "@/components/japanese/FloatingJapaneseIcons";
+import JaSection, { JaSectionItem } from "@/components/japanese/JaSection";
 import {
   HIRAGANA_DAKUTEN, HIRAGANA_YOON, KATAKANA_DAKUTEN,
   GREETINGS_EXTRA, COUNTERS, VOCAB_EXTRA, KANJI_EXTRA,
@@ -401,9 +403,29 @@ const ALL_DIALOGUES = [...DIALOGUES, ...DIALOGUES_EXTRA];
 const ALL_GRAMMAR = [...GRAMMAR, ...GRAMMAR_EXTRA];
 const ALL_QUIZ = [...JA_QUIZ, ...JA_QUIZ_EXTRA];
 
-const KanaGrid = ({ rows, label }: { rows: Array<[string, string]>; label: string }) => (
+/** Kana tables, one collapsible section each. */
+const KANA_TABLES: Array<{ vi: string; en: string; rows: Array<[string, string]> }> = [
+  { vi: "Hiragana (ひらがな)", en: "Hiragana (ひらがな)", rows: HIRAGANA },
+  { vi: "Hiragana biến âm (だくてん)", en: "Hiragana voiced (dakuten)", rows: HIRAGANA_DAKUTEN },
+  { vi: "Hiragana ghép âm (ようおん)", en: "Hiragana contracted (yōon)", rows: HIRAGANA_YOON },
+  { vi: "Katakana (カタカナ)", en: "Katakana (カタカナ)", rows: KATAKANA },
+  { vi: "Katakana biến âm (ダクテン)", en: "Katakana voiced (dakuten)", rows: KATAKANA_DAKUTEN },
+];
+
+interface KanjiCard {
+  kanji: string; on: string; kun: string;
+  meaning_vi: string; meaning_en: string; example: string;
+}
+
+/** Kanji grouped by theme so the tab stays short. */
+const KANJI_SECTIONS: Array<{ group: string; items: KanjiCard[] }> = [
+  { group: "🈴 Kanji cốt lõi N5 / Core N5 kanji", items: KANJI_BASIC },
+  { group: "➕ Kanji mở rộng / Extra kanji", items: KANJI_EXTRA },
+  ...KANJI_GROUPS.map((g) => ({ group: g.group, items: g.items as KanjiCard[] })),
+].filter((g) => g.items.length > 0);
+
+const KanaGrid = ({ rows }: { rows: Array<[string, string]> }) => (
   <div>
-    <h3 className="text-xl font-bold mb-3 text-pink-700">{label}</h3>
     <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-10 gap-2">
       {rows.map(([ch, ro]) => (
         <button
@@ -485,167 +507,403 @@ const Japanese = () => {
 
   const uiLang: "vi" | "en" = lang === "vi" ? "vi" : "en";
 
+  const totalVocab = ALL_VOCAB.reduce((n, g) => n + g.items.length, 0);
+
+  const chunk = <T,>(arr: T[], size: number): T[][] => {
+    const out: T[][] = [];
+    for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+    return out;
+  };
+
+  // ----- Section models (memo-free: data is static module scope) -----
+  const kanaSections: JaSectionItem[] = KANA_TABLES.map((tb, i) => ({
+    id: `kana-${i}`,
+    title: t(tb.vi, tb.en),
+    badge: `${tb.rows.length} ${t("chữ", "chars")}`,
+    render: () => <KanaGrid rows={tb.rows} />,
+  }));
+
+  const greetingSections: JaSectionItem[] = chunk(ALL_GREETINGS, 10).map((part, i) => ({
+    id: `greet-${i}`,
+    title: `${t("Nhóm", "Set")} ${i + 1}`,
+    subtitle: part[0].jp,
+    badge: `${part.length} ${t("câu", "phrases")}`,
+    searchText: part.map((p) => `${p.jp} ${p.romaji} ${p.vi} ${p.en}`).join(" ").toLowerCase(),
+    render: () => (
+      <div className="divide-y divide-pink-100">
+        {part.map((p, j) => <PhraseRow key={j} p={p} lang={uiLang} />)}
+      </div>
+    ),
+  }));
+
+  const numberSections: JaSectionItem[] = [
+    {
+      id: "num-small",
+      title: `🔢 ${t("Số 1-10", "Numbers 1-10")}`,
+      badge: `${NUMBERS_1_10.length}`,
+      render: () => (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+          {NUMBERS_1_10.map(([n, kana, ro]) => (
+            <button key={n} onClick={() => speakJa(kana.split(" ")[0])}
+              className="rounded-lg border border-pink-200 bg-white p-3 text-center transition hover:bg-pink-50">
+              <div className="text-2xl font-bold text-rose-700">{n}</div>
+              <div className="text-base">{kana}</div>
+              <div className="text-xs text-slate-500">{ro}</div>
+            </button>
+          ))}
+        </div>
+      ),
+    },
+    {
+      id: "num-big",
+      title: `💯 ${t("Số lớn hơn", "Larger numbers")}`,
+      badge: `${NUMBERS_BIG.length}`,
+      render: () => (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {NUMBERS_BIG.map(([n, kana, ro]) => (
+            <button key={n} onClick={() => speakJa(kana)}
+              className="rounded-lg border border-pink-200 bg-white p-3 text-center transition hover:bg-pink-50">
+              <div className="text-xl font-bold text-rose-700">{n}</div>
+              <div className="text-base">{kana}</div>
+              <div className="text-xs text-slate-500">{ro}</div>
+            </button>
+          ))}
+        </div>
+      ),
+    },
+    {
+      id: "num-time",
+      title: `🕒 ${t("Nói giờ & ngày", "Time & date")}`,
+      badge: `${TIME_WORDS.length}`,
+      render: () => (
+        <div className="divide-y divide-pink-100">
+          {TIME_WORDS.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
+        </div>
+      ),
+    },
+    ...COUNTERS.map((c, i) => ({
+      id: `counter-${i}`,
+      title: c.title,
+      subtitle: uiLang === "vi" ? c.note_vi : c.note_en,
+      badge: `${c.items.length}`,
+      render: () => (
+        <div className="divide-y divide-pink-100">
+          {c.items.map((p, j) => <PhraseRow key={j} p={p} lang={uiLang} />)}
+        </div>
+      ),
+    })),
+  ];
+
+  const vocabSections: JaSectionItem[] = ALL_VOCAB.map((group, i) => {
+    const learned = group.items.filter((p) => mastered.has(p.jp)).length;
+    return {
+      id: `vocab-${i}`,
+      title: group.topic,
+      badge: `${learned}/${group.items.length} ⭐`,
+      searchText: group.items
+        .map((p) => `${p.jp} ${p.romaji} ${p.vi} ${p.en}`)
+        .join(" ")
+        .toLowerCase(),
+      render: () => (
+        <div className="divide-y divide-pink-100">
+          {group.items.map((p, j) => (
+            <PhraseRow
+              key={j}
+              p={p}
+              lang={uiLang}
+              mastered={mastered.has(p.jp)}
+              onToggleMastered={() => toggleMastered(p.jp)}
+              onListen={() => {
+                // Listening to a word already marked ⭐ counts as a real repetition.
+                if (!mastered.has(p.jp) || jaReviewedRef.current.has(p.jp)) return;
+                jaReviewedRef.current.add(p.jp);
+                void recordVocabReviewTracked("japanese", [p.jp]);
+              }}
+            />
+          ))}
+        </div>
+      ),
+    };
+  });
+
+  const kanjiSections: JaSectionItem[] = KANJI_SECTIONS.map((g, i) => ({
+    id: `kanji-${i}`,
+    title: g.group,
+    badge: `${g.items.length} ${t("chữ", "chars")}`,
+    searchText: g.items
+      .map((k) => `${k.kanji} ${k.on} ${k.kun} ${k.meaning_vi} ${k.meaning_en}`)
+      .join(" ")
+      .toLowerCase(),
+    render: () => (
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {g.items.map((k) => (
+          <button
+            key={`${g.group}-${k.kanji}`}
+            onClick={() => speakJa(k.kanji)}
+            className="flex items-start gap-3 rounded-lg border border-pink-200 bg-white p-3 text-left transition hover:bg-pink-50"
+          >
+            <div className="w-14 shrink-0 text-center text-4xl font-bold text-rose-700">{k.kanji}</div>
+            <div className="min-w-0 flex-1">
+              <div className="text-base font-semibold text-slate-800">
+                {uiLang === "vi" ? k.meaning_vi : k.meaning_en}
+              </div>
+              <div className="mt-1 text-sm text-slate-600">
+                <span className="font-semibold">On:</span> {k.on}
+                <span className="mx-2">·</span>
+                <span className="font-semibold">Kun:</span> {k.kun}
+              </div>
+              <div className="mt-1 text-sm italic text-pink-700">{k.example}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+    ),
+  }));
+
+  const dialogueSections: JaSectionItem[] = ALL_DIALOGUES.map((d, i) => ({
+    id: `dlg-${i}`,
+    title: d.title,
+    subtitle: d.scene,
+    badge: `${d.lines.length} ${t("lượt", "lines")}`,
+    searchText: `${d.title} ${d.scene} ${d.lines.map((l) => `${l.jp} ${l.romaji}`).join(" ")}`.toLowerCase(),
+    render: () => (
+      <div className="space-y-3">
+        {d.lines.map((ln, j) => (
+          <div key={j} className="flex items-start gap-3 rounded-lg border border-pink-100 bg-pink-50/60 p-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-rose-400 to-pink-500 text-sm font-bold text-white">
+              {ln.speaker}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-base font-semibold text-slate-800">{ln.jp}</div>
+              <div className="text-sm italic text-pink-700">{ln.romaji}</div>
+              <div className="mt-1 text-sm text-slate-600">{uiLang === "vi" ? ln.vi : ln.en}</div>
+            </div>
+            <Button size="sm" variant="outline" onClick={() => speakJa(ln.jp)} className="shrink-0">
+              <Volume2 className="h-4 w-4" />
+            </Button>
+          </div>
+        ))}
+      </div>
+    ),
+  }));
+
+  const grammarSections: JaSectionItem[] = ALL_GRAMMAR.map((g, i) => ({
+    id: `gr-${i}`,
+    title: g.title,
+    subtitle: g.explain.length > 90 ? `${g.explain.slice(0, 90)}...` : g.explain,
+    badge: `${g.examples.length} ${t("ví dụ", "examples")}`,
+    searchText: `${g.title} ${g.explain}`.toLowerCase(),
+    render: () => (
+      <>
+        <p className="mb-3 text-base leading-relaxed text-slate-700">{g.explain}</p>
+        <div className="divide-y divide-pink-100">
+          {g.examples.map((p, j) => <PhraseRow key={j} p={p} lang={uiLang} />)}
+        </div>
+      </>
+    ),
+  }));
+
+  const quizSections: JaSectionItem[] = chunk(ALL_QUIZ, 10).map((part, gi) => {
+    const offset = gi * 10;
+    const answered = part.filter((_, j) => quizPicks[offset + j] !== undefined).length;
+    const correct = part.filter((q, j) => quizPicks[offset + j] === q.answer).length;
+    return {
+      id: `quiz-${gi}`,
+      title: `${t("Bộ", "Set")} ${gi + 1} · ${t("câu", "Q")} ${offset + 1}-${offset + part.length}`,
+      subtitle:
+        answered > 0
+          ? `${t("Đã làm", "Answered")} ${answered}/${part.length} · ${t("đúng", "correct")} ${correct}`
+          : t("Chưa làm", "Not started"),
+      badge: `${part.length} ${t("câu", "Q")}`,
+      render: () => (
+        <div className="space-y-4">
+          {part.map((q, j) => {
+            const idx = offset + j;
+            return (
+              <div key={idx} className="rounded-lg border border-pink-200 bg-white p-4">
+                <div className="mb-2 text-base font-semibold text-slate-800">{idx + 1}. {q.q}</div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {q.options.map((op, oi) => (
+                    <button
+                      key={oi}
+                      onClick={() => setQuizPicks((prev) => ({ ...prev, [idx]: oi }))}
+                      className={`rounded-md border p-2 text-left text-base transition ${
+                        quizPicks[idx] === oi
+                          ? oi === q.answer
+                            ? "border-emerald-400 bg-emerald-50 text-emerald-800"
+                            : "border-rose-400 bg-rose-50 text-rose-800"
+                          : "border-pink-200 bg-white hover:bg-pink-50"
+                      }`}
+                    >
+                      {op}
+                    </button>
+                  ))}
+                </div>
+                {quizPicks[idx] !== undefined && (
+                  <p className="mt-2 text-base text-slate-700">
+                    {quizPicks[idx] === q.answer ? "✅ " : "❌ "}
+                    {uiLang === "vi" ? q.explain_vi : q.explain_en}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ),
+    };
+  });
+
+  const STATS = [
+    { icon: "🈶", n: KANA_TABLES.reduce((s, k) => s + k.rows.length, 0), label: t("chữ kana", "kana") },
+    { icon: "📖", n: totalVocab, label: t("từ vựng", "words") },
+    { icon: "🈴", n: ALL_KANJI.length, label: t("kanji", "kanji") },
+    { icon: "🗣️", n: ALL_DIALOGUES.length, label: t("hội thoại", "dialogues") },
+    { icon: "✍️", n: ALL_GRAMMAR.length, label: t("ngữ pháp", "grammar") },
+    { icon: "🧠", n: ALL_QUIZ.length, label: t("câu ôn tập", "quiz Qs") },
+  ];
+
+  const TABS: Array<[string, string]> = [
+    ["overview", `🌸 ${t("Tổng quan", "Overview")}`],
+    ["kana", `🈶 ${t("Bảng chữ", "Kana")}`],
+    ["greetings", `💬 ${t("Chào hỏi", "Greetings")}`],
+    ["numbers", `🔢 ${t("Số & Giờ", "Numbers")}`],
+    ["vocab", `📖 ${t("Từ vựng", "Vocabulary")}`],
+    ["kanji", `🈴 ${t("Kanji", "Kanji")}`],
+    ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
+    ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
+    ["speaking", `🎤 ${t("Speaking Coach", "Speaking Coach")}`],
+    ["quiz", `🧠 ${t("Ôn tập", "Quiz")}`],
+  ];
+
+  const sectionLabels = {
+    expand: t("Mở tất cả", "Expand all"),
+    collapse: t("Thu gọn", "Collapse"),
+    empty: t("Không tìm thấy nội dung.", "Nothing found."),
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50">
+    <div className="relative min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50">
+      <FloatingJapaneseIcons />
       <Navbar />
       {/* Hero */}
       <div className="relative overflow-hidden bg-gradient-to-r from-rose-500 via-pink-500 to-red-500 text-white">
-
-        <div className="max-w-6xl mx-auto px-4 py-12 relative">
-          <div className="text-6xl mb-2">🌸</div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-2">
-            {t("Học Tiếng Nhật cơ bản (N5)", "Learn Basic Japanese (N5)")}
+        <div className="relative mx-auto max-w-6xl px-4 py-8 md:py-10">
+          <div className="mb-1 text-5xl">🌸</div>
+          <h1 className="mb-1 text-3xl font-extrabold md:text-4xl">
+            {t("Học Tiếng Nhật (N5 - N4)", "Learn Japanese (N5 - N4)")}
           </h1>
-          <p className="text-white/90 max-w-2xl">
+          <p className="max-w-2xl text-base text-white/90">
             {t(
-              "Kana, chào hỏi, số đếm, từ vựng và ngữ pháp N5 — bấm bất kỳ chữ nào để nghe phát âm.",
-              "Kana, greetings, numbers, N5 vocabulary and grammar — click any word to hear it spoken."
+              "Kana, từ vựng, kanji, hội thoại và ngữ pháp - bấm bất kỳ chữ nào để nghe phát âm.",
+              "Kana, vocabulary, kanji, dialogues and grammar - tap any word to hear it spoken."
             )}
           </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {STATS.map((s) => (
+              <span key={s.label} className="rounded-full bg-white/15 px-3 py-1 text-sm font-semibold backdrop-blur">
+                {s.icon} {s.n} {s.label}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-6 md:py-8">
         <Tabs value={tab} onValueChange={handleTab}>
-          <TabsList className="flex flex-wrap h-auto gap-2 bg-pink-100/60 p-2">
-            <TabsTrigger value="overview">🌸 {t("Tổng quan", "Overview")}</TabsTrigger>
-            <TabsTrigger value="kana">🈶 {t("Bảng chữ", "Kana")}</TabsTrigger>
-            <TabsTrigger value="greetings">💬 {t("Chào hỏi", "Greetings")}</TabsTrigger>
-            <TabsTrigger value="numbers">🔢 {t("Số & Giờ", "Numbers")}</TabsTrigger>
-            <TabsTrigger value="vocab">📖 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
-            <TabsTrigger value="kanji">🈴 {t("Kanji cơ bản", "Basic Kanji")}</TabsTrigger>
-            <TabsTrigger value="dialogues">🗣️ {t("Hội thoại", "Dialogues")}</TabsTrigger>
-            <TabsTrigger value="grammar">✍️ {t("Ngữ pháp", "Grammar")}</TabsTrigger>
-            <TabsTrigger value="speaking">🎤 {t("Speaking Coach", "Speaking Coach")}</TabsTrigger>
-            <TabsTrigger value="quiz">🧠 {t("Ôn tập", "Quiz")}</TabsTrigger>
-          </TabsList>
-
+          <div className="-mx-4 overflow-x-auto px-4 pb-1 md:mx-0 md:px-0">
+            <TabsList className="inline-flex h-auto w-max gap-1.5 rounded-xl bg-white/70 p-1.5 shadow-sm ring-1 ring-pink-200 backdrop-blur md:w-full md:flex-wrap">
+              {TABS.map(([v, label]) => (
+                <TabsTrigger
+                  key={v}
+                  value={v}
+                  className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold text-rose-700/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow"
+                >
+                  {label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
           <TabsContent value="overview" className="mt-6">
-            <Card className="p-6 space-y-4">
+            <Card className="space-y-5 border-pink-200 p-6">
               <h2 className="text-2xl font-bold text-rose-700">
                 {t("Chào mừng đến với Tiếng Nhật!", "Welcome to Japanese!")}
               </h2>
-              <p className="text-slate-700 leading-relaxed">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  { n: 1, icon: "🈶", vi: "Học Hiragana & Katakana", en: "Master Hiragana & Katakana" },
+                  { n: 2, icon: "💬", vi: "Chào hỏi, số đếm, giờ - ngày", en: "Greetings, numbers, time" },
+                  { n: 3, icon: "📖", vi: "Từ vựng theo chủ đề + kanji", en: "Topic vocabulary + kanji" },
+                  { n: 4, icon: "🗣️", vi: "Hội thoại, ngữ pháp, luyện nói", en: "Dialogues, grammar, speaking" },
+                ].map((s) => (
+                  <div key={s.n} className="rounded-xl border border-pink-200 bg-pink-50/70 p-4">
+                    <div className="text-2xl">{s.icon}</div>
+                    <div className="mt-1 text-sm font-bold text-rose-600">
+                      {t("Bước", "Step")} {s.n}
+                    </div>
+                    <div className="text-base font-semibold text-slate-800">{t(s.vi, s.en)}</div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-base leading-relaxed text-slate-700">
                 {t(
-                  "Lộ trình đề xuất: Hiragana → Katakana → 15 câu chào hỏi → số đếm → 56 từ N5 (8 chủ đề) → 12 Kanji cốt lõi → 6 hội thoại thực tế → 12 điểm ngữ pháp. Mỗi ngày 20 phút, sau 3 tuần bạn có thể tự giới thiệu, gọi món và hỏi đường.",
-                  "Suggested roadmap: Hiragana → Katakana → 15 greetings → numbers → 56 N5 words across 8 topics → 12 essential Kanji → 6 real-life dialogues → 12 grammar points. Twenty minutes a day gets you self-introducing, ordering food and asking directions in 3 weeks."
+                  `Mỗi ngày 20 phút theo 4 bước trên. Toàn bộ khoá hiện có ${totalVocab} từ vựng, ${ALL_KANJI.length} kanji, ${ALL_DIALOGUES.length} đoạn hội thoại, ${ALL_GRAMMAR.length} điểm ngữ pháp và ${ALL_QUIZ.length} câu ôn tập.`,
+                  `Twenty minutes a day through the four steps above. The course now holds ${totalVocab} words, ${ALL_KANJI.length} kanji, ${ALL_DIALOGUES.length} dialogues, ${ALL_GRAMMAR.length} grammar points and ${ALL_QUIZ.length} quiz questions.`
                 )}
               </p>
-              <ul className="grid md:grid-cols-2 gap-3 text-sm">
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🈶 {t("46 chữ Hiragana + 46 Katakana", "46 Hiragana + 46 Katakana characters")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">💬 {t("15 câu chào hỏi thực dụng", "15 practical greetings")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🔢 {t("Số đếm 1–10.000 & cách hỏi giờ", "Numbers 1–10,000 & telling time")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">📖 {t("56 từ vựng N5 · 8 chủ đề (màu sắc, thức ăn, ngày, thời tiết, địa điểm...)", "56 N5 words · 8 topics (colors, food, days, weather, places...)")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🈴 {t("12 Kanji cốt lõi kèm âm On / Kun", "12 essential Kanji with On / Kun readings")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🗣️ {t("6 đoạn hội thoại thực tế (nhà hàng, mua sắm, hỏi đường...)", "6 real-life dialogues (restaurant, shopping, directions...)")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">✍️ {t("12 điểm ngữ pháp N5 cốt lõi", "12 core N5 grammar points")}</li>
-                <li className="p-3 bg-pink-50 rounded-lg border border-pink-200">🔊 {t("Nghe phát âm bằng 1 cú click", "One-click pronunciation")}</li>
-              </ul>
-
+              <div className="flex flex-wrap gap-2">
+                {TABS.slice(1).map(([v, label]) => (
+                  <Button
+                    key={v}
+                    size="sm"
+                    variant="outline"
+                    className="border-pink-200 bg-white text-rose-700 hover:bg-pink-50 hover:text-rose-800"
+                    onClick={() => handleTab(v)}
+                  >
+                    {label}
+                  </Button>
+                ))}
+              </div>
             </Card>
           </TabsContent>
 
-          <TabsContent value="kana" className="mt-6 space-y-6">
-            <Card className="p-6"><KanaGrid rows={HIRAGANA} label={t("Hiragana (ひらがな)", "Hiragana (ひらがな)")} /></Card>
-            <Card className="p-6"><KanaGrid rows={HIRAGANA_DAKUTEN} label={t("Hiragana biến âm (だくてん)", "Hiragana voiced (dakuten)")} /></Card>
-            <Card className="p-6"><KanaGrid rows={HIRAGANA_YOON} label={t("Hiragana ghép âm (ようおん)", "Hiragana contracted (yōon)")} /></Card>
-            <Card className="p-6"><KanaGrid rows={KATAKANA} label={t("Katakana (カタカナ)", "Katakana (カタカナ)")} /></Card>
-            <Card className="p-6"><KanaGrid rows={KATAKANA_DAKUTEN} label={t("Katakana biến âm (ダクテン)", "Katakana voiced (dakuten)")} /></Card>
+          <TabsContent value="kana" className="mt-6">
+            <JaSection items={kanaSections} labels={sectionLabels} />
           </TabsContent>
 
           <TabsContent value="greetings" className="mt-6">
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-rose-700">💬 {t(`${ALL_GREETINGS.length} câu chào hỏi & giao tiếp cơ bản`, `${ALL_GREETINGS.length} everyday greetings & phrases`)}</h3>
-              <div className="divide-y divide-pink-100">
-                {ALL_GREETINGS.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
-              </div>
-            </Card>
+            <JaSection
+              items={greetingSections}
+              labels={sectionLabels}
+              searchPlaceholder={t("Tìm câu chào hỏi...", "Search greetings...")}
+            />
           </TabsContent>
 
-          <TabsContent value="numbers" className="mt-6 space-y-6">
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-rose-700">🔢 {t("Số 1–10", "Numbers 1–10")}</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                {NUMBERS_1_10.map(([n, kana, ro]) => (
-                  <button key={n} onClick={() => speakJa(kana.split(" ")[0])}
-                    className="rounded-lg border border-pink-200 bg-white hover:bg-pink-50 p-3 text-center transition">
-                    <div className="text-2xl font-bold text-rose-700">{n}</div>
-                    <div className="text-base">{kana}</div>
-                    <div className="text-xs text-slate-500">{ro}</div>
-                  </button>
-                ))}
-              </div>
-            </Card>
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-rose-700">{t("Số lớn hơn", "Larger numbers")}</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {NUMBERS_BIG.map(([n, kana, ro]) => (
-                  <button key={n} onClick={() => speakJa(kana)}
-                    className="rounded-lg border border-pink-200 bg-white hover:bg-pink-50 p-3 text-center transition">
-                    <div className="text-xl font-bold text-rose-700">{n}</div>
-                    <div className="text-base">{kana}</div>
-                    <div className="text-xs text-slate-500">{ro}</div>
-                  </button>
-                ))}
-              </div>
-            </Card>
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-rose-700">🕒 {t("Nói giờ & ngày", "Time & date")}</h3>
-              <div className="divide-y divide-pink-100">
-                {TIME_WORDS.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
-              </div>
-            </Card>
-            {COUNTERS.map((c) => (
-              <Card key={c.title} className="p-6">
-                <h3 className="text-xl font-bold mb-1 text-rose-700">{c.title}</h3>
-                <p className="text-sm text-slate-600 mb-3">{uiLang === "vi" ? c.note_vi : c.note_en}</p>
-                <div className="divide-y divide-pink-100">
-                  {c.items.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
-                </div>
-              </Card>
-            ))}
+          <TabsContent value="numbers" className="mt-6">
+            <JaSection items={numberSections} labels={sectionLabels} />
           </TabsContent>
 
-          <TabsContent value="vocab" className="mt-6 space-y-6">
-            <p className="text-sm text-slate-600">
+          <TabsContent value="vocab" className="mt-6 space-y-5">
+            <Card className="border-pink-200 bg-white/80 p-4 text-base text-slate-700">
               {t(
                 `Bấm ⭐ để đánh dấu từ đã nhớ. Bạn đã nhớ ${mastered.size} từ - các từ này sẽ sáng lên trong Bộ não từ vựng 3D ở cuối trang.`,
                 `Tap ⭐ to mark a word as mastered. You have ${mastered.size} mastered words - they light up the 3D vocabulary brain at the bottom of this page.`
               )}
-            </p>
-            {ALL_VOCAB.map(group => (
-              <Card key={group.topic} className="p-6">
-                <h3 className="text-xl font-bold mb-3 text-rose-700">{group.topic}</h3>
-                <div className="divide-y divide-pink-100">
-                  {group.items.map((p, i) => (
-                    <PhraseRow
-                      key={i}
-                      p={p}
-                      lang={uiLang}
-                      mastered={mastered.has(p.jp)}
-                      onToggleMastered={() => toggleMastered(p.jp)}
-                      onListen={() => {
-                        // Listening to a word you already marked ⭐ is a real
-                        // repetition, so it consolidates in the memory brain.
-                        if (!mastered.has(p.jp) || jaReviewedRef.current.has(p.jp)) return;
-                        jaReviewedRef.current.add(p.jp);
-                        void recordVocabReviewTracked("japanese", [p.jp]);
-                      }}
-                    />
-                  ))}
-                </div>
-              </Card>
-            ))}
+            </Card>
+            <JaSection
+              items={vocabSections}
+              labels={sectionLabels}
+              searchPlaceholder={t("Tìm từ (kana, romaji, nghĩa)...", "Search words (kana, romaji, meaning)...")}
+            />
 
             {/* 3D memory brain for Japanese vocabulary */}
-            <Suspense fallback={<div className="h-40 rounded-xl bg-pink-50 animate-pulse" />}>
+            <Suspense fallback={<div className="h-40 animate-pulse rounded-xl bg-pink-50" />}>
               <VocabBrainPanel
                 subject="japanese"
                 localWords={[...mastered]}
                 t={t}
-                lookupWord={(w) => {
-                  const found = JA_WORD_INDEX.get(w);
+                lookupWord={(word) => {
+                  const found = JA_WORD_INDEX.get(word);
                   if (!found) return null;
                   return {
                     word: found.jp,
@@ -664,120 +922,44 @@ const Japanese = () => {
             </Suspense>
           </TabsContent>
 
-          <TabsContent value="kanji" className="mt-6">
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-2 text-rose-700">🈴 {t(`${ALL_KANJI.length} Kanji cốt lõi N5`, `${ALL_KANJI.length} essential N5 Kanji`)}</h3>
-              <p className="text-sm text-slate-600 mb-4">
-                {t(
-                  "Kanji có 2 cách đọc: âm On (từ gốc Hán) và âm Kun (thuần Nhật). Bấm để nghe phát âm.",
-                  "Each Kanji has two readings: On (Sino-Japanese) and Kun (native). Click to hear it."
-                )}
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {ALL_KANJI.map((k) => (
-                  <button
-                    key={k.kanji}
-                    onClick={() => speakJa(k.kanji)}
-                    className="flex items-start gap-3 rounded-lg border border-pink-200 bg-white hover:bg-pink-50 p-3 text-left transition"
-                  >
-                    <div className="text-4xl font-bold text-rose-700 shrink-0 w-14 text-center">{k.kanji}</div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold text-slate-800">
-                        {uiLang === "vi" ? k.meaning_vi : k.meaning_en}
-                      </div>
-                      <div className="text-xs text-slate-600 mt-1">
-                        <span className="font-semibold">On:</span> {k.on}
-                        <span className="mx-2">·</span>
-                        <span className="font-semibold">Kun:</span> {k.kun}
-                      </div>
-                      <div className="text-xs text-pink-700 mt-1 italic">{k.example}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
+          <TabsContent value="kanji" className="mt-6 space-y-4">
+            <Card className="border-pink-200 bg-white/80 p-4 text-base text-slate-700">
+              {t(
+                "Kanji có 2 cách đọc: âm On (gốc Hán) và âm Kun (thuần Nhật). Bấm vào chữ để nghe phát âm.",
+                "Each kanji has two readings: On (Sino-Japanese) and Kun (native). Tap a character to hear it."
+              )}
             </Card>
+            <JaSection
+              items={kanjiSections}
+              labels={sectionLabels}
+              searchPlaceholder={t("Tìm kanji hoặc nghĩa...", "Search kanji or meaning...")}
+            />
           </TabsContent>
 
-          <TabsContent value="dialogues" className="mt-6 space-y-6">
-            {ALL_DIALOGUES.map((d, i) => (
-              <Card key={i} className="p-6">
-                <h3 className="text-xl font-bold text-rose-700 mb-1">{d.title}</h3>
-                <p className="text-sm text-slate-600 italic mb-4">{d.scene}</p>
-                <div className="space-y-3">
-                  {d.lines.map((ln, j) => (
-                    <div key={j} className="flex items-start gap-3 p-3 rounded-lg bg-pink-50/60 border border-pink-100">
-                      <div className="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 text-white flex items-center justify-center font-bold">
-                        {ln.speaker}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-base font-semibold text-slate-800">{ln.jp}</div>
-                        <div className="text-sm text-pink-700 italic">{ln.romaji}</div>
-                        <div className="text-sm text-slate-600 mt-1">{uiLang === "vi" ? ln.vi : ln.en}</div>
-                      </div>
-                      <Button size="sm" variant="outline" onClick={() => speakJa(ln.jp)} className="shrink-0">
-                        <Volume2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            ))}
+          <TabsContent value="dialogues" className="mt-6">
+            <JaSection
+              items={dialogueSections}
+              labels={sectionLabels}
+              searchPlaceholder={t("Tìm hội thoại theo tình huống...", "Search dialogues by situation...")}
+            />
           </TabsContent>
 
-
-
-          <TabsContent value="grammar" className="mt-6 space-y-4">
-            {ALL_GRAMMAR.map((g, i) => (
-              <Card key={i} className="p-6">
-                <h3 className="text-lg font-bold text-rose-700 mb-2">{g.title}</h3>
-                <p className="text-slate-700 mb-3">{g.explain}</p>
-                <div className="divide-y divide-pink-100">
-                  {g.examples.map((p, j) => <PhraseRow key={j} p={p} lang={uiLang} />)}
-                </div>
-              </Card>
-            ))}
+          <TabsContent value="grammar" className="mt-6">
+            <JaSection
+              items={grammarSections}
+              labels={sectionLabels}
+              searchPlaceholder={t("Tìm điểm ngữ pháp...", "Search grammar points...")}
+            />
           </TabsContent>
 
           <TabsContent value="speaking" className="mt-6">
-            <Suspense fallback={<div className="p-6 text-slate-600">{t("Đang tải...", "Loading...")}</div>}>
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">{t("Đang tải...", "Loading...")}</div>}>
               <JapaneseSpeakingCoach language="japanese" />
             </Suspense>
           </TabsContent>
 
           <TabsContent value="quiz" className="mt-6">
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-rose-700">🧠 {t(`Tự kiểm tra N5 - N4 (${ALL_QUIZ.length} câu)`, `N5 - N4 self-check (${ALL_QUIZ.length} questions)`)}</h3>
-              <div className="space-y-5">
-                {ALL_QUIZ.map((q, i) => (
-                  <div key={i} className="rounded-lg border border-pink-200 bg-white p-4">
-                    <div className="font-semibold text-slate-800 mb-2">{i + 1}. {q.q}</div>
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      {q.options.map((op, j) => (
-                        <button
-                          key={j}
-                          onClick={() => setQuizPicks((prev) => ({ ...prev, [i]: j }))}
-                          className={`rounded-md border p-2 text-left text-sm transition ${
-                            quizPicks[i] === j
-                              ? j === q.answer
-                                ? "border-emerald-400 bg-emerald-50 text-emerald-800"
-                                : "border-rose-400 bg-rose-50 text-rose-800"
-                              : "border-pink-200 bg-white hover:bg-pink-50"
-                          }`}
-                        >
-                          {op}
-                        </button>
-                      ))}
-                    </div>
-                    {quizPicks[i] !== undefined && (
-                      <p className="mt-2 text-sm text-slate-700">
-                        {quizPicks[i] === q.answer ? "✅ " : "❌ "}
-                        {uiLang === "vi" ? q.explain_vi : q.explain_en}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </Card>
+            <JaSection items={quizSections} labels={sectionLabels} />
           </TabsContent>
         </Tabs>
       </div>
