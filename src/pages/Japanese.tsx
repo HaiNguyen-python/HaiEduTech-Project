@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingJapaneseIcons from "@/components/japanese/FloatingJapaneseIcons";
+import JaSection, { JaSectionItem } from "@/components/japanese/JaSection";
 import {
   HIRAGANA_DAKUTEN, HIRAGANA_YOON, KATAKANA_DAKUTEN,
   GREETINGS_EXTRA, COUNTERS, VOCAB_EXTRA, KANJI_EXTRA,
@@ -401,9 +403,29 @@ const ALL_DIALOGUES = [...DIALOGUES, ...DIALOGUES_EXTRA];
 const ALL_GRAMMAR = [...GRAMMAR, ...GRAMMAR_EXTRA];
 const ALL_QUIZ = [...JA_QUIZ, ...JA_QUIZ_EXTRA];
 
-const KanaGrid = ({ rows, label }: { rows: Array<[string, string]>; label: string }) => (
+/** Kana tables, one collapsible section each. */
+const KANA_TABLES: Array<{ vi: string; en: string; rows: Array<[string, string]> }> = [
+  { vi: "Hiragana (ひらがな)", en: "Hiragana (ひらがな)", rows: HIRAGANA },
+  { vi: "Hiragana biến âm (だくてん)", en: "Hiragana voiced (dakuten)", rows: HIRAGANA_DAKUTEN },
+  { vi: "Hiragana ghép âm (ようおん)", en: "Hiragana contracted (yōon)", rows: HIRAGANA_YOON },
+  { vi: "Katakana (カタカナ)", en: "Katakana (カタカナ)", rows: KATAKANA },
+  { vi: "Katakana biến âm (ダクテン)", en: "Katakana voiced (dakuten)", rows: KATAKANA_DAKUTEN },
+];
+
+interface KanjiCard {
+  kanji: string; on: string; kun: string;
+  meaning_vi: string; meaning_en: string; example: string;
+}
+
+/** Kanji grouped by theme so the tab stays short. */
+const KANJI_SECTIONS: Array<{ group: string; items: KanjiCard[] }> = [
+  { group: "🈴 Kanji cốt lõi N5 / Core N5 kanji", items: KANJI_BASIC },
+  { group: "➕ Kanji mở rộng / Extra kanji", items: KANJI_EXTRA },
+  ...KANJI_GROUPS.map((g) => ({ group: g.group, items: g.items as KanjiCard[] })),
+].filter((g) => g.items.length > 0);
+
+const KanaGrid = ({ rows }: { rows: Array<[string, string]> }) => (
   <div>
-    <h3 className="text-xl font-bold mb-3 text-pink-700">{label}</h3>
     <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-10 gap-2">
       {rows.map(([ch, ro]) => (
         <button
@@ -492,8 +514,6 @@ const Japanese = () => {
     for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
     return out;
   };
-
-  const w = (label: string) => (uiLang === "vi" ? label : label);
 
   // ----- Section models (memo-free: data is static module scope) -----
   const kanaSections: JaSectionItem[] = KANA_TABLES.map((tb, i) => ({
