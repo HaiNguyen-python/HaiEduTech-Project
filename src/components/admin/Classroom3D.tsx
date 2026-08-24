@@ -756,37 +756,76 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
           {safeStudents.length === 0 ? (
             <p className="text-muted-foreground text-center py-10">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
           ) : flat ? (
-            /* ---------- 2D fallback grid (same ranking order) ---------- */
-            <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4">
-              {seats
-                .filter((s) => !dimSet || dimSet.has(s.student.userId))
-                .map((seat) => {
-                  const m = TIER_META[seat.tier];
-                  return (
-                    <Button
-                      variant="ghost"
-                      key={seat.student.userId}
-                      onClick={() => onSelectStudent(seat.student)}
-                      className={`classroom-control h-auto justify-start rounded-md border p-3 text-left hover:bg-muted/50 hover:text-foreground hover:shadow-md ${
-                        selectedUserId === seat.student.userId ? "border-primary ring-1 ring-primary/40" : "border-border/60"
-                      }`}
-                      style={{ backgroundColor: `${m.color}14` }}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold tabular-nums" style={{ color: m.color }}>#{seat.rank}</span>
-                        <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: m.color }} />
-                        <span className="font-semibold text-sm truncate">{seat.student.fullName}</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {seat.student.avgScore || "-"}/10 · {seat.student.totalActivities} {t("hoạt động", "activities")}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatLastActive(seat.lastActiveMs, vi)}
-                      </p>
-                    </Button>
-                  );
-                })}
+            /* ---------- 2D fallback list (same ranking order) ---------- */
+            <div className="space-y-3 p-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <div className="relative flex-1">
+                  <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-card pl-8" />
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1">
+                  {TIER_ORDER.map((tier) => {
+                    const meta = TIER_META[tier];
+                    return (
+                      <Button key={tier} variant={tierFilter === tier ? "secondary" : "outline"} size="sm" className="classroom-control shrink-0 gap-1.5 text-foreground hover:text-foreground" onClick={() => setTierFilter(tierFilter === tier ? null : tier)}>
+                        <span className="h-2 w-2 rounded-full" style={{ backgroundColor: meta.color }} />
+                        {vi ? meta.vi : meta.en} {counts[tier]}
+                      </Button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {seats
+                  .filter((s) => !dimSet || dimSet.has(s.student.userId))
+                  .map((seat) => {
+                    const m = TIER_META[seat.tier];
+                    const active = selectedUserId === seat.student.userId;
+                    return (
+                      <button
+                        type="button"
+                        key={seat.student.userId}
+                        onClick={() => onSelectStudent(seat.student)}
+                        aria-pressed={active}
+                        className={`group flex w-full flex-col gap-2 rounded-xl border bg-card p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
+                          active ? "border-primary ring-1 ring-primary/40" : "border-border/60"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="flex h-7 w-9 shrink-0 items-center justify-center rounded-md text-xs font-bold tabular-nums"
+                            style={{ backgroundColor: `${m.color}1f`, color: m.color }}
+                          >
+                            #{seat.rank}
+                          </span>
+                          <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">
+                            {seat.student.fullName}
+                          </span>
+                          <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: m.color }} title={vi ? m.vi : m.en} />
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                          <span className="rounded-full px-2 py-0.5 font-semibold" style={{ backgroundColor: `${m.color}1a`, color: m.color }}>
+                            {vi ? m.vi : m.en}
+                          </span>
+                          <span className="rounded-full bg-muted px-2 py-0.5 font-medium text-muted-foreground tabular-nums">
+                            {seat.student.avgScore || "-"}/10
+                          </span>
+                          <span className="rounded-full bg-muted px-2 py-0.5 font-medium text-muted-foreground tabular-nums">
+                            {seat.student.totalActivities} {t("hoạt động", "activities")}
+                          </span>
+                        </div>
+
+                        <p className="truncate text-xs text-muted-foreground">
+                          {formatLastActive(seat.lastActiveMs, vi)}
+                        </p>
+                      </button>
+                    );
+                  })}
+              </div>
             </div>
+
           ) : (
             <div className="relative bg-[hsl(var(--classroom-canvas))] p-3 sm:p-4">
               <div className="mb-3 space-y-2 lg:hidden">
