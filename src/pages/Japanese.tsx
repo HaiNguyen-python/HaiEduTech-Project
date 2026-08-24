@@ -421,6 +421,7 @@ const PhraseRow = ({
   lang,
   mastered,
   onToggleMastered,
+  onListen,
 }: {
   p: Phrase;
   lang: "vi" | "en";
