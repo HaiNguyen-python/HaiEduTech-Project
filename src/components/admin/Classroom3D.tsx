@@ -43,7 +43,7 @@ interface Props {
 type CameraPreset = "class" | "top" | "alert";
 
 const PRESETS: Record<CameraPreset, [number, number, number]> = {
-  class: [0, 9, 16],
+  class: [0, 11, 20],
   top: [0, 22, 0.01],
   alert: [0, 4.5, -9],
 };
@@ -396,7 +396,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                 <Canvas
                   shadows={false}
                   dpr={[1, 1.6]}
-                  camera={{ position: PRESETS.class, fov: 45 }}
+                  camera={{ position: [0, 7 + rows * 0.55, 12 + rows * 1.15], fov: 45 }}
                   frameloop="always"
                 >
                   <color attach="background" args={["#eef4fb"]} />
