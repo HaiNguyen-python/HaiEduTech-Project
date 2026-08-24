@@ -617,7 +617,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
           aria-label="Questions"
           className="overflow-y-auto bg-background flex-1 min-h-[40vh] lg:min-h-0"
         >
-          <div className="max-w-2xl mx-auto px-5 md:px-8 py-6 md:py-8 space-y-6">
+          <div className="max-w-5xl mx-auto px-3 md:px-6 py-6 md:py-8 space-y-6">
             {!submitted && exam.questions.map((q) => (
               <QuestionBlock
                 key={q.number}
@@ -924,12 +924,50 @@ interface FullTestEngineProps {
   onClose: () => void;
 }
 
+/** Standard IELTS Academic Reading total. */
+const FULL_TEST_TOTAL_QS = 40;
+
+/**
+ * Distribute exactly 40 questions over the 3 passages (target 13/13/14),
+ * never exceeding what a passage actually offers.
+ */
+const allocateFullTestCounts = (lengths: number[], total = FULL_TEST_TOTAL_QS): number[] => {
+  const base = [13, 13, 14];
+  const take = lengths.map((len, i) => Math.min(len, base[i] ?? 13));
+  let remaining = total - take.reduce((a, b) => a + b, 0);
+  // Give away leftovers round-robin; drop extras from the largest slice first.
+  let guard = 0;
+  while (remaining > 0 && guard++ < 200) {
+    let moved = false;
+    for (let i = 0; i < take.length && remaining > 0; i++) {
+      if (take[i] < lengths[i]) { take[i] += 1; remaining -= 1; moved = true; }
+    }
+    if (!moved) break;
+  }
+  guard = 0;
+  while (remaining < 0 && guard++ < 200) {
+    const maxIdx = take.indexOf(Math.max(...take));
+    if (take[maxIdx] <= 0) break;
+    take[maxIdx] -= 1;
+    remaining += 1;
+  }
+  return take;
+};
+
 const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
   const { t } = useLanguage();
-  const passages = useMemo(
+  const rawPassages = useMemo(
     () => test.passageIds.map(id => EXAMS_BY_ID[id]).filter(Boolean) as ReadingExam[],
     [test]
   );
+
+  // Real IELTS Academic Reading always has exactly 40 questions across the
+  // 3 passages, so trim each passage to the standard 13/13/14 allocation.
+  const passages = useMemo(() => {
+    const lengths = rawPassages.map(p => p.questions.length);
+    const take = allocateFullTestCounts(lengths);
+    return rawPassages.map((p, i) => ({ ...p, questions: p.questions.slice(0, take[i]) }));
+  }, [rawPassages]);
 
   // Build a flat question list with re-numbered "global" numbers 1..N.
   const flat = useMemo(() => {
@@ -1121,7 +1159,7 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
         </div>
 
         <section aria-label="Questions" className="overflow-y-auto bg-background flex-1 min-h-[40vh] lg:min-h-0">
-          <div className="max-w-2xl mx-auto px-5 md:px-8 py-6 md:py-8 space-y-6">
+          <div className="max-w-5xl mx-auto px-3 md:px-6 py-6 md:py-8 space-y-6">
             <div className="text-xs text-muted-foreground">
               {t(
                 `Câu hỏi ${passageOffsets[activePassage]}–${passageOffsets[activePassage] + currentPassage.questions.length - 1}`,
@@ -1247,7 +1285,7 @@ const IeltsReadingPractice: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {IELTS_FULL_TESTS.map(ft => {
                   const ps = ft.passageIds.map(id => EXAMS_BY_ID[id]).filter(Boolean);
-                  const totalQs = ps.reduce((a, p) => a + p.questions.length, 0);
+                  const totalQs = ps.length === 3 ? 40 : ps.reduce((a, p) => a + p.questions.length, 0);
                   return (
                     <motion.div
                       key={ft.id}
