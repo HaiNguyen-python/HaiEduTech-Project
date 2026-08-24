@@ -270,7 +270,11 @@ const ROOM_MATERIALS = {
 
 const WindowWall = ({ width, depth }: { width: number; depth: number }) => (
   <group position={[-width / 2 + 0.08, 3.2, 0]}>
-    <mesh position={[0, 0, 0]}><boxGeometry args={[0.16, 6.4, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
+    <mesh position={[0, -2.65, 0]}><boxGeometry args={[0.18, 1.1, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
+    <mesh position={[0, 2.75, 0]}><boxGeometry args={[0.18, 0.9, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
+    {[-depth / 2, -depth / 6, depth / 6, depth / 2].map((z) => (
+      <mesh key={`pillar-${z}`} position={[0, 0, z]}><boxGeometry args={[0.2, 5.5, 0.28]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+    ))}
     {[-depth * 0.3, 0, depth * 0.3].map((z) => (
       <group key={z} position={[0.12, 0.45, z]}>
         <mesh rotation={[0, Math.PI / 2, 0]}><planeGeometry args={[Math.min(3.8, depth / 4), 3.7]} /><primitive object={ROOM_MATERIALS.glass} attach="material" /></mesh>
@@ -519,14 +523,14 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
     const labels = new Set<string>();
     const q = normalizeForSearch(query);
     for (const seat of seats) {
-      const isPriority = seat.rank <= 3 || seat.tier === "alert";
+      const isPriority = seat.rank <= 3 || (!crowded && seat.tier === "alert") || (crowded && seat.tier === "alert" && seat.rank <= 12);
       const isMatch = !!q && normalizeForSearch(seat.student.fullName).includes(q);
       if (isPriority || isMatch || seat.student.userId === selectedUserId || seat.student.userId === hovered?.student.userId) {
         labels.add(seat.student.userId);
       }
     }
     return labels;
-  }, [hovered, query, seats, selectedUserId]);
+  }, [crowded, hovered, query, seats, selectedUserId]);
 
   const applyPreset = (p: CameraPreset) => {
     const c = controls.current;
