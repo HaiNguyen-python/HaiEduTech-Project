@@ -6,13 +6,30 @@
  *   (60 minutes per full Reading paper - here per single passage we use 20m).
  */
 
-export type ReadingQuestionType = "multiple-choice" | "matching-headings" | "fill-blank";
+export type ReadingQuestionType =
+  | "multiple-choice"
+  | "matching-headings"
+  | "fill-blank"
+  /** True / False / Not Given (factual claims). */
+  | "tfng"
+  /** Yes / No / Not Given (writer's views and claims). */
+  | "ynng"
+  /** Match a statement to a named researcher / period / place. */
+  | "matching-features"
+  /** Complete the sentence by choosing an ending from a shared list. */
+  | "matching-endings"
+  /** Summary completion using a shared word bank with extra distractors. */
+  | "summary-completion"
+  /** Multiple choice where TWO letters must be chosen. */
+  | "mcq-multi";
 
 export interface ReadingQuestion {
   /** 1-based question number used for navigation matrix */
   number: number;
   type: ReadingQuestionType;
   prompt: string;
+  /** Optional per-question rubric shown above the answer control. */
+  instruction?: string;
   /** For multiple-choice: array of options. Letter labels are auto-rendered (A, B, C...) */
   options?: string[];
   /**
@@ -20,11 +37,20 @@ export interface ReadingQuestion {
    * shown in the dropdown.
    */
   headings?: { label: string; text: string }[];
+  /** For matching-features: the shared list of people / places / periods. */
+  features?: { label: string; text: string }[];
+  /** For matching-endings: the shared list of sentence endings. */
+  endings?: { label: string; text: string }[];
+  /** For summary-completion: shared word bank (include distractors). */
+  wordBank?: { label: string; text: string }[];
   /** Canonical correct answer (case-insensitive comparison). */
   answer: string;
+  /** For mcq-multi: the set of correct option letters, e.g. ["A", "D"]. */
+  answers?: string[];
   /** Optional explanation revealed in review mode. */
   explanation?: string;
 }
+
 
 export interface ReadingExam {
   id: string;
@@ -61,7 +87,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
         headings: [
           { label: "i", text: "The cost of going green" },
           { label: "ii", text: "A historic shift in power generation" },
-          { label: "iii", text: "Storage – the missing piece" },
+          { label: "iii", text: "Storage - the missing piece" },
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "ii",
@@ -74,7 +100,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
         headings: [
           { label: "i", text: "The cost of going green" },
           { label: "ii", text: "A historic shift in power generation" },
-          { label: "iii", text: "Storage – the missing piece" },
+          { label: "iii", text: "Storage - the missing piece" },
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "iv",
@@ -87,7 +113,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
         headings: [
           { label: "i", text: "The cost of going green" },
           { label: "ii", text: "A historic shift in power generation" },
-          { label: "iii", text: "Storage – the missing piece" },
+          { label: "iii", text: "Storage - the missing piece" },
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "iii",
@@ -100,7 +126,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
         headings: [
           { label: "i", text: "The cost of going green" },
           { label: "ii", text: "A historic shift in power generation" },
-          { label: "iii", text: "Storage – the missing piece" },
+          { label: "iii", text: "Storage - the missing piece" },
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "i",
@@ -489,7 +515,7 @@ E. The picture is not uniformly positive. Critics warn that remote work risks we
       { number: 9, type: "multiple-choice", prompt: "What concern is raised about younger employees?",
         options: ["They cannot use the technology", "They struggle to build professional networks", "They refuse hybrid arrangements", "They earn lower salaries"], answer: "They struggle to build professional networks" },
       { number: 10, type: "fill-blank", prompt: "Complete: 'The term telecommuting was coined in ___.'", answer: "1972" },
-      { number: 11, type: "fill-blank", prompt: "Complete: 'An estimated ___% of office workers worked from home during 2020–2022.'", answer: "60" },
+      { number: 11, type: "fill-blank", prompt: "Complete: 'An estimated ___% of office workers worked from home during 2020-2022.'", answer: "60" },
       { number: 12, type: "fill-blank", prompt: "Complete: 'Hybrid workers saved on average ___ minutes per day previously lost to commuting.'", answer: "72" },
       { number: 13, type: "fill-blank", prompt: "Complete: 'Remote work has widened the gap between knowledge workers and ___ workers.'", answer: "service" },
     ],
