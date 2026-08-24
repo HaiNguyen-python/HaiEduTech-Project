@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
-import { playJapaneseTts, stopJapaneseTts } from "@/lib/japaneseTts";
+import { playJapaneseTts } from "@/lib/japaneseTts";
 import { japaneseSoundTipsFor } from "@/lib/japaneseSoundTips";
 import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";

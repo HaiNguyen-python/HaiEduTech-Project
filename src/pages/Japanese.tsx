@@ -24,6 +24,7 @@ import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
+const JapaneseSpeakingCoach = lazy(() => import("@/components/AISpeakingCoach"));
 const JA_MILESTONES = [
   { words: 100, band: "JLPT N5" },
   { words: 300, band: "N5+" },
@@ -513,6 +514,7 @@ const Japanese = () => {
             <TabsTrigger value="kanji">🈴 {t("Kanji cơ bản", "Basic Kanji")}</TabsTrigger>
             <TabsTrigger value="dialogues">🗣️ {t("Hội thoại", "Dialogues")}</TabsTrigger>
             <TabsTrigger value="grammar">✍️ {t("Ngữ pháp", "Grammar")}</TabsTrigger>
+            <TabsTrigger value="speaking">🎤 {t("Speaking Coach", "Speaking Coach")}</TabsTrigger>
             <TabsTrigger value="quiz">🧠 {t("Ôn tập", "Quiz")}</TabsTrigger>
           </TabsList>
 
@@ -732,6 +734,12 @@ const Japanese = () => {
                 </div>
               </Card>
             ))}
+          </TabsContent>
+
+          <TabsContent value="speaking" className="mt-6">
+            <Suspense fallback={<div className="p-6 text-slate-600">{t("Đang tải...", "Loading...")}</div>}>
+              <JapaneseSpeakingCoach language="japanese" />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="quiz" className="mt-6">
