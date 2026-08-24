@@ -77,6 +77,11 @@ const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAM
   merged = shuffleHeadingsInExam(merged);
   return merged;
 });
+// Display difficulty without the blunt word "Hard": levels are shown in
+// exam-style wording instead.
+const LEVEL_LABEL: Record<string, string> = { Hard: "Advanced", Medium: "Standard", Easy: "Foundation" };
+const levelLabel = (l: string) => LEVEL_LABEL[l] ?? l;
+
 const IELTS_FULL_READING_EXAMS: ReadingExam[] = _MERGED_EXAMS;
 const EXAMS_BY_ID: Record<string, ReadingExam> = Object.fromEntries(IELTS_FULL_READING_EXAMS.map(e => [e.id, e]));
 
@@ -510,7 +515,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
 
           <div className="font-semibold text-sm text-foreground truncate flex-1 min-w-[160px]">
             📖 {exam.title}
-            <Badge variant="outline" className="ml-2 text-[10px]">{exam.level}</Badge>
+            <Badge variant="outline" className="ml-2 text-[10px]">{levelLabel(exam.level)}</Badge>
           </div>
 
           {/* Timer */}
@@ -1327,7 +1332,7 @@ const IeltsReadingPractice: React.FC = () => {
                     className="rounded-xl border bg-card p-4 hover:shadow-lg transition-all"
                   >
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      <Badge variant="secondary" className="text-[10px]">{exam.level}</Badge>
+                      <Badge variant="secondary" className="text-[10px]">{levelLabel(exam.level)}</Badge>
                       <span className="text-[11px] text-muted-foreground inline-flex items-center gap-1">
                         <Clock className="w-3 h-3" /> {exam.durationMinutes} min
                       </span>
