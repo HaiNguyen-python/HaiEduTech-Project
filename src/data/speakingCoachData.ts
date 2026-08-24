@@ -913,6 +913,12 @@ export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
     speechLang: "sv-SE",
     themes: dedupeSpeakingThemes(swedishThemes),
   },
+  japanese: {
+    lang: "日本語",
+    langCode: "ja",
+    speechLang: "ja-JP",
+    themes: dedupeSpeakingThemes([...japaneseThemes1, ...japaneseThemes2]),
+  },
   chinese: {
     lang: "中文",
     langCode: "zh",
