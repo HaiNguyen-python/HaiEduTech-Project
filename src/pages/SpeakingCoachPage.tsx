@@ -23,7 +23,7 @@ const SpeakingCoachPage = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const lang = (language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : language === "swedish" ? "swedish" : language === "vietnamese" ? "vietnamese" : "english") as "english" | "finnish" | "swedish" | "chinese" | "vietnamese";
+  const lang = (language === "japanese" ? "japanese" : language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : language === "swedish" ? "swedish" : language === "vietnamese" ? "vietnamese" : "english") as "english" | "finnish" | "swedish" | "chinese" | "vietnamese" | "japanese";
 
   // Gamification state
   const [excellentCount, setExcellentCount] = useState(0);
@@ -51,6 +51,11 @@ const SpeakingCoachPage = () => {
       title: "Speaking Coach - Svenska",
       subtitle: t("Luyện phát âm tiếng Thụy Điển — sj-/tj- & ngữ điệu Bắc Âu", "Swedish pronunciation — sj-/tj- and Nordic intonation"),
       back: "/swedish",
+    },
+    japanese: {
+      title: "Speaking Coach - 日本語",
+      subtitle: t("Luyện phát âm tiếng Nhật - romaji, trường âm và âm ngắt", "Japanese pronunciation - romaji, long vowels and small tsu"),
+      back: "/japanese",
     },
     vietnamese: {
       title: "Speaking Coach - Tiếng Việt",
