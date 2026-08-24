@@ -482,20 +482,20 @@ const Room = ({
           <primitive object={ROOM_MATERIALS.board} attach="material" />
         </RoundedBox>
         <Html position={[0, 0.1, 0.14]} center distanceFactor={12} transform>
-          <div className="select-none rounded-md border border-white/15 bg-[#163d35]/95 px-5 py-3 text-center shadow-xl" style={{ width: 380 }}>
-            <p className="text-[20px] font-bold text-white">
+          <div className="classroom-board-panel select-none rounded-md border px-5 py-3 text-center shadow-xl" style={{ width: 380 }}>
+            <p className="font-classroom-heading text-[20px] font-bold text-primary-foreground">
               {vi ? "Lớp học HaiEduTech" : "HaiEduTech Classroom"}
             </p>
-            <p className="mt-1 text-[15px] font-semibold text-emerald-200">
+            <p className="mt-1 text-[15px] font-semibold text-primary-foreground/90">
               {`${vi ? "Điểm TB lớp" : "Class average"}: ${classAvg}/10 · ${activeWeek} ${vi ? "em học tuần này" : "active this week"}`}
             </p>
-            <p className="mt-1 text-[14px] font-semibold" style={{ color: alertCount ? "#fca5a5" : "#6ee7b7" }}>
+            <p className={`mt-1 text-[14px] font-semibold ${alertCount ? "text-red-200" : "text-green-200"}`}>
               {alertCount
                 ? `${alertCount} ${vi ? "học sinh cần chú ý" : "students need attention"}`
                 : vi ? "Không có học sinh cần can thiệp" : "No students need intervention"}
             </p>
             {(topNames?.length ?? 0) > 0 && (
-              <p className="mt-1 text-[13px] text-slate-200">
+              <p className="mt-1 text-[13px] text-primary-foreground/80">
                 🏆 {vi ? "Top 3" : "Top 3"}: {topNames.join(" · ")}
               </p>
             )}
@@ -815,12 +815,14 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   camera={{ position: [0, 7 + rows * 0.55, 12 + rows * 1.15], fov: 45 }}
                   frameloop={visible ? "always" : "demand"}
                 >
-                  <color attach="background" args={["#dceaf1"]} />
-                  <fog attach="fog" args={["#e7eff3", 18, 50]} />
-                  <ambientLight intensity={0.62} />
-                  <hemisphereLight args={["#fffdf4", "#9fb5ad", 0.7]} />
-                  <directionalLight position={[-10, 12, 8]} intensity={1.25} castShadow shadow-mapSize={[1024, 1024]} />
-                  <directionalLight position={[8, 7, -5]} intensity={0.38} color="#dbeafe" />
+                  <color attach="background" args={["#eadfd5"]} />
+                  <fog attach="fog" args={["#f3ebe4", 18, 50]} />
+                  <ambientLight intensity={0.66} />
+                  <hemisphereLight args={["#fff8f0", "#87a878", 0.74]} />
+                  <directionalLight position={[-10, 12, 8]} intensity={1.3} color="#ffe4cf" castShadow shadow-mapSize={[1024, 1024]} />
+                  <directionalLight position={[8, 7, -5]} intensity={0.46} color="#b9d1ad" />
+                  <pointLight position={[-6, 4.8, -8]} intensity={0.34} color="#e8a87c" distance={12} />
+                  <pointLight position={[6, 4.8, -8]} intensity={0.3} color="#87a878" distance={12} />
                   <Suspense fallback={null}>
                     <Room
                       seats={seats}

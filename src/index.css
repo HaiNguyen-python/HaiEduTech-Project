@@ -85,6 +85,11 @@
   .font-classroom-body { font-family: "Figtree", sans-serif; letter-spacing: 0; }
   .classroom-command-shadow { box-shadow: var(--classroom-shadow); }
   .classroom-label { border-radius: 6px; font-family: "Figtree", sans-serif; letter-spacing: 0; }
+  .classroom-board-panel {
+    border-color: hsl(var(--classroom-sage) / 0.45);
+    background: hsl(var(--classroom-board) / 0.96);
+    box-shadow: inset 0 0 28px hsl(var(--classroom-sage) / 0.12), 0 14px 32px hsl(var(--classroom-board) / 0.28);
+  }
   .classroom-control {
     transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
     -webkit-font-smoothing: antialiased;
