@@ -37,7 +37,11 @@ type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroo
 const VocabArena = () => {
   const { t } = useLanguage();
   const { isTeacher, user, loading: roleLoading } = useUserRole();
-  const [phase, setPhase] = useState<Phase>("menu");
+  const [phase, setPhase] = useState<Phase>(() => {
+    if (typeof window === "undefined") return "menu";
+    const screen = new URLSearchParams(window.location.search).get("screen");
+    return (screen as Phase) || "menu";
+  });
   const [result, setResult] = useState<GameResult | null>(null);
   const [directJoinCode, setDirectJoinCode] = useState<string>("");
 
