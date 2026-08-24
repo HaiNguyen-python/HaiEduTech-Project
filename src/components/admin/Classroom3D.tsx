@@ -190,7 +190,7 @@ const Room = ({
           <meshStandardMaterial color="#ffffff" roughness={0.5} />
         </RoundedBox>
         <Html position={[0, 0.1, 0.14]} center distanceFactor={12} transform>
-          <div className="select-none text-center" style={{ width: 320 }}>
+          <div className="select-none text-center rounded-md bg-white px-4 py-2" style={{ width: 320 }}>
             <p className="text-[20px] font-bold text-slate-900">
               {vi ? "Lớp học HaiEduTech" : "HaiEduTech Classroom"}
             </p>
