@@ -18,6 +18,7 @@ import {
   GREETINGS_EXTRA, COUNTERS, VOCAB_EXTRA, KANJI_EXTRA,
   DIALOGUES_EXTRA, GRAMMAR_EXTRA, JA_QUIZ,
 } from "@/data/japaneseExpansion";
+import { JA_QUIZ_EXTRA } from "@/data/japanese/quizBank";
 import { VOCAB_TOPICS } from "@/data/japanese/vocab";
 import { KANJI_GROUPS } from "@/data/japanese/kanji";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
@@ -398,6 +399,7 @@ const JA_WORD_INDEX = new Map<string, Phrase>(
 const ALL_KANJI = [...KANJI_BASIC, ...KANJI_EXTRA, ...KANJI_GROUPS.flatMap((g) => g.items)];
 const ALL_DIALOGUES = [...DIALOGUES, ...DIALOGUES_EXTRA];
 const ALL_GRAMMAR = [...GRAMMAR, ...GRAMMAR_EXTRA];
+const ALL_QUIZ = [...JA_QUIZ, ...JA_QUIZ_EXTRA];
 
 const KanaGrid = ({ rows, label }: { rows: Array<[string, string]>; label: string }) => (
   <div>
@@ -744,9 +746,9 @@ const Japanese = () => {
 
           <TabsContent value="quiz" className="mt-6">
             <Card className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-rose-700">🧠 {t("Tự kiểm tra N5", "N5 self-check")}</h3>
+              <h3 className="text-xl font-bold mb-3 text-rose-700">🧠 {t(`Tự kiểm tra N5 - N4 (${ALL_QUIZ.length} câu)`, `N5 - N4 self-check (${ALL_QUIZ.length} questions)`)}</h3>
               <div className="space-y-5">
-                {JA_QUIZ.map((q, i) => (
+                {ALL_QUIZ.map((q, i) => (
                   <div key={i} className="rounded-lg border border-pink-200 bg-white p-4">
                     <div className="font-semibold text-slate-800 mb-2">{i + 1}. {q.q}</div>
                     <div className="grid gap-2 sm:grid-cols-2">

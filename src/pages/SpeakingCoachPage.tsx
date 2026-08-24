@@ -76,7 +76,7 @@ const SpeakingCoachPage = () => {
     (async () => {
       try {
         const { logStudentActivity } = await import("@/hooks/useActivityLogger");
-        const domain = lang === "chinese" ? "chinese" : "english";
+        const domain = lang === "chinese" || lang === "japanese" ? "chinese" : "english";
         await logStudentActivity({
           activityType: `speaking_coach_${lang}`,
           score: 10,
@@ -133,6 +133,15 @@ const SpeakingCoachPage = () => {
             {/* English no longer shows MountainClimber per request - stars still fly via handlePerfectScore but no climber UI */}
             {(lang === "finnish" || lang === "swedish") && (
               <FinnishSkier
+                mastered={excellentCount}
+                total={totalTarget}
+                flyingStars={flyingStars}
+                onStarLanded={handleStarLanded}
+                containerRef={containerRef}
+              />
+            )}
+            {lang === "japanese" && (
+              <GreatWallClimber
                 mastered={excellentCount}
                 total={totalTarget}
                 flyingStars={flyingStars}

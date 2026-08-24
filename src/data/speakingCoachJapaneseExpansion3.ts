@@ -1,0 +1,161 @@
+/**
+ * @file speakingCoachJapaneseExpansion3.ts
+ * @description Japanese Speaking Coach themes - pack 3 (JLPT N4 / B1 level).
+ *  Sentences keep spaces between bunsetsu so the grading engine can chunk them.
+ *  `ipa` carries the romaji reading.
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ */
+import type { SpeakingTheme } from "./speakingCoachData";
+
+export const japaneseThemes3: SpeakingTheme[] = [
+  {
+    id: "ja-work-life", name: "Work life", nameVi: "Đời sống công sở", icon: "🏢", level: "B1",
+    sentences: [
+      { id: "ja-wl1", text: "今日 の 会議 は 三時 から 始まります。", translation: "Cuộc họp hôm nay bắt đầu từ 3 giờ. / Today's meeting starts at three.", ipa: "kyou no kaigi wa sanji kara hajimarimasu", difficulty: "medium", theme: "work" },
+      { id: "ja-wl2", text: "資料 を 明日 まで に 送って ください。", translation: "Hãy gửi tài liệu trước ngày mai. / Please send the documents by tomorrow.", ipa: "shiryou o ashita made ni okutte kudasai", difficulty: "medium", theme: "work" },
+      { id: "ja-wl3", text: "その 件 に ついて 相談 したい こと が あります。", translation: "Tôi có việc muốn trao đổi về vấn đề đó. / There is something I would like to discuss about that matter.", ipa: "sono ken ni tsuite soudan shitai koto ga arimasu", difficulty: "hard", theme: "work" },
+      { id: "ja-wl4", text: "申し訳 ありません が、 少し 遅れて しまいます。", translation: "Tôi xin lỗi, tôi sẽ đến muộn một chút. / I am sorry, I will be a little late.", ipa: "moushiwake arimasen ga, sukoshi okurete shimaimasu", difficulty: "hard", theme: "work" },
+      { id: "ja-wl5", text: "今週 は 残業 が 多くて 疲れました。", translation: "Tuần này tăng ca nhiều nên tôi mệt. / I worked a lot of overtime this week, so I am tired.", ipa: "konshuu wa zangyou ga ookute tsukaremashita", difficulty: "medium", theme: "work" },
+      { id: "ja-wl6", text: "来週 の 金曜日 に 休み を 取っても いい ですか。", translation: "Thứ sáu tuần sau tôi xin nghỉ được không? / May I take a day off next Friday?", ipa: "raishuu no kinyoubi ni yasumi o tottemo ii desu ka", difficulty: "medium", theme: "work" },
+      { id: "ja-wl7", text: "この 仕事 は 思った より 時間 が かかりました。", translation: "Công việc này mất nhiều thời gian hơn tôi nghĩ. / This job took more time than I expected.", ipa: "kono shigoto wa omotta yori jikan ga kakarimashita", difficulty: "hard", theme: "work" },
+      { id: "ja-wl8", text: "部長 に 報告 して から 決めましょう。", translation: "Hãy báo cáo trưởng phòng rồi quyết định. / Let's decide after reporting to the manager.", ipa: "buchou ni houkoku shite kara kimemashou", difficulty: "medium", theme: "work" },
+      { id: "ja-wl9", text: "私 が 代わり に 電話 して おきます。", translation: "Tôi sẽ gọi điện thay bạn trước. / I will make the call on your behalf.", ipa: "watashi ga kawari ni denwa shite okimasu", difficulty: "medium", theme: "work" },
+      { id: "ja-wl10", text: "お疲れさま です。 また 明日 よろしく お願いします。", translation: "Anh chị vất vả rồi. Mai lại nhờ anh chị nhé. / Thank you for your work today. See you tomorrow.", ipa: "otsukaresama desu. mata ashita yoroshiku onegaishimasu", difficulty: "medium", theme: "work" },
+    ],
+  },
+  {
+    id: "ja-interview", name: "Job interview", nameVi: "Phỏng vấn xin việc", icon: "🤝", level: "B1",
+    sentences: [
+      { id: "ja-iv1", text: "本日 は お時間 を いただき ありがとう ございます。", translation: "Cảm ơn quý công ty đã dành thời gian hôm nay. / Thank you for your time today.", ipa: "honjitsu wa ojikan o itadaki arigatou gozaimasu", difficulty: "hard", theme: "interview" },
+      { id: "ja-iv2", text: "ベトナム 出身 の グエン ハイ と 申します。", translation: "Tôi tên là Nguyễn Hải, đến từ Việt Nam. / My name is Nguyen Hai, from Vietnam.", ipa: "betonamu shusshin no guen hai to moushimasu", difficulty: "medium", theme: "interview" },
+      { id: "ja-iv3", text: "大学 で データ 分析 を 専攻 しました。", translation: "Tôi học chuyên ngành phân tích dữ liệu ở đại học. / I majored in data analysis at university.", ipa: "daigaku de deeta bunseki o senkou shimashita", difficulty: "medium", theme: "interview" },
+      { id: "ja-iv4", text: "三年間 教育 の 仕事 を して きました。", translation: "Tôi đã làm trong ngành giáo dục ba năm. / I have worked in education for three years.", ipa: "sannenkan kyouiku no shigoto o shite kimashita", difficulty: "medium", theme: "interview" },
+      { id: "ja-iv5", text: "私 の 長所 は 最後 まで あきらめない こと です。", translation: "Điểm mạnh của tôi là không bỏ cuộc đến cùng. / My strength is that I never give up.", ipa: "watashi no chousho wa saigo made akiramenai koto desu", difficulty: "hard", theme: "interview" },
+      { id: "ja-iv6", text: "御社 の 教育 方針 に とても 共感 しました。", translation: "Tôi rất đồng cảm với phương châm giáo dục của quý công ty. / I strongly relate to your company's education policy.", ipa: "onsha no kyouiku houshin ni totemo kyoukan shimashita", difficulty: "hard", theme: "interview" },
+      { id: "ja-iv7", text: "日本語 は 日常 会話 なら 問題 ありません。", translation: "Tiếng Nhật giao tiếp hàng ngày thì tôi không có vấn đề. / My Japanese is fine for daily conversation.", ipa: "nihongo wa nichijou kaiwa nara mondai arimasen", difficulty: "medium", theme: "interview" },
+      { id: "ja-iv8", text: "入社 したら まず 現場 を 学びたい です。", translation: "Nếu vào công ty, trước tiên tôi muốn học ở hiện trường. / If hired, I would first like to learn on site.", ipa: "nyuusha shitara mazu genba o manabitai desu", difficulty: "hard", theme: "interview" },
+      { id: "ja-iv9", text: "質問 が ひとつ よろしい でしょうか。", translation: "Tôi xin phép hỏi một câu được không ạ? / May I ask one question?", ipa: "shitsumon ga hitotsu yoroshii deshou ka", difficulty: "medium", theme: "interview" },
+      { id: "ja-iv10", text: "本日 は ありがとう ございました。 失礼 いたします。", translation: "Hôm nay cảm ơn rất nhiều. Tôi xin phép. / Thank you very much today. Excuse me.", ipa: "honjitsu wa arigatou gozaimashita. shitsurei itashimasu", difficulty: "medium", theme: "interview" },
+    ],
+  },
+  {
+    id: "ja-health", name: "Health & clinic", nameVi: "Sức khoẻ & phòng khám", icon: "🏥", level: "B1",
+    sentences: [
+      { id: "ja-he1", text: "昨日 から 頭 が ずっと 痛い です。", translation: "Từ hôm qua tôi đau đầu liên tục. / I have had a headache since yesterday.", ipa: "kinou kara atama ga zutto itai desu", difficulty: "medium", theme: "health" },
+      { id: "ja-he2", text: "熱 が 三十八度 も あります。", translation: "Tôi sốt tới 38 độ. / I have a fever of 38 degrees.", ipa: "netsu ga sanjuu-hachi-do mo arimasu", difficulty: "medium", theme: "health" },
+      { id: "ja-he3", text: "薬 を 飲んで も 良く なりません でした。", translation: "Uống thuốc rồi mà vẫn không đỡ. / Even after taking medicine, it did not get better.", ipa: "kusuri o nonde mo yoku narimasen deshita", difficulty: "hard", theme: "health" },
+      { id: "ja-he4", text: "保険証 を 持って きました。", translation: "Tôi có mang theo thẻ bảo hiểm. / I brought my insurance card.", ipa: "hokenshou o motte kimashita", difficulty: "easy", theme: "health" },
+      { id: "ja-he5", text: "予約 なし でも 診て もらえます か。", translation: "Không đặt hẹn thì có được khám không? / Can I be seen without an appointment?", ipa: "yoyaku nashi demo mite moraemasu ka", difficulty: "hard", theme: "health" },
+      { id: "ja-he6", text: "この 薬 は 一日 三回 食後 に 飲みます。", translation: "Thuốc này uống ba lần một ngày sau bữa ăn. / Take this medicine three times a day after meals.", ipa: "kono kusuri wa ichinichi sankai shokugo ni nomimasu", difficulty: "medium", theme: "health" },
+      { id: "ja-he7", text: "無理 を しないで ゆっくり 休んで ください。", translation: "Đừng gắng sức, hãy nghỉ ngơi thoải mái. / Do not push yourself, please rest well.", ipa: "muri o shinaide yukkuri yasunde kudasai", difficulty: "medium", theme: "health" },
+      { id: "ja-he8", text: "毎朝 三十分 くらい 歩く よう に して います。", translation: "Sáng nào tôi cũng cố đi bộ khoảng 30 phút. / I try to walk about thirty minutes every morning.", ipa: "maiasa sanjuppun kurai aruku you ni shite imasu", difficulty: "hard", theme: "health" },
+      { id: "ja-he9", text: "最近 よく 眠れなくて 困って います。", translation: "Gần đây tôi khó ngủ nên rất phiền. / Lately I cannot sleep well and it troubles me.", ipa: "saikin yoku nemurenakute komatte imasu", difficulty: "hard", theme: "health" },
+      { id: "ja-he10", text: "お大事 に して ください。", translation: "Anh chị giữ gìn sức khoẻ nhé. / Please take care of yourself.", ipa: "odaiji ni shite kudasai", difficulty: "easy", theme: "health" },
+    ],
+  },
+  {
+    id: "ja-housing", name: "Renting a home", nameVi: "Thuê nhà", icon: "🏠", level: "B1",
+    sentences: [
+      { id: "ja-ho1", text: "駅 から 歩いて 十分 くらい の 部屋 を 探して います。", translation: "Tôi tìm phòng đi bộ khoảng 10 phút từ ga. / I am looking for a room about ten minutes' walk from the station.", ipa: "eki kara aruite juppun kurai no heya o sagashite imasu", difficulty: "hard", theme: "housing" },
+      { id: "ja-ho2", text: "家賃 は 月 六万円 まで が 希望 です。", translation: "Tiền nhà tôi mong muốn tối đa 60 nghìn yên một tháng. / I hope for rent up to sixty thousand yen a month.", ipa: "yachin wa tsuki rokuman-en made ga kibou desu", difficulty: "medium", theme: "housing" },
+      { id: "ja-ho3", text: "敷金 と 礼金 は いくら 必要 ですか。", translation: "Tiền đặt cọc và tiền lễ cần bao nhiêu? / How much are the deposit and key money?", ipa: "shikikin to reikin wa ikura hitsuyou desu ka", difficulty: "medium", theme: "housing" },
+      { id: "ja-ho4", text: "この 部屋 は 日当たり が よくて 明るい ですね。", translation: "Phòng này nắng chiếu tốt nên sáng nhỉ. / This room gets good sunlight and is bright.", ipa: "kono heya wa hiatari ga yokute akarui desu ne", difficulty: "medium", theme: "housing" },
+      { id: "ja-ho5", text: "インターネット は 使えます か。", translation: "Có dùng được internet không? / Is internet available?", ipa: "intaanetto wa tsukaemasu ka", difficulty: "easy", theme: "housing" },
+      { id: "ja-ho6", text: "ゴミ は 何曜日 に 出せば いい ですか。", translation: "Rác thì bỏ vào thứ mấy? / Which day should I take out the trash?", ipa: "gomi wa nanyoubi ni daseba ii desu ka", difficulty: "medium", theme: "housing" },
+      { id: "ja-ho7", text: "契約 は 二年間 に なります。", translation: "Hợp đồng sẽ là hai năm. / The contract will be for two years.", ipa: "keiyaku wa ninenkan ni narimasu", difficulty: "easy", theme: "housing" },
+      { id: "ja-ho8", text: "エアコン が 壊れて いる ようです。", translation: "Có vẻ như điều hoà bị hỏng. / It seems the air conditioner is broken.", ipa: "eakon ga kowarete iru you desu", difficulty: "medium", theme: "housing" },
+      { id: "ja-ho9", text: "隣 の 音 が 少し 気 に なります。", translation: "Tiếng ồn từ nhà bên hơi làm tôi bận tâm. / The noise from next door bothers me a little.", ipa: "tonari no oto ga sukoshi ki ni narimasu", difficulty: "hard", theme: "housing" },
+      { id: "ja-ho10", text: "来月 から 入居 したい の ですが。", translation: "Tôi muốn dọn vào từ tháng sau. / I would like to move in from next month.", ipa: "raigetsu kara nyuukyo shitai no desu ga", difficulty: "medium", theme: "housing" },
+    ],
+  },
+  {
+    id: "ja-bank", name: "Bank & post office", nameVi: "Ngân hàng & bưu điện", icon: "🏦", level: "B1",
+    sentences: [
+      { id: "ja-ba1", text: "口座 を 開きたい の ですが。", translation: "Tôi muốn mở tài khoản. / I would like to open an account.", ipa: "kouza o hirakitai no desu ga", difficulty: "medium", theme: "bank" },
+      { id: "ja-ba2", text: "在留 カード と 印鑑 が 必要 です か。", translation: "Có cần thẻ cư trú và con dấu không? / Do I need a residence card and a seal?", ipa: "zairyuu kaado to inkan ga hitsuyou desu ka", difficulty: "medium", theme: "bank" },
+      { id: "ja-ba3", text: "ベトナム に お金 を 送りたい です。", translation: "Tôi muốn gửi tiền về Việt Nam. / I want to send money to Vietnam.", ipa: "betonamu ni okane o okuritai desu", difficulty: "easy", theme: "bank" },
+      { id: "ja-ba4", text: "手数料 は いくら かかります か。", translation: "Phí dịch vụ mất bao nhiêu? / How much is the fee?", ipa: "tesuuryou wa ikura kakarimasu ka", difficulty: "easy", theme: "bank" },
+      { id: "ja-ba5", text: "この 用紙 の 書き方 を 教えて ください。", translation: "Xin chỉ tôi cách điền tờ khai này. / Please show me how to fill in this form.", ipa: "kono youshi no kakikata o oshiete kudasai", difficulty: "medium", theme: "bank" },
+      { id: "ja-ba6", text: "現金 で 引き出したい の ですが。", translation: "Tôi muốn rút tiền mặt. / I would like to withdraw cash.", ipa: "genkin de hikidashitai no desu ga", difficulty: "medium", theme: "bank" },
+      { id: "ja-ba7", text: "この 荷物 を ベトナム まで 送れます か。", translation: "Gói hàng này gửi về Việt Nam được không? / Can I send this parcel to Vietnam?", ipa: "kono nimotsu o betonamu made okuremasu ka", difficulty: "medium", theme: "bank" },
+      { id: "ja-ba8", text: "船便 と 航空便 の どちら が 安い ですか。", translation: "Gửi đường biển và đường bay cái nào rẻ hơn? / Which is cheaper, sea mail or air mail?", ipa: "funabin to koukuubin no dochira ga yasui desu ka", difficulty: "hard", theme: "bank" },
+      { id: "ja-ba9", text: "だいたい 一週間 で 届く そうです。", translation: "Nghe nói khoảng một tuần là tới. / They say it arrives in about a week.", ipa: "daitai isshuukan de todoku sou desu", difficulty: "hard", theme: "bank" },
+      { id: "ja-ba10", text: "領収書 を いただけます か。", translation: "Cho tôi xin hoá đơn được không? / Could I have a receipt?", ipa: "ryoushuusho o itadakemasu ka", difficulty: "medium", theme: "bank" },
+    ],
+  },
+  {
+    id: "ja-train", name: "Trains & commuting", nameVi: "Tàu điện & đi lại", icon: "🚉", level: "B1",
+    sentences: [
+      { id: "ja-tr1", text: "東京 駅 まで の 切符 を 一枚 ください。", translation: "Cho tôi một vé đến ga Tokyo. / One ticket to Tokyo Station, please.", ipa: "toukyou eki made no kippu o ichimai kudasai", difficulty: "medium", theme: "train" },
+      { id: "ja-tr2", text: "次 の 電車 は 何時 に 出ます か。", translation: "Chuyến tàu tiếp theo mấy giờ chạy? / What time does the next train leave?", ipa: "tsugi no densha wa nanji ni demasu ka", difficulty: "easy", theme: "train" },
+      { id: "ja-tr3", text: "新宿 で 乗り換えて ください。", translation: "Xin hãy chuyển tàu ở Shinjuku. / Please change trains at Shinjuku.", ipa: "shinjuku de norikaete kudasai", difficulty: "medium", theme: "train" },
+      { id: "ja-tr4", text: "事故 の せい で 電車 が 遅れて います。", translation: "Vì tai nạn nên tàu bị trễ. / The train is delayed because of an accident.", ipa: "jiko no sei de densha ga okurete imasu", difficulty: "hard", theme: "train" },
+      { id: "ja-tr5", text: "この 電車 は 急行 です か、 各駅 です か。", translation: "Tàu này là tàu nhanh hay tàu thường? / Is this train an express or a local?", ipa: "kono densha wa kyuukou desu ka, kakueki desu ka", difficulty: "hard", theme: "train" },
+      { id: "ja-tr6", text: "定期券 を 買った ほう が 安い です。", translation: "Mua vé tháng thì rẻ hơn. / Buying a commuter pass is cheaper.", ipa: "teikiken o katta hou ga yasui desu", difficulty: "medium", theme: "train" },
+      { id: "ja-tr7", text: "朝 の ラッシュ は とても 混みます。", translation: "Giờ cao điểm buổi sáng rất đông. / The morning rush is very crowded.", ipa: "asa no rasshu wa totemo komimasu", difficulty: "medium", theme: "train" },
+      { id: "ja-tr8", text: "終電 は 何時 まで あります か。", translation: "Chuyến tàu cuối chạy đến mấy giờ? / Until what time is the last train?", ipa: "shuuden wa nanji made arimasu ka", difficulty: "medium", theme: "train" },
+      { id: "ja-tr9", text: "電車 の 中 で 電話 する の は やめましょう。", translation: "Đừng gọi điện trong tàu nhé. / Let's avoid phone calls on the train.", ipa: "densha no naka de denwa suru no wa yamemashou", difficulty: "hard", theme: "train" },
+      { id: "ja-tr10", text: "この 席 は 空いて います か。", translation: "Chỗ này có trống không? / Is this seat free?", ipa: "kono seki wa aite imasu ka", difficulty: "easy", theme: "train" },
+    ],
+  },
+  {
+    id: "ja-travel-b1", name: "Travel plans", nameVi: "Kế hoạch du lịch", icon: "🗾", level: "B1",
+    sentences: [
+      { id: "ja-tv1", text: "夏休み に 京都 へ 行こう と 思って います。", translation: "Nghỉ hè tôi định đi Kyoto. / I am thinking of going to Kyoto over summer vacation.", ipa: "natsuyasumi ni kyouto e ikou to omotte imasu", difficulty: "hard", theme: "travel" },
+      { id: "ja-tv2", text: "予約 は インターネット で しました。", translation: "Tôi đã đặt chỗ qua internet. / I made the reservation online.", ipa: "yoyaku wa intaanetto de shimashita", difficulty: "easy", theme: "travel" },
+      { id: "ja-tv3", text: "おすすめ の 観光 スポット は あります か。", translation: "Có địa điểm tham quan nào nên đi không? / Are there sightseeing spots you recommend?", ipa: "osusume no kankou supotto wa arimasu ka", difficulty: "medium", theme: "travel" },
+      { id: "ja-tv4", text: "お土産 に 抹茶 の お菓子 を 買いました。", translation: "Tôi mua bánh trà xanh làm quà. / I bought matcha sweets as a souvenir.", ipa: "omiyage ni maccha no okashi o kaimashita", difficulty: "medium", theme: "travel" },
+      { id: "ja-tv5", text: "天気 が よければ 山 に 登りたい です。", translation: "Nếu trời đẹp tôi muốn leo núi. / If the weather is good, I want to climb the mountain.", ipa: "tenki ga yokereba yama ni noboritai desu", difficulty: "hard", theme: "travel" },
+      { id: "ja-tv6", text: "新幹線 の 方 が 速い です が、 バス の 方 が 安い です。", translation: "Shinkansen nhanh hơn nhưng xe buýt rẻ hơn. / The bullet train is faster, but the bus is cheaper.", ipa: "shinkansen no hou ga hayai desu ga, basu no hou ga yasui desu", difficulty: "hard", theme: "travel" },
+      { id: "ja-tv7", text: "写真 を 撮って も いい ですか。", translation: "Tôi chụp ảnh được không? / May I take a photo?", ipa: "shashin o tottemo ii desu ka", difficulty: "easy", theme: "travel" },
+      { id: "ja-tv8", text: "道 に 迷って しまいました。 助けて ください。", translation: "Tôi bị lạc đường. Xin giúp tôi. / I got lost. Please help me.", ipa: "michi ni mayotte shimaimashita. tasukete kudasai", difficulty: "medium", theme: "travel" },
+      { id: "ja-tv9", text: "三泊 四日 の 旅行 でした。", translation: "Đó là chuyến đi ba đêm bốn ngày. / It was a four-day, three-night trip.", ipa: "sanpaku yokka no ryokou deshita", difficulty: "medium", theme: "travel" },
+      { id: "ja-tv10", text: "また ぜひ 来たい と 思います。", translation: "Tôi nhất định muốn quay lại. / I definitely want to come again.", ipa: "mata zehi kitai to omoimasu", difficulty: "medium", theme: "travel" },
+    ],
+  },
+  {
+    id: "ja-culture", name: "Culture & manners", nameVi: "Văn hoá & ứng xử", icon: "⛩️", level: "B1",
+    sentences: [
+      { id: "ja-cu1", text: "家 に 入る 前 に 靴 を 脱ぎます。", translation: "Trước khi vào nhà thì cởi giày. / You take off your shoes before entering a house.", ipa: "ie ni hairu mae ni kutsu o nugimasu", difficulty: "medium", theme: "culture" },
+      { id: "ja-cu2", text: "食べる 前 に 「いただきます」 と 言います。", translation: "Trước khi ăn thì nói itadakimasu. / Before eating we say itadakimasu.", ipa: "taberu mae ni itadakimasu to iimasu", difficulty: "medium", theme: "culture" },
+      { id: "ja-cu3", text: "お辞儀 は 相手 へ の 敬意 を 表します。", translation: "Cúi chào thể hiện sự tôn trọng với đối phương. / Bowing expresses respect for the other person.", ipa: "ojigi wa aite e no keii o arawashimasu", difficulty: "hard", theme: "culture" },
+      { id: "ja-cu4", text: "春 に なる と みんな で 花見 を します。", translation: "Đến mùa xuân mọi người cùng đi ngắm hoa. / When spring comes, everyone goes flower viewing.", ipa: "haru ni naru to minna de hanami o shimasu", difficulty: "hard", theme: "culture" },
+      { id: "ja-cu5", text: "夏 の 祭り で 花火 を 見ました。", translation: "Tôi đã xem pháo hoa ở lễ hội mùa hè. / I watched fireworks at the summer festival.", ipa: "natsu no matsuri de hanabi o mimashita", difficulty: "medium", theme: "culture" },
+      { id: "ja-cu6", text: "電車 の 中 で は 静か に しましょう。", translation: "Trong tàu điện hãy giữ yên lặng. / Let's stay quiet on the train.", ipa: "densha no naka de wa shizuka ni shimashou", difficulty: "medium", theme: "culture" },
+      { id: "ja-cu7", text: "お正月 に 家族 と 神社 へ 行きます。", translation: "Tết tôi cùng gia đình đi đền. / At New Year I go to a shrine with my family.", ipa: "oshougatsu ni kazoku to jinja e ikimasu", difficulty: "medium", theme: "culture" },
+      { id: "ja-cu8", text: "贈り物 は 両手 で 渡す の が 丁寧 です。", translation: "Trao quà bằng hai tay là lịch sự. / Handing a gift with both hands is polite.", ipa: "okurimono wa ryoute de watasu no ga teinei desu", difficulty: "hard", theme: "culture" },
+      { id: "ja-cu9", text: "約束 の 時間 に 遅れない よう に します。", translation: "Tôi cố gắng không trễ giờ hẹn. / I try not to be late for appointments.", ipa: "yakusoku no jikan ni okurenai you ni shimasu", difficulty: "hard", theme: "culture" },
+      { id: "ja-cu10", text: "日本 の 文化 に ついて もっと 知りたい です。", translation: "Tôi muốn biết thêm về văn hoá Nhật Bản. / I want to learn more about Japanese culture.", ipa: "nihon no bunka ni tsuite motto shiritai desu", difficulty: "medium", theme: "culture" },
+    ],
+  },
+  {
+    id: "ja-news", name: "News & daily topics", nameVi: "Tin tức & chủ đề đời sống", icon: "📰", level: "B1",
+    sentences: [
+      { id: "ja-ne1", text: "今朝 の ニュース に よると 台風 が 来る そうです。", translation: "Theo tin sáng nay, nghe nói bão sẽ tới. / According to this morning's news, a typhoon is coming.", ipa: "kesa no nyuusu ni yoru to taifuu ga kuru sou desu", difficulty: "hard", theme: "news" },
+      { id: "ja-ne2", text: "物価 が 上がって 生活 が 大変 に なりました。", translation: "Vật giá tăng nên cuộc sống trở nên khó khăn. / Prices went up and life has become harder.", ipa: "bukka ga agatte seikatsu ga taihen ni narimashita", difficulty: "hard", theme: "news" },
+      { id: "ja-ne3", text: "最近 は 在宅 勤務 の 会社 が 増えて います。", translation: "Gần đây công ty cho làm việc tại nhà tăng lên. / Recently more companies allow working from home.", ipa: "saikin wa zaitaku kinmu no kaisha ga fuete imasu", difficulty: "hard", theme: "news" },
+      { id: "ja-ne4", text: "AI の 技術 は 教育 に も 使われて います。", translation: "Công nghệ AI cũng được dùng trong giáo dục. / AI technology is used in education too.", ipa: "eeai no gijutsu wa kyouiku ni mo tsukawarete imasu", difficulty: "hard", theme: "news" },
+      { id: "ja-ne5", text: "この 問題 に ついて どう 思います か。", translation: "Bạn nghĩ sao về vấn đề này? / What do you think about this issue?", ipa: "kono mondai ni tsuite dou omoimasu ka", difficulty: "medium", theme: "news" },
+      { id: "ja-ne6", text: "私 は その 意見 に 賛成 です。", translation: "Tôi đồng ý với ý kiến đó. / I agree with that opinion.", ipa: "watashi wa sono iken ni sansei desu", difficulty: "easy", theme: "news" },
+      { id: "ja-ne7", text: "確か に そう です が、 別 の 見方 も あります。", translation: "Đúng là vậy, nhưng cũng có cách nhìn khác. / That is true, but there is another view as well.", ipa: "tashika ni sou desu ga, betsu no mikata mo arimasu", difficulty: "hard", theme: "news" },
+      { id: "ja-ne8", text: "理由 は 二つ あります。", translation: "Có hai lý do. / There are two reasons.", ipa: "riyuu wa futatsu arimasu", difficulty: "easy", theme: "news" },
+      { id: "ja-ne9", text: "例えば 若い 人 は スマホ で ニュース を 読みます。", translation: "Ví dụ, người trẻ đọc tin bằng điện thoại. / For example, young people read news on smartphones.", ipa: "tatoeba wakai hito wa sumaho de nyuusu o yomimasu", difficulty: "hard", theme: "news" },
+      { id: "ja-ne10", text: "だから 私 は そう 考えて います。", translation: "Vì vậy tôi nghĩ như thế. / That is why I think so.", ipa: "dakara watashi wa sou kangaete imasu", difficulty: "medium", theme: "news" },
+    ],
+  },
+  {
+    id: "ja-study-b1", name: "Study & exams", nameVi: "Học tập & thi cử", icon: "📚", level: "B1",
+    sentences: [
+      { id: "ja-st1", text: "今年 の 十二月 に N4 を 受ける 予定 です。", translation: "Tháng 12 năm nay tôi dự định thi N4. / I plan to take the N4 exam this December.", ipa: "kotoshi no juunigatsu ni enu-yon o ukeru yotei desu", difficulty: "hard", theme: "study" },
+      { id: "ja-st2", text: "毎日 三十分 ずつ 漢字 を 覚えて います。", translation: "Mỗi ngày tôi học kanji 30 phút. / I memorize kanji thirty minutes each day.", ipa: "mainichi sanjuppun zutsu kanji o oboete imasu", difficulty: "hard", theme: "study" },
+      { id: "ja-st3", text: "聞き取り が いちばん 難しい です。", translation: "Phần nghe là khó nhất. / Listening is the most difficult part.", ipa: "kikitori ga ichiban muzukashii desu", difficulty: "medium", theme: "study" },
+      { id: "ja-st4", text: "分からない 言葉 は 辞書 で 調べます。", translation: "Từ nào không hiểu thì tôi tra từ điển. / I look up words I do not know in a dictionary.", ipa: "wakaranai kotoba wa jisho de shirabemasu", difficulty: "medium", theme: "study" },
+      { id: "ja-st5", text: "友達 と 日本語 で 話す 練習 を して います。", translation: "Tôi luyện nói tiếng Nhật với bạn. / I practice speaking Japanese with a friend.", ipa: "tomodachi to nihongo de hanasu renshuu o shite imasu", difficulty: "medium", theme: "study" },
+      { id: "ja-st6", text: "先生 に 発音 を 直して もらいました。", translation: "Tôi được thầy sửa phát âm. / My teacher corrected my pronunciation.", ipa: "sensei ni hatsuon o naoshite moraimashita", difficulty: "hard", theme: "study" },
+      { id: "ja-st7", text: "試験 の 前 に もう 一度 復習 します。", translation: "Trước kỳ thi tôi ôn lại một lần nữa. / I will review once more before the exam.", ipa: "shiken no mae ni mou ichido fukushuu shimasu", difficulty: "medium", theme: "study" },
+      { id: "ja-st8", text: "間違えた ところ を ノート に 書いて おきます。", translation: "Chỗ sai tôi ghi lại vào vở. / I write down my mistakes in a notebook.", ipa: "machigaeta tokoro o nooto ni kaite okimasu", difficulty: "hard", theme: "study" },
+      { id: "ja-st9", text: "少しずつ でも 続ける こと が 大切 です。", translation: "Dù ít nhưng duy trì đều đặn là quan trọng. / Even a little at a time, continuing is important.", ipa: "sukoshi zutsu demo tsuzukeru koto ga taisetsu desu", difficulty: "hard", theme: "study" },
+      { id: "ja-st10", text: "いつか 日本 で 働ける よう に 頑張ります。", translation: "Tôi sẽ cố gắng để một ngày làm việc ở Nhật. / I will work hard so that someday I can work in Japan.", ipa: "itsuka nihon de hatarakeru you ni ganbarimasu", difficulty: "hard", theme: "study" },
+    ],
+  },
+];
