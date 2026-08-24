@@ -891,6 +891,7 @@ import { englishExtraThemes6 } from "./speakingCoachExpansion6";
 import { swedishThemes } from "./speakingCoachSwedishExpansion";
 import { japaneseThemes1 } from "./speakingCoachJapaneseExpansion";
 import { japaneseThemes2 } from "./speakingCoachJapaneseExpansion2";
+import { japaneseThemes3 } from "./speakingCoachJapaneseExpansion3";
 import { applyTopUps } from "./speakingCoachTopUp";
 import { dedupeSpeakingThemes } from "./speakingCoachDedupe";
 
@@ -917,7 +918,7 @@ export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
     lang: "日本語",
     langCode: "ja",
     speechLang: "ja-JP",
-    themes: dedupeSpeakingThemes([...japaneseThemes1, ...japaneseThemes2]),
+    themes: dedupeSpeakingThemes([...japaneseThemes1, ...japaneseThemes2, ...japaneseThemes3]),
   },
   chinese: {
     lang: "中文",
