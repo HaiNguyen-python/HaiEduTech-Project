@@ -19,6 +19,7 @@ import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import HskExamplePractice from "@/components/HskExamplePractice";
@@ -158,6 +159,8 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
   const scoreSavedRef = useRef(false);
   const [quizSize, setQuizSize] = useState<number>(10);
   const autoPlayedRef = useRef<number>(-1);
+  /** Characters already credited with a review this session (no double counting). */
+  const reviewedRef = useRef<Set<string>>(new Set());
 
   const generateQuiz = useCallback(() => {
     if (masteredWords.length < 4) {
@@ -249,7 +252,16 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
     setSelected(idx);
-    if (idx === questions[current]?.correct) setScore(s => s + 1);
+    if (idx === questions[current]?.correct) {
+      setScore(s => s + 1);
+      // Credit the review so the character can sink into the long-term core of
+      // the memory brain (deduplicated per session).
+      const character = questions[current]?.word?.character;
+      if (character && !reviewedRef.current.has(character)) {
+        reviewedRef.current.add(character);
+        void recordVocabReviewTracked("hsk", [character]);
+      }
+    }
   };
 
   const handleNext = () => {

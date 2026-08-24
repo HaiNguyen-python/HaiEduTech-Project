@@ -93,6 +93,12 @@ interface Props {
   speak?: (text: string) => void;
   /** Milestone badges shown under the brain (IELTS band table by default). */
   milestones?: { words: number; band: string }[];
+  /**
+   * Extra `user_vocab_mastered.subject` values merged into the same brain, for
+   * languages whose words are starred on more than one page (Finnish: the
+   * vocabulary bank uses `finnish-vocab`, the YKI dashboard uses `finnish`).
+   */
+  extraSubjects?: string[];
 }
 
 interface MasteredRow {
@@ -139,6 +145,7 @@ const VocabBrainPanel = ({
   labelOf,
   speak,
   milestones = BAND_MILESTONES,
+  extraSubjects = [],
 }: Props) => {
   const [rows, setRows] = useState<MasteredRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -189,7 +196,7 @@ const VocabBrainPanel = ({
         .from("user_vocab_mastered")
         .select("word, reviewed_at, created_at, review_count, last_interval_days")
         .eq("user_id", uid)
-        .eq("subject", subject)
+        .in("subject", [subject, ...extraSubjects])
         .limit(5000),
       (supabase as any)
         .from("game_scores")
@@ -205,7 +212,8 @@ const VocabBrainPanel = ({
       .filter((a): a is number => typeof a === "number");
     setAvgAccuracy(accs.length ? Math.round(accs.reduce((s, a) => s + a, 0) / accs.length) : null);
     setLoading(false);
-  }, [subject, accuracyGameType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subject, accuracyGameType, extraSubjects.join(",")]);
 
   useEffect(() => { void loadRows(); }, [loadRows]);
 
