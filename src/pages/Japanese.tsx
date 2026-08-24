@@ -18,6 +18,8 @@ import {
   GREETINGS_EXTRA, COUNTERS, VOCAB_EXTRA, KANJI_EXTRA,
   DIALOGUES_EXTRA, GRAMMAR_EXTRA, JA_QUIZ,
 } from "@/data/japaneseExpansion";
+import { VOCAB_TOPICS } from "@/data/japanese/vocab";
+import { KANJI_GROUPS } from "@/data/japanese/kanji";
 
 // ---------- TTS ----------
 function speakJa(text: string) {
@@ -376,8 +378,8 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
 // ---------- UI helpers ----------
 // ---------- Merged (base + expansion) datasets ----------
 const ALL_GREETINGS: Phrase[] = [...GREETINGS, ...GREETINGS_EXTRA];
-const ALL_VOCAB = [...VOCAB, ...VOCAB_EXTRA];
-const ALL_KANJI = [...KANJI_BASIC, ...KANJI_EXTRA];
+const ALL_VOCAB = [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items }))];
+const ALL_KANJI = [...KANJI_BASIC, ...KANJI_EXTRA, ...KANJI_GROUPS.flatMap((g) => g.items)];
 const ALL_DIALOGUES = [...DIALOGUES, ...DIALOGUES_EXTRA];
 const ALL_GRAMMAR = [...GRAMMAR, ...GRAMMAR_EXTRA];
 
