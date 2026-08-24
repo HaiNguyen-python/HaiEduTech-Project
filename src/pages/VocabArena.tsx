@@ -52,6 +52,32 @@ const VocabArena = () => {
     }
   }, []);
 
+  // Keep the current screen in the URL so the browser Back button steps back
+  // through the Arena instead of leaving the page entirely.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const current = params.get("screen");
+    const target = phase === "menu" ? null : phase;
+    if (current === target) return;
+    if (target) params.set("screen", target);
+    else params.delete("screen");
+    const qs = params.toString();
+    const url = `${window.location.pathname}${qs ? `?${qs}` : ""}`;
+    if (phase === "menu") window.history.replaceState({}, "", url);
+    else window.history.pushState({}, "", url);
+  }, [phase]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onPop = () => {
+      const screen = new URLSearchParams(window.location.search).get("screen");
+      setPhase((screen as Phase) || "menu");
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
   // Prefetch heavy chunks when the user enters a sub-screen so the next click
   // (Start / Join / Open game) doesn't wait on a network round-trip.
   useEffect(() => {
@@ -434,6 +460,7 @@ const VocabArena = () => {
                 questions={soloQuestions}
                 lives={soloLives}
                 onGameEnd={handleSoloEnd}
+                onQuit={() => setPhase("solo-setup")}
                 isSuddenDeath={soloLives === 1}
               />
             </Suspense>
