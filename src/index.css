@@ -70,15 +70,19 @@
     --classroom-success: 160 84% 39%;
     --classroom-alert: 0 84% 60%;
     --classroom-grid: 214 32% 91%;
+    --classroom-wood: 37 42% 74%;
+    --classroom-wall: 210 40% 98%;
+    --classroom-board: 168 46% 16%;
+    --classroom-daylight: 46 100% 94%;
     --classroom-shadow: 0 20px 45px hsl(217 91% 35% / 0.10);
   }
 }
 
 @layer utilities {
-  .font-classroom-heading { font-family: "Sora", sans-serif; }
-  .font-classroom-body { font-family: "Manrope", sans-serif; }
+  .font-classroom-heading { font-family: "Urbanist", sans-serif; letter-spacing: 0; }
+  .font-classroom-body { font-family: "Epilogue", sans-serif; letter-spacing: 0; }
   .classroom-command-shadow { box-shadow: var(--classroom-shadow); }
-  .classroom-label { border-radius: 6px; font-family: "Manrope", sans-serif; }
+  .classroom-label { border-radius: 6px; font-family: "Epilogue", sans-serif; letter-spacing: 0; }
   /* Mono font for terminal output, code commands, Git logs, file paths */
   .font-mono-code {
     font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;

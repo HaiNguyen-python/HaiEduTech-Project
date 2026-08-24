@@ -34,12 +34,12 @@ import {
 import {
   School, Search, Maximize2, Minimize2, ChevronDown, ChevronUp,
   Eye, Users, Boxes, RotateCcw, Trophy, AlertTriangle, Activity, TrendingUp, Target,
-  LayoutGrid, ScanLine, UserRound,
+  LayoutGrid, ScanLine, UserRound, Armchair,
 } from "lucide-react";
-import "@fontsource/sora/600.css";
-import "@fontsource/sora/700.css";
-import "@fontsource/manrope/400.css";
-import "@fontsource/manrope/600.css";
+import "@fontsource/urbanist/600.css";
+import "@fontsource/urbanist/700.css";
+import "@fontsource/epilogue/400.css";
+import "@fontsource/epilogue/600.css";
 
 interface Props {
   students: StudentState[];
@@ -73,14 +73,19 @@ const GEO = {
   chairBack: new THREE.BoxGeometry(0.6, 0.42, 0.07),
   chairLeg: new THREE.BoxGeometry(0.06, 0.34, 0.06),
   deskTop: new THREE.BoxGeometry(1.3, 0.08, 0.72),
+  deskApron: new THREE.BoxGeometry(1.16, 0.26, 0.06),
   deskLeg: new THREE.BoxGeometry(0.07, 0.6, 0.07),
+  neck: new THREE.CylinderGeometry(0.075, 0.09, 0.12, 10),
+  shoe: new THREE.BoxGeometry(0.18, 0.1, 0.3),
 };
 
 const DARK = new THREE.MeshStandardMaterial({ color: "#1e293b", roughness: 0.5 });
 const SKIN = new THREE.MeshStandardMaterial({ color: "#f5d0a9", roughness: 0.45 });
-const WOOD = new THREE.MeshStandardMaterial({ color: "#e6ebf3", roughness: 0.65 });
-const METAL = new THREE.MeshStandardMaterial({ color: "#c3ccd9", roughness: 0.5, metalness: 0.25 });
-const CHAIR = new THREE.MeshStandardMaterial({ color: "#94a3b8", roughness: 0.6 });
+const WOOD = new THREE.MeshStandardMaterial({ color: "#d7c4a3", roughness: 0.62 });
+const WOOD_EDGE = new THREE.MeshStandardMaterial({ color: "#9b815f", roughness: 0.7 });
+const METAL = new THREE.MeshStandardMaterial({ color: "#65758b", roughness: 0.42, metalness: 0.35 });
+const CHAIR = new THREE.MeshStandardMaterial({ color: "#376fae", roughness: 0.58 });
+const SHOE = new THREE.MeshStandardMaterial({ color: "#334155", roughness: 0.72 });
 const GOLD = new THREE.MeshStandardMaterial({ color: "#facc15", emissive: "#facc15", emissiveIntensity: 0.85 });
 
 type MatKind = "solid" | "faded" | "dim";
@@ -110,8 +115,10 @@ function buildTierMaterials() {
 }
 const TIER_MATS = buildTierMaterials();
 
-const shirtMat = (tier: ClassroomTier, dimmed: boolean) =>
-  TIER_MATS.get(`${tier}-${dimmed ? "dim" : tier === "idle" ? "faded" : "solid"}`)!;
+const shirtMat = (tier: ClassroomTier, dimmed: boolean) => {
+  const material = TIER_MATS.get(`${tier}-${dimmed ? "dim" : tier === "idle" ? "faded" : "solid"}`);
+  return material ?? DARK;
+};
 
 /* ------------------------------------------------------------------ avatar */
 
@@ -160,14 +167,19 @@ const StudentAvatar = ({
     <group position={[seat.x, 0, seat.z]}>
       {/* desk in front of the student */}
       <mesh geometry={GEO.deskTop} material={WOOD} position={[0, 0.66, 0.74]} />
+      <mesh geometry={GEO.deskApron} material={WOOD_EDGE} position={[0, 0.51, 1.08]} />
       <mesh geometry={GEO.deskLeg} material={METAL} position={[-0.55, 0.32, 0.74]} />
       <mesh geometry={GEO.deskLeg} material={METAL} position={[0.55, 0.32, 0.74]} />
+      <mesh geometry={GEO.deskLeg} material={METAL} position={[-0.55, 0.32, 1.02]} />
+      <mesh geometry={GEO.deskLeg} material={METAL} position={[0.55, 0.32, 1.02]} />
 
       {/* chair */}
       <mesh geometry={GEO.chairSeat} material={CHAIR} position={[0, 0.42, -0.08]} />
       <mesh geometry={GEO.chairBack} material={CHAIR} position={[0, 0.63, -0.33]} />
       <mesh geometry={GEO.chairLeg} material={METAL} position={[-0.24, 0.19, -0.28]} />
       <mesh geometry={GEO.chairLeg} material={METAL} position={[0.24, 0.19, -0.28]} />
+      <mesh geometry={GEO.chairLeg} material={METAL} position={[-0.24, 0.19, 0.1]} />
+      <mesh geometry={GEO.chairLeg} material={METAL} position={[0.24, 0.19, 0.1]} />
 
       {/* floor status ring */}
       <mesh ref={ring} geometry={GEO.ring} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 0]}>
@@ -185,9 +197,12 @@ const StudentAvatar = ({
         {/* legs tucked under the desk */}
         <mesh geometry={GEO.leg} material={mat} position={[-0.12, -0.12, 0.22]} rotation={[-1.1, 0, 0]} />
         <mesh geometry={GEO.leg} material={mat} position={[0.12, -0.12, 0.22]} rotation={[-1.1, 0, 0]} />
+        <mesh geometry={GEO.shoe} material={SHOE} position={[-0.12, -0.23, 0.47]} />
+        <mesh geometry={GEO.shoe} material={SHOE} position={[0.12, -0.23, 0.47]} />
 
         {/* torso */}
         <mesh geometry={GEO.torso} material={mat} position={[0, 0.3, 0]} />
+        <mesh geometry={GEO.neck} material={SKIN} position={[0, 0.58, 0]} />
 
         {/* arms resting on the desk */}
         <mesh geometry={GEO.arm} material={mat} position={[-0.26, 0.3, 0.28]} rotation={[-1.15, 0, 0.25]} />
@@ -240,6 +255,82 @@ const StudentAvatar = ({
 };
 
 /* --------------------------------------------------------------- classroom */
+
+const ROOM_MATERIALS = {
+  wall: new THREE.MeshStandardMaterial({ color: "#f8fafc", roughness: 0.88 }),
+  wallWarm: new THREE.MeshStandardMaterial({ color: "#eef3f1", roughness: 0.9 }),
+  floor: new THREE.MeshStandardMaterial({ color: "#d7c4a3", roughness: 0.76 }),
+  frame: new THREE.MeshStandardMaterial({ color: "#e2e8f0", roughness: 0.48, metalness: 0.16 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: "#dbeafe", transparent: true, opacity: 0.3, roughness: 0.1, transmission: 0.35 }),
+  foliage: new THREE.MeshStandardMaterial({ color: "#10b981", roughness: 0.84 }),
+  pot: new THREE.MeshStandardMaterial({ color: "#e7e1d6", roughness: 0.76 }),
+  shelf: new THREE.MeshStandardMaterial({ color: "#a98d68", roughness: 0.7 }),
+  board: new THREE.MeshStandardMaterial({ color: "#163d35", roughness: 0.38 }),
+};
+
+const WindowWall = ({ width, depth }: { width: number; depth: number }) => (
+  <group position={[-width / 2 + 0.08, 3.2, 0]}>
+    <mesh position={[0, -2.65, 0]}><boxGeometry args={[0.18, 1.1, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
+    <mesh position={[0, 2.75, 0]}><boxGeometry args={[0.18, 0.9, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
+    {[-depth / 2, -depth / 6, depth / 6, depth / 2].map((z) => (
+      <mesh key={`pillar-${z}`} position={[0, 0, z]}><boxGeometry args={[0.2, 5.5, 0.28]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+    ))}
+    {[-depth * 0.3, 0, depth * 0.3].map((z) => (
+      <group key={z} position={[0.12, 0.45, z]}>
+        <mesh rotation={[0, Math.PI / 2, 0]}><planeGeometry args={[Math.min(3.8, depth / 4), 3.7]} /><primitive object={ROOM_MATERIALS.glass} attach="material" /></mesh>
+        <mesh position={[0, 0, -Math.min(1.9, depth / 8)]}><boxGeometry args={[0.14, 4.1, 0.12]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+        <mesh position={[0, 0, Math.min(1.9, depth / 8)]}><boxGeometry args={[0.14, 4.1, 0.12]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+        <mesh><boxGeometry args={[0.14, 0.12, Math.min(3.8, depth / 4)]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+      </group>
+    ))}
+  </group>
+);
+
+const Plant = ({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) => (
+  <group position={position} scale={scale}>
+    <mesh position={[0, 0.33, 0]}><cylinderGeometry args={[0.27, 0.36, 0.65, 18]} /><primitive object={ROOM_MATERIALS.pot} attach="material" /></mesh>
+    {[[-0.2, 0.9, 0], [0.2, 1.05, 0.05], [0, 1.2, -0.12], [-0.12, 1.38, 0.08]].map((p, i) => (
+      <mesh key={i} position={p as [number, number, number]} rotation={[0, i * 0.8, i % 2 ? 0.45 : -0.45]}>
+        <sphereGeometry args={[0.18, 10, 8]} /><primitive object={ROOM_MATERIALS.foliage} attach="material" />
+      </mesh>
+    ))}
+  </group>
+);
+
+const ClassroomShell = ({ width, depth }: { width: number; depth: number }) => (
+  <group>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[width, depth]} /><primitive object={ROOM_MATERIALS.floor} attach="material" /></mesh>
+    {Array.from({ length: Math.max(6, Math.round(width / 2)) }, (_, i) => (
+      <mesh key={i} rotation={[-Math.PI / 2, 0, 0]} position={[-width / 2 + (i + 1) * (width / Math.max(6, Math.round(width / 2))), 0.008, 0]}>
+        <planeGeometry args={[0.018, depth]} /><meshBasicMaterial color="#b89d78" transparent opacity={0.45} />
+      </mesh>
+    ))}
+    <mesh position={[0, 3.2, -depth / 2]}><boxGeometry args={[width, 6.4, 0.18]} /><primitive object={ROOM_MATERIALS.wall} attach="material" /></mesh>
+    <mesh position={[width / 2, 3.2, 0]}><boxGeometry args={[0.18, 6.4, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
+    <mesh position={[0, 6.35, 0]}><boxGeometry args={[width, 0.16, depth]} /><primitive object={ROOM_MATERIALS.wall} attach="material" /></mesh>
+    <WindowWall width={width} depth={depth} />
+    {[-width * 0.25, width * 0.25].map((x) => (
+      <group key={x} position={[x, 6.12, -0.5]}>
+        <mesh><boxGeometry args={[2.8, 0.09, 0.62]} /><meshStandardMaterial color="#ffffff" emissive="#fff7d6" emissiveIntensity={0.35} /></mesh>
+      </group>
+    ))}
+    <Plant position={[width / 2 - 0.8, 0, -depth / 2 + 0.9]} />
+    <Plant position={[-width / 2 + 0.85, 0, -depth / 2 + 0.8]} scale={0.8} />
+  </group>
+);
+
+const TeacherZone = ({ width, depth }: { width: number; depth: number }) => (
+  <group>
+    <group position={[width / 2 - 2, 0, -depth / 2 + 1.4]}>
+      {[0, 0.7, 1.4, 2.1].map((y) => <mesh key={y} position={[0, y + 0.18, 0]}><boxGeometry args={[1.7, 0.12, 0.65]} /><primitive object={ROOM_MATERIALS.shelf} attach="material" /></mesh>)}
+      {[-0.65, 0.65].map((x) => <mesh key={x} position={[x, 1.25, 0]}><boxGeometry args={[0.1, 2.7, 0.65]} /><primitive object={ROOM_MATERIALS.shelf} attach="material" /></mesh>)}
+    </group>
+    <group position={[width / 2 - 3.3, 0, -depth / 2 + 0.8]}>
+      <mesh position={[0, 0.82, 0]}><boxGeometry args={[2.1, 0.12, 0.85]} /><primitive object={WOOD} attach="material" /></mesh>
+      {[-0.85, 0.85].flatMap((x) => [-0.28, 0.28].map((z) => <mesh key={`${x}-${z}`} position={[x, 0.4, z]}><boxGeometry args={[0.1, 0.8, 0.1]} /><primitive object={METAL} attach="material" /></mesh>))}
+    </group>
+  </group>
+);
 
 const Room = ({
   seats,
@@ -300,37 +391,29 @@ const Room = ({
 
   return (
     <group>
-      {/* floor + back wall */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-        <planeGeometry args={[w, d]} />
-        <meshStandardMaterial color="#f6f9ff" roughness={0.9} />
-      </mesh>
-      <gridHelper args={[Math.max(w, d), Math.round(Math.max(w, d) / 2.1), "#d3dcea", "#e9eff7"]} position={[0, 0.005, 0]} />
-      <mesh position={[0, 3.4, -d / 2]}>
-        <planeGeometry args={[w, 6.8]} />
-        <meshStandardMaterial color="#e8effa" roughness={0.95} />
-      </mesh>
+      <ClassroomShell width={w} depth={d} />
+      <TeacherZone width={w} depth={d} />
 
       {/* whiteboard */}
       <group position={[0, 2.4, -d / 2 + 0.35]}>
         <RoundedBox args={[Math.min(w * 0.72, 12), 3.2, 0.18]} radius={0.07} smoothness={2}>
-          <meshStandardMaterial color="#ffffff" roughness={0.45} />
+          <primitive object={ROOM_MATERIALS.board} attach="material" />
         </RoundedBox>
         <Html position={[0, 0.1, 0.14]} center distanceFactor={12} transform>
-          <div className="select-none text-center rounded-md bg-white px-4 py-2" style={{ width: 360 }}>
-            <p className="text-[20px] font-bold text-slate-900">
+          <div className="select-none rounded-md border border-white/15 bg-[#163d35]/95 px-5 py-3 text-center shadow-xl" style={{ width: 380 }}>
+            <p className="text-[20px] font-bold text-white">
               {vi ? "Lớp học HaiEduTech" : "HaiEduTech Classroom"}
             </p>
-            <p className="text-[15px] font-semibold text-blue-700 mt-1">
+            <p className="mt-1 text-[15px] font-semibold text-emerald-200">
               {`${vi ? "Điểm TB lớp" : "Class average"}: ${classAvg}/10 · ${activeWeek} ${vi ? "em học tuần này" : "active this week"}`}
             </p>
-            <p className="text-[14px] font-semibold mt-1" style={{ color: alertCount ? "#dc2626" : "#059669" }}>
+            <p className="mt-1 text-[14px] font-semibold" style={{ color: alertCount ? "#fca5a5" : "#6ee7b7" }}>
               {alertCount
                 ? `${alertCount} ${vi ? "học sinh cần chú ý" : "students need attention"}`
                 : vi ? "Không có học sinh cần can thiệp" : "No students need intervention"}
             </p>
             {(topNames?.length ?? 0) > 0 && (
-              <p className="text-[13px] text-slate-600 mt-1">
+              <p className="mt-1 text-[13px] text-slate-200">
                 🏆 {vi ? "Top 3" : "Top 3"}: {topNames.join(" · ")}
               </p>
             )}
@@ -440,14 +523,14 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
     const labels = new Set<string>();
     const q = normalizeForSearch(query);
     for (const seat of seats) {
-      const isPriority = seat.rank <= 3 || seat.tier === "alert";
+      const isPriority = seat.rank <= 3 || (!crowded && seat.tier === "alert") || (crowded && seat.tier === "alert" && seat.rank <= 12);
       const isMatch = !!q && normalizeForSearch(seat.student.fullName).includes(q);
       if (isPriority || isMatch || seat.student.userId === selectedUserId || seat.student.userId === hovered?.student.userId) {
         labels.add(seat.student.userId);
       }
     }
     return labels;
-  }, [hovered, query, seats, selectedUserId]);
+  }, [crowded, hovered, query, seats, selectedUserId]);
 
   const applyPreset = (p: CameraPreset) => {
     const c = controls.current;
@@ -475,7 +558,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
     focusSeat(seat);
   };
 
-  const canvasHeight = full ? "h-[calc(100vh-190px)]" : "h-[440px] sm:h-[560px]";
+  const canvasHeight = full ? "h-[calc(100vh-150px)]" : "h-[560px] xl:h-[650px]";
 
   const statChips = (
     <div className="grid grid-cols-2 divide-x divide-y border-b border-border/60 sm:grid-cols-4 sm:divide-y-0">
@@ -559,11 +642,12 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary"><School className="h-5 w-5" /></span>
             <div>
-              <CardTitle className="font-classroom-heading text-lg font-semibold">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
-              <p className="mt-0.5 text-sm text-muted-foreground">{safeStudents.length} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
+              <CardTitle className="font-classroom-heading text-xl font-bold">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
+              <p className="mt-0.5 text-sm text-muted-foreground">{t("Không gian lớp học Bắc Âu", "Nordic learning space")} · {safeStudents.length} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <span className="hidden items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 sm:flex"><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />{t("Đang hoạt động", "Live")}</span>
             {!flat && (
               <div className="hidden rounded-md bg-muted p-1 lg:flex">
                 {([
@@ -585,7 +669,6 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
 
       {open && (
         <CardContent className="p-0">
-          {statChips}
           {safeStudents.length === 0 ? (
             <p className="text-muted-foreground text-center py-10">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
           ) : flat ? (
@@ -596,10 +679,11 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                 .map((seat) => {
                   const m = TIER_META[seat.tier];
                   return (
-                    <button
+                    <Button
+                      variant="ghost"
                       key={seat.student.userId}
                       onClick={() => onSelectStudent(seat.student)}
-                      className={`text-left p-3 rounded-xl border transition-all hover:shadow-md ${
+                      className={`h-auto justify-start text-left p-3 rounded-md border transition-all hover:shadow-md ${
                         selectedUserId === seat.student.userId ? "border-primary ring-1 ring-primary/40" : "border-border/60"
                       }`}
                       style={{ backgroundColor: `${m.color}14` }}
@@ -615,7 +699,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                       <p className="text-xs text-muted-foreground">
                         {formatLastActive(seat.lastActiveMs, vi)}
                       </p>
-                    </button>
+                    </Button>
                   );
                 })}
             </div>
@@ -633,50 +717,28 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   })}
                 </div>
               </div>
-              <div
-                ref={stageRef}
-                className={`relative w-full ${canvasHeight} overflow-hidden rounded-md border border-border/70 bg-[hsl(var(--classroom-canvas))]`}
-              >
-                <aside className="absolute left-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/85 p-3 shadow-lg backdrop-blur-xl lg:block">
-                  <div className="relative mb-3">
-                    <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-background/80 pl-8" />
-                  </div>
-                  <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground">{t("Trạng thái lớp", "Class status")}</p>
-                  {legend}
-                </aside>
-                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center rounded-md border border-border/60 bg-card/85 p-1 shadow-lg backdrop-blur-xl lg:hidden">
+              <div className={`grid overflow-hidden rounded-md border border-border/70 bg-card shadow-xl xl:grid-cols-[minmax(0,1fr)_300px] ${canvasHeight}`}>
+                <div ref={stageRef} className="relative min-h-0 overflow-hidden bg-[hsl(var(--classroom-canvas))]">
+                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1 rounded-md border border-border/60 bg-card/90 p-1.5 shadow-lg backdrop-blur-xl">
                   {([
                     { key: "class", icon: LayoutGrid, label: t("Toàn lớp", "Whole class") },
                     { key: "top", icon: ScanLine, label: t("Từ trên", "Top view") },
                     { key: "alert", icon: Target, label: t("Cần chú ý", "Attention") },
-                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="icon" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /></Button>)}
+                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="sm" className="gap-1.5" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /><span className="hidden sm:inline">{preset.label}</span></Button>)}
                 </div>
-                {selectedSeat && (
-                  <aside className="absolute right-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/90 p-4 shadow-lg backdrop-blur-xl xl:block">
-                    <div className="mb-3 flex items-start justify-between gap-2">
-                      <div><p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p><p className="text-xs text-muted-foreground">#{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}</p></div>
-                      <UserRound className="h-4 w-4 text-primary" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm">
-                      <div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div>
-                      <div><p className="text-xs text-muted-foreground">{t("Hoạt động", "Activities")}</p><b>{selectedSeat.student.totalActivities}</b></div>
-                    </div>
-                    <p className="mt-3 text-xs text-muted-foreground">{formatLastActive(selectedSeat.lastActiveMs, vi)}</p>
-                  </aside>
-                )}
                 <Canvas
-                  shadows={false}
+                  shadows
                   dpr={[1, 1.5]}
                   gl={{ antialias: seats.length <= 40, powerPreference: "high-performance" }}
                   camera={{ position: [0, 7 + rows * 0.55, 12 + rows * 1.15], fov: 45 }}
                   frameloop={visible ? "always" : "demand"}
                 >
-                  <color attach="background" args={["#eef4fb"]} />
-                  <ambientLight intensity={0.8} />
-                  <hemisphereLight args={["#ffffff", "#c9d6e8", 0.5]} />
-                  <directionalLight position={[6, 12, 8]} intensity={0.85} />
-                  <directionalLight position={[-8, 6, -6]} intensity={0.3} />
+                  <color attach="background" args={["#dceaf1"]} />
+                  <fog attach="fog" args={["#e7eff3", 18, 50]} />
+                  <ambientLight intensity={0.62} />
+                  <hemisphereLight args={["#fffdf4", "#9fb5ad", 0.7]} />
+                  <directionalLight position={[-10, 12, 8]} intensity={1.25} castShadow shadow-mapSize={[1024, 1024]} />
+                  <directionalLight position={[8, 7, -5]} intensity={0.38} color="#dbeafe" />
                   <Suspense fallback={null}>
                     <Room
                       seats={seats}
@@ -722,7 +784,37 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                     target={[0, 1, 0]}
                   />
                 </Canvas>
+                </div>
+                <aside className="hidden min-h-0 overflow-y-auto border-l border-border/70 bg-card xl:block">
+                  <div className="border-b border-border/60 p-5">
+                    <p className="font-classroom-heading text-xs font-bold uppercase text-muted-foreground">{t("Trung tâm quản lý", "Management center")}</p>
+                    <div className="relative mt-3">
+                      <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-muted/40 pl-8" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 border-b border-border/60 p-4">
+                    <div className="rounded-md bg-primary/5 p-3"><Users className="mb-2 h-4 w-4 text-primary" /><b className="block text-xl">{safeStudents.length}</b><span className="text-xs text-muted-foreground">{t("Học sinh", "Students")}</span></div>
+                    <div className="rounded-md bg-emerald-500/5 p-3"><Activity className="mb-2 h-4 w-4 text-emerald-600" /><b className="block text-xl">{stats.activeWeek}</b><span className="text-xs text-muted-foreground">{t("Học tuần này", "Active week")}</span></div>
+                  </div>
+                  <div className="border-b border-border/60 p-4">
+                    <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground">{t("Trạng thái lớp", "Class status")}</p>
+                    {legend}
+                  </div>
+                  <div className="p-4">
+                    {selectedSeat ? (
+                      <div>
+                        <div className="mb-3 flex items-start justify-between gap-2"><div><p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p><p className="text-xs text-muted-foreground">#{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}</p></div><UserRound className="h-5 w-5 text-primary" /></div>
+                        <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm"><div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div><div><p className="text-xs text-muted-foreground">{t("Hoạt động", "Activities")}</p><b>{selectedSeat.student.totalActivities}</b></div></div>
+                        <p className="mt-3 text-xs text-muted-foreground">{formatLastActive(selectedSeat.lastActiveMs, vi)}</p>
+                      </div>
+                    ) : (
+                      <div className="py-3 text-center"><Armchair className="mx-auto mb-2 h-6 w-6 text-muted-foreground" /><p className="text-sm font-medium">{t("Chọn một học sinh trong lớp", "Select a student in the room")}</p><p className="mt-1 text-xs text-muted-foreground">{t("Thông tin học tập sẽ hiện tại đây", "Learning details will appear here")}</p></div>
+                    )}
+                  </div>
+                </aside>
               </div>
+              <div className="mt-3 hidden grid-cols-4 gap-2 lg:grid xl:hidden">{statChips}</div>
             </div>
           )}
         </CardContent>
