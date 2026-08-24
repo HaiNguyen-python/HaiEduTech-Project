@@ -554,7 +554,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
     focusSeat(seat);
   };
 
-  const canvasHeight = full ? "h-[calc(100vh-190px)]" : "h-[440px] sm:h-[560px]";
+  const canvasHeight = full ? "h-[calc(100vh-150px)]" : "h-[560px] xl:h-[650px]";
 
   const statChips = (
     <div className="grid grid-cols-2 divide-x divide-y border-b border-border/60 sm:grid-cols-4 sm:divide-y-0">
@@ -664,7 +664,6 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
 
       {open && (
         <CardContent className="p-0">
-          {statChips}
           {safeStudents.length === 0 ? (
             <p className="text-muted-foreground text-center py-10">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
           ) : flat ? (
@@ -675,10 +674,11 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                 .map((seat) => {
                   const m = TIER_META[seat.tier];
                   return (
-                    <button
+                    <Button
+                      variant="ghost"
                       key={seat.student.userId}
                       onClick={() => onSelectStudent(seat.student)}
-                      className={`text-left p-3 rounded-xl border transition-all hover:shadow-md ${
+                      className={`h-auto justify-start text-left p-3 rounded-md border transition-all hover:shadow-md ${
                         selectedUserId === seat.student.userId ? "border-primary ring-1 ring-primary/40" : "border-border/60"
                       }`}
                       style={{ backgroundColor: `${m.color}14` }}
@@ -694,7 +694,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                       <p className="text-xs text-muted-foreground">
                         {formatLastActive(seat.lastActiveMs, vi)}
                       </p>
-                    </button>
+                    </Button>
                   );
                 })}
             </div>
@@ -712,50 +712,28 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   })}
                 </div>
               </div>
-              <div
-                ref={stageRef}
-                className={`relative w-full ${canvasHeight} overflow-hidden rounded-md border border-border/70 bg-[hsl(var(--classroom-canvas))]`}
-              >
-                <aside className="absolute left-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/85 p-3 shadow-lg backdrop-blur-xl lg:block">
-                  <div className="relative mb-3">
-                    <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-background/80 pl-8" />
-                  </div>
-                  <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground">{t("Trạng thái lớp", "Class status")}</p>
-                  {legend}
-                </aside>
-                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center rounded-md border border-border/60 bg-card/85 p-1 shadow-lg backdrop-blur-xl lg:hidden">
+              <div className={`grid overflow-hidden rounded-md border border-border/70 bg-card shadow-xl xl:grid-cols-[minmax(0,1fr)_300px] ${canvasHeight}`}>
+                <div ref={stageRef} className="relative min-h-0 overflow-hidden bg-[hsl(var(--classroom-canvas))]">
+                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1 rounded-md border border-border/60 bg-card/90 p-1.5 shadow-lg backdrop-blur-xl">
                   {([
                     { key: "class", icon: LayoutGrid, label: t("Toàn lớp", "Whole class") },
                     { key: "top", icon: ScanLine, label: t("Từ trên", "Top view") },
                     { key: "alert", icon: Target, label: t("Cần chú ý", "Attention") },
-                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="icon" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /></Button>)}
+                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="sm" className="gap-1.5" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /><span className="hidden sm:inline">{preset.label}</span></Button>)}
                 </div>
-                {selectedSeat && (
-                  <aside className="absolute right-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/90 p-4 shadow-lg backdrop-blur-xl xl:block">
-                    <div className="mb-3 flex items-start justify-between gap-2">
-                      <div><p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p><p className="text-xs text-muted-foreground">#{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}</p></div>
-                      <UserRound className="h-4 w-4 text-primary" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm">
-                      <div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div>
-                      <div><p className="text-xs text-muted-foreground">{t("Hoạt động", "Activities")}</p><b>{selectedSeat.student.totalActivities}</b></div>
-                    </div>
-                    <p className="mt-3 text-xs text-muted-foreground">{formatLastActive(selectedSeat.lastActiveMs, vi)}</p>
-                  </aside>
-                )}
                 <Canvas
-                  shadows={false}
+                  shadows
                   dpr={[1, 1.5]}
                   gl={{ antialias: seats.length <= 40, powerPreference: "high-performance" }}
                   camera={{ position: [0, 7 + rows * 0.55, 12 + rows * 1.15], fov: 45 }}
                   frameloop={visible ? "always" : "demand"}
                 >
-                  <color attach="background" args={["#eef4fb"]} />
-                  <ambientLight intensity={0.8} />
-                  <hemisphereLight args={["#ffffff", "#c9d6e8", 0.5]} />
-                  <directionalLight position={[6, 12, 8]} intensity={0.85} />
-                  <directionalLight position={[-8, 6, -6]} intensity={0.3} />
+                  <color attach="background" args={["#dceaf1"]} />
+                  <fog attach="fog" args={["#e7eff3", 18, 50]} />
+                  <ambientLight intensity={0.62} />
+                  <hemisphereLight args={["#fffdf4", "#9fb5ad", 0.7]} />
+                  <directionalLight position={[-10, 12, 8]} intensity={1.25} castShadow shadow-mapSize={[1024, 1024]} />
+                  <directionalLight position={[8, 7, -5]} intensity={0.38} color="#dbeafe" />
                   <Suspense fallback={null}>
                     <Room
                       seats={seats}
@@ -801,7 +779,37 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                     target={[0, 1, 0]}
                   />
                 </Canvas>
+                </div>
+                <aside className="hidden min-h-0 overflow-y-auto border-l border-border/70 bg-card xl:block">
+                  <div className="border-b border-border/60 p-5">
+                    <p className="font-classroom-heading text-xs font-bold uppercase text-muted-foreground">{t("Trung tâm quản lý", "Management center")}</p>
+                    <div className="relative mt-3">
+                      <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-muted/40 pl-8" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 border-b border-border/60 p-4">
+                    <div className="rounded-md bg-primary/5 p-3"><Users className="mb-2 h-4 w-4 text-primary" /><b className="block text-xl">{safeStudents.length}</b><span className="text-xs text-muted-foreground">{t("Học sinh", "Students")}</span></div>
+                    <div className="rounded-md bg-emerald-500/5 p-3"><Activity className="mb-2 h-4 w-4 text-emerald-600" /><b className="block text-xl">{stats.activeWeek}</b><span className="text-xs text-muted-foreground">{t("Học tuần này", "Active week")}</span></div>
+                  </div>
+                  <div className="border-b border-border/60 p-4">
+                    <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground">{t("Trạng thái lớp", "Class status")}</p>
+                    {legend}
+                  </div>
+                  <div className="p-4">
+                    {selectedSeat ? (
+                      <div>
+                        <div className="mb-3 flex items-start justify-between gap-2"><div><p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p><p className="text-xs text-muted-foreground">#{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}</p></div><UserRound className="h-5 w-5 text-primary" /></div>
+                        <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm"><div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div><div><p className="text-xs text-muted-foreground">{t("Hoạt động", "Activities")}</p><b>{selectedSeat.student.totalActivities}</b></div></div>
+                        <p className="mt-3 text-xs text-muted-foreground">{formatLastActive(selectedSeat.lastActiveMs, vi)}</p>
+                      </div>
+                    ) : (
+                      <div className="py-3 text-center"><Armchair className="mx-auto mb-2 h-6 w-6 text-muted-foreground" /><p className="text-sm font-medium">{t("Chọn một học sinh trong lớp", "Select a student in the room")}</p><p className="mt-1 text-xs text-muted-foreground">{t("Thông tin học tập sẽ hiện tại đây", "Learning details will appear here")}</p></div>
+                    )}
+                  </div>
+                </aside>
               </div>
+              <div className="mt-3 hidden grid-cols-4 gap-2 lg:grid xl:hidden">{statChips}</div>
             </div>
           )}
         </CardContent>
