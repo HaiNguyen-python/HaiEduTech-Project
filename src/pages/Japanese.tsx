@@ -388,6 +388,11 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
 // ---------- Merged (base + expansion) datasets ----------
 const ALL_GREETINGS: Phrase[] = [...GREETINGS, ...GREETINGS_EXTRA];
 const ALL_VOCAB = [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items }))];
+
+/** Japanese word -> phrase, used by the memory brain tooltips. */
+const JA_WORD_INDEX = new Map<string, Phrase>(
+  ALL_VOCAB.flatMap((g) => g.items.map((p) => [p.jp, p] as [string, Phrase]))
+);
 const ALL_KANJI = [...KANJI_BASIC, ...KANJI_EXTRA, ...KANJI_GROUPS.flatMap((g) => g.items)];
 const ALL_DIALOGUES = [...DIALOGUES, ...DIALOGUES_EXTRA];
 const ALL_GRAMMAR = [...GRAMMAR, ...GRAMMAR_EXTRA];
