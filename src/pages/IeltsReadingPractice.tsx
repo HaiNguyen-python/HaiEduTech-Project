@@ -926,10 +926,18 @@ interface FullTestEngineProps {
 
 const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
   const { t } = useLanguage();
-  const passages = useMemo(
+  const rawPassages = useMemo(
     () => test.passageIds.map(id => EXAMS_BY_ID[id]).filter(Boolean) as ReadingExam[],
     [test]
   );
+
+  // Real IELTS Academic Reading always has exactly 40 questions across the
+  // 3 passages, so trim each passage to the standard 13/13/14 allocation.
+  const passages = useMemo(() => {
+    const lengths = rawPassages.map(p => p.questions.length);
+    const take = allocateFullTestCounts(lengths);
+    return rawPassages.map((p, i) => ({ ...p, questions: p.questions.slice(0, take[i]) }));
+  }, [rawPassages]);
 
   // Build a flat question list with re-numbered "global" numbers 1..N.
   const flat = useMemo(() => {
