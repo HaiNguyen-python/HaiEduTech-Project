@@ -38,6 +38,17 @@ const speak = (text: string, rate = 0.9) => {
   window.speechSynthesis.speak(u);
 };
 
+// Stops any pending speech so a word never keeps reading after the player
+// leaves the game or moves to the next round.
+const useStopSpeechOnUnmount = () => {
+  useEffect(
+    () => () => {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
+    },
+    []
+  );
+};
+
 const Shell = ({
   title,
   mode,
