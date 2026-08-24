@@ -536,62 +536,55 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
     </div>
   );
 
+  const iconControl = (label: string, icon: React.ReactNode, action: () => void) => (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="ghost" size="icon" className="h-9 w-9" onClick={action} aria-label={label}>{icon}</Button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+  );
+
   return (
-    <Card className={`mb-6 border-border/60 ${full ? "fixed inset-3 z-50 overflow-auto bg-background shadow-2xl" : ""}`}>
-      <CardHeader className="pb-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <School className="w-5 h-5 text-primary" />
-            {t("Lớp học 3D trực quan", "Interactive 3D Classroom")}
-            <span className="text-xs font-normal text-muted-foreground">
-              {students.length} {t("học sinh", "students")}
-            </span>
-          </CardTitle>
+    <TooltipProvider delayDuration={200}>
+    <Card className={`font-classroom-body mb-6 overflow-hidden border-border/60 classroom-command-shadow ${full ? "fixed inset-3 z-50 overflow-auto bg-background" : ""}`}>
+      <CardHeader className="border-b border-border/50 bg-card/90 px-4 py-4 backdrop-blur-md sm:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary"><School className="h-5 w-5" /></span>
+            <div>
+              <CardTitle className="font-classroom-heading text-lg font-semibold">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
+              <p className="mt-0.5 text-sm text-muted-foreground">{students?.length ?? 0} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
+            </div>
+          </div>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => setSeating((m) => (m === "rank" ? "attention" : "rank"))}
-            >
-              {seating === "rank" ? <Trophy className="w-3.5 h-3.5" /> : <AlertTriangle className="w-3.5 h-3.5" />}
-              {seating === "rank" ? t("Xếp theo thứ hạng", "Seated by rank") : t("Ưu tiên cần chú ý", "Attention first")}
-            </Button>
-            <Button variant="outline" size="sm" className="gap-1.5" onClick={() => setFlat((f) => !f)}>
-              {flat ? <Boxes className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-              {flat ? t("Chế độ 3D", "3D mode") : t("Chế độ phẳng", "Flat mode")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => setFull((f) => !f)}>
-              {full ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setOpen((o) => !o)}>
-              {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </Button>
+            {!flat && (
+              <div className="hidden rounded-md bg-muted p-1 lg:flex">
+                {([
+                  { key: "class", label: t("Toàn lớp", "Whole class") },
+                  { key: "top", label: t("Từ trên", "Top view") },
+                  { key: "alert", label: t("Cần chú ý", "Attention") },
+                ] as const).map((preset, index) => (
+                  <Button key={preset.key} variant={index === 0 ? "secondary" : "ghost"} size="sm" className="h-8 rounded-sm px-3 text-xs" onClick={() => applyPreset(preset.key)}>{preset.label}</Button>
+                ))}
+              </div>
+            )}
+            {iconControl(seating === "rank" ? t("Ưu tiên học sinh cần chú ý", "Attention-first seating") : t("Xếp lại theo thứ hạng", "Ranked seating"), seating === "rank" ? <Trophy className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />, () => setSeating((mode) => mode === "rank" ? "attention" : "rank"))}
+            {iconControl(flat ? t("Chế độ 3D", "3D mode") : t("Chế độ phẳng", "Flat mode"), flat ? <Boxes className="h-4 w-4" /> : <Eye className="h-4 w-4" />, () => setFlat((value) => !value))}
+            {iconControl(full ? t("Thu nhỏ", "Exit fullscreen") : t("Toàn màn hình", "Fullscreen"), full ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />, () => setFull((value) => !value))}
+            {iconControl(open ? t("Thu gọn", "Collapse") : t("Mở rộng", "Expand"), open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />, () => setOpen((value) => !value))}
           </div>
         </div>
       </CardHeader>
 
       {open && (
-        <CardContent className="space-y-3">
+        <CardContent className="p-0">
           {statChips}
-          <div className="flex flex-col lg:flex-row lg:items-center gap-3">
-            <div className="relative w-full lg:max-w-xs">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t("Tìm học sinh...", "Find a student...")}
-                className="pl-8 h-9"
-              />
-            </div>
-            {legend}
-          </div>
-
           {students.length === 0 ? (
             <p className="text-muted-foreground text-center py-10">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
           ) : flat ? (
             /* ---------- 2D fallback grid (same ranking order) ---------- */
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4">
               {seats
                 .filter((s) => !dimSet || dimSet.has(s.student.userId))
                 .map((seat) => {
@@ -621,28 +614,39 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                 })}
             </div>
           ) : (
-            <>
-              <div className="flex flex-wrap gap-2">
-                {([
-                  { key: "class", label: t("Toàn lớp", "Whole class") },
-                  { key: "top", label: t("Nhìn từ trên", "Top view") },
-                  { key: "alert", label: t("Hàng cần chú ý", "Attention row") },
-                ] as const).map((p) => (
-                  <Button key={p.key} variant="secondary" size="sm" onClick={() => applyPreset(p.key)}>
-                    {p.label}
-                  </Button>
-                ))}
-                <span className="flex items-center gap-1 text-xs text-muted-foreground ml-1">
-                  <Users className="w-3.5 h-3.5" />
-                  {t("Chỗ ngồi theo thứ hạng học tập · kéo để quay · bấm avatar để xem chi tiết",
-                     "Seats follow academic rank · drag to rotate · click an avatar for details")}
-                </span>
-              </div>
-
+            <div className="relative bg-[hsl(var(--classroom-canvas))] p-3 sm:p-4">
               <div
                 ref={stageRef}
-                className={`relative w-full ${canvasHeight} rounded-xl overflow-hidden border border-border/60 bg-gradient-to-b from-sky-50 to-slate-100 dark:from-slate-900 dark:to-slate-800`}
+                className={`relative w-full ${canvasHeight} overflow-hidden rounded-md border border-border/70 bg-[hsl(var(--classroom-canvas))]`}
               >
+                <aside className="absolute left-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/85 p-3 shadow-lg backdrop-blur-xl lg:block">
+                  <div className="relative mb-3">
+                    <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-background/80 pl-8" />
+                  </div>
+                  <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground">{t("Trạng thái lớp", "Class status")}</p>
+                  {legend}
+                </aside>
+                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center rounded-md border border-border/60 bg-card/85 p-1 shadow-lg backdrop-blur-xl lg:hidden">
+                  {([
+                    { key: "class", icon: LayoutGrid, label: t("Toàn lớp", "Whole class") },
+                    { key: "top", icon: ScanLine, label: t("Từ trên", "Top view") },
+                    { key: "alert", icon: Target, label: t("Cần chú ý", "Attention") },
+                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="icon" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /></Button>)}
+                </div>
+                {selectedSeat && (
+                  <aside className="absolute right-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/90 p-4 shadow-lg backdrop-blur-xl xl:block">
+                    <div className="mb-3 flex items-start justify-between gap-2">
+                      <div><p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p><p className="text-xs text-muted-foreground">#{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}</p></div>
+                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onSelectStudent(selectedSeat.student)} aria-label={t("Đóng", "Close")}><X className="h-3.5 w-3.5" /></Button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm">
+                      <div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div>
+                      <div><p className="text-xs text-muted-foreground">{t("Hoạt động", "Activities")}</p><b>{selectedSeat.student.totalActivities}</b></div>
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground">{formatLastActive(selectedSeat.lastActiveMs, vi)}</p>
+                  </aside>
+                )}
                 <Canvas
                   shadows={false}
                   dpr={[1, 1.5]}
@@ -666,6 +670,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                       topNames={stats.topNames}
                       vi={vi}
                       dimSet={dimSet}
+                      labelSet={labelSet}
                       crowded={crowded}
                       selectedUserId={selectedUserId}
                       onHover={setHovered}
@@ -700,11 +705,12 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   />
                 </Canvas>
               </div>
-            </>
+            </div>
           )}
         </CardContent>
       )}
     </Card>
+    </TooltipProvider>
   );
 };
 
