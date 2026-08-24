@@ -529,17 +529,21 @@ export const ContextClozeRush = ({ mode, onExit, onReplay }: GameProps) => {
   const [correctWords, setCorrectWords] = useState<string[]>([]);
 
   const questions = useMemo(() => {
-    const pool = ieltsVocabData.filter(
-      (w) => w.example && w.example.toLowerCase().includes(w.word.toLowerCase().slice(0, Math.max(4, w.word.length - 3)))
-    );
-    return pickWords(pool.length >= ROUNDS ? pool : ieltsVocabData, ROUNDS).map((target) => {
-      const stem = target.word.slice(0, Math.max(4, target.word.length - 3));
-      const gapped = target.example.replace(new RegExp(`\\b${stem}\\w*`, "gi"), "_____");
-      const distractors = shuffle(
+    const stemOf = (word: string) => word.slice(0, Math.max(4, word.length - 3));
+    const gapOut = (sentence: string, word: string) =>
+      sentence
+        .replace(new RegExp(`\\b${word}\\b`, "gi"), "_____")
+        .replace(new RegExp(`\\b${stemOf(word)}\\w*`, "gi"), "_____");
+    // Only words whose example sentence really contains them can be gapped;
+    // anything else would show the answer inside the sentence.
+    const pool = ieltsVocabData.filter((w) => !!w.example && gapOut(w.example, w.word).includes("_____"));
+    return pickWords(pool, ROUNDS).map((target) => {
+      const gapped = gapOut(target.example, target.word);
+      const samePos = shuffle(
         ieltsVocabData.filter((w) => w.word !== target.word && w.partOfSpeech === target.partOfSpeech).map((w) => w.word)
-      ).slice(0, 3);
-      const filler = shuffle(ieltsVocabData.map((w) => w.word).filter((w) => w !== target.word)).slice(0, 3);
-      const wrongs = (distractors.length === 3 ? distractors : filler).slice(0, 3);
+      );
+      const filler = shuffle(ieltsVocabData.map((w) => w.word).filter((w) => w !== target.word));
+      const wrongs = [...new Set([...samePos, ...filler])].filter((x) => x !== target.word).slice(0, 3);
       return { target, sentence: gapped, options: shuffle([target.word, ...wrongs]) };
     });
   }, []);
