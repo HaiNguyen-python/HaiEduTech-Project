@@ -3098,8 +3098,8 @@ export const sampleEssaysExpansion: SampleEssay[] = [
           "answer": "disparity"
         },
         {
-          "sentence": "Poland ___ the largest percentage-point gain.",
-          "answer": "notched"
+          "sentence": "Poland trailed despite ___ the largest percentage-point gain.",
+          "answer": "notching"
         },
         {
           "sentence": "Sweden ___ the gap by climbing to 65%.",

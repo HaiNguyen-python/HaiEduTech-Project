@@ -712,9 +712,9 @@ const baseSampleEssays: SampleEssay[] = [
         "context": "Technology ballooned to 25%, effectively eclipsing agriculture."
       },
       {
-        "term": "eclipsed",
+        "term": "eclipsing",
         "vietnamese": "vượt qua/che khuất",
-        "context": "Technology eclipsed agriculture and drew close to manufacturing."
+        "context": "Technology ballooned to 25%, effectively eclipsing agriculture."
       },
       {
         "term": "reorientation",
