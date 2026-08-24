@@ -160,7 +160,12 @@ const EndCard = ({
       </div>
       {mode === "solo" && (
         <div className="max-w-sm mx-auto mb-4">
-          <HighScorePanel game={gameKey} title={`Top ${gameTitle}`} highlight={scoreA} />
+          <HighScorePanel
+            game={gameKey}
+            title={`Top ${gameTitle}`}
+            highlight={scoreA}
+            refreshKey={saved ? (saved.rank ?? 1) : 0}
+          />
         </div>
       )}
       <div className="flex items-center justify-center gap-2 flex-wrap">
