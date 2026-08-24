@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
+import { playJapaneseTts, stopJapaneseTts } from "@/lib/japaneseTts";
+import { japaneseSoundTipsFor } from "@/lib/japaneseSoundTips";
 import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
@@ -82,7 +84,7 @@ interface WordResult {
 }
 
 interface AISpeakingCoachProps {
-  language: "english" | "finnish" | "swedish" | "chinese" | "vietnamese";
+  language: "english" | "finnish" | "swedish" | "chinese" | "vietnamese" | "japanese";
   onScoreUpdate?: (score: number) => void;
   onPerfectScore?: () => void; // callback for gamification integration (flying stars etc.)
 }
@@ -809,7 +811,12 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     setIsPlayingDemo(true);
 
     try {
-      if (language === "finnish") {
+      if (language === "japanese") {
+        const ok = await playJapaneseTts(currentSentence.text, { playbackRate: slow ? 0.6 : 0.9, speechRate: slow ? 0.6 : 0.85 });
+        if (!ok) {
+          toast.error(t("Không thể phát âm thanh tiếng Nhật. Hãy thử lại.", "Could not play Japanese audio. Please try again."));
+        }
+      } else if (language === "finnish") {
         await playFinnishTts(currentSentence.text);
       } else if (language === "swedish") {
         // playSwedishTts resolves false when every engine in the chain fails -
@@ -1226,7 +1233,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                                 {currentSentence.ipa && (
                                   <div className="mt-2 p-2 bg-secondary rounded-lg">
                                     <p className="text-xs text-muted-foreground font-medium mb-1">
-                                      {language === "chinese" ? "Pinyin" : "IPA"}
+                                      {language === "chinese" ? "Pinyin" : language === "japanese" ? "Romaji" : "IPA"}
                                     </p>
                                     <p className="text-sm text-primary font-mono">{currentSentence.ipa}</p>
                                   </div>
@@ -1266,7 +1273,11 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                   {(() => {
                     const ipa = currentSentence.ipa
                       || (language === "swedish" ? transcribeSwedishSentence(currentSentence.text) : "");
-                    const tips = language === "swedish" ? swedishSoundTipsFor(currentSentence.text, 2) : [];
+                    const tips = language === "swedish"
+                      ? swedishSoundTipsFor(currentSentence.text, 2)
+                      : language === "japanese"
+                        ? japaneseSoundTipsFor(currentSentence.text, 2)
+                        : [];
                     if (!ipa && tips.length === 0) return null;
                     return (
                       <div className="space-y-2">
