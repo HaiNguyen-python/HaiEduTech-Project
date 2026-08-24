@@ -21,16 +21,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe tham quan giới thiệu khuôn viên trường. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Guide: Hello everyone, and welcome to Eastfield University. My name is Ruth, and I'll be taking you round the main campus this morning.\n" +
-      "The whole tour lasts about ninety minutes.\n" +
-      "We'll finish the tour at the students' union.\n" +
-      "The oldest building on campus is the chapel.\n" +
-      "During term time the library stays open until midnight.\n" +
-      "You can borrow a laptop for the day from the help desk.\n" +
-      "The cheapest hot meal on campus is served in the union canteen.\n" +
-      "Bicycles have to be left in the covered racks.\n" +
-      "The health centre is directly next to the accommodation office.\n" +
-      "The free language classes take place on Wednesday afternoons.\n" +
-      "If you want to join a society, the easiest way is to use the online portal.\n" +
+      "First of all, the whole tour lasts about ninety minutes.\n" +
+      "Now, we'll finish the tour at the students' union.\n" +
+      "Something else worth noting: the oldest building on campus is the chapel.\n" +
+      "Moving on, during term time the library stays open until midnight.\n" +
+      "You may also want to know that you can borrow a laptop for the day from the help desk.\n" +
+      "Next, the cheapest hot meal on campus is served in the union canteen.\n" +
+      "One practical point: bicycles have to be left in the covered racks.\n" +
+      "I should also mention that the health centre is directly next to the accommodation office.\n" +
+      "Another thing: the free language classes take place on Wednesday afternoons.\n" +
+      "And finally, if you want to join a society, the easiest way is to use the online portal.\n" +
       "Guide: That's everything from me - please stay together, and do ask questions as we walk.",
     rate: 0.9,
     questions: [
@@ -58,16 +58,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe giới thiệu trung tâm tái chế. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Supervisor: Good afternoon, everybody. Thanks for coming along to the Brookdale Recycling Centre. I'm Ken, the site supervisor, and I'll explain how everything works before we walk round.\n" +
-      "The centre first opened in 2014.\n" +
-      "We now recycle roughly sixty per cent.\n" +
-      "All garden waste goes into the brown bins.\n" +
-      "The one thing we simply cannot accept is paint tins.\n" +
-      "Every electrical item is first checked for possible reuse.\n" +
-      "Our busiest day by far is Saturday.\n" +
-      "Anyone under sixteen must be accompanied by an adult.\n" +
-      "The small shop on site sells repaired bicycles.\n" +
-      "We give away free compost every spring.\n" +
-      "Schools should book their visits through the education officer.\n" +
+      "First of all, the centre first opened in 2014.\n" +
+      "Now, we now recycle roughly sixty per cent.\n" +
+      "Something else worth noting: all garden waste goes into the brown bins.\n" +
+      "Moving on, the one thing we simply cannot accept is paint tins.\n" +
+      "You may also want to know that every electrical item is first checked for possible reuse.\n" +
+      "Next, our busiest day by far is Saturday.\n" +
+      "One practical point: anyone under sixteen must be accompanied by an adult.\n" +
+      "I should also mention that the small shop on site sells repaired bicycles.\n" +
+      "Another thing: we give away free compost every spring.\n" +
+      "And finally, schools should book their visits through the education officer.\n" +
       "Supervisor: So that's the site in a nutshell. Please keep to the marked walkways during the visit.",
     rate: 0.9,
     questions: [
@@ -95,16 +95,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe tham quan hậu trường nhà hát. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Tour leader: Welcome to the Royal Crescent Theatre. I'm Dana, and today I'm taking you behind the scenes.\n" +
-      "The building was originally built as a cinema.\n" +
-      "The main auditorium seats eight hundred.\n" +
-      "What makes our stage unusual is that it can revolve.\n" +
-      "All the costumes are stored in the basement.\n" +
-      "You reach the lighting box by a spiral staircase.\n" +
-      "Most rehearsals happen in the studio space.\n" +
-      "The workshop mainly makes wooden scenery.\n" +
-      "Photography is allowed only in the foyer.\n" +
-      "Most of our volunteers help with front of house.\n" +
-      "Tickets are cheapest for the Tuesday previews.\n" +
+      "First of all, the building was originally built as a cinema.\n" +
+      "Now, the main auditorium seats eight hundred.\n" +
+      "Something else worth noting: what makes our stage unusual is that it can revolve.\n" +
+      "Moving on, all the costumes are stored in the basement.\n" +
+      "You may also want to know that you reach the lighting box by a spiral staircase.\n" +
+      "Next, most rehearsals happen in the studio space.\n" +
+      "One practical point: the workshop mainly makes wooden scenery.\n" +
+      "I should also mention that photography is allowed only in the foyer.\n" +
+      "Another thing: most of our volunteers help with front of house.\n" +
+      "And finally, tickets are cheapest for the Tuesday previews.\n" +
       "Tour leader: Right, let's begin at the stage door - and please switch your phones to silent.",
     rate: 0.9,
     questions: [
@@ -132,16 +132,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe giới thiệu khu bảo tồn đất ngập nước. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Warden: Good morning, and welcome to Marshbank Wetland Reserve. I'm Ellie, one of the wardens here.\n" +
-      "The reserve covers around two hundred hectares.\n" +
-      "The dominant habitat here is reed bed.\n" +
-      "The species most visitors come to see is the bittern.\n" +
-      "For a first visit I'd recommend the lakeside hide.\n" +
-      "The boardwalk was rebuilt using recycled plastic.\n" +
-      "Water levels are controlled by sluice gates.\n" +
-      "The volunteer work party meets every Thursday.\n" +
-      "The café is closed every Monday.\n" +
-      "Cycling is permitted only on the perimeter track.\n" +
-      "Pond dipping for families costs £3.\n" +
+      "First of all, the reserve covers around two hundred hectares.\n" +
+      "Now, the dominant habitat here is reed bed.\n" +
+      "Something else worth noting: the species most visitors come to see is the bittern.\n" +
+      "Moving on, for a first visit I'd recommend the lakeside hide.\n" +
+      "You may also want to know that the boardwalk was rebuilt using recycled plastic.\n" +
+      "Next, water levels are controlled by sluice gates.\n" +
+      "One practical point: the volunteer work party meets every Thursday.\n" +
+      "I should also mention that the café is closed every Monday.\n" +
+      "Another thing: cycling is permitted only on the perimeter track.\n" +
+      "And finally, pond dipping for families costs £3.\n" +
       "Warden: Enjoy your walk, and please remember to keep dogs on a lead at all times.",
     rate: 0.9,
     questions: [
@@ -169,16 +169,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe thông báo thay đổi mạng xe buýt thành phố. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Presenter: And now our travel update. From next month there are some significant changes to the city bus network, so listen carefully if you use the buses.\n" +
-      "The new timetable starts on 1 September.\n" +
-      "The route being extended is route 12.\n" +
-      "The extension will finally serve the hospital.\n" +
-      "In the evening buses will run every twenty minutes.\n" +
-      "The flat single fare becomes £2.\n" +
-      "Day tickets can now be bought on the app.\n" +
-      "Unfortunately the service being withdrawn is the late-night route 9.\n" +
-      "The bus lanes will now operate all day.\n" +
-      "Passengers with disabilities can arrange door-to-door transport.\n" +
-      "Complaints should be made online.\n" +
+      "First of all, the new timetable starts on 1 September.\n" +
+      "Now, the route being extended is route 12.\n" +
+      "Something else worth noting: the extension will finally serve the hospital.\n" +
+      "Moving on, in the evening buses will run every twenty minutes.\n" +
+      "You may also want to know that the flat single fare becomes £2.\n" +
+      "Next, day tickets can now be bought on the app.\n" +
+      "One practical point: unfortunately the service being withdrawn is the late-night route 9.\n" +
+      "I should also mention that the bus lanes will now operate all day.\n" +
+      "Another thing: passengers with disabilities can arrange door-to-door transport.\n" +
+      "And finally, complaints should be made online.\n" +
       "Presenter: Full details are on the transport authority website, and printed timetables are in all libraries.",
     rate: 0.9,
     questions: [
@@ -206,16 +206,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe giới thiệu toà thư viện công cộng mới. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Manager: Thank you all for coming to this preview of our new library building. I'm Ravi, the library manager.\n" +
-      "The building has four floors.\n" +
-      "The children's area is on the ground floor.\n" +
-      "The quiet study zone is on the top floor.\n" +
-      "The building is heated using ground-source heat pumps.\n" +
-      "Compared with the old building we have doubled the number of study desks.\n" +
-      "The small recording studio is free for members under 25.\n" +
-      "The local history collection has moved to the archive room.\n" +
-      "Members can now keep books for four weeks.\n" +
-      "The rooftop terrace will be used for author events.\n" +
-      "We especially need volunteers to help with digital skills sessions.\n" +
+      "First of all, the building has four floors.\n" +
+      "Now, the children's area is on the ground floor.\n" +
+      "Something else worth noting: the quiet study zone is on the top floor.\n" +
+      "Moving on, the building is heated using ground-source heat pumps.\n" +
+      "You may also want to know that compared with the old building we have doubled the number of study desks.\n" +
+      "Next, the small recording studio is free for members under 25.\n" +
+      "One practical point: the local history collection has moved to the archive room.\n" +
+      "I should also mention that members can now keep books for four weeks.\n" +
+      "Another thing: the rooftop terrace will be used for author events.\n" +
+      "And finally, we especially need volunteers to help with digital skills sessions.\n" +
       "Manager: We open to the public a week from Saturday, and entry will of course be free.",
     rate: 0.9,
     questions: [
@@ -243,16 +243,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe buổi phổ biến an toàn cho nhân viên mới. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Officer: Right, welcome to the team. Before you start on the floor, I need to run through our safety procedures. It only takes fifteen minutes and it matters.\n" +
-      "In any emergency the first thing you do is raise the alarm.\n" +
-      "The assembly point is the staff car park.\n" +
-      "We hold fire drills twice a year.\n" +
-      "All accidents must be reported within 24 hours.\n" +
-      "First-aid kits are kept in every department.\n" +
-      "Safety boots are compulsory in the warehouse.\n" +
-      "Heavy items must be lifted using the trolley.\n" +
-      "Chemical spills must be reported to the shift supervisor.\n" +
-      "Visitors must always wear a badge.\n" +
-      "The safety notice board is updated every week.\n" +
+      "First of all, in any emergency the first thing you do is raise the alarm.\n" +
+      "Now, the assembly point is the staff car park.\n" +
+      "Something else worth noting: we hold fire drills twice a year.\n" +
+      "Moving on, all accidents must be reported within 24 hours.\n" +
+      "You may also want to know that first-aid kits are kept in every department.\n" +
+      "Next, safety boots are compulsory in the warehouse.\n" +
+      "One practical point: heavy items must be lifted using the trolley.\n" +
+      "I should also mention that chemical spills must be reported to the shift supervisor.\n" +
+      "Another thing: visitors must always wear a badge.\n" +
+      "And finally, the safety notice board is updated every week.\n" +
       "Officer: Sign the attendance sheet on your way out, and collect your protective equipment from the store.",
     rate: 0.9,
     questions: [
@@ -280,16 +280,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe hướng dẫn nhận phòng ở hostel. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Warden: Hi everyone, welcome to Lakeview Hostel. I'm Tom, and I just need to go through a few practical points with you.\n" +
-      "Check-out is at 10 am.\n" +
-      "Breakfast is served until 9.30.\n" +
-      "The self-catering kitchen closes at 10 pm.\n" +
-      "Bed linen is included in the price.\n" +
-      "Please don't eat in the dormitories.\n" +
-      "Bikes can be stored in the locked shed.\n" +
-      "Laundry tokens cost £2.\n" +
-      "The quiet period starts at 11 pm.\n" +
-      "Valuables should be left in the safe.\n" +
-      "The guided walks leave from the front steps.\n" +
+      "First of all, check-out is at 10 am.\n" +
+      "Now, breakfast is served until 9.30.\n" +
+      "Something else worth noting: the self-catering kitchen closes at 10 pm.\n" +
+      "Moving on, bed linen is included in the price.\n" +
+      "You may also want to know that please don't eat in the dormitories.\n" +
+      "Next, bikes can be stored in the locked shed.\n" +
+      "One practical point: laundry tokens cost £2.\n" +
+      "I should also mention that the quiet period starts at 11 pm.\n" +
+      "Another thing: valuables should be left in the safe.\n" +
+      "And finally, the guided walks leave from the front steps.\n" +
       "Warden: That's it. Your keys are in the envelopes on the desk - enjoy your stay.",
     rate: 0.9,
     questions: [
@@ -317,16 +317,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe điền bản đồ: sơ đồ vườn thực vật. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Guide: Welcome to Ferndale Botanical Garden. Let me describe the layout so you can find your way around easily.\n" +
-      "The main entrance faces the car park.\n" +
-      "Immediately to the left of the entrance is the ticket office.\n" +
-      "The glasshouse stands at the top of the slope.\n" +
-      "The rose garden lies between the café and the lake.\n" +
-      "The children's play area is next to the café.\n" +
-      "The herb beds are found south of the glasshouse.\n" +
-      "The lake has a wooden bridge.\n" +
-      "The tallest trees are in the arboretum.\n" +
-      "Wheelchair users should take the path along the lake.\n" +
-      "The exit is shared with the shop.\n" +
+      "First of all, the main entrance faces the car park.\n" +
+      "Now, immediately to the left of the entrance is the ticket office.\n" +
+      "Something else worth noting: the glasshouse stands at the top of the slope.\n" +
+      "Moving on, the rose garden lies between the café and the lake.\n" +
+      "You may also want to know that the children's play area is next to the café.\n" +
+      "Next, the herb beds are found south of the glasshouse.\n" +
+      "One practical point: the lake has a wooden bridge.\n" +
+      "I should also mention that the tallest trees are in the arboretum.\n" +
+      "Another thing: wheelchair users should take the path along the lake.\n" +
+      "And finally, the exit is shared with the shop.\n" +
       "Guide: Maps are also available at the entrance if you prefer paper.",
     rate: 0.9,
     questions: [
@@ -354,16 +354,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe giới thiệu trung tâm thể thao mới. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Coordinator: Hello and welcome to Westside Sports Centre. I'm Jade, the activities coordinator, and I'll take you through what's on offer.\n" +
-      "The main pool is 25 metres long.\n" +
-      "The gym is on the first floor.\n" +
-      "The only activity you must book in advance is badminton.\n" +
-      "Family swimming sessions run on Sunday mornings.\n" +
-      "The lockers need a one-pound coin.\n" +
-      "Children's lessons start from the age of four.\n" +
-      "The climbing wall is closed on Tuesdays.\n" +
-      "The cheapest membership is for off-peak users.\n" +
-      "The café mainly sells light snacks.\n" +
-      "Parking is free for two hours.\n" +
+      "First of all, the main pool is 25 metres long.\n" +
+      "Now, the gym is on the first floor.\n" +
+      "Something else worth noting: the only activity you must book in advance is badminton.\n" +
+      "Moving on, family swimming sessions run on Sunday mornings.\n" +
+      "You may also want to know that the lockers need a one-pound coin.\n" +
+      "Next, children's lessons start from the age of four.\n" +
+      "One practical point: the climbing wall is closed on Tuesdays.\n" +
+      "I should also mention that the cheapest membership is for off-peak users.\n" +
+      "Another thing: the café mainly sells light snacks.\n" +
+      "And finally, parking is free for two hours.\n" +
       "Coordinator: Timetables are on the app, and the first class you try is always free.",
     rate: 0.9,
     questions: [
@@ -391,16 +391,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe bản tin giao thông cuối tuần. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Reporter: It's twenty past eight, and here's your weekend travel report. There is quite a lot happening on the roads, so do plan ahead.\n" +
-      "The biggest closure is on the ring road.\n" +
-      "The work is expected to last three weekends.\n" +
-      "Drivers are advised to use the eastern bypass.\n" +
-      "The bridge closes from 8 pm on Friday.\n" +
-      "The changes affect bus route 6.\n" +
-      "The car park being resurfaced is at the market square.\n" +
-      "Cyclists should avoid the canal path.\n" +
-      "The work is being done to replace water pipes.\n" +
-      "Delays will be worst on Sunday afternoon.\n" +
-      "Extra trains will run to the stadium.\n" +
+      "First of all, the biggest closure is on the ring road.\n" +
+      "Now, the work is expected to last three weekends.\n" +
+      "Something else worth noting: drivers are advised to use the eastern bypass.\n" +
+      "Moving on, the bridge closes from 8 pm on Friday.\n" +
+      "You may also want to know that the changes affect bus route 6.\n" +
+      "Next, the car park being resurfaced is at the market square.\n" +
+      "One practical point: cyclists should avoid the canal path.\n" +
+      "I should also mention that the work is being done to replace water pipes.\n" +
+      "Another thing: delays will be worst on Sunday afternoon.\n" +
+      "And finally, extra trains will run to the stadium.\n" +
       "Reporter: I'll have another update at nine, and there are live maps on our website.",
     rate: 0.9,
     questions: [
@@ -428,16 +428,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe giới thiệu công viên động vật hoang dã. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Keeper: Good morning, and welcome to Hollow Oak Wildlife Park. My name is Sam, and I'm one of the keepers here.\n" +
-      "Our main aim these days is breeding rare species.\n" +
-      "We now care for ninety species.\n" +
-      "Our newest enclosure houses red pandas.\n" +
-      "Feeding talks happen every hour.\n" +
-      "The animal rescued from the illegal pet trade is the parrot.\n" +
-      "The park train stops at four points.\n" +
-      "Picnics are allowed in the meadow.\n" +
-      "Keeper experience days are for anyone over sixteen.\n" +
-      "Profits from the shop support field conservation.\n" +
-      "Today the park closes at 5 pm.\n" +
+      "First of all, our main aim these days is breeding rare species.\n" +
+      "Now, we now care for ninety species.\n" +
+      "Something else worth noting: our newest enclosure houses red pandas.\n" +
+      "Moving on, feeding talks happen every hour.\n" +
+      "You may also want to know that the animal rescued from the illegal pet trade is the parrot.\n" +
+      "Next, the park train stops at four points.\n" +
+      "One practical point: picnics are allowed in the meadow.\n" +
+      "I should also mention that keeper experience days are for anyone over sixteen.\n" +
+      "Another thing: profits from the shop support field conservation.\n" +
+      "And finally, today the park closes at 5 pm.\n" +
       "Keeper: Have a wonderful day, and please don't feed any of the animals.",
     rate: 0.9,
     questions: [
@@ -465,16 +465,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe họp dân: cải tạo trung tâm thị trấn. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Planner: Thank you for coming this evening. I'm Louise from the planning department, and I'm going to outline the regeneration plans for the town centre.\n" +
-      "The whole project will take five years.\n" +
-      "The main square will become a pedestrian area.\n" +
-      "The old mill will be converted into flats.\n" +
-      "Most of the funding comes from central government.\n" +
-      "The plan includes three hundred homes.\n" +
-      "In the first survey residents were most concerned about parking.\n" +
-      "The new market will trade on Thursdays and Saturdays.\n" +
-      "New trees will be planted along the river walk.\n" +
-      "The new cycle route will link the station with the hospital.\n" +
-      "Comments can be submitted on the website.\n" +
+      "First of all, the whole project will take five years.\n" +
+      "Now, the main square will become a pedestrian area.\n" +
+      "Something else worth noting: the old mill will be converted into flats.\n" +
+      "Moving on, most of the funding comes from central government.\n" +
+      "You may also want to know that the plan includes three hundred homes.\n" +
+      "Next, in the first survey residents were most concerned about parking.\n" +
+      "One practical point: the new market will trade on Thursdays and Saturdays.\n" +
+      "I should also mention that new trees will be planted along the river walk.\n" +
+      "Another thing: the new cycle route will link the station with the hospital.\n" +
+      "And finally, comments can be submitted on the website.\n" +
       "Planner: The consultation closes at the end of next month, and every comment will be published.",
     rate: 0.9,
     questions: [
@@ -502,16 +502,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe hướng dẫn trước chuyến đi thuyền. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Skipper: Morning everyone. I'm Callum, your skipper for today's trip along the coast. A few things before we cast off.\n" +
-      "The trip lasts two hours.\n" +
-      "Life jackets must be worn by everyone on board.\n" +
-      "Our first stop is at the seal colony.\n" +
-      "At this time of year you're most likely to see seals.\n" +
-      "Hot drinks are free on board.\n" +
-      "If it gets rough we'll shorten the route.\n" +
-      "Cameras should be kept on a strap.\n" +
-      "The lighthouse was built in 1867.\n" +
-      "Please board from the rear steps.\n" +
-      "Photos of the trip can be bought at the kiosk.\n" +
+      "First of all, the trip lasts two hours.\n" +
+      "Now, life jackets must be worn by everyone on board.\n" +
+      "Something else worth noting: our first stop is at the seal colony.\n" +
+      "Moving on, at this time of year you're most likely to see seals.\n" +
+      "You may also want to know that hot drinks are free on board.\n" +
+      "Next, if it gets rough we'll shorten the route.\n" +
+      "One practical point: cameras should be kept on a strap.\n" +
+      "I should also mention that the lighthouse was built in 1867.\n" +
+      "Another thing: please board from the rear steps.\n" +
+      "And finally, photos of the trip can be bought at the kiosk.\n" +
       "Skipper: Right, life jackets on, and let's get going.",
     rate: 0.9,
     questions: [
@@ -539,16 +539,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe thông báo tại hội chợ khoa học. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Organiser: Good morning, everyone, and welcome to the regional school science fair. I'm Priya, the event organiser, and here are a few announcements.\n" +
-      "There are sixty exhibits.\n" +
-      "Judging begins at eleven o'clock.\n" +
-      "The main hall contains projects on energy.\n" +
-      "The robotics demonstration is in the gymnasium.\n" +
-      "Judges will pay most attention to the method.\n" +
-      "Lunch is provided for exhibitors only.\n" +
-      "Students must stay by their exhibit until two o'clock.\n" +
-      "The winning team receives a laboratory visit.\n" +
-      "Parents can vote for the audience favourite.\n" +
-      "Lost property is kept at the welcome desk.\n" +
+      "First of all, there are sixty exhibits.\n" +
+      "Now, judging begins at eleven o'clock.\n" +
+      "Something else worth noting: the main hall contains projects on energy.\n" +
+      "Moving on, the robotics demonstration is in the gymnasium.\n" +
+      "You may also want to know that judges will pay most attention to the method.\n" +
+      "Next, lunch is provided for exhibitors only.\n" +
+      "One practical point: students must stay by their exhibit until two o'clock.\n" +
+      "I should also mention that the winning team receives a laboratory visit.\n" +
+      "Another thing: parents can vote for the audience favourite.\n" +
+      "And finally, lost property is kept at the welcome desk.\n" +
       "Organiser: Enjoy the day, and remember the prize ceremony is at half past three.",
     rate: 0.9,
     questions: [
@@ -576,16 +576,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe định hướng cho nhân viên bảo tàng theo mùa. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Supervisor: Welcome to the museum team. You're all with us for the summer season, so let me explain how the work is organised.\n" +
-      "A normal shift lasts six hours.\n" +
-      "Please arrive fifteen minutes early.\n" +
-      "Uniforms are provided free.\n" +
-      "Breaks are taken in the staff room.\n" +
-      "The question you'll hear most often is about the toilets.\n" +
-      "Gallery staff must never touch the exhibits.\n" +
-      "Groups of children must be supervised by their teachers.\n" +
-      "Till training takes place on your second day.\n" +
-      "Staff can visit other museums in the region free of charge.\n" +
-      "Any problem with a visitor should be reported to the duty manager.\n" +
+      "First of all, a normal shift lasts six hours.\n" +
+      "Now, please arrive fifteen minutes early.\n" +
+      "Something else worth noting: uniforms are provided free.\n" +
+      "Moving on, breaks are taken in the staff room.\n" +
+      "You may also want to know that the question you'll hear most often is about the toilets.\n" +
+      "Next, gallery staff must never touch the exhibits.\n" +
+      "One practical point: groups of children must be supervised by their teachers.\n" +
+      "I should also mention that till training takes place on your second day.\n" +
+      "Another thing: staff can visit other museums in the region free of charge.\n" +
+      "And finally, any problem with a visitor should be reported to the duty manager.\n" +
       "Supervisor: Your rotas are in your welcome packs, and my office is next to the staff room if you need me.",
     rate: 0.9,
     questions: [
@@ -613,16 +613,16 @@ export const ieltsListeningPracticeSetsExpansion9: ListeningPracticeSet[] = [
     contextVi: "Bạn sẽ nghe giới thiệu chương trình lễ hội nghệ thuật. Chọn đáp án đúng cho mỗi câu hỏi.",
     transcript:
       "Director: Hello, and thank you for joining this preview of the Summer Arts Festival. I'm Nina, the festival director.\n" +
-      "The festival runs for ten days.\n" +
-      "The opening event is an outdoor concert.\n" +
-      "Most events take place in the old market building.\n" +
-      "Tickets for under-eighteens are half price.\n" +
-      "This year's photography exhibition focuses on local industry.\n" +
-      "You must book workshops because places are limited.\n" +
-      "Our new venue is a former railway shed.\n" +
-      "Street performances happen each afternoon.\n" +
-      "The festival is funded mainly by local businesses.\n" +
-      "Volunteers receive free festival passes.\n" +
+      "First of all, the festival runs for ten days.\n" +
+      "Now, the opening event is an outdoor concert.\n" +
+      "Something else worth noting: most events take place in the old market building.\n" +
+      "Moving on, tickets for under-eighteens are half price.\n" +
+      "You may also want to know that this year's photography exhibition focuses on local industry.\n" +
+      "Next, you must book workshops because places are limited.\n" +
+      "One practical point: our new venue is a former railway shed.\n" +
+      "I should also mention that street performances happen each afternoon.\n" +
+      "Another thing: the festival is funded mainly by local businesses.\n" +
+      "And finally, volunteers receive free festival passes.\n" +
       "Director: Programmes are free at all the venues, and the box office opens on Monday.",
     rate: 0.9,
     questions: [

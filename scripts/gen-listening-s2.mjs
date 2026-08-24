@@ -335,9 +335,18 @@ const topics = [
 function buildSet(t, ti) {
   const lines = [`${t.speaker}: ${t.intro}`];
   const questions = [];
+  const connectors = [
+    "First of all,", "Now,", "Something else worth noting:", "Moving on,",
+    "You may also want to know that", "Next,", "One practical point:",
+    "I should also mention that", "Another thing:", "And finally,",
+  ];
   t.items.forEach((it, i) => {
     const [prompt, lead, correct, d1, d2, d3] = it;
-    lines.push(`${lead} ${correct}.`);
+    const c = connectors[i % connectors.length];
+    const sentence = /that$/.test(c) || /know that$/.test(c)
+      ? `${c} ${lead.charAt(0).toLowerCase() + lead.slice(1)} ${correct}.`
+      : `${c} ${lead.charAt(0).toLowerCase() + lead.slice(1)} ${correct}.`;
+    lines.push(sentence);
     // Deterministic but balanced key position.
     const pos = (i * 3 + ti) % 4;
     const distractors = [d1, d2, d3];
