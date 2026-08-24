@@ -389,19 +389,42 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
 ];
 
 
-// ---------- UI helpers ----------
 // ---------- Merged (base + expansion) datasets ----------
-const ALL_GREETINGS: Phrase[] = [...GREETINGS, ...GREETINGS_EXTRA];
-const ALL_VOCAB = [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items }))];
+/** Keep the first occurrence of every key so merged packs never show duplicates. */
+function dedupeBy<T>(items: T[], key: (it: T) => string): T[] {
+  const seen = new Set<string>();
+  return items.filter((it) => {
+    const k = key(it);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
+const ALL_GREETINGS: Phrase[] = dedupeBy([...GREETINGS, ...GREETINGS_EXTRA], (p) => p.jp);
+
+/** Vocabulary topics merged, then de-duplicated word by word across every topic. */
+const ALL_VOCAB = (() => {
+  const seen = new Set<string>();
+  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items }))]
+    .map((g) => ({
+      topic: g.topic,
+      items: g.items.filter((p) => {
+        if (seen.has(p.jp)) return false;
+        seen.add(p.jp);
+        return true;
+      }),
+    }))
+    .filter((g) => g.items.length > 0);
+})();
 
 /** Japanese word -> phrase, used by the memory brain tooltips. */
 const JA_WORD_INDEX = new Map<string, Phrase>(
   ALL_VOCAB.flatMap((g) => g.items.map((p) => [p.jp, p] as [string, Phrase]))
 );
-const ALL_KANJI = [...KANJI_BASIC, ...KANJI_EXTRA, ...KANJI_GROUPS.flatMap((g) => g.items)];
-const ALL_DIALOGUES = [...DIALOGUES, ...DIALOGUES_EXTRA];
-const ALL_GRAMMAR = [...GRAMMAR, ...GRAMMAR_EXTRA];
-const ALL_QUIZ = [...JA_QUIZ, ...JA_QUIZ_EXTRA];
+const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA], (d) => d.title);
+const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA], (g) => g.title);
+const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA], (q) => q.q);
 
 /** Kana tables, one collapsible section each. */
 const KANA_TABLES: Array<{ vi: string; en: string; rows: Array<[string, string]> }> = [
@@ -417,12 +440,27 @@ interface KanjiCard {
   meaning_vi: string; meaning_en: string; example: string;
 }
 
-/** Kanji grouped by theme so the tab stays short. */
-const KANJI_SECTIONS: Array<{ group: string; items: KanjiCard[] }> = [
-  { group: "🈴 Kanji cốt lõi N5 / Core N5 kanji", items: KANJI_BASIC },
-  { group: "➕ Kanji mở rộng / Extra kanji", items: KANJI_EXTRA },
-  ...KANJI_GROUPS.map((g) => ({ group: g.group, items: g.items as KanjiCard[] })),
-].filter((g) => g.items.length > 0);
+/** Kanji grouped by theme, each character shown only once across all groups. */
+const KANJI_SECTIONS: Array<{ group: string; items: KanjiCard[] }> = (() => {
+  const seen = new Set<string>();
+  return [
+    { group: "🈴 Kanji cốt lõi N5 / Core N5 kanji", items: KANJI_BASIC },
+    { group: "➕ Kanji mở rộng / Extra kanji", items: KANJI_EXTRA },
+    ...KANJI_GROUPS.map((g) => ({ group: g.group, items: g.items as KanjiCard[] })),
+  ]
+    .map((g) => ({
+      group: g.group,
+      items: g.items.filter((k) => {
+        if (seen.has(k.kanji)) return false;
+        seen.add(k.kanji);
+        return true;
+      }),
+    }))
+    .filter((g) => g.items.length > 0);
+})();
+
+const ALL_KANJI = KANJI_SECTIONS.flatMap((g) => g.items);
+
 
 const KanaGrid = ({ rows }: { rows: Array<[string, string]> }) => (
   <div>
