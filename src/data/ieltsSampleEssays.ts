@@ -712,9 +712,9 @@ const baseSampleEssays: SampleEssay[] = [
         "context": "Technology ballooned to 25%, effectively eclipsing agriculture."
       },
       {
-        "term": "eclipsed",
+        "term": "eclipsing",
         "vietnamese": "vượt qua/che khuất",
-        "context": "Technology eclipsed agriculture and drew close to manufacturing."
+        "context": "Technology ballooned to 25%, effectively eclipsing agriculture."
       },
       {
         "term": "reorientation",
@@ -2330,6 +2330,8 @@ const baseSampleEssays: SampleEssay[] = [
 import { sampleEssays70Plus } from "./ieltsSampleEssays70Plus";
 import { sampleEssays70PlusExtra } from "./ieltsSampleEssays70PlusExtra";
 import { sampleEssays70PlusExtra2 } from "./ieltsSampleEssays70PlusExtra2";
+import { sampleEssays70PlusExtra3 } from "./ieltsSampleEssays70PlusExtra3";
+import { sampleEssays80PlusExtra } from "./ieltsSampleEssays80PlusExtra";
 
 // Tag legacy essays as Band 8.0+ (they were authored at that level)
 const baseSampleEssays80: SampleEssay[] = baseSampleEssays.map(e => ({ ...e, band: e.band ?? "8.0+" }));
@@ -2338,7 +2340,9 @@ const sampleEssaysExpansion80: SampleEssay[] = sampleEssaysExpansion.map(e => ({
 export const sampleEssays: SampleEssay[] = [
   ...baseSampleEssays80,
   ...sampleEssaysExpansion80,
+  ...sampleEssays80PlusExtra,
   ...sampleEssays70Plus,
   ...sampleEssays70PlusExtra,
   ...sampleEssays70PlusExtra2,
+  ...sampleEssays70PlusExtra3,
 ];
