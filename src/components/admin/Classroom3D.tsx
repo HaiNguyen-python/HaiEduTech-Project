@@ -485,17 +485,18 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
         { icon: AlertTriangle, label: t("Điểm dưới 5", "Below 5/10"), value: stats.lowScore, tier: "alert" as ClassroomTier, color: "text-red-600" },
         { icon: TrendingUp, label: t("Đang tiến bộ", "Improving"), value: stats.improving, tier: "progress" as ClassroomTier, color: "text-green-600" },
       ].map((s) => (
-        <button
+        <Button
           key={s.label}
+          variant="ghost"
           onClick={() => s.tier && setTierFilter(tierFilter === s.tier ? null : s.tier)}
-          className={`flex min-h-16 items-center gap-3 px-4 py-3 text-left transition-colors ${s.tier ? "hover:bg-muted/50" : "cursor-default"}`}
+          className={`h-auto min-h-16 justify-start rounded-none px-4 py-3 text-left transition-colors ${s.tier ? "hover:bg-muted/50" : "cursor-default"}`}
         >
           <s.icon className={`w-4 h-4 shrink-0 ${s.color}`} />
           <span className="min-w-0">
             <span className="font-classroom-heading block text-lg font-bold tabular-nums leading-none">{s.value}</span>
             <span className="block text-xs text-muted-foreground truncate">{s.label}</span>
           </span>
-        </button>
+        </Button>
       ))}
     </div>
   );
@@ -506,34 +507,37 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
         const m = TIER_META[tier];
         const active = tierFilter === tier;
         return (
-          <button
+          <Button
             key={tier}
+            variant="ghost"
             onClick={() => setTierFilter(active ? null : tier)}
-            className={`flex w-full items-center gap-2 rounded-md border px-2.5 py-2 text-sm font-medium transition-all ${
+            className={`h-auto w-full justify-start gap-2 rounded-md border px-2.5 py-2 text-sm font-medium transition-all ${
               active ? "border-primary bg-primary/10 text-foreground" : "border-transparent text-muted-foreground hover:border-border hover:bg-muted/60"
             }`}
           >
             <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: m.color }} />
             {vi ? m.vi : m.en}
             <span className="ml-auto tabular-nums font-bold">{counts[tier]}</span>
-          </button>
+          </Button>
         );
       })}
       {counts.alert > 0 && (
-        <button
+        <Button
+          variant="ghost"
           onClick={gotoFirstAlert}
-          className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md border border-destructive/30 bg-destructive/10 px-2.5 py-2 text-xs font-semibold text-destructive hover:bg-destructive/15"
+          className="mt-2 h-auto w-full gap-1.5 rounded-md border border-destructive/30 bg-destructive/10 px-2.5 py-2 text-xs font-semibold text-destructive hover:bg-destructive/15"
         >
           <Target className="w-3 h-3" /> {t("Tới em cần chú ý", "Go to attention")}
-        </button>
+        </Button>
       )}
       {(tierFilter || query) && (
-        <button
+        <Button
+          variant="ghost"
           onClick={() => { setTierFilter(null); setQuery(""); }}
-          className="flex w-full items-center justify-center gap-1 rounded-md border border-border px-2.5 py-2 text-xs text-muted-foreground hover:bg-muted/60"
+          className="h-auto w-full gap-1 rounded-md border border-border px-2.5 py-2 text-xs text-muted-foreground hover:bg-muted/60"
         >
           <RotateCcw className="w-3 h-3" /> {t("Xóa lọc", "Clear")}
-        </button>
+        </Button>
       )}
     </div>
   );
@@ -617,6 +621,18 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
             </div>
           ) : (
             <div className="relative bg-[hsl(var(--classroom-canvas))] p-3 sm:p-4">
+              <div className="mb-3 space-y-2 lg:hidden">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-card pl-8" />
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1">
+                  {TIER_ORDER.map((tier) => {
+                    const meta = TIER_META[tier];
+                    return <Button key={tier} variant={tierFilter === tier ? "secondary" : "outline"} size="sm" className="shrink-0 gap-1.5" onClick={() => setTierFilter(tierFilter === tier ? null : tier)}><span className="h-2 w-2 rounded-full" style={{ backgroundColor: meta.color }} />{vi ? meta.vi : meta.en} {counts[tier]}</Button>;
+                  })}
+                </div>
+              </div>
               <div
                 ref={stageRef}
                 className={`relative w-full ${canvasHeight} overflow-hidden rounded-md border border-border/70 bg-[hsl(var(--classroom-canvas))]`}
