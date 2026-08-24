@@ -19,8 +19,6 @@ import {
   DIALOGUES_EXTRA, GRAMMAR_EXTRA, JA_QUIZ,
 } from "@/data/japaneseExpansion";
 import { JA_QUIZ_EXTRA } from "@/data/japanese/quizBank";
-import {
-} from "@/data/japaneseExpansion";
 import { VOCAB_TOPICS } from "@/data/japanese/vocab";
 import { KANJI_GROUPS } from "@/data/japanese/kanji";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
