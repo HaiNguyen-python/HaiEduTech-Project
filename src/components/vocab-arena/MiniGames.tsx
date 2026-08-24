@@ -540,7 +540,7 @@ const WordHunt = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => void; 
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done]);
+  }, [round, done, picked]);
 
   useEffect(() => {
     if (done && mode === "solo" && !saved) {
@@ -673,7 +673,7 @@ const DefinitionSprint = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () =
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done]);
+  }, [round, done, feedback]);
 
   useEffect(() => {
     if (done && mode === "solo" && !saved) {
@@ -824,7 +824,7 @@ const SynonymShowdown = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () =>
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done]);
+  }, [round, done, picked]);
 
   useEffect(() => {
     if (done && mode === "solo" && !saved) {
@@ -975,7 +975,7 @@ const WordScramble = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => vo
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done]);
+  }, [round, done, feedback]);
 
   const submit = (timedOut = false) => {
     if (feedback) return;
