@@ -38,6 +38,17 @@ const speak = (text: string, rate = 0.9) => {
   window.speechSynthesis.speak(u);
 };
 
+// Stops any pending speech so a word never keeps reading after the player
+// leaves the game or moves to the next round.
+const useStopSpeechOnUnmount = () => {
+  useEffect(
+    () => () => {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
+    },
+    []
+  );
+};
+
 const Shell = ({
   title,
   mode,
@@ -149,7 +160,12 @@ const EndCard = ({
       </div>
       {mode === "solo" && (
         <div className="max-w-sm mx-auto mb-4">
-          <HighScorePanel game={gameKey} title={`Top ${gameTitle}`} highlight={scoreA} />
+          <HighScorePanel
+            game={gameKey}
+            title={`Top ${gameTitle}`}
+            highlight={scoreA}
+            refreshKey={saved ? (saved.rank ?? 1) : 0}
+          />
         </div>
       )}
       <div className="flex items-center justify-center gap-2 flex-wrap">
@@ -192,6 +208,7 @@ export const CollocationSnap = ({ mode, onExit, onReplay }: GameProps) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const fx = useGameFx();
+  useStopSpeechOnUnmount();
   const [round, setRound] = useState(0);
   const [scoreA, setScoreA] = useState(0);
   const [scoreB, setScoreB] = useState(0);
@@ -241,7 +258,7 @@ export const CollocationSnap = ({ mode, onExit, onReplay }: GameProps) => {
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done, q]);
+  }, [round, done, q, picked]);
 
   useEffect(() => {
     if (!done || mode !== "solo" || saved) return;
@@ -341,6 +358,7 @@ export const OddOneOut = ({ mode, onExit, onReplay }: GameProps) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const fx = useGameFx();
+  useStopSpeechOnUnmount();
   const [round, setRound] = useState(0);
   const [scoreA, setScoreA] = useState(0);
   const [scoreB, setScoreB] = useState(0);
@@ -361,20 +379,28 @@ export const OddOneOut = ({ mode, onExit, onReplay }: GameProps) => {
     });
     const usable = [...byCategory.entries()].filter(([, list]) => list.length >= 4);
     const rounds: { family: string; options: string[]; odd: string; kept: string[] }[] = [];
-    shuffle(usable)
-      .slice(0, ROUNDS)
-      .forEach(([category, list]) => {
-        const trio = shuffle(list).slice(0, 3);
-        const otherCats = usable.filter(([c]) => c !== category);
-        const [, otherList] = otherCats[Math.floor(Math.random() * otherCats.length)];
-        const odd = shuffle(otherList)[0];
-        rounds.push({
-          family: category,
-          options: shuffle([...trio.map((w) => w.word), odd.word]),
-          odd: odd.word,
-          kept: trio.map((w) => w.word),
-        });
+    if (usable.length < 2) return rounds;
+    // Categories can be fewer than ROUNDS, so cycle through them until the
+    // round list is full instead of ending the game after 3-4 questions.
+    const order = shuffle(usable);
+    for (let i = 0; rounds.length < ROUNDS && i < ROUNDS * 3; i++) {
+      const [category, list] = order[i % order.length];
+      const trio = shuffle(list).slice(0, 3);
+      const trioWords = trio.map((w) => w.word);
+      const otherCats = usable.filter(([c]) => c !== category);
+      if (!otherCats.length) break;
+      const [, otherList] = otherCats[Math.floor(Math.random() * otherCats.length)];
+      // The intruder must not repeat a word already shown in the trio,
+      // otherwise the round has two identical options and no valid answer.
+      const odd = shuffle(otherList).find((w) => !trioWords.includes(w.word));
+      if (!odd) continue;
+      rounds.push({
+        family: category,
+        options: shuffle([...trioWords, odd.word]),
+        odd: odd.word,
+        kept: trioWords,
       });
+    }
     return rounds;
   }, []);
 
@@ -395,7 +421,7 @@ export const OddOneOut = ({ mode, onExit, onReplay }: GameProps) => {
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done, q]);
+  }, [round, done, q, picked]);
 
   useEffect(() => {
     if (!done || mode !== "solo" || saved) return;
@@ -491,6 +517,7 @@ export const ContextClozeRush = ({ mode, onExit, onReplay }: GameProps) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const fx = useGameFx();
+  useStopSpeechOnUnmount();
   const [round, setRound] = useState(0);
   const [scoreA, setScoreA] = useState(0);
   const [scoreB, setScoreB] = useState(0);
@@ -502,17 +529,21 @@ export const ContextClozeRush = ({ mode, onExit, onReplay }: GameProps) => {
   const [correctWords, setCorrectWords] = useState<string[]>([]);
 
   const questions = useMemo(() => {
-    const pool = ieltsVocabData.filter(
-      (w) => w.example && w.example.toLowerCase().includes(w.word.toLowerCase().slice(0, Math.max(4, w.word.length - 3)))
-    );
-    return pickWords(pool.length >= ROUNDS ? pool : ieltsVocabData, ROUNDS).map((target) => {
-      const stem = target.word.slice(0, Math.max(4, target.word.length - 3));
-      const gapped = target.example.replace(new RegExp(`\\b${stem}\\w*`, "gi"), "_____");
-      const distractors = shuffle(
+    const stemOf = (word: string) => word.slice(0, Math.max(4, word.length - 3));
+    const gapOut = (sentence: string, word: string) =>
+      sentence
+        .replace(new RegExp(`\\b${word}\\b`, "gi"), "_____")
+        .replace(new RegExp(`\\b${stemOf(word)}\\w*`, "gi"), "_____");
+    // Only words whose example sentence really contains them can be gapped;
+    // anything else would show the answer inside the sentence.
+    const pool = ieltsVocabData.filter((w) => !!w.example && gapOut(w.example, w.word).includes("_____"));
+    return pickWords(pool, ROUNDS).map((target) => {
+      const gapped = gapOut(target.example, target.word);
+      const samePos = shuffle(
         ieltsVocabData.filter((w) => w.word !== target.word && w.partOfSpeech === target.partOfSpeech).map((w) => w.word)
-      ).slice(0, 3);
-      const filler = shuffle(ieltsVocabData.map((w) => w.word).filter((w) => w !== target.word)).slice(0, 3);
-      const wrongs = (distractors.length === 3 ? distractors : filler).slice(0, 3);
+      );
+      const filler = shuffle(ieltsVocabData.map((w) => w.word).filter((w) => w !== target.word));
+      const wrongs = [...new Set([...samePos, ...filler])].filter((x) => x !== target.word).slice(0, 3);
       return { target, sentence: gapped, options: shuffle([target.word, ...wrongs]) };
     });
   }, []);
@@ -534,7 +565,7 @@ export const ContextClozeRush = ({ mode, onExit, onReplay }: GameProps) => {
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done, q]);
+  }, [round, done, q, picked]);
 
   useEffect(() => {
     if (!done || mode !== "solo" || saved) return;
@@ -631,6 +662,7 @@ export const ListeningCatch = ({ mode, onExit, onReplay }: GameProps) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const fx = useGameFx();
+  useStopSpeechOnUnmount();
   const [round, setRound] = useState(0);
   const [scoreA, setScoreA] = useState(0);
   const [scoreB, setScoreB] = useState(0);
@@ -662,7 +694,7 @@ export const ListeningCatch = ({ mode, onExit, onReplay }: GameProps) => {
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done, w]);
+  }, [round, done, w, feedback]);
 
   useEffect(() => {
     if (!done || mode !== "solo" || saved) return;

@@ -124,10 +124,12 @@ export const generateQuestions = (
   const pool = wordPool.length >= 4 ? wordPool : ieltsVocabData;
   const picked = shuffle(pool).slice(0, count);
   return picked.map((w) => {
-    const wrongs = shuffle(pool.filter((x) => x.word !== w.word))
-      .slice(0, 3)
-      .map((x) => x.word);
-    const allOpts = shuffle([w.word, ...wrongs]);
+    // A narrow level + topic filter can leave fewer than 3 distractors, which
+    // used to render questions with only 2 options. Top up from the full bank.
+    const near = shuffle(pool.filter((x) => x.word !== w.word)).map((x) => x.word);
+    const wide = shuffle(ieltsVocabData.filter((x) => x.word !== w.word)).map((x) => x.word);
+    const wrongs = [...new Set([...near, ...wide])].slice(0, 3);
+    const allOpts = shuffle([...new Set([w.word, ...wrongs])]);
     return {
       word: w,
       options: allOpts,

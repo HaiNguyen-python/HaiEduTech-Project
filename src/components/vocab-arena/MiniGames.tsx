@@ -51,6 +51,14 @@ const MiniGames = ({ onBack }: Props) => {
 
   useEffect(() => { setPlayerName(name); }, [name]);
 
+  // A word being read aloud must not keep talking over the next screen.
+  useEffect(
+    () => () => {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
+    },
+    [game, runId]
+  );
+
   if (game === "menu") {
     const totalGames: GameKey[] = ["memory", "hunt", "sprint", "synonym", "scramble", "collocation", "oddone", "cloze", "listen"];
     const grandBest = totalGames.reduce((acc, g) => {
@@ -339,7 +347,14 @@ const FinalScreen = ({
       </div>
       {mode === "solo" && (
         <div className="max-w-sm mx-auto mb-4">
-          <HighScorePanel game={gameKey} title={t(`Top ${gameTitle}`, `Top ${gameTitle}`)} highlight={scoreA} />
+          {/* refreshKey re-reads the stored top list once the new score is saved,
+              otherwise the panel paints before the save and misses this round. */}
+          <HighScorePanel
+            game={gameKey}
+            title={t(`Top ${gameTitle}`, `Top ${gameTitle}`)}
+            highlight={scoreA}
+            refreshKey={rank ?? (isNew ? 1 : 0)}
+          />
         </div>
       )}
       <div className="flex items-center justify-center gap-2 flex-wrap">
@@ -540,7 +555,7 @@ const WordHunt = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => void; 
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done]);
+  }, [round, done, picked]);
 
   useEffect(() => {
     if (done && mode === "solo" && !saved) {
@@ -673,7 +688,7 @@ const DefinitionSprint = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () =
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done]);
+  }, [round, done, feedback]);
 
   useEffect(() => {
     if (done && mode === "solo" && !saved) {
@@ -824,7 +839,7 @@ const SynonymShowdown = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () =>
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done]);
+  }, [round, done, picked]);
 
   useEffect(() => {
     if (done && mode === "solo" && !saved) {
@@ -946,10 +961,17 @@ const WordScramble = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => vo
   const scrambled = useMemo(() => {
     if (!w) return "";
     let s = w.word;
-    for (let i = 0; i < 5; i++) {
-      const arr = shuffle(s.split(""));
-      s = arr.join("");
+    for (let i = 0; i < 12; i++) {
+      s = shuffle(s.split("")).join("");
       if (s.toLowerCase() !== w.word.toLowerCase()) break;
+    }
+    // Last resort: swap two different letters so the prompt is never the
+    // unscrambled word itself (happens with short repeated-letter words).
+    if (s.toLowerCase() === w.word.toLowerCase()) {
+      const arr = s.split("");
+      const j = arr.findIndex((c) => c.toLowerCase() !== arr[0].toLowerCase());
+      if (j > 0) [arr[0], arr[j]] = [arr[j], arr[0]];
+      s = arr.join("");
     }
     return s.toUpperCase();
   }, [w]);
@@ -975,7 +997,7 @@ const WordScramble = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => vo
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done]);
+  }, [round, done, feedback]);
 
   const submit = (timedOut = false) => {
     if (feedback) return;

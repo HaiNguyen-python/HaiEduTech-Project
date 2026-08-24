@@ -166,7 +166,10 @@ export const starredWords = (): Set<string> => {
  */
 export const pickWords = <T extends { word: string }>(pool: T[], count: number, filter?: (w: T) => boolean): T[] => {
   const usable = filter ? pool.filter(filter) : pool;
-  const base = usable.length >= Math.max(4, count) ? usable : pool;
+  // Never fall back to the unfiltered pool when a filter was requested: games
+  // that need a field (synonyms, collocations, example) would otherwise get
+  // words without it and crash. A short round is better than a broken one.
+  const base = usable.length >= Math.max(4, count) || (filter && usable.length > 0) ? usable : pool;
   const stars = starredWords();
   const starred = base.filter((w) => stars.has(w.word));
   const rest = base.filter((w) => !stars.has(w.word));
