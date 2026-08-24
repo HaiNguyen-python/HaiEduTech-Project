@@ -21,13 +21,20 @@ export interface ClassroomSeat {
   z: number;
   row: number;
   col: number;
+  /** 1-based academic rank inside the class. */
+  rank: number;
   /** 0.55 - 1.35, scales with activity volume. */
   height: number;
   /** 0 - 1, scales with average score (floor ring size / glow). */
   glow: number;
   activeThisWeek: boolean;
   lastActiveMs: number;
+  /** Deterministic 0-999 variant seed for cosmetic differences. */
+  seed: number;
 }
+
+export type SeatingMode = "rank" | "attention";
+
 
 export const FOURTEEN_DAYS = 14 * 24 * 60 * 60 * 1000;
 const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
