@@ -17,7 +17,7 @@ export const KANJI_GROUPS: JaKanjiGroup[] = [
       { kanji: "四", on: "シ", kun: "よっ(つ)・よん", strokes: 5, meaning_vi: "bốn", meaning_en: "four", compounds: ["四月（しがつ）tháng 4", "四人（よにん）bốn người"], example: "四人家族です。 Gia đình tôi có bốn người." },
       { kanji: "五", on: "ゴ", kun: "いつ(つ)", strokes: 4, meaning_vi: "năm", meaning_en: "five", compounds: ["五分（ごふん）5 phút", "五日（いつか）ngày 5"], example: "五分待ってください。 Xin chờ 5 phút." },
       { kanji: "六", on: "ロク", kun: "むっ(つ)", strokes: 4, meaning_vi: "sáu", meaning_en: "six", compounds: ["六時（ろくじ）6 giờ", "六人（ろくにん）sáu người"], example: "六時に起きます。 Tôi dậy lúc 6 giờ." },
-      { kanji: "七", on: "シチ", kun: "なな(つ)", strokes: 2, meaning_vi: "bảy", meaning_en: "seven", compounds: ["七月（しちがつ）tháng 7", "七time（ななじ）7 giờ"], example: "七時のバスに乗ります。 Tôi đi xe buýt lúc 7 giờ." },
+      { kanji: "七", on: "シチ", kun: "なな(つ)", strokes: 2, meaning_vi: "bảy", meaning_en: "seven", compounds: ["七月（しちがつ）tháng 7", "七時（しちじ）7 giờ"], example: "七時のバスに乗ります。 Tôi đi xe buýt lúc 7 giờ." },
       { kanji: "八", on: "ハチ", kun: "やっ(つ)", strokes: 2, meaning_vi: "tám", meaning_en: "eight", compounds: ["八日（ようか）ngày 8", "八時（はちじ）8 giờ"], example: "八時に始まります。 Bắt đầu lúc 8 giờ." },
       { kanji: "九", on: "キュウ・ク", kun: "ここの(つ)", strokes: 2, meaning_vi: "chín", meaning_en: "nine", compounds: ["九月（くがつ）tháng 9", "九日（ここのか）ngày 9"], example: "九月に日本へ行きます。 Tháng 9 tôi sang Nhật." },
       { kanji: "十", on: "ジュウ", kun: "とお", strokes: 2, meaning_vi: "mười", meaning_en: "ten", compounds: ["十分（じゅっぷん）10 phút", "十日（とおか）ngày 10"], example: "十分休みましょう。 Nghỉ 10 phút nhé." },
@@ -112,7 +112,7 @@ export const KANJI_GROUPS: JaKanjiGroup[] = [
     items: [
       { kanji: "車", on: "シャ", kun: "くるま", strokes: 7, meaning_vi: "xe", meaning_en: "car, vehicle", compounds: ["電車（でんしゃ）tàu điện", "自転車（じてんしゃ）xe đạp"], example: "車で行きます。 Tôi đi bằng ô tô." },
       { kanji: "電", on: "デン", kun: "-", strokes: 13, meaning_vi: "điện", meaning_en: "electricity", compounds: ["電話（でんわ）điện thoại", "電気（でんき）điện"], example: "電話をかけます。 Tôi gọi điện." },
-      { kanji: "airport の 空", on: "クウ", kun: "そら・あ(く)", strokes: 8, meaning_vi: "bầu trời, trống", meaning_en: "sky, empty", compounds: ["空港（くうこう）sân bay", "空気（くうき）không khí"], example: "空港まで送ります。 Tôi tiễn bạn ra sân bay." },
+      { kanji: "空", on: "クウ", kun: "そら・あ(く)", strokes: 8, meaning_vi: "bầu trời, trống", meaning_en: "sky, empty", compounds: ["空港（くうこう）sân bay", "空気（くうき）không khí"], example: "空港まで送ります。 Tôi tiễn bạn ra sân bay." },
       { kanji: "港", on: "コウ", kun: "みなと", strokes: 12, meaning_vi: "cảng", meaning_en: "port, harbour", compounds: ["空港（くうこう）sân bay", "港町（みなとまち）thành phố cảng"], example: "港が見えます。 Nhìn thấy cảng." },
       { kanji: "自", on: "ジ", kun: "みずか(ら)", strokes: 6, meaning_vi: "tự", meaning_en: "self", compounds: ["自分（じぶん）bản thân", "自動（じどう）tự động"], example: "自分で作りました。 Tôi tự làm." },
       { kanji: "動", on: "ドウ", kun: "うご(く)", strokes: 11, meaning_vi: "chuyển động", meaning_en: "to move", compounds: ["運動（うんどう）vận động", "自動車（じどうしゃ）xe hơi"], example: "毎朝運動します。 Sáng nào tôi cũng tập thể dục." },
@@ -144,7 +144,7 @@ export const KANJI_GROUPS: JaKanjiGroup[] = [
     items: [
       { kanji: "大", on: "ダイ・タイ", kun: "おお(きい)", strokes: 3, meaning_vi: "lớn", meaning_en: "big", compounds: ["大学（だいがく）đại học", "大丈夫（だいじょうぶ）không sao"], example: "大きい家ですね。 Nhà lớn nhỉ." },
       { kanji: "小", on: "ショウ", kun: "ちい(さい)", strokes: 3, meaning_vi: "nhỏ", meaning_en: "small", compounds: ["小学校（しょうがっこう）tiểu học", "小さい（ちいさい）nhỏ"], example: "小さい店です。 Đây là cửa hàng nhỏ." },
-      { kanji: "高", on: "コウ", kun: "たか(い)", strokes: 10, meaning_vi: "cao, đắt", meaning_en: "high, expensive", compounds: ["高校（こうこう）trung học phổ thông", "高speed（こうそく）tốc độ cao"], example: "この本は高いです。 Cuốn sách này đắt." },
+      { kanji: "高", on: "コウ", kun: "たか(い)", strokes: 10, meaning_vi: "cao, đắt", meaning_en: "high, expensive", compounds: ["高校（こうこう）trung học phổ thông", "高速（こうそく）tốc độ cao"], example: "この本は高いです。 Cuốn sách này đắt." },
       { kanji: "安", on: "アン", kun: "やす(い)", strokes: 6, meaning_vi: "rẻ, an toàn", meaning_en: "cheap, safe", compounds: ["安心（あんしん）an tâm", "安全（あんぜん）an toàn"], example: "この店は安いです。 Cửa hàng này rẻ." },
       { kanji: "新", on: "シン", kun: "あたら(しい)", strokes: 13, meaning_vi: "mới", meaning_en: "new", compounds: ["新聞（しんぶん）báo", "新幹線（しんかんせん）tàu cao tốc"], example: "新しいパソコンです。 Đây là máy tính mới." },
       { kanji: "古", on: "コ", kun: "ふる(い)", strokes: 5, meaning_vi: "cũ", meaning_en: "old (thing)", compounds: ["中古（ちゅうこ）đồ cũ", "古本（ふるほん）sách cũ"], example: "古い建物です。 Đây là toà nhà cũ." },
