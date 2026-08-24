@@ -808,7 +808,7 @@ const Japanese = () => {
         </div>
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-4 py-6 md:py-8">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-6 md:py-8">
         <Tabs value={tab} onValueChange={handleTab}>
           <div className="-mx-4 overflow-x-auto px-4 pb-1 md:mx-0 md:px-0">
             <TabsList className="inline-flex h-auto w-max gap-1.5 rounded-xl bg-white/70 p-1.5 shadow-sm ring-1 ring-pink-200 backdrop-blur md:w-full md:flex-wrap">
