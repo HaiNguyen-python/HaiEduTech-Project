@@ -302,15 +302,22 @@ const Navbar = () => {
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/japanese", label: t("Tiếng Nhật", "Japanese"), icon: Globe, subs: [
       { to: "/japanese", label: t("🌸 Tổng quan Tiếng Nhật", "🌸 Japanese Overview") },
-      { to: "/japanese?tab=kana", label: t("🈶 Hiragana & Katakana", "🈶 Hiragana & Katakana") },
-      { to: "/japanese?tab=greetings", label: t("💬 Chào hỏi & Giao tiếp", "💬 Greetings & Conversation") },
-      { to: "/japanese?tab=numbers", label: t("🔢 Số đếm & Thời gian", "🔢 Numbers & Time") },
-      { to: "/japanese?tab=vocab", label: t("📖 Từ vựng N5", "📖 N5 Vocabulary") },
-      { to: "/japanese?tab=grammar", label: t("✍️ Ngữ pháp N5", "✍️ N5 Grammar") },
-      { to: "/japanese?tab=kanji", label: t("🈴 Kanji cơ bản", "🈴 Basic Kanji") },
-      { to: "/japanese?tab=dialogues", label: t("🗣️ Hội thoại", "🗣️ Dialogues") },
-      { to: "/japanese?tab=speaking", label: t("🎤 Speaking Coach", "🎤 Speaking Coach") },
-      { to: "/japanese?tab=quiz", label: t("🧠 Ôn tập N5", "🧠 N5 Quiz") },
+      { to: "#ja-foundation-group", label: t("🈶 Nền tảng nhập môn", "🈶 Foundation"), groupLabel: "ja-foundation", children: [
+        { to: "/japanese?tab=kana", label: t("🈶 Hiragana & Katakana", "🈶 Hiragana & Katakana") },
+        { to: "/japanese?tab=greetings", label: t("💬 Chào hỏi & Giao tiếp", "💬 Greetings & Conversation") },
+        { to: "/japanese?tab=numbers", label: t("🔢 Số đếm & Thời gian", "🔢 Numbers & Time") },
+      ] },
+      { to: "#ja-knowledge-group", label: t("📚 Kiến thức N5 - N4", "📚 N5 - N4 Knowledge"), groupLabel: "ja-knowledge", children: [
+        { to: "/japanese?tab=vocab", label: t("📖 Từ vựng theo chủ đề", "📖 Vocabulary by Topic") },
+        { to: "/japanese?tab=kanji", label: t("🈴 Kanji theo nhóm", "🈴 Kanji by Group") },
+        { to: "/japanese?tab=grammar", label: t("✍️ Ngữ pháp N5", "✍️ N5 Grammar") },
+      ] },
+      { to: "#ja-practice-group", label: t("🎯 Luyện tập & Ứng dụng", "🎯 Practice & Output"), groupLabel: "ja-practice", children: [
+        { to: "/japanese?tab=dialogues", label: t("🗣️ Hội thoại tình huống", "🗣️ Situational Dialogues") },
+        { to: "/japanese?tab=speaking", label: t("🎤 Speaking Coach", "🎤 Speaking Coach") },
+        { to: "/japanese?tab=quiz", label: t("🧠 Ôn tập & Kiểm tra", "🧠 Review & Quiz") },
+      ] },
+
     ], key: "jp" },
     { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: finnishSubs, key: "fi" },
     { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: swedishSubs, key: "sv" },
