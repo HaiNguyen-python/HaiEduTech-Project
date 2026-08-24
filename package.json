@@ -15,7 +15,9 @@
   "dependencies": {
     "@codemirror/lang-python": "^6.2.1",
     "@fontsource/epilogue": "5.2.6",
+    "@fontsource/figtree": "^5.2.8",
     "@fontsource/manrope": "5.2.6",
+    "@fontsource/outfit": "^5.2.8",
     "@fontsource/sora": "5.2.6",
     "@fontsource/urbanist": "5.2.6",
     "@hookform/resolvers": "^3.10.0",
