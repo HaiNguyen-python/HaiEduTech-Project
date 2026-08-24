@@ -34,7 +34,7 @@ import {
 import {
   School, Search, Maximize2, Minimize2, ChevronDown, ChevronUp,
   Eye, Users, Boxes, RotateCcw, Trophy, AlertTriangle, Activity, TrendingUp, Target,
-  LayoutGrid, ScanLine, UserRound, Sun, Armchair, BookOpen, Clock3,
+  LayoutGrid, ScanLine, UserRound, Armchair,
 } from "lucide-react";
 import "@fontsource/urbanist/600.css";
 import "@fontsource/urbanist/700.css";
@@ -638,11 +638,12 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary"><School className="h-5 w-5" /></span>
             <div>
-              <CardTitle className="font-classroom-heading text-lg font-semibold">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
-              <p className="mt-0.5 text-sm text-muted-foreground">{safeStudents.length} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
+              <CardTitle className="font-classroom-heading text-xl font-bold">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
+              <p className="mt-0.5 text-sm text-muted-foreground">{t("Không gian lớp học Bắc Âu", "Nordic learning space")} · {safeStudents.length} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <span className="hidden items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 sm:flex"><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />{t("Đang hoạt động", "Live")}</span>
             {!flat && (
               <div className="hidden rounded-md bg-muted p-1 lg:flex">
                 {([
