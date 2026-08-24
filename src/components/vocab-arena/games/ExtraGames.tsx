@@ -202,13 +202,25 @@ export const CollocationSnap = ({ mode, onExit, onReplay }: GameProps) => {
   const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
   const [correctWords, setCorrectWords] = useState<string[]>([]);
 
+  // The head word is masked in every option, otherwise the correct phrase
+  // literally contains the prompt word and the round gives itself away.
+  const mask = (phrase: string, owner: string) => {
+    const stem = owner.slice(0, Math.max(4, owner.length - 3));
+    const masked = phrase.replace(new RegExp(`\\b${stem}\\w*`, "gi"), "___");
+    return masked === phrase ? `___ ${phrase}` : masked;
+  };
+
   const questions = useMemo(() => {
     const pool = ieltsVocabData.filter((w) => (w.collocations?.length ?? 0) > 0);
-    const allCollocations = pool.flatMap((w) => w.collocations ?? []);
+    const owned = pool.flatMap((w) => (w.collocations ?? []).map((c) => ({ phrase: c, owner: w.word })));
     return pickWords(pool, ROUNDS).map((target) => {
       const phrase = target.collocations![Math.floor(Math.random() * target.collocations!.length)];
-      const distractors = shuffle(allCollocations.filter((c) => c !== phrase && !target.collocations!.includes(c))).slice(0, 3);
-      return { target, phrase, options: shuffle([phrase, ...distractors]) };
+      const correct = mask(phrase, target.word);
+      const distractors = shuffle(owned.filter((o) => o.owner !== target.word))
+        .map((o) => mask(o.phrase, o.owner))
+        .filter((text, i, arr) => text !== correct && arr.indexOf(text) === i)
+        .slice(0, 3);
+      return { target, phrase: correct, options: shuffle([correct, ...distractors]) };
     });
   }, []);
 
