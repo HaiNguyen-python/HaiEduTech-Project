@@ -189,17 +189,21 @@ const Room = ({
         <RoundedBox args={[Math.min(w * 0.7, 11), 2.9, 0.18]} radius={0.06} smoothness={2}>
           <meshStandardMaterial color="#ffffff" roughness={0.5} />
         </RoundedBox>
-        <Text position={[0, 0.72, 0.12]} fontSize={0.52} color="#0f172a" anchorX="center">
-          {vi ? "Lớp học HaiEduTech" : "HaiEduTech Classroom"}
-        </Text>
-        <Text position={[0, 0.02, 0.12]} fontSize={0.36} color="#1d4ed8" anchorX="center">
-          {`${vi ? "Điểm TB lớp" : "Class average"}: ${classAvg}/10`}
-        </Text>
-        <Text position={[0, -0.6, 0.12]} fontSize={0.34} color={alertCount ? "#dc2626" : "#059669"} anchorX="center">
-          {alertCount
-            ? `${alertCount} ${vi ? "học sinh cần chú ý" : "students need attention"}`
-            : vi ? "Không có học sinh cần can thiệp" : "No students need intervention"}
-        </Text>
+        <Html position={[0, 0.1, 0.14]} center distanceFactor={12} transform>
+          <div className="select-none text-center" style={{ width: 320 }}>
+            <p className="text-[20px] font-bold text-slate-900">
+              {vi ? "Lớp học HaiEduTech" : "HaiEduTech Classroom"}
+            </p>
+            <p className="text-[15px] font-semibold text-blue-700 mt-1">
+              {`${vi ? "Điểm TB lớp" : "Class average"}: ${classAvg}/10`}
+            </p>
+            <p className="text-[14px] font-semibold mt-1" style={{ color: alertCount ? "#dc2626" : "#059669" }}>
+              {alertCount
+                ? `${alertCount} ${vi ? "học sinh cần chú ý" : "students need attention"}`
+                : vi ? "Không có học sinh cần can thiệp" : "No students need intervention"}
+            </p>
+          </div>
+        </Html>
       </group>
 
       {seats.map((seat) => (
