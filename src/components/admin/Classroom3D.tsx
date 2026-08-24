@@ -34,12 +34,12 @@ import {
 import {
   School, Search, Maximize2, Minimize2, ChevronDown, ChevronUp,
   Eye, Users, Boxes, RotateCcw, Trophy, AlertTriangle, Activity, TrendingUp, Target,
-  LayoutGrid, ScanLine, UserRound,
+  LayoutGrid, ScanLine, UserRound, Sun, Armchair, BookOpen, Clock3,
 } from "lucide-react";
-import "@fontsource/sora/600.css";
-import "@fontsource/sora/700.css";
-import "@fontsource/manrope/400.css";
-import "@fontsource/manrope/600.css";
+import "@fontsource/urbanist/600.css";
+import "@fontsource/urbanist/700.css";
+import "@fontsource/epilogue/400.css";
+import "@fontsource/epilogue/600.css";
 
 interface Props {
   students: StudentState[];
@@ -73,14 +73,19 @@ const GEO = {
   chairBack: new THREE.BoxGeometry(0.6, 0.42, 0.07),
   chairLeg: new THREE.BoxGeometry(0.06, 0.34, 0.06),
   deskTop: new THREE.BoxGeometry(1.3, 0.08, 0.72),
+  deskApron: new THREE.BoxGeometry(1.16, 0.26, 0.06),
   deskLeg: new THREE.BoxGeometry(0.07, 0.6, 0.07),
+  neck: new THREE.CylinderGeometry(0.075, 0.09, 0.12, 10),
+  shoe: new THREE.BoxGeometry(0.18, 0.1, 0.3),
 };
 
 const DARK = new THREE.MeshStandardMaterial({ color: "#1e293b", roughness: 0.5 });
 const SKIN = new THREE.MeshStandardMaterial({ color: "#f5d0a9", roughness: 0.45 });
-const WOOD = new THREE.MeshStandardMaterial({ color: "#e6ebf3", roughness: 0.65 });
-const METAL = new THREE.MeshStandardMaterial({ color: "#c3ccd9", roughness: 0.5, metalness: 0.25 });
-const CHAIR = new THREE.MeshStandardMaterial({ color: "#94a3b8", roughness: 0.6 });
+const WOOD = new THREE.MeshStandardMaterial({ color: "#d7c4a3", roughness: 0.62 });
+const WOOD_EDGE = new THREE.MeshStandardMaterial({ color: "#9b815f", roughness: 0.7 });
+const METAL = new THREE.MeshStandardMaterial({ color: "#65758b", roughness: 0.42, metalness: 0.35 });
+const CHAIR = new THREE.MeshStandardMaterial({ color: "#376fae", roughness: 0.58 });
+const SHOE = new THREE.MeshStandardMaterial({ color: "#334155", roughness: 0.72 });
 const GOLD = new THREE.MeshStandardMaterial({ color: "#facc15", emissive: "#facc15", emissiveIntensity: 0.85 });
 
 type MatKind = "solid" | "faded" | "dim";
@@ -110,8 +115,10 @@ function buildTierMaterials() {
 }
 const TIER_MATS = buildTierMaterials();
 
-const shirtMat = (tier: ClassroomTier, dimmed: boolean) =>
-  TIER_MATS.get(`${tier}-${dimmed ? "dim" : tier === "idle" ? "faded" : "solid"}`)!;
+const shirtMat = (tier: ClassroomTier, dimmed: boolean) => {
+  const material = TIER_MATS.get(`${tier}-${dimmed ? "dim" : tier === "idle" ? "faded" : "solid"}`);
+  return material ?? DARK;
+};
 
 /* ------------------------------------------------------------------ avatar */
 
@@ -160,14 +167,19 @@ const StudentAvatar = ({
     <group position={[seat.x, 0, seat.z]}>
       {/* desk in front of the student */}
       <mesh geometry={GEO.deskTop} material={WOOD} position={[0, 0.66, 0.74]} />
+      <mesh geometry={GEO.deskApron} material={WOOD_EDGE} position={[0, 0.51, 1.08]} />
       <mesh geometry={GEO.deskLeg} material={METAL} position={[-0.55, 0.32, 0.74]} />
       <mesh geometry={GEO.deskLeg} material={METAL} position={[0.55, 0.32, 0.74]} />
+      <mesh geometry={GEO.deskLeg} material={METAL} position={[-0.55, 0.32, 1.02]} />
+      <mesh geometry={GEO.deskLeg} material={METAL} position={[0.55, 0.32, 1.02]} />
 
       {/* chair */}
       <mesh geometry={GEO.chairSeat} material={CHAIR} position={[0, 0.42, -0.08]} />
       <mesh geometry={GEO.chairBack} material={CHAIR} position={[0, 0.63, -0.33]} />
       <mesh geometry={GEO.chairLeg} material={METAL} position={[-0.24, 0.19, -0.28]} />
       <mesh geometry={GEO.chairLeg} material={METAL} position={[0.24, 0.19, -0.28]} />
+      <mesh geometry={GEO.chairLeg} material={METAL} position={[-0.24, 0.19, 0.1]} />
+      <mesh geometry={GEO.chairLeg} material={METAL} position={[0.24, 0.19, 0.1]} />
 
       {/* floor status ring */}
       <mesh ref={ring} geometry={GEO.ring} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 0]}>
@@ -185,9 +197,12 @@ const StudentAvatar = ({
         {/* legs tucked under the desk */}
         <mesh geometry={GEO.leg} material={mat} position={[-0.12, -0.12, 0.22]} rotation={[-1.1, 0, 0]} />
         <mesh geometry={GEO.leg} material={mat} position={[0.12, -0.12, 0.22]} rotation={[-1.1, 0, 0]} />
+        <mesh geometry={GEO.shoe} material={SHOE} position={[-0.12, -0.23, 0.47]} />
+        <mesh geometry={GEO.shoe} material={SHOE} position={[0.12, -0.23, 0.47]} />
 
         {/* torso */}
         <mesh geometry={GEO.torso} material={mat} position={[0, 0.3, 0]} />
+        <mesh geometry={GEO.neck} material={SKIN} position={[0, 0.58, 0]} />
 
         {/* arms resting on the desk */}
         <mesh geometry={GEO.arm} material={mat} position={[-0.26, 0.3, 0.28]} rotation={[-1.15, 0, 0.25]} />
