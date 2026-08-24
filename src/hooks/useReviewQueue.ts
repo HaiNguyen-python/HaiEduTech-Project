@@ -9,6 +9,7 @@
  * word from the local queue with optimistic update.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { supabase } from "@/integrations/supabase/client";
 import { awardPetXP } from "@/hooks/usePetXP";
 
@@ -68,35 +69,13 @@ export function useReviewQueue(subject: string, staleDays = 14) {
 
   const markReviewed = useCallback(async (word: string) => {
     // Optimistic removal from local queue
-    const item = queue.find(it => it.word === word);
     setQueue(prev => prev.filter(it => it.word !== word));
     awardPetXP(5, `vocab:${subject}`, { celebrate: false });
-    const uid = userIdRef.current;
-    if (!uid) return;
-    // Record the repetition and the gap since the previous review: both feed the
-    // memory-strength model that decides when a word reaches long-term memory.
-    const { data: row } = await (supabase as any)
-      .from("user_vocab_mastered")
-      .select("review_count, reviewed_at")
-      .eq("user_id", uid)
-      .eq("subject", subject)
-      .eq("word", word)
-      .maybeSingle();
-    const previousIso = (row?.reviewed_at as string | undefined) || item?.reviewedAt;
-    const gapDays = previousIso
-      ? Math.max(0, Math.floor((Date.now() - new Date(previousIso).getTime()) / DAY_MS))
-      : 0;
-    await (supabase as any)
-      .from("user_vocab_mastered")
-      .update({
-        reviewed_at: new Date().toISOString(),
-        review_count: Math.max(1, (row?.review_count as number | undefined) ?? 1) + 1,
-        last_interval_days: gapDays,
-      })
-      .eq("user_id", uid)
-      .eq("subject", subject)
-      .eq("word", word);
-  }, [subject, queue]);
+    // Single writer for reviews: bumps reviewed_at / review_count /
+    // last_interval_days, tracks today's mission progress and notifies the
+    // Vocabulary Brain so it redraws without a page reload.
+    await recordVocabReviewTracked(subject, [word]);
+  }, [subject]);
 
 
   return { queue, loading, markReviewed, reload: load };
