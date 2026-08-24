@@ -241,7 +241,7 @@ export const CollocationSnap = ({ mode, onExit, onReplay }: GameProps) => {
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done, q]);
+  }, [round, done, q, picked]);
 
   useEffect(() => {
     if (!done || mode !== "solo" || saved) return;
@@ -395,7 +395,7 @@ export const OddOneOut = ({ mode, onExit, onReplay }: GameProps) => {
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done, q]);
+  }, [round, done, q, picked]);
 
   useEffect(() => {
     if (!done || mode !== "solo" || saved) return;
@@ -534,7 +534,7 @@ export const ContextClozeRush = ({ mode, onExit, onReplay }: GameProps) => {
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done, q]);
+  }, [round, done, q, picked]);
 
   useEffect(() => {
     if (!done || mode !== "solo" || saved) return;
@@ -662,7 +662,7 @@ export const ListeningCatch = ({ mode, onExit, onReplay }: GameProps) => {
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round, done, w]);
+  }, [round, done, w, feedback]);
 
   useEffect(() => {
     if (!done || mode !== "solo" || saved) return;
