@@ -6,8 +6,10 @@
       "name": "vite_react_shadcn_ts",
       "dependencies": {
         "@codemirror/lang-python": "^6.2.1",
+        "@fontsource/epilogue": "5.2.6",
         "@fontsource/manrope": "5.2.6",
         "@fontsource/sora": "5.2.6",
+        "@fontsource/urbanist": "5.2.6",
         "@hookform/resolvers": "^3.10.0",
         "@lovable.dev/cloud-auth-js": "^1.0.0",
         "@lovable.dev/mcp-js": "^0.20.0",
@@ -250,9 +252,13 @@
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
 
+    "@fontsource/epilogue": ["@fontsource/epilogue@5.2.6", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/epilogue/-/epilogue-5.2.6.tgz", {}, "sha512-ZYD4CvN006llayho1BkILJIGub3+JzOD+WRj9NHsT2DK8SEuNVhbCuZabn0yE7yTzjnruOvT3utG9hyAIuW7PA=="],
+
     "@fontsource/manrope": ["@fontsource/manrope@5.2.6", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/manrope/-/manrope-5.2.6.tgz", {}, "sha512-tboCPLGXWWkNORL7gRhA1m16FJj2QuObk2lhBvkNrpjW0911pGawvHwxuierKHojPtXptfMJo7CUWxXGkKN5zA=="],
 
     "@fontsource/sora": ["@fontsource/sora@5.2.6", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/sora/-/sora-5.2.6.tgz", {}, "sha512-OPknOmn82HIJg32UGg9iEjEVFdC+xOZBqrmQNUgsem6hFwBBrqXnTwIpro7leq/uFRdupkN42hc0JJKH20j22w=="],
+
+    "@fontsource/urbanist": ["@fontsource/urbanist@5.2.6", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/urbanist/-/urbanist-5.2.6.tgz", {}, "sha512-snp1FO9o+ZvK46Kd6YbxOSDnjIKm6I7rtAbiul39swXTQkG7tC+jHqLBFKXk1w0opxNwqNqZQsBfyUltAeJc3A=="],
 
     "@hono/node-server": ["@hono/node-server@1.19.14", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@hono/node-server/-/node-server-1.19.14.tgz", { "peerDependencies": { "hono": "^4" } }, "sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw=="],
 
