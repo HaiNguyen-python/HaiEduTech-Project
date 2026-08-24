@@ -203,6 +203,7 @@ export const CollocationSnap = ({ mode, onExit, onReplay }: GameProps) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const fx = useGameFx();
+  useStopSpeechOnUnmount();
   const [round, setRound] = useState(0);
   const [scoreA, setScoreA] = useState(0);
   const [scoreB, setScoreB] = useState(0);
@@ -352,6 +353,7 @@ export const OddOneOut = ({ mode, onExit, onReplay }: GameProps) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const fx = useGameFx();
+  useStopSpeechOnUnmount();
   const [round, setRound] = useState(0);
   const [scoreA, setScoreA] = useState(0);
   const [scoreB, setScoreB] = useState(0);
@@ -510,6 +512,7 @@ export const ContextClozeRush = ({ mode, onExit, onReplay }: GameProps) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const fx = useGameFx();
+  useStopSpeechOnUnmount();
   const [round, setRound] = useState(0);
   const [scoreA, setScoreA] = useState(0);
   const [scoreB, setScoreB] = useState(0);
@@ -650,6 +653,7 @@ export const ListeningCatch = ({ mode, onExit, onReplay }: GameProps) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const fx = useGameFx();
+  useStopSpeechOnUnmount();
   const [round, setRound] = useState(0);
   const [scoreA, setScoreA] = useState(0);
   const [scoreB, setScoreB] = useState(0);
