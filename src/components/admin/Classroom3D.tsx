@@ -36,10 +36,10 @@ import {
   Eye, Users, Boxes, RotateCcw, Trophy, AlertTriangle, Activity, TrendingUp, Target,
   LayoutGrid, ScanLine, UserRound, Armchair,
 } from "lucide-react";
-import "@fontsource/urbanist/600.css";
-import "@fontsource/urbanist/700.css";
-import "@fontsource/epilogue/400.css";
-import "@fontsource/epilogue/600.css";
+import "@fontsource/outfit/600.css";
+import "@fontsource/outfit/700.css";
+import "@fontsource/figtree/400.css";
+import "@fontsource/figtree/600.css";
 
 interface Props {
   students: StudentState[];
@@ -258,21 +258,25 @@ const StudentAvatar = ({
 /* --------------------------------------------------------------- classroom */
 
 const ROOM_MATERIALS = {
-  wall: new THREE.MeshStandardMaterial({ color: "#f8fafc", roughness: 0.88 }),
-  wallWarm: new THREE.MeshStandardMaterial({ color: "#eef3f1", roughness: 0.9 }),
-  floor: new THREE.MeshStandardMaterial({ color: "#d7c4a3", roughness: 0.76 }),
-  frame: new THREE.MeshStandardMaterial({ color: "#e2e8f0", roughness: 0.48, metalness: 0.16 }),
-  glass: new THREE.MeshPhysicalMaterial({ color: "#dbeafe", transparent: true, opacity: 0.3, roughness: 0.1, transmission: 0.35 }),
-  foliage: new THREE.MeshStandardMaterial({ color: "#10b981", roughness: 0.84 }),
-  pot: new THREE.MeshStandardMaterial({ color: "#e7e1d6", roughness: 0.76 }),
-  shelf: new THREE.MeshStandardMaterial({ color: "#a98d68", roughness: 0.7 }),
-  board: new THREE.MeshStandardMaterial({ color: "#163d35", roughness: 0.38 }),
-  posterBlue: new THREE.MeshStandardMaterial({ color: "#2563eb", roughness: 0.7 }),
-  posterGreen: new THREE.MeshStandardMaterial({ color: "#10b981", roughness: 0.7 }),
-  posterGold: new THREE.MeshStandardMaterial({ color: "#f4c95d", roughness: 0.68 }),
-  bookRed: new THREE.MeshStandardMaterial({ color: "#dc5b58", roughness: 0.76 }),
-  bookBlue: new THREE.MeshStandardMaterial({ color: "#4f78b8", roughness: 0.76 }),
-  bookGreen: new THREE.MeshStandardMaterial({ color: "#4c956c", roughness: 0.76 }),
+  wall: new THREE.MeshStandardMaterial({ color: "#f6f2ed", roughness: 0.9 }),
+  wallWarm: new THREE.MeshStandardMaterial({ color: "#e8ddd2", roughness: 0.92 }),
+  floor: new THREE.MeshStandardMaterial({ color: "#d8bea0", roughness: 0.76 }),
+  frame: new THREE.MeshStandardMaterial({ color: "#e7ded4", roughness: 0.48, metalness: 0.12 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: "#dce8df", transparent: true, opacity: 0.3, roughness: 0.1, transmission: 0.35 }),
+  foliage: new THREE.MeshStandardMaterial({ color: "#4a6741", roughness: 0.84 }),
+  pot: new THREE.MeshStandardMaterial({ color: "#c4654a", roughness: 0.76 }),
+  shelf: new THREE.MeshStandardMaterial({ color: "#9c7558", roughness: 0.7 }),
+  board: new THREE.MeshStandardMaterial({ color: "#294a3b", roughness: 0.38 }),
+  terracotta: new THREE.MeshStandardMaterial({ color: "#c4654a", roughness: 0.72 }),
+  clay: new THREE.MeshStandardMaterial({ color: "#e8a87c", roughness: 0.78 }),
+  sage: new THREE.MeshStandardMaterial({ color: "#87a878", roughness: 0.76 }),
+  moss: new THREE.MeshStandardMaterial({ color: "#4a6741", roughness: 0.74 }),
+  parchment: new THREE.MeshStandardMaterial({ color: "#fff9f3", roughness: 0.82 }),
+  glowWarm: new THREE.MeshBasicMaterial({ color: "#f3bd91", transparent: true, opacity: 0.42 }),
+  glowSage: new THREE.MeshBasicMaterial({ color: "#a9c49c", transparent: true, opacity: 0.36 }),
+  bookRed: new THREE.MeshStandardMaterial({ color: "#c4654a", roughness: 0.76 }),
+  bookBlue: new THREE.MeshStandardMaterial({ color: "#718f85", roughness: 0.76 }),
+  bookGreen: new THREE.MeshStandardMaterial({ color: "#4a6741", roughness: 0.76 }),
 };
 
 const WindowWall = ({ width, depth }: { width: number; depth: number }) => (
@@ -304,6 +308,68 @@ const Plant = ({ position, scale = 1 }: { position: [number, number, number]; sc
   </group>
 );
 
+const AcousticPanels = ({ x, depth, mirrored = false }: { x: number; depth: number; mirrored?: boolean }) => (
+  <group position={[x, 3.55, -depth / 2 + 0.22]}>
+    {[-0.9, 0, 0.9].map((offset, index) => (
+      <mesh key={offset} position={[offset, index === 1 ? 0.2 : 0, 0]}>
+        <boxGeometry args={[0.65, index === 1 ? 2.15 : 1.75, 0.16]} />
+        <primitive object={[ROOM_MATERIALS.clay, ROOM_MATERIALS.sage, ROOM_MATERIALS.terracotta][mirrored ? 2 - index : index]} attach="material" />
+      </mesh>
+    ))}
+    <mesh position={[0, -1.35, 0.04]}>
+      <boxGeometry args={[3.2, 0.055, 0.08]} />
+      <primitive object={mirrored ? ROOM_MATERIALS.glowSage : ROOM_MATERIALS.glowWarm} attach="material" />
+    </mesh>
+  </group>
+);
+
+const ImmersiveBackWall = ({ width, depth }: { width: number; depth: number }) => {
+  const boardWidth = Math.min(width * 0.58, 11.4);
+  const decorX = boardWidth / 2 + Math.max(1.8, (width - boardWidth) / 4);
+  return (
+    <group>
+      <AcousticPanels x={-decorX} depth={depth} />
+      <AcousticPanels x={decorX} depth={depth} mirrored />
+
+      {/* Lesson progress module, kept high and outside the board sightline. */}
+      <group position={[-decorX, 4.9, -depth / 2 + 0.35]}>
+        <mesh><boxGeometry args={[3.35, 0.72, 0.12]} /><primitive object={ROOM_MATERIALS.parchment} attach="material" /></mesh>
+        <mesh position={[-0.45, -0.1, 0.08]}><boxGeometry args={[1.75, 0.1, 0.05]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+        <mesh position={[-0.8, -0.1, 0.12]}><boxGeometry args={[1.05, 0.105, 0.055]} /><primitive object={ROOM_MATERIALS.terracotta} attach="material" /></mesh>
+        {[0.72, 1.02, 1.32].map((x, index) => (
+          <mesh key={x} position={[x, 0.12, 0.1]}><sphereGeometry args={[0.09 + index * 0.02, 12, 10]} /><primitive object={[ROOM_MATERIALS.sage, ROOM_MATERIALS.clay, ROOM_MATERIALS.moss][index]} attach="material" /></mesh>
+        ))}
+      </group>
+
+      {/* Concentric learning-orbit sculpture gives the wall a studio focal point. */}
+      <group position={[decorX, 4.8, -depth / 2 + 0.38]}>
+        {[0.45, 0.72, 1.02].map((radius, index) => (
+          <mesh key={radius} rotation={[0, 0, index * 0.65]}>
+            <torusGeometry args={[radius, 0.035, 8, 36]} />
+            <primitive object={[ROOM_MATERIALS.terracotta, ROOM_MATERIALS.sage, ROOM_MATERIALS.clay][index]} attach="material" />
+          </mesh>
+        ))}
+        <mesh position={[0, 0, 0.08]}><sphereGeometry args={[0.18, 16, 12]} /><primitive object={ROOM_MATERIALS.moss} attach="material" /></mesh>
+      </group>
+    </group>
+  );
+};
+
+const LearningGallery = ({ width, depth }: { width: number; depth: number }) => (
+  <group position={[width / 2 - 0.13, 3.65, depth * 0.17]} rotation={[0, -Math.PI / 2, 0]}>
+    {[-1.65, 0, 1.65].map((x, index) => (
+      <group key={x} position={[x, index === 1 ? 0.18 : 0, 0]}>
+        <mesh><boxGeometry args={[1.25, index === 1 ? 1.75 : 1.5, 0.08]} /><primitive object={ROOM_MATERIALS.shelf} attach="material" /></mesh>
+        <mesh position={[0, 0, 0.06]}><planeGeometry args={[1.08, index === 1 ? 1.58 : 1.33]} /><primitive object={[ROOM_MATERIALS.parchment, ROOM_MATERIALS.sage, ROOM_MATERIALS.clay][index]} attach="material" /></mesh>
+        {index === 0 && [-0.3, 0, 0.3].map((y, dot) => <mesh key={y} position={[(dot - 1) * 0.28, y, 0.1]}><sphereGeometry args={[0.08, 10, 8]} /><primitive object={dot === 1 ? ROOM_MATERIALS.terracotta : ROOM_MATERIALS.moss} attach="material" /></mesh>)}
+        {index === 1 && <><mesh position={[0, 0, 0.1]}><torusGeometry args={[0.42, 0.045, 8, 32]} /><primitive object={ROOM_MATERIALS.parchment} attach="material" /></mesh><mesh position={[0, 0, 0.12]}><sphereGeometry args={[0.15, 12, 10]} /><primitive object={ROOM_MATERIALS.terracotta} attach="material" /></mesh></>}
+        {index === 2 && [-0.34, 0, 0.34].map((y, bar) => <mesh key={y} position={[0, y, 0.1]}><boxGeometry args={[0.75 - bar * 0.12, 0.1, 0.04]} /><primitive object={bar === 1 ? ROOM_MATERIALS.moss : ROOM_MATERIALS.parchment} attach="material" /></mesh>)}
+      </group>
+    ))}
+    <mesh position={[0, -1.22, 0]}><boxGeometry args={[5.4, 0.12, 0.5]} /><primitive object={ROOM_MATERIALS.shelf} attach="material" /></mesh>
+  </group>
+);
+
 const ClassroomShell = ({ width, depth }: { width: number; depth: number }) => (
   <group>
     <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[width, depth]} /><primitive object={ROOM_MATERIALS.floor} attach="material" /></mesh>
@@ -322,15 +388,8 @@ const ClassroomShell = ({ width, depth }: { width: number; depth: number }) => (
         <mesh><boxGeometry args={[2.4, 0.07, 0.34]} /><meshStandardMaterial color="#ffffff" emissive="#fff7d6" emissiveIntensity={0.55} /></mesh>
       </group>
     ))}
-    {/* Calm wall art sits above eye level and never covers student labels. */}
-    <group position={[width / 2 - 0.11, 3.85, depth * 0.2]} rotation={[0, -Math.PI / 2, 0]}>
-      {[ROOM_MATERIALS.posterBlue, ROOM_MATERIALS.posterGreen, ROOM_MATERIALS.posterGold].map((material, index) => (
-        <group key={index} position={[(index - 1) * 1.45, 0, 0]}>
-          <mesh><boxGeometry args={[1.05, 1.35, 0.06]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
-          <mesh position={[0, 0, 0.04]}><planeGeometry args={[0.87, 1.13]} /><primitive object={material} attach="material" /></mesh>
-        </group>
-      ))}
-    </group>
+    <ImmersiveBackWall width={width} depth={depth} />
+    <LearningGallery width={width} depth={depth} />
     <Plant position={[width / 2 - 0.8, 0, -depth / 2 + 0.9]} />
     <Plant position={[-width / 2 + 0.85, 0, -depth / 2 + 0.8]} scale={0.8} />
   </group>
