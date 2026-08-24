@@ -333,7 +333,7 @@ const topics = [
 ];
 
 const openersA = [
-  "I'm happy to take on", "I'll do", "I don't mind doing", "I'll take care of",
+  "I'm happy to take on", "I'll take", "I don't mind", "I'll take care of",
   "I'd like to handle", "Let me deal with",
 ];
 const openersB = [
@@ -341,7 +341,7 @@ const openersB = [
   "I'll look after", "I'll take on",
 ];
 const openersC = [
-  "I'll do that myself -", "Leave", "I'll take responsibility for",
+  "I'll take responsibility for", "Leave", "As your tutor I'll handle",
   "That one is my job -", "I'll deal with",
 ];
 

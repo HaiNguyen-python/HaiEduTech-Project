@@ -28,10 +28,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: Right, you two have a joint literature review due in four weeks. Let's agree exactly who does what.\n" +
       "Amelia: I'm happy to take on searching the online databases.\n" +
       "Daniel: Then I'll take reading the three key theoretical papers.\n" +
-      "Amelia: I'll do building the reference list in the citation software.\n" +
+      "Amelia: I'll take building the reference list in the citation software.\n" +
       "Daniel: I can manage summarising the methodology debates.\n" +
-      "Amelia: I don't mind doing writing the introduction to the review.\n" +
-      "Tutor: I'll do that myself - checking that every source is peer-reviewed.\n" +
+      "Amelia: I don't mind writing the introduction to the review.\n" +
+      "Tutor: I'll take responsibility for checking that every source is peer-reviewed.\n" +
       "Daniel: I'll handle drafting the section on research gaps.\n" +
       "Amelia: I'll take care of proofreading the final version.\n" +
       "Tutor: Leave approving the final structure before submission to me.\n" +
@@ -70,11 +70,11 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: So, the survey. You need a questionnaire that will actually get responses. Let's split the work.\n" +
       "Nour: I'm happy to take on writing the demographic questions.\n" +
       "Felix: Then I'll take designing the rating scales.\n" +
-      "Nour: I'll do piloting the questionnaire with ten students.\n" +
-      "Tutor: I'll do that myself - checking the wording for bias.\n" +
+      "Nour: I'll take piloting the questionnaire with ten students.\n" +
+      "Tutor: I'll take responsibility for checking the wording for bias.\n" +
       "Felix: I can manage setting up the online survey form.\n" +
       "Tutor: Leave writing the consent statement to me.\n" +
-      "Nour: I don't mind doing contacting the departments for distribution.\n" +
+      "Nour: I don't mind contacting the departments for distribution.\n" +
       "Felix: I'll handle preparing the spreadsheet for the responses.\n" +
       "Nour: I'll take care of analysing the pilot feedback.\n" +
       "Felix: That leaves me with writing the summary of the pilot for the tutor.\n" +
@@ -112,10 +112,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: You've got fifteen minutes for the presentation, so the timing matters as much as the content.\n" +
       "Isla: I'm happy to take on opening the presentation and setting out the aims.\n" +
       "Marcus: Then I'll take explaining the research method.\n" +
-      "Isla: I'll do preparing the slides.\n" +
+      "Isla: I'll take preparing the slides.\n" +
       "Marcus: I can manage presenting the main findings.\n" +
-      "Isla: I don't mind doing designing the summary diagram.\n" +
-      "Tutor: I'll do that myself - timing the rehearsal.\n" +
+      "Isla: I don't mind designing the summary diagram.\n" +
+      "Tutor: I'll take responsibility for timing the rehearsal.\n" +
       "Marcus: I'll handle answering questions on the statistics.\n" +
       "Isla: I'll take care of writing the handout for the audience.\n" +
       "Tutor: Leave giving feedback on the draft slides to me.\n" +
@@ -154,10 +154,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: Your first lab report lost marks for structure rather than science, so let's plan the rewrite carefully.\n" +
       "Theo: I'm happy to take on rewriting the aims and hypothesis.\n" +
       "Ruby: Then I'll take redrawing the apparatus diagram.\n" +
-      "Theo: I'll do recalculating the percentage error.\n" +
-      "Tutor: I'll do that myself - explaining what the marking criteria expect.\n" +
+      "Theo: I'll take recalculating the percentage error.\n" +
+      "Tutor: I'll take responsibility for explaining what the marking criteria expect.\n" +
       "Ruby: I can manage rewriting the discussion of sources of error.\n" +
-      "Theo: I don't mind doing adding the missing units to the results table.\n" +
+      "Theo: I don't mind adding the missing units to the results table.\n" +
       "Ruby: I'll handle shortening the introduction.\n" +
       "Tutor: Leave checking the report against the criteria to me.\n" +
       "Theo: I'll take care of writing the final conclusion.\n" +
@@ -196,14 +196,14 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: You both need to confirm a placement by the end of the month, so let's talk through the options and the paperwork.\n" +
       "Yusuf: I'm happy to take on applying to the hospital laboratory.\n" +
       "Clara: Then I'll take applying to the environmental consultancy.\n" +
-      "Tutor: I'll do that myself - arranging the reference letters.\n" +
-      "Yusuf: I'll do preparing a skills-based CV.\n" +
+      "Tutor: I'll take responsibility for arranging the reference letters.\n" +
+      "Yusuf: I'll take preparing a skills-based CV.\n" +
       "Clara: I can manage practising the telephone interview.\n" +
       "Tutor: Leave checking the insurance requirements to me.\n" +
-      "Yusuf: I don't mind doing visiting the placement site beforehand.\n" +
+      "Yusuf: I don't mind visiting the placement site beforehand.\n" +
       "Clara: I'll handle writing the learning agreement.\n" +
       "Yusuf: I'll take care of keeping the weekly reflective log.\n" +
-      "Tutor: I'll take responsibility for arranging the mid-placement visit.\n" +
+      "Tutor: As your tutor I'll handle arranging the mid-placement visit.\n" +
       "Tutor: Right. Both applications need to reach me before the twentieth.",
     rate: 0.9,
     questions: [
@@ -238,10 +238,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: You said the numbers aren't behaving. Let's work out who tackles which problem.\n" +
       "Elena: I'm happy to take on removing the duplicate responses.\n" +
       "Sam: Then I'll take dealing with the missing values.\n" +
-      "Elena: I'll do recoding the reversed scale items.\n" +
-      "Tutor: I'll do that myself - explaining which statistical test to use.\n" +
+      "Elena: I'll take recoding the reversed scale items.\n" +
+      "Tutor: I'll take responsibility for explaining which statistical test to use.\n" +
       "Sam: I can manage running the correlation analysis.\n" +
-      "Elena: I don't mind doing drawing the scatter plots.\n" +
+      "Elena: I don't mind drawing the scatter plots.\n" +
       "Tutor: Leave checking the assumptions of the test to me.\n" +
       "Sam: I'll handle writing up the results section.\n" +
       "Elena: I'll take care of labelling the figures and tables.\n" +
@@ -280,14 +280,14 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: Module choices close on Friday, so let's make sure you both understand the consequences of each option.\n" +
       "Harper: I'm happy to take on choosing the statistics module.\n" +
       "Ivan: Then I'll take choosing the field-work module.\n" +
-      "Tutor: I'll do that myself - explaining the assessment pattern of each module.\n" +
-      "Harper: I'll do checking the timetable for clashes.\n" +
+      "Tutor: I'll take responsibility for explaining the assessment pattern of each module.\n" +
+      "Harper: I'll take checking the timetable for clashes.\n" +
       "Ivan: I can manage asking last year's students about the workload.\n" +
       "Tutor: Leave confirming the prerequisites to me.\n" +
-      "Harper: I don't mind doing deciding whether to take the language option.\n" +
+      "Harper: I don't mind deciding whether to take the language option.\n" +
       "Ivan: I'll handle reading the module handbooks.\n" +
       "Harper: I'll take care of submitting the choices on the portal.\n" +
-      "Tutor: I'll take responsibility for signing the change-of-module form.\n" +
+      "Tutor: As your tutor I'll handle signing the change-of-module form.\n" +
       "Tutor: Good. Confirm your choices on the portal, not by email.",
     rate: 0.9,
     questions: [
@@ -323,10 +323,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Zoe: I'm happy to take on writing the abstract for the poster.\n" +
       "Adrian: Then I'll take designing the layout.\n" +
       "Adrian: I can manage choosing the colour scheme.\n" +
-      "Zoe: I'll do producing the graphs.\n" +
-      "Tutor: I'll do that myself - advising on the font sizes.\n" +
+      "Zoe: I'll take producing the graphs.\n" +
+      "Tutor: I'll take responsibility for advising on the font sizes.\n" +
       "Adrian: I'll handle printing the poster.\n" +
-      "Zoe: I don't mind doing preparing the two-minute spoken summary.\n" +
+      "Zoe: I don't mind preparing the two-minute spoken summary.\n" +
       "Tutor: Leave booking the display board to me.\n" +
       "Zoe: I'll take care of writing the take-away handout.\n" +
       "Adrian: That leaves me with photographing the poster for the portfolio.\n" +
@@ -364,14 +364,14 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: Nothing can start until the ethics form is approved, so let's work through the sections.\n" +
       "Bianca: I'm happy to take on writing the participant information sheet.\n" +
       "Louis: Then I'll take drafting the consent form.\n" +
-      "Tutor: I'll do that myself - explaining the committee's timetable.\n" +
-      "Bianca: I'll do describing how data will be stored.\n" +
+      "Tutor: I'll take responsibility for explaining the committee's timetable.\n" +
+      "Bianca: I'll take describing how data will be stored.\n" +
       "Louis: I can manage listing the possible risks to participants.\n" +
-      "Bianca: I don't mind doing arranging anonymous coding of the data.\n" +
+      "Bianca: I don't mind arranging anonymous coding of the data.\n" +
       "Tutor: Leave signing the supervisor declaration to me.\n" +
       "Louis: I'll handle writing the debriefing statement.\n" +
       "Bianca: I'll take care of submitting the completed form.\n" +
-      "Tutor: I'll take responsibility for checking the form against the university policy.\n" +
+      "Tutor: As your tutor I'll handle checking the form against the university policy.\n" +
       "Tutor: Good. The committee meets on the first Tuesday of the month.",
     rate: 0.9,
     questions: [
@@ -406,10 +406,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: This case study is deliberately open-ended. The marks come from your reasoning, not from finding one right answer.\n" +
       "Mina: I'm happy to take on analysing the company's financial figures.\n" +
       "Callum: Then I'll take researching the competitors.\n" +
-      "Tutor: I'll do that myself - explaining the marking criteria.\n" +
-      "Mina: I'll do writing the SWOT analysis.\n" +
+      "Tutor: I'll take responsibility for explaining the marking criteria.\n" +
+      "Mina: I'll take writing the SWOT analysis.\n" +
       "Callum: I can manage interviewing a manager from the sector.\n" +
-      "Mina: I don't mind doing preparing the recommendations.\n" +
+      "Mina: I don't mind preparing the recommendations.\n" +
       "Tutor: Leave checking the word count and format to me.\n" +
       "Callum: I'll handle writing the executive summary.\n" +
       "Mina: I'll take care of drawing the process diagram.\n" +
@@ -448,10 +448,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: You have two days in the field, so preparation is everything. Let's confirm the tasks.\n" +
       "Rosa: I'm happy to take on booking the field equipment.\n" +
       "Ben: Then I'll take planning the sampling points.\n" +
-      "Tutor: I'll do that myself - explaining the risk assessment rules.\n" +
-      "Rosa: I'll do recording the water measurements.\n" +
+      "Tutor: I'll take responsibility for explaining the risk assessment rules.\n" +
+      "Rosa: I'll take recording the water measurements.\n" +
       "Ben: I can manage photographing the sites.\n" +
-      "Rosa: I don't mind doing keeping the field notebook.\n" +
+      "Rosa: I don't mind keeping the field notebook.\n" +
       "Tutor: Leave arranging the minibus to me.\n" +
       "Ben: I'll handle entering the data into the spreadsheet.\n" +
       "Rosa: I'll take care of drawing the site sketch maps.\n" +
@@ -490,11 +490,11 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: The dissertation is long, so the timeline matters more than the title. Let's break it down.\n" +
       "Priya: I'm happy to take on finalising the research question.\n" +
       "Nathan: Then I'll take completing the reading by the end of month one.\n" +
-      "Tutor: I'll do that myself - approving the timeline.\n" +
-      "Priya: I'll do collecting the data in month two.\n" +
+      "Tutor: I'll take responsibility for approving the timeline.\n" +
+      "Priya: I'll take collecting the data in month two.\n" +
       "Nathan: I can manage writing the methods chapter first.\n" +
       "Tutor: Leave booking the monthly supervision meetings to me.\n" +
-      "Priya: I don't mind doing drafting the results chapter in month four.\n" +
+      "Priya: I don't mind drafting the results chapter in month four.\n" +
       "Nathan: I'll handle arranging proofreading in the final month.\n" +
       "Priya: I'll take care of preparing the appendices.\n" +
       "Nathan: That leaves me with submitting the electronic and printed copies.\n" +
@@ -532,10 +532,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: For this project the process is assessed as well as the product, so version control is not optional.\n" +
       "Aisha: I'm happy to take on setting up the shared repository.\n" +
       "Leo: Then I'll take writing the user interface code.\n" +
-      "Tutor: I'll do that myself - explaining how the code will be assessed.\n" +
-      "Aisha: I'll do designing the database structure.\n" +
+      "Tutor: I'll take responsibility for explaining how the code will be assessed.\n" +
+      "Aisha: I'll take designing the database structure.\n" +
       "Leo: I can manage writing the unit tests.\n" +
-      "Aisha: I don't mind doing documenting the functions.\n" +
+      "Aisha: I don't mind documenting the functions.\n" +
       "Tutor: Leave reviewing the code quality to me.\n" +
       "Leo: I'll handle fixing the reported bugs.\n" +
       "Aisha: I'll take care of writing the user guide.\n" +
@@ -574,10 +574,10 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: You have twelve interviews recorded. Transcription always takes longer than students expect, so plan it properly.\n" +
       "Freya: I'm happy to take on transcribing the first six interviews.\n" +
       "Kofi: Then I'll take transcribing the remaining interviews.\n" +
-      "Tutor: I'll do that myself - explaining the coding framework.\n" +
-      "Freya: I'll do anonymising the participant names.\n" +
+      "Tutor: I'll take responsibility for explaining the coding framework.\n" +
+      "Freya: I'll take anonymising the participant names.\n" +
       "Kofi: I can manage identifying the main themes.\n" +
-      "Freya: I don't mind doing choosing the illustrative quotations.\n" +
+      "Freya: I don't mind choosing the illustrative quotations.\n" +
       "Tutor: Leave checking the reliability of the coding to me.\n" +
       "Kofi: I'll handle writing the thematic analysis.\n" +
       "Freya: I'll take care of storing the files securely.\n" +
@@ -616,11 +616,11 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: You leave in September, so there is quite a bit of administration to sort out before then.\n" +
       "Tomas: I'm happy to take on completing the learning agreement.\n" +
       "Layla: Then I'll take arranging the accommodation abroad.\n" +
-      "Tutor: I'll do that myself - confirming which credits will transfer.\n" +
-      "Tomas: I'll do applying for the travel grant.\n" +
+      "Tutor: I'll take responsibility for confirming which credits will transfer.\n" +
+      "Tomas: I'll take applying for the travel grant.\n" +
       "Layla: I can manage taking the language placement test.\n" +
       "Tutor: Leave signing the credit-transfer form to me.\n" +
-      "Tomas: I don't mind doing booking the flights.\n" +
+      "Tomas: I don't mind booking the flights.\n" +
       "Layla: I'll handle arranging health insurance.\n" +
       "Tomas: I'll take care of registering with the host university.\n" +
       "Layla: That leaves me with preparing the pre-departure presentation.\n" +
@@ -658,11 +658,11 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: You've told me the group work isn't going smoothly. Let's fix the process rather than blame anyone.\n" +
       "Owen: I'm happy to take on writing a clear group agreement.\n" +
       "Sara: Then I'll take taking minutes at each meeting.\n" +
-      "Tutor: I'll do that myself - mediating the disagreement over roles.\n" +
-      "Owen: I'll do setting internal deadlines.\n" +
+      "Tutor: I'll take responsibility for mediating the disagreement over roles.\n" +
+      "Owen: I'll take setting internal deadlines.\n" +
       "Tutor: Leave checking that tasks are shared fairly to me.\n" +
       "Sara: I can manage updating the shared task list.\n" +
-      "Owen: I don't mind doing chairing the weekly meeting.\n" +
+      "Owen: I don't mind chairing the weekly meeting.\n" +
       "Sara: I'll handle contacting the member who missed sessions.\n" +
       "Owen: I'll take care of recording individual contributions.\n" +
       "Sara: That leaves me with writing the group reflection.\n" +
@@ -700,11 +700,11 @@ export const ieltsListeningPracticeSetsExpansion10: ListeningPracticeSet[] = [
       "Tutor: The oral exam lasts twenty minutes each. It's a discussion, not a test of memory.\n" +
       "Nadia: I'm happy to take on preparing a two-minute summary of the project.\n" +
       "Hugo: Then I'll take listing the likely questions.\n" +
-      "Tutor: I'll do that myself - explaining how the examiners will assess you.\n" +
-      "Nadia: I'll do rehearsing answers about the methodology.\n" +
+      "Tutor: I'll take responsibility for explaining how the examiners will assess you.\n" +
+      "Nadia: I'll take rehearsing answers about the methodology.\n" +
       "Hugo: I can manage revising the key statistics.\n" +
       "Tutor: Leave arranging a mock oral exam to me.\n" +
-      "Nadia: I don't mind doing preparing the limitations of the study.\n" +
+      "Nadia: I don't mind preparing the limitations of the study.\n" +
       "Hugo: I'll handle practising with a recording.\n" +
       "Nadia: I'll take care of preparing questions for the examiners.\n" +
       "Hugo: That leaves me with checking the room and time of the exam.\n" +
