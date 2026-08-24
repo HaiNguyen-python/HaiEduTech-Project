@@ -361,20 +361,28 @@ export const OddOneOut = ({ mode, onExit, onReplay }: GameProps) => {
     });
     const usable = [...byCategory.entries()].filter(([, list]) => list.length >= 4);
     const rounds: { family: string; options: string[]; odd: string; kept: string[] }[] = [];
-    shuffle(usable)
-      .slice(0, ROUNDS)
-      .forEach(([category, list]) => {
-        const trio = shuffle(list).slice(0, 3);
-        const otherCats = usable.filter(([c]) => c !== category);
-        const [, otherList] = otherCats[Math.floor(Math.random() * otherCats.length)];
-        const odd = shuffle(otherList)[0];
-        rounds.push({
-          family: category,
-          options: shuffle([...trio.map((w) => w.word), odd.word]),
-          odd: odd.word,
-          kept: trio.map((w) => w.word),
-        });
+    if (usable.length < 2) return rounds;
+    // Categories can be fewer than ROUNDS, so cycle through them until the
+    // round list is full instead of ending the game after 3-4 questions.
+    const order = shuffle(usable);
+    for (let i = 0; rounds.length < ROUNDS && i < ROUNDS * 3; i++) {
+      const [category, list] = order[i % order.length];
+      const trio = shuffle(list).slice(0, 3);
+      const trioWords = trio.map((w) => w.word);
+      const otherCats = usable.filter(([c]) => c !== category);
+      if (!otherCats.length) break;
+      const [, otherList] = otherCats[Math.floor(Math.random() * otherCats.length)];
+      // The intruder must not repeat a word already shown in the trio,
+      // otherwise the round has two identical options and no valid answer.
+      const odd = shuffle(otherList).find((w) => !trioWords.includes(w.word));
+      if (!odd) continue;
+      rounds.push({
+        family: category,
+        options: shuffle([...trioWords, odd.word]),
+        odd: odd.word,
+        kept: trioWords,
       });
+    }
     return rounds;
   }, []);
 
