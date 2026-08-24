@@ -897,6 +897,7 @@ const FinnishVocabulary = () => {
             <VocabBrainPanel
               subject="finnish-vocab"
               accuracyGameType="vocab-finnish-vocab"
+              extraSubjects={["finnish"]}
               localWords={[...mastered]}
               t={t}
               lookupWord={(w) => {
