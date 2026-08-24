@@ -20,6 +20,7 @@ import { ieltsListeningBand, bandColor } from "@/lib/ieltsListeningBand";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { pushListeningAttempt } from "@/lib/ieltsListeningHistory";
 
 type AccentKey = "en-GB" | "en-US" | "en-AU";
 const ACCENT_LABELS: Record<AccentKey, string> = {
@@ -55,15 +56,35 @@ const sectionColor = (s: number) => {
 
 const normalize = (s: string) => s.trim().toLowerCase().replace(/[.,!?;:"']/g, "");
 
+/**
+ * Controlled mode: used by the Full Test engine so one parent owns the
+ * answers of all 4 sections (40 questions), the timer, submission and scoring.
+ */
+export interface ListeningControlledMode {
+  answers: Record<number, string>;
+  setAnswers: (updater: (prev: Record<number, string>) => Record<number, string>) => void;
+  submitted: boolean;
+  /** Number the questions continuously across sections (Q1-Q40). */
+  numberOffset: number;
+  /** Force exam mode on (single play, no seek/script) and hide the toggle. */
+  forceExamMode?: boolean;
+}
+
 interface Props {
   set: ListeningPracticeSet;
   hideHeader?: boolean;
+  controlled?: ListeningControlledMode;
 }
 
-const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
+const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => {
   const { t, lang } = useLanguage();
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [localAnswers, setLocalAnswers] = useState<Record<number, string>>({});
+  const [localSubmitted, setLocalSubmitted] = useState(false);
+  const answers = controlled ? controlled.answers : localAnswers;
+  const setAnswers = controlled ? controlled.setAnswers : setLocalAnswers;
+  const submitted = controlled ? controlled.submitted : localSubmitted;
+  const setSubmitted = setLocalSubmitted;
+  const numberOffset = controlled?.numberOffset ?? 0;
   const [showTranscript, setShowTranscript] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -87,7 +108,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   useEffect(() => { localStorage.setItem("ielts-listening-accent", accent); }, [accent]);
 
   // --- New: exam mode (mô phỏng phòng thi: 1 lần phát, ẩn transcript & seek) ---
-  const [examMode, setExamMode] = useState(false);
+  const [examMode, setExamMode] = useState(!!controlled?.forceExamMode);
 
   // --- New: AI explain per wrong question ---
   const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
@@ -97,6 +118,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
   // --- New: auto-save key ---
   const saveKey = `ielts-listening-progress::${s.id}`;
   const [restoredOnce, setRestoredOnce] = useState(false);
+
 
   // Split transcript into natural chunks (sentences / dialogue turns).
   const buildChunks = (text: string): string[] => {
@@ -379,24 +401,26 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
 
   const band = useMemo(() => ieltsListeningBand(score, s.questions.length), [score, s.questions.length]);
 
-  // --- Auto-save (debounced) ---
+  // --- Auto-save (debounced) - only in standalone mode; the Full Test engine
+  //     persists the whole 40-question attempt itself. ---
   useEffect(() => {
-    if (!restoredOnce) return;
+    if (controlled || !restoredOnce) return;
     const id = window.setTimeout(() => {
       try {
         localStorage.setItem(saveKey, JSON.stringify({ answers, submitted, examMode, ts: Date.now() }));
       } catch { /* noop */ }
     }, 400);
     return () => window.clearTimeout(id);
-  }, [answers, submitted, examMode, saveKey, restoredOnce]);
+  }, [answers, submitted, examMode, saveKey, restoredOnce, controlled]);
 
-  // --- Restore on mount ---
+  // --- Restore on mount (standalone only) ---
   useEffect(() => {
+    if (controlled) { setRestoredOnce(true); return; }
     try {
       const raw = localStorage.getItem(saveKey);
       if (raw) {
         const data = JSON.parse(raw);
-        if (data?.answers && typeof data.answers === "object") setAnswers(data.answers);
+        if (data?.answers && typeof data.answers === "object") setLocalAnswers(data.answers);
         if (data?.submitted) setSubmitted(true);
         if (data?.examMode) setExamMode(true);
       }
@@ -405,8 +429,20 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // In controlled mode, submitting the full test stops audio and reveals script.
+  useEffect(() => {
+    if (!controlled?.submitted) return;
+    setShowTranscript(true);
+    cancelledRef.current = true;
+    generationRef.current++;
+    try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+    setPlaying(false);
+    setPaused(false);
+  }, [controlled?.submitted]);
+
   const handleReset = () => {
-    setAnswers({});
+    setAnswers(() => ({}));
+
     setSubmitted(false);
     setShowTranscript(false);
     setExplainOpen({});
@@ -536,6 +572,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
           <div className="flex items-center gap-2 flex-wrap">
             <Headphones className="w-4 h-4 text-emerald-600" />
             <span className="text-sm font-semibold">{t("Bài nghe", "Audio")}</span>
+            {!controlled?.forceExamMode && (
             <Badge
               variant={examMode ? "default" : "outline"}
               className={cn(
@@ -555,6 +592,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
               <ShieldAlert className="w-3 h-3" />
               {examMode ? t("Exam Mode • ON", "Exam Mode • ON") : t("Bật Exam Mode", "Enable Exam Mode")}
             </Badge>
+            )}
+
             <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
               <Mic2 className="w-3 h-3 text-emerald-600" />
               {t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
@@ -761,7 +800,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                       return (
                         <span key={pi} className="inline-flex items-center gap-1">
                           <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 dark:bg-emerald-900/30 rounded-full w-5 h-5 inline-flex items-center justify-center">
-                            {qIdx + 1}
+                            {qIdx + 1 + numberOffset}
                           </span>
                           <Input
                             value={answers[qIdx] ?? ""}
@@ -791,7 +830,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
                       <div key={i} className="flex items-start gap-2 text-rose-700 dark:text-rose-300">
                         <XCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                         <span>
-                          <strong>Q{i + 1}:</strong> {t("Đáp án đúng", "Correct answer")}:{" "}
+                          <strong>Q{i + 1 + numberOffset}:</strong> {t("Đáp án đúng", "Correct answer")}:{" "}
                           <strong className="font-mono">{q.answer}</strong>
                         </span>
                       </div>
@@ -822,7 +861,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
               >
                 <div className="flex items-start gap-3">
                   <span className="shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-sm">
-                    {i + 1}
+                    {i + 1 + numberOffset}
                   </span>
                   <div className="flex-1 space-y-2 min-w-0">
                     <p className="text-sm sm:text-base text-foreground">{q.prompt}</p>
@@ -955,13 +994,16 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
           })}
         </div>
 
+        {!controlled && (
         <div className="flex flex-wrap items-center gap-3 pt-2">
+
           {!submitted ? (
             <Button onClick={() => {
               setSubmitted(true);
               setShowTranscript(true);
               stop();
               // Log to RL pipeline — score = correct/total, band stored in metadata.
+              pushListeningAttempt({ id: s.id, title: s.title, mode: "single", score, total: s.questions.length });
               logStudentActivity({
                 activityType: "ielts_listening",
                 activityId: s.id,
@@ -1011,6 +1053,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader }: Props) => {
             </>
           )}
         </div>
+        )}
+
       </CardContent>
     </Card>
   );
