@@ -14,8 +14,15 @@ import { IELTS_FULL_READING_EXAMS_EXPANSION4 } from "../src/data/ieltsFullReadin
 import { IELTS_FULL_READING_EXAMS_EXPANSION5 } from "../src/data/ieltsFullReadingExamsExpansion5";
 import { IELTS_FULL_READING_EXAMS_HARD } from "../src/data/ieltsFullReadingExamsHard";
 import { IELTS_FULL_READING_EXAMS_HARD2 } from "../src/data/ieltsFullReadingExamsHard2";
+import { IELTS_FULL_READING_EXAMS_HARD3 } from "../src/data/ieltsFullReadingExamsHard3";
+import { IELTS_FULL_READING_EXAMS_HARD4 } from "../src/data/ieltsFullReadingExamsHard4";
 import { READING_PASSAGE_EXTENSIONS } from "../src/data/ieltsReadingPassageExtensions";
+import { READING_PASSAGE_EXTENSIONS_2 } from "../src/data/ieltsReadingPassageExtensions2";
+import { READING_PASSAGE_EXTENSIONS_3 } from "../src/data/ieltsReadingPassageExtensions3";
 import { READING_QUESTION_EXTENSIONS } from "../src/data/ieltsReadingQuestionExtensions";
+import { READING_PASSAGE_EXTENSIONS_4 } from "../src/data/ieltsReadingPassageExtensions4";
+import { READING_NOT_GIVEN_EXTENSIONS } from "../src/data/ieltsReadingNotGivenExtensions";
+import { READING_EXPLANATION_FALLBACK } from "../src/data/ieltsReadingExplanationFallback";
 import { shuffleHeadingsInExam } from "../src/lib/ieltsReadingShuffle";
 import { IELTS_FULL_TESTS } from "../src/data/ieltsFullTests";
 
@@ -28,11 +35,21 @@ const exams = [
   ...IELTS_FULL_READING_EXAMS_EXPANSION5,
   ...IELTS_FULL_READING_EXAMS_HARD,
   ...IELTS_FULL_READING_EXAMS_HARD2,
+  ...IELTS_FULL_READING_EXAMS_HARD3,
+  ...IELTS_FULL_READING_EXAMS_HARD4,
 ].map((e) => {
-  const extra = READING_PASSAGE_EXTENSIONS[e.id];
-  const extraQs = READING_QUESTION_EXTENSIONS[e.id];
+  const extra = ((READING_PASSAGE_EXTENSIONS[e.id] ?? "") + (READING_PASSAGE_EXTENSIONS_2[e.id] ?? "") + (READING_PASSAGE_EXTENSIONS_3[e.id] ?? "") + (READING_PASSAGE_EXTENSIONS_4[e.id] ?? "")) || undefined;
+  const extraQs = [...(READING_QUESTION_EXTENSIONS[e.id] ?? []), ...(READING_NOT_GIVEN_EXTENSIONS[e.id] ?? [])];
   let merged = extra ? { ...e, passage: e.passage + extra } : { ...e };
-  if (extraQs?.length) merged = { ...merged, questions: [...merged.questions, ...extraQs] };
+  if (extraQs.length) merged = { ...merged, questions: [...merged.questions, ...extraQs] };
+  merged = {
+    ...merged,
+    questions: merged.questions.map((q) =>
+      q.explanation && q.explanation.trim().length >= 40
+        ? q
+        : { ...q, explanation: READING_EXPLANATION_FALLBACK[`${merged.id}#${q.number}`] ?? q.explanation }
+    ),
+  };
   return shuffleHeadingsInExam(merged);
 });
 
@@ -51,7 +68,7 @@ for (const exam of exams) {
 
   const n = words(exam.passage);
   wordCounts.push({ id: exam.id, n });
-  const min = exam.level === "Hard" ? 800 : 650;
+  const min = exam.level === "Hard" ? 800 : 700;
   if (n < min) info.push(`${exam.id}: passage only ${n} words (target ${min}+ for ${exam.level})`);
 
   if (exam.questions.length < 13) issues.push(`${exam.id}: only ${exam.questions.length} questions`);
@@ -116,7 +133,15 @@ for (const exam of exams) {
         break;
     }
 
-    if (!q.explanation || q.explanation.trim().length < 20) info.push(`${at}: thin explanation`);
+    if (!q.explanation || q.explanation.trim().length < 40) info.push(`${at}: thin explanation`);
+  }
+
+  const tfLike = exam.questions.filter((q) => q.type === "tfng" || q.type === "ynng");
+  if (tfLike.length >= 3) {
+    const set = new Set(tfLike.map((q) => q.answer.trim().toLowerCase()));
+    if (![...set].some((a) => a.includes("not given")))
+      info.push(`${exam.id}: TFNG/YNNG set has no NOT GIVEN key`);
+    if (set.size < 2) issues.push(`${exam.id}: TFNG/YNNG set uses only one answer value`);
   }
 
   if (headingQs > 0 && headingListSize < headingQs + 3)
@@ -144,5 +169,6 @@ console.log(
     .join(" ")
 );
 console.log("Info:", info.length);
+info.slice(0, 60).forEach((i) => console.log(" i", i));
 console.log("Issues:", issues.length);
 issues.slice(0, 60).forEach((i) => console.log(" -", i));

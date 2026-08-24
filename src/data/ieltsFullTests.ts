@@ -127,26 +127,74 @@ export const IELTS_FULL_TESTS: FullTest[] = [
   // ============ Wave 6 - high-difficulty full tests ============
   {
     id: "ft-19",
-    title: "Full Test 19 - Academic HARD (60 minutes)",
+    title: "Full Test 19 - Academic (60 minutes)",
     durationMinutes: 60,
     passageIds: ["rx-hard-1", "rx-hard-2", "rx-hard-3"],
   },
   {
     id: "ft-20",
-    title: "Full Test 20 - Academic HARD (60 minutes)",
+    title: "Full Test 20 - Academic (60 minutes)",
     durationMinutes: 60,
     passageIds: ["rx-hard-4", "rx-hard-5", "rx-hard-6"],
   },
   {
     id: "ft-21",
-    title: "Full Test 21 - Academic HARD (60 minutes)",
+    title: "Full Test 21 - Academic (60 minutes)",
     durationMinutes: 60,
     passageIds: ["rx-hard-2", "rx-hard-4", "rx-hard-6"],
   },
   {
     id: "ft-22",
-    title: "Full Test 22 - Academic HARD (60 minutes)",
+    title: "Full Test 22 - Academic (60 minutes)",
     durationMinutes: 60,
     passageIds: ["rx-hard-3", "rx-hard-5", "rx-hard-1"],
+  },
+  {
+    id: "ft-23",
+    title: "Full Test 23 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-1", "rx-hard-2", "rx-hard-7"],
+  },
+  {
+    id: "ft-24",
+    title: "Full Test 24 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-3", "rx-hard-4", "rx-hard-8"],
+  },
+  {
+    id: "ft-25",
+    title: "Full Test 25 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-5", "rx-hard-6", "rx-hard-9"],
+  },
+  {
+    id: "ft-26",
+    title: "Full Test 26 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-7", "rx-hard-1", "rx-hard-10"],
+  },
+  {
+    id: "ft-27",
+    title: "Full Test 27 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-9", "rx-hard-3", "rx-hard-11"],
+  },
+  {
+    id: "ft-28",
+    title: "Full Test 28 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-cam-11", "rx-hard-5", "rx-hard-12"],
+  },
+  {
+    id: "ft-29",
+    title: "Full Test 29 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-1", "rx-hard-2", "rx-hard-13"],
+  },
+  {
+    id: "ft-30",
+    title: "Full Test 30 - Academic (60 minutes)",
+    durationMinutes: 60,
+    passageIds: ["rx-3", "rx-hard-4", "rx-hard-14"],
   },
 ];
