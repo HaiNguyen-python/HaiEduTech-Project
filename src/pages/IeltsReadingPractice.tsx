@@ -924,6 +924,36 @@ interface FullTestEngineProps {
   onClose: () => void;
 }
 
+/** Standard IELTS Academic Reading total. */
+const FULL_TEST_TOTAL_QS = 40;
+
+/**
+ * Distribute exactly 40 questions over the 3 passages (target 13/13/14),
+ * never exceeding what a passage actually offers.
+ */
+const allocateFullTestCounts = (lengths: number[], total = FULL_TEST_TOTAL_QS): number[] => {
+  const base = [13, 13, 14];
+  const take = lengths.map((len, i) => Math.min(len, base[i] ?? 13));
+  let remaining = total - take.reduce((a, b) => a + b, 0);
+  // Give away leftovers round-robin; drop extras from the largest slice first.
+  let guard = 0;
+  while (remaining > 0 && guard++ < 200) {
+    let moved = false;
+    for (let i = 0; i < take.length && remaining > 0; i++) {
+      if (take[i] < lengths[i]) { take[i] += 1; remaining -= 1; moved = true; }
+    }
+    if (!moved) break;
+  }
+  guard = 0;
+  while (remaining < 0 && guard++ < 200) {
+    const maxIdx = take.indexOf(Math.max(...take));
+    if (take[maxIdx] <= 0) break;
+    take[maxIdx] -= 1;
+    remaining += 1;
+  }
+  return take;
+};
+
 const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
   const { t } = useLanguage();
   const rawPassages = useMemo(
