@@ -339,7 +339,14 @@ const FinalScreen = ({
       </div>
       {mode === "solo" && (
         <div className="max-w-sm mx-auto mb-4">
-          <HighScorePanel game={gameKey} title={t(`Top ${gameTitle}`, `Top ${gameTitle}`)} highlight={scoreA} />
+          {/* refreshKey re-reads the stored top list once the new score is saved,
+              otherwise the panel paints before the save and misses this round. */}
+          <HighScorePanel
+            game={gameKey}
+            title={t(`Top ${gameTitle}`, `Top ${gameTitle}`)}
+            highlight={scoreA}
+            refreshKey={rank ?? (isNew ? 1 : 0)}
+          />
         </div>
       )}
       <div className="flex items-center justify-center gap-2 flex-wrap">
