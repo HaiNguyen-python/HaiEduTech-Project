@@ -62,10 +62,23 @@
     --sky-soft: 199 89% 48%;
     --card-shadow: 0 4px 24px hsl(173 58% 39% / 0.08);
     --hero-gradient: linear-gradient(135deg, hsl(199 89% 96%), hsl(173 58% 95%));
+
+    /* Classroom command center */
+    --classroom-canvas: 210 40% 98%;
+    --classroom-surface: 0 0% 100%;
+    --classroom-blue: 217 91% 60%;
+    --classroom-success: 160 84% 39%;
+    --classroom-alert: 0 84% 60%;
+    --classroom-grid: 214 32% 91%;
+    --classroom-shadow: 0 20px 45px hsl(217 91% 35% / 0.10);
   }
 }
 
 @layer utilities {
+  .font-classroom-heading { font-family: "Sora", sans-serif; }
+  .font-classroom-body { font-family: "Manrope", sans-serif; }
+  .classroom-command-shadow { box-shadow: var(--classroom-shadow); }
+  .classroom-label { border-radius: 6px; font-family: "Manrope", sans-serif; }
   /* Mono font for terminal output, code commands, Git logs, file paths */
   .font-mono-code {
     font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;

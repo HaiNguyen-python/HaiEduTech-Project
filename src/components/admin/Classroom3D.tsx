@@ -15,6 +15,7 @@ import * as THREE from "three";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { normalizeForSearch } from "@/lib/adminData";
 import type { StudentState } from "@/lib/rlEngine";
@@ -33,7 +34,12 @@ import {
 import {
   School, Search, Maximize2, Minimize2, ChevronDown, ChevronUp,
   Eye, Users, Boxes, RotateCcw, Trophy, AlertTriangle, Activity, TrendingUp, Target,
+  LayoutGrid, ScanLine, UserRound, X,
 } from "lucide-react";
+import "@fontsource/sora/600.css";
+import "@fontsource/sora/700.css";
+import "@fontsource/manrope/400.css";
+import "@fontsource/manrope/600.css";
 
 interface Props {
   students: StudentState[];
@@ -120,6 +126,7 @@ const StudentAvatar = ({
   dimmed,
   selected,
   crowded,
+  showFullLabel,
   vi,
   register,
   onHover,
@@ -129,6 +136,7 @@ const StudentAvatar = ({
   dimmed: boolean;
   selected: boolean;
   crowded: boolean;
+  showFullLabel: boolean;
   vi: boolean;
   register: (e: AnimEntry | null, id: string) => void;
   onHover: (seat: ClassroomSeat | null) => void;
@@ -204,23 +212,27 @@ const StudentAvatar = ({
         )}
       </group>
 
-      {/* name tag above the head - always facing the camera */}
+      {/* Progressive labels keep large classes readable. */}
       <Html position={[0, 1.72, 0]} center distanceFactor={13} zIndexRange={[20, 0]}>
         <div
-          className="pointer-events-none select-none whitespace-nowrap rounded-full border px-2 py-[3px] shadow-sm"
+          className={`classroom-label pointer-events-none select-none whitespace-nowrap border shadow-sm ${showFullLabel ? "px-2 py-1" : "px-1.5 py-0.5"}`}
           style={{
             borderColor: meta.color,
-            background: dimmed ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.96)",
+            background: dimmed ? "hsl(var(--classroom-surface) / 0.35)" : "hsl(var(--classroom-surface) / 0.94)",
             opacity: dimmed ? 0.35 : 1,
             fontSize: crowded ? 11 : 13,
             lineHeight: 1.15,
           }}
         >
           <span className="font-bold" style={{ color: meta.color }}>#{seat.rank}</span>
-          <span className="mx-1 font-semibold text-slate-900">
-            {crowded ? shortName(seat.student.fullName) : seat.student.fullName}
-          </span>
-          <span className="text-slate-500">{seat.student.avgScore ? `${seat.student.avgScore}/10` : (vi ? "chưa có" : "n/a")}</span>
+          {showFullLabel && (
+            <>
+              <span className="mx-1 font-semibold text-foreground">
+                {crowded ? shortName(seat.student.fullName) : seat.student.fullName}
+              </span>
+              <span className="text-muted-foreground">{seat.student.avgScore ? `${seat.student.avgScore}/10` : (vi ? "chưa có" : "n/a")}</span>
+            </>
+          )}
         </div>
       </Html>
     </group>
@@ -239,6 +251,7 @@ const Room = ({
   topNames,
   vi,
   dimSet,
+  labelSet,
   crowded,
   selectedUserId,
   onHover,
@@ -253,6 +266,7 @@ const Room = ({
   topNames: string[];
   vi: boolean;
   dimSet: Set<string> | null;
+  labelSet: Set<string>;
   crowded: boolean;
   selectedUserId?: string | null;
   onHover: (s: ClassroomSeat | null) => void;
@@ -331,6 +345,7 @@ const Room = ({
           dimmed={!!dimSet && !dimSet.has(seat.student.userId)}
           selected={selectedUserId === seat.student.userId}
           crowded={crowded}
+          showFullLabel={labelSet.has(seat.student.userId)}
           vi={vi}
           register={register}
           onHover={onHover}
