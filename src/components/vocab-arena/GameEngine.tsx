@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Zap, Timer, Volume2, ChevronRight, CheckCircle, XCircle, Trophy, Star } from "lucide-react";
+import { Heart, Zap, Timer, Volume2, ChevronRight, CheckCircle, XCircle, Trophy, Star, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/contexts/LanguageContext";
