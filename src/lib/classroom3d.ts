@@ -21,13 +21,20 @@ export interface ClassroomSeat {
   z: number;
   row: number;
   col: number;
+  /** 1-based academic rank inside the class. */
+  rank: number;
   /** 0.55 - 1.35, scales with activity volume. */
   height: number;
   /** 0 - 1, scales with average score (floor ring size / glow). */
   glow: number;
   activeThisWeek: boolean;
   lastActiveMs: number;
+  /** Deterministic 0-999 variant seed for cosmetic differences. */
+  seed: number;
 }
+
+export type SeatingMode = "rank" | "attention";
+
 
 export const FOURTEEN_DAYS = 14 * 24 * 60 * 60 * 1000;
 const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
@@ -84,13 +91,41 @@ export function classifyStudent(
 export const DESK_GAP_X = 2.1;
 export const DESK_GAP_Z = 2.3;
 
+/** Deterministic small seed from a user id (cosmetic variants only). */
+function seedFromId(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 100000;
+  return h % 1000;
+}
+
 /**
- * Build the seating chart. Students needing attention are seated in the front
- * rows (closest to the whiteboard) so the teacher notices them first.
+ * Academic ranking: average score first, then activity volume, then name.
+ * Students with no activity always land at the bottom.
+ */
+export function compareByRank(
+  a: { student: StudentState },
+  b: { student: StudentState },
+): number {
+  const aEmpty = a.student.totalActivities === 0;
+  const bEmpty = b.student.totalActivities === 0;
+  if (aEmpty !== bEmpty) return aEmpty ? 1 : -1;
+  const s = (b.student.avgScore || 0) - (a.student.avgScore || 0);
+  if (Math.abs(s) > 0.001) return s;
+  const act = b.student.totalActivities - a.student.totalActivities;
+  if (act !== 0) return act;
+  return (a.student.fullName || "").localeCompare(b.student.fullName || "");
+}
+
+/**
+ * Build the seating chart.
+ *  - mode "rank"      : seats follow academic rank (best students in the front row)
+ *  - mode "attention" : students needing attention are seated in the front rows
+ * `rank` is always the academic rank regardless of the seating mode.
  */
 export function buildClassroomLayout(
   students: StudentState[],
   lastMap: Map<string, LastActivity>,
+  mode: SeatingMode = "rank",
   now = Date.now(),
 ): { seats: ClassroomSeat[]; cols: number; rows: number } {
   const maxActivities = students.reduce((m, s) => Math.max(m, s.totalActivities), 0) || 1;
@@ -106,14 +141,23 @@ export function buildClassroomLayout(
       activeThisWeek: lastMs > 0 && now - lastMs <= SEVEN_DAYS,
       height: 0.55 + Math.min(1, Math.sqrt(student.totalActivities / maxActivities)) * 0.8,
       glow: Math.max(0, Math.min(1, student.avgScore / 10)),
+      seed: seedFromId(student.userId),
+      rank: 0,
     };
   });
 
-  enriched.sort((a, b) => {
-    const t = TIER_META[a.tier].order - TIER_META[b.tier].order;
-    if (t !== 0) return t;
-    return b.student.totalActivities - a.student.totalActivities;
-  });
+  // Academic rank is computed once and kept on every seat.
+  [...enriched].sort(compareByRank).forEach((e, i) => { e.rank = i + 1; });
+
+  if (mode === "attention") {
+    enriched.sort((a, b) => {
+      const t = TIER_META[a.tier].order - TIER_META[b.tier].order;
+      if (t !== 0) return t;
+      return a.rank - b.rank;
+    });
+  } else {
+    enriched.sort((a, b) => a.rank - b.rank);
+  }
 
   const cols = Math.max(4, Math.min(10, Math.ceil(Math.sqrt(enriched.length * 1.35)) || 4));
   const rows = Math.ceil(enriched.length / cols) || 1;
@@ -134,6 +178,15 @@ export function buildClassroomLayout(
 
   return { seats, cols, rows };
 }
+
+/** "Nguyen Van Hai" -> "Hai N." when the class is crowded. */
+export function shortName(full: string): string {
+  const parts = (full || "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length <= 1) return parts[0] || "-";
+  const given = parts[parts.length - 1];
+  return `${given} ${parts[0].charAt(0).toUpperCase()}.`;
+}
+
 
 export function tierCounts(seats: ClassroomSeat[]): Record<ClassroomTier, number> {
   const counts: Record<ClassroomTier, number> = {
