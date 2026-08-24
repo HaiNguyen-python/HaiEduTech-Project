@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
 import { ensureSwedishIpa } from "@/lib/swedishIpa";
@@ -42,6 +43,19 @@ const shuffle = <T,>(arr: T[]): T[] => {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+};
+
+/**
+ * A correct answer counts as a spaced-repetition review so the word can travel
+ * into the long-term core of the Swedish memory brain. Mastery is keyed by word
+ * id, which is what `user_vocab_mastered` stores for the `swedish` subject.
+ * Deduplicated per session so a single round cannot inflate `review_count`.
+ */
+const reviewedThisSession = new Set<string>();
+const noteReview = (w: SwedishWord) => {
+  if (!w?.id || reviewedThisSession.has(w.id)) return;
+  reviewedThisSession.add(w.id);
+  void recordVocabReviewTracked("swedish", [w.id]);
 };
 
 const pickDistractors = (target: SwedishWord, pool: SwedishWord[], n: number) =>
@@ -102,7 +116,7 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
             <button
               key={opt}
               disabled={reveal}
-              onClick={() => { setPicked(opt); if (isCorrect) setScore(s => s + 1); }}
+              onClick={() => { setPicked(opt); if (isCorrect) { setScore(s => s + 1); noteReview(q); } }}
               className={`text-left rounded-lg border px-3 py-2.5 text-sm font-medium transition ${
                 reveal
                   ? isCorrect
@@ -216,9 +230,11 @@ const TypingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) 
     const guess = norm(value);
     if (target === guess) {
       setResult("correct");
+      noteReview(q);
       if (!inReview) setScore(s => s + 1);
     } else if (stripDiacritics(target) === stripDiacritics(guess) && guess.length > 0) {
       setResult("close");
+      noteReview(q);
       if (!inReview) setScore(s => s + 1);
     } else {
       setResult("wrong");
@@ -323,6 +339,7 @@ const MatchingMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }
     if (matched.has(rId)) return;
     if (pickedLeft === rId) {
       setMatched(prev => new Set(prev).add(rId));
+      noteReview(round_pool.find(w => w.id === rId) as SwedishWord);
       setPickedLeft(null);
       const w = left.find(w => w.id === rId); if (w) speak(w.sv);
     } else {
@@ -470,7 +487,7 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
             <button
               key={opt}
               disabled={reveal}
-              onClick={() => { setPicked(opt); if (isCorrect) setScore(s => s + 1); speak(opt); }}
+              onClick={() => { setPicked(opt); if (isCorrect) { setScore(s => s + 1); noteReview(q); } speak(opt); }}
               className={`text-left rounded-lg border px-3 py-2.5 text-sm font-semibold transition ${
                 reveal
                   ? isCorrect ? "border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
@@ -537,6 +554,7 @@ const SpeedMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
     if (opt === gloss(q)) {
       setScore(s => s + 1);
       setStreak(s => s + 1);
+      noteReview(q);
       setTime(t => Math.min(90, t + 1)); // reward
     } else {
       setStreak(0);
