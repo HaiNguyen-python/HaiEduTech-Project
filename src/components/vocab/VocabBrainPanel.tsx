@@ -79,6 +79,20 @@ interface Props {
   lookupWord?: (word: string) => LookupResult | null;
   /** Jump to the practice tab so learners can revise fading words. */
   onPractice?: (priorityWords?: string[]) => void;
+  /**
+   * `game_scores.game_type` used for the practice-accuracy card. Defaults to
+   * `vocab-<subject>`; pages that log a different key pass it explicitly.
+   */
+  accuracyGameType?: string;
+  /**
+   * Maps the stored mastery key to the text shown on the neuron. Swedish stores
+   * word ids, Japanese stores entry keys, so the label needs a lookup.
+   */
+  labelOf?: (storedWord: string) => string;
+  /** Language-aware pronunciation. Defaults to English TTS. */
+  speak?: (text: string) => void;
+  /** Milestone badges shown under the brain (IELTS band table by default). */
+  milestones?: { words: number; band: string }[];
 }
 
 interface MasteredRow {
