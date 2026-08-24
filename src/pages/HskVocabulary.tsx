@@ -30,6 +30,14 @@ import { useSearchParams } from "react-router-dom";
 // Heavy / tab-specific components -> lazy so they don't block initial paint.
 const KangxiRadicalsBrowser = lazy(() => import("@/components/KangxiRadicalsBrowser"));
 const HskSrsReview = lazy(() => import("@/components/chinese/HskSrsReview"));
+const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
+
+const HSK_MILESTONES = [
+  { words: 150, band: "HSK 1-2" },
+  { words: 600, band: "HSK 3" },
+  { words: 1200, band: "HSK 4" },
+  { words: 2500, band: "HSK 5" },
+];
 
 const TabFallback = () => (
   <div className="flex items-center justify-center py-16 text-sm text-muted-foreground">
@@ -821,6 +829,21 @@ const HskVocabulary = () => {
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
+          {/* Memory brain visualisation (always at the very bottom) */}
+          <Suspense fallback={<TabFallback />}>
+            <VocabBrainPanel
+              subject="hsk"
+              localWords={[...mastered]}
+              t={t}
+              lookupWord={lookupWord}
+              speak={(text) => { void playChineseTts(text); }}
+              milestones={HSK_MILESTONES}
+              onPractice={() => {
+                setViewMode("exercise");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          </Suspense>
             </TabsContent>
             <TabsContent value="radicals">
               <Suspense fallback={<TabFallback />}>
