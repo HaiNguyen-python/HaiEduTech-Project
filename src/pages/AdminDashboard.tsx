@@ -615,7 +615,8 @@ const AdminDashboard = () => {
                   students={studentStates}
                   lastActivityByUser={lastActivityByUser}
                   classAvg={classStats.classAvg}
-                  onSelectStudent={(s) => { handleSelectStudent(s); setTabGroup("students"); setActiveTab("students"); }}
+                  onSelectStudent={(s) => handleSelectStudent(s)}
+                  onOpenStudentTab={() => { setTabGroup("students"); setActiveTab("students"); }}
                   selectedUserId={selectedStudent?.userId ?? null}
                 />
                 <div className="grid lg:grid-cols-2 gap-6">

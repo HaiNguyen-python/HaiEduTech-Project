@@ -46,6 +46,8 @@ interface Props {
   lastActivityByUser: Map<string, LastActivity>;
   classAvg: number;
   onSelectStudent: (s: StudentState) => void;
+  /** Optional: jump to the Students tab only when the teacher asks for it. */
+  onOpenStudentTab?: () => void;
   selectedUserId?: string | null;
 }
 
