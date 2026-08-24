@@ -7,7 +7,7 @@
  *   Falls back to a 2D colour grid on mobile / reduced motion.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useMemo, useRef, useState, useEffect, Suspense, useCallback } from "react";
+import { useMemo, useRef, useState, useEffect, Suspense, useCallback, type ReactNode } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, RoundedBox } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
@@ -34,7 +34,7 @@ import {
 import {
   School, Search, Maximize2, Minimize2, ChevronDown, ChevronUp,
   Eye, Users, Boxes, RotateCcw, Trophy, AlertTriangle, Activity, TrendingUp, Target,
-  LayoutGrid, ScanLine, UserRound, X,
+  LayoutGrid, ScanLine, UserRound,
 } from "lucide-react";
 import "@fontsource/sora/600.css";
 import "@fontsource/sora/700.css";
@@ -329,7 +329,7 @@ const Room = ({
                 ? `${alertCount} ${vi ? "học sinh cần chú ý" : "students need attention"}`
                 : vi ? "Không có học sinh cần can thiệp" : "No students need intervention"}
             </p>
-            {topNames.length > 0 && (
+            {(topNames?.length ?? 0) > 0 && (
               <p className="text-[13px] text-slate-600 mt-1">
                 🏆 {vi ? "Top 3" : "Top 3"}: {topNames.join(" · ")}
               </p>
@@ -371,6 +371,8 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   const [visible, setVisible] = useState(true);
   const controls = useRef<OrbitControlsImpl | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
+  const safeStudents = students ?? [];
+  const safeLastActivityByUser = lastActivityByUser ?? new Map<string, LastActivity>();
 
   // Reduced motion / small screens -> 2D grid mode
   useEffect(() => {
@@ -398,8 +400,8 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   }, [flat, open]);
 
   const { seats, cols, rows } = useMemo(
-    () => buildClassroomLayout(students, lastActivityByUser, seating),
-    [students, lastActivityByUser, seating],
+    () => buildClassroomLayout(safeStudents, safeLastActivityByUser, seating),
+    [safeStudents, safeLastActivityByUser, seating],
   );
   const counts = useMemo(() => tierCounts(seats), [seats]);
   const crowded = seats.length > 40;
@@ -478,7 +480,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   const statChips = (
     <div className="grid grid-cols-2 divide-x divide-y border-b border-border/60 sm:grid-cols-4 sm:divide-y-0">
       {[
-        { icon: Users, label: t("Học sinh", "Students"), value: students.length, tier: null as ClassroomTier | null, color: "text-primary" },
+        { icon: Users, label: t("Học sinh", "Students"), value: safeStudents.length, tier: null as ClassroomTier | null, color: "text-primary" },
         { icon: Activity, label: t("Học tuần này", "Active this week"), value: stats.activeWeek, tier: null, color: "text-emerald-600" },
         { icon: AlertTriangle, label: t("Điểm dưới 5", "Below 5/10"), value: stats.lowScore, tier: "alert" as ClassroomTier, color: "text-red-600" },
         { icon: TrendingUp, label: t("Đang tiến bộ", "Improving"), value: stats.improving, tier: "progress" as ClassroomTier, color: "text-green-600" },
@@ -536,7 +538,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
     </div>
   );
 
-  const iconControl = (label: string, icon: React.ReactNode, action: () => void) => (
+  const iconControl = (label: string, icon: ReactNode, action: () => void) => (
     <Tooltip>
       <TooltipTrigger asChild>
         <Button variant="ghost" size="icon" className="h-9 w-9" onClick={action} aria-label={label}>{icon}</Button>
@@ -554,7 +556,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
             <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary"><School className="h-5 w-5" /></span>
             <div>
               <CardTitle className="font-classroom-heading text-lg font-semibold">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
-              <p className="mt-0.5 text-sm text-muted-foreground">{students?.length ?? 0} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
+              <p className="mt-0.5 text-sm text-muted-foreground">{safeStudents.length} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -580,7 +582,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
       {open && (
         <CardContent className="p-0">
           {statChips}
-          {students.length === 0 ? (
+          {safeStudents.length === 0 ? (
             <p className="text-muted-foreground text-center py-10">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
           ) : flat ? (
             /* ---------- 2D fallback grid (same ranking order) ---------- */
@@ -638,7 +640,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   <aside className="absolute right-3 top-3 z-20 hidden w-56 rounded-md border border-border/60 bg-card/90 p-4 shadow-lg backdrop-blur-xl xl:block">
                     <div className="mb-3 flex items-start justify-between gap-2">
                       <div><p className="font-classroom-heading font-semibold">{selectedSeat.student.fullName}</p><p className="text-xs text-muted-foreground">#{selectedSeat.rank} · {vi ? TIER_META[selectedSeat.tier].vi : TIER_META[selectedSeat.tier].en}</p></div>
-                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onSelectStudent(selectedSeat.student)} aria-label={t("Đóng", "Close")}><X className="h-3.5 w-3.5" /></Button>
+                      <UserRound className="h-4 w-4 text-primary" />
                     </div>
                     <div className="grid grid-cols-2 gap-2 border-y border-border/60 py-3 text-sm">
                       <div><p className="text-xs text-muted-foreground">{t("Điểm TB", "Average")}</p><b>{selectedSeat.student.avgScore || "-"}/10</b></div>
