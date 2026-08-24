@@ -429,6 +429,24 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
     return s;
   }, [seats, tierFilter, query]);
 
+  const selectedSeat = useMemo(
+    () => seats.find((seat) => seat.student.userId === selectedUserId) || null,
+    [seats, selectedUserId],
+  );
+
+  const labelSet = useMemo(() => {
+    const labels = new Set<string>();
+    const q = normalizeForSearch(query);
+    for (const seat of seats) {
+      const isPriority = seat.rank <= 3 || seat.tier === "alert";
+      const isMatch = !!q && normalizeForSearch(seat.student.fullName).includes(q);
+      if (isPriority || isMatch || seat.student.userId === selectedUserId || seat.student.userId === hovered?.student.userId) {
+        labels.add(seat.student.userId);
+      }
+    }
+    return labels;
+  }, [hovered, query, seats, selectedUserId]);
+
   const applyPreset = (p: CameraPreset) => {
     const c = controls.current;
     if (!c) return;
@@ -458,7 +476,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   const canvasHeight = full ? "h-[calc(100vh-190px)]" : "h-[440px] sm:h-[560px]";
 
   const statChips = (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 divide-x divide-y border-b border-border/60 sm:grid-cols-4 sm:divide-y-0">
       {[
         { icon: Users, label: t("Học sinh", "Students"), value: students.length, tier: null as ClassroomTier | null, color: "text-primary" },
         { icon: Activity, label: t("Học tuần này", "Active this week"), value: stats.activeWeek, tier: null, color: "text-emerald-600" },
@@ -468,12 +486,12 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
         <button
           key={s.label}
           onClick={() => s.tier && setTierFilter(tierFilter === s.tier ? null : s.tier)}
-          className={`flex items-center gap-2 rounded-xl border border-border/60 px-3 py-2 text-left transition-colors ${s.tier ? "hover:bg-muted/60" : "cursor-default"}`}
+          className={`flex min-h-16 items-center gap-3 px-4 py-3 text-left transition-colors ${s.tier ? "hover:bg-muted/50" : "cursor-default"}`}
         >
           <s.icon className={`w-4 h-4 shrink-0 ${s.color}`} />
           <span className="min-w-0">
-            <span className="block text-base font-bold tabular-nums leading-none">{s.value}</span>
-            <span className="block text-[11px] text-muted-foreground truncate">{s.label}</span>
+            <span className="font-classroom-heading block text-lg font-bold tabular-nums leading-none">{s.value}</span>
+            <span className="block text-xs text-muted-foreground truncate">{s.label}</span>
           </span>
         </button>
       ))}
@@ -481,7 +499,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   );
 
   const legend = (
-    <div className="flex flex-wrap gap-2">
+    <div className="space-y-1.5">
       {TIER_ORDER.map((tier) => {
         const m = TIER_META[tier];
         const active = tierFilter === tier;
@@ -489,20 +507,20 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
           <button
             key={tier}
             onClick={() => setTierFilter(active ? null : tier)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-medium transition-all ${
-              active ? "border-primary bg-primary/10 text-foreground" : "border-border/60 text-muted-foreground hover:bg-muted/60"
+            className={`flex w-full items-center gap-2 rounded-md border px-2.5 py-2 text-sm font-medium transition-all ${
+              active ? "border-primary bg-primary/10 text-foreground" : "border-transparent text-muted-foreground hover:border-border hover:bg-muted/60"
             }`}
           >
             <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: m.color }} />
             {vi ? m.vi : m.en}
-            <span className="tabular-nums font-bold">{counts[tier]}</span>
+            <span className="ml-auto tabular-nums font-bold">{counts[tier]}</span>
           </button>
         );
       })}
       {counts.alert > 0 && (
         <button
           onClick={gotoFirstAlert}
-          className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-red-300 bg-red-50 text-xs font-medium text-red-700 hover:bg-red-100 dark:bg-red-950/40 dark:border-red-800 dark:text-red-300"
+          className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md border border-destructive/30 bg-destructive/10 px-2.5 py-2 text-xs font-semibold text-destructive hover:bg-destructive/15"
         >
           <Target className="w-3 h-3" /> {t("Tới em cần chú ý", "Go to attention")}
         </button>
@@ -510,7 +528,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
       {(tierFilter || query) && (
         <button
           onClick={() => { setTierFilter(null); setQuery(""); }}
-          className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-border/60 text-xs text-muted-foreground hover:bg-muted/60"
+          className="flex w-full items-center justify-center gap-1 rounded-md border border-border px-2.5 py-2 text-xs text-muted-foreground hover:bg-muted/60"
         >
           <RotateCcw className="w-3 h-3" /> {t("Xóa lọc", "Clear")}
         </button>
