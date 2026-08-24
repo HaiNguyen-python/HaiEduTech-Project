@@ -30,7 +30,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Losing sleep is particularly damaging for students in the week before an examination.\n" +
       "Here the research is clear. A short daytime nap of twenty minutes mainly improves attention.\n" +
       "Now for the implications. Researchers now warn against the popular idea of sleep debt being fully repayable.\n" +
-      "And finally, The most practical advice for learners is to keep a regular bedtime.\n" +
+      "And finally, the most practical advice for learners is to keep a regular bedtime.\n" +
       "Lecturer: Next week we'll turn to the effects of shift work, so please read the two papers on the reading list.",
     rate: 0.82,
     questions: [
@@ -67,7 +67,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Street trees can lower local temperatures by up to 4 degrees.\n" +
       "Here the research is clear. Painting roofs white is described as a cool roof strategy.\n" +
       "Now for the implications. Green corridors also improve urban biodiversity.\n" +
-      "And finally, The people most at risk during heatwaves are the elderly.\n" +
+      "And finally, the people most at risk during heatwaves are the elderly.\n" +
       "Lecturer: So the message is that urban design decisions taken today will shape city temperatures for decades.",
     rate: 0.82,
     questions: [
@@ -104,7 +104,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Before departure birds double their body weight.\n" +
       "Here the research is clear. Tracking is now possible with devices weighing under 1 gram.\n" +
       "Now for the implications. Light pollution is a growing problem because it causes disorientation.\n" +
-      "And finally, Conservation therefore has to protect the migration stopover sites.\n" +
+      "And finally, conservation therefore has to protect the migration stopover sites.\n" +
       "Lecturer: We'll look at the tracking technology itself in the practical session on Thursday.",
     rate: 0.82,
     questions: [
@@ -141,7 +141,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Improved seed varieties are often adopted slowly because of their cost.\n" +
       "Here the research is clear. Urban agriculture is most valuable for supplying fresh vegetables.\n" +
       "Now for the implications. Price shocks affect the poorest households because they spend most of their income on food.\n" +
-      "And finally, The most effective short-term policy response is usually a targeted subsidy.\n" +
+      "And finally, the most effective short-term policy response is usually a targeted subsidy.\n" +
       "Lecturer: The reading for next week compares two very different national strategies.",
     rate: 0.82,
     questions: [
@@ -178,7 +178,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: One common solution is the construction of a fish ladder.\n" +
       "Here the research is clear. Sediment trapped behind a dam reduces the fertility of the delta.\n" +
       "Now for the implications. Small run-of-river schemes are attractive because they need no large reservoir.\n" +
-      "And finally, The main economic drawback of hydro power is the high initial investment.\n" +
+      "And finally, the main economic drawback of hydro power is the high initial investment.\n" +
       "Lecturer: In the seminar we'll compare two dam projects, one widely praised and one heavily criticised.",
     rate: 0.82,
     questions: [
@@ -215,7 +215,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Revitalisation succeeds most often when it begins in the home.\n" +
       "Here the research is clear. Immersion schools for young learners are known as language nests.\n" +
       "Now for the implications. Digital tools help because they raise the language's visibility.\n" +
-      "And finally, The loss of a language also means the loss of detailed local knowledge.\n" +
+      "And finally, the loss of a language also means the loss of detailed local knowledge.\n" +
       "Lecturer: Next time we'll look in detail at one successful revitalisation programme.",
     rate: 0.82,
     questions: [
@@ -252,7 +252,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Green glass is hard to use in Britain because most of it arrives in imported bottles.\n" +
       "Here the research is clear. Crushed glass that cannot be remelted is often used in construction.\n" +
       "Now for the implications. Deposit-return schemes typically raise collection rates above 85 per cent.\n" +
-      "And finally, Reuse rather than recycling saves most energy for containers used in the drinks industry.\n" +
+      "And finally, reuse rather than recycling saves most energy for containers used in the drinks industry.\n" +
       "Lecturer: The seminar question asks whether deposit-return schemes are worth their cost.",
     rate: 0.82,
     questions: [
@@ -289,7 +289,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Hospitals reduce transmission most effectively through hand hygiene.\n" +
       "Here the research is clear. Developing a new antibiotic now costs over one billion dollars.\n" +
       "Now for the implications. Companies invest little because the return on new antibiotics is low, so governments offer incentives.\n" +
-      "And finally, One promising alternative treatment uses viruses called phages.\n" +
+      "And finally, one promising alternative treatment uses viruses called phages.\n" +
       "Lecturer: Please read the World Health Organization summary before the tutorial.",
     rate: 0.82,
     questions: [
@@ -326,7 +326,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Cover crops help because they keep the soil covered in winter.\n" +
       "Here the research is clear. Rotational grazing improves soil carbon by allowing grass to recover.\n" +
       "Now for the implications. Measuring soil carbon accurately requires samples from several depths.\n" +
-      "And finally, The main obstacle to paying farmers for soil carbon is the difficulty of verification.\n" +
+      "And finally, the main obstacle to paying farmers for soil carbon is the difficulty of verification.\n" +
       "Lecturer: We'll analyse two field trials in the practical class.",
     rate: 0.82,
     questions: [
@@ -363,7 +363,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Dung beetles have been shown to steer by the Milky Way.\n" +
       "Here the research is clear. Experiments often test navigation by displacing the animals.\n" +
       "Now for the implications. Human interference is a problem because artificial light overrides natural cues.\n" +
-      "And finally, The general conclusion is that most species combine several systems.\n" +
+      "And finally, the general conclusion is that most species combine several systems.\n" +
       "Lecturer: The comparison essay title is on the module page.",
     rate: 0.82,
     questions: [
@@ -400,7 +400,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Trading cities grew wealthy by charging taxes on goods passing through.\n" +
       "Here the research is clear. The routes also spread disease, most notoriously the plague.\n" +
       "Now for the implications. Paper-making technology travelled westwards from China.\n" +
-      "And finally, Historians study these exchanges using both documents and archaeology.\n" +
+      "And finally, historians study these exchanges using both documents and archaeology.\n" +
       "Lecturer: For the seminar, choose one commodity and trace its journey.",
     rate: 0.82,
     questions: [
@@ -437,7 +437,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Quiet road surfaces can reduce noise by about 3 decibels.\n" +
       "Here the research is clear. Barriers work best when they are placed close to the source.\n" +
       "Now for the implications. Cities increasingly protect designated quiet areas.\n" +
-      "And finally, The cheapest intervention of all is reducing vehicle speed.\n" +
+      "And finally, the cheapest intervention of all is reducing vehicle speed.\n" +
       "Lecturer: Next week: how planning law deals with noise.",
     rate: 0.82,
     questions: [
@@ -474,7 +474,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Drones are used mainly for crop monitoring.\n" +
       "Here the research is clear. The main barrier to adoption on small farms is the price.\n" +
       "Now for the implications. Reliable operation is difficult because field conditions are unpredictable.\n" +
-      "And finally, Most experts expect automation to change the skills farm workers need.\n" +
+      "And finally, most experts expect automation to change the skills farm workers need.\n" +
       "Lecturer: The case study for the seminar is a strawberry farm in Kent.",
     rate: 0.82,
     questions: [
@@ -511,7 +511,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Barrages are controversial because they change estuary habitats.\n" +
       "Here the research is clear. Tidal stream devices are preferred partly because they are largely invisible.\n" +
       "Now for the implications. Output can be smoothed by combining sites with different tidal timings.\n" +
-      "And finally, The main reason tidal power grows slowly is its high cost.\n" +
+      "And finally, the main reason tidal power grows slowly is its high cost.\n" +
       "Lecturer: Read the environmental impact assessment before Thursday.",
     rate: 0.82,
     questions: [
@@ -548,7 +548,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: The height of the ash column is measured using radar.\n" +
       "Here the research is clear. Airlines now plan around zones defined by ash concentration.\n" +
       "Now for the implications. An eruption under a glacier produces more ash because of contact with water.\n" +
-      "And finally, The main uncertainty in any forecast is the wind at altitude.\n" +
+      "And finally, the main uncertainty in any forecast is the wind at altitude.\n" +
       "Lecturer: There is a short film on the module page about the ash advisory centres.",
     rate: 0.82,
     questions: [
@@ -585,7 +585,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: River banks are valuable corridors because they are naturally continuous.\n" +
       "Here the research is clear. One risk of corridors is that they can also spread disease.\n" +
       "Now for the implications. Planners identify priority routes using habitat modelling.\n" +
-      "And finally, Long-term success depends on the cooperation of private landowners.\n" +
+      "And finally, long-term success depends on the cooperation of private landowners.\n" +
       "Lecturer: Bring your notes on the fragmentation reading to the tutorial.",
     rate: 0.82,
     questions: [
@@ -622,7 +622,7 @@ export const ieltsListeningPracticeSetsExpansion11: ListeningPracticeSet[] = [
       "A related point: Metal objects are protected from corrosion by controlling moisture.\n" +
       "Here the research is clear. Insect infestations are now often treated by freezing.\n" +
       "Now for the implications. Before treatment, objects are analysed using X-rays.\n" +
-      "And finally, Every intervention must be recorded in the object's documentation.\n" +
+      "And finally, every intervention must be recorded in the object's documentation.\n" +
       "Lecturer: The visit to the conservation studio is on Friday afternoon.",
     rate: 0.82,
     questions: [

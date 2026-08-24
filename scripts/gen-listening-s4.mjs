@@ -346,7 +346,10 @@ function buildSet(t, ti) {
   t.items.forEach(([lead, answer, tail], i) => {
     const sentence = `${lead} ${answer}${tail ? ` ${tail}` : "."}`;
     const marker = connectors[i % connectors.length];
-    lines.push(`${marker} ${sentence.charAt(0).toLowerCase() === sentence.charAt(0) ? sentence : sentence}`);
+    const body = marker.endsWith(",")
+      ? sentence.charAt(0).toLowerCase() + sentence.slice(1)
+      : sentence;
+    lines.push(`${marker} ${body}`);
     questions.push({
       prompt: `${lead} ___${tail ? ` ${tail}` : "."}`,
       answer,
