@@ -11,7 +11,7 @@ import type { ReadingExam } from "./ieltsFullReadingExams";
 
 export const IELTS_FULL_READING_EXAMS_EXPANSION5: ReadingExam[] = [
   // ============================================================
-  // rx-cam-12 — The Return of the Wolf to Europe
+  // rx-cam-12 - The Return of the Wolf to Europe
   // ============================================================
   {
     id: "rx-cam-12",
@@ -99,7 +99,7 @@ G. Politically, the wolf has become a symbol far larger than the species itself.
   },
 
   // ============================================================
-  // rx-cam-13 — The Science of Sleep Debt
+  // rx-cam-13 - The Science of Sleep Debt
   // ============================================================
   {
     id: "rx-cam-13",
@@ -182,7 +182,7 @@ G. Public health messages about sleep are only beginning to catch up with the sc
   },
 
   // ============================================================
-  // rx-cam-14 — The Long History of the Book
+  // rx-cam-14 - The Long History of the Book
   // ============================================================
   {
     id: "rx-cam-14",
@@ -270,7 +270,7 @@ G. Digital reading was expected, at various points in the last thirty years, to 
   },
 
   // ============================================================
-  // rx-cam-15 — Coral Reefs and Climate Refugia
+  // rx-cam-15 - Coral Reefs and Climate Refugia
   // ============================================================
   {
     id: "rx-cam-15",
@@ -358,7 +358,7 @@ G. The debate now is less about whether reefs can be saved in their current form
   },
 
   // ============================================================
-  // rx-cam-16 — The Economics of Long-Distance Trade
+  // rx-cam-16 - The Economics of Long-Distance Trade
   // ============================================================
   {
     id: "rx-cam-16",
@@ -446,7 +446,7 @@ G. Modern shipping containers, standardised in the 1960s, cut the cost of moving
   },
 
   // ============================================================
-  // rx-cam-17 — Bird Migration and Magnetic Navigation
+  // rx-cam-17 - Bird Migration and Magnetic Navigation
   // ============================================================
   {
     id: "rx-cam-17",
@@ -534,7 +534,7 @@ G. Understanding magnetic navigation matters for more than pure science. Wind tu
   },
 
   // ============================================================
-  // rx-cam-18 — The Green Roof Movement
+  // rx-cam-18 - The Green Roof Movement
   // ============================================================
   {
     id: "rx-cam-18",
@@ -622,7 +622,7 @@ G. Whether green roofs alone can transform a city's ecology is doubtful. Whether
   },
 
   // ============================================================
-  // rx-cam-19 — Language Endangerment in the Digital Age
+  // rx-cam-19 - Language Endangerment in the Digital Age
   // ============================================================
   {
     id: "rx-cam-19",
@@ -710,7 +710,7 @@ G. Optimists argue that the twenty-first century may see the first mass revival 
   },
 
   // ============================================================
-  // rx-cam-20 — Rethinking Urban Waste
+  // rx-cam-20 - Rethinking Urban Waste
   // ============================================================
   {
     id: "rx-cam-20",
@@ -798,7 +798,7 @@ G. Sceptics argue that circular-economy ambitions risk being co-opted by produce
   },
 
   // ============================================================
-  // rx-cam-21 — The Rise of Vertical Farming
+  // rx-cam-21 - The Rise of Vertical Farming
   // ============================================================
   {
     id: "rx-cam-21",
@@ -886,7 +886,7 @@ G. Where the sector will settle is unclear. Several high-profile vertical-farmin
   },
 
   // ============================================================
-  // rx-cam-22 — The Enduring Puzzle of Handedness
+  // rx-cam-22 - The Enduring Puzzle of Handedness
   // ============================================================
   {
     id: "rx-cam-22",
@@ -974,7 +974,7 @@ G. Recent large-scale genomic surveys have identified around forty regions of th
   },
 
   // ============================================================
-  // rx-cam-23 — Museums in the Twenty-First Century
+  // rx-cam-23 - Museums in the Twenty-First Century
   // ============================================================
   {
     id: "rx-cam-23",
@@ -1062,7 +1062,7 @@ G. What the museum will be by the middle of this century is now genuinely uncert
   },
 
   // ============================================================
-  // rx-cam-24 — The Reinvention of Public Transport
+  // rx-cam-24 - The Reinvention of Public Transport
   // ============================================================
   {
     id: "rx-cam-24",
@@ -1150,7 +1150,7 @@ G. What none of these strategies can substitute for is political consistency. Ci
   },
 
   // ============================================================
-  // rx-cam-25 — The Return of the Herbal
+  // rx-cam-25 - The Return of the Herbal
   // ============================================================
   {
     id: "rx-cam-25",
@@ -1238,7 +1238,7 @@ G. The commercial risks are real. Increased demand for wild-harvested plants - p
   },
 
   // ============================================================
-  // rx-cam-26 — Space Debris and the Crowded Sky
+  // rx-cam-26 - Space Debris and the Crowded Sky
   // ============================================================
   {
     id: "rx-cam-26",

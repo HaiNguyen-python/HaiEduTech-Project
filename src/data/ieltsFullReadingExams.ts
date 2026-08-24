@@ -87,7 +87,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
         headings: [
           { label: "i", text: "The cost of going green" },
           { label: "ii", text: "A historic shift in power generation" },
-          { label: "iii", text: "Storage – the missing piece" },
+          { label: "iii", text: "Storage - the missing piece" },
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "ii",
@@ -100,7 +100,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
         headings: [
           { label: "i", text: "The cost of going green" },
           { label: "ii", text: "A historic shift in power generation" },
-          { label: "iii", text: "Storage – the missing piece" },
+          { label: "iii", text: "Storage - the missing piece" },
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "iv",
@@ -113,7 +113,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
         headings: [
           { label: "i", text: "The cost of going green" },
           { label: "ii", text: "A historic shift in power generation" },
-          { label: "iii", text: "Storage – the missing piece" },
+          { label: "iii", text: "Storage - the missing piece" },
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "iii",
@@ -126,7 +126,7 @@ D. Building such storage is expensive. A recent IEA report estimates the world n
         headings: [
           { label: "i", text: "The cost of going green" },
           { label: "ii", text: "A historic shift in power generation" },
-          { label: "iii", text: "Storage – the missing piece" },
+          { label: "iii", text: "Storage - the missing piece" },
           { label: "iv", text: "Public attitudes turning positive" },
         ],
         answer: "i",
@@ -515,7 +515,7 @@ E. The picture is not uniformly positive. Critics warn that remote work risks we
       { number: 9, type: "multiple-choice", prompt: "What concern is raised about younger employees?",
         options: ["They cannot use the technology", "They struggle to build professional networks", "They refuse hybrid arrangements", "They earn lower salaries"], answer: "They struggle to build professional networks" },
       { number: 10, type: "fill-blank", prompt: "Complete: 'The term telecommuting was coined in ___.'", answer: "1972" },
-      { number: 11, type: "fill-blank", prompt: "Complete: 'An estimated ___% of office workers worked from home during 2020–2022.'", answer: "60" },
+      { number: 11, type: "fill-blank", prompt: "Complete: 'An estimated ___% of office workers worked from home during 2020-2022.'", answer: "60" },
       { number: 12, type: "fill-blank", prompt: "Complete: 'Hybrid workers saved on average ___ minutes per day previously lost to commuting.'", answer: "72" },
       { number: 13, type: "fill-blank", prompt: "Complete: 'Remote work has widened the gap between knowledge workers and ___ workers.'", answer: "service" },
     ],
