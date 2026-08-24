@@ -14,3 +14,4 @@ type: feature
 - Flat 2D grid fallback auto-enabled on mobile / prefers-reduced-motion, same rank order.
 - UI direction: Scandinavian "Spatial Management Hub" with Urbanist headings, Epilogue body, realistic classroom architecture, a large 3D stage, bottom camera HUD, and right management rail.
 - Large-class label policy: all seats show compact rank markers; full name/score labels are reserved for top 3, alert-tier, search matches, hover, and selection to prevent visual overlap.
+- Keep the classroom ceiling open so overhead cameras never hide students. Decorations must stay on perimeter walls, and Management Center controls must preserve high-contrast text/icons on hover and focus.
