@@ -96,7 +96,10 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       "A quick note on the rules: photographs are welcome in all rooms, but please keep your flash turned off - flash can damage the older paintings on the ground floor.\n" +
       "The café in the courtyard is open from ten until five today, and there's a small terrace if the weather stays dry.\n" +
       "If you'd like more detail, audio guides are available at reception for three pounds. They come in English, French and Mandarin.\n" +
-      "Finally, please remember: our free family workshop runs every Sunday at two o'clock, not on weekdays. Children must be accompanied by an adult.",
+      "Finally, please remember: our free family workshop runs every Sunday at two o'clock, not on weekdays. Children must be accompanied by an adult.\n" +
+      "One more thing: the gallery is closed to the public every Monday for conservation work.\n" +
+      "Our new sculpture garden opened last spring, and entry to it is completely free.\n" +
+      "Priya: Large bags must be left in the lockers beside the cloakroom before you go upstairs.\n",
     rate: 0.85,
     questions: [
       { type: "mcq", prompt: "The gallery building was opened in:", options: ["1885", "1985", "1995", "2005"], answer: 2 },
@@ -106,6 +109,9 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       { type: "mcq", prompt: "The café is open today until:", options: ["3 pm", "4 pm", "5 pm", "6 pm"], answer: 2 },
       { type: "mcq", prompt: "Audio guides at reception cost:", options: ["free", "£2", "£3", "£5"], answer: 2 },
       { type: "mcq", prompt: "Family workshops are held on:", options: ["Saturdays", "Sundays", "weekdays", "Fridays"], answer: 1 },
+      { type: "mcq", prompt: "The gallery is closed to the public every:", options: ["Monday", "Tuesday", "Wednesday", "Sunday"], answer: 0 },
+      { type: "mcq", prompt: "Entry to the new sculpture garden is:", options: ["£3", "half price", "free", "for members only"], answer: 2 },
+      { type: "mcq", prompt: "Large bags must be left in the:", options: ["café", "reception", "courtyard", "lockers"], answer: 3 },
     ],
   },
 
@@ -137,7 +143,12 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       "Tutor: And the live demo on the day?\n" +
       "Sara: I'd like to lead the demo - public speaking is the part I most want to practise.\n" +
       "Tutor: Last one - who'll write the executive summary handout?\n" +
-      "Tom: I'll do that - it follows naturally from the competitor research.",
+      "Tom: I'll do that - it follows naturally from the competitor research.\n" +
+      "Tutor: Who is doing the market-size estimate?\n" +
+      "Tom: I'll do the market-size estimate - it fits with the competitor work.\n" +
+      "Sara: I'll prepare the question-and-answer notes for the panel.\n" +
+      "Maya: I'll print the handouts on Thursday evening.\n" +
+      "Sara: And I'll time the rehearsal so we don't overrun.\n",
     rate: 0.85,
     questions: [
       { type: "matching", prompt: "Designing the slides: ___", answer: "A" },
@@ -146,6 +157,10 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       { type: "matching", prompt: "Preparing the budget table: ___", answer: "A" },
       { type: "matching", prompt: "Leading the live demo: ___", answer: "C" },
       { type: "matching", prompt: "Writing the executive summary: ___", answer: "B" },
+      { type: "matching", prompt: "Estimating the market size: ___", answer: "B" },
+      { type: "matching", prompt: "Preparing the question-and-answer notes: ___", answer: "C" },
+      { type: "matching", prompt: "Printing the handouts: ___", answer: "A" },
+      { type: "matching", prompt: "Timing the rehearsal: ___", answer: "C" },
     ],
   },
 
@@ -169,7 +184,9 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       "A study in Norway found microplastics in eighty per cent of the seabirds examined.\n" +
       "The good news is that solutions exist. Simple washing-machine filters can capture up to ninety per cent of clothing fibres before they reach the sewage system.\n" +
       "At the policy level, more than sixty countries have now banned single-use plastic bags, although enforcement remains uneven.\n" +
-      "The next decade will test whether these efforts can outpace the scale of the problem.",
+      "The next decade will test whether these efforts can outpace the scale of the problem.\n" +
+      "It is also worth remembering where the plastic comes from: most ocean plastic arrives from the land, carried down by rivers.\n" +
+      "Lecturer: One promising line of research uses bacteria that are able to digest plastic.\n",
     rate: 0.85,
     questions: [
       { type: "fill-in", prompt: "Microplastics are smaller than ___ millimetres.", answer: "5" },
@@ -180,6 +197,8 @@ export const ieltsListeningPracticeSetsExpansion6: ListeningPracticeSet[] = [
       { type: "fill-in", prompt: "Washing-machine ___ can stop up to 90% of fibres.", answer: "filters" },
       { type: "fill-in", prompt: "More than ___ countries have banned single-use plastic bags.", answer: "60" },
       { type: "fill-in", prompt: "The next ___ will test if solutions outpace the problem.", answer: "decade" },
+      { type: "fill-in", prompt: "Most ocean plastic arrives from land, carried by ___.", answer: "rivers", maxWords: 1 },
+      { type: "fill-in", prompt: "One promising line of research uses ___ that digest plastic.", answer: "bacteria", maxWords: 1 },
     ],
   },
 ];

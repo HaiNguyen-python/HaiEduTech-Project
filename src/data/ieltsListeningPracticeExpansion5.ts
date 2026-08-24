@@ -92,7 +92,11 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
       "The toilets are at the back of the visitor centre, just past the small café.\n" +
       "Speaking of the café - it's open until four today, and all the cakes are baked by our volunteers using ingredients grown right here.\n" +
       "If you'd like to take part in something hands-on, we run a free weekly workshop. This week's topic is composting, and it starts at two o'clock in the main shed.\n" +
-      "Finally, every visitor today is welcome to take home a small bag of free herbs from the basket near the exit - but please don't pick anything yourself from the beds.",
+      "Finally, every visitor today is welcome to take home a small bag of free herbs from the basket near the exit - but please don't pick anything yourself from the beds.\n" +
+      "Before I forget, all the water we use comes from the rainwater tanks behind the shed.\n" +
+      "We also keep two beehives, and our own honey is sold in the café each September.\n" +
+      "The garden itself is open to the public from dawn until dusk, seven days a week.\n" +
+      "Volunteer: And if you'd like to help, our volunteer work party meets on Wednesday mornings.\n",
     rate: 0.85,
     questions: [
       { type: "mcq", prompt: "When did the community garden open?", options: ["2001", "2009", "2011", "2015"], answer: 2 },
@@ -101,6 +105,10 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
       { type: "mcq", prompt: "The café closes today at:", options: ["3 pm", "4 pm", "5 pm", "6 pm"], answer: 1 },
       { type: "mcq", prompt: "This week's free workshop topic is:", options: ["pest control", "watering", "pruning", "composting"], answer: 3 },
       { type: "mcq", prompt: "Visitors may take home a free bag of:", options: ["seeds", "herbs", "flowers", "vegetables"], answer: 1 },
+      { type: "mcq", prompt: "The water used in the garden comes from:", options: ["the mains supply", "a well", "rainwater tanks", "the river"], answer: 2 },
+      { type: "mcq", prompt: "The garden's own honey is sold in the café in:", options: ["June", "July", "August", "September"], answer: 3 },
+      { type: "mcq", prompt: "The garden is open to the public:", options: ["seven days a week", "at weekends only", "on weekdays", "by appointment"], answer: 0 },
+      { type: "mcq", prompt: "The volunteer work party meets on:", options: ["Monday mornings", "Wednesday mornings", "Friday afternoons", "Saturday mornings"], answer: 1 },
     ],
   },
 
@@ -131,7 +139,12 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
       "Oliver: Fine, but only if Liam writes the short introduction paragraph for the exhibition.\n" +
       "Liam: Sure, no problem.\n" +
       "Tutor: Excellent. One last thing - who is doing the audio recordings for the interactive display?\n" +
-      "Hana: I'd like to do that, actually. I want more practice with the editing software.",
+      "Hana: I'd like to do that, actually. I want more practice with the editing software.\n" +
+      "Tutor: And who is contacting the local museum?\n" +
+      "Oliver: I'll contact the museum - my aunt works in their archive.\n" +
+      "Liam: I'll book the room at the community centre.\n" +
+      "Hana: I'll design the short questionnaire for residents.\n" +
+      "Oliver: And I'll scan the old documents so we have digital copies.\n",
     rate: 0.85,
     questions: [
       { type: "matching", prompt: "Interviewing elderly residents: ___", answer: "A" },
@@ -140,6 +153,10 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
       { type: "matching", prompt: "Designing the timeline poster: ___", answer: "C" },
       { type: "matching", prompt: "Writing the exhibition introduction: ___", answer: "A" },
       { type: "matching", prompt: "Recording and editing audio: ___", answer: "B" },
+      { type: "matching", prompt: "Contacting the local museum: ___", answer: "C" },
+      { type: "matching", prompt: "Booking the community centre room: ___", answer: "A" },
+      { type: "matching", prompt: "Designing the residents' questionnaire: ___", answer: "B" },
+      { type: "matching", prompt: "Scanning the old documents: ___", answer: "C" },
     ],
   },
 
@@ -163,7 +180,9 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
       "The second driver is pesticides. A class of chemicals called neonicotinoids has been shown to damage the navigation system of bees, meaning workers cannot find their way back to the hive.\n" +
       "The third driver is disease, and in particular a parasitic mite called Varroa, which weakens colonies and spreads viruses between them.\n" +
       "The good news is that recovery is possible. Studies from the Netherlands show that simply planting strips of wildflowers along the edges of fields can boost local bee numbers by up to forty per cent within two years.\n" +
-      "Cities have a role to play as well. Urban parks and even balcony gardens, when planted with the right flowers, become valuable refuges for pollinators.",
+      "Cities have a role to play as well. Urban parks and even balcony gardens, when planted with the right flowers, become valuable refuges for pollinators.\n" +
+      "Climate change is a fourth pressure, because flowers now open before the bees emerge, creating a mismatch in timing.\n" +
+      "Professor: Farmers can help immediately by leaving field margins uncut until late summer.\n",
     rate: 0.85,
     questions: [
       { type: "fill-in", prompt: "Bees pollinate about one ___ of the food we eat.", answer: "third" },
@@ -174,6 +193,8 @@ export const ieltsListeningPracticeSetsExpansion5: ListeningPracticeSet[] = [
       { type: "fill-in", prompt: "Planting wildflower strips can boost bee numbers by up to ___ per cent.", answer: "40" },
       { type: "fill-in", prompt: "Improvements were measured within ___ years in the Netherlands.", answer: "two" },
       { type: "fill-in", prompt: "Urban parks and balcony gardens can become valuable ___ for pollinators.", answer: "refuges" },
+      { type: "fill-in", prompt: "Climate change creates a ___ in timing between flowers and bees.", answer: "mismatch", maxWords: 1 },
+      { type: "fill-in", prompt: "Farmers can help by leaving field ___ uncut until late summer.", answer: "margins", maxWords: 1 },
     ],
   },
 ];

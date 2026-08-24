@@ -78,7 +78,12 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
       "The café on the first floor is open until five, but please note it does not serve hot meals after three o'clock - only sandwiches and cakes.\n" +
       "Our gift shop is on the ground floor, just past the main entrance, and the toilets are on the lower level.\n" +
       "Today's special talk, at two thirty in the main hall, is about the rescue of a cargo ship in the great storm of 1953. It lasts roughly forty-five minutes and is free with your ticket.\n" +
-      "If you'd like a quieter visit, our most peaceful gallery is usually the East Wing, which focuses on small fishing communities.",
+      "If you'd like a quieter visit, our most peaceful gallery is usually the East Wing, which focuses on small fishing communities.\n" +
+      "A word about tickets: your ticket also gives you free entry for a second visit within one month.\n" +
+      "The lift is out of order today, so the upper gallery must be reached by the main staircase.\n" +
+      "In the shop, the most popular souvenir with our visitors is the replica navigation chart.\n" +
+      "If you lose anything during your visit, lost property is kept at the ticket desk.\n" +
+      "Guide: And do try the model-boat workshop in the basement - it starts every hour.\n",
     rate: 0.85,
     questions: [
       {
@@ -111,6 +116,11 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
         options: ["Main Hall", "North Wing", "East Wing", "South Gallery"],
         answer: 2,
       },
+      { type: "mcq", prompt: "A ticket allows a free second visit within:", options: ["one week", "one month", "three months", "one year"], answer: 1 },
+      { type: "mcq", prompt: "Today the upper gallery must be reached by:", options: ["the lift", "the main staircase", "the ramp", "the side entrance"], answer: 1 },
+      { type: "mcq", prompt: "The most popular souvenir is a replica:", options: ["ship model", "poster", "navigation chart", "medal"], answer: 2 },
+      { type: "mcq", prompt: "Lost property is kept at the:", options: ["café", "gift shop", "East Wing", "ticket desk"], answer: 3 },
+      { type: "mcq", prompt: "The model-boat workshop starts:", options: ["every hour", "twice a day", "at two thirty", "on request"], answer: 0 },
     ],
   },
   {
@@ -137,7 +147,12 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
       "Daniel: Fine, but only if Mark takes care of the slide deck for the presentation.\n" +
       "Mark: Sure, no problem.\n" +
       "Tutor: Excellent. And the data analysis?\n" +
-      "Priya: I'd like to do that - I want more practice with SPSS.",
+      "Priya: I'd like to do that - I want more practice with SPSS.\n" +
+      "Tutor: One more thing - who is checking the references?\n" +
+      "Daniel: I'll check the references, since I collected most of them.\n" +
+      "Mark: I can also book the meeting room each week.\n" +
+      "Priya: Then I'll write the ethics form.\n" +
+      "Daniel: And I'll email the tutor with the weekly update.\n",
     rate: 0.85,
     questions: [
       { type: "matching", prompt: "Designing the survey questions: ___", answer: "A" },
@@ -146,6 +161,10 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
       { type: "matching", prompt: "Writing the final report: ___", answer: "C" },
       { type: "matching", prompt: "Preparing the presentation slides: ___", answer: "A" },
       { type: "matching", prompt: "Doing the data analysis: ___", answer: "B" },
+      { type: "matching", prompt: "Checking the references: ___", answer: "C" },
+      { type: "matching", prompt: "Booking the weekly meeting room: ___", answer: "A" },
+      { type: "matching", prompt: "Writing the ethics form: ___", answer: "B" },
+      { type: "matching", prompt: "Emailing the weekly update: ___", answer: "C" },
     ],
   },
   {
@@ -163,7 +182,11 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
       "This matters for health: in major heatwaves, neighbourhoods with low tree cover record significantly higher rates of hospital admissions for elderly residents.\n" +
       "The second benefit is air quality. Tree leaves trap particles of pollution, especially close to busy roads. Studies in London suggest that a single mature plane tree can remove up to twenty kilograms of pollutants every year.\n" +
       "The third benefit is mental wellbeing. Surveys consistently find that people living within a short walk of green space report lower levels of stress and better sleep.\n" +
-      "Finally, urban trees have an economic value. Real-estate data from twelve major cities shows that homes on tree-lined streets sell for roughly nine per cent more than equivalent homes on bare streets.",
+      "Finally, urban trees have an economic value. Real-estate data from twelve major cities shows that homes on tree-lined streets sell for roughly nine per cent more than equivalent homes on bare streets.\n" +
+      "There is a benefit for water, too. Tree roots slow rainfall run-off, which reduces the risk of flash flooding after heavy storms.\n" +
+      "Species choice matters as well: the most reliable street species in northern Europe remains the lime.\n" +
+      "Newly planted trees are vulnerable, and they need regular watering for their first three summers.\n" +
+      "Lecturer: The main obstacle for city councils, then, is not planting but the long-term cost of maintenance.\n",
     rate: 0.85,
     questions: [
       { type: "fill-in", prompt: "Cities now treat trees as serious public ___.", answer: "infrastructure" },
@@ -172,6 +195,10 @@ export const ieltsListeningPracticeSetsExpansion2: ListeningPracticeSet[] = [
       { type: "fill-in", prompt: "One mature plane tree can remove up to ___ kilograms of pollutants yearly.", answer: "20" },
       { type: "fill-in", prompt: "People near green space report lower stress and better ___.", answer: "sleep" },
       { type: "fill-in", prompt: "Homes on tree-lined streets sell for around ___ per cent more.", answer: "nine" },
+      { type: "fill-in", prompt: "Tree roots slow run-off and reduce the risk of ___ flooding.", answer: "flash", maxWords: 1 },
+      { type: "fill-in", prompt: "The most reliable street species in northern Europe is the ___.", answer: "lime", maxWords: 1 },
+      { type: "fill-in", prompt: "New trees need watering for their first ___ summers.", answer: "three", maxWords: 1 },
+      { type: "fill-in", prompt: "The main obstacle for councils is the long-term cost of ___.", answer: "maintenance", maxWords: 1 },
     ],
   },
 ];

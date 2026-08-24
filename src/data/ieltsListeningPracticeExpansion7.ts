@@ -91,7 +91,11 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       "You'll find the fresh produce and cheese stalls along the main aisle. The bakery corner is at the far end, near the old clock tower.\n" +
       "If you're travelling with children, our free family activity today is a fruit-tasting session in the yellow tent, starting at eleven.\n" +
       "Parking is limited on the square itself, so we recommend the multi-storey car park behind the library, which is free at weekends.\n" +
-      "Finally, all our vendors accept cards, but a few of the smaller producers still prefer cash for orders under five pounds.",
+      "Finally, all our vendors accept cards, but a few of the smaller producers still prefer cash for orders under five pounds.\n" +
+      "A word on waste: every stall here now uses compostable packaging.\n" +
+      "You'll find the flower stall right beside the main entrance, so it's easy to find on the way out.\n" +
+      "If it rains heavily, the whole market moves into the covered hall next door.\n" +
+      "Coordinator: And traders who would like a stall next season should email the market office.\n",
     rate: 0.9,
     questions: [
       {
@@ -130,6 +134,10 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
         options: ["£2", "£5", "£10", "£20"],
         answer: 1,
       },
+      { type: "mcq", prompt: "All the stalls now use packaging that is:", options: ["recycled", "compostable", "reusable", "paper only"], answer: 1 },
+      { type: "mcq", prompt: "The flower stall is beside the:", options: ["clock tower", "yellow tent", "main entrance", "library"], answer: 2 },
+      { type: "mcq", prompt: "In heavy rain the market moves into:", options: ["the covered hall", "the library", "the car park", "the yellow tent"], answer: 0 },
+      { type: "mcq", prompt: "New traders should contact the market office:", options: ["in person", "by phone", "by email", "through a form"], answer: 2 },
     ],
   },
 
@@ -161,7 +169,9 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       "Emma: Great. Who writes the final reflective report for the module?\n" +
       "Josh: I'd rather do that than the presentation. My writing is stronger than my speaking.\n" +
       "Emma: Perfect - then I'll deliver the class presentation next Friday.\n" +
-      "Tutor: Sounds balanced. I'll also provide the background music tracks from the university library.",
+      "Tutor: Sounds balanced. I'll also provide the background music tracks from the university library.\n" +
+      "Emma: I'll also write the subtitles, so the film is accessible.\n" +
+      "Tutor: And I'll book the editing suite for you both.\n",
     rate: 0.9,
     questions: [
       { type: "matching", prompt: "Writing the script: ___", answer: "A" },
@@ -172,6 +182,8 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       { type: "matching", prompt: "Writing the reflective report: ___", answer: "B" },
       { type: "matching", prompt: "Delivering the class presentation: ___", answer: "A" },
       { type: "matching", prompt: "Providing background music tracks: ___", answer: "C" },
+      { type: "matching", prompt: "Writing the subtitles: ___", answer: "A" },
+      { type: "matching", prompt: "Booking the editing suite: ___", answer: "C" },
     ],
   },
 
@@ -194,7 +206,9 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       "Third, food security. Reef fisheries provide the main source of protein for roughly half a billion people, most of them in developing countries.\n" +
       "Fourth, medicine. Compounds first isolated from reef organisms are now used in treatments for cancer, arthritis and, more recently, certain viral infections.\n" +
       "Finally, the economic value. Global reef tourism generates an estimated thirty-six billion dollars every year, supporting jobs in more than seventy countries.\n" +
-      "The bad news, of course, is that half of the world's shallow reefs have already been lost since nineteen fifty, mainly because of rising sea temperatures.",
+      "The bad news, of course, is that half of the world's shallow reefs have already been lost since nineteen fifty, mainly because of rising sea temperatures.\n" +
+      "Reefs also support tourism, and in some island states reef tourism provides most of the national income.\n" +
+      "Lecturer: Finally, restoration projects now grow young corals in underwater nurseries before replanting them.\n",
     rate: 0.9,
     questions: [
       { type: "fill-in", prompt: "Coral reefs cover less than ___ per cent of the ocean floor.", answer: "one" },
@@ -205,6 +219,8 @@ export const ieltsListeningPracticeSetsExpansion7: ListeningPracticeSet[] = [
       { type: "fill-in", prompt: "Global reef tourism generates about $___ billion each year.", answer: "36" },
       { type: "fill-in", prompt: "Half of shallow reefs have been lost since ___.", answer: "1950" },
       { type: "fill-in", prompt: "The main cause of reef loss is rising sea ___.", answer: "temperatures" },
+      { type: "fill-in", prompt: "In some island states reef tourism provides most of the national ___.", answer: "income", maxWords: 1 },
+      { type: "fill-in", prompt: "Young corals are grown in underwater ___ before replanting.", answer: "nurseries", maxWords: 1 },
     ],
   },
 ];
