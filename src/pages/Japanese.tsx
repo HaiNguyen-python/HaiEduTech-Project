@@ -4,7 +4,7 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Volume2, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,6 +21,7 @@ import {
 import { VOCAB_TOPICS } from "@/data/japanese/vocab";
 import { KANJI_GROUPS } from "@/data/japanese/kanji";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
 const JA_MILESTONES = [
@@ -426,6 +427,8 @@ const PhraseRow = ({
   /** When defined, a star toggle is shown so the word feeds the memory brain. */
   mastered?: boolean;
   onToggleMastered?: () => void;
+  /** Listening to a mastered word counts as a review (shadowing practice). */
+  onListen?: () => void;
 }) => (
   <div className="flex items-start justify-between gap-3 py-3 border-b border-pink-100 last:border-0">
     <div className="flex-1 min-w-0">
@@ -445,7 +448,7 @@ const PhraseRow = ({
           <Star className={`h-4 w-4 ${mastered ? "fill-amber-400 text-amber-500" : ""}`} />
         </Button>
       )}
-      <Button size="sm" variant="outline" onClick={() => speakJa(p.jp)}>
+      <Button size="sm" variant="outline" onClick={() => { speakJa(p.jp); onListen?.(); }}>
         <Volume2 className="h-4 w-4" />
       </Button>
     </div>
@@ -456,6 +459,8 @@ const PhraseRow = ({
 const Japanese = () => {
   const [quizPicks, setQuizPicks] = useState<Record<number, number>>({});
   const { mastered, toggle: toggleMastered } = useMasteredVocab("japanese");
+  /** Words already credited with a review this session (no double counting). */
+  const jaReviewedRef = useRef<Set<string>>(new Set());
   const { lang, t } = useLanguage();
   const [params, setParams] = useSearchParams();
   const initialTab = params.get("tab") || "overview";
@@ -615,6 +620,13 @@ const Japanese = () => {
                       lang={uiLang}
                       mastered={mastered.has(p.jp)}
                       onToggleMastered={() => toggleMastered(p.jp)}
+                      onListen={() => {
+                        // Listening to a word you already marked ⭐ is a real
+                        // repetition, so it consolidates in the memory brain.
+                        if (!mastered.has(p.jp) || jaReviewedRef.current.has(p.jp)) return;
+                        jaReviewedRef.current.add(p.jp);
+                        void recordVocabReviewTracked("japanese", [p.jp]);
+                      }}
                     />
                   ))}
                 </div>
