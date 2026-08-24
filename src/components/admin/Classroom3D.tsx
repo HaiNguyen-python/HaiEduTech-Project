@@ -256,6 +256,78 @@ const StudentAvatar = ({
 
 /* --------------------------------------------------------------- classroom */
 
+const ROOM_MATERIALS = {
+  wall: new THREE.MeshStandardMaterial({ color: "#f8fafc", roughness: 0.88 }),
+  wallWarm: new THREE.MeshStandardMaterial({ color: "#eef3f1", roughness: 0.9 }),
+  floor: new THREE.MeshStandardMaterial({ color: "#d7c4a3", roughness: 0.76 }),
+  frame: new THREE.MeshStandardMaterial({ color: "#e2e8f0", roughness: 0.48, metalness: 0.16 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: "#dbeafe", transparent: true, opacity: 0.3, roughness: 0.1, transmission: 0.35 }),
+  foliage: new THREE.MeshStandardMaterial({ color: "#10b981", roughness: 0.84 }),
+  pot: new THREE.MeshStandardMaterial({ color: "#e7e1d6", roughness: 0.76 }),
+  shelf: new THREE.MeshStandardMaterial({ color: "#a98d68", roughness: 0.7 }),
+  board: new THREE.MeshStandardMaterial({ color: "#163d35", roughness: 0.38 }),
+};
+
+const WindowWall = ({ width, depth }: { width: number; depth: number }) => (
+  <group position={[-width / 2 + 0.08, 3.2, 0]}>
+    <mesh position={[0, 0, 0]}><boxGeometry args={[0.16, 6.4, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
+    {[-depth * 0.3, 0, depth * 0.3].map((z) => (
+      <group key={z} position={[0.12, 0.45, z]}>
+        <mesh rotation={[0, Math.PI / 2, 0]}><planeGeometry args={[Math.min(3.8, depth / 4), 3.7]} /><primitive object={ROOM_MATERIALS.glass} attach="material" /></mesh>
+        <mesh position={[0, 0, -Math.min(1.9, depth / 8)]}><boxGeometry args={[0.14, 4.1, 0.12]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+        <mesh position={[0, 0, Math.min(1.9, depth / 8)]}><boxGeometry args={[0.14, 4.1, 0.12]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+        <mesh><boxGeometry args={[0.14, 0.12, Math.min(3.8, depth / 4)]} /><primitive object={ROOM_MATERIALS.frame} attach="material" /></mesh>
+      </group>
+    ))}
+  </group>
+);
+
+const Plant = ({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) => (
+  <group position={position} scale={scale}>
+    <mesh position={[0, 0.33, 0]}><cylinderGeometry args={[0.27, 0.36, 0.65, 18]} /><primitive object={ROOM_MATERIALS.pot} attach="material" /></mesh>
+    {[[-0.2, 0.9, 0], [0.2, 1.05, 0.05], [0, 1.2, -0.12], [-0.12, 1.38, 0.08]].map((p, i) => (
+      <mesh key={i} position={p as [number, number, number]} rotation={[0, i * 0.8, i % 2 ? 0.45 : -0.45]}>
+        <sphereGeometry args={[0.18, 10, 8]} /><primitive object={ROOM_MATERIALS.foliage} attach="material" />
+      </mesh>
+    ))}
+  </group>
+);
+
+const ClassroomShell = ({ width, depth }: { width: number; depth: number }) => (
+  <group>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[width, depth]} /><primitive object={ROOM_MATERIALS.floor} attach="material" /></mesh>
+    {Array.from({ length: Math.max(6, Math.round(width / 2)) }, (_, i) => (
+      <mesh key={i} rotation={[-Math.PI / 2, 0, 0]} position={[-width / 2 + (i + 1) * (width / Math.max(6, Math.round(width / 2))), 0.008, 0]}>
+        <planeGeometry args={[0.018, depth]} /><meshBasicMaterial color="#b89d78" transparent opacity={0.45} />
+      </mesh>
+    ))}
+    <mesh position={[0, 3.2, -depth / 2]}><boxGeometry args={[width, 6.4, 0.18]} /><primitive object={ROOM_MATERIALS.wall} attach="material" /></mesh>
+    <mesh position={[width / 2, 3.2, 0]}><boxGeometry args={[0.18, 6.4, depth]} /><primitive object={ROOM_MATERIALS.wallWarm} attach="material" /></mesh>
+    <mesh position={[0, 6.35, 0]}><boxGeometry args={[width, 0.16, depth]} /><primitive object={ROOM_MATERIALS.wall} attach="material" /></mesh>
+    <WindowWall width={width} depth={depth} />
+    {[-width * 0.25, width * 0.25].map((x) => (
+      <group key={x} position={[x, 6.12, -0.5]}>
+        <mesh><boxGeometry args={[2.8, 0.09, 0.62]} /><meshStandardMaterial color="#ffffff" emissive="#fff7d6" emissiveIntensity={0.35} /></mesh>
+      </group>
+    ))}
+    <Plant position={[width / 2 - 0.8, 0, -depth / 2 + 0.9]} />
+    <Plant position={[-width / 2 + 0.85, 0, -depth / 2 + 0.8]} scale={0.8} />
+  </group>
+);
+
+const TeacherZone = ({ width, depth }: { width: number; depth: number }) => (
+  <group>
+    <group position={[width / 2 - 2, 0, -depth / 2 + 1.4]}>
+      {[0, 0.7, 1.4, 2.1].map((y) => <mesh key={y} position={[0, y + 0.18, 0]}><boxGeometry args={[1.7, 0.12, 0.65]} /><primitive object={ROOM_MATERIALS.shelf} attach="material" /></mesh>)}
+      {[-0.65, 0.65].map((x) => <mesh key={x} position={[x, 1.25, 0]}><boxGeometry args={[0.1, 2.7, 0.65]} /><primitive object={ROOM_MATERIALS.shelf} attach="material" /></mesh>)}
+    </group>
+    <group position={[width / 2 - 3.3, 0, -depth / 2 + 0.8]}>
+      <mesh position={[0, 0.82, 0]}><boxGeometry args={[2.1, 0.12, 0.85]} /><primitive object={WOOD} attach="material" /></mesh>
+      {[-0.85, 0.85].flatMap((x) => [-0.28, 0.28].map((z) => <mesh key={`${x}-${z}`} position={[x, 0.4, z]}><boxGeometry args={[0.1, 0.8, 0.1]} /><primitive object={METAL} attach="material" /></mesh>))}
+    </group>
+  </group>
+);
+
 const Room = ({
   seats,
   cols,
@@ -315,37 +387,29 @@ const Room = ({
 
   return (
     <group>
-      {/* floor + back wall */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-        <planeGeometry args={[w, d]} />
-        <meshStandardMaterial color="#f6f9ff" roughness={0.9} />
-      </mesh>
-      <gridHelper args={[Math.max(w, d), Math.round(Math.max(w, d) / 2.1), "#d3dcea", "#e9eff7"]} position={[0, 0.005, 0]} />
-      <mesh position={[0, 3.4, -d / 2]}>
-        <planeGeometry args={[w, 6.8]} />
-        <meshStandardMaterial color="#e8effa" roughness={0.95} />
-      </mesh>
+      <ClassroomShell width={w} depth={d} />
+      <TeacherZone width={w} depth={d} />
 
       {/* whiteboard */}
       <group position={[0, 2.4, -d / 2 + 0.35]}>
         <RoundedBox args={[Math.min(w * 0.72, 12), 3.2, 0.18]} radius={0.07} smoothness={2}>
-          <meshStandardMaterial color="#ffffff" roughness={0.45} />
+          <primitive object={ROOM_MATERIALS.board} attach="material" />
         </RoundedBox>
         <Html position={[0, 0.1, 0.14]} center distanceFactor={12} transform>
-          <div className="select-none text-center rounded-md bg-white px-4 py-2" style={{ width: 360 }}>
-            <p className="text-[20px] font-bold text-slate-900">
+          <div className="select-none rounded-md border border-white/15 bg-[#163d35]/95 px-5 py-3 text-center shadow-xl" style={{ width: 380 }}>
+            <p className="text-[20px] font-bold text-white">
               {vi ? "Lớp học HaiEduTech" : "HaiEduTech Classroom"}
             </p>
-            <p className="text-[15px] font-semibold text-blue-700 mt-1">
+            <p className="mt-1 text-[15px] font-semibold text-emerald-200">
               {`${vi ? "Điểm TB lớp" : "Class average"}: ${classAvg}/10 · ${activeWeek} ${vi ? "em học tuần này" : "active this week"}`}
             </p>
-            <p className="text-[14px] font-semibold mt-1" style={{ color: alertCount ? "#dc2626" : "#059669" }}>
+            <p className="mt-1 text-[14px] font-semibold" style={{ color: alertCount ? "#fca5a5" : "#6ee7b7" }}>
               {alertCount
                 ? `${alertCount} ${vi ? "học sinh cần chú ý" : "students need attention"}`
                 : vi ? "Không có học sinh cần can thiệp" : "No students need intervention"}
             </p>
             {(topNames?.length ?? 0) > 0 && (
-              <p className="text-[13px] text-slate-600 mt-1">
+              <p className="mt-1 text-[13px] text-slate-200">
                 🏆 {vi ? "Top 3" : "Top 3"}: {topNames.join(" · ")}
               </p>
             )}
