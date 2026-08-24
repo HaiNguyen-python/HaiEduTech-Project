@@ -129,7 +129,17 @@ const ForgettingCurve = ({ now, ifReviewed }: { now: number[]; ifReviewed: numbe
   );
 };
 
-const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPractice }: Props) => {
+const VocabBrainPanel = ({
+  subject = "ielts",
+  localWords,
+  t,
+  lookupWord,
+  onPractice,
+  accuracyGameType,
+  labelOf,
+  speak,
+  milestones = BAND_MILESTONES,
+}: Props) => {
   const [rows, setRows] = useState<MasteredRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [signedIn, setSignedIn] = useState(false);
