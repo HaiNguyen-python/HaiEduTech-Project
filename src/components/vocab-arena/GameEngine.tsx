@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Zap, Timer, Volume2, ChevronRight, CheckCircle, XCircle, Trophy, Star } from "lucide-react";
+import { Heart, Zap, Timer, Volume2, ChevronRight, CheckCircle, XCircle, Trophy, Star, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -112,6 +112,8 @@ interface GameEngineProps {
   onGameEnd: (result: GameResult) => void;
   onProgress?: (update: GameProgressUpdate) => void;
   isSuddenDeath?: boolean;
+  /** When provided, an Exit button appears so players can leave mid-game. */
+  onQuit?: () => void;
 }
 
 // Generate questions from word pool
@@ -134,7 +136,7 @@ export const generateQuestions = (
   });
 };
 
-const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isSuddenDeath = false }: GameEngineProps) => {
+const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isSuddenDeath = false, onQuit }: GameEngineProps) => {
   const { t } = useLanguage();
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -148,6 +150,7 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isS
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [wordResults, setWordResults] = useState<{ word: string; correct: boolean; timeMs: number }[]>([]);
   const [gameOver, setGameOver] = useState(false);
+  const [confirmQuit, setConfirmQuit] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const q = questions[current];
@@ -277,6 +280,30 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, onProgress, isS
 
   return (
     <div className="max-w-2xl mx-auto">
+      {/* Exit: players used to be trapped mid-game and had to reload the page. */}
+      {onQuit && (
+        <div className="mb-3">
+          {confirmQuit ? (
+            <div className="flex items-center gap-2 flex-wrap text-sm">
+              <span className="text-muted-foreground">{t("Thoát và mất điểm lượt này?", "Quit and lose this round?")}</span>
+              <button onClick={onQuit} className="px-3 py-1 rounded-lg bg-red-500 text-white font-semibold">
+                {t("Thoát", "Quit")}
+              </button>
+              <button onClick={() => setConfirmQuit(false)} className="px-3 py-1 rounded-lg bg-secondary font-semibold">
+                {t("Tiếp tục chơi", "Keep playing")}
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setConfirmQuit(true)}
+              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="w-4 h-4" /> {t("Thoát", "Exit")}
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Top bar: Lives, Score, Streak, Timer */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">

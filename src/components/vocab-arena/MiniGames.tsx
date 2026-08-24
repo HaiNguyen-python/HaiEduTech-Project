@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, type IeltsWord } from "@/data/ieltsVocabData";
 import confetti from "canvas-confetti";
-import { sfx, saveHighScore, getHighScores, getPlayerName, setPlayerName, dailyLabel, type GameKey } from "./gameFx";
+import { sfx, saveHighScore, getHighScores, getPlayerName, setPlayerName, dailyLabel, pickWords, type GameKey } from "./gameFx";
+import { logArenaGame } from "./arenaScore";
+import { CollocationSnap, OddOneOut, ContextClozeRush, ListeningCatch } from "./games/ExtraGames";
 import { ComboBadge, HighScorePanel, useGameFx, ShakeWrap } from "./GameEffects";
 
-type Game = "menu" | "memory" | "hunt" | "sprint" | "synonym" | "scramble";
+type Game = "menu" | "memory" | "hunt" | "sprint" | "synonym" | "scramble" | "collocation" | "oddone" | "cloze" | "listen";
 type Mode = "solo" | "team";
 
 const shuffle = <T,>(a: T[]) => {
@@ -42,11 +44,15 @@ const MiniGames = ({ onBack }: Props) => {
   const [game, setGame] = useState<Game>("menu");
   const [mode, setMode] = useState<Mode>("solo");
   const [name, setName] = useState(getPlayerName());
+  // Remounting a game with a fresh key restarts it while keeping the player
+  // name and Solo/Team mode - the old "Play again" reloaded the whole page.
+  const [runId, setRunId] = useState(0);
+  const restart = useCallback(() => setRunId((n) => n + 1), []);
 
   useEffect(() => { setPlayerName(name); }, [name]);
 
   if (game === "menu") {
-    const totalGames: GameKey[] = ["memory", "hunt", "sprint", "synonym", "scramble"];
+    const totalGames: GameKey[] = ["memory", "hunt", "sprint", "synonym", "scramble", "collocation", "oddone", "cloze", "listen"];
     const grandBest = totalGames.reduce((acc, g) => {
       const top = getHighScores(g)[0];
       return top && top.score > acc ? top.score : acc;
@@ -160,6 +166,38 @@ const MiniGames = ({ onBack }: Props) => {
             gameKey="scramble"
             onClick={() => setGame("scramble")}
           />
+          <GameCard
+            icon={<Link2 className="w-7 h-7 text-teal-500" />}
+            color="teal"
+            title={t("Ghép cụm từ", "Collocation Snap")}
+            desc={t("Ghép nửa cụm từ tự nhiên trong IELTS", "Snap the natural IELTS collocation")}
+            gameKey="collocation"
+            onClick={() => setGame("collocation")}
+          />
+          <GameCard
+            icon={<Target className="w-7 h-7 text-fuchsia-500" />}
+            color="fuchsia"
+            title={t("Tìm từ khác nhóm", "Odd One Out")}
+            desc={t("Chọn từ không cùng nhóm nghĩa", "Spot the word that doesn't belong")}
+            gameKey="oddone"
+            onClick={() => setGame("oddone")}
+          />
+          <GameCard
+            icon={<Sparkles className="w-7 h-7 text-orange-500" />}
+            color="orange"
+            title={t("Điền từ trong ngữ cảnh", "Context Cloze Rush")}
+            desc={t("Điền từ đúng vào câu ví dụ thật", "Fill the gap in a real example sentence")}
+            gameKey="cloze"
+            onClick={() => setGame("cloze")}
+          />
+          <GameCard
+            icon={<Volume2 className="w-7 h-7 text-indigo-500" />}
+            color="indigo"
+            title={t("Nghe và gõ", "Listening Catch")}
+            desc={t("Nghe từ rồi gõ lại đúng chính tả", "Hear the word, then type it correctly")}
+            gameKey="listen"
+            onClick={() => setGame("listen")}
+          />
           <div className="hidden md:block rounded-2xl border-2 border-dashed border-border bg-card/50 p-6">
             <div className="flex items-center gap-2 mb-2">
               <Flame className="w-5 h-5 text-orange-500" />
@@ -177,20 +215,29 @@ const MiniGames = ({ onBack }: Props) => {
     );
   }
 
-  if (game === "memory") return <MemoryMatch mode={mode} onExit={() => setGame("menu")} />;
-  if (game === "hunt") return <WordHunt mode={mode} onExit={() => setGame("menu")} />;
-  if (game === "sprint") return <DefinitionSprint mode={mode} onExit={() => setGame("menu")} />;
-  if (game === "synonym") return <SynonymShowdown mode={mode} onExit={() => setGame("menu")} />;
-  if (game === "scramble") return <WordScramble mode={mode} onExit={() => setGame("menu")} />;
+  const exit = () => setGame("menu");
+  if (game === "memory") return <MemoryMatch key={runId} mode={mode} onExit={exit} onReplay={restart} />;
+  if (game === "hunt") return <WordHunt key={runId} mode={mode} onExit={exit} onReplay={restart} />;
+  if (game === "sprint") return <DefinitionSprint key={runId} mode={mode} onExit={exit} onReplay={restart} />;
+  if (game === "synonym") return <SynonymShowdown key={runId} mode={mode} onExit={exit} onReplay={restart} />;
+  if (game === "scramble") return <WordScramble key={runId} mode={mode} onExit={exit} onReplay={restart} />;
+  if (game === "collocation") return <CollocationSnap key={runId} mode={mode} onExit={exit} onReplay={restart} />;
+  if (game === "oddone") return <OddOneOut key={runId} mode={mode} onExit={exit} onReplay={restart} />;
+  if (game === "cloze") return <ContextClozeRush key={runId} mode={mode} onExit={exit} onReplay={restart} />;
+  if (game === "listen") return <ListeningCatch key={runId} mode={mode} onExit={exit} onReplay={restart} />;
   return null;
 };
 
-const GameCard = ({ icon, color, title, desc, gameKey, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald" | "amber" | "sky"; title: string; desc: string; gameKey: GameKey; onClick: () => void }) => {
+const GameCard = ({ icon, color, title, desc, gameKey, onClick }: { icon: React.ReactNode; color: "purple" | "rose" | "emerald" | "amber" | "sky" | "teal" | "fuchsia" | "orange" | "indigo"; title: string; desc: string; gameKey: GameKey; onClick: () => void }) => {
   const bg =
     color === "purple" ? "bg-purple-500/10" :
     color === "rose" ? "bg-rose-500/10" :
     color === "emerald" ? "bg-emerald-500/10" :
     color === "amber" ? "bg-amber-500/10" :
+    color === "teal" ? "bg-teal-500/10" :
+    color === "fuchsia" ? "bg-fuchsia-500/10" :
+    color === "orange" ? "bg-orange-500/10" :
+    color === "indigo" ? "bg-indigo-500/10" :
     "bg-sky-500/10";
   const top = getHighScores(gameKey)[0];
   return (
@@ -254,10 +301,11 @@ const GameHeader = ({ title, mode, onExit, currentPlayer, scoreA, scoreB, combo 
 
 // ============ Shared Final Screen ============
 const FinalScreen = ({
-  mode, scoreA, scoreB, maxCombo, rank, isNew, gameKey, gameTitle,
+  mode, scoreA, scoreB, maxCombo, rank, isNew, gameKey, gameTitle, onReplay, onExit,
 }: {
   mode: Mode; scoreA: number; scoreB: number; maxCombo: number;
   rank: number | null; isNew: boolean; gameKey: GameKey; gameTitle: string;
+  onReplay: () => void; onExit: () => void;
 }) => {
   const { t } = useLanguage();
   return (
@@ -294,9 +342,14 @@ const FinalScreen = ({
           <HighScorePanel game={gameKey} title={t(`Top ${gameTitle}`, `Top ${gameTitle}`)} highlight={scoreA} />
         </div>
       )}
-      <Button onClick={() => window.location.reload()} className="gap-2">
-        <RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}
-      </Button>
+      <div className="flex items-center justify-center gap-2 flex-wrap">
+        <Button onClick={onReplay} className="gap-2">
+          <RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}
+        </Button>
+        <Button variant="outline" onClick={onExit} className="gap-2">
+          <ArrowLeft className="w-4 h-4" /> {t("Về menu game", "Back to games")}
+        </Button>
+      </div>
     </div>
   );
 };
@@ -311,7 +364,7 @@ interface Card {
   matched: boolean;
 }
 
-const MemoryMatch = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
+const MemoryMatch = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => void; onReplay: () => void }) => {
   const { t } = useLanguage();
   const PAIRS = 8;
   const [cards, setCards] = useState<Card[]>([]);
@@ -321,9 +374,11 @@ const MemoryMatch = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
   const [player, setPlayer] = useState<1 | 2>(1);
   const [moves, setMoves] = useState(0);
   const [done, setDone] = useState(false);
+  const [savedMemory, setSavedMemory] = useState<{ rank: number | null; isNew: boolean } | null>(null);
+  const [correctWords, setCorrectWords] = useState<string[]>([]);
 
   const init = useCallback(() => {
-    const picks = shuffle(ieltsVocabData).slice(0, PAIRS);
+    const picks = pickWords(ieltsVocabData, PAIRS);
     const deck: Card[] = [];
     picks.forEach((w, i) => {
       deck.push({ id: i * 2, pairId: i, type: "word", text: w.word, flipped: false, matched: false });
@@ -339,6 +394,15 @@ const MemoryMatch = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
   }, []);
 
   useEffect(() => { init(); }, [init]);
+
+  // Memory Match never saved a high score, so its record crown stayed empty.
+  useEffect(() => {
+    if (!done || mode !== "solo" || savedMemory) return;
+    sfx("win");
+    setSavedMemory(saveHighScore("memory", scoreA));
+    void logArenaGame({ game: "memory", score: scoreA, accuracy: moves ? Math.min(1, PAIRS / moves) : 0, correctWords });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, mode, scoreA, savedMemory]);
 
   const handleFlip = (id: number) => {
     if (flipped.length === 2) return;
@@ -360,6 +424,7 @@ const MemoryMatch = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
           if (mode === "solo") setScoreA((s) => s + 10);
           else if (player === 1) setScoreA((s) => s + 10);
           else setScoreB((s) => s + 10);
+          setCorrectWords((prev) => [...prev, a.type === "word" ? a.text : b.text]);
           if (matched.every((c) => c.matched)) {
             setDone(true);
             burst();
@@ -421,7 +486,13 @@ const MemoryMatch = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
                 ? t(`Người chơi 1 thắng! ${scoreA}-${scoreB}`, `Player 1 wins! ${scoreA}-${scoreB}`)
                 : t(`Người chơi 2 thắng! ${scoreB}-${scoreA}`, `Player 2 wins! ${scoreB}-${scoreA}`)}
             </h3>
-            <Button onClick={init} className="mt-2 gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
+            {savedMemory?.isNew && (
+              <p className="text-xs font-black text-amber-500 mb-2">👑 {t("KỶ LỤC MỚI!", "NEW RECORD!")}</p>
+            )}
+            <div className="flex items-center justify-center gap-2 flex-wrap mt-2">
+              <Button onClick={init} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
+              <Button variant="outline" onClick={onExit} className="gap-2"><ArrowLeft className="w-4 h-4" /> {t("Về menu game", "Back to games")}</Button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -430,7 +501,7 @@ const MemoryMatch = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
 };
 
 // ============ WORD HUNT ============
-const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
+const WordHunt = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => void; onReplay: () => void }) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const [round, setRound] = useState(0);
@@ -442,9 +513,10 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
   const [done, setDone] = useState(false);
   const fx = useGameFx();
   const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
+  const [correctWords, setCorrectWords] = useState<string[]>([]);
 
   const questions = useMemo(() => {
-    return shuffle(ieltsVocabData).slice(0, ROUNDS).map((correct) => {
+    return pickWords(ieltsVocabData, ROUNDS).map((correct) => {
       const distractors = shuffle(ieltsVocabData.filter((w) => w.word !== correct.word)).slice(0, 8);
       const options = shuffle([correct, ...distractors]);
       return { correct, options };
@@ -474,7 +546,9 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     if (done && mode === "solo" && !saved) {
       sfx("win");
       setSaved(saveHighScore("hunt", scoreA));
+      void logArenaGame({ game: "hunt", score: scoreA, accuracy: correctWords.length / ROUNDS, maxStreak: fx.maxCombo, correctWords });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, mode, scoreA, saved]);
 
   const handlePick = (word: string, evt?: MouseEvent<HTMLButtonElement>) => {
@@ -482,6 +556,7 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     setPicked(word);
     const isCorrect = word === q.correct.word;
     if (isCorrect) {
+      setCorrectWords((prev) => [...prev, q.correct.word]);
       const base = 10 + Math.round(timeLeft / 2);
       const pts = fx.onCorrect(base, { clientX: evt?.clientX, clientY: evt?.clientY });
       if (mode === "solo") setScoreA((s) => s + pts);
@@ -511,6 +586,8 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
           isNew={saved?.isNew ?? false}
           gameKey="hunt"
           gameTitle={t("Săn từ", "Word Hunt")}
+          onReplay={onReplay}
+          onExit={onExit}
         />
       </div>
     );
@@ -563,7 +640,7 @@ const WordHunt = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
 };
 
 // ============ DEFINITION SPRINT ============
-const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
+const DefinitionSprint = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => void; onReplay: () => void }) => {
   const { t } = useLanguage();
   const ROUNDS = 8;
   const [round, setRound] = useState(0);
@@ -578,7 +655,9 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
   const fx = useGameFx();
   const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
 
-  const words = useMemo(() => shuffle(ieltsVocabData).slice(0, ROUNDS), []);
+  const [correctWords, setCorrectWords] = useState<string[]>([]);
+
+  const words = useMemo(() => pickWords(ieltsVocabData, ROUNDS), []);
   const w = words[round];
 
   useEffect(() => {
@@ -600,13 +679,16 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
     if (done && mode === "solo" && !saved) {
       sfx("win");
       setSaved(saveHighScore("sprint", scoreA));
+      void logArenaGame({ game: "sprint", score: scoreA, accuracy: correctWords.length / ROUNDS, maxStreak: fx.maxCombo, correctWords });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, mode, scoreA, saved]);
 
   const submit = (timedOut = false) => {
     if (feedback) return;
     const isCorrect = !timedOut && input.trim().toLowerCase() === w.word.toLowerCase();
     if (isCorrect) {
+      setCorrectWords((prev) => [...prev, w.word]);
       const base = Math.max(5, 20 + timeLeft - hint * 3);
       const pts = fx.onCorrect(base);
       if (mode === "solo") setScoreA((s) => s + pts);
@@ -636,6 +718,7 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
           mode={mode} scoreA={scoreA} scoreB={scoreB} maxCombo={fx.maxCombo}
           rank={saved?.rank ?? null} isNew={saved?.isNew ?? false}
           gameKey="sprint" gameTitle={t("Gõ tốc độ", "Definition Sprint")}
+          onReplay={onReplay} onExit={onExit}
         />
       </div>
     );
@@ -700,7 +783,7 @@ const DefinitionSprint = ({ mode, onExit }: { mode: Mode; onExit: () => void }) 
 };
 
 // ============ SYNONYM SHOWDOWN ============
-const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
+const SynonymShowdown = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => void; onReplay: () => void }) => {
   const { t } = useLanguage();
   const ROUNDS = 10;
   const [round, setRound] = useState(0);
@@ -712,10 +795,11 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
   const [done, setDone] = useState(false);
   const fx = useGameFx();
   const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
+  const [correctWords, setCorrectWords] = useState<string[]>([]);
 
   const questions = useMemo(() => {
     const pool = ieltsVocabData.filter((w) => w.synonyms && w.synonyms.length > 0);
-    return shuffle(pool).slice(0, ROUNDS).map((target) => {
+    return pickWords(pool, ROUNDS).map((target) => {
       const correct = target.synonyms![Math.floor(Math.random() * target.synonyms!.length)];
       const distractors = shuffle(
         ieltsVocabData
@@ -743,13 +827,19 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
   }, [round, done]);
 
   useEffect(() => {
-    if (done && mode === "solo" && !saved) { sfx("win"); setSaved(saveHighScore("synonym", scoreA)); }
+    if (done && mode === "solo" && !saved) {
+      sfx("win");
+      setSaved(saveHighScore("synonym", scoreA));
+      void logArenaGame({ game: "synonym", score: scoreA, accuracy: correctWords.length / ROUNDS, maxStreak: fx.maxCombo, correctWords });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, mode, scoreA, saved]);
 
   const handlePick = (word: string, evt?: MouseEvent<HTMLButtonElement>) => {
     if (picked) return;
     setPicked(word);
     if (word === q.correct) {
+      setCorrectWords((prev) => [...prev, q.target.word]);
       const base = 10 + Math.round(timeLeft / 2);
       const pts = fx.onCorrect(base, { clientX: evt?.clientX, clientY: evt?.clientY });
       if (mode === "solo") setScoreA((s) => s + pts);
@@ -776,6 +866,7 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
           mode={mode} scoreA={scoreA} scoreB={scoreB} maxCombo={fx.maxCombo}
           rank={saved?.rank ?? null} isNew={saved?.isNew ?? false}
           gameKey="synonym" gameTitle={t("Đồng nghĩa", "Synonym")}
+          onReplay={onReplay} onExit={onExit}
         />
       </div>
     );
@@ -832,7 +923,7 @@ const SynonymShowdown = ({ mode, onExit }: { mode: Mode; onExit: () => void }) =
 };
 
 // ============ WORD SCRAMBLE ============
-const WordScramble = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
+const WordScramble = ({ mode, onExit, onReplay }: { mode: Mode; onExit: () => void; onReplay: () => void }) => {
   const { t } = useLanguage();
   const ROUNDS = 8;
   const [round, setRound] = useState(0);
@@ -843,9 +934,11 @@ const WordScramble = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
   const [feedback, setFeedback] = useState<null | "correct" | "wrong">(null);
   const [timeLeft, setTimeLeft] = useState(25);
   const [done, setDone] = useState(false);
+  const [saved, setSaved] = useState<{ rank: number | null; isNew: boolean } | null>(null);
+  const [correctWords, setCorrectWords] = useState<string[]>([]);
 
   const words = useMemo(
-    () => shuffle(ieltsVocabData.filter((w) => w.word.length >= 4 && w.word.length <= 11)).slice(0, ROUNDS),
+    () => pickWords(ieltsVocabData.filter((w) => w.word.length >= 4 && w.word.length <= 11), ROUNDS),
     []
   );
   const w = words[round];
@@ -860,6 +953,15 @@ const WordScramble = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     }
     return s.toUpperCase();
   }, [w]);
+
+  // Word Scramble also skipped high scores + system logging until now.
+  useEffect(() => {
+    if (!done || mode !== "solo" || saved) return;
+    sfx("win");
+    setSaved(saveHighScore("scramble", scoreA));
+    void logArenaGame({ game: "scramble", score: scoreA, accuracy: correctWords.length / ROUNDS, correctWords });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, mode, scoreA, saved]);
 
   useEffect(() => {
     if (done || feedback) return;
@@ -879,6 +981,7 @@ const WordScramble = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     if (feedback) return;
     const correct = !timedOut && input.trim().toLowerCase() === w.word.toLowerCase();
     if (correct) {
+      setCorrectWords((prev) => [...prev, w.word]);
       const pts = Math.max(5, 15 + timeLeft);
       if (mode === "solo") setScoreA((s) => s + pts);
       else if (player === 1) setScoreA((s) => s + pts);
@@ -900,15 +1003,12 @@ const WordScramble = ({ mode, onExit }: { mode: Mode; onExit: () => void }) => {
     return (
       <div className="max-w-2xl mx-auto">
         <GameHeader title={t("Xếp chữ cái", "Word Scramble")} mode={mode} onExit={onExit} scoreA={scoreA} scoreB={scoreB} currentPlayer={player} />
-        <div className="p-8 rounded-2xl bg-card border-2 border-primary text-center">
-          <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold mb-3">
-            {mode === "solo"
-              ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
-              : scoreA === scoreB ? t("Hòa!", "Tie!") : scoreA > scoreB ? `🏆 P1 ${scoreA} - ${scoreB} P2` : `P1 ${scoreA} - ${scoreB} P2 🏆`}
-          </h3>
-          <Button onClick={() => window.location.reload()} className="gap-2"><RotateCcw className="w-4 h-4" /> {t("Chơi lại", "Play again")}</Button>
-        </div>
+        <FinalScreen
+          mode={mode} scoreA={scoreA} scoreB={scoreB} maxCombo={0}
+          rank={saved?.rank ?? null} isNew={saved?.isNew ?? false}
+          gameKey="scramble" gameTitle={t("Xếp chữ cái", "Word Scramble")}
+          onReplay={onReplay} onExit={onExit}
+        />
       </div>
     );
   }

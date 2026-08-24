@@ -37,7 +37,11 @@ type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroo
 const VocabArena = () => {
   const { t } = useLanguage();
   const { isTeacher, user, loading: roleLoading } = useUserRole();
-  const [phase, setPhase] = useState<Phase>("menu");
+  const [phase, setPhase] = useState<Phase>(() => {
+    if (typeof window === "undefined") return "menu";
+    const screen = new URLSearchParams(window.location.search).get("screen");
+    return (screen as Phase) || "menu";
+  });
   const [result, setResult] = useState<GameResult | null>(null);
   const [directJoinCode, setDirectJoinCode] = useState<string>("");
 
@@ -50,6 +54,32 @@ const VocabArena = () => {
       setDirectJoinCode(code.trim().toUpperCase().slice(0, 6));
       setPhase("classroom-student");
     }
+  }, []);
+
+  // Keep the current screen in the URL so the browser Back button steps back
+  // through the Arena instead of leaving the page entirely.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const current = params.get("screen");
+    const target = phase === "menu" ? null : phase;
+    if (current === target) return;
+    if (target) params.set("screen", target);
+    else params.delete("screen");
+    const qs = params.toString();
+    const url = `${window.location.pathname}${qs ? `?${qs}` : ""}`;
+    if (phase === "menu") window.history.replaceState({}, "", url);
+    else window.history.pushState({}, "", url);
+  }, [phase]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onPop = () => {
+      const screen = new URLSearchParams(window.location.search).get("screen");
+      setPhase((screen as Phase) || "menu");
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
   }, []);
 
   // Prefetch heavy chunks when the user enters a sub-screen so the next click
@@ -434,6 +464,7 @@ const VocabArena = () => {
                 questions={soloQuestions}
                 lives={soloLives}
                 onGameEnd={handleSoloEnd}
+                onQuit={() => setPhase("solo-setup")}
                 isSuddenDeath={soloLives === 1}
               />
             </Suspense>
