@@ -79,6 +79,20 @@ interface Props {
   lookupWord?: (word: string) => LookupResult | null;
   /** Jump to the practice tab so learners can revise fading words. */
   onPractice?: (priorityWords?: string[]) => void;
+  /**
+   * `game_scores.game_type` used for the practice-accuracy card. Defaults to
+   * `vocab-<subject>`; pages that log a different key pass it explicitly.
+   */
+  accuracyGameType?: string;
+  /**
+   * Maps the stored mastery key to the text shown on the neuron. Swedish stores
+   * word ids, Japanese stores entry keys, so the label needs a lookup.
+   */
+  labelOf?: (storedWord: string) => string;
+  /** Language-aware pronunciation. Defaults to English TTS. */
+  speak?: (text: string) => void;
+  /** Milestone badges shown under the brain (IELTS band table by default). */
+  milestones?: { words: number; band: string }[];
 }
 
 interface MasteredRow {
@@ -115,7 +129,17 @@ const ForgettingCurve = ({ now, ifReviewed }: { now: number[]; ifReviewed: numbe
   );
 };
 
-const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPractice }: Props) => {
+const VocabBrainPanel = ({
+  subject = "ielts",
+  localWords,
+  t,
+  lookupWord,
+  onPractice,
+  accuracyGameType,
+  labelOf,
+  speak,
+  milestones = BAND_MILESTONES,
+}: Props) => {
   const [rows, setRows] = useState<MasteredRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [signedIn, setSignedIn] = useState(false);
@@ -171,7 +195,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
         .from("game_scores")
         .select("accuracy, created_at")
         .eq("user_id", uid)
-        .eq("game_type", `vocab-${subject}`)
+        .eq("game_type", accuracyGameType || `vocab-${subject}`)
         .order("created_at", { ascending: false })
         .limit(20),
     ]);
@@ -181,7 +205,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
       .filter((a): a is number => typeof a === "number");
     setAvgAccuracy(accs.length ? Math.round(accs.reduce((s, a) => s + a, 0) / accs.length) : null);
     setLoading(false);
-  }, [subject]);
+  }, [subject, accuracyGameType]);
 
   useEffect(() => { void loadRows(); }, [loadRows]);
 
@@ -208,6 +232,12 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
 
   const todayKey = useMemo(() => vnDayKey(new Date().toISOString()), []);
 
+  /** Stored mastery key -> displayed neuron text (identity unless `labelOf`). */
+  const label = useCallback(
+    (stored: string) => (labelOf ? labelOf(stored) || stored : stored),
+    [labelOf],
+  );
+
   /** word -> memory record (DB rows first, local stars count as reviewed today). */
   const wordStats = useMemo(() => {
     const map = new Map<string, { days: number; reviews: number; lastInterval: number }>();
@@ -222,14 +252,16 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
         const span = daysBetween(vnDayKey(r.created_at), vnDayKey(r.reviewed_at));
         lastInterval = reviews > 1 ? Math.round(span / (reviews - 1)) : 0;
       }
-      const prev = map.get(r.word);
-      if (!prev || days < prev.days) map.set(r.word, { days, reviews, lastInterval });
+      const key = label(r.word);
+      const prev = map.get(key);
+      if (!prev || days < prev.days) map.set(key, { days, reviews, lastInterval });
     });
     localWords.forEach(w => {
-      if (!map.has(w)) map.set(w, { days: 0, reviews: 1, lastInterval: 0 });
+      const key = label(w);
+      if (!map.has(key)) map.set(key, { days: 0, reviews: 1, lastInterval: 0 });
     });
     return map;
-  }, [rows, localWords, todayKey]);
+  }, [rows, localWords, todayKey, label]);
 
   const allNeurons: BrainNeuron[] = useMemo(
     () => buildNeurons([...wordStats.entries()].map(([word, s]) => ({ word, ...s }))),
@@ -287,9 +319,9 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
 
   /** How many mission words the learner has already reviewed today. */
   const missionDone = useMemo(() => {
-    const done = new Set(reviewedToday.map(w => w.toLowerCase()));
+    const done = new Set(reviewedToday.map(w => label(w).toLowerCase()));
     return mission.filter(n => done.has(n.word.toLowerCase())).length;
-  }, [mission, reviewedToday]);
+  }, [mission, reviewedToday, label]);
 
   const earnedBadges = LONG_TERM_BADGES.filter(n => zoneCounts.long >= n);
   const nextBadge = LONG_TERM_BADGES.find(n => zoneCounts.long < n);
@@ -320,7 +352,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
     return count;
   }, [rows, localWords, todayKey]);
 
-  const nextMilestone = BAND_MILESTONES.find(m => m.words > totalMastered);
+  const nextMilestone = milestones.find(m => m.words > totalMastered);
 
   const selectedInfo = useMemo(() => {
     if (!selected) return null;
@@ -490,7 +522,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {mission.map(n => {
-              const done = reviewedToday.some(w => w.toLowerCase() === n.word.toLowerCase());
+              const done = reviewedToday.some(w => label(w).toLowerCase() === n.word.toLowerCase());
               return (
                 <button
                   key={n.word}
@@ -721,7 +753,7 @@ const VocabBrainPanel = ({ subject = "ielts", localWords, t, lookupWord, onPract
             {selectedInfo.meta?.phonetic && (
               <span className="text-sm text-muted-foreground">/{selectedInfo.meta.phonetic.replace(/^\/|\/$/g, "")}/</span>
             )}
-            <Button size="icon" variant="outline" className="h-8 w-8" onClick={() => playEnglishTts(selected)}>
+            <Button size="icon" variant="outline" className="h-8 w-8" onClick={() => (speak ? speak(selected) : playEnglishTts(selected))}>
               <Volume2 className="h-4 w-4" />
             </Button>
             <Badge style={{ backgroundColor: selectedInfo.tier.color }} className="text-white">

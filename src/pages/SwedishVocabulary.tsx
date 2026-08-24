@@ -38,6 +38,15 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import { lazy, Suspense } from "react";
+
+const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
+const SWEDISH_MILESTONES = [
+  { words: 100, band: "YKI A1" },
+  { words: 300, band: "YKI A2" },
+  { words: 600, band: "YKI B1" },
+  { words: 1000, band: "YKI B2" },
+];
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
 import { ensureSwedishIpa } from "@/lib/swedishIpa";
@@ -744,6 +753,32 @@ const SwedishVocabulary = () => {
           <div className="mt-8">
             <VocabMasteryLeaderboard subject="swedish" currentCount={mastered.size} label={t("Bảng xếp hạng Từ vựng Thụy Điển", "Swedish Vocabulary Leaderboard")} />
           </div>
+
+          {/* 3D memory brain: mastery ids are mapped back to Swedish words for the labels */}
+          <Suspense fallback={<div className="h-40 rounded-xl bg-muted/30 animate-pulse mt-8" />}>
+            <VocabBrainPanel
+              subject="swedish"
+              localWords={[...mastered]}
+              t={t}
+              labelOf={(id) => SWEDISH_WORDS.find((w) => w.id === id)?.sv || id}
+              lookupWord={(sv) => {
+                const found = SWEDISH_WORDS.find((w) => w.sv === sv);
+                if (!found) return null;
+                return {
+                  word: found.sv,
+                  phonetic: found.ipa,
+                  definitionVi: found.vi,
+                  definitionEn: found.en,
+                };
+              }}
+              speak={(text) => { void playSwedishTts(text); }}
+              milestones={SWEDISH_MILESTONES}
+              onPractice={() => {
+                setView("exercise");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          </Suspense>
         </div>
       </main>
       <Footer />

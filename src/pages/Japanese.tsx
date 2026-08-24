@@ -4,9 +4,9 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Volume2 } from "lucide-react";
+import { Volume2, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,15 @@ import {
 } from "@/data/japaneseExpansion";
 import { VOCAB_TOPICS } from "@/data/japanese/vocab";
 import { KANJI_GROUPS } from "@/data/japanese/kanji";
+import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+
+const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
+const JA_MILESTONES = [
+  { words: 100, band: "JLPT N5" },
+  { words: 300, band: "N5+" },
+  { words: 600, band: "JLPT N4" },
+  { words: 1000, band: "N4+" },
+];
 
 // ---------- TTS ----------
 function speakJa(text: string) {
@@ -379,6 +388,11 @@ const GRAMMAR: Array<{ title: string; explain: string; examples: Phrase[] }> = [
 // ---------- Merged (base + expansion) datasets ----------
 const ALL_GREETINGS: Phrase[] = [...GREETINGS, ...GREETINGS_EXTRA];
 const ALL_VOCAB = [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items }))];
+
+/** Japanese word -> phrase, used by the memory brain tooltips. */
+const JA_WORD_INDEX = new Map<string, Phrase>(
+  ALL_VOCAB.flatMap((g) => g.items.map((p) => [p.jp, p] as [string, Phrase]))
+);
 const ALL_KANJI = [...KANJI_BASIC, ...KANJI_EXTRA, ...KANJI_GROUPS.flatMap((g) => g.items)];
 const ALL_DIALOGUES = [...DIALOGUES, ...DIALOGUES_EXTRA];
 const ALL_GRAMMAR = [...GRAMMAR, ...GRAMMAR_EXTRA];
@@ -401,22 +415,47 @@ const KanaGrid = ({ rows, label }: { rows: Array<[string, string]>; label: strin
   </div>
 );
 
-const PhraseRow = ({ p, lang }: { p: Phrase; lang: "vi" | "en" }) => (
+const PhraseRow = ({
+  p,
+  lang,
+  mastered,
+  onToggleMastered,
+}: {
+  p: Phrase;
+  lang: "vi" | "en";
+  /** When defined, a star toggle is shown so the word feeds the memory brain. */
+  mastered?: boolean;
+  onToggleMastered?: () => void;
+}) => (
   <div className="flex items-start justify-between gap-3 py-3 border-b border-pink-100 last:border-0">
     <div className="flex-1 min-w-0">
       <div className="text-lg font-semibold text-slate-800">{p.jp}</div>
       <div className="text-sm text-pink-700 italic">{p.romaji}</div>
       <div className="text-sm text-slate-600 mt-1">{lang === "vi" ? p.vi : p.en}</div>
     </div>
-    <Button size="sm" variant="outline" onClick={() => speakJa(p.jp)} className="shrink-0">
-      <Volume2 className="h-4 w-4" />
-    </Button>
+    <div className="flex shrink-0 items-center gap-2">
+      {onToggleMastered && (
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={onToggleMastered}
+          aria-label={mastered ? "Remove from mastered" : "Mark as mastered"}
+          className={mastered ? "border-amber-300 bg-amber-50 text-amber-600" : ""}
+        >
+          <Star className={`h-4 w-4 ${mastered ? "fill-amber-400 text-amber-500" : ""}`} />
+        </Button>
+      )}
+      <Button size="sm" variant="outline" onClick={() => speakJa(p.jp)}>
+        <Volume2 className="h-4 w-4" />
+      </Button>
+    </div>
   </div>
 );
 
 // ---------- Page ----------
 const Japanese = () => {
   const [quizPicks, setQuizPicks] = useState<Record<number, number>>({});
+  const { mastered, toggle: toggleMastered } = useMasteredVocab("japanese");
   const { lang, t } = useLanguage();
   const [params, setParams] = useSearchParams();
   const initialTab = params.get("tab") || "overview";
@@ -559,14 +598,53 @@ const Japanese = () => {
           </TabsContent>
 
           <TabsContent value="vocab" className="mt-6 space-y-6">
+            <p className="text-sm text-slate-600">
+              {t(
+                `Bấm ⭐ để đánh dấu từ đã nhớ. Bạn đã nhớ ${mastered.size} từ - các từ này sẽ sáng lên trong Bộ não từ vựng 3D ở cuối trang.`,
+                `Tap ⭐ to mark a word as mastered. You have ${mastered.size} mastered words - they light up the 3D vocabulary brain at the bottom of this page.`
+              )}
+            </p>
             {ALL_VOCAB.map(group => (
               <Card key={group.topic} className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-rose-700">{group.topic}</h3>
                 <div className="divide-y divide-pink-100">
-                  {group.items.map((p, i) => <PhraseRow key={i} p={p} lang={uiLang} />)}
+                  {group.items.map((p, i) => (
+                    <PhraseRow
+                      key={i}
+                      p={p}
+                      lang={uiLang}
+                      mastered={mastered.has(p.jp)}
+                      onToggleMastered={() => toggleMastered(p.jp)}
+                    />
+                  ))}
                 </div>
               </Card>
             ))}
+
+            {/* 3D memory brain for Japanese vocabulary */}
+            <Suspense fallback={<div className="h-40 rounded-xl bg-pink-50 animate-pulse" />}>
+              <VocabBrainPanel
+                subject="japanese"
+                localWords={[...mastered]}
+                t={t}
+                lookupWord={(w) => {
+                  const found = JA_WORD_INDEX.get(w);
+                  if (!found) return null;
+                  return {
+                    word: found.jp,
+                    phonetic: found.romaji,
+                    definitionVi: found.vi,
+                    definitionEn: found.en,
+                  };
+                }}
+                speak={speakJa}
+                milestones={JA_MILESTONES}
+                onPractice={() => {
+                  handleTab("quiz");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="kanji" className="mt-6">

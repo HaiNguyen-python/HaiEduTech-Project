@@ -18,6 +18,15 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import { lazy, Suspense } from "react";
+
+const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
+const FINNISH_MILESTONES = [
+  { words: 100, band: "YKI A1" },
+  { words: 300, band: "YKI A2" },
+  { words: 600, band: "YKI B1" },
+  { words: 1000, band: "YKI B2" },
+];
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
 import { supabase } from "@/integrations/supabase/client";
@@ -871,6 +880,31 @@ const FinnishVocabulary = () => {
               allWordsForQuiz={ieltsVocabData.map(w => ({ word: w.word, definition: w.definition.vi }))}
             />
           </div>
+          {/* 3D memory brain: mastered Finnish words as neurons that fade over time */}
+          <Suspense fallback={<div className="h-40 rounded-xl bg-muted/30 animate-pulse mt-8" />}>
+            <VocabBrainPanel
+              subject="finnish-vocab"
+              accuracyGameType="vocab-finnish-vocab"
+              localWords={[...mastered]}
+              t={t}
+              lookupWord={(w) => {
+                const found = ieltsVocabData.find(x => x.word === w);
+                if (!found) return null;
+                return {
+                  word: found.word,
+                  phonetic: found.ipa,
+                  definitionVi: found.definition.vi,
+                  definitionEn: found.definition.en,
+                };
+              }}
+              speak={(text) => { void playFinnishTts(text); }}
+              milestones={FINNISH_MILESTONES}
+              onPractice={() => {
+                setViewMode("exercise");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          </Suspense>
         </div>
       </div>
       <Footer />
