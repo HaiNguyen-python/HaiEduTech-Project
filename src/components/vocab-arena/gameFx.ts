@@ -84,7 +84,16 @@ export const comboLabel = (combo: number): string | null => {
 };
 
 // ------ High Scores (per game, top 5) ------
-export type GameKey = "memory" | "hunt" | "sprint" | "synonym" | "scramble";
+export type GameKey =
+  | "memory"
+  | "hunt"
+  | "sprint"
+  | "synonym"
+  | "scramble"
+  | "collocation"
+  | "oddone"
+  | "cloze"
+  | "listen";
 export interface HighScore {
   name: string;
   score: number;
@@ -135,4 +144,41 @@ export const dailySeed = (): number => {
 export const dailyLabel = (): string => {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
+// ------ Word picking ------
+// Mini games used to draw from all 800 words at random, so practice never
+// touched the words the learner actually starred or is about to forget.
+// This helper front-loads starred words, then fills the rest at random.
+export const starredWords = (): Set<string> => {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = localStorage.getItem("ielts_mastered");
+    return new Set<string>(raw ? JSON.parse(raw) : []);
+  } catch {
+    return new Set();
+  }
+};
+
+/**
+ * Picks `count` words, biased towards starred ones (up to ~60% of the round)
+ * while keeping enough variety for distractors.
+ */
+export const pickWords = <T extends { word: string }>(pool: T[], count: number, filter?: (w: T) => boolean): T[] => {
+  const usable = filter ? pool.filter(filter) : pool;
+  const base = usable.length >= Math.max(4, count) ? usable : pool;
+  const stars = starredWords();
+  const starred = base.filter((w) => stars.has(w.word));
+  const rest = base.filter((w) => !stars.has(w.word));
+  const shuffleArr = <X,>(a: X[]) => {
+    const arr = [...a];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  };
+  const wantStars = Math.min(starred.length, Math.ceil(count * 0.6));
+  const picked = [...shuffleArr(starred).slice(0, wantStars), ...shuffleArr(rest).slice(0, count - wantStars)];
+  return shuffleArr(picked).slice(0, count);
 };
