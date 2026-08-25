@@ -39,6 +39,7 @@ const targets = {
 };
 
 const wordCount = text => (String(text).match(/[A-Za-zÀ-ỹ0-9']+/g) ?? []).length;
+const answerWordCount = text => String(text).trim().split(/\s+/).filter(Boolean).length;
 const normalise = text => String(text).toLowerCase().replace(/[.,!?;:"'()\[\]-]/g, " ").replace(/\s+/g, " ").trim();
 const includesLoose = (transcript, answer) => {
   const plain = normalise(transcript);
@@ -78,7 +79,7 @@ for (const set of ALL_LISTENING_SETS) {
   set.questions.forEach((question, index) => {
     if (question.type === "fill-in") {
       fillCount += 1;
-      const answerWords = wordCount(question.answer);
+      const answerWords = answerWordCount(question.answer);
       if (!question.maxWords) issues.push(`${set.id} Q${index + 1}: fill-in missing maxWords`);
       if (question.maxWords && answerWords > question.maxWords) issues.push(`${set.id} Q${index + 1}: answer exceeds maxWords`);
       if (!includesLoose(set.transcript, question.answer)) issues.push(`${set.id} Q${index + 1}: fill answer "${question.answer}" not supported in transcript`);
