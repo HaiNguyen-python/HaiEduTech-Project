@@ -37,12 +37,33 @@ const inferredMaxWords = (answer: string) => {
   return Math.max(1, Math.min(3, trimmed.split(/\s+/).length));
 };
 
-const normaliseQuestions = (questions: ListeningQuestion[]): ListeningQuestion[] =>
-  questions.map(question => {
+const hashText = (text: string) => {
+  let hash = 0;
+  for (let i = 0; i < text.length; i += 1) hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
+  return hash;
+};
+
+const rotateMcqAnswer = (question: Extract<ListeningQuestion, { type: "mcq" }>, targetIndex: number) => {
+  const currentAnswer = question.options[question.answer];
+  if (typeof currentAnswer !== "string") return question;
+  const remaining = question.options.filter((_, index) => index !== question.answer);
+  const options = [...remaining];
+  options.splice(targetIndex, 0, currentAnswer);
+  return { ...question, options, answer: targetIndex };
+};
+
+const normaliseQuestions = (set: ListeningPracticeSet): ListeningQuestion[] =>
+  set.questions.map((question, index) => {
+    if (question.type === "mcq") {
+      const targetIndex = (hashText(set.id) + index) % Math.max(1, question.options.length);
+      return rotateMcqAnswer(question, targetIndex);
+    }
     if (question.type !== "fill-in") return question;
+    const answer = String(question.answer);
+    const inferred = inferredMaxWords(answer);
     return {
       ...question,
-      maxWords: question.maxWords ?? inferredMaxWords(String(question.answer)),
+      maxWords: Math.max(question.maxWords ?? inferred, inferred),
     };
   });
 
@@ -246,7 +267,7 @@ const upgradedContextVi = (set: ListeningPracticeSet) => {
 };
 
 export const upgradeListeningSet = (set: ListeningPracticeSet): ListeningPracticeSet => {
-  const questions = normaliseQuestions(set.questions);
+  const questions = normaliseQuestions(set);
   const upgradedSet = { ...set, questions };
   return {
     ...upgradedSet,
