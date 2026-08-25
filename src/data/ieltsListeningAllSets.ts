@@ -19,8 +19,9 @@ import { ieltsListeningPracticeSetsExpansion8 } from "./ieltsListeningPracticeEx
 import { ieltsListeningPracticeSetsExpansion9 } from "./ieltsListeningPracticeExpansion9";
 import { ieltsListeningPracticeSetsExpansion10 } from "./ieltsListeningPracticeExpansion10";
 import { ieltsListeningPracticeSetsExpansion11 } from "./ieltsListeningPracticeExpansion11";
+import { upgradeListeningSet } from "./ieltsListeningDifficultyUpgrade";
 
-export const ALL_LISTENING_SETS: ListeningPracticeSet[] = [
+const RAW_LISTENING_SETS: ListeningPracticeSet[] = [
   ...ieltsListeningPracticeSets,
   ...ieltsListeningPracticeSetsExpansion,
   ...ieltsListeningPracticeSetsExpansion2,
@@ -34,5 +35,7 @@ export const ALL_LISTENING_SETS: ListeningPracticeSet[] = [
   ...ieltsListeningPracticeSetsExpansion10,
   ...ieltsListeningPracticeSetsExpansion11,
 ];
+
+export const ALL_LISTENING_SETS: ListeningPracticeSet[] = RAW_LISTENING_SETS.map(upgradeListeningSet);
 
 export const listeningSetById = new Map(ALL_LISTENING_SETS.map(s => [s.id, s]));
