@@ -189,15 +189,51 @@ const fillerPool = (section: Section, topic: string): string[] => {
   ];
 };
 
+const FILLER_TAILS = [
+  "It is a small detail, but it comes up in almost every session.",
+  "I mention it because two people asked about exactly that last week.",
+  "You do not need to write that part down.",
+  "That has been the position since the review was completed.",
+  "It applies all year, not only in the busy months.",
+  "The wording on the website is clearer than the printed version.",
+  "I will say a little more about that at the end if there is time.",
+  "Most people find it makes sense once they have seen the layout.",
+];
+
+/** Produces an endless supply of distinct filler lines for a section. */
+const fillerLines = (section: Section, topic: string, random: () => number) => {
+  const base = shuffled(fillerPool(section, topic), random);
+  const tails = shuffled(FILLER_TAILS, random);
+  const speaker = section === 1 ? "Receptionist" : section === 2 ? "Speaker" : section === 3 ? "Tutor" : "Lecturer";
+  const out: string[] = [];
+  for (let round = 0; round < tails.length; round += 1) {
+    base.forEach(sentence => {
+      out.push(round === 0 ? `${speaker}: ${sentence}` : `${speaker}: ${sentence} ${tails[round]}`);
+    });
+  }
+  return out;
+};
+
 const padToTarget = (lines: string[], targetWords: number, section: Section, topic: string, random: () => number) => {
-  const pool = shuffled(fillerPool(section, topic), random);
+  const pool = fillerLines(section, topic, random);
   let index = 0;
   while (wordCount(lines.join("\n")) < targetWords && index < pool.length) {
-    const speaker = section === 1 ? "Receptionist" : section === 2 ? "Speaker" : section === 3 ? "Tutor" : "Lecturer";
-    lines.splice(Math.min(lines.length - 1, 4 + index * 3), 0, `${speaker}: ${pool[index]}`);
+    lines.splice(Math.min(lines.length - 1, 4 + index * 3), 0, pool[index]);
     index += 1;
   }
   return lines;
+};
+
+/** Makes any verbatim repeated line unique so the audio never loops a sentence. */
+const dedupeLines = (lines: string[], random: () => number) => {
+  const tails = shuffled(FILLER_TAILS, random);
+  const seen = new Map<string, number>();
+  return lines.map(line => {
+    const count = seen.get(line) ?? 0;
+    seen.set(line, count + 1);
+    if (count === 0) return line;
+    return `${line} ${tails[(count - 1) % tails.length]}`;
+  });
 };
 
 const SECTION_ONE_OPENINGS = [
@@ -314,7 +350,7 @@ const buildSectionOne = (set: ListeningPracticeSet, random: () => number) => {
     "Receptionist: Lovely, all done. I'll send the details over and you can check them at your leisure.",
   ], random));
   lines.push("Caller: Thank you, that's been very helpful.");
-  return padToTarget(lines, 500, 1, topic, random).join("\n");
+  return dedupeLines(padToTarget(lines, 540, 1, topic, random), random).join("\n");
 };
 
 const buildSectionTwo = (set: ListeningPracticeSet, random: () => number) => {
@@ -361,7 +397,7 @@ const buildSectionTwo = (set: ListeningPracticeSet, random: () => number) => {
     "Speaker: Right, I'll stop there. There's a leaflet by the door with the timings, though the rest of it is a year out of date.",
     "Speaker: That covers the essentials. I'll be at the front if you want to check anything before we set off.",
   ], random));
-  return padToTarget(lines, 720, 2, topic, random).join("\n");
+  return dedupeLines(padToTarget(lines, 780, 2, topic, random), random).join("\n");
 };
 
 const personForLetter = (options: MatchingOption[] | undefined, letter: string) => {
@@ -424,7 +460,7 @@ const buildSectionThree = (set: ListeningPracticeSet, random: () => number) => {
 
   lines.push("Tutor: Good. Check your notes against each other before you leave, because one or two allocations changed while we were talking.");
   lines.push(`${second}: We will. Thanks for sorting it out.`);
-  return padToTarget(lines, 820, 3, topic, random).join("\n");
+  return dedupeLines(padToTarget(lines, 850, 3, topic, random), random).join("\n");
 };
 
 const buildSectionFour = (set: ListeningPracticeSet, random: () => number) => {
@@ -460,7 +496,7 @@ const buildSectionFour = (set: ListeningPracticeSet, random: () => number) => {
   });
 
   lines.push("Lecturer: I'll leave it there. Next week we'll set this against a case study and look at how policy responded to the same evidence.");
-  return padToTarget(lines, 800, 4, topic, random).join("\n");
+  return dedupeLines(padToTarget(lines, 850, 4, topic, random), random).join("\n");
 };
 
 const buildTranscript = (set: ListeningPracticeSet, random: () => number) => {
