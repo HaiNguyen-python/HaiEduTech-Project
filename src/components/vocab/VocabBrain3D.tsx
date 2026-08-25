@@ -132,7 +132,7 @@ const LabelProjector = ({
 
     onLabels(
       picked.map(({ neuron, sx, sy, facing }) => {
-        const info = tierForDays(neuron.days);
+        const info = tierForDays(neuron.days, neuron.known);
         const isKey =
           selected?.toLowerCase() === neuron.word.toLowerCase() ||
           focusWord?.toLowerCase() === neuron.word.toLowerCase();
@@ -179,7 +179,7 @@ const NeuronCloud = ({
       pos[i * 3] = n.x;
       pos[i * 3 + 1] = n.y;
       pos[i * 3 + 2] = n.z;
-      const info = tierForDays(n.days);
+      const info = tierForDays(n.days, n.known);
       c.set(info.color);
       col[i * 3] = c.r;
       col[i * 3 + 1] = c.g;
@@ -207,8 +207,8 @@ const NeuronCloud = ({
       const na = neurons[a];
       const nb = neurons[b];
       lp.set([na.x, na.y, na.z, nb.x, nb.y, nb.z], i * 6);
-      const ia = tierForDays(na.days);
-      const ib = tierForDays(nb.days);
+      const ia = tierForDays(na.days, na.known);
+      const ib = tierForDays(nb.days, nb.known);
       c.set(ia.color).multiplyScalar(ia.alpha * 0.8);
       lc.set([c.r, c.g, c.b], i * 6);
       c.set(ib.color).multiplyScalar(ib.alpha * 0.8);

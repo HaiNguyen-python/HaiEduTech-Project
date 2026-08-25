@@ -54,6 +54,34 @@ const daysBetween = (dayKey: string, todayKey: string): number => {
   const b = new Date(`${todayKey}T00:00:00Z`).getTime();
   return Math.max(0, Math.round((b - a) / 86_400_000));
 };
+/**
+ * Guests have no server rows, so the day a word was first starred on this
+ * device is the only usable "learned at" timestamp. Key: normalised label.
+ */
+const localStarKey = (subject: string) => `vocab_star_days_${subject}`;
+
+const readLocalStarDays = (subject: string): Record<string, string> => {
+  try {
+    const raw = localStorage.getItem(localStarKey(subject));
+    return raw ? (JSON.parse(raw) as Record<string, string>) : {};
+  } catch { return {}; }
+};
+
+const rememberLocalStarDays = (subject: string, words: string[]) => {
+  try {
+    const map = readLocalStarDays(subject);
+    const nowIso = new Date().toISOString();
+    let changed = false;
+    words.forEach(w => {
+      const key = w.trim().toLowerCase();
+      if (!key || map[key]) return;
+      map[key] = nowIso;
+      changed = true;
+    });
+    if (changed) localStorage.setItem(localStarKey(subject), JSON.stringify(map));
+  } catch { /* ignore */ }
+};
+
 
 const BAND_MILESTONES = [
   { words: 100, band: "5.5" },
@@ -149,7 +177,10 @@ const VocabBrainPanel = ({
 }: Props) => {
   const [rows, setRows] = useState<MasteredRow[]>([]);
   const [loading, setLoading] = useState(true);
+  /** True when the memory rows could not be read (never fake a green brain). */
+  const [loadError, setLoadError] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
+
   const [avgAccuracy, setAvgAccuracy] = useState<number | null>(null);
   const [filter, setFilter] = useState<Filter>("all");
   const [selected, setSelected] = useState<string | null>(null);
@@ -188,7 +219,7 @@ const VocabBrainPanel = ({
   const loadRows = useCallback(async () => {
     const { data: auth } = await supabase.auth.getUser();
     const uid = auth?.user?.id;
-    if (!uid) { setSignedIn(false); setLoading(false); return; }
+    if (!uid) { setSignedIn(false); setLoadError(false); setLoading(false); return; }
     setSignedIn(true);
 
     const [vocabRes, scoreRes] = await Promise.all([
@@ -206,6 +237,14 @@ const VocabBrainPanel = ({
         .order("created_at", { ascending: false })
         .limit(20),
     ]);
+    // A failed read must never fall back to the local stars: every word would
+    // then look "reviewed today" and the whole brain would turn green.
+    if (vocabRes.error) {
+      setLoadError(true);
+      setLoading(false);
+      return;
+    }
+    setLoadError(false);
     setRows((vocabRes.data || []) as MasteredRow[]);
     const accs = ((scoreRes.data || []) as { accuracy: number | null }[])
       .map(r => r.accuracy)
@@ -214,6 +253,7 @@ const VocabBrainPanel = ({
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subject, accuracyGameType, extraSubjects.join(",")]);
+
 
   useEffect(() => { void loadRows(); }, [loadRows]);
 
@@ -246,9 +286,18 @@ const VocabBrainPanel = ({
     [labelOf],
   );
 
-  /** word -> memory record (DB rows first, local stars count as reviewed today). */
+  /**
+   * word -> memory record. Database rows are the only source of truth for how
+   * long ago a word was reviewed. A locally starred word with no row is marked
+   * `known: false` (grey "unknown") instead of being treated as reviewed today,
+   * which used to paint the whole brain green. Guests (no rows at all) fall back
+   * to the day the star was first seen on this device.
+   */
   const wordStats = useMemo(() => {
-    const map = new Map<string, { days: number; reviews: number; lastInterval: number }>();
+    type Stat = { label: string; days: number; reviews: number; lastInterval: number; known: boolean };
+    const map = new Map<string, Stat>();
+    // Normalised key so "Abandon" and "abandon" are the same neuron.
+    const norm = (s: string) => s.trim().toLowerCase();
     rows.forEach(r => {
       const iso = r.reviewed_at || r.created_at;
       if (!iso) return;
@@ -260,63 +309,85 @@ const VocabBrainPanel = ({
         const span = daysBetween(vnDayKey(r.created_at), vnDayKey(r.reviewed_at));
         lastInterval = reviews > 1 ? Math.round(span / (reviews - 1)) : 0;
       }
-      const key = label(r.word);
+      const text = label(r.word);
+      const key = norm(text);
       const prev = map.get(key);
-      if (!prev || days < prev.days) map.set(key, { days, reviews, lastInterval });
+      if (!prev || days < prev.days) map.set(key, { label: text, days, reviews, lastInterval, known: true });
     });
+    const seenLocally = signedIn ? {} : readLocalStarDays(subject);
     localWords.forEach(w => {
-      const key = label(w);
-      if (!map.has(key)) map.set(key, { days: 0, reviews: 1, lastInterval: 0 });
+      const text = label(w);
+      const key = norm(text);
+      if (map.has(key)) return;
+      const startedIso = signedIn ? null : seenLocally[key];
+      map.set(key, {
+        label: text,
+        days: startedIso ? daysBetween(vnDayKey(startedIso), todayKey) : 0,
+        reviews: 1,
+        lastInterval: 0,
+        // Signed-in learners always have rows; a star without one has no history.
+        known: !signedIn && !!startedIso,
+      });
     });
     return map;
-  }, [rows, localWords, todayKey, label]);
+  }, [rows, localWords, todayKey, label, signedIn, subject]);
+
+  // Guests have no server history: remember when each star first appeared here.
+  useEffect(() => {
+    if (signedIn || localWords.length === 0) return;
+    rememberLocalStarDays(subject, localWords.map(w => (labelOf ? labelOf(w) || w : w)));
+  }, [signedIn, localWords, subject, labelOf]);
 
   const allNeurons: BrainNeuron[] = useMemo(
-    () => buildNeurons([...wordStats.entries()].map(([word, s]) => ({ word, ...s }))),
+    () => buildNeurons([...wordStats.values()].map(s => ({ ...s, word: s.label }))),
     [wordStats],
   );
+
 
   const neurons = useMemo(() => {
     if (filter === "all") return allNeurons;
     if (filter.startsWith("zone:")) {
       const wanted = filter.slice(5) as MemoryZone;
-      return allNeurons.filter(n => n.zone === wanted);
+      return allNeurons.filter(n => n.known && n.zone === wanted);
     }
     if (filter.startsWith("tier:")) {
       const wanted = filter.slice(5) as DecayTier;
-      return allNeurons.filter(n => tierForDays(n.days).tier === wanted);
+      return allNeurons.filter(n => tierForDays(n.days, n.known).tier === wanted);
     }
-    if (filter === "fresh") return allNeurons.filter(n => n.days <= 6);
-    if (filter === "fading") return allNeurons.filter(n => n.days > 6 && n.days <= 20);
-    return allNeurons.filter(n => n.days > 20);
+    if (filter === "fresh") return allNeurons.filter(n => n.known && n.days <= 6);
+    if (filter === "fading") return allNeurons.filter(n => n.known && n.days > 6 && n.days <= 20);
+    return allNeurons.filter(n => n.known && n.days > 20);
   }, [allNeurons, filter]);
 
   const tierCounts = useMemo(() => {
     const c: Record<string, number> = {};
     allNeurons.forEach(n => {
-      const { tier } = tierForDays(n.days);
+      const { tier } = tierForDays(n.days, n.known);
       c[tier] = (c[tier] || 0) + 1;
     });
     return c;
   }, [allNeurons]);
 
+  /** Only words with a real review history carry memory statistics. */
+  const knownNeurons = useMemo(() => allNeurons.filter(n => n.known), [allNeurons]);
+
   const zoneCounts = useMemo(() => {
     const c: Record<MemoryZone, number> = { short: 0, consolidating: 0, long: 0 };
-    allNeurons.forEach(n => { c[n.zone] += 1; });
+    knownNeurons.forEach(n => { c[n.zone] += 1; });
     return c;
-  }, [allNeurons]);
+  }, [knownNeurons]);
 
-  /** Average retention across every word: the "memory health" of the brain. */
+  /** Average retention across every measurable word: the "memory health". */
   const memoryHealth = useMemo(() => {
-    if (allNeurons.length === 0) return 0;
-    const sum = allNeurons.reduce((acc, n) => acc + n.strength, 0);
-    return Math.round((sum / allNeurons.length) * 100);
-  }, [allNeurons]);
+    if (knownNeurons.length === 0) return 0;
+    const sum = knownNeurons.reduce((acc, n) => acc + n.strength, 0);
+    return Math.round((sum / knownNeurons.length) * 100);
+  }, [knownNeurons]);
 
   /** Words that will drop below 60% retention within a week. */
   const atRisk = useMemo(
-    () => allNeurons.filter(n => daysUntilRetention({ days: n.days, reviews: n.reviews, lastInterval: n.lastInterval }) <= 7),
-    [allNeurons],
+    () => knownNeurons.filter(n => daysUntilRetention({ days: n.days, reviews: n.reviews, lastInterval: n.lastInterval }) <= 7),
+    [knownNeurons],
   );
 
   /** Today's mission: the 10 most urgent words to rescue. */
@@ -335,8 +406,10 @@ const VocabBrainPanel = ({
   const nextBadge = LONG_TERM_BADGES.find(n => zoneCounts.long < n);
 
   const totalMastered = allNeurons.length;
-  const last7 = allNeurons.filter(n => n.days <= 7).length;
-  const needRevise = allNeurons.filter(n => n.days > 20).length;
+  const unknownCount = allNeurons.length - knownNeurons.length;
+  const last7 = knownNeurons.filter(n => n.days <= 7).length;
+  const needRevise = knownNeurons.filter(n => n.days > 20).length;
+
 
   // Consecutive vocabulary study days ending today or yesterday (Vietnam time).
   const streak = useMemo(() => {
@@ -365,15 +438,17 @@ const VocabBrainPanel = ({
   const selectedInfo = useMemo(() => {
     if (!selected) return null;
     const neuron = allNeurons.find(n => n.word === selected);
-    const stat = wordStats.get(selected);
+    const stat = wordStats.get(selected.trim().toLowerCase());
     const days = neuron?.days ?? stat?.days ?? 0;
     const reviews = neuron?.reviews ?? 1;
     const lastInterval = neuron?.lastInterval ?? 0;
+    const known = neuron?.known ?? stat?.known ?? false;
     const input = { days, reviews, lastInterval };
     return {
       days,
       reviews,
       lastInterval,
+      known,
       strength: neuron?.strength ?? 0,
       zone: zoneInfo(neuron?.zone ?? memoryZone(input)),
       dueIn: daysUntilRetention(input),
@@ -381,10 +456,11 @@ const VocabBrainPanel = ({
       curveNow: Array.from({ length: 31 }, (_, i) => retentionAfter(input, days + i)),
       curveIfReviewed: Array.from({ length: 31 }, (_, i) =>
         retentionAfter({ days: 0, reviews: reviews + 1, lastInterval: Math.max(lastInterval, days) }, i)),
-      tier: tierForDays(days),
+      tier: tierForDays(days, known),
       meta: lookupWord?.(selected) || null,
     };
   }, [selected, allNeurons, wordStats, lookupWord]);
+
 
   const stat = (icon: React.ReactNode, value: string, label: string, tone: string) => (
     <div className="rounded-xl border border-border bg-card p-4">
@@ -431,6 +507,36 @@ const VocabBrainPanel = ({
   return (
     <section className="mt-10 rounded-2xl border border-border bg-card/60 p-4 sm:p-6">
       <div className="mb-5">
+  if (loading || loadError) {
+    return (
+      <section className="mt-10 rounded-2xl border border-border bg-card/60 p-6">
+        <h2 className="mb-2 flex items-center gap-2 text-xl font-bold text-foreground">
+          <Brain className="h-5 w-5 text-primary" />
+          {t("Bộ não từ vựng của bạn", "Your vocabulary brain")}
+        </h2>
+        {loadError ? (
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              {t("Chưa tải được dữ liệu độ nhớ nên bộ não tạm ẩn (để tránh hiển thị sai màu). Hãy thử lại.",
+                 "Your memory data could not be loaded, so the brain is hidden to avoid showing wrong colours. Please try again.")}
+            </p>
+            <Button size="sm" onClick={() => { setLoading(true); void loadRows(); }}>
+              <RotateCcw className="mr-1 h-4 w-4" />
+              {t("Thử lại", "Retry")}
+            </Button>
+          </div>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            {t("Đang tải dữ liệu độ nhớ...", "Loading your memory data...")}
+          </p>
+        )}
+      </section>
+    );
+  }
+
+  return (
+    <section className="mt-10 rounded-2xl border border-border bg-card/60 p-4 sm:p-6">
+      <div className="mb-5">
         <h2 className="flex items-center gap-2 text-xl font-bold text-foreground">
           <Brain className="h-5 w-5 text-primary" />
           {t("Bộ não từ vựng của bạn", "Your vocabulary brain")}
@@ -439,11 +545,18 @@ const VocabBrainPanel = ({
           {t("Từ mới học nằm ở lớp vỏ ngoài (bộ nhớ ngắn hạn) và mờ đi rất nhanh. Mỗi lần ôn lại cách nhau vài ngày, từ đó chìm dần vào lõi sáng bên trong: bộ nhớ dài hạn, nơi rất khó quên.",
              "Newly learned words sit on the outer cortex (short-term memory) and fade fast. Each spaced review sinks a word deeper towards the glowing core: long-term memory, where it is hard to forget.")}
         </p>
+        {unknownCount > 0 && (
+          <p className="mt-2 text-xs text-muted-foreground">
+            {t(`${unknownCount} từ đang màu xám vì chưa có dữ liệu ôn tập trên hệ thống - hãy ôn một lần để bắt đầu đo độ nhớ.`,
+               `${unknownCount} words are grey because they have no review history yet - review them once to start measuring memory.`)}
+          </p>
+        )}
       </div>
 
       {/* Stat cards */}
       <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {stat(<Target className="h-3.5 w-3.5" />, String(totalMastered), t("Tổng từ đã thuộc", "Total mastered"), "text-primary")}
+
         {stat(<Lock className="h-3.5 w-3.5" />, String(zoneCounts.long), t("Đã vào dài hạn", "In long-term"), "text-emerald-600")}
         {stat(<Hourglass className="h-3.5 w-3.5" />, String(zoneCounts.short), t("Còn ở ngắn hạn", "Still short-term"), "text-sky-500")}
         {stat(<Activity className="h-3.5 w-3.5" />, `${memoryHealth}%`, t("Sức khỏe bộ nhớ", "Memory health"), "text-violet-500")}
