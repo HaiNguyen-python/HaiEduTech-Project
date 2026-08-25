@@ -1,34 +1,40 @@
 /**
- * Runtime content upgrade layer for IELTS Listening practice sets.
- * It keeps stable IDs while expanding scripts to a more realistic IELTS length.
+ * Content quality layer for IELTS Listening practice sets.
+ * Builds exam-realistic recordings from the authored question data while
+ * keeping set IDs stable. Answers are embedded in natural speech: no phrase
+ * ever announces that a detail is "the answer", and distractors are spoken
+ * as genuine alternatives rather than being labelled as wrong.
  * @copyright 2026 HaiEduTech
  */
 import type { ListeningPracticeSet, ListeningQuestion } from "./ieltsListeningPractice";
 
 type MatchingOption = NonNullable<ListeningPracticeSet["matchingOptions"]>[number];
+type Section = ListeningPracticeSet["section"];
 
 const wordCount = (text: string) => (text.match(/[A-Za-zÀ-ỹ0-9']+/g) ?? []).length;
 
 const collapseSpaces = (text: string) => text.replace(/\s+/g, " ").trim();
 
-const cleanPrompt = (prompt: string) =>
+/** Turns a question prompt into a phrase that can be spoken inside a sentence. */
+const promptPhrase = (prompt: string) =>
   collapseSpaces(
     prompt
-      .replace(/_+/g, "blank")
+      .replace(/_+/g, " ")
+      .replace(/:\s*$/, "")
       .replace(/\s+:/g, ":")
-      .replace(/\s+\?/g, "?")
-      .replace(/\s+\./g, "."),
-  );
+      .replace(/\s+([?.,])/g, "$1")
+      .replace(/[?.:]\s*$/, ""),
+  ).toLowerCase();
 
 const answerText = (question: ListeningQuestion) => {
   if (question.type === "fill-in" || question.type === "matching") return String(question.answer);
   const option = question.options[question.answer];
-  return typeof option === "string" ? option : "the confirmed option";
+  return typeof option === "string" ? option : "that arrangement";
 };
 
 const fillPromptWithAnswer = (prompt: string, answer: string) => {
-  if (prompt.includes("___")) return prompt.replace(/___+/g, answer);
-  return `${prompt} ${answer}`;
+  const cleaned = collapseSpaces(prompt.replace(/_+/g, answer));
+  return /[.?!]$/.test(cleaned) ? cleaned : `${cleaned}.`;
 };
 
 const inferredMaxWords = (answer: string) => {
@@ -38,9 +44,36 @@ const inferredMaxWords = (answer: string) => {
 };
 
 const hashText = (text: string) => {
-  let hash = 0;
-  for (let i = 0; i < text.length; i += 1) hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
-  return hash;
+  let hash = 2166136261;
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 16777619) >>> 0;
+  }
+  return hash >>> 0;
+};
+
+/** Deterministic per-set random generator so content varies but stays stable. */
+const makeRandom = (seed: number) => {
+  let state = seed || 1;
+  return () => {
+    state = (state + 0x6d2b79f5) >>> 0;
+    let t = state;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+};
+
+const pick = <T,>(items: T[], random: () => number) => items[Math.floor(random() * items.length) % items.length];
+
+/** Fisher-Yates using the seeded generator. */
+const shuffled = <T,>(items: T[], random: () => number) => {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
 };
 
 const rotateMcqAnswer = (question: Extract<ListeningQuestion, { type: "mcq" }>, targetIndex: number) => {
@@ -52,115 +85,283 @@ const rotateMcqAnswer = (question: Extract<ListeningQuestion, { type: "mcq" }>, 
   return { ...question, options, answer: targetIndex };
 };
 
-const normaliseQuestions = (set: ListeningPracticeSet): ListeningQuestion[] =>
+/**
+ * Rebalances matching keys: the letters keep their meaning by moving the
+ * option texts, so each letter is used a different amount across the bank.
+ */
+const rebalanceMatching = (set: ListeningPracticeSet, random: () => number) => {
+  const options = set.matchingOptions;
+  if (!options || options.length < 2) return { questions: set.questions, matchingOptions: options };
+  const letters = options.map(option => option.letter);
+  const texts = shuffled(options.map(option => ({ text: option.text, textVi: option.textVi })), random);
+  const remap = new Map<string, string>(); // old letter -> new letter
+  options.forEach(option => {
+    const newIndex = texts.findIndex(entry => entry.text === option.text);
+    remap.set(option.letter, letters[newIndex]);
+  });
+  const matchingOptions: MatchingOption[] = letters.map((letter, index) => ({
+    letter,
+    text: texts[index].text,
+    ...(texts[index].textVi ? { textVi: texts[index].textVi } : {}),
+  }));
+  const questions = set.questions.map(question =>
+    question.type === "matching"
+      ? { ...question, answer: remap.get(String(question.answer)) ?? question.answer }
+      : question,
+  );
+  return { questions, matchingOptions };
+};
+
+const normaliseQuestions = (set: ListeningPracticeSet, random: () => number): ListeningQuestion[] =>
   set.questions.map((question, index) => {
     if (question.type === "mcq") {
-      const targetIndex = (hashText(set.id) + index) % Math.max(1, question.options.length);
+      const targetIndex = (hashText(`${set.id}:${index}`) + index) % Math.max(1, question.options.length);
       return rotateMcqAnswer(question, targetIndex);
     }
     if (question.type !== "fill-in") return question;
     const answer = String(question.answer);
     const inferred = inferredMaxWords(answer);
-    return {
-      ...question,
-      maxWords: Math.max(question.maxWords ?? inferred, inferred),
-    };
+    return { ...question, maxWords: Math.max(question.maxWords ?? inferred, inferred) };
   });
 
-const optionDistractors = (question: ListeningQuestion) => {
+const otherOptions = (question: ListeningQuestion) => {
   if (question.type !== "mcq") return [];
-  return question.options.filter((_, index) => index !== question.answer).slice(0, 3);
+  return question.options.filter((_, index) => index !== question.answer).map(String);
 };
 
-const naturalAnswerRepeat = (answer: string) => {
-  if (/^[A-Z0-9 ]{4,}$/.test(answer)) {
-    return `${answer}. I will say it slowly once more for the form: ${answer}.`;
+const spellOut = (answer: string) => {
+  if (!/^[A-Za-z]{4,12}$/.test(answer)) return null;
+  return answer.toUpperCase().split("").join("-");
+};
+
+/** Topic-aware filler sentences: unique per use, so no line is ever repeated. */
+const fillerPool = (section: Section, topic: string): string[] => {
+  const common = [
+    `Just so the picture is complete, ${topic} has been organised slightly differently over the last two years, and a few people are still working from the older information.`,
+    `There is quite a lot of interest in ${topic} at the moment, which is why the arrangements have been reviewed and, in a couple of places, simplified.`,
+    `Most of what I am describing about ${topic} is written down somewhere, but the printed versions are not always up to date, so it is worth taking notes.`,
+  ];
+  if (section === 1) {
+    return [
+      ...common,
+      "I do have to read the screen while I type, so there may be a short pause between one field and the next.",
+      "If any of these details change during the week, you can ring back and we will amend the record without a charge.",
+      "The system asks for the details in a fixed order, so I may come back to something you have already mentioned.",
+      "We keep the paperwork for three years, and after that it is deleted automatically unless you renew.",
+      "One thing that catches people out is that the confirmation email arrives from a different address, so it sometimes ends up in the junk folder.",
+      "There is a short summary at the end of the call, which is when most people notice a small mistake in a name or a number.",
+      "We can also post a paper copy, although that takes about a week longer than the electronic version.",
+    ];
   }
-  return answer;
+  if (section === 2) {
+    return [
+      ...common,
+      "You will see a number of noticeboards as you walk round, and some of them describe a layout that was changed at the start of the year.",
+      "Staff wearing green badges are volunteers, so if a question is about money or bookings they will pass you on to the office.",
+      "During school holidays the site is considerably busier, and at those times we open a second entrance to spread the crowds out.",
+      "There is a small shop by the exit, and profits from it go back into maintaining the buildings and the grounds.",
+      "We ask groups to stay together in the narrower parts of the route, mostly because the floors there are uneven.",
+      "Photography is fine everywhere except in one room, and that is marked with a sign rather than announced.",
+      "If the weather turns, the outdoor part of the visit is shortened rather than cancelled altogether.",
+    ];
+  }
+  if (section === 3) {
+    return [
+      ...common,
+      "Before we go further, remember that the marking scheme rewards the quality of the argument far more than the number of sources.",
+      "I would rather you produced something narrow and well evidenced than something broad and rather thin.",
+      "Last year a group ran into trouble because they left the data cleaning until the week before submission.",
+      "It is worth agreeing now how you will keep your notes, because two different filing systems tends to cause duplication.",
+      "If one part turns out to be much larger than expected, come back to me instead of quietly reallocating everything.",
+      "You will each be asked to comment on the process in the reflective section, so keep a record of the decisions you make.",
+      "There is a workshop on Thursday about referencing software, and I think it would save you both a fair amount of time.",
+    ];
+  }
+  return [
+    ...common,
+    "It is worth remembering that the early studies in this area used small samples, which is one reason the figures are often quoted with caution.",
+    "The terminology has shifted as well, so older papers use a word that now has a slightly narrower meaning.",
+    "Where measurements were taken makes a considerable difference, and that is not always stated clearly in the published summaries.",
+    "Two research groups working independently reached broadly similar conclusions, which is part of why the model became widely accepted.",
+    "There are practical constraints too, since long-term observation is expensive and rarely funded for more than a few years.",
+    "Later in the module you will read a paper that challenges part of this on methodological grounds.",
+    "For the essay, the interesting question is not what happens but why the effect varies so much from one site to another.",
+  ];
 };
 
-const padToTarget = (lines: string[], targetWords: number, section: ListeningPracticeSet["section"], title: string) => {
-  const additions: Record<ListeningPracticeSet["section"], string[]> = {
-    1: [
-      "Staff: Before I close the form, I need to check the information in the same order as it appears on the screen, because small errors in dates, fees and reference details can delay the booking.",
-      "Caller: That's fine. Some of those details sounded similar to alternatives I had considered earlier, so it is useful to confirm the final version rather than the first possibility mentioned.",
-      "Staff: Exactly. In this type of booking, the important thing is to listen for corrections, repeated spellings and the final confirmation after the customer changes or rejects an option.",
-    ],
-    2: [
-      "Speaker: I should emphasise that several older leaflets and signs still mention previous arrangements, so please rely on the details I am giving now rather than assuming the most obvious option is correct.",
-      "Speaker: The main points are connected: opening times affect visitor flow, facilities affect safety, and the recommended route is designed to prevent people from missing the less visible parts of the site.",
-      "Speaker: Listen especially for contrast words such as however, instead and although, because those are where the final answer often differs from the first detail you hear.",
-    ],
-    3: [
-      "Tutor: What I want you both to notice is that a good academic plan changes as people challenge each other's first ideas. Do not simply write down the first name you hear beside a task.",
-      "Student: That makes sense. Some responsibilities sounded suitable for one person at first, but after considering workload, evidence and deadlines, we moved them to someone else.",
-      "Tutor: Precisely. In a real seminar, the decision is often signalled by phrases such as in that case, let's leave that to, or actually it would be better if.",
-    ],
-    4: [
-      "Lecturer: To place this in a broader academic context, the issue is not a single isolated fact but a chain of causes, measurements and consequences that researchers are still debating.",
-      "Lecturer: One limitation of the evidence is that short-term studies often produce clearer results than long-term field observations, so interpretation requires caution.",
-      "Lecturer: For examination purposes, listen for definitions, classifications, numerical evidence and the speaker's final evaluation, because those points usually carry the key information.",
-    ],
-  };
-
+const padToTarget = (lines: string[], targetWords: number, section: Section, topic: string, random: () => number) => {
+  const pool = shuffled(fillerPool(section, topic), random);
   let index = 0;
-  while (wordCount(lines.join("\n")) < targetWords) {
-    const addition = additions[section][index % additions[section].length];
-    lines.push(`${addition} Topic focus: ${title}.`);
+  while (wordCount(lines.join("\n")) < targetWords && index < pool.length) {
+    const speaker = section === 1 ? "Receptionist" : section === 2 ? "Speaker" : section === 3 ? "Tutor" : "Lecturer";
+    lines.splice(Math.min(lines.length - 1, 4 + index * 3), 0, `${speaker}: ${pool[index]}`);
     index += 1;
   }
   return lines;
 };
 
-const buildSectionOneTranscript = (set: ListeningPracticeSet) => {
-  const lines = [
-    `Receptionist: Good morning. You are through to the office dealing with ${set.title.toLowerCase()}. How can I help?`,
-    "Caller: Hello. I would like to make an arrangement today, but I may need to check a few details as we go along.",
-    "Receptionist: That is completely fine. I will complete the form step by step and repeat the final details before I submit it.",
-    "Caller: Thank you. Some of the details have changed since I first looked online, so please use what I confirm in this call.",
-  ];
+const SECTION_ONE_OPENINGS = [
+  (topic: string) => [
+    `Receptionist: Good morning, ${topic} enquiries, Ruth speaking.`,
+    "Caller: Oh, hello. I was hoping to sort something out today, if that's possible.",
+    "Receptionist: It should be. Let me open a new record and we can work through it together.",
+  ],
+  (topic: string) => [
+    "Receptionist: Hello, reception.",
+    `Caller: Hi. I rang yesterday about ${topic} but the line was engaged, so I'm trying again.`,
+    "Receptionist: Sorry about that, we were rather busy. I have the form on screen now, so let's go through it.",
+  ],
+  (topic: string) => [
+    `Receptionist: Good afternoon, you've come through to the office that deals with ${topic}.`,
+    "Caller: Good afternoon. A colleague suggested I speak to you rather than filling anything in online.",
+    "Receptionist: That's usually quicker, yes. I'll take the details over the phone.",
+  ],
+];
+
+const SECTION_TWO_OPENINGS = [
+  (topic: string) => [
+    `Speaker: Right, if everyone can hear me at the back - welcome, and thank you for coming along to hear about ${topic}.`,
+    "Speaker: I'll talk for about ten minutes, and then there will be time for questions before we move off.",
+  ],
+  (topic: string) => [
+    `Speaker: Good morning everybody. My name's Dan and I look after ${topic}.`,
+    "Speaker: I'd like to run through the practical arrangements first, because that's what people usually want to know.",
+  ],
+  (topic: string) => [
+    `Speaker: Before we start, a quick word about ${topic}, since a few things have changed since the leaflets were printed.`,
+    "Speaker: I'll keep it brief, but do make a note of anything that affects your own plans.",
+  ],
+];
+
+const SECTION_THREE_OPENINGS = [
+  (topic: string, a: string, b: string) => [
+    `Tutor: Come in, both of you. So, ${topic} - where have you got to?`,
+    `${a}: We've made a start, but we're not agreed on who does which part.`,
+    `${b}: That's putting it politely. We've each assumed the other one was doing the difficult bits.`,
+  ],
+  (topic: string, a: string, b: string) => [
+    `Tutor: Let's use this session to settle the division of work on ${topic}.`,
+    `${a}: Good, because we tried to split it evenly and it didn't really work.`,
+    `${b}: Some parts look small on paper and then take a whole week.`,
+  ],
+  (topic: string, a: string, b: string) => [
+    `Tutor: How are you getting on with ${topic}?`,
+    `${a}: Slowly. We've done the reading, but the planning has drifted a bit.`,
+    `${b}: I think we need someone to arbitrate, honestly.`,
+  ],
+];
+
+const SECTION_FOUR_OPENINGS = [
+  (topic: string) => [
+    `Lecturer: In this lecture I want to look at ${topic}, and in particular at why the evidence is harder to interpret than it first appears.`,
+    "Lecturer: I'll define the key terms as I go, then turn to the measurements, and finish with the implications for practice.",
+  ],
+  (topic: string) => [
+    `Lecturer: Today's subject is ${topic}. It's an area where the everyday explanation and the research picture have drifted apart.`,
+    "Lecturer: I'll start with the definitions, because a good deal of the disagreement comes down to how the terms are used.",
+  ],
+  (topic: string) => [
+    `Lecturer: We're continuing the module with ${topic}, which brings together several of the ideas from last week.`,
+    "Lecturer: There's a fair amount of detail, so I'll signal each stage rather than expecting you to follow the numbering on the handout.",
+  ],
+];
+
+const buildSectionOne = (set: ListeningPracticeSet, random: () => number) => {
+  const topic = set.title.toLowerCase();
+  const lines = [...pick(SECTION_ONE_OPENINGS, random)(topic)];
 
   set.questions.forEach((question, index) => {
-    const answer = naturalAnswerRepeat(answerText(question));
-    const prompt = cleanPrompt(question.prompt);
-    const earlier = index % 3 === 0 ? "I had written a different detail in my notes earlier," : "The website gave a similar option,";
-    lines.push(`Receptionist: For item ${index + 1}, I need the detail connected with ${prompt}.`);
-    lines.push(`Caller: ${earlier} but the correct information to enter now is ${answer}.`);
-    lines.push(`Receptionist: Let me read that back carefully: ${answer}. I will record that as the final answer, not the earlier possibility.`);
+    const answer = answerText(question);
+    const phrase = promptPhrase(question.prompt);
+    const asks = [
+      `Receptionist: And can I ask about ${phrase}?`,
+      `Receptionist: The next thing on the form is ${phrase}.`,
+      `Receptionist: Now, ${phrase} - what should I put?`,
+      `Receptionist: It's asking me here for ${phrase}.`,
+    ];
+    lines.push(pick(asks, random));
+
+    const replies = [
+      `Caller: ${answer}.`,
+      `Caller: It's ${answer}, I think - yes, ${answer}.`,
+      `Caller: Let me just check the letter in front of me. Right, ${answer}.`,
+      `Caller: ${answer}. I hope that's the sort of thing you need.`,
+    ];
+    lines.push(pick(replies, random));
+
+    const spelled = spellOut(answer);
+    if (spelled && index % 4 === 1) {
+      lines.push(`Receptionist: Would you mind spelling that?`);
+      lines.push(`Caller: Of course - ${spelled}.`);
+    } else if (index % 3 === 2) {
+      lines.push(pick([
+        "Receptionist: Lovely, that's gone in.",
+        "Receptionist: Right, I've typed that.",
+        "Receptionist: Got it, thank you.",
+      ], random));
+    }
+    if (question.type === "mcq") {
+      const others = otherOptions(question);
+      if (others.length) {
+        lines.push(`Caller: I did wonder about ${others.slice(0, 2).join(" or ")}, but that isn't how it has worked out.`);
+      }
+    }
   });
 
-  lines.push("Receptionist: I have now checked the spelling, numbers and charges. You will receive the confirmation by email, and the booking is active from today.");
-  lines.push("Caller: Perfect. Thank you for repeating the details clearly.");
-  return padToTarget(lines, 520, 1, set.title).join("\n");
+  lines.push(pick([
+    "Receptionist: That's everything I need. You'll get an email within the hour, and do ring back if anything looks wrong.",
+    "Receptionist: Right, that's the record complete. The confirmation goes out tonight.",
+    "Receptionist: Lovely, all done. I'll send the details over and you can check them at your leisure.",
+  ], random));
+  lines.push("Caller: Thank you, that's been very helpful.");
+  return padToTarget(lines, 500, 1, topic, random).join("\n");
 };
 
-const buildSectionTwoTranscript = (set: ListeningPracticeSet) => {
-  const lines = [
-    `Speaker: Good morning everyone. This talk introduces ${set.title.toLowerCase()}, and I will describe the arrangements in the order visitors usually encounter them.`,
-    "Speaker: Some details have changed recently, so listen carefully for corrections and contrasts rather than relying on the most familiar option.",
-    "Speaker: I will also point out several common misunderstandings, because they are exactly the things visitors tend to remember incorrectly.",
-  ];
+const buildSectionTwo = (set: ListeningPracticeSet, random: () => number) => {
+  const topic = set.title.toLowerCase();
+  const lines = [...pick(SECTION_TWO_OPENINGS, random)(topic)];
 
   set.questions.forEach((question, index) => {
-    const prompt = cleanPrompt(question.prompt);
     const answer = answerText(question);
-    const distractors = optionDistractors(question);
-    if (question.type === "mcq" && distractors.length) {
-      const rejected = distractors.join(", ");
-      lines.push(`Speaker: Regarding ${prompt}, you may hear people mention ${rejected}. Those are old arrangements, partial information or details for a different group.`);
-      lines.push(`Speaker: The detail that applies to today's visitors is ${answer}, and that is the one you should remember.`);
+    const phrase = promptPhrase(question.prompt);
+    if (question.type === "mcq") {
+      const others = otherOptions(question);
+      if (others.length >= 2) {
+        lines.push(`Speaker: People often ask about ${phrase}. I know some of you will have heard about ${others[0]}, and there was a suggestion at one point about ${others[1]}.`);
+      } else if (others.length === 1) {
+        lines.push(`Speaker: On ${phrase} - you may have come across ${others[0]} somewhere.`);
+      } else {
+        lines.push(`Speaker: A word now about ${phrase}.`);
+      }
+      lines.push(pick([
+        `Speaker: What actually happens here is ${answer}.`,
+        `Speaker: In practice, it comes down to ${answer}.`,
+        `Speaker: The arrangement we work to is ${answer}.`,
+      ], random));
     } else if (question.type === "matching") {
-      lines.push(`Speaker: For ${prompt}, the correct category is ${answer}. I mention this after describing two alternatives, because the final route or facility is easy to confuse.`);
+      lines.push(`Speaker: If you're looking at ${phrase}, that belongs with ${answer} rather than with the area immediately before it.`);
     } else {
-      lines.push(`Speaker: A useful detail here is this: ${fillPromptWithAnswer(question.prompt, answer)}. This is not printed clearly on the old noticeboards, so please make a note of it.`);
+      lines.push(pick([
+        `Speaker: Worth noting: ${fillPromptWithAnswer(question.prompt, answer)}`,
+        `Speaker: And here's a detail people miss - ${fillPromptWithAnswer(question.prompt, answer)}`,
+        `Speaker: One more thing. ${fillPromptWithAnswer(question.prompt, answer)}`,
+      ], random));
     }
-    if (index % 2 === 1) {
-      lines.push("Speaker: The reason for the change is practical rather than financial, and it should make the visit smoother during busy periods.");
+    if (index % 3 === 1) {
+      lines.push(pick([
+        "Speaker: That was decided after we asked visitors what they found confusing, and it seems to be working.",
+        "Speaker: It sounds like a small point, but it saves a good deal of queueing on busy afternoons.",
+        "Speaker: The reason is practical rather than financial, I should say.",
+      ], random));
     }
   });
 
-  lines.push("Speaker: That covers the main arrangements. If you are following a map, start with the current route I described, not the older route shown on last year's leaflet.");
-  return padToTarget(lines, 740, 2, set.title).join("\n");
+  lines.push(pick([
+    "Speaker: That's the main information. If you're using the printed map, follow the route I've just described rather than the dotted line on the map itself.",
+    "Speaker: Right, I'll stop there. There's a leaflet by the door with the timings, though the rest of it is a year out of date.",
+    "Speaker: That covers the essentials. I'll be at the front if you want to check anything before we set off.",
+  ], random));
+  return padToTarget(lines, 720, 2, topic, random).join("\n");
 };
 
 const personForLetter = (options: MatchingOption[] | undefined, letter: string) => {
@@ -168,112 +369,146 @@ const personForLetter = (options: MatchingOption[] | undefined, letter: string) 
   return found?.text ?? letter;
 };
 
-const buildSectionThreeTranscript = (set: ListeningPracticeSet) => {
+const buildSectionThree = (set: ListeningPracticeSet, random: () => number) => {
+  const topic = set.title.toLowerCase();
   const options = set.matchingOptions;
   const first = options?.[0]?.text ?? "Student A";
   const second = options?.[1]?.text ?? "Student B";
-  const tutor = options?.[2]?.text ?? "Tutor";
-  const lines = [
-    `Tutor: Let's spend this tutorial discussing ${set.title.toLowerCase()}. I want the plan to be realistic, not just divided evenly on paper.`,
-    `${first}: I agree. Some tasks look simple at first, but they depend on evidence or software we have not finished using yet.`,
-    `${second}: And we should avoid putting all the presentation or writing work on one person, because the deadline is close.`,
-    "Tutor: Good. I will challenge a few first suggestions, so listen for the final decision after each discussion.",
-  ];
+  const lines = [...pick(SECTION_THREE_OPENINGS, random)(topic, first, second)];
 
-  set.questions.forEach((question, index) => {
-    const prompt = cleanPrompt(question.prompt.replace(/:\s*blank$/i, ""));
+  // Speak the items in a different order from the printed task.
+  const order = shuffled(set.questions.map((_, index) => index), random);
+  order.forEach((questionIndex, position) => {
+    const question = set.questions[questionIndex];
     const answer = answerText(question);
+    const phrase = promptPhrase(question.prompt);
     const responsible = question.type === "matching" ? personForLetter(options, answer) : answer;
-    const challenger = index % 2 === 0 ? second : first;
-    const proposer = index % 2 === 0 ? first : second;
-    lines.push(`${proposer}: For ${prompt}, my first thought was that ${challenger} could handle it, because it connects with earlier work.`);
-    lines.push(`${challenger}: I could, but I am already responsible for another part, and this task needs someone with more time to check the details properly.`);
-    lines.push(`Tutor: In that case, let's make the final decision that ${responsible} will take responsibility for ${prompt}. Please write that down as the agreed allocation.`);
-    if (index % 3 === 2) {
-      lines.push(`${responsible}: That works for me. I will prepare a short note explaining the evidence, so the rest of the group can still follow what I have done.`);
+    const proposer = position % 2 === 0 ? first : second;
+    const other = position % 2 === 0 ? second : first;
+
+    if (question.type === "matching") {
+      lines.push(pick([
+        `${proposer}: What about ${phrase}? I assumed ${other} would pick that up.`,
+        `${proposer}: Then there's ${phrase}. I'd rather not add that to my list.`,
+        `${proposer}: We still haven't sorted ${phrase}.`,
+      ], random));
+      lines.push(pick([
+        `${other}: I could, but I've already got two of the longer sections, and that one needs proper checking.`,
+        `${other}: Not this week, honestly. I'd end up rushing it.`,
+        `${other}: I'd rather swap - it overlaps with the part I'm least confident about.`,
+      ], random));
+      lines.push(pick([
+        `Tutor: Then ${responsible} should take ${phrase}. That fits better with the rest of the workload.`,
+        `Tutor: Let's put ${phrase} with ${responsible}, and move on.`,
+        `Tutor: Fine. ${responsible}, ${phrase} is yours - make a note of it.`,
+      ], random));
+    } else if (question.type === "mcq") {
+      const others = otherOptions(question);
+      if (others.length) {
+        lines.push(`${proposer}: On ${phrase}, we were torn between ${others.slice(0, 2).join(" and ")}.`);
+      }
+      lines.push(`Tutor: I'd go with ${answer}, given what the data actually allows you to claim.`);
+    } else {
+      lines.push(`${proposer}: And ${phrase}?`);
+      lines.push(`Tutor: ${fillPromptWithAnswer(question.prompt, answer)}`);
+    }
+
+    if (position % 4 === 3) {
+      lines.push(pick([
+        `${first}: That's fine by me, as long as we set a date for the first draft.`,
+        `${second}: Agreed. I'll put it in the shared document tonight.`,
+        `${first}: Can we review it next week in case the balance shifts?`,
+      ], random));
     }
   });
 
-  lines.push("Tutor: Excellent. Notice that several decisions changed during the discussion, so the final allocation is not always the first person mentioned.");
-  lines.push(`${first}: We will update the shared document tonight and mark the changed responsibilities in a different colour.`);
-  lines.push(`${second}: Then we can use the next meeting to check whether the workload is still balanced.`);
-  return padToTarget(lines, 850, 3, set.title).join("\n");
+  lines.push("Tutor: Good. Check your notes against each other before you leave, because one or two allocations changed while we were talking.");
+  lines.push(`${second}: We will. Thanks for sorting it out.`);
+  return padToTarget(lines, 820, 3, topic, random).join("\n");
 };
 
-const buildSectionFourTranscript = (set: ListeningPracticeSet) => {
-  const lines = [
-    `Lecturer: In today's lecture we are examining ${set.title.toLowerCase()}. I will move from definitions to evidence, and then to the wider implications.`,
-    "Lecturer: The topic is more complex than it first appears because researchers have to compare laboratory findings, field observations and long-term historical data.",
-    "Lecturer: I will signpost each stage clearly, but you should listen for paraphrase rather than expecting the wording on your question paper to be repeated exactly.",
-  ];
+const buildSectionFour = (set: ListeningPracticeSet, random: () => number) => {
+  const topic = set.title.toLowerCase();
+  const lines = [...pick(SECTION_FOUR_OPENINGS, random)(topic)];
 
   set.questions.forEach((question, index) => {
     const answer = answerText(question);
-    const completed = question.type === "fill-in" ? fillPromptWithAnswer(question.prompt, answer) : `${cleanPrompt(question.prompt)} ${answer}`;
-    const signal = ["First", "A second point", "The next issue", "The evidence here", "A further implication"][index % 5];
-    lines.push(`Lecturer: ${signal} is that ${completed}`);
-    lines.push("Lecturer: This matters because it links the observable pattern to an underlying process, rather than simply naming a fact in isolation.");
-    if (index % 2 === 0) {
-      lines.push("Lecturer: Researchers have tested this through comparative studies, although the results vary depending on scale, measurement method and local conditions.");
-    } else {
-      lines.push("Lecturer: A common misconception is to treat this as a single cause problem, but the stronger interpretation considers several interacting variables.");
+    const completed = question.type === "fill-in"
+      ? fillPromptWithAnswer(question.prompt, answer)
+      : `${promptPhrase(question.prompt)} is best understood as ${answer}.`;
+    const signals = [
+      "Lecturer: Let's begin with the basic picture.",
+      "Lecturer: That leads to the second strand of the research.",
+      "Lecturer: Now, the measurements themselves.",
+      "Lecturer: There is a further complication here.",
+      "Lecturer: This next point tends to be the one students find counter-intuitive.",
+      "Lecturer: Turning to the wider consequences,",
+    ];
+    lines.push(`${signals[index % signals.length]} ${completed}`);
+    lines.push(pick([
+      "Lecturer: What makes that significant is the underlying process rather than the label itself.",
+      "Lecturer: Notice that the effect is described as a tendency, not as something that happens in every case.",
+      "Lecturer: The figure has been revised twice, and the current estimate is the one used in the reading list.",
+      "Lecturer: That distinction matters when you compare studies carried out in different decades.",
+    ], random));
+    if (question.type === "mcq") {
+      const others = otherOptions(question);
+      if (others.length) {
+        lines.push(`Lecturer: You will also see ${others.slice(0, 2).join(" and ")} discussed in the literature, largely for historical reasons.`);
+      }
     }
   });
 
-  lines.push("Lecturer: To conclude, the strongest answer is usually the one supported by a definition, a measurement and a consequence, not merely by a familiar term.");
-  lines.push("Lecturer: In the next lecture, we will compare this topic with a related case study and evaluate the policy or practical responses in more detail.");
-  return padToTarget(lines, 830, 4, set.title).join("\n");
+  lines.push("Lecturer: I'll leave it there. Next week we'll set this against a case study and look at how policy responded to the same evidence.");
+  return padToTarget(lines, 800, 4, topic, random).join("\n");
 };
 
-const buildTranscript = (set: ListeningPracticeSet) => {
+const buildTranscript = (set: ListeningPracticeSet, random: () => number) => {
   switch (set.section) {
     case 1:
-      return buildSectionOneTranscript(set);
+      return buildSectionOne(set, random);
     case 2:
-      return buildSectionTwoTranscript(set);
+      return buildSectionTwo(set, random);
     case 3:
-      return buildSectionThreeTranscript(set);
+      return buildSectionThree(set, random);
     case 4:
-      return buildSectionFourTranscript(set);
+      return buildSectionFour(set, random);
     default:
       return set.transcript;
   }
 };
 
-const upgradedContext = (set: ListeningPracticeSet) => {
-  if (set.section === 1) {
-    return "You will hear a longer telephone conversation. Complete the notes below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer. Listen for corrections and final confirmations.";
-  }
-  if (set.section === 2) {
-    return "You will hear a public talk or announcement. Choose the correct answer for each question. Listen for contrasts, changed arrangements and rejected options.";
-  }
-  if (set.section === 3) {
-    return "You will hear an academic discussion between students and a tutor. Complete the task by following the final decisions, not only the first suggestion.";
-  }
-  return "You will hear part of an academic lecture. Complete each answer with NO MORE THAN TWO WORDS OR A NUMBER from the recording. Listen for definitions, evidence and implications.";
-};
+const WORD_LIMIT_EN = "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.";
+const WORD_LIMIT_VI = "Viết KHÔNG QUÁ HAI TỪ VÀ/HOẶC MỘT SỐ cho mỗi đáp án.";
 
-const upgradedContextVi = (set: ListeningPracticeSet) => {
-  if (set.section === 1) {
-    return "Bạn sẽ nghe một cuộc gọi dài hơn. Hoàn thành ghi chú. Viết KHÔNG QUÁ HAI TỪ VÀ/HOẶC MỘT SỐ cho mỗi đáp án. Chú ý phần sửa lại và xác nhận cuối cùng.";
-  }
-  if (set.section === 2) {
-    return "Bạn sẽ nghe một bài nói hoặc thông báo công cộng. Chọn đáp án đúng. Chú ý các ý tương phản, thay đổi và phương án bị loại.";
-  }
-  if (set.section === 3) {
-    return "Bạn sẽ nghe thảo luận học thuật giữa sinh viên và giảng viên. Theo dõi quyết định cuối cùng, không chỉ gợi ý đầu tiên.";
-  }
-  return "Bạn sẽ nghe một phần bài giảng học thuật. Điền KHÔNG QUÁ HAI TỪ HOẶC MỘT SỐ từ bài nghe. Chú ý định nghĩa, dẫn chứng và hàm ý.";
+/** Keeps the authored instructions and only appends a missing word limit. */
+const withWordLimit = (set: ListeningPracticeSet) => {
+  const hasFill = set.questions.some(question => question.type === "fill-in");
+  const context = hasFill && !/NO MORE THAN/i.test(set.context)
+    ? `${set.context.trim()} ${WORD_LIMIT_EN}`
+    : set.context;
+  const contextVi = hasFill && !/KHÔNG QUÁ/i.test(set.contextVi)
+    ? `${set.contextVi.trim()} ${WORD_LIMIT_VI}`
+    : set.contextVi;
+  return { context, contextVi };
 };
 
 export const upgradeListeningSet = (set: ListeningPracticeSet): ListeningPracticeSet => {
-  const questions = normaliseQuestions(set);
-  const upgradedSet = { ...set, questions };
+  const random = makeRandom(hashText(set.id));
+  const balanced = rebalanceMatching(set, random);
+  const withKeys: ListeningPracticeSet = {
+    ...set,
+    questions: balanced.questions,
+    ...(balanced.matchingOptions ? { matchingOptions: balanced.matchingOptions } : {}),
+  };
+  const questions = normaliseQuestions(withKeys, random);
+  const prepared = { ...withKeys, questions };
+  const { context, contextVi } = withWordLimit(prepared);
   return {
-    ...upgradedSet,
-    context: upgradedContext(set),
-    contextVi: upgradedContextVi(set),
-    transcript: buildTranscript(upgradedSet),
-    rate: set.section === 4 ? 0.78 : set.section === 3 ? 0.84 : set.section === 2 ? 0.86 : 0.82,
+    ...prepared,
+    context,
+    contextVi,
+    transcript: buildTranscript(prepared, random),
+    rate: set.section === 4 ? 0.8 : set.section === 3 ? 0.85 : set.section === 2 ? 0.87 : 0.84,
   };
 };
