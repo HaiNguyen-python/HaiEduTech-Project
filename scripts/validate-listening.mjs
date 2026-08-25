@@ -121,7 +121,9 @@ for (const test of IELTS_FULL_LISTENING_TESTS) {
 if (IELTS_FULL_LISTENING_TESTS.length !== 30) issues.push(`expected 30 full tests, got ${IELTS_FULL_LISTENING_TESTS.length}`);
 
 const mcqValues = Object.values(mcqKeys);
-if (Math.max(...mcqValues) - Math.min(...mcqValues) > 18) {
+const mcqTotal = mcqValues.reduce((sum, value) => sum + value, 0);
+const expectedMcqShare = mcqTotal / mcqValues.length;
+if (Math.max(...mcqValues) - Math.min(...mcqValues) > Math.ceil(expectedMcqShare * 0.35)) {
   issues.push(`MCQ key distribution too uneven: ${JSON.stringify(mcqKeys)}`);
 }
 
