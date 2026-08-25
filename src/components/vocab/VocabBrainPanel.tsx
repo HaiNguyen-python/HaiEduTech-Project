@@ -504,9 +504,6 @@ const VocabBrainPanel = ({
     replay,
   };
 
-  return (
-    <section className="mt-10 rounded-2xl border border-border bg-card/60 p-4 sm:p-6">
-      <div className="mb-5">
   if (loading || loadError) {
     return (
       <section className="mt-10 rounded-2xl border border-border bg-card/60 p-6">
