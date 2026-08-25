@@ -84,15 +84,15 @@ const IeltsListeningPractice = () => {
               </h1>
               <p className="text-muted-foreground text-sm sm:text-base max-w-3xl">
                 {t(
-                  "13 đề nghe đầy đủ 40 câu (Section 1-4, 30 phút) mô phỏng đúng đề thi thật, kèm 52 bài luyện riêng theo từng dạng câu hỏi: Form Completion, Multiple Choice, Map Labelling, Matching, Sentence Completion, Note Completion.",
-                  "13 full 40-question listening tests (Sections 1-4, 30 minutes) mirroring the real exam, plus 52 focused drills by question type: Form Completion, Multiple Choice, Map Labelling, Matching, Sentence Completion, Note Completion."
+                  "30 đề nghe đầy đủ 40 câu (Section 1-4, 30 phút) mô phỏng đúng đề thi thật, kèm 120 bài luyện riêng đã được kéo dài và tăng độ khó theo từng dạng câu hỏi.",
+                  "30 full 40-question listening tests (Sections 1-4, 30 minutes) mirroring the real exam, plus 120 expanded and harder focused drills by question type."
                 )}
               </p>
               <div className="mt-3 rounded-xl border border-primary/30 bg-gradient-to-r from-blue-500/10 to-emerald-500/10 px-3 py-2 text-xs sm:text-sm text-foreground/90 max-w-3xl">
                 <span className="font-semibold text-primary">✨ {t("Mới nâng cấp:", "Just upgraded:")}</span>{" "}
                 {t(
-                  "Full Test 40 câu đánh số liên tục Q1-Q40 · Đồng hồ 30 phút · Nộp 1 lần cho cả đề · Band score IELTS · Giọng UK/US/AU đa nhân vật · Tự lưu tiến độ · Mr. Hai giải thích câu sai bằng AI.",
-                  "40-question full tests numbered Q1-Q40 · 30-minute timer · Single submission · IELTS band score · Multi-voice UK/US/AU audio · Auto-save · AI explains wrong answers."
+                  "30 Full Test 40 câu đánh số liên tục Q1-Q40 · Bài nghe dài hơn, nhiều bẫy paraphrase hơn · Đồng hồ 30 phút · Band score IELTS · Giọng UK/US/AU đa nhân vật.",
+                  "30 full 40-question tests numbered Q1-Q40 · Longer audio with stronger paraphrase traps · 30-minute timer · IELTS band score · Multi-voice UK/US/AU audio."
                 )}
               </div>
             </div>
