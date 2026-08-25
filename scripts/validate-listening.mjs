@@ -53,12 +53,28 @@ const includesLoose = (transcript, answer) => {
   return spokenDigits ? plain.includes(normalise(spokenDigits)) : false;
 };
 
+// Phrases that would tell the student which detail is the key.
+const LEAK_PATTERNS = [
+  /the (final|correct) answer/i,
+  /the correct information to enter now/i,
+  /Topic focus:/i,
+  /for examination purposes/i,
+  /that is the one you should remember/i,
+  /listen (especially )?for contrast words/i,
+  /rather than the earlier possibility/i,
+  /those are old arrangements/i,
+  /the detail that applies to today's visitors is/i,
+  /record that as the final/i,
+];
+
 const issues = [];
 const byId = new Map();
 const sectionCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
 const mcqKeys = { 0: 0, 1: 0, 2: 0, 3: 0 };
 const matchingKeys = {};
+const openingsBySection = { 1: new Map(), 2: new Map(), 3: new Map(), 4: new Map() };
 let fillCount = 0;
+
 
 for (const set of ALL_LISTENING_SETS) {
   if (byId.has(set.id)) issues.push(`${set.id}: duplicate set id`);
@@ -74,6 +90,22 @@ for (const set of ALL_LISTENING_SETS) {
   if (!/however|instead|although|rather than|not the|changed|final|first|second|definition|evidence|because|therefore|in that case/i.test(set.transcript)) {
     issues.push(`${set.id}: lacks IELTS-style signposting or contrast language`);
   }
+  LEAK_PATTERNS.forEach(pattern => {
+    if (pattern.test(set.transcript)) issues.push(`${set.id}: transcript leaks the key (${pattern})`);
+  });
+
+  const lines = set.transcript.split("\n").map(line => line.trim()).filter(Boolean);
+  const seenLines = new Map();
+  lines.forEach(line => seenLines.set(line, (seenLines.get(line) ?? 0) + 1));
+  const repeated = [...seenLines.entries()].filter(([line, count]) => count > 1 && wordCount(line) > 8);
+  if (repeated.length) issues.push(`${set.id}: repeats ${repeated.length} long line(s) verbatim`);
+  if (lines.length < 12) issues.push(`${set.id}: transcript has only ${lines.length} spoken lines`);
+  const opening = lines[0].replace(/^[A-Za-z ]+:\s*/, "").slice(0, 40);
+  openingsBySection[set.section].set(opening, (openingsBySection[set.section].get(opening) ?? 0) + 1);
+  if (set.questions.some(question => question.type === "fill-in") && !/NO MORE THAN/i.test(set.context)) {
+    issues.push(`${set.id}: fill-in set missing a word-limit instruction`);
+  }
+
 
   const validMatchingLetters = new Set((set.matchingOptions ?? []).map(option => option.letter));
   set.questions.forEach((question, index) => {
