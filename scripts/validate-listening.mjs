@@ -90,6 +90,22 @@ for (const set of ALL_LISTENING_SETS) {
   if (!/however|instead|although|rather than|not the|changed|final|first|second|definition|evidence|because|therefore|in that case/i.test(set.transcript)) {
     issues.push(`${set.id}: lacks IELTS-style signposting or contrast language`);
   }
+  LEAK_PATTERNS.forEach(pattern => {
+    if (pattern.test(set.transcript)) issues.push(`${set.id}: transcript leaks the key (${pattern})`);
+  });
+
+  const lines = set.transcript.split("\n").map(line => line.trim()).filter(Boolean);
+  const seenLines = new Map();
+  lines.forEach(line => seenLines.set(line, (seenLines.get(line) ?? 0) + 1));
+  const repeated = [...seenLines.entries()].filter(([line, count]) => count > 1 && wordCount(line) > 8);
+  if (repeated.length) issues.push(`${set.id}: repeats ${repeated.length} long line(s) verbatim`);
+  if (lines.length < 12) issues.push(`${set.id}: transcript has only ${lines.length} spoken lines`);
+  const opening = lines[0].replace(/^[A-Za-z ]+:\s*/, "").slice(0, 40);
+  openingsBySection[set.section].set(opening, (openingsBySection[set.section].get(opening) ?? 0) + 1);
+  if (set.questions.some(question => question.type === "fill-in") && !/NO MORE THAN/i.test(set.context)) {
+    issues.push(`${set.id}: fill-in set missing a word-limit instruction`);
+  }
+
 
   const validMatchingLetters = new Set((set.matchingOptions ?? []).map(option => option.letter));
   set.questions.forEach((question, index) => {
