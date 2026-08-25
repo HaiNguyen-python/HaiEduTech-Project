@@ -856,7 +856,7 @@ const VocabBrainPanel = ({
                `${needRevise} words are fading - revise them now to keep the memory.`)}
           </span>
           {onPractice && (
-            <Button size="sm" onClick={() => onPractice(allNeurons.filter(n => n.days > 20).map(n => n.word))}>
+            <Button size="sm" onClick={() => onPractice(knownNeurons.filter(n => n.days > 20).map(n => n.word))}>
               {t("Luyện lại ngay", "Practice now")}
             </Button>
           )}
