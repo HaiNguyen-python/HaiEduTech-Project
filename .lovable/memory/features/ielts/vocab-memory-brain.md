@@ -29,9 +29,3 @@ Replaces the old vocabulary performance charts (VocabPerformanceCharts.tsx delet
 - `src/lib/vocabReview.ts` is the single writer of a review: bumps `reviewed_at`, `review_count`, `last_interval_days` and fires `VOCAB_REVIEW_EVENT`; `markReviewedToday` keeps today's reviewed words in localStorage (Vietnam day) for mission progress.
 - Review sources now: Smart Review queue (`useReviewQueue`), a correct answer in `VocabExercise` (once per word per session), and flipping a starred flashcard.
 - `VocabBrainPanel` reloads rows on `MASTERY_UPDATED_EVENT` / `VOCAB_REVIEW_EVENT` (1.2s debounce), shows mission progress N/10 with ticked words, and `onPractice(priorityWords)` sends urgent words to `VocabExercise` so the quiz drills them first. Streak card uses `max(local rows, useStreak server value)`.
-
-## Green-brain bug fixed (2026-08-25)
-
-- Root cause: any locally starred word without a `user_vocab_mastered` row was merged as `days = 0` (green "fresh"), so a failed/empty DB read turned the whole brain green even though almost no word had ever been reviewed.
-- Now: `VocabBrainPanel` has an explicit loading/error gate (query error -> "chưa tải được dữ liệu độ nhớ" + Retry, brain hidden, never local fallback), merge keys are normalised (`trim().toLowerCase()`) so case variants are one neuron, and starred words with no review history get a new grey `unknown` tier (`tierForDays(days, known)`), excluded from memory health / at-risk / mission / zone counts.
-- Guests only: first-seen star day is stored in `localStorage` (`vocab_star_days_<subject>`) and used as the learned-at date; without it the word stays grey.

@@ -13,9 +13,6 @@ export interface BrainNeuron {
   days: number;
   /** How many times the learner has reviewed this word (>= 1). */
   reviews: number;
-  /** False when there is no review history for the word (local star only). */
-  known: boolean;
-
   /** Gap in days between the two most recent reviews (spacing effect). */
   lastInterval: number;
   /** 0-1 retention estimate right now (Ebbinghaus). */
@@ -107,7 +104,7 @@ export const consolidation = (input: MemoryInput): number => {
 };
 
 
-export type DecayTier = "fresh" | "recent" | "fading" | "weak" | "forgotten" | "unknown";
+export type DecayTier = "fresh" | "recent" | "fading" | "weak" | "forgotten";
 
 export interface TierInfo {
   tier: DecayTier;
@@ -126,8 +123,6 @@ export interface TierInfo {
  * Five clearly separated memory levels: green = solid, blue = still good,
  * amber/orange = fading, red = practically forgotten. The hue itself tells the
  * learner which words need attention, without reading the legend.
- * `unknown` (grey) is for starred words with no review history on the server -
- * they must never be painted green as if they had just been reviewed.
  */
 const TIERS: Record<DecayTier, Omit<TierInfo, "tier">> = {
   fresh:     { color: "#10b981", labelInk: "#6ee7b7", alpha: 1.0,  scale: 1.4,  vi: "Nhớ chắc",      en: "Solid" },
@@ -135,17 +130,12 @@ const TIERS: Record<DecayTier, Omit<TierInfo, "tier">> = {
   fading:    { color: "#f59e0b", labelInk: "#fcd34d", alpha: 0.78, scale: 1.05, vi: "Bắt đầu phai",  en: "Starting to fade" },
   weak:      { color: "#f97316", labelInk: "#fdba74", alpha: 0.66, scale: 0.95, vi: "Cần ôn gấp",    en: "Needs revision" },
   forgotten: { color: "#ef4444", labelInk: "#fca5a5", alpha: 0.55, scale: 0.85, vi: "Đã quên",       en: "Forgotten" },
-  unknown:   { color: "#94a3b8", labelInk: "#cbd5e1", alpha: 0.42, scale: 0.8,  vi: "Chưa rõ độ nhớ", en: "Unknown" },
 };
 
-export const TIER_ORDER: DecayTier[] = ["fresh", "recent", "fading", "weak", "forgotten", "unknown"];
+export const TIER_ORDER: DecayTier[] = ["fresh", "recent", "fading", "weak", "forgotten"];
 
-/**
- * Map "days since review" to a visual decay tier. Pass `known = false` for a
- * word whose review history is not available (local star only).
- */
-export const tierForDays = (days: number, known = true): TierInfo => {
-  if (!known) return { tier: "unknown", ...TIERS.unknown };
+/** Map "days since review" to a visual decay tier. */
+export const tierForDays = (days: number): TierInfo => {
   const tier: DecayTier =
     days <= 1 ? "fresh" :
     days <= 6 ? "recent" :
@@ -155,7 +145,6 @@ export const tierForDays = (days: number, known = true): TierInfo => {
 };
 
 export const tierInfo = (tier: DecayTier): TierInfo => ({ tier, ...TIERS[tier] });
-
 
 
 /** Stable 32-bit string hash (FNV-1a) so a word always lands in the same spot. */
@@ -255,23 +244,21 @@ export const brainPosition = (word: string) =>
  * core, so the picture itself teaches how consolidation works.
  */
 export const buildNeurons = (
-  items: { word: string; days: number; reviews?: number; lastInterval?: number; known?: boolean }[],
+  items: { word: string; days: number; reviews?: number; lastInterval?: number }[],
 ): BrainNeuron[] =>
-  items.map(({ word, days, reviews = 1, lastInterval = 0, known = true }) => {
+  items.map(({ word, days, reviews = 1, lastInterval = 0 }) => {
     const surface = brainPosition(word);
     const input: MemoryInput = { days, reviews, lastInterval };
-    const depth = known ? consolidation(input) : 0;
+    const depth = consolidation(input);
     // 1 = cortex surface, 0.42 = deep core.
     const radius = 1 - depth * 0.58;
     return {
       word,
       days,
-      known,
       reviews: Math.max(1, reviews),
       lastInterval,
-      // An unknown word has no measurable retention yet.
-      strength: known ? memoryStrength(input) : 0,
-      zone: known ? memoryZone(input) : ("short" as const),
+      strength: memoryStrength(input),
+      zone: memoryZone(input),
       x: surface.x * radius,
       y: surface.y * radius,
       z: surface.z * radius,
@@ -280,7 +267,6 @@ export const buildNeurons = (
       sz: surface.z,
     };
   });
-
 
 
 /** Nearest-neighbour synapse pairs (index pairs) for the connective fibres. */
