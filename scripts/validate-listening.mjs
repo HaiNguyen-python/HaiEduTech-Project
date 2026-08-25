@@ -53,12 +53,28 @@ const includesLoose = (transcript, answer) => {
   return spokenDigits ? plain.includes(normalise(spokenDigits)) : false;
 };
 
+// Phrases that would tell the student which detail is the key.
+const LEAK_PATTERNS = [
+  /the (final|correct) answer/i,
+  /the correct information to enter now/i,
+  /Topic focus:/i,
+  /for examination purposes/i,
+  /that is the one you should remember/i,
+  /listen (especially )?for contrast words/i,
+  /rather than the earlier possibility/i,
+  /those are old arrangements/i,
+  /the detail that applies to today's visitors is/i,
+  /record that as the final/i,
+];
+
 const issues = [];
 const byId = new Map();
 const sectionCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
 const mcqKeys = { 0: 0, 1: 0, 2: 0, 3: 0 };
 const matchingKeys = {};
+const openingsBySection = { 1: new Map(), 2: new Map(), 3: new Map(), 4: new Map() };
 let fillCount = 0;
+
 
 for (const set of ALL_LISTENING_SETS) {
   if (byId.has(set.id)) issues.push(`${set.id}: duplicate set id`);
