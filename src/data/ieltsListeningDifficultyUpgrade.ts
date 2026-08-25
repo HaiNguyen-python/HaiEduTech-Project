@@ -112,10 +112,14 @@ const rebalanceMatching = (set: ListeningPracticeSet, random: () => number) => {
   return { questions, matchingOptions };
 };
 
+let mcqRotationCounter = 0;
+
 const normaliseQuestions = (set: ListeningPracticeSet, random: () => number): ListeningQuestion[] =>
   set.questions.map((question, index) => {
     if (question.type === "mcq") {
-      const targetIndex = (hashText(`${set.id}:${index}`) + index) % Math.max(1, question.options.length);
+      // Round-robin across the whole bank so keys spread evenly over A-D.
+      mcqRotationCounter += 1;
+      const targetIndex = mcqRotationCounter % Math.max(1, question.options.length);
       return rotateMcqAnswer(question, targetIndex);
     }
     if (question.type !== "fill-in") return question;
