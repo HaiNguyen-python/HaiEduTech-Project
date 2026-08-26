@@ -13,6 +13,8 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockExamData";
+import { isNegativeQuestion } from "./cambridgeListeningSupport";
+
 
 /** Minimum spoken words per level, matching official recording length. */
 const WORD_TARGET: Record<string, number> = {
@@ -56,9 +58,12 @@ const normalise = (text: string): string =>
 
 /**
  * Wrong options that are safe to name as rejected ideas: real words, not part of
- * the key and not already mentioned in the authored line.
+ * the key and not already mentioned in the authored line. Negative stems ("What
+ * does the centre NOT accept?") get no rejections at all, because there every
+ * wrong option must stay audible in the recording.
  */
 const rejectable = (q: CambridgeMockQuestion, core: string): string[] => {
+  if (isNegativeQuestion(q.question)) return [];
   const key = normalise(q.options[q.correctAnswer] ?? "");
   const plain = normalise(core);
   return q.options
@@ -73,6 +78,13 @@ const rejectable = (q: CambridgeMockQuestion, core: string): string[] => {
     .map(o => o.replace(/\.$/, ""))
     .map(o => (/^[A-Z]{2,}/.test(o) ? o : o.charAt(0).toLowerCase() + o.slice(1)));
 };
+
+/** Numbers, clock times and prices need their own wording to sound natural. */
+const isQuantity = (text: string): boolean =>
+  /^[£$]?\d+([.,:]\d+)?\s*(a\.?m\.?|p\.?m\.?|o'clock|pounds|dollars|hours?|hrs?|minutes?|mins?|days?|weeks?|months?|years?|kilometres?|km|metres?|m|people|students?|times?|degrees?)?\.?$/i.test(
+    text.trim()
+  );
+
 
 const lower = (text: string): string => text.charAt(0).toLowerCase() + text.slice(1);
 
@@ -171,6 +183,41 @@ const REJECT: Record<string, string[]> = {
   ],
 };
 
+/**
+ * Rejections for numbers, times and prices. Saying "It is not 25." sounds wrong
+ * in a recording, so these wordings frame the number as an out of date detail.
+ */
+const QUANTITY_REJECT: Record<string, string[]> = {
+  starters: ["My friend said {x}, but that is not right.", "It was {x} last week, but not now."],
+  movers: [
+    "My old notebook says {x}, but I have to change that.",
+    "The poster said {x}, and that information is old.",
+  ],
+  flyers: [
+    "My friend wrote down {x}, but she copied it from an old page.",
+    "The first plan was {x}, and then everything moved.",
+  ],
+  ket: [
+    "The old leaflet printed {x}, and that has now changed.",
+    "It used to be {x} last year, so please do not use that figure.",
+  ],
+  pet: [
+    "The website still shows {x}, which is left over from last season.",
+    "The original announcement said {x}, but that was revised before it opened.",
+  ],
+};
+
+/** Theme flavoured lines so scripts about food do not sound like scripts about travel. */
+const THEME_CHAT: string[] = [
+  "We are looking at {theme} in class this week.",
+  "I keep hearing people talk about {theme} at the moment.",
+  "There is a lot to say about {theme}, is there not?",
+  "My family talks about {theme} quite often at home.",
+  "I did some reading about {theme} before I came here.",
+  "Everyone in my group chose {theme} for their project.",
+];
+
+
 /** Closing turns that add length without repeating the key. */
 const CLOSERS: Record<string, string[]> = {
   starters: ["Thank you! Goodbye.", "Now you know. See you later!"],
@@ -202,24 +249,34 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   const target = WORD_TARGET[level] ?? 80;
   const seed = hash(`${exam.id}#${q.id}#${core.length}`);
   const voices = pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
-  const chat = CHAT[level] ?? CHAT.flyers;
+  const theme = themeOf(exam);
+  // The theme line is inserted after the greeting so each paper sounds different.
+  const baseChat = CHAT[level] ?? CHAT.flyers;
+  const chat = [
+    baseChat[0],
+    pick(THEME_CHAT, seed + 3).replace("{theme}", theme),
+    ...baseChat.slice(1),
+  ];
   const rejects = rejectable(q, core);
 
-  const opener = pick(OPENERS[level] ?? OPENERS.flyers, seed).replace("{theme}", themeOf(exam));
+  const opener = pick(OPENERS[level] ?? OPENERS.flyers, seed).replace("{theme}", theme);
   const lines: string[] = [`Narrator: ${opener}`];
 
   // Rejected ideas raise the difficulty: the student must hear the contrast.
   const rejectPool = REJECT[level] ?? REJECT.flyers;
+  const quantityPool = QUANTITY_REJECT[level] ?? QUANTITY_REJECT.flyers;
   const rejectLines = rejects
     .slice(0, level === "starters" || level === "movers" ? 1 : 2)
-    .map((x, i) => pick(rejectPool, seed + i).replace(/\{x\}/g, lower(x)));
+    .map((x, i) =>
+      pick(isQuantity(x) ? quantityPool : rejectPool, seed + i).replace(/\{x\}/g, lower(x))
+    );
 
   const closer = pick(CLOSERS[level] ?? CLOSERS.flyers, seed);
   const fixed = words(opener) + words(core) + words(closer) + rejectLines.reduce((s, l) => s + words(l), 0);
 
   // Chat lines keep their authored order so the conversation stays logical, and
   // they all sit before the key line so the recording ends right after it.
-  const minChat = level === "starters" ? 2 : level === "movers" ? 2 : level === "flyers" ? 3 : 4;
+  const minChat = level === "starters" ? 2 : level === "movers" ? 3 : level === "flyers" ? 3 : 4;
   const before: string[] = [];
   let used = fixed;
   for (let i = 0; i < chat.length; i += 1) {
@@ -227,6 +284,7 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
     before.push(chat[i]);
     used += words(chat[i]);
   }
+
 
   const middle = [...before, ...rejectLines, core];
   middle.forEach((text, i) => {
