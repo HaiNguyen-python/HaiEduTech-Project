@@ -195,7 +195,10 @@ export interface WeaknessInput {
   vocabMastered: number;
   srsDueByType: Record<string, number>;
   weakestListeningSection?: { section: number; percent: number } | null;
+  /** Fallback when set titles do not expose a section number. */
+  weakestListeningSet?: { title: string; percent: number } | null;
   weakestReadingSet?: { title: string; percent: number } | null;
+
 }
 
 /** Ranked, actionable improvement list. Highest severity first. */
@@ -275,6 +278,21 @@ export function rankWeaknesses(input: WeaknessInput): Weakness[] {
       link: "/ielts-listening-practice",
       actionVi: `Làm lại 3 đề Section ${section} và đọc transcript sau khi chấm.`,
       actionEn: `Redo 3 Section ${section} sets and read the transcript after grading.`,
+    });
+  }
+  if (!input.weakestListeningSection && input.weakestListeningSet) {
+    const { title, percent } = input.weakestListeningSet;
+    out.push({
+      id: "listening-set",
+      titleVi: `Đề Listening thấp nhất: ${title} (${percent}%)`,
+      titleEn: `Lowest Listening set: ${title} (${percent}%)`,
+      detailVi: "Nghe lại đề này và đối chiếu transcript ở những câu sai.",
+      detailEn: "Replay this set and match the transcript against every wrong answer.",
+      score: null,
+      severity: percent < 60 ? "high" : "medium",
+      link: "/ielts-listening-practice",
+      actionVi: "Làm lại đề này, ghi lại từ khóa bị bỏ sót.",
+      actionEn: "Retake this set and note the keywords you missed.",
     });
   }
   if (input.weakestReadingSet) {

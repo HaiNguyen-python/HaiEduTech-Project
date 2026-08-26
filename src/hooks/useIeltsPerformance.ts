@@ -9,6 +9,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { readHistory as readReadingHistory } from "@/lib/ieltsReadingHistory";
 import { readListeningHistory } from "@/lib/ieltsListeningHistory";
+import { ieltsListeningBand } from "@/lib/ieltsListeningBand";
 import {
   buildSkillStat, predictOverall, improvementPerWeek, readiness, rankWeaknesses,
   studyPlan, type CriteriaScore, type SkillAttempt, type SkillKey, type SkillStat,
@@ -37,6 +38,22 @@ interface WritingRow {
   result: unknown;
 }
 
+interface VocabRow {
+  created_at: string;
+  reviewed_at: string | null;
+  last_interval_days: number | null;
+}
+
+/** Cloud mirror of practice results, used when localStorage is empty (new device). */
+interface ActivityRow {
+  created_at: string;
+  activity_type: string;
+  score: number | null;
+  max_score: number | null;
+  metadata: unknown;
+}
+
+
 const readJson = <T,>(key: string, fallback: T): T => {
   try {
     const raw = localStorage.getItem(key);
@@ -59,10 +76,13 @@ const matchWritingCriterion = (label: string): { key: string; label: string } | 
 
 export interface VocabSnapshot {
   mastered: number;
-  last7: number;
-  last30: number;
-  dueForReview: number;
+  /** null when only local data exists (no timestamps to compute the window). */
+  last7: number | null;
+  last30: number | null;
+  dueForReview: number | null;
   lexicalBand: number | null;
+  /** true when the timed metrics come from the cloud. */
+  hasTimeline: boolean;
 }
 
 export interface PerformanceSnapshot {
@@ -105,8 +125,9 @@ export function useIeltsPerformance(): PerformanceSnapshot {
     return v >= 4 && v <= 9 ? v : 7.5;
   });
   const [writing, setWriting] = useState<WritingRow[]>([]);
-  const [vocabCloud, setVocabCloud] = useState<{ created_at: string; reviewed_at: string }[] | null>(null);
+  const [vocabCloud, setVocabCloud] = useState<VocabRow[] | null>(null);
   const [srsCloud, setSrsCloud] = useState<{ item_type: string; due_at: string; mastered: boolean }[] | null>(null);
+  const [activityCloud, setActivityCloud] = useState<ActivityRow[]>([]);
 
   const setTarget = useCallback((v: number) => {
     setTargetState(v);
@@ -123,44 +144,113 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       if (cancelled) return;
       setSignedIn(!!user);
       if (!user) {
-        setWriting([]); setVocabCloud(null); setSrsCloud(null); setLoading(false);
+        setWriting([]); setVocabCloud(null); setSrsCloud(null); setActivityCloud([]);
+        setLoading(false);
         return;
       }
-      const [w, v, s] = await Promise.all([
+      const [w, v, s, a] = await Promise.all([
         supabase.from("writing_attempts")
           .select("created_at, overall_score, task_type, result")
           .eq("user_id", user.id).order("created_at", { ascending: true }).limit(60),
         supabase.from("user_vocab_mastered")
-          .select("created_at, reviewed_at").eq("user_id", user.id).eq("subject", "ielts").limit(3000),
+          .select("created_at, reviewed_at, last_interval_days")
+          .eq("user_id", user.id).eq("subject", "ielts").limit(3000),
         supabase.from("speaking_srs_items")
           .select("item_type, due_at, mastered").eq("user_id", user.id).limit(500),
+        supabase.from("student_activity_log")
+          .select("created_at, activity_type, score, max_score, metadata")
+          .eq("user_id", user.id)
+          .in("activity_type", ["ielts_listening", "ielts_reading", "ielts_speaking"])
+          .order("created_at", { ascending: true }).limit(500),
       ]);
       if (cancelled) return;
       setWriting((w.data as WritingRow[]) || []);
-      setVocabCloud((v.data as { created_at: string; reviewed_at: string }[]) || []);
+      setVocabCloud((v.data as VocabRow[]) || []);
       setSrsCloud((s.data as { item_type: string; due_at: string; mastered: boolean }[]) || []);
+      setActivityCloud((a.data as ActivityRow[]) || []);
       setLoading(false);
     })();
     return () => { cancelled = true; };
   }, [tick]);
 
+  // Keep the dashboard fresh: auth changes, tab focus, and results saved in another tab.
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange(() => refresh());
+    const onFocus = () => refresh();
+    const onStorage = (e: StorageEvent) => {
+      if (!e.key) return;
+      if ([
+        "ielts-listening-history-v1",
+        "ielts-reading-history-v1",
+        SPEAKING_HISTORY_KEY,
+        VOCAB_KEY,
+      ].includes(e.key)) refresh();
+    };
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      sub.subscription.unsubscribe();
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, [refresh]);
+
   const snapshot = useMemo(() => {
-    // Listening + Reading come from the local-first attempt histories.
-    const listeningRaw = readListeningHistory();
-    const readingRaw = readReadingHistory();
+    // Listening + Reading start from the local-first attempt histories,
+    // then get merged with the cloud activity log so a new device is not blank.
+    const cloudOf = (type: string): SkillAttempt[] =>
+      activityCloud
+        .filter((r) => r.activity_type === type && typeof r.score === "number")
+        .map((r) => {
+          const at = new Date(r.created_at).getTime();
+          const meta = (r.metadata || {}) as Record<string, unknown>;
+          if (type === "ielts_speaking") {
+            const part = typeof meta.part === "number" ? meta.part : undefined;
+            const topic = typeof meta.topic === "string" ? meta.topic : undefined;
+            return {
+              at,
+              band: Number(r.score),
+              label: `${part ? `Part ${part}` : "Speaking"}${topic ? ` - ${topic}` : ""}`,
+            };
+          }
+          const total = r.max_score && r.max_score > 0 ? r.max_score : 1;
+          const percent = Math.round((Number(r.score) / total) * 100);
+          const title = typeof meta.title === "string" ? meta.title : (type === "ielts_reading" ? "Reading set" : "Listening set");
+          return { at, band: ieltsListeningBand(Number(r.score), total), percent, label: title };
+        });
 
-    const listening: SkillAttempt[] = listeningRaw.map((h) => ({
-      at: h.at, band: h.band, percent: h.percent, label: h.title,
-    }));
-    const reading: SkillAttempt[] = readingRaw.map((h) => ({
-      at: h.at, band: h.band, percent: h.percent, label: h.title,
-    }));
+    // Two records within 2 minutes carrying the same band are the same attempt.
+    const mergeAttempts = (local: SkillAttempt[], cloud: SkillAttempt[]): SkillAttempt[] => {
+      const out = [...local];
+      cloud.forEach((c) => {
+        const dup = out.some(
+          (l) => Math.abs(l.at - c.at) < 2 * 60 * 1000 && Math.abs(l.band - c.band) < 0.01,
+        );
+        if (!dup) out.push(c);
+      });
+      return out.sort((a, b) => a.at - b.at);
+    };
 
-    // Speaking from the graded practice history (localStorage).
+    const listeningLocal = readListeningHistory();
+    const readingLocal = readReadingHistory();
+
+    const listening = mergeAttempts(
+      listeningLocal.map((h) => ({ at: h.at, band: h.band, percent: h.percent, label: h.title })),
+      cloudOf("ielts_listening"),
+    );
+    const reading = mergeAttempts(
+      readingLocal.map((h) => ({ at: h.at, band: h.band, percent: h.percent, label: h.title })),
+      cloudOf("ielts_reading"),
+    );
+
+    // Speaking from the graded practice history (localStorage) merged with the cloud log.
     const speakingRaw = readJson<SpeakingEntry[]>(SPEAKING_HISTORY_KEY, []);
-    const speaking: SkillAttempt[] = speakingRaw
-      .filter((e) => typeof e.overall === "number")
-      .map((e) => ({ at: e.ts, band: e.overall, label: `Part ${e.part}${e.topic ? ` - ${e.topic}` : ""}` }));
+    const speaking = mergeAttempts(
+      speakingRaw
+        .filter((e) => typeof e.overall === "number")
+        .map((e) => ({ at: e.ts, band: e.overall, label: `Part ${e.part}${e.topic ? ` - ${e.topic}` : ""}` })),
+      cloudOf("ielts_speaking"),
+    );
 
     // Writing from the cloud grading log.
     const writingAttempts: SkillAttempt[] = writing
@@ -219,23 +309,28 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       ? Number((grammarScores.reduce((a, b) => a + b, 0) / grammarScores.length).toFixed(1))
       : null;
 
-    // Vocabulary: cloud rows when signed in, local set otherwise.
+    // Vocabulary: cloud rows carry timestamps, the local set only carries words.
     const localVocab = readJson<string[]>(VOCAB_KEY, []);
     const now = Date.now();
     const day = 24 * 60 * 60 * 1000;
     const cloudRows = vocabCloud || [];
+    const hasTimeline = cloudRows.length > 0;
     const mastered = Math.max(cloudRows.length, Array.isArray(localVocab) ? localVocab.length : 0);
     const countSince = (ms: number) =>
       cloudRows.filter((r) => now - new Date(r.created_at).getTime() <= ms).length;
-    const dueForReview = cloudRows.filter(
-      (r) => now - new Date(r.reviewed_at || r.created_at).getTime() > 7 * day,
-    ).length;
+    // Due = reviewed_at + the interval the SRS actually scheduled (7 days default).
+    const dueForReview = cloudRows.filter((r) => {
+      const base = new Date(r.reviewed_at || r.created_at).getTime();
+      const interval = (r.last_interval_days && r.last_interval_days > 0 ? r.last_interval_days : 7) * day;
+      return now - base > interval;
+    }).length;
     const vocab: VocabSnapshot = {
       mastered,
-      last7: countSince(7 * day),
-      last30: countSince(30 * day),
-      dueForReview,
+      last7: hasTimeline ? countSince(7 * day) : null,
+      last30: hasTimeline ? countSince(30 * day) : null,
+      dueForReview: hasTimeline ? dueForReview : null,
       lexicalBand: lexicalBandFromCount(mastered),
+      hasTimeline,
     };
 
     // Speaking SRS due counts grouped by weak-point type.
@@ -250,9 +345,11 @@ export function useIeltsPerformance(): PerformanceSnapshot {
     });
 
     // Weakest listening section (parsed from set titles) and weakest reading set.
+    const withPercent = (arr: SkillAttempt[]) =>
+      arr.filter((h): h is SkillAttempt & { percent: number } => typeof h.percent === "number");
     const sectionBuckets: Record<number, number[]> = {};
-    listeningRaw.forEach((h) => {
-      const m = /section\s*([1-4])/i.exec(h.title) || /part\s*([1-4])/i.exec(h.title);
+    withPercent(listening).forEach((h) => {
+      const m = /section\s*([1-4])/i.exec(h.label) || /part\s*([1-4])/i.exec(h.label);
       if (!m) return;
       const s = Number(m[1]);
       (sectionBuckets[s] ||= []).push(h.percent);
@@ -262,9 +359,15 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       .sort((a, b) => a.percent - b.percent);
     const weakestListeningSection = sectionAvgs.length && sectionAvgs[0].percent < 85 ? sectionAvgs[0] : null;
 
-    const sortedReading = [...readingRaw].sort((a, b) => a.percent - b.percent);
+    // Fallback when set titles never expose a section number.
+    const sortedListening = withPercent(listening).sort((a, b) => a.percent - b.percent);
+    const weakestListeningSet = sortedListening.length && sortedListening[0].percent < 85
+      ? { title: sortedListening[0].label, percent: sortedListening[0].percent }
+      : null;
+
+    const sortedReading = withPercent(reading).sort((a, b) => a.percent - b.percent);
     const weakestReadingSet = sortedReading.length && sortedReading[0].percent < 85
-      ? { title: sortedReading[0].title, percent: sortedReading[0].percent }
+      ? { title: sortedReading[0].label, percent: sortedReading[0].percent }
       : null;
 
     const weaknesses = rankWeaknesses({
@@ -272,6 +375,7 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       vocabMastered: vocab.mastered,
       srsDueByType,
       weakestListeningSection,
+      weakestListeningSet,
       weakestReadingSet,
     });
 
@@ -279,7 +383,7 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       stats, prediction, ready, ratePerWeek, criteria, grammarBand, vocab, srsDueByType,
       weaknesses, plan: studyPlan(prediction, target),
     };
-  }, [writing, vocabCloud, srsCloud, target, tick]);
+  }, [writing, vocabCloud, srsCloud, activityCloud, target, tick]);
 
   return { loading, signedIn, target, setTarget, refresh, ...snapshot };
 }

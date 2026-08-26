@@ -404,9 +404,23 @@ const IeltsPerformance = () => {
                   value={p.vocab.lexicalBand != null ? p.vocab.lexicalBand.toFixed(1) : "--"}
                   accent
                 />
-                <Kpi label={t("7 ngày qua", "Last 7 days")} value={`+${p.vocab.last7}`} />
-                <Kpi label={t("Cần ôn lại", "Due for review")} value={String(p.vocab.dueForReview)} />
+                <Kpi
+                  label={t("7 ngày qua", "Last 7 days")}
+                  value={p.vocab.last7 != null ? `+${p.vocab.last7}` : "--"}
+                />
+                <Kpi
+                  label={t("Cần ôn lại", "Due for review")}
+                  value={p.vocab.dueForReview != null ? String(p.vocab.dueForReview) : "--"}
+                />
               </div>
+              {!p.vocab.hasTimeline && p.vocab.mastered > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  {t(
+                    "Đăng nhập để đồng bộ ngày học từ và tính lịch ôn tập chính xác.",
+                    "Sign in to sync word dates and get an accurate review schedule.",
+                  )}
+                </p>
+              )}
               <div>
                 <div className="flex justify-between text-xs text-muted-foreground mb-1">
                   <span>{t("Tiến độ 1000 từ IELTS", "Progress to 1000 IELTS words")}</span>
