@@ -7,6 +7,8 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { cambridgeMockExams } from "../src/data/cambridgeMockExamData";
+import { isAnswerSupported, isNegativeQuestion, normaliseText } from "../src/data/cambridgeListeningSupport";
+
 
 const issues: string[] = [];
 const byLevel: Record<string, number[]> = {};
