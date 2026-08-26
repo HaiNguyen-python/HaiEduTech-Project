@@ -37,6 +37,22 @@ interface WritingRow {
   result: unknown;
 }
 
+interface VocabRow {
+  created_at: string;
+  reviewed_at: string | null;
+  last_interval_days: number | null;
+}
+
+/** Cloud mirror of practice results, used when localStorage is empty (new device). */
+interface ActivityRow {
+  created_at: string;
+  activity_type: string;
+  score: number | null;
+  max_score: number | null;
+  metadata: unknown;
+}
+
+
 const readJson = <T,>(key: string, fallback: T): T => {
   try {
     const raw = localStorage.getItem(key);
