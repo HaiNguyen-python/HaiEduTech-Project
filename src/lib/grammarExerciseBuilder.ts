@@ -268,7 +268,7 @@ const isCleanSentence = (value: string) => {
 
 /** Strip quiz scaffolding around a gap-fill stem: quotes and trailing prompts. */
 const sanitizeStem = (raw: string) => {
-  let stem = raw.trim();
+  let stem = raw.trim().replace(/_{2,}/g, "___");
   stem = stem.replace(/\s*-\s*(choose|select|pick)[^.]*:?\s*$/i, "");
   stem = stem.replace(/^(complete the sentence correctly|fill in the blank|complete the sentence)\s*:?\s*/i, "");
   stem = stem.replace(/^["'“”']+/, "").replace(/["'“”']+$/, "");
@@ -326,7 +326,7 @@ const buildErrorCorrection = (lesson: LanguageLesson): ErrorCorrectionExercise |
     }
 
     // Case B: a clean gap-fill stem plus short inline forms.
-    if (!stem.includes("___")) continue;
+    if (!/_{2,}/.test(stem)) continue;
     const base = sanitizeStem(stem);
     if (!base.includes("___")) continue;
     if (BAD_STEM_RE.test(base.replace("___", "x"))) continue;
@@ -457,7 +457,7 @@ const buildQuizFillInBlank = (lesson: LanguageLesson): FillInBlankExercise | nul
   const sentences = lesson.quiz
     .map((question) => {
       const answer = question.options[question.answer];
-      if (!question.question.includes("___") || !answer) return null;
+      if (!/_{2,}/.test(question.question) || !answer) return null;
       const text = sanitizeStem(question.question);
       if (!text.includes("___")) return null;
       if (BAD_STEM_RE.test(text.replace("___", "x"))) return null;
@@ -541,6 +541,76 @@ const buildSentenceMatching = (lesson: LanguageLesson): MatchingExercise | null 
   };
 };
 
+/** Bold noun phrases (no sentence punctuation) used by phrase-level drills. */
+const extractBoldPhrases = (theory: string) => {
+  const items: { line: string; bold: string }[] = [];
+  for (const rawLine of theory.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!/^[-*]\s+/.test(line)) continue;
+    const match = line.match(/\*\*(.+?)\*\*/);
+    if (!match) continue;
+    const text = clean(line.replace(/^[-*]\s+/, ""));
+    const bold = clean(match[1]);
+    if (!isEnglishOnly(text) || /[|→]/.test(text)) continue;
+    if (wordCount(text) < 3 || wordCount(text) > 18) continue;
+    if (wordCount(bold) < 2) continue;
+    if (!text.includes(bold)) continue;
+    items.push({ line: text, bold });
+  }
+  return items;
+};
+
+/** Phrase-level practice for lessons whose models are noun phrases, not sentences. */
+const buildPhraseDrills = (lesson: LanguageLesson): InteractiveExercise[] => {
+  const phrases = extractBoldPhrases(lesson.theoryEn || "");
+  if (phrases.length < 3) return [];
+  const seedBase = lesson.id.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+
+  const drills: InteractiveExercise[] = [
+    {
+      type: "fill-in-blank",
+      instruction: "Điền cụm từ đúng vào chỗ trống.",
+      instructionEn: "Complete each phrase with the correct words in the correct order.",
+      sentences: phrases.slice(0, 4).map((item) => ({
+        text: item.line.replace(item.bold, "___"),
+        textEn: item.line.replace(item.bold, "___"),
+        answer: item.bold,
+        hint: `${wordCount(item.bold)} word(s) in the order this lesson teaches.`,
+      })),
+    },
+    {
+      type: "sentence-reorder",
+      instruction: "Sắp xếp các từ theo đúng trật tự.",
+      instructionEn: "Put the words in the correct order.",
+      items: phrases.slice(0, 4).map((item, index) => ({
+        scrambled: scramble(item.line.split(/\s+/), seedBase + index * 23),
+        correct: item.line,
+        correctEn: item.line,
+      })),
+    },
+  ];
+
+  const seen = new Set<string>();
+  const pairs = phrases
+    .map((item) => ({ left: item.bold, right: item.line.replace(item.bold, "______") }))
+    .filter((pair) => {
+      const key = pair.right.toLowerCase();
+      if (seen.has(key) || pair.left.toLowerCase() === key) return false;
+      seen.add(key);
+      return true;
+    });
+  if (pairs.length >= 3) {
+    drills.push({
+      type: "matching",
+      instruction: "Nối cụm từ với vị trí đúng của nó.",
+      instructionEn: "Match each phrase with the slot it belongs to.",
+      pairs: pairs.slice(0, 5),
+    });
+  }
+
+  return drills;
+};
+
 /* ------------------------------------------------------------------- merging */
 
 const signature = (exercise: InteractiveExercise) => JSON.stringify(exercise).slice(0, 400);
@@ -560,6 +630,7 @@ const enhanceLesson = (lesson: LanguageLesson): LanguageLesson => {
     buildQuizFillInBlank(lesson),
     buildCorrectSentenceMcq(lesson),
     buildSentenceMatching(lesson),
+    ...buildPhraseDrills(lesson),
   ];
 
   const additions: InteractiveExercise[] = [];
