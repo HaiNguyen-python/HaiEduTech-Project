@@ -246,16 +246,54 @@ const buildDictation = (lesson: LanguageLesson): DictationExercise | null => {
   };
 };
 
-const isFullSentenceOption = (option: string) =>
-  wordCount(option) >= 4 && /^[A-Z]/.test(option.trim()) && isEnglishOnly(option);
+const BAD_STEM_RE =
+  /(complete the sentence|fill in the blank|choose the correct|which (sentence|verb|option)|__|→|\*|\||^[a-z])/i;
+
+/** A usable practice sentence: real sentence, no scaffolding text, no markers. */
+const isCleanSentence = (value: string) => {
+  const text = value.trim();
+  if (!text) return false;
+  if (!/^[A-Z"']/.test(text)) return false;
+  if (!/[.!?]["']?$/.test(text)) return false;
+  if (BAD_STEM_RE.test(text)) return false;
+  if (!isEnglishOnly(text)) return false;
+  const count = wordCount(text);
+  return count >= 4 && count <= 22;
+};
+
+const isInlineForm = (option: string) => {
+  const text = option.trim();
+  if (!text) return false;
+  if (/[→*|]/.test(text)) return false;
+  if (!isEnglishOnly(text)) return false;
+  return wordCount(text) <= 6;
+};
+
+const differsIgnoringCase = (a: string, b: string) =>
+  a.replace(/\s+/g, " ").trim().toLowerCase() !== b.replace(/\s+/g, " ").trim().toLowerCase();
 
 /**
  * Error correction items come from the lesson quiz:
  * - "choose the correct sentence" items give a wrong sentence + the right one;
- * - gap-fill items are rebuilt with a wrong option to create a faulty sentence.
+ * - clean gap-fill items are rebuilt with a wrong option to create a faulty sentence.
  */
 const buildErrorCorrection = (lesson: LanguageLesson): ErrorCorrectionExercise | null => {
   const items: ErrorCorrectionExercise["items"] = [];
+  const seen = new Set<string>();
+
+  const push = (wrong: string, correct: string, explanation?: string) => {
+    if (!isCleanSentence(wrong) || !isCleanSentence(correct)) return;
+    if (!differsIgnoringCase(wrong, correct)) return;
+    if (seen.has(correct)) return;
+    seen.add(correct);
+    items.push({
+      wrong,
+      correct,
+      explanation: explanation && isEnglishOnly(explanation) && !BAD_STEM_RE.test(explanation)
+        ? clean(explanation)
+        : undefined,
+    });
+  };
 
   for (const question of lesson.quiz) {
     if (items.length >= 4) break;
@@ -264,30 +302,20 @@ const buildErrorCorrection = (lesson: LanguageLesson): ErrorCorrectionExercise |
     const wrongOption = question.options.find((option, idx) => idx !== question.answer && option.trim());
     if (!wrongOption) continue;
 
-    const allFullSentences = question.options.every(isFullSentenceOption);
-    if (allFullSentences && !question.question.includes("___")) {
-      if (!isEnglishOnly(correctOption) || !isEnglishOnly(wrongOption)) continue;
-      items.push({
-        wrong: clean(wrongOption),
-        correct: clean(correctOption),
-        explanation: isEnglishOnly(question.explanation) ? clean(question.explanation) : undefined,
-      });
+    const stem = question.question.trim();
+
+    // Case A: options are complete sentences.
+    if (isCleanSentence(correctOption) && isCleanSentence(wrongOption)) {
+      push(clean(wrongOption), clean(correctOption), question.explanation);
       continue;
     }
 
-    const stem = clean(question.question.replace(/^['"]|['"]\s*-.*$/g, ""));
+    // Case B: a clean gap-fill stem plus short inline forms.
     if (!stem.includes("___")) continue;
-    if (!isEnglishOnly(stem)) continue;
-    const base = stem.replace(/\s*\([^)]*\)/g, "");
-    const wrongSentence = clean(base.replace("___", wrongOption));
-    const rightSentence = clean(base.replace("___", correctOption));
-    if (wrongSentence === rightSentence) continue;
-    if (wordCount(rightSentence) < 4) continue;
-    items.push({
-      wrong: wrongSentence,
-      correct: rightSentence,
-      explanation: isEnglishOnly(question.explanation) ? clean(question.explanation) : undefined,
-    });
+    if (BAD_STEM_RE.test(stem.replace("___", "x"))) continue;
+    if (!isInlineForm(correctOption) || !isInlineForm(wrongOption)) continue;
+    const base = clean(stem.replace(/\s*\([^)]*\)/g, ""));
+    push(clean(base.replace("___", wrongOption)), clean(base.replace("___", correctOption)), question.explanation);
   }
 
   if (items.length < 2) return null;
@@ -370,16 +398,29 @@ const buildMatching = (lesson: LanguageLesson): MatchingExercise | null => {
     }))
     .filter((pair) => pair.left && pair.right && isEnglishOnly(pair.right));
 
-  if (vocabPairs.length >= 4) {
+  const seenRight = new Set<string>();
+  const uniqueVocabPairs = vocabPairs.filter((pair) => {
+    const key = pair.right.toLowerCase();
+    if (seenRight.has(key) || pair.left.toLowerCase() === key) return false;
+    seenRight.add(key);
+    return true;
+  });
+
+  if (uniqueVocabPairs.length >= 4) {
     return {
       type: "matching",
       instruction: "Nối từ/cụm từ với nghĩa đúng.",
       instructionEn: "Match each word or phrase with its meaning.",
-      pairs: vocabPairs.slice(0, 5),
+      pairs: uniqueVocabPairs.slice(0, 5),
     };
   }
 
-  const rows = extractContrastRows(lesson.theoryEn || "");
+  const rows = extractContrastRows(lesson.theoryEn || "").filter((row) => {
+    const key = row.note.toLowerCase();
+    if (seenRight.has(key)) return false;
+    seenRight.add(key);
+    return true;
+  });
   if (rows.length >= 3) {
     return {
       type: "matching",
