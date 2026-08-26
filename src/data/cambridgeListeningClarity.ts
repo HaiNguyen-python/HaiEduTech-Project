@@ -27,32 +27,47 @@ const coreLine = (passage: string): string => {
 const lower = (text: string): string =>
   /^[A-Z]{2,}|^£|^\$|^\d/.test(text) ? text : text.charAt(0).toLowerCase() + text.slice(1);
 
-const stripArticle = (text: string): string => text.replace(/^(A|An|The)\s+/i, "");
-const isTimeLike = (text: string): boolean => /^\d{1,2}(:\d{2})?\s*(am|pm)?$/i.test(text.trim());
+const isTimeLike = (text: string): boolean => /^\d{1,2}([:.]\d{2})?\s*(a\.?m\.?|p\.?m\.?|o'clock)?$/i.test(text.trim());
 const isPriceLike = (text: string): boolean => /^[£$]\d/.test(text.trim());
-const isNumberLike = (text: string): boolean => /^\d+$/.test(text.trim());
+const isNumberLike = (text: string): boolean => /^\d+([.,]\d+)?(\s*[a-z.]+)?$/i.test(text.trim());
+const MONTHS = /\b(january|february|march|april|may|june|july|august|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i;
+const isDateLike = (text: string): boolean => MONTHS.test(text);
+/** Clause keys already have a subject, so they read well after "Yes,". */
+const isClause = (text: string): boolean => /^(i|you|he|she|it|they|we|there)\b/i.test(text.trim());
+/** Base or -ing verb keys need "to" or a progressive frame. */
+const BASE_VERBS = /^(write|read|buy|take|use|go|cook|play|walk|cycle|swim|call|ask|visit|postpone|cancel|book|bring|wear|study|join|help|meet|send|wait|start|finish|change|recycle|save|plant)\b/i;
+const isIng = (text: string): boolean => /^[a-z]+ing\b/i.test(text.trim());
+
+/** Keep proper nouns capitalised, lower case ordinary noun phrases mid sentence. */
+const midSentence = (text: string): string =>
+  isDateLike(text) || /^[A-Z]{2,}|^£|^\$|^\d|^Mr|^Mrs|^Miss/.test(text) ? text : lower(text);
 
 /**
  * A spoken sentence that states the key naturally, chosen from the question
- * stem so the recording still sounds like a conversation and not a coaching cue.
+ * stem and the shape of the option so the recording still sounds like a
+ * conversation and not a coaching cue.
  */
 const supportSentence = (question: string, key: string): string => {
   const q = question.toLowerCase();
-  const plain = stripArticle(key.trim()).replace(/\.$/, "");
+  const raw = key.trim().replace(/\.$/, "");
+  const said = midSentence(raw);
+  const bare = said.replace(/^(a|an|the)\s+/i, "");
 
-  if (/how many|how much/.test(q) && isNumberLike(plain)) return `That makes ${plain} altogether.`;
-  if (/how much/.test(q) || isPriceLike(plain)) return `The price is ${plain}.`;
-  if (/what time|when/.test(q) && isTimeLike(plain)) return `That is at ${plain}.`;
-  if (/what time|when/.test(q)) return `That is ${lower(plain)}.`;
-  if (/^where|\bwhere\b/.test(q)) return `It is ${lower(plain)}.`;
-  if (/\bwhy\b/.test(q)) return `That is because ${lower(plain)}.`;
-  if (/how (does|did|do) .*(feel)/.test(q)) return `I feel ${lower(plain)} about it, to be honest.`;
-  if (/how sure|how certain/.test(q)) return `I would say that is ${lower(plain)}.`;
-  if (/what .*(want|suggest|ask|need)/.test(q)) return `What I would like is to ${lower(plain)}.`;
-  if (/who\b/.test(q)) return `It is ${lower(plain)}.`;
-  if (/what .*(doing|do)\b/.test(q)) return `I am ${lower(plain)} right now.`;
-  return `So it is ${lower(plain)}.`;
+  if (isPriceLike(raw) || /how much (is|are|does|do)/.test(q)) return `The price is ${raw}.`;
+  if (/how many|how long/.test(q) && isNumberLike(raw)) return `That makes ${raw} altogether.`;
+  if (/what time|when/.test(q) && isTimeLike(raw)) return `That is at ${raw}.`;
+  if (/what time|when/.test(q) && isDateLike(raw)) return `That is on ${raw}.`;
+  if (/how (does|did|do|is|was) .*(feel)/.test(q)) return `I feel ${bare} about it, to be honest.`;
+  if (/how sure|how certain|how likely/.test(q)) return `I would say that is ${bare}.`;
+  if (isClause(raw)) return `Yes, ${said}.`;
+  if (isIng(raw)) return `The plan is ${said}.`;
+  if (BASE_VERBS.test(raw)) return `The plan is to ${said}.`;
+  if (/\bwhy\b/.test(q)) return `The reason is ${said}.`;
+  if (/how many|how long/.test(q)) return `That is ${said} in total.`;
+  if (/what time|when/.test(q)) return `That happens ${said}.`;
+  return `It is ${said}.`;
 };
+
 
 const withEvidence = (q: CambridgeMockQuestion, sentence: string): CambridgeMockQuestion => {
   const quoted = `"${sentence.replace(/\.$/, "")}"`;
