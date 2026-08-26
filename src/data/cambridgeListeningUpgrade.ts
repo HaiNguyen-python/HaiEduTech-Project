@@ -13,6 +13,8 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockExamData";
+import { isNegativeQuestion, normaliseText as normaliseShared } from "./cambridgeListeningSupport";
+
 
 /** Minimum spoken words per level, matching official recording length. */
 const WORD_TARGET: Record<string, number> = {
