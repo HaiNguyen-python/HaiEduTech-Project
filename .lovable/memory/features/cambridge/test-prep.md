@@ -8,6 +8,15 @@ type: feature
   pipeline): multi turn recordings with a narrator opener, natural chat, distractor ideas that are
   explicitly ruled out, then the authored key line verbatim, then a closer. Minimum spoken words:
   Starters 40, Movers 58, Flyers 82, KET 115, PET 130 (audit enforces this and >= 4 turns).
+- Listening answerability (`src/data/cambridgeListeningClarity.ts`, runs right before the upgrade):
+  if the key is not audible in the authored line, one natural spoken sentence stating the key is
+  appended (shape aware: "That makes 27 altogether.", "The price is 5.50", "It is a dog.",
+  "Yes, they do experiments.") and the evidence quote is added to both explanations.
+  Negative stems (NOT / never) are skipped, because there the key must stay ruled out, not stated.
+- Distractor rejection rules in the upgrade: never reject anything on a negative stem; numbers,
+  clock times and prices use "out of date detail" wording ("The old leaflet printed 9:00, and that
+  has now changed"), never "It is not 25."; a theme line drawn from the paper title keeps each
+  recording specific to its topic.
 - Listening scripts are hidden by default in the exam runner: students press Listen first and can
   reveal the script with "Show script" (state resets on every question change).
 - Review screen shows the evidence sentence from the reading text / listening script that proves the
@@ -25,6 +34,9 @@ type: feature
 - Papers are sorted by trailing number, badge shows "LEVEL #n".
 - Content audit: run `bun run scripts/audit_cambridge_exams.ts`. It checks equal counts per level,
   answer-key spread (target ~25% each A-D), duplicate questions/options, index bounds, bilingual
-  explanations, forbidden em/en dashes and listening scripts. Must report 0 issues.
+  explanations, forbidden em/en dashes and listening scripts. Listening checks also cover: key audible in the script (with number, clock
+  time and price equivalences from `src/data/cambridgeListeningSupport.ts`), no wrong option stated
+  as fact, no bare numeric rejection, negative stems reject nothing, context framing present.
+  Must report 0 issues.
 - Standalone Reading & Writing items without a passage are legitimate (official R&W Parts 1-3
   word/picture and gap-fill tasks), so the audit reports them as information only.
