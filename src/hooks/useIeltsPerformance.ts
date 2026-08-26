@@ -108,8 +108,9 @@ export function useIeltsPerformance(): PerformanceSnapshot {
     return v >= 4 && v <= 9 ? v : 7.5;
   });
   const [writing, setWriting] = useState<WritingRow[]>([]);
-  const [vocabCloud, setVocabCloud] = useState<{ created_at: string; reviewed_at: string }[] | null>(null);
+  const [vocabCloud, setVocabCloud] = useState<VocabRow[] | null>(null);
   const [srsCloud, setSrsCloud] = useState<{ item_type: string; due_at: string; mastered: boolean }[] | null>(null);
+  const [activityCloud, setActivityCloud] = useState<ActivityRow[]>([]);
 
   const setTarget = useCallback((v: number) => {
     setTargetState(v);
