@@ -9,15 +9,14 @@ import { motion } from "framer-motion";
 import { TrendingUp, Target, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
-import { CAMBRIDGE_LEVEL_META } from "@/components/cambridge/TestPrepBoard";
 import { useCambridgeCefr } from "@/hooks/useCambridgeCefr";
-import { MASTERY_THRESHOLD, MIN_PAPERS_FOR_MASTERY } from "@/lib/cambridgeCefrModel";
+import { CEFR_LABEL, MASTERY_THRESHOLD, MIN_PAPERS_FOR_MASTERY } from "@/lib/cambridgeCefrModel";
 
 const CefrProgressChart = () => {
   const { t } = useLanguage();
   const snap = useCambridgeCefr();
   const workingCfg = CAMBRIDGE_LEVEL_LABELS[snap.workingLevel];
-  const workingMeta = CAMBRIDGE_LEVEL_META[snap.workingLevel];
+  const workingCefr = CEFR_LABEL[snap.workingLevel];
 
   return (
     <section className="container mx-auto px-4 pt-6">
@@ -118,8 +117,8 @@ const CefrProgressChart = () => {
                   "Take 2 papers at a suitable level so the system can place you on the CEFR scale."
                 )
               : t(
-                  `Bước tiếp theo: đạt trung bình ${MASTERY_THRESHOLD}% ở ${workingCfg.label} (${workingMeta.cefr}) với ít nhất ${MIN_PAPERS_FOR_MASTERY} đề. Bạn còn thiếu ${snap.gapToNext}%.`,
-                  `Next step: reach a ${MASTERY_THRESHOLD}% average at ${workingCfg.label} (${workingMeta.cefr}) across at least ${MIN_PAPERS_FOR_MASTERY} papers. You are ${snap.gapToNext}% short.`
+                  `Bước tiếp theo: đạt trung bình ${MASTERY_THRESHOLD}% ở ${workingCfg.label} (${workingCefr}) với ít nhất ${MIN_PAPERS_FOR_MASTERY} đề. Bạn còn thiếu ${snap.gapToNext}%.`,
+                  `Next step: reach a ${MASTERY_THRESHOLD}% average at ${workingCfg.label} (${workingCefr}) across at least ${MIN_PAPERS_FOR_MASTERY} papers. You are ${snap.gapToNext}% short.`
                 )}
           </p>
         </div>

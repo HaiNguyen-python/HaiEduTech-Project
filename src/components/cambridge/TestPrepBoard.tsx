@@ -12,6 +12,7 @@ import { Clock, BookOpenCheck } from "lucide-react";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import CefrProgressChart from "@/components/cambridge/CefrProgressChart";
 
 export type CambridgeLevelKey = "starters" | "movers" | "flyers" | "ket" | "pet";
 

@@ -8,11 +8,11 @@
  */
 import { useCallback, useEffect, useState } from "react";
 import { cambridgeMockExams } from "@/data/cambridgeMockExamData";
-import type { CambridgeLevelKey } from "@/components/cambridge/TestPrepBoard";
 import {
   buildCefrLevels,
   buildCefrSnapshot,
   CEFR_LEVEL_ORDER,
+  type CambridgeLevelKey,
   type CefrAttempt,
   type CefrSnapshot,
 } from "@/lib/cambridgeCefrModel";

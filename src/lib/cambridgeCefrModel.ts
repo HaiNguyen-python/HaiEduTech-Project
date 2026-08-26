@@ -5,7 +5,8 @@
  *              and an overall CEFR position from Pre-A1 to B1/B2.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import type { CambridgeLevelKey } from "@/components/cambridge/TestPrepBoard";
+/** Cambridge level keys, duplicated here to keep this module dependency-free. */
+export type CambridgeLevelKey = "starters" | "movers" | "flyers" | "ket" | "pet";
 
 export const CEFR_LEVEL_ORDER: CambridgeLevelKey[] = ["starters", "movers", "flyers", "ket", "pet"];
 
