@@ -41,7 +41,63 @@ export interface MCQExercise {
   explanation: string;
 }
 
-export type InteractiveExercise = FillInBlankExercise | SentenceReorderExercise | DictationExercise;
+/** Spot the grammar mistake in a sentence and rewrite it correctly. */
+export interface ErrorCorrectionExercise {
+  type: "error-correction";
+  instruction: string;
+  instructionEn: string;
+  items: {
+    wrong: string;
+    correct: string;
+    explanation?: string;
+  }[];
+}
+
+/** Rewrite a sentence to a target meaning using a required cue word. */
+export interface TransformationExercise {
+  type: "transformation";
+  instruction: string;
+  instructionEn: string;
+  items: {
+    prompt: string;
+    target: string;
+    cue?: string;
+    goal?: string;
+  }[];
+}
+
+/** Multiple-choice grammar drill with per-question explanation. */
+export interface MultipleChoiceExercise {
+  type: "multiple-choice";
+  instruction: string;
+  instructionEn: string;
+  questions: {
+    question: string;
+    options: string[];
+    answer: number;
+    explanation?: string;
+  }[];
+}
+
+/** Match a left item (structure/word/sentence) with its right item (use/meaning). */
+export interface MatchingExercise {
+  type: "matching";
+  instruction: string;
+  instructionEn: string;
+  pairs: {
+    left: string;
+    right: string;
+  }[];
+}
+
+export type InteractiveExercise =
+  | FillInBlankExercise
+  | SentenceReorderExercise
+  | DictationExercise
+  | ErrorCorrectionExercise
+  | TransformationExercise
+  | MultipleChoiceExercise
+  | MatchingExercise;
 
 export interface VocabEntry {
   word: string;
