@@ -15,3 +15,10 @@ type: feature
   derived from mastered word count. Target band stored in `ielts-performance-target-v1`.
 - AI commentary edge function `ielts-performance-coach` (Perplexity sonar, VI then EN); the client
   falls back to a rule-based paragraph, so numbers never depend on the AI call.
+- Reliability: the hook merges localStorage histories with `student_activity_log`
+  (`ielts_listening` / `ielts_reading` / `ielts_speaking`) so results survive a device switch.
+  Duplicates are collapsed when two records are within 2 minutes and the same band.
+- Refresh triggers: auth state change, window focus, and `storage` events on the four practice keys.
+- Vocabulary timed metrics (last 7/30 days, due for review) are null for guests; the UI shows "--"
+  plus a sign-in hint. Due dates use `user_vocab_mastered.last_interval_days` (default 7).
+- Navbar order: "Progress & Analysis" header sits after "Practice & Grading".
