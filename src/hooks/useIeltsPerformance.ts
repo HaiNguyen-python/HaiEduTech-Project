@@ -344,9 +344,11 @@ export function useIeltsPerformance(): PerformanceSnapshot {
     });
 
     // Weakest listening section (parsed from set titles) and weakest reading set.
+    const withPercent = (arr: SkillAttempt[]) =>
+      arr.filter((h): h is SkillAttempt & { percent: number } => typeof h.percent === "number");
     const sectionBuckets: Record<number, number[]> = {};
-    listeningRaw.forEach((h) => {
-      const m = /section\s*([1-4])/i.exec(h.title) || /part\s*([1-4])/i.exec(h.title);
+    withPercent(listening).forEach((h) => {
+      const m = /section\s*([1-4])/i.exec(h.label) || /part\s*([1-4])/i.exec(h.label);
       if (!m) return;
       const s = Number(m[1]);
       (sectionBuckets[s] ||= []).push(h.percent);
@@ -356,9 +358,15 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       .sort((a, b) => a.percent - b.percent);
     const weakestListeningSection = sectionAvgs.length && sectionAvgs[0].percent < 85 ? sectionAvgs[0] : null;
 
-    const sortedReading = [...readingRaw].sort((a, b) => a.percent - b.percent);
+    // Fallback when set titles never expose a section number.
+    const sortedListening = withPercent(listening).sort((a, b) => a.percent - b.percent);
+    const weakestListeningSet = sortedListening.length && sortedListening[0].percent < 85
+      ? { title: sortedListening[0].label, percent: sortedListening[0].percent }
+      : null;
+
+    const sortedReading = withPercent(reading).sort((a, b) => a.percent - b.percent);
     const weakestReadingSet = sortedReading.length && sortedReading[0].percent < 85
-      ? { title: sortedReading[0].title, percent: sortedReading[0].percent }
+      ? { title: sortedReading[0].label, percent: sortedReading[0].percent }
       : null;
 
     const weaknesses = rankWeaknesses({
@@ -366,6 +374,7 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       vocabMastered: vocab.mastered,
       srsDueByType,
       weakestListeningSection,
+      weakestListeningSet,
       weakestReadingSet,
     });
 
@@ -373,7 +382,7 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       stats, prediction, ready, ratePerWeek, criteria, grammarBand, vocab, srsDueByType,
       weaknesses, plan: studyPlan(prediction, target),
     };
-  }, [writing, vocabCloud, srsCloud, target, tick]);
+  }, [writing, vocabCloud, srsCloud, activityCloud, target, tick]);
 
   return { loading, signedIn, target, setTarget, refresh, ...snapshot };
 }
