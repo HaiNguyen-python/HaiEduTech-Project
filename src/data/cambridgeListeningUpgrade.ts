@@ -25,13 +25,14 @@ const WORD_TARGET: Record<string, number> = {
 
 type Voices = { a: string; b: string };
 
-const VOICE_SETS: Voices[] = [
-  { a: "Woman", b: "Boy" },
-  { a: "Man", b: "Girl" },
-  { a: "Teacher", b: "Student" },
-  { a: "Woman", b: "Man" },
-  { a: "Girl", b: "Boy" },
-];
+/** Voice pairs that fit the level: young children at YLE, adults at KET/PET. */
+const VOICE_SETS: Record<string, Voices[]> = {
+  starters: [{ a: "Woman", b: "Boy" }, { a: "Man", b: "Girl" }, { a: "Girl", b: "Boy" }],
+  movers: [{ a: "Teacher", b: "Student" }, { a: "Woman", b: "Boy" }, { a: "Girl", b: "Boy" }],
+  flyers: [{ a: "Teacher", b: "Student" }, { a: "Man", b: "Girl" }, { a: "Woman", b: "Boy" }],
+  ket: [{ a: "Interviewer", b: "Woman" }, { a: "Presenter", b: "Man" }, { a: "Woman", b: "Man" }],
+  pet: [{ a: "Interviewer", b: "Expert" }, { a: "Presenter", b: "Guest" }, { a: "Woman", b: "Man" }],
+};
 
 const hash = (text: string): number => {
   let h = 0;
@@ -200,7 +201,7 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   const level = exam.level;
   const target = WORD_TARGET[level] ?? 80;
   const seed = hash(`${exam.id}#${q.id}#${core.length}`);
-  const voices = pick(VOICE_SETS, seed);
+  const voices = pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
   const chat = CHAT[level] ?? CHAT.flyers;
   const rejects = rejectable(q, core);
 
