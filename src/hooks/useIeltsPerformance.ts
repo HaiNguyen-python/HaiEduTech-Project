@@ -143,26 +143,56 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       if (cancelled) return;
       setSignedIn(!!user);
       if (!user) {
-        setWriting([]); setVocabCloud(null); setSrsCloud(null); setLoading(false);
+        setWriting([]); setVocabCloud(null); setSrsCloud(null); setActivityCloud([]);
+        setLoading(false);
         return;
       }
-      const [w, v, s] = await Promise.all([
+      const [w, v, s, a] = await Promise.all([
         supabase.from("writing_attempts")
           .select("created_at, overall_score, task_type, result")
           .eq("user_id", user.id).order("created_at", { ascending: true }).limit(60),
         supabase.from("user_vocab_mastered")
-          .select("created_at, reviewed_at").eq("user_id", user.id).eq("subject", "ielts").limit(3000),
+          .select("created_at, reviewed_at, last_interval_days")
+          .eq("user_id", user.id).eq("subject", "ielts").limit(3000),
         supabase.from("speaking_srs_items")
           .select("item_type, due_at, mastered").eq("user_id", user.id).limit(500),
+        supabase.from("student_activity_log")
+          .select("created_at, activity_type, score, max_score, metadata")
+          .eq("user_id", user.id)
+          .in("activity_type", ["ielts_listening", "ielts_reading", "ielts_speaking"])
+          .order("created_at", { ascending: true }).limit(500),
       ]);
       if (cancelled) return;
       setWriting((w.data as WritingRow[]) || []);
-      setVocabCloud((v.data as { created_at: string; reviewed_at: string }[]) || []);
+      setVocabCloud((v.data as VocabRow[]) || []);
       setSrsCloud((s.data as { item_type: string; due_at: string; mastered: boolean }[]) || []);
+      setActivityCloud((a.data as ActivityRow[]) || []);
       setLoading(false);
     })();
     return () => { cancelled = true; };
   }, [tick]);
+
+  // Keep the dashboard fresh: auth changes, tab focus, and results saved in another tab.
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange(() => refresh());
+    const onFocus = () => refresh();
+    const onStorage = (e: StorageEvent) => {
+      if (!e.key) return;
+      if ([
+        "ielts-listening-history-v1",
+        "ielts-reading-history-v1",
+        SPEAKING_HISTORY_KEY,
+        VOCAB_KEY,
+      ].includes(e.key)) refresh();
+    };
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      sub.subscription.unsubscribe();
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, [refresh]);
 
   const snapshot = useMemo(() => {
     // Listening + Reading come from the local-first attempt histories.
