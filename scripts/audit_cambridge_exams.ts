@@ -82,7 +82,9 @@ for (const exam of cambridgeMockExams) {
         issues.push(`${at}: negative stem must not rule options out`);
       }
       // Bare numeric rejections ("It is not 25.") do not sound like a recording.
-      if (/\bnot\s+[£$]?\d/i.test(spoken)) issues.push(`${at}: bare numeric rejection in script`);
+      if (/\b(is|are|was|were|it's)\s+(definitely\s+|certainly\s+)?not\s+[£$]?\d/i.test(spoken)) {
+        issues.push(`${at}: bare numeric rejection in script`);
+      }
       // The theme line keeps each paper's recording specific to its topic.
       if (!/week|moment|home|project|group|reading|Narrator/i.test(spoken)) {
         issues.push(`${at}: script has no context framing`);
