@@ -58,9 +58,12 @@ const normalise = (text: string): string =>
 
 /**
  * Wrong options that are safe to name as rejected ideas: real words, not part of
- * the key and not already mentioned in the authored line.
+ * the key and not already mentioned in the authored line. Negative stems ("What
+ * does the centre NOT accept?") get no rejections at all, because there every
+ * wrong option must stay audible in the recording.
  */
 const rejectable = (q: CambridgeMockQuestion, core: string): string[] => {
+  if (isNegativeQuestion(q.question)) return [];
   const key = normalise(q.options[q.correctAnswer] ?? "");
   const plain = normalise(core);
   return q.options
@@ -75,6 +78,11 @@ const rejectable = (q: CambridgeMockQuestion, core: string): string[] => {
     .map(o => o.replace(/\.$/, ""))
     .map(o => (/^[A-Z]{2,}/.test(o) ? o : o.charAt(0).toLowerCase() + o.slice(1)));
 };
+
+/** Numbers, clock times and prices need their own wording to sound natural. */
+const isQuantity = (text: string): boolean =>
+  /^[£$]?\d+([.:]\d+)?(\s*(am|pm|pounds|dollars))?$/i.test(text.trim());
+
 
 const lower = (text: string): string => text.charAt(0).toLowerCase() + text.slice(1);
 
