@@ -10,6 +10,7 @@ const errors = [];
 const typeCount = {};
 let lessons = 0;
 
+const strict = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
 const norm = (s) => s.toLowerCase().replace(/[.,!?;:"'`]/g, "").replace(/\s+/g, " ").trim();
 
 for (const mod of allGrammarModules) {
@@ -65,7 +66,7 @@ for (const mod of allGrammarModules) {
         const keys = [];
         e.questions.forEach((q, i) => {
           if (q.options.length < 3) errors.push(`${id}: mcq #${i + 1} has < 3 options`);
-          if (new Set(q.options.map(norm)).size !== q.options.length) errors.push(`${id}: mcq #${i + 1} duplicate options`);
+          if (new Set(q.options.map(strict)).size !== q.options.length) errors.push(`${id}: mcq #${i + 1} duplicate options`);
           if (q.answer < 0 || q.answer >= q.options.length) errors.push(`${id}: mcq #${i + 1} bad answer index`);
           if (!q.explanation) errors.push(`${id}: mcq #${i + 1} missing explanation`);
           if (VI.test(q.question)) errors.push(`${id}: Vietnamese leak in mcq #${i + 1}`);
@@ -76,7 +77,7 @@ for (const mod of allGrammarModules) {
 
       if (e.type === "matching") {
         if (e.pairs.length < 3) errors.push(`${id}: matching has < 3 pairs`);
-        if (new Set(e.pairs.map((p) => norm(p.right))).size !== e.pairs.length)
+        if (new Set(e.pairs.map((p) => strict(p.right))).size !== e.pairs.length)
           errors.push(`${id}: matching has duplicate right-hand items`);
         e.pairs.forEach((p, i) => {
           if (!p.left?.trim() || !p.right?.trim()) errors.push(`${id}: matching pair #${i + 1} empty`);

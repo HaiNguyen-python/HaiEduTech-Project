@@ -31,6 +31,7 @@ const clean = (value: string) =>
     .replace(/\*\*/g, "")
     .replace(/`/g, "")
     .replace(/\s+/g, " ")
+    .replace(/\s+([,.;:!?])/g, "$1")
     .trim();
 
 const wordCount = (value: string) => value.split(/\s+/).filter(Boolean).length;
@@ -656,7 +657,39 @@ const buildVocabMcq = (lesson: LanguageLesson): MultipleChoiceExercise | null =>
 
 const signature = (exercise: InteractiveExercise) => JSON.stringify(exercise).slice(0, 400);
 
-const enhanceLesson = (lesson: LanguageLesson): LanguageLesson => {
+const tokenKey = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[.,!?;:"'`]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .sort()
+    .join(" ");
+
+/** Legacy reorder items sometimes list words that do not match the answer. */
+const repairReorder = (lesson: LanguageLesson): LanguageLesson => {
+  const seedBase = lesson.id.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  let changed = false;
+
+  const exercises = lesson.exercises.map((exercise, exerciseIndex) => {
+    if (exercise.type !== "sentence-reorder") return exercise;
+    const items = exercise.items.map((item, index) => {
+      const answer = item.correctEn || item.correct;
+      if (tokenKey(item.scrambled.join(" ")) === tokenKey(answer)) return item;
+      changed = true;
+      return {
+        ...item,
+        scrambled: scramble(answer.split(/\s+/), seedBase + exerciseIndex * 31 + index * 7),
+      };
+    });
+    return changed ? { ...exercise, items } : exercise;
+  });
+
+  return changed ? { ...lesson, exercises } : lesson;
+};
+
+const enhanceLesson = (rawLesson: LanguageLesson): LanguageLesson => {
+  const lesson = repairReorder(rawLesson);
   if (lesson.exercises.length >= MIN_EXERCISES) return lesson;
 
   const existing = new Set(lesson.exercises.map(signature));
