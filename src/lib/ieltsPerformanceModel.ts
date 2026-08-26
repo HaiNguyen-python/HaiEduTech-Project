@@ -280,6 +280,21 @@ export function rankWeaknesses(input: WeaknessInput): Weakness[] {
       actionEn: `Redo 3 Section ${section} sets and read the transcript after grading.`,
     });
   }
+  if (!input.weakestListeningSection && input.weakestListeningSet) {
+    const { title, percent } = input.weakestListeningSet;
+    out.push({
+      id: "listening-set",
+      titleVi: `Đề Listening thấp nhất: ${title} (${percent}%)`,
+      titleEn: `Lowest Listening set: ${title} (${percent}%)`,
+      detailVi: "Nghe lại đề này và đối chiếu transcript ở những câu sai.",
+      detailEn: "Replay this set and match the transcript against every wrong answer.",
+      score: null,
+      severity: percent < 60 ? "high" : "medium",
+      link: "/ielts-listening-practice",
+      actionVi: "Làm lại đề này, ghi lại từ khóa bị bỏ sót.",
+      actionEn: "Retake this set and note the keywords you missed.",
+    });
+  }
   if (input.weakestReadingSet) {
     const { title, percent } = input.weakestReadingSet;
     out.push({
