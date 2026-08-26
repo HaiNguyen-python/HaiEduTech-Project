@@ -46,6 +46,7 @@ import { grammarExpansionModules5 } from "./englishGrammarExpansion5";
 import { enhanceGrammarModulesWithQuizDepth } from "@/lib/grammarQuizBuilder";
 import { enhanceGrammarModulesWithExercises } from "@/lib/grammarExerciseBuilder";
 import { enhanceGrammarModulesWithTheoryUpgrade } from "./grammarUpgrade";
+import { applyGrammarExerciseSupplement } from "./grammarExerciseSupplement";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
@@ -68,6 +69,7 @@ const expandedGrammarModules: LanguageModule[] = grammarModules.map(mod => {
 // Combined list of all grammar modules (base + every expansion) for the
 // English Grammar landing page.
 export const allGrammarModules: LanguageModule[] = enhanceGrammarModulesWithExercises(
+  applyGrammarExerciseSupplement(
   enhanceGrammarModulesWithTheoryUpgrade(
     enhanceGrammarModulesWithQuizDepth([
   ...expandedGrammarModules,
