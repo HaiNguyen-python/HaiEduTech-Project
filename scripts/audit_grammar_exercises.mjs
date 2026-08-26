@@ -38,16 +38,17 @@ for (const mod of allGrammarModules) {
 
       if (e.type === "sentence-reorder") {
         e.items.forEach((item, i) => {
-          const target = (item.correctEn || item.correct).replace(/[.?!]$/, "").split(/\s+/).sort().join(" ");
-          const given = [...item.scrambled].sort().join(" ");
+          const tok = (v) => v.toLowerCase().replace(/[.,!?;:"'`]/g, " ").split(/\s+/).filter(Boolean).sort().join(" ");
+          const target = tok(item.correctEn || item.correct);
+          const given = tok(item.scrambled.join(" "));
           if (target !== given) errors.push(`${id}: reorder #${i + 1} word set mismatch`);
         });
       }
 
       if (e.type === "error-correction") {
         e.items.forEach((item, i) => {
-          if (norm(item.wrong) === norm(item.correct)) errors.push(`${id}: error-correction #${i + 1} wrong == correct`);
-          if (!/^[A-Z]/.test(item.correct)) errors.push(`${id}: error-correction #${i + 1} correct not a sentence`);
+          if (item.wrong.trim().toLowerCase() === item.correct.trim().toLowerCase()) errors.push(`${id}: error-correction #${i + 1} wrong == correct`);
+          if (!/^[A-Z"']/.test(item.correct)) errors.push(`${id}: error-correction #${i + 1} correct not a sentence`);
           if (VI.test(item.wrong) || VI.test(item.correct)) errors.push(`${id}: Vietnamese leak in error-correction #${i + 1}`);
         });
       }
@@ -85,7 +86,7 @@ for (const mod of allGrammarModules) {
 
       if (e.type === "dictation") {
         e.sentences.forEach((s, i) => {
-          if (!/[.?!]$/.test(s.text)) errors.push(`${id}: dictation #${i + 1} missing final punctuation`);
+          if (!/[.?!]["']?$/.test(s.text)) errors.push(`${id}: dictation #${i + 1} missing final punctuation`);
           if (s.text.split(/\s+/).length < 4) errors.push(`${id}: dictation #${i + 1} too short`);
           if (VI.test(s.text)) errors.push(`${id}: Vietnamese leak in dictation #${i + 1}`);
         });
