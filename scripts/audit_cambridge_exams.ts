@@ -78,7 +78,7 @@ for (const exam of cambridgeMockExams) {
           issues.push(`${at}: wrong option "${option}" is said without being ruled out`);
         }
       });
-      if (isNegativeQuestion(q.question) && /but that is not right|is not \w|no longer the case|not use that figure/i.test(spoken)) {
+      if (isNegativeQuestion(q.question) && /but that is not right|no longer the case|not use that figure|but she was wrong|so do not write that|that plan was dropped/i.test(spoken)) {
         issues.push(`${at}: negative stem must not rule options out`);
       }
       // Bare numeric rejections ("It is not 25.") do not sound like a recording.

@@ -13,7 +13,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockExamData";
-import { isAnswerSupported } from "./cambridgeListeningSupport";
+import { isAnswerSupported, isNegativeQuestion } from "./cambridgeListeningSupport";
 
 /** Strip the "Listen:" wrapper and the surrounding quotes of an authored line. */
 const coreLine = (passage: string): string => {
@@ -70,6 +70,9 @@ export const clarifyCambridgeListening = (exam: CambridgeMockExam): CambridgeMoc
   ...exam,
   questions: exam.questions.map(q => {
     if (q.section !== "Listening" || !q.passage) return q;
+    // Negative stems ("what should tourists NOT do?") are answered by what the
+    // script rules out, so stating the key as a fact would break them.
+    if (isNegativeQuestion(q.question)) return q;
     const core = coreLine(q.passage);
     const key = q.options[q.correctAnswer] ?? "";
     if (!core || !key) return q;
