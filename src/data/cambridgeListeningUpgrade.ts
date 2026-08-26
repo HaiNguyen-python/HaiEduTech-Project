@@ -181,6 +181,41 @@ const REJECT: Record<string, string[]> = {
   ],
 };
 
+/**
+ * Rejections for numbers, times and prices. Saying "It is not 25." sounds wrong
+ * in a recording, so these wordings frame the number as an out of date detail.
+ */
+const QUANTITY_REJECT: Record<string, string[]> = {
+  starters: ["My friend said {x}, but that is not right.", "It was {x} last week, but not now."],
+  movers: [
+    "My old notebook says {x}, but I have to change that.",
+    "The poster said {x}, and that information is old.",
+  ],
+  flyers: [
+    "My friend wrote down {x}, but she copied it from an old page.",
+    "The first plan was {x}, and then everything moved.",
+  ],
+  ket: [
+    "The old leaflet printed {x}, and that has now changed.",
+    "It used to be {x} last year, so please do not use that figure.",
+  ],
+  pet: [
+    "The website still shows {x}, which is left over from last season.",
+    "The original announcement said {x}, but that was revised before it opened.",
+  ],
+};
+
+/** Theme flavoured lines so scripts about food do not sound like scripts about travel. */
+const THEME_CHAT: string[] = [
+  "We are looking at {theme} in class this week.",
+  "I keep hearing people talk about {theme} at the moment.",
+  "There is a lot to say about {theme}, is there not?",
+  "My family talks about {theme} quite often at home.",
+  "I did some reading about {theme} before I came here.",
+  "Everyone in my group chose {theme} for their project.",
+];
+
+
 /** Closing turns that add length without repeating the key. */
 const CLOSERS: Record<string, string[]> = {
   starters: ["Thank you! Goodbye.", "Now you know. See you later!"],
