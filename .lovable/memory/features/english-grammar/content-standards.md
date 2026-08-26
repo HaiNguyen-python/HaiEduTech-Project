@@ -16,3 +16,9 @@ Architecture:
 - Content upgrades live in `src/data/languageCurriculum/grammarUpgrade/part1..part5.ts`, keyed by lesson id, merged by `enhanceGrammarModulesWithTheoryUpgrade` (grammarUpgrade/index.ts). Legacy files (`englishGrammar.ts`, expansions) stay untouched.
 - `src/lib/grammarExerciseBuilder.ts` (`enhanceGrammarModulesWithExercises`) tops every lesson up to 3 exercises, generating fill-in-blank from vocabulary examples plus deterministic sentence-reorder/dictation from model sentences.
 - Pipeline order in `src/data/languageCurriculum/index.ts`: quiz depth -> theory upgrade -> exercise builder.
+
+## Practice-only mode (required)
+- English Grammar lessons show ONLY interactive exercises + final quiz. Theory, overview, pro tips and vocabulary blocks are hidden in `LanguageLessonView.tsx`.
+- Every lesson must have >= 7 exercises across >= 4 types (fill-in-blank, sentence-reorder, dictation, error-correction, transformation, multiple-choice, matching).
+- Exercises are derived at runtime in `src/lib/grammarExerciseBuilder.ts`; thin lessons get hand-written items in `src/data/languageCurriculum/grammarExerciseSupplement.ts`.
+- Validate with `bun scripts/audit_grammar_exercises.mjs` - must report zero issues (no Vietnamese leaks, no duplicate options/pairs, scramble word sets must match answers).
