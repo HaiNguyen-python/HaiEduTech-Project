@@ -81,7 +81,7 @@ const rejectable = (q: CambridgeMockQuestion, core: string): string[] => {
 
 /** Numbers, clock times and prices need their own wording to sound natural. */
 const isQuantity = (text: string): boolean =>
-  /^[£$]?\d+([.,:]\d+)?\s*(am|pm|pounds|dollars|hours?|hrs?|minutes?|mins?|days?|weeks?|months?|years?|kilometres?|km|metres?|m|people|students?|times?|degrees?)?$/i.test(
+  /^[£$]?\d+([.,:]\d+)?\s*(a\.?m\.?|p\.?m\.?|o'clock|pounds|dollars|hours?|hrs?|minutes?|mins?|days?|weeks?|months?|years?|kilometres?|km|metres?|m|people|students?|times?|degrees?)?\.?$/i.test(
     text.trim()
   );
 
