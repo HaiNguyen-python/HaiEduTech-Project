@@ -225,10 +225,12 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   });
 
   // Top up with more chat until the recording is long enough for the level.
+  // Only unused lines are added, so no turn is ever repeated verbatim.
+  const used = new Set(middle);
+  const spare = chat.filter(line => !used.has(line));
   let extra = 0;
-  while (words(lines.join(" ")) < target && extra < 8) {
-    const filler = chat[(chatStart + beforeCount + extra) % chat.length];
-    lines.push(`${(middle.length + extra) % 2 === 0 ? voices.a : voices.b}: ${filler}`);
+  while (words(lines.join(" ")) < target && extra < spare.length) {
+    lines.push(`${(middle.length + extra) % 2 === 0 ? voices.a : voices.b}: ${spare[extra]}`);
     extra += 1;
   }
 
