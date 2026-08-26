@@ -65,7 +65,11 @@ const supportSentence = (question: string, key: string): string => {
   if (/\bwhy\b/.test(q)) return `The reason is ${said}.`;
   if (/how many|how long/.test(q)) return `That is ${said} in total.`;
   if (/what time|when/.test(q)) return `That happens ${said}.`;
-  return `It is ${said}.`;
+  if (/^(a|an|the|on|in|at|between|next|under|near|behind|opposite|by|to|from|beside)\b/i.test(said)) {
+    return `It is ${said}.`;
+  }
+  // Bare noun phrases such as "sandwich and apple" read best as a short reply.
+  return `Yes, ${said}.`;
 };
 
 
