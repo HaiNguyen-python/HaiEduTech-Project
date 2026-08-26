@@ -222,23 +222,28 @@ export function useIeltsPerformance(): PerformanceSnapshot {
       ? Number((grammarScores.reduce((a, b) => a + b, 0) / grammarScores.length).toFixed(1))
       : null;
 
-    // Vocabulary: cloud rows when signed in, local set otherwise.
+    // Vocabulary: cloud rows carry timestamps, the local set only carries words.
     const localVocab = readJson<string[]>(VOCAB_KEY, []);
     const now = Date.now();
     const day = 24 * 60 * 60 * 1000;
     const cloudRows = vocabCloud || [];
+    const hasTimeline = cloudRows.length > 0;
     const mastered = Math.max(cloudRows.length, Array.isArray(localVocab) ? localVocab.length : 0);
     const countSince = (ms: number) =>
       cloudRows.filter((r) => now - new Date(r.created_at).getTime() <= ms).length;
-    const dueForReview = cloudRows.filter(
-      (r) => now - new Date(r.reviewed_at || r.created_at).getTime() > 7 * day,
-    ).length;
+    // Due = reviewed_at + the interval the SRS actually scheduled (7 days default).
+    const dueForReview = cloudRows.filter((r) => {
+      const base = new Date(r.reviewed_at || r.created_at).getTime();
+      const interval = (r.last_interval_days && r.last_interval_days > 0 ? r.last_interval_days : 7) * day;
+      return now - base > interval;
+    }).length;
     const vocab: VocabSnapshot = {
       mastered,
-      last7: countSince(7 * day),
-      last30: countSince(30 * day),
-      dueForReview,
+      last7: hasTimeline ? countSince(7 * day) : null,
+      last30: hasTimeline ? countSince(30 * day) : null,
+      dueForReview: hasTimeline ? dueForReview : null,
       lexicalBand: lexicalBandFromCount(mastered),
+      hasTimeline,
     };
 
     // Speaking SRS due counts grouped by weak-point type.
