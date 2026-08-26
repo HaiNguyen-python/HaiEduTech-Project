@@ -252,7 +252,7 @@ const buildDictations = (lesson: LanguageLesson): DictationExercise[] => {
 };
 
 const BAD_STEM_RE =
-  /(complete the sentence|fill in the blank|choose the correct|which (sentence|verb|option)|__|→|\*|\||^[a-z])/i;
+  /(complete the sentence|fill in the blank|choose the correct|which (sentence|verb|option)|__|→|\*|\|)/i;
 
 /** A usable practice sentence: real sentence, no scaffolding text, no markers. */
 const isCleanSentence = (value: string) => {
