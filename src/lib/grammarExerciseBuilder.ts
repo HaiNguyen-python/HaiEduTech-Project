@@ -220,7 +220,7 @@ const buildReorders = (lesson: LanguageLesson): SentenceReorderExercise[] => {
   if (sentences.length < 3) return [];
   const seedBase = lesson.id.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
   const chunks: SentenceReorderExercise[] = [];
-  for (let i = 0; i + 3 <= sentences.length && chunks.length < 2; i += 3) {
+  for (let i = 0; i + 3 <= sentences.length && chunks.length < 3; i += 3) {
     chunks.push({
       type: "sentence-reorder",
       instruction: "Sắp xếp các từ thành câu đúng.",
@@ -433,6 +433,95 @@ const buildMatching = (lesson: LanguageLesson): MatchingExercise | null => {
   return null;
 };
 
+/** Fill-in-blank drill rebuilt from clean gap-fill quiz stems. */
+const buildQuizFillInBlank = (lesson: LanguageLesson): FillInBlankExercise | null => {
+  const sentences = lesson.quiz
+    .map((question) => {
+      const stem = question.question.trim();
+      const answer = question.options[question.answer];
+      if (!stem.includes("___") || !answer) return null;
+      if (BAD_STEM_RE.test(stem.replace("___", "x"))) return null;
+      if (!isInlineForm(answer)) return null;
+      const text = clean(stem.replace(/\s*\([^)]*\)/g, ""));
+      if (!isEnglishOnly(text)) return null;
+      return {
+        text,
+        textEn: text,
+        answer: answer.trim(),
+        hint: isEnglishOnly(question.explanation) && !BAD_STEM_RE.test(question.explanation)
+          ? clean(question.explanation)
+          : "Choose the form this lesson focuses on.",
+      };
+    })
+    .filter(Boolean) as FillInBlankExercise["sentences"];
+
+  if (sentences.length < 3) return null;
+
+  return {
+    type: "fill-in-blank",
+    instruction: "Điền dạng đúng vào chỗ trống (ôn tập).",
+    instructionEn: "Review drill: complete each sentence with the correct form.",
+    sentences: sentences.slice(0, 4),
+  };
+};
+
+/** "Which sentence is correct?" drill built from the error-correction pairs. */
+const buildCorrectSentenceMcq = (lesson: LanguageLesson): MultipleChoiceExercise | null => {
+  const source = buildErrorCorrection(lesson);
+  if (!source || source.items.length < 3) return null;
+
+  const questions = source.items.slice(0, 4).map((item, index) => {
+    const wrongs = source.items
+      .filter((other) => other.correct !== item.correct)
+      .map((other) => other.wrong)
+      .slice(0, 2);
+    const options = [item.correct, item.wrong, ...wrongs];
+    const shift = index % options.length;
+    const rotated = [...options.slice(shift), ...options.slice(0, shift)];
+    return {
+      question: "Which sentence is grammatically correct?",
+      options: rotated,
+      answer: rotated.indexOf(item.correct),
+      explanation: item.explanation || `Correct version: ${item.correct}`,
+    };
+  });
+
+  return {
+    type: "multiple-choice",
+    instruction: "Chọn câu đúng ngữ pháp.",
+    instructionEn: "Choose the grammatically correct sentence.",
+    questions,
+  };
+};
+
+/** Matching drill: key phrase paired with the sentence it belongs to. */
+const buildSentenceMatching = (lesson: LanguageLesson): MatchingExercise | null => {
+  const items = vocabSentences(lesson)
+    .map((item) => {
+      const pattern = new RegExp(item.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+      if (!pattern.test(item.sentence)) return null;
+      return { left: item.word, right: item.sentence.replace(pattern, "______") };
+    })
+    .filter(Boolean) as MatchingExercise["pairs"];
+
+  const seenRight = new Set<string>();
+  const pairs = items.filter((pair) => {
+    const key = pair.right.toLowerCase();
+    if (seenRight.has(key)) return false;
+    seenRight.add(key);
+    return true;
+  });
+
+  if (pairs.length < 3) return null;
+
+  return {
+    type: "matching",
+    instruction: "Nối từ khoá với câu chứa từ đó.",
+    instructionEn: "Match each key phrase with the sentence it completes.",
+    pairs: pairs.slice(0, 5),
+  };
+};
+
 /* ------------------------------------------------------------------- merging */
 
 const signature = (exercise: InteractiveExercise) => JSON.stringify(exercise).slice(0, 400);
@@ -449,6 +538,9 @@ const enhanceLesson = (lesson: LanguageLesson): LanguageLesson => {
     buildMatching(lesson),
     ...buildReorders(lesson),
     buildDictation(lesson),
+    buildQuizFillInBlank(lesson),
+    buildCorrectSentenceMcq(lesson),
+    buildSentenceMatching(lesson),
   ];
 
   const additions: InteractiveExercise[] = [];
