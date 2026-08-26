@@ -6,6 +6,7 @@
  *              the model sentences inside its theory, so nothing is invented.
  */
 import type {
+  DictationExercise,
   FillInBlankExercise,
   InteractiveExercise,
   LanguageLesson,
@@ -47,13 +48,24 @@ const extractModelSentences = (theory: string): string[] => {
   return Array.from(new Set(sentences));
 };
 
-const buildFillInBlank = (lesson: LanguageLesson): FillInBlankExercise | null => {
+const collectSentences = (lesson: LanguageLesson): string[] => {
+  const fromTheory = extractModelSentences(lesson.theoryEn || "");
+  const fromVocab = (lesson.vocabulary ?? [])
+    .map((entry) => (entry.exampleEn || entry.example || "").trim())
+    .filter((sentence) => {
+      if (!sentence || !isEnglishOnly(sentence)) return false;
+      const count = sentence.split(/\s+/).length;
+      return count >= 5 && count <= 14;
+    });
+  return Array.from(new Set([...fromTheory, ...fromVocab]));
+};
+
+const buildFillInBlanks = (lesson: LanguageLesson): FillInBlankExercise[] => {
   const items = (lesson.vocabulary ?? [])
     .map((entry) => {
       const sentence = (entry.exampleEn || entry.example || "").trim();
       const target = entry.word.trim();
-      if (!sentence || !target) return null;
-      if (!isEnglishOnly(sentence)) return null;
+      if (!sentence || !target || !isEnglishOnly(sentence)) return null;
       const pattern = new RegExp(target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
       if (!pattern.test(sentence)) return null;
       return {
@@ -65,14 +77,16 @@ const buildFillInBlank = (lesson: LanguageLesson): FillInBlankExercise | null =>
     })
     .filter(Boolean) as FillInBlankExercise["sentences"];
 
-  if (items.length < 3) return null;
-
-  return {
-    type: "fill-in-blank",
-    instruction: "Điền từ đúng vào chỗ trống.",
-    instructionEn: "Complete each sentence with the correct word.",
-    sentences: items.slice(0, 6),
-  };
+  const exercises: FillInBlankExercise[] = [];
+  for (let i = 0; i + 3 <= items.length && exercises.length < 2; i += 3) {
+    exercises.push({
+      type: "fill-in-blank",
+      instruction: "Điền từ đúng vào chỗ trống.",
+      instructionEn: "Complete each sentence with the correct word.",
+      sentences: items.slice(i, i + 4),
+    });
+  }
+  return exercises;
 };
 
 /** Deterministic scramble so the practice stays stable between renders. */
@@ -89,45 +103,57 @@ const scramble = (words: string[], seed: number) => {
     : output;
 };
 
-const buildReorder = (lesson: LanguageLesson): SentenceReorderExercise | null => {
-  const sentences = extractModelSentences(lesson.theoryEn || "");
-  if (sentences.length < 3) return null;
-
+const buildReorders = (lesson: LanguageLesson): SentenceReorderExercise[] => {
+  const sentences = collectSentences(lesson);
+  if (sentences.length < 3) return [];
   const seedBase = lesson.id.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const chunks: SentenceReorderExercise[] = [];
+  for (let i = 0; i + 3 <= sentences.length && chunks.length < 2; i += 3) {
+    chunks.push({
+      type: "sentence-reorder",
+      instruction: "Sắp xếp các từ thành câu đúng.",
+      instructionEn: "Put the words in the correct order.",
+      items: sentences.slice(i, i + 4).map((sentence, index) => ({
+        scrambled: scramble(sentence.replace(/[.?!]$/, "").split(/\s+/), seedBase + (i + index) * 17),
+        correct: sentence,
+        correctEn: sentence,
+      })),
+    });
+  }
+  return chunks;
+};
 
+const buildDictation = (lesson: LanguageLesson): DictationExercise | null => {
+  const sentences = collectSentences(lesson);
+  if (sentences.length < 3) return null;
   return {
-    type: "sentence-reorder",
-    instruction: "Sắp xếp các từ thành câu đúng.",
-    instructionEn: "Put the words in the correct order.",
-    items: sentences.slice(0, 5).map((sentence, index) => ({
-      scrambled: scramble(sentence.replace(/[.?!]$/, "").split(/\s+/), seedBase + index * 17),
-      correct: sentence,
-      correctEn: sentence,
-    })),
+    type: "dictation",
+    instruction: "Nghe và viết lại câu mẫu.",
+    instructionEn: "Listen and type the model sentence.",
+    sentences: sentences.slice(0, 4).map((sentence) => ({ text: sentence })),
   };
 };
 
-const hasType = (exercises: InteractiveExercise[], type: InteractiveExercise["type"]) =>
-  exercises.some((exercise) => exercise.type === type);
+const signature = (exercise: InteractiveExercise) => JSON.stringify(exercise).slice(0, 400);
 
 const enhanceLesson = (lesson: LanguageLesson): LanguageLesson => {
   if (lesson.exercises.length >= MIN_EXERCISES) return lesson;
 
-  const additions: InteractiveExercise[] = [];
+  const existing = new Set(lesson.exercises.map(signature));
+  const pool: InteractiveExercise[] = [
+    ...buildFillInBlanks(lesson),
+    ...buildReorders(lesson),
+  ];
+  const dictation = buildDictation(lesson);
+  if (dictation) pool.push(dictation);
 
-  if (!hasType(lesson.exercises, "fill-in-blank")) {
-    const fill = buildFillInBlank(lesson);
-    if (fill) additions.push(fill);
-  }
-  if (!hasType(lesson.exercises, "sentence-reorder")) {
-    const reorder = buildReorder(lesson);
-    if (reorder) additions.push(reorder);
-  }
-  if (lesson.exercises.length + additions.length < MIN_EXERCISES) {
-    const fill = buildFillInBlank(lesson);
-    const reorder = buildReorder(lesson);
-    if (fill && !additions.includes(fill) && !hasType(lesson.exercises, "fill-in-blank")) additions.push(fill);
-    if (reorder && !additions.includes(reorder) && !hasType(lesson.exercises, "sentence-reorder")) additions.push(reorder);
+  const additions: InteractiveExercise[] = [];
+  for (const candidate of pool) {
+    if (lesson.exercises.length + additions.length >= MIN_EXERCISES) break;
+    const key = signature(candidate);
+    if (existing.has(key)) continue;
+    existing.add(key);
+    additions.push(candidate);
   }
 
   if (additions.length === 0) return lesson;
