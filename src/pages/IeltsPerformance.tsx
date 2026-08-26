@@ -195,13 +195,16 @@ const IeltsPerformance = () => {
                 ))}
               </div>
               <div className="text-sm text-muted-foreground">
-                {p.ready.ready
-                  ? t("Bạn đã đạt mục tiêu, hãy giữ phong độ.", "You have reached the target, keep the streak going.")
-                  : t(
-                      `Còn thiếu ${p.ready.gap.toFixed(1)} band.`,
-                      `${p.ready.gap.toFixed(1)} band to go.`,
-                    )}
+                {p.prediction.overall == null
+                  ? t("Chưa đủ dữ liệu để tính khoảng cách.", "Not enough data to measure the gap yet.")
+                  : p.ready.ready
+                    ? t("Bạn đã đạt mục tiêu, hãy giữ phong độ.", "You have reached the target, keep the streak going.")
+                    : t(
+                        `Còn thiếu ${p.ready.gap.toFixed(1)} band.`,
+                        `${p.ready.gap.toFixed(1)} band to go.`,
+                      )}
               </div>
+
             </div>
 
             <div>
