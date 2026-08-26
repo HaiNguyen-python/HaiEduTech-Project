@@ -79,6 +79,7 @@ export const allGrammarModules: LanguageModule[] = enhanceGrammarModulesWithExer
   ...grammarExpansionModules4,
   ...grammarExpansionModules5,
     ])
+    )
   )
 );
 
