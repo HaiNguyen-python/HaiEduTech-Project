@@ -247,24 +247,34 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   const target = WORD_TARGET[level] ?? 80;
   const seed = hash(`${exam.id}#${q.id}#${core.length}`);
   const voices = pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
-  const chat = CHAT[level] ?? CHAT.flyers;
+  const theme = themeOf(exam);
+  // The theme line is inserted after the greeting so each paper sounds different.
+  const baseChat = CHAT[level] ?? CHAT.flyers;
+  const chat = [
+    baseChat[0],
+    pick(THEME_CHAT, seed + 3).replace("{theme}", theme),
+    ...baseChat.slice(1),
+  ];
   const rejects = rejectable(q, core);
 
-  const opener = pick(OPENERS[level] ?? OPENERS.flyers, seed).replace("{theme}", themeOf(exam));
+  const opener = pick(OPENERS[level] ?? OPENERS.flyers, seed).replace("{theme}", theme);
   const lines: string[] = [`Narrator: ${opener}`];
 
   // Rejected ideas raise the difficulty: the student must hear the contrast.
   const rejectPool = REJECT[level] ?? REJECT.flyers;
+  const quantityPool = QUANTITY_REJECT[level] ?? QUANTITY_REJECT.flyers;
   const rejectLines = rejects
     .slice(0, level === "starters" || level === "movers" ? 1 : 2)
-    .map((x, i) => pick(rejectPool, seed + i).replace(/\{x\}/g, lower(x)));
+    .map((x, i) =>
+      pick(isQuantity(x) ? quantityPool : rejectPool, seed + i).replace(/\{x\}/g, lower(x))
+    );
 
   const closer = pick(CLOSERS[level] ?? CLOSERS.flyers, seed);
   const fixed = words(opener) + words(core) + words(closer) + rejectLines.reduce((s, l) => s + words(l), 0);
 
   // Chat lines keep their authored order so the conversation stays logical, and
   // they all sit before the key line so the recording ends right after it.
-  const minChat = level === "starters" ? 2 : level === "movers" ? 2 : level === "flyers" ? 3 : 4;
+  const minChat = level === "starters" ? 2 : level === "movers" ? 3 : level === "flyers" ? 3 : 4;
   const before: string[] = [];
   let used = fixed;
   for (let i = 0; i < chat.length; i += 1) {
@@ -272,6 +282,7 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
     before.push(chat[i]);
     used += words(chat[i]);
   }
+
 
   const middle = [...before, ...rejectLines, core];
   middle.forEach((text, i) => {
