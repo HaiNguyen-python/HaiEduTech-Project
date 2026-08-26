@@ -13,6 +13,11 @@ const byLevel: Record<string, number[]> = {};
 const keyCount = [0, 0, 0, 0];
 const standalone: string[] = [];
 
+/** Minimum spoken words per listening script, matching official recordings. */
+const LISTENING_MIN_WORDS: Record<string, number> = {
+  starters: 40, movers: 58, flyers: 82, ket: 115, pet: 130,
+};
+
 for (const exam of cambridgeMockExams) {
   (byLevel[exam.level] ??= []).push(exam.questions.length);
 
