@@ -81,7 +81,31 @@ const IeltsSkillsPractice = () => {
           </p>
         </motion.header>
 
+        <div className="max-w-5xl mx-auto mb-6">
+          <Link
+            to="/ielts-performance"
+            className="block rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 to-emerald-500/10 p-5 hover:shadow-lg transition-all group"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">📊</span>
+              <div className="flex-1 min-w-0">
+                <h2 className="text-lg md:text-xl font-bold text-foreground flex items-center gap-2">
+                  {t("Năng lực IELTS của bạn", "Your IELTS Performance")}
+                  <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  {t(
+                    "Dashboard tổng hợp 4 kỹ năng, dự đoán band điểm, thời gian sẵn sàng thi và việc cần cải thiện.",
+                    "One dashboard for all 4 skills: predicted band, test readiness and what to improve next.",
+                  )}
+                </p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
         <div className="grid sm:grid-cols-2 gap-5 md:gap-6 max-w-5xl mx-auto">
+
           {skills.map((s, i) => {
             const Icon = s.icon;
             return (

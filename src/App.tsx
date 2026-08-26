@@ -223,6 +223,8 @@ const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
 const IeltsListeningPractice = lazy(() => import("./pages/IeltsListeningPractice.tsx"));
 const IeltsReadingPractice = lazy(() => import("./pages/IeltsReadingPractice.tsx"));
 const IeltsSkillsPractice = lazy(() => import("./pages/IeltsSkillsPractice.tsx"));
+const IeltsPerformance = lazy(() => import("./pages/IeltsPerformance.tsx"));
+
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 const IeltsLectureCategory = lazy(() => import("./pages/IeltsLectureCategory.tsx"));
 const IeltsMasterQuiz = lazy(() => import("./pages/IeltsMasterQuiz.tsx"));
@@ -403,6 +405,8 @@ const App = () => (
             <Route path="/ielts-listening-practice" element={<LazyRoute><IeltsListeningPractice /></LazyRoute>} />
             <Route path="/ielts-reading-practice" element={<LazyRoute><IeltsReadingPractice /></LazyRoute>} />
             <Route path="/ielts-skills-practice" element={<LazyRoute><IeltsSkillsPractice /></LazyRoute>} />
+            <Route path="/ielts-performance" element={<LazyRoute><IeltsPerformance /></LazyRoute>} />
+
             <Route path="/toeic" element={<LazyRoute><ToeicHub /></LazyRoute>} />
             <Route path="/toeic-lectures" element={<LazyRoute><ToeicLectures /></LazyRoute>} />
             <Route path="/toeic-lectures/:lectureId" element={<LazyRoute><ToeicLectureView /></LazyRoute>} />
