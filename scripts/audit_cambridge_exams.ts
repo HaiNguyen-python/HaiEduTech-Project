@@ -59,7 +59,36 @@ for (const exam of cambridgeMockExams) {
       if (wc < min) issues.push(`${at}: listening script too short (${wc} words, min ${min})`);
       const turns = spoken.split("\n").filter((l) => l.trim()).length;
       if (turns < 4) issues.push(`${at}: listening script has only ${turns} turn(s)`);
+
+      // The key must be audible in the recording, in a form a listener can hear.
+      const key = q.options[q.correctAnswer] ?? "";
+      if (!isNegativeQuestion(q.question) && !isAnswerSupported(spoken, key)) {
+        issues.push(`${at}: key "${key}" is not stated in the script`);
+      }
+
+      // No wrong option may be presented as a fact, and negative stems keep
+      // every option audible, so they must not reject anything.
+      const plain = normaliseText(spoken);
+      q.options.forEach((option, oi) => {
+        if (oi === q.correctAnswer) return;
+        const said = normaliseText(option);
+        if (said.length < 3 || !plain.includes(said)) return;
+        const rejected = /(not|old|used to|changed|revised|wrong|left over|do not use|dropped)/i.test(spoken);
+        if (!isNegativeQuestion(q.question) && !rejected) {
+          issues.push(`${at}: wrong option "${option}" is said without being ruled out`);
+        }
+      });
+      if (isNegativeQuestion(q.question) && /but that is not right|is not \w|no longer the case|not use that figure/i.test(spoken)) {
+        issues.push(`${at}: negative stem must not rule options out`);
+      }
+      // Bare numeric rejections ("It is not 25.") do not sound like a recording.
+      if (/\bnot\s+[£$]?\d/i.test(spoken)) issues.push(`${at}: bare numeric rejection in script`);
+      // The theme line keeps each paper's recording specific to its topic.
+      if (!/week|moment|home|project|group|reading|Narrator/i.test(spoken)) {
+        issues.push(`${at}: script has no context framing`);
+      }
     }
+
   });
 
 
