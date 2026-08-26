@@ -155,19 +155,21 @@ const buildFillInBlanks = (lesson: LanguageLesson): FillInBlankExercise[] => {
 
   // 1) Blank the bolded target form inside the lesson's own model sentences.
   const bold = extractBoldSentences(lesson.theoryEn || "");
-  if (bold.length >= 3) {
+  const pushBoldChunk = (chunk: BoldSentence[]) =>
     exercises.push({
       type: "fill-in-blank",
       instruction: "Điền dạng đúng vào chỗ trống (theo câu mẫu của bài).",
       instructionEn: "Complete each model sentence with the correct grammar form.",
-      sentences: bold.slice(0, 4).map((item) => ({
+      sentences: chunk.map((item) => ({
         text: item.sentence.replace(item.bold, "___"),
         textEn: item.sentence.replace(item.bold, "___"),
         answer: item.bold,
         hint: `${wordCount(item.bold)} word(s) - focus on the target structure of this lesson.`,
       })),
     });
-  }
+
+  if (bold.length >= 3) pushBoldChunk(bold.slice(0, 4));
+  if (bold.length >= 7) pushBoldChunk(bold.slice(4, 8));
 
   // 2) Blank the key word inside vocabulary examples.
   const vocabItems = vocabSentences(lesson)
@@ -235,15 +237,18 @@ const buildReorders = (lesson: LanguageLesson): SentenceReorderExercise[] => {
   return chunks;
 };
 
-const buildDictation = (lesson: LanguageLesson): DictationExercise | null => {
+const buildDictations = (lesson: LanguageLesson): DictationExercise[] => {
   const sentences = collectSentences(lesson);
-  if (sentences.length < 3) return null;
-  return {
-    type: "dictation",
-    instruction: "Nghe và viết lại câu mẫu.",
-    instructionEn: "Listen and type the model sentence.",
-    sentences: sentences.slice(0, 4).map((sentence) => ({ text: sentence })),
-  };
+  const chunks: DictationExercise[] = [];
+  for (let i = 0; i + 3 <= sentences.length && chunks.length < 2; i += 4) {
+    chunks.push({
+      type: "dictation",
+      instruction: "Nghe và viết lại câu mẫu.",
+      instructionEn: "Listen and type the model sentence.",
+      sentences: sentences.slice(i, i + 4).map((sentence) => ({ text: sentence })),
+    });
+  }
+  return chunks;
 };
 
 const BAD_STEM_RE =
@@ -259,6 +264,16 @@ const isCleanSentence = (value: string) => {
   if (!isEnglishOnly(text)) return false;
   const count = wordCount(text);
   return count >= 4 && count <= 22;
+};
+
+/** Strip quiz scaffolding around a gap-fill stem: quotes and trailing prompts. */
+const sanitizeStem = (raw: string) => {
+  let stem = raw.trim();
+  stem = stem.replace(/\s*-\s*(choose|select|pick)[^.]*:?\s*$/i, "");
+  stem = stem.replace(/^(complete the sentence correctly|fill in the blank|complete the sentence)\s*:?\s*/i, "");
+  stem = stem.replace(/^["'“”']+/, "").replace(/["'“”']+$/, "");
+  stem = stem.replace(/\s*\([^)]*\)/g, "");
+  return clean(stem);
 };
 
 const isInlineForm = (option: string) => {
@@ -312,9 +327,10 @@ const buildErrorCorrection = (lesson: LanguageLesson): ErrorCorrectionExercise |
 
     // Case B: a clean gap-fill stem plus short inline forms.
     if (!stem.includes("___")) continue;
-    if (BAD_STEM_RE.test(stem.replace("___", "x"))) continue;
+    const base = sanitizeStem(stem);
+    if (!base.includes("___")) continue;
+    if (BAD_STEM_RE.test(base.replace("___", "x"))) continue;
     if (!isInlineForm(correctOption) || !isInlineForm(wrongOption)) continue;
-    const base = clean(stem.replace(/\s*\([^)]*\)/g, ""));
     push(clean(base.replace("___", wrongOption)), clean(base.replace("___", correctOption)), question.explanation);
   }
 
@@ -366,7 +382,10 @@ const buildMultipleChoice = (lesson: LanguageLesson): MultipleChoiceExercise | n
     .map((item, index) => {
       const distractors = forms.filter((form) => form.toLowerCase() !== item.bold.toLowerCase()).slice(0, 3);
       if (distractors.length < 2) return null;
-      const options = [...distractors.slice(0, 3), item.bold];
+      const options = Array.from(
+        new Map([...distractors.slice(0, 3), item.bold].map((option) => [option.toLowerCase(), option])).values()
+      );
+      if (options.length < 3 || !options.includes(item.bold)) return null;
       // Rotate so the key is not always in the same slot.
       const shift = index % options.length;
       const rotated = [...options.slice(shift), ...options.slice(0, shift)];
@@ -437,12 +456,12 @@ const buildMatching = (lesson: LanguageLesson): MatchingExercise | null => {
 const buildQuizFillInBlank = (lesson: LanguageLesson): FillInBlankExercise | null => {
   const sentences = lesson.quiz
     .map((question) => {
-      const stem = question.question.trim();
       const answer = question.options[question.answer];
-      if (!stem.includes("___") || !answer) return null;
-      if (BAD_STEM_RE.test(stem.replace("___", "x"))) return null;
+      if (!question.question.includes("___") || !answer) return null;
+      const text = sanitizeStem(question.question);
+      if (!text.includes("___")) return null;
+      if (BAD_STEM_RE.test(text.replace("___", "x"))) return null;
       if (!isInlineForm(answer)) return null;
-      const text = clean(stem.replace(/\s*\([^)]*\)/g, ""));
       if (!isEnglishOnly(text)) return null;
       return {
         text,
@@ -537,7 +556,7 @@ const enhanceLesson = (lesson: LanguageLesson): LanguageLesson => {
     buildTransformation(lesson),
     buildMatching(lesson),
     ...buildReorders(lesson),
-    buildDictation(lesson),
+    ...buildDictations(lesson),
     buildQuizFillInBlank(lesson),
     buildCorrectSentenceMcq(lesson),
     buildSentenceMatching(lesson),
