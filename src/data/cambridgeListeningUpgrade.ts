@@ -207,36 +207,34 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   const opener = pick(OPENERS[level] ?? OPENERS.flyers, seed).replace("{theme}", themeOf(exam));
   const lines: string[] = [`Narrator: ${opener}`];
 
-  // Opening chat, alternating voices.
-  const chatStart = seed % chat.length;
-  const before: string[] = [];
-  const beforeCount = level === "starters" ? 2 : level === "movers" ? 2 : level === "flyers" ? 3 : 4;
-  for (let i = 0; i < beforeCount; i += 1) before.push(chat[(chatStart + i) % chat.length]);
-
   // Rejected ideas raise the difficulty: the student must hear the contrast.
   const rejectPool = REJECT[level] ?? REJECT.flyers;
   const rejectLines = rejects
     .slice(0, level === "starters" || level === "movers" ? 1 : 2)
     .map((x, i) => pick(rejectPool, seed + i).replace(/\{x\}/g, lower(x)));
 
+  const closer = pick(CLOSERS[level] ?? CLOSERS.flyers, seed);
+  const fixed = words(opener) + words(core) + words(closer) + rejectLines.reduce((s, l) => s + words(l), 0);
+
+  // Chat lines keep their authored order so the conversation stays logical, and
+  // they all sit before the key line so the recording ends right after it.
+  const minChat = level === "starters" ? 2 : level === "movers" ? 2 : level === "flyers" ? 3 : 4;
+  const before: string[] = [];
+  let used = fixed;
+  for (let i = 0; i < chat.length; i += 1) {
+    if (i >= minChat && used >= target) break;
+    before.push(chat[i]);
+    used += words(chat[i]);
+  }
+
   const middle = [...before, ...rejectLines, core];
   middle.forEach((text, i) => {
     lines.push(`${i % 2 === 0 ? voices.a : voices.b}: ${text}`);
   });
-
-  // Top up with more chat until the recording is long enough for the level.
-  // Only unused lines are added, so no turn is ever repeated verbatim.
-  const used = new Set(middle);
-  const spare = chat.filter(line => !used.has(line));
-  let extra = 0;
-  while (words(lines.join(" ")) < target && extra < spare.length) {
-    lines.push(`${(middle.length + extra) % 2 === 0 ? voices.a : voices.b}: ${spare[extra]}`);
-    extra += 1;
-  }
-
-  lines.push(`${voices.a}: ${pick(CLOSERS[level] ?? CLOSERS.flyers, seed)}`);
+  lines.push(`${middle.length % 2 === 0 ? voices.a : voices.b}: ${closer}`);
 
   return `Listen:\n${lines.join("\n")}`;
+
 };
 
 /** Rebuild every listening script of one paper at the right length. */
