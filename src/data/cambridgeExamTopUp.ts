@@ -21,8 +21,8 @@ const EXTRA_RW: Record<string, Extra[]> = {
     ["A machine that shows wind speed is at the weather ___.", ["station", "shop", "school", "kitchen"], 0, "It is part of the weather station.", "Nó thuộc trạm khí tượng."],
   ],
   "cambridge-flyers-17": [
-    ["The Earth ___ around the Sun.", ["move", "moves", "moved", "moving"], 1, "'The Earth' is singular, so we use 'moves'.", "'The Earth' là số ít nên dùng 'moves'."],
-    ["A person who travels into space is an ___.", ["engineer", "astronaut", "athlete", "artist"], 1, "An astronaut travels into space.", "Nhà du hành vũ trụ là người bay vào không gian."],
+    ["The Moon ___ no air, so nothing grows there.", ["have", "has", "having", "is have"], 1, "'The Moon' is singular, so we use 'has'.", "'The Moon' là số ít nên dùng 'has'."],
+    ["A very big group of stars is called a ___.", ["galaxy", "garage", "gallery", "garden"], 0, "A huge group of stars is a galaxy.", "Một nhóm rất lớn các ngôi sao gọi là thiên hà."],
     ["Mars looks red because of ___ in the dust.", ["ice", "iron", "grass", "smoke"], 1, "Iron in the dust makes the ground look red.", "Sắt trong lớp bụi làm mặt đất trông đỏ."],
   ],
   "cambridge-flyers-18": [
@@ -100,7 +100,7 @@ const EXTRA_RW: Record<string, Extra[]> = {
     ["Food that comes from the local area is ___.", ["local", "loyal", "lonely", "legal"], 0, "Food from the area is local.", "Thực phẩm của vùng đó gọi là local."],
     ["I would rather ___ at home than eat out.", ["cook", "cooking", "to cook", "cooked"], 0, "'Would rather' takes the bare infinitive.", "'Would rather' đi với động từ nguyên mẫu không 'to'."],
     ["The soup tastes ___ salty for me.", ["too", "enough", "such", "very much"], 0, "'Too salty' means more than you want.", "'Too salty' nghĩa là mặn quá mức mong muốn."],
-    ["A list of dishes in a restaurant is a ___.", ["menu", "medal", "manual", "message"], 0, "The list of dishes is the menu.", "Danh sách món ăn là thực đơn."],
+    ["The chef ___ the sauce for two hours.", ["boils", "has been boiling", "boil", "is boil"], 1, "The present perfect continuous fits an action lasting two hours.", "Hành động kéo dài hai giờ nên dùng hiện tại hoàn thành tiếp diễn."],
     ["Street food is popular ___ it is quick and cheap.", ["although", "because", "unless", "however"], 1, "'Because' gives the reason.", "'Because' nêu lý do."],
   ],
   "cambridge-pet-20": [
