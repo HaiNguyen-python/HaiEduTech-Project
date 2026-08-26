@@ -581,7 +581,7 @@ export const cambridgeMockExams: CambridgeMockExam[] = [
   ...cambridgeExamsFlyers16to20,
   ...cambridgeExamsKet16to20,
   ...cambridgeExamsPet17to21,
-].map(withCambridgeReadingSets).map(withCambridgeOrphanPassages).map(equalizeCambridgeMockExam).map(clarifyCambridgeMockExam).map(normalizeCambridgeMockExam);
+].map(withCambridgeReadingSets).map(withCambridgeOrphanPassages).map(withCambridgeExamTopUp).map(equalizeCambridgeMockExam).map(clarifyCambridgeMockExam).map(normalizeCambridgeMockExam);
 
 export const CAMBRIDGE_LEVEL_LABELS: Record<string, { label: string; labelVi: string; emoji: string; color: string; bgClass: string }> = {
   starters: { label: "STARTERS", labelVi: "STARTERS", emoji: "🎨", color: "#FF6B6B", bgClass: "bg-[#FF6B6B]/10" },
