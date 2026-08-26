@@ -13,6 +13,11 @@ const byLevel: Record<string, number[]> = {};
 const keyCount = [0, 0, 0, 0];
 const standalone: string[] = [];
 
+/** Minimum spoken words per listening script, matching official recordings. */
+const LISTENING_MIN_WORDS: Record<string, number> = {
+  starters: 40, movers: 58, flyers: 82, ket: 115, pet: 130,
+};
+
 for (const exam of cambridgeMockExams) {
   (byLevel[exam.level] ??= []).push(exam.questions.length);
 
@@ -45,7 +50,16 @@ for (const exam of cambridgeMockExams) {
 
     if (q.section === "Reading & Writing" && !q.passage) readingWithoutPassage += 1;
     if (q.section === "Listening" && !q.passage) issues.push(`${at}: listening without script`);
+    if (q.section === "Listening" && q.passage) {
+      const spoken = q.passage.replace(/^\s*Listen:\s*/i, "").trim();
+      const wc = spoken.split(/\s+/).filter(Boolean).length;
+      const min = LISTENING_MIN_WORDS[exam.level] ?? 60;
+      if (wc < min) issues.push(`${at}: listening script too short (${wc} words, min ${min})`);
+      const turns = spoken.split("\n").filter((l) => l.trim()).length;
+      if (turns < 4) issues.push(`${at}: listening script has only ${turns} turn(s)`);
+    }
   });
+
 
   // Standalone vocabulary/grammar items (official Reading & Writing Parts 1-3)
   // legitimately have no passage; report as information only.

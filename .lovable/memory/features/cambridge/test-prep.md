@@ -4,6 +4,10 @@ description: 75 papers (15 per level), equal question counts per level, hidden l
 type: feature
 ---
 - 75 mock papers: 15 each for Starters, Movers, Flyers, KET, PET.
+- Listening scripts are rebuilt by `src/data/cambridgeListeningUpgrade.ts` (last step of the
+  pipeline): multi turn recordings with a narrator opener, natural chat, distractor ideas that are
+  explicitly ruled out, then the authored key line verbatim, then a closer. Minimum spoken words:
+  Starters 40, Movers 58, Flyers 82, KET 115, PET 130 (audit enforces this and >= 4 turns).
 - Listening scripts are hidden by default in the exam runner: students press Listen first and can
   reveal the script with "Show script" (state resets on every question change).
 - Review screen shows the evidence sentence from the reading text / listening script that proves the
