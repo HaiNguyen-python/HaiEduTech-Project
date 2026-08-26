@@ -9,6 +9,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { readHistory as readReadingHistory } from "@/lib/ieltsReadingHistory";
 import { readListeningHistory } from "@/lib/ieltsListeningHistory";
+import { ieltsListeningBand } from "@/lib/ieltsListeningBand";
 import {
   buildSkillStat, predictOverall, improvementPerWeek, readiness, rankWeaknesses,
   studyPlan, type CriteriaScore, type SkillAttempt, type SkillKey, type SkillStat,
@@ -214,7 +215,7 @@ export function useIeltsPerformance(): PerformanceSnapshot {
           }
           const total = r.max_score && r.max_score > 0 ? r.max_score : 1;
           const percent = Math.round((Number(r.score) / total) * 100);
-          const title = typeof meta.title === "string" ? meta.title : t18n(type);
+          const title = typeof meta.title === "string" ? meta.title : (type === "ielts_reading" ? "Reading set" : "Listening set");
           return { at, band: ieltsListeningBand(Number(r.score), total), percent, label: title };
         });
 
