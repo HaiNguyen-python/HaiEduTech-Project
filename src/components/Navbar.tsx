@@ -106,11 +106,15 @@ const Navbar = () => {
     { to: "#h-vocab", label: t("Từ vựng", "Vocabulary"), header: true },
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
     { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
+    // 📊 Đánh giá & Tiến độ
+    { to: "#h-analysis", label: t("Đánh giá & Tiến độ", "Progress & Analysis"), header: true },
+    { to: "/ielts-performance", label: t("Your IELTS Performance", "Your IELTS Performance"), icon: ClipboardCheck },
     // ✍️ Luyện tập & Chấm
     { to: "#h-practice", label: t("Luyện tập & Chấm điểm", "Practice & Grading"), header: true },
     { to: "/ielts-skills-practice", label: t("IELTS Skills Practice", "IELTS Skills Practice"), icon: PenTool },
     { to: "/ai-grading", label: t("IELTS Smart Grading", "IELTS Smart Grading"), icon: Cpu },
   ];
+
 
   // National Exam nested sub-items
   const nationalExamChildren: SubItem[] = [
