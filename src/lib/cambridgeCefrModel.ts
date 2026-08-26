@@ -23,6 +23,16 @@ export const CEFR_LABEL: Record<CambridgeLevelKey, string> = {
 export const MASTERY_THRESHOLD = 70;
 export const MIN_PAPERS_FOR_MASTERY = 2;
 
+/**
+ * Competency of a level blends mock-exam results with the Cambridge YLE
+ * vocabulary the student has marked as mastered, so learners who study words
+ * before taking papers still see the scale move.
+ */
+export const EXAM_WEIGHT = 0.7;
+export const VOCAB_WEIGHT = 0.3;
+/** Vocabulary coverage needed (in %) before a level can count as mastered. */
+export const VOCAB_MASTERY_MIN = 50;
+
 export interface CefrLevelStat {
   level: CambridgeLevelKey;
   cefr: string;
@@ -34,6 +44,14 @@ export interface CefrLevelStat {
   average: number;
   /** Best single percentage, 0 when none. */
   best: number;
+  /** Cambridge YLE words of this level marked as mastered. */
+  vocabMastered: number;
+  /** Total Cambridge YLE words available at this level. */
+  vocabTotal: number;
+  /** vocabMastered / vocabTotal as a percentage. */
+  vocabCoverage: number;
+  /** Blended score used for the CEFR scale: 70% exams + 30% vocabulary. */
+  competency: number;
   mastered: boolean;
 }
 
@@ -55,6 +73,10 @@ export interface CefrSnapshot {
   /** 0-100 position on the whole Pre-A1 to B1 scale. */
   scalePercent: number;
   totalAttempted: number;
+  /** Cambridge YLE words mastered across all levels. */
+  totalVocabMastered: number;
+  /** Words still needed on the working level to reach the vocabulary bar. */
+  vocabGapToNext: number;
   /** Percentage still needed on the working level to reach mastery. */
   gapToNext: number;
 }
@@ -68,7 +90,8 @@ const clamp = (n: number, min = 0, max = 100) => Math.max(min, Math.min(max, n))
  */
 export const buildCefrLevels = (
   attempts: CefrAttempt[],
-  papersPerLevel: Record<CambridgeLevelKey, number>
+  papersPerLevel: Record<CambridgeLevelKey, number>,
+  vocab?: Record<CambridgeLevelKey, { mastered: number; total: number }>
 ): CefrLevelStat[] =>
   CEFR_LEVEL_ORDER.map((level) => {
     const rows = attempts.filter((a) => a.level === level && a.totalQuestions > 0);
@@ -77,6 +100,10 @@ export const buildCefrLevels = (
       ? Math.round(percents.reduce((s, p) => s + p, 0) / percents.length)
       : 0;
     const best = percents.length ? Math.round(Math.max(...percents)) : 0;
+    const vocabTotal = vocab?.[level]?.total ?? 0;
+    const vocabMastered = Math.min(vocab?.[level]?.mastered ?? 0, vocabTotal);
+    const vocabCoverage = vocabTotal > 0 ? Math.round((vocabMastered / vocabTotal) * 100) : 0;
+    const competency = Math.round(average * EXAM_WEIGHT + vocabCoverage * VOCAB_WEIGHT);
     return {
       level,
       cefr: CEFR_LABEL[level],
@@ -84,7 +111,14 @@ export const buildCefrLevels = (
       total: papersPerLevel[level] ?? 0,
       average,
       best,
-      mastered: percents.length >= MIN_PAPERS_FOR_MASTERY && average >= MASTERY_THRESHOLD,
+      vocabMastered,
+      vocabTotal,
+      vocabCoverage,
+      competency,
+      mastered:
+        percents.length >= MIN_PAPERS_FOR_MASTERY &&
+        average >= MASTERY_THRESHOLD &&
+        (vocabTotal === 0 || vocabCoverage >= VOCAB_MASTERY_MIN),
     };
   });
 
@@ -103,8 +137,8 @@ export const buildCefrSnapshot = (levels: CefrLevelStat[]): CefrSnapshot => {
   // Each band is one step of the scale; partial credit inside the band comes
   // from the average score of the working level.
   const band = 100 / levels.length;
-  const insideBand = working.attempted
-    ? clamp(working.average / MASTERY_THRESHOLD) * band
+  const insideBand = working.attempted || working.vocabMastered
+    ? clamp(working.competency / MASTERY_THRESHOLD) * band
     : 0;
   const scalePercent = Math.round(clamp((masteredIdx + 1) * band + insideBand));
 
@@ -115,6 +149,11 @@ export const buildCefrSnapshot = (levels: CefrLevelStat[]): CefrSnapshot => {
     workingLevel: working.level,
     scalePercent,
     totalAttempted: levels.reduce((s, l) => s + l.attempted, 0),
+    totalVocabMastered: levels.reduce((s, l) => s + l.vocabMastered, 0),
     gapToNext: Math.max(0, MASTERY_THRESHOLD - working.average),
+    vocabGapToNext: Math.max(
+      0,
+      Math.ceil((VOCAB_MASTERY_MIN / 100) * working.vocabTotal) - working.vocabMastered
+    ),
   };
 };
