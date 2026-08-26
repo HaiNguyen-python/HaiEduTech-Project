@@ -59,10 +59,13 @@ const matchWritingCriterion = (label: string): { key: string; label: string } | 
 
 export interface VocabSnapshot {
   mastered: number;
-  last7: number;
-  last30: number;
-  dueForReview: number;
+  /** null when only local data exists (no timestamps to compute the window). */
+  last7: number | null;
+  last30: number | null;
+  dueForReview: number | null;
   lexicalBand: number | null;
+  /** true when the timed metrics come from the cloud. */
+  hasTimeline: boolean;
 }
 
 export interface PerformanceSnapshot {
