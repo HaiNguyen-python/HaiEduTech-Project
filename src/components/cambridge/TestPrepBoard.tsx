@@ -90,6 +90,9 @@ const TestPrepBoard = ({ stickyTopClass = "top-16" }: Props) => {
 
   return (
     <>
+      {/* CEFR competency chart from saved mock results */}
+      <CefrProgressChart />
+
       {/* Sticky level filter */}
       <div className={`sticky ${stickyTopClass} z-20 border-y-2 border-white/70 bg-white/90 backdrop-blur-sm`}>
         <div className="container mx-auto flex flex-wrap items-center gap-2 px-4 py-3">
