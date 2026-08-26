@@ -494,7 +494,9 @@ const buildCorrectSentenceMcq = (lesson: LanguageLesson): MultipleChoiceExercise
       .filter((other) => other.correct !== item.correct)
       .map((other) => other.wrong)
       .slice(0, 2);
-    const options = [item.correct, item.wrong, ...wrongs];
+    const options = Array.from(
+      new Map([item.correct, item.wrong, ...wrongs].map((o) => [o.toLowerCase(), o])).values()
+    );
     const shift = index % options.length;
     const rotated = [...options.slice(shift), ...options.slice(0, shift)];
     return {
@@ -504,6 +506,8 @@ const buildCorrectSentenceMcq = (lesson: LanguageLesson): MultipleChoiceExercise
       explanation: item.explanation || `Correct version: ${item.correct}`,
     };
   });
+
+  if (questions.some((question) => question.options.length < 3 || question.answer < 0)) return null;
 
   return {
     type: "multiple-choice",
@@ -611,6 +615,43 @@ const buildPhraseDrills = (lesson: LanguageLesson): InteractiveExercise[] => {
   return drills;
 };
 
+/** MCQ built from the lesson vocabulary: pick the phrase that fits the gap. */
+const buildVocabMcq = (lesson: LanguageLesson): MultipleChoiceExercise | null => {
+  const entries = vocabSentences(lesson).filter((item) => {
+    const pattern = new RegExp(item.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+    return pattern.test(item.sentence);
+  });
+  if (entries.length < 3) return null;
+
+  const questions = entries.slice(0, 4).map((item, index) => {
+    const pattern = new RegExp(item.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+    const distractors = entries
+      .filter((other) => other.word.toLowerCase() !== item.word.toLowerCase())
+      .map((other) => other.word)
+      .slice(0, 3);
+    const options = Array.from(
+      new Map([item.word, ...distractors].map((option) => [option.toLowerCase(), option])).values()
+    );
+    const shift = index % options.length;
+    const rotated = [...options.slice(shift), ...options.slice(0, shift)];
+    return {
+      question: `Choose the phrase that completes: ${item.sentence.replace(pattern, "______")}`,
+      options: rotated,
+      answer: rotated.indexOf(item.word),
+      explanation: `Correct phrase: ${item.word}.`,
+    };
+  });
+
+  if (questions.some((question) => question.options.length < 3 || question.answer < 0)) return null;
+
+  return {
+    type: "multiple-choice",
+    instruction: "Chọn cụm từ đúng để hoàn thành câu.",
+    instructionEn: "Choose the phrase that correctly completes each sentence.",
+    questions,
+  };
+};
+
 /* ------------------------------------------------------------------- merging */
 
 const signature = (exercise: InteractiveExercise) => JSON.stringify(exercise).slice(0, 400);
@@ -631,6 +672,7 @@ const enhanceLesson = (lesson: LanguageLesson): LanguageLesson => {
     buildCorrectSentenceMcq(lesson),
     buildSentenceMatching(lesson),
     ...buildPhraseDrills(lesson),
+    buildVocabMcq(lesson),
   ];
 
   const additions: InteractiveExercise[] = [];
