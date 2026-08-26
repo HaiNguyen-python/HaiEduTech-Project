@@ -195,22 +195,61 @@ export function useIeltsPerformance(): PerformanceSnapshot {
   }, [refresh]);
 
   const snapshot = useMemo(() => {
-    // Listening + Reading come from the local-first attempt histories.
-    const listeningRaw = readListeningHistory();
-    const readingRaw = readReadingHistory();
+    // Listening + Reading start from the local-first attempt histories,
+    // then get merged with the cloud activity log so a new device is not blank.
+    const cloudOf = (type: string): SkillAttempt[] =>
+      activityCloud
+        .filter((r) => r.activity_type === type && typeof r.score === "number")
+        .map((r) => {
+          const at = new Date(r.created_at).getTime();
+          const meta = (r.metadata || {}) as Record<string, unknown>;
+          if (type === "ielts_speaking") {
+            const part = typeof meta.part === "number" ? meta.part : undefined;
+            const topic = typeof meta.topic === "string" ? meta.topic : undefined;
+            return {
+              at,
+              band: Number(r.score),
+              label: `${part ? `Part ${part}` : "Speaking"}${topic ? ` - ${topic}` : ""}`,
+            };
+          }
+          const total = r.max_score && r.max_score > 0 ? r.max_score : 1;
+          const percent = Math.round((Number(r.score) / total) * 100);
+          const title = typeof meta.title === "string" ? meta.title : t18n(type);
+          return { at, band: ieltsListeningBand(Number(r.score), total), percent, label: title };
+        });
 
-    const listening: SkillAttempt[] = listeningRaw.map((h) => ({
-      at: h.at, band: h.band, percent: h.percent, label: h.title,
-    }));
-    const reading: SkillAttempt[] = readingRaw.map((h) => ({
-      at: h.at, band: h.band, percent: h.percent, label: h.title,
-    }));
+    // Two records within 2 minutes carrying the same band are the same attempt.
+    const mergeAttempts = (local: SkillAttempt[], cloud: SkillAttempt[]): SkillAttempt[] => {
+      const out = [...local];
+      cloud.forEach((c) => {
+        const dup = out.some(
+          (l) => Math.abs(l.at - c.at) < 2 * 60 * 1000 && Math.abs(l.band - c.band) < 0.01,
+        );
+        if (!dup) out.push(c);
+      });
+      return out.sort((a, b) => a.at - b.at);
+    };
 
-    // Speaking from the graded practice history (localStorage).
+    const listeningLocal = readListeningHistory();
+    const readingLocal = readReadingHistory();
+
+    const listening = mergeAttempts(
+      listeningLocal.map((h) => ({ at: h.at, band: h.band, percent: h.percent, label: h.title })),
+      cloudOf("ielts_listening"),
+    );
+    const reading = mergeAttempts(
+      readingLocal.map((h) => ({ at: h.at, band: h.band, percent: h.percent, label: h.title })),
+      cloudOf("ielts_reading"),
+    );
+
+    // Speaking from the graded practice history (localStorage) merged with the cloud log.
     const speakingRaw = readJson<SpeakingEntry[]>(SPEAKING_HISTORY_KEY, []);
-    const speaking: SkillAttempt[] = speakingRaw
-      .filter((e) => typeof e.overall === "number")
-      .map((e) => ({ at: e.ts, band: e.overall, label: `Part ${e.part}${e.topic ? ` - ${e.topic}` : ""}` }));
+    const speaking = mergeAttempts(
+      speakingRaw
+        .filter((e) => typeof e.overall === "number")
+        .map((e) => ({ at: e.ts, band: e.overall, label: `Part ${e.part}${e.topic ? ` - ${e.topic}` : ""}` })),
+      cloudOf("ielts_speaking"),
+    );
 
     // Writing from the cloud grading log.
     const writingAttempts: SkillAttempt[] = writing
