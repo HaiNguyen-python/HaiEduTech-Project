@@ -17,7 +17,16 @@ import { ArrowLeft, ArrowRight, ChevronRight, Loader2, BookOpen, GraduationCap, 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allLanguageModules } from "@/data/languageCurriculum";
 import type { LanguageModule, LanguageLesson, InteractiveExercise } from "@/data/languageCurriculum";
-import { FillInBlankExercise, SentenceReorderExercise, DictationExercise, QuizExercise } from "@/components/exercises";
+import {
+  FillInBlankExercise,
+  SentenceReorderExercise,
+  DictationExercise,
+  QuizExercise,
+  ErrorCorrectionExercise,
+  TransformationExercise,
+  MultipleChoiceExercise,
+  MatchingExercise,
+} from "@/components/exercises";
 import { cn } from "@/lib/utils";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 import SatStarToggle from "@/components/sat/SatStarToggle";
@@ -201,6 +210,46 @@ const LanguageLessonView = () => {
             instruction={exercise.instruction}
             instructionEn={exercise.instructionEn}
             sentences={exercise.sentences}
+            forceEnglish={isEnglishGrammarLesson}
+          />
+        );
+      case "error-correction":
+        return (
+          <ErrorCorrectionExercise
+            key={idx}
+            instruction={exercise.instruction}
+            instructionEn={exercise.instructionEn}
+            items={exercise.items}
+            forceEnglish={isEnglishGrammarLesson}
+          />
+        );
+      case "transformation":
+        return (
+          <TransformationExercise
+            key={idx}
+            instruction={exercise.instruction}
+            instructionEn={exercise.instructionEn}
+            items={exercise.items}
+            forceEnglish={isEnglishGrammarLesson}
+          />
+        );
+      case "multiple-choice":
+        return (
+          <MultipleChoiceExercise
+            key={idx}
+            instruction={exercise.instruction}
+            instructionEn={exercise.instructionEn}
+            questions={exercise.questions}
+            forceEnglish={isEnglishGrammarLesson}
+          />
+        );
+      case "matching":
+        return (
+          <MatchingExercise
+            key={idx}
+            instruction={exercise.instruction}
+            instructionEn={exercise.instructionEn}
+            pairs={exercise.pairs}
             forceEnglish={isEnglishGrammarLesson}
           />
         );
@@ -449,9 +498,10 @@ const LanguageLessonView = () => {
                     </Link>
                   )}
 
-                  {isEnglishGrammarLesson && <GrammarLessonOverview lesson={lesson} module={mod} />}
+                  {!isEnglishGrammarLesson && <GrammarLessonOverview lesson={lesson} module={mod} />}
 
-                  {/* Theory */}
+                  {/* Theory - hidden for English Grammar lessons (practice-only view) */}
+                  {!isEnglishGrammarLesson && (
                   <div className="glass-card rounded-xl p-6">
                     <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
                       <GraduationCap className="w-5 h-5 text-primary" />
@@ -471,11 +521,12 @@ const LanguageLessonView = () => {
                       </div>
                     )}
                   </div>
+                  )}
 
-                  <GrammarLessonCompanion lesson={lesson} module={mod} />
+                  {!isEnglishGrammarLesson && <GrammarLessonCompanion lesson={lesson} module={mod} />}
 
                   {/* Pro Tips */}
-                  {lesson.proTips && lesson.proTips.length > 0 && (
+                  {!isEnglishGrammarLesson && lesson.proTips && lesson.proTips.length > 0 && (
                     <div className="glass-card rounded-xl p-6 border-l-4 border-primary">
                       <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                         💡 {tr("Pro Tips", "Pro Tips")}
@@ -492,7 +543,7 @@ const LanguageLessonView = () => {
                   )}
 
                   {/* Vocabulary */}
-                  {lesson.vocabulary && lesson.vocabulary.length > 0 && (
+                  {!isEnglishGrammarLesson && lesson.vocabulary && lesson.vocabulary.length > 0 && (
                     <div className="glass-card rounded-xl p-6">
                       <h2 className="font-semibold text-foreground mb-4">📚 {tr("Từ vựng", "Vocabulary")}</h2>
                       <div className="grid sm:grid-cols-2 gap-3">
@@ -650,7 +701,7 @@ const LanguageLessonView = () => {
                           ? tr("Xuất sắc! Bạn đã hoàn thành tuyệt vời!", "Excellent! You've done perfectly!")
                           : quizScore.score >= quizScore.total / 2
                             ? tr("Khá tốt! Hãy ôn lại những phần chưa chắc.", "Good job! Review the parts you're unsure about.")
-                            : tr("Cố gắng thêm! Hãy đọc lại lý thuyết và thử lại.", "Keep trying! Re-read the theory and try again.")}
+                            : tr("Cố gắng thêm! Hãy làm lại các bài tập sai.", "Keep trying! Redo the exercises you missed.")}
                       </p>
                     </motion.div>
                   )}
