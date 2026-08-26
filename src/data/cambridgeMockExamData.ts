@@ -547,6 +547,7 @@ import { normalizeCambridgeMockExam } from "./cambridgeMockExamNormalizer";
 import { withCambridgeOrphanPassages } from "./cambridgeReadingOrphanPassages";
 import { equalizeCambridgeMockExam } from "./cambridgeMockExamEqualizer";
 import { clarifyCambridgeMockExam } from "./cambridgeQuestionClarity";
+import { withCambridgeExamTopUp } from "./cambridgeExamTopUp";
 
 // Balanced answer keys + full bilingual explanations on every question.
 // Older papers get their missing reading texts injected before normalisation.
