@@ -223,6 +223,8 @@ const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
 const IeltsListeningPractice = lazy(() => import("./pages/IeltsListeningPractice.tsx"));
 const IeltsReadingPractice = lazy(() => import("./pages/IeltsReadingPractice.tsx"));
 const IeltsSkillsPractice = lazy(() => import("./pages/IeltsSkillsPractice.tsx"));
+const IeltsPerformance = lazy(() => import("./pages/IeltsPerformance.tsx"));
+
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 const IeltsLectureCategory = lazy(() => import("./pages/IeltsLectureCategory.tsx"));
 const IeltsMasterQuiz = lazy(() => import("./pages/IeltsMasterQuiz.tsx"));
