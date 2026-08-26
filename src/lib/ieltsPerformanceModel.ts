@@ -195,7 +195,10 @@ export interface WeaknessInput {
   vocabMastered: number;
   srsDueByType: Record<string, number>;
   weakestListeningSection?: { section: number; percent: number } | null;
+  /** Fallback when set titles do not expose a section number. */
+  weakestListeningSet?: { title: string; percent: number } | null;
   weakestReadingSet?: { title: string; percent: number } | null;
+
 }
 
 /** Ranked, actionable improvement list. Highest severity first. */
