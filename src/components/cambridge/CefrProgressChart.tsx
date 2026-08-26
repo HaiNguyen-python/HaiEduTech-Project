@@ -10,7 +10,12 @@ import { TrendingUp, Target, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
 import { useCambridgeCefr } from "@/hooks/useCambridgeCefr";
-import { CEFR_LABEL, MASTERY_THRESHOLD, MIN_PAPERS_FOR_MASTERY } from "@/lib/cambridgeCefrModel";
+import {
+  CEFR_LABEL,
+  MASTERY_THRESHOLD,
+  MIN_PAPERS_FOR_MASTERY,
+  VOCAB_MASTERY_MIN,
+} from "@/lib/cambridgeCefrModel";
 
 const CefrProgressChart = () => {
   const { t } = useLanguage();
@@ -31,8 +36,8 @@ const CefrProgressChart = () => {
             </h2>
             <p className="text-sm font-medium text-slate-600">
               {t(
-                "Tính từ điểm cao nhất của các đề bạn đã làm trên trang này.",
-                "Calculated from your best scores on the papers you have taken here."
+                "Tính từ điểm cao nhất của các đề bạn đã làm và số từ vựng Cambridge YLE bạn đã thuộc.",
+                "Calculated from your best paper scores and the Cambridge YLE words you have mastered."
               )}
             </p>
           </div>
@@ -85,7 +90,7 @@ const CefrProgressChart = () => {
                     className="h-full rounded-full"
                     style={{ background: cfg.color }}
                     initial={{ width: 0 }}
-                    animate={{ width: `${lv.average}%` }}
+                    animate={{ width: `${lv.competency}%` }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
                   />
                 </div>
@@ -96,6 +101,12 @@ const CefrProgressChart = () => {
                         `Avg ${lv.average}% · best ${lv.best}% · ${lv.attempted}/${lv.total} papers`
                       )
                     : t(`Chưa làm đề nào (0/${lv.total})`, `No papers yet (0/${lv.total})`)}
+                </p>
+                <p className="mt-1 text-xs font-semibold text-slate-600">
+                  {t(
+                    `Từ vựng ${lv.vocabMastered}/${lv.vocabTotal} từ (${lv.vocabCoverage}%)`,
+                    `Vocabulary ${lv.vocabMastered}/${lv.vocabTotal} words (${lv.vocabCoverage}%)`
+                  )}
                 </p>
                 {lv.mastered && (
                   <p className="mt-1 flex items-center gap-1 text-xs font-bold text-emerald-600">
@@ -111,14 +122,14 @@ const CefrProgressChart = () => {
         <div className="mt-5 flex flex-wrap items-start gap-3 rounded-2xl bg-slate-50 p-4">
           <Target className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#10B981]" />
           <p className="min-w-[240px] flex-1 text-sm font-medium text-slate-700">
-            {snap.totalAttempted === 0
+            {snap.totalAttempted === 0 && snap.totalVocabMastered === 0
               ? t(
-                  "Hãy làm 2 đề ở cấp độ phù hợp để hệ thống xác định trình độ CEFR của bạn.",
-                  "Take 2 papers at a suitable level so the system can place you on the CEFR scale."
+                  "Hãy làm 2 đề ở cấp độ phù hợp hoặc học từ vựng Cambridge YLE để hệ thống xác định trình độ CEFR của bạn.",
+                  "Take 2 papers at a suitable level or master some Cambridge YLE words so the system can place you on the CEFR scale."
                 )
               : t(
-                  `Bước tiếp theo: đạt trung bình ${MASTERY_THRESHOLD}% ở ${workingCfg.label} (${workingCefr}) với ít nhất ${MIN_PAPERS_FOR_MASTERY} đề. Bạn còn thiếu ${snap.gapToNext}%.`,
-                  `Next step: reach a ${MASTERY_THRESHOLD}% average at ${workingCfg.label} (${workingCefr}) across at least ${MIN_PAPERS_FOR_MASTERY} papers. You are ${snap.gapToNext}% short.`
+                  `Bước tiếp theo ở ${workingCfg.label} (${workingCefr}): đạt trung bình ${MASTERY_THRESHOLD}% với ít nhất ${MIN_PAPERS_FOR_MASTERY} đề (còn thiếu ${snap.gapToNext}%) và thuộc ${VOCAB_MASTERY_MIN}% từ vựng của cấp này (còn ${snap.vocabGapToNext} từ).`,
+                  `Next step at ${workingCfg.label} (${workingCefr}): reach a ${MASTERY_THRESHOLD}% average across at least ${MIN_PAPERS_FOR_MASTERY} papers (${snap.gapToNext}% short) and master ${VOCAB_MASTERY_MIN}% of this level's words (${snap.vocabGapToNext} words to go).`
                 )}
           </p>
         </div>
