@@ -24,14 +24,8 @@ const ORPHAN_PASSAGES: Record<string, { match: RegExp; passage: string }[]> = {
         "SCHOOL DAY SURVEY\n\nWe asked 100 children about their school day.\n\nMost children wake up at 7 AM and have breakfast with their family. They leave home a little later and start school at 8 AM. Lessons finish at 12 PM, and after lunch the children have sport or music. By 6 PM almost everybody is at home again doing homework.",
     },
   ],
-  "cambridge-starters-6": [
-    {
-      match: /what time does the girl get up in the morning\?/i,
-      passage:
-        "MY DAY\n\n\"Hello! My name is Lucy.\n\nI get up at seven o'clock. I have milk and bread for breakfast. Then I go to school with my brother.\n\nI play with my friends at four o'clock and I go to bed at eight o'clock.\"",
-    },
-  ],
   "cambridge-ket-2": [
+
     {
       match: /how much is a return ticket\?/i,
       passage:
@@ -68,23 +62,41 @@ const ORPHAN_PASSAGES: Record<string, { match: RegExp; passage: string }[]> = {
 const TEXT_DEPENDENT =
   /(the (writer|author|text|passage|article|notice|email|message|story|advert|leaflet))|according to the text/i;
 
+const norm = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ").trim();
+
 /** Attach authored texts to Reading questions that reference a missing text. */
 export const withCambridgeOrphanPassages = (exam: CambridgeMockExam): CambridgeMockExam => {
   const rules = ORPHAN_PASSAGES[exam.id];
 
+  const passages = [
+    ...new Set(
+      exam.questions
+        .filter((q) => q.section === "Reading & Writing" && q.passage && q.passage.trim())
+        .map((q) => q.passage!.trim())
+    ),
+  ];
   // Longest reading text of this paper, used as fallback context.
-  const mainPassage = exam.questions
-    .filter((q) => q.section === "Reading & Writing" && q.passage && q.passage.trim())
-    .map((q) => q.passage!)
-    .sort((a, b) => b.length - a.length)[0];
+  const mainPassage = [...passages].sort((a, b) => b.length - a.length)[0];
 
   const questions = exam.questions.map((q) => {
     if (q.section !== "Reading & Writing" || (q.passage && q.passage.trim())) return q;
     const rule = rules?.find((r) => r.match.test(q.question));
     if (rule) return { ...q, passage: rule.passage };
     if (mainPassage && TEXT_DEPENDENT.test(q.question)) return { ...q, passage: mainPassage };
+
+    // Comprehension question (not a gap-fill) whose key is stated in one of this
+    // paper's texts: that text is clearly the missing context.
+    if (q.question.trim().endsWith("?") && !q.question.includes("___")) {
+      const key = norm(q.options[q.correctAnswer] ?? "");
+      if (key.length >= 4) {
+        const owner = passages.find((p) => norm(p).includes(key));
+        if (owner) return { ...q, passage: owner };
+      }
+    }
     return q;
   });
   return { ...exam, questions };
 };
+
 
