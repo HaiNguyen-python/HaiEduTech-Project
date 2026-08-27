@@ -324,6 +324,10 @@ const mergeTurns = (lines: string[]): string[] => {
   return out;
 };
 
+
+/** Very short reactions used to break a long turn in two. */
+const REACTIONS: string[] = ["Oh, really?", "So what is it, then?", "I see. Tell me."];
+
 const pick = <T,>(pool: T[], seed: number): T => pool[seed % pool.length];
 
 /** Theme from a title like "PET Mock Test 11 - City Life & Community". */
