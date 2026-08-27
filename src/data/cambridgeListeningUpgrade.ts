@@ -283,6 +283,22 @@ const CLOSERS: Record<string, string[]> = {
   ],
 };
 
+/** Consecutive lines from the same speaker are printed as one turn. */
+const mergeTurns = (lines: string[]): string[] => {
+  const out: string[] = [];
+  lines.forEach(line => {
+    const speaker = line.match(/^([^:]+):/)?.[1] ?? "";
+    const last = out[out.length - 1];
+    const lastSpeaker = last ? last.match(/^([^:]+):/)?.[1] ?? "" : "";
+    if (last && speaker && speaker === lastSpeaker) {
+      out[out.length - 1] = `${last} ${line.slice(speaker.length + 1).trim()}`;
+      return;
+    }
+    out.push(line);
+  });
+  return out;
+};
+
 const pick = <T,>(pool: T[], seed: number): T => pool[seed % pool.length];
 
 /** Theme from a title like "PET Mock Test 11 - City Life & Community". */
@@ -405,7 +421,7 @@ const buildSceneScript = (
   // Voices alternate strictly, so the same person never speaks twice in a row.
   body.forEach((text, i) => lines.push(`${i % 2 === 0 ? voiceA : voiceB}: ${text}`));
   lines.push(`${body.length % 2 === 0 ? voiceA : voiceB}: ${closer}`);
-  return `Listen:\n${lines.join("\n")}`;
+  return `Listen:\n${mergeTurns(lines).join("\n")}`;
 };
 
 const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string => {
@@ -472,7 +488,7 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   [...rejectLines, core].forEach(text => lines.push(`${keyVoice}: ${text}`));
   lines.push(`${otherVoice}: ${closer}`);
 
-  return `Listen:\n${lines.join("\n")}`;
+  return `Listen:\n${mergeTurns(lines).join("\n")}`;
 
 };
 
