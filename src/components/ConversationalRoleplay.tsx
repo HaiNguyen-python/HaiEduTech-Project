@@ -602,7 +602,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
         {/* Header */}
         <div className="text-center p-4 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 rounded-xl border border-primary/20">
           <Sparkles className="h-8 w-8 text-primary mx-auto mb-2" />
-          <h3 className="font-bold text-lg">{t("Luyện nói với AI", "AI Roleplay Practice")}</h3>
+          <h3 className="font-bold text-lg">{t("Luyện nói với AI", "Roleplay Practice")}</h3>
           <p className="text-sm text-muted-foreground mt-1">
             {t(
               "Chọn một tình huống bên dưới để bắt đầu trò chuyện với AI bằng tiếng Anh",
