@@ -295,13 +295,12 @@ const clarifyReorder = (
 };
 
 
-/** Tokens of the target sentence, keeping final punctuation as its own tile. */
-const reorderTokens = (sentence: string) =>
-  squash(sentence)
-    .replace(/([?!])\s*$/, " $1")
-    .replace(/\.\s*$/, "")
-    .split(" ")
-    .filter(Boolean);
+/**
+ * Tiles are a plain whitespace split of the target so joining them with single
+ * spaces always reproduces the answer exactly - that is how grading compares them.
+ */
+const reorderTokens = (sentence: string) => squash(sentence).split(" ").filter(Boolean);
+
 
 /**
  * Reorder tiles must always be exactly the words of the answer, in a different
