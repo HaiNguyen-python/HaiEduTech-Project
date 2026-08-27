@@ -174,6 +174,45 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
   const [titlePart, ...passageParts] = rawInstruction.split("\n\nPassage:");
   const passage = passageParts.length > 0 ? passageParts.join("\n\nPassage:").trim() : null;
 
+  const wordBankPanel = bank.length > 0 && (
+    <div
+      className={cn(
+        "rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-2 transition-opacity",
+        submitted && "opacity-60"
+      )}
+    >
+      <div className="text-xs uppercase tracking-wider font-semibold text-primary">
+        🧰 {forceEnglish ? "Word bank" : t("Ngân hàng từ", "Word bank")}
+      </div>
+      <p className="text-xs text-muted-foreground">
+        {forceEnglish
+          ? "Tap a word to put it into the selected gap."
+          : t("Bấm vào một từ để điền vào ô đang chọn.", "Tap a word to put it into the selected gap.")}
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {bank.map((word, i) => {
+          const used = isChipUsed(word);
+          return (
+            <button
+              key={`${word}-${i}`}
+              type="button"
+              onClick={() => pickWord(word)}
+              disabled={submitted || used}
+              className={cn(
+                "px-3 py-1.5 rounded-full border text-sm font-medium transition-all",
+                used
+                  ? "border-border bg-muted text-muted-foreground line-through"
+                  : "border-primary/40 bg-background text-foreground hover:border-primary hover:bg-primary/10"
+              )}
+            >
+              {word}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -204,12 +243,14 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
             <div className="not-italic">{passage}</div>
           </div>
           <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-4 lg:max-h-[85vh] lg:overflow-y-auto lg:pr-2">
+            {wordBankPanel}
             <div className="text-xs uppercase tracking-wider font-semibold text-primary px-1">📝 Questions</div>
             {sentences.map((s, i) => renderSentence(s, i))}
           </div>
         </div>
       ) : (
         <div className="space-y-3">
+          {wordBankPanel}
           {sentences.map((s, i) => renderSentence(s, i))}
         </div>
       )}
