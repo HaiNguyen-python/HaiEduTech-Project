@@ -127,6 +127,11 @@ const clarifyFillInBlank = (
   const guide = "Write one answer per gap. Use the cue in brackets - it tells you which word type is expected.";
   const guideVi = "Điền một đáp án cho mỗi chỗ trống. Dùng gợi ý trong ngoặc - nó cho biết loại từ cần điền.";
 
+  // Reading-passage drills keep their authored instruction untouched.
+  if (exercise.instruction.includes("Passage:") || exercise.instructionEn.includes("Passage:")) {
+    return { ...exercise, sentences };
+  }
+
   return {
     ...exercise,
     instruction: exercise.instruction.includes(guideVi)
