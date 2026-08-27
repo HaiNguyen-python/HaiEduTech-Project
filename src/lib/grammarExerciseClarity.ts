@@ -400,27 +400,80 @@ const clarifyTransformation = (
   };
 };
 
+const GENERIC_MC_DISTRACTORS = [
+  "Choose the form by translating word by word.",
+  "Ignore the signal words in the sentence.",
+  "Use the same structure in every context.",
+];
+
+/** A usable MCQ has 3-4 distinct, readable options and a valid answer index. */
+const sanitizeChoiceQuestion = <T extends { question: string; options: string[]; answer: number; explanation?: string }>(
+  question: T
+): T | null => {
+  const correct = squash(question.options[question.answer] ?? "");
+  if (!question.question?.trim() || !correct) return null;
+  // Auto-generated items sometimes pasted a whole theory block as an option.
+  if (correct.length > 180) return null;
+
+  const options: string[] = [];
+  const seen = new Set<string>();
+  for (const raw of question.options) {
+    const value = squash(raw || "");
+    if (!value || value.length > 180 || seen.has(value.toLowerCase())) continue;
+    seen.add(value.toLowerCase());
+    options.push(value);
+  }
+  for (const filler of GENERIC_MC_DISTRACTORS) {
+    if (options.length >= 3) break;
+    if (seen.has(filler.toLowerCase())) continue;
+    seen.add(filler.toLowerCase());
+    options.push(filler);
+  }
+  const answer = options.findIndex((option) => option.toLowerCase() === correct.toLowerCase());
+  if (answer < 0) return null;
+
+  return {
+    ...question,
+    options,
+    answer,
+    explanation: squash(question.explanation || "") || `Correct answer: ${correct}.`,
+  };
+};
+
 const clarifyMultipleChoice = (
   exercise: Extract<InteractiveExercise, { type: "multiple-choice" }>
-): InteractiveExercise => ({
-  ...exercise,
-  questions: exercise.questions.map((question) => ({
-    ...question,
-    explanation: question.explanation && squash(question.explanation)
-      ? squash(question.explanation)
-      : `Correct answer: ${squash(question.options[question.answer] ?? "")}.`,
-  })),
-});
+): InteractiveExercise | null => {
+  const questions = exercise.questions
+    .map((question) => sanitizeChoiceQuestion(question))
+    .filter((question): question is typeof exercise.questions[number] => !!question);
+  if (!questions.length) return null;
+  return { ...exercise, questions };
+};
 
 const clarifyMatching = (
   exercise: Extract<InteractiveExercise, { type: "matching" }>
-): InteractiveExercise => {
+): InteractiveExercise | null => {
   const guide = "Match every item on the left with exactly one item on the right.";
   const guideVi = "Nối mỗi mục bên trái với đúng một mục bên phải.";
+  const seenLeft = new Set<string>();
+  const seenRight = new Set<string>();
+  const pairs = exercise.pairs
+    .map((pair) => ({ left: squash(pair.left), right: squash(pair.right) }))
+    .filter((pair) => {
+      if (!pair.left || !pair.right) return false;
+      const l = pair.left.toLowerCase();
+      const r = pair.right.toLowerCase();
+      if (seenLeft.has(l) || seenRight.has(r)) return false;
+      seenLeft.add(l);
+      seenRight.add(r);
+      return true;
+    });
+  if (pairs.length < 3) return null;
   return {
     ...exercise,
     instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
     instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
+    pairs,
   };
 };
 
@@ -433,6 +486,7 @@ const clarifyDictation = (
     hint: squash(sentence.hint || "") || `${wordCount(sentence.text)} words · starts with "${squash(sentence.text).split(" ")[0]}"`,
   })),
 });
+
 
 const clarifyExercise = (exercise: InteractiveExercise, pool: string[] = []): InteractiveExercise => {
   switch (exercise.type) {
