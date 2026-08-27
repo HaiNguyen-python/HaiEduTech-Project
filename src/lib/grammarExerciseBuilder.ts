@@ -281,6 +281,8 @@ const isInlineForm = (option: string) => {
   const text = option.trim();
   if (!text) return false;
   if (/[→*|]/.test(text)) return false;
+  // A gap filler must be a short fragment, never a whole sentence.
+  if (/[.!?]/.test(text)) return false;
   if (!isEnglishOnly(text)) return false;
   return wordCount(text) <= 6;
 };

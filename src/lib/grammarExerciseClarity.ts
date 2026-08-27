@@ -12,7 +12,12 @@ import type {
   LanguageModule,
 } from "@/data/languageCurriculum/types";
 
-const squash = (value: string) => value.replace(/\s+/g, " ").trim();
+const squash = (value: string) =>
+  value
+    .replace(/\s+/g, " ")
+    .replace(/([.!?])\1+/g, "$1")
+    .replace(/\.\s*\./g, ".")
+    .trim();
 
 const PRONOUNS = new Set([
   "i", "you", "he", "she", "it", "we", "they",
@@ -57,12 +62,13 @@ const answerCategory = (answer: string): { en: string; vi: string } | null => {
   return null;
 };
 
-const letterClue = (answer: string) => {
-  const first = squash(answer);
-  const head = first.split(" ")[0];
-  if (!head) return "";
-  return `${head[0].toUpperCase()}${"·".repeat(Math.max(head.length - 1, 1))}`;
-};
+/** Masked shape of the answer: "give up" -> "g··· ··". */
+const letterClue = (answer: string) =>
+  squash(answer)
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => `${word[0]}${"·".repeat(Math.max(word.length - 1, 1))}`)
+    .join(" ");
 
 const wordCount = (value: string) => squash(value).split(" ").filter(Boolean).length;
 
@@ -113,7 +119,7 @@ const clarifyFillInBlank = (
 
     const clues = [
       `${wordCount(answer)} word(s)`,
-      letterClue(answer) ? `pattern: ${letterClue(answer)}` : "",
+      letterClue(answer) ? `shape: ${letterClue(answer)}` : "",
       category ? `word type: ${category.en}` : "",
     ].filter(Boolean);
 
