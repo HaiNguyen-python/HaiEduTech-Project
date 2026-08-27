@@ -415,6 +415,9 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   const level = exam.level;
   const target = WORD_TARGET[level] ?? 80;
   const seed = hash(`${exam.id}#${q.id}#${core.length}`);
+  // A key line that is already a whole scene must be split into turns, never
+  // read out as one absurd speaker turn inside an interview.
+  if (isSceneDialogue(core)) return buildSceneScript(exam, q, core, seed);
   const voices = pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
   const theme = themeOf(exam);
   // The theme line is inserted after the greeting so each paper sounds different.
