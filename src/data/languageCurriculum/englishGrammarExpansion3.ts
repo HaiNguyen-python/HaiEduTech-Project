@@ -626,9 +626,9 @@ With separable verbs, **pronoun objects MUST be between**:
             instruction: "Sắp xếp lại đại từ đúng vị trí.",
             instructionEn: "Place the pronoun in the correct position.",
             sentences: [
-              { text: "Please turn ___ off (the lights → them). → 'Please turn ___ off.'", textEn: "Please turn ___ off.", answer: "them" },
-              { text: "I'll pick ___ up (the children → them) at 5 pm.", textEn: "I'll pick ___ up at 5 pm.", answer: "them" },
-              { text: "We can't put up with ___ (the noise → it) any longer.", textEn: "We can't put up with ___ any longer.", answer: "it" }
+              { text: "Please turn ___ off (thay cho 'the lights').", textEn: "Please turn ___ off (replacing 'the lights').", answer: "them", hint: "Object pronoun for a plural thing, placed between verb and particle." },
+              { text: "I'll pick ___ up at 5 pm (thay cho 'the children').", textEn: "I'll pick ___ up at 5 pm (replacing 'the children').", answer: "them", hint: "Object pronoun for people, plural." },
+              { text: "We can't put up with ___ any longer (thay cho 'the noise').", textEn: "We can't put up with ___ any longer (replacing 'the noise').", answer: "it", hint: "Object pronoun for one uncountable thing." }
             ]
           }
         ],
