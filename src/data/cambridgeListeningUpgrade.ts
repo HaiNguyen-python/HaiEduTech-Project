@@ -470,25 +470,22 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   // Chat lines keep their authored order so the conversation stays logical, and
   // they all sit before the key line so the recording ends right after it.
   const minChat = level === "starters" ? 2 : level === "movers" ? 3 : level === "flyers" ? 3 : 4;
-  const before: string[] = [];
+  const before: typeof chat = [];
   let used = fixed;
   for (let i = 0; i < chat.length; i += 1) {
     if (i >= minChat && used >= target) break;
     before.push(chat[i]);
-    used += words(chat[i]);
+    used += words(chat[i].text);
   }
 
 
-  // Chat alternates naturally, then the speaker who knows the facts says the
+  // Chat keeps its authored roles, then the speaker who knows the facts says the
   // rejected ideas and the key line, and the other one closes the recording.
   const keyVoice = voices.keyIsA ? voices.a : voices.b;
   const otherVoice = voices.keyIsA ? voices.b : voices.a;
-  before.forEach((text, i) => {
-    // The one asking questions opens, the one who knows the facts replies.
-    lines.push(`${i % 2 === 0 ? otherVoice : keyVoice}: ${text}`);
+  before.forEach(({ text, asks }) => {
+    lines.push(`${asks ? otherVoice : keyVoice}: ${text}`);
   });
-  // A rejection written as a check question is split, so nobody asks and answers
-  // their own question ("Is it a fish? No, it is not a fish.").
   rejectLines.forEach(text => {
     const asked = text.match(/^(.*\?)\s+(\S.*)$/);
     if (asked) {
