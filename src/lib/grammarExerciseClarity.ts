@@ -295,8 +295,38 @@ const clarifyReorder = (
 };
 
 
+/** Tokens of the target sentence, keeping final punctuation as its own tile. */
+const reorderTokens = (sentence: string) =>
+  squash(sentence)
+    .replace(/([?!])\s*$/, " $1")
+    .replace(/\.\s*$/, "")
+    .split(" ")
+    .filter(Boolean);
+
+/**
+ * Reorder tiles must always be exactly the words of the answer, in a different
+ * order, so a shuffled copy of the target sentence is the single source of truth.
+ */
+const rebuildScrambled = (correct: string, authored: string[], seed: string) => {
+  const tokens = reorderTokens(correct);
+  if (tokens.length < 2) return authored;
+
+  const authoredKey = [...authored].map((token) => token.toLowerCase()).sort().join(" ");
+  const tokenKey = [...tokens].map((token) => token.toLowerCase()).sort().join(" ");
+  const target = tokens.join(" ").toLowerCase();
+
+  if (authoredKey === tokenKey && authored.join(" ").toLowerCase() !== target) return authored;
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const shuffled = seededShuffle(tokens, `${seed}|${attempt}`);
+    if (shuffled.join(" ").toLowerCase() !== target) return shuffled;
+  }
+  return [...tokens].reverse();
+};
+
 /** Keeps only the first sentence of a multi-sentence sample so one item = one mistake. */
 const firstSample = (value: string) => squash(value.split(" / ")[0]);
+
 
 const clarifyErrorCorrection = (
   exercise: Extract<InteractiveExercise, { type: "error-correction" }>
