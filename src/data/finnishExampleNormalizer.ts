@@ -133,10 +133,12 @@ const NOUN_POOLS: Record<string, Template[]> = {
   ],
   "Family & People": [
     { form: "nom", fi: "{W} asuu lähellä meitä.", en: "The {en} lives near us." },
-    { form: "part", fi: "Tapaan {w} viikonloppuna.", en: "I am meeting the {en} at the weekend." },
+    { form: "part", fi: "Tapaan {w} viikonloppuna.", en: "I am meeting the {en} at the weekend.", needs: RELATIVE },
     { form: "elat", fi: "Kerroin {w} ystävälleni.", en: "I told my friend about the {en}." },
-    { form: "adess", fi: "{W} on kaksi lasta.", en: "The {en} has two children." },
+    { form: "adess", fi: "{W} on kaksi lasta.", en: "The {en} has two children.", needs: RELATIVE },
+    { form: "nom", fi: "Meidän perheessä {w} on tärkeä.", en: "In our family the {en} is important." },
   ],
+
   "Emotions & Feelings": [
     { form: "part", fi: "Tunnen {w} usein aamulla.", en: "I often feel {en} in the morning." },
     { form: "elat", fi: "Puhuin {w} terapeutin kanssa.", en: "I talked about the {en} with a therapist." },
