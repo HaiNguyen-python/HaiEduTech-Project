@@ -162,6 +162,9 @@ const clarifyReorder = (
   };
 };
 
+/** Keeps only the first sentence of a multi-sentence sample so one item = one mistake. */
+const firstSample = (value: string) => squash(value.split(" / ")[0]);
+
 const clarifyErrorCorrection = (
   exercise: Extract<InteractiveExercise, { type: "error-correction" }>
 ): InteractiveExercise => {
@@ -171,14 +174,28 @@ const clarifyErrorCorrection = (
     ...exercise,
     instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
     instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
-    items: exercise.items.map((item) => ({
-      ...item,
-      explanation: item.explanation && squash(item.explanation)
-        ? squash(item.explanation)
-        : `Correct version: ${squash(item.correct)}`,
-    })),
+    items: exercise.items.map((item) => {
+      const wrong = firstSample(item.wrong);
+      const correct = firstSample(item.correct);
+      // Word-swap items ("it" vs "them") are grammatical on their own, so state the referent.
+      const swapMatch = item.explanation?.match(/answer is "([^"]+)"/);
+      const needsContext =
+        !!swapMatch && wrong.split(" ").length === correct.split(" ").length;
+      const referent = needsContext
+        ? item.explanation?.match(/for ([^.,]+)/)?.[1]?.trim()
+        : "";
+      return {
+        ...item,
+        wrong: referent ? `${wrong.replace(/[.?!]$/, "")} (talking about ${referent}).` : wrong,
+        correct: referent ? `${correct.replace(/[.?!]$/, "")} (talking about ${referent}).` : correct,
+        explanation: item.explanation && squash(item.explanation)
+          ? squash(item.explanation)
+          : `Correct version: ${correct}`,
+      };
+    }),
   };
 };
+
 
 /** Words present in the target but not in the prompt - a natural rewrite cue. */
 const deriveCue = (prompt: string, target: string) => {
