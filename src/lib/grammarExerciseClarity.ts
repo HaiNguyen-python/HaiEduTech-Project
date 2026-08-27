@@ -298,8 +298,14 @@ const clarifyReorder = (
 /**
  * Tiles are a plain whitespace split of the target so joining them with single
  * spaces always reproduces the answer exactly - that is how grading compares them.
+ * Ellipses must survive, so this does not use `squash`.
  */
-const reorderTokens = (sentence: string) => squash(sentence).split(" ").filter(Boolean);
+const reorderTokens = (sentence: string) => sentence.replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
+
+/** Formula-like or metalinguistic strings cannot be reordered into one right answer. */
+const isReorderable = (target: string) =>
+  !!target && !/[+*]/.test(target) && !target.includes("...") && reorderTokens(target).length >= 3;
+
 
 
 /**
