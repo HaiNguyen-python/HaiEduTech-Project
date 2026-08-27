@@ -107,3 +107,10 @@ export const listeningScriptToSpeech = (passage: string): string =>
     .filter(Boolean)
     .join("\n")
     .replace(/&/g, "and");
+
+/** "postpone meeting" -> "postpone the meeting" so action options read naturally. */
+export const articleiseAction = (text: string): string =>
+  text.replace(
+    /^([a-z]+)\s+(?!(the|a|an|my|your|his|her|our|their|some|any|this|that|to|it)\b)([a-z]+)$/i,
+    "$1 the $3"
+  );

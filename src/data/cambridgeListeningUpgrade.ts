@@ -13,7 +13,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockExamData";
-import { isNegativeQuestion } from "./cambridgeListeningSupport";
+import { articleiseAction, isNegativeQuestion } from "./cambridgeListeningSupport";
 
 
 /** Minimum spoken words per level, matching official recording length. */
@@ -322,7 +322,7 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
     .map((x, i) =>
       pick(isQuantity(x) ? quantityPool : isAction(x) ? actionPool : rejectPool, seed + i).replace(
         /\{x\}/g,
-        lower(x)
+        isAction(x) ? articleiseAction(lower(x)) : lower(x)
       )
     );
 

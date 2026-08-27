@@ -13,7 +13,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockExamData";
-import { isAnswerSupported, isNegativeQuestion } from "./cambridgeListeningSupport";
+import { articleiseAction, isAnswerSupported, isNegativeQuestion } from "./cambridgeListeningSupport";
 
 /** Strip the "Listen:" wrapper and the surrounding quotes of an authored line. */
 const coreLine = (passage: string): string => {
@@ -61,7 +61,7 @@ const supportSentence = (question: string, key: string): string => {
   if (/how sure|how certain|how likely/.test(q)) return `I would say that is ${bare}.`;
   if (isClause(raw)) return `Yes, ${said}.`;
   if (isIng(raw)) return `The plan is ${said}.`;
-  if (BASE_VERBS.test(raw)) return `The plan is to ${said}.`;
+  if (BASE_VERBS.test(raw)) return `The plan is to ${articleiseAction(said)}.`;
   if (/\bwhy\b/.test(q)) return `The reason is ${said}.`;
   if (/how many|how long/.test(q)) return `That is ${said} in total.`;
   if (/what time|when/.test(q)) return `That happens ${said}.`;
