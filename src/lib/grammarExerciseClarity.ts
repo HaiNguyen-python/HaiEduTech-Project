@@ -134,14 +134,80 @@ const buildWordBank = (answers: string[], pool: string[], seed: string) => {
   return seededShuffle(unique, seed);
 };
 
+const GAP_RE = /_{2,}/g;
+const gapCount = (text: string) => (text.match(GAP_RE) || []).length;
+
+/**
+ * A few authored items spread one long answer over several gaps in a way that no
+ * generic rule can split correctly, so the split (and sometimes a cleaner gap
+ * layout) is stated explicitly. Keyed by the original English sentence.
+ */
+const MULTI_GAP_FIXES: Record<string, { textEn?: string; text?: string; answers: string[] }> = {
+  '"I bought this yesterday." → She said she had bought ___ ___.': {
+    answers: ["that", "the day before"],
+  },
+  "My house is ___ (not/big) ___ yours.": {
+    textEn: "My house is ___ ___ yours. (not / big)",
+    text: "My house is ___ ___ yours. (not / big)",
+    answers: ["not as big", "as"],
+  },
+  "She ___ arrives ___ on time (always).": {
+    textEn: "She ___ arrives on time. (always)",
+    text: "She ___ arrives on time. (always)",
+    answers: ["always"],
+  },
+  "He is ___ happy ___ (always).": {
+    textEn: "He is ___ happy. (always)",
+    text: "He is ___ happy. (always)",
+    answers: ["always"],
+  },
+  "I have ___ wanted ___ to learn French (always).": {
+    textEn: "I have ___ wanted to learn French. (always)",
+    text: "I have ___ wanted to learn French. (always)",
+    answers: ["always"],
+  },
+  "I'm not ___ ___ ___ working night shifts yet.": {
+    textEn: "I'm not ___ ___ working night shifts yet. (be accustomed to)",
+    text: "I'm not ___ ___ working night shifts yet. (be accustomed to)",
+    answers: ["used", "to"],
+  },
+  "I'll ___ someone ___ the windows. (get/clean)": {
+    answers: ["get", "to clean"],
+  },
+  "He asked ___ the train ___.": {
+    answers: ["what time", "left"],
+  },
+};
+
+/** One answer per gap: explicit fix first, then slash / word-count splitting. */
+const splitAnswers = (textEn: string, answer: string): string[] => {
+  const gaps = gapCount(textEn);
+  if (gaps <= 1) return [answer];
+
+  const bySlash = answer.split("/").map((part) => squash(part)).filter(Boolean);
+  if (bySlash.length === gaps) return bySlash;
+
+  const words = squash(answer.replace(/\//g, " ")).split(" ").filter(Boolean);
+  if (words.length === gaps) return words;
+
+  // Last resort: the leading words belong to the first gap, one word per gap after that.
+  const head = words.slice(0, words.length - gaps + 1).join(" ");
+  return [head, ...words.slice(words.length - gaps + 1)];
+};
+
 const clarifyFillInBlank = (
   exercise: Extract<InteractiveExercise, { type: "fill-in-blank" }>,
   pool: string[] = []
 ): InteractiveExercise => {
   const sentences = exercise.sentences.map((sentence) => {
     const answer = squash(sentence.answer);
-    let text = normalizeGapText(sentence.text, answer);
-    let textEn = normalizeGapText(sentence.textEn || sentence.text, answer);
+    const fix = MULTI_GAP_FIXES[squash(sentence.textEn || sentence.text)];
+    let text = normalizeGapText(fix?.text ?? sentence.text, answer);
+    let textEn = normalizeGapText(fix?.textEn ?? sentence.textEn ?? sentence.text, answer);
+
+    const gapAnswers = fix?.answers ?? splitAnswers(textEn, answer);
+    // Both language renderings must expose exactly the same number of gaps.
+    if (gapCount(text) !== gapAnswers.length) text = textEn;
 
     // Carry an authored cue over to the English rendering so both languages match.
     const cueMatch = text.match(/\(([^()]+)\)/);
@@ -149,28 +215,42 @@ const clarifyFillInBlank = (
       textEn = withEnd(textEn, `(${squash(cueMatch[1])})`);
     }
 
-    const category = answerCategory(answer);
+    const category = gapAnswers.length === 1 ? answerCategory(answer) : null;
     if (!hasInlineCue(textEn) && category) {
       const marker = `(${category.en})`;
       textEn = withEnd(textEn, marker);
       if (!hasInlineCue(text)) text = withEnd(text, `(${category.vi})`);
     }
 
-    const clues = [
-      `${wordCount(answer)} word(s)`,
-      letterClue(answer) ? `shape: ${letterClue(answer)}` : "",
-      category ? `word type: ${category.en}` : "",
-    ].filter(Boolean);
+    const clues = gapAnswers.length > 1
+      ? [
+          `${gapAnswers.length} gaps`,
+          gapAnswers.map((value, index) => `gap ${index + 1}: ${letterClue(value)}`).join(" · "),
+        ]
+      : [
+          `${wordCount(answer)} word(s)`,
+          letterClue(answer) ? `shape: ${letterClue(answer)}` : "",
+          category ? `word type: ${category.en}` : "",
+        ];
 
     const existingHint = squash(sentence.hint || "");
-    const generic = /^\d+ word\(s\)/.test(existingHint) || !existingHint;
-    const hint = generic ? clues.join(" · ") : `${existingHint} (${clues.join(" · ")})`;
+    const generic = /^\d+ (word\(s\)|gaps)/.test(existingHint) || !existingHint;
+    const hint = generic
+      ? clues.filter(Boolean).join(" · ")
+      : `${existingHint.replace(/\s*\((?:\d+ (?:word\(s\)|gaps)[^)]*)\)\s*$/, "")} (${clues.filter(Boolean).join(" · ")})`;
 
-    return { ...sentence, text, textEn, hint };
+    return {
+      ...sentence,
+      text,
+      textEn,
+      answer: gapAnswers.join(" "),
+      answers: gapAnswers.length > 1 ? gapAnswers : undefined,
+      hint,
+    };
   });
 
   const wordBank = buildWordBank(
-    sentences.map((sentence) => sentence.answer),
+    sentences.flatMap((sentence) => sentence.answers ?? [sentence.answer]),
     pool,
     `${exercise.instructionEn}|${sentences.length}`
   );
@@ -195,6 +275,7 @@ const clarifyFillInBlank = (
     wordBank,
   };
 };
+
 
 const clarifyReorder = (
   exercise: Extract<InteractiveExercise, { type: "sentence-reorder" }>
