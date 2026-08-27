@@ -13,6 +13,8 @@ export interface FinnishExampleOverride {
 
 export const FINNISH_EXAMPLE_OVERRIDES: Record<string, FinnishExampleOverride> = {
   // ---------------- Irregular / edge cases (audit round 2) ----------------
+  keskimmäinen: { fi: "Keskimmäinen lapsi aloitti juuri koulun.", en: "The middle child just started school." },
+  syöpäläinen: { fi: "Syöpäläiset voivat levittää tauteja.", en: "Parasites can spread diseases." },
   hetkinen: { fi: "Hetkinen, katson kalenteria.", en: "Just a moment, I will check the calendar." },
   ylihuominen: { fi: "Ylihuomenna alkaa uusi kurssi.", en: "The day after tomorrow a new course starts." },
   laskiainen: { fi: "Laskiaisena syödään laskiaispullia.", en: "At Shrovetide people eat Shrovetide buns." },

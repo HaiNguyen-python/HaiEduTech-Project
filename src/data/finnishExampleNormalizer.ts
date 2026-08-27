@@ -300,14 +300,28 @@ const ADV_TEMPLATES: Template[] = [
 ];
 
 /* -------- verbal nouns in -minen: always talk about an activity --------- */
-const ACTION_TEMPLATES: Template[] = [
+// Trainable skills: the learner can practise and improve them.
+const SKILL_TEMPLATES: Template[] = [
   { form: "nom", fi: "{W} on minulle vaikeaa suomeksi.", en: "{En} is difficult for me in Finnish." },
   { form: "part", fi: "Harjoittelen {w} joka päivä.", en: "I practise {en} every day." },
   { form: "elat", fi: "Opettaja puhui {w} oppitunnilla.", en: "The teacher talked about {en} in class." },
-  { form: "nom", fi: "{W} vaatii aikaa ja kärsivällisyyttä.", en: "{En} requires time and patience." },
   { form: "part", fi: "Haluan parantaa {w} tänä vuonna.", en: "I want to improve my {en} this year." },
+  { form: "nom", fi: "{W} vaatii aikaa ja kärsivällisyyttä.", en: "{En} requires time and patience." },
   { form: "elat", fi: "Luin {w} suomenkielisestä artikkelista.", en: "I read about {en} in a Finnish article." },
 ];
+
+// Processes and phenomena (sulaminen, kaupungistuminen): never "practised".
+const PROCESS_TEMPLATES: Template[] = [
+  { form: "nom", fi: "{W} on hidas prosessi.", en: "{En} is a slow process." },
+  { form: "elat", fi: "Opettaja puhui {w} oppitunnilla.", en: "The teacher talked about {en} in class." },
+  { form: "elat", fi: "Luin {w} suomenkielisestä artikkelista.", en: "I read about {en} in a Finnish article." },
+  { form: "nom", fi: "{W} vaikuttaa moneen asiaan yhteiskunnassa.", en: "{En} affects many things in society." },
+  { form: "part", fi: "Tutkijat seuraavat {w} tarkasti.", en: "Researchers follow {en} closely." },
+  { form: "gen", fi: "Tämän {w} syyt ovat monimutkaisia.", en: "The causes of this {en} are complicated." },
+];
+
+/** Glosses of -minen nouns that name a trainable skill. */
+const SKILL_GLOSS = /(reading|writing|speaking|listening|pronunciation|painting|drawing|knitting|sewing|cooking|baking|swimming|running|skiing|skating|singing|dancing|driving|learning|studying|repetition|counting|spelling|translating|translation|memorising|memorizing)/i;
 
 /* ------------- nouns that denote a person, not a thing ------------------ */
 const PERSON_TEMPLATES: Template[] = [
@@ -413,8 +427,8 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
     !isAction &&
     (PERSON_GLOSS.test(gloss) ||
       (/(lainen|läinen)$/.test(word) &&
-        !/(Food|Travel|Shopping|Technology)/i.test(entry.category) &&
-        !/(burger|berry|dish|bread|soup|cake|drink|coin|note|ticket)/i.test(gloss)));
+        !/(Food|Travel|Shopping|Technology|Animals|Nature)/i.test(entry.category) &&
+        !/(burger|berry|dish|bread|soup|cake|drink|coin|note|ticket|parasite|insect|animal|bird|plant)/i.test(gloss)));
   // Only real numerals may use the arithmetic templates; many nouns in the
   // "Numbers & Math" category are mislabelled as "num" in the raw data.
   const isNumeral = /^(numeral|num)/.test(pos) && /^[a-zäö\s-]+$/.test(word) &&
@@ -425,7 +439,7 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   else if (/^adj/.test(pos)) pool = ADJ_TEMPLATES;
   else if (isNumeral) pool = NUM_TEMPLATES;
   else if (/^adv/.test(pos) || CONJUNCTIONS.has(word)) pool = CONJUNCTIONS.has(word) ? CONJ_TEMPLATES : ADV_TEMPLATES;
-  else if (isAction) { pool = ACTION_TEMPLATES; nounLike = true; }
+  else if (isAction) { pool = SKILL_GLOSS.test(gloss) ? SKILL_TEMPLATES : PROCESS_TEMPLATES; nounLike = true; }
   else if (isPerson) { pool = PERSON_TEMPLATES; nounLike = true; }
   else { pool = NOUN_POOLS[entry.category] || GENERIC; nounLike = true; }
 
