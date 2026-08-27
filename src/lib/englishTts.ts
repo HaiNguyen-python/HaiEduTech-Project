@@ -12,6 +12,11 @@ interface EnglishTtsOptions {
   accent?: EnglishAccent;
 }
 
+export interface EnglishDialogueTurn {
+  speaker: string;
+  text: string;
+}
+
 interface EnglishTtsProxyResponse {
   audioBase64?: string;
   mimeType?: string;
@@ -205,6 +210,39 @@ export const playEnglishTts = async (text: string, options: EnglishTtsOptions = 
     const ok = await playOneChunk(chunk, accent, playbackRate, speechRate);
     any = any || ok;
     if (token !== playToken) return any;
+  }
+  return any;
+};
+
+/** Read a dialogue one turn at a time, with a natural pause between speakers. */
+export const playEnglishDialogueTts = async (
+  turns: EnglishDialogueTurn[],
+  options: EnglishTtsOptions = {},
+) => {
+  if (typeof window === "undefined" || turns.length === 0) return false;
+  playToken += 1;
+  const token = playToken;
+  const baseRate = options.playbackRate ?? 0.9;
+  const speechRate = options.speechRate ?? 0.85;
+  let any = false;
+
+  for (const turn of turns) {
+    if (token !== playToken) return any;
+    const speaker = turn.speaker.toLowerCase();
+    const rateOffset = /boy|girl|student/.test(speaker) ? 0.03 : /man|expert|guest/.test(speaker) ? -0.02 : 0;
+    const chunks = splitIntoChunks(turn.text);
+    for (const chunk of chunks) {
+      if (token !== playToken) return any;
+      const ok = await playOneChunk(
+        chunk,
+        options.accent ?? "en-GB",
+        Math.max(0.7, baseRate + rateOffset),
+        Math.max(0.7, speechRate + rateOffset),
+      );
+      any = any || ok;
+    }
+    if (token !== playToken) return any;
+    await new Promise<void>(resolve => window.setTimeout(resolve, speaker === "narrator" ? 320 : 220));
   }
   return any;
 };

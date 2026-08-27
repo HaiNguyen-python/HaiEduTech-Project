@@ -61,7 +61,7 @@ const supportSentence = (question: string, key: string): string => {
   if (/how sure|how certain|how likely/.test(q)) return `I would say that is ${bare}.`;
   if (isClause(raw)) return `Yes, ${said}.`;
   if (isIng(raw)) return `The plan is ${said}.`;
-  if (BASE_VERBS.test(raw)) return `The plan is to ${articleiseAction(said)}.`;
+  if (BASE_VERBS.test(raw)) return `Yes, let's ${articleiseAction(said)}.`;
   if (/\bwhy\b/.test(q)) return `The reason is ${said}.`;
   if (/how many|how long/.test(q)) return `That is ${said} in total.`;
   if (/what time|when/.test(q)) return `That happens ${said}.`;
