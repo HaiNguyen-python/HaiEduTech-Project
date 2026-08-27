@@ -34,7 +34,7 @@ const norm = (t: string) =>
     .replace(/(\d+)m\b/g, "$1 million")
     .replace(/\b(a\.?m\.?|p\.?m\.?|o'clock)\b/g, " ")
     .replace(/\bevery day\b/g, "daily")
-    .replace(/\bevery week\b|\bevery (sunday|monday|tuesday|wednesday|thursday|friday|saturday)\b/g, "weekly")
+    .replace(/\bevery week\b|\bevery (sunday|monday|tuesday|wednesday|thursday|friday|saturday)\b/g, "$& weekly")
     .replace(/\bevery month\b/g, "monthly")
     .replace(/[^a-z0-9$£. ]/g, " ")
     .replace(/\s+/g, " ")

@@ -542,7 +542,7 @@ export const professionalExpansion2: ConvLesson[] = [
       transcript: "HR: When dealing with a difficult coworker, follow three steps. First, talk to them directly and use 'I felt' statements. Second, document specific incidents with dates. Third, only escalate to a manager when direct conversation has failed two or three times.",
       questions: [
         { q: "What kind of statements?", qVi: "Dùng câu nói thế nào?", options: ["You always", "I felt", "They never", "Everyone says"], answer: 1 },
-        { q: "When to escalate?", qVi: "Khi nào báo cáo lên?", options: ["Immediately", "Never", "After two or three failed conversations", "After one"], answer: 2 },
+        { q: "When to escalate?", qVi: "Khi nào báo cáo lên?", options: ["Immediately", "Never", "When direct conversation has failed", "After one"], answer: 2 },
       ],
     },
     speakingTopics: ["Describe a workplace conflict you handled", "Role-play: Politely confront a chatty coworker", "Discuss how culture affects workplace conflict"],
