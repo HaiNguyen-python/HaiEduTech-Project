@@ -291,6 +291,123 @@ const themeOf = (exam: CambridgeMockExam): string => {
   return part.trim().toLowerCase() || "everyday life";
 };
 
+/** Split a passage into sentences, keeping the end punctuation. */
+const sentencesOf = (text: string): string[] =>
+  (text.match(/[^.!?]+[.!?]*/g) ?? [text]).map(s => s.trim()).filter(Boolean);
+
+/** Lines that start a reply, so the speaker must change before them. */
+const REPLY_START =
+  /^(yes|no|yeah|sure|certainly|of course|ok|okay|right|well|thanks|thank you|sorry|i'd like|i would like|i'll|i will|that's|that is|good (morning|afternoon|evening)|hello|hi)\b/i;
+
+/**
+ * Many authored key lines are a whole mini scene ("Good afternoon, how can I
+ * help you? I'd like to book a table ... What time? 7:30, please."). Read as one
+ * speaker turn that sounds absurd, so those are detected and split into turns.
+ */
+const isSceneDialogue = (core: string): boolean => {
+  const parts = sentencesOf(core);
+  if (parts.length < 3) return false;
+  return /\?/.test(core) || parts.some(p => REPLY_START.test(p));
+};
+
+/** Turn a mini scene into alternating turns: a question ends a turn, a reply starts one. */
+const splitTurns = (core: string): string[] => {
+  const parts = sentencesOf(core);
+  const turns: string[] = [];
+  let current: string[] = [];
+  let breakBefore = false;
+  parts.forEach(part => {
+    if (current.length && (breakBefore || REPLY_START.test(part))) {
+      turns.push(current.join(" "));
+      current = [];
+    }
+    current.push(part);
+    breakBefore = /\?$/.test(part);
+  });
+  if (current.length) turns.push(current.join(" "));
+  return turns;
+};
+
+/** Neutral two person casts for scene dialogues, where interview roles do not fit. */
+const SCENE_VOICES: Record<string, [string, string]> = {
+  starters: ["Woman", "Boy"],
+  movers: ["Woman", "Boy"],
+  flyers: ["Woman", "Girl"],
+  ket: ["Woman", "Man"],
+  pet: ["Woman", "Man"],
+};
+
+/** Polite in scene padding that fits any service or everyday conversation. */
+const SCENE_FILLER: string[] = [
+  "Of course. Let me just check that for you.",
+  "Thank you, that is very kind.",
+  "One moment, please.",
+  "Is there anything else you need today?",
+  "No, that is everything, thank you.",
+  "Let me write the details down so I do not forget them.",
+];
+
+const SCENE_CLOSERS: string[] = [
+  "Lovely. We will see you then. Goodbye!",
+  "Thank you very much. Goodbye!",
+  "That is all booked for you. Have a good day!",
+];
+
+/**
+ * Scene scripts get their rejected ideas as a natural check question and answer
+ * instead of the "the old leaflet said" wording, which only fits an interview.
+ */
+const sceneReject = (x: string): [string, string] =>
+  isQuantity(x)
+    ? [`Sorry, was that ${x}?`, `No, not ${x}.`]
+    : isAction(x)
+      ? [`Sorry, did you want to ${articleiseAction(lower(x))}?`, `No, not that.`]
+      : [`Sorry, did you say ${lower(x)}?`, `No, not ${lower(x)}.`];
+
+/** Build a script for a key line that already contains a whole conversation. */
+const buildSceneScript = (
+  exam: CambridgeMockExam,
+  q: CambridgeMockQuestion,
+  core: string,
+  seed: number
+): string => {
+  const level = exam.level;
+  const target = WORD_TARGET[level] ?? 80;
+  const [voiceA, voiceB] = SCENE_VOICES[level] ?? SCENE_VOICES.flyers;
+  const theme = themeOf(exam);
+  const opener = pick(OPENERS[level] ?? OPENERS.flyers, seed).replace("{theme}", theme);
+
+  const turns = splitTurns(core);
+  const lines: string[] = [`Narrator: ${opener}`];
+
+  // The check exchange comes before the scene so the key line stays last.
+  const rejects = rejectable(q, core).slice(0, level === "starters" || level === "movers" ? 1 : 2);
+
+  const body: Array<{ text: string; voice: number }> = [];
+  rejects.forEach((x, i) => {
+    const [ask, answer] = sceneReject(x);
+    body.push({ text: ask, voice: (i + 1) % 2 });
+    body.push({ text: answer, voice: i % 2 });
+  });
+  turns.forEach((text, i) => body.push({ text, voice: i % 2 }));
+
+  const closer = pick(SCENE_CLOSERS, seed);
+  let used = words(opener) + words(closer) + body.reduce((s, l) => s + words(l.text), 0);
+
+  // Pad with polite in scene lines only while the recording is short for the level.
+  let filler = 0;
+  while (used < target && filler < SCENE_FILLER.length) {
+    const text = pick(SCENE_FILLER, seed + filler);
+    body.push({ text, voice: (body.length + filler) % 2 });
+    used += words(text);
+    filler += 1;
+  }
+
+  body.forEach(({ text, voice }) => lines.push(`${voice === 0 ? voiceA : voiceB}: ${text}`));
+  lines.push(`${voiceA}: ${closer}`);
+  return `Listen:\n${lines.join("\n")}`;
+};
+
 const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string => {
   const core = coreLine(q.passage ?? "");
   if (!core) return q.passage ?? "";
