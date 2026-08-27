@@ -40,3 +40,10 @@ type: feature
   Must report 0 issues.
 - Standalone Reading & Writing items without a passage are legitimate (official R&W Parts 1-3
   word/picture and gap-fill tasks), so the audit reports them as information only.
+- Passage layout: `src/lib/cambridgePassageFormat.ts` keeps authored line breaks, splits a lead-in
+  instruction ("Read the email...") onto its own line, forces a break at greetings / sign-offs /
+  labelled lines ("Anna:", "Ground floor:") and caps paragraphs at 3 sentences / 320 chars.
+- Orphan reading questions: `cambridgeReadingOrphanPassages.ts` attaches authored texts by exam id,
+  falls back to the paper's main text for "the writer / the text" stems, and for any comprehension
+  question (ends with "?", no gap) whose key phrase appears verbatim in one of the paper's texts.
+  Gap-fill grammar/vocab items stay standalone on purpose.
