@@ -7,7 +7,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { cambridgeMockExams } from "../src/data/cambridgeMockExamData";
-import { isAnswerSupported, isNegativeQuestion, normaliseText } from "../src/data/cambridgeListeningSupport";
+import { isAnswerSupported, isNegativeQuestion, listeningScriptTurns, normaliseText } from "../src/data/cambridgeListeningSupport";
 
 
 const issues: string[] = [];
@@ -15,9 +15,9 @@ const byLevel: Record<string, number[]> = {};
 const keyCount = [0, 0, 0, 0];
 const standalone: string[] = [];
 
-/** Minimum spoken words per listening script, matching official recordings. */
+/** Short item-level recordings: instruction plus the authored evidence. */
 const LISTENING_MIN_WORDS: Record<string, number> = {
-  starters: 40, movers: 58, flyers: 82, ket: 115, pet: 130,
+  starters: 6, movers: 8, flyers: 8, ket: 8, pet: 8,
 };
 
 for (const exam of cambridgeMockExams) {
@@ -57,8 +57,11 @@ for (const exam of cambridgeMockExams) {
       const wc = spoken.split(/\s+/).filter(Boolean).length;
       const min = LISTENING_MIN_WORDS[exam.level] ?? 60;
       if (wc < min) issues.push(`${at}: listening script too short (${wc} words, min ${min})`);
-      const turns = spoken.split("\n").filter((l) => l.trim()).length;
-      if (turns < 4) issues.push(`${at}: listening script has only ${turns} turn(s)`);
+      const turns = listeningScriptTurns(q.passage);
+      if (turns.length < 2) issues.push(`${at}: listening script has no instruction/content separation`);
+      if (turns.some(turn => /^(Narrator|Teacher|Student|Woman|Man|Girl|Boy|Presenter|Guest|Expert|Interviewer):/i.test(turn.text))) {
+        issues.push(`${at}: a speaker label would be read aloud`);
+      }
 
       // The key must be audible in the recording, in a form a listener can hear.
       const key = q.options[q.correctAnswer] ?? "";
@@ -66,28 +69,8 @@ for (const exam of cambridgeMockExams) {
         issues.push(`${at}: key "${key}" is not stated in the script`);
       }
 
-      // No wrong option may be presented as a fact, and negative stems keep
-      // every option audible, so they must not reject anything.
-      const plain = normaliseText(spoken);
-      q.options.forEach((option, oi) => {
-        if (oi === q.correctAnswer) return;
-        const said = normaliseText(option);
-        if (said.length < 3 || !plain.includes(said)) return;
-        const rejected = /(not|old|used to|changed|revised|wrong|left over|do not use|dropped)/i.test(spoken);
-        if (!isNegativeQuestion(q.question) && !rejected) {
-          issues.push(`${at}: wrong option "${option}" is said without being ruled out`);
-        }
-      });
-      if (isNegativeQuestion(q.question) && /but that is not right|no longer the case|not use that figure|but she was wrong|so do not write that|that plan was dropped/i.test(spoken)) {
-        issues.push(`${at}: negative stem must not rule options out`);
-      }
-      // Bare numeric rejections ("It is not 25.") do not sound like a recording.
-      if (/\b(is|are|was|were|it's)\s+(definitely\s+|certainly\s+)?not\s+[£$]?\d/i.test(spoken)) {
-        issues.push(`${at}: bare numeric rejection in script`);
-      }
-      // The theme line keeps each paper's recording specific to its topic.
-      if (!/week|moment|home|project|group|reading|Narrator/i.test(spoken)) {
-        issues.push(`${at}: script has no context framing`);
+      if (/Some people think|old leaflet|do not write that|website still|plan was dropped/i.test(spoken)) {
+        issues.push(`${at}: contains generated distractor padding`);
       }
     }
 

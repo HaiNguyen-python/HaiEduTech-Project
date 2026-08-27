@@ -1,567 +1,101 @@
 /**
  * @file cambridgeListeningUpgrade.ts
- * @description Cambridge listening items were authored as a single spoken line,
- *              which is far shorter and easier than the real papers - especially
- *              at KET and PET level. This pass rebuilds every listening script as
- *              a multi turn recording of the right length for its level:
- *              a setting line, natural chat, distractor ideas that are explicitly
- *              ruled out, the key line itself (kept verbatim so the answer stays
- *              supported) and a closing turn that does not reveal the key.
- *
- *              Everything is deterministic (hash of exam id + question id), so
- *              scripts never change between renders and the audit stays stable.
+ * @description Keeps Cambridge listening recordings short and faithful to the
+ *              authored material. It adds only a brief exam instruction and
+ *              speaker turns. It never pads a recording with invented chat or
+ *              distractors, because those additions can change the meaning of
+ *              the question.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockExamData";
-import { articleiseAction, isNegativeQuestion } from "./cambridgeListeningSupport";
-
-
-/** Minimum spoken words per level, matching official recording length. */
-// Short recordings, the way the real papers sound: one small exchange around the
-// key line, never a long padded interview.
-const WORD_TARGET: Record<string, number> = {
-  starters: 26,
-  movers: 32,
-  flyers: 40,
-  ket: 48,
-  pet: 58,
-};
-
-type Voices = { a: string; b: string; keyIsA: boolean };
-
-/** Voice pairs that fit the level: young children at YLE, adults at KET/PET. */
-const VOICE_SETS: Record<string, Voices[]> = {
-  starters: [
-    { a: "Woman", b: "Boy", keyIsA: true },
-    { a: "Man", b: "Girl", keyIsA: true },
-    { a: "Girl", b: "Boy", keyIsA: false },
-  ],
-  movers: [
-    { a: "Teacher", b: "Student", keyIsA: true },
-    { a: "Woman", b: "Boy", keyIsA: true },
-    { a: "Girl", b: "Boy", keyIsA: false },
-  ],
-  flyers: [
-    { a: "Teacher", b: "Student", keyIsA: true },
-    { a: "Man", b: "Girl", keyIsA: true },
-    { a: "Woman", b: "Boy", keyIsA: true },
-  ],
-  ket: [
-    { a: "Interviewer", b: "Woman", keyIsA: false },
-    { a: "Presenter", b: "Man", keyIsA: false },
-    { a: "Woman", b: "Man", keyIsA: false },
-  ],
-  pet: [
-    { a: "Interviewer", b: "Expert", keyIsA: false },
-    { a: "Presenter", b: "Guest", keyIsA: false },
-    { a: "Woman", b: "Man", keyIsA: false },
-  ],
-};
 
 const hash = (text: string): number => {
-  let h = 0;
-  for (let i = 0; i < text.length; i += 1) h = (h * 31 + text.charCodeAt(i)) % 100000;
-  return h;
+  let value = 0;
+  for (let index = 0; index < text.length; index += 1) {
+    value = (value * 31 + text.charCodeAt(index)) % 100000;
+  }
+  return value;
 };
 
-const words = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
-
-/** Strip the "Listen:" wrapper and the surrounding quotes of the authored line. */
+/** Remove the data wrapper while preserving the exact authored information. */
 const coreLine = (passage: string): string => {
   let text = passage.replace(/^\s*Listen:\s*/i, "").trim();
   text = text.replace(/\n+/g, " ").trim();
-  const quoted = text.match(/^['"“](.*)['"”]$/s);
+  const quoted = text.match(/^[\s'"“](.*)['"”]$/s);
   if (quoted) text = quoted[1].trim();
   return text.replace(/\s+/g, " ");
 };
 
-const normalise = (text: string): string =>
-  text.toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
-
-/** Days, months, titles and names keep their capital letter inside a sentence. */
-const PROPER = /^(monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december|mr|mrs|miss|ms|english|maths|london|paris)\b/i;
-
-const lower = (text: string): string =>
-  PROPER.test(text) || /^[A-Z]{2,}|^[£$]|^\d/.test(text)
-    ? text
-    : text.charAt(0).toLowerCase() + text.slice(1);
-
-/**
- * Wrong options that are safe to name as rejected ideas: real words, not part of
- * the key and not already mentioned in the authored line. Negative stems ("What
- * does the centre NOT accept?") get no rejections at all, because there every
- * wrong option must stay audible in the recording.
- */
-const rejectable = (q: CambridgeMockQuestion, core: string): string[] => {
-  if (isNegativeQuestion(q.question)) return [];
-  const key = normalise(q.options[q.correctAnswer] ?? "");
-  const plain = normalise(core);
-  return q.options
-    .filter((_, i) => i !== q.correctAnswer)
-    .map(o => o.trim())
-    .filter(o => o.length > 1)
-    .filter(o => !/^(yes|no|maybe|none|all of them|we don't know)$/i.test(o))
-    .filter(o => {
-      const n = normalise(o);
-      return n.length > 0 && n !== key && !key.includes(n) && !n.includes(key) && !plain.includes(n);
-    })
-    .map(o => o.replace(/\.$/, ""))
-    .map(o => lower(o));
-};
-
-/** Numbers, clock times and prices need their own wording to sound natural. */
-const isQuantity = (text: string): boolean =>
-  /^[£$]?\d+([.,:]\d+)?\s*(a\.?m\.?|p\.?m\.?|o'clock|pounds|dollars|hours?|hrs?|minutes?|mins?|days?|weeks?|months?|years?|kilometres?|km|metres?|m|people|students?|times?|degrees?)?\.?$/i.test(
-    text.trim()
-  );
-
-
-/** Openers set the scene without hinting at the key. */
-const OPENERS: Record<string, string[]> = {
-  starters: [
-    "You will hear a short conversation about {theme}. Listen carefully.",
-    "You will hear two people talking about {theme}. Listen twice.",
-  ],
-  movers: [
-    "You will hear a conversation about {theme}. Listen twice.",
-    "You will hear two people talking about {theme}. Listen and choose the right answer.",
-  ],
-  flyers: [
-    "You will hear a conversation about {theme}. Listen and choose the right answer.",
-    "You will hear a short interview about {theme}. Listen twice.",
-  ],
-  ket: [
-    "You will hear a conversation about {theme}. You will hear the recording twice.",
-    "Listen to two people discussing {theme}. Choose the correct answer.",
-    "You will hear part of a radio programme about {theme}.",
-  ],
-  pet: [
-    "You will hear a conversation about {theme}. You will hear the recording twice.",
-    "Listen to an interview about {theme}. Choose the best answer for the question.",
-    "You will hear part of a talk about {theme}. Some details change while they speak.",
-  ],
-};
-
-/** Small talk before the key line. */
-const CHAT: Record<string, Array<{ asks: boolean; text: string }>> = {
-  starters: [
-    { asks: true, text: "Hello! How are you today?" },
-    { asks: false, text: "I am fine, thank you." },
-    { asks: true, text: "I have got a question for you." },
-    { asks: false, text: "Yes, I can tell you about it." },
-    { asks: true, text: "Great, I am listening." },
-  ],
-  movers: [
-    { asks: true, text: "Hi! Have you got a minute?" },
-    { asks: false, text: "Yes, of course. What do you want to know?" },
-    { asks: true, text: "I am writing about it for my class project." },
-    { asks: false, text: "Then I will give you the right details." },
-    { asks: true, text: "Thank you. I will write them in my notebook." },
-  ],
-  flyers: [
-    { asks: true, text: "Thanks for helping me with my project." },
-    { asks: false, text: "No problem. Ask me anything you like." },
-    { asks: true, text: "I wrote some notes yesterday, but I want to check them." },
-    { asks: false, text: "That is sensible, because it is easy to mix the details up." },
-    { asks: true, text: "I will read my questions one by one." },
-  ],
-  ket: [
-    { asks: true, text: "Thanks for coming in to talk to us today." },
-    { asks: false, text: "It is a pleasure. There is quite a lot to explain." },
-    { asks: true, text: "That is exactly why I wanted to speak to you." },
-    { asks: false, text: "Then I will go through the main facts with you." },
-    { asks: true, text: "That would be very helpful for our readers." },
-    { asks: false, text: "I will keep it simple and clear." },
-  ],
-  pet: [
-    { asks: true, text: "Thanks for joining us in the studio this afternoon." },
-    { asks: false, text: "Thank you for inviting me. It is a subject I know well." },
-    { asks: true, text: "Our listeners often ask about this, so let us be very clear." },
-    { asks: false, text: "I am happy to explain how it actually works." },
-    { asks: true, text: "Please take your time with the details." },
-    { asks: false, text: "I will go through them step by step." },
-  ],
-};
-
-/** Chat for key lines that tell something personal, so no interview is implied. */
-const PEER_CHAT: Array<{ asks: boolean; text: string }> = [
-  { asks: true, text: "Hi! Can I ask you something?" },
-  { asks: false, text: "Of course. Go ahead." },
-  { asks: true, text: "I am just curious about it." },
-  { asks: false, text: "That is easy to answer." },
-  { asks: true, text: "Tell me, then. I am listening." },
-  { asks: false, text: "Let me explain it properly." },
-];
-
-/** Closers for the peer chat, which must not mention readers or listeners. */
-const PEER_CLOSERS: string[] = [
-  "Oh, I see. Thanks for telling me!",
-  "That is good to know. Thank you!",
-  "Now I understand. Thanks a lot!",
-];
-
-/** Rejections that sound right between two friends talking about themselves. */
-const PEER_REJECT: Record<"plain" | "quantity" | "action", string[]> = {
-  plain: ["Some people think it is {x}, but that is not right.", "It is not {x}."],
-  quantity: ["I first thought it was {x}, but that is wrong.", "It is not {x} at all."],
-  action: ["I thought about how to {x}, but I did not.", "We are not going to {x}."],
-};
-
-/** Ways to name and reject a wrong idea. */
-const REJECT: Record<string, string[]> = {
-  starters: ["Is it {x}? No, it is not {x}.", "It is not {x}."],
-  movers: [
-    "Some people say it is {x}, but that is not right.",
-    "It is not {x}, so do not write that.",
-  ],
-  flyers: [
-    "My friend thought it was {x}, but she was wrong.",
-    "It is definitely not {x}, although a lot of people think so.",
-  ],
-  ket: [
-    "A lot of people expect {x}, because the old leaflet said so, but that is not the case now.",
-    "We did think about {x} at first, but that plan was dropped.",
-    "It is certainly not {x} any more.",
-  ],
-  pet: [
-    "Many people assume it is {x}, because that is what happened last year, but not any longer.",
-    "There were two early suggestions, {x} being the most popular one, but neither of them went ahead.",
-    "I should make it clear that {x} is no longer the case.",
-    "The website still mentions {x}, which is wrong and we are getting it corrected.",
-  ],
-};
-
-/**
- * Rejections for numbers, times and prices. Saying "It is not 25." sounds wrong
- * in a recording, so these wordings frame the number as an out of date detail.
- */
-const QUANTITY_REJECT: Record<string, string[]> = {
-  starters: ["My friend said {x}, but that is not right.", "It was {x} last week, but not now."],
-  movers: [
-    "My old notebook says {x}, but I have to change that.",
-    "The poster said {x}, and that information is old.",
-  ],
-  flyers: [
-    "My friend wrote down {x}, but she copied it from an old page.",
-    "The first plan was {x}, and then everything moved.",
-  ],
-  ket: [
-    "The old leaflet printed {x}, and that has now changed.",
-    "It used to be {x} last year, so please do not use that figure.",
-  ],
-  pet: [
-    "The website still shows {x}, which is left over from last season and is not correct.",
-    "The original announcement said {x}, but that was revised before it opened.",
-  ],
-};
-
-/** Theme flavoured lines so scripts about food do not sound like scripts about travel. */
-const THEME_CHAT: string[] = [
-  "I would like to ask you about {theme}.",
-  "People keep talking about {theme} at the moment, so I am curious.",
-  "There is a lot to say about {theme}, is there not?",
-  "I did some reading about {theme} before I came here.",
-];
-
-/**
- * Options that are actions ("postpone meeting", "take the bus") cannot follow
- * "It is not ...", so they get their own rejection wordings.
- */
-const isAction = (text: string): boolean =>
-  /^(write|read|buy|take|use|go|cook|play|walk|cycle|swim|call|ask|visit|postpone|cancel|book|bring|wear|study|join|help|meet|send|wait|start|finish|change|recycle|save|plant|skip|move|stay|leave|order|pay|watch|listen|drive|fly|run|clean|paint|open|close|delay|repeat|share|check)\b/i.test(
-    text.trim()
-  );
-
-const ACTION_REJECT: Record<string, string[]> = {
-  starters: ["We are not going to {x}.", "First I wanted to {x}, but not now."],
-  movers: [
-    "At first I wanted to {x}, but I changed my mind.",
-    "We are not going to {x}, so do not write that.",
-  ],
-  flyers: [
-    "My friend thought we would {x}, but that is not the plan.",
-    "We talked about how to {x}, and then we decided against it.",
-  ],
-  ket: [
-    "A lot of people expect us to {x}, but that idea was dropped.",
-    "We did plan to {x} last month, and that is no longer true.",
-  ],
-  pet: [
-    "Many people assume we will {x}, because that is what happened last year.",
-    "One early suggestion was to {x}, but it never went ahead.",
-  ],
-};
-
-
-/** Closing turns that add length without repeating the key. */
-const CLOSERS: Record<string, string[]> = {
-  starters: ["Thank you! Goodbye.", "Now you know. See you later!"],
-  movers: ["Thanks a lot. That helps me.", "Great, I have written it down. Bye!"],
-  flyers: ["Thank you very much. My project is nearly finished now.", "That is all my questions. Thanks for your time."],
-  ket: [
-    "Thank you. I will make sure our readers get the correct information this time.",
-    "That is very helpful. I have written all of it in my notes.",
-  ],
-  pet: [
-    "Thank you. I am sure our listeners found that far clearer than the leaflet did.",
-    "That is all we have time for today, but the details are on the noticeboard as well.",
-  ],
-};
-
-/** Consecutive lines from the same speaker are printed as one turn. */
-const mergeTurns = (lines: string[]): string[] => {
-  const out: string[] = [];
-  lines.forEach(line => {
-    const speaker = line.match(/^([^:]+):/)?.[1] ?? "";
-    const last = out[out.length - 1];
-    const lastSpeaker = last ? last.match(/^([^:]+):/)?.[1] ?? "" : "";
-    if (last && speaker && speaker === lastSpeaker) {
-      out[out.length - 1] = `${last} ${line.slice(speaker.length + 1).trim()}`;
-      return;
-    }
-    out.push(line);
-  });
-  return out;
-};
-
-
-/** Very short reactions used to break a long turn in two. */
-const REACTIONS: string[] = ["Oh, really?", "So what is it, then?", "I see. Tell me."];
-
-const pick = <T,>(pool: T[], seed: number): T => pool[seed % pool.length];
-
-/** Theme from a title like "PET Mock Test 11 - City Life & Community". */
-const themeOf = (exam: CambridgeMockExam): string => {
-  const part = exam.title.split(/\s[-–]\s/)[1] ?? exam.title;
-  return part.trim().toLowerCase() || "everyday life";
-};
-
-/** Split a passage into sentences, keeping the end punctuation. */
 const sentencesOf = (text: string): string[] =>
-  (text.match(/[^.!?]+[.!?]*/g) ?? [text]).map(s => s.trim()).filter(Boolean);
+  (text.match(/[^.!?]+[.!?]*/g) ?? [text]).map(sentence => sentence.trim()).filter(Boolean);
 
-/** Lines that start a reply, so the speaker must change before them. */
 const REPLY_START =
   /^(yes|no|yeah|sure|certainly|of course|ok|okay|right|well|thanks|thank you|sorry|i'd like|i would like|i'll|i will|that's|that is|good (morning|afternoon|evening)|hello|hi)\b/i;
 
-/**
- * Many authored key lines are a whole mini scene ("Good afternoon, how can I
- * help you? I'd like to book a table ... What time? 7:30, please."). Read as one
- * speaker turn that sounds absurd, so those are detected and split into turns.
- */
-const isSceneDialogue = (core: string): boolean => {
-  const parts = sentencesOf(core);
-  if (parts.length < 3) return false;
-  return /\?/.test(core) || parts.some(p => REPLY_START.test(p));
-};
+/** Only split text that clearly contains both a prompt and a reply. */
+const sceneTurns = (core: string): string[] => {
+  const sentences = sentencesOf(core);
+  if (sentences.length < 2 || (!core.includes("?") && !sentences.slice(1).some(sentence => REPLY_START.test(sentence)))) {
+    return [core];
+  }
 
-/** Turn a mini scene into alternating turns: a question ends a turn, a reply starts one. */
-const splitTurns = (core: string): string[] => {
-  const parts = sentencesOf(core);
   const turns: string[] = [];
   let current: string[] = [];
-  let breakBefore = false;
-  parts.forEach(part => {
-    if (current.length && (breakBefore || REPLY_START.test(part))) {
+  let previousWasQuestion = false;
+  sentences.forEach(sentence => {
+    if (current.length && (previousWasQuestion || REPLY_START.test(sentence))) {
       turns.push(current.join(" "));
       current = [];
     }
-    current.push(part);
-    breakBefore = /\?$/.test(part);
+    current.push(sentence);
+    previousWasQuestion = sentence.endsWith("?");
   });
   if (current.length) turns.push(current.join(" "));
   return turns;
 };
 
-/** Neutral two person casts for scene dialogues, where interview roles do not fit. */
-const SCENE_VOICES: Record<string, [string, string]> = {
-  starters: ["Woman", "Boy"],
-  movers: ["Woman", "Boy"],
-  flyers: ["Woman", "Girl"],
-  ket: ["Woman", "Man"],
-  pet: ["Woman", "Man"],
+const INSTRUCTIONS: Record<CambridgeMockExam["level"], string> = {
+  starters: "Listen carefully.",
+  movers: "Listen carefully. You will hear the recording twice.",
+  flyers: "Listen carefully. You will hear the recording twice.",
+  ket: "You will hear the recording twice.",
+  pet: "You will hear the recording twice.",
 };
 
-/** Casts for a personal chat: two peers, so young learners hear children. */
-const PEER_VOICES: Record<string, [string, string]> = {
-  starters: ["Girl", "Boy"],
-  movers: ["Boy", "Girl"],
-  flyers: ["Girl", "Boy"],
-  ket: ["Woman", "Man"],
-  pet: ["Man", "Woman"],
+const CHILD_PAIRS: Array<[string, string]> = [["Girl", "Boy"], ["Boy", "Girl"]];
+const ADULT_PAIRS: Array<[string, string]> = [["Woman", "Man"], ["Man", "Woman"]];
+
+const speakersFor = (exam: CambridgeMockExam, question: CambridgeMockQuestion, core: string): [string, string] => {
+  const seed = hash(`${exam.id}:${question.id}:${core}`);
+  const childLevel = exam.level === "starters" || exam.level === "movers" || exam.level === "flyers";
+  const pairs = childLevel ? CHILD_PAIRS : ADULT_PAIRS;
+  return pairs[seed % pairs.length];
 };
 
-/** Polite in scene padding that fits any service or everyday conversation. */
-const SCENE_FILLER: string[] = [
-  "Of course. Let me just check that for you.",
-  "Thank you, that is very kind.",
-  "One moment, please.",
-  "Is there anything else you need today?",
-  "No, that is everything, thank you.",
-  "Let me write the details down so I do not forget them.",
-];
+const buildScript = (exam: CambridgeMockExam, question: CambridgeMockQuestion): string => {
+  const core = coreLine(question.passage ?? "");
+  if (!core) return question.passage ?? "";
 
-const SCENE_CLOSERS: string[] = [
-  "Lovely. We will see you then. Goodbye!",
-  "Thank you very much. Goodbye!",
-  "That is all booked for you. Have a good day!",
-];
+  const turns = sceneTurns(core);
+  const [firstSpeaker, secondSpeaker] = speakersFor(exam, question, core);
+  const lines = [`Narrator: ${INSTRUCTIONS[exam.level]}`];
 
-/**
- * Scene scripts get their rejected ideas as a natural check question and answer
- * instead of the "the old leaflet said" wording, which only fits an interview.
- */
-const sceneReject = (x: string): [string, string] =>
-  isQuantity(x)
-    ? [`Sorry, was that ${x}?`, `No, not ${x}.`]
-    : isAction(x)
-      ? [`Sorry, did you want to ${articleiseAction(lower(x))}?`, `No, not that.`]
-      : [`Sorry, did you say ${lower(x)}?`, `No, not ${lower(x)}.`];
-
-/** Build a script for a key line that already contains a whole conversation. */
-const buildSceneScript = (
-  exam: CambridgeMockExam,
-  q: CambridgeMockQuestion,
-  core: string,
-  seed: number
-): string => {
-  const level = exam.level;
-  const target = WORD_TARGET[level] ?? 80;
-  const [voiceA, voiceB] = SCENE_VOICES[level] ?? SCENE_VOICES.flyers;
-  const theme = themeOf(exam);
-  const opener = pick(OPENERS[level] ?? OPENERS.flyers, seed).replace("{theme}", theme);
-
-  const turns = splitTurns(core);
-  const lines: string[] = [`Narrator: ${opener}`];
-
-  // Wrong ideas are checked back after the scene, the way people really confirm
-  // a detail, instead of the "the old leaflet said" wording of an interview.
-  const rejects = rejectable(q, core).slice(0, 1);
-
-  const body: string[] = [...turns];
-  rejects.forEach(x => {
-    const [ask, answer] = sceneReject(x);
-    body.push(ask, answer);
-  });
-
-  const closer = pick(SCENE_CLOSERS, seed);
-  let used = words(opener) + words(closer) + body.reduce((s, l) => s + words(l), 0);
-
-  // Pad with polite in scene lines only while the recording is short for the level.
-  let filler = 0;
-  while (used < target && filler < SCENE_FILLER.length) {
-    const text = SCENE_FILLER[(seed + filler) % SCENE_FILLER.length];
-    body.push(text);
-    used += words(text);
-    filler += 1;
+  if (turns.length === 1) {
+    lines.push(`${firstSpeaker}: ${turns[0]}`);
+  } else {
+    turns.forEach((turn, index) => {
+      lines.push(`${index % 2 === 0 ? firstSpeaker : secondSpeaker}: ${turn}`);
+    });
   }
 
-  // Voices alternate strictly, so the same person never speaks twice in a row.
-  body.forEach((text, i) => lines.push(`${i % 2 === 0 ? voiceA : voiceB}: ${text}`));
-  lines.push(`${body.length % 2 === 0 ? voiceA : voiceB}: ${closer}`);
-  return `Listen:\n${mergeTurns(lines).join("\n")}`;
+  return `Listen:\n${lines.join("\n")}`;
 };
 
-const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string => {
-  const core = coreLine(q.passage ?? "");
-  if (!core) return q.passage ?? "";
-
-  const level = exam.level;
-  const target = WORD_TARGET[level] ?? 80;
-  const seed = hash(`${exam.id}#${q.id}#${core.length}`);
-  // A key line that is already a whole scene must be split into turns, never
-  // read out as one absurd speaker turn inside an interview.
-  if (isSceneDialogue(core)) return buildSceneScript(exam, q, core, seed);
-  // A personal key line ("my mum is in the kitchen") belongs in a chat between
-  // two people, never in a radio interview with a presenter and an expert.
-  const personal = /\b(I|I'm|I've|my|me|we|our|us)\b/.test(core);
-  const cast = personal ? PEER_VOICES[level] ?? PEER_VOICES.flyers : SCENE_VOICES[level] ?? SCENE_VOICES.flyers;
-  const voices = personal
-    ? { a: cast[0], b: cast[1], keyIsA: false }
-    : pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
-  const theme = themeOf(exam);
-  // Every chat line carries its own role, so inserting the theme question never
-  // hands a line to the wrong speaker. In a personal chat the theme question
-  // replaces the generic curiosity line instead of doubling it.
-  const baseChat = personal ? PEER_CHAT : CHAT[level] ?? CHAT.flyers;
-  const chat: Array<{ text: string; asks: boolean }> = [
-    baseChat[0],
-    baseChat[1],
-    { text: pick(THEME_CHAT, seed + 3).replace("{theme}", theme), asks: true },
-    ...baseChat.slice(personal ? 3 : 2),
-  ];
-  const rejects = rejectable(q, core);
-
-  // A personal chat is never introduced as an interview or a radio programme.
-  const opener = (personal
-    ? (OPENERS[level] ?? OPENERS.flyers)[0]
-    : pick(OPENERS[level] ?? OPENERS.flyers, seed)
-  ).replace("{theme}", theme);
-  const lines: string[] = [`Narrator: ${opener}`];
-
-  // Rejected ideas raise the difficulty: the student must hear the contrast.
-  const rejectPool = personal ? PEER_REJECT.plain : REJECT[level] ?? REJECT.flyers;
-  const quantityPool = personal ? PEER_REJECT.quantity : QUANTITY_REJECT[level] ?? QUANTITY_REJECT.flyers;
-  const actionPool = personal ? PEER_REJECT.action : ACTION_REJECT[level] ?? ACTION_REJECT.flyers;
-  const rejectLines = rejects
-    .slice(0, 1)
-    .map((x, i) =>
-      pick(isQuantity(x) ? quantityPool : isAction(x) ? actionPool : rejectPool, seed + i).replace(
-        /\{x\}/g,
-        isAction(x) ? articleiseAction(lower(x)) : lower(x)
-      )
-    );
-
-  const closer = personal ? pick(PEER_CLOSERS, seed) : pick(CLOSERS[level] ?? CLOSERS.flyers, seed);
-  const fixed = words(opener) + words(core) + words(closer) + rejectLines.reduce((s, l) => s + words(l), 0);
-
-  // Chat lines keep their authored order so the conversation stays logical, and
-  // they all sit before the key line so the recording ends right after it.
-  // Only a short opening exchange, then straight to the key line.
-  const minChat = 2;
-  const before: typeof chat = [];
-  let used = fixed;
-  for (let i = 0; i < chat.length; i += 1) {
-    if (i >= minChat && used >= target) break;
-    before.push(chat[i]);
-    used += words(chat[i].text);
-  }
-
-
-
-
-  // Chat keeps its authored roles, then the speaker who knows the facts says the
-  // rejected ideas and the key line, and the other one closes the recording.
-  const keyVoice = voices.keyIsA ? voices.a : voices.b;
-  const otherVoice = voices.keyIsA ? voices.b : voices.a;
-  before.forEach(({ text, asks }) => {
-    lines.push(`${asks ? otherVoice : keyVoice}: ${text}`);
-  });
-  rejectLines.forEach(text => {
-    const asked = text.match(/^(.*\?)\s+(\S.*)$/);
-    if (asked) {
-      lines.push(`${otherVoice}: ${asked[1]}`);
-      lines.push(`${keyVoice}: ${asked[2]}`);
-      return;
-    }
-    lines.push(`${keyVoice}: ${text}`);
-  });
-  // A short reaction keeps every turn short instead of piling the wrong idea and
-  // the key line into one long speech.
-  if (lines[lines.length - 1]?.startsWith(`${keyVoice}:`)) {
-    lines.push(`${otherVoice}: ${pick(REACTIONS, seed)}`);
-  }
-  lines.push(`${keyVoice}: ${core}`);
-  lines.push(`${otherVoice}: ${closer}`);
-
-  return `Listen:\n${mergeTurns(lines).join("\n")}`;
-
-};
-
-/** Rebuild every listening script of one paper at the right length. */
 export const upgradeCambridgeListening = (exam: CambridgeMockExam): CambridgeMockExam => ({
   ...exam,
-  questions: exam.questions.map(q =>
-    q.section === "Listening" && q.passage ? { ...q, passage: buildScript(exam, q) } : q
+  questions: exam.questions.map(question =>
+    question.section === "Listening" && question.passage
+      ? { ...question, passage: buildScript(exam, question) }
+      : question
   ),
 });

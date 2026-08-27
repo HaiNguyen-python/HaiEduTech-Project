@@ -111,6 +111,29 @@ export const listeningScriptToSpeech = (passage: string): string =>
     .join("\n")
     .replace(/&/g, "and");
 
+export interface ListeningSpeechTurn {
+  speaker: string;
+  text: string;
+}
+
+/**
+ * Preserve turn boundaries for recording playback while removing every label
+ * from the text sent to TTS. The labels control pacing only and are never read.
+ */
+export const listeningScriptTurns = (passage: string): ListeningSpeechTurn[] =>
+  passage
+    .replace(/^\s*Listen:\s*/i, "")
+    .split(/\n+/)
+    .map(line => {
+      const clean = line.trim().replace(/^[\s'"“]+/, "").replace(/[\s'"”]+$/, "");
+      const labelled = clean.match(/^([A-Z][A-Za-z .']{0,20}?):\s*(.+)$/);
+      return {
+        speaker: labelled?.[1]?.trim() || "Speaker",
+        text: (labelled?.[2] || clean).replace(/&/g, "and").trim(),
+      };
+    })
+    .filter(turn => Boolean(turn.text));
+
 /** "postpone meeting" -> "postpone the meeting" so action options read naturally. */
 export const articleiseAction = (text: string): string =>
   text.replace(
