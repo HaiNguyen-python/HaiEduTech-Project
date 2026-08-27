@@ -542,7 +542,7 @@ export const professionalExpansion: ConvLesson[] = [
       transcript: "Lead: Good morning, everyone. Quick reminder: time zones - the US team logs off at 5 PM Pacific, so please post any urgent updates before then. We'll move our weekly meeting to 9 AM Singapore time so it's friendlier for both Asia and Europe.",
       questions: [
         { q: "When does the US team log off?", qVi: "Đội Mỹ tan làm khi nào?", options: ["3 PM", "4 PM", "5 PM Pacific", "6 PM"], answer: 2 },
-        { q: "New meeting time?", qVi: "Giờ họp mới?", options: ["7 AM SG", "9 AM SG", "11 AM SG", "1 PM SG"], answer: 1 },
+        { q: "New meeting time?", qVi: "Giờ họp mới?", options: ["7 AM Singapore time", "9 AM Singapore time", "11 AM Singapore time", "1 PM Singapore time"], answer: 1 },
       ],
     },
     speakingTopics: ["Compare business etiquette in two cultures", "Role-play: Greet a client from another country", "Discuss a cross-cultural misunderstanding you've had"],
@@ -668,7 +668,7 @@ export const academicExpansion: ConvLesson[] = [
       transcript: "Librarian: Today we'll cover three databases - JSTOR for humanities, PubMed for medicine, and IEEE for engineering. Each has different filters. Remember to save citations as you go - it'll save hours later. Workshops run every Tuesday at 3 PM.",
       questions: [
         { q: "Which database is for medicine?", qVi: "Cơ sở dữ liệu nào cho y học?", options: ["JSTOR", "PubMed", "IEEE", "Scopus"], answer: 1 },
-        { q: "When are workshops?", qVi: "Tập huấn khi nào?", options: ["Mon 3 PM", "Tue 3 PM", "Wed 3 PM", "Fri 3 PM"], answer: 1 },
+        { q: "When are workshops?", qVi: "Tập huấn khi nào?", options: ["Monday at 3 PM", "Tuesday at 3 PM", "Wednesday at 3 PM", "Friday at 3 PM"], answer: 1 },
       ],
     },
     speakingTopics: ["Describe how you research a topic", "Role-play: Help a friend find credible sources", "Discuss misinformation online"],
