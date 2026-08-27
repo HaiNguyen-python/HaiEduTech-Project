@@ -280,19 +280,24 @@ const clarifyFillInBlank = (
 const clarifyReorder = (
   exercise: Extract<InteractiveExercise, { type: "sentence-reorder" }>,
   seed: string
-): InteractiveExercise => {
+): InteractiveExercise | null => {
   const guide = "Use every word exactly once. Start with a capital letter and keep the final punctuation.";
   const guideVi = "Dùng mỗi từ đúng một lần. Viết hoa đầu câu và giữ dấu câu cuối.";
+  const items = exercise.items
+    .filter((item) => isReorderable(item.correctEn || item.correct))
+    .map((item, index) => ({
+      ...item,
+      scrambled: rebuildScrambled(item.correctEn || item.correct, item.scrambled, `${seed}|${index}`),
+    }));
+  if (!items.length) return null;
   return {
     ...exercise,
     instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
     instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
-    items: exercise.items.map((item, index) => ({
-      ...item,
-      scrambled: rebuildScrambled(item.correctEn || item.correct, item.scrambled, `${seed}|${index}`),
-    })),
+    items,
   };
 };
+
 
 
 /**
