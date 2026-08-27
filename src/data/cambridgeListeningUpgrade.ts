@@ -432,7 +432,7 @@ const buildSceneScript = (
 
   // Wrong ideas are checked back after the scene, the way people really confirm
   // a detail, instead of the "the old leaflet said" wording of an interview.
-  const rejects = rejectable(q, core).slice(0, level === "starters" || level === "movers" ? 1 : 2);
+  const rejects = rejectable(q, core).slice(0, 1);
 
   const body: string[] = [...turns];
   rejects.forEach(x => {
@@ -500,7 +500,7 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   const quantityPool = personal ? PEER_REJECT.quantity : QUANTITY_REJECT[level] ?? QUANTITY_REJECT.flyers;
   const actionPool = personal ? PEER_REJECT.action : ACTION_REJECT[level] ?? ACTION_REJECT.flyers;
   const rejectLines = rejects
-    .slice(0, level === "starters" || level === "movers" ? 1 : 2)
+    .slice(0, 1)
     .map((x, i) =>
       pick(isQuantity(x) ? quantityPool : isAction(x) ? actionPool : rejectPool, seed + i).replace(
         /\{x\}/g,
