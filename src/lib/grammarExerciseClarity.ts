@@ -96,8 +96,47 @@ const withEnd = (text: string, suffix: string) => {
   return `${squash(head)} ${suffix}${match[1]}`;
 };
 
+/** Stable pseudo-shuffle so the word bank never reorders between renders. */
+const seededShuffle = (values: string[], seed: string) => {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) hash = (hash * 31 + seed.charCodeAt(i)) % 2147483647;
+  const list = [...values];
+  for (let i = list.length - 1; i > 0; i -= 1) {
+    hash = (hash * 1103515245 + 12345) % 2147483647;
+    const j = hash % (i + 1);
+    [list[i], list[j]] = [list[j], list[i]];
+  }
+  return list;
+};
+
+/** Answers of this exercise plus a few same-lesson distractors, shuffled. */
+const buildWordBank = (answers: string[], pool: string[], seed: string) => {
+  const unique: string[] = [];
+  const seen = new Set<string>();
+  for (const answer of answers) {
+    const value = squash(answer);
+    const key = value.toLowerCase();
+    if (!value || seen.has(key)) continue;
+    seen.add(key);
+    unique.push(value);
+  }
+  if (unique.length < 2) return undefined;
+
+  const target = Math.max(unique.length + 2, 5);
+  for (const candidate of pool) {
+    if (unique.length >= target) break;
+    const value = squash(candidate);
+    const key = value.toLowerCase();
+    if (!value || seen.has(key) || wordCount(value) > 4) continue;
+    seen.add(key);
+    unique.push(value);
+  }
+  return seededShuffle(unique, seed);
+};
+
 const clarifyFillInBlank = (
-  exercise: Extract<InteractiveExercise, { type: "fill-in-blank" }>
+  exercise: Extract<InteractiveExercise, { type: "fill-in-blank" }>,
+  pool: string[] = []
 ): InteractiveExercise => {
   const sentences = exercise.sentences.map((sentence) => {
     const answer = squash(sentence.answer);
