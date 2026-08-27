@@ -134,14 +134,80 @@ const buildWordBank = (answers: string[], pool: string[], seed: string) => {
   return seededShuffle(unique, seed);
 };
 
+const GAP_RE = /_{2,}/g;
+const gapCount = (text: string) => (text.match(GAP_RE) || []).length;
+
+/**
+ * A few authored items spread one long answer over several gaps in a way that no
+ * generic rule can split correctly, so the split (and sometimes a cleaner gap
+ * layout) is stated explicitly. Keyed by the original English sentence.
+ */
+const MULTI_GAP_FIXES: Record<string, { textEn?: string; text?: string; answers: string[] }> = {
+  '"I bought this yesterday." → She said she had bought ___ ___.': {
+    answers: ["that", "the day before"],
+  },
+  "My house is ___ (not/big) ___ yours.": {
+    textEn: "My house is ___ ___ yours. (not / big)",
+    text: "My house is ___ ___ yours. (not / big)",
+    answers: ["not as big", "as"],
+  },
+  "She ___ arrives ___ on time (always).": {
+    textEn: "She ___ arrives on time. (always)",
+    text: "She ___ arrives on time. (always)",
+    answers: ["always"],
+  },
+  "He is ___ happy ___ (always).": {
+    textEn: "He is ___ happy. (always)",
+    text: "He is ___ happy. (always)",
+    answers: ["always"],
+  },
+  "I have ___ wanted ___ to learn French (always).": {
+    textEn: "I have ___ wanted to learn French. (always)",
+    text: "I have ___ wanted to learn French. (always)",
+    answers: ["always"],
+  },
+  "I'm not ___ ___ ___ working night shifts yet.": {
+    textEn: "I'm not ___ ___ working night shifts yet. (be accustomed to)",
+    text: "I'm not ___ ___ working night shifts yet. (be accustomed to)",
+    answers: ["used", "to"],
+  },
+  "I'll ___ someone ___ the windows. (get/clean)": {
+    answers: ["get", "to clean"],
+  },
+  "He asked ___ the train ___.": {
+    answers: ["what time", "left"],
+  },
+};
+
+/** One answer per gap: explicit fix first, then slash / word-count splitting. */
+const splitAnswers = (textEn: string, answer: string): string[] => {
+  const gaps = gapCount(textEn);
+  if (gaps <= 1) return [answer];
+
+  const bySlash = answer.split("/").map((part) => squash(part)).filter(Boolean);
+  if (bySlash.length === gaps) return bySlash;
+
+  const words = squash(answer.replace(/\//g, " ")).split(" ").filter(Boolean);
+  if (words.length === gaps) return words;
+
+  // Last resort: the leading words belong to the first gap, one word per gap after that.
+  const head = words.slice(0, words.length - gaps + 1).join(" ");
+  return [head, ...words.slice(words.length - gaps + 1)];
+};
+
 const clarifyFillInBlank = (
   exercise: Extract<InteractiveExercise, { type: "fill-in-blank" }>,
   pool: string[] = []
 ): InteractiveExercise => {
   const sentences = exercise.sentences.map((sentence) => {
     const answer = squash(sentence.answer);
-    let text = normalizeGapText(sentence.text, answer);
-    let textEn = normalizeGapText(sentence.textEn || sentence.text, answer);
+    const fix = MULTI_GAP_FIXES[squash(sentence.textEn || sentence.text)];
+    let text = normalizeGapText(fix?.text ?? sentence.text, answer);
+    let textEn = normalizeGapText(fix?.textEn ?? sentence.textEn ?? sentence.text, answer);
+
+    const gapAnswers = fix?.answers ?? splitAnswers(textEn, answer);
+    // Both language renderings must expose exactly the same number of gaps.
+    if (gapCount(text) !== gapAnswers.length) text = textEn;
 
     // Carry an authored cue over to the English rendering so both languages match.
     const cueMatch = text.match(/\(([^()]+)\)/);
@@ -149,28 +215,42 @@ const clarifyFillInBlank = (
       textEn = withEnd(textEn, `(${squash(cueMatch[1])})`);
     }
 
-    const category = answerCategory(answer);
+    const category = gapAnswers.length === 1 ? answerCategory(answer) : null;
     if (!hasInlineCue(textEn) && category) {
       const marker = `(${category.en})`;
       textEn = withEnd(textEn, marker);
       if (!hasInlineCue(text)) text = withEnd(text, `(${category.vi})`);
     }
 
-    const clues = [
-      `${wordCount(answer)} word(s)`,
-      letterClue(answer) ? `shape: ${letterClue(answer)}` : "",
-      category ? `word type: ${category.en}` : "",
-    ].filter(Boolean);
+    const clues = gapAnswers.length > 1
+      ? [
+          `${gapAnswers.length} gaps`,
+          gapAnswers.map((value, index) => `gap ${index + 1}: ${letterClue(value)}`).join(" · "),
+        ]
+      : [
+          `${wordCount(answer)} word(s)`,
+          letterClue(answer) ? `shape: ${letterClue(answer)}` : "",
+          category ? `word type: ${category.en}` : "",
+        ];
 
     const existingHint = squash(sentence.hint || "");
-    const generic = /^\d+ word\(s\)/.test(existingHint) || !existingHint;
-    const hint = generic ? clues.join(" · ") : `${existingHint} (${clues.join(" · ")})`;
+    const generic = /^\d+ (word\(s\)|gaps)/.test(existingHint) || !existingHint;
+    const hint = generic
+      ? clues.filter(Boolean).join(" · ")
+      : `${existingHint.replace(/\s*\((?:\d+ (?:word\(s\)|gaps)[^)]*)\)\s*$/, "")} (${clues.filter(Boolean).join(" · ")})`;
 
-    return { ...sentence, text, textEn, hint };
+    return {
+      ...sentence,
+      text,
+      textEn,
+      answer: gapAnswers.join(" "),
+      answers: gapAnswers.length > 1 ? gapAnswers : undefined,
+      hint,
+    };
   });
 
   const wordBank = buildWordBank(
-    sentences.map((sentence) => sentence.answer),
+    sentences.flatMap((sentence) => sentence.answers ?? [sentence.answer]),
     pool,
     `${exercise.instructionEn}|${sentences.length}`
   );
@@ -196,31 +276,76 @@ const clarifyFillInBlank = (
   };
 };
 
+
 const clarifyReorder = (
-  exercise: Extract<InteractiveExercise, { type: "sentence-reorder" }>
-): InteractiveExercise => {
+  exercise: Extract<InteractiveExercise, { type: "sentence-reorder" }>,
+  seed: string
+): InteractiveExercise | null => {
   const guide = "Use every word exactly once. Start with a capital letter and keep the final punctuation.";
   const guideVi = "Dùng mỗi từ đúng một lần. Viết hoa đầu câu và giữ dấu câu cuối.";
+  const items = exercise.items
+    .filter((item) => isReorderable(item.correctEn || item.correct))
+    .map((item, index) => ({
+      ...item,
+      scrambled: rebuildScrambled(item.correctEn || item.correct, item.scrambled, `${seed}|${index}`),
+    }));
+  if (!items.length) return null;
   return {
     ...exercise,
     instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
     instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
+    items,
   };
+};
+
+
+
+/**
+ * Tiles are a plain whitespace split of the target so joining them with single
+ * spaces always reproduces the answer exactly - that is how grading compares them.
+ * Ellipses must survive, so this does not use `squash`.
+ */
+const reorderTokens = (sentence: string) => sentence.replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
+
+/** Formula-like or metalinguistic strings cannot be reordered into one right answer. */
+const isReorderable = (target: string) =>
+  !!target && !/[+*]/.test(target) && !target.includes("...") && reorderTokens(target).length >= 3;
+
+
+
+/**
+ * Reorder tiles must always be exactly the words of the answer, in a different
+ * order, so a shuffled copy of the target sentence is the single source of truth.
+ */
+const rebuildScrambled = (correct: string, authored: string[], seed: string) => {
+  const tokens = reorderTokens(correct);
+  if (tokens.length < 2) return authored;
+
+  const authoredKey = [...authored].map((token) => token.toLowerCase()).sort().join(" ");
+  const tokenKey = [...tokens].map((token) => token.toLowerCase()).sort().join(" ");
+  const target = tokens.join(" ").toLowerCase();
+
+  if (authoredKey === tokenKey && authored.join(" ").toLowerCase() !== target) return authored;
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const shuffled = seededShuffle(tokens, `${seed}|${attempt}`);
+    if (shuffled.join(" ").toLowerCase() !== target) return shuffled;
+  }
+  return [...tokens].reverse();
 };
 
 /** Keeps only the first sentence of a multi-sentence sample so one item = one mistake. */
 const firstSample = (value: string) => squash(value.split(" / ")[0]);
 
+
 const clarifyErrorCorrection = (
   exercise: Extract<InteractiveExercise, { type: "error-correction" }>
-): InteractiveExercise => {
+): InteractiveExercise | null => {
   const guide = "Each sentence has exactly one grammar mistake. Rewrite the whole sentence correctly.";
   const guideVi = "Mỗi câu chỉ có một lỗi ngữ pháp. Viết lại toàn bộ câu cho đúng.";
-  return {
-    ...exercise,
-    instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
-    instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
-    items: exercise.items.map((item) => {
+
+  const items = exercise.items
+    .map((item) => {
       const wrong = firstSample(item.wrong);
       const correct = firstSample(item.correct);
       // Word-swap items ("it" vs "them") are grammatical on their own, so state the referent.
@@ -239,9 +364,21 @@ const clarifyErrorCorrection = (
           ? squash(item.explanation).replace(/"([^"]+) \/ [^"]+"/g, '"$1"')
           : `Correct version: ${correct}`,
       };
-    }),
+    })
+    // A "find the mistake" item makes no sense when the faulty and correct
+    // sentences are identical, so those legacy items are dropped.
+    .filter((item) => item.wrong.toLowerCase() !== item.correct.toLowerCase());
+
+  if (!items.length) return null;
+
+  return {
+    ...exercise,
+    instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
+    instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
+    items,
   };
 };
+
 
 
 /** Words present in the target but not in the prompt - a natural rewrite cue. */
@@ -273,27 +410,80 @@ const clarifyTransformation = (
   };
 };
 
+const GENERIC_MC_DISTRACTORS = [
+  "Choose the form by translating word by word.",
+  "Ignore the signal words in the sentence.",
+  "Use the same structure in every context.",
+];
+
+/** A usable MCQ has 3-4 distinct, readable options and a valid answer index. */
+const sanitizeChoiceQuestion = <T extends { question: string; options: string[]; answer: number; explanation?: string }>(
+  question: T
+): T | null => {
+  const correct = squash(question.options[question.answer] ?? "");
+  if (!question.question?.trim() || !correct) return null;
+  // Auto-generated items sometimes pasted a whole theory block as an option.
+  if (correct.length > 180) return null;
+
+  const options: string[] = [];
+  const seen = new Set<string>();
+  for (const raw of question.options) {
+    const value = squash(raw || "");
+    if (!value || value.length > 180 || seen.has(value.toLowerCase())) continue;
+    seen.add(value.toLowerCase());
+    options.push(value);
+  }
+  for (const filler of GENERIC_MC_DISTRACTORS) {
+    if (options.length >= 3) break;
+    if (seen.has(filler.toLowerCase())) continue;
+    seen.add(filler.toLowerCase());
+    options.push(filler);
+  }
+  const answer = options.findIndex((option) => option.toLowerCase() === correct.toLowerCase());
+  if (answer < 0) return null;
+
+  return {
+    ...question,
+    options,
+    answer,
+    explanation: squash(question.explanation || "") || `Correct answer: ${correct}.`,
+  };
+};
+
 const clarifyMultipleChoice = (
   exercise: Extract<InteractiveExercise, { type: "multiple-choice" }>
-): InteractiveExercise => ({
-  ...exercise,
-  questions: exercise.questions.map((question) => ({
-    ...question,
-    explanation: question.explanation && squash(question.explanation)
-      ? squash(question.explanation)
-      : `Correct answer: ${squash(question.options[question.answer] ?? "")}.`,
-  })),
-});
+): InteractiveExercise | null => {
+  const questions = exercise.questions
+    .map((question) => sanitizeChoiceQuestion(question))
+    .filter((question): question is typeof exercise.questions[number] => !!question);
+  if (!questions.length) return null;
+  return { ...exercise, questions };
+};
 
 const clarifyMatching = (
   exercise: Extract<InteractiveExercise, { type: "matching" }>
-): InteractiveExercise => {
+): InteractiveExercise | null => {
   const guide = "Match every item on the left with exactly one item on the right.";
   const guideVi = "Nối mỗi mục bên trái với đúng một mục bên phải.";
+  const seenLeft = new Set<string>();
+  const seenRight = new Set<string>();
+  const pairs = exercise.pairs
+    .map((pair) => ({ left: squash(pair.left), right: squash(pair.right) }))
+    .filter((pair) => {
+      if (!pair.left || !pair.right) return false;
+      const l = pair.left.toLowerCase();
+      const r = pair.right.toLowerCase();
+      if (seenLeft.has(l) || seenRight.has(r)) return false;
+      seenLeft.add(l);
+      seenRight.add(r);
+      return true;
+    });
+  if (pairs.length < 3) return null;
   return {
     ...exercise,
     instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
     instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
+    pairs,
   };
 };
 
@@ -307,12 +497,18 @@ const clarifyDictation = (
   })),
 });
 
-const clarifyExercise = (exercise: InteractiveExercise, pool: string[] = []): InteractiveExercise => {
+
+/** Returns null when an exercise cannot be repaired into a solvable task. */
+const clarifyExercise = (
+  exercise: InteractiveExercise,
+  pool: string[],
+  seed: string
+): InteractiveExercise | null => {
   switch (exercise.type) {
     case "fill-in-blank":
       return clarifyFillInBlank(exercise, pool);
     case "sentence-reorder":
-      return clarifyReorder(exercise);
+      return clarifyReorder(exercise, seed);
     case "error-correction":
       return clarifyErrorCorrection(exercise);
     case "transformation":
@@ -341,8 +537,12 @@ const lessonWordPool = (lesson: LanguageLesson) => {
 
 const clarifyLesson = (lesson: LanguageLesson): LanguageLesson => {
   const pool = lessonWordPool(lesson);
-  return { ...lesson, exercises: lesson.exercises.map((exercise) => clarifyExercise(exercise, pool)) };
+  const exercises = lesson.exercises
+    .map((exercise, index) => clarifyExercise(exercise, pool, `${lesson.id}|${index}`))
+    .filter((exercise): exercise is InteractiveExercise => !!exercise);
+  return { ...lesson, exercises };
 };
+
 
 export const clarifyGrammarModules = (modules: LanguageModule[]): LanguageModule[] =>
   modules.map((mod) => ({ ...mod, lessons: mod.lessons.map(clarifyLesson) }));

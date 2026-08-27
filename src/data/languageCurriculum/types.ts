@@ -10,8 +10,11 @@ export interface FillInBlankExercise {
     text: string; // Use ___ for blanks
     textEn: string;
     answer: string;
+    /** One answer per gap when the sentence contains more than one ___ marker. */
+    answers?: string[];
     hint?: string;
   }[];
+
 }
 
 export interface SentenceReorderExercise {
