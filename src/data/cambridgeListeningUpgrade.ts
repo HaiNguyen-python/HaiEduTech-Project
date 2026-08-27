@@ -198,6 +198,13 @@ const PEER_CLOSERS: string[] = [
   "Now I understand. Thanks a lot!",
 ];
 
+/** Rejections that sound right between two friends talking about themselves. */
+const PEER_REJECT: Record<"plain" | "quantity" | "action", string[]> = {
+  plain: ["Some people think it is {x}, but that is not right.", "It is not {x}."],
+  quantity: ["I first thought it was {x}, but that is wrong.", "It is not {x} at all."],
+  action: ["I thought about how to {x}, but I did not.", "We are not going to {x}."],
+};
+
 /** Ways to name and reject a wrong idea. */
 const REJECT: Record<string, string[]> = {
   starters: ["Is it {x}? No, it is not {x}.", "It is not {x}."],
