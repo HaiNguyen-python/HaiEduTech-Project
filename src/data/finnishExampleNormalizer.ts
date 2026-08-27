@@ -309,7 +309,7 @@ const ADJ_GROUPS: { needs: RegExp; pool: Template[] }[] = [
     needs: /(digital|manual|modern|traditional|historical|informal|formal|ambiguous|technical|automatic|electric|wireless|complicated|simple)\b/i,
     pool: [
       { fi: "Tämä järjestelmä on täysin {w}.", en: "This system is completely {en}.", form: "nom" },
-      { fi: "Ohje on kirjoitettu hyvin {w}.", en: "The instruction is written in a very {en} way.", form: "nom" },
+      { fi: "Tämä ohje on liian {w}.", en: "This instruction is too {en}.", form: "nom" },
       { fi: "Suomessa moni palvelu on nykyään {w}.", en: "In Finland many services are nowadays {en}.", form: "nom" },
     ],
   },
