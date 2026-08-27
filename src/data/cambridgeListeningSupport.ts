@@ -94,3 +94,16 @@ export const isAnswerSupported = (transcript: string, answer: string): boolean =
 /** Negative stems ("What does the centre NOT accept?") must keep every option audible. */
 export const isNegativeQuestion = (question: string): boolean =>
   /\bnot\b|\bdoesn't\b|\bdon't\b|\bnever\b|\bfalse\b|\bwrong\b/i.test(question);
+
+/**
+ * Text for the audio player: speaker labels such as "Narrator:" or "Teacher:"
+ * are layout cues for the printed script, not words a recording says out loud.
+ */
+export const listeningScriptToSpeech = (passage: string): string =>
+  passage
+    .replace(/^\s*Listen:\s*/i, "")
+    .split(/\n+/)
+    .map(line => line.replace(/^\s*['"“]?\s*[A-Z][A-Za-z .']{0,20}?:\s*/, "").trim())
+    .filter(Boolean)
+    .join("\n")
+    .replace(/&/g, "and");
