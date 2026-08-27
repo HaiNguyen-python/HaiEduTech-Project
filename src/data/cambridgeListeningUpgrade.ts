@@ -469,13 +469,17 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   ];
   const rejects = rejectable(q, core);
 
-  const opener = pick(OPENERS[level] ?? OPENERS.flyers, seed).replace("{theme}", theme);
+  // A personal chat is never introduced as an interview or a radio programme.
+  const opener = (personal
+    ? (OPENERS[level] ?? OPENERS.flyers)[0]
+    : pick(OPENERS[level] ?? OPENERS.flyers, seed)
+  ).replace("{theme}", theme);
   const lines: string[] = [`Narrator: ${opener}`];
 
   // Rejected ideas raise the difficulty: the student must hear the contrast.
-  const rejectPool = REJECT[level] ?? REJECT.flyers;
-  const quantityPool = QUANTITY_REJECT[level] ?? QUANTITY_REJECT.flyers;
-  const actionPool = ACTION_REJECT[level] ?? ACTION_REJECT.flyers;
+  const rejectPool = personal ? PEER_REJECT.plain : REJECT[level] ?? REJECT.flyers;
+  const quantityPool = personal ? PEER_REJECT.quantity : QUANTITY_REJECT[level] ?? QUANTITY_REJECT.flyers;
+  const actionPool = personal ? PEER_REJECT.action : ACTION_REJECT[level] ?? ACTION_REJECT.flyers;
   const rejectLines = rejects
     .slice(0, level === "starters" || level === "movers" ? 1 : 2)
     .map((x, i) =>
