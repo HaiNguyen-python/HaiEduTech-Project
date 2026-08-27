@@ -38,7 +38,6 @@ export const FINNISH_EXAMPLE_OVERRIDES: Record<string, FinnishExampleOverride> =
   ihminen: { fi: "Jokainen ihminen tarvitsee lepoa.", en: "Every human being needs rest." },
   aatelinen: { fi: "Aateliset omistivat ennen suuria maita.", en: "Nobles used to own large estates." },
   rikollinen: { fi: "Poliisi otti rikollisen kiinni torilla.", en: "The police caught the criminal at the market square." },
-  yksi: { fi: "Otan vain yhden kupin kahvia.", en: "I will have only one cup of coffee." },
   akku: { fi: "Puhelimen akku loppui kesken päivää.", en: "The phone battery ran out in the middle of the day." },
 
   // ---------------- Home & Housing ----------------

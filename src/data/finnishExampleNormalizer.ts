@@ -266,10 +266,69 @@ const VERB_TEMPLATES: Template[] = [
 const ADJ_TEMPLATES: Template[] = [
   { fi: "Mielestäni tämä on aika {w}.", en: "In my opinion this is quite {en}.", form: "nom" },
   { fi: "Kaikki sanoivat, että se oli {w}.", en: "Everyone said that it was {en}.", form: "nom" },
-  { fi: "Tämä tehtävä ei ollut lainkaan {w}.", en: "This exercise was not {en} at all.", form: "nom" },
-  { fi: "Eilen ilta oli todella {w}.", en: "Yesterday evening was really {en}.", form: "nom" },
-  { fi: "Suomen kielen opiskelu on välillä {w}.", en: "Studying Finnish is sometimes {en}.", form: "nom" },
-  { fi: "Uusi tilanne on minulle {w}.", en: "The new situation is {en} for me.", form: "nom" },
+  { fi: "Tämä ei ole minulle lainkaan {w}.", en: "For me this is not {en} at all.", form: "nom" },
+  { fi: "Opettaja sanoi, että vastaus on {w}.", en: "The teacher said that the answer is {en}.", form: "nom" },
+  { fi: "Uusi tilanne tuntuu minusta {w}.", en: "The new situation feels {en} to me.", form: "nom" },
+];
+
+/** Category-aware adjective templates, chosen by the English gloss. */
+const ADJ_GROUPS: { needs: RegExp; pool: Template[] }[] = [
+  {
+    needs: /(salty|sweet|sour|bitter|delicious|tasty|spicy|fresh|greasy|mild|raw|ripe|cold|hot)\b/i,
+    pool: [
+      { fi: "Tämä ruoka on liian {w}.", en: "This food is too {en}.", form: "nom" },
+      { fi: "Keitto oli minulle hieman liian {w}.", en: "The soup was a little too {en} for me.", form: "nom" },
+      { fi: "Suomalainen ruisleipä ei ole kovin {w}.", en: "Finnish rye bread is not very {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /(cloudy|rainy|sunny|windy|icy|frosty|snowy|foggy|humid|warm|chilly|freezing|mild|stormy)\b/i,
+    pool: [
+      { fi: "Tänään sää on {w}.", en: "Today the weather is {en}.", form: "nom" },
+      { fi: "Marraskuussa ilma on usein {w}.", en: "In November the weather is often {en}.", form: "nom" },
+      { fi: "Sääennuste lupaa, että huomenna on {w}.", en: "The forecast promises that tomorrow will be {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /(happy|sad|angry|calm|quiet|nervous|tired|excited|optimistic|pessimistic|lonely|proud|jealous|shy|afraid|glad|worried|relaxed)\b/i,
+    pool: [
+      { fi: "Olin koko päivän {w}.", en: "I was {en} all day.", form: "nom" },
+      { fi: "Hän näytti hieman {w}.", en: "He looked a little {en}.", form: "nom" },
+      { fi: "Kokeen jälkeen olin todella {w}.", en: "After the exam I was really {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /(toxic|dangerous|dirty|clean|ecological|natural|organic|harmful|safe|poisonous|renewable|recyclable)\b/i,
+    pool: [
+      { fi: "Tämä aine voi olla {w}.", en: "This substance can be {en}.", form: "nom" },
+      { fi: "Järven vesi ei ole enää {w}.", en: "The lake water is no longer {en}.", form: "nom" },
+      { fi: "Kaupunki muistuttaa, että jäte on {w}.", en: "The city reminds people that the waste is {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /(digital|manual|modern|traditional|historical|informal|formal|ambiguous|technical|automatic|electric|wireless|complicated|simple)\b/i,
+    pool: [
+      { fi: "Tämä järjestelmä on täysin {w}.", en: "This system is completely {en}.", form: "nom" },
+      { fi: "Ohje on kirjoitettu hyvin {w}.", en: "The instruction is written in a very {en} way.", form: "nom" },
+      { fi: "Suomessa moni palvelu on nykyään {w}.", en: "In Finland many services are nowadays {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /^(blue|yellow|red|green|black|white|brown|grey|gray|pink|orange|purple|light|dark)\b/i,
+    pool: [
+      { fi: "Tämän kukan väri on {w}.", en: "The colour of this flower is {en}.", form: "nom" },
+      { fi: "Ostin {w} takin.", en: "I bought a {en} coat.", form: "gen" },
+      { fi: "Talon ovi on {w}.", en: "The door of the house is {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /^(even|odd|positive|negative|whole|equal|double|half)\b/i,
+    pool: [
+      { fi: "Luku kaksi on {w}.", en: "The number two is {en}.", form: "nom" },
+      { fi: "Opettaja kysyi, onko vastaus {w}.", en: "The teacher asked whether the answer is {en}.", form: "nom" },
+      { fi: "Tässä tehtävässä tulos on {w}.", en: "In this exercise the result is {en}.", form: "nom" },
+    ],
+  },
 ];
 
 const NUM_TEMPLATES: Template[] = [
@@ -435,8 +494,9 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
     /(\\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|teen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|first|second|third|fourth|fifth)/i.test(entry.definition.en);
   let pool: Template[];
   let nounLike = false;
+  let adjLike = false;
   if (/^verb/.test(pos)) pool = VERB_TEMPLATES;
-  else if (/^adj/.test(pos)) pool = ADJ_TEMPLATES;
+  else if (/^adj/.test(pos)) { pool = ADJ_GROUPS.find((g) => g.needs.test(gloss))?.pool || ADJ_TEMPLATES; adjLike = true; }
   else if (isNumeral) pool = NUM_TEMPLATES;
   else if (/^adv/.test(pos) || CONJUNCTIONS.has(word)) pool = CONJUNCTIONS.has(word) ? CONJ_TEMPLATES : ADV_TEMPLATES;
   else if (isAction) { pool = SKILL_GLOSS.test(gloss) ? SKILL_TEMPLATES : PROCESS_TEMPLATES; nounLike = true; }
@@ -446,7 +506,9 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
 
   // Category templates come first (best semantic fit); neutral generic noun
   // templates are only a fallback, and only for noun-like entries.
-  const chains = nounLike && pool !== GENERIC ? [pool, GENERIC] : [pool];
+  const chains = nounLike && pool !== GENERIC ? [pool, GENERIC]
+    : adjLike && pool !== ADJ_TEMPLATES ? [pool, ADJ_TEMPLATES]
+    : [pool];
   for (const chain of chains) {
     const start = hash(word) % chain.length;
     for (let i = 0; i < chain.length; i++) {
