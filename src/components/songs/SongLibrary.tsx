@@ -596,8 +596,14 @@ function BlanksQuiz({ song }: { song: Song }) {
                     const isCorrect =
                       submitted && userVal.trim().toLowerCase() === correct.toLowerCase();
                     const isWrong = submitted && !isCorrect;
+                    // For languages without spaces (e.g. Chinese) the answer sits inside
+                    // the token: keep the surrounding characters visible around the input.
+                    const at = w.indexOf(correct);
+                    const before = at > 0 ? w.slice(0, at) : "";
+                    const after = at >= 0 ? w.slice(at + correct.length) : "";
                     return (
                       <span key={wi} className="inline-flex items-center gap-1">
+                        {before && <span>{before}</span>}
                         <input
                           type="text"
                           value={userVal}
@@ -614,6 +620,7 @@ function BlanksQuiz({ song }: { song: Song }) {
                           } focus:outline-none`}
                           placeholder="___"
                         />
+                        {after && <span>{after}</span>}
                         {submitted && isCorrect && (
                           <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                         )}
@@ -626,6 +633,7 @@ function BlanksQuiz({ song }: { song: Song }) {
                   return <span key={wi}>{w}</span>;
                 })}
               </div>
+
               <p className="text-xs text-muted-foreground italic mt-1">{line.translation}</p>
             </div>
           );
