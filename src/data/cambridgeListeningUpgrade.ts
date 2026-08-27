@@ -17,12 +17,14 @@ import { articleiseAction, isNegativeQuestion } from "./cambridgeListeningSuppor
 
 
 /** Minimum spoken words per level, matching official recording length. */
+// Short recordings, the way the real papers sound: one small exchange around the
+// key line, never a long padded interview.
 const WORD_TARGET: Record<string, number> = {
-  starters: 42,
-  movers: 60,
-  flyers: 88,
-  ket: 125,
-  pet: 165,
+  starters: 26,
+  movers: 32,
+  flyers: 40,
+  ket: 48,
+  pet: 58,
 };
 
 type Voices = { a: string; b: string; keyIsA: boolean };
