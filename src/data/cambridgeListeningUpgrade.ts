@@ -380,31 +380,31 @@ const buildSceneScript = (
   const turns = splitTurns(core);
   const lines: string[] = [`Narrator: ${opener}`];
 
-  // The check exchange comes before the scene so the key line stays last.
+  // Wrong ideas are checked back after the scene, the way people really confirm
+  // a detail, instead of the "the old leaflet said" wording of an interview.
   const rejects = rejectable(q, core).slice(0, level === "starters" || level === "movers" ? 1 : 2);
 
-  const body: Array<{ text: string; voice: number }> = [];
-  rejects.forEach((x, i) => {
+  const body: string[] = [...turns];
+  rejects.forEach(x => {
     const [ask, answer] = sceneReject(x);
-    body.push({ text: ask, voice: (i + 1) % 2 });
-    body.push({ text: answer, voice: i % 2 });
+    body.push(ask, answer);
   });
-  turns.forEach((text, i) => body.push({ text, voice: i % 2 }));
 
   const closer = pick(SCENE_CLOSERS, seed);
-  let used = words(opener) + words(closer) + body.reduce((s, l) => s + words(l.text), 0);
+  let used = words(opener) + words(closer) + body.reduce((s, l) => s + words(l), 0);
 
   // Pad with polite in scene lines only while the recording is short for the level.
   let filler = 0;
   while (used < target && filler < SCENE_FILLER.length) {
-    const text = pick(SCENE_FILLER, seed + filler);
-    body.push({ text, voice: (body.length + filler) % 2 });
+    const text = SCENE_FILLER[(seed + filler) % SCENE_FILLER.length];
+    body.push(text);
     used += words(text);
     filler += 1;
   }
 
-  body.forEach(({ text, voice }) => lines.push(`${voice === 0 ? voiceA : voiceB}: ${text}`));
-  lines.push(`${voiceA}: ${closer}`);
+  // Voices alternate strictly, so the same person never speaks twice in a row.
+  body.forEach((text, i) => lines.push(`${i % 2 === 0 ? voiceA : voiceB}: ${text}`));
+  lines.push(`${body.length % 2 === 0 ? voiceA : voiceB}: ${closer}`);
   return `Listen:\n${lines.join("\n")}`;
 };
 
