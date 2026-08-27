@@ -411,6 +411,44 @@ const dedupeQuestions = (questions: MCQExercise[]) => {
   });
 };
 
+const GENERIC_QUIZ_DISTRACTORS = [
+  "Translate word by word and ignore the grammar frame.",
+  "Ignore the signal words in the sentence.",
+  "Apply the same form in every context.",
+];
+
+/**
+ * Every quiz question must offer at least 4 distinct options with a valid answer
+ * index; questions whose correct option is missing or duplicated are dropped.
+ */
+const sanitizeQuizQuestions = (questions: MCQExercise[]) =>
+  questions.reduce<MCQExercise[]>((acc, question) => {
+    const correct = (question.options[question.answer] || "").replace(/\s+/g, " ").trim();
+    if (!correct) return acc;
+
+    const options: string[] = [];
+    const seen = new Set<string>();
+    for (const raw of question.options) {
+      const value = (raw || "").replace(/\s+/g, " ").trim();
+      if (!value || seen.has(value.toLowerCase())) continue;
+      seen.add(value.toLowerCase());
+      options.push(value);
+    }
+    for (const filler of GENERIC_QUIZ_DISTRACTORS) {
+      if (options.length >= 4) break;
+      if (seen.has(filler.toLowerCase())) continue;
+      seen.add(filler.toLowerCase());
+      options.push(filler);
+    }
+
+    const answer = options.findIndex((option) => option.toLowerCase() === correct.toLowerCase());
+    if (answer < 0 || options.length < 4) return acc;
+
+    acc.push({ ...question, options, answer });
+    return acc;
+  }, []);
+
+
 export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLesson => {
   const englishBaseQuiz = lesson.quiz.filter(isEnglishQuizQuestion);
 
