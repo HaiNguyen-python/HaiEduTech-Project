@@ -12,6 +12,34 @@ export interface FinnishExampleOverride {
 }
 
 export const FINNISH_EXAMPLE_OVERRIDES: Record<string, FinnishExampleOverride> = {
+  // ---------------- Irregular / edge cases (audit round 2) ----------------
+  keskimmäinen: { fi: "Keskimmäinen lapsi aloitti juuri koulun.", en: "The middle child just started school." },
+  syöpäläinen: { fi: "Syöpäläiset voivat levittää tauteja.", en: "Parasites can spread diseases." },
+  hetkinen: { fi: "Hetkinen, katson kalenteria.", en: "Just a moment, I will check the calendar." },
+  ylihuominen: { fi: "Ylihuomenna alkaa uusi kurssi.", en: "The day after tomorrow a new course starts." },
+  laskiainen: { fi: "Laskiaisena syödään laskiaispullia.", en: "At Shrovetide people eat Shrovetide buns." },
+  eteinen: { fi: "Jätä kengät eteiseen.", en: "Leave your shoes in the entry hall." },
+  vuokralainen: { fi: "Uusi vuokralainen muutti yläkertaan.", en: "A new tenant moved in upstairs." },
+  päivällinen: { fi: "Päivällinen on valmis kello viisi.", en: "Dinner is ready at five o'clock." },
+  karviainen: { fi: "Karviaiset ovat happamia mutta hyviä.", en: "Gooseberries are sour but good." },
+  hampurilainen: { fi: "Ostin hampurilaisen ja ranskalaiset.", en: "I bought a hamburger and fries." },
+  munuainen: { fi: "Munuaiset puhdistavat verta.", en: "The kidneys clean the blood." },
+  hyönteinen: { fi: "Kesällä hyönteiset lentävät pihalla.", en: "In the summer insects fly around the yard." },
+  poikanen: { fi: "Linnun poikaset ovat pesässä.", en: "The bird's chicks are in the nest." },
+  ukkonen: { fi: "Ukkonen alkoi illalla ja sade yltyi.", en: "The thunderstorm started in the evening and the rain got heavier." },
+  pakkanen: { fi: "Ulkona on kaksikymmentä astetta pakkasta.", en: "It is twenty degrees below zero outside." },
+  käteinen: { fi: "Maksan mieluummin kortilla kuin käteisellä.", en: "I prefer paying by card rather than in cash." },
+  keittiöapulainen: { fi: "Keittiöapulainen pesee astiat ravintolassa.", en: "The kitchen helper washes the dishes at the restaurant." },
+  kansalainen: { fi: "Jokainen kansalainen saa äänestää vaaleissa.", en: "Every citizen may vote in the elections." },
+  pakolainen: { fi: "Pakolainen sai oleskeluluvan Suomesta.", en: "The refugee received a residence permit in Finland." },
+  jälkeläinen: { fi: "Hänen jälkeläiset asuvat yhä samassa kylässä.", en: "His descendants still live in the same village." },
+  sulhanen: { fi: "Sulhanen odotti morsianta kirkossa.", en: "The groom waited for the bride at the church." },
+  aikuinen: { fi: "Aikuinen maksaa lipusta kymmenen euroa.", en: "An adult pays ten euros for the ticket." },
+  ihminen: { fi: "Jokainen ihminen tarvitsee lepoa.", en: "Every human being needs rest." },
+  aatelinen: { fi: "Aateliset omistivat ennen suuria maita.", en: "Nobles used to own large estates." },
+  rikollinen: { fi: "Poliisi otti rikollisen kiinni torilla.", en: "The police caught the criminal at the market square." },
+  akku: { fi: "Puhelimen akku loppui kesken päivää.", en: "The phone battery ran out in the middle of the day." },
+
   // ---------------- Home & Housing ----------------
   koti: { fi: "Minun kotini on Helsingissä.", en: "My home is in Helsinki." },
   talo: { fi: "Asumme vanhassa puutalossa.", en: "We live in an old wooden house." },

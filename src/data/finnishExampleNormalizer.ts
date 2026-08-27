@@ -44,44 +44,62 @@ const GENERIC: Template[] = [
 
 
 
+/** Glosses that name a room or indoor/outdoor space (safe to clean, decorate). */
+const SPACE = /(room|kitchen|hall|balcony|yard|garden|floor|attic|cellar|basement|toilet|bathroom|sauna|apartment|flat|house|home|studio|terrace|corridor|stairwell|shed|garage|closet|wardrobe|storage)/i;
+/** Meal names: they must not be eaten "for breakfast". */
+const MEAL = /^(breakfast|lunch|dinner|supper|brunch|meal|snack|coffee break)\b/i;
+/** Insects and other small critters: not zoo animals, not "seen in the forest". */
+const INSECT = /(insect|bug|bee|wasp|fly|mosquito|ant|butterfly|moth|beetle|spider|worm|larva|caterpillar|midge)/i;
+/** Family relations that plausibly "have two children". */
+const RELATIVE = /(mother|father|parent|grandmother|grandfather|grandpa|grandma|aunt|uncle|couple|family|sister|brother|neighbou?r|cousin)/i;
+
 const NOUN_POOLS: Record<string, Template[]> = {
   "Home & Housing": [
-    { form: "iness", fi: "Vietän paljon aikaa {w}.", en: "I spend a lot of time in the {en}." },
+    { form: "iness", fi: "Vietän paljon aikaa {w}.", en: "I spend a lot of time in the {en}.", needs: SPACE },
     { form: "nom", fi: "Meidän kodissa on iso {w}.", en: "Our home has a big {en}." },
-    { form: "part", fi: "Siivosin {w} lauantaina.", en: "I cleaned the {en} on Saturday." },
+    { form: "part", fi: "Siivosin {w} lauantaina.", en: "I cleaned the {en} on Saturday.", needs: SPACE },
     { form: "elat", fi: "Pidän tästä {w} paljon.", en: "I like this {en} a lot." },
-    { form: "nom", fi: "Tämä {w} on valoisa ja siisti.", en: "This {en} is bright and tidy." },
+    { form: "nom", fi: "Tämä {w} on valoisa ja siisti.", en: "This {en} is bright and tidy.", needs: SPACE },
+    { form: "nom", fi: "Uusi {w} tuli meille viime viikolla.", en: "The new {en} arrived at our place last week." },
+    { form: "gen", fi: "Tämän {w} kunto on hyvä.", en: "The condition of this {en} is good." },
   ],
   "Food & Drink": [
     { form: "part", fi: "Ostin {w} kaupasta tänään.", en: "I bought some {en} at the shop today." },
-    { form: "part", fi: "Syön {w} usein aamiaisella.", en: "I often have {en} for breakfast." },
+    { form: "part", fi: "Syön {w} usein aamiaisella.", en: "I often have {en} for breakfast.", needs: /^(?!.*\b(breakfast|lunch|dinner|supper|brunch|meal|snack)\b).*$/i },
     { form: "nom", fi: "Tämä {w} maistuu erittäin hyvältä.", en: "This {en} tastes really good." },
     { form: "elat", fi: "Pidän tästä {w} enemmän kuin muista.", en: "I like this {en} more than the others." },
     { form: "part", fi: "Voisinko saada vähän {w}, kiitos?", en: "Could I have a little {en}, please?" },
+    { form: "nom", fi: "{W} kuuluu suomalaiseen ruokapöytään.", en: "The {en} belongs on a Finnish dinner table." },
+    { form: "gen", fi: "Tämän {w} hinta nousi viime vuonna.", en: "The price of this {en} went up last year." },
   ],
   "Body & Health": [
     { form: "part", fi: "Lääkäri tutki {w} huolellisesti.", en: "The doctor examined the {en} carefully." },
     { form: "nom", fi: "{W} on tärkeä ihmiselle.", en: "The {en} is important for a person." },
     { form: "elat", fi: "Puhuin {w} lääkärin kanssa.", en: "I talked about the {en} with the doctor." },
     { form: "part", fi: "Minun täytyy hoitaa {w} paremmin.", en: "I have to take better care of the {en}." },
+    { form: "iness", fi: "Terveyskeskuksessa kysyttiin {w} oireista.", en: "At the health centre they asked about symptoms in the {en}." },
   ],
   "Clothing & Style": [
     { form: "part", fi: "Ostin uuden {w} talvea varten.", en: "I bought a new {en} for the winter." },
     { form: "nom", fi: "Tämä {w} on liian pieni minulle.", en: "This {en} is too small for me." },
     { form: "part", fi: "Käytän {w} joka päivä töissä.", en: "I wear the {en} every day at work." },
     { form: "elat", fi: "Pidän tästä {w} kovasti.", en: "I really like this {en}." },
+    { form: "nom", fi: "Kaupassa oli {w} alennuksessa.", en: "The shop had the {en} on sale." },
   ],
   Animals: [
-    { form: "part", fi: "Näin {w} metsässä eilen.", en: "I saw a {en} in the forest yesterday." },
-    { form: "nom", fi: "{W} on yleinen eläin Suomessa.", en: "The {en} is a common animal in Finland." },
+    { form: "part", fi: "Näin {w} metsässä eilen.", en: "I saw a {en} in the forest yesterday.", needs: /^(?!.*(insect|bug|bee|wasp|fly|mosquito|ant|butterfly|moth|beetle|spider|worm)).*$/i },
+    { form: "nom", fi: "{W} on yleinen eläin Suomessa.", en: "The {en} is a common animal in Finland.", needs: /^(?!.*(insect|bug|bee|wasp|fly|mosquito|ant|butterfly|moth|beetle|spider|worm)).*$/i },
     { form: "elat", fi: "Luin kirjasta {w} ja sen elintavoista.", en: "I read in a book about the {en} and its habits." },
-    { form: "part", fi: "Lapset haluavat nähdä {w} eläinpuistossa.", en: "The children want to see a {en} at the zoo." },
+    { form: "part", fi: "Lapset haluavat nähdä {w} eläinpuistossa.", en: "The children want to see a {en} at the zoo.", needs: /^(?!.*(insect|bug|bee|wasp|fly|mosquito|ant|butterfly|moth|beetle|spider|worm)).*$/i },
+    { form: "nom", fi: "Kesällä pihalla lentää {w}.", en: "In the summer a {en} flies around the yard.", needs: INSECT },
+    { form: "part", fi: "Lapset tutkivat {w} suurennuslasilla.", en: "The children study the {en} with a magnifying glass.", needs: INSECT },
   ],
   Nature: [
-    { form: "iness", fi: "Kävelen {w} rauhassa sunnuntaisin.", en: "I walk peacefully in the {en} on Sundays." },
+    { form: "iness", fi: "Kävelen {w} rauhassa sunnuntaisin.", en: "I walk peacefully in the {en} on Sundays.", needs: /(forest|wood|nature|park|field|meadow|shore|beach|island|mountain|valley|garden|snow|landscape)/i },
     { form: "nom", fi: "{W} on tässä maisemassa kaunis.", en: "The {en} is beautiful in this landscape." },
     { form: "part", fi: "Valokuvasin {w} auringonlaskun aikaan.", en: "I photographed the {en} at sunset." },
     { form: "elat", fi: "Opettaja kertoi {w} oppitunnilla.", en: "The teacher told us about the {en} in class." },
+    { form: "part", fi: "Suomalaiset arvostavat {w} kovasti.", en: "Finns value the {en} greatly." },
   ],
   "Weather & Seasons": [
     { form: "elat", fi: "Sääennuste kertoi {w} tarkasti.", en: "The weather forecast reported the {en} in detail." },
@@ -89,7 +107,9 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "nom", fi: "{W} vaikuttaa suunnitelmiimme paljon.", en: "The {en} affects our plans a lot." },
     { form: "part", fi: "Seuraan {w} uutisista joka päivä.", en: "I follow the {en} in the news every day." },
     { form: "nom", fi: "Suomessa {w} vaihtuu nopeasti.", en: "In Finland the {en} changes quickly." },
+    { form: "nom", fi: "Tänä vuonna {w} tuli myöhään.", en: "This year the {en} came late." },
   ],
+
   "Time & Calendar": [
     { form: "nom", fi: "{W} kuluu nopeasti, kun on kiire.", en: "The {en} passes quickly when you are busy." },
     { form: "part", fi: "Odotin {w} kärsivällisesti.", en: "I waited for the {en} patiently." },
@@ -113,10 +133,12 @@ const NOUN_POOLS: Record<string, Template[]> = {
   ],
   "Family & People": [
     { form: "nom", fi: "{W} asuu lähellä meitä.", en: "The {en} lives near us." },
-    { form: "part", fi: "Tapaan {w} viikonloppuna.", en: "I am meeting the {en} at the weekend." },
+    { form: "part", fi: "Tapaan {w} viikonloppuna.", en: "I am meeting the {en} at the weekend.", needs: RELATIVE },
     { form: "elat", fi: "Kerroin {w} ystävälleni.", en: "I told my friend about the {en}." },
-    { form: "adess", fi: "{W} on kaksi lasta.", en: "The {en} has two children." },
+    { form: "adess", fi: "{W} on kaksi lasta.", en: "The {en} has two children.", needs: RELATIVE },
+    { form: "nom", fi: "Meidän perheessä {w} on tärkeä.", en: "In our family the {en} is important." },
   ],
+
   "Emotions & Feelings": [
     { form: "part", fi: "Tunnen {w} usein aamulla.", en: "I often feel {en} in the morning." },
     { form: "elat", fi: "Puhuin {w} terapeutin kanssa.", en: "I talked about the {en} with a therapist." },
@@ -244,10 +266,69 @@ const VERB_TEMPLATES: Template[] = [
 const ADJ_TEMPLATES: Template[] = [
   { fi: "Mielestäni tämä on aika {w}.", en: "In my opinion this is quite {en}.", form: "nom" },
   { fi: "Kaikki sanoivat, että se oli {w}.", en: "Everyone said that it was {en}.", form: "nom" },
-  { fi: "Tämä tehtävä ei ollut lainkaan {w}.", en: "This exercise was not {en} at all.", form: "nom" },
-  { fi: "Eilen ilta oli todella {w}.", en: "Yesterday evening was really {en}.", form: "nom" },
-  { fi: "Suomen kielen opiskelu on välillä {w}.", en: "Studying Finnish is sometimes {en}.", form: "nom" },
-  { fi: "Uusi tilanne on minulle {w}.", en: "The new situation is {en} for me.", form: "nom" },
+  { fi: "Tämä ei ole minulle lainkaan {w}.", en: "For me this is not {en} at all.", form: "nom" },
+  { fi: "Opettaja sanoi, että vastaus on {w}.", en: "The teacher said that the answer is {en}.", form: "nom" },
+  { fi: "Uusi tilanne tuntuu minusta {w}.", en: "The new situation feels {en} to me.", form: "nom" },
+];
+
+/** Category-aware adjective templates, chosen by the English gloss. */
+const ADJ_GROUPS: { needs: RegExp; pool: Template[] }[] = [
+  {
+    needs: /(salty|sweet|sour|bitter|delicious|tasty|spicy|fresh|greasy|mild|raw|ripe|cold|hot)\b/i,
+    pool: [
+      { fi: "Tämä ruoka on liian {w}.", en: "This food is too {en}.", form: "nom" },
+      { fi: "Keitto oli minulle hieman liian {w}.", en: "The soup was a little too {en} for me.", form: "nom" },
+      { fi: "Suomalainen ruisleipä ei ole kovin {w}.", en: "Finnish rye bread is not very {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /(cloudy|rainy|sunny|windy|icy|frosty|snowy|foggy|humid|warm|chilly|freezing|mild|stormy)\b/i,
+    pool: [
+      { fi: "Tänään sää on {w}.", en: "Today the weather is {en}.", form: "nom" },
+      { fi: "Marraskuussa ilma on usein {w}.", en: "In November the weather is often {en}.", form: "nom" },
+      { fi: "Sääennuste lupaa, että huomenna on {w}.", en: "The forecast promises that tomorrow will be {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /(happy|sad|angry|calm|quiet|nervous|tired|excited|optimistic|pessimistic|lonely|proud|jealous|shy|afraid|glad|worried|relaxed)\b/i,
+    pool: [
+      { fi: "Olin koko päivän {w}.", en: "I was {en} all day.", form: "nom" },
+      { fi: "Hän näytti hieman {w}.", en: "He looked a little {en}.", form: "nom" },
+      { fi: "Kokeen jälkeen olin todella {w}.", en: "After the exam I was really {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /(toxic|dangerous|dirty|clean|ecological|natural|organic|harmful|safe|poisonous|renewable|recyclable)\b/i,
+    pool: [
+      { fi: "Tämä aine voi olla {w}.", en: "This substance can be {en}.", form: "nom" },
+      { fi: "Järven vesi ei ole enää {w}.", en: "The lake water is no longer {en}.", form: "nom" },
+      { fi: "Kaupunki muistuttaa, että jäte on {w}.", en: "The city reminds people that the waste is {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /(digital|manual|modern|traditional|historical|informal|formal|ambiguous|technical|automatic|electric|wireless|complicated|simple)\b/i,
+    pool: [
+      { fi: "Tämä järjestelmä on täysin {w}.", en: "This system is completely {en}.", form: "nom" },
+      { fi: "Tämä ohje on liian {w}.", en: "This instruction is too {en}.", form: "nom" },
+      { fi: "Suomessa moni palvelu on nykyään {w}.", en: "In Finland many services are nowadays {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /^(blue|yellow|red|green|black|white|brown|grey|gray|pink|orange|purple|light|dark)\b/i,
+    pool: [
+      { fi: "Tämän kukan väri on {w}.", en: "The colour of this flower is {en}.", form: "nom" },
+      { fi: "Ostin {w} takin.", en: "I bought a {en} coat.", form: "gen" },
+      { fi: "Talon ovi on {w}.", en: "The door of the house is {en}.", form: "nom" },
+    ],
+  },
+  {
+    needs: /^(even|odd|positive|negative|whole|equal|double|half)\b/i,
+    pool: [
+      { fi: "Luku kaksi on {w}.", en: "The number two is {en}.", form: "nom" },
+      { fi: "Opettaja kysyi, onko vastaus {w}.", en: "The teacher asked whether the answer is {en}.", form: "nom" },
+      { fi: "Tässä tehtävässä tulos on {w}.", en: "In this exercise the result is {en}.", form: "nom" },
+    ],
+  },
 ];
 
 const NUM_TEMPLATES: Template[] = [
@@ -276,6 +357,53 @@ const ADV_TEMPLATES: Template[] = [
   { fi: "Kävelen kotiin {w}.", en: "I walk home {en}.", form: "nom" },
   { fi: "Kirjoitan muistiinpanot {w}.", en: "I write my notes {en}.", form: "nom" },
 ];
+
+/* -------- verbal nouns in -minen: always talk about an activity --------- */
+// Trainable skills: the learner can practise and improve them.
+const SKILL_TEMPLATES: Template[] = [
+  { form: "nom", fi: "{W} on minulle vaikeaa suomeksi.", en: "{En} is difficult for me in Finnish." },
+  { form: "part", fi: "Harjoittelen {w} joka päivä.", en: "I practise {en} every day." },
+  { form: "elat", fi: "Opettaja puhui {w} oppitunnilla.", en: "The teacher talked about {en} in class." },
+  { form: "part", fi: "Haluan parantaa {w} tänä vuonna.", en: "I want to improve my {en} this year." },
+  { form: "nom", fi: "{W} vaatii aikaa ja kärsivällisyyttä.", en: "{En} requires time and patience." },
+  { form: "elat", fi: "Luin {w} suomenkielisestä artikkelista.", en: "I read about {en} in a Finnish article." },
+];
+
+// Processes and phenomena (sulaminen, kaupungistuminen): never "practised".
+const PROCESS_TEMPLATES: Template[] = [
+  { form: "nom", fi: "{W} on hidas prosessi.", en: "{En} is a slow process." },
+  { form: "elat", fi: "Opettaja puhui {w} oppitunnilla.", en: "The teacher talked about {en} in class." },
+  { form: "elat", fi: "Luin {w} suomenkielisestä artikkelista.", en: "I read about {en} in a Finnish article." },
+  { form: "nom", fi: "{W} vaikuttaa moneen asiaan yhteiskunnassa.", en: "{En} affects many things in society." },
+  { form: "part", fi: "Tutkijat seuraavat {w} tarkasti.", en: "Researchers follow {en} closely." },
+  { form: "gen", fi: "Tämän {w} syyt ovat monimutkaisia.", en: "The causes of this {en} are complicated." },
+];
+
+/** Glosses of -minen nouns that name a trainable skill. */
+const SKILL_GLOSS = /(reading|writing|speaking|listening|pronunciation|painting|drawing|knitting|sewing|cooking|baking|swimming|running|skiing|skating|singing|dancing|driving|learning|studying|repetition|counting|spelling|translating|translation|memorising|memorizing)/i;
+
+/* ------------- nouns that denote a person, not a thing ------------------ */
+const PERSON_TEMPLATES: Template[] = [
+  { form: "nom", fi: "{W} odottaa käytävällä.", en: "The {en} is waiting in the corridor." },
+  { form: "part", fi: "Tapasin {w} eilen kurssilla.", en: "I met the {en} at the course yesterday." },
+  { form: "elat", fi: "Keskustelimme {w} oikeuksista.", en: "We discussed the rights of the {en}." },
+  { form: "nom", fi: "Jokainen {w} tarvitsee apua joskus.", en: "Every {en} needs help sometimes." },
+  { form: "adess", fi: "{W} on oma tarina kerrottavana.", en: "The {en} has their own story to tell." },
+  { form: "part", fi: "Neuvoja annetaan myös {w}.", en: "Advice is also given to the {en}." },
+];
+
+/** English glosses that clearly name a person. */
+const PERSON_GLOSS =
+  /^(a |an |the )?(person|people|human|adult|child|kid|baby|tenant|citizen|refugee|immigrant|migrant|descendant|relative|neighbou?r|guest|visitor|customer|client|patient|student|pupil|colleague|employee|employer|applicant|candidate|volunteer|assistant|helper|owner|resident|passenger|stranger|friend|fianc|bride|groom|widow|orphan|twin|noble|criminal|prisoner|suspect|witness|victim|beginner|expert|member|leader|boss|worker|.*(helper|assistant|worker))\b/i;
+
+/** English glosses that are adjectives (the raw data often tags them "noun"). */
+const ADJ_GLOSS_EXTRA =
+  /^(even|odd|positive|negative|salty|sweet|sour|bitter|blue|yellow|red|green|black|white|brown|grey|gray|pink|orange|purple|clean|dirty|quiet|calm|sad|happy|angry|noble|modern|ancient|toxic|manual|digital|informal|formal|ambiguous|affordable|cheap|expensive)\b/i;
+const ADJ_GLOSS_SUFFIX = /^[a-z-]+(ous|ful|less|able|ible|ive|ical|ic|al|ish|ary|y)$/i;
+/** Nouns whose gloss accidentally matches ADJ_GLOSS_SUFFIX. */
+const ADJ_GLOSS_EXEMPT =
+  /^(kidney|gooseberry|berry|family|money|city|story|country|journey|energy|company|battery|history|party|delivery|salary|sky|day|way|key|boy|baby|body|animal|hospital|festival|capital|material|meal|goal|signal|canal|metal|total|arrival|removal|holiday|society|university|activity|quality|difficulty|majority|minority|responsibility|electricity|industry|library|memory|century|summary|dictionary|secretary|salad|hobby|copy|survey|essay|ferry|jury|therapy|surgery|bakery|grocery|laundry|entry|policy|agency|emergency|frequency|technology|biology|economy|ecology|apology|category|inventory|territory|treaty|duty|beauty|liberty|property|poverty|safety|variety|anxiety|society)$/i;
+
 
 /* -------------------------------- helpers --------------------------------- */
 
@@ -339,24 +467,48 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   if (override) return { example: override.fi, exampleEn: override.en };
 
   let pos = (entry.partOfSpeech || "noun").toLowerCase();
+  const gloss = entry.definition.en.trim();
   // Many participial adjectives are tagged as nouns in the raw data
   // (hermostunut, kiinnostava). Route them to the adjective templates.
   if (/^noun/.test(pos) && /(nut|nyt|nnut|va|vä|ton|tön)$/.test(word) && !/\s/.test(word)) pos = "adj";
+  // Adjectives mislabelled as nouns/numerals (suolainen, pilvinen, parillinen):
+  // detect them from the Finnish suffix plus an adjectival English gloss.
+  const adjShape = /(inen|kas|käs|ton|tön)$/.test(word) && !/\s/.test(word);
+  const adjGloss =
+    ADJ_GLOSS_EXTRA.test(gloss) ||
+    (ADJ_GLOSS_SUFFIX.test(gloss) && !ADJ_GLOSS_EXEMPT.test(gloss));
+  if (/^(noun|num)/.test(pos) && adjShape && adjGloss && !PERSON_GLOSS.test(gloss)) pos = "adj";
+  // Verbal nouns in -minen describe an activity, never a physical object.
+  const isAction = /^noun/.test(pos) && /minen$/.test(word) && !/\s/.test(word);
+  // Nouns that denote a human being need person-safe sentences.
+  const isPerson =
+    /^noun/.test(pos) &&
+    !isAction &&
+    (PERSON_GLOSS.test(gloss) ||
+      (/(lainen|läinen)$/.test(word) &&
+        !/(Food|Travel|Shopping|Technology|Animals|Nature)/i.test(entry.category) &&
+        !/(burger|berry|dish|bread|soup|cake|drink|coin|note|ticket|parasite|insect|animal|bird|plant)/i.test(gloss)));
   // Only real numerals may use the arithmetic templates; many nouns in the
   // "Numbers & Math" category are mislabelled as "num" in the raw data.
   const isNumeral = /^(numeral|num)/.test(pos) && /^[a-zäö\s-]+$/.test(word) &&
     /(\\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|teen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|first|second|third|fourth|fifth)/i.test(entry.definition.en);
   let pool: Template[];
   let nounLike = false;
+  let adjLike = false;
   if (/^verb/.test(pos)) pool = VERB_TEMPLATES;
-  else if (/^adj/.test(pos)) pool = ADJ_TEMPLATES;
+  else if (/^adj/.test(pos)) { pool = ADJ_GROUPS.find((g) => g.needs.test(gloss))?.pool || ADJ_TEMPLATES; adjLike = true; }
   else if (isNumeral) pool = NUM_TEMPLATES;
   else if (/^adv/.test(pos) || CONJUNCTIONS.has(word)) pool = CONJUNCTIONS.has(word) ? CONJ_TEMPLATES : ADV_TEMPLATES;
+  else if (isAction) { pool = SKILL_GLOSS.test(gloss) ? SKILL_TEMPLATES : PROCESS_TEMPLATES; nounLike = true; }
+  else if (isPerson) { pool = PERSON_TEMPLATES; nounLike = true; }
   else { pool = NOUN_POOLS[entry.category] || GENERIC; nounLike = true; }
+
 
   // Category templates come first (best semantic fit); neutral generic noun
   // templates are only a fallback, and only for noun-like entries.
-  const chains = nounLike && pool !== GENERIC ? [pool, GENERIC] : [pool];
+  const chains = nounLike && pool !== GENERIC ? [pool, GENERIC]
+    : adjLike && pool !== ADJ_TEMPLATES ? [pool, ADJ_TEMPLATES]
+    : [pool];
   for (const chain of chains) {
     const start = hash(word) % chain.length;
     for (let i = 0; i < chain.length; i++) {
@@ -367,10 +519,11 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   }
 
   // Last resort: nominative-only generic sentence (always grammatical).
-  const gloss = entry.definition.en.replace(/^to\s+/i, "");
+  const bareGloss = gloss.replace(/^to\s+/i, "");
   return {
     example: `${capitalize(word)} on hyödyllinen sana arjessa.`,
-    exampleEn: `"${gloss}" is a useful word in everyday life.`,
+    exampleEn: `"${bareGloss}" is a useful word in everyday life.`,
+
   };
 }
 
