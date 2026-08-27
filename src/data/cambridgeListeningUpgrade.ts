@@ -433,11 +433,17 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   // A key line that is already a whole scene must be split into turns, never
   // read out as one absurd speaker turn inside an interview.
   if (isSceneDialogue(core)) return buildSceneScript(exam, q, core, seed);
-  const voices = pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
+  // A personal key line ("my mum is in the kitchen") belongs in a chat between
+  // two people, never in a radio interview with a presenter and an expert.
+  const personal = /\b(I|I'm|I've|my|me|we|our|us)\b/.test(core);
+  const cast = SCENE_VOICES[level] ?? SCENE_VOICES.flyers;
+  const voices = personal
+    ? { a: cast[0], b: cast[1], keyIsA: false }
+    : pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
   const theme = themeOf(exam);
   // Every chat line carries its own role, so inserting the theme question never
   // hands a line to the wrong speaker.
-  const baseChat = CHAT[level] ?? CHAT.flyers;
+  const baseChat = personal ? PEER_CHAT : CHAT[level] ?? CHAT.flyers;
   const chat: Array<{ text: string; asks: boolean }> = [
     baseChat[0],
     baseChat[1],
