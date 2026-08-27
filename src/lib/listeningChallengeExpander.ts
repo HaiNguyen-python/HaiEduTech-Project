@@ -1,20 +1,37 @@
 /**
- * Runtime expander for ConvLesson.listeningChallenge:
- *  - Lengthens the spoken transcript by weaving in extra contextual lines
- *    drawn from the lesson's own keySituations.sampleDialogue (real, on-topic
- *    content — not random filler).
- *  - Tops the question list up to MIN_QUESTIONS (5) by generating extra
- *    comprehension questions from the lesson vocabulary and situation titles.
+ * @file listeningChallengeExpander.ts
+ * @description Runtime upgrade for ConvLesson.listeningChallenge.
+ *  - Lengthens the spoken transcript to a realistic recording length by weaving
+ *    in extra on topic turns taken from the lesson's own
+ *    keySituations.sampleDialogue, with a short bridge line when the scene
+ *    changes. Any line that would reveal a wrong option as a fact is skipped.
+ *  - Tops the question list up with questions that can only be answered from
+ *    the recording itself (a figure that is spoken, a detail that is mentioned,
+ *    or the meaning of a phrase the listener actually hears). No question is
+ *    generated from material outside the transcript.
  *
  * Pure function. No side effects on the original lesson object.
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { ConvLesson, ListeningChallenge } from "@/data/conversationalCurriculum";
 
+type Question = ListeningChallenge["questions"][number];
+
 const MIN_QUESTIONS = 5;
-// Note: we intentionally no longer auto-pad the transcript with lines from
-// unrelated situations. The original transcript is curated and the questions
-// are written against it; appending off-topic dialogue made the recording
-// feel disjointed and broke comprehension question logic.
+/** Words of spoken text a recording should reach (roughly 50 to 70 seconds). */
+const TARGET_WORDS = 150;
+const MAX_WORDS = 220;
+
+const wordCount = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
+
+const norm = (text: string): string =>
+  text.toLowerCase().replace(/[^a-z0-9%$£. ]/g, " ").replace(/\s+/g, " ").trim();
+
+const hash = (s: string): number => {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+};
 
 const shuffleStable = <T,>(arr: T[], seed: number): T[] => {
   const out = arr.slice();
@@ -26,95 +43,201 @@ const shuffleStable = <T,>(arr: T[], seed: number): T[] => {
   return out;
 };
 
-const hash = (s: string): number => {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
-  return Math.abs(h);
-};
+/** Every wrong option of the existing questions, so appended lines never state one. */
+const wrongOptionTexts = (questions: Question[]): string[] =>
+  questions.flatMap((q) => q.options.filter((_, i) => i !== q.answer)).map(norm).filter((o) => o.length >= 3);
 
-function extendTranscript(lesson: ConvLesson, base: string): string {
-  // Only extend if the base is very short (< 200 chars) AND we can find a
-  // situation whose sample dialogue clearly overlaps the base (so the appended
-  // lines are part of the same scene, not a different one).
-  if (base.length >= 200) return base;
+function extendTranscript(lesson: ConvLesson, base: string, questions: Question[]): string {
   const situations = lesson.keySituations || [];
   if (!situations.length) return base;
 
-  let bestSit = situations[0];
-  let bestScore = 0;
-  for (const sit of situations) {
-    let score = 0;
-    for (const turn of sit.sampleDialogue || []) {
-      const line = turn.line?.trim();
-      if (line && base.includes(line)) score += line.length;
-    }
-    if (score > bestScore) {
-      bestScore = score;
-      bestSit = sit;
-    }
-  }
-  // No real overlap → leave the transcript as-is (better short than off-topic).
-  if (bestScore <= 0) return base;
-
   let result = base.trim();
-  for (const turn of bestSit.sampleDialogue || []) {
-    if (result.length >= 400) break;
-    const line = turn.line?.trim();
-    if (!line || result.includes(line)) continue;
-    const speaker = turn.speaker?.trim() || "Speaker";
-    result += `\n${speaker}: ${line}`;
-  }
+  if (wordCount(result) >= TARGET_WORDS) return result;
+
+  const forbidden = wrongOptionTexts(questions);
+  const safe = (line: string): boolean => {
+    const plain = norm(line);
+    return !forbidden.some((bad) => plain.includes(bad));
+  };
+
+  // Prefer the situation whose dialogue already overlaps the recording, so the
+  // extra turns continue the same scene.
+  const scored = situations
+    .map((sit) => {
+      let score = 0;
+      for (const turn of sit.sampleDialogue || []) {
+        const line = turn.line?.trim();
+        if (line && result.includes(line)) score += line.length;
+      }
+      return { sit, score };
+    })
+    .sort((a, b) => b.score - a.score);
+
+  scored.forEach(({ sit, score }, sitIndex) => {
+    if (wordCount(result) >= TARGET_WORDS) return;
+    const lines = (sit.sampleDialogue || [])
+      .map((turn) => ({ speaker: turn.speaker?.trim() || "Speaker", line: turn.line?.trim() || "" }))
+      .filter((turn) => turn.line && !result.includes(turn.line) && safe(turn.line));
+    if (!lines.length) return;
+
+    // A new scene needs a bridge so the recording still sounds continuous.
+    if (score === 0 || sitIndex > 0) {
+      result += `\nNarrator: Later in the same recording, at ${lesson.title.toLowerCase()} time.`;
+    }
+    for (const turn of lines) {
+      if (wordCount(result) >= MAX_WORDS) break;
+      result += `\n${turn.speaker}: ${turn.line}`;
+      if (wordCount(result) >= TARGET_WORDS) break;
+    }
+  });
+
   return result;
 }
 
+/** A figure that is actually spoken in the recording. */
+function buildFigureQuestion(transcript: string, existing: Question[], seed: number): Question | null {
+  const spoken = transcript.match(/[£$]?\d+(?:[.,]\d+)?%?/g) ?? [];
+  const used = new Set(existing.flatMap((q) => q.options.map(norm)));
+  const figure = spoken.find((f) => !used.has(norm(f)) && /\d/.test(f));
+  if (!figure) return null;
 
-function buildVocabQuestion(
-  lesson: ConvLesson,
-  idx: number,
-): ListeningChallenge["questions"][number] | null {
-  const vocab = lesson.vocabulary || [];
-  if (!vocab.length) return null;
-  const entry = vocab[idx % vocab.length];
-  if (!entry?.term || !entry.meaningEn) return null;
+  const value = Number(figure.replace(/[^\d.]/g, ""));
+  if (!Number.isFinite(value)) return null;
+  const prefix = figure.startsWith("£") ? "£" : figure.startsWith("$") ? "$" : "";
+  const suffix = figure.endsWith("%") ? "%" : "";
+  const shape = (n: number) => `${prefix}${Number.isInteger(value) ? n : n.toFixed(2)}${suffix}`;
+  const plain = norm(transcript);
+  const deltas = [1, 2, 3, 5, 10, 4];
+  const distractors: string[] = [];
+  for (const d of deltas) {
+    for (const candidate of [shape(value + d), shape(Math.max(0, value - d))]) {
+      if (
+        distractors.length < 3 &&
+        candidate !== figure &&
+        !distractors.includes(candidate) &&
+        !plain.includes(norm(candidate))
+      ) {
+        distractors.push(candidate);
+      }
+    }
+  }
+  if (distractors.length < 3) return null;
 
-  const distractors = vocab
-    .filter((v) => v.term !== entry.term && v.meaningEn)
-    .slice(0, 6)
-    .map((v) => v.meaningEn);
-  const seed = hash(lesson.id + entry.term);
-  const pool = shuffleStable(distractors, seed).slice(0, 3);
-  while (pool.length < 3) pool.push("None of the above");
-
-  const options = shuffleStable([entry.meaningEn, ...pool], seed + 7);
-  const answer = options.indexOf(entry.meaningEn);
+  const options = shuffleStable([figure, ...distractors], seed);
   return {
-    q: `What does "${entry.term}" mean?`,
-    qVi: `"${entry.term}" có nghĩa là gì?`,
+    q: "Which figure do you hear in the recording?",
+    qVi: "Bạn nghe thấy con số nào trong bài nghe?",
     options,
-    answer: Math.max(0, answer),
+    answer: options.indexOf(figure),
   };
 }
 
-function buildSituationQuestion(
-  lesson: ConvLesson,
-  idx: number,
-): ListeningChallenge["questions"][number] | null {
-  const sits = lesson.keySituations || [];
-  if (!sits.length) return null;
-  const sit = sits[idx % sits.length];
-  if (!sit?.title) return null;
+const DETAIL_STOP = new Set([
+  "narrator", "speaker", "later", "recording", "please", "thank", "thanks", "hello",
+  "would", "could", "should", "there", "their", "about", "because", "really",
+]);
 
-  const distractors = sits.filter((s) => s.title !== sit.title).map((s) => s.title);
-  const fallback = ["Casual chat with friends", "Filling out a form", "Reading the news"];
-  const pool = [...distractors, ...fallback].slice(0, 3);
-  const seed = hash(lesson.id + sit.title + idx);
-  const options = shuffleStable([sit.title, ...pool], seed);
-  const answer = options.indexOf(sit.title);
+const DETAIL_DECOYS = [
+  "a free parking voucher", "a printed paper map", "a swimming pool pass",
+  "a second-hand bicycle", "a birthday cake order", "a train ticket refund",
+  "a library membership card", "a winter coat discount", "a taxi receipt",
+  "a hotel breakfast coupon", "a phone insurance plan", "a gym locker key",
+];
+
+/** A concrete detail that is mentioned, with decoys that are never spoken. */
+function buildDetailQuestion(transcript: string, existing: Question[], seed: number): Question | null {
+  const plain = norm(transcript);
+  const used = new Set(existing.flatMap((q) => q.options.map(norm)));
+  const candidates: string[] = [];
+  const sentences = transcript.split(/[\n.!?]+/).map((s) => s.replace(/^[A-Za-z ]+:\s*/, "").trim());
+  for (const sentence of sentences) {
+    const words = sentence.split(/\s+/).filter(Boolean);
+    for (let i = 0; i + 1 < words.length; i++) {
+      const pair = `${words[i]} ${words[i + 1]}`.replace(/[^A-Za-z0-9 '-]/g, "").trim();
+      const parts = pair.toLowerCase().split(" ");
+      if (parts.length !== 2) continue;
+      if (parts.some((w) => w.length < 4 || DETAIL_STOP.has(w))) continue;
+      if (used.has(norm(pair))) continue;
+      candidates.push(pair);
+    }
+  }
+  const detail = shuffleStable(candidates, seed)[0];
+  if (!detail) return null;
+
+  const decoys = DETAIL_DECOYS.filter((d) => !plain.includes(norm(d)));
+  const pool = shuffleStable(decoys, seed + 3).slice(0, 3);
+  if (pool.length < 3) return null;
+
+  const options = shuffleStable([detail, ...pool], seed + 11);
   return {
-    q: `Which situation is the conversation about?`,
-    qVi: `Đoạn hội thoại nói về tình huống nào?`,
+    q: "Which detail is mentioned in the recording?",
+    qVi: "Chi tiết nào được nhắc đến trong bài nghe?",
     options,
-    answer: Math.max(0, answer),
+    answer: options.indexOf(detail),
+  };
+}
+
+/** Meaning of a phrase the listener really hears, so it stays a listening task. */
+function buildHeardVocabQuestion(
+  lesson: ConvLesson,
+  transcript: string,
+  existing: Question[],
+  seed: number,
+): Question | null {
+  const plain = norm(transcript);
+  const vocab = (lesson.vocabulary || []).filter(
+    (v) => v.term && v.meaningEn && plain.includes(norm(v.term)),
+  );
+  const asked = new Set(existing.map((q) => q.q));
+  const entry = shuffleStable(vocab, seed).find((v) => !asked.has(`What does "${v.term}" mean in the recording?`));
+  if (!entry) return null;
+
+  const distractors = (lesson.vocabulary || [])
+    .filter((v) => v.term !== entry.term && v.meaningEn)
+    .map((v) => v.meaningEn);
+  const pool = shuffleStable(distractors, seed + 5).slice(0, 3);
+  if (pool.length < 3) return null;
+
+  const options = shuffleStable([entry.meaningEn, ...pool], seed + 9);
+  return {
+    q: `What does "${entry.term}" mean in the recording?`,
+    qVi: `Trong bài nghe, "${entry.term}" có nghĩa là gì?`,
+    options,
+    answer: options.indexOf(entry.meaningEn),
+  };
+}
+
+const SENTENCE_DECOYS = [
+  "The office will stay closed for the whole month",
+  "Everyone has to bring their own lunch box",
+  "The training video is only in French",
+  "We are moving the whole team to another city",
+  "The wifi password changes every single hour",
+  "Parking is free for the rest of the year",
+];
+
+/** A sentence the listener really hears, against decoys that are never spoken. */
+function buildSentenceQuestion(transcript: string, existing: Question[], seed: number): Question | null {
+  const plain = norm(transcript);
+  const asked = new Set(existing.map((q) => q.q));
+  if (asked.has("Which sentence do you hear in the recording?")) return null;
+  const sentences = transcript
+    .split(/[\n.!?]+/)
+    .map((s) => s.replace(/^[A-Za-z ]+:\s*/, "").trim())
+    .filter((s) => {
+      const wc = s.split(/\s+/).filter(Boolean).length;
+      return wc >= 5 && wc <= 14 && !/^Narrator/i.test(s);
+    });
+  const heard = shuffleStable(sentences, seed)[0];
+  if (!heard) return null;
+  const decoys = shuffleStable(SENTENCE_DECOYS.filter((d) => !plain.includes(norm(d))), seed + 2).slice(0, 3);
+  if (decoys.length < 3) return null;
+  const options = shuffleStable([heard, ...decoys], seed + 4);
+  return {
+    q: "Which sentence do you hear in the recording?",
+    qVi: "Câu nào xuất hiện trong bài nghe?",
+    options,
+    answer: options.indexOf(heard),
   };
 }
 
@@ -122,24 +245,26 @@ export function expandListeningChallenge(lesson: ConvLesson): ListeningChallenge
   const original = lesson.listeningChallenge;
   if (!original) return original;
 
-  const transcript = extendTranscript(lesson, original.transcript || "");
-  const questions = original.questions ? original.questions.slice() : [];
 
-  let generatorIdx = 0;
-  const generators = [buildVocabQuestion, buildSituationQuestion, buildVocabQuestion, buildVocabQuestion];
+  const base = original.transcript || "";
+  const questions: Question[] = original.questions ? original.questions.slice() : [];
+  const transcript = extendTranscript(lesson, base, questions);
+  const seed = hash(lesson.id);
 
-  while (questions.length < MIN_QUESTIONS && generatorIdx < generators.length * 3) {
-    const fn = generators[generatorIdx % generators.length];
-    const q = fn(lesson, generatorIdx);
-    if (q && !questions.some((existing) => existing.q === q.q)) {
-      questions.push(q);
+  const generators = [buildFigureQuestion, buildDetailQuestion, buildSentenceQuestion] as const;
+  let guard = 0;
+  while (questions.length < MIN_QUESTIONS && guard < 12) {
+    const before = questions.length;
+    const heard = buildHeardVocabQuestion(lesson, transcript, questions, seed + guard);
+    if (heard && questions.length < MIN_QUESTIONS) questions.push(heard);
+    for (const fn of generators) {
+      if (questions.length >= MIN_QUESTIONS) break;
+      const q = fn(transcript, questions, seed + guard * 13);
+      if (q && !questions.some((e) => e.q === q.q)) questions.push(q);
     }
-    generatorIdx++;
+    guard++;
+    if (questions.length === before) break;
   }
 
-  return {
-    ...original,
-    transcript,
-    questions,
-  };
+  return { ...original, transcript, questions };
 }

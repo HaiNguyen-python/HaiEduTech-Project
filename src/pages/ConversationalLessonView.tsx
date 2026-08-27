@@ -22,6 +22,8 @@ import { expandListeningChallenge } from "@/lib/listeningChallengeExpander";
 import DialogAudioPlayer from "@/components/DialogAudioPlayer";
 import { getSituationTips } from "@/lib/situationTips";
 import { highlightKeywords } from "@/lib/highlightKeywords";
+import { DIALOGUE_KEY_PHRASES } from "@/lib/dialogueKeyPhrases";
+
 import VocabReviewQuiz from "@/components/conversational/VocabReviewQuiz";
 
 
@@ -288,12 +290,30 @@ const ConversationalLessonView = () => {
                               </div>
                               <div className={`max-w-[78%] px-5 py-3.5 rounded-2xl text-sm ${s.bubble} ${isRight ? "rounded-br-sm" : "rounded-bl-sm"}`}>
                                 <p className={`text-[10px] font-bold mb-0.5 ${line.speaker === "You" ? "text-white/80" : "text-muted-foreground"}`}>{displayName}</p>
-                                <p className="leading-snug">{highlightKeywords(line.line, lesson.vocabulary.map(v => v.term))}</p>
+                                <p className="leading-snug">{highlightKeywords(line.line, lesson.vocabulary.map(v => v.term), DIALOGUE_KEY_PHRASES)}</p>
                               </div>
                             </div>
                           );
                         })}
                       </div>
+
+                      {/* Legend: what the styling in the dialogue means */}
+                      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1.5">
+                          <span className="font-bold rounded px-1 bg-primary/15 text-foreground">
+                            {t("cụm từ hay", "key phrase")}
+                          </span>
+                          {t("= cụm nên học thuộc", "= chunk worth memorising")}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <span className="underline decoration-2 decoration-amber-300 underline-offset-4 font-semibold text-foreground">
+                            {t("từ vựng", "vocabulary")}
+                          </span>
+                          {t("= từ vựng của bài học", "= this lesson's vocabulary")}
+                        </span>
+                      </div>
+
+
 
                       {/* Topic tips - takeaways for the situation */}
                       {(() => {
