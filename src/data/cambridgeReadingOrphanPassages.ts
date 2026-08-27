@@ -10,6 +10,13 @@ import type { CambridgeMockExam } from "./cambridgeMockExamData";
 
 /** examId -> (question text fragment -> passage to attach). */
 const ORPHAN_PASSAGES: Record<string, { match: RegExp; passage: string }[]> = {
+  "cambridge-flyers-2": [
+    {
+      match: /where is the party\?/i,
+      passage:
+        "INVITATION\n\nHi Tom,\n\nIt's my birthday on Saturday! The party starts at 3 o'clock. My house is too small, so we are having it at the community centre next to the park. Please bring your swimming things - there is a small pool there.\n\nSee you soon,\nAnna",
+    },
+  ],
   "cambridge-movers-1": [
     {
       match: /what time do most children go to school\?/i,
