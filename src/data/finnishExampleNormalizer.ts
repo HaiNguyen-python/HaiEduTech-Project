@@ -299,6 +299,39 @@ const ADV_TEMPLATES: Template[] = [
   { fi: "Kirjoitan muistiinpanot {w}.", en: "I write my notes {en}.", form: "nom" },
 ];
 
+/* -------- verbal nouns in -minen: always talk about an activity --------- */
+const ACTION_TEMPLATES: Template[] = [
+  { form: "nom", fi: "{W} on minulle vaikeaa suomeksi.", en: "{En} is difficult for me in Finnish." },
+  { form: "part", fi: "Harjoittelen {w} joka päivä.", en: "I practise {en} every day." },
+  { form: "elat", fi: "Opettaja puhui {w} oppitunnilla.", en: "The teacher talked about {en} in class." },
+  { form: "nom", fi: "{W} vaatii aikaa ja kärsivällisyyttä.", en: "{En} requires time and patience." },
+  { form: "part", fi: "Haluan parantaa {w} tänä vuonna.", en: "I want to improve my {en} this year." },
+  { form: "elat", fi: "Luin {w} suomenkielisestä artikkelista.", en: "I read about {en} in a Finnish article." },
+];
+
+/* ------------- nouns that denote a person, not a thing ------------------ */
+const PERSON_TEMPLATES: Template[] = [
+  { form: "nom", fi: "{W} odottaa käytävällä.", en: "The {en} is waiting in the corridor." },
+  { form: "part", fi: "Tapasin {w} eilen kurssilla.", en: "I met the {en} at the course yesterday." },
+  { form: "elat", fi: "Keskustelimme {w} oikeuksista.", en: "We discussed the rights of the {en}." },
+  { form: "nom", fi: "Jokainen {w} tarvitsee apua joskus.", en: "Every {en} needs help sometimes." },
+  { form: "adess", fi: "{W} on oma tarina kerrottavana.", en: "The {en} has their own story to tell." },
+  { form: "part", fi: "Neuvoja annetaan myös {w}.", en: "Advice is also given to the {en}." },
+];
+
+/** English glosses that clearly name a person. */
+const PERSON_GLOSS =
+  /^(a |an |the )?(person|people|human|adult|child|kid|baby|tenant|citizen|refugee|immigrant|migrant|descendant|relative|neighbou?r|guest|visitor|customer|client|patient|student|pupil|colleague|employee|employer|applicant|candidate|volunteer|assistant|helper|owner|resident|passenger|stranger|friend|fianc|bride|groom|widow|orphan|twin|noble|criminal|prisoner|suspect|witness|victim|beginner|expert|member|leader|boss|worker|.*(helper|assistant|worker))\b/i;
+
+/** English glosses that are adjectives (the raw data often tags them "noun"). */
+const ADJ_GLOSS_EXTRA =
+  /^(even|odd|positive|negative|salty|sweet|sour|bitter|blue|yellow|red|green|black|white|brown|grey|gray|pink|orange|purple|clean|dirty|quiet|calm|sad|happy|angry|noble|modern|ancient|toxic|manual|digital|informal|formal|ambiguous|affordable|cheap|expensive)\b/i;
+const ADJ_GLOSS_SUFFIX = /^[a-z-]+(ous|ful|less|able|ible|ive|ical|ic|al|ish|ary|y)$/i;
+/** Nouns whose gloss accidentally matches ADJ_GLOSS_SUFFIX. */
+const ADJ_GLOSS_EXEMPT =
+  /^(kidney|gooseberry|berry|family|money|city|story|country|journey|energy|company|battery|history|party|delivery|salary|sky|day|way|key|boy|baby|body|animal|hospital|festival|capital|material|meal|goal|signal|canal|metal|total|arrival|removal|holiday|society|university|activity|quality|difficulty|majority|minority|responsibility|electricity|industry|library|memory|century|summary|dictionary|secretary|salad|hobby|copy|survey|essay|ferry|jury|therapy|surgery|bakery|grocery|laundry|entry|policy|agency|emergency|frequency|technology|biology|economy|ecology|apology|category|inventory|territory|treaty|duty|beauty|liberty|property|poverty|safety|variety|anxiety|society)$/i;
+
+
 /* -------------------------------- helpers --------------------------------- */
 
 function hash(s: string): number {
