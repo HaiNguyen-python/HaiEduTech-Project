@@ -513,7 +513,8 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
 
   // Chat lines keep their authored order so the conversation stays logical, and
   // they all sit before the key line so the recording ends right after it.
-  const minChat = level === "starters" ? 2 : level === "movers" ? 3 : level === "flyers" ? 3 : 4;
+  // Only a short opening exchange, then straight to the key line.
+  const minChat = 2;
   const before: typeof chat = [];
   let used = fixed;
   for (let i = 0; i < chat.length; i += 1) {
@@ -521,6 +522,8 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
     before.push(chat[i]);
     used += words(chat[i].text);
   }
+
+
 
 
   // Chat keeps its authored roles, then the speaker who knows the facts says the
