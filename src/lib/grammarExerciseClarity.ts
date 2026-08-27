@@ -330,9 +330,10 @@ const firstSample = (value: string) => squash(value.split(" / ")[0]);
 
 const clarifyErrorCorrection = (
   exercise: Extract<InteractiveExercise, { type: "error-correction" }>
-): InteractiveExercise => {
+): InteractiveExercise | null => {
   const guide = "Each sentence has exactly one grammar mistake. Rewrite the whole sentence correctly.";
   const guideVi = "Mỗi câu chỉ có một lỗi ngữ pháp. Viết lại toàn bộ câu cho đúng.";
+
   const items = exercise.items
     .map((item) => {
       const wrong = firstSample(item.wrong);
