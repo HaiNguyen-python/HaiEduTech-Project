@@ -211,7 +211,6 @@ const LanguageLessonView = () => {
             instruction={exercise.instruction}
             instructionEn={exercise.instructionEn}
             sentences={exercise.sentences}
-            wordBank={exercise.wordBank}
             forceEnglish={isEnglishGrammarLesson}
           />
         );
