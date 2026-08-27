@@ -189,7 +189,8 @@ const clarifyErrorCorrection = (
         wrong: referent ? `${wrong.replace(/[.?!]$/, "")} (talking about ${referent}).` : wrong,
         correct: referent ? `${correct.replace(/[.?!]$/, "")} (talking about ${referent}).` : correct,
         explanation: item.explanation && squash(item.explanation)
-          ? squash(item.explanation)
+          // Drop the second sample from quoted forms so the note matches this single item.
+          ? squash(item.explanation).replace(/"([^"]+) \/ [^"]+"/g, '"$1"')
           : `Correct version: ${correct}`,
       };
     }),
