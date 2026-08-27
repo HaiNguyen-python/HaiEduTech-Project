@@ -32,6 +32,16 @@ const sentencesOf = (text: string): string[] =>
 const REPLY_START =
   /^(yes|no|yeah|sure|certainly|of course|ok|okay|right|well|thanks|thank you|sorry|i'd like|i would like|i'll|i will|that's|that is|good (morning|afternoon|evening)|hello|hi)\b/i;
 
+const SPEAKER_NAMES = "Narrator|Teacher|Student|Woman|Man|Girl|Boy|Presenter|Guest|Expert|Interviewer";
+
+/** Preserve speaker roles already authored in newer dialogue-based papers. */
+const explicitTurnsOf = (core: string): Array<{ speaker: string; text: string }> => {
+  const pattern = new RegExp(`(?:^|\\s)(${SPEAKER_NAMES}):\\s*([\\s\\S]*?)(?=\\s+(?:${SPEAKER_NAMES}):|$)`, "g");
+  return [...core.matchAll(pattern)]
+    .map(match => ({ speaker: match[1], text: match[2].trim() }))
+    .filter(turn => Boolean(turn.text));
+};
+
 /** Only split text that clearly contains both a prompt and a reply. */
 const sceneTurns = (core: string): string[] => {
   const sentences = sentencesOf(core);
@@ -75,6 +85,14 @@ const speakersFor = (exam: CambridgeMockExam, question: CambridgeMockQuestion, c
 const buildScript = (exam: CambridgeMockExam, question: CambridgeMockQuestion): string => {
   const core = coreLine(question.passage ?? "");
   if (!core) return question.passage ?? "";
+
+  const explicitTurns = explicitTurnsOf(core);
+  if (explicitTurns.length > 0) {
+    return `Listen:\nNarrator: ${INSTRUCTIONS[exam.level]}\n${explicitTurns
+      .filter(turn => turn.speaker !== "Narrator")
+      .map(turn => `${turn.speaker}: ${turn.text}`)
+      .join("\n")}`;
+  }
 
   const turns = sceneTurns(core);
   const [firstSpeaker, secondSpeaker] = speakersFor(exam, question, core);
