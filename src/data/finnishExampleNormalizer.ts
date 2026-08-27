@@ -44,44 +44,62 @@ const GENERIC: Template[] = [
 
 
 
+/** Glosses that name a room or indoor/outdoor space (safe to clean, decorate). */
+const SPACE = /(room|kitchen|hall|balcony|yard|garden|floor|attic|cellar|basement|toilet|bathroom|sauna|apartment|flat|house|home|studio|terrace|corridor|stairwell|shed|garage|closet|wardrobe|storage)/i;
+/** Meal names: they must not be eaten "for breakfast". */
+const MEAL = /^(breakfast|lunch|dinner|supper|brunch|meal|snack|coffee break)\b/i;
+/** Insects and other small critters: not zoo animals, not "seen in the forest". */
+const INSECT = /(insect|bug|bee|wasp|fly|mosquito|ant|butterfly|moth|beetle|spider|worm|larva|caterpillar|midge)/i;
+/** Family relations that plausibly "have two children". */
+const RELATIVE = /(mother|father|parent|grandmother|grandfather|grandpa|grandma|aunt|uncle|couple|family|sister|brother|neighbou?r|cousin)/i;
+
 const NOUN_POOLS: Record<string, Template[]> = {
   "Home & Housing": [
-    { form: "iness", fi: "Vietän paljon aikaa {w}.", en: "I spend a lot of time in the {en}." },
+    { form: "iness", fi: "Vietän paljon aikaa {w}.", en: "I spend a lot of time in the {en}.", needs: SPACE },
     { form: "nom", fi: "Meidän kodissa on iso {w}.", en: "Our home has a big {en}." },
-    { form: "part", fi: "Siivosin {w} lauantaina.", en: "I cleaned the {en} on Saturday." },
+    { form: "part", fi: "Siivosin {w} lauantaina.", en: "I cleaned the {en} on Saturday.", needs: SPACE },
     { form: "elat", fi: "Pidän tästä {w} paljon.", en: "I like this {en} a lot." },
-    { form: "nom", fi: "Tämä {w} on valoisa ja siisti.", en: "This {en} is bright and tidy." },
+    { form: "nom", fi: "Tämä {w} on valoisa ja siisti.", en: "This {en} is bright and tidy.", needs: SPACE },
+    { form: "nom", fi: "Uusi {w} tuli meille viime viikolla.", en: "The new {en} arrived at our place last week." },
+    { form: "gen", fi: "Tämän {w} kunto on hyvä.", en: "The condition of this {en} is good." },
   ],
   "Food & Drink": [
     { form: "part", fi: "Ostin {w} kaupasta tänään.", en: "I bought some {en} at the shop today." },
-    { form: "part", fi: "Syön {w} usein aamiaisella.", en: "I often have {en} for breakfast." },
+    { form: "part", fi: "Syön {w} usein aamiaisella.", en: "I often have {en} for breakfast.", needs: /^(?!.*\b(breakfast|lunch|dinner|supper|brunch|meal|snack)\b).*$/i },
     { form: "nom", fi: "Tämä {w} maistuu erittäin hyvältä.", en: "This {en} tastes really good." },
     { form: "elat", fi: "Pidän tästä {w} enemmän kuin muista.", en: "I like this {en} more than the others." },
     { form: "part", fi: "Voisinko saada vähän {w}, kiitos?", en: "Could I have a little {en}, please?" },
+    { form: "nom", fi: "{W} kuuluu suomalaiseen ruokapöytään.", en: "The {en} belongs on a Finnish dinner table." },
+    { form: "gen", fi: "Tämän {w} hinta nousi viime vuonna.", en: "The price of this {en} went up last year." },
   ],
   "Body & Health": [
     { form: "part", fi: "Lääkäri tutki {w} huolellisesti.", en: "The doctor examined the {en} carefully." },
     { form: "nom", fi: "{W} on tärkeä ihmiselle.", en: "The {en} is important for a person." },
     { form: "elat", fi: "Puhuin {w} lääkärin kanssa.", en: "I talked about the {en} with the doctor." },
     { form: "part", fi: "Minun täytyy hoitaa {w} paremmin.", en: "I have to take better care of the {en}." },
+    { form: "iness", fi: "Terveyskeskuksessa kysyttiin {w} oireista.", en: "At the health centre they asked about symptoms in the {en}." },
   ],
   "Clothing & Style": [
     { form: "part", fi: "Ostin uuden {w} talvea varten.", en: "I bought a new {en} for the winter." },
     { form: "nom", fi: "Tämä {w} on liian pieni minulle.", en: "This {en} is too small for me." },
     { form: "part", fi: "Käytän {w} joka päivä töissä.", en: "I wear the {en} every day at work." },
     { form: "elat", fi: "Pidän tästä {w} kovasti.", en: "I really like this {en}." },
+    { form: "nom", fi: "Kaupassa oli {w} alennuksessa.", en: "The shop had the {en} on sale." },
   ],
   Animals: [
-    { form: "part", fi: "Näin {w} metsässä eilen.", en: "I saw a {en} in the forest yesterday." },
-    { form: "nom", fi: "{W} on yleinen eläin Suomessa.", en: "The {en} is a common animal in Finland." },
+    { form: "part", fi: "Näin {w} metsässä eilen.", en: "I saw a {en} in the forest yesterday.", needs: /^(?!.*(insect|bug|bee|wasp|fly|mosquito|ant|butterfly|moth|beetle|spider|worm)).*$/i },
+    { form: "nom", fi: "{W} on yleinen eläin Suomessa.", en: "The {en} is a common animal in Finland.", needs: /^(?!.*(insect|bug|bee|wasp|fly|mosquito|ant|butterfly|moth|beetle|spider|worm)).*$/i },
     { form: "elat", fi: "Luin kirjasta {w} ja sen elintavoista.", en: "I read in a book about the {en} and its habits." },
-    { form: "part", fi: "Lapset haluavat nähdä {w} eläinpuistossa.", en: "The children want to see a {en} at the zoo." },
+    { form: "part", fi: "Lapset haluavat nähdä {w} eläinpuistossa.", en: "The children want to see a {en} at the zoo.", needs: /^(?!.*(insect|bug|bee|wasp|fly|mosquito|ant|butterfly|moth|beetle|spider|worm)).*$/i },
+    { form: "nom", fi: "Kesällä pihalla lentää {w}.", en: "In the summer a {en} flies around the yard.", needs: INSECT },
+    { form: "part", fi: "Lapset tutkivat {w} suurennuslasilla.", en: "The children study the {en} with a magnifying glass.", needs: INSECT },
   ],
   Nature: [
-    { form: "iness", fi: "Kävelen {w} rauhassa sunnuntaisin.", en: "I walk peacefully in the {en} on Sundays." },
+    { form: "iness", fi: "Kävelen {w} rauhassa sunnuntaisin.", en: "I walk peacefully in the {en} on Sundays.", needs: /(forest|wood|nature|park|field|meadow|shore|beach|island|mountain|valley|garden|snow|landscape)/i },
     { form: "nom", fi: "{W} on tässä maisemassa kaunis.", en: "The {en} is beautiful in this landscape." },
     { form: "part", fi: "Valokuvasin {w} auringonlaskun aikaan.", en: "I photographed the {en} at sunset." },
     { form: "elat", fi: "Opettaja kertoi {w} oppitunnilla.", en: "The teacher told us about the {en} in class." },
+    { form: "part", fi: "Suomalaiset arvostavat {w} kovasti.", en: "Finns value the {en} greatly." },
   ],
   "Weather & Seasons": [
     { form: "elat", fi: "Sääennuste kertoi {w} tarkasti.", en: "The weather forecast reported the {en} in detail." },
@@ -89,7 +107,9 @@ const NOUN_POOLS: Record<string, Template[]> = {
     { form: "nom", fi: "{W} vaikuttaa suunnitelmiimme paljon.", en: "The {en} affects our plans a lot." },
     { form: "part", fi: "Seuraan {w} uutisista joka päivä.", en: "I follow the {en} in the news every day." },
     { form: "nom", fi: "Suomessa {w} vaihtuu nopeasti.", en: "In Finland the {en} changes quickly." },
+    { form: "nom", fi: "Tänä vuonna {w} tuli myöhään.", en: "This year the {en} came late." },
   ],
+
   "Time & Calendar": [
     { form: "nom", fi: "{W} kuluu nopeasti, kun on kiire.", en: "The {en} passes quickly when you are busy." },
     { form: "part", fi: "Odotin {w} kärsivällisesti.", en: "I waited for the {en} patiently." },
