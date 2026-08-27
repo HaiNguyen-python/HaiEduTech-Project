@@ -443,10 +443,11 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   }
 
   // Last resort: nominative-only generic sentence (always grammatical).
-  const gloss = entry.definition.en.replace(/^to\s+/i, "");
+  const bareGloss = gloss.replace(/^to\s+/i, "");
   return {
     example: `${capitalize(word)} on hyödyllinen sana arjessa.`,
-    exampleEn: `"${gloss}" is a useful word in everyday life.`,
+    exampleEn: `"${bareGloss}" is a useful word in everyday life.`,
+
   };
 }
 
