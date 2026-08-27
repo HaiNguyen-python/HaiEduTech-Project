@@ -542,6 +542,11 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
     }
     lines.push(`${keyVoice}: ${text}`);
   });
+  // A short reaction keeps every turn short instead of piling the wrong idea and
+  // the key line into one long speech.
+  if (lines[lines.length - 1]?.startsWith(`${keyVoice}:`)) {
+    lines.push(`${otherVoice}: ${pick(REACTIONS, seed)}`);
+  }
   lines.push(`${keyVoice}: ${core}`);
   lines.push(`${otherVoice}: ${closer}`);
 
