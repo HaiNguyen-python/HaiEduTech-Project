@@ -485,7 +485,18 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
     // The one asking questions opens, the one who knows the facts replies.
     lines.push(`${i % 2 === 0 ? otherVoice : keyVoice}: ${text}`);
   });
-  [...rejectLines, core].forEach(text => lines.push(`${keyVoice}: ${text}`));
+  // A rejection written as a check question is split, so nobody asks and answers
+  // their own question ("Is it a fish? No, it is not a fish.").
+  rejectLines.forEach(text => {
+    const asked = text.match(/^(.*\?)\s+(\S.*)$/);
+    if (asked) {
+      lines.push(`${otherVoice}: ${asked[1]}`);
+      lines.push(`${keyVoice}: ${asked[2]}`);
+      return;
+    }
+    lines.push(`${keyVoice}: ${text}`);
+  });
+  lines.push(`${keyVoice}: ${core}`);
   lines.push(`${otherVoice}: ${closer}`);
 
   return `Listen:\n${mergeTurns(lines).join("\n")}`;
