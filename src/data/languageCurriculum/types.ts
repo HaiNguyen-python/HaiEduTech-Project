@@ -4,6 +4,8 @@ export interface FillInBlankExercise {
   type: "fill-in-blank";
   instruction: string;
   instructionEn: string;
+  /** Clickable words/phrases students can drop into the gaps (shuffled, may contain distractors). */
+  wordBank?: string[];
   sentences: {
     text: string; // Use ___ for blanks
     textEn: string;
