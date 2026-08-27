@@ -181,6 +181,23 @@ const CHAT: Record<string, Array<{ asks: boolean; text: string }>> = {
   ],
 };
 
+/** Chat for key lines that tell something personal, so no interview is implied. */
+const PEER_CHAT: Array<{ asks: boolean; text: string }> = [
+  { asks: true, text: "Hi! Can I ask you something?" },
+  { asks: false, text: "Of course. Go ahead." },
+  { asks: true, text: "I am just curious about it." },
+  { asks: false, text: "That is easy to answer." },
+  { asks: true, text: "Tell me, then. I am listening." },
+  { asks: false, text: "Let me explain it properly." },
+];
+
+/** Closers for the peer chat, which must not mention readers or listeners. */
+const PEER_CLOSERS: string[] = [
+  "Oh, I see. Thanks for telling me!",
+  "That is good to know. Thank you!",
+  "Now I understand. Thanks a lot!",
+];
+
 /** Ways to name and reject a wrong idea. */
 const REJECT: Record<string, string[]> = {
   starters: ["Is it {x}? No, it is not {x}.", "It is not {x}."],
