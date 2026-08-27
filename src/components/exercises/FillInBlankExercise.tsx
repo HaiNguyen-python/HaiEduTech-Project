@@ -37,8 +37,6 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
     const key = norm(value || "");
     if (key) usedCounts.set(key, (usedCounts.get(key) || 0) + 1);
   });
-  const bankCounts = new Map<string, number>();
-  bank.forEach((word) => bankCounts.set(norm(word), (bankCounts.get(norm(word)) || 0) + 1));
 
   /** Dim a chip once it sits in a gap - it stays clickable because answers may repeat. */
   const isChipUsed = (word: string) => (usedCounts.get(norm(word)) || 0) > 0;
