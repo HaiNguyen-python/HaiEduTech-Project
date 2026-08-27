@@ -307,10 +307,10 @@ const clarifyDictation = (
   })),
 });
 
-const clarifyExercise = (exercise: InteractiveExercise): InteractiveExercise => {
+const clarifyExercise = (exercise: InteractiveExercise, pool: string[] = []): InteractiveExercise => {
   switch (exercise.type) {
     case "fill-in-blank":
-      return clarifyFillInBlank(exercise);
+      return clarifyFillInBlank(exercise, pool);
     case "sentence-reorder":
       return clarifyReorder(exercise);
     case "error-correction":
@@ -328,10 +328,21 @@ const clarifyExercise = (exercise: InteractiveExercise): InteractiveExercise => 
   }
 };
 
-const clarifyLesson = (lesson: LanguageLesson): LanguageLesson => ({
-  ...lesson,
-  exercises: lesson.exercises.map(clarifyExercise),
-});
+/** Distractor candidates for the word bank: other gap answers + lesson vocabulary. */
+const lessonWordPool = (lesson: LanguageLesson) => {
+  const pool: string[] = [];
+  for (const exercise of lesson.exercises) {
+    if (exercise.type !== "fill-in-blank") continue;
+    for (const sentence of exercise.sentences) pool.push(sentence.answer);
+  }
+  for (const entry of lesson.vocabulary || []) pool.push(entry.word);
+  return pool;
+};
+
+const clarifyLesson = (lesson: LanguageLesson): LanguageLesson => {
+  const pool = lessonWordPool(lesson);
+  return { ...lesson, exercises: lesson.exercises.map((exercise) => clarifyExercise(exercise, pool)) };
+};
 
 export const clarifyGrammarModules = (modules: LanguageModule[]): LanguageModule[] =>
   modules.map((mod) => ({ ...mod, lessons: mod.lessons.map(clarifyLesson) }));
