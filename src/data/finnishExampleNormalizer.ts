@@ -394,9 +394,27 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   if (override) return { example: override.fi, exampleEn: override.en };
 
   let pos = (entry.partOfSpeech || "noun").toLowerCase();
+  const gloss = entry.definition.en.trim();
   // Many participial adjectives are tagged as nouns in the raw data
   // (hermostunut, kiinnostava). Route them to the adjective templates.
   if (/^noun/.test(pos) && /(nut|nyt|nnut|va|vä|ton|tön)$/.test(word) && !/\s/.test(word)) pos = "adj";
+  // Adjectives mislabelled as nouns/numerals (suolainen, pilvinen, parillinen):
+  // detect them from the Finnish suffix plus an adjectival English gloss.
+  const adjShape = /(inen|kas|käs|ton|tön)$/.test(word) && !/\s/.test(word);
+  const adjGloss =
+    ADJ_GLOSS_EXTRA.test(gloss) ||
+    (ADJ_GLOSS_SUFFIX.test(gloss) && !ADJ_GLOSS_EXEMPT.test(gloss));
+  if (/^(noun|num)/.test(pos) && adjShape && adjGloss && !PERSON_GLOSS.test(gloss)) pos = "adj";
+  // Verbal nouns in -minen describe an activity, never a physical object.
+  const isAction = /^noun/.test(pos) && /minen$/.test(word) && !/\s/.test(word);
+  // Nouns that denote a human being need person-safe sentences.
+  const isPerson =
+    /^noun/.test(pos) &&
+    !isAction &&
+    (PERSON_GLOSS.test(gloss) ||
+      (/(lainen|läinen)$/.test(word) &&
+        !/(Food|Travel|Shopping|Technology)/i.test(entry.category) &&
+        !/(burger|berry|dish|bread|soup|cake|drink|coin|note|ticket)/i.test(gloss)));
   // Only real numerals may use the arithmetic templates; many nouns in the
   // "Numbers & Math" category are mislabelled as "num" in the raw data.
   const isNumeral = /^(numeral|num)/.test(pos) && /^[a-zäö\s-]+$/.test(word) &&
@@ -407,7 +425,10 @@ export function buildFinnishExample(entry: FinnishExampleInput): { example: stri
   else if (/^adj/.test(pos)) pool = ADJ_TEMPLATES;
   else if (isNumeral) pool = NUM_TEMPLATES;
   else if (/^adv/.test(pos) || CONJUNCTIONS.has(word)) pool = CONJUNCTIONS.has(word) ? CONJ_TEMPLATES : ADV_TEMPLATES;
+  else if (isAction) { pool = ACTION_TEMPLATES; nounLike = true; }
+  else if (isPerson) { pool = PERSON_TEMPLATES; nounLike = true; }
   else { pool = NOUN_POOLS[entry.category] || GENERIC; nounLike = true; }
+
 
   // Category templates come first (best semantic fit); neutral generic noun
   // templates are only a fallback, and only for noun-like entries.
