@@ -24,14 +24,8 @@ const ORPHAN_PASSAGES: Record<string, { match: RegExp; passage: string }[]> = {
         "SCHOOL DAY SURVEY\n\nWe asked 100 children about their school day.\n\nMost children wake up at 7 AM and have breakfast with their family. They leave home a little later and start school at 8 AM. Lessons finish at 12 PM, and after lunch the children have sport or music. By 6 PM almost everybody is at home again doing homework.",
     },
   ],
-  "cambridge-starters-6": [
-    {
-      match: /what time does the girl get up in the morning\?/i,
-      passage:
-        "MY DAY\n\n\"Hello! My name is Lucy.\n\nI get up at seven o'clock. I have milk and bread for breakfast. Then I go to school with my brother.\n\nI play with my friends at four o'clock and I go to bed at eight o'clock.\"",
-    },
-  ],
   "cambridge-ket-2": [
+
     {
       match: /how much is a return ticket\?/i,
       passage:
