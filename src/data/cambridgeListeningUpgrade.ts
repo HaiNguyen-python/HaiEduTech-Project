@@ -485,7 +485,7 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
       )
     );
 
-  const closer = pick(CLOSERS[level] ?? CLOSERS.flyers, seed);
+  const closer = personal ? pick(PEER_CLOSERS, seed) : pick(CLOSERS[level] ?? CLOSERS.flyers, seed);
   const fixed = words(opener) + words(core) + words(closer) + rejectLines.reduce((s, l) => s + words(l), 0);
 
   // Chat lines keep their authored order so the conversation stays logical, and
