@@ -169,12 +169,18 @@ const clarifyFillInBlank = (
     return { ...sentence, text, textEn, hint };
   });
 
-  const guide = "Write one answer per gap. Use the cue in brackets - it tells you which word type is expected.";
-  const guideVi = "Điền một đáp án cho mỗi chỗ trống. Dùng gợi ý trong ngoặc - nó cho biết loại từ cần điền.";
+  const wordBank = buildWordBank(
+    sentences.map((sentence) => sentence.answer),
+    pool,
+    `${exercise.instructionEn}|${sentences.length}`
+  );
+
+  const guide = "Pick a word from the word bank (or type it) for each gap. The cue in brackets tells you which word type is expected.";
+  const guideVi = "Chọn từ trong ngân hàng từ (hoặc tự gõ) cho mỗi chỗ trống. Gợi ý trong ngoặc cho biết loại từ cần điền.";
 
   // Reading-passage drills keep their authored instruction untouched.
   if (exercise.instruction.includes("Passage:") || exercise.instructionEn.includes("Passage:")) {
-    return { ...exercise, sentences };
+    return { ...exercise, sentences, wordBank };
   }
 
   return {
@@ -186,6 +192,7 @@ const clarifyFillInBlank = (
       ? exercise.instructionEn
       : `${squash(exercise.instructionEn)}\n${guide}`,
     sentences,
+    wordBank,
   };
 };
 
