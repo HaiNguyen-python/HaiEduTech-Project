@@ -78,6 +78,9 @@ export const answerVariants = (answer: string): string[] => {
     variants.add(numberToWords(Number(digit)));
   });
 
+  // Action options are spoken with an article ("postpone the meeting").
+  variants.add(normaliseText(articleiseAction(answer)));
+
   timeVariants(answer).forEach(v => variants.add(normaliseText(v)));
   priceVariants(answer).forEach(v => variants.add(normaliseText(v)));
 
