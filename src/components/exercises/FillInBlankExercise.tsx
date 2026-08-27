@@ -40,11 +40,8 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
   const bankCounts = new Map<string, number>();
   bank.forEach((word) => bankCounts.set(norm(word), (bankCounts.get(norm(word)) || 0) + 1));
 
-  /** A chip is spent when every copy of it already sits in a gap. */
-  const isChipUsed = (word: string) => {
-    const key = norm(word);
-    return (usedCounts.get(key) || 0) >= (bankCounts.get(key) || 1);
-  };
+  /** Dim a chip once it sits in a gap - it stays clickable because answers may repeat. */
+  const isChipUsed = (word: string) => (usedCounts.get(norm(word)) || 0) > 0;
 
   const firstEmptyGap = () => {
     const empty = sentences.findIndex((_, i) => !(answers[i] || "").trim());
@@ -197,11 +194,11 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
               key={`${word}-${i}`}
               type="button"
               onClick={() => pickWord(word)}
-              disabled={submitted || used}
+              disabled={submitted}
               className={cn(
                 "px-3 py-1.5 rounded-full border text-sm font-medium transition-all",
                 used
-                  ? "border-border bg-muted text-muted-foreground line-through"
+                  ? "border-border bg-muted text-muted-foreground"
                   : "border-primary/40 bg-background text-foreground hover:border-primary hover:bg-primary/10"
               )}
             >

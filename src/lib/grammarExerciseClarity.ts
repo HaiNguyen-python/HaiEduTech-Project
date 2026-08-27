@@ -120,9 +120,9 @@ const buildWordBank = (answers: string[], pool: string[], seed: string) => {
     seen.add(key);
     unique.push(value);
   }
-  if (unique.length < 2) return undefined;
+  if (unique.length < 1) return undefined;
 
-  const target = Math.max(unique.length + 2, 5);
+  const target = Math.max(unique.length + 2, 4);
   for (const candidate of pool) {
     if (unique.length >= target) break;
     const value = squash(candidate);
