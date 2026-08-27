@@ -333,11 +333,8 @@ const clarifyErrorCorrection = (
 ): InteractiveExercise => {
   const guide = "Each sentence has exactly one grammar mistake. Rewrite the whole sentence correctly.";
   const guideVi = "Mỗi câu chỉ có một lỗi ngữ pháp. Viết lại toàn bộ câu cho đúng.";
-  return {
-    ...exercise,
-    instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
-    instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
-    items: exercise.items.map((item) => {
+  const items = exercise.items
+    .map((item) => {
       const wrong = firstSample(item.wrong);
       const correct = firstSample(item.correct);
       // Word-swap items ("it" vs "them") are grammatical on their own, so state the referent.
@@ -356,9 +353,21 @@ const clarifyErrorCorrection = (
           ? squash(item.explanation).replace(/"([^"]+) \/ [^"]+"/g, '"$1"')
           : `Correct version: ${correct}`,
       };
-    }),
+    })
+    // A "find the mistake" item makes no sense when the faulty and correct
+    // sentences are identical, so those legacy items are dropped.
+    .filter((item) => item.wrong.toLowerCase() !== item.correct.toLowerCase());
+
+  if (!items.length) return null;
+
+  return {
+    ...exercise,
+    instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
+    instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
+    items,
   };
 };
+
 
 
 /** Words present in the target but not in the prompt - a natural rewrite cue. */
