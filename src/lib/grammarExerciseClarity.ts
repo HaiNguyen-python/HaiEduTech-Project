@@ -488,12 +488,17 @@ const clarifyDictation = (
 });
 
 
-const clarifyExercise = (exercise: InteractiveExercise, pool: string[] = []): InteractiveExercise => {
+/** Returns null when an exercise cannot be repaired into a solvable task. */
+const clarifyExercise = (
+  exercise: InteractiveExercise,
+  pool: string[],
+  seed: string
+): InteractiveExercise | null => {
   switch (exercise.type) {
     case "fill-in-blank":
       return clarifyFillInBlank(exercise, pool);
     case "sentence-reorder":
-      return clarifyReorder(exercise);
+      return clarifyReorder(exercise, seed);
     case "error-correction":
       return clarifyErrorCorrection(exercise);
     case "transformation":
@@ -522,8 +527,12 @@ const lessonWordPool = (lesson: LanguageLesson) => {
 
 const clarifyLesson = (lesson: LanguageLesson): LanguageLesson => {
   const pool = lessonWordPool(lesson);
-  return { ...lesson, exercises: lesson.exercises.map((exercise) => clarifyExercise(exercise, pool)) };
+  const exercises = lesson.exercises
+    .map((exercise, index) => clarifyExercise(exercise, pool, `${lesson.id}|${index}`))
+    .filter((exercise): exercise is InteractiveExercise => !!exercise);
+  return { ...lesson, exercises };
 };
+
 
 export const clarifyGrammarModules = (modules: LanguageModule[]): LanguageModule[] =>
   modules.map((mod) => ({ ...mod, lessons: mod.lessons.map(clarifyLesson) }));
