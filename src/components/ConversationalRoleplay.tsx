@@ -606,7 +606,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
           <p className="text-sm text-muted-foreground mt-1">
             {t(
               "Chọn một tình huống bên dưới để bắt đầu trò chuyện với AI bằng tiếng Anh",
-              "Choose a scenario below to start chatting with AI in English"
+              "Choose a scenario below to start chatting in English"
             )}
           </p>
         </div>
