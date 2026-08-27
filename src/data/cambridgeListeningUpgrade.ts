@@ -469,19 +469,20 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   // A personal key line ("my mum is in the kitchen") belongs in a chat between
   // two people, never in a radio interview with a presenter and an expert.
   const personal = /\b(I|I'm|I've|my|me|we|our|us)\b/.test(core);
-  const cast = SCENE_VOICES[level] ?? SCENE_VOICES.flyers;
+  const cast = personal ? PEER_VOICES[level] ?? PEER_VOICES.flyers : SCENE_VOICES[level] ?? SCENE_VOICES.flyers;
   const voices = personal
     ? { a: cast[0], b: cast[1], keyIsA: false }
     : pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
   const theme = themeOf(exam);
   // Every chat line carries its own role, so inserting the theme question never
-  // hands a line to the wrong speaker.
+  // hands a line to the wrong speaker. In a personal chat the theme question
+  // replaces the generic curiosity line instead of doubling it.
   const baseChat = personal ? PEER_CHAT : CHAT[level] ?? CHAT.flyers;
   const chat: Array<{ text: string; asks: boolean }> = [
     baseChat[0],
     baseChat[1],
     { text: pick(THEME_CHAT, seed + 3).replace("{theme}", theme), asks: true },
-    ...baseChat.slice(2),
+    ...baseChat.slice(personal ? 3 : 2),
   ];
   const rejects = rejectable(q, core);
 
