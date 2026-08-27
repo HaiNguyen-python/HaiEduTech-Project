@@ -17,12 +17,14 @@ import { articleiseAction, isNegativeQuestion } from "./cambridgeListeningSuppor
 
 
 /** Minimum spoken words per level, matching official recording length. */
+// Short recordings, the way the real papers sound: one small exchange around the
+// key line, never a long padded interview.
 const WORD_TARGET: Record<string, number> = {
-  starters: 42,
-  movers: 60,
-  flyers: 88,
-  ket: 125,
-  pet: 165,
+  starters: 26,
+  movers: 32,
+  flyers: 40,
+  ket: 48,
+  pet: 58,
 };
 
 type Voices = { a: string; b: string; keyIsA: boolean };
@@ -322,6 +324,10 @@ const mergeTurns = (lines: string[]): string[] => {
   return out;
 };
 
+
+/** Very short reactions used to break a long turn in two. */
+const REACTIONS: string[] = ["Oh, really?", "So what is it, then?", "I see. Tell me."];
+
 const pick = <T,>(pool: T[], seed: number): T => pool[seed % pool.length];
 
 /** Theme from a title like "PET Mock Test 11 - City Life & Community". */
@@ -430,7 +436,7 @@ const buildSceneScript = (
 
   // Wrong ideas are checked back after the scene, the way people really confirm
   // a detail, instead of the "the old leaflet said" wording of an interview.
-  const rejects = rejectable(q, core).slice(0, level === "starters" || level === "movers" ? 1 : 2);
+  const rejects = rejectable(q, core).slice(0, 1);
 
   const body: string[] = [...turns];
   rejects.forEach(x => {
@@ -498,7 +504,7 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   const quantityPool = personal ? PEER_REJECT.quantity : QUANTITY_REJECT[level] ?? QUANTITY_REJECT.flyers;
   const actionPool = personal ? PEER_REJECT.action : ACTION_REJECT[level] ?? ACTION_REJECT.flyers;
   const rejectLines = rejects
-    .slice(0, level === "starters" || level === "movers" ? 1 : 2)
+    .slice(0, 1)
     .map((x, i) =>
       pick(isQuantity(x) ? quantityPool : isAction(x) ? actionPool : rejectPool, seed + i).replace(
         /\{x\}/g,
@@ -511,7 +517,8 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
 
   // Chat lines keep their authored order so the conversation stays logical, and
   // they all sit before the key line so the recording ends right after it.
-  const minChat = level === "starters" ? 2 : level === "movers" ? 3 : level === "flyers" ? 3 : 4;
+  // Only a short opening exchange, then straight to the key line.
+  const minChat = 2;
   const before: typeof chat = [];
   let used = fixed;
   for (let i = 0; i < chat.length; i += 1) {
@@ -519,6 +526,8 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
     before.push(chat[i]);
     used += words(chat[i].text);
   }
+
+
 
 
   // Chat keeps its authored roles, then the speaker who knows the facts says the
@@ -537,6 +546,11 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
     }
     lines.push(`${keyVoice}: ${text}`);
   });
+  // A short reaction keeps every turn short instead of piling the wrong idea and
+  // the key line into one long speech.
+  if (lines[lines.length - 1]?.startsWith(`${keyVoice}:`)) {
+    lines.push(`${otherVoice}: ${pick(REACTIONS, seed)}`);
+  }
   lines.push(`${keyVoice}: ${core}`);
   lines.push(`${otherVoice}: ${closer}`);
 
