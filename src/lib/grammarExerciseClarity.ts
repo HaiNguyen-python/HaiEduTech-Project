@@ -278,7 +278,8 @@ const clarifyFillInBlank = (
 
 
 const clarifyReorder = (
-  exercise: Extract<InteractiveExercise, { type: "sentence-reorder" }>
+  exercise: Extract<InteractiveExercise, { type: "sentence-reorder" }>,
+  seed: string
 ): InteractiveExercise => {
   const guide = "Use every word exactly once. Start with a capital letter and keep the final punctuation.";
   const guideVi = "Dùng mỗi từ đúng một lần. Viết hoa đầu câu và giữ dấu câu cuối.";
@@ -286,8 +287,13 @@ const clarifyReorder = (
     ...exercise,
     instruction: exercise.instruction.includes(guideVi) ? exercise.instruction : `${squash(exercise.instruction)}\n${guideVi}`,
     instructionEn: exercise.instructionEn.includes(guide) ? exercise.instructionEn : `${squash(exercise.instructionEn)}\n${guide}`,
+    items: exercise.items.map((item, index) => ({
+      ...item,
+      scrambled: rebuildScrambled(item.correctEn || item.correct, item.scrambled, `${seed}|${index}`),
+    })),
   };
 };
+
 
 /** Keeps only the first sentence of a multi-sentence sample so one item = one mistake. */
 const firstSample = (value: string) => squash(value.split(" / ")[0]);
