@@ -435,15 +435,14 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   if (isSceneDialogue(core)) return buildSceneScript(exam, q, core, seed);
   const voices = pick(VOICE_SETS[level] ?? VOICE_SETS.flyers, seed);
   const theme = themeOf(exam);
-  // The chat pools alternate: even indexes belong to the one asking questions,
-  // odd indexes to the one who knows the facts. The theme line is a question, so
-  // each line carries its own role instead of relying on its final position.
+  // Every chat line carries its own role, so inserting the theme question never
+  // hands a line to the wrong speaker.
   const baseChat = CHAT[level] ?? CHAT.flyers;
   const chat: Array<{ text: string; asks: boolean }> = [
-    { text: baseChat[0], asks: true },
-    { text: baseChat[1], asks: false },
+    baseChat[0],
+    baseChat[1],
     { text: pick(THEME_CHAT, seed + 3).replace("{theme}", theme), asks: true },
-    ...baseChat.slice(2).map((text, i) => ({ text, asks: (i + 2) % 2 === 0 })),
+    ...baseChat.slice(2),
   ];
   const rejects = rejectable(q, core);
 
