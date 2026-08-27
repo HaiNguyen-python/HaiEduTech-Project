@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CheckCircle, XCircle, Lightbulb, RotateCcw } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { pickEnglishGrammarCopy } from "@/lib/englishGrammarCopy";
 
@@ -10,6 +10,8 @@ interface Sentence {
   text: string;
   textEn: string;
   answer: string;
+  /** One answer per gap when the sentence has more than one ___ marker. */
+  answers?: string[];
   hint?: string;
 }
 
@@ -24,14 +26,26 @@ interface Props {
 
 const norm = (value: string) => value.replace(/\s+/g, " ").trim().toLowerCase();
 
+/** Unique key for a single gap so a sentence can hold several inputs. */
+const gapKey = (sentenceIdx: number, gapIdx: number) => `${sentenceIdx}:${gapIdx}`;
+
+const answersOf = (sentence: Sentence) =>
+  sentence.answers && sentence.answers.length > 0 ? sentence.answers : [sentence.answer];
+
 const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, forceEnglish = false }: Props) => {
   const { t } = useLanguage();
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [showHints, setShowHints] = useState<Record<number, boolean>>({});
-  const [activeGap, setActiveGap] = useState(0);
+  const [activeGap, setActiveGap] = useState<string>(gapKey(0, 0));
 
   const bank = (wordBank || []).filter(Boolean);
+
+  /** Every gap in reading order - drives chip placement and the score. */
+  const gapOrder = sentences.flatMap((sentence, idx) =>
+    answersOf(sentence).map((_, gapIdx) => gapKey(idx, gapIdx))
+  );
+
   const usedCounts = new Map<string, number>();
   Object.values(answers).forEach((value) => {
     const key = norm(value || "");
@@ -41,27 +55,25 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
   /** Dim a chip once it sits in a gap - it stays clickable because answers may repeat. */
   const isChipUsed = (word: string) => (usedCounts.get(norm(word)) || 0) > 0;
 
-  const firstEmptyGap = () => {
-    const empty = sentences.findIndex((_, i) => !(answers[i] || "").trim());
-    return empty === -1 ? 0 : empty;
-  };
+  const firstEmptyGap = () => gapOrder.find((key) => !(answers[key] || "").trim()) || gapOrder[0];
 
   const pickWord = (word: string) => {
     if (submitted) return;
     const target = (answers[activeGap] || "").trim() ? firstEmptyGap() : activeGap;
     setAnswers((prev) => ({ ...prev, [target]: word }));
-    setActiveGap(Math.min(target + 1, sentences.length - 1));
+    const next = gapOrder[Math.min(gapOrder.indexOf(target) + 1, gapOrder.length - 1)];
+    setActiveGap(next);
   };
 
-  const clearGap = (idx: number) => {
+  const clearGap = (key: string) => {
     if (submitted) return;
-    setAnswers((prev) => ({ ...prev, [idx]: "" }));
-    setActiveGap(idx);
+    setAnswers((prev) => ({ ...prev, [key]: "" }));
+    setActiveGap(key);
   };
 
-  const handleChange = (idx: number, value: string) => {
+  const handleChange = (key: string, value: string) => {
     if (submitted) return;
-    setAnswers(prev => ({ ...prev, [idx]: value }));
+    setAnswers((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSubmit = () => setSubmitted(true);
@@ -70,24 +82,77 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
     setAnswers({});
     setSubmitted(false);
     setShowHints({});
-    setActiveGap(0);
+    setActiveGap(gapKey(0, 0));
   };
 
   const toggleHint = (idx: number) => {
-    setShowHints(prev => ({ ...prev, [idx]: !prev[idx] }));
+    setShowHints((prev) => ({ ...prev, [idx]: !prev[idx] }));
   };
 
+  const isGapCorrect = (sentenceIdx: number, gapIdx: number, expected: string) =>
+    norm(answers[gapKey(sentenceIdx, gapIdx)] || "") === norm(expected);
+
+  // A sentence counts as correct only when every one of its gaps is right.
   const score = sentences.reduce(
-    (acc, s, i) => acc + (answers[i]?.trim().toLowerCase() === s.answer.toLowerCase() ? 1 : 0),
+    (acc, sentence, idx) =>
+      acc + (answersOf(sentence).every((expected, gapIdx) => isGapCorrect(idx, gapIdx, expected)) ? 1 : 0),
     0
   );
 
-  // Render sentence with blank replaced by input
+  const renderGapInput = (sentenceIdx: number, gapIdx: number, expected: string) => {
+    const key = gapKey(sentenceIdx, gapIdx);
+    const value = answers[key] || "";
+    const isCorrect = isGapCorrect(sentenceIdx, gapIdx, expected);
+
+    return (
+      <span key={key} className="relative inline-flex items-center mx-1 my-1">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => handleChange(key, e.target.value)}
+          onFocus={() => setActiveGap(key)}
+          disabled={submitted}
+          placeholder="..."
+          className={cn(
+            "w-36 px-3 py-1.5 rounded-lg border text-sm font-medium text-center transition-all outline-none",
+            submitted
+              ? isCorrect
+                ? "border-green-500 bg-green-500/10 text-green-700"
+                : "border-destructive bg-destructive/10 text-destructive"
+              : activeGap === key
+                ? "border-primary bg-primary/5 text-foreground ring-2 ring-primary/20"
+                : "border-border bg-background text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+          )}
+        />
+        {!submitted && value.trim() && (
+          <button
+            type="button"
+            onClick={() => clearGap(key)}
+            aria-label={forceEnglish ? "Clear this gap" : t("Xoá ô này", "Clear this gap")}
+            className="absolute -right-4 text-xs text-muted-foreground hover:text-destructive"
+          >
+            ✕
+          </button>
+        )}
+        {submitted && (
+          <span className="absolute -right-5">
+            {isCorrect ? (
+              <CheckCircle className="w-4 h-4 text-green-500" />
+            ) : (
+              <XCircle className="w-4 h-4 text-destructive" />
+            )}
+          </span>
+        )}
+      </span>
+    );
+  };
+
   const renderSentence = (s: Sentence, idx: number) => {
     const displayText = forceEnglish ? (s.textEn || s.text) : t(s.text, s.textEn);
-    const parts = displayText.split("___");
-    const userAnswer = answers[idx] || "";
-    const isCorrect = userAnswer.trim().toLowerCase() === s.answer.toLowerCase();
+    const expected = answersOf(s);
+    // Split on every gap marker so a sentence may carry two or more inputs.
+    const parts = displayText.split(/_{2,}/);
+    const allCorrect = expected.every((value, gapIdx) => isGapCorrect(idx, gapIdx, value));
 
     return (
       <motion.div
@@ -97,52 +162,19 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
         transition={{ delay: idx * 0.08 }}
         className="glass-card rounded-xl p-4 space-y-2"
       >
-        <div className="flex items-center gap-2 flex-wrap text-sm text-foreground leading-relaxed">
+        <div className="flex items-center gap-1 flex-wrap text-sm text-foreground leading-relaxed">
           <span className="font-medium text-muted-foreground w-6">{idx + 1}.</span>
-          <span>{parts[0]}</span>
-          <div className="relative inline-flex items-center">
-            <input
-              type="text"
-              value={userAnswer}
-              onChange={(e) => handleChange(idx, e.target.value)}
-              onFocus={() => setActiveGap(idx)}
-              disabled={submitted}
-              placeholder="..."
-              className={cn(
-                "w-36 px-3 py-1.5 rounded-lg border text-sm font-medium text-center transition-all outline-none",
-                submitted
-                  ? isCorrect
-                    ? "border-green-500 bg-green-500/10 text-green-700"
-                    : "border-destructive bg-destructive/10 text-destructive"
-                  : activeGap === idx
-                    ? "border-primary bg-primary/5 text-foreground ring-2 ring-primary/20"
-                    : "border-border bg-background text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
-              )}
-            />
-            {!submitted && userAnswer.trim() && (
-              <button
-                type="button"
-                onClick={() => clearGap(idx)}
-                aria-label={forceEnglish ? "Clear this gap" : t("Xoá ô này", "Clear this gap")}
-                className="absolute -right-5 text-xs text-muted-foreground hover:text-destructive"
-              >
-                ✕
-              </button>
-            )}
-            {submitted && (
-              <span className="absolute -right-6">
-                {isCorrect ? (
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                ) : (
-                  <XCircle className="w-4 h-4 text-destructive" />
-                )}
-              </span>
-            )}
-          </div>
-          {parts[1] && <span>{parts[1]}</span>}
+          {parts.map((part, partIdx) => (
+            <span key={`part-${partIdx}`} className="inline-flex items-center flex-wrap">
+              {part && <span>{part}</span>}
+              {partIdx < parts.length - 1 && expected[partIdx] !== undefined
+                ? renderGapInput(idx, partIdx, expected[partIdx])
+                : null}
+            </span>
+          ))}
         </div>
 
-        <div className="flex items-center gap-3 ml-8">
+        <div className="flex items-center gap-3 ml-8 flex-wrap">
           {pickEnglishGrammarCopy(s.hint, undefined, "Hint") && !submitted && (
             <button
               onClick={() => toggleHint(idx)}
@@ -154,9 +186,10 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
                 : (forceEnglish ? "Hint" : t("Gợi ý", "Hint"))}
             </button>
           )}
-          {submitted && !isCorrect && (
+          {submitted && !allCorrect && (
             <span className="text-xs text-muted-foreground">
-              ✅ {forceEnglish ? "Answer" : t("Đáp án", "Answer")}: <span className="font-bold text-primary">{s.answer}</span>
+              ✅ {forceEnglish ? "Answer" : t("Đáp án", "Answer")}:{" "}
+              <span className="font-bold text-primary">{expected.join(" / ")}</span>
             </span>
           )}
         </div>
