@@ -1087,9 +1087,10 @@ Sentence-initial + comma; or mid-sentence between two commas.`,
             instruction: "Đặt 'always' đúng vị trí.",
             instructionEn: "Place 'always' correctly.",
             sentences: [
-              { text: "She ___ arrives ___ on time. (always)", textEn: "She ___ arrives ___ on time.", answer: "always" },
-              { text: "He is ___ happy ___. (always)", textEn: "He is ___ happy ___.", answer: "always" },
-              { text: "I have ___ wanted ___ to learn French. (always)", textEn: "I have ___ wanted ___ to learn French.", answer: "always" }
+              { text: "She ___ arrives on time. (always)", textEn: "She ___ arrives on time.", answer: "always" },
+              { text: "He is ___ happy. (always)", textEn: "He is ___ happy.", answer: "always" },
+              { text: "I have ___ wanted to learn French. (always)", textEn: "I have ___ wanted to learn French.", answer: "always" }
+
             ]
           }
         ],
