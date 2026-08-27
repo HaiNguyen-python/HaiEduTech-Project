@@ -465,7 +465,7 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
     ...(lesson.vocabulary || []).map((item) => item.word),
   ]);
 
-  const generated = dedupeQuestions([
+  const generated = sanitizeQuizQuestions(dedupeQuestions([
     ...englishBaseQuiz,
     ...fillInBlankExercises.flatMap((exercise) => buildFillBlankQuestions(exercise, lessonAnswers)),
     ...fillInBlankExercises.flatMap((exercise) => buildAppliedFillBlankQuestions(exercise, lessonAnswers)),
@@ -476,7 +476,8 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
     ...buildVocabularyQuestions(lesson.vocabulary || []),
     ...buildProTipQuestions(lesson),
     ...buildExplanationRecapQuestions(lesson),
-  ]);
+  ]));
+
 
   while (generated.length < MIN_GRAMMAR_QUIZ_QUESTIONS) {
     const index = generated.length + 1;
