@@ -376,6 +376,15 @@ const SCENE_VOICES: Record<string, [string, string]> = {
   pet: ["Woman", "Man"],
 };
 
+/** Casts for a personal chat: two peers, so young learners hear children. */
+const PEER_VOICES: Record<string, [string, string]> = {
+  starters: ["Girl", "Boy"],
+  movers: ["Boy", "Girl"],
+  flyers: ["Girl", "Boy"],
+  ket: ["Woman", "Man"],
+  pet: ["Man", "Woman"],
+};
+
 /** Polite in scene padding that fits any service or everyday conversation. */
 const SCENE_FILLER: string[] = [
   "Of course. Let me just check that for you.",
