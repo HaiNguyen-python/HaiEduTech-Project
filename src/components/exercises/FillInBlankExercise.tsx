@@ -17,14 +17,47 @@ interface Props {
   instruction: string;
   instructionEn: string;
   sentences: Sentence[];
+  /** Clickable words students can drop into the gaps. */
+  wordBank?: string[];
   forceEnglish?: boolean;
 }
 
-const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEnglish = false }: Props) => {
+const norm = (value: string) => value.replace(/\s+/g, " ").trim().toLowerCase();
+
+const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, forceEnglish = false }: Props) => {
   const { t } = useLanguage();
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [showHints, setShowHints] = useState<Record<number, boolean>>({});
+  const [activeGap, setActiveGap] = useState(0);
+
+  const bank = (wordBank || []).filter(Boolean);
+  const usedCounts = new Map<string, number>();
+  Object.values(answers).forEach((value) => {
+    const key = norm(value || "");
+    if (key) usedCounts.set(key, (usedCounts.get(key) || 0) + 1);
+  });
+
+  /** Dim a chip once it sits in a gap - it stays clickable because answers may repeat. */
+  const isChipUsed = (word: string) => (usedCounts.get(norm(word)) || 0) > 0;
+
+  const firstEmptyGap = () => {
+    const empty = sentences.findIndex((_, i) => !(answers[i] || "").trim());
+    return empty === -1 ? 0 : empty;
+  };
+
+  const pickWord = (word: string) => {
+    if (submitted) return;
+    const target = (answers[activeGap] || "").trim() ? firstEmptyGap() : activeGap;
+    setAnswers((prev) => ({ ...prev, [target]: word }));
+    setActiveGap(Math.min(target + 1, sentences.length - 1));
+  };
+
+  const clearGap = (idx: number) => {
+    if (submitted) return;
+    setAnswers((prev) => ({ ...prev, [idx]: "" }));
+    setActiveGap(idx);
+  };
 
   const handleChange = (idx: number, value: string) => {
     if (submitted) return;
@@ -37,6 +70,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
     setAnswers({});
     setSubmitted(false);
     setShowHints({});
+    setActiveGap(0);
   };
 
   const toggleHint = (idx: number) => {
@@ -71,6 +105,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
               type="text"
               value={userAnswer}
               onChange={(e) => handleChange(idx, e.target.value)}
+              onFocus={() => setActiveGap(idx)}
               disabled={submitted}
               placeholder="..."
               className={cn(
@@ -79,9 +114,21 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
                   ? isCorrect
                     ? "border-green-500 bg-green-500/10 text-green-700"
                     : "border-destructive bg-destructive/10 text-destructive"
-                  : "border-border bg-background text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  : activeGap === idx
+                    ? "border-primary bg-primary/5 text-foreground ring-2 ring-primary/20"
+                    : "border-border bg-background text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
               )}
             />
+            {!submitted && userAnswer.trim() && (
+              <button
+                type="button"
+                onClick={() => clearGap(idx)}
+                aria-label={forceEnglish ? "Clear this gap" : t("Xoá ô này", "Clear this gap")}
+                className="absolute -right-5 text-xs text-muted-foreground hover:text-destructive"
+              >
+                ✕
+              </button>
+            )}
             {submitted && (
               <span className="absolute -right-6">
                 {isCorrect ? (
@@ -122,6 +169,45 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
   const [titlePart, ...passageParts] = rawInstruction.split("\n\nPassage:");
   const passage = passageParts.length > 0 ? passageParts.join("\n\nPassage:").trim() : null;
 
+  const wordBankPanel = bank.length > 0 && (
+    <div
+      className={cn(
+        "rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-2 transition-opacity",
+        submitted && "opacity-60"
+      )}
+    >
+      <div className="text-xs uppercase tracking-wider font-semibold text-primary">
+        🧰 {forceEnglish ? "Word bank" : t("Ngân hàng từ", "Word bank")}
+      </div>
+      <p className="text-xs text-muted-foreground">
+        {forceEnglish
+          ? "Tap a word to put it into the selected gap."
+          : t("Bấm vào một từ để điền vào ô đang chọn.", "Tap a word to put it into the selected gap.")}
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {bank.map((word, i) => {
+          const used = isChipUsed(word);
+          return (
+            <button
+              key={`${word}-${i}`}
+              type="button"
+              onClick={() => pickWord(word)}
+              disabled={submitted}
+              className={cn(
+                "px-3 py-1.5 rounded-full border text-sm font-medium transition-all",
+                used
+                  ? "border-border bg-muted text-muted-foreground"
+                  : "border-primary/40 bg-background text-foreground hover:border-primary hover:bg-primary/10"
+              )}
+            >
+              {word}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -152,12 +238,14 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
             <div className="not-italic">{passage}</div>
           </div>
           <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-4 lg:max-h-[85vh] lg:overflow-y-auto lg:pr-2">
+            {wordBankPanel}
             <div className="text-xs uppercase tracking-wider font-semibold text-primary px-1">📝 Questions</div>
             {sentences.map((s, i) => renderSentence(s, i))}
           </div>
         </div>
       ) : (
         <div className="space-y-3">
+          {wordBankPanel}
           {sentences.map((s, i) => renderSentence(s, i))}
         </div>
       )}

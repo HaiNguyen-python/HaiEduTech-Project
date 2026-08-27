@@ -96,8 +96,47 @@ const withEnd = (text: string, suffix: string) => {
   return `${squash(head)} ${suffix}${match[1]}`;
 };
 
+/** Stable pseudo-shuffle so the word bank never reorders between renders. */
+const seededShuffle = (values: string[], seed: string) => {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) hash = (hash * 31 + seed.charCodeAt(i)) % 2147483647;
+  const list = [...values];
+  for (let i = list.length - 1; i > 0; i -= 1) {
+    hash = (hash * 1103515245 + 12345) % 2147483647;
+    const j = hash % (i + 1);
+    [list[i], list[j]] = [list[j], list[i]];
+  }
+  return list;
+};
+
+/** Answers of this exercise plus a few same-lesson distractors, shuffled. */
+const buildWordBank = (answers: string[], pool: string[], seed: string) => {
+  const unique: string[] = [];
+  const seen = new Set<string>();
+  for (const answer of answers) {
+    const value = squash(answer);
+    const key = value.toLowerCase();
+    if (!value || seen.has(key)) continue;
+    seen.add(key);
+    unique.push(value);
+  }
+  if (unique.length < 1) return undefined;
+
+  const target = Math.max(unique.length + 2, 4);
+  for (const candidate of pool) {
+    if (unique.length >= target) break;
+    const value = squash(candidate);
+    const key = value.toLowerCase();
+    if (!value || seen.has(key) || wordCount(value) > 4) continue;
+    seen.add(key);
+    unique.push(value);
+  }
+  return seededShuffle(unique, seed);
+};
+
 const clarifyFillInBlank = (
-  exercise: Extract<InteractiveExercise, { type: "fill-in-blank" }>
+  exercise: Extract<InteractiveExercise, { type: "fill-in-blank" }>,
+  pool: string[] = []
 ): InteractiveExercise => {
   const sentences = exercise.sentences.map((sentence) => {
     const answer = squash(sentence.answer);
@@ -130,12 +169,18 @@ const clarifyFillInBlank = (
     return { ...sentence, text, textEn, hint };
   });
 
-  const guide = "Write one answer per gap. Use the cue in brackets - it tells you which word type is expected.";
-  const guideVi = "Điền một đáp án cho mỗi chỗ trống. Dùng gợi ý trong ngoặc - nó cho biết loại từ cần điền.";
+  const wordBank = buildWordBank(
+    sentences.map((sentence) => sentence.answer),
+    pool,
+    `${exercise.instructionEn}|${sentences.length}`
+  );
+
+  const guide = "Pick a word from the word bank (or type it) for each gap. The cue in brackets tells you which word type is expected.";
+  const guideVi = "Chọn từ trong ngân hàng từ (hoặc tự gõ) cho mỗi chỗ trống. Gợi ý trong ngoặc cho biết loại từ cần điền.";
 
   // Reading-passage drills keep their authored instruction untouched.
   if (exercise.instruction.includes("Passage:") || exercise.instructionEn.includes("Passage:")) {
-    return { ...exercise, sentences };
+    return { ...exercise, sentences, wordBank };
   }
 
   return {
@@ -147,6 +192,7 @@ const clarifyFillInBlank = (
       ? exercise.instructionEn
       : `${squash(exercise.instructionEn)}\n${guide}`,
     sentences,
+    wordBank,
   };
 };
 
@@ -261,10 +307,10 @@ const clarifyDictation = (
   })),
 });
 
-const clarifyExercise = (exercise: InteractiveExercise): InteractiveExercise => {
+const clarifyExercise = (exercise: InteractiveExercise, pool: string[] = []): InteractiveExercise => {
   switch (exercise.type) {
     case "fill-in-blank":
-      return clarifyFillInBlank(exercise);
+      return clarifyFillInBlank(exercise, pool);
     case "sentence-reorder":
       return clarifyReorder(exercise);
     case "error-correction":
@@ -282,10 +328,21 @@ const clarifyExercise = (exercise: InteractiveExercise): InteractiveExercise => 
   }
 };
 
-const clarifyLesson = (lesson: LanguageLesson): LanguageLesson => ({
-  ...lesson,
-  exercises: lesson.exercises.map(clarifyExercise),
-});
+/** Distractor candidates for the word bank: other gap answers + lesson vocabulary. */
+const lessonWordPool = (lesson: LanguageLesson) => {
+  const pool: string[] = [];
+  for (const exercise of lesson.exercises) {
+    if (exercise.type !== "fill-in-blank") continue;
+    for (const sentence of exercise.sentences) pool.push(sentence.answer);
+  }
+  for (const entry of lesson.vocabulary || []) pool.push(entry.word);
+  return pool;
+};
+
+const clarifyLesson = (lesson: LanguageLesson): LanguageLesson => {
+  const pool = lessonWordPool(lesson);
+  return { ...lesson, exercises: lesson.exercises.map((exercise) => clarifyExercise(exercise, pool)) };
+};
 
 export const clarifyGrammarModules = (modules: LanguageModule[]): LanguageModule[] =>
   modules.map((mod) => ({ ...mod, lessons: mod.lessons.map(clarifyLesson) }));
