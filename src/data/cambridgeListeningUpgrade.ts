@@ -13,7 +13,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockExamData";
-import { isNegativeQuestion } from "./cambridgeListeningSupport";
+import { articleiseAction, isNegativeQuestion } from "./cambridgeListeningSupport";
 
 
 /** Minimum spoken words per level, matching official recording length. */
@@ -25,15 +25,35 @@ const WORD_TARGET: Record<string, number> = {
   pet: 165,
 };
 
-type Voices = { a: string; b: string };
+type Voices = { a: string; b: string; keyIsA: boolean };
 
 /** Voice pairs that fit the level: young children at YLE, adults at KET/PET. */
 const VOICE_SETS: Record<string, Voices[]> = {
-  starters: [{ a: "Woman", b: "Boy" }, { a: "Man", b: "Girl" }, { a: "Girl", b: "Boy" }],
-  movers: [{ a: "Teacher", b: "Student" }, { a: "Woman", b: "Boy" }, { a: "Girl", b: "Boy" }],
-  flyers: [{ a: "Teacher", b: "Student" }, { a: "Man", b: "Girl" }, { a: "Woman", b: "Boy" }],
-  ket: [{ a: "Interviewer", b: "Woman" }, { a: "Presenter", b: "Man" }, { a: "Woman", b: "Man" }],
-  pet: [{ a: "Interviewer", b: "Expert" }, { a: "Presenter", b: "Guest" }, { a: "Woman", b: "Man" }],
+  starters: [
+    { a: "Woman", b: "Boy", keyIsA: true },
+    { a: "Man", b: "Girl", keyIsA: true },
+    { a: "Girl", b: "Boy", keyIsA: false },
+  ],
+  movers: [
+    { a: "Teacher", b: "Student", keyIsA: true },
+    { a: "Woman", b: "Boy", keyIsA: true },
+    { a: "Girl", b: "Boy", keyIsA: false },
+  ],
+  flyers: [
+    { a: "Teacher", b: "Student", keyIsA: true },
+    { a: "Man", b: "Girl", keyIsA: true },
+    { a: "Woman", b: "Boy", keyIsA: true },
+  ],
+  ket: [
+    { a: "Interviewer", b: "Woman", keyIsA: false },
+    { a: "Presenter", b: "Man", keyIsA: false },
+    { a: "Woman", b: "Man", keyIsA: false },
+  ],
+  pet: [
+    { a: "Interviewer", b: "Expert", keyIsA: false },
+    { a: "Presenter", b: "Guest", keyIsA: false },
+    { a: "Woman", b: "Man", keyIsA: false },
+  ],
 };
 
 const hash = (text: string): number => {
@@ -56,6 +76,14 @@ const coreLine = (passage: string): string => {
 const normalise = (text: string): string =>
   text.toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
 
+/** Days, months, titles and names keep their capital letter inside a sentence. */
+const PROPER = /^(monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december|mr|mrs|miss|ms|english|maths|london|paris)\b/i;
+
+const lower = (text: string): string =>
+  PROPER.test(text) || /^[A-Z]{2,}|^[£$]|^\d/.test(text)
+    ? text
+    : text.charAt(0).toLowerCase() + text.slice(1);
+
 /**
  * Wrong options that are safe to name as rejected ideas: real words, not part of
  * the key and not already mentioned in the authored line. Negative stems ("What
@@ -76,7 +104,7 @@ const rejectable = (q: CambridgeMockQuestion, core: string): string[] => {
       return n.length > 0 && n !== key && !key.includes(n) && !n.includes(key) && !plain.includes(n);
     })
     .map(o => o.replace(/\.$/, ""))
-    .map(o => (/^[A-Z]{2,}/.test(o) ? o : o.charAt(0).toLowerCase() + o.slice(1)));
+    .map(o => lower(o));
 };
 
 /** Numbers, clock times and prices need their own wording to sound natural. */
@@ -86,24 +114,19 @@ const isQuantity = (text: string): boolean =>
   );
 
 
-const lower = (text: string): string => text.charAt(0).toLowerCase() + text.slice(1);
-
 /** Openers set the scene without hinting at the key. */
 const OPENERS: Record<string, string[]> = {
   starters: [
-    "You will hear a short talk about {theme}. Listen carefully.",
-    "Listen to two friends talking about {theme}.",
-    "You will hear a girl and her mum talking about {theme}.",
+    "You will hear a short conversation about {theme}. Listen carefully.",
+    "You will hear two people talking about {theme}. Listen twice.",
   ],
   movers: [
     "You will hear a conversation about {theme}. Listen twice.",
-    "Listen to a boy telling his teacher about {theme}.",
-    "You will hear two children planning something about {theme}.",
+    "You will hear two people talking about {theme}. Listen and choose the right answer.",
   ],
   flyers: [
     "You will hear a conversation about {theme}. Listen and choose the right answer.",
-    "Listen to a girl asking questions about {theme}.",
-    "You will hear a short interview about {theme}.",
+    "You will hear a short interview about {theme}. Listen twice.",
   ],
   ket: [
     "You will hear a conversation about {theme}. You will hear the recording twice.",
@@ -171,15 +194,15 @@ const REJECT: Record<string, string[]> = {
     "It is definitely not {x}, although a lot of people think so.",
   ],
   ket: [
-    "A lot of people expect {x}, and that is what the old leaflet said.",
+    "A lot of people expect {x}, because the old leaflet said so, but that is not the case now.",
     "We did think about {x} at first, but that plan was dropped.",
     "It is certainly not {x} any more.",
   ],
   pet: [
-    "Many people assume it is {x}, because that is what happened last year.",
+    "Many people assume it is {x}, because that is what happened last year, but not any longer.",
     "There were two early suggestions, {x} being the most popular one, but neither of them went ahead.",
     "I should make it clear that {x} is no longer the case.",
-    "The website still mentions {x}, and we are trying to get that corrected.",
+    "The website still mentions {x}, which is wrong and we are getting it corrected.",
   ],
 };
 
@@ -202,20 +225,47 @@ const QUANTITY_REJECT: Record<string, string[]> = {
     "It used to be {x} last year, so please do not use that figure.",
   ],
   pet: [
-    "The website still shows {x}, which is left over from last season.",
+    "The website still shows {x}, which is left over from last season and is not correct.",
     "The original announcement said {x}, but that was revised before it opened.",
   ],
 };
 
 /** Theme flavoured lines so scripts about food do not sound like scripts about travel. */
 const THEME_CHAT: string[] = [
-  "We are looking at {theme} in class this week.",
-  "I keep hearing people talk about {theme} at the moment.",
+  "I would like to ask you about {theme}.",
+  "People keep talking about {theme} at the moment, so I am curious.",
   "There is a lot to say about {theme}, is there not?",
-  "My family talks about {theme} quite often at home.",
   "I did some reading about {theme} before I came here.",
-  "Everyone in my group chose {theme} for their project.",
 ];
+
+/**
+ * Options that are actions ("postpone meeting", "take the bus") cannot follow
+ * "It is not ...", so they get their own rejection wordings.
+ */
+const isAction = (text: string): boolean =>
+  /^(write|read|buy|take|use|go|cook|play|walk|cycle|swim|call|ask|visit|postpone|cancel|book|bring|wear|study|join|help|meet|send|wait|start|finish|change|recycle|save|plant|skip|move|stay|leave|order|pay|watch|listen|drive|fly|run|clean|paint|open|close|delay|repeat|share|check)\b/i.test(
+    text.trim()
+  );
+
+const ACTION_REJECT: Record<string, string[]> = {
+  starters: ["We are not going to {x}.", "First I wanted to {x}, but not now."],
+  movers: [
+    "At first I wanted to {x}, but I changed my mind.",
+    "We are not going to {x}, so do not write that.",
+  ],
+  flyers: [
+    "My friend thought we would {x}, but that is not the plan.",
+    "We talked about how to {x}, and then we decided against it.",
+  ],
+  ket: [
+    "A lot of people expect us to {x}, but that idea was dropped.",
+    "We did plan to {x} last month, and that is no longer true.",
+  ],
+  pet: [
+    "Many people assume we will {x}, because that is what happened last year.",
+    "One early suggestion was to {x}, but it never went ahead.",
+  ],
+};
 
 
 /** Closing turns that add length without repeating the key. */
@@ -254,8 +304,9 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   const baseChat = CHAT[level] ?? CHAT.flyers;
   const chat = [
     baseChat[0],
+    baseChat[1],
     pick(THEME_CHAT, seed + 3).replace("{theme}", theme),
-    ...baseChat.slice(1),
+    ...baseChat.slice(2),
   ];
   const rejects = rejectable(q, core);
 
@@ -265,10 +316,14 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   // Rejected ideas raise the difficulty: the student must hear the contrast.
   const rejectPool = REJECT[level] ?? REJECT.flyers;
   const quantityPool = QUANTITY_REJECT[level] ?? QUANTITY_REJECT.flyers;
+  const actionPool = ACTION_REJECT[level] ?? ACTION_REJECT.flyers;
   const rejectLines = rejects
     .slice(0, level === "starters" || level === "movers" ? 1 : 2)
     .map((x, i) =>
-      pick(isQuantity(x) ? quantityPool : rejectPool, seed + i).replace(/\{x\}/g, lower(x))
+      pick(isQuantity(x) ? quantityPool : isAction(x) ? actionPool : rejectPool, seed + i).replace(
+        /\{x\}/g,
+        isAction(x) ? articleiseAction(lower(x)) : lower(x)
+      )
     );
 
   const closer = pick(CLOSERS[level] ?? CLOSERS.flyers, seed);
@@ -286,11 +341,16 @@ const buildScript = (exam: CambridgeMockExam, q: CambridgeMockQuestion): string 
   }
 
 
-  const middle = [...before, ...rejectLines, core];
-  middle.forEach((text, i) => {
-    lines.push(`${i % 2 === 0 ? voices.a : voices.b}: ${text}`);
+  // Chat alternates naturally, then the speaker who knows the facts says the
+  // rejected ideas and the key line, and the other one closes the recording.
+  const keyVoice = voices.keyIsA ? voices.a : voices.b;
+  const otherVoice = voices.keyIsA ? voices.b : voices.a;
+  before.forEach((text, i) => {
+    // The one asking questions opens, the one who knows the facts replies.
+    lines.push(`${i % 2 === 0 ? otherVoice : keyVoice}: ${text}`);
   });
-  lines.push(`${middle.length % 2 === 0 ? voices.a : voices.b}: ${closer}`);
+  [...rejectLines, core].forEach(text => lines.push(`${keyVoice}: ${text}`));
+  lines.push(`${otherVoice}: ${closer}`);
 
   return `Listen:\n${lines.join("\n")}`;
 

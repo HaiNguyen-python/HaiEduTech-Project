@@ -21,6 +21,7 @@ import confetti from "canvas-confetti";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS, type CambridgeMockExam as ExamType } from "@/data/cambridgeMockExamData";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
+import { listeningScriptToSpeech } from "@/data/cambridgeListeningSupport";
 import { formatCambridgePassage } from "@/lib/cambridgePassageFormat";
 import { findEvidenceSentence, splitSentences } from "@/lib/cambridgeEvidence";
 import { buildReviewExplanation } from "@/lib/cambridgeReviewExplanation";
@@ -473,7 +474,7 @@ const CambridgeMockExam = () => {
                       </p>
                       <div className="flex flex-wrap gap-2">
                         <Button
-                          onClick={() => { stopEnglishTts(); playEnglishTts(currentQuestion.passage!.replace(/^\s*Listen:\s*/i, ""), { playbackRate: 0.9 }); }}
+                          onClick={() => { stopEnglishTts(); playEnglishTts(listeningScriptToSpeech(currentQuestion.passage!), { playbackRate: 0.9 }); }}
                           size="sm"
                           variant="outline"
                           className="border-2 border-[#FBCFE8] bg-white text-[#BE185D] hover:bg-[#FDF2F8] hover:text-[#9D174D]"
