@@ -10,11 +10,25 @@ import type { CambridgeMockExam } from "./cambridgeMockExamData";
 
 /** examId -> (question text fragment -> passage to attach). */
 const ORPHAN_PASSAGES: Record<string, { match: RegExp; passage: string }[]> = {
-  "cambridge-flyers-2": [
+  "cambridge-movers-1": [
     {
-      match: /where is the party\?/i,
+      match: /what time do most children go to school\?/i,
       passage:
-        "INVITATION\n\nHi Tom,\n\nIt's my birthday on Saturday! The party starts at 3 o'clock. My house is too small, so we are having it at the community centre next to the park. Please bring your swimming things - there is a small pool there.\n\nSee you soon,\nAnna",
+        "SCHOOL DAY SURVEY\n\nWe asked 100 children about their school day.\n\nMost children wake up at 7 AM and have breakfast with their family. They leave home a little later and start school at 8 AM. Lessons finish at 12 PM, and after lunch the children have sport or music. By 6 PM almost everybody is at home again doing homework.",
+    },
+  ],
+  "cambridge-starters-6": [
+    {
+      match: /what time does the girl get up in the morning\?/i,
+      passage:
+        "MY DAY\n\n\"Hello! My name is Lucy.\n\nI get up at seven o'clock. I have milk and bread for breakfast. Then I go to school with my brother.\n\nI play with my friends at four o'clock and I go to bed at eight o'clock.\"",
+    },
+  ],
+  "cambridge-ket-2": [
+    {
+      match: /how much is a return ticket\?/i,
+      passage:
+        "CITY BUS: TICKET PRICES\n\nSingle ticket (one way): 8 pounds.\nReturn ticket (there and back): 14 pounds.\nDay pass (all buses, all day): 18 pounds.\n\nChildren under 12 pay half price. Buses leave the station every 20 minutes from 6 AM until 10 PM.",
     },
   ],
   "cambridge-ket-1": [
@@ -40,14 +54,30 @@ const ORPHAN_PASSAGES: Record<string, { match: RegExp; passage: string }[]> = {
   ],
 };
 
+/**
+ * Stems that only make sense with a text on the page. When such a question has
+ * no passage of its own, it borrows the main reading text of the same paper.
+ */
+const TEXT_DEPENDENT =
+  /(the (writer|author|text|passage|article|notice|email|message|story|advert|leaflet))|according to the text/i;
+
 /** Attach authored texts to Reading questions that reference a missing text. */
 export const withCambridgeOrphanPassages = (exam: CambridgeMockExam): CambridgeMockExam => {
   const rules = ORPHAN_PASSAGES[exam.id];
-  if (!rules) return exam;
+
+  // Longest reading text of this paper, used as fallback context.
+  const mainPassage = exam.questions
+    .filter((q) => q.section === "Reading & Writing" && q.passage && q.passage.trim())
+    .map((q) => q.passage!)
+    .sort((a, b) => b.length - a.length)[0];
+
   const questions = exam.questions.map((q) => {
     if (q.section !== "Reading & Writing" || (q.passage && q.passage.trim())) return q;
-    const rule = rules.find((r) => r.match.test(q.question));
-    return rule ? { ...q, passage: rule.passage } : q;
+    const rule = rules?.find((r) => r.match.test(q.question));
+    if (rule) return { ...q, passage: rule.passage };
+    if (mainPassage && TEXT_DEPENDENT.test(q.question)) return { ...q, passage: mainPassage };
+    return q;
   });
   return { ...exam, questions };
 };
+
