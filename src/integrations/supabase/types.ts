@@ -1627,6 +1627,113 @@ export type Database = {
         }
         Relationships: []
       }
+      learning_path_steps: {
+        Row: {
+          created_at: string
+          done_at: string | null
+          est_minutes: number
+          id: string
+          kind: string
+          path_id: string
+          priority: number
+          route: string | null
+          title_en: string
+          title_vi: string
+          updated_at: string
+          user_id: string
+          week_start: string
+        }
+        Insert: {
+          created_at?: string
+          done_at?: string | null
+          est_minutes?: number
+          id?: string
+          kind?: string
+          path_id: string
+          priority?: number
+          route?: string | null
+          title_en: string
+          title_vi: string
+          updated_at?: string
+          user_id: string
+          week_start: string
+        }
+        Update: {
+          created_at?: string
+          done_at?: string | null
+          est_minutes?: number
+          id?: string
+          kind?: string
+          path_id?: string
+          priority?: number
+          route?: string | null
+          title_en?: string
+          title_vi?: string
+          updated_at?: string
+          user_id?: string
+          week_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_path_steps_path_id_fkey"
+            columns: ["path_id"]
+            isOneToOne: false
+            referencedRelation: "learning_paths"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      learning_paths: {
+        Row: {
+          available_days: string[]
+          created_at: string
+          current_level: string | null
+          goal_label: string | null
+          hours_per_week: number
+          id: string
+          notes: string | null
+          start_level: string | null
+          status: string
+          subject: string
+          target_date: string | null
+          target_level: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          available_days?: string[]
+          created_at?: string
+          current_level?: string | null
+          goal_label?: string | null
+          hours_per_week?: number
+          id?: string
+          notes?: string | null
+          start_level?: string | null
+          status?: string
+          subject: string
+          target_date?: string | null
+          target_level?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          available_days?: string[]
+          created_at?: string
+          current_level?: string | null
+          goal_label?: string | null
+          hours_per_week?: number
+          id?: string
+          notes?: string | null
+          start_level?: string | null
+          status?: string
+          subject?: string
+          target_date?: string | null
+          target_level?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       lesson_attendance: {
         Row: {
           attendance_date: string
