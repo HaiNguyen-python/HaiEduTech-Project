@@ -27,7 +27,7 @@ import WeaknessList from "@/components/personalization/WeaknessList";
 import { useNavigate } from "react-router-dom";
 
 const MyPath = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const navigate = useNavigate();
   const { userId, views, loading, removePath, toggleStepDone, isStepDone, reload } = useLearningPath();
   const [active, setActive] = useState<string>("");
@@ -57,7 +57,7 @@ const MyPath = () => {
     try {
       const { data, error } = await supabase.functions.invoke("learning-path-coach", {
         body: {
-          language,
+          language: lang,
           subject: current.path.subject,
           subjectLabel: SUBJECTS[current.path.subject].labelEn,
           currentLevel: current.currentLevel,
