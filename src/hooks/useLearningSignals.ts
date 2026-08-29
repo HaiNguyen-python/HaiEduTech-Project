@@ -111,7 +111,7 @@ export function useLearningSignals() {
     for (const row of vocabSrs.data ?? []) {
       const subject = subjectOfVocab(row.subject ?? "");
       if (!subject) continue;
-      if (!row.due_at || +new Date(row.due_at) <= now) map[subject].dueReviews += 1;
+      if (!row.due_date || +new Date(row.due_date) <= now) map[subject].dueReviews += 1;
     }
 
     setSignals(map);
