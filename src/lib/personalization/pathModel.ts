@@ -215,16 +215,18 @@ export function buildWeeklyPlan(
       if (pass === 0 && steps.some((s) => s.trackId === track.id)) continue;
       const repeat = steps.filter((s) => s.trackId.startsWith(track.id)).length;
       if (repeat > pass) continue;
+      const nth = repeat + 1;
       steps.push({
-        trackId: repeat === 0 ? track.id : `${track.id}-${repeat + 1}`,
+        trackId: repeat === 0 ? track.id : `${track.id}-${nth}`,
         kind: track.kind,
-        titleVi: track.titleVi,
-        titleEn: track.titleEn,
+        titleVi: repeat === 0 ? track.titleVi : `${track.titleVi} (buổi ${nth})`,
+        titleEn: repeat === 0 ? track.titleEn : `${track.titleEn} (session ${nth})`,
         route: track.route,
         minutes: track.minutes,
         skill: track.skill,
         priority: priority++,
       });
+
       used += track.minutes;
       if (steps.length >= 10) break;
     }
