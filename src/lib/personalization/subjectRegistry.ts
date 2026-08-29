@@ -229,8 +229,8 @@ export const SUBJECTS: Record<SubjectId, SubjectDef> = {
     activityPrefixes: ["python", "sql", "coding", "programming", "ai_academy", "startup_", "scratch", "ml_", "spark"],
     vocabSubjects: ["programming"],
     tracks: [
-      T("pg-python", "lesson", "Học 1 bài Python", "Study one Python lesson", "/programming/python-pathway", 30, "logic"),
-      T("pg-challenge", "practice", "Giải 2 challenge code", "Solve 2 coding challenges", "/programming/python-challenges", 30, "logic"),
+      T("pg-python", "lesson", "Học 1 bài Python", "Study one Python lesson", "/programming", 30, "logic"),
+      T("pg-challenge", "practice", "Giải 2 challenge code", "Solve 2 coding challenges", "/python-challenges", 30, "logic"),
       T("pg-ai", "lesson", "Học 1 bài AI Academy", "Study one AI Academy lesson", "/programming/ai-academy", 25, "logic"),
       T("pg-startup", "lesson", "Học 1 bài Startup", "Study one Startup lesson", "/programming/startup/roadmap", 20, "logic"),
     ],
