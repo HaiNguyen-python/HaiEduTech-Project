@@ -56,7 +56,7 @@ export function useLearningSignals() {
         .order("created_at", { ascending: false })
         .limit(20),
       supabase.from("speaking_srs_items").select("due_at").eq("user_id", uid).limit(2000),
-      supabase.from("vocab_srs_state").select("subject, due_at").eq("user_id", uid).limit(5000),
+      supabase.from("vocab_srs_state").select("subject, due_date").eq("user_id", uid).limit(5000),
     ]);
 
     const map = blankMap();
