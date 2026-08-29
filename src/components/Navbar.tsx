@@ -487,6 +487,11 @@ const Navbar = () => {
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                             <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                           </Link>
+                          <Link to="/my-path" onClick={() => setUserMenuOpen(false)}
+                            className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                            <Map className="w-3.5 h-3.5" /> {t("Lộ trình của tôi", "My Learning Path")}
+                          </Link>
+
                           {isTeacher && (
                             <Link to="/admin-dashboard" onClick={() => setUserMenuOpen(false)}
                               className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary hover:bg-secondary transition-colors">
@@ -932,6 +937,11 @@ const Navbar = () => {
                       className="flex items-center justify-center gap-2 w-full px-4 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-primary to-accent text-white shadow-lg transition-all">
                       {isTeacher ? <><Shield className="w-5 h-5" /> {t("Quản trị", "Admin")}</> : <><LayoutDashboard className="w-5 h-5" /> Dashboard</>}
                     </Link>
+                    <Link to="/my-path" onClick={() => setOpen(false)}
+                      className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl text-sm font-bold text-primary border border-primary/40 bg-primary/10 hover:bg-primary/20 transition-all">
+                      <Map className="w-5 h-5" /> {t("Lộ trình của tôi", "My Learning Path")}
+                    </Link>
+
                     <button onClick={() => { setUpgradeOpen(true); setOpen(false); }}
                       className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-sm font-bold text-amber-600 dark:text-amber-400 border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 transition-all">
                       <Crown className="w-5 h-5" /> {t("Nâng Cấp Tài Khoản", "Upgrade Account")}
