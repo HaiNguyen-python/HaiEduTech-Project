@@ -1,6 +1,8 @@
 # Project Memory
 
 ## Memories
+- [My Learning Path](mem://features/personalization/my-learning-path) - /my-path personalization for 13 subjects: wizard, weekly plan, readiness forecast, AI coach
+
 - [Songs Library](mem://features/songs-library) - language_songs rules: live+correct YouTube links, no duplicates, blanks must match lyric line, pinyin on ZH lines
 - [Cambridge CEFR Chart](mem://features/cambridge/cefr-progress-chart) - 100 mock papers (20 per level), CEFR scale chart, mastery 70% over 2+ papers
 - [IELTS Performance Dashboard](mem://features/ielts/performance-dashboard) — /ielts-performance: band prediction, readiness weeks, ranked weaknesses, AI coach
