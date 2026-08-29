@@ -487,6 +487,11 @@ const Navbar = () => {
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                             <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                           </Link>
+                          <Link to="/my-path" onClick={() => setUserMenuOpen(false)}
+                            className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                            <Map className="w-3.5 h-3.5" /> {t("Lộ trình của tôi", "My Learning Path")}
+                          </Link>
+
                           {isTeacher && (
                             <Link to="/admin-dashboard" onClick={() => setUserMenuOpen(false)}
                               className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary hover:bg-secondary transition-colors">
