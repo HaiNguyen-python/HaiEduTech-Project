@@ -409,6 +409,9 @@ const App = () => (
             <Route path="/ielts-reading-practice" element={<LazyRoute><IeltsReadingPractice /></LazyRoute>} />
             <Route path="/ielts-skills-practice" element={<LazyRoute><IeltsSkillsPractice /></LazyRoute>} />
             <Route path="/ielts-performance" element={<LazyRoute><IeltsPerformance /></LazyRoute>} />
+            <Route path="/my-path" element={<LazyRoute><MyPath /></LazyRoute>} />
+            <Route path="/my-path/start" element={<LazyRoute><MyPathOnboarding /></LazyRoute>} />
+
 
             <Route path="/toeic" element={<LazyRoute><ToeicHub /></LazyRoute>} />
             <Route path="/toeic-lectures" element={<LazyRoute><ToeicLectures /></LazyRoute>} />
