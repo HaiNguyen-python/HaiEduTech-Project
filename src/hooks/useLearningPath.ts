@@ -176,7 +176,10 @@ export function useLearningPath() {
     }
 
     const nextPlans: Record<string, PlanStep[]> = {};
-    const inserts: Record<string, unknown>[] = [];
+    const inserts: {
+      path_id: string; user_id: string; week_start: string; title_vi: string; title_en: string;
+      route: string; est_minutes: number; kind: string; priority: number;
+    }[] = [];
     for (const path of cloud) {
       const existing = byPath.get(path.id ?? "");
       if (existing && existing.length > 0) {
