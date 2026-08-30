@@ -190,7 +190,7 @@ export function useLearningPath() {
       nextPlans[path.subject] = generated;
       for (const step of generated) {
         inserts.push({
-          path_id: path.id,
+          path_id: path.id ?? "",
           user_id: userId,
           week_start: week,
           title_vi: step.titleVi,
