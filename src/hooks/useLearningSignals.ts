@@ -60,6 +60,21 @@ export function useLearningSignals() {
         .limit(20),
       supabase.from("speaking_srs_items").select("due_at").eq("user_id", uid).limit(2000),
       supabase.from("vocab_srs_state").select("subject, due_date").eq("user_id", uid).limit(5000),
+      supabase.from("writing_attempts").select("overall_score, created_at").eq("user_id", uid)
+        .gte("created_at", since).limit(500),
+      supabase.from("pte_attempts").select("skill, score, max_score, created_at").eq("user_id", uid)
+        .gte("created_at", since).limit(500),
+      supabase.from("sat_mistakes").select("section, correct_streak, mastered_at, created_at")
+        .eq("user_id", uid).gte("created_at", since).limit(1000),
+      supabase.from("hsk_srs_progress").select("next_review").eq("user_id", uid).limit(3000),
+      supabase.from("ielts_lecture_progress").select("is_completed").eq("user_id", uid)
+        .eq("is_completed", true).limit(2000),
+      supabase.from("toeic_lecture_progress").select("is_completed").eq("user_id", uid)
+        .eq("is_completed", true).limit(2000),
+      supabase.from("hskk_attempts").select("scores, created_at").eq("user_id", uid)
+        .gte("created_at", since).limit(300),
+      supabase.from("hsk_writing_attempts").select("grade, created_at").eq("user_id", uid)
+        .gte("created_at", since).limit(300),
     ]);
 
     const map = blankMap();
