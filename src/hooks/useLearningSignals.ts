@@ -40,7 +40,10 @@ export function useLearningSignals() {
     }
 
     const since = new Date(Date.now() - 120 * DAY).toISOString();
-    const [acts, vocab, placements, speakingSrs, vocabSrs] = await Promise.all([
+    const [
+      acts, vocab, placements, speakingSrs, vocabSrs,
+      writing, pte, sat, hskSrs, ieltsLect, toeicLect, hskk, hskWriting,
+    ] = await Promise.all([
       supabase
         .from("student_activity_log")
         .select("activity_type, score, max_score, time_spent_seconds, created_at")
