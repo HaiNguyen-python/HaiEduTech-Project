@@ -24,6 +24,8 @@ export interface SubjectSignals {
   minutesLast7: number;
   activeDays30: number;
   dueReviews: number;
+  /** Lessons or lectures marked complete for this subject. */
+  lessonsDone: number;
   /** Placement percentage 0-100 when the student took a placement test. */
   placementPct?: number | null;
   placementBand?: string | null;
@@ -31,8 +33,22 @@ export interface SubjectSignals {
 
 export const emptySignals = (subject: SubjectId): SubjectSignals => ({
   subject, attempts: [], vocabMastered: 0, minutesLast7: 0,
-  activeDays30: 0, dueReviews: 0, placementPct: null, placementBand: null,
+  activeDays30: 0, dueReviews: 0, lessonsDone: 0, placementPct: null, placementBand: null,
 });
+
+/**
+ * True when there is enough real data to trust the numbers. Below this the UI
+ * should invite the student to take a placement test or a first drill instead
+ * of showing a 0% forecast.
+ */
+export function hasEnoughData(signals: SubjectSignals): boolean {
+  return (
+    signals.attempts.length >= 2
+    || signals.placementPct != null
+    || signals.vocabMastered >= 10
+    || signals.lessonsDone >= 2
+  );
+}
 
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
 
