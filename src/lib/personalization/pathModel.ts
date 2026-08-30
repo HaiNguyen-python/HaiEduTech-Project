@@ -24,6 +24,8 @@ export interface SubjectSignals {
   minutesLast7: number;
   activeDays30: number;
   dueReviews: number;
+  /** Lessons or lectures marked complete for this subject. */
+  lessonsDone: number;
   /** Placement percentage 0-100 when the student took a placement test. */
   placementPct?: number | null;
   placementBand?: string | null;
@@ -31,8 +33,22 @@ export interface SubjectSignals {
 
 export const emptySignals = (subject: SubjectId): SubjectSignals => ({
   subject, attempts: [], vocabMastered: 0, minutesLast7: 0,
-  activeDays30: 0, dueReviews: 0, placementPct: null, placementBand: null,
+  activeDays30: 0, dueReviews: 0, lessonsDone: 0, placementPct: null, placementBand: null,
 });
+
+/**
+ * True when there is enough real data to trust the numbers. Below this the UI
+ * should invite the student to take a placement test or a first drill instead
+ * of showing a 0% forecast.
+ */
+export function hasEnoughData(signals: SubjectSignals): boolean {
+  return (
+    signals.attempts.length >= 2
+    || signals.placementPct != null
+    || signals.vocabMastered >= 10
+    || signals.lessonsDone >= 2
+  );
+}
 
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
 
@@ -247,4 +263,101 @@ export function currentWeekStart(now: Date = new Date()): string {
   const day = vn.getDay() === 0 ? 7 : vn.getDay();
   vn.setDate(vn.getDate() - (day - 1));
   return `${vn.getFullYear()}-${String(vn.getMonth() + 1).padStart(2, "0")}-${String(vn.getDate()).padStart(2, "0")}`;
+}
+
+/** Stable key for one plan step, shared by cloud rows, guest storage and to-dos. */
+export const stepKey = (step: PlanStep): string => `${step.route}|${step.titleEn}`;
+
+export interface DayBucket {
+  /** Short day code: mon..sun. */
+  day: string;
+  steps: PlanStep[];
+}
+
+export const DAY_CODES = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
+
+export const DAY_LABELS: Record<string, { vi: string; en: string }> = {
+  mon: { vi: "Thứ 2", en: "Mon" },
+  tue: { vi: "Thứ 3", en: "Tue" },
+  wed: { vi: "Thứ 4", en: "Wed" },
+  thu: { vi: "Thứ 5", en: "Thu" },
+  fri: { vi: "Thứ 6", en: "Fri" },
+  sat: { vi: "Thứ 7", en: "Sat" },
+  sun: { vi: "Chủ nhật", en: "Sun" },
+};
+
+/** Day code of today in Asia/Ho_Chi_Minh. */
+export function todayCode(now: Date = new Date()): string {
+  const vn = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
+  return DAY_CODES[(vn.getDay() === 0 ? 7 : vn.getDay()) - 1];
+}
+
+/**
+ * Spreads the weekly steps over the days the student said they are free,
+ * keeping priority order and balancing minutes per day.
+ */
+export function distributePlanByDays(steps: PlanStep[], availableDays: string[]): DayBucket[] {
+  const days = DAY_CODES.filter((d) => availableDays.includes(d));
+  const use = days.length > 0 ? [...days] : [...DAY_CODES];
+  const buckets: DayBucket[] = use.map((day) => ({ day, steps: [] }));
+  const load = new Map<string, number>(use.map((d) => [d, 0]));
+
+  for (const step of [...steps].sort((a, b) => a.priority - b.priority)) {
+    let best = buckets[0];
+    for (const bucket of buckets) {
+      if ((load.get(bucket.day) ?? 0) < (load.get(best.day) ?? 0)) best = bucket;
+    }
+    best.steps.push(step);
+    load.set(best.day, (load.get(best.day) ?? 0) + step.minutes);
+  }
+  return buckets;
+}
+
+export interface WeeklyLoad {
+  targetMinutes: number;
+  plannedMinutes: number;
+  doneMinutes: number;
+  /** Percentage of the committed hours already completed. */
+  donePct: number;
+  /** Percentage of the week that has elapsed, so the UI can flag a lag. */
+  elapsedPct: number;
+  behind: boolean;
+}
+
+export function weeklyLoadSummary(
+  steps: PlanStep[],
+  isDone: (step: PlanStep) => boolean,
+  hoursPerWeek: number,
+  now: Date = new Date(),
+): WeeklyLoad {
+  const targetMinutes = Math.max(30, Math.round(hoursPerWeek * 60));
+  const plannedMinutes = steps.reduce((s, x) => s + x.minutes, 0);
+  const doneMinutes = steps.filter(isDone).reduce((s, x) => s + x.minutes, 0);
+  const vn = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
+  const dayIdx = (vn.getDay() === 0 ? 7 : vn.getDay()) - 1;
+  const elapsedPct = clamp(Math.round(((dayIdx + 1) / 7) * 100), 0, 100);
+  const donePct = clamp(Math.round((doneMinutes / targetMinutes) * 100), 0, 100);
+  return {
+    targetMinutes, plannedMinutes, doneMinutes, donePct, elapsedPct,
+    behind: donePct + 20 < elapsedPct,
+  };
+}
+
+/** Plain-language reason behind the readiness number, bilingual. */
+export function explainReadiness(
+  signals: SubjectSignals,
+  readiness: Readiness,
+  pace: number,
+): { vi: string; en: string } {
+  const n = signals.attempts.length;
+  if (!hasEnoughData(signals)) {
+    return {
+      vi: "Chưa đủ dữ liệu để dự đoán. Hãy làm bài kiểm tra trình độ hoặc một bài luyện đầu tiên.",
+      en: "Not enough data yet. Take a placement test or a first drill to unlock the forecast.",
+    };
+  }
+  return {
+    vi: `Tính từ ${n} bài làm gần đây, ${signals.vocabMastered} từ đã thuộc và nhịp tiến bộ khoảng ${pace} điểm mỗi tuần, nên còn khoảng ${readiness.weeks} tuần (độ tin cậy ${readiness.confidence}).`,
+    en: `Based on your ${n} recent attempts, ${signals.vocabMastered} mastered words and a pace of about ${pace} points per week, the target is about ${readiness.weeks} weeks away (${readiness.confidence} confidence).`,
+  };
 }
