@@ -1,15 +1,17 @@
 /**
  * @file MyPath.tsx
- * @description "Lộ trình của tôi" - the personalized study dashboard: per-subject
- *   level vs target, readiness forecast, weekly task plan, ranked weaknesses and
- *   an AI coach note (with a rule-based fallback so numbers never depend on AI).
+ * @description "Lộ trình của tôi" - the personalized study dashboard: the single
+ *   next action, per-subject level vs target, readiness forecast with an
+ *   explanation, this week's plan spread over free days, weekly pace, an
+ *   eight-week history, ranked weaknesses, a cached AI coach note and a
+ *   one-page PDF for parents.
  *
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { Compass, Loader2, Plus, RefreshCw, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Compass, Download, Info, Loader2, Plus, RefreshCw, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -19,20 +21,29 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 import { SUBJECTS } from "@/lib/personalization/subjectRegistry";
-import { useLearningPath } from "@/hooks/useLearningPath";
+import { nextStep, stepKey } from "@/lib/personalization/pathModel";
+import { useLearningPath, type PathView } from "@/hooks/useLearningPath";
+import { getCachedDisplayName } from "@/hooks/useDisplayName";
+import { exportPathPdf } from "@/lib/personalization/pathReport";
 import PathSubjectCard from "@/components/personalization/PathSubjectCard";
 import WeeklyPlanList from "@/components/personalization/WeeklyPlanList";
 import WeaknessList from "@/components/personalization/WeaknessList";
-import { useNavigate } from "react-router-dom";
+import NextStepHero from "@/components/personalization/NextStepHero";
+import PathHistoryChart from "@/components/personalization/PathHistoryChart";
 
 const MyPath = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
-  const { userId, views, loading, removePath, toggleStepDone, isStepDone, reload } = useLearningPath();
+  const {
+    userId, views, history, loading, removePath, toggleStepDone, isStepDone,
+    pushToTodo, readCoachNote, saveCoachNote, reload,
+  } = useLearningPath();
   const [active, setActive] = useState<string>("");
-  const [coach, setCoach] = useState<string>("");
   const [coachLoading, setCoachLoading] = useState(false);
+  const [coachNotes, setCoachNotes] = useState<Record<string, string>>({});
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     if (!active && views.length > 0) setActive(views[0].path.subject);
@@ -40,16 +51,24 @@ const MyPath = () => {
 
   const current = views.find((v) => v.path.subject === active) ?? views[0];
 
-  const fallbackNote = useMemo(() => {
-    if (!current) return "";
-    const def = SUBJECTS[current.path.subject];
-    const weak = current.weaknesses[0];
-    const label = weak ? weak.skill : "";
+  const fallbackNote = (view: PathView): string => {
+    const def = SUBJECTS[view.path.subject];
+    const label = view.weaknesses[0]?.skill ?? "";
+    if (!view.enoughData) {
+      return t(
+        `Chưa đủ dữ liệu để dự đoán chính xác cho môn ${def.labelVi}. Hãy làm 2-3 bài luyện tập hoặc một bài kiểm tra trình độ trong tuần này, sau đó lộ trình sẽ tự cập nhật.`,
+        `Not enough data yet for a reliable ${def.labelEn} forecast. Do 2-3 practice sets or a placement test this week and the path will update itself.`,
+      );
+    }
     return t(
-      `Bạn đang ở ${current.currentLevel} môn ${def.labelVi}, hoàn thành ${current.readiness.progressPct}% chặng đường tới mục tiêu. Tuần này hãy tập trung vào ${label} và giữ đủ ${current.path.hours_per_week} giờ học. Với nhịp hiện tại, mục tiêu nằm trong khoảng ${current.readiness.weeks} tuần nữa.`,
-      `You are at ${current.currentLevel} in ${def.labelEn}, ${current.readiness.progressPct}% of the way to your target. This week, focus on ${label} and keep your ${current.path.hours_per_week} study hours. At this pace the target is about ${current.readiness.weeks} weeks away.`,
+      `Bạn đang ở ${view.currentLevel} môn ${def.labelVi}, hoàn thành ${view.readiness.progressPct}% chặng đường tới mục tiêu. Tuần này hãy tập trung vào ${label} và giữ đủ ${view.path.hours_per_week} giờ học. Với nhịp hiện tại, mục tiêu nằm trong khoảng ${view.readiness.weeks} tuần nữa.`,
+      `You are at ${view.currentLevel} in ${def.labelEn}, ${view.readiness.progressPct}% of the way to your target. This week, focus on ${label} and keep your ${view.path.hours_per_week} study hours. At this pace the target is about ${view.readiness.weeks} weeks away.`,
     );
-  }, [current, t]);
+  };
+
+  /** Cached note first, so the AI is called at most once per subject per week. */
+  const noteFor = (view: PathView): string =>
+    coachNotes[view.path.subject] || readCoachNote(view.path.subject) || fallbackNote(view);
 
   const askCoach = async () => {
     if (!current) return;
@@ -70,18 +89,47 @@ const MyPath = () => {
           activeDays30: current.activeDays30,
           vocabMastered: current.vocabMastered,
           dueReviews: current.dueReviews,
+          enoughData: current.enoughData,
           weaknesses: current.weaknesses.slice(0, 4),
           plan: current.plan.map((p) => ({ title: p.titleEn, minutes: p.minutes, skill: p.skill })),
         },
       });
       if (error || !data?.success || !data?.note) throw new Error("coach unavailable");
-      setCoach(String(data.note));
+      const note = String(data.note);
+      setCoachNotes((prev) => ({ ...prev, [current.path.subject]: note }));
+      await saveCoachNote(current.path.subject, note);
     } catch {
-      setCoach(fallbackNote);
+      setCoachNotes((prev) => ({ ...prev, [current.path.subject]: fallbackNote(current) }));
+      toast({
+        title: t("Dùng nhận xét theo mẫu", "Using the built-in note"),
+        description: t("AI đang không sẵn sàng, số liệu vẫn chính xác.", "The AI is unavailable; your numbers are still accurate."),
+      });
     } finally {
       setCoachLoading(false);
     }
   };
+
+  const downloadPdf = async (view: PathView) => {
+    setExporting(true);
+    try {
+      const doneKeys = new Set(view.plan.filter((s) => isStepDone(s)).map((s) => stepKey(s)));
+      await exportPathPdf(view, getCachedDisplayName(userId) || "Student", doneKeys);
+    } catch {
+      toast({ title: t("Không xuất được PDF", "Could not export the PDF") });
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const heroSubject = useMemo(() => {
+    // The subject furthest from its target that still has an unfinished step.
+    const candidates = views
+      .map((v) => ({ view: v, step: nextStep(v.plan.filter((s) => !isStepDone(s))) }))
+      .filter((c) => c.step !== null);
+    if (candidates.length === 0) return null;
+    candidates.sort((a, b) => a.view.readiness.progressPct - b.view.readiness.progressPct);
+    return candidates[0] as { view: PathView; step: NonNullable<typeof candidates[0]["step"]> };
+  }, [views, isStepDone]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -163,6 +211,17 @@ const MyPath = () => {
 
           {!loading && views.length > 0 && (
             <>
+              {heroSubject && (
+                <NextStepHero
+                  view={heroSubject.view}
+                  step={heroSubject.step}
+                  done={isStepDone(heroSubject.step)}
+                  onToggle={(done) =>
+                    void toggleStepDone(heroSubject.view.path.subject, heroSubject.step, done)
+                  }
+                />
+              )}
+
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
                 {views.map((v) => (
                   <PathSubjectCard
@@ -185,15 +244,17 @@ const MyPath = () => {
                 </TabsList>
 
                 {views.map((v) => (
-                  <TabsContent key={v.path.subject} value={v.path.subject} className="mt-4">
+                  <TabsContent key={v.path.subject} value={v.path.subject} className="mt-4 space-y-4">
                     <div className="grid gap-4 lg:grid-cols-2">
                       <WeeklyPlanList
                         view={v}
                         isStepDone={isStepDone}
                         onToggle={(step, done) => void toggleStepDone(v.path.subject, step, done)}
+                        onPushToTodo={(step) => pushToTodo(v.path.subject, step)}
                       />
                       <div className="space-y-4">
                         <WeaknessList view={v} />
+
                         <Card className="border-2 border-primary/20">
                           <CardContent className="pt-5 space-y-3">
                             <div className="flex items-center justify-between gap-2">
@@ -209,9 +270,7 @@ const MyPath = () => {
                                 )}
                               </Button>
                             </div>
-                            <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                              {coach || fallbackNote}
-                            </p>
+                            <p className="text-sm whitespace-pre-wrap leading-relaxed">{noteFor(v)}</p>
                             <div className="flex flex-wrap gap-2 text-xs">
                               <Badge variant="secondary">
                                 {t("Tuần qua", "Last 7 days")}: {v.minutesLast7} {t("phút", "min")}
@@ -225,8 +284,35 @@ const MyPath = () => {
                             </div>
                           </CardContent>
                         </Card>
+
+                        <Card className="border-2">
+                          <CardContent className="pt-5 space-y-3">
+                            <h3 className="text-base font-bold flex items-center gap-2">
+                              <Info className="w-4 h-4 text-primary" />
+                              {t("Dự đoán được tính thế nào", "How the forecast is built")}
+                            </h3>
+                            <p className="text-sm text-muted-foreground whitespace-pre-wrap leading-relaxed">
+                              {t(v.explain.vi, v.explain.en)}
+                            </p>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => void downloadPdf(v)}
+                              disabled={exporting}
+                            >
+                              {exporting ? (
+                                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                              ) : (
+                                <Download className="w-4 h-4 mr-1" />
+                              )}
+                              {t("Xuất PDF cho phụ huynh", "Export PDF for parents")}
+                            </Button>
+                          </CardContent>
+                        </Card>
                       </div>
                     </div>
+
+                    <PathHistoryChart history={history} />
                   </TabsContent>
                 ))}
               </Tabs>
