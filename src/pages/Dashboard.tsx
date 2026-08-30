@@ -24,6 +24,7 @@ import { useDisplayName } from "@/hooks/useDisplayName";
 import type { User } from "@supabase/supabase-js";
 import { buildGrammarProgressSnapshot, type GrammarProgressSnapshot } from "@/lib/grammarProgress";
 import MonthlySummaryCard from "@/components/dashboard/MonthlySummaryCard";
+import MyPathDashboardCard from "@/components/personalization/MyPathDashboardCard";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer,
   XAxis, YAxis, CartesianGrid, Tooltip,
@@ -608,6 +609,9 @@ const Dashboard = () => {
               <>
                 {/* Monthly aggregated summary (online time, words, activities, rank) */}
                 {user && <MonthlySummaryCard userId={user.id} />}
+
+                {/* Personalized learning path snapshot */}
+                <MyPathDashboardCard />
 
                 {/* Summary stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
