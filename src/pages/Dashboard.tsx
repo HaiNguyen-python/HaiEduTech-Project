@@ -609,6 +609,9 @@ const Dashboard = () => {
                 {/* Monthly aggregated summary (online time, words, activities, rank) */}
                 {user && <MonthlySummaryCard userId={user.id} />}
 
+                {/* Personalized learning path snapshot */}
+                <MyPathDashboardCard />
+
                 {/* Summary stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   {[
