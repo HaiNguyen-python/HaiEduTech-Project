@@ -132,6 +132,64 @@ export function useLearningSignals() {
       if (!row.due_date || +new Date(row.due_date) <= now) map[subject].dueReviews += 1;
     }
 
+    // IELTS writing attempts are graded on the 0-9 band scale.
+    for (const row of writing.data ?? []) {
+      const band = Number(row.overall_score ?? 0);
+      if (!band) continue;
+      map.ielts.attempts.push({ at: row.created_at, pct: Math.min(100, (band / 9) * 100), skill: "writing" });
+    }
+
+    for (const row of pte.data ?? []) {
+      const max = row.max_score && row.max_score > 0 ? row.max_score : 90;
+      map.pte.attempts.push({
+        at: row.created_at,
+        pct: Math.max(0, Math.min(100, ((row.score ?? 0) / max) * 100)),
+        skill: String(row.skill ?? "reading").toLowerCase(),
+      });
+    }
+
+    // A SAT mistake is a wrong answer; the streak shows how well it was fixed.
+    for (const row of sat.data ?? []) {
+      const streak = Number(row.correct_streak ?? 0);
+      const pct = row.mastered_at ? 100 : Math.min(90, streak * 30);
+      const section = String(row.section ?? "").toLowerCase();
+      map.sat.attempts.push({
+        at: row.created_at,
+        pct,
+        skill: section.includes("math") ? "logic" : "reading",
+      });
+    }
+
+    for (const row of hskSrs.data ?? []) {
+      if (!row.next_review || +new Date(row.next_review) <= now) map.chinese.dueReviews += 1;
+    }
+
+    map.ielts.lessonsDone += (ieltsLect.data ?? []).length;
+    map.toeic.lessonsDone += (toeicLect.data ?? []).length;
+
+    for (const row of hskk.data ?? []) {
+      const scores = (row.scores ?? {}) as Record<string, unknown>;
+      const values = Object.values(scores).map(Number).filter((n) => Number.isFinite(n) && n > 0);
+      if (values.length === 0) continue;
+      const avg = values.reduce((s, n) => s + n, 0) / values.length;
+      map.chinese.attempts.push({
+        at: row.created_at,
+        pct: Math.max(0, Math.min(100, avg <= 10 ? avg * 10 : avg)),
+        skill: "speaking",
+      });
+    }
+
+    for (const row of hskWriting.data ?? []) {
+      const grade = (row.grade ?? {}) as Record<string, unknown>;
+      const score = Number(grade.score ?? grade.overall ?? 0);
+      if (!score) continue;
+      map.chinese.attempts.push({
+        at: row.created_at,
+        pct: Math.max(0, Math.min(100, score <= 10 ? score * 10 : score)),
+        skill: "writing",
+      });
+    }
+
     setSignals(map);
     setLoading(false);
   }, []);
