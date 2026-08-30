@@ -24,6 +24,7 @@ import { useDisplayName } from "@/hooks/useDisplayName";
 import type { User } from "@supabase/supabase-js";
 import { buildGrammarProgressSnapshot, type GrammarProgressSnapshot } from "@/lib/grammarProgress";
 import MonthlySummaryCard from "@/components/dashboard/MonthlySummaryCard";
+import MyPathDashboardCard from "@/components/personalization/MyPathDashboardCard";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer,
   XAxis, YAxis, CartesianGrid, Tooltip,
