@@ -422,6 +422,17 @@ const PlacementTest = () => {
       };
       if (subject === "programming") {
         answersPayload.__tech_metrics = techMetrics;
+      } else {
+        // Teacher-facing placement insight stored with the run.
+        answersPayload.__placement = {
+          recommended_class: outcome.recommendedClass,
+          confidence: outcome.confidence,
+          highest_secure_band: outcome.highestSecureBand,
+          weakest_areas: outcome.weakestAreas,
+          notes: outcome.notes,
+          bands: outcome.bands,
+          early_exit_band: earlyExit,
+        };
       }
 
       const { error } = await supabase.from("placement_test_results").insert({
