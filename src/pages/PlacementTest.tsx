@@ -522,7 +522,8 @@ const PlacementTest = () => {
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
             <span className="text-xs font-medium text-slate-500">
-              Question {idx + 1} of {bank.length}
+              Question {idx + 1} of {visible.length}
+              {q?.cefr ? ` · level ${q.cefr}` : ""}
             </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
