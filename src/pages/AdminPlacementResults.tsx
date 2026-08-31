@@ -298,11 +298,16 @@ const AdminPlacementResults = () => {
                   <span>{new Date(r.created_at).toLocaleDateString()}</span>
                   <span>{r.total_score}/100</span>
                 </div>
-                {r.status === "approved" && (
+                {r.status === "approved" ? (
                   <span className="inline-flex items-center gap-1 text-[11px] text-emerald-700 mt-1">
                     <CheckCircle2 className="w-3 h-3" /> {r.assigned_class}
                   </span>
-                )}
+                ) : readInsight(r)?.recommended_class ? (
+                  <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 mt-1">
+                    <Sparkles className="w-3 h-3" /> {readInsight(r)?.recommended_class}
+                  </span>
+                ) : null}
+
               </button>
             ))}
           </aside>
