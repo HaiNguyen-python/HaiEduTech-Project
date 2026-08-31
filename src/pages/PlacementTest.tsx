@@ -599,17 +599,9 @@ const ListenMcq = ({ q, answer, setAnswer }: RenderProps) => {
   return (
     <div>
       <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-center gap-4 mb-5">
-        <button
-          onClick={() => {
-            setPlaying(true); speak(q.audioText);
-            setTimeout(() => setPlaying(false), 4500);
-          }}
-          className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center"
-        >
-          <Volume2 className="w-4 h-4" />
-        </button>
-        <div className="flex-1"><Waveform playing={playing} /></div>
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5">
+        <PlacementAudio text={q.audioText} label="Play recording" />
+        <Waveform playing={playing} />
       </div>
       <div className="space-y-2">
         {q.options.map((o, i) => (
