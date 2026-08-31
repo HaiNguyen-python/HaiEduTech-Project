@@ -333,79 +333,27 @@ const PlacementTest = () => {
         return;
       }
 
-      // Skill scores (out of 100 per skill)
-      const totals: Record<Skill, { right: number; total: number }> = {
-        listening: { right: 0, total: 0 },
-        reading: { right: 0, total: 0 },
-        writing: { right: 0, total: 0 },
-        speaking: { right: 0, total: 0 },
-      };
+      // Band-weighted per-item credit so higher levels count for more and
+      // unseen blocks (early exit) never punish a correctly placed beginner.
       const essays: Record<number, string> = {};
-
-      for (const item of bank) {
-        const ans = answers[item.id];
-        totals[item.skill].total += 1;
-        let correct = false;
-        switch (item.type) {
-          case "listen-image":
-          case "listen-mcq":
-          case "read-mcq":
-          case "read-analytical":
-            correct = ans === item.correct;
-            break;
-          case "listen-dictation": {
-            const a = (ans as string[] | undefined) ?? [];
-            const score = item.blanks.reduce(
-              (s, b, i) => s + (a[i]?.trim().toLowerCase() === b.toLowerCase() ? 1 : 0),
-              0
-            );
-            correct = score / item.blanks.length >= 0.6;
-            break;
-          }
-          case "read-cloze": {
-            const a = (ans as number[] | undefined) ?? [];
-            const score = item.correct.reduce(
-              (s, c, i) => s + (a[i] === c ? 1 : 0), 0
-            );
-            correct = score / item.correct.length >= 0.6;
-            break;
-          }
-          case "write-scramble": {
-            const a = (ans as string[] | undefined) ?? [];
-            correct = a.join(" ").trim().toLowerCase() ===
-              item.answer.trim().toLowerCase();
-            break;
-          }
-          case "write-picture": {
-            const a = (ans as string | undefined) ?? "";
-            essays[item.id] = a;
-            correct = a.trim().split(/\s+/).filter(Boolean).length >= item.minWords;
-            break;
-          }
-          case "write-essay": {
-            const a = (ans as string | undefined) ?? "";
-            essays[item.id] = a;
-            const n = a.trim().split(/\s+/).filter(Boolean).length;
-            correct = n >= item.minWords && n <= item.maxWords + 30;
-            break;
-          }
-          case "speak-read":
-          case "speak-reply":
-          case "speak-present":
-            // Speaking is scored by Teacher Hai; count attempted as half credit.
-            correct = !!audioBlobs[item.id];
-            break;
+      const seen = new Set(visible.map((item) => item.id));
+      const outcomes: ItemOutcome[] = bank.map((item) => {
+        if (item.type === "write-picture" || item.type === "write-essay") {
+          essays[item.id] = ((answers[item.id] as string | undefined) ?? "");
         }
-        if (correct) totals[item.skill].right += 1;
-      }
-
-      const skillScore = (s: Skill) =>
-        totals[s].total === 0 ? 0
-          : Math.round((totals[s].right / totals[s].total) * 100);
-      const listening = skillScore("listening");
-      const reading = skillScore("reading");
-      const writing = skillScore("writing");
-      const speaking = skillScore("speaking");
+        return {
+          id: item.id,
+          skill: item.skill,
+          cefr: item.cefr,
+          credit: itemCredit(item, answers, audioBlobs),
+          reached: seen.has(item.id),
+        };
+      });
+      const outcome = buildOutcome(outcomes);
+      const listening = outcome.skills.listening;
+      const reading = outcome.skills.reading;
+      const writing = outcome.skills.writing;
+      const speaking = outcome.skills.speaking;
 
       // ── Programming-specific scoring ──────────────────────────────
       // Aggregate raw correct counts per technical domain and derive a
