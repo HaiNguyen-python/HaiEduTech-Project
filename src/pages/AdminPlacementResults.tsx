@@ -347,6 +347,83 @@ const AdminPlacementResults = () => {
                 </div>
               </div>
 
+              {/* Placement analysis */}
+              <div className={`${FRAME} p-5`}>
+                <h3 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" /> Placement analysis
+                </h3>
+                {!insight ? (
+                  <p className="text-sm italic text-slate-500">
+                    Submission from before the placement upgrade - no level breakdown stored.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap gap-2 items-center">
+                      <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-semibold">
+                        {insight.recommended_class ?? "No class suggestion"}
+                      </span>
+                      {insight.confidence && (
+                        <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+                          {CONFIDENCE_LABEL[insight.confidence] ?? insight.confidence}
+                        </span>
+                      )}
+                      <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+                        Highest secure band: {insight.highest_secure_band ?? "none"}
+                      </span>
+                      {insight.early_exit_band && (
+                        <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-semibold">
+                          Stopped early at {insight.early_exit_band}
+                        </span>
+                      )}
+                    </div>
+
+                    {insight.bands && insight.bands.length > 0 && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full min-w-[420px] text-sm">
+                          <thead>
+                            <tr className="text-left text-xs text-slate-500">
+                              <th className="py-1.5">Level</th>
+                              <th className="py-1.5">Correct</th>
+                              <th className="py-1.5">Accuracy</th>
+                              <th className="py-1.5">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {insight.bands.map((b) => (
+                              <tr key={b.cefr} className="border-t border-slate-100">
+                                <td className="py-1.5 font-semibold text-slate-800">{b.cefr}</td>
+                                <td className="py-1.5 text-slate-700">{b.right}/{b.total}</td>
+                                <td className="py-1.5 text-slate-700">
+                                  {b.rate == null ? "—" : `${Math.round(b.rate * 100)}%`}
+                                </td>
+                                <td className="py-1.5">
+                                  {b.reached ? (
+                                    <span className="text-emerald-700 text-xs font-medium">Attempted</span>
+                                  ) : (
+                                    <span className="text-slate-400 text-xs italic">Not reached</span>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {insight.weakest_areas && insight.weakest_areas.length > 0 && (
+                      <p className="text-sm text-slate-700">
+                        <b>Focus first on:</b> {insight.weakest_areas.join(" · ")}
+                      </p>
+                    )}
+                    {insight.notes?.map((n) => (
+                      <p key={n} className="text-xs text-slate-500">{n}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+
+
               {/* Charts row */}
               <div className="grid md:grid-cols-2 gap-5">
                 <div className={`${FRAME} p-5`}>
