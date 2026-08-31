@@ -150,6 +150,7 @@ const Navbar = () => {
     { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
     { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
+    { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking Studio", "🎤 Presentation & Public Speaking Studio") },
     { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
   ];
   const chineseSubs: SubItem[] = [
