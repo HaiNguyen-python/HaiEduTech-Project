@@ -657,7 +657,7 @@ const ListenImage = ({ q, answer, setAnswer }: RenderProps) => {
   const sel = answer as number | undefined;
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       <PlacementAudio text={q.audioText} />
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {q.options.map((o, i) => (
@@ -684,7 +684,7 @@ const ListenMcq = ({ q, answer, setAnswer }: RenderProps) => {
   const sel = answer as number | undefined;
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5">
         <PlacementAudio text={q.audioText} label="Play recording" />
         <Waveform playing={playing} />
@@ -716,7 +716,7 @@ const ListenDictation = ({ q, answer, setAnswer }: RenderProps) => {
   const parts = q.template.split("___");
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 flex flex-wrap items-center justify-between gap-2">
         <span className="text-xs text-slate-500">Dictation audio</span>
         <PlacementAudio text={q.audioText} label="Play" compact />
@@ -762,7 +762,7 @@ const ReadMcq = ({ q, answer, setAnswer }: RenderProps) => {
           </div>
         </div>
       )}
-      <p className="text-lg text-slate-900 font-medium mb-4">{q.prompt}</p>
+      <p className="text-lg text-slate-900 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       {q.code && (
         <div className="mb-5">
           <CodeBlock code={q.code} language={q.language || "python"} />
@@ -798,7 +798,7 @@ const ReadCloze = ({ q, answer, setAnswer }: RenderProps) => {
 
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 text-base leading-9 text-slate-800">
         {tokens.map((tok, i) => {
           const m = tok.match(/\[\[(\d)\]\]/);
@@ -837,7 +837,7 @@ const ReadAnalytical = ({ q, answer, setAnswer }: RenderProps) => {
         <p className="text-slate-800 leading-7 whitespace-pre-wrap">{q.passage}</p>
       </div>
       <div>
-        <p className="text-slate-900 font-medium mb-4">{q.prompt}</p>
+        <p className="text-slate-900 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
         <div className="space-y-2">
           {q.options.map((o, i) => (
             <button
@@ -874,7 +874,7 @@ const WriteScramble = ({ q, answer, setAnswer }: RenderProps) => {
 
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       <div className="min-h-[60px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-3 mb-4 flex flex-wrap gap-2 items-center">
         {placed.length === 0 && (
           <span className="text-sm text-slate-400 px-2">Tap a word below to build your sentence…</span>
@@ -911,7 +911,7 @@ const WritePicture = ({ q, answer, setAnswer }: RenderProps) => {
   const wc = val.trim().split(/\s+/).filter(Boolean).length;
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       <div className="flex items-center gap-4 mb-4">
         <div className="w-24 h-24 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-5xl">
           {q.emoji}
@@ -939,7 +939,7 @@ const WriteEssay = ({ q, answer, setAnswer }: RenderProps) => {
   const within = wc >= q.minWords && wc <= q.maxWords;
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4 leading-relaxed">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 leading-relaxed whitespace-pre-wrap">{q.prompt}</p>
       <div className="relative">
         <Textarea
           value={val}
@@ -973,7 +973,7 @@ const SpeakRead = ({ q, recordBlob, hasRecording }: RenderProps) => {
   };
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center mb-5">
         <p className="text-xl text-slate-900 font-serif leading-relaxed">"{q.text}"</p>
       </div>
@@ -1023,7 +1023,7 @@ const SpeakReply = ({ q, recordBlob, hasRecording }: RenderProps) => {
 
   return (
     <div>
-      <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
+      <p className="text-slate-800 font-medium mb-4 whitespace-pre-wrap">{q.prompt}</p>
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5 flex flex-wrap items-center justify-between gap-2">
         <span className="text-sm text-slate-700">Examiner question</span>
         <PlacementAudio text={q.audioText} label="Play" compact />
@@ -1097,7 +1097,7 @@ const SpeakPresent = ({ q, recordBlob, hasRecording }: RenderProps) => {
     <div>
       <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">Presentation Arena · B2</p>
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5">
-        <p className="text-slate-900 leading-relaxed font-medium">{q.prompt}</p>
+        <p className="text-slate-900 leading-relaxed font-medium whitespace-pre-wrap">{q.prompt}</p>
       </div>
       <div className="flex items-center justify-center gap-6">
         <Ring pct={pct} label={
