@@ -7,10 +7,11 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft, RefreshCw, FileText, AudioLines, Loader2, CheckCircle2,
+  Sparkles, Download, AlertCircle,
 } from "lucide-react";
 import {
   ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis,
@@ -21,6 +22,25 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import { PLACEMENT_TEST } from "@/data/placementTest";
+import { RECOMMENDED_CLASSES } from "@/lib/placement/placementModel";
+
+interface PlacementBandStat {
+  cefr: string;
+  right: number;
+  total: number;
+  rate: number | null;
+  reached: boolean;
+}
+
+interface PlacementInsight {
+  recommended_class?: string;
+  confidence?: string;
+  highest_secure_band?: string | null;
+  weakest_areas?: string[];
+  notes?: string[];
+  bands?: PlacementBandStat[];
+  early_exit_band?: string | null;
+}
 
 interface PlacementRow {
   id: string;
@@ -32,6 +52,7 @@ interface PlacementRow {
   speaking_score: number;
   total_score: number;
   cefr_band: string | null;
+  answers: Record<string, unknown> | null;
   essays: Record<string, string>;
   audio_urls: Record<string, string>;
   assigned_class: string | null;
@@ -43,11 +64,7 @@ const FRAME =
   "bg-white border border-slate-200 rounded-2xl shadow-[0_1px_2px_rgba(15,23,42,0.04)]";
 
 const CLASS_OPTIONS = [
-  "English Foundations A1",
-  "English Conversational A2",
-  "English B1 Intermediate",
-  "IELTS Intensive 5.5",
-  "IELTS Intensive 6.5+",
+  ...RECOMMENDED_CLASSES,
   "Cambridge Starters",
   "Cambridge Movers/Flyers",
   "Chinese HSK 1-2",
@@ -57,13 +74,75 @@ const CLASS_OPTIONS = [
   "Custom 1-on-1 Coaching",
 ];
 
+const CONFIDENCE_LABEL: Record<string, string> = {
+  high: "High confidence",
+  medium: "Medium confidence",
+  low: "Low confidence",
+};
+
+const readInsight = (row: PlacementRow | null): PlacementInsight | null => {
+  const raw = (row?.answers as Record<string, unknown> | null)?.__placement;
+  if (!raw || typeof raw !== "object") return null;
+  return raw as PlacementInsight;
+};
+
+/** Speaking recordings live in a private bucket - sign each path on demand. */
+const SpeakingClip = ({ path }: { path: string }) => {
+  const [url, setUrl] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    setUrl(null); setError(false);
+    // Legacy rows may already hold a full URL.
+    if (/^https?:\/\//.test(path)) { setUrl(path); return; }
+    void supabase.storage.from("placement-audio").createSignedUrl(path, 3600)
+      .then(({ data, error: e }) => {
+        if (!active) return;
+        if (e || !data?.signedUrl) setError(true);
+        else setUrl(data.signedUrl);
+      });
+    return () => { active = false; };
+  }, [path]);
+
+  if (error) {
+    return (
+      <p className="text-xs text-rose-600 flex items-center gap-1">
+        <AlertCircle className="w-3 h-3" /> Could not load the recording
+      </p>
+    );
+  }
+  if (!url) {
+    return (
+      <p className="text-xs text-slate-500 flex items-center gap-1">
+        <Loader2 className="w-3 h-3 animate-spin" /> Loading audio…
+      </p>
+    );
+  }
+  return (
+    <div className="space-y-1">
+      <audio controls src={url} className="w-full h-9" />
+      <a
+        href={url} download
+        className="inline-flex items-center gap-1 text-[11px] text-slate-500 hover:text-slate-900"
+      >
+        <Download className="w-3 h-3" /> Download
+      </a>
+    </div>
+  );
+};
+
+
 const AdminPlacementResults = () => {
   const navigate = useNavigate();
   const [rows, setRows] = useState<PlacementRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const load = async () => {
+  const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "approved">("all");
+  const [groupByClass, setGroupByClass] = useState(false);
+
+  const load = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("placement_test_results")
@@ -75,17 +154,43 @@ const AdminPlacementResults = () => {
     } else {
       const list = (data ?? []) as unknown as PlacementRow[];
       setRows(list);
-      if (!selectedId && list.length > 0) setSelectedId(list[0].id);
+      setSelectedId((cur) => cur ?? list[0]?.id ?? null);
     }
     setLoading(false);
-  };
+  }, []);
 
-  useEffect(() => { void load(); /* eslint-disable-next-line */ }, []);
+  useEffect(() => { void load(); }, [load]);
+
+  // Auto-refresh when a student submits a new run.
+  useEffect(() => {
+    const channel = supabase
+      .channel("placement-results-admin")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "placement_test_results" },
+        () => { void load(); }
+      )
+      .subscribe();
+    return () => { void supabase.removeChannel(channel); };
+  }, [load]);
 
   const selected = useMemo(
     () => rows.find((r) => r.id === selectedId) ?? null,
     [rows, selectedId]
   );
+  const insight = useMemo(() => readInsight(selected), [selected]);
+
+  const visibleRows = useMemo(() => {
+    const filtered = statusFilter === "all"
+      ? rows
+      : rows.filter((r) => (r.status ?? "pending") === statusFilter);
+    if (!groupByClass) return filtered;
+    return [...filtered].sort((a, b) => {
+      const ka = readInsight(a)?.recommended_class ?? a.assigned_class ?? "zzz";
+      const kb = readInsight(b)?.recommended_class ?? b.assigned_class ?? "zzz";
+      return ka.localeCompare(kb) || b.created_at.localeCompare(a.created_at);
+    });
+  }, [rows, statusFilter, groupByClass]);
 
   const chartData = useMemo(() => selected ? [
     { skill: "Listening",  value: selected.listening_score },
@@ -93,6 +198,7 @@ const AdminPlacementResults = () => {
     { skill: "Writing",    value: selected.writing_score },
     { skill: "Speaking",   value: selected.speaking_score },
   ] : [], [selected]);
+
 
   const saveAssignment = async (cls: string) => {
     if (!selected) return;
@@ -141,17 +247,41 @@ const AdminPlacementResults = () => {
         <div className="grid lg:grid-cols-[280px_1fr] gap-5">
           {/* ── Submission list ─────────────────────────────── */}
           <aside className={`${FRAME} p-3 max-h-[80vh] overflow-y-auto`}>
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              {(["all", "pending", "approved"] as const).map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setStatusFilter(s)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors
+                    ${statusFilter === s
+                      ? "bg-slate-900 text-white border-slate-900"
+                      : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+                >
+                  {s === "all" ? "All" : s === "pending" ? "Pending" : "Approved"}
+                </button>
+              ))}
+              <button
+                onClick={() => setGroupByClass((v) => !v)}
+                className={`px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors
+                  ${groupByClass
+                    ? "bg-emerald-600 text-white border-emerald-600"
+                    : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+              >
+                Group by class
+              </button>
+            </div>
             {loading && rows.length === 0 && (
               <div className="text-sm text-slate-500 p-3 flex items-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin" /> Loading…
               </div>
             )}
-            {!loading && rows.length === 0 && (
+            {!loading && visibleRows.length === 0 && (
               <p className="text-sm text-slate-500 p-3">No submissions yet.</p>
             )}
-            {rows.map((r) => (
+            {visibleRows.map((r) => (
               <button
                 key={r.id}
+
                 onClick={() => setSelectedId(r.id)}
                 className={`w-full text-left px-3 py-2 rounded-lg mb-1 border transition-all
                   ${selectedId === r.id
@@ -168,11 +298,16 @@ const AdminPlacementResults = () => {
                   <span>{new Date(r.created_at).toLocaleDateString()}</span>
                   <span>{r.total_score}/100</span>
                 </div>
-                {r.status === "approved" && (
+                {r.status === "approved" ? (
                   <span className="inline-flex items-center gap-1 text-[11px] text-emerald-700 mt-1">
                     <CheckCircle2 className="w-3 h-3" /> {r.assigned_class}
                   </span>
-                )}
+                ) : readInsight(r)?.recommended_class ? (
+                  <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 mt-1">
+                    <Sparkles className="w-3 h-3" /> {readInsight(r)?.recommended_class}
+                  </span>
+                ) : null}
+
               </button>
             ))}
           </aside>
@@ -211,6 +346,83 @@ const AdminPlacementResults = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Placement analysis */}
+              <div className={`${FRAME} p-5`}>
+                <h3 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" /> Placement analysis
+                </h3>
+                {!insight ? (
+                  <p className="text-sm italic text-slate-500">
+                    Submission from before the placement upgrade - no level breakdown stored.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap gap-2 items-center">
+                      <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-semibold">
+                        {insight.recommended_class ?? "No class suggestion"}
+                      </span>
+                      {insight.confidence && (
+                        <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+                          {CONFIDENCE_LABEL[insight.confidence] ?? insight.confidence}
+                        </span>
+                      )}
+                      <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+                        Highest secure band: {insight.highest_secure_band ?? "none"}
+                      </span>
+                      {insight.early_exit_band && (
+                        <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-semibold">
+                          Stopped early at {insight.early_exit_band}
+                        </span>
+                      )}
+                    </div>
+
+                    {insight.bands && insight.bands.length > 0 && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full min-w-[420px] text-sm">
+                          <thead>
+                            <tr className="text-left text-xs text-slate-500">
+                              <th className="py-1.5">Level</th>
+                              <th className="py-1.5">Correct</th>
+                              <th className="py-1.5">Accuracy</th>
+                              <th className="py-1.5">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {insight.bands.map((b) => (
+                              <tr key={b.cefr} className="border-t border-slate-100">
+                                <td className="py-1.5 font-semibold text-slate-800">{b.cefr}</td>
+                                <td className="py-1.5 text-slate-700">{b.right}/{b.total}</td>
+                                <td className="py-1.5 text-slate-700">
+                                  {b.rate == null ? "—" : `${Math.round(b.rate * 100)}%`}
+                                </td>
+                                <td className="py-1.5">
+                                  {b.reached ? (
+                                    <span className="text-emerald-700 text-xs font-medium">Attempted</span>
+                                  ) : (
+                                    <span className="text-slate-400 text-xs italic">Not reached</span>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {insight.weakest_areas && insight.weakest_areas.length > 0 && (
+                      <p className="text-sm text-slate-700">
+                        <b>Focus first on:</b> {insight.weakest_areas.join(" · ")}
+                      </p>
+                    )}
+                    {insight.notes?.map((n) => (
+                      <p key={n} className="text-xs text-slate-500">{n}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+
 
               {/* Charts row */}
               <div className="grid md:grid-cols-2 gap-5">
@@ -297,10 +509,11 @@ const AdminPlacementResults = () => {
                         </div>
                         <p className="text-xs text-slate-500 mb-2 line-clamp-2">{q.prompt}</p>
                         {url ? (
-                          <audio controls src={url} className="w-full h-9" />
+                          <SpeakingClip path={url} />
                         ) : (
                           <p className="text-xs italic text-slate-400">No recording uploaded</p>
                         )}
+
                       </div>
                     );
                   })}
@@ -323,12 +536,19 @@ const AdminPlacementResults = () => {
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
+                  {insight?.recommended_class && (
+                    <Button onClick={() => saveAssignment(insight.recommended_class!)}>
+                      <Sparkles className="w-4 h-4 mr-1" />
+                      Use suggested class
+                    </Button>
+                  )}
                   {selected.status === "approved" && (
                     <span className="inline-flex items-center gap-1 text-sm text-emerald-700 font-medium">
                       <CheckCircle2 className="w-4 h-4" /> Approved
                     </span>
                   )}
                 </div>
+
               </div>
             </section>
           )}
