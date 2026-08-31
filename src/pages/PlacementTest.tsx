@@ -938,11 +938,9 @@ const SpeakReply = ({ q, recordBlob, hasRecording }: RenderProps) => {
   return (
     <div>
       <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5 flex items-center justify-between">
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5 flex flex-wrap items-center justify-between gap-2">
         <span className="text-sm text-slate-700">Examiner question</span>
-        <Button variant="outline" size="sm" onClick={() => speak(q.audioText)}>
-          <Volume2 className="w-4 h-4 mr-1" /> Play
-        </Button>
+        <PlacementAudio text={q.audioText} label="Play" compact />
       </div>
       <div className="flex items-center justify-center gap-6">
         <Ring
