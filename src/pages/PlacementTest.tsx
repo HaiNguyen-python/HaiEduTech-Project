@@ -311,6 +311,7 @@ const PlacementTest = () => {
     const blockItems = bank.filter((item) => item.cefr === band);
     const credit = blockItems.reduce((s, item) => s + itemCredit(item, answers, audioBlobs), 0);
     if (shouldContinue(credit, blockItems.length)) {
+      setEarlyExit(null);
       setUnlocked((u) => u + 1);
       setIdx((i) => i + 1);
     } else {
