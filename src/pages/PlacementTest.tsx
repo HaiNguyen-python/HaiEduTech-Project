@@ -396,8 +396,8 @@ const PlacementTest = () => {
         total = Math.round((rawCorrect / bank.length) * 100);
         cefr = techMetrics.category;
       } else {
-        total = Math.round((listening + reading + writing + speaking) / 4);
-        cefr = inferCefr(total);
+        total = outcome.total;
+        cefr = outcome.cefr;
       }
 
       // Upload speaking recordings to placement-audio bucket
