@@ -7,10 +7,11 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft, RefreshCw, FileText, AudioLines, Loader2, CheckCircle2,
+  Sparkles, Download, AlertCircle,
 } from "lucide-react";
 import {
   ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis,
@@ -21,6 +22,25 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import { PLACEMENT_TEST } from "@/data/placementTest";
+import { RECOMMENDED_CLASSES } from "@/lib/placement/placementModel";
+
+interface PlacementBandStat {
+  cefr: string;
+  right: number;
+  total: number;
+  rate: number | null;
+  reached: boolean;
+}
+
+interface PlacementInsight {
+  recommended_class?: string;
+  confidence?: string;
+  highest_secure_band?: string | null;
+  weakest_areas?: string[];
+  notes?: string[];
+  bands?: PlacementBandStat[];
+  early_exit_band?: string | null;
+}
 
 interface PlacementRow {
   id: string;
@@ -32,6 +52,7 @@ interface PlacementRow {
   speaking_score: number;
   total_score: number;
   cefr_band: string | null;
+  answers: Record<string, unknown> | null;
   essays: Record<string, string>;
   audio_urls: Record<string, string>;
   assigned_class: string | null;
@@ -43,11 +64,7 @@ const FRAME =
   "bg-white border border-slate-200 rounded-2xl shadow-[0_1px_2px_rgba(15,23,42,0.04)]";
 
 const CLASS_OPTIONS = [
-  "English Foundations A1",
-  "English Conversational A2",
-  "English B1 Intermediate",
-  "IELTS Intensive 5.5",
-  "IELTS Intensive 6.5+",
+  ...RECOMMENDED_CLASSES,
   "Cambridge Starters",
   "Cambridge Movers/Flyers",
   "Chinese HSK 1-2",
@@ -56,6 +73,65 @@ const CLASS_OPTIONS = [
   "Programming Intro Cohort",
   "Custom 1-on-1 Coaching",
 ];
+
+const CONFIDENCE_LABEL: Record<string, string> = {
+  high: "High confidence",
+  medium: "Medium confidence",
+  low: "Low confidence",
+};
+
+const readInsight = (row: PlacementRow | null): PlacementInsight | null => {
+  const raw = (row?.answers as Record<string, unknown> | null)?.__placement;
+  if (!raw || typeof raw !== "object") return null;
+  return raw as PlacementInsight;
+};
+
+/** Speaking recordings live in a private bucket - sign each path on demand. */
+const SpeakingClip = ({ path }: { path: string }) => {
+  const [url, setUrl] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    setUrl(null); setError(false);
+    // Legacy rows may already hold a full URL.
+    if (/^https?:\/\//.test(path)) { setUrl(path); return; }
+    void supabase.storage.from("placement-audio").createSignedUrl(path, 3600)
+      .then(({ data, error: e }) => {
+        if (!active) return;
+        if (e || !data?.signedUrl) setError(true);
+        else setUrl(data.signedUrl);
+      });
+    return () => { active = false; };
+  }, [path]);
+
+  if (error) {
+    return (
+      <p className="text-xs text-rose-600 flex items-center gap-1">
+        <AlertCircle className="w-3 h-3" /> Could not load the recording
+      </p>
+    );
+  }
+  if (!url) {
+    return (
+      <p className="text-xs text-slate-500 flex items-center gap-1">
+        <Loader2 className="w-3 h-3 animate-spin" /> Loading audio…
+      </p>
+    );
+  }
+  return (
+    <div className="space-y-1">
+      <audio controls src={url} className="w-full h-9" />
+      <a
+        href={url} download
+        className="inline-flex items-center gap-1 text-[11px] text-slate-500 hover:text-slate-900"
+      >
+        <Download className="w-3 h-3" /> Download
+      </a>
+    </div>
+  );
+};
+
 
 const AdminPlacementResults = () => {
   const navigate = useNavigate();
