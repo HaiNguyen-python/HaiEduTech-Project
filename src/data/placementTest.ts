@@ -1,15 +1,16 @@
 /**
  * @file placementTest.ts
- * @description 40-question CEFR placement test bank - scoped to A1 → B2.
+ * @description 40-question CEFR placement test bank - A1 → C1.
  *
  * Difficulty design:
  *   • A1 starts at functional sentences, NOT single words (e.g. avoid "An apple.")
  *   • Listening mixes images, short dialogues, MCQs, numbers/time, and dictation
  *     from the very first questions to reflect a real entrance-test rhythm.
- *   • Ceiling is B2 to match the target audience (HS / early uni / IELTS 5.5–6.5).
+ *   • Ceiling is C1 so strong students are separated from the IELTS 6.5+ group.
  *
  * Layout:
- *   Listening 12 | Reading 16 | Writing 7 | Speaking 5
+ *   Listening 13 | Reading 17 | Writing 5 | Speaking 5
+ *   Levels: A1 6 | A2 8 | B1 10 | B2 10 | C1 6
  *
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
@@ -187,7 +188,7 @@ export const PLACEMENT_TEST: PlacementQuestion[] = [
     prompt: "Read the sign at the library door:\n\n\"Quiet please. There ___ many students studying inside.\"\n\nChoose the best word for the blank.",
     options: ["is", "are", "be", "been"], correct: 1 },
   { id: 12, skill: "reading", cefr: "A2", type: "read-mcq",
-    prompt: "Read the chat message:\n\n\"My brother turned sixteen today. He is two years older, so he is ___ than me.\"\n\nChoose the best word for the blank.",
+    prompt: "Read the chat message:\n\n\"My brother is 1.8 metres and I am only 1.6 metres, so he is ___ than me.\"\n\nChoose the best word for the blank.",
     options: ["tall", "taller", "tallest", "more tall"], correct: 1 },
   { id: 13, skill: "writing", cefr: "A2", type: "write-scramble",
     prompt: "Tell a friend what you did yesterday. Re-order the words.",
