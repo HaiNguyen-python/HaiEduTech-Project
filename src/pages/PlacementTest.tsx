@@ -494,10 +494,25 @@ const PlacementTest = () => {
           <div className={`${FRAME} p-10 text-center`}>
             <CheckCircle2 className="w-14 h-14 text-emerald-500 mx-auto mb-4" />
             <h1 className="text-3xl font-bold text-slate-900 mb-2">Test completed</h1>
-            <p className="text-slate-600 mb-6">
-              Your overall score is <b>{done.total}/100</b> — estimated CEFR band <b>{done.cefr}</b>.
+            <p className="text-slate-600 mb-4">
+              Your overall score is <b>{done.total}/100</b> — estimated level <b>{done.cefr}</b>.
               Teacher Hai will review your speaking and writing answers and confirm your class placement shortly.
             </p>
+            {done.recommendedClass && (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left mb-6">
+                <p className="text-sm text-slate-800">
+                  <b>Suggested class:</b> {done.recommendedClass}
+                </p>
+                {done.weakestAreas && done.weakestAreas.length > 0 && (
+                  <p className="text-sm text-slate-600 mt-1">
+                    <b>Focus first on:</b> {done.weakestAreas.join(", ")}
+                  </p>
+                )}
+                {done.notes?.map((note) => (
+                  <p key={note} className="text-xs text-slate-500 mt-1">{note}</p>
+                ))}
+              </div>
+            )}
             <div className="flex justify-center gap-3">
               <Button onClick={() => navigate("/dashboard")}>Go to dashboard</Button>
               <Button variant="outline" onClick={() => navigate("/")}>Home</Button>
