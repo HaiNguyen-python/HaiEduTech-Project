@@ -23,52 +23,93 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  type PlacementQuestion, type Skill,
-  SKILL_LABEL, inferCefr,
+  type PlacementQuestion, type Skill, type Cefr,
+  SKILL_LABEL,
 } from "@/data/placementTest";
 import {
-  getPlacementBank, parseSubject, SUBJECT_META,
-} from "@/data/placementBanks";
-import Navbar from "@/components/Navbar";
-import { logStudentActivity } from "@/hooks/useActivityLogger";
-import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
-import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
+  buildOutcome, orderByBand, bandBlocks, shouldContinue,
+  type ItemOutcome,
+} from "@/lib/placement/placementModel";
+import {
+  playPlacementTts, stopPlacementTts,
+  type PlacementTtsSource,
+} from "@/lib/placementTts";
 
 /** Module-level current speak locale; set by the main component per subject. */
 let CURRENT_SPEAK_LANG = "en-US";
 
+/** Exam-style replay cap for listening items. */
+const MAX_PLAYS = 2;
+
+type AudioState = "idle" | "loading" | "playing" | "error";
+
 /**
- * Speak text in the correct language for each subject.
- *  • fi-* → Finnish TTS engine (Supabase proxy → Google Translate fi)
- *  • vi-* → Vietnamese TTS engine (proxy → vi voice, rate 0.85 for clarity)
- *  • zh-* → native SpeechSynthesis at slower rate 0.85 (Mandarin tones)
- *  • en-* → native SpeechSynthesis at rate 0.92
- * This guarantees each placement test plays audio in the language of its
- * subject, even on systems missing a native voice for that locale.
+ * Natural-voice audio control. Uses the AI voice engine first (human-like,
+ * multi-speaker for dialogues) and falls back to the proxy / browser voice,
+ * telling the student when the voice changed.
  */
-const speak = (text: string, lang?: string) => {
-  const target = (lang ?? CURRENT_SPEAK_LANG).toLowerCase();
+const PlacementAudio = ({
+  text, label = "Play audio", limit = MAX_PLAYS, compact = false,
+}: { text: string; label?: string; limit?: number; compact?: boolean }) => {
+  const [state, setState] = useState<AudioState>("idle");
+  const [plays, setPlays] = useState(0);
+  const [source, setSource] = useState<PlacementTtsSource | null>(null);
+  const outOfPlays = plays >= limit;
 
-  // Cancel any in-flight playback across all engines first.
-  try { window.speechSynthesis.cancel(); } catch { /* noop */ }
-  stopFinnishTts();
-  stopVietnameseTts();
+  const play = async (slow: boolean) => {
+    if (state === "playing" || state === "loading") { stopPlacementTts(); setState("idle"); return; }
+    if (outOfPlays) { toast.info(`You can play this recording ${limit} times only.`); return; }
+    setState("loading");
+    setPlays((n) => n + 1);
+    const used = await playPlacementTts(text, {
+      lang: CURRENT_SPEAK_LANG,
+      slow,
+      onStatus: (status, info) => {
+        if (info?.source) setSource(info.source);
+        if (status === "loading") setState("loading");
+        if (status === "playing") setState("playing");
+      },
+    });
+    if (!used) {
+      setState("error");
+      toast.error("Audio could not play. Please check your connection and try again.");
+      return;
+    }
+    if (used === "native") {
+      toast.message("Using your device voice", {
+        description: "The natural exam voice was unavailable, so the browser voice is playing instead.",
+      });
+    }
+    setState("idle");
+  };
 
-  if (target.startsWith("fi")) {
-    void playFinnishTts(text, { playbackRate: 0.92, speechRate: 0.85 });
-    return;
-  }
-  if (target.startsWith("vi")) {
-    void playVietnameseTts(text, { playbackRate: 0.95, speechRate: 0.85 });
-    return;
-  }
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang ?? CURRENT_SPEAK_LANG;
-    // Slower rate for tonal Chinese; gentler for English too.
-    u.rate = target.startsWith("zh") ? 0.85 : 0.92;
-    window.speechSynthesis.speak(u);
-  } catch { /* noop */ }
+  const Icon = state === "loading" ? Loader2 : Volume2;
+
+  return (
+    <div className={compact ? "flex items-center gap-2" : "flex flex-wrap items-center gap-2 mb-5"}>
+      <Button
+        variant="outline"
+        size={compact ? "sm" : "default"}
+        onClick={() => void play(false)}
+        disabled={outOfPlays && state === "idle"}
+      >
+        <Icon className={`w-4 h-4 mr-2 ${state === "loading" ? "animate-spin" : ""}`} />
+        {state === "playing" ? "Playing…" : label}
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => void play(true)}
+        disabled={outOfPlays}
+      >
+        Replay slowly
+      </Button>
+      <span className="text-xs text-slate-500">
+        {Math.max(0, limit - plays)} / {limit} plays left
+        {source === "native" ? " · device voice" : ""}
+      </span>
+    </div>
+  );
 };
 
 const FRAME =
