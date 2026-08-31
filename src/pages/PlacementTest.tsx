@@ -23,52 +23,98 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  type PlacementQuestion, type Skill,
-  SKILL_LABEL, inferCefr,
+  type PlacementQuestion, type Skill, type Cefr,
+  SKILL_LABEL,
 } from "@/data/placementTest";
+import {
+  buildOutcome, orderByBand, bandBlocks, shouldContinue,
+  type ItemOutcome,
+} from "@/lib/placement/placementModel";
+import {
+  playPlacementTts, stopPlacementTts,
+  type PlacementTtsSource,
+} from "@/lib/placementTts";
 import {
   getPlacementBank, parseSubject, SUBJECT_META,
 } from "@/data/placementBanks";
 import Navbar from "@/components/Navbar";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
-import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
-import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 
 /** Module-level current speak locale; set by the main component per subject. */
 let CURRENT_SPEAK_LANG = "en-US";
 
+/** Exam-style replay cap for listening items. */
+const MAX_PLAYS = 2;
+
+type AudioState = "idle" | "loading" | "playing" | "error";
+
 /**
- * Speak text in the correct language for each subject.
- *  • fi-* → Finnish TTS engine (Supabase proxy → Google Translate fi)
- *  • vi-* → Vietnamese TTS engine (proxy → vi voice, rate 0.85 for clarity)
- *  • zh-* → native SpeechSynthesis at slower rate 0.85 (Mandarin tones)
- *  • en-* → native SpeechSynthesis at rate 0.92
- * This guarantees each placement test plays audio in the language of its
- * subject, even on systems missing a native voice for that locale.
+ * Natural-voice audio control. Uses the AI voice engine first (human-like,
+ * multi-speaker for dialogues) and falls back to the proxy / browser voice,
+ * telling the student when the voice changed.
  */
-const speak = (text: string, lang?: string) => {
-  const target = (lang ?? CURRENT_SPEAK_LANG).toLowerCase();
+const PlacementAudio = ({
+  text, label = "Play audio", limit = MAX_PLAYS, compact = false,
+}: { text: string; label?: string; limit?: number; compact?: boolean }) => {
+  const [state, setState] = useState<AudioState>("idle");
+  const [plays, setPlays] = useState(0);
+  const [source, setSource] = useState<PlacementTtsSource | null>(null);
+  const outOfPlays = plays >= limit;
 
-  // Cancel any in-flight playback across all engines first.
-  try { window.speechSynthesis.cancel(); } catch { /* noop */ }
-  stopFinnishTts();
-  stopVietnameseTts();
+  const play = async (slow: boolean) => {
+    if (state === "playing" || state === "loading") { stopPlacementTts(); setState("idle"); return; }
+    if (outOfPlays) { toast.info(`You can play this recording ${limit} times only.`); return; }
+    setState("loading");
+    setPlays((n) => n + 1);
+    const used = await playPlacementTts(text, {
+      lang: CURRENT_SPEAK_LANG,
+      slow,
+      onStatus: (status, info) => {
+        if (info?.source) setSource(info.source);
+        if (status === "loading") setState("loading");
+        if (status === "playing") setState("playing");
+      },
+    });
+    if (!used) {
+      setState("error");
+      toast.error("Audio could not play. Please check your connection and try again.");
+      return;
+    }
+    if (used === "native") {
+      toast.message("Using your device voice", {
+        description: "The natural exam voice was unavailable, so the browser voice is playing instead.",
+      });
+    }
+    setState("idle");
+  };
 
-  if (target.startsWith("fi")) {
-    void playFinnishTts(text, { playbackRate: 0.92, speechRate: 0.85 });
-    return;
-  }
-  if (target.startsWith("vi")) {
-    void playVietnameseTts(text, { playbackRate: 0.95, speechRate: 0.85 });
-    return;
-  }
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang ?? CURRENT_SPEAK_LANG;
-    // Slower rate for tonal Chinese; gentler for English too.
-    u.rate = target.startsWith("zh") ? 0.85 : 0.92;
-    window.speechSynthesis.speak(u);
-  } catch { /* noop */ }
+  const Icon = state === "loading" ? Loader2 : Volume2;
+
+  return (
+    <div className={compact ? "flex items-center gap-2" : "flex flex-wrap items-center gap-2 mb-5"}>
+      <Button
+        variant="outline"
+        size={compact ? "sm" : "default"}
+        onClick={() => void play(false)}
+        disabled={outOfPlays && state === "idle"}
+      >
+        <Icon className={`w-4 h-4 mr-2 ${state === "loading" ? "animate-spin" : ""}`} />
+        {state === "playing" ? "Playing…" : label}
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => void play(true)}
+        disabled={outOfPlays}
+      >
+        Replay slowly
+      </Button>
+      <span className="text-xs text-slate-500">
+        {Math.max(0, limit - plays)} / {limit} plays left
+        {source === "native" ? " · device voice" : ""}
+      </span>
+    </div>
+  );
 };
 
 const FRAME =
@@ -150,33 +196,131 @@ function useRecorder() {
   return { start, stop, recording };
 }
 
+/**
+ * Partial credit (0-1) for one item. Objective items are exact; dictation and
+ * cloze give proportional credit; productive items use word-count and
+ * attempt rubrics until Teacher Hai marks them.
+ */
+const itemCredit = (
+  item: PlacementQuestion,
+  answers: Record<number, unknown>,
+  audioBlobs: Record<number, Blob>,
+): number => {
+  const ans = answers[item.id];
+  switch (item.type) {
+    case "listen-image":
+    case "listen-mcq":
+    case "read-mcq":
+    case "read-analytical":
+      return ans === item.correct ? 1 : 0;
+    case "listen-dictation": {
+      const a = (ans as string[] | undefined) ?? [];
+      const hits = item.blanks.reduce(
+        (s, b, i) => s + (a[i]?.trim().toLowerCase() === b.toLowerCase() ? 1 : 0), 0);
+      return hits / Math.max(1, item.blanks.length);
+    }
+    case "read-cloze": {
+      const a = (ans as number[] | undefined) ?? [];
+      const hits = item.correct.reduce((s, c, i) => s + (a[i] === c ? 1 : 0), 0);
+      return hits / Math.max(1, item.correct.length);
+    }
+    case "write-scramble": {
+      const a = (ans as string[] | undefined) ?? [];
+      return a.join(" ").trim().toLowerCase() === item.answer.trim().toLowerCase() ? 1 : 0;
+    }
+    case "write-picture":
+    case "write-essay": {
+      const a = (ans as string | undefined) ?? "";
+      const n = a.trim().split(/\s+/).filter(Boolean).length;
+      if (n === 0) return 0;
+      if (n >= item.minWords) return 1;
+      return Math.max(0.3, n / item.minWords) * 0.8;
+    }
+    case "speak-read":
+    case "speak-reply":
+    case "speak-present":
+      // Recorded answers get provisional half credit until graded by a teacher.
+      return audioBlobs[item.id] ? 0.5 : 0;
+    default:
+      return 0;
+  }
+};
+
 const PlacementTest = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const subject = useMemo(() => parseSubject(searchParams.get("subject")), [searchParams]);
   const meta = SUBJECT_META[subject];
-  const bank = useMemo(() => getPlacementBank(subject), [subject]);
+  const rawBank = useMemo(() => getPlacementBank(subject), [subject]);
+  // Language tests run as easy → hard level blocks so beginners can exit early.
+  const bank = useMemo(
+    () => (subject === "programming" ? rawBank : orderByBand(rawBank)),
+    [rawBank, subject],
+  );
+  const blocks = useMemo(
+    () => (subject === "programming" ? [] : bandBlocks(bank)),
+    [bank, subject],
+  );
 
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, unknown>>({});
   const [audioBlobs, setAudioBlobs] = useState<Record<number, Blob>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState<null | { total: number; cefr: string }>(null);
+  const [done, setDone] = useState<null | {
+    total: number; cefr: string; recommendedClass?: string;
+    weakestAreas?: string[]; notes?: string[];
+  }>(null);
+  /** Index of the highest unlocked level block; grows only when a block passes. */
+  const [unlocked, setUnlocked] = useState(0);
+  const [earlyExit, setEarlyExit] = useState<Cefr | null>(null);
   const startedAtRef = useRef(Date.now());
 
   // Reset progress and switch TTS locale whenever the subject changes.
   useEffect(() => {
     CURRENT_SPEAK_LANG = meta.speakLang;
     setIdx(0); setAnswers({}); setAudioBlobs({}); setDone(null);
+    setUnlocked(0); setEarlyExit(null);
     startedAtRef.current = Date.now();
   }, [subject, meta.speakLang]);
 
-  const q = bank[idx];
-  const pct = Math.round(((idx + 1) / bank.length) * 100);
+  useEffect(() => () => stopPlacementTts(), []);
+
+  /** Items the student may currently see (all unlocked blocks). */
+  const visible = useMemo(() => {
+    if (blocks.length === 0) return bank;
+    const allowed = new Set(blocks.slice(0, unlocked + 1));
+    return bank.filter((item) => allowed.has(item.cefr));
+  }, [bank, blocks, unlocked]);
+
+  const q = visible[Math.min(idx, visible.length - 1)];
+  const pct = Math.round(((idx + 1) / visible.length) * 100);
+  const atLastVisible = idx >= visible.length - 1;
+  const finishedAllBlocks = blocks.length === 0 || unlocked >= blocks.length - 1;
+  /** True when no further block can open, so the test can be submitted. */
+  const canSubmit = atLastVisible && (finishedAllBlocks || earlyExit !== null);
 
   const setA = (val: unknown) => setAnswers((a) => ({ ...a, [q.id]: val }));
-  const goNext = () => setIdx((i) => Math.min(i + 1, bank.length - 1));
-  const goPrev = () => setIdx((i) => Math.max(i - 1, 0));
+
+  const goNext = () => {
+    stopPlacementTts();
+    if (!atLastVisible) { setIdx((i) => i + 1); return; }
+    if (blocks.length === 0 || finishedAllBlocks) return;
+
+    // End of a level block: only unlock the next level if this one went well.
+    const band = blocks[unlocked];
+    const blockItems = bank.filter((item) => item.cefr === band);
+    const credit = blockItems.reduce((s, item) => s + itemCredit(item, answers, audioBlobs), 0);
+    if (shouldContinue(credit, blockItems.length)) {
+      setUnlocked((u) => u + 1);
+      setIdx((i) => i + 1);
+    } else {
+      setEarlyExit(band);
+      toast.message(`${band} level confirmed`, {
+        description: "Harder sections are not needed - you can submit your test now.",
+      });
+    }
+  };
+  const goPrev = () => { stopPlacementTts(); setIdx((i) => Math.max(i - 1, 0)); };
 
   /* ── Submit & score ───────────────────────────────────────────── */
   const handleSubmit = async () => {
@@ -526,9 +670,7 @@ const ListenImage = ({ q, answer, setAnswer }: RenderProps) => {
   return (
     <div>
       <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
-      <Button variant="outline" onClick={() => speak(q.audioText)} className="mb-5">
-        <Volume2 className="w-4 h-4 mr-2" /> Play audio
-      </Button>
+      <PlacementAudio text={q.audioText} />
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {q.options.map((o, i) => (
           <button
@@ -555,17 +697,9 @@ const ListenMcq = ({ q, answer, setAnswer }: RenderProps) => {
   return (
     <div>
       <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-center gap-4 mb-5">
-        <button
-          onClick={() => {
-            setPlaying(true); speak(q.audioText);
-            setTimeout(() => setPlaying(false), 4500);
-          }}
-          className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center"
-        >
-          <Volume2 className="w-4 h-4" />
-        </button>
-        <div className="flex-1"><Waveform playing={playing} /></div>
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5">
+        <PlacementAudio text={q.audioText} label="Play recording" />
+        <Waveform playing={playing} />
       </div>
       <div className="space-y-2">
         {q.options.map((o, i) => (
@@ -595,11 +729,9 @@ const ListenDictation = ({ q, answer, setAnswer }: RenderProps) => {
   return (
     <div>
       <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 flex items-center justify-between">
-        <span className="text-xs text-slate-500">Monologue audio</span>
-        <Button variant="outline" size="sm" onClick={() => speak(q.audioText)}>
-          <Volume2 className="w-4 h-4 mr-1" /> Play
-        </Button>
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 flex flex-wrap items-center justify-between gap-2">
+        <span className="text-xs text-slate-500">Dictation audio</span>
+        <PlacementAudio text={q.audioText} label="Play" compact />
       </div>
       <div className="text-base leading-9 text-slate-800">
         {parts.map((part, i) => (
@@ -904,11 +1036,9 @@ const SpeakReply = ({ q, recordBlob, hasRecording }: RenderProps) => {
   return (
     <div>
       <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5 flex items-center justify-between">
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5 flex flex-wrap items-center justify-between gap-2">
         <span className="text-sm text-slate-700">Examiner question</span>
-        <Button variant="outline" size="sm" onClick={() => speak(q.audioText)}>
-          <Volume2 className="w-4 h-4 mr-1" /> Play
-        </Button>
+        <PlacementAudio text={q.audioText} label="Play" compact />
       </div>
       <div className="flex items-center justify-center gap-6">
         <Ring
