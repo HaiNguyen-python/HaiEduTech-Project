@@ -509,10 +509,11 @@ const AdminPlacementResults = () => {
                         </div>
                         <p className="text-xs text-slate-500 mb-2 line-clamp-2">{q.prompt}</p>
                         {url ? (
-                          <audio controls src={url} className="w-full h-9" />
+                          <SpeakingClip path={url} />
                         ) : (
                           <p className="text-xs italic text-slate-400">No recording uploaded</p>
                         )}
+
                       </div>
                     );
                   })}
