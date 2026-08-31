@@ -572,9 +572,7 @@ const ListenImage = ({ q, answer, setAnswer }: RenderProps) => {
   return (
     <div>
       <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
-      <Button variant="outline" onClick={() => speak(q.audioText)} className="mb-5">
-        <Volume2 className="w-4 h-4 mr-2" /> Play audio
-      </Button>
+      <PlacementAudio text={q.audioText} />
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {q.options.map((o, i) => (
           <button
