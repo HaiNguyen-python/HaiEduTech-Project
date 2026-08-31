@@ -139,7 +139,10 @@ const AdminPlacementResults = () => {
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const load = async () => {
+  const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "approved">("all");
+  const [groupByClass, setGroupByClass] = useState(false);
+
+  const load = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("placement_test_results")
@@ -151,17 +154,43 @@ const AdminPlacementResults = () => {
     } else {
       const list = (data ?? []) as unknown as PlacementRow[];
       setRows(list);
-      if (!selectedId && list.length > 0) setSelectedId(list[0].id);
+      setSelectedId((cur) => cur ?? list[0]?.id ?? null);
     }
     setLoading(false);
-  };
+  }, []);
 
-  useEffect(() => { void load(); /* eslint-disable-next-line */ }, []);
+  useEffect(() => { void load(); }, [load]);
+
+  // Auto-refresh when a student submits a new run.
+  useEffect(() => {
+    const channel = supabase
+      .channel("placement-results-admin")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "placement_test_results" },
+        () => { void load(); }
+      )
+      .subscribe();
+    return () => { void supabase.removeChannel(channel); };
+  }, [load]);
 
   const selected = useMemo(
     () => rows.find((r) => r.id === selectedId) ?? null,
     [rows, selectedId]
   );
+  const insight = useMemo(() => readInsight(selected), [selected]);
+
+  const visibleRows = useMemo(() => {
+    const filtered = statusFilter === "all"
+      ? rows
+      : rows.filter((r) => (r.status ?? "pending") === statusFilter);
+    if (!groupByClass) return filtered;
+    return [...filtered].sort((a, b) => {
+      const ka = readInsight(a)?.recommended_class ?? a.assigned_class ?? "zzz";
+      const kb = readInsight(b)?.recommended_class ?? b.assigned_class ?? "zzz";
+      return ka.localeCompare(kb) || b.created_at.localeCompare(a.created_at);
+    });
+  }, [rows, statusFilter, groupByClass]);
 
   const chartData = useMemo(() => selected ? [
     { skill: "Listening",  value: selected.listening_score },
@@ -169,6 +198,7 @@ const AdminPlacementResults = () => {
     { skill: "Writing",    value: selected.writing_score },
     { skill: "Speaking",   value: selected.speaking_score },
   ] : [], [selected]);
+
 
   const saveAssignment = async (cls: string) => {
     if (!selected) return;
