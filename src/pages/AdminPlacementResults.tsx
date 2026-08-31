@@ -536,12 +536,19 @@ const AdminPlacementResults = () => {
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
+                  {insight?.recommended_class && (
+                    <Button onClick={() => saveAssignment(insight.recommended_class!)}>
+                      <Sparkles className="w-4 h-4 mr-1" />
+                      Use suggested class
+                    </Button>
+                  )}
                   {selected.status === "approved" && (
                     <span className="inline-flex items-center gap-1 text-sm text-emerald-700 font-medium">
                       <CheckCircle2 className="w-4 h-4" /> Approved
                     </span>
                   )}
                 </div>
+
               </div>
             </section>
           )}
