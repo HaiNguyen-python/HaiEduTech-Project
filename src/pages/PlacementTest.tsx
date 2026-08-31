@@ -540,8 +540,15 @@ const PlacementTest = () => {
             <span className="text-xs font-medium text-slate-500">
               Question {idx + 1} of {visible.length}
               {q?.cefr ? ` · level ${q.cefr}` : ""}
+              {blocks.length > 0 ? ` · block ${unlocked + 1}/${blocks.length}` : ""}
             </span>
           </div>
+          {earlyExit && (
+            <div className="mb-3 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-800">
+              Your level has been confirmed at <strong>{earlyExit}</strong>. Harder
+              sections are not needed - review your answers and submit the test.
+            </div>
+          )}
           <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
             {meta.title}
           </h1>
