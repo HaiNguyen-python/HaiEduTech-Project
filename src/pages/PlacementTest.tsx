@@ -196,33 +196,131 @@ function useRecorder() {
   return { start, stop, recording };
 }
 
+/**
+ * Partial credit (0-1) for one item. Objective items are exact; dictation and
+ * cloze give proportional credit; productive items use word-count and
+ * attempt rubrics until Teacher Hai marks them.
+ */
+const itemCredit = (
+  item: PlacementQuestion,
+  answers: Record<number, unknown>,
+  audioBlobs: Record<number, Blob>,
+): number => {
+  const ans = answers[item.id];
+  switch (item.type) {
+    case "listen-image":
+    case "listen-mcq":
+    case "read-mcq":
+    case "read-analytical":
+      return ans === item.correct ? 1 : 0;
+    case "listen-dictation": {
+      const a = (ans as string[] | undefined) ?? [];
+      const hits = item.blanks.reduce(
+        (s, b, i) => s + (a[i]?.trim().toLowerCase() === b.toLowerCase() ? 1 : 0), 0);
+      return hits / Math.max(1, item.blanks.length);
+    }
+    case "read-cloze": {
+      const a = (ans as number[] | undefined) ?? [];
+      const hits = item.correct.reduce((s, c, i) => s + (a[i] === c ? 1 : 0), 0);
+      return hits / Math.max(1, item.correct.length);
+    }
+    case "write-scramble": {
+      const a = (ans as string[] | undefined) ?? [];
+      return a.join(" ").trim().toLowerCase() === item.answer.trim().toLowerCase() ? 1 : 0;
+    }
+    case "write-picture":
+    case "write-essay": {
+      const a = (ans as string | undefined) ?? "";
+      const n = a.trim().split(/\s+/).filter(Boolean).length;
+      if (n === 0) return 0;
+      if (n >= item.minWords) return 1;
+      return Math.max(0.3, n / item.minWords) * 0.8;
+    }
+    case "speak-read":
+    case "speak-reply":
+    case "speak-present":
+      // Recorded answers get provisional half credit until graded by a teacher.
+      return audioBlobs[item.id] ? 0.5 : 0;
+    default:
+      return 0;
+  }
+};
+
 const PlacementTest = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const subject = useMemo(() => parseSubject(searchParams.get("subject")), [searchParams]);
   const meta = SUBJECT_META[subject];
-  const bank = useMemo(() => getPlacementBank(subject), [subject]);
+  const rawBank = useMemo(() => getPlacementBank(subject), [subject]);
+  // Language tests run as easy → hard level blocks so beginners can exit early.
+  const bank = useMemo(
+    () => (subject === "programming" ? rawBank : orderByBand(rawBank)),
+    [rawBank, subject],
+  );
+  const blocks = useMemo(
+    () => (subject === "programming" ? [] : bandBlocks(bank)),
+    [bank, subject],
+  );
 
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, unknown>>({});
   const [audioBlobs, setAudioBlobs] = useState<Record<number, Blob>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState<null | { total: number; cefr: string }>(null);
+  const [done, setDone] = useState<null | {
+    total: number; cefr: string; recommendedClass?: string;
+    weakestAreas?: string[]; notes?: string[];
+  }>(null);
+  /** Index of the highest unlocked level block; grows only when a block passes. */
+  const [unlocked, setUnlocked] = useState(0);
+  const [earlyExit, setEarlyExit] = useState<Cefr | null>(null);
   const startedAtRef = useRef(Date.now());
 
   // Reset progress and switch TTS locale whenever the subject changes.
   useEffect(() => {
     CURRENT_SPEAK_LANG = meta.speakLang;
     setIdx(0); setAnswers({}); setAudioBlobs({}); setDone(null);
+    setUnlocked(0); setEarlyExit(null);
     startedAtRef.current = Date.now();
   }, [subject, meta.speakLang]);
 
-  const q = bank[idx];
-  const pct = Math.round(((idx + 1) / bank.length) * 100);
+  useEffect(() => () => stopPlacementTts(), []);
+
+  /** Items the student may currently see (all unlocked blocks). */
+  const visible = useMemo(() => {
+    if (blocks.length === 0) return bank;
+    const allowed = new Set(blocks.slice(0, unlocked + 1));
+    return bank.filter((item) => allowed.has(item.cefr));
+  }, [bank, blocks, unlocked]);
+
+  const q = visible[Math.min(idx, visible.length - 1)];
+  const pct = Math.round(((idx + 1) / visible.length) * 100);
+  const atLastVisible = idx >= visible.length - 1;
+  const finishedAllBlocks = blocks.length === 0 || unlocked >= blocks.length - 1;
+  /** True when no further block can open, so the test can be submitted. */
+  const canSubmit = atLastVisible && (finishedAllBlocks || earlyExit !== null);
 
   const setA = (val: unknown) => setAnswers((a) => ({ ...a, [q.id]: val }));
-  const goNext = () => setIdx((i) => Math.min(i + 1, bank.length - 1));
-  const goPrev = () => setIdx((i) => Math.max(i - 1, 0));
+
+  const goNext = () => {
+    stopPlacementTts();
+    if (!atLastVisible) { setIdx((i) => i + 1); return; }
+    if (blocks.length === 0 || finishedAllBlocks) return;
+
+    // End of a level block: only unlock the next level if this one went well.
+    const band = blocks[unlocked];
+    const blockItems = bank.filter((item) => item.cefr === band);
+    const credit = blockItems.reduce((s, item) => s + itemCredit(item, answers, audioBlobs), 0);
+    if (shouldContinue(credit, blockItems.length)) {
+      setUnlocked((u) => u + 1);
+      setIdx((i) => i + 1);
+    } else {
+      setEarlyExit(band);
+      toast.message(`${band} level confirmed`, {
+        description: "Harder sections are not needed - you can submit your test now.",
+      });
+    }
+  };
+  const goPrev = () => { stopPlacementTts(); setIdx((i) => Math.max(i - 1, 0)); };
 
   /* ── Submit & score ───────────────────────────────────────────── */
   const handleSubmit = async () => {
