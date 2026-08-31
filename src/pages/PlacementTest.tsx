@@ -631,11 +631,9 @@ const ListenDictation = ({ q, answer, setAnswer }: RenderProps) => {
   return (
     <div>
       <p className="text-slate-800 font-medium mb-4">{q.prompt}</p>
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 flex items-center justify-between">
-        <span className="text-xs text-slate-500">Monologue audio</span>
-        <Button variant="outline" size="sm" onClick={() => speak(q.audioText)}>
-          <Volume2 className="w-4 h-4 mr-1" /> Play
-        </Button>
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 flex flex-wrap items-center justify-between gap-2">
+        <span className="text-xs text-slate-500">Dictation audio</span>
+        <PlacementAudio text={q.audioText} label="Play" compact />
       </div>
       <div className="text-base leading-9 text-slate-800">
         {parts.map((part, i) => (
