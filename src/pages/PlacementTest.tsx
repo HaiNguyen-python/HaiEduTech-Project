@@ -470,7 +470,12 @@ const PlacementTest = () => {
         },
       });
 
-      setDone({ total, cefr });
+      setDone({
+        total, cefr,
+        recommendedClass: subject === "programming" ? undefined : outcome.recommendedClass,
+        weakestAreas: subject === "programming" ? undefined : outcome.weakestAreas,
+        notes: subject === "programming" ? undefined : outcome.notes,
+      });
       toast.success("Placement test submitted!");
     } catch (e) {
       console.error(e);
