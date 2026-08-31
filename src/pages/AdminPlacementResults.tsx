@@ -247,17 +247,41 @@ const AdminPlacementResults = () => {
         <div className="grid lg:grid-cols-[280px_1fr] gap-5">
           {/* ── Submission list ─────────────────────────────── */}
           <aside className={`${FRAME} p-3 max-h-[80vh] overflow-y-auto`}>
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              {(["all", "pending", "approved"] as const).map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setStatusFilter(s)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors
+                    ${statusFilter === s
+                      ? "bg-slate-900 text-white border-slate-900"
+                      : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+                >
+                  {s === "all" ? "All" : s === "pending" ? "Pending" : "Approved"}
+                </button>
+              ))}
+              <button
+                onClick={() => setGroupByClass((v) => !v)}
+                className={`px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors
+                  ${groupByClass
+                    ? "bg-emerald-600 text-white border-emerald-600"
+                    : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+              >
+                Group by class
+              </button>
+            </div>
             {loading && rows.length === 0 && (
               <div className="text-sm text-slate-500 p-3 flex items-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin" /> Loading…
               </div>
             )}
-            {!loading && rows.length === 0 && (
+            {!loading && visibleRows.length === 0 && (
               <p className="text-sm text-slate-500 p-3">No submissions yet.</p>
             )}
-            {rows.map((r) => (
+            {visibleRows.map((r) => (
               <button
                 key={r.id}
+
                 onClick={() => setSelectedId(r.id)}
                 className={`w-full text-left px-3 py-2 rounded-lg mb-1 border transition-all
                   ${selectedId === r.id
