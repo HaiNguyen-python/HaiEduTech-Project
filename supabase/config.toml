@@ -86,3 +86,6 @@ verify_jwt = true
 
 [functions.career-roadmap-ai]
 verify_jwt = false
+
+[functions.analyze-presentation]
+verify_jwt = false
