@@ -1050,10 +1050,20 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
       </div>
 
       <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
         <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
         <Badge variant="outline" className="text-xs">{label.emoji} {t(label.vi, label.en)}</Badge>
+        {mode === "speed" && (
+          <span className={`text-sm font-bold ${timeLeft <= 10 ? "text-red-500" : "text-foreground"}`}>
+            ⏱ {timeLeft}s
+          </span>
+        )}
+        {combo >= 2 && (
+          <span className="text-sm font-bold text-amber-500">🔥 {t("Chuỗi", "Combo")} x{combo}</span>
+        )}
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
       </div>
+
       <div className="rounded-xl border border-border bg-card p-8 mb-6">
         {q.type === "listening" ? (
           <div className="flex flex-col items-center gap-3 py-4">
