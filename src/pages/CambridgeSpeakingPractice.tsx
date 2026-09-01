@@ -758,6 +758,22 @@ const CambridgeSpeakingPractice = () => {
             )}
           </div>
 
+          {error && (
+            <div className="mt-3 rounded-xl border-2 border-rose-200 bg-rose-50 p-3">
+              <p className="text-sm font-semibold text-rose-700">{error}</p>
+              {blockedInFrame && (
+                <a
+                  href={window.location.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 rounded-full bg-rose-600 px-3 py-1.5 text-xs font-bold text-white"
+                >
+                  {t("Mở ở tab mới để thu âm", "Open in a new tab to record")}
+                </a>
+              )}
+            </div>
+          )}
+
           {audioUrl && !isRecording && (
             <audio src={audioUrl} controls className="w-full mt-4" />
           )}
