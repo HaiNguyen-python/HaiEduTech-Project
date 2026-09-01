@@ -148,7 +148,7 @@ console.log(
 console.log("Standalone R&W items per paper:", standalone.join(" "));
 
 // ---- Writing bank: every level needs real productive tasks with model answers.
-const WRITING_MIN_TASKS = 6;
+const WRITING_MIN_TASKS = 18;
 for (const level of ["starters", "movers", "flyers", "ket", "pet"] as const) {
   const tasks = cambridgeWritingTasksByLevel(level);
   if (tasks.length < WRITING_MIN_TASKS) issues.push(`writing ${level}: only ${tasks.length} tasks (min ${WRITING_MIN_TASKS})`);
