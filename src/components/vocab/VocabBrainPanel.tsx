@@ -160,6 +160,8 @@ const VocabBrainPanel = ({
   const [paused, setPaused] = useState(false);
   const [viewKey, setViewKey] = useState(0);
   const [query, setQuery] = useState("");
+  const [legendOpen, setLegendOpen] = useState(true);
+
   const [replay, setReplay] = useState<number | null>(null);
   /** Words already reviewed today - drives the daily mission progress. */
   const [reviewedToday, setReviewedToday] = useState<string[]>(() => readReviewedToday(subject));
@@ -588,8 +590,75 @@ const VocabBrainPanel = ({
         </div>
       )}
 
+      {/* Control bar - sits ABOVE the canvas so it can never cover the brain */}
+      {totalMastered > 0 && !loading && (
+        <div className="mb-2 flex items-center gap-2 rounded-xl border border-border bg-muted/40 p-2">
+          <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto whitespace-nowrap pb-0.5 [scrollbar-width:thin]">
+            {FILTERS.map(f => (
+              <Button
+                key={f.key}
+                size="sm"
+                variant={filter === f.key ? "default" : "secondary"}
+                className="h-8 shrink-0"
+                onClick={() => setFilter(f.key)}
+              >
+                {t(f.vi, f.en)}
+              </Button>
+            ))}
+            <span className="mx-1 h-6 w-px shrink-0 bg-border" />
+            <Button size="sm" variant="secondary" className="h-8 shrink-0 gap-1.5" onClick={() => setShowLabels(v => !v)}>
+              {showLabels ? <Type className="h-3.5 w-3.5" /> : <Sparkles className="h-3.5 w-3.5" />}
+              {showLabels ? t("Đang hiện chữ", "Labels on") : t("Chỉ chấm sáng", "Dots only")}
+            </Button>
+            {showLabels && (
+              <div className="flex shrink-0 items-center gap-1 rounded-lg bg-background/70 p-0.5">
+                {DENSITIES.map(d => (
+                  <button
+                    key={d.key}
+                    onClick={() => setDensity(d.key)}
+                    className={`rounded-md px-2 py-1 text-[11px] font-semibold transition ${
+                      density === d.key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"
+                    }`}
+                  >
+                    {t(d.vi, d.en)}
+                  </button>
+                ))}
+              </div>
+            )}
+            <Button size="sm" variant="secondary" className="h-8 shrink-0 gap-1.5" onClick={() => setPaused(v => !v)}>
+              {paused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
+              {paused ? t("Xoay tiếp", "Rotate") : t("Tạm dừng", "Pause")}
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="h-8 shrink-0 gap-1.5"
+              onClick={() => setReplay(0)}
+              disabled={replay !== null}
+            >
+              <Play className="h-3.5 w-3.5" />
+              {replay === null ? t("Xem quá trình", "Replay consolidation") : t("Đang chạy...", "Playing...")}
+            </Button>
+            <Button size="sm" variant="secondary" className="h-8 shrink-0 gap-1.5" onClick={() => setViewKey(k => k + 1)}>
+              <Crosshair className="h-3.5 w-3.5" />
+              {t("Góc nhìn gốc", "Reset view")}
+            </Button>
+          </div>
+          <div className="relative w-32 shrink-0 sm:w-44">
+            <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder={t("Tìm từ...", "Find a word...")}
+              className="h-8 w-full rounded-lg border border-border bg-background pl-7 pr-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/60"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Brain viewport */}
       <div className="relative h-[520px] overflow-hidden rounded-2xl border border-border bg-[radial-gradient(ellipse_at_center,theme(colors.slate.800),theme(colors.slate.950)_70%)] lg:h-[620px]">
+
         {loading ? (
           <div className="flex h-full items-center justify-center text-sm text-slate-300">
             {t("Đang tải bộ não...", "Loading your brain...")}
@@ -619,67 +688,8 @@ const VocabBrainPanel = ({
 
         {totalMastered > 0 && !loading && (
           <>
-            {/* Floating control bar */}
-            <div className="absolute inset-x-3 top-3 flex flex-wrap items-center gap-2 rounded-xl bg-black/45 p-2 backdrop-blur">
-              {FILTERS.map(f => (
-                <Button
-                  key={f.key}
-                  size="sm"
-                  variant={filter === f.key ? "default" : "secondary"}
-                  className="h-8"
-                  onClick={() => setFilter(f.key)}
-                >
-                  {t(f.vi, f.en)}
-                </Button>
-              ))}
-              <span className="mx-1 h-6 w-px bg-white/20" />
-              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setShowLabels(v => !v)}>
-                {showLabels ? <Type className="h-3.5 w-3.5" /> : <Sparkles className="h-3.5 w-3.5" />}
-                {showLabels ? t("Đang hiện chữ", "Labels on") : t("Chỉ chấm sáng", "Dots only")}
-              </Button>
-              {showLabels && (
-                <div className="flex items-center gap-1 rounded-lg bg-white/10 p-0.5">
-                  {DENSITIES.map(d => (
-                    <button
-                      key={d.key}
-                      onClick={() => setDensity(d.key)}
-                      className={`rounded-md px-2 py-1 text-[11px] font-semibold transition ${
-                        density === d.key ? "bg-primary text-primary-foreground" : "text-slate-200 hover:bg-white/10"
-                      }`}
-                    >
-                      {t(d.vi, d.en)}
-                    </button>
-                  ))}
-                </div>
-              )}
-              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setPaused(v => !v)}>
-                {paused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
-                {paused ? t("Xoay tiếp", "Rotate") : t("Tạm dừng", "Pause")}
-              </Button>
-              <Button
-                size="sm"
-                variant="secondary"
-                className="h-8 gap-1.5"
-                onClick={() => setReplay(0)}
-                disabled={replay !== null}
-              >
-                <Play className="h-3.5 w-3.5" />
-                {replay === null ? t("Xem quá trình", "Replay consolidation") : t("Đang chạy...", "Playing...")}
-              </Button>
-              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setViewKey(k => k + 1)}>
-                <Crosshair className="h-3.5 w-3.5" />
-                {t("Góc nhìn gốc", "Reset view")}
-              </Button>
-              <div className="relative ml-auto">
-                <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-                <input
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  placeholder={t("Tìm từ...", "Find a word...")}
-                  className="h-8 w-40 rounded-lg border border-white/15 bg-white/10 pl-7 pr-2 text-xs text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/60"
-                />
-              </div>
-            </div>
+
+
 
             <div className="pointer-events-none absolute bottom-3 left-3 rounded-lg bg-black/45 px-2.5 py-1.5 text-[11px] text-slate-200 backdrop-blur">
               {t("Kéo để xoay · cuộn để zoom · bấm vào từ để xem chi tiết",
@@ -688,7 +698,13 @@ const VocabBrainPanel = ({
 
             {/* Colour legend inside the viewport - click a level to filter it */}
             <div className="absolute bottom-3 right-3 hidden flex-col gap-1 rounded-xl bg-black/50 p-2.5 text-[11px] backdrop-blur sm:flex">
-              {TIER_ORDER.map(tier => {
+              <button
+                onClick={() => setLegendOpen(v => !v)}
+                className="mb-0.5 flex items-center gap-1.5 text-left text-[10px] font-semibold uppercase tracking-wide text-slate-400 hover:text-white"
+              >
+                {legendOpen ? "▾" : "▸"} {t("Chú thích", "Legend")}
+              </button>
+              {legendOpen && TIER_ORDER.map(tier => {
                 const info = tierInfo(tier);
                 const active = filter === `tier:${tier}`;
                 return (
@@ -709,6 +725,7 @@ const VocabBrainPanel = ({
                 );
               })}
             </div>
+
           </>
         )}
       </div>

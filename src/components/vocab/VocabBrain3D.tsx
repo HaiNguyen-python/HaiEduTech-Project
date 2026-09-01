@@ -358,6 +358,43 @@ const NeuronCloud = ({
   );
 };
 
+/**
+ * Smoothly flies the camera toward the searched / selected word so learners can
+ * actually find it in the cloud instead of hunting for a highlighted dot.
+ */
+const CameraFocus = ({
+  neurons,
+  word,
+  controls,
+}: {
+  neurons: BrainNeuron[];
+  word: string | null;
+  controls: React.MutableRefObject<any>;
+}) => {
+  const target = useRef<THREE.Vector3 | null>(null);
+  const frames = useRef(0);
+
+  useEffect(() => {
+    if (!word) { target.current = null; return; }
+    const n = neurons.find(x => x.word.toLowerCase() === word.toLowerCase());
+    if (!n) { target.current = null; return; }
+    const v = new THREE.Vector3(n.x, n.y, n.z);
+    // Sit outside the brain, on the same side as the word.
+    target.current = v.clone().normalize().multiplyScalar(Math.max(2.4, v.length() + 2));
+    frames.current = 0;
+  }, [word, neurons]);
+
+  useFrame(({ camera }) => {
+    if (!target.current || frames.current > 90) return;
+    frames.current += 1;
+    camera.position.lerp(target.current, 0.06);
+    camera.lookAt(0, 0, 0);
+    controls.current?.update?.();
+  });
+
+  return null;
+};
+
 const VocabBrain3D = ({
   neurons,
   onSelect,
@@ -369,7 +406,10 @@ const VocabBrain3D = ({
   replay = null,
 }: Props) => {
   const [labels, setLabels] = useState<ScreenLabel[]>([]);
-  const [hoveredWord, setHoveredWord] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<BrainNeuron | null>(null);
+  const controlsRef = useRef<any>(null);
+
+  const hoveredTier = hovered ? tierForDays(hovered.days) : null;
 
   return (
     <div className="relative h-full w-full">
@@ -386,7 +426,7 @@ const VocabBrain3D = ({
           selected={selected}
           focusWord={focusWord}
           replay={replay}
-          onHover={(n) => setHoveredWord(n?.word ?? null)}
+          onHover={setHovered}
         />
         {showLabels && (
           <LabelProjector
@@ -397,8 +437,10 @@ const VocabBrain3D = ({
             onLabels={setLabels}
           />
         )}
+        <CameraFocus neurons={neurons} word={focusWord || selected} controls={controlsRef} />
         <OrbitControls
-          autoRotate={!paused}
+          ref={controlsRef}
+          autoRotate={!paused && !focusWord}
           autoRotateSpeed={0.6}
           enablePan={false}
           minDistance={1.8}
@@ -432,9 +474,13 @@ const VocabBrain3D = ({
         </div>
       )}
 
-      {hoveredWord && (
-        <div className="pointer-events-none absolute left-1/2 top-3 -translate-x-1/2 rounded-lg bg-black/60 px-3 py-1 text-sm font-bold text-white backdrop-blur">
-          {hoveredWord}
+      {hovered && hoveredTier && (
+        <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-lg bg-black/70 px-3 py-1.5 text-sm font-bold text-white backdrop-blur">
+          <span className="mr-2 inline-block h-2.5 w-2.5 rounded-full align-middle" style={{ backgroundColor: hoveredTier.color }} />
+          {hovered.word}
+          <span className="ml-2 text-[11px] font-medium text-slate-300">
+            {hovered.days === 0 ? "today" : `${hovered.days}d ago`}
+          </span>
         </div>
       )}
     </div>
@@ -442,3 +488,4 @@ const VocabBrain3D = ({
 };
 
 export default VocabBrain3D;
+
