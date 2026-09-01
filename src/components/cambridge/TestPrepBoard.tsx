@@ -8,7 +8,7 @@
  */
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, BookOpenCheck } from "lucide-react";
+import { Clock, BookOpenCheck, ChevronDown } from "lucide-react";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -73,6 +73,10 @@ interface Props {
 const TestPrepBoard = ({ stickyTopClass = "top-16" }: Props) => {
   const { t } = useLanguage();
   const [filter, setFilter] = useState<CambridgeLevelKey | "all">("all");
+  const [openLevels, setOpenLevels] = useState<CambridgeLevelKey[]>(["starters"]);
+
+  const toggleLevel = (level: CambridgeLevelKey) =>
+    setOpenLevels((prev) => (prev.includes(level) ? prev.filter((l) => l !== level) : [...prev, level]));
 
   const grouped = useMemo(
     () =>
@@ -114,7 +118,10 @@ const TestPrepBoard = ({ stickyTopClass = "top-16" }: Props) => {
             return (
               <button
                 key={level}
-                onClick={() => setFilter(level)}
+                onClick={() => {
+                  setFilter(level);
+                  setOpenLevels((prev) => (prev.includes(level) ? prev : [...prev, level]));
+                }}
                 className="rounded-full border-2 px-4 py-2 text-sm font-bold transition-colors"
                 style={{
                   borderColor: active ? cfg.color : "#E2E8F0",
@@ -135,10 +142,17 @@ const TestPrepBoard = ({ stickyTopClass = "top-16" }: Props) => {
           const cfg = CAMBRIDGE_LEVEL_LABELS[level];
           const meta = CAMBRIDGE_LEVEL_META[level];
           const perPaper = exams[0]?.totalQuestions ?? 0;
+          const isOpen = filter === level || openLevels.includes(level);
           return (
             <div key={level} className="rounded-3xl border-2 bg-white/85 p-4 md:p-6" style={{ borderColor: `${cfg.color}66` }}>
-              {/* Band header */}
-              <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl px-4 py-3" style={{ background: `${cfg.color}1F` }}>
+              {/* Band header - click to open or close the paper list */}
+              <button
+                type="button"
+                onClick={() => toggleLevel(level)}
+                aria-expanded={isOpen}
+                className="mb-5 flex w-full flex-wrap items-center gap-3 rounded-2xl px-4 py-3 text-left transition-opacity hover:opacity-90"
+                style={{ background: `${cfg.color}1F` }}
+              >
                 <span className="text-3xl">{cfg.emoji}</span>
                 <div className="min-w-[200px] flex-1">
                   <h2 className="text-2xl font-black" style={{ color: cfg.color }}>
@@ -150,9 +164,17 @@ const TestPrepBoard = ({ stickyTopClass = "top-16" }: Props) => {
                   </p>
                 </div>
                 <p className="max-w-md text-sm font-medium text-slate-600">{t(meta.blurbVi, meta.blurb)}</p>
-              </div>
+                <span
+                  className="ml-auto flex items-center gap-1 rounded-full bg-white/80 px-3 py-1 text-sm font-bold"
+                  style={{ color: cfg.color }}
+                >
+                  {isOpen ? t("Thu gọn", "Hide") : t("Xem đề", "Show papers")}
+                  <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                </span>
+              </button>
 
               {/* Exam cards */}
+              {isOpen && (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {exams.map((exam, index) => {
                   const bestRaw = typeof window !== "undefined" ? localStorage.getItem(`cambridge-mock-best-${exam.id}`) : null;
@@ -221,6 +243,7 @@ const TestPrepBoard = ({ stickyTopClass = "top-16" }: Props) => {
                   );
                 })}
               </div>
+              )}
             </div>
           );
         })}

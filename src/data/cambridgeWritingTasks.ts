@@ -8,6 +8,8 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
+import { cambridgeWritingTasksExpansion } from "./cambridgeWritingTasksExpansion";
+
 export type CambridgeWritingLevel = "starters" | "movers" | "flyers" | "ket" | "pet";
 
 export type CambridgeWritingKind =
@@ -382,6 +384,7 @@ export const cambridgeWritingTasks: CambridgeWritingTask[] = [
     usefulLanguage: ["I was sure that ...", "It turned out that ...", "Finally ..."],
     sampleAnswer: "When I got home, the door was already open. I stood on the step for a moment, listening to a strange noise from the kitchen, and I was sure that somebody had broken in. My hands were shaking as I pushed the door with one finger. Then I heard a familiar cough and the sound of a chair. It turned out that my grandmother had arrived a day earlier than planned, and she was making soup for everybody. Finally I laughed, put my bag down and cut the vegetables for her, and we never told my parents how frightened I had been.",
   }),
+  ...cambridgeWritingTasksExpansion,
 ];
 
 export const cambridgeWritingTasksByLevel = (level: CambridgeWritingLevel): CambridgeWritingTask[] =>

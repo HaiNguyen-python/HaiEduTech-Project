@@ -8,7 +8,7 @@
  */
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { PenLine, Sparkles, Loader2, CheckCircle2, BookOpen, Lightbulb } from "lucide-react";
+import { PenLine, Sparkles, Loader2, CheckCircle2, BookOpen, Lightbulb, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -71,6 +71,8 @@ const CambridgeWritingLab = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<WritingResult | null>(null);
   const [showSample, setShowSample] = useState(false);
+  const [taskListOpen, setTaskListOpen] = useState(true);
+  const [kindFilter, setKindFilter] = useState<string>("all");
 
   const tasks = useMemo(() => cambridgeWritingTasksByLevel(level), [level]);
   const task: CambridgeWritingTask | null = useMemo(
@@ -82,6 +84,8 @@ const CambridgeWritingLab = () => {
 
   const selectLevel = (next: CambridgeWritingLevel) => {
     setLevel(next);
+    setKindFilter("all");
+    setTaskListOpen(true);
     setTaskId(null);
     setText("");
     setResult(null);
@@ -90,6 +94,7 @@ const CambridgeWritingLab = () => {
 
   const selectTask = (next: CambridgeWritingTask) => {
     setTaskId(next.id);
+    setTaskListOpen(false);
     setText("");
     setResult(null);
     setShowSample(false);
@@ -180,28 +185,66 @@ const CambridgeWritingLab = () => {
           ))}
         </div>
 
-        {/* Task picker */}
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 mb-6">
-          {tasks.map(item => (
-            <button
-              key={item.id}
-              onClick={() => selectTask(item)}
-              className={`text-left p-4 rounded-2xl border-2 transition-all ${
-                taskId === item.id ? "border-[#4D96FF] bg-[#EEF6FF] shadow-md" : "border-slate-200 bg-white hover:border-[#4D96FF]/50"
-              }`}
-            >
-              <Badge variant="secondary" className="mb-2 text-[11px] uppercase tracking-wide">
-                {item.kind.replace(/-/g, " ")}
-              </Badge>
-              <div className="font-bold text-slate-800" style={{ fontSize: "16px" }}>
-                {t(item.titleVi, item.title)}
+        {/* Task picker - collapsible dropdown so the level stays compact */}
+        <div className="mb-6 rounded-2xl border-2 border-slate-200 bg-white">
+          <button
+            onClick={() => setTaskListOpen(open => !open)}
+            className="flex w-full items-center gap-3 px-4 py-3 text-left"
+          >
+            <BookOpen className="h-5 w-5 shrink-0" style={{ color: activeColor }} />
+            <span className="min-w-0 flex-1">
+              <span className="block font-bold text-slate-800" style={{ fontSize: "16px" }}>
+                {task ? t(task.titleVi, task.title) : t("Chọn đề bài", "Choose a task")}
+              </span>
+              <span className="block text-slate-500" style={{ fontSize: "14px" }}>
+                {tasks.length} {t("đề", "tasks")} · {LEVELS.find(l => l.id === level)?.label}
+              </span>
+            </span>
+            <ChevronDown className={`h-5 w-5 shrink-0 text-slate-500 transition-transform ${taskListOpen ? "rotate-180" : ""}`} />
+          </button>
+
+          {taskListOpen && (
+            <div className="border-t border-slate-200 p-3">
+              <div className="mb-3 flex flex-wrap gap-2">
+                {["all", ...Array.from(new Set(tasks.map(item => item.kind)))].map(kind => (
+                  <button
+                    key={kind}
+                    onClick={() => setKindFilter(kind)}
+                    className={`rounded-full border-2 px-3 py-1 text-xs font-bold uppercase tracking-wide transition-colors ${
+                      kindFilter === kind ? "border-[#4D96FF] bg-[#EEF6FF] text-[#1D4ED8]" : "border-slate-200 bg-white text-slate-600"
+                    }`}
+                  >
+                    {kind === "all" ? t("Tất cả", "All") : kind.replace(/-/g, " ")}
+                  </button>
+                ))}
               </div>
-              <div className="text-slate-600 mt-1" style={{ fontSize: "15px" }}>
-                {item.minWords}-{item.maxWords} {t("từ", "words")}
+              <div className="grid max-h-[22rem] gap-3 overflow-y-auto sm:grid-cols-2 lg:grid-cols-3">
+                {tasks
+                  .filter(item => kindFilter === "all" || item.kind === kindFilter)
+                  .map(item => (
+                    <button
+                      key={item.id}
+                      onClick={() => selectTask(item)}
+                      className={`text-left p-4 rounded-2xl border-2 transition-all ${
+                        taskId === item.id ? "border-[#4D96FF] bg-[#EEF6FF] shadow-md" : "border-slate-200 bg-white hover:border-[#4D96FF]/50"
+                      }`}
+                    >
+                      <Badge variant="secondary" className="mb-2 text-[11px] uppercase tracking-wide">
+                        {item.kind.replace(/-/g, " ")}
+                      </Badge>
+                      <div className="font-bold text-slate-800" style={{ fontSize: "16px" }}>
+                        {t(item.titleVi, item.title)}
+                      </div>
+                      <div className="text-slate-600 mt-1" style={{ fontSize: "15px" }}>
+                        {item.minWords}-{item.maxWords} {t("từ", "words")}
+                      </div>
+                    </button>
+                  ))}
               </div>
-            </button>
-          ))}
+            </div>
+          )}
         </div>
+
 
         {task && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="grid gap-5 lg:grid-cols-2">
