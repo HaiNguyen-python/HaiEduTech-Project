@@ -290,6 +290,7 @@ const CambridgeSpeakingPractice = () => {
     }
     startingRef.current = true;
     reset();
+    setBlockedInFrame(false);
     heardSoundRef.current = false;
     try {
 
