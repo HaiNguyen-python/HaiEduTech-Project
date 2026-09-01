@@ -273,9 +273,22 @@ const CambridgeSpeakingPractice = () => {
   };
 
   const startRecording = async () => {
+    // Ignore double taps: one tap while permission is pending used to open a
+    // second stream and orphan the first one (mic stayed on after Stop).
+    if (startingRef.current || isRecording) return;
+    if (!window.isSecureContext) {
+      setError(t("Trang phải chạy qua HTTPS mới dùng được micro.", "The page must run over HTTPS to use the microphone."));
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia || typeof window.MediaRecorder === "undefined") {
+      setError(t("Trình duyệt này không thu âm được. Hãy dùng Chrome hoặc Edge nhé!", "This browser cannot record audio. Please use Chrome or Edge."));
+      return;
+    }
+    startingRef.current = true;
     reset();
     heardSoundRef.current = false;
     try {
+
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
       });
