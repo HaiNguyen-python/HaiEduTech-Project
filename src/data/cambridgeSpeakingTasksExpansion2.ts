@@ -364,7 +364,7 @@ export const cambridgeSpeakingTasksExpansion2: CambridgeSpeakingTask[] = [
 
   // ---------- PET ----------
   {
-    id: "pe-11", level: "pet", part: "Part 2 - Long turn", topic: "People working together",
+    id: "pe-11b", level: "pet", part: "Part 2 - Long turn", topic: "People working together",
     prompt: "Your photograph shows people working together on a project. Talk about the photograph for about one minute.",
     promptVi: "Ảnh của em chụp mọi người cùng làm một dự án. Nói về bức ảnh khoảng một phút.",
     examiner: ["How do you think they feel?", "Do you like group work?", "What makes a good team?"],
