@@ -248,28 +248,34 @@ const normalizePrompt = (level: string, prompt: string): string => {
   return p;
 };
 
+/** Content words used to spot prompts that are near-copies of each other. */
+const contentWords = (s: string) =>
+  new Set(s.toLowerCase().replace(/[^a-z ]/g, "").split(/\s+/).filter((w) => w.length > 3));
+
+const similarity = (a: Set<string>, b: Set<string>) => {
+  if (!a.size || !b.size) return 0;
+  let hit = 0;
+  a.forEach((w) => { if (b.has(w)) hit++; });
+  return hit / Math.max(a.size, b.size);
+};
+
 /**
  * Deduplicate tasks, unify topic labels and correct exam part labels.
- * The first occurrence of a prompt wins; later copies are dropped.
+ * The first occurrence of a prompt wins; later copies (including near-copies that
+ * only swap a word or two inside the same level and part) are dropped.
  * The first label seen for a topic key becomes the display label for all of them.
  */
 export const sanitizeSpeakingTasks = (tasks: CambridgeSpeakingTask[]): CambridgeSpeakingTask[] => {
   const seenPrompt = new Set<string>();
   const seenId = new Set<string>();
   const labelByKey = new Map<string, string>();
+  const wordsByBucket = new Map<string, Set<string>[]>();
   const out: CambridgeSpeakingTask[] = [];
-
 
   for (const task of tasks) {
     const pk = promptKey(task);
     if (seenPrompt.has(pk)) continue;
     seenPrompt.add(pk);
-
-    // Keep ids unique so per-id lookups (images, progress) never collide.
-    let id = task.id;
-    let n = 2;
-    while (seenId.has(id)) id = `${task.id}-${n++}`;
-    seenId.add(id);
 
     const key = canonicalTopicKey(task.topic);
     if (!labelByKey.has(key)) labelByKey.set(key, bucketLabel(key) ?? task.topic.trim());
@@ -279,9 +285,24 @@ export const sanitizeSpeakingTasks = (tasks: CambridgeSpeakingTask[]): Cambridge
     const prompt = normalizePrompt(level, task.prompt);
     const part = normalizePart(level, task.part, prompt);
 
+    // Drop near-identical cards so students do not answer the same question twice.
+    const bucket = `${level}|${part}`;
+    const words = contentWords(prompt);
+    const seenWords = wordsByBucket.get(bucket) ?? [];
+    if (seenWords.some((w) => similarity(words, w) >= 0.78)) continue;
+    seenWords.push(words);
+    wordsByBucket.set(bucket, seenWords);
+
+    // Keep ids unique so per-id lookups (images, progress) never collide.
+    let id = task.id;
+    let n = 2;
+    while (seenId.has(id)) id = `${task.id}-${n++}`;
+    seenId.add(id);
+
     out.push({ ...task, id, level, topic, prompt, part });
   }
 
   return out;
 };
+
 
