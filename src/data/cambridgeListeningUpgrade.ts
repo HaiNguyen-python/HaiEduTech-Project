@@ -213,8 +213,6 @@ const withEvidence = (question: CambridgeMockQuestion, script: string): Cambridg
 };
 
 
-  return { ...question, explanation, explanationVi };
-};
 
 export const upgradeCambridgeListening = (exam: CambridgeMockExam): CambridgeMockExam => ({
   ...exam,
