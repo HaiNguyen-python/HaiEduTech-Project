@@ -791,7 +791,7 @@ const CambridgeSpeakingPractice = () => {
             </div>
           )}
 
-          {error && <p className="mt-3 text-sm font-semibold text-rose-600">{error}</p>}
+          
         </div>
 
         {/* Result */}
