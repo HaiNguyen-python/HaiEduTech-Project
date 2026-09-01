@@ -61,14 +61,6 @@ export const cambridgeSpeakingTasksExpansion7: CambridgeSpeakingTask[] = [
     minSeconds: 15,
   },
   {
-    id: "st-x7-8", level: "starters", part: "Part 2 - Object cards", topic: "Clothes",
-    prompt: "Look at the clothes. What are you wearing today? Tell me the colours.",
-    examiner: ["Are you wearing shoes?", "What colour is your T-shirt?", "Do you like hats?"],
-    usefulLanguage: ["I am wearing ...", "It is ... (colour).", "I like / don't like ...", "My shoes are ..."],
-    sampleAnswer: "I am wearing a white T-shirt and blue shorts. My shoes are black. I like hats. I have a red hat.",
-    minSeconds: 15,
-  },
-  {
     id: "st-x7-9", level: "starters", part: "Part 3 - Personal questions", topic: "My friends",
     prompt: "Who is your best friend? What games do you play together?",
     examiner: ["What is his or her name?", "How old is your friend?", "Where do you play?"],
@@ -138,14 +130,6 @@ export const cambridgeSpeakingTasksExpansion7: CambridgeSpeakingTask[] = [
     examiner: ["Do you like milk?", "Do you drink water?", "What do you drink in the morning?"],
     usefulLanguage: ["I drink ...", "I like ... very much.", "At school I drink ...", "In the morning I ..."],
     sampleAnswer: "At school I drink water. I like milk very much. In the morning I drink milk with bread. I don't like coffee.",
-    minSeconds: 15,
-  },
-  {
-    id: "st-x7-18", level: "starters", part: "Part 3 - Personal questions", topic: "Animals",
-    prompt: "Do you have a pet? Tell me about a pet you like.",
-    examiner: ["What is its name?", "What does it eat?", "Is it big or small?"],
-    usefulLanguage: ["I have a ...", "Its name is ...", "It eats ...", "It is small and funny."],
-    sampleAnswer: "I have a cat. Its name is Miu. It is small and funny. It eats fish and it sleeps on my bed.",
     minSeconds: 15,
   },
   {

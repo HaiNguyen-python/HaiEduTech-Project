@@ -74,14 +74,6 @@ export const cambridgeSpeakingTasksExpansion5: CambridgeSpeakingTask[] = [
     minSeconds: 15,
   },
   {
-    id: "st-x5-9", level: "starters", part: "Part 3 - Personal questions", topic: "My friend",
-    prompt: "Tell me about your best friend. What games do you play together?",
-    examiner: ["What is your friend's name?", "How old is your friend?", "What do you play?"],
-    usefulLanguage: ["My friend is ...", "He / She is seven.", "We play ...", "He / She is kind."],
-    sampleAnswer: "My best friend is Lan. She is seven. We play football and hide-and-seek. She is very kind.",
-    minSeconds: 15,
-  },
-  {
     id: "st-x5-10", level: "starters", part: "Part 2 - Object cards", topic: "Colours and numbers",
     prompt: "Look at the picture. How many balls can you see? What colours are they?",
     examiner: ["How many red balls?", "Can you count to ten?", "What is your favourite colour?"],
@@ -159,14 +151,6 @@ export const cambridgeSpeakingTasksExpansion5: CambridgeSpeakingTask[] = [
     examiner: ["Is your hair long or short?", "What colour are your eyes?", "Can you touch your nose?"],
     usefulLanguage: ["My hair is black.", "My eyes are brown.", "It is long / short.", "This is my nose."],
     sampleAnswer: "My hair is black and short. My eyes are brown. This is my nose and these are my ears.",
-    minSeconds: 15,
-  },
-  {
-    id: "st-x5-20", level: "starters", part: "Part 3 - Personal questions", topic: "My house",
-    prompt: "Tell me about your house. How many rooms are there?",
-    examiner: ["Do you have a garden?", "Where do you eat?", "Which room do you like?"],
-    usefulLanguage: ["My house has ... rooms.", "We eat in the kitchen.", "There is a garden.", "I like my bedroom."],
-    sampleAnswer: "My house has four rooms. We eat in the kitchen. There is a small garden. I like my bedroom best.",
     minSeconds: 15,
   },
 

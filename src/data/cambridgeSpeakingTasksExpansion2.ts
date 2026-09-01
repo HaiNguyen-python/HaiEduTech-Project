@@ -216,15 +216,6 @@ export const cambridgeSpeakingTasksExpansion2: CambridgeSpeakingTask[] = [
     minSeconds: 30,
   },
   {
-    id: "fl-14", level: "flyers", part: "Part 4 - Personal questions", topic: "Holidays",
-    prompt: "Tell me about a holiday you enjoyed. Where did you go and what did you do?",
-    promptVi: "Kể về một kỳ nghỉ em thích. Em đi đâu và làm gì?",
-    examiner: ["Who did you travel with?", "What was the best part?", "Where would you like to go next?"],
-    usefulLanguage: ["Last summer I went to ...", "We stayed for ... days.", "The best part was ...", "One day I'd like to visit ..."],
-    sampleAnswer: "Last summer I went to Da Nang with my family. We stayed for five days near the beach. Every morning we swam and in the evening we ate seafood. The best part was riding a boat. One day I'd like to visit Ha Long Bay.",
-    minSeconds: 30,
-  },
-  {
     id: "fl-15", level: "flyers", part: "Part 1 - Find the differences", topic: "Two libraries",
     prompt: "Look at these two library pictures. Describe four or five differences.",
     promptVi: "Nhìn hai bức tranh thư viện. Mô tả bốn hoặc năm điểm khác.",
