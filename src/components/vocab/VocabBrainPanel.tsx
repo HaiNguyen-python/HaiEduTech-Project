@@ -696,7 +696,13 @@ const VocabBrainPanel = ({
 
             {/* Colour legend inside the viewport - click a level to filter it */}
             <div className="absolute bottom-3 right-3 hidden flex-col gap-1 rounded-xl bg-black/50 p-2.5 text-[11px] backdrop-blur sm:flex">
-              {TIER_ORDER.map(tier => {
+              <button
+                onClick={() => setLegendOpen(v => !v)}
+                className="mb-0.5 flex items-center gap-1.5 text-left text-[10px] font-semibold uppercase tracking-wide text-slate-400 hover:text-white"
+              >
+                {legendOpen ? "▾" : "▸"} {t("Chú thích", "Legend")}
+              </button>
+              {legendOpen && TIER_ORDER.map(tier => {
                 const info = tierInfo(tier);
                 const active = filter === `tier:${tier}`;
                 return (
@@ -717,6 +723,7 @@ const VocabBrainPanel = ({
                 );
               })}
             </div>
+
           </>
         )}
       </div>
