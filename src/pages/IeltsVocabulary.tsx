@@ -1015,6 +1015,7 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
   if (!q) return null;
   const label = TYPE_LABELS[q.type];
   const isTyping = TYPING_TYPES.includes(q.type);
+  const isMulti = MULTI_TYPES.includes(q.type);
 
   return (
     <div className="max-w-2xl mx-auto">
