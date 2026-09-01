@@ -1214,7 +1214,9 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
         ) : q.type === "antonymOdd" ? (
           <>
             <p className="text-xs text-muted-foreground mb-2">
-              {t("Ba trong bốn từ dưới đây cùng một chủ đề. Chọn từ KHÔNG cùng nhóm:", "Three of these four words share one topic. Pick the one that does NOT:")}
+              {t("Ba trong bốn từ dưới đây thuộc chủ đề", "Three of these four words belong to the topic")}{" "}
+              <span className="font-semibold text-primary">"{q.hint || q.word.category}"</span>.{" "}
+              {t("Chọn từ KHÔNG thuộc chủ đề đó:", "Pick the one that does NOT:")}
             </p>
             <h3 className="text-lg font-semibold text-foreground leading-relaxed">{q.prompt}</h3>
           </>
