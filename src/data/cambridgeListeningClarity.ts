@@ -135,10 +135,14 @@ const countedNoun = (question: string): string | null => {
  */
 export const listeningSupportSentence = (question: string, key: string): string | null => {
   const q = question.toLowerCase();
-  const raw = key.trim().replace(/\.$/, "").replace(/\s*&\s*/g, " and ");
+  const raw = expandDays(key.trim().replace(/\.$/, "").replace(/\s*&\s*/g, " and "));
   if (!raw) return null;
   const said = midSentence(raw);
   const bare = said.replace(/^(a|an|the)\s+/i, "");
+  /** An option that already reads as a statement, such as "headlines can mislead". */
+  const isStatement = /\b(can|could|will|would|should|may|might|are|is|was|were|do not|don't)\b/i.test(raw);
+  /** Stems that ask for a plan or a decision take "I want to ...". */
+  const wantsIntention = /\bwant|plan|suggest|decide|should|going to|next step|advise|recommend|ask(s|ed)? for\b/.test(q);
 
   if (isPriceLike(raw)) return /how much/.test(q) ? `It costs ${raw}.` : `The price is ${raw}.`;
   if (/how much (is|are|does|do|was)/.test(q) && isNumberLike(raw)) return `It costs ${raw}.`;
@@ -147,7 +151,7 @@ export const listeningSupportSentence = (question: string, key: string): string 
     if (/how long/.test(q)) return `It lasts ${bare}.`;
     return /what time|when/.test(q) ? `That is at ${raw}.` : `The time is ${raw}.`;
   }
-  if (isDateLike(raw) && /when|what day|which day|what date/.test(q)) return `That is on ${said}.`;
+  if (isDateLike(raw) && /when|what day|which day|what date|what time/.test(q)) return `That is on ${said}.`;
 
   if (/how long/.test(q)) return `It lasts ${bare}.`;
   if (/how many|how much/.test(q) && isNumberLike(raw)) {
@@ -157,10 +161,11 @@ export const listeningSupportSentence = (question: string, key: string): string 
 
   if (/how (does|did|do|is|was|are) .*(feel)/.test(q)) return `I feel ${bare} about it, to be honest.`;
   if (/how sure|how certain|how likely/.test(q)) return `I would say that is ${bare}.`;
+  if (isStatement) return `The main point is that ${said}.`;
   // "What is the podcast about?" needs "It is about climate solutions."
   if (/\babout\b/.test(q) && !isClause(raw) && !BASE_VERBS.test(raw)) return `It is about ${said}.`;
   if (/\bwhat (is|was) the (topic|subject|theme)\b/.test(q)) return `The topic is ${said}.`;
-
+  if (wantsIntention && BASE_VERBS.test(raw)) return `I want to ${naturaliseVerbPhrase(said)}.`;
 
   if (/\bwhy\b/.test(q)) {
     if (isClause(raw)) return `That is because ${said}.`;
@@ -184,6 +189,7 @@ export const listeningSupportSentence = (question: string, key: string): string 
       return `I ${phrase}.`;
     }
     if (TIME_NOUNS.test(raw)) return `I ${verb} in the ${said}.`;
+    if (isDateLike(raw)) return `I ${verb} on ${said}.`;
     if (/^(in|on|at|near|next|under|behind|opposite|between|beside|by|from|to)\b/i.test(said)) {
       return `I ${verb} ${said}.`;
     }
@@ -193,7 +199,9 @@ export const listeningSupportSentence = (question: string, key: string): string 
   if (isClause(raw)) return `Yes, ${said}.`;
   if (isIng(raw)) return `We are ${said}.`;
   if (TIME_NOUNS.test(raw)) return `I do that in the ${said}.`;
-  if (BASE_VERBS.test(raw)) return `Yes, I ${naturaliseVerbPhrase(said)}.`;
+  if (isDateLike(raw)) return `That is on ${said}.`;
+  if (BASE_VERBS.test(raw)) return `I want to ${naturaliseVerbPhrase(said)}.`;
+
   const third = raw.match(THIRD_PERSON);
   if (third) {
     const rest = raw.slice(third[0].length).trim();
