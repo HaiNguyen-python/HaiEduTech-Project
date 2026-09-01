@@ -87,12 +87,39 @@ export const answerVariants = (answer: string): string[] => {
   return [...variants].filter(Boolean);
 };
 
+const FUNCTION_WORDS = new Set([
+  "a", "an", "the", "and", "or", "in", "on", "at", "to", "of", "for", "with", "my", "your",
+  "his", "her", "our", "their", "it", "is", "are", "am", "be", "that", "this", "by", "from",
+]);
+
+/** Loose stem so "reads" matches "read" and "painting" matches "paint". */
+const stem = (word: string): string => word.replace(/(ing|ies|es|ed|s)$/, "");
+
+/** Every content word of the option is spoken, in order ("Read at night"). */
+const contentWordsPresent = (transcript: string, answer: string): boolean => {
+  const words = normaliseText(answer)
+    .split(" ")
+    .filter(word => word && !FUNCTION_WORDS.has(word))
+    .map(stem);
+  if (words.length === 0) return false;
+  const spoken = normaliseText(transcript).split(" ").map(stem);
+  let cursor = 0;
+  return words.every(word => {
+    const found = spoken.indexOf(word, cursor);
+    if (found === -1) return false;
+    cursor = found + 1;
+    return true;
+  });
+};
+
 /** True when the transcript states the key in a form a listener can hear. */
 export const isAnswerSupported = (transcript: string, answer: string): boolean => {
   const plain = normaliseText(transcript);
   if (!plain) return false;
-  return answerVariants(answer).some(variant => variant.length > 0 && plain.includes(variant));
+  if (answerVariants(answer).some(variant => variant.length > 0 && plain.includes(variant))) return true;
+  return contentWordsPresent(transcript, answer);
 };
+
 
 /** Negative stems ("What does the centre NOT accept?") must keep every option audible. */
 export const isNegativeQuestion = (question: string): boolean =>

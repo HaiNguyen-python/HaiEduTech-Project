@@ -72,7 +72,27 @@ for (const exam of cambridgeMockExams) {
       if (/Some people think|old leaflet|do not write that|website still|plan was dropped/i.test(spoken)) {
         issues.push(`${at}: contains generated distractor padding`);
       }
+
+      // Robotic key frames produced by older clarity passes.
+      if (/\bThe reason is [a-z]+s\b|\bThe plan is (morning|afternoon|evening|night)|Yes, [a-z]+ & |\blet's [a-z]+ in [a-z]+\.|That makes [\d.]+ hours altogether/.test(spoken)) {
+        issues.push(`${at}: unnatural key sentence in the script`);
+      }
+
+      // Speaker roles must not contradict the pronouns of the question.
+      const voices = turns.filter(t => !/^narrator$/i.test(t.speaker)).map(t => t.speaker);
+      if (/\b(she|her|woman|girl)\b/i.test(q.question) && voices.length && voices.every(v => /^(Man|Boy)$/i.test(v))) {
+        issues.push(`${at}: question is about a female speaker but only male voices speak`);
+      }
+      if (/\b(he|his|him|man|boy)\b/i.test(q.question) && voices.length && voices.every(v => /^(Woman|Girl)$/i.test(v))) {
+        issues.push(`${at}: question is about a male speaker but only female voices speak`);
+      }
+
+      // Review feedback must quote the recording, not a pasted generic hint.
+      if (/In Listening, the answer is the exact word or number/.test(q.explanation ?? "")) {
+        issues.push(`${at}: listening explanation still uses the generic hint`);
+      }
     }
+
 
   });
 
