@@ -134,9 +134,13 @@ const leadInQuestion = (stem: string): string | null => {
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}?`;
 };
 
+const buildScript = (exam: CambridgeMockExam, question: CambridgeMockQuestion): string => {
+  const core = coreLine(question.passage ?? "");
+  if (!core) return question.passage ?? "";
 
   const topic = topicOf(exam);
-  const opener = topic ? `${INSTRUCTIONS[exam.level]} You will hear people talking about ${topic}.` : INSTRUCTIONS[exam.level];
+  const opener = topic ? `You will hear people talking about ${topic}. ${INSTRUCTIONS[exam.level]}` : INSTRUCTIONS[exam.level];
+
 
   const explicitTurns = explicitTurnsOf(core);
   if (explicitTurns.length > 0) {
