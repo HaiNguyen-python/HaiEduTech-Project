@@ -88,8 +88,11 @@ const CambridgeSpeakingPractice = () => {
   const meterRafRef = useRef<number | null>(null);
   const heardSoundRef = useRef(false);
   const sessionBaseRef = useRef("");
+  // Guards a second tap while getUserMedia is still resolving.
+  const startingRef = useRef(false);
 
   const stopRecordingRef = useRef<(() => void) | null>(null);
+
 
 
   const tasks = useMemo(() => tasksByLevel(level), [level]);
