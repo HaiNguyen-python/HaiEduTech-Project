@@ -706,10 +706,12 @@ const buildQuestions = (
     if (type === "context") {
       const maskedCorrect = maskWord(w.example, w.word);
       // Distractors are masked too, so "the one with a blank" is never the tell.
-      const wrongExamples = smart(w, 3, x => x.example)
-        .filter(x => x.example && x.example !== w.example)
+      // They come from a different topic so exactly one sentence really fits.
+      const wrongExamples = smart(w, 6, x => x.example)
+        .filter(x => x.example && x.example !== w.example && x.category !== w.category)
         .map(x => maskWord(x.example, x.word))
-        .filter(e => e.includes("___") && e !== maskedCorrect);
+        .filter(e => e.includes("___") && e !== maskedCorrect)
+        .slice(0, 3);
       const q = wrongExamples.length === 3 ? mkChoice(type, w, w.word, maskedCorrect, wrongExamples) : null;
       return q || meaningQ(w);
     }
