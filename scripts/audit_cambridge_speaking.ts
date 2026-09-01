@@ -1,10 +1,13 @@
 /**
  * Guardrail for the Cambridge Speaking Practice bank.
  * Run: bunx tsx scripts/audit_cambridge_speaking.ts
- * Fails when the bank breaks official exam structure or repeats prompts.
+ * Fails when the bank breaks official exam structure, repeats prompts, or
+ * shows a picture that does not match the question.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { existsSync } from "node:fs";
 import { cleanCambridgeSpeakingTasks as TASKS } from "../src/data/cambridgeSpeakingTasks";
+import { speakingImageMap } from "../src/data/cambridgeSpeakingImageMap";
 
 const ALLOWED: Record<string, string[]> = {
   starters: ["Part 1 - Scene card", "Part 2 - Object cards", "Part 3 - Personal questions"],
@@ -53,11 +56,42 @@ for (const t of TASKS) {
   byBucket.set(key, list);
 }
 
+// ---- Picture mapping -------------------------------------------------
+// Every picture is assigned explicitly. The map decides what a task shows,
+// so it must exist for picture parts, point at a real asset, use the right
+// picture type, and never appear on a text-only card.
+const DIFF_PART = /find the differences/i;
+const STORY_PART = /picture story/i;
+const PICTURE_PART = /find the differences|picture story|scene card|long turn|object cards/i;
+const NO_PICTURE_PART = /odd one out|collaborative task|interview|personal questions|information exchange/i;
+const imageUse = new Map<string, number>();
+
+for (const t of TASKS) {
+  const key = speakingImageMap[t.id];
+  if (!key) {
+    // Cards that list their items in the prompt ("these games: a kite, a bike
+    // and a book") are read from the text, exactly like an odd-one-out card.
+    const listsItemsInPrompt = /:\s*(?:a|an|the)\s[^.?]*,\s/i.test(t.prompt);
+    if (PICTURE_PART.test(t.part) && !listsItemsInPrompt && !/talk about a book|point to|discuss these/i.test(t.prompt))
+      issues.push(`${t.id}: picture part "${t.part}" has no picture assigned`);
+    continue;
+  }
+  if (!existsSync(`src/assets/cambridge-speaking/${key}.jpg`)) issues.push(`${t.id}: picture "${key}" does not exist`);
+  if (NO_PICTURE_PART.test(t.part) && !/look at (?:the|this|these)|photo|picture/i.test(t.prompt))
+    issues.push(`${t.id}: "${t.part}" should not show a picture`);
+  if (DIFF_PART.test(t.part) && !/-diff$/.test(key)) issues.push(`${t.id}: differences task uses non A/B picture "${key}"`);
+  if (STORY_PART.test(t.part) && !/-story$|lost-cat$/.test(key)) issues.push(`${t.id}: story task uses non-story picture "${key}"`);
+  if (!DIFF_PART.test(t.part) && /-diff$/.test(key)) issues.push(`${t.id}: non-differences task uses an A/B sheet "${key}"`);
+  imageUse.set(key, (imageUse.get(key) ?? 0) + 1);
+}
+for (const [key, n] of imageUse) if (n > 12) issues.push(`picture "${key}" is reused by ${n} tasks (max 12)`);
+
 console.log(`Tasks: ${TASKS.length}`);
 for (const level of Object.keys(ALLOWED)) {
   const t = TASKS.filter((x) => x.level === level);
   console.log(`${level}: ${t.length} tasks, ${new Set(t.map((x) => x.topic)).size} topics`);
 }
+console.log(`Pictures: ${Object.keys(speakingImageMap).length} tasks mapped to ${imageUse.size} images`);
 if (issues.length) {
   console.error(`\n${issues.length} issues:`);
   issues.slice(0, 50).forEach((i) => console.error(" - " + i));
