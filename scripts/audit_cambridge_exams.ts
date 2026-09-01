@@ -59,7 +59,30 @@ for (const exam of cambridgeMockExams) {
     const text = [q.question, q.explanation, q.explanationVi, q.passage, ...q.options].join(" ");
     if (/[—–]/.test(text)) issues.push(`${at}: contains em/en dash`);
 
-    if (q.section === "Reading & Writing" && !q.passage) readingWithoutPassage += 1;
+    if (q.section === "Reading & Writing") {
+      if (!q.passage) readingWithoutPassage += 1;
+
+      // No pasted hint may survive: reading feedback must quote the item's own text.
+      if (/underline the words in the text that prove the answer/i.test(q.explanation ?? "")) {
+        issues.push(`${at}: reading explanation still uses the generic hint`);
+      }
+      if (/hãy gạch chân đúng những từ trong bài/i.test(q.explanationVi ?? "")) {
+        issues.push(`${at}: Vietnamese reading explanation still uses the generic hint`);
+      }
+
+      // Reading stems must be unique across the whole bank, not only per paper.
+      const stemKey = q.question.trim().toLowerCase();
+      const seenAt = readingStems.get(stemKey);
+      if (seenAt && seenAt.split(" ")[0] !== exam.id) issues.push(`${at}: reading stem repeats ${seenAt}`);
+      else if (!seenAt) readingStems.set(stemKey, at);
+
+      if (q.passage && !REALIA.test(q.passage)) {
+        const rwc = q.passage.split(/\s+/).filter(Boolean).length;
+        const rmin = READING_MIN_WORDS[exam.level] ?? 90;
+        if (rwc < rmin) issues.push(`${at}: reading text too short (${rwc} words, min ${rmin})`);
+      }
+    }
+
     if (q.section === "Listening" && !q.passage) issues.push(`${at}: listening without script`);
     if (q.section === "Listening" && q.passage) {
       const spoken = q.passage.replace(/^\s*Listen:\s*/i, "").trim();
