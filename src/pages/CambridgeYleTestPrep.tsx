@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { GraduationCap, Trophy } from "lucide-react";
 import { cambridgeMockExams } from "@/data/cambridgeMockExamData";
 import TestPrepBoard from "@/components/cambridge/TestPrepBoard";
+import CambridgeWritingLab from "@/components/cambridge/CambridgeWritingLab";
+
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
