@@ -108,10 +108,44 @@ const TOPIC_ALIASES: Record<string, string> = {
 };
 
 
+/**
+ * Keyword buckets: any topic mentioning these words joins one clean theme, so the
+ * topic picker stays short instead of listing 50+ near-identical labels.
+ * Order matters - the first match wins.
+ */
+const TOPIC_BUCKETS: { key: string; label: string; re: RegExp }[] = [
+  { key: "animals and pets", label: "Animals and pets", re: /animal|pet|zoo|farm|bird|cat|dog|fish|insect|puppy|kitten/i },
+  { key: "school life", label: "School life", re: /school|class|lesson|teacher|homework|subject|study|exam|library|learning/i },
+  { key: "food and meals", label: "Food and meals", re: /food|meal|eat|breakfast|lunch|dinner|cook|fruit|vegetable|snack|restaurant|cafe|drink/i },
+  { key: "family and friends", label: "Family and friends", re: /family|friend|parent|brother|sister|grandparent|cousin|people i/i },
+  { key: "sport and exercise", label: "Sport and exercise", re: /sport|exercise|football|swim|run|game of|fit|match|team|bike ride|cycling/i },
+  { key: "holidays and travel", label: "Holidays and travel", re: /holiday|travel|trip|journey|beach|camp|airport|train|tourist|visit/i },
+  { key: "hobbies and free time", label: "Hobbies and free time", re: /hobb|free time|weekend|relax|collect|club|activit|playing|toys|game/i },
+  { key: "home and my room", label: "Home and my room", re: /home|house|room|bedroom|kitchen|flat|garden|living/i },
+  { key: "my town", label: "My town", re: /town|city|village|street|neighbour|place i live|park|shop|market|building/i },
+  { key: "technology and the internet", label: "Technology and the internet", re: /technolog|computer|internet|phone|online|app|social media|robot|ai\b|video game/i },
+  { key: "music and films", label: "Music and films", re: /music|song|film|movie|tv|cinema|dance|concert|show/i },
+  { key: "books and reading", label: "Books and reading", re: /book|read|story|magazine|comic/i },
+  { key: "clothes and colours", label: "Clothes and colours", re: /clothes|colour|wear|shoes|dress|shirt|uniform/i },
+  { key: "weather and seasons", label: "Weather and seasons", re: /weather|season|rain|sun|winter|summer|autumn|spring|snow/i },
+  { key: "health and daily routine", label: "Health and daily routine", re: /health|routine|sleep|morning|day|doctor|hospital|body|feeling|emotion/i },
+  { key: "jobs and future plans", label: "Jobs and future plans", re: /job|work|career|future|plan|university|money|business/i },
+  { key: "nature and the environment", label: "Nature and the environment", re: /nature|environment|tree|plant|sea|mountain|river|recycl|weather change|climate/i },
+  { key: "celebrations", label: "Celebrations", re: /birthday|party|festival|tet|celebrat|new year|present|gift/i },
+  { key: "transport", label: "Transport", re: /transport|bus|car|bike|traffic|plane|boat|getting to/i },
+  { key: "people and appearance", label: "People and appearance", re: /appearance|hair|face|describ.*person|hero|famous/i },
+];
+
 const canonicalTopicKey = (topic: string) => {
   const k = topicKey(topic);
-  return TOPIC_ALIASES[k] || k;
+  if (TOPIC_ALIASES[k]) return TOPIC_ALIASES[k];
+  const bucket = TOPIC_BUCKETS.find((b) => b.re.test(topic));
+  return bucket ? bucket.key : k;
 };
+
+/** Preferred display label for a canonical topic key (falls back to the first label seen). */
+const bucketLabel = (key: string) => TOPIC_BUCKETS.find((b) => b.key === key)?.label;
+
 
 /**
  * Official Cambridge speaking parts for each level. Any label outside this list
