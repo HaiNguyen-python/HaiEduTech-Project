@@ -90,6 +90,8 @@ const CambridgeSpeakingPractice = () => {
   const sessionBaseRef = useRef("");
   // Guards a second tap while getUserMedia is still resolving.
   const startingRef = useRef(false);
+  const unmountedRef = useRef(false);
+
 
   const stopRecordingRef = useRef<(() => void) | null>(null);
 
