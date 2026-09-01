@@ -232,7 +232,8 @@ const normalizePrompt = (level: string, prompt: string): string => {
   if (NUMBER_WORD.test(p)) {
     p = p
       .replace(/\b(three|four|five|six|seven|eight)\b\s+things that are different/gi, "the things that are different")
-      .replace(/\b(three|four|five|six|seven|eight)\b\s+differences/gi, "the differences you can see");
+      .replace(/\b(three|four|five|six|seven|eight)\b\s+differences/gi, "the differences")
+      .replace(/the differences you can see you can see/gi, "the differences you can see");
   }
 
   if (level === "starters" || level === "movers") {
@@ -271,7 +272,7 @@ export const sanitizeSpeakingTasks = (tasks: CambridgeSpeakingTask[]): Cambridge
     seenId.add(id);
 
     const key = canonicalTopicKey(task.topic);
-    if (!labelByKey.has(key)) labelByKey.set(key, task.topic.trim());
+    if (!labelByKey.has(key)) labelByKey.set(key, bucketLabel(key) ?? task.topic.trim());
     const topic = labelByKey.get(key)!;
 
     const level = normalizeLevel(task);
