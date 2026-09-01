@@ -24,6 +24,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { IELTS_EXAMPLE_VI } from "@/data/ieltsExampleVi";
 import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
+import { pickSmartDistractors, isQuestionFair, maskWord, ipaSyllables, gradeWrittenDefinition } from "@/lib/vocab/questionQuality";
 
 const WORDS_PER_PAGE = 10;
 
@@ -389,20 +390,29 @@ type ExType =
   | "listening"   // audio -> word
   | "defEn"       // English definition -> word
   | "collocation" // word -> correct collocation
-  | "scramble"    // scrambled letters -> word
+  | "scramble"    // scrambled letters -> type the word
   | "context"     // word -> which example uses it
   | "antonymOdd"  // pick the word that does NOT belong to the meaning group
   | "wordForm"    // pick the part of speech
   | "topic"       // pick the IELTS topic of the word
   | "typeWord"    // type the word from its Vietnamese meaning
   | "dictation"   // listen, then type the word
-  | "ipa";        // pick the correct phonetic transcription
+  | "ipa"         // pick the correct phonetic transcription
+  | "wordFamily"  // pick the correct derived form in a sentence
+  | "register"    // pick the academic word instead of the casual one
+  | "paraGap"     // short paragraph with 3 blanks + word bank
+  | "collocationMatch" // match 4 collocations with their head words
+  | "defineWrite";     // write your own definition
 
 // Practice focus filters offered to the learner.
-export type ExMode = "all" | "choice" | "typing" | "audio";
+export type ExMode = "all" | "choice" | "typing" | "audio" | "speed";
 
-const TYPING_TYPES: ExType[] = ["typeWord", "dictation"];
+const TYPING_TYPES: ExType[] = ["typeWord", "dictation", "scramble", "defineWrite"];
 const AUDIO_TYPES: ExType[] = ["listening", "dictation", "ipa"];
+/** Types with their own multi-answer UI (graded all-or-nothing). */
+const MULTI_TYPES: ExType[] = ["paraGap", "collocationMatch"];
+/** Fast recognition types used by the 60-second speed round. */
+const SPEED_TYPES: ExType[] = ["meaning", "reverse", "defEn", "topic", "wordForm", "synonym"];
 
 interface ExQuestion {
   type: ExType;
@@ -413,7 +423,16 @@ interface ExQuestion {
   hint?: string;
   /** Present for typing questions - the expected text answer. */
   answerText?: string;
+  /** Reference definition used to grade a written definition. */
+  refDef?: string;
+  /** paraGap: masked sentences + their answers. */
+  gaps?: { sentence: string; answer: string }[];
+  /** paraGap: word bank shown to the learner. */
+  bank?: string[];
+  /** collocationMatch: masked collocation -> head word. */
+  pairs?: { left: string; right: string }[];
 }
+
 
 // Scramble letters of a word while guaranteeing it differs from original
 const scrambleLetters = (w: string): string => {
@@ -428,6 +447,25 @@ const scrambleLetters = (w: string): string => {
 
 const POS_POOL = ["noun", "verb", "adjective", "adverb"];
 
+/** Everyday / informal words used as register distractors. */
+const INFORMAL_POOL = [
+  "stuff", "things", "kinda", "a lot of", "get", "big deal", "guy", "okay",
+  "nice", "bad", "very good", "super big", "loads of", "cool", "boring",
+];
+
+const posOf = (w: IeltsWord) => (w.partOfSpeech || "").toLowerCase();
+
+/** Words from the same morphological family already present in the bank. */
+const familyOf = (w: IeltsWord, pool: IeltsWord[]): IeltsWord[] => {
+  const stem = w.word.toLowerCase().slice(0, Math.min(5, w.word.length));
+  if (stem.length < 4) return [];
+  return pool.filter(x =>
+    x.word !== w.word &&
+    x.word.toLowerCase().startsWith(stem) &&
+    posOf(x) !== posOf(w)
+  );
+};
+
 const buildQuestions = (
   words: IeltsWord[],
   allWords: IeltsWord[],
@@ -440,21 +478,55 @@ const buildQuestions = (
   const picked = (preserveOrder ? words : shuffle(words)).slice(0, quizSize);
   const lastTypeRef: { value: ExType | null } = { value: null };
 
+  // Smart distractor helpers: same part of speech > same topic > same level >
+  // similar length, so wrong options can never be eliminated by shape alone.
+  const smart = (w: IeltsWord, count: number, getText: (x: IeltsWord) => string | undefined) =>
+    pickSmartDistractors(distractorPool, w, count, {
+      getText,
+      getPos: posOf,
+      getTopic: x => x.category,
+      getLevel: x => x.level,
+    });
+
+  const wordDistractors = (w: IeltsWord, n = 3) => smart(w, n, x => x.word).map(x => x.word);
+  const defDistractors = (w: IeltsWord, n = 3) => smart(w, n, x => x.definition.en).map(x => x.definition.en);
+
+  const mkChoice = (
+    type: ExType,
+    w: IeltsWord,
+    prompt: string,
+    correctOpt: string,
+    wrongs: string[],
+    extra: Partial<ExQuestion> = {},
+  ): ExQuestion | null => {
+    const opts = shuffle([correctOpt, ...wrongs]);
+    const correct = opts.indexOf(correctOpt);
+    if (!isQuestionFair({ options: opts, correct })) return null;
+    return { type, word: w, prompt, options: opts, correct, ...extra };
+  };
+
+  const meaningQ = (w: IeltsWord): ExQuestion => {
+    const opts = shuffle([w.definition.en, ...defDistractors(w)]);
+    return { type: "meaning", word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.definition.en) };
+  };
+
   const buildOne = (w: IeltsWord, idx: number): ExQuestion => {
+    const hasExample = !!w.example && w.example.toLowerCase().includes(w.word.slice(0, 4).toLowerCase());
     // Types available for this specific word (data-dependent)
-    let candidates: ExType[] = ["meaning", "reverse", "listening", "defEn", "scramble", "wordForm", "topic", "typeWord", "dictation", "ipa", "antonymOdd"];
-    if (w.example && w.example.toLowerCase().includes(w.word.toLowerCase())) {
-      candidates.push("fillBlank", "context");
-    }
+    let candidates: ExType[] = ["meaning", "reverse", "listening", "defEn", "scramble", "wordForm", "topic", "typeWord", "dictation", "ipa", "antonymOdd", "defineWrite"];
+    if (hasExample) candidates.push("fillBlank", "context", "register");
     if (w.synonyms && w.synonyms.length > 0) candidates.push("synonym");
-    if (w.collocations && w.collocations.length > 0) candidates.push("collocation");
+    if (w.collocations && w.collocations.length > 0) candidates.push("collocation", "collocationMatch");
+    if (hasExample) candidates.push("paraGap");
+    if (familyOf(w, distractorPool).length >= 3 && hasExample) candidates.push("wordFamily");
     if (!w.partOfSpeech) candidates = candidates.filter(c => c !== "wordForm");
     if (!w.ipa) candidates = candidates.filter(c => c !== "ipa");
 
     // Apply the learner's focus filter
     if (mode === "typing") candidates = candidates.filter(c => TYPING_TYPES.includes(c));
     else if (mode === "audio") candidates = candidates.filter(c => AUDIO_TYPES.includes(c));
-    else if (mode === "choice") candidates = candidates.filter(c => !TYPING_TYPES.includes(c));
+    else if (mode === "choice") candidates = candidates.filter(c => !TYPING_TYPES.includes(c) && !MULTI_TYPES.includes(c));
+    else if (mode === "speed") candidates = candidates.filter(c => SPEED_TYPES.includes(c));
     if (candidates.length === 0) candidates = ["meaning"];
 
     // Rotate through the pool and avoid two identical types in a row
@@ -471,6 +543,30 @@ const buildQuestions = (
     if (type === "dictation") {
       return { type, word: w, prompt: w.word, options: [], correct: 0, answerText: w.word, hint: w.definition.vi };
     }
+    if (type === "scramble") {
+      // Typing question now: the multiple-choice version gave the answer away.
+      return {
+        type,
+        word: w,
+        prompt: scrambleLetters(w.word),
+        options: [],
+        correct: 0,
+        answerText: w.word,
+        hint: w.definition.vi,
+      };
+    }
+    if (type === "defineWrite") {
+      return {
+        type,
+        word: w,
+        prompt: w.word,
+        options: [],
+        correct: 0,
+        answerText: w.definition.en,
+        refDef: w.definition.en,
+        hint: w.definition.vi,
+      };
+    }
     if (type === "wordForm") {
       const correctPos = (w.partOfSpeech || "noun").toLowerCase();
       const wrongs = POS_POOL.filter(p => p !== correctPos).slice(0, 3);
@@ -483,111 +579,136 @@ const buildQuestions = (
       return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.category) };
     }
     if (type === "ipa") {
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word && x.ipa && x.ipa !== w.ipa)).slice(0, 3).map(x => x.ipa);
-      const opts = shuffle([w.ipa, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.ipa) };
+      // Keep the same syllable count so rhythm alone can't reveal the answer.
+      const target = ipaSyllables(w.ipa);
+      const near = distractorPool.filter(x => x.word !== w.word && x.ipa && x.ipa !== w.ipa && ipaSyllables(x.ipa) === target);
+      const source = near.length >= 3 ? near : distractorPool.filter(x => x.word !== w.word && x.ipa && x.ipa !== w.ipa);
+      const wrongs = shuffle(source).slice(0, 3).map(x => x.ipa);
+      const q = mkChoice(type, w, w.word, w.ipa, wrongs);
+      return q || meaningQ(w);
     }
     if (type === "antonymOdd") {
       // 3 words share the target's topic, the odd one comes from another topic.
       const sameTopic = shuffle(distractorPool.filter(x => x.category === w.category && x.word !== w.word)).slice(0, 2);
       const odd = shuffle(distractorPool.filter(x => x.category !== w.category))[0];
-      if (!odd || sameTopic.length < 2) {
-        const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
-        const optsFallback = shuffle([w.definition.en, ...wrongs]);
-        return { type: "meaning", word: w, prompt: w.word, options: optsFallback, correct: optsFallback.indexOf(w.definition.en) };
-      }
-      const opts = shuffle([w.word, ...sameTopic.map(x => x.word), odd.word]);
+      if (!odd || sameTopic.length < 2) return meaningQ(w);
+      const group = shuffle([w.word, ...sameTopic.map(x => x.word), odd.word]);
       return {
         type,
         word: w,
-        prompt: `${w.word} / ${sameTopic.map(x => x.word).join(" / ")} / ${odd.word}`,
-        options: opts,
-        correct: opts.indexOf(odd.word),
-        hint: w.category,
+        // Prompt list is shuffled too, so the odd word is no longer always last.
+        prompt: group.join("  /  "),
+        options: group,
+        correct: group.indexOf(odd.word),
       };
     }
     if (type === "reverse") {
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: w.definition.vi, options: opts, correct: opts.indexOf(w.word) };
+      const q = mkChoice(type, w, w.definition.vi, w.word, wordDistractors(w));
+      return q || meaningQ(w);
     }
     if (type === "fillBlank") {
-      const re = new RegExp(w.word, "ig");
-      const blanked = w.example.replace(re, "_____");
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: blanked, options: opts, correct: opts.indexOf(w.word) };
+      const blanked = maskWord(w.example, w.word);
+      // Distractors must share the part of speech so grammar cannot reveal it.
+      const samePos = distractorPool.filter(x => x.word !== w.word && posOf(x) === posOf(w));
+      const wrongs = (samePos.length >= 3
+        ? shuffle(samePos).slice(0, 3).map(x => x.word)
+        : wordDistractors(w));
+      const q = mkChoice(type, w, blanked, w.word, wrongs);
+      return q || meaningQ(w);
     }
     if (type === "synonym") {
       const correctSyn = w.synonyms![0];
-      const synPool = allWords.filter(x => x.word !== w.word).flatMap(x => x.synonyms || []);
-      const wrongs = shuffle(synPool.filter(s => s !== correctSyn && s !== w.word)).slice(0, 3);
-      while (wrongs.length < 3) wrongs.push(shuffle(distractorPool)[0].word);
-      const opts = shuffle([correctSyn, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctSyn) };
+      const synPool = allWords.filter(x => x.word !== w.word && posOf(x) === posOf(w)).flatMap(x => x.synonyms || []);
+      const broadPool = allWords.filter(x => x.word !== w.word).flatMap(x => x.synonyms || []);
+      const source = synPool.length >= 3 ? synPool : broadPool;
+      const wrongs = shuffle(source.filter(s => s !== correctSyn && s !== w.word)).slice(0, 3);
+      while (wrongs.length < 3) {
+        const fb = wordDistractors(w, 4).find(x => !wrongs.includes(x) && x !== correctSyn);
+        if (!fb) break;
+        wrongs.push(fb);
+      }
+      const q = mkChoice(type, w, w.word, correctSyn, wrongs);
+      return q || meaningQ(w);
+    }
+    if (type === "register") {
+      const wrongs = shuffle(INFORMAL_POOL).slice(0, 3);
+      const q = mkChoice(type, w, maskWord(w.example, w.word), w.word, wrongs);
+      return q || meaningQ(w);
+    }
+    if (type === "wordFamily") {
+      const fam = shuffle(familyOf(w, distractorPool)).slice(0, 3).map(x => x.word);
+      const q = mkChoice(type, w, maskWord(w.example, w.word), w.word, fam, { hint: w.partOfSpeech });
+      return q || meaningQ(w);
     }
     if (type === "listening") {
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.word) };
+      const q = mkChoice(type, w, w.word, w.word, wordDistractors(w));
+      return q || meaningQ(w);
     }
     if (type === "defEn") {
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: w.definition.en, options: opts, correct: opts.indexOf(w.word) };
+      const q = mkChoice(type, w, w.definition.en, w.word, wordDistractors(w));
+      return q || meaningQ(w);
     }
     if (type === "collocation") {
-      const correctColl = w.collocations![0];
-      // Mask target word in the correct collocation so it's not a giveaway
-      const maskRegex = new RegExp(`\\b${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\w*\\b`, "gi");
-      const maskedCorrect = correctColl.replace(maskRegex, "_____");
-      const collPool = allWords.filter(x => x.word !== w.word).flatMap(x => x.collocations || []);
-      const wrongs = shuffle(
-        collPool.filter(c => c !== correctColl && !c.toLowerCase().includes(w.word.toLowerCase()))
-      ).slice(0, 3);
-      while (wrongs.length < 3) {
-        const fb = shuffle(distractorPool)[0]?.word;
-        if (fb && !wrongs.includes(fb)) wrongs.push(fb); else break;
-      }
-      const opts = shuffle([maskedCorrect, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(maskedCorrect) };
+      const correctColl = maskWord(w.collocations![0], w.word);
+      const collPool = allWords
+        .filter(x => x.word !== w.word && x.collocations && x.collocations.length > 0)
+        .flatMap(x => (x.collocations || []).map(c => maskWord(c, x.word)));
+      // Every option now carries a blank, so the gap is no longer a tell.
+      const wrongs = shuffle(collPool.filter(c => c !== correctColl && c.includes("___"))).slice(0, 3);
+      const q = wrongs.length === 3 ? mkChoice(type, w, w.word, correctColl, wrongs) : null;
+      return q || meaningQ(w);
     }
-    if (type === "scramble") {
-      const scrambled = scrambleLetters(w.word);
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: scrambled, options: opts, correct: opts.indexOf(w.word) };
+    if (type === "collocationMatch") {
+      const mates = shuffle(distractorPool.filter(x => x.word !== w.word && x.collocations && x.collocations.length > 0)).slice(0, 3);
+      if (mates.length < 3) return meaningQ(w);
+      const group = [w, ...mates];
+      const pairs = group.map(x => ({ left: maskWord(x.collocations![0], x.word), right: x.word }));
+      return {
+        type,
+        word: w,
+        prompt: "",
+        options: shuffle(group.map(x => x.word)),
+        correct: 0,
+        pairs: shuffle(pairs),
+      };
+    }
+    if (type === "paraGap") {
+      const mates = shuffle(distractorPool.filter(x =>
+        x.word !== w.word &&
+        x.example &&
+        x.example.toLowerCase().includes(x.word.slice(0, 4).toLowerCase())
+      )).slice(0, 2);
+      if (mates.length < 2) return meaningQ(w);
+      const group = [w, ...mates];
+      const gaps = group.map(x => ({ sentence: maskWord(x.example, x.word), answer: x.word }));
+      const extras = wordDistractors(w, 2);
+      return {
+        type,
+        word: w,
+        prompt: "",
+        options: [],
+        correct: 0,
+        gaps: shuffle(gaps),
+        bank: shuffle([...group.map(x => x.word), ...extras]),
+      };
     }
     if (type === "context") {
-      // Mask target word in the correct example so the answer isn't trivially visible
-      const maskRegex = new RegExp(`\\b${w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\w*\\b`, "gi");
-      const maskedCorrect = w.example.replace(maskRegex, "_____");
-      // Distractors: examples that do NOT contain the target word (so masking can't accidentally reveal it)
-      const wrongExamples = shuffle(
-        distractorPool.filter(x =>
-          x.word !== w.word &&
-          x.example &&
-          !x.example.toLowerCase().includes(w.word.toLowerCase()) &&
-          x.example !== w.example
-        )
-      ).slice(0, 3).map(x => x.example);
-      while (wrongExamples.length < 3) {
-        const fallback = shuffle(distractorPool).find(x => x.example && x.word !== w.word);
-        if (!fallback) break;
-        if (!wrongExamples.includes(fallback.example)) wrongExamples.push(fallback.example);
-      }
-      const opts = shuffle([maskedCorrect, ...wrongExamples]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(maskedCorrect) };
+      const maskedCorrect = maskWord(w.example, w.word);
+      // Distractors are masked too, so "the one with a blank" is never the tell.
+      const wrongExamples = smart(w, 3, x => x.example)
+        .filter(x => x.example && x.example !== w.example)
+        .map(x => maskWord(x.example, x.word))
+        .filter(e => e.includes("___") && e !== maskedCorrect);
+      const q = wrongExamples.length === 3 ? mkChoice(type, w, w.word, maskedCorrect, wrongExamples) : null;
+      return q || meaningQ(w);
     }
     // Default: meaning
-    const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
-    const opts = shuffle([w.definition.en, ...wrongs]);
-    return { type: "meaning", word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.definition.en) };
+    return meaningQ(w);
   };
 
-  const built = picked.map((w, idx) => buildOne(w, idx));
-  return built;
+  return picked.map((w, idx) => buildOne(w, idx));
 };
+
 
 const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
   meaning: { vi: "Chọn nghĩa đúng", en: "Choose meaning", emoji: "🎯" },
@@ -605,6 +726,11 @@ const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
   typeWord: { vi: "Gõ lại từ theo nghĩa", en: "Type the word from meaning", emoji: "⌨️" },
   dictation: { vi: "Nghe rồi gõ lại từ", en: "Listen & type the word", emoji: "🎙️" },
   ipa: { vi: "Chọn phiên âm đúng", en: "Pick the correct IPA", emoji: "🔊" },
+  wordFamily: { vi: "Chọn dạng từ đúng trong câu", en: "Pick the right word form", emoji: "🌳" },
+  register: { vi: "Chọn từ học thuật phù hợp", en: "Pick the academic word", emoji: "🎓" },
+  paraGap: { vi: "Điền 3 chỗ trống với word bank", en: "Paragraph gaps with word bank", emoji: "📝" },
+  collocationMatch: { vi: "Nối cụm từ với từ đúng", en: "Match the collocations", emoji: "🔀" },
+  defineWrite: { vi: "Tự viết định nghĩa", en: "Write your own definition", emoji: "🖊️" },
 };
 
 const MODE_LABELS: Record<ExMode, { vi: string; en: string }> = {
@@ -612,7 +738,9 @@ const MODE_LABELS: Record<ExMode, { vi: string; en: string }> = {
   choice: { vi: "Chỉ trắc nghiệm", en: "Multiple choice only" },
   typing: { vi: "Chỉ gõ chữ", en: "Typing only" },
   audio: { vi: "Chỉ nghe", en: "Listening only" },
+  speed: { vi: "Vòng tốc độ 60 giây", en: "60-second speed round" },
 };
+
 
 // Per-type accuracy stats used by the performance radar chart.
 export const TYPE_STATS_KEY = "vocab_type_stats_ielts";
@@ -654,6 +782,14 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
   // Typing questions
   const [typed, setTyped] = useState("");
   const [typedResult, setTypedResult] = useState<null | boolean>(null);
+  const [writeFeedback, setWriteFeedback] = useState<{ matched: string[]; keywords: string[] } | null>(null);
+  // Multi-answer questions (paragraph gaps / collocation matching)
+  const [multi, setMulti] = useState<Record<number, string>>({});
+  const [multiResult, setMultiResult] = useState<null | boolean>(null);
+  // Speed round
+  const [combo, setCombo] = useState(0);
+  const [bestCombo, setBestCombo] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(60);
   // Per-type stats + wrong questions for the "retry mistakes" flow
   const [stats, setStats] = useState<TypeStats>({});
   const [wrongQs, setWrongQs] = useState<ExQuestion[]>([]);
@@ -664,12 +800,19 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
     setSelected(null);
     setTyped("");
     setTypedResult(null);
+    setWriteFeedback(null);
+    setMulti({});
+    setMultiResult(null);
+    setCombo(0);
+    setBestCombo(0);
+    setTimeLeft(60);
     setScore(0);
     setFinished(false);
     setStats({});
     setWrongQs([]);
     scoreSavedRef.current = false;
   }, []);
+
 
   const generateQuiz = useCallback(() => {
     if (words.length < 4) return;
@@ -724,6 +867,11 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
     }
   };
 
+  const bumpCombo = (ok: boolean) => {
+    if (ok) setCombo(c => { const n = c + 1; setBestCombo(b => Math.max(b, n)); return n; });
+    else setCombo(0);
+  };
+
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
     const q = questions[current];
@@ -731,15 +879,39 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
     setSelected(idx);
     const ok = idx === q.correct;
     if (ok) setScore(s => s + 1);
+    bumpCombo(ok);
     record(q, ok);
   };
 
   const checkTyped = () => {
     const q = questions[current];
     if (!q || typedResult !== null) return;
-    const ok = normalizeText(typed) === normalizeText(q.answerText || q.word.word);
+    let ok: boolean;
+    if (q.type === "defineWrite") {
+      const res = gradeWrittenDefinition(typed, q.refDef || q.word.definition.en);
+      ok = res.ok;
+      setWriteFeedback({ matched: res.matched, keywords: res.keywords });
+    } else {
+      ok = normalizeText(typed) === normalizeText(q.answerText || q.word.word);
+    }
     setTypedResult(ok);
     if (ok) setScore(s => s + 1);
+    bumpCombo(ok);
+    record(q, ok);
+  };
+
+  const checkMulti = () => {
+    const q = questions[current];
+    if (!q || multiResult !== null) return;
+    let ok = false;
+    if (q.gaps) {
+      ok = q.gaps.every((g, i) => normalizeText(multi[i] || "") === normalizeText(g.answer));
+    } else if (q.pairs) {
+      ok = q.pairs.every((p, i) => normalizeText(multi[i] || "") === normalizeText(p.right));
+    }
+    setMultiResult(ok);
+    if (ok) setScore(s => s + 1);
+    bumpCombo(ok);
     record(q, ok);
   };
 
@@ -750,8 +922,20 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
       setSelected(null);
       setTyped("");
       setTypedResult(null);
+      setWriteFeedback(null);
+      setMulti({});
+      setMultiResult(null);
     }
   };
+
+  // 60-second speed round countdown.
+  useEffect(() => {
+    if (mode !== "speed" || finished || questions.length === 0) return;
+    if (timeLeft <= 0) { setFinished(true); return; }
+    const id = window.setTimeout(() => setTimeLeft(s => s - 1), 1000);
+    return () => window.clearTimeout(id);
+  }, [mode, finished, timeLeft, questions.length]);
+
 
 
   if (words.length < 4) return (
@@ -831,6 +1015,7 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
   if (!q) return null;
   const label = TYPE_LABELS[q.type];
   const isTyping = TYPING_TYPES.includes(q.type);
+  const isMulti = MULTI_TYPES.includes(q.type);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -864,11 +1049,20 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
         </div>
       </div>
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
         <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
         <Badge variant="outline" className="text-xs">{label.emoji} {t(label.vi, label.en)}</Badge>
+        {mode === "speed" && (
+          <span className={`text-sm font-bold ${timeLeft <= 10 ? "text-red-500" : "text-foreground"}`}>
+            ⏱ {timeLeft}s
+          </span>
+        )}
+        {combo >= 2 && (
+          <span className="text-sm font-bold text-amber-500">🔥 {t("Chuỗi", "Combo")} x{combo}</span>
+        )}
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
       </div>
+
       <div className="rounded-xl border border-border bg-card p-8 mb-6">
         {q.type === "listening" ? (
           <div className="flex flex-col items-center gap-3 py-4">
@@ -919,13 +1113,99 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
             </div>
             <p className="text-sm text-muted-foreground">{t("Nghe và chọn phiên âm đúng:", "Listen and pick the correct transcription:")}</p>
           </>
+        ) : q.type === "wordFamily" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Chọn dạng từ đúng cho chỗ trống:", "Pick the correct word form for the gap:")}</p>
+            <p className="text-lg text-foreground italic leading-relaxed">{q.prompt}</p>
+          </>
+        ) : q.type === "register" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">
+              {t("Trong bài luận học thuật, từ nào phù hợp nhất cho chỗ trống?", "In an academic essay, which word fits the gap best?")}
+            </p>
+            <p className="text-lg text-foreground italic leading-relaxed">{q.prompt}</p>
+          </>
+        ) : q.type === "defineWrite" ? (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {t("Tự viết một định nghĩa ngắn bằng tiếng Anh (1 câu).", "Write your own short definition in English (1 sentence).")}
+            </p>
+          </>
+        ) : q.type === "paraGap" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-3">
+              {t("Điền từ trong word bank vào 3 chỗ trống:", "Use the word bank to fill the 3 gaps:")}
+            </p>
+            <div className="mb-4 flex flex-wrap gap-2">
+              {(q.bank || []).map(b => (
+                <span key={b} className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{b}</span>
+              ))}
+            </div>
+            <div className="space-y-4">
+              {(q.gaps || []).map((g, gi) => (
+                <div key={gi} className="space-y-2">
+                  <p className="text-sm text-foreground italic leading-relaxed">{gi + 1}. {g.sentence}</p>
+                  <select
+                    value={multi[gi] || ""}
+                    onChange={e => setMulti(p => ({ ...p, [gi]: e.target.value }))}
+                    disabled={multiResult !== null}
+                    className={`w-full rounded-lg border-2 bg-background px-3 py-2 text-sm ${
+                      multiResult === null ? "border-border"
+                        : normalizeText(multi[gi] || "") === normalizeText(g.answer) ? "border-green-500" : "border-red-500"
+                    }`}
+                  >
+                    <option value="">{t("-- chọn từ --", "-- choose a word --")}</option>
+                    {(q.bank || []).map(b => <option key={b} value={b}>{b}</option>)}
+                  </select>
+                  {multiResult !== null && normalizeText(multi[gi] || "") !== normalizeText(g.answer) && (
+                    <p className="text-xs text-red-500">{t("Đáp án:", "Answer:")} {g.answer}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+        ) : q.type === "collocationMatch" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-3">
+              {t("Nối mỗi cụm từ với từ đúng:", "Match each collocation with the right word:")}
+            </p>
+            <div className="space-y-4">
+              {(q.pairs || []).map((p, pi) => (
+                <div key={pi} className="space-y-2">
+                  <p className="text-sm text-foreground">{pi + 1}. {p.left}</p>
+                  <select
+                    value={multi[pi] || ""}
+                    onChange={e => setMulti(prev => ({ ...prev, [pi]: e.target.value }))}
+                    disabled={multiResult !== null}
+                    className={`w-full rounded-lg border-2 bg-background px-3 py-2 text-sm ${
+                      multiResult === null ? "border-border"
+                        : normalizeText(multi[pi] || "") === normalizeText(p.right) ? "border-green-500" : "border-red-500"
+                    }`}
+                  >
+                    <option value="">{t("-- chọn từ --", "-- choose a word --")}</option>
+                    {q.options.map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                  {multiResult !== null && normalizeText(multi[pi] || "") !== normalizeText(p.right) && (
+                    <p className="text-xs text-red-500">{t("Đáp án:", "Answer:")} {p.right}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
         ) : q.type === "antonymOdd" ? (
           <>
             <p className="text-xs text-muted-foreground mb-2">
-              {t(`Ba từ dưới đây cùng chủ đề "${q.hint}". Chọn từ KHÔNG cùng nhóm:`, `Three of these belong to "${q.hint}". Pick the one that does NOT:`)}
+              {t("Ba trong bốn từ dưới đây cùng một chủ đề. Chọn từ KHÔNG cùng nhóm:", "Three of these four words share one topic. Pick the one that does NOT:")}
             </p>
             <h3 className="text-lg font-semibold text-foreground leading-relaxed">{q.prompt}</h3>
           </>
+
         ) : q.type === "reverse" ? (
           <>
             <p className="text-xs text-muted-foreground mb-2">{t("Nghĩa tiếng Việt:", "Vietnamese meaning:")}</p>
@@ -988,37 +1268,74 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
               </button>
             </div>
             <p className="text-sm text-muted-foreground font-mono mb-1">{q.word.ipa}</p>
-            {q.word.example && (
-              <p className="text-sm font-semibold text-foreground italic"><span className="not-italic font-bold text-primary">E.g. </span>{q.word.example}</p>
-            )}
+            {/* The example often paraphrases the definition, so it only appears
+                after the learner has answered (see the feedback panel below). */}
             <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
           </>
         )}
+
       </div>
-      {isTyping ? (
+      {isMulti ? (
         <div className="rounded-xl border border-border bg-card p-5">
-          <input
-            value={typed}
-            onChange={e => setTyped(e.target.value)}
-            onKeyDown={e => { if (e.key === "Enter") { typedResult === null ? checkTyped() : handleNext(); } }}
-            disabled={typedResult !== null}
-            placeholder={t("Gõ từ tại đây...", "Type the word here...")}
-            autoFocus
-            className={`w-full rounded-lg border-2 bg-background px-4 py-3 text-lg font-semibold outline-none transition-colors ${
-              typedResult === null ? "border-border focus:border-primary"
-                : typedResult ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"
-            }`}
-          />
+          {multiResult === null ? (
+            <Button onClick={checkMulti} className="w-full">{t("Kiểm tra", "Check")}</Button>
+          ) : (
+            <div className="flex items-center gap-2 text-sm font-semibold">
+              {multiResult ? (
+                <><CheckCircle className="h-5 w-5 text-green-500" /> <span className="text-green-600">{t("Tất cả đều đúng!", "All correct!")}</span></>
+              ) : (
+                <><XCircle className="h-5 w-5 text-red-500" /> <span className="text-red-600">{t("Chưa đúng hết - xem đáp án ở trên.", "Not all correct - see the answers above.")}</span></>
+              )}
+            </div>
+          )}
+        </div>
+      ) : isTyping ? (
+        <div className="rounded-xl border border-border bg-card p-5">
+          {q.type === "defineWrite" ? (
+            <textarea
+              value={typed}
+              onChange={e => setTyped(e.target.value)}
+              disabled={typedResult !== null}
+              rows={3}
+              placeholder={t("Ví dụ: a situation in which...", "e.g. a situation in which...")}
+              autoFocus
+              className={`w-full rounded-lg border-2 bg-background px-4 py-3 text-base outline-none transition-colors ${
+                typedResult === null ? "border-border focus:border-primary"
+                  : typedResult ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"
+              }`}
+            />
+          ) : (
+            <input
+              value={typed}
+              onChange={e => setTyped(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter") { typedResult === null ? checkTyped() : handleNext(); } }}
+              disabled={typedResult !== null}
+              placeholder={t("Gõ từ tại đây...", "Type the word here...")}
+              autoFocus
+              className={`w-full rounded-lg border-2 bg-background px-4 py-3 text-lg font-semibold outline-none transition-colors ${
+                typedResult === null ? "border-border focus:border-primary"
+                  : typedResult ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"
+              }`}
+            />
+          )}
           {typedResult === null ? (
             <Button onClick={checkTyped} disabled={!typed.trim()} className="mt-4 w-full">
               {t("Kiểm tra", "Check")}
             </Button>
           ) : (
-            <div className="mt-4 flex items-center gap-2 text-sm font-semibold">
-              {typedResult ? (
-                <><CheckCircle className="h-5 w-5 text-green-500" /> <span className="text-green-600">{t("Chính xác!", "Correct!")}</span></>
-              ) : (
-                <><XCircle className="h-5 w-5 text-red-500" /> <span className="text-red-600">{t("Đáp án đúng:", "Correct answer:")} {q.answerText}</span></>
+            <div className="mt-4 space-y-2 text-sm font-semibold">
+              <div className="flex items-center gap-2">
+                {typedResult ? (
+                  <><CheckCircle className="h-5 w-5 text-green-500" /> <span className="text-green-600">{t("Chính xác!", "Correct!")}</span></>
+                ) : (
+                  <><XCircle className="h-5 w-5 text-red-500" /> <span className="text-red-600">{t("Đáp án đúng:", "Correct answer:")} {q.answerText}</span></>
+                )}
+              </div>
+              {q.type === "defineWrite" && writeFeedback && (
+                <p className="text-xs font-normal text-muted-foreground">
+                  {t("Từ khoá cần có:", "Key ideas expected:")} {writeFeedback.keywords.join(", ")}
+                  {writeFeedback.matched.length > 0 && ` · ${t("bạn đã nêu:", "you covered:")} ${writeFeedback.matched.join(", ")}`}
+                </p>
               )}
             </div>
           )}
@@ -1049,17 +1366,36 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
         })}
       </div>
       )}
-      {(selected !== null || typedResult !== null) && (
-        <div className="flex justify-between items-center mt-6 gap-3 flex-wrap">
-          <p className="text-sm text-muted-foreground italic">
-            <strong className="text-foreground not-italic">{q.word.word}</strong> - {q.word.definition.vi}
-          </p>
-          <Button onClick={handleNext}>
-            {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
+      {(selected !== null || typedResult !== null || multiResult !== null) && (
+        <div className="mt-6 space-y-3">
+          {/* Why panel: full meaning + the example we hid while answering. */}
+          <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm">
+            <p className="font-semibold text-foreground">
+              {q.word.word} <span className="font-mono text-xs text-muted-foreground">{q.word.ipa}</span>
+              {q.word.partOfSpeech && <span className="ml-2 text-xs text-muted-foreground">({q.word.partOfSpeech})</span>}
+            </p>
+            <p className="mt-1 text-muted-foreground">{q.word.definition.en}</p>
+            <p className="text-muted-foreground">{q.word.definition.vi}</p>
+            {q.word.example && (
+              <p className="mt-2 italic text-foreground">
+                <span className="not-italic font-bold text-primary">E.g. </span>{q.word.example}
+              </p>
+            )}
+            {q.word.collocations && q.word.collocations.length > 0 && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                {t("Cụm thường dùng:", "Common collocations:")} {q.word.collocations.slice(0, 3).join(" · ")}
+              </p>
+            )}
+          </div>
+          <div className="flex justify-end">
+            <Button onClick={handleNext}>
+              {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
         </div>
       )}
+
     </div>
   );
 };
