@@ -84,7 +84,16 @@ export const answerVariants = (answer: string): string[] => {
   timeVariants(answer).forEach(v => variants.add(normaliseText(v)));
   priceVariants(answer).forEach(v => variants.add(normaliseText(v)));
 
+  // Day abbreviations in options ("Fri evening") are spoken in full ("Friday evening").
+  const DAY_FULL: Record<string, string> = {
+    mon: "monday", tue: "tuesday", tues: "tuesday", wed: "wednesday", thu: "thursday",
+    thur: "thursday", thurs: "thursday", fri: "friday", sat: "saturday", sun: "sunday",
+  };
+  const expanded = plain.replace(/\b(mon|tues?|wed|thur?s?|fri|sat|sun)\b/g, m => DAY_FULL[m] ?? m);
+  if (expanded !== plain) variants.add(expanded);
+
   return [...variants].filter(Boolean);
+
 };
 
 const FUNCTION_WORDS = new Set([
