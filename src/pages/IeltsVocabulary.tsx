@@ -1128,7 +1128,10 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
           </>
         ) : q.type === "wordFamily" ? (
           <>
-            <p className="text-xs text-muted-foreground mb-2">{t("Chọn dạng từ đúng cho chỗ trống:", "Pick the correct word form for the gap:")}</p>
+            <p className="text-xs text-muted-foreground mb-2">
+              {t("Chọn dạng từ đúng cho chỗ trống", "Pick the correct word form for the gap")}
+              {q.hint ? ` (${q.hint})` : ""}:
+            </p>
             <p className="text-lg text-foreground italic leading-relaxed">{q.prompt}</p>
           </>
         ) : q.type === "register" ? (
