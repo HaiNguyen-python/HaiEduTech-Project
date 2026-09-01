@@ -160,6 +160,7 @@ const VocabBrainPanel = ({
   const [paused, setPaused] = useState(false);
   const [viewKey, setViewKey] = useState(0);
   const [query, setQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const [legendOpen, setLegendOpen] = useState(true);
 
   const [replay, setReplay] = useState<number | null>(null);
