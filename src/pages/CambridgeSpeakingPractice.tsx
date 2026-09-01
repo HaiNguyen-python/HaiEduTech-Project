@@ -581,7 +581,7 @@ const CambridgeSpeakingPractice = () => {
               variant="ghost"
               aria-label="Listen to the question"
               className="h-8 w-8 flex-shrink-0 text-slate-500"
-              onClick={() => playEnglishTts(task.prompt, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+              onClick={() => { if (!isRecording) playEnglishTts(task.prompt, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined); }}
             >
               <Volume2 className="w-4 h-4" />
             </Button>
@@ -597,7 +597,7 @@ const CambridgeSpeakingPractice = () => {
                 {oddOneOutWords.map((w) => (
                   <button
                     key={w}
-                    onClick={() => playEnglishTts(w, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                    onClick={() => { if (!isRecording) playEnglishTts(w, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined); }}
                     className="rounded-xl bg-white border-2 border-amber-200 px-3 py-3 text-[15px] font-bold text-slate-700 capitalize hover:border-amber-400 transition-colors"
                   >
                     {w}
@@ -671,7 +671,7 @@ const CambridgeSpeakingPractice = () => {
 
 
           <div className="flex flex-wrap gap-2 mt-3">
-            <Button size="sm" variant="outline" onClick={speakPrompt} className="border-2 gap-1">
+            <Button size="sm" variant="outline" onClick={speakPrompt} disabled={isRecording} className="border-2 gap-1">
               <Volume2 className="w-4 h-4" />{t("Nghe câu hỏi", "Hear the question")}
             </Button>
             <Button size="sm" variant="outline" onClick={() => setShowSample((s) => !s)} className="border-2 gap-1">
