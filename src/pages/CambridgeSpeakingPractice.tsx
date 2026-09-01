@@ -391,19 +391,23 @@ const CambridgeSpeakingPractice = () => {
 
   // Always release the mic, timer and meter when leaving the page.
   useEffect(() => () => {
+    unmountedRef.current = true;
     if (timerRef.current) window.clearInterval(timerRef.current);
     if (meterRafRef.current) cancelAnimationFrame(meterRafRef.current);
     audioCtxRef.current?.close().catch(() => undefined);
     if (recognitionRef.current) { recognitionRef.current.onend = null; try { recognitionRef.current.stop(); } catch { /* ignore */ } }
-    if (recorderRef.current?.state === "recording") { try { recorderRef.current.stop(); } catch { /* ignore */ } }
+    if (recorderRef.current && recorderRef.current.state !== "inactive") { recorderRef.current.onstop = null; try { recorderRef.current.stop(); } catch { /* ignore */ } }
     streamRef.current?.getTracks().forEach((tr) => tr.stop());
   }, []);
 
 
   const speakPrompt = async () => {
+    // Playing the prompt aloud while the mic is live feeds the TTS back into the transcript.
+    if (isRecording) return;
     try { await playEnglishTts(task.prompt, { accent: "en-GB", playbackRate: level === "starters" || level === "movers" ? 0.8 : 0.95 }); }
     catch { /* ignore playback issues */ }
   };
+
 
   const handleGrade = async () => {
     const transcript = liveTranscript.trim();
