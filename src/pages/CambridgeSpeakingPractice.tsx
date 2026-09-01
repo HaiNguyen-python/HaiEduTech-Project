@@ -152,6 +152,29 @@ const CambridgeSpeakingPractice = () => {
   useEffect(() => () => { if (audioUrl) URL.revokeObjectURL(audioUrl); }, [audioUrl]);
 
   const reset = useCallback(() => {
+    // Hard teardown first: switching level/topic/task while the mic is live
+    // used to leave the recorder, timer and mic indicator running.
+    if (timerRef.current) { window.clearInterval(timerRef.current); timerRef.current = null; }
+    if (meterRafRef.current) { cancelAnimationFrame(meterRafRef.current); meterRafRef.current = null; }
+    audioCtxRef.current?.close().catch(() => undefined);
+    audioCtxRef.current = null;
+    setMicLevel(0);
+    if (recognitionRef.current) {
+      recognitionRef.current.onend = null;
+      recognitionRef.current.onresult = null;
+      recognitionRef.current.onerror = null;
+      try { recognitionRef.current.stop(); } catch { /* ignore */ }
+      recognitionRef.current = null;
+    }
+    if (recorderRef.current) {
+      recorderRef.current.onstop = null;
+      recorderRef.current.ondataavailable = null;
+      if (recorderRef.current.state !== "inactive") { try { recorderRef.current.stop(); } catch { /* ignore */ } }
+      recorderRef.current = null;
+    }
+    streamRef.current?.getTracks().forEach((tr) => tr.stop());
+    streamRef.current = null;
+    setIsRecording(false);
     setTimer(0);
     setResult(null);
     setError(null);
@@ -164,6 +187,7 @@ const CambridgeSpeakingPractice = () => {
     sessionBaseRef.current = "";
     heardSoundRef.current = false;
   }, []);
+
 
   const initRecognition = useCallback((): ISpeechRecognition | null => {
     const SR = (window as unknown as { SpeechRecognition?: new () => ISpeechRecognition; webkitSpeechRecognition?: new () => ISpeechRecognition }).SpeechRecognition
