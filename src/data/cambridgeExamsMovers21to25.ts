@@ -49,7 +49,7 @@ const m21pB =
 const m21Rw: Tuple[] = [
   ["How long was the holiday?", ["Three days", "Four days", "Five days", "A week"], 2, "The family went to the mountains for five days.", "Gia đình đi núi trong năm ngày.", m21pA],
   ["How did they travel?", ["By car", "By train", "By plane", "By bus"], 1, "They travelled by train because the roads were busy.", "Họ đi tàu vì đường đông xe.", m21pA],
-  ["Where was the hotel?", ["Near a river", "In a city", "On a hill", "Next to a lake"], 0, "The small hotel was near a river.", "Khách sạn nhỏ nằm gần một con sông.", m21pA],
+  ["What was near the small hotel?", ["Near a river", "In a city", "On a hill", "Next to a lake"], 0, "The small hotel was near a river.", "Khách sạn nhỏ nằm gần một con sông.", m21pA],
   ["What did they do every morning?", ["Swam", "Walked in the forest", "Went shopping", "Watched TV"], 1, "Every morning they walked in the forest.", "Mỗi sáng họ đi bộ trong rừng.", m21pA],
   ["Why did they play card games?", ["They were tired", "It rained", "The forest was closed", "It was too hot"], 1, "It rained on the last day, so they played inside.", "Ngày cuối trời mưa nên họ chơi trong nhà.", m21pA],
   ["Who did Mai go with?", ["Her family", "Her school", "Her cousins", "Her neighbours"], 1, "Mai went to the seaside with her school.", "Mai đi biển cùng trường.", m21pB],
@@ -94,10 +94,10 @@ const m22pB =
   "Mr Long is our school cook. He makes lunch for two hundred children every day. He arrives at seven and cuts vegetables for two hours. His favourite meal to cook is chicken with rice. On Fridays he makes a fruit salad for everybody.";
 
 const m22Rw: Tuple[] = [
-  ["What is the aunt's job?", ["A teacher", "A nurse", "A doctor", "A driver"], 1, "The aunt is a nurse.", "Cô/dì làm y tá.", m22pA],
+  ["What work does the writer's aunt do?", ["A teacher", "A nurse", "A doctor", "A driver"], 1, "The aunt is a nurse.", "Cô/dì làm y tá.", m22pA],
   ["Where does she work?", ["At a school", "At a hospital", "At a shop", "At a farm"], 1, "She works at the hospital in the town.", "Cô ấy làm ở bệnh viện trong thị trấn.", m22pA],
   ["What time does she start?", ["At five", "At six", "At seven", "At eight"], 1, "She starts work at six o'clock.", "Cô ấy bắt đầu làm lúc sáu giờ.", m22pA],
-  ["What colour is her uniform?", ["White", "Green", "Blue", "Grey"], 2, "She wears a blue uniform.", "Cô ấy mặc đồng phục màu xanh dương.", m22pA],
+  ["What does the nurse wear at work?", ["A white coat", "A green apron", "A blue uniform", "A grey jacket"], 2, "She wears a blue uniform.", "Cô ấy mặc đồng phục màu xanh dương.", m22pA],
   ["What does she like best about her job?", ["The money", "The uniform", "Happy children going home", "The early start"], 2, "She likes it when a child leaves smiling.", "Cô thích nhất khi một em bé xuất viện với nụ cười.", m22pA],
   ["What is Mr Long's job?", ["A cook", "A cleaner", "A driver", "A guard"], 0, "Mr Long is the school cook.", "Ông Long là đầu bếp của trường.", m22pB],
   ["How many children does he cook for?", ["One hundred", "Two hundred", "Three hundred", "Twenty"], 1, "He makes lunch for two hundred children.", "Ông nấu bữa trưa cho hai trăm học sinh.", m22pB],
@@ -151,7 +151,7 @@ const m23Rw: Tuple[] = [
   ["How long should children play outside?", ["Half an hour", "One hour", "Two hours", "Three hours"], 1, "They should run or play outside for one hour.", "Nên chơi ngoài trời một tiếng.", m23pB],
   ["How many hours of sleep are best?", ["Seven", "Eight", "Nine", "Ten"], 2, "The teacher says nine hours.", "Cô giáo nói chín tiếng.", m23pB],
   ["What happens to children who sleep well?", ["They grow taller", "They remember more", "They eat less", "They run faster"], 1, "They remember more in class.", "Các bạn nhớ bài tốt hơn.", m23pB],
-  ["We see with our ___.", ["eyes", "ears", "knees", "fingers"], 0, "We see with our eyes.", "Chúng ta nhìn bằng mắt.", undefined],
+  ["We look at the board with our ___.", ["eyes", "ears", "knees", "fingers"], 0, "We see with our eyes.", "Chúng ta nhìn bằng mắt.", undefined],
   ["My tooth hurts. I must go to the ___.", ["dentist", "farmer", "pilot", "artist"], 0, "A dentist looks after teeth.", "Nha sĩ chăm sóc răng.", undefined],
   ["She ___ got a temperature, so she is in bed.", ["have", "has", "having", "is have"], 1, "'She' takes 'has'.", "Với 'she' dùng 'has'.", undefined],
   ["We wash our hands ___ we eat.", ["before", "behind", "under", "between"], 0, "We wash our hands before eating.", "Chúng ta rửa tay trước khi ăn.", undefined],
@@ -160,7 +160,7 @@ const m23Rw: Tuple[] = [
 
 const m23Ls: Tuple[] = [
   ["What is wrong with the girl?", ["A headache", "Toothache", "Earache", "A cough"], 3, "She has a cough.", "Bạn ấy bị ho.", "Girl: 'I have got a bad cough, so I cannot sing today.'"],
-  ["What must the boy drink?", ["Coffee", "Warm water", "Cold juice", "Milk shake"], 1, "He must drink warm water.", "Cậu ấy phải uống nước ấm.", "Woman: 'Drink warm water, please, not cold juice.'"],
+  ["What does the woman tell the child to drink?", ["Coffee", "Warm water", "Cold juice", "Milk shake"], 1, "He must drink warm water.", "Cậu ấy phải uống nước ấm.", "Woman: 'Drink warm water, please, not cold juice.'"],
   ["Which part of the body hurts?", ["The leg", "The arm", "The back", "The hand"], 0, "His leg hurts.", "Chân cậu ấy bị đau.", "Boy: 'I fell off my bike and now my leg hurts.'"],
   ["When is the doctor's appointment?", ["At two", "At three", "At four", "At five"], 1, "The appointment is at three.", "Cuộc hẹn lúc ba giờ.", "Man: 'Your appointment with the doctor is at three o'clock.'"],
   ["How long must the girl rest?", ["One day", "Two days", "Three days", "A week"], 1, "She must rest for two days.", "Bạn ấy phải nghỉ hai ngày.", "Woman: 'Stay at home and rest for two days.'"],
@@ -189,7 +189,7 @@ const m24pB =
 
 const m24Rw: Tuple[] = [
   ["When do Linh and her father go to the market?", ["Friday evening", "Saturday morning", "Sunday morning", "Monday"], 1, "They go on Saturday morning.", "Họ đi chợ sáng thứ Bảy.", m24pA],
-  ["What do they buy?", ["Fish, rice and oranges", "Bread and milk", "Meat and eggs", "Only fruit"], 0, "They buy fish, rice and a bag of oranges.", "Họ mua cá, gạo và một túi cam.", m24pA],
+  ["What do Linh and her father buy?", ["Fish, rice and oranges", "Bread and milk", "Meat and eggs", "Only fruit"], 0, "They buy fish, rice and a bag of oranges.", "Họ mua cá, gạo và một túi cam.", m24pA],
   ["How much do the oranges cost?", ["Twenty thousand", "Thirty thousand", "Forty thousand", "Fifty thousand"], 1, "The oranges cost thirty thousand dong.", "Túi cam giá ba mươi nghìn đồng.", m24pA],
   ["Which bag does Linh carry?", ["The heaviest", "The lightest", "All of them", "None"], 1, "Linh carries the lightest bag.", "Linh xách túi nhẹ nhất.", m24pA],
   ["What does her father buy at the end?", ["A cake", "Yellow flowers", "A toy", "A book"], 1, "He buys her a small bunch of yellow flowers.", "Bố mua cho bạn ấy một bó hoa vàng nhỏ.", m24pA],
@@ -198,10 +198,10 @@ const m24Rw: Tuple[] = [
   ["How did the writer pay for the book?", ["With pocket money", "With a card", "A gift from mum", "It was free"], 0, "The writer saved pocket money.", "Bạn ấy dành dụm tiền tiêu vặt.", m24pB],
   ["What is the book about?", ["Animals", "Volcanoes", "Space", "Football"], 1, "The book is about volcanoes.", "Cuốn sách nói về núi lửa.", m24pB],
   ["Why must the writer save again?", ["The book was expensive", "The shop closed", "The book was lost", "It was a present"], 0, "The book cost more than expected.", "Cuốn sách đắt hơn dự tính.", m24pB],
-  ["We pay for things with ___.", ["money", "water", "paper clips", "leaves"], 0, "We pay with money.", "Chúng ta trả bằng tiền.", undefined],
+  ["At the till we pay with ___.", ["money", "water", "paper clips", "leaves"], 0, "We pay with money.", "Chúng ta trả bằng tiền.", undefined],
   ["How ___ is this pencil case?", ["many", "much", "long", "old"], 1, "We ask about price with 'how much'.", "Hỏi giá dùng 'how much'.", undefined],
   ["The shop assistant gave me my ___ after I paid.", ["change", "chance", "choice", "chair"], 0, "Money you get back is your change.", "Tiền thối lại gọi là 'change'.", undefined],
-  ["This shirt is ___ than that one.", ["cheap", "cheaper", "cheapest", "more cheap"], 1, "'Than' needs the comparative 'cheaper'.", "Có 'than' nên dùng 'cheaper'.", undefined],
+  ["This blue shirt is ___ than the white one.", ["cheap", "cheaper", "cheapest", "more cheap"], 1, "'Than' needs the comparative 'cheaper'.", "Có 'than' nên dùng 'cheaper'.", undefined],
   ["Where do you buy medicine?", ["At a chemist's", "At a bakery", "At a bank", "At a garage"], 0, "You buy medicine at a chemist's.", "Bạn mua thuốc ở hiệu thuốc.", undefined],
 ];
 
@@ -245,7 +245,7 @@ const m25Rw: Tuple[] = [
   ["How many trees did the class plant?", ["Ten", "Fifteen", "Twenty", "Thirty"], 2, "They planted twenty young trees.", "Lớp trồng hai mươi cây non.", m25pB],
   ["Where did they plant the trees?", ["Near the path", "In the school yard", "By the river", "On the hill"], 0, "They planted them near the path.", "Các bạn trồng cây gần lối đi.", m25pB],
   ["What will the trees give in ten years?", ["Fruit", "Shade", "Flowers", "Wood"], 1, "The teacher says they will give shade.", "Cô giáo nói cây sẽ cho bóng mát.", m25pB],
-  ["When it is very cold, water becomes ___.", ["ice", "steam", "sand", "smoke"], 0, "Cold water becomes ice.", "Nước lạnh biến thành băng.", undefined],
+  ["Water becomes ___ when the temperature falls below zero.", ["ice", "steam", "sand", "smoke"], 0, "Cold water becomes ice.", "Nước lạnh biến thành băng.", undefined],
   ["We use an umbrella when it ___.", ["rains", "rain", "raining", "rained tomorrow"], 0, "'It' takes 'rains' in the present simple.", "Với 'it' dùng 'rains'.", undefined],
   ["A very big storm with a lot of wind is a ___.", ["typhoon", "rainbow", "sunset", "cloud"], 0, "A typhoon is a big storm.", "Bão lớn gọi là typhoon.", undefined],
   ["Bees and butterflies visit ___.", ["flowers", "buses", "shoes", "walls"], 0, "Bees and butterflies visit flowers.", "Ong và bướm đến với hoa.", undefined],

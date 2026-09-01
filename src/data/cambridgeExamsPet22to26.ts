@@ -256,7 +256,7 @@ const pet25: CambridgeMockExam = {
 const p26pA =
   "When the council announced a protected cycle lane along the main road, the reaction was louder than anyone expected. Shop owners argued that removing parking spaces would ruin their business, while cycling groups pointed to cities where the opposite had happened. Eighteen months after the lane opened, the council published counts showing that the number of cyclists had tripled and that spending in the same street had risen slightly.";
 const p26pB =
-  "The figures did not convince everybody. Some shopkeepers say the extra spending came from a new office building rather than from cyclists, and that argument cannot be completely disproved. What is not disputed is that the road is now safer: serious injuries fell by two thirds, a change that no one has attributed to the office building.";
+  "The figures did not convince everybody. Some shopkeepers say the extra spending came from a new office building at the end of the street rather than from cyclists, and that argument cannot be completely disproved with the data the council collected. What is not disputed, however, is that the road is now considerably safer: serious injuries fell by two thirds in the same period, and even the strongest critics of the scheme have not tried to attribute that improvement to the office building. For most residents the safety figures have settled the argument."; 
 
 const p26Rw: Tuple[] = [
   ["What did the council announce?", ["A new bus route", "A protected cycle lane", "A pedestrian street", "A car park"], 1, "The council announced a protected cycle lane.", "Hội đồng công bố làn xe đạp có rào chắn.", p26pA],
