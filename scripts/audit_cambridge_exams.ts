@@ -146,5 +146,30 @@ console.log(
   keyCount.map((c, i) => `${"ABCD"[i]}=${((c / total) * 100).toFixed(1)}%`).join(" ")
 );
 console.log("Standalone R&W items per paper:", standalone.join(" "));
+
+// ---- Writing bank: every level needs real productive tasks with model answers.
+const WRITING_MIN_TASKS = 6;
+for (const level of ["starters", "movers", "flyers", "ket", "pet"] as const) {
+  const tasks = cambridgeWritingTasksByLevel(level);
+  if (tasks.length < WRITING_MIN_TASKS) issues.push(`writing ${level}: only ${tasks.length} tasks (min ${WRITING_MIN_TASKS})`);
+}
+const writingIds = new Set<string>();
+for (const task of cambridgeWritingTasks) {
+  const at = `writing ${task.id}`;
+  if (writingIds.has(task.id)) issues.push(`${at}: duplicate id`);
+  writingIds.add(task.id);
+  if (!task.prompt.trim() || !task.promptVi.trim()) issues.push(`${at}: missing bilingual prompt`);
+  if (task.bullets.length < 3 || task.bulletsVi.length !== task.bullets.length)
+    issues.push(`${at}: content points missing or not bilingual`);
+  if (task.usefulLanguage.length < 3) issues.push(`${at}: needs at least 3 useful language items`);
+  if (task.minWords >= task.maxWords) issues.push(`${at}: word range invalid`);
+  const sampleWords = task.sampleAnswer.split(/\s+/).filter(Boolean).length;
+  if (sampleWords < task.minWords) issues.push(`${at}: model answer shorter than the target (${sampleWords} words)`);
+  if (sampleWords > task.maxWords * 1.3) issues.push(`${at}: model answer far above the target (${sampleWords} words)`);
+  const all = [task.title, task.titleVi, task.prompt, task.promptVi, task.sampleAnswer, ...task.bullets, ...task.bulletsVi, ...task.usefulLanguage].join(" ");
+  if (/[—–]/.test(all)) issues.push(`${at}: contains em/en dash`);
+}
+console.log("Writing tasks:", cambridgeWritingTasks.length);
+
 console.log("Issues:", issues.length);
 issues.slice(0, 80).forEach((i) => console.log(" -", i));
