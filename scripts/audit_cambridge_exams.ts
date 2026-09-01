@@ -8,17 +8,26 @@
  */
 import { cambridgeMockExams } from "../src/data/cambridgeMockExamData";
 import { isAnswerSupported, isNegativeQuestion, listeningScriptTurns } from "../src/data/cambridgeListeningSupport";
+import { cambridgeWritingTasks, cambridgeWritingTasksByLevel } from "../src/data/cambridgeWritingTasks";
 
 
 const issues: string[] = [];
 const byLevel: Record<string, number[]> = {};
 const keyCount = [0, 0, 0, 0];
 const standalone: string[] = [];
+const readingStems = new Map<string, string>();
 
 /** Short item-level recordings: instruction plus the authored evidence. */
 const LISTENING_MIN_WORDS: Record<string, number> = {
   starters: 6, movers: 8, flyers: 8, ket: 8, pet: 8,
 };
+
+/** Reading context expected per level; signs and notices stay short by design. */
+const READING_MIN_WORDS: Record<string, number> = {
+  starters: 45, movers: 80, flyers: 80, ket: 85, pet: 105,
+};
+const REALIA = /^\s*(Sign|Notice|Note|Email|Message|Advert|Advertisement|Poster|Text message|Label|Menu|Timetable|Invitation)\b/i;
+
 
 for (const exam of cambridgeMockExams) {
   (byLevel[exam.level] ??= []).push(exam.questions.length);
