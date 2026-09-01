@@ -142,7 +142,6 @@ export function useMasteredVocab(subject: string) {
       const localSet = new Set<string>([...dbSet, ...stillPending]);
       writeLocal(subject, localSet);
       if (!cancelled) {
-        announceVocabBadges(subject, localSet.size, localSet.size);
         setMastered(localSet);
         setPendingCount(stillPending.length);
         loadedFromDbRef.current = true;
