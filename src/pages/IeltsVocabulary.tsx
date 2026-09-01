@@ -589,8 +589,14 @@ const buildQuestions = (
     }
     if (type === "antonymOdd") {
       // 3 words share the target's topic, the odd one comes from another topic.
-      const sameTopic = shuffle(distractorPool.filter(x => x.category === w.category && x.word !== w.word)).slice(0, 2);
-      const odd = shuffle(distractorPool.filter(x => x.category !== w.category))[0];
+      // The topic is named in the question so the task is decidable, and the
+      // odd word must clearly belong somewhere else.
+      const sameTopicPool = distractorPool.filter(x => x.category === w.category && x.word !== w.word);
+      const samePos = sameTopicPool.filter(x => posOf(x) === posOf(w));
+      const sameTopic = shuffle(samePos.length >= 2 ? samePos : sameTopicPool).slice(0, 2);
+      const oddPool = distractorPool.filter(x => x.category && x.category !== w.category);
+      const oddSamePos = oddPool.filter(x => posOf(x) === posOf(w));
+      const odd = shuffle(oddSamePos.length > 0 ? oddSamePos : oddPool)[0];
       if (!odd || sameTopic.length < 2) return meaningQ(w);
       const group = shuffle([w.word, ...sameTopic.map(x => x.word), odd.word]);
       return {
@@ -600,6 +606,7 @@ const buildQuestions = (
         prompt: group.join("  /  "),
         options: group,
         correct: group.indexOf(odd.word),
+        hint: w.category,
       };
     }
     if (type === "reverse") {
@@ -608,11 +615,15 @@ const buildQuestions = (
     }
     if (type === "fillBlank") {
       const blanked = maskWord(w.example, w.word);
-      // Distractors must share the part of speech so grammar cannot reveal it.
+      // Distractors share the part of speech (grammar cannot reveal the answer)
+      // but come from another topic, so only one word actually fits the meaning.
       const samePos = distractorPool.filter(x => x.word !== w.word && posOf(x) === posOf(w));
-      const wrongs = (samePos.length >= 3
-        ? shuffle(samePos).slice(0, 3).map(x => x.word)
-        : wordDistractors(w));
+      const otherTopic = samePos.filter(x => x.category !== w.category);
+      const wrongs = (otherTopic.length >= 3
+        ? shuffle(otherTopic).slice(0, 3).map(x => x.word)
+        : samePos.length >= 3
+          ? shuffle(samePos).slice(0, 3).map(x => x.word)
+          : wordDistractors(w));
       const q = mkChoice(type, w, blanked, w.word, wrongs);
       return q || meaningQ(w);
     }
@@ -695,10 +706,12 @@ const buildQuestions = (
     if (type === "context") {
       const maskedCorrect = maskWord(w.example, w.word);
       // Distractors are masked too, so "the one with a blank" is never the tell.
-      const wrongExamples = smart(w, 3, x => x.example)
-        .filter(x => x.example && x.example !== w.example)
+      // They come from a different topic so exactly one sentence really fits.
+      const wrongExamples = smart(w, 6, x => x.example)
+        .filter(x => x.example && x.example !== w.example && x.category !== w.category)
         .map(x => maskWord(x.example, x.word))
-        .filter(e => e.includes("___") && e !== maskedCorrect);
+        .filter(e => e.includes("___") && e !== maskedCorrect)
+        .slice(0, 3);
       const q = wrongExamples.length === 3 ? mkChoice(type, w, w.word, maskedCorrect, wrongExamples) : null;
       return q || meaningQ(w);
     }
@@ -1115,7 +1128,10 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
           </>
         ) : q.type === "wordFamily" ? (
           <>
-            <p className="text-xs text-muted-foreground mb-2">{t("Chọn dạng từ đúng cho chỗ trống:", "Pick the correct word form for the gap:")}</p>
+            <p className="text-xs text-muted-foreground mb-2">
+              {t("Chọn dạng từ đúng cho chỗ trống", "Pick the correct word form for the gap")}
+              {q.hint ? ` (${q.hint})` : ""}:
+            </p>
             <p className="text-lg text-foreground italic leading-relaxed">{q.prompt}</p>
           </>
         ) : q.type === "register" ? (
@@ -1201,7 +1217,9 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
         ) : q.type === "antonymOdd" ? (
           <>
             <p className="text-xs text-muted-foreground mb-2">
-              {t("Ba trong bốn từ dưới đây cùng một chủ đề. Chọn từ KHÔNG cùng nhóm:", "Three of these four words share one topic. Pick the one that does NOT:")}
+              {t("Ba trong bốn từ dưới đây thuộc chủ đề", "Three of these four words belong to the topic")}{" "}
+              <span className="font-semibold text-primary">"{q.hint || q.word.category}"</span>.{" "}
+              {t("Chọn từ KHÔNG thuộc chủ đề đó:", "Pick the one that does NOT:")}
             </p>
             <h3 className="text-lg font-semibold text-foreground leading-relaxed">{q.prompt}</h3>
           </>
