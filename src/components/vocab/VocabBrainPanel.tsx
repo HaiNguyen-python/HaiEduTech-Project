@@ -686,67 +686,8 @@ const VocabBrainPanel = ({
 
         {totalMastered > 0 && !loading && (
           <>
-            {/* Floating control bar */}
-            <div className="absolute inset-x-3 top-3 flex flex-wrap items-center gap-2 rounded-xl bg-black/45 p-2 backdrop-blur">
-              {FILTERS.map(f => (
-                <Button
-                  key={f.key}
-                  size="sm"
-                  variant={filter === f.key ? "default" : "secondary"}
-                  className="h-8"
-                  onClick={() => setFilter(f.key)}
-                >
-                  {t(f.vi, f.en)}
-                </Button>
-              ))}
-              <span className="mx-1 h-6 w-px bg-white/20" />
-              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setShowLabels(v => !v)}>
-                {showLabels ? <Type className="h-3.5 w-3.5" /> : <Sparkles className="h-3.5 w-3.5" />}
-                {showLabels ? t("Đang hiện chữ", "Labels on") : t("Chỉ chấm sáng", "Dots only")}
-              </Button>
-              {showLabels && (
-                <div className="flex items-center gap-1 rounded-lg bg-white/10 p-0.5">
-                  {DENSITIES.map(d => (
-                    <button
-                      key={d.key}
-                      onClick={() => setDensity(d.key)}
-                      className={`rounded-md px-2 py-1 text-[11px] font-semibold transition ${
-                        density === d.key ? "bg-primary text-primary-foreground" : "text-slate-200 hover:bg-white/10"
-                      }`}
-                    >
-                      {t(d.vi, d.en)}
-                    </button>
-                  ))}
-                </div>
-              )}
-              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setPaused(v => !v)}>
-                {paused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
-                {paused ? t("Xoay tiếp", "Rotate") : t("Tạm dừng", "Pause")}
-              </Button>
-              <Button
-                size="sm"
-                variant="secondary"
-                className="h-8 gap-1.5"
-                onClick={() => setReplay(0)}
-                disabled={replay !== null}
-              >
-                <Play className="h-3.5 w-3.5" />
-                {replay === null ? t("Xem quá trình", "Replay consolidation") : t("Đang chạy...", "Playing...")}
-              </Button>
-              <Button size="sm" variant="secondary" className="h-8 gap-1.5" onClick={() => setViewKey(k => k + 1)}>
-                <Crosshair className="h-3.5 w-3.5" />
-                {t("Góc nhìn gốc", "Reset view")}
-              </Button>
-              <div className="relative ml-auto">
-                <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-                <input
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  placeholder={t("Tìm từ...", "Find a word...")}
-                  className="h-8 w-40 rounded-lg border border-white/15 bg-white/10 pl-7 pr-2 text-xs text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/60"
-                />
-              </div>
-            </div>
+
+
 
             <div className="pointer-events-none absolute bottom-3 left-3 rounded-lg bg-black/45 px-2.5 py-1.5 text-[11px] text-slate-200 backdrop-blur">
               {t("Kéo để xoay · cuộn để zoom · bấm vào từ để xem chi tiết",
