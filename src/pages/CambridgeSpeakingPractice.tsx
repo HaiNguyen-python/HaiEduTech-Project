@@ -88,8 +88,13 @@ const CambridgeSpeakingPractice = () => {
   const meterRafRef = useRef<number | null>(null);
   const heardSoundRef = useRef(false);
   const sessionBaseRef = useRef("");
+  // Guards a second tap while getUserMedia is still resolving.
+  const startingRef = useRef(false);
+  const unmountedRef = useRef(false);
+
 
   const stopRecordingRef = useRef<(() => void) | null>(null);
+
 
 
   const tasks = useMemo(() => tasksByLevel(level), [level]);
@@ -149,6 +154,29 @@ const CambridgeSpeakingPractice = () => {
   useEffect(() => () => { if (audioUrl) URL.revokeObjectURL(audioUrl); }, [audioUrl]);
 
   const reset = useCallback(() => {
+    // Hard teardown first: switching level/topic/task while the mic is live
+    // used to leave the recorder, timer and mic indicator running.
+    if (timerRef.current) { window.clearInterval(timerRef.current); timerRef.current = null; }
+    if (meterRafRef.current) { cancelAnimationFrame(meterRafRef.current); meterRafRef.current = null; }
+    audioCtxRef.current?.close().catch(() => undefined);
+    audioCtxRef.current = null;
+    setMicLevel(0);
+    if (recognitionRef.current) {
+      recognitionRef.current.onend = null;
+      recognitionRef.current.onresult = null;
+      recognitionRef.current.onerror = null;
+      try { recognitionRef.current.stop(); } catch { /* ignore */ }
+      recognitionRef.current = null;
+    }
+    if (recorderRef.current) {
+      recorderRef.current.onstop = null;
+      recorderRef.current.ondataavailable = null;
+      if (recorderRef.current.state !== "inactive") { try { recorderRef.current.stop(); } catch { /* ignore */ } }
+      recorderRef.current = null;
+    }
+    streamRef.current?.getTracks().forEach((tr) => tr.stop());
+    streamRef.current = null;
+    setIsRecording(false);
     setTimer(0);
     setResult(null);
     setError(null);
@@ -161,6 +189,7 @@ const CambridgeSpeakingPractice = () => {
     sessionBaseRef.current = "";
     heardSoundRef.current = false;
   }, []);
+
 
   const initRecognition = useCallback((): ISpeechRecognition | null => {
     const SR = (window as unknown as { SpeechRecognition?: new () => ISpeechRecognition; webkitSpeechRecognition?: new () => ISpeechRecognition }).SpeechRecognition
@@ -246,15 +275,34 @@ const CambridgeSpeakingPractice = () => {
   };
 
   const startRecording = async () => {
+    // Ignore double taps: one tap while permission is pending used to open a
+    // second stream and orphan the first one (mic stayed on after Stop).
+    if (startingRef.current || isRecording) return;
+    if (!window.isSecureContext) {
+      setError(t("Trang phải chạy qua HTTPS mới dùng được micro.", "The page must run over HTTPS to use the microphone."));
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia || typeof window.MediaRecorder === "undefined") {
+      setError(t("Trình duyệt này không thu âm được. Hãy dùng Chrome hoặc Edge nhé!", "This browser cannot record audio. Please use Chrome or Edge."));
+      return;
+    }
+    startingRef.current = true;
     reset();
     heardSoundRef.current = false;
     try {
+
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
       });
+      if (unmountedRef.current) { stream.getTracks().forEach((tr) => tr.stop()); return; }
       streamRef.current = stream;
       const mimeType = pickMimeType();
-      const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      let recorder: MediaRecorder;
+      try {
+        recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      } catch {
+        recorder = new MediaRecorder(stream); // browser rejected the container - use its default
+      }
       recorderRef.current = recorder;
       chunksRef.current = [];
       recorder.ondataavailable = (e) => { if (e.data.size > 0) chunksRef.current.push(e.data); };
@@ -266,6 +314,12 @@ const CambridgeSpeakingPractice = () => {
         streamRef.current = null;
         chunksRef.current = [];
       };
+      recorder.onerror = () => {
+        setError(t("Thu âm bị lỗi giữa bài. Hãy thử lại nhé!", "Recording failed midway. Please try again."));
+        stopRecordingRef.current?.();
+      };
+      // Mic unplugged or taken by another app: end the session instead of looping.
+      stream.getAudioTracks().forEach((tr) => { tr.onended = () => stopRecordingRef.current?.(); });
       // Timeslice keeps chunks flushing so a long answer is never lost.
       recorder.start(1000);
       startMeter(stream);
@@ -289,13 +343,21 @@ const CambridgeSpeakingPractice = () => {
       }, 1000);
     } catch (e) {
       const name = (e as { name?: string })?.name;
-      setError(name === "NotAllowedError"
+      streamRef.current?.getTracks().forEach((tr) => tr.stop());
+      streamRef.current = null;
+      setIsRecording(false);
+      setError(name === "NotAllowedError" || name === "SecurityError"
         ? t("Em chưa cho phép dùng micro. Hãy bấm vào ổ khoá trên thanh địa chỉ và cho phép micro.", "Microphone permission was blocked. Allow the microphone in your browser settings and try again.")
-        : name === "NotFoundError"
+        : name === "NotFoundError" || name === "OverconstrainedError"
           ? t("Máy không tìm thấy micro nào. Hãy cắm tai nghe có micro rồi thử lại.", "No microphone was found. Plug in a headset and try again.")
-          : t("Không mở được micro. Hãy thử lại.", "Could not open the microphone. Please try again."));
+          : name === "NotReadableError"
+            ? t("Micro đang bị ứng dụng khác dùng. Hãy đóng ứng dụng đó rồi thử lại.", "The microphone is being used by another app. Close it and try again.")
+            : t("Không mở được micro. Hãy thử lại.", "Could not open the microphone. Please try again."));
+    } finally {
+      startingRef.current = false;
     }
   };
+
 
   const stopRecording = useCallback(() => {
     if (recorderRef.current?.state === "recording") {
@@ -329,19 +391,23 @@ const CambridgeSpeakingPractice = () => {
 
   // Always release the mic, timer and meter when leaving the page.
   useEffect(() => () => {
+    unmountedRef.current = true;
     if (timerRef.current) window.clearInterval(timerRef.current);
     if (meterRafRef.current) cancelAnimationFrame(meterRafRef.current);
     audioCtxRef.current?.close().catch(() => undefined);
     if (recognitionRef.current) { recognitionRef.current.onend = null; try { recognitionRef.current.stop(); } catch { /* ignore */ } }
-    if (recorderRef.current?.state === "recording") { try { recorderRef.current.stop(); } catch { /* ignore */ } }
+    if (recorderRef.current && recorderRef.current.state !== "inactive") { recorderRef.current.onstop = null; try { recorderRef.current.stop(); } catch { /* ignore */ } }
     streamRef.current?.getTracks().forEach((tr) => tr.stop());
   }, []);
 
 
   const speakPrompt = async () => {
+    // Playing the prompt aloud while the mic is live feeds the TTS back into the transcript.
+    if (isRecording) return;
     try { await playEnglishTts(task.prompt, { accent: "en-GB", playbackRate: level === "starters" || level === "movers" ? 0.8 : 0.95 }); }
     catch { /* ignore playback issues */ }
   };
+
 
   const handleGrade = async () => {
     const transcript = liveTranscript.trim();
@@ -515,7 +581,7 @@ const CambridgeSpeakingPractice = () => {
               variant="ghost"
               aria-label="Listen to the question"
               className="h-8 w-8 flex-shrink-0 text-slate-500"
-              onClick={() => playEnglishTts(task.prompt, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+              onClick={() => { if (!isRecording) playEnglishTts(task.prompt, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined); }}
             >
               <Volume2 className="w-4 h-4" />
             </Button>
@@ -531,7 +597,7 @@ const CambridgeSpeakingPractice = () => {
                 {oddOneOutWords.map((w) => (
                   <button
                     key={w}
-                    onClick={() => playEnglishTts(w, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                    onClick={() => { if (!isRecording) playEnglishTts(w, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined); }}
                     className="rounded-xl bg-white border-2 border-amber-200 px-3 py-3 text-[15px] font-bold text-slate-700 capitalize hover:border-amber-400 transition-colors"
                   >
                     {w}
@@ -605,7 +671,7 @@ const CambridgeSpeakingPractice = () => {
 
 
           <div className="flex flex-wrap gap-2 mt-3">
-            <Button size="sm" variant="outline" onClick={speakPrompt} className="border-2 gap-1">
+            <Button size="sm" variant="outline" onClick={speakPrompt} disabled={isRecording} className="border-2 gap-1">
               <Volume2 className="w-4 h-4" />{t("Nghe câu hỏi", "Hear the question")}
             </Button>
             <Button size="sm" variant="outline" onClick={() => setShowSample((s) => !s)} className="border-2 gap-1">
