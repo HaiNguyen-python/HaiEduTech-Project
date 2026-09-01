@@ -160,6 +160,8 @@ const VocabBrainPanel = ({
   const [paused, setPaused] = useState(false);
   const [viewKey, setViewKey] = useState(0);
   const [query, setQuery] = useState("");
+  const [legendOpen, setLegendOpen] = useState(true);
+
   const [replay, setReplay] = useState<number | null>(null);
   /** Words already reviewed today - drives the daily mission progress. */
   const [reviewedToday, setReviewedToday] = useState<string[]>(() => readReviewedToday(subject));
