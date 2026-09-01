@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
 import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
+import VocabBadgePill from "@/components/VocabBadgePill";
 import {
   fetchWithCache,
   getCached,
@@ -130,6 +131,7 @@ const OverallVocabLeaderboard = ({ label }: { label?: string }) => {
                 <div className="flex-1 min-w-0">
                   <div className="truncate font-medium text-foreground">
                     {entry.display_name}
+                    <VocabBadgePill score={entry.score} className="ml-1" />
                     {isMe && <span className="ml-1 text-primary">(you)</span>}
                   </div>
                   {entry.subjects.length > 0 && (

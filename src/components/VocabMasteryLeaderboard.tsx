@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { MASTERY_UPDATED_EVENT } from "@/hooks/useMasteredVocab";
 import { dedupeByDisplayName } from "@/lib/leaderboardDedup";
+import VocabBadgePill from "@/components/VocabBadgePill";
 import {
   fetchWithCache,
   getCached,
@@ -206,6 +207,7 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
                 </span>
                 <span className="flex-1 truncate font-medium text-foreground">
                   {entry.display_name}
+                  <VocabBadgePill score={entry.score} className="ml-1" />
                   {isCurrentUser && <span className="ml-1 text-primary">(you)</span>}
                 </span>
                 <span className="font-bold text-primary flex items-center gap-1">
@@ -222,6 +224,7 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
         <div className="mt-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary/30 text-xs space-y-1">
           <span className="block text-primary font-bold">
             {t("Bạn đã thuộc", "You mastered")}: {serverScore} {t("từ", "words")}
+            <VocabBadgePill score={serverScore} className="ml-2" alwaysShowLabel />
           </span>
           {notSynced > 0 && (
             <span className="block text-muted-foreground">
