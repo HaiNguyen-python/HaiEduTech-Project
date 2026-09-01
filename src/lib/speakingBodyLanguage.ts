@@ -54,13 +54,7 @@ export function scoreBodyLanguage(s: BodyLanguageSamples): BodyLanguageScores {
       vi: "Chỉnh lại khung hình và ánh sáng: khuôn mặt nên nằm giữa khung, đủ sáng.",
       en: "Fix your framing and lighting: keep your face centred and well lit.",
     });
-  if (movement < 55)
-    tips.push({
-      vi: m => m,
-      en: "",
-    } as never);
   if (movement < 55) {
-    tips.pop();
     tips.push(
       m > 20
         ? {
