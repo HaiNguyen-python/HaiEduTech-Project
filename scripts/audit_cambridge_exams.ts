@@ -8,17 +8,26 @@
  */
 import { cambridgeMockExams } from "../src/data/cambridgeMockExamData";
 import { isAnswerSupported, isNegativeQuestion, listeningScriptTurns } from "../src/data/cambridgeListeningSupport";
+import { cambridgeWritingTasks, cambridgeWritingTasksByLevel } from "../src/data/cambridgeWritingTasks";
 
 
 const issues: string[] = [];
 const byLevel: Record<string, number[]> = {};
 const keyCount = [0, 0, 0, 0];
 const standalone: string[] = [];
+const readingStems = new Map<string, string>();
 
 /** Short item-level recordings: instruction plus the authored evidence. */
 const LISTENING_MIN_WORDS: Record<string, number> = {
   starters: 6, movers: 8, flyers: 8, ket: 8, pet: 8,
 };
+
+/** Reading context expected per level; signs and notices stay short by design. */
+const READING_MIN_WORDS: Record<string, number> = {
+  starters: 45, movers: 80, flyers: 80, ket: 85, pet: 105,
+};
+const REALIA = /^\s*(Sign|Notice|Note|Email|Message|Advert|Advertisement|Poster|Text message|Label|Menu|Timetable|Invitation)\b/i;
+
 
 for (const exam of cambridgeMockExams) {
   (byLevel[exam.level] ??= []).push(exam.questions.length);
@@ -50,7 +59,30 @@ for (const exam of cambridgeMockExams) {
     const text = [q.question, q.explanation, q.explanationVi, q.passage, ...q.options].join(" ");
     if (/[—–]/.test(text)) issues.push(`${at}: contains em/en dash`);
 
-    if (q.section === "Reading & Writing" && !q.passage) readingWithoutPassage += 1;
+    if (q.section === "Reading & Writing") {
+      if (!q.passage) readingWithoutPassage += 1;
+
+      // No pasted hint may survive: reading feedback must quote the item's own text.
+      if (/underline the words in the text that prove the answer/i.test(q.explanation ?? "")) {
+        issues.push(`${at}: reading explanation still uses the generic hint`);
+      }
+      if (/hãy gạch chân đúng những từ trong bài/i.test(q.explanationVi ?? "")) {
+        issues.push(`${at}: Vietnamese reading explanation still uses the generic hint`);
+      }
+
+      // Reading stems must be unique across the whole bank, not only per paper.
+      const stemKey = q.question.trim().toLowerCase();
+      const seenAt = readingStems.get(stemKey);
+      if (seenAt && seenAt.split(" ")[0] !== exam.id) issues.push(`${at}: reading stem repeats ${seenAt}`);
+      else if (!seenAt) readingStems.set(stemKey, at);
+
+      if (q.passage && !REALIA.test(q.passage)) {
+        const rwc = q.passage.split(/\s+/).filter(Boolean).length;
+        const rmin = READING_MIN_WORDS[exam.level] ?? 90;
+        if (rwc < rmin) issues.push(`${at}: reading text too short (${rwc} words, min ${rmin})`);
+      }
+    }
+
     if (q.section === "Listening" && !q.passage) issues.push(`${at}: listening without script`);
     if (q.section === "Listening" && q.passage) {
       const spoken = q.passage.replace(/^\s*Listen:\s*/i, "").trim();
@@ -114,5 +146,30 @@ console.log(
   keyCount.map((c, i) => `${"ABCD"[i]}=${((c / total) * 100).toFixed(1)}%`).join(" ")
 );
 console.log("Standalone R&W items per paper:", standalone.join(" "));
+
+// ---- Writing bank: every level needs real productive tasks with model answers.
+const WRITING_MIN_TASKS = 6;
+for (const level of ["starters", "movers", "flyers", "ket", "pet"] as const) {
+  const tasks = cambridgeWritingTasksByLevel(level);
+  if (tasks.length < WRITING_MIN_TASKS) issues.push(`writing ${level}: only ${tasks.length} tasks (min ${WRITING_MIN_TASKS})`);
+}
+const writingIds = new Set<string>();
+for (const task of cambridgeWritingTasks) {
+  const at = `writing ${task.id}`;
+  if (writingIds.has(task.id)) issues.push(`${at}: duplicate id`);
+  writingIds.add(task.id);
+  if (!task.prompt.trim() || !task.promptVi.trim()) issues.push(`${at}: missing bilingual prompt`);
+  if (task.bullets.length < 3 || task.bulletsVi.length !== task.bullets.length)
+    issues.push(`${at}: content points missing or not bilingual`);
+  if (task.usefulLanguage.length < 3) issues.push(`${at}: needs at least 3 useful language items`);
+  if (task.minWords >= task.maxWords) issues.push(`${at}: word range invalid`);
+  const sampleWords = task.sampleAnswer.split(/\s+/).filter(Boolean).length;
+  if (sampleWords < task.minWords) issues.push(`${at}: model answer shorter than the target (${sampleWords} words)`);
+  if (sampleWords > task.maxWords * 1.3) issues.push(`${at}: model answer far above the target (${sampleWords} words)`);
+  const all = [task.title, task.titleVi, task.prompt, task.promptVi, task.sampleAnswer, ...task.bullets, ...task.bulletsVi, ...task.usefulLanguage].join(" ");
+  if (/[—–]/.test(all)) issues.push(`${at}: contains em/en dash`);
+}
+console.log("Writing tasks:", cambridgeWritingTasks.length);
+
 console.log("Issues:", issues.length);
 issues.slice(0, 80).forEach((i) => console.log(" -", i));

@@ -89,3 +89,6 @@ verify_jwt = false
 
 [functions.analyze-presentation]
 verify_jwt = false
+
+[functions.grade-cambridge-writing]
+verify_jwt = false

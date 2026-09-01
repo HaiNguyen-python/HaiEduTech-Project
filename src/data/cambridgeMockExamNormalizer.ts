@@ -12,6 +12,8 @@
  * @copyright 2026 HaiEduTech, ILC.
  */
 import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockExamData";
+import { buildReadingExplanation } from "./cambridgeReadingExplanations";
+
 
 const MIN_EXPLANATION = 40;
 
@@ -53,6 +55,13 @@ const rebalance = (q: CambridgeMockQuestion, seed: string): CambridgeMockQuestio
 /** Guarantee useful after-submit feedback in English and Vietnamese. */
 const enrichExplanation = (q: CambridgeMockQuestion): CambridgeMockQuestion => {
   const correct = q.options[q.correctAnswer] ?? "";
+
+  // Reading & Writing feedback quotes the item's own text instead of a pasted hint.
+  if (q.section === "Reading & Writing") {
+    const built = buildReadingExplanation(q);
+    return { ...q, explanation: built.explanation, explanationVi: built.explanationVi };
+  }
+
   const hint = SECTION_HINT[q.section] ?? SECTION_HINT["Reading & Writing"];
   const base = (q.explanation || "").trim();
 
@@ -68,6 +77,7 @@ const enrichExplanation = (q: CambridgeMockQuestion): CambridgeMockQuestion => {
 
   return { ...q, explanation, explanationVi };
 };
+
 
 export const normalizeCambridgeMockExam = (exam: CambridgeMockExam): CambridgeMockExam => {
   const questions = exam.questions
