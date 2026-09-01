@@ -36,7 +36,7 @@ const emptyAccum = (): Accum => ({
 });
 
 const SpeakingCameraPanel = ({ isRecording = false, className }: Props) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [camOn, setCamOn] = useState(false);
   const [optedOut, setOptedOut] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -198,7 +198,7 @@ const SpeakingCameraPanel = ({ isRecording = false, className }: Props) => {
     });
   };
 
-  const loc = (pair: { vi: string; en: string }) => (language === "vi" ? pair.vi : pair.en);
+  const loc = (pair: { vi: string; en: string }) => (lang === "vi" ? pair.vi : pair.en);
 
   return (
     <div className={`w-full ${className ?? ""}`}>
