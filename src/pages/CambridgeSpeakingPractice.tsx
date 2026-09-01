@@ -130,6 +130,15 @@ const CambridgeSpeakingPractice = () => {
     () => (task ? wordBankForTask(task.topic, task.level) : []),
     [task]
   );
+  /** Odd-one-out cards list their word set inside the prompt ("apple, banana, carrot, orange"). */
+  const oddOneOutWords = useMemo(() => {
+    if (!task || !/odd one out/i.test(task.part)) return [] as string[];
+    const list = task.prompt.match(/:\s*([^.:?]+?)\s*[.?]/);
+    if (!list) return [] as string[];
+    const words = list[1].split(/,| and /).map((w) => w.trim()).filter(Boolean);
+    return words.length >= 3 && words.every((w) => w.split(/\s+/).length <= 3) ? words : [];
+  }, [task]);
+
 
 
   useEffect(() => () => { if (audioUrl) URL.revokeObjectURL(audioUrl); }, [audioUrl]);
