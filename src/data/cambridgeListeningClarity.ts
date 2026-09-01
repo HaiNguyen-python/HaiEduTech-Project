@@ -32,15 +32,29 @@ export const listeningCoreLine = (passage: string): string => {
 const lower = (text: string): string =>
   /^[A-Z]{2,}|^£|^\$|^\d/.test(text) ? text : text.charAt(0).toLowerCase() + text.slice(1);
 
-const isTimeLike = (t: string): boolean => /^\d{1,2}([:.]\d{2})?\s*(a\.?m\.?|p\.?m\.?|o'clock)?$/i.test(t.trim());
+/** A clock time needs a colon, am/pm or "o'clock". A bare number is a count, not a time. */
+const isTimeLike = (t: string): boolean =>
+  /^\d{1,2}([:.]\d{2})\s*(a\.?m\.?|p\.?m\.?)?$/i.test(t.trim()) ||
+  /^\d{1,2}\s*(a\.?m\.?|p\.?m\.?|o'clock)$/i.test(t.trim());
 const isPriceLike = (t: string): boolean => /^[£$]\d/.test(t.trim());
 const isNumberLike = (t: string): boolean => /^\d+([.,]\d+)?(\s*[a-z.]+)?$/i.test(t.trim());
 const DAYS_MONTHS =
   /\b(january|february|march|april|may|june|july|august|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i;
+const DAY_ABBREV: Record<string, string> = {
+  mon: "Monday", tue: "Tuesday", tues: "Tuesday", wed: "Wednesday", thu: "Thursday",
+  thur: "Thursday", thurs: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday",
+};
+/** "Wed afternoon" -> "Wednesday afternoon", so nothing is spoken as an abbreviation. */
+const expandDays = (text: string): string =>
+  text.replace(/\b(mon|tues?|wed|thur?s?|fri|sat|sun)\b\.?/gi, (m, day: string) => DAY_ABBREV[day.toLowerCase()] ?? m);
 const isDateLike = (t: string): boolean => DAYS_MONTHS.test(t);
 const TIME_NOUNS = /^(morning|afternoon|evening|night|weekend|holidays?|summer|winter|spring|autumn)\b/i;
 const isClause = (t: string): boolean => /^(i|you|he|she|it|they|we|there)\b/i.test(t.trim());
-const isIng = (t: string): boolean => /^[a-z]+ing\b/i.test(t.trim());
+const isIng = (t: string): boolean => /^[a-z]+ing\b/i.test(t.trim()) && !TIME_NOUNS.test(t.trim());
+/** Adjectives and adverbs never take an article: "It is sunny.", "It is weekly." */
+const ADJ_ADV =
+  /^(sunny|rainy|windy|snowy|cloudy|foggy|hot|cold|warm|cool|happy|sad|tired|busy|quiet|noisy|easy|hard|difficult|expensive|cheap|free|late|early|weekly|daily|monthly|yearly|probable|possible|likely|unlikely|certain|regretful|proud|nervous|excited|worried|angry|calm|safe|clean|dirty|new|old|big|small|long|short|good|better|best|bad|worse|worst|red|blue|green|yellow|black|white|brown|grey|gray|orange|purple|pink)\b/i;
+
 const BASE_VERBS =
   /^(write|read|buy|take|use|go|cook|play|walk|cycle|swim|call|ask|visit|postpone|cancel|book|bring|wear|study|join|help|meet|send|wait|start|finish|change|recycle|save|plant|paint|draw|watch|listen|clean|wash|ride|run|sing|dance|sleep|eat|drink|drive|fly|climb|share|check|print|pay|order|collect|return)\b/i;
 /** Third person verb phrase such as "reads news online" or "takes the bus". */
