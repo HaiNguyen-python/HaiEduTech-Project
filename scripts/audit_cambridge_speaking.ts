@@ -1,10 +1,13 @@
 /**
  * Guardrail for the Cambridge Speaking Practice bank.
  * Run: bunx tsx scripts/audit_cambridge_speaking.ts
- * Fails when the bank breaks official exam structure or repeats prompts.
+ * Fails when the bank breaks official exam structure, repeats prompts, or
+ * shows a picture that does not match the question.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { existsSync } from "node:fs";
 import { cleanCambridgeSpeakingTasks as TASKS } from "../src/data/cambridgeSpeakingTasks";
+import { speakingImageMap } from "../src/data/cambridgeSpeakingImageMap";
 
 const ALLOWED: Record<string, string[]> = {
   starters: ["Part 1 - Scene card", "Part 2 - Object cards", "Part 3 - Personal questions"],
