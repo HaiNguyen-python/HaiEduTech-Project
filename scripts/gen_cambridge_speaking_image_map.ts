@@ -34,10 +34,10 @@ const STORY: Rule[] = [
   [/visitor|surprise/i, "fl-visitor-story"],
   [/school trip/i, "fl-trip-story"],
   [/camp|tent|forest|mountain/i, "fl-camping-story"],
-  [/beach|sea|swim|boat|holiday/i, "mv-beach-story"],
-  [/sport|race|match|running|football|team/i, "fl-sports-story"],
-  [/cat|dog|pet|animal|lost/i, "mv-lost-cat"],
-  [/rain|weather|storm|wet|umbrella/i, "mv-rainy-story"],
+  [/\bbeach\b|\bseaside\b|\bswim/i, "mv-beach-story"],
+  [/\bsports?\b|\brace\b|\bmatch\b|\brunning\b|\bfootball\b|\bteam\b/i, "fl-sports-story"],
+  [/\bcat\b|\bdog\b|\bpet\b|\blost\b/i, "mv-lost-cat"],
+  [/\brain|\bweather\b|\bstorm|\bwet\b|\bumbrella/i, "mv-rainy-story"],
 ];
 
 // Starters / Movers / Flyers single scenes and object cards (illustrations).
@@ -73,9 +73,9 @@ const PHOTO: Rule[] = [
   [/librar/i, "pe-library"],
   [/working together|team|project|colleagues/i, "pe-teamwork"],
   [/cooking|someone cooking|family cooking/i, "ke-cooking"],
-  [/dinner|having dinner|meal at home/i, "ke-family-dinner"],
+  [/\bdinner\b|\bmeal\b|eating together/i, "ke-family-dinner"],
   [/cafe|restaurant|coffee/i, "ke-cafe"],
-  [/market|shopping|shoppers|shop\b/i, "ke-market"],
+  [/\bmarket\b|\bshopping\b|\bshoppers\b|\bshop\b|\bsupermarket\b|food stall/i, "ke-market"],
   [/celebration|party|festival|wedding/i, "ke-celebration"],
   [/sport|exercise|match|swim|football|running/i, "ke-sport"],
   [/lesson|classroom|class\b|students in a lesson|language class/i, "ke-lesson"],
@@ -104,7 +104,7 @@ const NEEDS =
   /look at|these (?:two |three |four |five |six )?pictures|the pictures|this picture|the picture|picture story|photo|photograph|scene|differences|tell the story|tell me the story/i;
 const PICTURE_PARTS =
   /find the differences|picture story|describe the picture|photo|scene card|long turn|object cards/i;
-const NO_PICTURE_PROMPT = /talk about a book|talk about a story you|discuss these/i;
+const NO_PICTURE_PROMPT = /talk about a book|talk about a story you|discuss these|point to|:\s*(?:a|an|the)\s[^.?]*,\s/i;
 const isOdd = (t: { part: string; prompt: string }) =>
   /odd one out/i.test(t.part) || /which one is different|which one does not belong/i.test(t.prompt);
 
