@@ -64,6 +64,9 @@ const CambridgeYleTestPrep = () => {
 
         <TestPrepBoard stickyTopClass="top-16" />
 
+        <CambridgeWritingLab />
+
+
         <section className="container mx-auto px-4 pb-8">
           {/* Link back to lectures */}
           <div className="mt-8 text-center">
