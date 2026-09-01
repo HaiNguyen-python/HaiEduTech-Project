@@ -17,14 +17,6 @@ export const cambridgeSpeakingTasksExpansion6: CambridgeSpeakingTask[] = [
     minSeconds: 15,
   },
   {
-    id: "st-x6-2", level: "starters", part: "Part 2 - Object cards", topic: "Animals",
-    prompt: "Look at the animals. Which animal is big and which animal is small? Tell me about them.",
-    examiner: ["Is the cat big?", "What can the horse do?", "Which one do you like?"],
-    usefulLanguage: ["The ... is big.", "The ... is small.", "It can run.", "I like the ..."],
-    sampleAnswer: "The horse is big and the mouse is small. The horse can run fast. I like the horse.",
-    minSeconds: 15,
-  },
-  {
     id: "st-x6-3", level: "starters", part: "Part 3 - Personal questions", topic: "My family",
     prompt: "Who helps you at home? Tell me what they do.",
     examiner: ["Does your mum help you?", "What do you do together?", "Do you help too?"],
@@ -129,14 +121,6 @@ export const cambridgeSpeakingTasksExpansion6: CambridgeSpeakingTask[] = [
     minSeconds: 15,
   },
   {
-    id: "st-x6-16", level: "starters", part: "Part 1 - Scene card", topic: "On the farm",
-    prompt: "Look at the farm. Which animals can you see? Tell me what they are doing.",
-    examiner: ["Where is the cow?", "What is the duck doing?", "How many animals are there?"],
-    usefulLanguage: ["I can see a ...", "The cow is eating.", "The duck is swimming.", "There are ... animals."],
-    sampleAnswer: "I can see a cow, a duck and a horse. The cow is eating grass. The duck is swimming in the water.",
-    minSeconds: 15,
-  },
-  {
     id: "st-x6-17", level: "starters", part: "Part 3 - Personal questions", topic: "My day",
     prompt: "What do you do after school? Tell me two things.",
     examiner: ["Do you watch TV?", "Do you do homework?", "When do you go to bed?"],
@@ -158,14 +142,6 @@ export const cambridgeSpeakingTasksExpansion6: CambridgeSpeakingTask[] = [
     examiner: ["What colour are your eyes?", "How many hands do you have?", "Can you clap?"],
     usefulLanguage: ["These are my eyes.", "My eyes are brown.", "I have two hands.", "I can clap."],
     sampleAnswer: "These are my eyes. They are brown. This is my nose. I have two hands and I can clap.",
-    minSeconds: 15,
-  },
-  {
-    id: "st-x6-20", level: "starters", part: "Part 3 - Personal questions", topic: "My home",
-    prompt: "Tell me about your house. How many rooms are there?",
-    examiner: ["Is your house big?", "Do you have a garden?", "Which room do you like?"],
-    usefulLanguage: ["My house has ... rooms.", "It is big / small.", "We have a garden.", "I like the kitchen."],
-    sampleAnswer: "My house has four rooms. It is not big. We have a small garden. I like the kitchen because it smells good.",
     minSeconds: 15,
   },
 

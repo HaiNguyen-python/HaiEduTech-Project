@@ -96,14 +96,19 @@ const SCENE_DEFAULTS: Record<string, string> = {
 
 // Does the wording actually ask the student to look at something?
 const NEEDS_PICTURE =
-  /look at|these (?:two |three |four |five |six )?pictures|the pictures|this picture|the picture|picture story|photo|photograph|scene|differences|odd one out/i;
+  /look at|these (?:two |three |four |five |six )?pictures|the pictures|this picture|the picture|picture story|photo|photograph|scene|differences/i;
 
 // Exam parts that are always picture-based, whatever the prompt wording is.
 const PICTURE_PARTS =
-  /find the differences|picture story|describe the picture|photo|scene card|scene description|long turn|object cards|odd one out/i;
+  /find the differences|picture story|describe the picture|photo|scene card|scene description|long turn|object cards/i;
+
+// "Odd one out" cards list their items in the prompt text. Showing a stock scene
+// there confuses the child, so those tasks never get a picture.
+const isOddOneOut = (task: SpeakingImageTask) =>
+  /odd one out/i.test(task.part) || /which one is different|which one does not belong/i.test(task.prompt);
 
 export const needsPicture = (task: SpeakingImageTask): boolean =>
-  PICTURE_PARTS.test(task.part) || NEEDS_PICTURE.test(task.prompt) || NEEDS_PICTURE.test(task.part);
+  !isOddOneOut(task) && (PICTURE_PARTS.test(task.part) || NEEDS_PICTURE.test(task.prompt) || NEEDS_PICTURE.test(task.part));
 
 
 export const imageForSpeakingTask = (task: SpeakingImageTask): string | undefined => {
