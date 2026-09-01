@@ -134,6 +134,10 @@ export const listeningSupportSentence = (question: string, key: string): string 
 
   if (/how (does|did|do|is|was|are) .*(feel)/.test(q)) return `I feel ${bare} about it, to be honest.`;
   if (/how sure|how certain|how likely/.test(q)) return `I would say that is ${bare}.`;
+  // "What is the podcast about?" needs "It is about climate solutions."
+  if (/\babout\b/.test(q) && !isClause(raw) && !BASE_VERBS.test(raw)) return `It is about ${said}.`;
+  if (/\bwhat (is|was) the (topic|subject|theme)\b/.test(q)) return `The topic is ${said}.`;
+
 
   if (/\bwhy\b/.test(q)) {
     if (isClause(raw)) return `That is because ${said}.`;
