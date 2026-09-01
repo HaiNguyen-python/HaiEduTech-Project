@@ -1016,8 +1016,12 @@ ${suggestionsHtml}
             <Card>
               <CardContent className="pt-6">
                 <div className="flex flex-col items-center gap-5">
+                  {/* Optional camera self-view */}
+                  <SpeakingCameraPanel isRecording={isRecording} />
+
                   {/* Timer */}
                   <div className="text-5xl font-mono font-bold text-foreground">{formatTime(timer)}</div>
+
 
                   {/* Wave visualizer */}
                   {isRecording && (
