@@ -73,6 +73,8 @@ const CambridgeSpeakingPractice = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SpeakResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Preview iframes without an allow="microphone" policy reject getUserMedia.
+  const [blockedInFrame, setBlockedInFrame] = useState(false);
   const [showSample, setShowSample] = useState(false);
   const [micLevel, setMicLevel] = useState(0);
 
