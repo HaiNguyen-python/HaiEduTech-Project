@@ -73,6 +73,8 @@ const CambridgeSpeakingPractice = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SpeakResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Preview iframes without an allow="microphone" policy reject getUserMedia.
+  const [blockedInFrame, setBlockedInFrame] = useState(false);
   const [showSample, setShowSample] = useState(false);
   const [micLevel, setMicLevel] = useState(0);
 
@@ -288,6 +290,7 @@ const CambridgeSpeakingPractice = () => {
     }
     startingRef.current = true;
     reset();
+    setBlockedInFrame(false);
     heardSoundRef.current = false;
     try {
 
@@ -346,6 +349,15 @@ const CambridgeSpeakingPractice = () => {
       streamRef.current?.getTracks().forEach((tr) => tr.stop());
       streamRef.current = null;
       setIsRecording(false);
+      const embedded = window.self !== window.top;
+      if ((name === "NotAllowedError" || name === "SecurityError") && embedded) {
+        setBlockedInFrame(true);
+        setError(t(
+          "Khung xem trước không cho phép dùng micro. Hãy mở trang ở tab mới rồi thu âm nhé!",
+          "This preview frame blocks the microphone. Open the page in a new tab to record."
+        ));
+        return;
+      }
       setError(name === "NotAllowedError" || name === "SecurityError"
         ? t("Em chưa cho phép dùng micro. Hãy bấm vào ổ khoá trên thanh địa chỉ và cho phép micro.", "Microphone permission was blocked. Allow the microphone in your browser settings and try again.")
         : name === "NotFoundError" || name === "OverconstrainedError"
@@ -747,6 +759,22 @@ const CambridgeSpeakingPractice = () => {
             )}
           </div>
 
+          {error && (
+            <div className="mt-3 rounded-xl border-2 border-rose-200 bg-rose-50 p-3">
+              <p className="text-sm font-semibold text-rose-700">{error}</p>
+              {blockedInFrame && (
+                <a
+                  href={window.location.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 rounded-full bg-rose-600 px-3 py-1.5 text-xs font-bold text-white"
+                >
+                  {t("Mở ở tab mới để thu âm", "Open in a new tab to record")}
+                </a>
+              )}
+            </div>
+          )}
+
           {audioUrl && !isRecording && (
             <audio src={audioUrl} controls className="w-full mt-4" />
           )}
@@ -764,7 +792,7 @@ const CambridgeSpeakingPractice = () => {
             </div>
           )}
 
-          {error && <p className="mt-3 text-sm font-semibold text-rose-600">{error}</p>}
+          
         </div>
 
         {/* Result */}
