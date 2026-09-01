@@ -346,6 +346,15 @@ const CambridgeSpeakingPractice = () => {
       streamRef.current?.getTracks().forEach((tr) => tr.stop());
       streamRef.current = null;
       setIsRecording(false);
+      const embedded = window.self !== window.top;
+      if ((name === "NotAllowedError" || name === "SecurityError") && embedded) {
+        setBlockedInFrame(true);
+        setError(t(
+          "Khung xem trước không cho phép dùng micro. Hãy mở trang ở tab mới rồi thu âm nhé!",
+          "This preview frame blocks the microphone. Open the page in a new tab to record."
+        ));
+        return;
+      }
       setError(name === "NotAllowedError" || name === "SecurityError"
         ? t("Em chưa cho phép dùng micro. Hãy bấm vào ổ khoá trên thanh địa chỉ và cho phép micro.", "Microphone permission was blocked. Allow the microphone in your browser settings and try again.")
         : name === "NotFoundError" || name === "OverconstrainedError"
