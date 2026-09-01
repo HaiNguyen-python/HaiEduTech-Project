@@ -589,8 +589,14 @@ const buildQuestions = (
     }
     if (type === "antonymOdd") {
       // 3 words share the target's topic, the odd one comes from another topic.
-      const sameTopic = shuffle(distractorPool.filter(x => x.category === w.category && x.word !== w.word)).slice(0, 2);
-      const odd = shuffle(distractorPool.filter(x => x.category !== w.category))[0];
+      // The topic is named in the question so the task is decidable, and the
+      // odd word must clearly belong somewhere else.
+      const sameTopicPool = distractorPool.filter(x => x.category === w.category && x.word !== w.word);
+      const samePos = sameTopicPool.filter(x => posOf(x) === posOf(w));
+      const sameTopic = shuffle(samePos.length >= 2 ? samePos : sameTopicPool).slice(0, 2);
+      const oddPool = distractorPool.filter(x => x.category && x.category !== w.category);
+      const oddSamePos = oddPool.filter(x => posOf(x) === posOf(w));
+      const odd = shuffle(oddSamePos.length > 0 ? oddSamePos : oddPool)[0];
       if (!odd || sameTopic.length < 2) return meaningQ(w);
       const group = shuffle([w.word, ...sameTopic.map(x => x.word), odd.word]);
       return {
@@ -600,6 +606,7 @@ const buildQuestions = (
         prompt: group.join("  /  "),
         options: group,
         correct: group.indexOf(odd.word),
+        hint: w.category,
       };
     }
     if (type === "reverse") {
@@ -608,11 +615,15 @@ const buildQuestions = (
     }
     if (type === "fillBlank") {
       const blanked = maskWord(w.example, w.word);
-      // Distractors must share the part of speech so grammar cannot reveal it.
+      // Distractors share the part of speech (grammar cannot reveal the answer)
+      // but come from another topic, so only one word actually fits the meaning.
       const samePos = distractorPool.filter(x => x.word !== w.word && posOf(x) === posOf(w));
-      const wrongs = (samePos.length >= 3
-        ? shuffle(samePos).slice(0, 3).map(x => x.word)
-        : wordDistractors(w));
+      const otherTopic = samePos.filter(x => x.category !== w.category);
+      const wrongs = (otherTopic.length >= 3
+        ? shuffle(otherTopic).slice(0, 3).map(x => x.word)
+        : samePos.length >= 3
+          ? shuffle(samePos).slice(0, 3).map(x => x.word)
+          : wordDistractors(w));
       const q = mkChoice(type, w, blanked, w.word, wrongs);
       return q || meaningQ(w);
     }
