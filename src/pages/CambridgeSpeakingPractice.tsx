@@ -292,9 +292,15 @@ const CambridgeSpeakingPractice = () => {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
       });
+      if (unmountedRef.current) { stream.getTracks().forEach((tr) => tr.stop()); return; }
       streamRef.current = stream;
       const mimeType = pickMimeType();
-      const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      let recorder: MediaRecorder;
+      try {
+        recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      } catch {
+        recorder = new MediaRecorder(stream); // browser rejected the container - use its default
+      }
       recorderRef.current = recorder;
       chunksRef.current = [];
       recorder.ondataavailable = (e) => { if (e.data.size > 0) chunksRef.current.push(e.data); };
@@ -306,6 +312,12 @@ const CambridgeSpeakingPractice = () => {
         streamRef.current = null;
         chunksRef.current = [];
       };
+      recorder.onerror = () => {
+        setError(t("Thu âm bị lỗi giữa bài. Hãy thử lại nhé!", "Recording failed midway. Please try again."));
+        stopRecordingRef.current?.();
+      };
+      // Mic unplugged or taken by another app: end the session instead of looping.
+      stream.getAudioTracks().forEach((tr) => { tr.onended = () => stopRecordingRef.current?.(); });
       // Timeslice keeps chunks flushing so a long answer is never lost.
       recorder.start(1000);
       startMeter(stream);
@@ -329,13 +341,21 @@ const CambridgeSpeakingPractice = () => {
       }, 1000);
     } catch (e) {
       const name = (e as { name?: string })?.name;
-      setError(name === "NotAllowedError"
+      streamRef.current?.getTracks().forEach((tr) => tr.stop());
+      streamRef.current = null;
+      setIsRecording(false);
+      setError(name === "NotAllowedError" || name === "SecurityError"
         ? t("Em chưa cho phép dùng micro. Hãy bấm vào ổ khoá trên thanh địa chỉ và cho phép micro.", "Microphone permission was blocked. Allow the microphone in your browser settings and try again.")
-        : name === "NotFoundError"
+        : name === "NotFoundError" || name === "OverconstrainedError"
           ? t("Máy không tìm thấy micro nào. Hãy cắm tai nghe có micro rồi thử lại.", "No microphone was found. Plug in a headset and try again.")
-          : t("Không mở được micro. Hãy thử lại.", "Could not open the microphone. Please try again."));
+          : name === "NotReadableError"
+            ? t("Micro đang bị ứng dụng khác dùng. Hãy đóng ứng dụng đó rồi thử lại.", "The microphone is being used by another app. Close it and try again.")
+            : t("Không mở được micro. Hãy thử lại.", "Could not open the microphone. Please try again."));
+    } finally {
+      startingRef.current = false;
     }
   };
+
 
   const stopRecording = useCallback(() => {
     if (recorderRef.current?.state === "recording") {
