@@ -79,11 +79,18 @@ const midSentence = (text: string): string =>
 const hasDeterminer = (text: string): boolean =>
   /^(a|an|the|my|your|his|her|our|their|some|any|this|that|these|those|two|three|four|five|no)\b/i.test(text.trim());
 
-/** "dog" -> "a dog", "apple" -> "an apple". Plurals and lists stay unchanged. */
+/** Adverbs that must not gain an article: "tuition only", "news online". */
+const ADVERBS =
+  /^(only|just|online|offline|abroad|outside|inside|together|again|early|late|daily|weekly|monthly|yearly|quickly|slowly|often|always|never|sometimes|too|instead)$/i;
+
+/** "dog" -> "a dog", "apple" -> "an apple". Plurals, adjectives and lists stay unchanged. */
 const withArticle = (text: string): string => {
   const t = text.trim();
-  if (hasDeterminer(t) || /\band\b|,/.test(t) || /s$/i.test(t) || /^[£$\d]/.test(t)) return t;
-  if (t.split(/\s+/).length > 2) return t;
+  if (hasDeterminer(t) || /\band\b|\bbut\b|,/.test(t) || /s$/i.test(t) || /^[£$\d]/.test(t)) return t;
+  if (ADJ_ADV.test(t) || /ly$/i.test(t)) return t;
+  const words = t.split(/\s+/);
+  if (words.length > 2) return t;
+  if (words.length === 2 && ADVERBS.test(words[1])) return t;
   return `${/^[aeiou]/i.test(t) ? "an" : "a"} ${t}`;
 };
 
@@ -97,8 +104,10 @@ const naturaliseVerbPhrase = (text: string): string => {
   );
   t = t.replace(
     /^([a-z]+)\s+(?!(the|a|an|my|your|his|her|our|their|some|any|this|that|to|it|in|on|at|with|for|from)\b)([a-z]+)$/i,
-    "$1 the $3"
+    (whole, verb: string, _skip: string, noun: string) => (ADVERBS.test(noun) ? whole : `${verb} the ${noun}`)
   );
+  return t;
+
   return t;
 };
 
