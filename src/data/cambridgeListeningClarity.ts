@@ -56,12 +56,12 @@ const ADJ_ADV =
   /^(sunny|rainy|windy|snowy|cloudy|foggy|hot|cold|warm|cool|happy|sad|tired|busy|quiet|noisy|easy|hard|difficult|expensive|cheap|free|late|early|weekly|daily|monthly|yearly|probable|possible|likely|unlikely|certain|regretful|proud|nervous|excited|worried|angry|calm|safe|clean|dirty|new|old|big|small|long|short|good|better|best|bad|worse|worst|red|blue|green|yellow|black|white|brown|grey|gray|orange|purple|pink)\b/i;
 
 const BASE_VERBS =
-  /^(write|read|buy|take|use|go|cook|play|walk|cycle|swim|call|ask|visit|postpone|cancel|book|bring|wear|study|join|help|meet|send|wait|start|finish|change|recycle|save|plant|paint|draw|watch|listen|clean|wash|ride|run|sing|dance|sleep|eat|drink|drive|fly|climb|share|check|print|pay|order|collect|return)\b/i;
+  /^(give|get|make|keep|add|offer|reduce|improve|teach|learn|tell|show|open|close|stop|try|build|plan|write|read|buy|take|use|go|cook|play|walk|cycle|swim|call|ask|visit|postpone|cancel|book|bring|wear|study|join|help|meet|send|wait|start|finish|change|recycle|save|plant|paint|draw|watch|listen|clean|wash|ride|run|sing|dance|sleep|eat|drink|drive|fly|climb|share|check|print|pay|order|collect|return)\b/i;
 /** Third person verb phrase such as "reads news online" or "takes the bus". */
 const THIRD_PERSON =
-  /^(reads|writes|takes|goes|buys|plays|walks|cycles|swims|calls|asks|visits|cooks|studies|joins|helps|meets|sends|waits|starts|finishes|changes|recycles|saves|plants|paints|draws|watches|listens|cleans|washes|rides|runs|sings|dances|sleeps|eats|drinks|drives|flies|climbs|shares|checks|prints|pays|orders|collects|returns)\b/;
+  /^(gives|gets|makes|keeps|adds|offers|reduces|improves|teaches|learns|tells|shows|opens|closes|stops|tries|builds|plans|reads|writes|takes|goes|buys|plays|walks|cycles|swims|calls|asks|visits|cooks|studies|joins|helps|meets|sends|waits|starts|finishes|changes|recycles|saves|plants|paints|draws|watches|listens|cleans|washes|rides|runs|sings|dances|sleeps|eats|drinks|drives|flies|climbs|shares|checks|prints|pays|orders|collects|returns)\b/;
 const THIRD_TO_BASE: Record<string, string> = {
-  reads: "read", writes: "write", takes: "take", goes: "go", buys: "buy", plays: "play",
+  gives: "give", gets: "get", makes: "make", keeps: "keep", adds: "add", offers: "offer", reduces: "reduce", improves: "improve", teaches: "teach", learns: "learn", tells: "tell", shows: "show", opens: "open", closes: "close", stops: "stop", tries: "try", builds: "build", plans: "plan", reads: "read", writes: "write", takes: "take", goes: "go", buys: "buy", plays: "play",
   walks: "walk", cycles: "cycle", swims: "swim", calls: "call", asks: "ask", visits: "visit",
   cooks: "cook", studies: "study", joins: "join", helps: "help", meets: "meet", sends: "send",
   waits: "wait", starts: "start", finishes: "finish", changes: "change", recycles: "recycle",
