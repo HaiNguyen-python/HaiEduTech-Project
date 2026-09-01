@@ -38,6 +38,7 @@ import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresIdeas";
 import ShadowingPractice from "@/components/ShadowingPractice";
 import SpeakingSrsPanel from "@/components/ielts/SpeakingSrsPanel";
+import SpeakingCameraPanel from "@/components/speaking/SpeakingCameraPanel";
 import SpeakingTemplateLab from "@/components/ielts/SpeakingTemplateLab";
 
 import { useSpeakingSrs } from "@/hooks/useSpeakingSrs";
