@@ -121,15 +121,37 @@ const canonicalTopicKey = (topic: string) => {
  *   Flyers   : 1 Find the differences | 2 Information exchange | 3 Picture story | 4 Personal questions
  *   A2 Key   : 1 Interview | 2 Discussion
  *   B1 Prelim: 1 Interview | 2 Long turn | 3 Collaborative task | 4 Discussion
+ * "Odd one out" only exists at Movers, so a Flyers task written in that format
+ * is re-levelled to Movers instead of being shown under a made-up warm-up part.
  */
+export const OFFICIAL_PARTS: Record<string, string[]> = {
+  starters: ["Part 1 - Scene card", "Part 2 - Object cards", "Part 3 - Personal questions"],
+  movers: ["Part 1 - Find the differences", "Part 2 - Picture story", "Part 3 - Odd one out", "Part 4 - Personal questions"],
+  flyers: ["Part 1 - Find the differences", "Part 2 - Information exchange", "Part 3 - Picture story", "Part 4 - Personal questions"],
+  ket: ["Part 1 - Interview", "Part 2 - Discussion"],
+  pet: ["Part 1 - Interview", "Part 2 - Long turn", "Part 3 - Collaborative task", "Part 4 - Discussion"],
+};
+
+/** True when the prompt is an "odd one out" word set (items listed in the text). */
+const isOddPrompt = (part: string, prompt: string) =>
+  /odd one out/i.test(part) || /which one is different|which one does not belong|odd one out/i.test(prompt);
+
+type LevelKey = CambridgeSpeakingTask["level"];
+
+/** Re-level tasks whose format does not exist at the level they were written for. */
+const normalizeLevel = (task: CambridgeSpeakingTask): LevelKey => {
+  if (task.level === "flyers" && isOddPrompt(task.part, task.prompt)) return "movers";
+  return task.level;
+};
+
 const normalizePart = (level: string, part: string, prompt: string): string => {
   const p = part.toLowerCase();
   const q = prompt.toLowerCase();
-  const isOdd = /odd one out/.test(p);
+  const isOdd = isOddPrompt(part, prompt);
   const isStory = /picture story/.test(p) || (!isOdd && /\bstory\b/.test(q));
   const isDiff = /differen/.test(p) || (!isOdd && !isStory && /(my picture|your picture).*differen|differences/.test(q));
   const isPersonal = /personal|interview/.test(p);
-  const isInfo = /information exchange/.test(p);
+  const isInfo = /information exchange/.test(p) || /ask me (questions )?about/.test(q);
   const isDescribe = /describe|scene description|photo descri|photo discussion|discussion/.test(p);
 
   if (level === "starters") {
@@ -141,16 +163,14 @@ const normalizePart = (level: string, part: string, prompt: string): string => {
     if (isOdd) return "Part 3 - Odd one out";
     if (isDiff) return "Part 1 - Find the differences";
     if (isStory) return "Part 2 - Picture story";
-    if (isPersonal) return "Part 4 - Personal questions";
-    return "Warm-up - Describe the picture";
+    // Everything else at Movers is an examiner-led personal exchange.
+    return "Part 4 - Personal questions";
   }
   if (level === "flyers") {
-    if (isOdd) return "Warm-up - Odd one out";
     if (isDiff) return "Part 1 - Find the differences";
     if (isInfo) return "Part 2 - Information exchange";
     if (isStory) return "Part 3 - Picture story";
-    if (isPersonal) return "Part 4 - Personal questions";
-    return "Warm-up - Describe the picture";
+    return "Part 4 - Personal questions";
   }
   if (level === "ket") {
     if (isPersonal) return "Part 1 - Interview";
@@ -162,7 +182,35 @@ const normalizePart = (level: string, part: string, prompt: string): string => {
   if (/discussion/.test(p) && !/photo/.test(p)) return "Part 4 - Discussion";
   if (isPersonal) return "Part 1 - Interview";
   if (isDescribe) return "Part 2 - Long turn";
-  return part;
+  return "Part 4 - Discussion";
+};
+
+const NUMBER_WORD = /\b(three|four|five|six|seven|eight)\b\s+(differences|things that are different)/i;
+
+/**
+ * Clean the examiner prompt so a child can always answer it from what is on screen:
+ *  - never ask for a fixed number of differences the shared picture may not have
+ *  - keep Starters/Movers cards to one instruction plus at most two questions
+ */
+const normalizePrompt = (level: string, prompt: string): string => {
+  let p = prompt.trim().replace(/\s+/g, " ");
+
+  if (NUMBER_WORD.test(p)) {
+    p = p
+      .replace(/\b(three|four|five|six|seven|eight)\b\s+things that are different/gi, "the things that are different")
+      .replace(/\b(three|four|five|six|seven|eight)\b\s+differences/gi, "the differences you can see");
+  }
+
+  if (level === "starters" || level === "movers") {
+    const sentences = p.split(/(?<=[.?!])\s+/).filter(Boolean);
+    const questions = sentences.filter((s) => s.trim().endsWith("?"));
+    if (questions.length > 2) {
+      const statements = sentences.filter((s) => !s.trim().endsWith("?"));
+      p = [...statements, ...questions.slice(0, 2)].join(" ");
+    }
+  }
+
+  return p;
 };
 
 /**
@@ -192,10 +240,13 @@ export const sanitizeSpeakingTasks = (tasks: CambridgeSpeakingTask[]): Cambridge
     if (!labelByKey.has(key)) labelByKey.set(key, task.topic.trim());
     const topic = labelByKey.get(key)!;
 
-    const part = normalizePart(task.level, task.part, task.prompt);
+    const level = normalizeLevel(task);
+    const prompt = normalizePrompt(level, task.prompt);
+    const part = normalizePart(level, task.part, prompt);
 
-    out.push({ ...task, id, topic, part });
+    out.push({ ...task, id, level, topic, prompt, part });
   }
 
   return out;
 };
+
