@@ -9,6 +9,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { awardPetXP } from "@/hooks/usePetXP";
+import { announceVocabBadges } from "@/lib/vocabBadges";
 
 export const MASTERY_UPDATED_EVENT = "vocab-mastery-updated";
 
@@ -174,6 +175,7 @@ export function useMasteredVocab(subject: string) {
       if (!wasMastered && isOnCooldown()) {
         next.add(word);
         writeLocal(subject, next);
+        announceVocabBadges(subject, prev.size, next.size);
         if (userIdRef.current) {
           queuePending(subject, word);
           setPendingCount(readPending(subject).length);
@@ -188,6 +190,7 @@ export function useMasteredVocab(subject: string) {
         stampCooldown();
       }
       writeLocal(subject, next);
+      if (!wasMastered) announceVocabBadges(subject, prev.size, next.size);
       if (!wasMastered) {
         awardPetXP(5, `vocab:${subject}`, { celebrate: false });
       }

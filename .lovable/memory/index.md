@@ -11,3 +11,4 @@
 - [IELTS Listening Standards](mem://features/ielts/listening-content-standards) — 120 drills/30 full tests, no answer-leak transcripts, word targets, MCQ/matching key balance
 - [English Grammar Standards](mem://features/english-grammar/content-standards) — 6-section theory layout, >=120w EN theory, 3 tips, 4 vocab, 3 exercises per lesson
 - [Presentation Studio](mem://features/english/presentation-studio) - /presentation-studio: teleprompter, live pacing/filler/eye-contact telemetry, AI speech report
+- [Vocab Milestone Badges](mem://features/gamification/vocab-milestone-badges) — Score-derived badges 20-1200 words, pill on vocab leaderboards, full-screen unlock effect
