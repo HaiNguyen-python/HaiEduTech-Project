@@ -69,7 +69,10 @@ const imageUse = new Map<string, number>();
 for (const t of TASKS) {
   const key = speakingImageMap[t.id];
   if (!key) {
-    if (PICTURE_PART.test(t.part) && !/talk about a book|point to|discuss these/i.test(t.prompt))
+    // Cards that list their items in the prompt ("these games: a kite, a bike
+    // and a book") are read from the text, exactly like an odd-one-out card.
+    const listsItemsInPrompt = /:\s*(?:a|an|the)\s[^.?]*,\s/i.test(t.prompt);
+    if (PICTURE_PART.test(t.part) && !listsItemsInPrompt && !/talk about a book|point to|discuss these/i.test(t.prompt))
       issues.push(`${t.id}: picture part "${t.part}" has no picture assigned`);
     continue;
   }
