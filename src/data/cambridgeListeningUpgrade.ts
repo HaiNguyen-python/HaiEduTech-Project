@@ -180,29 +180,38 @@ const GENERIC_VI = /\s*Ở phần Nghe, đáp án là đúng từ hoặc số ng
 
 const withEvidence = (question: CambridgeMockQuestion, script: string): CambridgeMockQuestion => {
   const answer = question.options[question.correctAnswer] ?? "";
-  const spoken = script
+  const contentLines = script
     .replace(/^\s*Listen:\s*/i, "")
     .split("\n")
     .filter(line => !/^Narrator:/i.test(line.trim()))
     .map(line => line.replace(/^[A-Za-z ]{1,20}:\s*/, "").trim())
-    .join(" ");
+    .filter(Boolean);
+  // A lead-in question repeats the stem, so it is never the evidence line.
+  const statements = contentLines.filter(line => !line.endsWith("?"));
+  const spoken = (statements.length ? statements : contentLines).join(" ");
 
   const evidence = findEvidenceSentence(spoken, question.question, answer);
-  const base = (question.explanation ?? "").replace(GENERIC_EN, "").trim();
-  const baseVi = (question.explanationVi ?? "").replace(GENERIC_VI, "").trim();
+  const strip = (text: string) =>
+    text.replace(/\s*The correct answer is "[^"]*"\./, "").replace(/\s*Đáp án đúng là "[^"]*"\./, "").trim();
+  const base = strip((question.explanation ?? "").replace(GENERIC_EN, ""));
+  const baseVi = strip((question.explanationVi ?? "").replace(GENERIC_VI, ""));
   const quoted = evidence ? `"${evidence.replace(/\s*[.?!]$/, "")}"` : null;
 
   const explanation = quoted
     ? base.includes(quoted)
       ? base
-      : `${base} The recording says ${quoted}, which gives the answer "${answer}".`.trim()
-    : `${base} The answer "${answer}" is what the speaker says in the recording.`.trim();
+      : `${base} The recording says ${quoted}, so the answer is "${answer}".`.trim()
+    : `${base} The answer is "${answer}", exactly as the speaker says it in the recording.`.trim();
 
   const explanationVi = quoted
     ? baseVi.includes(quoted)
       ? baseVi
       : `${baseVi} Câu dẫn chứng trong bài nghe: ${quoted}. Vì vậy đáp án là "${answer}".`.trim()
-    : `${baseVi} Đáp án "${answer}" chính là điều người nói nhắc tới trong bài nghe.`.trim();
+    : `${baseVi} Đáp án là "${answer}", đúng như điều người nói nhắc tới trong bài nghe.`.trim();
+
+  return { ...question, explanation, explanationVi };
+};
+
 
   return { ...question, explanation, explanationVi };
 };
