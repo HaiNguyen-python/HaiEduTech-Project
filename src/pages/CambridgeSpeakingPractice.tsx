@@ -507,6 +507,26 @@ const CambridgeSpeakingPractice = () => {
             </Button>
           </div>
 
+          {/* Odd one out - show the word set as cards, since these tasks have no exam picture */}
+          {oddOneOutWords.length >= 3 && (
+            <div className="mt-3 rounded-xl bg-amber-50 border-2 border-amber-200 p-3">
+              <p className="text-xs font-black uppercase text-amber-700 mb-2">
+                {t("Chọn từ khác nhóm", "Which one is different?")}
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {oddOneOutWords.map((w) => (
+                  <button
+                    key={w}
+                    onClick={() => playEnglishTts(w, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                    className="rounded-xl bg-white border-2 border-amber-200 px-3 py-3 text-[15px] font-bold text-slate-700 capitalize hover:border-amber-400 transition-colors"
+                  >
+                    {w}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Useful language - always visible so students can borrow phrases */}
           <div className="mt-3 rounded-xl bg-emerald-50 border-2 border-emerald-200 p-3">
             <p className="text-xs font-black uppercase text-emerald-700 mb-2 flex items-center gap-1">
