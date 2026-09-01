@@ -1,11 +1,10 @@
 # Roadmap
 
-## Cambridge Writing Practice (in progress)
-- [x] Expansion bank: 12 new writing tasks per level (18/level, 90 total)
-- [ ] Merge expansion into cambridgeWritingTasks bank
-- [ ] Writing Lab UI: kind filter + collapsible list for 18 cards
-- [ ] Audit script checks for writing bank (count, ids, kinds, word ranges, sample length)
+## Cambridge Writing Practice
+- [x] 18 writing tasks per level (90 total), merged into the main bank
+- [x] Writing Lab: collapsible task dropdown + task-type filter
+- [x] Audit enforces 18 tasks per level
 
-## Cambridge YLE test board (new request)
-- [ ] Collapsible dropdown per level band in TestPrepBoard (compact view)
-- [ ] Add 5 new mock exams per level (25 new papers)
+## Cambridge YLE test board
+- [x] Collapsible dropdown per level band (compact view)
+- [x] 5 new mock exams per level (125 papers total), audit clean

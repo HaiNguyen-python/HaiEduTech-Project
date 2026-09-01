@@ -48,11 +48,11 @@ const s21pB =
   "On Sunday my friends come to my house. We play with my train. Anna likes the doll and Ben likes the kite. We play in the garden. After the games we drink milk and eat cake.";
 
 const s21Rw: Tuple[] = [
-  ["What colour is the toy box?", ["Red", "Blue", "Green", "Yellow"], 1, "The text says the toy box is blue and very big.", "Bài đọc nói hộp đồ chơi màu xanh dương và rất to.", s21pA],
+  ["What colour is the box for the toys?", ["Red", "Blue", "Green", "Yellow"], 1, "The text says the toy box is blue and very big.", "Bài đọc nói hộp đồ chơi màu xanh dương và rất to.", s21pA],
   ["What is in the box?", ["A car, a plane and two balls", "A bike and a kite", "Books and pens", "A cat and a dog"], 0, "The box has a red car, a small plane and two balls.", "Trong hộp có ô tô đỏ, máy bay nhỏ và hai quả bóng.", s21pA],
-  ["Where is the teddy bear?", ["In the box", "On the bed", "Under the table", "At school"], 1, "The teddy bear sleeps on the bed, not in the box.", "Gấu bông ngủ trên giường chứ không ở trong hộp.", s21pA],
-  ["What colour is the car?", ["Red", "White", "Black", "Pink"], 0, "The text says there is a red car.", "Bài đọc nói có một chiếc ô tô màu đỏ.", s21pA],
-  ["How many balls are there?", ["One", "Two", "Three", "Four"], 1, "The text says there are two balls.", "Bài đọc nói có hai quả bóng.", s21pA],
+  ["Where does the teddy bear sleep?", ["In the box", "On the bed", "Under the table", "At school"], 1, "The teddy bear sleeps on the bed, not in the box.", "Gấu bông ngủ trên giường chứ không ở trong hộp.", s21pA],
+  ["Which toy in the box is red?", ["Red", "White", "Black", "Pink"], 0, "The text says there is a red car.", "Bài đọc nói có một chiếc ô tô màu đỏ.", s21pA],
+  ["How many balls are in the toy box?", ["One", "Two", "Three", "Four"], 1, "The text says there are two balls.", "Bài đọc nói có hai quả bóng.", s21pA],
   ["When do the friends come?", ["On Monday", "On Friday", "On Saturday", "On Sunday"], 3, "The friends come on Sunday.", "Các bạn đến vào Chủ nhật.", s21pB],
   ["What does Anna like?", ["The train", "The doll", "The kite", "The ball"], 1, "The text says Anna likes the doll.", "Bài đọc nói Anna thích búp bê.", s21pB],
   ["What does Ben like?", ["The kite", "The doll", "The car", "The bear"], 0, "The text says Ben likes the kite.", "Bài đọc nói Ben thích con diều.", s21pB],
@@ -95,11 +95,11 @@ const s22pB =
   "In summer we go to the beach. I wear shorts and a white T-shirt. My mother wears a blue dress and a big hat. We do not wear shoes on the sand. We swim in the sea.";
 
 const s22Rw: Tuple[] = [
-  ["What colour is the coat?", ["Green", "Blue", "Brown", "Red"], 0, "The text says the coat is green.", "Bài đọc nói áo khoác màu xanh lá.", s22pA],
+  ["What colour is the writer's coat?", ["Green", "Blue", "Brown", "Red"], 0, "The text says the coat is green.", "Bài đọc nói áo khoác màu xanh lá.", s22pA],
   ["What colour is the hat?", ["Black", "Grey", "Pink", "White"], 1, "The hat is grey.", "Chiếc mũ màu xám.", s22pA],
   ["What does the sister wear?", ["A pink jacket", "A green coat", "Black boots", "A scarf"], 0, "The sister wears a pink jacket.", "Em gái mặc áo khoác hồng.", s22pA],
   ["What does the sister not like?", ["Boots", "Hats", "Coats", "Scarves"], 1, "She does not like hats.", "Bạn ấy không thích mũ.", s22pA],
-  ["What is the weather like today?", ["Hot", "Cold", "Sunny", "Windy"], 1, "The first sentence says it is cold.", "Câu đầu nói hôm nay trời lạnh.", s22pA],
+  ["Why does the writer need warm clothes?", ["It is hot", "It is cold", "It is sunny", "It is windy"], 1, "The first sentence says it is cold today.", "Câu đầu nói hôm nay trời lạnh.", s22pA],
   ["Where do they go in summer?", ["To the beach", "To school", "To the zoo", "To the shop"], 0, "In summer they go to the beach.", "Mùa hè họ đi biển.", s22pB],
   ["What does the boy wear?", ["A coat", "Shorts and a T-shirt", "Boots", "A dress"], 1, "He wears shorts and a white T-shirt.", "Cậu ấy mặc quần short và áo phông trắng.", s22pB],
   ["What colour is the mother's dress?", ["Blue", "Pink", "Green", "Yellow"], 0, "The mother wears a blue dress.", "Mẹ mặc váy màu xanh dương.", s22pB],
@@ -156,7 +156,7 @@ const s23Rw: Tuple[] = [
   ["Fish live in ___.", ["trees", "water", "beds", "cars"], 1, "Fish live in water.", "Cá sống dưới nước.", undefined],
   ["A baby dog is a ___.", ["puppy", "kitten", "lamb", "chick"], 0, "A baby dog is a puppy.", "Chó con gọi là puppy.", undefined],
   ["My cat ___ milk every day.", ["drink", "drinks", "drinking", "to drink"], 1, "'My cat' is singular, so we use 'drinks'.", "'My cat' số ít nên dùng 'drinks'.", undefined],
-  ["Which animal can fly?", ["A bird", "A pig", "A fish", "A cow"], 0, "A bird can fly.", "Con chim có thể bay.", undefined],
+  ["Which of these animals has wings?", ["A bird", "A pig", "A fish", "A cow"], 0, "A bird can fly.", "Con chim có thể bay.", undefined],
 ];
 
 const s23Ls: Tuple[] = [
@@ -193,14 +193,14 @@ const s24Rw: Tuple[] = [
   ["What colour is the bedroom?", ["Green", "Blue", "White", "Pink"], 1, "The bedroom is blue.", "Phòng ngủ màu xanh dương.", s24pA],
   ["How many beds are in the bedroom?", ["One", "Two", "Three", "Four"], 1, "There are two beds.", "Có hai chiếc giường.", s24pA],
   ["Where is the kitchen?", ["Next to the living room", "Upstairs", "In the garden", "Behind the school"], 0, "The kitchen is next to the living room.", "Bếp nằm cạnh phòng khách.", s24pA],
-  ["What colour is the table?", ["Black", "Brown", "White", "Red"], 1, "They eat at the big brown table.", "Họ ăn ở chiếc bàn gỗ màu nâu.", s24pA],
+  ["What is the dinner table like?", ["Big and brown", "Small and white", "Round and black", "New and red"], 0, "They eat dinner at the big brown table.", "Họ ăn tối ở chiếc bàn gỗ to màu nâu.", s24pA],
   ["Where is the garden?", ["In front of the house", "Behind the house", "Next to the school", "On the roof"], 1, "The garden is behind the house.", "Khu vườn ở phía sau nhà.", s24pB],
   ["How many trees are there?", ["Three", "Four", "Five", "Ten"], 2, "There are five trees.", "Có năm cái cây.", s24pB],
   ["What does the father grow?", ["Rice", "Tomatoes", "Apples", "Carrots"], 1, "The father grows tomatoes.", "Bố trồng cà chua.", s24pB],
   ["What do they do under the tree?", ["Cook", "Read books", "Sleep", "Wash the car"], 1, "They sit under the tree and read books.", "Họ ngồi dưới gốc cây và đọc sách.", s24pB],
   ["When do they sit in the garden?", ["On rainy days", "On sunny days", "At midnight", "In winter only"], 1, "They sit outside on sunny days.", "Họ ngồi ngoài vườn vào những ngày nắng.", s24pB],
-  ["We cook food in the ___.", ["kitchen", "bathroom", "bedroom", "garage"], 0, "We cook in the kitchen.", "Chúng ta nấu ăn trong bếp.", undefined],
-  ["We wash our hands in the ___.", ["bathroom", "garden", "car", "shop"], 0, "We wash our hands in the bathroom.", "Chúng ta rửa tay trong phòng tắm.", undefined],
+  ["Mum makes dinner in the ___.", ["kitchen", "bathroom", "bedroom", "garage"], 0, "We cook in the kitchen.", "Chúng ta nấu ăn trong bếp.", undefined],
+  ["After the garden, I wash my hands in the ___.", ["bathroom", "garden", "car", "shop"], 0, "We wash our hands in the bathroom.", "Chúng ta rửa tay trong phòng tắm.", undefined],
   ["The cat is ___ the sofa.", ["on", "of", "at", "to"], 0, "We use 'on' for a surface like a sofa.", "Dùng 'on' với bề mặt như ghế sofa.", undefined],
   ["There ___ two windows in my room.", ["is", "are", "am", "be"], 1, "'Two windows' is plural, so we use 'are'.", "'Two windows' số nhiều nên dùng 'are'.", undefined],
   ["We sleep in a ___.", ["bed", "bath", "bowl", "bus"], 0, "We sleep in a bed.", "Chúng ta ngủ trên giường.", undefined],
@@ -237,7 +237,7 @@ const s25pB =
 
 const s25Rw: Tuple[] = [
   ["How old is the child today?", ["Six", "Seven", "Eight", "Nine"], 2, "The child is eight years old.", "Bạn nhỏ tròn tám tuổi.", s25pA],
-  ["How many candles are on the cake?", ["Six", "Seven", "Eight", "Ten"], 2, "There are eight candles, one for each year.", "Có tám cây nến, mỗi cây một tuổi.", s25pA],
+  ["How many candles does the cake have?", ["Six", "Seven", "Eight", "Ten"], 2, "There are eight candles, one for each year.", "Có tám cây nến, mỗi cây một tuổi.", s25pA],
   ["What colour is the cake?", ["Brown", "White", "Yellow", "Pink"], 1, "The cake is white with red strawberries.", "Bánh màu trắng với dâu đỏ.", s25pA],
   ["What is on the cake?", ["Strawberries", "Bananas", "Chocolate", "Nuts"], 0, "There are red strawberries on the cake.", "Trên bánh có dâu tây đỏ.", s25pA],
   ["What is in the green box?", ["A toy car", "A book", "Sweets", "A ball"], 1, "There is a book in the green box.", "Trong hộp xanh có một cuốn sách.", s25pA],
@@ -247,7 +247,7 @@ const s25Rw: Tuple[] = [
   ["How many pink balloons are there?", ["One", "Two", "Three", "Four"], 1, "There are two pink balloons.", "Có hai quả bóng màu hồng.", s25pB],
   ["What does everybody get at the end?", ["A cake", "A small toy", "A balloon", "A hat"], 1, "Everybody gets a small toy at the end.", "Cuối buổi ai cũng được một món đồ chơi nhỏ.", s25pB],
   ["Six and four are ___.", ["eight", "nine", "ten", "eleven"], 2, "Six plus four is ten.", "Sáu cộng bốn bằng mười.", undefined],
-  ["The sun is ___.", ["yellow", "black", "purple", "grey"], 0, "The sun is yellow.", "Mặt trời màu vàng.", undefined],
+  ["In my picture the sun is ___.", ["yellow", "black", "purple", "grey"], 0, "The sun is yellow.", "Mặt trời màu vàng.", undefined],
   ["I have got ___ apple in my bag.", ["a", "an", "the two", "some a"], 1, "'Apple' starts with a vowel sound, so we use 'an'.", "'Apple' bắt đầu bằng nguyên âm nên dùng 'an'.", undefined],
   ["Twenty minus ten is ___.", ["five", "ten", "fifteen", "twenty"], 1, "Twenty minus ten is ten.", "Hai mươi trừ mười bằng mười.", undefined],
   ["Grass is usually ___.", ["green", "blue", "pink", "orange"], 0, "Grass is green.", "Cỏ có màu xanh lá.", undefined],

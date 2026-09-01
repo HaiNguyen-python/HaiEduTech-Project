@@ -261,7 +261,7 @@ const k25Rw: Tuple[] = [
   ["What did they discover?", ["They live near each other", "They both collect old coins", "They like the same sport", "They have the same birthday"], 1, "They both collect old coins.", "Cả hai đều sưu tầm tiền xu cổ.", k25pA],
   ["What happened after that?", ["They stopped talking", "They talked all the time", "They changed seats", "They joined a team"], 1, "After that the conversation never stopped.", "Sau đó hai bạn nói chuyện không ngừng.", k25pA],
   ["What makes friendship easier?", ["Sitting together", "Sharing an activity", "Being the same age", "Living nearby"], 1, "Sharing an activity makes it easier.", "Cùng tham gia hoạt động giúp kết bạn dễ hơn.", k25pB],
-  ["When does the club meet?", ["Before school", "At lunchtime", "After school", "At the weekend"], 1, "It is a lunchtime club.", "Câu lạc bộ họp giờ ăn trưa.", k25pB],
+  ["At what point in the day does the new club meet?", ["Before school", "At lunchtime", "After school", "At the weekend"], 1, "It is a lunchtime club for new students.", "Đó là câu lạc bộ vào giờ ăn trưa.", k25pB],
   ["What do they do there?", ["Play board games", "Study maths", "Play football", "Sing"], 0, "New students play board games with older ones.", "Học sinh mới chơi cờ bàn với các anh chị.", k25pB],
   ["Who had the idea?", ["A teacher", "A student", "A parent", "The head teacher"], 1, "The idea came from a student.", "Ý tưởng đến từ một học sinh.", k25pB],
   ["How many people joined this year?", ["About twenty", "About thirty", "About forty", "About fifty"], 1, "Almost thirty people joined.", "Gần ba mươi bạn tham gia.", k25pB],
