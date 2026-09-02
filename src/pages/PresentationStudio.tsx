@@ -98,6 +98,8 @@ const PresentationStudio = () => {
   const [ai, setAi] = useState<AiCoach | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [countdown, setCountdown] = useState(0);      // 3-2-1 lead-in
+  const [promptRunning, setPromptRunning] = useState(false);
 
   // ---- refs --------------------------------------------------------------
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -115,6 +117,7 @@ const PresentationStudio = () => {
   const scrollRafRef = useRef<number | null>(null);
   const scrollSpeedRef = useRef(scrollSpeed);
   const runningRef = useRef(false);
+  const countdownRef = useRef<number | null>(null);
 
   useEffect(() => { scrollSpeedRef.current = scrollSpeed; }, [scrollSpeed]);
 
@@ -214,16 +217,23 @@ const PresentationStudio = () => {
 
   // ---- teleprompter auto-scroll -----------------------------------------
   useEffect(() => {
-    if (!(recording && !paused && mode === "scripted")) {
+    if (!(promptRunning && !paused && mode === "scripted")) {
       if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current);
       scrollRafRef.current = null;
       return;
     }
-    let last = performance.now();
+    const startedAt = performance.now();
+    let last = startedAt;
+    const GRACE_MS = 2000;   // hold at the top so the first lines can be read
+    const RAMP_MS = 1500;    // then ease in to full speed
     const step = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
-      promptOffsetRef.current += scrollSpeedRef.current * dt;
+      const since = now - startedAt;
+      const ramp = since <= GRACE_MS
+        ? 0
+        : Math.min(1, (since - GRACE_MS) / RAMP_MS);
+      promptOffsetRef.current += scrollSpeedRef.current * ramp * dt;
       const el = promptRef.current;
       if (el) {
         const max = Math.max(0, el.scrollHeight - el.clientHeight);
@@ -233,7 +243,7 @@ const PresentationStudio = () => {
     };
     scrollRafRef.current = requestAnimationFrame(step);
     return () => { if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current); };
-  }, [recording, paused, mode]);
+  }, [promptRunning, paused, mode]);
 
   // ---- speech recognition ------------------------------------------------
   const startRecognition = useCallback(() => {
@@ -311,8 +321,23 @@ const PresentationStudio = () => {
     promptOffsetRef.current = 0;
     if (promptRef.current) promptRef.current.scrollTop = 0;
     runningRef.current = true;
+    setPromptRunning(false);
     setRecording(true); setPaused(false);
     startRecognition();
+    // 3-2-1 lead-in before the teleprompter starts moving.
+    if (mode === "scripted") {
+      setCountdown(3);
+      let n = 3;
+      const id = window.setInterval(() => {
+        n -= 1;
+        setCountdown(n);
+        if (n <= 0) {
+          window.clearInterval(id);
+          setPromptRunning(true);
+        }
+      }, 1000);
+      countdownRef.current = id;
+    }
   };
 
   const handlePause = () => {
@@ -326,6 +351,9 @@ const PresentationStudio = () => {
 
   const handleFinish = async () => {
     runningRef.current = false;
+    if (countdownRef.current) { window.clearInterval(countdownRef.current); countdownRef.current = null; }
+    setCountdown(0);
+    setPromptRunning(false);
     stopRecognition();
     setRecording(false); setPaused(false);
     const fullText = `${baseTextRef.current} ${interim}`.trim();
@@ -515,7 +543,10 @@ const PresentationStudio = () => {
                     <span className="text-muted-foreground">{t("Tốc độ teleprompter", "Teleprompter speed")}</span>
                     <span className="font-semibold text-primary">{scrollSpeed} px/s</span>
                   </div>
-                  <Slider value={[scrollSpeed]} min={10} max={90} step={2} onValueChange={(v) => setScrollSpeed(v[0])} />
+                  <Slider value={[scrollSpeed]} min={6} max={90} step={1} onValueChange={(v) => setScrollSpeed(v[0])} />
+                  <p className="text-[11px] text-muted-foreground mt-1">
+                    {t("Khuyến nghị 18-30 px/s · có 3 giây đếm ngược và 2 giây giữ dòng đầu", "Recommended 18-30 px/s · includes a 3s countdown and a 2s hold on the first lines")}
+                  </p>
                 </div>
               )}
             </div>
