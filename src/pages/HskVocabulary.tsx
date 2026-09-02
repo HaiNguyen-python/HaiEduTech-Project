@@ -590,7 +590,7 @@ const HskVocabulary = () => {
     if (categoryFilter !== "all") words = words.filter(w => w.category === categoryFilter);
     if (showMasteredOnly) words = words.filter(w => !mastered.has(w.character));
     return words;
-  }, [search, levelFilter, categoryFilter, showMasteredOnly, mastered]);
+  }, [hskVocabData, search, levelFilter, categoryFilter, showMasteredOnly, mastered]);
 
   const totalPages = Math.ceil(filtered.length / WORDS_PER_PAGE);
   const paginated = filtered.slice((page - 1) * WORDS_PER_PAGE, page * WORDS_PER_PAGE);
@@ -726,15 +726,29 @@ const HskVocabulary = () => {
               </Tabs>
             </div>
 
-            <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
+            <p className="text-xs text-muted-foreground mb-4">
+              {vocabLoading
+                ? t("Đang tải từ vựng...", "Loading vocabulary...")
+                : `${filtered.length} ${t("kết quả", "results")}`}
+            </p>
 
             {/* Content based on mode */}
-            {viewMode === "srs" ? (
+            {vocabLoading ? (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="h-52 rounded-xl border border-border bg-secondary/40 animate-pulse" />
+                ))}
+              </div>
+            ) : viewMode === "srs" ? (
               <Suspense fallback={<TabFallback />}>
                 <HskSrsReview allWords={hskVocabData} />
               </Suspense>
             ) : viewMode === "exercise" ? (
               <HskExercise masteredWords={masteredWords} allWords={hskVocabData} t={t} />
+            ) : filtered.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground text-sm">
+                {t("Không tìm thấy từ nào khớp bộ lọc. Hãy thử đổi cấp độ hoặc chủ đề.", "No words match your filters. Try another level or topic.")}
+              </div>
             ) : (() => {
               const groups = paginated.reduce<Record<string, HskWord[]>>((acc, w) => {
                 (acc[w.category] ||= []).push(w);
