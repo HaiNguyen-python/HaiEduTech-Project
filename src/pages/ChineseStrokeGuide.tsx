@@ -28,8 +28,17 @@ import {
   type PracticeChar,
 } from "@/data/chineseStrokes";
 import { safeStorage } from "@/lib/safeStorage";
+import HanziTracePanel from "@/components/chinese/HanziTracePanel";
+import PracticeSheet from "@/components/chinese/PracticeSheet";
+import { radicalGroups, radicalQuizzes } from "@/data/chineseRadicals";
 
 const STORAGE_KEY = "chinese-stroke-progress";
+
+/** Chữ dùng cho phần tập viết và vở in - chọn từ các bộ luyện tập. */
+const traceChars: string[] = Array.from(
+  new Set(practiceSets.flatMap((s) => s.chars.map((c) => c.char))),
+).slice(0, 24);
+
 
 const speak = (text: string) => {
   stopChineseTts();
