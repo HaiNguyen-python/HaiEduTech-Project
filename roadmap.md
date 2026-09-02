@@ -8,3 +8,5 @@
 ## Cambridge YLE test board
 - [x] Collapsible dropdown per level band (compact view)
 - [x] 5 new mock exams per level (125 papers total), audit clean
+
+- [ ] IELTS Vocab practice: collocation match must not repeat the same masked phrase (e.g. three "____ analysis" rows) - ensure unique, distinguishable prompts

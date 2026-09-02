@@ -25,8 +25,17 @@ import { IELTS_EXAMPLE_VI } from "@/data/ieltsExampleVi";
 import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { pickSmartDistractors, isQuestionFair, maskWord, ipaSyllables, gradeWrittenDefinition } from "@/lib/vocab/questionQuality";
+import { safeStorage } from "@/lib/safeStorage";
 
 const WORDS_PER_PAGE = 10;
+/** Where an unfinished practice round is cached (survives a page reload). */
+const QUIZ_STATE_KEY = "ielts_vocab_quiz_v1";
+interface SavedQuiz {
+  sig: string;
+  questions: ExQuestion[];
+  current: number;
+  score: number;
+}
 
 // Level color mapping
 const levelColors: Record<string, string> = {
@@ -402,15 +411,19 @@ type ExType =
   | "register"    // pick the academic word instead of the casual one
   | "paraGap"     // short paragraph with 3 blanks + word bank
   | "collocationMatch" // match 4 collocations with their head words
-  | "defineWrite";     // write your own definition
+  | "defineWrite"      // write your own definition
+  | "trueFalse"        // is this definition right for the word?
+  | "topicSort"        // sort 6 words into 2 IELTS topics
+  | "listenGap"        // listen to a sentence, type the missing word
+  | "sentenceBuild";   // rebuild an academic sentence from shuffled chunks
 
 // Practice focus filters offered to the learner.
 export type ExMode = "all" | "choice" | "typing" | "audio" | "speed";
 
-const TYPING_TYPES: ExType[] = ["typeWord", "dictation", "scramble", "defineWrite"];
-const AUDIO_TYPES: ExType[] = ["listening", "dictation", "ipa"];
+const TYPING_TYPES: ExType[] = ["typeWord", "dictation", "scramble", "defineWrite", "listenGap", "sentenceBuild"];
+const AUDIO_TYPES: ExType[] = ["listening", "dictation", "ipa", "listenGap"];
 /** Types with their own multi-answer UI (graded all-or-nothing). */
-const MULTI_TYPES: ExType[] = ["paraGap", "collocationMatch"];
+const MULTI_TYPES: ExType[] = ["paraGap", "collocationMatch", "topicSort"];
 /** Fast recognition types used by the 60-second speed round. */
 const SPEED_TYPES: ExType[] = ["meaning", "reverse", "defEn", "topic", "wordForm", "synonym"];
 
@@ -421,15 +434,23 @@ interface ExQuestion {
   options: string[];
   correct: number;
   hint?: string;
+  /**
+   * The word the feedback panel should explain. For most types this is the
+   * target word, but for "odd one out" the correct answer is a DIFFERENT word,
+   * so the explanation must describe that one instead.
+   */
+  answerWord?: IeltsWord;
+  /** antonymOdd: topic of the odd word, used in the explanation line. */
+  oddTopic?: string;
   /** Present for typing questions - the expected text answer. */
   answerText?: string;
   /** Reference definition used to grade a written definition. */
   refDef?: string;
   /** paraGap: masked sentences + their answers. */
   gaps?: { sentence: string; answer: string }[];
-  /** paraGap: word bank shown to the learner. */
+  /** paraGap / sentenceBuild: word (or chunk) bank shown to the learner. */
   bank?: string[];
-  /** collocationMatch: masked collocation -> head word. */
+  /** collocationMatch / topicSort: prompt -> correct choice. */
   pairs?: { left: string; right: string }[];
 }
 
@@ -519,6 +540,10 @@ const buildQuestions = (
     if (w.collocations && w.collocations.length > 0) candidates.push("collocation", "collocationMatch");
     if (hasExample) candidates.push("paraGap");
     if (familyOf(w, distractorPool).length >= 3 && hasExample) candidates.push("wordFamily");
+    candidates.push("trueFalse");
+    if (hasExample) candidates.push("listenGap");
+    if (hasExample && w.example.split(/\s+/).length >= 6) candidates.push("sentenceBuild");
+    if (w.category) candidates.push("topicSort");
     if (!w.partOfSpeech) candidates = candidates.filter(c => c !== "wordForm");
     if (!w.ipa) candidates = candidates.filter(c => c !== "ipa");
 
@@ -607,6 +632,10 @@ const buildQuestions = (
         options: group,
         correct: group.indexOf(odd.word),
         hint: w.category,
+        // The correct answer is the ODD word, so the feedback panel must
+        // explain that word - not the target the question was built from.
+        answerWord: odd,
+        oddTopic: odd.category,
       };
     }
     if (type === "reverse") {
@@ -665,15 +694,38 @@ const buildQuestions = (
         .filter(x => x.word !== w.word && x.collocations && x.collocations.length > 0)
         .flatMap(x => (x.collocations || []).map(c => maskWord(c, x.word)));
       // Every option now carries a blank, so the gap is no longer a tell.
-      const wrongs = shuffle(collPool.filter(c => c !== correctColl && c.includes("___"))).slice(0, 3);
+      // Distractors must also be distinct from each other, otherwise two
+      // options read exactly the same and the question is unanswerable.
+      const wrongs = Array.from(new Set(
+        shuffle(collPool.filter(c => c !== correctColl && c.includes("___")))
+      )).slice(0, 3);
       const q = wrongs.length === 3 ? mkChoice(type, w, w.word, correctColl, wrongs) : null;
       return q || meaningQ(w);
     }
     if (type === "collocationMatch") {
-      const mates = shuffle(distractorPool.filter(x => x.word !== w.word && x.collocations && x.collocations.length > 0)).slice(0, 3);
+      // Every row must be visually distinct. Words often share the same
+      // partner ("___ analysis"), which used to produce 3 identical rows.
+      const used = new Set<string>();
+      const pickUnique = (x: IeltsWord): string | null => {
+        for (const c of x.collocations || []) {
+          const masked = maskWord(c, x.word);
+          const key = normalizeText(masked);
+          if (masked.includes("___") && !used.has(key)) { used.add(key); return masked; }
+        }
+        return null;
+      };
+      const firstLeft = pickUnique(w);
+      if (!firstLeft) return meaningQ(w);
+      const mates: IeltsWord[] = [];
+      const lefts: string[] = [firstLeft];
+      for (const cand of shuffle(distractorPool.filter(x => x.word !== w.word && x.collocations && x.collocations.length > 0))) {
+        if (mates.length >= 3) break;
+        const l = pickUnique(cand);
+        if (l) { mates.push(cand); lefts.push(l); }
+      }
       if (mates.length < 3) return meaningQ(w);
       const group = [w, ...mates];
-      const pairs = group.map(x => ({ left: maskWord(x.collocations![0], x.word), right: x.word }));
+      const pairs = group.map((x, i) => ({ left: lefts[i], right: x.word }));
       return {
         type,
         word: w,
@@ -715,6 +767,51 @@ const buildQuestions = (
       const q = wrongExamples.length === 3 ? mkChoice(type, w, w.word, maskedCorrect, wrongExamples) : null;
       return q || meaningQ(w);
     }
+    if (type === "trueFalse") {
+      // Half of the statements are true, half swap in a same-POS definition.
+      const showTrue = idx % 2 === 0;
+      const other = smart(w, 1, x => x.definition.en)[0];
+      if (!showTrue && !other) return meaningQ(w);
+      const shown = showTrue ? w.definition.en : other.definition.en;
+      return {
+        type,
+        word: w,
+        prompt: shown,
+        options: ["TRUE", "FALSE"],
+        correct: showTrue ? 0 : 1,
+        hint: showTrue ? undefined : w.definition.en,
+        answerWord: w,
+      };
+    }
+    if (type === "topicSort") {
+      const otherCat = shuffle(IELTS_CATEGORIES.filter(c => c && c !== w.category))[0];
+      const mine = shuffle(distractorPool.filter(x => x.category === w.category && x.word !== w.word)).slice(0, 2);
+      const theirs = shuffle(distractorPool.filter(x => x.category === otherCat)).slice(0, 3);
+      if (!otherCat || mine.length < 2 || theirs.length < 3) return meaningQ(w);
+      const pairs = shuffle([...[w, ...mine], ...theirs].map(x => ({ left: x.word, right: x.category })));
+      return { type, word: w, prompt: "", options: shuffle([w.category, otherCat]), correct: 0, pairs, answerWord: w };
+    }
+    if (type === "listenGap") {
+      const masked = maskWord(w.example, w.word);
+      if (!masked.includes("___")) return meaningQ(w);
+      return { type, word: w, prompt: masked, options: [], correct: 0, answerText: w.word, hint: w.definition.vi };
+    }
+    if (type === "sentenceBuild") {
+      const parts = w.example.trim().split(/\s+/);
+      const chunks: string[] = [];
+      for (let i = 0; i < parts.length; i += 3) chunks.push(parts.slice(i, i + 3).join(" "));
+      if (chunks.length < 3) return meaningQ(w);
+      return {
+        type,
+        word: w,
+        prompt: "",
+        options: [],
+        correct: 0,
+        answerText: w.example.trim(),
+        bank: shuffle(chunks),
+        hint: w.definition.vi,
+      };
+    }
     // Default: meaning
     return meaningQ(w);
   };
@@ -744,6 +841,10 @@ const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
   paraGap: { vi: "Điền 3 chỗ trống với word bank", en: "Paragraph gaps with word bank", emoji: "📝" },
   collocationMatch: { vi: "Nối cụm từ với từ đúng", en: "Match the collocations", emoji: "🔀" },
   defineWrite: { vi: "Tự viết định nghĩa", en: "Write your own definition", emoji: "🖊️" },
+  trueFalse: { vi: "Đúng hay Sai?", en: "True or False?", emoji: "⚖️" },
+  topicSort: { vi: "Phân loại từ theo chủ đề", en: "Sort words into topics", emoji: "🗃️" },
+  listenGap: { vi: "Nghe câu và điền từ còn thiếu", en: "Listen & type the missing word", emoji: "🎧" },
+  sentenceBuild: { vi: "Ghép mảnh thành câu hoàn chỉnh", en: "Build the sentence", emoji: "🧱" },
 };
 
 const MODE_LABELS: Record<ExMode, { vi: string; en: string }> = {
@@ -784,6 +885,8 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
 }) => {
   const [questions, setQuestions] = useState<ExQuestion[]>([]);
   const [current, setCurrent] = useState(0);
+  /** True once we tried to restore a saved round (only attempted once). */
+  const restoredRef = useRef(false);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
@@ -862,7 +965,42 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
     })();
   }, [finished]);
 
-  useEffect(() => { generateQuiz(); }, [generateQuiz]);
+  // Only build a new deck when something the student actually changed moves
+  // (number of questions, focus, or the size of their word bank). Re-renders
+  // caused by switching tabs must never reset the quiz back to question 1.
+  const deckSigRef = useRef<string>("");
+  useEffect(() => {
+    const sig = `${words.length}|${quizSize}|${mode}`;
+    if (sig === deckSigRef.current) return;
+    deckSigRef.current = sig;
+    // Restore an unfinished session (e.g. after a page reload) once.
+    if (!restoredRef.current) {
+      restoredRef.current = true;
+      const saved = safeStorage.get<SavedQuiz>(QUIZ_STATE_KEY);
+      if (saved && saved.sig === sig && Array.isArray(saved.questions) && saved.questions.length > 0 && saved.current < saved.questions.length) {
+        setQuestions(saved.questions);
+        setCurrent(saved.current);
+        setScore(saved.score);
+        return;
+      }
+    }
+    generateQuiz();
+  }, [words.length, quizSize, mode, generateQuiz]);
+
+  // Persist the in-progress deck so a refresh does not wipe the round.
+  useEffect(() => {
+    if (questions.length === 0 || finished) return;
+    safeStorage.set(QUIZ_STATE_KEY, {
+      sig: `${words.length}|${quizSize}|${mode}`,
+      questions,
+      current,
+      score,
+    } satisfies SavedQuiz);
+  }, [questions, current, score, finished, words.length, quizSize, mode]);
+
+  useEffect(() => {
+    if (finished) safeStorage.remove(QUIZ_STATE_KEY);
+  }, [finished]);
 
   // Record one answer into the per-type stats + wrong list.
   const record = (q: ExQuestion, correct: boolean) => {
@@ -1186,6 +1324,80 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
               ))}
             </div>
           </>
+        ) : q.type === "topicSort" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-3">
+              {t("Xếp mỗi từ vào đúng chủ đề IELTS:", "Sort each word into the right IELTS topic:")}
+            </p>
+            <div className="space-y-3">
+              {(q.pairs || []).map((p, pi) => (
+                <div key={pi} className="space-y-1">
+                  <p className="text-sm font-semibold text-foreground">{pi + 1}. {p.left}</p>
+                  <select
+                    value={multi[pi] || ""}
+                    onChange={e => setMulti(prev => ({ ...prev, [pi]: e.target.value }))}
+                    disabled={multiResult !== null}
+                    className={`w-full rounded-lg border-2 bg-background px-3 py-2 text-sm ${
+                      multiResult === null ? "border-border"
+                        : normalizeText(multi[pi] || "") === normalizeText(p.right) ? "border-green-500" : "border-red-500"
+                    }`}
+                  >
+                    <option value="">{t("-- chọn chủ đề --", "-- choose a topic --")}</option>
+                    {q.options.map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                  {multiResult !== null && normalizeText(multi[pi] || "") !== normalizeText(p.right) && (
+                    <p className="text-xs text-red-500">{t("Đáp án:", "Answer:")} {p.right}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+        ) : q.type === "trueFalse" ? (
+          <>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
+              <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+                <Volume2 className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+            <p className="text-base text-foreground leading-relaxed">"{q.prompt}"</p>
+            <p className="text-sm text-muted-foreground mt-2">
+              {t("Định nghĩa trên có đúng với từ này không?", "Is this definition correct for the word?")}
+            </p>
+          </>
+        ) : q.type === "listenGap" ? (
+          <div className="flex flex-col items-center gap-3 py-2">
+            <button
+              onClick={() => speak(q.word.example)}
+              className="p-6 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+            >
+              <Volume2 className="w-10 h-10 text-primary" />
+            </button>
+            <p className="text-sm text-muted-foreground">
+              {t("Nghe cả câu, rồi gõ từ còn thiếu:", "Listen to the sentence, then type the missing word:")}
+            </p>
+            <p className="text-base text-foreground italic text-center leading-relaxed">{q.prompt}</p>
+            {q.hint && <p className="text-xs italic text-muted-foreground">{t("Gợi ý:", "Hint:")} {q.hint}</p>}
+          </div>
+        ) : q.type === "sentenceBuild" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">
+              {t("Nhấn từng mảnh theo thứ tự để tạo thành câu hoàn chỉnh:", "Tap the chunks in order to rebuild the sentence:")}
+            </p>
+            <p className="text-sm italic text-muted-foreground mb-3">{t("Nghĩa:", "Meaning:")} {q.hint}</p>
+            <div className="flex flex-wrap gap-2">
+              {(q.bank || []).map((c, ci) => (
+                <button
+                  key={`${c}-${ci}`}
+                  disabled={typedResult !== null}
+                  onClick={() => setTyped(prev => (prev ? `${prev} ${c}` : c))}
+                  className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-sm text-primary hover:bg-primary/20 disabled:opacity-50"
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </>
         ) : q.type === "collocationMatch" ? (
           <>
             <p className="text-xs text-muted-foreground mb-3">
@@ -1336,6 +1548,11 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
               }`}
             />
           )}
+          {q.type === "sentenceBuild" && typedResult === null && typed && (
+            <Button variant="ghost" size="sm" className="mt-2" onClick={() => setTyped("")}>
+              <RotateCcw className="mr-1 h-3 w-3" /> {t("Xoá và ghép lại", "Clear and rebuild")}
+            </Button>
+          )}
           {typedResult === null ? (
             <Button onClick={checkTyped} disabled={!typed.trim()} className="mt-4 w-full">
               {t("Kiểm tra", "Check")}
@@ -1384,24 +1601,43 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
         })}
       </div>
       )}
-      {(selected !== null || typedResult !== null || multiResult !== null) && (
+      {(selected !== null || typedResult !== null || multiResult !== null) && (() => {
+        // The panel must explain the word behind the CORRECT answer. For the
+        // odd-one-out task that is the odd word, not the target word.
+        const ex = q.answerWord || q.word;
+        return (
         <div className="mt-6 space-y-3">
           {/* Why panel: full meaning + the example we hid while answering. */}
           <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm">
-            <p className="font-semibold text-foreground">
-              {q.word.word} <span className="font-mono text-xs text-muted-foreground">{q.word.ipa}</span>
-              {q.word.partOfSpeech && <span className="ml-2 text-xs text-muted-foreground">({q.word.partOfSpeech})</span>}
-            </p>
-            <p className="mt-1 text-muted-foreground">{q.word.definition.en}</p>
-            <p className="text-muted-foreground">{q.word.definition.vi}</p>
-            {q.word.example && (
-              <p className="mt-2 italic text-foreground">
-                <span className="not-italic font-bold text-primary">E.g. </span>{q.word.example}
+            {q.type === "antonymOdd" && (
+              <p className="mb-2 text-xs text-foreground">
+                <span className="font-semibold text-primary">{t("Vì sao:", "Why:")}</span>{" "}
+                {t(
+                  `"${ex.word}" thuộc chủ đề "${q.oddTopic || ex.category}", ba từ còn lại thuộc chủ đề "${q.hint || q.word.category}".`,
+                  `"${ex.word}" belongs to "${q.oddTopic || ex.category}", while the other three belong to "${q.hint || q.word.category}".`
+                )}
               </p>
             )}
-            {q.word.collocations && q.word.collocations.length > 0 && (
+            <p className="font-semibold text-foreground">
+              {ex.word} <span className="font-mono text-xs text-muted-foreground">{ex.ipa}</span>
+              {ex.partOfSpeech && <span className="ml-2 text-xs text-muted-foreground">({ex.partOfSpeech})</span>}
+            </p>
+            <p className="mt-1 text-muted-foreground">{ex.definition.en}</p>
+            <p className="text-muted-foreground">{ex.definition.vi}</p>
+            {ex.example && (
+              <p className="mt-2 italic text-foreground">
+                <span className="not-italic font-bold text-primary">E.g. </span>{ex.example}
+              </p>
+            )}
+            {ex.collocations && ex.collocations.length > 0 && (
               <p className="mt-2 text-xs text-muted-foreground">
-                {t("Cụm thường dùng:", "Common collocations:")} {q.word.collocations.slice(0, 3).join(" · ")}
+                {t("Cụm thường dùng:", "Common collocations:")} {ex.collocations.slice(0, 3).join(" · ")}
+              </p>
+            )}
+            {q.type === "antonymOdd" && ex.word !== q.word.word && (
+              <p className="mt-3 border-t border-primary/20 pt-2 text-xs text-muted-foreground">
+                {t("Từ đang ôn:", "Word under review:")}{" "}
+                <span className="font-semibold text-foreground">{q.word.word}</span> - {q.word.definition.vi}
               </p>
             )}
           </div>
@@ -1412,7 +1648,8 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
             </Button>
           </div>
         </div>
-      )}
+        );
+      })()}
 
     </div>
   );
@@ -1476,6 +1713,13 @@ const IeltsVocabulary = () => {
 
   const totalPages = Math.ceil(filtered.length / WORDS_PER_PAGE);
   const paginated = filtered.slice((page - 1) * WORDS_PER_PAGE, page * WORDS_PER_PAGE);
+
+  // Stable reference: a fresh array on every render used to regenerate the
+  // whole quiz and send the student back to question 1.
+  const masteredWords = useMemo(
+    () => ieltsVocabData.filter(w => mastered.has(w.word)),
+    [mastered]
+  );
 
   // Reset page when filters change
   useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
@@ -1557,10 +1801,14 @@ const IeltsVocabulary = () => {
 
             <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
+            {/* The practice tab stays mounted (just hidden) so switching tabs
+                never throws away the quiz the student is in the middle of. */}
+            <div className={viewMode === "exercise" ? "" : "hidden"}>
+              <VocabExercise words={masteredWords} allWords={ieltsVocabData} t={t} priorityWords={missionWords} />
+            </div>
+
             {/* Content based on mode */}
-            {viewMode === "exercise" ? (
-              <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} priorityWords={missionWords} />
-            ) : viewMode === "flashcard" ? (
+            {viewMode === "exercise" ? null : viewMode === "flashcard" ? (
               <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
               // Group paginated words by category so each topic shows its own section
