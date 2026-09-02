@@ -317,8 +317,8 @@ const ToneDrillRoom = () => {
       <SEO
         title={t("Tone Drill 四声训练 - Luyện Thanh Điệu Tiếng Trung | HaiEduTech", "Tone Drill 四声训练 - Chinese Tone Trainer | HaiEduTech")}
         description={t(
-          "Luyện 4 thanh điệu + thanh nhẹ tiếng Trung qua 3 chế độ: nhận diện thanh, minimal pair, và quy tắc biến điệu (sandhi).",
-          "Master Chinese tones through 3 modes: tone identification, minimal pairs, and tone sandhi rules.",
+          "Luyện 4 thanh điệu + thanh nhẹ tiếng Trung qua 4 chế độ: nhận diện thanh, tổ hợp thanh 2 âm tiết, minimal pair và quy tắc biến điệu (sandhi), kèm thu âm so đường cao độ.",
+          "Master Chinese tones through 4 modes: tone identification, two-syllable tone pairs, minimal pairs and tone sandhi, with mic pitch feedback.",
         )}
         path="/chinese/tone-drill"
       />
@@ -343,7 +343,7 @@ const ToneDrillRoom = () => {
                   Tone Drill <span className="text-amber-500">四声训练</span>
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  {t("Luyện 4 thanh + thanh nhẹ với 3 chế độ tương tác", "Train 4 tones + neutral with 3 interactive modes")}
+                  {t("Luyện 4 thanh + thanh nhẹ với 4 chế độ tương tác và thu âm phản hồi", "Train 4 tones + neutral with 4 interactive modes and mic feedback")}
                 </p>
               </div>
             </div>
@@ -357,13 +357,57 @@ const ToneDrillRoom = () => {
                 <Trophy className="w-4 h-4" /> {t("Chuỗi", "Streak")}: {streak}
               </span>
             </div>
+
+            {/* Độ chính xác từng thanh */}
+            <div className="grid grid-cols-5 gap-2 mt-4">
+              {([1, 2, 3, 4, 0] as ToneNumber[]).map((tn) => {
+                const s = toneStats[String(tn)] ?? { c: 0, t: 0 };
+                const acc = s.t > 0 ? Math.round((s.c / s.t) * 100) : null;
+                return (
+                  <div key={tn} className="rounded-xl bg-card/70 border border-border p-2 text-center">
+                    <div className={cn("w-6 h-6 rounded-full mx-auto mb-1 flex items-center justify-center text-white text-xs font-bold", TONE_META[tn].color)}>
+                      {tn === 0 ? "·" : tn}
+                    </div>
+                    <div className={cn("text-sm font-bold", acc === null ? "text-muted-foreground" : acc >= 70 ? "text-emerald-600" : "text-amber-600")}>
+                      {acc === null ? "-" : `${acc}%`}
+                    </div>
+                    <div className="text-[10px] text-muted-foreground">{s.t} {t("câu", "qs")}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {weakTone !== null && !weakOnly && (
+              <div className="mt-3 rounded-xl p-3 bg-rose-500/10 border border-rose-500/30 flex flex-wrap items-center gap-3">
+                <span className="text-sm text-foreground">
+                  ⚠️ {t(
+                    `Thanh ${weakTone === 0 ? "nhẹ" : weakTone} của bạn còn yếu.`,
+                    `Your ${weakTone === 0 ? "neutral" : `tone ${weakTone}`} accuracy is still low.`,
+                  )}
+                </span>
+                <Button size="sm" onClick={drillWeakTone} className="bg-gradient-to-r from-amber-500 to-red-500 text-white">
+                  {t("Luyện riêng thanh này", "Drill my weak tone")}
+                </Button>
+              </div>
+            )}
+            {weakOnly && (
+              <div className="mt-3 rounded-xl p-3 bg-amber-500/10 border border-amber-500/30 flex flex-wrap items-center gap-3">
+                <span className="text-sm text-foreground">
+                  🎯 {t("Đang lọc theo thanh yếu của bạn.", "Filtered to your weak tone.")}
+                </span>
+                <Button size="sm" variant="outline" onClick={clearWeakFilter}>
+                  {t("Quay lại tất cả", "Back to all tones")}
+                </Button>
+              </div>
+            )}
           </motion.div>
 
           {/* Mode tabs */}
-          <div className="grid grid-cols-3 gap-2 mb-6">
-            {(["identify", "minimal", "sandhi"] as Mode[]).map((m) => {
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+            {(["identify", "pairs", "minimal", "sandhi"] as Mode[]).map((m) => {
               const labels: Record<Mode, [string, string, string]> = {
                 identify: ["🎧 Nhận diện thanh", "🎧 Identify Tone", "Listen & pick tone"],
+                pairs: ["🧩 Tổ hợp thanh", "🧩 Tone Pairs", "Two-syllable combos"],
                 minimal: ["🔁 Minimal Pair", "🔁 Minimal Pair", "Distinguish near pairs"],
                 sandhi: ["📐 Biến điệu", "📐 Sandhi Rules", "3-3, bù, yī rules"],
               };
@@ -383,6 +427,7 @@ const ToneDrillRoom = () => {
               );
             })}
           </div>
+
 
           {/* Body */}
           {mode === "identify" && single && (
