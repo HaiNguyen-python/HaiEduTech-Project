@@ -56,14 +56,14 @@ const CharCard = ({ char, meta, size = 120 }: { char: string; meta?: PracticeCha
 };
 
 const Quiz = ({ onScore }: { onScore: (score: number) => void }) => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
 
   const q = strokeQuizzes[idx];
-  const options = t("vi", "en") === "vi" ? q.options : q.optionsEn ?? q.options;
+  const options = lang === "vi" ? q.options : (q.optionsEn ?? q.options);
 
   const next = () => {
     if (picked === null) return;
@@ -159,7 +159,7 @@ const ChineseStrokeGuide = () => {
   const { t } = useLanguage();
   const [activeSet, setActiveSet] = useState(practiceSets[0].id);
   const [lookup, setLookup] = useState("");
-  const [bestScore, setBestScore] = useState<number>(() => safeStorage.get<number>(STORAGE_KEY, 0));
+  const [bestScore, setBestScore] = useState<number>(() => safeStorage.get<number>(STORAGE_KEY, 0) ?? 0);
 
   const currentSet = useMemo(
     () => practiceSets.find((s) => s.id === activeSet) ?? practiceSets[0],
