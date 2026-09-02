@@ -76,7 +76,6 @@ const LessonQuiz = ({ lesson, onDone }: { lesson: PronLesson; onDone: (score: nu
   const next = () => {
     if (idx + 1 >= lesson.quiz.length) {
       setFinished(true);
-      onDone(score + (picked === q.answer ? 0 : 0), lesson.quiz.length);
       return;
     }
     setIdx(i => i + 1);
