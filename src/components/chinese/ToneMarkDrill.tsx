@@ -31,7 +31,7 @@ const ToneMarkDrill = () => {
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const best = useMemo(() => Number(safeStorage.getItem(KEY) ?? 0), [done]);
+  const best = useMemo(() => Number(safeStorage.get<number>(KEY, 0) ?? 0), [done]);
 
   const item = queue[idx];
 
@@ -44,7 +44,7 @@ const ToneMarkDrill = () => {
   const next = () => {
     if (idx + 1 >= queue.length) {
       const pct = Math.round(((score) / queue.length) * 100);
-      if (pct > best) safeStorage.setItem(KEY, String(pct));
+      if (pct > best) safeStorage.set(KEY, pct);
       setDone(true);
       return;
     }
