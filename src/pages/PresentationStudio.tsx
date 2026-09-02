@@ -18,6 +18,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -26,8 +28,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import {
   PRESENTATION_SCENARIOS, analyzeSession, countFillers, countWords, findSignposts,
-  isStressWord, paceLabel, tokenizeTranscript, type StudioMode, type StudioReport,
+  isStressWord, paceLabel, tokenizeTranscript, buildCustomScenario,
+  type StudioMode, type StudioReport,
 } from "@/lib/presentationStudio";
+
+const CUSTOM_STORAGE_KEY = "presentation-custom-script";
 
 interface AiCoach {
   strengths: string[];
@@ -48,10 +53,38 @@ const PresentationStudio = () => {
   const [mode, setMode] = useState<StudioMode>("scripted");
   const [targetWpm, setTargetWpm] = useState(140);
   const [targetMinutes, setTargetMinutes] = useState(2);
-  const [scrollSpeed, setScrollSpeed] = useState(38); // px per second
+  const [scrollSpeed, setScrollSpeed] = useState(22); // px per second (gentle default)
+
+  // ---- custom (external) script -----------------------------------------
+  const [customDraft, setCustomDraft] = useState("");
+  const [customAudience, setCustomAudience] = useState("");
+  const [customActive, setCustomActive] = useState(false);
+  const [customScript, setCustomScript] = useState("");
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CUSTOM_STORAGE_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw) as { script?: string; audience?: string; active?: boolean };
+      if (saved.script) {
+        setCustomDraft(saved.script);
+        if (saved.active) { setCustomScript(saved.script); setCustomActive(true); }
+      }
+      if (saved.audience) setCustomAudience(saved.audience);
+    } catch { /* ignore */ }
+  }, []);
+
+  const persistCustom = useCallback((script: string, audience: string, active: boolean) => {
+    try {
+      localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify({ script, audience, active }));
+    } catch { /* ignore */ }
+  }, []);
+
   const scenario = useMemo(
-    () => PRESENTATION_SCENARIOS.find((s) => s.id === scenarioId) ?? PRESENTATION_SCENARIOS[0],
-    [scenarioId],
+    () => (customActive && customScript.trim()
+      ? buildCustomScenario(customScript, customAudience)
+      : PRESENTATION_SCENARIOS.find((s) => s.id === scenarioId) ?? PRESENTATION_SCENARIOS[0]),
+    [customActive, customScript, customAudience, scenarioId],
   );
 
   // ---- live session state ------------------------------------------------
@@ -67,6 +100,8 @@ const PresentationStudio = () => {
   const [ai, setAi] = useState<AiCoach | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [countdown, setCountdown] = useState(0);      // 3-2-1 lead-in
+  const [promptRunning, setPromptRunning] = useState(false);
 
   // ---- refs --------------------------------------------------------------
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -84,6 +119,7 @@ const PresentationStudio = () => {
   const scrollRafRef = useRef<number | null>(null);
   const scrollSpeedRef = useRef(scrollSpeed);
   const runningRef = useRef(false);
+  const countdownRef = useRef<number | null>(null);
 
   useEffect(() => { scrollSpeedRef.current = scrollSpeed; }, [scrollSpeed]);
 
@@ -92,6 +128,8 @@ const PresentationStudio = () => {
   const fillers = useMemo(() => countFillers(`${transcript} ${interim}`), [transcript, interim]);
   const liveSignposts = useMemo(() => findSignposts(transcript), [transcript]);
   const pace = paceLabel(liveWpm);
+  const customDraftWords = useMemo(() => countWords(customDraft), [customDraft]);
+  const customDraftMinutes = Math.max(0.1, Math.round((customDraftWords / Math.max(80, targetWpm)) * 10) / 10);
 
   // ---- camera ------------------------------------------------------------
   const stopMedia = useCallback(() => {
@@ -183,16 +221,23 @@ const PresentationStudio = () => {
 
   // ---- teleprompter auto-scroll -----------------------------------------
   useEffect(() => {
-    if (!(recording && !paused && mode === "scripted")) {
+    if (!(promptRunning && !paused && mode === "scripted")) {
       if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current);
       scrollRafRef.current = null;
       return;
     }
-    let last = performance.now();
+    const startedAt = performance.now();
+    let last = startedAt;
+    const GRACE_MS = 2000;   // hold at the top so the first lines can be read
+    const RAMP_MS = 1500;    // then ease in to full speed
     const step = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
-      promptOffsetRef.current += scrollSpeedRef.current * dt;
+      const since = now - startedAt;
+      const ramp = since <= GRACE_MS
+        ? 0
+        : Math.min(1, (since - GRACE_MS) / RAMP_MS);
+      promptOffsetRef.current += scrollSpeedRef.current * ramp * dt;
       const el = promptRef.current;
       if (el) {
         const max = Math.max(0, el.scrollHeight - el.clientHeight);
@@ -202,7 +247,7 @@ const PresentationStudio = () => {
     };
     scrollRafRef.current = requestAnimationFrame(step);
     return () => { if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current); };
-  }, [recording, paused, mode]);
+  }, [promptRunning, paused, mode]);
 
   // ---- speech recognition ------------------------------------------------
   const startRecognition = useCallback(() => {
@@ -280,8 +325,23 @@ const PresentationStudio = () => {
     promptOffsetRef.current = 0;
     if (promptRef.current) promptRef.current.scrollTop = 0;
     runningRef.current = true;
+    setPromptRunning(false);
     setRecording(true); setPaused(false);
     startRecognition();
+    // 3-2-1 lead-in before the teleprompter starts moving.
+    if (mode === "scripted") {
+      setCountdown(3);
+      let n = 3;
+      const id = window.setInterval(() => {
+        n -= 1;
+        setCountdown(n);
+        if (n <= 0) {
+          window.clearInterval(id);
+          setPromptRunning(true);
+        }
+      }, 1000);
+      countdownRef.current = id;
+    }
   };
 
   const handlePause = () => {
@@ -295,6 +355,9 @@ const PresentationStudio = () => {
 
   const handleFinish = async () => {
     runningRef.current = false;
+    if (countdownRef.current) { window.clearInterval(countdownRef.current); countdownRef.current = null; }
+    setCountdown(0);
+    setPromptRunning(false);
     stopRecognition();
     setRecording(false); setPaused(false);
     const fullText = `${baseTextRef.current} ${interim}`.trim();
@@ -436,6 +499,59 @@ const PresentationStudio = () => {
               </Select>
               <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{scenario.prompt}</p>
               <Badge variant="secondary" className="mt-3">{scenario.audience}</Badge>
+              {customActive && (
+                <Badge className="mt-3 ml-2">{t("Đang dùng kịch bản của bạn", "Using your own script")}</Badge>
+              )}
+            </div>
+
+            {/* Custom / external script */}
+            <div className="glass-card rounded-2xl p-4 border border-border/60">
+              <h2 className="text-sm font-semibold flex items-center gap-2 mb-3">
+                <ScrollText className="w-4 h-4 text-primary" />
+                {t("Kịch bản của riêng bạn", "Your own script")}
+              </h2>
+              <Textarea
+                value={customDraft}
+                onChange={(e) => { setCustomDraft(e.target.value); persistCustom(e.target.value, customAudience, customActive); }}
+                disabled={recording}
+                rows={6}
+                placeholder={t("Dán bài thuyết trình của bạn vào đây...", "Paste your presentation script here...")}
+                className="text-sm"
+              />
+              <p className="text-[11px] text-muted-foreground mt-2">
+                {customDraftWords} {t("từ", "words")} · ≈ {customDraftMinutes} {t("phút ở", "min at")} {targetWpm} WPM
+              </p>
+              <Input
+                value={customAudience}
+                onChange={(e) => { setCustomAudience(e.target.value); persistCustom(customDraft, e.target.value, customActive); }}
+                disabled={recording}
+                placeholder={t("Khán giả / ngữ cảnh (không bắt buộc)", "Audience / context (optional)")}
+                className="mt-2 text-sm"
+              />
+              <div className="flex gap-2 mt-3">
+                <Button
+                  size="sm" className="flex-1"
+                  disabled={recording || customDraft.trim().length < 20}
+                  onClick={() => {
+                    setCustomScript(customDraft);
+                    setCustomActive(true);
+                    persistCustom(customDraft, customAudience, true);
+                    promptOffsetRef.current = 0;
+                    if (promptRef.current) promptRef.current.scrollTop = 0;
+                    toast({ title: t("Đã nạp kịch bản của bạn", "Your script is loaded") });
+                  }}
+                >
+                  {t("Dùng kịch bản này", "Use this script")}
+                </Button>
+                {customActive && (
+                  <Button
+                    size="sm" variant="outline" disabled={recording}
+                    onClick={() => { setCustomActive(false); persistCustom(customDraft, customAudience, false); }}
+                  >
+                    {t("Bỏ", "Clear")}
+                  </Button>
+                )}
+              </div>
             </div>
 
             <div className="glass-card rounded-2xl p-4 border border-border/60">
@@ -484,7 +600,10 @@ const PresentationStudio = () => {
                     <span className="text-muted-foreground">{t("Tốc độ teleprompter", "Teleprompter speed")}</span>
                     <span className="font-semibold text-primary">{scrollSpeed} px/s</span>
                   </div>
-                  <Slider value={[scrollSpeed]} min={10} max={90} step={2} onValueChange={(v) => setScrollSpeed(v[0])} />
+                  <Slider value={[scrollSpeed]} min={6} max={90} step={1} onValueChange={(v) => setScrollSpeed(v[0])} />
+                  <p className="text-[11px] text-muted-foreground mt-1">
+                    {t("Khuyến nghị 18-30 px/s · có 3 giây đếm ngược và 2 giây giữ dòng đầu", "Recommended 18-30 px/s · includes a 3s countdown and a 2s hold on the first lines")}
+                  </p>
                 </div>
               )}
             </div>
@@ -562,15 +681,31 @@ const PresentationStudio = () => {
                   {mode === "scripted" ? t("Teleprompter", "Teleprompter") : t("Đề bài ứng khẩu", "Impromptu prompt")}
                 </h2>
                 {mode === "scripted" && (
-                  <Button
-                    variant="ghost" size="sm" className="gap-1 text-xs"
-                    onClick={() => { promptOffsetRef.current = 0; if (promptRef.current) promptRef.current.scrollTop = 0; }}
-                  >
-                    <RefreshCcw className="w-3.5 h-3.5" /> {t("Về đầu", "Rewind")}
-                  </Button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost" size="sm" className="gap-1 text-xs"
+                      onClick={() => setPromptRunning((r) => !r)}
+                    >
+                      {promptRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                      {promptRunning ? t("Dừng chữ chạy", "Pause scroll") : t("Chạy chữ", "Scroll")}
+                    </Button>
+                    <Button
+                      variant="ghost" size="sm" className="gap-1 text-xs"
+                      onClick={() => { promptOffsetRef.current = 0; if (promptRef.current) promptRef.current.scrollTop = 0; }}
+                    >
+                      <RefreshCcw className="w-3.5 h-3.5" /> {t("Về đầu", "Rewind")}
+                    </Button>
+                  </div>
                 )}
               </div>
               {mode === "scripted" ? (
+                <div className="relative">
+                {countdown > 0 && (
+                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-xl bg-slate-950/80 backdrop-blur-sm">
+                    <span className="text-6xl font-bold text-primary-foreground">{countdown}</span>
+                    <span className="text-sm text-slate-200">{t("Hít sâu... chuẩn bị nói", "Breathe... get ready to speak")}</span>
+                  </div>
+                )}
                 <div
                   ref={promptRef}
                   className="h-56 overflow-y-auto rounded-xl bg-slate-900/95 p-5 text-slate-100 leading-relaxed text-lg sm:text-xl"
@@ -583,6 +718,7 @@ const PresentationStudio = () => {
                     )}
                   </p>
                   <div className="h-24" />
+                </div>
                 </div>
               ) : (
                 <div className="rounded-xl bg-primary/5 border border-primary/20 p-5">
