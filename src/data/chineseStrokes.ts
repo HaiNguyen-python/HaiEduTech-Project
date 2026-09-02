@@ -26,7 +26,7 @@ export interface StrokeRule {
   ruleZh: string;
   explainVi: string;
   explainEn: string;
-  examples: { char: string; pinyin: string; meaningVi: string; meaningEn: string }[];
+  examples: { char: string; pinyin: string; meaningVi: string; meaningEn: string; strokes: number }[];
 }
 
 export interface PracticeChar {
@@ -148,9 +148,9 @@ export const strokeRules: StrokeRule[] = [
     explainVi: "Viết các nét hoặc bộ phận nằm phía trên trước, rồi mới xuống phần dưới.",
     explainEn: "Write the strokes or parts at the top first, then move downward.",
     examples: [
-      { char: "三", pinyin: "sān", meaningVi: "ba", meaningEn: "three" },
-      { char: "呈", pinyin: "chéng", meaningVi: "trình bày", meaningEn: "to present" },
-      { char: "言", pinyin: "yán", meaningVi: "lời nói", meaningEn: "speech" },
+      { char: "三", pinyin: "sān", meaningVi: "ba", meaningEn: "three", strokes: 3 },
+      { char: "呈", pinyin: "chéng", meaningVi: "trình bày", meaningEn: "to present", strokes: 7 },
+      { char: "言", pinyin: "yán", meaningVi: "lời nói", meaningEn: "speech", strokes: 7 },
     ],
   },
   {
@@ -161,9 +161,9 @@ export const strokeRules: StrokeRule[] = [
     explainVi: "Với chữ có bộ bên trái và phần bên phải, luôn viết bộ bên trái trước.",
     explainEn: "For characters with a left radical and a right part, always write the left side first.",
     examples: [
-      { char: "他", pinyin: "tā", meaningVi: "anh ấy", meaningEn: "he" },
-      { char: "好", pinyin: "hǎo", meaningVi: "tốt", meaningEn: "good" },
-      { char: "地", pinyin: "dì", meaningVi: "đất", meaningEn: "earth" },
+      { char: "他", pinyin: "tā", meaningVi: "anh ấy", meaningEn: "he", strokes: 5 },
+      { char: "好", pinyin: "hǎo", meaningVi: "tốt", meaningEn: "good", strokes: 6 },
+      { char: "地", pinyin: "dì", meaningVi: "đất", meaningEn: "earth", strokes: 6 },
     ],
   },
   {
@@ -174,9 +174,9 @@ export const strokeRules: StrokeRule[] = [
     explainVi: "Khi nét ngang và nét sổ cắt nhau, viết nét ngang trước.",
     explainEn: "When a horizontal and a vertical stroke cross, write the horizontal one first.",
     examples: [
-      { char: "十", pinyin: "shí", meaningVi: "mười", meaningEn: "ten" },
-      { char: "干", pinyin: "gàn", meaningVi: "làm", meaningEn: "to do" },
-      { char: "王", pinyin: "wáng", meaningVi: "vua", meaningEn: "king" },
+      { char: "十", pinyin: "shí", meaningVi: "mười", meaningEn: "ten", strokes: 2 },
+      { char: "干", pinyin: "gàn", meaningVi: "làm", meaningEn: "to do", strokes: 3 },
+      { char: "王", pinyin: "wáng", meaningVi: "vua", meaningEn: "king", strokes: 4 },
     ],
   },
   {
@@ -187,9 +187,9 @@ export const strokeRules: StrokeRule[] = [
     explainVi: "Viết khung bao bên ngoài trước, rồi mới viết phần bên trong.",
     explainEn: "Write the enclosing frame first, then the inner part.",
     examples: [
-      { char: "月", pinyin: "yuè", meaningVi: "mặt trăng", meaningEn: "moon" },
-      { char: "同", pinyin: "tóng", meaningVi: "giống nhau", meaningEn: "same" },
-      { char: "间", pinyin: "jiān", meaningVi: "khoảng, giữa", meaningEn: "between" },
+      { char: "月", pinyin: "yuè", meaningVi: "mặt trăng", meaningEn: "moon", strokes: 4 },
+      { char: "同", pinyin: "tóng", meaningVi: "giống nhau", meaningEn: "same", strokes: 6 },
+      { char: "间", pinyin: "jiān", meaningVi: "khoảng, giữa", meaningEn: "between", strokes: 7 },
     ],
   },
   {
@@ -200,9 +200,9 @@ export const strokeRules: StrokeRule[] = [
     explainVi: "Với chữ có khung kín, viết ba cạnh khung, rồi phần bên trong, cuối cùng mới đóng nét đáy.",
     explainEn: "For fully enclosed characters, write three sides of the frame, then the inside, and close the bottom last.",
     examples: [
-      { char: "国", pinyin: "guó", meaningVi: "quốc gia", meaningEn: "country" },
-      { char: "回", pinyin: "huí", meaningVi: "quay về", meaningEn: "to return" },
-      { char: "四", pinyin: "sì", meaningVi: "bốn", meaningEn: "four" },
+      { char: "国", pinyin: "guó", meaningVi: "quốc gia", meaningEn: "country", strokes: 8 },
+      { char: "回", pinyin: "huí", meaningVi: "quay về", meaningEn: "to return", strokes: 6 },
+      { char: "四", pinyin: "sì", meaningVi: "bốn", meaningEn: "four", strokes: 5 },
     ],
   },
   {
@@ -213,9 +213,9 @@ export const strokeRules: StrokeRule[] = [
     explainVi: "Với chữ đối xứng, viết nét giữa trước, rồi nét trái, cuối cùng là nét phải.",
     explainEn: "For symmetrical characters, write the centre stroke first, then left, then right.",
     examples: [
-      { char: "小", pinyin: "xiǎo", meaningVi: "nhỏ", meaningEn: "small" },
-      { char: "水", pinyin: "shuǐ", meaningVi: "nước", meaningEn: "water" },
-      { char: "永", pinyin: "yǒng", meaningVi: "mãi mãi", meaningEn: "forever" },
+      { char: "小", pinyin: "xiǎo", meaningVi: "nhỏ", meaningEn: "small", strokes: 3 },
+      { char: "水", pinyin: "shuǐ", meaningVi: "nước", meaningEn: "water", strokes: 4 },
+      { char: "永", pinyin: "yǒng", meaningVi: "mãi mãi", meaningEn: "forever", strokes: 5 },
     ],
   },
   {
@@ -226,9 +226,9 @@ export const strokeRules: StrokeRule[] = [
     explainVi: "Khi nét phẩy và nét mác giao nhau, luôn viết nét phẩy trước.",
     explainEn: "When a left-falling and a right-falling stroke meet, always write the left-falling one first.",
     examples: [
-      { char: "人", pinyin: "rén", meaningVi: "người", meaningEn: "person" },
-      { char: "大", pinyin: "dà", meaningVi: "to lớn", meaningEn: "big" },
-      { char: "文", pinyin: "wén", meaningVi: "văn", meaningEn: "writing" },
+      { char: "人", pinyin: "rén", meaningVi: "người", meaningEn: "person", strokes: 2 },
+      { char: "大", pinyin: "dà", meaningVi: "to lớn", meaningEn: "big", strokes: 3 },
+      { char: "文", pinyin: "wén", meaningVi: "văn", meaningEn: "writing", strokes: 4 },
     ],
   },
 ];
