@@ -39,6 +39,81 @@ const traceChars: string[] = Array.from(
   new Set(practiceSets.flatMap((s) => s.chars.map((c) => c.char))),
 ).slice(0, 24);
 
+/** Vở in cần cả pinyin. */
+const sheetChars: { char: string; pinyin?: string }[] = Array.from(
+  new Map(practiceSets.flatMap((s) => s.chars).map((c) => [c.char, { char: c.char, pinyin: c.pinyin }])).values(),
+).slice(0, 24);
+
+/** Quiz bộ thủ - chọn nghĩa/vị trí đúng. */
+const RadicalQuiz = () => {
+  const { t, lang } = useLanguage();
+  const [idx, setIdx] = useState(0);
+  const [picked, setPicked] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const q = radicalQuizzes[idx];
+  const options = lang === "vi" ? q.options : q.optionsEn;
+
+  const pick = (i: number) => {
+    if (picked !== null) return;
+    setPicked(i);
+    if (i === q.answer) setScore((x) => x + 1);
+  };
+
+  const next = () => {
+    setPicked(null);
+    setIdx((i) => (i + 1) % radicalQuizzes.length);
+  };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-sm text-muted-foreground">
+          {t("Câu", "Question")} {idx + 1}/{radicalQuizzes.length}
+        </span>
+        <span className="text-sm font-semibold text-primary">
+          {t("Đúng", "Correct")}: {score}
+        </span>
+      </div>
+      <div className="flex items-center gap-3 mb-4">
+        <span className="text-4xl font-bold text-primary">{q.glyph}</span>
+        <p className="text-base text-foreground">{t(q.promptVi, q.promptEn)}</p>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {options.map((opt, i) => {
+          const right = i === q.answer;
+          const isPicked = picked === i;
+          return (
+            <button
+              key={opt}
+              onClick={() => pick(i)}
+              disabled={picked !== null}
+              className={cn(
+                "rounded-xl border-2 p-3 text-base text-left transition-all active:scale-95",
+                picked === null && "border-border hover:border-primary/40 hover:bg-primary/5 text-foreground",
+                picked !== null && right && "border-emerald-500 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+                isPicked && !right && "border-rose-500 bg-rose-500/15 text-rose-700 dark:text-rose-300",
+                picked !== null && !right && !isPicked && "border-border opacity-50 text-muted-foreground",
+              )}
+            >
+              {opt}
+              {picked !== null && right && <CheckCircle2 className="w-4 h-4 inline ml-2" />}
+              {isPicked && !right && <XCircle className="w-4 h-4 inline ml-2" />}
+            </button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 p-4">
+          <p className="text-base text-foreground">💡 {t(q.explainVi, q.explainEn)}</p>
+          <Button size="sm" className="mt-3" onClick={next}>
+            {t("Câu tiếp", "Next")}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 const speak = (text: string) => {
   stopChineseTts();
@@ -562,7 +637,7 @@ const ChineseStrokeGuide = () => {
                 "Pick characters, then print the grid to practise handwriting.",
               )}
             </p>
-            <PracticeSheet chars={traceChars} />
+            <PracticeSheet chars={sheetChars} />
           </section>
 
           {/* Quiz */}
