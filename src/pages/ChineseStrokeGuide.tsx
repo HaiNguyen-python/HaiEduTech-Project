@@ -294,7 +294,7 @@ const ChineseStrokeGuide = () => {
                           pinyin: ex.pinyin,
                           meaningVi: ex.meaningVi,
                           meaningEn: ex.meaningEn,
-                          strokes: 0,
+                          strokes: ex.strokes,
                         }}
                       />
                     ))}
