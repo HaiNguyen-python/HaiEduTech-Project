@@ -92,7 +92,177 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
       "What evidence would change your mind about spaced practice?",
     ],
   },
+  {
+    id: "job-interview",
+    label: "Job Interview: Tell Me About Yourself",
+    labelVi: "Phỏng vấn xin việc: Giới thiệu bản thân",
+    audience: "Hiring panel",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Answer 'Tell me about yourself' in 2 minutes: present role, two proof points, motivation, and why this company.",
+    script:
+      "Thank you for having me. I am an education technology specialist with five years of experience building learning products that teachers actually use.\nCurrently I lead content design at a language school, where I own the curriculum for eight hundred active learners.\nLet me give you two concrete results. First, I rebuilt our placement test, which cut misplaced students from eighteen percent to four percent in one term.\nSecond, I introduced weekly data reviews with teachers, and course completion rose from sixty-one to seventy-nine percent.\nWhat motivates me is the moment a hesitant learner speaks a full sentence without stopping. That is why I moved from classroom teaching into product work.\nAs for why your company, you are one of very few teams treating assessment as a design problem rather than a reporting problem, and that is exactly where I want to spend the next stage of my career.\nSo in short, I bring classroom credibility, measurable delivery, and a strong bias for evidence. I would be glad to walk through any of those in detail.",
+    qaSeeds: [
+      "What is the biggest professional mistake you have made, and what changed afterwards?",
+      "Why should we hire you over a candidate with more years in the industry?",
+    ],
+  },
+  {
+    id: "scholarship-interview",
+    label: "Scholarship / Visa Interview",
+    labelVi: "Phỏng vấn học bổng / visa",
+    audience: "Selection or visa officer",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Explain in 2 minutes: your study plan, why this country and programme, funding, and your return plan.",
+    script:
+      "Good morning. I am applying for the master's programme in educational data science, starting this autumn.\nMy plan is straightforward. In the first year I will complete the core courses in learning analytics and statistics, and in the second year I will write a thesis on early warning models for at-risk students.\nI chose this country because its schools publish open learning data, so my research can be validated against real cohorts rather than simulations.\nRegarding funding, my tuition is covered by the university scholarship, and my living costs are supported by family savings, with documentation included in my file.\nAfter graduation I intend to return home and join a national education programme, where dropout prediction is still done manually.\nTo summarise, this programme gives me a specific skill my country currently imports, and I have a concrete plan to bring it back. Thank you.",
+    qaSeeds: [
+      "What will you do if your scholarship is not renewed in the second year?",
+      "Why can you not study this subject in your own country?",
+    ],
+  },
+  {
+    id: "ted-idea-talk",
+    label: "TED-style Idea Talk",
+    labelVi: "Bài nói kiểu TED",
+    audience: "General public audience",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Share one idea worth spreading in 3 minutes: hook, personal story, the idea, evidence, and a call to action.",
+    script:
+      "I want to start with a confession. For three years I graded homework that nobody read.\nEvery Sunday I wrote careful comments in red ink, and every Monday those pages went straight into school bags and disappeared.\nThat led me to one idea: feedback is only feedback when the learner acts on it. Everything else is decoration.\nSo we ran a small experiment. Instead of written comments, students received one spoken sentence and had ten minutes in class to fix that exact thing.\nThe result surprised us. Error repetition dropped by more than half within a month, and the workload for teachers went down, not up.\nThink about what that means. The problem was never effort. The problem was timing.\nSo here is my ask. Next week, take one piece of feedback you would normally write, say it out loud instead, and give your learners time to use it while you are still in the room.\nSmall change, immediate return. Thank you.",
+    qaSeeds: [
+      "How would this idea survive in a class of fifty students?",
+      "What is the strongest argument against your claim?",
+    ],
+  },
+  {
+    id: "product-demo",
+    label: "Product Demo / Sales Presentation",
+    labelVi: "Demo sản phẩm / thuyết trình bán hàng",
+    audience: "Prospective client",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Run a 3-minute demo: customer pain, the workflow, one live feature, proof, pricing, next step.",
+    script:
+      "Thanks for the thirty minutes. Before I show anything, let me restate the problem you described last week.\nYour teachers spend roughly six hours a week marking speaking assignments, and parents still ask for more detail.\nHere is how our workflow changes that. A student records once, the platform returns a band score with evidence sentences, and the teacher reviews rather than marks from scratch.\nLet me show you the part that matters most: the evidence panel. Every score points to the exact phrase that earned it, so nothing looks like a black box.\nIn terms of proof, three schools of your size cut marking time by about seventy percent and increased parent report satisfaction from three-point-one to four-point-five out of five.\nOn pricing, you would be on the school plan, which is billed per active learner with no setup fee.\nAs a next step, I suggest a two-week pilot with one grade level, and I will handle the onboarding session myself. Does that work for you?",
+    qaSeeds: [
+      "How do you handle a case where your AI score disagrees with the teacher?",
+      "What happens to our data if we stop using the platform?",
+    ],
+  },
+  {
+    id: "teaching-demo",
+    label: "Classroom Teaching Demo",
+    labelVi: "Dạy thử trước hội đồng",
+    audience: "Teacher training panel",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Teach a 3-minute micro-lesson: objective, activation, model, guided practice, check for understanding.",
+    script:
+      "Good afternoon everyone. By the end of these few minutes, you will be able to describe a trend in one sentence using an adverb of degree.\nLet us start with something you already know. Look at this chart of ice cream sales. What happened between June and August?\nRight, it went up. Now I will model the sentence I want. Sales rose sharply between June and August.\nNotice three parts: the verb rose, the adverb sharply, and the time frame between June and August.\nYour turn, but with support. Using the same pattern, describe the drop in September. I will give you the verb fell and you choose the adverb.\nGood. Now the check. Hold up one finger if sharply means a small change, and two fingers if it means a large change.\nExcellent, two fingers everywhere. That tells me we can move on to gradual and slightly in the next stage.\nThat is the lesson: one pattern, one model, one immediate check.",
+    qaSeeds: [
+      "How would you support a learner who cannot produce the pattern at all?",
+      "What evidence tells you this objective was met rather than mimicked?",
+    ],
+  },
+  {
+    id: "standup-review",
+    label: "Team Stand-up & Sprint Review",
+    labelVi: "Họp nhóm & tổng kết sprint",
+    audience: "Product and engineering team",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Give a 2-minute sprint review: what shipped, what slipped, metrics, blockers, and the next sprint focus.",
+    script:
+      "Quick review of the sprint, then blockers.\nFirst, what shipped. The new speaking grader is live for all levels, and the report export is done including the bilingual layout.\nSecond, what slipped. The offline mode moved to next sprint because the caching layer failed under poor network conditions.\nOn the numbers, weekly active learners rose from nine thousand two hundred to ten thousand one hundred, and median grading time is now four seconds.\nThe main blocker is the audio storage quota. We are at eighty-eight percent, so I need a decision on retention this week rather than next.\nFor the next sprint, the focus is reliability, not features. Two engineers on offline mode, one on the storage cleanup job.\nThat is everything from me. Questions or objections before we commit?",
+    qaSeeds: [
+      "If we only ship one of the two items, which one and why?",
+      "What is the risk of delaying the storage cleanup by another sprint?",
+    ],
+  },
+  {
+    id: "celebration-toast",
+    label: "Wedding / Celebration Toast",
+    labelVi: "Phát biểu chúc mừng",
+    audience: "Friends and family",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Give a warm 2-minute toast: who you are, one story, one quality, one wish, and the raised glass.",
+    script:
+      "Good evening everyone. For those who do not know me, I am Minh, and I have had the pleasure of working beside Lan for seven years.\nI want to tell you one small story. On her very first week, our internet went down twenty minutes before a class of thirty students.\nMost of us froze. Lan picked up a marker, drew the whole lesson on the whiteboard, and the students later said it was their favourite class of the term.\nThat is the quality I admire most in her: she does not wait for perfect conditions.\nAnd Duc, you have the same habit, which is probably why the two of you make such calm decisions together.\nSo my wish is simple. May your life together be full of ordinary evenings that you would not trade for anything.\nPlease raise your glasses with me. To Lan and Duc. Congratulations.",
+    qaSeeds: [
+      "How would you shorten this toast to sixty seconds without losing the story?",
+      "Which line would you cut if the room were much more formal?",
+    ],
+  },
+  {
+    id: "debate-opening",
+    label: "Debate Opening Statement",
+    labelVi: "Phát biểu mở đầu tranh luận",
+    audience: "Debate adjudicators",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Deliver a 3-minute opening: definition, stance, two substantive arguments with impacts, and a pre-emptive rebuttal.",
+    script:
+      "Honourable adjudicators, today's motion is that smartphones should be banned in secondary schools during lesson time.\nWe define a ban as devices stored away from the learner between the first and last bell, with exceptions for medical and accessibility needs.\nWe stand in proposition, and we bring two arguments.\nOur first argument is attention. Studies of classroom interruption show that a single notification costs several minutes of recovered focus, and in a forty-five minute lesson that cost is not recoverable. The impact is measurable learning loss for the students who can least afford it.\nOur second argument is equity. When devices are present, the gap between learners with premium data plans and those without becomes visible every hour of the school day. Removing devices removes that daily reminder of difference.\nThe opposition will likely argue that phones are useful learning tools. We accept that, but usefulness is not the question. The question is whether the average lesson gains more from access than it loses from distraction, and the evidence says it does not.\nFor these reasons, we propose.",
+    qaSeeds: [
+      "How do you respond to schools that use phone-based quizzes successfully?",
+      "Who enforces the ban, and what happens when enforcement fails?",
+    ],
+  },
+  {
+    id: "research-poster",
+    label: "Science Fair / Research Poster Pitch",
+    labelVi: "Thuyết trình poster nghiên cứu",
+    audience: "Judges and visiting researchers",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Pitch your poster in 2 minutes: question, method, one figure, result, and why it matters.",
+    script:
+      "Hello, thank you for stopping by. My project asks a simple question: can a low-cost sensor predict indoor air quality well enough for a classroom?\nThe method had three stages. I built five sensors from off-the-shelf parts, ran them beside a calibrated reference monitor for six weeks, and compared readings every minute.\nIf you look at the figure in the centre of the poster, the blue line is my sensor and the grey line is the reference. They track closely until carbon dioxide passes two thousand parts per million, where my sensor begins to under-report.\nThe headline result is a correlation of zero-point-nine-four in the normal classroom range, at about one-twentieth of the cost.\nWhy does this matter? Most schools cannot afford a certified monitor per room, so they ventilate on a fixed schedule rather than on evidence.\nMy next step is a calibration correction for the high range, and I would welcome any suggestions on that. Thank you.",
+    qaSeeds: [
+      "What is your main source of measurement error, and how would you quantify it?",
+      "How would you convince a school district to trust an uncertified sensor?",
+    ],
+  },
+  {
+    id: "crisis-update",
+    label: "Crisis Communication Update",
+    labelVi: "Thông báo xử lý sự cố",
+    audience: "Affected users and staff",
+    mode: ["scripted", "impromptu"],
+    prompt:
+      "Deliver a calm 2-minute update: what happened, what is confirmed, impact, actions taken, next update time.",
+    script:
+      "Thank you all for joining at short notice. I will keep this to facts, actions, and timing.\nWhat happened: between six and nine this morning, learners were unable to submit speaking assignments. The cause was a failed storage migration on our side, not a security incident.\nWhat is confirmed: no learner recordings were lost, and no personal data was exposed. Our logs cover the full window and we have reviewed them line by line.\nThe impact: approximately two thousand three hundred submissions were delayed, and forty-one were duplicated. Duplicates are being merged today.\nActions taken: the migration is rolled back, submissions are working normally as of nine-forty, and we have added an alert that pages an engineer within sixty seconds of a submission failure.\nWhat we still owe you: a written incident report with a full timeline, and an extended deadline for every affected class.\nMy next update will be at four o'clock this afternoon, whether or not there is new information. I will take questions now.",
+    qaSeeds: [
+      "How can you be certain no data was exposed?",
+      "What prevents the same migration failure from happening again next month?",
+    ],
+  },
 ];
+
+/** Blank scenario shell used when a learner pastes their own script. */
+export const CUSTOM_SCENARIO_ID = "custom-script";
+
+export const buildCustomScenario = (script: string, audience: string): PresentationScenario => ({
+  id: CUSTOM_SCENARIO_ID,
+  label: "My own script",
+  labelVi: "Kịch bản của tôi",
+  audience: audience.trim() || "My own audience",
+  mode: ["scripted", "impromptu"],
+  prompt:
+    audience.trim()
+      ? `Deliver your own presentation to: ${audience.trim()}.`
+      : "Deliver your own pasted presentation script.",
+  script: script.trim(),
+  qaSeeds: [
+    "Which part of your script is weakest under a hostile question?",
+    "If you had thirty seconds only, which sentence would you keep?",
+  ],
+});
 
 /** Filler words tracked live. */
 export const FILLER_PATTERNS: { label: string; regex: RegExp }[] = [
