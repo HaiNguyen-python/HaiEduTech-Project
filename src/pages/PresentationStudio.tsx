@@ -624,15 +624,31 @@ const PresentationStudio = () => {
                   {mode === "scripted" ? t("Teleprompter", "Teleprompter") : t("Đề bài ứng khẩu", "Impromptu prompt")}
                 </h2>
                 {mode === "scripted" && (
-                  <Button
-                    variant="ghost" size="sm" className="gap-1 text-xs"
-                    onClick={() => { promptOffsetRef.current = 0; if (promptRef.current) promptRef.current.scrollTop = 0; }}
-                  >
-                    <RefreshCcw className="w-3.5 h-3.5" /> {t("Về đầu", "Rewind")}
-                  </Button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost" size="sm" className="gap-1 text-xs"
+                      onClick={() => setPromptRunning((r) => !r)}
+                    >
+                      {promptRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                      {promptRunning ? t("Dừng chữ chạy", "Pause scroll") : t("Chạy chữ", "Scroll")}
+                    </Button>
+                    <Button
+                      variant="ghost" size="sm" className="gap-1 text-xs"
+                      onClick={() => { promptOffsetRef.current = 0; if (promptRef.current) promptRef.current.scrollTop = 0; }}
+                    >
+                      <RefreshCcw className="w-3.5 h-3.5" /> {t("Về đầu", "Rewind")}
+                    </Button>
+                  </div>
                 )}
               </div>
               {mode === "scripted" ? (
+                <div className="relative">
+                {countdown > 0 && (
+                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-xl bg-slate-950/80 backdrop-blur-sm">
+                    <span className="text-6xl font-bold text-primary-foreground">{countdown}</span>
+                    <span className="text-sm text-slate-200">{t("Hít sâu... chuẩn bị nói", "Breathe... get ready to speak")}</span>
+                  </div>
+                )}
                 <div
                   ref={promptRef}
                   className="h-56 overflow-y-auto rounded-xl bg-slate-900/95 p-5 text-slate-100 leading-relaxed text-lg sm:text-xl"
@@ -645,6 +661,7 @@ const PresentationStudio = () => {
                     )}
                   </p>
                   <div className="h-24" />
+                </div>
                 </div>
               ) : (
                 <div className="rounded-xl bg-primary/5 border border-primary/20 p-5">
