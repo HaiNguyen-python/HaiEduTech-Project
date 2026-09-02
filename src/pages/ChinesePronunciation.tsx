@@ -18,6 +18,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import { chinesePronunciationLessons, type PronLesson } from "@/data/chinesePronunciation";
 import { safeStorage } from "@/lib/safeStorage";
+import ToneMarkDrill from "@/components/chinese/ToneMarkDrill";
 
 const STORAGE_KEY = "chinese-pronunciation-progress";
 
@@ -340,6 +341,19 @@ const ChinesePronunciation = () => {
                   />
                 ))}
               </div>
+
+              <section className="glass-card rounded-2xl p-5 sm:p-7 mt-8 border border-border">
+                <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+                  {t("Luyện đặt dấu thanh", "Tone-mark placement drill")}
+                </h2>
+                <p className="text-base text-muted-foreground mb-5">
+                  {t(
+                    "Quy tắc: có a thì a nhận dấu; không có a thì tới o, rồi e; iu đặt trên u, ui đặt trên i.",
+                    "Rule: a takes the mark first, then o, then e; iu marks the u, ui marks the i.",
+                  )}
+                </p>
+                <ToneMarkDrill />
+              </section>
             </motion.div>
           </div>
         </div>

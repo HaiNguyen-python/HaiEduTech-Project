@@ -28,8 +28,93 @@ import {
   type PracticeChar,
 } from "@/data/chineseStrokes";
 import { safeStorage } from "@/lib/safeStorage";
+import { cn } from "@/lib/utils";
+import HanziTracePanel from "@/components/chinese/HanziTracePanel";
+import PracticeSheet from "@/components/chinese/PracticeSheet";
+import { radicalGroups, radicalQuizzes } from "@/data/chineseRadicals";
 
 const STORAGE_KEY = "chinese-stroke-progress";
+
+/** Chữ dùng cho phần tập viết và vở in - chọn từ các bộ luyện tập. */
+const traceChars: string[] = Array.from(
+  new Set(practiceSets.flatMap((s) => s.chars.map((c) => c.char))),
+).slice(0, 24);
+
+/** Vở in cần cả pinyin. */
+const sheetChars: { char: string; pinyin?: string }[] = Array.from(
+  new Map(practiceSets.flatMap((s) => s.chars).map((c) => [c.char, { char: c.char, pinyin: c.pinyin }])).values(),
+).slice(0, 24);
+
+/** Quiz bộ thủ - chọn nghĩa/vị trí đúng. */
+const RadicalQuiz = () => {
+  const { t, lang } = useLanguage();
+  const [idx, setIdx] = useState(0);
+  const [picked, setPicked] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const q = radicalQuizzes[idx];
+  const options = lang === "vi" ? q.options : q.optionsEn;
+
+  const pick = (i: number) => {
+    if (picked !== null) return;
+    setPicked(i);
+    if (i === q.answer) setScore((x) => x + 1);
+  };
+
+  const next = () => {
+    setPicked(null);
+    setIdx((i) => (i + 1) % radicalQuizzes.length);
+  };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-sm text-muted-foreground">
+          {t("Câu", "Question")} {idx + 1}/{radicalQuizzes.length}
+        </span>
+        <span className="text-sm font-semibold text-primary">
+          {t("Đúng", "Correct")}: {score}
+        </span>
+      </div>
+      <div className="flex items-center gap-3 mb-4">
+        <span className="text-4xl font-bold text-primary">{q.glyph}</span>
+        <p className="text-base text-foreground">{t(q.promptVi, q.promptEn)}</p>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {options.map((opt, i) => {
+          const right = i === q.answer;
+          const isPicked = picked === i;
+          return (
+            <button
+              key={opt}
+              onClick={() => pick(i)}
+              disabled={picked !== null}
+              className={cn(
+                "rounded-xl border-2 p-3 text-base text-left transition-all active:scale-95",
+                picked === null && "border-border hover:border-primary/40 hover:bg-primary/5 text-foreground",
+                picked !== null && right && "border-emerald-500 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+                isPicked && !right && "border-rose-500 bg-rose-500/15 text-rose-700 dark:text-rose-300",
+                picked !== null && !right && !isPicked && "border-border opacity-50 text-muted-foreground",
+              )}
+            >
+              {opt}
+              {picked !== null && right && <CheckCircle2 className="w-4 h-4 inline ml-2" />}
+              {isPicked && !right && <XCircle className="w-4 h-4 inline ml-2" />}
+            </button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 p-4">
+          <p className="text-base text-foreground">💡 {t(q.explainVi, q.explainEn)}</p>
+          <Button size="sm" className="mt-3" onClick={next}>
+            {t("Câu tiếp", "Next")}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 const speak = (text: string) => {
   stopChineseTts();
@@ -474,6 +559,88 @@ const ChineseStrokeGuide = () => {
             )}
           </section>
 
+          {/* Tracing */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+              {t("Tập viết theo nét (tương tác)", "Interactive stroke tracing")}
+            </h2>
+            <p className="text-base text-muted-foreground mb-4">
+              {t(
+                "Viết trực tiếp bằng chuột hoặc ngón tay. Sai 2 lần sẽ được gợi ý nét tiếp theo.",
+                "Write with your mouse or finger. After two misses you get a hint for the next stroke.",
+              )}
+            </p>
+            <HanziTracePanel chars={traceChars} />
+          </section>
+
+          {/* Radicals */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+              {t("Bộ thủ thường gặp (40 bộ)", "Most common radicals (40)")}
+            </h2>
+            <p className="text-base text-muted-foreground mb-5">
+              {t(
+                "Bộ thủ là gợi ý nghĩa của chữ Hán - nhớ bộ thủ giúp đoán nghĩa và viết đúng thứ tự nét.",
+                "Radicals hint at a character's meaning - knowing them helps you guess meanings and write strokes in order.",
+              )}
+            </p>
+            <div className="space-y-6">
+              {radicalGroups.map((g) => (
+                <div key={g.id}>
+                  <h3 className="text-lg font-bold text-foreground mb-3">{t(g.titleVi, g.titleEn)}</h3>
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {g.radicals.map((r) => (
+                      <div key={r.glyph + r.pinyin} className="rounded-xl border border-border bg-card p-4">
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl font-bold text-primary leading-none">{r.glyph}</span>
+                          <div className="min-w-0">
+                            <p className="text-base font-semibold text-foreground">
+                              {r.pinyin} · {t(r.nameVi, r.nameEn)}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {r.strokes} {t("nét", "strokes")}
+                              {r.standalone ? ` · ${t("dạng đứng riêng", "standalone")}: ${r.standalone}` : ""}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => speak(r.standalone ?? r.glyph)}
+                            aria-label={t("Nghe", "Listen")}
+                            className="ml-auto p-1.5 rounded-md hover:bg-primary/10 transition-colors"
+                          >
+                            <Volume2 className="w-4 h-4 text-primary" />
+                          </button>
+                        </div>
+                        <p className="text-sm text-foreground mt-2">💡 {t(r.hintVi, r.hintEn)}</p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {r.examples.map((ex) => (
+                            <span key={ex.char} className="text-sm px-2 py-1 rounded-lg bg-secondary/60 text-foreground">
+                              {ex.char} <span className="text-primary">{ex.pinyin}</span>{" "}
+                              <span className="text-muted-foreground">{t(ex.meaningVi, ex.meaningEn)}</span>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Printable sheet */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+              {t("Vở ô 田字格 in được", "Printable 田字格 practice sheet")}
+            </h2>
+            <p className="text-base text-muted-foreground mb-4">
+              {t(
+                "Chọn chữ rồi in ra để luyện viết tay theo ô vuông chuẩn.",
+                "Pick characters, then print the grid to practise handwriting.",
+              )}
+            </p>
+            <PracticeSheet chars={sheetChars} />
+          </section>
+
           {/* Quiz */}
           <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
             <h2 className="text-2xl font-display font-bold text-foreground mb-4">
@@ -481,6 +648,15 @@ const ChineseStrokeGuide = () => {
             </h2>
             <Quiz onScore={handleScore} />
           </section>
+
+          {/* Radical quiz */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-4">
+              {t("Quiz bộ thủ", "Radical quiz")}
+            </h2>
+            <RadicalQuiz />
+          </section>
+
 
           <div className="flex flex-wrap gap-3">
             <Link

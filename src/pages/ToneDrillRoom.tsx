@@ -16,17 +16,25 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import ToneRecorder from "@/components/chinese/ToneRecorder";
 import {
   SINGLE_TONE_BANK,
   MINIMAL_PAIR_BANK,
   SANDHI_BANK,
+  TONE_PAIR_BANK,
   type SingleToneItem,
   type MinimalPairItem,
   type SandhiItem,
+  type TonePairItem,
   type ToneNumber,
 } from "@/data/toneDrillBank";
 
-type Mode = "identify" | "minimal" | "sandhi";
+type Mode = "identify" | "pairs" | "minimal" | "sandhi";
+
+type ToneStats = Record<string, { c: number; t: number }>;
+
+const EMPTY_STATS: ToneStats = { "1": { c: 0, t: 0 }, "2": { c: 0, t: 0 }, "3": { c: 0, t: 0 }, "4": { c: 0, t: 0 }, "0": { c: 0, t: 0 } };
+
 
 const TONE_META: Record<ToneNumber, { label: string; labelEn: string; color: string; contour: string }> = {
   1: { label: "Thanh 1 (cao bằng)", labelEn: "Tone 1 (high level)", color: "bg-rose-500", contour: "ˉ" },
@@ -83,9 +91,14 @@ const ToneDrillRoom = () => {
   const [singleQueue, setSingleQueue] = useState<SingleToneItem[]>(() => shuffle(SINGLE_TONE_BANK));
   const [minQueue, setMinQueue] = useState<MinimalPairItem[]>(() => shuffle(MINIMAL_PAIR_BANK));
   const [sandhiQueue, setSandhiQueue] = useState<SandhiItem[]>(() => shuffle(SANDHI_BANK));
+  const [pairQueue, setPairQueue] = useState<TonePairItem[]>(() => shuffle(TONE_PAIR_BANK));
   const [singleIdx, setSingleIdx] = useState(0);
   const [minIdx, setMinIdx] = useState(0);
   const [sandhiIdx, setSandhiIdx] = useState(0);
+  const [pairIdx, setPairIdx] = useState(0);
+  const [pairPick, setPairPick] = useState<string | null>(null);
+  const [toneStats, setToneStats] = useState<ToneStats>(EMPTY_STATS);
+  const [weakOnly, setWeakOnly] = useState(false);
 
   // Persist progress lightweight
   useEffect(() => {
@@ -95,20 +108,61 @@ const ToneDrillRoom = () => {
         const s = JSON.parse(raw);
         setCorrect(s.correct ?? 0);
         setTotal(s.total ?? 0);
+        if (s.tones) setToneStats({ ...EMPTY_STATS, ...s.tones });
       } catch { /* noop */ }
     }
   }, []);
   useEffect(() => {
-    localStorage.setItem("tone-drill-stats-v1", JSON.stringify({ correct, total }));
-  }, [correct, total]);
+    localStorage.setItem("tone-drill-stats-v1", JSON.stringify({ correct, total, tones: toneStats }));
+  }, [correct, total, toneStats]);
+
+  const bumpTone = useCallback((tn: ToneNumber, ok: boolean) => {
+    setToneStats((prev) => {
+      const key = String(tn);
+      const cur = prev[key] ?? { c: 0, t: 0 };
+      return { ...prev, [key]: { c: cur.c + (ok ? 1 : 0), t: cur.t + 1 } };
+    });
+  }, []);
+
+  /** Thanh yếu nhất: đã làm >= 4 câu và độ chính xác dưới 70%. */
+  const weakTone = useMemo<ToneNumber | null>(() => {
+    let worst: { tone: ToneNumber; acc: number } | null = null;
+    ([1, 2, 3, 4, 0] as ToneNumber[]).forEach((tn) => {
+      const s = toneStats[String(tn)];
+      if (!s || s.t < 4) return;
+      const acc = s.c / s.t;
+      if (acc < 0.7 && (!worst || acc < worst.acc)) worst = { tone: tn, acc };
+    });
+    return worst ? worst.tone : null;
+  }, [toneStats]);
 
   const single = singleQueue[singleIdx % singleQueue.length];
   const mPair = minQueue[minIdx % minQueue.length];
   const sandhi = sandhiQueue[sandhiIdx % sandhiQueue.length];
+  const tPair = pairQueue[pairIdx % pairQueue.length];
+
+  const drillWeakTone = useCallback(() => {
+    if (weakTone === null) return;
+    const filtered = SINGLE_TONE_BANK.filter((x) => x.tone === weakTone);
+    setSingleQueue(shuffle(filtered.length ? filtered : SINGLE_TONE_BANK));
+    setSingleIdx(0);
+    setPicked(null);
+    setWeakOnly(true);
+    setMode("identify");
+  }, [weakTone]);
+
+  const clearWeakFilter = useCallback(() => {
+    setSingleQueue(shuffle(SINGLE_TONE_BANK));
+    setSingleIdx(0);
+    setPicked(null);
+    setWeakOnly(false);
+  }, []);
+
 
   const switchMode = (m: Mode) => {
     setMode(m);
     setPicked(null);
+    setPairPick(null);
     setRevealSandhi(false);
   };
 
@@ -116,12 +170,12 @@ const ToneDrillRoom = () => {
     setPicked(null);
     const ni = singleIdx + 1;
     if (ni >= singleQueue.length) {
-      setSingleQueue(shuffle(SINGLE_TONE_BANK));
+      setSingleQueue(shuffle(singleQueue));
       setSingleIdx(0);
     } else {
       setSingleIdx(ni);
     }
-  }, [singleIdx, singleQueue.length]);
+  }, [singleIdx, singleQueue]);
 
   const nextMin = useCallback(() => {
     setPicked(null);
@@ -145,11 +199,24 @@ const ToneDrillRoom = () => {
     }
   }, [sandhiIdx, sandhiQueue.length]);
 
+  const nextPair = useCallback(() => {
+    setPairPick(null);
+    const ni = pairIdx + 1;
+    if (ni >= pairQueue.length) {
+      setPairQueue(shuffle(TONE_PAIR_BANK));
+      setPairIdx(0);
+    } else {
+      setPairIdx(ni);
+    }
+  }, [pairIdx, pairQueue.length]);
+
   const checkSingle = (toneGuess: ToneNumber) => {
     if (picked !== null) return;
     setPicked(toneGuess);
     setTotal((x) => x + 1);
-    if (toneGuess === single.tone) {
+    const ok = toneGuess === single.tone;
+    bumpTone(single.tone, ok);
+    if (ok) {
       setCorrect((x) => x + 1);
       setStreak((s) => s + 1);
       if (streak + 1 > 0 && (streak + 1) % 5 === 0) {
@@ -161,8 +228,47 @@ const ToneDrillRoom = () => {
     }
   };
 
+  const pairKey = (tones: [ToneNumber, ToneNumber]) => `${tones[0]}-${tones[1]}`;
+
+  /** 4 lựa chọn tổ hợp thanh: đáp án đúng + 3 tổ hợp gần giống. */
+  const pairOptions = useMemo<string[]>(() => {
+    if (!tPair) return [];
+    const right = pairKey(tPair.tones);
+    const all: string[] = [];
+    ([1, 2, 3, 4, 0] as ToneNumber[]).forEach((a) => {
+      ([1, 2, 3, 4, 0] as ToneNumber[]).forEach((b) => {
+        if (a === 0) return; // âm tiết đầu không bao giờ là thanh nhẹ
+        all.push(`${a}-${b}`);
+      });
+    });
+    const near = all.filter((k) => {
+      if (k === right) return false;
+      const [a, b] = k.split("-");
+      return a === right.split("-")[0] || b === right.split("-")[1];
+    });
+    const distractors = shuffle(near).slice(0, 3);
+    return shuffle([right, ...distractors]);
+  }, [tPair?.hanzi]);
+
+  const checkPair = (key: string) => {
+    if (pairPick !== null || !tPair) return;
+    setPairPick(key);
+    setTotal((x) => x + 1);
+    const ok = key === pairKey(tPair.tones);
+    bumpTone(tPair.tones[0], ok);
+    bumpTone(tPair.tones[1], ok);
+    if (ok) {
+      setCorrect((x) => x + 1);
+      setStreak((s) => s + 1);
+      if ((streak + 1) % 5 === 0) confetti({ particleCount: 70, spread: 65, origin: { y: 0.6 } });
+    } else {
+      setStreak(0);
+    }
+  };
+
   // Build identify options shuffled (always 5 tone choices)
   const toneOptions = useMemo<ToneNumber[]>(() => [1, 2, 3, 4, 0], [single?.hanzi]);
+
 
   // Minimal pair: user hears `pick` then identifies which side
   const [mPick, setMPick] = useState<"a" | "b" | null>(null);
@@ -179,10 +285,12 @@ const ToneDrillRoom = () => {
   };
 
   const checkMinimal = (guess: "a" | "b") => {
-    if (mPick !== null) return;
+    if (mPick !== null || !mPair) return;
     setMPick(guess);
     setTotal((x) => x + 1);
-    if (guess === mTarget) {
+    const ok = guess === mTarget;
+    bumpTone(mPair[mTarget].tone, ok);
+    if (ok) {
       setCorrect((x) => x + 1);
       setStreak((s) => s + 1);
       if ((streak + 1) % 5 === 0) {
@@ -192,6 +300,7 @@ const ToneDrillRoom = () => {
       setStreak(0);
     }
   };
+
 
   // Auto-play on new question
   useEffect(() => {
@@ -208,8 +317,8 @@ const ToneDrillRoom = () => {
       <SEO
         title={t("Tone Drill 四声训练 - Luyện Thanh Điệu Tiếng Trung | HaiEduTech", "Tone Drill 四声训练 - Chinese Tone Trainer | HaiEduTech")}
         description={t(
-          "Luyện 4 thanh điệu + thanh nhẹ tiếng Trung qua 3 chế độ: nhận diện thanh, minimal pair, và quy tắc biến điệu (sandhi).",
-          "Master Chinese tones through 3 modes: tone identification, minimal pairs, and tone sandhi rules.",
+          "Luyện 4 thanh điệu + thanh nhẹ tiếng Trung qua 4 chế độ: nhận diện thanh, tổ hợp thanh 2 âm tiết, minimal pair và quy tắc biến điệu (sandhi), kèm thu âm so đường cao độ.",
+          "Master Chinese tones through 4 modes: tone identification, two-syllable tone pairs, minimal pairs and tone sandhi, with mic pitch feedback.",
         )}
         path="/chinese/tone-drill"
       />
@@ -234,7 +343,7 @@ const ToneDrillRoom = () => {
                   Tone Drill <span className="text-amber-500">四声训练</span>
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  {t("Luyện 4 thanh + thanh nhẹ với 3 chế độ tương tác", "Train 4 tones + neutral with 3 interactive modes")}
+                  {t("Luyện 4 thanh + thanh nhẹ với 4 chế độ tương tác và thu âm phản hồi", "Train 4 tones + neutral with 4 interactive modes and mic feedback")}
                 </p>
               </div>
             </div>
@@ -248,13 +357,57 @@ const ToneDrillRoom = () => {
                 <Trophy className="w-4 h-4" /> {t("Chuỗi", "Streak")}: {streak}
               </span>
             </div>
+
+            {/* Độ chính xác từng thanh */}
+            <div className="grid grid-cols-5 gap-2 mt-4">
+              {([1, 2, 3, 4, 0] as ToneNumber[]).map((tn) => {
+                const s = toneStats[String(tn)] ?? { c: 0, t: 0 };
+                const acc = s.t > 0 ? Math.round((s.c / s.t) * 100) : null;
+                return (
+                  <div key={tn} className="rounded-xl bg-card/70 border border-border p-2 text-center">
+                    <div className={cn("w-6 h-6 rounded-full mx-auto mb-1 flex items-center justify-center text-white text-xs font-bold", TONE_META[tn].color)}>
+                      {tn === 0 ? "·" : tn}
+                    </div>
+                    <div className={cn("text-sm font-bold", acc === null ? "text-muted-foreground" : acc >= 70 ? "text-emerald-600" : "text-amber-600")}>
+                      {acc === null ? "-" : `${acc}%`}
+                    </div>
+                    <div className="text-[10px] text-muted-foreground">{s.t} {t("câu", "qs")}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {weakTone !== null && !weakOnly && (
+              <div className="mt-3 rounded-xl p-3 bg-rose-500/10 border border-rose-500/30 flex flex-wrap items-center gap-3">
+                <span className="text-sm text-foreground">
+                  ⚠️ {t(
+                    `Thanh ${weakTone === 0 ? "nhẹ" : weakTone} của bạn còn yếu.`,
+                    `Your ${weakTone === 0 ? "neutral" : `tone ${weakTone}`} accuracy is still low.`,
+                  )}
+                </span>
+                <Button size="sm" onClick={drillWeakTone} className="bg-gradient-to-r from-amber-500 to-red-500 text-white">
+                  {t("Luyện riêng thanh này", "Drill my weak tone")}
+                </Button>
+              </div>
+            )}
+            {weakOnly && (
+              <div className="mt-3 rounded-xl p-3 bg-amber-500/10 border border-amber-500/30 flex flex-wrap items-center gap-3">
+                <span className="text-sm text-foreground">
+                  🎯 {t("Đang lọc theo thanh yếu của bạn.", "Filtered to your weak tone.")}
+                </span>
+                <Button size="sm" variant="outline" onClick={clearWeakFilter}>
+                  {t("Quay lại tất cả", "Back to all tones")}
+                </Button>
+              </div>
+            )}
           </motion.div>
 
           {/* Mode tabs */}
-          <div className="grid grid-cols-3 gap-2 mb-6">
-            {(["identify", "minimal", "sandhi"] as Mode[]).map((m) => {
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+            {(["identify", "pairs", "minimal", "sandhi"] as Mode[]).map((m) => {
               const labels: Record<Mode, [string, string, string]> = {
                 identify: ["🎧 Nhận diện thanh", "🎧 Identify Tone", "Listen & pick tone"],
+                pairs: ["🧩 Tổ hợp thanh", "🧩 Tone Pairs", "Two-syllable combos"],
                 minimal: ["🔁 Minimal Pair", "🔁 Minimal Pair", "Distinguish near pairs"],
                 sandhi: ["📐 Biến điệu", "📐 Sandhi Rules", "3-3, bù, yī rules"],
               };
@@ -274,6 +427,7 @@ const ToneDrillRoom = () => {
               );
             })}
           </div>
+
 
           {/* Body */}
           {mode === "identify" && single && (
@@ -339,15 +493,110 @@ const ToneDrillRoom = () => {
               </div>
 
               {picked !== null && (
-                <div className="flex justify-center mt-4">
-                  <Button onClick={nextSingle} className="bg-gradient-to-r from-amber-500 to-red-500 text-white">
-                    {picked === single.tone ? <CheckCircle2 className="w-4 h-4 mr-1" /> : <XCircle className="w-4 h-4 mr-1" />}
-                    {t("Câu tiếp theo", "Next")}
-                  </Button>
-                </div>
+                <>
+                  <ToneRecorder hanzi={single.hanzi} tone={single.tone} className="mt-4" />
+                  <div className="flex justify-center mt-4">
+                    <Button onClick={nextSingle} className="bg-gradient-to-r from-amber-500 to-red-500 text-white">
+                      {picked === single.tone ? <CheckCircle2 className="w-4 h-4 mr-1" /> : <XCircle className="w-4 h-4 mr-1" />}
+                      {t("Câu tiếp theo", "Next")}
+                    </Button>
+                  </div>
+                </>
               )}
             </motion.div>
           )}
+
+          {mode === "pairs" && tPair && (
+            <motion.div
+              key={`p-${pairIdx}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass-card rounded-2xl p-6 sm:p-10"
+            >
+              <p className="text-center text-sm text-muted-foreground mb-4">
+                {t(
+                  "Nghe từ hai âm tiết rồi chọn đúng tổ hợp thanh điệu:",
+                  "Listen to the two-syllable word, then pick the right tone combination:",
+                )}
+              </p>
+              <div className="flex flex-col items-center gap-4 mb-6">
+                <button
+                  onClick={() => speak(tPair.hanzi)}
+                  className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-red-500 text-white flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-transform"
+                  aria-label={t("Phát âm", "Play")}
+                >
+                  <Volume2 className="w-9 h-9" />
+                </button>
+                <div className="text-center">
+                  <div className="text-6xl font-bold text-foreground mb-1" style={{ fontFamily: "'Noto Serif SC', serif" }}>
+                    {tPair.hanzi}
+                  </div>
+                  {pairPick !== null && (
+                    <div className="mt-2">
+                      <div className="text-2xl text-amber-600 font-semibold">{tPair.pinyin}</div>
+                      <div className="text-sm text-muted-foreground mt-1">{t(tPair.meaning, tPair.meaningEn)}</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {pairOptions.map((key) => {
+                  const [a, b] = key.split("-").map(Number) as [ToneNumber, ToneNumber];
+                  const right = key === `${tPair.tones[0]}-${tPair.tones[1]}`;
+                  const isPicked = pairPick === key;
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => checkPair(key)}
+                      disabled={pairPick !== null}
+                      className={cn(
+                        "rounded-xl p-4 transition-all border-2 active:scale-95 flex items-center justify-center gap-3",
+                        pairPick === null && "hover:border-amber-500/40 hover:bg-amber-500/5 border-border",
+                        pairPick !== null && right && "border-emerald-500 bg-emerald-500/15",
+                        isPicked && !right && "border-rose-500 bg-rose-500/15",
+                        pairPick !== null && !right && !isPicked && "opacity-50 border-border",
+                      )}
+                    >
+                      {[a, b].map((tn, i) => (
+                        <span key={i} className="flex flex-col items-center">
+                          <span className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm", TONE_META[tn].color)}>
+                            {tn === 0 ? "·" : tn}
+                          </span>
+                          <ToneContour tone={tn} />
+                        </span>
+                      ))}
+                      <span className="text-sm font-semibold text-foreground">
+                        {a}
+                        {" + "}
+                        {b === 0 ? t("nhẹ", "neutral") : b}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {pairPick !== null && (
+                <>
+                  {pairPick !== `${tPair.tones[0]}-${tPair.tones[1]}` && (
+                    <div className="mt-4 rounded-xl p-4 bg-amber-500/8 border border-amber-500/25 text-sm text-foreground">
+                      💡 {t(
+                        `${tPair.pinyin} là tổ hợp ${tPair.tones[0]} + ${tPair.tones[1] === 0 ? "thanh nhẹ" : tPair.tones[1]}. Nghe lại và chú ý âm tiết thứ hai.`,
+                        `${tPair.pinyin} is ${tPair.tones[0]} + ${tPair.tones[1] === 0 ? "neutral" : tPair.tones[1]}. Listen again and focus on the second syllable.`,
+                      )}
+                    </div>
+                  )}
+                  <ToneRecorder hanzi={tPair.hanzi} tone={tPair.tones[0]} className="mt-4" />
+                  <div className="flex justify-center mt-4">
+                    <Button onClick={nextPair} className="bg-gradient-to-r from-amber-500 to-red-500 text-white">
+                      {t("Từ tiếp theo", "Next word")}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </motion.div>
+          )}
+
 
           {mode === "minimal" && mPair && (
             <motion.div
