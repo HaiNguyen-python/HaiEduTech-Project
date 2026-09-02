@@ -161,6 +161,9 @@ const ChineseStrokeGuide = () => {
   const [lookup, setLookup] = useState("");
   const [bestScore, setBestScore] = useState<number>(() => safeStorage.get<number>(STORAGE_KEY, 0) ?? 0);
 
+  // Stop any Chinese audio when leaving the page
+  useEffect(() => () => stopChineseTts(), []);
+
   const currentSet = useMemo(
     () => practiceSets.find((s) => s.id === activeSet) ?? practiceSets[0],
     [activeSet]
