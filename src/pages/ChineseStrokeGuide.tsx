@@ -20,6 +20,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import {
   basicStrokes,
+  combinedStrokes,
+  strokeMistakes,
   strokeRules,
   practiceSets,
   strokeQuizzes,
@@ -203,8 +205,8 @@ const ChineseStrokeGuide = () => {
             </h1>
             <p className="text-base text-muted-foreground max-w-3xl">
               {t(
-                "Nắm 8 nét cơ bản và 7 quy tắc thứ tự nét, xem hoạt ảnh viết từng chữ và kiểm tra lại bằng quiz. Bấm vào mỗi chữ để xem lại nét bút.",
-                "Master the 8 basic strokes and 7 ordering rules, watch each character being written, then check yourself with a quiz. Click a character to replay its strokes."
+                "Nắm 8 nét cơ bản, 6 nét ghép và 9 quy tắc thứ tự nét, xem hoạt ảnh viết từng chữ, tránh các lỗi thường gặp và kiểm tra lại bằng quiz. Bấm vào mỗi chữ để xem lại nét bút.",
+                "Master the 8 basic strokes, 6 combined strokes and 9 ordering rules, watch each character being written, avoid the most common mistakes, then check yourself with a quiz. Click a character to replay its strokes."
               )}
             </p>
             {bestScore > 0 && (
@@ -219,30 +221,95 @@ const ChineseStrokeGuide = () => {
             <h2 className="text-2xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
               <PenLine className="w-5 h-5 text-primary" /> {t("8 nét cơ bản", "The 8 basic strokes")}
             </h2>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[600px] text-left">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="py-2 pr-3 text-sm font-semibold text-muted-foreground">{t("Nét", "Stroke")}</th>
-                    <th className="py-2 pr-3 text-sm font-semibold text-muted-foreground">{t("Tên", "Name")}</th>
-                    <th className="py-2 pr-3 text-sm font-semibold text-muted-foreground">{t("Cách viết", "How to write")}</th>
-                    <th className="py-2 pr-3 text-sm font-semibold text-muted-foreground">{t("Chữ ví dụ", "Examples")}</th>
+            <div className="overflow-x-auto rounded-xl border border-border bg-card">
+              <table className="w-full min-w-[640px] text-left border-collapse">
+                <thead className="bg-secondary/60">
+                  <tr>
+                    <th className="py-2.5 pl-4 pr-3 text-sm font-semibold text-muted-foreground w-[110px]">{t("Nét", "Stroke")}</th>
+                    <th className="py-2.5 px-3 text-sm font-semibold text-muted-foreground w-[170px]">{t("Tên", "Name")}</th>
+                    <th className="py-2.5 px-3 text-sm font-semibold text-muted-foreground">{t("Cách viết", "How to write")}</th>
+                    <th className="py-2.5 pl-3 pr-4 text-sm font-semibold text-muted-foreground">{t("Chữ ví dụ", "Examples")}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {basicStrokes.map((s) => (
-                    <tr key={s.nameZh} className="border-b border-border/50 last:border-0 hover:bg-primary/5">
-                      <td className="py-3 pr-3 text-3xl font-bold text-primary">{s.glyph}</td>
-                      <td className="py-3 pr-3 align-top min-w-[130px]">
+                  {basicStrokes.map((s, i) => (
+                    <tr
+                      key={s.nameZh}
+                      className={`border-b border-border/50 last:border-0 hover:bg-primary/5 transition-colors ${
+                        i % 2 === 1 ? "bg-secondary/20" : ""
+                      }`}
+                    >
+                      <td className="py-3 pl-4 pr-3 align-top text-3xl font-bold text-primary">{s.glyph}</td>
+                      <td className="py-3 px-3 align-top w-[170px]">
                         <p className="text-base font-semibold text-foreground">
                           {s.nameZh} <span className="text-primary">{s.pinyin}</span>
                         </p>
                         <p className="text-base text-muted-foreground">{t(s.nameVi, s.nameEn)}</p>
                       </td>
-                      <td className="py-3 pr-3 align-top text-base text-muted-foreground min-w-[220px]">
+                      <td className="py-3 px-3 align-top text-base text-muted-foreground min-w-[220px]">
                         {t(s.howVi, s.howEn)}
                       </td>
-                      <td className="py-3 pr-3 align-top">
+                      <td className="py-3 pl-3 pr-4 align-top">
+                        <div className="flex flex-wrap gap-1.5">
+                          {s.examples.map((ex) => (
+                            <button
+                              key={ex}
+                              onClick={() => speak(ex)}
+                              className="px-2.5 py-1 rounded-lg border border-border bg-card text-xl hover:bg-primary/10 transition-colors"
+                              title={t("Nghe phát âm", "Listen")}
+                            >
+                              {ex}
+                            </button>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          {/* Combined strokes */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
+              <PenLine className="w-5 h-5 text-primary" /> {t("Nét ghép (折 / 钩)", "Combined strokes (折 / 钩)")}
+            </h2>
+            <p className="text-base text-muted-foreground mb-4">
+              {t(
+                "Đây là các nét gấp khúc, luôn viết liền một hơi, không nhấc bút giữa nét.",
+                "These bend or hook in the middle. Write each one in a single motion - never lift the pen halfway."
+              )}
+            </p>
+            <div className="overflow-x-auto rounded-xl border border-border bg-card">
+              <table className="w-full min-w-[640px] text-left border-collapse">
+                <thead className="bg-secondary/60">
+                  <tr>
+                    <th className="py-2.5 pl-4 pr-3 text-sm font-semibold text-muted-foreground w-[110px]">{t("Nét", "Stroke")}</th>
+                    <th className="py-2.5 px-3 text-sm font-semibold text-muted-foreground w-[170px]">{t("Tên", "Name")}</th>
+                    <th className="py-2.5 px-3 text-sm font-semibold text-muted-foreground">{t("Cách viết", "How to write")}</th>
+                    <th className="py-2.5 pl-3 pr-4 text-sm font-semibold text-muted-foreground">{t("Chữ ví dụ", "Examples")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {combinedStrokes.map((s, i) => (
+                    <tr
+                      key={s.nameZh}
+                      className={`border-b border-border/50 last:border-0 hover:bg-primary/5 transition-colors ${
+                        i % 2 === 1 ? "bg-secondary/20" : ""
+                      }`}
+                    >
+                      <td className="py-3 pl-4 pr-3 align-top text-3xl font-bold text-primary">{s.glyph}</td>
+                      <td className="py-3 px-3 align-top w-[170px]">
+                        <p className="text-base font-semibold text-foreground">
+                          {s.nameZh} <span className="text-primary">{s.pinyin}</span>
+                        </p>
+                        <p className="text-base text-muted-foreground">{t(s.nameVi, s.nameEn)}</p>
+                      </td>
+                      <td className="py-3 px-3 align-top text-base text-muted-foreground min-w-[220px]">
+                        {t(s.howVi, s.howEn)}
+                      </td>
+                      <td className="py-3 pl-3 pr-4 align-top">
                         <div className="flex flex-wrap gap-1.5">
                           {s.examples.map((ex) => (
                             <button
@@ -266,7 +333,7 @@ const ChineseStrokeGuide = () => {
           {/* 7 rules */}
           <section className="mb-8">
             <h2 className="text-2xl font-display font-bold text-foreground mb-4">
-              {t("7 quy tắc thứ tự nét", "The 7 stroke-order rules")}
+              {t(`${strokeRules.length} quy tắc thứ tự nét`, `The ${strokeRules.length} stroke-order rules`)}
             </h2>
             <div className="grid gap-5 md:grid-cols-2">
               {strokeRules.map((rule, i) => (
@@ -306,6 +373,45 @@ const ChineseStrokeGuide = () => {
               ))}
             </div>
           </section>
+
+          {/* Common mistakes */}
+          <section className="mb-8">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-4">
+              {t("Lỗi thường gặp khi viết", "Common writing mistakes")}
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {strokeMistakes.map((m, i) => (
+                <motion.div
+                  key={m.titleEn}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.04 }}
+                  className="glass-card rounded-2xl p-5 border border-border"
+                >
+                  <h3 className="text-lg font-bold text-foreground mb-3">{t(m.titleVi, m.titleEn)}</h3>
+                  <div className="space-y-2 mb-4">
+                    <p className="text-base text-rose-600 flex gap-2">
+                      <XCircle className="w-4 h-4 mt-1 shrink-0" />
+                      <span>{t(m.wrongVi, m.wrongEn)}</span>
+                    </p>
+                    <p className="text-base text-emerald-600 flex gap-2">
+                      <CheckCircle2 className="w-4 h-4 mt-1 shrink-0" />
+                      <span>{t(m.rightVi, m.rightEn)}</span>
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {m.chars.map((c) => (
+                      <div key={c} className="rounded-xl border border-border bg-card/70 p-2">
+                        <HanziStrokeOrder character={c} size={80} />
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
 
           {/* Practice sets */}
           <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">

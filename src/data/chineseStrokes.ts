@@ -139,6 +139,131 @@ export const basicStrokes: BasicStroke[] = [
   },
 ];
 
+/** Combined (bent / hooked) strokes - written in a single motion. */
+export const combinedStrokes: BasicStroke[] = [
+  {
+    glyph: "𠃍",
+    nameZh: "横折",
+    pinyin: "héngzhé",
+    nameVi: "Ngang gập xuống",
+    nameEn: "Horizontal then down",
+    howVi: "Viết nét ngang, đến góc thì gập vuông xuống dưới, không nhấc bút.",
+    howEn: "Write a horizontal stroke, then turn squarely downwards without lifting the pen.",
+    examples: ["口", "日", "四", "田"],
+  },
+  {
+    glyph: "𠄌",
+    nameZh: "竖折",
+    pinyin: "shùzhé",
+    nameVi: "Sổ gập sang phải",
+    nameEn: "Vertical then right",
+    howVi: "Kéo nét sổ xuống, đến đáy thì gập ngang sang phải.",
+    howEn: "Draw the vertical down, then turn right along the bottom.",
+    examples: ["山", "医", "牙", "世"],
+  },
+  {
+    glyph: "𠃌",
+    nameZh: "横折钩",
+    pinyin: "héngzhégōu",
+    nameVi: "Ngang gập móc",
+    nameEn: "Horizontal, turn, hook",
+    howVi: "Ngang rồi gập xuống, kết thúc bằng móc nhỏ hất vào trong.",
+    howEn: "Horizontal, turn down, then finish with a small hook flicking inwards.",
+    examples: ["月", "同", "用", "问"],
+  },
+  {
+    glyph: "乚",
+    nameZh: "竖弯钩",
+    pinyin: "shùwāngōu",
+    nameVi: "Sổ cong móc",
+    nameEn: "Vertical, curve, hook",
+    howVi: "Sổ xuống rồi cong mềm sang phải, cuối nét hất lên tạo móc.",
+    howEn: "Go down, curve smoothly to the right, then flick up into a hook.",
+    examples: ["也", "电", "七", "儿"],
+  },
+  {
+    glyph: "𠄎",
+    nameZh: "撇折",
+    pinyin: "piězhé",
+    nameVi: "Phẩy gập hất",
+    nameEn: "Left-falling then turn",
+    howVi: "Phẩy chéo xuống trái rồi gập hất chéo lên phải.",
+    howEn: "Sweep down-left, then turn and flick up to the right.",
+    examples: ["会", "云", "去", "红"],
+  },
+  {
+    glyph: "㇇",
+    nameZh: "横撇",
+    pinyin: "héngpiě",
+    nameVi: "Ngang rồi phẩy",
+    nameEn: "Horizontal then left-falling",
+    howVi: "Ngang ngắn rồi gập, hất chéo xuống bên trái.",
+    howEn: "A short horizontal, then turn and sweep down to the left.",
+    examples: ["又", "友", "水", "对"],
+  },
+];
+
+export interface StrokeMistake {
+  titleVi: string;
+  titleEn: string;
+  wrongVi: string;
+  wrongEn: string;
+  rightVi: string;
+  rightEn: string;
+  chars: string[];
+}
+
+/** Frequent handwriting mistakes learners make. */
+export const strokeMistakes: StrokeMistake[] = [
+  {
+    titleVi: "Viết nét ngang từ phải sang trái",
+    titleEn: "Writing the horizontal right-to-left",
+    wrongVi: "Kéo nét ngang từ phải về trái cho nhanh.",
+    wrongEn: "Dragging the horizontal from right back to left to save time.",
+    rightVi: "Nét ngang luôn đi từ trái sang phải, nét sổ luôn đi từ trên xuống.",
+    rightEn: "A horizontal always goes left to right; a vertical always goes top to bottom.",
+    chars: ["一", "十", "三"],
+  },
+  {
+    titleVi: "Viết chữ 口 ngược chiều kim đồng hồ",
+    titleEn: "Writing 口 counterclockwise",
+    wrongVi: "Bắt đầu từ nét ngang trên hoặc vòng ngược sang trái.",
+    wrongEn: "Starting from the top horizontal or looping to the left.",
+    rightVi: "Thứ tự đúng: nét sổ bên trái, rồi nét 横折 (ngang gập xuống), cuối cùng nét ngang đáy.",
+    rightEn: "Correct order: left vertical, then the 横折 (horizontal-turn-down), then the bottom horizontal.",
+    chars: ["口", "日", "国"],
+  },
+  {
+    titleVi: "Cắt nét ghép thành hai nét",
+    titleEn: "Splitting a combined stroke in two",
+    wrongVi: "Nhấc bút ở góc gập của 竖弯钩 hay 横折钩 nên thành 2 nét rời.",
+    wrongEn: "Lifting the pen at the corner of 竖弯钩 or 横折钩, ending up with two separate strokes.",
+    rightVi: "Nét ghép viết liền một hơi, số nét mới đúng khi đếm.",
+    rightEn: "Write combined strokes in one motion, otherwise the stroke count is wrong.",
+    chars: ["也", "月", "了"],
+  },
+  {
+    titleVi: "Nhầm nét 撇 với nét 捺",
+    titleEn: "Confusing 撇 with 捺",
+    wrongVi: "Cả hai nét đều hất xuống cùng một hướng nên chữ bị lệch.",
+    wrongEn: "Sweeping both strokes the same way, so the character leans.",
+    rightVi: "撇 hất xuống bên trái và nhỏ dần; 捺 kéo xuống bên phải và nhấn dày ở cuối.",
+    rightEn: "撇 sweeps down-left and thins out; 捺 goes down-right and presses thicker at the end.",
+    chars: ["人", "大", "天"],
+  },
+  {
+    titleVi: "Đếm sai số nét nên tra từ điển không ra",
+    titleEn: "Miscounting strokes when looking words up",
+    wrongVi: "Đếm mỗi đoạn gấp khúc là một nét riêng.",
+    wrongEn: "Counting every bend as its own stroke.",
+    rightVi: "Một nét là một lần đặt bút liên tục, dù có gấp khúc bao nhiêu lần.",
+    rightEn: "One stroke is one continuous pen-down, no matter how many bends it has.",
+    chars: ["马", "书", "为"],
+  },
+];
+
+
+
 export const strokeRules: StrokeRule[] = [
   {
     id: "top-first",
@@ -231,6 +356,32 @@ export const strokeRules: StrokeRule[] = [
       { char: "文", pinyin: "wén", meaningVi: "văn", meaningEn: "writing", strokes: 4 },
     ],
   },
+  {
+    id: "through-vertical-last",
+    titleVi: "Nét sổ xuyên giữa viết sau cùng",
+    titleEn: "A vertical that runs through everything comes last",
+    ruleZh: "贯穿的竖最后写",
+    explainVi: "Nếu một nét sổ (hoặc nét ngang) xuyên qua cả chữ, hãy viết các phần còn lại trước rồi mới kéo nét xuyên đó.",
+    explainEn: "If a vertical (or horizontal) runs through the whole character, write the other parts first, then the through-stroke.",
+    examples: [
+      { char: "中", pinyin: "zhōng", meaningVi: "giữa", meaningEn: "middle", strokes: 4 },
+      { char: "事", pinyin: "shì", meaningVi: "việc", meaningEn: "matter", strokes: 8 },
+      { char: "母", pinyin: "mǔ", meaningVi: "mẹ", meaningEn: "mother", strokes: 5 },
+    ],
+  },
+  {
+    id: "dot-position",
+    titleVi: "Chấm trên viết trước, chấm phải dưới viết cuối",
+    titleEn: "Top dot first, lower-right dot last",
+    ruleZh: "点在上先写，点在右下最后写",
+    explainVi: "Nét chấm ở phía trên đầu chữ viết trước tiên; còn nét chấm nằm ở góc dưới bên phải thì để lại viết sau cùng.",
+    explainEn: "A dot sitting at the top is written first; a dot at the lower right is saved for last.",
+    examples: [
+      { char: "主", pinyin: "zhǔ", meaningVi: "chủ", meaningEn: "master", strokes: 5 },
+      { char: "犬", pinyin: "quǎn", meaningVi: "con chó", meaningEn: "dog", strokes: 4 },
+      { char: "问", pinyin: "wèn", meaningVi: "hỏi", meaningEn: "to ask", strokes: 6 },
+    ],
+  },
 ];
 
 export const practiceSets: PracticeSet[] = [
@@ -308,6 +459,46 @@ export const practiceSets: PracticeSet[] = [
       { char: "国", pinyin: "guó", meaningVi: "quốc gia", meaningEn: "country", strokes: 8 },
       { char: "朋", pinyin: "péng", meaningVi: "bạn bè", meaningEn: "friend", strokes: 8 },
       { char: "时", pinyin: "shí", meaningVi: "thời gian", meaningEn: "time", strokes: 7 },
+    ],
+  },
+  {
+    id: "family",
+    titleVi: "Gia đình & con người",
+    titleEn: "Family & people",
+    emoji: "👨‍👩‍👧",
+    chars: [
+      { char: "爸", pinyin: "bà", meaningVi: "bố", meaningEn: "dad", strokes: 8 },
+      { char: "妈", pinyin: "mā", meaningVi: "mẹ", meaningEn: "mum", strokes: 6 },
+      { char: "哥", pinyin: "gē", meaningVi: "anh trai", meaningEn: "elder brother", strokes: 10 },
+      { char: "姐", pinyin: "jiě", meaningVi: "chị gái", meaningEn: "elder sister", strokes: 8 },
+      { char: "弟", pinyin: "dì", meaningVi: "em trai", meaningEn: "younger brother", strokes: 7 },
+      { char: "妹", pinyin: "mèi", meaningVi: "em gái", meaningEn: "younger sister", strokes: 8 },
+      { char: "儿", pinyin: "ér", meaningVi: "con", meaningEn: "child, son", strokes: 2 },
+      { char: "女", pinyin: "nǚ", meaningVi: "nữ", meaningEn: "female", strokes: 3 },
+      { char: "男", pinyin: "nán", meaningVi: "nam", meaningEn: "male", strokes: 7 },
+      { char: "友", pinyin: "yǒu", meaningVi: "bạn", meaningEn: "friend", strokes: 4 },
+      { char: "老", pinyin: "lǎo", meaningVi: "già", meaningEn: "old", strokes: 6 },
+      { char: "师", pinyin: "shī", meaningVi: "thầy", meaningEn: "teacher", strokes: 6 },
+    ],
+  },
+  {
+    id: "hsk2",
+    titleVi: "Từ HSK 2",
+    titleEn: "HSK 2 characters",
+    emoji: "🎓",
+    chars: [
+      { char: "帮", pinyin: "bāng", meaningVi: "giúp", meaningEn: "to help", strokes: 9 },
+      { char: "忙", pinyin: "máng", meaningVi: "bận", meaningEn: "busy", strokes: 6 },
+      { char: "开", pinyin: "kāi", meaningVi: "mở", meaningEn: "to open", strokes: 4 },
+      { char: "旁", pinyin: "páng", meaningVi: "bên cạnh", meaningEn: "beside", strokes: 10 },
+      { char: "题", pinyin: "tí", meaningVi: "câu hỏi", meaningEn: "question", strokes: 15 },
+      { char: "唱", pinyin: "chàng", meaningVi: "hát", meaningEn: "to sing", strokes: 11 },
+      { char: "跳", pinyin: "tiào", meaningVi: "nhảy", meaningEn: "to jump", strokes: 13 },
+      { char: "路", pinyin: "lù", meaningVi: "đường", meaningEn: "road", strokes: 13 },
+      { char: "票", pinyin: "piào", meaningVi: "vé", meaningEn: "ticket", strokes: 11 },
+      { char: "雪", pinyin: "xuě", meaningVi: "tuyết", meaningEn: "snow", strokes: 11 },
+      { char: "药", pinyin: "yào", meaningVi: "thuốc", meaningEn: "medicine", strokes: 9 },
+      { char: "错", pinyin: "cuò", meaningVi: "sai", meaningEn: "wrong", strokes: 13 },
     ],
   },
 ];
@@ -479,5 +670,128 @@ export const strokeQuizzes: StrokeQuiz[] = [
     answer: 1,
     explainVi: "王 viết ngang - ngang - sổ - ngang: nét sổ là nét thứ ba.",
     explainEn: "王 goes horizontal - horizontal - vertical - horizontal, so the vertical is stroke three.",
+  },
+  {
+    id: "q13",
+    questionVi: "Nét 竖弯钩 trong chữ 也 được viết như thế nào?",
+    questionEn: "How is the 竖弯钩 stroke in 也 written?",
+    options: [
+      "Hai nét rời: một nét sổ và một nét móc",
+      "Một nét liền: sổ xuống, cong sang phải rồi hất lên",
+      "Một nét ngang rồi một nét chấm",
+      "Ba nét nhỏ nối nhau",
+    ],
+    optionsEn: [
+      "Two separate strokes: a vertical then a hook",
+      "One continuous stroke: down, curving right, then flicking up",
+      "A horizontal followed by a dot",
+      "Three small strokes joined together",
+    ],
+    answer: 1,
+    explainVi: "Nét ghép luôn viết liền một hơi, không nhấc bút ở góc cong.",
+    explainEn: "Combined strokes are written in one motion - never lift the pen at the curve.",
+  },
+  {
+    id: "q14",
+    questionVi: "Chữ 中 viết nét sổ giữa ở bước nào?",
+    questionEn: "When is the central vertical of 中 written?",
+    options: [
+      "Nét đầu tiên",
+      "Nét thứ hai",
+      "Nét cuối cùng",
+      "Trước nét 横折",
+    ],
+    optionsEn: ["First stroke", "Second stroke", "Last stroke", "Before the 横折"],
+    answer: 2,
+    explainVi: "Nét sổ xuyên qua cả chữ nên viết sau cùng: 丨- 𠃍 - 一 - 丨.",
+    explainEn: "The vertical runs through the whole character, so it comes last.",
+  },
+  {
+    id: "q15",
+    questionVi: "Chữ 口 có thứ tự nét nào đúng?",
+    questionEn: "Which is the correct stroke order for 口?",
+    options: [
+      "Ngang trên - sổ trái - ngang đáy",
+      "Sổ trái - ngang gập xuống - ngang đáy",
+      "Ngang gập xuống - sổ trái - ngang đáy",
+      "Sổ trái - sổ phải - ngang trên - ngang đáy",
+    ],
+    optionsEn: [
+      "Top horizontal - left vertical - bottom horizontal",
+      "Left vertical - horizontal-turn-down - bottom horizontal",
+      "Horizontal-turn-down - left vertical - bottom horizontal",
+      "Left vertical - right vertical - top horizontal - bottom horizontal",
+    ],
+    answer: 1,
+    explainVi: "口 chỉ có 3 nét: 丨, 𠃍 (横折), rồi 一 đóng khung.",
+    explainEn: "口 has only 3 strokes: the left vertical, the 横折, then the closing horizontal.",
+  },
+  {
+    id: "q16",
+    questionVi: "Nét chấm ở góc dưới bên phải (như trong chữ 犬) viết khi nào?",
+    questionEn: "When do you write a dot at the lower right, as in 犬?",
+    options: ["Đầu tiên", "Sau nét ngang", "Cuối cùng", "Cùng lúc với nét mác"],
+    optionsEn: ["First", "After the horizontal", "Last", "At the same time as the 捺"],
+    answer: 2,
+    explainVi: "Chấm ở góc dưới bên phải luôn để lại viết sau cùng.",
+    explainEn: "A dot at the lower right is always saved for last.",
+  },
+  {
+    id: "q17",
+    questionVi: "Chữ 月 dùng nét ghép nào?",
+    questionEn: "Which combined stroke does 月 use?",
+    options: ["竖折", "横折钩", "撇折", "横撇"],
+    answer: 1,
+    explainVi: "月 gồm nét 撇 rồi nét 横折钩, sau đó hai nét ngang bên trong.",
+    explainEn: "月 starts with a 撇, then the 横折钩, then the two inner horizontals.",
+  },
+  {
+    id: "q18",
+    questionVi: "Chữ 山 có mấy nét?",
+    questionEn: "How many strokes does 山 have?",
+    options: ["2", "3", "4", "5"],
+    answer: 1,
+    explainVi: "山 có 3 nét: sổ giữa, 竖折 (sổ gập sang phải), rồi nét sổ bên phải.",
+    explainEn: "山 has 3 strokes: the middle vertical, the 竖折, then the right vertical.",
+  },
+  {
+    id: "q19",
+    questionVi: "Nếu nhấc bút giữa nét ghép thì điều gì xảy ra?",
+    questionEn: "What happens if you lift the pen in the middle of a combined stroke?",
+    options: [
+      "Không ảnh hưởng gì",
+      "Số nét bị đếm sai và chữ mất cân đối",
+      "Chữ đẹp hơn",
+      "Chỉ ảnh hưởng khi viết bằng bút mực",
+    ],
+    optionsEn: [
+      "Nothing changes",
+      "The stroke count becomes wrong and the character loses balance",
+      "The character looks nicer",
+      "It only matters with an ink pen",
+    ],
+    answer: 1,
+    explainVi: "Đếm sai số nét sẽ tra từ điển và viết tay trên điện thoại không ra chữ.",
+    explainEn: "A wrong stroke count breaks dictionary lookup and handwriting input.",
+  },
+  {
+    id: "q20",
+    questionVi: "Nét 横撇 (㇇) trong chữ 又 đi theo hướng nào?",
+    questionEn: "Which direction does the 横撇 (㇇) in 又 follow?",
+    options: [
+      "Ngang sang phải rồi hất chéo xuống trái",
+      "Sổ xuống rồi cong sang phải",
+      "Chéo lên phải rồi gập xuống",
+      "Chấm rồi kéo ngang",
+    ],
+    optionsEn: [
+      "Horizontal to the right, then sweeping down-left",
+      "Down, then curving to the right",
+      "Up to the right, then turning down",
+      "A dot, then a horizontal",
+    ],
+    answer: 0,
+    explainVi: "㇇ là nét ngang ngắn rồi gập, hất chéo xuống bên trái.",
+    explainEn: "㇇ is a short horizontal that turns and sweeps down to the left.",
   },
 ];
