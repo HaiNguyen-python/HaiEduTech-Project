@@ -91,9 +91,14 @@ const ToneDrillRoom = () => {
   const [singleQueue, setSingleQueue] = useState<SingleToneItem[]>(() => shuffle(SINGLE_TONE_BANK));
   const [minQueue, setMinQueue] = useState<MinimalPairItem[]>(() => shuffle(MINIMAL_PAIR_BANK));
   const [sandhiQueue, setSandhiQueue] = useState<SandhiItem[]>(() => shuffle(SANDHI_BANK));
+  const [pairQueue, setPairQueue] = useState<TonePairItem[]>(() => shuffle(TONE_PAIR_BANK));
   const [singleIdx, setSingleIdx] = useState(0);
   const [minIdx, setMinIdx] = useState(0);
   const [sandhiIdx, setSandhiIdx] = useState(0);
+  const [pairIdx, setPairIdx] = useState(0);
+  const [pairPick, setPairPick] = useState<string | null>(null);
+  const [toneStats, setToneStats] = useState<ToneStats>(EMPTY_STATS);
+  const [weakOnly, setWeakOnly] = useState(false);
 
   // Persist progress lightweight
   useEffect(() => {
@@ -103,16 +108,56 @@ const ToneDrillRoom = () => {
         const s = JSON.parse(raw);
         setCorrect(s.correct ?? 0);
         setTotal(s.total ?? 0);
+        if (s.tones) setToneStats({ ...EMPTY_STATS, ...s.tones });
       } catch { /* noop */ }
     }
   }, []);
   useEffect(() => {
-    localStorage.setItem("tone-drill-stats-v1", JSON.stringify({ correct, total }));
-  }, [correct, total]);
+    localStorage.setItem("tone-drill-stats-v1", JSON.stringify({ correct, total, tones: toneStats }));
+  }, [correct, total, toneStats]);
+
+  const bumpTone = useCallback((tn: ToneNumber, ok: boolean) => {
+    setToneStats((prev) => {
+      const key = String(tn);
+      const cur = prev[key] ?? { c: 0, t: 0 };
+      return { ...prev, [key]: { c: cur.c + (ok ? 1 : 0), t: cur.t + 1 } };
+    });
+  }, []);
+
+  /** Thanh yếu nhất: đã làm >= 4 câu và độ chính xác dưới 70%. */
+  const weakTone = useMemo<ToneNumber | null>(() => {
+    let worst: { tone: ToneNumber; acc: number } | null = null;
+    ([1, 2, 3, 4, 0] as ToneNumber[]).forEach((tn) => {
+      const s = toneStats[String(tn)];
+      if (!s || s.t < 4) return;
+      const acc = s.c / s.t;
+      if (acc < 0.7 && (!worst || acc < worst.acc)) worst = { tone: tn, acc };
+    });
+    return worst ? worst.tone : null;
+  }, [toneStats]);
 
   const single = singleQueue[singleIdx % singleQueue.length];
   const mPair = minQueue[minIdx % minQueue.length];
   const sandhi = sandhiQueue[sandhiIdx % sandhiQueue.length];
+  const tPair = pairQueue[pairIdx % pairQueue.length];
+
+  const drillWeakTone = useCallback(() => {
+    if (weakTone === null) return;
+    const filtered = SINGLE_TONE_BANK.filter((x) => x.tone === weakTone);
+    setSingleQueue(shuffle(filtered.length ? filtered : SINGLE_TONE_BANK));
+    setSingleIdx(0);
+    setPicked(null);
+    setWeakOnly(true);
+    setMode("identify");
+  }, [weakTone]);
+
+  const clearWeakFilter = useCallback(() => {
+    setSingleQueue(shuffle(SINGLE_TONE_BANK));
+    setSingleIdx(0);
+    setPicked(null);
+    setWeakOnly(false);
+  }, []);
+
 
   const switchMode = (m: Mode) => {
     setMode(m);
