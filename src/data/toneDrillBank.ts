@@ -21,7 +21,9 @@ export interface TonePairItem {
   pinyin: string;
   tones: [ToneNumber, ToneNumber];
   meaning: string;
+  meaningEn: string;
 }
+
 
 export interface MinimalPairItem {
   a: { hanzi: string; pinyin: string; tone: ToneNumber; meaning: string };
@@ -91,29 +93,40 @@ export const SINGLE_TONE_BANK: SingleToneItem[] = [
   { hanzi: "吧", pinyin: "ba", pinyinPlain: "ba", tone: 0, meaning: "(trợ từ đề nghị)" },
 ];
 
-// =============== TONE PAIR - 20 cặp phổ biến HSK 1-3 ===============
+// =============== TONE PAIR - 30 cặp phủ đủ 20 tổ hợp thanh HSK 1-3 ===============
 export const TONE_PAIR_BANK: TonePairItem[] = [
-  { hanzi: "中国", pinyin: "Zhōngguó", tones: [1, 2], meaning: "Trung Quốc" },
-  { hanzi: "妈妈", pinyin: "māma", tones: [1, 0], meaning: "mẹ" },
-  { hanzi: "学习", pinyin: "xuéxí", tones: [2, 2], meaning: "học tập" },
-  { hanzi: "汉语", pinyin: "Hànyǔ", tones: [4, 3], meaning: "tiếng Hán" },
-  { hanzi: "老师", pinyin: "lǎoshī", tones: [3, 1], meaning: "giáo viên" },
-  { hanzi: "朋友", pinyin: "péngyǒu", tones: [2, 3], meaning: "bạn bè" },
-  { hanzi: "你好", pinyin: "nǐhǎo", tones: [3, 3], meaning: "xin chào" },
-  { hanzi: "再见", pinyin: "zàijiàn", tones: [4, 4], meaning: "tạm biệt" },
-  { hanzi: "明天", pinyin: "míngtiān", tones: [2, 1], meaning: "ngày mai" },
-  { hanzi: "高兴", pinyin: "gāoxìng", tones: [1, 4], meaning: "vui mừng" },
-  { hanzi: "工作", pinyin: "gōngzuò", tones: [1, 4], meaning: "công việc" },
-  { hanzi: "星期", pinyin: "xīngqī", tones: [1, 1], meaning: "tuần" },
-  { hanzi: "时候", pinyin: "shíhou", tones: [2, 0], meaning: "lúc/khi" },
-  { hanzi: "可以", pinyin: "kěyǐ", tones: [3, 3], meaning: "có thể" },
-  { hanzi: "电话", pinyin: "diànhuà", tones: [4, 4], meaning: "điện thoại" },
-  { hanzi: "面包", pinyin: "miànbāo", tones: [4, 1], meaning: "bánh mì" },
-  { hanzi: "苹果", pinyin: "píngguǒ", tones: [2, 3], meaning: "táo" },
-  { hanzi: "咖啡", pinyin: "kāfēi", tones: [1, 1], meaning: "cà phê" },
-  { hanzi: "认识", pinyin: "rènshi", tones: [4, 0], meaning: "quen biết" },
-  { hanzi: "喜欢", pinyin: "xǐhuan", tones: [3, 0], meaning: "thích" },
+  { hanzi: "星期", pinyin: "xīngqī", tones: [1, 1], meaning: "tuần", meaningEn: "week" },
+  { hanzi: "中国", pinyin: "Zhōngguó", tones: [1, 2], meaning: "Trung Quốc", meaningEn: "China" },
+  { hanzi: "中午", pinyin: "zhōngwǔ", tones: [1, 3], meaning: "buổi trưa", meaningEn: "noon" },
+  { hanzi: "高兴", pinyin: "gāoxìng", tones: [1, 4], meaning: "vui mừng", meaningEn: "happy" },
+  { hanzi: "妈妈", pinyin: "māma", tones: [1, 0], meaning: "mẹ", meaningEn: "mum" },
+  { hanzi: "明天", pinyin: "míngtiān", tones: [2, 1], meaning: "ngày mai", meaningEn: "tomorrow" },
+  { hanzi: "学习", pinyin: "xuéxí", tones: [2, 2], meaning: "học tập", meaningEn: "to study" },
+  { hanzi: "朋友", pinyin: "péngyǒu", tones: [2, 3], meaning: "bạn bè", meaningEn: "friend" },
+  { hanzi: "学校", pinyin: "xuéxiào", tones: [2, 4], meaning: "trường học", meaningEn: "school" },
+  { hanzi: "时候", pinyin: "shíhou", tones: [2, 0], meaning: "lúc, khi", meaningEn: "time, moment" },
+  { hanzi: "老师", pinyin: "lǎoshī", tones: [3, 1], meaning: "giáo viên", meaningEn: "teacher" },
+  { hanzi: "美国", pinyin: "Měiguó", tones: [3, 2], meaning: "nước Mỹ", meaningEn: "the USA" },
+  { hanzi: "你好", pinyin: "nǐhǎo", tones: [3, 3], meaning: "xin chào", meaningEn: "hello" },
+  { hanzi: "考试", pinyin: "kǎoshì", tones: [3, 4], meaning: "kỳ thi", meaningEn: "exam" },
+  { hanzi: "喜欢", pinyin: "xǐhuan", tones: [3, 0], meaning: "thích", meaningEn: "to like" },
+  { hanzi: "面包", pinyin: "miànbāo", tones: [4, 1], meaning: "bánh mì", meaningEn: "bread" },
+  { hanzi: "大学", pinyin: "dàxué", tones: [4, 2], meaning: "đại học", meaningEn: "university" },
+  { hanzi: "汉语", pinyin: "Hànyǔ", tones: [4, 3], meaning: "tiếng Hán", meaningEn: "Chinese language" },
+  { hanzi: "再见", pinyin: "zàijiàn", tones: [4, 4], meaning: "tạm biệt", meaningEn: "goodbye" },
+  { hanzi: "认识", pinyin: "rènshi", tones: [4, 0], meaning: "quen biết", meaningEn: "to know someone" },
+  { hanzi: "医生", pinyin: "yīshēng", tones: [1, 1], meaning: "bác sĩ", meaningEn: "doctor" },
+  { hanzi: "铅笔", pinyin: "qiānbǐ", tones: [1, 3], meaning: "bút chì", meaningEn: "pencil" },
+  { hanzi: "工作", pinyin: "gōngzuò", tones: [1, 4], meaning: "công việc", meaningEn: "work, job" },
+  { hanzi: "房子", pinyin: "fángzi", tones: [2, 0], meaning: "căn nhà", meaningEn: "house" },
+  { hanzi: "苹果", pinyin: "píngguǒ", tones: [2, 3], meaning: "táo", meaningEn: "apple" },
+  { hanzi: "可以", pinyin: "kěyǐ", tones: [3, 3], meaning: "có thể", meaningEn: "may, can" },
+  { hanzi: "米饭", pinyin: "mǐfàn", tones: [3, 4], meaning: "cơm", meaningEn: "cooked rice" },
+  { hanzi: "我们", pinyin: "wǒmen", tones: [3, 0], meaning: "chúng tôi", meaningEn: "we" },
+  { hanzi: "电话", pinyin: "diànhuà", tones: [4, 4], meaning: "điện thoại", meaningEn: "telephone" },
+  { hanzi: "谢谢", pinyin: "xièxie", tones: [4, 0], meaning: "cảm ơn", meaningEn: "thank you" },
 ];
+
 
 // =============== MINIMAL PAIR - 20 cặp dễ nhầm ===============
 export const MINIMAL_PAIR_BANK: MinimalPairItem[] = [
