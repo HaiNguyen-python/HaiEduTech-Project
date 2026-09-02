@@ -263,10 +263,7 @@ const ChinesePronunciation = () => {
   const { t } = useLanguage();
   const [openId, setOpenId] = useState<string | null>(chinesePronunciationLessons[0]?.id ?? null);
   const [scores, setScores] = useState<Record<string, number>>(() => {
-    try {
-      const raw = safeStorage.getItem(STORAGE_KEY);
-      return raw ? (JSON.parse(raw) as Record<string, number>) : {};
-    } catch { return {}; }
+    return safeStorage.get<Record<string, number>>(STORAGE_KEY, {}) ?? {};
   });
 
   useEffect(() => () => stopChineseTts(), []);
@@ -275,7 +272,7 @@ const ChinesePronunciation = () => {
     setScores(prev => {
       if ((prev[id] ?? -1) >= pct) return prev;
       const next = { ...prev, [id]: pct };
-      safeStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      safeStorage.set(STORAGE_KEY, next);
       return next;
     });
   }, []);
