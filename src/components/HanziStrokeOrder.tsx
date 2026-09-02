@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import HanziWriter from "hanzi-writer";
 import { Loader2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface HanziStrokeOrderProps {
   character: string;
@@ -16,6 +17,7 @@ const CDN_URLS = [
 ];
 
 const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrokeOrderProps) => {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const writerRef = useRef<any>(null);
   const autoPlayedRef = useRef(false);
@@ -129,6 +131,11 @@ const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrok
         <span style={{ fontSize: size * 0.6, color: "#334155", fontWeight: "bold", lineHeight: `${size}px` }}>
           {character.charAt(0)}
         </span>
+        {!compact && (
+          <p className="text-[10px] text-muted-foreground mt-1 text-center">
+            {t("Chưa có hoạt hình nét bút cho chữ này", "Stroke animation unavailable for this character")}
+          </p>
+        )}
       </div>
     );
   }
@@ -137,7 +144,7 @@ const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrok
     <div
       className="flex flex-col items-center justify-center cursor-pointer"
       onClick={handleAnimate}
-      title="Click để xem lại nét bút"
+      title={t("Bấm để xem lại nét bút", "Click to replay the strokes")}
     >
       <div ref={containerRef} className="flex items-center justify-center relative" style={{ width: size, height: size }}>
         {loading && (
@@ -148,7 +155,11 @@ const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrok
       </div>
       {!compact && (
         <p className="text-[10px] text-muted-foreground mt-1">
-          {loading ? "Đang tải nét bút..." : hasPlayed ? "Click để xem lại nét bút" : "Đang vẽ nét bút..."}
+          {loading
+            ? t("Đang tải nét bút...", "Loading strokes...")
+            : hasPlayed
+              ? t("Bấm để xem lại nét bút", "Click to replay the strokes")
+              : t("Đang vẽ nét bút...", "Drawing the strokes...")}
         </p>
       )}
     </div>
