@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import { chinesePronunciationLessons, type PronLesson } from "@/data/chinesePronunciation";
-import { safeGetItem, safeSetItem } from "@/lib/safeStorage";
+import { safeStorage } from "@/lib/safeStorage";
 
 const STORAGE_KEY = "chinese-pronunciation-progress";
 
@@ -264,7 +264,7 @@ const ChinesePronunciation = () => {
   const [openId, setOpenId] = useState<string | null>(chinesePronunciationLessons[0]?.id ?? null);
   const [scores, setScores] = useState<Record<string, number>>(() => {
     try {
-      const raw = safeGetItem(STORAGE_KEY);
+      const raw = safeStorage.getItem(STORAGE_KEY);
       return raw ? (JSON.parse(raw) as Record<string, number>) : {};
     } catch { return {}; }
   });
@@ -275,7 +275,7 @@ const ChinesePronunciation = () => {
     setScores(prev => {
       if ((prev[id] ?? -1) >= pct) return prev;
       const next = { ...prev, [id]: pct };
-      safeSetItem(STORAGE_KEY, JSON.stringify(next));
+      safeStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       return next;
     });
   }, []);
