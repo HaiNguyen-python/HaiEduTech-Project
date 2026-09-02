@@ -26,17 +26,21 @@ const speak = (text: string, slow = false) => {
   void playChineseTts(text, { playbackRate: slow ? 0.7 : 0.9, speechRate: slow ? 0.45 : 0.7 });
 };
 
-const SoundRow = ({ item }: { item: PronLesson["groups"][number]["items"][number] }) => {
+const SoundRow = ({ item, odd }: { item: PronLesson["groups"][number]["items"][number]; odd?: boolean }) => {
   const { t } = useLanguage();
   return (
-    <tr className="border-b border-border/50 last:border-0 hover:bg-primary/5 transition-colors">
-      <td className="py-3 pr-3 align-top">
+    <tr
+      className={`border-b border-border/50 last:border-0 hover:bg-primary/5 transition-colors ${
+        odd ? "bg-secondary/20" : ""
+      }`}
+    >
+      <td className="py-3 pl-4 pr-3 align-top w-[80px]">
         <span className="text-base font-bold text-primary whitespace-nowrap">{item.sound}</span>
       </td>
-      <td className="py-3 pr-3 align-top text-base text-muted-foreground min-w-[180px]">
+      <td className="py-3 px-3 align-top text-base text-muted-foreground min-w-[200px]">
         {t(item.howVi, item.howEn)}
       </td>
-      <td className="py-3 pr-3 align-top">
+      <td className="py-3 px-3 align-top w-[150px]">
         <div className="flex items-center gap-2">
           <span className="text-xl font-bold text-foreground whitespace-nowrap">{item.hanzi}</span>
           <button
@@ -49,7 +53,7 @@ const SoundRow = ({ item }: { item: PronLesson["groups"][number]["items"][number
         </div>
         <p className="text-sm text-primary/80 mt-0.5">{item.pinyin}</p>
       </td>
-      <td className="py-3 align-top text-base text-foreground min-w-[140px]">
+      <td className="py-3 pl-3 pr-4 align-top text-base text-foreground min-w-[150px]">
         {t(item.meaningVi, item.meaningEn)}
       </td>
     </tr>
@@ -204,22 +208,22 @@ const LessonCard = ({ lesson, open, onToggle, best, onScore }: {
               {/* Sound tables */}
               {lesson.groups.map((g, gi) => (
                 <div key={gi}>
-                  <h3 className="text-base font-bold text-primary mb-1">{t(g.titleVi, g.titleEn)}</h3>
+                  <h3 className="text-base font-bold text-primary mb-2">{t(g.titleVi, g.titleEn)}</h3>
                   {g.noteVi && (
                     <p className="text-sm text-muted-foreground mb-2">{t(g.noteVi, g.noteEn || g.noteVi)}</p>
                   )}
                   <div className="overflow-x-auto rounded-xl border border-border bg-card">
-                    <table className="w-full min-w-[600px] text-left">
+                    <table className="w-full min-w-[620px] text-left border-collapse">
                       <thead className="bg-secondary/60">
                         <tr className="text-sm text-muted-foreground">
-                          <th className="py-2 px-3 font-semibold">{t("Âm", "Sound")}</th>
-                          <th className="py-2 px-3 font-semibold">{t("Cách đọc", "How to say it")}</th>
-                          <th className="py-2 px-3 font-semibold">{t("Ví dụ", "Example")}</th>
-                          <th className="py-2 px-3 font-semibold">{t("Nghĩa", "Meaning")}</th>
+                          <th className="py-2.5 pl-4 pr-3 font-semibold w-[80px]">{t("Âm", "Sound")}</th>
+                          <th className="py-2.5 px-3 font-semibold">{t("Cách đọc", "How to say it")}</th>
+                          <th className="py-2.5 px-3 font-semibold w-[150px]">{t("Ví dụ", "Example")}</th>
+                          <th className="py-2.5 pl-3 pr-4 font-semibold">{t("Nghĩa", "Meaning")}</th>
                         </tr>
                       </thead>
-                      <tbody className="px-3">
-                        {g.items.map((item, i) => <SoundRow key={i} item={item} />)}
+                      <tbody>
+                        {g.items.map((item, i) => <SoundRow key={i} item={item} odd={i % 2 === 1} />)}
                       </tbody>
                     </table>
                   </div>
