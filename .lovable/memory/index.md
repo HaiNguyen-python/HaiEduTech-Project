@@ -15,3 +15,4 @@
 - [English Grammar Standards](mem://features/english-grammar/content-standards) — 6-section theory layout, >=120w EN theory, 3 tips, 4 vocab, 3 exercises per lesson
 - [Presentation Studio](mem://features/english/presentation-studio) - /presentation-studio: teleprompter, live pacing/filler/eye-contact telemetry, AI speech report
 - [Vocab Milestone Badges](mem://features/gamification/vocab-milestone-badges) — Score-derived badges 20-1200 words, pill on vocab leaderboards, full-screen unlock effect
+- [Chinese Pronunciation](mem://features/courses/chinese-pronunciation) - /chinese/pronunciation: 6 Pinyin lessons with audio, tone sandhi, VN traps, bilingual quizzes
