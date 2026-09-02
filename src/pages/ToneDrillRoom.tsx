@@ -162,6 +162,7 @@ const ToneDrillRoom = () => {
   const switchMode = (m: Mode) => {
     setMode(m);
     setPicked(null);
+    setPairPick(null);
     setRevealSandhi(false);
   };
 
@@ -169,12 +170,12 @@ const ToneDrillRoom = () => {
     setPicked(null);
     const ni = singleIdx + 1;
     if (ni >= singleQueue.length) {
-      setSingleQueue(shuffle(SINGLE_TONE_BANK));
+      setSingleQueue(shuffle(singleQueue));
       setSingleIdx(0);
     } else {
       setSingleIdx(ni);
     }
-  }, [singleIdx, singleQueue.length]);
+  }, [singleIdx, singleQueue]);
 
   const nextMin = useCallback(() => {
     setPicked(null);
@@ -198,11 +199,24 @@ const ToneDrillRoom = () => {
     }
   }, [sandhiIdx, sandhiQueue.length]);
 
+  const nextPair = useCallback(() => {
+    setPairPick(null);
+    const ni = pairIdx + 1;
+    if (ni >= pairQueue.length) {
+      setPairQueue(shuffle(TONE_PAIR_BANK));
+      setPairIdx(0);
+    } else {
+      setPairIdx(ni);
+    }
+  }, [pairIdx, pairQueue.length]);
+
   const checkSingle = (toneGuess: ToneNumber) => {
     if (picked !== null) return;
     setPicked(toneGuess);
     setTotal((x) => x + 1);
-    if (toneGuess === single.tone) {
+    const ok = toneGuess === single.tone;
+    bumpTone(single.tone, ok);
+    if (ok) {
       setCorrect((x) => x + 1);
       setStreak((s) => s + 1);
       if (streak + 1 > 0 && (streak + 1) % 5 === 0) {
@@ -214,8 +228,47 @@ const ToneDrillRoom = () => {
     }
   };
 
+  const pairKey = (tones: [ToneNumber, ToneNumber]) => `${tones[0]}-${tones[1]}`;
+
+  /** 4 lựa chọn tổ hợp thanh: đáp án đúng + 3 tổ hợp gần giống. */
+  const pairOptions = useMemo<string[]>(() => {
+    if (!tPair) return [];
+    const right = pairKey(tPair.tones);
+    const all: string[] = [];
+    ([1, 2, 3, 4, 0] as ToneNumber[]).forEach((a) => {
+      ([1, 2, 3, 4, 0] as ToneNumber[]).forEach((b) => {
+        if (a === 0) return; // âm tiết đầu không bao giờ là thanh nhẹ
+        all.push(`${a}-${b}`);
+      });
+    });
+    const near = all.filter((k) => {
+      if (k === right) return false;
+      const [a, b] = k.split("-");
+      return a === right.split("-")[0] || b === right.split("-")[1];
+    });
+    const distractors = shuffle(near).slice(0, 3);
+    return shuffle([right, ...distractors]);
+  }, [tPair?.hanzi]);
+
+  const checkPair = (key: string) => {
+    if (pairPick !== null || !tPair) return;
+    setPairPick(key);
+    setTotal((x) => x + 1);
+    const ok = key === pairKey(tPair.tones);
+    bumpTone(tPair.tones[0], ok);
+    bumpTone(tPair.tones[1], ok);
+    if (ok) {
+      setCorrect((x) => x + 1);
+      setStreak((s) => s + 1);
+      if ((streak + 1) % 5 === 0) confetti({ particleCount: 70, spread: 65, origin: { y: 0.6 } });
+    } else {
+      setStreak(0);
+    }
+  };
+
   // Build identify options shuffled (always 5 tone choices)
   const toneOptions = useMemo<ToneNumber[]>(() => [1, 2, 3, 4, 0], [single?.hanzi]);
+
 
   // Minimal pair: user hears `pick` then identifies which side
   const [mPick, setMPick] = useState<"a" | "b" | null>(null);
