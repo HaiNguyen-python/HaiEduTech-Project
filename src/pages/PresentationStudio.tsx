@@ -48,10 +48,38 @@ const PresentationStudio = () => {
   const [mode, setMode] = useState<StudioMode>("scripted");
   const [targetWpm, setTargetWpm] = useState(140);
   const [targetMinutes, setTargetMinutes] = useState(2);
-  const [scrollSpeed, setScrollSpeed] = useState(38); // px per second
+  const [scrollSpeed, setScrollSpeed] = useState(22); // px per second (gentle default)
+
+  // ---- custom (external) script -----------------------------------------
+  const [customDraft, setCustomDraft] = useState("");
+  const [customAudience, setCustomAudience] = useState("");
+  const [customActive, setCustomActive] = useState(false);
+  const [customScript, setCustomScript] = useState("");
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CUSTOM_STORAGE_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw) as { script?: string; audience?: string; active?: boolean };
+      if (saved.script) {
+        setCustomDraft(saved.script);
+        if (saved.active) { setCustomScript(saved.script); setCustomActive(true); }
+      }
+      if (saved.audience) setCustomAudience(saved.audience);
+    } catch { /* ignore */ }
+  }, []);
+
+  const persistCustom = useCallback((script: string, audience: string, active: boolean) => {
+    try {
+      localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify({ script, audience, active }));
+    } catch { /* ignore */ }
+  }, []);
+
   const scenario = useMemo(
-    () => PRESENTATION_SCENARIOS.find((s) => s.id === scenarioId) ?? PRESENTATION_SCENARIOS[0],
-    [scenarioId],
+    () => (customActive && customScript.trim()
+      ? buildCustomScenario(customScript, customAudience)
+      : PRESENTATION_SCENARIOS.find((s) => s.id === scenarioId) ?? PRESENTATION_SCENARIOS[0]),
+    [customActive, customScript, customAudience, scenarioId],
   );
 
   // ---- live session state ------------------------------------------------
