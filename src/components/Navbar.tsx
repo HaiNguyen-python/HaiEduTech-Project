@@ -164,6 +164,7 @@ const Navbar = () => {
       { to: "/chinese/hsk/test", label: t("📝 HSK Test (Đề thi thử)", "📝 HSK Test (Mock Exams)") },
      { to: "/chinese/hskk", label: t("🎙️ HSKK Speaking (Beta)", "🎙️ HSKK Speaking (Beta)") },
      { to: "/chinese/tone-drill", label: t("🎯 Tone Drill 四声训练", "🎯 Tone Drill 四声训练") },
+     { to: "/chinese/pronunciation", label: t("🔊 Phát âm Pinyin", "🔊 Pinyin Pronunciation") },
     ] },
     { to: "#cn-foundation-group", label: t("🧱 Communication Program", "🧱 Communication Program"), groupLabel: "cn-foundation", children: [
       { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
