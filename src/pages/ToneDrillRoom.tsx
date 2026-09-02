@@ -16,17 +16,25 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import ToneRecorder from "@/components/chinese/ToneRecorder";
 import {
   SINGLE_TONE_BANK,
   MINIMAL_PAIR_BANK,
   SANDHI_BANK,
+  TONE_PAIR_BANK,
   type SingleToneItem,
   type MinimalPairItem,
   type SandhiItem,
+  type TonePairItem,
   type ToneNumber,
 } from "@/data/toneDrillBank";
 
-type Mode = "identify" | "minimal" | "sandhi";
+type Mode = "identify" | "pairs" | "minimal" | "sandhi";
+
+type ToneStats = Record<string, { c: number; t: number }>;
+
+const EMPTY_STATS: ToneStats = { "1": { c: 0, t: 0 }, "2": { c: 0, t: 0 }, "3": { c: 0, t: 0 }, "4": { c: 0, t: 0 }, "0": { c: 0, t: 0 } };
+
 
 const TONE_META: Record<ToneNumber, { label: string; labelEn: string; color: string; contour: string }> = {
   1: { label: "Thanh 1 (cao bằng)", labelEn: "Tone 1 (high level)", color: "bg-rose-500", contour: "ˉ" },
