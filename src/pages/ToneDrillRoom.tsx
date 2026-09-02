@@ -285,10 +285,12 @@ const ToneDrillRoom = () => {
   };
 
   const checkMinimal = (guess: "a" | "b") => {
-    if (mPick !== null) return;
+    if (mPick !== null || !mPair) return;
     setMPick(guess);
     setTotal((x) => x + 1);
-    if (guess === mTarget) {
+    const ok = guess === mTarget;
+    bumpTone(mPair[mTarget].tone, ok);
+    if (ok) {
       setCorrect((x) => x + 1);
       setStreak((s) => s + 1);
       if ((streak + 1) % 5 === 0) {
@@ -298,6 +300,7 @@ const ToneDrillRoom = () => {
       setStreak(0);
     }
   };
+
 
   // Auto-play on new question
   useEffect(() => {
