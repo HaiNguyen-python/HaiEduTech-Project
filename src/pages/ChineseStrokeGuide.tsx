@@ -28,6 +28,7 @@ import {
   type PracticeChar,
 } from "@/data/chineseStrokes";
 import { safeStorage } from "@/lib/safeStorage";
+import { cn } from "@/lib/utils";
 import HanziTracePanel from "@/components/chinese/HanziTracePanel";
 import PracticeSheet from "@/components/chinese/PracticeSheet";
 import { radicalGroups, radicalQuizzes } from "@/data/chineseRadicals";
