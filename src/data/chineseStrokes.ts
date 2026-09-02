@@ -105,7 +105,7 @@ export const basicStrokes: BasicStroke[] = [
     nameEn: "Dot",
     howVi: "Chấm ngắn, đặt bút nhẹ rồi nhấn nhanh theo hướng xuống phải.",
     howEn: "A short dot: touch lightly then press quickly down to the right.",
-    examples: ["main", "六", "文", "为"].filter((c) => c !== "main"),
+    examples: ["六", "文", "为", "主"],
   },
   {
     glyph: "㇀",
