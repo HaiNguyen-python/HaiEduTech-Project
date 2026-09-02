@@ -18,6 +18,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -126,6 +128,8 @@ const PresentationStudio = () => {
   const fillers = useMemo(() => countFillers(`${transcript} ${interim}`), [transcript, interim]);
   const liveSignposts = useMemo(() => findSignposts(transcript), [transcript]);
   const pace = paceLabel(liveWpm);
+  const customDraftWords = useMemo(() => countWords(customDraft), [customDraft]);
+  const customDraftMinutes = Math.max(0.1, Math.round((customDraftWords / Math.max(80, targetWpm)) * 10) / 10);
 
   // ---- camera ------------------------------------------------------------
   const stopMedia = useCallback(() => {
@@ -495,6 +499,59 @@ const PresentationStudio = () => {
               </Select>
               <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{scenario.prompt}</p>
               <Badge variant="secondary" className="mt-3">{scenario.audience}</Badge>
+              {customActive && (
+                <Badge className="mt-3 ml-2">{t("Đang dùng kịch bản của bạn", "Using your own script")}</Badge>
+              )}
+            </div>
+
+            {/* Custom / external script */}
+            <div className="glass-card rounded-2xl p-4 border border-border/60">
+              <h2 className="text-sm font-semibold flex items-center gap-2 mb-3">
+                <ScrollText className="w-4 h-4 text-primary" />
+                {t("Kịch bản của riêng bạn", "Your own script")}
+              </h2>
+              <Textarea
+                value={customDraft}
+                onChange={(e) => { setCustomDraft(e.target.value); persistCustom(e.target.value, customAudience, customActive); }}
+                disabled={recording}
+                rows={6}
+                placeholder={t("Dán bài thuyết trình của bạn vào đây...", "Paste your presentation script here...")}
+                className="text-sm"
+              />
+              <p className="text-[11px] text-muted-foreground mt-2">
+                {customDraftWords} {t("từ", "words")} · ≈ {customDraftMinutes} {t("phút ở", "min at")} {targetWpm} WPM
+              </p>
+              <Input
+                value={customAudience}
+                onChange={(e) => { setCustomAudience(e.target.value); persistCustom(customDraft, e.target.value, customActive); }}
+                disabled={recording}
+                placeholder={t("Khán giả / ngữ cảnh (không bắt buộc)", "Audience / context (optional)")}
+                className="mt-2 text-sm"
+              />
+              <div className="flex gap-2 mt-3">
+                <Button
+                  size="sm" className="flex-1"
+                  disabled={recording || customDraft.trim().length < 20}
+                  onClick={() => {
+                    setCustomScript(customDraft);
+                    setCustomActive(true);
+                    persistCustom(customDraft, customAudience, true);
+                    promptOffsetRef.current = 0;
+                    if (promptRef.current) promptRef.current.scrollTop = 0;
+                    toast({ title: t("Đã nạp kịch bản của bạn", "Your script is loaded") });
+                  }}
+                >
+                  {t("Dùng kịch bản này", "Use this script")}
+                </Button>
+                {customActive && (
+                  <Button
+                    size="sm" variant="outline" disabled={recording}
+                    onClick={() => { setCustomActive(false); persistCustom(customDraft, customAudience, false); }}
+                  >
+                    {t("Bỏ", "Clear")}
+                  </Button>
+                )}
+              </div>
             </div>
 
             <div className="glass-card rounded-2xl p-4 border border-border/60">
