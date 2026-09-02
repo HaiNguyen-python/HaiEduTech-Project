@@ -474,6 +474,88 @@ const ChineseStrokeGuide = () => {
             )}
           </section>
 
+          {/* Tracing */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+              {t("Tập viết theo nét (tương tác)", "Interactive stroke tracing")}
+            </h2>
+            <p className="text-base text-muted-foreground mb-4">
+              {t(
+                "Viết trực tiếp bằng chuột hoặc ngón tay. Sai 2 lần sẽ được gợi ý nét tiếp theo.",
+                "Write with your mouse or finger. After two misses you get a hint for the next stroke.",
+              )}
+            </p>
+            <HanziTracePanel chars={traceChars} />
+          </section>
+
+          {/* Radicals */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+              {t("Bộ thủ thường gặp (40 bộ)", "Most common radicals (40)")}
+            </h2>
+            <p className="text-base text-muted-foreground mb-5">
+              {t(
+                "Bộ thủ là gợi ý nghĩa của chữ Hán - nhớ bộ thủ giúp đoán nghĩa và viết đúng thứ tự nét.",
+                "Radicals hint at a character's meaning - knowing them helps you guess meanings and write strokes in order.",
+              )}
+            </p>
+            <div className="space-y-6">
+              {radicalGroups.map((g) => (
+                <div key={g.id}>
+                  <h3 className="text-lg font-bold text-foreground mb-3">{t(g.titleVi, g.titleEn)}</h3>
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {g.radicals.map((r) => (
+                      <div key={r.glyph + r.pinyin} className="rounded-xl border border-border bg-card p-4">
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl font-bold text-primary leading-none">{r.glyph}</span>
+                          <div className="min-w-0">
+                            <p className="text-base font-semibold text-foreground">
+                              {r.pinyin} · {t(r.nameVi, r.nameEn)}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {r.strokes} {t("nét", "strokes")}
+                              {r.standalone ? ` · ${t("dạng đứng riêng", "standalone")}: ${r.standalone}` : ""}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => speak(r.standalone ?? r.glyph)}
+                            aria-label={t("Nghe", "Listen")}
+                            className="ml-auto p-1.5 rounded-md hover:bg-primary/10 transition-colors"
+                          >
+                            <Volume2 className="w-4 h-4 text-primary" />
+                          </button>
+                        </div>
+                        <p className="text-sm text-foreground mt-2">💡 {t(r.hintVi, r.hintEn)}</p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {r.examples.map((ex) => (
+                            <span key={ex.char} className="text-sm px-2 py-1 rounded-lg bg-secondary/60 text-foreground">
+                              {ex.char} <span className="text-primary">{ex.pinyin}</span>{" "}
+                              <span className="text-muted-foreground">{t(ex.meaningVi, ex.meaningEn)}</span>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Printable sheet */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+              {t("Vở ô 田字格 in được", "Printable 田字格 practice sheet")}
+            </h2>
+            <p className="text-base text-muted-foreground mb-4">
+              {t(
+                "Chọn chữ rồi in ra để luyện viết tay theo ô vuông chuẩn.",
+                "Pick characters, then print the grid to practise handwriting.",
+              )}
+            </p>
+            <PracticeSheet chars={traceChars} />
+          </section>
+
           {/* Quiz */}
           <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
             <h2 className="text-2xl font-display font-bold text-foreground mb-4">
@@ -481,6 +563,15 @@ const ChineseStrokeGuide = () => {
             </h2>
             <Quiz onScore={handleScore} />
           </section>
+
+          {/* Radical quiz */}
+          <section className="glass-card rounded-2xl p-5 sm:p-7 mb-8 border border-border">
+            <h2 className="text-2xl font-display font-bold text-foreground mb-4">
+              {t("Quiz bộ thủ", "Radical quiz")}
+            </h2>
+            <RadicalQuiz />
+          </section>
+
 
           <div className="flex flex-wrap gap-3">
             <Link
