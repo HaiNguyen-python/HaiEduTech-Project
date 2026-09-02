@@ -493,15 +493,110 @@ const ToneDrillRoom = () => {
               </div>
 
               {picked !== null && (
-                <div className="flex justify-center mt-4">
-                  <Button onClick={nextSingle} className="bg-gradient-to-r from-amber-500 to-red-500 text-white">
-                    {picked === single.tone ? <CheckCircle2 className="w-4 h-4 mr-1" /> : <XCircle className="w-4 h-4 mr-1" />}
-                    {t("Câu tiếp theo", "Next")}
-                  </Button>
-                </div>
+                <>
+                  <ToneRecorder hanzi={single.hanzi} tone={single.tone} className="mt-4" />
+                  <div className="flex justify-center mt-4">
+                    <Button onClick={nextSingle} className="bg-gradient-to-r from-amber-500 to-red-500 text-white">
+                      {picked === single.tone ? <CheckCircle2 className="w-4 h-4 mr-1" /> : <XCircle className="w-4 h-4 mr-1" />}
+                      {t("Câu tiếp theo", "Next")}
+                    </Button>
+                  </div>
+                </>
               )}
             </motion.div>
           )}
+
+          {mode === "pairs" && tPair && (
+            <motion.div
+              key={`p-${pairIdx}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass-card rounded-2xl p-6 sm:p-10"
+            >
+              <p className="text-center text-sm text-muted-foreground mb-4">
+                {t(
+                  "Nghe từ hai âm tiết rồi chọn đúng tổ hợp thanh điệu:",
+                  "Listen to the two-syllable word, then pick the right tone combination:",
+                )}
+              </p>
+              <div className="flex flex-col items-center gap-4 mb-6">
+                <button
+                  onClick={() => speak(tPair.hanzi)}
+                  className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-red-500 text-white flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-transform"
+                  aria-label={t("Phát âm", "Play")}
+                >
+                  <Volume2 className="w-9 h-9" />
+                </button>
+                <div className="text-center">
+                  <div className="text-6xl font-bold text-foreground mb-1" style={{ fontFamily: "'Noto Serif SC', serif" }}>
+                    {tPair.hanzi}
+                  </div>
+                  {pairPick !== null && (
+                    <div className="mt-2">
+                      <div className="text-2xl text-amber-600 font-semibold">{tPair.pinyin}</div>
+                      <div className="text-sm text-muted-foreground mt-1">{t(tPair.meaning, tPair.meaningEn)}</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {pairOptions.map((key) => {
+                  const [a, b] = key.split("-").map(Number) as [ToneNumber, ToneNumber];
+                  const right = key === `${tPair.tones[0]}-${tPair.tones[1]}`;
+                  const isPicked = pairPick === key;
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => checkPair(key)}
+                      disabled={pairPick !== null}
+                      className={cn(
+                        "rounded-xl p-4 transition-all border-2 active:scale-95 flex items-center justify-center gap-3",
+                        pairPick === null && "hover:border-amber-500/40 hover:bg-amber-500/5 border-border",
+                        pairPick !== null && right && "border-emerald-500 bg-emerald-500/15",
+                        isPicked && !right && "border-rose-500 bg-rose-500/15",
+                        pairPick !== null && !right && !isPicked && "opacity-50 border-border",
+                      )}
+                    >
+                      {[a, b].map((tn, i) => (
+                        <span key={i} className="flex flex-col items-center">
+                          <span className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm", TONE_META[tn].color)}>
+                            {tn === 0 ? "·" : tn}
+                          </span>
+                          <ToneContour tone={tn} />
+                        </span>
+                      ))}
+                      <span className="text-sm font-semibold text-foreground">
+                        {a}
+                        {" + "}
+                        {b === 0 ? t("nhẹ", "neutral") : b}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {pairPick !== null && (
+                <>
+                  {pairPick !== `${tPair.tones[0]}-${tPair.tones[1]}` && (
+                    <div className="mt-4 rounded-xl p-4 bg-amber-500/8 border border-amber-500/25 text-sm text-foreground">
+                      💡 {t(
+                        `${tPair.pinyin} là tổ hợp ${tPair.tones[0]} + ${tPair.tones[1] === 0 ? "thanh nhẹ" : tPair.tones[1]}. Nghe lại và chú ý âm tiết thứ hai.`,
+                        `${tPair.pinyin} is ${tPair.tones[0]} + ${tPair.tones[1] === 0 ? "neutral" : tPair.tones[1]}. Listen again and focus on the second syllable.`,
+                      )}
+                    </div>
+                  )}
+                  <ToneRecorder hanzi={tPair.hanzi} tone={tPair.tones[0]} className="mt-4" />
+                  <div className="flex justify-center mt-4">
+                    <Button onClick={nextPair} className="bg-gradient-to-r from-amber-500 to-red-500 text-white">
+                      {t("Từ tiếp theo", "Next word")}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </motion.div>
+          )}
+
 
           {mode === "minimal" && mPair && (
             <motion.div
