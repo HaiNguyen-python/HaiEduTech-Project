@@ -57,13 +57,14 @@ const SoundRow = ({ item }: { item: PronLesson["groups"][number]["items"][number
 };
 
 const LessonQuiz = ({ lesson, onDone }: { lesson: PronLesson; onDone: (score: number, total: number) => void }) => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
 
   const q = lesson.quiz[idx];
+  const options = lang === "vi" ? q.options : (q.optionsEn ?? q.options);
 
   const reset = () => { setIdx(0); setPicked(null); setScore(0); setFinished(false); };
 
@@ -122,7 +123,7 @@ const LessonQuiz = ({ lesson, onDone }: { lesson: PronLesson; onDone: (score: nu
       )}
 
       <div className="grid sm:grid-cols-2 gap-2">
-        {q.options.map((opt, i) => {
+        {options.map((opt, i) => {
           const isRight = i === q.answer;
           const state = picked === null
             ? "border-border bg-card hover:border-primary/50"
