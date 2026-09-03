@@ -37,6 +37,9 @@ const SpeakingCoachPage = () => {
   const [flyingStars, setFlyingStars] = useState<FlyingStar[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const starIdRef = useRef(0);
+  const [mode, setMode] = useState<"sentences" | "shadow" | "drill" | "freetalk" | "review">("sentences");
+  const [weakCount, setWeakCount] = useState(() => countWeakWords(lang));
+
 
   const titles: Record<string, { title: string; subtitle: string; back: string }> = {
     english: {
