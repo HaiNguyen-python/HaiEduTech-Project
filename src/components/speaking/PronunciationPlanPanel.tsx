@@ -191,6 +191,17 @@ const PronunciationPlanPanel = ({ language, onGoMode, variant = "full" }: Props)
         </Card>
       </div>
 
+      {hero && (
+        <Button variant="outline" size="sm" className="gap-1" onClick={() => setStepsOpen((o) => !o)}>
+          <Compass className="w-4 h-4" />
+          {stepsOpen
+            ? t("Ẩn lộ trình đầy đủ", "Hide full roadmap")
+            : t(`Xem đủ ${plan.steps.length} bước lộ trình`, `See all ${plan.steps.length} roadmap steps`)}
+        </Button>
+      )}
+
+      {showRest && (
+      <>
       {/* Steps */}
       <Card>
         <CardHeader>
