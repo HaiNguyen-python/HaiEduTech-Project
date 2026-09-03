@@ -771,7 +771,9 @@ const PresentationStudio = () => {
                 <div
                   ref={promptInnerRef}
                   className="will-change-transform"
+                  style={{ transform: "translateY(100%)" }}
                 >
+
                   <p
                     className={`whitespace-pre-wrap text-left mx-auto [&>span]:leading-[1.9] ${
                       focusMode
