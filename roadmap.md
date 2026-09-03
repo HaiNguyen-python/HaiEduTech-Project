@@ -14,4 +14,4 @@
 - [ ] IELTS Vocab practice: collocation match must not repeat the same masked phrase (e.g. three "____ analysis" rows) - ensure unique, distinguishable prompts
 
 ## Lifestyle Academy
-- [ ] Audit all 60 lessons: add "why it matters" + deep dive + illustration emojis where missing (44 lessons), balance levels, verify page rendering
+- [x] Audited all 60 lessons: added bilingual "why it matters" + 3-4 paragraph deep dives for 44 lessons and illustration emojis for all 52 missing; audit script reports 0 issues; verified rendering at /lifestyle-academy
