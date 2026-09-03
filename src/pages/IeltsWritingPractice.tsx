@@ -547,8 +547,8 @@ const IeltsWritingPractice = () => {
           <TabsContent value="idea" className="space-y-4">
             <p className="text-xs text-muted-foreground mb-2">
               {t(
-                "Chọn đề Task 2, khám phá ý tưởng theo nhiều góc nhìn (lý do + ví dụ), và luyện phát triển ý của riêng bạn.",
-                "Pick a Task 2 prompt, explore ideas across multiple perspectives (reason + example), and practise developing your own."
+                "Chỉ dành cho Task 2. Chọn đề Task 2, khám phá ý tưởng theo nhiều góc nhìn (lý do + ví dụ), và luyện phát triển ý của riêng bạn.",
+                "Task 2 only. Pick a Task 2 prompt, explore ideas across multiple perspectives (reason + example), and practise developing your own."
               )}
             </p>
             <IdeaPractice />
@@ -582,8 +582,12 @@ const IeltsWritingPractice = () => {
               </div>
               <p className="text-xs text-muted-foreground">
                 {t(
-                  "Luyện các cấu trúc nâng cao (đảo ngữ, câu chẻ, điều kiện hỗn hợp, mệnh đề phân từ...) để tăng điểm Grammatical Range & Accuracy.",
-                  "Practise advanced structures (inversion, cleft, mixed conditionals, participle clauses...) to boost your Grammatical Range & Accuracy score."
+                  taskType === 1
+                    ? "Task 1: luyện ngôn ngữ mô tả số liệu (xu hướng, so sánh, tỉ lệ, tổng quan, quy trình, bản đồ) để tăng điểm Grammatical Range & Accuracy."
+                    : "Task 2: luyện các cấu trúc nâng cao (đảo ngữ, câu chẻ, điều kiện hỗn hợp, mệnh đề phân từ...) để tăng điểm Grammatical Range & Accuracy.",
+                  taskType === 1
+                    ? "Task 1: practise data description language (trends, comparisons, proportions, overviews, processes, maps) to boost Grammatical Range & Accuracy."
+                    : "Task 2: practise advanced structures (inversion, cleft, mixed conditionals, participle clauses...) to boost your Grammatical Range & Accuracy score."
                 )}
               </p>
             </div>

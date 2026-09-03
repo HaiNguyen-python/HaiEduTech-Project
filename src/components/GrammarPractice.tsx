@@ -7,7 +7,7 @@
  * target structure formula as the "phrase" so the AI checks whether the
  * learner deployed that structure correctly.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen, Send, Loader2, CheckCircle2, XCircle, Lightbulb,
@@ -23,8 +23,13 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   IELTS_GRAMMAR,
   GRAMMAR_CATEGORIES,
+  grammarItemMatchesTask,
   IELTSGrammarItem,
 } from "@/data/ieltsGrammarBank";
+import {
+  IELTS_GRAMMAR_TASK1,
+  TASK1_GRAMMAR_CATEGORIES,
+} from "@/data/ieltsGrammarBankTask1";
 
 interface GradeResult {
   score: number;
@@ -62,10 +67,32 @@ const GrammarPractice = ({ taskType }: Props) => {
   const [result, setResult] = useState<GradeResult | null>(null);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
+  const categories = taskType === 1 ? TASK1_GRAMMAR_CATEGORIES : GRAMMAR_CATEGORIES;
+
+  const pool = useMemo(() => {
+    if (taskType === 1) {
+      return [
+        ...IELTS_GRAMMAR_TASK1,
+        ...IELTS_GRAMMAR.filter((g) => grammarItemMatchesTask(g, 1)),
+      ];
+    }
+    return IELTS_GRAMMAR.filter((g) => grammarItemMatchesTask(g, 2));
+  }, [taskType]);
+
   const filtered = useMemo(() => {
-    if (activeCategory === "all") return IELTS_GRAMMAR;
-    return IELTS_GRAMMAR.filter((g) => g.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === "all") return pool;
+    return pool.filter((g) => g.category === activeCategory);
+  }, [activeCategory, pool]);
+
+  // Reset selection + category when the learner switches task, so Task 1 never
+  // shows a Task 2 structure card (and vice versa).
+  useEffect(() => {
+    setActiveCategory("all");
+    setSelected(null);
+    setSentence("");
+    setResult(null);
+    setSaved(false);
+  }, [taskType]);
 
   const handleSelect = (g: IELTSGrammarItem) => {
     setSelected(g);
@@ -143,7 +170,11 @@ const GrammarPractice = ({ taskType }: Props) => {
       const { data, error } = await supabase.functions.invoke("grade-phrase-sentence", {
         body: {
           phrase: selected.structure,
-          phraseMeaning: `${selected.meaning} | Model example: ${selected.example}`,
+          phraseMeaning:
+            `${selected.meaning} | Model example: ${selected.example}` +
+            (taskType === 1
+              ? " | Context: IELTS Writing Task 1 report language (describing charts, tables, processes or maps). Judge the sentence as data description, not as an argument."
+              : " | Context: IELTS Writing Task 2 essay language (argument, cause, effect, opinion)."),
           userSentence: sentence.trim(),
           taskType,
         },
@@ -194,6 +225,13 @@ const GrammarPractice = ({ taskType }: Props) => {
       comparison: "bg-orange-500/15 text-orange-600 dark:text-orange-300 border-orange-500/30",
       modals: "bg-teal-500/15 text-teal-600 dark:text-teal-300 border-teal-500/30",
       linking: "bg-rose-500/15 text-rose-600 dark:text-rose-300 border-rose-500/30",
+      "t1-trend": "bg-blue-500/15 text-blue-600 dark:text-blue-300 border-blue-500/30",
+      "t1-comparison": "bg-orange-500/15 text-orange-600 dark:text-orange-300 border-orange-500/30",
+      "t1-figures": "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border-emerald-500/30",
+      "t1-overview": "bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 border-indigo-500/30",
+      "t1-process": "bg-cyan-500/15 text-cyan-600 dark:text-cyan-300 border-cyan-500/30",
+      "t1-map": "bg-purple-500/15 text-purple-600 dark:text-purple-300 border-purple-500/30",
+      "t1-participle": "bg-amber-500/15 text-amber-600 dark:text-amber-300 border-amber-500/30",
     };
     return map[cat] || "bg-muted text-foreground border-border";
   };
@@ -212,7 +250,7 @@ const GrammarPractice = ({ taskType }: Props) => {
               </Badge>
             </CardTitle>
             <div className="flex gap-1.5 pt-2 overflow-x-auto pb-1 -mx-1 px-1">
-              {GRAMMAR_CATEGORIES.map((c) => (
+              {categories.map((c) => (
                 <button
                   key={c.value}
                   onClick={() => setActiveCategory(c.value)}
