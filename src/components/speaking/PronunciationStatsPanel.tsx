@@ -316,7 +316,7 @@ const PronunciationStatsPanel = ({ language, onPractice }: Props) => {
                         size="icon"
                         variant="ghost"
                         aria-label={t("Nghe phát âm", "Listen")}
-                        onClick={() => playSpeakingTts(w.word, language)}
+                        onClick={() => playSpeakingTts(language, w.word)}
                       >
                         <Volume2 className="w-4 h-4" />
                       </Button>
