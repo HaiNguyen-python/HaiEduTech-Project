@@ -12,3 +12,6 @@
 - [x] Word Quest: 5th step, retry queue, stage medals, resume
 - [x] Daily Word Mission (SRS) tab on IELTS Vocabulary
 - [ ] IELTS Vocab practice: collocation match must not repeat the same masked phrase (e.g. three "____ analysis" rows) - ensure unique, distinguishable prompts
+
+## Lifestyle Academy
+- [x] Audited all 60 lessons: added bilingual "why it matters" + 3-4 paragraph deep dives for 44 lessons and illustration emojis for all 52 missing; audit script reports 0 issues; verified rendering at /lifestyle-academy

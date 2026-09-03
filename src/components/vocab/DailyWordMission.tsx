@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Flame, CalendarClock, Target, Sparkles, RotateCcw, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { IeltsWord } from "@/data/ieltsVocabData";
+import type { QuestItem } from "@/lib/vocab/vocabAdapter";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { pickSmartDistractors, maskWord, shuffleArr } from "@/lib/vocab/questionQuality";
 import {
@@ -21,7 +21,7 @@ import {
 type QType = "meaning" | "listen" | "gap" | "recall";
 
 interface MissionQ {
-  word: IeltsWord;
+  word: QuestItem;
   type: QType;
   options: string[];
   correct: number;
@@ -29,26 +29,33 @@ interface MissionQ {
   isNew: boolean;
 }
 
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z]/g, "");
+/** Keeps letters/digits of any alphabet (Vietnamese diacritics included). */
+const norm = (s: string) =>
+  s.toLowerCase().normalize("NFC").replace(/[^\p{L}\p{N}]/gu, "");
 
-const speak = (text: string) => {
+const englishSpeak = (text: string) => {
   stopEnglishTts();
   void playEnglishTts(text, { playbackRate: 0.98, speechRate: 0.85 });
 };
 
 interface Props {
-  bank: IeltsWord[];
-  allWords: IeltsWord[];
+  bank: QuestItem[];
+  allWords: QuestItem[];
   t: (vi: string, en: string) => string;
   /** Called when a word reaches the mastery streak. */
-  onWordMastered?: (word: string) => void;
+  onWordMastered?: (key: string) => void;
+  /** Subject namespace for the local review schedule (e.g. "hsk"). */
+  subject?: string;
+  /** Per-subject text-to-speech; defaults to the English voice. */
+  speak?: (text: string) => void;
+  stopSpeak?: () => void;
 }
 
-const buildQuestion = (w: IeltsWord, pool: IeltsWord[], isNew: boolean): MissionQ => {
+const buildQuestion = (w: QuestItem, pool: QuestItem[], isNew: boolean): MissionQ => {
   const types: QType[] = isNew ? ["meaning", "listen"] : ["meaning", "listen", "gap", "recall"];
   const type = types[Math.floor(Math.random() * types.length)];
   const distractors = pickSmartDistractors(pool, w, 3, {
-    getText: x => x.word,
+    getText: x => x.definition.vi,
     getPos: x => x.partOfSpeech,
     getTopic: x => x.category,
     getLevel: x => x.level,
@@ -59,11 +66,11 @@ const buildQuestion = (w: IeltsWord, pool: IeltsWord[], isNew: boolean): Mission
     return {
       word: w, type, isNew,
       options: opts.map(o => o.definition.vi),
-      correct: opts.findIndex(o => o.word === w.word),
+      correct: opts.findIndex(o => o.key === w.key),
       prompt: w.word,
     };
   }
-  if (type === "gap" && w.example) {
+  if (type === "gap" && w.example && w.example.length > 8) {
     return {
       word: w, type, isNew,
       options: [], correct: 0,
@@ -76,8 +83,15 @@ const buildQuestion = (w: IeltsWord, pool: IeltsWord[], isNew: boolean): Mission
   return { word: w, type: "recall", isNew, options: [], correct: 0, prompt: w.word };
 };
 
-const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
-  const [store, setStore] = useState<SrsStore>(() => loadSrs());
+const DailyWordMission = ({
+  bank, allWords, t, onWordMastered,
+  subject = "ielts",
+  speak: speakProp,
+  stopSpeak,
+}: Props) => {
+  const speak = speakProp || englishSpeak;
+  const stopVoice = stopSpeak || stopEnglishTts;
+  const [store, setStore] = useState<SrsStore>(() => loadSrs(subject));
   const [reviewCount, setReviewCount] = useState(10);
   const [newCount, setNewCount] = useState(5);
   const [queue, setQueue] = useState<MissionQ[]>([]);
@@ -88,13 +102,13 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
   const [revealed, setRevealed] = useState(false);
   const [wasCorrect, setWasCorrect] = useState<boolean | null>(null);
   const [stats, setStats] = useState({ reviewed: 0, correct: 0, levelUp: 0, mastered: 0 });
-  const [streak, setStreak] = useState(() => loadStreak());
+  const [streak, setStreak] = useState(() => loadStreak(subject));
   const topRef = useRef<HTMLDivElement>(null);
 
   const today = todayISO();
   const dueNow = useMemo(() => countDue(store, today), [store, today]);
   const plan = useMemo(
-    () => buildMission(bank, w => w.word, store, { reviewCount, newCount, today }),
+    () => buildMission(bank, w => w.key, store, { reviewCount, newCount, today }),
     [bank, store, reviewCount, newCount, today],
   );
 
@@ -117,8 +131,9 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
   const q = queue[idx];
 
   useEffect(() => {
-    if (phase === "run" && q && q.type === "listen") speak(q.word.word);
-    return () => stopEnglishTts();
+    if (phase === "run" && q && q.type === "listen") speak(q.word.speakText);
+    return () => stopVoice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, q]);
 
   const reveal = (correct: boolean) => {
@@ -128,15 +143,15 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
 
   const grade = (g: SrsGrade) => {
     if (!q) return;
-    const before = store[q.word.word];
+    const before = store[q.word.key];
     const after = reviewCard(before, g, wasCorrect ?? true);
-    const next = { ...store, [q.word.word]: after };
+    const next = { ...store, [q.word.key]: after };
     setStore(next);
-    saveSrs(next);
+    saveSrs(next, subject);
 
     const leveled = after.streak > (before?.streak || 0);
     const justMastered = after.streak >= MASTER_STREAK && (before?.streak || 0) < MASTER_STREAK;
-    if (justMastered) onWordMastered?.(q.word.word);
+    if (justMastered) onWordMastered?.(q.word.key);
     setStats(s => ({
       reviewed: s.reviewed + 1,
       correct: s.correct + (wasCorrect ? 1 : 0),
@@ -156,7 +171,7 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
       return rest;
     });
     if (idx + 1 >= queue.length + (requeue ? 1 : 0)) {
-      setStreak(bumpStreak());
+      setStreak(bumpStreak(subject));
       setPhase("done");
     } else {
       setIdx(i => i + 1);
@@ -271,7 +286,7 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
 
   if (!q) return null;
 
-  const typedOk = norm(typed) === norm(q.word.word);
+  const typedOk = norm(typed) === norm(q.word.typeAnswer);
 
   return (
     <div ref={topRef} className="mx-auto max-w-2xl scroll-mt-24">
@@ -289,14 +304,14 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
       </div>
 
       <AnimatePresence mode="wait">
-        <motion.div key={`${idx}-${q.word.word}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
+        <motion.div key={`${idx}-${q.word.key}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
           className="rounded-2xl border border-border bg-card p-6">
 
           {q.type === "meaning" && (
             <>
               <div className="mb-4 flex items-center justify-center gap-3">
                 <h3 className="text-3xl font-extrabold text-foreground">{q.prompt}</h3>
-                <button onClick={() => speak(q.word.word)} className="rounded-full p-2 hover:bg-primary/10">
+                <button onClick={() => speak(q.word.speakText)} className="rounded-full p-2 hover:bg-primary/10">
                   <Volume2 className="h-5 w-5 text-primary" />
                 </button>
               </div>
@@ -318,10 +333,14 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
 
           {q.type === "listen" && (
             <div className="flex flex-col items-center gap-3 text-center">
-              <button onClick={() => speak(q.word.word)} className="rounded-full bg-primary/10 p-6 hover:bg-primary/20">
+              <button onClick={() => speak(q.word.speakText)} className="rounded-full bg-primary/10 p-6 hover:bg-primary/20">
                 <Volume2 className="h-10 w-10 text-primary" />
               </button>
-              <p className="text-sm text-muted-foreground">{t("Nghe rồi gõ lại từ:", "Listen, then type the word:")}</p>
+              <p className="text-sm text-muted-foreground">
+                {q.word.typeAnswer !== q.word.word
+                  ? t("Nghe rồi gõ phiên âm:", "Listen, then type the romanisation:")
+                  : t("Nghe rồi gõ lại từ:", "Listen, then type the word:")}
+              </p>
               <p className="text-base font-semibold text-foreground">{q.prompt}</p>
               <input value={typed} onChange={e => setTyped(e.target.value)} disabled={revealed}
                 onKeyDown={e => { if (e.key === "Enter" && typed.trim()) reveal(typedOk); }}
@@ -347,7 +366,7 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
           {q.type === "recall" && (
             <div className="flex flex-col items-center gap-3 text-center">
               <h3 className="text-3xl font-extrabold text-foreground">{q.prompt}</h3>
-              <p className="font-mono text-sm text-muted-foreground">{q.word.ipa}</p>
+              <p className="font-mono text-sm text-muted-foreground">{q.word.subtitle || q.word.ipa}</p>
               <p className="text-sm text-muted-foreground">{t("Bạn còn nhớ nghĩa của từ này không?", "Do you still remember this word?")}</p>
               {!revealed && <Button onClick={() => reveal(true)}>{t("Hiện đáp án", "Show answer")}</Button>}
             </div>
@@ -364,6 +383,7 @@ const DailyWordMission = ({ bank, allWords, t, onWordMastered }: Props) => {
                 <p className="mt-1 text-muted-foreground">{q.word.definition.en}</p>
                 <p className="text-muted-foreground">{q.word.definition.vi}</p>
                 {q.word.example && <p className="mt-2 italic text-foreground"><span className="not-italic font-bold text-primary">E.g. </span>{q.word.example}</p>}
+                {q.word.exampleTranslation && <p className="text-xs text-muted-foreground">{q.word.exampleTranslation}</p>}
               </div>
               <p className="text-center text-xs text-muted-foreground">
                 {t("Bạn nhớ từ này ở mức nào?", "How well did you remember it?")}

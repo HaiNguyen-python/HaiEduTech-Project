@@ -23,6 +23,17 @@ import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
 import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
+import WordQuest from "@/components/vocab/WordQuest";
+import DailyWordMission from "@/components/vocab/DailyWordMission";
+import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
+import { vietnameseToQuest } from "@/lib/vocab/vocabAdapter";
+import { Sparkles, Target } from "lucide-react";
+
+/** Vietnamese voice used by the two shared learning modes. */
+const speakVi = (text: string, slow = false) => {
+  stopVietnameseTts();
+  void playVietnameseTts(text, { playbackRate: slow ? 0.75 : 0.9, speechRate: slow ? 0.4 : 0.55, pitch: 1.05 });
+};
 import {
   vietnameseVocabBank,
   VIETNAMESE_BANK_LEVELS,
@@ -396,9 +407,14 @@ const VietnameseVocabulary = () => {
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "quest" | "mission">("list");
   const { mastered, toggle } = useMasteredVocab("vietnamese");
   const handleMastered = useMasteredMotivation(mastered, toggle);
+  const [dueToday, setDueToday] = useState(() => countDue(loadSrs("vietnamese")));
+  useEffect(() => {
+    const id = window.setInterval(() => setDueToday(countDue(loadSrs("vietnamese"))), 5000);
+    return () => window.clearInterval(id);
+  }, []);
 
   const filtered = useMemo(() => {
     let words = vietnameseVocabBank;
@@ -487,6 +503,13 @@ const VietnameseVocabulary = () => {
                   <TabsList>
                     <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                     <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
+                    <TabsTrigger value="quest" className="gap-1.5 px-4"><Sparkles className="w-4 h-4" /> Word Quest</TabsTrigger>
+                    <TabsTrigger value="mission" className="gap-1.5 px-4">
+                      <Target className="w-4 h-4" /> {t("Nhiệm vụ", "Daily Mission")}
+                      {dueToday > 0 && (
+                        <span className="ml-1 rounded-full bg-orange-500 px-1.5 text-[10px] font-bold text-white">{dueToday}</span>
+                      )}
+                    </TabsTrigger>
                     <TabsTrigger value="exercise" className="gap-1.5 px-4"><BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
                   </TabsList>
                 </Tabs>
@@ -494,7 +517,32 @@ const VietnameseVocabulary = () => {
 
               <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
-              {viewMode === "exercise" ? (
+              {/* Both shared modes stay mounted so progress survives tab switches. */}
+              <div className={viewMode === "quest" ? "" : "hidden"}>
+                <WordQuest
+                  words={filtered.map(vietnameseToQuest)}
+                  allWords={vietnameseVocabBank.map(vietnameseToQuest)}
+                  t={t}
+                  storageKey="vietnamese_word_quest_v1"
+                  speak={speakVi}
+                  stopSpeak={stopVietnameseTts}
+                  typingLabel={{ vi: "Gõ lại từ (có dấu) có nghĩa:", en: "Type the Vietnamese word that means:" }}
+                  onWordLearned={w => { if (!mastered.has(w)) toggle(w); }}
+                />
+              </div>
+              <div className={viewMode === "mission" ? "" : "hidden"}>
+                <DailyWordMission
+                  bank={filtered.map(vietnameseToQuest)}
+                  allWords={vietnameseVocabBank.map(vietnameseToQuest)}
+                  t={t}
+                  subject="vietnamese"
+                  speak={text => speakVi(text)}
+                  stopSpeak={stopVietnameseTts}
+                  onWordMastered={w => { if (!mastered.has(w)) toggle(w); }}
+                />
+              </div>
+
+              {viewMode === "quest" || viewMode === "mission" ? null : viewMode === "exercise" ? (
                 <VocabExercise
                   words={vietnameseVocabBank.filter(w => mastered.has(w.word))}
                   pool={vietnameseVocabBank}
@@ -602,7 +650,7 @@ const VietnameseVocabulary = () => {
                 );
               })()}
 
-              {viewMode !== "exercise" && totalPages > 1 && (
+              {viewMode !== "exercise" && viewMode !== "quest" && viewMode !== "mission" && totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2 mt-8">
                   <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                     <ChevronLeft className="w-4 h-4" />

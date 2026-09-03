@@ -23,6 +23,7 @@ import {
   Dumbbell,
   BookOpen,
   Sparkles,
+  Target,
   Mic,
   MicOff,
   PenLine,
@@ -49,6 +50,16 @@ const SWEDISH_MILESTONES = [
 ];
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
+import WordQuest from "@/components/vocab/WordQuest";
+import DailyWordMission from "@/components/vocab/DailyWordMission";
+import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
+import { swedishToQuest } from "@/lib/vocab/vocabAdapter";
+
+/** Swedish voice shared by Word Quest and Daily Mission. */
+const speakSv = (text: string, slow = false) => {
+  stopSwedishTts();
+  void playSwedishTts(text, { playbackRate: slow ? 0.78 : 0.95, speechRate: slow ? 0.6 : 0.85 });
+};
 import { ensureSwedishIpa } from "@/lib/swedishIpa";
 import SwedishVocabReviewModes from "@/components/swedish/SwedishVocabReviewModes";
 
@@ -484,7 +495,12 @@ const SwedishVocabulary = () => {
   const [query, setQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<"all" | SwedishLevel>("all");
   const [catFilter, setCatFilter] = useState<string>("all");
-  const [view, setView] = useState<"flash" | "list" | "exercise" | "qa">("flash");
+  const [view, setView] = useState<"flash" | "list" | "exercise" | "qa" | "quest" | "mission">("flash");
+  const [dueToday, setDueToday] = useState(() => countDue(loadSrs("swedish")));
+  useEffect(() => {
+    const id = window.setInterval(() => setDueToday(countDue(loadSrs("swedish"))), 5000);
+    return () => window.clearInterval(id);
+  }, []);
   const [page, setPage] = useState(0);
 
   // Filtered list
@@ -634,7 +650,7 @@ const SwedishVocabulary = () => {
 
           {/* View tabs */}
           <Tabs value={view} onValueChange={(v) => setView(v as any)} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-5 h-auto gap-1">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 mb-5 h-auto gap-1">
               <TabsTrigger value="flash" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Layers className="h-4 w-4" />
                 <span className="text-xs sm:text-sm font-semibold">{t("Flashcards", "Flashcards")}</span>
@@ -642,6 +658,17 @@ const SwedishVocabulary = () => {
               <TabsTrigger value="list" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <List className="h-4 w-4" />
                 <span className="text-xs sm:text-sm font-semibold">{t("Danh sách", "List")}</span>
+              </TabsTrigger>
+              <TabsTrigger value="quest" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Sparkles className="h-4 w-4" />
+                <span className="text-xs sm:text-sm font-semibold">Word Quest</span>
+              </TabsTrigger>
+              <TabsTrigger value="mission" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Target className="h-4 w-4" />
+                <span className="text-xs sm:text-sm font-semibold">
+                  {t("Nhiệm vụ", "Daily Mission")}
+                  {dueToday > 0 && <span className="ml-1 rounded-full bg-orange-500 px-1.5 text-[10px] font-bold text-white">{dueToday}</span>}
+                </span>
               </TabsTrigger>
               <TabsTrigger value="exercise" className="flex-col gap-1 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Dumbbell className="h-4 w-4" />
@@ -740,6 +767,31 @@ const SwedishVocabulary = () => {
                   </table>
                 </div>
               )}
+            </TabsContent>
+
+            {/* Word Quest + Daily Mission — forceMount keeps progress across tab switches */}
+            <TabsContent value="quest" forceMount className={view === "quest" ? "" : "hidden"}>
+              <WordQuest
+                words={filtered.map(swedishToQuest)}
+                allWords={SWEDISH_WORDS.map(swedishToQuest)}
+                t={t}
+                storageKey="swedish_word_quest_v1"
+                speak={speakSv}
+                stopSpeak={stopSwedishTts}
+                typingLabel={{ vi: "Gõ từ tiếng Thụy Điển có nghĩa:", en: "Type the Swedish word that means:" }}
+                onWordLearned={w => { if (!mastered.has(w)) toggle(w); }}
+              />
+            </TabsContent>
+            <TabsContent value="mission" forceMount className={view === "mission" ? "" : "hidden"}>
+              <DailyWordMission
+                bank={filtered.map(swedishToQuest)}
+                allWords={SWEDISH_WORDS.map(swedishToQuest)}
+                t={t}
+                subject="swedish"
+                speak={text => speakSv(text)}
+                stopSpeak={stopSwedishTts}
+                onWordMastered={w => { if (!mastered.has(w)) toggle(w); }}
+              />
             </TabsContent>
 
             {/* Exercise — 5 EdTech review modes */}

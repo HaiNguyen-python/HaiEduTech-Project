@@ -18,6 +18,11 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import WordQuest from "@/components/vocab/WordQuest";
+import DailyWordMission from "@/components/vocab/DailyWordMission";
+import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
+import { finnishToQuest } from "@/lib/vocab/vocabAdapter";
+import { Sparkles, Target } from "lucide-react";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { lazy, Suspense } from "react";
 
@@ -593,13 +598,24 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   );
 };
 
+/** Finnish voice shared by Word Quest and Daily Mission. */
+const speakFi = (text: string, slow = false) => {
+  stopFinnishTts();
+  void playFinnishTts(text, { playbackRate: slow ? 0.75 : 0.95 });
+};
+
 const FinnishVocabulary = () => {
   const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "quest" | "mission">("list");
+  const [dueToday, setDueToday] = useState(() => countDue(loadSrs("finnish")));
+  useEffect(() => {
+    const id = window.setInterval(() => setDueToday(countDue(loadSrs("finnish"))), 5000);
+    return () => window.clearInterval(id);
+  }, []);
   const { mastered, toggle: toggleMastered } = useMasteredVocab("finnish-vocab");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
@@ -716,10 +732,17 @@ const FinnishVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {IELTS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")}>
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest" | "mission")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                   <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
+                  <TabsTrigger value="quest" className="gap-1.5 px-4"><Sparkles className="w-4 h-4" /> Word Quest</TabsTrigger>
+                  <TabsTrigger value="mission" className="gap-1.5 px-4">
+                    <Target className="w-4 h-4" /> {t("Nhiệm vụ", "Daily Mission")}
+                    {dueToday > 0 && (
+                      <span className="ml-1 rounded-full bg-orange-500 px-1.5 text-[10px] font-bold text-white">{dueToday}</span>
+                    )}
+                  </TabsTrigger>
                   <TabsTrigger value="exercise" className="gap-1.5 px-4"><BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -727,8 +750,33 @@ const FinnishVocabulary = () => {
 
             <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
+            {/* Both shared modes stay mounted so progress survives tab switches. */}
+            <div className={viewMode === "quest" ? "" : "hidden"}>
+              <WordQuest
+                words={filtered.map(finnishToQuest)}
+                allWords={ieltsVocabData.map(finnishToQuest)}
+                t={t}
+                storageKey="finnish_word_quest_v1"
+                speak={speakFi}
+                stopSpeak={stopFinnishTts}
+                typingLabel={{ vi: "Gõ từ tiếng Phần Lan có nghĩa:", en: "Type the Finnish word that means:" }}
+                onWordLearned={w => { if (!mastered.has(w)) toggleMastered(w); }}
+              />
+            </div>
+            <div className={viewMode === "mission" ? "" : "hidden"}>
+              <DailyWordMission
+                bank={filtered.map(finnishToQuest)}
+                allWords={ieltsVocabData.map(finnishToQuest)}
+                t={t}
+                subject="finnish"
+                speak={text => speakFi(text)}
+                stopSpeak={stopFinnishTts}
+                onWordMastered={w => { if (!mastered.has(w)) toggleMastered(w); }}
+              />
+            </div>
+
             {/* Content based on mode */}
-            {viewMode === "exercise" ? (
+            {viewMode === "quest" || viewMode === "mission" ? null : viewMode === "exercise" ? (
               <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
             ) : (() => {
               // Group paginated words by category so each topic shows its own section
@@ -841,7 +889,7 @@ const FinnishVocabulary = () => {
             })()}
 
             {/* Pagination (hide in exercise mode) */}
-            {viewMode !== "exercise" && totalPages > 1 && (
+            {viewMode !== "exercise" && viewMode !== "quest" && viewMode !== "mission" && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                   <ChevronLeft className="w-4 h-4" />

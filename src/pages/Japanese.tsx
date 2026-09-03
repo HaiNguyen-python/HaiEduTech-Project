@@ -4,7 +4,7 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useState, useMemo, useEffect, useRef, lazy, Suspense } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Volume2, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -24,6 +24,10 @@ import { JA_QUIZ_EXTRA } from "@/data/japanese/quizBank";
 import { VOCAB_TOPICS } from "@/data/japanese/vocab";
 import { KANJI_GROUPS } from "@/data/japanese/kanji";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
+import WordQuest from "@/components/vocab/WordQuest";
+import DailyWordMission from "@/components/vocab/DailyWordMission";
+import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
+import { japaneseToQuest } from "@/lib/vocab/vocabAdapter";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
@@ -529,6 +533,16 @@ const Japanese = () => {
   const [params, setParams] = useSearchParams();
   const initialTab = params.get("tab") || "overview";
   const [tab, setTab] = useState(initialTab);
+  const [dueToday, setDueToday] = useState(() => countDue(loadSrs("japanese")));
+  useEffect(() => {
+    const id = window.setInterval(() => setDueToday(countDue(loadSrs("japanese"))), 5000);
+    return () => window.clearInterval(id);
+  }, []);
+  /** All Japanese phrases, shared by Word Quest and Daily Mission. */
+  const jaQuestWords = useMemo(
+    () => ALL_VOCAB.flatMap((g) => g.items.map((p) => japaneseToQuest(p, { category: g.topic }))),
+    []
+  );
 
   useEffect(() => { setTab(params.get("tab") || "overview"); }, [params]);
 
@@ -810,6 +824,8 @@ const Japanese = () => {
     ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
     ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
     ["speaking", `🎤 ${t("Speaking Coach", "Speaking Coach")}`],
+    ["quest", `✨ Word Quest`],
+    ["mission", `🎯 ${t("Nhiệm vụ", "Daily Mission")}${dueToday > 0 ? ` (${dueToday})` : ""}`],
     ["quiz", `🧠 ${t("Ôn tập", "Quiz")}`],
   ];
 
@@ -919,6 +935,29 @@ const Japanese = () => {
 
           <TabsContent value="numbers" className="mt-6">
             <JaSection items={numberSections} labels={sectionLabels} />
+          </TabsContent>
+
+          {/* Word Quest + Daily Mission — forceMount keeps progress across tab switches */}
+          <TabsContent value="quest" forceMount className={tab === "quest" ? "mt-6" : "hidden"}>
+            <WordQuest
+              words={jaQuestWords}
+              allWords={jaQuestWords}
+              t={t}
+              storageKey="japanese_word_quest_v1"
+              speak={(text) => speakJa(text)}
+              typingLabel={{ vi: "Gõ romaji của từ có nghĩa:", en: "Type the romaji of the word meaning:" }}
+              onWordLearned={(w) => { if (!mastered.has(w)) toggleMastered(w); }}
+            />
+          </TabsContent>
+          <TabsContent value="mission" forceMount className={tab === "mission" ? "mt-6" : "hidden"}>
+            <DailyWordMission
+              bank={jaQuestWords}
+              allWords={jaQuestWords}
+              t={t}
+              subject="japanese"
+              speak={(text) => speakJa(text)}
+              onWordMastered={(w) => { if (!mastered.has(w)) toggleMastered(w); }}
+            />
           </TabsContent>
 
           <TabsContent value="vocab" className="mt-6 space-y-5">

@@ -6,8 +6,18 @@
  */
 import { safeStorage } from "@/lib/safeStorage";
 
-export const SRS_KEY = "ielts_vocab_srs_v1";
-export const SRS_STREAK_KEY = "ielts_vocab_srs_streak_v1";
+/**
+ * Storage keys are namespaced per subject so every language keeps its own
+ * review schedule. "ielts" keeps the original key names for backward
+ * compatibility with progress saved before the multi-subject rollout.
+ */
+export const srsKey = (subject = "ielts") =>
+  subject === "ielts" ? "ielts_vocab_srs_v1" : `${subject}_vocab_srs_v1`;
+export const srsStreakKey = (subject = "ielts") =>
+  subject === "ielts" ? "ielts_vocab_srs_streak_v1" : `${subject}_vocab_srs_streak_v1`;
+
+export const SRS_KEY = srsKey();
+export const SRS_STREAK_KEY = srsStreakKey();
 
 /** How the learner rated their own recall. */
 export type SrsGrade = "forgot" | "hard" | "good" | "easy";
@@ -53,22 +63,23 @@ export const addDays = (iso: string, days: number): string => {
 export const daysBetween = (a: string, b: string): number =>
   Math.round((new Date(`${b}T00:00:00`).getTime() - new Date(`${a}T00:00:00`).getTime()) / 86400000);
 
-export const loadSrs = (): SrsStore => safeStorage.get<SrsStore>(SRS_KEY, {}) || {};
-export const saveSrs = (store: SrsStore) => { safeStorage.set(SRS_KEY, store); };
+export const loadSrs = (subject = "ielts"): SrsStore =>
+  safeStorage.get<SrsStore>(srsKey(subject), {}) || {};
+export const saveSrs = (store: SrsStore, subject = "ielts") => { safeStorage.set(srsKey(subject), store); };
 
-export const loadStreak = (): SrsStreak =>
-  safeStorage.get<SrsStreak>(SRS_STREAK_KEY, { days: 0, last: "" }) || { days: 0, last: "" };
+export const loadStreak = (subject = "ielts"): SrsStreak =>
+  safeStorage.get<SrsStreak>(srsStreakKey(subject), { days: 0, last: "" }) || { days: 0, last: "" };
 
 /** Record that a mission was completed today and return the updated streak. */
-export const bumpStreak = (): SrsStreak => {
-  const cur = loadStreak();
+export const bumpStreak = (subject = "ielts"): SrsStreak => {
+  const cur = loadStreak(subject);
   const today = todayISO();
   if (cur.last === today) return cur;
   const next: SrsStreak = {
     days: cur.last && daysBetween(cur.last, today) === 1 ? cur.days + 1 : 1,
     last: today,
   };
-  safeStorage.set(SRS_STREAK_KEY, next);
+  safeStorage.set(srsStreakKey(subject), next);
   return next;
 };
 
