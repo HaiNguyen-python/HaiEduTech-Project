@@ -46,6 +46,16 @@ const PROMPT_SIZES = {
   xl: "text-3xl sm:text-4xl",
 } as const;
 
+const PROMPT_WIDTHS = {
+  narrow: "max-w-[42ch]",
+  medium: "max-w-[52ch]",
+  wide: "max-w-[68ch]",
+} as const;
+
+const PROMPT_WIDTH_STORAGE_KEY = "presentation-prompt-width";
+const PROMPT_SIZE_STORAGE_KEY = "presentation-prompt-size";
+
+
 interface SessionHistoryItem {
   at: number;
   scenario: string;
@@ -127,7 +137,24 @@ const PresentationStudio = () => {
   const [countdown, setCountdown] = useState(0);      // 3-2-1 lead-in
   const [promptRunning, setPromptRunning] = useState(false);
   const [body, setBody] = useState<BodyLanguageScores | null>(null);
-  const [promptSize, setPromptSize] = useState<"s" | "m" | "l" | "xl">("m");
+  const [promptSize, setPromptSize] = useState<"s" | "m" | "l" | "xl">(() => {
+    if (typeof window === "undefined") return "m";
+    const v = window.localStorage.getItem(PROMPT_SIZE_STORAGE_KEY);
+    return v === "s" || v === "m" || v === "l" || v === "xl" ? v : "m";
+  });
+  const [promptWidth, setPromptWidth] = useState<"narrow" | "medium" | "wide">(() => {
+    if (typeof window === "undefined") return "narrow";
+    const v = window.localStorage.getItem(PROMPT_WIDTH_STORAGE_KEY);
+    return v === "narrow" || v === "medium" || v === "wide" ? v : "narrow";
+  });
+
+  useEffect(() => {
+    try { window.localStorage.setItem(PROMPT_SIZE_STORAGE_KEY, promptSize); } catch { /* ignore */ }
+  }, [promptSize]);
+  useEffect(() => {
+    try { window.localStorage.setItem(PROMPT_WIDTH_STORAGE_KEY, promptWidth); } catch { /* ignore */ }
+  }, [promptWidth]);
+
   const [focusMode, setFocusMode] = useState(false);
   const [history, setHistory] = useState<SessionHistoryItem[]>([]);
 
@@ -636,6 +663,24 @@ const PresentationStudio = () => {
                       </Button>
                     ))}
                   </div>
+                  <div className="flex items-center gap-0.5 mr-1">
+                    {([
+                      { id: "narrow" as const, label: t("Hẹp", "Narrow") },
+                      { id: "medium" as const, label: t("Vừa", "Medium") },
+                      { id: "wide" as const, label: t("Rộng", "Wide") },
+                    ]).map((w) => (
+                      <Button
+                        key={w.id}
+                        size="sm"
+                        variant={promptWidth === w.id ? "default" : "ghost"}
+                        className="h-7 px-2 text-[11px]"
+                        onClick={() => setPromptWidth(w.id)}
+                      >
+                        {w.label}
+                      </Button>
+                    ))}
+                  </div>
+
                   <Button
                     variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
                     onClick={() => setPromptRunning((r) => !r)}
@@ -671,9 +716,15 @@ const PresentationStudio = () => {
               )}
               <div
                 ref={promptRef}
-                className={`overflow-y-auto rounded-xl bg-slate-900/95 p-6 text-slate-100 leading-relaxed ${PROMPT_SIZES[promptSize]} ${focusMode ? "h-full" : "h-[300px] sm:h-[340px]"}`}
+                className={`overflow-y-auto rounded-xl bg-slate-900/95 px-4 sm:px-6 py-6 text-slate-100 leading-[1.9] tracking-wide ${PROMPT_SIZES[promptSize]} ${focusMode ? "h-full" : "h-[300px] sm:h-[340px]"}`}
               >
-                <p className="whitespace-pre-wrap max-w-5xl mx-auto">
+                <p
+                  className={`whitespace-pre-wrap text-left mx-auto [&>span]:leading-[1.9] ${
+                    focusMode
+                      ? promptWidth === "narrow" ? "max-w-[46ch]" : promptWidth === "medium" ? "max-w-[58ch]" : "max-w-[74ch]"
+                      : PROMPT_WIDTHS[promptWidth]
+                  }`}
+                >
                   {promptWords.map((w, i) =>
                     /^\s+$/.test(w) ? w : (
                       <span key={i} className={isStressWord(w) ? "text-accent font-semibold" : "text-slate-200"}>{w}</span>
@@ -682,6 +733,13 @@ const PresentationStudio = () => {
                 </p>
                 <div className="h-40" />
               </div>
+              {/* reading focus band + edge fades */}
+              <div className="pointer-events-none absolute inset-0 rounded-xl overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-slate-950/80 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/80 to-transparent" />
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-16 bg-primary/5 border-y border-primary/20" />
+              </div>
+
               {focusMode && (
                 <div className="absolute bottom-3 right-3 w-40 sm:w-56 rounded-xl overflow-hidden border border-slate-700 shadow-lg bg-slate-900">
                   <video
