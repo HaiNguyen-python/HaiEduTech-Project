@@ -43,6 +43,8 @@ import {
 interface Props {
   language: SpeakingLang;
   onPractice?: () => void;
+  /** "compact" keeps only the summary + two key charts visible, the rest collapses. */
+  variant?: "full" | "compact";
 }
 
 type SortKey = "misses" | "rate" | "recent";
@@ -61,11 +63,14 @@ const barColor = (misses: number, max: number) => {
   return "hsl(48 96% 53%)";
 };
 
-const PronunciationStatsPanel = ({ language, onPractice }: Props) => {
+const PronunciationStatsPanel = ({ language, onPractice, variant = "full" }: Props) => {
   const { t } = useLanguage();
   const [version, setVersion] = useState(0);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortKey>("misses");
+  const compact = variant === "compact";
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const showDetails = !compact || detailsOpen;
 
   const store = useMemo(() => loadPronStats(language), [language, version]);
   const summary = useMemo(() => summarize(store), [store]);
@@ -206,7 +211,7 @@ const PronunciationStatsPanel = ({ language, onPractice }: Props) => {
           </Card>
 
           {/* Source breakdown */}
-          {sources.length > 0 && (
+          {sources.length > 0 && showDetails && (
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">{t("Lỗi theo chế độ luyện", "Errors by practice mode")}</CardTitle>
@@ -242,7 +247,16 @@ const PronunciationStatsPanel = ({ language, onPractice }: Props) => {
         </div>
       </div>
 
+      {compact && (
+        <Button variant="outline" size="sm" className="gap-1" onClick={() => setDetailsOpen((o) => !o)}>
+          {detailsOpen
+            ? t("Ẩn bảng chi tiết", "Hide detailed table")
+            : t("Xem bảng chi tiết & nguồn lỗi", "Show detailed table & error sources")}
+        </Button>
+      )}
+
       {/* Table */}
+      {showDetails && (
       <Card>
         <CardHeader className="pb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle className="text-base">{t("Bảng chi tiết", "Detailed table")}</CardTitle>
@@ -338,6 +352,7 @@ const PronunciationStatsPanel = ({ language, onPractice }: Props) => {
           </div>
         </CardContent>
       </Card>
+      )}
     </motion.div>
   );
 };

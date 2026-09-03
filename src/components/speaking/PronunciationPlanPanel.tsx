@@ -35,6 +35,8 @@ interface Props {
   language: SpeakingLang;
   /** Jump into a practice mode. */
   onGoMode?: (mode: PlanMode) => void;
+  /** "hero" shows only the next step + today's target; the rest collapses. */
+  variant?: "full" | "hero";
 }
 
 const MODE_ICON: Record<PlanMode, typeof Mic> = {
@@ -45,9 +47,12 @@ const MODE_ICON: Record<PlanMode, typeof Mic> = {
   freetalk: MessageCircle,
 };
 
-const PronunciationPlanPanel = ({ language, onGoMode }: Props) => {
+const PronunciationPlanPanel = ({ language, onGoMode, variant = "full" }: Props) => {
   const { t } = useLanguage();
   const [done, setDone] = useState<Record<string, boolean>>({});
+  const hero = variant === "hero";
+  const [stepsOpen, setStepsOpen] = useState(false);
+  const showRest = !hero || stepsOpen;
 
   const store = useMemo(() => loadPronStats(language), [language]);
   const plan = useMemo(() => buildPronPlan(store), [store]);
@@ -186,6 +191,17 @@ const PronunciationPlanPanel = ({ language, onGoMode }: Props) => {
         </Card>
       </div>
 
+      {hero && (
+        <Button variant="outline" size="sm" className="gap-1" onClick={() => setStepsOpen((o) => !o)}>
+          <Compass className="w-4 h-4" />
+          {stepsOpen
+            ? t("Ẩn lộ trình đầy đủ", "Hide full roadmap")
+            : t(`Xem đủ ${plan.steps.length} bước lộ trình`, `See all ${plan.steps.length} roadmap steps`)}
+        </Button>
+      )}
+
+      {showRest && (
+      <>
       {/* Steps */}
       <Card>
         <CardHeader>
@@ -271,6 +287,8 @@ const PronunciationPlanPanel = ({ language, onGoMode }: Props) => {
           </p>
         </CardContent>
       </Card>
+      </>
+      )}
     </div>
   );
 };
