@@ -210,7 +210,7 @@ const PronunciationPlanPanel = ({ language, onGoMode }: Props) => {
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs text-muted-foreground">{t("Bước", "Step")} {i + 1} · ~{step.minutes} {t("phút", "min")}</p>
-                    <p className="font-semibold text-sm truncate">{t(step.titleVi, step.titleEn)}</p>
+                    <p className="font-semibold text-sm leading-snug">{t(step.titleVi, step.titleEn)}</p>
                   </div>
                 </div>
                 <div className="flex-1 min-w-0 space-y-2">
