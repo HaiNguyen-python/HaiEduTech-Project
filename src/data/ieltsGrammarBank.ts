@@ -9,6 +9,7 @@ export interface IELTSGrammarItem {
   meaning: string;          // Vietnamese explanation
   example: string;          // A model Band 7.5+ sentence
   hint?: string;            // Optional prompt to guide the learner
+  task?: 1 | 2 | "both";    // Which IELTS Writing task the structure suits (default: 2)
 }
 
 export const GRAMMAR_CATEGORIES: { value: string; label: string }[] = [
@@ -285,3 +286,28 @@ export const IELTS_GRAMMAR: IELTSGrammarItem[] = [
     example: "Social media is beneficial **insofar as** it fosters genuine human connection rather than passive scrolling.",
   },
 ];
+
+// Structures from the Task 2 bank that are also genuinely useful for Task 1 reports.
+const BOTH_TASK_IDS = new Set([
+  "g-rel-which-summative",
+  "g-rel-prep-which",
+  "g-rel-reduced",
+  "g-part-present",
+  "g-part-past",
+  "g-part-having",
+  "g-pass-impersonal",
+  "g-comp-whereas",
+  "g-comp-the-more",
+  "g-mod-tend-to",
+  "g-mod-be-likely",
+  "g-nom-the-fact",
+]);
+
+/** Task tag for a Task 2 bank item (explicit tag wins, otherwise 2 or "both"). */
+export const grammarItemTask = (item: IELTSGrammarItem): 1 | 2 | "both" =>
+  item.task ?? (BOTH_TASK_IDS.has(item.id) ? "both" : 2);
+
+export const grammarItemMatchesTask = (item: IELTSGrammarItem, task: 1 | 2): boolean => {
+  const tag = grammarItemTask(item);
+  return tag === "both" || tag === task;
+};
