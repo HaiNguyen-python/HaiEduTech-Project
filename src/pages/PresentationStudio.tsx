@@ -89,7 +89,7 @@ const PresentationStudio = () => {
   const [mode, setMode] = useState<StudioMode>("scripted");
   const [targetWpm, setTargetWpm] = useState(140);
   const [targetMinutes, setTargetMinutes] = useState(2);
-  const [scrollSpeed, setScrollSpeed] = useState(22); // px per second (gentle default)
+  const [scrollSpeed, setScrollSpeed] = useState(14); // px per second (gentle default, bottom-up)
 
   // ---- custom (external) script -----------------------------------------
   const [customDraft, setCustomDraft] = useState("");
