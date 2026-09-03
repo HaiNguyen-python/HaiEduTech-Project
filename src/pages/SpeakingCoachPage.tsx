@@ -41,15 +41,27 @@ const SpeakingCoachPage = () => {
   const [flyingStars, setFlyingStars] = useState<FlyingStar[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const starIdRef = useRef(0);
-  const [mode, setMode] = useState<"sentences" | "shadow" | "drill" | "freetalk" | "review" | "stats" | "plan">("sentences");
+  const [view, setView] = useState<"overview" | "practice">("overview");
+  const [activity, setActivity] = useState<SpeakingActivity>("sentences");
   const [weakCount, setWeakCount] = useState(() => countWeakWords(lang));
+  const [hasStats, setHasStats] = useState(() => allPronWords(loadPronStats(lang)).length > 0);
 
-  // Jump from a roadmap step into the matching practice mode.
-  const goToPlanMode = useCallback((planMode: PlanMode) => {
-    setMode(planMode === "sentence" ? "sentences" : planMode);
-    if (planMode === "review") setWeakCount(countWeakWords(lang));
+  useEffect(() => {
+    setHasStats(allPronWords(loadPronStats(lang)).length > 0);
+    setWeakCount(countWeakWords(lang));
+  }, [lang, view]);
+
+  const pickActivity = useCallback((next: SpeakingActivity) => {
+    setActivity(next);
+    setView("practice");
+    if (next === "review") setWeakCount(countWeakWords(lang));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [lang]);
+
+  // Jump from a roadmap step into the matching practice activity.
+  const goToPlanMode = useCallback((planMode: PlanMode) => {
+    pickActivity(planMode === "sentence" ? "sentences" : planMode);
+  }, [pickActivity]);
 
 
   const titles: Record<string, { title: string; subtitle: string; back: string }> = {
