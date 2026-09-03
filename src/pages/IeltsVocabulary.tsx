@@ -4,7 +4,9 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy, Keyboard, Mic, MicOff, ArrowLeft } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy, Keyboard, Mic, MicOff, ArrowLeft, Sparkles } from "lucide-react";
+import WordQuest from "@/components/vocab/WordQuest";
+
 import { Link as RouterLink } from "react-router-dom";
 import VocabIllustration from "@/components/VocabIllustration";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
@@ -1066,6 +1068,9 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
     record(q, ok);
   };
 
+  /** Top of the question card - we scroll back here on every new question. */
+  const cardTopRef = useRef<HTMLDivElement>(null);
+
   const handleNext = () => {
     if (current + 1 >= questions.length) setFinished(true);
     else {
@@ -1076,8 +1081,12 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
       setWriteFeedback(null);
       setMulti({});
       setMultiResult(null);
+      requestAnimationFrame(() => {
+        cardTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
     }
   };
+
 
   // 60-second speed round countdown.
   useEffect(() => {
@@ -1086,6 +1095,20 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
     const id = window.setTimeout(() => setTimeLeft(s => s - 1), 1000);
     return () => window.clearTimeout(id);
   }, [mode, finished, timeLeft, questions.length]);
+
+  // Keyboard: Enter / ArrowRight moves to the next question once answered.
+  useEffect(() => {
+    const isAnswered = selected !== null || typedResult !== null || multiResult !== null;
+    if (!isAnswered || finished) return;
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA")) return;
+      if (e.key === "Enter" || e.key === "ArrowRight") { e.preventDefault(); handleNext(); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
 
 
 
@@ -1167,9 +1190,12 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
   const label = TYPE_LABELS[q.type];
   const isTyping = TYPING_TYPES.includes(q.type);
   const isMulti = MULTI_TYPES.includes(q.type);
+  const answered = selected !== null || typedResult !== null || multiResult !== null;
+  const answerOk = selected !== null ? selected === q.correct : (typedResult ?? multiResult ?? false);
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div ref={cardTopRef} className="max-w-2xl mx-auto scroll-mt-24">
+
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <label className="text-muted-foreground">{t("Số câu hỏi:", "Questions:")}</label>
@@ -1213,6 +1239,35 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
         )}
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
       </div>
+
+      {/* Sticky result + Next bar: the student never has to scroll down to
+          continue after answering. */}
+      {answered && (
+        <div className="sticky top-16 z-30 -mx-1 mb-4 flex flex-wrap items-center gap-3 rounded-xl border border-primary/30 bg-card/95 px-3 py-2 shadow-lg backdrop-blur">
+          {answerOk ? (
+            <span className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+              <CheckCircle className="h-4 w-4" /> {t("Chính xác!", "Correct!")}
+            </span>
+          ) : (
+            <span className="flex items-center gap-1.5 text-sm font-semibold text-red-500">
+              <XCircle className="h-4 w-4" /> {t("Chưa đúng", "Not quite")}
+            </span>
+          )}
+          <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
+            {t("Đáp án:", "Answer:")}{" "}
+            <span className="font-semibold text-foreground">
+              {q.options.length > 0 ? q.options[q.correct] : (q.answerText || q.word.word)}
+            </span>
+          </span>
+          <span className="text-xs text-muted-foreground">{current + 1}/{questions.length}</span>
+          <Button size="sm" onClick={handleNext}>
+            {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+      )}
+
+
 
       <div className="rounded-xl border border-border bg-card p-8 mb-6">
         {q.type === "listening" ? (
@@ -1651,6 +1706,19 @@ const VocabExercise = ({ words, allWords, t, priorityWords }: {
         );
       })()}
 
+      {/* Mobile thumb-reach action bar */}
+      {answered && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 p-3 shadow-2xl backdrop-blur sm:hidden">
+          <Button className="w-full" onClick={handleNext}>
+            {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+      )}
+      {answered && <div className="h-16 sm:hidden" />}
+
+
+
     </div>
   );
 };
@@ -1661,7 +1729,7 @@ const IeltsVocabulary = () => {
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "quest">("list");
   /** Urgent words sent over by the memory brain's daily mission. */
   const [missionWords, setMissionWords] = useState<string[]>([]);
   const { mastered, toggle: toggleMastered, pendingCount } = useMasteredVocab("ielts");
@@ -1790,10 +1858,11 @@ const IeltsVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {IELTS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")}>
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                   <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
+                  <TabsTrigger value="quest" className="gap-1.5 px-4"><Sparkles className="w-4 h-4" /> Word Quest</TabsTrigger>
                   <TabsTrigger value="exercise" className="gap-1.5 px-4"><BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -1807,8 +1876,19 @@ const IeltsVocabulary = () => {
               <VocabExercise words={masteredWords} allWords={ieltsVocabData} t={t} priorityWords={missionWords} />
             </div>
 
+            {/* Word Quest also stays mounted so stage progress is never lost. */}
+            <div className={viewMode === "quest" ? "" : "hidden"}>
+              <WordQuest
+                words={filtered}
+                allWords={ieltsVocabData}
+                t={t}
+                onWordLearned={w => { if (!mastered.has(w)) toggleMastered(w); }}
+              />
+            </div>
+
             {/* Content based on mode */}
-            {viewMode === "exercise" ? null : viewMode === "flashcard" ? (
+            {viewMode === "exercise" || viewMode === "quest" ? null : viewMode === "flashcard" ? (
+
               <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
               // Group paginated words by category so each topic shows its own section
