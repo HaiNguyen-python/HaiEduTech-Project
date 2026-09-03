@@ -54,6 +54,8 @@ const PROMPT_WIDTHS = {
 
 const PROMPT_WIDTH_STORAGE_KEY = "presentation-prompt-width";
 const PROMPT_SIZE_STORAGE_KEY = "presentation-prompt-size";
+const PROMPT_FOCUS_RATIO = 0.62; // reading zone from the top (lower third so text rises from bottom)
+
 
 
 interface SessionHistoryItem {
@@ -87,7 +89,7 @@ const PresentationStudio = () => {
   const [mode, setMode] = useState<StudioMode>("scripted");
   const [targetWpm, setTargetWpm] = useState(140);
   const [targetMinutes, setTargetMinutes] = useState(2);
-  const [scrollSpeed, setScrollSpeed] = useState(22); // px per second (gentle default)
+  const [scrollSpeed, setScrollSpeed] = useState(14); // px per second (gentle default, bottom-up)
 
   // ---- custom (external) script -----------------------------------------
   const [customDraft, setCustomDraft] = useState("");
@@ -173,11 +175,14 @@ const PresentationStudio = () => {
   const bodyRef = useRef({ moveSum: 0, moveCount: 0, brightSum: 0, brightCount: 0, mouth: [] as number[] });
 
   const promptRef = useRef<HTMLDivElement>(null);
+  const promptInnerRef = useRef<HTMLDivElement>(null);
   const promptOffsetRef = useRef(0);
+  const promptMetricsRef = useRef({ containerHeight: 0, contentHeight: 0 });
   const scrollRafRef = useRef<number | null>(null);
   const scrollSpeedRef = useRef(scrollSpeed);
   const runningRef = useRef(false);
   const countdownRef = useRef<number | null>(null);
+
 
   useEffect(() => { scrollSpeedRef.current = scrollSpeed; }, [scrollSpeed]);
 
@@ -332,17 +337,43 @@ const PresentationStudio = () => {
   }, [recording, paused, camOn]);
 
 
-  // ---- teleprompter auto-scroll -----------------------------------------
+  // ---- teleprompter measurement -----------------------------------------
+  const measurePrompt = useCallback(() => {
+    const el = promptRef.current;
+    const inner = promptInnerRef.current;
+    if (!el || !inner) return;
+    promptMetricsRef.current = {
+      containerHeight: el.clientHeight,
+      contentHeight: inner.scrollHeight,
+    };
+  }, []);
+
+  useEffect(() => {
+    measurePrompt();
+    const onResize = () => {
+      measurePrompt();
+      // keep text in the reading zone after resize
+      const { containerHeight } = promptMetricsRef.current;
+      const focusTop = containerHeight * PROMPT_FOCUS_RATIO;
+      const inner = promptInnerRef.current;
+      if (inner) inner.style.transform = `translateY(${focusTop - promptOffsetRef.current}px)`;
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [measurePrompt, scenario, promptSize, promptWidth, focusMode]);
+
+  // ---- teleprompter auto-scroll (bottom-up) -----------------------------
   useEffect(() => {
     if (!(promptRunning && !paused && mode === "scripted")) {
       if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current);
       scrollRafRef.current = null;
       return;
     }
+    measurePrompt();
     const startedAt = performance.now();
     let last = startedAt;
-    const GRACE_MS = 2000;   // hold at the top so the first lines can be read
-    const RAMP_MS = 1500;    // then ease in to full speed
+    const GRACE_MS = 2500;   // hold the first line in the reading zone
+    const RAMP_MS = 2000;    // then ease in to full speed
     const step = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
@@ -351,16 +382,25 @@ const PresentationStudio = () => {
         ? 0
         : Math.min(1, (since - GRACE_MS) / RAMP_MS);
       promptOffsetRef.current += scrollSpeedRef.current * ramp * dt;
-      const el = promptRef.current;
-      if (el) {
-        const max = Math.max(0, el.scrollHeight - el.clientHeight);
-        el.scrollTop = Math.min(max, promptOffsetRef.current);
+
+      const { containerHeight, contentHeight } = promptMetricsRef.current;
+      const focusTop = containerHeight * PROMPT_FOCUS_RATIO;
+      const inner = promptInnerRef.current;
+      if (inner) {
+        const translateY = focusTop - promptOffsetRef.current;
+        inner.style.transform = `translateY(${translateY}px)`;
+        // stop when the last line has passed the reading zone
+        if (translateY <= focusTop - contentHeight) {
+          setPromptRunning(false);
+          return;
+        }
       }
       scrollRafRef.current = requestAnimationFrame(step);
     };
     scrollRafRef.current = requestAnimationFrame(step);
     return () => { if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current); };
-  }, [promptRunning, paused, mode]);
+  }, [promptRunning, paused, mode, measurePrompt]);
+
 
   // ---- speech recognition ------------------------------------------------
   const startRecognition = useCallback(() => {
@@ -439,8 +479,12 @@ const PresentationStudio = () => {
     setEyeContact(0);
 
     promptOffsetRef.current = 0;
-    if (promptRef.current) promptRef.current.scrollTop = 0;
+    measurePrompt();
+    const { containerHeight } = promptMetricsRef.current;
+    const focusTop = containerHeight * PROMPT_FOCUS_RATIO;
+    if (promptInnerRef.current) promptInnerRef.current.style.transform = `translateY(${focusTop}px)`;
     runningRef.current = true;
+
     setPromptRunning(false);
     setRecording(true); setPaused(false);
     startRecognition();
@@ -690,10 +734,16 @@ const PresentationStudio = () => {
                   </Button>
                   <Button
                     variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
-                    onClick={() => { promptOffsetRef.current = 0; if (promptRef.current) promptRef.current.scrollTop = 0; }}
+                    onClick={() => {
+                      promptOffsetRef.current = 0;
+                      measurePrompt();
+                      const focusTop = promptMetricsRef.current.containerHeight * PROMPT_FOCUS_RATIO;
+                      if (promptInnerRef.current) promptInnerRef.current.style.transform = `translateY(${focusTop}px)`;
+                    }}
                   >
                     <RefreshCcw className="w-3.5 h-3.5" /> {t("Về đầu", "Rewind")}
                   </Button>
+
                 </>
               )}
               <Button
@@ -716,29 +766,39 @@ const PresentationStudio = () => {
               )}
               <div
                 ref={promptRef}
-                className={`overflow-y-auto rounded-xl bg-slate-900/95 px-4 sm:px-6 py-6 text-slate-100 leading-[1.9] tracking-wide ${PROMPT_SIZES[promptSize]} ${focusMode ? "h-full" : "h-[300px] sm:h-[340px]"}`}
+                className={`overflow-hidden rounded-xl bg-slate-900/95 px-4 sm:px-6 text-slate-100 leading-[1.9] tracking-wide ${PROMPT_SIZES[promptSize]} ${focusMode ? "h-full" : "h-[300px] sm:h-[340px]"}`}
               >
-                <p
-                  className={`whitespace-pre-wrap text-left mx-auto [&>span]:leading-[1.9] ${
-                    focusMode
-                      ? promptWidth === "narrow" ? "max-w-[46ch]" : promptWidth === "medium" ? "max-w-[58ch]" : "max-w-[74ch]"
-                      : PROMPT_WIDTHS[promptWidth]
-                  }`}
+                <div
+                  ref={promptInnerRef}
+                  className="will-change-transform"
+                  style={{ transform: "translateY(100%)" }}
                 >
-                  {promptWords.map((w, i) =>
-                    /^\s+$/.test(w) ? w : (
-                      <span key={i} className={isStressWord(w) ? "text-accent font-semibold" : "text-slate-200"}>{w}</span>
-                    ),
-                  )}
-                </p>
-                <div className="h-40" />
+
+                  <p
+                    className={`whitespace-pre-wrap text-left mx-auto [&>span]:leading-[1.9] ${
+                      focusMode
+                        ? promptWidth === "narrow" ? "max-w-[46ch]" : promptWidth === "medium" ? "max-w-[58ch]" : "max-w-[74ch]"
+                        : PROMPT_WIDTHS[promptWidth]
+                    }`}
+                  >
+
+                    {promptWords.map((w, i) =>
+                      /^\s+$/.test(w) ? w : (
+                        <span key={i} className={isStressWord(w) ? "text-accent font-semibold" : "text-slate-200"}>{w}</span>
+                      ),
+                    )}
+                  </p>
+                </div>
               </div>
               {/* reading focus band + edge fades */}
               <div className="pointer-events-none absolute inset-0 rounded-xl overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-slate-950/80 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/80 to-transparent" />
-                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-16 bg-primary/5 border-y border-primary/20" />
+                <div className="absolute inset-x-0 top-[62%] -translate-y-1/2 h-16 bg-primary/5 border-y border-primary/20" />
+                <div className="absolute left-0 top-[62%] w-1.5 h-1.5 -translate-y-1/2 rounded-full bg-primary/60" />
+                <div className="absolute right-0 top-[62%] w-1.5 h-1.5 -translate-y-1/2 rounded-full bg-primary/60" />
               </div>
+
 
               {focusMode && (
                 <div className="absolute bottom-3 right-3 w-40 sm:w-56 rounded-xl overflow-hidden border border-slate-700 shadow-lg bg-slate-900">
@@ -894,10 +954,11 @@ const PresentationStudio = () => {
                     <span className="text-muted-foreground">{t("Tốc độ teleprompter", "Teleprompter speed")}</span>
                     <span className="font-semibold text-primary">{scrollSpeed} px/s</span>
                   </div>
-                  <Slider value={[scrollSpeed]} min={6} max={90} step={1} onValueChange={(v) => setScrollSpeed(v[0])} />
+                  <Slider value={[scrollSpeed]} min={4} max={60} step={1} onValueChange={(v) => setScrollSpeed(v[0])} />
                   <p className="text-[11px] text-muted-foreground mt-1">
-                    {t("Khuyến nghị 18-30 px/s · có 3 giây đếm ngược và 2 giây giữ dòng đầu", "Recommended 18-30 px/s · includes a 3s countdown and a 2s hold on the first lines")}
+                    {t("Khuyến nghị 12-22 px/s · chữ trôi từ dưới lên, dừng 2,5 giây ở dòng đầu", "Recommended 12-22 px/s · text rises from the bottom and holds the first line for 2.5s")}
                   </p>
+
                 </div>
               )}
             </div>
