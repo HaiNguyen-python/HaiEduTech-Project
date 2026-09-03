@@ -337,17 +337,43 @@ const PresentationStudio = () => {
   }, [recording, paused, camOn]);
 
 
-  // ---- teleprompter auto-scroll -----------------------------------------
+  // ---- teleprompter measurement -----------------------------------------
+  const measurePrompt = useCallback(() => {
+    const el = promptRef.current;
+    const inner = promptInnerRef.current;
+    if (!el || !inner) return;
+    promptMetricsRef.current = {
+      containerHeight: el.clientHeight,
+      contentHeight: inner.scrollHeight,
+    };
+  }, []);
+
+  useEffect(() => {
+    measurePrompt();
+    const onResize = () => {
+      measurePrompt();
+      // keep text in the reading zone after resize
+      const { containerHeight } = promptMetricsRef.current;
+      const focusTop = containerHeight * PROMPT_FOCUS_RATIO;
+      const inner = promptInnerRef.current;
+      if (inner) inner.style.transform = `translateY(${focusTop - promptOffsetRef.current}px)`;
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [measurePrompt, scenario, promptSize, promptWidth, focusMode]);
+
+  // ---- teleprompter auto-scroll (bottom-up) -----------------------------
   useEffect(() => {
     if (!(promptRunning && !paused && mode === "scripted")) {
       if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current);
       scrollRafRef.current = null;
       return;
     }
+    measurePrompt();
     const startedAt = performance.now();
     let last = startedAt;
-    const GRACE_MS = 2000;   // hold at the top so the first lines can be read
-    const RAMP_MS = 1500;    // then ease in to full speed
+    const GRACE_MS = 2500;   // hold the first line in the reading zone
+    const RAMP_MS = 2000;    // then ease in to full speed
     const step = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
@@ -356,16 +382,25 @@ const PresentationStudio = () => {
         ? 0
         : Math.min(1, (since - GRACE_MS) / RAMP_MS);
       promptOffsetRef.current += scrollSpeedRef.current * ramp * dt;
-      const el = promptRef.current;
-      if (el) {
-        const max = Math.max(0, el.scrollHeight - el.clientHeight);
-        el.scrollTop = Math.min(max, promptOffsetRef.current);
+
+      const { containerHeight, contentHeight } = promptMetricsRef.current;
+      const focusTop = containerHeight * PROMPT_FOCUS_RATIO;
+      const inner = promptInnerRef.current;
+      if (inner) {
+        const translateY = focusTop - promptOffsetRef.current;
+        inner.style.transform = `translateY(${translateY}px)`;
+        // stop when the last line has passed the reading zone
+        if (translateY <= focusTop - contentHeight) {
+          setPromptRunning(false);
+          return;
+        }
       }
       scrollRafRef.current = requestAnimationFrame(step);
     };
     scrollRafRef.current = requestAnimationFrame(step);
     return () => { if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current); };
-  }, [promptRunning, paused, mode]);
+  }, [promptRunning, paused, mode, measurePrompt]);
+
 
   // ---- speech recognition ------------------------------------------------
   const startRecognition = useCallback(() => {
