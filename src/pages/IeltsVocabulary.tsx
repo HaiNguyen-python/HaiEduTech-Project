@@ -6,6 +6,8 @@ import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy, Keyboard, Mic, MicOff, ArrowLeft, Sparkles } from "lucide-react";
 import WordQuest from "@/components/vocab/WordQuest";
+import DailyWordMission from "@/components/vocab/DailyWordMission";
+import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
 
 import { Link as RouterLink } from "react-router-dom";
 import VocabIllustration from "@/components/VocabIllustration";
@@ -1729,11 +1731,17 @@ const IeltsVocabulary = () => {
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "quest">("list");
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "quest" | "mission">("list");
   /** Urgent words sent over by the memory brain's daily mission. */
   const [missionWords, setMissionWords] = useState<string[]>([]);
   const { mastered, toggle: toggleMastered, pendingCount } = useMasteredVocab("ielts");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
+  /** Words due for spaced review today - shown as a badge on the mission tab. */
+  const [dueToday, setDueToday] = useState(() => countDue(loadSrs()));
+  useEffect(() => {
+    const id = window.setInterval(() => setDueToday(countDue(loadSrs())), 5000);
+    return () => window.clearInterval(id);
+  }, []);
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
   const pageContainerRef = useRef<HTMLDivElement>(null);
   const starIdCounter = useRef(0);
@@ -1858,11 +1866,17 @@ const IeltsVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {IELTS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest")}>
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest" | "mission")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                   <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
                   <TabsTrigger value="quest" className="gap-1.5 px-4"><Sparkles className="w-4 h-4" /> Word Quest</TabsTrigger>
+                  <TabsTrigger value="mission" className="gap-1.5 px-4">
+                    <Target className="w-4 h-4" /> {t("Nhiệm vụ", "Daily Mission")}
+                    {dueToday > 0 && (
+                      <span className="ml-1 rounded-full bg-orange-500 px-1.5 text-[10px] font-bold text-white">{dueToday}</span>
+                    )}
+                  </TabsTrigger>
                   <TabsTrigger value="exercise" className="gap-1.5 px-4"><BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -1876,6 +1890,16 @@ const IeltsVocabulary = () => {
               <VocabExercise words={masteredWords} allWords={ieltsVocabData} t={t} priorityWords={missionWords} />
             </div>
 
+            {/* Daily Word Mission stays mounted so a round is never lost. */}
+            <div className={viewMode === "mission" ? "" : "hidden"}>
+              <DailyWordMission
+                bank={filtered}
+                allWords={ieltsVocabData}
+                t={t}
+                onWordMastered={w => { if (!mastered.has(w)) toggleMastered(w); }}
+              />
+            </div>
+
             {/* Word Quest also stays mounted so stage progress is never lost. */}
             <div className={viewMode === "quest" ? "" : "hidden"}>
               <WordQuest
@@ -1887,7 +1911,7 @@ const IeltsVocabulary = () => {
             </div>
 
             {/* Content based on mode */}
-            {viewMode === "exercise" || viewMode === "quest" ? null : viewMode === "flashcard" ? (
+            {viewMode === "exercise" || viewMode === "quest" || viewMode === "mission" ? null : viewMode === "flashcard" ? (
 
               <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
