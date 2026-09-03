@@ -41,6 +41,12 @@ serve(async (req) => {
       eyeContact: Number(body.eyeContact) || 0,
       signposts: strList(body.signposts, 12),
     };
+    const bl = body.bodyLanguage && typeof body.bodyLanguage === "object" ? body.bodyLanguage : null;
+    const bodyLine = bl
+      ? `Body language (measured locally from webcam): confidence ${Number(bl.confidence) || 0}/100, naturalness ${Number(bl.naturalness) || 0}/100, framing ${Number(bl.framing) || 0}/100, movement ${Number(bl.movement) || 0}/100, expression ${Number(bl.expression) || 0}/100.`
+      : "Body language: not measured (camera off).";
+    const structureLine = `Structure covered: ${strList(body.structureDone, 8).join(", ") || "none"}. Structure missing: ${strList(body.structureMissing, 8).join(", ") || "none"}.`;
+
 
     if (transcript.split(/\s+/).filter(Boolean).length < 12) {
       return new Response(JSON.stringify({ error: "transcript_too_short" }), {
