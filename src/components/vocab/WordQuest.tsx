@@ -14,20 +14,28 @@ import type { IeltsWord } from "@/data/ieltsVocabData";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { resolveVocabEmoji } from "@/lib/vocabEmojiMap";
 import { safeStorage } from "@/lib/safeStorage";
+import { maskWord } from "@/lib/vocab/questionQuality";
 
 const STAGE_SIZE = 8;
 const PROGRESS_KEY = "ielts_word_quest_v1";
+const STEP_COUNT = 5;
 
-type Step = 0 | 1 | 2 | 3;
+type Step = 0 | 1 | 2 | 3 | 4;
 
 interface Progress {
   /** stage index -> number of words fully completed */
   stages: Record<number, number>;
+  /** stage index -> mistakes made, used for the bronze/silver/gold medal */
+  medals?: Record<number, number>;
+  /** Where the learner stopped, so they can jump straight back in. */
+  resume?: { stage: number; word: number } | null;
 }
 
-const speak = (text: string) => {
+const medalOf = (mistakes: number) => (mistakes === 0 ? "🥇" : mistakes <= 3 ? "🥈" : "🥉");
+
+const speak = (text: string, slow = false) => {
   stopEnglishTts();
-  void playEnglishTts(text, { playbackRate: 0.95, speechRate: 0.8 });
+  void playEnglishTts(text, { playbackRate: slow ? 0.75 : 0.95, speechRate: slow ? 0.6 : 0.8 });
 };
 
 const shuffle = <T,>(arr: T[]): T[] => {
@@ -68,6 +76,10 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
   const [typed, setTyped] = useState("");
   const [wrongCount, setWrongCount] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
+  /** Words answered wrongly in this stage - they come back at the end. */
+  const [retryQueue, setRetryQueue] = useState<number[]>([]);
+  const [stageMistakes, setStageMistakes] = useState(0);
+  const [slow, setSlow] = useState(false);
 
   const stage = stageIdx === null ? null : stages[stageIdx];
   const word = stage ? stage[wordIdx] : null;
@@ -104,22 +116,63 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
     return shuffle([word.word, ...distractors.map(d => d.word)]);
   }, [word, distractors]);
 
+  /** Step 5: the word's own example sentence with the target masked out. */
+  const gapSentence = useMemo(() => {
+    if (!word) return "";
+    const base = word.example && word.example.length > 12
+      ? word.example
+      : `Many students use the word "${word.word}" in IELTS essays.`;
+    return maskWord(base, word.word, "______");
+  }, [word]);
+
+  const gapOptions = useMemo(() => {
+    if (!word) return [] as string[];
+    return shuffle([word.word, ...distractors.slice(0, 2).map(d => d.word)]);
+  }, [word, distractors]);
+
   const resetStepState = () => {
     setPicked(null);
     setTyped("");
     setWrongCount(0);
   };
 
+  const openStage = (i: number) => {
+    const s = stages[i];
+    if (!s) return;
+    const done = progress.stages[i] || 0;
+    setStageIdx(i);
+    setWordIdx(done >= s.length ? 0 : done);
+    setStep(0);
+    setStars(0);
+    setCombo(0);
+    setRetryQueue([]);
+    setStageMistakes(0);
+    resetStepState();
+  };
+
   const finishWord = () => {
     if (!stage || stageIdx === null || !word) return;
     onWordLearned?.(word.word);
     const done = Math.max(progress.stages[stageIdx] || 0, wordIdx + 1);
-    save({ stages: { ...progress.stages, [stageIdx]: done } });
+    const medals = { ...(progress.medals || {}), [stageIdx]: stageMistakes };
     resetStepState();
+
+    // Words answered wrongly must be re-done before the stage counts as clear.
+    if (wordIdx + 1 >= stage.length && retryQueue.length > 0) {
+      const [next, ...rest] = retryQueue;
+      setRetryQueue(rest);
+      setWordIdx(next);
+      setStep(1);
+      save({ ...progress, stages: { ...progress.stages, [stageIdx]: done }, medals, resume: { stage: stageIdx, word: next } });
+      return;
+    }
+
     if (wordIdx + 1 >= stage.length) {
+      save({ ...progress, stages: { ...progress.stages, [stageIdx]: stage.length }, medals, resume: null });
       setCelebrate(true);
-      window.setTimeout(() => setCelebrate(false), 2600);
+      window.setTimeout(() => setCelebrate(false), 3200);
     } else {
+      save({ ...progress, stages: { ...progress.stages, [stageIdx]: done }, medals, resume: { stage: stageIdx, word: wordIdx + 1 } });
       setWordIdx(i => i + 1);
       setStep(0);
     }
@@ -127,33 +180,38 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
 
   const nextStep = () => {
     resetStepState();
-    if (step >= 3) finishWord();
+    if (step >= STEP_COUNT - 1) finishWord();
     else setStep((step + 1) as Step);
+  };
+
+  const registerMistake = () => {
+    setCombo(0);
+    setWrongCount(c => c + 1);
+    setStageMistakes(m => m + 1);
+    setRetryQueue(qs => (qs.includes(wordIdx) ? qs : [...qs, wordIdx]));
   };
 
   const handlePick = (key: string, correctKey: string) => {
     if (picked) return;
     setPicked(key);
     if (key === correctKey) {
-      setStars(s => s + 1);
+      setStars(s => s + 1 + (combo >= 4 ? 2 : combo >= 2 ? 1 : 0));
       setCombo(c => c + 1);
       window.setTimeout(nextStep, 850);
     } else {
-      setCombo(0);
-      setWrongCount(c => c + 1);
+      registerMistake();
     }
   };
 
   const checkTyped = () => {
     if (!word) return;
     if (norm(typed) === norm(word.word)) {
-      setStars(s => s + 1);
+      setStars(s => s + 1 + (combo >= 4 ? 2 : combo >= 2 ? 1 : 0));
       setCombo(c => c + 1);
       window.setTimeout(nextStep, 700);
       setPicked("ok");
     } else {
-      setCombo(0);
-      setWrongCount(c => c + 1);
+      registerMistake();
     }
   };
 
@@ -178,10 +236,16 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
           </h3>
           <p className="mt-1 text-sm text-muted-foreground">
             {t(
-              "Mỗi chặng 8 từ, mỗi từ đi qua 4 bước vui: gặp từ - nhận mặt từ - nghe - gõ lại. Không tính giờ, không trừ điểm.",
-              "Each stage has 8 words; every word walks through 4 fun steps: meet, recognise, listen, type. No timer, no penalties."
+              "Mỗi chặng 8 từ, mỗi từ đi qua 5 bước vui: gặp từ - nhận nghĩa - nghe - gõ lại - dùng trong câu. Từ nào sai sẽ quay lại cuối chặng.",
+              "Each stage has 8 words; every word walks through 5 fun steps: meet, meaning, listen, type, use it in a sentence. Missed words come back at the end."
             )}
           </p>
+          {progress.resume && stages[progress.resume.stage] && (
+            <Button size="sm" className="mt-3 gap-2" onClick={() => openStage(progress.resume!.stage)}>
+              <ChevronRight className="h-4 w-4" />
+              {t(`Tiếp tục chặng ${progress.resume.stage + 1}`, `Continue stage ${progress.resume.stage + 1}`)}
+            </Button>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {stages.map((s, i) => {
@@ -191,7 +255,7 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
             return (
               <button
                 key={i}
-                onClick={() => { if (prevDone) { setStageIdx(i); setWordIdx(Math.min(done, s.length - 1)); setStep(0); setStars(0); setCombo(0); resetStepState(); } }}
+                onClick={() => { if (prevDone) openStage(i); }}
                 disabled={!prevDone}
                 className={`rounded-2xl border p-4 text-left transition-all ${
                   complete
@@ -203,7 +267,10 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
               >
                 <div className="mb-1 flex items-center justify-between">
                   <span className="font-bold text-foreground">{t("Chặng", "Stage")} {i + 1}</span>
-                  {complete ? <Check className="h-4 w-4 text-emerald-500" /> : !prevDone ? <Lock className="h-4 w-4 text-muted-foreground" /> : null}
+                  <span className="flex items-center gap-1">
+                    {complete && <span className="text-base">{medalOf(progress.medals?.[i] ?? 0)}</span>}
+                    {complete ? <Check className="h-4 w-4 text-emerald-500" /> : !prevDone ? <Lock className="h-4 w-4 text-muted-foreground" /> : null}
+                  </span>
                 </div>
                 <p className="mb-2 truncate text-xs text-muted-foreground">{s.map(w => w.word).slice(0, 3).join(", ")}...</p>
                 <div className="flex gap-1">
@@ -211,6 +278,9 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
                     <span key={j} className={`h-1.5 flex-1 rounded-full ${j < done ? "bg-emerald-500" : "bg-secondary"}`} />
                   ))}
                 </div>
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  {Math.round((done / s.length) * 100)}% {complete ? t("· Ôn lại", "· Replay") : ""}
+                </p>
               </button>
             );
           })}
@@ -241,7 +311,7 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
 
       {/* Step dots */}
       <div className="mb-4 flex gap-2">
-        {[0, 1, 2, 3].map(s => (
+        {[0, 1, 2, 3, 4].map(s => (
           <span key={s} className={`h-2 flex-1 rounded-full ${s < step ? "bg-emerald-500" : s === step ? "bg-primary" : "bg-secondary"}`} />
         ))}
       </div>
@@ -267,6 +337,9 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
               <div className="mt-2 flex gap-2">
                 <Button variant="outline" onClick={() => speak(word.word)} className="gap-2">
                   <Volume2 className="h-4 w-4" /> {t("Nghe", "Listen")}
+                </Button>
+                <Button variant="outline" onClick={() => speak(word.word, true)} className="gap-2">
+                  <Volume2 className="h-4 w-4" /> {t("Nghe chậm", "Slow")}
                 </Button>
                 <Button onClick={nextStep} className="gap-2">
                   {t("Tôi nhớ rồi", "Got it")} <ChevronRight className="h-4 w-4" />
@@ -313,6 +386,9 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
                   <Volume2 className="h-10 w-10 text-primary" />
                 </button>
                 <p className="text-sm text-muted-foreground">{t("Nghe rồi chọn từ đúng", "Listen, then pick the right spelling")}</p>
+                <button onClick={() => speak(word.word, true)} className="text-xs font-semibold text-primary underline-offset-2 hover:underline">
+                  {t("Nghe chậm lại", "Play slower")}
+                </button>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {spellingOptions.map(w => {
@@ -369,6 +445,44 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
               )}
             </div>
           )}
+
+          {/* Step 5: use the word in a sentence */}
+          {step === 4 && (
+            <div className="flex flex-col gap-4">
+              <p className="text-center text-sm text-muted-foreground">
+                {t("Chọn từ đúng để hoàn thành câu:", "Pick the right word to complete the sentence:")}
+              </p>
+              <p className="rounded-xl bg-secondary/50 p-4 text-center text-lg italic leading-relaxed text-foreground">
+                {gapSentence}
+              </p>
+              <div className="grid gap-3 sm:grid-cols-3">
+                {gapOptions.map(o => {
+                  const isRight = o === word.word;
+                  const chosen = picked === o;
+                  return (
+                    <button
+                      key={o}
+                      onClick={() => handlePick(o, word.word)}
+                      className={`rounded-xl border p-3 text-center font-semibold transition-all ${
+                        picked && isRight
+                          ? "border-emerald-500 bg-emerald-500/10"
+                          : chosen
+                            ? "border-red-500 bg-red-500/10"
+                            : "border-border bg-background hover:border-primary/50"
+                      }`}
+                    >
+                      {o}
+                    </button>
+                  );
+                })}
+              </div>
+              {picked && picked !== word.word && (
+                <p className="text-center text-sm text-muted-foreground">
+                  {t("Thử lại nhé - hãy nghĩ tới nghĩa:", "Try again - think about the meaning:")} {word.definition.vi}
+                </p>
+              )}
+            </div>
+          )}
         </motion.div>
       </AnimatePresence>
 
@@ -393,6 +507,9 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
               </h3>
               <p className="mb-4 text-muted-foreground">
                 {t(`Bạn đã chinh phục ${stage.length} từ và nhận ${stars} ⭐`, `You conquered ${stage.length} words and earned ${stars} ⭐`)}
+              </p>
+              <p className="mb-4 text-3xl">
+                {medalOf(stageMistakes)} <span className="align-middle text-sm text-muted-foreground">{t(`${stageMistakes} lỗi`, `${stageMistakes} mistake(s)`)}</span>
               </p>
               <Button onClick={() => { setCelebrate(false); setStageIdx(null); }}>
                 {t("Về bản đồ", "Back to map")}
