@@ -175,11 +175,14 @@ const PresentationStudio = () => {
   const bodyRef = useRef({ moveSum: 0, moveCount: 0, brightSum: 0, brightCount: 0, mouth: [] as number[] });
 
   const promptRef = useRef<HTMLDivElement>(null);
+  const promptInnerRef = useRef<HTMLDivElement>(null);
   const promptOffsetRef = useRef(0);
+  const promptMetricsRef = useRef({ containerHeight: 0, contentHeight: 0 });
   const scrollRafRef = useRef<number | null>(null);
   const scrollSpeedRef = useRef(scrollSpeed);
   const runningRef = useRef(false);
   const countdownRef = useRef<number | null>(null);
+
 
   useEffect(() => { scrollSpeedRef.current = scrollSpeed; }, [scrollSpeed]);
 
