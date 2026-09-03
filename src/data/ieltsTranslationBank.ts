@@ -88,7 +88,7 @@ export const IELTS_TRANSLATION_BANK: TranslationItem[] = [
   {
     id: "t1-trend-5", task: 1, category: "trend", band: "7.5+",
     vi: "Sau khi đạt đỉnh vào năm 2008, chi tiêu cho giáo dục giảm dần và chạm mức thấp nhất vào năm 2012.",
-    en: "Having peaked in 2008, spending on education declined gradually before reaching a low of 2012.",
+    en: "Having peaked in 2008, spending on education declined gradually before reaching a low in 2012.",
     alts: ["After peaking in 2008, education spending fell gradually to bottom out in 2012."],
     keywords: ["Having peaked", "declined gradually", "bottom out"],
     noteVi: "Mệnh đề phân từ hoàn thành 'Having + V3' thể hiện hành động xảy ra trước.",
