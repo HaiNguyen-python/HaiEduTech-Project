@@ -14,20 +14,28 @@ import type { IeltsWord } from "@/data/ieltsVocabData";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { resolveVocabEmoji } from "@/lib/vocabEmojiMap";
 import { safeStorage } from "@/lib/safeStorage";
+import { maskWord } from "@/lib/vocab/questionQuality";
 
 const STAGE_SIZE = 8;
 const PROGRESS_KEY = "ielts_word_quest_v1";
+const STEP_COUNT = 5;
 
-type Step = 0 | 1 | 2 | 3;
+type Step = 0 | 1 | 2 | 3 | 4;
 
 interface Progress {
   /** stage index -> number of words fully completed */
   stages: Record<number, number>;
+  /** stage index -> mistakes made, used for the bronze/silver/gold medal */
+  medals?: Record<number, number>;
+  /** Where the learner stopped, so they can jump straight back in. */
+  resume?: { stage: number; word: number } | null;
 }
 
-const speak = (text: string) => {
+const medalOf = (mistakes: number) => (mistakes === 0 ? "🥇" : mistakes <= 3 ? "🥈" : "🥉");
+
+const speak = (text: string, slow = false) => {
   stopEnglishTts();
-  void playEnglishTts(text, { playbackRate: 0.95, speechRate: 0.8 });
+  void playEnglishTts(text, { playbackRate: slow ? 0.75 : 0.95, speechRate: slow ? 0.6 : 0.8 });
 };
 
 const shuffle = <T,>(arr: T[]): T[] => {
@@ -68,6 +76,10 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
   const [typed, setTyped] = useState("");
   const [wrongCount, setWrongCount] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
+  /** Words answered wrongly in this stage - they come back at the end. */
+  const [retryQueue, setRetryQueue] = useState<number[]>([]);
+  const [stageMistakes, setStageMistakes] = useState(0);
+  const [slow, setSlow] = useState(false);
 
   const stage = stageIdx === null ? null : stages[stageIdx];
   const word = stage ? stage[wordIdx] : null;
@@ -110,16 +122,43 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
     setWrongCount(0);
   };
 
+  const openStage = (i: number) => {
+    const s = stages[i];
+    if (!s) return;
+    const done = progress.stages[i] || 0;
+    setStageIdx(i);
+    setWordIdx(done >= s.length ? 0 : done);
+    setStep(0);
+    setStars(0);
+    setCombo(0);
+    setRetryQueue([]);
+    setStageMistakes(0);
+    resetStepState();
+  };
+
   const finishWord = () => {
     if (!stage || stageIdx === null || !word) return;
     onWordLearned?.(word.word);
     const done = Math.max(progress.stages[stageIdx] || 0, wordIdx + 1);
-    save({ stages: { ...progress.stages, [stageIdx]: done } });
+    const medals = { ...(progress.medals || {}), [stageIdx]: stageMistakes };
     resetStepState();
+
+    // Words answered wrongly must be re-done before the stage counts as clear.
+    if (wordIdx + 1 >= stage.length && retryQueue.length > 0) {
+      const [next, ...rest] = retryQueue;
+      setRetryQueue(rest);
+      setWordIdx(next);
+      setStep(1);
+      save({ ...progress, stages: { ...progress.stages, [stageIdx]: done }, medals, resume: { stage: stageIdx, word: next } });
+      return;
+    }
+
     if (wordIdx + 1 >= stage.length) {
+      save({ ...progress, stages: { ...progress.stages, [stageIdx]: stage.length }, medals, resume: null });
       setCelebrate(true);
-      window.setTimeout(() => setCelebrate(false), 2600);
+      window.setTimeout(() => setCelebrate(false), 3200);
     } else {
+      save({ ...progress, stages: { ...progress.stages, [stageIdx]: done }, medals, resume: { stage: stageIdx, word: wordIdx + 1 } });
       setWordIdx(i => i + 1);
       setStep(0);
     }
@@ -127,33 +166,38 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
 
   const nextStep = () => {
     resetStepState();
-    if (step >= 3) finishWord();
+    if (step >= STEP_COUNT - 1) finishWord();
     else setStep((step + 1) as Step);
+  };
+
+  const registerMistake = () => {
+    setCombo(0);
+    setWrongCount(c => c + 1);
+    setStageMistakes(m => m + 1);
+    setRetryQueue(qs => (qs.includes(wordIdx) ? qs : [...qs, wordIdx]));
   };
 
   const handlePick = (key: string, correctKey: string) => {
     if (picked) return;
     setPicked(key);
     if (key === correctKey) {
-      setStars(s => s + 1);
+      setStars(s => s + 1 + (combo >= 4 ? 2 : combo >= 2 ? 1 : 0));
       setCombo(c => c + 1);
       window.setTimeout(nextStep, 850);
     } else {
-      setCombo(0);
-      setWrongCount(c => c + 1);
+      registerMistake();
     }
   };
 
   const checkTyped = () => {
     if (!word) return;
     if (norm(typed) === norm(word.word)) {
-      setStars(s => s + 1);
+      setStars(s => s + 1 + (combo >= 4 ? 2 : combo >= 2 ? 1 : 0));
       setCombo(c => c + 1);
       window.setTimeout(nextStep, 700);
       setPicked("ok");
     } else {
-      setCombo(0);
-      setWrongCount(c => c + 1);
+      registerMistake();
     }
   };
 
@@ -241,7 +285,7 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
 
       {/* Step dots */}
       <div className="mb-4 flex gap-2">
-        {[0, 1, 2, 3].map(s => (
+        {[0, 1, 2, 3, 4].map(s => (
           <span key={s} className={`h-2 flex-1 rounded-full ${s < step ? "bg-emerald-500" : s === step ? "bg-primary" : "bg-secondary"}`} />
         ))}
       </div>
