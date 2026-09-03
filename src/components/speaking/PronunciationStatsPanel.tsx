@@ -352,6 +352,7 @@ const PronunciationStatsPanel = ({ language, onPractice, variant = "full" }: Pro
           </div>
         </CardContent>
       </Card>
+      )}
     </motion.div>
   );
 };
