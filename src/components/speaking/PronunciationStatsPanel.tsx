@@ -63,11 +63,14 @@ const barColor = (misses: number, max: number) => {
   return "hsl(48 96% 53%)";
 };
 
-const PronunciationStatsPanel = ({ language, onPractice }: Props) => {
+const PronunciationStatsPanel = ({ language, onPractice, variant = "full" }: Props) => {
   const { t } = useLanguage();
   const [version, setVersion] = useState(0);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortKey>("misses");
+  const compact = variant === "compact";
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const showDetails = !compact || detailsOpen;
 
   const store = useMemo(() => loadPronStats(language), [language, version]);
   const summary = useMemo(() => summarize(store), [store]);
