@@ -4,13 +4,20 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AISpeakingCoach from "@/components/AISpeakingCoach";
+import ShadowingMode from "@/components/speaking/ShadowingMode";
+import SoundDrillMode from "@/components/speaking/SoundDrillMode";
+import FreeTalkMode from "@/components/speaking/FreeTalkMode";
+import WeakWordReview from "@/components/speaking/WeakWordReview";
+import { countWeakWords } from "@/lib/speakingWeakWords";
+import { Badge } from "@/components/ui/badge";
 import MountainClimber from "@/components/MountainClimber";
 import FinnishSkier from "@/components/FinnishSkier";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mic } from "lucide-react";
+import { ArrowLeft, Mic, Repeat, Waves, MessageCircle, Brain } from "lucide-react";
 import { motion } from "framer-motion";
+
 
 interface FlyingStar {
   id: number;
