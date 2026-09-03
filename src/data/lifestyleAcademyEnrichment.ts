@@ -395,4 +395,386 @@ export const LIFESTYLE_ENRICHMENT: Record<string, LifestyleEnrichment> = {
     ],
     illustrationEmojis: ["🙅", "📝", "⚖️"],
   },
+
+  /* ─────────────── PRESENCE ─────────────── */
+  "prs-01": {
+    whyItMattersVi:
+      "Người nghe quyết định mức độ tin bạn từ cách giọng nói vận hành, trước khi họ kịp đánh giá nội dung bạn nói.",
+    whyItMattersEn:
+      "Listeners decide how much to trust you from how your voice behaves, before they have evaluated a single argument.",
+    deepDiveVi: [
+      "Bốn tham số của giọng nói là cao độ, tốc độ, âm lượng và khoảng lặng. Uy quyền hầu như luôn đến từ hạ cao độ ở cuối câu, giảm tốc độ và tăng khoảng lặng, chứ không đến từ tăng âm lượng.",
+      "Lỗi phổ biến nhất là 'uptalk', tức lên giọng ở cuối câu khẳng định. Nó khiến câu nói nghe như câu hỏi và làm người nghe nghi ngờ chính điều bạn vừa nói.",
+      "Cách luyện thực tế: ghi âm 60 giây nói tự do mỗi ngày, nghe lại và chỉ sửa một tham số mỗi tuần. Sửa cả bốn cùng lúc sẽ tạo ra giọng nói nghe giả.",
+    ],
+    deepDiveEn: [
+      "A voice has four parameters: pitch, pace, volume and pause. Authority almost always comes from dropping pitch at the end of sentences, slowing pace and lengthening pauses, not from raising volume.",
+      "The most common flaw is uptalk, letting pitch rise at the end of a statement. It makes the sentence sound like a question and invites the listener to doubt what you just said.",
+      "A practical drill: record 60 seconds of free speech daily, listen back, and fix only one parameter per week. Fixing all four at once produces a voice that sounds artificial.",
+    ],
+    illustrationEmojis: ["🎙️", "📉", "🤫"],
+  },
+  "prs-02": {
+    whyItMattersVi:
+      "Cơ thể bạn nói trước khi bạn kịp mở lời. Tư thế mở và ổn định được đọc là năng lực, còn co rúm bị đọc là bất an.",
+    whyItMattersEn:
+      "Your body speaks before you do. Open, settled posture reads as competence, while a collapsed frame reads as insecurity.",
+    deepDiveVi: [
+      "Ba trụ cột là chân đứng vững bằng vai, vai mở và không nâng, và bàn tay ở trong tầm nhìn. Bàn tay ẩn dưới bàn hoặc trong túi làm giảm cảm nhận về sự minh bạch.",
+      "Ranh giới giữa tự tin và hung hăng nằm ở nhịp độ, không ở kích cỡ tư thế. Chuyển động chậm, dứt khoát và ít lặp lại được đọc là bình tĩnh; chiếm không gian kèm động tác nhanh bị đọc là đe doạ.",
+      "Hãy lưu ý các bằng chứng về 'power posing' đã bị tranh luận nhiều trong nghiên cứu tâm lý. Hiệu ứng chắc chắn hơn là ở cách người khác nhìn bạn và ở việc bạn thở dễ hơn khi ngực không bị nén.",
+    ],
+    deepDiveEn: [
+      "Three pillars: feet grounded at shoulder width, shoulders open and not lifted, hands visible. Hands hidden under a table or in pockets reduce perceived transparency.",
+      "The line between confident and aggressive is tempo, not size. Slow, decisive, non-repetitive movement reads as calm; taking space with fast movement reads as threatening.",
+      "Note that the 'power posing' literature has been heavily debated in psychology. The more reliable effects are how others perceive you and the fact that you breathe more easily when your chest is not compressed.",
+    ],
+    illustrationEmojis: ["🧍", "🫱", "🪞"],
+  },
+  "prs-03": {
+    whyItMattersVi:
+      "Chủ nghĩa Stoic không dạy bạn hết cảm xúc, nó dạy bạn tách điều kiểm soát được khỏi điều không. Đó là bộ lọc giảm lo lắng nhanh nhất.",
+    whyItMattersEn:
+      "Stoicism does not teach you to stop feeling, it teaches you to separate what you control from what you do not. It is the fastest anxiety filter available.",
+    deepDiveVi: [
+      "Công cụ trung tâm là phép phân đôi kiểm soát: hành động, phản ứng và tiêu chuẩn của bạn thuộc phạm vi kiểm soát; kết quả, ý kiến người khác và thời tiết thì không. Hầu hết đau khổ đến từ việc đổ năng lượng vào cột thứ hai.",
+      "Hai bài thực hành có hiệu quả cao là premeditatio malorum, tức hình dung trước điều tệ nhất để giảm bất ngờ, và nhật ký buổi tối ba câu theo cách của Marcus Aurelius.",
+      "Cần phân biệt Stoic với đè nén. Stoic ghi nhận cảm xúc rồi chọn hành động theo giá trị; đè nén là phủ nhận cảm xúc, và về lâu dài nó làm tăng căng thẳng chứ không giảm.",
+    ],
+    deepDiveEn: [
+      "The central tool is the dichotomy of control: your actions, responses and standards are inside it; outcomes, other people's opinions and the weather are not. Most suffering comes from pouring energy into the second column.",
+      "Two high-yield practices are premeditatio malorum, rehearsing the worst case to remove surprise, and a three-line evening journal in the style of Marcus Aurelius.",
+      "Distinguish stoicism from suppression. A stoic acknowledges the emotion and then acts on values; suppression denies the emotion and, over time, raises stress rather than lowering it.",
+    ],
+    illustrationEmojis: ["🏛️", "⚖️", "🌊"],
+  },
+  "prs-04": {
+    whyItMattersVi:
+      "Cảm xúc của bạn phần lớn đến từ cách bạn diễn giải sự việc, không từ bản thân sự việc. Sửa được diễn giải là sửa được cảm xúc.",
+    whyItMattersEn:
+      "Your feelings come mostly from how you interpret an event, not from the event itself. Fix the interpretation and the feeling shifts.",
+    deepDiveVi: [
+      "Mô hình ABC là nền tảng: A là sự việc, B là niềm tin hoặc cách diễn giải, C là hệ quả cảm xúc. Người ta thường tin A gây ra C, nhưng chính B mới là mắt xích có thể sửa.",
+      "Bốn méo mó nhận thức xuất hiện nhiều nhất ở người trẻ: đọc suy nghĩ người khác, tổng quát hoá quá mức, tư duy tất cả hoặc không gì, và cá nhân hoá. Đặt tên đúng méo mó đã giảm được phần lớn sức nặng của nó.",
+      "Tái định khung không phải là tư duy tích cực cưỡng bức. Câu hỏi đúng là 'cách giải thích nào vừa đúng với dữ kiện vừa hữu ích cho hành động tiếp theo', không phải 'làm sao để thấy vui'.",
+    ],
+    deepDiveEn: [
+      "The ABC model is the foundation: A is the event, B is the belief or interpretation, C is the emotional consequence. People assume A causes C, but B is the editable link.",
+      "Four distortions dominate in young adults: mind reading, overgeneralising, all-or-nothing thinking and personalising. Naming the distortion accurately already removes much of its weight.",
+      "Reframing is not forced positivity. The right question is 'which interpretation is both consistent with the facts and useful for my next action', not 'how do I feel happy about this'.",
+    ],
+    illustrationEmojis: ["🔄", "🧠", "📓"],
+  },
+  "prs-05": {
+    whyItMattersVi:
+      "Sức hút không phải phép thuật, nó là kết quả của hai tín hiệu người ta đọc ở bạn: bạn có ấm áp không, và bạn có năng lực không.",
+    whyItMattersEn:
+      "Charisma is not magic, it is the product of two signals people read in you: are you warm, and are you capable?",
+    deepDiveVi: [
+      "Ma trận cho bốn ô: ấm áp thấp và năng lực thấp gây thương hại, năng lực cao nhưng lạnh gây nể mà xa cách, ấm áp cao nhưng năng lực thấp gây thiện cảm mà không được tin việc, còn cao cả hai tạo ra sức hút thật.",
+      "Hầu hết người có chuyên môn thất bại ở trục ấm áp, không ở trục năng lực. Cách sửa rẻ nhất là nhớ chi tiết cá nhân, hỏi lại chuyện lần trước, và ghi nhận công của người khác trước mặt người thứ ba.",
+      "Ấm áp không đồng nghĩa dễ dãi. Bạn có thể vừa nói không rõ ràng vừa giữ ấm áp bằng cách giải thích lý do và bày tỏ quan tâm tới mục tiêu của người kia.",
+    ],
+    deepDiveEn: [
+      "The matrix gives four quadrants: low warmth and low competence draws pity, high competence with coldness earns respect but distance, high warmth with low competence earns affection but not responsibility, and high on both is real charisma.",
+      "Most experts fail on the warmth axis, not the competence axis. The cheapest fixes are remembering personal details, following up on last time's story, and crediting others in front of a third party.",
+      "Warmth is not compliance. You can decline clearly and stay warm by explaining the reason and showing interest in the other person's goal.",
+    ],
+    illustrationEmojis: ["✨", "🔥", "🧊"],
+  },
+  "pre-06": {
+    whyItMattersVi:
+      "Khi khủng hoảng, giọng nói bên trong thường là giọng tệ nhất. Chuyển sang ngôi thứ ba tạo khoảng cách vừa đủ để suy nghĩ trở lại.",
+    whyItMattersEn:
+      "In a crisis your inner voice is usually your worst adviser. Switching to third person creates just enough distance for thinking to resume.",
+    deepDiveVi: [
+      "Nghiên cứu của Ethan Kross về 'self-distancing' cho thấy nói với mình bằng tên riêng, ví dụ 'Hải, tình huống thật sự là gì?', giúp giảm cường độ cảm xúc và cải thiện chất lượng quyết định so với dùng 'tôi'.",
+      "Cơ chế là chuyển từ trải nghiệm sang quan sát. Khi bạn tự gọi tên mình, não xử lý tình huống giống như đang tư vấn cho một người bạn, và lời khuyên cho bạn bè luôn tỉnh táo hơn lời tự nhủ.",
+      "Bộ ba câu hỏi để dùng ngay: 'Điều gì đang thực sự xảy ra?', 'Trong đó phần nào mình kiểm soát được?', 'Bước nhỏ nhất mình làm trong 10 phút tới là gì?'.",
+    ],
+    deepDiveEn: [
+      "Ethan Kross's work on self-distancing shows that addressing yourself by name, for example 'Hai, what is actually happening here?', lowers emotional intensity and improves decision quality compared with using 'I'.",
+      "The mechanism is a shift from experiencing to observing. Using your own name makes the brain process the situation as if advising a friend, and advice to friends is always more level-headed than self-talk.",
+      "Three questions to use immediately: 'What is actually happening?', 'Which part of this do I control?', 'What is the smallest step I can take in the next ten minutes?'.",
+    ],
+    illustrationEmojis: ["🗨️", "🪞", "🧭"],
+  },
+  "pre-07": {
+    whyItMattersVi:
+      "Bảy giây đầu tiên tạo ra một giả thuyết về bạn, và mọi điều bạn nói sau đó đều bị đọc qua giả thuyết ấy.",
+    whyItMattersEn:
+      "The first seven seconds create a hypothesis about you, and everything you say afterwards is read through it.",
+    deepDiveVi: [
+      "Năm vi cử chỉ đáng luyện: giao tiếp mắt khoảng ba giây rồi rời tự nhiên, bàn tay mở khi nói, nghiêng nhẹ đầu khi nghe, dừng lại trước khi trả lời, và hướng bàn chân về phía người đang nói.",
+      "Điểm ít ai để ý là sự nhất quán. Một nụ cười kèm vai căng và tay siết lại tạo tín hiệu lẫn lộn, và người nghe luôn tin phần cơ thể chứ không tin phần khuôn mặt.",
+      "Hãy luyện từng cử chỉ một tuần trong các tình huống thấp áp lực, ví dụ khi mua cà phê, trước khi mang vào cuộc họp quan trọng.",
+    ],
+    deepDiveEn: [
+      "Five micro-gestures worth drilling: about three seconds of eye contact then a natural break, open palms while speaking, a slight head tilt while listening, a pause before answering, and feet oriented toward the speaker.",
+      "The underrated factor is consistency. A smile paired with tight shoulders and clenched hands sends a mixed signal, and observers always trust the body over the face.",
+      "Practise one gesture per week in low-stakes settings, such as ordering coffee, before bringing it into a high-stakes meeting.",
+    ],
+    illustrationEmojis: ["👐", "👁️", "⏳"],
+  },
+  "pre-08": {
+    whyItMattersVi:
+      "Amor fati không phải là thích mọi điều xảy ra, mà là dừng việc tiêu năng lượng để chống lại điều đã xảy ra rồi.",
+    whyItMattersEn:
+      "Amor fati is not liking everything that happens, it is stopping the energy drain of fighting what has already happened.",
+    deepDiveVi: [
+      "Có ba tầng phản ứng với nghịch cảnh: chống lại, chấp nhận, và dùng nó làm nguyên liệu. Tầng ba là nơi Nietzsche và các nhà Stoic gặp nhau, và cũng là tầng duy nhất tạo ra hành động.",
+      "Câu hỏi vận hành là 'điều này cho phép mình làm gì mà trước đây mình không thấy'. Đây không phải là tô hồng, mà là tìm bậc thang thực tế trong hoàn cảnh mới.",
+      "Cần một ranh giới đạo đức rõ: amor fati áp dụng cho hoàn cảnh không thể đảo ngược, không dùng để biện minh cho việc chịu đựng bất công hoặc quan hệ độc hại có thể thay đổi được.",
+    ],
+    deepDiveEn: [
+      "There are three response levels to adversity: resisting it, accepting it, and using it as raw material. The third is where Nietzsche and the Stoics meet, and it is the only one that produces action.",
+      "The working question is 'what does this now allow me to do that I could not see before'. That is not gloss, it is looking for a real foothold in the new situation.",
+      "One ethical boundary matters: amor fati applies to irreversible circumstances, not as a justification for enduring injustice or a harmful relationship you could actually change.",
+    ],
+    illustrationEmojis: ["🌱", "🗿", "🔥"],
+  },
+  "pre-09": {
+    whyItMattersVi:
+      "Chín mươi giây đầu của một khủng hoảng quyết định phần còn lại. Có một điểm neo được luyện trước giúp bạn không hành động từ nỗi hoảng.",
+    whyItMattersEn:
+      "The first ninety seconds of a crisis shape the rest of it. A pre-trained anchor keeps you from acting out of panic.",
+    deepDiveVi: [
+      "Quy trình bốn bước dễ nhớ: thở ra dài hơn hít vào, đặt chân chắc xuống sàn và gọi tên ba thứ đang thấy, gọi tên cảm xúc bằng một từ, rồi chọn một hành động nhỏ có thể làm ngay.",
+      "Lý do thở ra dài có hiệu quả là nó tăng hoạt động phó giao cảm và làm chậm nhịp tim. Đây là cách can thiệp sinh lý trực tiếp nhất mà không cần dụng cụ gì.",
+      "Điểm neo phải được luyện lúc bình thường mới dùng được lúc khủng hoảng. Ba mươi giây mỗi ngày trong hai tuần là đủ để nó trở thành phản xạ.",
+    ],
+    deepDiveEn: [
+      "A memorable four-step protocol: exhale longer than you inhale, plant your feet and name three things you can see, name the emotion in one word, then choose one small action you can take now.",
+      "Long exhales work because they raise parasympathetic activity and slow the heart rate. It is the most direct physiological intervention available with no equipment.",
+      "An anchor must be trained on calm days to be usable on hard ones. Thirty seconds daily for two weeks is enough for it to become reflexive.",
+    ],
+    illustrationEmojis: ["⚓", "🌬️", "🦶"],
+  },
+  "pre-10": {
+    whyItMattersVi:
+      "Chín mươi phút đầu ngày là khoảng thời gian bạn kiểm soát nhiều nhất. Cách bạn dùng nó thường quyết định chất lượng của mười hai giờ còn lại.",
+    whyItMattersEn:
+      "The first ninety minutes of your day are the most controllable ones you own, and how you spend them usually decides the quality of the remaining twelve hours.",
+    deepDiveVi: [
+      "Năm khối hai mươi phút là ánh sáng và vận động, nước và dinh dưỡng, tĩnh lặng hoặc viết, một việc quan trọng nhất, rồi mới đến thông tin bên ngoài. Trật tự quan trọng hơn nội dung.",
+      "Sai lầm phổ biến nhất là đảo khối cuối lên đầu. Mở điện thoại trước khi làm bất cứ điều gì khác giao quyền định hình cảm xúc buổi sáng cho thuật toán và cho việc của người khác.",
+      "Không cần đủ năm khối. Người có con nhỏ hoặc làm ca có thể chạy phiên bản hai khối mười phút; giá trị đến từ tính lặp lại, không từ độ dài.",
+    ],
+    deepDiveEn: [
+      "The five twenty-minute blocks are light and movement, water and food, stillness or writing, your single most important task, and only then external information. The order matters more than the content.",
+      "The most common error is moving the last block to the front. Opening your phone before anything else hands the shaping of your morning mood to an algorithm and to other people's agendas.",
+      "You do not need all five. A parent of small children or a shift worker can run a two-block ten-minute version; the value comes from repetition, not duration.",
+    ],
+    illustrationEmojis: ["🌅", "🧱", "📵"],
+  },
+  "pre-11": {
+    whyItMattersVi:
+      "Bạn không phải là suy nghĩ của bạn. Nhận ra khoảng cách đó là bước chuyển lớn nhất từ bị cảm xúc dẫn dắt sang hành động theo giá trị.",
+    whyItMattersEn:
+      "You are not your thoughts. Noticing that gap is the biggest shift from being led by emotion to acting on values.",
+    deepDiveVi: [
+      "ACT gọi kỹ thuật này là cognitive defusion. Thay vì 'tôi thất bại', bạn nói 'tôi đang có suy nghĩ rằng tôi thất bại'. Câu thứ hai vẫn thừa nhận suy nghĩ nhưng không đồng nhất bạn với nó.",
+      "Mục tiêu của ACT không phải là loại bỏ suy nghĩ khó chịu mà là giảm mức độ nó điều khiển hành vi. Bạn có thể vừa lo lắng vừa gửi email quan trọng, và đó chính là thành công.",
+      "Bộ đôi thực hành hằng ngày là gắn nhãn 'đây là một suy nghĩ' khi tự phê phán, rồi hỏi 'hành động nào phù hợp với giá trị của mình trong mười phút tới'.",
+    ],
+    deepDiveEn: [
+      "ACT calls this cognitive defusion. Instead of 'I am a failure', you say 'I am having the thought that I am a failure'. The second sentence acknowledges the thought without merging you with it.",
+      "ACT's goal is not eliminating uncomfortable thoughts but reducing how much they steer behaviour. Being anxious and still sending the important email is the definition of success here.",
+      "The daily pair of practices: label self-criticism as 'this is a thought', then ask 'what action fits my values in the next ten minutes'.",
+    ],
+    illustrationEmojis: ["🎈", "🏷️", "🧭"],
+  },
+
+  /* ─────────────── WELLNESS ─────────────── */
+  "wel-01": {
+    whyItMattersVi:
+      "Không có chất bổ nào bù được giấc ngủ thiếu. Ngủ đủ là điều kiện nền cho học tập, tâm trạng và miễn dịch, và nó miễn phí.",
+    whyItMattersEn:
+      "No supplement compensates for lost sleep. Sufficient sleep is the base condition for learning, mood and immunity, and it costs nothing.",
+    deepDiveVi: [
+      "Một đêm gồm nhiều chu kỳ khoảng 90 phút, trong đó giấc ngủ sâu tập trung ở nửa đầu và giấc REM ở nửa sau. Vì vậy thức khuya rồi ngủ bù buổi sáng cắt mất phần REM, phần liên quan mạnh tới trí nhớ và điều hoà cảm xúc.",
+      "Ba đòn có tác động lớn nhất là giờ thức cố định, ánh sáng mạnh trong giờ đầu sau khi thức, và tránh caffeine sau khoảng đầu giờ chiều vì thời gian bán huỷ của nó khoảng năm đến sáu giờ.",
+      "Nếu bạn ngủ đủ giờ mà vẫn buồn ngủ ban ngày kéo dài, ngáy to hoặc ngừng thở khi ngủ, đây là lúc gặp bác sĩ chứ không phải lúc thử thêm mẹo. Đó có thể là dấu hiệu rối loạn cần chẩn đoán.",
+    ],
+    deepDiveEn: [
+      "A night is made of roughly 90-minute cycles, with deep sleep concentrated in the first half and REM in the second. Staying up late and sleeping in therefore cuts REM, the stage most tied to memory and emotional regulation.",
+      "The three highest-impact levers are a fixed wake time, bright light in the first hour after waking, and avoiding caffeine after early afternoon, since its half-life is roughly five to six hours.",
+      "If you sleep enough hours yet stay sleepy all day, snore heavily or stop breathing during sleep, that is a doctor's visit, not another hack. It can indicate a disorder that needs diagnosis.",
+    ],
+    illustrationEmojis: ["😴", "🌙", "⏰"],
+  },
+  "wel-02": {
+    whyItMattersVi:
+      "Zone 2 là vùng cường độ mà bạn vẫn nói chuyện được. Đây là cách rẻ nhất để cải thiện thể lực nền mà không cần chịu đau.",
+    whyItMattersEn:
+      "Zone 2 is the intensity at which you can still hold a conversation. It is the cheapest way to build base fitness without suffering.",
+    deepDiveVi: [
+      "Ở cường độ thấp và kéo dài, cơ thể sử dụng chất béo làm nhiên liệu chính và kích thích sinh ty thể, tức là tăng khả năng sản xuất năng lượng của tế bào. Đó là lý do vùng này cải thiện sức bền hằng ngày rõ hơn các buổi tập nặng ngắt quãng.",
+      "Cách đo đơn giản nhất không cần thiết bị là bài kiểm tra nói: bạn nói được câu dài nhưng không hát được. Nhịp tim ước lượng khoảng 60 đến 70% mức tối đa, nhưng bài kiểm tra nói đủ dùng cho hầu hết mọi người.",
+      "Liều lượng thực tế là 150 phút mỗi tuần chia thành ba đến năm buổi, đi bộ nhanh cũng tính. Nếu bạn có bệnh tim mạch hoặc lâu không vận động, hãy tham khảo bác sĩ trước khi tăng khối lượng.",
+    ],
+    deepDiveEn: [
+      "At low, sustained intensity the body burns fat as its main fuel and stimulates mitochondrial biogenesis, increasing your cells' capacity to produce energy. That is why this zone improves everyday endurance more visibly than short, hard intervals.",
+      "The simplest equipment-free gauge is the talk test: you can speak full sentences but not sing. Heart rate lands around 60 to 70% of maximum, but the talk test is accurate enough for most people.",
+      "A practical dose is 150 minutes a week across three to five sessions, and brisk walking counts. If you have a cardiovascular condition or have been inactive for a long time, consult a doctor before adding volume.",
+    ],
+    illustrationEmojis: ["🚶", "❤️", "🔋"],
+  },
+  "wel-03": {
+    whyItMattersVi:
+      "Bạn không cần chọn đúng chế độ ăn hoàn hảo. Bạn cần vài nguyên tắc đủ đơn giản để duy trì mười năm.",
+    whyItMattersEn:
+      "You do not need to pick the perfect diet. You need a few principles simple enough to keep for ten years.",
+    deepDiveVi: [
+      "Năm nguyên tắc thay được phần lớn các chế độ ăn: ưu tiên thực phẩm ít qua chế biến, có protein ở mỗi bữa, ăn nhiều rau và chất xơ, uống đủ nước, và ăn chậm để tín hiệu no kịp xuất hiện.",
+      "Lý do các chế độ ăn khắt khe thất bại không nằm ở sinh học mà ở tính bền. Chế độ nào bạn duy trì được sáu tháng luôn thắng chế độ tối ưu bạn bỏ sau ba tuần.",
+      "Đây là hướng dẫn chung cho người trưởng thành khoẻ mạnh. Nếu bạn có bệnh chuyển hoá, đang mang thai, hoặc dùng thuốc dài hạn, hãy để chuyên gia dinh dưỡng hoặc bác sĩ điều chỉnh cụ thể.",
+    ],
+    deepDiveEn: [
+      "Five principles replace most diets: favour minimally processed food, include protein at every meal, eat plenty of vegetables and fibre, drink enough water, and eat slowly so satiety signals arrive in time.",
+      "Strict diets fail for reasons of sustainability rather than biology. The plan you keep for six months always beats the optimal plan you abandon after three weeks.",
+      "This is general guidance for healthy adults. If you have a metabolic condition, are pregnant, or take long-term medication, let a dietitian or doctor tailor the specifics.",
+    ],
+    illustrationEmojis: ["🥗", "🍗", "💧"],
+  },
+  "wel-04": {
+    whyItMattersVi:
+      "Hơi thở là cách duy nhất bạn tác động trực tiếp lên hệ thần kinh tự chủ trong vài giây, ở bất cứ đâu, không tốn gì.",
+    whyItMattersEn:
+      "Breathing is the only way you can directly influence your autonomic nervous system within seconds, anywhere, at no cost.",
+    deepDiveVi: [
+      "Nguyên lý chung: hít vào kích hoạt giao cảm, thở ra kích hoạt phó giao cảm. Vì vậy muốn bình tĩnh thì kéo dài pha thở ra, còn muốn tỉnh táo thì kéo dài pha hít vào.",
+      "Ba bài đủ cho mọi tình huống là thở 4-6 để hạ căng thẳng, physiological sigh gồm hai lần hít nối tiếp rồi thở ra dài để reset nhanh, và thở hộp 4-4-4-4 để giữ tập trung trước khi trình bày.",
+      "Nếu bạn bị hen, bệnh tim mạch, đang mang thai hoặc từng có cơn hoảng loạn, hãy tránh các kỹ thuật nín thở lâu hoặc thở nhanh sâu, và hỏi bác sĩ trước.",
+    ],
+    deepDiveEn: [
+      "The general principle: inhalation activates the sympathetic branch, exhalation the parasympathetic one. To calm down, lengthen the exhale; to sharpen up, lengthen the inhale.",
+      "Three drills cover most situations: 4-6 breathing to lower stress, the physiological sigh of two stacked inhales followed by a long exhale for a fast reset, and box breathing 4-4-4-4 to hold focus before presenting.",
+      "If you have asthma or a cardiovascular condition, are pregnant, or have a history of panic attacks, avoid long breath holds and rapid deep breathing, and ask a doctor first.",
+    ],
+    illustrationEmojis: ["🌬️", "🫁", "🧘"],
+  },
+  "wel-05": {
+    whyItMattersVi:
+      "Cuộn điện thoại hai giờ không phải là nghỉ. Nếu bạn nghỉ mà vẫn mệt, gần như luôn là vì bạn đang nghỉ sai loại.",
+    whyItMattersEn:
+      "Two hours of scrolling is not rest. If rest leaves you tired, it is almost always because you are resting in the wrong category.",
+    deepDiveVi: [
+      "Có nhiều loại nghỉ khác nhau: thể chất, tinh thần, cảm xúc, cảm giác, xã hội, sáng tạo và tĩnh lặng. Người làm việc trí óc thường thiếu nghỉ cảm giác và nghỉ tinh thần, nhưng lại cố bù bằng nghỉ thể chất.",
+      "Dấu hiệu bạn đang nghỉ sai loại là cảm giác cạn sau khi nghỉ, khó tập trung dù đã ngủ đủ, và dễ bực với những việc nhỏ.",
+      "Cách chẩn đoán rẻ: một tuần cho điểm bảy loại nghỉ mỗi tối, rồi dành chín mươi phút cuối tuần cho loại điểm thấp nhất. Dữ liệu của chính bạn đáng tin hơn mọi lời khuyên chung.",
+    ],
+    deepDiveEn: [
+      "Rest comes in several kinds: physical, mental, emotional, sensory, social, creative and spiritual stillness. Knowledge workers usually lack sensory and mental rest but try to compensate with physical rest.",
+      "Signs you are resting in the wrong category: feeling drained after rest, poor focus despite enough sleep, and irritation at small things.",
+      "A cheap diagnostic: score all seven kinds nightly for a week, then give ninety weekend minutes to the lowest one. Your own data beats any generic advice.",
+    ],
+    illustrationEmojis: ["🛌", "🎨", "🔇"],
+  },
+  "wel-06": {
+    whyItMattersVi:
+      "Khối cơ là tài sản sức khoẻ giảm dần theo tuổi nếu không được bảo trì. Tập kháng lực là hình thức bảo trì hiệu quả nhất.",
+    whyItMattersEn:
+      "Muscle is a health asset that depreciates with age unless maintained, and resistance training is the most effective maintenance available.",
+    deepDiveVi: [
+      "Sau khoảng ba mươi tuổi, khối cơ có xu hướng giảm dần nếu không có tín hiệu tải trọng. Cơ không chỉ là thẩm mỹ: nó liên quan tới độ nhạy insulin, mật độ xương và khả năng độc lập khi lớn tuổi.",
+      "Liều lượng tối thiểu có hiệu quả rất khiêm tốn: hai buổi mỗi tuần, mỗi buổi bốn đến sáu động tác đa khớp, hai đến ba set gần mức khó. Tăng tiến từ từ quan trọng hơn khối lượng lớn.",
+      "Ưu tiên kỹ thuật trước tải trọng. Người mới nên bắt đầu bằng trọng lượng cơ thể và máy, và nếu có vấn đề khớp hoặc cột sống thì nên tập cùng huấn luyện viên có chứng chỉ hoặc chuyên gia vật lý trị liệu.",
+    ],
+    deepDiveEn: [
+      "After roughly age thirty, muscle mass tends to decline without a loading signal. Muscle is not cosmetic: it relates to insulin sensitivity, bone density and independence in later life.",
+      "The minimum effective dose is modest: two sessions a week, four to six multi-joint movements each, two to three sets close to challenging. Gradual progression matters more than large volume.",
+      "Put technique before load. Beginners should start with bodyweight and machines, and anyone with joint or spine issues should train with a certified coach or physiotherapist.",
+    ],
+    illustrationEmojis: ["🏋️", "🦴", "📈"],
+  },
+  "wel-07": {
+    whyItMattersVi:
+      "Ánh sáng là tín hiệu thời gian mạnh nhất cho cơ thể. Mười phút ngoài trời buổi sáng chỉnh được cả chu kỳ ngủ và tâm trạng trong ngày.",
+    whyItMattersEn:
+      "Light is the strongest timing signal your body has. Ten outdoor minutes in the morning can set both your sleep cycle and your daytime mood.",
+    deepDiveVi: [
+      "Ánh sáng buổi sáng tác động qua các tế bào hạch võng mạc cảm quang, gửi tín hiệu tới nhân trên chéo, nơi điều phối đồng hồ sinh học. Kết quả là melatonin buổi tối xuất hiện đúng giờ hơn.",
+      "Cường độ quan trọng hơn thời lượng. Ngoài trời trời râm vẫn mạnh hơn nhiều lần so với đèn trong nhà, nên mười phút ngoài hiên có giá trị hơn một giờ cạnh cửa sổ đóng.",
+      "Vế còn lại là buổi tối: giảm ánh sáng mạnh và ánh sáng xanh trong hai giờ trước khi ngủ. Chỉ làm buổi sáng mà bỏ buổi tối thì hiệu quả chỉ còn một nửa.",
+    ],
+    deepDiveEn: [
+      "Morning light works through intrinsically photosensitive retinal ganglion cells that signal the suprachiasmatic nucleus, the master clock. The result is evening melatonin arriving on schedule.",
+      "Intensity matters more than duration. Even an overcast outdoor sky is many times brighter than indoor lighting, so ten minutes on a balcony beats an hour beside a closed window.",
+      "The other half is the evening: cut bright and blue-heavy light in the two hours before bed. Doing only the morning half gives you roughly half the benefit.",
+    ],
+    illustrationEmojis: ["☀️", "👁️", "🌃"],
+  },
+  "wel-08": {
+    whyItMattersVi:
+      "Đếm calo cả đời là kế hoạch thất bại. Quy tắc 80/20 giữ được kết quả mà không cần biến bữa ăn thành bài toán.",
+    whyItMattersEn:
+      "Counting calories forever is a failing plan. The 80/20 rule keeps results without turning every meal into arithmetic.",
+    deepDiveVi: [
+      "Ý tưởng là 80% bữa ăn theo nguyên tắc nền, còn 20% dành cho linh hoạt xã hội và món bạn thích. Phần 20% không phải là thất bại, nó chính là cơ chế giúp phần 80% tồn tại lâu dài.",
+      "Thay vì đếm, hãy dùng công cụ thị giác: nửa đĩa rau, một phần tư protein, một phần tư tinh bột, cộng một nguồn chất béo tốt. Cách này chính xác đủ dùng cho mục tiêu sức khoẻ chung.",
+      "Nếu bạn có tiền sử rối loạn ăn uống, cách tiếp cận theo tỉ lệ và theo hình ảnh thường an toàn hơn việc theo dõi số liệu, nhưng vẫn nên làm cùng chuyên gia.",
+    ],
+    deepDiveEn: [
+      "The idea is that 80% of meals follow your base principles while 20% covers social flexibility and food you love. The 20% is not failure, it is the mechanism that lets the 80% survive.",
+      "Instead of counting, use a visual tool: half the plate vegetables, a quarter protein, a quarter starch, plus a source of good fat. That is accurate enough for general health goals.",
+      "If you have a history of disordered eating, ratio-based and visual approaches are usually safer than numeric tracking, but still work with a professional.",
+    ],
+    illustrationEmojis: ["🍽️", "🎂", "⚖️"],
+  },
+  "wel-09": {
+    whyItMattersVi:
+      "Ruột và não trao đổi tín hiệu liên tục. Bữa ăn không giải thích được toàn bộ tâm trạng, nhưng nó là biến số bạn kiểm soát mỗi ngày.",
+    whyItMattersEn:
+      "Gut and brain exchange signals constantly. Meals do not explain your whole mood, but they are a variable you control daily.",
+    deepDiveVi: [
+      "Trục não-ruột hoạt động qua dây thần kinh phế vị, hệ miễn dịch và các chất chuyển hoá do vi sinh vật tạo ra. Đây là con đường hai chiều: căng thẳng làm thay đổi tiêu hoá, và tiêu hoá cũng ảnh hưởng ngược lại.",
+      "Điều được ủng hộ mạnh nhất trong nghiên cứu hiện nay là ăn đa dạng chất xơ, thêm thực phẩm lên men, ngủ đủ và giảm rượu. Các tuyên bố rằng một chủng men vi sinh cụ thể chữa được lo âu thì vẫn chưa đủ bằng chứng.",
+      "Cần nói rõ giới hạn: dinh dưỡng không thay thế điều trị. Nếu bạn có triệu chứng lo âu hoặc trầm cảm kéo dài, hãy tìm hỗ trợ y tế chuyên môn song song với việc cải thiện lối sống.",
+    ],
+    deepDiveEn: [
+      "The brain-gut axis runs through the vagus nerve, the immune system and metabolites produced by microbes. It is bidirectional: stress changes digestion, and digestion feeds back to mood.",
+      "What current research supports most strongly is fibre diversity, fermented foods, adequate sleep and less alcohol. Claims that a specific probiotic strain cures anxiety remain insufficiently evidenced.",
+      "State the limit clearly: nutrition does not replace treatment. If anxiety or low mood persists, seek professional medical support alongside lifestyle changes.",
+    ],
+    illustrationEmojis: ["🦠", "🥬", "🧠"],
+  },
+  "wel-10": {
+    whyItMattersVi:
+      "Ngồi mười giờ mỗi ngày định hình lại cơ thể bạn. Đau cổ và vai hiếm khi là vấn đề của một buổi, nó là kết quả của một nghìn giờ tư thế lặp lại.",
+    whyItMattersEn:
+      "Sitting ten hours a day reshapes your body. Neck and shoulder pain is rarely about one session, it is a thousand hours of repeated posture.",
+    deepDiveVi: [
+      "Mỗi khoảng nghiêng đầu về trước làm tăng đáng kể tải trọng lên cột sống cổ, nên tư thế đầu chúi khi xem điện thoại là nguồn tải lớn nhất trong ngày với nhiều người.",
+      "Ba điều chỉnh có tác động nhất là đưa đỉnh màn hình lên ngang mắt, đặt điện thoại lên cao thay vì cúi xuống, và đứng dậy di chuyển vài phút mỗi ba mươi tới bốn mươi lăm phút.",
+      "Không có tư thế hoàn hảo, chỉ có tư thế được thay đổi thường xuyên. Thêm hai bài đơn giản mỗi ngày là gập vai và kéo giãn ngực để bù cho thời gian khép vai về trước.",
+      "Nếu bạn có đau lan xuống tay, tê hoặc yếu cơ, đó là dấu hiệu cần bác sĩ hoặc chuyên gia vật lý trị liệu, không phải cần tập thêm.",
+    ],
+    deepDiveEn: [
+      "Every degree of forward head tilt meaningfully increases load on the cervical spine, which makes phone-looking posture the single largest daily load for many people.",
+      "The three highest-impact adjustments are raising the top of your screen to eye level, lifting the phone instead of bending your neck, and standing up to move for a few minutes every thirty to forty-five minutes.",
+      "There is no perfect posture, only posture that changes often. Add two simple daily drills: shoulder retractions and a chest stretch to offset hours of rounded shoulders.",
+      "Pain radiating into an arm, numbness or weakness is a signal for a doctor or physiotherapist, not for more exercises.",
+    ],
+    illustrationEmojis: ["💻", "🦴", "🧍"],
+  },
+  "wel-11": {
+    whyItMattersVi:
+      "Lạnh và nóng là những tác nhân gây stress ngắn có kiểm soát. Dùng đúng liều, chúng giúp bạn luyện khả năng bình tĩnh dưới áp lực.",
+    whyItMattersEn:
+      "Cold and heat are controlled short-term stressors. Used at the right dose, they train your ability to stay calm under pressure.",
+    deepDiveVi: [
+      "Tiếp xúc lạnh làm tăng noradrenaline và tạo cơ hội luyện phản ứng bình tĩnh trước tín hiệu báo động. Xông nóng thường xuyên được liên hệ với các dấu hiệu tim mạch tốt hơn trong các nghiên cứu dân số ở Phần Lan, tuy đây là dữ liệu quan sát, không phải bằng chứng nhân quả.",
+      "Liều lượng thực tế được nhắc tới nhiều là vài phút lạnh mỗi tuần chia thành nhiều lần ngắn, và mười lăm đến hai mươi phút xông nóng vài lần mỗi tuần. Nhiều hơn không tự động tốt hơn.",
+      "Đây là phần cần cảnh báo an toàn rõ ràng: không tắm lạnh hoặc xông nóng một mình nếu bạn có bệnh tim, huyết áp không kiểm soát, đang mang thai, hoặc có tiền sử ngất. Không dùng rượu kèm theo, và luôn có người biết bạn đang ở đó.",
+      "Nếu mục tiêu của bạn là tăng cơ ngay sau buổi tập kháng lực, hãy để khoảng cách vài giờ trước khi tắm lạnh, vì lạnh ngay sau tập có thể làm giảm tín hiệu thích nghi.",
+    ],
+    deepDiveEn: [
+      "Cold exposure raises noradrenaline and gives you a chance to rehearse a calm response to an alarm signal. Regular sauna use is associated with better cardiovascular markers in Finnish population studies, though that is observational data rather than proof of causation.",
+      "Commonly cited practical doses are a few minutes of cold per week split into short exposures, and fifteen to twenty minutes of sauna a few times weekly. More is not automatically better.",
+      "This topic needs an explicit safety note: do not plunge or sauna alone if you have heart disease, uncontrolled blood pressure, are pregnant, or have a history of fainting. Never combine with alcohol, and always let someone know where you are.",
+      "If your goal is muscle growth right after resistance training, leave a few hours before cold exposure, since immediate cold may blunt the adaptation signal.",
+    ],
+    illustrationEmojis: ["🧊", "🔥", "⚠️"],
+  },
 };
