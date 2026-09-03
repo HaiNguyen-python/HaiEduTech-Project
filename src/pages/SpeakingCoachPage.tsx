@@ -191,51 +191,58 @@ const SpeakingCoachPage = () => {
           </motion.div>
         )}
 
-        {/* Practice mode switcher */}
+        {/* Two entry points only: overview (charts first) and practice */}
         <div className="mb-4 flex flex-wrap gap-2">
           {([
-            { key: "sentences", label: t("Câu mẫu", "Sentences"), icon: Mic },
-            { key: "shadow", label: t("Nói theo", "Shadowing"), icon: Repeat },
-            { key: "drill", label: t("Luyện âm", "Sound drill"), icon: Waves },
-            { key: "freetalk", label: t("Nói tự do", "Free Talk"), icon: MessageCircle },
-            { key: "review", label: t("Ôn từ yếu", "Weak words"), icon: Brain },
-            { key: "plan", label: t("Lộ trình của tôi", "My roadmap"), icon: Compass },
-            { key: "stats", label: t("Thống kê phát âm", "Pronunciation stats"), icon: BarChart3 },
+            { key: "overview", label: t("Tổng quan", "Overview"), icon: BarChart3 },
+            { key: "practice", label: t("Luyện tập", "Practice"), icon: Mic },
           ] as const).map(({ key, label, icon: Icon }) => (
             <Button
               key={key}
               size="sm"
-              variant={mode === key ? "default" : "outline"}
+              variant={view === key ? "default" : "outline"}
               onClick={() => {
-                setMode(key);
-                if (key === "review") setWeakCount(countWeakWords(lang));
+                setView(key);
+                setWeakCount(countWeakWords(lang));
               }}
               className="gap-1"
             >
               <Icon className="w-4 h-4" />
               {label}
-              {key === "review" && weakCount > 0 && (
+              {key === "practice" && weakCount > 0 && (
                 <Badge variant="secondary" className="ml-1">{weakCount}</Badge>
               )}
             </Button>
           ))}
         </div>
 
-        <div className={mode === "sentences" ? "" : "hidden"}>
+        {view === "overview" && (
+          <SpeakingOverview
+            language={lang}
+            weakCount={weakCount}
+            hasData={hasStats}
+            onGoMode={goToPlanMode}
+            onPickActivity={pickActivity}
+          />
+        )}
+
+        {view === "practice" && (
+          <div className="space-y-4">
+            <ActivityChips active={activity} weakCount={weakCount} onPick={pickActivity} />
+            {activity === "shadow" && <ShadowingMode language={lang} onPerfectScore={handlePerfectScore} />}
+            {activity === "drill" && <SoundDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
+            {activity === "freetalk" && <FreeTalkMode language={lang} onPerfectScore={handlePerfectScore} />}
+            {activity === "review" && (
+              <WeakWordReview language={lang} onChange={() => setWeakCount(countWeakWords(lang))} />
+            )}
+          </div>
+        )}
+
+        {/* Kept mounted so the sentence quiz keeps its state between views */}
+        <div className={view === "practice" && activity === "sentences" ? "mt-4" : "hidden"}>
           <AISpeakingCoach language={lang} onPerfectScore={handlePerfectScore} />
         </div>
-        {mode === "shadow" && <ShadowingMode language={lang} onPerfectScore={handlePerfectScore} />}
-        {mode === "drill" && <SoundDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
-        {mode === "freetalk" && <FreeTalkMode language={lang} onPerfectScore={handlePerfectScore} />}
-        {mode === "review" && (
-          <WeakWordReview language={lang} onChange={() => setWeakCount(countWeakWords(lang))} />
-        )}
-        {mode === "plan" && (
-          <PronunciationPlanPanel language={lang} onGoMode={goToPlanMode} />
-        )}
-        {mode === "stats" && (
-          <PronunciationStatsPanel language={lang} onPractice={() => setMode("plan")} />
-        )}
+
 
       </main>
       <Footer />
