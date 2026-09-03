@@ -58,17 +58,19 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: Us
     };
   }, [teardown]);
 
+  const stopRef = useRef<() => void>(() => {});
+
   // Visible listening timer + hard ceiling.
   useEffect(() => {
     if (!isRecording) return;
     const id = window.setInterval(() => {
       const elapsed = Math.floor((Date.now() - startedAtRef.current) / 1000);
       setSeconds(elapsed);
-      if (elapsed >= maxSeconds) stop();
+      if (elapsed >= maxSeconds) stopRef.current();
     }, 250);
     return () => window.clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRecording, maxSeconds]);
+
 
   const finish = useCallback(() => {
     const text = accumulatedRef.current.trim();
