@@ -46,6 +46,16 @@ const PROMPT_SIZES = {
   xl: "text-3xl sm:text-4xl",
 } as const;
 
+const PROMPT_WIDTHS = {
+  narrow: "max-w-[42ch]",
+  medium: "max-w-[52ch]",
+  wide: "max-w-[68ch]",
+} as const;
+
+const PROMPT_WIDTH_STORAGE_KEY = "presentation-prompt-width";
+const PROMPT_SIZE_STORAGE_KEY = "presentation-prompt-size";
+
+
 interface SessionHistoryItem {
   at: number;
   scenario: string;
