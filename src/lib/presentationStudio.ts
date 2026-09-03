@@ -547,6 +547,24 @@ export function findAdvancedVocab(text: string): string[] {
   return ADVANCED_VOCAB.filter((w) => new RegExp(`\\b${w}\\b`, "i").test(lower));
 }
 
+/**
+ * Estimated spoken length of a script in seconds, at a realistic delivery pace
+ * (115 WPM includes natural pauses). Used to keep the target-duration control
+ * in sync with the scenario the learner picked.
+ */
+export function estimateScriptSeconds(script: string, wpm = 115): number {
+  const words = script.trim().split(/\s+/).filter(Boolean).length;
+  if (!words) return 0;
+  return Math.round((words / wpm) * 60);
+}
+
+/** Suggested target duration in whole minutes (1-5) for a scenario script. */
+export function suggestedTargetMinutes(script: string): number {
+  const sec = estimateScriptSeconds(script);
+  return Math.min(5, Math.max(1, Math.round(sec / 60)));
+}
+
+
 export function paceLabel(wpm: number): { tone: "slow" | "good" | "fast"; text: string } {
   if (wpm < 100) return { tone: "slow", text: "Too slow - add energy" };
   if (wpm > 160) return { tone: "fast", text: "Too fast - breathe" };

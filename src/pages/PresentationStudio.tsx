@@ -32,6 +32,7 @@ import PresentationProgressChart from "@/components/presentation/PresentationPro
 import {
   PRESENTATION_SCENARIOS, SCENARIO_GROUPS, analyzeSession, countFillers, countWords, findSignposts,
   isStressWord, paceLabel, tokenizeTranscript, buildCustomScenario, evaluateStructure,
+  estimateScriptSeconds, suggestedTargetMinutes,
   type StudioMode, type StudioReport,
 } from "@/lib/presentationStudio";
 import { scoreBodyLanguage, scoreLabel, type BodyLanguageScores } from "@/lib/speakingBodyLanguage";
@@ -123,6 +124,17 @@ const PresentationStudio = () => {
       : PRESENTATION_SCENARIOS.find((s) => s.id === scenarioId) ?? PRESENTATION_SCENARIOS[0]),
     [customActive, customScript, customAudience, scenarioId],
   );
+
+  // Estimated spoken length of the current script, so the target duration and
+  // the teleprompter never disagree with the scenario brief.
+  const scriptSeconds = useMemo(() => estimateScriptSeconds(scenario.script), [scenario]);
+
+  // Keep the target duration aligned with the selected script (learner can still override).
+  useEffect(() => {
+    setTargetMinutes(suggestedTargetMinutes(scenario.script));
+  }, [scenario.id, scenario.script]);
+
+
 
   // ---- live session state ------------------------------------------------
   const [camOn, setCamOn] = useState(false);
@@ -948,7 +960,14 @@ const PresentationStudio = () => {
                   <span className="font-semibold text-primary">{targetMinutes} min</span>
                 </div>
                 <Slider value={[targetMinutes]} min={1} max={5} step={1} onValueChange={(v) => setTargetMinutes(v[0])} />
+                <p className="text-[11px] text-muted-foreground mt-1">
+                  {t(
+                    `Kịch bản này dài khoảng ${Math.round(scriptSeconds)} giây khi nói ở tốc độ tự nhiên.`,
+                    `This script runs about ${Math.round(scriptSeconds)} seconds at a natural speaking pace.`,
+                  )}
+                </p>
               </div>
+
               {mode === "scripted" && (
                 <div>
                   <div className="flex justify-between text-xs mb-2">
