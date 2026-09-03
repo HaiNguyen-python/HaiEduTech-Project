@@ -479,8 +479,12 @@ const PresentationStudio = () => {
     setEyeContact(0);
 
     promptOffsetRef.current = 0;
-    if (promptRef.current) promptRef.current.scrollTop = 0;
+    measurePrompt();
+    const { containerHeight } = promptMetricsRef.current;
+    const focusTop = containerHeight * PROMPT_FOCUS_RATIO;
+    if (promptInnerRef.current) promptInnerRef.current.style.transform = `translateY(${focusTop}px)`;
     runningRef.current = true;
+
     setPromptRunning(false);
     setRecording(true); setPaused(false);
     startRecognition();
