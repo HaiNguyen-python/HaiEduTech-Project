@@ -64,6 +64,9 @@ serve(async (req) => {
     const prompt = `You are an elite public speaking coach (IELTS 9.0 examiner + startup pitch coach).
 Scenario: ${scenario}. Audience: ${audience}. Mode: ${mode}.
 Measured telemetry: ${telemetry.wpm} WPM, ${Math.round(telemetry.durationSec)}s long, ${telemetry.fillers} filler words, ${telemetry.eyeContact}% camera eye contact, signposts used: ${telemetry.signposts.join(", ") || "none"}.
+${bodyLine}
+${structureLine}
+
 
 TRANSCRIPT:
 """${transcript}"""
