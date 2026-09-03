@@ -161,6 +161,7 @@ const TranslationPractice = ({ taskType }: Props) => {
     setRevealed(true);
     setGrading(true);
     setAi(null);
+    let aiResult: AiResult | null = null;
     try {
       const { data, error } = await supabase.functions.invoke("grade-translation", {
         body: {
@@ -178,14 +179,15 @@ const TranslationPractice = ({ taskType }: Props) => {
         else if (status === 402) toast.error(t("Hệ thống AI đã hết tín dụng.", "AI credits exhausted."));
         else toast.message(t("AI chưa chấm được, đang hiển thị nhận xét cơ bản.", "AI grading unavailable, showing the basic check."));
       } else if (data) {
-        setAi(data as AiResult);
+        aiResult = data as AiResult;
+        setAi(aiResult);
       }
     } catch (e) {
       console.error("translation grading error", e);
       toast.message(t("AI chưa chấm được, đang hiển thị nhận xét cơ bản.", "AI grading unavailable, showing the basic check."));
     } finally {
       setGrading(false);
-      const finalScore = ai?.score ?? lc.score;
+      const finalScore = aiResult?.score ?? lc.score;
       const best = Math.max(progress[item.id] ?? 0, finalScore);
       const next = { ...progress, [item.id]: best };
       setProgress(next);
