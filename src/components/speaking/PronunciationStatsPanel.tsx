@@ -211,7 +211,7 @@ const PronunciationStatsPanel = ({ language, onPractice, variant = "full" }: Pro
           </Card>
 
           {/* Source breakdown */}
-          {sources.length > 0 && (
+          {sources.length > 0 && showDetails && (
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">{t("Lỗi theo chế độ luyện", "Errors by practice mode")}</CardTitle>
