@@ -471,7 +471,6 @@ const PresentationStudio = () => {
     });
     setReport(local);
     setReportOpen(true);
-    setAiLoading(true);
     pushHistory({
       at: Date.now(),
       scenario: scenario.label,
@@ -482,8 +481,23 @@ const PresentationStudio = () => {
       eyeContact,
       confidence: body?.confidence ?? 0,
     });
+    // The AI coach needs at least 12 words; below that we keep the local report only.
+    if (countWords(fullText) < 12) {
+      setAi(null);
+      setAiLoading(false);
+      toast({
+        title: t("Báo cáo cơ bản", "Basic report"),
+        description: t(
+          "Bài nói quá ngắn để AI phân tích sâu (cần ít nhất 12 từ). Hãy nói dài hơn để nhận nhận xét từ AI.",
+          "Too short for AI coaching (needs at least 12 words). Speak longer for AI feedback.",
+        ),
+      });
+      return;
+    }
+    setAiLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("analyze-presentation", {
+
         body: {
           transcript: fullText,
           scenario: scenario.label,
