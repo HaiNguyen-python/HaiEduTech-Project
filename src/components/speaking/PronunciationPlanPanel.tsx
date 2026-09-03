@@ -47,9 +47,12 @@ const MODE_ICON: Record<PlanMode, typeof Mic> = {
   freetalk: MessageCircle,
 };
 
-const PronunciationPlanPanel = ({ language, onGoMode }: Props) => {
+const PronunciationPlanPanel = ({ language, onGoMode, variant = "full" }: Props) => {
   const { t } = useLanguage();
   const [done, setDone] = useState<Record<string, boolean>>({});
+  const hero = variant === "hero";
+  const [stepsOpen, setStepsOpen] = useState(false);
+  const showRest = !hero || stepsOpen;
 
   const store = useMemo(() => loadPronStats(language), [language]);
   const plan = useMemo(() => buildPronPlan(store), [store]);
