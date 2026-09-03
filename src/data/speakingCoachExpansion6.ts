@@ -74,7 +74,7 @@ export const englishExtraThemes6: SpeakingTheme[] = [
       { id: "en6-ho6", text: "Cooking new recipes has become one of my favorite hobbies.", translation: "Nấu công thức mới đã trở thành sở thích yêu thích của tôi.", ipa: "/ˈkʊkɪŋ nuː ˈrɛsəpiz hæz bɪˈkʌm wʌn ʌv maɪ ˈfeɪvərɪt ˈhɑːbiz/", difficulty: "medium", theme: "hobbies" },
       { id: "en6-ho7", text: "I take a lot of photos whenever I travel to a new place.", translation: "Tôi chụp rất nhiều ảnh mỗi khi đi đến một nơi mới.", ipa: "/aɪ teɪk ə lɑːt ʌv ˈfoʊˌtoʊz wɛˈnɛvər aɪ ˈtrævəl tuː ə nuː pleɪs/", difficulty: "medium", theme: "hobbies" },
       { id: "en6-ho8", text: "Yoga classes twice a week keep me both fit and calm.", translation: "Lớp yoga hai buổi mỗi tuần giúp tôi khỏe và bình tĩnh.", ipa: "/ˈjoʊɡə ˈklæsəz twaɪs ə wiːk kiːp miː boʊθ fɪt ənd kɑːm/", difficulty: "medium", theme: "hobbies" },
-      { id: "en6-ho9", text: "I like listening to podcasts while I'm doing housework.", translation: "Tôi thích nghe podcast khi đang làm việc nhà.", ipa: "/aɪ laɪk lɪsənɪŋ tə podcasts waɪl aɪm duɪŋ haʊswərˌk/", difficulty: "medium", theme: "hobbies" },
+      { id: "en6-ho9", text: "I like listening to podcasts while I'm doing housework.", translation: "Tôi thích nghe podcast khi đang làm việc nhà.", ipa: "/aɪ laɪk ˈlɪsənɪŋ tuː ˈpɑːdkæsts waɪl aɪm ˈduːɪŋ ˈhaʊˌswɜːrk/", difficulty: "medium", theme: "hobbies" },
       { id: "en6-ho10", text: "Gardening might sound boring, but I find it very rewarding.", translation: "Làm vườn nghe có vẻ chán, nhưng tôi thấy rất mãn nguyện.", ipa: "/ˈɡɑːrdənɪŋ maɪt saʊnd ˈbɔːrɪŋ bʌt aɪ faɪnd ɪt ˈvɛri rɪˈwɔːrdɪŋ/", difficulty: "medium", theme: "hobbies" },
     ],
   },
@@ -148,7 +148,7 @@ export const englishExtraThemes6: SpeakingTheme[] = [
       { id: "en6-te5", text: "I try to limit my screen time before going to bed.", translation: "Tôi cố hạn chế thời gian dùng màn hình trước khi ngủ.", ipa: "/aɪ traɪ tuː ˈlɪmət maɪ skriːn taɪm bɪˈfɔːr ˈɡoʊɪŋ tuː bɛd/", difficulty: "medium", theme: "tech" },
       { id: "en6-te6", text: "A good pair of headphones changes how you experience music.", translation: "Một cặp tai nghe tốt thay đổi cách bạn thưởng thức nhạc.", ipa: "/ə ɡʊd pɛr ʌv ˈhɛdˌfoʊnz ˈtʃeɪndʒəz haʊ juː ɪkˈspɪriəns ˈmjuːzɪk/", difficulty: "medium", theme: "tech" },
       { id: "en6-te7", text: "I back up my important photos every couple of weeks.", translation: "Tôi sao lưu ảnh quan trọng mỗi vài tuần.", ipa: "/aɪ bæk ʌp maɪ ˌɪmˈpɔːrtənt ˈfoʊˌtoʊz ˈɛvəri ˈkʌpəl ʌv wiːks/", difficulty: "medium", theme: "tech" },
-      { id: "en6-te8", text: "My smartwatch reminds me to stand up and move regularly.", translation: "Đồng hồ thông minh nhắc tôi đứng dậy vận động thường xuyên.", ipa: "/maɪ smartwatch ɹimaɪndz mi tə stænd əp ənd muv ɹɛgjələrli/", difficulty: "medium", theme: "tech" },
+      { id: "en6-te8", text: "My smartwatch reminds me to stand up and move regularly.", translation: "Đồng hồ thông minh nhắc tôi đứng dậy vận động thường xuyên.", ipa: "/maɪ ˈsmɑːrtwɑːtʃ riˈmaɪndz miː tuː stænd ʌp ənd muːv ˈrɛɡjələrli/", difficulty: "medium", theme: "tech" },
       { id: "en6-te9", text: "I only install apps I really trust and need.", translation: "Tôi chỉ cài những ứng dụng thực sự tin và cần.", ipa: "/aɪ ˈoʊnli ˌɪnˈstɔːl æps aɪ ˈrɪli trʌst ənd niːd/", difficulty: "medium", theme: "tech" },
       { id: "en6-te10", text: "Two-factor authentication is a simple way to stay safer online.", translation: "Xác thực hai lớp là cách đơn giản để an toàn online.", ipa: "/tuːˈfæktər ɔːˌθɛntəˈkeɪʃən ɪz ə ˈsɪmpəl weɪ tuː steɪ ˈseɪfər ˈɔːnˌlaɪn/", difficulty: "medium", theme: "tech" },
     ],
@@ -276,7 +276,7 @@ export const englishExtraThemes6: SpeakingTheme[] = [
   {
     id: "en-b2-education", name: "Modern Education", nameVi: "Giáo dục hiện đại", icon: "🎓", level: "B2",
     sentences: [
-      { id: "en6-me1", text: "Education today should focus on curiosity more than memorization.", translation: "Giáo dục hôm nay nên tập trung vào sự tò mò hơn là học thuộc.", ipa: "/ɛʤəkeɪʃən tədeɪ ʃʊd foʊkəs ɑːn kjʊɹiɑsəti mɔɹ ðæn memorization/", difficulty: "hard", theme: "education" },
+      { id: "en6-me1", text: "Education today should focus on curiosity more than memorization.", translation: "Giáo dục hôm nay nên tập trung vào sự tò mò hơn là học thuộc.", ipa: "/ˌɛdʒəˈkeɪʃən təˈdeɪ ʃʊd ˈfoʊkəs ɑːn ˌkjʊriˈɑːsəti mɔːr ðæn ˌmɛmərəˈzeɪʃən/", difficulty: "hard", theme: "education" },
       { id: "en6-me2", text: "Online learning gives students access to teachers around the world.", translation: "Học trực tuyến giúp học sinh tiếp cận giáo viên toàn cầu.", ipa: "/ˈɔːnˌlaɪn ˈlɜːrnɪŋ ɡɪvz ˈstuːdənts ˈækˌsɛs tuː ˈtiːtʃərz ərˈaʊnd ðə wɜːrld/", difficulty: "hard", theme: "education" },
       { id: "en6-me3", text: "Soft skills like empathy are just as vital as technical knowledge.", translation: "Kỹ năng mềm như sự đồng cảm cũng thiết yếu như kiến thức kỹ thuật.", ipa: "/sɑːft skɪlz laɪk ˈɛmpəθi ɑːr dʒʌst æz ˈvaɪtəl æz ˈtɛknɪkəl ˈnɑːlədʒ/", difficulty: "hard", theme: "education" },
       { id: "en6-me4", text: "Personalized learning paths can help every student thrive.", translation: "Lộ trình học cá nhân hóa giúp mọi học sinh phát triển.", ipa: "/ˈpɜːrsənəˌlaɪzd ˈlɜːrnɪŋ pæðz kæn hɛlp ˈɛvəri ˈstuːdənt θraɪv/", difficulty: "hard", theme: "education" },

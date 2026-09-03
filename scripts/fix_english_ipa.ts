@@ -99,6 +99,20 @@ const FUNCTION_WORDS = new Set([
   "its","our","their","there","with","by","not","no","so","if","than","then","when",
 ]);
 
+/** Words missing from CMU (modern tech vocabulary etc.). */
+const SUPPLEMENT: Record<string, string> = {
+  cryptography: "krɪpˈtɑːɡrəfi",
+  cyberbullying: "ˈsaɪbərˌbʊliɪŋ",
+  cybersecurity: "ˈsaɪbərsɪˌkjʊrəti",
+  influencer: "ˈɪnfluənsər",
+  memorization: "ˌmɛmərəˈzeɪʃən",
+  mindfulness: "ˈmaɪndfəlnəs",
+  podcasts: "ˈpɑːdkæsts",
+  reproducible: "ˌriːprəˈduːsəbəl",
+  smartwatch: "ˈsmɑːrtwɑːtʃ",
+  sourced: "sɔːrst",
+};
+
 const cache = new Map<string, string | null>();
 export const unknown = new Set<string>();
 
@@ -106,8 +120,9 @@ const wordIpa = (raw: string): string | null => {
   const key = raw.toLowerCase();
   if (cache.has(key)) return cache.get(key)!;
   const pron = (dictionary as Record<string, string>)[key];
-  let ipa: string | null = null;
-  if (pron) {
+  let ipa: string | null = SUPPLEMENT[key] ?? null;
+  if (!ipa && pron) ipa = null;
+  if (!ipa && pron) {
     ipa = arpaToIpa(pron);
     // Function words keep their vowels but drop stress marks so the sentence
     // rhythm reads naturally.
