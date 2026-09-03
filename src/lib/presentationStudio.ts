@@ -26,7 +26,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     prompt:
       "Pitch your EdTech product in 3 minutes: problem, solution, traction, market size, team, and the ask.",
     script:
-      "Good morning. Every year, four million Vietnamese students sit a high-stakes English exam, yet fewer than one in five can afford a personal tutor.\nThat is the gap we close. Our platform gives every learner an AI coach that listens, grades, and rebuilds the study plan overnight.\nFirst, let me show you the traction. In nine months we have grown to forty thousand monthly learners with a seventy-one percent week-four retention rate.\nSecond, the market. English test preparation in Southeast Asia is a two-point-one billion dollar market growing at fourteen percent a year.\nThird, the team. We combine fifteen years of classroom teaching with data engineering experience from Finland.\nTo summarise, we are raising eight hundred thousand dollars to expand into two new markets and double our content engine. Thank you - I am happy to take your questions.",
+      "Good morning. Every year, four million Vietnamese students sit a high-stakes English exam, yet fewer than one in five can afford a personal tutor.\nFor most families the choice is brutal: pay a month of income for eight hours of tutoring, or let the child prepare alone with a textbook that never answers back.\nThat is the gap we close. Our platform gives every learner an AI coach that listens, grades, and rebuilds the study plan overnight, for the price of two cups of coffee a month.\nLet me be concrete about how it works. A learner records a two-minute answer. Within four seconds they receive a band score, the exact phrases that cost them marks, and three targeted drills for the next day.\nFirst, let me show you the traction. In nine months we have grown to forty thousand monthly learners, with a seventy-one percent week-four retention rate and a paid conversion of six percent.\nRevenue follows the same curve. We closed last month at ninety thousand dollars in monthly recurring revenue, growing twenty-two percent month on month, with a payback period under three months.\nSecond, the market. English test preparation in Southeast Asia is a two-point-one billion dollar market growing at fourteen percent a year, and school budgets are shifting from printed workbooks to licences.\nWe reach that market through two channels. Direct learners give us margin and data, while school partnerships give us volume at one fifth of the acquisition cost.\nThird, the team. We combine fifteen years of classroom teaching with data engineering experience from Finland, and our head of content has written for two national exam boards.\nOn defensibility, our advantage is the feedback loop. Every graded recording improves the scoring model, and after eleven million graded sentences a new entrant cannot simply copy a screen.\nTo summarise, we are raising eight hundred thousand dollars to expand into two new markets, double our content engine, and hire four engineers. That gives us twenty months of runway and a clear path to two hundred thousand learners. Thank you - I am happy to take your questions.",
     qaSeeds: [
       "What stops a large incumbent from copying this in six months?",
       "Your retention looks strong - how do you prove it is not just early-adopter bias?",
@@ -41,7 +41,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     prompt:
       "Defend your thesis in 4 minutes: research gap, method, key findings, limitations, contribution.",
     script:
-      "Distinguished members of the committee, thank you for your time. My thesis examines how adaptive feedback affects speaking fluency among upper-secondary learners.\nTo begin with, the literature treats fluency gains as a function of practice volume, yet it rarely isolates the quality of feedback.\nMoving on to the method, I ran a twelve-week quasi-experiment with two hundred and forty participants across four schools.\nThe central finding is that learners receiving word-level feedback improved fluency by zero-point-eight of a band, twice the gain of the control group.\nHowever, I must acknowledge two limitations: a single geographic region, and self-reported practice time.\nIn conclusion, this study contributes a replicable feedback protocol that schools can adopt without extra teaching hours. I welcome your questions.",
+      "Distinguished members of the committee, thank you for your time. My thesis examines how adaptive feedback affects speaking fluency among upper-secondary learners.\nI will structure the next few minutes around five points: the research gap, my method, the key findings, the limitations, and the contribution.\nTo begin with the gap. The literature treats fluency gains largely as a function of practice volume, yet it rarely isolates the quality of the feedback learners receive between practice sessions.\nTwo influential studies from the last decade measured minutes of speaking, but neither recorded what learners were told afterwards, so the effect of feedback remains confounded with the effect of exposure.\nMy research question follows directly from that gap: does word-level corrective feedback produce fluency gains beyond those explained by practice time alone?\nMoving on to the method. I ran a twelve-week quasi-experiment with two hundred and forty participants across four schools, matched on entry proficiency and weekly practice minutes.\nThe treatment group received automated word-level feedback within one minute of each recording. The control group received the conventional holistic comment from their teacher at the end of the week.\nFluency was operationalised through three measures: speech rate in syllables per second, mean length of run, and the frequency of filled pauses, all scored by two blind raters.\nThe central finding is that learners receiving word-level feedback improved fluency by zero-point-eight of a band, roughly twice the gain of the control group, and the difference was statistically significant at the one percent level.\nA second finding is more practical. The gain appeared mainly in mean length of run rather than raw speed, which suggests learners were planning longer chunks rather than simply speaking faster.\nA third finding concerns timing. Feedback delivered within twenty-four hours produced almost all of the effect, while feedback delayed beyond a week produced no measurable advantage over the control condition.\nHowever, I must acknowledge three limitations. The study covers a single geographic region, practice time outside class was self-reported, and the twelve-week window cannot show whether the gains are durable.\nI would also note a possible novelty effect, which I partially addressed by keeping the interface identical for both groups and varying only the feedback content.\nIn conclusion, this study contributes a replicable feedback protocol that schools can adopt without extra teaching hours, together with a coding scheme other researchers can reuse.\nMy recommendation for future work is a randomised trial across two regions with a delayed post-test at six months. Thank you for listening. I welcome your questions.",
     qaSeeds: [
       "How do you rule out the novelty effect of the technology itself?",
       "Why did you choose a quasi-experimental design rather than a randomised trial?",
@@ -54,9 +54,9 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "IELTS examiner",
     mode: ["impromptu", "scripted"],
     prompt:
-      "Discuss: Should public speaking be a compulsory school subject? Develop both sides, then take a position.",
+      "Discuss in about 2 minutes: Should public speaking be a compulsory school subject? Develop both sides, then take a position.",
     script:
-      "That is an interesting question. On the whole, I would argue that public speaking deserves a place in the core curriculum.\nOn the one hand, supporters point out that confident speakers do better in interviews and negotiations, so the skill has clear economic value.\nOn the other hand, critics claim that timetables are already crowded and that shy students may find compulsory presentations stressful.\nHaving said that, the pressure can be reduced with small-group formats rather than a whole-school auditorium.\nSo overall, I believe the benefits outweigh the drawbacks, provided that assessment focuses on progress rather than performance.",
+      "That is an interesting question, and I think opinion is genuinely divided on it. On the whole, though, I would argue that public speaking deserves a place in the core curriculum.\nOn the one hand, supporters point out that confident speakers do better in interviews, negotiations and job promotions, so the skill has clear economic value long after school ends.\nThey would also say that speaking in front of others is a skill like any other. It responds to practice, and the students who never practise it are usually the ones who need it most.\nA further point is fairness. Learners from confident, articulate families pick this up at the dinner table, whereas everyone else only gets it if the school teaches it deliberately.\nOn the other hand, critics claim that timetables are already crowded, and that adding a subject means removing something else that parents may value more.\nThey also raise a welfare concern, namely that shy or anxious students may find compulsory presentations genuinely distressing rather than simply uncomfortable.\nHaving said that, I think the pressure can be reduced considerably with small-group formats, recorded tasks and gradual exposure, rather than putting a nervous teenager on a whole-school stage.\nAnother compromise would be to embed speaking inside existing subjects, so students present a science result or a history argument instead of studying speaking in isolation.\nSo overall, I believe the benefits outweigh the drawbacks, provided that assessment focuses on progress rather than performance, and that teachers are trained to build confidence step by step.",
     qaSeeds: [
       "Some people say online communication has made speaking skills less important - what do you think?",
       "How could schools assess speaking fairly without discouraging quieter students?",
@@ -71,7 +71,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     prompt:
       "Deliver a 2-minute quarterly update: headline result, two drivers, one risk, next actions.",
     script:
-      "Thanks for making time. Here is the headline: we closed the quarter at one-point-four million in revenue, eight percent ahead of plan.\nThe first driver was the enterprise renewal cycle, where we retained ninety-four percent of accounts by value.\nThe second driver was pricing discipline; average contract value rose by eleven percent with no increase in churn.\nThe main risk I want to flag is delivery capacity - two of our three implementation leads are fully booked until November.\nTherefore I am asking for approval to bring forward two hires. I will follow up with the detailed plan by Friday. Over to you for questions.",
+      "Thanks for making time. I will keep this to four things: the headline, the two drivers behind it, the risk I need you to see, and what I am asking for.\nHere is the headline: we closed the quarter at one-point-four million in revenue, eight percent ahead of plan and twenty-three percent up year on year.\nThe first driver was the enterprise renewal cycle, where we retained ninety-four percent of accounts by value. Two of the three accounts we expected to lose renewed after we moved them onto the new support tier.\nThe second driver was pricing discipline. Average contract value rose by eleven percent with no increase in churn, which tells us the previous pricing was leaving money on the table rather than protecting retention.\nI should be honest about the mix. Roughly one hundred thousand of the beat came from a single early renewal, so the repeatable run rate is closer to five percent ahead of plan than eight.\nThe main risk I want to flag is delivery capacity. Two of our three implementation leads are fully booked until November, and the pipeline for next quarter is already larger than this one.\nIf nothing changes, the practical effect is that new customers wait six to eight weeks before their first live class, and that is exactly the point where early churn happens.\nTherefore I am asking for approval to bring forward two hires from the next budget cycle into this one, at an in-quarter cost of about sixty thousand.\nMy next actions are these. I will circulate the detailed hiring plan by Friday, review the delivery queue weekly, and report the run-rate figure separately from one-off revenue in the next update. Over to you for questions.",
     qaSeeds: [
       "If we do not approve the hires, what exactly slips and by how long?",
       "How much of the revenue beat is one-off rather than repeatable?",
@@ -86,7 +86,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     prompt:
       "Give a 3-minute lightning talk on one idea worth spreading in education technology.",
     script:
-      "Let me start with a number: the average learner forgets seventy percent of a new word within a week.\nMy talk today makes one claim - spaced practice is the cheapest upgrade any classroom can make.\nFirstly, consider how review timing works. A word revisited on day one, day three and day seven survives far longer than a word drilled ten times in one evening.\nSecondly, this costs nothing but scheduling. No new textbook, no new device.\nTo wrap up, if you change only one thing after this talk, change when your students review, not how much. Thank you.",
+      "Let me start with a number: the average learner forgets seventy percent of a new word within a week.\nThat single fact explains most of the frustration in language classrooms. It is not that students do not study. It is that the studying evaporates before the next lesson arrives.\nMy talk today makes one claim - spaced practice is the cheapest upgrade any classroom can make, and almost nobody is using it properly.\nFirstly, consider how review timing works. A word revisited on day one, day three and day seven survives far longer than the same word drilled ten times in a single evening.\nThe reason is that difficulty helps. When you retrieve a word just as it starts to fade, the effort of remembering is what strengthens the memory. Easy review teaches almost nothing.\nSecondly, this costs nothing but scheduling. No new textbook, no new device, no extra homework. You simply move five minutes of review from the same day to three days later.\nIn our own trial across six classes, teachers changed only the timing of review, not the content. Retention after one month rose from thirty-one percent to sixty-four percent.\nThirdly, and this is the part people resist, spacing feels worse while you do it. Students report that massed practice feels more productive, even when it produces half the result. So expect to defend it for a few weeks.\nHere is how to start on Monday. Keep a simple list of last week's words, spend the first three minutes of the lesson recalling them out loud, and revisit the same list on day three and day seven.\nTo wrap up, if you change only one thing after this talk, change when your students review, not how much. Same effort, twice the memory. Thank you.",
     qaSeeds: [
       "How would you convince a teacher with no extra planning time to adopt this?",
       "What evidence would change your mind about spaced practice?",
@@ -99,7 +99,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Hiring panel",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Answer 'Tell me about yourself' in 2 minutes: present role, two proof points, motivation, and why this company.",
+      "Answer 'Tell me about yourself' in 90 seconds: present role, two proof points, motivation, and why this company.",
     script:
       "Thank you for having me. I am an education technology specialist with five years of experience building learning products that teachers actually use.\nCurrently I lead content design at a language school, where I own the curriculum for eight hundred active learners.\nLet me give you two concrete results. First, I rebuilt our placement test, which cut misplaced students from eighteen percent to four percent in one term.\nSecond, I introduced weekly data reviews with teachers, and course completion rose from sixty-one to seventy-nine percent.\nWhat motivates me is the moment a hesitant learner speaks a full sentence without stopping. That is why I moved from classroom teaching into product work.\nAs for why your company, you are one of very few teams treating assessment as a design problem rather than a reporting problem, and that is exactly where I want to spend the next stage of my career.\nSo in short, I bring classroom credibility, measurable delivery, and a strong bias for evidence. I would be glad to walk through any of those in detail.",
     qaSeeds: [
@@ -114,7 +114,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Selection or visa officer",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Explain in 2 minutes: your study plan, why this country and programme, funding, and your return plan.",
+      "Explain in 90 seconds: your study plan, why this country and programme, funding, and your return plan.",
     script:
       "Good morning. I am applying for the master's programme in educational data science, starting this autumn.\nMy plan is straightforward. In the first year I will complete the core courses in learning analytics and statistics, and in the second year I will write a thesis on early warning models for at-risk students.\nI chose this country because its schools publish open learning data, so my research can be validated against real cohorts rather than simulations.\nRegarding funding, my tuition is covered by the university scholarship, and my living costs are supported by family savings, with documentation included in my file.\nAfter graduation I intend to return home and join a national education programme, where dropout prediction is still done manually.\nTo summarise, this programme gives me a specific skill my country currently imports, and I have a concrete plan to bring it back. Thank you.",
     qaSeeds: [
@@ -129,7 +129,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "General public audience",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Share one idea worth spreading in 3 minutes: hook, personal story, the idea, evidence, and a call to action.",
+      "Share one idea worth spreading in 90 seconds: hook, personal story, the idea, evidence, and a call to action.",
     script:
       "I want to start with a confession. For three years I graded homework that nobody read.\nEvery Sunday I wrote careful comments in red ink, and every Monday those pages went straight into school bags and disappeared.\nThat led me to one idea: feedback is only feedback when the learner acts on it. Everything else is decoration.\nSo we ran a small experiment. Instead of written comments, students received one spoken sentence and had ten minutes in class to fix that exact thing.\nThe result surprised us. Error repetition dropped by more than half within a month, and the workload for teachers went down, not up.\nThink about what that means. The problem was never effort. The problem was timing.\nSo here is my ask. Next week, take one piece of feedback you would normally write, say it out loud instead, and give your learners time to use it while you are still in the room.\nSmall change, immediate return. Thank you.",
     qaSeeds: [
@@ -144,7 +144,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Prospective client",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Run a 3-minute demo: customer pain, the workflow, one live feature, proof, pricing, next step.",
+      "Run a 90-second demo: customer pain, the workflow, one live feature, proof, pricing, next step.",
     script:
       "Thanks for the thirty minutes. Before I show anything, let me restate the problem you described last week.\nYour teachers spend roughly six hours a week marking speaking assignments, and parents still ask for more detail.\nHere is how our workflow changes that. A student records once, the platform returns a band score with evidence sentences, and the teacher reviews rather than marks from scratch.\nLet me show you the part that matters most: the evidence panel. Every score points to the exact phrase that earned it, so nothing looks like a black box.\nIn terms of proof, three schools of your size cut marking time by about seventy percent and increased parent report satisfaction from three-point-one to four-point-five out of five.\nOn pricing, you would be on the school plan, which is billed per active learner with no setup fee.\nAs a next step, I suggest a two-week pilot with one grade level, and I will handle the onboarding session myself. Does that work for you?",
     qaSeeds: [
@@ -159,7 +159,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Teacher training panel",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Teach a 3-minute micro-lesson: objective, activation, model, guided practice, check for understanding.",
+      "Teach a 90-second micro-lesson: objective, activation, model, guided practice, check for understanding.",
     script:
       "Good afternoon everyone. By the end of these few minutes, you will be able to describe a trend in one sentence using an adverb of degree.\nLet us start with something you already know. Look at this chart of ice cream sales. What happened between June and August?\nRight, it went up. Now I will model the sentence I want. Sales rose sharply between June and August.\nNotice three parts: the verb rose, the adverb sharply, and the time frame between June and August.\nYour turn, but with support. Using the same pattern, describe the drop in September. I will give you the verb fell and you choose the adverb.\nGood. Now the check. Hold up one finger if sharply means a small change, and two fingers if it means a large change.\nExcellent, two fingers everywhere. That tells me we can move on to gradual and slightly in the next stage.\nThat is the lesson: one pattern, one model, one immediate check.",
     qaSeeds: [
@@ -174,7 +174,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Product and engineering team",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Give a 2-minute sprint review: what shipped, what slipped, metrics, blockers, and the next sprint focus.",
+      "Give a 1-minute sprint review: what shipped, what slipped, metrics, blockers, and the next sprint focus.",
     script:
       "Quick review of the sprint, then blockers.\nFirst, what shipped. The new speaking grader is live for all levels, and the report export is done including the bilingual layout.\nSecond, what slipped. The offline mode moved to next sprint because the caching layer failed under poor network conditions.\nOn the numbers, weekly active learners rose from nine thousand two hundred to ten thousand one hundred, and median grading time is now four seconds.\nThe main blocker is the audio storage quota. We are at eighty-eight percent, so I need a decision on retention this week rather than next.\nFor the next sprint, the focus is reliability, not features. Two engineers on offline mode, one on the storage cleanup job.\nThat is everything from me. Questions or objections before we commit?",
     qaSeeds: [
@@ -189,7 +189,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Friends and family",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Give a warm 2-minute toast: who you are, one story, one quality, one wish, and the raised glass.",
+      "Give a warm 90-second toast: who you are, one story, one quality, one wish, and the raised glass.",
     script:
       "Good evening everyone. For those who do not know me, I am Minh, and I have had the pleasure of working beside Lan for seven years.\nI want to tell you one small story. On her very first week, our internet went down twenty minutes before a class of thirty students.\nMost of us froze. Lan picked up a marker, drew the whole lesson on the whiteboard, and the students later said it was their favourite class of the term.\nThat is the quality I admire most in her: she does not wait for perfect conditions.\nAnd Duc, you have the same habit, which is probably why the two of you make such calm decisions together.\nSo my wish is simple. May your life together be full of ordinary evenings that you would not trade for anything.\nPlease raise your glasses with me. To Lan and Duc. Congratulations.",
     qaSeeds: [
@@ -204,7 +204,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Debate adjudicators",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Deliver a 3-minute opening: definition, stance, two substantive arguments with impacts, and a pre-emptive rebuttal.",
+      "Deliver a 90-second opening: definition, stance, two substantive arguments with impacts, and a pre-emptive rebuttal.",
     script:
       "Honourable adjudicators, today's motion is that smartphones should be banned in secondary schools during lesson time.\nWe define a ban as devices stored away from the learner between the first and last bell, with exceptions for medical and accessibility needs.\nWe stand in proposition, and we bring two arguments.\nOur first argument is attention. Studies of classroom interruption show that a single notification costs several minutes of recovered focus, and in a forty-five minute lesson that cost is not recoverable. The impact is measurable learning loss for the students who can least afford it.\nOur second argument is equity. When devices are present, the gap between learners with premium data plans and those without becomes visible every hour of the school day. Removing devices removes that daily reminder of difference.\nThe opposition will likely argue that phones are useful learning tools. We accept that, but usefulness is not the question. The question is whether the average lesson gains more from access than it loses from distraction, and the evidence says it does not.\nFor these reasons, we propose.",
     qaSeeds: [
@@ -219,7 +219,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Judges and visiting researchers",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Pitch your poster in 2 minutes: question, method, one figure, result, and why it matters.",
+      "Pitch your poster in 90 seconds: question, method, one figure, result, and why it matters.",
     script:
       "Hello, thank you for stopping by. My project asks a simple question: can a low-cost sensor predict indoor air quality well enough for a classroom?\nThe method had three stages. I built five sensors from off-the-shelf parts, ran them beside a calibrated reference monitor for six weeks, and compared readings every minute.\nIf you look at the figure in the centre of the poster, the blue line is my sensor and the grey line is the reference. They track closely until carbon dioxide passes two thousand parts per million, where my sensor begins to under-report.\nThe headline result is a correlation of zero-point-nine-four in the normal classroom range, at about one-twentieth of the cost.\nWhy does this matter? Most schools cannot afford a certified monitor per room, so they ventilate on a fixed schedule rather than on evidence.\nMy next step is a calibration correction for the high range, and I would welcome any suggestions on that. Thank you.",
     qaSeeds: [
@@ -234,7 +234,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Affected users and staff",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Deliver a calm 2-minute update: what happened, what is confirmed, impact, actions taken, next update time.",
+      "Deliver a calm 90-second update: what happened, what is confirmed, impact, actions taken, next update time.",
     script:
       "Thank you all for joining at short notice. I will keep this to facts, actions, and timing.\nWhat happened: between six and nine this morning, learners were unable to submit speaking assignments. The cause was a failed storage migration on our side, not a security incident.\nWhat is confirmed: no learner recordings were lost, and no personal data was exposed. Our logs cover the full window and we have reviewed them line by line.\nThe impact: approximately two thousand three hundred submissions were delayed, and forty-one were duplicated. Duplicates are being merged today.\nActions taken: the migration is rolled back, submissions are working normally as of nine-forty, and we have added an alert that pages an engineer within sixty seconds of a submission failure.\nWhat we still owe you: a written incident report with a full timeline, and an extended deadline for every affected class.\nMy next update will be at four o'clock this afternoon, whether or not there is new information. I will take questions now.",
     qaSeeds: [
@@ -249,7 +249,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Lecturer and classmates",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Present your group project in 3 minutes: aim, division of work, method, findings, and what you would do differently.",
+      "Present your group project in 90 seconds: aim, division of work, method, findings, and what you would do differently.",
     script:
       "Good afternoon everyone. Our group looked at how students in our faculty actually use AI tools for coursework.\nTo begin with, our aim was simple: separate what students say they do from what they really do.\nWe split the work three ways. Linh built the survey, Minh ran the interviews, and I handled the analysis.\nOur method combined a survey of one hundred and eighty students with twelve follow-up interviews.\nThe headline finding is that eighty-two percent use AI weekly, but only nine percent ever check the sources it gives them.\nA second finding surprised us: students who used AI most were also the ones most worried about their own writing skills.\nHaving said that, our sample came from one faculty only, so we cannot generalise to the whole university.\nIf we did this again, we would add a short writing task to measure skill directly rather than relying on self-reports.\nTo conclude, AI use is now normal, but verification habits are not. Thank you - we are happy to take questions.",
     qaSeeds: [
@@ -279,7 +279,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Existing investors",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Give a 2-minute quarterly update: numbers, what worked, what did not, the ask, and the next milestone.",
+      "Give a 90-second quarterly update: numbers, what worked, what did not, the ask, and the next milestone.",
     script:
       "Thanks everyone for making time. I will cover four things: the numbers, what worked, what did not, and what I need from you.\nStarting with the numbers. Revenue grew twenty-eight percent quarter on quarter, and our cash runway now stands at fourteen months.\nWhat worked: the school partnership channel. Three districts signed, and the cost of acquiring a learner through that channel is roughly one fifth of paid ads.\nWhat did not work: our self-serve upgrade flow. We shipped it, we measured it, and conversion moved by less than half a percent, so we are pulling it back for a rebuild.\nThe ask is specific. We need two warm introductions to regional school groups, and one advisor with curriculum accreditation experience.\nOur next milestone is one hundred paying schools by the end of the quarter, and I will report against that number whether or not we hit it. Questions welcome.",
     qaSeeds: [
@@ -294,7 +294,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Cross-functional project team",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Kick off a new project in 2 minutes: why now, scope, roles, timeline, risks, and how success is measured.",
+      "Kick off a new project in 90 seconds: why now, scope, roles, timeline, risks, and how success is measured.",
     script:
       "Good morning, and welcome to the kick-off. I want everyone to leave this room knowing exactly what they own.\nFirst, why now. Our onboarding drop-off has sat at forty percent for three quarters, and every other growth idea is downstream of fixing it.\nSecond, the scope. We are rebuilding the first-session experience only. We are not touching billing, and we are not redesigning the dashboard.\nThird, roles. Mai leads design, Tuan leads engineering, and I am accountable for the outcome. If you are blocked, come to me, not to a queue.\nFourth, the timeline. Six weeks: two for research, three for build, one for rollout and measurement.\nOn risks, the biggest one is scope creep, and the second is dependency on the analytics migration finishing on time.\nFinally, success is one number: drop-off under twenty-five percent, measured four weeks after launch. Thank you - let us get to work.",
     qaSeeds: [
@@ -309,7 +309,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Workshop participants",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Open a training workshop in 2 minutes: hook, promise, agenda, ground rules, and first activity.",
+      "Open a training workshop in 90 seconds: hook, promise, agenda, ground rules, and first activity.",
     script:
       "Before we start, please write one word on your sticky note: the thing you find hardest about speaking in English. Keep it - we will come back to it at the end.\nWelcome to today's workshop. My promise is simple: you will leave with three techniques you can use in your very next meeting, not three theories.\nHere is the agenda. We spend the first thirty minutes on structure, the next forty on delivery, and the final twenty on live practice with feedback.\nTwo ground rules. First, everybody speaks in the first ten minutes, because the longer you wait the harder it gets. Second, feedback is specific and kind - no vague praise.\nOne housekeeping note: we break at half past ten, and slides go out afterwards, so please listen rather than copy.\nLet us start with the first activity. Turn to the person next to you and introduce yourself in exactly thirty seconds. Ready? Go.",
     qaSeeds: [
@@ -324,7 +324,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Prospective customers",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Tell a 2-minute customer story: who they were, the problem, what changed, the measured result, and the lesson.",
+      "Tell a 1-minute customer story: who they were, the problem, what changed, the measured result, and the lesson.",
     script:
       "Let me tell you about a school in Da Nang with six hundred students and two English teachers.\nBefore working with us, their problem was not motivation. It was feedback. A teacher marking six hundred speaking recordings simply cannot return them within a week, and feedback a fortnight late changes nothing.\nWhat changed was small. Students recorded on the platform, received instant word-level feedback, and teachers reviewed only the flagged cases.\nThe measured result after one semester: average speaking scores rose by zero-point-seven of a band, and teacher marking time dropped from nine hours a week to about two.\nThe part I did not expect is that teacher satisfaction moved more than student scores did.\nThe lesson for anyone here is this. Do not automate teaching. Automate the bottleneck that stops teaching from landing. Thank you.",
     qaSeeds: [
@@ -339,7 +339,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Department stakeholders",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Walk an audience through a chart in 2 minutes: what it shows, the trend, the outlier, the cause, and the decision it drives.",
+      "Walk an audience through a chart in 90 seconds: what it shows, the trend, the outlier, the cause, and the decision it drives.",
     script:
       "The chart on screen shows weekly active learners over the last twelve months, split by school and self-serve.\nBefore the numbers, one note on how to read it. The solid line is schools, the dotted line is self-serve, and the shaded band is the summer holiday.\nThe overall trend is steady growth in the school line, roughly nine percent a month, while self-serve is essentially flat.\nThe obvious outlier is week thirty-one, where activity halves. That is not a data problem - it is the national holiday week, and it recovers fully the week after.\nThe cause of the flat self-serve line appears to be discovery rather than quality. Retention in both groups is nearly identical once learners reach their third session.\nSo the decision this drives is clear. We move the next quarter's budget from self-serve advertising into school partnerships, and we revisit self-serve only if third-session retention drops.\nThat is the story in the data. Happy to go deeper on any segment.",
     qaSeeds: [
@@ -354,7 +354,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Graduating students, families and staff",
     mode: ["scripted"],
     prompt:
-      "Deliver a 3-minute graduation speech: one story, one idea, one call to action. Warm, concrete, not clichéd.",
+      "Deliver a 90-second graduation speech: one story, one idea, one call to action. Warm, concrete, not clichéd.",
     script:
       "Teachers, families, and above all the class sitting in front of me - congratulations.\nI want to start with a confession. In my final year of school, I failed a speaking exam so badly that the examiner asked if I would like to try again in Vietnamese.\nI remember walking home and deciding that I was simply not a speaking person. That decision cost me four years.\nWhat changed was not talent and it was not confidence. It was repetition in front of people who were kind enough to tell me the truth.\nSo here is the one idea I want to leave you with. You are not finished, you are simply early. The gap between where you are and where you want to be is almost always practice you have not done yet, not ability you were not born with.\nAnd here is my call to action. In the next month, do one thing you are visibly bad at, in front of someone whose opinion you respect.\nThat is how you will keep learning long after nobody is grading you. Congratulations again, and thank you.",
     qaSeeds: [
@@ -369,7 +369,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Podcast host and listeners",
     mode: ["impromptu", "scripted"],
     prompt:
-      "Answer the host in 2 minutes: What is the most misunderstood thing about learning a language as an adult?",
+      "Answer the host in 90 seconds: What is the most misunderstood thing about learning a language as an adult?",
     script:
       "The most misunderstood thing is the idea that adults are worse learners than children. That is mostly a myth, and it does real damage.\nLet me be precise. Children are better at accent, because of when the ear is tuned. Adults are better at almost everything else - grammar, vocabulary, strategy, and above all self-direction.\nFor example, an adult can learn the two hundred words that matter for their job in three weeks. A seven-year-old cannot do that, and does not need to.\nWhere adults genuinely struggle is exposure. A child gets six hours a day of unavoidable practice. An adult gets twenty minutes if they are disciplined.\nSo the real problem is not the brain, it is the calendar.\nMy practical advice is to stop studying and start scheduling. Fifteen minutes of speaking every day beats three hours on Sunday, and it is not close.\nThat is the shift I would want every adult learner to hear.",
     qaSeeds: [
@@ -384,7 +384,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Donors at a charity evening",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Make a 2-minute appeal: one specific person, the gap, exactly what a donation buys, credibility, and a clear ask.",
+      "Make a 90-second appeal: one specific person, the gap, exactly what a donation buys, credibility, and a clear ask.",
     script:
       "Thank you for being here tonight. I want to tell you about one student, and then I will ask you for something very specific.\nHer name is Trang. She is fifteen, she lives two hours from the nearest exam centre, and last year she scored higher in our practice tests than any student in her province.\nShe did not sit the exam. The fee and the travel came to about four million dong, which is more than her family earns in a month.\nThat is the gap. It is not talent, and it is not effort. It is a bus ticket and a fee.\nHere is exactly what your donation buys. One hundred and eighty dollars covers one student's exam fee, travel, and a full year of preparation materials. Not overheads - we publish our accounts every quarter, and ninety-one cents of every dollar reaches a student directly.\nSo my ask tonight is simple. Sponsor one student. Twenty of you in this room doing that changes twenty exam results, and exam results in this system change everything downstream.\nThank you.",
     qaSeeds: [
@@ -399,7 +399,7 @@ export const PRESENTATION_SCENARIOS: PresentationScenario[] = [
     audience: "Senior engineers and architects",
     mode: ["scripted", "impromptu"],
     prompt:
-      "Present a design in 3 minutes: the constraint, the options considered, the choice, the trade-offs, and the rollback plan.",
+      "Present a design in 90 seconds: the constraint, the options considered, the choice, the trade-offs, and the rollback plan.",
     script:
       "I am proposing we move speech grading from the request path into a queue. Let me start with the constraint that forces the change.\nToday, grading runs inline, and the ninety-fifth percentile response time is eleven seconds. Anything above three seconds and learners re-submit, which doubles our load exactly when we are slowest.\nWe considered three options. One, scale the current service vertically. Two, cache aggressively. Three, decouple with a job queue and push results over a live channel.\nWe rejected vertical scaling because cost grows faster than traffic, and caching because almost every recording is unique.\nSo the choice is the queue. Submissions return in under three hundred milliseconds, grading happens asynchronously, and the client receives the result over an existing realtime connection.\nThe honest trade-offs are two. The client gets more complex because it must handle a pending state, and we now own a queue with its own failure modes and monitoring.\nOn rollback: the inline path stays behind a feature flag for two releases, so reverting is a config change, not a deploy.\nThat is the proposal. I would like a decision today so we can start on Monday.",
     qaSeeds: [
