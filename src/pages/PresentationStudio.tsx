@@ -663,6 +663,24 @@ const PresentationStudio = () => {
                       </Button>
                     ))}
                   </div>
+                  <div className="flex items-center gap-0.5 mr-1">
+                    {([
+                      { id: "narrow" as const, label: t("Hẹp", "Narrow") },
+                      { id: "medium" as const, label: t("Vừa", "Medium") },
+                      { id: "wide" as const, label: t("Rộng", "Wide") },
+                    ]).map((w) => (
+                      <Button
+                        key={w.id}
+                        size="sm"
+                        variant={promptWidth === w.id ? "default" : "ghost"}
+                        className="h-7 px-2 text-[11px]"
+                        onClick={() => setPromptWidth(w.id)}
+                      >
+                        {w.label}
+                      </Button>
+                    ))}
+                  </div>
+
                   <Button
                     variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
                     onClick={() => setPromptRunning((r) => !r)}
