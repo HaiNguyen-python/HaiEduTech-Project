@@ -952,10 +952,11 @@ const PresentationStudio = () => {
                     <span className="text-muted-foreground">{t("Tốc độ teleprompter", "Teleprompter speed")}</span>
                     <span className="font-semibold text-primary">{scrollSpeed} px/s</span>
                   </div>
-                  <Slider value={[scrollSpeed]} min={6} max={90} step={1} onValueChange={(v) => setScrollSpeed(v[0])} />
+                  <Slider value={[scrollSpeed]} min={4} max={60} step={1} onValueChange={(v) => setScrollSpeed(v[0])} />
                   <p className="text-[11px] text-muted-foreground mt-1">
-                    {t("Khuyến nghị 18-30 px/s · có 3 giây đếm ngược và 2 giây giữ dòng đầu", "Recommended 18-30 px/s · includes a 3s countdown and a 2s hold on the first lines")}
+                    {t("Khuyến nghị 12-22 px/s · chữ trôi từ dưới lên, dừng 2,5 giây ở dòng đầu", "Recommended 12-22 px/s · text rises from the bottom and holds the first line for 2.5s")}
                   </p>
+
                 </div>
               )}
             </div>
