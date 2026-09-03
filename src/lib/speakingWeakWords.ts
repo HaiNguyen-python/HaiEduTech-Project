@@ -2,6 +2,7 @@
 // learner missed is stored per language and scheduled for review; a word
 // leaves the queue after CLEAN_STREAK clean attempts.
 import { safeStorage } from "@/lib/safeStorage";
+import { recordAttempt, recordMisses } from "@/lib/speaking/pronunciationStats";
 
 export interface WeakWord {
   word: string;
@@ -59,6 +60,7 @@ export function addWeakWords(
     };
   }
   saveWeakWords(language, store);
+  recordMisses(language, words, source);
   return store;
 }
 
@@ -69,17 +71,20 @@ export function reviewWeakWord(language: string, word: string, correct: boolean)
   const card = store[norm];
   if (!card) return store;
   const today = todayISO();
+  let mastered = false;
   if (!correct) {
     store[norm] = { ...card, clean: 0, misses: card.misses + 1, lastSeen: today, dueOn: today };
   } else {
     const clean = card.clean + 1;
     if (clean >= CLEAN_STREAK) {
       delete store[norm];
+      mastered = true;
     } else {
       store[norm] = { ...card, clean, lastSeen: today, dueOn: addDays(today, LADDER[clean] ?? 3) };
     }
   }
   saveWeakWords(language, store);
+  recordAttempt(language, card.word, correct, mastered);
   return store;
 }
 

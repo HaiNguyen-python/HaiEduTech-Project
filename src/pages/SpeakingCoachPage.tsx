@@ -8,6 +8,7 @@ import ShadowingMode from "@/components/speaking/ShadowingMode";
 import SoundDrillMode from "@/components/speaking/SoundDrillMode";
 import FreeTalkMode from "@/components/speaking/FreeTalkMode";
 import WeakWordReview from "@/components/speaking/WeakWordReview";
+import PronunciationStatsPanel from "@/components/speaking/PronunciationStatsPanel";
 import { countWeakWords } from "@/lib/speakingWeakWords";
 import { Badge } from "@/components/ui/badge";
 import MountainClimber from "@/components/MountainClimber";
@@ -15,7 +16,7 @@ import FinnishSkier from "@/components/FinnishSkier";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mic, Repeat, Waves, MessageCircle, Brain } from "lucide-react";
+import { ArrowLeft, Mic, Repeat, Waves, MessageCircle, Brain, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 
@@ -37,7 +38,7 @@ const SpeakingCoachPage = () => {
   const [flyingStars, setFlyingStars] = useState<FlyingStar[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const starIdRef = useRef(0);
-  const [mode, setMode] = useState<"sentences" | "shadow" | "drill" | "freetalk" | "review">("sentences");
+  const [mode, setMode] = useState<"sentences" | "shadow" | "drill" | "freetalk" | "review" | "stats">("sentences");
   const [weakCount, setWeakCount] = useState(() => countWeakWords(lang));
 
 
@@ -188,6 +189,7 @@ const SpeakingCoachPage = () => {
             { key: "drill", label: t("Luyện âm", "Sound drill"), icon: Waves },
             { key: "freetalk", label: t("Nói tự do", "Free Talk"), icon: MessageCircle },
             { key: "review", label: t("Ôn từ yếu", "Weak words"), icon: Brain },
+            { key: "stats", label: t("Thống kê phát âm", "Pronunciation stats"), icon: BarChart3 },
           ] as const).map(({ key, label, icon: Icon }) => (
             <Button
               key={key}
@@ -216,6 +218,9 @@ const SpeakingCoachPage = () => {
         {mode === "freetalk" && <FreeTalkMode language={lang} onPerfectScore={handlePerfectScore} />}
         {mode === "review" && (
           <WeakWordReview language={lang} onChange={() => setWeakCount(countWeakWords(lang))} />
+        )}
+        {mode === "stats" && (
+          <PronunciationStatsPanel language={lang} onPractice={() => setMode("review")} />
         )}
 
       </main>
