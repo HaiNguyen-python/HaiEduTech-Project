@@ -771,15 +771,15 @@ const PresentationStudio = () => {
                 <div
                   ref={promptInnerRef}
                   className="will-change-transform"
-                  style={{ transform: `translateY(${(focusMode ? 1 : 0) * 0}px)` }} // placeholder overridden by JS
                 >
                   <p
-                    className={`whitespace-pre-wrap text-left mx-auto pt-[62%] pb-[38%] [&>span]:leading-[1.9] ${
+                    className={`whitespace-pre-wrap text-left mx-auto [&>span]:leading-[1.9] ${
                       focusMode
                         ? promptWidth === "narrow" ? "max-w-[46ch]" : promptWidth === "medium" ? "max-w-[58ch]" : "max-w-[74ch]"
                         : PROMPT_WIDTHS[promptWidth]
                     }`}
                   >
+
                     {promptWords.map((w, i) =>
                       /^\s+$/.test(w) ? w : (
                         <span key={i} className={isStressWord(w) ? "text-accent font-semibold" : "text-slate-200"}>{w}</span>
