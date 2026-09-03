@@ -192,6 +192,10 @@ export const vietnameseExtraThemes3: SpeakingTheme[] = [
       { id: "vi-sh3", text: "Tôi muốn đổi hoặc trả lại sản phẩm này.", translation: "I'd like to exchange or return this product.", difficulty: "medium", theme: "shopping" },
       { id: "vi-sh4", text: "Tôi hay xem đánh giá trước khi mua hàng online.", translation: "I usually read reviews before buying online.", difficulty: "hard", theme: "shopping" },
       { id: "vi-sh5", text: "Đợt giảm giá cuối tuần này rất hấp dẫn.", translation: "This weekend's sale is really attractive.", difficulty: "medium", theme: "shopping" },
+      { id: "vi-sh6", text: "Cho tôi thanh toán bằng thẻ ngân hàng nhé.", translation: "Let me pay by bank card, please.", difficulty: "easy", theme: "shopping" },
+      { id: "vi-sh7", text: "Sản phẩm này được bảo hành mười hai tháng.", translation: "This product has a twelve-month warranty.", difficulty: "medium", theme: "shopping" },
+      { id: "vi-sh8", text: "Tôi thích mua ở chợ truyền thống hơn siêu thị.", translation: "I prefer shopping at traditional markets over supermarkets.", difficulty: "hard", theme: "shopping" },
+
     ],
   },
   {
@@ -202,6 +206,10 @@ export const vietnameseExtraThemes3: SpeakingTheme[] = [
       { id: "vi-h3", text: "Thuốc này uống ngày hai lần sau khi ăn.", translation: "Take this medicine twice a day after meals.", difficulty: "medium", theme: "health" },
       { id: "vi-h4", text: "Tập thể dục thường xuyên rất tốt cho sức khỏe.", translation: "Exercising regularly is very good for health.", difficulty: "medium", theme: "health" },
       { id: "vi-h5", text: "Sức khỏe tinh thần cũng quan trọng như thể chất.", translation: "Mental health is as important as physical health.", difficulty: "hard", theme: "health" },
+      { id: "vi-h6", text: "Tôi bị dị ứng với thuốc kháng sinh này.", translation: "I am allergic to this antibiotic.", difficulty: "medium", theme: "health" },
+      { id: "vi-h7", text: "Mỗi năm tôi đi khám sức khỏe định kỳ một lần.", translation: "I have a health check-up once a year.", difficulty: "medium", theme: "health" },
+      { id: "vi-h8", text: "Ngủ đủ giấc giúp tôi tập trung hơn khi làm việc.", translation: "Getting enough sleep helps me focus better at work.", difficulty: "hard", theme: "health" },
+
     ],
   },
   {
