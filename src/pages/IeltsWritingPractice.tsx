@@ -21,6 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TranslationPractice from "@/components/TranslationPractice";
 import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
@@ -516,7 +517,7 @@ const IeltsWritingPractice = () => {
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs defaultValue="essay" className="w-full">
-          <TabsList className="grid w-full max-w-4xl grid-cols-3 md:grid-cols-5 mb-6 h-auto">
+          <TabsList className="grid w-full max-w-5xl grid-cols-3 md:grid-cols-6 mb-6 h-auto">
             <TabsTrigger value="essay" className="gap-1.5 py-2">
               <PenLine className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Viết bài luận", "Essay Writing")}</span>
@@ -532,6 +533,10 @@ const IeltsWritingPractice = () => {
             <TabsTrigger value="grammar" className="gap-1.5 py-2">
               <GraduationCap className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Luyện ngữ pháp", "Grammar Practice")}</span>
+            </TabsTrigger>
+            <TabsTrigger value="translate" className="gap-1.5 py-2">
+              <Languages className="w-4 h-4" />
+              <span className="text-xs md:text-sm">{t("Luyện dịch câu", "Translation Practice")}</span>
             </TabsTrigger>
             <TabsTrigger value="cohesion" className="gap-1.5 py-2">
               <Link2 className="w-4 h-4" />
@@ -583,6 +588,28 @@ const IeltsWritingPractice = () => {
               </p>
             </div>
             <GrammarPractice taskType={taskType} />
+          </TabsContent>
+
+          <TabsContent value="translate" className="space-y-4">
+            <div className="flex items-center gap-3 flex-wrap mb-4">
+              <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit">
+                <button onClick={() => setTaskType(1)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 1 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  Task 1
+                </button>
+                <button onClick={() => setTaskType(2)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 2 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  Task 2
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t(
+                  "Dịch các mẫu câu chuẩn IELTS Writing từ tiếng Việt sang tiếng Anh, sau đó nhận nhận xét, câu mẫu và bản nâng cấp Band 7.5+.",
+                  "Translate standard IELTS Writing sentences from Vietnamese into English, then get feedback, a model answer and a Band 7.5+ upgrade."
+                )}
+              </p>
+            </div>
+            <TranslationPractice taskType={taskType} />
           </TabsContent>
 
           <TabsContent value="cohesion" className="space-y-4">
