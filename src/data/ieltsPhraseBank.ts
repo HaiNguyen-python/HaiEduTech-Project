@@ -320,7 +320,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t1-pm-30", phrase: "the procedure culminates in", meaning: "quy trình kết thúc bằng", meaningEn: "the process ends with", example: "The procedure culminates in the packaging and labelling of the finished product.", level: "C1", taskType: 1, category: "process-map" },
 
   // ===== TASK 1 EXPANSION - OVERVIEW (10) =====
-  { id: "t1-ov-21", phrase: "what stands out most is", meaning: "điều nổi bật nhất là", meaningEn: "the clearest point is that", example: "What stands out most is the dramatic shift from manufacturing to services.", level: "C1", taskType: 1, category: "overview" },
+  { id: "t1-ov-21", phrase: "the overriding pattern is that", meaning: "xu hướng bao trùm là", meaningEn: "the main pattern is that", example: "The overriding pattern is that manufacturing gave way to service industries.", level: "C1", taskType: 1, category: "overview" },
   { id: "t1-ov-22", phrase: "broadly speaking, the data reveals", meaning: "nhìn chung, dữ liệu cho thấy", meaningEn: "in general, the data shows", example: "Broadly speaking, the data reveals a clear preference for renewable energy.", level: "C1", taskType: 1, category: "overview" },
   { id: "t1-ov-23", phrase: "an upward trend dominated", meaning: "xu hướng tăng chiếm ưu thế", meaningEn: "rising values were the main pattern", example: "An upward trend dominated all four indicators over the surveyed period.", level: "B2", taskType: 1, category: "overview" },
   { id: "t1-ov-24", phrase: "two contrasting patterns emerge", meaning: "hai xu hướng đối lập xuất hiện", meaningEn: "two opposite trends appear", example: "Two contrasting patterns emerge between developed and developing nations.", level: "C1", taskType: 1, category: "overview" },
@@ -333,7 +333,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
 
   // ===== TASK 2 EXPANSION - OPINION (8) =====
   { id: "t2-op-9x", phrase: "I would strongly contend that", meaning: "Tôi mạnh mẽ cho rằng", meaningEn: "I argue strongly that", example: "I would strongly contend that early language learning yields lifelong cognitive benefits.", level: "C1", taskType: 2, category: "opinion" },
-  { id: "t2-op-10x", phrase: "to my mind", meaning: "theo suy nghĩ của tôi", meaningEn: "in my opinion", example: "To my mind, government investment in renewables should take priority.", level: "B2", taskType: 2, category: "opinion" },
+  { id: "t2-op-10x", phrase: "I take the view that", meaning: "Tôi cho rằng", meaningEn: "I believe that", example: "I take the view that government investment in renewables should take priority.", level: "B2", taskType: 2, category: "opinion" },
   { id: "t2-op-11x", phrase: "it is beyond dispute that", meaning: "điều không thể tranh cãi là", meaningEn: "nobody can argue against the fact that", example: "It is beyond dispute that climate change is largely driven by human activity.", level: "C1", taskType: 2, category: "opinion" },
   { id: "t2-op-12x", phrase: "I would go so far as to argue", meaning: "Tôi thậm chí dám lập luận rằng", meaningEn: "I would even argue that", example: "I would go so far as to argue that universal healthcare is a basic human right.", level: "C1", taskType: 2, category: "opinion" },
   { id: "t2-op-13x", phrase: "wholeheartedly endorse the view", meaning: "hết lòng ủng hộ quan điểm", meaningEn: "fully support the view", example: "I wholeheartedly endorse the view that creativity should be nurtured in schools.", level: "C1", taskType: 2, category: "opinion" },
