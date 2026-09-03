@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic, Square, Pause, Play, Sparkles, Timer, Gauge, Eye, MessageSquareWarning,
   Presentation, Target, ScrollText, RefreshCcw, Loader2, ChevronRight, Camera, CameraOff,
+  Maximize2, Minimize2, Type, ListChecks, Smile, History, Download,
+
 } from "lucide-react";
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -22,17 +24,39 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  PRESENTATION_SCENARIOS, analyzeSession, countFillers, countWords, findSignposts,
-  isStressWord, paceLabel, tokenizeTranscript, buildCustomScenario,
+  PRESENTATION_SCENARIOS, SCENARIO_GROUPS, analyzeSession, countFillers, countWords, findSignposts,
+  isStressWord, paceLabel, tokenizeTranscript, buildCustomScenario, evaluateStructure,
   type StudioMode, type StudioReport,
 } from "@/lib/presentationStudio";
+import { scoreBodyLanguage, scoreLabel, type BodyLanguageScores } from "@/lib/speakingBodyLanguage";
+
 
 const CUSTOM_STORAGE_KEY = "presentation-custom-script";
+const HISTORY_STORAGE_KEY = "presentation-session-history";
+
+const PROMPT_SIZES = {
+  s: "text-base sm:text-lg",
+  m: "text-lg sm:text-xl",
+  l: "text-2xl sm:text-3xl",
+  xl: "text-3xl sm:text-4xl",
+} as const;
+
+interface SessionHistoryItem {
+  at: number;
+  scenario: string;
+  overall: number;
+  wpm: number;
+  durationSec: number;
+  fillers: number;
+  eyeContact: number;
+  confidence: number;
+}
+
 
 interface AiCoach {
   strengths: string[];
@@ -102,6 +126,11 @@ const PresentationStudio = () => {
   const [reportOpen, setReportOpen] = useState(false);
   const [countdown, setCountdown] = useState(0);      // 3-2-1 lead-in
   const [promptRunning, setPromptRunning] = useState(false);
+  const [body, setBody] = useState<BodyLanguageScores | null>(null);
+  const [promptSize, setPromptSize] = useState<"s" | "m" | "l" | "xl">("m");
+  const [focusMode, setFocusMode] = useState(false);
+  const [history, setHistory] = useState<SessionHistoryItem[]>([]);
+
 
   // ---- refs --------------------------------------------------------------
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -114,6 +143,8 @@ const PresentationStudio = () => {
   const baseTextRef = useRef("");
   const manualStopRef = useRef(false);
   const eyeSampleRef = useRef({ hits: 0, total: 0, last: null as Uint8ClampedArray | null });
+  const bodyRef = useRef({ moveSum: 0, moveCount: 0, brightSum: 0, brightCount: 0, mouth: [] as number[] });
+
   const promptRef = useRef<HTMLDivElement>(null);
   const promptOffsetRef = useRef(0);
   const scrollRafRef = useRef<number | null>(null);
@@ -123,11 +154,33 @@ const PresentationStudio = () => {
 
   useEffect(() => { scrollSpeedRef.current = scrollSpeed; }, [scrollSpeed]);
 
+  // ---- local session history --------------------------------------------
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
+      if (raw) setHistory(JSON.parse(raw));
+    } catch { /* ignore */ }
+  }, []);
+
+  const pushHistory = useCallback((item: SessionHistoryItem) => {
+    setHistory((prev) => {
+      const next = [item, ...prev].slice(0, 10);
+      try { localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+  }, []);
+
+
+
   const liveWords = countWords(`${transcript} ${interim}`);
   const liveWpm = elapsed > 2 ? Math.round(liveWords / (elapsed / 60)) : 0;
   const fillers = useMemo(() => countFillers(`${transcript} ${interim}`), [transcript, interim]);
   const liveSignposts = useMemo(() => findSignposts(transcript), [transcript]);
+  const structure = useMemo(() => evaluateStructure(`${transcript} ${interim}`), [transcript, interim]);
+  const targetSec = targetMinutes * 60;
+  const timeRatio = Math.min(1.35, elapsed / Math.max(30, targetSec));
   const pace = paceLabel(liveWpm);
+
   const customDraftWords = useMemo(() => countWords(customDraft), [customDraft]);
   const customDraftMinutes = Math.max(0.1, Math.round((customDraftWords / Math.max(80, targetWpm)) * 10) / 10);
 
@@ -192,7 +245,7 @@ const PresentationStudio = () => {
 
   useEffect(() => () => { stopMedia(); }, [stopMedia]);
 
-  // ---- eye-contact sampling (centre-frame steadiness heuristic) ----------
+  // ---- body-language sampling (eye contact, framing, movement, expression)
   useEffect(() => {
     if (!recording || paused || !camOn) return;
     const id = window.setInterval(() => {
@@ -206,18 +259,51 @@ const PresentationStudio = () => {
       const centre = c.getImageData(20, 12, 24, 20).data;
       const prev = eyeSampleRef.current.last;
       eyeSampleRef.current.total += 1;
+      let avg = 0;
       if (prev && prev.length === centre.length) {
         let diff = 0;
         for (let i = 0; i < centre.length; i += 8) diff += Math.abs(centre[i] - prev[i]);
-        const avg = diff / (centre.length / 8);
+        avg = diff / (centre.length / 8);
         if (avg < 16) eyeSampleRef.current.hits += 1; // steady framing = looking at lens
+        bodyRef.current.moveSum += avg;
+        bodyRef.current.moveCount += 1;
       }
       eyeSampleRef.current.last = new Uint8ClampedArray(centre);
+
+      // Brightness of the face box + brightness of the mouth strip (expression).
+      let bright = 0;
+      for (let i = 0; i < centre.length; i += 4) bright += (centre[i] + centre[i + 1] + centre[i + 2]) / 3;
+      bright /= centre.length / 4;
+      bodyRef.current.brightSum += bright;
+      bodyRef.current.brightCount += 1;
+
+      const mouth = c.getImageData(24, 26, 16, 10).data;
+      let mBright = 0;
+      for (let i = 0; i < mouth.length; i += 4) mBright += (mouth[i] + mouth[i + 1] + mouth[i + 2]) / 3;
+      mBright /= mouth.length / 4;
+      bodyRef.current.mouth.push(mBright);
+      if (bodyRef.current.mouth.length > 120) bodyRef.current.mouth.shift();
+
       const { hits, total } = eyeSampleRef.current;
-      setEyeContact(total > 1 ? Math.round((hits / (total - 1)) * 100) : 0);
+      const eye = total > 1 ? Math.round((hits / (total - 1)) * 100) : 0;
+      setEyeContact(eye);
+
+      const m = bodyRef.current.mouth;
+      const mean = m.reduce((a, b) => a + b, 0) / Math.max(1, m.length);
+      const variance = Math.sqrt(m.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(1, m.length));
+      setBody(
+        scoreBodyLanguage({
+          total,
+          steadyHits: hits,
+          movementAvg: bodyRef.current.moveSum / Math.max(1, bodyRef.current.moveCount),
+          framingBrightness: bodyRef.current.brightSum / Math.max(1, bodyRef.current.brightCount),
+          expressionVariance: variance * 4,
+        }),
+      );
     }, 700);
     return () => window.clearInterval(id);
   }, [recording, paused, camOn]);
+
 
   // ---- teleprompter auto-scroll -----------------------------------------
   useEffect(() => {
@@ -321,7 +407,10 @@ const PresentationStudio = () => {
     baseTextRef.current = "";
     setTranscript(""); setInterim(""); setElapsed(0); setWpmSeries([]); setReport(null); setAi(null);
     eyeSampleRef.current = { hits: 0, total: 0, last: null };
+    bodyRef.current = { moveSum: 0, moveCount: 0, brightSum: 0, brightCount: 0, mouth: [] };
+    setBody(null);
     setEyeContact(0);
+
     promptOffsetRef.current = 0;
     if (promptRef.current) promptRef.current.scrollTop = 0;
     runningRef.current = true;
@@ -383,6 +472,16 @@ const PresentationStudio = () => {
     setReport(local);
     setReportOpen(true);
     setAiLoading(true);
+    pushHistory({
+      at: Date.now(),
+      scenario: scenario.label,
+      overall: local.overall,
+      wpm: local.wpm,
+      durationSec: local.durationSec,
+      fillers: local.fillers.total,
+      eyeContact,
+      confidence: body?.confidence ?? 0,
+    });
     try {
       const { data, error } = await supabase.functions.invoke("analyze-presentation", {
         body: {
@@ -395,8 +494,20 @@ const PresentationStudio = () => {
           fillerTotal: local.fillers.total,
           eyeContact,
           signposts: local.signposts,
+          bodyLanguage: body
+            ? {
+                confidence: body.confidence,
+                naturalness: body.naturalness,
+                framing: body.framing,
+                movement: body.movement,
+                expression: body.expression,
+              }
+            : null,
+          structureDone: structure.filter((s) => s.done).map((s) => s.label),
+          structureMissing: structure.filter((s) => !s.done).map((s) => s.label),
         },
       });
+
       if (error || !data || (data as any).error) throw new Error("ai");
       setAi(data as AiCoach);
     } catch {
@@ -481,7 +592,109 @@ const PresentationStudio = () => {
           </div>
         </header>
 
+        {/* ---------------- Full-width teleprompter row ---------------- */}
+        <div
+          className={
+            focusMode
+              ? "fixed inset-0 z-50 bg-slate-950 p-4 sm:p-8 overflow-hidden flex flex-col"
+              : "glass-card rounded-2xl p-4 border border-border/60 mb-4"
+          }
+        >
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <h2 className={`text-sm font-semibold flex items-center gap-2 ${focusMode ? "text-slate-100" : ""}`}>
+              <ScrollText className="w-4 h-4 text-primary" />
+              {mode === "scripted" ? t("Teleprompter", "Teleprompter") : t("Đề bài ứng khẩu", "Impromptu prompt")}
+            </h2>
+            <div className="flex flex-wrap items-center gap-1">
+              {mode === "scripted" && (
+                <>
+                  <div className="flex items-center gap-0.5 mr-1">
+                    <Type className={`w-3.5 h-3.5 mr-1 ${focusMode ? "text-slate-300" : "text-muted-foreground"}`} />
+                    {(["s", "m", "l", "xl"] as const).map((s) => (
+                      <Button
+                        key={s}
+                        size="sm"
+                        variant={promptSize === s ? "default" : "ghost"}
+                        className="h-7 px-2 text-[11px] uppercase"
+                        onClick={() => setPromptSize(s)}
+                      >
+                        {s}
+                      </Button>
+                    ))}
+                  </div>
+                  <Button
+                    variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
+                    onClick={() => setPromptRunning((r) => !r)}
+                  >
+                    {promptRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                    {promptRunning ? t("Dừng chữ chạy", "Pause scroll") : t("Chạy chữ", "Scroll")}
+                  </Button>
+                  <Button
+                    variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
+                    onClick={() => { promptOffsetRef.current = 0; if (promptRef.current) promptRef.current.scrollTop = 0; }}
+                  >
+                    <RefreshCcw className="w-3.5 h-3.5" /> {t("Về đầu", "Rewind")}
+                  </Button>
+                </>
+              )}
+              <Button
+                variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
+                onClick={() => setFocusMode((f) => !f)}
+              >
+                {focusMode ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+                {focusMode ? t("Thoát toàn màn hình", "Exit focus") : t("Toàn màn hình", "Focus mode")}
+              </Button>
+            </div>
+          </div>
+
+          {mode === "scripted" ? (
+            <div className={`relative ${focusMode ? "flex-1 min-h-0" : ""}`}>
+              {countdown > 0 && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-xl bg-slate-950/80 backdrop-blur-sm">
+                  <span className="text-6xl font-bold text-primary-foreground">{countdown}</span>
+                  <span className="text-sm text-slate-200">{t("Hít sâu... chuẩn bị nói", "Breathe... get ready to speak")}</span>
+                </div>
+              )}
+              <div
+                ref={promptRef}
+                className={`overflow-y-auto rounded-xl bg-slate-900/95 p-6 text-slate-100 leading-relaxed ${PROMPT_SIZES[promptSize]} ${focusMode ? "h-full" : "h-[300px] sm:h-[340px]"}`}
+              >
+                <p className="whitespace-pre-wrap max-w-5xl mx-auto">
+                  {promptWords.map((w, i) =>
+                    /^\s+$/.test(w) ? w : (
+                      <span key={i} className={isStressWord(w) ? "text-accent font-semibold" : "text-slate-200"}>{w}</span>
+                    ),
+                  )}
+                </p>
+                <div className="h-40" />
+              </div>
+              {focusMode && (
+                <div className="absolute bottom-3 right-3 w-40 sm:w-56 rounded-xl overflow-hidden border border-slate-700 shadow-lg bg-slate-900">
+                  <video
+                    autoPlay muted playsInline
+                    className="w-full aspect-video object-cover scale-x-[-1]"
+                    ref={(el) => { if (el && streamRef.current) el.srcObject = streamRef.current; }}
+                  />
+                  <div className="flex items-center justify-between px-2 py-1 text-[10px] text-slate-200">
+                    <span>{fmtTime(elapsed)}</span>
+                    <span>{liveWpm} WPM</span>
+                    <span>{eyeContact}% {t("mắt", "eye")}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="rounded-xl bg-primary/5 border border-primary/20 p-5">
+              <p className="text-base text-foreground whitespace-pre-wrap">{scenario.prompt}</p>
+              <p className="text-xs text-muted-foreground mt-3">
+                {t("Trả lời theo 3 bước: quan điểm - lý do - ví dụ.", "Answer in three moves: position, reason, example.")}
+              </p>
+            </div>
+          )}
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+
           {/* ---------------- Column 1: setup ---------------- */}
           <aside className="lg:col-span-1 space-y-4">
             <div className="glass-card rounded-2xl p-4 border border-border/60">
@@ -492,9 +705,18 @@ const PresentationStudio = () => {
               <Select value={scenarioId} onValueChange={setScenarioId} disabled={recording}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {PRESENTATION_SCENARIOS.map((s) => (
-                    <SelectItem key={s.id} value={s.id}>{t(s.labelVi, s.label)}</SelectItem>
+                  {SCENARIO_GROUPS.map((g) => (
+                    <SelectGroup key={g.id}>
+                      <SelectLabel>{t(g.labelVi, g.label)}</SelectLabel>
+                      {g.ids
+                        .map((id) => PRESENTATION_SCENARIOS.find((s) => s.id === id))
+                        .filter((s): s is typeof PRESENTATION_SCENARIOS[number] => Boolean(s))
+                        .map((s) => (
+                          <SelectItem key={s.id} value={s.id}>{t(s.labelVi, s.label)}</SelectItem>
+                        ))}
+                    </SelectGroup>
                   ))}
+
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{scenario.prompt}</p>
@@ -673,62 +895,8 @@ const PresentationStudio = () => {
               </div>
             </div>
 
-            {/* Teleprompter / prompt card */}
-            <div className="glass-card rounded-2xl p-4 border border-border/60">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="text-sm font-semibold flex items-center gap-2">
-                  <ScrollText className="w-4 h-4 text-primary" />
-                  {mode === "scripted" ? t("Teleprompter", "Teleprompter") : t("Đề bài ứng khẩu", "Impromptu prompt")}
-                </h2>
-                {mode === "scripted" && (
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost" size="sm" className="gap-1 text-xs"
-                      onClick={() => setPromptRunning((r) => !r)}
-                    >
-                      {promptRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                      {promptRunning ? t("Dừng chữ chạy", "Pause scroll") : t("Chạy chữ", "Scroll")}
-                    </Button>
-                    <Button
-                      variant="ghost" size="sm" className="gap-1 text-xs"
-                      onClick={() => { promptOffsetRef.current = 0; if (promptRef.current) promptRef.current.scrollTop = 0; }}
-                    >
-                      <RefreshCcw className="w-3.5 h-3.5" /> {t("Về đầu", "Rewind")}
-                    </Button>
-                  </div>
-                )}
-              </div>
-              {mode === "scripted" ? (
-                <div className="relative">
-                {countdown > 0 && (
-                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-xl bg-slate-950/80 backdrop-blur-sm">
-                    <span className="text-6xl font-bold text-primary-foreground">{countdown}</span>
-                    <span className="text-sm text-slate-200">{t("Hít sâu... chuẩn bị nói", "Breathe... get ready to speak")}</span>
-                  </div>
-                )}
-                <div
-                  ref={promptRef}
-                  className="h-56 overflow-y-auto rounded-xl bg-slate-900/95 p-5 text-slate-100 leading-relaxed text-lg sm:text-xl"
-                >
-                  <p className="whitespace-pre-wrap">
-                    {promptWords.map((w, i) =>
-                      /^\s+$/.test(w) ? w : (
-                        <span key={i} className={isStressWord(w) ? "text-accent font-semibold" : "text-slate-200"}>{w}</span>
-                      ),
-                    )}
-                  </p>
-                  <div className="h-24" />
-                </div>
-                </div>
-              ) : (
-                <div className="rounded-xl bg-primary/5 border border-primary/20 p-5">
-                  <p className="text-base text-foreground whitespace-pre-wrap">{scenario.prompt}</p>
-                  <p className="text-xs text-muted-foreground mt-3">
-                    {t("Trả lời theo 3 bước: quan điểm - lý do - ví dụ.", "Answer in three moves: position, reason, example.")}
-                  </p>
-                </div>
-              )}
-            </div>
+
+
 
             {/* Live transcript */}
             <div className="glass-card rounded-2xl p-4 border border-border/60">
@@ -742,6 +910,121 @@ const PresentationStudio = () => {
 
           {/* ---------------- Column 3: telemetry ---------------- */}
           <aside className="lg:col-span-1 space-y-4">
+            {/* Body language */}
+            <div className="glass-card rounded-2xl p-4 border border-border/60">
+              <h2 className="text-sm font-semibold flex items-center gap-2 mb-3">
+                <Smile className="w-4 h-4 text-primary" /> {t("Ngôn ngữ cơ thể", "Body language")}
+              </h2>
+              {body ? (
+                <div className="space-y-3">
+                  <div className="flex items-end gap-2">
+                    <span className="text-3xl font-bold text-primary">{body.confidence}</span>
+                    <span className="text-xs text-muted-foreground mb-1">
+                      /100 · {t(scoreLabel(body.confidence).vi, scoreLabel(body.confidence).en)}
+                    </span>
+                  </div>
+                  {([
+                    ["Tự nhiên", "Naturalness", body.naturalness],
+                    ["Khung hình & ánh sáng", "Framing & light", body.framing],
+                    ["Chuyển động", "Movement", body.movement],
+                    ["Biểu cảm", "Expression", body.expression],
+                  ] as const).map(([vi, en, val]) => (
+                    <div key={en}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-muted-foreground">{t(vi, en)}</span>
+                        <span className="font-semibold">{val}</span>
+                      </div>
+                      <Progress value={val} className="h-1.5" />
+                    </div>
+                  ))}
+                  <ul className="space-y-1 pt-1">
+                    {body.tips.map((tip, i) => (
+                      <li key={i} className="text-[11px] text-muted-foreground leading-relaxed">• {t(tip.vi, tip.en)}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  {t(
+                    "Bật camera và bắt đầu ghi để hệ thống phân tích ánh mắt, biểu cảm và sự tự tin ngay trên máy bạn.",
+                    "Turn on the camera and start recording - gaze, expression and confidence are analysed locally on your device.",
+                  )}
+                </p>
+              )}
+            </div>
+
+            {/* Structure checklist */}
+            <div className="glass-card rounded-2xl p-4 border border-border/60">
+              <h2 className="text-sm font-semibold flex items-center gap-2 mb-3">
+                <ListChecks className="w-4 h-4 text-primary" /> {t("Cấu trúc bài nói", "Structure checklist")}
+              </h2>
+              <ul className="space-y-2">
+                {structure.map((s) => (
+                  <li key={s.id} className="flex items-center gap-2 text-xs">
+                    <span className={`w-4 h-4 rounded-full grid place-items-center text-[10px] font-bold ${s.done ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+                      {s.done ? "✓" : ""}
+                    </span>
+                    <span className={s.done ? "font-medium" : "text-muted-foreground"}>{t(s.labelVi, s.label)}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-3">
+                <div className="flex justify-between text-[11px] text-muted-foreground mb-1">
+                  <span>{t("Thời lượng mục tiêu", "Target length")}</span>
+                  <span className={elapsed > targetSec ? "text-accent font-semibold" : ""}>
+                    {fmtTime(elapsed)} / {fmtTime(targetSec)}
+                  </span>
+                </div>
+                <Progress value={timeRatio * 100} className="h-1.5" />
+              </div>
+            </div>
+
+            {/* Session history */}
+            <div className="glass-card rounded-2xl p-4 border border-border/60">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-sm font-semibold flex items-center gap-2">
+                  <History className="w-4 h-4 text-primary" /> {t("Lịch sử buổi tập", "Session history")}
+                </h2>
+                {history.length > 0 && (
+                  <Button
+                    variant="ghost" size="sm" className="h-7 px-2 gap-1 text-[11px]"
+                    onClick={() => {
+                      const rows = [
+                        "date,scenario,overall,wpm,duration_sec,fillers,eye_contact,confidence",
+                        ...history.map((h) =>
+                          [new Date(h.at).toISOString(), `"${h.scenario}"`, h.overall, h.wpm, h.durationSec, h.fillers, h.eyeContact, h.confidence].join(","),
+                        ),
+                      ].join("\n");
+                      const url = URL.createObjectURL(new Blob([rows], { type: "text/csv;charset=utf-8" }));
+                      const a = document.createElement("a");
+                      a.href = url; a.download = "presentation-history.csv"; a.click();
+                      URL.revokeObjectURL(url);
+                    }}
+                  >
+                    <Download className="w-3.5 h-3.5" /> CSV
+                  </Button>
+                )}
+              </div>
+              {history.length ? (
+                <ul className="space-y-2">
+                  {history.slice(0, 5).map((h) => (
+                    <li key={h.at} className="flex items-center justify-between gap-2 text-xs">
+                      <span className="truncate text-muted-foreground">{h.scenario}</span>
+                      <span className="flex items-center gap-1 shrink-0">
+                        <Badge variant="secondary" className="text-[10px]">{h.overall}</Badge>
+                        <span className="text-[10px] text-muted-foreground">{h.wpm} WPM · {fmtTime(h.durationSec)}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  {t("Chưa có buổi tập nào được lưu.", "No saved sessions yet.")}
+                </p>
+              )}
+            </div>
+
+
             <div className="glass-card rounded-2xl p-4 border border-border/60">
               <h2 className="text-sm font-semibold flex items-center gap-2 mb-3">
                 <Gauge className="w-4 h-4 text-primary" /> {t("Nhịp nói", "Pacing meter")}
