@@ -87,6 +87,8 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: Us
     }
     finish();
   }, [finish]);
+  stopRef.current = stop;
+
 
   const start = useCallback(async () => {
     if (!supported) {
