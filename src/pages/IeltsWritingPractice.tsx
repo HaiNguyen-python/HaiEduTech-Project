@@ -33,7 +33,7 @@ import GrammarPractice from "@/components/GrammarPractice";
 import IdeaPractice from "@/components/IdeaPractice";
 import CohesionLab from "@/components/CohesionLab";
 import WritingSkillChart from "@/components/WritingSkillChart";
-import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2 } from "lucide-react";
+import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages } from "lucide-react";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
