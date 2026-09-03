@@ -287,6 +287,8 @@ const PronunciationPlanPanel = ({ language, onGoMode, variant = "full" }: Props)
           </p>
         </CardContent>
       </Card>
+      </>
+      )}
     </div>
   );
 };
