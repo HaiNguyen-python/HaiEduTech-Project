@@ -28,6 +28,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import PresentationProgressChart from "@/components/presentation/PresentationProgressChart";
 import {
   PRESENTATION_SCENARIOS, SCENARIO_GROUPS, analyzeSession, countFillers, countWords, findSignposts,
   isStressWord, paceLabel, tokenizeTranscript, buildCustomScenario, evaluateStructure,
@@ -196,7 +197,7 @@ const PresentationStudio = () => {
 
   const pushHistory = useCallback((item: SessionHistoryItem) => {
     setHistory((prev) => {
-      const next = [item, ...prev].slice(0, 10);
+      const next = [item, ...prev].slice(0, 30);
       try { localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
       return next;
     });
@@ -1111,6 +1112,9 @@ const PresentationStudio = () => {
                 <Progress value={timeRatio * 100} className="h-1.5" />
               </div>
             </div>
+
+            {/* Practice progress chart */}
+            <PresentationProgressChart history={history} />
 
             {/* Session history */}
             <div className="glass-card rounded-2xl p-4 border border-border/60">
