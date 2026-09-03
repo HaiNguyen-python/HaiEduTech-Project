@@ -960,7 +960,14 @@ const PresentationStudio = () => {
                   <span className="font-semibold text-primary">{targetMinutes} min</span>
                 </div>
                 <Slider value={[targetMinutes]} min={1} max={5} step={1} onValueChange={(v) => setTargetMinutes(v[0])} />
+                <p className="text-[11px] text-muted-foreground mt-1">
+                  {t(
+                    `Kịch bản này dài khoảng ${Math.round(scriptSeconds)} giây khi nói ở tốc độ tự nhiên.`,
+                    `This script runs about ${Math.round(scriptSeconds)} seconds at a natural speaking pace.`,
+                  )}
+                </p>
               </div>
+
               {mode === "scripted" && (
                 <div>
                   <div className="flex justify-between text-xs mb-2">
