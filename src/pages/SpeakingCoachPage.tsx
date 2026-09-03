@@ -4,13 +4,20 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AISpeakingCoach from "@/components/AISpeakingCoach";
+import ShadowingMode from "@/components/speaking/ShadowingMode";
+import SoundDrillMode from "@/components/speaking/SoundDrillMode";
+import FreeTalkMode from "@/components/speaking/FreeTalkMode";
+import WeakWordReview from "@/components/speaking/WeakWordReview";
+import { countWeakWords } from "@/lib/speakingWeakWords";
+import { Badge } from "@/components/ui/badge";
 import MountainClimber from "@/components/MountainClimber";
 import FinnishSkier from "@/components/FinnishSkier";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mic } from "lucide-react";
+import { ArrowLeft, Mic, Repeat, Waves, MessageCircle, Brain } from "lucide-react";
 import { motion } from "framer-motion";
+
 
 interface FlyingStar {
   id: number;
@@ -30,6 +37,9 @@ const SpeakingCoachPage = () => {
   const [flyingStars, setFlyingStars] = useState<FlyingStar[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const starIdRef = useRef(0);
+  const [mode, setMode] = useState<"sentences" | "shadow" | "drill" | "freetalk" | "review">("sentences");
+  const [weakCount, setWeakCount] = useState(() => countWeakWords(lang));
+
 
   const titles: Record<string, { title: string; subtitle: string; back: string }> = {
     english: {
@@ -170,7 +180,44 @@ const SpeakingCoachPage = () => {
           </motion.div>
         )}
 
-        <AISpeakingCoach language={lang} onPerfectScore={handlePerfectScore} />
+        {/* Practice mode switcher */}
+        <div className="mb-4 flex flex-wrap gap-2">
+          {([
+            { key: "sentences", label: t("Câu mẫu", "Sentences"), icon: Mic },
+            { key: "shadow", label: t("Nói theo", "Shadowing"), icon: Repeat },
+            { key: "drill", label: t("Luyện âm", "Sound drill"), icon: Waves },
+            { key: "freetalk", label: t("Nói tự do", "Free Talk"), icon: MessageCircle },
+            { key: "review", label: t("Ôn từ yếu", "Weak words"), icon: Brain },
+          ] as const).map(({ key, label, icon: Icon }) => (
+            <Button
+              key={key}
+              size="sm"
+              variant={mode === key ? "default" : "outline"}
+              onClick={() => {
+                setMode(key);
+                if (key === "review") setWeakCount(countWeakWords(lang));
+              }}
+              className="gap-1"
+            >
+              <Icon className="w-4 h-4" />
+              {label}
+              {key === "review" && weakCount > 0 && (
+                <Badge variant="secondary" className="ml-1">{weakCount}</Badge>
+              )}
+            </Button>
+          ))}
+        </div>
+
+        <div className={mode === "sentences" ? "" : "hidden"}>
+          <AISpeakingCoach language={lang} onPerfectScore={handlePerfectScore} />
+        </div>
+        {mode === "shadow" && <ShadowingMode language={lang} onPerfectScore={handlePerfectScore} />}
+        {mode === "drill" && <SoundDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
+        {mode === "freetalk" && <FreeTalkMode language={lang} onPerfectScore={handlePerfectScore} />}
+        {mode === "review" && (
+          <WeakWordReview language={lang} onChange={() => setWeakCount(countWeakWords(lang))} />
+        )}
+
       </main>
       <Footer />
     </div>
