@@ -9,6 +9,8 @@ import SoundDrillMode from "@/components/speaking/SoundDrillMode";
 import FreeTalkMode from "@/components/speaking/FreeTalkMode";
 import WeakWordReview from "@/components/speaking/WeakWordReview";
 import PronunciationStatsPanel from "@/components/speaking/PronunciationStatsPanel";
+import PronunciationPlanPanel from "@/components/speaking/PronunciationPlanPanel";
+import type { PlanMode } from "@/lib/speaking/pronunciationPlan";
 import { countWeakWords } from "@/lib/speakingWeakWords";
 import { Badge } from "@/components/ui/badge";
 import MountainClimber from "@/components/MountainClimber";
@@ -16,7 +18,7 @@ import FinnishSkier from "@/components/FinnishSkier";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mic, Repeat, Waves, MessageCircle, Brain, BarChart3 } from "lucide-react";
+import { ArrowLeft, Mic, Repeat, Waves, MessageCircle, Brain, BarChart3, Compass } from "lucide-react";
 import { motion } from "framer-motion";
 
 
@@ -38,8 +40,15 @@ const SpeakingCoachPage = () => {
   const [flyingStars, setFlyingStars] = useState<FlyingStar[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const starIdRef = useRef(0);
-  const [mode, setMode] = useState<"sentences" | "shadow" | "drill" | "freetalk" | "review" | "stats">("sentences");
+  const [mode, setMode] = useState<"sentences" | "shadow" | "drill" | "freetalk" | "review" | "stats" | "plan">("sentences");
   const [weakCount, setWeakCount] = useState(() => countWeakWords(lang));
+
+  // Jump from a roadmap step into the matching practice mode.
+  const goToPlanMode = useCallback((planMode: PlanMode) => {
+    setMode(planMode === "sentence" ? "sentences" : planMode);
+    if (planMode === "review") setWeakCount(countWeakWords(lang));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [lang]);
 
 
   const titles: Record<string, { title: string; subtitle: string; back: string }> = {
@@ -189,6 +198,7 @@ const SpeakingCoachPage = () => {
             { key: "drill", label: t("Luyện âm", "Sound drill"), icon: Waves },
             { key: "freetalk", label: t("Nói tự do", "Free Talk"), icon: MessageCircle },
             { key: "review", label: t("Ôn từ yếu", "Weak words"), icon: Brain },
+            { key: "plan", label: t("Lộ trình của tôi", "My roadmap"), icon: Compass },
             { key: "stats", label: t("Thống kê phát âm", "Pronunciation stats"), icon: BarChart3 },
           ] as const).map(({ key, label, icon: Icon }) => (
             <Button
@@ -219,8 +229,11 @@ const SpeakingCoachPage = () => {
         {mode === "review" && (
           <WeakWordReview language={lang} onChange={() => setWeakCount(countWeakWords(lang))} />
         )}
+        {mode === "plan" && (
+          <PronunciationPlanPanel language={lang} onGoMode={goToPlanMode} />
+        )}
         {mode === "stats" && (
-          <PronunciationStatsPanel language={lang} onPractice={() => setMode("review")} />
+          <PronunciationStatsPanel language={lang} onPractice={() => setMode("plan")} />
         )}
 
       </main>
