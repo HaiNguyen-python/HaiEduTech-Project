@@ -56,6 +56,10 @@ export const englishExtraThemes2: SpeakingTheme[] = [
       { id: "en-cu3", text: "I really enjoy visiting historical museums abroad.", translation: "Tôi rất thích đi thăm bảo tàng lịch sử ở nước ngoài.", ipa: "/aɪ ˈrɪli ˌɛnˈdʒɔɪ ˈvɪzɪtɪŋ hɪˈstɔːrɪkəl mjuˈziːəmz əˈbrɔːd/", difficulty: "medium", theme: "culture" },
       { id: "en-cu4", text: "Traditional music reflects the soul of a nation.", translation: "Âm nhạc truyền thống phản ánh tâm hồn của một dân tộc.", ipa: "/trəˈdɪʃənəl ˈmjuːzɪk rɪˈflɛkts ðə soʊl ʌv ə ˈneɪʃən/", difficulty: "hard", theme: "culture" },
       { id: "en-cu5", text: "Respecting local customs is important when you travel.", translation: "Tôn trọng phong tục địa phương rất quan trọng khi du lịch.", ipa: "/riˈspɛktɪŋ ˈloʊkəl ˈkʌstəmz ɪz ˌɪmˈpɔːrtənt wɛn juː ˈtrævəl/", difficulty: "hard", theme: "culture" },
+      { id: "en-cu6", text: "My family always cooks a big meal for the holidays.", translation: "Gia đình tôi luôn nấu một bữa lớn vào dịp lễ.", ipa: "/maɪ ˈfæməli ˈɔːlweɪz kʊks ə bɪɡ miːl fɔːr ðə ˈhɑːləˌdeɪz/", difficulty: "easy", theme: "culture" },
+      { id: "en-cu7", text: "Street festivals bring the whole neighbourhood together.", translation: "Các lễ hội đường phố gắn kết cả khu phố lại với nhau.", ipa: "/striːt ˈfɛstəvəlz brɪŋ ðə hoʊl ˈneɪbərˌhʊd təˈɡɛðər/", difficulty: "medium", theme: "culture" },
+      { id: "en-cu8", text: "Learning a language also means learning a culture.", translation: "Học một ngôn ngữ cũng là học một nền văn hóa.", ipa: "/ˈlɜːrnɪŋ ə ˈlæŋɡwɪdʒ ˈɔːlsoʊ miːnz ˈlɜːrnɪŋ ə ˈkʌltʃər/", difficulty: "medium", theme: "culture" },
+
     ],
   },
 ];
@@ -70,6 +74,9 @@ export const chineseExtraThemes2: SpeakingTheme[] = [
       { id: "zh-gr3", text: "好久不见！", translation: "Lâu rồi không gặp!", ipa: "Hǎojiǔ bù jiàn!", difficulty: "easy", theme: "greetings" },
       { id: "zh-gr4", text: "请问您贵姓？", translation: "Xin hỏi quý danh ngài là gì?", ipa: "Qǐngwèn nín guìxìng?", difficulty: "medium", theme: "greetings" },
       { id: "zh-gr5", text: "祝您一切顺利！", translation: "Chúc ngài mọi điều thuận lợi!", ipa: "Zhù nín yīqiè shùnlì!", difficulty: "medium", theme: "greetings" },
+      { id: "zh-gr6", text: "早上好，今天天气真不错。", translation: "Chào buổi sáng, hôm nay thời tiết đẹp thật.", ipa: "Zǎoshang hǎo, jīntiān tiānqì zhēn bùcuò.", difficulty: "easy", theme: "greetings" },
+      { id: "zh-gr7", text: "我叫小明，请多多指教。", translation: "Tôi tên Tiểu Minh, rất mong được chỉ dạy.", ipa: "Wǒ jiào Xiǎomíng, qǐng duōduō zhǐjiào.", difficulty: "medium", theme: "greetings" },
+      { id: "zh-gr8", text: "很抱歉让您等这么久。", translation: "Rất xin lỗi vì đã để ngài đợi lâu.", ipa: "Hěn bàoqiàn ràng nín děng zhème jiǔ.", difficulty: "hard", theme: "greetings" },
     ],
   },
   {
@@ -80,6 +87,9 @@ export const chineseExtraThemes2: SpeakingTheme[] = [
       { id: "zh-tr3", text: "这附近有酒店吗？", translation: "Gần đây có khách sạn không?", ipa: "Zhè fùjìn yǒu jiǔdiàn ma?", difficulty: "medium", theme: "travel" },
       { id: "zh-tr4", text: "我对中国文化非常感兴趣。", translation: "Tôi rất quan tâm đến văn hoá Trung Quốc.", ipa: "Wǒ duì Zhōngguó wénhuà fēicháng gǎn xìngqù.", difficulty: "hard", theme: "travel" },
       { id: "zh-tr5", text: "明天的天气怎么样？", translation: "Thời tiết ngày mai thế nào?", ipa: "Míngtiān de tiānqì zěnmeyàng?", difficulty: "easy", theme: "travel" },
+      { id: "zh-tr6", text: "去机场坐地铁方便吗？", translation: "Đi sân bay bằng tàu điện ngầm có tiện không?", ipa: "Qù jīchǎng zuò dìtiě fāngbiàn ma?", difficulty: "medium", theme: "travel" },
+      { id: "zh-tr7", text: "麻烦帮我把行李放进后备箱。", translation: "Nhờ bạn giúp tôi cho hành lý vào cốp xe.", ipa: "Máfan bāng wǒ bǎ xíngli fàng jìn hòubèixiāng.", difficulty: "hard", theme: "travel" },
+      { id: "zh-tr8", text: "我们计划在西安待三天。", translation: "Chúng tôi dự định ở Tây An ba ngày.", ipa: "Wǒmen jìhuà zài Xī'ān dāi sān tiān.", difficulty: "medium", theme: "travel" },
     ],
   },
   {
@@ -90,6 +100,9 @@ export const chineseExtraThemes2: SpeakingTheme[] = [
       { id: "zh-wk3", text: "请把报告发给我。", translation: "Làm ơn gửi báo cáo cho tôi.", ipa: "Qǐng bǎ bàogào fā gěi wǒ.", difficulty: "medium", theme: "work" },
       { id: "zh-wk4", text: "这个项目的截止日期是下周。", translation: "Hạn chót của dự án này là tuần sau.", ipa: "Zhège xiàngmù de jiézhǐ rìqī shì xià zhōu.", difficulty: "hard", theme: "work" },
       { id: "zh-wk5", text: "我希望以后能升职。", translation: "Tôi hy vọng sau này có thể được thăng chức.", ipa: "Wǒ xīwàng yǐhòu néng shēngzhí.", difficulty: "hard", theme: "work" },
+      { id: "zh-wk6", text: "我每天九点上班，六点下班。", translation: "Tôi đi làm lúc chín giờ và về lúc sáu giờ.", ipa: "Wǒ měitiān jiǔ diǎn shàngbān, liù diǎn xiàbān.", difficulty: "easy", theme: "work" },
+      { id: "zh-wk7", text: "同事们都很愿意帮忙。", translation: "Các đồng nghiệp đều rất sẵn lòng giúp đỡ.", ipa: "Tóngshìmen dōu hěn yuànyì bāngmáng.", difficulty: "medium", theme: "work" },
+      { id: "zh-wk8", text: "远程工作让我更好地安排时间。", translation: "Làm việc từ xa giúp tôi sắp xếp thời gian tốt hơn.", ipa: "Yuǎnchéng gōngzuò ràng wǒ gèng hǎo dì ānpái shíjiān.", difficulty: "hard", theme: "work" },
     ],
   },
   {
@@ -99,6 +112,10 @@ export const chineseExtraThemes2: SpeakingTheme[] = [
       { id: "zh-fm2", text: "我有一个哥哥和一个妹妹。", translation: "Tôi có một anh trai và một em gái.", ipa: "Wǒ yǒu yīgè gēge hé yīgè mèimei.", difficulty: "easy", theme: "family" },
       { id: "zh-fm3", text: "周末我们全家一起吃饭。", translation: "Cuối tuần cả nhà tôi ăn cơm cùng nhau.", ipa: "Zhōumò wǒmen quánjiā yīqǐ chīfàn.", difficulty: "medium", theme: "family" },
       { id: "zh-fm4", text: "父母的爱是最伟大的。", translation: "Tình yêu của cha mẹ là vĩ đại nhất.", ipa: "Fùmǔ de ài shì zuì wěidà de.", difficulty: "hard", theme: "family" },
+      { id: "zh-fm5", text: "我妈妈做的菜最好吃。", translation: "Món ăn mẹ tôi nấu là ngon nhất.", ipa: "Wǒ māma zuò de cài zuì hǎochī.", difficulty: "easy", theme: "family" },
+      { id: "zh-fm6", text: "我常常给爷爷奶奶打电话。", translation: "Tôi thường gọi điện cho ông bà.", ipa: "Wǒ chángcháng gěi yéye nǎinai dǎ diànhuà.", difficulty: "medium", theme: "family" },
+      { id: "zh-fm7", text: "我们家有养一只小狗。", translation: "Nhà tôi có nuôi một con chó nhỏ.", ipa: "Wǒmen jiā yǒu yǎng yī zhī xiǎo gǒu.", difficulty: "medium", theme: "family" },
+      { id: "zh-fm8", text: "和家人在一起的时间最珍贵。", translation: "Thời gian ở cùng gia đình là quý giá nhất.", ipa: "Hé jiārén zài yīqǐ de shíjiān zuì zhēnguì.", difficulty: "hard", theme: "family" },
     ],
   },
   {
@@ -107,6 +124,11 @@ export const chineseExtraThemes2: SpeakingTheme[] = [
       { id: "zh-tc1", text: "我的手机没电了。", translation: "Điện thoại của tôi hết pin rồi.", ipa: "Wǒ de shǒujī méi diàn le.", difficulty: "easy", theme: "tech" },
       { id: "zh-tc2", text: "这里的网速很慢。", translation: "Tốc độ mạng ở đây rất chậm.", ipa: "Zhèlǐ de wǎngsù hěn màn.", difficulty: "medium", theme: "tech" },
       { id: "zh-tc3", text: "人工智能正在改变我们的生活。", translation: "Trí tuệ nhân tạo đang thay đổi cuộc sống của chúng ta.", ipa: "Réngōng zhìnéng zhèngzài gǎibiàn wǒmen de shēnghuó.", difficulty: "hard", theme: "tech" },
+      { id: "zh-tc4", text: "请问wifi密码是多少？", translation: "Xin hỏi mật khẩu wifi là gì?", ipa: "Qǐngwèn wifi mìmǎ shì duōshǎo?", difficulty: "easy", theme: "tech" },
+      { id: "zh-tc5", text: "我用手机扫码支付。", translation: "Tôi dùng điện thoại quét mã để thanh toán.", ipa: "Wǒ yòng shǒujī sǎo mǎ zhīfù.", difficulty: "medium", theme: "tech" },
+      { id: "zh-tc6", text: "这个应用需要更新一下。", translation: "Ứng dụng này cần cập nhật một chút.", ipa: "Zhège yìngyòng xūyào gēngxīn yīxià.", difficulty: "medium", theme: "tech" },
+      { id: "zh-tc7", text: "我把文件存在云端。", translation: "Tôi lưu tài liệu trên đám mây.", ipa: "Wǒ bǎ wénjiàn cún zài yúnduān.", difficulty: "medium", theme: "tech" },
+      { id: "zh-tc8", text: "保护个人信息越来越重要。", translation: "Bảo vệ thông tin cá nhân ngày càng quan trọng.", ipa: "Bǎohù gèrén xìnxī yuè lái yuè zhòngyào.", difficulty: "hard", theme: "tech" },
     ],
   },
 ];
@@ -120,6 +142,10 @@ export const vietnameseExtraThemes2: SpeakingTheme[] = [
       { id: "vi-gr2", text: "Bạn dạo này thế nào?", translation: "How have you been lately?", difficulty: "easy", theme: "greetings" },
       { id: "vi-gr3", text: "Lâu rồi không gặp, bạn vẫn khoẻ chứ?", translation: "Long time no see, are you still well?", difficulty: "medium", theme: "greetings" },
       { id: "vi-gr4", text: "Cho tôi tự giới thiệu một chút.", translation: "Let me introduce myself briefly.", difficulty: "medium", theme: "greetings" },
+      { id: "vi-gr5", text: "Chào buổi sáng, hôm nay trời đẹp quá.", translation: "Good morning, the weather is lovely today.", difficulty: "easy", theme: "greetings" },
+      { id: "vi-gr6", text: "Tôi tên là Minh, còn bạn tên gì?", translation: "My name is Minh, and what is your name?", difficulty: "easy", theme: "greetings" },
+      { id: "vi-gr7", text: "Rất hân hạnh được làm việc cùng anh.", translation: "It's a pleasure to work with you.", difficulty: "hard", theme: "greetings" },
+      { id: "vi-gr8", text: "Hẹn gặp lại bạn vào tuần sau nhé.", translation: "See you again next week.", difficulty: "medium", theme: "greetings" },
     ],
   },
   {
@@ -129,6 +155,10 @@ export const vietnameseExtraThemes2: SpeakingTheme[] = [
       { id: "vi-tr2", text: "Khách sạn này có wifi miễn phí không?", translation: "Does this hotel have free Wi-Fi?", difficulty: "easy", theme: "travel" },
       { id: "vi-tr3", text: "Tôi muốn đặt vé khứ hồi đi Đà Nẵng.", translation: "I want to book a round-trip ticket to Da Nang.", difficulty: "medium", theme: "travel" },
       { id: "vi-tr4", text: "Bạn có thể gợi ý vài địa điểm du lịch nổi tiếng không?", translation: "Could you suggest some famous tourist spots?", difficulty: "hard", theme: "travel" },
+      { id: "vi-tr5", text: "Từ đây đến phố cổ mất bao lâu?", translation: "How long does it take from here to the old quarter?", difficulty: "medium", theme: "travel" },
+      { id: "vi-tr6", text: "Tôi muốn thuê một chiếc xe máy trong ba ngày.", translation: "I'd like to rent a motorbike for three days.", difficulty: "medium", theme: "travel" },
+      { id: "vi-tr7", text: "Ở đây có tour đi thuyền trên vịnh không?", translation: "Is there a boat tour on the bay here?", difficulty: "medium", theme: "travel" },
+      { id: "vi-tr8", text: "Chuyến đi này là kỳ nghỉ đáng nhớ nhất của tôi.", translation: "This trip is my most memorable holiday.", difficulty: "hard", theme: "travel" },
     ],
   },
   {
@@ -138,6 +168,10 @@ export const vietnameseExtraThemes2: SpeakingTheme[] = [
       { id: "vi-wk2", text: "Hôm nay chúng ta có cuộc họp lúc 2 giờ.", translation: "We have a meeting at 2 today.", difficulty: "easy", theme: "work" },
       { id: "vi-wk3", text: "Dự án này phải hoàn thành trước cuối tháng.", translation: "This project must be finished before the end of the month.", difficulty: "medium", theme: "work" },
       { id: "vi-wk4", text: "Tôi mong sẽ được tăng lương trong năm tới.", translation: "I hope to get a raise next year.", difficulty: "hard", theme: "work" },
+      { id: "vi-wk5", text: "Tôi thường làm việc từ tám giờ sáng.", translation: "I usually start work at eight in the morning.", difficulty: "easy", theme: "work" },
+      { id: "vi-wk6", text: "Bạn có thể gửi lại email đó cho tôi không?", translation: "Could you resend that email to me?", difficulty: "medium", theme: "work" },
+      { id: "vi-wk7", text: "Đồng nghiệp của tôi rất thân thiện và nhiệt tình.", translation: "My colleagues are very friendly and enthusiastic.", difficulty: "medium", theme: "work" },
+      { id: "vi-wk8", text: "Làm việc từ xa giúp tôi tiết kiệm thời gian đi lại.", translation: "Working remotely saves me commuting time.", difficulty: "hard", theme: "work" },
     ],
   },
   {
@@ -146,6 +180,11 @@ export const vietnameseExtraThemes2: SpeakingTheme[] = [
       { id: "vi-tc1", text: "Điện thoại của tôi sắp hết pin.", translation: "My phone is almost out of battery.", difficulty: "easy", theme: "tech" },
       { id: "vi-tc2", text: "Mạng ở đây hơi yếu.", translation: "The Wi-Fi here is a bit weak.", difficulty: "easy", theme: "tech" },
       { id: "vi-tc3", text: "Trí tuệ nhân tạo đang phát triển rất nhanh.", translation: "AI is developing very fast.", difficulty: "hard", theme: "tech" },
+      { id: "vi-tc4", text: "Cho tôi xin mật khẩu wifi nhé.", translation: "May I have the Wi-Fi password?", difficulty: "easy", theme: "tech" },
+      { id: "vi-tc5", text: "Tôi thanh toán bằng cách quét mã QR.", translation: "I pay by scanning a QR code.", difficulty: "medium", theme: "tech" },
+      { id: "vi-tc6", text: "Ứng dụng này cần được cập nhật phiên bản mới.", translation: "This app needs to be updated to the new version.", difficulty: "medium", theme: "tech" },
+      { id: "vi-tc7", text: "Tôi lưu tất cả tài liệu trên đám mây.", translation: "I keep all my documents in the cloud.", difficulty: "medium", theme: "tech" },
+      { id: "vi-tc8", text: "Bảo vệ thông tin cá nhân ngày càng quan trọng.", translation: "Protecting personal data is increasingly important.", difficulty: "hard", theme: "tech" },
     ],
   },
   {
@@ -155,9 +194,14 @@ export const vietnameseExtraThemes2: SpeakingTheme[] = [
       { id: "vi-cu2", text: "Phở là món ăn nổi tiếng của Việt Nam.", translation: "Pho is a famous Vietnamese dish.", difficulty: "easy", theme: "culture" },
       { id: "vi-cu3", text: "Áo dài là trang phục truyền thống thanh lịch.", translation: "Ao dai is an elegant traditional outfit.", difficulty: "medium", theme: "culture" },
       { id: "vi-cu4", text: "Người Việt rất coi trọng tình cảm gia đình.", translation: "Vietnamese people value family bonds deeply.", difficulty: "hard", theme: "culture" },
+      { id: "vi-cu5", text: "Chợ nổi miền Tây là nét văn hoá rất đặc biệt.", translation: "The Mekong floating market is a very special cultural feature.", difficulty: "medium", theme: "culture" },
+      { id: "vi-cu6", text: "Vào rằm tháng Tám, trẻ em rước đèn ông sao.", translation: "On the mid-autumn full moon, children parade star lanterns.", difficulty: "medium", theme: "culture" },
+      { id: "vi-cu7", text: "Người Việt thường mời khách uống trà trước khi nói chuyện.", translation: "Vietnamese people often offer guests tea before talking.", difficulty: "hard", theme: "culture" },
+      { id: "vi-cu8", text: "Nhã nhạc cung đình Huế được UNESCO công nhận.", translation: "Hue royal court music is recognised by UNESCO.", difficulty: "hard", theme: "culture" },
     ],
   },
 ];
+
 
 // ============================ FINNISH ============================
 export const finnishExtraThemes2: SpeakingTheme[] = [

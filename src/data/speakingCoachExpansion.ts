@@ -98,6 +98,10 @@ export const chineseExtraThemes: SpeakingTheme[] = [
       { id: "zh-hl3", text: "你应该多喝水，多运动。", translation: "Bạn nên uống nhiều nước và vận động nhiều.", ipa: "Nǐ yīnggāi duō hē shuǐ, duō yùndòng.", difficulty: "medium", theme: "health" },
       { id: "zh-hl4", text: "请问医院在哪里？", translation: "Xin hỏi bệnh viện ở đâu?", ipa: "Qǐngwèn yīyuàn zài nǎlǐ?", difficulty: "easy", theme: "health" },
       { id: "zh-hl5", text: "保持良好的睡眠习惯非常重要。", translation: "Giữ thói quen ngủ tốt rất quan trọng.", ipa: "Bǎochí liánghǎo de shuìmián xíguàn fēicháng zhòngyào.", difficulty: "hard", theme: "health" },
+      { id: "zh-hl6", text: "我想预约明天上午的门诊。", translation: "Tôi muốn hẹn khám vào sáng mai.", ipa: "Wǒ xiǎng yùyuē míngtiān shàngwǔ de ménzhěn.", difficulty: "medium", theme: "health" },
+      { id: "zh-hl7", text: "这种药一天吃两次，饭后吃。", translation: "Thuốc này uống hai lần một ngày, sau khi ăn.", ipa: "Zhè zhǒng yào yī tiān chī liǎng cì, fàn hòu chī.", difficulty: "medium", theme: "health" },
+      { id: "zh-hl8", text: "我对花生过敏，请注意。", translation: "Tôi bị dị ứng với đậu phộng, xin lưu ý.", ipa: "Wǒ duì huāshēng guòmǐn, qǐng zhùyì.", difficulty: "hard", theme: "health" },
+
     ],
   },
 ];
@@ -134,6 +138,10 @@ export const vietnameseExtraThemes: SpeakingTheme[] = [
       { id: "vi-fm3", text: "Bố mẹ tôi là giáo viên.", translation: "My parents are teachers.", difficulty: "easy", theme: "family" },
       { id: "vi-fm4", text: "Cuối tuần cả nhà thường ăn cơm cùng nhau.", translation: "On weekends, my whole family usually eats together.", difficulty: "medium", theme: "family" },
       { id: "vi-fm5", text: "Tôi rất yêu và biết ơn ba mẹ.", translation: "I really love and am grateful to my parents.", difficulty: "medium", theme: "family" },
+      { id: "vi-fm6", text: "Ông bà tôi sống ở quê, gần Hà Nội.", translation: "My grandparents live in the countryside, near Hanoi.", difficulty: "medium", theme: "family" },
+      { id: "vi-fm7", text: "Em trai tôi đang học lớp mười.", translation: "My younger brother is in tenth grade.", difficulty: "easy", theme: "family" },
+      { id: "vi-fm8", text: "Với tôi, gia đình luôn là chỗ dựa quan trọng nhất.", translation: "For me, family is always the most important support.", difficulty: "hard", theme: "family" },
+
     ],
   },
   {
