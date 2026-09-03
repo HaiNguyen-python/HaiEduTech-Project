@@ -54,6 +54,8 @@ const PROMPT_WIDTHS = {
 
 const PROMPT_WIDTH_STORAGE_KEY = "presentation-prompt-width";
 const PROMPT_SIZE_STORAGE_KEY = "presentation-prompt-size";
+const PROMPT_FOCUS_RATIO = 0.62; // reading zone from the top (lower third so text rises from bottom)
+
 
 
 interface SessionHistoryItem {
