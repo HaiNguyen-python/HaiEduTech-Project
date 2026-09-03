@@ -770,8 +770,28 @@ import { LIFESTYLE_LESSONS_EXPANSION_2 } from "./lifestyleAcademyLessonsExpansio
 import { LIFESTYLE_LESSONS_EXPANSION_3 } from "./lifestyleAcademyLessonsExpansion3";
 import { LIFESTYLE_LESSONS_EXPANSION_4 } from "./lifestyleAcademyLessonsExpansion4";
 
+import { LIFESTYLE_ENRICHMENT } from "./lifestyleAcademyEnrichment";
+
 const byPillar = (source: LifestyleLesson[], key: LifestylePillarKey) =>
   source.filter((l) => l.pillar === key);
+
+/**
+ * Attach the depth layer (why it matters / deep dive / illustration emojis) to
+ * lessons written before those fields existed. Anything the lesson already
+ * defines always wins, so future hand-written content is never overwritten.
+ */
+const withDepth = (lesson: LifestyleLesson): LifestyleLesson => {
+  const extra = LIFESTYLE_ENRICHMENT[lesson.id];
+  if (!extra) return lesson;
+  return {
+    ...lesson,
+    whyItMattersVi: lesson.whyItMattersVi ?? extra.whyItMattersVi,
+    whyItMattersEn: lesson.whyItMattersEn ?? extra.whyItMattersEn,
+    deepDiveVi: lesson.deepDiveVi ?? extra.deepDiveVi,
+    deepDiveEn: lesson.deepDiveEn ?? extra.deepDiveEn,
+    illustrationEmojis: lesson.illustrationEmojis ?? extra.illustrationEmojis,
+  };
+};
 
 // Interleave expansion lessons per pillar so each pillar reads as a continuous
 // curriculum (foundation -> intermediate -> mastery) instead of being split.
@@ -780,5 +800,5 @@ export const LIFESTYLE_LESSONS: LifestyleLesson[] = [
   ...etiquette, ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "etiquette"),
   ...presence,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "presence"),
   ...wellness,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "wellness"),
-];
+].map(withDepth);
 
