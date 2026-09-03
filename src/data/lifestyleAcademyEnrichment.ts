@@ -9,11 +9,11 @@
  */
 
 export interface LifestyleEnrichment {
-  whyItMattersVi: string;
-  whyItMattersEn: string;
-  deepDiveVi: string[];
-  deepDiveEn: string[];
-  illustrationEmojis: string[];
+  whyItMattersVi?: string;
+  whyItMattersEn?: string;
+  deepDiveVi?: string[];
+  deepDiveEn?: string[];
+  illustrationEmojis?: string[];
 }
 
 /** Keyed by lesson id. Only ids listed here are enriched. */
@@ -777,4 +777,14 @@ export const LIFESTYLE_ENRICHMENT: Record<string, LifestyleEnrichment> = {
     ],
     illustrationEmojis: ["🧊", "🔥", "⚠️"],
   },
+
+  /* Mastery lessons that already have full prose but no illustration set. */
+  "fin-14": { illustrationEmojis: ["🏦", "🧮", "🚀"] },
+  "fin-15": { illustrationEmojis: ["🌐", "💼", "📜"] },
+  "eti-14": { illustrationEmojis: ["🤝", "🎤", "🌏"] },
+  "eti-15": { illustrationEmojis: ["🧭", "👔", "💠"] },
+  "pre-14": { illustrationEmojis: ["🌟", "🛡️", "🧠"] },
+  "pre-15": { illustrationEmojis: ["🕯️", "🗻", "🧘"] },
+  "wel-14": { illustrationEmojis: ["🧬", "📊", "🩺"] },
+  "wel-15": { illustrationEmojis: ["♾️", "🌿", "🏃"] },
 };
