@@ -37,6 +37,18 @@ const reduce = (base: string, stress: number): string => {
   return ARPA_TO_IPA[base] ?? "";
 };
 
+/** Consonant clusters that can start an English syllable. */
+const LEGAL_ONSETS = new Set([
+  "p","b","t","d","k","ɡ","f","v","θ","ð","s","z","ʃ","ʒ","h","tʃ","dʒ",
+  "m","n","l","r","w","j",
+  "pr","br","tr","dr","kr","ɡr","fr","θr","ʃr",
+  "pl","bl","kl","ɡl","fl","sl",
+  "tw","dw","kw","ɡw","sw","θw",
+  "sp","st","sk","sm","sn","sf",
+  "spr","str","skr","spl","skw","skj",
+  "pj","bj","kj","fj","mj","vj","hj","nj","lj",
+]);
+
 const VOWELS = new Set(["AA","AE","AH","AO","AW","AY","EH","ER","EY","IH","IY","OW","OY","UH","UW"]);
 
 /** Convert one CMU pronunciation string into IPA with primary/secondary stress. */
@@ -60,13 +72,15 @@ const arpaToIpa = (pron: string): string => {
     if (p.vowel && multiSyllable && (p.stress === 1 || p.stress === 2)) {
       // Walk back over the onset consonants of this syllable.
       let j = out.length;
-      let consonants = 0;
-      const tail: string[] = [];
-      for (let k = i - 1; k >= 0 && !parts[k].vowel && consonants < 2; k--) {
-        tail.unshift(parts[k].ipa);
-        consonants++;
+      const avail: string[] = [];
+      for (let k = i - 1; k >= 0 && !parts[k].vowel && avail.length < 3; k--) avail.unshift(parts[k].ipa);
+      // Maximal onset, but only clusters English actually allows: "ˌproʊdʌkˈtɪvəti",
+      // never "ˌproʊdəˈktɪvəti".
+      let onset = "";
+      for (let take = Math.min(avail.length, 3); take >= 1; take--) {
+        const cand = avail.slice(avail.length - take).join("");
+        if (LEGAL_ONSETS.has(cand)) { onset = cand; break; }
       }
-      const onset = tail.join("");
       if (onset && out.endsWith(onset)) j = out.length - onset.length;
       const mark = p.stress === 1 ? "ˈ" : "ˌ";
       out = out.slice(0, j) + mark + out.slice(j);

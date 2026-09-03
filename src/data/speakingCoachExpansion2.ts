@@ -7,13 +7,13 @@ export const englishExtraThemes2: SpeakingTheme[] = [
   {
     id: "en-tech", name: "Technology & Internet", nameVi: "Công nghệ & Internet", icon: "💻",
     sentences: [
-      { id: "en-tc1", text: "My phone battery is almost dead.", translation: "Điện thoại tôi sắp hết pin.", ipa: "/maɪ foʊn ˈbætəri ɪz ˈɔːˌlmoʊst dɛd/", difficulty: "easy", theme: "tech" },
+      { id: "en-tc1", text: "My phone battery is almost dead.", translation: "Điện thoại tôi sắp hết pin.", ipa: "/maɪ foʊn ˈbætəri ɪz ˈɔːlˌmoʊst dɛd/", difficulty: "easy", theme: "tech" },
       { id: "en-tc2", text: "Could you send me the file by email?", translation: "Bạn gửi file qua email cho tôi nhé?", ipa: "/kʊd juː sɛnd miː ðə faɪl baɪ iˈmeɪl/", difficulty: "easy", theme: "tech" },
       { id: "en-tc3", text: "The Wi-Fi connection here is really slow.", translation: "Wi-Fi ở đây thật sự rất chậm.", ipa: "/ðə ˈwaɪˌfaɪ kəˈnɛkʃən hiːr ɪz ˈrɪli sloʊ/", difficulty: "medium", theme: "tech" },
       { id: "en-tc4", text: "I think we should back up our data regularly.", translation: "Tôi nghĩ chúng ta nên sao lưu dữ liệu thường xuyên.", ipa: "/aɪ θɪŋk wiː ʃʊd bæk ʌp aʊər ˈdeɪtə ˈrɛɡjələrli/", difficulty: "medium", theme: "tech" },
-      { id: "en-tc5", text: "Artificial intelligence is changing the way we work.", translation: "Trí tuệ nhân tạo đang thay đổi cách chúng ta làm việc.", ipa: "/ˌɑːrtəˈfɪʃəl ˌɪˈntɛlədʒəns ɪz ˈtʃeɪndʒɪŋ ðə weɪ wiː wɜːrk/", difficulty: "hard", theme: "tech" },
-      { id: "en-tc6", text: "Have you tried the new update for this app?", translation: "Bạn đã thử bản cập nhật mới của ứng dụng này chưa?", ipa: "/hæv juː traɪd ðə nuː əˈpdeɪt fɔːr ðɪs æp/", difficulty: "medium", theme: "tech" },
-      { id: "en-tc7", text: "Online learning has become essential in modern education.", translation: "Học trực tuyến đã trở thành thiết yếu trong giáo dục hiện đại.", ipa: "/ˈɔːˌnlaɪn ˈlɜːrnɪŋ hæz bɪˈkʌm ɛˈsɛnʃəl ɪn ˈmɑːdərn ˌɛdʒəˈkeɪʃən/", difficulty: "hard", theme: "tech" },
+      { id: "en-tc5", text: "Artificial intelligence is changing the way we work.", translation: "Trí tuệ nhân tạo đang thay đổi cách chúng ta làm việc.", ipa: "/ˌɑːrtəˈfɪʃəl ˌɪnˈtɛlədʒəns ɪz ˈtʃeɪndʒɪŋ ðə weɪ wiː wɜːrk/", difficulty: "hard", theme: "tech" },
+      { id: "en-tc6", text: "Have you tried the new update for this app?", translation: "Bạn đã thử bản cập nhật mới của ứng dụng này chưa?", ipa: "/hæv juː traɪd ðə nuː əpˈdeɪt fɔːr ðɪs æp/", difficulty: "medium", theme: "tech" },
+      { id: "en-tc7", text: "Online learning has become essential in modern education.", translation: "Học trực tuyến đã trở thành thiết yếu trong giáo dục hiện đại.", ipa: "/ˈɔːnˌlaɪn ˈlɜːrnɪŋ hæz bɪˈkʌm ɛˈsɛnʃəl ɪn ˈmɑːdərn ˌɛdʒəˈkeɪʃən/", difficulty: "hard", theme: "tech" },
     ],
   },
   {
@@ -24,18 +24,18 @@ export const englishExtraThemes2: SpeakingTheme[] = [
       { id: "en-ev3", text: "Riding a bike is a great way to reduce pollution.", translation: "Đi xe đạp là cách tuyệt vời để giảm ô nhiễm.", ipa: "/ˈraɪdɪŋ ə baɪk ɪz ə ɡreɪt weɪ tuː rəˈduːs pəˈluːʃən/", difficulty: "medium", theme: "environment" },
       { id: "en-ev4", text: "Renewable energy sources will replace fossil fuels in the future.", translation: "Các nguồn năng lượng tái tạo sẽ thay thế nhiên liệu hóa thạch trong tương lai.", ipa: "/riˈnuːəbəl ˈɛnərdʒi ˈsɔːrsəz wɪl ˌriːˈpleɪs ˈfɑːsəl ˈfjuːəlz ɪn ðə ˈfjuːtʃər/", difficulty: "hard", theme: "environment" },
       { id: "en-ev5", text: "Forests provide oxygen and protect biodiversity.", translation: "Rừng cung cấp oxy và bảo vệ đa dạng sinh học.", ipa: "/ˈfɔːrəsts prəˈvaɪd ˈɑːksədʒən ənd prəˈtɛkt ˌbaɪoʊdaɪˈvɜːrsəti/", difficulty: "hard", theme: "environment" },
-      { id: "en-ev6", text: "I always carry a reusable water bottle.", translation: "Tôi luôn mang theo bình nước có thể tái sử dụng.", ipa: "/aɪ ˈɔːˌlweɪz ˈkæri ə riˈuːzəbəl ˈwɔːtər ˈbɑːtəl/", difficulty: "easy", theme: "environment" },
+      { id: "en-ev6", text: "I always carry a reusable water bottle.", translation: "Tôi luôn mang theo bình nước có thể tái sử dụng.", ipa: "/aɪ ˈɔːlˌweɪz ˈkæri ə riˈuːzəbəl ˈwɔːtər ˈbɑːtəl/", difficulty: "easy", theme: "environment" },
     ],
   },
   {
     id: "en-education", name: "Education & Study", nameVi: "Giáo dục & Học tập", icon: "🎓",
     sentences: [
-      { id: "en-ed1", text: "I am currently studying business administration.", translation: "Hiện tôi đang học quản trị kinh doanh.", ipa: "/aɪ æm ˈkɜːrəntli ˈstʌdiɪŋ ˈbɪznəs æˌdmɪnɪsˈtreɪʃən/", difficulty: "easy", theme: "education" },
-      { id: "en-ed2", text: "Group projects help students learn teamwork.", translation: "Bài tập nhóm giúp sinh viên học làm việc nhóm.", ipa: "/ɡruːp ˈprɑːdʒɛkts hɛlp ˈstuːdənts lɜːrn ˈtiːˌmwɜːrk/", difficulty: "medium", theme: "education" },
+      { id: "en-ed1", text: "I am currently studying business administration.", translation: "Hiện tôi đang học quản trị kinh doanh.", ipa: "/aɪ æm ˈkɜːrəntli ˈstʌdiɪŋ ˈbɪznəs ædˌmɪnɪˈstreɪʃən/", difficulty: "easy", theme: "education" },
+      { id: "en-ed2", text: "Group projects help students learn teamwork.", translation: "Bài tập nhóm giúp sinh viên học làm việc nhóm.", ipa: "/ɡruːp ˈprɑːdʒɛkts hɛlp ˈstuːdənts lɜːrn ˈtiːmˌwɜːrk/", difficulty: "medium", theme: "education" },
       { id: "en-ed3", text: "Studying abroad broadens your perspective on the world.", translation: "Du học mở rộng tầm nhìn về thế giới của bạn.", ipa: "/ˈstʌdiɪŋ əˈbrɔːd ˈbrɔːdənz jɔːr pərˈspɛktɪv ɑːn ðə wɜːrld/", difficulty: "hard", theme: "education" },
       { id: "en-ed4", text: "Critical thinking is a vital skill in higher education.", translation: "Tư duy phản biện là kỹ năng quan trọng trong giáo dục đại học.", ipa: "/ˈkrɪtɪkəl ˈθɪŋkɪŋ ɪz ə ˈvaɪtəl skɪl ɪn ˈhaɪər ˌɛdʒəˈkeɪʃən/", difficulty: "hard", theme: "education" },
       { id: "en-ed5", text: "I prefer to study in the morning when I feel fresh.", translation: "Tôi thích học vào buổi sáng khi tỉnh táo.", ipa: "/aɪ prəˈfɜːr tuː ˈstʌdi ɪn ðə ˈmɔːrnɪŋ wɛn aɪ fiːl frɛʃ/", difficulty: "medium", theme: "education" },
-      { id: "en-ed6", text: "The library is open until midnight during exam week.", translation: "Thư viện mở cửa đến nửa đêm trong tuần thi.", ipa: "/ðə ˈlaɪbrɛˌriː ɪz ˈoʊpən əˈntɪl ˈmɪˌdnaɪt ˈdʊrɪŋ ɪˈɡzæm wiːk/", difficulty: "medium", theme: "education" },
+      { id: "en-ed6", text: "The library is open until midnight during exam week.", translation: "Thư viện mở cửa đến nửa đêm trong tuần thi.", ipa: "/ðə ˈlaɪbrɛˌriː ɪz ˈoʊpən ənˈtɪl ˈmɪdˌnaɪt ˈdʊrɪŋ ɪɡˈzæm wiːk/", difficulty: "medium", theme: "education" },
     ],
   },
   {
@@ -45,17 +45,17 @@ export const englishExtraThemes2: SpeakingTheme[] = [
       { id: "en-em2", text: "Where is the nearest emergency exit?", translation: "Lối thoát hiểm gần nhất ở đâu?", ipa: "/wɛr ɪz ðə ˈnɪrəst ɪˈmɜːrdʒənsi ˈɛɡzɪt/", difficulty: "easy", theme: "emergency" },
       { id: "en-em3", text: "I lost my passport and credit cards.", translation: "Tôi mất hộ chiếu và thẻ tín dụng.", ipa: "/aɪ lɔːst maɪ ˈpæˌspɔːrt ənd ˈkrɛdət kɑːrdz/", difficulty: "medium", theme: "emergency" },
       { id: "en-em4", text: "There has been an accident, we need help.", translation: "Có một vụ tai nạn, chúng tôi cần giúp đỡ.", ipa: "/ðɛr hæz bɪn æn ˈæksədənt wiː niːd hɛlp/", difficulty: "medium", theme: "emergency" },
-      { id: "en-em5", text: "Stay calm and follow the safety instructions carefully.", translation: "Hãy bình tĩnh và làm theo hướng dẫn an toàn cẩn thận.", ipa: "/steɪ kɑːm ənd ˈfɑːloʊ ðə ˈseɪfti ˌɪnsˈtrʌkʃənz ˈkɛrfəli/", difficulty: "hard", theme: "emergency" },
+      { id: "en-em5", text: "Stay calm and follow the safety instructions carefully.", translation: "Hãy bình tĩnh và làm theo hướng dẫn an toàn cẩn thận.", ipa: "/steɪ kɑːm ənd ˈfɑːloʊ ðə ˈseɪfti ˌɪnˈstrʌkʃənz ˈkɛrfəli/", difficulty: "hard", theme: "emergency" },
     ],
   },
   {
     id: "en-culture", name: "Culture & Festivals", nameVi: "Văn hoá & Lễ hội", icon: "🎭",
     sentences: [
-      { id: "en-cu1", text: "Tet is the most important holiday in Vietnam.", translation: "Tết là ngày lễ quan trọng nhất ở Việt Nam.", ipa: "/tɛt ɪz ðə moʊst ˌɪˈmpɔːrtənt ˈhɑːləˌdeɪ ɪn viˌɛˈtnɑːm/", difficulty: "easy", theme: "culture" },
+      { id: "en-cu1", text: "Tet is the most important holiday in Vietnam.", translation: "Tết là ngày lễ quan trọng nhất ở Việt Nam.", ipa: "/tɛt ɪz ðə moʊst ˌɪmˈpɔːrtənt ˈhɑːləˌdeɪ ɪn viˌɛtˈnɑːm/", difficulty: "easy", theme: "culture" },
       { id: "en-cu2", text: "Different cultures have different ways of greeting.", translation: "Các nền văn hoá khác nhau có cách chào khác nhau.", ipa: "/ˈdɪfərənt ˈkʌltʃərz hæv ˈdɪfərənt weɪz ʌv ˈɡriːtɪŋ/", difficulty: "medium", theme: "culture" },
-      { id: "en-cu3", text: "I really enjoy visiting historical museums abroad.", translation: "Tôi rất thích đi thăm bảo tàng lịch sử ở nước ngoài.", ipa: "/aɪ ˈrɪli ˌɛˈndʒɔɪ ˈvɪzɪtɪŋ hɪˈstɔːrɪkəl mjuˈziːəmz əˈbrɔːd/", difficulty: "medium", theme: "culture" },
+      { id: "en-cu3", text: "I really enjoy visiting historical museums abroad.", translation: "Tôi rất thích đi thăm bảo tàng lịch sử ở nước ngoài.", ipa: "/aɪ ˈrɪli ˌɛnˈdʒɔɪ ˈvɪzɪtɪŋ hɪˈstɔːrɪkəl mjuˈziːəmz əˈbrɔːd/", difficulty: "medium", theme: "culture" },
       { id: "en-cu4", text: "Traditional music reflects the soul of a nation.", translation: "Âm nhạc truyền thống phản ánh tâm hồn của một dân tộc.", ipa: "/trəˈdɪʃənəl ˈmjuːzɪk rɪˈflɛkts ðə soʊl ʌv ə ˈneɪʃən/", difficulty: "hard", theme: "culture" },
-      { id: "en-cu5", text: "Respecting local customs is important when you travel.", translation: "Tôn trọng phong tục địa phương rất quan trọng khi du lịch.", ipa: "/riˈspɛktɪŋ ˈloʊkəl ˈkʌstəmz ɪz ˌɪˈmpɔːrtənt wɛn juː ˈtrævəl/", difficulty: "hard", theme: "culture" },
+      { id: "en-cu5", text: "Respecting local customs is important when you travel.", translation: "Tôn trọng phong tục địa phương rất quan trọng khi du lịch.", ipa: "/riˈspɛktɪŋ ˈloʊkəl ˈkʌstəmz ɪz ˌɪmˈpɔːrtənt wɛn juː ˈtrævəl/", difficulty: "hard", theme: "culture" },
     ],
   },
 ];

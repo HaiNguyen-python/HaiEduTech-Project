@@ -53,16 +53,16 @@ export const themeTopUps: Record<string, SpeakingSentence[]> = {
     { id: "tu-en-em2", text: "I think I need to go to the hospital.", translation: "Tôi nghĩ tôi cần đến bệnh viện.", ipa: "/aɪ θɪŋk aɪ niːd tuː ɡoʊ tuː ðə ˈhɑːˌspɪtəl/", difficulty: "easy", theme: "emergency" },
     { id: "tu-en-em3", text: "There has been a small accident on the corner.", translation: "Vừa có một tai nạn nhỏ ở góc đường.", ipa: "/ðɛr hæz bɪn ə smɔːl ˈæksədənt ɑːn ðə ˈkɔːrnər/", difficulty: "medium", theme: "emergency" },
     { id: "tu-en-em4", text: "Could you tell me where the nearest pharmacy is?", translation: "Bạn cho tôi biết hiệu thuốc gần nhất ở đâu được không?", ipa: "/kʊd juː tɛl miː wɛr ðə ˈnɪrəst ˈfɑːrməsi ɪz/", difficulty: "medium", theme: "emergency" },
-    { id: "tu-en-em5", text: "Stay calm and follow the safety instructions carefully.", translation: "Hãy bình tĩnh và làm theo hướng dẫn an toàn cẩn thận.", ipa: "/steɪ kɑːm ənd ˈfɑːloʊ ðə ˈseɪfti ˌɪnsˈtrʌkʃənz ˈkɛrfəli/", difficulty: "hard", theme: "emergency" },
+    { id: "tu-en-em5", text: "Stay calm and follow the safety instructions carefully.", translation: "Hãy bình tĩnh và làm theo hướng dẫn an toàn cẩn thận.", ipa: "/steɪ kɑːm ənd ˈfɑːloʊ ðə ˈseɪfti ˌɪnˈstrʌkʃənz ˈkɛrfəli/", difficulty: "hard", theme: "emergency" },
   ],
   "en-emotions": [
     { id: "tu-en-emo1", text: "I feel really happy when I spend time with my family.", translation: "Tôi cảm thấy rất hạnh phúc khi dành thời gian cho gia đình.", ipa: "/aɪ fiːl ˈrɪli ˈhæpi wɛn aɪ spɛnd taɪm wɪð maɪ ˈfæməli/", difficulty: "easy", theme: "emotions" },
-    { id: "tu-en-emo2", text: "Sometimes I get nervous before an important meeting.", translation: "Đôi khi tôi hồi hộp trước một cuộc họp quan trọng.", ipa: "/səˈmtaɪmz aɪ ɡɛt ˈnɜːrvəs bɪˈfɔːr æn ˌɪˈmpɔːrtənt ˈmiːtɪŋ/", difficulty: "medium", theme: "emotions" },
-    { id: "tu-en-emo3", text: "Talking to a close friend always cheers me up.", translation: "Trò chuyện với một người bạn thân luôn khiến tôi vui hơn.", ipa: "/ˈtɔːkɪŋ tuː ə kloʊs frɛnd ˈɔːˌlweɪz tʃɪrz miː ʌp/", difficulty: "hard", theme: "emotions" },
+    { id: "tu-en-emo2", text: "Sometimes I get nervous before an important meeting.", translation: "Đôi khi tôi hồi hộp trước một cuộc họp quan trọng.", ipa: "/səmˈtaɪmz aɪ ɡɛt ˈnɜːrvəs bɪˈfɔːr æn ˌɪmˈpɔːrtənt ˈmiːtɪŋ/", difficulty: "medium", theme: "emotions" },
+    { id: "tu-en-emo3", text: "Talking to a close friend always cheers me up.", translation: "Trò chuyện với một người bạn thân luôn khiến tôi vui hơn.", ipa: "/ˈtɔːkɪŋ tuː ə kloʊs frɛnd ˈɔːlˌweɪz tʃɪrz miː ʌp/", difficulty: "hard", theme: "emotions" },
   ],
   "en-family": [
     { id: "tu-en-fam1", text: "My parents live in a small town near the coast.", translation: "Bố mẹ tôi sống ở một thị trấn nhỏ gần biển.", ipa: "/maɪ ˈpɛrənts laɪv ɪn ə smɔːl taʊn nɪr ðə koʊst/", difficulty: "medium", theme: "family" },
-    { id: "tu-en-fam2", text: "We usually have dinner together every Sunday.", translation: "Chúng tôi thường ăn tối cùng nhau vào mỗi Chủ nhật.", ipa: "/wiː ˈjuːʒəwəli hæv ˈdɪnər təˈɡɛðər ˈɛvəri ˈsʌˌndeɪ/", difficulty: "medium", theme: "family" },
+    { id: "tu-en-fam2", text: "We usually have dinner together every Sunday.", translation: "Chúng tôi thường ăn tối cùng nhau vào mỗi Chủ nhật.", ipa: "/wiː ˈjuːʒəwəli hæv ˈdɪnər təˈɡɛðər ˈɛvəri ˈsʌnˌdeɪ/", difficulty: "medium", theme: "family" },
   ],
   "en-feelings": [
     { id: "tu-en-fe1", text: "I felt a bit tired after work today.", translation: "Hôm nay tôi cảm thấy hơi mệt sau giờ làm.", ipa: "/aɪ fɛlt ə bɪt ˈtaɪərd ˈæftər wɜːrk təˈdeɪ/", difficulty: "easy", theme: "feelings" },
@@ -72,7 +72,7 @@ export const themeTopUps: Record<string, SpeakingSentence[]> = {
   ],
   "en-future": [
     { id: "tu-en-fu1", text: "In five years, I hope to work abroad.", translation: "Trong năm năm tới, tôi hy vọng được làm việc ở nước ngoài.", ipa: "/ɪn faɪv jɪrz aɪ hoʊp tuː wɜːrk əˈbrɔːd/", difficulty: "medium", theme: "future" },
-    { id: "tu-en-fu2", text: "Technology will probably change our daily routines completely.", translation: "Công nghệ có lẽ sẽ thay đổi hoàn toàn thói quen hàng ngày của chúng ta.", ipa: "/tɛˈknɑːlədʒi wɪl ˈprɑːbəˌbliː tʃeɪndʒ aʊər ˈdeɪli ruˈtiːnz kəmˈpliːtli/", difficulty: "hard", theme: "future" },
+    { id: "tu-en-fu2", text: "Technology will probably change our daily routines completely.", translation: "Công nghệ có lẽ sẽ thay đổi hoàn toàn thói quen hàng ngày của chúng ta.", ipa: "/tɛkˈnɑːlədʒi wɪl ˈprɑːbəˌbliː tʃeɪndʒ aʊər ˈdeɪli ruˈtiːnz kəmˈpliːtli/", difficulty: "hard", theme: "future" },
   ],
   "en-hobbies": [
     { id: "tu-en-ho1", text: "I love taking photos of nature on the weekend.", translation: "Tôi thích chụp ảnh thiên nhiên vào cuối tuần.", ipa: "/aɪ lʌv ˈteɪkɪŋ ˈfoʊˌtoʊz ʌv ˈneɪtʃər ɑːn ðə ˈwiːˌkɛnd/", difficulty: "easy", theme: "hobbies" },
@@ -85,7 +85,7 @@ export const themeTopUps: Record<string, SpeakingSentence[]> = {
   ],
   "en-money": [
     { id: "tu-en-mo1", text: "I try to save a small amount every month.", translation: "Tôi cố gắng tiết kiệm một khoản nhỏ mỗi tháng.", ipa: "/aɪ traɪ tuː seɪv ə smɔːl əˈmaʊnt ˈɛvəri mʌnθ/", difficulty: "medium", theme: "money" },
-    { id: "tu-en-mo2", text: "Investing wisely can really change your financial future.", translation: "Đầu tư khôn ngoan thực sự có thể thay đổi tương lai tài chính của bạn.", ipa: "/ˌɪˈnvɛstɪŋ ˈwaɪzli kæn ˈrɪli tʃeɪndʒ jɔːr fəˈnænʃəl ˈfjuːtʃər/", difficulty: "hard", theme: "money" },
+    { id: "tu-en-mo2", text: "Investing wisely can really change your financial future.", translation: "Đầu tư khôn ngoan thực sự có thể thay đổi tương lai tài chính của bạn.", ipa: "/ˌɪnˈvɛstɪŋ ˈwaɪzli kæn ˈrɪli tʃeɪndʒ jɔːr fəˈnænʃəl ˈfjuːtʃər/", difficulty: "hard", theme: "money" },
   ],
   "en-movies": [
     { id: "tu-en-mv1", text: "My favorite genre is science fiction.", translation: "Thể loại yêu thích của tôi là khoa học viễn tưởng.", ipa: "/maɪ ˈfeɪvərɪt ˈʒɑːnrə ɪz ˈsaɪəns ˈfɪkʃən/", difficulty: "easy", theme: "movies" },
@@ -93,7 +93,7 @@ export const themeTopUps: Record<string, SpeakingSentence[]> = {
   ],
   "en-restaurant": [
     { id: "tu-en-re1", text: "Could we have the menu, please?", translation: "Cho chúng tôi xin thực đơn được không?", ipa: "/kʊd wiː hæv ðə ˈmɛnju pliːz/", difficulty: "easy", theme: "restaurant" },
-    { id: "tu-en-re2", text: "I'd like the chef's recommendation for today.", translation: "Tôi muốn món được đầu bếp gợi ý hôm nay.", ipa: "/aɪd laɪk ðə ʃɛfs ˌrɛkəməˈndeɪʃən fɔːr təˈdeɪ/", difficulty: "medium", theme: "restaurant" },
+    { id: "tu-en-re2", text: "I'd like the chef's recommendation for today.", translation: "Tôi muốn món được đầu bếp gợi ý hôm nay.", ipa: "/aɪd laɪk ðə ʃɛfs ˌrɛkəmənˈdeɪʃən fɔːr təˈdeɪ/", difficulty: "medium", theme: "restaurant" },
   ],
   "en-shopping": [
     { id: "tu-en-sh1", text: "Do you have this in a smaller size?", translation: "Cái này có cỡ nhỏ hơn không?", ipa: "/duː juː hæv ðɪs ɪn ə ˈsmɔːlər saɪz/", difficulty: "easy", theme: "shopping" },
