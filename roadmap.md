@@ -15,3 +15,5 @@
 
 ## Lifestyle Academy
 - [x] Audited all 60 lessons: added bilingual "why it matters" + 3-4 paragraph deep dives for 44 lessons and illustration emojis for all 52 missing; audit script reports 0 issues; verified rendering at /lifestyle-academy
+
+- [ ] Speaking Coach: audit all English IPA transcriptions (regenerate from CMU dictionary)
