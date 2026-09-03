@@ -43,6 +43,8 @@ import {
 interface Props {
   language: SpeakingLang;
   onPractice?: () => void;
+  /** "compact" keeps only the summary + two key charts visible, the rest collapses. */
+  variant?: "full" | "compact";
 }
 
 type SortKey = "misses" | "rate" | "recent";
