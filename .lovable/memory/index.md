@@ -19,3 +19,4 @@
 - [Vocab Milestone Badges](mem://features/gamification/vocab-milestone-badges) — Score-derived badges 20-1200 words, pill on vocab leaderboards, full-screen unlock effect
 - [Chinese Pronunciation](mem://features/courses/chinese-pronunciation) - /chinese/pronunciation: 6 Pinyin lessons with audio, tone sandhi, VN traps, bilingual quizzes
 - [Chinese Strokes](mem://features/courses/chinese-strokes) — /chinese/strokes stroke order guide; Pinyin + Strokes are top-level Chinese menu items
+- [Speaking Coach Modes](mem://features/speaking-coach-modes) - /speaking-coach/:language 5 modes: Sentences, Shadowing, Sound drill, Free Talk, Weak-word review
