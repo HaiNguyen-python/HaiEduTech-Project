@@ -251,6 +251,8 @@ type ExType =
   | "scramble"    // scrambled letters → word
   | "context";    // word → which example uses it
 
+import { buildMcq, maskAnswerForms, normForCompare } from "@/lib/vocab/questionQuality";
+
 interface ExQuestion {
   type: ExType;
   word: IeltsWord;
@@ -274,76 +276,113 @@ const scrambleLetters = (w: string): string => {
 const buildQuestions = (words: IeltsWord[], allWords: IeltsWord[], quizSize = 12): ExQuestion[] => {
   const distractorPool = allWords.length > 4 ? allWords : words;
   const picked = shuffle(words).slice(0, quizSize);
+  const out: ExQuestion[] = [];
 
-  return picked.map((w, idx) => {
-    // Cycle through available types based on word data
+  picked.forEach((w, idx) => {
     const candidates: ExType[] = ["meaning", "reverse", "listening", "defEn", "scramble"];
-    if (w.example && w.example.toLowerCase().includes(w.word.toLowerCase())) {
+    if (w.example && normForCompare(w.example).includes(normForCompare(w.word))) {
       candidates.push("fillBlank", "context");
     }
     if (w.synonyms && w.synonyms.length > 0) candidates.push("synonym");
     if (w.collocations && w.collocations.length > 0) candidates.push("collocation");
     const type = candidates[idx % candidates.length];
 
-    if (type === "reverse") {
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: w.definition.vi, options: opts, correct: opts.indexOf(w.word) };
-    }
-    if (type === "fillBlank") {
-      const re = new RegExp(w.word, "ig");
-      const blanked = w.example.replace(re, "_____");
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: blanked, options: opts, correct: opts.indexOf(w.word) };
-    }
+    // Finnish word as the answer (reverse / fillBlank / listening / defEn / scramble)
+    const wordMcq = () => buildMcq<IeltsWord>({
+      target: w, pool: distractorPool, answer: w.word,
+      optionOf: x => x.word,
+      aliasesOf: x => [x.definition?.vi, x.definition?.en],
+      answerAliases: [w.definition?.vi, w.definition?.en],
+      posOf: x => x.partOfSpeech, topicOf: x => x.category, levelOf: x => x.level,
+    });
+    // English definition as the answer
+    const defMcq = () => buildMcq<IeltsWord>({
+      target: w, pool: distractorPool, answer: w.definition.en,
+      optionOf: x => x.definition?.en,
+      aliasesOf: x => [x.word, x.definition?.vi],
+      answerAliases: [w.word, w.definition?.vi],
+      posOf: x => x.partOfSpeech, topicOf: x => x.category, levelOf: x => x.level,
+    });
+
+    const push = (q: ExQuestion | null) => { if (q) out.push(q); };
+
     if (type === "synonym") {
       const correctSyn = w.synonyms![0];
       const synPool = allWords.filter(x => x.word !== w.word).flatMap(x => x.synonyms || []);
-      const wrongs = shuffle(synPool.filter(s => s !== correctSyn && s !== w.word)).slice(0, 3);
-      while (wrongs.length < 3) wrongs.push(shuffle(distractorPool)[0].word);
-      const opts = shuffle([correctSyn, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctSyn) };
+      const mcq = buildMcq<string>({
+        target: correctSyn, pool: synPool, answer: correctSyn,
+        optionOf: s => s,
+        answerAliases: [w.word, ...(w.synonyms || [])],
+        extraDistractors: shuffle(distractorPool).slice(0, 12).map(x => x.word),
+      });
+      if (mcq) {
+        out.push({ type, word: w, prompt: w.word, options: mcq.options, correct: mcq.correct });
+        return;
+      }
     }
-    if (type === "listening") {
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.word) };
-    }
-    if (type === "defEn") {
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: w.definition.en, options: opts, correct: opts.indexOf(w.word) };
-    }
+
     if (type === "collocation") {
       const correctColl = w.collocations![0];
       const collPool = allWords.filter(x => x.word !== w.word).flatMap(x => x.collocations || []);
-      const wrongs = shuffle(collPool.filter(c => c !== correctColl && !c.toLowerCase().includes(w.word.toLowerCase()))).slice(0, 3);
-      while (wrongs.length < 3) wrongs.push(shuffle(distractorPool)[0].word);
-      const opts = shuffle([correctColl, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(correctColl) };
+      const mcq = buildMcq<string>({
+        target: correctColl, pool: collPool, answer: correctColl,
+        optionOf: c => c,
+        answerAliases: [w.word, ...(w.collocations || [])],
+      });
+      if (mcq) {
+        out.push({ type, word: w, prompt: w.word, options: mcq.options, correct: mcq.correct });
+        return;
+      }
     }
-    if (type === "scramble") {
-      const scrambled = scrambleLetters(w.word);
-      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: scrambled, options: opts, correct: opts.indexOf(w.word) };
-    }
+
     if (type === "context") {
-      // Show 4 example sentences, user picks the one that actually uses the word
+      // Show 4 example sentences, the learner picks the one that uses the word.
       const wrongExamples = shuffle(
-        distractorPool.filter(x => x.word !== w.word && x.example && !x.example.toLowerCase().includes(w.word.toLowerCase()))
-      ).slice(0, 3).map(x => x.example);
-      while (wrongExamples.length < 3) wrongExamples.push(shuffle(distractorPool)[0].example);
-      const opts = shuffle([w.example, ...wrongExamples]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.example) };
+        distractorPool.filter(x =>
+          x.word !== w.word && x.example &&
+          !normForCompare(x.example).includes(normForCompare(w.word))),
+      ).map(x => x.example);
+      const mcq = buildMcq<string>({
+        target: w.example, pool: wrongExamples, answer: w.example, optionOf: s => s,
+      });
+      if (mcq) {
+        out.push({ type, word: w, prompt: w.word, options: mcq.options, correct: mcq.correct });
+        return;
+      }
     }
-    // Default: meaning
-    const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
-    const opts = shuffle([w.definition.en, ...wrongs]);
-    return { type: "meaning", word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.definition.en) };
+
+    if (type === "fillBlank") {
+      const mcq = wordMcq();
+      if (mcq) {
+        out.push({
+          type, word: w,
+          prompt: maskAnswerForms(w.example, [w.word]),
+          options: mcq.options, correct: mcq.correct,
+        });
+        return;
+      }
+    }
+
+    if (type === "reverse" || type === "listening" || type === "defEn" || type === "scramble") {
+      const mcq = wordMcq();
+      if (mcq) {
+        const prompt =
+          type === "reverse" ? w.definition.vi
+            : type === "defEn" ? w.definition.en
+              : type === "scramble" ? scrambleLetters(w.word)
+                : w.word;
+        out.push({ type, word: w, prompt, options: mcq.options, correct: mcq.correct });
+        return;
+      }
+    }
+
+    const mcq = defMcq();
+    push(mcq ? { type: "meaning", word: w, prompt: w.word, options: mcq.options, correct: mcq.correct } : null);
   });
+
+  return out;
 };
+
 
 const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
   meaning: { vi: "Chọn nghĩa đúng", en: "Choose meaning", emoji: "🎯" },
@@ -368,16 +407,22 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
   const scoreSavedRef = useRef(false);
   const [quizSize, setQuizSize] = useState<number>(12);
 
+  const wordsRef = useRef(words); wordsRef.current = words;
+  const allRef = useRef(allWords); allRef.current = allWords;
+  const enough = words.length >= 4;
+
   const generateQuiz = useCallback(() => {
-    if (words.length < 4) return;
-    const size = Math.min(quizSize, words.length);
-    setQuestions(buildQuestions(words, allWords && allWords.length > 4 ? allWords : words, size));
+    const ws = wordsRef.current;
+    const all = allRef.current;
+    if (ws.length < 4) return;
+    const size = Math.min(quizSize, ws.length);
+    setQuestions(buildQuestions(ws, all && all.length > 4 ? all : ws, size));
     setCurrent(0);
     setSelected(null);
     setScore(0);
     setFinished(false);
     scoreSavedRef.current = false;
-  }, [words, allWords, quizSize]);
+  }, [quizSize]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
@@ -393,7 +438,7 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
     })();
   }, [finished]);
 
-  useEffect(() => { generateQuiz(); }, [generateQuiz]);
+  useEffect(() => { generateQuiz(); }, [generateQuiz, enough]);
 
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
@@ -474,10 +519,17 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
           </Button>
         </div>
       </div>
-      <div className="flex items-center justify-between mb-6">
+      {/* Sticky header keeps Next reachable without scrolling back up/down. */}
+      <div className="sticky top-16 z-20 -mx-2 px-2 py-2 mb-6 bg-background/90 backdrop-blur rounded-lg flex items-center justify-between gap-2 flex-wrap">
         <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
         <Badge variant="outline" className="text-xs">{label.emoji} {t(label.vi, label.en)}</Badge>
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
+        {selected !== null && (
+          <Button size="sm" onClick={handleNext}>
+            {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
+        )}
       </div>
       <div className="rounded-xl border border-border bg-card p-8 mb-6">
         {q.type === "listening" ? (
@@ -585,9 +637,16 @@ const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: 
       </div>
       {selected !== null && (
         <div className="flex justify-between items-center mt-6 gap-3 flex-wrap">
-          <p className="text-sm text-muted-foreground italic">
-            <strong className="text-foreground not-italic">{q.word.word}</strong> - {q.word.definition.vi}
-          </p>
+          <div className="text-sm text-muted-foreground italic">
+            <p>
+              <strong className="text-foreground not-italic">{q.word.word}</strong> - {q.word.definition.vi} ({q.word.definition.en})
+            </p>
+            {q.word.example && (
+              <p className="mt-1 not-italic text-xs">
+                {q.word.example} <span className="italic">{q.word.exampleEn}</span>
+              </p>
+            )}
+          </div>
           <Button onClick={handleNext}>
             {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
             <ChevronRight className="w-4 h-4 ml-1" />
@@ -776,9 +835,11 @@ const FinnishVocabulary = () => {
             </div>
 
             {/* Content based on mode */}
-            {viewMode === "quest" || viewMode === "mission" ? null : viewMode === "exercise" ? (
+            {/* Practice stays mounted so switching tabs never resets an active quiz. */}
+            <div className={viewMode === "exercise" ? "" : "hidden"}>
               <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
-            ) : (() => {
+            </div>
+            {viewMode === "quest" || viewMode === "mission" || viewMode === "exercise" ? null : (() => {
               // Group paginated words by category so each topic shows its own section
               const groups = paginated.reduce<Record<string, IeltsWord[]>>((acc, w) => {
                 (acc[w.category] ||= []).push(w);

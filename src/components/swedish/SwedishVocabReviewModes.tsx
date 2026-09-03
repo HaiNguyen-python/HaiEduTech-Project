@@ -25,6 +25,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
 import { ensureSwedishIpa } from "@/lib/swedishIpa";
 import type { SwedishWord } from "@/data/swedishVocabBank";
+import { buildMcq, maskAnswerForms } from "@/lib/vocab/questionQuality";
 
 /* -------------------------------- helpers --------------------------------- */
 
@@ -61,6 +62,31 @@ const noteReview = (w: SwedishWord) => {
 const pickDistractors = (target: SwedishWord, pool: SwedishWord[], n: number) =>
   shuffle(pool.filter(p => p.id !== target.id)).slice(0, n);
 
+/** Meaning options, deduped by meaning text so two options can never be equal. */
+const glossOptions = (target: SwedishWord, pool: SwedishWord[], gloss: (w: SwedishWord) => string): string[] => {
+  const mcq = buildMcq<SwedishWord>({
+    target, pool, answer: gloss(target),
+    optionOf: gloss,
+    aliasesOf: x => [x.vi, x.en],
+    answerAliases: [target.vi, target.en],
+    posOf: x => x.pos, topicOf: x => x.category, levelOf: x => x.level,
+  });
+  return mcq ? mcq.options : shuffle([gloss(target), ...pickDistractors(target, pool, 3).map(gloss)]);
+};
+
+/** Swedish-word options, deduped by form and by meaning. */
+const svOptions = (target: SwedishWord, pool: SwedishWord[]): string[] => {
+  const mcq = buildMcq<SwedishWord>({
+    target, pool, answer: target.sv,
+    optionOf: x => x.sv,
+    aliasesOf: x => [x.vi, x.en],
+    answerAliases: [target.vi, target.en],
+    posOf: x => x.pos, topicOf: x => x.category, levelOf: x => x.level,
+  });
+  return mcq ? mcq.options : shuffle([target.sv, ...pickDistractors(target, pool, 3).map(d => d.sv)]);
+};
+
+
 /* ============================== 1. LISTENING ============================== */
 
 const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) => {
@@ -76,7 +102,7 @@ const ListeningMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" 
   const gloss = (w: SwedishWord) => (lang === "vi" ? w.vi : w.en);
   const options = useMemo(() => {
     if (!q) return [];
-    return shuffle([gloss(q), ...pickDistractors(q, pool, 3).map(gloss)]);
+    return glossOptions(q, pool, gloss);
   }, [q, pool, lang]);
 
   // Auto-play prompt audio when a new question shows
@@ -442,17 +468,19 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
   const q = qs[i];
   const options = useMemo(() => {
     if (!q) return [];
-    return shuffle([q.sv, ...pickDistractors(q, cloze_pool, 3).map(d => d.sv)]);
+    return svOptions(q, cloze_pool);
   }, [q, cloze_pool]);
 
-  useEffect(() => { if (q) speak(q.example); }, [q]);
+  // Never read the full sentence before answering: the audio would give the
+  // missing word away. The example is played only after the reveal.
+  useEffect(() => () => stopSwedishTts(), []);
 
   if (cloze_pool.length < 4)
     return <EmptyPanel msg={t("Cần ít nhất 4 từ có câu ví dụ phù hợp.", "Need at least 4 words with cloze-friendly examples.")} />;
   if (!q || i >= qs.length)
     return <DonePanel score={score} total={qs.length} onRetry={() => { setI(0); setPicked(null); setScore(0); setSeed(s => s + 1); }} />;
 
-  const sentenceWithBlank = q.example.replace(buildRe(q.sv), "$1_____");
+  const sentenceWithBlank = maskAnswerForms(q.example.replace(buildRe(q.sv), "$1_____"), [q.sv]);
   const reveal = picked != null;
 
   return (
@@ -470,13 +498,18 @@ const ClozeMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
                 ? q.example
                 : sentenceWithBlank}
             </p>
-            <p className="text-xs italic text-muted-foreground mt-1">
-              {lang === "vi" ? q.exampleVi : q.exampleEn}
-            </p>
+            {reveal && (
+              <p className="text-xs italic text-muted-foreground mt-1">
+                {lang === "vi" ? q.exampleVi : q.exampleEn}
+              </p>
+            )}
           </div>
-          <button onClick={() => speak(q.example)} className="p-2 rounded-full bg-primary/10 hover:bg-primary/20" aria-label="Replay">
-            <Volume2 className="h-4 w-4 text-primary" />
-          </button>
+          {reveal && (
+            <button onClick={() => speak(q.example)} className="p-2 rounded-full bg-primary/10 hover:bg-primary/20" aria-label="Replay">
+              <Volume2 className="h-4 w-4 text-primary" />
+            </button>
+          )}
+
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -522,9 +555,8 @@ const SpeedMode = ({ pool, lang }: { pool: SwedishWord[]; lang: "vi" | "en" }) =
 
   const newQ = useCallback(() => {
     const target = pool[Math.floor(Math.random() * pool.length)];
-    const distract = pickDistractors(target, pool, 3).map(gloss);
     setQ(target);
-    setOpts(shuffle([gloss(target), ...distract]));
+    setOpts(glossOptions(target, pool, gloss));
   }, [pool, lang]);
 
   // Auto-play the Swedish word aloud whenever a new question appears in Speed mode

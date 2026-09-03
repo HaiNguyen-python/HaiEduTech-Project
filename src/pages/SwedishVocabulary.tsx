@@ -54,6 +54,8 @@ import WordQuest from "@/components/vocab/WordQuest";
 import DailyWordMission from "@/components/vocab/DailyWordMission";
 import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
 import { swedishToQuest } from "@/lib/vocab/vocabAdapter";
+import { buildMcq, maskAnswerForms, shuffleArr } from "@/lib/vocab/questionQuality";
+
 
 /** Swedish voice shared by Word Quest and Daily Mission. */
 const speakSv = (text: string, slow = false) => {
@@ -342,31 +344,73 @@ const Flashcard = ({
 /* MCQ Exercise (over mastered words)                                          */
 /* -------------------------------------------------------------------------- */
 
+type SvMode = "sv-to-gloss" | "gloss-to-sv" | "fill-blank" | "listening" | "context" | "pos";
+
 interface MCQ {
   word: SwedishWord;
-  options: string[];        // gloss options
+  options: string[];
   correct: string;
-  mode: "sv-to-vi" | "vi-to-sv";
+  mode: SvMode;
+  prompt: string;
+  explVi: string;
+  explEn: string;
 }
 
-const buildMCQ = (target: SwedishWord, pool: SwedishWord[], lang: "vi" | "en"): MCQ => {
-  const mode: MCQ["mode"] = Math.random() < 0.5 ? "sv-to-vi" : "vi-to-sv";
+const SV_POS_LABEL: Record<string, { vi: string; en: string }> = {
+  "n.": { vi: "danh từ", en: "noun" },
+  "v.": { vi: "động từ", en: "verb" },
+  "adj.": { vi: "tính từ", en: "adjective" },
+  "adv.": { vi: "trạng từ", en: "adverb" },
+  "phr.": { vi: "cụm từ", en: "phrase" },
+};
+
+const buildMCQ = (target: SwedishWord, pool: SwedishWord[], lang: "vi" | "en", mode: SvMode): MCQ | null => {
   const gloss = (w: SwedishWord) => (lang === "vi" ? w.vi : w.en);
-  const distractors = shuffle(pool.filter((p) => p.id !== target.id)).slice(0, 3);
-  if (mode === "sv-to-vi") {
-    return {
-      word: target,
-      mode,
-      options: shuffle([gloss(target), ...distractors.map(gloss)]),
-      correct: gloss(target),
-    };
+  const explVi = `“${target.sv}” (${target.pos}) nghĩa là “${target.vi}”. Ví dụ: ${target.example} - ${target.exampleVi}`;
+  const explEn = `“${target.sv}” (${target.pos}) means “${target.en}”. Example: ${target.example} - ${target.exampleEn}`;
+  const base = { word: target, mode, explVi, explEn };
+
+  if (mode === "pos") {
+    const labels = Object.keys(SV_POS_LABEL);
+    if (!SV_POS_LABEL[target.pos] || labels.length < 4) return null;
+    const label = (p: string) => (lang === "vi" ? SV_POS_LABEL[p].vi : SV_POS_LABEL[p].en);
+    const wrongs = shuffleArr(labels.filter(p => p !== target.pos)).slice(0, 3).map(label);
+    const options = shuffleArr([label(target.pos), ...wrongs]);
+    return { ...base, options, correct: label(target.pos), prompt: target.sv };
   }
-  return {
-    word: target,
-    mode,
-    options: shuffle([target.sv, ...distractors.map((d) => d.sv)]),
-    correct: target.sv,
-  };
+
+  if (mode === "sv-to-gloss" || mode === "context") {
+    const mcq = buildMcq<SwedishWord>({
+      target, pool, answer: gloss(target),
+      optionOf: gloss,
+      aliasesOf: x => [x.sv, x.vi, x.en],
+      answerAliases: [target.sv, target.vi, target.en],
+      posOf: x => x.pos, topicOf: x => x.category, levelOf: x => x.level,
+    });
+    if (!mcq) return null;
+    const prompt = mode === "context"
+      ? maskAnswerForms(target.example, [target.sv])
+      : target.sv;
+    if (mode === "context" && !prompt.includes("_____")) return null;
+    return { ...base, options: mcq.options, correct: mcq.options[mcq.correct], prompt };
+  }
+
+  // Swedish word is the answer: gloss-to-sv / fill-blank / listening
+  const mcq = buildMcq<SwedishWord>({
+    target, pool, answer: target.sv,
+    optionOf: x => x.sv,
+    aliasesOf: x => [x.vi, x.en],
+    answerAliases: [target.vi, target.en],
+    posOf: x => x.pos, topicOf: x => x.category, levelOf: x => x.level,
+  });
+  if (!mcq) return null;
+  let prompt = gloss(target);
+  if (mode === "fill-blank") {
+    prompt = maskAnswerForms(target.example, [target.sv]);
+    if (!prompt.includes("_____")) return null;
+  }
+  if (mode === "listening") prompt = target.sv;
+  return { ...base, options: mcq.options, correct: target.sv, prompt };
 };
 
 const ExerciseView = ({ pool }: { pool: SwedishWord[] }) => {
@@ -375,11 +419,32 @@ const ExerciseView = ({ pool }: { pool: SwedishWord[] }) => {
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(0);
+  const [round, setRound] = useState(0);
+
+  // Snapshot pool + interface language when the round starts: switching the UI
+  // language or refiltering the bank must not rebuild a quiz in progress.
+  const poolRef = useRef(pool); poolRef.current = pool;
+  const langRef = useRef(lang); langRef.current = lang;
+  const enough = pool.length >= 4;
 
   const questions = useMemo(() => {
-    if (pool.length < 4) return [];
-    return shuffle(pool).slice(0, 10).map((wd) => buildMCQ(wd, pool, lang));
-  }, [pool, lang]);
+    const p = poolRef.current;
+    if (p.length < 4) return [];
+    const modes: SvMode[] = ["sv-to-gloss", "gloss-to-sv", "fill-blank", "listening", "context", "pos"];
+    const qLang: "vi" | "en" = langRef.current === "en" ? "en" : "vi";
+    const out: MCQ[] = [];
+    shuffleArr(p).slice(0, 14).forEach((wd, i) => {
+      const first = modes[i % modes.length];
+      const order = [first, ...modes.filter(m => m !== first)];
+      for (const m of order) {
+        const q = buildMCQ(wd, p, qLang, m);
+        if (q) { out.push(q); break; }
+      }
+    });
+    return out.slice(0, 12);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [round, enough]);
+
 
   if (pool.length < 4) {
     return (
@@ -401,7 +466,7 @@ const ExerciseView = ({ pool }: { pool: SwedishWord[] }) => {
           {score}/{questions.length}
         </p>
         <p className="text-sm text-muted-foreground mt-1">{t("Bài tập đã xong!", "Exercise complete!")}</p>
-        <Button onClick={() => { setIndex(0); setPicked(null); setScore(0); setDone(0); }} className="mt-4 gap-2">
+        <Button onClick={() => { setIndex(0); setPicked(null); setScore(0); setDone(0); setRound(r => r + 1); }} className="mt-4 gap-2">
           <RotateCcw className="h-4 w-4" />
           {t("Làm lại", "Try again")}
         </Button>
@@ -412,22 +477,45 @@ const ExerciseView = ({ pool }: { pool: SwedishWord[] }) => {
   const q = questions[index];
   const correct = picked === q.correct;
 
+  const PROMPT_HINT: Record<SvMode, { vi: string; en: string }> = {
+    "sv-to-gloss": { vi: "Từ tiếng Thụy Điển này nghĩa là gì?", en: "What does this Swedish word mean?" },
+    "gloss-to-sv": { vi: "Nghĩa này tương ứng từ tiếng Thụy Điển nào?", en: "Which Swedish word matches this meaning?" },
+    "fill-blank": { vi: "Điền từ còn thiếu vào câu:", en: "Fill the missing word in the sentence:" },
+    "listening": { vi: "Nghe và chọn từ đúng:", en: "Listen and choose the word:" },
+    "context": { vi: "Từ còn thiếu trong câu này nghĩa là gì?", en: "What does the missing word mean?" },
+    "pos": { vi: "Từ này thuộc từ loại nào?", en: "Which part of speech is this word?" },
+  };
+  const isSentence = q.mode === "fill-blank" || q.mode === "context";
+
   return (
     <div className="rounded-xl border border-border bg-card p-5 md:p-6 space-y-4">
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
+      {/* Sticky bar so Next is always reachable. */}
+      <div className="sticky top-16 z-20 -mx-2 flex items-center justify-between gap-2 rounded-lg bg-card/95 px-2 py-1.5 text-xs text-muted-foreground backdrop-blur">
         <span>{t("Câu", "Question")} {index + 1}/{questions.length}</span>
         <span>{t("Điểm", "Score")}: {score}</span>
+        {picked != null && (
+          <Button size="sm" onClick={() => { setIndex(i => i + 1); setPicked(null); }} className="gap-1">
+            {t("Câu tiếp", "Next")} <ChevronRight className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       <div className="rounded-lg bg-muted/50 p-4 text-center">
-        <p className="text-xs text-muted-foreground mb-1">
-          {q.mode === "sv-to-vi"
-            ? t("Từ tiếng Thụy Điển này nghĩa là gì?", "What does this Swedish word mean?")
-            : t("Nghĩa này tương ứng từ tiếng Thụy Điển nào?", "Which Swedish word matches this meaning?")}
-        </p>
-        <p className="text-2xl md:text-3xl font-bold text-foreground">
-          {q.mode === "sv-to-vi" ? q.word.sv : t(q.word.vi, q.word.en)}
-        </p>
-        {q.mode === "sv-to-vi" && (
+        <p className="text-xs text-muted-foreground mb-1">{t(PROMPT_HINT[q.mode].vi, PROMPT_HINT[q.mode].en)}</p>
+        {q.mode === "listening" ? (
+          <button
+            onClick={() => speakSwedish(q.word.sv)}
+            className="mx-auto mt-1 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 hover:bg-primary/20"
+          >
+            <Volume2 className="h-7 w-7 text-primary" />
+          </button>
+        ) : (
+          <p className={isSentence
+            ? "text-base md:text-lg font-medium text-foreground whitespace-pre-wrap"
+            : "text-2xl md:text-3xl font-bold text-foreground"}>
+            {q.prompt}
+          </p>
+        )}
+        {(q.mode === "sv-to-gloss" || q.mode === "pos") && (
           <button
             onClick={() => speakSwedish(q.word.sv)}
             className="mt-2 inline-flex items-center gap-1 text-xs text-primary hover:underline"
@@ -435,6 +523,7 @@ const ExerciseView = ({ pool }: { pool: SwedishWord[] }) => {
             <Volume2 className="h-3.5 w-3.5" /> {t("Nghe", "Listen")}
           </button>
         )}
+
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {q.options.map((opt, oi) => {
@@ -470,16 +559,25 @@ const ExerciseView = ({ pool }: { pool: SwedishWord[] }) => {
         })}
       </div>
       {picked != null && (
-        <div className="flex justify-end">
-          <Button
-            onClick={() => { setIndex((i) => i + 1); setPicked(null); }}
-            className="gap-2"
-          >
-            {t("Câu tiếp", "Next")}
-            <ChevronRight className="h-4 w-4" />
-          </Button>
+        <div className="space-y-3">
+          <div className={`rounded-lg border p-3 text-sm ${correct ? "border-emerald-500/50 bg-emerald-500/10" : "border-orange-500/50 bg-orange-500/10"}`}>
+            <p className="font-semibold text-foreground mb-1">
+              {correct ? t("Chính xác!", "Correct!") : `${t("Đáp án đúng:", "Correct answer:")} ${q.correct}`}
+            </p>
+            <p className="text-foreground/90">{t(q.explVi, q.explEn)}</p>
+          </div>
+          <div className="flex justify-end">
+            <Button
+              onClick={() => { setIndex((i) => i + 1); setPicked(null); }}
+              className="gap-2"
+            >
+              {t("Câu tiếp", "Next")}
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       )}
+
     </div>
   );
 };
