@@ -6,7 +6,7 @@ import { IELTS_GRAMMAR, GRAMMAR_CATEGORIES, grammarItemTask } from "../src/data/
 import { IELTS_GRAMMAR_TASK1, TASK1_GRAMMAR_CATEGORIES } from "../src/data/ieltsGrammarBankTask1";
 import { IELTS_PHRASES, TASK1_CATEGORIES, TASK2_CATEGORIES } from "../src/data/ieltsPhraseBank";
 import { LINKERS, LINKER_CATEGORIES } from "../src/data/ieltsCohesionBank";
-import { IELTS_IDEAS } from "../src/data/ieltsIdeaBank";
+import { IELTS_IDEA_TOPICS as IELTS_IDEAS } from "../src/data/ieltsIdeaBank";
 import { ALL_TRANSLATION_ITEMS } from "../src/data/ieltsTranslationBank";
 
 const issues: string[] = [];
