@@ -716,9 +716,15 @@ const PresentationStudio = () => {
               )}
               <div
                 ref={promptRef}
-                className={`overflow-y-auto rounded-xl bg-slate-900/95 p-6 text-slate-100 leading-relaxed ${PROMPT_SIZES[promptSize]} ${focusMode ? "h-full" : "h-[300px] sm:h-[340px]"}`}
+                className={`overflow-y-auto rounded-xl bg-slate-900/95 px-4 sm:px-6 py-6 text-slate-100 leading-[1.9] tracking-wide ${PROMPT_SIZES[promptSize]} ${focusMode ? "h-full" : "h-[300px] sm:h-[340px]"}`}
               >
-                <p className="whitespace-pre-wrap max-w-5xl mx-auto">
+                <p
+                  className={`whitespace-pre-wrap text-left mx-auto [&>span]:leading-[1.9] ${
+                    focusMode
+                      ? promptWidth === "narrow" ? "max-w-[46ch]" : promptWidth === "medium" ? "max-w-[58ch]" : "max-w-[74ch]"
+                      : PROMPT_WIDTHS[promptWidth]
+                  }`}
+                >
                   {promptWords.map((w, i) =>
                     /^\s+$/.test(w) ? w : (
                       <span key={i} className={isStressWord(w) ? "text-accent font-semibold" : "text-slate-200"}>{w}</span>
@@ -727,6 +733,13 @@ const PresentationStudio = () => {
                 </p>
                 <div className="h-40" />
               </div>
+              {/* reading focus band + edge fades */}
+              <div className="pointer-events-none absolute inset-0 rounded-xl overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-slate-950/80 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/80 to-transparent" />
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-16 bg-primary/5 border-y border-primary/20" />
+              </div>
+
               {focusMode && (
                 <div className="absolute bottom-3 right-3 w-40 sm:w-56 rounded-xl overflow-hidden border border-slate-700 shadow-lg bg-slate-900">
                   <video
