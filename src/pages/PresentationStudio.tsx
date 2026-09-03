@@ -137,7 +137,24 @@ const PresentationStudio = () => {
   const [countdown, setCountdown] = useState(0);      // 3-2-1 lead-in
   const [promptRunning, setPromptRunning] = useState(false);
   const [body, setBody] = useState<BodyLanguageScores | null>(null);
-  const [promptSize, setPromptSize] = useState<"s" | "m" | "l" | "xl">("m");
+  const [promptSize, setPromptSize] = useState<"s" | "m" | "l" | "xl">(() => {
+    if (typeof window === "undefined") return "m";
+    const v = window.localStorage.getItem(PROMPT_SIZE_STORAGE_KEY);
+    return v === "s" || v === "m" || v === "l" || v === "xl" ? v : "m";
+  });
+  const [promptWidth, setPromptWidth] = useState<"narrow" | "medium" | "wide">(() => {
+    if (typeof window === "undefined") return "narrow";
+    const v = window.localStorage.getItem(PROMPT_WIDTH_STORAGE_KEY);
+    return v === "narrow" || v === "medium" || v === "wide" ? v : "narrow";
+  });
+
+  useEffect(() => {
+    try { window.localStorage.setItem(PROMPT_SIZE_STORAGE_KEY, promptSize); } catch { /* ignore */ }
+  }, [promptSize]);
+  useEffect(() => {
+    try { window.localStorage.setItem(PROMPT_WIDTH_STORAGE_KEY, promptWidth); } catch { /* ignore */ }
+  }, [promptWidth]);
+
   const [focusMode, setFocusMode] = useState(false);
   const [history, setHistory] = useState<SessionHistoryItem[]>([]);
 
