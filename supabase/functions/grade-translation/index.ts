@@ -82,7 +82,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-3.6-flash",
         temperature: 0.2,
-        max_tokens: 900,
+        max_tokens: 3000,
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: system },
