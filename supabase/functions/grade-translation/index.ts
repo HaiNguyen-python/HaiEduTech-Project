@@ -64,12 +64,16 @@ Deno.serve(async (req) => {
       "grammar, vocabulary (word choice / collocation), and style (formal academic IELTS register). " +
       "Feedback bullets must be bilingual: each bullet is an object {vi, en}. Be concrete: quote the learner's " +
       "words and show the fix. Never use the em dash character; use a hyphen instead. " +
+      "IMPORTANT: the reference translation is only one correct option. If the learner uses a different but " +
+      "accurate and natural paraphrase, do NOT lower accuracy, and do NOT require the target structures - " +
+      "mention them at most as an optional upgrade. Only mark down real errors of meaning, grammar, " +
+      "collocation or register. " +
       "Reply with STRICT JSON only, no markdown.";
 
     const user =
       `Vietnamese source: ${vi}\n` +
-      `Reference model translation: ${model}\n` +
-      (body.keywords?.length ? `Target structures/keywords: ${body.keywords.join(", ")}\n` : "") +
+      `Reference model translation (one acceptable option, not the only one): ${model}\n` +
+      (body.keywords?.length ? `Optional target structures: ${body.keywords.join(", ")}\n` : "") +
       `Learner translation: ${userAnswer}\n\n` +
       `Return JSON: {"score": number 0-10, "accuracy": 0-10, "grammar": 0-10, "vocabulary": 0-10, "style": 0-10, ` +
       `"verdict": "excellent"|"good"|"needs_work", "feedback": [{"vi":"...","en":"..."}] (2-4 items), ` +

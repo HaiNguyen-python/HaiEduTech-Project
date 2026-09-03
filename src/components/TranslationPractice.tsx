@@ -23,6 +23,7 @@ import {
   getTranslationItems,
   type TranslationItem,
 } from "@/data/ieltsTranslationBank";
+import { matchStructures, normaliseForMatch, checkableHints } from "@/lib/ieltsTranslationCheck";
 
 interface Props {
   taskType: 1 | 2;
@@ -63,23 +64,23 @@ const saveProgress = (map: ProgressMap) => {
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-const normalise = (s: string) =>
-  s.toLowerCase().replace(/[^a-z0-9%\s]/g, " ").replace(/\s+/g, " ").trim();
-
-/** Local keyword / length pre-check so feedback works even without AI. */
+/**
+ * Local structure / length pre-check so feedback works even without AI.
+ * Structures are matched with `matchStructures`, which tolerates inflections,
+ * gap patterns ("between ... and") and ignores grammar labels ("passive"),
+ * and only scores structures that the model sentence itself uses.
+ */
 function localCheck(item: TranslationItem, answer: string) {
-  const a = normalise(answer);
-  const hits = item.keywords.filter((k) => a.includes(normalise(k)));
-  const coverage = item.keywords.length ? hits.length / item.keywords.length : 1;
-  const modelWords = normalise(item.en).split(" ").length;
-  const answerWords = a.split(" ").filter(Boolean).length;
+  const m = matchStructures(item.keywords, answer, item.en);
+  const modelWords = normaliseForMatch(item.en).split(" ").filter(Boolean).length;
+  const answerWords = normaliseForMatch(answer).split(" ").filter(Boolean).length;
   const lengthRatio = answerWords / Math.max(1, modelWords);
   const lengthOk = lengthRatio >= 0.55 && lengthRatio <= 1.9;
-  const base = 4 + coverage * 4 + (lengthOk ? 2 : 0);
+  const base = 4 + m.coverage * 4 + (lengthOk ? 2 : 0);
   return {
     score: Math.max(2, Math.min(10, Math.round(base * 10) / 10)),
-    hits,
-    missing: item.keywords.filter((k) => !hits.includes(k)),
+    hits: m.used,
+    missing: m.missing,
     lengthOk,
     answerWords,
   };
@@ -170,7 +171,7 @@ const TranslationPractice = ({ taskType }: Props) => {
           userAnswer: trimmed,
           task: item.task,
           category: item.category,
-          keywords: item.keywords,
+          keywords: checkableHints(item.keywords, item.en),
         },
       });
       if (error) {
