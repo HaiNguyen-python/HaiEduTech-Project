@@ -133,7 +133,7 @@ export function buildPronPlan(store: PronStatsStore, today = todayISO()): PronPl
       titleVi: "Luyện âm riêng lẻ",
       titleEn: "Isolate the hardest sounds",
       reasonVi: `${drillWords.length} từ vẫn sai trên ${Math.min(...drillWords.map((w) => w.rate))}% số lần thử - cần tách âm ra luyện chậm.`,
-      reasonEn: `${drillWords.length} words are still wrong in over ${Math.min(...drillWords.map((w) => w.rate))}% of attempts - slow, isolated drilling fixes them fastest.`,
+      reasonEn: `${drillWords.length} ${drillWords.length === 1 ? "word is" : "words are"} still wrong in over ${Math.min(...drillWords.map((w) => w.rate))}% of attempts - slow, isolated drilling fixes them fastest.`,
       words: drillWords,
       minutes: 5,
     });
