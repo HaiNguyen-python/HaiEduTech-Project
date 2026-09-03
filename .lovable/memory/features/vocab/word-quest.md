@@ -11,3 +11,11 @@ type: feature
 - Progress persisted locally under `ielts_word_quest_v1` via `safeStorage`. Finishing a word marks it mastered through `toggleMastered` (feeds badges/leaderboards). No DB changes.
 - Practice tab and Word Quest both stay mounted (hidden) so switching tabs never resets progress.
 - Practice tab has a sticky top result/Next bar plus a mobile bottom Next bar, and Enter/ArrowRight shortcuts.
+
+## Multi-language rollout (2026-09)
+Word Quest and Daily Word Mission are shared components driven by `QuestItem`
+adapters in `src/lib/vocab/vocabAdapter.ts` (English/IELTS, Vietnamese, HSK,
+Japanese, Finnish, Swedish). Each page passes its own `storageKey`, `subject`
+(namespaces the local SRS in `srsEngine.ts`), language TTS and mastery callback.
+Typing answers use romanization for Chinese (pinyin) and Japanese (romaji).
+Progress is local only (safeStorage); no database changes.

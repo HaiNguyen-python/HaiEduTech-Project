@@ -11,7 +11,7 @@
 - [IELTS Listening Full Tests](mem://features/ielts/listening-full-tests) - 13 full tests x 40 Qs, controlled-mode card, 30-min timer
 - [Vocab Arena](mem://features/ielts/vocab-arena) — 9 IELTS mini games, exit/restart rules, scores feed leaderboard + 3D brain
 - [Practice Question Fairness](mem://features/vocab/practice-question-fairness) — Shared distractor/masking/sanity rules so answers are never obvious, plus new question types
-- [Word Quest](mem://features/vocab/word-quest) — 4th vocab tab: stage map of 8 words, 4 steps/word, stars & combo, local progress
+- [Word Quest](mem://features/vocab/word-quest) — Shared vocab tab (IELTS, Vietnamese, HSK, Japanese, Finnish, Swedish) via QuestItem adapters; stage map, stars & combo, local progress
 
 - [IELTS Listening Standards](mem://features/ielts/listening-content-standards) — 120 drills/30 full tests, no answer-leak transcripts, word targets, MCQ/matching key balance
 - [English Grammar Standards](mem://features/english-grammar/content-standards) — 6-section theory layout, >=120w EN theory, 3 tips, 4 vocab, 3 exercises per lesson

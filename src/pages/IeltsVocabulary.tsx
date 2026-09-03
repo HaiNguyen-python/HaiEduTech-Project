@@ -8,6 +8,7 @@ import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateC
 import WordQuest from "@/components/vocab/WordQuest";
 import DailyWordMission from "@/components/vocab/DailyWordMission";
 import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
+import { englishToQuest } from "@/lib/vocab/vocabAdapter";
 
 import { Link as RouterLink } from "react-router-dom";
 import VocabIllustration from "@/components/VocabIllustration";
@@ -1893,8 +1894,8 @@ const IeltsVocabulary = () => {
             {/* Daily Word Mission stays mounted so a round is never lost. */}
             <div className={viewMode === "mission" ? "" : "hidden"}>
               <DailyWordMission
-                bank={filtered}
-                allWords={ieltsVocabData}
+                bank={filtered.map(englishToQuest)}
+                allWords={ieltsVocabData.map(englishToQuest)}
                 t={t}
                 onWordMastered={w => { if (!mastered.has(w)) toggleMastered(w); }}
               />
@@ -1903,8 +1904,8 @@ const IeltsVocabulary = () => {
             {/* Word Quest also stays mounted so stage progress is never lost. */}
             <div className={viewMode === "quest" ? "" : "hidden"}>
               <WordQuest
-                words={filtered}
-                allWords={ieltsVocabData}
+                words={filtered.map(englishToQuest)}
+                allWords={ieltsVocabData.map(englishToQuest)}
                 t={t}
                 onWordLearned={w => { if (!mastered.has(w)) toggleMastered(w); }}
               />

@@ -10,14 +10,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Star, Check, RotateCcw, Sparkles, ChevronRight, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { IeltsWord } from "@/data/ieltsVocabData";
+import type { QuestItem } from "@/lib/vocab/vocabAdapter";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { resolveVocabEmoji } from "@/lib/vocabEmojiMap";
 import { safeStorage } from "@/lib/safeStorage";
 import { maskWord } from "@/lib/vocab/questionQuality";
 
 const STAGE_SIZE = 8;
-const PROGRESS_KEY = "ielts_word_quest_v1";
+const DEFAULT_PROGRESS_KEY = "ielts_word_quest_v1";
 const STEP_COUNT = 5;
 
 type Step = 0 | 1 | 2 | 3 | 4;
@@ -33,7 +33,8 @@ interface Progress {
 
 const medalOf = (mistakes: number) => (mistakes === 0 ? "🥇" : mistakes <= 3 ? "🥈" : "🥉");
 
-const speak = (text: string, slow = false) => {
+/** Default (English) voice; every subject can pass its own `speak`. */
+const englishSpeak = (text: string, slow = false) => {
   stopEnglishTts();
   void playEnglishTts(text, { playbackRate: slow ? 0.75 : 0.95, speechRate: slow ? 0.6 : 0.8 });
 };
@@ -47,19 +48,38 @@ const shuffle = <T,>(arr: T[]): T[] => {
   return a;
 };
 
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z]/g, "");
+/** Keeps letters/digits of any alphabet (Vietnamese diacritics included). */
+const norm = (s: string) =>
+  s.toLowerCase().normalize("NFC").replace(/[^\p{L}\p{N}]/gu, "");
 
 interface Props {
-  words: IeltsWord[];
-  allWords: IeltsWord[];
+  words: QuestItem[];
+  allWords: QuestItem[];
   t: (vi: string, en: string) => string;
-  /** Called when a word finishes all 4 steps, so it can be marked as learned. */
-  onWordLearned?: (word: string) => void;
+  /** Called when a word finishes all steps, so it can be marked as learned. */
+  onWordLearned?: (key: string) => void;
+  /** Per-subject localStorage key so each language keeps its own stages. */
+  storageKey?: string;
+  /** Per-subject text-to-speech. Defaults to the English voice. */
+  speak?: (text: string, slow?: boolean) => void;
+  /** Stop whatever the subject's voice is currently playing. */
+  stopSpeak?: () => void;
+  /** What the learner types: the word itself, or its romanisation (zh / ja). */
+  typingLabel?: { vi: string; en: string };
 }
 
-const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
+const WordQuest = ({
+  words, allWords, t, onWordLearned,
+  storageKey = DEFAULT_PROGRESS_KEY,
+  speak: speakProp,
+  stopSpeak,
+  typingLabel,
+}: Props) => {
+  const speak = speakProp || englishSpeak;
+  const stopVoice = stopSpeak || stopEnglishTts;
+  const PROGRESS_KEY = storageKey;
   const stages = useMemo(() => {
-    const out: IeltsWord[][] = [];
+    const out: QuestItem[][] = [];
     for (let i = 0; i < words.length; i += STAGE_SIZE) out.push(words.slice(i, i + STAGE_SIZE));
     return out;
   }, [words]);
@@ -87,17 +107,18 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
   const save = useCallback((next: Progress) => {
     setProgress(next);
     safeStorage.set(PROGRESS_KEY, next);
-  }, []);
+  }, [PROGRESS_KEY]);
 
   // Speak the word whenever a listening step opens.
   useEffect(() => {
-    if (word && (step === 0 || step === 2)) speak(word.word);
-    return () => stopEnglishTts();
+    if (word && (step === 0 || step === 2)) speak(word.speakText);
+    return () => stopVoice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [word, step]);
 
   const distractors = useMemo(() => {
-    if (!word) return [] as IeltsWord[];
-    const pool = allWords.filter(w => w.word !== word.word);
+    if (!word) return [] as QuestItem[];
+    const pool = allWords.filter(w => w.key !== word.key);
     const sameTopic = pool.filter(w => w.category === word.category);
     return shuffle(sameTopic.length >= 3 ? sameTopic : pool).slice(0, 3);
   }, [word, allWords]);
@@ -105,7 +126,7 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
   const meaningOptions = useMemo(() => {
     if (!word) return [] as { key: string; label: string; emoji: string }[];
     return shuffle([word, ...distractors]).map(w => ({
-      key: w.word,
+      key: w.key,
       label: w.definition.vi,
       emoji: resolveVocabEmoji(w.definition.en, w.category),
     }));
@@ -121,7 +142,7 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
     if (!word) return "";
     const base = word.example && word.example.length > 12
       ? word.example
-      : `Many students use the word "${word.word}" in IELTS essays.`;
+      : `${word.word} - ${word.definition.en}`;
     return maskWord(base, word.word, "______");
   }, [word]);
 
@@ -152,7 +173,7 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
 
   const finishWord = () => {
     if (!stage || stageIdx === null || !word) return;
-    onWordLearned?.(word.word);
+    onWordLearned?.(word.key);
     const done = Math.max(progress.stages[stageIdx] || 0, wordIdx + 1);
     const medals = { ...(progress.medals || {}), [stageIdx]: stageMistakes };
     resetStepState();
@@ -205,7 +226,7 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
 
   const checkTyped = () => {
     if (!word) return;
-    if (norm(typed) === norm(word.word)) {
+    if (norm(typed) === norm(word.typeAnswer)) {
       setStars(s => s + 1 + (combo >= 4 ? 2 : combo >= 2 ? 1 : 0));
       setCombo(c => c + 1);
       window.setTimeout(nextStep, 700);
@@ -290,16 +311,17 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
   }
 
   const emoji = resolveVocabEmoji(word.definition.en, word.category);
-  const hint = word.word
+  const answer = word.typeAnswer;
+  const hint = answer
     .split("")
-    .map((c, i) => (i < Math.min(wrongCount, word.word.length - 1) ? c : c === " " ? " " : "_"))
+    .map((c, i) => (i < Math.min(wrongCount, answer.length - 1) ? c : c === " " ? " " : "_"))
     .join("");
 
   return (
     <div className="mx-auto max-w-2xl">
       {/* Stage header */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <Button variant="ghost" size="sm" onClick={() => { stopEnglishTts(); setStageIdx(null); }}>
+        <Button variant="ghost" size="sm" onClick={() => { stopVoice(); setStageIdx(null); }}>
           ← {t("Bản đồ chặng", "Stage map")}
         </Button>
         <Badge variant="outline">{t("Chặng", "Stage")} {stageIdx + 1} · {wordIdx + 1}/{stage.length}</Badge>
@@ -329,16 +351,19 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
             <div className="flex flex-col items-center gap-3 text-center">
               <div className="text-6xl">{emoji}</div>
               <h3 className="text-3xl font-extrabold text-foreground">{word.word}</h3>
+              {word.subtitle && word.subtitle !== word.ipa && (
+                <p className="text-base font-semibold text-primary">{word.subtitle}</p>
+              )}
               <p className="font-mono text-sm text-muted-foreground">{word.ipa}</p>
               {word.partOfSpeech && <Badge variant="secondary">{word.partOfSpeech}</Badge>}
               <p className="text-foreground">{word.definition.vi}</p>
               <p className="text-sm text-muted-foreground">{word.definition.en}</p>
               {word.example && <p className="mt-1 italic text-sm text-muted-foreground">"{word.example}"</p>}
               <div className="mt-2 flex gap-2">
-                <Button variant="outline" onClick={() => speak(word.word)} className="gap-2">
+                <Button variant="outline" onClick={() => speak(word.speakText)} className="gap-2">
                   <Volume2 className="h-4 w-4" /> {t("Nghe", "Listen")}
                 </Button>
-                <Button variant="outline" onClick={() => speak(word.word, true)} className="gap-2">
+                <Button variant="outline" onClick={() => speak(word.speakText, true)} className="gap-2">
                   <Volume2 className="h-4 w-4" /> {t("Nghe chậm", "Slow")}
                 </Button>
                 <Button onClick={nextStep} className="gap-2">
@@ -352,15 +377,16 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
           {step === 1 && (
             <div>
               <p className="mb-1 text-center text-sm text-muted-foreground">{t("Từ này nghĩa là gì?", "What does this word mean?")}</p>
-              <h3 className="mb-5 text-center text-2xl font-extrabold text-foreground">{word.word}</h3>
+              <h3 className="mb-1 text-center text-2xl font-extrabold text-foreground">{word.word}</h3>
+              {word.subtitle && <p className="mb-4 text-center text-sm text-primary">{word.subtitle}</p>}
               <div className="grid gap-3 sm:grid-cols-2">
                 {meaningOptions.map(o => {
-                  const isRight = o.key === word.word;
+                  const isRight = o.key === word.key;
                   const chosen = picked === o.key;
                   return (
                     <button
                       key={o.key}
-                      onClick={() => handlePick(o.key, word.word)}
+                      onClick={() => handlePick(o.key, word.key)}
                       className={`flex items-center gap-3 rounded-xl border p-3 text-left transition-all ${
                         picked && isRight
                           ? "border-emerald-500 bg-emerald-500/10"
@@ -382,11 +408,11 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
           {step === 2 && (
             <div>
               <div className="mb-5 flex flex-col items-center gap-2">
-                <button onClick={() => speak(word.word)} className="rounded-full bg-primary/10 p-6 transition-colors hover:bg-primary/20">
+                <button onClick={() => speak(word.speakText)} className="rounded-full bg-primary/10 p-6 transition-colors hover:bg-primary/20">
                   <Volume2 className="h-10 w-10 text-primary" />
                 </button>
                 <p className="text-sm text-muted-foreground">{t("Nghe rồi chọn từ đúng", "Listen, then pick the right spelling")}</p>
-                <button onClick={() => speak(word.word, true)} className="text-xs font-semibold text-primary underline-offset-2 hover:underline">
+                <button onClick={() => speak(word.speakText, true)} className="text-xs font-semibold text-primary underline-offset-2 hover:underline">
                   {t("Nghe chậm lại", "Play slower")}
                 </button>
               </div>
@@ -418,9 +444,11 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
           {step === 3 && (
             <div className="flex flex-col items-center gap-3 text-center">
               <div className="text-5xl">{emoji}</div>
-              <p className="text-sm text-muted-foreground">{t("Gõ lại từ có nghĩa:", "Type the word that means:")}</p>
+              <p className="text-sm text-muted-foreground">
+                {typingLabel ? t(typingLabel.vi, typingLabel.en) : t("Gõ lại từ có nghĩa:", "Type the word that means:")}
+              </p>
               <p className="text-lg font-semibold text-foreground">{word.definition.vi}</p>
-              <button onClick={() => speak(word.word)} className="rounded-full bg-primary/10 p-3 hover:bg-primary/20">
+              <button onClick={() => speak(word.speakText)} className="rounded-full bg-primary/10 p-3 hover:bg-primary/20">
                 <Volume2 className="h-5 w-5 text-primary" />
               </button>
               {wrongCount > 0 && <p className="font-mono text-lg tracking-[0.35em] text-primary">{hint}</p>}
@@ -434,7 +462,7 @@ const WordQuest = ({ words, allWords, t, onWordLearned }: Props) => {
               <div className="flex gap-2">
                 <Button onClick={checkTyped} disabled={!typed.trim()}>{t("Kiểm tra", "Check")}</Button>
                 {wrongCount >= 2 && (
-                  <Button variant="outline" onClick={() => { setTyped(word.word); }} className="gap-2">
+                  <Button variant="outline" onClick={() => { setTyped(answer); }} className="gap-2">
                     <RotateCcw className="h-4 w-4" /> {t("Xem đáp án", "Show answer")}
                   </Button>
                 )}

@@ -62,6 +62,17 @@ const levelColors: Record<string, string> = {
 
 // Text-to-Speech helper for Mandarin - Google proxy with native fallback.
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
+import WordQuest from "@/components/vocab/WordQuest";
+import DailyWordMission from "@/components/vocab/DailyWordMission";
+import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
+import { hskToQuest } from "@/lib/vocab/vocabAdapter";
+import { Sparkles, Target } from "lucide-react";
+
+/** Mandarin voice shared by Word Quest and Daily Mission. */
+const speakZh = (text: string, slow = false) => {
+  stopChineseTts();
+  void playChineseTts(text, { playbackRate: slow ? 0.75 : 0.9, speechRate: slow ? 0.45 : 0.6 });
+};
 const speakChinese = (text: string) => {
   stopChineseTts();
   void playChineseTts(text, { playbackRate: 0.9, speechRate: 0.6 });
@@ -547,7 +558,12 @@ const HskVocabulary = () => {
     const m = searchParams.get("mode");
     return m === "flashcard" || m === "exercise" || m === "srs" ? m : "list";
   })();
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "srs">(initialMode);
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "srs" | "quest" | "mission">(initialMode);
+  const [dueToday, setDueToday] = useState(() => countDue(loadSrs("hsk")));
+  useEffect(() => {
+    const id = window.setInterval(() => setDueToday(countDue(loadSrs("hsk"))), 5000);
+    return () => window.clearInterval(id);
+  }, []);
   const { mastered, toggle: toggleMasteredHook } = useMasteredVocab("hsk");
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
 
@@ -716,10 +732,17 @@ const HskVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {HSK_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "srs")}>
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "srs" | "quest" | "mission")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                   <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
+                  <TabsTrigger value="quest" className="gap-1.5 px-4"><Sparkles className="w-4 h-4" /> Word Quest</TabsTrigger>
+                  <TabsTrigger value="mission" className="gap-1.5 px-4">
+                    <Target className="w-4 h-4" /> {t("Nhiệm vụ", "Daily Mission")}
+                    {dueToday > 0 && (
+                      <span className="ml-1 rounded-full bg-orange-500 px-1.5 text-[10px] font-bold text-white">{dueToday}</span>
+                    )}
+                  </TabsTrigger>
                   <TabsTrigger value="exercise" className="gap-1.5 px-4"><Dumbbell className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
                   <TabsTrigger value="srs" className="gap-1.5 px-4"><Brain className="w-4 h-4" /> SRS</TabsTrigger>
                 </TabsList>
@@ -732,8 +755,33 @@ const HskVocabulary = () => {
                 : `${filtered.length} ${t("kết quả", "results")}`}
             </p>
 
+            {/* Both shared modes stay mounted so progress survives tab switches. */}
+            <div className={viewMode === "quest" ? "" : "hidden"}>
+              <WordQuest
+                words={filtered.map(hskToQuest)}
+                allWords={hskVocabData.map(hskToQuest)}
+                t={t}
+                storageKey="hsk_word_quest_v1"
+                speak={speakZh}
+                stopSpeak={stopChineseTts}
+                typingLabel={{ vi: "Gõ pinyin (có dấu thanh) của từ nghĩa:", en: "Type the pinyin of the word meaning:" }}
+                onWordLearned={w => { if (!mastered.has(w)) toggleMastered(w); }}
+              />
+            </div>
+            <div className={viewMode === "mission" ? "" : "hidden"}>
+              <DailyWordMission
+                bank={filtered.map(hskToQuest)}
+                allWords={hskVocabData.map(hskToQuest)}
+                t={t}
+                subject="hsk"
+                speak={text => speakZh(text)}
+                stopSpeak={stopChineseTts}
+                onWordMastered={w => { if (!mastered.has(w)) toggleMastered(w); }}
+              />
+            </div>
+
             {/* Content based on mode */}
-            {vocabLoading ? (
+            {viewMode === "quest" || viewMode === "mission" ? null : vocabLoading ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="h-52 rounded-xl border border-border bg-secondary/40 animate-pulse" />
@@ -822,7 +870,7 @@ const HskVocabulary = () => {
             })()}
 
             {/* Pagination (hide in exercise mode) */}
-            {viewMode !== "exercise" && viewMode !== "srs" && totalPages > 1 && (
+            {viewMode !== "exercise" && viewMode !== "srs" && viewMode !== "quest" && viewMode !== "mission" && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                   <ChevronLeft className="w-4 h-4" />
