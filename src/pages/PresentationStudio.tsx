@@ -196,7 +196,7 @@ const PresentationStudio = () => {
 
   const pushHistory = useCallback((item: SessionHistoryItem) => {
     setHistory((prev) => {
-      const next = [item, ...prev].slice(0, 10);
+      const next = [item, ...prev].slice(0, 30);
       try { localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
       return next;
     });
