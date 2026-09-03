@@ -6,6 +6,8 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
+import { IELTS_TRANSLATION_EXPANSION } from "./ieltsTranslationBankExpansion";
+
 export type TranslationBand = "6.0" | "6.5-7.0" | "7.5+";
 
 export interface TranslationItem {
@@ -770,8 +772,13 @@ export const IELTS_TRANSLATION_BANK: TranslationItem[] = [
   },
 ];
 
+export const ALL_TRANSLATION_ITEMS: TranslationItem[] = [
+  ...IELTS_TRANSLATION_BANK,
+  ...IELTS_TRANSLATION_EXPANSION,
+];
+
 export function getTranslationItems(task: 1 | 2, category: string): TranslationItem[] {
-  return IELTS_TRANSLATION_BANK.filter(
+  return ALL_TRANSLATION_ITEMS.filter(
     (i) => i.task === task && (category === "all" || i.category === category),
   );
 }
