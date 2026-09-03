@@ -28,6 +28,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import PresentationProgressChart from "@/components/presentation/PresentationProgressChart";
 import {
   PRESENTATION_SCENARIOS, SCENARIO_GROUPS, analyzeSession, countFillers, countWords, findSignposts,
   isStressWord, paceLabel, tokenizeTranscript, buildCustomScenario, evaluateStructure,
