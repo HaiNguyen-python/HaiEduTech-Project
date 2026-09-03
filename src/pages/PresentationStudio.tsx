@@ -1113,6 +1113,9 @@ const PresentationStudio = () => {
               </div>
             </div>
 
+            {/* Practice progress chart */}
+            <PresentationProgressChart history={history} />
+
             {/* Session history */}
             <div className="glass-card rounded-2xl p-4 border border-border/60">
               <div className="flex items-center justify-between mb-3">
