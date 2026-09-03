@@ -137,3 +137,198 @@ export function gradeWrittenDefinition(answer: string, reference: string): { ok:
   const need = Math.max(1, Math.ceil(keywords.length * 0.34));
   return { ok: keywords.length > 0 && matched.length >= need, matched, keywords };
 }
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * Subject-agnostic multiple-choice builder
+ * Used by every vocabulary Practice tab (English/IELTS, Vietnamese, HSK,
+ * Japanese, Finnish, Swedish) so all subjects share one fairness standard.
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+/** Lowercase, strip accents/punctuation so "Ăn" and "an!" compare equal. */
+export const normForCompare = (s: string): string =>
+  (s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+/**
+ * Mask every surface form of the answer inside a prompt sentence, including
+ * accented and inflected variants, so the answer can never be read off the
+ * prompt. Pass extra forms (plural, conjugated, hanzi + pinyin, ...) too.
+ */
+export const maskAnswerForms = (
+  text: string,
+  forms: (string | undefined)[],
+  blank = "_____",
+): string => {
+  let out = text || "";
+  const uniq = Array.from(
+    new Set(forms.filter((f): f is string => !!f && f.trim().length > 1)),
+  ).sort((a, b) => b.length - a.length);
+
+  for (const form of uniq) {
+    // 1. literal (accent-sensitive) match
+    out = out.replace(new RegExp(escapeRe(form), "gi"), blank);
+    // 2. stem match for inflected languages (Finnish cases, verb endings)
+    if (form.length > 4) {
+      const stem = form.slice(0, Math.max(4, form.length - 2));
+      out = out.replace(new RegExp(`\\p{L}*${escapeRe(stem)}\\p{L}*`, "giu"), blank);
+    }
+    // 3. accent-insensitive pass: rebuild word by word
+    const target = normForCompare(form);
+    if (target.length > 1) {
+      out = out
+        .split(/(\s+)/)
+        .map(tok => (normForCompare(tok) === target ? blank : tok))
+        .join("");
+    }
+  }
+  // collapse "_____ _____" runs created by multi-form masking
+  return out.replace(new RegExp(`(?:${escapeRe(blank)}[\\s]*){2,}`, "g"), `${blank} `).trim();
+};
+
+export interface McqSpec<T> {
+  /** The item being tested. */
+  target: T;
+  /** Everything available as a source of wrong answers. */
+  pool: T[];
+  /** Text of the correct option. */
+  answer: string;
+  /** Option text for a pool item (return undefined to skip the item). */
+  optionOf: (x: T) => string | undefined;
+  /**
+   * Other strings that mean the same thing as an item's option. Any pool item
+   * whose alias collides with the answer is dropped, which is what stops two
+   * different words with an identical gloss from both appearing.
+   */
+  aliasesOf?: (x: T) => (string | undefined)[];
+  /** Aliases of the answer itself (synonyms, alternate glosses). */
+  answerAliases?: (string | undefined)[];
+  /** Similarity signals so distractors look plausible. */
+  posOf?: (x: T) => string | undefined;
+  topicOf?: (x: T) => string | undefined;
+  levelOf?: (x: T) => string | undefined;
+  /** How many options in total (default 4). */
+  optionCount?: number;
+  /** Extra ready-made distractor strings (synonym/collocation banks). */
+  extraDistractors?: (string | undefined)[];
+}
+
+export interface McqResult {
+  options: string[];
+  correct: number;
+}
+
+/**
+ * Build a fair MCQ or return null. Returning null is intentional: a caller
+ * should skip the item rather than render an ambiguous question.
+ */
+export function buildMcq<T>(spec: McqSpec<T>): McqResult | null {
+  const {
+    target, pool, answer, optionOf, aliasesOf, answerAliases = [],
+    posOf, topicOf, levelOf, optionCount = 4, extraDistractors = [],
+  } = spec;
+
+  const answerText = (answer || "").trim();
+  if (!answerText) return null;
+
+  // Everything that must never appear as a wrong answer.
+  const banned = new Set<string>([normForCompare(answerText)]);
+  for (const a of answerAliases) if (a) banned.add(normForCompare(a));
+
+  const isBanned = (txt: string) => {
+    const n = normForCompare(txt);
+    if (!n || banned.has(n)) return true;
+    // substring collision either way: "study" vs "to study"
+    for (const b of banned) {
+      if (b.length > 2 && (n === b || n.includes(b) || b.includes(n))) return true;
+    }
+    return false;
+  };
+
+  const chosen: string[] = [];
+  const seen = new Set<string>([normForCompare(answerText)]);
+
+  const push = (raw?: string) => {
+    if (!raw) return;
+    const txt = raw.trim();
+    if (!txt || chosen.length >= optionCount - 1) return;
+    const n = normForCompare(txt);
+    if (!n || seen.has(n) || isBanned(txt)) return;
+    seen.add(n);
+    chosen.push(txt);
+  };
+
+  // 1. explicit extras (synonym / collocation banks) come first
+  for (const e of shuffleArr(extraDistractors)) push(e || undefined);
+
+  // 2. smart distractors from the pool, dropping alias collisions
+  if (chosen.length < optionCount - 1) {
+    const safePool = pool.filter(x => {
+      if (x === target) return false;
+      const txt = optionOf(x);
+      if (!txt || isBanned(txt)) return false;
+      const aliases = aliasesOf?.(x) ?? [];
+      return !aliases.some(a => a && isBanned(a));
+    });
+    const picked = pickSmartDistractors(safePool, target, (optionCount - 1) * 3, {
+      getText: optionOf,
+      getPos: posOf,
+      getTopic: topicOf,
+      getLevel: levelOf,
+    });
+    for (const p of picked) push(optionOf(p));
+  }
+
+  if (chosen.length < optionCount - 1) return null;
+
+  const options = shuffleArr([answerText, ...chosen]);
+  const correct = options.indexOf(answerText);
+  if (correct < 0) return null;
+  if (!isQuestionFair({ options, correct })) return null;
+  return { options, correct };
+}
+
+export interface McqIssue {
+  code: "too-few" | "duplicate" | "answer-in-prompt" | "bad-index" | "empty-option";
+  detail: string;
+}
+
+/** Static fairness audit used by scripts/audit_vocab_practice.ts. */
+export function validateMcq(input: {
+  prompt?: string;
+  options: string[];
+  correct: number;
+  answerForms?: (string | undefined)[];
+}): McqIssue[] {
+  const issues: McqIssue[] = [];
+  const { prompt = "", options, correct, answerForms = [] } = input;
+
+  if (!options || options.length < 4) {
+    issues.push({ code: "too-few", detail: `${options?.length ?? 0} options` });
+  }
+  if (correct < 0 || correct >= (options?.length ?? 0)) {
+    issues.push({ code: "bad-index", detail: `correct=${correct}` });
+    return issues;
+  }
+  const norm = (options || []).map(normForCompare);
+  if (norm.some(o => !o)) issues.push({ code: "empty-option", detail: "blank option text" });
+  if (new Set(norm).size !== norm.length) {
+    issues.push({ code: "duplicate", detail: options.join(" | ") });
+  }
+
+  const answerText = options[correct];
+  const forms = [answerText, ...answerForms].filter((f): f is string => !!f && f.length > 1);
+  const promptNorm = ` ${normForCompare(prompt)} `;
+  for (const f of forms) {
+    const fn = normForCompare(f);
+    if (fn.length > 2 && promptNorm.includes(` ${fn} `)) {
+      issues.push({ code: "answer-in-prompt", detail: `"${f}" visible in prompt` });
+      break;
+    }
+  }
+  return issues;
+}

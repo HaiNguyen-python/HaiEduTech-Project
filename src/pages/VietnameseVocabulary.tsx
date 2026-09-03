@@ -28,6 +28,8 @@ import DailyWordMission from "@/components/vocab/DailyWordMission";
 import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
 import { vietnameseToQuest } from "@/lib/vocab/vocabAdapter";
 import { Sparkles, Target } from "lucide-react";
+import { buildMcq, maskAnswerForms, normForCompare, shuffleArr } from "@/lib/vocab/questionQuality";
+
 
 /** Vietnamese voice used by the two shared learning modes. */
 const speakVi = (text: string, slow = false) => {
@@ -151,39 +153,110 @@ const Flashcard = ({ word }: { word: VietnameseBankWord }) => {
   );
 };
 
-// ── Practice quiz (meaning / reverse / listening / fill-blank) ──
-type ExType = "meaning" | "reverse" | "listening" | "fillBlank";
-interface ExQ { type: ExType; word: VietnameseBankWord; prompt: string; options: string[]; correct: number; }
+// ── Practice quiz (6 question types, shared fairness layer) ──
+type ExType = "meaning" | "reverse" | "listening" | "fillBlank" | "contextMeaning" | "oddOne";
+interface ExQ {
+  type: ExType;
+  word: VietnameseBankWord;
+  prompt: string;
+  options: string[];
+  correct: number;
+  explVi: string;
+  explEn: string;
+}
 
 const buildQuiz = (words: VietnameseBankWord[], pool: VietnameseBankWord[], size = 12): ExQ[] => {
-  const picked = shuffle(words).slice(0, size);
-  return picked.map((w, i) => {
-    const distractors = shuffle(pool.filter(x => x.word !== w.word));
-    const candidates: ExType[] = ["meaning", "reverse", "listening"];
-    if (w.example && w.example.toLowerCase().includes(w.word.toLowerCase())) candidates.push("fillBlank");
+  const picked = shuffleArr(words).slice(0, size);
+  const out: ExQ[] = [];
+
+  picked.forEach((w, i) => {
+    const forms = [w.word, w.meaning];
+    const candidates: ExType[] = ["meaning", "reverse", "listening", "oddOne"];
+    const hasExample = !!w.example && normForCompare(w.example).includes(normForCompare(w.word));
+    if (hasExample) candidates.push("fillBlank", "contextMeaning");
     const type = candidates[i % candidates.length];
 
-    if (type === "reverse") {
-      const wrongs = distractors.slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: w.meaning, options: opts, correct: opts.indexOf(w.word) };
+    const explVi = `“${w.word}” nghĩa là “${w.meaning}”.${w.example ? ` Ví dụ: ${w.example}` : ""}`;
+    const explEn = `“${w.word}” means “${w.meaningEn || w.meaning}”.${w.exampleEn ? ` Example: ${w.exampleEn}` : ""}`;
+
+    // Word-as-answer questions (reverse / listening / fillBlank)
+    const wordMcq = () => buildMcq<VietnameseBankWord>({
+      target: w, pool, answer: w.word,
+      optionOf: x => x.word,
+      aliasesOf: x => [x.meaning, x.meaningEn],
+      answerAliases: [w.meaning],
+      posOf: x => x.partOfSpeech,
+      topicOf: x => x.category,
+      levelOf: x => x.level,
+    });
+    // Meaning-as-answer questions
+    const meaningMcq = () => buildMcq<VietnameseBankWord>({
+      target: w, pool, answer: w.meaning,
+      optionOf: x => x.meaning,
+      aliasesOf: x => [x.word, x.meaningEn],
+      answerAliases: [w.word, w.meaningEn],
+      posOf: x => x.partOfSpeech,
+      topicOf: x => x.category,
+      levelOf: x => x.level,
+    });
+
+    if (type === "oddOne") {
+      // Three words from the same category + one intruder from another category.
+      const family = shuffleArr(pool.filter(x => x.category === w.category && x.word !== w.word)).slice(0, 3);
+      const intruder = shuffleArr(pool.filter(x => x.category !== w.category))[0];
+      if (family.length === 3 && intruder) {
+        const opts = shuffleArr([...family.map(x => x.word), intruder.word]);
+        out.push({
+          type, word: intruder, prompt: family[0].category,
+          options: opts, correct: opts.indexOf(intruder.word),
+          explVi: `“${intruder.word}” thuộc chủ đề “${intruder.category}”, ba từ còn lại thuộc “${w.category}”.`,
+          explEn: `“${intruder.word}” belongs to “${intruder.categoryEn || intruder.category}”; the other three belong to “${w.categoryEn || w.category}”.`,
+        });
+        return;
+      }
     }
-    if (type === "listening") {
-      const wrongs = distractors.slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.word) };
+
+    if (type === "contextMeaning") {
+      const m = meaningMcq();
+      if (m) {
+        out.push({
+          type, word: w,
+          prompt: maskAnswerForms(w.example, forms),
+          options: m.options, correct: m.correct, explVi, explEn,
+        });
+        return;
+      }
     }
+
     if (type === "fillBlank") {
-      const re = new RegExp(w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "ig");
-      const blanked = w.example.replace(re, "_____");
-      const wrongs = distractors.slice(0, 3).map(x => x.word);
-      const opts = shuffle([w.word, ...wrongs]);
-      return { type, word: w, prompt: blanked, options: opts, correct: opts.indexOf(w.word) };
+      const m = wordMcq();
+      if (m) {
+        out.push({
+          type, word: w,
+          prompt: maskAnswerForms(w.example, forms),
+          options: m.options, correct: m.correct, explVi, explEn,
+        });
+        return;
+      }
     }
-    const wrongs = distractors.slice(0, 3).map(x => x.meaning);
-    const opts = shuffle([w.meaning, ...wrongs]);
-    return { type: "meaning", word: w, prompt: w.word, options: opts, correct: opts.indexOf(w.meaning) };
+
+    if (type === "reverse" || type === "listening") {
+      const m = wordMcq();
+      if (m) {
+        out.push({
+          type, word: w,
+          prompt: type === "reverse" ? w.meaning : w.word,
+          options: m.options, correct: m.correct, explVi, explEn,
+        });
+        return;
+      }
+    }
+
+    const m = meaningMcq();
+    if (m) out.push({ type: "meaning", word: w, prompt: w.word, options: m.options, correct: m.correct, explVi, explEn });
   });
+
+  return out;
 };
 
 const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
@@ -191,7 +264,10 @@ const TYPE_LABELS: Record<ExType, { vi: string; en: string; emoji: string }> = {
   reverse: { vi: "Chọn từ theo nghĩa", en: "Pick the word", emoji: "🔁" },
   listening: { vi: "Nghe và chọn từ", en: "Listen & choose", emoji: "🎧" },
   fillBlank: { vi: "Điền từ vào chỗ trống", en: "Fill in the blank", emoji: "✏️" },
+  contextMeaning: { vi: "Đoán nghĩa theo ngữ cảnh", en: "Meaning in context", emoji: "🧠" },
+  oddOne: { vi: "Tìm từ khác chủ đề", en: "Odd one out", emoji: "🚩" },
 };
+
 
 const VocabExercise = ({ words, pool, t }: {
   words: VietnameseBankWord[];
@@ -206,15 +282,26 @@ const VocabExercise = ({ words, pool, t }: {
   const [quizSize, setQuizSize] = useState(12);
   const savedRef = useRef(false);
 
+  // Keep the latest words/pool in refs so a re-render (filter change, language
+  // toggle) never rebuilds a quiz that is already in progress.
+  const wordsRef = useRef(words); wordsRef.current = words;
+  const poolRef = useRef(pool); poolRef.current = pool;
+  const wordCount = words.length;
+
   const generate = useCallback(() => {
-    if (words.length < 4) return;
-    const size = Math.min(quizSize, words.length);
-    setQuestions(buildQuiz(words, pool.length > 4 ? pool : words, size));
+    const ws = wordsRef.current;
+    if (ws.length < 4) return;
+    const p = poolRef.current;
+    const size = Math.min(quizSize, ws.length);
+    setQuestions(buildQuiz(ws, p.length > 4 ? p : ws, size));
     setCurrent(0); setSelected(null); setScore(0); setFinished(false);
     savedRef.current = false;
-  }, [words, pool, quizSize]);
+  }, [quizSize]);
 
-  useEffect(() => { generate(); }, [generate]);
+  // Only (re)generate when there is no quiz yet, when the size changes, or when
+  // the learner unlocks enough words - never on unrelated re-renders.
+  useEffect(() => { generate(); }, [generate, wordCount >= 4]);
+
 
   // Stop any audio when component unmounts
   useEffect(() => () => { stopVietnameseTts(); }, []);
@@ -325,11 +412,19 @@ const VocabExercise = ({ words, pool, t }: {
           </Button>
         </div>
       </div>
-      <div className="flex items-center justify-between mb-6">
+      {/* Sticky header keeps the Next action reachable without scrolling. */}
+      <div className="sticky top-16 z-20 -mx-2 mb-6 flex items-center justify-between gap-2 rounded-xl border border-border bg-card/95 px-3 py-2 backdrop-blur">
         <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
         <Badge variant="outline" className="text-xs">{label.emoji} {t(label.vi, label.en)}</Badge>
         <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
+        {selected !== null && (
+          <Button size="sm" onClick={handleNext}>
+            {current + 1 >= questions.length ? t("Kết quả", "Results") : t("Câu tiếp", "Next")}
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
+        )}
       </div>
+
       <div className="rounded-xl border border-border bg-card p-8 mb-6">
         {q.type === "listening" ? (
           <div className="flex flex-col items-center gap-3 py-4">
@@ -347,11 +442,22 @@ const VocabExercise = ({ words, pool, t }: {
             <h3 className="text-2xl font-bold text-foreground mb-2">{q.prompt}</h3>
             <p className="text-sm text-muted-foreground">{t("Chọn từ tiếng Việt tương ứng:", "Pick the matching Vietnamese word:")}</p>
           </>
+        ) : q.type === "oddOne" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Ba từ cùng chủ đề, một từ khác:", "Three words share a topic, one does not:")}</p>
+            <h3 className="text-xl font-bold text-foreground">{t("Từ nào KHÔNG thuộc nhóm?", "Which word does NOT belong?")}</h3>
+          </>
+        ) : q.type === "contextMeaning" ? (
+          <>
+            <p className="text-xs text-muted-foreground mb-2">{t("Từ bị thiếu trong câu này có nghĩa là gì?", "What does the missing word in this sentence mean?")}</p>
+            <p className="text-lg text-foreground italic leading-relaxed whitespace-pre-wrap">{q.prompt}</p>
+          </>
         ) : q.type === "fillBlank" ? (
           <>
             <p className="text-xs text-muted-foreground mb-2">{t("Điền từ thích hợp vào chỗ trống:", "Fill in the blank:")}</p>
-            <p className="text-lg text-foreground italic leading-relaxed">{q.prompt}</p>
+            <p className="text-lg text-foreground italic leading-relaxed whitespace-pre-wrap">{q.prompt}</p>
           </>
+
         ) : (
           <>
             <div className="flex items-center gap-3 mb-2">
@@ -386,16 +492,22 @@ const VocabExercise = ({ words, pool, t }: {
         })}
       </div>
       {selected !== null && (
-        <div className="flex justify-between items-center mt-6 gap-3 flex-wrap">
-          <p className="text-sm text-muted-foreground italic">
-            <strong className="text-foreground not-italic">{q.word.word}</strong> — {q.word.meaning}
-          </p>
-          <Button onClick={handleNext}>
-            {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
+        <div className="mt-6 space-y-3">
+          <div className={`rounded-xl border p-4 text-sm ${selected === q.correct ? "border-green-500/50 bg-green-500/10" : "border-orange-500/50 bg-orange-500/10"}`}>
+            <p className="font-semibold text-foreground mb-1">
+              {selected === q.correct ? t("Chính xác!", "Correct!") : t("Chưa đúng. Đáp án:", "Not quite. Answer:")} {q.options[q.correct]}
+            </p>
+            <p className="text-foreground/90 whitespace-pre-wrap">{t(q.explVi, q.explEn)}</p>
+          </div>
+          <div className="flex justify-end">
+            <Button onClick={handleNext}>
+              {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
         </div>
       )}
+
     </div>
   );
 };
@@ -542,13 +654,17 @@ const VietnameseVocabulary = () => {
                 />
               </div>
 
-              {viewMode === "quest" || viewMode === "mission" ? null : viewMode === "exercise" ? (
+              {/* Practice stays mounted too, so answering progress survives tab switches. */}
+              <div className={viewMode === "exercise" ? "" : "hidden"}>
                 <VocabExercise
                   words={vietnameseVocabBank.filter(w => mastered.has(w.word))}
                   pool={vietnameseVocabBank}
                   t={t}
                 />
-              ) : (() => {
+              </div>
+
+              {viewMode === "quest" || viewMode === "mission" || viewMode === "exercise" ? null : (() => {
+
                 const groups = paginated.reduce<Record<string, VietnameseBankWord[]>>((acc, w) => {
                   (acc[w.category] ||= []).push(w);
                   return acc;
