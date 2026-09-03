@@ -247,7 +247,16 @@ const PronunciationStatsPanel = ({ language, onPractice, variant = "full" }: Pro
         </div>
       </div>
 
+      {compact && (
+        <Button variant="outline" size="sm" className="gap-1" onClick={() => setDetailsOpen((o) => !o)}>
+          {detailsOpen
+            ? t("Ẩn bảng chi tiết", "Hide detailed table")
+            : t("Xem bảng chi tiết & nguồn lỗi", "Show detailed table & error sources")}
+        </Button>
+      )}
+
       {/* Table */}
+      {showDetails && (
       <Card>
         <CardHeader className="pb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle className="text-base">{t("Bảng chi tiết", "Detailed table")}</CardTitle>
