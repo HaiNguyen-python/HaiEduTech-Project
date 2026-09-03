@@ -69,9 +69,13 @@ function wordPattern(word: string): string {
   if (family) return `(?:${family.map(escapeRe).join("|")})`;
   if (/^\d/.test(w) || w.length <= 2) return escapeRe(w);
   // Reduce to a stem, then allow the common English endings.
+  // "difficulties" -> "difficult(?:y|ies|ied)"; "rises" -> "ris[a-z]{0,4}".
+  if (/ies$/.test(w)) {
+    const base = w.slice(0, -3);
+    if (base.length >= 3) return `${escapeRe(base)}(?:y|ies|ied|ying)`;
+  }
   let stem = w;
-  if (/(ies)$/.test(stem)) stem = stem.slice(0, -3) + "y";
-  else if (/(ing|ies|ed|es|s)$/.test(stem)) stem = stem.replace(/(ing|ed|es|s)$/, "");
+  if (/(ing|ed|es|s)$/.test(stem)) stem = stem.replace(/(ing|ed|es|s)$/, "");
   if (stem.length < 3) stem = w;
   return `${escapeRe(stem)}[a-z]{0,4}`;
 }
