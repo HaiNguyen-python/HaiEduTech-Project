@@ -734,10 +734,16 @@ const PresentationStudio = () => {
                   </Button>
                   <Button
                     variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
-                    onClick={() => { promptOffsetRef.current = 0; if (promptRef.current) promptRef.current.scrollTop = 0; }}
+                    onClick={() => {
+                      promptOffsetRef.current = 0;
+                      measurePrompt();
+                      const focusTop = promptMetricsRef.current.containerHeight * PROMPT_FOCUS_RATIO;
+                      if (promptInnerRef.current) promptInnerRef.current.style.transform = `translateY(${focusTop}px)`;
+                    }}
                   >
                     <RefreshCcw className="w-3.5 h-3.5" /> {t("Về đầu", "Rewind")}
                   </Button>
+
                 </>
               )}
               <Button
