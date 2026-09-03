@@ -180,7 +180,44 @@ const SpeakingCoachPage = () => {
           </motion.div>
         )}
 
-        <AISpeakingCoach language={lang} onPerfectScore={handlePerfectScore} />
+        {/* Practice mode switcher */}
+        <div className="mb-4 flex flex-wrap gap-2">
+          {([
+            { key: "sentences", label: t("Câu mẫu", "Sentences"), icon: Mic },
+            { key: "shadow", label: t("Nói theo", "Shadowing"), icon: Repeat },
+            { key: "drill", label: t("Luyện âm", "Sound drill"), icon: Waves },
+            { key: "freetalk", label: t("Nói tự do", "Free Talk"), icon: MessageCircle },
+            { key: "review", label: t("Ôn từ yếu", "Weak words"), icon: Brain },
+          ] as const).map(({ key, label, icon: Icon }) => (
+            <Button
+              key={key}
+              size="sm"
+              variant={mode === key ? "default" : "outline"}
+              onClick={() => {
+                setMode(key);
+                if (key === "review") setWeakCount(countWeakWords(lang));
+              }}
+              className="gap-1"
+            >
+              <Icon className="w-4 h-4" />
+              {label}
+              {key === "review" && weakCount > 0 && (
+                <Badge variant="secondary" className="ml-1">{weakCount}</Badge>
+              )}
+            </Button>
+          ))}
+        </div>
+
+        <div className={mode === "sentences" ? "" : "hidden"}>
+          <AISpeakingCoach language={lang} onPerfectScore={handlePerfectScore} />
+        </div>
+        {mode === "shadow" && <ShadowingMode language={lang} onPerfectScore={handlePerfectScore} />}
+        {mode === "drill" && <SoundDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
+        {mode === "freetalk" && <FreeTalkMode language={lang} onPerfectScore={handlePerfectScore} />}
+        {mode === "review" && (
+          <WeakWordReview language={lang} onChange={() => setWeakCount(countWeakWords(lang))} />
+        )}
+
       </main>
       <Footer />
     </div>
