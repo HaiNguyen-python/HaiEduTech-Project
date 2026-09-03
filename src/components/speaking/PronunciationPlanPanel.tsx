@@ -35,6 +35,8 @@ interface Props {
   language: SpeakingLang;
   /** Jump into a practice mode. */
   onGoMode?: (mode: PlanMode) => void;
+  /** "hero" shows only the next step + today's target; the rest collapses. */
+  variant?: "full" | "hero";
 }
 
 const MODE_ICON: Record<PlanMode, typeof Mic> = {
