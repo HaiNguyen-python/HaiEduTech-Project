@@ -100,6 +100,7 @@ const FUNCTION_WORDS = new Set([
 ]);
 
 const cache = new Map<string, string | null>();
+export const unknown = new Set<string>();
 
 const wordIpa = (raw: string): string | null => {
   const key = raw.toLowerCase();
@@ -131,7 +132,7 @@ export const sentenceIpa = (text: string): string | null => {
       const pieces = token.split("-").map(wordIpa);
       if (pieces.every(Boolean)) ipa = pieces.join("");
     }
-    if (!ipa) return null;
+    if (!ipa) { unknown.add(token.toLowerCase()); return null; }
     words.push(ipa);
   }
   return `/${words.join(" ")}/`;
@@ -178,3 +179,4 @@ for (const file of files) {
 console.log(`English rows checked: ${checked}`);
 console.log(`Rewritten: ${changed}`);
 console.log(`Skipped (unknown word, left as-is): ${skipped}`);
+if (unknown.size) console.log("Unknown words:", [...unknown].sort().join(", "));
