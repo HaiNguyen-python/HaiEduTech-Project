@@ -11,3 +11,7 @@ Route `/presentation-studio`, linked in the English dropdown under Speaking Coac
 - Telemetry: pacing meter (red <100 / green 120-150 / yellow >160 WPM), filler counter badges, eye-contact %, session timer, word + signpost counts.
 - Report modal: overall 0-100, 5-axis radar (Clarity, Fluency, Persuasiveness, Pacing, Signposting), WPM line chart with 120-150 reference band, colour-coded clickable transcript (red filler / green signpost / purple advanced, click = TTS), top 3 strengths, top 2 fixes, 2 AI counter-questions with a 30s record button.
 - AI: edge function `analyze-presentation` (Gemini 2.5 Flash, verify_jwt = false) returns strengths/fixes/qaQuestions/modelUpgrade/summary; local heuristic report is always shown first as fallback.
+- Teleprompter is a full-width row above the 3-column grid: 300-340px tall, S/M/L/XL font buttons, fullscreen Focus mode with mirrored camera PiP (timer, WPM, eye contact).
+- 27 scenarios in `PRESENTATION_SCENARIOS`, browsable through `SCENARIO_GROUPS` (Academic / Business & Tech / Exam & Interview / Social & Inspiration) in a grouped Select.
+- Telemetry column adds: Body language card (reuses `scoreBodyLanguage` in `src/lib/speakingBodyLanguage.ts` - confidence, naturalness, framing, movement, expression + bilingual tips, all local), Structure checklist (`evaluateStructure` / `STRUCTURE_STEPS`) with target-duration progress, and Session history (last 10 in localStorage `presentation-session-history`, CSV export).
+- `analyze-presentation` payload now also carries `bodyLanguage`, `structureDone`, `structureMissing`.
