@@ -124,6 +124,17 @@ const PresentationStudio = () => {
     [customActive, customScript, customAudience, scenarioId],
   );
 
+  // Estimated spoken length of the current script, so the target duration and
+  // the teleprompter never disagree with the scenario brief.
+  const scriptSeconds = useMemo(() => estimateScriptSeconds(scenario.script), [scenario]);
+
+  // Keep the target duration aligned with the selected script (learner can still override).
+  useEffect(() => {
+    setTargetMinutes(suggestedTargetMinutes(scenario.script));
+  }, [scenario.id, scenario.script]);
+
+
+
   // ---- live session state ------------------------------------------------
   const [camOn, setCamOn] = useState(false);
   const [recording, setRecording] = useState(false);
