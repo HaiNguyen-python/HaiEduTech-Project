@@ -32,6 +32,7 @@ import PresentationProgressChart from "@/components/presentation/PresentationPro
 import {
   PRESENTATION_SCENARIOS, SCENARIO_GROUPS, analyzeSession, countFillers, countWords, findSignposts,
   isStressWord, paceLabel, tokenizeTranscript, buildCustomScenario, evaluateStructure,
+  estimateScriptSeconds, suggestedTargetMinutes,
   type StudioMode, type StudioReport,
 } from "@/lib/presentationStudio";
 import { scoreBodyLanguage, scoreLabel, type BodyLanguageScores } from "@/lib/speakingBodyLanguage";
