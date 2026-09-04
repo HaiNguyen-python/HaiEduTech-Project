@@ -226,6 +226,7 @@ const SpeakingPractice = () => {
   // Reset when part or topic changes
   useEffect(() => {
     setSelectedQuestionIdx(0);
+    langAudio.stop();
     resetRecording();
     setShowModelAnswer(false);
     setGrammarCheckResult(null);
@@ -411,6 +412,7 @@ ${suggestionsHtml}
 
   // Recording functions
   const startRecording = async () => {
+    langAudio.stop();
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
