@@ -349,7 +349,63 @@ const StructureVocabPractice = () => {
         </CardContent>
       </Card>
 
+      {phase === "study" ? (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base md:text-lg flex items-center gap-2">
+              <GraduationCap className="w-5 h-5 text-primary" />
+              {track === "vocab"
+                ? t("Học từ vựng trước", "Study the vocabulary first")
+                : t("Học cấu trúc trước", "Study the structures first")}
+              <Badge variant="secondary" className="ml-1">{total}</Badge>
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              {t(
+                "Đọc và nghe kỹ danh sách dưới đây, sau đó bấm Bắt đầu quiz để kiểm tra.",
+                "Read and listen to the list below, then start the quiz to check yourself.",
+              )}
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button size="lg" onClick={() => { stopEnglishTts(); restart(false); setPhase("quiz"); }} className="w-full sm:w-auto">
+              <PlayCircle className="w-4 h-4 mr-2" /> {t("Bắt đầu quiz", "Start the quiz")}
+            </Button>
+            <div className="grid gap-2 md:grid-cols-2">
+              {(track === "vocab" ? vocabItems : structures).map((entry, i) => {
+                const text = typeof entry === "string" ? entry : entry.phrase;
+                const fn = typeof entry === "string" ? classifyStructure(entry) : null;
+                return (
+                  <div key={`${text}-${i}`} className="rounded-xl border bg-card/70 p-3 flex items-start gap-2">
+                    <span className="text-xs font-semibold text-muted-foreground mt-1 w-6 shrink-0">{i + 1}.</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-base font-medium leading-relaxed">{text}</p>
+                      {typeof entry !== "string" && (
+                        <p className="text-sm text-muted-foreground">{entry.vietnamese}</p>
+                      )}
+                      {fn && (
+                        <Badge variant="outline" className="mt-1 text-xs">
+                          {t(STRUCTURE_FN_LABEL[fn].vi, STRUCTURE_FN_LABEL[fn].en)}
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex gap-0.5 shrink-0">
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => speak(text)} aria-label={t("Nghe", "Listen")}>
+                        <Volume2 className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => speak(text, true)} aria-label={t("Nghe chậm", "Listen slowly")}>
+                        <Turtle className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+      <>
       {/* Sticky control bar so learners never scroll up and down */}
+
       <div className="sticky top-16 z-20 rounded-xl border bg-background/95 backdrop-blur px-3 py-2 flex items-center gap-3">
         <span className="text-sm font-semibold whitespace-nowrap">
           {Math.min(idx + 1, items.length)}/{items.length}
