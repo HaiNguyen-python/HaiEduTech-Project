@@ -28,10 +28,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { PRESENTATION_PHRASES } from "@/data/presentationPhrases";
 import PresentationPhraseBank from "@/components/presentation/PresentationPhraseBank";
 import PresentationProgressChart from "@/components/presentation/PresentationProgressChart";
 import {
-  PRESENTATION_SCENARIOS, SCENARIO_GROUPS, analyzeSession, countFillers, countWords, findSignposts,
+  PRESENTATION_SCENARIOS, SCENARIO_GROUPS, analyzeSession, countFillers, countWords, findSignposts, findUsedPhrases,
   isStressWord, paceLabel, tokenizeTranscript, buildCustomScenario, evaluateStructure,
   estimateScriptSeconds, suggestedTargetMinutes,
   type StudioMode, type StudioReport,
@@ -222,6 +223,7 @@ const PresentationStudio = () => {
   const liveWpm = elapsed > 2 ? Math.round(liveWords / (elapsed / 60)) : 0;
   const fillers = useMemo(() => countFillers(`${transcript} ${interim}`), [transcript, interim]);
   const liveSignposts = useMemo(() => findSignposts(transcript), [transcript]);
+  const usedPhraseIds = useMemo(() => findUsedPhrases(transcript, PRESENTATION_PHRASES), [transcript]);
   const structure = useMemo(() => evaluateStructure(`${transcript} ${interim}`), [transcript, interim]);
   const targetSec = targetMinutes * 60;
   const timeRatio = Math.min(1.35, elapsed / Math.max(30, targetSec));
