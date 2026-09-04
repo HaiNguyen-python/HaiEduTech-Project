@@ -10,7 +10,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Volume2, Turtle, Check, X, ArrowRight, RotateCcw, Mic, Square,
-  BookOpen, LayoutTemplate, Trophy, Flame, Sparkles, Eye,
+  BookOpen, LayoutTemplate, Trophy, Flame, Sparkles, Eye, GraduationCap, PlayCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,10 +26,12 @@ import { compareSentence, micErrorMessage } from "@/lib/speakingModeShared";
 import { getTopicsByPart, getQuestionsByPartAndTopic } from "@/data/speakingPracticeData";
 import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures } from "@/data/speakingStructuresIdeas";
+import { getSupplementVocabulary, getSupplementStructures } from "@/data/speakingDrillsSupplement";
 import {
   buildSentenceCorpus, buildStructureRound, buildVocabRound, usedStructure,
-  STRUCTURE_FN_LABEL, type StructureDrill, type StructureFn, type VocabDrill,
+  STRUCTURE_FN_LABEL, classifyStructure, type StructureDrill, type StructureFn, type VocabDrill,
 } from "@/lib/speaking/structureVocabDrills";
+
 
 const STORAGE_KEY = "ielts-speaking-drills:progress";
 const ROUND_SIZE = 10;
@@ -67,6 +69,9 @@ const StructureVocabPractice = () => {
   const [retryQueue, setRetryQueue] = useState<string[]>([]);
   const [progress, setProgress] = useState<ProgressStore>(loadProgress);
   const [finished, setFinished] = useState(false);
+  /** Learners study the words / structures first, then take the quiz. */
+  const [phase, setPhase] = useState<"study" | "quiz">("study");
+
   const topRef = useRef<HTMLDivElement>(null);
 
   const topics = useMemo(() => getTopicsByPart(part), [part]);
@@ -89,6 +94,10 @@ const StructureVocabPractice = () => {
         if (!seen.has(key) && v.vietnamese) { seen.add(key); out.push(v); }
       }
     }
+    for (const v of getSupplementVocabulary(part)) {
+      const key = v.phrase.toLowerCase();
+      if (!seen.has(key)) { seen.add(key); out.push(v); }
+    }
     return out;
   }, [questions, part]);
 
@@ -101,8 +110,13 @@ const StructureVocabPractice = () => {
         if (!seen.has(key)) { seen.add(key); out.push(s); }
       }
     }
+    for (const s of getSupplementStructures(part)) {
+      const key = s.toLowerCase();
+      if (!seen.has(key)) { seen.add(key); out.push(s); }
+    }
     return out;
   }, [questions, part]);
+
 
   const corpus = useMemo(
     () => buildSentenceCorpus(questions.map((q) => q.model_answer)),
@@ -203,8 +217,10 @@ const StructureVocabPractice = () => {
 
   useEffect(() => {
     restart(false);
+    setPhase("study");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [part, track, activeTopic]);
+
 
   const next = () => {
     if (idx + 1 >= items.length) {
@@ -333,13 +349,73 @@ const StructureVocabPractice = () => {
         </CardContent>
       </Card>
 
+      {phase === "study" ? (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base md:text-lg flex items-center gap-2">
+              <GraduationCap className="w-5 h-5 text-primary" />
+              {track === "vocab"
+                ? t("Học từ vựng trước", "Study the vocabulary first")
+                : t("Học cấu trúc trước", "Study the structures first")}
+              <Badge variant="secondary" className="ml-1">{total}</Badge>
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              {t(
+                "Đọc và nghe kỹ danh sách dưới đây, sau đó bấm Bắt đầu quiz để kiểm tra.",
+                "Read and listen to the list below, then start the quiz to check yourself.",
+              )}
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button size="lg" onClick={() => { stopEnglishTts(); restart(false); setPhase("quiz"); }} className="w-full sm:w-auto">
+              <PlayCircle className="w-4 h-4 mr-2" /> {t("Bắt đầu quiz", "Start the quiz")}
+            </Button>
+            <div className="grid gap-2 md:grid-cols-2">
+              {(track === "vocab" ? vocabItems : structures).map((entry, i) => {
+                const text = typeof entry === "string" ? entry : entry.phrase;
+                const fn = typeof entry === "string" ? classifyStructure(entry) : null;
+                return (
+                  <div key={`${text}-${i}`} className="rounded-xl border bg-card/70 p-3 flex items-start gap-2">
+                    <span className="text-xs font-semibold text-muted-foreground mt-1 w-6 shrink-0">{i + 1}.</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-base font-medium leading-relaxed">{text}</p>
+                      {typeof entry !== "string" && (
+                        <p className="text-sm text-muted-foreground">{entry.vietnamese}</p>
+                      )}
+                      {fn && (
+                        <Badge variant="outline" className="mt-1 text-xs">
+                          {t(STRUCTURE_FN_LABEL[fn].vi, STRUCTURE_FN_LABEL[fn].en)}
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex gap-0.5 shrink-0">
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => speak(text)} aria-label={t("Nghe", "Listen")}>
+                        <Volume2 className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => speak(text, true)} aria-label={t("Nghe chậm", "Listen slowly")}>
+                        <Turtle className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+      <>
       {/* Sticky control bar so learners never scroll up and down */}
+
       <div className="sticky top-16 z-20 rounded-xl border bg-background/95 backdrop-blur px-3 py-2 flex items-center gap-3">
         <span className="text-sm font-semibold whitespace-nowrap">
           {Math.min(idx + 1, items.length)}/{items.length}
         </span>
         <Progress value={items.length ? ((idx + (revealed ? 1 : 0)) / items.length) * 100 : 0} className="h-2 flex-1" />
         <span className="text-sm text-muted-foreground whitespace-nowrap">{correctCount} ✓</span>
+        <Button size="sm" variant="ghost" className="hidden sm:inline-flex" onClick={() => { stopEnglishTts(); setPhase("study"); }}>
+          <GraduationCap className="w-4 h-4 mr-1" /> {t("Xem lại bài", "Study list")}
+        </Button>
+
         <Button size="sm" onClick={next} disabled={!revealed && !finished}>
           {idx + 1 >= items.length ? t("Kết thúc", "Finish") : t("Tiếp", "Next")}
           <ArrowRight className="w-4 h-4 ml-1" />
@@ -427,7 +503,7 @@ const StructureVocabPractice = () => {
               {/* Options */}
               {current.options && (
                 <div className="grid gap-2.5">
-                  {current.options.map((option) => {
+                  {current.options.map((option, oi) => {
                     const isAnswer = normalise(option) === normalise(current.answer);
                     const picked = selected === option;
                     const state = !revealed
@@ -444,13 +520,21 @@ const StructureVocabPractice = () => {
                         className={`text-left rounded-xl border-2 px-4 py-3 transition-all text-base ${state}`}
                       >
                         <span className="flex items-start gap-2">
-                          {revealed && isAnswer && <Check className="w-4 h-4 text-emerald-500 mt-1 shrink-0" />}
-                          {revealed && picked && !isAnswer && <X className="w-4 h-4 text-destructive mt-1 shrink-0" />}
-                          <span>{optionText(current, option)}</span>
+                          <span className={`shrink-0 font-bold w-7 h-7 rounded-lg border-2 flex items-center justify-center text-sm ${
+                            revealed && isAnswer
+                              ? "border-emerald-500 text-emerald-600"
+                              : revealed && picked ? "border-destructive text-destructive" : "border-primary/40 text-primary"
+                          }`}>
+                            {String.fromCharCode(65 + oi)}
+                          </span>
+                          <span className="flex-1">{optionText(current, option)}</span>
+                          {revealed && isAnswer && <Check className="w-4 h-4 text-emerald-500 mt-1.5 shrink-0" />}
+                          {revealed && picked && !isAnswer && <X className="w-4 h-4 text-destructive mt-1.5 shrink-0" />}
                         </span>
                       </button>
                     );
                   })}
+
                 </div>
               )}
 
@@ -528,7 +612,17 @@ const StructureVocabPractice = () => {
               {revealed && (
                 <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-2">
                   <p className="text-sm font-semibold text-primary">{t("Giải thích", "Explanation")}</p>
+                  {current.options && (
+                    <p className="text-sm font-semibold">
+                      {t("Đáp án đúng", "Correct answer")}:{" "}
+                      <span className="text-emerald-600">
+                        {String.fromCharCode(65 + current.options.findIndex((o) => normalise(o) === normalise(current.answer)))}
+                        . {optionText(current, current.options.find((o) => normalise(o) === normalise(current.answer)) || current.answer)}
+                      </span>
+                    </p>
+                  )}
                   <p className="text-base leading-relaxed whitespace-pre-wrap">{current.explanation}</p>
+
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => speak(current.audioText)}>
                       <Volume2 className="w-3.5 h-3.5 mr-1" /> {t("Nghe", "Listen")}
@@ -543,7 +637,10 @@ const StructureVocabPractice = () => {
           </Card>
         </motion.div>
       )}
+      </>
+      )}
     </div>
+
   );
 };
 
