@@ -21,7 +21,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useLearningPath } from "@/hooks/useLearningPath";
 import { SKILL_LABEL, SUBJECTS, type SubjectId } from "@/lib/personalization/subjectRegistry";
 import { nextStep, weeklyLoadSummary } from "@/lib/personalization/pathModel";
-import { subjectsForBank, weaknessLinks } from "@/lib/personalization/placementBridge";
+import { fourWeekOutline, subjectsForBank, weaknessLinks } from "@/lib/personalization/placementBridge";
+import { supabase } from "@/integrations/supabase/client";
+import { Input } from "@/components/ui/input";
+import { CalendarClock, History } from "lucide-react";
 import type { Cefr } from "@/data/placementTest";
 
 export interface PlacementResultSummary {
@@ -87,6 +90,43 @@ const PlacementPathResult = ({ bank, result }: Props) => {
     [primary, result.skills, def],
   );
 
+  // Previous run of the same bank, so the student sees progress over time.
+  const [previous, setPrevious] = useState<{ total: number; cefr: string; at: string } | null>(null);
+  useEffect(() => {
+    void (async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      if (!auth.user) return;
+      const { data } = await supabase
+        .from("placement_test_results")
+        .select("total_score, cefr_band, created_at, answers")
+        .eq("user_id", auth.user.id)
+        .order("created_at", { ascending: false })
+        .limit(12);
+      const runs = (data ?? []).filter((r) => {
+        const a = r.answers as { __subject?: string } | null;
+        return (a?.__subject ?? "english") === bank;
+      });
+      const prior = runs[1];
+      if (prior) {
+        setPrevious({
+          total: prior.total_score ?? 0,
+          cefr: String(prior.cefr_band ?? ""),
+          at: String(prior.created_at ?? "").slice(0, 10),
+        });
+      }
+    })();
+  }, [bank]);
+
+  const outline = useMemo(
+    () => fourWeekOutline(primary, result.skills ?? {}, hours, def),
+    [primary, result.skills, hours, def],
+  );
+
+  const applyTargetDate = async (next: string) => {
+    if (!view || !next) return;
+    await savePath({ ...view.path, target_date: next });
+  };
+
   const plan = view?.plan ?? [];
   const load = view ? weeklyLoadSummary(plan, isStepDone, view.path.hours_per_week) : null;
   const first = nextStep(plan);
@@ -132,6 +172,28 @@ const PlacementPathResult = ({ bank, result }: Props) => {
           </p>
         )}
       </div>
+
+      {/* Progress against the previous attempt */}
+      {previous && (
+        <div className="rounded-2xl border bg-card p-5">
+          <h2 className="font-bold mb-2 flex items-center gap-2">
+            <History className="w-4 h-4 text-primary" />
+            {t("So với lần kiểm tra trước", "Compared with your last attempt")}
+          </h2>
+          <p className="text-sm">
+            {previous.at}: <b>{previous.cefr}</b> · {previous.total}/100 {"->"}{" "}
+            {t("hôm nay", "today")}: <b>{result.cefr}</b> · {result.total}/100{" "}
+            <span className={result.total >= previous.total ? "text-emerald-600 font-semibold" : "text-amber-600 font-semibold"}>
+              ({result.total >= previous.total ? "+" : ""}{result.total - previous.total})
+            </span>
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {result.total >= previous.total
+              ? t("Bạn đang tiến bộ, hãy giữ nhịp học mỗi tuần.", "You are improving, keep the weekly rhythm.")
+              : t("Điểm thấp hơn lần trước, hãy tập trung vào kỹ năng yếu bên dưới.", "Lower than last time, focus on the weak skills below.")}
+          </p>
+        </div>
+      )}
 
       {/* Skills */}
       {result.skills && Object.keys(result.skills).length > 0 && (
@@ -268,6 +330,50 @@ const PlacementPathResult = ({ bank, result }: Props) => {
           </>
         )}
       </div>
+
+      {/* Target date + four-week outline */}
+      {view && !seeding && (
+        <div className="rounded-2xl border bg-card p-5">
+          <h2 className="font-bold mb-3 flex items-center gap-2">
+            <CalendarClock className="w-4 h-4 text-primary" />
+            {t("Kế hoạch 4 tuần đầu", "Your first four weeks")}
+          </h2>
+          <div className="flex flex-wrap items-center gap-2 mb-4 text-sm">
+            <span className="text-muted-foreground">{t("Ngày mục tiêu", "Target date")}</span>
+            <Input
+              type="date"
+              className="w-auto"
+              defaultValue={view.path.target_date ?? ""}
+              onChange={(e) => void applyTargetDate(e.target.value)}
+            />
+          </div>
+          <div className="space-y-3">
+            {outline.map((w) => (
+              <div key={w.week} className="rounded-xl border bg-muted/30 p-3">
+                <div className="text-sm font-semibold mb-1">
+                  {t(`Tuần ${w.week}`, `Week ${w.week}`)}: {t(w.focusVi, w.focusEn)}
+                </div>
+                <ul className="space-y-1">
+                  {w.items.map((it, i) => (
+                    <li key={`${w.week}-${it.route}-${i}`} className="text-sm">
+                      <Link to={it.route} className="hover:text-primary transition-colors">
+                        {t(it.titleVi, it.titleEn)}{" "}
+                        <span className="text-muted-foreground">({it.minutes}{t(" phút", " min")})</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground mt-3">
+            {t(
+              "Hãy làm lại bài kiểm tra trình độ sau khoảng 8 tuần để cập nhật lộ trình.",
+              "Retake the placement test after about 8 weeks to refresh your path.",
+            )}
+          </p>
+        </div>
+      )}
 
       <div className="flex flex-wrap justify-center gap-3">
         {first && (
