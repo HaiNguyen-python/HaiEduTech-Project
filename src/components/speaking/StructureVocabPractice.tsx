@@ -217,8 +217,10 @@ const StructureVocabPractice = () => {
 
   useEffect(() => {
     restart(false);
+    setPhase("study");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [part, track, activeTopic]);
+
 
   const next = () => {
     if (idx + 1 >= items.length) {
