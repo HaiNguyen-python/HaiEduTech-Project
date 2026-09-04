@@ -40,6 +40,7 @@ import ShadowingPractice from "@/components/ShadowingPractice";
 import SpeakingSrsPanel from "@/components/ielts/SpeakingSrsPanel";
 import SpeakingCameraPanel from "@/components/speaking/SpeakingCameraPanel";
 import SpeakingTemplateLab from "@/components/ielts/SpeakingTemplateLab";
+import { useUsefulLanguageAudio, PhraseAudio, PlayAllBar } from "@/components/speaking/UsefulLanguageAudio";
 
 import { useSpeakingSrs } from "@/hooks/useSpeakingSrs";
 
@@ -113,6 +114,7 @@ const PART2_CATEGORIES: Record<string, { label: string; icon: React.ReactNode; t
 const SpeakingPractice = () => {
   const { t } = useLanguage();
   const [selectedPart, setSelectedPart] = useState<1 | 2 | 3>(1);
+  const langAudio = useUsefulLanguageAudio();
   const [mode, setMode] = useState<"part" | "shadow" | "template" | "srs">("part");
   const { due: srsDue, addFromResult: addSrsFromResult } = useSpeakingSrs();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
