@@ -34,6 +34,9 @@ import {
   playPlacementTts, stopPlacementTts,
   type PlacementTtsSource,
 } from "@/lib/placementTts";
+import PlacementPathResult, {
+  type PlacementResultSummary,
+} from "@/components/personalization/PlacementPathResult";
 import {
   getPlacementBank, parseSubject, SUBJECT_META,
 } from "@/data/placementBanks";
@@ -266,10 +269,7 @@ const PlacementTest = () => {
   const [answers, setAnswers] = useState<Record<number, unknown>>({});
   const [audioBlobs, setAudioBlobs] = useState<Record<number, Blob>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState<null | {
-    total: number; cefr: string; recommendedClass?: string;
-    weakestAreas?: string[]; notes?: string[];
-  }>(null);
+  const [done, setDone] = useState<null | PlacementResultSummary>(null);
   /** Index of the highest unlocked level block; grows only when a block passes. */
   const [unlocked, setUnlocked] = useState(0);
   const [earlyExit, setEarlyExit] = useState<Cefr | null>(null);
@@ -473,6 +473,8 @@ const PlacementTest = () => {
 
       setDone({
         total, cefr,
+        skills: subject === "programming" ? undefined : outcome.skills,
+        confidence: subject === "programming" ? undefined : outcome.confidence,
         recommendedClass: subject === "programming" ? undefined : outcome.recommendedClass,
         weakestAreas: subject === "programming" ? undefined : outcome.weakestAreas,
         notes: subject === "programming" ? undefined : outcome.notes,
@@ -491,34 +493,8 @@ const PlacementTest = () => {
     return (
       <div className="min-h-screen bg-slate-50">
         <Navbar />
-        <main className="max-w-2xl mx-auto px-4 py-16">
-          <div className={`${FRAME} p-10 text-center`}>
-            <CheckCircle2 className="w-14 h-14 text-emerald-500 mx-auto mb-4" />
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Test completed</h1>
-            <p className="text-slate-600 mb-4">
-              Your overall score is <b>{done.total}/100</b> — estimated level <b>{done.cefr}</b>.
-              Teacher Hai will review your speaking and writing answers and confirm your class placement shortly.
-            </p>
-            {done.recommendedClass && (
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left mb-6">
-                <p className="text-sm text-slate-800">
-                  <b>Suggested class:</b> {done.recommendedClass}
-                </p>
-                {done.weakestAreas && done.weakestAreas.length > 0 && (
-                  <p className="text-sm text-slate-600 mt-1">
-                    <b>Focus first on:</b> {done.weakestAreas.join(", ")}
-                  </p>
-                )}
-                {done.notes?.map((note) => (
-                  <p key={note} className="text-xs text-slate-500 mt-1">{note}</p>
-                ))}
-              </div>
-            )}
-            <div className="flex justify-center gap-3">
-              <Button onClick={() => navigate("/dashboard")}>Go to dashboard</Button>
-              <Button variant="outline" onClick={() => navigate("/")}>Home</Button>
-            </div>
-          </div>
+        <main className="max-w-3xl mx-auto px-4 py-10">
+          <PlacementPathResult bank={subject} result={done} />
         </main>
       </div>
     );
