@@ -99,7 +99,7 @@ export const hashSeed = (s: string): number => {
 
 const shuffle = <T,>(arr: T[], rnd: () => number): T[] => {
   const out = [...arr];
-  for (let i = out.length - 1> 0 ? out.length - 1 : 0; i > 0; i--) {
+  for (let i = out.length - 1; i > 0; i--) {
     const j = Math.floor(rnd() * (i + 1));
     [out[i], out[j]] = [out[j], out[i]];
   }
