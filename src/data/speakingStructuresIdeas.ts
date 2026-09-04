@@ -462,6 +462,36 @@ export const part1StructuresIdeas: TopicStructuresIdeas = {
       "Mention how you handle disagreements with friends."
     ]
   },
+  "Sports & Exercise": {
+    structures: [
+      "I'd say I'm fairly active, since I try to work out at least... times a week.",
+      "The sport I'm most into at the moment is..., mainly because...",
+      "What I like about... is that it keeps me fit without feeling like a chore.",
+      "To be honest, I'm more of a spectator than a player when it comes to...",
+      "Whenever I have a free evening, I usually head to... for a quick session.",
+      "I find that exercising early in the morning really sets me up for the day.",
+      "Compared to team sports, individual sports suit me better because...",
+      "One thing that keeps me motivated is tracking my progress on an app.",
+      "I must admit that I sometimes skip training when I'm snowed under with work.",
+      "In the long run, I'd love to take up... and maybe join a local club.",
+      "Watching a live match is far more exciting than following it on TV.",
+      "All in all, staying active is as much about mental health as physical fitness."
+    ],
+    ideas: [
+      "Say which sport you play or watch and how often.",
+      "Explain the health benefits you notice from exercising.",
+      "Mention where you train: a gym, a park or at home.",
+      "Talk about a sport you would like to try in the future.",
+      "Compare team sports with individual sports.",
+      "Describe how sport helps you relieve stress after studying.",
+      "Mention a famous athlete you admire and why.",
+      "Talk about sport at school and whether there was enough of it.",
+      "Explain how technology such as fitness apps changed your habits.",
+      "Discuss whether watching sport is as enjoyable as playing it.",
+      "Mention an injury or setback and how you dealt with it.",
+      "Talk about a sports event in your country that people love."
+    ]
+  },
 };
 
 // ===================== PART 2 STRUCTURES & IDEAS =====================
