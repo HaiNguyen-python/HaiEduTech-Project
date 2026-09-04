@@ -499,7 +499,7 @@ const StructureVocabPractice = () => {
               {/* Options */}
               {current.options && (
                 <div className="grid gap-2.5">
-                  {current.options.map((option) => {
+                  {current.options.map((option, oi) => {
                     const isAnswer = normalise(option) === normalise(current.answer);
                     const picked = selected === option;
                     const state = !revealed
@@ -516,13 +516,21 @@ const StructureVocabPractice = () => {
                         className={`text-left rounded-xl border-2 px-4 py-3 transition-all text-base ${state}`}
                       >
                         <span className="flex items-start gap-2">
-                          {revealed && isAnswer && <Check className="w-4 h-4 text-emerald-500 mt-1 shrink-0" />}
-                          {revealed && picked && !isAnswer && <X className="w-4 h-4 text-destructive mt-1 shrink-0" />}
-                          <span>{optionText(current, option)}</span>
+                          <span className={`shrink-0 font-bold w-7 h-7 rounded-lg border-2 flex items-center justify-center text-sm ${
+                            revealed && isAnswer
+                              ? "border-emerald-500 text-emerald-600"
+                              : revealed && picked ? "border-destructive text-destructive" : "border-primary/40 text-primary"
+                          }`}>
+                            {String.fromCharCode(65 + oi)}
+                          </span>
+                          <span className="flex-1">{optionText(current, option)}</span>
+                          {revealed && isAnswer && <Check className="w-4 h-4 text-emerald-500 mt-1.5 shrink-0" />}
+                          {revealed && picked && !isAnswer && <X className="w-4 h-4 text-destructive mt-1.5 shrink-0" />}
                         </span>
                       </button>
                     );
                   })}
+
                 </div>
               )}
 
