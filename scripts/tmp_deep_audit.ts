@@ -25,7 +25,12 @@ for (const part of [1,2,3] as const) {
     const stars = (q.model_answer.match(/\*\*/g)||[]).length;
     if (stars % 2 !== 0) add(`${q.id}: unbalanced ** in model answer`);
     // model answer should use at least one target phrase
-    const used = vb.some(v => q.model_answer.toLowerCase().includes(v.phrase.toLowerCase().split(" ")[0]));
+    const ans = q.model_answer.toLowerCase();
+    const stem = (w: string) => w.replace(/(ing|ies|ed|es|s)$/, "");
+    const used = vb.some(v => {
+      const words = v.phrase.toLowerCase().replace(/^(to|a|an|the)\s+/, "").split(/[^a-z']+/).filter(w => w.length > 3 && !["your","something","someone"].includes(w));
+      return words.length > 0 && words.some(w => ans.includes(stem(w)));
+    });
     if (!used) add(`${q.id}: model answer uses none of the vocab`);
     if (part === 2) {
       if (!q.prompts || q.prompts.length < 3) add(`${q.id}: part2 prompts < 3`);
