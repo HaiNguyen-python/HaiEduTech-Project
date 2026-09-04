@@ -15,6 +15,11 @@ import {
   buildWeeklyPlan, currentWeekStart, estimateReadiness, explainReadiness, hasEnoughData,
   inferLevel, masteryPct, progressPerWeek, rankWeaknesses, stepKey, type PlanStep,
 } from "@/lib/personalization/pathModel";
+import {
+  DEFAULT_DAYS, DEFAULT_HOURS_PER_WEEK, defaultTargetDate, ladderLevelFrom, nextTarget,
+  subjectsForBank,
+} from "@/lib/personalization/placementBridge";
+import type { Cefr } from "@/data/placementTest";
 import { useLearningSignals } from "./useLearningSignals";
 
 const GUEST_KEY = "haiedu-learning-paths-v1";
@@ -428,6 +433,7 @@ export function useLearningPath() {
     week,
     loading: loading || signalsLoading,
     savePath,
+    seedFromPlacement,
     removePath,
     toggleStepDone,
     isStepDone,
