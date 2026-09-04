@@ -612,7 +612,17 @@ const StructureVocabPractice = () => {
               {revealed && (
                 <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-2">
                   <p className="text-sm font-semibold text-primary">{t("Giải thích", "Explanation")}</p>
+                  {current.options && (
+                    <p className="text-sm font-semibold">
+                      {t("Đáp án đúng", "Correct answer")}:{" "}
+                      <span className="text-emerald-600">
+                        {String.fromCharCode(65 + current.options.findIndex((o) => normalise(o) === normalise(current.answer)))}
+                        . {optionText(current, current.options.find((o) => normalise(o) === normalise(current.answer)) || current.answer)}
+                      </span>
+                    </p>
+                  )}
                   <p className="text-base leading-relaxed whitespace-pre-wrap">{current.explanation}</p>
+
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => speak(current.audioText)}>
                       <Volume2 className="w-3.5 h-3.5 mr-1" /> {t("Nghe", "Listen")}
