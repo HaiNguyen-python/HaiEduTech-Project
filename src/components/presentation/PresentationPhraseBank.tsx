@@ -38,11 +38,8 @@ interface DrillState {
 }
 
 const loadDrill = (): DrillState => {
-  try {
-    const raw = safeStorage.getItem(DRILL_KEY);
-    if (raw) return { score: 0, attempts: 0, streak: 0, best: 0, ...JSON.parse(raw) };
-  } catch { /* ignore corrupt data */ }
-  return { score: 0, attempts: 0, streak: 0, best: 0 };
+  const saved = safeStorage.get<Partial<DrillState> | null>(DRILL_KEY, null);
+  return { score: 0, attempts: 0, streak: 0, best: 0, ...(saved ?? {}) };
 };
 
 interface Props {
@@ -58,7 +55,7 @@ const PresentationPhraseBank = ({ usedIds = [], onInsert }: Props) => {
 
   const [open, setOpen] = useState(true);
   const [stage, setStage] = useState<PresentationStageId>(
-    () => (safeStorage.getItem(STAGE_KEY) as PresentationStageId | null) ?? "opening",
+    () => safeStorage.get<PresentationStageId>(STAGE_KEY, "opening"),
   );
   const [query, setQuery] = useState("");
 
@@ -71,7 +68,7 @@ const PresentationPhraseBank = ({ usedIds = [], onInsert }: Props) => {
 
   const pickStage = (id: PresentationStageId) => {
     setStage(id);
-    safeStorage.setItem(STAGE_KEY, id);
+    safeStorage.set(STAGE_KEY, id);
     setDrillIndex(0);
     setRevealed(false);
   };
@@ -97,7 +94,7 @@ const PresentationPhraseBank = ({ usedIds = [], onInsert }: Props) => {
 
   const saveDrill = (next: DrillState) => {
     setDrill(next);
-    safeStorage.setItem(DRILL_KEY, JSON.stringify(next));
+    safeStorage.set(DRILL_KEY, next);
   };
 
   const answer = (correct: boolean) => {
