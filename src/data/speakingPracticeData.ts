@@ -4,6 +4,9 @@
 import { SPEAKING_PRACTICE_EXPANSION } from "./speakingPracticeExpansion";
 import { SPEAKING_PRACTICE_EXPANSION_2 } from "./speakingPracticeExpansion2";
 import { SPEAKING_PRACTICE_EXPANSION_3 } from "./speakingPracticeExpansion3";
+import { SPEAKING_PRACTICE_EXPANSION_4 } from "./speakingPracticeExpansion4";
+import { SPEAKING_PRACTICE_EXPANSION_5 } from "./speakingPracticeExpansion5";
+import { SPEAKING_PRACTICE_EXPANSION_6 } from "./speakingPracticeExpansion6";
 import { classifySpeakingBanks } from "./speakingPartClassifier";
 
 
@@ -13812,9 +13815,9 @@ const part3PracticeQuestions: SpeakingPracticeQuestion[] = [
 // re-filed by the classifier so cue cards only ever live in Part 2
 // and duplicate ids/questions are removed.
 export const speakingPracticeData = classifySpeakingBanks({
-  part1: [...part1PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part1, ...SPEAKING_PRACTICE_EXPANSION_2.part1],
-  part2: [...part2PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part2, ...SPEAKING_PRACTICE_EXPANSION_2.part2],
-  part3: [...part3PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part3, ...SPEAKING_PRACTICE_EXPANSION_3.part3],
+  part1: [...part1PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part1, ...SPEAKING_PRACTICE_EXPANSION_2.part1, ...SPEAKING_PRACTICE_EXPANSION_4.part1],
+  part2: [...part2PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part2, ...SPEAKING_PRACTICE_EXPANSION_2.part2, ...SPEAKING_PRACTICE_EXPANSION_6.part2],
+  part3: [...part3PracticeQuestions, ...SPEAKING_PRACTICE_EXPANSION.part3, ...SPEAKING_PRACTICE_EXPANSION_3.part3, ...SPEAKING_PRACTICE_EXPANSION_5.part3],
 });
 
 

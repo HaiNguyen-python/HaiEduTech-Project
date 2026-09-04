@@ -22,6 +22,19 @@ export const isCueCard = (q: SpeakingPracticeQuestion): boolean => {
   return Boolean(q.prompts && q.prompts.length >= 3 && !/\?$/.test(s));
 };
 
+/** Part 3 topic aliases - merges duplicate discussion topics into one filter chip. */
+const TOPIC_ALIASES: Record<string, string> = {
+  "Work & Careers": "Work",
+  "Cities & Housing": "Cities",
+  "Culture & Globalisation": "Culture",
+  "Money & Society": "Money",
+  "Travel & Tourism": "Travel",
+  Tourism: "Travel",
+};
+
+const canonicalTopic = (part: 1 | 2 | 3, topicName: string): string =>
+  part === 3 ? TOPIC_ALIASES[topicName] || topicName : topicName;
+
 const norm = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
 
 interface Banks {
@@ -47,7 +60,7 @@ export const classifySpeakingBanks = (banks: Banks): Banks => {
     while (seenId.has(id)) id = `${id}-b`;
     seenId.add(id);
     seenText.add(text);
-    out[`part${part}`].push({ ...q, id, part });
+    out[`part${part}`].push({ ...q, id, part, topic: canonicalTopic(part, q.topic) });
   };
 
   // Cue cards first so Part 2 keeps its canonical order.
