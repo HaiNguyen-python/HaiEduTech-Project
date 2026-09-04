@@ -106,11 +106,14 @@ const shuffle = <T,>(arr: T[], rnd: () => number): T[] => {
   return out;
 };
 
+/** Loose key so options differing only by punctuation count as duplicates. */
+const optionKey = (s: string) => s.toLowerCase().replace(/[^a-z0-9' ]/g, " ").replace(/\s+/g, " ").trim();
+
 const uniq = (list: string[]): string[] => {
   const seen = new Set<string>();
   const out: string[] = [];
   for (const item of list) {
-    const key = item.toLowerCase().trim();
+    const key = optionKey(item);
     if (!key || seen.has(key)) continue;
     seen.add(key);
     out.push(item);
@@ -359,7 +362,7 @@ export const buildStructureRound = ({
     if (kind === "completeFrame") {
       const others = shuffle(pool.filter((s) => s !== structure), rnd)
         .map((s) => splitFrame(s)?.tail)
-        .filter((tail): tail is string => Boolean(tail) && tail !== frame!.tail)
+        .filter((tail): tail is string => Boolean(tail) && optionKey(tail) !== optionKey(frame!.tail))
         .slice(0, 3);
       return {
         ...base,
