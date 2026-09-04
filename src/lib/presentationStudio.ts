@@ -767,3 +767,32 @@ export const STRUCTURE_STEPS: {
 
 export const evaluateStructure = (transcript: string) =>
   STRUCTURE_STEPS.map((s) => ({ ...s, done: s.test.test(transcript) }));
+
+/* ---------------------------------------------------------------
+ * Phrase bank matching
+ * ------------------------------------------------------------- */
+
+/**
+ * Which presentation-bank phrases actually appeared in a transcript.
+ * The comparison ignores punctuation, case and the blank slots ("..."),
+ * and only requires the leading fixed chunk of the pattern.
+ */
+export const findUsedPhrases = (
+  transcript: string,
+  phrases: Array<{ id: string; en: string }>,
+): string[] => {
+  const hay = ` ${transcript.toLowerCase().replace(/[^a-z0-9'\s]/g, " ").replace(/\s+/g, " ")} `;
+  if (hay.trim().length === 0) return [];
+  const used: string[] = [];
+  for (const p of phrases) {
+    const stem = p.en
+      .split("...")[0]
+      .toLowerCase()
+      .replace(/[^a-z0-9'\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (stem.split(" ").length < 3) continue;
+    if (hay.includes(` ${stem} `) || hay.includes(` ${stem}`)) used.push(p.id);
+  }
+  return used;
+};
