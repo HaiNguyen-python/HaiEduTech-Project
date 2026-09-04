@@ -291,8 +291,8 @@ export const buildVocabRound = ({
 /* ------------------------------------------------------------------ */
 
 const FN_RULES: Array<{ fn: StructureFn; rx: RegExp }> = [
-  { fn: "opinion", rx: /\b(i think|in my (view|opinion)|personally|i('| a)m convinced|i believe|i'd argue|from my perspective|if you ask me)\b/i },
-  { fn: "hedging", rx: /\b(tend to|might|may well|it seems|i suppose|to some extent|arguably|more or less|i must admit|possibly|perhaps|generally speaking)\b/i },
+  { fn: "hedging", rx: /\b(to be (perfectly |quite |totally |completely )?honest|i must admit|i suppose|tend to|may well|it seems|to some extent|arguably|more or less|generally speaking|perhaps|i'd say (?:it|that)? ?probably)\b/i },
+  { fn: "opinion", rx: /\b(i think|in my (view|opinion)|personally|i('| a)m convinced|i believe|i'd argue|i would say|i'd say|from my perspective|if you ask me|what i (enjoy|love|like) most)\b/i },
   { fn: "comparing", rx: /\b(compared (to|with)|whereas|while|unlike|on the other hand|in contrast|the difference|more .* than|less .* than)\b/i },
   { fn: "exemplifying", rx: /\b(for (example|instance)|such as|a good example|to give you an idea|take .* for example|like when)\b/i },
   { fn: "concluding", rx: /\b(all in all|overall|to sum up|in conclusion|at the end of the day|that('| i)s why|ultimately|looking back)\b/i },
