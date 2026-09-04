@@ -69,6 +69,9 @@ const StructureVocabPractice = () => {
   const [retryQueue, setRetryQueue] = useState<string[]>([]);
   const [progress, setProgress] = useState<ProgressStore>(loadProgress);
   const [finished, setFinished] = useState(false);
+  /** Learners study the words / structures first, then take the quiz. */
+  const [phase, setPhase] = useState<"study" | "quiz">("study");
+
   const topRef = useRef<HTMLDivElement>(null);
 
   const topics = useMemo(() => getTopicsByPart(part), [part]);
