@@ -17,7 +17,8 @@
 import { PLACEMENT_TEST, type PlacementQuestion } from "./placementTest";
 
 export type PlacementSubject =
-  | "english" | "chinese" | "vietnamese" | "finnish" | "programming";
+  | "english" | "chinese" | "vietnamese" | "finnish"
+  | "japanese" | "swedish" | "programming";
 
 export interface SubjectMeta {
   title: string;
@@ -45,6 +46,16 @@ export const SUBJECT_META: Record<PlacementSubject, SubjectMeta> = {
     title: "Finnish Placement Test (YKI A1-B2)",
     subtitle: "18 questions · Kuuntelu · Luku · Kirjoitus · Puhuminen",
     speakLang: "fi-FI",
+  },
+  japanese: {
+    title: "Japanese Placement Test (JLPT N5-N3)",
+    subtitle: "18 questions · Kana · Kanji · Listening · Speaking",
+    speakLang: "ja-JP",
+  },
+  swedish: {
+    title: "Swedish Placement Test (A1-B2)",
+    subtitle: "18 questions · Hörförståelse · Läsning · Skrivning · Tal",
+    speakLang: "sv-SE",
   },
   programming: {
     title: "Programming Placement Test",
