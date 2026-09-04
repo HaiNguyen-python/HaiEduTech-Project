@@ -64,12 +64,17 @@ for (const subject of SUBJECTS) {
     }
 
     if (q.type === "write-scramble") {
-      const joined = q.tokens.join("");
-      if (joined.replace(/\s+/g, "") !== q.answer.replace(/\s+/g, "")) {
-        const spaced = q.tokens.join(" ");
-        if (norm(spaced) !== norm(q.answer)) {
-          add(`${subject} q${q.id}: scrambled tokens do not rebuild the answer`);
-        }
+      // Tokens are deliberately shuffled, so compare them as a multiset
+      // against the answer split into words (or characters for CJK).
+      const answerParts = /\s/.test(q.answer.trim())
+        ? q.answer.trim().split(/\s+/)
+        : [...q.answer.replace(/\s+/g, "")];
+      const bag = (xs: string[]) => [...xs].map(norm).sort().join("|");
+      const tokenBag = /\s/.test(q.answer.trim())
+        ? bag(q.tokens)
+        : bag(q.tokens.flatMap((tk) => [...tk.replace(/\s+/g, "")]));
+      if (tokenBag !== bag(answerParts)) {
+        add(`${subject} q${q.id}: scrambled tokens do not rebuild the answer`);
       }
       if (new Set(q.tokens).size !== q.tokens.length) {
         // Repeated tokens are legal, but flag when a token appears three times.
