@@ -10,7 +10,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Volume2, Turtle, Check, X, ArrowRight, RotateCcw, Mic, Square,
-  BookOpen, LayoutTemplate, Trophy, Flame, Sparkles, Eye,
+  BookOpen, LayoutTemplate, Trophy, Flame, Sparkles, Eye, GraduationCap, PlayCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,10 +26,12 @@ import { compareSentence, micErrorMessage } from "@/lib/speakingModeShared";
 import { getTopicsByPart, getQuestionsByPartAndTopic } from "@/data/speakingPracticeData";
 import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures } from "@/data/speakingStructuresIdeas";
+import { getSupplementVocabulary, getSupplementStructures } from "@/data/speakingDrillsSupplement";
 import {
   buildSentenceCorpus, buildStructureRound, buildVocabRound, usedStructure,
-  STRUCTURE_FN_LABEL, type StructureDrill, type StructureFn, type VocabDrill,
+  STRUCTURE_FN_LABEL, classifyStructure, type StructureDrill, type StructureFn, type VocabDrill,
 } from "@/lib/speaking/structureVocabDrills";
+
 
 const STORAGE_KEY = "ielts-speaking-drills:progress";
 const ROUND_SIZE = 10;
