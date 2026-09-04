@@ -171,11 +171,14 @@ export const SUBJECTS: Record<SubjectId, SubjectDef> = {
     id: "japanese", labelVi: "Tiếng Nhật", labelEn: "Japanese", emoji: "🇯🇵",
     hub: "/japanese",
     ladder: ["N5", "N4", "N3", "N2", "N1"],
+    placement: "japanese",
     activityPrefixes: ["japanese", "jlpt", "speaking_coach_japanese"],
     vocabSubjects: ["japanese"],
     tracks: [
       T("ja-lesson", "lesson", "Học 1 bài tiếng Nhật", "Study one Japanese lesson", "/japanese", 25, "grammar"),
       T("ja-speaking", "speaking", "Shadowing tiếng Nhật", "Japanese shadowing", "/speaking-coach/japanese", 20, "speaking"),
+      T("ja-vocab", "vocab", "Học 15 từ tiếng Nhật", "Learn 15 Japanese words", "/japanese", 15, "vocab"),
+      T("ja-listening", "practice", "Luyện nghe tiếng Nhật", "Japanese listening practice", "/japanese", 20, "listening"),
     ],
   },
   vietnamese: {
@@ -210,6 +213,7 @@ export const SUBJECTS: Record<SubjectId, SubjectDef> = {
     id: "swedish", labelVi: "Tiếng Thụy Điển", labelEn: "Swedish", emoji: "🇸🇪",
     hub: "/swedish",
     ladder: ["A1", "A2", "B1", "B2"],
+    placement: "swedish",
     activityPrefixes: ["swedish"],
     vocabSubjects: ["swedish"],
     tracks: [

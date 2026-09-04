@@ -112,6 +112,8 @@ export function useLearningSignals() {
         : bankSubject === "chinese" ? ["chinese"]
         : bankSubject === "vietnamese" ? ["vietnamese"]
         : bankSubject === "finnish" ? ["finnish"]
+        : bankSubject === "japanese" ? ["japanese"]
+        : bankSubject === "swedish" ? ["swedish"]
         : bankSubject === "programming" ? ["programming"]
         : [];
       for (const id of targets) {
