@@ -28,6 +28,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import PresentationPhraseBank from "@/components/presentation/PresentationPhraseBank";
 import PresentationProgressChart from "@/components/presentation/PresentationProgressChart";
 import {
   PRESENTATION_SCENARIOS, SCENARIO_GROUPS, analyzeSession, countFillers, countWords, findSignposts,
@@ -1246,6 +1247,18 @@ const PresentationStudio = () => {
               </div>
             </div>
           </aside>
+        </div>
+
+        <div className="mt-4">
+          <PresentationPhraseBank
+            usedIds={usedPhraseIds}
+            onInsert={(text) => {
+              const next = customDraft.trim().length > 0 ? `${customDraft.trim()} ${text}` : text;
+              setCustomDraft(next);
+              persistCustom(next, customAudience, customActive);
+              toast({ title: t("Đã thêm vào kịch bản của bạn", "Added to your script") });
+            }}
+          />
         </div>
       </main>
 
