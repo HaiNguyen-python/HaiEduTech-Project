@@ -27,7 +27,7 @@ const PlacementCta = ({ subject, className = "" }: Props) => {
       <div className="flex-1 min-w-0">
         <h3 className="font-bold flex items-center gap-2">
           <ClipboardCheck className="w-4 h-4 text-primary" />
-          {t("Kiểm tra trình độ và nhận lộ trình riêng", "Check your level and get your own path")}
+          {t("Placement Test & Personalization", "Placement Test & Personalization")}
         </h3>
         <p className="text-sm text-muted-foreground mt-1">
           {t(
