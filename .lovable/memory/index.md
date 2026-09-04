@@ -2,6 +2,7 @@
 
 ## Memories
 - [My Learning Path](mem://features/personalization/my-learning-path) - /my-path personalization for 13 subjects: wizard, weekly plan, readiness forecast, AI coach
+- [Placement to Path](mem://features/personalization/placement-to-path) - placement test ends with level, skill scores and a seeded My Path plan; Japanese/Swedish banks
 
 - [Songs Library](mem://features/songs-library) - language_songs rules: live+correct YouTube links, no duplicates, blanks must match lyric line, pinyin on ZH lines
 - [Cambridge CEFR Chart](mem://features/cambridge/cefr-progress-chart) - 100 mock papers (20 per level), CEFR scale chart, mastery 70% over 2+ papers
