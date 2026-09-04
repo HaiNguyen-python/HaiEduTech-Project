@@ -923,15 +923,28 @@ ${suggestionsHtml}
                         </TabsList>
 
                         <TabsContent value="vocab" className="mt-4">
+                          <PlayAllBar
+                            api={langAudio}
+                            items={mergedVocabulary.map((v, i) => ({ key: `vocab-${i}`, text: v.phrase }))}
+                            playLabel={t("Nghe tất cả", "Listen to all")}
+                            stopLabel={t("Dừng", "Stop")}
+                          />
                           <ScrollArea className="h-[320px]">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pr-2">
                               {mergedVocabulary.map((v, i) => (
-                                <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+                                <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
                                   <span className="text-sm font-semibold text-primary shrink-0">•</span>
-                                  <div>
+                                  <div className="flex-1 min-w-0">
                                     <p className="text-sm font-semibold text-foreground">{v.phrase}</p>
                                     <p className="text-xs text-muted-foreground italic">{v.vietnamese}</p>
                                   </div>
+                                  <PhraseAudio
+                                    api={langAudio}
+                                    itemKey={`vocab-${i}`}
+                                    text={v.phrase}
+                                    label={t("Nghe cụm từ", "Listen to this phrase")}
+                                    slowLabel={t("Nghe chậm", "Listen slowly")}
+                                  />
                                 </div>
                               ))}
                             </div>
@@ -942,11 +955,24 @@ ${suggestionsHtml}
                         </TabsContent>
 
                         <TabsContent value="structures" className="mt-4">
+                          <PlayAllBar
+                            api={langAudio}
+                            items={mergedStructures.map((s, i) => ({ key: `struct-${i}`, text: s }))}
+                            playLabel={t("Nghe tất cả", "Listen to all")}
+                            stopLabel={t("Dừng", "Stop")}
+                          />
                           <ScrollArea className="h-[320px]">
                             <div className="space-y-2 pr-2">
                               {mergedStructures.map((s, i) => (
-                                <div key={i} className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200/30">
-                                  <p className="text-sm text-foreground italic">"{s}"</p>
+                                <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200/30">
+                                  <p className="text-sm text-foreground italic flex-1 min-w-0">"{s}"</p>
+                                  <PhraseAudio
+                                    api={langAudio}
+                                    itemKey={`struct-${i}`}
+                                    text={s}
+                                    label={t("Nghe câu mẫu", "Listen to this structure")}
+                                    slowLabel={t("Nghe chậm", "Listen slowly")}
+                                  />
                                 </div>
                               ))}
                             </div>
@@ -957,12 +983,25 @@ ${suggestionsHtml}
                         </TabsContent>
 
                         <TabsContent value="ideas" className="mt-4">
+                          <PlayAllBar
+                            api={langAudio}
+                            items={mergedIdeas.map((idea, i) => ({ key: `idea-${i}`, text: idea }))}
+                            playLabel={t("Nghe tất cả", "Listen to all")}
+                            stopLabel={t("Dừng", "Stop")}
+                          />
                           <ScrollArea className="h-[320px]">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pr-2">
                               {mergedIdeas.map((idea, i) => (
                                 <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
                                   <span className="text-primary font-bold text-sm shrink-0">💡</span>
-                                  <p className="text-sm text-foreground">{idea}</p>
+                                  <p className="text-sm text-foreground flex-1 min-w-0">{idea}</p>
+                                  <PhraseAudio
+                                    api={langAudio}
+                                    itemKey={`idea-${i}`}
+                                    text={idea}
+                                    label={t("Nghe ý tưởng", "Listen to this idea")}
+                                    slowLabel={t("Nghe chậm", "Listen slowly")}
+                                  />
                                 </div>
                               ))}
                             </div>
