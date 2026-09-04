@@ -19,7 +19,8 @@ for (const part of [1, 2, 3] as const) {
     const key = q.question.toLowerCase().replace(/\s+/g, " ").trim();
     if (seenQ.has(key)) issues.push(`duplicate question: ${q.question}`);
     seenQ.add(key);
-    if (!q.model_answer || q.model_answer.split(/\s+/).length < 25)
+    const minWords = part === 1 ? 20 : 40;
+    if (!q.model_answer || q.model_answer.split(/\s+/).length < minWords)
       issues.push(`${q.id}: model answer too short`);
     if ((q.useful_language.vocabulary_bank || []).length < 3)
       issues.push(`${q.id}: fewer than 3 vocabulary items`);
