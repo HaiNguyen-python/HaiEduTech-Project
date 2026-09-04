@@ -88,6 +88,58 @@ const SKILL_LABELS: Record<Skill, string> = {
   listening: "Listening", reading: "Reading", writing: "Writing", speaking: "Speaking",
 };
 
+/**
+ * Class name per band and per subject bank. The English list stays the source
+ * of truth for the English/IELTS pathway; every other language uses its own
+ * ladder wording so teachers see a class they actually run.
+ */
+export const CLASS_BY_SUBJECT: Record<string, Record<Cefr, string>> = {
+  chinese: {
+    A1: "Chinese Foundation (HSK 1)",
+    A2: "Chinese Elementary (HSK 2)",
+    B1: "Chinese Intermediate (HSK 3)",
+    B2: "Chinese Upper-Intermediate (HSK 4)",
+    C1: "Chinese Advanced (HSK 5-6)",
+    C2: "Chinese Advanced (HSK 5-6)",
+  },
+  vietnamese: {
+    A1: "Vietnamese for Beginners (A1)",
+    A2: "Vietnamese Elementary (A2)",
+    B1: "Vietnamese Intermediate (B1)",
+    B2: "Vietnamese Upper-Intermediate (B2)",
+    C1: "Vietnamese Advanced (C1)",
+    C2: "Vietnamese Advanced (C1)",
+  },
+  finnish: {
+    A1: "Finnish Starter (A1)",
+    A2: "Finnish YKI A2 Prep",
+    B1: "Finnish YKI B1 Prep",
+    B2: "Finnish YKI B2 Prep",
+    C1: "Finnish Advanced (C1)",
+    C2: "Finnish Advanced (C1)",
+  },
+  japanese: {
+    A1: "Japanese Foundation (JLPT N5)",
+    A2: "Japanese Elementary (JLPT N4)",
+    B1: "Japanese Intermediate (JLPT N3)",
+    B2: "Japanese Upper-Intermediate (JLPT N2)",
+    C1: "Japanese Advanced (JLPT N1)",
+    C2: "Japanese Advanced (JLPT N1)",
+  },
+  swedish: {
+    A1: "Swedish Starter (A1)",
+    A2: "Swedish Elementary (A2)",
+    B1: "Swedish Intermediate (B1)",
+    B2: "Swedish Upper-Intermediate (B2)",
+    C1: "Swedish Advanced (C1)",
+    C2: "Swedish Advanced (C1)",
+  },
+};
+
+/** Resolve the class name for a band inside a given subject bank. */
+export const classForSubject = (subject: string, cefr: Cefr): string =>
+  (CLASS_BY_SUBJECT[subject] ?? CLASS_BY_BAND)[cefr];
+
 const CLASS_BY_BAND: Record<Cefr, string> = {
   A1: "English Foundation (A1)",
   A2: "Pre-Intermediate (A2)",
@@ -111,7 +163,10 @@ export const bandFromWeighted = (total: number, highestSecure: Cefr | null): Cef
 };
 
 /** Compute the full placement outcome from per-item credit. */
-export const buildOutcome = (outcomes: ItemOutcome[]): PlacementOutcome => {
+export const buildOutcome = (
+  outcomes: ItemOutcome[],
+  subject = "english",
+): PlacementOutcome => {
   const reached = outcomes.filter(o => o.reached);
 
   const skills = {} as Record<Skill, number>;
@@ -182,7 +237,7 @@ export const buildOutcome = (outcomes: ItemOutcome[]): PlacementOutcome => {
     skills,
     bands,
     highestSecureBand,
-    recommendedClass: CLASS_BY_BAND[cefr],
+    recommendedClass: classForSubject(subject, cefr),
     confidence,
     weakestAreas,
     notes,
