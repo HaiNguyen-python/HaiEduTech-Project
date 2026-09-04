@@ -22,6 +22,26 @@ for (const part of [1, 2, 3] as const) {
     const minWords = part === 1 ? 18 : part === 2 ? 45 : 30;
     if (!q.model_answer || q.model_answer.split(/\s+/).length < minWords)
       issues.push(`${q.id}: model answer too short`);
+    const vb = q.useful_language.vocabulary_bank || [];
+    // Every question's model answer should demonstrate at least one target phrase.
+    const ansLower = q.model_answer.toLowerCase();
+    const stem = (w: string) => w.replace(/(ing|ies|ed|es|s)$/, "");
+    const usesVocab = vb.some((v) => {
+      const core = v.phrase.toLowerCase().replace(/^(to|a|an|the)\s+/, "");
+      if (ansLower.includes(core.split(/[^a-z']+/).slice(0, 2).join(" "))) return true;
+      const words = core
+        .split(/[^a-z']+/)
+        .filter((w) => w.length > 3 && !["your", "something", "someone"].includes(w));
+      return words.some((w) => ansLower.includes(stem(w)));
+    });
+    if (vb.length && !usesVocab) issues.push(`${q.id}: model answer uses none of the target vocabulary`);
+    if ((q.model_answer.match(/\*\*/g) || []).length % 2 !== 0)
+      issues.push(`${q.id}: unbalanced ** markers in model answer`);
+    for (const v of vb) {
+      if (!v.vietnamese || !v.vietnamese.trim()) issues.push(`${q.id}: vocab "${v.phrase}" missing Vietnamese gloss`);
+    }
+    const phraseKeys = vb.map((v) => v.phrase.toLowerCase().trim());
+    if (new Set(phraseKeys).size !== phraseKeys.length) issues.push(`${q.id}: duplicate vocabulary phrase`);
     if ((q.useful_language.vocabulary_bank || []).length < 3)
       issues.push(`${q.id}: fewer than 3 vocabulary items`);
     if ((q.useful_language.model_structures || []).length < 2)
