@@ -232,6 +232,12 @@ const SpeakingPractice = () => {
     setGrammarCheckResult(null);
   }, [selectedPart, selectedTopic]);
 
+  // Stop any phrase audio when the question changes
+  useEffect(() => {
+    langAudio.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedQuestionIdx]);
+
   // Auto-save notes to localStorage
   useEffect(() => {
     const key = `speaking-notes-${selectedPart}-${currentQ?.id || selectedQuestionIdx}`;

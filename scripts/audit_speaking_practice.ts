@@ -1,0 +1,49 @@
+/**
+ * Audit for the IELTS Speaking Practice question bank.
+ * Checks topic coverage, duplicates and required fields.
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ */
+import { speakingPracticeData } from "../src/data/speakingPracticeData";
+
+const issues: string[] = [];
+const seenIds = new Set<string>();
+const seenQ = new Set<string>();
+
+for (const part of [1, 2, 3] as const) {
+  const qs = speakingPracticeData[`part${part}`];
+  const byTopic: Record<string, number> = {};
+  for (const q of qs) {
+    byTopic[q.topic] = (byTopic[q.topic] || 0) + 1;
+    if (seenIds.has(q.id)) issues.push(`duplicate id: ${q.id}`);
+    seenIds.add(q.id);
+    const key = q.question.toLowerCase().replace(/\s+/g, " ").trim();
+    if (seenQ.has(key)) issues.push(`duplicate question: ${q.question}`);
+    seenQ.add(key);
+    if (!q.model_answer || q.model_answer.split(/\s+/).length < 25)
+      issues.push(`${q.id}: model answer too short`);
+    if ((q.useful_language.vocabulary_bank || []).length < 3)
+      issues.push(`${q.id}: fewer than 3 vocabulary items`);
+    if ((q.useful_language.model_structures || []).length < 2)
+      issues.push(`${q.id}: fewer than 2 structures`);
+    if ((q.useful_language.brainstorming_ideas || []).length < 2)
+      issues.push(`${q.id}: fewer than 2 ideas`);
+    if (/—/.test(q.model_answer) || /—/.test(q.question))
+      issues.push(`${q.id}: em dash found`);
+    if (part !== 2 && !/\?$/.test(q.question.trim()))
+      issues.push(`${q.id}: Part ${part} question must end with "?"`);
+    if (part === 2 && (q.prompts || []).length && (q.prompts || []).length < 3)
+      issues.push(`${q.id}: cue card needs at least 3 prompts`);
+  }
+  const min = part === 2 ? 1 : 5;
+  for (const [topicName, count] of Object.entries(byTopic)) {
+    if (count < min) issues.push(`Part ${part} topic "${topicName}" has only ${count} question(s)`);
+  }
+  console.log(`Part ${part}: ${qs.length} questions across ${Object.keys(byTopic).length} topics`);
+}
+
+if (issues.length) {
+  console.log(`\n${issues.length} issues:`);
+  issues.slice(0, 60).forEach((i) => console.log(" -", i));
+  process.exit(1);
+}
+console.log("\n0 issues");
