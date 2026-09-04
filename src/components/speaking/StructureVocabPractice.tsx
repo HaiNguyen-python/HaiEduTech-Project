@@ -91,6 +91,10 @@ const StructureVocabPractice = () => {
         if (!seen.has(key) && v.vietnamese) { seen.add(key); out.push(v); }
       }
     }
+    for (const v of getSupplementVocabulary(part)) {
+      const key = v.phrase.toLowerCase();
+      if (!seen.has(key)) { seen.add(key); out.push(v); }
+    }
     return out;
   }, [questions, part]);
 
@@ -103,8 +107,13 @@ const StructureVocabPractice = () => {
         if (!seen.has(key)) { seen.add(key); out.push(s); }
       }
     }
+    for (const s of getSupplementStructures(part)) {
+      const key = s.toLowerCase();
+      if (!seen.has(key)) { seen.add(key); out.push(s); }
+    }
     return out;
   }, [questions, part]);
+
 
   const corpus = useMemo(
     () => buildSentenceCorpus(questions.map((q) => q.model_answer)),
