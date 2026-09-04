@@ -25,11 +25,22 @@ export const isCueCard = (q: SpeakingPracticeQuestion): boolean => {
 /** Part 3 topic aliases - merges duplicate discussion topics into one filter chip. */
 const TOPIC_ALIASES: Record<string, string> = {
   "Work & Careers": "Work",
+  "Work & Career": "Work",
   "Cities & Housing": "Cities",
+  Urbanization: "Cities",
+  Urbanisation: "Cities",
   "Culture & Globalisation": "Culture",
+  "Culture & Society": "Culture",
+  Globalization: "Culture",
+  Globalisation: "Culture",
   "Money & Society": "Money",
+  "Money & Economy": "Money",
   "Travel & Tourism": "Travel",
   Tourism: "Travel",
+  "Health & Lifestyle": "Health",
+  "Media & Communication": "Media",
+  "Crime & Law": "Society",
+  Environment: "Environment",
 };
 
 const canonicalTopic = (part: 1 | 2 | 3, topicName: string): string =>

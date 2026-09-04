@@ -165,7 +165,7 @@ const seeds: Seed2[] = [
   work("p3x-work-5", "Should companies allow more flexible working hours?",
     "In most office roles, yes. **A flexible workforce** tends to be more productive because people work when they concentrate best, and it helps parents enormously. The counterargument is coordination - if nobody shares hours, teamwork suffers - so core hours are a sensible compromise."),
   work("p3x-work-6", "Is it better to work for a large company or a small one?",
-    "They suit different stages of a career. Large firms offer structured training and security, whereas a small company gives you far broader responsibility early on. I'd argue starting small teaches you more, and moving to a corporation later is easier than the reverse."),
+    "They suit different stages of a career. Large firms offer structured training and security, whereas a small company gives you far broader responsibility and more **transferable skills** early on. I'd argue starting small teaches you more, and moving to a corporation later is easier than the reverse."),
 
   // Cities
   cities("p3x-city-3", "What makes a city a good place to live?",
@@ -173,7 +173,7 @@ const seeds: Seed2[] = [
   cities("p3x-city-4", "How can governments control urban sprawl?",
     "Mainly by building upwards and investing in **infrastructure** before the population arrives, not after. Green belts help, though they can push prices up, so they need to come with genuine **affordable housing** programmes in the centre."),
   cities("p3x-city-5", "Will more people live in cities in the future?",
-    "Almost certainly, since jobs, universities and hospitals concentrate there. That said, remote work has slowed the trend slightly - some professionals now choose smaller towns, which could ease pressure on the largest cities if it continues."),
+    "Almost certainly, since jobs, universities and hospitals concentrate there, and **urban sprawl** shows no sign of stopping. That said, remote work has slowed the trend slightly - some professionals now choose smaller towns, which could ease pressure on the largest cities if it continues."),
 
   // Culture
   culture("p3x-cul-3", "How can traditional culture be preserved?",
@@ -201,7 +201,7 @@ const seeds: Seed2[] = [
 
   // Family
   family("p3x-fam-2", "Why do people have smaller families than in the past?",
-    "Mainly cost and opportunity. Raising a child in a city is expensive, housing is small, and women now have careers they reasonably don't want to interrupt. Better healthcare also means parents no longer need several children to be sure some survive."),
+    "Mainly cost and opportunity. Raising a child in a city is expensive, housing is small, and parents worry about **work-life balance** when both of them have careers. Better healthcare also means families no longer need several children to be sure some survive."),
   family("p3x-fam-3", "Who should look after elderly people?",
     "Culturally in Vietnam it's the family, and I think that closeness is valuable. But with **an ageing population** and adults working long hours, the state has to share the load through home care services, otherwise the burden falls unfairly on daughters."),
   family("p3x-fam-4", "Do parents spend enough time with their children?",
@@ -227,7 +227,7 @@ const seeds: Seed2[] = [
   transport("p3x-trp-4", "Are electric vehicles a real solution to pollution?",
     "Partly. They clearly improve air quality in cities, which is a health win. But if the electricity comes from coal, the **emissions** are simply moved elsewhere, and they do nothing about congestion."),
   transport("p3x-trp-5", "How might transport change in the next twenty years?",
-    "I'd expect far more electrification and better integration - one app for metro, bus and bike hire. Self-driving vehicles are talked about constantly, but I suspect regulation, not technology, will decide how quickly they arrive."),
+    "I'd expect far more electrification and a properly integrated **public transport network** - one app for metro, bus and bike hire. Self-driving vehicles are talked about constantly, but I suspect regulation, not technology, will decide how quickly they arrive."),
 
   // Art
   art("p3x-art-2", "Should art be taught in schools?",
@@ -237,7 +237,7 @@ const seeds: Seed2[] = [
   art("p3x-art-4", "Is street art a legitimate form of art?",
     "I'd say yes, when it's done with permission. It brings **cultural heritage** and social comment into places people actually walk through. Vandalism on private property is a different matter, and conflating the two helps nobody."),
   art("p3x-art-5", "Has technology changed the way people experience art?",
-    "Enormously. Anyone can now view collections online, which democratises access, and digital tools have created entirely new art forms. Something is lost though - scale and texture simply don't survive a screen."),
+    "Enormously. Collections are now **accessible to everyone** online, and digital tools have created entirely new art forms. Something is lost though - scale and texture simply don't survive a screen."),
 
   // Health
   health("p3x-hea-4", "Whose responsibility is public health, the individual or the government?",
