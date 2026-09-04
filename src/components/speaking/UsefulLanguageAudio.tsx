@@ -5,7 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Volume2, Square, Rabbit, Turtle, ListMusic } from "lucide-react";
+import { Volume2, Square, Turtle, ListMusic } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 
@@ -152,5 +152,3 @@ export const PlayAllBar = ({ api, items, playLabel, stopLabel }: PlayAllProps) =
     </Button>
   </div>
 );
-
-export const SPEAKING_AUDIO_RATES = { NORMAL_RATE, SLOW_RATE, Rabbit };
