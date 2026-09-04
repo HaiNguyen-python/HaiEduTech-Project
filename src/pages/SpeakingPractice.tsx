@@ -40,6 +40,7 @@ import ShadowingPractice from "@/components/ShadowingPractice";
 import SpeakingSrsPanel from "@/components/ielts/SpeakingSrsPanel";
 import SpeakingCameraPanel from "@/components/speaking/SpeakingCameraPanel";
 import SpeakingTemplateLab from "@/components/ielts/SpeakingTemplateLab";
+import StructureVocabPractice from "@/components/speaking/StructureVocabPractice";
 import { useUsefulLanguageAudio, PhraseAudio, PlayAllBar } from "@/components/speaking/UsefulLanguageAudio";
 
 import { useSpeakingSrs } from "@/hooks/useSpeakingSrs";
@@ -115,7 +116,7 @@ const SpeakingPractice = () => {
   const { t } = useLanguage();
   const [selectedPart, setSelectedPart] = useState<1 | 2 | 3>(1);
   const langAudio = useUsefulLanguageAudio();
-  const [mode, setMode] = useState<"part" | "shadow" | "template" | "srs">("part");
+  const [mode, setMode] = useState<"part" | "shadow" | "template" | "srs" | "drills">("part");
   const { due: srsDue, addFromResult: addSrsFromResult } = useSpeakingSrs();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [selectedQuestionIdx, setSelectedQuestionIdx] = useState(0);
@@ -741,6 +742,15 @@ ${suggestionsHtml}
             {t("Luyện Template", "Template Practice")}
           </Button>
           <Button
+            onClick={() => setMode("drills")}
+            variant={mode === "drills" ? "default" : "secondary"}
+            className={mode === "drills" ? "shadow-lg scale-105 bg-gradient-to-r from-primary to-cyan-500" : ""}
+            size="lg"
+          >
+            <BookOpen className="w-4 h-4 mr-1.5" />
+            {t("Luyện Cấu trúc & Từ vựng", "Structure & Vocabulary")}
+          </Button>
+          <Button
             onClick={() => setMode("srs")}
             variant={mode === "srs" ? "default" : "secondary"}
             className={mode === "srs" ? "shadow-lg scale-105 bg-gradient-to-r from-amber-500 to-primary" : ""}
@@ -759,7 +769,9 @@ ${suggestionsHtml}
           )}
         </div>
 
-        {mode === "srs" ? (
+        {mode === "drills" ? (
+          <StructureVocabPractice />
+        ) : mode === "srs" ? (
           <SpeakingSrsPanel />
         ) : mode === "template" ? (
           <SpeakingTemplateLab />
