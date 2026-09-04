@@ -17,7 +17,8 @@
 import { PLACEMENT_TEST, type PlacementQuestion } from "./placementTest";
 
 export type PlacementSubject =
-  | "english" | "chinese" | "vietnamese" | "finnish" | "programming";
+  | "english" | "chinese" | "vietnamese" | "finnish"
+  | "japanese" | "swedish" | "programming";
 
 export interface SubjectMeta {
   title: string;
@@ -45,6 +46,16 @@ export const SUBJECT_META: Record<PlacementSubject, SubjectMeta> = {
     title: "Finnish Placement Test (YKI A1-B2)",
     subtitle: "18 questions · Kuuntelu · Luku · Kirjoitus · Puhuminen",
     speakLang: "fi-FI",
+  },
+  japanese: {
+    title: "Japanese Placement Test (JLPT N5-N3)",
+    subtitle: "18 questions · Kana · Kanji · Listening · Speaking",
+    speakLang: "ja-JP",
+  },
+  swedish: {
+    title: "Swedish Placement Test (A1-B2)",
+    subtitle: "18 questions · Hörförståelse · Läsning · Skrivning · Tal",
+    speakLang: "sv-SE",
   },
   programming: {
     title: "Programming Placement Test",
@@ -390,12 +401,182 @@ const PROGRAMMING: PlacementQuestion[] = [
     ], correct: 1 },
 ];
 
+/* ── Japanese 18 Q (JLPT N5 → N3, mapped onto A1-B2) ───────────────── */
+const JAPANESE: PlacementQuestion[] = [
+  { id: 501, skill: "listening", cefr: "A1", type: "listen-image",
+    prompt: "女の子は何を持っていますか。 (What is the girl holding?)",
+    audioText: "見て、女の子は赤いりんごを持っています。", correct: 0,
+    options: [
+      { emoji: "🍎", label: "りんご" }, { emoji: "🍌", label: "バナナ" },
+      { emoji: "🐶", label: "いぬ" }, { emoji: "🚗", label: "くるま" },
+    ]},
+  { id: 502, skill: "listening", cefr: "A1", type: "listen-image",
+    prompt: "話す人はどこへ行きますか。 (Where is the speaker going?)",
+    audioText: "わたしは これから 学校へ 行きます。", correct: 1,
+    options: [
+      { emoji: "🏥", label: "びょういん" }, { emoji: "🏫", label: "がっこう" },
+      { emoji: "🏬", label: "デパート" }, { emoji: "✈️", label: "くうこう" },
+    ]},
+  { id: 503, skill: "listening", cefr: "A2", type: "listen-mcq",
+    prompt: "会議は何時に始まりますか。 (What time does the meeting start?)",
+    audioText: "会議は 三時から 四時半に 変わりました。",
+    options: ["15:00", "15:30", "16:00", "16:30"], correct: 3 },
+  { id: 504, skill: "listening", cefr: "B1", type: "listen-mcq",
+    prompt: "話す人は何をすすめていますか。 (What does the speaker recommend?)",
+    audioText: "レポートは よく書けていますが、結論を もう少し 短くして、図を 二つ 足してから 出したほうが いいと思います。",
+    options: [
+      "レポートを 全部 書き直す",
+      "図を 足して 結論を 短くする",
+      "すぐに 出す",
+      "図を 全部 変える",
+    ], correct: 1 },
+
+  { id: 505, skill: "reading", cefr: "A1", type: "read-mcq",
+    prompt: "わたし ___ 学生です。 (Choose the correct particle.)",
+    options: ["は", "を", "へ", "から"], correct: 0 },
+  { id: 506, skill: "reading", cefr: "A1", type: "read-mcq",
+    prompt: "Sign at a station: 「入口」。 What does it mean?",
+    options: ["Exit", "Entrance", "Toilet", "Ticket office"], correct: 1 },
+  { id: 507, skill: "reading", cefr: "A2", type: "read-mcq",
+    prompt: "きのう 映画を ___ 。 (Past tense of 見ます)",
+    options: ["見ます", "見ました", "見ません", "見ましょう"], correct: 1 },
+  { id: 508, skill: "reading", cefr: "A2", type: "read-mcq",
+    prompt: "Note from a friend: 「六時に駅の前で待っています。おくれたら電話してね。」 What should you do if you are late?",
+    options: ["Wait at home", "Call your friend", "Go to the shop", "Send a letter"], correct: 1 },
+  { id: 509, skill: "reading", cefr: "B1", type: "read-cloze",
+    prompt: "いちばん いい ことばを えらんでください。",
+    paragraph: "毎年 多くの 若い 学生が より よい 教育を [[0]] ために 海外へ [[1]] 。そこで 新しい 文化に [[2]] ことも 大きな 目的です。",
+    choices: [["受ける", "受けて", "受けた"], ["行きます", "行って", "行った"], ["触れる", "触れて", "触れた"]],
+    correct: [0, 0, 0] },
+  { id: 510, skill: "reading", cefr: "B2", type: "read-analytical",
+    prompt: "筆者の主な主張は何ですか。 (What is the writer's main point?)",
+    passage: "日本では 近年、在宅勤務が 広がっています。通勤時間が なくなることで 生活の 自由度は 高まりましたが、同僚と 顔を 合わせる 機会が 減り、若い 社員が 仕事を 学びにくいという 問題も 出てきました。多くの 会社は 週に 二、三日だけ 出社する 方法を 選び、両方の 利点を 生かそうとしています。",
+    options: [
+      "在宅勤務には 問題が まったく ない",
+      "会社は 完全に 出社に 戻るべきだ",
+      "在宅と 出社を 組み合わせる 方法が 選ばれている",
+      "通勤時間は 長いほうが よい",
+    ], correct: 2 },
+
+  { id: 511, skill: "writing", cefr: "A1", type: "write-scramble",
+    prompt: "ことばを 正しい 順に 並べてください。",
+    tokens: ["わたしの", "なまえは", "リンです"], answer: "わたしの なまえは リンです" },
+  { id: 512, skill: "writing", cefr: "A2", type: "write-scramble",
+    prompt: "ことばを 正しい 順に 並べてください。",
+    tokens: ["きのう", "友だちと", "映画を", "見ました"], answer: "きのう 友だちと 映画を 見ました" },
+  { id: 513, skill: "writing", cefr: "B1", type: "write-picture",
+    prompt: "絵について 日本語で 一文 書いてください。",
+    emoji: "🌸🏯", hint: "季節と 場所について 書きましょう。", minWords: 6 },
+  { id: 514, skill: "writing", cefr: "B2", type: "write-essay",
+    prompt: "日本語を 勉強する 理由と 将来の 目標について 書いてください。(60-100語)",
+    minWords: 60, maxWords: 100 },
+
+  { id: 515, skill: "speaking", cefr: "A1", type: "speak-read",
+    prompt: "この文を 日本語で 声に 出して 読んでください。",
+    text: "わたしの 家族は 川の 近くの 小さい 家に 住んでいます。" },
+  { id: 516, skill: "speaking", cefr: "A2", type: "speak-read",
+    prompt: "この文を 日本語で 声に 出して 読んでください。",
+    text: "週末は いつも 友だちに 会って、いっしょに サッカーを します。" },
+  { id: 517, skill: "speaking", cefr: "B1", type: "speak-reply",
+    prompt: "質問を 聞いて、30秒で 日本語で 答えてください。",
+    audioText: "あなたの 好きな 趣味について 話して、その 理由も 教えてください。",
+    seconds: 30 },
+  { id: 518, skill: "speaking", cefr: "B2", type: "speak-present",
+    prompt: "日本で 勉強したい 理由、または 働きたい 理由を 話してください。30秒 準備、60秒 話します。",
+    prepSeconds: 30, recordSeconds: 60 },
+];
+
+/* ── Swedish 18 Q (A1 → B2) ────────────────────────────────────────── */
+const SWEDISH: PlacementQuestion[] = [
+  { id: 601, skill: "listening", cefr: "A1", type: "listen-image",
+    prompt: "Vad håller flickan i handen?",
+    audioText: "Titta, den lilla flickan håller ett rött äpple i handen.", correct: 0,
+    options: [
+      { emoji: "🍎", label: "Ett äpple" }, { emoji: "🍌", label: "En banan" },
+      { emoji: "🐱", label: "En katt" }, { emoji: "🚗", label: "En bil" },
+    ]},
+  { id: 602, skill: "listening", cefr: "A1", type: "listen-image",
+    prompt: "Vart går talaren?", audioText: "Jag går till skolan nu.", correct: 1,
+    options: [
+      { emoji: "🏥", label: "Sjukhuset" }, { emoji: "🏫", label: "Skolan" },
+      { emoji: "🏬", label: "Affären" }, { emoji: "✈️", label: "Flygplatsen" },
+    ]},
+  { id: 603, skill: "listening", cefr: "A2", type: "listen-mcq",
+    prompt: "Vilken tid börjar mötet?",
+    audioText: "Mötet flyttades från klockan tre till halv fem på eftermiddagen.",
+    options: ["15:00", "15:30", "16:00", "16:30"], correct: 3 },
+  { id: 604, skill: "listening", cefr: "B1", type: "listen-mcq",
+    prompt: "Vad rekommenderar talaren?",
+    audioText: "Din rapport är bra, men jag föreslår att du kortar slutsatsen och lägger till ett par diagram innan du skickar in den.",
+    options: [
+      "Skriv om hela rapporten",
+      "Lägg till diagram och korta slutsatsen",
+      "Skicka in rapporten direkt",
+      "Byt ut alla diagram",
+    ], correct: 1 },
+
+  { id: 605, skill: "reading", cefr: "A1", type: "read-mcq",
+    prompt: "Jag ___ student.", options: ["är", "har", "vara", "varit"], correct: 0 },
+  { id: 606, skill: "reading", cefr: "A1", type: "read-mcq",
+    prompt: "Skylt i en butik: \"Öppet 10-18\". Vad betyder det?",
+    options: ["Stängt hela dagen", "Öppet mellan tio och sexton", "Öppet mellan tio och arton", "Bara öppet på söndagar"], correct: 2 },
+  { id: 607, skill: "reading", cefr: "A2", type: "read-mcq",
+    prompt: "Igår ___ jag på bio med min syster.",
+    options: ["går", "gick", "gå", "gått"], correct: 1 },
+  { id: 608, skill: "reading", cefr: "A2", type: "read-mcq",
+    prompt: "Välj rätt bestämd form: \"ett hus\" i bestämd form singular är:",
+    options: ["husen", "huset", "husar", "husa"], correct: 1 },
+  { id: 609, skill: "reading", cefr: "B1", type: "read-cloze",
+    prompt: "Välj det bästa ordet för varje lucka.",
+    paragraph: "Många unga studenter [[0]] utomlands varje år [[1]] de vill få en bättre utbildning och samla nya [[2]] .",
+    choices: [["reser", "resa", "rest"], ["eftersom", "trots", "medan"], ["erfarenheter", "erfarenhet", "erfaren"]],
+    correct: [0, 0, 0] },
+  { id: 610, skill: "reading", cefr: "B2", type: "read-analytical",
+    prompt: "Vad är skribentens huvudpoäng?",
+    passage: "Det svenska arbetslivet bygger i stor utsträckning på tillit. I stället för att kontrollera varje detalj ger chefer ofta medarbetarna frihet att planera sitt eget arbete. Undersökningar visar att detta ökar både trivseln och produktiviteten, men det kräver samtidigt att alla tar ett tydligt eget ansvar.",
+    options: [
+      "Svenska chefer kontrollerar varje detalj",
+      "Frihet med eget ansvar ger bättre resultat",
+      "Produktiviteten sjunker med frihet",
+      "Tillit spelar ingen roll i arbetslivet",
+    ], correct: 1 },
+
+  { id: 611, skill: "writing", cefr: "A1", type: "write-scramble",
+    prompt: "Sätt orden i rätt ordning.",
+    tokens: ["Jag", "heter", "Linh"], answer: "Jag heter Linh" },
+  { id: 612, skill: "writing", cefr: "A2", type: "write-scramble",
+    prompt: "Sätt orden i rätt ordning.",
+    tokens: ["Igår", "gick", "jag", "på", "bio"], answer: "Igår gick jag på bio" },
+  { id: 613, skill: "writing", cefr: "B1", type: "write-picture",
+    prompt: "Skriv en mening på svenska om bilden.",
+    emoji: "❄️🎿", hint: "Berätta om vädret och aktiviteten.", minWords: 6 },
+  { id: 614, skill: "writing", cefr: "B2", type: "write-essay",
+    prompt: "Skriv en kort text om din favoritplats i Sverige och förklara varför du valde den. (60-100 ord)",
+    minWords: 60, maxWords: 100 },
+
+  { id: 615, skill: "speaking", cefr: "A1", type: "speak-read",
+    prompt: "Läs meningen högt på svenska.",
+    text: "Min familj bor i ett litet hus nära floden." },
+  { id: 616, skill: "speaking", cefr: "A2", type: "speak-read",
+    prompt: "Läs meningen högt på svenska.",
+    text: "På helgerna träffar jag oftast mina vänner och vi spelar fotboll tillsammans." },
+  { id: 617, skill: "speaking", cefr: "B1", type: "speak-reply",
+    prompt: "Lyssna på frågan och svara på svenska inom 30 sekunder.",
+    audioText: "Beskriv din favorithobby och berätta varför du tycker om den.",
+    seconds: 30 },
+  { id: 618, skill: "speaking", cefr: "B2", type: "speak-present",
+    prompt: "Berätta på svenska varför du vill studera eller arbeta i Sverige. Förbered i 30 sekunder, tala i 60 sekunder.",
+    prepSeconds: 30, recordSeconds: 60 },
+];
+
 /** Resolve the bank for a given subject. Falls back to the full English bank. */
 export function getPlacementBank(subject: PlacementSubject): PlacementQuestion[] {
   switch (subject) {
     case "chinese": return CHINESE;
     case "vietnamese": return VIETNAMESE;
     case "finnish": return FINNISH;
+    case "japanese": return JAPANESE;
+    case "swedish": return SWEDISH;
     case "programming": return PROGRAMMING;
     case "english":
     default: return PLACEMENT_TEST;
@@ -405,6 +586,10 @@ export function getPlacementBank(subject: PlacementSubject): PlacementQuestion[]
 /** Normalise an unknown query string into a valid subject. */
 export function parseSubject(raw: string | null | undefined): PlacementSubject {
   const v = (raw ?? "english").toLowerCase();
-  if (v === "chinese" || v === "vietnamese" || v === "finnish" || v === "programming") return v;
+  if (
+    v === "chinese" || v === "vietnamese" || v === "finnish"
+    || v === "japanese" || v === "swedish" || v === "programming"
+  ) return v;
   return "english";
 }
+

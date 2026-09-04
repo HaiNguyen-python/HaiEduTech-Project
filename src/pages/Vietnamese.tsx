@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PlacementCta from "@/components/personalization/PlacementCta";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -443,6 +444,9 @@ const Vietnamese = () => {
         </div>
         </Tabs>
       </main>
+      <section className="container mx-auto px-4 sm:px-6 pb-12">
+        <PlacementCta subject="vietnamese" />
+      </section>
       <Footer />
     </div>
   );

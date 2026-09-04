@@ -15,6 +15,11 @@ import {
   buildWeeklyPlan, currentWeekStart, estimateReadiness, explainReadiness, hasEnoughData,
   inferLevel, masteryPct, progressPerWeek, rankWeaknesses, stepKey, type PlanStep,
 } from "@/lib/personalization/pathModel";
+import {
+  DEFAULT_DAYS, DEFAULT_HOURS_PER_WEEK, defaultTargetDate, ladderLevelFrom, nextTarget,
+  subjectsForBank,
+} from "@/lib/personalization/placementBridge";
+import type { Cefr } from "@/data/placementTest";
 import { useLearningSignals } from "./useLearningSignals";
 
 const GUEST_KEY = "haiedu-learning-paths-v1";
@@ -250,6 +255,54 @@ export function useLearningPath() {
     [userId, loadPaths],
   );
 
+  /**
+   * Seeds (or refreshes) a path for every subject fed by a placement bank.
+   * An existing path keeps its goal, target date and weekly hours: only the
+   * current level is refreshed so a retake never wipes the student's plan.
+   */
+  const seedFromPlacement = useCallback(
+    async (bank: string, cefr: Cefr, total: number): Promise<SubjectId[]> => {
+      const targets = subjectsForBank(bank);
+      const existing = userId ? rows : readGuest();
+      const next: LearningPathRow[] = [];
+      for (const subject of targets) {
+        const def = SUBJECTS[subject];
+        const level = ladderLevelFrom(subject, cefr, total, def);
+        const prev = existing.find((r) => r.subject === subject);
+        next.push({
+          ...(prev ?? {}),
+          subject,
+          goal_label: prev?.goal_label ?? `${def.labelEn} ${nextTarget(subject, level, def)}`,
+          target_level: prev?.target_level ?? nextTarget(subject, level, def),
+          target_date: prev?.target_date ?? defaultTargetDate(),
+          hours_per_week: prev?.hours_per_week ?? DEFAULT_HOURS_PER_WEEK,
+          available_days: prev?.available_days ?? DEFAULT_DAYS,
+          start_level: prev?.start_level ?? level,
+          current_level: level,
+          status: prev?.status ?? "active",
+        });
+      }
+      if (!userId) {
+        const merged = [
+          ...readGuest().filter((r) => !targets.includes(r.subject)),
+          ...next,
+        ];
+        writeGuest(merged);
+        setRows(merged);
+        return targets;
+      }
+      await supabase.from("learning_paths").upsert(
+        next.map((r) => ({ ...r, id: undefined, user_id: userId })),
+        { onConflict: "user_id,subject" },
+      );
+      await loadPaths();
+      return targets;
+    },
+    [userId, rows, loadPaths],
+  );
+
+
+
   const removePath = useCallback(
     async (subject: SubjectId) => {
       if (!userId) {
@@ -380,6 +433,7 @@ export function useLearningPath() {
     week,
     loading: loading || signalsLoading,
     savePath,
+    seedFromPlacement,
     removePath,
     toggleStepDone,
     isStepDone,

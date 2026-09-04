@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
+import PlacementCta from "@/components/personalization/PlacementCta";
 import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { Languages, CheckCircle, ArrowRight, Search, GraduationCap, Mic } from "lucide-react";
@@ -379,6 +380,9 @@ const Chinese = () => {
           </motion.div>
         </div>
       </div>
+      <section className="container mx-auto px-4 sm:px-6 pb-12">
+        <PlacementCta subject="chinese" />
+      </section>
       <Footer />
     </div>
   );

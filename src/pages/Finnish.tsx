@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ChevronRight, Sprout, Snowflake, Target, Mic, type LucideIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PlacementCta from "@/components/personalization/PlacementCta";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -257,6 +258,9 @@ const Finnish = () => {
           </motion.div>
         </section>
       </main>
+      <section className="container mx-auto px-4 sm:px-6 pb-12">
+        <PlacementCta subject="finnish" />
+      </section>
       <Footer />
     </div>
   );
