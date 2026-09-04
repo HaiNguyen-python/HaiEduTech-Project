@@ -4,7 +4,7 @@
  *   ring, readiness estimate and the single next action.
  */
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarClock, Flame, Target, Trash2 } from "lucide-react";
+import { ArrowRight, CalendarClock, ClipboardCheck, Flame, Target, Trash2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -107,6 +107,16 @@ const PathSubjectCard = ({ view, onEdit, onRemove }: Props) => {
               <div className="text-xs text-muted-foreground">{next.minutes} {t("phút", "min")}</div>
             </div>
             <ArrowRight className="w-4 h-4 text-primary shrink-0 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        )}
+
+        {def.placement && (
+          <Link
+            to={`/placement-test?subject=${def.placement}`}
+            className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+          >
+            <ClipboardCheck className="w-3.5 h-3.5" />
+            {t("Làm lại kiểm tra trình độ", "Retake the placement test")}
           </Link>
         )}
       </CardContent>
