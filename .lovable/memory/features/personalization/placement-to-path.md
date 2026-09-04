@@ -10,3 +10,10 @@ type: feature
 - `src/components/personalization/PlacementCta.tsx` sits above the footer on the six language hubs (`/english`, `/chinese`, `/japanese`, `/learn-vietnamese`, `/finnish`, `/swedish`) and links to `/placement-test?subject=<slug>`.
 - `PathSubjectCard` shows a "Retake the placement test" link when the subject has a placement bank.
 - No new tables: `placement_test_results`, `learning_paths`, `learning_path_steps` only.
+
+## Upgrade (2026-09)
+- Menu label everywhere: "Placement Test & Personalization" (Navbar + `PlacementCta.tsx`).
+- Banks: Chinese/Vietnamese/Finnish/Japanese/Swedish now 24 questions with a full C1 block (`src/data/placementBanksAdvanced.ts`); Programming 24 items, at least 4 per domain (logic/python/sql/ai).
+- `buildOutcome(outcomes, subject)` + `classForSubject` give subject-specific class names (HSK, JLPT, YKI, etc.).
+- Result screen adds: comparison with the previous run of the same bank, editable target date, `fourWeekOutline` 4-week plan, retake reminder after ~8 weeks.
+- Audit: `bunx tsx scripts/audit_placement_banks.ts` (ids, bands, skills, options, cloze blanks, scramble multiset, em-dash) - must report 0 issues.

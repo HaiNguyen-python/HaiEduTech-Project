@@ -96,3 +96,53 @@ export const weaknessLinks = (
 
 export const DEFAULT_HOURS_PER_WEEK = 5;
 export const DEFAULT_DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+
+export interface OutlineWeek {
+  week: number;
+  focusVi: string;
+  focusEn: string;
+  items: { titleVi: string; titleEn: string; route: string; minutes: number }[];
+}
+
+/**
+ * Four-week study outline right after a placement test: week 1 and 2 attack the
+ * two weakest skills, week 3 mixes skills, week 4 rehearses under exam
+ * conditions. Each week is filled up to the weekly minute budget.
+ */
+export const fourWeekOutline = (
+  subject: SubjectId,
+  skills: Record<string, number>,
+  hoursPerWeek: number,
+  def: SubjectDef = SUBJECTS[subject],
+): OutlineWeek[] => {
+  const budget = Math.max(60, Math.round(hoursPerWeek * 60));
+  const ranked = weaknessLinks(subject, skills, def);
+  const tracks = def.tracks;
+  const pick = (skill?: string) => {
+    const first = skill ? tracks.filter((tk) => tk.skill === skill) : [];
+    return first.length > 0 ? first : tracks;
+  };
+  const fill = (pool: typeof tracks): OutlineWeek["items"] => {
+    const items: OutlineWeek["items"] = [];
+    let used = 0;
+    let i = 0;
+    const all = [...pool, ...tracks.filter((tk) => !pool.includes(tk))];
+    while (used < budget && i < all.length * 2) {
+      const tk = all[i % all.length];
+      if (used + tk.minutes > budget && items.length > 0) break;
+      items.push({ titleVi: tk.titleVi, titleEn: tk.titleEn, route: tk.route, minutes: tk.minutes });
+      used += tk.minutes;
+      i += 1;
+    }
+    return items;
+  };
+
+  const w1 = ranked[0]?.skill;
+  const w2 = ranked[1]?.skill ?? w1;
+  return [
+    { week: 1, focusVi: "Xây nền cho kỹ năng yếu nhất", focusEn: "Build the weakest skill", items: fill(pick(w1)) },
+    { week: 2, focusVi: "Củng cố kỹ năng yếu thứ hai", focusEn: "Strengthen the second weak skill", items: fill(pick(w2)) },
+    { week: 3, focusVi: "Kết hợp mọi kỹ năng và ôn từ vựng", focusEn: "Mix all skills and review vocabulary", items: fill(tracks.filter((tk) => tk.kind === "vocab" || tk.kind === "practice")) },
+    { week: 4, focusVi: "Luyện như thi thật rồi tự đánh giá", focusEn: "Practise under exam conditions, then self-review", items: fill(tracks.filter((tk) => tk.kind === "practice" || tk.kind === "review")) },
+  ];
+};

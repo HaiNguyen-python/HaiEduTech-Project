@@ -125,7 +125,7 @@ const Navbar = () => {
 
   const englishSubs: SubItem[] = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=english", label: t("📝 Bài Test Trình độ Tiếng Anh", "📝 English Placement Test") },
+    { to: "/placement-test?subject=english", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
     { to: "#en-div1", label: "", divider: true },
     // English Essentials - promoted above Cambridge group
     { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 Foundational English") },
@@ -155,7 +155,7 @@ const Navbar = () => {
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=chinese", label: t("📝 Bài Test Trình độ Tiếng Trung", "📝 Chinese Placement Test") },
+    { to: "/placement-test?subject=chinese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
     { to: "#cn-div1", label: "", divider: true },
     { to: "#cn-hsk-group", label: t("🎓 Lộ trình HSK", "🎓 HSK Program"), groupLabel: "cn-hsk", children: [
       { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
@@ -181,7 +181,7 @@ const Navbar = () => {
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=vietnamese", label: t("📝 Bài Test Trình độ Tiếng Việt", "📝 Vietnamese Placement Test") },
+    { to: "/placement-test?subject=vietnamese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
     { to: "#vn-div1", label: "", divider: true },
     { to: "#vn-curriculum-group", label: t("📚 Chương trình học", "📚 Curriculum"), groupLabel: "vn-curriculum", children: [
       { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp Tiếng Việt", "📝 Vietnamese Grammar") },
@@ -212,7 +212,7 @@ const Navbar = () => {
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=finnish", label: t("📝 Bài Test Trình độ Tiếng Phần Lan", "📝 Finnish Placement Test") },
+    { to: "/placement-test?subject=finnish", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
     { to: "#fi-div1", label: "", divider: true },
     { to: "/finnish/beginner", label: t("🌱 Người mới (A1–A2)", "🌱 Beginner (A1–A2)") },
     { to: "/finnish/yki-dashboard", label: t("❄️ YKI A2 Dashboard", "❄️ YKI A2 Dashboard") },
@@ -227,6 +227,7 @@ const Navbar = () => {
   ];
   const swedishSubs: SubItem[] = [
     { to: "/swedish", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "/placement-test?subject=swedish", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
     { to: "#sv-div1", label: "", divider: true },
     { to: "/swedish/beginner", label: t("🌱 Người mới A1", "🌱 Swedish Beginner A1") },
     { to: "/swedish/yki-a2", label: t("❄️ Swedish YKI A2\u00a0", "❄️ Swedish YKI A2\u00a0") },
@@ -240,7 +241,7 @@ const Navbar = () => {
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
-    { to: "/placement-test?subject=programming", label: t("Bài Test Trình độ Lập trình", "Programming Placement Test"), icon: ClipboardCheck },
+    { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "/programming/ai-academy", label: t("AI Academy", "AI Academy"), icon: Bot },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
@@ -310,6 +311,7 @@ const Navbar = () => {
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/japanese", label: t("Tiếng Nhật", "Japanese"), icon: Globe, subs: [
       { to: "/japanese", label: t("🌸 Tổng quan Tiếng Nhật", "🌸 Japanese Overview") },
+      { to: "/placement-test?subject=japanese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
       { to: "#ja-foundation-group", label: t("🈶 Nền tảng nhập môn", "🈶 Foundation"), groupLabel: "ja-foundation", children: [
         { to: "/japanese?tab=kana", label: t("🈶 Hiragana & Katakana", "🈶 Hiragana & Katakana") },
         { to: "/japanese?tab=greetings", label: t("💬 Chào hỏi & Giao tiếp", "💬 Greetings & Conversation") },

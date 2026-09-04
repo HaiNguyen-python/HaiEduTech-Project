@@ -15,6 +15,10 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { PLACEMENT_TEST, type PlacementQuestion } from "./placementTest";
+import {
+  CHINESE_ADV, VIETNAMESE_ADV, FINNISH_ADV, JAPANESE_ADV, SWEDISH_ADV,
+  PROGRAMMING_ADV,
+} from "./placementBanksAdvanced";
 
 export type PlacementSubject =
   | "english" | "chinese" | "vietnamese" | "finnish"
@@ -33,33 +37,33 @@ export const SUBJECT_META: Record<PlacementSubject, SubjectMeta> = {
     speakLang: "en-US",
   },
   chinese: {
-    title: "Chinese Placement Test (HSK 1-5)",
-    subtitle: "18 questions · Hanzi · Pinyin · Listening · Speaking",
+    title: "Chinese Placement Test (HSK 1-6)",
+    subtitle: "24 questions · Hanzi · Pinyin · Listening · Speaking",
     speakLang: "zh-CN",
   },
   vietnamese: {
     title: "Vietnamese Placement Test",
-    subtitle: "18 questions · Pronunciation · Reading · Writing · Speaking",
+    subtitle: "24 questions · Pronunciation · Reading · Writing · Speaking",
     speakLang: "vi-VN",
   },
   finnish: {
-    title: "Finnish Placement Test (YKI A1-B2)",
-    subtitle: "18 questions · Kuuntelu · Luku · Kirjoitus · Puhuminen",
+    title: "Finnish Placement Test (YKI A1-C1)",
+    subtitle: "24 questions · Kuuntelu · Luku · Kirjoitus · Puhuminen",
     speakLang: "fi-FI",
   },
   japanese: {
-    title: "Japanese Placement Test (JLPT N5-N3)",
-    subtitle: "18 questions · Kana · Kanji · Listening · Speaking",
+    title: "Japanese Placement Test (JLPT N5-N2)",
+    subtitle: "24 questions · Kana · Kanji · Listening · Speaking",
     speakLang: "ja-JP",
   },
   swedish: {
-    title: "Swedish Placement Test (A1-B2)",
-    subtitle: "18 questions · Hörförståelse · Läsning · Skrivning · Tal",
+    title: "Swedish Placement Test (A1-C1)",
+    subtitle: "24 questions · Hörförståelse · Läsning · Skrivning · Tal",
     speakLang: "sv-SE",
   },
   programming: {
     title: "Programming Placement Test",
-    subtitle: "18 questions · Python · SQL · Logic · AI Fundamentals",
+    subtitle: "24 questions · Python · SQL · Logic · AI Fundamentals",
     speakLang: "en-US",
   },
 };
@@ -572,12 +576,12 @@ const SWEDISH: PlacementQuestion[] = [
 /** Resolve the bank for a given subject. Falls back to the full English bank. */
 export function getPlacementBank(subject: PlacementSubject): PlacementQuestion[] {
   switch (subject) {
-    case "chinese": return CHINESE;
-    case "vietnamese": return VIETNAMESE;
-    case "finnish": return FINNISH;
-    case "japanese": return JAPANESE;
-    case "swedish": return SWEDISH;
-    case "programming": return PROGRAMMING;
+    case "chinese": return [...CHINESE, ...CHINESE_ADV];
+    case "vietnamese": return [...VIETNAMESE, ...VIETNAMESE_ADV];
+    case "finnish": return [...FINNISH, ...FINNISH_ADV];
+    case "japanese": return [...JAPANESE, ...JAPANESE_ADV];
+    case "swedish": return [...SWEDISH, ...SWEDISH_ADV];
+    case "programming": return [...PROGRAMMING, ...PROGRAMMING_ADV];
     case "english":
     default: return PLACEMENT_TEST;
   }
