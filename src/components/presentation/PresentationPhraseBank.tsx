@@ -6,9 +6,9 @@
  *   learner's own script, and a reveal-style recall drill.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpenCheck, ChevronDown, Search, Plus, Check, Sparkles, RotateCcw } from "lucide-react";
+import { BookOpenCheck, ChevronDown, Search, Plus, Check, Sparkles, RotateCcw, Mic, Square, Repeat2, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -26,9 +26,37 @@ import {
   PhraseAudio,
   PlayAllBar,
 } from "@/components/speaking/UsefulLanguageAudio";
+import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 
 const DRILL_KEY = "presentation-phrase-drill";
 const STAGE_KEY = "presentation-phrase-stage";
+const SAY_KEY = "presentation-phrase-say-scores";
+
+const STOP_SLOT = /\.\.\./g;
+
+const words = (text: string): string[] =>
+  text.toLowerCase().replace(STOP_SLOT, " ").replace(/[^a-z0-9'\s]/g, " ").split(/\s+/).filter(Boolean);
+
+export interface SayItResult {
+  accuracy: number;
+  missing: string[];
+  heard: string;
+}
+
+/** Compare what the learner said with the target pattern, word by word. */
+export const scoreSpokenPhrase = (target: string, heard: string): SayItResult => {
+  const want = words(target);
+  const got = words(heard);
+  const pool = [...got];
+  const missing: string[] = [];
+  for (const w of want) {
+    const i = pool.indexOf(w);
+    if (i >= 0) pool.splice(i, 1);
+    else missing.push(w);
+  }
+  const accuracy = want.length === 0 ? 0 : Math.round(((want.length - missing.length) / want.length) * 100);
+  return { accuracy, missing, heard: heard.trim() };
+};
 
 interface DrillState {
   score: number;
@@ -65,6 +93,52 @@ const PresentationPhraseBank = ({ usedIds = [], onInsert }: Props) => {
   const [revealed, setRevealed] = useState(false);
 
   const used = useMemo(() => new Set(usedIds), [usedIds]);
+
+  // ---- "Say it again" speaking practice ----
+  const [sayId, setSayId] = useState<string | null>(null);
+  const [sayResult, setSayResult] = useState<SayItResult | null>(null);
+  const [sayScores, setSayScores] = useState<Record<string, number>>(
+    () => safeStorage.get<Record<string, number>>(SAY_KEY, {}) ?? {},
+  );
+  const sayTargetRef = useRef("");
+
+  const handleSaid = useCallback((heard: string) => {
+    const result = scoreSpokenPhrase(sayTargetRef.current, heard);
+    setSayResult(result);
+    setSayScores((prev) => {
+      const id = sayId;
+      if (!id) return prev;
+      const next = { ...prev, [id]: Math.max(prev[id] ?? 0, result.accuracy) };
+      safeStorage.set(SAY_KEY, next);
+      return next;
+    });
+  }, [sayId]);
+
+  const recognizer = useSpeechRecognizer({ speechLang: "en-US", maxSeconds: 25, onFinal: handleSaid });
+
+  const startSayIt = async (phrase: PresentationPhrase) => {
+    audio.stop();
+    setSayResult(null);
+    setSayId(phrase.id);
+    sayTargetRef.current = phraseCore(phrase.en);
+    await recognizer.start();
+  };
+
+  const closeSayIt = () => {
+    recognizer.reset();
+    setSayId(null);
+    setSayResult(null);
+  };
+
+  const sayErrorText = (code: string | null) => {
+    switch (code) {
+      case "unsupported": return t("Trình duyệt này chưa hỗ trợ nhận diện giọng nói. Hãy dùng Chrome trên máy tính.", "This browser does not support speech recognition. Please use Chrome on a computer.");
+      case "denied": return t("Bạn cần cho phép dùng micro để luyện nói.", "Please allow microphone access to practise speaking.");
+      case "nodevice": return t("Không tìm thấy micro nào.", "No microphone was found.");
+      case "insecure": return t("Cần kết nối an toàn (https) để dùng micro.", "A secure (https) connection is needed for the microphone.");
+      default: return code ? t("Không nhận được giọng nói, hãy thử lại.", "Speech was not captured, please try again.") : null;
+    }
+  };
 
   const pickStage = (id: PresentationStageId) => {
     setStage(id);
@@ -146,7 +220,7 @@ const PresentationPhraseBank = ({ usedIds = [], onInsert }: Props) => {
               <p className="text-xs text-muted-foreground mb-3">
                 {t(
                   "Chọn từng chặng của bài thuyết trình, nghe mẫu, rồi bấm để nạp thẳng vào kịch bản của bạn và luyện trên teleprompter.",
-                  "Pick a stage of your talk, listen to the pattern, then send it straight into your own script and rehearse it on the teleprompter.",
+                  "Pick a stage of your talk, listen to the pattern, use \"Say it again\" to rehearse each sentence, then send it into your own script for the teleprompter.",
                 )}
               </p>
 
@@ -241,6 +315,9 @@ const PresentationPhraseBank = ({ usedIds = [], onInsert }: Props) => {
                       <div className="flex gap-2 pt-1">
                         <Button size="sm" onClick={() => answer(true)}>{t("Tôi nói đúng", "I said it right")}</Button>
                         <Button size="sm" variant="outline" onClick={() => answer(false)}>{t("Cần luyện thêm", "Needs more practice")}</Button>
+                        <Button size="sm" variant="secondary" className="gap-1" onClick={() => startSayIt(drillItem)}>
+                          <Mic className="w-3.5 h-3.5" /> {t("Nói lại câu này", "Say it again")}
+                        </Button>
                       </div>
                     </div>
                   )}
@@ -273,14 +350,85 @@ const PresentationPhraseBank = ({ usedIds = [], onInsert }: Props) => {
                     </div>
                     <p className="text-xs text-primary/90 mt-1">{p.vi}</p>
                     <p className="text-xs text-muted-foreground italic mt-1">{p.example}</p>
-                    {onInsert && (
-                      <Button
-                        size="sm" variant="ghost"
-                        className="h-7 mt-2 gap-1 text-[11px] text-muted-foreground hover:text-primary"
-                        onClick={() => onInsert(p.en)}
-                      >
-                        <Plus className="w-3 h-3" /> {t("Thêm vào kịch bản", "Insert into my script")}
-                      </Button>
+                    <div className="flex flex-wrap items-center gap-1 mt-2">
+                      {sayId === p.id && recognizer.isRecording ? (
+                        <Button
+                          size="sm" variant="destructive"
+                          className="h-7 gap-1 text-[11px]"
+                          onClick={() => recognizer.stop()}
+                        >
+                          <Square className="w-3 h-3" /> {t("Dừng", "Stop")} · {recognizer.seconds}s
+                        </Button>
+                      ) : (
+                        <Button
+                          size="sm" variant="outline"
+                          className="h-7 gap-1 text-[11px]"
+                          onClick={() => startSayIt(p)}
+                        >
+                          <Mic className="w-3 h-3" /> {t("Nói lại câu này", "Say it again")}
+                        </Button>
+                      )}
+                      {onInsert && (
+                        <Button
+                          size="sm" variant="ghost"
+                          className="h-7 gap-1 text-[11px] text-muted-foreground hover:text-primary"
+                          onClick={() => onInsert(p.en)}
+                        >
+                          <Plus className="w-3 h-3" /> {t("Thêm vào kịch bản", "Insert into my script")}
+                        </Button>
+                      )}
+                      {sayScores[p.id] !== undefined && sayId !== p.id && (
+                        <Badge variant="secondary" className="text-[10px] gap-1">
+                          <Trophy className="w-3 h-3" /> {sayScores[p.id]}%
+                        </Badge>
+                      )}
+                    </div>
+
+                    {sayId === p.id && (
+                      <div className="mt-2 rounded-lg border border-primary/30 bg-primary/5 p-2.5">
+                        {recognizer.isRecording && (
+                          <p className="text-[11px] text-primary font-medium">
+                            {t("Đang nghe... hãy nói cả câu thật rõ ràng.", "Listening... say the whole sentence clearly.")}
+                          </p>
+                        )}
+                        {recognizer.transcript && (
+                          <p className="text-xs mt-1 italic text-muted-foreground">"{recognizer.transcript}"</p>
+                        )}
+                        {recognizer.error && (
+                          <p className="text-[11px] text-destructive mt-1">{sayErrorText(recognizer.error)}</p>
+                        )}
+                        {sayResult && !recognizer.isRecording && (
+                          <div className="mt-1.5">
+                            <div className="flex items-center gap-2">
+                              <span className={`text-sm font-bold ${sayResult.accuracy >= 85 ? "text-primary" : sayResult.accuracy >= 60 ? "text-amber-500" : "text-destructive"}`}>
+                                {sayResult.accuracy}%
+                              </span>
+                              <span className="text-[11px] text-muted-foreground">
+                                {sayResult.accuracy >= 85
+                                  ? t("Rất tốt, câu này bạn nói gần như hoàn hảo.", "Excellent, that was almost word perfect.")
+                                  : sayResult.accuracy >= 60
+                                    ? t("Khá tốt, hãy nói lại và chú ý các từ còn thiếu.", "Good effort, repeat it and watch the missing words.")
+                                    : t("Hãy nghe mẫu một lần nữa rồi nói lại chậm hơn.", "Listen to the model once more, then say it again more slowly.")}
+                              </span>
+                            </div>
+                            {sayResult.missing.length > 0 && (
+                              <p className="text-[11px] text-muted-foreground mt-1">
+                                {t("Từ còn thiếu", "Missing words")}: <span className="text-destructive font-medium">{sayResult.missing.join(", ")}</span>
+                              </p>
+                            )}
+                          </div>
+                        )}
+                        <div className="flex gap-1.5 mt-2">
+                          {!recognizer.isRecording && (
+                            <Button size="sm" variant="secondary" className="h-7 gap-1 text-[11px]" onClick={() => startSayIt(p)}>
+                              <Repeat2 className="w-3 h-3" /> {t("Nói lại", "Try again")}
+                            </Button>
+                          )}
+                          <Button size="sm" variant="ghost" className="h-7 text-[11px] text-muted-foreground" onClick={closeSayIt}>
+                            {t("Đóng", "Close")}
+                          </Button>
+                        </div>
+                      </div>
                     )}
                   </div>
                 ))}
