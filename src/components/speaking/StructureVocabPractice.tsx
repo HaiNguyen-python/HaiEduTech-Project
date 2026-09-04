@@ -615,7 +615,10 @@ const StructureVocabPractice = () => {
           </Card>
         </motion.div>
       )}
+      </>
+      )}
     </div>
+
   );
 };
 
