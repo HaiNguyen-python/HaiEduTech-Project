@@ -221,7 +221,7 @@ const seeds: Seed2[] = [
 
   // Transport
   transport("p3x-trp-2", "Should governments invest more in public transport?",
-    "Yes, because it's the only measure that scales. Building more roads simply attracts more vehicles, whereas a dense **public transport network** reduces **emissions** and gives poorer households genuine mobility."),
+    "Yes, because it's the only measure that scales properly. Building more roads simply attracts more vehicles within a few years, whereas a dense **public transport network** moves far more people per lane, cuts **emissions** and gives poorer households genuine mobility. The difficulty is that the investment is enormous and the political benefit only appears a decade later."),
   transport("p3x-trp-3", "How can people be encouraged to use cars less?",
     "A mix of push and pull. **Congestion charges** and higher parking fees make driving less attractive, but they're only fair if the alternative is reliable. Cities that added cycling lanes and frequent metros saw **car dependency** fall quickly."),
   transport("p3x-trp-4", "Are electric vehicles a real solution to pollution?",
