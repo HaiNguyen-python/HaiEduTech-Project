@@ -15,7 +15,7 @@ describe("placementBridge", () => {
     expect(ladderLevelFrom("vietnamese", "A1", 20)).toBe("A1");
     expect(ladderLevelFrom("vietnamese", "C1", 90)).toBe("C1");
     expect(ladderLevelFrom("chinese", "A1", 15)).toBe("HSK 1");
-    expect(ladderLevelFrom("japanese", "B2", 72)).toBe("N3");
+    expect(ladderLevelFrom("japanese", "B2", 72)).toBe("N2");
   });
 
   it("targets one rung above the current level and never past the top", () => {

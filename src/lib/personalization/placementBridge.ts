@@ -39,7 +39,8 @@ export const ladderLevelFrom = (
   total: number,
   def: SubjectDef = SUBJECTS[subject],
 ): string => {
-  const pos = Math.max(0, Math.min(1, BAND_POS[cefr] * 0.85 + (total / 100) * 0.15));
+  // The band decides the rung; the score only nudges it inside the band.
+  const pos = Math.max(0, Math.min(1, BAND_POS[cefr] + (total / 100 - 0.5) * 0.08));
   const index = Math.round(pos * (def.ladder.length - 1));
   return def.ladder[Math.max(0, Math.min(def.ladder.length - 1, index))];
 };
