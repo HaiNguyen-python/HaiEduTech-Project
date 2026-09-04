@@ -546,7 +546,7 @@ const seeds: Seed2[] = [
   neighbours("p1x-neigh-4", "Do people know their neighbours as well as in the past?",
     "Definitely less. In my grandparents' village it was **a tight-knit community** where everyone knew everyone, whereas in a city apartment block people come and go all the time."),
   neighbours("p1x-neigh-5", "Have you ever helped a neighbour?",
-    "Yes, I helped the family next door carry a wardrobe upstairs last year. It only took ten minutes, but since then we always stop to chat, so it was worth it."),
+    "Yes, I helped the family next door carry a wardrobe upstairs last year. It only took ten minutes to **lend a hand**, but since then we always stop to chat, so it was worth it."),
 
   // Noise
   noise("p1x-noise-2", "What kinds of noise bother you most?",
@@ -576,11 +576,11 @@ const seeds: Seed2[] = [
   cooking("p1x-cook-4", "Do you prefer eating at home or in a restaurant?",
     "At home, generally. **A home-cooked meal** is cheaper and I know exactly what's in it, since I choose the **fresh ingredients** myself. Restaurants are more for special occasions."),
   cooking("p1x-cook-5", "Would you like to learn to cook new dishes?",
-    "I would. I'd love to learn some Japanese dishes, mainly because the technique is so precise. I'd probably start with online videos rather than a class."),
+    "I would. I'd love to learn some Japanese dishes, mainly because the technique is so precise. I'd probably just **follow a recipe** from an online video rather than pay for a class."),
 
   // Flowers & Plants
   plants("p1x-plant-2", "Do people in your country give flowers as gifts?",
-    "Very often, yes - especially on Teachers' Day and Women's Day. Flowers are seen as a polite, safe gift, and every street has a florist around those dates."),
+    "Very often, yes - especially on Teachers' Day and Women's Day. Flowers are seen as a polite, safe gift, and a simple bunch really does **brighten up a room**."),
   plants("p1x-plant-3", "Have you ever grown anything yourself?",
     "I've tried a few herbs on my balcony. I don't exactly **have green fingers**, so I stick to **low-maintenance plants** like mint and basil that survive my forgetfulness."),
   plants("p1x-plant-4", "Where do you usually see flowers in your city?",
@@ -590,7 +590,7 @@ const seeds: Seed2[] = [
 
   // Apps
   apps("p1x-app-2", "How many apps do you have on your phone?",
-    "Far too many - probably fifty, though I only use about eight regularly. Every few months I delete the ones I've forgotten about to free up space."),
+    "Far too many - probably fifty, though I only use about eight regularly. I keep the **time-saving** ones like maps and banking, and delete the rest to free up space."),
   apps("p1x-app-3", "What makes a good app?",
     "**A user-friendly interface**, above all. If I need instructions to find a basic function, I'll delete it. Speed and not being full of ads matter too."),
   apps("p1x-app-4", "Do you spend too much time on your phone?",
@@ -606,7 +606,7 @@ const seeds: Seed2[] = [
   teamwork("p1x-team-4", "Are you a good team player?",
     "I'd like to think so. I'm happy to take on the organising role and I enjoy **bouncing ideas around**, although I do have to remind myself to listen more."),
   teamwork("p1x-team-5", "Do children learn teamwork at school in your country?",
-    "More than before. Group presentations are common now, whereas my parents' generation studied almost entirely alone. It's good preparation for work."),
+    "More than before. Group presentations are common now, so children learn early that everyone has to **pull their weight**, whereas my parents' generation studied almost entirely alone."),
 
   // Childhood
   childhood("p1x-child-2", "Where did you grow up?",
@@ -616,11 +616,11 @@ const seeds: Seed2[] = [
   childhood("p1x-child-4", "Do you think children today have a better childhood?",
     "In some ways, yes - more opportunities and better technology. But they spend far less time outdoors, and I **look back fondly on** how much freedom we had."),
   childhood("p1x-child-5", "Were you well-behaved as a child?",
-    "Mostly, though I was quite talkative in class. My teachers used to move my seat regularly, which my mother still finds funny."),
+    "Mostly, though I was quite talkative in class. Moving my seat is **a vivid memory** for me, and my mother still finds the story funny."),
 
   // Shopping
   shopping("p1x-shop-2", "Do you prefer shopping online or in shops?",
-    "Online for electronics, since I can compare prices, but in person for clothes because sizes vary so much. Online returns are just too much trouble."),
+    "Online for electronics, since I can compare prices and often find **a bargain**, but in person for clothes because sizes vary so much. Online returns are just too much trouble."),
   shopping("p1x-shop-3", "Do you enjoy shopping for clothes?",
     "In small doses. I quite like **window shopping** with a friend, but spending a whole afternoon trying things on is exhausting."),
   shopping("p1x-shop-4", "Do you often buy things you do not need?",
@@ -636,7 +636,7 @@ const seeds: Seed2[] = [
   languages("p1x-lang-4", "What is the best way to learn a language?",
     "Using it, honestly. Grammar books help at the start, but you only become **fluent** by speaking to real people and making a lot of mistakes."),
   languages("p1x-lang-5", "Is English important in your country?",
-    "Increasingly so. Most good jobs list it as a requirement, and many universities teach some subjects in English, so parents start their children very early."),
+    "Increasingly so. Most good jobs expect you to **be fluent in** English, and many universities teach some subjects in it, so parents start their children very early."),
 
   // Free Time
   freeTime("p1x-free-2", "How do you like to relax after a long day?",
@@ -646,7 +646,7 @@ const seeds: Seed2[] = [
   freeTime("p1x-free-4", "Do you prefer spending free time alone or with others?",
     "A bit of both. During the week I need quiet time alone, but at the weekend I like to **catch up with friends** - it's a nice **change of scenery**."),
   freeTime("p1x-free-5", "Has the way you spend free time changed?",
-    "Yes. I used to play video games for hours, whereas now I'd rather go for a walk or read. My eyes are tired enough after work."),
+    "Yes. I used to play video games for hours, whereas now I'd rather walk or read to **unwind**. My eyes are tired enough after work."),
 
   // Advertising
   advertising("p1x-ad-2", "Where do you see most advertisements?",
@@ -654,7 +654,7 @@ const seeds: Seed2[] = [
   advertising("p1x-ad-3", "What makes an advertisement effective?",
     "Humour and a story, rather than facts about the product. **A catchy slogan** helps too - there are jingles from my childhood I still remember word for word."),
   advertising("p1x-ad-4", "Should advertising be controlled?",
-    "In some areas, yes. Ads for junk food during children's programmes should be limited, because children can't judge what's really being sold to them."),
+    "In some areas, yes. Children are **bombarded with ads** for junk food during their programmes, and they can't really judge what is being sold to them."),
   advertising("p1x-ad-5", "Have you ever bought something because of an advert?",
     "Yes, a pair of running shoes I saw repeatedly online. I'd say the advert built the **brand awareness** and a friend's recommendation finished the job."),
 
@@ -674,7 +674,7 @@ const seeds: Seed2[] = [
   colours("p1x-col-3", "Do colours affect your mood?",
     "I think so. A room painted in **neutral tones** feels much calmer, whereas strong red walls would make me restless. I notice it most in workspaces."),
   colours("p1x-col-4", "Are certain colours important in your culture?",
-    "Yes - red is associated with luck and celebration, so you see it everywhere at Tet and at weddings. White, on the other hand, is linked to funerals."),
+    "Yes - red is **a bold colour** associated with luck and celebration, so you see it everywhere at Tet and at weddings. White, on the other hand, is linked to funerals."),
   colours("p1x-col-5", "Do you like wearing bright colours?",
     "Occasionally, as an accent. I might add **a bold colour** with a scarf or shoes to **brighten up an outfit**, but not head to toe."),
 
@@ -694,7 +694,7 @@ const seeds: Seed2[] = [
   family("p1x-fam-3", "Who are you closest to in your family?",
     "My older sister. We **take after** our father in temperament, so we understand each other quickly, and she's the person I call when something goes wrong."),
   family("p1x-fam-4", "Do families in your country live together?",
-    "Traditionally yes, three generations under one roof, and that's still common in the countryside. In cities young people increasingly rent their own place for work."),
+    "Traditionally yes, three generations under one roof, and an **extended family** like that is still common in the countryside. In cities young people increasingly rent their own place for work."),
   family("p1x-fam-5", "What activities do you do together as a family?",
     "Dinner every evening is the main one, and we **make a point of** travelling together once a year. Those trips are the best **quality time** we get."),
 
@@ -706,7 +706,7 @@ const seeds: Seed2[] = [
   timeMgmt("p1x-time-4", "Do you think being punctual is important?",
     "Very. **Being punctual** shows you respect other people's time, and in a work context it affects how reliable people think you are."),
   timeMgmt("p1x-time-5", "Do you ever waste time?",
-    "Of course - usually on my phone. I can lose half an hour without noticing, which is why I've started keeping it in another room while I study."),
+    "Of course - usually on my phone. I **put things off** without noticing and lose half an hour, which is why I now keep it in another room while I study."),
 
   // News
   news("p1x-news-2", "Do you prefer reading or watching the news?",
@@ -734,7 +734,7 @@ const seeds: Seed2[] = [
   animals("p1x-ani-3", "Are pets popular in your country?",
     "Increasingly so, especially in cities. Twenty years ago dogs mainly guarded houses, whereas now people genuinely **look after** them as family members."),
   animals("p1x-ani-4", "Did you learn about animals at school?",
-    "A little in biology, and we had one school trip to a nature reserve. Most of what I know comes from documentaries, to be honest."),
+    "A little in biology, and we had one school trip to a nature reserve where we learned how to **look after** injured birds. Most of what I know, though, comes from documentaries."),
   animals("p1x-ani-5", "Would you like to work with animals?",
     "Not as a career, but I'd happily volunteer at a shelter. There are a lot of **stray animals** in my area and the shelters are always short of help."),
 
@@ -756,7 +756,7 @@ const seeds: Seed2[] = [
   museums("p1x-mus-4", "How could museums attract more young people?",
     "More **hands-on displays** and better use of technology. A **guided tour** with a good storyteller can genuinely **bring history to life**, whereas glass cases alone can't."),
   museums("p1x-mus-5", "Should museums be free?",
-    "Ideally yes, or at least free for students. Museums are educational, so charging high prices defeats the point of having them."),
+    "Ideally yes, or at least free for students. **An exhibition** is educational, so charging high prices rather defeats the point of having museums at all."),
 
   // Drinks
   drinks("p1x-drink-2", "Do you drink coffee or tea?",
@@ -770,7 +770,7 @@ const seeds: Seed2[] = [
 
   // Things & Repairs
   repairs("p1x-rep-2", "Are you good at fixing things?",
-    "Only simple things - changing a plug or tightening a screw. Anything electronic and I'd rather take it to a shop than make it worse."),
+    "Only simple things - changing a plug or tightening a screw. If something is **beyond repair** I'll take it to a shop rather than make it worse."),
   repairs("p1x-rep-3", "Is it easy to get things repaired where you live?",
     "Yes, fortunately. There are small repair shops on almost every street for phones, bikes and shoes, and they're quick and cheap."),
   repairs("p1x-rep-4", "Do people repair things less than in the past?",
@@ -792,11 +792,11 @@ const seeds: Seed2[] = [
   clothes("p1x-clo-2", "What kind of clothes do you usually wear?",
     "Something **comfortable and practical** - jeans and a T-shirt most days. The weather is hot, so light fabrics matter more than style."),
   clothes("p1x-clo-3", "Do you follow fashion?",
-    "Not closely. I notice trends, but I buy things that last rather than whatever is popular for one season."),
+    "Not closely. I notice trends, but I mostly buy **comfortable and practical** clothes that last, rather than whatever is popular for one season."),
   clothes("p1x-clo-4", "Do you like dressing formally?",
     "Occasionally. I quite enjoy **dressing up** for a wedding or an interview, but I wouldn't want **a dress code** like that every day."),
   clothes("p1x-clo-5", "Do people in your country wear traditional clothes?",
-    "Mainly at festivals, weddings and some school ceremonies. The ao dai is still worn by female students in many high schools on Mondays."),
+    "Mainly at festivals and weddings, where people **dress up** properly. The ao dai is also still worn by female students in many high schools on Mondays."),
 
   // Sounds
   sounds("p1x-sou-2", "Is there any sound you dislike?",
@@ -816,7 +816,7 @@ const seeds: Seed2[] = [
   communication("p1x-com-4", "Has technology changed how people communicate?",
     "Enormously. We're in constant contact but the conversations are shorter, and it's very easy to **misread a message** without tone of voice."),
   communication("p1x-com-5", "Are you good at explaining things?",
-    "I'm getting better. I used to give too much detail, so now I start with the main point and add explanation only if the person asks."),
+    "I'm getting better. I used to give too much detail, so now I **keep it brief** and add explanation only if the person asks."),
 
   // Goals
   goals("p1x-goal-2", "What is your main goal at the moment?",
@@ -832,7 +832,7 @@ const seeds: Seed2[] = [
   subjects("p1x-sub-2", "Which subject did you find most difficult?",
     "Chemistry. I could memorise the equations but I never understood why they worked, so I always **struggled with** the harder problems."),
   subjects("p1x-sub-3", "Do you think schools teach the right subjects?",
-    "Mostly, though I'd add personal finance and basic cooking. They're skills everybody needs and almost nobody is taught formally."),
+    "Mostly, though I'd add personal finance and basic cooking. They're **practical lessons** everybody needs and almost nobody is taught formally."),
   subjects("p1x-sub-4", "Did you prefer practical or theoretical lessons?",
     "**Practical lessons**, definitely. In biology we did experiments a few times a term, and I remember those far better than any textbook chapter."),
   subjects("p1x-sub-5", "Would you like to study a new subject now?",
@@ -842,7 +842,7 @@ const seeds: Seed2[] = [
   places("p1x-pla-2", "What is your favourite place in your city?",
     "A small lake near my house. It has **a lively atmosphere** in the evening but it's still calm enough to walk and think."),
   places("p1x-pla-3", "Do you prefer indoor or outdoor places?",
-    "Outdoor, when the weather allows. I'd choose a park bench over a shopping centre, even though the centres are air-conditioned."),
+    "Outdoor, when the weather allows. I'd choose a quiet park bench over a shopping centre that's **packed with people**, even though the centres are air-conditioned."),
   places("p1x-pla-4", "Are there any places you would like to visit in your country?",
     "Ha Giang in the north. It's still fairly **off the beaten track**, and the mountain scenery there looks completely different from where I live."),
   places("p1x-pla-5", "How have places in your city changed?",
@@ -856,7 +856,7 @@ const seeds: Seed2[] = [
   money("p1x-mon-4", "Are you saving for anything at the moment?",
     "I'm **saving up for** a trip to Japan next year. I transfer a fixed amount every payday so I'm not tempted to spend it."),
   money("p1x-mon-5", "Should schools teach children about money?",
-    "Absolutely. Budgeting, interest and saving are things everyone deals with, and most people learn them the hard way instead."),
+    "Absolutely. Learning to **live within your means** is something everyone deals with sooner or later, and most people currently learn it the hard way instead."),
 
   // Transport
   transport("p1x-tra-3", "What is the traffic like where you live?",
@@ -872,7 +872,7 @@ const seeds: Seed2[] = [
   photography("p1x-pho-4", "Do you edit your photos?",
     "Only lightly - brightness and cropping. I don't like heavily **edited photos** because they stop looking like the place I actually visited."),
   photography("p1x-pho-5", "Do you keep printed photographs?",
-    "A few in an album at my parents' house. Almost everything is digital now, but I like the idea of printing the best ones each year."),
+    "A few in an album at my parents' house. Almost everything is digital now, but printed photos **capture a moment** better, so I print the best ones each year."),
 ];
 
 export const SPEAKING_PRACTICE_EXPANSION_4: { part1: SpeakingPracticeQuestion[] } = {
