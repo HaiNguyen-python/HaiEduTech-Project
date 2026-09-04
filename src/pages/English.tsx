@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
+import PlacementCta from "@/components/personalization/PlacementCta";
 import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle, Star, GraduationCap, Mic } from "lucide-react";
@@ -394,6 +395,9 @@ const English = () => {
           </motion.div>
         </div>
       </div>
+      <section className="container mx-auto px-4 sm:px-6 pb-12">
+        <PlacementCta subject="english" />
+      </section>
       <Footer />
     </div>
   );

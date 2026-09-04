@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PlacementCta from "@/components/personalization/PlacementCta";
 import FloatingJapaneseIcons from "@/components/japanese/FloatingJapaneseIcons";
 import JaSection, { JaSectionItem } from "@/components/japanese/JaSection";
 import {
@@ -1040,6 +1041,9 @@ const Japanese = () => {
           </TabsContent>
         </Tabs>
       </div>
+      <section className="container mx-auto px-4 sm:px-6 pb-12">
+        <PlacementCta subject="japanese" />
+      </section>
       <Footer />
     </div>
   );
