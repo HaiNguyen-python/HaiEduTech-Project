@@ -12,7 +12,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Volume2, Mic, Square, ArrowLeft, ArrowRight, CheckCircle2,
+  Volume2, Mic, Square, ArrowLeft, ArrowRight,
   Loader2, ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
