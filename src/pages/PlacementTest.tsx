@@ -350,7 +350,7 @@ const PlacementTest = () => {
           reached: seen.has(item.id),
         };
       });
-      const outcome = buildOutcome(outcomes);
+      const outcome = buildOutcome(outcomes, subject);
       const listening = outcome.skills.listening;
       const reading = outcome.skills.reading;
       const writing = outcome.skills.writing;
