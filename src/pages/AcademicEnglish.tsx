@@ -23,7 +23,6 @@ const AcademicEnglish = () => (
       track="academic"
       storageKey="haiedu-academic-english-v1"
       activityType="academic_english_lesson"
-      emoji="🎓"
       title="Academic English"
       titleVi="Tiếng Anh Học thuật"
       tagline="Vocabulary, style, writing, reading and lecture skills for university and IELTS-level study."

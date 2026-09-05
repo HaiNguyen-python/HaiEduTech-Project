@@ -23,7 +23,6 @@ const BusinessEnglish = () => (
       track="business"
       storageKey="haiedu-business-english-v1"
       activityType="business_english_lesson"
-      emoji="💼"
       title="Business English"
       titleVi="Tiếng Anh Thương mại"
       tagline="Practical English for emails, meetings, presentations, negotiation and job interviews."
