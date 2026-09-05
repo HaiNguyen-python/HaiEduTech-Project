@@ -19,14 +19,9 @@ import PollBlock from "./PollBlock";
 
 
 
-type Comment = {
-  id: string;
-  post_id: string;
-  user_id: string;
-  content: string;
-  created_at: string;
-  author: FeedAuthor | null;
-};
+import CommentItem, { type CornerComment, type CommentLikeMap } from "./CommentItem";
+
+type Comment = CornerComment;
 
 interface Props {
   post: FeedPost;
@@ -48,6 +43,7 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [commentLikes, setCommentLikes] = useState<CommentLikeMap>({});
 
   useEffect(() => {
     setLiked(post.liked_by_me);
@@ -145,17 +141,35 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
     setLoadingComments(true);
     const { data } = await supabase
       .from("your_corner_comments")
-      .select("id, post_id, user_id, content, created_at")
+      .select("id, post_id, user_id, content, created_at, parent_id")
       .eq("post_id", post.id)
       .order("created_at", { ascending: true });
-    const list = data ?? [];
-    const ids = Array.from(new Set(list.map((c) => c.user_id)));
+    const list = (data ?? []) as any[];
+    const ids = Array.from(new Set(list.map((c) => c.user_id as string)));
     const { data: profs } = ids.length
       ? await supabase.rpc("get_public_profiles", { _ids: ids })
       : { data: [] as FeedAuthor[] };
     const pmap = new Map<string, FeedAuthor>();
     (profs ?? []).forEach((p: any) => pmap.set(p.id, p));
-    setComments(list.map((c) => ({ ...c, author: pmap.get(c.user_id) ?? null })));
+    setComments(list.map((c) => ({ ...c, parent_id: c.parent_id ?? null, author: pmap.get(c.user_id) ?? null })));
+
+    // Per-comment hearts
+    const commentIds = list.map((c) => c.id as string);
+    if (commentIds.length > 0) {
+      const { data: rx } = await (supabase.from("your_corner_comment_reactions" as any) as any)
+        .select("comment_id, user_id")
+        .in("comment_id", commentIds);
+      const map: CommentLikeMap = {};
+      (rx ?? []).forEach((r: any) => {
+        const cur = map[r.comment_id] ?? { count: 0, me: false };
+        cur.count += 1;
+        if (r.user_id === currentUserId) cur.me = true;
+        map[r.comment_id] = cur;
+      });
+      setCommentLikes(map);
+    } else {
+      setCommentLikes({});
+    }
     setLoadingComments(false);
   };
 
@@ -181,6 +195,34 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
     setCommentText("");
     await loadComments();
     onChanged();
+  };
+
+  const submitReply = async (parentId: string, text: string) => {
+    const { error } = await (supabase.from("your_corner_comments") as any)
+      .insert({ post_id: post.id, user_id: currentUserId, content: text, parent_id: parentId });
+    if (error) {
+      toast.error("Không gửi được trả lời");
+      return;
+    }
+    toast.success("Đã trả lời 💬");
+    await loadComments();
+    onChanged();
+  };
+
+  const toggleCommentLike = async (commentId: string) => {
+    const cur = commentLikes[commentId] ?? { count: 0, me: false };
+    const next = !cur.me;
+    setCommentLikes((m) => ({
+      ...m,
+      [commentId]: { count: Math.max(0, cur.count + (next ? 1 : -1)), me: next },
+    }));
+    const table = supabase.from("your_corner_comment_reactions" as any) as any;
+    const { error } = next
+      ? await table.insert({ comment_id: commentId, user_id: currentUserId })
+      : await table.delete().eq("comment_id", commentId).eq("user_id", currentUserId);
+    if (error) {
+      setCommentLikes((m) => ({ ...m, [commentId]: cur }));
+    }
   };
 
   const deletePost = async () => {
@@ -436,38 +478,23 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
           {loadingComments ? (
             <p className="text-sm text-muted-foreground text-center">Đang tải...</p>
           ) : (
-            comments.map((c) => {
-              const cname = c.author?.full_name?.trim() || "Học viên";
-              const cinit = cname.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
-              const canDelete = c.user_id === currentUserId || isMine;
-              return (
-                <div key={c.id} className="flex items-start gap-2 animate-fade-in">
-                  <Avatar className="h-7 w-7 flex-shrink-0">
-                    {c.author?.avatar_url && <AvatarImage src={c.author.avatar_url} alt={cname} />}
-                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs">
-                      {cinit}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 bg-muted/50 rounded-2xl px-3 py-2">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-xs font-semibold">{cname}</p>
-                      {canDelete && (
-                        <button
-                          onClick={() => deleteComment(c.id)}
-                          className="text-muted-foreground hover:text-destructive"
-                          aria-label="Xoá"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
-                    <p className="text-sm whitespace-pre-wrap break-words">
-                      {DOMPurify.sanitize(c.content, { ALLOWED_TAGS: [] })}
-                    </p>
-                  </div>
-                </div>
-              );
-            })
+            (() => {
+              const topLevel = comments.filter((c) => !c.parent_id);
+              const repliesOf = (id: string) => comments.filter((c) => c.parent_id === id);
+              return topLevel.map((c) => (
+                <CommentItem
+                  key={c.id}
+                  comment={c}
+                  replies={repliesOf(c.id)}
+                  currentUserId={currentUserId}
+                  postOwnerId={post.user_id}
+                  likes={commentLikes}
+                  onToggleLike={toggleCommentLike}
+                  onSubmitReply={submitReply}
+                  onDelete={deleteComment}
+                />
+              ));
+            })()
           )}
 
           <div className="flex items-center gap-2">
