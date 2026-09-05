@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown, BarChart3, Plus, Trash2 } from "lucide-react";
+import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown, BarChart3, Plus, Trash2, HelpCircle } from "lucide-react";
 
 import { toast } from "sonner";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
@@ -36,6 +36,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [subject, setSubject] = useState<SubjectKey | null>(null);
+  const [isQuestion, setIsQuestion] = useState(false);
   const [mood, setMood] = useState<string | null>(null);
   const [visibility, setVisibility] = useState<Visibility>("public");
   const [expanded, setExpanded] = useState(false);
@@ -206,6 +207,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         mood: mood ?? null,
         visibility,
         poll: pollPayload as any,
+        is_question: isQuestion,
         created_at: now,
         updated_at: now,
       };
@@ -228,6 +230,7 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
       setContent("");
       clearImages();
       setSubject(null);
+      setIsQuestion(false);
       setMood(null);
       setVisibility("public");
       setExpanded(false);
@@ -453,6 +456,18 @@ export default function PostComposer({ userId, onPosted, userName, userAvatar, m
         </Button>
 
 
+
+        {/* Language question toggle */}
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsQuestion((v) => !v)}
+          className={`px-2 h-8 text-xs ${isQuestion ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "text-emerald-600 hover:text-emerald-700"}`}
+          title="Đánh dấu bài này là câu hỏi ngôn ngữ để mọi người vào giúp"
+        >
+          <HelpCircle className="w-4 h-4 mr-1" /> {isQuestion ? "Đang hỏi" : "Câu hỏi"}
+        </Button>
 
         {/* Subject picker */}
         <Popover>
