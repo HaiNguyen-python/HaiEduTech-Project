@@ -268,19 +268,25 @@ const Navbar = () => {
 
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("🎯 Cambridge IELTS", "🎯 Cambridge IELTS"), groupLabel: "ielts", children: ieltsChildren },
-    // Other international exams (TOEIC / PTE / SAT)
-    { to: "#en-exams-group", label: t("🌐 Luyện thi Quốc tế khác", "🌐 Other International Exams"), groupLabel: "en-exams", children: [
+    // Combined: international exams + national exam under one group
+    { to: "#en-other-exams-group", label: t("🌐 Các kỳ thi tiếng Anh khác", "🌐 Other English Exams"), groupLabel: "en-other-exams", children: [
       { to: "/toeic", label: "TOEIC", icon: BookOpen },
       { to: "/pte", label: "PTE Academic", icon: Target },
       { to: "/english/sat", label: "SAT", icon: PenTool },
+      { to: "#en-other-exams-div", label: "", divider: true },
+      ...nationalExamChildren,
     ] },
-    // Vietnamese national exam
-    { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "#en-div2", label: "", divider: true },
-    { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
-    { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-    { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking Studio", "🎤 Presentation & Public Speaking Studio") },
+    // Combined: fun facts + songs under one group
+    { to: "#en-fun-group", label: t("✨ Bài học tiếng Anh vui", "✨ Fun English Lessons"), groupLabel: "en-fun", children: [
+      { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
+      { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
+    ] },
+    // Combined: speaking coach + presentation studio under one group
+    { to: "#en-speaking-group", label: t("🎙️ Luyện nói", "🎙️ Speaking Coach"), groupLabel: "en-speaking", children: [
+      { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
+      { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking Studio", "🎤 Presentation & Public Speaking Studio") },
+    ] },
     { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
   ];
   const chineseSubs: SubItem[] = [
@@ -823,10 +829,13 @@ const Navbar = () => {
                                         {!sub.children.some(c => c.header) && (
                                           <div className="px-4 py-1.5 mb-1">
                                             <span className={`text-[10px] font-bold uppercase tracking-widest ${sc.header}`}>
-                                              {sub.groupLabel === "ielts" ? "Cambridge IELTS"
+                                            {sub.groupLabel === "ielts" ? "Cambridge IELTS"
                                                 : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                                 : sub.groupLabel === "en-foundation" ? t("Cambridge Starters -> PET", "Cambridge Starters -> PET")
                                                 : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
+                                                : sub.groupLabel === "en-other-exams" ? t("Các kỳ thi tiếng Anh khác", "Other English Exams")
+                                                : sub.groupLabel === "en-fun" ? t("Bài học tiếng Anh vui", "Fun English Lessons")
+                                                : sub.groupLabel === "en-speaking" ? t("Luyện nói", "Speaking Coach")
                                                 : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
                                                 : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
                                                 : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
