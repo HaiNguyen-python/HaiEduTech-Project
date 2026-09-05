@@ -415,7 +415,7 @@ const ALL_GREETINGS: Phrase[] = dedupeBy([...GREETINGS, ...GREETINGS_EXTRA], (p)
 /** Vocabulary topics merged, then de-duplicated word by word across every topic. */
 const ALL_VOCAB = (() => {
   const seen = new Set<string>();
-  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items }))]
+  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items })), ...VOCAB_EXTRA_2]
     .map((g) => ({
       topic: g.topic,
       items: g.items.filter((p) => {
