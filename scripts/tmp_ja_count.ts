@@ -8,3 +8,9 @@ console.log("kanji groups", KANJI_GROUPS.length, KANJI_GROUPS.reduce((n,g)=>n+g.
 console.log("greetings extra", GREETINGS_EXTRA.length, "counters", COUNTERS.length);
 console.log("dialogues extra", DIALOGUES_EXTRA.length, "grammar extra", GRAMMAR_EXTRA.length);
 console.log("quiz", JA_QUIZ.length, JA_QUIZ_EXTRA.length);
+const ks = new Set<string>([...KANJI_GROUPS.flatMap(g=>g.items.map(i=>i.kanji)), ...KANJI_EXTRA.map(k=>k.kanji)]);
+console.log("KANJI:", [...ks].join(""));
+console.log("WORDS:", [...VOCAB_TOPICS.flatMap(g=>g.items.map(i=>i.jp)), ...VOCAB_EXTRA.flatMap(g=>g.items.map(i=>i.jp))].join(" "));
+console.log("TOPICS:", VOCAB_TOPICS.map(g=>g.topic).join(" | "), "||", VOCAB_EXTRA.map(g=>g.topic).join(" | "));
+console.log("GRAMMAR:", GRAMMAR_EXTRA.map(g=>g.title).join(" | "));
+console.log("DIALOGUES:", DIALOGUES_EXTRA.map(d=>d.title).join(" | "));
