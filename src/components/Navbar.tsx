@@ -294,7 +294,7 @@ const Navbar = () => {
       { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
       { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking", "🎤 Presentation & Public Speaking") },
     ] },
-    { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
+  ];
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
