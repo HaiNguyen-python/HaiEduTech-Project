@@ -295,7 +295,6 @@ const Navbar = () => {
       { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking", "🎤 Presentation & Public Speaking") },
     ] },
   ];
-  ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/placement-test?subject=chinese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
