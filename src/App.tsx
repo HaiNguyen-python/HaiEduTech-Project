@@ -295,6 +295,8 @@ const SongsLibraryPage = lazy(() => import("./pages/SongsLibraryPage.tsx"));
 const SpecializedLanguage = lazy(() => import("./pages/SpecializedLanguage.tsx"));
 const EnglishPronunciation = lazy(() => import("./pages/EnglishPronunciation.tsx"));
 const EnglishEssentials = lazy(() => import("./pages/EnglishEssentials.tsx"));
+const BusinessEnglish = lazy(() => import("./pages/BusinessEnglish.tsx"));
+const AcademicEnglish = lazy(() => import("./pages/AcademicEnglish.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -343,6 +345,8 @@ const App = () => (
            <Route path="/english/grammar" element={<LazyRoute><EnglishGrammar /></LazyRoute>} />
            <Route path="/english/pronunciation" element={<LazyRoute><EnglishPronunciation /></LazyRoute>} />
             <Route path="/english/essentials" element={<LazyRoute><EnglishEssentials /></LazyRoute>} />
+            <Route path="/english/business" element={<LazyRoute><BusinessEnglish /></LazyRoute>} />
+            <Route path="/english/academic" element={<LazyRoute><AcademicEnglish /></LazyRoute>} />
             <Route path="/english/:courseId" element={<LazyRoute><EnglishCourse /></LazyRoute>} />
 
             <Route path="/english/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
