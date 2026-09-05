@@ -1671,7 +1671,67 @@ ${suggestionsHtml}
                         </div>
                       )}
 
-                      {/* Band 8.0+ upgrade panel removed - focus on score + error correction */}
+                      {/* Band 8.0+ upgrade of the learner's own answer */}
+                      <div className="bg-gradient-to-br from-primary/10 to-emerald-500/10 border border-primary/20 rounded-xl p-5">
+                        <h4 className="text-base font-bold text-foreground mb-1 flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-primary" />
+                          {t("Nâng cấp bài nói của bạn (Band 8.0+)", "Upgrade my answer (Band 8.0+)")}
+                        </h4>
+                        <p className="text-xs text-muted-foreground mb-3">
+                          {t(
+                            "Giữ nguyên ý của bạn, chỉ nâng cấp từ vựng và ngữ pháp. Cụm được nâng cấp sẽ in đậm.",
+                            "Your own ideas are kept - only the vocabulary and grammar are improved. Upgraded phrases are shown in bold.",
+                          )}
+                        </p>
+                        {!result.upgradedAnswer && (
+                          <Button onClick={handleUpgrade} disabled={upgrading} className="gap-2 bg-gradient-to-r from-primary to-emerald-500 text-white hover:opacity-90">
+                            {upgrading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                            {upgrading
+                              ? t("Đang nâng cấp...", "Upgrading...")
+                              : t("Nâng cấp bài nói của tôi", "Upgrade my answer")}
+                          </Button>
+                        )}
+                        {upgradeError && (
+                          <p className="text-sm text-destructive mt-2">{upgradeError}</p>
+                        )}
+                        {result.upgradedAnswer && (
+                          <>
+                            <p
+                              className="text-base text-foreground leading-relaxed whitespace-pre-wrap"
+                              dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(
+                                  result.upgradedAnswer.replace(
+                                    /\*\*(.+?)\*\*/g,
+                                    '<strong class="text-primary font-bold">$1</strong>',
+                                  ),
+                                ),
+                              }}
+                            />
+                            <div className="flex flex-wrap gap-2 mt-3">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-2"
+                                onClick={() => {
+                                  try {
+                                    window.speechSynthesis?.cancel();
+                                    const u = new SpeechSynthesisUtterance((result.upgradedAnswer || "").replace(/\*\*/g, ""));
+                                    u.lang = "en-GB";
+                                    u.rate = 0.95;
+                                    window.speechSynthesis?.speak(u);
+                                  } catch { /* noop */ }
+                                }}
+                              >
+                                <Volume2 className="w-4 h-4" /> {t("Nghe bài nâng cấp", "Listen to the upgrade")}
+                              </Button>
+                              <Button variant="ghost" size="sm" className="gap-2" onClick={handleUpgrade} disabled={upgrading}>
+                                {upgrading ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
+                                {t("Tạo lại", "Regenerate")}
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                      </div>
 
 
                       {/* Criteria */}
