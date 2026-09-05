@@ -54,6 +54,24 @@ interface SubjectColor {
   accent: string;       // left accent bar on hover
 }
 const SUBJECT_COLORS: Record<string, SubjectColor> = {
+  home: {
+    trigger: "hover:text-teal-600 hover:bg-teal-500/10",
+    rowHover: "hover:text-teal-600 hover:bg-teal-500/10",
+    rowActive: "text-teal-600 bg-teal-500/10",
+    childHover: "hover:text-teal-600 hover:bg-teal-500/10",
+    icon: "text-teal-500/80",
+    header: "text-teal-600",
+    accent: "hover:border-teal-500",
+  },
+  about: {
+    trigger: "hover:text-orange-600 hover:bg-orange-500/10",
+    rowHover: "hover:text-orange-600 hover:bg-orange-500/10",
+    rowActive: "text-orange-600 bg-orange-500/10",
+    childHover: "hover:text-orange-600 hover:bg-orange-500/10",
+    icon: "text-orange-500/80",
+    header: "text-orange-600",
+    accent: "hover:border-orange-500",
+  },
   en: {
     trigger: "hover:text-blue-600 hover:bg-blue-500/10",
     rowHover: "hover:text-blue-600 hover:bg-blue-500/10",
