@@ -572,10 +572,24 @@ ${suggestionsHtml}
 
   // Grading - sends actual transcript to AI
   const handleGrade = async () => {
-    if (!audioBlob) return;
+    if (loading) return;
+    const transcriptForGrading = liveTranscript.trim();
+    if (!currentQ) return;
+    if (finalizing) {
+      setGradeNotice(t("Đang lưu bản ghi, vui lòng chờ 1-2 giây rồi bấm lại.", "Saving your recording - please wait a second and press again."));
+      return;
+    }
+    // We can grade from the transcript even if the audio clip is missing or empty.
+    if (!transcriptForGrading && (!audioBlob || audioBlob.size === 0)) {
+      setGradeNotice(t(
+        "Chưa có nội dung để chấm. Hãy bấm Bắt đầu ghi âm, nói 20-30 giây rồi bấm Dừng, sau đó bấm Chấm điểm.",
+        "There is nothing to grade yet. Press Start Recording, speak for 20-30 seconds, press Stop, then press Grade.",
+      ));
+      return;
+    }
+    setGradeNotice(null);
     setLoading(true);
     let gradedResult: SpeakingResult | null = null;
-    const transcriptForGrading = liveTranscript.trim();
     const buildInstantResult = (reason: string): SpeakingResult => {
       const words = transcriptForGrading ? transcriptForGrading.split(/\s+/).filter(Boolean).length : 0;
       const pace = timer > 0 ? (words / Math.max(timer, 1)) * 60 : 0;
