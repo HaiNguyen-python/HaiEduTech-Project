@@ -22,8 +22,10 @@ import VocabReviewQuiz from "@/components/conversational/VocabReviewQuiz";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ConvLesson } from "@/data/conversationalCurriculum";
 import { bannerImageFor, protagonistFor } from "@/lib/conversationalSituationVisuals";
-import { DIALOGUE_KEY_PHRASES } from "@/lib/dialogueKeyPhrases";
+import { resolveDialogueKeyPhrases } from "@/lib/dialogueKeyPhrases";
+import { dialogueAvatarFor } from "@/lib/dialogueAvatars";
 import { highlightKeywords } from "@/lib/highlightKeywords";
+
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { cn } from "@/lib/utils";
 
