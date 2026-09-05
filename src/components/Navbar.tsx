@@ -778,7 +778,10 @@ const Navbar = () => {
                                           : "left-full pl-2 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
                                         } ${flyoutPos.up ? "bottom-0" : "top-0"} w-60 z-50`}
                                       >
-                                        <div className="bg-card rounded-xl shadow-xl border border-border py-2 max-h-[calc(100vh-7rem)] overflow-y-auto nav-scroll">
+                                        <div
+                                          className="bg-card rounded-xl shadow-xl border border-border py-2 overflow-y-auto nav-scroll"
+                                          style={{ maxHeight: flyoutPos.maxH }}
+                                        >
                                         {/* Group header (hidden if children already have section headers) */}
                                         {!sub.children.some(c => c.header) && (
                                           <div className="px-4 py-1.5 mb-1">
