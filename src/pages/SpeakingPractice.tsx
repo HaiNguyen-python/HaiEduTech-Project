@@ -657,10 +657,17 @@ ${suggestionsHtml}
         } catch (e) { console.error("log speaking failed", e); }
       })();
     } catch (error) {
+      console.error("grade-speaking failed, using local score:", error);
       const fallback = buildInstantResult(error instanceof Error && error.message === "client_grading_timeout" ? "AI chấm chi tiết quá chậm. Hệ thống đã trả điểm dự phòng - hãy thử chấm lại để có điểm chuẩn IELTS." : "Hệ thống đã trả điểm nhanh để tránh treo khi chấm.");
       gradedResult = fallback;
       setResult(fallback);
       recordScore(fallback);
+      setGradeNotice(t(
+        "Đây là điểm dự phòng nhanh (AI chấm chi tiết chưa phản hồi). Hãy bấm Chấm điểm lại để lấy điểm chuẩn IELTS.",
+        "This is a quick fallback score (the detailed AI examiner did not respond). Press Grade again for the full IELTS score.",
+      ));
+    } finally {
+      setLoading(false);
     }
     // Collect the weak points into the spaced repetition queue (1/3/7 days)
     if (gradedResult) {
