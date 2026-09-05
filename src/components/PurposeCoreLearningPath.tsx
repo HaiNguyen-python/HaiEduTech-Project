@@ -28,8 +28,8 @@ interface Props {
 }
 
 const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Props) => {
-  const { language, t } = useLanguage();
-  const vi = language === "vi";
+  const { lang, t } = useLanguage();
+  const vi = lang === "vi";
   const [done, setDone] = useState<string[]>([]);
   const [active, setActive] = useState<{ topic: PurposeTopic; lesson: PurposeLesson } | null>(null);
   const [openTopic, setOpenTopic] = useState(topics[0]?.id ?? "");
