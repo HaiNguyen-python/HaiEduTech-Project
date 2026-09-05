@@ -27,9 +27,12 @@ export type FeedPost = {
   mood: string | null;
   visibility: string | null;
   created_at: string;
+  pinned_at: string | null;
   author: FeedAuthor | null;
   reaction_count: number;
   liked_by_me: boolean;
+  my_reaction: string | null;
+  reaction_types: Record<string, number> | null;
   comment_count: number;
   bookmarked_by_me: boolean;
   poll: PollData | null;
