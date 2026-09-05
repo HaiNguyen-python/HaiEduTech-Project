@@ -63,6 +63,12 @@
     --card-shadow: 0 4px 24px hsl(173 58% 39% / 0.08);
     --hero-gradient: linear-gradient(135deg, hsl(199 89% 96%), hsl(173 58% 95%));
 
+    /* Hero artistic wave frame */
+    --hero-wave: linear-gradient(160deg, hsl(215 78% 22%) 0%, hsl(206 72% 27%) 45%, hsl(173 58% 32%) 100%);
+    --shadow-hero-art: 0 26px 60px -28px hsl(215 78% 22% / 0.55);
+    --shadow-hero-photo: 0 18px 40px -18px hsl(215 60% 12% / 0.55);
+
+
     /* Classroom command center */
     --classroom-canvas: 32 32% 94%;
     --classroom-surface: 30 40% 99%;

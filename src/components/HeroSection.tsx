@@ -19,6 +19,8 @@ import chibiReading from "@/assets/chibi-reading.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
 import HeroPhotoRotator from "@/components/HeroPhotoRotator";
+import HeroArtFrame from "@/components/HeroArtFrame";
+
 import heroStage from "@/assets/hero/hai-stage.png.asset.json";
 import heroClassroom from "@/assets/hero/hai-classroom.png.asset.json";
 import heroHelsinki from "@/assets/hero/hai-helsinki.png.asset.json";
@@ -88,19 +90,22 @@ const HeroSection = () => {
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="w-full max-w-[320px] shrink-0 sm:max-w-[360px]"
+              className="w-full max-w-[300px] shrink-0 sm:max-w-[400px] lg:max-w-[460px]"
             >
-              <div className="relative aspect-square overflow-hidden rounded-[1.75rem] border-2 border-emerald-500 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
-                <HeroPhotoRotator
-                  photos={[
-                    { src: haiProfile, alt: "Teacher Hai portrait" },
-                    { src: heroStage.url, alt: "Teacher Hai speaking on stage with a microphone" },
-                    { src: heroClassroom.url, alt: "Teacher Hai teaching an English class" },
-                    { src: heroHelsinki.url, alt: "Teacher Hai in front of the University of Helsinki" },
-                    { src: heroStockholm.url, alt: "Teacher Hai walking in Stockholm old town" },
-                  ]}
-                />
-              </div>
+              <HeroArtFrame>
+                <div className="relative aspect-square overflow-hidden rounded-[1.75rem] border border-primary-foreground/60 shadow-hero-photo">
+                  <HeroPhotoRotator
+                    photos={[
+                      { src: haiProfile, alt: "Teacher Hai portrait" },
+                      { src: heroStage.url, alt: "Teacher Hai speaking on stage with a microphone" },
+                      { src: heroClassroom.url, alt: "Teacher Hai teaching an English class" },
+                      { src: heroHelsinki.url, alt: "Teacher Hai in front of the University of Helsinki" },
+                      { src: heroStockholm.url, alt: "Teacher Hai walking in Stockholm old town" },
+                    ]}
+                  />
+                </div>
+              </HeroArtFrame>
+
             </motion.div>
 
             <motion.div
