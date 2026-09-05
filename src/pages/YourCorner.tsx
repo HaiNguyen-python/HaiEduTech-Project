@@ -81,6 +81,7 @@ export default function YourCorner() {
         visibility: newRow.visibility,
         created_at: newRow.created_at,
         pinned_at: null,
+        is_question: !!newRow.is_question,
         author: userId ? { id: userId, full_name: userMeta.name, avatar_url: userMeta.avatar } : null,
         reaction_count: 0,
         liked_by_me: false,

@@ -28,6 +28,7 @@ export type FeedPost = {
   visibility: string | null;
   created_at: string;
   pinned_at: string | null;
+  is_question: boolean;
   author: FeedAuthor | null;
   reaction_count: number;
   liked_by_me: boolean;
@@ -57,6 +58,7 @@ function mapPosts(payload: any): FeedPost[] {
     visibility: p.visibility,
     created_at: p.created_at,
     pinned_at: p.pinned_at ?? null,
+    is_question: !!p.is_question,
     author: authorMap.get(p.user_id) ?? null,
     my_reaction: p.my_reaction ?? null,
     reaction_types: p.reaction_types ?? null,
