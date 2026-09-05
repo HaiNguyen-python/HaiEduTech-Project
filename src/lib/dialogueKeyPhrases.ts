@@ -108,6 +108,43 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
   "I was hoping you could", "Would it be alright if", "If you don't mind",
   "Do you think we could", "I wonder whether", "Perhaps we could",
   "It might be better to", "One option would be", "we may need to",
+
+  // B1+ presenting and Q&A
+  "Today I'm going to talk about", "I'm going to talk about", "we will look at",
+  "By the end of this presentation", "let's dive into", "To start",
+  "let's look at", "Great question", "How did you arrive at",
+  "Does that account for", "I can share the full data", "That sounds reliable",
+  "Can we see the breakdown", "share my screen", "Can everyone hear me",
+  "Thanks for letting me know", "No problem at all", "could you please",
+
+  // B1+ written and async updates
+  "I hope this email finds you well", "I am reaching out to", "I'm reaching out to",
+  "In particular", "I would appreciate your reply", "Please find below",
+  "Please reply to this email", "Best regards", "status update",
+  "Waiting for", "Blocked on", "I noticed", "signing off", "made progress on",
+
+  // B1+ negotiating pay and career moves
+  "Based on my experience", "I am targeting", "I'm targeting", "I understand that",
+  "I am flexible", "I'm flexible", "I look forward to", "let's discuss",
+  "That works for me", "I've decided to", "I wanted to let you know",
+  "I appreciate the opportunity", "What could we have done better",
+  "Can you give me a specific example", "That's a very clear example",
+
+  // B1+ discussion, research and support
+  "Studies show that", "Can you elaborate on", "I partially agree",
+  "Could you tell us how", "What specific measures", "That sounds promising",
+  "we've implemented", "Where should I start", "Remember to filter by",
+  "How do I narrow down", "That's very helpful", "Not necessarily",
+  "Be careful with", "I'm not sure", "Check the author's credentials",
+  "That is usually a red flag", "How will you track progress",
+  "What did you learn from", "That's a valuable lesson", "Do you think",
+  "That is understandable", "What kind of", "Do you want to talk about it",
+  "That sounds really hard", "How long have you felt this way",
+  "Thanks for listening", "I am always here for you", "I'm here for you",
+  "That sounds exhausting", "Is there anything I can do to help",
+  "What's the plan", "I'm torn", "I'll decide by", "You should talk to",
+  "Have you looked at", "I suppose", "Won't that hurt",
+
 ];
 
 /** Ensures every dialogue shows some bold chunks, even when the bank misses. */
