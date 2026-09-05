@@ -34,8 +34,15 @@ const ScreenLoader = () => (
 
 type Phase = "menu" | "solo-setup" | "solo-playing" | "solo-results" | "classroom-student" | "classroom-teacher" | "mini-games";
 
-const VocabArena = () => {
+/**
+ * @param embedded true when the Arena is shown inside the IELTS Vocabulary
+ *   page as a tab; the page chrome (navbar/footer) is then skipped so it is
+ *   not rendered twice.
+ */
+const VocabArena = ({ embedded = false }: { embedded?: boolean }) => {
   const { t } = useLanguage();
+  const PageNav = embedded ? () => null : Navbar;
+  const PageFoot = embedded ? () => null : Footer;
   const { isTeacher, user, loading: roleLoading } = useUserRole();
   const [phase, setPhase] = useState<Phase>(() => {
     if (typeof window === "undefined") return "menu";
@@ -173,7 +180,7 @@ const VocabArena = () => {
   if (phase === "menu") {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
+        <PageNav />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4 max-w-4xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -354,7 +361,7 @@ const VocabArena = () => {
             </motion.div>
           </div>
         </div>
-        <Footer />
+        <PageFoot />
       </div>
     );
   }
@@ -363,7 +370,7 @@ const VocabArena = () => {
   if (phase === "solo-setup") {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
+        <PageNav />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4 max-w-lg">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -447,7 +454,7 @@ const VocabArena = () => {
             </motion.div>
           </div>
         </div>
-        <Footer />
+        <PageFoot />
       </div>
     );
   }
@@ -456,7 +463,7 @@ const VocabArena = () => {
   if (phase === "solo-playing") {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
+        <PageNav />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
             <Suspense fallback={<ScreenLoader />}>
@@ -478,7 +485,7 @@ const VocabArena = () => {
   if (phase === "solo-results" && result) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
+        <PageNav />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
             <Suspense fallback={<ScreenLoader />}>
@@ -494,7 +501,7 @@ const VocabArena = () => {
             </Suspense>
           </div>
         </div>
-        <Footer />
+        <PageFoot />
       </div>
     );
   }
@@ -503,7 +510,7 @@ const VocabArena = () => {
   if (phase === "classroom-student") {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
+        <PageNav />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
             <Suspense fallback={<ScreenLoader />}>
@@ -517,7 +524,7 @@ const VocabArena = () => {
             </Suspense>
           </div>
         </div>
-        <Footer />
+        <PageFoot />
       </div>
     );
   }
@@ -526,7 +533,7 @@ const VocabArena = () => {
   if (phase === "classroom-teacher") {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
+        <PageNav />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
             <Suspense fallback={<ScreenLoader />}>
@@ -534,7 +541,7 @@ const VocabArena = () => {
             </Suspense>
           </div>
         </div>
-        <Footer />
+        <PageFoot />
       </div>
     );
   }
@@ -543,7 +550,7 @@ const VocabArena = () => {
   if (phase === "mini-games") {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
+        <PageNav />
         <div className="pt-6 pb-16">
           <div className="container mx-auto px-4">
             <Suspense fallback={<ScreenLoader />}>
@@ -551,7 +558,7 @@ const VocabArena = () => {
             </Suspense>
           </div>
         </div>
-        <Footer />
+        <PageFoot />
       </div>
     );
   }
