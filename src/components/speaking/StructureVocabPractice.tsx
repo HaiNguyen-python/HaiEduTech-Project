@@ -412,8 +412,9 @@ const StructureVocabPractice = () => {
         </span>
         <Progress value={items.length ? ((idx + (revealed ? 1 : 0)) / items.length) * 100 : 0} className="h-2 flex-1" />
         <span className="text-sm text-muted-foreground whitespace-nowrap">{correctCount} ✓</span>
-        <Button size="sm" variant="ghost" className="hidden sm:inline-flex" onClick={() => { stopEnglishTts(); setPhase("study"); }}>
-          <GraduationCap className="w-4 h-4 mr-1" /> {t("Xem lại bài", "Study list")}
+        <Button size="sm" variant="ghost" onClick={() => { stopEnglishTts(); setPhase("study"); }}>
+          <GraduationCap className="w-4 h-4 sm:mr-1" />
+          <span className="hidden sm:inline">{t("Xem lại bài", "Study list")}</span>
         </Button>
 
         <Button size="sm" onClick={next} disabled={!revealed && !finished}>
