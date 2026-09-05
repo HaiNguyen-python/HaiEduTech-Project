@@ -261,8 +261,11 @@ const Navbar = () => {
     { to: "#en-div1", label: "", divider: true },
     // English Essentials - promoted above Cambridge group
     { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 Foundational English") },
-    { to: "/english/business", label: t("💼 Tiếng Anh Thương mại", "💼 Business English") },
-    { to: "/english/academic", label: t("🎓 Tiếng Anh Học thuật", "🎓 Academic English") },
+    { to: "#en-advanced-group", label: t("🚀 Tiếng Anh Nâng cao", "🚀 Advanced English"), groupLabel: "en-advanced", children: [
+      { to: "/english/business", label: t("💼 Tiếng Anh Thương mại", "💼 Business English") },
+      { to: "/english/academic", label: t("🎓 Tiếng Anh Học thuật", "🎓 Academic English") },
+      { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
+    ] },
     // Foundation (everyday English)
     { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
       { to: "/cambridge-lectures", label: t("🎓 Cambridge Test Prep", "🎓 Cambridge Test Prep") },
