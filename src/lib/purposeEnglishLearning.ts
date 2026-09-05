@@ -26,8 +26,9 @@ export const topicLearningMeta = (topic: PurposeTopic) => TOPIC_SKILLS[topic.id]
 export const lessonMinutes = (lesson: PurposeLesson) => 12 + Math.min(6, Math.ceil(lesson.teaching.length / 260));
 
 export const lessonOutcome = (lesson: PurposeLesson, vietnamese: boolean) => vietnamese
-  ? `Sau bài này, bạn có thể ${lesson.gistVi.charAt(0).toLocaleLowerCase("vi")}${lesson.gistVi.slice(1).replace(/[.]$/, "")} trong một tình huống thực tế.`
-  : `By the end, you can ${lesson.gist.charAt(0).toLowerCase()}${lesson.gist.slice(1).replace(/[.]$/, "")} in a realistic situation.`;
+  ? `Mục tiêu trong tình huống thật: ${lesson.gistVi}`
+  : `Goal in a real situation: ${lesson.gist}`;
+
 
 export const splitTeaching = (text: string) => {
   const chunks = text.split(/(?<=[.!?])\s+(?=[A-Z"“])/).filter(Boolean);
