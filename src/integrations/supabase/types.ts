@@ -3898,6 +3898,7 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          is_helpful: boolean
           parent_id: string | null
           post_id: string
           user_id: string
@@ -3906,6 +3907,7 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          is_helpful?: boolean
           parent_id?: string | null
           post_id: string
           user_id: string
@@ -3914,6 +3916,7 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          is_helpful?: boolean
           parent_id?: string | null
           post_id?: string
           user_id?: string
@@ -4001,6 +4004,7 @@ export type Database = {
           id: string
           image_url: string | null
           image_urls: Json | null
+          is_question: boolean
           mood: string | null
           pinned_at: string | null
           pinned_by: string | null
@@ -4016,6 +4020,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           image_urls?: Json | null
+          is_question?: boolean
           mood?: string | null
           pinned_at?: string | null
           pinned_by?: string | null
@@ -4031,6 +4036,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           image_urls?: Json | null
+          is_question?: boolean
           mood?: string | null
           pinned_at?: string | null
           pinned_by?: string | null
@@ -4160,6 +4166,15 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_post_reactors: {
+        Args: { _post_id: string }
+        Returns: {
+          avatar_url: string
+          full_name: string
+          type: string
+          user_id: string
+        }[]
+      }
       get_public_profiles: {
         Args: { _ids: string[] }
         Returns: {
@@ -4222,6 +4237,17 @@ export type Database = {
       get_your_corner_feed:
         | { Args: { _limit?: number }; Returns: Json }
         | { Args: { _limit?: number; _offset?: number }; Returns: Json }
+      get_your_corner_helpers: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          full_name: string
+          heart_count: number
+          helpful_count: number
+          score: number
+          user_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
