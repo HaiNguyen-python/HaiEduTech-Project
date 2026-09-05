@@ -829,10 +829,13 @@ const Navbar = () => {
                                         {!sub.children.some(c => c.header) && (
                                           <div className="px-4 py-1.5 mb-1">
                                             <span className={`text-[10px] font-bold uppercase tracking-widest ${sc.header}`}>
-                                              {sub.groupLabel === "ielts" ? "Cambridge IELTS"
+                                            {sub.groupLabel === "ielts" ? "Cambridge IELTS"
                                                 : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                                 : sub.groupLabel === "en-foundation" ? t("Cambridge Starters -> PET", "Cambridge Starters -> PET")
                                                 : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
+                                                : sub.groupLabel === "en-other-exams" ? t("Các kỳ thi tiếng Anh khác", "Other English Exams")
+                                                : sub.groupLabel === "en-fun" ? t("Bài học tiếng Anh vui", "Fun English Lessons")
+                                                : sub.groupLabel === "en-speaking" ? t("Luyện nói", "Speaking Coach")
                                                 : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
                                                 : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
                                                 : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
