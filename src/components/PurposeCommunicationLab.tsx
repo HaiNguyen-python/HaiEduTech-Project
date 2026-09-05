@@ -6,11 +6,11 @@ import {
   Award,
   BookOpen,
   CheckCircle2,
-  Headphones,
   MessageCircle,
   Mic2,
   RotateCcw,
   Sparkles,
+  Users,
   Volume2,
   XCircle,
 } from "lucide-react";
@@ -26,6 +26,8 @@ import { DIALOGUE_KEY_PHRASES } from "@/lib/dialogueKeyPhrases";
 import { highlightKeywords } from "@/lib/highlightKeywords";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { cn } from "@/lib/utils";
+
+const PARTNER_NAMES = ["Daniel", "Emma", "Lucas", "Maya", "Oliver", "Nora", "Ethan", "Clara"];
 
 interface Props {
   lesson: ConvLesson;
@@ -49,6 +51,9 @@ const PurposeCommunicationLab = ({
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showTranscript, setShowTranscript] = useState(false);
   const heroName = protagonistFor(lesson.id);
+  const partnerName = PARTNER_NAMES[
+    Math.abs(Array.from(lesson.id).reduce((sum, char) => sum + char.charCodeAt(0), 0)) % PARTNER_NAMES.length
+  ];
   const challenge = lesson.listeningChallenge;
 
   useEffect(() => {
