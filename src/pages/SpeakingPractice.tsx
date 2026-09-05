@@ -833,6 +833,29 @@ ${suggestionsHtml}
           </p>
         </motion.div>
 
+        {mode !== "part" && (
+          <div className="mb-4 flex items-center gap-3 flex-wrap">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={() => setMode("part")}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t("Quay lại câu hỏi", "Back to questions")}
+            </Button>
+            <span className="text-sm font-semibold text-muted-foreground">
+              {mode === "drills"
+                ? t("Luyện Cấu trúc & Từ vựng", "Structure & Vocabulary")
+                : mode === "srs"
+                  ? t("Luyện lại (SRS)", "Review (SRS)")
+                  : mode === "template"
+                    ? t("Luyện Template", "Template Practice")
+                    : t("Luyện Shadowing", "Shadowing Practice")}
+            </span>
+          </div>
+        )}
+
         {mode === "drills" ? (
           <StructureVocabPractice />
         ) : mode === "srs" ? (
