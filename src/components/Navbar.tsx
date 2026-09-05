@@ -257,14 +257,7 @@ const Navbar = () => {
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/placement-test?subject=english", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
     { to: "#en-div1", label: "", divider: true },
-    // English Essentials - promoted above Cambridge group
-    { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 Foundational English") },
-    { to: "#en-advanced-group", label: t("🚀 Tiếng Anh Nâng cao", "🚀 Advanced English"), groupLabel: "en-advanced", children: [
-      { to: "/english/business", label: t("💼 Tiếng Anh Thương mại", "💼 Business English") },
-      { to: "/english/academic", label: t("🎓 Tiếng Anh Học thuật", "🎓 Academic English") },
-      { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
-    ] },
-    // Foundation (everyday English)
+    // Cambridge exam groups first
     { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
       { to: "/cambridge-lectures", label: t("🎓 Cambridge Test Prep", "🎓 Cambridge Test Prep") },
       { to: "/cambridge-yle-vocabulary", label: t("🌈 Cambridge YLE Vocabulary & Games", "🌈 Cambridge YLE Vocabulary & Games") },
@@ -273,6 +266,13 @@ const Navbar = () => {
 
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("🎯 Cambridge IELTS", "🎯 Cambridge IELTS"), groupLabel: "ielts", children: ieltsChildren },
+    // English Essentials and Advanced English
+    { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 Foundational English") },
+    { to: "#en-advanced-group", label: t("🚀 Tiếng Anh Nâng cao", "🚀 Advanced English"), groupLabel: "en-advanced", children: [
+      { to: "/english/business", label: t("💼 Tiếng Anh Thương mại", "💼 Business English") },
+      { to: "/english/academic", label: t("🎓 Tiếng Anh Học thuật", "🎓 Academic English") },
+      { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
+    ] },
     // Combined: international exams + national exam under one group
     { to: "#en-other-exams-group", label: t("🌐 Các kỳ thi tiếng Anh khác", "🌐 Other English Exams"), groupLabel: "en-other-exams", children: [
       { to: "/toeic", label: "TOEIC", icon: BookOpen },
