@@ -283,9 +283,9 @@ const Navbar = () => {
       { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     ] },
     // Combined: speaking coach + presentation studio under one group
-    { to: "#en-speaking-group", label: t("🎙️ Luyện nói", "🎙️ Speaking Coach"), groupLabel: "en-speaking", children: [
+    { to: "#en-speaking-group", label: t("🎙️ Luyện nói", "🎙️ Speaking Studio"), groupLabel: "en-speaking", children: [
       { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-      { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking Studio", "🎤 Presentation & Public Speaking Studio") },
+      { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking", "🎤 Presentation & Public Speaking") },
     ] },
     { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
   ];
