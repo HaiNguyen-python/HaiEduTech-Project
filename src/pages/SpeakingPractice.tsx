@@ -720,65 +720,6 @@ ${suggestionsHtml}
           </p>
         </motion.div>
 
-        {/* Part / Mode selector + Shuffle */}
-        <div className="flex flex-wrap gap-3 items-center mt-4 mb-6">
-          {([1, 2, 3] as const).map((p) => (
-            <Button
-              key={p}
-              onClick={() => { setMode("part"); setSelectedPart(p); setSelectedTopic(null); }}
-              variant={mode === "part" && selectedPart === p ? "default" : "secondary"}
-              className={mode === "part" && selectedPart === p ? "shadow-lg scale-105" : ""}
-              size="lg"
-            >
-              Part {p}
-            </Button>
-          ))}
-          <Button
-            onClick={() => setMode("shadow")}
-            variant={mode === "shadow" ? "default" : "secondary"}
-            className={mode === "shadow" ? "shadow-lg scale-105 bg-gradient-to-r from-primary to-emerald-500" : ""}
-            size="lg"
-          >
-            <Sparkles className="w-4 h-4 mr-1.5" />
-            {t("Luyện Shadowing", "Shadowing Practice")}
-          </Button>
-          <Button
-            onClick={() => setMode("template")}
-            variant={mode === "template" ? "default" : "secondary"}
-            className={mode === "template" ? "shadow-lg scale-105 bg-gradient-to-r from-emerald-500 to-primary" : ""}
-            size="lg"
-          >
-            <LayoutTemplate className="w-4 h-4 mr-1.5" />
-            {t("Luyện Template", "Template Practice")}
-          </Button>
-          <Button
-            onClick={() => setMode("drills")}
-            variant={mode === "drills" ? "default" : "secondary"}
-            className={mode === "drills" ? "shadow-lg scale-105 bg-gradient-to-r from-primary to-cyan-500" : ""}
-            size="lg"
-          >
-            <BookOpen className="w-4 h-4 mr-1.5" />
-            {t("Luyện Cấu trúc & Từ vựng", "Structure & Vocabulary")}
-          </Button>
-          <Button
-            onClick={() => setMode("srs")}
-            variant={mode === "srs" ? "default" : "secondary"}
-            className={mode === "srs" ? "shadow-lg scale-105 bg-gradient-to-r from-amber-500 to-primary" : ""}
-            size="lg"
-          >
-            <RotateCcw className="w-4 h-4 mr-1.5" />
-            {t("Luyện lại (SRS)", "Review (SRS)")}
-            {srsDue.length > 0 && (
-              <Badge variant="destructive" className="ml-2 text-xs">{srsDue.length}</Badge>
-            )}
-          </Button>
-          {mode === "part" && (
-            <Button onClick={shuffleQuestions} variant="outline" size="lg" className="ml-auto">
-              <Shuffle className="w-4 h-4 mr-2" /> {t("Đảo câu hỏi", "Shuffle")}
-            </Button>
-          )}
-        </div>
-
         {mode === "drills" ? (
           <StructureVocabPractice />
         ) : mode === "srs" ? (
@@ -787,48 +728,127 @@ ${suggestionsHtml}
           <SpeakingTemplateLab />
         ) : mode === "shadow" ? (
           <ShadowingPractice />
-
         ) : (
         <>
+          {/* Structured control panel */}
+          <Card className="mb-6 overflow-hidden border border-border shadow-sm">
+            {/* Top bar: Parts, Practice methods, Utility actions */}
+            <div className="p-4 md:p-6 border-b border-border">
+              <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+                {/* Speaking Parts segmented control */}
+                <div className="inline-flex p-1 bg-secondary rounded-xl w-fit">
+                  {([1, 2, 3] as const).map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => { setSelectedPart(p); setSelectedTopic(null); }}
+                      className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+                        selectedPart === p
+                          ? "bg-card text-primary shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      Part {p}
+                    </button>
+                  ))}
+                </div>
 
+                {/* Practice methods */}
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { key: "shadow", icon: Sparkles, label: t("Luyện Shadowing", "Shadowing Practice") },
+                    { key: "template", icon: LayoutTemplate, label: t("Luyện Template", "Template Practice") },
+                    { key: "drills", icon: BookOpen, label: t("Luyện Cấu trúc & Từ vựng", "Structure & Vocabulary") },
+                  ].map((m) => (
+                    <button
+                      key={m.key}
+                      onClick={() => setMode(m.key as typeof mode)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border border-border text-foreground hover:bg-secondary transition-colors"
+                    >
+                      <m.icon className="w-4 h-4 text-primary" />
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
 
-        {/* Topic filter - different for Part 2 vs Part 1/3 */}
-        {selectedPart === 2 ? (
-          <Card className="mb-6">
-            <CardContent className="pt-4 pb-3">
-              <div className="flex items-center gap-2 mb-3">
-                <Badge
-                  variant={selectedTopic === null ? "default" : "secondary"}
-                  className="cursor-pointer px-3 py-1.5 text-xs"
-                  onClick={() => setSelectedTopic(null)}
-                >
-                  {t("Tất cả", "All")} ({topics.length})
-                </Badge>
+                {/* Utility actions */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setMode("srs")}
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-destructive/10 text-destructive hover:bg-destructive/20 transition-colors"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                    {t("Luyện lại (SRS)", "Review (SRS)")}
+                    {srsDue.length > 0 && (
+                      <span className="flex items-center justify-center min-w-[20px] h-5 px-1 bg-destructive text-destructive-foreground text-[10px] rounded-full">
+                        {srsDue.length}
+                      </span>
+                    )}
+                  </button>
+                  <button
+                    onClick={shuffleQuestions}
+                    title={t("Đảo câu hỏi", "Shuffle")}
+                    className="p-2.5 rounded-xl border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                  >
+                    <Shuffle className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
-              {renderPart2Categories()}
-            </CardContent>
+            </div>
+
+            {/* Topic filter area */}
+            <div className="p-4 md:p-6 bg-muted/30">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  {t("Chọn chủ đề", "Select Topic")}
+                </h3>
+                <input
+                  type="text"
+                  value={topicSearch}
+                  onChange={(e) => { setTopicSearch(e.target.value); setShowAllTopics(false); }}
+                  placeholder={t("Lọc chủ đề...", "Filter topics...")}
+                  className="text-sm bg-background border border-border rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none w-full sm:w-56"
+                />
+              </div>
+
+              {selectedPart === 2 ? (
+                <Card className="bg-transparent border-0 shadow-none">
+                  <CardContent className="p-0">
+                    {renderPart2Categories()}
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  <Badge
+                    variant={selectedTopic === null ? "default" : "secondary"}
+                    className="cursor-pointer px-3 py-1.5 text-xs"
+                    onClick={() => setSelectedTopic(null)}
+                  >
+                    {t("Tất cả", "All")} ({filteredTopics.length})
+                  </Badge>
+                  {filteredTopics.slice(0, showAllTopics ? undefined : 20).map((topic) => (
+                    <Badge
+                      key={topic}
+                      variant={selectedTopic === topic ? "default" : "outline"}
+                      className="cursor-pointer px-3 py-1.5 text-xs"
+                      onClick={() => setSelectedTopic(topic)}
+                    >
+                      {topic}
+                    </Badge>
+                  ))}
+                  {filteredTopics.length > 20 && (
+                    <button
+                      onClick={() => setShowAllTopics((v) => !v)}
+                      className="px-3 py-1.5 rounded-full text-xs font-medium border border-dashed border-border text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
+                    >
+                      {showAllTopics
+                        ? t("Thu gọn", "Show less")
+                        : `+ ${filteredTopics.length - 20} ${t("thêm", "more")}`}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           </Card>
-        ) : (
-          <div className="flex flex-wrap gap-2 mb-6">
-            <Badge
-              variant={selectedTopic === null ? "default" : "secondary"}
-              className="cursor-pointer px-3 py-1.5 text-xs"
-              onClick={() => setSelectedTopic(null)}
-            >
-              {t("Tất cả", "All")}
-            </Badge>
-            {topics.map((topic) => (
-              <Badge
-                key={topic}
-                variant={selectedTopic === topic ? "default" : "outline"}
-                className="cursor-pointer px-3 py-1.5 text-xs"
-                onClick={() => setSelectedTopic(topic)}
-              >
-                {topic}
-              </Badge>
-            ))}
-          </div>
-        )}
 
         {/* Main layout: split screen */}
         <div className="grid lg:grid-cols-5 gap-6">
