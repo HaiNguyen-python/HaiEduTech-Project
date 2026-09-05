@@ -42,6 +42,110 @@ interface SubItem {
   header?: boolean;
 }
 
+// Per-subject hover color identity for desktop dropdowns.
+// All class strings are full literals so Tailwind can safelist them.
+interface SubjectColor {
+  trigger: string;      // top-level menu trigger hover
+  rowHover: string;     // nested group row hover
+  rowActive: string;    // nested group row while its flyout is open
+  childHover: string;   // link hover inside panels
+  icon: string;         // icon tint inside panels
+  header: string;       // flyout group header label
+  accent: string;       // left accent bar on hover
+}
+const SUBJECT_COLORS: Record<string, SubjectColor> = {
+  en: {
+    trigger: "hover:text-blue-600 hover:bg-blue-500/10",
+    rowHover: "hover:text-blue-600 hover:bg-blue-500/10",
+    rowActive: "text-blue-600 bg-blue-500/10",
+    childHover: "hover:text-blue-600 hover:bg-blue-500/10",
+    icon: "text-blue-500/80",
+    header: "text-blue-600",
+    accent: "hover:border-blue-500",
+  },
+  vn: {
+    trigger: "hover:text-amber-600 hover:bg-amber-500/10",
+    rowHover: "hover:text-amber-600 hover:bg-amber-500/10",
+    rowActive: "text-amber-600 bg-amber-500/10",
+    childHover: "hover:text-amber-600 hover:bg-amber-500/10",
+    icon: "text-amber-500/80",
+    header: "text-amber-600",
+    accent: "hover:border-amber-500",
+  },
+  cn: {
+    trigger: "hover:text-red-600 hover:bg-red-500/10",
+    rowHover: "hover:text-red-600 hover:bg-red-500/10",
+    rowActive: "text-red-600 bg-red-500/10",
+    childHover: "hover:text-red-600 hover:bg-red-500/10",
+    icon: "text-red-500/80",
+    header: "text-red-600",
+    accent: "hover:border-red-500",
+  },
+  jp: {
+    trigger: "hover:text-rose-600 hover:bg-rose-500/10",
+    rowHover: "hover:text-rose-600 hover:bg-rose-500/10",
+    rowActive: "text-rose-600 bg-rose-500/10",
+    childHover: "hover:text-rose-600 hover:bg-rose-500/10",
+    icon: "text-rose-500/80",
+    header: "text-rose-600",
+    accent: "hover:border-rose-500",
+  },
+  fi: {
+    trigger: "hover:text-cyan-600 hover:bg-cyan-500/10",
+    rowHover: "hover:text-cyan-600 hover:bg-cyan-500/10",
+    rowActive: "text-cyan-600 bg-cyan-500/10",
+    childHover: "hover:text-cyan-600 hover:bg-cyan-500/10",
+    icon: "text-cyan-500/80",
+    header: "text-cyan-600",
+    accent: "hover:border-cyan-500",
+  },
+  sv: {
+    trigger: "hover:text-indigo-600 hover:bg-indigo-500/10",
+    rowHover: "hover:text-indigo-600 hover:bg-indigo-500/10",
+    rowActive: "text-indigo-600 bg-indigo-500/10",
+    childHover: "hover:text-indigo-600 hover:bg-indigo-500/10",
+    icon: "text-indigo-500/80",
+    header: "text-indigo-600",
+    accent: "hover:border-indigo-500",
+  },
+  prog: {
+    trigger: "hover:text-emerald-600 hover:bg-emerald-500/10",
+    rowHover: "hover:text-emerald-600 hover:bg-emerald-500/10",
+    rowActive: "text-emerald-600 bg-emerald-500/10",
+    childHover: "hover:text-emerald-600 hover:bg-emerald-500/10",
+    icon: "text-emerald-500/80",
+    header: "text-emerald-600",
+    accent: "hover:border-emerald-500",
+  },
+  lifestyle: {
+    trigger: "hover:text-violet-600 hover:bg-violet-500/10",
+    rowHover: "hover:text-violet-600 hover:bg-violet-500/10",
+    rowActive: "text-violet-600 bg-violet-500/10",
+    childHover: "hover:text-violet-600 hover:bg-violet-500/10",
+    icon: "text-violet-500/80",
+    header: "text-violet-600",
+    accent: "hover:border-violet-500",
+  },
+  yc: {
+    trigger: "hover:text-pink-600 hover:bg-pink-500/10",
+    rowHover: "hover:text-pink-600 hover:bg-pink-500/10",
+    rowActive: "text-pink-600 bg-pink-500/10",
+    childHover: "hover:text-pink-600 hover:bg-pink-500/10",
+    icon: "text-pink-500/80",
+    header: "text-pink-600",
+    accent: "hover:border-pink-500",
+  },
+};
+const DEFAULT_SUBJECT_COLOR: SubjectColor = {
+  trigger: "hover:text-foreground hover:bg-secondary",
+  rowHover: "hover:text-foreground hover:bg-secondary/80",
+  rowActive: "text-primary bg-primary/10",
+  childHover: "hover:text-primary hover:bg-primary/5",
+  icon: "text-primary/70",
+  header: "text-primary",
+  accent: "hover:border-primary",
+};
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
