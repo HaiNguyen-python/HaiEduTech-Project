@@ -119,6 +119,8 @@ const SpeakingPractice = () => {
   const [mode, setMode] = useState<"part" | "shadow" | "template" | "srs" | "drills">("part");
   const { due: srsDue, addFromResult: addSrsFromResult } = useSpeakingSrs();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+  const [topicSearch, setTopicSearch] = useState("");
+  const [showAllTopics, setShowAllTopics] = useState(false);
   const [selectedQuestionIdx, setSelectedQuestionIdx] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
