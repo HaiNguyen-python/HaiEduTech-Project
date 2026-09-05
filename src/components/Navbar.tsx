@@ -6,6 +6,7 @@
  * @license Private / Proprietary - No unauthorized copying or distribution.
  */
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -186,6 +187,7 @@ const Navbar = () => {
   const { lang, setLang, t } = useLanguage();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const activeSubmenuAnchorRef = useRef<HTMLElement | null>(null);
   const { user, isTeacher, isPureAssistant } = useUserRole();
   const isAdminRoute = location.pathname === "/admin-dashboard" || location.pathname.startsWith("/admin/");
   const { streak } = useStreak(!isAdminRoute);
@@ -492,13 +494,58 @@ const Navbar = () => {
   // Hover bridge + intent debounce: opening is instant, closing is delayed
   // (~350ms) so the cursor can travel through the small gap between the
   // trigger and the dropdown without prematurely dismissing the menu.
-  const HOVER_CLOSE_DELAY = 350;
+  const HOVER_CLOSE_DELAY = 550;
+
+  const clearMenuCloseTimers = () => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+  };
+
+  const updateFlyoutPosition = (anchor: HTMLElement) => {
+    const rect = anchor.getBoundingClientRect();
+    const viewportPadding = 12;
+    const flyoutWidth = 240;
+    const availableBelow = window.innerHeight - rect.top - viewportPadding;
+    const availableAbove = rect.bottom - viewportPadding;
+    const openUpward = availableBelow < 320 && availableAbove > availableBelow;
+    const openLeft = rect.right + flyoutWidth + viewportPadding > window.innerWidth;
+    const availableHeight = openUpward ? availableAbove : availableBelow;
+
+    setFlyoutPos({
+      up: openUpward,
+      left: openLeft,
+      maxH: Math.max(180, Math.floor(availableHeight)),
+      top: openUpward ? undefined : Math.max(viewportPadding, Math.round(rect.top)),
+      bottom: openUpward ? Math.max(viewportPadding, Math.round(window.innerHeight - rect.bottom)) : undefined,
+      leftPx: openLeft ? undefined : Math.min(Math.round(rect.right - 10), window.innerWidth - flyoutWidth - viewportPadding),
+      rightPx: openLeft ? Math.max(viewportPadding, Math.round(window.innerWidth - rect.left - 10)) : undefined,
+    });
+  };
+
+  useEffect(() => {
+    if (!activeSubmenu) return;
+
+    const reposition = () => {
+      const anchor = activeSubmenuAnchorRef.current;
+      if (!anchor || !document.body.contains(anchor)) {
+        setActiveSubmenu(null);
+        return;
+      }
+      updateFlyoutPosition(anchor);
+    };
+
+    window.addEventListener("resize", reposition);
+    window.addEventListener("scroll", reposition, true);
+    return () => {
+      window.removeEventListener("resize", reposition);
+      window.removeEventListener("scroll", reposition, true);
+    };
+  }, [activeSubmenu]);
 
   const handleMouseEnter = (key: string) => {
-    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    clearMenuCloseTimers();
     // If the user moves to a different parent item, switch instantly and
     // also clear any pending submenu-close timer to avoid stale state.
-    if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
     if (dropdown !== key) setActiveSubmenu(null);
     setDropdown(key);
   };
@@ -507,6 +554,7 @@ const Navbar = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setDropdown(null);
       setActiveSubmenu(null);
+      activeSubmenuAnchorRef.current = null;
     }, HOVER_CLOSE_DELAY);
   };
 
@@ -737,7 +785,7 @@ const Navbar = () => {
                           // pointer inside a hoverable region while traveling from the trigger.
                           // Re-entering the panel cancels the close timer (intent-based hover).
                           onMouseEnter={() => {
-                            if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                            clearMenuCloseTimers();
                           }}
                           onMouseLeave={handleMouseLeave}
                           className="absolute top-full left-0 pt-2 w-64 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-3"
@@ -746,8 +794,7 @@ const Navbar = () => {
                               Scrolling closes any open flyout since it is position:fixed and would
                               otherwise detach from its parent row. */}
                           <div
-                            className="bg-card rounded-xl shadow-xl border border-border py-2 max-h-[calc(100vh-7rem)] overflow-y-auto nav-scroll"
-                            onScroll={() => { if (activeSubmenu) setActiveSubmenu(null); }}
+                            className="bg-card rounded-lg shadow-xl border border-border py-2 max-h-[calc(100dvh-6.5rem)] overflow-y-auto overscroll-contain nav-scroll"
                           >
                           {l.subs.map((sub, i) => {
                             // Nested group with children (IELTS Program)
@@ -757,24 +804,9 @@ const Navbar = () => {
                                   key={sub.groupLabel}
                                   className="relative"
                                   onMouseEnter={(e) => {
-                                    if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
-                                    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
-                                    // Measure the row in viewport coordinates and place the fixed
-                                    // flyout where it has the most room (below/above, right/left).
-                                    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                                    const spaceBelow = window.innerHeight - rect.top - 16;
-                                    const spaceAbove = rect.bottom - 8;
-                                    const up = spaceBelow < 280 && spaceAbove > spaceBelow;
-                                    const flipLeft = rect.right + 250 > window.innerWidth;
-                                    setFlyoutPos({
-                                      up,
-                                      left: flipLeft,
-                                      maxH: Math.max(200, Math.floor(up ? spaceAbove : spaceBelow)),
-                                      top: up ? undefined : Math.round(rect.top),
-                                      bottom: up ? Math.round(window.innerHeight - rect.bottom) : undefined,
-                                      leftPx: flipLeft ? undefined : Math.round(rect.right),
-                                      rightPx: flipLeft ? Math.round(window.innerWidth - rect.left) : undefined,
-                                    });
+                                    clearMenuCloseTimers();
+                                    activeSubmenuAnchorRef.current = e.currentTarget;
+                                    updateFlyoutPosition(e.currentTarget);
                                     setActiveSubmenu(sub.groupLabel!);
                                   }}
                                   onMouseLeave={() => {
@@ -798,7 +830,8 @@ const Navbar = () => {
                                   </motion.div>
 
                                   {/* Nested flyout sub-menu */}
-                                  <AnimatePresence>
+                                  {createPortal(
+                                    <AnimatePresence>
                                     {activeSubmenu === sub.groupLabel && (
                                       <motion.div
                                         initial={{ opacity: 0, x: -8, scale: 0.96 }}
@@ -808,12 +841,15 @@ const Navbar = () => {
                                         // Horizontal hover bridge so the cursor can
                                         // travel from the parent row into the flyout without escaping.
                                         onMouseEnter={() => {
-                                          if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
-                                          if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                                          clearMenuCloseTimers();
+                                        }}
+                                        onMouseLeave={() => {
+                                          submenuTimeoutRef.current = setTimeout(() => setActiveSubmenu(null), HOVER_CLOSE_DELAY);
+                                          handleMouseLeave();
                                         }}
                                         // position:fixed escapes the scrollable panel's clipping box;
                                         // pl-2/pr-2 keeps an 8px hover bridge to the parent row.
-                                        className={`fixed w-60 z-[60] ${flyoutPos.left ? "pr-2" : "pl-2"}`}
+                                        className={`fixed w-60 z-[80] ${flyoutPos.left ? "pr-4" : "pl-4"}`}
                                         style={{
                                           top: flyoutPos.top,
                                           bottom: flyoutPos.bottom,
@@ -822,7 +858,7 @@ const Navbar = () => {
                                         }}
                                       >
                                         <div
-                                          className="bg-card rounded-xl shadow-xl border border-border py-2 overflow-y-auto nav-scroll"
+                                          className="bg-card rounded-lg shadow-xl border border-border py-2 overflow-y-auto overscroll-contain nav-scroll"
                                           style={{ maxHeight: flyoutPos.maxH }}
                                         >
                                         {/* Group header (hidden if children already have section headers) */}
@@ -885,7 +921,9 @@ const Navbar = () => {
                                         </div>
                                       </motion.div>
                                     )}
-                                  </AnimatePresence>
+                                    </AnimatePresence>,
+                                    document.body
+                                  )}
                                 </div>
                               );
                             }
