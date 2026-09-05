@@ -479,7 +479,7 @@ const Navbar = () => {
   // Dashboard and Admin entries are intentionally omitted from the main menu —
   // they are accessible from the user dropdown after login to keep the navbar clean.
   const navLinks = user && isPureAssistant
-    ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield }]
+    ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield, key: "assistant" }]
     : baseLinks;
 
 
