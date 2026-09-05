@@ -5,9 +5,9 @@ export type PurposeTrack = "business" | "academic";
 const TOPIC_SKILLS: Record<string, { en: string[]; vi: string[]; minutes: number }> = {
   "biz-email": { en: ["Tone", "Email structure", "Clear action"], vi: ["Giọng điệu", "Cấu trúc email", "Hành động rõ ràng"], minutes: 56 },
   "biz-meetings": { en: ["Facilitation", "Evidence", "Diplomacy"], vi: ["Điều phối", "Dẫn chứng", "Ngoại giao"], minutes: 60 },
-  "biz-present": { en: ["Data language", "Signposting", "Q&A"], vi: ["Ngôn ngữ số liệu", "Dẫn dắt", "Hỏi đáp"], minutes: 64 },
+  "biz-presenting": { en: ["Data language", "Signposting", "Q&A"], vi: ["Ngôn ngữ số liệu", "Dẫn dắt", "Hỏi đáp"], minutes: 64 },
   "biz-calls": { en: ["Call control", "Rapport", "Scheduling"], vi: ["Điều phối cuộc gọi", "Tạo thiện cảm", "Xếp lịch"], minutes: 52 },
-  "biz-negotiate": { en: ["Persuasion", "Trade-offs", "Complaints"], vi: ["Thuyết phục", "Đánh đổi", "Khiếu nại"], minutes: 64 },
+  "biz-negotiation": { en: ["Persuasion", "Trade-offs", "Complaints"], vi: ["Thuyết phục", "Đánh đổi", "Khiếu nại"], minutes: 64 },
   "biz-career": { en: ["CV language", "STAR answers", "Interviews"], vi: ["Ngôn ngữ CV", "Trả lời STAR", "Phỏng vấn"], minutes: 60 },
   "aca-vocab": { en: ["Research terms", "Data", "Evaluation"], vi: ["Thuật ngữ nghiên cứu", "Dữ liệu", "Đánh giá"], minutes: 64 },
   "aca-style": { en: ["Register", "Hedging", "Precision"], vi: ["Văn phong", "Nói dè dặt", "Độ chính xác"], minutes: 60 },

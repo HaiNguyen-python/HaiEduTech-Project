@@ -513,6 +513,7 @@ export const academicTopicsPart1: PurposeTopic[] = [
           labelVi: "Mở bài và kết bài mẫu",
           lines: [
             "Introduction: English proficiency increasingly shapes university access in Vietnam. Yet few studies examine how rural upper-secondary learners receive feedback on written work. This paper examines whether short weekly feedback improves writing scores more than long monthly reports. The paper is structured as follows: section 2 reviews the literature, section 3 describes the method, and section 4 reports the results.",
+            "Bridge: The introduction moves from the broad educational context to a specific research gap, states the exact comparison, and then gives the reader a map of the paper.",
             "Conclusion: In conclusion, feedback frequency predicted writing gains more reliably than feedback length in this sample of four rural schools. The main contribution is a low-cost model that fits existing teacher workloads. The study is limited by its eight-week duration, so long-term retention warrants further research. One practical implication is that schools should shorten comments and deliver them weekly rather than expanding end-of-term reports.",
           ],
         },
