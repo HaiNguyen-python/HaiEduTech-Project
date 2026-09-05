@@ -27,9 +27,12 @@ export type FeedPost = {
   mood: string | null;
   visibility: string | null;
   created_at: string;
+  pinned_at: string | null;
   author: FeedAuthor | null;
   reaction_count: number;
   liked_by_me: boolean;
+  my_reaction: string | null;
+  reaction_types: Record<string, number> | null;
   comment_count: number;
   bookmarked_by_me: boolean;
   poll: PollData | null;
@@ -53,7 +56,10 @@ function mapPosts(payload: any): FeedPost[] {
     mood: p.mood,
     visibility: p.visibility,
     created_at: p.created_at,
+    pinned_at: p.pinned_at ?? null,
     author: authorMap.get(p.user_id) ?? null,
+    my_reaction: p.my_reaction ?? null,
+    reaction_types: p.reaction_types ?? null,
     reaction_count: Number(p.reaction_count ?? 0),
     liked_by_me: !!p.liked_by_me,
     comment_count: Number(p.comment_count ?? 0),

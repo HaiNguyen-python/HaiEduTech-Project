@@ -9,10 +9,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check, Globe2, GraduationCap, Lock } from "lucide-react";
+import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check, Globe2, GraduationCap, Lock, Pin, PinOff, ThumbsUp } from "lucide-react";
 import { toast } from "sonner";
 import type { FeedPost, FeedAuthor } from "@/hooks/useYourCornerFeed";
 import { subjectMap, linkifyHashtags } from "@/lib/yourCornerMeta";
+import { REACTIONS, reactionMap, topReactionEmojis, type ReactionType } from "@/lib/yourCornerReactions";
+import { useUserRole } from "@/hooks/useUserRole";
 import PollBlock from "./PollBlock";
 
 
@@ -44,12 +46,21 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [commentLikes, setCommentLikes] = useState<CommentLikeMap>({});
+  const [myReaction, setMyReaction] = useState<ReactionType | null>((post.my_reaction as ReactionType) ?? null);
+  const [reactionTypes, setReactionTypes] = useState<Record<string, number>>(post.reaction_types ?? {});
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pinnedAt, setPinnedAt] = useState<string | null>(post.pinned_at);
+  const { roles } = useUserRole();
+  const isStaff = roles.some((r) => r === "admin" || r === "teacher" || r === "assistant");
 
   useEffect(() => {
     setLiked(post.liked_by_me);
     setLikeCount(post.reaction_count);
     setBookmarked(post.bookmarked_by_me);
-  }, [post.liked_by_me, post.reaction_count, post.bookmarked_by_me]);
+    setMyReaction((post.my_reaction as ReactionType) ?? null);
+    setReactionTypes(post.reaction_types ?? {});
+    setPinnedAt(post.pinned_at);
+  }, [post.liked_by_me, post.reaction_count, post.bookmarked_by_me, post.my_reaction, post.reaction_types, post.pinned_at]);
 
   // Auto-scroll to anchored post (e.g. #post-<id> in URL)
   useEffect(() => {
@@ -70,31 +81,62 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const initials = authorName.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
   const subjMeta = post.subject ? subjectMap.get(post.subject as any) : null;
 
-  const toggleLike = async () => {
-    const next = !liked;
-    setLiked(next);
-    setLikeCount((c) => c + (next ? 1 : -1));
-    if (next) {
+  /**
+   * One reaction per user per post. Clicking the same emoji removes it,
+   * picking another one switches type without changing the total count.
+   */
+  const setReaction = async (type: ReactionType | null) => {
+    setPickerOpen(false);
+    const prev = { my: myReaction, count: likeCount, types: reactionTypes };
+    const remove = type === null || type === myReaction;
+    const nextType = remove ? null : type;
+
+    // Optimistic UI
+    setMyReaction(nextType);
+    setLiked(!!nextType);
+    setLikeCount((c) => Math.max(0, c + (prev.my ? 0 : 1) - (nextType ? 0 : 1)));
+    setReactionTypes((m) => {
+      const copy = { ...m };
+      if (prev.my) copy[prev.my] = Math.max(0, (copy[prev.my] ?? 1) - 1);
+      if (nextType) copy[nextType] = (copy[nextType] ?? 0) + 1;
+      return copy;
+    });
+    if (nextType) {
       setHeartPop(true);
       setTimeout(() => setHeartPop(false), 600);
-      const { error } = await supabase
-        .from("your_corner_reactions")
-        .insert({ post_id: post.id, user_id: currentUserId });
-      if (error) {
-        setLiked(false);
-        setLikeCount((c) => c - 1);
-      }
-    } else {
-      const { error } = await supabase
-        .from("your_corner_reactions")
-        .delete()
-        .eq("post_id", post.id)
-        .eq("user_id", currentUserId);
-      if (error) {
-        setLiked(true);
-        setLikeCount((c) => c + 1);
-      }
     }
+
+    const table = supabase.from("your_corner_reactions") as any;
+    let error: any = null;
+    if (!nextType) {
+      ({ error } = await table.delete().eq("post_id", post.id).eq("user_id", currentUserId));
+    } else if (prev.my) {
+      ({ error } = await table.update({ type: nextType }).eq("post_id", post.id).eq("user_id", currentUserId));
+    } else {
+      ({ error } = await table.insert({ post_id: post.id, user_id: currentUserId, type: nextType }));
+    }
+    if (error) {
+      setMyReaction(prev.my);
+      setLiked(!!prev.my);
+      setLikeCount(prev.count);
+      setReactionTypes(prev.types);
+      toast.error("Không cập nhật được cảm xúc");
+    }
+  };
+
+  const togglePin = async () => {
+    const next = pinnedAt ? null : new Date().toISOString();
+    setPinnedAt(next);
+    const { error } = await (supabase.from("your_corner_posts") as any)
+      .update({ pinned_at: next, pinned_by: next ? currentUserId : null })
+      .eq("id", post.id);
+    if (error) {
+      setPinnedAt(pinnedAt);
+      toast.error("Không cập nhật được ghim");
+      return;
+    }
+    toast.success(next ? "Đã ghim bài viết 📌" : "Đã bỏ ghim");
+    onChanged();
   };
 
   const toggleBookmark = async () => {
@@ -295,6 +337,11 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
             <p className="font-semibold text-sm flex items-center gap-1.5">
               {authorName}
               {post.mood && <span className="text-base leading-none">{post.mood}</span>}
+              {pinnedAt && (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/15 text-amber-700 dark:text-amber-300">
+                  <Pin className="w-3 h-3" /> Ghim
+                </span>
+              )}
             </p>
             <p className="text-xs text-muted-foreground flex items-center gap-1.5 flex-wrap">
               {timeAgo}
@@ -321,6 +368,17 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
 
           </div>
         </div>
+        {isStaff && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={togglePin}
+            title={pinnedAt ? "Bỏ ghim bài viết" : "Ghim bài viết lên đầu"}
+            className={pinnedAt ? "text-amber-600" : "text-muted-foreground"}
+          >
+            {pinnedAt ? <PinOff className="w-4 h-4" /> : <Pin className="w-4 h-4" />}
+          </Button>
+        )}
         {isMine && (
           <div className="flex items-center gap-1">
             {!editing && (
@@ -441,20 +499,57 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
       )}
 
 
+      {/* Reaction summary */}
+      {likeCount > 0 && (
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span className="flex -space-x-1">
+            {topReactionEmojis(reactionTypes).map((e, i) => (
+              <span key={e + i} className="text-base leading-none">{e}</span>
+            ))}
+          </span>
+          <span>{likeCount}</span>
+        </div>
+      )}
+
       <div className="flex items-center gap-1 border-t pt-2 flex-wrap">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={toggleLike}
-          className={liked ? "text-red-500 hover:text-red-600" : "text-muted-foreground"}
+        <div
+          className="relative"
+          onMouseEnter={() => setPickerOpen(true)}
+          onMouseLeave={() => setPickerOpen(false)}
         >
-          <Heart
-            className={`w-4 h-4 mr-2 transition-transform ${liked ? "fill-current" : ""} ${
-              heartPop ? "scale-150" : "scale-100"
-            }`}
-          />
-          {likeCount > 0 ? likeCount : ""} Thích
-        </Button>
+          {pickerOpen && (
+            <div className="absolute bottom-full left-0 mb-1 z-20 flex items-center gap-1 rounded-full border bg-popover px-2 py-1 shadow-lg animate-fade-in">
+              {REACTIONS.map((r) => (
+                <button
+                  key={r.key}
+                  type="button"
+                  title={r.label}
+                  aria-label={r.label}
+                  onClick={() => setReaction(r.key)}
+                  className={`text-xl leading-none transition-transform hover:scale-125 ${myReaction === r.key ? "scale-125" : ""}`}
+                >
+                  {r.emoji}
+                </button>
+              ))}
+            </div>
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setReaction(myReaction ?? "like")}
+            onFocus={() => setPickerOpen(true)}
+            className={myReaction ? reactionMap.get(myReaction)?.color : "text-muted-foreground"}
+          >
+            {myReaction ? (
+              <span className={`mr-2 text-base leading-none transition-transform ${heartPop ? "scale-150" : "scale-100"}`}>
+                {reactionMap.get(myReaction)?.emoji}
+              </span>
+            ) : (
+              <ThumbsUp className="w-4 h-4 mr-2" />
+            )}
+            {myReaction ? reactionMap.get(myReaction)?.label : "Thích"}
+          </Button>
+        </div>
         <Button variant="ghost" size="sm" onClick={openComments} className="text-muted-foreground">
           <MessageCircle className="w-4 h-4 mr-2" />
           {post.comment_count > 0 ? post.comment_count : ""} Bình luận
