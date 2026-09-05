@@ -1274,6 +1274,18 @@ ${suggestionsHtml}
 
                   </div>
 
+                  {/* Recorder / grading notices */}
+                  {recorderError && (
+                    <div className="w-full rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+                      {recorderError}
+                    </div>
+                  )}
+                  {gradeNotice && (
+                    <div className="w-full rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-sm text-amber-700 dark:text-amber-300">
+                      {gradeNotice}
+                    </div>
+                  )}
+
                   {/* Audio player */}
                   {audioUrl && (
                     <div className="w-full flex items-center gap-3 p-3 rounded-xl bg-secondary">
