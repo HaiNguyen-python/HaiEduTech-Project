@@ -788,7 +788,7 @@ const Navbar = () => {
                             clearMenuCloseTimers();
                           }}
                           onMouseLeave={handleMouseLeave}
-                          className="absolute top-full left-0 pt-2 w-64 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-3"
+                          className="absolute top-full left-0 pt-1 w-64 z-50 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-5"
                         >
                           {/* Panel scrolls inside itself instead of being clipped below the viewport.
                               Scrolling closes any open flyout since it is position:fixed and would
