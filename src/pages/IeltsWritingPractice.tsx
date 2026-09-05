@@ -608,9 +608,10 @@ const IeltsWritingPractice = () => {
               </div>
               <p className="text-xs text-muted-foreground">
                 {t(
-                  "Dịch các mẫu câu chuẩn IELTS Writing từ tiếng Việt sang tiếng Anh, sau đó nhận nhận xét, câu mẫu và bản nâng cấp Band 7.5+.",
-                  "Translate standard IELTS Writing sentences from Vietnamese into English, then get feedback, a model answer and a Band 7.5+ upgrade."
+                  "Dịch câu hoặc cả đoạn văn chuẩn IELTS Writing từ tiếng Việt sang tiếng Anh, sau đó nhận nhận xét, bài mẫu và bản nâng cấp Band 7.5+.",
+                  "Translate standard IELTS Writing sentences or whole paragraphs from Vietnamese into English, then get feedback, a model answer and a Band 7.5+ upgrade."
                 )}
+
               </p>
             </div>
             <TranslationPractice taskType={taskType} />
