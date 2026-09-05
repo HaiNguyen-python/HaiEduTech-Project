@@ -456,6 +456,7 @@ const KANJI_SECTIONS: Array<{ group: string; items: KanjiCard[] }> = (() => {
     { group: "🈴 Kanji cốt lõi N5 / Core N5 kanji", items: KANJI_BASIC },
     { group: "➕ Kanji mở rộng / Extra kanji", items: KANJI_EXTRA },
     ...KANJI_GROUPS.map((g) => ({ group: g.group, items: g.items as KanjiCard[] })),
+    { group: "🖌️ Kanji động từ & sinh hoạt / Verb & daily-life kanji", items: KANJI_EXTRA_2 },
   ]
     .map((g) => ({
       group: g.group,
