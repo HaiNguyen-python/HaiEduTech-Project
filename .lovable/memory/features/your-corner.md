@@ -14,3 +14,5 @@ UI: single-column FB-style feed, brand gradient (Royal Blue → Soft Emerald). C
 Files: `src/pages/YourCorner.tsx`, `src/components/your-corner/PostComposer.tsx`, `src/components/your-corner/PostCard.tsx`, `src/hooks/useYourCornerFeed.ts`.
 
 Nav: "Your Corner" entry in Navbar baseLinks (Users icon). EdTech entries combined into one dropdown with `🔬 EdTech Research` (/edtech-research) and `🎨 EdTech Software Design` (/dich-vu-web).
+
+Giai đoạn 2: đa cảm xúc bài viết (`your_corner_reactions.type`: like/love/haha/wow/sad, 1 cảm xúc/người/bài, đổi cảm xúc = UPDATE), ghim bài cho staff (`pinned_at`/`pinned_by`, feed sắp xếp ghim trước), và thông báo trong app qua trigger SECURITY DEFINER (like/comment/reply/comment-like → `assignment_notifications`, route `/your-corner#post-<id>`, không tự thông báo chính mình). Reaction meta: `src/lib/yourCornerReactions.ts`.
