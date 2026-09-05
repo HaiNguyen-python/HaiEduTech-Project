@@ -305,6 +305,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const [isRecording, setIsRecording] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [aiSpeaking, setAiSpeaking] = useState(false);
+  const [helpersOpen, setHelpersOpen] = useState(true);
+  const [helpersExpanded, setHelpersExpanded] = useState(false);
+
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
