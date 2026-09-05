@@ -26,3 +26,4 @@
 - [x] Rebuild Core Lessons as a visual learning path with search, status filters, lesson outcomes, guided practice, annotated models, quiz summaries, and preserved progress
 - [x] Content-grounded guided activities, real step progress, wider Current filter, Lab vocabulary top-up, Core and Lab audits at 0 issues, legacy hub removed
 
+- Business/Academic English: fixed hover-invisible stage & lesson titles (ghost button accent-foreground), rebuilt roadmap rows as accessible buttons, renamed Listen tab to Conversation and redesigned dialogue as chat bubbles with avatars, speaker names, sticky audio bar.

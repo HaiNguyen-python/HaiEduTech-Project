@@ -6,11 +6,11 @@ import {
   Award,
   BookOpen,
   CheckCircle2,
-  Headphones,
   MessageCircle,
   Mic2,
   RotateCcw,
   Sparkles,
+  Users,
   Volume2,
   XCircle,
 } from "lucide-react";
@@ -26,6 +26,8 @@ import { DIALOGUE_KEY_PHRASES } from "@/lib/dialogueKeyPhrases";
 import { highlightKeywords } from "@/lib/highlightKeywords";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { cn } from "@/lib/utils";
+
+const PARTNER_NAMES = ["Daniel", "Emma", "Lucas", "Maya", "Oliver", "Nora", "Ethan", "Clara"];
 
 interface Props {
   lesson: ConvLesson;
@@ -49,6 +51,9 @@ const PurposeCommunicationLab = ({
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showTranscript, setShowTranscript] = useState(false);
   const heroName = protagonistFor(lesson.id);
+  const partnerName = PARTNER_NAMES[
+    Math.abs(Array.from(lesson.id).reduce((sum, char) => sum + char.charCodeAt(0), 0)) % PARTNER_NAMES.length
+  ];
   const challenge = lesson.listeningChallenge;
 
   useEffect(() => {
@@ -66,10 +71,11 @@ const PurposeCommunicationLab = ({
 
   const tabs = [
     { value: "learn", labelVi: "Học", labelEn: "Learn", icon: BookOpen },
-    { value: "listen", labelVi: "Nghe", labelEn: "Listen", icon: Headphones },
+    { value: "listen", labelVi: "Hội thoại", labelEn: "Conversation", icon: MessageCircle },
     { value: "speak", labelVi: "Nói", labelEn: "Speak", icon: Mic2 },
     { value: "challenge", labelVi: "Thử thách", labelEn: "Challenge", icon: Sparkles },
   ];
+
 
   const goTo = (next: string) => {
     stopEnglishTts();
@@ -206,7 +212,7 @@ const PurposeCommunicationLab = ({
           <VocabReviewQuiz vocabulary={lesson.vocabulary} />
           <div className="flex justify-end">
             <Button onClick={() => goTo("listen")} className="gap-2">
-              {t("Tiếp tục luyện nghe", "Continue to listening")} <ArrowRight className="h-4 w-4" />
+              {t("Tiếp tục phần hội thoại", "Continue to the conversation")} <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </TabsContent>
@@ -215,41 +221,69 @@ const PurposeCommunicationLab = ({
           {lesson.keySituations.map((situation, situationIndex) => {
             const transcript = situation.sampleDialogue.map((line) => `${line.speaker}: ${line.line}`).join("\n");
             const speakers = Array.from(new Set(situation.sampleDialogue.map((line) => line.speaker)));
+            const partners = speakers.filter((speaker) => speaker !== "You");
+            const partnerLabel = (speaker: string) => (speaker === "Speaker" ? partnerName : speaker);
+            const cast = [heroName, ...partners.map(partnerLabel)];
             return (
-              <section key={situation.title} className="overflow-hidden rounded-lg border border-border bg-card">
-                <div className="border-b border-border bg-muted/40 p-5">
-                  <p className="text-sm font-semibold text-primary">{t("Hội thoại", "Dialogue")} {situationIndex + 1}</p>
-                  <h2 className="text-xl font-bold">{t(situation.titleVi, situation.title)}</h2>
+              <section key={situation.title} className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+                <div className="sticky top-0 z-10 border-b border-border bg-card/95 p-5 backdrop-blur">
+                  <p className="text-xs font-bold uppercase tracking-wide text-primary">
+                    {t("Hội thoại", "Conversation")} {situationIndex + 1}
+                  </p>
+                  <h2 className="mt-1 text-xl font-bold text-foreground">{t(situation.titleVi, situation.title)}</h2>
+                  <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
+                    <Users className="h-4 w-4 shrink-0" />
+                    {t("Người nói", "Speakers")}: {cast.join(" · ")}
+                  </p>
                   <div className="mt-4"><DialogAudioPlayer transcript={transcript} lang="en" /></div>
                 </div>
-                <div className="space-y-4 p-5 sm:p-6">
+                <div className="space-y-3 bg-muted/20 p-4 sm:p-6">
                   {situation.sampleDialogue.map((line, index) => {
-                    const speakerIndex = speakers.indexOf(line.speaker);
                     const learner = line.speaker === "You";
+                    const name = learner ? heroName : partnerLabel(line.speaker);
+                    const initials = name.trim().slice(0, 2).toUpperCase();
                     return (
-                      <div key={`${line.speaker}-${index}`} className={cn("flex", learner ? "justify-end" : "justify-start")}>
-                        <div className={cn(
-                          "max-w-[88%] rounded-lg border px-4 py-3 sm:max-w-[76%]",
-                          learner ? "border-primary/30 bg-primary/10" : "border-border bg-background",
-                        )}>
-                          <div className="mb-1 flex items-center gap-2">
-                            <span className="text-xs font-bold text-primary">
-                              {learner ? heroName : line.speaker}
-                            </span>
+                      <div
+                        key={`${line.speaker}-${index}`}
+                        className={cn("group flex items-end gap-2", learner ? "flex-row-reverse" : "flex-row")}
+                      >
+                        <span
+                          className={cn(
+                            "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold",
+                            learner ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground",
+                          )}
+                          aria-hidden
+                        >
+                          {initials}
+                        </span>
+                        <div className={cn("min-w-0 max-w-[86%] sm:max-w-[72%]", learner ? "text-right" : "text-left")}>
+                          <div
+                            className={cn(
+                              "mb-1 flex items-center gap-1.5",
+                              learner ? "flex-row-reverse" : "flex-row",
+                            )}
+                          >
+                            <span className="text-xs font-bold text-muted-foreground">{name}</span>
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="h-6 w-6"
-                              aria-label={t("Nghe câu", "Listen to line")}
+                              className="h-6 w-6 text-primary opacity-0 transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100"
+                              aria-label={t(`Nghe câu của ${name}`, `Play line from ${name}`)}
                               onClick={() => void playEnglishTts(line.line)}
                             >
                               <Volume2 className="h-3.5 w-3.5" />
                             </Button>
                           </div>
-                          <p className="text-base leading-7">
+                          <p
+                            className={cn(
+                              "inline-block rounded-2xl border px-4 py-2.5 text-left text-base leading-7 [&_span]:decoration-1",
+                              learner
+                                ? "rounded-br-sm border-primary/25 bg-primary/10 text-foreground"
+                                : "rounded-bl-sm border-border bg-background text-foreground",
+                            )}
+                          >
                             {highlightKeywords(line.line, lesson.vocabulary.map((item) => item.term), DIALOGUE_KEY_PHRASES)}
                           </p>
-                          <span className="sr-only">{speakerIndex}</span>
                         </div>
                       </div>
                     );
@@ -264,6 +298,7 @@ const PurposeCommunicationLab = ({
             </Button>
           </div>
         </TabsContent>
+
 
         <TabsContent value="speak">
           <ConversationalRoleplay
@@ -288,7 +323,7 @@ const PurposeCommunicationLab = ({
               </div>
               <DialogAudioPlayer transcript={challenge.transcript} lang="en" />
             </div>
-            <Button variant="ghost" size="sm" onClick={() => setShowTranscript((current) => !current)}>
+            <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/5 hover:text-primary" onClick={() => setShowTranscript((current) => !current)}>
               {showTranscript ? t("Ẩn transcript", "Hide transcript") : t("Hiện transcript", "Show transcript")}
             </Button>
             {showTranscript && (

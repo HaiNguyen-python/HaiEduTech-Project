@@ -347,18 +347,43 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
             return (
               <motion.div key={topic.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(topicIndex * 0.04, 0.2) }} className="flex gap-4 sm:gap-7">
                 <div className={`relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-4 border-background font-bold shadow-sm sm:h-16 sm:w-16 ${isComplete ? "bg-primary text-primary-foreground" : isCurrent ? "bg-secondary text-secondary-foreground ring-4 ring-primary/15" : "bg-muted text-muted-foreground"}`}>{isComplete ? <Check className="h-6 w-6" /> : String(topicIndex + 1).padStart(2, "0")}</div>
-                <div className={`min-w-0 flex-1 border-l-4 bg-card shadow-sm transition-transform hover:translate-x-1 ${isComplete ? "border-primary" : isCurrent ? "border-secondary" : "border-border"}`}>
-                  <Button variant="ghost" onClick={() => setOpenTopic(isOpen ? "" : topic.id)} className="h-auto w-full justify-start rounded-none p-5 text-left hover:bg-primary/5 sm:p-6">
+                <div className={`min-w-0 flex-1 overflow-hidden rounded-lg border border-border border-l-4 bg-card shadow-sm transition-shadow hover:shadow-md ${isComplete ? "border-l-primary" : isCurrent ? "border-l-secondary" : "border-l-border"}`}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenTopic(isOpen ? "" : topic.id)}
+                    aria-expanded={isOpen}
+                    className="flex w-full items-start gap-3 p-5 text-left text-foreground transition-colors hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:p-6"
+                  >
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2"><span className={`rounded-md px-2 py-0.5 text-xs font-bold uppercase ${isComplete ? "bg-primary/10 text-primary" : isCurrent ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground"}`}>{isComplete ? t("Hoàn thành", "Complete") : isCurrent ? t("Đang học", "Current stage") : t("Sẵn sàng", "Ready")}</span><span className="text-xs font-semibold text-muted-foreground">{t("Chặng", "Stage")} {String(topicIndex + 1).padStart(2, "0")}</span></div>
-                      <h3 className="mt-2 text-lg font-bold sm:text-xl">{topic.emoji} {t(topic.titleVi, topic.title)}</h3>
+                      <h3 className="mt-2 text-lg font-bold text-foreground sm:text-xl">{topic.emoji} {t(topic.titleVi, topic.title)}</h3>
                       <p className="mt-1 whitespace-normal text-sm text-muted-foreground sm:text-base">{t(topic.descriptionVi, topic.description)}</p>
                       <div className="mt-4 flex flex-wrap gap-2">{(vi ? meta.vi : meta.en).map((skill) => <span key={skill} className="rounded-md border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted-foreground">{skill}</span>)}</div>
-                      <div className="mt-4 flex items-center gap-3"><Progress value={(topicDone / topic.lessons.length) * 100} className="h-2 max-w-xs" /><span className="shrink-0 text-sm font-bold text-primary">{topicDone}/{topic.lessons.length}</span><span className="hidden items-center gap-1 text-sm text-muted-foreground sm:flex"><Clock3 className="h-4 w-4" /> {meta.minutes} {t("phút", "min")}</span></div>
+                      <div className="mt-4 flex flex-wrap items-center gap-3"><Progress value={(topicDone / topic.lessons.length) * 100} className="h-2 w-full max-w-xs" /><span className="shrink-0 text-sm font-bold text-primary">{topicDone}/{topic.lessons.length}</span><span className="hidden items-center gap-1 text-sm text-muted-foreground sm:flex"><Clock3 className="h-4 w-4" /> {meta.minutes} {t("phút", "min")}</span></div>
                     </div>
-                    {isOpen ? <ChevronDown className="ml-3 h-5 w-5 shrink-0" /> : <ChevronRight className="ml-3 h-5 w-5 shrink-0" />}
-                  </Button>
-                  {isOpen && <div className="border-t border-border px-4 py-2 sm:px-6">{topic.lessons.map((lesson, lessonIndex) => <Button key={lesson.id} variant="ghost" onClick={() => openLesson(topic, lesson)} className="h-auto w-full justify-start rounded-none border-b border-border px-1 py-4 text-left last:border-0 hover:bg-primary/5"><span className={`mr-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${done.includes(lesson.id) ? "bg-primary text-primary-foreground" : "border border-primary/30 text-primary"}`}>{done.includes(lesson.id) ? <Check className="h-4 w-4" /> : lessonIndex + 1}</span><span className="min-w-0 flex-1"><span className="block whitespace-normal font-bold">{t(lesson.titleVi, lesson.title)}</span><span className="block whitespace-normal text-sm font-normal text-muted-foreground">{lessonOutcome(lesson, vi)}</span><span className="mt-1 block text-xs font-semibold text-muted-foreground">{lesson.vocab.length} {t("cụm từ", "phrases")} · {lesson.questions.length + 1} {t("hoạt động", "activities")} · {lessonMinutes(lesson)} {t("phút", "min")}</span></span><ArrowRight className="ml-2 h-4 w-4 shrink-0 text-primary" /></Button>)}</div>}
+                    {isOpen ? <ChevronDown className="ml-3 mt-1 h-5 w-5 shrink-0 text-muted-foreground" /> : <ChevronRight className="ml-3 mt-1 h-5 w-5 shrink-0 text-muted-foreground" />}
+                  </button>
+                  {isOpen && (
+                    <div className="border-t border-border">
+                      {topic.lessons.map((lesson, lessonIndex) => (
+                        <button
+                          type="button"
+                          key={lesson.id}
+                          onClick={() => openLesson(topic, lesson)}
+                          className="group flex w-full items-start gap-3 border-b border-border px-5 py-4 text-left text-foreground transition-colors last:border-0 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary sm:px-6"
+                        >
+                          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${done.includes(lesson.id) ? "bg-primary text-primary-foreground" : "border border-primary/30 text-primary"}`}>{done.includes(lesson.id) ? <Check className="h-4 w-4" /> : lessonIndex + 1}</span>
+                          <span className="min-w-0 flex-1">
+                            <span className="block whitespace-normal font-bold text-foreground">{t(lesson.titleVi, lesson.title)}</span>
+                            <span className="mt-0.5 block whitespace-normal text-sm font-normal text-muted-foreground">{lessonOutcome(lesson, vi)}</span>
+                            <span className="mt-1 block text-xs font-semibold text-muted-foreground">{lesson.vocab.length} {t("cụm từ", "phrases")} · {lesson.questions.length + 1} {t("hoạt động", "activities")} · {lessonMinutes(lesson)} {t("phút", "min")}</span>
+                          </span>
+                          <ArrowRight className="ml-2 mt-1 h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-1" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
                 </div>
               </motion.div>
             );
