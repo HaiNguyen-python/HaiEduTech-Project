@@ -4002,6 +4002,8 @@ export type Database = {
           image_url: string | null
           image_urls: Json | null
           mood: string | null
+          pinned_at: string | null
+          pinned_by: string | null
           poll: Json | null
           subject: string | null
           updated_at: string
@@ -4015,6 +4017,8 @@ export type Database = {
           image_url?: string | null
           image_urls?: Json | null
           mood?: string | null
+          pinned_at?: string | null
+          pinned_by?: string | null
           poll?: Json | null
           subject?: string | null
           updated_at?: string
@@ -4028,6 +4032,8 @@ export type Database = {
           image_url?: string | null
           image_urls?: Json | null
           mood?: string | null
+          pinned_at?: string | null
+          pinned_by?: string | null
           poll?: Json | null
           subject?: string | null
           updated_at?: string
@@ -4040,16 +4046,19 @@ export type Database = {
         Row: {
           created_at: string
           post_id: string
+          type: string
           user_id: string
         }
         Insert: {
           created_at?: string
           post_id: string
+          type?: string
           user_id: string
         }
         Update: {
           created_at?: string
           post_id?: string
+          type?: string
           user_id?: string
         }
         Relationships: [
