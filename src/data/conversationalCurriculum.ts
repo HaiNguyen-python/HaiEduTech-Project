@@ -2439,6 +2439,22 @@ conversationalPillars.find(p => p.id === "life-skills")?.lessons.push(...lifeSki
 conversationalPillars.find(p => p.id === "professional")?.lessons.push(...professionalExpansion, ...professionalExpansion2);
 conversationalPillars.find(p => p.id === "academic")?.lessons.push(...academicExpansion, ...academicExpansion2);
 
+// Extra Communication Lab vocabulary so every lesson has a full Learn stage.
+import { purposeLabVocabExtra } from "./purposeLabVocabExtra";
+for (const pillar of conversationalPillars) {
+  for (const lesson of pillar.lessons) {
+    const extra = purposeLabVocabExtra[lesson.id];
+    if (!extra) continue;
+    const seen = new Set(lesson.vocabulary.map(v => v.term.trim().toLowerCase()));
+    for (const entry of extra) {
+      if (seen.has(entry.term.trim().toLowerCase())) continue;
+      seen.add(entry.term.trim().toLowerCase());
+      lesson.vocabulary.push(entry);
+    }
+  }
+}
+
+
 // Professional and academic communication now live in their dedicated tracks.
 // Keep one source of truth here so legacy links and existing progress remain valid.
 export const lifeSkillsPillar = conversationalPillars.find(p => p.id === "life-skills");

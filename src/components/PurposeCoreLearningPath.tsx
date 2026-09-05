@@ -14,9 +14,10 @@ import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { safeStorage } from "@/lib/safeStorage";
 import {
-  getNextCoreLesson, lessonMinutes, lessonOutcome, modelLineRole, purposeTrackLabel,
-  splitTeaching, topicLearningMeta, type PurposeTrack,
+  buildGuidedActivities, getNextCoreLesson, lessonMinutes, lessonOutcome, modelLineRole,
+  purposeTrackLabel, splitTeaching, topicLearningMeta, type PurposeTrack,
 } from "@/lib/purposeEnglishLearning";
+
 
 type Filter = "all" | "current" | "complete" | "not-started";
 
@@ -36,7 +37,9 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
   const [filter, setFilter] = useState<Filter>("all");
   const [search, setSearch] = useState("");
   const [picked, setPicked] = useState<Record<number, number>>({});
-  const [guidedChoice, setGuidedChoice] = useState<number | null>(null);
+  const [guidedPicks, setGuidedPicks] = useState<Record<string, number>>({});
+  const [step, setStep] = useState(1);
+
   const [practised, setPractised] = useState<string[]>([]);
 
   const allLessons = useMemo(() => topics.flatMap((topic) => topic.lessons), [topics]);
@@ -63,7 +66,9 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
     setActive({ topic, lesson });
     setOpenTopic(topic.id);
     setPicked({});
-    setGuidedChoice(null);
+    setGuidedPicks({});
+    setStep(1);
+
     safeStorage.set(`${storageKey}-last-core`, lesson.id);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -100,7 +105,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
     const topicDone = topic.lessons.filter((lesson) => done.includes(lesson.id)).length;
     const matchesFilter = filter === "all"
       || (filter === "complete" && topicDone === topic.lessons.length)
-      || (filter === "current" && topic.id === currentTopic?.id)
+      || (filter === "current" && (topic.id === currentTopic?.id || (topicDone > 0 && topicDone < topic.lessons.length)))
       || (filter === "not-started" && topicDone === 0);
     const query = search.trim().toLowerCase();
     const matchesSearch = !query || `${topic.title} ${topic.titleVi} ${topic.description} ${topic.descriptionVi} ${topic.lessons.map((lesson) => `${lesson.title} ${lesson.titleVi}`).join(" ")}`.toLowerCase().includes(query);
@@ -112,7 +117,10 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
     const teachingBlocks = splitTeaching(vi ? active.lesson.teachingVi : active.lesson.teaching);
     const correctCount = active.lesson.questions.filter((question, index) => picked[index] === question.answer).length;
     const quizFinished = Object.keys(picked).length === active.lesson.questions.length;
-    const guidedOptions = [active.lesson.vocab[0]?.example, active.lesson.vocab[1]?.example, active.lesson.vocab[2]?.example].filter((value): value is string => Boolean(value));
+    const guidedActivities = buildGuidedActivities(active.lesson, track);
+    const guidedDone = guidedActivities.length > 0 && guidedActivities.every((activity) => guidedPicks[activity.id] !== undefined);
+    const guidedCorrect = guidedActivities.filter((activity) => guidedPicks[activity.id] === activity.answer).length;
+    const stagePercent = Math.round((step / 5) * 100);
     return (
       <div className="purpose-course mx-auto max-w-5xl py-5">
         <div className="sticky top-0 z-20 mb-5 border-b border-border bg-background/95 py-3 backdrop-blur">
@@ -122,9 +130,9 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
             </Button>
             <div className="min-w-[180px] flex-1 sm:max-w-sm">
               <div className="mb-1 flex justify-between text-xs font-semibold text-muted-foreground">
-                <span>{t("Tiến trình bài học", "Lesson progress")}</span><span>{quizFinished ? 100 : 75}%</span>
+                <span>{t("Bước", "Step")} {step}/5</span><span>{stagePercent}%</span>
               </div>
-              <Progress value={quizFinished ? 100 : 75} className="h-2" />
+              <Progress value={stagePercent} className="h-2" />
             </div>
           </div>
         </div>
@@ -144,11 +152,22 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
 
         <nav className="my-5 flex gap-2 overflow-x-auto pb-2" aria-label={t("Các bước bài học", "Lesson stages")}>
           {[t("Hiểu", "Understand"), t("Cụm từ", "Phrases"), t("Bài mẫu", "Model"), t("Luyện tập", "Guided"), t("Kiểm tra", "Check")].map((label, index) => (
-            <a key={label} href={`#core-step-${index + 1}`} className="shrink-0 rounded-md border border-border bg-card px-3 py-2 text-sm font-bold text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+            <button
+              key={label}
+              type="button"
+              aria-current={step === index + 1}
+              onClick={() => {
+                stopEnglishTts();
+                setStep((current) => Math.max(current, index + 1));
+                document.getElementById(`core-step-${index + 1}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className={`shrink-0 rounded-md border px-3 py-2 text-sm font-bold transition-colors ${step >= index + 1 ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary"}`}
+            >
               {index + 1}. {label}
-            </a>
+            </button>
           ))}
         </nav>
+
 
         <div className="space-y-6">
           <section id="core-step-1" className="scroll-mt-24 border border-border bg-card p-5 shadow-sm sm:p-7">
@@ -199,17 +218,56 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
           </section>
 
           <section id="core-step-4" className="scroll-mt-24 border border-border bg-card p-5 shadow-sm sm:p-7">
-            <div className="mb-5 flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-md bg-accent/15 font-bold text-accent-foreground">4</span><div><p className="text-xs font-bold uppercase text-accent-foreground">{t("Thử trước khi kiểm tra", "Try before the quiz")}</p><h3 className="text-xl font-bold">{t("Chọn câu phù hợp nhất với mục tiêu bài học", "Choose the sentence that best fits this lesson goal")}</h3></div></div>
-            <p className="mb-4 text-muted-foreground">{t("Hãy ưu tiên câu tự nhiên, cụ thể và đúng ngữ cảnh.", "Prioritise language that is natural, specific and appropriate for the context.")}</p>
-            <div className="grid gap-3">
-              {guidedOptions.map((option, index) => (
-                <Button key={option} variant={guidedChoice === index ? (index === 0 ? "default" : "destructive") : "outline"} className="h-auto min-h-12 justify-start whitespace-normal py-3 text-left" onClick={() => setGuidedChoice(index)}>
-                  <span className="mr-2 font-bold">{String.fromCharCode(65 + index)}.</span>{option}
-                </Button>
-              ))}
-            </div>
-            {guidedChoice !== null && <div className="mt-4 border-l-4 border-primary bg-primary/5 p-4"><p className="font-semibold">{guidedChoice === 0 ? t("Đúng hướng. Câu này thể hiện trực tiếp ngôn ngữ trọng tâm của bài.", "Good choice. This sentence directly demonstrates the lesson's target language.") : t("Hãy xem lại cụm từ đầu tiên và mục tiêu bài học. Câu A là mẫu trực tiếp nhất.", "Review the first key phrase and the lesson goal. Option A is the most direct model.")}</p></div>}
+            <div className="mb-5 flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-md bg-accent/15 font-bold text-accent-foreground">4</span><div><p className="text-xs font-bold uppercase text-accent-foreground">{t("Thử trước khi kiểm tra", "Try before the quiz")}</p><h3 className="text-xl font-bold">{t("Luyện tập có hướng dẫn", "Guided practice")}</h3></div></div>
+            <p className="mb-5 text-base text-muted-foreground">{t("Ba hoạt động ngắn lấy trực tiếp từ cụm từ và bài mẫu của bài học này. Chỉ hiện đáp án sau khi bạn chọn.", "Three short activities built from this lesson's phrases and model text. The answer appears only after you choose.")}</p>
+            {guidedActivities.length === 0 && <p className="text-muted-foreground">{t("Bài này luyện trực tiếp ở phần kiểm tra bên dưới.", "This lesson practises directly in the check below.")}</p>}
+            <ol className="space-y-6">
+              {guidedActivities.map((activity, activityIndex) => {
+                const chosen = guidedPicks[activity.id];
+                const answered = chosen !== undefined;
+                return (
+                  <li key={activity.id} className="border-t border-border pt-5 first:border-0 first:pt-0">
+                    <p className="text-base font-bold leading-7 text-foreground">{activityIndex + 1}. {t(activity.promptVi, activity.prompt)}</p>
+                    {!vi && <p className="mb-3 text-sm text-muted-foreground">{activity.promptVi}</p>}
+                    <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                      {activity.options.map((option, optionIndex) => {
+                        const right = optionIndex === activity.answer;
+                        const selectedWrong = answered && optionIndex === chosen && !right;
+                        return (
+                          <Button
+                            key={option}
+                            variant="outline"
+                            disabled={answered}
+                            onClick={() => setGuidedPicks((current) => ({ ...current, [activity.id]: optionIndex }))}
+                            className={`h-auto min-h-12 justify-start whitespace-normal py-3 text-left text-base ${answered && right ? "border-primary bg-primary/10" : ""} ${selectedWrong ? "border-destructive bg-destructive/10" : ""}`}
+                          >
+                            <span className="mr-2 font-bold text-primary">{String.fromCharCode(65 + optionIndex)}.</span>
+                            <span className="flex-1">{option}</span>
+                            {answered && right && <CheckCircle2 className="h-4 w-4 text-primary" />}
+                            {selectedWrong && <XCircle className="h-4 w-4 text-destructive" />}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                    {answered && (
+                      <div className="mt-3 border-l-4 border-primary bg-primary/5 p-4">
+                        <p className="font-bold">{t("Đáp án", "Answer")}: {String.fromCharCode(65 + activity.answer)}. {activity.options[activity.answer]}</p>
+                        <p className="mt-1 text-base">{activity.explanation}</p>
+                        <p className="text-sm text-muted-foreground">{activity.explanationVi}</p>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+            {guidedActivities.length > 0 && guidedDone && (
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border border-primary/30 bg-primary/5 p-4">
+                <p className="font-bold text-foreground">{t("Luyện tập", "Guided practice")}: {guidedCorrect}/{guidedActivities.length}</p>
+                <Button variant="outline" className="gap-2" onClick={() => setGuidedPicks({})}><RotateCcw className="h-4 w-4" />{t("Làm lại", "Try again")}</Button>
+              </div>
+            )}
           </section>
+
 
           <section id="core-step-5" className="scroll-mt-24 border border-border bg-card p-5 shadow-sm sm:p-7">
             <div className="mb-5 flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-md bg-secondary font-bold text-secondary-foreground">5</span><div><p className="text-xs font-bold uppercase text-secondary-foreground">{t("Kiểm tra ứng dụng", "Application check")}</p><h3 className="text-xl font-bold">{t("Chọn đáp án trước khi xem giải thích", "Choose before revealing the explanation")}</h3></div></div>
@@ -307,7 +365,16 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
           })}
         </div>
       </div>
-      {visibleTopics.length === 0 && <div className="py-16 text-center"><Lightbulb className="mx-auto h-8 w-8 text-muted-foreground" /><p className="mt-3 font-semibold text-muted-foreground">{t("Không tìm thấy nội dung phù hợp.", "No matching lessons found.")}</p></div>}
+      {visibleTopics.length === 0 && (
+        <div className="border border-dashed border-border bg-card py-14 text-center">
+          <Lightbulb className="mx-auto h-8 w-8 text-muted-foreground" />
+          <p className="mt-3 text-base font-semibold text-foreground">{t("Không tìm thấy nội dung phù hợp.", "No matching lessons found.")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("Hãy thử từ khóa khác hoặc xóa bộ lọc.", "Try another keyword or clear the filters.")}</p>
+          <Button variant="outline" className="mt-4 gap-2" onClick={() => { setSearch(""); setFilter("all"); }}>
+            <RotateCcw className="h-4 w-4" />{t("Xóa bộ lọc", "Clear filters")}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

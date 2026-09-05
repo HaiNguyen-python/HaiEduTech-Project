@@ -707,7 +707,7 @@ export const academicExpansion: ConvLesson[] = [
         sampleDialogue: [
           { speaker: "Classmate", line: "Online learning is just as good as in-person." },
           { speaker: "You", line: "I see your point, but I'd respectfully disagree." },
-          { speaker: "Classmate", line: "Why?" },
+          { speaker: "Classmate", line: "Why do you say that? I would like to hear your reasons." },
           { speaker: "You", line: "Studies show in-person classes lead to better long-term retention." },
           { speaker: "Classmate", line: "I hadn't heard that. Which studies are you referring to?" },
           { speaker: "You", line: "I read a Harvard study from 2022 about cognitive engagement." },
