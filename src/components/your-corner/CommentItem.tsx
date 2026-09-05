@@ -84,7 +84,7 @@ export default function CommentItem({
       return;
     }
     setSending(true);
-    await onSubmitReply(comment.id, t);
+    await onSubmitReply(threadId ?? comment.id, t);
     setSending(false);
     setReplyText("");
     setReplyOpen(false);
@@ -180,6 +180,7 @@ export default function CommentItem({
                   onSubmitReply={onSubmitReply}
                   onDelete={onDelete}
                   depth={depth + 1}
+                  threadId={threadId ?? comment.id}
                 />
               ))}
             </div>
