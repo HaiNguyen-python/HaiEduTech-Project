@@ -732,11 +732,39 @@ ${suggestionsHtml}
         } catch (e) { console.error("speaking srs collect failed", e); }
       })();
     }
-    // Band 8.0+ upgrade feature removed to keep grading fast and focused
-    // on score + error correction so learners can self-review.
   };
 
-  // Upgrade-to-Band-8 feature removed by request: focus stays on score + error fixes.
+  /** Rewrite the learner's own answer at Band 8.0+ using their real transcript. */
+  const handleUpgrade = async () => {
+    if (!result) return;
+    const source = (result.transcript || transcript || "").trim();
+    if (!source) {
+      setUpgradeError(t(
+        "Chưa có nội dung bài nói để nâng cấp. Hãy ghi âm và chấm điểm trước.",
+        "There is no answer to upgrade yet. Record and grade an answer first.",
+      ));
+      return;
+    }
+    setUpgradeError(null);
+    setUpgrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("upgrade-speaking", {
+        body: { question: currentQ?.question ?? "", part: selectedPart, transcript: source },
+      });
+      if (error) throw error;
+      const upgraded = (data as { upgradedAnswer?: string })?.upgradedAnswer?.trim();
+      if (!upgraded) throw new Error("empty_upgrade");
+      setResult((prev) => (prev ? { ...prev, upgradedAnswer: upgraded } : prev));
+    } catch (e) {
+      console.error("upgrade-speaking failed:", e);
+      setUpgradeError(t(
+        "Chưa nâng cấp được bài nói lúc này. Hãy thử lại sau vài giây.",
+        "The upgrade could not be created right now. Please try again in a few seconds.",
+      ));
+    } finally {
+      setUpgrading(false);
+    }
+  };
 
   const getScoreColor = (score: number) => {
     if (score >= 7.5) return "text-green-600";
