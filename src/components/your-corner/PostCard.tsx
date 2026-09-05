@@ -363,6 +363,17 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
 
           </div>
         </div>
+        {isStaff && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={togglePin}
+            title={pinnedAt ? "Bỏ ghim bài viết" : "Ghim bài viết lên đầu"}
+            className={pinnedAt ? "text-amber-600" : "text-muted-foreground"}
+          >
+            {pinnedAt ? <PinOff className="w-4 h-4" /> : <Pin className="w-4 h-4" />}
+          </Button>
+        )}
         {isMine && (
           <div className="flex items-center gap-1">
             {!editing && (
