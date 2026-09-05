@@ -718,8 +718,13 @@ const Navbar = () => {
                           onMouseLeave={handleMouseLeave}
                           className="absolute top-full left-0 pt-2 w-64 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-3"
                         >
-                          {/* Panel scrolls inside itself instead of being clipped below the viewport */}
-                          <div className="bg-card rounded-xl shadow-xl border border-border py-2 max-h-[calc(100vh-7rem)] overflow-y-auto nav-scroll">
+                          {/* Panel scrolls inside itself instead of being clipped below the viewport.
+                              Scrolling closes any open flyout since it is position:fixed and would
+                              otherwise detach from its parent row. */}
+                          <div
+                            className="bg-card rounded-xl shadow-xl border border-border py-2 max-h-[calc(100vh-7rem)] overflow-y-auto nav-scroll"
+                            onScroll={() => { if (activeSubmenu) setActiveSubmenu(null); }}
+                          >
                           {l.subs.map((sub, i) => {
                             // Nested group with children (IELTS Program)
                             if (sub.children) {
