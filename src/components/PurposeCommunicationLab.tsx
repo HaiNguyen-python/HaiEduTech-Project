@@ -66,10 +66,11 @@ const PurposeCommunicationLab = ({
 
   const tabs = [
     { value: "learn", labelVi: "Học", labelEn: "Learn", icon: BookOpen },
-    { value: "listen", labelVi: "Nghe", labelEn: "Listen", icon: Headphones },
+    { value: "listen", labelVi: "Hội thoại", labelEn: "Conversation", icon: MessageCircle },
     { value: "speak", labelVi: "Nói", labelEn: "Speak", icon: Mic2 },
     { value: "challenge", labelVi: "Thử thách", labelEn: "Challenge", icon: Sparkles },
   ];
+
 
   const goTo = (next: string) => {
     stopEnglishTts();
