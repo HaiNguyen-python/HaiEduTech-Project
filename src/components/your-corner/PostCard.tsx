@@ -81,31 +81,62 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const initials = authorName.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
   const subjMeta = post.subject ? subjectMap.get(post.subject as any) : null;
 
-  const toggleLike = async () => {
-    const next = !liked;
-    setLiked(next);
-    setLikeCount((c) => c + (next ? 1 : -1));
-    if (next) {
+  /**
+   * One reaction per user per post. Clicking the same emoji removes it,
+   * picking another one switches type without changing the total count.
+   */
+  const setReaction = async (type: ReactionType | null) => {
+    setPickerOpen(false);
+    const prev = { my: myReaction, count: likeCount, types: reactionTypes };
+    const remove = type === null || type === myReaction;
+    const nextType = remove ? null : type;
+
+    // Optimistic UI
+    setMyReaction(nextType);
+    setLiked(!!nextType);
+    setLikeCount((c) => Math.max(0, c + (prev.my ? 0 : 1) - (nextType ? 0 : 1)));
+    setReactionTypes((m) => {
+      const copy = { ...m };
+      if (prev.my) copy[prev.my] = Math.max(0, (copy[prev.my] ?? 1) - 1);
+      if (nextType) copy[nextType] = (copy[nextType] ?? 0) + 1;
+      return copy;
+    });
+    if (nextType) {
       setHeartPop(true);
       setTimeout(() => setHeartPop(false), 600);
-      const { error } = await supabase
-        .from("your_corner_reactions")
-        .insert({ post_id: post.id, user_id: currentUserId });
-      if (error) {
-        setLiked(false);
-        setLikeCount((c) => c - 1);
-      }
-    } else {
-      const { error } = await supabase
-        .from("your_corner_reactions")
-        .delete()
-        .eq("post_id", post.id)
-        .eq("user_id", currentUserId);
-      if (error) {
-        setLiked(true);
-        setLikeCount((c) => c + 1);
-      }
     }
+
+    const table = supabase.from("your_corner_reactions") as any;
+    let error: any = null;
+    if (!nextType) {
+      ({ error } = await table.delete().eq("post_id", post.id).eq("user_id", currentUserId));
+    } else if (prev.my) {
+      ({ error } = await table.update({ type: nextType }).eq("post_id", post.id).eq("user_id", currentUserId));
+    } else {
+      ({ error } = await table.insert({ post_id: post.id, user_id: currentUserId, type: nextType }));
+    }
+    if (error) {
+      setMyReaction(prev.my);
+      setLiked(!!prev.my);
+      setLikeCount(prev.count);
+      setReactionTypes(prev.types);
+      toast.error("Không cập nhật được cảm xúc");
+    }
+  };
+
+  const togglePin = async () => {
+    const next = pinnedAt ? null : new Date().toISOString();
+    setPinnedAt(next);
+    const { error } = await (supabase.from("your_corner_posts") as any)
+      .update({ pinned_at: next, pinned_by: next ? currentUserId : null })
+      .eq("id", post.id);
+    if (error) {
+      setPinnedAt(pinnedAt);
+      toast.error("Không cập nhật được ghim");
+      return;
+    }
+    toast.success(next ? "Đã ghim bài viết 📌" : "Đã bỏ ghim");
+    onChanged();
   };
 
   const toggleBookmark = async () => {
