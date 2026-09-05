@@ -517,7 +517,7 @@ const IeltsWritingPractice = () => {
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs defaultValue="essay" className="w-full">
-          <TabsList className="grid w-full max-w-5xl grid-cols-3 md:grid-cols-6 mb-6 h-auto">
+          <TabsList className="grid w-full max-w-5xl grid-cols-3 md:grid-cols-6 mt-6 mb-6 h-auto">
             <TabsTrigger value="essay" className="gap-1.5 py-2">
               <PenLine className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Viết bài luận", "Essay Writing")}</span>

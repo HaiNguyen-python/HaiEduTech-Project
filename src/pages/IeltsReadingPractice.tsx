@@ -1256,7 +1256,7 @@ const IeltsReadingPractice: React.FC = () => {
 
         <section className="container mx-auto px-4 sm:px-6">
           <Tabs defaultValue="full-test" className="w-full">
-            <TabsList className="grid w-full max-w-3xl grid-cols-3">
+            <TabsList className="grid w-full max-w-3xl grid-cols-3 mt-6">
               <TabsTrigger value="quick">
                 {t("⚡ Bài tập nhanh", "⚡ Quick Exercises")}
               </TabsTrigger>
