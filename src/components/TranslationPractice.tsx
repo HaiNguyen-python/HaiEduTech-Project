@@ -24,6 +24,8 @@ import {
   type TranslationItem,
 } from "@/data/ieltsTranslationBank";
 import { matchStructures, normaliseForMatch, checkableHints } from "@/lib/ieltsTranslationCheck";
+import ParagraphTranslationPractice from "./ParagraphTranslationPractice";
+
 
 interface Props {
   taskType: 1 | 2;
