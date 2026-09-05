@@ -18,6 +18,11 @@ import FloatingChibi from "@/components/FloatingChibi";
 import chibiReading from "@/assets/chibi-reading.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
+import HeroPhotoRotator from "@/components/HeroPhotoRotator";
+import heroStage from "@/assets/hero/hai-stage.png.asset.json";
+import heroClassroom from "@/assets/hero/hai-classroom.png.asset.json";
+import heroHelsinki from "@/assets/hero/hai-helsinki.png.asset.json";
+import heroStockholm from "@/assets/hero/hai-stockholm.png.asset.json";
 
 const HeroSection = () => {
   const { t } = useLanguage();
