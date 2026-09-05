@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { icons, ArrowLeft, Award, CheckCircle, BookOpen, Mic, ChevronDown, ChevronRight, Lock, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { lifeSkillsPillar, type ConvPillar } from "@/data/conversationalCurriculum";
+import { lifeSkillsPillar, type ConvLesson, type ConvPillar } from "@/data/conversationalCurriculum";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
