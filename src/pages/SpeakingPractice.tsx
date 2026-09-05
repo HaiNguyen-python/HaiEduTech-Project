@@ -127,6 +127,12 @@ const SpeakingPractice = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
+  /** Set when the browser cannot record at all, so we can explain it inline. */
+  const [recorderError, setRecorderError] = useState<string | null>(null);
+  /** True between pressing Stop and the clip being ready. */
+  const [finalizing, setFinalizing] = useState(false);
+  /** Shown when Grade is pressed with nothing to score yet. */
+  const [gradeNotice, setGradeNotice] = useState<string | null>(null);
   
   const [result, setResult] = useState<SpeakingResult | null>(null);
   const [savingNotebook, setSavingNotebook] = useState(false);
@@ -425,24 +431,62 @@ ${suggestionsHtml}
     return recognition;
   }, []);
 
+  /** Pick a recording container the current browser really supports (Safari needs mp4). */
+  const pickMimeType = (): string | undefined => {
+    const MR = window.MediaRecorder as typeof MediaRecorder & { isTypeSupported?: (t: string) => boolean };
+    const candidates = [
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/mp4;codecs=mp4a.40.2",
+      "audio/mp4",
+      "audio/ogg;codecs=opus",
+    ];
+    if (typeof MR?.isTypeSupported !== "function") return undefined;
+    return candidates.find((c) => MR.isTypeSupported!(c));
+  };
+
   // Recording functions
   const startRecording = async () => {
     langAudio.stop();
+    setRecorderError(null);
+    setGradeNotice(null);
+    if (!navigator.mediaDevices?.getUserMedia || typeof window.MediaRecorder === "undefined") {
+      setRecorderError(t(
+        "Trình duyệt này không hỗ trợ ghi âm. Hãy mở trang bằng Chrome hoặc Safari mới nhất (nếu đang xem trong khung nhúng, hãy mở ở tab mới).",
+        "This browser does not support recording. Open the page in an up-to-date Chrome or Safari (if you are inside an embedded preview, open it in a new tab).",
+      ));
+      return;
+    }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
+      const mimeType = pickMimeType();
+      let recorder: MediaRecorder;
+      try {
+        recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      } catch {
+        recorder = new MediaRecorder(stream); // browser rejected the container - use its default
+      }
       mediaRecorder.current = recorder;
       chunksRef.current = [];
       recorder.ondataavailable = (e) => { if (e.data.size > 0) chunksRef.current.push(e.data); };
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
+        const blob = new Blob(chunksRef.current, { type: recorder.mimeType || mimeType || "audio/webm" });
         setAudioBlob(blob);
         if (audioUrl) URL.revokeObjectURL(audioUrl);
-        setAudioUrl(URL.createObjectURL(blob));
+        setAudioUrl(blob.size > 0 ? URL.createObjectURL(blob) : null);
         stream.getTracks().forEach((t) => t.stop());
         chunksRef.current = [];
+        setFinalizing(false);
       };
-      recorder.start();
+      recorder.onerror = () => {
+        setFinalizing(false);
+        setRecorderError(t(
+          "Ghi âm bị lỗi giữa chừng. Hãy thử ghi lại; bài của bạn vẫn có thể chấm bằng transcript.",
+          "Recording failed midway. Please try again; your answer can still be graded from the transcript.",
+        ));
+      };
+      // Ask for data every second so even very short answers produce a usable clip.
+      recorder.start(1000);
       setIsRecording(true);
       setResult(null);
       setTimer(0);
@@ -456,13 +500,26 @@ ${suggestionsHtml}
         try { recognition.start(); } catch { /* ignore */ }
       }
       timerRef.current = setInterval(() => setTimer((t) => t + 1), 1000);
-    } catch {
-      alert(t("Vui lòng cho phép truy cập microphone", "Please allow microphone access"));
+    } catch (e) {
+      const name = (e as DOMException)?.name;
+      setRecorderError(
+        name === "NotAllowedError" || name === "SecurityError"
+          ? t("Micro đang bị chặn. Hãy cho phép micro cho trang này rồi thử lại.", "The microphone is blocked. Allow microphone access for this page and try again.")
+          : name === "NotFoundError"
+            ? t("Không tìm thấy micro nào trên thiết bị.", "No microphone was found on this device.")
+            : t("Không bật được micro. Hãy thử lại hoặc mở trang ở tab mới.", "Could not start the microphone. Try again or open the page in a new tab."),
+      );
     }
   };
 
   const stopRecording = () => {
-    mediaRecorder.current?.stop();
+    try {
+      if (mediaRecorder.current?.state === "recording") {
+        setFinalizing(true);
+        mediaRecorder.current.requestData?.();
+        mediaRecorder.current.stop();
+      }
+    } catch { setFinalizing(false); }
     setIsRecording(false);
     if (timerRef.current) clearInterval(timerRef.current);
     if (recognitionRef.current) {
@@ -482,6 +539,9 @@ ${suggestionsHtml}
     setShowSuggestions(true);
     setLiveTranscript("");
     setInterimTranscript("");
+    setGradeNotice(null);
+    setRecorderError(null);
+    setFinalizing(false);
     chunksRef.current = [];
   };
 
@@ -512,10 +572,24 @@ ${suggestionsHtml}
 
   // Grading - sends actual transcript to AI
   const handleGrade = async () => {
-    if (!audioBlob) return;
+    if (loading) return;
+    const transcriptForGrading = liveTranscript.trim();
+    if (!currentQ) return;
+    if (finalizing) {
+      setGradeNotice(t("Đang lưu bản ghi, vui lòng chờ 1-2 giây rồi bấm lại.", "Saving your recording - please wait a second and press again."));
+      return;
+    }
+    // We can grade from the transcript even if the audio clip is missing or empty.
+    if (!transcriptForGrading && (!audioBlob || audioBlob.size === 0)) {
+      setGradeNotice(t(
+        "Chưa có nội dung để chấm. Hãy bấm Bắt đầu ghi âm, nói 20-30 giây rồi bấm Dừng, sau đó bấm Chấm điểm.",
+        "There is nothing to grade yet. Press Start Recording, speak for 20-30 seconds, press Stop, then press Grade.",
+      ));
+      return;
+    }
+    setGradeNotice(null);
     setLoading(true);
     let gradedResult: SpeakingResult | null = null;
-    const transcriptForGrading = liveTranscript.trim();
     const buildInstantResult = (reason: string): SpeakingResult => {
       const words = transcriptForGrading ? transcriptForGrading.split(/\s+/).filter(Boolean).length : 0;
       const pace = timer > 0 ? (words / Math.max(timer, 1)) * 60 : 0;
@@ -543,15 +617,27 @@ ${suggestionsHtml}
       };
     };
     try {
-      const gradingPromise = supabase.functions.invoke("grade-speaking", {
-        body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: transcriptForGrading },
-      });
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        window.setTimeout(() => reject(new Error("client_grading_timeout")), 16_000);
-      });
-      const { data, error } = await Promise.race([gradingPromise, timeoutPromise]);
-      if (error) throw error;
-      const graded = data as SpeakingResult;
+      // The grader itself falls back to a quick score within ~14s, so give it room
+      // (25s) and retry once before we build a local score.
+      const callGrader = async () => {
+        const gradingPromise = supabase.functions.invoke("grade-speaking", {
+          body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: transcriptForGrading },
+        });
+        const timeoutPromise = new Promise<never>((_, reject) => {
+          window.setTimeout(() => reject(new Error("client_grading_timeout")), 25_000);
+        });
+        const res = await Promise.race([gradingPromise, timeoutPromise]);
+        if (res.error) throw res.error;
+        return res.data as SpeakingResult;
+      };
+      let data: SpeakingResult;
+      try {
+        data = await callGrader();
+      } catch (first) {
+        console.error("grade-speaking attempt 1 failed, retrying:", first);
+        data = await callGrader();
+      }
+      const graded = data;
       gradedResult = graded;
       setResult(graded);
       recordScore(graded);
@@ -571,10 +657,17 @@ ${suggestionsHtml}
         } catch (e) { console.error("log speaking failed", e); }
       })();
     } catch (error) {
+      console.error("grade-speaking failed, using local score:", error);
       const fallback = buildInstantResult(error instanceof Error && error.message === "client_grading_timeout" ? "AI chấm chi tiết quá chậm. Hệ thống đã trả điểm dự phòng - hãy thử chấm lại để có điểm chuẩn IELTS." : "Hệ thống đã trả điểm nhanh để tránh treo khi chấm.");
       gradedResult = fallback;
       setResult(fallback);
       recordScore(fallback);
+      setGradeNotice(t(
+        "Đây là điểm dự phòng nhanh (AI chấm chi tiết chưa phản hồi). Hãy bấm Chấm điểm lại để lấy điểm chuẩn IELTS.",
+        "This is a quick fallback score (the detailed AI examiner did not respond). Press Grade again for the full IELTS score.",
+      ));
+    } finally {
+      setLoading(false);
     }
     // Collect the weak points into the spaced repetition queue (1/3/7 days)
     if (gradedResult) {
@@ -597,7 +690,6 @@ ${suggestionsHtml}
         } catch (e) { console.error("speaking srs collect failed", e); }
       })();
     }
-    setLoading(false);
     // Band 8.0+ upgrade feature removed to keep grading fast and focused
     // on score + error correction so learners can self-review.
   };
@@ -1130,7 +1222,7 @@ ${suggestionsHtml}
 
                   {/* Controls */}
                   <div className="flex gap-3 flex-wrap justify-center">
-                    {!isRecording && !audioBlob && (
+                    {!isRecording && !audioBlob && !liveTranscript.trim() && (
                       <Button onClick={startRecording} size="lg" className="gap-2 bg-gradient-to-r from-primary to-emerald-600 hover:brightness-110">
                         <Mic className="w-5 h-5" /> {t("Bắt đầu ghi âm", "Start Recording")}
                       </Button>
@@ -1140,7 +1232,7 @@ ${suggestionsHtml}
                         <Square className="w-4 h-4 fill-current" /> {t("Dừng", "Stop")}
                       </Button>
                     )}
-                    {audioBlob && !isRecording && (() => {
+                    {(audioBlob || liveTranscript.trim()) && !isRecording && (() => {
                       const words = liveTranscript.trim() ? liveTranscript.trim().split(/\s+/).length : 0;
                       // Gemini 2.5 Flash via Lovable AI Gateway (empirical from workspace logs):
                       // ~0.002 base credits + scales slightly with transcript length.
@@ -1162,7 +1254,11 @@ ${suggestionsHtml}
                             ) : (
                               <Play className="w-4 h-4 fill-current" />
                             )}
-                            {loading ? t("Đang chấm...", "Grading...") : t("Chấm điểm", "Grade")}
+                            {loading
+                              ? t("Đang chấm...", "Grading...")
+                              : finalizing
+                                ? t("Đang lưu bản ghi...", "Saving recording...")
+                                : t("Chấm điểm", "Grade")}
                           </Button>
                           <div className="basis-full" />
                           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-medium text-emerald-700 dark:text-emerald-300">
@@ -1177,6 +1273,18 @@ ${suggestionsHtml}
                     })()}
 
                   </div>
+
+                  {/* Recorder / grading notices */}
+                  {recorderError && (
+                    <div className="w-full rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+                      {recorderError}
+                    </div>
+                  )}
+                  {gradeNotice && (
+                    <div className="w-full rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-sm text-amber-700 dark:text-amber-300">
+                      {gradeNotice}
+                    </div>
+                  )}
 
                   {/* Audio player */}
                   {audioUrl && (
