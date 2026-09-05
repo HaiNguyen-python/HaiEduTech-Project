@@ -719,6 +719,13 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const structureGroups = groupStructures(structures);
   const visibleVocab = helpersExpanded ? vocab : vocab.slice(0, 10);
 
+  /** Adds a helper phrase to the reply box so learners can practise using it. */
+  const insertHelper = (text: string) => {
+    setInput((current) => (current.trim() ? `${current.trim()} ${text}` : text));
+    inputRef.current?.focus();
+  };
+
+
   const HelperChip = ({ text, tone }: { text: string; tone: "structure" | "vocab" }) => (
     <span
       className={
