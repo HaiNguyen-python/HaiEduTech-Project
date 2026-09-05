@@ -15,6 +15,7 @@ import {
   PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2, LayoutTemplate,
   ArrowLeft
 } from "lucide-react";
+import DOMPurify from "dompurify";
 import { useToast } from "@/hooks/use-toast";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip,
