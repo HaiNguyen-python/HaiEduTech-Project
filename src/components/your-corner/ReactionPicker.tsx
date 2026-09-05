@@ -125,7 +125,6 @@ export default function ReactionPicker({ myReaction, pop, onSelect }: Props) {
                 role="menuitem"
                 title={r.label}
                 aria-label={r.label}
-                autoFocus={open && i === focusIdx && longPressed.current === false && false}
                 onClick={() => pick(r.key)}
                 className={`group relative flex h-10 w-10 items-center justify-center rounded-full text-2xl leading-none transition-transform hover:-translate-y-1 hover:scale-125 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   myReaction === r.key || focusIdx === i ? "scale-110 bg-muted" : ""
