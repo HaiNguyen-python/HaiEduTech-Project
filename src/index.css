@@ -81,6 +81,19 @@
 }
 
 @layer utilities {
+  .purpose-course {
+    font-family: "Manrope", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .purpose-course h1,
+  .purpose-course h2,
+  .purpose-course h3,
+  .purpose-course h4 {
+    font-family: "Sora", sans-serif;
+    letter-spacing: 0;
+  }
+
   .font-classroom-heading { font-family: "Outfit", sans-serif; letter-spacing: 0; }
   .font-classroom-body { font-family: "Figtree", sans-serif; letter-spacing: 0; }
   .classroom-command-shadow { box-shadow: var(--classroom-shadow); }

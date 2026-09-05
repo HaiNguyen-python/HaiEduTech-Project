@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import PurposeEnglishHub from "@/components/PurposeEnglishHub";
+import PurposeCoreLearningPath from "@/components/PurposeCoreLearningPath";
 import PurposeCommunicationLab from "@/components/PurposeCommunicationLab";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -297,15 +297,10 @@ const PurposeEnglishCourse = ({
             </TabsContent>
 
             <TabsContent value="core" className="mt-4">
-              <PurposeEnglishHub
-                embedded
+              <PurposeCoreLearningPath
+                track={track}
                 storageKey={storageKey}
                 activityType={activityType}
-                emoji={track === "business" ? "💼" : "🎓"}
-                title={title}
-                titleVi={titleVi}
-                tagline={tagline}
-                taglineVi={taglineVi}
                 topics={coreTopics}
               />
             </TabsContent>

@@ -23,3 +23,4 @@
 - [x] Move Academic Communication into Academic English
 - [x] Upgrade both course dashboards, lesson flow, practice, progress, and legacy links
 - [x] Audit all merged lessons and verify desktop/mobile learning flows
+- [x] Rebuild Core Lessons as a visual learning path with search, status filters, lesson outcomes, guided practice, annotated models, quiz summaries, and preserved progress
