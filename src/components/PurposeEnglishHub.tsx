@@ -30,6 +30,7 @@ import { safeStorage } from "@/lib/safeStorage";
 import type { PurposeLesson, PurposeTopic } from "@/data/purposeEnglishTypes";
 
 interface Props {
+  embedded?: boolean;
   /** localStorage namespace, e.g. "haiedu-business-english-v1". */
   storageKey: string;
   /** Activity type recorded for the learning dashboard. */
@@ -43,6 +44,7 @@ interface Props {
 }
 
 const PurposeEnglishHub = ({
+  embedded = false,
   storageKey,
   activityType,
   emoji,
@@ -70,6 +72,7 @@ const PurposeEnglishHub = ({
   const persist = (next: string[]) => {
     setDone(next);
     safeStorage.set(storageKey, next);
+    window.dispatchEvent(new Event("purpose-progress"));
   };
 
   const speak = (text: string, slow = false) => {
@@ -104,9 +107,9 @@ const PurposeEnglishHub = ({
   const progress = Math.round((done.length / Math.max(allLessons.length, 1)) * 100);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main className="container relative z-10 mx-auto px-4 py-10 lg:py-14">
+    <div className={embedded ? "bg-background" : "min-h-screen bg-background"}>
+      {!embedded && <Navbar />}
+      <main className={embedded ? "relative z-10 py-6" : "container relative z-10 mx-auto px-4 py-10 lg:py-14"}>
         <motion.header
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -397,7 +400,7 @@ const PurposeEnglishHub = ({
           </div>
         )}
       </main>
-      <Footer />
+      {!embedded && <Footer />}
     </div>
   );
 };

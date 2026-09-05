@@ -1,7 +1,7 @@
 // Interactive Conversational English lesson view with situations, vocab, listening, and roleplay
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, Navigate, useParams, useNavigate } from "react-router-dom";
 import { icons, ArrowLeft, BookOpen, Mic, Volume2, ChevronRight, CheckCircle, Award, Play, MessageCircle, Lock, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getConvLessonById, getPillarByLessonId, allConversationalLessons, conversationalPillars } from "@/data/conversationalCurriculum";
@@ -94,6 +94,14 @@ const ConversationalLessonView = () => {
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
+  }
+
+  if (lessonId?.startsWith("pro-")) {
+    return <Navigate to={`/english/business?view=lab&lesson=${encodeURIComponent(lessonId)}`} replace />;
+  }
+
+  if (lessonId?.startsWith("acad-")) {
+    return <Navigate to={`/english/academic?view=lab&lesson=${encodeURIComponent(lessonId)}`} replace />;
   }
 
   if (!hasAccess) {

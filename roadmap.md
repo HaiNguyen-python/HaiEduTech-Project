@@ -17,3 +17,9 @@
 - [x] Audited all 60 lessons: added bilingual "why it matters" + 3-4 paragraph deep dives for 44 lessons and illustration emojis for all 52 missing; audit script reports 0 issues; verified rendering at /lifestyle-academy
 
 - [x] Speaking Coach: English IPA regenerated from CMU dictionary (607+ sentences)
+
+## Business English and Academic English upgrade
+- [x] Move Professional Communication into Business English
+- [x] Move Academic Communication into Academic English
+- [x] Upgrade both course dashboards, lesson flow, practice, progress, and legacy links
+- [x] Audit all merged lessons and verify desktop/mobile learning flows

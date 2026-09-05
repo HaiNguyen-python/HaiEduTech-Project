@@ -4,9 +4,10 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import SEO from "@/components/SEO";
-import PurposeEnglishHub from "@/components/PurposeEnglishHub";
+import PurposeEnglishCourse from "@/components/PurposeEnglishCourse";
 import { academicTopicsPart1 } from "@/data/academicEnglishLessons";
 import { academicTopicsPart2 } from "@/data/academicEnglishLessons2";
+import { academicCommunicationLessons } from "@/data/conversationalCurriculum";
 
 const topics = [...academicTopicsPart1, ...academicTopicsPart2];
 
@@ -18,15 +19,16 @@ const AcademicEnglish = () => (
       path="/english/academic"
       type="course"
     />
-    <PurposeEnglishHub
+    <PurposeEnglishCourse
+      track="academic"
       storageKey="haiedu-academic-english-v1"
       activityType="academic_english_lesson"
-      emoji="🎓"
       title="Academic English"
       titleVi="Tiếng Anh Học thuật"
       tagline="Vocabulary, style, writing, reading and lecture skills for university and IELTS-level study."
       taglineVi="Từ vựng, văn phong, viết, đọc và nghe giảng cho bậc đại học và trình độ IELTS."
-      topics={topics}
+      coreTopics={topics}
+      communicationLessons={academicCommunicationLessons}
     />
   </>
 );
