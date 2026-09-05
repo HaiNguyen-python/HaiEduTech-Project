@@ -483,20 +483,57 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
       )}
 
 
+      {/* Reaction summary */}
+      {likeCount > 0 && (
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span className="flex -space-x-1">
+            {topReactionEmojis(reactionTypes).map((e, i) => (
+              <span key={e + i} className="text-base leading-none">{e}</span>
+            ))}
+          </span>
+          <span>{likeCount}</span>
+        </div>
+      )}
+
       <div className="flex items-center gap-1 border-t pt-2 flex-wrap">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={toggleLike}
-          className={liked ? "text-red-500 hover:text-red-600" : "text-muted-foreground"}
+        <div
+          className="relative"
+          onMouseEnter={() => setPickerOpen(true)}
+          onMouseLeave={() => setPickerOpen(false)}
         >
-          <Heart
-            className={`w-4 h-4 mr-2 transition-transform ${liked ? "fill-current" : ""} ${
-              heartPop ? "scale-150" : "scale-100"
-            }`}
-          />
-          {likeCount > 0 ? likeCount : ""} Thích
-        </Button>
+          {pickerOpen && (
+            <div className="absolute bottom-full left-0 mb-1 z-20 flex items-center gap-1 rounded-full border bg-popover px-2 py-1 shadow-lg animate-fade-in">
+              {REACTIONS.map((r) => (
+                <button
+                  key={r.key}
+                  type="button"
+                  title={r.label}
+                  aria-label={r.label}
+                  onClick={() => setReaction(r.key)}
+                  className={`text-xl leading-none transition-transform hover:scale-125 ${myReaction === r.key ? "scale-125" : ""}`}
+                >
+                  {r.emoji}
+                </button>
+              ))}
+            </div>
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setReaction(myReaction ?? "like")}
+            onFocus={() => setPickerOpen(true)}
+            className={myReaction ? reactionMap.get(myReaction)?.color : "text-muted-foreground"}
+          >
+            {myReaction ? (
+              <span className={`mr-2 text-base leading-none transition-transform ${heartPop ? "scale-150" : "scale-100"}`}>
+                {reactionMap.get(myReaction)?.emoji}
+              </span>
+            ) : (
+              <ThumbsUp className="w-4 h-4 mr-2" />
+            )}
+            {myReaction ? reactionMap.get(myReaction)?.label : "Thích"}
+          </Button>
+        </div>
         <Button variant="ghost" size="sm" onClick={openComments} className="text-muted-foreground">
           <MessageCircle className="w-4 h-4 mr-2" />
           {post.comment_count > 0 ? post.comment_count : ""} Bình luận
