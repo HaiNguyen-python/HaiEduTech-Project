@@ -2,7 +2,7 @@
 // Provides an inline chat interface where students practice speaking scenarios
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mic, MicOff, RotateCcw, Sparkles, Volume2, User, Loader2 } from "lucide-react";
+import { Send, Mic, MicOff, RotateCcw, Sparkles, Volume2, User, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
@@ -172,6 +172,30 @@ const getHelperSets = (
   };
 };
 
+/** Groups the handy structures into short labelled rows so the panel is scannable. */
+const STRUCTURE_GROUPS: { key: string; labelVi: string; labelEn: string; test: RegExp }[] = [
+  { key: "opinion", labelVi: "Nêu ý kiến", labelEn: "Give an opinion", test: /^(i think|in my opinion|i'd say|it seems to me|the way i see it|to be honest|from a business|i couldn't|minun|olen sitä|我觉得|我认为|对我来说)/i },
+  { key: "reason", labelVi: "Lý do & ví dụ", labelEn: "Reasons & examples", test: /(one reason|for example|it depends|long story short|to summarise|to sum up|esimerkiksi|se riippuu|比如说|一方面)/i },
+  { key: "react", labelVi: "Đồng ý / phản hồi", labelEn: "Agree & disagree", test: /(good point|on the other hand|however|i see your point|let me put it|olen samaa|kuulostaa|听起来|虽然)/i },
+  { key: "ask", labelVi: "Hỏi & làm rõ", labelEn: "Ask & clarify", test: /(\?|could you explain|what do you mean|just to clarify|voitko|selittää|吗|为什么|请让我确认)/i },
+  { key: "work", labelVi: "Họp & công việc", labelEn: "Meetings & work", test: /(meeting|agenda|action item|align|circle back|offline|timeline|loop in|bandwidth|moving forward|park that|buy-in|kokous|aihe|ehdotan|askel|议程|开会|跟进|下一步)/i },
+];
+
+export const groupStructures = (items: string[]) => {
+  const used = new Set<string>();
+  const groups = STRUCTURE_GROUPS.map((group) => {
+    const matched = items.filter((item) => !used.has(item) && group.test.test(item));
+    matched.forEach((item) => used.add(item));
+    return { ...group, items: matched };
+  }).filter((group) => group.items.length > 0);
+  const rest = items.filter((item) => !used.has(item));
+  if (rest.length) {
+    groups.push({ key: "more", labelVi: "Cụm khác", labelEn: "More phrases", test: /.^/, items: rest });
+  }
+  return groups;
+};
+
+
 type Msg = { role: "user" | "assistant"; content: string };
 
 // Remove em/en dashes from assistant replies to sound more natural and less AI-like
@@ -281,6 +305,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const [isRecording, setIsRecording] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [aiSpeaking, setAiSpeaking] = useState(false);
+  const [helpersOpen, setHelpersOpen] = useState(true);
+  const [helpersExpanded, setHelpersExpanded] = useState(false);
+
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -689,39 +716,102 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   );
 
 
+  const structureGroups = groupStructures(structures);
+  const visibleVocab = helpersExpanded ? vocab : vocab.slice(0, 10);
+
+  /** Adds a helper phrase to the reply box so learners can practise using it. */
+  const insertHelper = (text: string) => {
+    setInput((current) => (current.trim() ? `${current.trim()} ${text}` : text));
+    inputRef.current?.focus();
+  };
+
+
+  const HelperChip = ({ text, tone }: { text: string; tone: "structure" | "vocab" }) => (
+    <span
+      className={
+        tone === "structure"
+          ? "inline-flex items-center gap-1 rounded-lg border-l-[3px] border-primary/60 bg-primary/10 pl-2 pr-1 py-0.5"
+          : "inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/15 pl-2.5 pr-1 py-0.5"
+      }
+    >
+      <button
+        type="button"
+        onClick={() => insertHelper(text)}
+        className="text-sm font-semibold text-foreground text-left hover:underline focus-visible:outline-none focus-visible:underline"
+        title={t("Chèn vào câu trả lời", "Insert into your reply")}
+      >
+        {text}
+      </button>
+      <button
+        type="button"
+        onClick={() => void speakText(text)}
+        aria-label={t(`Nghe: ${text}`, `Listen: ${text}`)}
+        className="rounded-full p-1 text-muted-foreground hover:text-primary"
+      >
+        <Volume2 className="h-3.5 w-3.5" />
+      </button>
+    </span>
+  );
+
   const TopHelperPanel = () => (
-    <div className="hidden md:grid grid-cols-2 gap-3 mb-3">
-      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-4 shadow-sm">
-        <p className="text-sm font-extrabold uppercase tracking-wide text-primary mb-3">
-          {t("💬 Cấu trúc hữu ích", "💬 Handy Structures")}
-        </p>
-        <div className="flex flex-wrap gap-1.5">
-          {structures.map((s) => (
-            <span key={s} className="text-sm font-semibold px-2.5 py-1 rounded-lg bg-primary/10 text-foreground border-l-[3px] border-primary/60">
-              {s}
-            </span>
-          ))}
-        </div>
+    <div className="mb-3 rounded-xl border bg-card/95 backdrop-blur-sm shadow-sm">
+      <div className="flex items-center justify-between gap-2 px-4 py-2.5">
+        <button
+          type="button"
+          onClick={() => setHelpersOpen((open) => !open)}
+          className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-primary"
+        >
+          {helpersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          {t("Trợ giúp nói", "Speaking helper")}
+        </button>
+        {business && (
+          <img src={businessChibi} alt="" width={32} height={32} loading="lazy" className="h-8 w-8 shrink-0 object-contain drop-shadow" />
+        )}
       </div>
-      <div className="rounded-xl border bg-card/95 backdrop-blur-sm p-4 shadow-sm">
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <p className="text-sm font-extrabold uppercase tracking-wide text-emerald-600">
-            {t("📚 Từ vựng gợi ý", "📚 Suggested Vocab")}
-          </p>
-          {business && (
-            <img src={businessChibi} alt="" width={40} height={40} loading="lazy" className="w-10 h-10 object-contain drop-shadow shrink-0" />
-          )}
+      {helpersOpen && (
+        <div className="grid gap-4 border-t px-4 py-3 md:grid-cols-2">
+          <div>
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-primary">
+              {t("💬 Cấu trúc hữu ích", "💬 Handy structures")}
+            </p>
+            <div className="space-y-2.5">
+              {structureGroups.map((group) => (
+                <div key={group.key}>
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                    {t(group.labelVi, group.labelEn)}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(helpersExpanded ? group.items : group.items.slice(0, 4)).map((item) => (
+                      <HelperChip key={item} text={item} tone="structure" />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-emerald-600">
+              {t("📚 Từ vựng gợi ý", "📚 Suggested vocab")}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {visibleVocab.map((word) => (
+                <HelperChip key={word} text={word} tone="vocab" />
+              ))}
+            </div>
+          </div>
+          <div className="md:col-span-2">
+            <Button variant="ghost" size="sm" onClick={() => setHelpersExpanded((open) => !open)} className="h-8 text-primary">
+              {helpersExpanded ? t("Thu gọn", "Show less") : t("Xem thêm", "Show more")}
+            </Button>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {t("Bấm vào cụm từ để chèn vào câu trả lời, bấm loa để nghe.", "Tap a phrase to insert it into your reply, tap the speaker to hear it.")}
+            </p>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-1.5">
-          {vocab.map((w) => (
-            <span key={w} className="text-sm font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/40">
-              {w}
-            </span>
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
+
 
   return (
     <div className="flex flex-col">
