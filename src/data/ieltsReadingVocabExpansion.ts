@@ -33,8 +33,8 @@ export const READING_VOCAB_EXPANSION: Record<string, ReadingVocabItem[]> = {
   "rx-cam-1": [
     { word: "studies", pos: "n", meaningVi: "các nghiên cứu", exampleEn: "Laboratory studies track brain activity all night." },
     { word: "non-REM", pos: "n", meaningVi: "giai đoạn ngủ không REM", exampleEn: "Deep non-REM sleep dominates the early night." },
-    { word: "restorative", pos: "adj", meaningVi: "có tác dụng phục hồi", exampleEn: "Deep sleep is the most restorative stage." },
-    { word: "cycle", pos: "n", meaningVi: "chu kỳ", exampleEn: "A sleep cycle lasts about ninety minutes." },
+    { word: "slow-wave", pos: "adj", meaningVi: "sóng chậm (giấc ngủ sâu)", exampleEn: "Slow-wave sleep is the deepest stage." },
+    { word: "cycling (through)", pos: "v", meaningVi: "luân chuyển qua (các giai đoạn)", exampleEn: "The brain keeps cycling through distinct stages." },
     { word: "memory", pos: "n", meaningVi: "ký ức, trí nhớ", exampleEn: "Sleep supports memory for new skills." },
   ],
   "rx-cam-2": [
@@ -80,9 +80,9 @@ export const READING_VOCAB_EXPANSION: Record<string, ReadingVocabItem[]> = {
     { word: "seventeenth", pos: "adj", meaningVi: "thứ mười bảy", exampleEn: "Coffee houses opened in the seventeenth century." },
     { word: "climate", pos: "n", meaningVi: "khí hậu", exampleEn: "A warming climate threatens growing regions." },
     { word: "trade", pos: "n", meaningVi: "thương mại", exampleEn: "Trade routes carried beans across oceans." },
-    { word: "consumption", pos: "n", meaningVi: "sự tiêu thụ", exampleEn: "Consumption rose with urban life." },
-    { word: "demand", pos: "n", meaningVi: "nhu cầu", exampleEn: "Demand outpaced supply in the 1700s." },
-    { word: "reshaped", pos: "v", meaningVi: "định hình lại", exampleEn: "Coffee reshaped daily routines." },
+    { word: "commodity", pos: "n", meaningVi: "hàng hóa (giao dịch)", exampleEn: "Coffee is one of the world's most-traded commodities." },
+    { word: "certification", pos: "n", meaningVi: "sự chứng nhận", exampleEn: "Fairtrade certification tried to raise farm incomes." },
+    { word: "smuggled", pos: "v", meaningVi: "buôn lậu, mang lậu", exampleEn: "Traders smuggled seedlings out of the region." },
   ],
   "rx-cam-7": [
     { word: "varieties", pos: "n", meaningVi: "các giống, chủng loại", exampleEn: "Old varieties tolerate poor soils." },
@@ -205,7 +205,7 @@ export const READING_VOCAB_EXPANSION: Record<string, ReadingVocabItem[]> = {
     { word: "absence", pos: "n", meaningVi: "sự thiếu vắng", exampleEn: "In the absence of rules, uptake is slow." },
   ],
   "rx-cam-19": [
-    { word: "endangerment", pos: "n", meaningVi: "tình trạng nguy cấp", exampleEn: "Language endangerment accelerated after 1950." },
+    { word: "orthography", pos: "n", meaningVi: "hệ chính tả", exampleEn: "A language needs an accepted orthography for schools." },
     { word: "indigenous", pos: "adj", meaningVi: "bản địa", exampleEn: "Indigenous languages lack digital tools." },
     { word: "translation", pos: "n", meaningVi: "việc dịch", exampleEn: "Machine translation needs large corpora." },
     { word: "speakers", pos: "n", meaningVi: "người nói", exampleEn: "Some languages have fewer than a thousand speakers." },
