@@ -1,0 +1,10 @@
+import { VOCAB_TOPICS } from "../src/data/japanese/vocab";
+import { KANJI_GROUPS } from "../src/data/japanese/kanji";
+import { JA_QUIZ_EXTRA } from "../src/data/japanese/quizBank";
+import { GREETINGS_EXTRA, COUNTERS, VOCAB_EXTRA, KANJI_EXTRA, DIALOGUES_EXTRA, GRAMMAR_EXTRA, JA_QUIZ } from "../src/data/japaneseExpansion";
+console.log("vocab topics", VOCAB_TOPICS.length, VOCAB_TOPICS.reduce((n,g)=>n+g.items.length,0));
+console.log("vocab extra", VOCAB_EXTRA.length, VOCAB_EXTRA.reduce((n,g)=>n+g.items.length,0));
+console.log("kanji groups", KANJI_GROUPS.length, KANJI_GROUPS.reduce((n,g)=>n+g.items.length,0), "extra", KANJI_EXTRA.length);
+console.log("greetings extra", GREETINGS_EXTRA.length, "counters", COUNTERS.length);
+console.log("dialogues extra", DIALOGUES_EXTRA.length, "grammar extra", GRAMMAR_EXTRA.length);
+console.log("quiz", JA_QUIZ.length, JA_QUIZ_EXTRA.length);
