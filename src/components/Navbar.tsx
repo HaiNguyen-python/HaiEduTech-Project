@@ -782,10 +782,15 @@ const Navbar = () => {
                                           if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
                                           if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
                                         }}
-                                        className={`absolute ${flyoutPos.left
-                                          ? "right-full pr-2 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-right-2 before:w-3"
-                                          : "left-full pl-2 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
-                                        } ${flyoutPos.up ? "bottom-0" : "top-0"} w-60 z-50`}
+                                        // position:fixed escapes the scrollable panel's clipping box;
+                                        // pl-2/pr-2 keeps an 8px hover bridge to the parent row.
+                                        className={`fixed w-60 z-[60] ${flyoutPos.left ? "pr-2" : "pl-2"}`}
+                                        style={{
+                                          top: flyoutPos.top,
+                                          bottom: flyoutPos.bottom,
+                                          left: flyoutPos.leftPx,
+                                          right: flyoutPos.rightPx,
+                                        }}
                                       >
                                         <div
                                           className="bg-card rounded-xl shadow-xl border border-border py-2 overflow-y-auto nav-scroll"
