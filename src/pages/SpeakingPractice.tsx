@@ -661,11 +661,13 @@ ${suggestionsHtml}
 
   // Render Part 2 topics grouped by category
   const renderPart2Categories = () => {
+    const q = topicSearch.trim().toLowerCase();
     return (
       <Accordion type="multiple" defaultValue={["people", "events"]} className="w-full">
         {Object.entries(PART2_CATEGORIES).map(([key, cat]) => {
           // Filter to only show categories that have matching topics in current data
-          const matchingTopics = cat.topics.filter(t => topics.includes(t));
+          let matchingTopics = cat.topics.filter((t) => topics.includes(t));
+          if (q) matchingTopics = matchingTopics.filter((t) => t.toLowerCase().includes(q));
           if (matchingTopics.length === 0) return null;
           return (
             <AccordionItem key={key} value={key} className="border-b-0 mb-1">
