@@ -18,6 +18,11 @@ import FloatingChibi from "@/components/FloatingChibi";
 import chibiReading from "@/assets/chibi-reading.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.webp";
+import HeroPhotoRotator from "@/components/HeroPhotoRotator";
+import heroStage from "@/assets/hero/hai-stage.png.asset.json";
+import heroClassroom from "@/assets/hero/hai-classroom.png.asset.json";
+import heroHelsinki from "@/assets/hero/hai-helsinki.png.asset.json";
+import heroStockholm from "@/assets/hero/hai-stockholm.png.asset.json";
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -85,8 +90,16 @@ const HeroSection = () => {
               transition={{ duration: 0.8 }}
               className="w-full max-w-[320px] shrink-0 sm:max-w-[360px]"
             >
-              <div className="aspect-square overflow-hidden rounded-[1.75rem] border-2 border-emerald-500 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
-                <img src={haiProfile} alt="Teacher Hai" width="720" height="720" {...({ fetchpriority: "high" } as any)} decoding="async" className="h-full w-full object-cover" />
+              <div className="relative aspect-square overflow-hidden rounded-[1.75rem] border-2 border-emerald-500 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
+                <HeroPhotoRotator
+                  photos={[
+                    { src: haiProfile, alt: "Teacher Hai portrait" },
+                    { src: heroStage.url, alt: "Teacher Hai speaking on stage with a microphone" },
+                    { src: heroClassroom.url, alt: "Teacher Hai teaching an English class" },
+                    { src: heroHelsinki.url, alt: "Teacher Hai in front of the University of Helsinki" },
+                    { src: heroStockholm.url, alt: "Teacher Hai walking in Stockholm old town" },
+                  ]}
+                />
               </div>
             </motion.div>
 

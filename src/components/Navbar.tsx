@@ -54,6 +54,24 @@ interface SubjectColor {
   accent: string;       // left accent bar on hover
 }
 const SUBJECT_COLORS: Record<string, SubjectColor> = {
+  home: {
+    trigger: "hover:text-teal-600 hover:bg-teal-500/10",
+    rowHover: "hover:text-teal-600 hover:bg-teal-500/10",
+    rowActive: "text-teal-600 bg-teal-500/10",
+    childHover: "hover:text-teal-600 hover:bg-teal-500/10",
+    icon: "text-teal-500/80",
+    header: "text-teal-600",
+    accent: "hover:border-teal-500",
+  },
+  about: {
+    trigger: "hover:text-orange-600 hover:bg-orange-500/10",
+    rowHover: "hover:text-orange-600 hover:bg-orange-500/10",
+    rowActive: "text-orange-600 bg-orange-500/10",
+    childHover: "hover:text-orange-600 hover:bg-orange-500/10",
+    icon: "text-orange-500/80",
+    header: "text-orange-600",
+    accent: "hover:border-orange-500",
+  },
   en: {
     trigger: "hover:text-blue-600 hover:bg-blue-500/10",
     rowHover: "hover:text-blue-600 hover:bg-blue-500/10",
@@ -416,8 +434,8 @@ const Navbar = () => {
   ];
 
   const baseLinks = [
-    { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap },
-    { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
+    { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap, key: "home" },
+    { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: englishSubs, key: "en" },
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
@@ -461,7 +479,7 @@ const Navbar = () => {
   // Dashboard and Admin entries are intentionally omitted from the main menu —
   // they are accessible from the user dropdown after login to keep the navbar clean.
   const navLinks = user && isPureAssistant
-    ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield }]
+    ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield, key: "assistant" }]
     : baseLinks;
 
 
