@@ -623,6 +623,7 @@ ${suggestionsHtml}
       return;
     }
     setGradeNotice(null);
+    setUpgradeError(null);
     setLoading(true);
     let gradedResult: SpeakingResult | null = null;
     const buildInstantResult = (reason: string): SpeakingResult => {
