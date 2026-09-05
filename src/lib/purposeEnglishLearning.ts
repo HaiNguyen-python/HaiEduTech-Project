@@ -36,7 +36,7 @@ export interface TeachingBlock {
 
 export const splitTeaching = (text: string): TeachingBlock[] => {
   const normalized = text.replace(/\s+/g, " ").trim();
-  const sentenceMatches = normalized.match(/[^.!?]+(?:[.!?]+["”']?|$)/g);
+  const sentenceMatches = normalized.match(/.*?(?:[.!?]+["”']?(?=\s+[A-ZÀ-Ỹ])|$)/gu);
   const sentences = (sentenceMatches ?? [normalized]).map((sentence) => sentence.trim()).filter(Boolean);
   if (sentences.length <= 2) return [{ paragraphs: sentences }];
 
