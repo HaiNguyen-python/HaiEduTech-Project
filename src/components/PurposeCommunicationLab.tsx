@@ -224,6 +224,11 @@ const PurposeCommunicationLab = ({
             const partners = speakers.filter((speaker) => speaker !== "You");
             const partnerLabel = (speaker: string) => (speaker === "Speaker" ? partnerName : speaker);
             const cast = [heroName, ...partners.map(partnerLabel)];
+            const vocabTerms = lesson.vocabulary.map((item) => item.term);
+            const keyPhrases = resolveDialogueKeyPhrases(
+              situation.sampleDialogue.map((line) => line.line),
+              vocabTerms,
+            );
             return (
               <section key={situation.title} className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
                 <div className="sticky top-0 z-10 border-b border-border bg-card/95 p-5 backdrop-blur">
@@ -241,7 +246,7 @@ const PurposeCommunicationLab = ({
                   {situation.sampleDialogue.map((line, index) => {
                     const learner = line.speaker === "You";
                     const name = learner ? heroName : partnerLabel(line.speaker);
-                    const initials = name.trim().slice(0, 2).toUpperCase();
+                    const avatar = dialogueAvatarFor(`${lesson.id}::${name}`, learner);
                     return (
                       <div
                         key={`${line.speaker}-${index}`}
@@ -249,14 +254,20 @@ const PurposeCommunicationLab = ({
                       >
                         <span
                           className={cn(
-                            "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold",
-                            learner ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground",
+                            "flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 bg-background sm:h-11 sm:w-11",
+                            learner ? "border-primary/50" : "border-border",
                           )}
-                          aria-hidden
                         >
-                          {initials}
+                          <img
+                            src={avatar}
+                            alt={name}
+                            width={44}
+                            height={44}
+                            loading="lazy"
+                            className="h-full w-full object-contain"
+                          />
                         </span>
-                        <div className={cn("min-w-0 max-w-[86%] sm:max-w-[72%]", learner ? "text-right" : "text-left")}>
+                        <div className={cn("min-w-0 max-w-[82%] sm:max-w-[70%]", learner ? "text-right" : "text-left")}>
                           <div
                             className={cn(
                               "mb-1 flex items-center gap-1.5",
@@ -282,7 +293,7 @@ const PurposeCommunicationLab = ({
                                 : "rounded-bl-sm border-border bg-background text-foreground",
                             )}
                           >
-                            {highlightKeywords(line.line, lesson.vocabulary.map((item) => item.term), DIALOGUE_KEY_PHRASES)}
+                            {highlightKeywords(line.line, vocabTerms, keyPhrases)}
                           </p>
                         </div>
                       </div>
@@ -292,6 +303,7 @@ const PurposeCommunicationLab = ({
               </section>
             );
           })}
+
           <div className="flex justify-end">
             <Button onClick={() => goTo("speak")} className="gap-2">
               {t("Đến phần luyện nói", "Continue to speaking")} <ArrowRight className="h-4 w-4" />
