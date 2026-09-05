@@ -32,6 +32,8 @@ interface Props {
   onSubmitReply: (parentId: string, text: string) => Promise<void>;
   onDelete: (commentId: string) => void;
   depth?: number;
+  /** Top-level comment id; replies always attach to the thread root (1-level nesting). */
+  threadId?: string;
 }
 
 /** One comment bubble with like + one-level reply (Facebook style). */
@@ -45,6 +47,7 @@ export default function CommentItem({
   onSubmitReply,
   onDelete,
   depth = 0,
+  threadId,
 }: Props) {
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
