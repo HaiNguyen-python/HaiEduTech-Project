@@ -9,10 +9,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check, Globe2, GraduationCap, Lock } from "lucide-react";
+import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check, Globe2, GraduationCap, Lock, Pin, PinOff, ThumbsUp } from "lucide-react";
 import { toast } from "sonner";
 import type { FeedPost, FeedAuthor } from "@/hooks/useYourCornerFeed";
 import { subjectMap, linkifyHashtags } from "@/lib/yourCornerMeta";
+import { REACTIONS, reactionMap, topReactionEmojis, type ReactionType } from "@/lib/yourCornerReactions";
+import { useUserRole } from "@/hooks/useUserRole";
 import PollBlock from "./PollBlock";
 
 
