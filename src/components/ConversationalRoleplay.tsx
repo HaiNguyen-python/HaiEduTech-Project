@@ -172,6 +172,30 @@ const getHelperSets = (
   };
 };
 
+/** Groups the handy structures into short labelled rows so the panel is scannable. */
+const STRUCTURE_GROUPS: { key: string; labelVi: string; labelEn: string; test: RegExp }[] = [
+  { key: "opinion", labelVi: "Nêu ý kiến", labelEn: "Give an opinion", test: /^(i think|in my opinion|i'd say|it seems to me|the way i see it|to be honest|from a business|i couldn't|minun|olen sitä|我觉得|我认为|对我来说)/i },
+  { key: "reason", labelVi: "Lý do & ví dụ", labelEn: "Reasons & examples", test: /(one reason|for example|it depends|long story short|to summarise|to sum up|esimerkiksi|se riippuu|比如说|一方面)/i },
+  { key: "react", labelVi: "Đồng ý / phản hồi", labelEn: "Agree & disagree", test: /(good point|on the other hand|however|i see your point|let me put it|olen samaa|kuulostaa|听起来|虽然)/i },
+  { key: "ask", labelVi: "Hỏi & làm rõ", labelEn: "Ask & clarify", test: /(\?|could you explain|what do you mean|just to clarify|voitko|selittää|吗|为什么|请让我确认)/i },
+  { key: "work", labelVi: "Họp & công việc", labelEn: "Meetings & work", test: /(meeting|agenda|action item|align|circle back|offline|timeline|loop in|bandwidth|moving forward|park that|buy-in|kokous|aihe|ehdotan|askel|议程|开会|跟进|下一步)/i },
+];
+
+export const groupStructures = (items: string[]) => {
+  const used = new Set<string>();
+  const groups = STRUCTURE_GROUPS.map((group) => {
+    const matched = items.filter((item) => !used.has(item) && group.test.test(item));
+    matched.forEach((item) => used.add(item));
+    return { ...group, items: matched };
+  }).filter((group) => group.items.length > 0);
+  const rest = items.filter((item) => !used.has(item));
+  if (rest.length) {
+    groups.push({ key: "more", labelVi: "Cụm khác", labelEn: "More phrases", test: /.^/, items: rest });
+  }
+  return groups;
+};
+
+
 type Msg = { role: "user" | "assistant"; content: string };
 
 // Remove em/en dashes from assistant replies to sound more natural and less AI-like
