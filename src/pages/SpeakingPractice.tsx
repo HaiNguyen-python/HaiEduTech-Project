@@ -127,6 +127,12 @@ const SpeakingPractice = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
+  /** Set when the browser cannot record at all, so we can explain it inline. */
+  const [recorderError, setRecorderError] = useState<string | null>(null);
+  /** True between pressing Stop and the clip being ready. */
+  const [finalizing, setFinalizing] = useState(false);
+  /** Shown when Grade is pressed with nothing to score yet. */
+  const [gradeNotice, setGradeNotice] = useState<string | null>(null);
   
   const [result, setResult] = useState<SpeakingResult | null>(null);
   const [savingNotebook, setSavingNotebook] = useState(false);
