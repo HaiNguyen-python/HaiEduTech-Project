@@ -213,7 +213,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
 
           <section id="core-step-3" className="scroll-mt-24 overflow-hidden rounded-lg border border-primary/30 bg-card shadow-md">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-primary/20 bg-primary/5 px-5 py-4 sm:px-7">
-              <div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary font-bold text-primary-foreground">3</span><div><p className="text-xs font-bold uppercase text-primary">{t("Học từ mẫu chuẩn", "Learn from a model")}</p><h3 className="text-xl font-bold">{t(active.lesson.model.labelVi, active.lesson.model.label)}</h3></div></div>
+              <div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary font-bold text-primary-foreground">3</span><div><p className="text-sm font-extrabold uppercase text-primary">{t("Học từ mẫu chuẩn", "Learn from a model")}</p><h3 className="text-xl font-extrabold text-foreground">{t(active.lesson.model.labelVi, active.lesson.model.label)}</h3></div></div>
               <Button variant="outline" onClick={() => speak(active.lesson.model.lines.join(" "))} className="gap-2"><Headphones className="h-4 w-4" />{t("Nghe toàn bài", "Listen all")}</Button>
             </div>
             <div className="m-5 border-l-4 border-primary/40 bg-background px-4 py-2 sm:m-7 sm:px-6">
@@ -357,7 +357,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
             const isOpen = openTopic === topic.id;
             return (
               <motion.div key={topic.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(topicIndex * 0.04, 0.2) }} className="flex gap-4 sm:gap-7">
-                <div className={`relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-4 border-background font-bold shadow-sm sm:h-16 sm:w-16 ${isComplete ? "bg-primary text-primary-foreground" : isCurrent ? "bg-secondary text-secondary-foreground ring-4 ring-primary/15" : "bg-muted text-muted-foreground"}`}>{isComplete ? <Check className="h-6 w-6" /> : String(topicIndex + 1).padStart(2, "0")}</div>
+                <div className={`relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-4 border-background font-extrabold shadow-sm sm:h-16 sm:w-16 ${isComplete ? "bg-primary text-primary-foreground" : isCurrent ? "bg-secondary text-secondary-foreground ring-4 ring-primary/15" : "bg-muted text-foreground/70"}`}>{isComplete ? <Check className="h-6 w-6" /> : String(topicIndex + 1).padStart(2, "0")}</div>
                 <div className={`min-w-0 flex-1 overflow-hidden rounded-lg border border-border border-l-4 bg-card shadow-sm transition-shadow hover:shadow-md ${isComplete ? "border-l-primary" : isCurrent ? "border-l-secondary" : "border-l-border"}`}>
                   <button
                     type="button"
@@ -403,9 +403,9 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
       </div>
       {visibleTopics.length === 0 && (
         <div className="border border-dashed border-border bg-card py-14 text-center">
-          <Lightbulb className="mx-auto h-8 w-8 text-muted-foreground" />
+          <Lightbulb className="mx-auto h-8 w-8 text-foreground/65" />
           <p className="mt-3 text-base font-semibold text-foreground">{t("Không tìm thấy nội dung phù hợp.", "No matching lessons found.")}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{t("Hãy thử từ khóa khác hoặc xóa bộ lọc.", "Try another keyword or clear the filters.")}</p>
+          <p className="mt-1 text-sm font-medium text-foreground/70">{t("Hãy thử từ khóa khác hoặc xóa bộ lọc.", "Try another keyword or clear the filters.")}</p>
           <Button variant="outline" className="mt-4 gap-2" onClick={() => { setSearch(""); setFilter("all"); }}>
             <RotateCcw className="h-4 w-4" />{t("Xóa bộ lọc", "Clear filters")}
           </Button>
