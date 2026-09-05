@@ -125,7 +125,7 @@ export const VOCAB_EXTRA_2: JaVocabPack[] = [
 
 /** ---------- Kanji: 24 new characters ---------- */
 export const KANJI_EXTRA_2: JaKanjiCard[] = [
-  { kanji: "立", on: "リツ", kun: "た(つ)", meaning_vi: "đứng", en_placeholder: "", meaning_en: "to stand", example: "立ってください。 (Tatte kudasai.) - Xin hãy đứng lên. / Please stand up." } as unknown as JaKanjiCard,
+  { kanji: "立", on: "リツ", kun: "た(つ)", meaning_vi: "đứng", meaning_en: "to stand", example: "立ってください。 (Tatte kudasai.) - Xin hãy đứng lên. / Please stand up." },
   { kanji: "休", on: "キュウ", kun: "やす(む)", meaning_vi: "nghỉ", meaning_en: "rest", example: "日曜日は休みます。 (Nichiyōbi wa yasumimasu.) - Chủ nhật tôi nghỉ. / I rest on Sunday." },
   { kanji: "使", on: "シ", kun: "つか(う)", meaning_vi: "dùng, sử dụng", meaning_en: "to use", example: "パソコンを使います。 (Pasokon o tsukaimasu.) - Tôi dùng máy tính. / I use a computer." },
   { kanji: "待", on: "タイ", kun: "ま(つ)", meaning_vi: "đợi", meaning_en: "to wait", example: "駅で待ちます。 (Eki de machimasu.) - Tôi đợi ở ga. / I wait at the station." },
