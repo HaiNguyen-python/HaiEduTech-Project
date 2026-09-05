@@ -156,6 +156,9 @@ const SpeakingPractice = () => {
   const [gradeNotice, setGradeNotice] = useState<string | null>(null);
   
   const [result, setResult] = useState<SpeakingResult | null>(null);
+  /** Band 8.0+ rewrite of the learner's own answer. */
+  const [upgrading, setUpgrading] = useState(false);
+  const [upgradeError, setUpgradeError] = useState<string | null>(null);
   const [savingNotebook, setSavingNotebook] = useState(false);
   const [savedNotebook, setSavedNotebook] = useState(false);
   const { toast } = useToast();
