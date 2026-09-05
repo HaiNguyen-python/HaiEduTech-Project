@@ -114,6 +114,9 @@ const PART2_CATEGORIES: Record<string, { label: string; icon: React.ReactNode; t
   },
 };
 
+type SpeakingMode = "part" | "shadow" | "template" | "srs" | "drills";
+const MODES: SpeakingMode[] = ["part", "shadow", "template", "srs", "drills"];
+
 const SpeakingPractice = () => {
   const { t } = useLanguage();
   const [selectedPart, setSelectedPart] = useState<1 | 2 | 3>(1);
