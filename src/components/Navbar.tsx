@@ -686,12 +686,13 @@ const Navbar = () => {
 
             {navLinks.map((l) => {
               const active = location.pathname === l.to;
+              const sc = SUBJECT_COLORS[(l as { key?: string }).key ?? ""] ?? DEFAULT_SUBJECT_COLOR;
               if (l.subs) {
                 return (
                   <div key={l.to} className="relative" onMouseEnter={() => handleMouseEnter(l.key!)} onMouseLeave={handleMouseLeave}>
                     <Link to={l.to}
                       className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                        active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                        active ? "text-primary bg-primary/10" : `text-muted-foreground ${sc.trigger}`
                       }`}>
                       {l.label}
                       <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdown === l.key ? "rotate-180" : ""}`} />
@@ -712,7 +713,8 @@ const Navbar = () => {
                           onMouseLeave={handleMouseLeave}
                           className="absolute top-full left-0 pt-2 w-64 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-3"
                         >
-                          <div className="bg-card rounded-xl shadow-xl border border-border py-2">
+                          {/* Panel scrolls inside itself instead of being clipped below the viewport */}
+                          <div className="bg-card rounded-xl shadow-xl border border-border py-2 max-h-[calc(100vh-7rem)] overflow-y-auto nav-scroll">
                           {l.subs.map((sub, i) => {
                             // Nested group with children (IELTS Program)
                             if (sub.children) {
@@ -720,9 +722,17 @@ const Navbar = () => {
                                 <div
                                   key={sub.groupLabel}
                                   className="relative"
-                                  onMouseEnter={() => {
+                                  onMouseEnter={(e) => {
                                     if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
                                     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                                    // Estimate flyout height and flip up/left if it would overflow.
+                                    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                                    const items = sub.children!.length;
+                                    const est = 16 + items * 40 + (sub.children!.some(c => c.header) ? 0 : 28);
+                                    setFlyoutPos({
+                                      up: rect.top + est > window.innerHeight - 16,
+                                      left: rect.right + 250 > window.innerWidth,
+                                    });
                                     setActiveSubmenu(sub.groupLabel!);
                                   }}
                                   onMouseLeave={() => {
@@ -734,11 +744,11 @@ const Navbar = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.025, duration: 0.18 }}
                                   >
-                                    <div className={`flex items-center justify-between px-4 py-2.5 text-sm font-medium cursor-pointer rounded-md mx-1 transition-colors ${
-                                      activeSubmenu === sub.groupLabel ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
+                                    <div className={`flex items-center justify-between px-4 py-2.5 text-sm font-medium cursor-pointer rounded-md mx-1 border-l-2 border-transparent transition-colors ${sc.accent} ${
+                                      activeSubmenu === sub.groupLabel ? sc.rowActive : `text-muted-foreground ${sc.rowHover}`
                                     }`}>
                                       <span className="flex items-center gap-2.5">
-                                        {sub.icon && <sub.icon className="w-4 h-4 text-primary/70" />}
+                                        {sub.icon && <sub.icon className={`w-4 h-4 ${sc.icon}`} />}
                                         <span>{sub.label}</span>
                                       </span>
                                       <ChevronRight className="w-3.5 h-3.5" />
@@ -753,19 +763,22 @@ const Navbar = () => {
                                         animate={{ opacity: 1, x: 0, scale: 1 }}
                                         exit={{ opacity: 0, x: -6, scale: 0.97 }}
                                         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                                        // Horizontal hover bridge (pl-2 + ::before) so the cursor can
+                                        // Horizontal hover bridge so the cursor can
                                         // travel from the parent row into the flyout without escaping.
                                         onMouseEnter={() => {
                                           if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
                                           if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
                                         }}
-                                        className="absolute left-full top-0 pl-2 w-60 z-50 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
+                                        className={`absolute ${flyoutPos.left
+                                          ? "right-full pr-2 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-right-2 before:w-3"
+                                          : "left-full pl-2 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
+                                        } ${flyoutPos.up ? "bottom-0" : "top-0"} w-60 z-50`}
                                       >
-                                        <div className="bg-card rounded-xl shadow-xl border border-border py-2">
+                                        <div className="bg-card rounded-xl shadow-xl border border-border py-2 max-h-[calc(100vh-7rem)] overflow-y-auto nav-scroll">
                                         {/* Group header (hidden if children already have section headers) */}
                                         {!sub.children.some(c => c.header) && (
                                           <div className="px-4 py-1.5 mb-1">
-                                            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                                            <span className={`text-[10px] font-bold uppercase tracking-widest ${sc.header}`}>
                                               {sub.groupLabel === "ielts" ? "Cambridge IELTS"
                                                 : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                                 : sub.groupLabel === "en-foundation" ? t("Cambridge Starters -> PET", "Cambridge Starters -> PET")
