@@ -529,7 +529,10 @@ const TranslationPractice = ({ taskType }: Props) => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
+      )}
     </div>
+
   );
 };
 
