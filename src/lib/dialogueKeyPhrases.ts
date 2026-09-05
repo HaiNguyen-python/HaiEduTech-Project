@@ -70,4 +70,62 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
   "Thanks for your help", "Thank you for your time", "I appreciate it",
   "Thanks a lot", "You're welcome", "Have a nice day", "Have a good one",
   "Talk to you soon", "Looking forward to", "See you then", "Take care",
+
+  // B1+ discussion moves (seminars, tutorials, group work)
+  "That's a great point", "I'd add that", "I'd like to add", "Building on that",
+  "To add to that", "Picking up on", "If I could just come in here",
+  "Going back to what you said", "as you mentioned", "as we discussed",
+  "I'd argue that", "I take your point", "I'm inclined to think",
+  "I see it differently", "I'm not entirely convinced", "I partly agree",
+  "That's one way of looking at it", "Let's not forget that",
+  "Could I just clarify", "Sorry to interrupt", "Please go ahead",
+  "What are your thoughts on", "Shall we move on to", "Let's come back to",
+  "To sum up", "To wrap up", "In short", "Overall",
+
+  // B1+ hedging and academic caution
+  "It could be argued that", "This suggests that", "This indicates that",
+  "It is likely that", "It appears that", "tends to", "to some extent",
+  "in most cases", "broadly speaking", "generally speaking",
+  "There is evidence that", "The data suggest", "The findings show",
+  "One limitation is", "further research is needed",
+
+  // B1+ evidence, sources and citation
+  "According to the study", "in her paper", "in his paper", "the authors argue",
+  "the study found", "a recent study", "research shows", "the results indicate",
+  "as cited in", "based on the data", "In terms of", "compared with",
+  "significantly higher", "significantly lower", "a sharp increase",
+  "a steady decline", "roughly", "approximately", "accounted for",
+
+  // B1+ chairing, reporting and business follow-up
+  "Let's get started", "The purpose of this meeting is", "First of all",
+  "Moving on to", "Just to recap", "Any questions so far",
+  "I'll take that away", "I'll follow up with", "Let's set a deadline",
+  "by the end of the week", "as agreed", "please find attached",
+  "I'm writing to", "I'd appreciate it if", "at your earliest convenience",
+  "Let me know your thoughts", "Thanks in advance",
+
+  // B1+ softening and requesting
+  "I was hoping you could", "Would it be alright if", "If you don't mind",
+  "Do you think we could", "I wonder whether", "Perhaps we could",
+  "It might be better to", "One option would be", "we may need to",
 ];
+
+/** Ensures every dialogue shows some bold chunks, even when the bank misses. */
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const matchesLine = (phrase: string, text: string) =>
+  new RegExp(`(?<![\\p{L}])${escapeRegExp(phrase)}(?![\\p{L}])`, "iu").test(text);
+
+/**
+ * Returns the phrases that should be printed in bold for a dialogue.
+ * Falls back to the lesson's own target phrases when nothing in the shared
+ * bank appears in the conversation, so no lesson is left without emphasis.
+ */
+export const resolveDialogueKeyPhrases = (lines: string[], lessonPhrases: string[] = []): string[] => {
+  const text = lines.join(" \n ");
+  const hits = DIALOGUE_KEY_PHRASES.filter((phrase) => matchesLine(phrase, text));
+  if (hits.length >= 2) return hits;
+  const fallback = lessonPhrases.filter((phrase) => phrase.trim().length >= 3 && matchesLine(phrase, text));
+  return Array.from(new Set([...hits, ...fallback]));
+};
+
