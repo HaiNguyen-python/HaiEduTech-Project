@@ -737,7 +737,7 @@ ${suggestionsHtml}
   /** Rewrite the learner's own answer at Band 8.0+ using their real transcript. */
   const handleUpgrade = async () => {
     if (!result) return;
-    const source = (result.transcript || transcript || "").trim();
+    const source = (result.transcript || liveTranscript || "").trim();
     if (!source) {
       setUpgradeError(t(
         "Chưa có nội dung bài nói để nâng cấp. Hãy ghi âm và chấm điểm trước.",
