@@ -1,12 +1,12 @@
 /**
- * Translation Practice - learners translate standard IELTS Writing sentences
- * from Vietnamese into English, then get local + AI feedback with a model answer.
+ * Paragraph Translation Practice - learners translate a whole IELTS-style Vietnamese
+ * paragraph into English, then get local + AI feedback with a Band 7.5+ model paragraph.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Languages, Send, Loader2, Lightbulb, RotateCcw, Shuffle, ArrowRight,
+  AlignLeft, Send, Loader2, Lightbulb, RotateCcw, Shuffle, ArrowRight,
   CheckCircle2, Eye, BookmarkPlus, BookmarkCheck, Sparkles, Volume2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,13 +19,12 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import {
-  TRANSLATION_CATEGORIES,
-  getTranslationItems,
-  type TranslationItem,
-} from "@/data/ieltsTranslationBank";
-import { matchStructures, normaliseForMatch, checkableHints } from "@/lib/ieltsTranslationCheck";
-import ParagraphTranslationPractice from "./ParagraphTranslationPractice";
-
+  PARAGRAPH_CATEGORIES,
+  getParagraphItems,
+  countWords,
+  type ParagraphTranslationItem,
+} from "@/data/ieltsParagraphTranslationBank";
+import { matchStructures, normaliseForMatch } from "@/lib/ieltsTranslationCheck";
 
 interface Props {
   taskType: 1 | 2;
@@ -36,16 +35,18 @@ interface AiResult {
   accuracy: number;
   grammar: number;
   vocabulary: number;
+  cohesion: number;
   style: number;
   verdict: string;
   feedback: { vi: string; en: string }[];
+  sentences: { vi: string; en: string }[];
   corrected: string;
   upgraded: string;
 }
 
-const STORAGE_KEY = "ielts-translation-progress";
+const STORAGE_KEY = "ielts-paragraph-translation-progress";
 
-type ProgressMap = Record<string, number>; // itemId -> best score
+type ProgressMap = Record<string, number>;
 
 const loadProgress = (): ProgressMap => {
   try {
@@ -66,25 +67,28 @@ const saveProgress = (map: ProgressMap) => {
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-/**
- * Local structure / length pre-check so feedback works even without AI.
- * Structures are matched with `matchStructures`, which tolerates inflections,
- * gap patterns ("between ... and") and ignores grammar labels ("passive"),
- * and only scores structures that the model sentence itself uses.
- */
-function localCheck(item: TranslationItem, answer: string) {
-  const m = matchStructures(item.keywords, answer, item.en);
-  const modelWords = normaliseForMatch(item.en).split(" ").filter(Boolean).length;
-  const answerWords = normaliseForMatch(answer).split(" ").filter(Boolean).length;
-  const lengthRatio = answerWords / Math.max(1, modelWords);
-  const lengthOk = lengthRatio >= 0.55 && lengthRatio <= 1.9;
-  const base = 4 + m.coverage * 4 + (lengthOk ? 2 : 0);
+const sentenceCount = (s: string) =>
+  s.split(/(?<=[.!?])\s+/).filter((x) => x.trim().length > 2).length;
+
+/** Local pre-check so the learner always gets feedback, even if AI fails. */
+function localCheck(item: ParagraphTranslationItem, answer: string) {
+  const m = matchStructures(item.structures, answer, item.en);
+  const words = countWords(answer);
+  const lengthOk = words >= item.minWords && words <= item.maxWords;
+  const srcSentences = sentenceCount(item.vi);
+  const mySentences = sentenceCount(answer);
+  const sentencesOk = Math.abs(srcSentences - mySentences) <= 1;
+  const base = 3.5 + m.coverage * 3.5 + (lengthOk ? 1.5 : 0) + (sentencesOk ? 1.5 : 0);
   return {
     score: Math.max(2, Math.min(10, Math.round(base * 10) / 10)),
-    hits: m.used,
     missing: m.missing,
+    used: m.used,
+    words,
     lengthOk,
-    answerWords,
+    srcSentences,
+    mySentences,
+    sentencesOk,
+    modelWords: normaliseForMatch(item.en).split(" ").filter(Boolean).length,
   };
 }
 
@@ -98,11 +102,9 @@ const bandColor = (band: string) =>
 const scoreColor = (s: number) =>
   s >= 8 ? "text-emerald-500" : s >= 6.5 ? "text-blue-500" : s >= 5 ? "text-amber-500" : "text-red-500";
 
-const TranslationPractice = ({ taskType }: Props) => {
+const ParagraphTranslationPractice = ({ taskType }: Props) => {
   const { t, lang } = useLanguage();
-  const [mode, setMode] = useState<"sentence" | "paragraph">("sentence");
   const [category, setCategory] = useState("all");
-
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [showHint, setShowHint] = useState(false);
@@ -113,7 +115,7 @@ const TranslationPractice = ({ taskType }: Props) => {
   const [progress, setProgress] = useState<ProgressMap>(loadProgress);
   const [saved, setSaved] = useState(false);
 
-  const items = useMemo(() => getTranslationItems(taskType, category), [taskType, category]);
+  const items = useMemo(() => getParagraphItems(taskType, category), [taskType, category]);
   const item = items[Math.min(index, Math.max(0, items.length - 1))];
 
   const reset = () => {
@@ -157,8 +159,8 @@ const TranslationPractice = ({ taskType }: Props) => {
   const handleSubmit = async () => {
     if (!item) return;
     const trimmed = answer.trim();
-    if (trimmed.length < 5) {
-      toast.error(t("Bản dịch của bạn quá ngắn", "Your translation is too short"));
+    if (countWords(trimmed) < 15) {
+      toast.error(t("Bản dịch đoạn văn còn quá ngắn (tối thiểu 15 từ).", "Your paragraph is too short (at least 15 words)."));
       return;
     }
     const lc = localCheck(item, trimmed);
@@ -168,14 +170,14 @@ const TranslationPractice = ({ taskType }: Props) => {
     setAi(null);
     let aiResult: AiResult | null = null;
     try {
-      const { data, error } = await supabase.functions.invoke("grade-translation", {
+      const { data, error } = await supabase.functions.invoke("grade-paragraph-translation", {
         body: {
           vi: item.vi,
           model: item.en,
           userAnswer: trimmed,
           task: item.task,
           category: item.category,
-          keywords: checkableHints(item.keywords, item.en),
+          structures: item.structures,
         },
       });
       if (error) {
@@ -188,7 +190,7 @@ const TranslationPractice = ({ taskType }: Props) => {
         setAi(aiResult);
       }
     } catch (e) {
-      console.error("translation grading error", e);
+      console.error("paragraph translation grading error", e);
       toast.message(t("AI chưa chấm được, đang hiển thị nhận xét cơ bản.", "AI grading unavailable, showing the basic check."));
     } finally {
       setGrading(false);
@@ -198,7 +200,7 @@ const TranslationPractice = ({ taskType }: Props) => {
       setProgress(next);
       saveProgress(next);
       void logStudentActivity({
-        activityType: "ielts_translation",
+        activityType: "ielts_paragraph_translation",
         activityId: item.id,
         score: finalScore,
         maxScore: 10,
@@ -215,7 +217,7 @@ const TranslationPractice = ({ taskType }: Props) => {
         toast.message(t("Đăng nhập để lưu vào sổ tay", "Sign in to save to your notebook"));
         return;
       }
-      const title = `IELTS Translation Practice Task ${taskType}`;
+      const title = `IELTS Paragraph Translation Task ${taskType}`;
       const block =
         `<p><strong>🇻🇳 ${escapeHtml(item.vi)}</strong></p>` +
         `<p><strong>My translation:</strong> ${escapeHtml(answer.trim())}</p>` +
@@ -250,47 +252,27 @@ const TranslationPractice = ({ taskType }: Props) => {
       setSaved(true);
       toast.success(t("Đã lưu vào Sổ tay ghi chú", "Saved to your Notebook"));
     } catch (e) {
-      console.error("translation notebook save error", e);
+      console.error("paragraph notebook save error", e);
       toast.error(t("Không thể lưu sổ tay", "Could not save to notebook"));
     }
   };
 
-  if (!item && mode === "sentence") {
+  if (!item) {
     return (
       <p className="text-sm text-muted-foreground">
-        {t("Chưa có câu nào cho mục này.", "No sentences available for this category yet.")}
+        {t("Chưa có đoạn văn nào cho mục này.", "No paragraphs available for this category yet.")}
       </p>
     );
   }
 
   const displayScore = ai?.score ?? local?.score ?? 0;
-  const cats = TRANSLATION_CATEGORIES[taskType];
+  const cats = PARAGRAPH_CATEGORIES[taskType];
+  const myWords = countWords(answer);
 
   return (
     <div className="space-y-4">
-      {/* Sentence / paragraph switch */}
-      <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit">
-        <button
-          onClick={() => setMode("sentence")}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === "sentence" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
-        >
-          {t("Dịch câu", "Sentences")}
-        </button>
-        <button
-          onClick={() => setMode("paragraph")}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === "paragraph" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
-        >
-          {t("Dịch đoạn văn", "Paragraphs")}
-        </button>
-      </div>
-
-      {mode === "paragraph" ? (
-        <ParagraphTranslationPractice taskType={taskType} />
-      ) : (
-      <div className="space-y-4">
       {/* Category filter */}
       <div className="flex flex-wrap gap-2">
-
         {cats.map((c) => (
           <button
             key={c.value}
@@ -310,7 +292,7 @@ const TranslationPractice = ({ taskType }: Props) => {
       <div className="flex items-center gap-3">
         <Progress value={items.length ? (done / items.length) * 100 : 0} className="h-2 flex-1" />
         <span className="text-xs text-muted-foreground whitespace-nowrap">
-          {done}/{items.length} {t("câu đã luyện", "practised")}
+          {done}/{items.length} {t("đoạn đã luyện", "practised")}
         </span>
       </div>
 
@@ -319,15 +301,18 @@ const TranslationPractice = ({ taskType }: Props) => {
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-3 flex-wrap">
             <CardTitle className="text-base md:text-lg flex items-center gap-2">
-              <Languages className="w-5 h-5 text-primary" />
-              {t("Dịch câu sau sang tiếng Anh", "Translate this sentence into English")}
+              <AlignLeft className="w-5 h-5 text-primary" />
+              {t("Dịch cả đoạn văn sau sang tiếng Anh", "Translate this whole paragraph into English")}
             </CardTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <Badge variant="outline" className={bandColor(item.band)}>Band {item.band}</Badge>
               <Badge variant="outline">
                 {lang === "vi"
                   ? cats.find((c) => c.value === item.category)?.labelVi ?? item.category
                   : cats.find((c) => c.value === item.category)?.labelEn ?? item.category}
+              </Badge>
+              <Badge variant="secondary" className="text-xs">
+                {item.minWords}-{item.maxWords} {t("từ", "words")}
               </Badge>
               <span className="text-xs text-muted-foreground">{index + 1}/{items.length}</span>
             </div>
@@ -335,7 +320,7 @@ const TranslationPractice = ({ taskType }: Props) => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="p-4 rounded-xl bg-muted/40 border">
-            <p className="text-base md:text-lg font-medium text-foreground whitespace-pre-wrap">
+            <p className="text-base md:text-lg font-medium text-foreground whitespace-pre-wrap leading-relaxed">
               🇻🇳 {item.vi}
             </p>
           </div>
@@ -345,11 +330,11 @@ const TranslationPractice = ({ taskType }: Props) => {
             {!showHint ? (
               <Button variant="outline" size="sm" onClick={() => setShowHint(true)} className="gap-1.5">
                 <Lightbulb className="w-4 h-4" />
-                {t("Gợi ý", "Hint")}
+                {t("Gợi ý cấu trúc", "Structure hints")}
               </Button>
             ) : (
               <div className="flex flex-wrap gap-2">
-                {item.keywords.map((k) => (
+                {item.structures.map((k) => (
                   <Badge key={k} variant="secondary" className="text-xs">{k}</Badge>
                 ))}
               </div>
@@ -362,17 +347,27 @@ const TranslationPractice = ({ taskType }: Props) => {
             onKeyDown={(e) => {
               if ((e.metaKey || e.ctrlKey) && e.key === "Enter") handleSubmit();
             }}
-            placeholder={t("Viết bản dịch tiếng Anh của bạn...", "Write your English translation...")}
-            className="min-h-[110px] text-base"
+            placeholder={t("Viết bản dịch tiếng Anh cả đoạn...", "Write your English translation of the whole paragraph...")}
+            className="min-h-[190px] text-base leading-relaxed"
           />
+
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>
+              {myWords} {t("từ", "words")}{" "}
+              <span className={myWords >= item.minWords && myWords <= item.maxWords ? "text-emerald-500" : ""}>
+                ({t("mục tiêu", "target")} {item.minWords}-{item.maxWords})
+              </span>
+            </span>
+            <span className="hidden md:inline">Ctrl / Cmd + Enter</span>
+          </div>
 
           <div className="flex flex-wrap items-center gap-2">
             <Button onClick={handleSubmit} disabled={grading} className="gap-1.5">
               {grading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-              {t("Chấm bản dịch", "Check translation")}
+              {t("Chấm đoạn dịch", "Check paragraph")}
             </Button>
             <Button variant="outline" onClick={() => goTo(index + 1)} className="gap-1.5">
-              {t("Câu tiếp theo", "Next")} <ArrowRight className="w-4 h-4" />
+              {t("Đoạn tiếp theo", "Next")} <ArrowRight className="w-4 h-4" />
             </Button>
             <Button variant="ghost" onClick={() => goTo(Math.floor(Math.random() * items.length))} className="gap-1.5">
               <Shuffle className="w-4 h-4" /> {t("Ngẫu nhiên", "Random")}
@@ -385,7 +380,6 @@ const TranslationPractice = ({ taskType }: Props) => {
                 <Eye className="w-4 h-4" /> {t("Xem đáp án", "Show answer")}
               </Button>
             )}
-            <span className="text-xs text-muted-foreground hidden md:inline">Ctrl / Cmd + Enter</span>
           </div>
         </CardContent>
       </Card>
@@ -414,16 +408,17 @@ const TranslationPractice = ({ taskType }: Props) => {
                   {grading && (
                     <p className="text-sm text-muted-foreground flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      {t("AI đang phân tích bản dịch...", "AI is analysing your translation...")}
+                      {t("AI đang phân tích đoạn dịch...", "AI is analysing your paragraph...")}
                     </p>
                   )}
 
                   {ai && (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                       {[
                         { k: t("Chính xác nghĩa", "Accuracy"), v: ai.accuracy },
                         { k: t("Ngữ pháp", "Grammar"), v: ai.grammar },
                         { k: t("Từ vựng", "Vocabulary"), v: ai.vocabulary },
+                        { k: t("Liên kết câu", "Cohesion"), v: ai.cohesion },
                         { k: t("Văn phong", "Style"), v: ai.style },
                       ].map((c) => (
                         <div key={c.k} className="p-2 rounded-lg bg-muted/40 border">
@@ -456,23 +451,48 @@ const TranslationPractice = ({ taskType }: Props) => {
                       )}
                       {!local.lengthOk && (
                         <li className="text-amber-600 dark:text-amber-400">
-                          • {t("Độ dài chưa cân đối so với câu mẫu.", "Length is off compared with the model sentence.")}
+                          • {t(
+                            `Độ dài ${local.words} từ, nên trong khoảng ${item.minWords}-${item.maxWords} từ.`,
+                            `Your paragraph has ${local.words} words; aim for ${item.minWords}-${item.maxWords}.`,
+                          )}
                         </li>
                       )}
-                      {local.missing.length === 0 && local.lengthOk && (
+                      {!local.sentencesOk && (
+                        <li className="text-amber-600 dark:text-amber-400">
+                          • {t(
+                            `Đoạn gốc có ${local.srcSentences} câu, bản dịch của bạn có ${local.mySentences} câu.`,
+                            `The source has ${local.srcSentences} sentences but yours has ${local.mySentences}.`,
+                          )}
+                        </li>
+                      )}
+                      {local.missing.length === 0 && local.lengthOk && local.sentencesOk && (
                         <li className="text-emerald-600 dark:text-emerald-400">
-                          • {t("Bạn đã dùng đúng các cấu trúc trọng tâm.", "You used all the target structures.")}
+                          • {t("Đoạn dịch cân đối và dùng đủ cấu trúc trọng tâm.", "Well balanced, and you used all the target structures.")}
                         </li>
                       )}
                     </ul>
                   )}
 
+                  {ai?.sentences?.length ? (
+                    <div className="p-3 rounded-lg bg-muted/40 border space-y-2">
+                      <p className="text-xs font-semibold text-muted-foreground">
+                        {t("Nhận xét từng câu", "Sentence by sentence")}
+                      </p>
+                      {ai.sentences.map((s, i) => (
+                        <p key={i} className="text-sm">
+                          <span className="font-semibold text-primary mr-1">{i + 1}.</span>
+                          {lang === "vi" ? s.vi : s.en}
+                        </p>
+                      ))}
+                    </div>
+                  ) : null}
+
                   {ai?.corrected && (
                     <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30">
                       <p className="text-xs font-semibold text-blue-600 dark:text-blue-300 mb-1">
-                        {t("Bản sửa của bạn", "Your corrected sentence")}
+                        {t("Bản sửa của bạn", "Your corrected paragraph")}
                       </p>
-                      <p className="text-sm">{ai.corrected}</p>
+                      <p className="text-sm whitespace-pre-wrap">{ai.corrected}</p>
                     </div>
                   )}
                 </CardContent>
@@ -483,34 +503,22 @@ const TranslationPractice = ({ taskType }: Props) => {
               <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-emerald-500" />
-                  {t("Câu mẫu chuẩn IELTS", "Model IELTS sentence")}
+                  {t("Đoạn mẫu chuẩn IELTS", "Model IELTS paragraph")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-start gap-2">
-                  <p className="text-base font-medium flex-1">{item.en}</p>
-                  <Button variant="ghost" size="icon" onClick={() => speak(item.en)} aria-label="Play model sentence">
+                  <p className="text-base font-medium flex-1 whitespace-pre-wrap leading-relaxed">{item.en}</p>
+                  <Button variant="ghost" size="icon" onClick={() => speak(item.en)} aria-label="Play model paragraph">
                     <Volume2 className="w-4 h-4" />
                   </Button>
                 </div>
-                {item.alts.length > 0 && (
-                  <div>
-                    <p className="text-xs font-semibold text-muted-foreground mb-1">
-                      {t("Cách diễn đạt khác cũng được chấp nhận", "Other acceptable versions")}
-                    </p>
-                    <ul className="space-y-1">
-                      {item.alts.map((a) => (
-                        <li key={a} className="text-sm text-muted-foreground">• {a}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
                 {ai?.upgraded && (
                   <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
                     <p className="text-xs font-semibold text-purple-600 dark:text-purple-300 mb-1">
                       {t("Nâng cấp Band 7.5+", "Band 7.5+ upgrade")}
                     </p>
-                    <p className="text-sm">{ai.upgraded}</p>
+                    <p className="text-sm whitespace-pre-wrap">{ai.upgraded}</p>
                   </div>
                 )}
                 <div className="p-3 rounded-lg bg-muted/40 border">
@@ -525,7 +533,7 @@ const TranslationPractice = ({ taskType }: Props) => {
                     {saved ? t("Đã lưu", "Saved") : t("Lưu vào sổ tay", "Save to notebook")}
                   </Button>
                   <Button size="sm" onClick={() => goTo(index + 1)} className="gap-1.5">
-                    {t("Câu tiếp theo", "Next sentence")} <ArrowRight className="w-4 h-4" />
+                    {t("Đoạn tiếp theo", "Next paragraph")} <ArrowRight className="w-4 h-4" />
                   </Button>
                 </div>
               </CardContent>
@@ -533,11 +541,8 @@ const TranslationPractice = ({ taskType }: Props) => {
           </motion.div>
         )}
       </AnimatePresence>
-      </div>
-      )}
     </div>
-
   );
 };
 
-export default TranslationPractice;
+export default ParagraphTranslationPractice;
