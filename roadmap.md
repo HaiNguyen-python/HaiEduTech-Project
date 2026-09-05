@@ -19,7 +19,7 @@
 - [x] Speaking Coach: English IPA regenerated from CMU dictionary (607+ sentences)
 
 ## Business English and Academic English upgrade
-- [ ] Move Professional Communication into Business English
-- [ ] Move Academic Communication into Academic English
-- [ ] Upgrade both course dashboards, lesson flow, practice, progress, and legacy links
-- [ ] Audit all merged lessons and verify desktop/mobile learning flows
+- [x] Move Professional Communication into Business English
+- [x] Move Academic Communication into Academic English
+- [x] Upgrade both course dashboards, lesson flow, practice, progress, and legacy links
+- [x] Audit all merged lessons and verify desktop/mobile learning flows

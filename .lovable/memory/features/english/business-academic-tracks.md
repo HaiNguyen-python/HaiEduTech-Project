@@ -9,3 +9,7 @@ type: feature
 - Business topics: emails, meetings, presenting data, calls/small talk, negotiation and complaints, CV and interviews (STAR).
 - Academic topics: academic vocabulary, style/hedging/nominalisation, paragraph writing, reading strategies, lectures and Cornell notes, integrity/referencing/seminar presenting.
 - Progress: localStorage `haiedu-business-english-v1` / `haiedu-academic-english-v1` via `safeStorage`; completions log `business_english_lesson` / `academic_english_lesson` activities.
+- Upgraded course shell: Roadmap, Core Lessons, and Communication Lab tabs with combined progress, search, category filters, status, and Continue Learning.
+- Business Communication Lab uses the 23 former Professional Communication lessons; Academic Communication Lab uses the 20 former Academic Communication lessons. Interactive Curriculum now displays Life Skills only.
+- Communication lessons follow Learn, Listen, Speak, Challenge with photo scenarios, phrase audio, multi-voice dialogues, roleplay, hidden transcripts, reveal-after-choice questions, badges, and previous/next navigation.
+- Legacy `/english/conversational/learn/pro-*` and `/english/conversational/learn/acad-*` links redirect into the matching dedicated track. Existing `conv-eng-progress` is merged idempotently without deleting legacy data.
