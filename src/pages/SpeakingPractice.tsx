@@ -690,7 +690,6 @@ ${suggestionsHtml}
         } catch (e) { console.error("speaking srs collect failed", e); }
       })();
     }
-    setLoading(false);
     // Band 8.0+ upgrade feature removed to keep grading fast and focused
     // on score + error correction so learners can self-review.
   };
