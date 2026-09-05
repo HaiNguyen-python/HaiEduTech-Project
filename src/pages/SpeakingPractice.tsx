@@ -637,9 +637,7 @@ ${suggestionsHtml}
         console.error("grade-speaking attempt 1 failed, retrying:", first);
         data = await callGrader();
       }
-      const error = null as unknown;
-      if (error) throw error;
-      const graded = data as SpeakingResult;
+      const graded = data;
       gradedResult = graded;
       setResult(graded);
       recordScore(graded);
