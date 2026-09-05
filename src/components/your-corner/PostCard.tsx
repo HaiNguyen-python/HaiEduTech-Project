@@ -57,7 +57,10 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
     setLiked(post.liked_by_me);
     setLikeCount(post.reaction_count);
     setBookmarked(post.bookmarked_by_me);
-  }, [post.liked_by_me, post.reaction_count, post.bookmarked_by_me]);
+    setMyReaction((post.my_reaction as ReactionType) ?? null);
+    setReactionTypes(post.reaction_types ?? {});
+    setPinnedAt(post.pinned_at);
+  }, [post.liked_by_me, post.reaction_count, post.bookmarked_by_me, post.my_reaction, post.reaction_types, post.pinned_at]);
 
   // Auto-scroll to anchored post (e.g. #post-<id> in URL)
   useEffect(() => {
