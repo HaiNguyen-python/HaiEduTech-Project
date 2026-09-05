@@ -2,7 +2,7 @@
 // Provides an inline chat interface where students practice speaking scenarios
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mic, MicOff, RotateCcw, Sparkles, Volume2, User, Loader2 } from "lucide-react";
+import { Send, Mic, MicOff, RotateCcw, Sparkles, Volume2, User, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ReactMarkdown from "react-markdown";
