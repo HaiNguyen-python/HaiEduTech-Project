@@ -7,11 +7,13 @@
  */
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from "react-router-dom";
 import {
   Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
   Users, MapPin, Package, Calendar, Sparkles, StickyNote, CheckCircle2, Loader2,
-  PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2, LayoutTemplate
+  PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2, LayoutTemplate,
+  ArrowLeft
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -112,11 +114,30 @@ const PART2_CATEGORIES: Record<string, { label: string; icon: React.ReactNode; t
   },
 };
 
+type SpeakingMode = "part" | "shadow" | "template" | "srs" | "drills";
+const MODES: SpeakingMode[] = ["part", "shadow", "template", "srs", "drills"];
+
 const SpeakingPractice = () => {
   const { t } = useLanguage();
   const [selectedPart, setSelectedPart] = useState<1 | 2 | 3>(1);
   const langAudio = useUsefulLanguageAudio();
-  const [mode, setMode] = useState<"part" | "shadow" | "template" | "srs" | "drills">("part");
+  /**
+   * Which section is on screen. Kept in the URL (?mode=) so the browser /
+   * phone Back button returns to the question view instead of leaving the page.
+   */
+  const [searchParams, setSearchParams] = useSearchParams();
+  const modeParam = searchParams.get("mode");
+  const mode: SpeakingMode = MODES.includes(modeParam as SpeakingMode)
+    ? (modeParam as SpeakingMode)
+    : "part";
+  const setMode = useCallback((next: SpeakingMode) => {
+    setSearchParams((prev) => {
+      const p = new URLSearchParams(prev);
+      if (next === "part") p.delete("mode");
+      else p.set("mode", next);
+      return p;
+    });
+  }, [setSearchParams]);
   const { due: srsDue, addFromResult: addSrsFromResult } = useSpeakingSrs();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [topicSearch, setTopicSearch] = useState("");
@@ -547,6 +568,15 @@ ${suggestionsHtml}
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
+  /** Leaving the question view must never leave a recorder or voice playing. */
+  useEffect(() => {
+    if (mode === "part") return;
+    stopRecording();
+    try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
+
   // Persist a graded score to the chart history
   const recordScore = useCallback((r: SpeakingResult) => {
     if (!currentQ) return;
@@ -811,6 +841,29 @@ ${suggestionsHtml}
             )}
           </p>
         </motion.div>
+
+        {mode !== "part" && (
+          <div className="mb-4 flex items-center gap-3 flex-wrap">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={() => setMode("part")}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t("Quay lại câu hỏi", "Back to questions")}
+            </Button>
+            <span className="text-sm font-semibold text-muted-foreground">
+              {mode === "drills"
+                ? t("Luyện Cấu trúc & Từ vựng", "Structure & Vocabulary")
+                : mode === "srs"
+                  ? t("Luyện lại (SRS)", "Review (SRS)")
+                  : mode === "template"
+                    ? t("Luyện Template", "Template Practice")
+                    : t("Luyện Shadowing", "Shadowing Practice")}
+            </span>
+          </div>
+        )}
 
         {mode === "drills" ? (
           <StructureVocabPractice />
