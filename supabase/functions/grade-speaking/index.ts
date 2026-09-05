@@ -178,7 +178,8 @@ NON-NEGOTIABLE RULES:
 4. Each criterion feedback must explain: (a) what the learner did, (b) why it sits at this band, (c) exactly what to do to reach the next half-band.
 5. List 2-4 highlighted errors with the EXACT substring from the transcript, the correction, and a short explanation. Skip only if the transcript is genuinely error-free at that band.
 6. Suggestions: 3 concrete next steps tied to the learner's actual weaknesses.
-7. Overall band MUST equal round-to-nearest-0.5 of the average of the four criteria. Do not bump it up out of kindness.
+7. Overall band MUST equal round-to-nearest-0.5 of the average of the four criteria - no manual adjustment up or down.
+8. A confident, accurate, well-linked answer must NOT be scored below Band 6.0 just because it is short or because the ASR text looks untidy.
 
 ANSWER METADATA:
 - Question (Part ${part}): "${question}"
