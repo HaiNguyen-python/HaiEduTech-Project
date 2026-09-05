@@ -323,7 +323,7 @@ const PurposeCommunicationLab = ({
               </div>
               <DialogAudioPlayer transcript={challenge.transcript} lang="en" />
             </div>
-            <Button variant="ghost" size="sm" onClick={() => setShowTranscript((current) => !current)}>
+            <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/5 hover:text-primary" onClick={() => setShowTranscript((current) => !current)}>
               {showTranscript ? t("Ẩn transcript", "Hide transcript") : t("Hiện transcript", "Show transcript")}
             </Button>
             {showTranscript && (
