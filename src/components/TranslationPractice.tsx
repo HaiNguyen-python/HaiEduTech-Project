@@ -264,8 +264,29 @@ const TranslationPractice = ({ taskType }: Props) => {
 
   return (
     <div className="space-y-4">
+      {/* Sentence / paragraph switch */}
+      <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit">
+        <button
+          onClick={() => setMode("sentence")}
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === "sentence" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+        >
+          {t("Dịch câu", "Sentences")}
+        </button>
+        <button
+          onClick={() => setMode("paragraph")}
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === "paragraph" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+        >
+          {t("Dịch đoạn văn", "Paragraphs")}
+        </button>
+      </div>
+
+      {mode === "paragraph" ? (
+        <ParagraphTranslationPractice taskType={taskType} />
+      ) : (
+      <div className="space-y-4">
       {/* Category filter */}
       <div className="flex flex-wrap gap-2">
+
         {cats.map((c) => (
           <button
             key={c.value}
