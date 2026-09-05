@@ -255,7 +255,7 @@ const TranslationPractice = ({ taskType }: Props) => {
     }
   };
 
-  if (!item) {
+  if (!item && mode === "sentence") {
     return (
       <p className="text-sm text-muted-foreground">
         {t("Chưa có câu nào cho mục này.", "No sentences available for this category yet.")}
