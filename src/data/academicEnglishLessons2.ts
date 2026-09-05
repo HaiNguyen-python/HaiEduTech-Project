@@ -288,7 +288,7 @@ export const academicTopicsPart2: PurposeTopic[] = [
           { term: "to raise a point", pos: "verb phrase", vi: "nêu một ý", example: "May I raise a point about the sample?", exampleVi: "Tôi xin nêu một ý về mẫu nghiên cứu?" },
           { term: "to build on the previous comment", pos: "verb phrase", vi: "phát triển ý vừa nêu", example: "Building on the previous comment, cost is also relevant.", exampleVi: "Phát triển ý vừa nêu, chi phí cũng là yếu tố liên quan." },
           { term: "to respectfully disagree", pos: "verb phrase", vi: "xin phép không đồng tình", example: "I would respectfully disagree with that reading.", exampleVi: "Tôi xin phép không đồng tình với cách hiểu đó." },
-          { question: "", term: "counterexample", pos: "noun", vi: "ví dụ phản chứng", example: "Is the 2019 study a counterexample?", exampleVi: "Nghiên cứu năm 2019 có phải là ví dụ phản chứng không?" },
+          { term: "counterexample", pos: "noun", vi: "ví dụ phản chứng", example: "Is the 2019 study a counterexample?", exampleVi: "Nghiên cứu năm 2019 có phải là ví dụ phản chứng không?" },
           { term: "to follow up on that", pos: "verb phrase", vi: "hỏi tiếp về ý đó", example: "May I follow up on that answer?", exampleVi: "Tôi xin hỏi tiếp về câu trả lời đó?" },
           { term: "hypothetical", pos: "adjective", vi: "giả định", example: "This is a hypothetical case, not a real school.", exampleVi: "Đây là trường hợp giả định, không phải một trường thật." },
           { term: "to concede a point", pos: "verb phrase", vi: "chấp nhận một ý của người khác", example: "I concede that cost is a real barrier.", exampleVi: "Tôi chấp nhận rằng chi phí là rào cản thực sự." },
