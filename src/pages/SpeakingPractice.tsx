@@ -568,6 +568,15 @@ ${suggestionsHtml}
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
+  /** Leaving the question view must never leave a recorder or voice playing. */
+  useEffect(() => {
+    if (mode === "part") return;
+    stopRecording();
+    try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
+
   // Persist a graded score to the chart history
   const recordScore = useCallback((r: SpeakingResult) => {
     if (!currentQ) return;
