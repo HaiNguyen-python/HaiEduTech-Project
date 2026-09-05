@@ -478,38 +478,23 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
           {loadingComments ? (
             <p className="text-sm text-muted-foreground text-center">Đang tải...</p>
           ) : (
-            comments.map((c) => {
-              const cname = c.author?.full_name?.trim() || "Học viên";
-              const cinit = cname.split(/\s+/).slice(-1)[0]?.[0]?.toUpperCase() || "?";
-              const canDelete = c.user_id === currentUserId || isMine;
-              return (
-                <div key={c.id} className="flex items-start gap-2 animate-fade-in">
-                  <Avatar className="h-7 w-7 flex-shrink-0">
-                    {c.author?.avatar_url && <AvatarImage src={c.author.avatar_url} alt={cname} />}
-                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-emerald-500 text-white text-xs">
-                      {cinit}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 bg-muted/50 rounded-2xl px-3 py-2">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-xs font-semibold">{cname}</p>
-                      {canDelete && (
-                        <button
-                          onClick={() => deleteComment(c.id)}
-                          className="text-muted-foreground hover:text-destructive"
-                          aria-label="Xoá"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
-                    <p className="text-sm whitespace-pre-wrap break-words">
-                      {DOMPurify.sanitize(c.content, { ALLOWED_TAGS: [] })}
-                    </p>
-                  </div>
-                </div>
-              );
-            })
+            (() => {
+              const topLevel = comments.filter((c) => !c.parent_id);
+              const repliesOf = (id: string) => comments.filter((c) => c.parent_id === id);
+              return topLevel.map((c) => (
+                <CommentItem
+                  key={c.id}
+                  comment={c}
+                  replies={repliesOf(c.id)}
+                  currentUserId={currentUserId}
+                  postOwnerId={post.user_id}
+                  likes={commentLikes}
+                  onToggleLike={toggleCommentLike}
+                  onSubmitReply={submitReply}
+                  onDelete={deleteComment}
+                />
+              ));
+            })()
           )}
 
           <div className="flex items-center gap-2">
