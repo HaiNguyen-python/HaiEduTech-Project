@@ -617,13 +617,27 @@ ${suggestionsHtml}
       };
     };
     try {
-      const gradingPromise = supabase.functions.invoke("grade-speaking", {
-        body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: transcriptForGrading },
-      });
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        window.setTimeout(() => reject(new Error("client_grading_timeout")), 16_000);
-      });
-      const { data, error } = await Promise.race([gradingPromise, timeoutPromise]);
+      // The grader itself falls back to a quick score within ~14s, so give it room
+      // (25s) and retry once before we build a local score.
+      const callGrader = async () => {
+        const gradingPromise = supabase.functions.invoke("grade-speaking", {
+          body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: transcriptForGrading },
+        });
+        const timeoutPromise = new Promise<never>((_, reject) => {
+          window.setTimeout(() => reject(new Error("client_grading_timeout")), 25_000);
+        });
+        const res = await Promise.race([gradingPromise, timeoutPromise]);
+        if (res.error) throw res.error;
+        return res.data as SpeakingResult;
+      };
+      let data: SpeakingResult;
+      try {
+        data = await callGrader();
+      } catch (first) {
+        console.error("grade-speaking attempt 1 failed, retrying:", first);
+        data = await callGrader();
+      }
+      const error = null as unknown;
       if (error) throw error;
       const graded = data as SpeakingResult;
       gradedResult = graded;
