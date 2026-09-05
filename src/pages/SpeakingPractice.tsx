@@ -60,6 +60,8 @@ interface SpeakingResult {
   pronunciationFocus?: PronFocus[];
   highlightedErrors?: HighlightedError[];
   upgradedAnswer?: string;
+  /** True when the score is a quick estimate, not a full examiner band. */
+  fastScore?: boolean;
 }
 
 // Web Speech API type declarations
