@@ -66,7 +66,7 @@ const VocabArena = ({ embedded = false }: { embedded?: boolean }) => {
   // Keep the current screen in the URL so the browser Back button steps back
   // through the Arena instead of leaving the page entirely.
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || embedded) return;
     const params = new URLSearchParams(window.location.search);
     const current = params.get("screen");
     const target = phase === "menu" ? null : phase;
