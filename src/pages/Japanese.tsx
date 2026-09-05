@@ -431,9 +431,9 @@ const ALL_VOCAB = (() => {
 const JA_WORD_INDEX = new Map<string, Phrase>(
   ALL_VOCAB.flatMap((g) => g.items.map((p) => [p.jp, p] as [string, Phrase]))
 );
-const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA], (d) => d.title);
-const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA], (g) => g.title);
-const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA], (q) => q.q);
+const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA, ...DIALOGUES_EXTRA_2], (d) => d.title);
+const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA, ...GRAMMAR_EXTRA_2], (g) => g.title);
+const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA, ...JA_QUIZ_EXTRA_2], (q) => q.q);
 
 /** Kana tables, one collapsible section each. */
 const KANA_TABLES: Array<{ vi: string; en: string; rows: Array<[string, string]> }> = [
