@@ -206,6 +206,12 @@ const SpeakingPractice = () => {
 
   const topics = useMemo(() => getTopicsByPart(selectedPart), [selectedPart]);
 
+  const filteredTopics = useMemo(() => {
+    if (!topicSearch.trim()) return topics;
+    const q = topicSearch.trim().toLowerCase();
+    return topics.filter((t) => t.toLowerCase().includes(q));
+  }, [topics, topicSearch]);
+
   const currentQ = allQuestions[selectedQuestionIdx] || allQuestions[0];
 
   // Merge question-specific vocab with topic-level vocabulary bank (20+ items)
