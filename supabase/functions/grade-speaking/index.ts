@@ -127,14 +127,22 @@ PRONUNCIATION
 - Band 4: uses limited range of pronunciation features; attempts to control features but lapses are frequent; mispronunciations are frequent and cause some difficulty for the listener.
 - Band 3: shows some of the features of Band 2 and some, but not all, of the positive features of Band 4.
 
-CALIBRATION ANCHORS (use these to avoid over-scoring):
-- A 25-word answer with one simple sentence and basic vocabulary (e.g. "I like coffee because it gives me energy. I drink it every morning.") = max Band 5.0 overall.
-- A 45-word answer with one complex sentence and one topic word (e.g. "I usually drink coffee in the morning because it helps me focus, although I try not to drink too much.") = around Band 6.0 overall.
-- A 70-word answer with 2-3 complex sentences, 2-3 topic-specific words, clear examples, and only minor errors = around Band 6.5-7.0.
-- A 90+ word answer with flexible complex grammar, less common vocabulary, natural connectives, clear development, and idiomatic phrasing = around Band 7.5-8.0.
-- Penalise heavily: memorised chunks, off-topic answers, repetition, mispronunciation that requires effort to understand.
-- Never give Band 8+ unless the answer shows uncommon vocabulary AND flexible complex grammar AND sustained coherence.
-- Pronunciation cannot exceed Band 6.5 from a transcript alone unless pacing and clarity are clearly strong; flag this honestly.`;
+CALIBRATION (judge the LANGUAGE, not the length):
+- There is NO word-count ceiling on any band. Score the quality of the language actually produced.
+- Part 1: a 20-40 word answer is the expected, natural length. If it is accurate, well linked and uses precise or less common vocabulary, it can reach Band 7 or higher. Only penalise length when the answer is a bare one-clause reply that does not address the question.
+- Part 2: expect a sustained long turn (roughly 60+ seconds of speech) with development; an under-developed long turn limits Fluency & Coherence, not the other criteria.
+- Part 3: reward extended, developed, opinion-plus-reason answers; short undeveloped answers limit Fluency & Coherence.
+- Reward what is present: one flexible complex structure or one well-used less common item is genuine evidence of Band 7 in that criterion.
+- Band 8+ requires uncommon or idiomatic vocabulary AND flexible complex grammar AND sustained coherence, but do not withhold it when all three are clearly present.
+- Genuinely penalise only: off-topic answers, memorised recitation, repeated breakdowns in coherence, and errors that impede understanding.
+
+AUTOMATIC SPEECH RECOGNITION (ASR) TOLERANCE - IMPORTANT:
+The transcript comes from browser speech recognition, not from a human. It has no punctuation, no capitalisation, and it drops or mis-hears words. Therefore:
+- Ignore missing punctuation, sentence casing and paragraphing entirely - never treat them as errors.
+- Ignore single missing articles, plural "s" or third-person "s" and mis-heard homophones or names when the intended meaning is clear; these are usually recognition artefacts.
+- Infer sentence boundaries from meaning and connectives before judging grammar or coherence.
+- Only report errors you are confident the speaker actually made.
+- Pronunciation: estimate from pacing, rhythm, connective use and word clarity in the transcript. There is no artificial ceiling, but say in the feedback that it is an estimate from the transcript rather than from audio, and stay within Band 5-8 unless the evidence is unusually clear.`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -164,13 +172,14 @@ Apply the OFFICIAL IELTS Public Band Descriptors below STRICTLY, criterion by cr
 ${RUBRIC}
 
 NON-NEGOTIABLE RULES:
-1. Base every score ONLY on the actual transcript. Do NOT invent content. Do NOT reward effort that is not present.
+1. Base every score ONLY on the actual transcript. Do NOT invent content, but DO give full credit for every strength that is present. Be fair and accurate, not harsh.
 2. Each criterion score is INDEPENDENT - they do NOT have to match. A learner can be Band 7 fluency and Band 5 grammar.
 3. Reference SPECIFIC phrases from the transcript in feedback ("you said 'X', a higher-band version would be 'Y'").
 4. Each criterion feedback must explain: (a) what the learner did, (b) why it sits at this band, (c) exactly what to do to reach the next half-band.
 5. List 2-4 highlighted errors with the EXACT substring from the transcript, the correction, and a short explanation. Skip only if the transcript is genuinely error-free at that band.
 6. Suggestions: 3 concrete next steps tied to the learner's actual weaknesses.
-7. Overall band MUST equal round-to-nearest-0.5 of the average of the four criteria. Do not bump it up out of kindness.
+7. Overall band MUST equal round-to-nearest-0.5 of the average of the four criteria - no manual adjustment up or down.
+8. A confident, accurate, well-linked answer must NOT be scored below Band 6.0 just because it is short or because the ASR text looks untidy.
 
 ANSWER METADATA:
 - Question (Part ${part}): "${question}"
@@ -213,7 +222,7 @@ Return ONLY valid compact JSON in this exact shape, no markdown fences, no prose
           max_tokens: 1400,
           messages: [
             { role: "system", content: systemPrompt },
-            { role: "user", content: `Grade this IELTS Speaking Part ${part} response using the official Public Band Descriptors. Be strict and accurate. Return JSON only.` },
+            { role: "user", content: `Grade this IELTS Speaking Part ${part} response using the official Public Band Descriptors. Be accurate and fair: apply ASR tolerance and give credit for every strength present. Return JSON only.` },
           ],
           response_format: { type: "json_object" },
         }),

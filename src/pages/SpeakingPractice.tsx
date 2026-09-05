@@ -15,6 +15,7 @@ import {
   PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2, LayoutTemplate,
   ArrowLeft
 } from "lucide-react";
+import DOMPurify from "dompurify";
 import { useToast } from "@/hooks/use-toast";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip,
@@ -60,6 +61,8 @@ interface SpeakingResult {
   pronunciationFocus?: PronFocus[];
   highlightedErrors?: HighlightedError[];
   upgradedAnswer?: string;
+  /** True when the score is a quick estimate, not a full examiner band. */
+  fastScore?: boolean;
 }
 
 // Web Speech API type declarations
@@ -156,6 +159,9 @@ const SpeakingPractice = () => {
   const [gradeNotice, setGradeNotice] = useState<string | null>(null);
   
   const [result, setResult] = useState<SpeakingResult | null>(null);
+  /** Band 8.0+ rewrite of the learner's own answer. */
+  const [upgrading, setUpgrading] = useState(false);
+  const [upgradeError, setUpgradeError] = useState<string | null>(null);
   const [savingNotebook, setSavingNotebook] = useState(false);
   const [savedNotebook, setSavedNotebook] = useState(false);
   const { toast } = useToast();
@@ -618,6 +624,7 @@ ${suggestionsHtml}
       return;
     }
     setGradeNotice(null);
+    setUpgradeError(null);
     setLoading(true);
     let gradedResult: SpeakingResult | null = null;
     const buildInstantResult = (reason: string): SpeakingResult => {
@@ -671,6 +678,12 @@ ${suggestionsHtml}
       gradedResult = graded;
       setResult(graded);
       recordScore(graded);
+      if (graded.fastScore) {
+        setGradeNotice(t(
+          "Đây chỉ là điểm ước lượng nhanh, chưa phải band chính thức. Hãy nói dài hơn (20-30 giây) rồi bấm Chấm điểm lại.",
+          "This is only a quick estimate, not an official band. Speak a bit longer (20-30 seconds) and press Grade again.",
+        ));
+      }
       // Log to admin dashboard in background (don't block UI)
       (async () => {
         try {
@@ -720,11 +733,39 @@ ${suggestionsHtml}
         } catch (e) { console.error("speaking srs collect failed", e); }
       })();
     }
-    // Band 8.0+ upgrade feature removed to keep grading fast and focused
-    // on score + error correction so learners can self-review.
   };
 
-  // Upgrade-to-Band-8 feature removed by request: focus stays on score + error fixes.
+  /** Rewrite the learner's own answer at Band 8.0+ using their real transcript. */
+  const handleUpgrade = async () => {
+    if (!result) return;
+    const source = (result.transcript || liveTranscript || "").trim();
+    if (!source) {
+      setUpgradeError(t(
+        "Chưa có nội dung bài nói để nâng cấp. Hãy ghi âm và chấm điểm trước.",
+        "There is no answer to upgrade yet. Record and grade an answer first.",
+      ));
+      return;
+    }
+    setUpgradeError(null);
+    setUpgrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("upgrade-speaking", {
+        body: { question: currentQ?.question ?? "", part: selectedPart, transcript: source },
+      });
+      if (error) throw error;
+      const upgraded = (data as { upgradedAnswer?: string })?.upgradedAnswer?.trim();
+      if (!upgraded) throw new Error("empty_upgrade");
+      setResult((prev) => (prev ? { ...prev, upgradedAnswer: upgraded } : prev));
+    } catch (e) {
+      console.error("upgrade-speaking failed:", e);
+      setUpgradeError(t(
+        "Chưa nâng cấp được bài nói lúc này. Hãy thử lại sau vài giây.",
+        "The upgrade could not be created right now. Please try again in a few seconds.",
+      ));
+    } finally {
+      setUpgrading(false);
+    }
+  };
 
   const getScoreColor = (score: number) => {
     if (score >= 7.5) return "text-green-600";
@@ -1631,7 +1672,67 @@ ${suggestionsHtml}
                         </div>
                       )}
 
-                      {/* Band 8.0+ upgrade panel removed - focus on score + error correction */}
+                      {/* Band 8.0+ upgrade of the learner's own answer */}
+                      <div className="bg-gradient-to-br from-primary/10 to-emerald-500/10 border border-primary/20 rounded-xl p-5">
+                        <h4 className="text-base font-bold text-foreground mb-1 flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-primary" />
+                          {t("Nâng cấp bài nói của bạn (Band 8.0+)", "Upgrade my answer (Band 8.0+)")}
+                        </h4>
+                        <p className="text-xs text-muted-foreground mb-3">
+                          {t(
+                            "Giữ nguyên ý của bạn, chỉ nâng cấp từ vựng và ngữ pháp. Cụm được nâng cấp sẽ in đậm.",
+                            "Your own ideas are kept - only the vocabulary and grammar are improved. Upgraded phrases are shown in bold.",
+                          )}
+                        </p>
+                        {!result.upgradedAnswer && (
+                          <Button onClick={handleUpgrade} disabled={upgrading} className="gap-2 bg-gradient-to-r from-primary to-emerald-500 text-white hover:opacity-90">
+                            {upgrading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                            {upgrading
+                              ? t("Đang nâng cấp...", "Upgrading...")
+                              : t("Nâng cấp bài nói của tôi", "Upgrade my answer")}
+                          </Button>
+                        )}
+                        {upgradeError && (
+                          <p className="text-sm text-destructive mt-2">{upgradeError}</p>
+                        )}
+                        {result.upgradedAnswer && (
+                          <>
+                            <p
+                              className="text-base text-foreground leading-relaxed whitespace-pre-wrap"
+                              dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(
+                                  result.upgradedAnswer.replace(
+                                    /\*\*(.+?)\*\*/g,
+                                    '<strong class="text-primary font-bold">$1</strong>',
+                                  ),
+                                ),
+                              }}
+                            />
+                            <div className="flex flex-wrap gap-2 mt-3">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-2"
+                                onClick={() => {
+                                  try {
+                                    window.speechSynthesis?.cancel();
+                                    const u = new SpeechSynthesisUtterance((result.upgradedAnswer || "").replace(/\*\*/g, ""));
+                                    u.lang = "en-GB";
+                                    u.rate = 0.95;
+                                    window.speechSynthesis?.speak(u);
+                                  } catch { /* noop */ }
+                                }}
+                              >
+                                <Volume2 className="w-4 h-4" /> {t("Nghe bài nâng cấp", "Listen to the upgrade")}
+                              </Button>
+                              <Button variant="ghost" size="sm" className="gap-2" onClick={handleUpgrade} disabled={upgrading}>
+                                {upgrading ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
+                                {t("Tạo lại", "Regenerate")}
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                      </div>
 
 
                       {/* Criteria */}
