@@ -2439,6 +2439,14 @@ conversationalPillars.find(p => p.id === "life-skills")?.lessons.push(...lifeSki
 conversationalPillars.find(p => p.id === "professional")?.lessons.push(...professionalExpansion, ...professionalExpansion2);
 conversationalPillars.find(p => p.id === "academic")?.lessons.push(...academicExpansion, ...academicExpansion2);
 
+// Professional and academic communication now live in their dedicated tracks.
+// Keep one source of truth here so legacy links and existing progress remain valid.
+export const lifeSkillsPillar = conversationalPillars.find(p => p.id === "life-skills");
+export const professionalCommunicationLessons =
+  conversationalPillars.find(p => p.id === "professional")?.lessons ?? [];
+export const academicCommunicationLessons =
+  conversationalPillars.find(p => p.id === "academic")?.lessons ?? [];
+
 // Flatten all lessons for quick lookup
 export const allConversationalLessons = conversationalPillars.flatMap(p =>
   p.lessons.map(l => ({ ...l, pillarId: p.id }))

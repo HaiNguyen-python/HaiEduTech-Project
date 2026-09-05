@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { icons, ArrowLeft, Award, CheckCircle, BookOpen, Mic, ChevronDown, ChevronRight, Lock, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { conversationalPillars, type ConvPillar, type ConvLesson } from "@/data/conversationalCurriculum";
+import { lifeSkillsPillar, type ConvPillar } from "@/data/conversationalCurriculum";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
@@ -47,7 +47,8 @@ const ConversationalDashboard = () => {
     }
   }, [accessLoading, hasAccess]);
 
-  const totalLessons = conversationalPillars.reduce((s, p) => s + p.lessons.length, 0);
+  const visiblePillars = lifeSkillsPillar ? [lifeSkillsPillar] : [];
+  const totalLessons = visiblePillars.reduce((s, p) => s + p.lessons.length, 0);
   const overallProgress = totalLessons > 0 ? Math.round((completed.length / totalLessons) * 100) : 0;
 
   // Show loading while checking access
@@ -100,8 +101,8 @@ const ConversationalDashboard = () => {
           </h1>
           <p className="text-muted-foreground max-w-2xl">
             {t(
-              "35 bài học tương tác chia thành 3 trụ cột: Đời sống, Chuyên nghiệp, Học thuật. Hoàn thành mỗi bài để nhận huy hiệu!",
-              "35 interactive lessons across 3 pillars: Life Skills, Professional, Academic. Complete each lesson to earn badges!"
+              "Các tình huống giao tiếp đời sống thực tế, từ mua sắm và du lịch đến chăm sóc sức khỏe. Hoàn thành mỗi bài để nhận huy hiệu!",
+              "Practical communication for real-life situations, from shopping and travel to healthcare. Complete each lesson to earn badges!"
             )}
           </p>
 
@@ -121,7 +122,7 @@ const ConversationalDashboard = () => {
         {/* Pillar Tabs */}
         <Tabs defaultValue="life-skills">
           <TabsList className="w-full flex mb-8 h-auto flex-wrap gap-1">
-            {conversationalPillars.map((pillar) => {
+            {visiblePillars.map((pillar) => {
               const PIcon = getIcon(pillar.icon);
               const pillarCompleted = pillar.lessons.filter(l => completed.includes(l.id)).length;
               return (
@@ -141,7 +142,7 @@ const ConversationalDashboard = () => {
             })}
           </TabsList>
 
-          {conversationalPillars.map((pillar) => (
+          {visiblePillars.map((pillar) => (
             <TabsContent key={pillar.id} value={pillar.id}>
               <PillarContent pillar={pillar} completed={completed} />
             </TabsContent>
