@@ -50,6 +50,8 @@ import { READING_NOT_GIVEN_EXTENSIONS } from "@/data/ieltsReadingNotGivenExtensi
 import { READING_EXPLANATION_FALLBACK } from "@/data/ieltsReadingExplanationFallback";
 import { READING_QUESTION_EXTENSIONS } from "@/data/ieltsReadingQuestionExtensions";
 import { READING_VOCAB, type ReadingVocabItem } from "@/data/ieltsReadingVocab";
+import { READING_VOCAB_EXPANSION } from "@/data/ieltsReadingVocabExpansion";
+import { READING_VOCAB_EXPANSION_2 } from "@/data/ieltsReadingVocabExpansion2";
 import { IELTS_FULL_TESTS, type FullTest } from "@/data/ieltsFullTests";
 import { shuffleHeadingsInExam } from "@/lib/ieltsReadingShuffle";
 import { isReadingAnswerCorrect, readingAnswerLabel } from "@/lib/ieltsReadingAnswer";
@@ -220,7 +222,12 @@ const PostSubmitReview: React.FC<PostSubmitReviewProps> = ({ exam, questions, an
     const seen = new Set<string>();
     const list: ReadingVocabItem[] = [];
     for (const id of vocabExamIds) {
-      for (const v of (READING_VOCAB[id] || [])) {
+      const merged = [
+        ...(READING_VOCAB[id] || []),
+        ...(READING_VOCAB_EXPANSION[id] || []),
+        ...(READING_VOCAB_EXPANSION_2[id] || []),
+      ];
+      for (const v of merged) {
         if (seen.has(v.word.toLowerCase())) continue;
         seen.add(v.word.toLowerCase());
         list.push(v);

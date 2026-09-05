@@ -2,10 +2,11 @@ import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy, Keyboard, Mic, MicOff, ArrowLeft, Sparkles, Target } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy, Keyboard, Mic, MicOff, ArrowLeft, Sparkles, Target, Swords } from "lucide-react";
 import WordQuest from "@/components/vocab/WordQuest";
+const VocabArenaPanel = lazy(() => import("@/pages/VocabArena"));
 import DailyWordMission from "@/components/vocab/DailyWordMission";
 import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
 import { englishToQuest } from "@/lib/vocab/vocabAdapter";
@@ -1732,7 +1733,7 @@ const IeltsVocabulary = () => {
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "quest" | "mission">("list");
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise" | "quest" | "mission" | "arena">("list");
   /** Urgent words sent over by the memory brain's daily mission. */
   const [missionWords, setMissionWords] = useState<string[]>([]);
   const { mastered, toggle: toggleMastered, pendingCount } = useMasteredVocab("ielts");
@@ -1867,7 +1868,7 @@ const IeltsVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {IELTS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest" | "mission")}>
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest" | "mission" | "arena")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
                   <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
@@ -1879,11 +1880,20 @@ const IeltsVocabulary = () => {
                     )}
                   </TabsTrigger>
                   <TabsTrigger value="exercise" className="gap-1.5 px-4"><BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
+                  <TabsTrigger value="arena" className="gap-1.5 px-4"><Swords className="w-4 h-4" /> Vocab Arena</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
 
             <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
+
+            {/* Vocab Arena now lives here as a tab so the English menu stays short.
+                The standalone /vocab-arena route still works for old links. */}
+            {viewMode === "arena" && (
+              <Suspense fallback={<div className="py-16 text-center text-muted-foreground">{t("Đang tải...", "Loading...")}</div>}>
+                <VocabArenaPanel embedded />
+              </Suspense>
+            )}
 
             {/* The practice tab stays mounted (just hidden) so switching tabs
                 never throws away the quiz the student is in the middle of. */}
