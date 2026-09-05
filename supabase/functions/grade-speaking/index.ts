@@ -172,7 +172,7 @@ Apply the OFFICIAL IELTS Public Band Descriptors below STRICTLY, criterion by cr
 ${RUBRIC}
 
 NON-NEGOTIABLE RULES:
-1. Base every score ONLY on the actual transcript. Do NOT invent content. Do NOT reward effort that is not present.
+1. Base every score ONLY on the actual transcript. Do NOT invent content, but DO give full credit for every strength that is present. Be fair and accurate, not harsh.
 2. Each criterion score is INDEPENDENT - they do NOT have to match. A learner can be Band 7 fluency and Band 5 grammar.
 3. Reference SPECIFIC phrases from the transcript in feedback ("you said 'X', a higher-band version would be 'Y'").
 4. Each criterion feedback must explain: (a) what the learner did, (b) why it sits at this band, (c) exactly what to do to reach the next half-band.
