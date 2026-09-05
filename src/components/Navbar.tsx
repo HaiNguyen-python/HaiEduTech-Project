@@ -237,11 +237,9 @@ const Navbar = () => {
     // 📖 Từ vựng
     { to: "#h-vocab", label: t("Từ vựng", "Vocabulary"), header: true },
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
-    { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
     // ✍️ Luyện tập & Chấm
     { to: "#h-practice", label: t("Luyện tập & Chấm điểm", "Practice & Grading"), header: true },
     { to: "/ielts-skills-practice", label: t("IELTS Skills Practice", "IELTS Skills Practice"), icon: PenTool },
-    { to: "/ai-grading", label: t("IELTS Smart Grading", "IELTS Smart Grading"), icon: Cpu },
     // 📊 Đánh giá & Tiến độ
     { to: "#h-analysis", label: t("Đánh giá & Tiến độ", "Progress & Analysis"), header: true },
     { to: "/ielts-performance", label: t("Your IELTS Performance", "Your IELTS Performance"), icon: ClipboardCheck },
@@ -509,7 +507,11 @@ const Navbar = () => {
     const rect = anchor.getBoundingClientRect();
     const viewportPadding = 12;
     const flyoutWidth = 240;
-    const availableBelow = window.innerHeight - rect.top - viewportPadding;
+    // Lift the flyout above the hovered row so long menus do not sit too low
+    // on the screen; still clamped inside the viewport below.
+    const lift = 52;
+    const anchorTop = Math.max(viewportPadding, rect.top - lift);
+    const availableBelow = window.innerHeight - anchorTop - viewportPadding;
     const availableAbove = rect.bottom - viewportPadding;
     const openUpward = availableBelow < 320 && availableAbove > availableBelow;
     const openLeft = rect.right + flyoutWidth + viewportPadding > window.innerWidth;
@@ -519,7 +521,7 @@ const Navbar = () => {
       up: openUpward,
       left: openLeft,
       maxH: Math.max(180, Math.floor(availableHeight)),
-      top: openUpward ? undefined : Math.max(viewportPadding, Math.round(rect.top)),
+      top: openUpward ? undefined : Math.round(anchorTop),
       bottom: openUpward ? Math.max(viewportPadding, Math.round(window.innerHeight - rect.bottom)) : undefined,
       leftPx: openLeft ? undefined : Math.min(Math.round(rect.right - 10), window.innerWidth - flyoutWidth - viewportPadding),
       rightPx: openLeft ? Math.max(viewportPadding, Math.round(window.innerWidth - rect.left - 10)) : undefined,
