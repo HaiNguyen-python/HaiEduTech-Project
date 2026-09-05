@@ -431,24 +431,62 @@ ${suggestionsHtml}
     return recognition;
   }, []);
 
+  /** Pick a recording container the current browser really supports (Safari needs mp4). */
+  const pickMimeType = (): string | undefined => {
+    const MR = window.MediaRecorder as typeof MediaRecorder & { isTypeSupported?: (t: string) => boolean };
+    const candidates = [
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/mp4;codecs=mp4a.40.2",
+      "audio/mp4",
+      "audio/ogg;codecs=opus",
+    ];
+    if (typeof MR?.isTypeSupported !== "function") return undefined;
+    return candidates.find((c) => MR.isTypeSupported!(c));
+  };
+
   // Recording functions
   const startRecording = async () => {
     langAudio.stop();
+    setRecorderError(null);
+    setGradeNotice(null);
+    if (!navigator.mediaDevices?.getUserMedia || typeof window.MediaRecorder === "undefined") {
+      setRecorderError(t(
+        "Trình duyệt này không hỗ trợ ghi âm. Hãy mở trang bằng Chrome hoặc Safari mới nhất (nếu đang xem trong khung nhúng, hãy mở ở tab mới).",
+        "This browser does not support recording. Open the page in an up-to-date Chrome or Safari (if you are inside an embedded preview, open it in a new tab).",
+      ));
+      return;
+    }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
+      const mimeType = pickMimeType();
+      let recorder: MediaRecorder;
+      try {
+        recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      } catch {
+        recorder = new MediaRecorder(stream); // browser rejected the container - use its default
+      }
       mediaRecorder.current = recorder;
       chunksRef.current = [];
       recorder.ondataavailable = (e) => { if (e.data.size > 0) chunksRef.current.push(e.data); };
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
+        const blob = new Blob(chunksRef.current, { type: recorder.mimeType || mimeType || "audio/webm" });
         setAudioBlob(blob);
         if (audioUrl) URL.revokeObjectURL(audioUrl);
-        setAudioUrl(URL.createObjectURL(blob));
+        setAudioUrl(blob.size > 0 ? URL.createObjectURL(blob) : null);
         stream.getTracks().forEach((t) => t.stop());
         chunksRef.current = [];
+        setFinalizing(false);
       };
-      recorder.start();
+      recorder.onerror = () => {
+        setFinalizing(false);
+        setRecorderError(t(
+          "Ghi âm bị lỗi giữa chừng. Hãy thử ghi lại; bài của bạn vẫn có thể chấm bằng transcript.",
+          "Recording failed midway. Please try again; your answer can still be graded from the transcript.",
+        ));
+      };
+      // Ask for data every second so even very short answers produce a usable clip.
+      recorder.start(1000);
       setIsRecording(true);
       setResult(null);
       setTimer(0);
@@ -462,13 +500,26 @@ ${suggestionsHtml}
         try { recognition.start(); } catch { /* ignore */ }
       }
       timerRef.current = setInterval(() => setTimer((t) => t + 1), 1000);
-    } catch {
-      alert(t("Vui lòng cho phép truy cập microphone", "Please allow microphone access"));
+    } catch (e) {
+      const name = (e as DOMException)?.name;
+      setRecorderError(
+        name === "NotAllowedError" || name === "SecurityError"
+          ? t("Micro đang bị chặn. Hãy cho phép micro cho trang này rồi thử lại.", "The microphone is blocked. Allow microphone access for this page and try again.")
+          : name === "NotFoundError"
+            ? t("Không tìm thấy micro nào trên thiết bị.", "No microphone was found on this device.")
+            : t("Không bật được micro. Hãy thử lại hoặc mở trang ở tab mới.", "Could not start the microphone. Try again or open the page in a new tab."),
+      );
     }
   };
 
   const stopRecording = () => {
-    mediaRecorder.current?.stop();
+    try {
+      if (mediaRecorder.current?.state === "recording") {
+        setFinalizing(true);
+        mediaRecorder.current.requestData?.();
+        mediaRecorder.current.stop();
+      }
+    } catch { setFinalizing(false); }
     setIsRecording(false);
     if (timerRef.current) clearInterval(timerRef.current);
     if (recognitionRef.current) {
