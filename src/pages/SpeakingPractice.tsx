@@ -118,7 +118,23 @@ const SpeakingPractice = () => {
   const { t } = useLanguage();
   const [selectedPart, setSelectedPart] = useState<1 | 2 | 3>(1);
   const langAudio = useUsefulLanguageAudio();
-  const [mode, setMode] = useState<"part" | "shadow" | "template" | "srs" | "drills">("part");
+  /**
+   * Which section is on screen. Kept in the URL (?mode=) so the browser /
+   * phone Back button returns to the question view instead of leaving the page.
+   */
+  const [searchParams, setSearchParams] = useSearchParams();
+  const modeParam = searchParams.get("mode");
+  const mode: SpeakingMode = MODES.includes(modeParam as SpeakingMode)
+    ? (modeParam as SpeakingMode)
+    : "part";
+  const setMode = useCallback((next: SpeakingMode) => {
+    setSearchParams((prev) => {
+      const p = new URLSearchParams(prev);
+      if (next === "part") p.delete("mode");
+      else p.set("mode", next);
+      return p;
+    });
+  }, [setSearchParams]);
   const { due: srsDue, addFromResult: addSrsFromResult } = useSpeakingSrs();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [topicSearch, setTopicSearch] = useState("");
