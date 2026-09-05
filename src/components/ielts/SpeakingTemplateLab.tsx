@@ -163,6 +163,12 @@ const SpeakingTemplateLab = () => {
           </p>
 
           <div className="flex flex-wrap gap-2">
+            {openStep && (
+              <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setOpenStep(null)}>
+                <ArrowLeft className="w-4 h-4" />
+                {t("Quay lại danh sách bước", "Back to the step list")}
+              </Button>
+            )}
             <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => setOpenStep(null)}>
               <ChevronsDownUp className="w-4 h-4" />
               {t("Thu gọn tất cả", "Collapse all")}
