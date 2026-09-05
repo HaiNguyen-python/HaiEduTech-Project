@@ -197,6 +197,34 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
     onChanged();
   };
 
+  const submitReply = async (parentId: string, text: string) => {
+    const { error } = await (supabase.from("your_corner_comments") as any)
+      .insert({ post_id: post.id, user_id: currentUserId, content: text, parent_id: parentId });
+    if (error) {
+      toast.error("Không gửi được trả lời");
+      return;
+    }
+    toast.success("Đã trả lời 💬");
+    await loadComments();
+    onChanged();
+  };
+
+  const toggleCommentLike = async (commentId: string) => {
+    const cur = commentLikes[commentId] ?? { count: 0, me: false };
+    const next = !cur.me;
+    setCommentLikes((m) => ({
+      ...m,
+      [commentId]: { count: Math.max(0, cur.count + (next ? 1 : -1)), me: next },
+    }));
+    const table = supabase.from("your_corner_comment_reactions" as any) as any;
+    const { error } = next
+      ? await table.insert({ comment_id: commentId, user_id: currentUserId })
+      : await table.delete().eq("comment_id", commentId).eq("user_id", currentUserId);
+    if (error) {
+      setCommentLikes((m) => ({ ...m, [commentId]: cur }));
+    }
+  };
+
   const deletePost = async () => {
     setConfirmDelete(false);
     const { error } = await supabase.from("your_corner_posts").delete().eq("id", post.id);
