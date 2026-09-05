@@ -1222,7 +1222,7 @@ ${suggestionsHtml}
 
                   {/* Controls */}
                   <div className="flex gap-3 flex-wrap justify-center">
-                    {!isRecording && !audioBlob && (
+                    {!isRecording && !audioBlob && !liveTranscript.trim() && (
                       <Button onClick={startRecording} size="lg" className="gap-2 bg-gradient-to-r from-primary to-emerald-600 hover:brightness-110">
                         <Mic className="w-5 h-5" /> {t("Bắt đầu ghi âm", "Start Recording")}
                       </Button>
