@@ -1232,7 +1232,7 @@ ${suggestionsHtml}
                         <Square className="w-4 h-4 fill-current" /> {t("Dừng", "Stop")}
                       </Button>
                     )}
-                    {audioBlob && !isRecording && (() => {
+                    {(audioBlob || liveTranscript.trim()) && !isRecording && (() => {
                       const words = liveTranscript.trim() ? liveTranscript.trim().split(/\s+/).length : 0;
                       // Gemini 2.5 Flash via Lovable AI Gateway (empirical from workspace logs):
                       // ~0.002 base credits + scales slightly with transcript length.
