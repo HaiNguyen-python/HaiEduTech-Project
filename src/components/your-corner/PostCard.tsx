@@ -46,6 +46,12 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [commentLikes, setCommentLikes] = useState<CommentLikeMap>({});
+  const [myReaction, setMyReaction] = useState<ReactionType | null>((post.my_reaction as ReactionType) ?? null);
+  const [reactionTypes, setReactionTypes] = useState<Record<string, number>>(post.reaction_types ?? {});
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pinnedAt, setPinnedAt] = useState<string | null>(post.pinned_at);
+  const { roles } = useUserRole();
+  const isStaff = roles.some((r) => r === "admin" || r === "teacher" || r === "assistant");
 
   useEffect(() => {
     setLiked(post.liked_by_me);
