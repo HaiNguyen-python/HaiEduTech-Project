@@ -1254,7 +1254,11 @@ ${suggestionsHtml}
                             ) : (
                               <Play className="w-4 h-4 fill-current" />
                             )}
-                            {loading ? t("Đang chấm...", "Grading...") : t("Chấm điểm", "Grade")}
+                            {loading
+                              ? t("Đang chấm...", "Grading...")
+                              : finalizing
+                                ? t("Đang lưu bản ghi...", "Saving recording...")
+                                : t("Chấm điểm", "Grade")}
                           </Button>
                           <div className="basis-full" />
                           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-medium text-emerald-700 dark:text-emerald-300">
