@@ -13,9 +13,10 @@ import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check,
 import { toast } from "sonner";
 import type { FeedPost, FeedAuthor } from "@/hooks/useYourCornerFeed";
 import { subjectMap, linkifyHashtags } from "@/lib/yourCornerMeta";
-import { REACTIONS, reactionMap, topReactionEmojis, type ReactionType } from "@/lib/yourCornerReactions";
+import { topReactionEmojis, type ReactionType } from "@/lib/yourCornerReactions";
 import { useUserRole } from "@/hooks/useUserRole";
 import PollBlock from "./PollBlock";
+import ReactionPicker from "./ReactionPicker";
 
 
 
@@ -48,7 +49,6 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [commentLikes, setCommentLikes] = useState<CommentLikeMap>({});
   const [myReaction, setMyReaction] = useState<ReactionType | null>((post.my_reaction as ReactionType) ?? null);
   const [reactionTypes, setReactionTypes] = useState<Record<string, number>>(post.reaction_types ?? {});
-  const [pickerOpen, setPickerOpen] = useState(false);
   const [pinnedAt, setPinnedAt] = useState<string | null>(post.pinned_at);
   const { roles } = useUserRole();
   const isStaff = roles.some((r) => r === "admin" || r === "teacher" || r === "assistant");
@@ -86,7 +86,6 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
    * picking another one switches type without changing the total count.
    */
   const setReaction = async (type: ReactionType | null) => {
-    setPickerOpen(false);
     const prev = { my: myReaction, count: likeCount, types: reactionTypes };
     const remove = type === null || type === myReaction;
     const nextType = remove ? null : type;
