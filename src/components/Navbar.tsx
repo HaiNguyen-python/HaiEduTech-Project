@@ -152,6 +152,9 @@ const Navbar = () => {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [mobileSubExpanded, setMobileSubExpanded] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  // Smart flyout placement: flip upward / leftward when the flyout would
+  // overflow the viewport, measured from the parent row on open.
+  const [flyoutPos, setFlyoutPos] = useState<{ up: boolean; left: boolean }>({ up: false, left: false });
   // `scrolled` state removed: it was unused and forced a Navbar re-render on every
   // scroll event, which caused noticeable flicker on long pages with heavy SVG
   // content (e.g. Mermaid diagrams in lessons).
@@ -447,7 +450,7 @@ const Navbar = () => {
     ], key: "lifestyle" },
 
     // Study Abroad and standalone EdTech entries are hidden — EdTech is now nested inside Programming.
-    { to: "/your-corner", label: t("Your Corner", "Your Corner"), icon: Users },
+    { to: "/your-corner", label: t("Your Corner", "Your Corner"), icon: Users, key: "yc" },
   ];
 
   // Dashboard and Admin entries are intentionally omitted from the main menu —
