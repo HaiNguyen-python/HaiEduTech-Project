@@ -24,6 +24,10 @@ import {
 import { JA_QUIZ_EXTRA } from "@/data/japanese/quizBank";
 import { VOCAB_TOPICS } from "@/data/japanese/vocab";
 import { KANJI_GROUPS } from "@/data/japanese/kanji";
+import {
+  VOCAB_EXTRA_2, KANJI_EXTRA_2, DIALOGUES_EXTRA_2,
+  GRAMMAR_EXTRA_2, JA_QUIZ_EXTRA_2,
+} from "@/data/japanese/expansion2";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import WordQuest from "@/components/vocab/WordQuest";
 import DailyWordMission from "@/components/vocab/DailyWordMission";
@@ -411,7 +415,7 @@ const ALL_GREETINGS: Phrase[] = dedupeBy([...GREETINGS, ...GREETINGS_EXTRA], (p)
 /** Vocabulary topics merged, then de-duplicated word by word across every topic. */
 const ALL_VOCAB = (() => {
   const seen = new Set<string>();
-  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items }))]
+  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items })), ...VOCAB_EXTRA_2]
     .map((g) => ({
       topic: g.topic,
       items: g.items.filter((p) => {
@@ -427,9 +431,9 @@ const ALL_VOCAB = (() => {
 const JA_WORD_INDEX = new Map<string, Phrase>(
   ALL_VOCAB.flatMap((g) => g.items.map((p) => [p.jp, p] as [string, Phrase]))
 );
-const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA], (d) => d.title);
-const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA], (g) => g.title);
-const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA], (q) => q.q);
+const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA, ...DIALOGUES_EXTRA_2], (d) => d.title);
+const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA, ...GRAMMAR_EXTRA_2], (g) => g.title);
+const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA, ...JA_QUIZ_EXTRA_2], (q) => q.q);
 
 /** Kana tables, one collapsible section each. */
 const KANA_TABLES: Array<{ vi: string; en: string; rows: Array<[string, string]> }> = [
@@ -452,6 +456,7 @@ const KANJI_SECTIONS: Array<{ group: string; items: KanjiCard[] }> = (() => {
     { group: "🈴 Kanji cốt lõi N5 / Core N5 kanji", items: KANJI_BASIC },
     { group: "➕ Kanji mở rộng / Extra kanji", items: KANJI_EXTRA },
     ...KANJI_GROUPS.map((g) => ({ group: g.group, items: g.items as KanjiCard[] })),
+    { group: "🖌️ Kanji động từ & sinh hoạt / Verb & daily-life kanji", items: KANJI_EXTRA_2 },
   ]
     .map((g) => ({
       group: g.group,
