@@ -141,17 +141,35 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
     setLoadingComments(true);
     const { data } = await supabase
       .from("your_corner_comments")
-      .select("id, post_id, user_id, content, created_at")
+      .select("id, post_id, user_id, content, created_at, parent_id")
       .eq("post_id", post.id)
       .order("created_at", { ascending: true });
-    const list = data ?? [];
-    const ids = Array.from(new Set(list.map((c) => c.user_id)));
+    const list = (data ?? []) as any[];
+    const ids = Array.from(new Set(list.map((c) => c.user_id as string)));
     const { data: profs } = ids.length
       ? await supabase.rpc("get_public_profiles", { _ids: ids })
       : { data: [] as FeedAuthor[] };
     const pmap = new Map<string, FeedAuthor>();
     (profs ?? []).forEach((p: any) => pmap.set(p.id, p));
-    setComments(list.map((c) => ({ ...c, author: pmap.get(c.user_id) ?? null })));
+    setComments(list.map((c) => ({ ...c, parent_id: c.parent_id ?? null, author: pmap.get(c.user_id) ?? null })));
+
+    // Per-comment hearts
+    const commentIds = list.map((c) => c.id as string);
+    if (commentIds.length > 0) {
+      const { data: rx } = await (supabase.from("your_corner_comment_reactions" as any) as any)
+        .select("comment_id, user_id")
+        .in("comment_id", commentIds);
+      const map: CommentLikeMap = {};
+      (rx ?? []).forEach((r: any) => {
+        const cur = map[r.comment_id] ?? { count: 0, me: false };
+        cur.count += 1;
+        if (r.user_id === currentUserId) cur.me = true;
+        map[r.comment_id] = cur;
+      });
+      setCommentLikes(map);
+    } else {
+      setCommentLikes({});
+    }
     setLoadingComments(false);
   };
 
