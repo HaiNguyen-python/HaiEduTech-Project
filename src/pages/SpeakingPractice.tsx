@@ -7,11 +7,13 @@
  */
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from "react-router-dom";
 import {
   Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
   Users, MapPin, Package, Calendar, Sparkles, StickyNote, CheckCircle2, Loader2,
-  PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2, LayoutTemplate
+  PenLine, Star, TrendingUp, Trash2, BookmarkPlus, Maximize2, Minimize2, LayoutTemplate,
+  ArrowLeft
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
