@@ -268,19 +268,25 @@ const Navbar = () => {
 
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("🎯 Cambridge IELTS", "🎯 Cambridge IELTS"), groupLabel: "ielts", children: ieltsChildren },
-    // Other international exams (TOEIC / PTE / SAT)
-    { to: "#en-exams-group", label: t("🌐 Luyện thi Quốc tế khác", "🌐 Other International Exams"), groupLabel: "en-exams", children: [
+    // Combined: international exams + national exam under one group
+    { to: "#en-other-exams-group", label: t("🌐 Các kỳ thi tiếng Anh khác", "🌐 Other English Exams"), groupLabel: "en-other-exams", children: [
       { to: "/toeic", label: "TOEIC", icon: BookOpen },
       { to: "/pte", label: "PTE Academic", icon: Target },
       { to: "/english/sat", label: "SAT", icon: PenTool },
+      { to: "#en-other-exams-div", label: "", divider: true },
+      ...nationalExamChildren,
     ] },
-    // Vietnamese national exam
-    { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "#en-div2", label: "", divider: true },
-    { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
-    { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-    { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking Studio", "🎤 Presentation & Public Speaking Studio") },
+    // Combined: fun facts + songs under one group
+    { to: "#en-fun-group", label: t("✨ Bài học tiếng Anh vui", "✨ Fun English Lessons"), groupLabel: "en-fun", children: [
+      { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
+      { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
+    ] },
+    // Combined: speaking coach + presentation studio under one group
+    { to: "#en-speaking-group", label: t("🎙️ Luyện nói", "🎙️ Speaking Coach"), groupLabel: "en-speaking", children: [
+      { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
+      { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking Studio", "🎤 Presentation & Public Speaking Studio") },
+    ] },
     { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
   ];
   const chineseSubs: SubItem[] = [
