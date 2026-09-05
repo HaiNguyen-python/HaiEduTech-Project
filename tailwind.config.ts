@@ -65,11 +65,19 @@ export default {
         "deep-blue": "hsl(var(--deep-blue))",
         "slate-dark": "hsl(var(--slate-dark))",
       },
+      backgroundImage: {
+        "hero-wave": "var(--hero-wave)",
+      },
+      boxShadow: {
+        "hero-art": "var(--shadow-hero-art)",
+        "hero-photo": "var(--shadow-hero-photo)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
