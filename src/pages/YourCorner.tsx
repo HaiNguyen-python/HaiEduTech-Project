@@ -10,6 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Sparkles, MessageCircle, Heart, Flame, BookOpen, Bookmark, TrendingUp, Hash, Trophy, Lightbulb, Crown, Stars, Zap, Globe2 } from "lucide-react";
 import PostComposer from "@/components/your-corner/PostComposer";
 import LazyPostCard from "@/components/your-corner/LazyPostCard";
+import HelpersCard from "@/components/your-corner/HelpersCard";
 import { useYourCornerFeed } from "@/hooks/useYourCornerFeed";
 import { useYourCornerPresence, type OnlineUser } from "@/hooks/useYourCornerPresence";
 import { SUBJECTS, subjectMap, SubjectKey, extractHashtags } from "@/lib/yourCornerMeta";
@@ -527,6 +528,7 @@ export default function YourCorner() {
 
             {/* Right sidebar */}
             <aside className="hidden lg:block space-y-4">
+              <HelpersCard />
               <Suspense fallback={null}>
                 <OnlineUsersPanel
                   users={onlineUsers}
