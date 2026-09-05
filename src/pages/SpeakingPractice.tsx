@@ -677,6 +677,12 @@ ${suggestionsHtml}
       gradedResult = graded;
       setResult(graded);
       recordScore(graded);
+      if (graded.fastScore) {
+        setGradeNotice(t(
+          "Đây chỉ là điểm ước lượng nhanh, chưa phải band chính thức. Hãy nói dài hơn (20-30 giây) rồi bấm Chấm điểm lại.",
+          "This is only a quick estimate, not an official band. Speak a bit longer (20-30 seconds) and press Grade again.",
+        ));
+      }
       // Log to admin dashboard in background (don't block UI)
       (async () => {
         try {
