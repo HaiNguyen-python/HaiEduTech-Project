@@ -24,6 +24,10 @@ import {
 import { JA_QUIZ_EXTRA } from "@/data/japanese/quizBank";
 import { VOCAB_TOPICS } from "@/data/japanese/vocab";
 import { KANJI_GROUPS } from "@/data/japanese/kanji";
+import {
+  VOCAB_EXTRA_2, KANJI_EXTRA_2, DIALOGUES_EXTRA_2,
+  GRAMMAR_EXTRA_2, JA_QUIZ_EXTRA_2,
+} from "@/data/japanese/expansion2";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import WordQuest from "@/components/vocab/WordQuest";
 import DailyWordMission from "@/components/vocab/DailyWordMission";
