@@ -108,7 +108,7 @@ const IeltsListeningPractice = () => {
             />
           ) : (
             <Tabs defaultValue="full" className="w-full">
-              <TabsList className="mb-4">
+              <TabsList className="mb-4 mt-6">
                 <TabsTrigger value="full" className="gap-2">
                   <Clock className="w-4 h-4" /> {t("Đề Full Test", "Full Tests")}
                   <Badge variant="secondary" className="text-[10px] px-1.5">{fullTests.length}</Badge>
