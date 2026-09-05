@@ -152,10 +152,14 @@ const Navbar = () => {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [mobileSubExpanded, setMobileSubExpanded] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
-  // Smart flyout placement: flip upward / leftward when the flyout would
-  // overflow the viewport, measured from the parent row on open. maxH caps the
-  // flyout to the space actually available on the chosen side.
-  const [flyoutPos, setFlyoutPos] = useState<{ up: boolean; left: boolean; maxH: number }>({ up: false, left: false, maxH: 480 });
+  // Smart flyout placement: flyouts render with position:fixed at viewport
+  // coordinates so they escape the scrollable panel's clipping box, flipping
+  // upward / leftward when they would overflow. maxH caps the flyout to the
+  // space actually available on the chosen side.
+  const [flyoutPos, setFlyoutPos] = useState<{
+    up: boolean; left: boolean; maxH: number;
+    top?: number; bottom?: number; leftPx?: number; rightPx?: number;
+  }>({ up: false, left: false, maxH: 480 });
   // `scrolled` state removed: it was unused and forced a Navbar re-render on every
   // scroll event, which caused noticeable flicker on long pages with heavy SVG
   // content (e.g. Mermaid diagrams in lessons).
@@ -726,16 +730,21 @@ const Navbar = () => {
                                   onMouseEnter={(e) => {
                                     if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
                                     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
-                                    // Measure available space below and above the row; anchor the
-                                    // flyout to the side with more room and cap its height to it.
+                                    // Measure the row in viewport coordinates and place the fixed
+                                    // flyout where it has the most room (below/above, right/left).
                                     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                                     const spaceBelow = window.innerHeight - rect.top - 16;
                                     const spaceAbove = rect.bottom - 8;
                                     const up = spaceBelow < 280 && spaceAbove > spaceBelow;
+                                    const flipLeft = rect.right + 250 > window.innerWidth;
                                     setFlyoutPos({
                                       up,
-                                      left: rect.right + 250 > window.innerWidth,
+                                      left: flipLeft,
                                       maxH: Math.max(200, Math.floor(up ? spaceAbove : spaceBelow)),
+                                      top: up ? undefined : Math.round(rect.top),
+                                      bottom: up ? Math.round(window.innerHeight - rect.bottom) : undefined,
+                                      leftPx: flipLeft ? undefined : Math.round(rect.right),
+                                      rightPx: flipLeft ? Math.round(window.innerWidth - rect.left) : undefined,
                                     });
                                     setActiveSubmenu(sub.groupLabel!);
                                   }}
