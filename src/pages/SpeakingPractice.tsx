@@ -711,7 +711,7 @@ ${suggestionsHtml}
         </motion.div>
 
         {/* Part / Mode selector + Shuffle */}
-        <div className="flex flex-wrap gap-3 items-center mb-6">
+        <div className="flex flex-wrap gap-3 items-center mt-4 mb-6">
           {([1, 2, 3] as const).map((p) => (
             <Button
               key={p}
