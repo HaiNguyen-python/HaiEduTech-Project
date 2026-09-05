@@ -153,8 +153,9 @@ const Navbar = () => {
   const [mobileSubExpanded, setMobileSubExpanded] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   // Smart flyout placement: flip upward / leftward when the flyout would
-  // overflow the viewport, measured from the parent row on open.
-  const [flyoutPos, setFlyoutPos] = useState<{ up: boolean; left: boolean }>({ up: false, left: false });
+  // overflow the viewport, measured from the parent row on open. maxH caps the
+  // flyout to the space actually available on the chosen side.
+  const [flyoutPos, setFlyoutPos] = useState<{ up: boolean; left: boolean; maxH: number }>({ up: false, left: false, maxH: 480 });
   // `scrolled` state removed: it was unused and forced a Navbar re-render on every
   // scroll event, which caused noticeable flicker on long pages with heavy SVG
   // content (e.g. Mermaid diagrams in lessons).
@@ -725,13 +726,16 @@ const Navbar = () => {
                                   onMouseEnter={(e) => {
                                     if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
                                     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
-                                    // Estimate flyout height and flip up/left if it would overflow.
+                                    // Measure available space below and above the row; anchor the
+                                    // flyout to the side with more room and cap its height to it.
                                     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                                    const items = sub.children!.length;
-                                    const est = 16 + items * 40 + (sub.children!.some(c => c.header) ? 0 : 28);
+                                    const spaceBelow = window.innerHeight - rect.top - 16;
+                                    const spaceAbove = rect.bottom - 8;
+                                    const up = spaceBelow < 280 && spaceAbove > spaceBelow;
                                     setFlyoutPos({
-                                      up: rect.top + est > window.innerHeight - 16,
+                                      up,
                                       left: rect.right + 250 > window.innerWidth,
+                                      maxH: Math.max(200, Math.floor(up ? spaceAbove : spaceBelow)),
                                     });
                                     setActiveSubmenu(sub.groupLabel!);
                                   }}
