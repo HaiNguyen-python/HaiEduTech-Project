@@ -222,7 +222,7 @@ Return ONLY valid compact JSON in this exact shape, no markdown fences, no prose
           max_tokens: 1400,
           messages: [
             { role: "system", content: systemPrompt },
-            { role: "user", content: `Grade this IELTS Speaking Part ${part} response using the official Public Band Descriptors. Be strict and accurate. Return JSON only.` },
+            { role: "user", content: `Grade this IELTS Speaking Part ${part} response using the official Public Band Descriptors. Be accurate and fair: apply ASR tolerance and give credit for every strength present. Return JSON only.` },
           ],
           response_format: { type: "json_object" },
         }),
