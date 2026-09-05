@@ -804,7 +804,7 @@ const Navbar = () => {
                                           if (child.header) {
                                             return (
                                               <div key={child.to} className="px-4 pt-2 pb-1 mt-1 first:mt-0">
-                                                <span className="text-[10px] font-bold uppercase tracking-wider text-primary/70">
+                                                <span className={`text-[10px] font-bold uppercase tracking-wider ${sc.header}`}>
                                                   {child.label}
                                                 </span>
                                               </div>
@@ -821,9 +821,9 @@ const Navbar = () => {
                                               <Link
                                                 to={child.to}
                                                 onClick={() => { setDropdown(null); setActiveSubmenu(null); }}
-                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors rounded-md mx-1"
+                                                className={`flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground ${sc.childHover} transition-colors rounded-md mx-1 border-l-2 border-transparent ${sc.accent}`}
                                               >
-                                                {ChildIcon && <ChildIcon className="w-4 h-4 text-primary/70" />}
+                                                {ChildIcon && <ChildIcon className={`w-4 h-4 ${sc.icon}`} />}
                                                 <span>{child.label}</span>
                                               </Link>
                                             </motion.div>
@@ -850,8 +850,8 @@ const Navbar = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.025, duration: 0.18 }}>
                                 <Link to={sub.to} onClick={() => setDropdown(null)}
-                                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors rounded-md mx-1">
-                                  {SubIcon && <SubIcon className="w-4 h-4 text-primary/70" />}
+                                  className={`flex items-center gap-2.5 px-4 py-2 text-sm text-muted-foreground ${sc.childHover} transition-colors rounded-md mx-1 border-l-2 border-transparent ${sc.accent}`}>
+                                  {SubIcon && <SubIcon className={`w-4 h-4 ${sc.icon}`} />}
                                   <span>{sub.label}</span>
                                 </Link>
                               </motion.div>
@@ -867,7 +867,7 @@ const Navbar = () => {
               return (
                 <Link key={l.to} to={l.to}
                   className={`px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                    active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                    active ? "text-primary bg-primary/10" : `text-muted-foreground ${sc.trigger}`
                   }`}>
                   {l.label}
                 </Link>
