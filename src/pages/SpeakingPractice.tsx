@@ -539,6 +539,9 @@ ${suggestionsHtml}
     setShowSuggestions(true);
     setLiveTranscript("");
     setInterimTranscript("");
+    setGradeNotice(null);
+    setRecorderError(null);
+    setFinalizing(false);
     chunksRef.current = [];
   };
 
