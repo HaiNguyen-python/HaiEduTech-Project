@@ -337,6 +337,11 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
             <p className="font-semibold text-sm flex items-center gap-1.5">
               {authorName}
               {post.mood && <span className="text-base leading-none">{post.mood}</span>}
+              {pinnedAt && (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/15 text-amber-700 dark:text-amber-300">
+                  <Pin className="w-3 h-3" /> Ghim
+                </span>
+              )}
             </p>
             <p className="text-xs text-muted-foreground flex items-center gap-1.5 flex-wrap">
               {timeAgo}
