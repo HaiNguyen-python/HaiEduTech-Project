@@ -4,9 +4,10 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import SEO from "@/components/SEO";
-import PurposeEnglishHub from "@/components/PurposeEnglishHub";
+import PurposeEnglishCourse from "@/components/PurposeEnglishCourse";
 import { businessTopicsPart1 } from "@/data/businessEnglishLessons";
 import { businessTopicsPart2 } from "@/data/businessEnglishLessons2";
+import { professionalCommunicationLessons } from "@/data/conversationalCurriculum";
 
 const topics = [...businessTopicsPart1, ...businessTopicsPart2];
 
@@ -18,7 +19,8 @@ const BusinessEnglish = () => (
       path="/english/business"
       type="course"
     />
-    <PurposeEnglishHub
+    <PurposeEnglishCourse
+      track="business"
       storageKey="haiedu-business-english-v1"
       activityType="business_english_lesson"
       emoji="💼"
@@ -26,7 +28,8 @@ const BusinessEnglish = () => (
       titleVi="Tiếng Anh Thương mại"
       tagline="Practical English for emails, meetings, presentations, negotiation and job interviews."
       taglineVi="Tiếng Anh thực dụng cho email, họp, thuyết trình, đàm phán và phỏng vấn xin việc."
-      topics={topics}
+      coreTopics={topics}
+      communicationLessons={professionalCommunicationLessons}
     />
   </>
 );
