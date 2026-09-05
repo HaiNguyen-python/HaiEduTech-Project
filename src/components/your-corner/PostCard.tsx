@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check, Globe2, GraduationCap, Lock, Pin, PinOff, ThumbsUp } from "lucide-react";
+import { Heart, MessageCircle, Trash2, Send, Bookmark, Share2, Pencil, X, Check, Globe2, GraduationCap, Lock, Pin, PinOff, ThumbsUp, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import type { FeedPost, FeedAuthor } from "@/hooks/useYourCornerFeed";
 import { subjectMap, linkifyHashtags } from "@/lib/yourCornerMeta";
@@ -17,6 +17,7 @@ import { topReactionEmojis, type ReactionType } from "@/lib/yourCornerReactions"
 import { useUserRole } from "@/hooks/useUserRole";
 import PollBlock from "./PollBlock";
 import ReactionPicker from "./ReactionPicker";
+import ReactorsDialog from "./ReactorsDialog";
 
 
 
@@ -35,6 +36,7 @@ interface Props {
 function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [liked, setLiked] = useState(post.liked_by_me);
   const [likeCount, setLikeCount] = useState(post.reaction_count);
+  const [reactorsOpen, setReactorsOpen] = useState(false);
   const [bookmarked, setBookmarked] = useState(post.bookmarked_by_me);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -182,7 +184,7 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
     setLoadingComments(true);
     const { data } = await supabase
       .from("your_corner_comments")
-      .select("id, post_id, user_id, content, created_at, parent_id")
+      .select("id, post_id, user_id, content, created_at, parent_id, is_helpful")
       .eq("post_id", post.id)
       .order("created_at", { ascending: true });
     const list = (data ?? []) as any[];
@@ -192,7 +194,7 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
       : { data: [] as FeedAuthor[] };
     const pmap = new Map<string, FeedAuthor>();
     (profs ?? []).forEach((p: any) => pmap.set(p.id, p));
-    setComments(list.map((c) => ({ ...c, parent_id: c.parent_id ?? null, author: pmap.get(c.user_id) ?? null })));
+    setComments(list.map((c) => ({ ...c, parent_id: c.parent_id ?? null, is_helpful: !!c.is_helpful, author: pmap.get(c.user_id) ?? null })));
 
     // Per-comment hearts
     const commentIds = list.map((c) => c.id as string);
@@ -264,6 +266,22 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
     if (error) {
       setCommentLikes((m) => ({ ...m, [commentId]: cur }));
     }
+  };
+
+  const toggleHelpful = async (commentId: string) => {
+    const cur = comments.find((c) => c.id === commentId);
+    if (!cur) return;
+    const next = !cur.is_helpful;
+    setComments((list) => list.map((c) => (c.id === commentId ? { ...c, is_helpful: next } : c)));
+    const { error } = await (supabase.from("your_corner_comments") as any)
+      .update({ is_helpful: next })
+      .eq("id", commentId);
+    if (error) {
+      setComments((list) => list.map((c) => (c.id === commentId ? { ...c, is_helpful: cur.is_helpful } : c)));
+      toast.error("Không đánh dấu được");
+      return;
+    }
+    if (next) toast.success("Đã đánh dấu câu trả lời hữu ích ✅");
   };
 
   const deletePost = async () => {
@@ -339,6 +357,11 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
               {pinnedAt && (
                 <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/15 text-amber-700 dark:text-amber-300">
                   <Pin className="w-3 h-3" /> Ghim
+                </span>
+              )}
+              {post.is_question && (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">
+                  <HelpCircle className="w-3 h-3" /> {post.comment_count > 0 ? "Câu hỏi ngôn ngữ" : "Đang chờ trả lời"}
                 </span>
               )}
             </p>
@@ -500,15 +523,21 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
 
       {/* Reaction summary */}
       {likeCount > 0 && (
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <button
+          type="button"
+          onClick={() => setReactorsOpen(true)}
+          className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary hover:underline"
+          aria-label="Xem ai đã thả cảm xúc"
+        >
           <span className="flex -space-x-1">
             {topReactionEmojis(reactionTypes).map((e, i) => (
               <span key={e + i} className="text-base leading-none">{e}</span>
             ))}
           </span>
           <span>{likeCount}</span>
-        </div>
+        </button>
       )}
+      <ReactorsDialog postId={post.id} open={reactorsOpen} onOpenChange={setReactorsOpen} />
 
       <div className="flex items-center gap-1 border-t pt-2 flex-wrap">
         <ReactionPicker myReaction={myReaction} pop={heartPop} onSelect={(t) => setReaction(t)} />
@@ -550,6 +579,8 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
                   onToggleLike={toggleCommentLike}
                   onSubmitReply={submitReply}
                   onDelete={deleteComment}
+                  canMarkHelpful={isMine || isStaff}
+                  onToggleHelpful={toggleHelpful}
                 />
               ));
             })()
