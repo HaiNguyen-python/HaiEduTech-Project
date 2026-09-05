@@ -77,7 +77,7 @@ const VocabArena = ({ embedded = false }: { embedded?: boolean }) => {
     const url = `${window.location.pathname}${qs ? `?${qs}` : ""}`;
     if (phase === "menu") window.history.replaceState({}, "", url);
     else window.history.pushState({}, "", url);
-  }, [phase]);
+  }, [phase, embedded]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
