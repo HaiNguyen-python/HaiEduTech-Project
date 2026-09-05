@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown, BarChart3, Plus, Trash2 } from "lucide-react";
+import { ImagePlus, Loader2, Send, X, Smile, Tag, Globe2, GraduationCap, Lock, ChevronDown, BarChart3, Plus, Trash2, HelpCircle } from "lucide-react";
 
 import { toast } from "sonner";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
