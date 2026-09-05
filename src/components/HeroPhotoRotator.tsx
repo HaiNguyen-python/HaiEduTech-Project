@@ -56,7 +56,7 @@ const HeroPhotoRotator = ({ photos, intervalMs = 8000 }: Props) => {
       </AnimatePresence>
 
       {photos.length > 1 && (
-        <div className="absolute inset-x-0 bottom-3 z-10 flex items-center justify-center gap-2 rounded-full bg-foreground/25 py-1.5 backdrop-blur-sm mx-auto w-fit px-3">
+        <div className="absolute inset-x-0 bottom-3 z-10 flex items-center justify-center gap-2">
           {photos.map((p, i) => (
             <button
               key={p.src}
@@ -68,9 +68,8 @@ const HeroPhotoRotator = ({ photos, intervalMs = 8000 }: Props) => {
                 setTick((t) => t + 1);
               }}
               className={`h-2 rounded-full transition-all ${
-                i === index ? "w-6 bg-primary-foreground" : "w-2 bg-primary-foreground/50 hover:bg-primary-foreground/80"
+                i === index ? "w-6 bg-emerald-400" : "w-2 bg-background/70 hover:bg-emerald-300"
               }`}
-
             />
           ))}
         </div>

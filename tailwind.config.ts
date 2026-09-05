@@ -65,19 +65,11 @@ export default {
         "deep-blue": "hsl(var(--deep-blue))",
         "slate-dark": "hsl(var(--slate-dark))",
       },
-      backgroundImage: {
-        "hero-wave": "var(--hero-wave)",
-      },
-      boxShadow: {
-        "hero-art": "var(--shadow-hero-art)",
-        "hero-photo": "var(--shadow-hero-photo)",
-      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -110,15 +102,6 @@ export default {
           "0%, 100%": { opacity: "1", transform: "scale(1)" },
           "50%": { opacity: "0.45", transform: "scale(1.25)" },
         },
-        "hero-wave": {
-          "0%, 100%": { transform: "translateX(0) scaleY(1)" },
-          "50%": { transform: "translateX(-10px) scaleY(1.08)" },
-        },
-        "hero-wave-slow": {
-          "0%, 100%": { transform: "translateX(0) scaleY(1)" },
-          "50%": { transform: "translateX(10px) scaleY(1.06)" },
-        },
-
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -128,9 +111,6 @@ export default {
         "wave-hand": "wave-hand 1.6s ease-in-out",
         "aurora-drift": "aurora-drift 22s ease-in-out infinite",
         "live-dot": "live-dot 1.4s ease-in-out infinite",
-        "hero-wave": "hero-wave 14s ease-in-out infinite",
-        "hero-wave-slow": "hero-wave-slow 18s ease-in-out infinite",
-
       },
     },
   },
