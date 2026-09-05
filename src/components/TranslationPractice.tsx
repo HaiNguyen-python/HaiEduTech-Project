@@ -98,7 +98,9 @@ const scoreColor = (s: number) =>
 
 const TranslationPractice = ({ taskType }: Props) => {
   const { t, lang } = useLanguage();
+  const [mode, setMode] = useState<"sentence" | "paragraph">("sentence");
   const [category, setCategory] = useState("all");
+
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [showHint, setShowHint] = useState(false);
