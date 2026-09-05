@@ -19,14 +19,9 @@ import PollBlock from "./PollBlock";
 
 
 
-type Comment = {
-  id: string;
-  post_id: string;
-  user_id: string;
-  content: string;
-  created_at: string;
-  author: FeedAuthor | null;
-};
+import CommentItem, { type CornerComment, type CommentLikeMap } from "./CommentItem";
+
+type Comment = CornerComment;
 
 interface Props {
   post: FeedPost;
@@ -48,6 +43,7 @@ function PostCardImpl({ post, currentUserId, onChanged }: Props) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [commentLikes, setCommentLikes] = useState<CommentLikeMap>({});
 
   useEffect(() => {
     setLiked(post.liked_by_me);
