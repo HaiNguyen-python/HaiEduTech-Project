@@ -30,11 +30,21 @@ export const lessonOutcome = (lesson: PurposeLesson, vietnamese: boolean) => vie
   : `Goal in a real situation: ${lesson.gist}`;
 
 
-export const splitTeaching = (text: string) => {
-  const chunks = text.split(/(?<=[.!?])\s+(?=[A-Z"“])/).filter(Boolean);
-  if (chunks.length < 3) return [text];
-  const size = Math.ceil(chunks.length / 3);
-  return [chunks.slice(0, size).join(" "), chunks.slice(size, size * 2).join(" "), chunks.slice(size * 2).join(" ")].filter(Boolean);
+export interface TeachingBlock {
+  paragraphs: string[];
+}
+
+export const splitTeaching = (text: string): TeachingBlock[] => {
+  const normalized = text.replace(/\s+/g, " ").trim();
+  const sentenceMatches = normalized.match(/[^.!?]+(?:[.!?]+["”']?|$)/g);
+  const sentences = (sentenceMatches ?? [normalized]).map((sentence) => sentence.trim()).filter(Boolean);
+  if (sentences.length <= 2) return [{ paragraphs: sentences }];
+
+  const blockCount = Math.min(3, Math.max(1, Math.ceil(sentences.length / 3)));
+  const size = Math.ceil(sentences.length / blockCount);
+  return Array.from({ length: blockCount }, (_, index) => ({
+    paragraphs: sentences.slice(index * size, (index + 1) * size),
+  })).filter((block) => block.paragraphs.length > 0);
 };
 
 export const modelLineRole = (line: string, index: number, total: number, track: PurposeTrack) => {
