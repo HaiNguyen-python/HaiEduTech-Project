@@ -246,13 +246,19 @@ const PurposeCommunicationLab = ({
                 <div className="space-y-3 bg-muted/20 p-4 sm:p-6">
                   {situation.sampleDialogue.map((line, index) => {
                     const speakerIndex = speakers.indexOf(line.speaker);
-                    const rightAligned = line.speaker === "You" || (line.speaker !== speakers[0] && speakerIndex % 2 === 1);
+                    const hasLearnerSpeaker = speakers.includes("You");
+                    const rightAligned = hasLearnerSpeaker
+                      ? line.speaker === "You"
+                      : speakerIndex % 2 === 1;
                     const name = line.speaker === "You" ? heroName : partnerLabel(line.speaker);
                     const avatar = dialogueAvatarFor(`${lesson.id}::${name}`, rightAligned);
                     return (
                       <div
                         key={`${line.speaker}-${index}`}
-                        className={cn("group flex items-end gap-2", rightAligned ? "flex-row-reverse" : "flex-row")}
+                        className={cn(
+                          "group flex w-full items-end gap-2",
+                          rightAligned ? "justify-start flex-row-reverse" : "justify-start flex-row",
+                        )}
                       >
                         <span
                           className={cn(
