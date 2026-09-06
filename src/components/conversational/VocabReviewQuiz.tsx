@@ -164,6 +164,7 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
         </div>
 
         {/* Fill in the blank */}
+        {fills.length > 0 && (
         <div className="space-y-4">
           <p className="text-sm font-semibold text-muted-foreground">
             {t("2. Điền từ/cụm từ phù hợp vào chỗ trống:", "2. Fill in the blank with the correct term:")}
@@ -199,6 +200,7 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
             );
           })}
         </div>
+        )}
 
         <div className="flex justify-end gap-2 pt-2">
           {submitted ? (
