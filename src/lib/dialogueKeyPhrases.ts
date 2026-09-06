@@ -14,6 +14,7 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
   "May I ask", "Sorry to bother you", "Just a quick question", "Do you have a moment",
   "I'd like to", "I would like to", "I'm looking for", "I'm here to", "I'm calling about",
   "I'm calling to", "Can I get", "Can I have", "Could I have", "Let me know if",
+  "Did you manage to", "Have you managed to", "Would you be able to",
 
   // Offering and inviting
   "Would you like", "Would you like me to", "Shall I", "How about", "What about",
@@ -65,6 +66,8 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
   "hand over", "hand in", "go over the details", "walk me through", "break it down",
   "put together", "work on", "deal with", "figure out", "sign up for", "fill out",
   "drop by", "stop by", "check in", "check out", "line up",
+  "send it for review", "make sure", "waiting on", "before the end of the day",
+  "anything blocking you", "include the projections", "give an update", "provide an update",
 
   // Closing and thanking
   "Thanks for your help", "Thank you for your time", "I appreciate it",

@@ -205,7 +205,6 @@ const PurposeCommunicationLab = ({
                     </Button>
                   </div>
                   <p className="mt-3 text-base leading-7 text-foreground">{item.example}</p>
-                  <p className="text-sm leading-6 text-muted-foreground">{item.exampleVi}</p>
                 </motion.div>
               ))}
             </div>
@@ -246,18 +245,19 @@ const PurposeCommunicationLab = ({
                 </div>
                 <div className="space-y-3 bg-muted/20 p-4 sm:p-6">
                   {situation.sampleDialogue.map((line, index) => {
-                    const learner = line.speaker === "You";
-                    const name = learner ? heroName : partnerLabel(line.speaker);
-                    const avatar = dialogueAvatarFor(`${lesson.id}::${name}`, learner);
+                    const speakerIndex = speakers.indexOf(line.speaker);
+                    const rightAligned = line.speaker === "You" || (line.speaker !== speakers[0] && speakerIndex % 2 === 1);
+                    const name = line.speaker === "You" ? heroName : partnerLabel(line.speaker);
+                    const avatar = dialogueAvatarFor(`${lesson.id}::${name}`, rightAligned);
                     return (
                       <div
                         key={`${line.speaker}-${index}`}
-                        className={cn("group flex items-end gap-2", learner ? "flex-row-reverse" : "flex-row")}
+                        className={cn("group flex items-end gap-2", rightAligned ? "flex-row-reverse" : "flex-row")}
                       >
                         <span
                           className={cn(
                             "flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 bg-background sm:h-11 sm:w-11",
-                            learner ? "border-primary/50" : "border-border",
+                            rightAligned ? "border-primary/50" : "border-border",
                           )}
                         >
                           <img
@@ -269,11 +269,11 @@ const PurposeCommunicationLab = ({
                             className="h-full w-full object-contain"
                           />
                         </span>
-                        <div className={cn("min-w-0 max-w-[82%] sm:max-w-[70%]", learner ? "text-right" : "text-left")}>
+                        <div className={cn("min-w-0 max-w-[82%] sm:max-w-[70%]", rightAligned ? "text-right" : "text-left")}>
                           <div
                             className={cn(
                               "mb-1 flex items-center gap-1.5",
-                              learner ? "flex-row-reverse" : "flex-row",
+                              rightAligned ? "flex-row-reverse" : "flex-row",
                             )}
                           >
                             <span className="text-xs font-bold text-muted-foreground">{name}</span>
@@ -290,7 +290,7 @@ const PurposeCommunicationLab = ({
                           <p
                             className={cn(
                               "inline-block rounded-2xl border px-4 py-2.5 text-left text-base leading-7 [&_span]:decoration-1",
-                              learner
+                               rightAligned
                                 ? "rounded-br-sm border-primary/25 bg-primary/10 text-foreground"
                                 : "rounded-bl-sm border-border bg-background text-foreground",
                             )}
