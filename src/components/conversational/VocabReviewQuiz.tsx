@@ -55,13 +55,30 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
   }, [items, language]);
 
   const fills = useMemo(() => {
-    const picks = items.slice(0, Math.min(5, items.length));
-    return picks.map(v => {
-      const re = new RegExp(escapeReg(v.term), "i");
+    const built: { sentence: string; answer: string; hint: string }[] = [];
+    for (const v of items) {
+      if (built.length >= 5) break;
+      const words = v.term.trim().split(/\s+/).filter(Boolean);
+      if (!words.length) continue;
+      // Allow flexible spacing/punctuation between words and small inflections
+      // (escalate / escalates / escalating) so the blank is always applied.
+      const pattern = words
+        .map((w, i) => `${escapeReg(w)}${i === words.length - 1 ? "(?:s|es|d|ed|ing)?" : ""}`)
+        .join("[\\s\\-,]+");
+      const re = new RegExp(`\\b${pattern}\\b`, "i");
       const blanked = v.example.replace(re, "_____");
-      return { sentence: blanked, answer: v.term, hint: language === "vi" ? v.meaning : (v.meaningEn || v.meaning) };
-    });
+      // Skip any item whose answer is still visible in the sentence.
+      if (blanked === v.example || !blanked.includes("_____")) continue;
+      if (re.test(blanked)) continue;
+      built.push({
+        sentence: blanked,
+        answer: v.term,
+        hint: language === "vi" ? v.meaning : (v.meaningEn || v.meaning),
+      });
+    }
+    return built;
   }, [items, language]);
+
 
   if (items.length < 4) return null;
 
