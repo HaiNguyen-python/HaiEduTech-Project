@@ -81,6 +81,23 @@
 }
 
 @layer utilities {
+  /* Navbar already reserves its fixed 60px/92px height. Keep only a compact
+     visual gutter on pages that still carry the older large top-padding. */
+  .site-header ~ :is(main, div).pt-20,
+  .site-header ~ :is(main, div).pt-24,
+  .site-header ~ :is(main, div).pt-28,
+  .site-header ~ :is(main, div).pt-32 {
+    padding-top: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .site-header ~ :is(main, div).lg\:pt-24,
+    .site-header ~ :is(main, div).lg\:pt-28,
+    .site-header ~ :is(main, div).lg\:pt-32 {
+      padding-top: 2rem;
+    }
+  }
+
   .purpose-course {
     font-family: "Manrope", sans-serif;
     letter-spacing: 0;

@@ -569,7 +569,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="flex flex-col">
+    <header className="site-header flex flex-col">
       {/* Row 1: Branding - fixed on all devices.
           `translateZ(0)` + `will-change: transform` promotes this fixed bar to
           its own GPU compositor layer so scrolling heavy content (Mermaid SVGs,
