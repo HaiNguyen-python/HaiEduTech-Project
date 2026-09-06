@@ -34,6 +34,16 @@ function shuffle<T>(arr: T[], seed: number): T[] {
 
 const escapeReg = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+/** Loose comparison so inflected forms (escalates, escalating) still count. */
+const stem = (value: string) =>
+  value.trim().toLowerCase().replace(/[^a-z0-9\s']/g, "").replace(/\s+/g, " ").replace(/(ing|ed|es|s|d)$/, "");
+const matchesAnswer = (input: string, answer: string) => {
+  const a = input.trim().toLowerCase();
+  const b = answer.trim().toLowerCase();
+  if (!a) return false;
+  return a === b || stem(a) === stem(b);
+};
+
 const VocabReviewQuiz = ({ vocabulary }: Props) => {
   const { t, lang: language } = useLanguage();
   const [mcqAns, setMcqAns] = useState<Record<number, number>>({});
@@ -55,20 +65,37 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
   }, [items, language]);
 
   const fills = useMemo(() => {
-    const picks = items.slice(0, Math.min(5, items.length));
-    return picks.map(v => {
-      const re = new RegExp(escapeReg(v.term), "i");
+    const built: { sentence: string; answer: string; hint: string }[] = [];
+    for (const v of items) {
+      if (built.length >= 5) break;
+      const words = v.term.trim().split(/\s+/).filter(Boolean);
+      if (!words.length) continue;
+      // Allow flexible spacing/punctuation between words and small inflections
+      // (escalate / escalates / escalating) so the blank is always applied.
+      const pattern = words
+        .map((w, i) => `${escapeReg(w)}${i === words.length - 1 ? "(?:s|es|d|ed|ing)?" : ""}`)
+        .join("[\\s\\-,]+");
+      const re = new RegExp(`\\b${pattern}\\b`, "i");
       const blanked = v.example.replace(re, "_____");
-      return { sentence: blanked, answer: v.term, hint: language === "vi" ? v.meaning : (v.meaningEn || v.meaning) };
-    });
+      // Skip any item whose answer is still visible in the sentence.
+      if (blanked === v.example || !blanked.includes("_____")) continue;
+      if (re.test(blanked)) continue;
+      built.push({
+        sentence: blanked,
+        answer: v.term,
+        hint: language === "vi" ? v.meaning : (v.meaningEn || v.meaning),
+      });
+    }
+    return built;
   }, [items, language]);
+
 
   if (items.length < 4) return null;
 
   const mcqScore = mcq.reduce((acc, q, i) => acc + (mcqAns[i] === q.answer ? 1 : 0), 0);
   const fillScore = fills.reduce((acc, q, i) => {
     const v = (fillAns[i] || "").trim().toLowerCase();
-    return acc + (v && v === q.answer.toLowerCase() ? 1 : 0);
+    return acc + (matchesAnswer(v, q.answer) ? 1 : 0);
   }, 0);
   const total = mcq.length + fills.length;
   const score = mcqScore + fillScore;
@@ -137,13 +164,14 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
         </div>
 
         {/* Fill in the blank */}
+        {fills.length > 0 && (
         <div className="space-y-4">
           <p className="text-sm font-semibold text-muted-foreground">
             {t("2. Điền từ/cụm từ phù hợp vào chỗ trống:", "2. Fill in the blank with the correct term:")}
           </p>
           {fills.map((q, fi) => {
             const val = fillAns[fi] || "";
-            const correct = submitted && val.trim().toLowerCase() === q.answer.toLowerCase();
+            const correct = submitted && matchesAnswer(val, q.answer);
             return (
               <div key={fi} className="space-y-2 rounded-lg border border-border bg-card/60 p-3">
                 <p className="text-sm leading-relaxed">{fi + 1}. {q.sentence}</p>
@@ -172,6 +200,7 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
             );
           })}
         </div>
+        )}
 
         <div className="flex justify-end gap-2 pt-2">
           {submitted ? (
