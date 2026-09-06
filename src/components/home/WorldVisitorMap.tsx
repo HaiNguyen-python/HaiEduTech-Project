@@ -34,6 +34,28 @@ const COUNTRY_NAMES: Record<string, string> = {
   JP: "Japan",
   KR: "South Korea",
   NL: "The Netherlands",
+  TH: "Thailand",
+  UA: "Ukraine",
+  TW: "Taiwan",
+  MY: "Malaysia",
+  PH: "Philippines",
+  ID: "Indonesia",
+  IN: "India",
+  CN: "China",
+  NO: "Norway",
+  DK: "Denmark",
+  EE: "Estonia",
+  PL: "Poland",
+  ES: "Spain",
+  IT: "Italy",
+  CH: "Switzerland",
+  AT: "Austria",
+  BE: "Belgium",
+  IE: "Ireland",
+  NZ: "New Zealand",
+  KH: "Cambodia",
+  LA: "Laos",
+  AE: "United Arab Emirates",
 };
 
 const COUNTRY_CENTERS: Record<string, [number, number]> = {
@@ -49,21 +71,29 @@ const COUNTRY_CENTERS: Record<string, [number, number]> = {
   SG: [104, 1.3],
   US: [-98, 39],
   VN: [106, 16],
+  TH: [101, 15],
+  UA: [31, 49],
+  TW: [121, 23.7],
+  MY: [102, 4],
+  PH: [122, 12],
+  ID: [113, -2],
+  IN: [79, 22],
+  CN: [104, 35],
+  NO: [9, 61],
+  DK: [10, 56],
+  EE: [26, 59],
+  PL: [19, 52],
+  ES: [-4, 40],
+  IT: [12, 42],
+  CH: [8, 47],
+  AT: [14, 47.5],
+  BE: [4.5, 50.5],
+  IE: [-8, 53],
+  NZ: [172, -41],
+  KH: [105, 12.5],
+  LA: [103, 18],
+  AE: [54, 24],
 };
-
-function getLocaleCountry() {
-  const locales = [navigator.language, ...(navigator.languages || [])].filter(Boolean);
-  for (const locale of locales) {
-    const normalized = locale.toLowerCase();
-    if (normalized === "vi") return { code: "VN", name: COUNTRY_NAMES.VN };
-    const match = locale.match(/[-_]([A-Za-z]{2})\b/);
-    if (match?.[1]) {
-      const code = match[1].toUpperCase();
-      return { code, name: COUNTRY_NAMES[code] || code };
-    }
-  }
-  return null;
-}
 
 // Simple continent lookup by ISO alpha-2 (top ~120 countries relevant to the audience).
 const CONTINENT_BY_CODE: Record<string, string> = {
@@ -92,23 +122,22 @@ const CONTINENT_META: { key: string; emoji: string; vi: string; en: string; colo
   { key: "Africa", emoji: "🦁", vi: "Châu Phi", en: "Africa", color: "#ef4444" },
 ];
 
+// Local and preview environments must never inflate the public counters.
+function isTrackableHost() {
+  if (typeof window === "undefined") return false;
+  const host = window.location.hostname;
+  if (host === "localhost" || host === "127.0.0.1" || host.endsWith(".local")) return false;
+  if (host.includes("id-preview") || host.includes("lovableproject.com") || host.includes("sandbox")) return false;
+  return true;
+}
+
 async function reportVisitorCountry() {
   try {
-    if (typeof window === "undefined") return;
+    if (!isTrackableHost()) return;
     if (sessionStorage.getItem(SESSION_FLAG)) return;
+    // The backend detects the real country and counts one visit per visitor per day.
     const { data, error } = await supabase.functions.invoke("track-country-visit", { body: {} });
-    if (!error && data?.success) {
-      sessionStorage.setItem(SESSION_FLAG, "1");
-      return;
-    }
-
-    const fallback = getLocaleCountry();
-    if (!fallback) return;
-    const { error: fallbackError } = await supabase.rpc("increment_country_visit" as never, {
-      _code: fallback.code,
-      _name: fallback.name,
-    } as never);
-    if (!fallbackError) sessionStorage.setItem(SESSION_FLAG, "1");
+    if (!error && data?.success) sessionStorage.setItem(SESSION_FLAG, "1");
   } catch {
     // ignore
   }
@@ -118,6 +147,7 @@ const WorldVisitorMap = () => {
   const { t, lang } = useLanguage();
   const [rows, setRows] = useState<CountryRow[]>([]);
   const [totalStudents, setTotalStudents] = useState<number>(0);
+  const [totalPageViews, setTotalPageViews] = useState<number>(0);
   const [hovered, setHovered] = useState<{ code: string; name: string; visits: number } | null>(null);
 
 
@@ -146,11 +176,16 @@ const WorldVisitorMap = () => {
       await refreshData();
       await reportVisitorCountry();
       if (alive) await refreshData();
-      // Fetch total registered students (profiles count).
-      const { count } = await supabase
-        .from("profiles" as never)
-        .select("id", { count: "exact", head: true });
-      if (alive && typeof count === "number") setTotalStudents(count);
+      // Public aggregates: a single number each, no personal data exposed.
+      const callRpc = (fn: string) =>
+        (supabase.rpc as unknown as (name: string) => Promise<{ data: unknown; error: unknown }>).call(supabase, fn);
+      const [studentRes, viewRes] = await Promise.all([
+        callRpc("get_public_student_count"),
+        callRpc("get_public_pageview_total"),
+      ]);
+      if (!alive) return;
+      if (typeof studentRes.data === "number") setTotalStudents(studentRes.data);
+      if (typeof viewRes.data === "number") setTotalPageViews(viewRes.data);
     })();
     return () => {
       alive = false;
@@ -218,14 +253,14 @@ const WorldVisitorMap = () => {
           </h2>
           <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
             {t(
-              "Bản đồ nhiệt các quốc gia đã truy cập HaiEduTech. Màu càng đậm = càng nhiều lượt truy cập.",
-              "Live heat map of countries that have visited HaiEduTech. Darker shade = more visits."
+              "Bản đồ nhiệt các quốc gia đã truy cập HaiEduTech, tính từ ngày đầu. Màu càng đậm = càng nhiều khách.",
+              "Heat map of every country that has visited HaiEduTech since day one. Darker shade = more visitors."
             )}
           </p>
         </div>
 
         {/* KPI strip */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6 max-w-6xl mx-auto">
           <div className="rounded-xl border border-border/60 bg-card/70 backdrop-blur-sm p-4 flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-primary/15 flex items-center justify-center">
               <MapPin className="w-5 h-5 text-primary" />
@@ -243,7 +278,7 @@ const WorldVisitorMap = () => {
             </div>
             <div>
               <div className="text-[11px] uppercase tracking-wide text-muted-foreground">
-                {t("Tổng lượt truy cập", "Total visits")}
+                {t("Khách truy cập", "Visitors")}
               </div>
               <div className="text-xl font-bold">{totalVisits.toLocaleString()}</div>
             </div>
@@ -257,6 +292,17 @@ const WorldVisitorMap = () => {
                 {t("Tổng học viên", "Total students")}
               </div>
               <div className="text-xl font-bold">{totalStudents.toLocaleString()}</div>
+            </div>
+          </div>
+          <div className="rounded-xl border border-border/60 bg-card/70 backdrop-blur-sm p-4 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-sky-500/15 flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-sky-600" />
+            </div>
+            <div>
+              <div className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                {t("Lượt xem trang", "Page views")}
+              </div>
+              <div className="text-xl font-bold">{totalPageViews.toLocaleString()}</div>
             </div>
           </div>
 

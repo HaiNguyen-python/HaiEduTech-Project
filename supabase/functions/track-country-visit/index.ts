@@ -118,14 +118,28 @@ serve(async (req) => {
       auth: { persistSession: false, autoRefreshToken: false },
     });
 
-    const { error } = await supabase.rpc("increment_country_visit", {
+    // One visit per visitor per country per day. The IP is never stored: it is
+    // hashed together with the user agent and the current UTC day.
+    const rawKey = `${getClientIp(req) || "unknown"}|${req.headers.get("user-agent") || ""}|${new Date().toISOString().slice(0, 10)}`;
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(rawKey));
+    const visitorHash = Array.from(new Uint8Array(digest))
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+
+    const { data, error } = await supabase.rpc("record_country_visit", {
       _code: country.code,
       _name: country.name,
+      _visitor_hash: visitorHash,
     });
     if (error) throw error;
 
     return new Response(
-      JSON.stringify({ success: true, countryCode: country.code, countryName: country.name }),
+      JSON.stringify({
+        success: true,
+        counted: data === true,
+        countryCode: country.code,
+        countryName: country.name,
+      }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
