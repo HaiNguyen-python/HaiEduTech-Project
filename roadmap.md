@@ -28,3 +28,4 @@
 
 - Business/Academic English: fixed hover-invisible stage & lesson titles (ghost button accent-foreground), rebuilt roadmap rows as accessible buttons, renamed Listen tab to Conversation and redesigned dialogue as chat bubbles with avatars, speaker names, sticky audio bar.
 - [x] Core Lessons readability pass: responsive teaching blocks, clearer typography, stronger contrast, professional step sections, phrase rows, model text, guided practice, and quiz layout
+- [x] Business/Academic English: remove stacked Vietnamese translations from English sentences; alternate conversation speakers left/right and expand B1+ phrase emphasis

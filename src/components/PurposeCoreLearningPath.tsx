@@ -199,7 +199,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
                 return (
                   <div key={item.term} className="grid gap-4 py-5 first:pt-0 last:pb-0 md:grid-cols-[minmax(190px,0.7fr)_1.3fr_auto] md:items-center">
                     <div><p className="text-base font-extrabold text-foreground">{item.term}</p><p className="mt-1 text-sm font-semibold text-foreground/70">{item.pos} · {item.vi}</p></div>
-                    <div className="max-w-[65ch]"><p className="text-base font-medium leading-7 text-foreground">{item.example}</p><p className="mt-1 text-sm font-medium leading-6 text-foreground/70">{item.exampleVi}</p></div>
+                     <div className="max-w-[65ch]"><p className="text-base font-medium leading-7 text-foreground">{item.example}</p></div>
                     <div className="flex gap-2">
                       <Button size="icon" variant="outline" className="text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary" onClick={() => speak(`${item.term}. ${item.example}`)} aria-label={t("Nghe", "Listen")}><Volume2 className="h-4 w-4" /></Button>
                       <Button size="icon" variant="outline" className="text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary" onClick={() => speak(`${item.term}. ${item.example}`, true)} aria-label={t("Nghe chậm", "Listen slowly")}><Turtle className="h-4 w-4" /></Button>
@@ -237,8 +237,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
                 const answered = chosen !== undefined;
                 return (
                   <li key={activity.id} className="rounded-md border border-border bg-background p-4 sm:p-5">
-                    <p className="text-base font-bold leading-7 text-foreground">{activityIndex + 1}. {t(activity.promptVi, activity.prompt)}</p>
-                    {!vi && <p className="mb-3 mt-1 text-sm font-medium leading-6 text-foreground/70">{activity.promptVi}</p>}
+                     <p className="text-base font-bold leading-7 text-foreground">{activityIndex + 1}. {t(activity.promptVi, activity.prompt)}</p>
                     <div className="mt-3 grid gap-2 sm:grid-cols-2">
                       {activity.options.map((option, optionIndex) => {
                         const right = optionIndex === activity.answer;
@@ -262,8 +261,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
                     {answered && (
                       <div className="mt-3 border-l-4 border-primary bg-primary/5 p-4">
                         <p className="font-bold">{t("Đáp án", "Answer")}: {String.fromCharCode(65 + activity.answer)}. {activity.options[activity.answer]}</p>
-                        <p className="mt-1 text-base">{activity.explanation}</p>
-                        <p className="mt-1 text-sm font-medium leading-6 text-foreground/70">{activity.explanationVi}</p>
+                         <p className="mt-1 text-base">{t(activity.explanationVi, activity.explanation)}</p>
                       </div>
                     )}
                   </li>
@@ -288,8 +286,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
                 const answered = chosen !== undefined;
                 return (
                   <li key={question.question} className="rounded-md border border-border bg-background p-4 sm:p-5">
-                    <p className="text-base font-extrabold leading-7 text-foreground">{questionIndex + 1}. {question.question}</p>
-                    <p className="mb-4 mt-1 text-sm font-medium leading-6 text-foreground/70">{question.questionVi}</p>
+                     <p className="mb-4 text-base font-extrabold leading-7 text-foreground">{questionIndex + 1}. {t(question.questionVi, question.question)}</p>
                     <div className="grid gap-2 sm:grid-cols-2">
                       {question.options.map((option, optionIndex) => {
                         const right = optionIndex === question.answer;
@@ -297,7 +294,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
                         return <Button key={option} variant="outline" disabled={answered} onClick={() => choose(questionIndex, optionIndex)} className={`h-auto min-h-12 justify-start whitespace-normal py-3 text-left ${answered && right ? "border-primary bg-primary/10" : ""} ${selectedWrong ? "border-destructive bg-destructive/10" : ""}`}><span className="mr-2 font-bold text-primary">{String.fromCharCode(65 + optionIndex)}.</span><span className="flex-1">{option}</span>{answered && right && <CheckCircle2 className="h-4 w-4 text-primary" />}{selectedWrong && <XCircle className="h-4 w-4 text-destructive" />}</Button>;
                       })}
                     </div>
-                    {answered && <div className="mt-4 border-l-4 border-primary bg-primary/5 p-4"><p className="font-extrabold text-foreground">{t("Đáp án", "Answer")}: {String.fromCharCode(65 + question.answer)}. {question.options[question.answer]}</p><p className="mt-2 font-medium leading-7 text-foreground">{question.explanation}</p><p className="mt-1 text-sm font-medium leading-6 text-foreground/70">{question.explanationVi}</p></div>}
+                     {answered && <div className="mt-4 border-l-4 border-primary bg-primary/5 p-4"><p className="font-extrabold text-foreground">{t("Đáp án", "Answer")}: {String.fromCharCode(65 + question.answer)}. {question.options[question.answer]}</p><p className="mt-2 font-medium leading-7 text-foreground">{t(question.explanationVi, question.explanation)}</p></div>}
                   </li>
                 );
               })}
