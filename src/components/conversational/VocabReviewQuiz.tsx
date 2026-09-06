@@ -34,6 +34,16 @@ function shuffle<T>(arr: T[], seed: number): T[] {
 
 const escapeReg = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+/** Loose comparison so inflected forms (escalates, escalating) still count. */
+const stem = (value: string) =>
+  value.trim().toLowerCase().replace(/[^a-z0-9\s']/g, "").replace(/\s+/g, " ").replace(/(ing|ed|es|s|d)$/, "");
+const matchesAnswer = (input: string, answer: string) => {
+  const a = input.trim().toLowerCase();
+  const b = answer.trim().toLowerCase();
+  if (!a) return false;
+  return a === b || stem(a) === stem(b);
+};
+
 const VocabReviewQuiz = ({ vocabulary }: Props) => {
   const { t, lang: language } = useLanguage();
   const [mcqAns, setMcqAns] = useState<Record<number, number>>({});
@@ -85,7 +95,7 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
   const mcqScore = mcq.reduce((acc, q, i) => acc + (mcqAns[i] === q.answer ? 1 : 0), 0);
   const fillScore = fills.reduce((acc, q, i) => {
     const v = (fillAns[i] || "").trim().toLowerCase();
-    return acc + (v && v === q.answer.toLowerCase() ? 1 : 0);
+    return acc + (matchesAnswer(v, q.answer) ? 1 : 0);
   }, 0);
   const total = mcq.length + fills.length;
   const score = mcqScore + fillScore;
@@ -160,7 +170,7 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
           </p>
           {fills.map((q, fi) => {
             const val = fillAns[fi] || "";
-            const correct = submitted && val.trim().toLowerCase() === q.answer.toLowerCase();
+            const correct = submitted && matchesAnswer(val, q.answer);
             return (
               <div key={fi} className="space-y-2 rounded-lg border border-border bg-card/60 p-3">
                 <p className="text-sm leading-relaxed">{fi + 1}. {q.sentence}</p>
