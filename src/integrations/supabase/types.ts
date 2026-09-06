@@ -665,6 +665,30 @@ export type Database = {
         }
         Relationships: []
       }
+      country_visit_hits: {
+        Row: {
+          country_code: string
+          created_at: string
+          id: string
+          visit_day: string
+          visitor_hash: string
+        }
+        Insert: {
+          country_code: string
+          created_at?: string
+          id?: string
+          visit_day?: string
+          visitor_hash: string
+        }
+        Update: {
+          country_code?: string
+          created_at?: string
+          id?: string
+          visit_day?: string
+          visitor_hash?: string
+        }
+        Relationships: []
+      }
       country_visits: {
         Row: {
           country_code: string
@@ -4175,6 +4199,7 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_public_pageview_total: { Args: never; Returns: number }
       get_public_profiles: {
         Args: { _ids: string[] }
         Returns: {
@@ -4183,6 +4208,7 @@ export type Database = {
           id: string
         }[]
       }
+      get_public_student_count: { Args: never; Returns: number }
       get_streak_leaderboard: {
         Args: never
         Returns: {
@@ -4309,6 +4335,10 @@ export type Database = {
           msg_id: number
           read_ct: number
         }[]
+      }
+      record_country_visit: {
+        Args: { _code: string; _name: string; _visitor_hash: string }
+        Returns: boolean
       }
       set_notebook_share_permission: {
         Args: { _can_edit: boolean; _share_id: string }

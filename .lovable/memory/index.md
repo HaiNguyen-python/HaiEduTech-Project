@@ -1,6 +1,7 @@
 # Project Memory
 
 ## Memories
+- [World Visitor Map](mem://features/home/world-visitor-map) - country visits deduplicated per visitor/day, no locale guessing, public aggregate student/page-view counts
 - [My Learning Path](mem://features/personalization/my-learning-path) - /my-path personalization for 13 subjects: wizard, weekly plan, readiness forecast, AI coach
 - [Placement to Path](mem://features/personalization/placement-to-path) - placement test ends with level, skill scores and a seeded My Path plan; Japanese/Swedish banks
 
