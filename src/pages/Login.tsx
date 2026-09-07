@@ -18,6 +18,7 @@ const Login = () => {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [microsoftLoading, setMicrosoftLoading] = useState(false);
 
   // Determine the right landing page based on the user's roles.
   // Pure assistants (no admin/teacher role) get the assistant workspace.
@@ -71,6 +72,17 @@ const Login = () => {
       toast({ title: t("Lỗi đăng nhập Google", "Google Login Error"), description: String(error), variant: "destructive" });
     }
     // If successful, the page will redirect - no need to setGoogleLoading(false)
+  };
+
+  const handleMicrosoftLogin = async () => {
+    setMicrosoftLoading(true);
+    const { error } = await lovable.auth.signInWithOAuth("microsoft", {
+      redirect_uri: window.location.origin,
+    });
+    if (error) {
+      setMicrosoftLoading(false);
+      toast({ title: t("Lỗi đăng nhập Microsoft", "Microsoft Login Error"), description: String(error), variant: "destructive" });
+    }
   };
 
   return (
