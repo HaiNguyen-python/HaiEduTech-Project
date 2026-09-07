@@ -8,7 +8,6 @@ import { lovable } from "@/integrations/lovable/index";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import logoAsset from "@/assets/haiedutech-logo.jpg.asset.json";
 
 const Login = () => {
   const { t } = useLanguage();
