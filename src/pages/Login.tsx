@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LogIn, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -80,7 +80,11 @@ const Login = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md mx-4">
           <div className="glass-card rounded-2xl p-8">
             <div className="text-center mb-8">
-              <LogIn className="w-12 h-12 text-primary mx-auto mb-4" />
+              <img
+                src="/haiedutech-logo.jpg"
+                alt="HaiEduTech"
+                className="w-24 h-24 object-contain mx-auto mb-4 rounded-3xl shadow-sm border border-border bg-white"
+              />
               <h1 className="text-3xl font-display font-bold text-foreground">{t("Đăng Nhập", "Login")}</h1>
               <p className="text-muted-foreground mt-2">{t("Chào mừng bạn quay lại!", "Welcome back!")}</p>
             </div>
