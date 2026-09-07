@@ -81,9 +81,9 @@ const Login = () => {
           <div className="glass-card rounded-2xl p-8">
             <div className="text-center mb-8">
               <img
-                src={logoAsset.url}
+                src="/haiedutech-logo.jpg"
                 alt="HaiEduTech"
-                className="w-20 h-20 object-contain mx-auto mb-4 rounded-2xl shadow-sm"
+                className="w-24 h-24 object-contain mx-auto mb-4 rounded-3xl shadow-sm border border-border bg-white"
               />
               <h1 className="text-3xl font-display font-bold text-foreground">{t("Đăng Nhập", "Login")}</h1>
               <p className="text-muted-foreground mt-2">{t("Chào mừng bạn quay lại!", "Welcome back!")}</p>
