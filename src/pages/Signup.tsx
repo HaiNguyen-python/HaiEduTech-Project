@@ -107,6 +107,26 @@ const Signup = () => {
               {googleLoading ? t("Đang kết nối...", "Connecting...") : t("Tiếp tục với Google", "Continue with Google")}
             </button>
 
+            {/* Microsoft OAuth Button */}
+            <button
+              type="button"
+              onClick={handleMicrosoftSignup}
+              disabled={microsoftLoading}
+              className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white border border-border text-gray-700 font-medium hover:bg-gray-50 transition-all disabled:opacity-50 mb-6 shadow-sm"
+            >
+              {microsoftLoading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <svg className="w-5 h-5" viewBox="0 0 23 23">
+                  <path fill="#f35325" d="M1 1h10v10H1z" />
+                  <path fill="#81bc06" d="M12 1h10v10H12z" />
+                  <path fill="#05a6f0" d="M1 12h10v10H1z" />
+                  <path fill="#ffba08" d="M12 12h10v10H12z" />
+                </svg>
+              )}
+              {microsoftLoading ? t("Đang kết nối...", "Connecting...") : t("Tiếp tục với Microsoft", "Continue with Microsoft")}
+            </button>
+
             <div className="relative mb-6">
               <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
               <div className="relative flex justify-center text-xs"><span className="bg-card px-3 text-muted-foreground">{t("hoặc đăng ký bằng email", "or sign up with email")}</span></div>
