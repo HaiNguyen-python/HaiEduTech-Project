@@ -106,7 +106,7 @@ const Login = () => {
               type="button"
               onClick={handleGoogleLogin}
               disabled={googleLoading}
-              className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white border border-border text-gray-700 font-medium hover:bg-gray-50 transition-all disabled:opacity-50 mb-6 shadow-sm"
+              className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white border border-border text-gray-700 font-medium hover:bg-gray-50 transition-all disabled:opacity-50 mb-3 shadow-sm"
             >
               {googleLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

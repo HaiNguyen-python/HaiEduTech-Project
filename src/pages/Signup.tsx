@@ -20,6 +20,7 @@ const Signup = () => {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [microsoftLoading, setMicrosoftLoading] = useState(false);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +64,17 @@ const Signup = () => {
     }
   };
 
+  const handleMicrosoftSignup = async () => {
+    setMicrosoftLoading(true);
+    const { error } = await lovable.auth.signInWithOAuth("microsoft", {
+      redirect_uri: window.location.origin,
+    });
+    if (error) {
+      setMicrosoftLoading(false);
+      toast({ title: t("Lỗi đăng nhập Microsoft", "Microsoft Login Error"), description: String(error), variant: "destructive" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -80,7 +92,7 @@ const Signup = () => {
               type="button"
               onClick={handleGoogleSignup}
               disabled={googleLoading}
-              className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white border border-border text-gray-700 font-medium hover:bg-gray-50 transition-all disabled:opacity-50 mb-6 shadow-sm"
+              className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white border border-border text-gray-700 font-medium hover:bg-gray-50 transition-all disabled:opacity-50 mb-3 shadow-sm"
             >
               {googleLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
