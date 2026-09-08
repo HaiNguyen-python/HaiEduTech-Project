@@ -4,166 +4,77 @@ import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Imag
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import ChatMessageList from "@/components/chat/ChatMessageList";
+import ChatComposer, { type ChatComposerHandle } from "@/components/chat/ChatComposer";
 // chatbot launcher icon now comes from the user-selectable pet skin (see usePetIdentity)
 import { useStudyPet } from "@/hooks/useStudyPet";
 import StudyPetAvatar from "@/components/StudyPetAvatar";
 import { usePetIdentity, PET_SKINS } from "@/hooks/usePetIdentity";
 import { useChatHistory } from "@/hooks/useChatHistory";
 
-// Chat-tuned markdown components: lock typography to a uniform ~14px rhythm
-// so headings, code, and lists never blow up inside the narrow chat bubble.
-const chatMarkdownComponents = {
-  p: ({ node, ...props }: any) => (
-    <p className="text-sm leading-relaxed break-words" {...props} />
-  ),
-  h1: ({ node, ...props }: any) => (
-    <h1 className="text-base font-bold mt-2 mb-1" {...props} />
-  ),
-  h2: ({ node, ...props }: any) => (
-    <h2 className="text-sm font-bold mt-2 mb-1" {...props} />
-  ),
-  h3: ({ node, ...props }: any) => (
-    <h3 className="text-sm font-semibold mt-1.5 mb-1" {...props} />
-  ),
-  h4: ({ node, ...props }: any) => (
-    <h4 className="text-sm font-semibold mt-1.5 mb-1" {...props} />
-  ),
-  ul: ({ node, ...props }: any) => (
-    <ul className="text-sm pl-4 space-y-1 list-disc" {...props} />
-  ),
-  ol: ({ node, ...props }: any) => (
-    <ol className="text-sm pl-4 space-y-1 list-decimal" {...props} />
-  ),
-  li: ({ node, ...props }: any) => (
-    <li className="text-sm leading-relaxed" {...props} />
-  ),
-  strong: ({ node, ...props }: any) => (
-    <strong className="font-semibold text-foreground" {...props} />
-  ),
-  em: ({ node, ...props }: any) => <em className="italic" {...props} />,
-  code: ({ node, inline, className, children, ...props }: any) =>
-    inline ? (
-      <code
-        className="text-[13px] font-mono px-1.5 py-0.5 rounded bg-background/60 border border-border/40"
-        {...props}
-      >
-        {children}
-      </code>
-    ) : (
-      <code className={`text-[12.5px] font-mono ${className || ""}`} {...props}>
-        {children}
-      </code>
-    ),
-  pre: ({ node, ...props }: any) => (
-    <pre
-      className="text-[12.5px] font-mono p-3 rounded-lg bg-zinc-900 text-zinc-100 overflow-x-auto my-2 whitespace-pre"
-      {...props}
-    />
-  ),
-  blockquote: ({ node, ...props }: any) => (
-    <blockquote
-      className="text-sm italic border-l-2 border-primary/40 pl-3 my-2 text-muted-foreground"
-      {...props}
-    />
-  ),
-  a: ({ node, ...props }: any) => (
-    <a
-      className="text-primary underline underline-offset-2 hover:brightness-110"
-      target="_blank"
-      rel="noreferrer"
-      {...props}
-    />
-  ),
-  table: ({ node, ...props }: any) => (
-    <div className="overflow-x-auto my-2">
-      <table className="text-xs border-collapse" {...props} />
-    </div>
-  ),
-  th: ({ node, ...props }: any) => (
-    <th className="border border-border px-2 py-1 text-left font-semibold" {...props} />
-  ),
-  td: ({ node, ...props }: any) => (
-    <td className="border border-border px-2 py-1" {...props} />
-  ),
-  hr: ({ node, ...props }: any) => (
-    <hr className="my-2 border-border" {...props} />
-  ),
-};
 
 type Message = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
-// ── Profanity filter (Vietnamese + English common toxic words) ──
+// ── Profanity filter (Vietnamese + English clearly abusive words) ──
+// Ambiguous everyday words (ngu, vãi, dm, cave, dâm, chó, stupid...) were removed:
+// they blocked legitimate study questions ("ngữ pháp", reading passages, names).
 const PROFANITY_LIST = [
   // Vietnamese profanity
   "đụ",
   "địt",
   "đéo",
   "đ.m",
-  "dm",
   "dcm",
   "đcm",
-  "vãi",
-  "vl",
   "vcl",
+  "vkl",
   "clgt",
   "cặc",
   "buồi",
   "lồn",
   "đĩ",
-  "cave",
-  "dâm",
   "súc vật",
-  "ngu",
-  "đần",
-  "khốn",
-  "chó",
   "con chó",
   "thằng chó",
   "con đĩ",
   // English profanity
   "fuck",
+  "fucking",
+  "fck",
+  "f*ck",
   "shit",
+  "sh*t",
   "bitch",
   "asshole",
-  "damn",
   "dick",
   "pussy",
   "bastard",
   "cunt",
-  "wtf",
   "stfu",
-  "fck",
-  "f*ck",
-  "sh*t",
   "motherfucker",
-  "mf",
   "retard",
-  "idiot",
-  "stupid",
 ];
 
 /**
  * Check if a message contains profanity.
- * Uses word boundary matching to reduce false positives.
+ * Word-boundary matching for every term (not just short ones), so a banned
+ * word inside a longer harmless word never triggers a false warning.
  */
 function containsProfanity(text: string): boolean {
-  const lower = text.toLowerCase().trim();
+  const lower = text.toLowerCase().normalize("NFC").trim();
+  const padded = ` ${lower} `;
   return PROFANITY_LIST.some((word) => {
-    // For short words (<=3 chars), exact or bounded match
-    if (word.length <= 3) {
-      const regex = new RegExp(
-        `(^|\\s|[^a-zA-ZÀ-ỹ])${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}($|\\s|[^a-zA-ZÀ-ỹ])`,
-        "i",
-      );
-      return regex.test(` ${lower} `);
-    }
-    return lower.includes(word);
+    const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(
+      `(^|[^\\p{L}\\p{M}])${escaped}($|[^\\p{L}\\p{M}])`,
+      "iu",
+    );
+    return regex.test(padded);
   });
 }
+
 
 // Topic filter removed - students can ask freely about any subject
 
@@ -1630,61 +1541,18 @@ const ChatBot = () => {
                 onChange={handleFileSelected}
               />
 
-              <div className="flex items-center gap-1.5">
-                {/* Microphone — Vietnamese-first voice input with English phrase support */}
-                <div className="flex items-center gap-1 shrink-0 rounded-xl bg-secondary/60 p-1">
-                  <button
-                    onClick={toggleRecording}
-                    disabled={isLoading || chatLocked}
-                    className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all ${
-                      isRecording
-                        ? "animate-pulse bg-destructive text-destructive-foreground"
-                        : "bg-card text-muted-foreground hover:text-primary"
-                    } disabled:opacity-50`}
-                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nói tiếng Việt hoặc tiếng Anh", "Speak Vietnamese or English")}
-                  >
-                    {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-                  </button>
-                </div>
+              <ChatComposer
+                ref={composerRef}
+                disabled={isLoading}
+                locked={chatLocked}
+                isRecording={isRecording}
+                hasAttachment={!!attachment}
+                onToggleRecording={toggleRecording}
+                onAttachClick={() => fileInputRef.current?.click()}
+                onSend={sendMessage}
+                t={t}
+              />
 
-
-                {/* Attach file button */}
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isLoading || chatLocked}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
-                  title={t("Đính kèm file hoặc ảnh", "Attach file or image")}
-                >
-                  <Paperclip className="h-4 w-4" />
-                </button>
-
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      sendMessage();
-                    }
-                  }}
-                  rows={1}
-                  placeholder={
-                    chatLocked
-                      ? t("Chat đã bị khóa...", "Chat is locked...")
-                      : t("Hỏi thầy Hải...", "Ask Teacher Hai...")
-                  }
-                  className="min-w-0 flex-1 resize-none rounded-xl border border-border bg-secondary px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:opacity-50 max-h-32"
-                  disabled={isLoading || chatLocked}
-                />
-
-                <button
-                  onClick={sendMessage}
-                  disabled={isLoading || (!input.trim() && !attachment) || chatLocked}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
-                >
-                  <Send className="h-4 w-4" />
-                </button>
-              </div>
             </div>
 
             {/* Ask Teacher Hai overlay */}
