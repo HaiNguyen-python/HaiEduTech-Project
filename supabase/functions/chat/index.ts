@@ -220,7 +220,7 @@ ${studentContext.trim()}
     if (hasImageContent(messages)) {
       const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
       if (!LOVABLE_API_KEY) {
-        await logUsage("chat", "gemini-2.5-flash", "vision", 0, "error", "LOVABLE_API_KEY missing");
+        await logUsage("chat", "gemini-3.7-flash", "vision", 0, "error", "LOVABLE_API_KEY missing");
         return new Response(JSON.stringify({ error: "Vision unavailable on this server." }), {
           status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
@@ -234,7 +234,7 @@ ${studentContext.trim()}
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: "google/gemini-3.7-flash",
           messages: [{ role: "system", content: visionSystem }, ...multimodalMsgs],
           stream: true,
         }),
@@ -242,7 +242,7 @@ ${studentContext.trim()}
       if (!visionResp.ok || !visionResp.body) {
         const errText = await visionResp.text().catch(() => "");
         console.error("Vision API error:", visionResp.status, errText);
-        await logUsage("chat", "gemini-2.5-flash", "vision", 0, "error", `HTTP ${visionResp.status}`);
+        await logUsage("chat", "gemini-3.7-flash", "vision", 0, "error", `HTTP ${visionResp.status}`);
         if (visionResp.status === 429) {
           return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), {
             status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -257,7 +257,7 @@ ${studentContext.trim()}
           status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      await logUsage("chat", "gemini-2.5-flash", "vision", multimodalMsgs.length * 250, "success");
+      await logUsage("chat", "gemini-3.7-flash", "vision", multimodalMsgs.length * 250, "success");
       return new Response(visionResp.body, {
         headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
       });
@@ -271,7 +271,7 @@ ${studentContext.trim()}
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-3.7-flash",
         messages: [
           {
             role: "system",
@@ -345,7 +345,7 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
     });
 
     if (!response.ok) {
-      await logUsage("chat", "gemini-2.5-flash", "multi", 0, "error", `HTTP ${response.status}`);
+      await logUsage("chat", "gemini-3.7-flash", "multi", 0, "error", `HTTP ${response.status}`);
       if (response.status === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -365,7 +365,7 @@ If asked about cooking, politics, entertainment, sports, general chit-chat:
     }
 
     const estimatedTokens = messages.length * 200;
-    await logUsage("chat", "gemini-2.5-flash", "multi", estimatedTokens, "success");
+    await logUsage("chat", "gemini-3.7-flash", "multi", estimatedTokens, "success");
 
     return new Response(response.body, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },

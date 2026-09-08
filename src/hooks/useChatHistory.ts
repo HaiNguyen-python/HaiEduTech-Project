@@ -56,6 +56,8 @@ export function useChatHistory(petName?: string, petLevel?: number) {
   const [initial, setInitial] = useState<ChatMsg[] | null>(null);
   const [syncVersion, setSyncVersion] = useState(0);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const localTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastLocalWrite = useRef(0);
   const latestRef = useRef<ChatMsg[]>([]);
   const lastLoadedRef = useRef<ChatMsg[]>([]);
 
@@ -141,16 +143,28 @@ export function useChatHistory(petName?: string, petLevel?: number) {
     };
   }, [userId]);
 
-  /** Persist (debounced server, immediate localStorage) the latest transcript. */
+  /** Persist (throttled localStorage, debounced server) the latest transcript. */
   const persist = useCallback((messages: ChatMsg[]) => {
     latestRef.current = messages;
-    // Immediate local mirror so nothing is lost on reload / tab close
-    writeLocal(userId ? userKey(userId) : GUEST_KEY, messages);
+    // Local mirror, throttled to ~1s: serialising the whole transcript on every
+    // streamed token was a big part of the typing/streaming lag.
+    const key = userId ? userKey(userId) : GUEST_KEY;
+    const now = Date.now();
+    if (now - lastLocalWrite.current >= 1000) {
+      lastLocalWrite.current = now;
+      writeLocal(key, messages);
+    } else {
+      if (localTimer.current) clearTimeout(localTimer.current);
+      localTimer.current = setTimeout(() => {
+        lastLocalWrite.current = Date.now();
+        writeLocal(key, latestRef.current);
+      }, 1000);
+    }
     if (!userId) return; // guests stay local-only
 
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(async () => {
-      const trimmed = messages.slice(-MAX_PERSIST);
+      const trimmed = latestRef.current.slice(-MAX_PERSIST);
       await (supabase as any)
         .from("chatbot_conversations")
         .upsert(
@@ -167,12 +181,20 @@ export function useChatHistory(petName?: string, petLevel?: number) {
     }, 800);
   }, [userId, petName, petLevel]);
 
+
   // Flush pending debounce when the tab is hidden / closed so the very last
   // turn always reaches the server even if the user navigates away quickly.
   useEffect(() => {
     const flush = () => {
-      if (!userId) return;
       const messages = latestRef.current;
+      // Always land the newest transcript in the local mirror, even for guests
+      // and even if the throttled local write is still pending.
+      if (localTimer.current) {
+        clearTimeout(localTimer.current);
+        localTimer.current = null;
+      }
+      if (messages.length) writeLocal(userId ? userKey(userId) : GUEST_KEY, messages);
+      if (!userId) return;
       if (!messages.length) return;
       if (saveTimer.current) {
         clearTimeout(saveTimer.current);
