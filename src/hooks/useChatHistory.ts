@@ -186,8 +186,15 @@ export function useChatHistory(petName?: string, petLevel?: number) {
   // turn always reaches the server even if the user navigates away quickly.
   useEffect(() => {
     const flush = () => {
-      if (!userId) return;
       const messages = latestRef.current;
+      // Always land the newest transcript in the local mirror, even for guests
+      // and even if the throttled local write is still pending.
+      if (localTimer.current) {
+        clearTimeout(localTimer.current);
+        localTimer.current = null;
+      }
+      if (messages.length) writeLocal(userId ? userKey(userId) : GUEST_KEY, messages);
+      if (!userId) return;
       if (!messages.length) return;
       if (saveTimer.current) {
         clearTimeout(saveTimer.current);
