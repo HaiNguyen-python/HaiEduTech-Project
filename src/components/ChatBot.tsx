@@ -256,6 +256,17 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: isLoading ? "auto" : "smooth" });
   }, [messages, isLoading]);
 
+  // Stop the microphone and pending tooltips when the panel closes so nothing
+  // keeps running (and draining battery) behind the scenes.
+  useEffect(() => {
+    if (open) return;
+    recognitionsRef.current.forEach((r) => {
+      try { r.stop(); } catch { /* ignore */ }
+    });
+    recognitionsRef.current = [];
+    setIsRecording(false);
+  }, [open]);
+
 
   // When the panel opens (or a saved transcript is hydrated), jump straight to
   // the latest message instead of leaving the user at the top of the history.
