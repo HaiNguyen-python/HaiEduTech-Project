@@ -1541,61 +1541,18 @@ const ChatBot = () => {
                 onChange={handleFileSelected}
               />
 
-              <div className="flex items-center gap-1.5">
-                {/* Microphone — Vietnamese-first voice input with English phrase support */}
-                <div className="flex items-center gap-1 shrink-0 rounded-xl bg-secondary/60 p-1">
-                  <button
-                    onClick={toggleRecording}
-                    disabled={isLoading || chatLocked}
-                    className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all ${
-                      isRecording
-                        ? "animate-pulse bg-destructive text-destructive-foreground"
-                        : "bg-card text-muted-foreground hover:text-primary"
-                    } disabled:opacity-50`}
-                    title={isRecording ? t("Dừng ghi âm", "Stop recording") : t("Nói tiếng Việt hoặc tiếng Anh", "Speak Vietnamese or English")}
-                  >
-                    {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-                  </button>
-                </div>
+              <ChatComposer
+                ref={composerRef}
+                disabled={isLoading}
+                locked={chatLocked}
+                isRecording={isRecording}
+                hasAttachment={!!attachment}
+                onToggleRecording={toggleRecording}
+                onAttachClick={() => fileInputRef.current?.click()}
+                onSend={sendMessage}
+                t={t}
+              />
 
-
-                {/* Attach file button */}
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isLoading || chatLocked}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
-                  title={t("Đính kèm file hoặc ảnh", "Attach file or image")}
-                >
-                  <Paperclip className="h-4 w-4" />
-                </button>
-
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      sendMessage();
-                    }
-                  }}
-                  rows={1}
-                  placeholder={
-                    chatLocked
-                      ? t("Chat đã bị khóa...", "Chat is locked...")
-                      : t("Hỏi thầy Hải...", "Ask Teacher Hai...")
-                  }
-                  className="min-w-0 flex-1 resize-none rounded-xl border border-border bg-secondary px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:opacity-50 max-h-32"
-                  disabled={isLoading || chatLocked}
-                />
-
-                <button
-                  onClick={sendMessage}
-                  disabled={isLoading || (!input.trim() && !attachment) || chatLocked}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
-                >
-                  <Send className="h-4 w-4" />
-                </button>
-              </div>
             </div>
 
             {/* Ask Teacher Hai overlay */}
