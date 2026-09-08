@@ -17,74 +17,64 @@ type Message = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
-// ── Profanity filter (Vietnamese + English common toxic words) ──
+// ── Profanity filter (Vietnamese + English clearly abusive words) ──
+// Ambiguous everyday words (ngu, vãi, dm, cave, dâm, chó, stupid...) were removed:
+// they blocked legitimate study questions ("ngữ pháp", reading passages, names).
 const PROFANITY_LIST = [
   // Vietnamese profanity
   "đụ",
   "địt",
   "đéo",
   "đ.m",
-  "dm",
   "dcm",
   "đcm",
-  "vãi",
-  "vl",
   "vcl",
+  "vkl",
   "clgt",
   "cặc",
   "buồi",
   "lồn",
   "đĩ",
-  "cave",
-  "dâm",
   "súc vật",
-  "ngu",
-  "đần",
-  "khốn",
-  "chó",
   "con chó",
   "thằng chó",
   "con đĩ",
   // English profanity
   "fuck",
+  "fucking",
+  "fck",
+  "f*ck",
   "shit",
+  "sh*t",
   "bitch",
   "asshole",
-  "damn",
   "dick",
   "pussy",
   "bastard",
   "cunt",
-  "wtf",
   "stfu",
-  "fck",
-  "f*ck",
-  "sh*t",
   "motherfucker",
-  "mf",
   "retard",
-  "idiot",
-  "stupid",
 ];
 
 /**
  * Check if a message contains profanity.
- * Uses word boundary matching to reduce false positives.
+ * Word-boundary matching for every term (not just short ones), so a banned
+ * word inside a longer harmless word never triggers a false warning.
  */
 function containsProfanity(text: string): boolean {
-  const lower = text.toLowerCase().trim();
+  const lower = text.toLowerCase().normalize("NFC").trim();
+  const padded = ` ${lower} `;
   return PROFANITY_LIST.some((word) => {
-    // For short words (<=3 chars), exact or bounded match
-    if (word.length <= 3) {
-      const regex = new RegExp(
-        `(^|\\s|[^a-zA-ZÀ-ỹ])${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}($|\\s|[^a-zA-ZÀ-ỹ])`,
-        "i",
-      );
-      return regex.test(` ${lower} `);
-    }
-    return lower.includes(word);
+    const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(
+      `(^|[^\\p{L}\\p{M}])${escaped}($|[^\\p{L}\\p{M}])`,
+      "iu",
+    );
+    return regex.test(padded);
   });
 }
+
 
 // Topic filter removed - students can ask freely about any subject
 
