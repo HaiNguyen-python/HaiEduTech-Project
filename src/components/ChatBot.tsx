@@ -156,7 +156,21 @@ const ChatBot = () => {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
+  // The draft text lives inside <ChatComposer/> so typing does not re-render
+  // the whole transcript. These refs/callbacks stay stable so memoized message
+  // bubbles never rebuild their markdown while the student types.
+  const composerRef = useRef<ChatComposerHandle>(null);
+  const langRef = useRef(lang);
+  langRef.current = lang;
+  const tStable = useCallback(
+    (vi: string, en: string) => (langRef.current === "vi" ? vi : en),
+    [],
+  );
+  const handlePlacementClick = useCallback((href: string) => {
+    setOpen(false);
+    window.location.assign(href);
+  }, []);
+
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipText, setTooltipText] = useState<string>("Hi! Tap to chat with your AI Pet 🐾");
@@ -215,6 +229,7 @@ const ChatBot = () => {
     }
   }, [dragX, dragY]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesBoxRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionsRef = useRef<ChatSpeechRecognition[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -229,9 +244,18 @@ const ChatBot = () => {
     return false;
   }, []);
 
+  // Follow the conversation only when the student is already near the bottom,
+  // and jump instantly while the answer streams (smooth scrolling every token
+  // is what made the panel feel sluggish).
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    const box = messagesBoxRef.current;
+    if (box) {
+      const distance = box.scrollHeight - box.scrollTop - box.clientHeight;
+      if (distance > 160) return;
+    }
+    messagesEndRef.current?.scrollIntoView({ behavior: isLoading ? "auto" : "smooth" });
+  }, [messages, isLoading]);
+
 
   // When the panel opens (or a saved transcript is hydrated), jump straight to
   // the latest message instead of leaving the user at the top of the history.
@@ -703,12 +727,12 @@ const ChatBot = () => {
       }
       latestTranscript = cleanTranscript(parts.join(" "));
       if (hasFinal) finalTranscript = latestTranscript;
-      if (latestTranscript) setInput(latestTranscript);
+      if (latestTranscript) composerRef.current?.setText(latestTranscript);
     };
 
     const finishRecording = () => {
       const transcript = cleanTranscript(finalTranscript || latestTranscript);
-      if (transcript) setInput(transcript);
+      if (transcript) composerRef.current?.setText(transcript);
       setIsRecording(false);
       recognitionsRef.current = [];
     };
@@ -860,8 +884,9 @@ const ChatBot = () => {
 
 
   // ── Send Message ──
-  const sendMessage = async () => {
-    if ((!input.trim() && !attachment) || isLoading || chatLocked) return;
+  const sendMessage = async (draftText?: string) => {
+    const draft = (draftText ?? "").trim();
+    if ((!draft && !attachment) || isLoading || chatLocked) return;
 
     // Rate limiting check
     if (isRateLimited()) {
@@ -872,13 +897,13 @@ const ChatBot = () => {
       return;
     }
 
-    const rawInput = input.trim();
+    const rawInput = draft;
 
     // 1. Profanity check (highest priority)
     if (rawInput && containsProfanity(rawInput)) {
       setProfanityWarning(true);
       logModerationEvent(rawInput);
-      setInput("");
+      composerRef.current?.clear();
       // Auto-dismiss warning after 8 seconds
       setTimeout(() => setProfanityWarning(false), 8000);
       return;
@@ -907,7 +932,7 @@ const ChatBot = () => {
 
     const uiMessages = [...messages, userMsgUi];
     setMessages(uiMessages);
-    setInput("");
+    composerRef.current?.clear();
     setAttachment(null);
     setIsLoading(true);
 
@@ -935,6 +960,19 @@ const ChatBot = () => {
     const intentSubject = detectSubject(rawInput);
 
     let assistantSoFar = "";
+    let lastPaint = 0;
+    // Commit the accumulated answer into the transcript (throttled below).
+    const paintAssistant = () => {
+      if (!assistantSoFar) return;
+      setMessages((prev) => {
+        const last = prev[prev.length - 1];
+        if (last?.role === "assistant") {
+          if (last.content === assistantSoFar) return prev;
+          return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
+        }
+        return [...prev, { role: "assistant", content: assistantSoFar }];
+      });
+    };
 
     try {
       const resp = await fetch(CHAT_URL, {
@@ -1004,19 +1042,21 @@ const ChatBot = () => {
             const content = parsed.choices?.[0]?.delta?.content;
             if (content) {
               assistantSoFar += content;
-              setMessages((prev) => {
-                const last = prev[prev.length - 1];
-                if (last?.role === "assistant") {
-                  return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
-                }
-                return [...prev, { role: "assistant", content: assistantSoFar }];
-              });
+              // Paint at most ~16x/second instead of once per token: the same
+              // text arrives, but the panel stops thrashing on long answers.
+              const now = Date.now();
+              if (now - lastPaint >= 60) {
+                lastPaint = now;
+                paintAssistant();
+              }
             }
           } catch {
             /* partial JSON */
           }
         }
       }
+      paintAssistant();
+
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -1390,105 +1430,48 @@ const ChatBot = () => {
             )}
 
             {/* Messages */}
-            <div className="flex-1 space-y-4 overflow-y-auto p-4">
+            <div ref={messagesBoxRef} className="flex-1 space-y-4 overflow-y-auto p-4">
               {messages.length === 0 && (
                 <div className="py-8 text-center">
                   <img src={petId.skin.src} alt={petId.name} className="mx-auto mb-4 h-20 w-20 rounded-full object-cover opacity-90" />
                   <p className="mb-4 text-sm text-muted-foreground">
-                    {t(`Chào! Mình là ${petId.name} 👋\nHỏi mình về English, Chinese hoặc Programming nhé!`, `Hi there! I'm ${petId.name} 👋\nAsk me about English, Chinese or Programming!`)}
+                    {t(`Chào! Mình là ${petId.name} 👋\nHỏi mình về tiếng Anh, tiếng Trung, tiếng Nhật, tiếng Phần Lan, tiếng Thụy Điển hay lập trình nhé!`, `Hi there! I'm ${petId.name} 👋\nAsk me about English, Chinese, Japanese, Finnish, Swedish or Programming!`)}
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {["Explain present perfect tense", "What does 你好 mean?", "What is Python?"].map((suggestion) => (
+                    {(lang === "vi"
+                      ? [
+                          "Giải thích thì hiện tại hoàn thành",
+                          "你好 nghĩa là gì?",
+                          "Cho em một bài tập IELTS Writing Task 2",
+                          "Python dùng để làm gì?",
+                          "Dạy em chào hỏi bằng tiếng Nhật",
+                        ]
+                      : [
+                          "Explain the present perfect tense",
+                          "What does 你好 mean?",
+                          "Give me an IELTS Writing Task 2 prompt",
+                          "What is Python used for?",
+                          "Teach me Finnish greetings",
+                        ]
+                    ).map((suggestion) => (
                       <button
                         key={suggestion}
-                        onClick={() => setInput(suggestion)}
+                        onClick={() => {
+                          composerRef.current?.setText(suggestion);
+                          composerRef.current?.focus();
+                        }}
                         className="rounded-full bg-primary/10 px-3 py-1.5 text-xs text-primary transition-colors hover:bg-primary/20"
                       >
                         {suggestion}
                       </button>
                     ))}
                   </div>
+
                 </div>
               )}
 
-              {messages.map((msg, i) => {
-                // Detect the course-registration CTA sentinel. Optional `:subject` suffix routes
-                // the placement-test CTA to the matching bank (e.g. chinese/programming/finnish).
-                const CTA_RE = /\[\[CTA:COURSE_REGISTRATION(?::([a-z]+))?\]\]/i;
-                const ctaMatch = msg.role === "assistant" ? msg.content.match(CTA_RE) : null;
-                const hasCourseCta = !!ctaMatch;
-                const ctaSubject = ctaMatch?.[1]?.toLowerCase();
-                const placementHref = ctaSubject
-                  ? `/placement-test?subject=${encodeURIComponent(ctaSubject)}`
-                  : "/placement-test";
-                const subjectLabel: Record<string, { vi: string; en: string }> = {
-                  chinese: { vi: "Tiếng Trung", en: "Chinese" },
-                  english: { vi: "Tiếng Anh", en: "English" },
-                  vietnamese: { vi: "Tiếng Việt", en: "Vietnamese" },
-                  finnish: { vi: "Tiếng Phần Lan", en: "Finnish" },
-                  programming: { vi: "Lập trình", en: "Programming" },
-                };
-                const ctaLabel = ctaSubject && subjectLabel[ctaSubject]
-                  ? t(
-                      `🎯 Làm Test Đầu Vào ${subjectLabel[ctaSubject].vi}`,
-                      `🎯 Take ${subjectLabel[ctaSubject].en} Placement Test`,
-                    )
-                  : t("🎯 Làm Test Đầu Vào Ngay", "🎯 Take the Placement Test");
-                const displayContent = hasCourseCta
-                  ? msg.content.replace(CTA_RE, "").trim()
-                  : msg.content;
-                return (
-                  <div key={i} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
-                    <div
-                      className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
-                        msg.role === "user"
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-secondary text-secondary-foreground"
-                      }`}
-                    >
-                      {msg.role === "assistant" ? (
-                        <div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 space-y-2">
-                          <ReactMarkdown
-                            remarkPlugins={[remarkGfm]}
-                            components={chatMarkdownComponents}
-                          >
-                            {displayContent}
-                          </ReactMarkdown>
-                        </div>
-                      ) : (
-                        <p className="whitespace-pre-wrap">{msg.content}</p>
-                      )}
-                    </div>
+              <ChatMessageList messages={messages} t={tStable} onPlacementClick={handlePlacementClick} />
 
-                    {/* Dynamic CTA pills for course registration intent — refined design */}
-                    {hasCourseCta && (
-                      <div className="mt-3 grid w-full max-w-[92%] grid-cols-2 gap-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setOpen(false);
-                            window.location.assign(placementHref);
-                          }}
-                          className="group inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 px-3 py-2.5 text-xs font-semibold leading-tight text-white shadow-sm ring-1 ring-emerald-600/20 transition-all hover:shadow-md hover:brightness-110 active:scale-[0.97]"
-                          title={ctaLabel}
-                        >
-                          <span className="text-base leading-none">🎯</span>
-                          <span className="line-clamp-2 text-left">{ctaLabel.replace(/^🎯\s*/, "")}</span>
-                        </button>
-                        <a
-                          href="https://zalo.me/0962823800"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/40 bg-white px-3 py-2.5 text-xs font-semibold leading-tight text-emerald-700 shadow-sm transition-all hover:border-emerald-500 hover:bg-emerald-50 hover:shadow-md active:scale-[0.97] dark:bg-background dark:text-emerald-400"
-                        >
-                          <span className="text-base leading-none">💬</span>
-                          <span className="line-clamp-2 text-left">{t("Chat Zalo với Thầy Hải", "Chat Zalo with Mr. Hai")}</span>
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
 
               {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
                 <div className="flex justify-start">
