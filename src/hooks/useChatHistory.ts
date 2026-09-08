@@ -56,6 +56,8 @@ export function useChatHistory(petName?: string, petLevel?: number) {
   const [initial, setInitial] = useState<ChatMsg[] | null>(null);
   const [syncVersion, setSyncVersion] = useState(0);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const localTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastLocalWrite = useRef(0);
   const latestRef = useRef<ChatMsg[]>([]);
   const lastLoadedRef = useRef<ChatMsg[]>([]);
 
