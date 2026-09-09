@@ -462,9 +462,24 @@ export function wordBankForTask(
   const fromTopic = matchBuckets(TOPIC_WORDS, topicKey, level);
   const fromQuestionTopic = questionKey ? matchBuckets(TOPIC_WORDS, questionKey, level) : [];
 
+  // Deterministic rotation keyed on the question, so two cards inside one topic
+  // start their word list at a different place instead of looking identical.
+  let hash = 0;
+  for (let i = 0; i < questionKey.length; i += 1) hash = (hash * 31 + questionKey.charCodeAt(i)) % 9973;
+  const rotate = (list: SpeakWord[]) =>
+    list.length > 1 ? [...list.slice(hash % list.length), ...list.slice(0, hash % list.length)] : list;
+
   const seen = new Set<string>();
   const out: SpeakWord[] = [];
-  for (const item of [...fromQuestion.slice(0, 6), ...fromTopic, ...fromQuestionTopic, ...LEVEL_WORDS[level], ...fromQuestion]) {
+  for (const item of [
+    ...fromQuestion.slice(0, 6),
+    ...rotate(fromTopic),
+    ...fromQuestionTopic,
+    ...rotate(LEVEL_WORDS[level]),
+    ...fromQuestion,
+    ...fromTopic,
+    ...LEVEL_WORDS[level],
+  ]) {
     const id = item.en.toLowerCase();
     if (seen.has(id)) continue;
     seen.add(id);
@@ -473,3 +488,4 @@ export function wordBankForTask(
   }
   return out;
 }
+
