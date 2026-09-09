@@ -133,10 +133,19 @@ const CambridgeSpeakingPractice = () => {
 
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
   const taskImage = task ? imageForSpeakingTask(task) : undefined;
+  // Word bank is built from this card's own question plus the topic, so two
+  // questions inside one topic never show the same list.
   const wordBank = useMemo(
-    () => (task ? wordBankForTask(task.topic, task.level) : []),
+    () => (task ? wordBankForTask(task.topic, task.level, `${task.prompt} ${(task.examiner ?? []).join(" ")}`) : []),
     [task]
   );
+  /** Single words vs ready-made sentence frames, shown in two separate rows. */
+  const usefulSplit = useMemo(() => {
+    const list = task?.usefulLanguage ?? [];
+    const isFrame = (s: string) => s.trim().split(/\s+/).length >= 3 || /\.\.\.$/.test(s.trim());
+    return { frames: list.filter(isFrame), words: list.filter((s) => !isFrame(s)) };
+  }, [task]);
+
   /**
    * Cards that list their word set inside the prompt ("apple, banana, carrot,
    * orange") show tappable word cards instead of a picture - odd-one-out cards
