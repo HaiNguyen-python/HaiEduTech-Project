@@ -30,6 +30,10 @@ import {
 } from "@/data/japanese/expansion2";
 import { VOCAB_EXTRA_3, KANJI_EXTRA_3 } from "@/data/japanese/expansion3";
 import { GRAMMAR_EXTRA_3, DIALOGUES_EXTRA_3, JA_QUIZ_EXTRA_3 } from "@/data/japanese/expansion4";
+import { VOCAB_EXTRA_5, KANJI_EXTRA_5 } from "@/data/japanese/expansion5";
+import {
+  GRAMMAR_EXTRA_6_PACK, DIALOGUES_EXTRA_6_PACK, JA_QUIZ_EXTRA_6_PACK,
+} from "@/data/japanese/expansion6";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import WordQuest from "@/components/vocab/WordQuest";
 import DailyWordMission from "@/components/vocab/DailyWordMission";
