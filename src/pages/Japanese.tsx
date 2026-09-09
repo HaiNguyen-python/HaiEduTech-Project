@@ -837,29 +837,69 @@ const Japanese = () => {
     { icon: "🧠", n: ALL_QUIZ.length, label: t("câu ôn tập", "quiz Qs") },
   ];
 
-  const TABS: Array<[string, string]> = [
-    ["overview", `🌸 ${t("Tổng quan", "Overview")}`],
-    ["kana", `🈶 ${t("Bảng chữ", "Kana")}`],
-    ["greetings", `💬 ${t("Chào hỏi", "Greetings")}`],
-    ["numbers", `🔢 ${t("Số & Giờ", "Numbers")}`],
-    ["vocab", `📖 ${t("Từ vựng", "Vocabulary")}`],
-    ["kanji", `🈴 ${t("Kanji", "Kanji")}`],
-    ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
-    ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
-    ["reading", `📖 ${t("Luyện đọc", "Reading Lab")}`],
-    ["verbs", `🔀 ${t("Chia động từ", "Verb Trainer")}`],
-    ["counters", `🔢 ${t("Lượng từ", "Counters")}`],
-    ["keigo", `🎓 ${t("Kính ngữ", "Keigo Lab")}`],
-    ["listening", `🎧 ${t("Luyện nghe", "Listening")}`],
-    ["dictation", `⌨️ ${t("Chính tả kana", "Kana Dictation")}`],
-    ["flashcards", `🃏 ${t("Flashcard", "Flashcards")}`],
-    ["jlpt", `📝 ${t("Đề JLPT", "JLPT Tests")}`],
-    ["culture", `🎎 ${t("Văn hoá & Du học", "Culture & Study Abroad")}`],
-    ["speaking", `🎤 ${t("Speaking Coach", "Speaking Coach")}`],
-    ["quest", `✨ Word Quest`],
-    ["mission", `🎯 ${t("Nhiệm vụ", "Daily Mission")}${dueToday > 0 ? ` (${dueToday})` : ""}`],
-    ["quiz", `🧠 ${t("Ôn tập", "Quiz")}`],
+  const TAB_GROUPS: Array<{ id: string; label: string; tabs: Array<[string, string]> }> = [
+    {
+      id: "basics",
+      label: `🌸 ${t("Nền tảng", "Foundations")}`,
+      tabs: [
+        ["overview", `🌸 ${t("Tổng quan", "Overview")}`],
+        ["kana", `🈶 ${t("Bảng chữ", "Kana")}`],
+        ["greetings", `💬 ${t("Chào hỏi", "Greetings")}`],
+        ["numbers", `🔢 ${t("Số & Giờ", "Numbers")}`],
+      ],
+    },
+    {
+      id: "words",
+      label: `📖 ${t("Từ vựng & Kanji", "Vocabulary & Kanji")}`,
+      tabs: [
+        ["vocab", `📖 ${t("Từ vựng", "Vocabulary")}`],
+        ["kanji", `🈴 ${t("Kanji", "Kanji")}`],
+        ["flashcards", `🃏 ${t("Flashcard", "Flashcards")}`],
+        ["quest", `✨ Word Quest`],
+        ["mission", `🎯 ${t("Nhiệm vụ", "Daily Mission")}${dueToday > 0 ? ` (${dueToday})` : ""}`],
+      ],
+    },
+    {
+      id: "grammar",
+      label: `✍️ ${t("Ngữ pháp & Cấu trúc", "Grammar & Structure")}`,
+      tabs: [
+        ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
+        ["verbs", `🔀 ${t("Chia động từ", "Verb Trainer")}`],
+        ["counters", `🔢 ${t("Lượng từ", "Counters")}`],
+        ["keigo", `🎓 ${t("Kính ngữ", "Keigo Lab")}`],
+      ],
+    },
+    {
+      id: "skills",
+      label: `🎯 ${t("Kỹ năng", "Skills")}`,
+      tabs: [
+        ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
+        ["reading", `📖 ${t("Luyện đọc", "Reading Lab")}`],
+        ["listening", `🎧 ${t("Luyện nghe", "Listening")}`],
+        ["dictation", `⌨️ ${t("Chính tả kana", "Kana Dictation")}`],
+        ["speaking", `🎤 ${t("Speaking Coach", "Speaking Coach")}`],
+      ],
+    },
+    {
+      id: "tests",
+      label: `📝 ${t("Kiểm tra & Văn hoá", "Tests & Culture")}`,
+      tabs: [
+        ["quiz", `🧠 ${t("Ôn tập", "Quiz")}`],
+        ["jlpt", `📝 ${t("Đề JLPT", "JLPT Tests")}`],
+        ["culture", `🎎 ${t("Văn hoá & Du học", "Culture & Study Abroad")}`],
+      ],
+    },
   ];
+
+  const TABS: Array<[string, string]> = TAB_GROUPS.flatMap((g) => g.tabs);
+  const groupOfTab = (v: string) =>
+    TAB_GROUPS.find((g) => g.tabs.some(([id]) => id === v))?.id ?? TAB_GROUPS[0].id;
+  const [mobileGroup, setMobileGroup] = useState<string>(() => groupOfTab(tab));
+  useEffect(() => {
+    setMobileGroup(groupOfTab(tab));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab]);
+  const mobileTabs = (TAB_GROUPS.find((g) => g.id === mobileGroup) ?? TAB_GROUPS[0]).tabs;
 
   const sectionLabels = {
     expand: t("Mở tất cả", "Expand all"),
