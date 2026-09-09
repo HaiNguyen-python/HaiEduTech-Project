@@ -936,19 +936,63 @@ const Japanese = () => {
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 py-6 md:py-8">
         <Tabs value={tab} onValueChange={handleTab}>
-          <div className="-mx-4 overflow-x-auto px-4 pb-1 md:mx-0 md:px-0">
-            <TabsList className="inline-flex h-auto w-max gap-1.5 rounded-xl bg-white/70 p-1.5 shadow-sm ring-1 ring-pink-200 backdrop-blur md:w-full md:flex-wrap">
-              {TABS.map(([v, label]) => (
-                <TabsTrigger
-                  key={v}
-                  value={v}
-                  className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold text-rose-700/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow"
-                >
-                  {label}
-                </TabsTrigger>
+          {/* Desktop: one row per group */}
+          <div className="hidden rounded-2xl bg-white/70 p-3 shadow-sm ring-1 ring-pink-200 backdrop-blur md:block">
+            <TabsList className="flex h-auto w-full flex-col items-stretch gap-2 bg-transparent p-0">
+              {TAB_GROUPS.map((g) => (
+                <div key={g.id} className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                  <span className="w-44 shrink-0 text-xs font-bold uppercase tracking-wide text-rose-500/90">
+                    {g.label}
+                  </span>
+                  <div className="flex flex-1 flex-wrap gap-1.5">
+                    {g.tabs.map(([v, label]) => (
+                      <TabsTrigger
+                        key={v}
+                        value={v}
+                        className="whitespace-nowrap rounded-lg border border-pink-100 bg-white px-3 py-2 text-sm font-semibold text-rose-700/90 data-[state=active]:border-transparent data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow"
+                      >
+                        {label}
+                      </TabsTrigger>
+                    ))}
+                  </div>
+                </div>
               ))}
             </TabsList>
           </div>
+
+          {/* Mobile: pick a group, then its tabs */}
+          <div className="md:hidden">
+            <div className="-mx-4 flex gap-1.5 overflow-x-auto px-4 pb-2">
+              {TAB_GROUPS.map((g) => (
+                <button
+                  key={g.id}
+                  type="button"
+                  onClick={() => setMobileGroup(g.id)}
+                  className={`whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-bold ${
+                    mobileGroup === g.id
+                      ? "bg-rose-600 text-white shadow"
+                      : "border border-pink-200 bg-white text-rose-700"
+                  }`}
+                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+            <div className="-mx-4 overflow-x-auto px-4 pb-1">
+              <TabsList className="inline-flex h-auto w-max gap-1.5 rounded-xl bg-white/70 p-1.5 shadow-sm ring-1 ring-pink-200 backdrop-blur">
+                {mobileTabs.map(([v, label]) => (
+                  <TabsTrigger
+                    key={v}
+                    value={v}
+                    className="whitespace-nowrap rounded-lg px-3 py-2 text-base font-semibold text-rose-700/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow"
+                  >
+                    {label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+          </div>
+
 
           <TabsContent value="overview" className="mt-6">
             <Card className="space-y-5 border-pink-200 p-6">
