@@ -302,7 +302,70 @@ export const sanitizeSpeakingTasks = (tasks: CambridgeSpeakingTask[]): Cambridge
     out.push({ ...task, id, level, topic, prompt, part });
   }
 
-  return out;
+  return dedupeFollowUpQuestions(out);
 };
+
+/* ------------------------------------------------------------------ *
+ * Follow-up question dedupe
+ * Topic buckets merge cards written in different files, so the same
+ * examiner question can appear several times inside one level + topic.
+ * Repeated questions are replaced with an unused question from the
+ * matching pool so every card still has at least three follow-ups.
+ * ------------------------------------------------------------------ */
+
+const questionKey = (q: string) =>
+  q.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
+
+const MIN_FOLLOW_UPS = 3;
+
+const poolFor = (level: LevelKey, topic: string): string[] => {
+  const tier: keyof FollowUpPool = level === "ket" || level === "pet" ? "older" : "young";
+  const topical = FOLLOW_UP_POOLS[canonicalTopicKey(topic)]?.[tier] ?? [];
+  return [...topical, ...GENERIC_FOLLOW_UPS[tier]];
+};
+
+const dedupeFollowUpQuestions = (tasks: CambridgeSpeakingTask[]): CambridgeSpeakingTask[] => {
+  // used question keys per `${level}|${canonical topic}`
+  const used = new Map<string, Set<string>>();
+  const usedWords = new Map<string, Set<string>[]>();
+
+  const claim = (scope: string, question: string): boolean => {
+    const key = questionKey(question);
+    if (!key) return false;
+    const seen = used.get(scope) ?? new Set<string>();
+    if (seen.has(key)) return false;
+    const words = contentWords(question);
+    const seenWords = usedWords.get(scope) ?? [];
+    // A question that only swaps one word is still a repeat for the student.
+    if (words.size > 2 && seenWords.some((w) => similarity(words, w) >= 0.85)) return false;
+    seen.add(key);
+    used.set(scope, seen);
+    seenWords.push(words);
+    usedWords.set(scope, seenWords);
+    return true;
+  };
+
+  return tasks.map((task) => {
+    const scope = `${task.level}|${canonicalTopicKey(task.topic)}`;
+    const examiner: string[] = [];
+
+    for (const q of task.examiner ?? []) {
+      if (claim(scope, q)) examiner.push(q.trim());
+    }
+
+    if (examiner.length < MIN_FOLLOW_UPS) {
+      for (const candidate of poolFor(task.level, task.topic)) {
+        if (examiner.length >= MIN_FOLLOW_UPS) break;
+        if (claim(scope, candidate)) examiner.push(candidate);
+      }
+    }
+
+    return examiner.length === (task.examiner?.length ?? 0) &&
+      examiner.every((q, i) => q === task.examiner[i])
+      ? task
+      : { ...task, examiner };
+  });
+};
+
 
 
