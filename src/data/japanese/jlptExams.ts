@@ -205,3 +205,7 @@ const EXTRA_EXAMS: JaMockExam[] = [
 ];
 
 JA_MOCK_EXAMS.push(...EXTRA_EXAMS);
+
+/** Keep the list grouped N5 -> N4 -> N3 so learners climb in order. */
+const LEVEL_ORDER: Record<JaMockExam["level"], number> = { N5: 0, N4: 1, N3: 2 };
+JA_MOCK_EXAMS.sort((a, b) => LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level] || a.id.localeCompare(b.id));
