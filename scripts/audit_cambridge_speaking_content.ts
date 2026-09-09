@@ -4,8 +4,8 @@
  *   questions inside a level+topic, missing content fields, and over-used images.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { cambridgeSpeakingTasks } from "../src/data/cambridgeSpeakingTasks";
-import { CAMBRIDGE_SPEAKING_IMAGE_MAP } from "../src/data/cambridgeSpeakingImageMap";
+import { cleanCambridgeSpeakingTasks as cambridgeSpeakingTasks } from "../src/data/cambridgeSpeakingTasks";
+import { speakingImageMap as CAMBRIDGE_SPEAKING_IMAGE_MAP } from "../src/data/cambridgeSpeakingImageMap";
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
 const issues: string[] = [];
