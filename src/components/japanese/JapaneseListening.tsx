@@ -9,6 +9,9 @@ import { Volume2, Rabbit, Turtle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { JA_LISTENING, type JaListeningItem } from "@/data/japanese/practice";
+import { JA_LISTENING_2 } from "@/data/japanese/practice2";
+
+const ALL_LISTENING: JaListeningItem[] = [...JA_LISTENING, ...JA_LISTENING_2];
 
 type Level = "all" | "N5" | "N4" | "N3";
 
@@ -23,7 +26,7 @@ export default function JapaneseListening({ t, lang, speak }: Props) {
   const [picks, setPicks] = useState<Record<string, number>>({});
 
   const items: JaListeningItem[] = useMemo(
-    () => (level === "all" ? JA_LISTENING : JA_LISTENING.filter((i) => i.level === level)),
+    () => (level === "all" ? ALL_LISTENING : ALL_LISTENING.filter((i) => i.level === level)),
     [level],
   );
   const answered = items.filter((i) => picks[i.id] !== undefined).length;
