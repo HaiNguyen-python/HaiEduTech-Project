@@ -43,6 +43,9 @@ import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
 const JapaneseSpeakingCoach = lazy(() => import("@/components/AISpeakingCoach"));
+const JapaneseVerbTrainer = lazy(() => import("@/components/japanese/JapaneseVerbTrainer"));
+const JapaneseCounters = lazy(() => import("@/components/japanese/JapaneseCounters"));
+const JapaneseKeigo = lazy(() => import("@/components/japanese/JapaneseKeigo"));
 const JapaneseReading = lazy(() => import("@/components/japanese/JapaneseReading"));
 const JapaneseListening = lazy(() => import("@/components/japanese/JapaneseListening"));
 const JapaneseDictation = lazy(() => import("@/components/japanese/JapaneseDictation"));
@@ -844,6 +847,9 @@ const Japanese = () => {
     ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
     ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
     ["reading", `📖 ${t("Luyện đọc", "Reading Lab")}`],
+    ["verbs", `🔀 ${t("Chia động từ", "Verb Trainer")}`],
+    ["counters", `🔢 ${t("Lượng từ", "Counters")}`],
+    ["keigo", `🎓 ${t("Kính ngữ", "Keigo Lab")}`],
     ["listening", `🎧 ${t("Luyện nghe", "Listening")}`],
     ["dictation", `⌨️ ${t("Chính tả kana", "Kana Dictation")}`],
     ["flashcards", `🃏 ${t("Flashcard", "Flashcards")}`],
@@ -1053,6 +1059,24 @@ const Japanese = () => {
               labels={sectionLabels}
               searchPlaceholder={t("Tìm điểm ngữ pháp...", "Search grammar points...")}
             />
+          </TabsContent>
+
+          <TabsContent value="verbs" className="mt-6">
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+              <JapaneseVerbTrainer t={t} lang={lang} speak={speakJa} />
+            </Suspense>
+          </TabsContent>
+
+          <TabsContent value="counters" className="mt-6">
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+              <JapaneseCounters t={t} lang={lang} speak={speakJa} />
+            </Suspense>
+          </TabsContent>
+
+          <TabsContent value="keigo" className="mt-6">
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+              <JapaneseKeigo t={t} lang={lang} speak={speakJa} />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="reading" className="mt-6">
