@@ -107,6 +107,19 @@ import keCookingB from "@/assets/cambridge-speaking/ke-cooking-b.jpg";
 import peTrainB from "@/assets/cambridge-speaking/pe-train-b.jpg";
 import peStationB from "@/assets/cambridge-speaking/pe-station-b.jpg";
 import peStudyGroupB from "@/assets/cambridge-speaking/pe-study-group-b.jpg";
+// Level-matched photographs so B1 Preliminary cards never borrow an A2 Key photo
+// and A2 Key cards never borrow a B1 photo.
+import peJob from "@/assets/cambridge-speaking/pe-job.jpg";
+import peCooking from "@/assets/cambridge-speaking/pe-cooking.jpg";
+import peMarket from "@/assets/cambridge-speaking/pe-market.jpg";
+import peMarketB from "@/assets/cambridge-speaking/pe-market-b.jpg";
+import peSport from "@/assets/cambridge-speaking/pe-sport.jpg";
+import peFamilyDinner from "@/assets/cambridge-speaking/pe-family-dinner.jpg";
+import keLibrary from "@/assets/cambridge-speaking/ke-library.jpg";
+import keStation from "@/assets/cambridge-speaking/ke-station.jpg";
+import keStudyGroup from "@/assets/cambridge-speaking/ke-study-group.jpg";
+import keMusicB from "@/assets/cambridge-speaking/ke-music-b.jpg";
+import kePhonesB from "@/assets/cambridge-speaking/ke-phones-b.jpg";
 
 export interface SpeakingImageTask {
   id: string;
@@ -205,6 +218,17 @@ export const speakingImageAssets: Record<string, string> = {
   "pe-train-b": peTrainB,
   "pe-station-b": peStationB,
   "pe-study-group-b": peStudyGroupB,
+  "pe-job": peJob,
+  "pe-cooking": peCooking,
+  "pe-market": peMarket,
+  "pe-market-b": peMarketB,
+  "pe-sport": peSport,
+  "pe-family-dinner": peFamilyDinner,
+  "ke-library": keLibrary,
+  "ke-station": keStation,
+  "ke-study-group": keStudyGroup,
+  "ke-music-b": keMusicB,
+  "ke-phones-b": kePhonesB,
 };
 
 /** "Odd one out" cards list their four items in the prompt, so they never show a picture. */
