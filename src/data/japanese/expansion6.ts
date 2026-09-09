@@ -5,7 +5,33 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
-import type { JaGrammar, JaDialogue2, JaQuiz2 } from "./expansion2";
+import type { JaPhrase } from "./types";
+import type { JaDialoguePack, JaGrammarPack, JaQuizPack } from "./expansion2";
+
+export interface JaGrammar {
+  title: string;
+  level: "N4" | "N3";
+  explain_vi: string;
+  explain_en: string;
+  formula: string;
+  examples: JaPhrase[];
+  note_vi: string;
+  note_en: string;
+}
+export interface JaDialogue2 {
+  title: string;
+  scene_vi: string;
+  scene_en: string;
+  lines: Array<{ who: string; jp: string; romaji: string; vi: string; en: string }>;
+}
+export interface JaQuiz2 {
+  kind: "vocab" | "grammar" | "kanji" | "order" | "situation" | "listening";
+  q: string;
+  options: string[];
+  answer: number;
+  explain_vi: string;
+  explain_en: string;
+}
 
 export const GRAMMAR_EXTRA_6: JaGrammar[] = [
   {
@@ -604,3 +630,25 @@ export const JA_QUIZ_EXTRA_6: JaQuiz2[] = [
   { kind: "listening", q: "Nghe: 「十箱まで無料でお届けします。」 Nội dung? / What does this mean?", options: ["Bán 10 thùng / selling ten boxes", "Giao mất 10 phút / delivery takes ten minutes", "Giao miễn phí tối đa 10 thùng / free delivery for up to ten boxes", "Cần trả 10.000 yên / it costs ten thousand yen"], answer: 2, explain_vi: "無料でお届け = giao miễn phí, 十箱まで = tối đa 10 thùng.", explain_en: "無料でお届け means free delivery, up to ten boxes." },
   { kind: "listening", q: "Nghe: 「急行は止まりませんので、各駅停車をご利用ください。」 Vì sao đi tàu thường? / Why take the local train?", options: ["Vì rẻ hơn / it is cheaper", "Vì nhanh hơn / it is faster", "Vì ít người / it is less crowded", "Vì tàu nhanh không dừng ở ga đó / the express does not stop there"], answer: 3, explain_vi: "急行は止まりません = tàu nhanh không dừng.", explain_en: "急行は止まりません means the express does not stop." },
 ];
+
+
+/** ---------- Adapters to the shared pack shapes used by the page ---------- */
+export const GRAMMAR_EXTRA_6_PACK: JaGrammarPack[] = GRAMMAR_EXTRA_6.map((g) => ({
+  title: `${g.title} [${g.level}]`,
+  explain: `${g.explain_vi}\n\n${g.explain_en}\n\nCông thức / Formula: ${g.formula}\n\nLưu ý: ${g.note_vi}\nNote: ${g.note_en}`,
+  examples: g.examples,
+}));
+
+export const DIALOGUES_EXTRA_6_PACK: JaDialoguePack[] = DIALOGUES_EXTRA_6.map((d) => ({
+  title: d.title,
+  scene: `${d.scene_vi} / ${d.scene_en}`,
+  lines: d.lines.map((l) => ({ speaker: l.who, jp: l.jp, romaji: l.romaji, vi: l.vi, en: l.en })),
+}));
+
+export const JA_QUIZ_EXTRA_6_PACK: JaQuizPack[] = JA_QUIZ_EXTRA_6.map((q) => ({
+  q: q.q,
+  options: q.options,
+  answer: q.answer,
+  explain_vi: q.explain_vi,
+  explain_en: q.explain_en,
+}));
