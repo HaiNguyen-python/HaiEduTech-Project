@@ -526,3 +526,24 @@ export const GENERIC_FOLLOW_UPS: FollowUpPool = {
     "How important is that to you?",
   ],
 };
+
+/**
+ * Extra "useful language" chunks used to top a card up to four phrases so every
+ * student sees enough support on screen. Kept level-appropriate.
+ */
+export const USEFUL_LANGUAGE_FILLERS: FollowUpPool = {
+  young: [
+    "I can see a ...",
+    "I think it is ...",
+    "My favourite is ...",
+    "There is / There are ...",
+    "I like it because it is ...",
+  ],
+  older: [
+    "In my opinion, ...",
+    "One reason for that is ...",
+    "It depends on ...",
+    "What I mean is ...",
+    "On the other hand, ...",
+  ],
+};

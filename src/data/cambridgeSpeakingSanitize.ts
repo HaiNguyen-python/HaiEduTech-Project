@@ -10,6 +10,7 @@ import type { CambridgeSpeakingTask } from "./cambridgeSpeakingTasks";
 import {
   FOLLOW_UP_POOLS,
   GENERIC_FOLLOW_UPS,
+  USEFUL_LANGUAGE_FILLERS,
   type FollowUpPool,
 } from "./cambridgeSpeakingQuestionFix";
 
@@ -323,6 +324,7 @@ const questionKey = (q: string) =>
   q.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
 
 const MIN_FOLLOW_UPS = 3;
+const MIN_PHRASES = 4;
 
 const poolFor = (level: LevelKey, topic: string): string[] => {
   const tier: keyof FollowUpPool = level === "ket" || level === "pet" ? "older" : "young";
@@ -364,6 +366,16 @@ const dedupeFollowUpQuestions = (tasks: CambridgeSpeakingTask[]): CambridgeSpeak
         if (examiner.length >= MIN_FOLLOW_UPS) break;
         if (claim(scope, candidate)) examiner.push(candidate);
       }
+    }
+
+    const tier: keyof FollowUpPool = task.level === "ket" || task.level === "pet" ? "older" : "young";
+    const usefulLanguage = [...(task.usefulLanguage ?? [])];
+    for (const phrase of USEFUL_LANGUAGE_FILLERS[tier]) {
+      if (usefulLanguage.length >= MIN_PHRASES) break;
+      if (!usefulLanguage.some((p) => questionKey(p) === questionKey(phrase))) usefulLanguage.push(phrase);
+    }
+    if (usefulLanguage.length !== (task.usefulLanguage?.length ?? 0)) {
+      return { ...task, examiner, usefulLanguage };
     }
 
     return examiner.length === (task.examiner?.length ?? 0) &&
