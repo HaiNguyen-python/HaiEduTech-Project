@@ -547,3 +547,47 @@ export const USEFUL_LANGUAGE_FILLERS: FollowUpPool = {
     "On the other hand, ...",
   ],
 };
+
+/**
+ * Ready-made sentence openers, graded by exam level. The sanitizer makes sure
+ * every card carries at least two of these so a student always has something
+ * they can say word for word before they add their own ideas.
+ */
+export const FRAME_POOLS: Record<string, string[]> = {
+  starters: [
+    "This is a ...",
+    "I can see ...",
+    "I like the ... best.",
+    "It is very ...",
+    "There is a ... here.",
+  ],
+  movers: [
+    "In the picture there is ...",
+    "I like it because ...",
+    "First ... , then ...",
+    "My favourite one is ... because ...",
+    "I usually ... at the weekend.",
+  ],
+  flyers: [
+    "In the first picture ... , but in the second ...",
+    "I think the best thing is ... because ...",
+    "I usually ... , but sometimes ...",
+    "For example, last week I ...",
+    "In the future I would like to ...",
+  ],
+  ket: [
+    "In my opinion, ... because ...",
+    "In this photo I can see ...",
+    "I prefer ... to ... because ...",
+    "To be honest, I don't really ...",
+    "The main reason is that ...",
+  ],
+  pet: [
+    "On the one hand ... , on the other hand ...",
+    "This photo shows ... , and in the background ...",
+    "As far as I'm concerned, ...",
+    "The biggest advantage of ... is that ...",
+    "It really depends on whether ...",
+  ],
+};
+
