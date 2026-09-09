@@ -28,6 +28,8 @@ import {
   VOCAB_EXTRA_2, KANJI_EXTRA_2, DIALOGUES_EXTRA_2,
   GRAMMAR_EXTRA_2, JA_QUIZ_EXTRA_2,
 } from "@/data/japanese/expansion2";
+import { VOCAB_EXTRA_3, KANJI_EXTRA_3 } from "@/data/japanese/expansion3";
+import { GRAMMAR_EXTRA_3, DIALOGUES_EXTRA_3, JA_QUIZ_EXTRA_3 } from "@/data/japanese/expansion4";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import WordQuest from "@/components/vocab/WordQuest";
 import DailyWordMission from "@/components/vocab/DailyWordMission";
