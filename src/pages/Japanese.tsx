@@ -28,6 +28,8 @@ import {
   VOCAB_EXTRA_2, KANJI_EXTRA_2, DIALOGUES_EXTRA_2,
   GRAMMAR_EXTRA_2, JA_QUIZ_EXTRA_2,
 } from "@/data/japanese/expansion2";
+import { VOCAB_EXTRA_3, KANJI_EXTRA_3 } from "@/data/japanese/expansion3";
+import { GRAMMAR_EXTRA_3, DIALOGUES_EXTRA_3, JA_QUIZ_EXTRA_3 } from "@/data/japanese/expansion4";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import WordQuest from "@/components/vocab/WordQuest";
 import DailyWordMission from "@/components/vocab/DailyWordMission";
@@ -37,6 +39,11 @@ import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
 const JapaneseSpeakingCoach = lazy(() => import("@/components/AISpeakingCoach"));
+const JapaneseListening = lazy(() => import("@/components/japanese/JapaneseListening"));
+const JapaneseDictation = lazy(() => import("@/components/japanese/JapaneseDictation"));
+const JapaneseFlashcards = lazy(() => import("@/components/japanese/JapaneseFlashcards"));
+const JapaneseJlpt = lazy(() => import("@/components/japanese/JapaneseJlpt"));
+const JapaneseCulture = lazy(() => import("@/components/japanese/JapaneseCulture"));
 const JA_MILESTONES = [
   { words: 100, band: "JLPT N5" },
   { words: 300, band: "N5+" },
@@ -45,14 +52,14 @@ const JA_MILESTONES = [
 ];
 
 // ---------- TTS ----------
-function speakJa(text: string) {
+function speakJa(text: string, rate = 0.85) {
   try {
     const s = window.speechSynthesis;
     if (!s) return;
     s.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "ja-JP";
-    u.rate = 0.85;
+    u.rate = rate;
     const jaVoice = s.getVoices().find(v => v.lang?.toLowerCase().startsWith("ja"));
     if (jaVoice) u.voice = jaVoice;
     s.speak(u);
@@ -415,7 +422,7 @@ const ALL_GREETINGS: Phrase[] = dedupeBy([...GREETINGS, ...GREETINGS_EXTRA], (p)
 /** Vocabulary topics merged, then de-duplicated word by word across every topic. */
 const ALL_VOCAB = (() => {
   const seen = new Set<string>();
-  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items })), ...VOCAB_EXTRA_2]
+  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items })), ...VOCAB_EXTRA_2, ...VOCAB_EXTRA_3]
     .map((g) => ({
       topic: g.topic,
       items: g.items.filter((p) => {
@@ -431,9 +438,9 @@ const ALL_VOCAB = (() => {
 const JA_WORD_INDEX = new Map<string, Phrase>(
   ALL_VOCAB.flatMap((g) => g.items.map((p) => [p.jp, p] as [string, Phrase]))
 );
-const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA, ...DIALOGUES_EXTRA_2], (d) => d.title);
-const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA, ...GRAMMAR_EXTRA_2], (g) => g.title);
-const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA, ...JA_QUIZ_EXTRA_2], (q) => q.q);
+const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA, ...DIALOGUES_EXTRA_2, ...DIALOGUES_EXTRA_3], (d) => d.title);
+const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA, ...GRAMMAR_EXTRA_2, ...GRAMMAR_EXTRA_3], (g) => g.title);
+const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA, ...JA_QUIZ_EXTRA_2, ...JA_QUIZ_EXTRA_3], (q) => q.q);
 
 /** Kana tables, one collapsible section each. */
 const KANA_TABLES: Array<{ vi: string; en: string; rows: Array<[string, string]> }> = [
@@ -829,6 +836,11 @@ const Japanese = () => {
     ["kanji", `🈴 ${t("Kanji", "Kanji")}`],
     ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
     ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
+    ["listening", `🎧 ${t("Luyện nghe", "Listening")}`],
+    ["dictation", `⌨️ ${t("Chính tả kana", "Kana Dictation")}`],
+    ["flashcards", `🃏 ${t("Flashcard", "Flashcards")}`],
+    ["jlpt", `📝 ${t("Đề JLPT", "JLPT Tests")}`],
+    ["culture", `🎎 ${t("Văn hoá & Du học", "Culture & Study Abroad")}`],
     ["speaking", `🎤 ${t("Speaking Coach", "Speaking Coach")}`],
     ["quest", `✨ Word Quest`],
     ["mission", `🎯 ${t("Nhiệm vụ", "Daily Mission")}${dueToday > 0 ? ` (${dueToday})` : ""}`],
@@ -850,7 +862,7 @@ const Japanese = () => {
         <div className="relative mx-auto max-w-6xl px-4 py-8 md:py-10">
           <div className="mb-1 text-5xl">🌸</div>
           <h1 className="mb-1 text-3xl font-extrabold md:text-4xl">
-            {t("Học Tiếng Nhật (N5 - N4)", "Learn Japanese (N5 - N4)")}
+            {t("Học Tiếng Nhật (N5 - N3)", "Learn Japanese (N5 - N3)")}
           </h1>
           <p className="max-w-2xl text-base text-white/90">
             {t(
@@ -1034,6 +1046,99 @@ const Japanese = () => {
               searchPlaceholder={t("Tìm điểm ngữ pháp...", "Search grammar points...")}
             />
           </TabsContent>
+
+          <TabsContent value="listening" className="mt-6">
+
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+
+              <JapaneseListening t={t} lang={lang} speak={speakJa} />
+
+            </Suspense>
+
+          </TabsContent>
+
+
+          <TabsContent value="dictation" className="mt-6">
+
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+
+              <JapaneseDictation t={t} lang={lang} speak={speakJa} />
+
+            </Suspense>
+
+          </TabsContent>
+
+
+          <TabsContent value="flashcards" className="mt-6">
+
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+
+              <JapaneseFlashcards
+
+                t={t}
+
+                lang={lang}
+
+                speak={speakJa}
+
+                vocab={ALL_VOCAB.flatMap((g) => g.items).map((p) => ({
+
+                  key: p.jp,
+
+                  front: p.jp,
+
+                  reading: p.romaji,
+
+                  vi: p.vi,
+
+                  en: p.en,
+
+                }))}
+
+                kanji={ALL_KANJI.map((k: any) => ({
+
+                  key: k.kanji,
+
+                  front: k.kanji,
+
+                  reading: `On: ${k.on} / Kun: ${k.kun}`,
+
+                  vi: k.meaning_vi,
+
+                  en: k.meaning_en,
+
+                  extra: k.example,
+
+                }))}
+
+              />
+
+            </Suspense>
+
+          </TabsContent>
+
+
+          <TabsContent value="jlpt" className="mt-6">
+
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+
+              <JapaneseJlpt t={t} lang={lang} />
+
+            </Suspense>
+
+          </TabsContent>
+
+
+          <TabsContent value="culture" className="mt-6">
+
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+
+              <JapaneseCulture t={t} lang={lang} speak={speakJa} />
+
+            </Suspense>
+
+          </TabsContent>
+
 
           <TabsContent value="speaking" className="mt-6">
             <Suspense fallback={<div className="p-6 text-base text-slate-600">{t("Đang tải...", "Loading...")}</div>}>

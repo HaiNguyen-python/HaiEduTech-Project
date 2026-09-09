@@ -140,3 +140,72 @@ export const JA_MOCK_EXAMS: JaMockExam[] = [
     ],
   },
 ];
+
+const N5_READING_3 = `わたしの へやは ちいさいですが、あかるいです。まどの ちかくに つくえと いすが あります。つくえの うえに パソコンと ほんが あります。ベッドは まどの まえに あります。まいばん ねるまえに にほんごの ことばを じゅっこ おぼえます。どようびは そうじを して、へやの はなに みずを やります。`;
+
+const N4_READING_3 = `わたしは 二年前から 日本語を 習っています。はじめは 漢字が 覚えられなくて、やめようと 思ったこともありました。でも、先生に 「毎日 少しずつ 続けたほうがいいですよ」と 言われて、朝 十分だけ 練習するようにしました。今では 新聞の やさしい 記事なら 読めるように なりました。来年は N3を 受けてみるつもりです。`;
+
+const N3_READING_3 = `最近、家で 働く人が 増えている。通勤の 時間が なくなるので、家族と 過ごす 時間が 長くなったという 声も 多い。一方で、仕事と 生活の 区別が つきにくく、夜も つい パソコンを 開いてしまう人もいるらしい。ある会社では、決まった 時間に なると 社内の システムが 使えなくなる 仕組みを 作った。働き方を 変えるには、個人の 努力だけでなく、会社の 工夫も 必要だろう。`;
+
+const EXTRA_EXAMS: JaMockExam[] = [
+  {
+    id: "jlpt-n5-3", level: "N5", minutes: 25,
+    title_vi: "Đề thử N5 - Số 3", title_en: "N5 mock test 3",
+    questions: [
+      { section: "vocab", q: "「あかるい」 nghĩa là gì? / What does akarui mean?", options: ["Sáng / bright", "Tối / dark", "Rộng / spacious", "Ồn / noisy"], answer: 0, explain_vi: "明るい = sáng.", explain_en: "明るい means bright." },
+      { section: "vocab", q: "「そうじ」 nghĩa là gì? / What does souji mean?", options: ["Giặt / laundry", "Dọn dẹp / cleaning", "Nấu ăn / cooking", "Mua sắm / shopping"], answer: 1, explain_vi: "そうじ = dọn dẹp.", explain_en: "そうじ means cleaning." },
+      { section: "kanji", q: "「花」 đọc là gì? / How do you read 花?", options: ["やま", "かわ", "はな", "そら"], answer: 2, explain_vi: "花 = はな, hoa.", explain_en: "花 is read はな, flower." },
+      { section: "kanji", q: "Kanji nào nghĩa là 'nghe'? / Which kanji means to listen?", options: ["読", "書", "話", "聞"], answer: 3, explain_vi: "聞く = きく, nghe.", explain_en: "聞 is used in 聞く, to listen." },
+      { section: "grammar", q: "つくえの うえに ほんが（　）。", options: ["あります", "います", "です", "しました"], answer: 0, explain_vi: "Vật vô tri dùng あります.", explain_en: "Inanimate things take あります." },
+      { section: "grammar", q: "ねる（　）に はを みがきます。", options: ["あと", "まえ", "とき", "ころ"], answer: 1, explain_vi: "Vる + まえに = trước khi làm gì.", explain_en: "Dictionary form + まえに means before doing." },
+      { section: "grammar", q: "きょうしつで しゃしんを とっては（　）。", options: ["いいです", "ください", "いけません", "たいです"], answer: 2, explain_vi: "ては いけません = không được làm.", explain_en: "てはいけません means must not." },
+      { section: "grammar", q: "この へやは ちいさいですが、（　）です。", options: ["きれいく", "きれいだ", "きれいの", "きれい"], answer: 3, explain_vi: "Tính từ な đứng trước です giữ nguyên.", explain_en: "な-adjectives stay plain before です." },
+      { section: "reading", passage: N5_READING_3, q: "Trên bàn có gì? / What is on the desk?", options: ["Máy tính và sách / a computer and books", "Hoa / flowers", "Giường / a bed", "Ghế / a chair"], answer: 0, explain_vi: "つくえの うえに パソコンと ほん.", explain_en: "A computer and books are on the desk." },
+      { section: "reading", passage: N5_READING_3, q: "Giường đặt ở đâu? / Where is the bed?", options: ["Cạnh cửa / by the door", "Trước cửa sổ / in front of the window", "Trên bàn / on the desk", "Trong tủ / in the closet"], answer: 1, explain_vi: "ベッドは まどの まえ.", explain_en: "The bed is in front of the window." },
+      { section: "reading", passage: N5_READING_3, q: "Mỗi tối người viết làm gì? / What does the writer do every night?", options: ["Dọn phòng / cleans the room", "Tưới hoa / waters flowers", "Học 10 từ tiếng Nhật / learns ten Japanese words", "Xem tivi / watches TV"], answer: 2, explain_vi: "ねるまえに ことばを じゅっこ おぼえます.", explain_en: "They memorise ten words before bed." },
+      { section: "reading", passage: N5_READING_3, q: "Thứ Bảy người viết làm gì? / What happens on Saturday?", options: ["Đi học / goes to school", "Đi làm / works", "Gặp bạn / meets friends", "Dọn phòng và tưới hoa / cleans and waters the flowers"], answer: 3, explain_vi: "どようびは そうじを して、はなに みずを やります.", explain_en: "On Saturday they clean and water the flowers." },
+    ],
+  },
+  {
+    id: "jlpt-n4-3", level: "N4", minutes: 30,
+    title_vi: "Đề thử N4 - Số 3", title_en: "N4 mock test 3",
+    questions: [
+      { section: "vocab", q: "「習う」 nghĩa là gì? / What does narau mean?", options: ["Học (từ ai) / to learn from someone", "Dạy / to teach", "Nhớ / to remember", "Quên / to forget"], answer: 0, explain_vi: "習う = học từ người khác.", explain_en: "習う means to learn from someone." },
+      { section: "vocab", q: "「記事」 nghĩa là gì? / What does kiji mean?", options: ["Tạp chí / magazine", "Bài báo / article", "Quảng cáo / advert", "Thông báo / notice"], answer: 1, explain_vi: "記事 = bài báo.", explain_en: "記事 means article." },
+      { section: "kanji", q: "「練習」 đọc là gì? / How do you read 練習?", options: ["れんしゅ", "れんしゅうう", "れんしゅう", "れんしょう"], answer: 2, explain_vi: "練習 = れんしゅう.", explain_en: "練習 is read renshuu." },
+      { section: "kanji", q: "Kanji nào nghĩa là 'nhận, thi (kỳ thi)'? / Which kanji is used for taking an exam?", options: ["買", "売", "作", "受"], answer: 3, explain_vi: "受ける = うける, dự thi.", explain_en: "受 is used in 受ける, to take an exam." },
+      { section: "grammar", q: "毎日 少しずつ 続けた（　）が いいです。", options: ["ほう", "こと", "もの", "ため"], answer: 0, explain_vi: "たほうがいい = nên làm.", explain_en: "たほうがいい means had better." },
+      { section: "grammar", q: "朝 十分だけ 練習する（　）に しています。", options: ["こと", "よう", "そう", "とき"], answer: 1, explain_vi: "ようにしている = cố gắng duy trì thói quen.", explain_en: "ようにしている shows an ongoing effort." },
+      { section: "grammar", q: "やさしい 記事なら（　）ように なりました。", options: ["読み", "読んで", "読める", "読もう"], answer: 2, explain_vi: "Thể khả năng + ようになる = đã trở nên có thể.", explain_en: "Potential form + ようになる means came to be able to." },
+      { section: "grammar", q: "来年 N3を 受けて（　）つもりです。", options: ["みた", "みて", "みない", "みる"], answer: 3, explain_vi: "てみるつもり = dự định thử.", explain_en: "てみるつもり means intend to try." },
+      { section: "reading", passage: N4_READING_3, q: "Người viết học tiếng Nhật bao lâu? / How long has the writer studied Japanese?", options: ["Hai năm / two years", "Hai tháng / two months", "Năm năm / five years", "Một năm / one year"], answer: 0, explain_vi: "二年前から.", explain_en: "Since two years ago." },
+      { section: "reading", passage: N4_READING_3, q: "Lúc đầu điều gì khiến người viết muốn bỏ? / What made the writer want to quit?", options: ["Phát âm / pronunciation", "Không nhớ được kanji / could not memorise kanji", "Học phí / tuition fees", "Bạn học / classmates"], answer: 1, explain_vi: "漢字が 覚えられなくて.", explain_en: "They could not memorise kanji." },
+      { section: "reading", passage: N4_READING_3, q: "Cô giáo khuyên gì? / What did the teacher advise?", options: ["Học nhiều vào cuối tuần / study a lot at weekends", "Đổi sách / change books", "Mỗi ngày học một ít / keep going a little each day", "Nghỉ một thời gian / take a break"], answer: 2, explain_vi: "毎日 少しずつ 続けたほうがいい.", explain_en: "Keep going a little every day." },
+      { section: "reading", passage: N4_READING_3, q: "Kế hoạch năm sau? / What is the plan for next year?", options: ["Sang Nhật / go to Japan", "Đi làm / start working", "Học thêm kanji / study more kanji", "Thi N3 / take the N3 exam"], answer: 3, explain_vi: "来年は N3を 受けてみるつもり.", explain_en: "They intend to try the N3." },
+    ],
+  },
+  {
+    id: "jlpt-n3-3", level: "N3", minutes: 35,
+    title_vi: "Đề thử N3 - Số 3", title_en: "N3 mock test 3",
+    questions: [
+      { section: "vocab", q: "「通勤」 nghĩa là gì? / What does tsuukin mean?", options: ["Đi làm / commuting to work", "Đi học / commuting to school", "Đi công tác / business trip", "Đi du lịch / travelling"], answer: 0, explain_vi: "通勤 = đi lại tới nơi làm việc.", explain_en: "通勤 means commuting to work." },
+      { section: "vocab", q: "「区別」 nghĩa là gì? / What does kubetsu mean?", options: ["Kết hợp / combination", "Sự phân biệt / distinction", "Thứ tự / order", "Quy tắc / rule"], answer: 1, explain_vi: "区別 = sự phân biệt, tách bạch.", explain_en: "区別 means distinction." },
+      { section: "kanji", q: "「工夫」 đọc là gì? / How do you read 工夫?", options: ["こうふ", "くうふ", "くふう", "こうふう"], answer: 2, explain_vi: "工夫 = くふう, sự tìm cách cải thiện.", explain_en: "工夫 is read kufuu." },
+      { section: "kanji", q: "Kanji nào nghĩa là 'tăng lên'? / Which kanji means to increase?", options: ["減", "変", "続", "増"], answer: 3, explain_vi: "増える = ふえる, tăng lên.", explain_en: "増 is used in 増える, to increase." },
+      { section: "grammar", q: "家で 働く人が 増えている（　）だ。", options: ["そう", "よう", "らしい", "はず"], answer: 0, explain_vi: "そうだ truyền đạt thông tin nghe được.", explain_en: "そうだ reports hearsay." },
+      { section: "grammar", q: "仕事と 生活の 区別が つき（　）。", options: ["やすい", "にくい", "がちだ", "そうだ"], answer: 1, explain_vi: "にくい = khó làm được điều gì.", explain_en: "にくい means hard to do." },
+      { section: "grammar", q: "決まった 時間に なると システムが 使え（　）なる。", options: ["ないで", "なくて", "なく", "ずに"], answer: 2, explain_vi: "使えなくなる = trở nên không dùng được.", explain_en: "使えなくなる means becomes unusable." },
+      { section: "grammar", q: "個人の 努力（　）、会社の 工夫も 必要だ。", options: ["だけで", "からで", "ようで", "だけでなく"], answer: 3, explain_vi: "だけでなく = không chỉ ... mà còn.", explain_en: "だけでなく means not only." },
+      { section: "reading", passage: N3_READING_3, q: "Lợi ích được nêu của làm việc tại nhà? / What benefit is mentioned?", options: ["Nhiều thời gian cho gia đình / more time with family", "Lương cao hơn / higher pay", "Ít họp hơn / fewer meetings", "Nhà rộng hơn / a bigger home"], answer: 0, explain_vi: "家族と 過ごす 時間が 長くなった.", explain_en: "More time spent with family." },
+      { section: "reading", passage: N3_READING_3, q: "Vấn đề được nêu là gì? / What problem is mentioned?", options: ["Internet chậm / slow internet", "Khó tách bạch việc và đời sống / work and life blur together", "Đồng nghiệp ít nói / quiet colleagues", "Chi phí điện / electricity costs"], answer: 1, explain_vi: "区別が つきにくい.", explain_en: "The line between work and life blurs." },
+      { section: "reading", passage: N3_READING_3, q: "Công ty trong bài đã làm gì? / What did one company do?", options: ["Giảm giờ họp / cut meeting time", "Thuê thêm người / hired more staff", "Khoá hệ thống sau giờ quy định / locks the system after set hours", "Cho nghỉ thứ Sáu / gave Fridays off"], answer: 2, explain_vi: "決まった 時間に システムが 使えなくなる.", explain_en: "The system becomes unusable after a set time." },
+      { section: "reading", passage: N3_READING_3, q: "Kết luận của bài? / What is the conclusion?", options: ["Nên về công ty làm / return to the office", "Nên làm ít giờ hơn / work fewer hours", "Cá nhân phải tự cố gắng / individuals must try harder", "Cần cả nỗ lực cá nhân và cách làm của công ty / both personal effort and company measures are needed"], answer: 3, explain_vi: "個人の 努力だけでなく、会社の 工夫も 必要.", explain_en: "Both personal effort and company measures are needed." },
+    ],
+  },
+];
+
+JA_MOCK_EXAMS.push(...EXTRA_EXAMS);
+
+/** Keep the list grouped N5 -> N4 -> N3 so learners climb in order. */
+const LEVEL_ORDER: Record<JaMockExam["level"], number> = { N5: 0, N4: 1, N3: 2 };
+JA_MOCK_EXAMS.sort((a, b) => LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level] || a.id.localeCompare(b.id));
