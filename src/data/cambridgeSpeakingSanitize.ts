@@ -7,6 +7,12 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeSpeakingTask } from "./cambridgeSpeakingTasks";
+import {
+  FOLLOW_UP_POOLS,
+  GENERIC_FOLLOW_UPS,
+  type FollowUpPool,
+} from "./cambridgeSpeakingQuestionFix";
+
 
 /** Normalised prompt used to spot duplicates written in different files. */
 const promptKey = (t: CambridgeSpeakingTask) =>
