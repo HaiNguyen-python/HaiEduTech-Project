@@ -290,7 +290,7 @@ export const JA_READING: JaReadingPassage[] = [
   },
   {
     id: "rd-08", level: "N3",
-    title_vi: "Nhật ký du học", telegram_removed: undefined as unknown as never,
+    title_vi: "Nhật ký du học",
     title_en: "Study-abroad diary",
     body: [
       "日本に来て三か月が過ぎた。最初の一か月は、コンビニで買い物をするだけでも緊張していた。",
