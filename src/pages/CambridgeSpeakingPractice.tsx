@@ -133,10 +133,19 @@ const CambridgeSpeakingPractice = () => {
 
   const levelMeta = CAMBRIDGE_SPEAK_LEVELS.find((l) => l.key === level)!;
   const taskImage = task ? imageForSpeakingTask(task) : undefined;
+  // Word bank is built from this card's own question plus the topic, so two
+  // questions inside one topic never show the same list.
   const wordBank = useMemo(
-    () => (task ? wordBankForTask(task.topic, task.level) : []),
+    () => (task ? wordBankForTask(task.topic, task.level, `${task.prompt} ${(task.examiner ?? []).join(" ")}`) : []),
     [task]
   );
+  /** Single words vs ready-made sentence frames, shown in two separate rows. */
+  const usefulSplit = useMemo(() => {
+    const list = task?.usefulLanguage ?? [];
+    const isFrame = (s: string) => s.trim().split(/\s+/).length >= 3 || /\.\.\.$/.test(s.trim());
+    return { frames: list.filter(isFrame), words: list.filter((s) => !isFrame(s)) };
+  }, [task]);
+
   /**
    * Cards that list their word set inside the prompt ("apple, banana, carrot,
    * orange") show tappable word cards instead of a picture - odd-one-out cards
@@ -619,24 +628,48 @@ const CambridgeSpeakingPractice = () => {
             </div>
           )}
 
-          {/* Useful language - always visible so students can borrow phrases */}
-          <div className="mt-3 rounded-xl bg-emerald-50 border-2 border-emerald-200 p-3">
-            <p className="text-xs font-black uppercase text-emerald-700 mb-2 flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              {t("Từ vựng & mẫu câu nên dùng", "Useful words & sentence frames")}
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              {task.usefulLanguage.map((u) => (
-                <button
-                  key={u}
-                  onClick={() => playEnglishTts(u, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
-                  className="px-2.5 py-1.5 rounded-lg bg-white border border-emerald-200 text-[13px] font-semibold text-slate-700 hover:border-emerald-400 transition-colors"
-                >
-                  {u}
-                </button>
-              ))}
-            </div>
+          {/* Useful language - split so students see ready-made sentence openers apart from single words */}
+          <div className="mt-3 rounded-xl bg-emerald-50 border-2 border-emerald-200 p-3 space-y-3">
+            {usefulSplit.frames.length > 0 && (
+              <div>
+                <p className="text-xs font-black uppercase text-emerald-700 mb-2 flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {t("Mẫu câu nói được ngay", "Sentence frames you can say now")}
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {usefulSplit.frames.map((u) => (
+                    <button
+                      key={u}
+                      onClick={() => playEnglishTts(u, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                      className="px-2.5 py-1.5 rounded-lg bg-white border border-emerald-300 text-[13px] font-semibold text-slate-700 hover:border-emerald-500 transition-colors"
+                    >
+                      {u}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {usefulSplit.words.length > 0 && (
+              <div>
+                <p className="text-xs font-black uppercase text-emerald-700 mb-2 flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {t("Từ nên dùng", "Useful words")}
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {usefulSplit.words.map((u) => (
+                    <button
+                      key={u}
+                      onClick={() => playEnglishTts(u, { accent: "en-GB", playbackRate: 0.85 }).catch(() => undefined)}
+                      className="px-2.5 py-1.5 rounded-lg bg-white border border-emerald-200 text-[13px] font-semibold text-slate-700 hover:border-emerald-400 transition-colors"
+                    >
+                      {u}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
+
 
           {/* Word bank - extra vocabulary so children always have material to speak with */}
           {wordBank.length > 0 && (
@@ -672,8 +705,11 @@ const CambridgeSpeakingPractice = () => {
                 src={taskImage}
                 alt={`${task.topic} - ${task.part} exam picture`}
                 loading="lazy"
+                width={1024}
+                height={640}
                 className="w-full max-h-[420px] object-contain rounded-xl border-2 border-slate-200 bg-white"
               />
+
               <figcaption className="mt-2 text-xs font-semibold text-slate-600 flex items-center gap-1">
                 <ImageIcon className="w-3.5 h-3.5" />
                 {t(pictureHint(task.part).vi, pictureHint(task.part).en)}
