@@ -113,9 +113,61 @@ const VARIANTS: Record<string, string[]> = {
   "ke-busstop": ["ke-busstop", "ke-busstop-b"],
   "ke-lesson": ["ke-lesson", "ke-lesson-b"],
   "ke-cooking": ["ke-cooking", "ke-cooking-b"],
+  "ke-music": ["ke-music", "ke-music-b"],
+  "ke-phones": ["ke-phones", "ke-phones-b"],
+  "ke-study-group": ["ke-study-group"],
+  "pe-market": ["pe-market", "pe-market-b"],
   "pe-train": ["pe-train", "pe-train-b"],
   "pe-station": ["pe-station", "pe-station-b"],
   "pe-study-group": ["pe-study-group", "pe-study-group-b"],
+};
+
+/**
+ * Photographs are level specific: a B1 Preliminary card must not show an
+ * A2 Key photo and the other way round. Any key produced by the shared photo
+ * rules is translated into the picture built for that level.
+ */
+const LEVEL_EQUIVALENT: Record<string, Record<string, string>> = {
+  pet: {
+    "ke-job": "pe-job",
+    "ke-cooking": "pe-cooking",
+    "ke-family-dinner": "pe-family-dinner",
+    "ke-celebration": "pe-family-dinner",
+    "ke-cafe": "pe-family-dinner",
+    "ke-market": "pe-market",
+    "ke-sport": "pe-sport",
+    "ke-lesson": "pe-study-group",
+    "ke-phones": "pe-study-group",
+    "ke-music": "pe-teamwork",
+    "ke-busstop": "pe-station",
+    "ke-weather": "pe-farm",
+    "ke-park-summer": "pe-farm",
+  },
+  ket: {
+    "pe-library": "ke-library",
+    "pe-station": "ke-station",
+    "pe-train": "ke-busstop",
+    "pe-study-group": "ke-study-group",
+    "pe-teamwork": "ke-job",
+    "pe-beach-clean": "ke-park-summer",
+    "pe-farm": "ke-weather",
+    "pe-moving-home": "ke-cafe",
+  },
+};
+
+/** Kid illustrations (st-/mv-/fl-) share one visual family across the YLE levels. */
+const ALLOWED_PREFIX: Record<string, RegExp> = {
+  starters: /^(st|mv|fl)-/,
+  movers: /^(st|mv|fl)-/,
+  flyers: /^(st|mv|fl)-/,
+  ket: /^ke-/,
+  pet: /^pe-/,
+};
+
+const toLevel = (key: string, level: string): string => {
+  const base = key.replace(/-[b-d]$/, "");
+  const mapped = LEVEL_EQUIVALENT[level]?.[base] ?? LEVEL_EQUIVALENT[level]?.[key] ?? key;
+  return ALLOWED_PREFIX[level]?.test(mapped) ? mapped : mapped;
 };
 
 const rotation = new Map<string, number>();
@@ -150,11 +202,15 @@ const isOdd = (t: { part: string; prompt: string }) =>
 
 const entries: string[] = [];
 const missing: string[] = [];
+const mismatched: string[] = [];
 const usage = new Map<string, number>();
 
 for (const t of TASKS as { id: string; level: string; part: string; topic: string; prompt: string }[]) {
   if (isOdd(t) || /collaborative/i.test(t.part) || NO_PICTURE_PROMPT.test(t.prompt)) continue;
-  if (!(PICTURE_PARTS.test(t.part) || NEEDS.test(t.prompt))) continue;
+  // A2 Key Part 2 always works from a picture prompt, even when the question
+  // wording does not mention it.
+  const ketDiscussion = t.level === "ket" && /Part 2/i.test(t.part);
+  if (!(PICTURE_PARTS.test(t.part) || NEEDS.test(t.prompt) || ketDiscussion)) continue;
 
   const text = `${t.topic} ${t.prompt}`;
   let key: string | undefined;
@@ -163,7 +219,7 @@ for (const t of TASKS as { id: string; level: string; part: string; topic: strin
   } else if (/story/i.test(t.part) || /tell (?:me )?the story|these pictures show/i.test(t.prompt)) {
     key = pick(STORY, text) ?? STORY_DEFAULT;
   } else if (t.level === "ket" || t.level === "pet") {
-    key = pick(PHOTO, text) ?? PHOTO_DEFAULT[t.level];
+    key = toLevel(pick(PHOTO, text) ?? PHOTO_DEFAULT[t.level], t.level);
   } else {
     key = pick(KID_SCENE, text) ?? KID_DEFAULT[t.level] ?? "st-toys";
   }
@@ -172,6 +228,9 @@ for (const t of TASKS as { id: string; level: string; part: string; topic: strin
     continue;
   }
   key = spread(key);
+  if (ALLOWED_PREFIX[t.level] && !ALLOWED_PREFIX[t.level].test(key)) {
+    mismatched.push(`${t.id} (${t.level}) -> ${key}`);
+  }
   usage.set(key, (usage.get(key) ?? 0) + 1);
   entries.push(`  "${t.id}": "${key}",`);
 }
@@ -191,3 +250,4 @@ writeFileSync("src/data/cambridgeSpeakingImageMap.ts", header + entries.join("\n
 console.log(`mapped ${entries.length} tasks, ${usage.size} images used`);
 [...usage.entries()].sort((a, b) => b[1] - a[1]).forEach(([k, n]) => console.log(`  ${k}: ${n}`));
 if (missing.length) console.log("unmapped:", missing.join(", "));
+if (mismatched.length) console.log("level mismatch:", mismatched.join(", "));
