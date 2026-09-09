@@ -374,9 +374,17 @@ const dedupeFollowUpQuestions = (tasks: CambridgeSpeakingTask[]): CambridgeSpeak
       if (usefulLanguage.length >= MIN_PHRASES) break;
       if (!usefulLanguage.some((p) => questionKey(p) === questionKey(phrase))) usefulLanguage.push(phrase);
     }
+    // Guarantee at least two ready-made sentence frames, graded by level, so the
+    // "Sentence frames you can say now" row is never empty or too thin.
+    const isFrame = (s: string) => s.trim().split(/\s+/).length >= 3 || /\.\.\.$/.test(s.trim());
+    for (const frame of FRAME_POOLS[task.level] ?? []) {
+      if (usefulLanguage.filter(isFrame).length >= MIN_FRAMES) break;
+      if (!usefulLanguage.some((p) => questionKey(p) === questionKey(frame))) usefulLanguage.push(frame);
+    }
     if (usefulLanguage.length !== (task.usefulLanguage?.length ?? 0)) {
       return { ...task, examiner, usefulLanguage };
     }
+
 
     return examiner.length === (task.examiner?.length ?? 0) &&
       examiner.every((q, i) => q === task.examiner[i])
