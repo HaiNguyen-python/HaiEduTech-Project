@@ -79,6 +79,35 @@ import peStudyGroup from "@/assets/cambridge-speaking/pe-study-group.jpg";
 import peBeachClean from "@/assets/cambridge-speaking/pe-beach-clean.jpg";
 import peMovingHome from "@/assets/cambridge-speaking/pe-moving-home.jpg";
 
+// Extra variants so no single picture is reused too often across tasks.
+import stToysB from "@/assets/cambridge-speaking/st-toys-b.jpg";
+import stBedroomB from "@/assets/cambridge-speaking/st-bedroom-b.jpg";
+import stParkB from "@/assets/cambridge-speaking/st-park-b.jpg";
+import stFruitB from "@/assets/cambridge-speaking/st-fruit-b.jpg";
+import stClassroomB from "@/assets/cambridge-speaking/st-classroom-b.jpg";
+import mvParkDiffB from "@/assets/cambridge-speaking/mv-park-diff-b.jpg";
+import mvBedroomDiffB from "@/assets/cambridge-speaking/mv-bedroom-diff-b.jpg";
+import mvShopDiffB from "@/assets/cambridge-speaking/mv-shop-diff-b.jpg";
+import mvMarketDiffB from "@/assets/cambridge-speaking/mv-market-diff-b.jpg";
+import flKitchenDiffB from "@/assets/cambridge-speaking/fl-kitchen-diff-b.jpg";
+import mvKiteStoryB from "@/assets/cambridge-speaking/mv-kite-story-b.jpg";
+import mvCakeStoryB from "@/assets/cambridge-speaking/mv-cake-story-b.jpg";
+import mvRainyStoryB from "@/assets/cambridge-speaking/mv-rainy-story-b.jpg";
+import flCampingStoryB from "@/assets/cambridge-speaking/fl-camping-story-b.jpg";
+import flSportsStoryB from "@/assets/cambridge-speaking/fl-sports-story-b.jpg";
+import keMarketB from "@/assets/cambridge-speaking/ke-market-b.jpg";
+import keMarketC from "@/assets/cambridge-speaking/ke-market-c.jpg";
+import keMarketD from "@/assets/cambridge-speaking/ke-market-d.jpg";
+import keSportB from "@/assets/cambridge-speaking/ke-sport-b.jpg";
+import keCelebrationB from "@/assets/cambridge-speaking/ke-celebration-b.jpg";
+import keJobB from "@/assets/cambridge-speaking/ke-job-b.jpg";
+import keBusstopB from "@/assets/cambridge-speaking/ke-busstop-b.jpg";
+import keLessonB from "@/assets/cambridge-speaking/ke-lesson-b.jpg";
+import keCookingB from "@/assets/cambridge-speaking/ke-cooking-b.jpg";
+import peTrainB from "@/assets/cambridge-speaking/pe-train-b.jpg";
+import peStationB from "@/assets/cambridge-speaking/pe-station-b.jpg";
+import peStudyGroupB from "@/assets/cambridge-speaking/pe-study-group-b.jpg";
+
 export interface SpeakingImageTask {
   id: string;
   part: string;
@@ -149,6 +178,33 @@ export const speakingImageAssets: Record<string, string> = {
   "pe-study-group": peStudyGroup,
   "pe-beach-clean": peBeachClean,
   "pe-moving-home": peMovingHome,
+  "st-toys-b": stToysB,
+  "st-bedroom-b": stBedroomB,
+  "st-park-b": stParkB,
+  "st-fruit-b": stFruitB,
+  "st-classroom-b": stClassroomB,
+  "mv-park-diff-b": mvParkDiffB,
+  "mv-bedroom-diff-b": mvBedroomDiffB,
+  "mv-shop-diff-b": mvShopDiffB,
+  "mv-market-diff-b": mvMarketDiffB,
+  "fl-kitchen-diff-b": flKitchenDiffB,
+  "mv-kite-story-b": mvKiteStoryB,
+  "mv-cake-story-b": mvCakeStoryB,
+  "mv-rainy-story-b": mvRainyStoryB,
+  "fl-camping-story-b": flCampingStoryB,
+  "fl-sports-story-b": flSportsStoryB,
+  "ke-market-b": keMarketB,
+  "ke-market-c": keMarketC,
+  "ke-market-d": keMarketD,
+  "ke-sport-b": keSportB,
+  "ke-celebration-b": keCelebrationB,
+  "ke-job-b": keJobB,
+  "ke-busstop-b": keBusstopB,
+  "ke-lesson-b": keLessonB,
+  "ke-cooking-b": keCookingB,
+  "pe-train-b": peTrainB,
+  "pe-station-b": peStationB,
+  "pe-study-group-b": peStudyGroupB,
 };
 
 /** "Odd one out" cards list their four items in the prompt, so they never show a picture. */
