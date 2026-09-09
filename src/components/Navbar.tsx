@@ -382,30 +382,30 @@ const Navbar = () => {
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
-    { to: "/programming/ai-academy", label: t("AI Academy", "AI Academy"), icon: Bot },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
       { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), icon: Trophy },
       { to: "/programming/basic/dsa", label: t("Cấu trúc dữ liệu & Giải thuật", "Data Structures & Algorithms"), icon: Network },
     ] },
     { to: "#prog-ai-data-group", label: t("AI & Data Engineering", "AI & Data Engineering"), icon: Brain, groupLabel: "prog-ai-data", children: [
+      { to: "/programming/ai-academy", label: t("AI Academy", "AI Academy"), icon: Bot },
       { to: "/programming/prog-ai-foundation", label: t("AI Foundation", "AI Foundation"), icon: Brain },
       { to: "/programming/prog-prompt-engineering", label: t("Prompt Engineering ✍️", "Prompt Engineering ✍️"), icon: Sparkles },
       { to: "/programming/prog-ml", label: t("Machine Learning", "Machine Learning"), icon: Bot },
       { to: "/programming/dl-foundations", label: t("Deep Learning", "Deep Learning"), icon: Network },
       { to: "/programming/reinforcement-learning", label: t("Reinforcement Learning", "Reinforcement Learning"), icon: Gamepad2 },
+      { to: "/programming/nlp", label: t("NLP - Xử lý Ngôn ngữ", "NLP - Language Processing"), icon: Languages },
       { to: "#div-ai", label: "", divider: true },
       { to: "/programming/prog-sql", label: t("SQL & Database", "SQL & Database"), icon: Database },
       { to: "/programming/prog-data-pipeline", label: t("Data Engineer", "Data Engineer"), icon: Workflow },
       { to: "/programming/cloud-fundamentals", label: t("Cloud Engineer", "Cloud Engineer"), icon: Cloud },
     ] },
-    { to: "#prog-software-web-group", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Code2, groupLabel: "prog-software-web", children: [
+    { to: "#prog-software-web-group", label: t("Phần mềm, Web & Bảo mật", "Software, Web & Security"), icon: Code2, groupLabel: "prog-software-web", children: [
       { to: "/programming/software-eng", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Code2 },
       { to: "/programming/se-foundations/se-git", label: t("Git Branching Simulator", "Git Branching Simulator"), icon: Workflow },
       { to: "/programming/software-eng-interview", label: t("Software Engineer Interview", "Software Engineer Interview"), icon: MessagesSquare },
+      { to: "/programming/cybersecurity", label: t("Cybersecurity", "Cybersecurity"), icon: Shield },
     ] },
-    { to: "/programming/cybersecurity", label: t("Cybersecurity", "Cybersecurity"), icon: Shield },
-    { to: "/programming/nlp", label: t("NLP - Xử lý Ngôn ngữ", "NLP - Language Processing"), icon: Languages },
     { to: "#prog-edtech-group", label: t("EdTech", "EdTech"), icon: GraduationCap, groupLabel: "prog-edtech", children: [
       { to: "/programming/edtech", label: t("📚 EdTech Lessons", "📚 EdTech Lessons"), icon: GraduationCap },
       { to: "/edtech-research", label: t("🔬 EdTech Research", "🔬 EdTech Research"), icon: FlaskConical },
@@ -420,14 +420,12 @@ const Navbar = () => {
       { to: "/programming/startup/toolkit", label: t("Startup Toolkit", "Startup Toolkit"), icon: Workflow },
       { to: "/programming/startup/pitch-simulator", label: t("Pitch Simulator (AI Investor)", "Pitch Simulator (AI Investor)"), icon: MessagesSquare },
     ] },
-    { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Rocket, groupLabel: "prog-career", children: [
+    { to: "#prog-career-group", label: t("Sự nghiệp & Dự án", "Career & Projects"), icon: Rocket, groupLabel: "prog-career", children: [
       { to: "/programming/career-roadmap", label: t("Career Roadmap", "Career Roadmap"), icon: Sparkles },
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
       { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
+      { to: "/programming?pillar=professional-projects", label: t("Dự án Chuyên nghiệp", "Professional Projects"), icon: Rocket },
     ] },
-    { to: "#prog-div-projects", label: "", divider: true },
-    { to: "/programming?pillar=professional-projects", label: t("Professional Projects", "Professional Projects"), icon: Rocket },
-    { to: "#prog-div-arcade", label: "", divider: true },
     { to: "/programming/arcade", label: t("Tech & Code Game Hub", "Tech & Code Game Hub"), icon: Gamepad2 },
   ];
 
@@ -881,8 +879,8 @@ const Navbar = () => {
                                                 : sub.groupLabel === "en-tools" ? t("Công cụ AI & Học vui", "AI Tools & Fun Learning")
                                                 : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
                                                 : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
-                                                : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
-                                                : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
+                                                : sub.groupLabel === "prog-software-web" ? t("Phần mềm, Web & Bảo mật", "Software, Web & Security")
+                                                : sub.groupLabel === "prog-career" ? t("Sự nghiệp & Dự án", "Career & Projects")
                                                 : sub.groupLabel === "cn-hsk" ? t("Lộ trình HSK", "HSK Program")
                                                 : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
                                                 : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
