@@ -120,6 +120,8 @@ import keStation from "@/assets/cambridge-speaking/ke-station.jpg";
 import keStudyGroup from "@/assets/cambridge-speaking/ke-study-group.jpg";
 import keMusicB from "@/assets/cambridge-speaking/ke-music-b.jpg";
 import kePhonesB from "@/assets/cambridge-speaking/ke-phones-b.jpg";
+import keCafeB from "@/assets/cambridge-speaking/ke-cafe-b.jpg";
+import stLibrary from "@/assets/cambridge-speaking/st-library.jpg";
 
 export interface SpeakingImageTask {
   id: string;
@@ -229,6 +231,8 @@ export const speakingImageAssets: Record<string, string> = {
   "ke-study-group": keStudyGroup,
   "ke-music-b": keMusicB,
   "ke-phones-b": kePhonesB,
+  "ke-cafe-b": keCafeB,
+  "st-library": stLibrary,
 };
 
 /** "Odd one out" cards list their four items in the prompt, so they never show a picture. */
