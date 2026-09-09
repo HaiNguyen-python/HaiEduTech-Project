@@ -426,7 +426,7 @@ const ALL_GREETINGS: Phrase[] = dedupeBy([...GREETINGS, ...GREETINGS_EXTRA], (p)
 /** Vocabulary topics merged, then de-duplicated word by word across every topic. */
 const ALL_VOCAB = (() => {
   const seen = new Set<string>();
-  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items })), ...VOCAB_EXTRA_2, ...VOCAB_EXTRA_3]
+  return [...VOCAB, ...VOCAB_EXTRA, ...VOCAB_TOPICS.map((g) => ({ topic: g.topic, items: g.items })), ...VOCAB_EXTRA_2, ...VOCAB_EXTRA_3, ...VOCAB_EXTRA_5]
     .map((g) => ({
       topic: g.topic,
       items: g.items.filter((p) => {
@@ -442,9 +442,9 @@ const ALL_VOCAB = (() => {
 const JA_WORD_INDEX = new Map<string, Phrase>(
   ALL_VOCAB.flatMap((g) => g.items.map((p) => [p.jp, p] as [string, Phrase]))
 );
-const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA, ...DIALOGUES_EXTRA_2, ...DIALOGUES_EXTRA_3], (d) => d.title);
-const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA, ...GRAMMAR_EXTRA_2, ...GRAMMAR_EXTRA_3], (g) => g.title);
-const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA, ...JA_QUIZ_EXTRA_2, ...JA_QUIZ_EXTRA_3], (q) => q.q);
+const ALL_DIALOGUES = dedupeBy([...DIALOGUES, ...DIALOGUES_EXTRA, ...DIALOGUES_EXTRA_2, ...DIALOGUES_EXTRA_3, ...DIALOGUES_EXTRA_6_PACK], (d) => d.title);
+const ALL_GRAMMAR = dedupeBy([...GRAMMAR, ...GRAMMAR_EXTRA, ...GRAMMAR_EXTRA_2, ...GRAMMAR_EXTRA_3, ...GRAMMAR_EXTRA_6_PACK], (g) => g.title);
+const ALL_QUIZ = dedupeBy([...JA_QUIZ, ...JA_QUIZ_EXTRA, ...JA_QUIZ_EXTRA_2, ...JA_QUIZ_EXTRA_3, ...JA_QUIZ_EXTRA_6_PACK], (q) => q.q);
 
 /** Kana tables, one collapsible section each. */
 const KANA_TABLES: Array<{ vi: string; en: string; rows: Array<[string, string]> }> = [
@@ -468,6 +468,8 @@ const KANJI_SECTIONS: Array<{ group: string; items: KanjiCard[] }> = (() => {
     { group: "➕ Kanji mở rộng / Extra kanji", items: KANJI_EXTRA },
     ...KANJI_GROUPS.map((g) => ({ group: g.group, items: g.items as KanjiCard[] })),
     { group: "🖌️ Kanji động từ & sinh hoạt / Verb & daily-life kanji", items: KANJI_EXTRA_2 },
+    { group: "🏙️ Kanji N4 - N3 mở rộng / Extended N4 - N3 kanji", items: KANJI_EXTRA_3 },
+    { group: "📚 Kanji đời sống & học tập / Life & study kanji", items: KANJI_EXTRA_5 },
   ]
     .map((g) => ({
       group: g.group,
