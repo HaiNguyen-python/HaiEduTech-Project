@@ -1021,18 +1021,31 @@ const Japanese = () => {
                   `Twenty minutes a day through the four steps above. The course now holds ${totalVocab} words, ${ALL_KANJI.length} kanji, ${ALL_DIALOGUES.length} dialogues, ${ALL_GRAMMAR.length} grammar points and ${ALL_QUIZ.length} quiz questions.`
                 )}
               </p>
-              <div className="flex flex-wrap gap-2">
-                {TABS.slice(1).map(([v, label]) => (
-                  <Button
-                    key={v}
-                    size="sm"
-                    variant="outline"
-                    className="border-pink-200 bg-white text-rose-700 hover:bg-pink-50 hover:text-rose-800"
-                    onClick={() => handleTab(v)}
-                  >
-                    {label}
-                  </Button>
-                ))}
+              <div className="space-y-3">
+                {TAB_GROUPS.map((g) => {
+                  const items = g.tabs.filter(([v]) => v !== "overview");
+                  if (items.length === 0) return null;
+                  return (
+                    <div key={g.id} className="rounded-xl border border-pink-100 bg-white/70 p-3">
+                      <div className="mb-2 text-xs font-bold uppercase tracking-wide text-rose-500/90">
+                        {g.label}
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {items.map(([v, label]) => (
+                          <Button
+                            key={v}
+                            size="sm"
+                            variant="outline"
+                            className="border-pink-200 bg-white text-rose-700 hover:bg-pink-50 hover:text-rose-800"
+                            onClick={() => handleTab(v)}
+                          >
+                            {label}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </Card>
           </TabsContent>
