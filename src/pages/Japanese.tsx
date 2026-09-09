@@ -837,29 +837,69 @@ const Japanese = () => {
     { icon: "🧠", n: ALL_QUIZ.length, label: t("câu ôn tập", "quiz Qs") },
   ];
 
-  const TABS: Array<[string, string]> = [
-    ["overview", `🌸 ${t("Tổng quan", "Overview")}`],
-    ["kana", `🈶 ${t("Bảng chữ", "Kana")}`],
-    ["greetings", `💬 ${t("Chào hỏi", "Greetings")}`],
-    ["numbers", `🔢 ${t("Số & Giờ", "Numbers")}`],
-    ["vocab", `📖 ${t("Từ vựng", "Vocabulary")}`],
-    ["kanji", `🈴 ${t("Kanji", "Kanji")}`],
-    ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
-    ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
-    ["reading", `📖 ${t("Luyện đọc", "Reading Lab")}`],
-    ["verbs", `🔀 ${t("Chia động từ", "Verb Trainer")}`],
-    ["counters", `🔢 ${t("Lượng từ", "Counters")}`],
-    ["keigo", `🎓 ${t("Kính ngữ", "Keigo Lab")}`],
-    ["listening", `🎧 ${t("Luyện nghe", "Listening")}`],
-    ["dictation", `⌨️ ${t("Chính tả kana", "Kana Dictation")}`],
-    ["flashcards", `🃏 ${t("Flashcard", "Flashcards")}`],
-    ["jlpt", `📝 ${t("Đề JLPT", "JLPT Tests")}`],
-    ["culture", `🎎 ${t("Văn hoá & Du học", "Culture & Study Abroad")}`],
-    ["speaking", `🎤 ${t("Speaking Coach", "Speaking Coach")}`],
-    ["quest", `✨ Word Quest`],
-    ["mission", `🎯 ${t("Nhiệm vụ", "Daily Mission")}${dueToday > 0 ? ` (${dueToday})` : ""}`],
-    ["quiz", `🧠 ${t("Ôn tập", "Quiz")}`],
+  const TAB_GROUPS: Array<{ id: string; label: string; tabs: Array<[string, string]> }> = [
+    {
+      id: "basics",
+      label: `🌸 ${t("Nền tảng", "Foundations")}`,
+      tabs: [
+        ["overview", `🌸 ${t("Tổng quan", "Overview")}`],
+        ["kana", `🈶 ${t("Bảng chữ", "Kana")}`],
+        ["greetings", `💬 ${t("Chào hỏi", "Greetings")}`],
+        ["numbers", `🔢 ${t("Số & Giờ", "Numbers")}`],
+      ],
+    },
+    {
+      id: "words",
+      label: `📖 ${t("Từ vựng & Kanji", "Vocabulary & Kanji")}`,
+      tabs: [
+        ["vocab", `📖 ${t("Từ vựng", "Vocabulary")}`],
+        ["kanji", `🈴 ${t("Kanji", "Kanji")}`],
+        ["flashcards", `🃏 ${t("Flashcard", "Flashcards")}`],
+        ["quest", `✨ Word Quest`],
+        ["mission", `🎯 ${t("Nhiệm vụ", "Daily Mission")}${dueToday > 0 ? ` (${dueToday})` : ""}`],
+      ],
+    },
+    {
+      id: "grammar",
+      label: `✍️ ${t("Ngữ pháp & Cấu trúc", "Grammar & Structure")}`,
+      tabs: [
+        ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
+        ["verbs", `🔀 ${t("Chia động từ", "Verb Trainer")}`],
+        ["counters", `🔢 ${t("Lượng từ", "Counters")}`],
+        ["keigo", `🎓 ${t("Kính ngữ", "Keigo Lab")}`],
+      ],
+    },
+    {
+      id: "skills",
+      label: `🎯 ${t("Kỹ năng", "Skills")}`,
+      tabs: [
+        ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
+        ["reading", `📖 ${t("Luyện đọc", "Reading Lab")}`],
+        ["listening", `🎧 ${t("Luyện nghe", "Listening")}`],
+        ["dictation", `⌨️ ${t("Chính tả kana", "Kana Dictation")}`],
+        ["speaking", `🎤 ${t("Speaking Coach", "Speaking Coach")}`],
+      ],
+    },
+    {
+      id: "tests",
+      label: `📝 ${t("Kiểm tra & Văn hoá", "Tests & Culture")}`,
+      tabs: [
+        ["quiz", `🧠 ${t("Ôn tập", "Quiz")}`],
+        ["jlpt", `📝 ${t("Đề JLPT", "JLPT Tests")}`],
+        ["culture", `🎎 ${t("Văn hoá & Du học", "Culture & Study Abroad")}`],
+      ],
+    },
   ];
+
+  const TABS: Array<[string, string]> = TAB_GROUPS.flatMap((g) => g.tabs);
+  const groupOfTab = (v: string) =>
+    TAB_GROUPS.find((g) => g.tabs.some(([id]) => id === v))?.id ?? TAB_GROUPS[0].id;
+  const [mobileGroup, setMobileGroup] = useState<string>(() => groupOfTab(tab));
+  useEffect(() => {
+    setMobileGroup(groupOfTab(tab));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab]);
+  const mobileTabs = (TAB_GROUPS.find((g) => g.id === mobileGroup) ?? TAB_GROUPS[0]).tabs;
 
   const sectionLabels = {
     expand: t("Mở tất cả", "Expand all"),
@@ -896,19 +936,63 @@ const Japanese = () => {
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 py-6 md:py-8">
         <Tabs value={tab} onValueChange={handleTab}>
-          <div className="-mx-4 overflow-x-auto px-4 pb-1 md:mx-0 md:px-0">
-            <TabsList className="inline-flex h-auto w-max gap-1.5 rounded-xl bg-white/70 p-1.5 shadow-sm ring-1 ring-pink-200 backdrop-blur md:w-full md:flex-wrap">
-              {TABS.map(([v, label]) => (
-                <TabsTrigger
-                  key={v}
-                  value={v}
-                  className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold text-rose-700/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow"
-                >
-                  {label}
-                </TabsTrigger>
+          {/* Desktop: one row per group */}
+          <div className="hidden rounded-2xl bg-white/70 p-3 shadow-sm ring-1 ring-pink-200 backdrop-blur md:block">
+            <TabsList className="flex h-auto w-full flex-col items-stretch gap-2 bg-transparent p-0">
+              {TAB_GROUPS.map((g) => (
+                <div key={g.id} className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                  <span className="w-44 shrink-0 text-xs font-bold uppercase tracking-wide text-rose-500/90">
+                    {g.label}
+                  </span>
+                  <div className="flex flex-1 flex-wrap gap-1.5">
+                    {g.tabs.map(([v, label]) => (
+                      <TabsTrigger
+                        key={v}
+                        value={v}
+                        className="whitespace-nowrap rounded-lg border border-pink-100 bg-white px-3 py-2 text-sm font-semibold text-rose-700/90 data-[state=active]:border-transparent data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow"
+                      >
+                        {label}
+                      </TabsTrigger>
+                    ))}
+                  </div>
+                </div>
               ))}
             </TabsList>
           </div>
+
+          {/* Mobile: pick a group, then its tabs */}
+          <div className="md:hidden">
+            <div className="-mx-4 flex gap-1.5 overflow-x-auto px-4 pb-2">
+              {TAB_GROUPS.map((g) => (
+                <button
+                  key={g.id}
+                  type="button"
+                  onClick={() => setMobileGroup(g.id)}
+                  className={`whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-bold ${
+                    mobileGroup === g.id
+                      ? "bg-rose-600 text-white shadow"
+                      : "border border-pink-200 bg-white text-rose-700"
+                  }`}
+                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+            <div className="-mx-4 overflow-x-auto px-4 pb-1">
+              <TabsList className="inline-flex h-auto w-max gap-1.5 rounded-xl bg-white/70 p-1.5 shadow-sm ring-1 ring-pink-200 backdrop-blur">
+                {mobileTabs.map(([v, label]) => (
+                  <TabsTrigger
+                    key={v}
+                    value={v}
+                    className="whitespace-nowrap rounded-lg px-3 py-2 text-base font-semibold text-rose-700/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow"
+                  >
+                    {label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+          </div>
+
 
           <TabsContent value="overview" className="mt-6">
             <Card className="space-y-5 border-pink-200 p-6">
@@ -937,18 +1021,31 @@ const Japanese = () => {
                   `Twenty minutes a day through the four steps above. The course now holds ${totalVocab} words, ${ALL_KANJI.length} kanji, ${ALL_DIALOGUES.length} dialogues, ${ALL_GRAMMAR.length} grammar points and ${ALL_QUIZ.length} quiz questions.`
                 )}
               </p>
-              <div className="flex flex-wrap gap-2">
-                {TABS.slice(1).map(([v, label]) => (
-                  <Button
-                    key={v}
-                    size="sm"
-                    variant="outline"
-                    className="border-pink-200 bg-white text-rose-700 hover:bg-pink-50 hover:text-rose-800"
-                    onClick={() => handleTab(v)}
-                  >
-                    {label}
-                  </Button>
-                ))}
+              <div className="space-y-3">
+                {TAB_GROUPS.map((g) => {
+                  const items = g.tabs.filter(([v]) => v !== "overview");
+                  if (items.length === 0) return null;
+                  return (
+                    <div key={g.id} className="rounded-xl border border-pink-100 bg-white/70 p-3">
+                      <div className="mb-2 text-xs font-bold uppercase tracking-wide text-rose-500/90">
+                        {g.label}
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {items.map(([v, label]) => (
+                          <Button
+                            key={v}
+                            size="sm"
+                            variant="outline"
+                            className="border-pink-200 bg-white text-rose-700 hover:bg-pink-50 hover:text-rose-800"
+                            onClick={() => handleTab(v)}
+                          >
+                            {label}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </Card>
           </TabsContent>
