@@ -43,6 +43,7 @@ import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
 const JapaneseSpeakingCoach = lazy(() => import("@/components/AISpeakingCoach"));
+const JapaneseReading = lazy(() => import("@/components/japanese/JapaneseReading"));
 const JapaneseListening = lazy(() => import("@/components/japanese/JapaneseListening"));
 const JapaneseDictation = lazy(() => import("@/components/japanese/JapaneseDictation"));
 const JapaneseFlashcards = lazy(() => import("@/components/japanese/JapaneseFlashcards"));
@@ -842,6 +843,7 @@ const Japanese = () => {
     ["kanji", `🈴 ${t("Kanji", "Kanji")}`],
     ["dialogues", `🗣️ ${t("Hội thoại", "Dialogues")}`],
     ["grammar", `✍️ ${t("Ngữ pháp", "Grammar")}`],
+    ["reading", `📖 ${t("Luyện đọc", "Reading Lab")}`],
     ["listening", `🎧 ${t("Luyện nghe", "Listening")}`],
     ["dictation", `⌨️ ${t("Chính tả kana", "Kana Dictation")}`],
     ["flashcards", `🃏 ${t("Flashcard", "Flashcards")}`],
@@ -1051,6 +1053,12 @@ const Japanese = () => {
               labels={sectionLabels}
               searchPlaceholder={t("Tìm điểm ngữ pháp...", "Search grammar points...")}
             />
+          </TabsContent>
+
+          <TabsContent value="reading" className="mt-6">
+            <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
+              <JapaneseReading t={t} lang={lang} speak={speakJa} />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="listening" className="mt-6">
