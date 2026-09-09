@@ -9,7 +9,10 @@ import { Rabbit, Turtle, RefreshCw } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { JA_DICTATION } from "@/data/japanese/practice";
+import { JA_DICTATION, type JaDictationItem } from "@/data/japanese/practice";
+import { JA_DICTATION_2 } from "@/data/japanese/practice2";
+
+const ALL_DICTATION: JaDictationItem[] = [...JA_DICTATION, ...JA_DICTATION_2];
 
 type Level = "N5" | "N4" | "N3";
 
@@ -46,7 +49,7 @@ export default function JapaneseDictation({ t, lang, speak }: Props) {
   const [checked, setChecked] = useState(false);
   const [score, setScore] = useState({ done: 0, good: 0 });
 
-  const items = useMemo(() => JA_DICTATION.filter((i) => i.level === level), [level]);
+  const items = useMemo(() => ALL_DICTATION.filter((i) => i.level === level), [level]);
   const item = items[index % items.length];
 
   const kanaScore = accuracy(item.kana, typed);
