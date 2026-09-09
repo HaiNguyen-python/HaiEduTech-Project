@@ -11,6 +11,8 @@ import {
   FOLLOW_UP_POOLS,
   GENERIC_FOLLOW_UPS,
   USEFUL_LANGUAGE_FILLERS,
+  FRAME_POOLS,
+
   type FollowUpPool,
 } from "./cambridgeSpeakingQuestionFix";
 
@@ -325,6 +327,8 @@ const questionKey = (q: string) =>
 
 const MIN_FOLLOW_UPS = 3;
 const MIN_PHRASES = 4;
+const MIN_FRAMES = 2;
+
 
 const poolFor = (level: LevelKey, topic: string): string[] => {
   const tier: keyof FollowUpPool = level === "ket" || level === "pet" ? "older" : "young";
