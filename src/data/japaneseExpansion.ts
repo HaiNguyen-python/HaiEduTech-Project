@@ -43,10 +43,7 @@ export const KATAKANA_DAKUTEN: Array<[string, string]> = [
 
 /** Extra everyday greetings and polite expressions */
 export const GREETINGS_EXTRA: JaPhrase[] = [
-  { jp: "いただきます。", romaji: "Itadakimasu.", vi: "Xin mời (trước khi ăn).", en: "Thanks for the meal (before eating)." },
-  { jp: "ごちそうさまでした。", romaji: "Gochisōsama deshita.", vi: "Cảm ơn vì bữa ăn.", en: "Thank you for the meal." },
   { jp: "おかえりなさい。", romaji: "Okaerinasai.", vi: "Mừng bạn về nhà.", en: "Welcome back." },
-  { jp: "ただいま。", romaji: "Tadaima.", vi: "Tôi về rồi.", en: "I'm home." },
   { jp: "おつかれさまです。", romaji: "Otsukaresama desu.", vi: "Bạn vất vả rồi.", en: "Thanks for your hard work." },
   { jp: "しつれいします。", romaji: "Shitsurei shimasu.", vi: "Tôi xin phép.", en: "Excuse me (entering/leaving)." },
   { jp: "おねがいします。", romaji: "Onegaishimasu.", vi: "Làm ơn giúp tôi.", en: "Please (request)." },
@@ -146,7 +143,6 @@ export const VOCAB_EXTRA: Array<{ topic: string; items: JaPhrase[] }> = [
   { topic: "🛍️ Mua sắm / Shopping", items: [
     { jp: "みせ", romaji: "mise", vi: "cửa hàng", en: "shop" },
     { jp: "スーパー", romaji: "sūpā", vi: "siêu thị", en: "supermarket" },
-    { jp: "コンビニ", romaji: "konbini", vi: "cửa hàng tiện lợi", en: "convenience store" },
     { jp: "おかね", romaji: "okane", vi: "tiền", en: "money" },
     { jp: "やすい", romaji: "yasui", vi: "rẻ", en: "cheap" },
     { jp: "たかい", romaji: "takai", vi: "đắt", en: "expensive" },
@@ -168,23 +164,7 @@ export const VOCAB_EXTRA: Array<{ topic: string; items: JaPhrase[] }> = [
 /** Extra core N5 kanji */
 export const KANJI_EXTRA: Array<{ kanji: string; on: string; kun: string; meaning_vi: string; meaning_en: string; example: string }> = [
   { kanji: "本", on: "ホン", kun: "もと", meaning_vi: "sách, gốc", meaning_en: "book, origin", example: "日本 (Nihon - Nhật Bản)" },
-  { kanji: "行", on: "コウ", kun: "いく", meaning_vi: "đi", meaning_en: "to go", example: "行きます (ikimasu - đi)" },
-  { kanji: "食", on: "ショク", kun: "たべる", meaning_vi: "ăn", meaning_en: "to eat", example: "食べます (tabemasu - ăn)" },
-  { kanji: "飲", on: "イン", kun: "のむ", meaning_vi: "uống", meaning_en: "to drink", example: "飲みます (nomimasu - uống)" },
-  { kanji: "見", on: "ケン", kun: "みる", meaning_vi: "nhìn, xem", meaning_en: "to see", example: "見ます (mimasu - xem)" },
-  { kanji: "聞", on: "ブン", kun: "きく", meaning_vi: "nghe, hỏi", meaning_en: "to listen, ask", example: "聞きます (kikimasu - nghe)" },
-  { kanji: "時", on: "ジ", kun: "とき", meaning_vi: "giờ, thời gian", meaning_en: "hour, time", example: "何時 (nanji - mấy giờ)" },
-  { kanji: "間", on: "カン", kun: "あいだ", meaning_vi: "khoảng, giữa", meaning_en: "interval, between", example: "時間 (jikan - thời gian)" },
-  { kanji: "上", on: "ジョウ", kun: "うえ", meaning_vi: "trên", meaning_en: "above", example: "机の上 (tsukue no ue - trên bàn)" },
-  { kanji: "下", on: "カ / ゲ", kun: "した", meaning_vi: "dưới", meaning_en: "below", example: "下さい (kudasai - xin cho)" },
-  { kanji: "中", on: "チュウ", kun: "なか", meaning_vi: "trong, giữa", meaning_en: "inside, middle", example: "中国 (Chūgoku - Trung Quốc)" },
-  { kanji: "国", on: "コク", kun: "くに", meaning_vi: "quốc gia", meaning_en: "country", example: "外国 (gaikoku - nước ngoài)" },
-  { kanji: "先", on: "セン", kun: "さき", meaning_vi: "trước", meaning_en: "previous, ahead", example: "先生 (sensei - giáo viên)" },
-  { kanji: "話", on: "ワ", kun: "はなす", meaning_vi: "nói chuyện", meaning_en: "to speak", example: "電話 (denwa - điện thoại)" },
-  { kanji: "友", on: "ユウ", kun: "とも", meaning_vi: "bạn", meaning_en: "friend", example: "友だち (tomodachi - bạn bè)" },
   { kanji: "円", on: "エン", kun: "まるい", meaning_vi: "yên, tròn", meaning_en: "yen, round", example: "千円 (sen-en - 1000 yên)" },
-  { kanji: "車", on: "シャ", kun: "くるま", meaning_vi: "xe", meaning_en: "car, vehicle", example: "電車 (densha - tàu điện)" },
-  { kanji: "電", on: "デン", kun: "-", meaning_vi: "điện", meaning_en: "electricity", example: "電気 (denki - điện, đèn)" },
 ];
 
 /** Extra dialogues covering more N5 situations */
