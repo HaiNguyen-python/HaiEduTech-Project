@@ -77,7 +77,7 @@ export const JA_CULTURE: JaCultureTopic[] = [
     ],
     phrases: [
       { jp: "おすすめは何ですか。", romaji: "Osusume wa nan desu ka.", vi: "Món nào được gợi ý?", en: "What do you recommend?" },
-      { jp: "аллerg... アレルギーがあります。".replace("аллerg... ", ""), romaji: "Arerugī ga arimasu.", vi: "Tôi bị dị ứng.", en: "I have an allergy." },
+      { jp: "アレルギーがあります。", romaji: "Arerugī ga arimasu.", vi: "Tôi bị dị ứng.", en: "I have an allergy." },
     ],
   },
   {
