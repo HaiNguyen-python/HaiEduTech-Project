@@ -82,7 +82,7 @@ export const JA_LISTENING_2: JaListeningItem[] = [
   },
   {
     id: "ls-2-09", level: "N4",
-    audio: "駅の north 口ではなく、南口で待ち合わせましょう。",
+    audio: "駅の北口ではなく、南口で待ち合わせましょう。",
     romaji: "Eki no kita-guchi de wa naku, minami-guchi de machiawasemashō.",
     question_vi: "Hẹn gặp ở cửa nào?", question_en: "Which exit will they meet at?",
     options: ["Cửa Nam / the south exit", "Cửa Bắc / the north exit", "Cửa Đông / the east exit", "Trong ga / inside the station"],
@@ -118,7 +118,7 @@ export const JA_LISTENING_2: JaListeningItem[] = [
   },
   {
     id: "ls-2-13", level: "N3",
-    audio: "работа не важна。この薬は食後に飲まないと、胃が痛くなることがあります。",
+    audio: "この薬は食後に飲まないと、胃が痛くなることがあります。",
     romaji: "Kono kusuri wa shokugo ni nomanai to, i ga itaku naru koto ga arimasu.",
     question_vi: "Cần lưu ý gì khi uống thuốc?", question_en: "What is the caution about the medicine?",
     options: ["Phải uống sau khi ăn, nếu không sẽ đau dạ dày / take it after meals or your stomach may hurt", "Chỉ uống khi đau / take it only when in pain", "Uống trước khi ngủ / take it before bed", "Không được uống với nước / do not take it with water"],
