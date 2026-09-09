@@ -87,6 +87,46 @@ const PHOTO: Rule[] = [
   [/farm|nature|environment|countryside|plant/i, "pe-farm"],
 ];
 
+// Alternative pictures for the same idea. Tasks that resolve to one of these
+// keys are spread round-robin across the variants so no single picture is
+// reused more than a handful of times across the whole bank.
+const VARIANTS: Record<string, string[]> = {
+  "st-toys": ["st-toys", "st-toys-b"],
+  "st-bedroom": ["st-bedroom", "st-bedroom-b"],
+  "st-park": ["st-park", "st-park-b"],
+  "st-fruit": ["st-fruit", "st-fruit-b"],
+  "st-classroom": ["st-classroom", "st-classroom-b"],
+  "mv-park-diff": ["mv-park-diff", "mv-park-diff-b"],
+  "mv-bedroom-diff": ["mv-bedroom-diff", "mv-bedroom-diff-b"],
+  "mv-shop-diff": ["mv-shop-diff", "mv-shop-diff-b"],
+  "mv-market-diff": ["mv-market-diff", "mv-market-diff-b"],
+  "fl-kitchen-diff": ["fl-kitchen-diff", "fl-kitchen-diff-b"],
+  "mv-kite-story": ["mv-kite-story", "mv-kite-story-b"],
+  "mv-cake-story": ["mv-cake-story", "mv-cake-story-b"],
+  "mv-rainy-story": ["mv-rainy-story", "mv-rainy-story-b"],
+  "fl-camping-story": ["fl-camping-story", "fl-camping-story-b"],
+  "fl-sports-story": ["fl-sports-story", "fl-sports-story-b"],
+  "ke-market": ["ke-market", "ke-market-b", "ke-market-c", "ke-market-d"],
+  "ke-sport": ["ke-sport", "ke-sport-b"],
+  "ke-celebration": ["ke-celebration", "ke-celebration-b"],
+  "ke-job": ["ke-job", "ke-job-b"],
+  "ke-busstop": ["ke-busstop", "ke-busstop-b"],
+  "ke-lesson": ["ke-lesson", "ke-lesson-b"],
+  "ke-cooking": ["ke-cooking", "ke-cooking-b"],
+  "pe-train": ["pe-train", "pe-train-b"],
+  "pe-station": ["pe-station", "pe-station-b"],
+  "pe-study-group": ["pe-study-group", "pe-study-group-b"],
+};
+
+const rotation = new Map<string, number>();
+const spread = (key: string): string => {
+  const pool = VARIANTS[key];
+  if (!pool) return key;
+  const n = rotation.get(key) ?? 0;
+  rotation.set(key, n + 1);
+  return pool[n % pool.length];
+};
+
 const pick = (rules: Rule[], text: string): string | undefined => {
   for (const [re, key] of rules) if (re.test(text)) return key;
   return undefined;
@@ -131,6 +171,7 @@ for (const t of TASKS as { id: string; level: string; part: string; topic: strin
     missing.push(t.id);
     continue;
   }
+  key = spread(key);
   usage.set(key, (usage.get(key) ?? 0) + 1);
   entries.push(`  "${t.id}": "${key}",`);
 }
