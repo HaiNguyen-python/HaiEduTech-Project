@@ -5,7 +5,7 @@
  * through 4 gentle steps (meet / recognise / listen / type) and earns stars.
  * No timer, no penalties - wrong answers just show the word again.
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Star, Check, RotateCcw, Sparkles, ChevronRight, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -93,6 +93,10 @@ const WordQuest = ({
   const [stars, setStars] = useState(0);
   const [combo, setCombo] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
+  /** Wrong choices stay marked red, but the learner can keep trying. */
+  const [wrongPicks, setWrongPicks] = useState<string[]>([]);
+  /** After a mistake the learner can reveal the answer and move on. */
+  const [revealed, setRevealed] = useState(false);
   const [typed, setTyped] = useState("");
   const [wrongCount, setWrongCount] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
@@ -100,6 +104,8 @@ const WordQuest = ({
   const [retryQueue, setRetryQueue] = useState<number[]>([]);
   const [stageMistakes, setStageMistakes] = useState(0);
   const [slow, setSlow] = useState(false);
+  /** Pending "advance to the next step" timer, so it can be cancelled. */
+  const advanceTimer = useRef<number | null>(null);
 
   const stage = stageIdx === null ? null : stages[stageIdx];
   const word = stage ? stage[wordIdx] : null;
@@ -114,14 +120,24 @@ const WordQuest = ({
     if (word && (step === 0 || step === 2)) speak(word.speakText);
     return () => stopVoice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [word, step]);
+  }, [word?.key, step]);
+
+  /**
+   * Keep the option pool stable while the learner is looking at one word.
+   * The parent may hand us a brand-new `allWords` array on every render, so we
+   * read it through a ref and only re-shuffle when the word itself changes.
+   */
+  const allWordsRef = useRef(allWords);
+  allWordsRef.current = allWords;
+  const wordKey = word?.key ?? "";
 
   const distractors = useMemo(() => {
     if (!word) return [] as QuestItem[];
-    const pool = allWords.filter(w => w.key !== word.key);
+    const pool = allWordsRef.current.filter(w => w.key !== word.key);
     const sameTopic = pool.filter(w => w.category === word.category);
     return shuffle(sameTopic.length >= 3 ? sameTopic : pool).slice(0, 3);
-  }, [word, allWords]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wordKey]);
 
   const meaningOptions = useMemo(() => {
     if (!word) return [] as { key: string; label: string; emoji: string }[];
@@ -130,12 +146,14 @@ const WordQuest = ({
       label: w.definition.vi,
       emoji: resolveVocabEmoji(w.definition.en, w.category),
     }));
-  }, [word, distractors]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wordKey, distractors]);
 
   const spellingOptions = useMemo(() => {
     if (!word) return [] as string[];
     return shuffle([word.word, ...distractors.map(d => d.word)]);
-  }, [word, distractors]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wordKey, distractors]);
 
   /** Step 5: the word's own example sentence with the target masked out. */
   const gapSentence = useMemo(() => {
@@ -149,17 +167,26 @@ const WordQuest = ({
   const gapOptions = useMemo(() => {
     if (!word) return [] as string[];
     return shuffle([word.word, ...distractors.slice(0, 2).map(d => d.word)]);
-  }, [word, distractors]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wordKey, distractors]);
 
   const resetStepState = () => {
     setPicked(null);
     setTyped("");
     setWrongCount(0);
+    setWrongPicks([]);
+    setRevealed(false);
   };
+
+  // Never let a pending auto-advance fire after the component goes away.
+  useEffect(() => () => {
+    if (advanceTimer.current) window.clearTimeout(advanceTimer.current);
+  }, []);
 
   const openStage = (i: number) => {
     const s = stages[i];
     if (!s) return;
+    if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     const done = progress.stages[i] || 0;
     setStageIdx(i);
     setWordIdx(done >= s.length ? 0 : done);
@@ -200,6 +227,7 @@ const WordQuest = ({
   };
 
   const nextStep = () => {
+    if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     resetStepState();
     if (step >= STEP_COUNT - 1) finishWord();
     else setStep((step + 1) as Step);
@@ -213,15 +241,23 @@ const WordQuest = ({
   };
 
   const handlePick = (key: string, correctKey: string) => {
-    if (picked) return;
-    setPicked(key);
+    // Already answered correctly (or answer revealed): ignore further clicks.
+    if (picked || revealed) return;
     if (key === correctKey) {
+      setPicked(key);
       setStars(s => s + 1 + (combo >= 4 ? 2 : combo >= 2 ? 1 : 0));
       setCombo(c => c + 1);
-      window.setTimeout(nextStep, 850);
+      advanceTimer.current = window.setTimeout(nextStep, 850);
     } else {
+      // Keep the wrong choice marked, but let the learner try the others.
+      setWrongPicks(prev => (prev.includes(key) ? prev : [...prev, key]));
       registerMistake();
     }
+  };
+
+  /** Shown after a mistake: reveal the answer, then continue. */
+  const revealAnswer = () => {
+    setRevealed(true);
   };
 
   const checkTyped = () => {
@@ -229,7 +265,7 @@ const WordQuest = ({
     if (norm(typed) === norm(word.typeAnswer)) {
       setStars(s => s + 1 + (combo >= 4 ? 2 : combo >= 2 ? 1 : 0));
       setCombo(c => c + 1);
-      window.setTimeout(nextStep, 700);
+      advanceTimer.current = window.setTimeout(nextStep, 700);
       setPicked("ok");
     } else {
       registerMistake();
@@ -317,6 +353,34 @@ const WordQuest = ({
     .map((c, i) => (i < Math.min(wrongCount, answer.length - 1) ? c : c === " " ? " " : "_"))
     .join("");
 
+  /** Green for the right answer once it is found or revealed, red for tries. */
+  const optionClass = (isRight: boolean, isWrong: boolean) => {
+    if (isRight && (picked || revealed)) return "border-emerald-500 bg-emerald-500/10";
+    if (isWrong) return "border-red-500 bg-red-500/10 opacity-70";
+    return "border-border bg-background hover:border-primary/50";
+  };
+
+  /** After a wrong answer: try again, see the answer, or move on. */
+  const retryFooter = wrongCount > 0 && !picked ? (
+    <div className="mt-4 flex flex-col items-center gap-2">
+      <p className="text-center text-sm text-muted-foreground">
+        {revealed
+          ? `${t("Đáp án đúng:", "Correct answer:")} ${word.word} - ${word.definition.vi}`
+          : t("Chưa đúng - hãy thử phương án khác nhé!", "Not quite - try another option!")}
+      </p>
+      <div className="flex flex-wrap justify-center gap-2">
+        {!revealed && (
+          <Button variant="outline" size="sm" onClick={revealAnswer} className="gap-2">
+            <RotateCcw className="h-4 w-4" /> {t("Xem đáp án", "Show answer")}
+          </Button>
+        )}
+        <Button size="sm" onClick={nextStep} className="gap-2">
+          {t("Tiếp tục", "Continue")} <ChevronRight className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <div className="mx-auto max-w-2xl">
       {/* Stage header */}
@@ -382,18 +446,11 @@ const WordQuest = ({
               <div className="grid gap-3 sm:grid-cols-2">
                 {meaningOptions.map(o => {
                   const isRight = o.key === word.key;
-                  const chosen = picked === o.key;
                   return (
                     <button
                       key={o.key}
                       onClick={() => handlePick(o.key, word.key)}
-                      className={`flex items-center gap-3 rounded-xl border p-3 text-left transition-all ${
-                        picked && isRight
-                          ? "border-emerald-500 bg-emerald-500/10"
-                          : chosen
-                            ? "border-red-500 bg-red-500/10"
-                            : "border-border bg-background hover:border-primary/50"
-                      }`}
+                      className={`flex items-center gap-3 rounded-xl border p-3 text-left transition-all ${optionClass(isRight, wrongPicks.includes(o.key))}`}
                     >
                       <span className="text-2xl">{o.emoji}</span>
                       <span className="text-sm text-foreground">{o.label}</span>
@@ -401,6 +458,7 @@ const WordQuest = ({
                   );
                 })}
               </div>
+              {retryFooter}
             </div>
           )}
 
@@ -417,26 +475,17 @@ const WordQuest = ({
                 </button>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                {spellingOptions.map(w => {
-                  const isRight = w === word.word;
-                  const chosen = picked === w;
-                  return (
-                    <button
-                      key={w}
-                      onClick={() => handlePick(w, word.word)}
-                      className={`rounded-xl border p-3 text-center font-semibold transition-all ${
-                        picked && isRight
-                          ? "border-emerald-500 bg-emerald-500/10"
-                          : chosen
-                            ? "border-red-500 bg-red-500/10"
-                            : "border-border bg-background hover:border-primary/50"
-                      }`}
-                    >
-                      {w}
-                    </button>
-                  );
-                })}
+                {spellingOptions.map(w => (
+                  <button
+                    key={w}
+                    onClick={() => handlePick(w, word.word)}
+                    className={`rounded-xl border p-3 text-center font-semibold transition-all ${optionClass(w === word.word, wrongPicks.includes(w))}`}
+                  >
+                    {w}
+                  </button>
+                ))}
               </div>
+              {retryFooter}
             </div>
           )}
 
@@ -459,12 +508,17 @@ const WordQuest = ({
                 placeholder={t("Gõ từ...", "Type the word...")}
                 className="w-full max-w-xs rounded-xl border border-border bg-background px-4 py-2 text-center text-lg focus:outline-none focus:ring-2 focus:ring-primary/40"
               />
-              <div className="flex gap-2">
-                <Button onClick={checkTyped} disabled={!typed.trim()}>{t("Kiểm tra", "Check")}</Button>
-                {wrongCount >= 2 && (
-                  <Button variant="outline" onClick={() => { setTyped(answer); }} className="gap-2">
-                    <RotateCcw className="h-4 w-4" /> {t("Xem đáp án", "Show answer")}
-                  </Button>
+              <div className="flex flex-wrap justify-center gap-2">
+                <Button onClick={checkTyped} disabled={!typed.trim() || picked === "ok"}>{t("Kiểm tra", "Check")}</Button>
+                {wrongCount > 0 && picked !== "ok" && (
+                  <>
+                    <Button variant="outline" onClick={() => { setTyped(answer); setRevealed(true); }} className="gap-2">
+                      <RotateCcw className="h-4 w-4" /> {t("Xem đáp án", "Show answer")}
+                    </Button>
+                    <Button variant="secondary" onClick={nextStep} className="gap-2">
+                      {t("Tiếp tục", "Continue")} <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </>
                 )}
               </div>
               {picked === "ok" && <p className="font-semibold text-emerald-500">{t("Tuyệt vời!", "Awesome!")}</p>}
@@ -484,31 +538,17 @@ const WordQuest = ({
                 {gapSentence}
               </p>
               <div className="grid gap-3 sm:grid-cols-3">
-                {gapOptions.map(o => {
-                  const isRight = o === word.word;
-                  const chosen = picked === o;
-                  return (
-                    <button
-                      key={o}
-                      onClick={() => handlePick(o, word.word)}
-                      className={`rounded-xl border p-3 text-center font-semibold transition-all ${
-                        picked && isRight
-                          ? "border-emerald-500 bg-emerald-500/10"
-                          : chosen
-                            ? "border-red-500 bg-red-500/10"
-                            : "border-border bg-background hover:border-primary/50"
-                      }`}
-                    >
-                      {o}
-                    </button>
-                  );
-                })}
+                {gapOptions.map(o => (
+                  <button
+                    key={o}
+                    onClick={() => handlePick(o, word.word)}
+                    className={`rounded-xl border p-3 text-center font-semibold transition-all ${optionClass(o === word.word, wrongPicks.includes(o))}`}
+                  >
+                    {o}
+                  </button>
+                ))}
               </div>
-              {picked && picked !== word.word && (
-                <p className="text-center text-sm text-muted-foreground">
-                  {t("Thử lại nhé - hãy nghĩ tới nghĩa:", "Try again - think about the meaning:")} {word.definition.vi}
-                </p>
-              )}
+              {retryFooter}
             </div>
           )}
         </motion.div>
