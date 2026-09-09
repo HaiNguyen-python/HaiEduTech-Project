@@ -460,14 +460,31 @@ const Navbar = () => {
         { to: "/japanese?tab=kana", label: t("🈶 Hiragana & Katakana", "🈶 Hiragana & Katakana") },
         { to: "/japanese?tab=greetings", label: t("💬 Chào hỏi & Giao tiếp", "💬 Greetings & Conversation") },
         { to: "/japanese?tab=numbers", label: t("🔢 Số đếm & Thời gian", "🔢 Numbers & Time") },
-        { to: "/japanese?tab=vocab", label: t("📖 Từ vựng theo chủ đề", "📖 Vocabulary by Topic") },
-        { to: "/japanese?tab=kanji", label: t("🈴 Kanji theo nhóm", "🈴 Kanji by Group") },
         { to: "/japanese?tab=grammar", label: t("✍️ Ngữ pháp N5", "✍️ N5 Grammar") },
       ] },
-      { to: "#ja-practice-group", label: t("🎯 Luyện tập & Ứng dụng", "🎯 Practice & Output"), groupLabel: "ja-practice", children: [
+      { to: "#ja-vocab-group", label: t("📖 Từ vựng & Kanji", "📖 Vocabulary & Kanji"), groupLabel: "ja-vocab", children: [
+        { to: "/japanese?tab=vocab", label: t("📖 Từ vựng theo chủ đề", "📖 Vocabulary by Topic") },
+        { to: "/japanese?tab=kanji", label: t("🈴 Kanji theo nhóm", "🈴 Kanji by Group") },
+        { to: "/japanese?tab=flashcards", label: t("🃏 Flashcard", "🃏 Flashcards") },
+        { to: "/japanese?tab=quest", label: t("✨ Word Quest", "✨ Word Quest") },
+        { to: "/japanese?tab=mission", label: t("🎯 Nhiệm vụ hằng ngày", "🎯 Daily Mission") },
+      ] },
+      { to: "#ja-grammar-group", label: t("🔀 Ngữ pháp nâng cao", "🔀 Advanced Grammar"), groupLabel: "ja-grammar", children: [
+        { to: "/japanese?tab=verbs", label: t("🔀 Chia động từ", "🔀 Verb Trainer") },
+        { to: "/japanese?tab=counters", label: t("🔢 Lượng từ", "🔢 Counters") },
+        { to: "/japanese?tab=keigo", label: t("🎓 Kính ngữ", "🎓 Keigo Lab") },
+      ] },
+      { to: "#ja-skills-group", label: t("🎯 Luyện 4 kỹ năng", "🎯 Four Skills Practice"), groupLabel: "ja-skills", children: [
         { to: "/japanese?tab=dialogues", label: t("🗣️ Hội thoại tình huống", "🗣️ Situational Dialogues") },
+        { to: "/japanese?tab=reading", label: t("📖 Luyện đọc", "📖 Reading Lab") },
+        { to: "/japanese?tab=listening", label: t("🎧 Luyện nghe", "🎧 Listening") },
+        { to: "/japanese?tab=dictation", label: t("⌨️ Chính tả kana", "⌨️ Kana Dictation") },
         { to: "/japanese?tab=speaking", label: t("🎤 Speaking Coach", "🎤 Speaking Coach") },
+      ] },
+      { to: "#ja-tests-group", label: t("📝 Kiểm tra & Văn hoá", "📝 Tests & Culture"), groupLabel: "ja-tests", children: [
         { to: "/japanese?tab=quiz", label: t("🧠 Ôn tập & Kiểm tra", "🧠 Review & Quiz") },
+        { to: "/japanese?tab=jlpt", label: t("📝 Đề JLPT", "📝 JLPT Tests") },
+        { to: "/japanese?tab=culture", label: t("🎎 Văn hoá & Du học", "🎎 Culture & Study Abroad") },
       ] },
 
     ], key: "jp" },
