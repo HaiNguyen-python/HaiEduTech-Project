@@ -34,6 +34,7 @@ export default function StandardVocabDeck<T>({
   const [deckSize, setDeckSize] = useState(initialSize);
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const itemSignature = useMemo(() => items.map(itemKey).join("\u001f"), [items, itemKey]);
 
   const deck = useMemo(() => {
     const limit = deckSize === 0 ? items.length : Math.min(deckSize, items.length);
@@ -47,7 +48,7 @@ export default function StandardVocabDeck<T>({
     setIndex(0);
     setFlipped(false);
     stopAudio?.();
-  }, [deckSize, items, stopAudio]);
+  }, [deckSize, itemSignature, stopAudio]);
 
   const go = useCallback((delta: number) => {
     stopAudio?.();

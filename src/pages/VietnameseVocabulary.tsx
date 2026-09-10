@@ -668,7 +668,7 @@ const VietnameseVocabulary = () => {
 
               {viewMode === "flashcard" ? (
                 <SimpleVocabDeck
-                  cards={filtered.map(word => ({ key: `${word.word}__${word.moduleId}`, term: word.word, pronunciation: word.ipa ? `/${word.ipa}/` : undefined, level: levelLabel(word.level, isEn), partOfSpeech: word.partOfSpeech, category: isEn ? word.categoryEn : word.category, meaningPrimary: word.meaning, meaningSecondary: word.meaningEn, example: word.example, exampleTranslation: word.exampleEn }))}
+                  cards={filtered.map(word => ({ key: `${word.word}__${word.lessonId}`, term: word.word, pronunciation: word.ipa ? `/${word.ipa}/` : undefined, level: levelLabel(word.level, isEn), partOfSpeech: word.partOfSpeech, category: isEn ? word.categoryEn : word.category, meaningPrimary: word.meaning, meaningSecondary: word.meaningEn, example: word.example, exampleTranslation: word.exampleEn }))}
                   t={t}
                   speak={text => { void playVietnameseTts(text, { playbackRate: 0.9, speechRate: 0.55, pitch: 1.05 }); }}
                   stopAudio={stopVietnameseTts}
@@ -764,7 +764,7 @@ const VietnameseVocabulary = () => {
                 );
               })()}
 
-              {viewMode !== "exercise" && viewMode !== "quest" && viewMode !== "mission" && totalPages > 1 && (
+              {viewMode === "list" && totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2 mt-8">
                   <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                     <ChevronLeft className="w-4 h-4" />
