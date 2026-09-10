@@ -230,11 +230,6 @@ const PurposeCommunicationLab = ({
               situation.sampleDialogue.map((line) => line.line),
               vocabTerms,
             );
-            const vocabInDialogue = vocabTerms.filter((term) =>
-              situation.sampleDialogue.some((line) =>
-                line.line.toLowerCase().includes(term.toLowerCase()),
-              ),
-            );
             return (
               <section key={situation.title} className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
                 <div className="sticky top-0 z-10 border-b border-border bg-card/95 p-5 backdrop-blur">
@@ -327,39 +322,6 @@ const PurposeCommunicationLab = ({
                     </span>
                   </div>
                 </div>
-                {(keyPhrases.length > 0 || vocabInDialogue.length > 0) && (
-                  <div className="border-t border-border p-4 sm:p-6">
-                    <p className="mb-2 text-xs font-bold uppercase tracking-wide text-primary">
-                      {t("Cụm từ và từ vựng trọng tâm", "Key phrases and vocabulary")}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {keyPhrases.map((phrase) => (
-                        <button
-                          key={`p-${phrase}`}
-                          type="button"
-                          onClick={() => void playEnglishTts(phrase)}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/15 px-3 py-1.5 text-sm font-bold text-foreground transition-colors hover:bg-primary/25"
-                          aria-label={t(`Nghe cụm từ ${phrase}`, `Listen to ${phrase}`)}
-                        >
-                          <Volume2 className="h-3.5 w-3.5 text-primary" />
-                          {phrase}
-                        </button>
-                      ))}
-                      {vocabInDialogue.map((term) => (
-                        <button
-                          key={`v-${term}`}
-                          type="button"
-                          onClick={() => void playEnglishTts(term)}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/50 bg-amber-400/10 px-3 py-1.5 text-sm font-semibold text-foreground underline decoration-2 decoration-amber-400 underline-offset-4 transition-colors hover:bg-amber-400/20"
-                          aria-label={t(`Nghe từ ${term}`, `Listen to ${term}`)}
-                        >
-                          <Volume2 className="h-3.5 w-3.5 text-amber-500" />
-                          {term}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </section>
             );
           })}
