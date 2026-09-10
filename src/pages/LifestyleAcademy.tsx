@@ -463,19 +463,18 @@ const LifestyleAcademy = () => {
 
       <main>
         {/* ────────── Hero ────────── */}
-        <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-emerald-50 via-white to-amber-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 pt-20 lg:pt-24">
+        <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-emerald-50 via-white to-amber-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 pt-10 lg:pt-14">
           <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl dark:bg-emerald-500/10" />
           <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-amber-300/25 blur-3xl dark:bg-amber-400/10" />
-          
 
-          <div className="container relative mx-auto px-4 py-8 md:py-12">
+          <div className="container relative mx-auto px-4 py-3 md:py-5">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="max-w-3xl"
             >
-              <Badge variant="outline" className="mb-4 border-emerald-400/50 bg-emerald-50/70 text-emerald-700 dark:border-emerald-400/40 dark:bg-emerald-500/10 dark:text-emerald-300">
+              <Badge variant="outline" className="mb-2 border-emerald-400/50 bg-emerald-50/70 text-emerald-700 dark:border-emerald-400/40 dark:bg-emerald-500/10 dark:text-emerald-300">
                 <Sparkles className="mr-1.5 h-3.5 w-3.5" />
                 {t("Chương trình cao cấp • Global Citizen", "Premium Program • Global Citizen")}
               </Badge>
@@ -487,14 +486,14 @@ const LifestyleAcademy = () => {
                 </span>
               </h1>
 
-              <p className="mt-5 text-lg md:text-xl leading-relaxed text-slate-700 dark:text-slate-300 max-w-2xl">
+              <p className="mt-3 text-lg md:text-xl leading-relaxed text-slate-700 dark:text-slate-300 max-w-2xl">
                 {t(
                   "Vun bồi thói quen tài chính thông minh, phong thái giao tiếp tinh tế, khí chất – bản lĩnh nội tâm và thân thể khoẻ mạnh - cho công dân toàn cầu.",
                   "Cultivate smart financial habits, elegant eloquence, inner presence & resilience, and a truly healthy body - for global citizens.",
                 )}
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 md:flex-row md:items-center">
+              <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center">
                 <div className="relative flex-1 max-w-xl">
                   <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
