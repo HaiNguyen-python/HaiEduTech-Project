@@ -64,6 +64,7 @@ const speakSv = (text: string, slow = false) => {
 };
 import { ensureSwedishIpa } from "@/lib/swedishIpa";
 import SwedishVocabReviewModes from "@/components/swedish/SwedishVocabReviewModes";
+import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
 
 import {
   SWEDISH_WORDS,
@@ -776,40 +777,26 @@ const SwedishVocabulary = () => {
 
             {/* Flashcards */}
             <TabsContent value="flash">
-              {pageWords.length === 0 ? (
-                <p className="py-12 text-center text-sm text-muted-foreground">{t("Không có từ phù hợp.", "No matching words.")}</p>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <AnimatePresence mode="popLayout">
-                      {pageWords.map((wd) => (
-                        <motion.div
-                          key={wd.id}
-                          layout
-                          initial={{ opacity: 0, scale: 0.96 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.96 }}
-                          transition={{ duration: 0.18 }}
-                        >
-                          <Flashcard word={wd} mastered={mastered.has(wd.id)} onToggle={handleToggle} />
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
-                  </div>
-                  {/* Pagination */}
-                  <div className="flex items-center justify-center gap-3 mt-6">
-                    <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <span className="text-sm font-semibold text-muted-foreground">
-                      {page + 1} / {totalPages}
-                    </span>
-                    <Button variant="outline" size="sm" disabled={page >= totalPages - 1} onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}>
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </>
-              )}
+              <SimpleVocabDeck
+                cards={filtered.map(word => ({
+                  key: word.id,
+                  term: word.sv,
+                  pronunciation: ensureSwedishIpa(word.sv, word.ipa),
+                  level: word.level,
+                  partOfSpeech: [word.article, word.pos].filter(Boolean).join(" · "),
+                  category: word.category,
+                  meaningPrimary: t(word.vi, word.en),
+                  meaningSecondary: t(word.en, word.vi),
+                  example: word.example,
+                  exampleTranslation: t(word.exampleVi, word.exampleEn),
+                  backExtra: <div className="space-y-3 border-t border-border pt-3" onClick={event => event.stopPropagation()}><SpeakBack target={word.example} /><RewriteBack target={word.example} /></div>,
+                }))}
+                t={t}
+                speak={speakSwedish}
+                stopAudio={stopSwedishTts}
+                mastered={mastered}
+                onToggleMastered={id => handleToggle(id)}
+              />
             </TabsContent>
 
             {/* List */}

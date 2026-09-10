@@ -4,14 +4,15 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState, useMemo, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  Search, Star, Volume2, ChevronLeft, ChevronRight, RotateCw,
+  Search, Star, Volume2, ChevronRight, RotateCw,
   BookOpen, Layers, Trophy, CheckCircle2, XCircle, Sparkles,
 } from "lucide-react";
 import PteShell from "@/components/pte/PteShell";
 import { PTE_VOCAB_BANK, PteVocabWord } from "@/data/pteData";
 import { supabase } from "@/integrations/supabase/client";
+import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
 
 const STORAGE_KEY = "pte-vocab-mastered";
 const MIGRATED_KEY = "pte-vocab-migrated-v1";
@@ -37,10 +38,6 @@ const PteVocabulary = () => {
   const [mastered, setMastered] = useState<Set<string>>(new Set());
   const [userId, setUserId] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
-
-  // Flashcard state
-  const [flashIdx, setFlashIdx] = useState(0);
-  const [flipped, setFlipped] = useState(false);
 
   // Quiz state
   const [quizQs, setQuizQs] = useState<QuizQ[]>([]);
@@ -168,17 +165,6 @@ const PteVocabulary = () => {
 
   const masteryPct = Math.round((mastered.size / PTE_VOCAB_BANK.length) * 100);
 
-  // ===== Flashcard handlers =====
-  const flashCard = filtered[flashIdx];
-  const handleFlashNext = () => {
-    setFlipped(false);
-    setFlashIdx(i => (i + 1) % Math.max(filtered.length, 1));
-  };
-  const handleFlashPrev = () => {
-    setFlipped(false);
-    setFlashIdx(i => (i - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1));
-  };
-
   // ===== Quiz handlers =====
   const startQuiz = () => {
     const pool = [...PTE_VOCAB_BANK].sort(() => Math.random() - 0.5).slice(0, 10);
@@ -217,12 +203,6 @@ const PteVocabulary = () => {
       setQuizPick(null);
     }
   };
-
-  // Reset flashcard index when filter changes
-  useEffect(() => {
-    setFlashIdx(0);
-    setFlipped(false);
-  }, [search, posFilter]);
 
   return (
     <PteShell
@@ -369,86 +349,15 @@ const PteVocabulary = () => {
       )}
 
       {/* ===== FLASHCARD MODE ===== */}
-      {mode === "flashcard" && flashCard && (
-        <div>
-          <p className="text-xs text-slate-500 mb-3 text-center">
-            Card {flashIdx + 1} of {filtered.length}
-          </p>
-          <div
-            onClick={() => setFlipped(f => !f)}
-            className="relative cursor-pointer min-h-[320px] sm:min-h-[360px] mb-4"
-            style={{ perspective: "1000px" }}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`${flashCard.word}-${flipped}`}
-                initial={{ rotateY: -90, opacity: 0 }}
-                animate={{ rotateY: 0, opacity: 1 }}
-                exit={{ rotateY: 90, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`absolute inset-0 rounded-2xl p-6 sm:p-10 grid place-items-center text-center shadow-lg ${
-                  flipped
-                    ? "bg-gradient-to-br from-[#0052cc] to-[#003580] text-white"
-                    : "bg-white border-2 border-[#003580]/20"
-                }`}
-              >
-                {!flipped ? (
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-[#003580]/60 font-semibold mb-2">
-                      {flashCard.partOfSpeech}
-                    </p>
-                    <h2 className="text-3xl sm:text-5xl font-bold text-[#003580] mb-3">
-                      {flashCard.word}
-                    </h2>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); speak(flashCard.word); }}
-                      className="inline-flex items-center gap-1 text-sm text-[#003580]/70 hover:text-[#003580] transition-colors"
-                    >
-                      <Volume2 size={16} /> Listen
-                    </button>
-                    <p className="text-xs text-slate-500 mt-6">Tap card to reveal meaning</p>
-                  </div>
-                ) : (
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-white/70 font-semibold mb-2">Meaning</p>
-                    <p className="text-xl sm:text-2xl font-semibold leading-relaxed mb-4">
-                      {flashCard.meaning}
-                    </p>
-                    <p className="text-sm sm:text-base italic text-white/85 leading-relaxed">
-                      "{flashCard.example}"
-                    </p>
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleFlashPrev}
-              className="px-4 py-2 rounded-lg bg-white border border-[#003580]/20 text-[#003580] font-semibold inline-flex items-center gap-1 hover:bg-[#003580]/5"
-            >
-              <ChevronLeft size={16} /> Prev
-            </button>
-            <button
-              onClick={() => toggleMastered(flashCard.word)}
-              className={`flex-1 px-4 py-2 rounded-lg font-semibold inline-flex items-center justify-center gap-1.5 transition-colors ${
-                mastered.has(flashCard.word)
-                  ? "bg-emerald-500 text-white"
-                  : "bg-amber-100 text-amber-700 hover:bg-amber-200"
-              }`}
-            >
-              <Star size={16} fill={mastered.has(flashCard.word) ? "currentColor" : "none"} />
-              {mastered.has(flashCard.word) ? "Mastered" : "Mark as Mastered"}
-            </button>
-            <button
-              onClick={handleFlashNext}
-              className="px-4 py-2 rounded-lg bg-[#003580] text-white font-semibold inline-flex items-center gap-1 hover:bg-[#0052cc]"
-            >
-              Next <ChevronRight size={16} />
-            </button>
-          </div>
-        </div>
+      {mode === "flashcard" && (
+        <SimpleVocabDeck
+          cards={filtered.map(word => ({ key: word.word, term: word.word, partOfSpeech: word.partOfSpeech, meaningPrimary: word.meaning, example: word.example }))}
+          t={(_vi, en) => en}
+          speak={speak}
+          stopAudio={stopEnglishTts}
+          mastered={mastered}
+          onToggleMastered={word => toggleMastered(word)}
+        />
       )}
 
       {/* ===== QUIZ MODE ===== */}

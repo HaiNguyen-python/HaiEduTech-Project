@@ -25,6 +25,7 @@ import { finnishToQuest } from "@/lib/vocab/vocabAdapter";
 import { Sparkles, Target } from "lucide-react";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { lazy, Suspense } from "react";
+import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
 const FINNISH_MILESTONES = [
@@ -841,7 +842,16 @@ const FinnishVocabulary = () => {
             <div className={viewMode === "exercise" ? "" : "hidden"}>
               <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
             </div>
-            {viewMode === "quest" || viewMode === "mission" || viewMode === "exercise" ? null : (() => {
+            {viewMode === "flashcard" ? (
+              <SimpleVocabDeck
+                cards={filtered.map(word => ({ key: word.word, term: word.word, pronunciation: word.ipa, level: word.level, partOfSpeech: word.partOfSpeech, category: word.category, meaningPrimary: word.definition.vi, meaningSecondary: word.definition.en, example: word.example, exampleTranslation: word.exampleEn, synonyms: word.synonyms, visual: <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} size={132} /> }))}
+                t={t}
+                speak={speak}
+                stopAudio={stopFinnishTts}
+                mastered={mastered}
+                onToggleMastered={handleStarClick}
+              />
+            ) : viewMode === "quest" || viewMode === "mission" || viewMode === "exercise" ? null : (() => {
               // Group paginated words by category so each topic shows its own section
               const groups = paginated.reduce<Record<string, IeltsWord[]>>((acc, w) => {
                 (acc[w.category] ||= []).push(w);
@@ -860,18 +870,7 @@ const FinnishVocabulary = () => {
                         <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
                       </div>
 
-                      {viewMode === "flashcard" ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                          <AnimatePresence mode="popLayout">
-                            {groups[cat].map(w => (
-                              <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                                <Flashcard word={w} />
-                              </motion.div>
-                            ))}
-                          </AnimatePresence>
-                        </div>
-                      ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                           {groups[cat].map(w => (
                             <motion.div
                               key={w.word + w.category}
@@ -943,8 +942,7 @@ const FinnishVocabulary = () => {
                               <InlineTypeExample word={w} t={t} />
                             </motion.div>
                           ))}
-                        </div>
-                      )}
+                      </div>
                     </section>
                   ))}
                 </div>
@@ -952,7 +950,7 @@ const FinnishVocabulary = () => {
             })()}
 
             {/* Pagination (hide in exercise mode) */}
-            {viewMode !== "exercise" && viewMode !== "quest" && viewMode !== "mission" && totalPages > 1 && (
+            {viewMode === "list" && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                   <ChevronLeft className="w-4 h-4" />
