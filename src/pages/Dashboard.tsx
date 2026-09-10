@@ -25,6 +25,8 @@ import type { User } from "@supabase/supabase-js";
 import { buildGrammarProgressSnapshot, type GrammarProgressSnapshot } from "@/lib/grammarProgress";
 import MonthlySummaryCard from "@/components/dashboard/MonthlySummaryCard";
 import MyPathDashboardCard from "@/components/personalization/MyPathDashboardCard";
+import SoftSkillsRadar from "@/components/lifestyle/SoftSkillsRadar";
+import { useLifestyleProgress } from "@/hooks/useLifestyleProgress";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer,
   XAxis, YAxis, CartesianGrid, Tooltip,
@@ -134,6 +136,7 @@ const Dashboard = () => {
   const resolvedName = useDisplayName(user, t("Học sinh", "Student"));
   const [displayName, setDisplayName] = useState("");
   const pteStats = usePteSkillStats();
+  const lifestyle = useLifestyleProgress();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
