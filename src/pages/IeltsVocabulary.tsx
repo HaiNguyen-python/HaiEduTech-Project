@@ -1917,6 +1917,8 @@ const IeltsVocabulary = () => {
                 words={filtered.map(englishToQuest)}
                 allWords={ieltsVocabData.map(englishToQuest)}
                 t={t}
+                speechLang="en-US"
+                knownKeys={mastered}
                 onWordLearned={w => { if (!mastered.has(w)) toggleMastered(w); }}
               />
             </div>

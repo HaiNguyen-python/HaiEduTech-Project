@@ -1075,6 +1075,8 @@ const Japanese = () => {
               storageKey="japanese_word_quest_v1"
               speak={(text) => speakJa(text)}
               typingLabel={{ vi: "Gõ romaji của từ có nghĩa:", en: "Type the romaji of the word meaning:" }}
+              speechLang="ja-JP"
+              knownKeys={mastered}
               onWordLearned={(w) => { if (!mastered.has(w)) toggleMastered(w); }}
             />
           </TabsContent>

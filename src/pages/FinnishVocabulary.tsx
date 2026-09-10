@@ -819,6 +819,8 @@ const FinnishVocabulary = () => {
                 speak={speakFi}
                 stopSpeak={stopFinnishTts}
                 typingLabel={{ vi: "Gõ từ tiếng Phần Lan có nghĩa:", en: "Type the Finnish word that means:" }}
+                speechLang="fi-FI"
+                knownKeys={mastered}
                 onWordLearned={w => { if (!mastered.has(w)) toggleMastered(w); }}
               />
             </div>

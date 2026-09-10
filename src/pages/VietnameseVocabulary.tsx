@@ -639,6 +639,8 @@ const VietnameseVocabulary = () => {
                   speak={speakVi}
                   stopSpeak={stopVietnameseTts}
                   typingLabel={{ vi: "Gõ lại từ (có dấu) có nghĩa:", en: "Type the Vietnamese word that means:" }}
+                  speechLang="vi-VN"
+                  knownKeys={mastered}
                   onWordLearned={w => { if (!mastered.has(w)) toggle(w); }}
                 />
               </div>
