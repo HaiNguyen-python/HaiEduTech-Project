@@ -1639,40 +1639,40 @@ GitLab uses recursive CTE on PostgreSQL to check access through nested group hie
 
 Next: **Apache Spark** - when data exceeds single DB (>1TB), distribute across a cluster. Spark is the industry #1 big data framework.`,
         code: `-- Recursive CTE: Generate a number series
--- CTE đệ quy: Tạo một chuỗi số
+-- Recursive CTE: generate a number sequence
 WITH RECURSIVE numbers AS (
-  -- Phần neo (anchor member): Bắt đầu chuỗi với số 1
+  -- Anchor member: start the sequence at 1
   SELECT 1 AS n
   UNION ALL
-  -- Phần đệ quy (recursive member): Cộng thêm 1 vào số trước đó
-  -- Tiếp tục cho đến khi n đạt 20
+  -- Recursive member: add 1 to the previous number
+  -- Continue until n reaches 20
   SELECT n + 1 FROM numbers WHERE n < 20
 )
--- Chọn số và bình phương của nó từ chuỗi đã tạo
--- Đầu ra: Một danh sách các số từ 1 đến 20 và bình phương của chúng
+-- Select the number and its square from the generated sequence
+-- Output: a list of numbers from 1 to 20 and their squares
 SELECT n, n * n AS square FROM numbers;
 
 -- Hierarchical query: Category tree
--- Truy vấn phân cấp: Cây danh mục
+-- Hierarchical query: category tree
 WITH RECURSIVE category_tree AS (
-  -- Phần neo (anchor member): Chọn các danh mục gốc (không có parent_id)
-  -- Khởi tạo độ sâu là 0 và đường dẫn là tên danh mục
-  -- Đầu vào: Bảng 'categories'
+  -- Anchor member: select root categories (no parent_id)
+  -- Initialize depth as 0 and path as the category name
+  -- Input: the 'categories' table
   SELECT id, name, parent_id, 0 AS depth,
          name AS path
   FROM categories WHERE parent_id IS NULL
   UNION ALL
-  -- Phần đệ quy (recursive member): Nối các danh mục con vào danh mục cha
-  -- Tăng độ sâu lên 1 và nối tên danh mục vào đường dẫn
-  -- Đầu vào: Bảng 'categories' và CTE 'category_tree'
+  -- Recursive member: join child categories to their parent
+  -- Increment depth by 1 and append the category name to the path
+  -- Input: the 'categories' table and the 'category_tree' CTE
   SELECT c.id, c.name, c.parent_id, ct.depth + 1,
          ct.path || ' > ' || c.name
   FROM categories c
   JOIN category_tree ct ON c.parent_id = ct.id
 )
--- Chọn độ sâu và đường dẫn của từng danh mục từ cây đã tạo
--- Sắp xếp theo đường dẫn để dễ đọc
--- Đầu ra: Cây danh mục với độ sâu và đường dẫn đầy đủ
+-- Select the depth and path of each category from the generated tree
+-- Sort by path for readability
+-- Output: the category tree with depth and full path
 SELECT depth, path FROM category_tree ORDER BY path;`,
         codeLanguage: "sql",
         exercise: "Write a recursive CTE to display a 3-level menu tree with indentation",
@@ -1875,7 +1875,7 @@ Uber uses Spark Structured Streaming with Kafka for surge pricing, driver matchi
 ## Next Journey
 
 Master Spark = Data Engineering foundation complete. Next: **Spark Streaming**, **Delta Lake**, **Spark MLlib**, or **Databricks** (managed Spark used by Netflix, Shell, Comcast).`,
-        code: `# Ví dụ DataFrame PySpark (khái niệm)
+        code: `# PySpark DataFrame example (conceptual)
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
@@ -1883,10 +1883,10 @@ spark = SparkSession.builder \\\\
     .appName("SalesAnalysis") \\\\
     .getOrCreate()
 
-# Đọc dữ liệu
+# Read data
 sales = spark.read.csv("sales.csv", header=True, inferSchema=True)
 
-# Các biến đổi (lazy, chưa thực thi)
+# Transformations (lazy, not yet executed)
 monthly_sales = sales \\\\
     .withColumn("month", F.month("date")) \\\\
     .groupBy("month", "category") \\\\
@@ -1897,10 +1897,10 @@ monthly_sales = sales \\\\
     ) \\\\
     .orderBy("month")
 
-# Hành động (kích hoạt thực thi)
+# Action (triggers execution)
 monthly_sales.show()
 
-# Ghi kết quả
+# Write results
 monthly_sales.write.parquet("output/monthly_sales")`,
         codeLanguage: "python",
         exercise: "Write PySpark pipeline to read JSON file, filter by condition, group by and write to Parquet",

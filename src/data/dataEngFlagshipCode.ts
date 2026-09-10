@@ -41,24 +41,24 @@ from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 import pandas as pd
 
 # ---------------------------------------------------------------------------
-# default_args: áp dụng cho MỌI task trong DAG. Đặt retry + email để khi task
-# fail giữa đêm thì on-call engineer được báo ngay, không phải đợi sáng mai.
+# default_args: applies to EVERY task in the DAG. Set retry + email so that when a task
+# fails in the middle of the night, the on-call engineer is notified immediately, not tomorrow morning.
 # ---------------------------------------------------------------------------
 default_args = {
     "owner": "data-platform",
-    "depends_on_past": False,        # task hôm nay không cần đợi hôm qua
-    "retries": 3,                    # tự retry 3 lần khi gặp lỗi tạm thời
+    "depends_on_past": False,        # today's task doesn't need to wait for yesterday's
+    "retries": 3,                    # auto-retry 3 times on transient errors
     "retry_delay": timedelta(minutes=5),
     "email_on_failure": True,
-    "sla": timedelta(hours=2),       # cảnh báo nếu chạy quá 2h
+    "sla": timedelta(hours=2),       # alert if it runs longer than 2h
 }
 
-# schedule_interval="@daily" + catchup=False = chỉ chạy ngày hôm nay,
-# KHÔNG chạy bù toàn bộ lịch sử khi deploy mới (tránh "backfill bão").
+# schedule_interval="@daily" + catchup=False = only run for today,
+# do NOT backfill the entire history on a new deploy (avoid a "backfill storm").
 dag = DAG(
     "daily_sales_pipeline",
     default_args=default_args,
-    description="Trích doanh thu Postgres -> S3 -> Warehouse mỗi ngày",
+    description="Extract revenue Postgres -> S3 -> Warehouse daily",
     schedule_interval="@daily",
     start_date=datetime(2026, 1, 1),
     catchup=False,
@@ -67,11 +67,11 @@ dag = DAG(
 
 
 def extract(ds, **_):
-    """Lấy giao dịch của NGÀY ds (Airflow execution date, dạng 'YYYY-MM-DD').
+    """Fetch transactions for DAY ds (Airflow execution date, format 'YYYY-MM-DD').
 
-    Dùng ds thay vì datetime.now() để bảo đảm IDEMPOTENT:
-    chạy lại task này ngày 2026-03-01 luôn ra cùng 1 tập dữ liệu, dù
-    hôm nay là 2026-04-15.
+    Use ds instead of datetime.now() to guarantee IDEMPOTENCY:
+    re-running this task for 2026-03-01 always produces the same dataset, even if
+    today is 2026-04-15.
     """
     pg = PostgresHook(postgres_conn_id="oltp_prod")
     sql = """
@@ -81,29 +81,29 @@ def extract(ds, **_):
     """
     df = pg.get_pandas_df(sql, parameters={"ds": ds})
     path = f"/tmp/orders_{ds}.parquet"
-    # Parquet thay vì CSV vì: nén tốt hơn ~5x, đọc cột nhanh, giữ schema.
+    # Parquet instead of CSV because: ~5x better compression, fast columnar reads, keeps schema.
     df.to_parquet(path, index=False)
-    return path  # giá trị return -> XCom cho task sau dùng
+    return path  # return value -> XCom for the next task to use
 
 
 def upload_to_s3(ds, **ctx):
-    """Đẩy file Parquet local lên S3 (data lake, lưu thô)."""
-    local_path = ctx["ti"].xcom_pull(task_ids="extract")  # lấy path từ task trước
+    """Push the local Parquet file to S3 (data lake, raw storage)."""
+    local_path = ctx["ti"].xcom_pull(task_ids="extract")  # get the path from the previous task
     s3 = S3Hook(aws_conn_id="aws_default")
     s3.load_file(
         filename=local_path,
-        # Phân vùng theo ngày -> Athena/Spark có thể prune partition khi query.
+        # Partitioned by day -> Athena/Spark can prune partitions when querying.
         key=f"raw/orders/dt={ds}/orders.parquet",
         bucket_name="lake-prod",
-        replace=True,                # cho phép ghi đè khi retry
+        replace=True,                # allow overwrite on retry
     )
 
 
 def load_to_warehouse(ds, **_):
-    """COPY từ S3 vào bảng staging, rồi MERGE vào fact table."""
+    """COPY from S3 into the staging table, then MERGE into the fact table."""
     pg = PostgresHook(postgres_conn_id="warehouse_prod")
-    # Pattern "DELETE + INSERT" theo partition: chạy lại 1 ngày bị lỗi
-    # sẽ không tạo dữ liệu trùng (idempotent).
+    # "DELETE + INSERT" pattern by partition: re-running a failed day
+    # won't create duplicate data (idempotent).
     pg.run(f"DELETE FROM fct_sales WHERE order_date = '{ds}'")
     pg.run(f"""
         INSERT INTO fct_sales (order_id, customer_id, amount_usd, order_date)
@@ -116,7 +116,7 @@ def load_to_warehouse(ds, **_):
     """)
 
 
-# Khai báo task + dependency: extract -> upload -> load.
+# Declare tasks + dependency: extract -> upload -> load.
 t1 = PythonOperator(task_id="extract", python_callable=extract, dag=dag)
 t2 = PythonOperator(task_id="upload", python_callable=upload_to_s3, dag=dag)
 t3 = PythonOperator(task_id="load", python_callable=load_to_warehouse, dag=dag)
@@ -147,21 +147,21 @@ from confluent_kafka import Consumer, Producer, KafkaError
 from clickhouse_driver import Client
 
 # ---------------------------------------------------------------------------
-# Vì sao "manual commit"? enable.auto.commit=False cho phép ta CHỈ commit
-# offset SAU KHI đã ghi thành công vào ClickHouse. Nếu crash giữa chừng,
-# lần chạy sau sẽ đọc lại các event chưa commit -> at-least-once delivery.
+# Why "manual commit"? enable.auto.commit=False lets us commit
+# the offset ONLY AFTER a successful write to ClickHouse. If it crashes midway,
+# the next run will re-read the uncommitted events -> at-least-once delivery.
 # ---------------------------------------------------------------------------
 consumer = Consumer({
     "bootstrap.servers": "kafka-1:9092,kafka-2:9092,kafka-3:9092",
     "group.id": "clickstream-loader-v1",
     "enable.auto.commit": False,
-    "auto.offset.reset": "earliest",   # consumer mới đọc từ đầu
-    "max.poll.interval.ms": 600000,    # cho phép xử lý batch lâu (10 phút)
+    "auto.offset.reset": "earliest",   # new consumer reads from the beginning
+    "max.poll.interval.ms": 600000,    # allow long batch processing (10 minutes)
 })
 consumer.subscribe(["events.clicks"])
 
-# Dead-letter queue: nơi vứt các message không parse được, để team data
-# inspect sau, KHÔNG block toàn bộ pipeline vì 1 record xấu.
+# Dead-letter queue: where unparseable messages are dropped, for the data team
+# to inspect later, WITHOUT blocking the whole pipeline for one bad record.
 dlq = Producer({"bootstrap.servers": "kafka-1:9092"})
 
 ch = Client("clickhouse-prod")
@@ -171,25 +171,25 @@ running = True
 
 
 def flush():
-    """Đẩy buffer hiện tại vào ClickHouse + commit offset Kafka."""
+    """Push the current buffer into ClickHouse + commit the Kafka offset."""
     if not buffer:
         return
-    # ClickHouse khuyến nghị insert theo batch lớn (1k-100k) để giảm số
-    # 'parts' merge. Insert từng row sẽ tạo hàng triệu parts -> background
-    # merge ngộp -> query chậm.
+    # ClickHouse recommends inserting in large batches (1k-100k) to reduce the number of
+    # merged 'parts'. Inserting row by row would create millions of parts -> background
+    # merge overload -> slow queries.
     ch.execute(
         "INSERT INTO events.clicks (ts, user_id, url, country, device) VALUES",
         buffer,
     )
-    consumer.commit(asynchronous=False)  # đồng bộ, đảm bảo commit xong
+    consumer.commit(asynchronous=False)  # synchronous, ensures the commit completes
     buffer.clear()
 
 
 def shutdown(*_):
-    """Bắt SIGTERM (k8s, systemd) -> flush buffer trước khi thoát.
+    """Catch SIGTERM (k8s, systemd) -> flush the buffer before exiting.
 
-    Không có hàm này -> pod bị kill khi rolling deploy sẽ MẤT mọi event
-    đang nằm trong buffer.
+    Without this function -> a pod killed during a rolling deploy would LOSE every event
+    still sitting in the buffer.
     """
     global running
     running = False
@@ -201,7 +201,7 @@ signal.signal(signal.SIGINT, shutdown)
 while running:
     msg = consumer.poll(timeout=1.0)
     if msg is None:
-        # Không có data mới -> tranh thủ flush partial batch nếu có.
+        # No new data -> take the opportunity to flush a partial batch if any.
         flush()
         continue
     if msg.error():
@@ -216,7 +216,7 @@ while running:
             event["url"], event["country"], event["device"],
         ))
     except (json.JSONDecodeError, KeyError) as e:
-        # Poison pill -> đẩy vào DLQ, kèm lỗi để debug, rồi đi tiếp.
+        # Poison pill -> push to the DLQ, with the error for debugging, then continue.
         dlq.produce("events.clicks.dlq",
                     msg.value(),
                     headers={"error": str(e)})
@@ -225,7 +225,7 @@ while running:
     if len(buffer) >= BATCH_SIZE:
         flush()
 
-flush()                  # flush lần cuối trước khi thoát
+flush()                  # final flush before exiting
 consumer.close()
 print("clean shutdown")
 `,

@@ -1327,7 +1327,7 @@ A truly "red" student = matches ≥ 2/3 signals above.`,
 import pandas as pd
 
 scores = pd.DataFrame({
-    "name":    ["An","Bình","Cường","Dung","Em","Phương"],
+    "name":    ["An","Binh","Cuong","Dung","Em","Phuong"],
     "math":    [4.5, 7.8, 5.2, 9.0, 3.5, 8.2],
     "english": [6.0, 8.5, 4.8, 9.2, 5.0, 7.0],
     "science": [5.5, 7.0, 5.0, 8.5, 4.2, 9.0],

@@ -1149,59 +1149,59 @@ When a student is stuck on \`past perfect\`, the system automatically **suggests
 - **Forgetting in KT**: mastery isn't monotonically increasing - it must decay over time. Models like DKT-Forget or KTM handle this.
 - **Explainability**: parents/teachers need to know "why hasn't my child reached mastery yet." Visualize mastery as a radar chart per skill - already implemented in the Student Dashboard.
 `,
-        code: `# Định nghĩa một hàm để cập nhật xác suất người học biết một kỹ năng
-# Hàm này thực hiện một bước cập nhật trong mô hình Bayesian Knowledge Tracing (BKT)
-# Đầu vào:
-#   p_known: Xác suất hiện tại người học biết kỹ năng (số thực từ 0 đến 1).
-#   correct: Kết quả của lần thử hiện tại (True nếu đúng, False nếu sai).
-#   p_slip: Xác suất người học biết kỹ năng nhưng vẫn trả lời sai (lỗi trượt). Mặc định là 0.1.
-#   p_guess: Xác suất người học không biết kỹ năng nhưng vẫn trả lời đúng (đoán mò). Mặc định là 0.2.
-#   p_learn: Xác suất người học học được kỹ năng sau một lần thử. Mặc định là 0.1.
-# Đầu ra:
-#   Xác suất cập nhật người học biết kỹ năng sau lần thử.
+        code: `# Define a function to update the probability that a learner knows a skill
+# This implements one update step of the Bayesian Knowledge Tracing (BKT) model
+# Input:
+#   p_known: current probability the learner knows the skill (float 0..1).
+#   correct: outcome of the current attempt (True if correct, False if wrong).
+#   p_slip: probability the learner knows the skill but still answers wrong (slip). Default 0.1.
+#   p_guess: probability the learner does not know the skill but answers correctly anyway (guess). Default 0.2.
+#   p_learn: probability the learner learns the skill after an attempt. Default 0.1.
+# Output:
+#   the updated probability the learner knows the skill after the attempt.
 def bkt_update(p_known: float, correct: bool,
                p_slip=0.1, p_guess=0.2, p_learn=0.1) -> float:
     """One-step Bayesian Knowledge Tracing update."""
-    # Nếu người học trả lời đúng
+    # If the learner answered correctly
     if correct:
-        # Tính tử số (numerator) của công thức Bayes khi trả lời đúng
-        # Đây là xác suất người học biết và không bị trượt
+        # Compute the numerator of Bayes' formula for a correct answer
+        # This is the probability of knowing it and not slipping
         num = p_known * (1 - p_slip)
-        # Tính mẫu số (denominator) của công thức Bayes khi trả lời đúng
-        # Đây là tổng xác suất trả lời đúng (biết và không trượt HOẶC không biết và đoán đúng)
+        # Compute the denominator of Bayes' formula for a correct answer
+        # This is the total probability of answering correctly (knowing without slipping OR not knowing but guessing right)
         den = num + (1 - p_known) * p_guess
-    # Nếu người học trả lời sai
+    # If the learner answered incorrectly
     else:
-        # Tính tử số của công thức Bayes khi trả lời sai
-        # Đây là xác suất người học biết nhưng bị trượt
+        # Compute the numerator of Bayes' formula for a wrong answer
+        # This is the probability of knowing it but slipping
         num = p_known * p_slip
-        # Tính mẫu số của công thức Bayes khi trả lời sai
-        # Đây là tổng xác suất trả lời sai (biết và trượt HOẶC không biết và không đoán đúng)
+        # Compute the denominator of Bayes' formula for a wrong answer
+        # This is the total probability of answering wrong (knowing and slipping OR not knowing and not guessing right)
         den = num + (1 - p_known) * (1 - p_guess)
-    # Tính xác suất hậu nghiệm (posterior probability)
-    # Nếu mẫu số khác 0, thì chia tử số cho mẫu số. Ngược lại, giữ nguyên p_known để tránh lỗi chia cho 0.
+    # Compute the posterior probability
+    # If the denominator is nonzero, divide numerator by denominator. Otherwise keep p_known to avoid division by zero.
     posterior = num / den if den else p_known
-    # Áp dụng bước học (learning step)
-    # Đây là xác suất người học có thể học được kỹ năng sau lần thử, ngay cả khi xác suất hậu nghiệm thấp.
-    # Đầu ra là xác suất cuối cùng sau khi đã tính đến khả năng học.
+    # Apply the learning step
+    # This is the probability the learner could have learned the skill after the attempt, even if the posterior is low.
+    # The output is the final probability after accounting for possible learning.
     return posterior + (1 - posterior) * p_learn
 
-# Mô phỏng một người học với kỹ năng "quá khứ đơn" (past simple)
-# Khởi tạo xác suất ban đầu người học biết kỹ năng (trạng thái "lạnh")
+# Simulate a learner with the "past simple" skill
+# Initialize the starting probability the learner knows the skill ("cold" state)
 p = 0.15  # cold-start prior
-# Lịch sử các lần thử của người học (True = đúng, False = sai)
+# History of the learner's attempts (True = correct, False = wrong)
 history = [True, False, True, True, True, False, True, True]
-# Lặp qua từng lần thử trong lịch sử
-# i là số thứ tự câu hỏi (bắt đầu từ 1), c là kết quả của lần thử đó
+# Loop through each attempt in the history
+# i is the question number (starting at 1), c is the outcome of that attempt
 for i, c in enumerate(history, 1):
-    # Cập nhật xác suất người học biết kỹ năng sau mỗi lần thử
-    # Đầu vào: xác suất hiện tại p, kết quả lần thử c
-    # Đầu ra: xác suất p đã được cập nhật
+    # Update the probability the learner knows the skill after each attempt
+    # Input: current probability p, attempt outcome c
+    # Output: the updated probability p
     p = bkt_update(p, c)
-    # Đặt cờ "MASTERED ✓" nếu xác suất biết kỹ năng đạt ngưỡng 0.85 trở lên
+    # Set the "MASTERED" flag if the probability reaches 0.85 or higher
     flag = "MASTERED ✓" if p >= 0.85 else ""
-    # In ra kết quả của từng câu hỏi: số câu, kết quả đúng/sai, xác suất biết kỹ năng, và cờ "MASTERED" nếu có
-    # Kết quả mong đợi: Dòng chữ hiển thị tiến trình học của người học qua từng câu hỏi.
+    # Print the result of each question: question number, correct/wrong, probability of knowing, and MASTERED flag if any
+    # Expected output: lines showing the learner's progress question by question.
     print(f"Q{i} {'✓' if c else '✗'}  p(known) = {p:.3f}  {flag}")`,
         codeLanguage: "python",
         exercise:

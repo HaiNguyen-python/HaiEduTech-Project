@@ -2064,93 +2064,93 @@ Vietnam's EVN forecasts hourly load 24 h ahead. A bidirectional LSTM ingesting t
 
 ## 🛠️ Practice Task
 Implement a character-level LSTM that generates Vietnamese poetry in the style of "Truyện Kiều". Train on the first 1 000 lines. Sample with temperatures 0.3, 0.7, and 1.2 - describe how outputs change.`,
-        code: `# Dự đoán giá cổ phiếu ngày tiếp theo bằng mạng LSTM
+        code: `# Predict the next day's stock price using an LSTM network
 
-# Nhập các thư viện cần thiết từ PyTorch.
-# \`torch\` là thư viện chính cho các phép toán tensor.
-# \`torch.nn\` chứa các lớp xây dựng mạng nơ-ron.
+# Import required libraries from PyTorch.
+# \`torch\` is the main library for tensor operations.
+# \`torch.nn\` contains classes for building neural networks.
 import torch, torch.nn as nn
 
-# Định nghĩa lớp mạng nơ-ron PriceLSTM.
-# Đây là một mô hình dự đoán giá sử dụng mạng LSTM.
+# Define the PriceLSTM neural network class.
+# This is a price prediction model using an LSTM network.
 class PriceLSTM(nn.Module):
-    # Hàm khởi tạo của mô hình.
-    # Được gọi khi tạo một đối tượng PriceLSTM mới.
-    # Đầu vào:
-    #   - n_features: Số lượng đặc trưng (features) cho mỗi ngày (mặc định là 5).
-    #   - hidden: Số lượng đơn vị ẩn (hidden units) trong mỗi lớp LSTM (mặc định là 64).
-    #   - layers: Số lượng lớp LSTM xếp chồng lên nhau (mặc định là 2).
+    # Model constructor.
+    # Called when creating a new PriceLSTM object.
+    # Input:
+    #   - n_features: number of features per day (default 5).
+    #   - hidden: number of hidden units in each LSTM layer (default 64).
+    #   - layers: number of stacked LSTM layers (default 2).
     def __init__(self, n_features=5, hidden=64, layers=2):
-        # Gọi hàm khởi tạo của lớp cha (nn.Module).
+        # Call the parent class constructor (nn.Module).
         super().__init__()
-        # Định nghĩa lớp LSTM.
-        # Đầu vào:
-        #   - n_features: Kích thước đầu vào của mỗi bước thời gian.
-        #   - hidden: Kích thước của trạng thái ẩn.
-        #   - layers: Số lượng lớp LSTM.
-        #   - batch_first=True: Dữ liệu đầu vào có dạng (batch, sequence, feature).
-        #   - dropout=0.2: Tỷ lệ dropout để tránh overfitting.
+        # Define the LSTM layer.
+        # Input:
+        #   - n_features: input size for each time step.
+        #   - hidden: size of the hidden state.
+        #   - layers: number of LSTM layers.
+        #   - batch_first=True: input data has shape (batch, sequence, feature).
+        #   - dropout=0.2: dropout rate to avoid overfitting.
         self.lstm = nn.LSTM(n_features, hidden, layers,
                             batch_first=True, dropout=0.2)
-        # Định nghĩa lớp tuyến tính (fully connected layer) cuối cùng.
-        # Lớp này sẽ chuyển đổi đầu ra từ LSTM (kích thước hidden) thành 1 giá trị (giá dự đoán).
+        # Define the final linear (fully connected) layer.
+        # This layer converts the LSTM output (hidden size) into 1 value (predicted price).
         self.head = nn.Linear(hidden, 1)
 
-    # Hàm forward định nghĩa cách dữ liệu đi qua mô hình.
-    # Đầu vào:
-    #   - x: Tensor dữ liệu đầu vào.
-    #        Dạng mong đợi: (kích thước_batch, số_ngày, số_đặc_trưng)
-    #        Ví dụ: (32, 30, 5) nghĩa là 32 chuỗi, mỗi chuỗi 30 ngày, mỗi ngày có 5 đặc trưng.
-    # Đầu ra:
-    #   - Giá dự đoán cho ngày tiếp theo.
+    # The forward function defines how data flows through the model.
+    # Input:
+    #   - x: input data tensor.
+    #        Expected shape: (batch_size, num_days, num_features)
+    #        Example: (32, 30, 5) means 32 sequences, each 30 days, each day with 5 features.
+    # Output:
+    #   - predicted price for the next day.
     def forward(self, x):                  # x: (batch, 30 days, 5 features)
-        # Truyền dữ liệu qua lớp LSTM.
-        # \`out\` chứa đầu ra của LSTM cho tất cả các bước thời gian.
-        # \`_\` chứa trạng thái ẩn và trạng thái ô nhớ cuối cùng (không dùng ở đây).
+        # Pass data through the LSTM layer.
+        # \`out\` contains the LSTM output for all time steps.
+        # \`_\` contains the final hidden state and cell state (not used here).
         out, _ = self.lstm(x)
-        # Lấy đầu ra của bước thời gian cuối cùng từ LSTM (\`out[:, -1, :]\`).
-        # Sau đó truyền qua lớp tuyến tính \`self.head\` để có được dự đoán cuối cùng.
-        # Đầu ra: (kích thước_batch, 1)
+        # Take the output of the last time step from the LSTM (\`out[:, -1, :]\`).
+        # Then pass it through the linear layer \`self.head\` to get the final prediction.
+        # Output: (batch_size, 1)
         return self.head(out[:, -1, :])    # use last time step
 
-# Khởi tạo một đối tượng mô hình PriceLSTM.
+# Create a PriceLSTM model instance.
 model = PriceLSTM()
-# Khởi tạo bộ tối ưu hóa Adam.
-# Bộ tối ưu hóa này sẽ điều chỉnh các tham số của mô hình để giảm lỗi.
-# Đầu vào:
-#   - model.parameters(): Các tham số (trọng số và bias) của mô hình cần tối ưu.
-#   - lr: Tốc độ học (learning rate), kiểm soát mức độ thay đổi của các tham số.
+# Initialize the Adam optimizer.
+# This optimizer adjusts the model parameters to reduce error.
+# Input:
+#   - model.parameters(): the model parameters (weights and biases) to optimize.
+#   - lr: learning rate, controls how much the parameters change.
 opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-# Định nghĩa hàm mất mát (loss function) là MSE (Mean Squared Error).
-# Hàm này đo lường sự khác biệt giữa giá trị dự đoán và giá trị thực tế.
+# Define the loss function as MSE (Mean Squared Error).
+# This function measures the difference between predicted and actual values.
 loss_fn = nn.MSELoss()
 
-# --- Một bước huấn luyện (training step) mẫu ---
+# --- Sample training step ---
 
-# Tạo dữ liệu đầu vào giả định (x) cho một batch.
-# Dạng: (kích thước_batch, số_ngày, số_đặc_trưng)
-# Ví dụ: 32 chuỗi, mỗi chuỗi 30 ngày, mỗi ngày có 5 đặc trưng.
+# Create fake input data (x) for a batch.
+# Shape: (batch_size, num_days, num_features)
+# Example: 32 sequences, each 30 days, each day with 5 features.
 x = torch.randn(32, 30, 5)                 # batch of 32 windows
-# Tạo nhãn (y) giả định cho một batch.
-# Đây là giá đóng cửa của ngày tiếp theo mà mô hình cần dự đoán.
-# Dạng: (kích thước_batch, 1)
+# Create fake labels (y) for a batch.
+# This is the closing price of the next day that the model needs to predict.
+# Shape: (batch_size, 1)
 y = torch.randn(32, 1)                     # next-day close price
 
-# Đưa dữ liệu đầu vào qua mô hình để nhận được dự đoán.
+# Pass the input data through the model to get predictions.
 pred = model(x)
-# Tính toán giá trị mất mát giữa dự đoán (pred) và nhãn thực tế (y).
+# Compute the loss between the prediction (pred) and the actual label (y).
 loss = loss_fn(pred, y)
-# Thực hiện lan truyền ngược (backpropagation).
-# Tính toán gradient của hàm mất mát đối với tất cả các tham số của mô hình.
+# Perform backpropagation.
+# Compute the gradient of the loss with respect to all model parameters.
 loss.backward()
-# Cắt gradient (gradient clipping) để tránh hiện tượng "exploding gradients".
-# Điều này giúp ổn định quá trình huấn luyện, đặc biệt quan trọng với RNN/LSTM.
-# Giới hạn độ lớn của gradient không vượt quá 1.0.
+# Clip the gradient (gradient clipping) to avoid "exploding gradients".
+# This helps stabilize training, especially important for RNN/LSTM.
+# Limit the gradient magnitude to at most 1.0.
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # critical!
-# Cập nhật các tham số của mô hình dựa trên gradient đã tính toán.
+# Update the model parameters based on the computed gradient.
 opt.step()
-# In giá trị mất mát của bước huấn luyện hiện tại.
-# Kết quả mong đợi: Một số thập phân thể hiện mức độ lỗi của mô hình.
+# Print the loss value for the current training step.
+# Expected result: a decimal number representing the model error.
 print(f"Loss: {loss.item():.4f}")`,
         codeLanguage: "python",
         exercise: "LSTM giải quyết vấn đề gradient biến mất tốt hơn RNN thông thường vì nó sử dụng một \"cell state\" (trạng thái ô) để lưu trữ thông tin dài hạn. Quy tắc cập nhật trạng thái ô ($c_t = f_t \\cdot c_{t-1} + i_t \\cdot \\tilde{c}_t$) cho phép gradient chảy qua các bước thời gian mà không bị nhân với các trọng số nhỏ liên tục, từ đó giữ được độ lớn của gradient.",
@@ -2277,99 +2277,99 @@ A Vietnamese hospital has 50 000 X-rays but only 800 are labelled by radiologist
 ## 🛠️ Practice Task
 You have 5 000 unlabelled product photos and 200 labelled ones (10 categories). Design a 2-stage training plan and justify your choice of SSL method (contrastive vs MAE).`,
         code: `# Tiny SimCLR on CIFAR-10 (PyTorch)
-# Nhập các thư viện cần thiết cho PyTorch và xử lý ảnh.
+# Import required libraries for PyTorch and image processing.
 import torch, torch.nn as nn, torch.nn.functional as F
 from torchvision import models, transforms
 
-# Hai phép biến đổi ngẫu nhiên của cùng một ảnh → "cặp dương" (positive pair)
-# Định nghĩa chuỗi các phép biến đổi ảnh (data augmentation) để tạo ra các view khác nhau của cùng một ảnh.
+# Two random transformations of the same image -> "positive pair"
+# Define a sequence of image transformations (data augmentation) to create different views of the same image.
 augment = transforms.Compose([
-    # Cắt ngẫu nhiên và thay đổi kích thước ảnh về 32x32 pixel.
-    # Đầu vào: ảnh PIL. Đầu ra: ảnh PIL.
+    # Randomly crop and resize the image to 32x32 pixels.
+    # Input: PIL image. Output: PIL image.
     transforms.RandomResizedCrop(32, scale=(0.5, 1.0)),
-    # Lật ảnh ngẫu nhiên theo chiều ngang.
-    # Đầu vào: ảnh PIL. Đầu ra: ảnh PIL.
+    # Randomly flip the image horizontally.
+    # Input: PIL image. Output: PIL image.
     transforms.RandomHorizontalFlip(),
-    # Điều chỉnh độ sáng, độ tương phản, độ bão hòa và sắc độ ngẫu nhiên.
-    # Đầu vào: ảnh PIL. Đầu ra: ảnh PIL.
+    # Randomly adjust brightness, contrast, saturation, and hue.
+    # Input: PIL image. Output: PIL image.
     transforms.ColorJitter(0.4, 0.4, 0.4, 0.1),
-    # Chuyển ảnh sang thang độ xám ngẫu nhiên với xác suất p=0.2.
-    # Đầu vào: ảnh PIL. Đầu ra: ảnh PIL.
+    # Convert the image to grayscale randomly with probability p=0.2.
+    # Input: PIL image. Output: PIL image.
     transforms.RandomGrayscale(p=0.2),
-    # Chuyển ảnh từ PIL Image hoặc NumPy array sang Tensor.
-    # Đầu vào: ảnh PIL. Đầu ra: Tensor.
+    # Convert the image from a PIL Image or NumPy array to a Tensor.
+    # Input: PIL image. Output: Tensor.
     transforms.ToTensor(),
 ])
 
-# Khởi tạo mô hình backbone (ResNet-18) và bộ chiếu (projector).
-# Sử dụng ResNet-18 làm backbone để trích xuất đặc trưng từ ảnh.
-# weights=None nghĩa là không tải các trọng số đã được huấn luyện trước.
+# Initialize the backbone model (ResNet-18) and the projector.
+# Use ResNet-18 as the backbone to extract features from images.
+# weights=None means pretrained weights are not loaded.
 backbone = models.resnet18(weights=None)
-# Thay thế lớp phân loại cuối cùng của ResNet-18 bằng một lớp Identity (không làm gì cả).
-# Điều này loại bỏ phần phân loại để chỉ giữ lại phần trích xuất đặc trưng.
-backbone.fc = nn.Identity()                       # loại bỏ lớp phân loại (classifier head)
-# Định nghĩa bộ chiếu (projector) gồm hai lớp tuyến tính (Linear) và một hàm kích hoạt ReLU.
-# Bộ chiếu này sẽ ánh xạ đặc trưng từ backbone sang một không gian chiều thấp hơn (128 chiều).
+# Replace the final classification layer of ResNet-18 with an Identity layer (does nothing).
+# This removes the classification head to keep only the feature extraction part.
+backbone.fc = nn.Identity()                       # remove the classifier head
+# Define the projector, made of two Linear layers and a ReLU activation.
+# This projector maps features from the backbone into a lower-dimensional space (128 dims).
 projector = nn.Sequential(
-    # Lớp tuyến tính đầu tiên, ánh xạ từ 512 chiều (đầu ra của ResNet-18) sang 512 chiều.
+    # First linear layer, mapping from 512 dims (ResNet-18 output) to 512 dims.
     nn.Linear(512, 512), nn.ReLU(),
-    # Lớp tuyến tính thứ hai, ánh xạ từ 512 chiều sang 128 chiều.
-    # Đây là chiều của không gian chiếu (projection dimension).
-    nn.Linear(512, 128),                          # chiều của không gian chiếu
+    # Second linear layer, mapping from 512 dims to 128 dims.
+    # This is the projection dimension.
+    nn.Linear(512, 128),                          # projection dimension
 )
 
-# Định nghĩa hàm tính toán InfoNCE loss.
-# Đầu vào: z1, z2 là các vector đặc trưng đã được chiếu và chuẩn hóa từ hai view của cùng một ảnh.
-#          t là tham số nhiệt độ (temperature).
-# Đầu ra: Giá trị InfoNCE loss.
+# Define the function to compute the InfoNCE loss.
+# Input: z1, z2 are the projected and normalized feature vectors from two views of the same image.
+#          t is the temperature parameter.
+# Output: the InfoNCE loss value.
 def info_nce(z1, z2, t=0.5):
-    # Chuẩn hóa các vector đặc trưng z1 và z2 về độ dài đơn vị (unit norm).
-    # Điều này giúp tính toán độ tương đồng cosine dễ dàng hơn.
+    # Normalize feature vectors z1 and z2 to unit norm.
+    # This makes computing cosine similarity easier.
     z1 = F.normalize(z1, dim=1); z2 = F.normalize(z2, dim=1)
-    # Ghép z1 và z2 lại với nhau theo chiều 0.
-    # Nếu z1, z2 có kích thước (N, 128), thì z sẽ có kích thước (2N, 128).
+    # Concatenate z1 and z2 along dimension 0.
+    # If z1, z2 have shape (N, 128), z will have shape (2N, 128).
     z = torch.cat([z1, z2], 0)                    # (2N, 128)
-    # Tính ma trận độ tương đồng cosine giữa tất cả các cặp vector trong z.
+    # Compute the cosine similarity matrix between all pairs of vectors in z.
     # sim[i, j] = cosine_similarity(z[i], z[j]) / t.
-    sim = z @ z.T / t                             # ma trận độ tương đồng cosine
-    # Lấy kích thước batch (số lượng ảnh) từ z1.
+    sim = z @ z.T / t                             # cosine similarity matrix
+    # Get the batch size (number of images) from z1.
     n = z1.size(0)
-    # Tạo nhãn cho hàm cross_entropy.
-    # Các nhãn này chỉ ra rằng z1[i] tương ứng với z2[i] (và ngược lại).
-    # Ví dụ: nếu n=2, labels sẽ là [2, 3, 0, 1].
-    # z[0] (z1[0]) phải khớp với z[2] (z2[0]).
-    # z[1] (z1[1]) phải khớp với z[3] (z2[1]).
-    # z[2] (z2[0]) phải khớp với z[0] (z1[0]).
-    # z[3] (z2[1]) phải khớp với z[1] (z1[1]).
+    # Create labels for the cross_entropy function.
+    # These labels indicate that z1[i] corresponds to z2[i] (and vice versa).
+    # Example: if n=2, labels will be [2, 3, 0, 1].
+    # z[0] (z1[0]) must match z[2] (z2[0]).
+    # z[1] (z1[1]) must match z[3] (z2[1]).
+    # z[2] (z2[0]) must match z[0] (z1[0]).
+    # z[3] (z2[1]) must match z[1] (z1[1]).
     labels = torch.cat([torch.arange(n, 2*n), torch.arange(0, n)]).to(z.device)
-    # Đặt giá trị trên đường chéo chính của ma trận độ tương đồng thành một số rất nhỏ.
-    # Điều này loại bỏ việc một vector tự so sánh với chính nó, vì chúng ta chỉ quan tâm đến các cặp dương.
-    sim.fill_diagonal_(-1e9)                      # che đi sự tự tương đồng (self-similarity)
-    # Tính toán cross-entropy loss.
-    # Đầu vào: sim (logits), labels (nhãn của các cặp dương).
-    # Đầu ra: Giá trị loss.
+    # Set the diagonal of the similarity matrix to a very small number.
+    # This removes a vector comparing to itself, since we only care about positive pairs.
+    sim.fill_diagonal_(-1e9)                      # mask out self-similarity
+    # Compute the cross-entropy loss.
+    # Input: sim (logits), labels (labels of positive pairs).
+    # Output: the loss value.
     return F.cross_entropy(sim, labels)
 
-# Một bước huấn luyện (giả sử dataloader cung cấp ảnh thô x)
-# Tạo một batch ảnh giả định với kích thước (64, 3, 32, 32).
-# Đầu vào: Không có. Đầu ra: Tensor ảnh ngẫu nhiên.
+# A training step (assuming the dataloader provides raw images x)
+# Create a fake image batch with shape (64, 3, 32, 32).
+# Input: none. Output: a random image tensor.
 x = torch.randn(64, 3, 32, 32)
-# Tạo view thứ nhất (v1) bằng cách áp dụng các phép biến đổi augment lên từng ảnh trong batch x.
-# Chuyển Tensor sang PIL Image trước khi áp dụng augment.
-# Đầu vào: batch ảnh x. Đầu ra: Tensor của các ảnh đã được biến đổi.
+# Create the first view (v1) by applying augment transforms to each image in batch x.
+# Convert the Tensor to a PIL Image before applying augment.
+# Input: image batch x. Output: tensor of the transformed images.
 v1 = torch.stack([augment(transforms.functional.to_pil_image(img)) for img in x])
-# Tạo view thứ hai (v2) tương tự như v1.
-# Đầu vào: batch ảnh x. Đầu ra: Tensor của các ảnh đã được biến đổi.
+# Create the second view (v2), similar to v1.
+# Input: image batch x. Output: tensor of the transformed images.
 v2 = torch.stack([augment(transforms.functional.to_pil_image(img)) for img in x])
-# Đưa v1 và v2 qua backbone để trích xuất đặc trưng, sau đó qua projector để chiếu xuống không gian 128 chiều.
-# z1, z2 là các vector đặc trưng đã được chiếu.
-# Đầu vào: v1, v2 (Tensor ảnh). Đầu ra: z1, z2 (Tensor đặc trưng).
+# Pass v1 and v2 through the backbone to extract features, then through the projector to project into a 128-dim space.
+# z1, z2 are the projected feature vectors.
+# Input: v1, v2 (image tensors). Output: z1, z2 (feature tensors).
 z1 = projector(backbone(v1)); z2 = projector(backbone(v2))
-# Tính toán InfoNCE loss giữa z1 và z2.
-# Đầu vào: z1, z2 (Tensor đặc trưng). Đầu ra: Giá trị loss.
+# Compute the InfoNCE loss between z1 and z2.
+# Input: z1, z2 (feature tensors). Output: the loss value.
 loss = info_nce(z1, z2)
-# In ra giá trị InfoNCE loss.
-# Kết quả mong đợi: Một giá trị số thực cho loss.
+# Print the InfoNCE loss value.
+# Expected result: a float value for the loss.
 print(f"InfoNCE: {loss.item():.4f}")`,
         codeLanguage: "python",
         exercise: "CLIP có thể phân loại một lớp chưa từng thấy trong quá trình huấn luyện (zero-shot) vì nó học được mối quan hệ ngữ nghĩa giữa hình ảnh và văn bản. Thay vì học các nhãn cụ thể, nó học cách nhúng hình ảnh và văn bản vào một không gian nhúng chung, nơi các cặp hình ảnh-văn bản tương thích có nhúng gần nhau. Text encoder đóng vai trò tạo ra các nhúng cho mô tả văn bản của lớp, cho phép CLIP so sánh hình ảnh đầu vào với các mô tả văn bản này để tìm ra lớp phù hợp nhất, ngay cả khi lớp đó chưa từng xuất hiện trong dữ liệu huấn luyện.",
@@ -2504,11 +2504,11 @@ A frozen image encoder produces 256 patches; a frozen LLM has its own token spac
 ## 🛠️ Practice Task
 You want to build "Tutor Bot" - students upload a photo of a math problem and ask a question. Sketch the architecture (which encoder for the image, which LLM, how they connect) and the training data you would need.`,
         code: `# Visual Question Answering with BLIP-2 (Hugging Face)
-# Nhập các thư viện cần thiết.
-# Blip2Processor: Dùng để tiền xử lý ảnh và văn bản cho mô hình BLIP-2.
-# Blip2ForConditionalGeneration: Là mô hình BLIP-2 chính, dùng để tạo câu trả lời.
-# Image từ PIL: Dùng để xử lý ảnh.
-# torch: Thư viện PyTorch để làm việc với tensor và GPU.
+# Import required libraries.
+# Blip2Processor: used to preprocess images and text for the BLIP-2 model.
+# Blip2ForConditionalGeneration: the main BLIP-2 model, used to generate answers.
+# Image from PIL: used to handle images.
+# torch: the PyTorch library for working with tensors and GPU.
 # requests: Dùng để tải ảnh từ URL.
 from transformers import Blip2Processor, Blip2ForConditionalGeneration
 from PIL import Image
@@ -2928,24 +2928,24 @@ with mlflow.start_run(run_name="distilbert-vi-v3") as run:
     # Đầu vào: Tên mô hình đã đăng ký và alias "production".
     # Đầu ra: Đối tượng ModelVersion của mô hình champion.
     champion = client.get_model_version_by_alias("sentiment-vi", "production")
-    # Lấy điểm F1 của mô hình champion từ các tag của nó.
-    # Nếu không tìm thấy tag "val_f1", mặc định là 0.
+    # Get the F1 score of the champion model from its tags.
+    # If the "val_f1" tag is not found, default to 0.
     champion_f1 = float(champion.tags.get("val_f1", 0))
-    # So sánh điểm F1 của mô hình hiện tại với mô hình champion.
+    # Compare the F1 score of the current model with the champion model.
     if val_f1 > champion_f1:
-        # Nếu mô hình hiện tại tốt hơn, lấy phiên bản mới nhất của mô hình đã đăng ký.
-        # stages=["None"]: Lấy các phiên bản chưa được gán stage nào.
+        # If the current model is better, get the latest version of the registered model.
+        # stages=["None"]: get versions that have not been assigned any stage.
         new_v = client.get_latest_versions("sentiment-vi", stages=["None"])[0]
-        # Đặt alias "staging" cho phiên bản mô hình mới này.
-        # Điều này có nghĩa là mô hình mới được đẩy lên stage "Staging".
+        # Set the "staging" alias for this new model version.
+        # This means the new model is promoted to the "Staging" stage.
         client.set_registered_model_alias("sentiment-vi", "staging", new_v.version)
-        # In thông báo xác nhận việc đẩy lên staging.
-        # Kết quả mong đợi: "✅ Promoted v[số_phiên_bản] to staging (F1 [val_f1] > [champion_f1])"
-        print(f"✅ Promoted v{new_v.version} to staging (F1 {val_f1:.3f} > {champion_f1:.3f})")
+        # Print a confirmation message about the staging promotion.
+        # Expected result: "Promoted v[version_number] to staging (F1 [val_f1] > [champion_f1])"
+        print(f"Promoted v{new_v.version} to staging (F1 {val_f1:.3f} > {champion_f1:.3f})")
     else:
-        # Nếu mô hình champion vẫn tốt hơn hoặc bằng, không có sự thay đổi.
-        # In thông báo không có sự thăng cấp.
-        # Kết quả mong đợi: "⏭  Champion still wins, no promotion."
+        # If the champion model is still better or equal, nothing changes.
+        # Print a message that there is no promotion.
+        # Expected result: "Champion still wins, no promotion."
         print("⏭  Champion still wins, no promotion.")`,
         codeLanguage: "python",
         exercise: "Bạn triển khai một mô hình phân tích cảm xúc. Sau 3 tuần, độ chính xác giảm từ 92% xuống 78%. Liệt kê 4 bước chẩn đoán theo thứ tự, nêu tên công cụ bạn sẽ sử dụng ở mỗi bước.",
