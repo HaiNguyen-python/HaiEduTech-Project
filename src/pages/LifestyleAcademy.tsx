@@ -482,12 +482,13 @@ const LifestyleAcademy = () => {
     }
   }, [openGroups]);
 
-  const isGroupOpen = (key: PillarKey) => openGroups[key] !== false;
+  // First visit: all groups start collapsed so learners open what they need.
+  const isGroupOpen = (key: PillarKey) => openGroups[key] === true;
   const toggleGroup = (key: PillarKey) =>
-    setOpenGroups((prev) => ({ ...prev, [key]: prev[key] === false }));
+    setOpenGroups((prev) => ({ ...prev, [key]: prev[key] !== true }));
   const setAllGroups = (open: boolean) =>
     setOpenGroups(Object.fromEntries(PILLARS.map((p) => [p.key, open])));
-  const allCollapsed = PILLARS.every((p) => openGroups[p.key] === false);
+  const allCollapsed = PILLARS.every((p) => openGroups[p.key] !== true);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

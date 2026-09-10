@@ -2,6 +2,7 @@
  * @file SoftSkillsRadar.tsx
  * @description Soft-skills radar for Lifestyle Academy. Each axis is one
  *              pillar, scored by lesson coverage weighted with quiz accuracy.
+ *              A per-pillar progress list below the chart shows exact numbers.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
@@ -28,6 +29,16 @@ const PILLAR_LABELS: Record<LifestylePillarKey, { vi: string; en: string }> = {
   partying: { vi: "Sự kiện", en: "Events" },
 };
 
+// Same pillar colors as the lesson group headers, as bar fill classes.
+const PILLAR_BAR: Record<LifestylePillarKey, string> = {
+  finance: "bg-amber-500",
+  etiquette: "bg-emerald-500",
+  presence: "bg-teal-500",
+  wellness: "bg-rose-500",
+  selfstudy: "bg-indigo-500",
+  partying: "bg-pink-500",
+};
+
 interface SoftSkillsRadarProps {
   pillarScores: PillarScore[];
   stats: { attempted: number; completed: number; accuracy: number; totalLessons: number };
@@ -39,14 +50,13 @@ const SoftSkillsRadar = ({ pillarScores, stats, compact = false }: SoftSkillsRad
   const vi = lang === "vi";
 
   const data = pillarScores.map((p) => ({
-    skill: vi ? PILLAR_LABELS[p.pillar].vi : PILLAR_LABELS[p.pillar].en,
+    skill: `${vi ? PILLAR_LABELS[p.pillar].vi : PILLAR_LABELS[p.pillar].en} - ${p.value}%`,
     value: p.value,
   }));
 
   const weakest = [...pillarScores].sort((a, b) => a.value - b.value)[0];
   // Only lessons passed at 75%+ count, so an attempt below that keeps the radar empty.
   const empty = stats.completed === 0;
-
 
   return (
     <Card className="border-2 border-primary/20">
@@ -62,14 +72,13 @@ const SoftSkillsRadar = ({ pillarScores, stats, compact = false }: SoftSkillsRad
               `${stats.completed}/${stats.totalLessons} lessons passed (75%+ quiz)`,
             )}
           </span>
-
         </div>
 
         <div className={compact ? "h-60" : "h-72 sm:h-80"}>
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart data={data} outerRadius="72%">
               <PolarGrid />
-              <PolarAngleAxis dataKey="skill" tick={{ fontSize: 13 }} />
+              <PolarAngleAxis dataKey="skill" tick={{ fontSize: 12 }} />
               <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 11 }} />
               <Radar
                 dataKey="value"
@@ -84,33 +93,56 @@ const SoftSkillsRadar = ({ pillarScores, stats, compact = false }: SoftSkillsRad
         {empty ? (
           <p className="rounded-lg bg-muted px-3 py-3 text-sm leading-relaxed text-muted-foreground">
             {t(
-              "Chưa có bài nào đạt. Hãy mở một bài học và trả lời đúng ít nhất 3/4 câu quiz - biểu đồ sẽ hiện ngay.",
+              "Chưa có bài nào đạt. Mở một bài học và trả lời đúng ít nhất 3/4 câu quiz - biểu đồ sẽ hiện ngay.",
               "No lesson passed yet. Open a lesson and get at least 3 of 4 quiz questions right - your radar fills in.",
-
             )}
           </p>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-lg bg-muted px-3 py-2.5 text-sm">
-              <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
-                <TrendingUp className="h-4 w-4 text-emerald-600" />
-                {t("Điểm quiz trung bình", "Average quiz score")}
-              </span>
-              <div className="mt-1 text-2xl font-bold text-foreground">{stats.accuracy}%</div>
-            </div>
-            {weakest && (
+          <>
+            <ul className="mb-3 grid gap-2 sm:grid-cols-2">
+              {pillarScores.map((p) => {
+                const label = vi ? PILLAR_LABELS[p.pillar].vi : PILLAR_LABELS[p.pillar].en;
+                return (
+                  <li key={p.pillar} className="rounded-lg bg-muted px-3 py-2">
+                    <div className="flex items-center justify-between gap-2 text-sm">
+                      <span className="font-semibold text-foreground">{label}</span>
+                      <span className="text-muted-foreground">
+                        {p.completed}/{p.total} · {p.value}%
+                      </span>
+                    </div>
+                    <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-background/70">
+                      <div
+                        className={`h-full rounded-full ${PILLAR_BAR[p.pillar]}`}
+                        style={{ width: `${p.value}%` }}
+                      />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg bg-muted px-3 py-2.5 text-sm">
                 <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
-                  <Target className="h-4 w-4 text-amber-600" />
-                  {t("Nhóm nên học tiếp", "Focus next")}
+                  <TrendingUp className="h-4 w-4 text-emerald-600" />
+                  {t("Điểm quiz trung bình", "Average quiz score")}
                 </span>
-                <div className="mt-1 text-base font-bold text-foreground">
-                  {vi ? PILLAR_LABELS[weakest.pillar].vi : PILLAR_LABELS[weakest.pillar].en} ·{" "}
-                  {weakest.completed}/{weakest.total}
-                </div>
+                <div className="mt-1 text-2xl font-bold text-foreground">{stats.accuracy}%</div>
               </div>
-            )}
-          </div>
+              {weakest && (
+                <div className="rounded-lg bg-muted px-3 py-2.5 text-sm">
+                  <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
+                    <Target className="h-4 w-4 text-amber-600" />
+                    {t("Nhóm nên học tiếp", "Focus next")}
+                  </span>
+                  <div className="mt-1 text-base font-bold text-foreground">
+                    {vi ? PILLAR_LABELS[weakest.pillar].vi : PILLAR_LABELS[weakest.pillar].en} ·{" "}
+                    {weakest.completed}/{weakest.total}
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </CardContent>
     </Card>
