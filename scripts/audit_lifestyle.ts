@@ -1,6 +1,11 @@
+import { readdirSync } from "node:fs";
 import { LIFESTYLE_LESSONS as lifestyleLessons } from "../src/data/lifestyleAcademyLessons";
 import { getLessonQuiz } from "../src/lib/lifestyleQuizBuilder";
 const all = lifestyleLessons as any[];
+
+// Illustration coverage: one distinct asset pointer per lesson id.
+const assetFiles = readdirSync("src/assets/lifestyle").filter(f => f.endsWith(".asset.json"));
+const assetIds = new Set(assetFiles.map(f => f.replace(/\.[^.]+\.asset\.json$/, "")));
 const byPillar: Record<string, any[]> = {};
 const ids = new Set<string>();
 const issues: string[] = [];
