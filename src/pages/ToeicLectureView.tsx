@@ -380,7 +380,7 @@ const ToeicLectureView = () => {
 
           {/* Bottom actions */}
           <div className="flex flex-wrap gap-3 mt-8 pt-6 border-t border-white/10">
-            <Button variant="outline" onClick={downloadCheatSheet} className="border-white/10 text-muted-foreground hover:text-white">
+            <Button variant="outline" onClick={downloadCheatSheet} className="border-white/10 bg-white/5 text-slate-200 hover:bg-white/15 hover:text-white">
               <Download className="w-4 h-4 mr-2" /> {t("Tải Cheat Sheet", "Download Cheat Sheet")}
             </Button>
             {nextLecture && (
