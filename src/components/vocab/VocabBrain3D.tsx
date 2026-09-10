@@ -16,7 +16,7 @@ import {
   buildScaffoldShell,
   buildSynapses,
   pickLabelCandidates,
-  tierForDays,
+  tierForNeuron,
   type BrainNeuron,
   type LabelCandidate,
 } from "./vocabBrainModel";
@@ -132,7 +132,7 @@ const LabelProjector = ({
 
     onLabels(
       picked.map(({ neuron, sx, sy, facing }) => {
-        const info = tierForDays(neuron.days);
+        const info = tierForNeuron(neuron);
         const isKey =
           selected?.toLowerCase() === neuron.word.toLowerCase() ||
           focusWord?.toLowerCase() === neuron.word.toLowerCase();
@@ -179,7 +179,7 @@ const NeuronCloud = ({
       pos[i * 3] = n.x;
       pos[i * 3 + 1] = n.y;
       pos[i * 3 + 2] = n.z;
-      const info = tierForDays(n.days);
+      const info = tierForNeuron(n);
       c.set(info.color);
       col[i * 3] = c.r;
       col[i * 3 + 1] = c.g;
@@ -207,8 +207,8 @@ const NeuronCloud = ({
       const na = neurons[a];
       const nb = neurons[b];
       lp.set([na.x, na.y, na.z, nb.x, nb.y, nb.z], i * 6);
-      const ia = tierForDays(na.days);
-      const ib = tierForDays(nb.days);
+      const ia = tierForNeuron(na);
+      const ib = tierForNeuron(nb);
       c.set(ia.color).multiplyScalar(ia.alpha * 0.8);
       lc.set([c.r, c.g, c.b], i * 6);
       c.set(ib.color).multiplyScalar(ib.alpha * 0.8);
@@ -409,7 +409,7 @@ const VocabBrain3D = ({
   const [hovered, setHovered] = useState<BrainNeuron | null>(null);
   const controlsRef = useRef<any>(null);
 
-  const hoveredTier = hovered ? tierForDays(hovered.days) : null;
+  const hoveredTier = hovered ? tierForNeuron(hovered) : null;
 
   return (
     <div className="relative h-full w-full">

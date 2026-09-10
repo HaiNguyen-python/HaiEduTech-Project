@@ -15,6 +15,10 @@ export interface BrainNeuron {
   reviews: number;
   /** Gap in days between the two most recent reviews (spacing effect). */
   lastInterval: number;
+  /** How many times the word was forgotten. */
+  lapses: number;
+  /** Ease factor (1.3 hard - 3.0 easy). */
+  ease: number;
   /** 0-1 retention estimate right now (Ebbinghaus). */
   strength: number;
   /** Memory zone: cortex surface (short) -> deep core (long). */
@@ -55,18 +59,34 @@ export interface MemoryInput {
   reviews: number;
   /** Days between the two most recent reviews. */
   lastInterval?: number;
+  /** How many times the learner failed to recall this word. */
+  lapses?: number;
+  /** SM-2 style ease factor: 1.3 (very hard) to 3.0 (very easy). */
+  ease?: number;
 }
 
 /**
  * Memory stability in days: how long it takes retention to drop to ~37%.
- * More repetitions and longer successful gaps between them both make the trace
- * far more durable (spacing effect), so a word reviewed once decays in days
- * while a word reviewed six times survives for months.
+ *
+ * Three research-backed forces are combined:
+ *  - repetition: each successful recall multiplies the trace,
+ *  - spacing effect: reviews that are days apart count fully, reviews inside the
+ *    same day (cramming) only give a fraction of the growth,
+ *  - difficulty and forgetting: a low `ease` and every lapse shorten stability,
+ *    so a word the learner keeps forgetting never drifts into long-term memory.
  */
-export const memoryStability = ({ reviews, lastInterval = 0 }: MemoryInput): number => {
+export const memoryStability = ({ reviews, lastInterval = 0, lapses = 0, ease = 2.5 }: MemoryInput): number => {
   const reps = Math.max(1, reviews);
+  const safeEase = Math.min(3, Math.max(1.3, ease));
+  // Reviews that ended in a lapse should not be counted as durable rehearsals.
+  const effectiveReps = Math.max(1, reps - Math.max(0, lapses));
+  // Cramming (gap = 0) only earns 40% of the exponent, so 5 reviews in one day
+  // stay far weaker than 5 reviews spread over weeks.
+  const exponent = (effectiveReps - 1) * (lastInterval <= 0 ? 0.4 : 1);
+  const growth = 1.3 + 0.22 * safeEase;            // ease 2.5 -> 1.85x per review
   const spacing = 1 + Math.min(lastInterval, 30) / 12; // 1 - 3.5x
-  return 2.2 * Math.pow(1.85, reps - 1) * spacing;
+  const lapsePenalty = 1 / (1 + 0.35 * Math.max(0, lapses));
+  return Math.max(0.6, 2.2 * Math.pow(growth, exponent) * spacing * lapsePenalty);
 };
 
 /** Ebbinghaus retention 0-1 for a word right now. */
@@ -134,7 +154,21 @@ const TIERS: Record<DecayTier, Omit<TierInfo, "tier">> = {
 
 export const TIER_ORDER: DecayTier[] = ["fresh", "recent", "fading", "weak", "forgotten"];
 
-/** Map "days since review" to a visual decay tier. */
+/**
+ * Map estimated retention (0-1) to a visual decay tier. Colour now follows the
+ * same Ebbinghaus curve the panel shows, so a well-rehearsed word stays green
+ * even after weeks while a word seen once turns red within days.
+ */
+export const tierForStrength = (strength: number): TierInfo => {
+  const tier: DecayTier =
+    strength >= 0.85 ? "fresh" :
+    strength >= 0.65 ? "recent" :
+    strength >= 0.45 ? "fading" :
+    strength >= 0.25 ? "weak" : "forgotten";
+  return { tier, ...TIERS[tier] };
+};
+
+/** Legacy helper (days only). Kept for callers that have no retention value. */
 export const tierForDays = (days: number): TierInfo => {
   const tier: DecayTier =
     days <= 1 ? "fresh" :
@@ -143,6 +177,10 @@ export const tierForDays = (days: number): TierInfo => {
     days <= 45 ? "weak" : "forgotten";
   return { tier, ...TIERS[tier] };
 };
+
+/** Tier of a neuron: retention first, falling back to raw age. */
+export const tierForNeuron = (n: { strength?: number; days: number }): TierInfo =>
+  typeof n.strength === "number" ? tierForStrength(n.strength) : tierForDays(n.days);
 
 export const tierInfo = (tier: DecayTier): TierInfo => ({ tier, ...TIERS[tier] });
 
@@ -244,11 +282,11 @@ export const brainPosition = (word: string) =>
  * core, so the picture itself teaches how consolidation works.
  */
 export const buildNeurons = (
-  items: { word: string; days: number; reviews?: number; lastInterval?: number }[],
+  items: { word: string; days: number; reviews?: number; lastInterval?: number; lapses?: number; ease?: number }[],
 ): BrainNeuron[] =>
-  items.map(({ word, days, reviews = 1, lastInterval = 0 }) => {
+  items.map(({ word, days, reviews = 1, lastInterval = 0, lapses = 0, ease = 2.5 }) => {
     const surface = brainPosition(word);
-    const input: MemoryInput = { days, reviews, lastInterval };
+    const input: MemoryInput = { days, reviews, lastInterval, lapses, ease };
     const depth = consolidation(input);
     // 1 = cortex surface, 0.42 = deep core.
     const radius = 1 - depth * 0.58;
@@ -257,6 +295,8 @@ export const buildNeurons = (
       days,
       reviews: Math.max(1, reviews),
       lastInterval,
+      lapses: Math.max(0, lapses),
+      ease,
       strength: memoryStrength(input),
       zone: memoryZone(input),
       x: surface.x * radius,

@@ -24,10 +24,12 @@ import {
   buildNeurons,
   consolidation,
   daysUntilRetention,
+  memoryStrength,
   memoryZone,
   retentionAfter,
   TIER_ORDER,
-  tierForDays,
+  tierForNeuron,
+  tierForStrength,
   tierInfo,
   ZONE_ORDER,
   zoneInfo,
@@ -107,6 +109,17 @@ interface MasteredRow {
   created_at: string | null;
   review_count: number | null;
   last_interval_days: number | null;
+  lapse_count: number | null;
+  ease: number | null;
+}
+
+/** Everything the memory model needs about one word. */
+interface WordStat {
+  days: number;
+  reviews: number;
+  lastInterval: number;
+  lapses: number;
+  ease: number;
 }
 
 const LONG_TERM_BADGES = [10, 50, 100, 300];
@@ -197,7 +210,7 @@ const VocabBrainPanel = ({
     const [vocabRes, scoreRes] = await Promise.all([
       (supabase as any)
         .from("user_vocab_mastered")
-        .select("word, reviewed_at, created_at, review_count, last_interval_days")
+        .select("word, reviewed_at, created_at, review_count, last_interval_days, lapse_count, ease")
         .eq("user_id", uid)
         .in("subject", [subject, ...extraSubjects])
         .limit(5000),
@@ -251,7 +264,7 @@ const VocabBrainPanel = ({
 
   /** word -> memory record (DB rows first, local stars count as reviewed today). */
   const wordStats = useMemo(() => {
-    const map = new Map<string, { days: number; reviews: number; lastInterval: number }>();
+    const map = new Map<string, WordStat>();
     rows.forEach(r => {
       const iso = r.reviewed_at || r.created_at;
       if (!iso) return;
@@ -265,11 +278,18 @@ const VocabBrainPanel = ({
       }
       const key = label(r.word);
       const prev = map.get(key);
-      if (!prev || days < prev.days) map.set(key, { days, reviews, lastInterval });
+      const stat: WordStat = {
+        days,
+        reviews,
+        lastInterval,
+        lapses: Math.max(0, r.lapse_count ?? 0),
+        ease: Number(r.ease ?? 2.5),
+      };
+      if (!prev || days < prev.days) map.set(key, stat);
     });
     localWords.forEach(w => {
       const key = label(w);
-      if (!map.has(key)) map.set(key, { days: 0, reviews: 1, lastInterval: 0 });
+      if (!map.has(key)) map.set(key, { days: 0, reviews: 1, lastInterval: 0, lapses: 0, ease: 2.5 });
     });
     return map;
   }, [rows, localWords, todayKey, label]);
@@ -287,17 +307,18 @@ const VocabBrainPanel = ({
     }
     if (filter.startsWith("tier:")) {
       const wanted = filter.slice(5) as DecayTier;
-      return allNeurons.filter(n => tierForDays(n.days).tier === wanted);
+      return allNeurons.filter(n => tierForNeuron(n).tier === wanted);
     }
-    if (filter === "fresh") return allNeurons.filter(n => n.days <= 6);
-    if (filter === "fading") return allNeurons.filter(n => n.days > 6 && n.days <= 20);
-    return allNeurons.filter(n => n.days > 20);
+    // Quick filters follow retention, the same scale as the colours.
+    if (filter === "fresh") return allNeurons.filter(n => n.strength >= 0.65);
+    if (filter === "fading") return allNeurons.filter(n => n.strength < 0.65 && n.strength >= 0.45);
+    return allNeurons.filter(n => n.strength < 0.45);
   }, [allNeurons, filter]);
 
   const tierCounts = useMemo(() => {
     const c: Record<string, number> = {};
     allNeurons.forEach(n => {
-      const { tier } = tierForDays(n.days);
+      const { tier } = tierForNeuron(n);
       c[tier] = (c[tier] || 0) + 1;
     });
     return c;
@@ -318,7 +339,9 @@ const VocabBrainPanel = ({
 
   /** Words that will drop below 60% retention within a week. */
   const atRisk = useMemo(
-    () => allNeurons.filter(n => daysUntilRetention({ days: n.days, reviews: n.reviews, lastInterval: n.lastInterval }) <= 7),
+    () => allNeurons.filter(n => daysUntilRetention({
+      days: n.days, reviews: n.reviews, lastInterval: n.lastInterval, lapses: n.lapses, ease: n.ease,
+    }) <= 7),
     [allNeurons],
   );
 
@@ -339,7 +362,9 @@ const VocabBrainPanel = ({
 
   const totalMastered = allNeurons.length;
   const last7 = allNeurons.filter(n => n.days <= 7).length;
-  const needRevise = allNeurons.filter(n => n.days > 20).length;
+  /** Words whose estimated retention already fell below 45%. */
+  const reviseList = allNeurons.filter(n => n.strength < 0.45);
+  const needRevise = reviseList.length;
 
   // Consecutive vocabulary study days ending today or yesterday (Vietnam time).
   const streak = useMemo(() => {
@@ -372,19 +397,23 @@ const VocabBrainPanel = ({
     const days = neuron?.days ?? stat?.days ?? 0;
     const reviews = neuron?.reviews ?? 1;
     const lastInterval = neuron?.lastInterval ?? 0;
-    const input = { days, reviews, lastInterval };
+    const lapses = neuron?.lapses ?? 0;
+    const ease = neuron?.ease ?? 2.5;
+    const input = { days, reviews, lastInterval, lapses, ease };
+    const strength = neuron?.strength ?? memoryStrength(input);
     return {
       days,
       reviews,
       lastInterval,
-      strength: neuron?.strength ?? 0,
+      lapses,
+      strength,
       zone: zoneInfo(neuron?.zone ?? memoryZone(input)),
       dueIn: daysUntilRetention(input),
       /** Curve now vs the curve the word would get if reviewed today. */
       curveNow: Array.from({ length: 31 }, (_, i) => retentionAfter(input, days + i)),
       curveIfReviewed: Array.from({ length: 31 }, (_, i) =>
-        retentionAfter({ days: 0, reviews: reviews + 1, lastInterval: Math.max(lastInterval, days) }, i)),
-      tier: tierForDays(days),
+        retentionAfter({ days: 0, reviews: reviews + 1, lastInterval: Math.max(lastInterval, days), lapses, ease }, i)),
+      tier: tierForStrength(strength),
       meta: lookupWord?.(selected) || null,
     };
   }, [selected, allNeurons, wordStats, lookupWord]);
@@ -456,6 +485,15 @@ const VocabBrainPanel = ({
         {stat(<Flame className="h-3.5 w-3.5" />, String(Math.max(streak, serverStreak ?? 0)), t("Chuỗi ngày học từ", "Vocab study streak"), "text-orange-500")}
         {stat(<CalendarDays className="h-3.5 w-3.5" />, avgAccuracy === null ? "-" : `${avgAccuracy}%`, t("Độ chính xác Practice", "Practice accuracy"), "text-indigo-500")}
       </div>
+
+      {!signedIn && totalMastered > 0 && (
+        <p className="mb-4 rounded-xl border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
+          {t("Bạn chưa đăng nhập: các từ đánh dấu ⭐ đang được tính là học hôm nay, nên độ nhớ hiển thị cao hơn thực tế. Đăng nhập để theo dõi chính xác quá trình nhớ và quên.",
+             "You are not signed in: starred words count as learned today, so retention looks higher than it really is. Sign in to track your real remembering and forgetting.")}
+        </p>
+      )}
+
+
 
       {/* Memory zones: short-term vs long-term balance */}
       {totalMastered > 0 && (
@@ -794,7 +832,7 @@ const VocabBrainPanel = ({
                `${needRevise} words are fading - revise them now to keep the memory.`)}
           </span>
           {onPractice && (
-            <Button size="sm" onClick={() => onPractice(allNeurons.filter(n => n.days > 20).map(n => n.word))}>
+            <Button size="sm" onClick={() => onPractice(reviseList.map(n => n.word))}>
               {t("Luyện lại ngay", "Practice now")}
             </Button>
           )}
@@ -826,6 +864,12 @@ const VocabBrainPanel = ({
               {t(`${selectedInfo.reviews} lần ôn`, `${selectedInfo.reviews} reviews`)}
               {" · "}
               {t(`Độ nhớ ${Math.round(selectedInfo.strength * 100)}%`, `Retention ${Math.round(selectedInfo.strength * 100)}%`)}
+              {selectedInfo.lapses > 0 && (
+                <>
+                  {" · "}
+                  {t(`${selectedInfo.lapses} lần quên`, `${selectedInfo.lapses} lapses`)}
+                </>
+              )}
             </span>
             {onPractice && (
               <Button size="sm" variant="outline" className="ml-auto" onClick={() => onPractice([selected])}>

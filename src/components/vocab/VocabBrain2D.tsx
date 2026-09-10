@@ -6,7 +6,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useRef } from "react";
-import { buildScaffold, pickLabelCandidates, tierForDays, type BrainNeuron, type LabelCandidate } from "./vocabBrainModel";
+import { buildScaffold, pickLabelCandidates, tierForNeuron, type BrainNeuron, type LabelCandidate } from "./vocabBrainModel";
 
 interface Props {
   neurons: BrainNeuron[];
@@ -93,7 +93,7 @@ const VocabBrain2D = ({
         const depth = (z + 1.6) / 3.2; // 0 far, 1 near
         const sx = cx + x * scale * (0.9 + depth * 0.2);
         const sy = cy - n.y * scale * (0.9 + depth * 0.2);
-        const info = tierForDays(n.days);
+        const info = tierForNeuron(n);
         const isSel =
           selected?.toLowerCase() === n.word.toLowerCase() ||
           focusWord?.toLowerCase() === n.word.toLowerCase();
@@ -115,7 +115,7 @@ const VocabBrain2D = ({
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         labels.forEach(({ neuron, sx, sy, facing }) => {
-          const info = tierForDays(neuron.days);
+          const info = tierForNeuron(neuron);
           const isKey =
             selected?.toLowerCase() === neuron.word.toLowerCase() ||
             focusWord?.toLowerCase() === neuron.word.toLowerCase();

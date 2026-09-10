@@ -3581,7 +3581,9 @@ export type Database = {
       user_vocab_mastered: {
         Row: {
           created_at: string
+          ease: number
           id: string
+          lapse_count: number
           last_interval_days: number | null
           review_count: number
           reviewed_at: string
@@ -3591,7 +3593,9 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          ease?: number
           id?: string
+          lapse_count?: number
           last_interval_days?: number | null
           review_count?: number
           reviewed_at?: string
@@ -3601,7 +3605,9 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          ease?: number
           id?: string
+          lapse_count?: number
           last_interval_days?: number | null
           review_count?: number
           reviewed_at?: string
