@@ -1327,28 +1327,28 @@ Advanced features: SCPs (org-wide guardrails), Permission Boundaries (max ceilin
 
 ## 9. Bridge to next lesson
 IAM controls "who does what". Next: **Shared Responsibility & Encryption** - who is responsible for which security layer, and how to encrypt data so leaks remain unreadable.`,
-        code: `# IAM Policy: cho phép Lambda đọc 1 bucket S3 cụ thể + ghi log CloudWatch
+        code: `# IAM Policy: allow Lambda to read a specific S3 bucket + write CloudWatch logs
 policy = {
-  "Version": "2012-10-17",   # Phiên bản chuẩn, luôn để 2012-10-17
+  "Version": "2012-10-17",   # Standard version, always keep as 2012-10-17
   "Statement": [
     {
-      "Sid": "AllowS3Read",  # Tên đoạn quyền, đặt cho dễ đọc
-      "Effect": "Allow",     # Cho phép (đối lập với Deny)
-      "Action": ["s3:GetObject", "s3:ListBucket"],   # Đọc file + liệt kê bucket
+      "Sid": "AllowS3Read",  # Statement name, for readability
+      "Effect": "Allow",     # Allow (opposite of Deny)
+      "Action": ["s3:GetObject", "s3:ListBucket"],   # Read files + list bucket
       "Resource": [
-        "arn:aws:s3:::app-data",        # Bucket (để ListBucket)
-        "arn:aws:s3:::app-data/*"       # Mọi file trong bucket (để GetObject)
+        "arn:aws:s3:::app-data",        # Bucket (for ListBucket)
+        "arn:aws:s3:::app-data/*"       # All files in bucket (for GetObject)
       ]
     },
     {
       "Sid": "AllowLogs",
       "Effect": "Allow",
-      "Action": [                       # Quyền ghi log để debug Lambda
+      "Action": [                       # Log write permission for debugging Lambda
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "arn:aws:logs:*:*:*"  # Mọi log group ở mọi region
+      "Resource": "arn:aws:logs:*:*:*"  # All log groups in all regions
     }
   ]
 }
@@ -1529,7 +1529,7 @@ Compliance: PCI-DSS, HIPAA (BAA), SOC 2, ISO 27001, GDPR, FedRAMP.
 
 ## 9. Bridge to next lesson
 Security covered. Next: **Lambda & API Gateway** opens the Serverless & DevOps chapter - build apps without managing servers, paying only when code runs.`,
-        code: `# Bật mã hoá khi upload file lên S3 + tạo CMK trong KMS
+        code: `# Enable encryption when uploading files to S3 + create a CMK in KMS
 import boto3
 kms = boto3.client("kms")
 s3  = boto3.client("s3")
@@ -1539,7 +1539,7 @@ s3  = boto3.client("s3")
 key = kms.create_key(
     Description="Application data encryption key",
     KeyUsage="ENCRYPT_DECRYPT",
-    KeySpec="SYMMETRIC_DEFAULT",  # AES-256 đối xứng
+    KeySpec="SYMMETRIC_DEFAULT",  # Symmetric AES-256
 )
 key_id = key["KeyMetadata"]["KeyId"]
 
@@ -1549,8 +1549,8 @@ s3.put_object(
     Bucket="my-secure-bucket",
     Key="confidential/contract.pdf",
     Body=b"<binary content>",
-    ServerSideEncryption="aws:kms",   # Bật mã hoá bằng KMS
-    SSEKMSKeyId=key_id,                # Dùng khoá vừa tạo
+    ServerSideEncryption="aws:kms",   # Enable KMS encryption
+    SSEKMSKeyId=key_id,                # Use the key just created
 )
 
 # Step 3: Turn on default encryption for the entire bucket
@@ -1563,7 +1563,7 @@ s3.put_bucket_encryption(
                 "SSEAlgorithm": "aws:kms",
                 "KMSMasterKeyID": key_id,
             },
-            "BucketKeyEnabled": True,  # Tiết kiệm chi phí KMS API call
+            "BucketKeyEnabled": True,  # Save on KMS API call cost
         }]
     },
 )
@@ -1745,7 +1745,7 @@ Each machine pings telemetry every few hours. Switched from idle EC2 cluster to 
 ## Bridge to next lesson
 
 Next (**Infrastructure as Code**): how do you manage hundreds of Lambdas, API Gateways, IAM roles, and S3 buckets reproducibly and as a team? Answer: Terraform / CloudFormation / SAM - infrastructure in code, version-controlled, deployed via CI/CD.`,
-        code: `# AWS Lambda handler (Python) - xử lý API Gateway request
+        code: `# AWS Lambda handler (Python) - handles API Gateway requests
 import json
 
 def lambda_handler(event, context):
@@ -1956,7 +1956,7 @@ Post-cloud migration, console is read-only. All changes via PR + CI/CD. Quarterl
 ## Bridge to next lesson
 
 With IaC in place, we need **CI/CD pipelines** to auto-run \`terraform plan\` on PRs and \`apply\` on merge. Next: **CI/CD & Observability** - build, test, deploy, and monitor with metrics, logs, traces.`,
-        code: `# main.tf - tạo VPC + S3 bucket bằng Terraform
+        code: `# main.tf - create a VPC + S3 bucket with Terraform
 terraform {
   required_providers {
     aws = { source = "hashicorp/aws", version = "~> 5.0" }
@@ -2191,7 +2191,7 @@ Built Spinnaker (open-source CD), deploys 4000+ times/day with auto-canary. Comp
 ## Bridge to next lesson
 
 With CI/CD + observability in place, how do we know our overall architecture is "good"? Next: the **AWS Well-Architected Framework** - six pillars (Operational Excellence, Security, Reliability, Performance, Cost, Sustainability) and the classic anti-patterns to avoid.`,
-        code: `# .github/workflows/deploy.yml - CI/CD với GitHub Actions
+        code: `# .github/workflows/deploy.yml - CI/CD with GitHub Actions
 name: Build & Deploy
 
 on:
@@ -2421,8 +2421,8 @@ A US hospital ran its EHR on AWS Multi-AZ but no Multi-Region, no tested backups
 ## Bridge to next lesson
 
 Among the 6 pillars, **Cost Optimization** is the one CFOs care about most. Next: **Cost Optimization & FinOps** dives into 10+ concrete strategies, tools, and the FinOps culture - turning cost from a "monthly bill surprise" into a **daily business metric**.`,
-        code: `# Danh sách kiểm tra tự đánh giá Well-Architected
-# Định nghĩa checklist cho các pillar của Well-Architected
+        code: `# Well-Architected self-assessment checklist
+# Define the checklist for each Well-Architected pillar
 checklist = {
     "operational_excellence": [
         "IaC (Terraform/CFN) cho 100% infra?",
@@ -2458,14 +2458,14 @@ checklist = {
         "Turn off unused resources?",
     ],
 }
-# Tính tổng số câu hỏi trong tất cả các pillar
+# Count the total number of questions across all pillars
 total = sum(len(v) for v in checklist.values())
-# In ra tổng số câu hỏi
+# Print the total number of questions
 print(f"Total assessment questions: {total}")
-# Lặp qua từng pillar và in tiêu đề với số mục
+# Loop through each pillar and print the title with item count
 for pillar, items in checklist.items():
     print(f"\\\\n[{pillar.upper()}] - {len(items)} items")
-    # Lặp qua từng câu hỏi và in mỗi câu
+    # Loop through each question and print it
     for q in items: print(f"  □ {q}")`,
         codeLanguage: "python",
         exercise: "Applying Well-Architected to the architecture of an e-commerce web app. List 2 specific improvements for each of the 6 pillars.",
@@ -2652,7 +2652,7 @@ Public cost dashboards for every engineer. Each new feature needs **cost-per-DAU
 ## Bridge to next lesson
 
 The final lesson (**Microservices & Event-Driven Architecture**) tackles how to scale from a monolith to many independent services while maintaining the reliability + cost optimization just learned. SQS, SNS, EventBridge, Saga, and CQRS will be analyzed in detail.`,
-        code: `# Phân tích chi phí EC2: tìm instance over-provisioned + tính tiết kiệm
+        code: `# EC2 cost analysis: find over-provisioned instances + compute savings
 instances = [
     {"id": "i-aaa", "type": "m5.2xlarge", "cpu_avg": 12, "monthly_cost": 280},
     {"id": "i-bbb", "type": "m5.large",   "cpu_avg": 65, "monthly_cost": 70},
@@ -2662,7 +2662,7 @@ instances = [
 
 # Right-sizing: if CPU <40% → reduce 1 size
 size_down = {
-    "m5.2xlarge": ("m5.large",  70),     # ~75% rẻ hơn
+    "m5.2xlarge": ("m5.large",  70),     # ~75% cheaper
     "c5.4xlarge": ("c5.xlarge", 125),
     "t3.medium":  ("t3.small",  15),
 }
@@ -2892,7 +2892,7 @@ You've completed 5 Cloud Engineer modules:
 - **Advanced SQL** - query optimization for cloud data warehouses.
 
 Or take the **AWS Solutions Architect Associate** certification to formalize your knowledge!`,
-        code: `# Event-driven microservice với SNS + SQS + Lambda
+        code: `# Event-driven microservice with SNS + SQS + Lambda
 # Flow: OrderService publish 'OrderCreated' → SNS → 3 SQS queue → 3 consumer Lambda
 # (EmailService, InventoryService, AnalyticsService)
 

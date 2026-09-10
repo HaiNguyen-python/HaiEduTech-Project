@@ -535,51 +535,51 @@ A fintech startup added \`@lru_cache(maxsize=10000)\` to \`get_exchange_rate()\`
 ## Bridge
 
 Next: **Generators** - process huge datasets without loading into RAM.`,
-        code: `# Nhập module \`time\` để có thể đo thời gian thực thi.
+        code: `# Import the \`time\` module to measure execution time.
 import time
 
-# Định nghĩa một hàm \`timer\` nhận vào một hàm khác (\`func\`) làm đối số.
-# Hàm này sẽ đóng vai trò là một decorator (hàm trang trí).
+# Define a \`timer\` function that takes another function (\`func\`) as an argument.
+# This function acts as a decorator.
 def timer(func):
-    # Định nghĩa hàm \`wrapper\` bên trong \`timer\`.
-    # Hàm \`wrapper\` này sẽ là hàm được gọi thay thế cho \`func\` gốc.
-    # Nó nhận mọi đối số (*args, **kwargs) mà \`func\` gốc có thể nhận.
+    # Define the \`wrapper\` function inside \`timer\`.
+    # This \`wrapper\` function will be called instead of the original \`func\`.
+    # It accepts any arguments (*args, **kwargs) that the original \`func\` can take.
     def wrapper(*args, **kwargs):
-        # Ghi lại thời điểm bắt đầu thực thi hàm.
+        # Record the start time of function execution.
         start = time.time()
-        # Gọi hàm gốc (\`func\`) với các đối số đã nhận.
-        # Lưu kết quả trả về của hàm gốc.
+        # Call the original function (\`func\`) with the received arguments.
+        # Store the returned result of the original function.
         result = func(*args, **kwargs)
-        # Ghi lại thời điểm kết thúc thực thi hàm.
+        # Record the end time of function execution.
         end = time.time()
-        # In ra thời gian mà hàm gốc đã mất để thực thi.
-        # \`func.__name__\` lấy tên của hàm gốc.
-        # \`end-start:.4f\` định dạng thời gian thành số thập phân với 4 chữ số sau dấu phẩy.
+        # Print the time the original function took to execute.
+        # \`func.__name__\` gets the name of the original function.
+        # \`end-start:.4f\` formats the time as a decimal with 4 digits after the decimal point.
         print(f"{func.__name__} took {end-start:.4f}s")
-        # Trả về kết quả của hàm gốc.
+        # Return the result of the original function.
         return result
-    # Trả về hàm \`wrapper\`. Khi \`timer\` được dùng làm decorator,
-    # nó sẽ thay thế hàm gốc bằng hàm \`wrapper\` này.
+    # Return the \`wrapper\` function. When \`timer\` is used as a decorator,
+    # it replaces the original function with this \`wrapper\` function.
     return wrapper
 
-# Sử dụng decorator \`@timer\` để "trang trí" cho hàm \`slow_function\`.
-# Điều này có nghĩa là mỗi khi \`slow_function\` được gọi,
-# hàm \`wrapper\` bên trong \`timer\` sẽ được thực thi trước và sau \`slow_function\`.
+# Use the \`@timer\` decorator to "wrap" the \`slow_function\`.
+# This means every time \`slow_function\` is called,
+# the \`wrapper\` function inside \`timer\` will run before and after \`slow_function\`.
 @timer
-# Định nghĩa một hàm có tên \`slow_function\` mô phỏng một tác vụ tốn thời gian.
+# Define a function named \`slow_function\` simulating a time-consuming task.
 def slow_function():
-    # Tính tổng các số từ 0 đến 999,999. Đây là một phép tính tốn thời gian.
+    # Sum the numbers from 0 to 999,999. This is a time-consuming computation.
     total = sum(range(1000000))
-    # Trả về tổng đã tính.
+    # Return the computed total.
     return total
 
-# Gọi hàm \`slow_function\`.
-# Vì \`slow_function\` đã được trang trí bởi \`@timer\`,
-# thời gian thực thi của nó sẽ được in ra console.
-# Kết quả trả về của \`slow_function\` (tổng các số) sẽ được lưu vào biến \`result\`.
-# Đầu ra mong đợi: Một dòng in thời gian thực thi của \`slow_function\` và sau đó là "Result: 499999500000".
+# Call \`slow_function\`.
+# Since \`slow_function\` has been decorated by \`@timer\`,
+# its execution time will be printed to the console.
+# The return value of \`slow_function\` (the sum) will be stored in the \`result\` variable.
+# Expected output: A line printing the execution time of \`slow_function\`, followed by "Result: 499999500000".
 result = slow_function()
-# In ra kết quả cuối cùng của hàm \`slow_function\`.
+# Print the final result of \`slow_function\`.
 print(f"Result: {result}")`,
         codeLanguage: "python",
         exercise: "Write a 'count_calls' decorator that counts the number of times the function is called",
@@ -832,51 +832,51 @@ Used heavily in asyncio.
 ## Bridge
 
 Next: **File I/O** - combined with generators, build pipelines for huge CSV/JSON files with minimal memory.`,
-        code: `# Định nghĩa một hàm generator tên là 'count_up'.
-# Hàm này sẽ đếm số tăng dần vô hạn, bắt đầu từ giá trị 'start' (mặc định là 0).
+        code: `# Define a generator function named 'count_up'.
+# This function counts up infinitely, starting from 'start' (default 0).
 def count_up(start=0):
-    """Generator counts up infinitely""" # Generator đếm lên vô hạn
-    # Khởi tạo biến 'n' với giá trị bắt đầu.
+    """Generator counts up infinitely"""
+    # Initialize the 'n' variable with the starting value.
     n = start
-    # Vòng lặp vô hạn để liên tục tạo ra các số.
+    # Infinite loop to keep producing numbers.
     while True:
-        # 'yield' biến 'n' thành một giá trị của generator.
-        # Khi 'yield' được gọi, hàm sẽ tạm dừng và trả về giá trị 'n'.
-        # Lần tiếp theo khi generator được gọi, nó sẽ tiếp tục thực thi từ đây.
+        # 'yield' turns 'n' into a generator value.
+        # When 'yield' is called, the function pauses and returns the value 'n'.
+        # The next time the generator is called, it resumes execution from here.
         yield n
-        # Tăng 'n' lên 1 cho lần gọi tiếp theo.
+        # Increment 'n' by 1 for the next call.
         n += 1
 
-# Sử dụng generator.
+# Using the generator.
 
-# Tạo một generator 'counter' bắt đầu đếm từ 1.
-# Đầu vào: 1 (giá trị bắt đầu).
-# Đầu ra: Một đối tượng generator.
+# Create a 'counter' generator starting to count from 1.
+# Input: 1 (starting value).
+# Output: A generator object.
 counter = count_up(1)
-# Lặp 5 lần để lấy 5 giá trị đầu tiên từ generator.
+# Loop 5 times to get the first 5 values from the generator.
 for _ in range(5):
-    # Lấy giá trị tiếp theo từ generator 'counter' và in ra.
-    # Đầu vào: generator 'counter'.
-    # Đầu ra: Giá trị số nguyên tiếp theo từ generator.
+    # Get the next value from the 'counter' generator and print it.
+    # Input: the 'counter' generator.
+    # Output: the next integer value from the generator.
     print(next(counter))
-# Kết quả mong đợi:
+# Expected output:
 # 1
 # 2
 # 3
 # 4
 # 5
 
-# Generator expression (tương tự như list comprehension nhưng tạo ra generator thay vì list).
+# Generator expression (similar to a list comprehension but produces a generator instead of a list).
 
-# Tạo một generator expression để tính bình phương của các số từ 0 đến 9.
-# Đầu vào: range(10) (các số từ 0 đến 9).
-# Đầu ra: Một đối tượng generator tạo ra các bình phương.
+# Create a generator expression to compute squares of numbers from 0 to 9.
+# Input: range(10) (numbers from 0 to 9).
+# Output: A generator object producing squares.
 squares = (x**2 for x in range(10))
-# Chuyển đổi generator 'squares' thành một danh sách (list) và in ra.
-# Đầu vào: generator 'squares'.
-# Đầu ra: Một list chứa các giá trị bình phương.
+# Convert the 'squares' generator into a list and print it.
+# Input: the 'squares' generator.
+# Output: A list containing the squared values.
 print(list(squares))
-# Kết quả mong đợi: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]`,
+# Expected output: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]`,
         codeLanguage: "python",
         exercise: "Write generator 'even_numbers(n)' yielding first n even numbers",
         exerciseEn: "Write a generator 'even_numbers(n)' that yields the first n even numbers",

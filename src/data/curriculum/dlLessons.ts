@@ -564,81 +564,81 @@ The same architecture style underpins iPhone Face ID, Tesla Autopilot lane detec
 ## 6. Key Concept
 
 > 🎯 **Key Concept** - CNNs swap "every pixel talks to every neuron" for "small filter, slid everywhere". This **dramatically** reduces parameters while preserving spatial structure - the reason computer vision exploded after 2012.`,
-        code: `# Mạng CNN nhỏ (Tiny CNN) cho các chữ số ảnh xám 28x28 kiểu MNIST - được viết bằng PyTorch.
-# Kiến trúc: Tích chập (Conv) -> ReLU -> Gộp (Pool) -> Tích chập (Conv) -> ReLU -> Gộp (Pool) -> Làm phẳng (Flatten) -> Kết nối đầy đủ (Dense) -> Logits
+        code: `# Tiny CNN for MNIST-style 28x28 grayscale digits - written in PyTorch.
+# Architecture: Conv -> ReLU -> Pool -> Conv -> ReLU -> Pool -> Flatten -> Dense -> Logits
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# Định nghĩa lớp TinyCNN, kế thừa từ nn.Module của PyTorch để xây dựng mô hình.
+# Define the TinyCNN class, inheriting from PyTorch nn.Module to build the model.
 class TinyCNN(nn.Module):
-    # Hàm khởi tạo của mô hình.
-    # Đầu vào: num_classes (số lượng lớp đầu ra, mặc định là 10 cho 10 chữ số).
+    # Model constructor.
+    # Input: num_classes (number of output classes, default 10 for 10 digits).
     def __init__(self, num_classes: int = 10):
-        # Gọi hàm khởi tạo của lớp cha (nn.Module).
+        # Call the parent class constructor (nn.Module).
         super().__init__()
-        # Khối 1: Lớp tích chập đầu tiên.
-        # Đầu vào: 1 kênh (ảnh xám).
-        # Đầu ra: 16 bản đồ đặc trưng (feature maps).
-        # Kích thước kernel: 3x3.
-        # Padding: 1 để giữ nguyên kích thước ảnh sau tích chập.
+        # Block 1: first convolutional layer.
+        # Input: 1 channel (grayscale image).
+        # Output: 16 feature maps.
+        # Kernel size: 3x3.
+        # Padding: 1 to keep the image size unchanged after convolution.
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=16, kernel_size=3, padding=1)
-        # Khối 2: Lớp tích chập thứ hai.
-        # Đầu vào: 16 kênh (từ lớp conv1).
-        # Đầu ra: 32 bản đồ đặc trưng.
-        # Kích thước kernel: 3x3.
-        # Padding: 1 để giữ nguyên kích thước ảnh sau tích chích chập.
+        # Block 2: second convolutional layer.
+        # Input: 16 channels (from conv1).
+        # Output: 32 feature maps.
+        # Kernel size: 3x3.
+        # Padding: 1 to keep the image size unchanged after convolution.
         self.conv2 = nn.Conv2d(in_channels=16, out_channels=32, kernel_size=3, padding=1)
-        # Sau hai giai đoạn gộp (pooling) 2x2, một ảnh 28x28 sẽ trở thành 7x7 với 32 kênh.
-        # Lớp kết nối đầy đủ (fully connected) đầu tiên.
-        # Đầu vào: 32 kênh * 7 * 7 = 1568 phần tử (kích thước ảnh sau pooling và làm phẳng).
-        # Đầu ra: 128 phần tử.
+        # After two 2x2 pooling stages, a 28x28 image becomes 7x7 with 32 channels.
+        # First fully connected layer.
+        # Input: 32 channels * 7 * 7 = 1568 elements (image size after pooling and flattening).
+        # Output: 128 elements.
         self.fc1 = nn.Linear(in_features=32 * 7 * 7, out_features=128)
-        # Lớp kết nối đầy đủ thứ hai (lớp đầu ra).
-        # Đầu vào: 128 phần tử (từ lớp fc1).
-        # Đầu ra: num_classes (số lượng lớp, ví dụ 10 cho 10 chữ số).
+        # Second fully connected layer (output layer).
+        # Input: 128 elements (from fc1).
+        # Output: num_classes (number of classes, e.g. 10 for 10 digits).
         self.fc2 = nn.Linear(in_features=128, out_features=num_classes)
 
-    # Định nghĩa cách dữ liệu đi qua mô hình (phép truyền xuôi).
-    # Đầu vào: x (tensor chứa dữ liệu ảnh).
-    # Đầu ra: x (tensor chứa logits).
+    # Define how data flows through the model (forward pass).
+    # Input: x (tensor containing image data).
+    # Output: x (tensor containing logits).
     def forward(self, x):
-        # Áp dụng lớp tích chập conv1, sau đó là hàm kích hoạt ReLU.
-        # Kích thước đầu ra: (Batch_size, 16 kênh, 28 chiều cao, 28 chiều rộng).
+        # Apply the conv1 layer, then the ReLU activation.
+        # Output shape: (Batch_size, 16 channels, 28 height, 28 width).
         x = F.relu(self.conv1(x))
-        # Áp dụng lớp gộp cực đại (max pooling) với kernel_size 2x2.
-        # Kích thước đầu ra: (Batch_size, 16 kênh, 14 chiều cao, 14 chiều rộng).
+        # Apply max pooling with kernel_size 2x2.
+        # Output shape: (Batch_size, 16 channels, 14 height, 14 width).
         x = F.max_pool2d(x, kernel_size=2)
-        # Áp dụng lớp tích chập conv2, sau đó là hàm kích hoạt ReLU.
-        # Kích thước đầu ra: (Batch_size, 32 kênh, 14 chiều cao, 14 chiều rộng).
+        # Apply the conv2 layer, then the ReLU activation.
+        # Output shape: (Batch_size, 32 channels, 14 height, 14 width).
         x = F.relu(self.conv2(x))
-        # Áp dụng lớp gộp cực đại (max pooling) với kernel_size 2x2.
-        # Kích thước đầu ra: (Batch_size, 32 kênh, 7 chiều cao, 7 chiều rộng).
+        # Apply max pooling with kernel_size 2x2.
+        # Output shape: (Batch_size, 32 channels, 7 height, 7 width).
         x = F.max_pool2d(x, kernel_size=2)
-        # Làm phẳng tensor, bắt đầu từ chiều thứ 1 (giữ nguyên batch_size).
-        # Kích thước đầu ra: (Batch_size, 32 * 7 * 7 = 1568 phần tử).
+        # Flatten the tensor, starting from dimension 1 (keep batch_size).
+        # Output shape: (Batch_size, 32 * 7 * 7 = 1568 elements).
         x = torch.flatten(x, start_dim=1)
-        # Áp dụng lớp kết nối đầy đủ fc1, sau đó là hàm kích hoạt ReLU.
-        # Kích thước đầu ra: (Batch_size, 128 phần tử).
+        # Apply the fc1 fully connected layer, then the ReLU activation.
+        # Output shape: (Batch_size, 128 elements).
         x = F.relu(self.fc1(x))
-        # Áp dụng lớp kết nối đầy đủ fc2 (lớp đầu ra).
-        # Kích thước đầu ra: (Batch_size, 10 phần tử) - đây là các logits thô.
-        # Đầu ra: Logits thô (chưa qua softmax).
+        # Apply the fc2 fully connected layer (output layer).
+        # Output shape: (Batch_size, 10 elements) - these are the raw logits.
+        # Output: raw logits (before softmax).
         return self.fc2(x)
 
-# Kiểm tra nhanh mô hình với một batch ảnh giả lập.
-# Tạo một thể hiện của mô hình TinyCNN.
+# Quick test of the model with a fake batch of images.
+# Create an instance of the TinyCNN model.
 model = TinyCNN()
-# Tạo một batch giả lập gồm 4 ảnh xám 28x28.
-# Kích thước: (Batch_size=4, Kênh=1, Chiều cao=28, Chiều rộng=28).
+# Create a fake batch of 4 28x28 grayscale images.
+# Shape: (Batch_size=4, Channels=1, Height=28, Width=28).
 fake_batch = torch.randn(4, 1, 28, 28)
-# Truyền batch giả lập qua mô hình để nhận được logits.
+# Pass the fake batch through the model to get logits.
 logits = model(fake_batch)
-# In ra hình dạng (shape) của đầu ra.
-# Kết quả mong đợi: (4, 10) - 4 mẫu, mỗi mẫu có 10 logits.
+# Print the shape of the output.
+# Expected result: (4, 10) - 4 samples, each with 10 logits.
 print("Output shape:", logits.shape)
-# Tính tổng số tham số (parameters) trong mô hình.
-# Kết quả mong đợi: Một số nguyên dương biểu thị tổng số trọng số và bias.
+# Compute the total number of parameters in the model.
+# Expected result: a positive integer representing the total number of weights and biases.
 print("Total parameters:", sum(p.numel() for p in model.parameters()))`,
         codeLanguage: "python",
         exercise: "Thêm khối tích chập thứ ba (`Conv 32 -> 64`, ReLU, MaxPool) trước các lớp dày đặc. Tính toán lại kích thước đầu vào của `fc1` (gợi ý: ảnh 28x28 trở thành 3x3 sau ba pool 2x2 - 28 / 8 = 3 với các tổn thất lớp đệm). Chạy mô hình trên một lô giả và báo cáo tổng số tham số mới.",
@@ -810,32 +810,32 @@ Transformers (Lesson 5) have replaced RNNs for most NLP tasks. RNNs / LSTMs are 
 ## 7. Key Concept
 
 > 🎯 **Key Concept** - RNNs share weights across **time** the way CNNs share them across **space**. LSTMs add a *gated cell state* so gradients survive long sequences. Transformers (next lesson) drop recurrence entirely in favour of attention - but understanding RNNs is essential for understanding *why* attention won.`,
-        code: `# Bộ phân loại cảm xúc trên một tập dữ liệu nhỏ - sử dụng LSTM hai chiều trong PyTorch.
+        code: `# Sentiment classifier on a small dataset - using a bidirectional LSTM in PyTorch.
 import torch
 import torch.nn as nn
 
-# Định nghĩa lớp mạng nơ-ron SentimentLSTM, kế thừa từ nn.Module của PyTorch.
+# Define the SentimentLSTM neural network class, inheriting from PyTorch nn.Module.
 class SentimentLSTM(nn.Module):
-    # Hàm khởi tạo của mô hình.
-    # Đầu vào:
-    #   - vocab_size: Kích thước từ vựng (số lượng từ duy nhất).
-    #   - embed_dim: Kích thước của vector nhúng (embedding) cho mỗi từ. Mặc định là 64.
-    #   - hidden_dim: Kích thước của trạng thái ẩn trong LSTM. Mặc định là 128.
-    #   - num_classes: Số lượng lớp đầu ra (ví dụ: 2 cho tích cực/tiêu cực). Mặc định là 2.
+    # Model constructor.
+    # Input:
+    #   - vocab_size: vocabulary size (number of unique words).
+    #   - embed_dim: size of the embedding vector for each word. Default is 64.
+    #   - hidden_dim: size of the LSTM hidden state. Default is 128.
+    #   - num_classes: number of output classes (e.g. 2 for positive/negative). Default is 2.
     def __init__(self, vocab_size: int, embed_dim: int = 64, hidden_dim: int = 128, num_classes: int = 2):
-        # Gọi hàm khởi tạo của lớp cha (nn.Module).
+        # Call the parent class constructor (nn.Module).
         super().__init__()
-        # Lớp Embedding: chuyển đổi các chỉ số từ thành các vector dày đặc.
-        # Đầu vào: vocab_size (số lượng từ), embed_dim (kích thước vector nhúng).
+        # Embedding layer: converts word indices into dense vectors.
+        # Input: vocab_size (number of words), embed_dim (embedding vector size).
         self.embedding = nn.Embedding(num_embeddings=vocab_size, embedding_dim=embed_dim)
-        # Lớp LSTM: Mạng bộ nhớ dài ngắn hạn.
-        # Đầu vào:
-        #   - input_size: Kích thước của vector đầu vào cho LSTM (bằng embed_dim).
-        #   - hidden_size: Kích thước của trạng thái ẩn.
-        #   - num_layers: Số lượng lớp LSTM xếp chồng lên nhau.
-        #   - batch_first: Nếu True, đầu vào/đầu ra có dạng (batch, sequence, feature).
-        #   - bidirectional: Nếu True, LSTM sẽ xử lý theo cả hai chiều (tiến và lùi).
-        #   - dropout: Tỷ lệ dropout để tránh overfitting.
+        # LSTM layer: long short-term memory network.
+        # Input:
+        #   - input_size: size of the LSTM input vector (equal to embed_dim).
+        #   - hidden_size: size of the hidden state.
+        #   - num_layers: number of stacked LSTM layers.
+        #   - batch_first: if True, input/output have shape (batch, sequence, feature).
+        #   - bidirectional: if True, the LSTM processes both directions (forward and backward).
+        #   - dropout: dropout rate to avoid overfitting.
         self.lstm = nn.LSTM(
             input_size=embed_dim,
             hidden_size=hidden_dim,
@@ -844,50 +844,50 @@ class SentimentLSTM(nn.Module):
             bidirectional=True,
             dropout=0.3,
         )
-        # LSTM hai chiều sẽ nhân đôi kích thước của trạng thái ẩn đầu ra.
-        # Lớp Linear (fully connected): Chuyển đổi đầu ra của LSTM thành các điểm số (logits) cho từng lớp.
-        # Đầu vào: hidden_dim * 2 (vì là LSTM hai chiều), num_classes (số lượng lớp đầu ra).
+        # A bidirectional LSTM doubles the size of the output hidden state.
+        # Linear (fully connected) layer: converts LSTM output into scores (logits) for each class.
+        # Input: hidden_dim * 2 (because it is a bidirectional LSTM), num_classes (number of output classes).
         self.fc = nn.Linear(hidden_dim * 2, num_classes)
 
-    # Hàm forward định nghĩa cách dữ liệu đi qua mô hình.
-    # Đầu vào: x - tensor chứa các chỉ số từ của một batch các câu.
-    #   - x có kích thước: (batch_size, seq_len)
+    # The forward function defines how data flows through the model.
+    # Input: x - tensor containing word indices for a batch of sentences.
+    #   - x has shape: (batch_size, seq_len)
     def forward(self, x):
-        # Bước 1: Nhúng các chỉ số từ thành vector.
-        # Đầu vào x: (batch_size, seq_len)
-        # Đầu ra embedded: (batch_size, seq_len, embed_dim)
+        # Step 1: embed the word indices into vectors.
+        # Input x: (batch_size, seq_len)
+        # Output embedded: (batch_size, seq_len, embed_dim)
         embedded = self.embedding(x)
-        # Bước 2: Đưa vector nhúng qua lớp LSTM.
-        # Đầu vào embedded: (batch_size, seq_len, embed_dim)
-        # Đầu ra output: (batch_size, seq_len, hidden_dim * 2) - chứa tất cả các trạng thái ẩn theo thời gian.
-        # h_n, c_n: trạng thái ẩn và trạng thái ô cuối cùng của tất cả các lớp.
+        # Step 2: pass the embedding vectors through the LSTM layer.
+        # Input embedded: (batch_size, seq_len, embed_dim)
+        # Output output: (batch_size, seq_len, hidden_dim * 2) - contains all hidden states over time.
+        # h_n, c_n: the final hidden state and cell state of all layers.
         output, (h_n, c_n) = self.lstm(embedded)
-        # Bước 3: Lấy biểu diễn của bước thời gian cuối cùng để phân loại.
-        # Chúng ta chỉ quan tâm đến trạng thái cuối cùng của chuỗi.
+        # Step 3: take the representation of the last time step for classification.
+        # We only care about the final state of the sequence.
         # last_step: (batch_size, hidden_dim * 2)
         last_step = output[:, -1, :]
-        # Bước 4: Đưa biểu diễn cuối cùng qua lớp tuyến tính để có các điểm số (logits).
-        # Đầu ra là các logits, chưa qua hàm softmax.
-        # Đầu ra: (batch_size, num_classes)
+        # Step 4: pass the final representation through the linear layer to get scores (logits).
+        # The output is logits, before the softmax function.
+        # Output: (batch_size, num_classes)
         return self.fc(last_step)  # raw logits
 
-# Kiểm tra nhanh mô hình (sanity check).
+# Quick model check (sanity check).
 
-# Khởi tạo một mô hình SentimentLSTM với kích thước từ vựng 10,000.
+# Initialize a SentimentLSTM model with a vocabulary size of 10,000.
 model = SentimentLSTM(vocab_size=10_000)
-# Tạo dữ liệu giả lập (fake_reviews) để kiểm tra.
-# Đây là một batch gồm 8 câu, mỗi câu có độ dài 50 từ.
-# Các từ được biểu diễn bằng các chỉ số ngẫu nhiên từ 0 đến 9,999.
+# Create fake data (fake_reviews) for testing.
+# This is a batch of 8 sentences, each 50 words long.
+# Words are represented by random indices from 0 to 9,999.
 fake_reviews = torch.randint(low=0, high=10_000, size=(8, 50))  # batch of 8, length 50
-# Đưa dữ liệu giả lập qua mô hình để nhận được các logits.
+# Pass the fake data through the model to get logits.
 logits = model(fake_reviews)
-# In ra kích thước của đầu ra.
-# Kết quả mong đợi: (8, 2) - 8 mẫu, mỗi mẫu có 2 điểm số cho 2 lớp.
+# Print the shape of the output.
+# Expected result: (8, 2) - 8 samples, each with 2 scores for 2 classes.
 print("Output shape:", logits.shape)
-# In ra tổng số tham số có thể huấn luyện trong mô hình.
+# Print the total number of trainable parameters in the model.
 print("Parameters: ", sum(p.numel() for p in model.parameters()))
-# Kết quả mong đợi: Output shape: torch.Size([8, 2])
-# Kết quả mong đợi: Parameters:  một số nguyên lớn (ví dụ: khoảng 1.5 triệu)
+# Expected result: Output shape: torch.Size([8, 2])
+# Expected result: Parameters:  a large integer (e.g. around 1.5 million)
 `,
         codeLanguage: "python",
         exercise: "Thay thế `nn.LSTM` bằng `nn.GRU` (API gần như tương tự - bỏ qua trạng thái ô `c_n`). So sánh số lượng tham số. Sau đó, làm cho mô hình **một chiều** (`bidirectional=False`) và cập nhật kích thước đầu vào của lớp tuyến tính cuối cùng. Phiên bản nào có ít tham số hơn và bạn mong đợi phiên bản nào sẽ hoạt động tốt hơn trên các bài đánh giá dài?",
@@ -1099,34 +1099,34 @@ This pattern is called **RAG (Retrieval-Augmented Generation)** and is the most 
 ## 8. Key Concept
 
 > 🎯 **Key Concept** - Self-attention replaces recurrence with **all-to-all comparison in parallel**. Stacking dozens of attention blocks and scaling parameters, data, and compute is the entire recipe behind every modern LLM. Everything else - RAG, fine-tuning, multimodality - sits on top of this foundation.`,
-        code: `# Mini self-attention từ đầu - toán học đằng sau mọi LLM, trong 30 dòng.
-# Nhập thư viện cần thiết
+        code: `# Mini self-attention from scratch - the math behind every LLM, in 30 lines.
+# Import required libraries
 import torch
 import torch.nn.functional as F
 
-# Cố định seed để kết quả có thể lặp lại
+# Fix the seed so results are reproducible
 torch.manual_seed(0)
 
-# Một "câu" mẫu: 4 token, mỗi token biểu diễn bởi embedding 8 chiều
+# A sample "sentence": 4 tokens, each represented by an 8-dim embedding
 seq_len, d_model = 4, 8
 x = torch.randn(seq_len, d_model)
 
-# Ma trận chiếu có thể học được (ở đây chỉ là ngẫu nhiên)
+# Learnable projection matrices (here just random)
 W_q = torch.randn(d_model, d_model)
 W_k = torch.randn(d_model, d_model)
 W_v = torch.randn(d_model, d_model)
 
-# 1. Chiếu input thành Query, Key, Value
+# 1. Project the input into Query, Key, Value
 Q = x @ W_q   # (seq_len, d_model)
 K = x @ W_k
 V = x @ W_v
 
-# 2. Attention tích vô hướng đã chuẩn hóa
+# 2. Scaled dot-product attention
 scores = Q @ K.T / (d_model ** 0.5)   # (seq_len, seq_len)
-weights = F.softmax(scores, dim=-1)   # mỗi hàng có tổng bằng 1
+weights = F.softmax(scores, dim=-1)   # each row sums to 1
 output = weights @ V                   # (seq_len, d_model)
 
-# In ra ma trận trọng số attention và thông tin về output
+# Print the attention weight matrix and output info
 print("Attention weight matrix (rows = queries, cols = keys):")
 print(weights.round(decimals=2))
 print("\\\\nEach row sums to 1.0:", weights.sum(dim=-1).round(decimals=2).tolist())
@@ -1232,20 +1232,20 @@ You have only 2 000 labelled Vietnamese license-plate images. Training from scra
 In 2025 transfer learning is the default in **every** subfield: BERT/Llama for NLP, Whisper for speech, wav2vec 2.0 for audio. **LoRA** and **QLoRA** update only ~1 % of parameters - making fine-tuning of multi-billion-parameter LLMs possible on a single consumer GPU.
 
 > 💡 **Key concept** - Almost no one trains foundation models from scratch in 2025. The skill that matters is choosing the right pretrained backbone and fine-tuning it efficiently.`,
-        code: `# Học chuyển giao (Transfer learning) với mô hình ResNet-18 đã được huấn luyện trước - đóng băng phần xương sống (backbone), huấn luyện phần đầu (head) mới
+        code: `# Transfer learning with a pretrained ResNet-18 model - freeze the backbone, train a new head
 import torch
 import torch.nn as nn
 import torchvision.models as models
 
-# Tải mô hình ResNet-18 đã được huấn luyện trước trên tập dữ liệu ImageNet
-# Đầu vào: Không có.
-# Đầu ra: Một đối tượng mô hình ResNet-18 đã được tải trọng số mặc định.
+# Load a ResNet-18 model pretrained on the ImageNet dataset
+# Input: none.
+# Output: a ResNet-18 model object loaded with default weights.
 model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 
-# Đóng băng tất cả các tham số của mô hình
-# Điều này có nghĩa là các tham số này sẽ không được cập nhật trong quá trình huấn luyện.
-# Đầu vào: Các tham số của mô hình.
-# Đầu ra: Các tham số được đặt thuộc tính requires_grad = False.
+# Freeze all parameters of the model
+# This means these parameters will not be updated during training.
+# Input: the model parameters.
+# Output: parameters with requires_grad = False.
 for param in model.parameters():
     param.requires_grad = False
 
@@ -1289,12 +1289,12 @@ loss = criterion(model(imgs), labels)
 # Đầu vào: Giá trị mất mát.
 # Đầu ra: Gradient được tính và lưu trữ trong thuộc tính .grad của các tham số.
 loss.backward()
-# Cập nhật các tham số của mô hình dựa trên gradient đã tính và bộ tối ưu hóa
-# Đầu vào: Gradient đã tính.
-# Đầu ra: Các tham số của mô hình được cập nhật.
+# Update the model parameters based on the computed gradient and the optimizer
+# Input: computed gradient.
+# Output: updated model parameters.
 optimizer.step()
 print(f"Loss: {loss.item():.4f}")
-# Kết quả mong đợi: In ra giá trị mất mát sau một bước huấn luyện thử nghiệm.
+# Expected result: prints the loss value after one test training step.
 `,
         codeLanguage: "python",
         exercise: "Chuyển sang chế độ **fine-tuning**: bỏ đóng băng (`unfreeze`) `model.layer4`, sau đó tạo trình tối ưu hóa Adam với hai nhóm tham số - `layer4` có `lr=1e-4` và `fc` có `lr=1e-3`. In ra phần trăm tham số có thể huấn luyện mới (~20–25 %).",
