@@ -1384,7 +1384,7 @@ Output: the student sees a first lesson that is **at the right level, matching t
 - **Cohort + funnel** are 2 mandatory dashboards. Every new feature must report the "D1/D7/D30 delta" after a 2-week A/B test.
 
 `,
-        code: `# Import the classes needed from `dataclasses` to create data classes.
+        code: `# Import the classes needed from 'dataclasses' to create data classes.
 from dataclasses import dataclass
 # Import 'datetime' and 'timedelta' from the 'datetime' library to work with dates and times.
 from datetime import datetime, timedelta
