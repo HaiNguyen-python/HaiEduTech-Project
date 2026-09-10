@@ -826,9 +826,14 @@ const PillarCard = ({ pillar, onExplore }: PillarCardProps) => {
   );
 };
 
-// ─── Lesson card with expandable details ────────────────
-interface LessonCardProps { lesson: LifestyleLesson; index: number; }
-const LessonCard = ({ lesson, index }: LessonCardProps) => {
+// ─── Lesson card: opens the full lesson in a dialog ─────
+interface LessonCardProps {
+  lesson: LifestyleLesson;
+  index: number;
+  result?: LifestyleLessonResult;
+  onQuizFinish: (result: LifestyleLessonResult) => void;
+}
+const LessonCard = ({ lesson, index, result, onQuizFinish }: LessonCardProps) => {
   const { t, lang } = useLanguage();
   const [open, setOpen] = useState(false);
   const pillar = PILLARS.find((p) => p.key === lesson.pillar)!;
@@ -850,18 +855,29 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: Math.min(index * 0.04, 0.3), duration: 0.35, ease: "easeOut" }}
+      className="h-full"
     >
       <Card
+        role="button"
+        tabIndex={0}
+        aria-label={lang === "vi" ? lesson.titleVi : lesson.titleEn}
+        onClick={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
         className={[
-          "h-full overflow-hidden border-2 bg-white/95 transition-all",
-          "hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-0.5",
+          "flex h-full cursor-pointer flex-col overflow-hidden border-2 bg-white/95 transition-all",
+          "hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary",
           styles.border,
           styles.borderStrong,
           "dark:bg-slate-900/70",
         ].join(" ")}
       >
         {/* Lesson illustration (CDN image, emoji fallback) */}
-        <div className={`relative aspect-[16/9] w-full overflow-hidden bg-gradient-to-br ${styles.bannerFrom} ${styles.bannerTo}`}>
+        <div className={`relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-gradient-to-br ${styles.bannerFrom} ${styles.bannerTo}`}>
           {image ? (
             <img
               src={image}
@@ -881,9 +897,15 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
           <span className={`absolute right-3 top-3 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-100 ${styles.chipBg} border border-slate-200/70 dark:border-slate-700 shadow-sm`}>
             {lang === "vi" ? levelLabel.vi : levelLabel.en}
           </span>
+          {result?.completed && (
+            <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+              <CheckCircle2 className="h-3 w-3" />
+              {t("Hoàn thành", "Done")}
+            </span>
+          )}
         </div>
 
-        <CardContent className="p-6 flex flex-col h-full">
+        <CardContent className="flex flex-1 flex-col p-6">
           <div className="flex items-start gap-3">
             <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${pillar.iconBg} text-white shadow-md`}>
               <Icon className="h-5 w-5" />
@@ -914,14 +936,23 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
               <MediumIcon className="h-3.5 w-3.5" />
               {lesson.medium === "audio" ? t("Nghe", "Audio") : lesson.medium === "practice" ? t("Thực hành", "Practice") : t("Đọc", "Read")}
             </span>
+            {result && (
+              <span className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400">
+                <ClipboardCheck className="h-3.5 w-3.5" />
+                {result.score}/{result.maxScore}
+              </span>
+            )}
           </div>
 
           <div className="flex-1" />
           <Button
-            onClick={() => setOpen(true)}
-            className="mt-4 justify-between border-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/25 hover:from-emerald-600 hover:to-teal-600 hover:text-white hover:shadow-md hover:shadow-emerald-500/30"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(true);
+            }}
+            className="mt-4 w-full justify-between border-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/25 hover:from-emerald-600 hover:to-teal-600 hover:text-white hover:shadow-md hover:shadow-emerald-500/30"
           >
-            <span className="font-semibold">{t("Xem bài học đầy đủ", "Open full lesson")}</span>
+            <span className="font-semibold">{t("Xem bài học & làm quiz", "Open lesson & quiz")}</span>
             <ArrowRight className="h-4 w-4" />
           </Button>
         </CardContent>
@@ -936,6 +967,8 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
         accentText={pillar.accentText}
         pillarTitle={lang === "vi" ? pillar.titleVi : pillar.titleEn}
         levelLabel={lang === "vi" ? levelLabel.vi : levelLabel.en}
+        onQuizFinish={onQuizFinish}
+        previousScore={result?.score}
       />
     </motion.div>
   );
