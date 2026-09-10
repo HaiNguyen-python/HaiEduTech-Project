@@ -692,7 +692,7 @@ join   dim_customer c
       "Exactly-once nhờ checkpoint + 2-phase commit sink",
     ],
     language: "java",
-// Pipeline: computes order count and revenue per store,
+code: `// Pipeline: computes order count and revenue per store,
 // using a 1-minute (tumbling) window, realtime with ~a few seconds of latency.
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
