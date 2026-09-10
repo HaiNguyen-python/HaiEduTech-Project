@@ -474,12 +474,12 @@ const WordQuest = ({
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">
           {t(
-            "Mỗi Set gồm 10 chặng, mỗi chặng 8 từ. Vào chặng, bạn được học đầy đủ 8 từ trước (nghĩa, phiên âm, ví dụ, phát âm), sau đó mới luyện tập xen kẽ nhiều dạng bài: chọn nghĩa, nghe, gõ, ghép chữ, nói lại, nhớ chủ động, điền câu. Từ nào sai sẽ quay lại với một dạng bài khác.",
-            "Each Set holds 10 stages of 8 words. A stage first walks you through all 8 words in full (meaning, phonetics, example, audio), then drills them across many exercise types: meaning, listening, typing, word building, saying it out loud, active recall and sentence gaps. Missed words return with a different exercise."
+            "Mỗi Set gồm 10 chặng, mỗi chặng 8 từ. Với từng từ, bạn xem đầy đủ nghĩa, phiên âm, ví dụ và phát âm, sau đó hoàn thành 5 bài tập thích ứng trước khi sang từ tiếp theo. Từ trả lời sai sẽ có thêm một bài ôn bù khác dạng.",
+            "Each Set holds 10 stages of 8 words. For each word, study its meaning, pronunciation, example and audio, then complete five adaptive exercises before moving on. A missed word receives one extra review in a different format."
           )}
         </p>
         {progress.resume && stages[progress.resume.stage] && (
-          <Button size="sm" className="mt-3 gap-2" onClick={() => openStage(progress.resume!.stage)}>
+            <Button size="sm" className="mt-3 gap-2" onClick={() => openStage(progress.resume?.stage ?? 0)}>
             <ChevronRight className="h-4 w-4" />
             {t(`Tiếp tục chặng ${progress.resume.stage + 1}`, `Continue stage ${progress.resume.stage + 1}`)}
           </Button>
@@ -592,7 +592,7 @@ const WordQuest = ({
     );
   }
 
-  // ── Study phase: full information for every word of the stage, one by one ──
+  // ── Study phase: learn this word in full before its five exercises ──
   if (phase === "study") {
     const sIdx = Math.min(studyIdx, stage.length - 1);
     const sw = stage[sIdx];
@@ -600,7 +600,13 @@ const WordQuest = ({
     const isLast = sIdx >= stage.length - 1;
     const startDrill = () => {
       stopVoice();
-      save({ ...progress, studied: { ...(progress.studied || {}), [stageIdx]: true } });
+      const tasksForWord = queue.some(item => item.wordIdx === sIdx) ? queue : buildWordTasks(stage, sIdx);
+      setQueue(tasksForWord);
+      save({
+        ...progress,
+        studied: { ...(progress.studied || {}), [stageIdx]: true },
+        resume: { stage: stageIdx, word: sIdx, task: cursor },
+      });
       setPhase("drill");
     };
     return (
@@ -611,11 +617,8 @@ const WordQuest = ({
           </Button>
           <Badge variant="outline">{t("Chặng", "Stage")} {stageIdx + 1}</Badge>
           <Badge variant="secondary">
-            {t("Học từ", "Study the words")} · {sIdx + 1}/{stage.length}
+            {t("Học từ", "Study word")} {sIdx + 1}/{stage.length}
           </Badge>
-          <Button variant="ghost" size="sm" onClick={startDrill} className="gap-1">
-            {t("Bỏ qua phần học", "Skip study")} <ChevronRight className="h-4 w-4" />
-          </Button>
         </div>
 
         <div className="mb-4 flex gap-1.5">
@@ -623,7 +626,8 @@ const WordQuest = ({
             <button
               key={i}
               aria-label={`${t("Từ", "Word")} ${i + 1}`}
-              onClick={() => setStudyIdx(i)}
+              aria-current={i === sIdx ? "step" : undefined}
+              disabled={i !== sIdx}
               className={`h-2 flex-1 rounded-full ${i < sIdx ? "bg-emerald-500" : i === sIdx ? "bg-primary" : "bg-secondary"}`}
             />
           ))}
@@ -667,23 +671,10 @@ const WordQuest = ({
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <Button
-            variant="outline"
-            disabled={sIdx === 0}
-            onClick={() => setStudyIdx(i => Math.max(0, i - 1))}
-          >
-            ← {t("Từ trước", "Previous")}
+        <div className="mt-4 flex items-center justify-center gap-3">
+          <Button onClick={startDrill} className="gap-2">
+            {t("Luyện 5 bài của từ này", "Practice this word - 5 exercises")} <ChevronRight className="h-4 w-4" />
           </Button>
-          {isLast ? (
-            <Button onClick={startDrill} className="gap-2">
-              {t("Bắt đầu luyện tập", "Start practice")} <ChevronRight className="h-4 w-4" />
-            </Button>
-          ) : (
-            <Button onClick={() => setStudyIdx(i => Math.min(stage.length - 1, i + 1))} className="gap-2">
-              {t("Từ tiếp", "Next word")} <ChevronRight className="h-4 w-4" />
-            </Button>
-          )}
         </div>
       </div>
     );
@@ -734,16 +725,18 @@ const WordQuest = ({
           ← {t("Bản đồ chặng", "Stage map")}
         </Button>
         <Badge variant="outline">
-          {t("Chặng", "Stage")} {stageIdx + 1} · {doneWords.length}/{totalStageWords} {t("từ", "words")}
+          {t("Chặng", "Stage")} {stageIdx + 1} · {t("Từ", "Word")} {(task?.wordIdx ?? 0) + 1}/{totalStageWords}
         </Badge>
-        <Badge variant="secondary">{labelOfKind(kind, t)}</Badge>
+        <Badge variant="secondary">
+          {Math.min(cursor + 1, 5)}/5 · {labelOfKind(kind, t)}
+        </Badge>
         <Button
           variant="ghost"
           size="sm"
           onClick={() => { stopVoice(); setStudyIdx(task?.wordIdx ?? 0); setPhase("study"); }}
           className="gap-1"
         >
-          <RotateCcw className="h-4 w-4" /> {t("Xem lại từ", "Review words")}
+          <RotateCcw className="h-4 w-4" /> {t("Xem lại từ này", "Review this word")}
         </Button>
         <span className="flex items-center gap-1 text-sm font-semibold text-amber-500">
           <Star className="h-4 w-4 fill-amber-400 text-amber-400" /> {stars}
