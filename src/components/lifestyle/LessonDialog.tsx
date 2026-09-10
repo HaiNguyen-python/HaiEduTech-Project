@@ -206,6 +206,8 @@ const LessonDialog = ({
                 </p>
               </section>
             )}
+
+            <LessonQuiz lesson={lesson} onFinish={onQuizFinish} previousScore={previousScore} />
           </div>
         </div>
       </DialogContent>
