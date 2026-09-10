@@ -29,6 +29,7 @@ import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
 import { vietnameseToQuest } from "@/lib/vocab/vocabAdapter";
 import { Sparkles, Target } from "lucide-react";
 import { buildMcq, maskAnswerForms, normForCompare, shuffleArr } from "@/lib/vocab/questionQuality";
+import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
 
 
 /** Vietnamese voice used by the two shared learning modes. */
@@ -665,7 +666,14 @@ const VietnameseVocabulary = () => {
                 />
               </div>
 
-              {viewMode === "quest" || viewMode === "mission" || viewMode === "exercise" ? null : (() => {
+              {viewMode === "flashcard" ? (
+                <SimpleVocabDeck
+                  cards={filtered.map(word => ({ key: `${word.word}__${word.moduleId}`, term: word.word, pronunciation: word.ipa ? `/${word.ipa}/` : undefined, level: levelLabel(word.level, isEn), partOfSpeech: word.partOfSpeech, category: isEn ? word.categoryEn : word.category, meaningPrimary: word.meaning, meaningSecondary: word.meaningEn, example: word.example, exampleTranslation: word.exampleEn }))}
+                  t={t}
+                  speak={text => { void playVietnameseTts(text, { playbackRate: 0.9, speechRate: 0.55, pitch: 1.05 }); }}
+                  stopAudio={stopVietnameseTts}
+                />
+              ) : viewMode === "quest" || viewMode === "mission" || viewMode === "exercise" ? null : (() => {
 
                 const groups = paginated.reduce<Record<string, VietnameseBankWord[]>>((acc, w) => {
                   (acc[w.category] ||= []).push(w);
@@ -682,18 +690,7 @@ const VietnameseVocabulary = () => {
                           <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
                         </div>
 
-                        {viewMode === "flashcard" ? (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            <AnimatePresence mode="popLayout">
-                              {groups[cat].map(w => (
-                                <motion.div key={w.word + w.lessonId} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                                  <Flashcard word={w} />
-                                </motion.div>
-                              ))}
-                            </AnimatePresence>
-                          </div>
-                        ) : (
-                          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                             {groups[cat].map(w => (
                               <motion.div
                                 key={w.word + w.lessonId}
@@ -760,8 +757,7 @@ const VietnameseVocabulary = () => {
                                 )}
                               </motion.div>
                             ))}
-                          </div>
-                        )}
+                        </div>
                       </section>
                     ))}
                   </div>
