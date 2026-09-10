@@ -790,6 +790,15 @@ const Dashboard = () => {
                   <GrammarProgressCard snapshot={stats!.grammarProgress} isVi={lang === "vi"} />
                 </div>
 
+                {/* Lifestyle Academy soft-skills radar */}
+                <div className="mb-6">
+                  <SoftSkillsRadar
+                    pillarScores={lifestyle.pillarScores}
+                    stats={lifestyle.stats}
+                    compact
+                  />
+                </div>
+
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   {/* Skill Radar - 4 programs */}
                   <div className="rounded-2xl bg-card p-6 border border-border">
