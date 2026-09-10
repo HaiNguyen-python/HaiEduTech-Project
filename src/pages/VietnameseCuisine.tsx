@@ -46,7 +46,7 @@ const VietnameseCuisine = () => {
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              {t("12 món ăn biểu tượng - từ vựng, nguyên liệu và chuyện văn hóa", "12 iconic dishes - vocabulary, ingredients, cultural stories")}
+              {t(`${cuisineDishes.length} món ăn biểu tượng - từ vựng, nguyên liệu và chuyện văn hóa`, `${cuisineDishes.length} iconic dishes - vocabulary, ingredients, cultural stories`)}
             </p>
           </motion.div>
 

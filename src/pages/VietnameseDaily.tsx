@@ -58,7 +58,7 @@ const VietnameseDaily = () => {
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              {t("30 ngày, mỗi ngày 1 phút - xây dựng thói quen học tiếng Việt", "30 days, 1 minute each - build a Vietnamese learning habit")}
+              {t(`${dailyMicroLessons.length} ngày, mỗi ngày 1 phút - xây dựng thói quen học tiếng Việt`, `${dailyMicroLessons.length} days, 1 minute each - build a Vietnamese learning habit`)}
             </p>
           </motion.div>
 
