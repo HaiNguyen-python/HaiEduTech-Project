@@ -742,14 +742,14 @@ const PresentationStudio = () => {
                   </div>
 
                   <Button
-                    variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
+                    variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:bg-white/10 hover:text-slate-50" : ""}`}
                     onClick={() => setPromptRunning((r) => !r)}
                   >
                     {promptRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
                     {promptRunning ? t("Dừng chữ chạy", "Pause scroll") : t("Chạy chữ", "Scroll")}
                   </Button>
                   <Button
-                    variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
+                    variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:bg-white/10 hover:text-slate-50" : ""}`}
                     onClick={() => {
                       promptOffsetRef.current = 0;
                       measurePrompt();
@@ -763,7 +763,7 @@ const PresentationStudio = () => {
                 </>
               )}
               <Button
-                variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:text-slate-50" : ""}`}
+                variant="ghost" size="sm" className={`gap-1 text-xs ${focusMode ? "text-slate-200 hover:bg-white/10 hover:text-slate-50" : ""}`}
                 onClick={() => setFocusMode((f) => !f)}
               >
                 {focusMode ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
