@@ -839,10 +839,90 @@ interface StatChipProps { value: string; labelVi: string; labelEn: string; }
 const StatChip = ({ value, labelVi, labelEn }: StatChipProps) => {
   const { t } = useLanguage();
   return (
-    <div className="rounded-xl border border-slate-200/70 bg-white/70 px-3 py-2.5 text-center backdrop-blur dark:border-slate-800 dark:bg-slate-900/50">
-      <p className="text-lg md:text-xl font-bold text-slate-900 dark:text-slate-50">{value}</p>
-      <p className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">{t(labelVi, labelEn)}</p>
+    <div className="rounded-xl border border-slate-200/70 bg-white/70 px-3 py-4 text-center backdrop-blur dark:border-slate-800 dark:bg-slate-900/50">
+      <p className="text-xl md:text-2xl font-bold leading-tight text-slate-900 dark:text-slate-50">{value}</p>
+      <p className="mt-1.5 text-[11px] uppercase leading-relaxed tracking-wider text-slate-500 dark:text-slate-400">{t(labelVi, labelEn)}</p>
     </div>
+  );
+};
+
+/**
+ * One collapsible pillar block on the "All" lessons list: a coloured header
+ * band (icon, bilingual title, lesson + passed counts, chevron) plus the
+ * lesson grid. Keeps pillar boundaries obvious when nothing is filtered.
+ */
+interface PillarLessonGroupProps {
+  pillar: Pillar;
+  lessons: LifestyleLesson[];
+  open: boolean;
+  onToggle: () => void;
+  results: Record<string, LifestyleLessonResult>;
+  onQuizFinish: (r: LifestyleLessonResult) => void;
+}
+const PillarLessonGroup = ({
+  pillar, lessons, open, onToggle, results, onQuizFinish,
+}: PillarLessonGroupProps) => {
+  const { t, lang } = useLanguage();
+  const styles = PILLAR_STYLES[pillar.key];
+  const Icon = pillar.Icon;
+  const passed = lessons.filter((l) => results[l.id]?.completed).length;
+  const bodyId = `lesson-group-${pillar.key}`;
+
+  return (
+    <section className={`overflow-hidden rounded-2xl border-2 ${styles.border} ${styles.chipBg}`}>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-controls={bodyId}
+        className="flex w-full items-center gap-3 px-4 py-4 text-left transition-colors hover:bg-white/60 dark:hover:bg-white/5 sm:px-5"
+      >
+        <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${pillar.iconBg} text-white shadow-md`}>
+          <Icon className="h-5 w-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-base font-bold text-slate-900 dark:text-slate-50 sm:text-lg">
+            {lang === "vi" ? pillar.titleVi : pillar.titleEn}
+          </span>
+          <span className={`mt-0.5 block text-sm font-medium ${pillar.accentText}`}>
+            {lessons.length} {t("bài", "lessons")} · {passed}/{lessons.length}{" "}
+            {t("đã đạt", "passed")}
+          </span>
+        </span>
+        <ChevronDown
+          aria-hidden
+          className={`h-5 w-5 shrink-0 text-slate-500 transition-transform dark:text-slate-400 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id={bodyId}
+            key="body"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            <div className="border-t border-white/60 bg-white/70 px-4 py-5 dark:border-slate-800 dark:bg-slate-950/40 sm:px-5">
+              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {lessons.map((lesson, i) => (
+                  <LessonCard
+                    key={lesson.id}
+                    lesson={lesson}
+                    index={i}
+                    result={results[lesson.id]}
+                    onQuizFinish={onQuizFinish}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 };
 
