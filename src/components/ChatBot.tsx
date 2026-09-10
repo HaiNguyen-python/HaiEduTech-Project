@@ -203,6 +203,15 @@ const ChatBot = () => {
   const [askSending, setAskSending] = useState(false);
   const [askSent, setAskSent] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  // Virtual twin: Teacher Hai's voice + the notes he keeps about this student.
+  const voice = useChatVoice();
+  const [memories, setMemories] = useState<ChatMemoryRow[]>([]);
+  const [memoryOpen, setMemoryOpen] = useState(false);
+  const memoriesRef = useRef<ChatMemoryRow[]>([]);
+  memoriesRef.current = memories;
+  const refreshMemories = useCallback(async () => {
+    setMemories(await loadChatMemories());
+  }, []);
   // AI Study Pet — evolves with the student's real learning logs
   const pet = useStudyPet();
   const petId = usePetIdentity();
