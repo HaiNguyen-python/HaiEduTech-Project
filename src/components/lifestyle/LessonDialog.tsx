@@ -189,6 +189,17 @@ const LessonDialog = ({
                 {emphasize(vi ? lesson.drillVi : lesson.drillEn)}
               </p>
             </section>
+
+            {(vi ? lesson.safetyNotesVi : lesson.safetyNotesEn) && (
+              <section className="rounded-xl border border-dashed border-rose-300/70 bg-rose-50/70 px-4 py-4 dark:border-rose-400/30 dark:bg-rose-500/10">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">
+                  {t("Lưu ý an toàn", "Safety note")}
+                </h3>
+                <p className="mt-2 text-base leading-relaxed text-slate-800 dark:text-slate-100">
+                  {emphasize((vi ? lesson.safetyNotesVi : lesson.safetyNotesEn) as string)}
+                </p>
+              </section>
+            )}
           </div>
         </div>
       </DialogContent>

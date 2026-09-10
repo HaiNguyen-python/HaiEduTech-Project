@@ -266,6 +266,7 @@ const FILTERS: { key: FilterKey; labelVi: string; labelEn: string }[] = [
   { key: "presence", labelVi: "Khí chất & Bản lĩnh", labelEn: "Presence & Resilience" },
   { key: "wellness", labelVi: "Thân thể", labelEn: "Wellness" },
   { key: "selfstudy", labelVi: "Tự học", labelEn: "Self-Study" },
+  { key: "partying", labelVi: "Tiệc tùng", labelEn: "Parties" },
 ];
 
 // ─────────────────────────────────────────────────────────
