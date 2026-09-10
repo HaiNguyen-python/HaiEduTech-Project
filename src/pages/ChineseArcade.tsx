@@ -371,19 +371,19 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
         {particles.map(p => (
           <motion.div
             key={p.id}
-            initial={{ scale: 0, opacity: 1 }}
-            animate={{ scale: 3, opacity: 0 }}
+            initial={{ scale: 0, opacity: 1, x: "-50%", y: "-50%" }}
+            animate={{ scale: 3, opacity: 0, x: "-50%", y: "-50%" }}
             transition={{ duration: 0.6 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-amber-300 shadow-[0_0_30px_rgba(251,191,36,1)]"
+            className="absolute w-12 h-12 rounded-full bg-amber-300 shadow-[0_0_30px_rgba(251,191,36,1)]"
             style={{ left: `${p.x}%`, top: `${p.y}%` }}
           />
         ))}
 
         {/* Movable spaceship 🚀 */}
         <motion.div
-          animate={{ left: `${shipX}%` }}
+          animate={{ left: `${shipX}%`, x: "-50%" }}
           transition={{ type: "tween", duration: 0.05, ease: "linear" }}
-          className="absolute bottom-2 -translate-x-1/2 text-5xl drop-shadow-[0_0_12px_rgba(34,211,238,0.9)] select-none"
+          className="absolute bottom-2 text-5xl drop-shadow-[0_0_12px_rgba(34,211,238,0.9)] select-none"
           aria-hidden
         >
           🚀
