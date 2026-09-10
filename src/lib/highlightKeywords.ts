@@ -30,9 +30,22 @@ export function highlightKeywords(
   if (!vocab.length && !phrases.length) return text;
 
   // Longest match wins, so phrases and vocabulary never overlap awkwardly.
-  const all = [...phrases, ...vocab].sort((a, b) => b.length - a.length);
   const phraseSet = new Set(phrases.map((p) => p.toLowerCase()));
-  const pattern = new RegExp(`(?<![\\p{L}])(${all.map(escape).join("|")})(?![\\p{L}])`, "giu");
+  // Vocabulary is matched with light inflection support (plurals, -ed, -ing),
+  // so "campaign" also highlights "campaigns" and "analyse" -> "analysing".
+  const vocabSource = (term: string) => {
+    const base = escape(term);
+    if (/\s/.test(term)) return base;
+    const stem = term.length > 3 && /e$/i.test(term) ? escape(term.slice(0, -1)) : null;
+    const forms = [`${base}(?:s|es|ed|ing|d)?`];
+    if (stem) forms.push(`${stem}(?:ing|ed|es)`);
+    return forms.join("|");
+  };
+  const sources = [
+    ...phrases.sort((a, b) => b.length - a.length).map(escape),
+    ...vocab.sort((a, b) => b.length - a.length).map(vocabSource),
+  ];
+  const pattern = new RegExp(`(?<![\\p{L}])(${sources.join("|")})(?![\\p{L}])`, "giu");
 
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
