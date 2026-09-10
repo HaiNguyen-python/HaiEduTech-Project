@@ -1843,31 +1843,35 @@ const IeltsVocabulary = () => {
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <div className="relative flex-1 min-w-[200px] max-w-sm">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <input
-                  value={search}
-                  onChange={e => setSearch(e.target.value)}
-                  placeholder={t("Tìm từ vựng...", "Search words...")}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-sm"
-                />
-              </div>
-              <select
-                value={levelFilter}
-                onChange={e => setLevelFilter(e.target.value)}
-                className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none"
-              >
-                <option value="all">{t("Tất cả cấp độ", "All Levels")}</option>
-                {CEFR_LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
-              </select>
-              <select
-                value={categoryFilter}
-                onChange={e => setCategoryFilter(e.target.value)}
-                className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none max-w-[200px]"
-              >
-                <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
-                {IELTS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
+              {viewMode !== "arena" && (
+                <>
+                  <div className="relative flex-1 min-w-[200px] max-w-sm">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input
+                      value={search}
+                      onChange={e => setSearch(e.target.value)}
+                      placeholder={t("Tìm từ vựng...", "Search words...")}
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-sm"
+                    />
+                  </div>
+                  <select
+                    value={levelFilter}
+                    onChange={e => setLevelFilter(e.target.value)}
+                    className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none"
+                  >
+                    <option value="all">{t("Tất cả cấp độ", "All Levels")}</option>
+                    {CEFR_LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
+                  </select>
+                  <select
+                    value={categoryFilter}
+                    onChange={e => setCategoryFilter(e.target.value)}
+                    className="px-3 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm focus:outline-none max-w-[200px]"
+                  >
+                    <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
+                    {IELTS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </>
+              )}
               <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest" | "mission" | "arena")}>
                 <TabsList>
                   <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
@@ -1885,7 +1889,9 @@ const IeltsVocabulary = () => {
               </Tabs>
             </div>
 
-            <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
+            {viewMode !== "arena" && (
+              <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
+            )}
 
             {/* Vocab Arena now lives here as a tab so the English menu stays short.
                 The standalone /vocab-arena route still works for old links. */}
@@ -1924,7 +1930,7 @@ const IeltsVocabulary = () => {
             </div>
 
             {/* Content based on mode */}
-            {viewMode === "exercise" || viewMode === "quest" || viewMode === "mission" ? null : viewMode === "flashcard" ? (
+            {viewMode === "exercise" || viewMode === "quest" || viewMode === "mission" || viewMode === "arena" ? null : viewMode === "flashcard" ? (
 
               <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
