@@ -219,50 +219,50 @@ Django models inherit from \`models.Model\` → gain \`save()\`, \`delete()\`, q
 ## Bridge
 
 Next: **Decorators & Generators** - high-level Python tools for elegant, performant code beyond traditional OOP.`,
-        code: `# Định nghĩa một lớp cơ sở (base class) tên là Animal.
-# Lớp này sẽ là nền tảng cho các loài động vật khác.
+        code: `# Define a base class named Animal.
+# This class will be the foundation for other animal types.
 class Animal:
-    # Phương thức khởi tạo (constructor) của lớp Animal.
-    # Được gọi khi một đối tượng Animal mới được tạo.
-    # Đầu vào: name (tên của con vật).
+    # Constructor of the Animal class.
+    # Called when a new Animal object is created.
+    # Input: name (the animal's name).
     def __init__(self, name):
-        # Gán giá trị của tham số 'name' cho thuộc tính 'name' của đối tượng.
+        # Assign the 'name' parameter to the object's 'name' attribute.
         self.name = name
 
-    # Định nghĩa một phương thức 'speak' (nói) cho lớp Animal.
-    # Phương thức này sẽ được các lớp con ghi đè (override).
-    # Đầu ra: Một chuỗi mặc định "..."
+    # Define a 'speak' method for the Animal class.
+    # This method will be overridden by subclasses.
+    # Output: A default string "..."
     def speak(self):
         return "..."
 
-# Định nghĩa một lớp con (subclass) tên là Dog, kế thừa từ lớp Animal.
-# Điều này có nghĩa là Dog sẽ có tất cả các thuộc tính và phương thức của Animal.
+# Define a subclass named Dog, inheriting from Animal.
+# This means Dog will have all attributes and methods of Animal.
 class Dog(Animal):
-    # Ghi đè phương thức 'speak' từ lớp cha (Animal).
-    # Phương thức này sẽ cung cấp cách nói riêng của loài chó.
-    # Đầu ra: Một chuỗi chứa tên con chó và tiếng sủa của nó.
+    # Override the 'speak' method from the parent class (Animal).
+    # This method provides the dog's own way of speaking.
+    # Output: A string with the dog's name and its bark.
     def speak(self):
         return f"{self.name} says Woof!"
 
-# Định nghĩa một lớp con (subclass) tên là Cat, kế thừa từ lớp Animal.
-# Điều này có nghĩa là Cat sẽ có tất cả các thuộc tính và phương thức của Animal.
+# Define a subclass named Cat, inheriting from Animal.
+# This means Cat will have all attributes and methods of Animal.
 class Cat(Animal):
-    # Ghi đè phương thức 'speak' từ lớp cha (Animal).
-    # Phương thức này sẽ cung cấp cách nói riêng của loài mèo.
-    # Đầu ra: Một chuỗi chứa tên con mèo và tiếng kêu của nó.
+    # Override the 'speak' method from the parent class (Animal).
+    # This method provides the cat's own way of speaking.
+    # Output: A string with the cat's name and its meow.
     def speak(self):
         return f"{self.name} says Meow!"
 
 # Polymorphism in action
-# Tạo một danh sách chứa các đối tượng của các lớp khác nhau (Dog và Cat).
-# Đây là ví dụ về tính đa hình (polymorphism), nơi các đối tượng khác nhau có thể được xử lý thông qua một giao diện chung (phương thức speak).
-# Đầu vào: Hai đối tượng, một Dog tên "Rex" và một Cat tên "Whiskers".
+# Create a list containing objects of different classes (Dog and Cat).
+# This is an example of polymorphism, where different objects can be handled through a common interface (the speak method).
+# Input: Two objects, a Dog named "Rex" and a Cat named "Whiskers".
 animals = [Dog("Rex"), Cat("Whiskers")]
-# Lặp qua từng đối tượng trong danh sách 'animals'.
+# Loop through each object in the 'animals' list.
 for animal in animals:
-    # Gọi phương thức 'speak()' cho mỗi đối tượng.
-    # Python sẽ tự động gọi phương thức 'speak' phù hợp với kiểu của từng đối tượng (Dog.speak() hoặc Cat.speak()).
-    # Đầu ra mong đợi:
+    # Call the 'speak()' method for each object.
+    # Python automatically calls the 'speak' method matching each object's type (Dog.speak() or Cat.speak()).
+    # Expected output:
     # "Rex says Woof!"
     # "Whiskers says Meow!"
     print(animal.speak())`,

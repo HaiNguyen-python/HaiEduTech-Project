@@ -263,7 +263,7 @@ BigQuery let them query 100TB in seconds for real-time listener analytics; Pub/S
 
 ## Next lesson
 Lesson 3 covers **Regions, AZs, Edge Locations** - the physical layer beneath every cloud.`,
-        code: `# Bảng tra cứu dịch vụ tương đương 3 nhà cung cấp
+        code: `# Equivalent-service lookup table across 3 providers
 service_map = {
     "virtual_machine": {"aws": "EC2",      "azure": "Virtual Machines", "gcp": "Compute Engine"},
     "object_storage":  {"aws": "S3",       "azure": "Blob Storage",     "gcp": "Cloud Storage"},
@@ -402,7 +402,7 @@ Netflix built "Chaos Monkey" to randomly kill EC2 instances in production - forc
 
 ## Next lesson
 Next module starts **Compute & Storage** - meet EC2 (VM), S3 (object storage), and Docker containers.`,
-        code: `# Mô phỏng triển khai Multi-AZ vs Single-AZ
+        code: `# Simulate Multi-AZ vs Single-AZ deployment
 class CloudDeployment:
     def __init__(self, name: str, azs: list[str]):
         self.name = name
@@ -564,7 +564,7 @@ Mix of m5/c5 web tier, r5 cache, p3 ML search. Schedule-based scaling for summer
 
 ## Next lesson
 Storage lesson covers **S3 Object Storage** - "infinite", cheap storage that complements EC2.`,
-        code: `# Khởi tạo EC2 instance với boto3 (AWS SDK for Python)
+        code: `# Launch an EC2 instance with boto3 (AWS SDK for Python)
 import boto3
 
 ec2 = boto3.resource("ec2", region_name="us-east-1")
@@ -747,7 +747,7 @@ In 2016 Dropbox migrated **>500 PB** off S3 to in-house "Magic Pocket". At extre
 
 ## Bridge to Next Lesson
 S3 is one piece of Compute + Storage + Network. Next we cover **Containers & Kubernetes** - running packaged workloads at scale, often paired with S3 for storage.`,
-        code: `# Upload và quản lý object trên S3 với boto3
+        code: `# Upload and manage objects on S3 with boto3
 import boto3
 
 s3 = boto3.client("s3")
@@ -1138,7 +1138,7 @@ Use SG as your main firewall; NACL only for blanket blocks.
 
 ## 8. Bridge to next lesson
 VPC controls "where servers live and who can reach them". Next: **IAM** - who is allowed to do what on which resource.`,
-        code: `# Tạo VPC + 2 subnet (1 public + 1 private) bằng boto3
+        code: `# Create a VPC + 2 subnets (1 public + 1 private) with boto3
 import boto3
 ec2 = boto3.client("ec2")
 
