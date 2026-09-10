@@ -132,6 +132,18 @@ const ChatBubble = memo(function ChatBubble({
         )}
       </div>
 
+      {role === "assistant" && onSpeak && messageId && displayContent.length > 1 && (
+        <button
+          type="button"
+          onClick={() => (speaking ? onStopSpeak?.() : onSpeak(displayContent, messageId))}
+          className="mt-1 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+          title={speaking ? t("Dừng đọc", "Stop reading") : t("Nghe thầy đọc", "Listen to Teacher Hai")}
+        >
+          {speaking ? <Square className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
+          <span>{speaking ? t("Dừng", "Stop") : t("Nghe", "Listen")}</span>
+        </button>
+      )}
+
       {ctaMatch && (
         <div className="mt-3 grid w-full max-w-[92%] grid-cols-2 gap-2">
           <button
@@ -162,9 +174,19 @@ type Props = {
   messages: ChatMessage[];
   t: (vi: string, en: string) => string;
   onPlacementClick: (href: string) => void;
+  speakingId?: string | null;
+  onSpeak?: (content: string, id: string) => void;
+  onStopSpeak?: () => void;
 };
 
-const ChatMessageList = memo(function ChatMessageList({ messages, t, onPlacementClick }: Props) {
+const ChatMessageList = memo(function ChatMessageList({
+  messages,
+  t,
+  onPlacementClick,
+  speakingId,
+  onSpeak,
+  onStopSpeak,
+}: Props) {
   return (
     <>
       {messages.map((msg, i) => (
@@ -174,6 +196,10 @@ const ChatMessageList = memo(function ChatMessageList({ messages, t, onPlacement
           content={msg.content}
           t={t}
           onPlacementClick={onPlacementClick}
+          messageId={`m${i}`}
+          speaking={speakingId === `m${i}`}
+          onSpeak={onSpeak}
+          onStopSpeak={onStopSpeak}
         />
       ))}
     </>
