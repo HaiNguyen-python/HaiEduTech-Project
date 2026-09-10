@@ -4,9 +4,8 @@
  * (IELTS/English, Vietnamese, HSK, Japanese, Finnish, Swedish).
  *
  * Structure: words -> stages of 8 -> sets of 10 stages (so long banks stay a
- * short, scannable screen). Inside a stage the learner works in interleaved
- * rounds of 3 words; each word gets a *planned* mix of exercise types instead
- * of always walking the same 5 steps, which removes the old repetitive feel.
+ * short, scannable screen). Each word is studied in full, then receives five
+ * adaptive exercises before the learner moves to the next word.
  *
  * Exercise types: meet, meaning, listen, type, gap, speak (mic), recall,
  * build (assemble letters/syllables), usage (pick the right sentence),
@@ -34,14 +33,13 @@ const STAGE_SIZE = 8;
 /** How many stages are grouped into one "Set" card on the map. */
 const SET_SIZE = 10;
 /** How many words are interleaved in one learning round. */
-const ROUND_SIZE = 3;
 const DEFAULT_PROGRESS_KEY = "ielts_word_quest_v1";
 
 type StepKind =
   | "meet" | "meaning" | "listen" | "type" | "gap"
   | "speak" | "recall" | "build" | "usage" | "reverse";
 
-interface Task { wordIdx: number; kind: StepKind }
+interface Task { wordIdx: number; kind: StepKind; retry?: boolean }
 
 interface Progress {
   /** stage index -> number of words fully completed */
@@ -49,7 +47,7 @@ interface Progress {
   /** stage index -> mistakes made, used for the bronze/silver/gold medal */
   medals?: Record<number, number>;
   /** Where the learner stopped, so they can jump straight back in. */
-  resume?: { stage: number; word: number } | null;
+  resume?: { stage: number; word: number; task?: number } | null;
   /** stage index -> the learner already walked through all its word cards. */
   studied?: Record<number, boolean>;
 }
@@ -164,7 +162,6 @@ const WordQuest = ({
   const [studyIdx, setStudyIdx] = useState(0);
   const [queue, setQueue] = useState<Task[]>([]);
   const [cursor, setCursor] = useState(0);
-  const [roundIdx, setRoundIdx] = useState(0);
   const [doneWords, setDoneWords] = useState<number[]>([]);
   const [stars, setStars] = useState(0);
   const [combo, setCombo] = useState(0);
@@ -220,40 +217,14 @@ const WordQuest = ({
     setSpokenScore(null);
   }, []);
 
-  /** Build the interleaved task queue for one round of up to 3 words. */
-  const buildRound = useCallback((s: QuestItem[], round: number): Task[] => {
-    const start = round * ROUND_SIZE;
-    const slice = s.slice(start, start + ROUND_SIZE);
-    if (slice.length === 0) return [];
-    const perWord: Task[][] = slice.map((w, i) => {
-      const idx = start + i;
-      const known = knownKeys?.has(w.key) ?? false;
-      const { easy, hard } = kindsFor(w, micSupported);
-      // Every word was already presented in the study phase, so the drill has
-      // no "meet" step: three real exercises per word instead.
-      const kinds = known
-        ? pickKinds([...hard, ...easy], 3, [])
-        : pickKinds([...easy, ...hard], 3, []);
-      return kinds.map(k => ({ wordIdx: idx, kind: k }));
-    });
-    // Interleave: all intro steps first, then round-robin the exercises so the
-    // same word is never asked twice in a row.
-    const intro: Task[] = [];
-    const rest: Task[][] = perWord.map(list => {
-      const copy = [...list];
-      if (copy[0]?.kind === "meet") intro.push(copy.shift()!);
-      return copy;
-    });
-    const out = [...intro];
-    let more = true;
-    while (more) {
-      more = false;
-      for (const list of rest) {
-        const next = list.shift();
-        if (next) { out.push(next); more = true; }
-      }
-    }
-    return out;
+  /** Build five distinct exercises for one word, from recognition to recall. */
+  const buildWordTasks = useCallback((s: QuestItem[], wordIdx: number): Task[] => {
+    const target = s[wordIdx];
+    if (!target) return [];
+    const known = knownKeys?.has(target.key) ?? false;
+    const { easy, hard } = kindsFor(target, micSupported);
+    const orderedPool = known ? [...hard, ...easy] : [...easy, ...hard];
+    return pickKinds(orderedPool, 5, []).map(kind => ({ wordIdx, kind }));
   }, [knownKeys, micSupported]);
 
   // Auto-play the word when a listening-style step opens.
@@ -351,13 +322,19 @@ const WordQuest = ({
     if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     setStageIdx(i);
     setSetIdx(Math.floor(i / SET_SIZE));
-    // Words first: only stages already studied jump straight into the drills.
-    setPhase(progress.studied?.[i] ? "drill" : "study");
-    setStudyIdx(0);
-    setRoundIdx(0);
-    setQueue(buildRound(s, 0));
-    setCursor(0);
-    setDoneWords([]);
+    const completed = Math.min(progress.stages[i] || 0, s.length);
+    const isReplay = completed >= s.length;
+    const resumeWord = progress.resume?.stage === i ? progress.resume.word : completed;
+    const nextWord = isReplay ? 0 : Math.min(Math.max(0, resumeWord), s.length - 1);
+    const nextQueue = buildWordTasks(s, nextWord);
+    const resumeTask = progress.resume?.stage === i && progress.resume.word === nextWord
+      ? Math.min(progress.resume.task || 0, Math.max(0, nextQueue.length - 1))
+      : 0;
+    setPhase("study");
+    setStudyIdx(nextWord);
+    setQueue(nextQueue);
+    setCursor(resumeTask);
+    setDoneWords(Array.from({ length: isReplay ? 0 : completed }, (_, index) => index));
     setStars(0);
     setCombo(0);
     setStageMistakes(0);
@@ -375,7 +352,7 @@ const WordQuest = ({
     window.setTimeout(() => setCelebrate(false), 3200);
   };
 
-  /** Move to the next task; roll into the next round or finish the stage. */
+  /** Move to the next exercise, or study the next word after all five are done. */
   const advance = (extraDone?: number) => {
     if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     resetStepState();
@@ -389,25 +366,26 @@ const WordQuest = ({
       save({
         ...progress,
         stages: { ...progress.stages, [stageIdx]: Math.max(progress.stages[stageIdx] || 0, doneNow.length) },
-        resume: { stage: stageIdx, word: queue[cursor + 1].wordIdx },
+        resume: { stage: stageIdx, word: queue[cursor + 1].wordIdx, task: cursor + 1 },
       });
       return;
     }
 
-    // Round finished - start the next round of 3 words, or clear the stage.
-    const nextRound = roundIdx + 1;
-    const nextQueue = buildRound(stage, nextRound);
-    if (nextQueue.length === 0) {
+    const completedWord = task?.wordIdx ?? studyIdx;
+    const nextWord = completedWord + 1;
+    if (nextWord >= stage.length) {
       finishStage(stage, stageIdx, stageMistakes);
       return;
     }
-    setRoundIdx(nextRound);
+    const nextQueue = buildWordTasks(stage, nextWord);
+    setStudyIdx(nextWord);
+    setPhase("study");
     setQueue(nextQueue);
     setCursor(0);
     save({
       ...progress,
       stages: { ...progress.stages, [stageIdx]: Math.max(progress.stages[stageIdx] || 0, doneNow.length) },
-      resume: { stage: stageIdx, word: nextQueue[0].wordIdx },
+      resume: { stage: stageIdx, word: nextWord, task: 0 },
     });
   };
 
@@ -436,11 +414,9 @@ const WordQuest = ({
     if (!task || !word) return;
     const { easy, hard } = kindsFor(word, micSupported);
     const [retryKind] = pickKinds([...easy, ...hard], 1, [task.kind]);
-    setQueue(q => {
-      // Only ever queue one pending retry per word, however many tries it takes.
-      if (q.slice(cursor + 1).some(x => x.wordIdx === task.wordIdx)) return q;
-      return [...q, { wordIdx: task.wordIdx, kind: retryKind || task.kind }];
-    });
+    setQueue(q => q.some(x => x.wordIdx === task.wordIdx && x.retry)
+      ? q
+      : [...q, { wordIdx: task.wordIdx, kind: retryKind || task.kind, retry: true }]);
   };
 
   const handlePick = (key: string, correctKey: string) => {
