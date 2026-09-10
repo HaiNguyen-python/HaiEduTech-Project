@@ -1534,7 +1534,34 @@ const ChatBot = () => {
                 </div>
               )}
 
-              <ChatMessageList messages={messages} t={tStable} onPlacementClick={handlePlacementClick} />
+              <ChatMessageList
+                messages={messages}
+                t={tStable}
+                onPlacementClick={handlePlacementClick}
+                speakingId={voice.speakingId}
+                onSpeak={voice.speak}
+                onStopSpeak={voice.stop}
+              />
+
+              {/* Quick learning actions - keep the lesson moving like a real tutor */}
+              {messages.length > 0 && !isLoading && (
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {[
+                    { vi: "Kiểm tra em 5 câu", en: "Quiz me with 5 questions" },
+                    { vi: "Giải thích dễ hơn", en: "Explain it more simply" },
+                    { vi: "Cho em ví dụ khác", en: "Give me another example" },
+                    { vi: "Luyện nói câu này", en: "Let me practise saying this" },
+                  ].map((q) => (
+                    <button
+                      key={q.en}
+                      onClick={() => sendMessage(t(q.vi, q.en))}
+                      className="rounded-full border border-primary/30 bg-primary/5 px-2.5 py-1 text-[11px] font-medium text-primary transition-colors hover:bg-primary/15"
+                    >
+                      {t(q.vi, q.en)}
+                    </button>
+                  ))}
+                </div>
+              )}
 
 
               {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
