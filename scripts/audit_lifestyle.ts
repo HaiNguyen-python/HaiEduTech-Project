@@ -1,6 +1,11 @@
+import { readdirSync } from "node:fs";
 import { LIFESTYLE_LESSONS as lifestyleLessons } from "../src/data/lifestyleAcademyLessons";
 import { getLessonQuiz } from "../src/lib/lifestyleQuizBuilder";
 const all = lifestyleLessons as any[];
+
+// Illustration coverage: one distinct asset pointer per lesson id.
+const assetFiles = readdirSync("src/assets/lifestyle").filter(f => f.endsWith(".asset.json"));
+const assetIds = new Set(assetFiles.map(f => f.replace(/\.[^.]+\.asset\.json$/, "")));
 const byPillar: Record<string, any[]> = {};
 const ids = new Set<string>();
 const issues: string[] = [];
@@ -19,6 +24,7 @@ for (const l of all) {
 
   if (!l.whyItMattersVi || !l.whyItMattersEn) issues.push(`${l.id}: no whyItMatters`);
   if (!l.illustrationEmojis || l.illustrationEmojis.length === 0) issues.push(`${l.id}: no emojis`);
+  if (!assetIds.has(l.id)) issues.push(`${l.id}: no illustration`);
   for (const k of ["titleVi","titleEn","subtitleVi","subtitleEn","frameworkVi","frameworkEn","reflectionVi","reflectionEn","drillVi","drillEn"]) {
     if (!l[k] || String(l[k]).trim().length < 8) issues.push(`${l.id}: weak ${k}`);
   }
