@@ -11,6 +11,17 @@ import { useStudyPet } from "@/hooks/useStudyPet";
 import StudyPetAvatar from "@/components/StudyPetAvatar";
 import { usePetIdentity, PET_SKINS } from "@/hooks/usePetIdentity";
 import { useChatHistory } from "@/hooks/useChatHistory";
+import { useChatVoice } from "@/hooks/useChatVoice";
+import {
+  clearChatMemories,
+  deleteChatMemory,
+  extractMemories,
+  formatMemoriesForContext,
+  loadChatMemories,
+  saveChatMemories,
+  stripMemoryTokens,
+  type ChatMemoryRow,
+} from "@/lib/chatMemory";
 
 
 type Message = { role: "user" | "assistant"; content: string };
