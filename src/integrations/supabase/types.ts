@@ -1881,6 +1881,42 @@ export type Database = {
         }
         Relationships: []
       }
+      lifestyle_lesson_progress: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: string
+          lesson_id: string
+          max_score: number
+          pillar: string
+          score: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          lesson_id: string
+          max_score?: number
+          pillar: string
+          score?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          lesson_id?: string
+          max_score?: number
+          pillar?: string
+          score?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       marketing_campaigns: {
         Row: {
           audience: string
