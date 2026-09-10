@@ -783,6 +783,7 @@ import { LIFESTYLE_SELF_STUDY_LESSONS } from "./lifestyleSelfStudyLessons";
 import { LIFESTYLE_PARTYING_LESSONS } from "./lifestylePartyingLessons";
 
 import { LIFESTYLE_ENRICHMENT } from "./lifestyleAcademyEnrichment";
+import { LIFESTYLE_DEEP_DIVE_BOOST } from "./lifestyleDeepDive";
 
 const byPillar = (source: LifestyleLesson[], key: LifestylePillarKey) =>
   source.filter((l) => l.pillar === key);
@@ -791,19 +792,25 @@ const byPillar = (source: LifestyleLesson[], key: LifestylePillarKey) =>
  * Attach the depth layer (why it matters / deep dive / illustration emojis) to
  * lessons written before those fields existed. Anything the lesson already
  * defines always wins, so future hand-written content is never overwritten.
+ * The boost layer then appends concrete situation + apply-this-week paragraphs.
  */
 const withDepth = (lesson: LifestyleLesson): LifestyleLesson => {
   const extra = LIFESTYLE_ENRICHMENT[lesson.id];
-  if (!extra) return lesson;
+  const boost = LIFESTYLE_DEEP_DIVE_BOOST[lesson.id];
+  const baseVi = lesson.deepDiveVi ?? extra?.deepDiveVi ?? [];
+  const baseEn = lesson.deepDiveEn ?? extra?.deepDiveEn ?? [];
+  const deepDiveVi = boost ? [...baseVi, ...boost.vi] : baseVi;
+  const deepDiveEn = boost ? [...baseEn, ...boost.en] : baseEn;
   return {
     ...lesson,
-    whyItMattersVi: lesson.whyItMattersVi ?? extra.whyItMattersVi,
-    whyItMattersEn: lesson.whyItMattersEn ?? extra.whyItMattersEn,
-    deepDiveVi: lesson.deepDiveVi ?? extra.deepDiveVi,
-    deepDiveEn: lesson.deepDiveEn ?? extra.deepDiveEn,
-    illustrationEmojis: lesson.illustrationEmojis ?? extra.illustrationEmojis,
+    whyItMattersVi: lesson.whyItMattersVi ?? extra?.whyItMattersVi,
+    whyItMattersEn: lesson.whyItMattersEn ?? extra?.whyItMattersEn,
+    deepDiveVi: deepDiveVi.length ? deepDiveVi : undefined,
+    deepDiveEn: deepDiveEn.length ? deepDiveEn : undefined,
+    illustrationEmojis: lesson.illustrationEmojis ?? extra?.illustrationEmojis,
   };
 };
+
 
 // Interleave expansion lessons per pillar so each pillar reads as a continuous
 // curriculum (foundation -> intermediate -> mastery) instead of being split.

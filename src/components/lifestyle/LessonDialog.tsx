@@ -67,30 +67,32 @@ const LessonDialog = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-w-3xl gap-0 overflow-hidden p-0 sm:rounded-2xl"
+        className="flex max-h-[90vh] w-[96vw] max-w-5xl flex-col gap-0 overflow-hidden p-0 sm:rounded-2xl"
         aria-describedby={undefined}
       >
-        {/* Cover */}
-        <div className={`relative aspect-[16/7] w-full bg-gradient-to-br ${styles.bannerFrom} ${styles.bannerTo}`}>
-          {image ? (
-            <img
-              src={image}
-              alt={vi ? lesson.titleVi : lesson.titleEn}
-              className="h-full w-full object-cover"
-              loading="lazy"
-              width={1024}
-              height={448}
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center gap-4 text-4xl" aria-hidden>
-              {(lesson.illustrationEmojis ?? styles.emojis).slice(0, 4).map((e, i) => (
-                <span key={i}>{e}</span>
-              ))}
-            </div>
-          )}
-        </div>
+        <div className="flex-1 overflow-y-auto">
+          {/* Cover */}
+          <div className={`relative aspect-[16/6] w-full shrink-0 bg-gradient-to-br ${styles.bannerFrom} ${styles.bannerTo}`}>
+            {image ? (
+              <img
+                src={image}
+                alt={vi ? lesson.titleVi : lesson.titleEn}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                width={1024}
+                height={384}
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center gap-4 text-4xl" aria-hidden>
+                {(lesson.illustrationEmojis ?? styles.emojis).slice(0, 4).map((e, i) => (
+                  <span key={i}>{e}</span>
+                ))}
+              </div>
+            )}
+          </div>
 
-        <div className="max-h-[70vh] overflow-y-auto px-5 py-6 sm:px-8 sm:py-7">
+          <div className="px-5 py-6 sm:px-10 sm:py-8">
+
           <DialogHeader className="space-y-3 text-left">
             <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wider">
               <span className={`rounded-full px-2 py-0.5 ${styles.chipBg} ${accentText}`}>{pillarTitle}</span>
@@ -209,8 +211,10 @@ const LessonDialog = ({
 
             <LessonQuiz lesson={lesson} onFinish={onQuizFinish} previousScore={previousScore} />
           </div>
+          </div>
         </div>
       </DialogContent>
+
     </Dialog>
   );
 };

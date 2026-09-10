@@ -44,7 +44,9 @@ const SoftSkillsRadar = ({ pillarScores, stats, compact = false }: SoftSkillsRad
   }));
 
   const weakest = [...pillarScores].sort((a, b) => a.value - b.value)[0];
-  const empty = stats.attempted === 0;
+  // Only lessons passed at 75%+ count, so an attempt below that keeps the radar empty.
+  const empty = stats.completed === 0;
+
 
   return (
     <Card className="border-2 border-primary/20">
@@ -56,10 +58,11 @@ const SoftSkillsRadar = ({ pillarScores, stats, compact = false }: SoftSkillsRad
           </h3>
           <span className="text-sm text-muted-foreground">
             {t(
-              `${stats.completed}/${stats.totalLessons} bài hoàn thành`,
-              `${stats.completed}/${stats.totalLessons} lessons completed`,
+              `${stats.completed}/${stats.totalLessons} bài đạt (từ 75% quiz)`,
+              `${stats.completed}/${stats.totalLessons} lessons passed (75%+ quiz)`,
             )}
           </span>
+
         </div>
 
         <div className={compact ? "h-60" : "h-72 sm:h-80"}>
@@ -81,8 +84,9 @@ const SoftSkillsRadar = ({ pillarScores, stats, compact = false }: SoftSkillsRad
         {empty ? (
           <p className="rounded-lg bg-muted px-3 py-3 text-sm leading-relaxed text-muted-foreground">
             {t(
-              "Chưa có dữ liệu. Hãy mở một bài học và làm phần Kiểm tra kiến thức - biểu đồ sẽ hiện ngay.",
-              "No data yet. Open a lesson and finish its knowledge check - your radar fills in right away.",
+              "Chưa có bài nào đạt. Hãy mở một bài học và trả lời đúng ít nhất 3/4 câu quiz - biểu đồ sẽ hiện ngay.",
+              "No lesson passed yet. Open a lesson and get at least 3 of 4 quiz questions right - your radar fills in.",
+
             )}
           </p>
         ) : (

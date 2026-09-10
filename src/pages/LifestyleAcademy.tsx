@@ -912,12 +912,17 @@ const LessonCard = ({ lesson, index, result, onQuizFinish }: LessonCardProps) =>
           <span className={`absolute right-3 top-3 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-100 ${styles.chipBg} border border-slate-200/70 dark:border-slate-700 shadow-sm`}>
             {lang === "vi" ? levelLabel.vi : levelLabel.en}
           </span>
-          {result?.completed && (
+          {result?.completed ? (
             <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
               <CheckCircle2 className="h-3 w-3" />
               {t("Hoàn thành", "Done")}
             </span>
-          )}
+          ) : result ? (
+            <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+              {t("Chưa đạt - làm lại", "Not passed - retry")}
+            </span>
+          ) : null}
+
         </div>
 
         <CardContent className="flex flex-1 flex-col p-6">
