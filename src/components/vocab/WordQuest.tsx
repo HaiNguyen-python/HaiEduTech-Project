@@ -761,6 +761,14 @@ const WordQuest = ({
           {t("Chặng", "Stage")} {stageIdx + 1} · {doneWords.length}/{totalStageWords} {t("từ", "words")}
         </Badge>
         <Badge variant="secondary">{labelOfKind(kind, t)}</Badge>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => { stopVoice(); setStudyIdx(task?.wordIdx ?? 0); setPhase("study"); }}
+          className="gap-1"
+        >
+          <RotateCcw className="h-4 w-4" /> {t("Xem lại từ", "Review words")}
+        </Button>
         <span className="flex items-center gap-1 text-sm font-semibold text-amber-500">
           <Star className="h-4 w-4 fill-amber-400 text-amber-400" /> {stars}
         </span>
