@@ -1,5 +1,4 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
 
 // Mocking the resolveDialogueKeyPhrases logic
 const DIALOGUE_KEY_PHRASES = [
@@ -184,7 +183,7 @@ const files = [
 files.forEach(file => {
   const content = fs.readFileSync(file, 'utf8');
   // Simple extraction of keySituations from the file content
-  // Since we can't easily parse TS, we use regex to find sampleDialogues
+  // Matches title and then sampleDialogue array
   const situRegex = /title: "([^"]+)",[\s\S]*?sampleDialogue: (\[[\s\S]*?\])/g;
   let match;
   console.log(`\n--- Analysis for ${file} ---`);
@@ -192,7 +191,6 @@ files.forEach(file => {
     const title = match[1];
     const dialogueStr = match[2];
     
-    // Convert string array-like to actual lines
     const lineRegex = /line: "([^"]+)"/g;
     const lines = [];
     let lineMatch;
@@ -204,8 +202,7 @@ files.forEach(file => {
     if (matches.length < 3) {
       console.log(`\nSituation: ${title} (${matches.length} matches)`);
       console.log(`Matches found: ${matches.join(', ')}`);
-      console.log("Dialogue:");
-      lines.forEach(l => console.log(`  ${l}`));
+      // lines.forEach(l => console.log(`  ${l}`));
     }
   }
 });
