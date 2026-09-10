@@ -597,7 +597,6 @@ const WordQuest = ({
     const sIdx = Math.min(studyIdx, stage.length - 1);
     const sw = stage[sIdx];
     const swEmoji = resolveVocabEmoji(sw.definition.en, sw.category);
-    const isLast = sIdx >= stage.length - 1;
     const startDrill = () => {
       stopVoice();
       const tasksForWord = queue.some(item => item.wordIdx === sIdx) ? queue : buildWordTasks(stage, sIdx);
