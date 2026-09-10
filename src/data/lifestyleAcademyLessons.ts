@@ -6,7 +6,12 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
-export type LifestylePillarKey = "finance" | "etiquette" | "presence" | "wellness";
+export type LifestylePillarKey =
+  | "finance"
+  | "etiquette"
+  | "presence"
+  | "wellness"
+  | "selfstudy";
 
 export interface LifestyleLesson {
   id: string;
