@@ -377,9 +377,9 @@ export default function WordMeteor({
 
           {/* Movable rocket 🚀 */}
           <motion.div
-            animate={{ left: `${rocketX}%` }}
+            animate={{ left: `${rocketX}%`, x: "-50%" }}
             transition={{ type: "tween", duration: 0.06, ease: "linear" }}
-            className="absolute bottom-2 -translate-x-1/2 text-5xl drop-shadow-[0_0_12px_rgba(251,191,36,0.9)] select-none pointer-events-none"
+            className="absolute bottom-2 text-5xl drop-shadow-[0_0_12px_rgba(251,191,36,0.9)] select-none pointer-events-none"
             aria-hidden
           >
             🚀

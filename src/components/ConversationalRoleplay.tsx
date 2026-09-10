@@ -694,9 +694,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
           {/* Mouth overlay: a small oval that opens/closes to fake lip sync */}
           <motion.span
             aria-hidden
-            className="absolute left-1/2 -translate-x-1/2 bg-rose-500/90 rounded-full pointer-events-none"
+            className="absolute left-1/2 bg-rose-500/90 rounded-full pointer-events-none"
             style={{ top: "63%" }}
-            animate={speaking ? { height: [2, 8, 3, 9, 2], width: [8, 10, 9, 11, 8], opacity: 0.85 } : { height: 2, width: 8, opacity: 0.55 }}
+            animate={speaking ? { height: [2, 8, 3, 9, 2], width: [8, 10, 9, 11, 8], opacity: 0.85, x: "-50%" } : { height: 2, width: 8, opacity: 0.55, x: "-50%" }}
             transition={speaking ? { duration: 0.45, repeat: Infinity, ease: "easeInOut" } : { duration: 0.2 }}
           />
         </motion.div>

@@ -1022,10 +1022,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         <AnimatePresence>
           {newBadge && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: -20 }}
-              className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/80 dark:to-orange-950/80 border-2 border-amber-300 dark:border-amber-700 rounded-2xl p-6 shadow-2xl text-center max-w-xs"
+              initial={{ opacity: 0, scale: 0.8, y: -20, x: "-50%" }}
+              animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
+              exit={{ opacity: 0, scale: 0.8, y: -20, x: "-50%" }}
+              className="fixed top-20 left-1/2 z-50 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/80 dark:to-orange-950/80 border-2 border-amber-300 dark:border-amber-700 rounded-2xl p-6 shadow-2xl text-center max-w-xs"
             >
               <span className="text-5xl block mb-2">{newBadge.icon}</span>
               <p className="text-lg font-bold text-foreground">{t("Huy hiệu mới!", "New Badge!")}</p>

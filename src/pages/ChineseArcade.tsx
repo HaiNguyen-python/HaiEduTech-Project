@@ -692,7 +692,7 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
               ))}
             </div>
             {boiling && (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-14 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-amber-400 text-amber-950 text-sm font-bold whitespace-nowrap shadow-lg">
+              <motion.div initial={{ scale: 0, x: "-50%" }} animate={{ scale: 1, x: "-50%" }} className="absolute -top-14 left-1/2 px-4 py-1 rounded-full bg-amber-400 text-amber-950 text-sm font-bold whitespace-nowrap shadow-lg">
                 ✨ {t("Tuyệt vời!", "Delicious!")} +{20 * combo + timeLeft} ✨
               </motion.div>
             )}

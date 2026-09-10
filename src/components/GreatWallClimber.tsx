@@ -177,10 +177,10 @@ const GreatWallClimber = ({ mastered, total, flyingStars, onStarLanded, containe
         <AnimatePresence>
           {showQuote && (
             <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -5, scale: 0.8 }}
-              className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-bold px-3 py-1.5 rounded-full shadow-lg"
+              initial={{ opacity: 0, y: 10, scale: 0.8, x: "-50%" }}
+              animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+              exit={{ opacity: 0, y: -5, scale: 0.8, x: "-50%" }}
+              className="absolute -top-12 left-1/2 whitespace-nowrap text-xs font-bold px-3 py-1.5 rounded-full shadow-lg"
               style={{
                 backgroundColor: "rgba(255,255,255,0.95)",
                 color: "#78350f",

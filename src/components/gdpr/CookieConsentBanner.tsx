@@ -33,7 +33,7 @@ const CookieConsentBanner = () => {
             role="dialog"
             aria-live="polite"
             aria-label={t("Thông báo cookie", "Cookie notice")}
-            className="fixed bottom-3 left-3 right-3 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:bottom-4 z-[70] w-auto sm:w-[min(680px,calc(100vw-32px))] rounded-2xl border border-border/60 bg-card/95 backdrop-blur-xl shadow-2xl p-4 sm:p-5"
+            className="fixed bottom-3 left-3 right-3 sm:left-1/2 sm:right-auto sm:ml-[calc(-1*min(340px,50vw-16px))] sm:bottom-4 z-[70] w-auto sm:w-[min(680px,calc(100vw-32px))] rounded-2xl border border-border/60 bg-card/95 backdrop-blur-xl shadow-2xl p-4 sm:p-5"
           >
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-emerald-500/15 flex items-center justify-center flex-shrink-0">

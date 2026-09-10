@@ -200,8 +200,8 @@ const StudyPetAvatar = ({ pet, size = 56, className, showMoodBadge = true, skinS
         {isMythic && (
           <motion.span
             aria-hidden
-            className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[12px]"
-            animate={{ y: [0, -3, 0], opacity: [0.7, 1, 0.7] }}
+            className="absolute -bottom-1 left-1/2 text-[12px]"
+            animate={{ y: [0, -3, 0], opacity: [0.7, 1, 0.7], x: "-50%" }}
             transition={{ duration: 1.6, repeat: Infinity }}
           >
             ✨
