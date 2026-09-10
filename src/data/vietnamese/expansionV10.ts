@@ -697,7 +697,7 @@ Ghi chú quan trọng: bệnh và triệu chứng luôn đi với **bị** vì �
 1. **Đăng ký khám** ở quầy tiếp nhận, lấy **số thứ tự**.
 2. **Khám** với bác sĩ: mô tả triệu chứng.
 3. Có thể được chỉ định **xét nghiệm máu**, **siêu âm**, **chụp X-quang**.
-5. Nhận **đơn thuốc** và ra nhà thuốc mua.
+4. Nhận **đơn thuốc** và ra nhà thuốc mua.
 
 Câu cần biết: "Em có bảo hiểm y tế ạ." và "Bao lâu thì có kết quả ạ?"
 
