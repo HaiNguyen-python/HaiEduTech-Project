@@ -12,7 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { dailyMicroLessons as base } from "@/data/vietnamese/dailyVietnameseData";
 import { dailyMicroLessonsExpansion } from "@/data/vietnamese/dailyVietnameseExpansion";
-const dailyMicroLessons = [...base, ...dailyMicroLessonsExpansion];
+import { dailyMicroLessonsV10 } from "@/data/vietnamese/expansionV10Practice";
+const dailyMicroLessons = [...base, ...dailyMicroLessonsExpansion, ...dailyMicroLessonsV10];
 
 const STORAGE_KEY = "haiedu_daily_vietnamese_completed";
 
@@ -66,7 +67,7 @@ const VietnameseDaily = () => {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-semibold text-foreground">
-                  {t("Tiến độ tổng", "Overall Progress")}: {completed.length}/30 {t("ngày", "days")}
+                  {t("Tiến độ tổng", "Overall Progress")}: {completed.length}/{dailyMicroLessons.length} {t("ngày", "days")}
                 </span>
                 <span className="text-sm text-muted-foreground">{Math.round(progress)}%</span>
               </div>
