@@ -1147,7 +1147,7 @@ const ChatBot = () => {
     }
     const spoken = stripMemoryTokens(assistantSoFar);
     if (spoken.trim() && voice.autoRead) {
-      voice.speak(spoken, "latest");
+      voice.speak(spoken, `m${Math.max(0, msgCountRef.current - 1)}`);
     }
 
     setIsLoading(false);
