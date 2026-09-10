@@ -11,6 +11,12 @@ for (const l of all) {
   if (!l.takeaways || l.takeaways.length < 3) issues.push(`${l.id}: <3 takeaways`);
   if (!l.deepDiveVi || !l.deepDiveEn) issues.push(`${l.id}: no deep dive`);
   else if (l.deepDiveVi.length !== l.deepDiveEn.length) issues.push(`${l.id}: deep dive length mismatch`);
+  else {
+    if (l.deepDiveVi.length < 5) issues.push(`${l.id}: deep dive paragraphs ${l.deepDiveVi.length}`);
+    if (l.deepDiveVi.join(" ").length < 1000) issues.push(`${l.id}: deep dive VI too short`);
+    if (l.deepDiveEn.join(" ").length < 1000) issues.push(`${l.id}: deep dive EN too short`);
+  }
+
   if (!l.whyItMattersVi || !l.whyItMattersEn) issues.push(`${l.id}: no whyItMatters`);
   if (!l.illustrationEmojis || l.illustrationEmojis.length === 0) issues.push(`${l.id}: no emojis`);
   for (const k of ["titleVi","titleEn","subtitleVi","subtitleEn","frameworkVi","frameworkEn","reflectionVi","reflectionEn","drillVi","drillEn"]) {
