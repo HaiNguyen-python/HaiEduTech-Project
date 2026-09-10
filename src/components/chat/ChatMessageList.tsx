@@ -6,6 +6,7 @@
  * history static instead of re-parsing the whole conversation per token.
  */
 import { memo } from "react";
+import { Square, Volume2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
