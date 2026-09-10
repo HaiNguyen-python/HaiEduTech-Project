@@ -877,6 +877,8 @@ const SwedishVocabulary = () => {
                 speak={speakSv}
                 stopSpeak={stopSwedishTts}
                 typingLabel={{ vi: "Gõ từ tiếng Thụy Điển có nghĩa:", en: "Type the Swedish word that means:" }}
+                speechLang="sv-SE"
+                knownKeys={mastered}
                 onWordLearned={w => { if (!mastered.has(w)) toggle(w); }}
               />
             </TabsContent>
