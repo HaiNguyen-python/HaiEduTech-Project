@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey } from "@/data/lifestyleAcademyLessons";
-import { safeGetItem, safeSetItem } from "@/lib/safeStorage";
+import { safeStorage } from "@/lib/safeStorage";
 
 const STORAGE_KEY = "lifestyle-quiz-progress-v1";
 
