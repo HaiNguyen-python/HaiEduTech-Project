@@ -30,6 +30,7 @@ import {
   Target,
   Compass,
   Lightbulb,
+  PartyPopper,
 } from "lucide-react";
 
 import Navbar from "@/components/Navbar";
@@ -93,6 +94,14 @@ const PILLAR_STYLES: Record<LifestylePillarKey, {
     bannerTo: "dark:from-indigo-500/20 dark:via-violet-500/10 dark:to-sky-500/20",
     chipBg: "bg-indigo-50 dark:bg-indigo-500/10",
     emojis: ["📚", "🧠", "⏳", "🗂️"],
+  },
+  partying: {
+    border: "border-pink-300/70 dark:border-pink-500/40",
+    borderStrong: "hover:border-pink-400 dark:hover:border-pink-400/70",
+    bannerFrom: "from-rose-100 via-pink-50 to-amber-100",
+    bannerTo: "dark:from-rose-500/20 dark:via-pink-500/10 dark:to-amber-500/20",
+    chipBg: "bg-pink-50 dark:bg-pink-500/10",
+    emojis: ["🎉", "🥂", "💌", "🍽️"],
   },
 };
 
@@ -226,6 +235,26 @@ const PILLARS: Pillar[] = [
     ],
     Icon: Lightbulb,
   },
+  {
+    key: "partying",
+    iconBg: "from-rose-400 via-pink-500 to-amber-400",
+    ring: "hover:ring-pink-400/40",
+    accentText: "text-pink-600 dark:text-pink-400",
+    titleVi: "Tiệc tùng & Sự kiện",
+    titleEn: "Parties & Events",
+    taglineVi: "Tổ chức, tham dự và toả sáng trong mọi dịp gặp gỡ.",
+    taglineEn: "Plan, attend and shine at every kind of gathering.",
+    sampleCourseVi:
+      "Nghệ thuật tiệc tùng: Tổ chức sự kiện, giao tiếp và nghi thức tiệc sang trọng",
+    sampleCourseEn:
+      "The Art of Gathering: Event Planning, Social Skills & Formal Dining Etiquette",
+    highlights: [
+      { vi: "Kế hoạch, ngân sách & kịch bản thời gian", en: "Planning, Budgets & Run of Show" },
+      { vi: "Giới thiệu, trò chuyện & kết nối", en: "Introductions, Small Talk & Networking" },
+      { vi: "Mã trang phục & nghi thức bàn tiệc", en: "Dress Codes & Table Manners" },
+    ],
+    Icon: PartyPopper,
+  },
 ];
 
 // Filter keys
@@ -237,6 +266,7 @@ const FILTERS: { key: FilterKey; labelVi: string; labelEn: string }[] = [
   { key: "presence", labelVi: "Khí chất & Bản lĩnh", labelEn: "Presence & Resilience" },
   { key: "wellness", labelVi: "Thân thể", labelEn: "Wellness" },
   { key: "selfstudy", labelVi: "Tự học", labelEn: "Self-Study" },
+  { key: "partying", labelVi: "Tiệc tùng", labelEn: "Parties" },
 ];
 
 // ─────────────────────────────────────────────────────────

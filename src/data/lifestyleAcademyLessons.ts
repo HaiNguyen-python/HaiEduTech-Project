@@ -11,7 +11,8 @@ export type LifestylePillarKey =
   | "etiquette"
   | "presence"
   | "wellness"
-  | "selfstudy";
+  | "selfstudy"
+  | "partying";
 
 export interface LifestyleLesson {
   id: string;
@@ -40,6 +41,9 @@ export interface LifestyleLesson {
   /** Optional "why it matters" bilingual paragraph. */
   whyItMattersVi?: string;
   whyItMattersEn?: string;
+  /** Optional bilingual safety note (used by the Parties & Events pillar). */
+  safetyNotesVi?: string;
+  safetyNotesEn?: string;
   /** Optional emoji cluster used for the card illustration banner. */
   illustrationEmojis?: string[];
 }
@@ -776,6 +780,7 @@ import { LIFESTYLE_LESSONS_EXPANSION_3 } from "./lifestyleAcademyLessonsExpansio
 import { LIFESTYLE_LESSONS_EXPANSION_4 } from "./lifestyleAcademyLessonsExpansion4";
 import { LIFESTYLE_LESSONS_EXPANSION_5 } from "./lifestyleAcademyLessonsExpansion5";
 import { LIFESTYLE_SELF_STUDY_LESSONS } from "./lifestyleSelfStudyLessons";
+import { LIFESTYLE_PARTYING_LESSONS } from "./lifestylePartyingLessons";
 
 import { LIFESTYLE_ENRICHMENT } from "./lifestyleAcademyEnrichment";
 
@@ -808,5 +813,6 @@ export const LIFESTYLE_LESSONS: LifestyleLesson[] = [
   ...presence,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_5, "presence"),
   ...wellness,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_5, "wellness"),
   ...LIFESTYLE_SELF_STUDY_LESSONS,
+  ...LIFESTYLE_PARTYING_LESSONS,
 ].map(withDepth);
 
