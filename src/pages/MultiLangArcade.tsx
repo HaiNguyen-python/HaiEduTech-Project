@@ -200,11 +200,13 @@ function WordMeteorGame({ lang }: { lang: LangKey }) {
           {meteors.map((m) => (
             <motion.div
               key={m.id}
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.4 }}
-              className="absolute -translate-x-1/2"
-              style={{ left: `${m.x}%`, top: `${m.y}%` }}
+              // x: "-50%" instead of a translate class - framer-motion writes its
+              // own inline transform and would otherwise drop the centring.
+              initial={{ opacity: 0, scale: 0.6, x: "-50%" }}
+              animate={{ opacity: 1, scale: 1, x: "-50%" }}
+              exit={{ opacity: 0, scale: 1.4, x: "-50%" }}
+              className="absolute"
+              style={{ left: `${Math.max(18, Math.min(82, m.x))}%`, top: `${m.y}%` }}
             >
               <div className="relative">
                 <div className="absolute -inset-3 rounded-full bg-orange-500/30 blur-xl" />
