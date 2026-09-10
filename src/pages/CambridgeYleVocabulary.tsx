@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Sparkles, Trophy, Star, Search, ArrowLeft, Mountain, CheckCircle2, ChevronDown, RotateCcw } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
@@ -630,6 +631,18 @@ const CambridgeYleVocabulary = () => {
         </section>
         )}
       </main>
+      <section className="container mx-auto px-4 pb-10">
+        <VocabBrainPanel
+          subject={MASTERY_SUBJECT}
+          localWords={[...mastered]}
+          t={t}
+          milestones={[
+            { words: 100, band: "Starters" },
+            { words: 300, band: "Movers" },
+            { words: 600, band: "Flyers" },
+          ]}
+        />
+      </section>
       <Footer />
     </div>
   );
