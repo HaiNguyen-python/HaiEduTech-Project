@@ -10,7 +10,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { phrasebookCategories as basePhrases } from "@/data/vietnamese/phrasebookData";
 import { phrasebookExpansion } from "@/data/vietnamese/phrasebookExpansion";
-const phrasebookCategories = [...basePhrases, ...phrasebookExpansion];
+import { phrasebookExpansionV10 } from "@/data/vietnamese/expansionV10Practice";
+const phrasebookCategories = [...basePhrases, ...phrasebookExpansion, ...phrasebookExpansionV10];
 import { playVietnameseTts } from "@/lib/vietnameseTts";
 
 const speak = (text: string) => {

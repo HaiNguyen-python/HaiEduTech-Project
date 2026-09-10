@@ -1,0 +1,116 @@
+/**
+ * @file kidsExpansionV10.ts
+ * @description Đợt 10 mở rộng cho trẻ em Việt ở nước ngoài: 4 bài học mới
+ * (nghề nghiệp, cảm xúc, đi chợ cùng mẹ, gọi điện cho ông bà).
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ */
+import type { KidsLesson } from "./kidsOverseasData";
+
+export const kidsExpansionV10: KidsLesson[] = [
+  {
+    id: "jobs-dreams",
+    emoji: "👩‍🚀",
+    title: "Lớn lên em làm gì?",
+    titleEn: "What Will I Be When I Grow Up?",
+    ageGroup: "3-6",
+    topic: "Nghề nghiệp và ước mơ",
+    topicEn: "Jobs and dreams",
+    vocabulary: [
+      { vi: "bác sĩ", en: "doctor", emoji: "🩺", example: "Bác sĩ chữa bệnh cho em.", exampleEn: "The doctor heals me." },
+      { vi: "giáo viên", en: "teacher", emoji: "👩‍🏫", example: "Giáo viên dạy em đọc chữ.", exampleEn: "The teacher teaches me to read." },
+      { vi: "phi công", en: "pilot", emoji: "✈️", example: "Phi công bay lên trời cao.", exampleEn: "The pilot flies high in the sky." },
+      { vi: "đầu bếp", en: "chef", emoji: "👨‍🍳", example: "Đầu bếp nấu phở rất ngon.", exampleEn: "The chef cooks delicious pho." },
+      { vi: "lính cứu hoả", en: "firefighter", emoji: "🚒" },
+      { vi: "hoạ sĩ", en: "painter", emoji: "🎨", example: "Hoạ sĩ vẽ tranh con mèo.", exampleEn: "The painter paints a cat." },
+      { vi: "ca sĩ", en: "singer", emoji: "🎤" },
+      { vi: "nông dân", en: "farmer", emoji: "🌾", example: "Nông dân trồng lúa.", exampleEn: "The farmer grows rice." },
+      { vi: "ước mơ", en: "dream", emoji: "⭐", example: "Ước mơ của em là làm bác sĩ.", exampleEn: "My dream is to be a doctor." },
+      { vi: "giúp mọi người", en: "to help people", emoji: "🤝" },
+    ],
+    song: {
+      title: "Em ước em làm",
+      lyrics: "Em ước em làm bác sĩ\nChữa bệnh cho bà cho ông\nEm ước em làm phi công\nBay về Việt Nam thăm quê.",
+      lyricsEn: "I wish to be a doctor\nHealing grandma and grandpa\nI wish to be a pilot\nFlying home to Vietnam.",
+    },
+  },
+  {
+    id: "feelings-words",
+    emoji: "😊",
+    title: "Hôm nay em cảm thấy thế nào?",
+    titleEn: "How Do I Feel Today?",
+    ageGroup: "3-6",
+    topic: "Cảm xúc và cách nói ra",
+    topicEn: "Emotions and expressing them",
+    vocabulary: [
+      { vi: "vui", en: "happy", emoji: "😄", example: "Hôm nay em rất vui.", exampleEn: "I'm very happy today." },
+      { vi: "buồn", en: "sad", emoji: "😢", example: "Em buồn vì mất đồ chơi.", exampleEn: "I'm sad because I lost my toy." },
+      { vi: "tức giận", en: "angry", emoji: "😠" },
+      { vi: "sợ", en: "scared", emoji: "😨", example: "Em sợ bóng tối.", exampleEn: "I'm scared of the dark." },
+      { vi: "mệt", en: "tired", emoji: "🥱" },
+      { vi: "hào hứng", en: "excited", emoji: "🤩", example: "Em hào hứng đi Việt Nam.", exampleEn: "I'm excited to go to Vietnam." },
+      { vi: "yêu thương", en: "loving", emoji: "🥰", example: "Em yêu bố mẹ nhiều lắm.", exampleEn: "I love my parents very much." },
+      { vi: "xin lỗi", en: "sorry", emoji: "🙏", example: "Em xin lỗi anh nhé.", exampleEn: "I'm sorry, brother." },
+      { vi: "cảm ơn", en: "thank you", emoji: "💛" },
+      { vi: "hít thở sâu", en: "take a deep breath", emoji: "🌬️" },
+    ],
+    story: {
+      title: "Cơn giận nhỏ của Bo",
+      titleEn: "Bo's Little Anger",
+      text: "Bo đang xếp hình thì em gái làm đổ. Bo tức giận, mặt đỏ lên. Mẹ ngồi xuống và nói: 'Con hít thở sâu ba lần, rồi nói cho mẹ nghe con cảm thấy thế nào.' Bo hít thở và nói: 'Con tức vì con xếp lâu lắm rồi.' Mẹ khen Bo vì đã nói ra cảm xúc thay vì hét lên. Em gái nói 'Em xin lỗi anh', và hai anh em cùng xếp lại. Bo hiểu rằng nói ra cảm xúc bằng tiếng Việt cũng là một cách lớn lên.",
+      textEn: "Bo was building blocks when his little sister knocked them over. Bo was angry, his face turning red. Mom sat down and said: 'Take three deep breaths, then tell me how you feel.' Bo breathed and said: 'I'm angry because I built it for a long time.' Mom praised him for naming his feeling instead of shouting. His sister said 'I'm sorry, brother', and they rebuilt it together. Bo learned that naming feelings in Vietnamese is also a way of growing up.",
+    },
+  },
+  {
+    id: "market-with-mom",
+    emoji: "🧺",
+    title: "Đi chợ cùng mẹ",
+    titleEn: "Going to the Market with Mom",
+    ageGroup: "7-10",
+    topic: "Mua sắm, số đếm và trả tiền",
+    topicEn: "Shopping, numbers and paying",
+    vocabulary: [
+      { vi: "cái giỏ", en: "basket", emoji: "🧺" },
+      { vi: "cân", en: "kilogram / to weigh", emoji: "⚖️", example: "Mẹ mua hai cân cam.", exampleEn: "Mom buys two kilos of oranges." },
+      { vi: "quả cam", en: "orange", emoji: "🍊" },
+      { vi: "rau", en: "vegetables", emoji: "🥬", example: "Em giúp mẹ chọn rau.", exampleEn: "I help mom pick vegetables." },
+      { vi: "cá", en: "fish", emoji: "🐟" },
+      { vi: "bao nhiêu tiền", en: "how much", emoji: "💰", example: "Cái này bao nhiêu tiền cô?", exampleEn: "How much is this, ma'am?" },
+      { vi: "trả tiền", en: "to pay", emoji: "💵" },
+      { vi: "tiền thối", en: "change", emoji: "🪙", example: "Cô thối lại cho em ạ.", exampleEn: "Please give me the change." },
+      { vi: "đắt", en: "expensive", emoji: "😮" },
+      { vi: "rẻ", en: "cheap", emoji: "🙂", example: "Chợ này rẻ hơn siêu thị.", exampleEn: "This market is cheaper than the supermarket." },
+    ],
+    story: {
+      title: "Lần đầu em trả tiền",
+      titleEn: "My First Time Paying",
+      text: "Sáng thứ bảy, mẹ dẫn em ra chợ Việt gần nhà. Mẹ đưa em tờ tiền và nói: 'Con thử mua hai cân cam nhé.' Em run run hỏi: 'Cô ơi, cam bao nhiêu một cân ạ?' Cô bán hàng cười: 'Ba mươi nghìn, cháu nói tiếng Việt giỏi quá!' Em đưa tiền bằng hai tay, nhận tiền thối và nói 'Cháu cảm ơn cô'. Trên đường về, mẹ khen em. Em thấy tiếng Việt không chỉ để nói ở nhà, mà còn để đi chợ, gặp người mới và làm được việc thật.",
+      textEn: "On Saturday morning, mom took me to the Vietnamese market nearby. She handed me a note and said: 'Try buying two kilos of oranges.' Nervously I asked: 'Ma'am, how much is a kilo of oranges?' The vendor smiled: 'Thirty thousand - your Vietnamese is so good!' I handed over the money with both hands, took the change and said 'Thank you'. On the way home, mom praised me. I realised Vietnamese is not only for home: it is for markets, new people and real tasks.",
+    },
+  },
+  {
+    id: "call-grandparents",
+    emoji: "📞",
+    title: "Gọi điện cho ông bà",
+    titleEn: "Calling Grandparents",
+    ageGroup: "7-10",
+    topic: "Nói chuyện điện thoại lịch sự",
+    topicEn: "Polite phone conversations",
+    vocabulary: [
+      { vi: "gọi video", en: "to video call", emoji: "📱", example: "Chủ nhật em gọi video cho bà.", exampleEn: "On Sunday I video call grandma." },
+      { vi: "ông bà", en: "grandparents", emoji: "👴👵" },
+      { vi: "khoẻ không", en: "how are you", emoji: "💬", example: "Bà có khoẻ không ạ?", exampleEn: "Grandma, are you well?" },
+      { vi: "nhớ", en: "to miss", emoji: "💗", example: "Em nhớ ông bà nhiều lắm.", exampleEn: "I miss you both very much." },
+      { vi: "kể chuyện", en: "to tell a story", emoji: "📖" },
+      { vi: "múi giờ", en: "time zone", emoji: "🕐", example: "Bên Việt Nam đang là buổi tối.", exampleEn: "It's evening in Vietnam now." },
+      { vi: "chào ạ", en: "polite hello", emoji: "🙋", example: "Cháu chào ông bà ạ.", exampleEn: "Hello grandpa and grandma." },
+      { vi: "hẹn gặp lại", en: "see you again", emoji: "👋" },
+      { vi: "chúc ngủ ngon", en: "good night", emoji: "🌙" },
+      { vi: "giữ gìn sức khoẻ", en: "take care of your health", emoji: "🍀" },
+    ],
+    song: {
+      title: "Gọi về quê",
+      lyrics: "Cháu chào ông, cháu chào bà\nBên này trời sáng, quê nhà lên đèn\nCháu kể chuyện lớp, chuyện sân\nÔng bà cười thật ấm êm.",
+      lyricsEn: "Hello grandpa, hello grandma\nHere it is morning, at home the lamps are on\nI tell you about my class and playground\nAnd you both laugh so warmly.",
+    },
+  },
+];

@@ -19,13 +19,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { dailyMicroLessons } from "@/data/vietnamese/dailyVietnameseData";
 import WordMeteor from "@/components/games/WordMeteor";
 import { dailyMicroLessonsExpansion } from "@/data/vietnamese/dailyVietnameseExpansion";
+import { dailyMicroLessonsV10 } from "@/data/vietnamese/expansionV10Practice";
 
 // ============================================================
 // Vocab pool - uses ALL daily Vietnamese lessons (~60 entries)
 // ============================================================
 type Pair = { vi: string; en: string };
 
-const VI_POOL: Pair[] = [...dailyMicroLessons, ...dailyMicroLessonsExpansion]
+const VI_POOL: Pair[] = [...dailyMicroLessons, ...dailyMicroLessonsExpansion, ...dailyMicroLessonsV10]
   .map(l => ({ vi: String(l.word.vi).trim(), en: String(l.word.en).trim() }))
   .filter(p => p.vi && p.en);
 
