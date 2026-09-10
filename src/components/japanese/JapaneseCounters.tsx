@@ -16,6 +16,15 @@ interface Props {
   speak: (text: string, rate?: number) => void;
 }
 
+const shuffled = <T,>(items: T[]) => {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+};
+
 export default function JapaneseCounters({ t, lang, speak }: Props) {
   const [openId, setOpenId] = useState(JA_COUNTERS[0].id);
   const [drill, setDrill] = useState(0);
@@ -24,23 +33,15 @@ export default function JapaneseCounters({ t, lang, speak }: Props) {
 
   const current = JA_COUNTERS.find((c) => c.id === openId)!;
 
-  // Deterministic drill: "how do you read <n> + <counter>?"
+  // Stable while answering, but freshly shuffled for each new drill.
   const quiz = useMemo(() => {
     const c = JA_COUNTERS[drill % JA_COUNTERS.length];
     const n = (drill * 3) % 10; // 0..9 -> number n+1
     const correct = c.readings[n];
     const others = JA_COUNTERS.filter((x) => x.id !== c.id).map((x) => x.readings[n]);
-    const picked: string[] = [];
-    for (let i = 0; picked.length < 3 && i < others.length; i++) {
-      const cand = others[(n + i * 4 + 1) % others.length];
-      if (cand && cand !== correct && !picked.includes(cand)) picked.push(cand);
-    }
-    const all = [correct, ...picked];
-    const answer = (n + c.id.length) % all.length;
-    const ordered = [...all];
-    ordered[0] = all[answer];
-    ordered[answer] = all[0];
-    return { counter: c, num: n + 1, options: ordered, answer, correct };
+    const distractors = shuffled(Array.from(new Set(others.filter((item) => item && item !== correct)))).slice(0, 3);
+    const options = shuffled([correct, ...distractors]);
+    return { counter: c, num: n + 1, options, answer: options.indexOf(correct), correct };
   }, [drill]);
 
   const choose = (i: number) => {

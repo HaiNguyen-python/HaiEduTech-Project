@@ -21,6 +21,15 @@ type GroupFilter = "all" | "1" | "2" | "irregular";
 const groupLabel = (g: JaVerb["group"], t: Props["t"]) =>
   g === "1" ? t("Nhóm 1", "Group 1") : g === "2" ? t("Nhóm 2", "Group 2") : t("Bất quy tắc", "Irregular");
 
+const shuffled = <T,>(items: T[]) => {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+};
+
 export default function JapaneseVerbTrainer({ t, lang, speak }: Props) {
   const [group, setGroup] = useState<GroupFilter>("all");
   const [formKey, setFormKey] = useState<JaVerbFormKey>("masu");
@@ -40,22 +49,11 @@ export default function JapaneseVerbTrainer({ t, lang, speak }: Props) {
   const stateKey = `${verb?.dict}-${formKey}`;
   if (verb && optionsRef.current.key !== stateKey) {
     const correct = verb.forms[formKey];
-    const distractors = JA_VERBS.filter((x) => x.dict !== verb.dict)
+    const distractors = Array.from(new Set(JA_VERBS.filter((x) => x.dict !== verb.dict)
       .map((x) => x.forms[formKey])
-      .filter((x) => x !== correct);
-    // Deterministic spread so choices never reshuffle while the student is deciding.
-    const seed = verb.dict.length + formKey.length;
-    const picked: string[] = [];
-    for (let i = 0; picked.length < 3 && i < distractors.length; i++) {
-      const cand = distractors[(seed * (i + 3)) % distractors.length];
-      if (cand && !picked.includes(cand)) picked.push(cand);
-    }
-    const all = [correct, ...picked];
-    const answer = seed % all.length;
-    const ordered = [...all];
-    ordered[0] = all[answer];
-    ordered[answer] = all[0];
-    optionsRef.current = { key: stateKey, options: ordered, answer };
+      .filter((x) => x !== correct)));
+    const ordered = shuffled([correct, ...shuffled(distractors).slice(0, 3)]);
+    optionsRef.current = { key: stateKey, options: ordered, answer: ordered.indexOf(correct) };
   }
   const { options, answer } = optionsRef.current;
 
