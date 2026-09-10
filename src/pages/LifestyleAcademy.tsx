@@ -204,6 +204,26 @@ const PILLARS: Pillar[] = [
     ],
     Icon: Activity,
   },
+  {
+    key: "selfstudy",
+    iconBg: "from-indigo-500 via-violet-500 to-sky-500",
+    ring: "hover:ring-indigo-400/40",
+    accentText: "text-indigo-600 dark:text-indigo-400",
+    titleVi: "Kỹ năng Tự học",
+    titleEn: "Self-Study Skills",
+    taglineVi: "Học đúng cách quan trọng hơn học nhiều giờ.",
+    taglineEn: "Studying the right way beats studying more hours.",
+    sampleCourseVi:
+      "Hệ thống tự học: Ghi nhớ chủ động, lặp lại giãn cách & tập trung sâu",
+    sampleCourseEn:
+      "The Self-Study System: Active Recall, Spaced Repetition & Deep Focus",
+    highlights: [
+      { vi: "Nhớ lại chủ động & lặp lại giãn cách", en: "Active Recall & Spaced Repetition" },
+      { vi: "Ghi chú Cornell & Feynman", en: "Cornell & Feynman Note-Taking" },
+      { vi: "Tập trung sâu và chống trì hoãn", en: "Deep Focus & Anti-Procrastination" },
+    ],
+    Icon: Lightbulb,
+  },
 ];
 
 // Filter keys
@@ -214,6 +234,7 @@ const FILTERS: { key: FilterKey; labelVi: string; labelEn: string }[] = [
   { key: "etiquette", labelVi: "Ứng xử", labelEn: "Etiquette" },
   { key: "presence", labelVi: "Khí chất & Bản lĩnh", labelEn: "Presence & Resilience" },
   { key: "wellness", labelVi: "Thân thể", labelEn: "Wellness" },
+  { key: "selfstudy", labelVi: "Tự học", labelEn: "Self-Study" },
 ];
 
 // ─────────────────────────────────────────────────────────
