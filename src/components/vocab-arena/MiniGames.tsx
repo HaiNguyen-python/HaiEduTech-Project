@@ -95,7 +95,7 @@ const MiniGames = ({ onBack }: Props) => {
               onChange={(e) => setName(e.target.value)}
               maxLength={20}
               placeholder={t("Tên của bạn", "Your name")}
-              className="flex-1 bg-transparent text-sm font-bold text-foreground outline-none placeholder:text-muted-foreground/60"
+              className="flex-1 bg-transparent text-sm font-bold text-foreground outline-none placeholder:text-muted-foreground"
             />
             {grandBest > 0 && (
               <span className="px-2 py-1 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold">
@@ -264,7 +264,7 @@ const GameCard = ({ icon, color, title, desc, gameKey, onClick }: { icon: React.
       <h3 className="text-lg font-bold text-foreground mb-1">{title}</h3>
       <p className="text-sm text-muted-foreground mb-2">{desc}</p>
       {top && (
-        <p className="text-[11px] text-muted-foreground/70 truncate">
+        <p className="text-[11px] text-muted-foreground truncate">
           👑 {top.name} · <span className="font-bold text-primary">{top.score}</span>
         </p>
       )}

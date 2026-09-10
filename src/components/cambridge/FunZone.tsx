@@ -43,7 +43,7 @@ const FunZone = ({ lecture }: FunZoneProps) => {
   return (
     <div className="space-y-6">
       {/* Chant */}
-      <Card className="bg-white/85 border-2 border-pink-200 shadow-sm">
+      <Card className="bg-white border-2 border-pink-200 shadow-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-slate-900 flex items-center gap-2" style={{ fontSize: "18px" }}>
             🎵 {t(fun.chantTitleVi, fun.chantTitle)}
@@ -67,7 +67,7 @@ const FunZone = ({ lecture }: FunZoneProps) => {
 
       {/* Riddles */}
       {fun.riddles.length > 0 && (
-        <Card className="bg-white/85 border-2 border-violet-200 shadow-sm">
+        <Card className="bg-white border-2 border-violet-200 shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-slate-900 flex items-center gap-2" style={{ fontSize: "18px" }}>
               🧙 {t("Đoán từ bí ẩn", "Guess the mystery word")}
@@ -121,7 +121,7 @@ const FunZone = ({ lecture }: FunZoneProps) => {
 
       {/* Word scramble */}
       {fun.scramble.length > 0 && (
-        <Card className="bg-white/85 border-2 border-sky-200 shadow-sm">
+        <Card className="bg-white border-2 border-sky-200 shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-slate-900 flex items-center gap-2" style={{ fontSize: "18px" }}>
               🔤 {t("Xếp lại chữ cái", "Unscramble the letters")}
@@ -166,7 +166,7 @@ const FunZone = ({ lecture }: FunZoneProps) => {
       )}
 
       {/* Tongue twister */}
-      <Card className="bg-white/85 border-2 border-amber-200 shadow-sm">
+      <Card className="bg-white border-2 border-amber-200 shadow-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-slate-900 flex items-center gap-2" style={{ fontSize: "18px" }}>
             👅 {t("Uốn lưỡi vui", "Tongue twister")}
@@ -186,7 +186,7 @@ const FunZone = ({ lecture }: FunZoneProps) => {
       {/* Off-screen games */}
       <div className="grid gap-4 sm:grid-cols-2">
         {fun.games.map((g, i) => (
-          <Card key={i} className="bg-white/85 border-2 border-emerald-200 shadow-sm">
+          <Card key={i} className="bg-white border-2 border-emerald-200 shadow-sm">
             <CardHeader className="pb-2">
               <CardTitle className="text-slate-900 flex items-center gap-2" style={{ fontSize: "17px" }}>
                 <span className="text-2xl">{g.icon}</span> {t(g.titleVi, g.title)}

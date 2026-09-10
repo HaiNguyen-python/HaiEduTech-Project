@@ -211,7 +211,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
   // JOIN screen
   if (phase === "join") {
     return (
-      <div className="max-w-md mx-auto text-center py-16">
+      <div className="max-w-md mx-auto text-center py-8 sm:py-16">
         <Users className="w-12 h-12 text-primary mx-auto mb-4" />
         <h2 className="text-2xl font-bold text-foreground mb-2">
           {t("Tham gia phòng thi", "Join Game Room")}
@@ -250,7 +250,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
   // WAITING screen
   if (phase === "waiting") {
     return (
-      <div className="max-w-md mx-auto text-center py-16">
+      <div className="max-w-md mx-auto text-center py-8 sm:py-16">
         <Loader2 className="w-10 h-10 text-primary mx-auto mb-4 animate-spin" />
         <h2 className="text-xl font-bold text-foreground mb-2">
           {t("Đang chờ giáo viên bắt đầu...", "Waiting for teacher to start...")}

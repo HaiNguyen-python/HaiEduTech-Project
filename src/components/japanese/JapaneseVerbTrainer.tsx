@@ -80,7 +80,7 @@ export default function JapaneseVerbTrainer({ t, lang, speak }: Props) {
 
   return (
     <div className="space-y-4">
-      <Card className="border-rose-200 bg-white/85 p-4">
+      <Card className="border-rose-200 bg-white p-4">
         <p className="text-base leading-relaxed text-slate-700">
           {t(
             "Chọn thể muốn luyện, xem quy tắc rồi làm bài. Đáp án và giải thích chỉ hiện sau khi bạn chọn.",
@@ -111,7 +111,7 @@ export default function JapaneseVerbTrainer({ t, lang, speak }: Props) {
         ))}
       </div>
 
-      <Card className="space-y-4 border-rose-200 bg-white/90 p-4 sm:p-6">
+      <Card className="space-y-4 border-rose-200 bg-white p-4 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-rose-700">
@@ -193,7 +193,7 @@ export default function JapaneseVerbTrainer({ t, lang, speak }: Props) {
         </p>
       </Card>
 
-      <Card className="border-rose-200 bg-white/90 p-4">
+      <Card className="border-rose-200 bg-white p-4">
         <h4 className="mb-3 text-base font-semibold text-slate-900">
           {t("Bảng tra nhanh", "Quick reference table")}
         </h4>

@@ -173,7 +173,7 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
 
       {/* Output */}
       <div className="px-4 py-3 bg-[#21222c] border-t border-[#44475a] min-h-[100px] max-h-[260px] overflow-auto">
-        <div className="text-[10px] text-[#6272a4] font-mono mb-1">stdout</div>
+        <div className="text-[10px] text-[#8be9fd] font-mono mb-1">stdout</div>
         <pre className="text-xs text-[#f8f8f2] font-mono whitespace-pre-wrap" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
           {output || "Run the code to see output…"}
         </pre>
