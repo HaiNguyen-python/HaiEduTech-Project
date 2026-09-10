@@ -16,7 +16,9 @@ const LIGHT_HOVER_TEXT = /\bhover:text-(white|primary-foreground|accent-foregrou
 const DARK_TEXT_TOKEN = /\btext-(white|slate-(?:50|100|200|300))\b/;
 const DARK_BG = /\bbg-(black|(?:slate|gray|zinc|neutral|stone)-(?:700|800|900|950)|white\/\d+)\b/;
 const HAS_HOVER_BG = /\bhover:(bg-|from-)/;
-const OUTLINE_OR_GHOST = /variant=\{?"(outline|ghost)"/;
+/** A hover background dark enough to carry white text. */
+const STRONG_HOVER_BG = /\bhover:(bg-(primary|destructive|foreground|black|\[#|(?:slate|gray|zinc|neutral|stone|rose|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink)-(?:500|600|700|800|900))|from-)/;
+const OUTLINE_OR_GHOST = /<Button[^>]*variant=\{?"(outline|ghost)"/;
 
 const files = [];
 const walk = (dir) => {
