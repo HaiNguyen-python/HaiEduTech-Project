@@ -2396,7 +2396,7 @@ SELECT student_id,
   SUM(CASE WHEN subject='Math' THEN score END) AS math,
   -- Same for the 'English' subject.
   SUM(CASE WHEN subject='English' THEN score END) AS english
-FROM grades GROUP BY student_id; -- Group results by student_id to sum the score for each student.
+FROM grades GROUP BY student_id; -- Group results by student_id to sum the score for each student.`,
         codeLanguage: "sql",
         exercise: "Write a Recursive CTE to generate Fibonacci sequence (1, 1, 2, 3, 5, 8, 13...) up to the 15th number.",
         exerciseEn: "Write a Recursive CTE to generate Fibonacci sequence (1, 1, 2, 3, 5, 8, 13...) up to the 15th number.",

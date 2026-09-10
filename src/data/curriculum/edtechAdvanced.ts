@@ -1384,80 +1384,80 @@ Output: the student sees a first lesson that is **at the right level, matching t
 - **Cohort + funnel** are 2 mandatory dashboards. Every new feature must report the "D1/D7/D30 delta" after a 2-week A/B test.
 
 `,
-        code: `# Nhập các lớp cần thiết từ thư viện \`dataclasses\` để tạo lớp dữ liệu.
+        code: `# Import the classes needed from `dataclasses` to create data classes.
 from dataclasses import dataclass
-# Nhập các đối tượng \`datetime\` và \`timedelta\` từ thư viện \`datetime\` để làm việc với ngày và thời gian.
+# Import `datetime` and `timedelta` from the `datetime` library to work with dates and times.
 from datetime import datetime, timedelta
-# Nhập \`Optional\` từ thư viện \`typing\` để chỉ ra rằng một giá trị có thể là một kiểu cụ thể hoặc \`None\`.
+# Import `Optional` from `typing` to indicate a value can be a given type or `None`.
 from typing import Optional
 
-# Định nghĩa một lớp dữ liệu (dataclass) tên là \`Learner\`.
-# Dataclass tự động tạo các phương thức như __init__, __repr__ cho chúng ta.
+# Define a dataclass named `Learner`.
+# Dataclass automatically generates methods like __init__, __repr__ for us.
 @dataclass
 class Learner:
-    # ID duy nhất của người học.
+    # Unique ID of the learner.
     user_id: str
-    # Thời điểm người học đăng ký.
+    # Time the learner signed up.
     signup_at: datetime
-    # Thời điểm người học hoạt động gần đây nhất.
+    # Time the learner was last active.
     last_active_at: datetime
-    # Số ngày liên tiếp người học đã hoàn thành bài học.
+    # Number of consecutive days the learner has completed a lesson.
     streak_days: int
-    # Tổng số bài học đã hoàn thành.
+    # Total number of completed lessons.
     completed_lessons: int
 
-# Định nghĩa một hằng số chứa các giờ "yên tĩnh" (từ 21h đến 23h).
-# Trong khoảng thời gian này, hệ thống sẽ không gửi thông báo.
+# Define a constant containing the "quiet" hours (21:00 to 23:00).
+# During this window the system will not send notifications.
 QUIET_HOURS = range(21, 24)  # don't push 21:00–08:00
 
-# Định nghĩa hàm kiểm tra xem thời gian hiện tại có nằm trong "giờ yên tĩnh" hay không.
-# Đầu vào: \`now\` (thời gian hiện tại).
-# Đầu ra: \`True\` nếu đang trong giờ yên tĩnh, \`False\` nếu không.
+# Define a function to check whether the current time is within "quiet hours".
+# Input: `now` (current time).
+# Output: `True` if within quiet hours, `False` otherwise.
 def in_quiet_hours(now: datetime) -> bool:
-    # Trả về True nếu giờ hiện tại nằm trong QUIET_HOURS (21, 22, 23) hoặc nhỏ hơn 8 (0, 1, ..., 7).
+    # Return True if the current hour is in QUIET_HOURS (21, 22, 23) or less than 8 (0, 1, ..., 7).
     return now.hour in QUIET_HOURS or now.hour < 8
 
-# Định nghĩa hàm \`pick_trigger\` để chọn loại thông báo (trigger) phù hợp cho người học.
-# Đầu vào: \`l\` (đối tượng Learner), \`now\` (thời gian hiện tại).
-# Đầu ra: Một chuỗi mô tả loại thông báo hoặc \`None\` nếu không có thông báo nào phù hợp.
+# Define `pick_trigger` to choose the notification type appropriate for the learner.
+# Input: `l` (Learner object), `now` (current time).
+# Output: a string describing the notification type, or `None` if none applies.
 def pick_trigger(l: Learner, now: datetime) -> Optional[str]:
-    # Bước 1: Kiểm tra xem có đang trong giờ yên tĩnh không.
-    # Nếu có, không gửi thông báo nào.
+    # Step 1: Check whether it is currently quiet hours.
+    # If so, do not send any notification.
     if in_quiet_hours(now):
         return None
-    # Tính số ngày không hoạt động của người học.
+    # Compute the number of days the learner has been inactive.
     inactive = (now - l.last_active_at).days
-    # Bước 2: Kiểm tra điều kiện gửi thông báo "chào mừng" cho người mới.
-    # Nếu người học chưa hoàn thành bài nào và đã không hoạt động ít nhất 1 ngày.
+    # Step 2: Check the condition for sending a "welcome" notification to new learners.
+    # If the learner has not completed any lesson and has been inactive for at least 1 day.
     if l.completed_lessons == 0 and inactive >= 1:
-        # Trả về thông báo gợi ý bài học khởi đầu.
+        # Return a suggestion for a starter lesson.
         return "welcome_nudge:try a 5-min starter lesson"
-    # Bước 3: Kiểm tra điều kiện gửi thông báo "giữ chuỗi" cho người có chuỗi học.
-    # Nếu người học có chuỗi học từ 2 ngày trở lên, không hoạt động ít nhất 1 ngày và hiện tại là 20h.
+    # Step 3: Check the condition for sending a "streak save" notification to learners with a streak.
+    # If the learner has a streak of 2+ days, has been inactive for at least 1 day, and it is currently 20:00.
     if l.streak_days >= 2 and inactive >= 1 and now.hour == 20:
-        # Trả về thông báo nhắc nhở giữ chuỗi.
+        # Return a reminder to keep the streak alive.
         return "streak_save:keep your streak alive"
-    # Bước 4: Kiểm tra điều kiện gửi thông báo "kéo lại" sau 7 ngày không hoạt động.
-    # Nếu người học không hoạt động đúng 7 ngày.
+    # Step 4: Check the condition for a "winback" notification after 7 days inactive.
+    # If the learner has been inactive for exactly 7 days.
     if inactive == 7:
-        # Trả về thông báo gợi ý bài học mới.
+        # Return a suggestion for a new lesson.
         return "winback:a fresh lesson tailored for you"
-    # Bước 5: Kiểm tra điều kiện gửi thông báo "tái tương tác" sau 30 ngày không hoạt động.
-    # Nếu người học không hoạt động đúng 30 ngày.
+    # Step 5: Check the condition for a "reengage" notification after 30 days inactive.
+    # If the learner has been inactive for exactly 30 days.
     if inactive == 30:
-        # Trả về thông báo khuyến khích xem lại tiến độ.
+        # Return a nudge encouraging the learner to review their progress.
         return "reengage:see how far you came + one small win"
-    # Bước 6: Nếu không có điều kiện nào ở trên khớp, không gửi thông báo nào.
+    # Step 6: If none of the above conditions match, do not send a notification.
     return None
 
-# Khởi tạo thời gian hiện tại giả định là 20h05 ngày 29 tháng 5 năm 2026.
+# Initialize the assumed current time as 20:05 on May 29, 2026.
 now = datetime(2026, 5, 29, 20, 5)
-# Khởi tạo một đối tượng Learner với các thông tin giả định.
-# Người học có ID "u1", đăng ký 10 ngày trước, hoạt động lần cuối 1 ngày trước, có chuỗi 3 ngày, hoàn thành 4 bài.
+# Initialize a Learner object with assumed data.
+# Learner with ID "u1", signed up 10 days ago, last active 1 day ago, streak of 3 days, 4 lessons completed.
 l = Learner("u1", now - timedelta(days=10), now - timedelta(days=1), 3, 4)
-# Gọi hàm \`pick_trigger\` để xác định thông báo cho người học \`l\` tại thời điểm \`now\`.
-# In kết quả ra màn hình.
-# Kết quả mong đợi: "streak_save:keep your streak alive" vì l.streak_days >= 2, inactive >= 1 và now.hour == 20.
+# Call `pick_trigger` to determine the notification for learner `l` at time `now`.
+# Print the result.
+# Expected output: "streak_save:keep your streak alive" since l.streak_days >= 2, inactive >= 1, and now.hour == 20.
 print(pick_trigger(l, now))`,
         codeLanguage: "python",
         exercise:

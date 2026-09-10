@@ -107,25 +107,25 @@ If one layer fails, others still stop the attacker.
 2. **Fail Securely** - on error, default to deny.
 3. **Trust No Input** - validate every input, including from admins.
 4. **Secure by Default** - defaults must be safe (HTTPS on, HttpOnly cookies).`,
-        code: `// Ví dụ: Threat Model nhanh cho tính năng "Đổi mật khẩu"
-// Áp dụng STRIDE + CIA trước khi viết 1 dòng code.
+        code: `// Example: quick threat model for the "Change Password" feature
+// Apply STRIDE + CIA before writing a single line of code.
 
 const threatModel = {
   feature: "Change Password",
   threats: {
-    Spoofing: "Attacker đoán session token → yêu cầu re-auth bằng mật khẩu cũ",
-    Tampering: "Sửa request body → server hash + verify ở backend, không tin client",
-    Repudiation: "Không log → ghi audit_log: user_id, ip, user_agent, ts",
-    InformationDisclosure: "Lộ password mới qua log → KHÔNG log password, redact",
-    DenialOfService: "Spam đổi password → rate limit 5 lần/giờ/IP + tài khoản",
-    ElevationOfPrivilege: "Đổi pass user khác → kiểm tra session.user_id === target.user_id",
+    Spoofing: "Attacker guesses session token -> require re-auth with old password",
+    Tampering: "Modified request body -> server hashes + verifies on backend, never trusts the client",
+    Repudiation: "No logging -> write audit_log: user_id, ip, user_agent, ts",
+    InformationDisclosure: "New password leaked via logs -> NEVER log passwords, redact",
+    DenialOfService: "Password change spam -> rate limit 5/hour/IP + account",
+    ElevationOfPrivilege: "Changing another user's password -> check session.user_id === target.user_id",
   },
   defenseInDepth: [
-    "1. WAF chặn pattern injection",
+    "1. WAF blocks injection patterns",
     "2. API: validate schema (zod), rate limit",
     "3. Service: re-auth + bcrypt(12) hash",
     "4. DB: UPDATE ... WHERE id = $1 (parameterized)",
-    "5. Audit: ghi log + alert nếu 3 fail liên tiếp",
+    "5. Audit: log + alert if 3 consecutive failures",
   ],
 };
 
@@ -233,32 +233,32 @@ OIDC = OAuth + **ID Token** to authenticate identity.
 - **ReBAC**: by relationships ("owner", "collaborator").
 
 > 🛡️ **Golden rule:** roles **must** live in a separate RLS-protected table (e.g. \`user_roles\`), never inside client cookies or client-side JWT - otherwise privilege escalation is trivial.`,
-        code: `// Node.js: hash password an toàn + tạo JWT ngắn hạn
+        code: `// Node.js: securely hash passwords + issue a short-lived JWT
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const SALT_ROUNDS = 12;
-const JWT_SECRET = process.env.JWT_SECRET!; // KHÔNG hardcode
+const JWT_SECRET = process.env.JWT_SECRET!; // DO NOT hardcode
 
-// 1) Đăng ký
+// 1) Register
 export async function register(email: string, password: string) {
   const hash = await bcrypt.hash(password, SALT_ROUNDS);
   // INSERT INTO users(email, password_hash) VALUES ($1, $2)
   return { email, password_hash: hash };
 }
 
-// 2) Đăng nhập
+// 2) Login
 export async function login(email: string, password: string, storedHash: string) {
   const ok = await bcrypt.compare(password, storedHash);
-  if (!ok) throw new Error("Invalid credentials"); // KHÔNG nói rõ "sai mật khẩu"
+  if (!ok) throw new Error("Invalid credentials"); // Don't reveal it was the "wrong password"
   const accessToken = jwt.sign({ sub: email }, JWT_SECRET, {
-    expiresIn: "15m",          // access ngắn
+    expiresIn: "15m",          // short-lived access token
     algorithm: "HS256",
   });
   return { accessToken };
 }
 
-// 3) Middleware kiểm AuthZ với RBAC (role lấy từ bảng user_roles có RLS)
+// 3) AuthZ middleware with RBAC (role fetched from the RLS-protected user_roles table)
 export function requireRole(role: "admin" | "teacher" | "student") {
   return async (req: any, res: any, next: any) => {
     const userId = req.user?.sub;
@@ -414,7 +414,7 @@ SELECT * FROM invoices WHERE id = $1 AND user_id = auth.uid();
 \`\`\`
 
 > 💡 **Tip from Mr. Hai:** for every PR touching data, ask *"once authenticated, are we authorized? Can user X see user Y's data?"*`,
-        code: `// Express + PostgreSQL: 4 lỗi và bản sửa
+        code: `// Express + PostgreSQL: 4 bugs and their fixes
 import express from "express";
 import DOMPurify from "isomorphic-dompurify";
 import { db } from "./db";
@@ -433,7 +433,7 @@ app.get("/users", async (req, res) => {
   res.json(r.rows);
 });
 
-// ❌ XSS - render thẳng comment
+// ❌ XSS - renders comment directly
 app.get("/bad/comment", (req, res) => {
   res.send(\`<div>\${req.query.text}</div>\`);
 });
@@ -459,7 +459,7 @@ app.get("/invoice/:id", async (req, res) => {
     "SELECT * FROM invoices WHERE id = $1 AND user_id = $2",
     [req.params.id, req.user.id]
   );
-  if (!r.rowCount) return res.status(404).end(); // 404 thay vì 403 để tránh leak existence
+  if (!r.rowCount) return res.status(404).end(); // 404 instead of 403 to avoid leaking existence
   res.json(r.rows[0]);
 });`,
         codeLanguage: "typescript",
@@ -581,17 +581,17 @@ If a key leaks, your crypto is meaningless.
 - Store in **KMS**/Vault (AWS KMS, GCP KMS, Azure Key Vault, HashiCorp Vault).
 - **Rotate** keys (90 days is the norm).
 - Least-privilege access; audit log every use.`,
-        code: `// Node.js: 4 use case mật mã thường gặp
+        code: `// Node.js: 4 common cryptography use cases
 import { createHash, randomBytes, createCipheriv, createDecipheriv, createSign, createVerify, generateKeyPairSync } from "crypto";
 
-// 1) Hash file để check toàn vẹn
+// 1) Hash a file to check integrity
 function fileHash(buf: Buffer) {
   return createHash("sha256").update(buf).digest("hex");
 }
 
-// 2) AES-256-GCM (AEAD) - mã hoá + xác thực
+// 2) AES-256-GCM (AEAD) - encryption + authentication
 function aesEncrypt(plaintext: string, key: Buffer) {
-  const iv = randomBytes(12); // 96-bit nonce cho GCM
+  const iv = randomBytes(12); // 96-bit nonce for GCM
   const cipher = createCipheriv("aes-256-gcm", key, iv);
   const enc = Buffer.concat([cipher.update(plaintext, "utf8"), cipher.final()]);
   const tag = cipher.getAuthTag();
@@ -603,7 +603,7 @@ function aesDecrypt({ iv, ct, tag }: any, key: Buffer) {
   return Buffer.concat([decipher.update(Buffer.from(ct, "base64")), decipher.final()]).toString("utf8");
 }
 
-// 3) Ký & verify message với Ed25519
+// 3) Sign & verify a message with Ed25519
 const { publicKey, privateKey } = generateKeyPairSync("ed25519");
 function sign(msg: string) {
   return createSign("SHA256").update(msg).end().sign(privateKey).toString("base64");
@@ -612,7 +612,7 @@ function verify(msg: string, sigB64: string) {
   return createVerify("SHA256").update(msg).end().verify(publicKey, Buffer.from(sigB64, "base64"));
 }
 
-// 4) Sinh khoá AES an toàn (32 bytes = 256-bit) - đừng dùng Math.random!
+// 4) Generate a secure AES key (32 bytes = 256-bit) - never use Math.random!
 const KEY = randomBytes(32);
 
 const enc = aesEncrypt("secret message", KEY);
@@ -779,8 +779,8 @@ CREATE POLICY "owner write" ON notes
 - Enable **MFA**, audit logs (CloudTrail/Activity Log).
 - Lock down VPC + Security Groups; allow specific ports/IPs only.
 - Turn on **automatic backups + encryption at rest** for DB and storage.`,
-        code: `// Edge Function (Deno) - pattern bảo mật chuẩn 2026
-// Rate limit + CORS chặt + secret từ env + log có ích.
+        code: `// Edge Function (Deno) - standard 2026 security pattern
+// Rate limit + strict CORS + secrets from env + useful logging.
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 
@@ -815,7 +815,7 @@ serve(async (req) => {
 
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
 
-  // Lấy IP qua header proxy (chuẩn hoá theo provider)
+  // Get IP from the proxy header (normalized per provider)
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
   if (!rateLimit(ip, 30)) {
     return new Response(JSON.stringify({ error: "Too many requests" }), {
@@ -824,13 +824,13 @@ serve(async (req) => {
     });
   }
 
-  const apiKey = Deno.env.get("OPENAI_API_KEY"); // ✅ ở server, không trả về client
+  const apiKey = Deno.env.get("OPENAI_API_KEY"); // ✅ kept server-side, never returned to client
   if (!apiKey) {
-    console.error("missing OPENAI_API_KEY"); // không log secret
+    console.error("missing OPENAI_API_KEY"); // don't log the secret
     return new Response("Server misconfigured", { status: 500, headers: cors });
   }
 
-  // ... gọi API bên thứ 3 ở đây, đừng forward header Authorization của user ...
+  // ... call the third-party API here, don't forward the user's Authorization header ...
 
   return new Response(JSON.stringify({ ok: true }), {
     headers: { ...cors, "content-type": "application/json" },
@@ -959,7 +959,7 @@ Add a security checklist to PR templates: input validation, AuthZ, logging, secr
 - **SOC 2**: enterprise trust standard (security, availability, confidentiality…).
 
 > 🛡️ **Tip from Mr. Hai:** Document the process from MVP - pursuing SOC 2 / ISO 27001 later becomes painless.`,
-        code: `// Pattern logging an toàn - TypeScript
+        code: `// Safe logging pattern - TypeScript
 type LogLevel = "info" | "warn" | "error";
 
 const REDACT = new Set([
@@ -990,11 +990,11 @@ export function audit(level: LogLevel, action: string, ctx: Record<string, unkno
     latency_ms: ctx.latency_ms ?? null,
     meta: redact(ctx.meta ?? {}),
   };
-  // Gửi tới SIEM (Datadog/Loki/BigQuery). KHÔNG console.log secret.
+  // Send to SIEM (Datadog/Loki/BigQuery). NEVER console.log secrets.
   console.log(JSON.stringify(line));
 }
 
-// Ví dụ dùng
+// Usage example
 audit("info", "login.success", { user_id: "u_1", ip: "1.2.3.4", latency_ms: 87 });
 audit("warn", "login.fail",   { ip: "1.2.3.4", meta: { reason: "wrong_password" } });
 audit("error", "admin.access_denied", { user_id: "u_2", ip: "1.2.3.4", meta: { route: "/admin" } });`,
