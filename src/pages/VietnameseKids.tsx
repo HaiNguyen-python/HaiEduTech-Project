@@ -13,7 +13,8 @@ import { kidsLessons as baseKids, type KidsLesson } from "@/data/vietnamese/kids
 import { kidsExpansion } from "@/data/vietnamese/kidsExpansion";
 import { kidsExpansion2 } from "@/data/vietnamese/kidsExpansion2";
 import { kidsExpansion3 } from "@/data/vietnamese/kidsExpansion3";
-const kidsLessons = [...baseKids, ...kidsExpansion, ...kidsExpansion2, ...kidsExpansion3];
+import { kidsExpansionV10 } from "@/data/vietnamese/kidsExpansionV10";
+const kidsLessons = [...baseKids, ...kidsExpansion, ...kidsExpansion2, ...kidsExpansion3, ...kidsExpansionV10];
 import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 import KidsFlashcard from "@/components/KidsFlashcard";
 
