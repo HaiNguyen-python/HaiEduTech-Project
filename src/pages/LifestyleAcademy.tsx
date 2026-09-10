@@ -1,10 +1,11 @@
 /**
  * @file LifestyleAcademy.tsx
  * @description Premium curriculum hub for lifestyle & soft skills.
- *              Four pillars: Smart Finance, Eloquence & Etiquette,
- *              Presence & Resilience (merged), and Physical Wellness.
- *              Includes filterable pillar grid, deep lesson catalogue,
- *              and interactive daily-reflection micro-coach widget.
+ *              Six pillars: Smart Finance, Eloquence & Etiquette,
+ *              Presence & Resilience, Physical Wellness, Self-Study Skills
+ *              and Parties & Events. Includes filterable pillar grid, deep
+ *              lesson catalogue grouped by pillar with collapsible sections,
+ *              soft-skills radar, and a daily-reflection micro-coach widget.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
@@ -33,6 +34,7 @@ import {
   PartyPopper,
   CheckCircle2,
   ClipboardCheck,
+  ChevronDown,
 } from "lucide-react";
 
 import Navbar from "@/components/Navbar";
@@ -273,6 +275,9 @@ const FILTERS: { key: FilterKey; labelVi: string; labelEn: string }[] = [
   { key: "partying", labelVi: "Tiệc tùng", labelEn: "Parties" },
 ];
 
+/** Remembers which pillar groups the learner collapsed on the lessons list. */
+const GROUPS_OPEN_KEY = "het:lifestyle-groups-open-v1";
+
 // ─────────────────────────────────────────────────────────
 // Micro-coach
 // ─────────────────────────────────────────────────────────
@@ -445,6 +450,44 @@ const LifestyleAcademy = () => {
       return haystack.includes(q);
     });
   }, [filter, query]);
+
+  // ── Grouped view: only when showing everything (no pillar filter, no search),
+  // so search results are never hidden inside a collapsed group.
+  const grouped = filter === "all" && query.trim() === "";
+
+  const groupedLessons = useMemo(
+    () =>
+      PILLARS.map((p) => ({
+        pillar: p,
+        lessons: LIFESTYLE_LESSONS.filter((l) => l.pillar === p.key),
+      })).filter((g) => g.lessons.length > 0),
+    [],
+  );
+
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    try {
+      const raw = localStorage.getItem(GROUPS_OPEN_KEY);
+      if (raw) return JSON.parse(raw) as Record<string, boolean>;
+    } catch {
+      /* ignore */
+    }
+    return {};
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(GROUPS_OPEN_KEY, JSON.stringify(openGroups));
+    } catch {
+      /* ignore */
+    }
+  }, [openGroups]);
+
+  const isGroupOpen = (key: PillarKey) => openGroups[key] !== false;
+  const toggleGroup = (key: PillarKey) =>
+    setOpenGroups((prev) => ({ ...prev, [key]: prev[key] === false }));
+  const setAllGroups = (open: boolean) =>
+    setOpenGroups(Object.fromEntries(PILLARS.map((p) => [p.key, open])));
+  const allCollapsed = PILLARS.every((p) => openGroups[p.key] === false);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
