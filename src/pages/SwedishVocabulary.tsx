@@ -875,6 +875,7 @@ const SwedishVocabulary = () => {
                 allWords={SWEDISH_WORDS.map(swedishToQuest)}
                 t={t}
                 subject="swedish"
+                speechLang="sv-SE"
                 speak={text => speakSv(text)}
                 stopSpeak={stopSwedishTts}
                 onWordMastered={w => { if (!mastered.has(w)) toggle(w); }}
