@@ -89,7 +89,7 @@ const pickType = (
     pool = ["recall", "build", "gap", "usage", "reverse", "listen"];
   }
   if (canSpeak) pool.push("speak");
-  if (hasUsage) pool.push("usage");
+  if (hasUsage && !isNew) pool.push("usage");
   const usable = pool.filter(ty => {
     if (ty === "usage") return hasUsage;
     if (ty === "gap") return hasExample(w);
