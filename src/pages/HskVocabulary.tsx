@@ -27,6 +27,7 @@ import HskMnemonic from "@/components/HskMnemonic";
 import HskExampleTranslation from "@/components/HskExampleTranslation";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
+import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
 
 // Heavy / tab-specific components -> lazy so they don't block initial paint.
 const KangxiRadicalsBrowser = lazy(() => import("@/components/KangxiRadicalsBrowser"));
@@ -795,6 +796,15 @@ const HskVocabulary = () => {
               </Suspense>
             ) : viewMode === "exercise" ? (
               <HskExercise masteredWords={masteredWords} allWords={hskVocabData} t={t} />
+            ) : viewMode === "flashcard" ? (
+              <SimpleVocabDeck
+                cards={filtered.map(word => ({ key: word.character, term: word.character, pronunciation: word.pinyin, level: word.level, category: word.category, meaningPrimary: word.definition.vi, meaningSecondary: word.definition.en, example: word.example, exampleTranslation: word.examplePinyin, visual: <HanziWord characters={word.character} size={112} /> }))}
+                t={t}
+                speak={speakChinese}
+                stopAudio={stopChineseTts}
+                mastered={mastered}
+                onToggleMastered={handleStarClick}
+              />
             ) : filtered.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground text-sm">
                 {t("Không tìm thấy từ nào khớp bộ lọc. Hãy thử đổi cấp độ hoặc chủ đề.", "No words match your filters. Try another level or topic.")}
@@ -816,18 +826,7 @@ const HskVocabulary = () => {
                         <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
                       </div>
 
-                      {viewMode === "flashcard" ? (
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                          <AnimatePresence mode="popLayout">
-                            {groups[cat].map(w => (
-                              <motion.div key={w.character + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                                <HskFlashcard word={w} />
-                              </motion.div>
-                            ))}
-                          </AnimatePresence>
-                        </div>
-                      ) : (
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                           {groups[cat].map(w => (
                             <div key={w.character + w.category} className="relative rounded-xl border-[3px] border-primary/40 bg-card overflow-hidden hover:border-primary/70 shadow-sm hover:shadow-md transition-all">
                               <Badge className={levelColors[w.level] + " text-[10px] px-1.5 py-0 absolute top-2 left-2 z-10"}>{w.level}</Badge>
@@ -863,8 +862,7 @@ const HskVocabulary = () => {
                               </div>
                             </div>
                           ))}
-                        </div>
-                      )}
+                      </div>
                     </section>
                   ))}
                 </div>
