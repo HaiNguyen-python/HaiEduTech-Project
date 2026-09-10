@@ -530,6 +530,7 @@ const DailyWordMission = ({
               <div className="grid gap-3 sm:grid-cols-2">
                 {q.options.map((o, i) => (
                   <button key={i} disabled={revealed}
+                    data-testid="mq-option"
                     onClick={() => { setPicked(i); reveal(i === q.correct); }}
                     className={`rounded-xl border p-3 text-left text-sm transition-all ${
                       revealed && i === q.correct ? "border-emerald-500 bg-emerald-500/10"
@@ -550,6 +551,7 @@ const DailyWordMission = ({
               <div className="grid gap-3 sm:grid-cols-2">
                 {q.options.map((o, i) => (
                   <button key={i} disabled={revealed}
+                    data-testid="mq-option"
                     onClick={() => { setPicked(i); reveal(i === q.correct); }}
                     className={`rounded-xl border p-3 text-center text-base font-semibold transition-all ${
                       revealed && i === q.correct ? "border-emerald-500 bg-emerald-500/10"
@@ -572,6 +574,7 @@ const DailyWordMission = ({
               <div className="grid gap-3">
                 {q.options.map((o, i) => (
                   <button key={i} disabled={revealed}
+                    data-testid="mq-option"
                     onClick={() => { setPicked(i); reveal(i === q.correct); }}
                     className={`rounded-xl border p-3 text-left text-sm italic leading-relaxed transition-all ${
                       revealed && i === q.correct ? "border-emerald-500 bg-emerald-500/10"
@@ -715,7 +718,7 @@ const DailyWordMission = ({
                 {q.word.exampleTranslation && <p className="text-xs text-muted-foreground">{q.word.exampleTranslation}</p>}
               </div>
 
-              <Button onClick={() => grade(wasCorrect === false ? "forgot" : "good")} className="w-full gap-2 bg-gradient-to-r from-primary to-emerald-500">
+              <Button data-testid="mq-continue" onClick={() => grade(wasCorrect === false ? "forgot" : "good")} className="w-full gap-2 bg-gradient-to-r from-primary to-emerald-500">
                 {t("Tiếp tục", "Continue")} <ChevronRight className="h-4 w-4" />
               </Button>
 
