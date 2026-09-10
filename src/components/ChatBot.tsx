@@ -1008,24 +1008,31 @@ const ChatBot = () => {
     // Commit the accumulated answer into the transcript (throttled below).
     const paintAssistant = () => {
       if (!assistantSoFar) return;
+      // Hide the hidden memory notes (and any half-arrived token) from the bubble.
+      const visible = stripMemoryTokens(assistantSoFar).replace(/\[\[[^\]]*$/, "");
+      if (!visible.trim()) return;
       setMessages((prev) => {
         const last = prev[prev.length - 1];
         if (last?.role === "assistant") {
-          if (last.content === assistantSoFar) return prev;
-          return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
+          if (last.content === visible) return prev;
+          return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: visible } : m));
         }
-        return [...prev, { role: "assistant", content: assistantSoFar }];
+        return [...prev, { role: "assistant", content: visible }];
       });
     };
 
     try {
+      const memoryContext = formatMemoriesForContext(memoriesRef.current);
       const resp = await fetch(CHAT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: payloadMessages, studentContext }),
+        body: JSON.stringify({
+          messages: payloadMessages,
+          studentContext: memoryContext ? `${studentContext}\n\n${memoryContext}` : studentContext,
+        }),
       });
 
       if (!resp.ok || !resp.body) {
