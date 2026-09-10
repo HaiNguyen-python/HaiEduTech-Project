@@ -138,10 +138,10 @@ const FinnishSkier = ({ mastered, total, flyingStars, onStarLanded, containerRef
         <AnimatePresence>
           {showQuote && (
             <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -5, scale: 0.8 }}
-              className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/95 text-[#003580] text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-[#003580]/20"
+              initial={{ opacity: 0, y: 10, scale: 0.8, x: "-50%" }}
+              animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+              exit={{ opacity: 0, y: -5, scale: 0.8, x: "-50%" }}
+              className="absolute -top-10 left-1/2 whitespace-nowrap bg-white/95 text-[#003580] text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-[#003580]/20"
             >
               {currentQuote}
             </motion.div>

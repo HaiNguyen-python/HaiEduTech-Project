@@ -95,12 +95,12 @@ const LearningJourneyTimeline = () => {
     position?: "top" | "bottom";
   }) => (
     <motion.div
-      initial={{ opacity: 0, y: position === "top" ? 10 : -10, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: position === "top" ? 6 : -6, scale: 0.97 }}
+      initial={{ opacity: 0, y: position === "top" ? 10 : -10, scale: 0.96, x: "-50%" }}
+      animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+      exit={{ opacity: 0, y: position === "top" ? 6 : -6, scale: 0.97, x: "-50%" }}
       transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
       role="tooltip"
-      className={`absolute left-1/2 -translate-x-1/2 z-40 w-64 pointer-events-none ${
+      className={`absolute left-1/2 z-40 w-64 pointer-events-none ${
         position === "top" ? "bottom-full mb-3" : "top-full mt-3"
       }`}
       style={{
@@ -202,8 +202,8 @@ const LearningJourneyTimeline = () => {
             </motion.div>
             {/* Sparkle trail */}
             <motion.div
-              className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-yellow-400 text-xl"
-              animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5] }}
+              className="absolute -bottom-2 left-1/2 text-yellow-400 text-xl"
+              animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5], x: "-50%" }}
               transition={{ duration: 0.8, repeat: Infinity }}
             >
               ✨

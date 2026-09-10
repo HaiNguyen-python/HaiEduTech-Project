@@ -328,11 +328,13 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
           {meteors.map(m => (
             <motion.button
               key={m.id}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.5, opacity: 0, rotate: 180 }}
+              // Centre with x: "-50%" - a translate class is overwritten by
+              // framer-motion's inline transform and the card would clip.
+              initial={{ scale: 0, opacity: 0, x: "-50%" }}
+              animate={{ scale: 1, opacity: 1, x: "-50%" }}
+              exit={{ scale: 1.5, opacity: 0, rotate: 180, x: "-50%" }}
               onClick={() => handleTapMeteor(m)}
-              className="absolute -translate-x-1/2 px-3 sm:px-5 py-3 sm:py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-200 shadow-[0_0_22px_rgba(251,191,36,0.85)] text-white font-bold text-center cursor-pointer w-[min(60vw,210px)]"
+              className="absolute px-3 sm:px-5 py-3 sm:py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-200 shadow-[0_0_22px_rgba(251,191,36,0.85)] text-white font-bold text-center cursor-pointer w-[min(60vw,210px)]"
               style={{ left: `${Math.max(18, Math.min(82, m.x))}%`, top: `${m.y}%` }}
             >
               <div className="text-4xl sm:text-6xl leading-tight drop-shadow">{m.word.character}</div>
@@ -369,19 +371,19 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
         {particles.map(p => (
           <motion.div
             key={p.id}
-            initial={{ scale: 0, opacity: 1 }}
-            animate={{ scale: 3, opacity: 0 }}
+            initial={{ scale: 0, opacity: 1, x: "-50%", y: "-50%" }}
+            animate={{ scale: 3, opacity: 0, x: "-50%", y: "-50%" }}
             transition={{ duration: 0.6 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-amber-300 shadow-[0_0_30px_rgba(251,191,36,1)]"
+            className="absolute w-12 h-12 rounded-full bg-amber-300 shadow-[0_0_30px_rgba(251,191,36,1)]"
             style={{ left: `${p.x}%`, top: `${p.y}%` }}
           />
         ))}
 
         {/* Movable spaceship 🚀 */}
         <motion.div
-          animate={{ left: `${shipX}%` }}
+          animate={{ left: `${shipX}%`, x: "-50%" }}
           transition={{ type: "tween", duration: 0.05, ease: "linear" }}
-          className="absolute bottom-2 -translate-x-1/2 text-5xl drop-shadow-[0_0_12px_rgba(34,211,238,0.9)] select-none"
+          className="absolute bottom-2 text-5xl drop-shadow-[0_0_12px_rgba(34,211,238,0.9)] select-none"
           aria-hidden
         >
           🚀
@@ -690,7 +692,7 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
               ))}
             </div>
             {boiling && (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-14 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-amber-400 text-amber-950 text-sm font-bold whitespace-nowrap shadow-lg">
+              <motion.div initial={{ scale: 0, x: "-50%" }} animate={{ scale: 1, x: "-50%" }} className="absolute -top-14 left-1/2 px-4 py-1 rounded-full bg-amber-400 text-amber-950 text-sm font-bold whitespace-nowrap shadow-lg">
                 ✨ {t("Tuyệt vời!", "Delicious!")} +{20 * combo + timeLeft} ✨
               </motion.div>
             )}
@@ -949,9 +951,9 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
 
         {/* Runner avatar */}
         <motion.div
-          animate={{ x: `${playerTrack * 25 + 12.5}%` }}
+          animate={{ left: `${playerTrack * 25 + 12.5}%`, x: "-50%" }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="absolute bottom-6 -translate-x-1/2 text-5xl"
+          className="absolute bottom-6 text-5xl"
         >
           🏃
         </motion.div>

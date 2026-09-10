@@ -10,6 +10,7 @@ import { playGameSound, toggleMute, isMuted } from "./soundManager";
 import TeacherHaiCommentary from "./TeacherHaiCommentary";
 import confetti from "canvas-confetti";
 import { supabase } from "@/integrations/supabase/client";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 
 // Word pairs for the game
 const WORD_PAIRS = [
@@ -72,6 +73,8 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
   const gameLoop = useRef<number>();
   const spawnTimer = useRef<number>();
   const nextPairId = useRef(0);
+  const correctWordsRef = useRef<string[]>([]);
+  const savedRef = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const CONTAINER_HEIGHT = 500;
@@ -233,6 +236,11 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
         return newStreak;
       });
       setMatched((m) => m + 1);
+      // Remember the Vietnamese word so the run feeds the memory brain
+      correctWordsRef.current = [
+        ...correctWordsRef.current,
+        (selectedWord.lang === "vi" ? selectedWord.text : word.text),
+      ];
 
       // Sparkle effect at word position
       setSparkle({ x: word.x, y: word.y });
@@ -299,13 +307,26 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
     setShowPowerUp(null);
     setCommentEvent(null);
     nextPairId.current = 0;
+    correctWordsRef.current = [];
+    savedRef.current = false;
     startTime.current = Date.now();
   };
 
+  // Save the run exactly once when the game ends (never during render)
+  useEffect(() => {
+    if (phase !== "gameover" || savedRef.current) return;
+    savedRef.current = true;
+    saveScore();
+    if (correctWordsRef.current.length) {
+      recordVocabReviewTracked("vietnamese", [...new Set(correctWordsRef.current)]).catch(() => {});
+    }
+    if (score > 200) confetti({ particleCount: 80, spread: 70 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
   // Game Over screen
   if (phase === "gameover") {
-    saveScore();
-    if (score > 200) confetti({ particleCount: 80, spread: 70 });
+
 
     return (
       <div className="max-w-lg mx-auto text-center py-8">
