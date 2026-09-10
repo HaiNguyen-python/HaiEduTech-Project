@@ -20,6 +20,7 @@ import { dailyMicroLessons } from "@/data/vietnamese/dailyVietnameseData";
 import WordMeteor from "@/components/games/WordMeteor";
 import { dailyMicroLessonsExpansion } from "@/data/vietnamese/dailyVietnameseExpansion";
 import { dailyMicroLessonsV10 } from "@/data/vietnamese/expansionV10Practice";
+import { finishGame, useGameAudioCleanup } from "@/lib/gameSession";
 
 // ============================================================
 // Vocab pool - uses ALL daily Vietnamese lessons (~60 entries)
@@ -80,6 +81,23 @@ const PhoMatch = ({ onExit }: { onExit: () => void }) => {
   const [wrong, setWrong] = useState<string | null>(null);
   const [matched, setMatched] = useState<Set<string>>(new Set());
   const [gameOver, setGameOver] = useState(false);
+  const correctRef = useRef<string[]>([]);
+  const savedRef = useRef(false);
+  useGameAudioCleanup();
+
+  // Save the run once when it ends, and feed matched words to the brain
+  useEffect(() => {
+    if (gameOver && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({
+        gameType: "vi_pho_match",
+        score,
+        maxStreak: combo,
+        subject: "vietnamese",
+        correctWords: correctRef.current,
+      });
+    }
+  }, [gameOver, score, combo]);
 
   const cards = useMemo(() => {
     const pairs = shuffle(VI_POOL).slice(0, 6);
@@ -111,6 +129,7 @@ const PhoMatch = ({ onExit }: { onExit: () => void }) => {
     if (otherKey === card.key && picked.slice(0, 3) !== card.id.slice(0, 3)) {
       setMatched(prev => new Set([...prev, picked, card.id]));
       setScore(s => s + 10 * combo);
+      correctRef.current.push(card.key);
       setPicked(null);
     } else {
       setWrong(card.id);
@@ -131,7 +150,7 @@ const PhoMatch = ({ onExit }: { onExit: () => void }) => {
         <h2 className="text-2xl font-bold mb-2">{t("Hết lượt!", "Game Over!")}</h2>
         <p className="text-muted-foreground mb-4">{t(`Điểm: ${score}`, `Score: ${score}`)}</p>
         <div className="flex gap-2 justify-center">
-          <Button onClick={() => { setScore(0); setLives(3); setCombo(1); setRound(r => r + 1); setMatched(new Set()); setGameOver(false); }}>
+          <Button onClick={() => { savedRef.current = false; correctRef.current = []; setScore(0); setLives(3); setCombo(1); setRound(r => r + 1); setMatched(new Set()); setGameOver(false); }}>
             {t("Chơi lại", "Play Again")}
           </Button>
           <Button variant="outline" onClick={onExit}>{t("Thoát", "Exit")}</Button>
@@ -192,6 +211,22 @@ const BongNuocPop = ({ onExit }: { onExit: () => void }) => {
   const [combo, setCombo] = useState(1);
   const [gameOver, setGameOver] = useState(false);
   const idRef = useRef(0);
+  const correctRef = useRef<string[]>([]);
+  const savedRef = useRef(false);
+  useGameAudioCleanup();
+
+  useEffect(() => {
+    if (gameOver && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({
+        gameType: "vi_bong_nuoc_pop",
+        score,
+        maxStreak: combo,
+        subject: "vietnamese",
+        correctWords: correctRef.current,
+      });
+    }
+  }, [gameOver, score, combo]);
 
   // Spawn a fresh target + 4 distractor bubbles
   const newRound = () => {
@@ -237,6 +272,7 @@ const BongNuocPop = ({ onExit }: { onExit: () => void }) => {
       speakVi(b.pair.vi);
       setScore(s => s + 15 * combo);
       setCombo(c => Math.min(c + 1, 10));
+      correctRef.current.push(b.pair.vi);
       newRound();
     } else {
       setLives(l => {
@@ -255,7 +291,7 @@ const BongNuocPop = ({ onExit }: { onExit: () => void }) => {
         <h2 className="text-2xl font-bold mb-2">{t("Hết lượt!", "Game Over!")}</h2>
         <p className="text-muted-foreground mb-4">{t(`Điểm: ${score}`, `Score: ${score}`)}</p>
         <div className="flex gap-2 justify-center">
-          <Button onClick={() => { setScore(0); setLives(3); setCombo(1); setGameOver(false); newRound(); }}>
+          <Button onClick={() => { savedRef.current = false; correctRef.current = []; setScore(0); setLives(3); setCombo(1); setGameOver(false); newRound(); }}>
             {t("Chơi lại", "Play Again")}
           </Button>
           <Button variant="outline" onClick={onExit}>{t("Thoát", "Exit")}</Button>

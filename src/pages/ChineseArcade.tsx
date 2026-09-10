@@ -16,7 +16,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { hskVocabData, type HskWord } from "@/data/hskVocab";
 import WordMeteor from "@/components/games/WordMeteor";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
-import { submitGameScore } from "@/lib/submitGameScore";
+import { finishGame, useGameAudioCleanup } from "@/lib/gameSession";
 
 // ============================================================
 // Shared types & helpers
@@ -105,12 +105,20 @@ const HUD = ({ score, combo, level, lives }: { score: number; combo: number; lev
   </div>
 );
 
+/** Every arcade game gets Back (onExit) and Play again (onRetry = remount). */
+interface GameProps {
+  difficulty: Difficulty;
+  onExit: () => void;
+  onRetry: () => void;
+}
+
 // ============================================================
 // GAME 1: Hanzi Space Shooter
 // ============================================================
 type Meteor = { id: number; word: HskWord; x: number; y: number; speed: number };
 
-const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
+const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
+  useGameAudioCleanup();
   const { t } = useLanguage();
   const words = useMemo(() => wordsForDifficulty(difficulty), [difficulty]);
   const [meteors, setMeteors] = useState<Meteor[]>([]);
@@ -129,6 +137,23 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
   const inputRef = useRef<HTMLInputElement>(null);
   const meteorIdRef = useRef(0);
   const particleIdRef = useRef(0);
+  const correctWordsRef = useRef<string[]>([]);
+  const scoreSubmittedRef = useRef(false);
+
+  // Save the run once, and feed correct words to the Vocabulary Brain
+  useEffect(() => {
+    if (gameOver && !scoreSubmittedRef.current) {
+      scoreSubmittedRef.current = true;
+      void finishGame({
+        gameType: `hanzi_shooter_${difficulty}`,
+        score,
+        maxStreak: combo,
+        difficulty,
+        subject: "hsk",
+        correctWords: correctWordsRef.current,
+      });
+    }
+  }, [gameOver, score, combo, difficulty]);
 
   // Spawn meteors at increasing rate based on level (gentler ramp + bigger gaps)
   useEffect(() => {
@@ -244,6 +269,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
       }, 600);
       setMeteors(prev => prev.filter(m => m.id !== target.id));
       setScore(s => s + 10 * combo);
+      correctWordsRef.current.push(target.word.character);
       setCombo(c => Math.min(c + 1, 10));
       setInput("");
       speakChinese(target.word.character);
@@ -258,7 +284,7 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
 
   if (gameOver) {
     return (
-      <GameOverScreen score={score} onRetry={() => window.location.reload()} onExit={onExit} />
+      <GameOverScreen score={score} onRetry={onRetry} onExit={onExit} />
     );
   }
 
@@ -306,13 +332,13 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.5, opacity: 0, rotate: 180 }}
               onClick={() => handleTapMeteor(m)}
-              className="absolute -translate-x-1/2 px-5 py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-200 shadow-[0_0_22px_rgba(251,191,36,0.85)] text-white font-bold text-center min-w-[170px] cursor-pointer"
-              style={{ left: `${m.x}%`, top: `${m.y}%` }}
+              className="absolute -translate-x-1/2 px-3 sm:px-5 py-3 sm:py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-200 shadow-[0_0_22px_rgba(251,191,36,0.85)] text-white font-bold text-center cursor-pointer w-[min(60vw,210px)]"
+              style={{ left: `${Math.max(18, Math.min(82, m.x))}%`, top: `${m.y}%` }}
             >
-              <div className="text-5xl sm:text-6xl leading-tight drop-shadow">{m.word.character}</div>
+              <div className="text-4xl sm:text-6xl leading-tight drop-shadow">{m.word.character}</div>
               {/* Pinyin shown WITH tone marks so students still see thanh điệu */}
-              <div className="text-xl sm:text-2xl font-mono text-amber-50 mt-1 tracking-wide">{m.word.pinyin}</div>
-              <div className="text-sm text-white/95 mt-1 max-w-[220px] mx-auto leading-snug">{m.word.definition.vi}</div>
+              <div className="text-lg sm:text-2xl font-mono text-amber-50 mt-1 tracking-wide break-words">{m.word.pinyin}</div>
+              <div className="text-xs sm:text-sm text-white/95 mt-1 leading-snug break-words">{m.word.definition.vi}</div>
             </motion.button>
           ))}
         </AnimatePresence>
@@ -413,7 +439,8 @@ const SpaceShooter = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
 // ============================================================
 type IngredientWord = { char: string; id: number; used: boolean };
 
-const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
+const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
+  useGameAudioCleanup();
   const { t } = useLanguage();
   // Pick HSK words appropriate to difficulty.
   // easy = HSK 1-2, strictly 2-character compounds (real beginner compound words)
@@ -443,6 +470,7 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
   const [timeLeft, setTimeLeft] = useState(20);
   const ingredientIdRef = useRef(0);
   const scoreSubmittedRef = useRef(false);
+  const correctWordsRef = useRef<string[]>([]);
 
   const loadNewRound = useCallback(() => {
     if (compoundWords.length === 0) return;
@@ -495,7 +523,14 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
   useEffect(() => {
     if (gameOver && !scoreSubmittedRef.current) {
       scoreSubmittedRef.current = true;
-      submitGameScore({ gameType: `hotpot_chef_${difficulty}`, score, maxStreak: combo, difficulty });
+      void finishGame({
+        gameType: `hotpot_chef_${difficulty}`,
+        score,
+        maxStreak: combo,
+        difficulty,
+        subject: "hsk",
+        correctWords: correctWordsRef.current,
+      });
     }
   }, [gameOver, score, combo, difficulty]);
 
@@ -513,6 +548,7 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
         setBoiling(true);
         // Bonus points for remaining time
         setScore(s => s + 20 * combo + timeLeft);
+        correctWordsRef.current.push(target.character);
         setCombo(c => Math.min(c + 1, 10));
         speakChinese(target.character);
         setTimeout(() => {
@@ -537,7 +573,7 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
     }
   };
 
-  if (gameOver) return <GameOverScreen score={score} onRetry={() => window.location.reload()} onExit={onExit} />;
+  if (gameOver) return <GameOverScreen score={score} onRetry={onRetry} onExit={onExit} />;
   if (!target) return <p className="text-center p-8">Loading...</p>;
 
   const timeColor = timeLeft <= 5 ? "text-rose-300" : timeLeft <= 10 ? "text-amber-300" : "text-emerald-300";
@@ -704,7 +740,10 @@ const HotpotChef = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: ()
 // ============================================================
 const TONE_MARKS = ["ˉ", "ˊ", "ˇ", "ˋ"];
 
-const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
+const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
+  useGameAudioCleanup();
+  const correctWordsRef = useRef<string[]>([]);
+  const scoreSubmittedRef = useRef(false);
   const { t } = useLanguage();
   // Pick only single-character + single-syllable words so the tone target is unambiguous
   const singleTone = useMemo(
@@ -745,6 +784,20 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
     setLevel(Math.floor(score / 60) + 1);
   }, [score]);
 
+  useEffect(() => {
+    if (gameOver && !scoreSubmittedRef.current) {
+      scoreSubmittedRef.current = true;
+      void finishGame({
+        gameType: `pinyin_runner_${difficulty}`,
+        score,
+        maxStreak: combo,
+        difficulty,
+        subject: "hsk",
+        correctWords: correctWordsRef.current,
+      });
+    }
+  }, [gameOver, score, combo, difficulty]);
+
   const submitChoice = useCallback(
     (trackIdx: number) => {
       if (!currentWord || reveal) return;
@@ -752,6 +805,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
       const chosenTone = trackTones[trackIdx];
       if (chosenTone === correctTone) {
         setScore(s => s + 15 * combo);
+        correctWordsRef.current.push(currentWord.character);
         setCombo(c => Math.min(c + 1, 10));
         setFlashCorrect(true);
         speakChinese(currentWord.character);
@@ -801,7 +855,7 @@ const PinyinRunner = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: 
     return () => window.removeEventListener("keydown", onKey);
   }, [submitChoice, playerTrack]);
 
-  if (gameOver) return <GameOverScreen score={score} onRetry={() => window.location.reload()} onExit={onExit} />;
+  if (gameOver) return <GameOverScreen score={score} onRetry={onRetry} onExit={onExit} />;
   if (!currentWord) return <p className="text-center p-8">Loading...</p>;
 
   // Strip tone diacritics but keep the letters - students see the syllable and only pick the tone.
@@ -994,7 +1048,8 @@ const SENTENCE_BANK: Record<Difficulty, SentenceItem[]> = {
   ],
 };
 
-const SentenceBuilder = ({ difficulty, onExit }: { difficulty: Difficulty; onExit: () => void }) => {
+const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
+  useGameAudioCleanup();
   const { t } = useLanguage();
   const bank = SENTENCE_BANK[difficulty];
   const [pool, setPool] = useState<SentenceItem[]>(() => shuffle(bank));
@@ -1061,7 +1116,7 @@ const SentenceBuilder = ({ difficulty, onExit }: { difficulty: Difficulty; onExi
   useEffect(() => {
     if (gameOver && !scoreSubmittedRef.current) {
       scoreSubmittedRef.current = true;
-      submitGameScore({ gameType: `sentence_builder_${difficulty}`, score, maxStreak: combo, difficulty });
+      void finishGame({ gameType: `sentence_builder_${difficulty}`, score, maxStreak: combo, difficulty });
     }
   }, [gameOver, score, combo, difficulty]);
 
@@ -1103,7 +1158,7 @@ const SentenceBuilder = ({ difficulty, onExit }: { difficulty: Difficulty; onExi
     setTiles(prev => prev.map(t => (t.id === last.id ? { ...t, used: false } : t)));
   };
 
-  if (gameOver) return <GameOverScreen score={score} onRetry={() => window.location.reload()} onExit={onExit} />;
+  if (gameOver) return <GameOverScreen score={score} onRetry={onRetry} onExit={onExit} />;
   if (!current) return <p className="text-center p-8">Loading...</p>;
 
   const timeBar = (timeLeft / 30) * 100;
@@ -1252,6 +1307,9 @@ const ChineseArcade = () => {
   const { t } = useLanguage();
   const [active, setActive] = useState<GameId>("menu");
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
+  // Play again = remount the game with a fresh key instead of reloading the page
+  const [runId, setRunId] = useState(0);
+  const replay = () => setRunId(r => r + 1);
 
   const games = [
     {
@@ -1430,9 +1488,9 @@ const ChineseArcade = () => {
           </>
         )}
 
-        {active === "shooter" && <SpaceShooter difficulty={difficulty} onExit={() => setActive("menu")} />}
-        {active === "hotpot" && <HotpotChef difficulty={difficulty} onExit={() => setActive("menu")} />}
-        {active === "runner" && <PinyinRunner difficulty={difficulty} onExit={() => setActive("menu")} />}
+        {active === "shooter" && <SpaceShooter key={`shooter-${runId}`} difficulty={difficulty} onExit={() => setActive("menu")} onRetry={replay} />}
+        {active === "hotpot" && <HotpotChef key={`hotpot-${runId}`} difficulty={difficulty} onExit={() => setActive("menu")} onRetry={replay} />}
+        {active === "runner" && <PinyinRunner key={`runner-${runId}`} difficulty={difficulty} onExit={() => setActive("menu")} onRetry={replay} />}
         {active === "meteor" && (
           <div className="max-w-6xl mx-auto">
             <WordMeteor
@@ -1447,7 +1505,7 @@ const ChineseArcade = () => {
             />
           </div>
         )}
-        {active === "sentence" && <SentenceBuilder difficulty={difficulty} onExit={() => setActive("menu")} />}
+        {active === "sentence" && <SentenceBuilder key={`sentence-${runId}`} difficulty={difficulty} onExit={() => setActive("menu")} onRetry={replay} />}
       </main>
       <Footer />
     </div>

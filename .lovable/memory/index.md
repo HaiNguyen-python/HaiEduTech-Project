@@ -2,6 +2,7 @@
 
 ## Memories
 - [Memory Brain Data Flow](mem://features/vocab/memory-brain-data-flow) - All study flows write reviews; retention-based colours, lapses/ease, brain on 9 subjects
+- [Game score & brain integration](mem://features/games/score-and-brain-integration) - finishGame helper saves every arcade run + feeds words to the brain; replay remounts, never reloads
 - [Lifestyle Pillars](mem://features/lifestyle/self-study-pillar) - 6 pillars / 102 lessons incl. Partying pty-01..pty-15, Self-Study ss-01..ss-15
 - [Lifestyle quizzes & radar](mem://features/lifestyle/quiz-and-radar) - 4-question quiz per lesson, 6-pillar soft-skills radar, progress table
 - [World Visitor Map](mem://features/home/world-visitor-map) - country visits deduplicated per visitor/day, no locale guessing, public aggregate student/page-view counts

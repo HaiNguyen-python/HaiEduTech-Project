@@ -1,10 +1,11 @@
 // "Fact or Myth?" interactive game for Vietnamese History & Culture
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, RotateCcw, Trophy, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { factOrMythItems } from "@/data/vietnameseCurriculumData";
 import { Button } from "@/components/ui/button";
+import { finishGame } from "@/lib/gameSession";
 
 const FactOrMythGame = () => {
   const { t } = useLanguage();
@@ -14,6 +15,7 @@ const FactOrMythGame = () => {
   const [answered, setAnswered] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const savedRef = useRef(false);
 
   const item = factOrMythItems[currentIdx];
 
@@ -41,6 +43,7 @@ const FactOrMythGame = () => {
   };
 
   const restart = () => {
+    savedRef.current = false;
     setCurrentIdx(0);
     setAnswer(null);
     setScore(0);
@@ -48,6 +51,18 @@ const FactOrMythGame = () => {
     setShowResult(false);
     setGameOver(false);
   };
+
+  // Save the finished round once
+  useEffect(() => {
+    if (gameOver && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({
+        gameType: "vi_fact_or_myth",
+        score,
+        accuracy: factOrMythItems.length ? Math.round((score / factOrMythItems.length) * 100) : 0,
+      });
+    }
+  }, [gameOver, score]);
 
   if (gameOver) {
     const pct = Math.round((score / factOrMythItems.length) * 100);

@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import CodeGalaxy from "@/components/games/CodeGalaxy";
+import { finishGame } from "@/lib/gameSession";
 
 type GameId = "menu" | "sql" | "pipeline" | "tuner" | "galaxy";
 
@@ -134,9 +135,112 @@ const SQL_RIDDLES: SqlRiddle[] = [
     solution: ["SELECT", "COUNT(*)", "FROM", "wizards"],
     reward: 80,
   },
+  {
+    monster: "Sorting Sphinx",
+    emoji: "🦁",
+    hp: 60,
+    prompt: "Sắp xếp phù thủy theo power giảm dần.",
+    promptEn: "Sort wizards by power from high to low.",
+    table: {
+      name: "wizards",
+      cols: ["id", "name", "power"],
+      rows: [[1, "Mira", 80], [2, "Lyra", 65], [3, "Orin", 90]],
+    },
+    solution: ["SELECT", "name", "FROM", "wizards", "ORDER BY", "power", "DESC"],
+    reward: 60,
+  },
+  {
+    monster: "Ice Wraith",
+    emoji: "🧊",
+    hp: 55,
+    prompt: "Lấy phù thủy tên Mira.",
+    promptEn: "Select the wizard named Mira.",
+    table: {
+      name: "wizards",
+      cols: ["id", "name", "power"],
+      rows: [[1, "Mira", 80], [2, "Lyra", 65], [3, "Orin", 90]],
+    },
+    solution: ["SELECT", "*", "FROM", "wizards", "WHERE", "name", "=", "'Mira'"],
+    reward: 55,
+  },
+  {
+    monster: "Sum Golem",
+    emoji: "🗿",
+    hp: 65,
+    prompt: "Tính tổng power của tất cả phù thủy.",
+    promptEn: "Compute the total power of all wizards.",
+    table: {
+      name: "wizards",
+      cols: ["id", "name", "power"],
+      rows: [[1, "Mira", 80], [2, "Lyra", 65], [3, "Orin", 90]],
+    },
+    solution: ["SELECT", "SUM(power)", "FROM", "wizards"],
+    reward: 65,
+  },
+  {
+    monster: "Average Alchemist",
+    emoji: "⚗️",
+    hp: 70,
+    prompt: "Tính power trung bình của phù thủy.",
+    promptEn: "Compute the average wizard power.",
+    table: {
+      name: "wizards",
+      cols: ["id", "name", "power"],
+      rows: [[1, "Mira", 80], [2, "Lyra", 65], [3, "Orin", 90]],
+    },
+    solution: ["SELECT", "AVG(power)", "FROM", "wizards"],
+    reward: 70,
+  },
+  {
+    monster: "Guild Gatekeeper",
+    emoji: "🛡️",
+    hp: 75,
+    prompt: "Đếm số phù thủy theo từng guild.",
+    promptEn: "Count wizards per guild.",
+    table: {
+      name: "members",
+      cols: ["id", "guild", "power"],
+      rows: [[1, "Fire", 80], [2, "Ice", 65], [3, "Fire", 90]],
+    },
+    solution: ["SELECT", "guild", "COUNT(*)", "FROM", "members", "GROUP BY", "guild"],
+    reward: 75,
+  },
+  {
+    monster: "Top Rank Titan",
+    emoji: "🏔️",
+    hp: 85,
+    prompt: "Lấy 1 phù thủy mạnh nhất.",
+    promptEn: "Select the single strongest wizard.",
+    table: {
+      name: "wizards",
+      cols: ["id", "name", "power"],
+      rows: [[1, "Mira", 80], [2, "Lyra", 65], [3, "Orin", 90]],
+    },
+    solution: ["SELECT", "name", "FROM", "wizards", "ORDER BY", "power", "DESC", "LIMIT", "1"],
+    reward: 85,
+  },
+  {
+    monster: "Elite Enchanter",
+    emoji: "🔮",
+    hp: 90,
+    prompt: "Lấy phù thủy có power > 70 và thuộc guild Fire.",
+    promptEn: "Select wizards with power > 70 in the Fire guild.",
+    table: {
+      name: "members",
+      cols: ["id", "guild", "power"],
+      rows: [[1, "Fire", 80], [2, "Ice", 65], [3, "Fire", 90]],
+    },
+    solution: ["SELECT", "*", "FROM", "members", "WHERE", "power", ">", "70", "AND", "guild", "=", "'Fire'"],
+    reward: 90,
+  },
 ];
 
-const SQL_TOKENS = ["SELECT", "FROM", "WHERE", "name", "wizards", "power", ">", "70", "COUNT(*)", "*", "AND", "id"];
+const SQL_TOKENS = [
+  "SELECT", "FROM", "WHERE", "GROUP BY", "ORDER BY", "DESC", "LIMIT",
+  "name", "guild", "wizards", "members", "power",
+  ">", "=", "70", "1", "'Mira'", "'Fire'",
+  "COUNT(*)", "SUM(power)", "AVG(power)", "*", "AND", "id",
+];
 
 const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: string) => void; addXp: (n: number) => void }) => {
   const { t } = useLanguage();
@@ -145,6 +249,7 @@ const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: st
   const [picked, setPicked] = useState<string[]>([]);
   const [shake, setShake] = useState(false);
   const riddle = SQL_RIDDLES[idx];
+  const runScoreRef = useRef(0);
 
   useEffect(() => {
     setHp(riddle.hp);
@@ -156,10 +261,16 @@ const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: st
     if (ok) {
       pushLog("ok", `Query executed. ${riddle.monster} defeated! +${riddle.reward} XP`);
       addXp(riddle.reward);
+      runScoreRef.current += riddle.reward;
       setHp(0);
       setTimeout(() => {
         if (idx + 1 < SQL_RIDDLES.length) setIdx(idx + 1);
-        else { pushLog("ok", "Dungeon cleared! All monsters defeated."); setIdx(0); }
+        else {
+          pushLog("ok", "Dungeon cleared! All monsters defeated.");
+          void finishGame({ gameType: "prog_sql_dungeon", score: runScoreRef.current });
+          runScoreRef.current = 0;
+          setIdx(0);
+        }
       }, 900);
     } else {
       pushLog("err", `Syntax Error near ${picked[picked.length - 1] ?? "?"}. -10 HP from your spell.`);
@@ -236,6 +347,15 @@ const PipelinePlumber = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], tex
   const [chain, setChain] = useState<PipelineBlockId[]>([]);
   const [running, setRunning] = useState(false);
   const [particles, setParticles] = useState<{ id: number; x: number }[]>([]);
+  const timersRef = useRef<{ interval?: number; timeout?: number }>({});
+
+  // Never leave the flow animation running after the player leaves the game
+  useEffect(() => {
+    return () => {
+      if (timersRef.current.interval) clearInterval(timersRef.current.interval);
+      if (timersRef.current.timeout) clearTimeout(timersRef.current.timeout);
+    };
+  }, []);
 
   const addBlock = (id: PipelineBlockId) => {
     if (chain.includes(id)) return;
@@ -252,15 +372,17 @@ const PipelinePlumber = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], tex
     setRunning(true);
     pushLog("ok", "Pipeline flowing at 100k rows/sec!");
     addXp(60);
+    void finishGame({ gameType: "prog_pipeline_plumber", score: 60 });
     let n = 0;
-    const interval = setInterval(() => {
+    const interval = window.setInterval(() => {
       n++;
       setParticles(p => [...p, { id: Date.now() + n, x: 0 }]);
       if (n > 8) {
         clearInterval(interval);
-        setTimeout(() => { setRunning(false); setParticles([]); }, 1500);
+        timersRef.current.timeout = window.setTimeout(() => { setRunning(false); setParticles([]); }, 1500);
       }
     }, 220);
+    timersRef.current.interval = interval;
   };
 
   return (
@@ -365,6 +487,7 @@ const AiTuner = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: strin
       claimedRef.current = true;
       pushLog("ok", `Sweet Spot found! Accuracy ${Math.round(sweetness)}%. +80 XP`);
       addXp(80);
+      void finishGame({ gameType: "prog_ai_tuner", score: Math.round(sweetness) });
     } else if (sweetness < 80) {
       claimedRef.current = false;
     }
@@ -481,7 +604,7 @@ const ProgrammingArcade = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100">
-      <SEO title="Tech & Code Game Hub | Learn Programming - HaiEduTech" description="Arcade lập trình: SQL Dungeon, Data Pipeline Plumber, AI Parameter Tuner. Học code qua game." path="/programming/arcade" />
+      <SEO title="Tech & Code Game Hub | Learn Programming - HaiEduTech" description="Arcade lập trình: SQL Dungeon, Data Pipeline Plumber, AI Parameter Tuner, Code Galaxy. Học code qua game." path="/programming/arcade" />
       <Navbar />
       <div className="pt-6 pb-16 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 min-h-screen">
         <div className="container mx-auto px-3 sm:px-6 max-w-6xl">
@@ -493,7 +616,7 @@ const ProgrammingArcade = () => {
             <h1 className="text-3xl sm:text-4xl font-display font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-cyan-300 to-fuchsia-300">
               Tech &amp; Code Game Hub
             </h1>
-            <p className="text-slate-400 text-sm">{t("Học SQL, Data Engineering và AI qua 3 mini-game tương tác.", "Learn SQL, Data Engineering, and AI through 3 interactive mini-games.")}</p>
+            <p className="text-slate-400 text-sm">{t("Học SQL, Data Engineering và AI qua 4 mini-game tương tác.", "Learn SQL, Data Engineering, and AI through 4 interactive mini-games.")}</p>
           </motion.div>
 
           <GameHeader xp={xp} log={log} current={game} onBack={() => setGame("menu")} />
