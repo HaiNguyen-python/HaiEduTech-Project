@@ -781,7 +781,6 @@ import { LIFESTYLE_LESSONS_EXPANSION_4 } from "./lifestyleAcademyLessonsExpansio
 import { LIFESTYLE_LESSONS_EXPANSION_5 } from "./lifestyleAcademyLessonsExpansion5";
 import { LIFESTYLE_SELF_STUDY_LESSONS } from "./lifestyleSelfStudyLessons";
 import { LIFESTYLE_PARTYING_LESSONS } from "./lifestylePartyingLessons";
-import { LIFESTYLE_PARTYING_LESSONS } from "./lifestylePartyingLessons";
 
 import { LIFESTYLE_ENRICHMENT } from "./lifestyleAcademyEnrichment";
 
