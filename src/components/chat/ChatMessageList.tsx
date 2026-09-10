@@ -84,9 +84,22 @@ type BubbleProps = {
   content: string;
   t: (vi: string, en: string) => string;
   onPlacementClick: (href: string) => void;
+  messageId?: string;
+  speaking?: boolean;
+  onSpeak?: (content: string, id: string) => void;
+  onStopSpeak?: () => void;
 };
 
-const ChatBubble = memo(function ChatBubble({ role, content, t, onPlacementClick }: BubbleProps) {
+const ChatBubble = memo(function ChatBubble({
+  role,
+  content,
+  t,
+  onPlacementClick,
+  messageId,
+  speaking,
+  onSpeak,
+  onStopSpeak,
+}: BubbleProps) {
   const ctaMatch = role === "assistant" ? content.match(CTA_RE) : null;
   const ctaSubject = ctaMatch?.[1]?.toLowerCase();
   const placementHref = ctaSubject
