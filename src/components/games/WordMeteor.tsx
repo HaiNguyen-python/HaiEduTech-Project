@@ -321,10 +321,13 @@ export default function WordMeteor({
             {meteors.map((m) => (
               <motion.div
                 key={m.id}
-                initial={{ opacity: 0, scale: 0.6 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.4 }}
-                className="absolute -translate-x-1/2"
+                // x: "-50%" keeps the card centred on its lane. A Tailwind
+                // translate class would be wiped out by framer-motion's inline
+                // transform, which used to push cards past the right edge.
+                initial={{ opacity: 0, scale: 0.6, x: "-50%" }}
+                animate={{ opacity: 1, scale: 1, x: "-50%" }}
+                exit={{ opacity: 0, scale: 1.4, x: "-50%" }}
+                className="absolute"
                 style={{ left: `${m.x}%`, top: `${m.y}%`, width: "min(70%, 440px)" }}
               >
                 <div className="relative">
