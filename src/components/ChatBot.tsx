@@ -167,6 +167,8 @@ const ChatBot = () => {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const msgCountRef = useRef(0);
+  msgCountRef.current = messages.length;
   // The draft text lives inside <ChatComposer/> so typing does not re-render
   // the whole transcript. These refs/callbacks stay stable so memoized message
   // bubbles never rebuild their markdown while the student types.
