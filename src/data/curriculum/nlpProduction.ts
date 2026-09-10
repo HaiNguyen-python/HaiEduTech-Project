@@ -95,17 +95,17 @@ Cosine bỏ qua **độ dài** vector, chỉ quan tâm **hướng** → tốt kh
         theoryEn: `RAG fixes hallucination & knowledge cutoff by retrieving relevant chunks from a vector DB and stuffing them into the prompt. Pipeline: embed → vector search → augment prompt → LLM → cite.
 
 Chunking strategies: fixed-size, sentence-based, semantic, recursive (10–20% overlap). Cosine similarity wins because it ignores vector length. Common production traps: chunks too big (lost-in-the-middle), no re-ranking, no citations, monolingual embeddings.`,
-        code: `# Mini-RAG không cần thư viện ngoài (toy demo)
+        code: `# Mini-RAG without external libraries (toy demo)
 import numpy as np
 
 docs = [
-    "HaiEduTech dùng SM-2 cho spaced repetition.",
-    "Bài thi YKI A2 có 4 kỹ năng: nghe, nói, đọc, viết.",
-    "IELTS Writing Task 2 yêu cầu tối thiểu 250 từ.",
+    "HaiEduTech uses SM-2 for spaced repetition.",
+    "The YKI A2 exam has 4 skills: listening, speaking, reading, writing.",
+    "IELTS Writing Task 2 requires a minimum of 250 words.",
 ]
 
 def fake_embed(text: str) -> np.ndarray:
-    # demo: vector từ tần suất chữ cái - thật thì dùng OpenAI / Gemini embedding
+    # demo: vector from letter frequency - in reality use OpenAI / Gemini embedding
     v = np.zeros(26)
     for c in text.lower():
         if "a" <= c <= "z":
@@ -126,9 +126,9 @@ def rag(query: str, k: int = 2) -> str:
         reverse=True,
     )[:k]
     context = "\\n".join(f"- {d}" for d, _ in scored)
-    return f"PROMPT:\\nDùng các đoạn sau để trả lời:\\n{context}\\n\\nCâu hỏi: {query}"
+    return f"PROMPT:\\nUse the following passages to answer:\\n{context}\\n\\nQuestion: {query}"
 
-print(rag("YKI cần thi mấy kỹ năng?"))`,
+print(rag("How many skills does YKI require for the exam?"))`,
         codeLanguage: "python",
         exercise:
           "Thêm hàm cite() trả về danh sách (doc_index, score) cho top-k để hiển thị cite trong UI.",
@@ -199,14 +199,14 @@ LLM có **70B tham số** - fine-tune full = đốt tiền. **LoRA** chỉ huấ
         theoryEn: `Decide RAG vs fine-tuning by need: new facts → RAG; new style/format/skill → fine-tune.
 
 LoRA freezes the base model and trains tiny rank-r matrices (A,B) inserted beside each linear layer - only ~0.1% of params, 100–1000× cheaper. Pipeline (PEFT): curate ≥500 instruction/output samples → load base → LoraConfig(r=8) → Trainer → save 50MB adapter. Evaluate with held-out set, win-rate vs base, and regression checks to avoid catastrophic forgetting.`,
-        code: `# Skeleton fine-tune LoRA với HuggingFace PEFT
-# (chỉ minh hoạ - chạy thật cần GPU)
+        code: `# LoRA fine-tuning skeleton with HuggingFace PEFT
+# (illustration only - a real run needs a GPU)
 from typing import List, Dict
 
 def build_dataset() -> List[Dict]:
     return [
-        {"instruction": "Dịch sang tiếng Anh", "input": "Tôi yêu Phần Lan", "output": "I love Finland"},
-        {"instruction": "Tóm tắt 1 câu",      "input": "RAG kết hợp retriever và generator...", "output": "RAG = retriever + LLM."},
+        {"instruction": "Translate to English", "input": "I love Finland", "output": "I love Finland"},
+        {"instruction": "Summarise in one sentence", "input": "RAG combines a retriever and a generator...", "output": "RAG = retriever + LLM."},
     ]
 
 def lora_config():
@@ -219,14 +219,14 @@ def lora_config():
     }
 
 def estimate_cost(num_samples: int, epochs: int = 3, gpu_per_hour: float = 0.6) -> float:
-    # rất thô: 1k samples ≈ 0.5h trên A100
+    # Very rough: 1k samples ~ 0.5h on an A100
     hours = (num_samples / 1000) * 0.5 * epochs
     return round(hours * gpu_per_hour, 2)
 
 ds = build_dataset()
 print("samples:", len(ds))
 print("LoRA  :", lora_config())
-print(f"~Chi phí 5,000 samples x 3 epoch = {estimate_cost(5000)} USD")`,
+print(f"~Cost for 5,000 samples x 3 epochs = {estimate_cost(5000)} USD")`,
         codeLanguage: "python",
         exercise:
           "Viết hàm check_dataset(ds) cảnh báo nếu < 200 mẫu, hoặc output trống, hoặc trùng lặp >20%.",
@@ -310,7 +310,7 @@ LLM không có \`accuracy\` duy nhất như classifier. Phải đo **nhiều chi
 LLM-as-judge: a stronger LLM ranks A vs B with a rubric - swap positions to kill position bias. Guardrails = 4 layers: input filter (PII, jailbreak) → system prompt → output filter → logs/monitor.
 
 Release checklist: golden set 100–500 prompts, A/B win-rate vs old, regression ≥95%, 0 safety leaks. Watch out for Goodhart's law, judge bias toward long answers, and train-test leakage.`,
-        code: `# LLM-as-judge tối giản
+        code: `# Minimal LLM-as-judge
 from dataclasses import dataclass
 import random
 
@@ -320,22 +320,22 @@ class Reply:
     text: str
 
 def fake_judge(q: str, a: Reply, b: Reply) -> str:
-    # Thật: gọi GPT-5 với rubric. Demo: ưu tiên câu trả lời có "vì"
-    score_a = ("vì" in a.text.lower()) + len(a.text) / 200
-    score_b = ("vì" in b.text.lower()) + len(b.text) / 200
+    # Real setup: call a strong LLM with a rubric. Demo: reward answers containing "because"
+    score_a = ("because" in a.text.lower()) + len(a.text) / 200
+    score_b = ("because" in b.text.lower()) + len(b.text) / 200
     if abs(score_a - score_b) < 0.05:
         return "tie"
     return a.model if score_a > score_b else b.model
 
 questions = [
-    "Vì sao bầu trời màu xanh?",
-    "Spaced repetition là gì?",
+    "Why is the sky blue?",
+    "What is spaced repetition?",
 ]
 results = {"A": 0, "B": 0, "tie": 0}
 for q in questions:
-    a = Reply("A", "Vì ánh sáng xanh tán xạ mạnh trong khí quyển.")
-    b = Reply("B", "Tại vì xanh.")
-    # đảo vị trí để khử position bias
+    a = Reply("A", "Because blue light scatters strongly in the atmosphere.")
+    b = Reply("B", "Just because it is blue.")
+    # Swap positions to remove position bias
     pairs = [(a, b), (b, a)]
     random.shuffle(pairs)
     for x, y in pairs:

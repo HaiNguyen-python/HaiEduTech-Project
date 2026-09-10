@@ -51,7 +51,7 @@ export const programmingModules: ProgrammingModule[] = [
         titleEn: "Introduction to Scratch & Basic Blocks",
         theory: "Scratch là ngôn ngữ lập trình trực quan do MIT phát triển. Thay vì viết code, bạn kéo thả các khối lệnh (blocks) để tạo chương trình - giống như ghép LEGO vậy! 🧱\n\n**Tại sao học Scratch?**\nHãy tưởng tượng bạn là đạo diễn phim hoạt hình. Scratch cho phép bạn điều khiển nhân vật, tạo hiệu ứng, và xây dựng trò chơi mà không cần nhớ cú pháp phức tạp.\n\n**Các loại khối lệnh chính:**\n- 🟡 **Sự kiện (Events):** Giống nút 'Play' - bắt đầu mọi thứ. Ví dụ: 'Khi bấm cờ xanh' = khi phim bắt đầu chiếu.\n- 🔵 **Chuyển động (Motion):** Điều khiển nhân vật di chuyển. Ví dụ: 'Di chuyển 10 bước' = nhân vật bước 10 pixel. Hãy thử: nếu bạn đi 10 bước rồi xoay 90° và lặp lại 4 lần → bạn vẽ được hình vuông! 🟦\n- 🟣 **Ngoại hình (Looks):** Thay đổi diện mạo nhân vật. 'Nói Hello trong 2 giây' sẽ hiện bong bóng chat 💬 trên đầu nhân vật.\n- 🟢 **Âm thanh (Sound):** Phát nhạc, ghi âm. Ví dụ: mỗi lần nhân vật nhảy, phát tiếng 'boing!'.\n\n**Ví dụ thực tế:** Game 'Bắt bướm' 🦋\n1. Sự kiện: Khi bấm cờ xanh → bắt đầu game\n2. Chuyển động: Con bướm bay ngẫu nhiên trên màn hình\n3. Ngoại hình: Khi bắt được → bướm biến mất ✨\n4. Âm thanh: Phát tiếng 'ding!' khi ghi điểm",
         theoryEn: "Scratch is a visual programming language developed by MIT. Instead of writing code, you drag and drop blocks to create programs - like building with LEGO! 🧱\n\n**Why learn Scratch?**\nImagine you're a movie director. Scratch lets you control characters, create effects, and build games without memorizing complex syntax.\n\n**Main block categories:**\n- 🟡 **Events:** Like a 'Play' button - starts everything. Example: 'When green flag clicked' = when the movie starts playing.\n- 🔵 **Motion:** Control character movement. Example: 'Move 10 steps' = character walks 10 pixels. Try this: move 10 steps, turn 90°, repeat 4 times → you draw a square! 🟦\n- 🟣 **Looks:** Change character appearance. 'Say Hello for 2 seconds' shows a speech bubble 💬 above the character.\n- 🟢 **Sound:** Play music, record sounds. Example: each time the character jumps, play 'boing!'.\n\n**Real example:** Butterfly Catcher Game 🦋\n1. Events: When green flag clicked → start game\n2. Motion: Butterfly flies randomly on screen\n3. Looks: When caught → butterfly disappears ✨\n4. Sound: Play 'ding!' when scoring",
-        code: `# Mô phỏng logic Scratch bằng Python
+        code: `# Simulate Scratch logic with Python
 # When pressing the green flag → Move 10 steps → Say "Hello!"
 
 sprite_x = 0
@@ -86,7 +86,7 @@ for i in range(4):
         titleEn: "Loops and Conditions in Scratch",
         theory: "**Vòng lặp** giúp thực hiện một hành động nhiều lần mà không cần viết lại code. Hãy tưởng tượng bạn phải viết 'Di chuyển 10 bước, Xoay 90°' tổng cộng 100 lần - mệt lắm phải không? Vòng lặp giải quyết chuyện này! 🔄\n\n**Ví dụ đời thực:**\n- ⏰ Đồng hồ: Kim giây **lặp mãi mãi** (chạy → tick → chạy → tick...)\n- 🏃 Chạy bộ: Lặp lại 10 lần (chạy 1 vòng sân)\n- 🎵 Bài hát: Lặp chorus **cho đến khi** hết nhạc\n\n**Các loại vòng lặp trong Scratch:**\n- 🔄 **Lặp lại N lần:** Giống nói 'Làm việc này 5 lần rồi dừng'. Ví dụ: vẽ ngôi sao 5 cánh = lặp 5 lần (vẽ cạnh + xoay 144°) ⭐\n- 🔄 **Lặp mãi mãi:** Giống quả tim đập - không bao giờ dừng cho đến khi bạn tắt chương trình.\n- 🔄 **Lặp cho đến khi:** Giống chờ xe bus - đứng chờ **cho đến khi** xe đến. 🚌\n\n**Câu điều kiện - Ngã rẽ trong cuộc sống:**\n- 🌧️ **Nếu...thì:** 'Nếu trời mưa → mang ô'. Chỉ có 1 nhánh.\n- ☀️🌧️ **Nếu...thì...nếu không:** 'Nếu trời mưa → mang ô, KHÔNG THÌ → đội nón'. Có 2 nhánh.\n\n**Kết hợp cả hai:**\nLặp mãi mãi:\n  Nếu chạm tường → xoay 180° và bật lại\n→ Đây chính là logic của game Pong! 🏓",
         theoryEn: "**Loops** help repeat actions without rewriting code. Imagine writing 'Move 10 steps, Turn 90°' a total of 100 times - exhausting, right? Loops solve this! 🔄\n\n**Real-life examples:**\n- ⏰ Clock: Second hand **loops forever** (move → tick → move → tick...)\n- 🏃 Running: Repeat 10 times (run 1 lap)\n- 🎵 Song: Repeat chorus **until** music ends\n\n**Loop types in Scratch:**\n- 🔄 **Repeat N times:** Like saying 'Do this 5 times then stop'. Example: draw a 5-pointed star = repeat 5 times (draw edge + turn 144°) ⭐\n- 🔄 **Forever:** Like a heartbeat - never stops until you quit the program.\n- 🔄 **Repeat until:** Like waiting for a bus - wait **until** bus arrives. 🚌\n\n**Conditions - Crossroads in life:**\n- 🌧️ **If...then:** 'If raining → bring umbrella'. Only 1 branch.\n- ☀️🌧️ **If...then...else:** 'If raining → umbrella, ELSE → hat'. Has 2 branches.\n\n**Combining both:**\nForever loop:\n  If touching wall → turn 180° and bounce\n→ This is the logic behind Pong! 🏓",
-        code: `# Vòng lặp: Vẽ hình đa giác
+        code: `# Loop: Draw polygon
 import turtle
 
 # Draw a hexagon (6 sides)
@@ -94,10 +94,10 @@ so_canh = 6
 do_dai = 60
 
 for i in range(so_canh):
-    turtle.forward(do_dai)  # Đi thẳng
-    turtle.right(360 / so_canh)  # Xoay
+    turtle.forward(do_dai)  # Go straight
+    turtle.right(360 / so_canh)  # Turn
 
-# Conditional sentence
+# Conditional statement
 diem = 85
 if diem >= 90:
     print("🌟 Excellent!")
@@ -122,7 +122,7 @@ else:
         titleEn: "Variables and Lists in Scratch",
         theory: "**Biến (Variable)** là một ô nhớ chứa dữ liệu - hãy tưởng tượng nó như một **chiếc hộp có nhãn dán** 📦. Bạn đặt tên cho hộp (ví dụ: 'điểm_số') và bỏ thứ gì đó vào bên trong (ví dụ: số 0).\n\n**Ví dụ minh họa:**\n```\n📦 điểm_số = 0      → Hộp tên 'điểm_số', bên trong có số 0\n📦 điểm_số = điểm_số + 10  → Mở hộp, lấy 0 ra, cộng 10, bỏ 10 vào lại\n📦 tên = 'Minh'     → Hộp tên 'tên', bên trong có chữ 'Minh'\n```\n\n**Tại sao cần biến?** Giống như bạn chơi game - bạn cần nhớ điểm số, mạng sống, level hiện tại. Biến chính là bộ nhớ của chương trình! 🧠\n\n**Danh sách (List)** là tập hợp nhiều giá trị - giống **dãy tủ locker ở trường** 🗄️. Mỗi tủ có số thứ tự và chứa một vật phẩm.\n```\ntủ_0: ⭐ Sao     (vị trí 0)\ntủ_1: 💎 Kim cương (vị trí 1)\ntủ_2: 🍎 Táo     (vị trí 2)\n```\n\n**Thao tác với danh sách:**\n- 📥 **Thêm** (append): Mở tủ trống tiếp theo, bỏ vật phẩm vào\n- 🗑️ **Xóa** (remove): Get vật phẩm ra khỏi tủ\n- 🔍 **Tìm** (index): 'Vật phẩm X ở tủ số mấy?'\n\n**Trò chơi thu thập vật phẩm:**\nBạn đang viết game RPG. Nhân vật có:\n- Biến `mang_song = 3` (3 mạng)\n- Danh sách `tui_do = ['Kiếm', 'Khiên']` (túi đồ)\n- Nhặt đồ mới? → `tui_do.append('Thuốc')` → Túi có 3 vật phẩm!",
         theoryEn: "A **Variable** is a memory cell storing data - think of it as a **labeled box** 📦. You give the box a name (e.g., 'score') and put something inside (e.g., number 0).\n\n**Visual example:**\n```\n📦 score = 0         → Box named 'score', contains 0\n📦 score = score + 10 → Open box, take 0 out, add 10, put 10 back\n📦 name = 'Minh'     → Box named 'name', contains 'Minh'\n```\n\n**Why variables?** Like playing a game - you need to remember score, lives, current level. Variables are your program's memory! 🧠\n\nA **List** is a collection of values - like a **row of school lockers** 🗄️. Each locker has a number and stores an item.\n```\nlocker_0: ⭐ Star      (position 0)\nlocker_1: 💎 Diamond   (position 1)\nlocker_2: 🍎 Apple     (position 2)\n```\n\n**List operations:**\n- 📥 **Add** (append): Open next empty locker, put item in\n- 🗑️ **Remove**: Take item out of locker\n- 🔍 **Find** (index): 'Which locker has item X?'\n\n**Item collection game:**\nYou're writing an RPG. Character has:\n- Variable `lives = 3` (3 lives)\n- List `inventory = ['Sword', 'Shield']`\n- Pick up item? → `inventory.append('Potion')` → Bag now has 3 items!",
-        code: `# Biến và danh sách
+        code: `# Variables and lists
 # Game of collecting points
 
 diem = 0
@@ -130,14 +130,14 @@ ten = "Player1"
 danh_sach_vat_pham = []
 
 # Collect items
-vat_pham_moi = ["⭐ Sao", "💎 Diamonds", "🍎 Apple"]
+vat_pham_moi = ["⭐ Star", "💎 Diamonds", "🍎 Apple"]
 
 for vp in vat_pham_moi:
     danh_sach_vat_pham.append(vp)
     diem += 10
     print(f"Picked up: {vp} | Points: {diem}")
 
-print(f"\\n🎒 {ten}'s bag:")
+print(f"\n🎒 {ten}'s bag:")
 for i, vp in enumerate(danh_sach_vat_pham, 1):
     print(f"  {i}. {vp}")
 print(f"🏆 Total score: {diem}")`,
@@ -170,7 +170,7 @@ print(f"🏆 Total score: {diem}")`,
         titleEn: "Variables and Data Types",
         theory: "Python có các kiểu dữ liệu chính - hãy nghĩ chúng như **các loại hộp khác nhau** để chứa các thứ khác nhau:\n\n**🔢 int - Số nguyên** (hộp chỉ chứa số đếm được)\nVí dụ: tuổi = 15, số bạn = 42, nhiệt độ = -7\nGiống số trên bảng điểm - không có phần thập phân.\n\n**📐 float - Số thực** (hộp chứa số có dấu phẩy)\nVí dụ: pi = 3.14159, chiều cao = 1.68, giá = -0.5\nGiống cân nặng trên cân điện tử - chính xác đến phần thập phân.\n\n**📝 str - Chuỗi ký tự** (hộp chứa chữ/từ)\nVí dụ: ten = \"Minh\", loi_chao = 'Xin chào!'\nLuôn nằm trong dấu nháy \" \" hoặc ' '. Giống tin nhắn trong điện thoại 📱\n\n**✅ bool - Logic đúng/sai** (hộp chỉ có 2 trạng thái)\nVí dụ: dang_online = True, da_lam_bai = False\nGiống công tắc đèn 💡 - chỉ có BẬT (True) hoặc TẮT (False).\n\n**🏷️ Quy tắc đặt tên biến:**\n- ✅ `my_score`, `_name`, `player1` → Hợp lệ\n- ❌ `2name` (bắt đầu bằng số), `my-var` (có dấu gạch), `class` (từ khóa Python)\n- 💡 Mẹo: dùng snake_case: `diem_trung_binh` thay vì `diemtrungbinh`\n\n**🔄 Chuyển đổi kiểu - Biến hình dữ liệu:**\n```\nstr(42) → \"42\"    (số → chữ, để nối chuỗi)\nint(\"42\") → 42    (chữ → số, để tính toán)\nfloat(\"3.14\") → 3.14\n```",
         theoryEn: "Python has main data types - think of them as **different types of boxes** for different things:\n\n**🔢 int - Integer** (box for countable numbers)\nExamples: age = 15, friends = 42, temperature = -7\nLike scores on a report card - no decimal points.\n\n**📐 float - Float** (box for decimal numbers)\nExamples: pi = 3.14159, height = 1.68, price = -0.5\nLike weight on a digital scale - precise to decimal places.\n\n**📝 str - String** (box for text/words)\nExamples: name = \"Minh\", greeting = 'Hello!'\nAlways in quotes \" \" or ' '. Like text messages on your phone 📱\n\n**✅ bool - Boolean** (box with only 2 states)\nExamples: is_online = True, homework_done = False\nLike a light switch 💡 - only ON (True) or OFF (False).\n\n**🏷️ Variable naming rules:**\n- ✅ `my_score`, `_name`, `player1` → Valid\n- ❌ `2name` (starts with number), `my-var` (has dash), `class` (Python keyword)\n- 💡 Tip: use snake_case: `average_score` instead of `averagescore`\n\n**🔄 Type conversion - Shapeshifting data:**\n```\nstr(42) → \"42\"    (number → text, for concatenation)\nint(\"42\") → 42    (text → number, for math)\nfloat(\"3.14\") → 3.14\n```",
-        code: `# Khai báo biến
+        code: `# Declare variables
 ten = "Minh"           # str
 tuoi = 12              # int
 chieu_cao = 1.52       # float
@@ -186,9 +186,9 @@ print(f"Study well: {study_gioi}")
 print(type(ten))       # <class 'str'>
 print(type(tuoi))      # <class 'int'>
 
-# Style conversion
-tuoi_str = str(tuoi)   # int → str
-so = int("42")         # str → int`,
+# Type conversion
+tuoi_str = str(tuoi)   # int -> str
+so = int("42")         # str -> int`,
         codeLanguage: "python",
         exercise: "Declare a variable containing: name, age, average score (real number), and variable to check whether a student is good or not. Print out all information using f-string.",
         exerciseEn: "Declare variables for: name, age, average score (float), and whether the student is excellent. Print all info using f-string.",
@@ -206,7 +206,7 @@ so = int("42")         # str → int`,
         titleEn: "Functions",
         theory: "**Hàm** là một khối code có tên, thực hiện một nhiệm vụ cụ thể - giống **công thức nấu ăn** 🍳!\n\nTưởng tượng bạn hay pha trà sữa. Mỗi lần bạn phải: lấy trà → đun nước → pha trà → thêm sữa → thêm đường. Thay vì nhớ 5 bước mỗi lần, bạn viết một 'công thức' tên `pha_tra_sua()` - lần sau chỉ cần gọi tên!\n\n**Cấu trúc hàm:**\n```python\ndef ten_ham(nguyen_lieu):    # Tên + Nguyên liệu\n    # Các bước thực hiện      # Công thức\n    return thanh_pham          # Thành phẩm\n```\n\n**Ví dụ minh họa:**\n```\n🧑‍🍳 def lam_banh(bot, trung, duong):\n      tron(bot, trung, duong)     # Bước 1\n      nuong(180, 30_phut)         # Bước 2\n      return banh_ngon            # Xong!\n\n🍰 banh = lam_banh('bot_mi', 2, '100g')  # Gọi hàm\n```\n\n**3 lợi ích lớn:**\n1. 🔁 **Tái sử dụng:** Viết 1 lần, gọi 100 lần. Không copy-paste!\n2. 📖 **Dễ đọc:** `tinh_diem_tb(8, 9, 7)` rõ nghĩa hơn `(8+9+7)/3`\n3. 🐛 **Dễ sửa lỗi:** Bug ở hàm nào → sửa hàm đó, không ảnh hưởng chỗ khác.\n\n**Tham số mặc định - Đặt sẵn 'mặc định':**\n```python\ndef chao(ten, ngon_ngu='vi'):  # Mặc định tiếng Việt\n    ...\nchao('Minh')          # → 'Xin chào, Minh!'\nchao('John', 'en')    # → 'Hello, John!'\n```\nGiống đặt pizza: nếu không nói gì, mặc định size M. Muốn size L thì nói thêm!",
         theoryEn: "A **Function** is a named block of code that performs a specific task - like a **cooking recipe** 🍳!\n\nImagine you often make bubble tea. Each time: get tea → boil water → brew → add milk → add sugar. Instead of remembering 5 steps each time, write a 'recipe' called `make_bubble_tea()` - next time just call its name!\n\n**Function structure:**\n```python\ndef function_name(ingredients):  # Name + Ingredients\n    # Steps to follow              # Recipe\n    return finished_product        # Done!\n```\n\n**Visual example:**\n```\n🧑‍🍳 def bake_cake(flour, eggs, sugar):\n      mix(flour, eggs, sugar)        # Step 1\n      bake(180, 30_minutes)          # Step 2\n      return delicious_cake          # Done!\n\n🍰 cake = bake_cake('flour', 2, '100g')  # Call function\n```\n\n**3 major benefits:**\n1. 🔁 **Reusable:** Write once, call 100 times. No copy-paste!\n2. 📖 **Readable:** `calc_average(8, 9, 7)` is clearer than `(8+9+7)/3`\n3. 🐛 **Debuggable:** Bug in which function → fix that function, no side effects.\n\n**Default parameters - Pre-set 'defaults':**\n```python\ndef greet(name, language='en'):  # Default English\n    ...\ngreet('Minh')           # → 'Hello, Minh!'\ngreet('Minh', 'vi')     # → 'Xin chào, Minh!'\n```\nLike ordering pizza: if you say nothing, default is Medium. Want Large? Just specify!",
-        code: `# Hàm tính diện tích hình chữ nhật
+        code: `# Function to calculate rectangle area
 def dien_tich_hcn(chieu_dai, chieu_rong):
     return chieu_dai * chieu_rong
 
@@ -226,8 +226,8 @@ def chao(ten, ngon_ngu="vi"):
 
 # Use
 print(dien_tich_hcn(5, 3))       # 15
-print(kiem_tra_chan_le(7))         # 7 là số lẻ
-print(chao("Minh"))               # Xin chào, Minh!
+print(kiem_tra_chan_le(7))         # 7 is an odd number
+print(chao("Minh"))               # Hello, Minh!
 print(chao("John", "en"))         # Hello, John!`,
         codeLanguage: "python",
         exercise: "Write 3 functions: (1) calculate the circumference of a circle, (2) check for prime numbers, (3) count the number of negative integers in the string.",
@@ -246,7 +246,7 @@ print(chao("John", "en"))         # Hello, John!`,
         titleEn: "For & While Loops",
         theory: "**Vòng lặp** giúp bạn tự động hóa công việc lặp đi lặp lại - giống **robot làm việc thay bạn** 🤖\n\n**for - Lặp qua dãy đã biết trước:**\nGiống bạn phát bài kiểm tra cho 30 học sinh - bạn biết trước có 30 bạn.\n```\nDanh sách: [An, Bình, Chi, Dũng]\nfor mỗi bạn trong danh sách:\n    phát bài kiểm tra cho bạn đó\n```\n\n**while - Lặp khi điều kiện còn đúng:**\nGiống ăn buffet - bạn ăn **cho đến khi** no. Không biết trước ăn bao nhiêu!\n```\nwhile chưa no:\n    lấy thêm đồ ăn\n    ăn\nprint('No rồi! 🫃')\n```\n\n**🎮 Lệnh điều khiển vòng lặp:**\n- 🚪 **break:** Thoát ngay! Giống kéo còi báo động → dừng mọi thứ.\n  ```python\n  for i in range(100):\n      if i == 5: break  # Dừng ở số 5, không chạy tiếp\n  ```\n- ⏭️ **continue:** Bỏ qua lần này, chạy tiếp! Giống gặp bài khó trong đề thi → bỏ qua, làm bài khác.\n  ```python\n  for i in range(10):\n      if i % 2 == 0: continue  # Bỏ qua số chẵn\n      print(i)  # Chỉ in số lẻ: 1, 3, 5, 7, 9\n  ```\n\n**📊 range() - Create dãy số tự động:**\n- `range(5)` → 0️⃣1️⃣2️⃣3️⃣4️⃣ (5 số, bắt đầu từ 0)\n- `range(1, 6)` → 1️⃣2️⃣3️⃣4️⃣5️⃣ (từ 1 đến 5)\n- `range(0, 10, 2)` → 0️⃣2️⃣4️⃣6️⃣8️⃣ (đếm cách 2)\n- `range(10, 0, -1)` → đếm ngược! 🔟9️⃣8️⃣...1️⃣",
         theoryEn: "**Loops** automate repetitive tasks - like a **robot doing work for you** 🤖\n\n**for - Loop through a known sequence:**\nLike handing out tests to 30 students - you know there are exactly 30.\n```\nStudent list: [An, Binh, Chi, Dung]\nfor each student in list:\n    hand out test to that student\n```\n\n**while - Loop while condition is true:**\nLike eating at a buffet - you eat **until** full. Don't know how many plates!\n```\nwhile not full:\n    get more food\n    eat\nprint('Full now! 🫃')\n```\n\n**🎮 Loop control statements:**\n- 🚪 **break:** Exit immediately! Like pulling a fire alarm → stop everything.\n  ```python\n  for i in range(100):\n      if i == 5: break  # Stops at 5, doesn't continue\n  ```\n- ⏭️ **continue:** Skip this round, keep going! Like skipping a hard question on an exam → move on.\n  ```python\n  for i in range(10):\n      if i % 2 == 0: continue  # Skip even numbers\n      print(i)  # Only prints odds: 1, 3, 5, 7, 9\n  ```\n\n**📊 range() - Auto-generate number sequences:**\n- `range(5)` → 0️⃣1️⃣2️⃣3️⃣4️⃣ (5 numbers, starting from 0)\n- `range(1, 6)` → 1️⃣2️⃣3️⃣4️⃣5️⃣ (from 1 to 5)\n- `range(0, 10, 2)` → 0️⃣2️⃣4️⃣6️⃣8️⃣ (step by 2)\n- `range(10, 0, -1)` → count down! 🔟9️⃣8️⃣...1️⃣",
-        code: `# Vòng lặp for - In bảng cửu chương
+        code: `# For loop - Print multiplication table
 so = 7
 print(f"📋 Multiplication table {so}:")
 for i in range(1, 11):
@@ -254,16 +254,16 @@ for i in range(1, 11):
 
 # While loop - Guess the number
 import random
-so_bi_mat = random.randint(1, 20)
-so_lan = 0
+secret_number = random.randint(1, 20)
+attempts = 0
 
 while True:
-    du_doan = int(input("Guess the number (1-20):"))
-    so_lan += 1
-    if du_doan == so_bi_mat:
-        print(f"🎉 That's right! You guessed {so_lan} times")
+    guess = int(input("Guess the number (1-20):"))
+    attempts += 1
+    if guess == secret_number:
+        print(f"🎉 That's right! You guessed {attempts} times")
         break
-    elif du_doan < so_bi_mat:
+    elif guess < secret_number:
         print("📈 Bigger!")
     else:
         print("📉 Smaller!")`,
@@ -296,11 +296,11 @@ while True:
         titleEn: "List, Tuple and Dictionary",
         theory: "Cấu trúc dữ liệu là cách bạn **tổ chức và sắp xếp thông tin** - giống như cách bạn sắp xếp đồ trong phòng! 🏠\n\n**📋 List [] - Danh sách linh hoạt:**\nGiống **danh sách mua sắm** - bạn có thể thêm, xóa, sắp xếp lại bất cứ lúc nào.\n```python\nmua_sam = ['sữa', 'trứng', 'bánh mì']\nmua_sam.append('phô mai')     # Thêm cuối: [..., 'phô mai']\nmua_sam.insert(0, 'nước')     # Thêm đầu: ['nước', ...]\nmua_sam.remove('trứng')       # Xóa: bỏ 'trứng'\nmua_sam.sort()                # Sắp xếp A-Z\n```\n\n**📌 Tuple () - Dữ liệu cố định 'không thể sửa':**\nGiống **tọa độ GPS** - một khi xác định, không ai thay đổi được!\n```python\nha_noi = (21.028511, 105.804817)    # Vĩ độ, Kinh độ\nha_noi[0] = 0  # ❌ LỖI! Tuple không cho sửa!\n```\nDùng khi dữ liệu KHÔNG BAO GIỜ nên thay đổi: ngày sinh, mã quốc gia, hằng số vật lý.\n\n**📖 Dictionary {} - Từ điển tra cứu siêu nhanh:**\nGiống **danh bạ điện thoại** - biết tên → tra ra số ngay lập tức!\n```python\ndanh_ba = {\n    'Minh': '0901234567',     # key: value\n    'An':   '0987654321',\n}\ndanh_ba['Minh']  # → '0901234567' (tra cứu cực nhanh!)\n```\n\n**🤔 Khi nào dùng gì?**\n| Tình huống | Chọn | Lý do |\n|---|---|---|\n| Danh sách học sinh (thêm/bớt) | List | Thay đổi thường xuyên |\n| Tọa độ GPS | Tuple | Không bao giờ đổi |\n| Bảng điểm (tên→điểm) | Dict | Tra cứu nhanh theo tên |",
         theoryEn: "Data structures are how you **organize and arrange information** - like how you arrange things in your room! 🏠\n\n**📋 List [] - Flexible list:**\nLike a **shopping list** - you can add, remove, rearrange anytime.\n```python\nshopping = ['milk', 'eggs', 'bread']\nshopping.append('cheese')      # Add end: [..., 'cheese']\nshopping.insert(0, 'water')    # Add front: ['water', ...]\nshopping.remove('eggs')        # Remove: drop 'eggs'\nshopping.sort()                # Sort A-Z\n```\n\n**📌 Tuple () - Fixed 'read-only' data:**\nLike **GPS coordinates** - once set, nobody can change them!\n```python\nhanoi = (21.028511, 105.804817)    # Latitude, Longitude\nhanoi[0] = 0  # ❌ ERROR! Tuples don't allow changes!\n```\nUse when data should NEVER change: birthday, country code, physics constants.\n\n**📖 Dictionary {} - Ultra-fast lookup book:**\nLike a **phone book** - know the name → get the number instantly!\n```python\ncontacts = {\n    'Minh': '0901234567',     # key: value\n    'An':   '0987654321',\n}\ncontacts['Minh']  # → '0901234567' (blazing fast lookup!)\n```\n\n**🤔 When to use what?**\n| Situation | Choice | Reason |\n|---|---|---|\n| Student roster (add/remove) | List | Changes frequently |\n| GPS coordinates | Tuple | Never changes |\n| Grade book (name→score) | Dict | Fast lookup by name |",
-        code: `# LIST - Danh sách học sinh
+        code: `# LIST - Student list
 hoc_sinh = ["An", "Jar", "Chi", "Dung"]
-hoc_sinh.append("Em")        # Thêm cuối
-hoc_sinh.insert(0, "Anh")    # Thêm đầu
-hoc_sinh.sort()               # Sắp xếp A-Z
+hoc_sinh.append("Em")        # Add end
+hoc_sinh.insert(0, "Anh")    # Add beginning
+hoc_sinh.sort()               # Sort A-Z
 print(f"The class has {len(student_student)} friends: {student_student}")
 
 # TUPLE - Constant coordinates
@@ -314,7 +314,7 @@ diem = {
 }
 for ten, mon in diem.items():
     tb = sum(mon.values()) / len(mon)
-    print(f"{ten}: TB = {tb:.1f}")`,
+    print(f"{ten}: Average = {tb:.1f}")`,
         codeLanguage: "python",
         exercise: "Create a dictionary containing information about 3 products (name, price, quantity). Write a function to calculate the total warehouse value.",
         exerciseEn: "Create a dictionary with 3 products (name, price, quantity). Write a function to calculate total inventory value.",
@@ -332,21 +332,21 @@ for ten, mon in diem.items():
         titleEn: "Sorting Algorithms",
         theory: "**Thuật toán sắp xếp** là cách sắp xếp dữ liệu theo thứ tự - giống **xếp hàng học sinh theo chiều cao** trong giờ thể dục! 🏫\n\n**🫧 Bubble Sort - Sắp xếp nổi bọt:**\nTưởng tượng bọt nước trong ly soda - bọt lớn nổi lên trên! 🥤\n- So sánh 2 bạn đứng cạnh nhau\n- Ai cao hơn → đổi chỗ ra sau\n- Lặp lại cho đến khi không cần đổi nữa\n```\nVòng 1: [64, 34, 25, 12] → [34, 25, 12, 64] ← 64 'nổi' lên cuối!\nVòng 2: [34, 25, 12, 64] → [25, 12, 34, 64] ← 34 'nổi' lên\nVòng 3: [25, 12, 34, 64] → [12, 25, 34, 64] ← Xong! ✅\n```\n⏱️ Tốc độ: O(n²) - chậm! Với 1000 phần tử cần ~1 triệu phép so sánh.\n\n**🎯 Selection Sort - Sắp xếp chọn:**\nGiống **chọn đội bóng** - mỗi lượt chọn người giỏi nhất còn lại!\n- Tìm số nhỏ nhất → đặt vào vị trí 1\n- Tìm số nhỏ nhất CÒN LẠI → đặt vào vị trí 2\n- Lặp lại...\n```\n[64, 25, 12, 34] → Tìm min=12, đặt đầu → [12, 25, 64, 34]\n[12, 25, 64, 34] → Tìm min=25, đã đúng → [12, 25, 64, 34]\n[12, 25, 64, 34] → Tìm min=34, đổi → [12, 25, 34, 64] ✅\n```\n\n**🃏 Insertion Sort - Sắp xếp chèn:**\nGiống **xếp bài trên tay** khi chơi tiến lên 🎴:\n- Get từng lá bài mới\n- Chèn vào đúng vị trí trong các lá đã sắp xếp\n- Nhanh nhất khi bài gần như đã sắp xếp! O(n) trường hợp tốt nhất.\n\n**⚡ So sánh tốc độ:**\n| Thuật toán | Tốt nhất | Trung bình | Tệ nhất |\n|---|---|---|---|\n| Bubble | O(n) | O(n²) | O(n²) |\n| Selection | O(n²) | O(n²) | O(n²) |\n| Insertion | O(n) ⭐ | O(n²) | O(n²) |",
         theoryEn: "**Sorting algorithms** arrange data in order - like **lining students up by height** in gym class! 🏫\n\n**🫧 Bubble Sort:**\nImagine bubbles in a soda glass - big bubbles float to the top! 🥤\n- Compare 2 adjacent items\n- If wrong order → swap\n- Repeat until no more swaps needed\n```\nPass 1: [64, 34, 25, 12] → [34, 25, 12, 64] ← 64 'bubbles' to end!\nPass 2: [34, 25, 12, 64] → [25, 12, 34, 64] ← 34 'bubbles' up\nPass 3: [25, 12, 34, 64] → [12, 25, 34, 64] ← Done! ✅\n```\n⏱️ Speed: O(n²) - slow! 1000 elements needs ~1 million comparisons.\n\n**🎯 Selection Sort:**\nLike **picking teams** - each turn pick the best remaining player!\n- Find smallest → put in position 1\n- Find smallest REMAINING → put in position 2\n- Repeat...\n```\n[64, 25, 12, 34] → Find min=12, place first → [12, 25, 64, 34]\n[12, 25, 64, 34] → Find min=25, already correct → [12, 25, 64, 34]\n[12, 25, 64, 34] → Find min=34, swap → [12, 25, 34, 64] ✅\n```\n\n**🃏 Insertion Sort:**\nLike **sorting cards in your hand** while playing poker 🎴:\n- Pick up each new card\n- Insert it into the right position among sorted cards\n- Fastest when cards are nearly sorted! O(n) best case.\n\n**⚡ Speed comparison:**\n| Algorithm | Best | Average | Worst |\n|---|---|---|---|\n| Bubble | O(n) | O(n²) | O(n²) |\n| Selection | O(n²) | O(n²) | O(n²) |\n| Insertion | O(n) ⭐ | O(n²) | O(n²) |",
-        code: `# Bubble Sort - Sắp xếp nổi bọt
+        code: `# Bubble Sort - Bubble sort
 def bubble_sort(arr):
     n = len(arr)
     for i in range(n):
         for j in range(0, n-i-1):
             if arr[j] > arr[j+1]:
                 arr[j], arr[j+1] = arr[j+1], arr[j]
-        print(f"Hit {i+1}: {arr}")
+        print(f"Pass {i+1}: {arr}")
     return arr
 
-diem = [64, 34, 25, 12, 22, 11, 90]
-print(f"Initial: {diem}")
-print(f"Result: {bubble_sort(diem.copy())}")
+scores = [64, 34, 25, 12, 22, 11, 90]
+print(f"Initial: {scores}")
+print(f"Result: {bubble_sort(scores.copy())}")
 
-# Selection Sort - Sort the selection
+# Selection Sort - Selection sort
 def selection_sort(arr):
     for i in range(len(arr)):
         min_idx = i
@@ -356,7 +356,7 @@ def selection_sort(arr):
         arr[i], arr[min_idx] = arr[min_idx], arr[i]
     return arr
 
-print(f"Selection: {selection_sort(diem.copy())}")`,
+print(f"Selection: {selection_sort(scores.copy())}")`,
         codeLanguage: "python",
         exercise: "Write the Insertion Sort function and compare the number of swaps with Bubble Sort on the same array of 10 random elements.",
         exerciseEn: "Write an Insertion Sort function and compare swap counts with Bubble Sort on the same random 10-element array.",
@@ -374,7 +374,7 @@ print(f"Selection: {selection_sort(diem.copy())}")`,
         titleEn: "Searching Algorithms",
         theory: "**Thuật toán tìm kiếm** giúp bạn tìm một thứ cụ thể trong đống dữ liệu - giống **tìm cuốn sách trong library** 📚\n\n**🔍 Linear Search - Tìm kiếm tuần tự:**\nGiống tìm bạn trong lớp học - bạn nhìn từng người một, từ đầu đến cuối.\n```\nDanh sách: [🍎, 🍊, 🍋, 🍇, 🍓]\nTìm 🍇:\n  Nhìn 🍎 → Không phải\n  Nhìn 🍊 → Không phải  \n  Nhìn 🍋 → Không phải\n  Nhìn 🍇 → TÌM THẤY! ✅ (mất 4 bước)\n```\n⏱️ Tốc độ: O(n) - Nếu 1000 trái cây, tệ nhất tìm 1000 lần!\n\n**⚡ Binary Search - Tìm kiếm nhị phân (chia đôi):**\nGiống **tìm từ trong từ điển** - bạn không đọc từ trang 1! Bạn mở giữa, xem từ cần tìm ở nửa trước hay nửa sau.\n```\nDãy đã sắp xếp: [1, 3, 5, 7, 9, 11, 13, 15]\nTìm số 11:\n  Bước 1: Giữa = 7 → 11 > 7 → tìm bên phải [9, 11, 13, 15]\n  Bước 2: Giữa = 11 → TÌM THẤY! ✅ (chỉ 2 bước!)\n```\n\n**⚠️ ĐIỀU KIỆN:** Dữ liệu PHẢI được sắp xếp trước! (Bạn không thể dùng chiến thuật từ điển nếu các từ xếp ngẫu nhiên)\n\n**🏆 So sánh kinh ngạc:**\n| Số phần tử | Linear Search | Binary Search |\n|---|---|---|\n| 100 | tối đa 100 bước | tối đa 7 bước |\n| 1,000 | 1,000 bước | ~10 bước |\n| 1,000,000 | 1 TRIỆU bước | ~20 bước! 🤯 |\n| 1 tỷ | 1 TỶ bước | ~30 bước! |\n\nBinary Search nhanh đến mức khó tin! Với 1 tỷ phần tử, chỉ cần 30 lần 'chia đôi' là tìm thấy!",
         theoryEn: "**Searching algorithms** help you find a specific item in a pile of data - like **finding a book in a library** 📚\n\n**🔍 Linear Search - Sequential search:**\nLike finding a friend in class - you look at each person one by one, start to end.\n```\nList: [🍎, 🍊, 🍋, 🍇, 🍓]\nFind 🍇:\n  Look at 🍎 → Nope\n  Look at 🍊 → Nope  \n  Look at 🍋 → Nope\n  Look at 🍇 → FOUND! ✅ (took 4 steps)\n```\n⏱️ Speed: O(n) - 1000 fruits? Worst case: 1000 checks!\n\n**⚡ Binary Search - Halving search:**\nLike **looking up a word in a dictionary** - you don't read from page 1! You open the middle, check if your word is in the first or second half.\n```\nSorted array: [1, 3, 5, 7, 9, 11, 13, 15]\nFind 11:\n  Step 1: Middle = 7 → 11 > 7 → search right [9, 11, 13, 15]\n  Step 2: Middle = 11 → FOUND! ✅ (only 2 steps!)\n```\n\n**⚠️ REQUIREMENT:** Data MUST be sorted first! (You can't use dictionary strategy if words are randomly arranged)\n\n**🏆 Mind-blowing comparison:**\n| Elements | Linear Search | Binary Search |\n|---|---|---|\n| 100 | max 100 steps | max 7 steps |\n| 1,000 | 1,000 steps | ~10 steps |\n| 1,000,000 | 1 MILLION steps | ~20 steps! 🤯 |\n| 1 billion | 1 BILLION steps | ~30 steps! |\n\nBinary Search is unbelievably fast! With 1 billion elements, just 30 'halves' to find it!",
-        code: `# Linear Search - Tìm kiếm tuần tự
+        code: `# Linear Search - Sequential search
 def linear_search(arr, target):
     for i, val in enumerate(arr):
         if val == target:
@@ -461,7 +461,7 @@ while running:
     if keys[pygame.K_DOWN]:  player_y += speed
     
     # 3. Drawing
-    screen.fill((30, 30, 50))  # Nền tối
+    screen.fill((30, 30, 50))  # Dark background
     pygame.draw.rect(screen, (0, 200, 255),
         (player_x, player_y, player_size, player_size))
     pygame.display.flip()
@@ -487,9 +487,9 @@ pygame.quit()`,
         theoryEn: "**HTML** and **CSS** are the duo that builds every website you see! 🌐\n\n**🦴 HTML - Website skeleton:**\nLike building a house: HTML is the **concrete frame** - determines how many rooms, where doors go.\n```html\n<h1>Big living room</h1>         <!-- Largest heading -->\n<p>This is the living room.</p>   <!-- Paragraph -->\n<img src='photo.jpg'>             <!-- Image = hanging a painting -->\n<a href='link'>Door out</a>       <!-- Link = door to another room -->\n```\n\n**👗 CSS - Interior decoration:**\nHTML gives you a raw house. CSS **paints walls, tiles floors, arranges furniture**.\n```css\nbody { background: #1a1a2e; }   /* Dark wall paint */\nh1 { color: gold; }             /* Gold text */\n.card { border-radius: 12px; }  /* Rounded corners */\n```\n\n**📋 Essential HTML tags - Builder's toolkit:**\n| Tag | Meaning | Real example |\n|---|---|---|\n| `<h1>` to `<h6>` | Headings big→small | Article title, sections |\n| `<p>` | Paragraph | Article content |\n| `<img>` | Image | Product photo, avatar |\n| `<a>` | Link | 'Read more' button, menu |\n| `<div>` | Group elements | 'Room' containing items |\n| `<ul>/<li>` | List | Restaurant menu, to-do list |\n\n**💡 Pro tips:**\n- Every website you see (Facebook, YouTube, Google) uses HTML + CSS\n- Press F12 on any website to see the real HTML code! 🔍\n- CSS Flexbox and Grid enable responsive layouts (looks great on both phone and desktop)",
         code: `<!-- index.html -->
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-    <title>Trang web của Minh</title>
+    <title>Minh's Website</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -515,14 +515,14 @@ pygame.quit()`,
 </head>
 <body>
     <div class="header">
-        <h1>🌟 Xin chào! Tôi là Minh</h1>
-        <p>Lập trình viên nhí | Yêu toán & khoa học</p>
+        <h1>🌟 Hello! I am Minh</h1>
+        <p>Junior Developer | Loves Math & Science</p>
     </div>
     <div class="card">
-        <h2>📚 Dự án của tôi</h2>
+        <h2>📚 My Projects</h2>
         <ul>
-            <li>Game bắt quả bóng (Pygame)</li>
-            <li>Máy tính bỏ túi (Python)</li>
+            <li>Ball Catching Game (Pygame)</li>
+            <li>Pocket Calculator (Python)</li>
         </ul>
     </div>
 </body>
@@ -1107,9 +1107,9 @@ X = [
     [5, 7, 70], [7, 8, 80], [3, 6, 55], [4, 7, 65],
     [9, 7, 95], [2, 5, 45], [6, 8, 75], [1, 3, 25],
 ]
-y = [1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0]  # 1=Đậu, 0=Rớt
+y = [1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0]  # 1=Pass, 0=Fail
 
-# Chia train/test
+# Split train/test
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=42)
 
@@ -1117,11 +1117,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 tree = DecisionTreeClassifier(max_depth=3)
 tree.fit(X_train, y_train)
 
-# Forecast
-sv_moi = [[5, 7, 60]]
-ket_qua = tree.predict(sv_moi)
-print(f"Student (5 hours studying, 7 hours sleeping, 60 BT points)")
-print(f"→ Prediction: {'✅ PASS' if result_pass[0] else '❌ FAIL'}")
+# Predict
+new_student = [[5, 7, 60]]
+result = tree.predict(new_student)
+print(f"Student (5 hours studying, 7 hours sleeping, 60 HW points)")
+print(f"→ Prediction: {'✅ PASS' if result[0] else '❌ FAIL'}")
 
 # Evaluate
 accuracy = tree.score(X_test, y_test)

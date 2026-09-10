@@ -1608,105 +1608,105 @@ Production: **hybridize all three** - the knowledge graph ensures validity, coll
 - **Popularity bias**: hot lessons always get recommended -> good but new lessons die quietly. Inject randomness with epsilon = 0.05.
 - **Reward hacking**: optimizing CTR -> recommends super easy lessons. Optimize **mastery growth per week**, not clicks.
 `,
-        code: `# Nhập các thư viện cần thiết.
-# 'math' để sử dụng các hàm toán học như exp (số mũ).
-# 'random' để tạo số ngẫu nhiên.
+        code: `# Import necessary libraries.
+# 'math' to use mathematical functions like exp (exponent).
+# 'random' to generate random numbers.
 import math, random
-# 'dataclass' từ module 'dataclasses' giúp tạo các lớp (class) đơn giản để lưu trữ dữ liệu.
+# 'dataclass' from the 'dataclasses' module helps create simple classes to store data.
 from dataclasses import dataclass
 
-# Định nghĩa một lớp dữ liệu (dataclass) có tên 'Lesson'.
-# Lớp này dùng để biểu diễn một bài học với các thuộc tính cụ thể.
+# Define a data class named 'Lesson'.
+# This class is used to represent a lesson with specific attributes.
 @dataclass
 class Lesson:
-    # ID duy nhất của bài học (chuỗi).
+    # Unique ID of the lesson (string).
     id: str
-    # Kỹ năng mà bài học này tập trung vào (chuỗi).
+    # The skill this lesson focuses on (string).
     skill: str
-    # Độ khó của bài học, giá trị từ 0 đến 1 (số thực).
+    # Difficulty of the lesson, value from 0 to 1 (float).
     difficulty: float   # 0–1
-    # Danh sách các ID bài học là điều kiện tiên quyết để học bài này (danh sách chuỗi).
+    # List of lesson IDs that are prerequisites for this lesson (list of strings).
     prereqs: list[str]
 
-# Định nghĩa một lớp dữ liệu (dataclass) có tên 'Learner'.
-# Lớp này dùng để biểu diễn một người học với các thuộc tính về trình độ.
+# Define a data class named 'Learner'.
+# This class is used to represent a learner with proficiency attributes.
 @dataclass
 class Learner:
-    # Mức độ thành thạo của người học đối với từng kỹ năng.
-    # Là một từ điển (dict) với khóa là tên kỹ năng (chuỗi) và giá trị là mức độ thành thạo (số thực từ 0 đến 1).
+    # The learner's mastery level for each skill.
+    # It is a dictionary (dict) with the key being the skill name (string) and the value being the mastery level (float from 0 to 1).
     mastery: dict[str, float]   # skill -> 0..1
-    # Tập hợp (set) các ID bài học mà người học đã hoàn thành.
+    # Set of lesson IDs that the learner has completed.
     completed: set[str]
 
-# Định nghĩa hàm 'passable' để kiểm tra xem người học có đủ điều kiện để học một bài học hay không.
-# Đầu vào: 'lesson' (một đối tượng Lesson), 'learner' (một đối tượng Learner).
-# Đầu ra: True nếu người học đã hoàn thành tất cả các điều kiện tiên quyết, ngược lại là False.
+# Define the 'passable' function to check if a learner is eligible to take a lesson.
+# Input: 'lesson' (a Lesson object), 'learner' (a Learner object).
+# Output: True if the learner has completed all prerequisites, otherwise False.
 def passable(lesson, learner):
-    # Kiểm tra xem TẤT CẢ các điều kiện tiên quyết (prereqs) của bài học
-    # có nằm trong danh sách các bài đã hoàn thành (completed) của người học hay không.
+    # Check if ALL prerequisites of the lesson
+    # are in the learner's list of completed lessons.
     return all(p in learner.completed for p in lesson.prereqs)
 
-# Định nghĩa hàm 'pass_prob' để tính xác suất người học sẽ vượt qua một bài học.
-# Đầu vào: 'lesson' (một đối tượng Lesson), 'learner' (một đối tượng Learner).
-# Đầu ra: Xác suất vượt qua bài học (số thực từ 0 đến 1).
+# Define the 'pass_prob' function to calculate the probability that a learner will pass a lesson.
+# Input: 'lesson' (a Lesson object), 'learner' (a Learner object).
+# Output: Probability of passing the lesson (float from 0 to 1).
 def pass_prob(lesson, learner):
-    # Lấy mức độ thành thạo của người học đối với kỹ năng của bài học.
-    # Nếu kỹ năng chưa có trong 'mastery', mặc định là 0.0.
+    # Get the learner's mastery level for the lesson's skill.
+    # If the skill is not in 'mastery', default to 0.0.
     m = learner.mastery.get(lesson.skill, 0.0)
-    # Tính toán xác suất dựa trên mô hình logistic.
-    # Xác suất cao nếu mức độ thành thạo (m) cao hơn độ khó (difficulty).
+    # Calculate the probability based on a logistic model.
+    # High probability if mastery level (m) is higher than difficulty.
     # logistic gap: high prob if mastery ≥ difficulty
     return 1 / (1 + math.exp(-6 * (m - lesson.difficulty + 0.1)))
 
-# Định nghĩa hàm 'score' để tính điểm "phù hợp" của một bài học đối với người học.
-# Điểm này cho biết bài học đó có "vừa sức" với người học hay không.
-# Đầu vào: 'lesson' (một đối tượng Lesson), 'learner' (một đối tượng Learner).
-# Đầu ra: Điểm phù hợp (số thực).
+# Define the 'score' function to calculate the "suitability" score of a lesson for a learner.
+# This score indicates whether the lesson is "just right" for the learner.
+# Input: 'lesson' (a Lesson object), 'learner' (a Learner object).
+# Output: Suitability score (float).
 def score(lesson, learner):
-    # Tính xác suất người học vượt qua bài học.
+    # Calculate the probability that the learner will pass the lesson.
     p = pass_prob(lesson, learner)
-    # Tính toán độ "phù hợp" dựa trên xác suất vượt qua.
-    # Điểm cao nhất khi xác suất p gần 0.7 (bài học không quá dễ, không quá khó).
+    # Calculate "suitability" based on the passing probability.
+    # The highest score is when probability p is close to 0.7 (lesson is not too easy, not too hard).
     # sweet spot p≈0.7 → max score; penalise too easy / too hard
     fit = 1 - abs(p - 0.7) * 2
-    # Đảm bảo điểm không âm (ít nhất là 0).
+    # Ensure the score is not negative (at least 0).
     return max(0, fit)
 
-# Định nghĩa hàm 'recommend' để đề xuất các bài học cho người học.
-# Đầu vào:
-#   'catalog': Danh sách tất cả các bài học có sẵn.
-#   'learner': Đối tượng người học.
-#   'k': Số lượng bài học muốn đề xuất (mặc định là 3).
-#   'weak_skill_quota': Tỷ lệ cơ hội để đề xuất một bài học về kỹ năng yếu nhất (mặc định là 0.2).
-# Đầu ra: Danh sách các bài học được đề xuất.
+# Define the 'recommend' function to recommend lessons to a learner.
+# Input:
+#   'catalog': List of all available lessons.
+#   'learner': Learner object.
+#   'k': Number of lessons to recommend (default is 3).
+#   'weak_skill_quota': Probability to recommend a lesson on the weakest skill (default is 0.2).
+# Output: List of recommended lessons.
 def recommend(catalog, learner, k=3, weak_skill_quota=0.2):
-    # Lọc ra các bài học mà người học đủ điều kiện (passable) và chưa hoàn thành.
+    # Filter out lessons that the learner is eligible for (passable) and has not completed.
     eligible = [l for l in catalog if passable(l, learner) and l.id not in learner.completed]
-    # Sắp xếp các bài học đủ điều kiện theo điểm phù hợp (score) giảm dần.
+    # Sort eligible lessons by suitability score (score) in descending order.
     eligible.sort(key=lambda l: score(l, learner), reverse=True)
-    # Chọn 'k' bài học có điểm phù hợp cao nhất.
+    # Select 'k' lessons with the highest suitability scores.
     pick = eligible[:k]
-    # Logic để "chèn" một bài học về kỹ năng yếu nhất của người học.
+    # Logic to "inject" a lesson about the learner's weakest skill.
     # inject weak-skill bait
-    # Tìm kỹ năng yếu nhất của người học (kỹ năng có mức độ thành thạo thấp nhất).
+    # Find the learner's weakest skill (skill with the lowest mastery level).
     weakest = min(learner.mastery, key=learner.mastery.get)
-    # Tìm các bài học đủ điều kiện liên quan đến kỹ năng yếu nhất và chưa có trong danh sách đề xuất ban đầu.
+    # Find eligible lessons related to the weakest skill and not already in the initial recommendation list.
     weak = [l for l in eligible if l.skill == weakest and l not in pick]
-    # Nếu có bài học về kỹ năng yếu và một số ngẫu nhiên nhỏ hơn 'weak_skill_quota',
-    # thì thay thế bài học cuối cùng trong danh sách đề xuất bằng bài học về kỹ năng yếu nhất.
+    # If there is a lesson on the weak skill and a random number is less than 'weak_skill_quota',
+    # then replace the last lesson in the recommendation list with the lesson on the weakest skill.
     if weak and random.random() < weak_skill_quota:
         pick[-1] = weak[0]
-    # Trả về danh sách các bài học được đề xuất.
+    # Return the list of recommended lessons.
     return pick
 
-# Tạo một danh mục (catalog) gồm 20 bài học mẫu.
-# Mỗi bài học có ID, kỹ năng ngẫu nhiên ("read" hoặc "listen"), độ khó ngẫu nhiên và không có điều kiện tiên quyết.
+# Create a catalog of 20 sample lessons.
+# Each lesson has an ID, a random skill ("read" or "listen"), random difficulty, and no prerequisites.
 cat = [Lesson(f"L{i}", random.choice(["read","listen"]), random.random(), []) for i in range(20)]
-# Tạo một đối tượng người học mẫu với mức độ thành thạo và danh sách bài đã hoàn thành.
+# Create a sample learner object with mastery levels and a list of completed lessons.
 me = Learner(mastery={"read": 0.6, "listen": 0.3}, completed=set())
-# Gọi hàm 'recommend' để lấy danh sách các bài học được đề xuất cho người học 'me'.
-# Sau đó, in ra ID, kỹ năng, độ khó (làm tròn 2 chữ số) và điểm phù hợp (làm tròn 2 chữ số) của mỗi bài học.
-# Kết quả mong đợi: 3 bài học được đề xuất, mỗi bài trên một dòng với các thông tin đã làm tròn.
+# Call the 'recommend' function to get a list of recommended lessons for the learner 'me'.
+# Then, print the ID, skill, difficulty (rounded to 2 decimal places), and suitability score (rounded to 2 decimal places) of each lesson.
+# Expected output: 3 recommended lessons, each on a new line with rounded information.
 for l in recommend(cat, me): print(l.id, l.skill, round(l.difficulty,2), round(score(l, me),2))`,
         codeLanguage: "python",
         exercise:
@@ -1844,102 +1844,102 @@ Sample retention rule: activity logs 90 days, learning results 2 years, audio re
 - "Anonymous" data with 3 attributes (zip + age + gender) can re-identify 87% of people.
 - Letting teachers export the full class's data to their own machine -> loss of control, and you're still liable.
 `,
-        code: `# Nhập các lớp và hàm cần thiết từ thư viện \`datetime\` để làm việc với ngày giờ.
+        code: `# Import necessary classes and functions from the 'datetime' library to work with dates and times.
 from datetime import datetime, timedelta
-# Nhập các lớp và hàm cần thiết từ thư viện \`dataclasses\` để tạo các lớp dữ liệu gọn gàng.
+# Import necessary classes and functions from the 'dataclasses' library to create neat data classes.
 from dataclasses import dataclass, field
 
-# Định nghĩa một từ điển chứa số ngày lưu trữ (retention days) cho từng loại dữ liệu.
-# Đầu vào: Tên loại dữ liệu (chuỗi).
-# Đầu ra: Số ngày dữ liệu đó được giữ lại trước khi bị xóa.
+# Define a dictionary containing retention days for each data type.
+# Input: Data type name (string).
+# Output: Number of days that data is kept before being deleted.
 RETENTION_DAYS = {
     "activity_log": 90,
     "lesson_result": 730,
     "audio_recording": 7,
-    "raw_pii_in_analytics": 0,   # never - không bao giờ được lưu trữ, luôn xóa ngay lập tức
+    "raw_pii_in_analytics": 0,   # never - never stored, always deleted immediately
 }
 
-# Định nghĩa một lớp dữ liệu (dataclass) để biểu diễn một bản ghi.
-# Dataclass giúp tạo các lớp đơn giản để lưu trữ dữ liệu.
+# Define a dataclass to represent a record.
+# Dataclass helps create simple classes for storing data.
 @dataclass
 class Record:
-    # Trường \`kind\` (loại) của bản ghi, ví dụ: "audio_recording".
+    # The 'kind' field of the record, e.g., "audio_recording".
     kind: str
-    # Trường \`created_at\` (thời gian tạo) của bản ghi, kiểu datetime.
+    # The 'created_at' field of the record, datetime type.
     created_at: datetime
-    # Trường \`data\` (dữ liệu) của bản ghi, là một từ điển.
-    # \`default_factory=dict\` đảm bảo mỗi đối tượng Record có một từ điển \`data\` riêng biệt.
+    # The 'data' field of the record, which is a dictionary.
+    # 'default_factory=dict' ensures each Record object has its own 'data' dictionary.
     data: dict = field(default_factory=dict)
 
-# Định nghĩa hàm kiểm tra xem một bản ghi có nên bị xóa (purge) hay không.
-# Đầu vào:
-#   - \`r\`: Một đối tượng \`Record\` cần kiểm tra.
-#   - \`now\`: Thời điểm hiện tại (kiểu datetime) để so sánh.
-# Đầu ra: \`True\` nếu bản ghi nên bị xóa, \`False\` nếu không.
+# Define a function to check if a record should be purged.
+# Input:
+#   - 'r': A 'Record' object to check.
+#   - 'now': The current time (datetime type) for comparison.
+# Output: 'True' if the record should be purged, 'False' otherwise.
 def should_purge(r: Record, now: datetime) -> bool:
-    # Lấy số ngày lưu trữ cho loại bản ghi này từ từ điển \`RETENTION_DAYS\`.
-    # Nếu không tìm thấy loại bản ghi, mặc định là 30 ngày.
+    # Get the retention days for this record type from the 'RETENTION_DAYS' dictionary.
+    # If the record type is not found, default to 30 days.
     days = RETENTION_DAYS.get(r.kind, 30)
-    # Nếu số ngày lưu trữ là 0, có nghĩa là bản ghi này không được phép lưu trữ.
-    # Nó phải được xóa ngay lập tức.
-    if days == 0:  # forbidden in this store - không được phép lưu trữ trong hệ thống này
+    # If retention days is 0, it means this record is not allowed to be stored.
+    # It must be deleted immediately.
+    if days == 0:  # forbidden in this store - not allowed to be stored in this system
         return True
-    # Tính toán sự khác biệt thời gian giữa hiện tại và thời gian tạo bản ghi.
-    # So sánh sự khác biệt này với số ngày lưu trữ.
-    # Nếu thời gian đã trôi qua lớn hơn số ngày cho phép, bản ghi nên bị xóa.
+    # Calculate the time difference between now and the record's creation time.
+    # Compare this difference with the retention days.
+    # If the elapsed time is greater than the allowed days, the record should be purged.
     return (now - r.created_at) > timedelta(days=days)
 
-# Định nghĩa hàm kiểm tra xem một người có phải là trẻ vị thành niên hay không.
-# Đầu vào:
-#   - \`age\`: Tuổi của người đó (số nguyên).
-#   - \`jurisdiction\`: Khu vực pháp lý (quốc gia, ví dụ: "US", "EU").
-# Đầu ra: \`True\` nếu là trẻ vị thành niên, \`False\` nếu không.
+# Define a function to check if a person is a minor.
+# Input:
+#   - 'age': The person's age (integer).
+#   - 'jurisdiction': Legal jurisdiction (country, e.g., "US", "EU").
+# Output: 'True' if a minor, 'False' otherwise.
 def is_minor(age: int, jurisdiction: str) -> bool:
-    # Định nghĩa tuổi giới hạn (cap) cho từng khu vực pháp lý.
-    # Nếu khu vực không có trong danh sách, mặc định là 16 tuổi.
+    # Define the age cap for each jurisdiction.
+    # If the jurisdiction is not in the list, default to 16 years old.
     cap = {"US": 13, "EU": 16, "CN": 14, "VN": 15}.get(jurisdiction, 16)
-    # So sánh tuổi với giới hạn. Nếu tuổi nhỏ hơn giới hạn, đó là trẻ vị thành niên.
+    # Compare age with the cap. If age is less than the cap, it is a minor.
     return age < cap
 
-# Định nghĩa hàm kiểm tra xem một người có cần sự đồng ý của phụ huynh hay không.
-# Hàm này chỉ đơn giản gọi hàm \`is_minor\` để xác định.
-# Đầu vào:
-#   - \`age\`: Tuổi của người đó (số nguyên).
-#   - \`jurisdiction\`: Khu vực pháp lý.
-# Đầu ra: \`True\` nếu cần sự đồng ý của phụ huynh, \`False\` nếu không.
+# Define a function to check if a person requires parental consent.
+# This function simply calls the 'is_minor' function to determine.
+# Input:
+#   - 'age': The person's age (integer).
+#   - 'jurisdiction': Legal jurisdiction.
+# Output: 'True' if parental consent is required, 'False' otherwise.
 def requires_parental_consent(age: int, jurisdiction: str) -> bool:
-    # Trả về kết quả của việc kiểm tra xem người đó có phải là trẻ vị thành niên hay không.
+    # Return the result of checking if the person is a minor.
     return is_minor(age, jurisdiction)
 
-# Định nghĩa thời điểm hiện tại giả định để kiểm tra.
+# Define a hypothetical current time for testing.
 now = datetime(2026, 5, 29)
-# Tạo một danh sách các bản ghi mẫu để kiểm tra.
+# Create a list of sample records for testing.
 records = [
-    # Bản ghi âm, tạo cách đây 10 ngày.
+    # Audio recording, created 10 days ago.
     Record("audio_recording", now - timedelta(days=10)),
-    # Kết quả bài học, tạo cách đây 400 ngày.
+    # Lesson result, created 400 days ago.
     Record("lesson_result",   now - timedelta(days=400)),
-    # Dữ liệu PII thô trong phân tích, tạo ngay tại thời điểm \`now\`.
+    # Raw PII in analytics, created at 'now'.
     Record("raw_pii_in_analytics", now),
 ]
-# Lặp qua từng bản ghi trong danh sách.
+# Iterate through each record in the list.
 for r in records:
-    # In ra loại bản ghi và kết quả của việc kiểm tra xem nó có nên bị xóa hay không.
-    # Kết quả mong đợi:
-    # audio_recording → purge? True (vì 10 ngày > 7 ngày)
-    # lesson_result → purge? False (vì 400 ngày < 730 ngày)
-    # raw_pii_in_analytics → purge? True (vì retention_days là 0)
-    print(r.kind, "→ purge?" , should_purge(r, now))
+    # Print the record type and the result of checking if it should be purged.
+    # Expected results:
+    # audio_recording -> purge? True (because 10 days > 7 days)
+    # lesson_result -> purge? False (because 400 days < 730 days)
+    # raw_pii_in_analytics -> purge? True (because retention_days is 0)
+    print(r.kind, "-> purge?" , should_purge(r, now))
 
-# Lặp qua một danh sách các cặp (tuổi, khu vực pháp lý) để kiểm tra.
+# Iterate through a list of (age, jurisdiction) pairs for testing.
 for age, juris in [(10,"US"), (14,"EU"), (15,"VN"), (18,"US")]:
-    # In ra tuổi, khu vực pháp lý và kết quả của việc kiểm tra xem có cần sự đồng ý của phụ huynh hay không.
-    # Kết quả mong đợi:
-    # age=10 US → parental consent? True
-    # age=14 EU → parental consent? True
-    # age=15 VN → parental consent? False
-    # age=18 US → parental consent? False
-    print(f"age={age} {juris} → parental consent? {requires_parental_consent(age, juris)}")`,
+    # Print age, jurisdiction, and the result of checking if parental consent is required.
+    # Expected results:
+    # age=10 US -> parental consent? True
+    # age=14 EU -> parental consent? True
+    # age=15 VN -> parental consent? False
+    # age=18 US -> parental consent? False
+    print(f"age={age} {juris} -> parental consent? {requires_parental_consent(age, juris)}")`,
         codeLanguage: "python",
         exercise:
           "Viết hàm pseudonymize(record) thay user_id thật bằng HMAC-SHA256(salt + user_id) và loại bỏ trường tên/email khỏi bản analytics.",

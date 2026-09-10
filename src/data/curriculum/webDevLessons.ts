@@ -179,36 +179,36 @@ When writing HTML, ask yourself: "If CSS is disabled, is the structure still und
 
 Semantic HTML = give every region a **meaningful name**. Benefits: SEO, accessibility, maintainable code.
 `,
-        code: `# Bắt đầu tài liệu HTML: khung landing page
+        code: `# Start HTML document: landing page framework
 <!-- A semantic landing page skeleton - 2026 best practices -->
-# Khai báo loại tài liệu HTML
+# Declare HTML document type
 <!DOCTYPE html>
-# Thẻ html: ngôn ngữ tài liệu
+# Html tag: document language
 <html lang="en">
-  # Phần head: meta và title cho SEO và hiển thị
+  # Head section: meta and title for SEO and display
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>HaiEduTech - Learn Smarter</title>
     <meta name="description" content="Modern learning platform for Vietnamese students." />
   </head>
-  # Phần body: nội dung hiển thị chính
+  # Body section: main display content
   <body>
-    # Header trang: logo/tiêu đề và điều hướng
+    # Page header: logo/title and navigation
     <header role="banner">
       <h1>HaiEduTech</h1>
-      # Nav chính: các liên kết dẫn đến trang quan trọng
+      # Main nav: links to important pages
       <nav aria-label="Primary">
         <a href="/courses">Courses</a>
         <a href="/about">About</a>
       </nav>
     </header>
 
-    # Main: vùng chứa nội dung chính của trang
+    # Main: container for the page's primary content
     <main id="main-content">
-      # Article: bài viết hoặc nội dung chính trong main
+      # Article: article or main content within main
       <article>
-        # Header của bài viết: tiêu đề và thời gian
+        # Article header: title and time
         <header>
           <h2>Master IELTS in 90 Days</h2>
           <time datetime="2026-01-20">January 20, 2026</time>
@@ -216,14 +216,14 @@ Semantic HTML = give every region a **meaningful name**. Benefits: SEO, accessib
         <p>Practical tactics from a 15-year tutor.</p>
       </article>
 
-      # Aside: nội dung liên quan, bài viết gợi ý
+      # Aside: related content, suggested articles
       <aside aria-label="Related posts">
         <h3>Related</h3>
         <ul><li><a href="/post/2">SAT essay tips</a></li></ul>
       </aside>
     </main>
 
-    # Footer: thông tin bản quyền và liên kết phụ
+    # Footer: copyright information and secondary links
     <footer>
       <small>© 2026 HaiEduTech</small>
     </footer>

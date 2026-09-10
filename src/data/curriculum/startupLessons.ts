@@ -140,7 +140,7 @@ Trong 30 phút, liệt kê:
     code: `// Pain-point scoring
 type Pain = { name: string; frequency: number; wtp: number; severity: number };
 function score(p: Pain) { return p.frequency * p.severity * (p.wtp / 100); }
-const p = { name: "Chấm bài IELTS Speaking", frequency: 8, wtp: 200000, severity: 9 };
+const p = { name: "IELTS Speaking Grading", frequency: 8, wtp: 200000, severity: 9 };
 console.log(score(p)); // 144000`,
     codeLanguage: "typescript",
     exercise: "Painstorm 20 pain trong 30 phút. Chấm điểm frequency (1-10), severity (1-10), WTP (VND/tháng). Chọn top 3.",
@@ -294,9 +294,9 @@ Ví dụ: "Khi tôi ôn thi IELTS lúc 22h, tôi muốn được chấm Writing 
     theoryEn: `Users hire products to do a Job. Use JTBD statements and Stanford's 5-step design thinking. Prototype low-fidelity so users feel safe to criticize.`,
     code: `// JTBD template
 const jtbd = {
-  when: "học sinh ôn IELTS lúc 22h",
-  wants: "chấm Writing ngay lập tức",
-  soThat: "duy trì streak viết mỗi tối",
+  when: "a student revises IELTS at 10pm",
+  wants: "get Writing graded instantly",
+  soThat: "keep a nightly writing streak",
 };
 console.log(\`Job: When \${jtbd.when}, I want to \${jtbd.wants}, so I can \${jtbd.soThat}.\`);`,
     codeLanguage: "typescript",
@@ -343,15 +343,15 @@ Problem → Segments → UVP → Solution → Channels → Revenue → Cost → 
     theoryEn: `Ash Maurya's Lean Canvas: 9 blocks on one page. Fill in the order Problem → Segments → UVP → Solution → Channels → Revenue → Cost → Metrics → Unfair Advantage. Update every 2 weeks.`,
     code: `// Lean canvas as data
 const canvas = {
-  problem: ["Chấm IELTS Writing chậm 2 ngày","Không có feedback cụ thể","Giáo viên đắt"],
-  segments: ["Học sinh lớp 11-12 target 6.5+, ôn tối"],
-  uvp: "AI chấm IELTS Writing 30 giây với feedback theo band descriptor",
-  solution: ["Chấm auto","Feedback từng câu","Progress dashboard"],
-  channels: ["TikTok","Facebook Group ôn IELTS"],
-  revenue: ["Freemium 3 bài/tháng, Pro 99k/tháng"],
-  cost: ["API AI","Hosting","Marketing"],
+  problem: ["IELTS Writing grading slow by 2 days","No specific feedback","Teachers expensive"],
+  segments: ["11th-12th grade students targeting 6.5+, studying at night"],
+  uvp: "AI grades IELTS Writing in 30 seconds with feedback according to band descriptor",
+  solution: ["Auto grading","Feedback per sentence","Progress dashboard"],
+  channels: ["TikTok","IELTS study Facebook Group"],
+  revenue: ["Freemium 3 essays/month, Pro 99k/month"],
+  cost: ["AI API","Hosting","Marketing"],
   metrics: ["WAU","Conversion free->pro"],
-  moat: ["Dataset 20k bài chấm bởi giáo viên có band 8.5+"],
+  moat: ["Dataset 20k essays graded by teachers with band 8.5+"],
 };
 console.log(Object.keys(canvas).length); // 9`,
     codeLanguage: "typescript",
@@ -398,7 +398,7 @@ MVP không phải "sản phẩm xấu". MVP là **thí nghiệm nhỏ nhất đ�
 function isMinimum(features: string[], coreJob: string) {
   return features.every(f => f.toLowerCase().includes(coreJob.toLowerCase()));
 }
-console.log(isMinimum(["Chấm IELTS","Login","Chat"], "IELTS")); // false -> cắt bớt`,
+console.log(isMinimum(["Grade IELTS","Login","Chat"], "IELTS")); // false -> cut down`,
     codeLanguage: "typescript",
     exercise: "Liệt kê 10 feature mơ ước. Chọn 1 job chính. Đánh dấu chỉ 3 feature buộc phải có để phục vụ job đó.",
     exerciseEn: "List 10 dream features. Pick a core job. Keep only 3 features that serve it.",

@@ -259,67 +259,67 @@ An MDP is a 5-tuple (S, A, P, R, γ) that mathematically formalizes RL. The Mark
 Implement Value Iteration for a 4x4 GridWorld where each step costs -1 and reaching the goal gives +10. Print the converged value function as a 4x4 grid.
       
       `,
-      code: `# Lặp giá trị trên FrozenLake (động học biết trước)
-# Nhập thư viện cần thiết
+      code: `# Value Iteration on FrozenLake (known dynamics)
+# Import necessary libraries
 import numpy as np
 import gymnasium as gym
 
-# Tạo môi trường FrozenLake không trượt (deterministic)
+# Create FrozenLake environment without slipperiness (deterministic)
 env = gym.make("FrozenLake-v1", is_slippery=False)
-# Lấy số trạng thái, số hành động và tham số thuật toán
+# Get number of states, number of actions, and algorithm parameter
 n_states = env.observation_space.n
 n_actions = env.action_space.n
 gamma = 0.99
-# theta: ngưỡng hội tụ (số rất nhỏ)
+# theta: convergence threshold (very small number)
 theta = 1e-8  # Convergence threshold
 
-# Trích xuất ma trận chuyển tiếp P[s][a] = list của (prob, next_state, reward, done)
+# Extract transition matrix P[s][a] = list of (prob, next_state, reward, done)
 P = env.unwrapped.P
 
-# Khởi tạo hàm giá trị V với 0
+# Initialize value function V with 0
 V = np.zeros(n_states)
 
-# Vòng lặp Value Iteration để tìm V*
+# Value Iteration loop to find V*
 iteration = 0
 while True:
     delta = 0
-    # Duyệt mọi trạng thái để cập nhật V
+    # Iterate through all states to update V
     for s in range(n_states):
         v_old = V[s]
-        # Tính Q(s,a) cho mỗi hành động
+        # Calculate Q(s,a) for each action
         action_values = np.zeros(n_actions)
-        # Lặp qua từng hành động
+        # Loop through each action
         for a in range(n_actions):
-            # Duyệt các khả năng chuyển tiếp (prob, next_state, reward, done)
+            # Iterate through transition possibilities (prob, next_state, reward, done)
             for prob, next_s, reward, done in P[s][a]:
                 action_values[a] += prob * (reward + gamma * V[next_s] * (not done))
-        # Cập nhật theo chuẩn tối ưu Bellman: V(s)=max_a Q(s,a)
+        # Update according to Bellman optimality criterion: V(s)=max_a Q(s,a)
         V[s] = np.max(action_values)
         delta = max(delta, abs(v_old - V[s]))
     iteration += 1
-    # Nếu thay đổi nhỏ hơn ngưỡng thì coi là đã hội tụ
+    # If change is smaller than threshold, consider it converged
     if delta < theta:
         break
 
-# In số vòng lặp đã hội tụ và giá trị tối ưu V*
+# Print number of converged iterations and optimal value V*
 print(f"Converged in {iteration} iterations")
 print("Optimal V*(s) reshaped as 4x4 grid:")
 print(V.reshape(4, 4).round(3))
 
-# Lấy chính sách tối ưu từ V bằng cách chọn hành động tốt nhất tại mỗi trạng thái
+# Get optimal policy from V by choosing the best action at each state
 policy = np.zeros(n_states, dtype=int)
 for s in range(n_states):
-    # Tính Q(s,a) sử dụng V đã hội tụ
+    # Calculate Q(s,a) using converged V
     action_values = np.zeros(n_actions)
     for a in range(n_actions):
         for prob, next_s, reward, done in P[s][a]:
             action_values[a] += prob * (reward + gamma * V[next_s] * (not done))
     policy[s] = np.argmax(action_values)
 
-# Biểu diễn hành động bằng ký hiệu mũi tên
+# Represent actions using arrow symbols
 action_symbols = ["←", "↓", "→", "↑"]
-# In chính sách tối ưu dưới dạng lưới 4x4
-print("\\\\nOptimal policy (4x4):")
+# Print optimal policy as a 4x4 grid
+print("\\nOptimal policy (4x4):")
 for row in policy.reshape(4, 4):
     print(" ".join(action_symbols[a] for a in row))`,
       exercise: "",
@@ -467,16 +467,16 @@ Q-Learning is a model-free RL algorithm that learns Q(s,a) - the expected return
 Train a tabular Q-Learning agent on FrozenLake for 5,000 episodes with ε-greedy exploration. Plot the moving average of episode rewards. You should see the agent learn to reach the goal consistently.
       
       `,
-      code: `# Q-Learning bảng trên FrozenLake
+      code: `# Q-Learning table on FrozenLake
 import numpy as np
 import gymnasium as gym
 
-# Khởi tạo môi trường FrozenLake (không trượt)
+# Initialize FrozenLake environment (not slippery)
 env = gym.make("FrozenLake-v1", is_slippery=False)
 n_states = env.observation_space.n
 n_actions = env.action_space.n
 
-# Siêu tham số
+# Hyperparameters
 alpha = 0.1        # Learning rate
 gamma = 0.99       # Discount factor
 epsilon = 1.0      # Initial exploration
@@ -484,28 +484,28 @@ epsilon_min = 0.01
 epsilon_decay = 0.995
 n_episodes = 2000
 
-# Khởi tạo bảng Q và danh sách điểm thưởng
+# Initialize Q-table and reward list
 Q = np.zeros((n_states, n_actions))
 episode_rewards = []
 
-# Lặp qua các episode để học hành vi
+# Loop through episodes to learn behavior
 for episode in range(n_episodes):
     state, _ = env.reset()
     total_reward = 0
     done = False
     
     while not done:
-        # Chọn hành động theo chính sách ε-greedy
+        # Choose action according to ε-greedy policy
         if np.random.rand() < epsilon:
             action = env.action_space.sample()
         else:
             action = int(np.argmax(Q[state]))
         
-        # Thực thi hành động lên môi trường, nhận trạng thái tiếp theo và phần thưởng
+        # Execute action in the environment, get next state and reward
         next_state, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
         
-        # Cập nhật Q theo công thức Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',·) − Q(s,a)]
+        # Update Q according to formula Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',·) − Q(s,a)]
         td_target = reward + gamma * np.max(Q[next_state]) * (not done)
         td_error = td_target - Q[state, action]
         Q[state, action] += alpha * td_error
@@ -516,23 +516,23 @@ for episode in range(n_episodes):
     episode_rewards.append(total_reward)
     epsilon = max(epsilon_min, epsilon * epsilon_decay)
     
-    # In thông tin trung bình mỗi 200 episode
+    # Print average information every 200 episodes
     if (episode + 1) % 200 == 0:
         avg = np.mean(episode_rewards[-200:])
         print(f"Episode {episode+1} | Avg reward (last 200): {avg:.3f} | ε = {epsilon:.3f}")
 
-# In bảng Q đã học và chính sách suy ra
-print("\\\\nLearned Q-table (rounded):")
+# Print learned Q-table and derived policy
+print("\\nLearned Q-table (rounded):")
 print(Q.round(2))
-print("\\\\nDerived policy (4x4):")
-# Tạo chính sách từ bảng Q và hiển thị dưới dạng 4x4 mũi tên
+print("\\nDerived policy (4x4):")
+# Create policy from Q-table and display as 4x4 arrows
 policy = np.argmax(Q, axis=1).reshape(4, 4)
 arrows = ["←", "↓", "→", "↑"]
-# In từng hàng của chính sách dưới dạng mũi tên
+# Print each row of the policy as arrows
 for row in policy:
     print(" ".join(arrows[a] for a in row))
 
-# Đóng môi trường
+# Close environment
 env.close()`,
       exercise: "",
       exerciseEn: `Extend the agent to **CartPole-v1** by replacing the Q-table with a small PyTorch network (2 hidden layers of 64 units). Implement experience replay (buffer size 10,000, batch size 64) and a target network updated every 100 steps. Train for 500 episodes - you should reach the 500-step solve threshold.`,
@@ -667,175 +667,175 @@ Implement REINFORCE on CartPole-v1: a 2-layer MLP outputs softmax over 2 actions
       `,
       code: `# REINFORCE on CartPole-v1
 
-# Nhập các thư viện cần thiết cho việc xây dựng mô hình học tăng cường.
-import torch # Thư viện PyTorch để xây dựng và huấn luyện mạng nơ-ron.
-import torch.nn as nn # Module chứa các lớp mạng nơ-ron cơ bản.
-import torch.optim as optim # Module chứa các thuật toán tối ưu hóa (ví dụ: Adam).
-from torch.distributions import Categorical # Để tạo phân phối xác suất cho các hành động rời rạc.
-import gymnasium as gym # Thư viện môi trường mô phỏng (ví dụ: CartPole).
-import numpy as np # Thư viện để làm việc với mảng số.
+# Import necessary libraries for building the reinforcement learning model.
+import torch # PyTorch library for building and training neural networks.
+import torch.nn as nn # Module containing basic neural network layers.
+import torch.optim as optim # Module containing optimization algorithms (e.g., Adam).
+from torch.distributions import Categorical # To create probability distributions for discrete actions.
+import gymnasium as gym # Simulation environment library (e.g., CartPole).
+import numpy as np # Library for working with numerical arrays.
 
-# Mạng chính sách: đầu vào là trạng thái, đầu ra là xác suất của các hành động.
+# Policy network: input is state, output is action probabilities.
 class PolicyNet(nn.Module):
-    # Khởi tạo mạng chính sách.
-    # Đầu vào: state_dim (số chiều của trạng thái), action_dim (số chiều của hành động), hidden (số nơ-ron lớp ẩn).
+    # Initialize the policy network.
+    # Input: state_dim (dimension of state), action_dim (dimension of action), hidden (number of hidden neurons).
     def __init__(self, state_dim, action_dim, hidden=128):
-        # Gọi hàm khởi tạo của lớp cha (nn.Module).
+        # Call the constructor of the parent class (nn.Module).
         super().__init__()
-        # Định nghĩa chuỗi các lớp của mạng nơ-ron.
+        # Define the sequence of neural network layers.
         self.net = nn.Sequential(
-            # Lớp kết nối đầy đủ (fully connected layer) từ state_dim đến hidden.
+            # Fully connected layer from state_dim to hidden.
             nn.Linear(state_dim, hidden),
-            # Hàm kích hoạt ReLU để thêm tính phi tuyến.
+            # ReLU activation function to add non-linearity.
             nn.ReLU(),
-            # Lớp kết nối đầy đủ từ hidden đến action_dim.
+            # Fully connected layer from hidden to action_dim.
             nn.Linear(hidden, action_dim),
         )
 
-    # Định nghĩa cách dữ liệu đi qua mạng (phép truyền xuôi).
-    # Đầu vào: x (biểu diễn trạng thái).
-    # Đầu ra: logits (đầu ra thô của mạng, trước khi áp dụng softmax).
+    # Define how data passes through the network (forward pass).
+    # Input: x (state representation).
+    # Output: logits (raw network output, before applying softmax).
     def forward(self, x):
-        return self.net(x)  # logits; softmax được thực hiện bên trong Categorical
+        return self.net(x)  # logits; softmax is performed inside Categorical
 
-# Tạo môi trường CartPole-v1.
-# Đầu ra: env (đối tượng môi trường).
+# Create the CartPole-v1 environment.
+# Output: env (environment object).
 env = gym.make("CartPole-v1")
-# Lấy số chiều của không gian trạng thái (ví dụ: 4 cho CartPole).
-# Đầu ra: state_dim (số lượng giá trị mô tả trạng thái).
+# Get the dimension of the state space (e.g., 4 for CartPole).
+# Output: state_dim (number of values describing the state).
 state_dim = env.observation_space.shape[0]  # 4
-# Lấy số lượng hành động có thể thực hiện (ví dụ: 2 cho CartPole: trái/phải).
-# Đầu ra: action_dim (số lượng hành động rời rạc).
+# Get the number of possible actions (e.g., 2 for CartPole: left/right).
+# Output: action_dim (number of discrete actions).
 action_dim = env.action_space.n             # 2
 
-# Khởi tạo mạng chính sách với các kích thước trạng thái và hành động đã xác định.
-# Đầu vào: state_dim, action_dim.
-# Đầu ra: policy (đối tượng mạng chính sách).
+# Initialize the policy network with defined state and action dimensions.
+# Input: state_dim, action_dim.
+# Output: policy (policy network object).
 policy = PolicyNet(state_dim, action_dim)
-# Khởi tạo bộ tối ưu hóa Adam để cập nhật trọng số của mạng chính sách.
-# Đầu vào: policy.parameters() (các tham số của mạng), lr (tốc độ học).
-# Đầu ra: optimizer (đối tượng bộ tối ưu hóa).
+# Initialize the Adam optimizer to update the policy network's weights.
+# Input: policy.parameters() (network parameters), lr (learning rate).
+# Output: optimizer (optimizer object).
 optimizer = optim.Adam(policy.parameters(), lr=1e-3)
-# Hệ số chiết khấu (discount factor) cho phần thưởng tương lai.
-# Đầu ra: gamma (giá trị từ 0 đến 1).
+# Discount factor for future rewards.
+# Output: gamma (value from 0 to 1).
 gamma = 0.99
-# Tổng số tập (episode) sẽ được huấn luyện.
-# Đầu ra: n_episodes (số nguyên).
+# Total number of episodes to be trained.
+# Output: n_episodes (integer).
 n_episodes = 500
 
-# Danh sách để lưu trữ tổng phần thưởng của mỗi tập.
-# Đầu ra: reward_history (danh sách rỗng).
+# List to store the total reward of each episode.
+# Output: reward_history (empty list).
 reward_history = []
 
-# Vòng lặp chính để huấn luyện mô hình qua nhiều tập.
-# Đầu vào: n_episodes.
+# Main loop to train the model over multiple episodes.
+# Input: n_episodes.
 for episode in range(n_episodes):
-    # Đặt lại môi trường về trạng thái ban đầu cho mỗi tập mới.
-    # Đầu ra: state (trạng thái ban đầu), _ (thông tin bổ sung không dùng đến).
+    # Reset the environment to its initial state for each new episode.
+    # Output: state (initial state), _ (additional unused info).
     state, _ = env.reset()
-    # Danh sách để lưu trữ log xác suất của các hành động đã chọn và phần thưởng nhận được.
-    # Đầu ra: log_probs (danh sách rỗng), rewards (danh sách rỗng).
+    # Lists to store log probabilities of chosen actions and received rewards.
+    # Output: log_probs (empty list), rewards (empty list).
     log_probs, rewards = [], []
-    # Cờ để kiểm tra xem tập đã kết thúc hay chưa.
-    # Đầu ra: done (boolean).
+    # Flag to check if the episode has ended.
+    # Output: done (boolean).
     done = False
 
-    # Thực hiện một tập (roll out one episode) cho đến khi kết thúc.
+    # Execute one episode (roll out one episode) until it ends.
     while not done:
-        # Chuyển đổi trạng thái từ numpy array sang tensor của PyTorch và thêm một chiều batch.
-        # Đầu vào: state (numpy array).
-        # Đầu ra: state_t (tensor PyTorch có kích thước [1, state_dim]).
+        # Convert state from numpy array to PyTorch tensor and add a batch dimension.
+        # Input: state (numpy array).
+        # Output: state_t (PyTorch tensor with shape [1, state_dim]).
         state_t = torch.from_numpy(state).float().unsqueeze(0)
-        # Đưa trạng thái vào mạng chính sách để nhận về logits (đầu ra thô).
-        # Đầu vào: state_t.
-        # Đầu ra: logits (tensor).
+        # Pass the state into the policy network to get logits (raw output).
+        # Input: state_t.
+        # Output: logits (tensor).
         logits = policy(state_t)
-        # Tạo một phân phối Categorical từ logits.
-        # Đầu vào: logits.
-        # Đầu ra: dist (đối tượng phân phối).
+        # Create a Categorical distribution from logits.
+        # Input: logits.
+        # Output: dist (distribution object).
         dist = Categorical(logits=logits)
-        # Lấy mẫu một hành động từ phân phối xác suất.
-        # Đầu vào: dist.
-        # Đầu ra: action (tensor chứa hành động đã chọn).
+        # Sample an action from the probability distribution.
+        # Input: dist.
+        # Output: action (tensor containing the chosen action).
         action = dist.sample()
-        # Lưu log xác suất của hành động đã chọn.
-        # Đầu vào: dist, action.
-        # Đầu ra: log_probs (thêm một phần tử).
+        # Store the log probability of the chosen action.
+        # Input: dist, action.
+        # Output: log_probs (adds an element).
         log_probs.append(dist.log_prob(action))
 
-        # Thực hiện hành động trong môi trường và nhận về trạng thái mới, phần thưởng, và cờ kết thúc.
-        # Đầu vào: action.item() (chuyển tensor hành động về giá trị số).
-        # Đầu ra: state (trạng thái mới), reward (phần thưởng), terminated (kết thúc do điều kiện), truncated (kết thúc do giới hạn thời gian), _ (thông tin bổ sung).
+        # Perform the action in the environment and receive new state, reward, and termination flags.
+        # Input: action.item() (convert action tensor to numerical value).
+        # Output: state (new state), reward (reward), terminated (terminated by condition), truncated (terminated by time limit), _ (additional info).
         state, reward, terminated, truncated, _ = env.step(action.item())
-        # Lưu phần thưởng nhận được.
-        # Đầu vào: reward.
-        # Đầu ra: rewards (thêm một phần tử).
+        # Store the received reward.
+        # Input: reward.
+        # Output: rewards (adds an element).
         rewards.append(reward)
-        # Cập nhật cờ done nếu tập kết thúc.
-        # Đầu vào: terminated, truncated.
-        # Đầu ra: done (boolean).
+        # Update the done flag if the episode ends.
+        # Input: terminated, truncated.
+        # Output: done (boolean).
         done = terminated or truncated
 
-    # Tính toán tổng phần thưởng chiết khấu (G_t) cho mỗi bước thời gian.
-    # Đầu vào: rewards (danh sách phần thưởng).
-    # Đầu ra: returns (danh sách rỗng).
+    # Calculate the discounted total reward (G_t) for each time step.
+    # Input: rewards (list of rewards).
+    # Output: returns (empty list).
     returns = []
-    # Khởi tạo tổng phần thưởng chiết khấu tích lũy.
-    # Đầu ra: G (số thực).
+    # Initialize the cumulative discounted total reward.
+    # Output: G (float).
     G = 0
-    # Lặp ngược qua danh sách phần thưởng để tính G_t.
-    # Đầu vào: rewards (đảo ngược).
+    # Iterate backward through the rewards list to calculate G_t.
+    # Input: rewards (reversed).
     for r in reversed(rewards):
-        # Công thức tính G_t: G_t = r_t + gamma * G_{t+1}.
-        # Đầu vào: r (phần thưởng hiện tại), gamma (hệ số chiết khấu), G (G_{t+1}).
-        # Đầu ra: G (G_t).
+        # Formula for G_t: G_t = r_t + gamma * G_{t+1}.
+        # Input: r (current reward), gamma (discount factor), G (G_{t+1}).
+        # Output: G (G_t).
         G = r + gamma * G
-        # Chèn G_t vào đầu danh sách returns để giữ đúng thứ tự.
-        # Đầu vào: G.
-        # Đầu ra: returns (thêm một phần tử vào đầu).
+        # Insert G_t at the beginning of the returns list to maintain correct order.
+        # Input: G.
+        # Output: returns (adds an element to the beginning).
         returns.insert(0, G)
-    # Chuyển danh sách returns thành tensor của PyTorch.
-    # Đầu vào: returns (danh sách).
-    # Đầu ra: returns (tensor PyTorch).
+    # Convert the returns list to a PyTorch tensor.
+    # Input: returns (list).
+    # Output: returns (PyTorch tensor).
     returns = torch.tensor(returns, dtype=torch.float32)
-    # Chuẩn hóa returns để giảm phương sai (kỹ thuật baseline).
-    # Đầu vào: returns (tensor).
-    # Đầu ra: returns (tensor đã chuẩn hóa).
+    # Normalize returns to reduce variance (baseline technique).
+    # Input: returns (tensor).
+    # Output: returns (normalized tensor).
     returns = (returns - returns.mean()) / (returns.std() + 1e-8)
 
-    # Tính toán hàm mất mát của thuật toán Policy Gradient: -Σ log π(a|s) · G.
-    # Đầu vào: log_probs (danh sách log xác suất), returns (tensor phần thưởng chiết khấu).
-    # Đầu ra: loss (tensor chứa giá trị mất mát).
+    # Calculate the loss function for the Policy Gradient algorithm: -Σ log π(a|s) · G.
+    # Input: log_probs (list of log probabilities), returns (discounted reward tensor).
+    # Output: loss (tensor containing the loss value).
     loss = -torch.stack([lp * G for lp, G in zip(log_probs, returns)]).sum()
 
-    # Đặt lại gradient về 0 trước khi tính toán gradient mới.
+    # Reset gradients to 0 before calculating new gradients.
     optimizer.zero_grad()
-    # Thực hiện backpropagation để tính toán gradient của hàm mất mát đối với các tham số mạng.
+    # Perform backpropagation to calculate the gradient of the loss function with respect to network parameters.
     loss.backward()
-    # Cập nhật trọng số của mạng bằng bộ tối ưu hóa.
+    # Update network weights using the optimizer.
     optimizer.step()
 
-    # Tính tổng phần thưởng của tập hiện tại.
-    # Đầu vào: rewards (danh sách phần thưởng).
-    # Đầu ra: total_reward (số thực).
+    # Calculate the total reward of the current episode.
+    # Input: rewards (list of rewards).
+    # Output: total_reward (float).
     total_reward = sum(rewards)
-    # Lưu tổng phần thưởng vào lịch sử.
-    # Đầu vào: total_reward.
-    # Đầu ra: reward_history (thêm một phần tử).
+    # Store the total reward in history.
+    # Input: total_reward.
+    # Output: reward_history (adds an element).
     reward_history.append(total_reward)
 
-    # In thông tin tiến độ sau mỗi 50 tập.
-    # Đầu vào: episode (số tập hiện tại).
+    # Print progress information after every 50 episodes.
+    # Input: episode (current episode number).
     if (episode + 1) % 50 == 0:
-        # Tính phần thưởng trung bình của 50 tập gần nhất.
-        # Đầu vào: reward_history (50 phần tử cuối).
-        # Đầu ra: avg (số thực).
+        # Calculate the average reward of the last 50 episodes.
+        # Input: reward_history (last 50 elements).
+        # Output: avg (float).
         avg = np.mean(reward_history[-50:])
-        # In ra số tập và phần thưởng trung bình.
+        # Print the episode number and average reward.
         print(f"Episode {episode+1} | Avg reward (last 50): {avg:.1f}")
-        # Kết quả mong đợi: Dòng thông báo tiến độ huấn luyện, ví dụ: "Episode 50 | Avg reward (last 50): 25.0"
+        # Expected output: Training progress message, e.g., "Episode 50 | Avg reward (last 50): 25.0"
 
-# Đóng môi trường sau khi hoàn thành huấn luyện.
+# Close the environment after training is complete.
 env.close()`,
       exercise: "",
       exerciseEn: `Add a **value baseline** to the REINFORCE agent: a second small network V(s; φ) trained with MSE against the actual returns. Use \`A(s,a) = G_t − V(s)\` instead of normalized returns in the policy loss. You should see faster, more stable learning - congratulations, you've just built an Advantage Actor-Critic (A2C)!`,
@@ -975,70 +975,70 @@ Real-world RL has moved beyond toy problems: AlphaGo/AlphaZero conquered board g
 Use Stable-Baselines3 to train PPO on LunarLander-v2 for 200,000 timesteps. Render the trained policy and watch your agent learn to land safely. Try modifying the reward function (e.g., penalize fuel use more) and see how behavior changes.
       
       `,
-      code: `# Học tăng cường (RL) chất lượng sản phẩm với Stable-Baselines3
-# Cài đặt thư viện cần thiết: pip install stable-baselines3[extra] gymnasium
+      code: `# Reinforcement Learning (RL) for product quality with Stable-Baselines3
+# Install necessary libraries: pip install stable-baselines3[extra] gymnasium
 
-# Nhập các thư viện cần dùng
-import gymnasium as gym # Thư viện để tạo môi trường học tăng cường
-from stable_baselines3 import PPO # Thuật toán PPO (Proximal Policy Optimization) từ Stable-Baselines3
-from stable_baselines3.common.evaluation import evaluate_policy # Hàm để đánh giá hiệu suất của mô hình
+# Import required libraries
+import gymnasium as gym # Library for creating reinforcement learning environments
+from stable_baselines3 import PPO # PPO (Proximal Policy Optimization) algorithm from Stable-Baselines3
+from stable_baselines3.common.evaluation import evaluate_policy # Function to evaluate model performance
 
-# Tạo môi trường (LunarLander: một bài toán chuẩn trong điều khiển liên tục)
-# Đầu vào: Tên môi trường "LunarLander-v2"
-# Đầu ra: Một đối tượng môi trường đã được khởi tạo
+# Create environment (LunarLander: a standard problem in continuous control)
+# Input: Environment name "LunarLander-v2"
+# Output: An initialized environment object
 env = gym.make("LunarLander-v2")
 
-# Khởi tạo tác tử PPO với chính sách Mạng nơ-ron đa lớp (MLP)
-# Đầu vào: Các tham số cấu hình cho thuật toán PPO
-# Đầu ra: Một đối tượng mô hình PPO đã được cấu hình
+# Initialize PPO agent with Multi-layer Perceptron (MLP) policy
+# Input: Configuration parameters for the PPO algorithm
+# Output: A configured PPO model object
 model = PPO(
-    policy="MlpPolicy", # Loại chính sách: Mạng nơ-ron đa lớp (Multi-layer Perceptron)
-    env=env, # Môi trường mà tác tử sẽ học
-    learning_rate=3e-4, # Tốc độ học của thuật toán
-    n_steps=2048, # Số bước thu thập dữ liệu trong mỗi lần lặp trước khi cập nhật chính sách
-    batch_size=64, # Kích thước của mỗi lô dữ liệu dùng để cập nhật mạng
-    n_epochs=10, # Số lần lặp lại trên cùng một lô dữ liệu
-    gamma=0.99, # Hệ số chiết khấu cho phần thưởng tương lai
-    gae_lambda=0.95, # Tham số cho Generalized Advantage Estimation (GAE)
-    clip_range=0.2, # Phạm vi cắt (clipping) cho tỷ lệ xác suất trong PPO
-    verbose=1, # Mức độ hiển thị thông tin trong quá trình huấn luyện (1 để hiển thị tiến độ)
+    policy="MlpPolicy", # Policy type: Multi-layer Perceptron
+    env=env, # The environment the agent will learn in
+    learning_rate=3e-4, # Algorithm's learning rate
+    n_steps=2048, # Number of steps to collect data in each iteration before updating the policy
+    batch_size=64, # Size of each data batch used to update the network
+    n_epochs=10, # Number of iterations over the same data batch
+    gamma=0.99, # Discount factor for future rewards
+    gae_lambda=0.95, # Parameter for Generalized Advantage Estimation (GAE)
+    clip_range=0.2, # Clipping range for the probability ratio in PPO
+    verbose=1, # Verbosity level during training (1 to show progress)
 )
 
-# Huấn luyện mô hình trong 200.000 bước thời gian (~5-10 phút trên máy tính hiện đại)
-# Đầu vào: Tổng số bước thời gian mà mô hình sẽ học
+# Train the model for 200,000 timesteps (~5-10 minutes on a modern computer)
+# Input: Total timesteps the model will learn for
 model.learn(total_timesteps=200_000)
 
-# Lưu chính sách đã được huấn luyện vào một tệp
-# Đầu vào: Tên tệp để lưu mô hình
+# Save the trained policy to a file
+# Input: File name to save the model
 model.save("ppo_lunarlander")
 
-# Đánh giá mô hình trên 10 tập (episodes)
-# Đầu vào: Mô hình đã huấn luyện, môi trường, số tập để đánh giá, chế độ xác định (deterministic)
-# Đầu ra: Phần thưởng trung bình và độ lệch chuẩn của phần thưởng
+# Evaluate the model over 10 episodes
+# Input: Trained model, environment, number of episodes to evaluate, deterministic mode
+# Output: Mean reward and standard deviation of rewards
 mean_reward, std_reward = evaluate_policy(
     model, env, n_eval_episodes=10, deterministic=True
 )
-# In kết quả đánh giá
+# Print evaluation results
 print(f"Mean reward: {mean_reward:.1f} +/- {std_reward:.1f}")
 print("Solved threshold: 200. Above 200 = successful landing policy.")
-# Kết quả mong đợi: Phần thưởng trung bình và độ lệch chuẩn sau khi đánh giá.
-# Nếu phần thưởng trung bình trên 200, chính sách hạ cánh được coi là thành công.
+# Expected result: Mean reward and standard deviation after evaluation.
+# If the mean reward is above 200, the landing policy is considered successful.
 
-# Hiển thị một tập đã được huấn luyện (chế độ đồ họa)
-# Tạo một môi trường mới với chế độ hiển thị "human" để xem trực quan
+# Display a trained episode (graphical mode)
+# Create a new environment with "human" render mode for visual display
 render_env = gym.make("LunarLander-v2", render_mode="human")
-# Đặt lại môi trường về trạng thái ban đầu
+# Reset the environment to its initial state
 obs, _ = render_env.reset()
-done = False # Biến cờ để kiểm tra xem tập đã kết thúc chưa
-# Vòng lặp để chạy một tập cho đến khi kết thúc
+done = False # Flag variable to check if the episode has ended
+# Loop to run an episode until it ends
 while not done:
-    # Mô hình dự đoán hành động tốt nhất dựa trên trạng thái hiện tại
+    # The model predicts the best action based on the current state
     action, _ = model.predict(obs, deterministic=True)
-    # Thực hiện hành động trong môi trường và nhận về trạng thái mới, phần thưởng, v.v.
+    # Perform the action in the environment and receive new state, reward, etc.
     obs, reward, terminated, truncated, _ = render_env.step(action)
-    # Cập nhật biến cờ done nếu tập kết thúc (do terminated hoặc truncated)
+    # Update the 'done' flag if the episode ends (due to terminated or truncated)
     done = terminated or truncated
-# Đóng cửa sổ hiển thị sau khi tập kết thúc
+# Close the display window after the episode ends
 render_env.close()`,
       exercise: "",
       exerciseEn: `Train PPO on **BipedalWalker-v3** (continuous control of a 2D walker). This is harder - you may need 1M+ timesteps. Compare convergence speed with **SAC** (also in Stable-Baselines3). Which performs better and why? Hint: SAC's max-entropy objective often wins on continuous control.`,
@@ -1137,59 +1137,59 @@ SARSA is the on-policy cousin of Q-Learning. Its update target uses the *next ac
 
 Implement SARSA on **CliffWalking-v0**. Compare its trajectory and average reward against Q-Learning over 500 episodes. SARSA should take the safe upper path while Q-Learning hugs the cliff edge.
       `,
-      code: `# SARSA trên môi trường CliffWalking-v0
-# Thư viện cần thiết
+      code: `# SARSA on CliffWalking-v0 environment
+# Required libraries
 import numpy as np
 import gymnasium as gym
 
-# Tạo môi trường và lấy số trạng thái, hành động
+# Create environment and get number of states, actions
 env = gym.make("CliffWalking-v0")
 n_states = env.observation_space.n
 n_actions = env.action_space.n
 
-# Siêu tham số: learning rate, gamma, epsilon và decay
+# Hyperparameters: learning rate, gamma, epsilon and decay
 alpha, gamma = 0.1, 1.0
 epsilon, eps_min, eps_decay = 1.0, 0.05, 0.995
 
-# Khởi tạo bảng Q giá trị ban đầu
+# Initialize Q-table with initial values
 Q = np.zeros((n_states, n_actions))
 
-# Định nghĩa hàm chính sách epsilon-greedy
+# Define epsilon-greedy policy function
 def epsilon_greedy(state, eps):
-    # Nếu ngẫu nhiên < eps thì chọn hành động ngẫu nhiên (khám phá)
+    # If random < eps then choose a random action (explore)
     if np.random.rand() < eps:
         return env.action_space.sample()
     return int(np.argmax(Q[state]))
 
-# Vòng lặp chạy nhiều episode để học
+# Loop to run multiple episodes for learning
 for episode in range(500):
     state, _ = env.reset()
     action = epsilon_greedy(state, epsilon)
     total_reward = 0
     done = False
 
-    # Lặp từng bước trong episode cho tới khi kết thúc
+    # Loop through each step in the episode until termination
     while not done:
         next_state, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
-        # Chọn A' theo CÙNG chính sách (on-policy)
+        # Choose A' according to the SAME policy (on-policy)
         next_action = epsilon_greedy(next_state, epsilon)
-        # Cập nhật SARSA: dùng Q(S', A') - KHÔNG phải max Q(S', .)
+        # Update SARSA: use Q(S', A') - NOT max Q(S', .)
         td_target = reward + gamma * Q[next_state, next_action] * (not done)
         Q[state, action] += alpha * (td_target - Q[state, action])
         state, action = next_state, next_action
         total_reward += reward
 
-    # Cập nhật epsilon để giảm dần tỉ lệ khám phá
+    # Update epsilon to gradually decrease exploration rate
     epsilon = max(eps_min, epsilon * eps_decay)
     if (episode + 1) % 50 == 0:
         print(f"Episode {episode+1} | reward={total_reward} | eps={epsilon:.3f}")
 
-# Mũi tên tương ứng với hành động theo thứ tự [up, right, down, left]
+# Arrows corresponding to actions in order [up, right, down, left]
 arrows = ["↑", "→", "↓", "←"]
-# In chính sách greedy (dựa trên Q)
-print("\\\\nLearned greedy policy (SARSA):")
-# In từng hàng của ma trận chính sách 4x12
+# Print learned greedy policy (based on Q)
+print("\\nLearned greedy policy (SARSA):")
+# Print each row of the 4x12 policy matrix
 for row in np.argmax(Q, axis=1).reshape(4, 12):
     print(" ".join(arrows[a] for a in row))`,
       exercise: "",
@@ -1287,51 +1287,51 @@ Train PPO on **LunarLander-v2** with Stable-Baselines3 for 500k timesteps. Compa
       code: `# Production-grade PPO with Stable-Baselines3
 # pip install stable_baselines3[extra] gymnasium
 
-# Nhập thư viện gymnasium để tạo môi trường học tăng cường.
+# Import the gymnasium library to create reinforcement learning environments.
 import gymnasium as gym
-# Nhập thuật toán PPO (Proximal Policy Optimization) từ Stable-Baselines3.
+# Import the PPO (Proximal Policy Optimization) algorithm from Stable-Baselines3.
 from stable_baselines3 import PPO
-# Nhập các lớp cần thiết để xử lý môi trường song song và chuẩn hóa.
+# Import necessary classes to handle vectorized and normalized environments.
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
-# Nhập hàm để đánh giá hiệu suất của mô hình.
+# Import the function to evaluate model performance.
 from stable_baselines3.common.evaluation import evaluate_policy
 
-# Định nghĩa một hàm để tạo môi trường LunarLander-v2.
-# Hàm này sẽ được gọi để tạo ra các bản sao của môi trường.
+# Define a function to create the LunarLander-v2 environment.
+# This function will be called to create copies of the environment.
 def make_env():
-    # Trả về một thể hiện của môi trường LunarLander-v2.
-    # Đầu ra: một đối tượng môi trường Gymnasium.
+    # Return an instance of the LunarLander-v2 environment.
+    # Output: a Gymnasium environment object.
     return gym.make("LunarLander-v2")
 
-# Tạo một môi trường vector hóa (vectorized environment) giả lập.
-# Điều này cho phép xử lý nhiều bản sao của môi trường một cách tuần tự.
-# Đầu vào: một danh sách các hàm tạo môi trường.
+# Create a dummy vectorized environment.
+# This allows sequential processing of multiple environment copies.
+# Input: a list of environment creation functions.
 env = DummyVecEnv([make_env])
-# Chuẩn hóa các quan sát (observations) và phần thưởng (rewards) của môi trường.
-# Điều này giúp quá trình huấn luyện ổn định hơn.
-# norm_obs=True: chuẩn hóa quan sát.
-# norm_reward=True: chuẩn hóa phần thưởng.
-# clip_obs=10.0: giới hạn giá trị quan sát sau khi chuẩn hóa để tránh các giá trị quá lớn.
-# Đầu vào: môi trường vector hóa, các tham số chuẩn hóa.
-# Đầu ra: môi trường vector hóa đã được chuẩn hóa.
+# Normalize the environment's observations and rewards.
+# This helps stabilize the training process.
+# norm_obs=True: normalize observations.
+# norm_reward=True: normalize rewards.
+# clip_obs=10.0: clip observation values after normalization to prevent excessively large values.
+# Input: vectorized environment, normalization parameters.
+# Output: the normalized vectorized environment.
 env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.0)
 
-# Khởi tạo mô hình PPO (Proximal Policy Optimization).
-# policy="MlpPolicy": sử dụng mạng nơ-ron đa lớp (Multi-layer Perceptron) làm chính sách.
-# env=env: môi trường mà mô hình sẽ học.
-# learning_rate=3e-4: tốc độ học của thuật toán.
-# n_steps=2048: số bước thu thập dữ liệu trong mỗi lần lặp huấn luyện.
-# batch_size=64: kích thước của mini-batch để cập nhật mạng.
-# n_epochs=10: số lần lặp lại trên dữ liệu đã thu thập trong mỗi lần cập nhật chính sách.
-# gamma=0.99: hệ số chiết khấu cho phần thưởng tương lai.
-# gae_lambda=0.95: tham số cho Generalized Advantage Estimation.
-# clip_range=0.2: ngưỡng cắt (clipping) cho tỷ lệ xác suất trong PPO.
-# ent_coef=0.01: trọng số cho thành phần entropy trong hàm mất mát, khuyến khích khám phá.
-# vf_coef=0.5: trọng số cho thành phần hàm giá trị trong hàm mất mát.
-# max_grad_norm=0.5: giới hạn độ lớn của gradient để tránh bùng nổ gradient.
-# verbose=1: hiển thị thông tin huấn luyện.
-# Đầu vào: các tham số cấu hình cho thuật toán PPO.
-# Đầu ra: một đối tượng mô hình PPO đã được khởi tạo.
+# Initialize the PPO (Proximal Policy Optimization) model.
+# policy="MlpPolicy": use a Multi-layer Perceptron neural network as the policy.
+# env=env: the environment the model will learn from.
+# learning_rate=3e-4: the algorithm's learning rate.
+# n_steps=2048: number of steps to collect data in each training iteration.
+# batch_size=64: size of the mini-batch for network updates.
+# n_epochs=10: number of passes over the collected data in each policy update.
+# gamma=0.99: discount factor for future rewards.
+# gae_lambda=0.95: parameter for Generalized Advantage Estimation.
+# clip_range=0.2: clipping threshold for the probability ratio in PPO.
+# ent_coef=0.01: weight for the entropy component in the loss function, encourages exploration.
+# vf_coef=0.5: weight for the value function component in the loss function.
+# max_grad_norm=0.5: clip gradient magnitude to prevent exploding gradients.
+# verbose=1: display training information.
+# Input: configuration parameters for the PPO algorithm.
+# Output: an initialized PPO model object.
 model = PPO(
     policy="MlpPolicy",
     env=env,
@@ -1348,30 +1348,30 @@ model = PPO(
     verbose=1,
 )
 
-# Bắt đầu quá trình huấn luyện mô hình.
-# total_timesteps=500_000: tổng số bước thời gian mà mô hình sẽ tương tác với môi trường.
-# progress_bar=True: hiển thị thanh tiến trình huấn luyện.
-# Đầu vào: tổng số bước thời gian để huấn luyện.
+# Start the model training process.
+# total_timesteps=500_000: total number of timesteps the model will interact with the environment.
+# progress_bar=True: display a training progress bar.
+# Input: total number of timesteps to train.
 model.learn(total_timesteps=500_000, progress_bar=True)
-# Lưu mô hình đã huấn luyện vào một tệp.
-# Đầu vào: tên tệp để lưu mô hình.
+# Save the trained model to a file.
+# Input: filename to save the model.
 model.save("ppo_lunarlander")
-# Lưu trạng thái của đối tượng VecNormalize.
-# Điều này quan trọng để có thể tải lại môi trường đã chuẩn hóa đúng cách khi đánh giá hoặc sử dụng mô hình.
-# Đầu vào: tên tệp để lưu trạng thái chuẩn hóa.
+# Save the state of the VecNormalize object.
+# This is important to correctly reload the normalized environment when evaluating or using the model.
+# Input: filename to save the normalization state.
 env.save("vec_normalize.pkl")
 
-# Đánh giá hiệu suất của mô hình đã huấn luyện.
-# model: mô hình cần đánh giá.
-# env: môi trường để đánh giá.
-# n_eval_episodes=20: số lượng tập (episodes) để chạy đánh giá.
-# Đầu ra: giá trị trung bình và độ lệch chuẩn của phần thưởng.
+# Evaluate the performance of the trained model.
+# model: the model to evaluate.
+# env: the environment for evaluation.
+# n_eval_episodes=20: number of episodes to run for evaluation.
+# Output: mean and standard deviation of rewards.
 mean_reward, std_reward = evaluate_policy(model, env, n_eval_episodes=20)
-# In ra phần thưởng trung bình và độ lệch chuẩn.
-# Kết quả mong đợi: "Mean reward: [giá trị] +/- [giá trị]"
+# Print the mean reward and standard deviation.
+# Expected output: "Mean reward: [value] +/- [value]"
 print(f"Mean reward: {mean_reward:.1f} ± {std_reward:.1f}")
-# In ra ngưỡng giải quyết của môi trường LunarLander-v2.
-# Kết quả mong đợi: "Solved threshold = 200."
+# Print the solved threshold of the LunarLander-v2 environment.
+# Expected output: "Solved threshold = 200."
 print("Solved threshold = 200.")`,
       exercise: "",
       exerciseEn: "Train on **BipedalWalker-v3** for 1M+ timesteps. Compare convergence with **SAC** (off-policy max-entropy method) - which wins on this harder continuous task?",
@@ -1477,59 +1477,59 @@ Use **PettingZoo** to train independent PPO on the cooperative \`pursuit_v4\` en
       code: `# Multi-agent cooperative pursuit with PettingZoo + Stable-Baselines3
 # pip install pettingzoo[sisl] supersuit stable-baselines3
 
-# Nhập thư viện pursuit_v4 từ PettingZoo để tạo môi trường mô phỏng.
-# Đây là môi trường nhiều tác nhân (multi-agent) nơi các tác nhân hợp tác để bắt mục tiêu.
+# Import the pursuit_v4 library from PettingZoo to create the simulation environment.
+# This is a multi-agent environment where agents cooperate to catch targets.
 from pettingzoo.sisl import pursuit_v4
-# Nhập thư viện Supersuit để xử lý và đóng gói môi trường, giúp tương thích với Stable-Baselines3.
+# Import the Supersuit library to process and wrap the environment, making it compatible with Stable-Baselines3.
 import supersuit as ss
-# Nhập thuật toán PPO (Proximal Policy Optimization) từ Stable-Baselines3.
-# PPO là một thuật toán học tăng cường phổ biến để huấn luyện các tác nhân.
+# Import the PPO (Proximal Policy Optimization) algorithm from Stable-Baselines3.
+# PPO is a popular reinforcement learning algorithm for training agents.
 from stable_baselines3 import PPO
 
-# Khởi tạo môi trường đuổi bắt (pursuit) song song.
-# Đầu vào:
-#   - max_cycles: Số bước tối đa trong một tập (episode).
-#   - n_pursuers: Số lượng tác nhân "người đuổi" (predator).
-#   - n_evaders: Số lượng tác nhân "kẻ trốn" (evader).
-# Đầu ra: Một đối tượng môi trường PettingZoo ở chế độ song song.
+# Initialize the parallel pursuit environment.
+# Inputs:
+#   - max_cycles: Maximum number of steps in an episode.
+#   - n_pursuers: Number of "pursuer" (predator) agents.
+#   - n_evaders: Number of "evader" agents.
+# Output: A PettingZoo environment object in parallel mode.
 env = pursuit_v4.parallel_env(max_cycles=500, n_pursuers=8, n_evaders=30)
-# Đặt lại môi trường về trạng thái ban đầu và gán một seed để đảm bảo tính lặp lại.
-# Đầu vào: seed=42 để cố định trạng thái khởi tạo.
+# Reset the environment to its initial state and assign a seed to ensure reproducibility.
+# Input: seed=42 to fix the initial state.
 env.reset(seed=42)
 
 # Wrap for SB3
-# Đóng gói môi trường để đảm bảo tất cả các quan sát (observations) có cùng kích thước.
-# Điều này hữu ích khi các tác nhân có không gian quan sát khác nhau.
+# Wrap the environment to ensure all observations have the same size.
+# This is useful when agents have different observation spaces.
 env = ss.pad_observations_v0(env)
-# Đóng gói môi trường để đảm bảo tất cả các không gian hành động (action spaces) có cùng kích thước.
-# Điều này hữu ích khi các tác nhân có không gian hành động khác nhau.
+# Wrap the environment to ensure all action spaces have the same size.
+# This is useful when agents have different action spaces.
 env = ss.pad_action_space_v0(env)
-# Chuyển đổi môi trường PettingZoo thành môi trường VecEnv (Vectorized Environment) của Stable-Baselines3.
-# VecEnv cho phép chạy nhiều bản sao của môi trường song song để tăng tốc độ huấn luyện.
+# Convert the PettingZoo environment to a Stable-Baselines3 VecEnv (Vectorized Environment).
+# VecEnv allows running multiple copies of the environment in parallel to speed up training.
 env = ss.pettingzoo_env_to_vec_env_v1(env)
-# Nối nhiều môi trường VecEnv lại với nhau.
-# Đầu vào:
-#   - env: Môi trường VecEnv đã chuyển đổi.
-#   - num_vec_envs: Số lượng môi trường VecEnv muốn nối (ở đây là 4 bản sao).
-#   - base_class: Lớp cơ sở của môi trường VecEnv, chỉ định là "stable_baselines3".
-# Đầu ra: Một môi trường VecEnv lớn hơn, chứa 4 bản sao của môi trường gốc.
+# Concatenate multiple VecEnv environments together.
+# Inputs:
+#   - env: The converted VecEnv environment.
+#   - num_vec_envs: The number of VecEnv environments to concatenate (here, 4 copies).
+#   - base_class: The base class of the VecEnv environment, specified as "stable_baselines3".
+# Output: A larger VecEnv environment, containing 4 copies of the original environment.
 env = ss.concat_vec_envs_v1(env, num_vec_envs=4, base_class="stable_baselines3")
 
 # Shared-parameter PPO - all predators use the same policy
-# Khởi tạo mô hình PPO (Proximal Policy Optimization).
-# Đầu vào:
-#   - policy: Loại mạng nơ-ron cho chính sách (policy), "MlpPolicy" là mạng đa lớp truyền thẳng.
-#   - env: Môi trường đã được đóng gói và vector hóa.
-#   - learning_rate: Tốc độ học của thuật toán.
-#   - n_steps: Số bước thu thập dữ liệu trong mỗi lần lặp huấn luyện.
-#   - batch_size: Kích thước của batch dữ liệu dùng để cập nhật mạng.
-#   - n_epochs: Số lần lặp lại trên cùng một batch dữ liệu.
-#   - gamma: Hệ số chiết khấu cho phần thưởng tương lai.
-#   - gae_lambda: Tham số cho Generalized Advantage Estimation (GAE).
-#   - clip_range: Phạm vi cắt (clipping) cho tỷ lệ xác suất trong PPO.
-#   - ent_coef: Hệ số cho thành phần entropy trong hàm mất mát, khuyến khích khám phá.
-#   - verbose: Mức độ chi tiết của thông báo log trong quá trình huấn luyện (1 hiển thị tiến độ).
-# Đầu ra: Một đối tượng mô hình PPO đã được cấu hình.
+# Initialize the PPO (Proximal Policy Optimization) model.
+# Inputs:
+#   - policy: The type of neural network for the policy, "MlpPolicy" is a multi-layer perceptron.
+#   - env: The wrapped and vectorized environment.
+#   - learning_rate: The learning rate of the algorithm.
+#   - n_steps: The number of steps to collect data in each training iteration.
+#   - batch_size: The size of the data batch used to update the network.
+#   - n_epochs: The number of times to iterate over the same data batch.
+#   - gamma: The discount factor for future rewards.
+#   - gae_lambda: Parameter for Generalized Advantage Estimation (GAE).
+#   - clip_range: The clipping range for the probability ratio in PPO.
+#   - ent_coef: The coefficient for the entropy component in the loss function, encouraging exploration.
+#   - verbose: The verbosity level of log messages during training (1 displays progress).
+# Output: A configured PPO model object.
 model = PPO(
     policy="MlpPolicy",
     env=env,
@@ -1544,15 +1544,15 @@ model = PPO(
     verbose=1,
 )
 
-# In thông báo bắt đầu quá trình huấn luyện.
+# Print a message indicating the start of the training process.
 print("Training cooperative predator team for 200k timesteps...")
-# Bắt đầu quá trình huấn luyện mô hình PPO.
-# Đầu vào: total_timesteps: Tổng số bước thời gian mà mô hình sẽ học.
-# Đầu ra: Mô hình PPO đã được huấn luyện.
+# Start the PPO model training process.
+# Input: total_timesteps: The total number of timesteps the model will learn for.
+# Output: The trained PPO model.
 model.learn(total_timesteps=200_000)
-# Lưu mô hình đã huấn luyện vào một tệp.
-# Đầu vào: Tên tệp để lưu mô hình.
-# Đầu ra: Một tệp "ppo_pursuit_team.zip" chứa mô hình đã huấn luyện.
+# Save the trained model to a file.
+# Input: The filename to save the model.
+# Output: A "ppo_pursuit_team.zip" file containing the trained model.
 model.save("ppo_pursuit_team")`,
       exercise: "",
       exerciseEn: "Switch to **competitive** `connect_four_v3`. Implement self-play: train P1 against frozen P2 for 50k steps, then swap. Repeat 5 cycles. Measure win-rate vs random opponent - does it grow monotonically?",
@@ -1648,59 +1648,59 @@ Offline RL learns optimal policies from a fixed dataset of past interactions, wi
 
 Use **D4RL** + **d3rlpy** to train **CQL** on \`hopper-medium-v2\`. Compare its return against pure behavior cloning - CQL should outperform, demonstrating offline RL improving *beyond* what was demonstrated.
       `,
-      code: `# Học tăng cường ngoại tuyến (Offline RL) với thư viện d3rlpy trên bộ dữ liệu D4RL
-# Cài đặt thư viện d3rlpy và gymnasium nếu chưa có
+      code: `# Offline Reinforcement Learning (Offline RL) with the d3rlpy library on the D4RL dataset
+# Install d3rlpy and gymnasium libraries if not already present
 # pip install d3rlpy gymnasium
 import d3rlpy
 from d3rlpy.algos import CQLConfig
 
-# Tải bộ dữ liệu D4RL "hopper-medium-v2" (chứa 1 triệu chuyển đổi trạng thái)
-# Đầu vào: Tên bộ dữ liệu "hopper-medium-v2"
-# Đầu ra: dataset (dữ liệu các tập chơi), env (môi trường mô phỏng)
+# Load the D4RL dataset "hopper-medium-v2" (contains 1 million state transitions)
+# Input: Dataset name "hopper-medium-v2"
+# Output: dataset (trajectory data), env (simulated environment)
 dataset, env = d3rlpy.datasets.get_dataset("hopper-medium-v2")
-# In ra số lượng tập chơi (episodes) đã tải.
-# Kết quả mong đợi: Số lượng tập chơi trong bộ dữ liệu.
+# Print the number of loaded episodes.
+# Expected result: The number of episodes in the dataset.
 print(f"Loaded {len(dataset.episodes)} episodes")
 
-# Cấu hình thuật toán Conservative Q-Learning (CQL)
-# CQL là thuật toán phạt giá trị Q cho các hành động nằm ngoài phân phối dữ liệu huấn luyện.
+# Configure the Conservative Q-Learning (CQL) algorithm
+# CQL is an algorithm that penalizes Q-values for actions outside the training data distribution.
 cql = CQLConfig(
-    # Tốc độ học của mạng actor (chính sách)
+    # Actor network learning rate (policy)
     actor_learning_rate=1e-4,
-    # Tốc độ học của mạng critic (ước lượng giá trị Q)
+    # Critic network learning rate (Q-value estimation)
     critic_learning_rate=3e-4,
-    # Kích thước của mỗi lô dữ liệu (batch) dùng để huấn luyện
+    # Size of each data batch used for training
     batch_size=256,
-    # Hệ số chiết khấu cho phần thưởng tương lai
+    # Discount factor for future rewards
     gamma=0.99,
-    # Hệ số cập nhật mềm cho mạng mục tiêu (target network)
+    # Soft update coefficient for the target network
     tau=0.005,
-    # Số lượng mạng critic được sử dụng
+    # Number of critic networks used
     n_critics=2,
-    # Tham số quan trọng của CQL, kiểm soát mức độ "bảo thủ"
+    # Important CQL parameter, controls the degree of "conservatism"
     conservative_weight=5.0,    # the key CQL hyperparameter
-# Tạo đối tượng CQL với cấu hình đã cho và chỉ định thiết bị sử dụng (GPU hoặc CPU)
+# Create a CQL object with the given configuration and specify the device to use (GPU or CPU)
 ).create(device="cuda:0")        # or "cpu:0"
 
-# Huấn luyện mô hình ngoại tuyến (Offline training)
-# KHÔNG có tương tác với môi trường trong quá trình huấn luyện.
-# Đầu vào: dataset (dữ liệu huấn luyện), n_steps (tổng số bước huấn luyện),
-# n_steps_per_epoch (số bước mỗi epoch), evaluators (công cụ đánh giá).
+# Offline training of the model
+# NO interaction with the environment during training.
+# Input: dataset (training data), n_steps (total training steps),
+# n_steps_per_epoch (steps per epoch), evaluators (evaluation tools).
 cql.fit(
     dataset,
-    # Tổng số bước huấn luyện
+    # Total number of training steps
     n_steps=500_000,
-    # Số bước huấn luyện trong mỗi epoch (chu kỳ)
+    # Number of training steps per epoch (cycle)
     n_steps_per_epoch=10_000,
-    # Công cụ đánh giá hiệu suất của mô hình trên môi trường
+    # Tool for evaluating model performance on the environment
     evaluators={"environment": d3rlpy.metrics.EnvironmentEvaluator(env)},
 )
 
-# Lưu mô hình đã huấn luyện vào tệp
-# Đầu vào: Tên tệp để lưu mô hình.
+# Save the trained model to a file
+# Input: File name to save the model.
 cql.save("cql_hopper_medium.d3")
-# In ra thông tin về hiệu suất điển hình của CQL so với BC (Behavioral Cloning).
-# Kết quả mong đợi: Thông báo về điểm số của CQL và BC.
+# Print information about the typical performance of CQL compared to BC (Behavioral Cloning).
+# Expected result: Message about CQL and BC scores.
 print("CQL typically reaches ~70-80 normalized score vs ~45 for BC.")`,
       exercise: "",
       exerciseEn: "Train **Behavior Cloning** (`d3rlpy.algos.BCConfig`) on the same dataset. Compare returns vs CQL. Try `hopper-medium-replay-v2` - on which dataset does CQL's improvement over BC become larger and why?",
@@ -1820,71 +1820,71 @@ AlphaGo combines policy/value networks with MCTS, then improves via pure self-pl
 
 Read OpenAI's InstructGPT paper (2022) and the AlphaGo Nature paper. Compare: (1) PPO's role in each, (2) reward signal differences, (3) exploration strategies.
       `,
-      code: `# Khung sườn ý tưởng cho RLHF (Reinforcement Learning from Human Feedback) sử dụng thư viện TRL
-# RLHF là một kỹ thuật huấn luyện mô hình ngôn ngữ bằng cách sử dụng phản hồi của con người.
-# Để chạy được code này, cần cài đặt các thư viện sau: pip install trl transformers peft accelerate
+      code: `# Conceptual framework for RLHF (Reinforcement Learning from Human Feedback) using the TRL library
+# RLHF is a technique for training language models using human feedback.
+# To run this code, the following libraries need to be installed: pip install trl transformers peft accelerate
 
-# Nhập các lớp cần thiết từ thư viện trl để cấu hình và huấn luyện PPO.
+# Import necessary classes from the trl library to configure and train PPO.
 from trl import PPOConfig, PPOTrainer, AutoModelForCausalLMWithValueHead
-# Nhập AutoTokenizer để tải bộ mã hóa và pipeline từ thư viện transformers để tạo pipeline xử lý ngôn ngữ tự nhiên.
+# Import AutoTokenizer to load the tokenizer and pipeline from the transformers library to create a natural language processing pipeline.
 from transformers import AutoTokenizer, pipeline
-# Nhập thư viện torch để làm việc với tensor (mảng đa chiều).
+# Import the torch library to work with tensors (multi-dimensional arrays).
 import torch
 
-# Định nghĩa tên mô hình cơ sở sẽ được sử dụng.
+# Define the name of the base model to be used.
 MODEL = "gpt2"
-# Tải bộ mã hóa (tokenizer) đã được huấn luyện sẵn cho mô hình GPT-2.
-# Đầu vào: Tên mô hình ("gpt2").
-# Đầu ra: Đối tượng tokenizer.
+# Load a pre-trained tokenizer for the GPT-2 model.
+# Input: Model name ("gpt2").
+# Output: Tokenizer object.
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
-# Đặt token đệm (padding token) bằng token kết thúc câu (end-of-sequence token).
-# Điều này giúp xử lý các chuỗi có độ dài khác nhau khi tạo batch.
+# Set the padding token to the end-of-sequence token.
+# This helps handle sequences of different lengths when creating batches.
 tokenizer.pad_token = tokenizer.eos_token
-# Tải mô hình ngôn ngữ GPT-2 đã được huấn luyện sẵn, tích hợp thêm một head giá trị (value head).
-# Value head được sử dụng trong RL để ước tính giá trị của một trạng thái hoặc hành động.
-# Đầu vào: Tên mô hình ("gpt2").
-# Đầu ra: Đối tượng mô hình.
+# Load a pre-trained GPT-2 language model, integrated with a value head.
+# The value head is used in RL to estimate the value of a state or action.
+# Input: Model name ("gpt2").
+# Output: Model object.
 model = AutoModelForCausalLMWithValueHead.from_pretrained(MODEL)
-# Tải một mô hình tham chiếu (reference model) tương tự như mô hình chính.
-# Mô hình tham chiếu được dùng để tính toán KL divergence (sự khác biệt giữa hai phân phối xác suất)
-# nhằm kiểm soát sự thay đổi của mô hình trong quá trình huấn luyện PPO.
-# Đầu vào: Tên mô hình ("gpt2").
-# Đầu ra: Đối tượng mô hình tham chiếu.
+# Load a reference model similar to the main model.
+# The reference model is used to calculate KL divergence (the difference between two probability distributions)
+# to control model changes during PPO training.
+# Input: Model name ("gpt2").
+# Output: Reference model object.
 ref_model = AutoModelForCausalLMWithValueHead.from_pretrained(MODEL)
 
-# Mô hình phần thưởng (Reward model) - sử dụng phân tích cảm xúc làm đại diện cho phản hồi của con người.
-# Tạo một pipeline phân tích cảm xúc để đánh giá phản hồi của mô hình.
-# Đầu vào: Tên tác vụ ("sentiment-analysis") và tên mô hình phân tích cảm xúc.
-# Đầu ra: Đối tượng pipeline.
+# Reward model - uses sentiment analysis as a proxy for human feedback.
+# Create a sentiment analysis pipeline to evaluate model responses.
+# Input: Task name ("sentiment-analysis") and sentiment analysis model name.
+# Output: Pipeline object.
 reward_pipe = pipeline("sentiment-analysis", model="lvwerra/distilbert-imdb")
 
-# Định nghĩa hàm tính toán phần thưởng dựa trên kết quả phân tích cảm xúc.
-# Đầu vào: Một chuỗi văn bản (text).
-# Đầu ra: Điểm phần thưởng (số thực).
+# Define a function to calculate reward based on sentiment analysis results.
+# Input: A text string.
+# Output: Reward score (float).
 def reward_fn(text):
-    # Sử dụng pipeline để phân tích cảm xúc của văn bản.
-    # truncation=True: Cắt bớt văn bản nếu quá dài.
-    # max_length=512: Giới hạn độ dài tối đa của văn bản đầu vào.
-    # Kết quả là một danh sách chứa một dictionary, lấy phần tử đầu tiên.
+    # Use the pipeline to analyze the sentiment of the text.
+    # truncation=True: Truncate text if too long.
+    # max_length=512: Limit the maximum length of the input text.
+    # The result is a list containing a dictionary, take the first element.
     out = reward_pipe(text, truncation=True, max_length=512)[0]
-    # Trả về điểm số (score) nếu cảm xúc là "POSITIVE", ngược lại trả về âm điểm số.
-    # Điều này khuyến khích mô hình tạo ra văn bản có cảm xúc tích cực.
+    # Return the score if the sentiment is "POSITIVE", otherwise return the negative score.
+    # This encourages the model to generate text with positive sentiment.
     return out["score"] if out["label"] == "POSITIVE" else -out["score"]
 
-# Cấu hình các tham số cho thuật toán PPO (Proximal Policy Optimization).
+# Configure parameters for the PPO (Proximal Policy Optimization) algorithm.
 ppo_config = PPOConfig(
-    model_name=MODEL, # Tên mô hình.
-    learning_rate=1.4e-5, # Tốc độ học.
-    batch_size=16, # Kích thước batch tổng thể.
-    mini_batch_size=4, # Kích thước mini-batch cho mỗi lần cập nhật.
-    init_kl_coef=0.2,            # Hệ số phạt KL ban đầu (KL penalty β).
-    target_kl=6.0, # Giá trị KL divergence mục tiêu.
-    cliprange=0.2, # Khoảng giới hạn (clipping range) cho PPO.
+    model_name=MODEL, # Model name.
+    learning_rate=1.4e-5, # Learning rate.
+    batch_size=16, # Overall batch size.
+    mini_batch_size=4, # Mini-batch size for each update.
+    init_kl_coef=0.2,            # Initial KL penalty coefficient (KL penalty β).
+    target_kl=6.0, # Target KL divergence value.
+    cliprange=0.2, # Clipping range for PPO.
 )
 
-# Khởi tạo đối tượng PPOTrainer để huấn luyện mô hình.
-# Đầu vào: Cấu hình PPO, mô hình chính, mô hình tham chiếu và tokenizer.
-# Đầu ra: Đối tượng PPOTrainer.
+# Initialize the PPOTrainer object to train the model.
+# Input: PPO configuration, main model, reference model, and tokenizer.
+# Output: PPOTrainer object.
 ppo_trainer = PPOTrainer(
     config=ppo_config,
     model=model,
@@ -1892,49 +1892,48 @@ ppo_trainer = PPOTrainer(
     tokenizer=tokenizer,
 )
 
-# Danh sách các câu nhắc (prompts) ban đầu để mô hình tạo ra phản hồi.
+# List of initial prompts for the model to generate responses.
 prompts = ["The movie was", "I really felt that", "Honestly, the experience was"]
-# Bắt đầu vòng lặp huấn luyện qua các epoch.
-# Mỗi epoch là một lần lặp qua toàn bộ quá trình huấn luyện.
+# Start the training loop over epochs.
+# Each epoch is one iteration through the entire training process.
 for epoch in range(50):
-    # Mã hóa các câu nhắc thành tensor để đưa vào mô hình.
-    # return_tensors="pt": Trả về kết quả dưới dạng PyTorch tensor.
-    # squeeze(): Loại bỏ các chiều đơn (ví dụ: từ [1, N] thành [N]).
-    # Đầu vào: Danh sách các chuỗi prompts.
-    # Đầu ra: Danh sách các tensor mã hóa.
+    # Encode prompts into tensors to feed into the model.
+    # return_tensors="pt": Return results as PyTorch tensors.
+    # squeeze(): Remove single dimensions (e.g., from [1, N] to [N]).
+    # Input: List of prompt strings.
+    # Output: List of encoded tensors.
     queries = [tokenizer.encode(p, return_tensors="pt").squeeze() for p in prompts]
-    # Tạo phản hồi từ mô hình dựa trên các câu nhắc.
-    # max_new_tokens=30: Giới hạn số lượng token mới được tạo ra.
-    # do_sample=True: Sử dụng lấy mẫu ngẫu nhiên để tạo phản hồi đa dạng hơn.
-    # top_p=0.9: Sử dụng lấy mẫu Top-p (nucleus sampling) để chọn các token.
-    # Đầu vào: Danh sách các tensor câu nhắc.
-    # Đầu ra: Danh sách các tensor phản hồi được tạo bởi mô hình.
+    # Generate responses from the model based on the prompts.
+    # max_new_tokens=30: Limit the number of new tokens generated.
+    # do_sample=True: Use random sampling to generate more diverse responses.
+    # top_p=0.9: Use Top-p sampling (nucleus sampling) to select tokens.
+    # Input: List of prompt tensors.
+    # Output: List of response tensors generated by the model.
     response_tensors = ppo_trainer.generate(queries, max_new_tokens=30, do_sample=True, top_p=0.9)
-    # Giải mã các tensor phản hồi thành chuỗi văn bản dễ đọc.
-    # Đầu vào: Danh sách các tensor phản hồi.
-    # Đầu ra: Danh sách các chuỗi phản hồi.
+    # Decode response tensors into human-readable text strings.
+    # Input: List of response tensors.
+    # Output: List of response strings.
     responses = [tokenizer.decode(r) for r in response_tensors]
-    # Tính toán phần thưởng cho từng cặp câu nhắc và phản hồi.
-    # Nối câu nhắc và phản hồi lại với nhau để đánh giá cảm xúc của toàn bộ văn bản.
-    # Chuyển kết quả phần thưởng thành tensor PyTorch.
-    # Đầu vào: Danh sách các chuỗi prompts và responses.
-    # Đầu ra: Danh sách các tensor phần thưởng.
+    # Calculate rewards for each prompt-response pair.
+    # Concatenate prompt and response to evaluate the sentiment of the entire text.
+    # Convert reward results into PyTorch tensors.
+    # Input: List of prompt and response strings.
+    # Output: List of reward tensors.
     rewards = [torch.tensor(reward_fn(p + r)) for p, r in zip(prompts, responses)]
-    # Thực hiện một bước huấn luyện PPO.
-    # Cập nhật trọng số của mô hình dựa trên các câu nhắc, phản hồi và phần thưởng.
-    # Đầu vào: Danh sách các tensor câu nhắc, phản hồi và phần thưởng.
-    # Đầu ra: Một dictionary chứa các thống kê huấn luyện.
+    # Perform one PPO training step.
+    # Update model weights based on prompts, responses, and rewards.
+    # Input: List of prompt tensors, response tensors, and reward tensors.
+    # Output: A dictionary containing training statistics.
     stats = ppo_trainer.step(queries, response_tensors, rewards)
-    # In ra thông tin huấn luyện sau mỗi 10 epoch.
+    # Print training information every 10 epochs.
     if epoch % 10 == 0:
-        # Tính phần thưởng trung bình.
+        # Calculate average reward.
         mean_r = sum(r.item() for r in rewards) / len(rewards)
-        # In ra số epoch, phần thưởng trung bình và KL divergence.
-        # KL divergence (objective/kl) là một chỉ số quan trọng trong PPO, cho biết sự khác biệt giữa chính sách cũ và mới.
+        # Print epoch number, average reward, and KL divergence.
+        # KL divergence (objective/kl) is an important metric in PPO, indicating the difference between old and new policies.
         print(f"Epoch {epoch} | mean reward={mean_r:.3f} | KL={stats['objective/kl']:.3f}")
-        # Kết quả mong đợi: Mô hình sẽ dần tạo ra các phản hồi có cảm xúc tích cực hơn, dẫn đến mean reward tăng lên.
-        # KL divergence sẽ được kiểm soát để tránh thay đổi chính sách quá đột ngột.
-`,
+        # Expected outcome: The model will gradually generate more positive sentiment responses, leading to an increase in mean reward.
+        # KL divergence will be controlled to avoid abrupt policy changes.`,
       exercise: "",
       exerciseEn: "Implement simplified **MCTS** for Tic-Tac-Toe in pure Python (no NN). For each move, run 1000 random rollouts and pick the action with the highest win rate. Test vs random opponent - should win >95%.",
       quiz: [
@@ -2007,20 +2006,20 @@ A search engine crawler must discover new pages. ε-greedy revisits popular page
 
 ## Practice Task
 Implement UCB-1 for a 10-armed Bernoulli bandit and compare cumulative regret vs ε=0.1 greedy over 5 000 steps. Plot both curves.`,
-      code: `# So sánh UCB-1 và ε-greedy trên bài toán 10-armed bandit
-# Thư viện cần thiết: numpy và math
+      code: `# Compare UCB-1 and ε-greedy on the 10-armed bandit problem
+# Required libraries: numpy and math
 import numpy as np, math
 
-# Thiết lập số tay kéo K và thời gian T
+# Set number of arms K and time T
 K, T = 10, 10_000
-true_p = np.random.uniform(0.1, 0.9, K)        # xác suất Bernoulli ẩn cho mỗi tay
+true_p = np.random.uniform(0.1, 0.9, K)        # hidden Bernoulli probability for each arm
 
-# Hàm chạy chiến lược và trả về regret tích lũy
+# Function to run strategy and return cumulative regret
 def run(strategy):
     Q = np.zeros(K); N = np.zeros(K); reward_hist = []
-    # Lặp qua các bước t từ 1 tới T
+    # Loop through steps t from 1 to T
     for t in range(1, T+1):
-        # Chọn hành động: ε-greedy nếu strategy=='egreedy' hoặc ngược lại dùng UCB-1
+        # Choose action: ε-greedy if strategy=='egreedy' or UCB-1 otherwise
         if strategy == "egreedy":
             a = np.random.randint(K) if np.random.rand() < 0.1 else int(np.argmax(Q))
         else:                                  # UCB-1
@@ -2028,14 +2027,14 @@ def run(strategy):
             a = int(np.argmax(ucb))
         r = float(np.random.rand() < true_p[a])
         N[a] += 1
-        Q[a] += (r - Q[a]) / N[a]              # trung bình tăng dần
+        Q[a] += (r - Q[a]) / N[a]              # incremental average
         reward_hist.append(r)
     optimal = true_p.max() * T
-    return optimal - np.sum(reward_hist)        # regret tích lũy
+    return optimal - np.sum(reward_hist)        # cumulative regret
 
 print(f"ε-greedy regret: {run('egreedy'):8.1f}")
 print(f"UCB-1   regret: {run('ucb'):8.1f}")
-# UCB thường đạt regret thấp hơn khoảng 30%`,
+# UCB usually achieves about 30% lower regret`,
       exercise: "Why does ε-greedy fail catastrophically on Montezuma's Revenge while curiosity-driven methods can solve it? Explain in 3 sentences referring to reward sparsity.",
       exerciseEn: "",
       quiz: [
@@ -2118,11 +2117,11 @@ Reinforcement learning agents proposing new molecules suffer from sparse reward 
 
 ## Practice Task
 Design a curiosity bonus for a robot vacuum cleaner. State = (room id, dirt sensor, battery). Argue whether RND or ICM is better and how you would prevent the bonus from preventing the robot from ever recharging.`,
-      code: `# Mô-đun RND tối thiểu (PyTorch)
-# Nhập các thư viện PyTorch cần thiết
+      code: `# Minimal RND Module (PyTorch)
+# Import necessary PyTorch libraries
 import torch, torch.nn as nn, torch.optim as optim
 
-# Định nghĩa lớp mạng RND
+# Define RND network class
 class RNDNet(nn.Module):
     def __init__(self, in_dim=64, hid=256, out=128):
         super().__init__()
@@ -2131,23 +2130,23 @@ class RNDNet(nn.Module):
             nn.Linear(hid, hid), nn.ReLU(),
             nn.Linear(hid, out),
         )
-    # Hàm forward trả về đầu ra của mạng
+    # Forward function returns network output
     def forward(self, x): return self.net(x)
 
-# Khởi tạo mô hình target (đóng băng, ngẫu nhiên), predictor (được huấn luyện) và bộ tối ưu
-target = RNDNet().eval()                      # đóng băng, ngẫu nhiên
+# Initialize target model (frozen, random), predictor (trained) and optimizer
+target = RNDNet().eval()                      # frozen, random
 predictor = RNDNet()                          # trained
 opt = optim.Adam(predictor.parameters(), lr=1e-4)
 
-# Hàm tính phần thưởng nội tại dựa trên sai số dự đoán
+# Function to calculate intrinsic reward based on prediction error
 def intrinsic_reward(states):
     with torch.no_grad():
         y_hat = target(states)
     y = predictor(states)
-    err = (y - y_hat).pow(2).mean(dim=1)      # độ mới cho mỗi mẫu
-    return err.detach()                        # dùng như phần thưởng phụ
+    err = (y - y_hat).pow(2).mean(dim=1)      # novelty for each sample
+    return err.detach()                        # use as auxiliary reward
 
-# Cập nhật predictor bằng tối ưu hóa MSE
+# Update predictor by optimizing MSE
 def update_predictor(states):
     with torch.no_grad():
         y_hat = target(states)
@@ -2156,13 +2155,13 @@ def update_predictor(states):
     opt.zero_grad(); loss.backward(); opt.step()
     return loss.item()
 
-# Giả sử chúng ta lấy mẫu trạng thái ngẫu nhiên từ môi trường
+# Assume we sample random states from the environment
 states = torch.randn(64, 64)
 print("novelty (high at first):", intrinsic_reward(states).mean().item())
-# Lặp nhiều lần để cập nhật predictor trên cùng bộ states
+# Loop multiple times to update predictor on the same set of states
 for _ in range(200):
     update_predictor(states)
-print("novelty (after training): ", intrinsic_reward(states).mean().item())  # → gần 0`,
+print("novelty (after training): ", intrinsic_reward(states).mean().item())  # -> close to 0`,
       exercise: "Explain the 'noisy TV' failure of ICM and why RND avoids it. Use the words 'forward model', 'random target' and 'stochastic'.",
       exerciseEn: "",
       quiz: [
@@ -2244,94 +2243,94 @@ Failed trajectories are gold mines: if the agent reached state \`s'\` instead of
 
 ## Practice Task
 For a household robot ("make tea"), define 4 reasonable options with their initiation set, internal policy goal, and termination condition. Diagram which option calls which.`,
-      code: `# Chính sách điều kiện mục tiêu nhỏ với HER trên lưới 2D (khái niệm)
-# Đây là một ví dụ đơn giản minh họa cách hoạt động của Hindsight Experience Replay (HER).
+      code: `# Goal-conditioned policy for a small 2D grid with HER (concept)
+# This is a simple example illustrating how Hindsight Experience Replay (HER) works.
 
 import numpy as np, random
 from collections import deque
 
-# Định nghĩa kích thước của lưới (GRID x GRID).
+# Define the grid size (GRID x GRID).
 GRID = 8
 
-# Hàm này mô phỏng một bước đi trong môi trường lưới.
-# Đầu vào:
-#   s: Trạng thái hiện tại của tác nhân (một tuple (x, y)).
-#   a: Hành động mà tác nhân thực hiện (một số nguyên từ 0 đến 3, tương ứng với 4 hướng).
-# Đầu ra:
-#   ns: Trạng thái mới sau khi thực hiện hành động.
+# This function simulates one step in the grid environment.
+# Input:
+#   s: The agent's current state (a tuple (x, y)).
+#   a: The action the agent takes (an integer from 0 to 3, corresponding to 4 directions).
+# Output:
+#   ns: The new state after performing the action.
 def step(s, a):
-    # Định nghĩa các thay đổi tọa độ cho 4 hành động: (lên, xuống, phải, trái).
+    # Define coordinate changes for the 4 actions: (up, down, right, left).
     dx, dy = [(0,1),(0,-1),(1,0),(-1,0)][a]
-    # Tính toán trạng thái mới (ns) và đảm bảo nó nằm trong giới hạn của lưới.
+    # Calculate the new state (ns) and ensure it stays within grid boundaries.
     ns = (max(0,min(GRID-1,s[0]+dx)), max(0,min(GRID-1,s[1]+dy)))
     return ns
 
-# Hàm này mô phỏng một tập (episode) tương tác của tác nhân với môi trường.
-# Đầu vào:
-#   policy: Hàm chính sách mà tác nhân sử dụng để chọn hành động.
-#   goal: Mục tiêu mà tác nhân muốn đạt được (một tuple (x, y)).
-# Đầu ra:
-#   traj: Danh sách các bộ (trạng thái_ban_đầu, hành_động, trạng_thái_mới) trong tập.
-#   ok: True nếu tác nhân đạt được mục tiêu, False nếu không.
+# This function simulates an episode of agent-environment interaction.
+# Input:
+#   policy: The policy function the agent uses to select actions.
+#   goal: The goal the agent wants to achieve (a tuple (x, y)).
+# Output:
+#   traj: A list of (initial_state, action, new_state) tuples in the episode.
+#   ok: True if the agent reached the goal, False otherwise.
 def episode(policy, goal):
-    # Khởi tạo trạng thái ban đầu của tác nhân là (0,0).
+    # Initialize the agent's starting state as (0,0).
     s, traj = (0,0), []
-    # Thực hiện tối đa 20 bước trong một tập.
+    # Perform a maximum of 20 steps in an episode.
     for _ in range(20):
-        # Tác nhân chọn hành động dựa trên chính sách và mục tiêu.
+        # The agent selects an action based on the policy and goal.
         a = policy(s, goal)
-        # Thực hiện hành động và nhận trạng thái mới.
+        # Perform the action and get the new state.
         ns = step(s, a)
-        # Lưu trữ bộ (trạng thái_ban_đầu, hành_động, trạng_thái_mới) vào quỹ đạo.
+        # Store the (initial_state, action, new_state) tuple in the trajectory.
         traj.append((s, a, ns))
-        # Nếu trạng thái mới đạt được mục tiêu, kết thúc tập và trả về True.
+        # If the new state reaches the goal, end the episode and return True.
         if ns == goal: return traj, True
-        # Cập nhật trạng thái hiện tại.
+        # Update the current state.
         s = ns
-    # Nếu không đạt được mục tiêu sau 20 bước, trả về False.
+    # If the goal is not reached after 20 steps, return False.
     return traj, False
 
-# Khởi tạo một bộ đệm (deque) để lưu trữ kinh nghiệm, với kích thước tối đa 10000.
+# Initialize a deque buffer to store experiences, with a maximum size of 10000.
 buffer = deque(maxlen=10000)
 
-# Định nghĩa một chính sách ngẫu nhiên đơn giản.
-# Đầu vào:
-#   s: Trạng thái hiện tại.
-#   g: Mục tiêu (không được sử dụng trong chính sách ngẫu nhiên này).
-# Đầu ra:
-#   Một hành động ngẫu nhiên (số nguyên từ 0 đến 3).
+# Define a simple random policy.
+# Input:
+#   s: Current state.
+#   g: Goal (not used in this random policy).
+# Output:
+#   A random action (integer from 0 to 3).
 def random_policy(s, g): return random.randint(0,3)
 
-# Thu thập 1000 tập (episodes) với các mục tiêu ngẫu nhiên.
+# Collect 1000 episodes with random goals.
 for _ in range(1000):
-    # Chọn một mục tiêu ngẫu nhiên trong lưới.
+    # Choose a random goal within the grid.
     g = (random.randint(0,GRID-1), random.randint(0,GRID-1))
-    # Chạy một tập bằng chính sách ngẫu nhiên để đạt được mục tiêu 'g'.
+    # Run an episode using the random policy to achieve goal 'g'.
     traj, ok = episode(random_policy, g)
-    # Duyệt qua từng bước trong quỹ đạo của tập vừa rồi.
+    # Iterate through each step in the trajectory of the just-completed episode.
     for s,a,ns in traj:
-        # Tính phần thưởng: 1.0 nếu đạt mục tiêu, 0.0 nếu không.
+        # Calculate reward: 1.0 if goal is reached, 0.0 otherwise.
         r = 1.0 if ns == g else 0.0
-        # Lưu trữ kinh nghiệm (s, a, ns, g, r) vào bộ đệm.
+        # Store the experience (s, a, ns, g, r) in the buffer.
         buffer.append((s, a, ns, g, r))
         # HER (Hindsight Experience Replay):
-        # Cũng lưu trữ kinh nghiệm với trạng thái *đạt được* cuối cùng làm mục tiêu.
-        # Điều này đảm bảo rằng kinh nghiệm này luôn thành công (phần thưởng 1.0).
-        # Lấy trạng thái cuối cùng đạt được trong quỹ đạo.
+        # Also store the experience with the *achieved* final state as the goal.
+        # This ensures that this experience is always successful (reward 1.0).
+        # Get the last achieved state in the trajectory.
         achieved = traj[-1][2]
-        # Tính phần thưởng cho mục tiêu đạt được: 1.0 nếu trạng thái mới bằng trạng thái đạt được.
+        # Calculate reward for the achieved goal: 1.0 if the new state equals the achieved state.
         r_h = 1.0 if ns == achieved else 0.0
-        # Lưu trữ kinh nghiệm HER vào bộ đệm.
+        # Store the HER experience in the buffer.
         buffer.append((s, a, ns, achieved, r_h))
 
-# Đếm số lượng chuyển đổi thành công (có phần thưởng 1.0) trong bộ đệm.
+# Count the number of successful transitions (with reward 1.0) in the buffer.
 successes = sum(1 for *_, r in buffer if r == 1.0)
-# In ra thông tin về số lượng chuyển đổi thành công.
-# Kết quả mong đợi: Số lượng thành công với HER sẽ cao hơn đáng kể so với không có HER.
+# Print information about the number of successful transitions.
+# Expected result: The number of successes with HER will be significantly higher than without HER.
 print(f"Successful transitions in buffer: {successes} / {len(buffer)} "
       f"(without HER would be ≈ {successes // 2})")
-# Ví dụ: Successful transitions in buffer: 10000 / 20000 (without HER would be ≈ 5000)
-# (Số lượng chính xác có thể thay đổi do tính ngẫu nhiên)`,
+# Example: Successful transitions in buffer: 10000 / 20000 (without HER would be ≈ 5000)
+# (The exact number may vary due to randomness)`,
       exercise: "Explain why HER works only when the relabelled goal is reachable by the same dynamics. What goes wrong if you relabel arbitrarily?",
       exerciseEn: "",
       quiz: [
@@ -2404,18 +2403,18 @@ Assume the expert is optimal under some unknown reward \`R\`. Recover \`R\` such
 
 ## Practice Task
 You have 50 hours of expert chess gameplay logs but no engine evaluations. Compare BC, GAIL, and IRL approaches. Which would you ship to production and why?`,
-      code: `# Mẫu Behavioural Cloning (PyTorch) cho điều khiển vô lăng ô tô
-# Import thư viện PyTorch cần thiết
+      code: `# Behavioural Cloning (PyTorch) model for car steering control
+# Import necessary PyTorch libraries
 import torch, torch.nn as nn, torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
-# Giả sử ta có các cặp (ảnh, góc lái) từ chuyên gia
-# X: tensor có kích thước (N, 3, 64, 64)  Y: tensor (N,) trong khoảng [-1, 1]
+# Assume we have (image, steering angle) pairs from an expert
+# X: tensor with shape (N, 3, 64, 64)  Y: tensor (N,) in range [-1, 1]
 N = 4096
 X = torch.randn(N, 3, 64, 64)
 Y = torch.randn(N)
 
-# Định nghĩa mô hình CNN đơn giản để dự đoán góc lái
+# Define a simple CNN model to predict the steering angle
 class CNNPolicy(nn.Module):
     def __init__(self):
         super().__init__()
@@ -2434,7 +2433,7 @@ opt = optim.Adam(policy.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 loader = DataLoader(TensorDataset(X, Y), batch_size=64, shuffle=True)
 
-# Vòng lặp huấn luyện: cập nhật tham số bằng Adam
+# Training loop: update parameters using Adam
 for epoch in range(3):
     total = 0
     for xb, yb in loader:
@@ -2443,7 +2442,7 @@ for epoch in range(3):
         opt.zero_grad(); loss.backward(); opt.step()
         total += loss.item() * len(xb)
     print(f"epoch {epoch}: avg MSE = {total/N:.4f}")
-# Lưu ý: BC sẽ không phục hồi khi gặp trạng thái ngoài phân phối - cần DAgger cho lái đường cao tốc`,
+# Note: BC will not recover when encountering out-of-distribution states - DAgger is needed for highway driving`,
       exercise: "Explain why BC suffers from quadratic regret in horizon T while DAgger achieves linear regret. Use the term 'covariate shift'.",
       exerciseEn: "",
       quiz: [
@@ -2532,13 +2531,13 @@ flowchart LR
 
 ## Practice Task
 A robotic arm has a slow simulator (5 Hz) but a perfect digital twin in PyBullet (200 Hz). Argue whether you should still bother learning a world model with Dreamer, or just train PPO inside PyBullet. Discuss reality gap.`,
-      code: `# Mô hình thế giới nhỏ: dự đoán trạng thái tiếp theo và phần thưởng (ý tưởng PyTorch)
-# Các thư viện PyTorch cần thiết
+      code: `# Small world model: predict next state and reward (PyTorch idea)
+# Required PyTorch libraries
 import torch, torch.nn as nn, torch.optim as optim
 
-# Định nghĩa mô hình thế giới dưới dạng mạng neural
+# Define the world model as a neural network
 class WorldModel(nn.Module):
-    # Khởi tạo các tầng mạng và đầu ra cho state/reward
+    # Initialize network layers and outputs for state/reward
     def __init__(self, s_dim=4, a_dim=2, hid=64):
         super().__init__()
         self.trunk = nn.Sequential(
@@ -2548,40 +2547,40 @@ class WorldModel(nn.Module):
         self.next_state = nn.Linear(hid, s_dim)
         self.reward = nn.Linear(hid, 1)
 
-    # Nạp đầu vào s,a để dự đoán state tiếp theo và reward
+    # Input s,a to predict next state and reward
     def forward(self, s, a):
         h = self.trunk(torch.cat([s, a], dim=-1))
         return self.next_state(h), self.reward(h).squeeze(-1)
 
-# Tạo đối tượng mô hình, bộ tối ưu và hàm mất mát
+# Create model object, optimizer, and loss function
 wm = WorldModel()
 opt = optim.Adam(wm.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 
-# Giả sử ta có một batch nhỏ lấy từ môi trường thật
+# Assume we have a small batch sampled from the real environment
 B = 64
 s = torch.randn(B, 4); a = torch.randn(B, 2)
 s_next_true = torch.randn(B, 4); r_true = torch.randn(B)
 
-# Huấn luyện mô hình thế giới trên batch này (500 bước)
+# Train the world model on this batch (500 steps)
 for _ in range(500):
     s_next_pred, r_pred = wm(s, a)
     loss = loss_fn(s_next_pred, s_next_true) + loss_fn(r_pred, r_true)
     opt.zero_grad(); loss.backward(); opt.step()
 print(f"World-model loss after training: {loss.item():.4f}")
 
-# Tưởng tượng một rollout: rẻ, trên GPU, không cần môi trường thật
+# Imagine a rollout: cheap, on GPU, no real environment needed
 def imagine(wm, s0, policy, horizon=20):
     s = s0; total = torch.zeros(s.size(0))
-    # Lặp trong horizon: lấy hành động từ policy và dự đoán bước tiếp theo
+    # Loop within horizon: get action from policy and predict next step
     for _ in range(horizon):
         a = policy(s)
         s, r = wm(s, a)
         total = total + r
-    # Tổng tưởng tượng (dùng để cập nhật actor)
+    # Imagined total (used to update actor)
     return total                                  # imagined return for actor update
 
-# Policy đơn giản tạm thời
+# Simple placeholder policy
 policy = lambda s: torch.tanh(s[:, :2])           # placeholder
 print("Imagined return:", imagine(wm, s, policy).mean().item())`,
       exercise: "DreamerV3 trains its actor-critic entirely inside latent imagination. Why is this dramatically more sample-efficient than model-free PPO? Discuss the trade-off if the world model is wrong by 5 % per step.",

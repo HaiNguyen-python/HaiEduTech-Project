@@ -141,7 +141,7 @@ events = [
     {"user": "u1", "ts": "2026-05-22", "event": "lesson_done", "score": 0.9},
     {"user": "u1", "ts": "2026-05-29", "event": "lesson_done", "score": 0.95},
     {"user": "u2", "ts": "2026-05-22", "event": "signup"},
-    # u2 không quay lại
+    # u2 did not return
 ]
 
 def parse(d): return datetime.fromisoformat(d)
@@ -264,9 +264,9 @@ surprise() = random.choice([0, 0, 0, 0.5, 1.0])   # 20% drop
         code: `import random
 
 def xp(base: int, difficulty: float, streak_days: int, attempts: int) -> int:
-    streak_bonus = 1 + min(streak_days, 30) * 0.02      # tối đa +60%
-    repeat_decay = max(0.2, 1.0 - 0.1 * (attempts - 1)) # bài lặp giảm dần
-    surprise = random.choice([0, 0, 0, 0.5, 1.0])       # 20% có drop
+    streak_bonus = 1 + min(streak_days, 30) * 0.02      # max +60%
+    repeat_decay = max(0.2, 1.0 - 0.1 * (attempts - 1)) # repeated item gradually decreases
+    surprise = random.choice([0, 0, 0, 0.5, 1.0])       # 20% chance of drop
     return round(base * difficulty * streak_bonus * repeat_decay * (1 + surprise))
 
 for day, atts in [(1,1), (7,1), (30,1), (30,5)]:
@@ -405,7 +405,7 @@ def assign(user_id: str) -> str:
     h = int(hashlib.md5(user_id.encode()).hexdigest(), 16)
     return "A" if h % 2 == 0 else "B"
 
-# Mô phỏng: B làm mastery growth tăng nhẹ
+# Simulation: B slightly increases mastery growth
 random.seed(7)
 data = {"A": [], "B": []}
 for i in range(2000):
@@ -422,7 +422,7 @@ def welch_t(a, b):
     return (mb - ma) / se, mb - ma
 
 t, diff = welch_t(data["A"], data["B"])
-print(f"Δ mastery = {diff:+.3f}, t ≈ {t:.2f}  →  {'có ý nghĩa' if abs(t) > 1.96 else 'không đủ'}")`,
+print(f"Δ mastery = {diff:+.3f}, t ≈ {t:.2f}  →  {'significant' if abs(t) > 1.96 else 'not enough'}")`,
         codeLanguage: "python",
         exercise:
           "Thêm hàm srm_check(n_a, n_b) cảnh báo nếu tỉ lệ phân nhánh lệch >55/45 - dấu hiệu bias.",
@@ -626,7 +626,7 @@ Phần Lan luôn nằm trong top thế giới về PISA, và **Đại học Hels
 - **HELDA** (kho luận văn & bài báo của UH): [helda.helsinki.fi](https://helda.helsinki.fi)
 - **TUHAT** (cổng nghiên cứu của UH): [researchportal.helsinki.fi](https://researchportal.helsinki.fi)
 - **Faculty of Educational Sciences:** [helsinki.fi/en/faculty-educational-sciences](https://www.helsinki.fi/en/faculty-educational-sciences)`,
-        code: `# "Reading log" mini-helper - chạy thử bằng Python
+        code: `# "Reading log" mini-helper - run a test with Python
 helsinki_papers = [
     {"id": 1,  "author": "Hannele Niemi",        "topic": "AI in Learning"},
     {"id": 2,  "author": "Kirsti Lonka",          "topic": "Phenomenon-Based Learning"},
@@ -640,9 +640,9 @@ helsinki_papers = [
     {"id": 10, "author": "Nevgi & Lindblom",      "topic": "Approaches to Learning"},
 ]
 
-# Lên lịch đọc 1 bài/tuần trong 10 tuần.
+# Schedule to read 1 paper/week for 10 weeks.
 for i, p in enumerate(helsinki_papers, start=1):
-    print(f"Tuần {i}: đọc bài #{p['id']} - {p['topic']} ({p['author']})")`,
+    print(f"Week {i}: read paper #{p['id']} - {p['topic']} ({p['author']})")`,
         codeLanguage: "python",
         exercise:
           "Chọn 1 bài trong danh sách, viết tóm tắt 5 câu và đề xuất 1 tính năng cho HaiEduTech có thể áp dụng kết quả nghiên cứu đó.",

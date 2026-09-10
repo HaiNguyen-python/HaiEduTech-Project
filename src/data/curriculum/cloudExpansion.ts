@@ -323,112 +323,111 @@ Distributes traffic to backends with continuous health checks.
 - ❌ CPU-only scaling misses I/O-bound apps
 - ❌ Min=1 → single point of failure
 - ❌ No load testing → scaling fails when needed`,
-        code: `# Nhập thư viện boto3 để tương tác với các dịch vụ AWS.
+        code: `# Import the boto3 library to interact with AWS services.
 import boto3
 
-# 1. Tạo Launch Template (bản thiết kế cho các máy chủ EC2)
-# Khởi tạo client EC2 để gọi các API liên quan đến EC2.
+# 1. Create Launch Template (blueprint for EC2 instances)
+# Initialize the EC2 client to call EC2-related APIs.
 ec2 = boto3.client('ec2')
-# Gọi API để tạo một Launch Template mới.
+# Call the API to create a new Launch Template.
 template = ec2.create_launch_template(
-    # Đặt tên cho Launch Template.
+    # Name the Launch Template.
     LaunchTemplateName='web-app-v1',
-    # Cung cấp dữ liệu cấu hình cho Launch Template.
+    # Provide configuration data for the Launch Template.
     LaunchTemplateData={
-        # ID của Amazon Machine Image (AMI) sẽ được dùng để khởi tạo instance.
+        # The ID of the Amazon Machine Image (AMI) to be used to launch instances.
         'ImageId': 'ami-0abcdef1234567890',
-        # Loại instance (kích thước máy chủ) sẽ được khởi tạo.
+        # The instance type (server size) to be launched.
         'InstanceType': 't3.medium',
-        # Danh sách các Security Group IDs sẽ được gán cho instance.
+        # List of Security Group IDs to be assigned to the instance.
         'SecurityGroupIds': ['sg-web'],
-        # Dữ liệu người dùng (User Data) sẽ chạy khi instance khởi động lần đầu.
-        # Đây là một script bash được mã hóa Base64 để chạy Docker container.
+        # User Data to run when the instance starts for the first time.
+        # This is a Base64 encoded bash script to run a Docker container.
         'UserData': 'IyEvYmluL2Jhc2gKZG9ja2VyIHJ1biAtZCAtcCA4MDo4MCBteWFwcA=='
     }
 )
 
-# 2. Tạo Auto Scaling Group (nhóm tự động điều chỉnh số lượng máy chủ)
-# Khởi tạo client Auto Scaling để gọi các API liên quan.
+# 2. Create Auto Scaling Group (group that automatically adjusts the number of servers)
+# Initialize the Auto Scaling client to call related APIs.
 asg = boto3.client('autoscaling')
-# Gọi API để tạo một Auto Scaling Group mới.
+# Call the API to create a new Auto Scaling Group.
 asg.create_auto_scaling_group(
-    # Đặt tên cho Auto Scaling Group.
+    # Name the Auto Scaling Group.
     AutoScalingGroupName='web-asg',
-    # Số lượng instance tối thiểu luôn phải có trong nhóm.
-    MinSize=2,                # Luôn có ít nhất 2 instance để đảm bảo tính sẵn sàng cao (HA).
-    # Số lượng instance tối đa mà nhóm có thể mở rộng tới.
+    # The minimum number of instances that must always be in the group.
+    MinSize=2,                # Always have at least 2 instances to ensure high availability (HA).
+    # The maximum number of instances the group can scale out to.
     MaxSize=20,
-    # Số lượng instance mong muốn hiện tại trong nhóm.
+    # The current desired number of instances in the group.
     DesiredCapacity=4,
-    # Tham chiếu đến Launch Template đã tạo ở bước 1.
+    # Reference to the Launch Template created in step 1.
     LaunchTemplate={'LaunchTemplateName': 'web-app-v1'},
-    # Danh sách các Subnet IDs mà các instance sẽ được phân bổ vào.
-    # Đặt trong nhiều Availability Zone (Multi-AZ) để tăng tính sẵn sàng.
-    VPCZoneIdentifier='subnet-1a,subnet-1b,subnet-1c',  # Đảm bảo hoạt động trên nhiều vùng sẵn sàng.
-    # Loại kiểm tra sức khỏe (Health Check) sẽ được sử dụng.
+    # List of Subnet IDs where instances will be allocated.
+    # Placed in multiple Availability Zones (Multi-AZ) to increase availability.
+    VPCZoneIdentifier='subnet-1a,subnet-1b,subnet-1c',  # Ensure operation across multiple availability zones.
+    # The type of Health Check to be used.
     HealthCheckType='ELB',
-    # Thời gian chờ (tính bằng giây) trước khi Auto Scaling Group bắt đầu kiểm tra sức khỏe của một instance mới.
+    # The grace period (in seconds) before the Auto Scaling Group starts health checking a new instance.
     HealthCheckGracePeriod=300
 )
 
-# 3. Chính sách điều chỉnh quy mô động (dựa trên mục tiêu)
-# Gọi API để đặt một chính sách điều chỉnh quy mô cho Auto Scaling Group.
+# 3. Dynamic scaling policy (target-based)
+# Call the API to put a scaling policy for the Auto Scaling Group.
 asg.put_scaling_policy(
-    # Tên của Auto Scaling Group mà chính sách này áp dụng.
+    # The name of the Auto Scaling Group to which this policy applies.
     AutoScalingGroupName='web-asg',
-    # Tên của chính sách điều chỉnh quy mô.
+    # The name of the scaling policy.
     PolicyName='cpu-target-50',
-    # Loại chính sách, ở đây là Target Tracking Scaling (theo dõi mục tiêu).
+    # The policy type, here it is Target Tracking Scaling.
     PolicyType='TargetTrackingScaling',
-    # Cấu hình chi tiết cho chính sách Target Tracking.
+    # Detailed configuration for the Target Tracking policy.
     TargetTrackingConfiguration={
-        # Đặc tả về chỉ số được theo dõi.
+        # Specification of the metric being tracked.
         'PredefinedMetricSpecification': {
-            # Loại chỉ số được định nghĩa sẵn, ở đây là mức sử dụng CPU trung bình của ASG.
+            # The type of predefined metric, here it is the average CPU utilization of the ASG.
             'PredefinedMetricType': 'ASGAverageCPUUtilization'
         },
-        # Giá trị mục tiêu mà chính sách sẽ cố gắng duy trì cho chỉ số.
-        'TargetValue': 50.0   # Giữ mức sử dụng CPU trung bình khoảng 50%.
+        # The target value that the policy will try to maintain for the metric.
+        'TargetValue': 50.0   # Keep average CPU utilization around 50%.
     }
 )
 
-# 4. Application Load Balancer (ALB) với kiểm tra sức khỏe
-# Khởi tạo client ELBv2 để gọi các API liên quan đến Application Load Balancer.
+# 4. Application Load Balancer (ALB) with health checks
+# Initialize the ELBv2 client to call Application Load Balancer related APIs.
 elb = boto3.client('elbv2')
-# Gọi API để tạo một Load Balancer mới.
+# Call the API to create a new Load Balancer.
 lb = elb.create_load_balancer(
-    # Đặt tên cho Load Balancer.
+    # Name the Load Balancer.
     Name='web-alb',
-    # Danh sách các Subnet IDs mà Load Balancer sẽ hoạt động.
+    # List of Subnet IDs where the Load Balancer will operate.
     Subnets=['subnet-1a', 'subnet-1b', 'subnet-1c'],
-    # Danh sách các Security Group IDs sẽ được gán cho Load Balancer.
+    # List of Security Group IDs to be assigned to the Load Balancer.
     SecurityGroups=['sg-alb'],
-    # Sơ đồ truy cập của Load Balancer (internet-facing có thể truy cập từ internet).
+    # The access scheme of the Load Balancer (internet-facing can be accessed from the internet).
     Scheme='internet-facing',
-    # Loại Load Balancer, ở đây là Application Load Balancer.
+    # The type of Load Balancer, here it is Application Load Balancer.
     Type='application'
 )
 
-# Tạo Target Group (nhóm đích) để định tuyến lưu lượng truy cập đến các instance.
+# Create a Target Group to route traffic to instances.
 tg = elb.create_target_group(
-    # Đặt tên cho Target Group.
+    # Name the Target Group.
     Name='web-tg',
-    # Giao thức mà Target Group sử dụng để giao tiếp với các đích.
+    # The protocol that the Target Group uses to communicate with targets.
     Protocol='HTTP',
-    # Cổng mà Target Group lắng nghe trên các đích.
+    # The port that the Target Group listens on for targets.
     Port=80,
-    # ID của VPC mà Target Group thuộc về.
+    # The ID of the VPC that the Target Group belongs to.
     VpcId='vpc-12345',
-    # Đường dẫn URL mà Load Balancer sẽ gửi yêu cầu kiểm tra sức khỏe đến.
-    HealthCheckPath='/health',     # Sử dụng một endpoint tùy chỉnh để kiểm tra sức khỏe.
-    # Khoảng thời gian (tính bằng giây) giữa các lần kiểm tra sức khỏe.
+    # The URL path that the Load Balancer will send health check requests to.
+    HealthCheckPath='/health',     # Use a custom endpoint for health checks.
+    # The interval (in seconds) between health checks.
     HealthCheckIntervalSeconds=15,
-    # Số lần kiểm tra sức khỏe thành công liên tiếp để đánh dấu một đích là khỏe mạnh.
+    # The number of consecutive successful health checks to mark a target as healthy.
     HealthyThresholdCount=2,
-    # Số lần kiểm tra sức khỏe thất bại liên tiếp để đánh dấu một đích là không khỏe mạnh.
+    # The number of consecutive failed health checks to mark a target as unhealthy.
     UnhealthyThresholdCount=3
-)
-`,
+)`,
         codeLanguage: "python",
         exercise: "Design an auto-scaling setup for an e-commerce site that gets 10× traffic during Black Friday. Include: min/max sizes, scaling triggers, LB type, and one cost-saving technique.",
         exerciseEn: "Design an auto-scaling setup for an e-commerce site that gets 10× traffic during Black Friday. Include: min/max sizes, scaling triggers, LB type, and one cost-saving technique.",
@@ -574,83 +573,83 @@ Manages key lifecycle.
 - ❌ One key for everything
 - ❌ Skipping internal TLS (not zero-trust)
 - ❌ No key rotation`,
-        code: `# Nhập thư viện boto3 để tương tác với các dịch vụ AWS.
+        code: `# Import the boto3 library to interact with AWS services.
 import boto3
-# Nhập hàm b64encode từ thư viện base64 để mã hóa dữ liệu sang định dạng base64.
+# Import the b64encode function from the base64 library to encode data to base64 format.
 from base64 import b64encode
 
-# Khởi tạo một client KMS để tương tác với dịch vụ AWS Key Management Service.
+# Initialize a KMS client to interact with the AWS Key Management Service.
 kms = boto3.client('kms')
-# Khởi tạo một client S3 để tương tác với dịch vụ AWS Simple Storage Service.
+# Initialize an S3 client to interact with the AWS Simple Storage Service.
 s3 = boto3.client('s3')
 
-# 1. Tạo một khóa quản lý bởi khách hàng (Customer Managed Key - CMK) trong KMS.
-# Khóa này sẽ được dùng để mã hóa/giải mã dữ liệu.
+# 1. Create a Customer Managed Key (CMK) in KMS.
+# This key will be used to encrypt/decrypt data.
 key = kms.create_key(
-    Description='prod-app-data-key', # Mô tả cho khóa, giúp dễ nhận biết mục đích sử dụng.
-    KeyUsage='ENCRYPT_DECRYPT',      # Chỉ định khóa này dùng để mã hóa và giải mã.
-    Origin='AWS_KMS',                # Khóa được tạo bên trong AWS KMS.
-    MultiRegion=True                 # Cho phép khóa này được sao chép sang các vùng khác để phục hồi sau thảm họa (DR).
+    Description='prod-app-data-key', # Description for the key, helps easily identify its purpose.
+    KeyUsage='ENCRYPT_DECRYPT',      # Specifies this key is used for encryption and decryption.
+    Origin='AWS_KMS',                # The key is created within AWS KMS.
+    MultiRegion=True                 # Allows this key to be replicated to other regions for disaster recovery (DR).
 )
-# Lấy ID của khóa vừa tạo để sử dụng trong các bước tiếp theo.
+# Get the ID of the newly created key for use in subsequent steps.
 key_id = key['KeyMetadata']['KeyId']
 
-# Bật tính năng tự động xoay vòng khóa (auto-rotation) cho CMK.
-# Điều này giúp tăng cường bảo mật bằng cách định kỳ tạo ra một phiên bản khóa mới.
+# Enable automatic key rotation for the CMK.
+# This enhances security by periodically generating a new key version.
 kms.enable_key_rotation(KeyId=key_id)
 
-# 2. Thực hiện mã hóa phong bì (envelope encryption) một cách thủ công.
-# Đây là phương pháp mã hóa dữ liệu lớn bằng một khóa dữ liệu (DEK), sau đó mã hóa DEK bằng CMK.
-# Dữ liệu nhạy cảm cần được mã hóa.
+# 2. Perform envelope encryption manually.
+# This is a method of encrypting large data with a data key (DEK), then encrypting the DEK with a CMK.
+# Sensitive data needs to be encrypted.
 data = b"Sensitive customer record"
-# Yêu cầu KMS tạo một khóa dữ liệu (Data Encryption Key - DEK) mới.
-# Khóa này sẽ được mã hóa bằng CMK (key_id).
+# Request KMS to generate a new Data Encryption Key (DEK).
+# This key will be encrypted by the CMK (key_id).
 dek = kms.generate_data_key(KeyId=key_id, KeySpec='AES_256')
-# Lấy khóa dữ liệu ở dạng văn bản gốc (plaintext DEK).
-# Khóa này sẽ được dùng để mã hóa dữ liệu thực tế (data).
+# Get the data key in plaintext form (plaintext DEK).
+# This key will be used to encrypt the actual data.
 plaintext_dek = dek['Plaintext']        # Use to encrypt data
-# Lấy khóa dữ liệu đã được mã hóa bằng CMK (encrypted DEK).
-# Khóa này cần được lưu trữ cùng với dữ liệu đã mã hóa.
+# Get the data key that has been encrypted by the CMK (encrypted DEK).
+# This key needs to be stored along with the encrypted data.
 encrypted_dek = dek['CiphertextBlob']   # Store this with data
 
-# Mã hóa dữ liệu (data) bằng DEK sử dụng thuật toán AES (trong thực tế sẽ dùng thư viện mã hóa).
-# Đối với bản demo này, chúng ta chỉ hiển thị phần wrapper (khóa DEK đã mã hóa).
-# In ra 40 ký tự đầu tiên của khóa DEK đã mã hóa (dạng base64) để minh họa.
-# Đầu ra: Một chuỗi đại diện cho khóa DEK đã được mã hóa.
+# Encrypt data using the DEK with the AES algorithm (in practice, an encryption library would be used).
+# For this demo, we only show the wrapper part (the encrypted DEK).
+# Print the first 40 characters of the encrypted DEK (base64 format) for illustration.
+# Output: A string representing the encrypted DEK.
 print(f"Encrypted DEK (store this): {b64encode(encrypted_dek)[:40]}...")
 
-# 3. Tải đối tượng lên S3 với mã hóa phía máy chủ sử dụng KMS (SSE-KMS).
-# S3 sẽ tự động sử dụng CMK đã chỉ định để mã hóa dữ liệu trước khi lưu trữ.
+# 3. Upload an object to S3 with server-side encryption using KMS (SSE-KMS).
+# S3 will automatically use the specified CMK to encrypt data before storage.
 s3.put_object(
-    Bucket='secure-bucket',         # Tên bucket S3 nơi lưu trữ dữ liệu.
-    Key='customer-data.json',       # Tên file trong bucket.
-    Body=data,                      # Dữ liệu cần tải lên.
-    ServerSideEncryption='aws:kms', # Chỉ định sử dụng mã hóa phía máy chủ với KMS.
-    SSEKMSKeyId=key_id              # ID của CMK sẽ được S3 sử dụng để mã hóa dữ liệu.
+    Bucket='secure-bucket',         # The name of the S3 bucket where data is stored.
+    Key='customer-data.json',       # The file name in the bucket.
+    Body=data,                      # The data to upload.
+    ServerSideEncryption='aws:kms', # Specifies to use server-side encryption with KMS.
+    SSEKMSKeyId=key_id              # The ID of the CMK that S3 will use to encrypt the data.
 )
 
-# 4. Áp dụng chính sách bucket S3 để chỉ cho phép truy cập qua HTTPS.
-# Điều này đảm bảo rằng mọi giao tiếp với bucket đều được mã hóa trong quá trình truyền tải.
+# 4. Apply an S3 bucket policy to only allow access via HTTPS.
+# This ensures that all communication with the bucket is encrypted in transit.
 s3.put_bucket_policy(
-    Bucket='secure-bucket', # Tên bucket S3 áp dụng chính sách.
+    Bucket='secure-bucket', # The name of the S3 bucket to apply the policy to.
     Policy='''{
         "Version": "2012-10-17",
         "Statement": [{
-            "Effect": "Deny", # Từ chối quyền truy cập.
-            "Principal": "*", # Áp dụng cho tất cả người dùng/tài khoản.
-            "Action": "s3:*", # Áp dụng cho tất cả các hành động S3.
-            "Resource": "arn:aws:s3:::secure-bucket/*", # Áp dụng cho tất cả các đối tượng trong bucket.
-            "Condition": {"Bool": {"aws:SecureTransport": "false"}} # Điều kiện: nếu không sử dụng HTTPS (aws:SecureTransport là false).
+            "Effect": "Deny", # Deny access.
+            "Principal": "*", # Applies to all users/accounts.
+            "Action": "s3:*", # Applies to all S3 actions.
+            "Resource": "arn:aws:s3:::secure-bucket/*", # Applies to all objects in the bucket.
+            "Condition": {"Bool": {"aws:SecureTransport": "false"}} # Condition: if HTTPS is not used (aws:SecureTransport is false).
         }]
     }'''
 )
 
-# 5. Giải mã khóa dữ liệu (DEK) đã mã hóa sau này.
-# Sử dụng KMS để giải mã CiphertextBlob (DEK đã mã hóa) trở lại thành plaintext DEK.
-# Đầu vào: Khóa DEK đã mã hóa (encrypted_dek).
+# 5. Decrypt the encrypted data key (DEK) later.
+# Use KMS to decrypt the CiphertextBlob (encrypted DEK) back into plaintext DEK.
+# Input: The encrypted DEK (encrypted_dek).
 decrypted = kms.decrypt(CiphertextBlob=encrypted_dek)
-# In ra độ dài của khóa DEK đã giải mã.
-# Đầu ra: Độ dài của khóa DEK ở dạng văn bản gốc (ví dụ: 32 bytes cho AES_256).
+# Print the length of the decrypted DEK.
+# Output: The length of the DEK in plaintext form (e.g., 32 bytes for AES_256).
 print(f"Recovered DEK length: {len(decrypted['Plaintext'])} bytes")`,
         codeLanguage: "python",
         exercise: "Design encryption strategy for a healthcare app storing patient records: which keys, where to encrypt, and how to satisfy HIPAA's 'minimum necessary' rule.",
@@ -772,106 +771,106 @@ Broken Access, Crypto Failures, Injection, Insecure Design, Misconfig, Vulnerabl
 - ❌ Security Group only (no L7 protection)
 - ❌ "Block All" mode (blocks legit users)
 - ❌ IP whitelisting mobile apps (IPs change)`,
-        code: `# Nhập thư viện boto3 để tương tác với các dịch vụ AWS.
+        code: `# Import the boto3 library to interact with AWS services.
 import boto3
 
-# Tạo một client (kết nối) tới dịch vụ AWS WAFv2.
-# Client này sẽ được dùng để gọi các API của WAFv2.
+# Create a client (connection) to the AWS WAFv2 service.
+# This client will be used to call WAFv2 APIs.
 wafv2 = boto3.client('wafv2')
 
-# 1. Tạo một Web ACL (Access Control List) với các quy tắc được quản lý và quy tắc dựa trên tỷ lệ.
-# Web ACL này sẽ định nghĩa cách WAF xử lý các yêu cầu HTTP/S.
+# 1. Create a Web ACL (Access Control List) with managed rules and rate-based rules.
+# This Web ACL will define how WAF processes HTTP/S requests.
 acl = wafv2.create_web_acl(
-    # Đặt tên cho Web ACL.
+    # Set the name for the Web ACL.
     Name='production-waf',
-    # Xác định phạm vi của Web ACL: 'REGIONAL' cho các tài nguyên trong một khu vực (ví dụ: ALB),
-    # hoặc 'CLOUDFRONT' cho các phân phối CloudFront.
+    # Specify the scope of the Web ACL: 'REGIONAL' for resources within a region (e.g., ALB),
+    # or 'CLOUDFRONT' for CloudFront distributions.
     Scope='REGIONAL',                # or CLOUDFRONT
-    # Hành động mặc định cho các yêu cầu không khớp với bất kỳ quy tắc nào.
-    # Ở đây, mặc định là cho phép tất cả các yêu cầu.
+    # Default action for requests that do not match any rule.
+    # Here, the default is to allow all requests.
     DefaultAction={'Allow': {}},
-    # Danh sách các quy tắc sẽ được áp dụng cho Web ACL này.
+    # List of rules to be applied to this Web ACL.
     Rules=[
-        # Quy tắc được quản lý: Bộ quy tắc chung của AWS (dựa trên OWASP Top 10).
-        # Quy tắc này giúp bảo vệ khỏi các lỗ hổng web phổ biến.
+        # Managed rule: AWS common rule set (based on OWASP Top 10).
+        # This rule helps protect against common web vulnerabilities.
         {
-            # Tên của quy tắc.
+            # Name of the rule.
             'Name': 'AWS-CommonRuleSet',
-            # Độ ưu tiên của quy tắc. Số nhỏ hơn có độ ưu tiên cao hơn.
+            # Priority of the rule. Smaller numbers have higher priority.
             'Priority': 1,
-            # Hành động ghi đè (override) cho quy tắc này. 'None' nghĩa là không ghi đè,
-            # hành động sẽ được xác định bởi ManagedRuleGroupStatement.
+            # Override action for this rule. 'None' means no override,
+            # the action will be determined by the ManagedRuleGroupStatement.
             'OverrideAction': {'None': {}},
-            # Định nghĩa chi tiết của quy tắc.
+            # Detailed definition of the rule.
             'Statement': {
-                # Đây là một quy tắc nhóm được quản lý bởi AWS.
+                # This is a managed rule group by AWS.
                 'ManagedRuleGroupStatement': {
-                    # Nhà cung cấp của nhóm quy tắc.
+                    # Vendor of the rule group.
                     'VendorName': 'AWS',
-                    # Tên của nhóm quy tắc được quản lý.
+                    # Name of the managed rule group.
                     'Name': 'AWSManagedRulesCommonRuleSet'
                 }
             },
-            # Cấu hình hiển thị (visibility) cho quy tắc này, dùng cho việc giám sát.
+            # Visibility configuration for this rule, used for monitoring.
             'VisibilityConfig': {
-                # Bật lấy mẫu yêu cầu (sampled requests) để xem chi tiết các yêu cầu bị chặn/cho phép.
+                # Enable sampled requests to view details of blocked/allowed requests.
                 'SampledRequestsEnabled': True,
-                # Bật gửi dữ liệu tới CloudWatch Metrics.
+                # Enable sending data to CloudWatch Metrics.
                 'CloudWatchMetricsEnabled': True,
-                # Tên của metric trong CloudWatch.
+                # Name of the metric in CloudWatch.
                 'MetricName': 'common-rules'
             }
         },
-        # Giới hạn tỷ lệ (Rate limit): chặn các địa chỉ IP thực hiện >2000 yêu cầu trong 5 phút.
-        # Quy tắc này giúp bảo vệ khỏi các cuộc tấn công DDoS hoặc brute-force.
+        # Rate limit: block IP addresses that make >2000 requests in 5 minutes.
+        # This rule helps protect against DDoS or brute-force attacks.
         {
-            # Tên của quy tắc.
+            # Name of the rule.
             'Name': 'RateLimit',
-            # Độ ưu tiên của quy tắc.
+            # Priority of the rule.
             'Priority': 2,
-            # Hành động khi quy tắc này được kích hoạt: Chặn yêu cầu.
+            # Action when this rule is triggered: Block the request.
             'Action': {'Block': {}},
-            # Định nghĩa chi tiết của quy tắc.
+            # Detailed definition of the rule.
             'Statement': {
-                # Đây là một quy tắc dựa trên tỷ lệ.
+                # This is a rate-based rule.
                 'RateBasedStatement': {
-                    # Giới hạn số lượng yêu cầu trong 5 phút.
+                    # Limit the number of requests in 5 minutes.
                     'Limit': 2000,
-                    # Loại khóa để tổng hợp tỷ lệ. 'IP' nghĩa là theo địa chỉ IP nguồn.
+                    # Key type to aggregate the rate. 'IP' means by source IP address.
                     'AggregateKeyType': 'IP'
                 }
             },
-            # Cấu hình hiển thị cho quy tắc này.
+            # Visibility configuration for this rule.
             'VisibilityConfig': {
                 'SampledRequestsEnabled': True,
                 'CloudWatchMetricsEnabled': True,
                 'MetricName': 'rate-limit'
             }
         },
-        # Chặn theo địa lý (Geo-block): chỉ cho phép các yêu cầu từ Việt Nam (VN) và Hoa Kỳ (US).
-        # Các yêu cầu từ các quốc gia khác sẽ bị chặn.
+        # Geo-block: only allow requests from Vietnam (VN) and United States (US).
+        # Requests from other countries will be blocked.
         {
-            # Tên của quy tắc.
+            # Name of the rule.
             'Name': 'GeoAllowList',
-            # Độ ưu tiên của quy tắc.
+            # Priority of the rule.
             'Priority': 3,
-            # Hành động khi quy tắc này được kích hoạt: Chặn yêu cầu.
+            # Action when this rule is triggered: Block the request.
             'Action': {'Block': {}},
-            # Định nghĩa chi tiết của quy tắc.
+            # Detailed definition of the rule.
             'Statement': {
-                # Đây là một quy tắc phủ định (NOT).
-                # Nó sẽ khớp với các yêu cầu KHÔNG thỏa mãn điều kiện bên trong.
+                # This is a NOT statement.
+                # It will match requests that DO NOT satisfy the inner condition.
                 'NotStatement': {
                     'Statement': {
-                        # Đây là một quy tắc khớp theo địa lý.
+                        # This is a geo-match rule.
                         'GeoMatchStatement': {
-                            # Danh sách mã quốc gia được cho phép.
+                            # List of allowed country codes.
                             'CountryCodes': ['VN', 'US']
                         }
                     }
                 }
             },
-            # Cấu hình hiển thị cho quy tắc này.
+            # Visibility configuration for this rule.
             'VisibilityConfig': {
                 'SampledRequestsEnabled': True,
                 'CloudWatchMetricsEnabled': True,
@@ -879,7 +878,7 @@ acl = wafv2.create_web_acl(
             }
         }
     ],
-    # Cấu hình hiển thị tổng thể cho toàn bộ Web ACL.
+    # Overall visibility configuration for the entire Web ACL.
     VisibilityConfig={
         'SampledRequestsEnabled': True,
         'CloudWatchMetricsEnabled': True,
@@ -887,21 +886,20 @@ acl = wafv2.create_web_acl(
     }
 )
 
-# 2. Gắn Web ACL vừa tạo vào một tài nguyên AWS (ví dụ: Application Load Balancer - ALB).
-# Sau khi gắn, WAF sẽ bắt đầu kiểm tra lưu lượng truy cập đến tài nguyên này.
+# 2. Associate the newly created Web ACL with an AWS resource (e.g., Application Load Balancer - ALB).
+# After association, WAF will start inspecting traffic to this resource.
 wafv2.associate_web_acl(
-    # ARN (Amazon Resource Name) của Web ACL vừa tạo.
-    # acl['Summary']['ARN'] trích xuất ARN từ kết quả trả về của create_web_acl.
+    # ARN (Amazon Resource Name) of the newly created Web ACL.
+    # acl['Summary']['ARN'] extracts the ARN from the return result of create_web_acl.
     WebACLArn=acl['Summary']['ARN'],
-    # ARN của tài nguyên AWS mà Web ACL sẽ bảo vệ.
-    # Thay thế bằng ARN thực tế của ALB hoặc tài nguyên khác.
+    # ARN of the AWS resource that the Web ACL will protect.
+    # Replace with the actual ARN of the ALB or other resource.
     ResourceArn='arn:aws:elasticloadbalancing:us-east-1:123:loadbalancer/app/web-alb/abc'
 )
-# In thông báo xác nhận rằng WAF đã được gắn thành công.
-# Hướng dẫn người dùng kiểm tra các yêu cầu bị chặn trong CloudWatch.
+# Print a confirmation message that WAF has been successfully attached.
+# Instruct the user to check blocked requests in CloudWatch.
 print("WAF attached. Now monitor blocked requests in CloudWatch.")
-# Đầu ra mong đợi: "WAF attached. Now monitor blocked requests in CloudWatch."
-`,
+# Expected output: "WAF attached. Now monitor blocked requests in CloudWatch."`,
         codeLanguage: "python",
         exercise: "Design DDoS + WAF protection for a banking website. List 5 specific rules and explain why each is necessary.",
         exerciseEn: "Design DDoS + WAF protection for a banking website. List 5 specific rules and explain why each is necessary.",
@@ -1031,119 +1029,119 @@ Utilization, Saturation, Errors
 - ❌ Infra-only metrics, no business metrics
 - ❌ Untested alerts go silent during real outages
 - ❌ DEBUG-level logging in production`,
-        code: `# Nhập thư viện boto3 để tương tác với các dịch vụ AWS.
+        code: `# Import the boto3 library to interact with AWS services.
 import boto3
-# Nhập thư viện json để làm việc với dữ liệu JSON.
+# Import the json library to work with JSON data.
 import json
 
-# Khởi tạo một client CloudWatch để gửi dữ liệu metric và tạo báo động.
+# Initialize a CloudWatch client to send metric data and create alarms.
 cloudwatch = boto3.client('cloudwatch')
-# Khởi tạo một client Logs để tương tác với CloudWatch Logs (mặc dù không dùng trực tiếp trong ví dụ này).
+# Initialize a Logs client to interact with CloudWatch Logs (though not directly used in this example).
 logs = boto3.client('logs')
 
-# 1. Gửi một metric tùy chỉnh lên CloudWatch.
+# 1. Send a custom metric to CloudWatch.
 cloudwatch.put_metric_data(
-    # Đặt không gian tên (Namespace) cho metric, giúp nhóm các metric liên quan.
+    # Set the Namespace for the metric, helping group related metrics.
     Namespace='MyApp/Prod',
-    # Danh sách các dữ liệu metric cần gửi.
+    # List of metric data to send.
     MetricData=[
         {
-            # Tên của metric.
+            # Name of the metric.
             'MetricName': 'OrdersProcessed',
-            # Giá trị của metric.
+            # Value of the metric.
             'Value': 142,
-            # Đơn vị của metric.
+            # Unit of the metric.
             'Unit': 'Count',
-            # Các chiều (Dimensions) của metric, giúp lọc và phân tích dữ liệu.
+            # Dimensions of the metric, helping filter and analyze data.
             'Dimensions': [
                 {'Name': 'Environment', 'Value': 'prod'},
                 {'Name': 'Region', 'Value': 'us-east-1'}
             ]
         },
         {
-            # Tên của metric thứ hai.
+            # Name of the second metric.
             'MetricName': 'OrderLatency',
-            # Giá trị trung bình hoặc tổng hợp của metric.
+            # Average or aggregated value of the metric.
             'Value': 234.5,
-            # Đơn vị của metric.
+            # Unit of the metric.
             'Unit': 'Milliseconds',
-            # Các giá trị thống kê chi tiết cho metric này.
+            # Detailed statistic values for this metric.
             'StatisticValues': {
-                'SampleCount': 100, # Số lượng mẫu đã được lấy.
-                'Sum': 23450,       # Tổng của tất cả các mẫu.
-                'Minimum': 50,      # Giá trị nhỏ nhất trong các mẫu.
-                'Maximum': 800      # Giá trị lớn nhất trong các mẫu.
+                'SampleCount': 100, # Number of samples taken.
+                'Sum': 23450,       # Sum of all samples.
+                'Minimum': 50,      # Minimum value among samples.
+                'Maximum': 800      # Maximum value among samples.
             }
         }
     ]
 )
 
-# 2. Tạo một báo động (alarm) trong CloudWatch.
-# Báo động này sẽ kích hoạt khi tỷ lệ lỗi vượt quá ngưỡng.
+# 2. Create an alarm in CloudWatch.
+# This alarm will trigger when the error rate exceeds the threshold.
 cloudwatch.put_metric_alarm(
-    # Tên duy nhất của báo động.
+    # Unique name of the alarm.
     AlarmName='HighErrorRate',
-    # Toán tử so sánh (ví dụ: lớn hơn ngưỡng).
+    # Comparison operator (e.g., greater than threshold).
     ComparisonOperator='GreaterThanThreshold',
-    # Số khoảng thời gian đánh giá liên tiếp mà metric phải vi phạm ngưỡng để kích hoạt báo động.
+    # Number of consecutive evaluation periods the metric must violate the threshold to trigger the alarm.
     EvaluationPeriods=2,
-    # Tên của metric mà báo động sẽ theo dõi.
+    # Name of the metric the alarm will monitor.
     MetricName='5XXError',
-    # Không gian tên của metric (ở đây là metric của AWS Application Load Balancer).
+    # Namespace of the metric (here, an AWS Application Load Balancer metric).
     Namespace='AWS/ApplicationELB',
-    # Khoảng thời gian (tính bằng giây) mà mỗi điểm dữ liệu metric đại diện.
-    Period=300, # 5 phút
-    # Loại thống kê được sử dụng để đánh giá metric (ví dụ: trung bình).
+    # Period (in seconds) that each metric data point represents.
+    Period=300, # 5 minutes
+    # Statistic type used to evaluate the metric (e.g., average).
     Statistic='Average',
-    # Ngưỡng mà khi metric vượt qua sẽ kích hoạt báo động.
+    # Threshold that, when exceeded by the metric, will trigger the alarm.
     Threshold=5.0, # 5%
-    # Kích hoạt các hành động khi báo động thay đổi trạng thái.
+    # Enable actions when the alarm changes state.
     ActionsEnabled=True,
-    # Danh sách các ARN của hành động sẽ được thực hiện khi báo động kích hoạt (ví dụ: gửi thông báo SNS).
+    # List of ARNs of actions to be performed when the alarm triggers (e.g., send SNS notification).
     AlarmActions=['arn:aws:sns:us-east-1:123:pagerduty-critical'],
-    # Mô tả chi tiết về báo động.
+    # Detailed description of the alarm.
     AlarmDescription='ALB 5XX > 5% - runbook: https://wiki/runbooks/5xx',
-    # Cách xử lý dữ liệu bị thiếu: 'breaching' có nghĩa là coi dữ liệu thiếu như đang vi phạm ngưỡng.
+    # How to treat missing data: 'breaching' means treat missing data as violating the threshold.
     TreatMissingData='breaching'
 )
 
-# 3. Ghi log có cấu trúc (JSON).
-# Hàm này tạo một bản ghi log dưới dạng JSON.
+# 3. Log structured data (JSON).
+# This function creates a log record in JSON format.
 def log_event(level: str, event: str, **kwargs):
-    # Tạo một từ điển (dictionary) chứa các thông tin log.
+    # Create a dictionary containing log information.
     record = {
-        'timestamp': '2026-04-19T10:00:00Z', # Thời gian của sự kiện.
-        'level': level,                     # Mức độ log (INFO, ERROR, WARN, v.v.).
-        'event': event,                     # Tên của sự kiện.
-        **kwargs                            # Thêm bất kỳ đối số từ khóa nào khác vào bản ghi.
+        'timestamp': '2026-04-19T10:00:00Z', # Time of the event.
+        'level': level,                     # Log level (INFO, ERROR, WARN, etc.).
+        'event': event,                     # Name of the event.
+        **kwargs                            # Add any other keyword arguments to the record.
     }
-    # Chuyển đổi từ điển thành chuỗi JSON và in ra console.
-    # Đầu ra: Một chuỗi JSON đại diện cho bản ghi log.
+    # Convert the dictionary to a JSON string and print it to the console.
+    # Output: A JSON string representing the log record.
     print(json.dumps(record))
 
-# Gọi hàm log_event để ghi một sự kiện "order_created".
-# Đầu ra: {"timestamp": "2026-04-19T10:00:00Z", "level": "INFO", "event": "order_created", "user_id": 123, "amount": 49.99, "currency": "USD"}
+# Call the log_event function to log an "order_created" event.
+# Output: {"timestamp": "2026-04-19T10:00:00Z", "level": "INFO", "event": "order_created", "user_id": 123, "amount": 49.99, "currency": "USD"}
 log_event('INFO', 'order_created', user_id=123, amount=49.99, currency='USD')
-# Gọi hàm log_event để ghi một sự kiện "payment_failed".
-# Đầu ra: {"timestamp": "2026-04-19T10:00:00Z", "level": "ERROR", "event": "payment_failed", "user_id": 123, "error": "card_declined", "retry": 2}
+# Call the log_event function to log a "payment_failed" event.
+# Output: {"timestamp": "2026-04-19T10:00:00Z", "level": "ERROR", "event": "payment_failed", "user_id": 123, "error": "card_declined", "retry": 2}
 log_event('ERROR', 'payment_failed', user_id=123, error='card_declined', retry=2)
 
-# 4. Truy vấn log bằng CloudWatch Logs Insights (ngôn ngữ giống SQL).
-# Đây là một chuỗi truy vấn được sử dụng để phân tích dữ liệu log trong CloudWatch Logs.
+# 4. Query logs using CloudWatch Logs Insights (SQL-like language).
+# This is a query string used to analyze log data in CloudWatch Logs.
 query = """
-# Chọn các trường @timestamp, user_id và error từ các bản ghi log.
+# Select the fields @timestamp, user_id, and error from log records.
 fields @timestamp, user_id, error
-# Lọc các bản ghi log mà trường 'event' có giá trị là "payment_failed".
+# Filter log records where the 'event' field has the value "payment_failed".
 | filter event = "payment_failed"
-# Nhóm các bản ghi theo trường 'error' và đếm số lượng (count) cho mỗi nhóm.
+# Group records by the 'error' field and count the number for each group.
 | stats count() by error
-# Sắp xếp kết quả theo số lượng đếm (count) theo thứ tự giảm dần.
+# Sort the results by count in descending order.
 | sort count desc
-# Giới hạn kết quả trả về chỉ 10 dòng đầu tiên.
+# Limit the returned results to only the first 10 lines.
 | limit 10
 """
 
-# Ví dụ tương đương trong PromQL (được comment):
+# Equivalent example in PromQL (commented out):
 # rate(http_requests_total{status="500"}[5m]) / rate(http_requests_total[5m]) > 0.05`,
         codeLanguage: "python",
         exercise: "Define 3 SLIs and matching SLOs for an e-commerce checkout service. Explain the error budget calculation for one of them.",
@@ -1303,95 +1301,94 @@ AWS 12 months + always-free; Azure \\\\$200; GCP \\\\$300.
 - ❌ On-Demand 24/7 for predictable workloads
 - ❌ Ignoring egress in multi-region design
 - ❌ Spot for production DBs`,
-        code: `# Định nghĩa một hàm để tính toán chi phí đám mây cho một phiên bản (instance)
-# Đầu vào:
-#   - hours_per_month (int): Số giờ hoạt động mỗi tháng của phiên bản.
-#   - instance_hourly (float): Chi phí theo giờ của phiên bản.
-# Đầu ra:
-#   - models (dict): Một từ điển chứa chi phí hàng năm cho các mô hình định giá khác nhau.
+        code: `# Define a function to calculate cloud costs for an instance
+# Input:
+#   - hours_per_month (int): Monthly operating hours of the instance.
+#   - instance_hourly (float): Hourly cost of the instance.
+# Output:
+#   - models (dict): A dictionary containing annual costs for different pricing models.
 def cloud_cost_calculator(hours_per_month: int, instance_hourly: float):
     """Compare pricing models for one instance"""
-    # Tính toán chi phí hàng năm cho mô hình On-Demand (trả theo nhu cầu)
+    # Calculate annual cost for the On-Demand model
     on_demand = instance_hourly * hours_per_month * 12
 
-    # Định nghĩa các mô hình định giá khác nhau và chi phí tương ứng
-    # Chi phí được tính dựa trên tỷ lệ phần trăm giảm giá so với On-Demand
+    # Define different pricing models and their corresponding costs
+    # Costs are calculated based on a discount percentage compared to On-Demand
     models = {
         'On-Demand': on_demand,
-        'RI 1yr No Upfront': on_demand * 0.64, # Reserved Instance 1 năm, không trả trước
-        'RI 1yr All Upfront': on_demand * 0.58, # Reserved Instance 1 năm, trả trước toàn bộ
-        'RI 3yr All Upfront': on_demand * 0.37, # Reserved Instance 3 năm, trả trước toàn bộ
-        'Savings Plan 3yr': on_demand * 0.40,   # Gói tiết kiệm 3 năm
-        'Spot (avg)': on_demand * 0.20,         # Phiên bản Spot (trung bình)
+        'RI 1yr No Upfront': on_demand * 0.64, # Reserved Instance 1 year, no upfront
+        'RI 1yr All Upfront': on_demand * 0.58, # Reserved Instance 1 year, all upfront
+        'RI 3yr All Upfront': on_demand * 0.37, # Reserved Instance 3 years, all upfront
+        'Savings Plan 3yr': on_demand * 0.40,   # Savings Plan 3 years
+        'Spot (avg)': on_demand * 0.20,         # Spot instance (average)
     }
 
-    # In tiêu đề bảng so sánh
-    # Sử dụng f-string để định dạng căn lề cho các cột
+    # Print table header for comparison
+    # Use f-string to format column alignment
     print(f"{'Model':<25} {'Annual':<12} {'Savings':<10}")
-    # In một đường kẻ để phân tách tiêu đề và dữ liệu
+    # Print a line to separate header and data
     print("-" * 50)
-    # Lặp qua từng mô hình và chi phí trong từ điển models
+    # Iterate through each model and cost in the models dictionary
     for model, cost in models.items():
-        # Tính toán phần trăm tiết kiệm so với mô hình On-Demand
+        # Calculate savings percentage compared to the On-Demand model
         savings = (1 - cost / on_demand) * 100
-        # In tên mô hình, chi phí hàng năm và phần trăm tiết kiệm
+        # Print model name, annual cost, and savings percentage
         print(f"{model} {cost} {savings}")
 
-    # Trả về từ điển chứa chi phí của các mô hình
+    # Return the dictionary containing costs of the models
     return models
 
-# Ví dụ sử dụng hàm: tính toán chi phí cho một phiên bản m5.large hoạt động 24/7
-# Đầu vào: 730 giờ/tháng, chi phí 0.096 USD/giờ
-# Kết quả mong đợi: In ra bảng so sánh chi phí hàng năm và phần trăm tiết kiệm cho các mô hình.
+# Example usage of the function: calculate costs for an m5.large instance running 24/7
+# Input: 730 hours/month, cost 0.096 USD/hour
+# Expected result: Print a table comparing annual costs and savings percentages for the models.
 cloud_cost_calculator(hours_per_month=730, instance_hourly=0.096)
 
-# Phát hiện các ổ đĩa EBS bị bỏ hoang (không gắn vào instance nào)
-# Nhập thư viện boto3 để tương tác với AWS
+# Detect orphaned EBS volumes (not attached to any instance)
+# Import boto3 library to interact with AWS
 import boto3
-# Tạo một client EC2 để gọi các API liên quan đến EC2
+# Create an EC2 client to call EC2-related APIs
 ec2 = boto3.client('ec2')
 
-# Mô tả các ổ đĩa EBS có trạng thái 'available' (sẵn sàng)
-# Trạng thái 'available' có nghĩa là ổ đĩa không được gắn vào bất kỳ instance nào, tức là bị bỏ hoang.
+# Describe EBS volumes with 'available' status
+# 'available' status means the volume is not attached to any instance, i.e., it is orphaned.
 orphaned = ec2.describe_volumes(
     Filters=[{'Name': 'status', 'Values': ['available']}]   # available = unattached
 )
-# Tính tổng chi phí lãng phí hàng tháng từ các ổ đĩa EBS bị bỏ hoang
-# Giả sử chi phí cho mỗi GB là 0.10 USD/tháng (ví dụ cho gp3)
-# Đầu vào: danh sách các ổ đĩa bị bỏ hoang
-# Đầu ra: tổng chi phí lãng phí hàng tháng
-total_waste = sum(v['Size'] * 0.10 for v in orphaned['Volumes'])  # gp3 = \\\$0.10/GB/month
-# In ra tổng chi phí lãng phí hàng tháng
-# Kết quả mong đợi: "Orphaned EBS waste: [tổng chi phí] /month"
+# Calculate total monthly wasted cost from orphaned EBS volumes
+# Assume cost per GB is 0.10 USD/month (example for gp3)
+# Input: list of orphaned volumes
+# Output: total monthly wasted cost
+total_waste = sum(v['Size'] * 0.10 for v in orphaned['Volumes'])  # gp3 = \$0.10/GB/month
+# Print total monthly wasted cost
+# Expected result: "Orphaned EBS waste: [total cost] /month"
 print("Orphaned EBS waste:", total_waste, "/month")
 
-# Thiết lập cảnh báo ngân sách
-# Tạo một client Budgets để gọi các API liên quan đến AWS Budgets
+# Set up budget alerts
+# Create a Budgets client to call AWS Budgets-related APIs
 budgets = boto3.client('budgets')
-# Tạo một ngân sách mới
-# Đầu vào:
-#   - AccountId: ID tài khoản AWS
-#   - Budget: Chi tiết về ngân sách (tên, giới hạn, đơn vị thời gian, loại ngân sách)
-#   - NotificationsWithSubscribers: Cấu hình thông báo khi ngân sách đạt ngưỡng
+# Create a new budget
+# Input:
+#   - AccountId: AWS account ID
+#   - Budget: Budget details (name, limit, time unit, budget type)
+#   - NotificationsWithSubscribers: Notification configuration when budget threshold is reached
 budgets.create_budget(
-    AccountId='123456789012', # Thay thế bằng ID tài khoản AWS thực tế
+    AccountId='123456789012', # Replace with actual AWS account ID
     Budget={
-        'BudgetName': 'monthly-prod', # Tên của ngân sách
-        'BudgetLimit': {'Amount': '5000', 'Unit': 'USD'}, # Giới hạn ngân sách là 5000 USD
-        'TimeUnit': 'MONTHLY', # Ngân sách được theo dõi hàng tháng
-        'BudgetType': 'COST' # Loại ngân sách là chi phí
+        'BudgetName': 'monthly-prod', # Name of the budget
+        'BudgetLimit': {'Amount': '5000', 'Unit': 'USD'}, # Budget limit is 5000 USD
+        'TimeUnit': 'MONTHLY', # Budget is tracked monthly
+        'BudgetType': 'COST' # Budget type is cost
     },
     NotificationsWithSubscribers=[{
         'Notification': {
-            'NotificationType': 'ACTUAL', # Loại thông báo khi chi phí thực tế đạt ngưỡng
-            'ComparisonOperator': 'GREATER_THAN', # So sánh: lớn hơn
-            'Threshold': 80   # Cảnh báo khi chi phí đạt 80% của ngân sách
+            'NotificationType': 'ACTUAL', # Notification type when actual cost reaches threshold
+            'ComparisonOperator': 'GREATER_THAN', # Comparison: greater than
+            'Threshold': 80   # Alert when cost reaches 80% of the budget
         },
-        'Subscribers': [{'SubscriptionType': 'EMAIL', 'Address': 'finops@company.com'}] # Gửi thông báo qua email đến địa chỉ này
+        'Subscribers': [{'SubscriptionType': 'EMAIL', 'Address': 'finops@company.com'}] # Send notification via email to this address
     }]
 )
-# Kết quả mong đợi: Một ngân sách mới được tạo trong AWS Budgets với các cấu hình đã cho.
-`,
+# Expected result: A new budget is created in AWS Budgets with the given configurations.`,
         codeLanguage: "python",
         exercise: "A SaaS company runs 50 EC2 m5.xlarge instances 24/7 in production. Recommend a pricing strategy and calculate annual savings vs all on-demand.",
         exerciseEn: "A SaaS company runs 50 EC2 m5.xlarge instances 24/7 in production. Recommend a pricing strategy and calculate annual savings vs all on-demand.",
@@ -1563,9 +1560,9 @@ Single = đơn giản, nhanh. Multi-cloud = chống lock-in nhưng đắt + ph�
 - ❌ Hybrid without Direct Connect
 - ❌ Forced cloud-agnostic (skips best services)
 - ❌ Full data replication (egress kills budget)`,
-        code: `# Terraform: Thiết lập đa đám mây (AWS + Azure)
+        code: `# Terraform: Multi-cloud setup (AWS + Azure)
 
-# providers.tf (cấu hình providers Terraform)
+# providers.tf (Terraform providers configuration)
 """
 terraform {
   required_providers {
@@ -1577,7 +1574,7 @@ provider "aws"     { region = "us-east-1" }
 provider "azurerm" { features {} }
 """
 
-# main.tf - cùng module, hai đám mây
+# main.tf - same module, two clouds
 """
 # AWS Kubernetes cluster
 resource "aws_eks_cluster" "primary" {
@@ -1601,10 +1598,10 @@ resource "azurerm_kubernetes_cluster" "secondary" {
 }
 """
 
-# Python: Triển khai cùng workload cho cả hai cụm
+# Python: Deploy same workload to both clusters
 import subprocess
 
-# Hàm: áp dụng manifest Kubernetes lên cụm với kubeconfig cụ thể
+# Function: apply Kubernetes manifest to cluster with specific kubeconfig
 def deploy_to_cluster(cluster_name: str, kubeconfig: str):
     """Apply Kubernetes manifests to any K8s cluster (cloud-agnostic)"""
     result = subprocess.run(
@@ -1614,19 +1611,19 @@ def deploy_to_cluster(cluster_name: str, kubeconfig: str):
     print(f"[{cluster_name}] {result.stdout}")
     return result.returncode == 0
 
-# Triển khai active-active (cả hai cụm cùng nhận traffic)
+# Deploy active-active (both clusters receive traffic)
 clusters = [
     ('aws-eks-primary',  '~/.kube/aws-config'),
     ('azure-aks-dr',     '~/.kube/azure-config'),
 ]
-# Lặp qua danh sách cụm và gọi hàm deploy cho từng cụm
+# Iterate through cluster list and call deploy function for each cluster
 for name, config in clusters:
     deploy_to_cluster(name, config)
 
-# Hybrid: tính chi phí kết nối hybrid Cloud Connect
+# Hybrid: calculate hybrid Cloud Connect connection cost
 def hybrid_connection_cost(monthly_gb: int):
-    vpn = monthly_gb * 0.05         # \\\\\\\$0.05/GB internet egress
-    direct_connect = 250 + monthly_gb * 0.02   # \\\\\\\$250/month port + \\\\\\\$0.02/GB
+    vpn = monthly_gb * 0.05         # $0.05/GB internet egress
+    direct_connect = 250 + monthly_gb * 0.02   # $250/month port + $0.02/GB
     print("VPN:", vpn, "/month")
     print("Direct Connect:", direct_connect, "/month")
     print(f"Break-even at: {(250 / 0.03):.0f} GB/month")
@@ -1776,166 +1773,166 @@ Example: S3 upload → Lambda resize → DynamoDB. Web → ALB → EKS container
 - ❌ Serverless for real-time games (cold start)
 - ❌ K8s for single microservice`,
         code: `# === SERVERLESS: AWS Lambda image resize ===
-# Nhập thư viện boto3 để tương tác với các dịch vụ AWS như S3.
+# Import the boto3 library to interact with AWS services like S3.
 import boto3
-# Nhập thư viện PIL (Pillow) để xử lý ảnh.
+# Import the PIL (Pillow) library for image processing.
 from PIL import Image
-# Nhập BytesIO từ module io để làm việc với dữ liệu nhị phân trong bộ nhớ.
+# Import BytesIO from the io module to work with binary data in memory.
 from io import BytesIO
 
-# Khởi tạo một client S3 để có thể gọi các API của S3.
+# Initialize an S3 client to call S3 APIs.
 s3 = boto3.client('s3')
 
-# Định nghĩa hàm lambda_handler, đây là điểm vào chính khi AWS Lambda được kích hoạt.
-# Đầu vào:
-#   - event: Một dictionary chứa thông tin về sự kiện đã kích hoạt Lambda (ví dụ: upload ảnh lên S3).
-#   - context: Một đối tượng chứa thông tin về môi trường thực thi Lambda.
-# Đầu ra:
-#   - Một dictionary chứa statusCode và body, cho biết kết quả thực thi của hàm.
+# Define the lambda_handler function, which is the main entry point when AWS Lambda is triggered.
+# Input:
+#   - event: A dictionary containing information about the event that triggered Lambda (e.g., image upload to S3).
+#   - context: An object containing information about the Lambda execution environment.
+# Output:
+#   - A dictionary containing statusCode and body, indicating the function's execution result.
 def lambda_handler(event, context):
     """Triggered when image uploaded to S3"""
-    # Lấy tên bucket S3 từ sự kiện.
+    # Get the S3 bucket name from the event.
     bucket = event['Records'][0]['s3']['bucket']['name']
-    # Lấy khóa (tên file) của đối tượng S3 từ sự kiện.
+    # Get the S3 object key (filename) from the event.
     key = event['Records'][0]['s3']['object']['key']
 
-    # Tải đối tượng (ảnh) từ S3.
-    # Đầu vào: bucket và key của ảnh.
-    # Đầu ra: Một đối tượng S3 chứa dữ liệu ảnh.
+    # Download the object (image) from S3.
+    # Input: bucket and key of the image.
+    # Output: An S3 object containing image data.
     obj = s3.get_object(Bucket=bucket, Key=key)
-    # Mở ảnh bằng Pillow từ dữ liệu nhị phân đọc được từ S3.
-    # Đầu vào: Dữ liệu nhị phân của ảnh.
-    # Đầu ra: Một đối tượng ảnh của Pillow.
+    # Open the image using Pillow from the binary data read from S3.
+    # Input: Binary image data.
+    # Output: A Pillow image object.
     img = Image.open(BytesIO(obj['Body'].read()))
-    # Thay đổi kích thước ảnh (thumbnail) để vừa trong khung 300x300 pixel, giữ tỷ lệ.
-    # Đầu vào: Kích thước tối đa (chiều rộng, chiều cao).
+    # Resize the image (thumbnail) to fit within a 300x300 pixel frame, maintaining aspect ratio.
+    # Input: Maximum dimensions (width, height).
     img.thumbnail((300, 300))
 
-    # Tạo một bộ đệm trong bộ nhớ để lưu ảnh đã thay đổi kích thước.
+    # Create an in-memory buffer to save the resized image.
     out = BytesIO()
-    # Lưu ảnh đã thay đổi kích thước vào bộ đệm dưới định dạng JPEG với chất lượng 85%.
-    # Đầu vào: Bộ đệm, định dạng, chất lượng.
+    # Save the resized image to the buffer in JPEG format with 85% quality.
+    # Input: Buffer, format, quality.
     img.save(out, format='JPEG', quality=85)
-    # Di chuyển con trỏ về đầu bộ đệm để sẵn sàng đọc hoặc tải lên.
+    # Move the pointer to the beginning of the buffer, ready for reading or uploading.
     out.seek(0)
 
-    # Tải ảnh đã thay đổi kích thước lên một bucket S3 khác (có tên là bucket-thumbnails).
-    # Đầu vào: Tên bucket đích, khóa (tên file), dữ liệu ảnh, kiểu nội dung.
+    # Upload the resized image to another S3 bucket (named bucket-thumbnails).
+    # Input: Destination bucket name, key (filename), image data, content type.
     s3.put_object(
-        Bucket=f"{bucket}-thumbnails", # Tên bucket đích, ví dụ: "my-images-thumbnails"
+        Bucket=f"{bucket}-thumbnails", # Destination bucket name, e.g., "my-images-thumbnails"
         Key=key,
         Body=out,
         ContentType='image/jpeg'
     )
-    # Trả về một phản hồi HTTP thành công.
-    # Kết quả mong đợi: {'statusCode': 200, 'body': 'Resized'}
+    # Return a successful HTTP response.
+    # Expected result: {'statusCode': 200, 'body': 'Resized'}
     return {'statusCode': 200, 'body': 'Resized'}
 
 # === CONTAINER: Dockerfile + K8s deployment ===
-# Định nghĩa nội dung của Dockerfile dưới dạng chuỗi.
-# Dockerfile này dùng để xây dựng một image Docker cho ứng dụng Python.
+# Define the content of the Dockerfile as a string.
+# This Dockerfile is used to build a Docker image for a Python application.
 dockerfile = """
-# Sử dụng image nền tảng Python 3.12 slim (nhỏ gọn).
+# Use the Python 3.12 slim (compact) base image.
 FROM python:3.12-slim
-# Đặt thư mục làm việc hiện tại bên trong container là /app.
+# Set the current working directory inside the container to /app.
 WORKDIR /app
-# Sao chép file requirements.txt vào thư mục làm việc.
+# Copy the requirements.txt file to the working directory.
 COPY requirements.txt .
-# Cài đặt các thư viện Python được liệt kê trong requirements.txt.
-# --no-cache-dir giúp giảm kích thước image bằng cách không lưu cache cài đặt.
+# Install Python libraries listed in requirements.txt.
+# --no-cache-dir helps reduce image size by not caching installation.
 RUN pip install --no-cache-dir -r requirements.txt
-# Sao chép tất cả các file còn lại từ thư mục hiện tại của host vào thư mục làm việc trong container.
+# Copy all remaining files from the host's current directory to the working directory in the container.
 COPY . .
-# Định nghĩa lệnh sẽ được chạy khi container khởi động.
-# Ở đây, sử dụng Gunicorn để phục vụ ứng dụng Python trên cổng 8000.
+# Define the command to be run when the container starts.
+# Here, Gunicorn is used to serve the Python application on port 8000.
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
 """
 
-# Định nghĩa cấu hình triển khai Kubernetes (Deployment) dưới dạng chuỗi YAML.
-# Deployment này mô tả cách chạy ứng dụng web trong một cụm Kubernetes.
+# Define the Kubernetes Deployment configuration as a YAML string.
+# This Deployment describes how to run the web application in a Kubernetes cluster.
 k8s_deployment = """
-# Phiên bản API của Kubernetes.
+# Kubernetes API version.
 apiVersion: apps/v1
-# Loại tài nguyên Kubernetes: Deployment.
+# Kubernetes resource type: Deployment.
 kind: Deployment
-# Metadata cho Deployment, bao gồm tên.
+# Metadata for the Deployment, including its name.
 metadata:
   name: web-app
-# Đặc tả của Deployment.
+# Deployment specification.
 spec:
-  # Số lượng bản sao (replicas) của ứng dụng muốn chạy.
+  # Number of application replicas to run.
   replicas: 3
-  # Bộ chọn (selector) để tìm các Pod mà Deployment này quản lý.
+  # Selector to find Pods managed by this Deployment.
   selector:
     matchLabels: {app: web}
-  # Mẫu (template) cho các Pod sẽ được tạo bởi Deployment.
+  # Template for Pods to be created by the Deployment.
   template:
-    # Metadata cho Pod, bao gồm nhãn.
+    # Pod metadata, including labels.
     metadata:
       labels: {app: web}
-    # Đặc tả của Pod.
+    # Pod specification.
     spec:
-      # Danh sách các container sẽ chạy trong Pod.
+      # List of containers to run in the Pod.
       containers:
-      # Định nghĩa container đầu tiên.
+      # Define the first container.
       - name: web
-        # Image Docker sẽ được sử dụng cho container này.
+        # Docker image to be used for this container.
         image: 123.dkr.ecr.us-east-1.amazonaws.com/web:v1.2
-        # Các cổng mà container sẽ lắng nghe.
+        # Ports that the container will listen on.
         ports: [{containerPort: 8000}]
-        # Yêu cầu và giới hạn tài nguyên (CPU, bộ nhớ) cho container.
+        # Resource requests and limits (CPU, memory) for the container.
         resources:
-          # Yêu cầu tối thiểu.
+          # Minimum requests.
           requests: {memory: "256Mi", cpu: "250m"}
-          # Giới hạn tối đa.
+          # Maximum limits.
           limits:   {memory: "512Mi", cpu: "500m"}
-        # Cấu hình kiểm tra sức khỏe (liveness probe) để Kubernetes biết khi nào container cần được khởi động lại.
+        # Liveness probe configuration for Kubernetes to know when the container needs to be restarted.
         livenessProbe:
-          # Loại kiểm tra: HTTP GET.
+          # Probe type: HTTP GET.
           httpGet: {path: /health, port: 8000}
-          # Thời gian chờ trước khi bắt đầu kiểm tra sức khỏe lần đầu.
+          # Time to wait before starting the first health check.
           initialDelaySeconds: 30
 """
 
 # === Cost decision helper ===
-# Định nghĩa hàm để gợi ý lựa chọn dịch vụ điện toán dựa trên chi phí.
-# Đầu vào:
-#   - req_per_month: Số lượng yêu cầu mỗi tháng.
-#   - avg_duration_ms: Thời gian xử lý trung bình cho mỗi yêu cầu (tính bằng mili giây).
-# Đầu ra:
-#   - In ra dịch vụ rẻ nhất và chi phí của nó, sau đó in ra chi phí của tất cả các tùy chọn.
+# Define a function to suggest compute services based on cost.
+# Input:
+#   - req_per_month: Number of requests per month.
+#   - avg_duration_ms: Average processing time per request (in milliseconds).
+# Output:
+#   - Prints the cheapest service and its cost, then prints the cost of all options.
 def recommend_compute(req_per_month: int, avg_duration_ms: int):
-    # Tính toán chi phí ước tính cho AWS Lambda.
-    # Chi phí dựa trên số lượng yêu cầu (0.20 USD cho 1 triệu yêu cầu).
+    # Calculate estimated cost for AWS Lambda.
+    # Cost based on number of requests (0.20 USD for 1 million requests).
     lambda_cost = (req_per_month / 1_000_000) * 0.20
-    # Chi phí dựa trên thời gian thực thi và bộ nhớ (512MB).
+    # Cost based on execution time and memory (512MB).
     lambda_cost += (req_per_month * avg_duration_ms / 1000) * (512/1024) * 0.0000166667
 
-    # Chi phí ước tính cho AWS Fargate (luôn bật, 0.5 vCPU/1GB).
+    # Estimated cost for AWS Fargate (always-on, 0.5 vCPU/1GB).
     fargate_cost = 30   # always-on 0.5 vCPU/1GB
-    # Chi phí ước tính cho AWS EC2 (t3.micro chạy 24/7).
+    # Estimated cost for AWS EC2 (t3.micro running 24/7).
     ec2_cost = 7.50     # t3.micro 24/7
 
-    # Tạo danh sách các tùy chọn dịch vụ và chi phí tương ứng.
-    # Sắp xếp danh sách theo chi phí tăng dần.
-    # Đầu vào: Danh sách các tuple (tên dịch vụ, chi phí).
-    # Đầu ra: Danh sách đã sắp xếp.
+    # Create a list of service options and their corresponding costs.
+    # Sort the list by cost in ascending order.
+    # Input: List of tuples (service name, cost).
+    # Output: Sorted list.
     options = sorted([
         ('Lambda',  lambda_cost),
         ('Fargate', fargate_cost),
         ('EC2',     ec2_cost),
     ], key=lambda x: x[1])
 
-    # In ra tùy chọn rẻ nhất.
-    # Kết quả mong đợi: "Cheapest: Lambda 0.00000..." hoặc tương tự.
+    # Print the cheapest option.
+    # Expected result: "Cheapest: Lambda 0.00000..." or similar.
     print("Cheapest:", options[0][0], options[0][1])
-    # In ra chi phí của tất cả các tùy chọn.
-    # Kết quả mong đợi: Tên dịch vụ và chi phí của nó trên từng dòng.
+    # Print the cost of all options.
+    # Expected result: Service name and its cost on each line.
     for name, cost in options:
         print(name, cost)
 
-# Gọi hàm recommend_compute với 1 triệu yêu cầu mỗi tháng và thời gian xử lý trung bình 200ms.
-# Kết quả mong đợi: In ra chi phí ước tính và dịch vụ rẻ nhất.
+# Call the recommend_compute function with 1 million requests per month and an average processing time of 200ms.
+# Expected result: Prints estimated costs and the cheapest service.
 recommend_compute(req_per_month=1_000_000, avg_duration_ms=200)`,
         codeLanguage: "python",
         exercise: "Decide: Containers or Serverless for (1) a Slack bot, (2) a ML training job that runs 6 hours, (3) a real-time multiplayer game, (4) a daily ETL pipeline. Justify each.",
@@ -2332,41 +2329,41 @@ Single-region \\\\$20k → multi-region \\\\$45k (2.25×). Justified only when d
 - ❌ Simultaneous deploys to all regions
 - ❌ Multi-region for startup MVP`,
         code: `# === DynamoDB Global Tables (active-active) ===
-# Nhập thư viện boto3 để tương tác với các dịch vụ AWS.
+# Import the boto3 library to interact with AWS services.
 import boto3
 
-# Khởi tạo một client DynamoDB để gọi các API của DynamoDB.
+# Initialize a DynamoDB client to call DynamoDB APIs.
 dynamodb = boto3.client('dynamodb')
 
-# Tạo một bảng cơ sở (base table) trong vùng us-east-1.
-# Bảng này sẽ được dùng làm nền tảng cho bảng Global Table.
+# Create a base table in the us-east-1 region.
+# This table will be used as the foundation for the Global Table.
 dynamodb.create_table(
-    TableName='users', # Tên của bảng là 'users'.
-    KeySchema=[{'AttributeName': 'user_id', 'KeyType': 'HASH'}], # Định nghĩa khóa chính: user_id là khóa phân vùng (HASH).
-    AttributeDefinitions=[{'AttributeName': 'user_id', 'AttributeType': 'S'}], # Định nghĩa thuộc tính user_id có kiểu dữ liệu là chuỗi (S).
-    BillingMode='PAY_PER_REQUEST', # Chế độ thanh toán là theo yêu cầu (chỉ trả tiền cho những gì bạn sử dụng).
+    TableName='users', # The table's name is 'users'.
+    KeySchema=[{'AttributeName': 'user_id', 'KeyType': 'HASH'}], # Define the primary key: user_id is the partition key (HASH).
+    AttributeDefinitions=[{'AttributeName': 'user_id', 'AttributeType': 'S'}], # Define the user_id attribute with data type string (S).
+    BillingMode='PAY_PER_REQUEST', # Billing mode is pay-per-request (only pay for what you use).
     StreamSpecification={
-        'StreamEnabled': True, # Bật DynamoDB Streams để theo dõi các thay đổi dữ liệu.
-        'StreamViewType': 'NEW_AND_OLD_IMAGES'    # Bắt buộc phải có StreamViewType này ('NEW_AND_OLD_IMAGES') để sử dụng Global Tables.
+        'StreamEnabled': True, # Enable DynamoDB Streams to track data changes.
+        'StreamViewType': 'NEW_AND_OLD_IMAGES'    # This StreamViewType ('NEW_AND_OLD_IMAGES') is required to use Global Tables.
     }
 )
 
-# Thêm bảng 'users' vào Global Table để sao chép dữ liệu sang các vùng khác.
-# Dữ liệu sẽ được tự động sao chép giữa us-east-1, eu-west-1 và ap-southeast-1.
+# Add the 'users' table to the Global Table to replicate data to other regions.
+# Data will be automatically replicated between us-east-1, eu-west-1, and ap-southeast-1.
 dynamodb.create_global_table(
-    GlobalTableName='users', # Tên của Global Table là 'users'.
-    ReplicationGroup=[ # Danh sách các vùng mà dữ liệu sẽ được sao chép đến.
+    GlobalTableName='users', # The Global Table's name is 'users'.
+    ReplicationGroup=[ # List of regions where data will be replicated.
         {'RegionName': 'us-east-1'},
         {'RegionName': 'eu-west-1'},
         {'RegionName': 'ap-southeast-1'}
     ]
 )
 
-# Ghi dữ liệu từ bất kỳ vùng nào - dữ liệu sẽ tự động được sao chép trong vài giây.
-# Khởi tạo một resource DynamoDB cho vùng us-east-1.
+# Write data from any region - data will be automatically replicated in seconds.
+# Initialize a DynamoDB resource for the us-east-1 region.
 us_dynamo = boto3.resource('dynamodb', region_name='us-east-1')
-# Ghi một mục (item) vào bảng 'users' trong vùng us-east-1.
-# Mục này sẽ được tự động sao chép sang các vùng khác trong Global Table.
+# Write an item to the 'users' table in the us-east-1 region.
+# This item will be automatically replicated to other regions in the Global Table.
 us_dynamo.Table('users').put_item(Item={
     'user_id': '123',
     'name': 'Alice',
@@ -2374,88 +2371,88 @@ us_dynamo.Table('users').put_item(Item={
 })
 
 # === Route 53 Latency-Based Routing ===
-# Khởi tạo một client Route 53 để tương tác với dịch vụ DNS của AWS.
+# Initialize a Route 53 client to interact with AWS's DNS service.
 route53 = boto3.client('route53')
 
-# Cấu hình Route 53 Latency-Based Routing.
-# Cùng một tên DNS nhưng trỏ đến các IP khác nhau tùy theo vùng. Route 53 sẽ chọn IP gần nhất với người dùng.
-# Lặp qua danh sách các vùng và địa chỉ IP tương ứng.
+# Configure Route 53 Latency-Based Routing.
+# The same DNS name points to different IPs depending on the region. Route 53 will choose the IP closest to the user.
+# Iterate through the list of regions and corresponding IP addresses.
 for region, ip in [('us-east-1', '1.2.3.4'),
                    ('eu-west-1', '5.6.7.8'),
                    ('ap-southeast-1', '9.10.11.12')]:
-    # Thay đổi (tạo) một bản ghi tài nguyên (Resource Record Set) trong Route 53.
+    # Change (create) a Resource Record Set in Route 53.
     route53.change_resource_record_sets(
-        HostedZoneId='Z123', # ID của Hosted Zone (vùng lưu trữ DNS của bạn).
-        ChangeBatch={'Changes': [{ # Một lô các thay đổi cần thực hiện.
-            'Action': 'CREATE', # Hành động là tạo bản ghi mới.
+        HostedZoneId='Z123', # ID of your Hosted Zone (your DNS hosting zone).
+        ChangeBatch={'Changes': [{ # A batch of changes to perform.
+            'Action': 'CREATE', # The action is to create a new record.
             'ResourceRecordSet': {
-                'Name': 'api.app.com', # Tên DNS mà người dùng sẽ truy cập.
-                'Type': 'A', # Loại bản ghi là A (ánh xạ tên miền tới địa chỉ IPv4).
-                'SetIdentifier': region, # Định danh duy nhất cho bản ghi trong một nhóm bản ghi.
-                'Region': region,                    # Chỉ định vùng cho định tuyến dựa trên độ trễ của AWS.
-                'TTL': 60, # Thời gian tồn tại (Time To Live) của bản ghi là 60 giây.
-                'ResourceRecords': [{'Value': ip}] # Địa chỉ IP mà tên miền sẽ trỏ tới.
+                'Name': 'api.app.com', # The DNS name users will access.
+                'Type': 'A', # Record type is A (maps domain name to IPv4 address).
+                'SetIdentifier': region, # Unique identifier for the record within a record set.
+                'Region': region,                    # Specify the region for AWS latency-based routing.
+                'TTL': 60, # Time To Live of the record is 60 seconds.
+                'ResourceRecords': [{'Value': ip}] # The IP address the domain name will point to.
             }
         }]}
     )
 
 # === Idempotency key for safe retries ===
-# Nhập thư viện hashlib để tạo mã băm (hash).
+# Import the hashlib library to create hashes.
 import hashlib
-# Nhập thư viện json để làm việc với dữ liệu JSON.
+# Import the json library to work with JSON data.
 import json
 
-# Định nghĩa hàm safe_payment để xử lý thanh toán với khóa idempotency.
-# Đảm bảo rằng việc thử lại thanh toán sẽ an toàn và không tạo ra các giao dịch trùng lặp.
-# Đầu vào: amount (số tiền), user_id (ID người dùng), request_id (ID yêu cầu duy nhất).
-# Đầu ra: Kết quả thanh toán (một dictionary).
+# Define the safe_payment function to process payments with an idempotency key.
+# Ensures that payment retries are safe and do not create duplicate transactions.
+# Input: amount (amount), user_id (user ID), request_id (unique request ID).
+# Output: Payment result (a dictionary).
 def safe_payment(amount: float, user_id: str, request_id: str):
     """Process payment with idempotency - retry-safe across regions"""
-    # Tạo khóa idempotency bằng cách băm user_id và request_id.
-    # Khóa này đảm bảo mỗi yêu cầu thanh toán duy nhất chỉ được xử lý một lần.
+    # Create an idempotency key by hashing user_id and request_id.
+    # This key ensures each unique payment request is processed only once.
     idempotency_key = hashlib.sha256(
-        f"{user_id}:{request_id}".encode() # Mã hóa chuỗi thành bytes trước khi băm.
-    ).hexdigest() # Lấy kết quả băm dưới dạng chuỗi thập lục phân.
+        f"{user_id}:{request_id}".encode() # Encode the string to bytes before hashing.
+    ).hexdigest() # Get the hash result as a hexadecimal string.
 
-    # Kiểm tra xem yêu cầu này đã được xử lý trước đó chưa.
-    # Sử dụng bảng DynamoDB 'payments' để lưu trữ trạng thái các giao dịch.
+    # Check if this request has been processed before.
+    # Use the DynamoDB 'payments' table to store transaction states.
     table = boto3.resource('dynamodb').Table('payments')
-    # Lấy mục từ bảng dựa trên idempotency_key.
+    # Get the item from the table based on the idempotency_key.
     existing = table.get_item(Key={'idempotency_key': idempotency_key})
 
-    # Nếu mục đã tồn tại (tức là yêu cầu đã được xử lý), trả về kết quả đã lưu.
+    # If the item already exists (i.e., the request has been processed), return the saved result.
     if 'Item' in existing:
-        return existing['Item']     # Đã hoàn thành - trả về kết quả đã được lưu trong cache.
+        return existing['Item']     # Completed - return the cached result.
 
-    # Nếu đây là một yêu cầu mới, tiến hành xử lý thanh toán.
+    # If this is a new request, proceed with payment processing.
     result = {'idempotency_key': idempotency_key, 'amount': amount,
               'status': 'completed'}
-    # Ghi kết quả thanh toán vào bảng 'payments'.
-    # ConditionExpression='attribute_not_exists(idempotency_key)' đảm bảo rằng
-    # mục chỉ được ghi nếu idempotency_key chưa tồn tại, ngăn chặn ghi đè.
+    # Write the payment result to the 'payments' table.
+    # ConditionExpression='attribute_not_exists(idempotency_key)' ensures that
+    # the item is written only if idempotency_key does not exist, preventing overwrites.
     table.put_item(Item=result, ConditionExpression='attribute_not_exists(idempotency_key)')
-    # Trả về kết quả của giao dịch mới.
+    # Return the result of the new transaction.
     return result
 
 # === Health check global aggregator ===
-# Định nghĩa hàm check_all_regions để kiểm tra tình trạng sức khỏe của dịch vụ trên tất cả các vùng.
-# Đầu vào: Không có.
-# Đầu ra: Một dictionary chứa trạng thái sức khỏe của từng vùng.
+# Define the check_all_regions function to check the health status of services across all regions.
+# Input: None.
+# Output: A dictionary containing the health status of each region.
 def check_all_regions():
-    # Danh sách các vùng cần kiểm tra.
+    # List of regions to check.
     regions = ['us-east-1', 'eu-west-1', 'ap-southeast-1']
-    health = {} # Khởi tạo dictionary để lưu trữ trạng thái sức khỏe.
-    # Lặp qua từng vùng để kiểm tra.
+    health = {} # Initialize dictionary to store health status.
+    # Iterate through each region to check.
     for region in regions:
-        # Đây là một ví dụ về cách gọi endpoint kiểm tra sức khỏe tùy chỉnh cho mỗi vùng.
+        # This is an example of how to call a custom health check endpoint for each region.
         # health[region] = httpx.get(f'https://{region}.api.app.com/health').json()
-        # Trong ví dụ này, chúng ta sử dụng dữ liệu giả định.
+        # In this example, we use simulated data.
         health[region] = {'status': 'healthy', 'latency_ms': 25}
-    # Trả về dictionary chứa trạng thái sức khỏe của tất cả các vùng.
+    # Return the dictionary containing the health status of all regions.
     return health
 
-# Gọi hàm check_all_regions và in kết quả ra màn hình dưới dạng JSON được định dạng đẹp.
-# Kết quả mong đợi: Một đối tượng JSON hiển thị trạng thái sức khỏe của từng vùng.
+# Call the check_all_regions function and print the result to the screen as pretty-formatted JSON.
+# Expected result: A JSON object displaying the health status of each region.
 print(json.dumps(check_all_regions(), indent=2))`,
         codeLanguage: "python",
         exercise: "Design a multi-region active-active architecture for a global e-commerce platform serving US, EU, and Asia. Specify: DB choice, consistency model, failover strategy, and 3 trade-offs accepted.",

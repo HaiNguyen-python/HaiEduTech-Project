@@ -89,14 +89,12 @@ Imagine you write a **pho recipe** for a machine. The machine reads each line an
 > - Learn by **building**, not by passively watching videos.
 > - Ask AI "why", not "do it for me".
 `,
-    code: `# Project đầu tiên cho người mới: máy tính tip 4 dòng
-# First project for beginners: a 4-line tip calculator
+    code: `# First project for beginners: a 4-line tip calculator
 
-bill = float(input("Hoá đơn (USD): "))
+bill = float(input("Bill (USD): "))
 tip_percent = 15
 tip = bill * tip_percent / 100
-print(f"Tip: {tip:.2f} USD - Tổng: {bill + tip:.2f} USD")
-`,
+print(f"Tip: {tip:.2f} USD - Total: {bill + tip:.2f} USD")`,
     exercise: "Viết một chương trình Python hỏi tên người dùng và in ra lời chào kèm độ dài tên (ví dụ: 'Xin chào Hải - tên bạn có 3 ký tự').",
     exerciseEn: "Write a Python program that asks for the user's name and prints a greeting with the name length, e.g. 'Hello Hai - your name has 3 characters'.",
     quiz: [
@@ -254,7 +252,7 @@ Keep splitting until each task can be finished in 1-2 hours.
 > 💡 Rubber-duck explain out loud. One function = one job. When stuck, print intermediate values to debug fast.
 `,
     code: `def find_max(nums):
-    """Trả về phần tử lớn nhất trong list, hoặc None nếu rỗng."""
+    """Returns the largest element in the list, or None if empty."""
     if not nums:
         return None
     biggest = nums[0]
@@ -265,8 +263,7 @@ Keep splitting until each task can be finished in 1-2 hours.
 
 print(find_max([3, 7, 2, 9, 4]))  # 9
 print(find_max([]))                # None
-print(find_max([-5, -1, -8]))      # -1
-`,
+print(find_max([-5, -1, -8]))      # -1`,
     exercise: "Áp dụng 4 bước (Hiểu → Ví dụ → Pseudo → Code) để viết hàm `count_vowels(text)` đếm số nguyên âm trong chuỗi tiếng Anh.",
     exerciseEn: "Use the 4-step method to write `count_vowels(text)` that counts English vowels in a string.",
     quiz: [
@@ -378,14 +375,13 @@ Never paste blindly. Write clear prompts: context + input + desired output + con
 
 Small commits every 30-60 minutes, branch names like \`feature/login\`, every project ships a \`README.md\`, push to GitHub as backup.
 `,
-    code: `# Workflow chuẩn cho một thay đổi nhỏ
+    code: `# Standard workflow for a small change
 git checkout -b feature/add-login
-# ...sửa code...
+# ...edit code...
 git add .
 git commit -m "feat: add login form with email + password"
 git push -u origin feature/add-login
-# Mở Pull Request trên GitHub → đợi review → merge
-`,
+# Open Pull Request on GitHub -> wait for review -> merge`,
     exercise: "Tạo 1 repo GitHub trống, clone về máy, thêm file `README.md` giới thiệu bản thân, commit và push lên.",
     exerciseEn: "Create an empty GitHub repo, clone it, add a `README.md` introducing yourself, commit and push.",
     quiz: [

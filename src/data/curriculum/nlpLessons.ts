@@ -127,56 +127,56 @@ That entire flow is NLP. We will build simplified versions of every step in this
 Recruiters scanning your CV for NLP roles look for *four* signals: (1) you can clean dirty multilingual text, (2) you understand both classical (TF-IDF, SVM) **and** modern (Transformer, RAG) stacks, (3) you can evaluate models with the right metric for the task, and (4) you have shipped at least one end-to-end project where text became a useful action (a label, a translation, an answer). This module is designed so that by Lesson 6 you can claim all four.`,
         theoryEn: "",
         code: `# ============================================================
-# DEMO 60 GIÂY: Phân loại cảm xúc (sentiment) review phim
-# bằng "lexicon thủ công" - đúng cách NLP hoạt động ở thập niên 1990.
-# Chỉ dùng Python chuẩn, không cần cài thư viện.
+# 60-SECOND DEMO: movie review sentiment classification
+# with a "hand-built lexicon" - exactly how NLP worked in the 1990s.
+# Standard Python only, no libraries to install.
 # ============================================================
-import re                       # Regex: dùng để tách chữ ra khỏi dấu câu / emoji
-from collections import Counter # Đếm số lần xuất hiện của mỗi token
+import re                       # Regex: split words away from punctuation / emoji
+from collections import Counter # Count how many times each token appears
 
-# --- 1. Hai "từ điển" cảm xúc tự định nghĩa ---
-# Mỗi set chứa các từ tiếng Anh mang tín hiệu tích cực / tiêu cực rõ rệt.
+# --- 1. Two hand-written sentiment "dictionaries" ---
+# Each set holds English words with a clear positive / negative signal.
 POSITIVE_LEXICON = {"great", "love", "amazing", "excellent", "awesome", "good", "fantastic"}
 NEGATIVE_LEXICON = {"bad", "boring", "awful", "terrible", "hate", "worst", "poor"}
 
-# --- 2. Hàm tokenize: cắt câu thành danh sách "token" (từ nhỏ nhất) ---
+# --- 2. tokenize: cut a sentence into a list of "tokens" (smallest words) ---
 def tokenize(text: str) -> list[str]:
-    """Đưa về chữ thường + chỉ giữ ký tự chữ cái (kể cả tiếng Việt có dấu).
-    Mọi dấu câu, số, emoji sẽ bị bỏ qua."""
-    # [a-z\\u00C0-\\u1EF9]+ = chữ thường Latin + dải ký tự có dấu của tiếng Việt
+    """Lowercase the text and keep letters only (including accented letters).
+    All punctuation, digits and emoji are dropped."""
+    # [a-z\\u00C0-\\u1EF9]+ = lowercase Latin letters + the accented letter range
     return re.findall(r"[a-z\\u00C0-\\u1EF9]+", text.lower())
 
-# --- 3. Hàm chấm điểm cảm xúc dựa trên đếm từ ---
+# --- 3. Score sentiment by counting words ---
 def naive_sentiment(text: str) -> str:
-    tokens = tokenize(text)         # B1: tách câu thành các token
-    counts = Counter(tokens)        # B2: đếm tần suất từng token
-    # B3: cộng số lần xuất hiện của các từ tích cực / tiêu cực
+    tokens = tokenize(text)         # Step 1: split the sentence into tokens
+    counts = Counter(tokens)        # Step 2: count the frequency of each token
+    # Step 3: add up the hits for positive / negative words
     pos_hits = sum(counts[w] for w in POSITIVE_LEXICON if w in counts)
     neg_hits = sum(counts[w] for w in NEGATIVE_LEXICON if w in counts)
-    # B4: bên nào "thắng" thì trả về nhãn tương ứng
+    # Step 4: whichever side "wins" gives the label
     if pos_hits > neg_hits:
         return "positive"
     if neg_hits > pos_hits:
         return "negative"
-    return "neutral"               # Không có tín hiệu nào nổi bật
+    return "neutral"               # No clear signal either way
 
-# --- 4. Thử mô hình "ngây thơ" trên 3 review mẫu ---
+# --- 4. Try the "naive" model on 3 sample reviews ---
 reviews = [
     "Teacher Hai's lesson was AMAZING - I love how clearly he explains tokenization.",
     "The chatbot was boring and the answers were terrible.",
     "It exists. I have no opinion.",
 ]
 for r in reviews:
-    # f"{value:>8}" = canh phải, độ rộng 8 ký tự cho dễ đọc
+    # f"{value:>8}" = right-aligned, width 8 characters for readability
     print(f"{naive_sentiment(r):>8} | {r}")
 
 # ============================================================
-# TẠI SAO CÁCH NÀY "NGÂY THƠ" (naive)?
-#   - "not bad"          → bị tính là tiêu cực vì có "bad"
-#   - "It is not great"  → vẫn bị tính là tích cực vì có "great"
-#   - Không khái quát hoá được với từ chưa thấy ("phenomenal", "lit", "đỉnh")
-# → Các bài Lesson 2-6 sẽ lần lượt khắc phục từng vấn đề trên
-#    bằng kỹ thuật NLP thật sự (tokenizer thông minh, embeddings, Transformer).
+# WHY IS THIS APPROACH "NAIVE"?
+#   - "not bad"          -> counted as negative because of "bad"
+#   - "It is not great"  -> still counted as positive because of "great"
+#   - It cannot generalise to unseen words ("phenomenal", "lit", "sick")
+# -> Lessons 2-6 fix each of these problems in turn
+#    with real NLP techniques (smarter tokenizers, embeddings, Transformers).
 # ============================================================`,
         codeLanguage: "python",
         exercise: "Run the snippet on the 3 sample reviews. Then add the sentence *\"This is not bad at all.\"* - explain why the naive lexicon fails on negation, and propose **two** rules you could add to fix it (without using machine learning yet).",
@@ -745,9 +745,9 @@ Accuracy alone lies. For a 95% positive / 5% negative dataset, a model that alwa
 | Treating 1-star ≈ 2-star | They are very different - 1-star usually = anger, 2-star = disappointment | Use ordinal regression or rank loss |
 | Skipping human spot-check | Metrics hide systematic errors | Read 50 random model predictions weekly |`,
         theoryEn: "",
-        code: `# Huấn luyện bộ phân loại cảm xúc thật trên tập dữ liệu nhỏ kiểu đánh giá HaiEduTech.
-# cài đặt: pip install scikit-learn pandas
-# Import thư viện cần thiết
+        code: `# Train a real sentiment classifier on a small HaiEduTech-style evaluation dataset.
+# install: pip install scikit-learn pandas
+# Import necessary libraries
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -755,7 +755,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 
-# 1. Tập dữ liệu gắn nhãn nhỏ (thực tế: hàng nghìn hàng từ DB của bạn)
+# 1. Small labeled dataset (in reality: thousands of rows from your DB)
 data = pd.DataFrame({
     "text": [
         "Teacher Hai's NLP lesson is amazing, super clear!",
@@ -771,36 +771,36 @@ data = pd.DataFrame({
     ],
     "label": ["pos"] * 5 + ["neg"] * 5,
 })
-# Chia dữ liệu thành tập huấn luyện và kiểm tra, giữ tỉ lệ nhãn (stratify)
+# Split data into training and test sets, maintaining label proportion (stratify)
 X_train, X_test, y_train, y_test = train_test_split(
     data["text"], data["label"], test_size=0.3, random_state=42, stratify=data["label"]
 )
 
-# 2. Pipeline: TF-IDF (1- và 2-gram) → Logistic Regression
+# 2. Pipeline: TF-IDF (1- and 2-gram) -> Logistic Regression
 clf = Pipeline([
     ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=1, lowercase=True)),
     ("model", LogisticRegression(max_iter=1000, C=1.0)),
 ])
-# Huấn luyện mô hình trên tập huấn luyện
+# Train the model on the training set
 clf.fit(X_train, y_train)
 
-# 3. Đánh giá
+# 3. Evaluation
 y_pred = clf.predict(X_test)
 print(classification_report(y_test, y_pred))
 
-# 4. Thử với câu mới
+# 4. Try with new sentences
 new_reviews = [
-    "I am not happy with this lesson.",                # phủ định - phức tạp
+    "I am not happy with this lesson.",                # negative - complex
     "Phenomenal teacher, learned so much!",
     "The course was OK, nothing special.",
 ]
-print("\\\\nPredictions:")
-# In dự đoán cho từng câu mới
+print("\\nPredictions:")
+# Print predictions for each new sentence
 for r, p in zip(new_reviews, clf.predict(new_reviews)):
     print(f"  {p:>3} | {r}")
 
-# Lưu ý cách bigram (1,2) giúp bắt được 'not happy' như tín hiệu tiêu cực.
-# Đổi LogisticRegression thành LinearSVC hoặc BERT tinh chỉnh cho môi trường production.`,
+# Note how bigrams (1,2) help capture 'not happy' as a negative signal.
+# Change LogisticRegression to LinearSVC or fine-tuned BERT for production environment.`,
         codeLanguage: "python",
         exercise: "Add 3 more **mixed/sarcastic** reviews to the dataset (e.g. *\"Sure, the audio is 'great'.\"*) and re-train. Report whether bigrams alone are enough to handle sarcasm, and propose **one** richer feature you could add (hint: think about quotation marks or contrast conjunctions).",
         exerciseEn: "",
@@ -972,27 +972,27 @@ Transformers win the benchmark race, but LSTMs survive in three niches:
 | Sampling with temperature = 1 forever | Output gets repetitive or chaotic | Use temperature 0.7-0.9 + top-k or nucleus sampling |
 | Training on raw text every epoch | Tokeniser dominates wall time | Pre-tokenise once and cache to disk |`,
         theoryEn: "",
-        code: `# Một LSTM ở mức ký tự học cách tiếp tục một câu.
-# Chạy trên một tập nhỏ và cho mô hình 'mơ' 100 ký tự tiếp theo.
-# Cài đặt: pip install torch
+        code: `# A character-level LSTM learns to continue a sentence.
+# Run on a small dataset and let the model 'dream' the next 100 characters.
+# Installation: pip install torch
 import torch
 import torch.nn as nn
 
-# 1. Tập văn bản nhỏ -------------------------------------------------------
+# 1. Small text dataset -------------------------------------------------------
 text = (
     "teacher hai teaches python and nlp on haiedutech. "
     "students learn ielts speaking, hsk vocabulary, and finnish basics. "
     "the platform makes learning fun and effective. "
 ) * 10
 
-# 2. Từ vựng ở mức ký tự --------------------------------------------
+# 2. Character-level vocabulary --------------------------------------------
 chars = sorted(set(text))
 stoi = {c: i for i, c in enumerate(chars)}
 itos = {i: c for c, i in stoi.items()}
 vocab_size = len(chars)
 data = torch.tensor([stoi[c] for c in text], dtype=torch.long)
 
-# 3. Mô hình: embedding → LSTM → chiếu tuyến tính ---------------------
+# 3. Model: embedding -> LSTM -> linear projection ---------------------
 class CharLSTM(nn.Module):
     def __init__(self, vocab_size, emb_dim=32, hidden=64):
         super().__init__()
@@ -1000,7 +1000,7 @@ class CharLSTM(nn.Module):
         self.lstm = nn.LSTM(emb_dim, hidden, batch_first=True)
         self.fc = nn.Linear(hidden, vocab_size)
 
-    # Chuyển tiếp: nhúng, chạy LSTM, trả về logits và trạng thái ẩn
+    # Forward pass: embed, run LSTM, return logits and hidden state
     def forward(self, x, hidden=None):
         x = self.embed(x)
         out, hidden = self.lstm(x, hidden)
@@ -1010,7 +1010,7 @@ model = CharLSTM(vocab_size)
 optim = torch.optim.Adam(model.parameters(), lr=3e-3)
 loss_fn = nn.CrossEntropyLoss()
 
-# 4. Huấn luyện: dự đoán ký tự tiếp theo từ 50 ký tự trước ---------------
+# 4. Training: predict the next character from the previous 50 characters ---------------
 SEQ = 50
 for epoch in range(800):
     i = torch.randint(0, len(data) - SEQ - 1, (1,)).item()
@@ -1019,17 +1019,17 @@ for epoch in range(800):
     logits, _ = model(x)
     loss = loss_fn(logits.squeeze(0), y)
     optim.zero_grad(); loss.backward(); optim.step()
-    # In loss mỗi 200 epoch để theo dõi tiến trình
+    # Print loss every 200 epochs to monitor progress
     if epoch % 200 == 0:
         print(f"epoch {epoch:4d} | loss {loss.item():.3f}")
 
-# 5. Sinh văn bản -----------------------------------------------------------
+# 5. Generate text -----------------------------------------------------------
 def sample(seed: str, n: int = 100) -> str:
     model.eval()
     out = seed
     x = torch.tensor([[stoi[c] for c in seed]])
     hidden = None
-    # Sinh từng ký tự mới dựa trên ngẫu nhiên từ phân phối dự đoán
+    # Generate each new character randomly from the predicted distribution
     for _ in range(n):
         logits, hidden = model(x[:, -1:], hidden)
         probs = torch.softmax(logits[0, -1], dim=-1)
@@ -1038,8 +1038,8 @@ def sample(seed: str, n: int = 100) -> str:
         x = torch.cat([x, torch.tensor([[nxt]])], dim=1)
     return out
 
-# In seed và mẫu sinh ra
-print("\\\\nSeed: 'teacher hai '")
+# Print seed and generated sample
+print("\\nSeed: 'teacher hai '")
 print(sample("teacher hai ", 80))`,
         codeLanguage: "python",
         exercise: "Replace the `nn.LSTM` with `nn.GRU` and re-train for the same number of epochs. Compare the final loss and the quality of generated text (qualitatively). Then explain in 2-3 sentences why GRUs train faster than LSTMs for the same problem.",
@@ -1247,7 +1247,7 @@ sentiment = pipeline(
 samples = [
     "Teacher Hai's NLP module is the best content on HaiEduTech!",   # English
     "Tämä oppitunti oli erinomainen!",                                # Finnish
-    "Bài học này dở quá, không hiểu gì cả.",                          # Vietnamese
+    "This lesson is too bad, I don't understand anything.",           # Vietnamese
 ]
 for s in samples:
     print(sentiment(s)[0], "<-", s)
