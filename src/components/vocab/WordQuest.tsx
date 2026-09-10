@@ -223,8 +223,13 @@ const WordQuest = ({
     if (!target) return [];
     const known = knownKeys?.has(target.key) ?? false;
     const { easy, hard } = kindsFor(target, micSupported);
-    const orderedPool = known ? [...hard, ...easy] : [...easy, ...hard];
-    return pickKinds(orderedPool, 5, []).map(kind => ({ wordIdx, kind }));
+    const first = known ? pickKinds(hard, 3, []) : pickKinds(easy, 2, []);
+    const second = known
+      ? pickKinds(easy, 5 - first.length, first)
+      : pickKinds(hard, 5 - first.length, first);
+    const selected = [...first, ...second];
+    const fill = pickKinds([...easy, ...hard], 5 - selected.length, selected);
+    return [...selected, ...fill].map(kind => ({ wordIdx, kind }));
   }, [knownKeys, micSupported]);
 
   // Auto-play the word when a listening-style step opens.
@@ -1059,15 +1064,19 @@ const WordQuest = ({
               <p className="text-center text-sm text-muted-foreground">
                 {t(`Câu nào dùng từ "${word.word}" đúng ngữ cảnh?`, `Which sentence uses "${word.word}" correctly?`)}
               </p>
-              {usageOptions.map(o => (
+              {usageOptions.map(o => {
+                const correctUsage = usageOptions.find(option => option.right)?.text;
+                if (!correctUsage) return null;
+                return (
                 <button
                   key={o.text}
-                  onClick={() => handlePick(o.text, usageOptions.find(x => x.right)!.text)}
+                  onClick={() => handlePick(o.text, correctUsage)}
                   className={`rounded-xl border p-3 text-left text-sm leading-relaxed transition-all ${optionClass(o.right, wrongPicks.includes(o.text))}`}
                 >
                   {o.text}
                 </button>
-              ))}
+                );
+              })}
               {retryFooter}
             </div>
           )}
