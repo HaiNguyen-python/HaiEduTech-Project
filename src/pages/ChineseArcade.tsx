@@ -328,11 +328,13 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
           {meteors.map(m => (
             <motion.button
               key={m.id}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.5, opacity: 0, rotate: 180 }}
+              // Centre with x: "-50%" - a translate class is overwritten by
+              // framer-motion's inline transform and the card would clip.
+              initial={{ scale: 0, opacity: 0, x: "-50%" }}
+              animate={{ scale: 1, opacity: 1, x: "-50%" }}
+              exit={{ scale: 1.5, opacity: 0, rotate: 180, x: "-50%" }}
               onClick={() => handleTapMeteor(m)}
-              className="absolute -translate-x-1/2 px-3 sm:px-5 py-3 sm:py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-200 shadow-[0_0_22px_rgba(251,191,36,0.85)] text-white font-bold text-center cursor-pointer w-[min(60vw,210px)]"
+              className="absolute px-3 sm:px-5 py-3 sm:py-4 rounded-2xl bg-gradient-to-br from-rose-500/95 to-amber-500/95 border-2 border-amber-200 shadow-[0_0_22px_rgba(251,191,36,0.85)] text-white font-bold text-center cursor-pointer w-[min(60vw,210px)]"
               style={{ left: `${Math.max(18, Math.min(82, m.x))}%`, top: `${m.y}%` }}
             >
               <div className="text-4xl sm:text-6xl leading-tight drop-shadow">{m.word.character}</div>
