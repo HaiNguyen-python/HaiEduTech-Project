@@ -3,7 +3,8 @@
  * Embedded in the Programming Arcade hub. Three tracks: Foundations,
  * Data Engineering, AI / ML.
  */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { finishGame } from "@/lib/gameSession";
 import { Rocket, Trophy, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +21,12 @@ const CODE_TRACKS = {
       { snippet: "return total", category: "Function" },
       { snippet: "elif user.is_admin:", category: "Conditional" },
       { snippet: "class Animal(Base):", category: "Class" },
+      { snippet: "for row in rows:", category: "Loop" },
+      { snippet: "else:", category: "Conditional" },
+      { snippet: "def __init__(self, name):", category: "Function" },
+      { snippet: "class Order(models.Model):", category: "Class" },
+      { snippet: "break", category: "Loop" },
+      { snippet: "lambda x: x * 2", category: "Function" },
     ],
     categories: ["Loop", "Conditional", "Function", "Class"],
   },
@@ -34,6 +41,12 @@ const CODE_TRACKS = {
       { snippet: "rdd.flatMap(lambda x: ...)", category: "Spark" },
       { snippet: "GROUP BY country", category: "SQL" },
       { snippet: "df['total'].fillna(0)", category: "Pandas" },
+      { snippet: "HAVING COUNT(*) > 5", category: "SQL" },
+      { snippet: "df.pivot_table(index='city')", category: "Pandas" },
+      { snippet: "spark.sql('SELECT 1')", category: "Spark" },
+      { snippet: "df.write.mode('overwrite').parquet(path)", category: "Spark" },
+      { snippet: "ORDER BY created_at DESC", category: "SQL" },
+      { snippet: "df.drop_duplicates(subset=['id'])", category: "Pandas" },
     ],
     categories: ["SQL", "Pandas", "Spark"],
   },
@@ -48,6 +61,12 @@ const CODE_TRACKS = {
       { snippet: "AutoModel.from_pretrained(...)", category: "NLP" },
       { snippet: "optimizer.step()", category: "Training" },
       { snippet: "nn.Conv2d(3, 16, 3)", category: "Model" },
+      { snippet: "optimizer.zero_grad()", category: "Training" },
+      { snippet: "nltk.word_tokenize(sentence)", category: "NLP" },
+      { snippet: "nn.Dropout(0.2)", category: "Model" },
+      { snippet: "trainer.train()", category: "Training" },
+      { snippet: "pipeline('sentiment-analysis')", category: "NLP" },
+      { snippet: "nn.LSTM(256, 128)", category: "Model" },
     ],
     categories: ["Training", "NLP", "Model"],
   },
@@ -62,6 +81,7 @@ interface Props {
 
 export default function CodeGalaxy({ onExit, onScore }: Props) {
   const [track, setTrack] = useState<TrackKey>("foundations");
+  const savedRef = useRef(false);
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [flash, setFlash] = useState<"ok" | "no" | null>(null);
@@ -83,9 +103,17 @@ export default function CodeGalaxy({ onExit, onScore }: Props) {
     }, 350);
   };
 
-  const reset = (k?: TrackKey) => { setIdx(0); setScore(0); if (k) setTrack(k); };
+  const reset = (k?: TrackKey) => { savedRef.current = false; setIdx(0); setScore(0); if (k) setTrack(k); };
 
   const done = idx >= t.items.length;
+
+  // Save the finished track once so it shows up on the leaderboards
+  useEffect(() => {
+    if (done && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({ gameType: `code_galaxy_${track}`, score });
+    }
+  }, [done, score, track]);
 
   return (
     <div className="space-y-4">
