@@ -31,6 +31,8 @@ import {
   Compass,
   Lightbulb,
   PartyPopper,
+  CheckCircle2,
+  ClipboardCheck,
 } from "lucide-react";
 
 import Navbar from "@/components/Navbar";
@@ -44,6 +46,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey, type LifestyleLesson } from "@/data/lifestyleAcademyLessons";
 import { getLessonImage } from "@/data/lifestyleLessonImages";
 import LessonDialog from "@/components/lifestyle/LessonDialog";
+import SoftSkillsRadar from "@/components/lifestyle/SoftSkillsRadar";
+import { useLifestyleProgress, type LifestyleLessonResult } from "@/hooks/useLifestyleProgress";
 
 
 // Pillar-specific styles used across cards for consistent theming.
