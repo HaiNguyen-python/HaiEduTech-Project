@@ -184,7 +184,7 @@ y_hat = softmax(h2 @ W3 + b3)
 
 print("Predicted class probabilities:")
 print(y_hat.round(3))
-# Each row sums to 1 - these are real probabilities for class 0 and class 1.`,
+# Each row sums to 1 - these are real probabilities for class 0 and class 1.',
         codeLanguage: "python",
         exercise: "Hãy chỉnh sửa mạng ở trên để sử dụng **Tanh** thay vì ReLU trong các lớp ẩn. Chạy và quan sát xem xác suất đầu ra thay đổi như thế nào. Sau đó thử bỏ hoàn toàn hàm kích hoạt (thay `relu(z)` bằng `z`) – điều gì xảy ra và tại sao mạng lại trở thành tương đương với một lớp linear duy nhất?",
         exerciseEn: "Modify the network above to use **Tanh** instead of ReLU in the hidden layers. Run it and observe how the output probabilities change. Then try removing the activation entirely (replace `relu(z)` with `z`) - what happens, and why does the network become equivalent to a single linear layer?",

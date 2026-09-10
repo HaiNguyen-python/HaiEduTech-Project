@@ -337,7 +337,7 @@ const poolFor = (level: LevelKey, topic: string): string[] => {
 };
 
 const dedupeFollowUpQuestions = (tasks: CambridgeSpeakingTask[]): CambridgeSpeakingTask[] => {
-  // used question keys per `${level}|${canonical topic}`
+  // used question keys per '${level}|${canonical topic}'
   const used = new Map<string, Set<string>>();
   const usedWords = new Map<string, Set<string>[]>();
 

@@ -443,7 +443,7 @@ for i, f in enumerate(sorted(folder.glob("*.jpg")), start=1):
 
 # Step 2: when you're happy, uncomment to rename for real
 # for i, f in enumerate(sorted(folder.glob("*.jpg")), start=1):
-#     f.rename(f.with_name(f"{prefix}-{i:03d}.jpg"))`,
+#     f.rename(f.with_name(f"{prefix}-{i:03d}.jpg"))',
         codeLanguage: "python",
         exercise:
           "Viết một script đọc thư mục \`invoices/\` chứa nhiều PDF. Đổi tên theo định dạng \`{YYYY-MM}-INV-{số tăng dần}.pdf\` dựa trên ngày sửa đổi (\`f.stat().st_mtime\`). Luôn in preview trước.",

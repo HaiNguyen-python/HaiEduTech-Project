@@ -1386,12 +1386,12 @@ Output: the student sees a first lesson that is **at the right level, matching t
 `,
         code: `# Import the classes needed from `dataclasses` to create data classes.
 from dataclasses import dataclass
-# Import `datetime` and `timedelta` from the `datetime` library to work with dates and times.
+# Import 'datetime' and 'timedelta' from the 'datetime' library to work with dates and times.
 from datetime import datetime, timedelta
-# Import `Optional` from `typing` to indicate a value can be a given type or `None`.
+# Import 'Optional' from 'typing' to indicate a value can be a given type or 'None'.
 from typing import Optional
 
-# Define a dataclass named `Learner`.
+# Define a dataclass named 'Learner'.
 # Dataclass automatically generates methods like __init__, __repr__ for us.
 @dataclass
 class Learner:
@@ -1411,15 +1411,15 @@ class Learner:
 QUIET_HOURS = range(21, 24)  # don't push 21:00–08:00
 
 # Define a function to check whether the current time is within "quiet hours".
-# Input: `now` (current time).
-# Output: `True` if within quiet hours, `False` otherwise.
+# Input: 'now' (current time).
+# Output: 'True' if within quiet hours, 'False' otherwise.
 def in_quiet_hours(now: datetime) -> bool:
     # Return True if the current hour is in QUIET_HOURS (21, 22, 23) or less than 8 (0, 1, ..., 7).
     return now.hour in QUIET_HOURS or now.hour < 8
 
-# Define `pick_trigger` to choose the notification type appropriate for the learner.
-# Input: `l` (Learner object), `now` (current time).
-# Output: a string describing the notification type, or `None` if none applies.
+# Define 'pick_trigger' to choose the notification type appropriate for the learner.
+# Input: 'l' (Learner object), 'now' (current time).
+# Output: a string describing the notification type, or 'None' if none applies.
 def pick_trigger(l: Learner, now: datetime) -> Optional[str]:
     # Step 1: Check whether it is currently quiet hours.
     # If so, do not send any notification.
@@ -1455,7 +1455,7 @@ now = datetime(2026, 5, 29, 20, 5)
 # Initialize a Learner object with assumed data.
 # Learner with ID "u1", signed up 10 days ago, last active 1 day ago, streak of 3 days, 4 lessons completed.
 l = Learner("u1", now - timedelta(days=10), now - timedelta(days=1), 3, 4)
-# Call `pick_trigger` to determine the notification for learner `l` at time `now`.
+# Call 'pick_trigger' to determine the notification for learner 'l' at time 'now'.
 # Print the result.
 # Expected output: "streak_save:keep your streak alive" since l.streak_days >= 2, inactive >= 1, and now.hour == 20.
 print(pick_trigger(l, now))`,

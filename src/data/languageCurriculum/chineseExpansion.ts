@@ -346,7 +346,7 @@ Structure: Verb + Duration (+ 的 + Object)
 ## Spoken → Written equivalents
 - 很多 → 许多, 但是 → 然而, 所以 → 因此
 
-## Essay structure: 开头 (intro), 正文 (body), 结尾 (conclusion)`,
+## Essay structure: 开头 (intro), 正文 (body), 结尾 (conclusion)',
         vocabulary: [
           { word: "许多", pinyin: "xǔ duō", meaning: "nhiều (trang trọng)", example: "许多学生参加了比赛。", partOfSpeech: "adjective" },
           { word: "然而", pinyin: "rán ér", meaning: "nhưng, tuy nhiên", example: "他很努力，然而没有成功。", partOfSpeech: "conjunction" },

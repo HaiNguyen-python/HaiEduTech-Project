@@ -384,7 +384,7 @@ const nationalExamExpansion4Modules: LanguageModule[] = [
 
 ## Step 2: Skimming - get the main idea
 ## Step 3: Scanning - find specific information
-## Step 4: Elimination - remove wrong answers`,
+## Step 4: Elimination - remove wrong answers',
         proTips: ["Đọc câu hỏi trước khi đọc bài", "Loại trừ đáp án sai thay vì tìm đáp án đúng"],
         proTipsEn: ["Read questions before the passage", "Eliminate wrong answers instead of finding the right one"],
         exercises: [
@@ -530,7 +530,7 @@ Bài đọc có nhiều chỗ trống, mỗi chỗ có 4 đáp án.
 ## 2-syllable nouns → stress on 1st syllable
 ## 2-syllable verbs → stress on 2nd syllable
 ## Suffixes affecting stress: -tion, -sion, -ic, -ity
-## Suffixes NOT affecting stress: -ment, -ness, -ful, -less`,
+## Suffixes NOT affecting stress: -ment, -ness, -ful, -less',
         exercises: [
           {
             type: "fill-in-blank",

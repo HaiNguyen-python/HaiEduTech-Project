@@ -876,7 +876,7 @@ squares = (x**2 for x in range(10))
 # Input: the 'squares' generator.
 # Output: A list containing the squared values.
 print(list(squares))
-# Expected output: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]`,
+# Expected output: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]',
         codeLanguage: "python",
         exercise: "Write generator 'even_numbers(n)' yielding first n even numbers",
         exerciseEn: "Write a generator 'even_numbers(n)' that yields the first n even numbers",
@@ -1394,7 +1394,7 @@ SELECT
   ) AS moving_avg_3
 FROM employees -- Get data from the 'employees' table
 ORDER BY salary DESC; -- Sort results by salary descending
--- The result shows name, department, salary, salary quartile, percentile rank, running total, and 3-row moving average for each employee.`,
+-- The result shows name, department, salary, salary quartile, percentile rank, running total, and 3-row moving average for each employee.',
         codeLanguage: "sql",
         exercise: "Write a query to divide students into 3 groups according to scores and calculate running average",
         exerciseEn: "Write a query to divide students into 3 groups by score and calculate running average",

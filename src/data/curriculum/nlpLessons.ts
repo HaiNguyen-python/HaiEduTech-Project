@@ -177,7 +177,7 @@ for r in reviews:
 #   - Không khái quát hoá được với từ chưa thấy ("phenomenal", "lit", "đỉnh")
 # → Các bài Lesson 2-6 sẽ lần lượt khắc phục từng vấn đề trên
 #    bằng kỹ thuật NLP thật sự (tokenizer thông minh, embeddings, Transformer).
-# ============================================================`,
+# ============================================================',
         codeLanguage: "python",
         exercise: "Run the snippet on the 3 sample reviews. Then add the sentence *\"This is not bad at all.\"* - explain why the naive lexicon fails on negation, and propose **two** rules you could add to fix it (without using machine learning yet).",
         exerciseEn: "",
@@ -372,7 +372,7 @@ print("Chinese  :", list(jieba.cut(chinese)))
 # ------------------------------------------------------------------
 finnish_words = ["talo", "talossa", "taloissanikin"]   # house, in the house, in my houses too
 print("Finnish (raw)        :", finnish_words)
-# A real Finnish lemmatizer (spaCy + fi_core_news_sm or Voikko) would map all three to 'talo'.`,
+# A real Finnish lemmatizer (spaCy + fi_core_news_sm or Voikko) would map all three to 'talo'.',
         codeLanguage: "python",
         exercise: "Modify `preprocess_english` to **also strip emojis**. Then run it on a multilingual sentence: *\"Học NLP cùng Teacher Hai is amazing 🚀\"*. Explain in 2 sentences why an English-only pipeline mangles Vietnamese diacritics - and what you would change to handle both.",
         exerciseEn: "",
@@ -582,7 +582,7 @@ print(w2v.wv.most_similar("nlp", topn=3))
 # (works only with a much larger pre-trained model, e.g. Google News)
 # from gensim.downloader import load
 # big_w2v = load("word2vec-google-news-300")
-# print(big_w2v.most_similar(positive=["king", "woman"], negative=["man"], topn=1))`,
+# print(big_w2v.most_similar(positive=["king", "woman"], negative=["man"], topn=1))',
         codeLanguage: "python",
         exercise: "Add a 5th document to the corpus: *\"Python is a great language for AI.\"* Re-run the TF-IDF block and explain (a) which document it is now most similar to and (b) why TF-IDF down-weights the word *is* even though it appears in many sentences.",
         exerciseEn: "",
@@ -800,7 +800,7 @@ for r, p in zip(new_reviews, clf.predict(new_reviews)):
     print(f"  {p:>3} | {r}")
 
 # Lưu ý cách bigram (1,2) giúp bắt được 'not happy' như tín hiệu tiêu cực.
-# Đổi LogisticRegression thành LinearSVC hoặc BERT tinh chỉnh cho môi trường production.`,
+# Đổi LogisticRegression thành LinearSVC hoặc BERT tinh chỉnh cho môi trường production.',
         codeLanguage: "python",
         exercise: "Add 3 more **mixed/sarcastic** reviews to the dataset (e.g. *\"Sure, the audio is 'great'.\"*) and re-train. Report whether bigrams alone are enough to handle sarcasm, and propose **one** richer feature you could add (hint: think about quotation marks or contrast conjunctions).",
         exerciseEn: "",
@@ -1263,7 +1263,7 @@ print("\\n", gen("In 2026, the most exciting NLP application is")[0]["generated_
 # Production tip:
 #   For real apps, call an API (OpenAI / Gemini / Anthropic / Lovable AI Gateway)
 #   instead of running a 70B model yourself. The Lovable AI Gateway in this very
-#   project lets you call google/gemini-2.5-flash without managing a single server.`,
+#   project lets you call google/gemini-2.5-flash without managing a single server.',
         codeLanguage: "python",
         exercise: "🏆 **Capstone challenge** - In your own notebook, replace the `cardiffnlp/twitter-xlm-roberta-base-sentiment` model with a model fine-tuned for **Finnish** sentiment (search Hugging Face for `finnish sentiment`). Run the same 3 sample sentences. Report which model performs better on the Finnish line **and** explain why a multilingual model can sometimes beat a language-specific one.",
         exerciseEn: "",
