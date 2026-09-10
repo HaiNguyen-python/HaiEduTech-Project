@@ -1137,6 +1137,17 @@ const ChatBot = () => {
       });
     }
 
+    // Persist durable notes Teacher Hai picked up in this answer, then read aloud.
+    const noted = extractMemories(assistantSoFar);
+    if (noted.length) {
+      const saved = await saveChatMemories(noted);
+      if (saved) await refreshMemories();
+    }
+    const spoken = stripMemoryTokens(assistantSoFar);
+    if (spoken.trim() && voice.autoRead) {
+      voice.speak(spoken, "latest");
+    }
+
     setIsLoading(false);
   };
 
