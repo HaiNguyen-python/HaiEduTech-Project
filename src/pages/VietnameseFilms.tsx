@@ -12,7 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { filmClips as baseFilms, type FilmClip } from "@/data/vietnamese/filmsData";
 import { filmsExpansion } from "@/data/vietnamese/filmsExpansion";
-const filmClips = [...baseFilms, ...filmsExpansion];
+import { filmsExpansionV10 } from "@/data/vietnamese/expansionV10Culture";
+const filmClips = [...baseFilms, ...filmsExpansion, ...filmsExpansionV10];
 
 const levelColor = {
   A2: "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200",
