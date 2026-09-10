@@ -35,7 +35,12 @@ for (const file of files) {
   const lines = readFileSync(file, "utf8").split("\n");
   lines.forEach((line, i) => {
     const at = `${file}:${i + 1}`;
-    if (LIGHT_HOVER_TEXT.test(line) && LIGHT_BG.test(line) && !DARK_BG.test(line)) {
+    if (
+      LIGHT_HOVER_TEXT.test(line) &&
+      LIGHT_BG.test(line) &&
+      !DARK_BG.test(line) &&
+      !STRONG_HOVER_BG.test(line)
+    ) {
       findings.push(`${at}  light background + light hover text`);
     }
     if (OUTLINE_OR_GHOST.test(line) && DARK_TEXT_TOKEN.test(line) && !HAS_HOVER_BG.test(line) && !DARK_BG.test(line)) {
