@@ -286,7 +286,10 @@ const DailyWordMission = ({
 
   if (!q) return null;
 
-  const typedOk = norm(typed) === norm(q.word.typeAnswer);
+  // Sentence gaps always remove the displayed word itself (Hanzi for Chinese),
+  // while listening/recall tasks retain each subject's configured type answer.
+  const expectedTypedAnswer = q.type === "gap" ? q.word.word : q.word.typeAnswer;
+  const typedOk = norm(typed) === norm(expectedTypedAnswer);
 
   return (
     <div ref={topRef} className="mx-auto max-w-2xl scroll-mt-24">

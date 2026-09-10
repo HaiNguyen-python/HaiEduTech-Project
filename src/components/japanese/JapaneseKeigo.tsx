@@ -18,6 +18,15 @@ interface Props {
 
 type Mode = "table" | "phrases" | "drill";
 
+const shuffled = <T,>(items: T[]) => {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+};
+
 export default function JapaneseKeigo({ t, lang, speak }: Props) {
   const [mode, setMode] = useState<Mode>("table");
   const [scene, setScene] = useState<string>("all");
@@ -38,17 +47,9 @@ export default function JapaneseKeigo({ t, lang, speak }: Props) {
     const askHumble = drill % 2 === 0;
     const correct = askHumble ? row.kenjo : row.sonkei;
     const others = JA_KEIGO_ROWS.filter((r) => r.id !== row.id).map((r) => (askHumble ? r.kenjo : r.sonkei));
-    const picked: string[] = [];
-    for (let i = 0; picked.length < 3 && i < others.length; i++) {
-      const cand = others[(drill + i * 5 + 1) % others.length];
-      if (cand && cand !== correct && !picked.includes(cand)) picked.push(cand);
-    }
-    const all = [correct, ...picked];
-    const answer = (drill + row.id.length) % all.length;
-    const ordered = [...all];
-    ordered[0] = all[answer];
-    ordered[answer] = all[0];
-    return { row, askHumble, options: ordered, answer, correct };
+    const distractors = shuffled(Array.from(new Set(others.filter((item) => item && item !== correct)))).slice(0, 3);
+    const options = shuffled([correct, ...distractors]);
+    return { row, askHumble, options, answer: options.indexOf(correct), correct };
   }, [drill]);
 
   const choose = (i: number) => {

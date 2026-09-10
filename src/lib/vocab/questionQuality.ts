@@ -16,6 +16,11 @@ export const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 /** Replace every form of `word` (and simple inflections) with a blank. */
 export const maskWord = (text: string, word: string, blank = "_____"): string => {
   if (!text || !word) return text;
+  // JavaScript's \b and \w boundaries are ASCII-only. Use a literal replacement
+  // for scripts such as Hanzi and Kana so the answer is never left visible.
+  if (/[^\x00-\x7F]/u.test(word)) {
+    return text.split(word).join(blank);
+  }
   const stem = word.length > 5 ? word.slice(0, Math.max(4, word.length - 2)) : word;
   const re = new RegExp(`\\b${escapeRe(stem)}\\w*\\b`, "gi");
   const out = text.replace(re, blank);

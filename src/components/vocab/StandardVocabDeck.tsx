@@ -232,7 +232,7 @@ export function SimpleVocabDeck({
         </div>
       )}
       renderBack={card => (
-        <div className="flex min-h-[23rem] flex-col justify-center gap-3">
+        <div className="flex min-h-[23rem] flex-col items-center justify-center gap-3 text-center">
           {speak && card.example && (
             <Button type="button" size="icon" variant="ghost" className="absolute right-4 top-4" onClick={event => { event.stopPropagation(); speak(card.example ?? card.term); }} aria-label={t("Nghe ví dụ", "Play example")}>
               <Volume2 className="h-5 w-5" />
@@ -242,9 +242,9 @@ export function SimpleVocabDeck({
           {card.meaningSecondary && <p className="break-words text-lg font-semibold leading-relaxed text-foreground">{card.meaningSecondary}</p>}
           {card.example && <p className="break-words text-base italic leading-relaxed text-foreground"><strong className="not-italic text-primary">E.g. </strong>{card.example}</p>}
           {card.exampleTranslation && <p className="break-words text-base font-medium leading-relaxed text-emerald-700 dark:text-emerald-300">→ {card.exampleTranslation}</p>}
-          {card.synonyms && card.synonyms.length > 0 && <p className="rounded-md bg-emerald-500/10 p-3 text-sm text-foreground"><strong>Syn: </strong>{card.synonyms.join(" • ")}</p>}
-          {card.collocations && card.collocations.length > 0 && <p className="rounded-md bg-primary/10 p-3 text-sm text-foreground"><strong>Collocations: </strong>{card.collocations.join(" • ")}</p>}
-          {card.backExtra}
+          {card.synonyms && card.synonyms.length > 0 && <p className="w-full rounded-md bg-emerald-500/10 p-3 text-sm text-foreground"><strong>Syn: </strong>{card.synonyms.join(" • ")}</p>}
+          {card.collocations && card.collocations.length > 0 && <p className="w-full rounded-md bg-primary/10 p-3 text-sm text-foreground"><strong>Collocations: </strong>{card.collocations.join(" • ")}</p>}
+          {card.backExtra && <div className="w-full">{card.backExtra}</div>}
         </div>
       )}
     />
