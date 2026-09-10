@@ -20,8 +20,16 @@ import {
   type MeteorLang,
   type MeteorItem,
 } from "@/data/wordMeteorBanks";
-import { submitGameScore } from "@/lib/submitGameScore";
+import { finishGame } from "@/lib/gameSession";
 import GameLeaderboard from "./GameLeaderboard";
+
+/** Vocabulary subject each meteor language feeds in the memory brain. */
+const SUBJECT_BY_LANG: Record<MeteorLang, string> = {
+  en: "ielts",
+  zh: "hsk",
+  vi: "vietnamese",
+  fi: "finnish-vocab",
+};
 
 interface Meteor {
   id: number;
@@ -84,6 +92,7 @@ export default function WordMeteor({
   const spawnTimerRef = useRef<number>();
   const idRef = useRef(0);
   const scoreRef = useRef(0);
+  const correctWordsRef = useRef<string[]>([]);
   useEffect(() => { scoreRef.current = score; }, [score]);
 
   // Keyboard rocket movement
@@ -143,18 +152,28 @@ export default function WordMeteor({
     const s = scoreRef.current;
     const base = 0.10 + Math.min(0.25, s / 600); // 0.10 → ~0.35 (much slower)
     const jitter = Math.random() * 0.08;
-    setMeteors((prev) => [
-      ...prev,
-      {
-        id: ++idRef.current,
-        word: item.word,
-        meaning: item.meaning,
-        x: Math.random() * 50 + 25, // 25%-75% - keeps wide answer panel inside container
-        y: 0,
-        speed: base + jitter,
-        options,
-      },
-    ]);
+    setMeteors((prev) => {
+      // Never crowd the sky: max 3 meteors and always a clear vertical gap so
+      // the answer buttons of two meteors can never overlap each other.
+      if (prev.length >= 3 || prev.some((m) => m.y < 30)) {
+        queueRef.current = [item, ...queueRef.current];
+        recentRef.current = recentRef.current.filter((mng) => mng !== item.meaning);
+        return prev;
+      }
+      return [
+        ...prev,
+        {
+          id: ++idRef.current,
+          word: item.word,
+          meaning: item.meaning,
+          // 36%-64% keeps the whole answer panel inside the play area
+          x: Math.random() * 28 + 36,
+          y: 0,
+          speed: base + jitter,
+          options,
+        },
+      ];
+    });
   };
 
   useEffect(() => {
@@ -203,14 +222,16 @@ export default function WordMeteor({
   useEffect(() => {
     if (!running && lives <= 0 && score > 0 && !scoreSubmitted) {
       setScoreSubmitted(true);
-      submitGameScore({
+      finishGame({
         gameType: resolvedGameType,
         score,
         maxStreak,
         difficulty,
+        subject: SUBJECT_BY_LANG[lang],
+        correctWords: correctWordsRef.current,
       });
     }
-  }, [running, lives, score, maxStreak, scoreSubmitted, resolvedGameType, difficulty]);
+  }, [running, lives, score, maxStreak, scoreSubmitted, resolvedGameType, difficulty, lang]);
 
   const handlePick = (m: Meteor, picked: string) => {
     // Rocket slides under the meteor and "shoots" it
@@ -228,6 +249,7 @@ export default function WordMeteor({
       });
       setMeteors((prev) => prev.filter((x) => x.id !== m.id));
       recentRef.current = recentRef.current.filter((mng) => mng !== m.meaning);
+      correctWordsRef.current = [...correctWordsRef.current, m.word];
       onScore?.(delta);
     } else {
       setStreak(0);
@@ -246,6 +268,7 @@ export default function WordMeteor({
     idRef.current = 0;
     queueRef.current = [];
     recentRef.current = [];
+    correctWordsRef.current = [];
   };
 
   return (
@@ -302,7 +325,7 @@ export default function WordMeteor({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.4 }}
                 className="absolute -translate-x-1/2"
-                style={{ left: `${m.x}%`, top: `${m.y}%`, width: "min(92vw, 520px)" }}
+                style={{ left: `${m.x}%`, top: `${m.y}%`, width: "min(70%, 440px)" }}
               >
                 <div className="relative">
                   {/* Meteor body - asteroid-shaped pill with fiery trail */}
@@ -326,7 +349,7 @@ export default function WordMeteor({
                       <button
                         key={opt}
                         onClick={() => handlePick(m, opt)}
-                        className="min-w-[160px] max-w-[240px] rounded-xl border-2 border-amber-200 bg-rose-900/70 px-5 py-3 text-base font-semibold text-amber-50 backdrop-blur transition hover:scale-105 hover:bg-rose-800 active:scale-95 shadow-lg"
+                        className="w-full max-w-full rounded-xl border-2 border-amber-200 bg-rose-900/80 px-4 py-3 text-base font-semibold text-amber-50 backdrop-blur transition hover:scale-[1.03] hover:bg-rose-800 active:scale-95 shadow-lg"
                       >
                         {opt}
                       </button>
