@@ -134,72 +134,72 @@ Objects (data + metadata + ID) in flat buckets, HTTP API access.
 - ❌ S3 as DB backend (latency kills performance)
 - ❌ EBS for 1000 web servers needing shared files (no multi-attach)
 - ❌ App logs on EFS instead of S3 (13× more expensive)`,
-        code: `# Nhập thư viện boto3 để tương tác với các dịch vụ AWS.
+        code: `# Import boto3 to interact with AWS services.
 import boto3
 
-# Block Storage (EBS) - gắn vào MỘT EC2
-# Khởi tạo một client EC2 để tương tác với dịch vụ EC2.
+# Block Storage (EBS) - attached to ONE EC2
+# Initialize an EC2 client to interact with the EC2 service.
 ec2 = boto3.client('ec2')
-# Tạo một ổ đĩa EBS (Elastic Block Store) mới.
-# Đầu vào: Các thông số cấu hình cho ổ đĩa EBS.
-# Đầu ra: Một đối tượng chứa thông tin về ổ đĩa EBS đã tạo.
+# Create a new EBS (Elastic Block Store) volume.
+# Input: configuration parameters for the EBS volume.
+# Output: an object containing info about the created EBS volume.
 ebs = ec2.create_volume(
-    AvailabilityZone='us-east-1a', # Vùng khả dụng mà ổ đĩa sẽ được tạo.
-    Size=100,                    # Kích thước của ổ đĩa tính bằng GB.
-    VolumeType='gp3',            # Loại ổ đĩa: gp3 là loại SSD đa dụng.
-    Iops=3000,                   # Số lượng hoạt động nhập/xuất mỗi giây (IOPS).
-    Throughput=125,              # Băng thông của ổ đĩa tính bằng MB/s.
-    Encrypted=True               # Đặt True để mã hóa ổ đĩa.
+    AvailabilityZone='us-east-1a', # Availability zone where the volume is created.
+    Size=100,                    # Volume size in GB.
+    VolumeType='gp3',            # Volume type: gp3 is a general-purpose SSD.
+    Iops=3000,                   # Input/output operations per second (IOPS).
+    Throughput=125,              # Volume throughput in MB/s.
+    Encrypted=True               # Set True to encrypt the volume.
 )
 
-# File Storage (EFS) - gắn được nhiều EC2 (NFS)
-# Khởi tạo một client EFS để tương tác với dịch vụ EFS.
+# File Storage (EFS) - can attach to multiple EC2s (NFS)
+# Initialize an EFS client to interact with the EFS service.
 efs = boto3.client('efs')
-# Tạo một hệ thống tệp EFS (Elastic File System) mới.
-# Đầu vào: Các thông số cấu hình cho hệ thống tệp EFS.
-# Đầu ra: Một đối tượng chứa thông tin về hệ thống tệp EFS đã tạo.
+# Create a new EFS (Elastic File System).
+# Input: configuration parameters for the EFS file system.
+# Output: an object containing info about the created EFS file system.
 fs = efs.create_file_system(
-    PerformanceMode='generalPurpose', # Chế độ hiệu suất chung.
-    ThroughputMode='elastic',         # Chế độ thông lượng co giãn.
-    Encrypted=True                    # Đặt True để mã hóa hệ thống tệp.
+    PerformanceMode='generalPurpose', # General purpose performance mode.
+    ThroughputMode='elastic',         # Elastic throughput mode.
+    Encrypted=True                    # Set True to encrypt the file system.
 )
 
-# Object Storage (S3) - khả năng mở rộng không giới hạn
-# Khởi tạo một client S3 để tương tác với dịch vụ S3.
+# Object Storage (S3) - virtually unlimited scalability
+# Initialize an S3 client to interact with the S3 service.
 s3 = boto3.client('s3')
-# Tạo một bucket S3 mới.
-# Đầu vào: Tên của bucket.
-# Đầu ra: Không có giá trị trả về trực tiếp, nhưng bucket sẽ được tạo trên AWS.
+# Create a new S3 bucket.
+# Input: bucket name.
+# Output: no direct return value, but the bucket is created on AWS.
 s3.create_bucket(Bucket='my-data-lake-2026')
-# Tải một đối tượng (file) lên bucket S3.
-# Đầu vào: Tên bucket, khóa đối tượng (đường dẫn file), nội dung file và lớp lưu trữ.
-# Đầu ra: Không có giá trị trả về trực tiếp, nhưng đối tượng sẽ được lưu trữ trong S3.
+# Upload an object (file) to the S3 bucket.
+# Input: bucket name, object key (file path), file content, and storage class.
+# Output: no direct return value, but the object is stored in S3.
 s3.put_object(
-    Bucket='my-data-lake-2026',          # Tên của bucket S3.
-    Key='2026/01/users.parquet',         # Đường dẫn và tên file trong bucket.
-    Body=open('users.parquet', 'rb'),    # Nội dung của file để tải lên (mở ở chế độ đọc nhị phân).
-    StorageClass='INTELLIGENT_TIERING'   # Lớp lưu trữ thông minh, tự động di chuyển dữ liệu ít truy cập.
+    Bucket='my-data-lake-2026',          # S3 bucket name.
+    Key='2026/01/users.parquet',         # File path and name in the bucket.
+    Body=open('users.parquet', 'rb'),    # File content to upload (opened in binary read mode).
+    StorageClass='INTELLIGENT_TIERING'   # Intelligent storage class, auto-moves rarely accessed data.
 )
 
-# Chọn loại lưu trữ dựa trên khối lượng công việc
-# Định nghĩa một hàm để đề xuất loại lưu trữ AWS phù hợp dựa trên khối lượng công việc.
-# Đầu vào: workload (chuỗi) - mô tả loại công việc.
-# Đầu ra: str (chuỗi) - tên loại lưu trữ được đề xuất.
+# Choose storage type based on workload
+# Define a function to recommend the right AWS storage type based on workload.
+# Input: workload (string) - describes the type of work.
+# Output: str - the recommended storage type name.
 def recommend_storage(workload: str) -> str:
-    # Định nghĩa các quy tắc ánh xạ khối lượng công việc với loại lưu trữ.
+    # Define the rules mapping workload to storage type.
     rules = {
-        "database":      "Block (EBS gp3 / io2)",      # Cơ sở dữ liệu thường dùng Block Storage.
-        "shared_code":   "File (EFS)",                 # Mã nguồn chia sẻ dùng File Storage.
-        "backup":        "Object (S3 Glacier)",        # Sao lưu dùng Object Storage (S3 Glacier cho dữ liệu lạnh).
-        "static_site":   "Object (S3 + CloudFront)",   # Trang web tĩnh dùng Object Storage (S3) kết hợp CDN (CloudFront).
-        "data_lake":     "Object (S3 Parquet)",        # Data Lake dùng Object Storage (S3) với định dạng Parquet.
-        "boot_disk":     "Block (EBS gp3)",            # Ổ đĩa khởi động máy chủ dùng Block Storage.
+        "database":      "Block (EBS gp3 / io2)",      # Databases typically use Block Storage.
+        "shared_code":   "File (EFS)",                 # Shared code uses File Storage.
+        "backup":        "Object (S3 Glacier)",        # Backups use Object Storage (S3 Glacier for cold data).
+        "static_site":   "Object (S3 + CloudFront)",   # Static sites use Object Storage (S3) with a CDN (CloudFront).
+        "data_lake":     "Object (S3 Parquet)",        # Data lakes use Object Storage (S3) with Parquet format.
+        "boot_disk":     "Block (EBS gp3)",            # Boot disks use Block Storage.
     }
-    # Trả về loại lưu trữ tương ứng với khối lượng công việc, nếu không tìm thấy sẽ trả về mặc định.
+    # Return the storage type matching the workload, or a default if not found.
     return rules.get(workload, "Object (default)")
 
-# Gọi hàm recommend_storage với khối lượng công việc "data_lake" và in kết quả.
-# Kết quả mong đợi: "Object (S3 Parquet)"
+# Call recommend_storage with workload "data_lake" and print the result.
+# Expected output: "Object (S3 Parquet)"
 print(recommend_storage("data_lake"))`,
         codeLanguage: "python",
         exercise: "Design storage for a video streaming platform with: user database, raw uploaded videos, encoded video segments, and shared editing workspace. Explain which storage type for each.",

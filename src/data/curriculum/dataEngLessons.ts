@@ -1,4 +1,4 @@
-// CONTENT STANDARD: every `theory` block MUST contain ≥6 `## H2` sections so TheorySections.tsx can render the per-section "Mark read" UX.
+// CONTENT STANDARD: every 'theory' block MUST contain ≥6 '## H2' sections so TheorySections.tsx can render the per-section "Mark read" UX.
 // Data Engineering curriculum - 12 modules with progressive difficulty
 import type { ExtendedProgrammingModule } from "./types";
 

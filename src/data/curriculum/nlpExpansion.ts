@@ -1,5 +1,5 @@
 // NLP Curriculum Expansion - 6 additional advanced lessons that extend the
-// 6 core lessons in `nlpLessons.ts`. Together they form a 12-lesson NLP
+// 6 core lessons in 'nlpLessons.ts'. Together they form a 12-lesson NLP
 // pathway from foundations to production AI agents.
 //
 // Every lesson is authored to render beautifully:

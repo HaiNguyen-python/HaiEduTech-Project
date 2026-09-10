@@ -41,24 +41,24 @@ from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 import pandas as pd
 
 # ---------------------------------------------------------------------------
-# default_args: áp dụng cho MỌI task trong DAG. Đặt retry + email để khi task
-# fail giữa đêm thì on-call engineer được báo ngay, không phải đợi sáng mai.
+# default_args: applies to EVERY task in the DAG. Set retry + email so that when a task
+# fails in the middle of the night, the on-call engineer is notified immediately, not tomorrow morning.
 # ---------------------------------------------------------------------------
 default_args = {
     "owner": "data-platform",
-    "depends_on_past": False,        # task hôm nay không cần đợi hôm qua
-    "retries": 3,                    # tự retry 3 lần khi gặp lỗi tạm thời
+    "depends_on_past": False,        # today's task doesn't need to wait for yesterday's
+    "retries": 3,                    # auto-retry 3 times on transient errors
     "retry_delay": timedelta(minutes=5),
     "email_on_failure": True,
-    "sla": timedelta(hours=2),       # cảnh báo nếu chạy quá 2h
+    "sla": timedelta(hours=2),       # alert if it runs longer than 2h
 }
 
-# schedule_interval="@daily" + catchup=False = chỉ chạy ngày hôm nay,
-# KHÔNG chạy bù toàn bộ lịch sử khi deploy mới (tránh "backfill bão").
+# schedule_interval="@daily" + catchup=False = only run for today,
+# do NOT backfill the entire history on a new deploy (avoid a "backfill storm").
 dag = DAG(
     "daily_sales_pipeline",
     default_args=default_args,
-    description="Trích doanh thu Postgres -> S3 -> Warehouse mỗi ngày",
+    description="Extract revenue Postgres -> S3 -> Warehouse daily",
     schedule_interval="@daily",
     start_date=datetime(2026, 1, 1),
     catchup=False,
@@ -67,11 +67,11 @@ dag = DAG(
 
 
 def extract(ds, **_):
-    """Lấy giao dịch của NGÀY ds (Airflow execution date, dạng 'YYYY-MM-DD').
+    """Fetch transactions for DAY ds (Airflow execution date, format 'YYYY-MM-DD').
 
-    Dùng ds thay vì datetime.now() để bảo đảm IDEMPOTENT:
-    chạy lại task này ngày 2026-03-01 luôn ra cùng 1 tập dữ liệu, dù
-    hôm nay là 2026-04-15.
+    Use ds instead of datetime.now() to guarantee IDEMPOTENCY:
+    re-running this task for 2026-03-01 always produces the same dataset, even if
+    today is 2026-04-15.
     """
     pg = PostgresHook(postgres_conn_id="oltp_prod")
     sql = """
@@ -81,29 +81,29 @@ def extract(ds, **_):
     """
     df = pg.get_pandas_df(sql, parameters={"ds": ds})
     path = f"/tmp/orders_{ds}.parquet"
-    # Parquet thay vì CSV vì: nén tốt hơn ~5x, đọc cột nhanh, giữ schema.
+    # Parquet instead of CSV because: ~5x better compression, fast columnar reads, keeps schema.
     df.to_parquet(path, index=False)
-    return path  # giá trị return -> XCom cho task sau dùng
+    return path  # return value -> XCom for the next task to use
 
 
 def upload_to_s3(ds, **ctx):
-    """Đẩy file Parquet local lên S3 (data lake, lưu thô)."""
-    local_path = ctx["ti"].xcom_pull(task_ids="extract")  # lấy path từ task trước
+    """Push the local Parquet file to S3 (data lake, raw storage)."""
+    local_path = ctx["ti"].xcom_pull(task_ids="extract")  # get the path from the previous task
     s3 = S3Hook(aws_conn_id="aws_default")
     s3.load_file(
         filename=local_path,
-        # Phân vùng theo ngày -> Athena/Spark có thể prune partition khi query.
+        # Partitioned by day -> Athena/Spark can prune partitions when querying.
         key=f"raw/orders/dt={ds}/orders.parquet",
         bucket_name="lake-prod",
-        replace=True,                # cho phép ghi đè khi retry
+        replace=True,                # allow overwrite on retry
     )
 
 
 def load_to_warehouse(ds, **_):
-    """COPY từ S3 vào bảng staging, rồi MERGE vào fact table."""
+    """COPY from S3 into the staging table, then MERGE into the fact table."""
     pg = PostgresHook(postgres_conn_id="warehouse_prod")
-    # Pattern "DELETE + INSERT" theo partition: chạy lại 1 ngày bị lỗi
-    # sẽ không tạo dữ liệu trùng (idempotent).
+    # "DELETE + INSERT" pattern by partition: re-running a failed day
+    # won't create duplicate data (idempotent).
     pg.run(f"DELETE FROM fct_sales WHERE order_date = '{ds}'")
     pg.run(f"""
         INSERT INTO fct_sales (order_id, customer_id, amount_usd, order_date)
@@ -116,7 +116,7 @@ def load_to_warehouse(ds, **_):
     """)
 
 
-# Khai báo task + dependency: extract -> upload -> load.
+# Declare tasks + dependency: extract -> upload -> load.
 t1 = PythonOperator(task_id="extract", python_callable=extract, dag=dag)
 t2 = PythonOperator(task_id="upload", python_callable=upload_to_s3, dag=dag)
 t3 = PythonOperator(task_id="load", python_callable=load_to_warehouse, dag=dag)
@@ -147,21 +147,21 @@ from confluent_kafka import Consumer, Producer, KafkaError
 from clickhouse_driver import Client
 
 # ---------------------------------------------------------------------------
-# Vì sao "manual commit"? enable.auto.commit=False cho phép ta CHỈ commit
-# offset SAU KHI đã ghi thành công vào ClickHouse. Nếu crash giữa chừng,
-# lần chạy sau sẽ đọc lại các event chưa commit -> at-least-once delivery.
+# Why "manual commit"? enable.auto.commit=False lets us commit
+# the offset ONLY AFTER a successful write to ClickHouse. If it crashes midway,
+# the next run will re-read the uncommitted events -> at-least-once delivery.
 # ---------------------------------------------------------------------------
 consumer = Consumer({
     "bootstrap.servers": "kafka-1:9092,kafka-2:9092,kafka-3:9092",
     "group.id": "clickstream-loader-v1",
     "enable.auto.commit": False,
-    "auto.offset.reset": "earliest",   # consumer mới đọc từ đầu
-    "max.poll.interval.ms": 600000,    # cho phép xử lý batch lâu (10 phút)
+    "auto.offset.reset": "earliest",   # new consumer reads from the beginning
+    "max.poll.interval.ms": 600000,    # allow long batch processing (10 minutes)
 })
 consumer.subscribe(["events.clicks"])
 
-# Dead-letter queue: nơi vứt các message không parse được, để team data
-# inspect sau, KHÔNG block toàn bộ pipeline vì 1 record xấu.
+# Dead-letter queue: where unparseable messages are dropped, for the data team
+# to inspect later, WITHOUT blocking the whole pipeline for one bad record.
 dlq = Producer({"bootstrap.servers": "kafka-1:9092"})
 
 ch = Client("clickhouse-prod")
@@ -171,25 +171,25 @@ running = True
 
 
 def flush():
-    """Đẩy buffer hiện tại vào ClickHouse + commit offset Kafka."""
+    """Push the current buffer into ClickHouse + commit the Kafka offset."""
     if not buffer:
         return
-    # ClickHouse khuyến nghị insert theo batch lớn (1k-100k) để giảm số
-    # 'parts' merge. Insert từng row sẽ tạo hàng triệu parts -> background
-    # merge ngộp -> query chậm.
+    # ClickHouse recommends inserting in large batches (1k-100k) to reduce the number of
+    # merged 'parts'. Inserting row by row would create millions of parts -> background
+    # merge overload -> slow queries.
     ch.execute(
         "INSERT INTO events.clicks (ts, user_id, url, country, device) VALUES",
         buffer,
     )
-    consumer.commit(asynchronous=False)  # đồng bộ, đảm bảo commit xong
+    consumer.commit(asynchronous=False)  # synchronous, ensures the commit completes
     buffer.clear()
 
 
 def shutdown(*_):
-    """Bắt SIGTERM (k8s, systemd) -> flush buffer trước khi thoát.
+    """Catch SIGTERM (k8s, systemd) -> flush the buffer before exiting.
 
-    Không có hàm này -> pod bị kill khi rolling deploy sẽ MẤT mọi event
-    đang nằm trong buffer.
+    Without this function -> a pod killed during a rolling deploy would LOSE every event
+    still sitting in the buffer.
     """
     global running
     running = False
@@ -201,7 +201,7 @@ signal.signal(signal.SIGINT, shutdown)
 while running:
     msg = consumer.poll(timeout=1.0)
     if msg is None:
-        # Không có data mới -> tranh thủ flush partial batch nếu có.
+        # No new data -> take the opportunity to flush a partial batch if any.
         flush()
         continue
     if msg.error():
@@ -216,7 +216,7 @@ while running:
             event["url"], event["country"], event["device"],
         ))
     except (json.JSONDecodeError, KeyError) as e:
-        # Poison pill -> đẩy vào DLQ, kèm lỗi để debug, rồi đi tiếp.
+        # Poison pill -> push to the DLQ, with the error for debugging, then continue.
         dlq.produce("events.clicks.dlq",
                     msg.value(),
                     headers={"error": str(e)})
@@ -225,7 +225,7 @@ while running:
     if len(buffer) >= BATCH_SIZE:
         flush()
 
-flush()                  # flush lần cuối trước khi thoát
+flush()                  # final flush before exiting
 consumer.close()
 print("clean shutdown")
 `,
@@ -251,8 +251,8 @@ print("clean shutdown")
     code: `from pyspark.sql import SparkSession, functions as F
 from pyspark.sql.functions import broadcast
 
-# spark.sql.adaptive.enabled = AQE: Spark tự cân lại số partition và xử lý
-# skew lúc runtime. Bật mặc định trên Spark 3.x là best-practice.
+# spark.sql.adaptive.enabled = AQE: Spark automatically rebalances partitions and handles
+# skew at runtime. Enabling it by default on Spark 3.x is best practice.
 spark = (
     SparkSession.builder
     .appName("daily_user_aggregates")
@@ -264,8 +264,8 @@ spark = (
 DATE = "2026-06-28"
 
 # ---------------------------------------------------------------------------
-# Predicate pushdown: nhờ partition theo dt=YYYY-MM-DD, Spark chỉ đọc đúng
-# thư mục s3://lake/raw/events/dt=2026-06-28/ chứ không scan toàn lake.
+# Predicate pushdown: thanks to partitioning by dt=YYYY-MM-DD, Spark only reads the
+# s3://lake/raw/events/dt=2026-06-28/ folder instead of scanning the whole lake.
 # ---------------------------------------------------------------------------
 events = (
     spark.read.parquet("s3://lake/raw/events/")
@@ -273,8 +273,8 @@ events = (
     .select("user_id", "country_code", "event_type", "duration_ms")
 )
 
-# Bảng dim_country chỉ có ~250 dòng -> broadcast để mọi executor giữ 1 bản
-# trong memory. Tránh shuffle hàng tỷ event chỉ để join với 250 dòng.
+# The dim_country table has only ~250 rows -> broadcast it so every executor keeps a copy
+# in memory. Avoids shuffling billions of events just to join with 250 rows.
 countries = spark.read.parquet("s3://lake/dim/countries/")  # name, region
 
 agg = (
@@ -288,12 +288,12 @@ agg = (
     .withColumn("dt", F.lit(DATE))
 )
 
-# Vấn đề "small files": nếu output có 200 partition mặc định -> 200 file
-# Parquet bé tí -> NameNode/S3 list rất chậm. Coalesce/repartition về số
-# file phù hợp (ở đây 4 file ~128MB / partition là tối ưu cho HDFS/S3).
+# The "small files" problem: if output has the default 200 partitions -> 200 tiny
+# Parquet files -> NameNode/S3 listing gets very slow. Coalesce/repartition to a
+# suitable number of files (here 4 files ~128MB / partition is optimal for HDFS/S3).
 (agg.repartition(4, "region")
     .write
-    .mode("overwrite")          # chỉ overwrite partition dt=DATE nhờ dynamic
+    .mode("overwrite")          # only overwrite the dt=DATE partition thanks to dynamic mode
     .partitionBy("dt", "region")
     .parquet("s3://lake/mart/user_aggregates/"))
 
@@ -319,8 +319,8 @@ spark.stop()
     ],
     language: "sql",
     code: `-- models/marts/fct_orders.sql
--- Vì sao incremental? Bảng raw.orders có 5 tỷ dòng. Full-refresh mỗi ngày
--- tốn 4 giờ và 200 USD. Incremental chỉ xử lý orders mới -> 4 phút, 3 USD.
+-- Why incremental? The raw.orders table has 5 billion rows. A full refresh every day
+-- costs 4 hours and 200 USD. Incremental only processes new orders -> 4 minutes, 3 USD.
 
 {{ config(
     materialized = 'incremental',
@@ -338,13 +338,13 @@ with src as (
         amount_usd,
         order_ts,
         cast(order_ts as date) as order_date,
-        _loaded_at                 -- watermark do Fivetran/Stitch ghi vào
+        _loaded_at                 -- watermark written by Fivetran/Stitch
     from {{ source('oltp', 'orders') }}
 
     {% if is_incremental() %}
-        -- ⬇️ Chỉ chạy ở lần build thứ 2 trở đi.
-        -- Lấy mọi row có _loaded_at lớn hơn watermark tối đa hiện có
-        -- trong bảng đích. Trừ 1 giờ để bù trễ event arrival.
+        -- Only runs from the 2nd build onward.
+        -- Take every row with _loaded_at greater than the current max watermark
+        -- in the target table. Subtract 1 hour to compensate for event arrival lag.
         where _loaded_at > (
             select coalesce(max(_loaded_at), '1900-01-01')
                    - interval '1 hour'
@@ -358,7 +358,7 @@ enriched as (
         s.*,
         c.country,
         c.segment,
-        -- Phân loại doanh thu theo bucket, dùng cho dashboard.
+        -- Classify revenue into buckets, used for the dashboard.
         case
             when amount_usd >= 1000 then 'enterprise'
             when amount_usd >=  100 then 'smb'
@@ -370,7 +370,7 @@ enriched as (
 
 select * from enriched
 
--- Test đi kèm (schema.yml):
+-- Accompanying tests (schema.yml):
 --   - unique:  order_id
 --   - not_null: order_id, order_date
 --   - accepted_values: status in ('placed','paid','refunded','cancelled')
@@ -395,48 +395,48 @@ select * from enriched
       "Outbox pattern: ghi event vào bảng outbox rồi để CDC stream ra Kafka",
     ],
     language: "json",
-    code: `// Cấu hình connector Debezium cho Postgres.
-// POST đến Kafka Connect REST API: /connectors
+code: `// Debezium connector configuration for Postgres.
+// POST to the Kafka Connect REST API: /connectors
 {
   "name": "pg-orders-cdc",
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
 
-    // --- Kết nối DB nguồn ---
+    // --- Connection to the source DB ---
     "database.hostname": "oltp-primary.internal",
     "database.port": "5432",
     "database.user": "debezium",
     "database.password": "\${file:/secrets/db.properties:password}",
     "database.dbname": "shop",
 
-    // --- Cấu hình quan trọng nhất: plugin logical decoding ---
-    // pgoutput là plugin chuẩn của Postgres 10+, không cần cài thêm.
-    // Debezium đọc WAL qua replication slot này.
+    // --- Most important config: logical decoding plugin ---
+    // pgoutput is the standard plugin for Postgres 10+, no extra install needed.
+    // Debezium reads the WAL through this replication slot.
     "plugin.name": "pgoutput",
     "slot.name": "debezium_orders",
     "publication.autocreate.mode": "filtered",
 
-    // Chỉ stream các bảng cần (giảm noise + tải).
+    // Only stream the needed tables (reduce noise + load).
     "table.include.list": "public.orders,public.order_items,public.outbox",
 
-    // --- Snapshot ban đầu ---
-    // "initial" = quét toàn bộ bảng 1 lần (event op='r'), rồi mới đọc WAL.
-    // Nhờ vậy consumer luôn có full state, không bị thiếu dữ liệu cũ.
+    // --- Initial snapshot ---
+    // "initial" = scan the whole table once (event op='r'), then read the WAL.
+    // This way the consumer always has full state, without missing old data.
     "snapshot.mode": "initial",
 
-    // --- Schema registry: chuẩn hoá schema Avro/JSON-Schema ---
+    // --- Schema registry: standardize Avro/JSON-Schema schemas ---
     "key.converter": "io.confluent.connect.avro.AvroConverter",
     "value.converter": "io.confluent.connect.avro.AvroConverter",
     "value.converter.schema.registry.url": "http://schema-registry:8081",
 
     // --- Routing topic ---
-    // Mặc định topic = serverName.schema.table.
-    // Ở đây gắn prefix "cdc.shop" để dễ ACL.
+    // Default topic = serverName.schema.table.
+    // Here we add the prefix "cdc.shop" for easier ACL management.
     "topic.prefix": "cdc.shop",
 
     // --- Outbox pattern ---
-    // Bảng "outbox" giữ event domain (OrderPlaced, OrderRefunded). Mỗi row
-    // được transform thành 1 event lên topic riêng theo cột aggregatetype.
+    // The "outbox" table holds domain events (OrderPlaced, OrderRefunded). Each row
+    // is transformed into a separate event on a topic based on the aggregatetype column.
     "transforms": "outbox",
     "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
     "transforms.outbox.route.by.field": "aggregatetype",
@@ -470,17 +470,17 @@ import pandas as pd
 import requests
 
 # ---------------------------------------------------------------------------
-# Mô hình "data contract":
-#   - PRODUCER (team OLTP) cam kết schema + invariant qua suite này.
-#   - CONSUMER (data team) chạy validate mỗi lần ingest. Suite fail =
-#     dữ liệu coi như "không tồn tại", KHÔNG load vào fct_orders.
-# Nhờ vậy dashboard ở downstream không bao giờ thấy số sai mà không ai biết.
+# The "data contract" model:
+#   - PRODUCER (OLTP team) commits to schema + invariants through this suite.
+#   - CONSUMER (data team) runs validation on every ingest. A failed suite means
+#     the data is treated as "nonexistent" and NOT loaded into fct_orders.
+# This way, downstream dashboards never silently show wrong numbers.
 # ---------------------------------------------------------------------------
 
 df = pd.read_parquet("s3://lake/raw/orders/dt=2026-06-28/")
 dataset = ge.from_pandas(df)
 
-# 1) Rule cứng (hard): vi phạm = chặn pipeline.
+# 1) Hard rule: violation blocks the pipeline.
 dataset.expect_column_values_to_not_be_null("order_id")
 dataset.expect_column_values_to_be_unique("order_id")
 dataset.expect_column_values_to_be_in_set("status",
@@ -488,7 +488,7 @@ dataset.expect_column_values_to_be_in_set("status",
 dataset.expect_column_values_to_be_between("amount_usd", min_value=0,
                                            max_value=1_000_000)
 
-# 2) Rule mềm (soft / cảnh báo): không chặn nhưng bắn Slack để team check.
+# 2) Soft rule (warning): doesn't block, but pings Slack for the team to check.
 dataset.expect_table_row_count_to_be_between(min_value=50_000,
                                              max_value=2_000_000,
                                              meta={"severity": "warning"})
@@ -499,7 +499,7 @@ def slack(text: str, color: str):
     requests.post("https://hooks.slack.com/services/XXX/YYY/ZZZ",
                   json={"attachments": [{"color": color, "text": text}]})
 
-# Phân loại theo severity rồi quyết định fail-pipeline hay chỉ cảnh báo.
+# Classify by severity, then decide to fail the pipeline or just warn.
 hard_failed = [
     r for r in result["results"]
     if not r["success"] and r["expectation_config"]["meta"].get("severity") != "warning"
@@ -514,7 +514,7 @@ if soft_failed:
 
 if hard_failed:
     slack(f"🔥 DQ FAIL: blocking load. {len(hard_failed)} hard rules failed", "danger")
-    # SystemExit != 0 -> Airflow task fail -> downstream task không chạy.
+    # SystemExit != 0 -> Airflow task fails -> downstream tasks don't run.
     raise SystemExit(1)
 
 print("All hard expectations passed -> safe to load into warehouse")
@@ -551,21 +551,21 @@ spark = (
 )
 
 # ---------------------------------------------------------------------------
-# Tình huống: hằng ngày nhận file CDC chứa cả INSERT, UPDATE, DELETE.
-# Với Parquet thuần phải đọc full + rewrite toàn bộ partition -> rất đắt.
-# Delta Lake hỗ trợ MERGE INTO atomic, transaction qua _delta_log.
+# Scenario: every day we receive a CDC file containing INSERT, UPDATE, and DELETE.
+# With plain Parquet we'd have to read + rewrite the whole partition -> very expensive.
+# Delta Lake supports atomic MERGE INTO, transactions via _delta_log.
 # ---------------------------------------------------------------------------
 
 updates = spark.read.parquet("s3://lake/cdc/users/dt=2026-06-28/")
-# updates có cột op: 'I' insert, 'U' update, 'D' delete.
+# updates has an op column: 'I' insert, 'U' update, 'D' delete.
 
 target = DeltaTable.forPath(spark, "s3://lake/silver/dim_users")
 
 (target.alias("t")
     .merge(updates.alias("s"), "t.user_id = s.user_id")
-    # Nếu source là DELETE -> xoá row đích.
+    # If the source is a DELETE -> remove the target row.
     .whenMatchedDelete(condition="s.op = 'D'")
-    # Update khi user_id khớp và record source MỚI hơn (chống out-of-order).
+    # Update when user_id matches and the source record is NEWER (guards against out-of-order).
     .whenMatchedUpdate(
         condition="s.op = 'U' AND s.updated_at > t.updated_at",
         set={
@@ -574,7 +574,7 @@ target = DeltaTable.forPath(spark, "s3://lake/silver/dim_users")
             "updated_at": "s.updated_at",
         },
     )
-    # Insert khi chưa có row đích và source là INSERT.
+    # Insert when there's no target row yet and the source is an INSERT.
     .whenNotMatchedInsert(
         condition="s.op = 'I'",
         values={
@@ -587,18 +587,18 @@ target = DeltaTable.forPath(spark, "s3://lake/silver/dim_users")
     )
     .execute())
 
-# Time travel: nếu có sự cố, query bảng tại version trước để so sánh.
+# Time travel: if there's an incident, query the table at a prior version to compare.
 prev = spark.read.format("delta") \\
     .option("versionAsOf", 41) \\
     .load("s3://lake/silver/dim_users")
 prev.where("country = 'VN'").show(5)
 
-# OPTIMIZE + ZORDER: gom nhiều file nhỏ thành file ~128MB và sắp xếp
-# theo cột thường lọc -> query downstream nhanh hơn nhiều lần.
+# OPTIMIZE + ZORDER: merge many small files into ~128MB files and sort
+# by the commonly filtered column -> much faster downstream queries.
 spark.sql("OPTIMIZE delta.\`s3://lake/silver/dim_users\` ZORDER BY (country)")
 
-# VACUUM: xoá file Parquet cũ không còn nằm trong version hiện hành.
-# Mặc định giữ 7 ngày -> đủ cho time travel debug.
+# VACUUM: delete old Parquet files no longer part of the current version.
+# Default retention is 7 days -> enough for time travel debugging.
 spark.sql("VACUUM delta.\`s3://lake/silver/dim_users\` RETAIN 168 HOURS")
 `,
   },
@@ -621,12 +621,12 @@ spark.sql("VACUUM delta.\`s3://lake/silver/dim_users\` RETAIN 168 HOURS")
     ],
     language: "sql",
     code: `-- ============================================================
--- SCD Type 2: mỗi lần một customer thay đổi attribute quan trọng,
--- ta KHÔNG overwrite row cũ. Ta:
---   1) đóng version cũ (set valid_to = now, is_current = false)
---   2) chèn version mới với surrogate key mới
--- Nhờ vậy fact_orders join về dim_customer luôn cho ra "địa chỉ tại
--- thời điểm đặt hàng", không phải địa chỉ hôm nay.
+-- SCD Type 2: every time a customer changes an important attribute,
+-- we do NOT overwrite the old row. We:
+--   1) close the old version (set valid_to = now, is_current = false)
+--   2) insert a new version with a new surrogate key
+-- This way, fact_orders joined to dim_customer always returns the "address at the
+-- time the order was placed", not today's address.
 -- ============================================================
 
 merge into dim_customer t
@@ -638,7 +638,7 @@ using (
         country,
         tier,
         current_timestamp() as effective_ts,
-        -- Hash cột nghiệp vụ để so sánh nhanh: 1 hash đại diện cả row.
+        -- Hash the business columns for fast comparison: one hash represents the whole row.
         md5(coalesce(full_name,'') || '|' ||
             coalesce(email,'')     || '|' ||
             coalesce(country,'')   || '|' ||
@@ -648,24 +648,24 @@ using (
 on  t.customer_id = s.customer_id
 and t.is_current   = true
 
--- Khớp row hiện hành nhưng hash khác -> attribute đã đổi: ĐÓNG version cũ.
+-- Matches the current row but hash differs -> attribute changed: CLOSE the old version.
 when matched and t.row_hash != s.row_hash then update set
     t.valid_to   = s.effective_ts,
     t.is_current = false
 
--- Không khớp -> hoặc customer mới hoàn toàn, hoặc version mới sau khi
--- vừa đóng version cũ ở câu MERGE trước (chạy 2 pass).
+-- No match -> either a brand-new customer, or a new version right after
+-- closing the old version in the previous MERGE statement (runs in 2 passes).
 when not matched then insert (
     customer_sk, customer_id, full_name, email, country, tier,
     row_hash, valid_from, valid_to, is_current
 ) values (
-    -- surrogate key tự sinh; trên Snowflake dùng sequence/identity column.
+    -- surrogate key auto-generated; on Snowflake use a sequence/identity column.
     dim_customer_sk_seq.nextval,
     s.customer_id, s.full_name, s.email, s.country, s.tier,
     s.row_hash, s.effective_ts, timestamp '9999-12-31 00:00:00', true
 );
 
--- Truy vấn lịch sử: "tier của khách 42 vào lúc đơn hàng được đặt"
+-- History query: "customer 42's tier at the time the order was placed"
 select o.order_id, o.order_ts, c.tier as tier_at_purchase
 from   fct_orders o
 join   dim_customer c
@@ -692,8 +692,8 @@ join   dim_customer c
       "Exactly-once nhờ checkpoint + 2-phase commit sink",
     ],
     language: "java",
-    code: `// Pipeline: tính số đơn hàng và doanh thu theo cửa hàng,
-// theo cửa sổ 1 phút (tumbling), realtime với độ trễ ~vài giây.
+code: `// Pipeline: computes order count and revenue per store,
+// using a 1-minute (tumbling) window, realtime with ~a few seconds of latency.
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.time.Time;
@@ -707,9 +707,9 @@ public class StoreRevenueJob {
         StreamExecutionEnvironment env =
             StreamExecutionEnvironment.getExecutionEnvironment();
 
-        // ----- Checkpoint mỗi 30s vào S3 -> exactly-once nếu sink hỗ trợ -----
-        // Khi job restart, Flink khôi phục state + offset Kafka tại checkpoint
-        // cuối -> không double-count, không mất event.
+        // ----- Checkpoint every 30s to S3 -> exactly-once if the sink supports it -----
+        // When the job restarts, Flink restores state + Kafka offset at the last
+        // checkpoint -> no double-counting, no lost events.
         env.enableCheckpointing(30_000);
         env.getCheckpointConfig()
            .setCheckpointStorage("s3://flink-checkpoints/store-revenue/");
@@ -721,30 +721,30 @@ public class StoreRevenueJob {
             .setDeserializer(new OrderEventDeserializer())
             .build();
 
-        // ----- Watermark: chấp nhận event đến trễ 10s -----
-        // Sự thật cay đắng của streaming: event-time không monotonic. Mạng,
-        // mobile offline, retry... khiến event 12:00:01 có thể tới SAU
-        // event 12:00:05. Watermark = "promise" rằng mọi event <= ts này
-        // đã đến gần hết -> Flink mới đóng window và emit kết quả.
+        // ----- Watermark: accept events arriving up to 10s late -----
+        // The bitter truth of streaming: event-time isn't monotonic. Network,
+        // mobile offline mode, retries... can make event 12:00:01 arrive AFTER
+        // event 12:00:05. Watermark = a "promise" that all events <= this ts
+        // have mostly arrived -> only then does Flink close the window and emit results.
         WatermarkStrategy<OrderEvent> wm = WatermarkStrategy
             .<OrderEvent>forBoundedOutOfOrderness(Duration.ofSeconds(10))
             .withTimestampAssigner((e, ts) -> e.getOrderTs());
 
         env.fromSource(source, wm, "orders-kafka")
-           // keyBy = shuffle theo storeId. State của mỗi store nằm trên 1
-           // task slot duy nhất -> không cần lock, scale ngang dễ.
+           // keyBy = shuffle by storeId. Each store's state lives on a single
+           // task slot -> no locking needed, easy horizontal scaling.
            .keyBy(OrderEvent::getStoreId)
-           // Tumbling 1 phút: cửa sổ KHÔNG chồng lấn -> tổng hợp gọn cho dashboard.
+           // 1-minute tumbling: windows do NOT overlap -> clean aggregates for the dashboard.
            .window(TumblingEventTimeWindows.of(Time.minutes(1)))
-           // ReduceFunction giữ state nhỏ (1 accumulator / key / window) thay vì
-           // toàn bộ event -> chịu được hàng triệu key.
+           // ReduceFunction keeps small state (1 accumulator / key / window) instead of
+           // the whole event -> can handle millions of keys.
            .reduce((a, b) -> new OrderEvent(
                 a.getStoreId(),
                 a.getCount() + b.getCount(),
                 a.getRevenue() + b.getRevenue(),
                 Math.max(a.getOrderTs(), b.getOrderTs())))
-           // Sink: ghi vào Kafka topic "metrics.store.1m" để dashboard
-           // (Grafana/Looker) đọc realtime.
+           // Sink: write to the Kafka topic "metrics.store.1m" for the dashboard
+           // (Grafana/Looker) to read in realtime.
            .sinkTo(buildKafkaSink("metrics.store.1m"));
 
         env.execute("store-revenue-1m");
@@ -781,17 +781,17 @@ from openlineage.client.facet import (
 import uuid, datetime
 
 # ---------------------------------------------------------------------------
-# Vì sao cần lineage? Khi VP Sales hỏi "vì sao doanh thu hôm qua bị âm?",
-# bạn có thể trace từ dashboard -> mart.daily_revenue -> staging.orders
-# -> bảng OLTP nguồn -> commit dbt đã sửa logic chiết khấu. Việc này nếu
-# làm tay sẽ mất nửa ngày; với OpenLineage chỉ vài giây trên Marquez UI.
+# Why do we need lineage? When the VP of Sales asks "why was yesterday's revenue negative?",
+# you can trace from the dashboard -> mart.daily_revenue -> staging.orders
+# -> the source OLTP table -> the dbt commit that changed the discount logic. Doing this
+# by hand would take half a day; with OpenLineage it's a few seconds on the Marquez UI.
 # ---------------------------------------------------------------------------
 
-client = OpenLineageClient.from_environment()  # đọc OPENLINEAGE_URL/API_KEY
+client = OpenLineageClient.from_environment()  # reads OPENLINEAGE_URL/API_KEY
 RUN_ID = str(uuid.uuid4())
 PRODUCER = "https://github.com/acme/etl/blob/main/jobs/daily_revenue.py"
 
-# Input dataset: bảng staging.orders trong Snowflake.
+# Input dataset: the staging.orders table in Snowflake.
 input_ds = Dataset(
     namespace="snowflake://acme",
     name="ANALYTICS.STAGING.ORDERS",
@@ -801,8 +801,8 @@ input_ds = Dataset(
             SchemaField("amount_usd", "NUMBER"),
             SchemaField("order_ts",   "TIMESTAMP"),
         ]),
-        # DQ metric đính kèm: row count + null count. Marquez sẽ vẽ biểu đồ
-        # diễn biến chất lượng theo thời gian -> dễ phát hiện drift.
+        # Attached DQ metric: row count + null count. Marquez will chart the
+        # quality trend over time -> easy to spot drift.
         "dataQualityMetrics": DataQualityMetricsInputDatasetFacet(
             rowCount=1_240_553,
             columnMetrics={
@@ -812,7 +812,7 @@ input_ds = Dataset(
     },
 )
 
-# Output dataset: bảng mart.daily_revenue.
+# Output dataset: the mart.daily_revenue table.
 output_ds = Dataset(
     namespace="snowflake://acme",
     name="ANALYTICS.MART.DAILY_REVENUE",
@@ -822,7 +822,7 @@ job = Job(
     namespace="airflow://prod",
     name="daily_revenue_pipeline.transform",
     facets={
-        # Lưu chính câu SQL transform -> reviewer thấy ngay LOGIC nào đã chạy.
+        # Store the actual transform SQL -> reviewers immediately see which LOGIC ran.
         "sql": SqlJobFacet(query="""
             insert into mart.daily_revenue
             select cast(order_ts as date) as day, sum(amount_usd)
@@ -833,19 +833,19 @@ job = Job(
     },
 )
 
-# ----- Gửi 2 event: START rồi COMPLETE để vẽ timeline đúng -----
+# ----- Send 2 events: START then COMPLETE so the timeline renders correctly -----
 now = datetime.datetime.utcnow().isoformat()
 client.emit(RunEvent(RunState.START,    now, Run(RUN_ID), job, PRODUCER,
                     inputs=[input_ds], outputs=[output_ds]))
 
-# ... thực thi pipeline ở đây ...
+# ... run the pipeline here ...
 
 client.emit(RunEvent(RunState.COMPLETE, now, Run(RUN_ID), job, PRODUCER,
                     inputs=[input_ds], outputs=[output_ds]))
 
-# Trên Marquez UI bạn sẽ thấy đồ thị:
+# In the Marquez UI you'll see a graph:
 #   STAGING.ORDERS  ---[daily_revenue_pipeline.transform]--->  MART.DAILY_REVENUE
-# Click vào cạnh để xem SQL, runtime, DQ metric, owner.
+# Click on an edge to see SQL, runtime, DQ metric, owner.
 `,
   },
 ];

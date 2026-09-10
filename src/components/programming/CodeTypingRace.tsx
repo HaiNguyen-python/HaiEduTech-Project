@@ -114,10 +114,15 @@ function pickSnippet(raw: string): string {
 function stripComments(raw: string, language: string): string {
   const lang = (language || "").toLowerCase();
   // Pick comment syntax for the language.
-  const useHash = /python|py|sql|bash|sh|ruby|rb|yaml|yml|toml/.test(lang);
-  const useSlash = /js|ts|tsx|jsx|java|kotlin|swift|rust|go|c|cpp|csharp|cs|php|scala|dart/.test(lang);
-  const useDash = /sql|haskell|lua/.test(lang);
-  // Default: assume `#` then `//` then `--` so we strip whatever appears.
+  const knownHash = /python|py|sql|bash|sh|ruby|rb|yaml|yml|toml/.test(lang);
+  const knownSlash = /js|ts|tsx|jsx|java|kotlin|swift|rust|go|c|cpp|csharp|cs|php|scala|dart/.test(lang);
+  const knownDash = /sql|haskell|lua/.test(lang);
+  // Unknown / missing language label: strip every common marker so no prose
+  // comment ever leaks into the typing drill.
+  const unknown = !knownHash && !knownSlash && !knownDash;
+  const useHash = knownHash || unknown;
+  const useSlash = knownSlash || unknown;
+  const useDash = knownDash || unknown;
   return raw
     .split("\n")
     .map((line) => {
@@ -143,10 +148,19 @@ function stripComments(raw: string, language: string): string {
     .join("\n");
 }
 
+/** Any Vietnamese-accented character - code drills must stay English-only. */
+const VIETNAMESE_RE =
+  /[ăâđêôơưĂÂĐÊÔƠƯáàảãạắằẳẵặấầẩẫậéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵÁÀẢÃẠÉÈẺẼẸÍÌỈĨỊÓÒỎÕỌÚÙỦŨỤÝỲỶỸỴ]/;
+
 function normalizeFullSource(raw: string, language: string = ""): string {
   raw = stripEmojis(raw || "");
   if (!raw.trim()) return "";
   raw = stripComments(raw, language);
+  // Safety net: never ask learners to type Vietnamese prose inside a code drill.
+  raw = raw
+    .split("\n")
+    .filter((line) => !VIETNAMESE_RE.test(line))
+    .join("\n");
   const lines = raw
     .split("\n")
     .map((l) => l.replace(/\t/g, "  ").trimEnd());

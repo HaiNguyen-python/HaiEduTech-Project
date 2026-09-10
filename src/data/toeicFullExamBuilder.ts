@@ -296,7 +296,7 @@ function reorder<T>(items: T[], seed: number): { items: T[]; answer: number } {
   return { items: arranged, answer: correctPosition };
 }
 
-// Pick `count` items from `pool` so that each exam (examIndex) gets a
+// Pick 'count' items from 'pool' so that each exam (examIndex) gets a
 // non-overlapping slice when the pool is large enough (len >= 8 * count).
 // When the pool is too small, slices wrap around but each exam still starts
 // at a unique offset to maximise diversity.

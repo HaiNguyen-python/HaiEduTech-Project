@@ -20,9 +20,9 @@ import { protagonistFor, bannerImageFor } from "@/lib/conversationalSituationVis
 import { playMultiVoiceDialog, stopMultiVoiceDialog } from "@/lib/multiVoiceDialog";
 import { expandListeningChallenge } from "@/lib/listeningChallengeExpander";
 import DialogAudioPlayer from "@/components/DialogAudioPlayer";
-import { getSituationTips } from "@/lib/situationTips";
 import { highlightKeywords } from "@/lib/highlightKeywords";
-import { DIALOGUE_KEY_PHRASES } from "@/lib/dialogueKeyPhrases";
+import { resolveDialogueKeyPhrases } from "@/lib/dialogueKeyPhrases";
+import { playEnglishTts } from "@/lib/englishTts";
 
 import VocabReviewQuiz from "@/components/conversational/VocabReviewQuiz";
 
@@ -285,6 +285,19 @@ const ConversationalLessonView = () => {
                       <p className="text-sm text-muted-foreground">{t(situation.descriptionVi, situation.description)}</p>
                     </CardHeader>
                     <CardContent>
+                      {(() => {
+                        const vocabTerms = lesson.vocabulary.map((v) => v.term);
+                        const dialogueKeyPhrases = resolveDialogueKeyPhrases(
+                          situation.sampleDialogue.map((l) => l.line),
+                          vocabTerms,
+                        );
+                        const vocabInDialogue = vocabTerms.filter((term) =>
+                          situation.sampleDialogue.some((l) =>
+                            l.line.toLowerCase().includes(term.toLowerCase()),
+                          ),
+                        );
+                        return (
+                          <>
                       {/* Sample dialogue - alternating chat bubbles */}
                       <div className="space-y-5">
                         {situation.sampleDialogue.map((line, i) => {
@@ -298,7 +311,7 @@ const ConversationalLessonView = () => {
                               </div>
                               <div className={`max-w-[78%] px-5 py-3.5 rounded-2xl text-sm ${s.bubble} ${isRight ? "rounded-br-sm" : "rounded-bl-sm"}`}>
                                 <p className={`text-[10px] font-bold mb-0.5 ${line.speaker === "You" ? "text-white/80" : "text-muted-foreground"}`}>{displayName}</p>
-                                <p className="leading-snug">{highlightKeywords(line.line, lesson.vocabulary.map(v => v.term), DIALOGUE_KEY_PHRASES)}</p>
+                                <p className="leading-snug">{highlightKeywords(line.line, vocabTerms, dialogueKeyPhrases)}</p>
                               </div>
                             </div>
                           );
@@ -308,38 +321,53 @@ const ConversationalLessonView = () => {
                       {/* Legend: what the styling in the dialogue means */}
                       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1.5">
-                          <span className="font-bold rounded px-1 bg-primary/15 text-foreground">
+                          <span className="font-bold rounded px-1 bg-primary/20 text-foreground">
                             {t("cụm từ hay", "key phrase")}
                           </span>
                           {t("= cụm nên học thuộc", "= chunk worth memorising")}
                         </span>
                         <span className="flex items-center gap-1.5">
-                          <span className="underline decoration-2 decoration-amber-300 underline-offset-4 font-semibold text-foreground">
+                          <span className="underline decoration-2 decoration-amber-400 underline-offset-4 font-semibold text-foreground">
                             {t("từ vựng", "vocabulary")}
                           </span>
                           {t("= từ vựng của bài học", "= this lesson's vocabulary")}
                         </span>
                       </div>
 
-
-
-                      {/* Topic tips - takeaways for the situation */}
-                      {(() => {
-                        const tips = getSituationTips(situation.title, situation.description, situation.descriptionVi);
-                        return (
-                          <div className="mt-6 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-emerald-500/5 p-4">
-                            <p className="text-xs font-bold uppercase tracking-wide text-primary mb-2">
-                              💡 {t("Mẹo cho tình huống này", "Tips for this situation")}
-                            </p>
-                            <ul className="space-y-2">
-                              {tips.map((tip, ti) => (
-                                <li key={ti} className="text-sm leading-snug flex gap-2">
-                                  <span className="text-primary shrink-0">▸</span>
-                                  <span>{t(tip.vi, tip.en)}</span>
-                                </li>
-                              ))}
-                            </ul>
+                      {(dialogueKeyPhrases.length > 0 || vocabInDialogue.length > 0) && (
+                        <div className="mt-5 rounded-xl border border-primary/20 bg-primary/5 p-4">
+                          <p className="text-xs font-bold uppercase tracking-wide text-primary mb-2">
+                            {t("Cụm từ và từ vựng trọng tâm", "Key phrases and vocabulary")}
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {dialogueKeyPhrases.map((phrase) => (
+                              <button
+                                key={`p-${phrase}`}
+                                type="button"
+                                onClick={() => void playEnglishTts(phrase)}
+                                className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/15 px-3 py-1.5 text-sm font-bold text-foreground transition-colors hover:bg-primary/25"
+                                aria-label={t(`Nghe cụm từ ${phrase}`, `Listen to ${phrase}`)}
+                              >
+                                <Volume2 className="h-3.5 w-3.5 text-primary" />
+                                {phrase}
+                              </button>
+                            ))}
+                            {vocabInDialogue.map((term) => (
+                              <button
+                                key={`v-${term}`}
+                                type="button"
+                                onClick={() => void playEnglishTts(term)}
+                                className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/50 bg-amber-400/10 px-3 py-1.5 text-sm font-semibold text-foreground underline decoration-2 decoration-amber-400 underline-offset-4 transition-colors hover:bg-amber-400/20"
+                                aria-label={t(`Nghe từ ${term}`, `Listen to ${term}`)}
+                              >
+                                <Volume2 className="h-3.5 w-3.5 text-amber-500" />
+                                {term}
+                              </button>
+                            ))}
                           </div>
+                        </div>
+                      )}
+                          </>
                         );
                       })()}
                     </CardContent>

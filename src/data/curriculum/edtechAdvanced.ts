@@ -220,7 +220,7 @@ def sm2(card: Card, q: int) -> Card:
     ef = max(1.3, card.ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
     return Card(repetitions=reps, interval=interval, ef=ef)
 
-# Mô phỏng 6 phiên - user nhớ tốt dần
+# Simulate 6 sessions - user memory gradually improves
 c = Card()
 for q in [3, 4, 5, 5, 4, 5]:
     c = sm2(c, q)
@@ -457,7 +457,7 @@ def update_theta(theta: float, a: float, b: float, correct: bool, lr: float = 0.
     grad = a * ((1 if correct else 0) - p)
     return theta + lr * grad
 
-# Mô phỏng: user thật có θ_true = 0.6, ta khởi tạo 0.0 rồi học dần qua 20 câu
+# Simulation: the real user has theta_true = 0.6, we start at 0.0 and learn gradually over 20 questions
 random.seed(1)
 theta_true, theta_est = 0.6, 0.0
 items = [(random.uniform(0.7, 1.6), random.uniform(-1.5, 1.5)) for _ in range(20)]
@@ -677,29 +677,29 @@ PII    = re.compile(r"(\\b\\d{10,11}\\b|\\b[\\w.]+@[\\w.]+\\.[a-z]{2,}\\b)")
 
 def safety_pre(msg: str) -> tuple[bool, str]:
     if BANNED.search(msg):
-        return False, "Bạn ơi, mình không thể giúp chủ đề này. Mình có thể giúp gì khác?"
+        return False, "Sorry, I cannot help with this topic. What else can I help with?"
     return True, PII.sub("[REDACTED]", msg)
 
 def build_prompt(student, retrieved_chunks, msg):
     persona = {
-        "kid":   "Bạn là cô giáo dịu dàng cho học sinh tiểu học, dùng ví dụ đồ chơi.",
-        "teen":  "Bạn là gia sư khuyến khích học sinh THCS tự tìm câu trả lời.",
-        "adult": "Bạn là cố vấn học tập súc tích, được dùng thuật ngữ chuyên ngành.",
+        "kid":   "You are a gentle teacher for elementary students, using toy examples.",
+        "teen":  "You are a tutor who encourages middle-school students to find answers themselves.",
+        "adult": "You are a concise study advisor, allowed to use technical terminology.",
     }[student["band"]]
-    context = "\\n---\\n".join(c["text"] for c in retrieved_chunks) or "(không có)"
+    context = "\\n---\\n".join(c["text"] for c in retrieved_chunks) or "(none)"
     return f"""[ROLE] {persona}
-[GROUNDING] CHỈ dùng nội dung sau; nếu thiếu hãy nói 'mình chưa chắc'.
+[GROUNDING] ONLY use the content below; if missing, say not sure.
 {context}
 [STUDENT_STATE] lesson={student['lesson']} mastery={student['mastery']:.2f}
-[PEDAGOGY] Hỏi ngược 1 câu định hướng trước khi đưa đáp án.
+[PEDAGOGY] Ask 1 guiding question back before giving the answer.
 [QUESTION] {msg}
 [OUTPUT_JSON] {{ "reply": str, "citations": [str], "asked_back": bool }}"""
 
-ok, clean = safety_pre("Em muốn hỏi về phép cộng, sđt của em là 0987654321")
+ok, clean = safety_pre("I want to ask about addition, my phone number is 0987654321")
 print("safe:", ok, "→", clean)
 print(build_prompt({"band":"kid","lesson":"add-2digit","mastery":0.42},
-                   [{"text":"Phép cộng 2 chữ số: đặt thẳng cột, cộng từ phải."}],
-                   "Tại sao 17 + 25 = 42?")[:300], "...")`,
+                   [{"text":"2-digit addition: line up columns, add from the right."}],
+                   "Why is 17 + 25 = 42?")[:300], "...")`,
         codeLanguage: "python",
         exercise:
           "Thêm safety_post(reply, retrieved_chunks) trả False nếu reply chứa số liệu KHÔNG xuất hiện trong bất kỳ chunk nào (chống bịa số).",
@@ -905,67 +905,67 @@ The LLM grades **each criterion separately** against concrete anchors (e.g. "9 =
 - **Speaking grading**: WER isn't enough - you also need fluency (WPM, filled pauses), pronunciation (GOP score), and content evaluated separately.
 `,
         code: `# Per-criterion rubric grader stub (LLM call faked)
-# Đây là một đoạn mã giả lập việc chấm điểm bài luận dựa trên các tiêu chí (rubric).
-# Nó giả lập cuộc gọi đến một mô hình ngôn ngữ lớn (LLM) để chấm điểm.
+# This snippet simulates grading an essay against rubric criteria.
+# It fakes a call to a large language model (LLM) to do the grading.
 import json, statistics
 
-# Định nghĩa các tiêu chí chấm điểm (rubric).
-# Mỗi tiêu chí có một trọng số (weight) và điểm tối đa (max).
+# Define the grading criteria (rubric).
+# Each criterion has a weight and a max score.
 RUBRIC = {
-    "task_response": {"weight": 0.25, "max": 9}, # Tiêu chí phản hồi nhiệm vụ
-    "coherence":     {"weight": 0.25, "max": 9}, # Tiêu chí mạch lạc
-    "lexical":       {"weight": 0.25, "max": 9}, # Tiêu chí từ vựng
-    "grammar":       {"weight": 0.25, "max": 9}, # Tiêu chí ngữ pháp
+    "task_response": {"weight": 0.25, "max": 9}, # Task response criterion
+    "coherence":     {"weight": 0.25, "max": 9}, # Coherence criterion
+    "lexical":       {"weight": 0.25, "max": 9}, # Lexical resource criterion
+    "grammar":       {"weight": 0.25, "max": 9}, # Grammar criterion
 }
 
-# Hàm giả lập việc chấm điểm của LLM cho một tiêu chí cụ thể.
-# Đầu vào: essay (bài luận), criterion (tiêu chí).
-# Đầu ra: Một từ điển chứa điểm số, bằng chứng và phản hồi.
+# Function that fakes the LLM grading for a specific criterion.
+# Input: essay, criterion.
+# Output: a dict with score, evidence, and feedback.
 def fake_llm_judge(essay: str, criterion: str) -> dict:
     """Stub - replace with structured-output LLM call."""
-    # Đây là hàm giả lập, cần được thay thế bằng cuộc gọi LLM thực tế.
-    # Tính điểm cơ bản với một chút biến thể nhỏ dựa vào độ dài bài luận.
+    # This is a stub; replace with an actual LLM call.
+    # Compute a base score with a small variation based on essay length.
     base = 6 + (len(essay) % 3)        # toy variation
-    # Trả về một từ điển với điểm số (giới hạn tối đa là 9),
-    # bằng chứng (40 ký tự đầu của bài luận) và phản hồi chung.
+    # Return a dict with the score (capped at 9),
+    # evidence (first 40 characters of the essay), and general feedback.
     return {"score": min(9, base), "evidence": [essay[:40]],
             "feedback": f"Improve {criterion} by adding specific examples."}
 
-# Hàm làm tròn điểm về nửa band (ví dụ: 6.0, 6.5, 7.0).
-# Đầu vào: x (điểm số dạng float).
-# Đầu ra: Điểm đã làm tròn về nửa band.
+# Function to round a score to the nearest half band (e.g. 6.0, 6.5, 7.0).
+# Input: x (float score).
+# Output: the score rounded to the nearest half band.
 def half_band(x: float) -> float:
     return round(x * 2) / 2
 
-# Hàm chính để chấm điểm toàn bộ bài luận.
-# Đầu vào: essay (bài luận).
-# Đầu ra: Một từ điển chứa điểm tổng thể, điểm từng tiêu chí, độ tin cậy và liệu có cần người xem lại không.
+# Main function to grade an entire essay.
+# Input: essay.
+# Output: a dict with overall score, per-criterion scores, confidence, and whether human review is needed.
 def grade_essay(essay: str) -> dict:
-    # Chấm điểm từng tiêu chí bằng cách gọi hàm fake_llm_judge.
-    # Đầu vào: bài luận và từng tiêu chí từ RUBRIC.
-    # Đầu ra: Một từ điển chứa kết quả chấm điểm cho mỗi tiêu chí.
+    # Grade each criterion by calling fake_llm_judge.
+    # Input: the essay and each criterion from RUBRIC.
+    # Output: a dict with the grading result for each criterion.
     per = {c: fake_llm_judge(essay, c) for c in RUBRIC}
-    # Tính điểm tổng thể bằng cách lấy tổng điểm từng tiêu chí nhân với trọng số tương ứng,
-    # sau đó làm tròn về nửa band.
+    # Compute the overall score by summing each criterion score times its weight,
+    # then round to the nearest half band.
     overall = half_band(sum(per[c]["score"] * RUBRIC[c]["weight"] for c in RUBRIC))
-    # Tính độ lệch chuẩn của các điểm thành phần để đánh giá độ "phân tán" của điểm.
+    # Compute the standard deviation of the component scores to assess how spread out they are.
     spread = statistics.pstdev([per[c]["score"] for c in RUBRIC])
-    # Xác định độ tin cậy dựa trên độ lệch chuẩn.
-    # Nếu độ lệch chuẩn nhỏ, độ tin cậy cao.
+    # Determine confidence based on the standard deviation.
+    # A small spread means high confidence.
     confidence = "high" if spread < 1.0 else "medium" if spread < 2.0 else "low"
-    # Xác định xem bài luận có cần người xem lại hay không.
-    # Cần xem lại nếu độ tin cậy thấp hoặc điểm tổng thể là 6.0 hoặc 7.0 (có thể là điểm biên).
+    # Determine whether the essay needs human review.
+    # Needs review if confidence is low or the overall score is 6.0 or 7.0 (possible borderline score).
     return {"overall": overall, "per": per, "confidence": confidence,
             "needs_human_review": confidence == "low" or overall in (6.0, 7.0)}
 
-# Chấm điểm một bài luận mẫu (được lặp lại 20 lần để có độ dài).
-# Đầu vào: Một chuỗi văn bản dài.
-# Đầu ra: Một từ điển chứa kết quả chấm điểm.
+# Grade a sample essay (repeated 20 times for length).
+# Input: a long text string.
+# Output: a dict with the grading result.
 result = grade_essay("Nowadays, technology helps students learn faster ... " * 20)
-# In kết quả ra màn hình dưới dạng JSON dễ đọc.
-# ensure_ascii=False để hiển thị ký tự tiếng Việt nếu có.
-# indent=2 để định dạng JSON có thụt lề 2 khoảng trắng.
-# Kết quả mong đợi là một đối tượng JSON với các trường "overall", "per", "confidence", "needs_human_review".
+# Print the result as readable JSON.
+# ensure_ascii=False so non-ASCII characters render properly.
+# indent=2 to format the JSON with 2-space indentation.
+# Expected output is a JSON object with fields overall, per, confidence, needs_human_review.
 print(json.dumps(result, ensure_ascii=False, indent=2))`,
         codeLanguage: "python",
         exercise:
@@ -1149,59 +1149,59 @@ When a student is stuck on \`past perfect\`, the system automatically **suggests
 - **Forgetting in KT**: mastery isn't monotonically increasing - it must decay over time. Models like DKT-Forget or KTM handle this.
 - **Explainability**: parents/teachers need to know "why hasn't my child reached mastery yet." Visualize mastery as a radar chart per skill - already implemented in the Student Dashboard.
 `,
-        code: `# Định nghĩa một hàm để cập nhật xác suất người học biết một kỹ năng
-# Hàm này thực hiện một bước cập nhật trong mô hình Bayesian Knowledge Tracing (BKT)
-# Đầu vào:
-#   p_known: Xác suất hiện tại người học biết kỹ năng (số thực từ 0 đến 1).
-#   correct: Kết quả của lần thử hiện tại (True nếu đúng, False nếu sai).
-#   p_slip: Xác suất người học biết kỹ năng nhưng vẫn trả lời sai (lỗi trượt). Mặc định là 0.1.
-#   p_guess: Xác suất người học không biết kỹ năng nhưng vẫn trả lời đúng (đoán mò). Mặc định là 0.2.
-#   p_learn: Xác suất người học học được kỹ năng sau một lần thử. Mặc định là 0.1.
-# Đầu ra:
-#   Xác suất cập nhật người học biết kỹ năng sau lần thử.
+        code: `# Define a function to update the probability that a learner knows a skill
+# This implements one update step of the Bayesian Knowledge Tracing (BKT) model
+# Input:
+#   p_known: current probability the learner knows the skill (float 0..1).
+#   correct: outcome of the current attempt (True if correct, False if wrong).
+#   p_slip: probability the learner knows the skill but still answers wrong (slip). Default 0.1.
+#   p_guess: probability the learner does not know the skill but answers correctly anyway (guess). Default 0.2.
+#   p_learn: probability the learner learns the skill after an attempt. Default 0.1.
+# Output:
+#   the updated probability the learner knows the skill after the attempt.
 def bkt_update(p_known: float, correct: bool,
                p_slip=0.1, p_guess=0.2, p_learn=0.1) -> float:
     """One-step Bayesian Knowledge Tracing update."""
-    # Nếu người học trả lời đúng
+    # If the learner answered correctly
     if correct:
-        # Tính tử số (numerator) của công thức Bayes khi trả lời đúng
-        # Đây là xác suất người học biết và không bị trượt
+        # Compute the numerator of Bayes' formula for a correct answer
+        # This is the probability of knowing it and not slipping
         num = p_known * (1 - p_slip)
-        # Tính mẫu số (denominator) của công thức Bayes khi trả lời đúng
-        # Đây là tổng xác suất trả lời đúng (biết và không trượt HOẶC không biết và đoán đúng)
+        # Compute the denominator of Bayes' formula for a correct answer
+        # This is the total probability of answering correctly (knowing without slipping OR not knowing but guessing right)
         den = num + (1 - p_known) * p_guess
-    # Nếu người học trả lời sai
+    # If the learner answered incorrectly
     else:
-        # Tính tử số của công thức Bayes khi trả lời sai
-        # Đây là xác suất người học biết nhưng bị trượt
+        # Compute the numerator of Bayes' formula for a wrong answer
+        # This is the probability of knowing it but slipping
         num = p_known * p_slip
-        # Tính mẫu số của công thức Bayes khi trả lời sai
-        # Đây là tổng xác suất trả lời sai (biết và trượt HOẶC không biết và không đoán đúng)
+        # Compute the denominator of Bayes' formula for a wrong answer
+        # This is the total probability of answering wrong (knowing and slipping OR not knowing and not guessing right)
         den = num + (1 - p_known) * (1 - p_guess)
-    # Tính xác suất hậu nghiệm (posterior probability)
-    # Nếu mẫu số khác 0, thì chia tử số cho mẫu số. Ngược lại, giữ nguyên p_known để tránh lỗi chia cho 0.
+    # Compute the posterior probability
+    # If the denominator is nonzero, divide numerator by denominator. Otherwise keep p_known to avoid division by zero.
     posterior = num / den if den else p_known
-    # Áp dụng bước học (learning step)
-    # Đây là xác suất người học có thể học được kỹ năng sau lần thử, ngay cả khi xác suất hậu nghiệm thấp.
-    # Đầu ra là xác suất cuối cùng sau khi đã tính đến khả năng học.
+    # Apply the learning step
+    # This is the probability the learner could have learned the skill after the attempt, even if the posterior is low.
+    # The output is the final probability after accounting for possible learning.
     return posterior + (1 - posterior) * p_learn
 
-# Mô phỏng một người học với kỹ năng "quá khứ đơn" (past simple)
-# Khởi tạo xác suất ban đầu người học biết kỹ năng (trạng thái "lạnh")
+# Simulate a learner with the "past simple" skill
+# Initialize the starting probability the learner knows the skill ("cold" state)
 p = 0.15  # cold-start prior
-# Lịch sử các lần thử của người học (True = đúng, False = sai)
+# History of the learner's attempts (True = correct, False = wrong)
 history = [True, False, True, True, True, False, True, True]
-# Lặp qua từng lần thử trong lịch sử
-# i là số thứ tự câu hỏi (bắt đầu từ 1), c là kết quả của lần thử đó
+# Loop through each attempt in the history
+# i is the question number (starting at 1), c is the outcome of that attempt
 for i, c in enumerate(history, 1):
-    # Cập nhật xác suất người học biết kỹ năng sau mỗi lần thử
-    # Đầu vào: xác suất hiện tại p, kết quả lần thử c
-    # Đầu ra: xác suất p đã được cập nhật
+    # Update the probability the learner knows the skill after each attempt
+    # Input: current probability p, attempt outcome c
+    # Output: the updated probability p
     p = bkt_update(p, c)
-    # Đặt cờ "MASTERED ✓" nếu xác suất biết kỹ năng đạt ngưỡng 0.85 trở lên
+    # Set the "MASTERED" flag if the probability reaches 0.85 or higher
     flag = "MASTERED ✓" if p >= 0.85 else ""
-    # In ra kết quả của từng câu hỏi: số câu, kết quả đúng/sai, xác suất biết kỹ năng, và cờ "MASTERED" nếu có
-    # Kết quả mong đợi: Dòng chữ hiển thị tiến trình học của người học qua từng câu hỏi.
+    # Print the result of each question: question number, correct/wrong, probability of knowing, and MASTERED flag if any
+    # Expected output: lines showing the learner's progress question by question.
     print(f"Q{i} {'✓' if c else '✗'}  p(known) = {p:.3f}  {flag}")`,
         codeLanguage: "python",
         exercise:
@@ -1384,80 +1384,80 @@ Output: the student sees a first lesson that is **at the right level, matching t
 - **Cohort + funnel** are 2 mandatory dashboards. Every new feature must report the "D1/D7/D30 delta" after a 2-week A/B test.
 
 `,
-        code: `# Nhập các lớp cần thiết từ thư viện \`dataclasses\` để tạo lớp dữ liệu.
+        code: `# Import the classes needed from 'dataclasses' to create data classes.
 from dataclasses import dataclass
-# Nhập các đối tượng \`datetime\` và \`timedelta\` từ thư viện \`datetime\` để làm việc với ngày và thời gian.
+# Import 'datetime' and 'timedelta' from the 'datetime' library to work with dates and times.
 from datetime import datetime, timedelta
-# Nhập \`Optional\` từ thư viện \`typing\` để chỉ ra rằng một giá trị có thể là một kiểu cụ thể hoặc \`None\`.
+# Import 'Optional' from 'typing' to indicate a value can be a given type or 'None'.
 from typing import Optional
 
-# Định nghĩa một lớp dữ liệu (dataclass) tên là \`Learner\`.
-# Dataclass tự động tạo các phương thức như __init__, __repr__ cho chúng ta.
+# Define a dataclass named 'Learner'.
+# Dataclass automatically generates methods like __init__, __repr__ for us.
 @dataclass
 class Learner:
-    # ID duy nhất của người học.
+    # Unique ID of the learner.
     user_id: str
-    # Thời điểm người học đăng ký.
+    # Time the learner signed up.
     signup_at: datetime
-    # Thời điểm người học hoạt động gần đây nhất.
+    # Time the learner was last active.
     last_active_at: datetime
-    # Số ngày liên tiếp người học đã hoàn thành bài học.
+    # Number of consecutive days the learner has completed a lesson.
     streak_days: int
-    # Tổng số bài học đã hoàn thành.
+    # Total number of completed lessons.
     completed_lessons: int
 
-# Định nghĩa một hằng số chứa các giờ "yên tĩnh" (từ 21h đến 23h).
-# Trong khoảng thời gian này, hệ thống sẽ không gửi thông báo.
+# Define a constant containing the "quiet" hours (21:00 to 23:00).
+# During this window the system will not send notifications.
 QUIET_HOURS = range(21, 24)  # don't push 21:00–08:00
 
-# Định nghĩa hàm kiểm tra xem thời gian hiện tại có nằm trong "giờ yên tĩnh" hay không.
-# Đầu vào: \`now\` (thời gian hiện tại).
-# Đầu ra: \`True\` nếu đang trong giờ yên tĩnh, \`False\` nếu không.
+# Define a function to check whether the current time is within "quiet hours".
+# Input: 'now' (current time).
+# Output: 'True' if within quiet hours, 'False' otherwise.
 def in_quiet_hours(now: datetime) -> bool:
-    # Trả về True nếu giờ hiện tại nằm trong QUIET_HOURS (21, 22, 23) hoặc nhỏ hơn 8 (0, 1, ..., 7).
+    # Return True if the current hour is in QUIET_HOURS (21, 22, 23) or less than 8 (0, 1, ..., 7).
     return now.hour in QUIET_HOURS or now.hour < 8
 
-# Định nghĩa hàm \`pick_trigger\` để chọn loại thông báo (trigger) phù hợp cho người học.
-# Đầu vào: \`l\` (đối tượng Learner), \`now\` (thời gian hiện tại).
-# Đầu ra: Một chuỗi mô tả loại thông báo hoặc \`None\` nếu không có thông báo nào phù hợp.
+# Define 'pick_trigger' to choose the notification type appropriate for the learner.
+# Input: 'l' (Learner object), 'now' (current time).
+# Output: a string describing the notification type, or 'None' if none applies.
 def pick_trigger(l: Learner, now: datetime) -> Optional[str]:
-    # Bước 1: Kiểm tra xem có đang trong giờ yên tĩnh không.
-    # Nếu có, không gửi thông báo nào.
+    # Step 1: Check whether it is currently quiet hours.
+    # If so, do not send any notification.
     if in_quiet_hours(now):
         return None
-    # Tính số ngày không hoạt động của người học.
+    # Compute the number of days the learner has been inactive.
     inactive = (now - l.last_active_at).days
-    # Bước 2: Kiểm tra điều kiện gửi thông báo "chào mừng" cho người mới.
-    # Nếu người học chưa hoàn thành bài nào và đã không hoạt động ít nhất 1 ngày.
+    # Step 2: Check the condition for sending a "welcome" notification to new learners.
+    # If the learner has not completed any lesson and has been inactive for at least 1 day.
     if l.completed_lessons == 0 and inactive >= 1:
-        # Trả về thông báo gợi ý bài học khởi đầu.
+        # Return a suggestion for a starter lesson.
         return "welcome_nudge:try a 5-min starter lesson"
-    # Bước 3: Kiểm tra điều kiện gửi thông báo "giữ chuỗi" cho người có chuỗi học.
-    # Nếu người học có chuỗi học từ 2 ngày trở lên, không hoạt động ít nhất 1 ngày và hiện tại là 20h.
+    # Step 3: Check the condition for sending a "streak save" notification to learners with a streak.
+    # If the learner has a streak of 2+ days, has been inactive for at least 1 day, and it is currently 20:00.
     if l.streak_days >= 2 and inactive >= 1 and now.hour == 20:
-        # Trả về thông báo nhắc nhở giữ chuỗi.
+        # Return a reminder to keep the streak alive.
         return "streak_save:keep your streak alive"
-    # Bước 4: Kiểm tra điều kiện gửi thông báo "kéo lại" sau 7 ngày không hoạt động.
-    # Nếu người học không hoạt động đúng 7 ngày.
+    # Step 4: Check the condition for a "winback" notification after 7 days inactive.
+    # If the learner has been inactive for exactly 7 days.
     if inactive == 7:
-        # Trả về thông báo gợi ý bài học mới.
+        # Return a suggestion for a new lesson.
         return "winback:a fresh lesson tailored for you"
-    # Bước 5: Kiểm tra điều kiện gửi thông báo "tái tương tác" sau 30 ngày không hoạt động.
-    # Nếu người học không hoạt động đúng 30 ngày.
+    # Step 5: Check the condition for a "reengage" notification after 30 days inactive.
+    # If the learner has been inactive for exactly 30 days.
     if inactive == 30:
-        # Trả về thông báo khuyến khích xem lại tiến độ.
+        # Return a nudge encouraging the learner to review their progress.
         return "reengage:see how far you came + one small win"
-    # Bước 6: Nếu không có điều kiện nào ở trên khớp, không gửi thông báo nào.
+    # Step 6: If none of the above conditions match, do not send a notification.
     return None
 
-# Khởi tạo thời gian hiện tại giả định là 20h05 ngày 29 tháng 5 năm 2026.
+# Initialize the assumed current time as 20:05 on May 29, 2026.
 now = datetime(2026, 5, 29, 20, 5)
-# Khởi tạo một đối tượng Learner với các thông tin giả định.
-# Người học có ID "u1", đăng ký 10 ngày trước, hoạt động lần cuối 1 ngày trước, có chuỗi 3 ngày, hoàn thành 4 bài.
+# Initialize a Learner object with assumed data.
+# Learner with ID "u1", signed up 10 days ago, last active 1 day ago, streak of 3 days, 4 lessons completed.
 l = Learner("u1", now - timedelta(days=10), now - timedelta(days=1), 3, 4)
-# Gọi hàm \`pick_trigger\` để xác định thông báo cho người học \`l\` tại thời điểm \`now\`.
-# In kết quả ra màn hình.
-# Kết quả mong đợi: "streak_save:keep your streak alive" vì l.streak_days >= 2, inactive >= 1 và now.hour == 20.
+# Call 'pick_trigger' to determine the notification for learner 'l' at time 'now'.
+# Print the result.
+# Expected output: "streak_save:keep your streak alive" since l.streak_days >= 2, inactive >= 1, and now.hour == 20.
 print(pick_trigger(l, now))`,
         codeLanguage: "python",
         exercise:

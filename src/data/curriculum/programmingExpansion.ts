@@ -219,50 +219,50 @@ Django models inherit from \`models.Model\` → gain \`save()\`, \`delete()\`, q
 ## Bridge
 
 Next: **Decorators & Generators** - high-level Python tools for elegant, performant code beyond traditional OOP.`,
-        code: `# Định nghĩa một lớp cơ sở (base class) tên là Animal.
-# Lớp này sẽ là nền tảng cho các loài động vật khác.
+        code: `# Define a base class named Animal.
+# This class will be the foundation for other animal types.
 class Animal:
-    # Phương thức khởi tạo (constructor) của lớp Animal.
-    # Được gọi khi một đối tượng Animal mới được tạo.
-    # Đầu vào: name (tên của con vật).
+    # Constructor of the Animal class.
+    # Called when a new Animal object is created.
+    # Input: name (the animal's name).
     def __init__(self, name):
-        # Gán giá trị của tham số 'name' cho thuộc tính 'name' của đối tượng.
+        # Assign the 'name' parameter to the object's 'name' attribute.
         self.name = name
 
-    # Định nghĩa một phương thức 'speak' (nói) cho lớp Animal.
-    # Phương thức này sẽ được các lớp con ghi đè (override).
-    # Đầu ra: Một chuỗi mặc định "..."
+    # Define a 'speak' method for the Animal class.
+    # This method will be overridden by subclasses.
+    # Output: A default string "..."
     def speak(self):
         return "..."
 
-# Định nghĩa một lớp con (subclass) tên là Dog, kế thừa từ lớp Animal.
-# Điều này có nghĩa là Dog sẽ có tất cả các thuộc tính và phương thức của Animal.
+# Define a subclass named Dog, inheriting from Animal.
+# This means Dog will have all attributes and methods of Animal.
 class Dog(Animal):
-    # Ghi đè phương thức 'speak' từ lớp cha (Animal).
-    # Phương thức này sẽ cung cấp cách nói riêng của loài chó.
-    # Đầu ra: Một chuỗi chứa tên con chó và tiếng sủa của nó.
+    # Override the 'speak' method from the parent class (Animal).
+    # This method provides the dog's own way of speaking.
+    # Output: A string with the dog's name and its bark.
     def speak(self):
         return f"{self.name} says Woof!"
 
-# Định nghĩa một lớp con (subclass) tên là Cat, kế thừa từ lớp Animal.
-# Điều này có nghĩa là Cat sẽ có tất cả các thuộc tính và phương thức của Animal.
+# Define a subclass named Cat, inheriting from Animal.
+# This means Cat will have all attributes and methods of Animal.
 class Cat(Animal):
-    # Ghi đè phương thức 'speak' từ lớp cha (Animal).
-    # Phương thức này sẽ cung cấp cách nói riêng của loài mèo.
-    # Đầu ra: Một chuỗi chứa tên con mèo và tiếng kêu của nó.
+    # Override the 'speak' method from the parent class (Animal).
+    # This method provides the cat's own way of speaking.
+    # Output: A string with the cat's name and its meow.
     def speak(self):
         return f"{self.name} says Meow!"
 
 # Polymorphism in action
-# Tạo một danh sách chứa các đối tượng của các lớp khác nhau (Dog và Cat).
-# Đây là ví dụ về tính đa hình (polymorphism), nơi các đối tượng khác nhau có thể được xử lý thông qua một giao diện chung (phương thức speak).
-# Đầu vào: Hai đối tượng, một Dog tên "Rex" và một Cat tên "Whiskers".
+# Create a list containing objects of different classes (Dog and Cat).
+# This is an example of polymorphism, where different objects can be handled through a common interface (the speak method).
+# Input: Two objects, a Dog named "Rex" and a Cat named "Whiskers".
 animals = [Dog("Rex"), Cat("Whiskers")]
-# Lặp qua từng đối tượng trong danh sách 'animals'.
+# Loop through each object in the 'animals' list.
 for animal in animals:
-    # Gọi phương thức 'speak()' cho mỗi đối tượng.
-    # Python sẽ tự động gọi phương thức 'speak' phù hợp với kiểu của từng đối tượng (Dog.speak() hoặc Cat.speak()).
-    # Đầu ra mong đợi:
+    # Call the 'speak()' method for each object.
+    # Python automatically calls the 'speak' method matching each object's type (Dog.speak() or Cat.speak()).
+    # Expected output:
     # "Rex says Woof!"
     # "Whiskers says Meow!"
     print(animal.speak())`,
@@ -535,51 +535,51 @@ A fintech startup added \`@lru_cache(maxsize=10000)\` to \`get_exchange_rate()\`
 ## Bridge
 
 Next: **Generators** - process huge datasets without loading into RAM.`,
-        code: `# Nhập module \`time\` để có thể đo thời gian thực thi.
+        code: `# Import the \`time\` module to measure execution time.
 import time
 
-# Định nghĩa một hàm \`timer\` nhận vào một hàm khác (\`func\`) làm đối số.
-# Hàm này sẽ đóng vai trò là một decorator (hàm trang trí).
+# Define a \`timer\` function that takes another function (\`func\`) as an argument.
+# This function acts as a decorator.
 def timer(func):
-    # Định nghĩa hàm \`wrapper\` bên trong \`timer\`.
-    # Hàm \`wrapper\` này sẽ là hàm được gọi thay thế cho \`func\` gốc.
-    # Nó nhận mọi đối số (*args, **kwargs) mà \`func\` gốc có thể nhận.
+    # Define the \`wrapper\` function inside \`timer\`.
+    # This \`wrapper\` function will be called instead of the original \`func\`.
+    # It accepts any arguments (*args, **kwargs) that the original \`func\` can take.
     def wrapper(*args, **kwargs):
-        # Ghi lại thời điểm bắt đầu thực thi hàm.
+        # Record the start time of function execution.
         start = time.time()
-        # Gọi hàm gốc (\`func\`) với các đối số đã nhận.
-        # Lưu kết quả trả về của hàm gốc.
+        # Call the original function (\`func\`) with the received arguments.
+        # Store the returned result of the original function.
         result = func(*args, **kwargs)
-        # Ghi lại thời điểm kết thúc thực thi hàm.
+        # Record the end time of function execution.
         end = time.time()
-        # In ra thời gian mà hàm gốc đã mất để thực thi.
-        # \`func.__name__\` lấy tên của hàm gốc.
-        # \`end-start:.4f\` định dạng thời gian thành số thập phân với 4 chữ số sau dấu phẩy.
+        # Print the time the original function took to execute.
+        # \`func.__name__\` gets the name of the original function.
+        # \`end-start:.4f\` formats the time as a decimal with 4 digits after the decimal point.
         print(f"{func.__name__} took {end-start:.4f}s")
-        # Trả về kết quả của hàm gốc.
+        # Return the result of the original function.
         return result
-    # Trả về hàm \`wrapper\`. Khi \`timer\` được dùng làm decorator,
-    # nó sẽ thay thế hàm gốc bằng hàm \`wrapper\` này.
+    # Return the \`wrapper\` function. When \`timer\` is used as a decorator,
+    # it replaces the original function with this \`wrapper\` function.
     return wrapper
 
-# Sử dụng decorator \`@timer\` để "trang trí" cho hàm \`slow_function\`.
-# Điều này có nghĩa là mỗi khi \`slow_function\` được gọi,
-# hàm \`wrapper\` bên trong \`timer\` sẽ được thực thi trước và sau \`slow_function\`.
+# Use the \`@timer\` decorator to "wrap" the \`slow_function\`.
+# This means every time \`slow_function\` is called,
+# the \`wrapper\` function inside \`timer\` will run before and after \`slow_function\`.
 @timer
-# Định nghĩa một hàm có tên \`slow_function\` mô phỏng một tác vụ tốn thời gian.
+# Define a function named \`slow_function\` simulating a time-consuming task.
 def slow_function():
-    # Tính tổng các số từ 0 đến 999,999. Đây là một phép tính tốn thời gian.
+    # Sum the numbers from 0 to 999,999. This is a time-consuming computation.
     total = sum(range(1000000))
-    # Trả về tổng đã tính.
+    # Return the computed total.
     return total
 
-# Gọi hàm \`slow_function\`.
-# Vì \`slow_function\` đã được trang trí bởi \`@timer\`,
-# thời gian thực thi của nó sẽ được in ra console.
-# Kết quả trả về của \`slow_function\` (tổng các số) sẽ được lưu vào biến \`result\`.
-# Đầu ra mong đợi: Một dòng in thời gian thực thi của \`slow_function\` và sau đó là "Result: 499999500000".
+# Call \`slow_function\`.
+# Since \`slow_function\` has been decorated by \`@timer\`,
+# its execution time will be printed to the console.
+# The return value of \`slow_function\` (the sum) will be stored in the \`result\` variable.
+# Expected output: A line printing the execution time of \`slow_function\`, followed by "Result: 499999500000".
 result = slow_function()
-# In ra kết quả cuối cùng của hàm \`slow_function\`.
+# Print the final result of \`slow_function\`.
 print(f"Result: {result}")`,
         codeLanguage: "python",
         exercise: "Write a 'count_calls' decorator that counts the number of times the function is called",
@@ -832,51 +832,51 @@ Used heavily in asyncio.
 ## Bridge
 
 Next: **File I/O** - combined with generators, build pipelines for huge CSV/JSON files with minimal memory.`,
-        code: `# Định nghĩa một hàm generator tên là 'count_up'.
-# Hàm này sẽ đếm số tăng dần vô hạn, bắt đầu từ giá trị 'start' (mặc định là 0).
+        code: `# Define a generator function named 'count_up'.
+# This function counts up infinitely, starting from 'start' (default 0).
 def count_up(start=0):
-    """Generator counts up infinitely""" # Generator đếm lên vô hạn
-    # Khởi tạo biến 'n' với giá trị bắt đầu.
+    """Generator counts up infinitely"""
+    # Initialize the 'n' variable with the starting value.
     n = start
-    # Vòng lặp vô hạn để liên tục tạo ra các số.
+    # Infinite loop to keep producing numbers.
     while True:
-        # 'yield' biến 'n' thành một giá trị của generator.
-        # Khi 'yield' được gọi, hàm sẽ tạm dừng và trả về giá trị 'n'.
-        # Lần tiếp theo khi generator được gọi, nó sẽ tiếp tục thực thi từ đây.
+        # 'yield' turns 'n' into a generator value.
+        # When 'yield' is called, the function pauses and returns the value 'n'.
+        # The next time the generator is called, it resumes execution from here.
         yield n
-        # Tăng 'n' lên 1 cho lần gọi tiếp theo.
+        # Increment 'n' by 1 for the next call.
         n += 1
 
-# Sử dụng generator.
+# Using the generator.
 
-# Tạo một generator 'counter' bắt đầu đếm từ 1.
-# Đầu vào: 1 (giá trị bắt đầu).
-# Đầu ra: Một đối tượng generator.
+# Create a 'counter' generator starting to count from 1.
+# Input: 1 (starting value).
+# Output: A generator object.
 counter = count_up(1)
-# Lặp 5 lần để lấy 5 giá trị đầu tiên từ generator.
+# Loop 5 times to get the first 5 values from the generator.
 for _ in range(5):
-    # Lấy giá trị tiếp theo từ generator 'counter' và in ra.
-    # Đầu vào: generator 'counter'.
-    # Đầu ra: Giá trị số nguyên tiếp theo từ generator.
+    # Get the next value from the 'counter' generator and print it.
+    # Input: the 'counter' generator.
+    # Output: the next integer value from the generator.
     print(next(counter))
-# Kết quả mong đợi:
+# Expected output:
 # 1
 # 2
 # 3
 # 4
 # 5
 
-# Generator expression (tương tự như list comprehension nhưng tạo ra generator thay vì list).
+# Generator expression (similar to a list comprehension but produces a generator instead of a list).
 
-# Tạo một generator expression để tính bình phương của các số từ 0 đến 9.
-# Đầu vào: range(10) (các số từ 0 đến 9).
-# Đầu ra: Một đối tượng generator tạo ra các bình phương.
+# Create a generator expression to compute squares of numbers from 0 to 9.
+# Input: range(10) (numbers from 0 to 9).
+# Output: A generator object producing squares.
 squares = (x**2 for x in range(10))
-# Chuyển đổi generator 'squares' thành một danh sách (list) và in ra.
-# Đầu vào: generator 'squares'.
-# Đầu ra: Một list chứa các giá trị bình phương.
+# Convert the 'squares' generator into a list and print it.
+# Input: the 'squares' generator.
+# Output: A list containing the squared values.
 print(list(squares))
-# Kết quả mong đợi: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]`,
+# Expected output: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]`,
         codeLanguage: "python",
         exercise: "Write generator 'even_numbers(n)' yielding first n even numbers",
         exerciseEn: "Write a generator 'even_numbers(n)' that yields the first n even numbers",
@@ -1125,55 +1125,55 @@ Either old or new file - never half-written.
 ## Bridge
 
 Next: **Advanced SQL Window Functions** - once data is in DB, how to rank, compute running totals, moving averages efficiently.`,
-        code: `# Nhập thư viện 'json' để làm việc với dữ liệu JSON.
+        code: `# Import the 'json' library to work with JSON data.
 import json
-# Nhập thư viện 'csv' để làm việc với dữ liệu CSV.
+# Import the 'csv' library to work with CSV data.
 import csv
-# Nhập 'StringIO' từ module 'io' để xử lý chuỗi như một file.
+# Import 'StringIO' from the 'io' module to treat a string like a file.
 from io import StringIO
 
-# Ví dụ về xử lý JSON.
+# Example of working with JSON.
 
-# Dữ liệu Python dạng dictionary (từ điển) để chuyển đổi thành JSON.
+# Python dictionary data to convert into JSON.
 data = {
     "students": [
         {"name": "An", "score": 85},
         {"name": "Binh", "score": 92}
     ]
 }
-# Chuyển đổi dictionary 'data' thành chuỗi JSON.
-# 'indent=2' giúp định dạng JSON dễ đọc hơn với 2 khoảng trắng thụt vào.
-# 'ensure_ascii=False' cho phép hiển thị ký tự tiếng Việt mà không bị mã hóa.
-# Đầu vào: dictionary 'data'.
-# Đầu ra: chuỗi JSON 'json_str'.
+# Convert the 'data' dictionary into a JSON string.
+# 'indent=2' makes the JSON more readable with 2-space indentation.
+# 'ensure_ascii=False' allows non-ASCII characters to display without being escaped.
+# Input: the 'data' dictionary.
+# Output: the JSON string 'json_str'.
 json_str = json.dumps(data, indent=2, ensure_ascii=False)
-# In ra tiêu đề cho phần output JSON.
+# Print the header for the JSON output section.
 print("JSON output:")
-# In chuỗi JSON đã được định dạng.
-# Kết quả mong đợi: chuỗi JSON với dữ liệu sinh viên.
+# Print the formatted JSON string.
+# Expected output: a JSON string with the student data.
 print(json_str)
 
-# Ví dụ về xử lý CSV.
+# Example of working with CSV.
 
-# Dữ liệu CSV dạng chuỗi. '\\\\n' được dùng để biểu thị xuống dòng.
+# CSV data as a string. '\\\\n' is used to indicate a newline.
 csv_data = "Name,Score\\\\nAn,85\\\\nBinh,92"
-# Tạo một đối tượng StringIO từ chuỗi CSV để 'csv.DictReader' có thể đọc nó như một file.
-# Đầu vào: chuỗi 'csv_data'.
-# Đầu ra: đối tượng giống file chứa dữ liệu CSV.
-# Tạo một 'DictReader' để đọc dữ dữ liệu CSV.
-# 'DictReader' sẽ đọc mỗi hàng thành một dictionary, với khóa là tên cột (header).
-# Đầu vào: đối tượng giống file từ StringIO.
-# Đầu ra: đối tượng 'reader' có thể lặp qua từng hàng CSV dưới dạng dictionary.
+# Create a StringIO object from the CSV string so 'csv.DictReader' can read it like a file.
+# Input: the 'csv_data' string.
+# Output: a file-like object containing the CSV data.
+# Create a 'DictReader' to read the CSV data.
+# 'DictReader' reads each row into a dictionary, with keys taken from the header.
+# Input: the file-like object from StringIO.
+# Output: a 'reader' object that can iterate over each CSV row as a dictionary.
 reader = csv.DictReader(StringIO(csv_data))
-# In ra tiêu đề cho phần output CSV.
+# Print the header for the CSV output section.
 print("\\\\nCSV rows:")
-# Lặp qua từng hàng được đọc bởi 'csv.DictReader'.
-# Mỗi 'row' là một dictionary, ví dụ: {'Name': 'An', 'Score': '85'}.
+# Loop through each row read by 'csv.DictReader'.
+# Each 'row' is a dictionary, e.g. {'Name': 'An', 'Score': '85'}.
 for row in reader:
-    # In tên và điểm của mỗi sinh viên từ dictionary 'row'.
-    # Đầu vào: dictionary 'row' (ví dụ: {'Name': 'An', 'Score': '85'}).
-    # Đầu ra: in ra chuỗi định dạng "  Tên: Điểm".
-    # Kết quả mong đợi: in ra từng hàng CSV đã được phân tích.
+    # Print the name and score of each student from the 'row' dictionary.
+    # Input: the 'row' dictionary (e.g. {'Name': 'An', 'Score': '85'}).
+    # Output: prints a formatted string "  Name: Score".
+    # Expected output: prints each parsed CSV row.
     print(f"  {row['Name']}: {row['Score']}")`,
         codeLanguage: "python",
         exercise: "Write a function to read a JSON file containing a list of students and calculate the average score",
@@ -1369,32 +1369,32 @@ Stripe uses window functions heavily: MRR running totals, cohort retention via \
 ## Bridge
 
 Next: **Recursive CTE** - for tree/graph data (org charts, nested categories), window functions aren't enough.`,
-        code: `-- Demo các hàm cửa sổ (window functions) nâng cao
--- Các hàm cửa sổ giúp thực hiện tính toán trên một tập hợp các hàng có liên quan đến hàng hiện tại.
+        code: `-- Demo of advanced window functions
+-- Window functions let you compute values across a set of rows related to the current row.
 SELECT 
-  employee_name, -- Chọn tên nhân viên
-  department, -- Chọn phòng ban
-  salary, -- Chọn mức lương
-  -- Chia dữ liệu thành 4 nhóm (quartile) dựa trên mức lương giảm dần.
-  -- NTILE(4) sẽ gán số 1, 2, 3 hoặc 4 cho mỗi hàng.
+  employee_name, -- Select employee name
+  department, -- Select department
+  salary, -- Select salary
+  -- Split data into 4 groups (quartiles) based on descending salary.
+  -- NTILE(4) assigns 1, 2, 3, or 4 to each row.
   NTILE(4) OVER (ORDER BY salary DESC) AS salary_quartile,
-  -- Tính thứ hạng phần trăm của mức lương.
-  -- Giá trị từ 0 đến 1, cho biết tỷ lệ các giá trị nhỏ hơn hoặc bằng giá trị hiện tại.
+  -- Compute the percentile rank of the salary.
+  -- Value from 0 to 1, indicating the proportion of values less than or equal to the current one.
   PERCENT_RANK() OVER (ORDER BY salary) AS pct_rank,
-  -- Tính tổng lương lũy kế (running total) theo thứ tự lương tăng dần.
-  -- Bắt đầu từ hàng đầu tiên (UNBOUNDED PRECEDING) đến hàng hiện tại (CURRENT ROW).
+  -- Compute the running total of salaries in ascending order.
+  -- Starts from the first row (UNBOUNDED PRECEDING) up to the current row (CURRENT ROW).
   SUM(salary) OVER (
     ORDER BY salary 
     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
   ) AS running_total,
-  -- Tính trung bình động của 3 hàng gần nhất (bao gồm hàng hiện tại và 2 hàng trước đó) theo thứ tự lương.
+  -- Compute the moving average of the 3 nearest rows (including current and the 2 previous) by salary order.
   AVG(salary) OVER (
     ORDER BY salary 
     ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
   ) AS moving_avg_3
-FROM employees -- Lấy dữ liệu từ bảng 'employees'
-ORDER BY salary DESC; -- Sắp xếp kết quả theo mức lương giảm dần
--- Kết quả sẽ hiển thị tên, phòng ban, lương, nhóm lương, thứ hạng phần trăm, tổng lương lũy kế và trung bình động 3 hàng cho mỗi nhân viên.`,
+FROM employees -- Get data from the 'employees' table
+ORDER BY salary DESC; -- Sort results by salary descending
+-- The result shows name, department, salary, salary quartile, percentile rank, running total, and 3-row moving average for each employee.`,
         codeLanguage: "sql",
         exercise: "Write a query to divide students into 3 groups according to scores and calculate running average",
         exerciseEn: "Write a query to divide students into 3 groups by score and calculate running average",
@@ -1639,40 +1639,40 @@ GitLab uses recursive CTE on PostgreSQL to check access through nested group hie
 
 Next: **Apache Spark** - when data exceeds single DB (>1TB), distribute across a cluster. Spark is the industry #1 big data framework.`,
         code: `-- Recursive CTE: Generate a number series
--- CTE đệ quy: Tạo một chuỗi số
+-- Recursive CTE: generate a number sequence
 WITH RECURSIVE numbers AS (
-  -- Phần neo (anchor member): Bắt đầu chuỗi với số 1
+  -- Anchor member: start the sequence at 1
   SELECT 1 AS n
   UNION ALL
-  -- Phần đệ quy (recursive member): Cộng thêm 1 vào số trước đó
-  -- Tiếp tục cho đến khi n đạt 20
+  -- Recursive member: add 1 to the previous number
+  -- Continue until n reaches 20
   SELECT n + 1 FROM numbers WHERE n < 20
 )
--- Chọn số và bình phương của nó từ chuỗi đã tạo
--- Đầu ra: Một danh sách các số từ 1 đến 20 và bình phương của chúng
+-- Select the number and its square from the generated sequence
+-- Output: a list of numbers from 1 to 20 and their squares
 SELECT n, n * n AS square FROM numbers;
 
 -- Hierarchical query: Category tree
--- Truy vấn phân cấp: Cây danh mục
+-- Hierarchical query: category tree
 WITH RECURSIVE category_tree AS (
-  -- Phần neo (anchor member): Chọn các danh mục gốc (không có parent_id)
-  -- Khởi tạo độ sâu là 0 và đường dẫn là tên danh mục
-  -- Đầu vào: Bảng 'categories'
+  -- Anchor member: select root categories (no parent_id)
+  -- Initialize depth as 0 and path as the category name
+  -- Input: the 'categories' table
   SELECT id, name, parent_id, 0 AS depth,
          name AS path
   FROM categories WHERE parent_id IS NULL
   UNION ALL
-  -- Phần đệ quy (recursive member): Nối các danh mục con vào danh mục cha
-  -- Tăng độ sâu lên 1 và nối tên danh mục vào đường dẫn
-  -- Đầu vào: Bảng 'categories' và CTE 'category_tree'
+  -- Recursive member: join child categories to their parent
+  -- Increment depth by 1 and append the category name to the path
+  -- Input: the 'categories' table and the 'category_tree' CTE
   SELECT c.id, c.name, c.parent_id, ct.depth + 1,
          ct.path || ' > ' || c.name
   FROM categories c
   JOIN category_tree ct ON c.parent_id = ct.id
 )
--- Chọn độ sâu và đường dẫn của từng danh mục từ cây đã tạo
--- Sắp xếp theo đường dẫn để dễ đọc
--- Đầu ra: Cây danh mục với độ sâu và đường dẫn đầy đủ
+-- Select the depth and path of each category from the generated tree
+-- Sort by path for readability
+-- Output: the category tree with depth and full path
 SELECT depth, path FROM category_tree ORDER BY path;`,
         codeLanguage: "sql",
         exercise: "Write a recursive CTE to display a 3-level menu tree with indentation",
@@ -1875,7 +1875,7 @@ Uber uses Spark Structured Streaming with Kafka for surge pricing, driver matchi
 ## Next Journey
 
 Master Spark = Data Engineering foundation complete. Next: **Spark Streaming**, **Delta Lake**, **Spark MLlib**, or **Databricks** (managed Spark used by Netflix, Shell, Comcast).`,
-        code: `# Ví dụ DataFrame PySpark (khái niệm)
+        code: `# PySpark DataFrame example (conceptual)
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
@@ -1883,10 +1883,10 @@ spark = SparkSession.builder \\\\
     .appName("SalesAnalysis") \\\\
     .getOrCreate()
 
-# Đọc dữ liệu
+# Read data
 sales = spark.read.csv("sales.csv", header=True, inferSchema=True)
 
-# Các biến đổi (lazy, chưa thực thi)
+# Transformations (lazy, not yet executed)
 monthly_sales = sales \\\\
     .withColumn("month", F.month("date")) \\\\
     .groupBy("month", "category") \\\\
@@ -1897,10 +1897,10 @@ monthly_sales = sales \\\\
     ) \\\\
     .orderBy("month")
 
-# Hành động (kích hoạt thực thi)
+# Action (triggers execution)
 monthly_sales.show()
 
-# Ghi kết quả
+# Write results
 monthly_sales.write.parquet("output/monthly_sales")`,
         codeLanguage: "python",
         exercise: "Write PySpark pipeline to read JSON file, filter by condition, group by and write to Parquet",

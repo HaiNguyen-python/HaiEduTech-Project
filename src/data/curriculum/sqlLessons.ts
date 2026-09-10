@@ -1,4 +1,4 @@
-// CONTENT STANDARD: every `theory` block MUST contain ≥6 `## H2` sections so TheorySections.tsx can render the per-section "Mark read" UX.
+// CONTENT STANDARD: every 'theory' block MUST contain ≥6 '## H2' sections so TheorySections.tsx can render the per-section "Mark read" UX.
 // SQL & Database curriculum - 12 modules with progressive difficulty
 import type { ExtendedProgrammingModule } from "./types";
 
@@ -281,7 +281,7 @@ Stick to \`lowercase_snake_case\` to avoid quoting hassles.
 - Computed columns must be aliased
 - No alias in WHERE
 - Next: **WHERE & filtering**`,
-        code: `-- Alias cho cột (đổi tên hiển thị trong kết quả)
+        code: `-- Column alias (rename the displayed column in results)
 SELECT name AS student_name, age AS student_age
 FROM students;
 
@@ -290,7 +290,7 @@ SELECT name, age, age + 5 AS age_in_5_years
 FROM students;
 
 -- Concatenate string to create column "profile"
-SELECT name || ' (Tuổi: ' || age || ')' AS profile
+SELECT name || ' (Age: ' || age || ')' AS profile
 FROM students;
 
 -- Alias ​​for the table (very useful when there are multiple JOIN tables)
@@ -433,7 +433,7 @@ WHERE age >= 18 AND age <= 25;
 
 -- IN: belongs to the list
 SELECT * FROM students
-WHERE name IN ('An', 'Bình', 'Chi');
+WHERE name IN ('An', 'Binh', 'Chi');
 
 -- LIKE: matches string pattern (starts with "N")
 SELECT * FROM students WHERE name LIKE 'N%';
@@ -443,7 +443,7 @@ SELECT * FROM orders WHERE email IS NOT NULL;
 
 -- Mixing AND/OR - ALWAYS use parentheses
 SELECT * FROM students
-WHERE (city = 'Hà Nội' OR city = 'TP HCM')
+WHERE (city = 'Hanoi' OR city = 'Ho Chi Minh City')
   AND age > 20;`,
         codeLanguage: "sql",
         exercise: "Filter for students whose ages are between 18 and 22 (including 18 and 22) AND whose name begins with the letter 'T'. Suggestion: use BETWEEN combined with LIKE 'T%'.",
@@ -763,7 +763,7 @@ orders 1→N items: \`SUM(orders.amount)\` triple-counts. Pre-aggregate the many
 - LEFT + IS NULL = orphan finder
 - Watch for fan-out when summing
 - Next: **Subqueries**`,
-        code: `-- INNER JOIN: chỉ học viên ĐÃ đặt đơn
+        code: `-- INNER JOIN: only students who HAVE placed orders
 SELECT s.name, o.amount
 FROM   students s
 INNER JOIN orders o ON s.id = o.student_id;
@@ -1284,7 +1284,7 @@ Rule of thumb: query > ~10 lines or has >1 intermediate step → use CTE.
 - Don't over-CTE trivial selects
 
 Next: **Window functions** - aggregates per group **without collapsing rows**.`,
-        code: `-- VÍ DỤ 1: Tổng tiền đơn hàng theo từng học viên (1 CTE)
+        code: `-- EXAMPLE 1: Total order amount per student (1 CTE)
 WITH student_totals AS (
   SELECT student_id, SUM(amount) AS total
   FROM orders
@@ -1297,13 +1297,13 @@ ORDER BY st.total DESC;
 
 -- EXAMPLE 2: Multiple CTEs in series - read like steps
 WITH
-active_students AS (                                  -- Bước 1
+active_students AS (                                  -- Step 1
   SELECT id, name FROM students WHERE age < 25
 ),
-big_orders AS (                                       -- Bước 2
+big_orders AS (                                       -- Step 2
   SELECT * FROM orders WHERE amount > 50
 )
-SELECT a.name, b.amount                               -- Câu chính
+SELECT a.name, b.amount                               -- Main query
 FROM active_students a
 JOIN big_orders b ON b.student_id = a.id;
 
@@ -1314,7 +1314,7 @@ WITH RECURSIVE org AS (
   UNION ALL
   SELECT e.id, e.name, e.manager_id, o.level + 1      -- Recursive
   FROM employees e JOIN org o ON e.manager_id = o.id
-  WHERE o.level < 10                                  -- Chặn vô hạn
+  WHERE o.level < 10                                  -- Prevent infinite recursion
 )
 SELECT * FROM org ORDER BY level;`,
         codeLanguage: "sql",
@@ -1455,17 +1455,17 @@ Compare to previous (LAG) or next (LEAD) row. First row has no previous → NULL
 - Tiebreaker in ORDER BY for stability
 - Explicit frame for running totals
 - Next: **Indexing**`,
-        code: `-- Xếp hạng học viên theo tuổi (3 cách khác nhau)
+        code: `-- Rank students by age (3 different ways)
 SELECT name, age,
-  ROW_NUMBER() OVER (ORDER BY age DESC) AS row_num,    -- Luôn 1,2,3...
-  RANK()       OVER (ORDER BY age DESC) AS rank_,      -- Hòa cùng hạng, nhảy
-  DENSE_RANK() OVER (ORDER BY age DESC) AS dense_rank  -- Hòa cùng hạng, không nhảy
+  ROW_NUMBER() OVER (ORDER BY age DESC) AS row_num,    -- Always 1,2,3...
+  RANK()       OVER (ORDER BY age DESC) AS rank_,      -- Ties share rank, then skip
+  DENSE_RANK() OVER (ORDER BY age DESC) AS dense_rank  -- Ties share rank, no skip
 FROM students;
 
 -- Cumulative total of orders for each student
 SELECT student_id, amount,
   SUM(amount) OVER (
-    PARTITION BY student_id      -- Cộng dồn riêng cho từng học viên
+    PARTITION BY student_id      -- Running total per student
     ORDER BY id
   ) AS cong_don
 FROM orders;
@@ -1615,7 +1615,7 @@ Every index slows writes (INSERT/UPDATE/DELETE). One team's "just-in-case" index
 - Don't wrap indexed cols in functions
 - Always EXPLAIN ANALYZE before/after
 - Next: **Database design & normalization**`,
-        code: `-- Tạo index đơn giản trên 1 cột
+        code: `-- Create a simple index on 1 column
 CREATE INDEX idx_students_age ON students(age);
 
 -- Composite index on 2 columns (order IMPORTANT)
@@ -1802,20 +1802,20 @@ Grain → PK → FKs (with ON DELETE) → NOT NULLs → indexes → \`created_at
 ## Next
 
 **Stored procedures, functions & triggers** - database-side logic that, used wisely, prevents whole bug classes.`,
-        code: `-- Bảng phòng ban (parent của employees)
+        code: `-- Departments table (parent of employees)
 CREATE TABLE departments (
-  id SERIAL PRIMARY KEY,                  -- Surrogate PK tự tăng
-  name VARCHAR(100) NOT NULL              -- Tên phòng bắt buộc có
+  id SERIAL PRIMARY KEY,                  -- Auto-incrementing surrogate PK
+  name VARCHAR(100) NOT NULL              -- Department name is required
 );
 
 -- Employee table: 1 employee belongs to 1 department (1-N relationship)
 CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE,              -- Mỗi email chỉ xuất hiện 1 lần
-  dept_id INTEGER REFERENCES departments(id),  -- FK trỏ về phòng ban
+  email VARCHAR(100) UNIQUE,              -- Each email can appear only once
+  dept_id INTEGER REFERENCES departments(id),  -- FK pointing to department
   salary DECIMAL(10, 2) DEFAULT 0,
-  created_at TIMESTAMP DEFAULT now()      -- Cột audit (theo checklist 6)
+  created_at TIMESTAMP DEFAULT now()      -- Audit column (per checklist 6)
 );
 
 -- Project board
@@ -1986,43 +1986,43 @@ Triggers for invariants; procedures small (<200 lines); version control DDL; pgT
 ## Anti-patterns & next
 
 Avoid trigger cascades, untested 1,000-line procedures, long transactions, network calls in triggers. Next: **Query optimization**.`,
-        code: `-- Tạo một hàm mới hoặc thay thế hàm cũ nếu đã tồn tại.
--- Hàm này sẽ nhận điểm số của học sinh và trả về xếp loại tương ứng.
--- Đầu vào: score (kiểu số nguyên - INT)
--- Đầu ra: Xếp loại (kiểu chuỗi - VARCHAR)
+        code: `-- Create a new function, or replace the existing one if it already exists.
+-- This function takes a student's score and returns the corresponding grade.
+-- Input: score (integer - INT)
+-- Output: Grade (string - VARCHAR)
 CREATE OR REPLACE FUNCTION get_student_grade(score INT)
 RETURNS VARCHAR AS \$\$
 BEGIN
-  -- Kiểm tra điểm số để xác định xếp loại.
-  -- Nếu điểm từ 90 trở lên thì trả về 'A'.
+  -- Check the score to determine the grade.
+  -- If the score is 90 or above, return 'A'.
   IF score >= 90 THEN RETURN 'A';
-  -- Nếu điểm từ 80 đến 89 thì trả về 'B'.
+  -- If the score is between 80 and 89, return 'B'.
   ELSIF score >= 80 THEN RETURN 'B';
-  -- Nếu điểm từ 70 đến 79 thì trả về 'C'.
+  -- If the score is between 70 and 79, return 'C'.
   ELSIF score >= 70 THEN RETURN 'C';
-  -- Nếu điểm từ 60 đến 69 thì trả về 'D'.
+  -- If the score is between 60 and 69, return 'D'.
   ELSIF score >= 60 THEN RETURN 'D';
-  -- Nếu điểm dưới 60 thì trả về 'F'.
+  -- If the score is below 60, return 'F'.
   ELSE RETURN 'F';
   END IF;
 END;
 \$\$ LANGUAGE plpgsql;
 
--- Sử dụng hàm vừa định nghĩa để lấy xếp loại cho học sinh.
--- Truy vấn này sẽ chọn tên học sinh và xếp loại của họ.
--- Đầu vào: Hàm get_student_grade sẽ nhận điểm số cố định là 85.
--- Đầu ra: Một bảng với hai cột: 'name' (tên học sinh) và 'grade' (xếp loại 'B' cho điểm 85).
+-- Use the function just defined to get the grade for a student.
+-- This query selects the student's name and their grade.
+-- Input: get_student_grade is called with a fixed score of 85.
+-- Output: A table with two columns: 'name' (student name) and 'grade' ('B' for a score of 85).
 SELECT name, get_student_grade(85) AS grade
 FROM students;
 
--- Ví dụ về giao dịch (transaction).
--- Giao dịch đảm bảo rằng tất cả các thao tác bên trong nó hoặc thành công hoàn toàn, hoặc thất bại hoàn toàn.
+-- Example of a transaction.
+-- A transaction guarantees that all operations inside it either fully succeed or fully fail.
 BEGIN;
-  -- Cập nhật số dư tài khoản có ID là 1, giảm đi 100 đơn vị.
+  -- Update the balance of account ID 1, decreasing it by 100 units.
   UPDATE accounts SET balance = balance - 100 WHERE id = 1;
-  -- Cập nhật số dư tài khoản có ID là 2, tăng thêm 100 đơn vị.
+  -- Update the balance of account ID 2, increasing it by 100 units.
   UPDATE accounts SET balance = balance + 100 WHERE id = 2;
--- Xác nhận và lưu tất cả các thay đổi đã thực hiện trong giao dịch vào cơ sở dữ liệu.
+-- Commit and save all changes made in the transaction to the database.
 COMMIT;`,
         codeLanguage: "sql",
         exercise: "Write a function to calculate total orders for a student_id. Use it in a SELECT query.",
@@ -2342,61 +2342,61 @@ Cap recursion; JSONB over JSON; GIN on filtered JSONB; extract hot fields into c
 ## Anti-patterns & where next
 
 Avoid uncapped recursion, JSON for structured-forever fields, native PIVOT in cross-engine code, unindexed JSON queries. Next: **dbt** + query engines (Trino/DuckDB) - they all speak the SQL you've learned here.`,
-        code: `-- CTE đệ quy: Cây phân cấp nhân viên
--- Định nghĩa một CTE (Common Table Expression) đệ quy tên là org_chart.
--- CTE này sẽ giúp chúng ta duyệt qua cấu trúc quản lý của các nhân viên.
+        code: `-- Recursive CTE: employee hierarchy tree
+-- Define a recursive CTE (Common Table Expression) named org_chart.
+-- This CTE helps us traverse the management structure of employees.
 WITH RECURSIVE org_chart AS (
-  -- Phần neo (Anchor Member): Chọn tất cả các nhân viên không có người quản lý (là cấp cao nhất).
-  -- Đầu vào: Bảng employees.
-  -- Đầu ra: id, tên, manager_id, độ sâu (bắt đầu từ 1), và đường dẫn (chính là tên của nhân viên đó).
+  -- Anchor Member: Select all employees who have no manager (top level).
+  -- Input: employees table.
+  -- Output: id, name, manager_id, depth (starting from 1), and path (the employee's own name).
   SELECT id, name, manager_id, 1 AS depth,
          name AS path
   FROM employees WHERE manager_id IS NULL
 
   UNION ALL
 
-  -- Phần đệ quy (Recursive Member): Tìm tất cả nhân viên mà người quản lý của họ đã có trong org_chart.
-  -- Đầu vào: Bảng employees (e) và kết quả hiện tại của org_chart (oc).
-  -- Đầu ra: id, tên, manager_id, độ sâu tăng thêm 1, và đường dẫn được nối thêm tên nhân viên hiện tại.
+  -- Recursive Member: Find all employees whose manager is already in org_chart.
+  -- Input: employees table (e) and the current result of org_chart (oc).
+  -- Output: id, name, manager_id, depth incremented by 1, and path appended with the current employee's name.
   SELECT e.id, e.name, e.manager_id, oc.depth + 1,
          oc.path || ' > ' || e.name
   FROM employees e
   JOIN org_chart oc ON e.manager_id = oc.id
 )
--- Chọn độ sâu và đường dẫn từ CTE org_chart.
--- Sắp xếp kết quả theo đường dẫn để dễ nhìn.
--- Kết quả mong đợi: Một danh sách các nhân viên với độ sâu trong cây phân cấp và đường dẫn quản lý của họ.
+-- Select depth and path from the org_chart CTE.
+-- Sort results by path for readability.
+-- Expected result: A list of employees with their depth in the hierarchy and their management path.
 SELECT depth, path FROM org_chart
 ORDER BY path;
 
--- Tạo một chuỗi số
--- Định nghĩa một CTE đệ quy tên là numbers.
--- CTE này sẽ tạo ra một chuỗi các số nguyên liên tiếp.
+-- Generate a sequence of numbers
+-- Define a recursive CTE named numbers.
+-- This CTE generates a sequence of consecutive integers.
 WITH RECURSIVE numbers AS (
-  -- Phần neo: Bắt đầu với số 1.
-  -- Đầu vào: Không có.
-  -- Đầu ra: Một cột 'n' với giá trị 1.
+  -- Anchor: Start with the number 1.
+  -- Input: None.
+  -- Output: A column 'n' with value 1.
   SELECT 1 AS n
   UNION ALL
-  -- Phần đệ quy: Cộng 1 vào số hiện tại cho đến khi số đó nhỏ hơn 10.
-  -- Đầu vào: Kết quả hiện tại của numbers.
-  -- Đầu ra: Số tiếp theo (n + 1).
+  -- Recursive part: Add 1 to the current number until it's no longer less than 10.
+  -- Input: The current result of numbers.
+  -- Output: The next number (n + 1).
   SELECT n + 1 FROM numbers WHERE n < 10
 )
--- Chọn số và bình phương của số đó từ CTE numbers.
--- Kết quả mong đợi: Một danh sách các số từ 1 đến 10 và bình phương tương ứng của chúng.
+-- Select the number and its square from the numbers CTE.
+-- Expected result: A list of numbers from 1 to 10 and their respective squares.
 SELECT n, n * n AS square FROM numbers;
 
--- Chuyển đổi hàng thành cột (Pivot) sử dụng CASE
--- Chọn student_id và tính tổng điểm cho từng môn học.
--- Đầu vào: Bảng grades chứa điểm của học sinh theo môn học.
--- Đầu ra: student_id, cột 'math' (tổng điểm môn Toán), cột 'english' (tổng điểm môn Tiếng Anh).
+-- Convert rows to columns (Pivot) using CASE
+-- Select student_id and sum the scores for each subject.
+-- Input: grades table containing student scores by subject.
+-- Output: student_id, column 'math' (total Math score), column 'english' (total English score).
 SELECT student_id,
-  -- Sử dụng CASE để kiểm tra nếu môn học là 'Math' thì lấy điểm, nếu không thì là NULL (không tính vào tổng).
+  -- Use CASE to check if the subject is 'Math'; if so take the score, otherwise NULL (excluded from the sum).
   SUM(CASE WHEN subject='Math' THEN score END) AS math,
-  -- Tương tự cho môn 'English'.
+  -- Same for the 'English' subject.
   SUM(CASE WHEN subject='English' THEN score END) AS english
-FROM grades GROUP BY student_id; -- Nhóm kết quả theo student_id để tính tổng điểm cho từng học sinh.`,
+FROM grades GROUP BY student_id; -- Group results by student_id to sum the score for each student.`,
         codeLanguage: "sql",
         exercise: "Write a Recursive CTE to generate Fibonacci sequence (1, 1, 2, 3, 5, 8, 13...) up to the 15th number.",
         exerciseEn: "Write a Recursive CTE to generate Fibonacci sequence (1, 1, 2, 3, 5, 8, 13...) up to the 15th number.",

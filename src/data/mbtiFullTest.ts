@@ -6,7 +6,7 @@ export type MbtiDimension = "EI" | "SN" | "TF" | "JP";
 export interface MbtiQuestion {
   id: string;
   dim: MbtiDimension;
-  // If user agrees (positive Likert), the score goes to `positive`. If disagrees, to the opposite letter.
+  // If user agrees (positive Likert), the score goes to 'positive'. If disagrees, to the opposite letter.
   positive: "E" | "I" | "S" | "N" | "T" | "F" | "J" | "P";
   en: string;
   vi: string;
