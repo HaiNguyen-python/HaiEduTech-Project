@@ -774,6 +774,8 @@ import { LIFESTYLE_LESSONS_EXPANSION } from "./lifestyleAcademyLessonsExpansion"
 import { LIFESTYLE_LESSONS_EXPANSION_2 } from "./lifestyleAcademyLessonsExpansion2";
 import { LIFESTYLE_LESSONS_EXPANSION_3 } from "./lifestyleAcademyLessonsExpansion3";
 import { LIFESTYLE_LESSONS_EXPANSION_4 } from "./lifestyleAcademyLessonsExpansion4";
+import { LIFESTYLE_LESSONS_EXPANSION_5 } from "./lifestyleAcademyLessonsExpansion5";
+import { LIFESTYLE_SELF_STUDY_LESSONS } from "./lifestyleSelfStudyLessons";
 
 import { LIFESTYLE_ENRICHMENT } from "./lifestyleAcademyEnrichment";
 
@@ -801,9 +803,10 @@ const withDepth = (lesson: LifestyleLesson): LifestyleLesson => {
 // Interleave expansion lessons per pillar so each pillar reads as a continuous
 // curriculum (foundation -> intermediate -> mastery) instead of being split.
 export const LIFESTYLE_LESSONS: LifestyleLesson[] = [
-  ...finance,   ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "finance"),
-  ...etiquette, ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "etiquette"),
-  ...presence,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "presence"),
-  ...wellness,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "wellness"),
+  ...finance,   ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "finance"),   ...byPillar(LIFESTYLE_LESSONS_EXPANSION_5, "finance"),
+  ...etiquette, ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "etiquette"), ...byPillar(LIFESTYLE_LESSONS_EXPANSION_5, "etiquette"),
+  ...presence,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "presence"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_5, "presence"),
+  ...wellness,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_5, "wellness"),
+  ...LIFESTYLE_SELF_STUDY_LESSONS,
 ].map(withDepth);
 

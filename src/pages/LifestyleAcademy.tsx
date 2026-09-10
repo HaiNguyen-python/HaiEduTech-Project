@@ -84,6 +84,14 @@ const PILLAR_STYLES: Record<LifestylePillarKey, {
     chipBg: "bg-rose-50 dark:bg-rose-500/10",
     emojis: ["💪", "🥗", "😴", "🌿"],
   },
+  selfstudy: {
+    border: "border-indigo-300/70 dark:border-indigo-500/40",
+    borderStrong: "hover:border-indigo-400 dark:hover:border-indigo-400/70",
+    bannerFrom: "from-indigo-100 via-violet-50 to-sky-100",
+    bannerTo: "dark:from-indigo-500/20 dark:via-violet-500/10 dark:to-sky-500/20",
+    chipBg: "bg-indigo-50 dark:bg-indigo-500/10",
+    emojis: ["📚", "🧠", "⏳", "🗂️"],
+  },
 };
 
 // ─────────────────────────────────────────────────────────
