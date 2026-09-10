@@ -50,6 +50,8 @@ interface Progress {
   medals?: Record<number, number>;
   /** Where the learner stopped, so they can jump straight back in. */
   resume?: { stage: number; word: number } | null;
+  /** stage index -> the learner already walked through all its word cards. */
+  studied?: Record<number, boolean>;
 }
 
 const medalOf = (mistakes: number) => (mistakes === 0 ? "🥇" : mistakes <= 3 ? "🥈" : "🥉");
