@@ -50,6 +50,8 @@ interface Progress {
   medals?: Record<number, number>;
   /** Where the learner stopped, so they can jump straight back in. */
   resume?: { stage: number; word: number } | null;
+  /** stage index -> the learner already walked through all its word cards. */
+  studied?: Record<number, boolean>;
 }
 
 const medalOf = (mistakes: number) => (mistakes === 0 ? "🥇" : mistakes <= 3 ? "🥈" : "🥉");
@@ -157,6 +159,9 @@ const WordQuest = ({
   );
   const [setIdx, setSetIdx] = useState<number | null>(null);
   const [stageIdx, setStageIdx] = useState<number | null>(null);
+  /** Every stage starts with a study walkthrough of all its words. */
+  const [phase, setPhase] = useState<"study" | "drill">("study");
+  const [studyIdx, setStudyIdx] = useState(0);
   const [queue, setQueue] = useState<Task[]>([]);
   const [cursor, setCursor] = useState(0);
   const [roundIdx, setRoundIdx] = useState(0);
@@ -224,9 +229,11 @@ const WordQuest = ({
       const idx = start + i;
       const known = knownKeys?.has(w.key) ?? false;
       const { easy, hard } = kindsFor(w, micSupported);
+      // Every word was already presented in the study phase, so the drill has
+      // no "meet" step: three real exercises per word instead.
       const kinds = known
         ? pickKinds([...hard, ...easy], 3, [])
-        : ["meet" as StepKind, ...pickKinds(easy, 2, [])];
+        : pickKinds([...easy, ...hard], 3, []);
       return kinds.map(k => ({ wordIdx: idx, kind: k }));
     });
     // Interleave: all intro steps first, then round-robin the exercises so the
@@ -251,10 +258,18 @@ const WordQuest = ({
 
   // Auto-play the word when a listening-style step opens.
   useEffect(() => {
-    if (word && (kind === "meet" || kind === "listen")) speak(word.speakText);
+    if (phase === "drill" && word && (kind === "meet" || kind === "listen")) speak(word.speakText);
     return () => stopVoice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [word?.key, kind, cursor]);
+  }, [word?.key, kind, cursor, phase]);
+
+  // Read the word out loud whenever a study card opens.
+  const studyWord = stageIdx === null ? null : stages[stageIdx]?.[studyIdx] || null;
+  useEffect(() => {
+    if (phase === "study" && studyWord) speak(studyWord.speakText);
+    return () => stopVoice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [studyWord?.key, phase]);
 
   useEffect(() => () => {
     if (advanceTimer.current) window.clearTimeout(advanceTimer.current);
@@ -336,6 +351,9 @@ const WordQuest = ({
     if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     setStageIdx(i);
     setSetIdx(Math.floor(i / SET_SIZE));
+    // Words first: only stages already studied jump straight into the drills.
+    setPhase(progress.studied?.[i] ? "drill" : "study");
+    setStudyIdx(0);
     setRoundIdx(0);
     setQueue(buildRound(s, 0));
     setCursor(0);
@@ -457,7 +475,7 @@ const WordQuest = ({
   };
 
   // ── Map: set list / stage list ──
-  if (stageIdx === null || !stage || !word) {
+  if (stageIdx === null || !stage || (phase === "drill" && !word)) {
     if (stages.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -480,8 +498,8 @@ const WordQuest = ({
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">
           {t(
-            "Mỗi Set gồm 10 chặng, mỗi chặng 8 từ. Trong chặng, các từ được học xen kẽ với nhiều dạng bài: chọn nghĩa, nghe, gõ, ghép chữ, nói lại, nhớ chủ động, điền câu. Từ nào sai sẽ quay lại với một dạng bài khác.",
-            "Each Set holds 10 stages of 8 words. Inside a stage, words are interleaved across many exercise types: meaning, listening, typing, word building, saying it out loud, active recall and sentence gaps. Missed words return with a different exercise."
+            "Mỗi Set gồm 10 chặng, mỗi chặng 8 từ. Vào chặng, bạn được học đầy đủ 8 từ trước (nghĩa, phiên âm, ví dụ, phát âm), sau đó mới luyện tập xen kẽ nhiều dạng bài: chọn nghĩa, nghe, gõ, ghép chữ, nói lại, nhớ chủ động, điền câu. Từ nào sai sẽ quay lại với một dạng bài khác.",
+            "Each Set holds 10 stages of 8 words. A stage first walks you through all 8 words in full (meaning, phonetics, example, audio), then drills them across many exercise types: meaning, listening, typing, word building, saying it out loud, active recall and sentence gaps. Missed words return with a different exercise."
           )}
         </p>
         {progress.resume && stages[progress.resume.stage] && (
@@ -598,6 +616,105 @@ const WordQuest = ({
     );
   }
 
+  // ── Study phase: full information for every word of the stage, one by one ──
+  if (phase === "study") {
+    const sIdx = Math.min(studyIdx, stage.length - 1);
+    const sw = stage[sIdx];
+    const swEmoji = resolveVocabEmoji(sw.definition.en, sw.category);
+    const isLast = sIdx >= stage.length - 1;
+    const startDrill = () => {
+      stopVoice();
+      save({ ...progress, studied: { ...(progress.studied || {}), [stageIdx]: true } });
+      setPhase("drill");
+    };
+    return (
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <Button variant="ghost" size="sm" onClick={() => { stopVoice(); setStageIdx(null); }}>
+            ← {t("Bản đồ chặng", "Stage map")}
+          </Button>
+          <Badge variant="outline">{t("Chặng", "Stage")} {stageIdx + 1}</Badge>
+          <Badge variant="secondary">
+            {t("Học từ", "Study the words")} · {sIdx + 1}/{stage.length}
+          </Badge>
+          <Button variant="ghost" size="sm" onClick={startDrill} className="gap-1">
+            {t("Bỏ qua phần học", "Skip study")} <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="mb-4 flex gap-1.5">
+          {stage.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`${t("Từ", "Word")} ${i + 1}`}
+              onClick={() => setStudyIdx(i)}
+              className={`h-2 flex-1 rounded-full ${i < sIdx ? "bg-emerald-500" : i === sIdx ? "bg-primary" : "bg-secondary"}`}
+            />
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={sw.key}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            className="rounded-2xl border border-primary/30 bg-card p-6 sm:p-8"
+          >
+            <div className="flex flex-col items-center gap-3 text-center">
+              <div className="text-6xl">{swEmoji}</div>
+              <h3 className="text-3xl font-extrabold text-foreground">{sw.word}</h3>
+              {sw.subtitle && sw.subtitle !== sw.ipa && (
+                <p className="text-base font-semibold text-primary">{sw.subtitle}</p>
+              )}
+              {sw.ipa && <p className="font-mono text-sm text-muted-foreground">{sw.ipa}</p>}
+              {sw.partOfSpeech && <Badge variant="secondary">{sw.partOfSpeech}</Badge>}
+              <p className="text-lg font-semibold text-foreground">{sw.definition.vi}</p>
+              <p className="text-sm text-muted-foreground">{sw.definition.en}</p>
+              {sw.example && (
+                <div className="mt-2 w-full rounded-xl bg-secondary/50 p-3">
+                  <p className="text-sm italic text-foreground">"{sw.example}"</p>
+                  {sw.exampleTranslation && (
+                    <p className="mt-1 text-xs text-muted-foreground">{sw.exampleTranslation}</p>
+                  )}
+                </div>
+              )}
+              <div className="mt-2 flex flex-wrap justify-center gap-2">
+                <Button variant="outline" onClick={() => speak(sw.speakText)} className="gap-2">
+                  <Volume2 className="h-4 w-4" /> {t("Nghe", "Listen")}
+                </Button>
+                <Button variant="outline" onClick={() => speak(sw.speakText, true)} className="gap-2">
+                  <Volume2 className="h-4 w-4" /> {t("Nghe chậm", "Slow")}
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <Button
+            variant="outline"
+            disabled={sIdx === 0}
+            onClick={() => setStudyIdx(i => Math.max(0, i - 1))}
+          >
+            ← {t("Từ trước", "Previous")}
+          </Button>
+          {isLast ? (
+            <Button onClick={startDrill} className="gap-2">
+              {t("Bắt đầu luyện tập", "Start practice")} <ChevronRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button onClick={() => setStudyIdx(i => Math.min(stage.length - 1, i + 1))} className="gap-2">
+              {t("Từ tiếp", "Next word")} <ChevronRight className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (!word) return null;
+
   const emoji = resolveVocabEmoji(word.definition.en, word.category);
   const answer = word.typeAnswer;
   const hint = answer
@@ -644,6 +761,14 @@ const WordQuest = ({
           {t("Chặng", "Stage")} {stageIdx + 1} · {doneWords.length}/{totalStageWords} {t("từ", "words")}
         </Badge>
         <Badge variant="secondary">{labelOfKind(kind, t)}</Badge>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => { stopVoice(); setStudyIdx(task?.wordIdx ?? 0); setPhase("study"); }}
+          className="gap-1"
+        >
+          <RotateCcw className="h-4 w-4" /> {t("Xem lại từ", "Review words")}
+        </Button>
         <span className="flex items-center gap-1 text-sm font-semibold text-amber-500">
           <Star className="h-4 w-4 fill-amber-400 text-amber-400" /> {stars}
         </span>

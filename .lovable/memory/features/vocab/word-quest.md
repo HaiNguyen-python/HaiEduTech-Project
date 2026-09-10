@@ -15,13 +15,23 @@ Japanese, Finnish and Swedish vocabulary pages (tab "Word Quest").
 - Progress key per subject (`ielts_word_quest_v1`, `hsk_word_quest_v1`, ...),
   backward compatible: `{ stages, medals, resume }` in `safeStorage`.
 
+## Stage flow (study first)
+- Opening a stage shows a **study walkthrough**: every one of the 8 words in
+  full (emoji, word, phonetics/pinyin/romaji, part of speech, VI + EN meaning,
+  example + translation, Listen / Slow, auto-plays on open), with prev/next,
+  clickable progress dots and a "Skip study" shortcut.
+- Only after the walkthrough (or Skip) do the drills start. `Progress.studied`
+  (stage index -> true) means a revisited stage jumps straight into the drills.
+- "Review words" in the drill header returns to the study card of the current
+  word without losing drill progress.
+
 ## Exercise engine
-- 10 `StepKind`s: meet, meaning, listen, type, gap, speak (mic), recall, build,
+- 10 `StepKind`s (the drill queue no longer uses `meet` - study phase covers it): meet, meaning, listen, type, gap, speak (mic), recall, build,
   usage, reverse.
 - Each stage runs in **interleaved rounds of 3 words**: intro ("meet") steps
   first, then exercises round-robin so the same word is never asked twice in a
-  row. New words get meet + 2 easy kinds; already-mastered words (`knownKeys`)
-  skip the intro and get 3 harder kinds.
+  row. Every word gets 3 exercises; already-mastered words (`knownKeys`) get
+  harder kinds first.
 - Kinds are filtered by available data (gap/usage need an example, speak needs
   Web Speech support) and avoid repeating the previous kind.
 - A wrong answer queues **one** pending retry per word with a *different* kind.
