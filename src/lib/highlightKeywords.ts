@@ -37,9 +37,10 @@ export function highlightKeywords(
     const base = escape(term);
     if (/\s/.test(term)) return base;
     const stem = term.length > 3 && /e$/i.test(term) ? escape(term.slice(0, -1)) : null;
-    const forms = [`${base}(?:s|es|ed|ing|d)?`];
+    const forms = [`${base}(?:s|es|ed|ing|d|er|ers|ly)?`];
     if (stem) forms.push(`${stem}(?:ing|ed|es)`);
-    return forms.join("|");
+    if (/y$/i.test(term) && term.length > 3) forms.push(`${escape(term.slice(0, -1))}ies`);
+    return `(?:${forms.join("|")})`;
   };
   const sources = [
     ...phrases.sort((a, b) => b.length - a.length).map(escape),
