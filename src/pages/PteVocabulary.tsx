@@ -4,14 +4,15 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState, useMemo, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  Search, Star, Volume2, ChevronLeft, ChevronRight, RotateCw,
+  Search, Star, Volume2, ChevronRight, RotateCw,
   BookOpen, Layers, Trophy, CheckCircle2, XCircle, Sparkles,
 } from "lucide-react";
 import PteShell from "@/components/pte/PteShell";
 import { PTE_VOCAB_BANK, PteVocabWord } from "@/data/pteData";
 import { supabase } from "@/integrations/supabase/client";
+import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
 
 const STORAGE_KEY = "pte-vocab-mastered";
 const MIGRATED_KEY = "pte-vocab-migrated-v1";
@@ -37,10 +38,6 @@ const PteVocabulary = () => {
   const [mastered, setMastered] = useState<Set<string>>(new Set());
   const [userId, setUserId] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
-
-  // Flashcard state
-  const [flashIdx, setFlashIdx] = useState(0);
-  const [flipped, setFlipped] = useState(false);
 
   // Quiz state
   const [quizQs, setQuizQs] = useState<QuizQ[]>([]);
@@ -167,17 +164,6 @@ const PteVocabulary = () => {
   }, [search, posFilter]);
 
   const masteryPct = Math.round((mastered.size / PTE_VOCAB_BANK.length) * 100);
-
-  // ===== Flashcard handlers =====
-  const flashCard = filtered[flashIdx];
-  const handleFlashNext = () => {
-    setFlipped(false);
-    setFlashIdx(i => (i + 1) % Math.max(filtered.length, 1));
-  };
-  const handleFlashPrev = () => {
-    setFlipped(false);
-    setFlashIdx(i => (i - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1));
-  };
 
   // ===== Quiz handlers =====
   const startQuiz = () => {
