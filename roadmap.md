@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Expand key-phrase highlighting coverage across all 138 English conversations
 - [x] Remove "Tips for this situation" boxes from conversation lessons (Conversational / Business / Academic English)
 - [x] Highlight key phrases + important vocabulary in conversations (legend + key phrase list)
 - [x] Code Typing Race: all code snippets/comments/labels in English only
@@ -13,7 +14,7 @@
       preserving subject audio, meanings, examples, mastery, and Japanese SRS behavior
 
 ## Open
-- [ ] Business / Academic conversation key-language chips: browser spot check
+- [ ] Business / Academic / Conversational phrase highlighting: browser spot check
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects
 - [x] Hover contrast: no invisible text on hover (shared button/toggle/nav-menu variants
       now hover to a muted surface with foreground text; dark-section buttons set their own

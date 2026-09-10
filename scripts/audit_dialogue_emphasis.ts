@@ -4,7 +4,11 @@
  *   phrases (B1+ functional chunks), so emphasis is consistent across lessons.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { professionalCommunicationLessons, academicCommunicationLessons } from "../src/data/conversationalCurriculum";
+import {
+  academicCommunicationLessons,
+  allConversationalLessons,
+  professionalCommunicationLessons,
+} from "../src/data/conversationalCurriculum";
 import type { ConvLesson } from "../src/data/conversationalCurriculum";
 import { resolveDialogueKeyPhrases } from "../src/lib/dialogueKeyPhrases";
 
@@ -19,7 +23,12 @@ const audit = (label: string, lessons: ConvLesson[]) => {
       const lines = situation.sampleDialogue.map((turn) => turn.line);
       const phrases = resolveDialogueKeyPhrases(lines, lesson.vocabulary.map((item) => item.term));
       totalPhrases += phrases.length;
-      if (phrases.length === 0) issues.push(`${lesson.id} / ${situation.title}: no bold key phrases found`);
+      const minimum = lines.length >= 6 ? 3 : 2;
+      if (phrases.length < minimum) {
+        issues.push(`${lesson.id} / ${situation.title}: ${phrases.length}/${minimum} quality phrase highlights`);
+      }
+      const invalid = phrases.filter((phrase) => phrase.trim().split(/\s+/).length < 2 || phrase.trim().length < 4);
+      if (invalid.length) issues.push(`${lesson.id} / ${situation.title}: low-value phrase(s): ${invalid.join(", ")}`);
     }
   }
 
@@ -30,6 +39,12 @@ const audit = (label: string, lessons: ConvLesson[]) => {
 const issues = [
   ...audit("Business Lab", professionalCommunicationLessons),
   ...audit("Academic Lab", academicCommunicationLessons),
+  ...audit(
+    "Conversational English",
+    allConversationalLessons.filter(
+      (lesson) => !lesson.id.startsWith("pro-") && !lesson.id.startsWith("acad-"),
+    ),
+  ),
 ];
 
 if (issues.length) {
