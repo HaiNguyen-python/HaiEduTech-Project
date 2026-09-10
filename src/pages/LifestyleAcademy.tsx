@@ -493,12 +493,12 @@ const LifestyleAcademy = () => {
     <div className="min-h-screen bg-background text-foreground">
       <SEO
         title={t(
-          "HaiEduTech Lifestyle Academy - Tài chính, Ứng xử, Khí chất & Thân thể",
-          "HaiEduTech Lifestyle Academy - Finance, Etiquette, Presence & Wellness",
+          "Lifestyle Academy - Tài chính, Ứng xử, Khí chất, Thân thể, Tự học & Tiệc",
+          "Lifestyle Academy - Finance, Etiquette, Presence, Wellness, Self-Study & Parties",
         )}
         description={t(
-          "Học viện lối sống HaiEduTech: 4 trụ cột cho công dân toàn cầu - tài chính thông minh, ứng xử tinh tế, khí chất bản lĩnh và thân thể khoẻ mạnh.",
-          "HaiEduTech Lifestyle Academy: four pillars for global citizens - smart finance, elegant eloquence, inner presence, and lasting physical wellness.",
+          "Học viện lối sống HaiEduTech: 6 trụ cột cho công dân toàn cầu - tài chính thông minh, ứng xử tinh tế, khí chất bản lĩnh, thân thể khoẻ mạnh, kỹ năng tự học và nghi thức tiệc - sự kiện.",
+          "HaiEduTech Lifestyle Academy: six pillars for global citizens - smart finance, elegant eloquence, inner presence, physical wellness, self-study skills, and party and event etiquette.",
         )}
         path="/lifestyle-academy"
       />
@@ -510,33 +510,33 @@ const LifestyleAcademy = () => {
           <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl dark:bg-emerald-500/10" />
           <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-amber-300/25 blur-3xl dark:bg-amber-400/10" />
 
-          <div className="container relative mx-auto px-4 py-3 md:py-5">
+          <div className="container relative mx-auto px-4 py-5 md:py-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="max-w-3xl"
             >
-              <Badge variant="outline" className="mb-2 border-emerald-400/50 bg-emerald-50/70 text-emerald-700 dark:border-emerald-400/40 dark:bg-emerald-500/10 dark:text-emerald-300">
+              <Badge variant="outline" className="mb-4 border-emerald-400/50 bg-emerald-50/70 text-emerald-700 dark:border-emerald-400/40 dark:bg-emerald-500/10 dark:text-emerald-300">
                 <Sparkles className="mr-1.5 h-3.5 w-3.5" />
                 {t("Chương trình cao cấp • Global Citizen", "Premium Program • Global Citizen")}
               </Badge>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.18] tracking-tight text-slate-900 dark:text-slate-50">
                 HaiEduTech{" "}
                 <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-amber-500 bg-clip-text text-transparent">
                   Lifestyle Academy
                 </span>
               </h1>
 
-              <p className="mt-3 text-lg md:text-xl leading-relaxed text-slate-700 dark:text-slate-300 max-w-2xl">
+              <p className="mt-5 max-w-xl text-base md:text-lg leading-8 text-slate-700 dark:text-slate-300">
                 {t(
-                  "Vun bồi thói quen tài chính thông minh, phong thái giao tiếp tinh tế, khí chất – bản lĩnh nội tâm và thân thể khoẻ mạnh - cho công dân toàn cầu.",
+                  "Vun bồi thói quen tài chính thông minh, phong thái giao tiếp tinh tế, khí chất - bản lĩnh nội tâm và thân thể khoẻ mạnh, cho công dân toàn cầu.",
                   "Cultivate smart financial habits, elegant eloquence, inner presence & resilience, and a truly healthy body - for global citizens.",
                 )}
               </p>
 
-              <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center">
+              <div className="mt-7 flex flex-col gap-3 md:flex-row md:items-center">
                 <div className="relative flex-1 max-w-xl">
                   <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
@@ -551,7 +551,7 @@ const LifestyleAcademy = () => {
                 </div>
               </div>
 
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-5 flex flex-wrap gap-2.5">
                 {FILTERS.map((f) => {
                   const active = filter === f.key;
                   return (
@@ -559,7 +559,7 @@ const LifestyleAcademy = () => {
                       key={f.key}
                       onClick={() => setFilter(f.key)}
                       className={[
-                        "px-3.5 py-1.5 rounded-full text-sm font-medium transition-all border",
+                        "px-4 py-2 rounded-full text-sm font-medium transition-all border",
                         active
                           ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-transparent shadow-sm shadow-emerald-500/25"
                           : "bg-white/70 border-slate-200 text-slate-700 hover:bg-white dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800",
@@ -571,7 +571,7 @@ const LifestyleAcademy = () => {
                 })}
               </div>
 
-              <div className="mt-6 grid grid-cols-3 gap-4 max-w-lg">
+              <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-5 max-w-xl">
                 <StatChip value={`${LIFESTYLE_LESSONS.length}`} labelVi="Bài học chuyên sâu" labelEn="Deep lessons" />
                 <StatChip value="6" labelVi="Trụ cột" labelEn="Pillars" />
                 <StatChip value="7-12" labelVi="Phút / bài" labelEn="Min / lesson" />
@@ -611,22 +611,52 @@ const LifestyleAcademy = () => {
               <SoftSkillsRadar pillarScores={pillarScores} stats={stats} />
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {filteredLessons.map((lesson, i) => (
-                <LessonCard
-                  key={lesson.id}
-                  lesson={lesson}
-                  index={i}
-                  result={results[lesson.id]}
-                  onQuizFinish={saveResult}
-                />
-              ))}
-              {filteredLessons.length === 0 && (
-                <div className="col-span-full py-16 text-center text-slate-500 dark:text-slate-400">
-                  {t("Không có bài học phù hợp với bộ lọc hiện tại.", "No lessons match the current filter.")}
+            {grouped ? (
+              <>
+                <div className="mb-5 flex flex-wrap items-center justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setAllGroups(allCollapsed)}
+                  >
+                    {allCollapsed
+                      ? t("Mở tất cả", "Expand all")
+                      : t("Thu gọn tất cả", "Collapse all")}
+                  </Button>
                 </div>
-              )}
-            </div>
+
+                <div className="space-y-8">
+                  {groupedLessons.map((group) => (
+                    <PillarLessonGroup
+                      key={group.pillar.key}
+                      pillar={group.pillar}
+                      lessons={group.lessons}
+                      open={isGroupOpen(group.pillar.key)}
+                      onToggle={() => toggleGroup(group.pillar.key)}
+                      results={results}
+                      onQuizFinish={saveResult}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {filteredLessons.map((lesson, i) => (
+                  <LessonCard
+                    key={lesson.id}
+                    lesson={lesson}
+                    index={i}
+                    result={results[lesson.id]}
+                    onQuizFinish={saveResult}
+                  />
+                ))}
+                {filteredLessons.length === 0 && (
+                  <div className="col-span-full py-16 text-center text-slate-500 dark:text-slate-400">
+                    {t("Không có bài học phù hợp với bộ lọc hiện tại.", "No lessons match the current filter.")}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </section>
 
