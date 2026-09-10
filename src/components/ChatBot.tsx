@@ -517,16 +517,28 @@ const ChatBot = () => {
 
   useEffect(() => {
     loadStudentContext();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => loadStudentContext());
+    refreshMemories();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      loadStudentContext();
+      refreshMemories();
+    });
     return () => {
       sub.subscription.unsubscribe();
     };
-  }, [loadStudentContext]);
+  }, [loadStudentContext, refreshMemories]);
 
   // Refresh personalization data each time the chat is opened
   useEffect(() => {
-    if (open) loadStudentContext();
-  }, [open, loadStudentContext]);
+    if (open) {
+      loadStudentContext();
+      refreshMemories();
+    }
+  }, [open, loadStudentContext, refreshMemories]);
+
+  // Stop Teacher Hai's voice when the panel closes.
+  useEffect(() => {
+    if (!open) voice.stop();
+  }, [open, voice]);
 
   // Notify other floating widgets (e.g. Notebook) when chatbot opens/closes
   useEffect(() => {
