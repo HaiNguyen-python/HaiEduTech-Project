@@ -463,12 +463,12 @@ const LifestyleAcademy = () => {
 
       <main>
         {/* ────────── Hero ────────── */}
-        <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-emerald-50 via-white to-amber-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 pt-28 lg:pt-32">
+        <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-emerald-50 via-white to-amber-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 pt-20 lg:pt-24">
           <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl dark:bg-emerald-500/10" />
           <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-amber-300/25 blur-3xl dark:bg-amber-400/10" />
           
 
-          <div className="container relative mx-auto px-4 py-16 md:py-24">
+          <div className="container relative mx-auto px-4 py-8 md:py-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -529,9 +529,9 @@ const LifestyleAcademy = () => {
                 })}
               </div>
 
-              <div className="mt-10 grid grid-cols-3 gap-4 max-w-lg">
+              <div className="mt-6 grid grid-cols-3 gap-4 max-w-lg">
                 <StatChip value={`${LIFESTYLE_LESSONS.length}`} labelVi="Bài học chuyên sâu" labelEn="Deep lessons" />
-                <StatChip value="4" labelVi="Trụ cột" labelEn="Pillars" />
+                <StatChip value="6" labelVi="Trụ cột" labelEn="Pillars" />
                 <StatChip value="7-12" labelVi="Phút / bài" labelEn="Min / lesson" />
               </div>
             </motion.div>
@@ -542,7 +542,7 @@ const LifestyleAcademy = () => {
         {/* ────────── In-depth Lessons ────────── */}
         <section id="lessons" className="relative overflow-hidden border-y border-border/60 bg-gradient-to-br from-white to-emerald-50/40 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
           
-          <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
+          <div className="relative z-10 container mx-auto px-4 py-10 md:py-14">
             <div className="mb-8 max-w-2xl">
               <Badge variant="outline" className="mb-3 border-teal-400/50 bg-teal-50/70 text-teal-700 dark:border-teal-400/40 dark:bg-teal-500/10 dark:text-teal-300">
                 <Lightbulb className="mr-1.5 h-3.5 w-3.5" />
@@ -590,7 +590,7 @@ const LifestyleAcademy = () => {
 
         {/* ────────── Daily Reflection & Micro-Coach ────────── */}
         <section id="micro-coach" className="border-b border-border/60 bg-gradient-to-br from-slate-50 to-emerald-50/60 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
-          <div className="container mx-auto px-4 py-16 md:py-20">
+          <div className="container mx-auto px-4 py-10 md:py-14">
             <div className="mb-8 max-w-2xl">
               <Badge variant="outline" className="mb-3 border-amber-400/50 bg-amber-50/70 text-amber-700 dark:border-amber-400/40 dark:bg-amber-500/10 dark:text-amber-300">
                 {t("Nhật ký cảm xúc", "Daily Reflection")}
@@ -720,7 +720,7 @@ const LifestyleAcademy = () => {
         </section>
 
         {/* ────────── Closing CTA ────────── */}
-        <section className="container mx-auto px-4 py-16 md:py-24">
+        <section className="container mx-auto px-4 py-10 md:py-14">
           <div className="relative overflow-hidden rounded-3xl border border-emerald-200/60 bg-gradient-to-br from-emerald-500 via-teal-600 to-slate-800 p-8 md:p-14 shadow-xl shadow-emerald-500/20 dark:border-emerald-500/30">
             <div aria-hidden className="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-amber-300/30 blur-3xl" />
             <div className="relative max-w-2xl">
