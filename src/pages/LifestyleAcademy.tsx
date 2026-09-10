@@ -531,7 +531,7 @@ const LifestyleAcademy = () => {
 
               <div className="mt-6 grid grid-cols-3 gap-4 max-w-lg">
                 <StatChip value={`${LIFESTYLE_LESSONS.length}`} labelVi="Bài học chuyên sâu" labelEn="Deep lessons" />
-                <StatChip value="4" labelVi="Trụ cột" labelEn="Pillars" />
+                <StatChip value="6" labelVi="Trụ cột" labelEn="Pillars" />
                 <StatChip value="7-12" labelVi="Phút / bài" labelEn="Min / lesson" />
               </div>
             </motion.div>
