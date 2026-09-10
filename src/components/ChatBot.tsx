@@ -536,9 +536,10 @@ const ChatBot = () => {
   }, [open, loadStudentContext, refreshMemories]);
 
   // Stop Teacher Hai's voice when the panel closes.
+  const stopVoice = voice.stop;
   useEffect(() => {
-    if (!open) voice.stop();
-  }, [open, voice]);
+    if (!open) stopVoice();
+  }, [open, stopVoice]);
 
   // Notify other floating widgets (e.g. Notebook) when chatbot opens/closes
   useEffect(() => {
