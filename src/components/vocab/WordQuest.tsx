@@ -159,6 +159,9 @@ const WordQuest = ({
   );
   const [setIdx, setSetIdx] = useState<number | null>(null);
   const [stageIdx, setStageIdx] = useState<number | null>(null);
+  /** Every stage starts with a study walkthrough of all its words. */
+  const [phase, setPhase] = useState<"study" | "drill">("study");
+  const [studyIdx, setStudyIdx] = useState(0);
   const [queue, setQueue] = useState<Task[]>([]);
   const [cursor, setCursor] = useState(0);
   const [roundIdx, setRoundIdx] = useState(0);
