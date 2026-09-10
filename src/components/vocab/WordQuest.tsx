@@ -258,10 +258,18 @@ const WordQuest = ({
 
   // Auto-play the word when a listening-style step opens.
   useEffect(() => {
-    if (word && (kind === "meet" || kind === "listen")) speak(word.speakText);
+    if (phase === "drill" && word && (kind === "meet" || kind === "listen")) speak(word.speakText);
     return () => stopVoice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [word?.key, kind, cursor]);
+  }, [word?.key, kind, cursor, phase]);
+
+  // Read the word out loud whenever a study card opens.
+  const studyWord = stageIdx === null ? null : stages[stageIdx]?.[studyIdx] || null;
+  useEffect(() => {
+    if (phase === "study" && studyWord) speak(studyWord.speakText);
+    return () => stopVoice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [studyWord?.key, phase]);
 
   useEffect(() => () => {
     if (advanceTimer.current) window.clearTimeout(advanceTimer.current);
