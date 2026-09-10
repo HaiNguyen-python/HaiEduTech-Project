@@ -1390,58 +1390,58 @@ Input image → Backbone CNN → Neck FPN: multi-scale features → Detection he
 Self-driving cars, license-plate recognition (YOLO + CRNN), medical imaging (U-Net for tumour segmentation), retail analytics. With \`ultralytics/yolov8\` you can fine-tune a state-of-the-art detector on 200–500 labelled images in under an hour.
 
 > 💡 **Key concept** - The bottleneck in 2025 is no longer the model - it's the **labelling**.`,
-        code: `# Phát hiện vật thể trong thế giới thực chỉ với khoảng 10 dòng code sử dụng mô hình YOLOv8 đã được huấn luyện trước.
-# Để chạy được code này, bạn cần cài đặt thư viện ultralytics: pip install ultralytics
+        code: `# Real-world object detection in about 10 lines of code using a pretrained YOLOv8 model.
+# To run this code, install the ultralytics library: pip install ultralytics
 from ultralytics import YOLO
 
-# Tải mô hình YOLOv8n đã được huấn luyện trước.
-# "yolov8n.pt" là phiên bản "nano" của YOLOv8, có kích thước khoảng 6 MB và chạy rất nhanh trên GPU hiện đại.
-# Đầu vào: Tên file mô hình đã được huấn luyện (.pt).
-# Đầu ra: Một đối tượng mô hình YOLO đã sẵn sàng để dự đoán.
-model = YOLO("yolov8n.pt")  # ~6 MB, chạy với tốc độ 100+ FPS trên GPU hiện đại
+# Load a pretrained YOLOv8n model.
+# "yolov8n.pt" is the "nano" version of YOLOv8, about 6 MB in size and very fast on modern GPUs.
+# Input: name of the pretrained model file (.pt).
+# Output: a YOLO model object ready for prediction.
+model = YOLO("yolov8n.pt")  # ~6 MB, runs at 100+ FPS on modern GPUs
 
-# Thực hiện dự đoán trên một hình ảnh.
-# Đầu vào:
-#   - source: Đường dẫn đến hình ảnh hoặc video cần phát hiện (có thể là URL).
-#   - conf: Ngưỡng tin cậy tối thiểu để chấp nhận một vật thể được phát hiện (từ 0 đến 1).
-#   - iou: Ngưỡng IoU (Intersection over Union) cho Non-Maximum Suppression (NMS).
-#          NMS giúp loại bỏ các hộp giới hạn trùng lặp cho cùng một vật thể.
-#   - save: Nếu là True, hình ảnh đã được chú thích (vẽ hộp và nhãn) sẽ được lưu vào thư mục mặc định.
-# Đầu ra: Một danh sách các đối tượng kết quả dự đoán, mỗi đối tượng chứa thông tin về các vật thể được phát hiện.
+# Run prediction on an image.
+# Input:
+#   - source: path to the image or video to detect (can be a URL).
+#   - conf: minimum confidence threshold to accept a detected object (from 0 to 1).
+#   - iou: IoU (Intersection over Union) threshold for Non-Maximum Suppression (NMS).
+#          NMS removes duplicate bounding boxes for the same object.
+#   - save: if True, the annotated image (with boxes and labels drawn) is saved to the default folder.
+# Output: a list of prediction result objects, each containing info about detected objects.
 results = model.predict(
     source="https://ultralytics.com/images/bus.jpg",
-    conf=0.25,       # ngưỡng tin cậy tối thiểu
-    iou=0.45,        # ngưỡng IoU cho NMS (Non-Maximum Suppression)
-    save=True,       # lưu hình ảnh đã chú thích vào ./runs/detect/predict/
+    conf=0.25,       # minimum confidence threshold
+    iou=0.45,        # IoU threshold for NMS (Non-Maximum Suppression)
+    save=True,       # save the annotated image to ./runs/detect/predict/
 )
 
-# Lặp qua từng kết quả dự đoán (trong trường hợp dự đoán nhiều hình ảnh/video).
-# Đầu vào: Danh sách các đối tượng kết quả từ model.predict().
-# Đầu ra: In ra thông tin chi tiết về các vật thể được phát hiện cho mỗi hình ảnh.
+# Loop over each prediction result (in case predicting multiple images/videos).
+# Input: list of result objects from model.predict().
+# Output: prints detailed info about detected objects for each image.
 for r in results:
-    # In ra tổng số vật thể được phát hiện trong hình ảnh hiện tại và đường dẫn của hình ảnh.
+    # Print the total number of objects detected in the current image and its path.
     print(f"Detected {len(r.boxes)} objects in {r.path}")
-    # Lặp qua từng hộp giới hạn (box), lớp (class) và điểm tin cậy (score) của các vật thể được phát hiện.
-    # r.boxes.xyxy: Tọa độ của các hộp giới hạn (x1, y1, x2, y2).
-    # r.boxes.cls: ID của lớp vật thể.
-    # r.boxes.conf: Điểm tin cậy của vật thể.
+    # Loop over each bounding box, class, and confidence score of the detected objects.
+    # r.boxes.xyxy: coordinates of the bounding boxes (x1, y1, x2, y2).
+    # r.boxes.cls: class ID of the object.
+    # r.boxes.conf: confidence score of the object.
     for box, cls, score in zip(r.boxes.xyxy, r.boxes.cls, r.boxes.conf):
-        # Chuyển đổi tọa độ hộp giới hạn từ tensor sang danh sách Python.
+        # Convert bounding box coordinates from tensor to a Python list.
         x1, y1, x2, y2 = box.tolist()
-        # In thông tin chi tiết về từng vật thể: tên lớp, điểm tin cậy và tọa độ hộp giới hạn.
-        # model.names[int(cls)] chuyển ID lớp thành tên lớp dễ đọc.
-        # Định dạng chuỗi để căn chỉnh và làm tròn số.
+        # Print detailed info about each object: class name, confidence score, and bounding box coordinates.
+        # model.names[int(cls)] converts the class ID into a readable class name.
+        # Format the string for alignment and rounding.
         print(f"  {model.names[int(cls)]:12s} conf={score:.2f}  "
               f"box=({x1:.0f},{y1:.0f})->({x2:.0f},{y2:.0f})")
 
-# Để huấn luyện mô hình trên tập dữ liệu của riêng bạn:
+# To train the model on your own dataset:
 # model.train(data="my_dataset.yaml", epochs=50, imgsz=640, batch=16)
-# Đầu vào:
-#   - data: Đường dẫn đến file cấu hình dataset (ví dụ: my_dataset.yaml).
-#   - epochs: Số lần lặp lại toàn bộ quá trình huấn luyện trên dataset.
-#   - imgsz: Kích thước hình ảnh đầu vào cho mô hình.
-#   - batch: Số lượng hình ảnh được xử lý cùng lúc trong mỗi bước huấn luyện.
-# Đầu ra: Một mô hình đã được huấn luyện trên dữ liệu của bạn.
+# Input:
+#   - data: path to the dataset config file (e.g. my_dataset.yaml).
+#   - epochs: number of times to loop through the entire training dataset.
+#   - imgsz: input image size for the model.
+#   - batch: number of images processed at once in each training step.
+# Output: a model trained on your data.
 `,
         codeLanguage: "python",
         exercise: "Chạy trên một ảnh khác, sau đó thay đổi `conf=0.25` thành `conf=0.7` và quan sát số lượng hộp bạn nhận được. Đếm các lớp riêng biệt được phát hiện bằng cách sử dụng một `set` của Python trên `r.boxes.cls`.",
@@ -1559,42 +1559,42 @@ Famously unstable - too-strong D crushes G's gradient; too-weak D gives no usefu
 By 2022, **diffusion models** (Stable Diffusion, DALL-E 3) overtook GANs for general image synthesis. But GANs still dominate niches: real-time generation (NVIDIA DLSS), audio synthesis (HiFi-GAN), super-resolution.
 
 > 💡 **Key concept** - A GAN learns a distribution **implicitly** by drawing samples from it, rather than estimating its density.`,
-        code: `# Tiny GAN học để sinh mẫu từ phân phối 1-D hai đỉnh (bimodal)
-# Nhập các module cần thiết từ PyTorch
+        code: `# Tiny GAN learning to generate samples from a 1-D bimodal distribution
+# Import required modules from PyTorch
 import torch
 import torch.nn as nn
 
-# Dữ liệu thực: sampler trả về các mẫu 1-D từ phân phối hai đỉnh (hai mode)
+# Real data: sampler returns 1-D samples from a bimodal (two-mode) distribution
 REAL_SAMPLER = lambda n: torch.cat([
     torch.randn(n // 2) * 0.5 - 2.0,   # left mode at -2
     torch.randn(n // 2) * 0.5 + 2.0,   # right mode at +2
 ]).unsqueeze(1)
 
-# Định nghĩa kiến trúc mạng cho Generator và Discriminator (mạng nhỏ)
+# Define the network architecture for Generator and Discriminator (small networks)
 G = nn.Sequential(nn.Linear(1, 32), nn.ReLU(), nn.Linear(32, 1))
 D = nn.Sequential(nn.Linear(1, 32), nn.ReLU(), nn.Linear(32, 1), nn.Sigmoid())
 
-# Khởi tạo bộ tối ưu cho G và D và định nghĩa hàm mất mát BCE
+# Initialize optimizers for G and D and define the BCE loss function
 opt_G = torch.optim.Adam(G.parameters(), lr=1e-3)
 opt_D = torch.optim.Adam(D.parameters(), lr=1e-3)
 bce = nn.BCELoss()
 
-# Vòng lặp huấn luyện chính
+# Main training loop
 for step in range(2000):
-    # Huấn luyện discriminator
+    # Train the discriminator
     real = REAL_SAMPLER(64)
     z = torch.randn(64, 1)
     fake = G(z).detach()
     loss_D = bce(D(real), torch.ones(64, 1)) + bce(D(fake), torch.zeros(64, 1))
     opt_D.zero_grad(); loss_D.backward(); opt_D.step()
 
-    # Huấn luyện generator (muốn D gọi mẫu giả là 'thực')
+    # Train the generator (wants D to call fake samples 'real')
     z = torch.randn(64, 1)
     fake = G(z)
     loss_G = bce(D(fake), torch.ones(64, 1))
     opt_G.zero_grad(); loss_G.backward(); opt_G.step()
 
-    # In mẫu và loss mỗi 400 bước để theo dõi
+    # Print samples and loss every 400 steps to monitor progress
     if step % 400 == 0:
         with torch.no_grad():
             samples = G(torch.randn(1000, 1)).squeeze().numpy()
@@ -1702,33 +1702,33 @@ Running diffusion on 1024×1024 RGB pixels is too expensive. **Stable Diffusion*
 Condition the denoiser on a **text embedding** from CLIP/T5. **Classifier-Free Guidance** amplifies prompt influence at sample time.
 
 > 💡 **Key concept** - A diffusion model is a **denoiser** trained at every noise level. Generation = repeatedly denoising pure noise into something meaningful. With text conditioning, this single idea powers Stable Diffusion, DALL-E 3, Midjourney, and Sora.`,
-        code: `# Sử dụng một mô hình Stable Diffusion đã được huấn luyện trước từ Hugging Face
-# Để chạy được code này, cần cài đặt các thư viện sau:
+        code: `# Use a pretrained Stable Diffusion model from Hugging Face
+# To run this code, install the following libraries:
 # pip install diffusers transformers accelerate torch
 
-# Nhập thư viện torch để làm việc với tensor và GPU
+# Import the torch library to work with tensors and GPU
 import torch
-# Nhập lớp StableDiffusionPipeline từ thư viện diffusers
+# Import the StableDiffusionPipeline class from the diffusers library
 from diffusers import StableDiffusionPipeline
 
-# Tải mô hình Stable Diffusion đã được huấn luyện trước
-# "runwayml/stable-diffusion-v1-5" là tên của mô hình trên Hugging Face
-# torch_dtype=torch.float16 giúp sử dụng ít bộ nhớ hơn và tăng tốc độ tính toán trên GPU
+# Load a pretrained Stable Diffusion model
+# "runwayml/stable-diffusion-v1-5" is the model name on Hugging Face
+# torch_dtype=torch.float16 uses less memory and speeds up computation on GPU
 pipe = StableDiffusionPipeline.from_pretrained(
     "runwayml/stable-diffusion-v1-5",
     torch_dtype=torch.float16,
 )
-# Di chuyển mô hình lên GPU nếu có, nếu không thì dùng CPU
-# Điều này giúp tăng tốc độ tạo ảnh đáng kể
+# Move the model to GPU if available, otherwise use CPU
+# This significantly speeds up image generation
 pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
-# Định nghĩa câu lệnh (prompt) để mô tả hình ảnh muốn tạo
+# Define the prompt describing the image to generate
 prompt = "A photorealistic cat astronaut on Mars, cinematic lighting"
-# Gọi mô hình để tạo ảnh dựa trên prompt
-# num_inference_steps: số bước suy luận, càng cao ảnh càng chi tiết nhưng tốn thời gian hơn
-# guidance_scale: mức độ mô hình tuân thủ prompt, giá trị cao hơn sẽ tạo ảnh sát với mô tả hơn
-# height, width: kích thước của ảnh đầu ra
-# .images[0] lấy ra ảnh đầu tiên (và duy nhất trong trường hợp này) từ kết quả
+# Call the model to generate an image based on the prompt
+# num_inference_steps: number of inference steps, higher means more detail but takes longer
+# guidance_scale: how closely the model follows the prompt, higher values stay closer to the description
+# height, width: size of the output image
+# .images[0] gets the first (and only, in this case) image from the result
 image = pipe(
     prompt=prompt,
     num_inference_steps=30,
@@ -1736,22 +1736,22 @@ image = pipe(
     height=512, width=512,
 ).images[0]
 
-# Lưu ảnh đã tạo ra vào một tệp tin
-# Đầu ra: Một tệp ảnh tên "cat_astronaut.png"
+# Save the generated image to a file
+# Output: an image file named "cat_astronaut.png"
 image.save("cat_astronaut.png")
-# In thông báo xác nhận đã lưu ảnh
+# Print a confirmation message that the image was saved
 print("Saved cat_astronaut.png")
 
-# Tạo 4 biến thể ảnh khác nhau từ cùng một prompt
-# Bằng cách truyền một danh sách prompt (ở đây là prompt lặp lại 4 lần)
-# Đầu ra: Một danh sách các đối tượng ảnh
+# Generate 4 different image variations from the same prompt
+# By passing a list of prompts (here the same prompt repeated 4 times)
+# Output: a list of image objects
 images = pipe(prompt=[prompt] * 4, num_inference_steps=30).images
-# Lặp qua từng ảnh trong danh sách các biến thể
-# và lưu chúng với tên tệp khác nhau
+# Loop over each image in the list of variations
+# and save them with different filenames
 for i, img in enumerate(images):
-    # Lưu ảnh với tên tệp có dạng "variation_0.png", "variation_1.png", v.v.
+    # Save the image with a filename like "variation_0.png", "variation_1.png", etc.
     img.save(f"variation_{i}.png")
-# Đầu ra mong đợi: 4 tệp ảnh có tên "variation_0.png", "variation_1.png", "variation_2.png", "variation_3.png"
+# Expected output: 4 image files named "variation_0.png", "variation_1.png", "variation_2.png", "variation_3.png"
 `,
         codeLanguage: "python",
         exercise: "Hãy thử `guidance_scale=3.0` sau đó là `15.0`. Mô tả sự thay đổi trong sự cân bằng giữa độ trung thực với câu lệnh và tính sáng tạo. Sau đó, thêm `negative_prompt='blurry, low quality, watermark'` và quan sát sự cải thiện về chất lượng.",
@@ -1867,19 +1867,19 @@ Don't fine-tune for **facts** - that's RAG's job. Fine-tune for:
 - **Latency / cost** - a fine-tuned 1B can replace a 70B prompt and cut bills 50×
 
 > 💡 **Key concept** - In 2025, the modern AI engineer's stack: pick a strong open-weight base, wire up RAG for facts, apply LoRA/QLoRA for format & style. No one starts from scratch.`,
-        code: `# Fine-tuning QLoRA cho Llama-3-8B trong ~30 dòng - chạy trên 1 GPU 16 GB
-# cài đặt: pip install transformers peft accelerate bitsandbytes datasets trl
-# Import các thư viện cần thiết
+        code: `# QLoRA fine-tuning for Llama-3-8B in ~30 lines - runs on a single 16 GB GPU
+# install: pip install transformers peft accelerate bitsandbytes datasets trl
+# Import required libraries
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from datasets import load_dataset
 from trl import SFTTrainer, SFTConfig
 
-# Định danh model gốc
+# Base model identifier
 MODEL = "meta-llama/Meta-Llama-3-8B"
 
-# Tải model gốc ở độ chính xác 4-bit (QLoRA)
+# Load the base model at 4-bit precision (QLoRA)
 bnb = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_quant_type="nf4",
@@ -1889,7 +1889,7 @@ model = AutoModelForCausalLM.from_pretrained(MODEL, quantization_config=bnb, dev
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 tokenizer.pad_token = tokenizer.eos_token
 
-# Bọc model bằng LoRA - chỉ ~0.5% tham số sẽ được huấn luyện
+# Wrap the model with LoRA - only ~0.5% of parameters will be trained
 model = prepare_model_for_kbit_training(model)
 lora = LoraConfig(
     r=16, lora_alpha=32, lora_dropout=0.05,
@@ -1897,12 +1897,12 @@ lora = LoraConfig(
     bias="none", task_type="CAUSAL_LM",
 )
 model = get_peft_model(model, lora)
-model.print_trainable_parameters()  # ví dụ 41.9M / 8.0B (0.52%)
+model.print_trainable_parameters()  # e.g. 41.9M / 8.0B (0.52%)
 
-# Tải dataset từ file jsonl
+# Load the dataset from a jsonl file
 dataset = load_dataset("json", data_files="my_instructions.jsonl", split="train")
 
-# Khởi tạo trainer cho SFT (supervised fine-tuning)
+# Initialize the trainer for SFT (supervised fine-tuning)
 trainer = SFTTrainer(
     model=model,
     train_dataset=dataset,
@@ -1916,9 +1916,9 @@ trainer = SFTTrainer(
         logging_steps=10,
     ),
 )
-# Huấn luyện model
+# Train the model
 trainer.train()
-trainer.save_model("llama3-lora-vi")  # adapter ~80 MB so với 16 GB model đầy đủ`,
+trainer.save_model("llama3-lora-vi")  # adapter ~80 MB compared to the 16 GB full model`,
         codeLanguage: "python",
         exercise: `Lên kế hoạch cho dự án tinh chỉnh chatbot hỗ trợ khách hàng tiếng Việt với 3 gạch đầu dòng:
 *   **Mô hình cơ sở và lý do:** \`ViText-BART-base\` vì nó được đào tạo trước chuyên biệt cho tiếng Việt và các tác vụ hiểu/sinh ngôn ngữ, giúp nắm bắt ngữ cảnh và tạo ra câu trả lời tự nhiên, chính xác hơn.

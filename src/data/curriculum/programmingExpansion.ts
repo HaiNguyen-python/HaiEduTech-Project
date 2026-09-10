@@ -1125,55 +1125,55 @@ Either old or new file - never half-written.
 ## Bridge
 
 Next: **Advanced SQL Window Functions** - once data is in DB, how to rank, compute running totals, moving averages efficiently.`,
-        code: `# Nhập thư viện 'json' để làm việc với dữ liệu JSON.
+        code: `# Import the 'json' library to work with JSON data.
 import json
-# Nhập thư viện 'csv' để làm việc với dữ liệu CSV.
+# Import the 'csv' library to work with CSV data.
 import csv
-# Nhập 'StringIO' từ module 'io' để xử lý chuỗi như một file.
+# Import 'StringIO' from the 'io' module to treat a string like a file.
 from io import StringIO
 
-# Ví dụ về xử lý JSON.
+# Example of working with JSON.
 
-# Dữ liệu Python dạng dictionary (từ điển) để chuyển đổi thành JSON.
+# Python dictionary data to convert into JSON.
 data = {
     "students": [
         {"name": "An", "score": 85},
         {"name": "Binh", "score": 92}
     ]
 }
-# Chuyển đổi dictionary 'data' thành chuỗi JSON.
-# 'indent=2' giúp định dạng JSON dễ đọc hơn với 2 khoảng trắng thụt vào.
-# 'ensure_ascii=False' cho phép hiển thị ký tự tiếng Việt mà không bị mã hóa.
-# Đầu vào: dictionary 'data'.
-# Đầu ra: chuỗi JSON 'json_str'.
+# Convert the 'data' dictionary into a JSON string.
+# 'indent=2' makes the JSON more readable with 2-space indentation.
+# 'ensure_ascii=False' allows non-ASCII characters to display without being escaped.
+# Input: the 'data' dictionary.
+# Output: the JSON string 'json_str'.
 json_str = json.dumps(data, indent=2, ensure_ascii=False)
-# In ra tiêu đề cho phần output JSON.
+# Print the header for the JSON output section.
 print("JSON output:")
-# In chuỗi JSON đã được định dạng.
-# Kết quả mong đợi: chuỗi JSON với dữ liệu sinh viên.
+# Print the formatted JSON string.
+# Expected output: a JSON string with the student data.
 print(json_str)
 
-# Ví dụ về xử lý CSV.
+# Example of working with CSV.
 
-# Dữ liệu CSV dạng chuỗi. '\\\\n' được dùng để biểu thị xuống dòng.
+# CSV data as a string. '\\\\n' is used to indicate a newline.
 csv_data = "Name,Score\\\\nAn,85\\\\nBinh,92"
-# Tạo một đối tượng StringIO từ chuỗi CSV để 'csv.DictReader' có thể đọc nó như một file.
-# Đầu vào: chuỗi 'csv_data'.
-# Đầu ra: đối tượng giống file chứa dữ liệu CSV.
-# Tạo một 'DictReader' để đọc dữ dữ liệu CSV.
-# 'DictReader' sẽ đọc mỗi hàng thành một dictionary, với khóa là tên cột (header).
-# Đầu vào: đối tượng giống file từ StringIO.
-# Đầu ra: đối tượng 'reader' có thể lặp qua từng hàng CSV dưới dạng dictionary.
+# Create a StringIO object from the CSV string so 'csv.DictReader' can read it like a file.
+# Input: the 'csv_data' string.
+# Output: a file-like object containing the CSV data.
+# Create a 'DictReader' to read the CSV data.
+# 'DictReader' reads each row into a dictionary, with keys taken from the header.
+# Input: the file-like object from StringIO.
+# Output: a 'reader' object that can iterate over each CSV row as a dictionary.
 reader = csv.DictReader(StringIO(csv_data))
-# In ra tiêu đề cho phần output CSV.
+# Print the header for the CSV output section.
 print("\\\\nCSV rows:")
-# Lặp qua từng hàng được đọc bởi 'csv.DictReader'.
-# Mỗi 'row' là một dictionary, ví dụ: {'Name': 'An', 'Score': '85'}.
+# Loop through each row read by 'csv.DictReader'.
+# Each 'row' is a dictionary, e.g. {'Name': 'An', 'Score': '85'}.
 for row in reader:
-    # In tên và điểm của mỗi sinh viên từ dictionary 'row'.
-    # Đầu vào: dictionary 'row' (ví dụ: {'Name': 'An', 'Score': '85'}).
-    # Đầu ra: in ra chuỗi định dạng "  Tên: Điểm".
-    # Kết quả mong đợi: in ra từng hàng CSV đã được phân tích.
+    # Print the name and score of each student from the 'row' dictionary.
+    # Input: the 'row' dictionary (e.g. {'Name': 'An', 'Score': '85'}).
+    # Output: prints a formatted string "  Name: Score".
+    # Expected output: prints each parsed CSV row.
     print(f"  {row['Name']}: {row['Score']}")`,
         codeLanguage: "python",
         exercise: "Write a function to read a JSON file containing a list of students and calculate the average score",

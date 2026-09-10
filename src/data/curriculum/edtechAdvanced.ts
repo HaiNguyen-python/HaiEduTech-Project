@@ -220,7 +220,7 @@ def sm2(card: Card, q: int) -> Card:
     ef = max(1.3, card.ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
     return Card(repetitions=reps, interval=interval, ef=ef)
 
-# Mô phỏng 6 phiên - user nhớ tốt dần
+# Simulate 6 sessions - user memory gradually improves
 c = Card()
 for q in [3, 4, 5, 5, 4, 5]:
     c = sm2(c, q)
@@ -457,7 +457,7 @@ def update_theta(theta: float, a: float, b: float, correct: bool, lr: float = 0.
     grad = a * ((1 if correct else 0) - p)
     return theta + lr * grad
 
-# Mô phỏng: user thật có θ_true = 0.6, ta khởi tạo 0.0 rồi học dần qua 20 câu
+# Simulation: the real user has theta_true = 0.6, we start at 0.0 and learn gradually over 20 questions
 random.seed(1)
 theta_true, theta_est = 0.6, 0.0
 items = [(random.uniform(0.7, 1.6), random.uniform(-1.5, 1.5)) for _ in range(20)]
@@ -677,29 +677,29 @@ PII    = re.compile(r"(\\b\\d{10,11}\\b|\\b[\\w.]+@[\\w.]+\\.[a-z]{2,}\\b)")
 
 def safety_pre(msg: str) -> tuple[bool, str]:
     if BANNED.search(msg):
-        return False, "Bạn ơi, mình không thể giúp chủ đề này. Mình có thể giúp gì khác?"
+        return False, "Sorry, I cannot help with this topic. What else can I help with?"
     return True, PII.sub("[REDACTED]", msg)
 
 def build_prompt(student, retrieved_chunks, msg):
     persona = {
-        "kid":   "Bạn là cô giáo dịu dàng cho học sinh tiểu học, dùng ví dụ đồ chơi.",
-        "teen":  "Bạn là gia sư khuyến khích học sinh THCS tự tìm câu trả lời.",
-        "adult": "Bạn là cố vấn học tập súc tích, được dùng thuật ngữ chuyên ngành.",
+        "kid":   "You are a gentle teacher for elementary students, using toy examples.",
+        "teen":  "You are a tutor who encourages middle-school students to find answers themselves.",
+        "adult": "You are a concise study advisor, allowed to use technical terminology.",
     }[student["band"]]
     context = "\\n---\\n".join(c["text"] for c in retrieved_chunks) or "(không có)"
     return f"""[ROLE] {persona}
-[GROUNDING] CHỈ dùng nội dung sau; nếu thiếu hãy nói 'mình chưa chắc'.
+[GROUNDING] ONLY use the content below; if missing, say not sure.
 {context}
 [STUDENT_STATE] lesson={student['lesson']} mastery={student['mastery']:.2f}
-[PEDAGOGY] Hỏi ngược 1 câu định hướng trước khi đưa đáp án.
+[PEDAGOGY] Ask 1 guiding question back before giving the answer.
 [QUESTION] {msg}
 [OUTPUT_JSON] {{ "reply": str, "citations": [str], "asked_back": bool }}"""
 
-ok, clean = safety_pre("Em muốn hỏi về phép cộng, sđt của em là 0987654321")
+ok, clean = safety_pre("I want to ask about addition, my phone number is 0987654321")
 print("safe:", ok, "→", clean)
 print(build_prompt({"band":"kid","lesson":"add-2digit","mastery":0.42},
-                   [{"text":"Phép cộng 2 chữ số: đặt thẳng cột, cộng từ phải."}],
-                   "Tại sao 17 + 25 = 42?")[:300], "...")`,
+                   [{"text":"2-digit addition: line up columns, add from the right."}],
+                   "Why is 17 + 25 = 42?")[:300], "...")`,
         codeLanguage: "python",
         exercise:
           "Thêm safety_post(reply, retrieved_chunks) trả False nếu reply chứa số liệu KHÔNG xuất hiện trong bất kỳ chunk nào (chống bịa số).",
@@ -905,67 +905,67 @@ The LLM grades **each criterion separately** against concrete anchors (e.g. "9 =
 - **Speaking grading**: WER isn't enough - you also need fluency (WPM, filled pauses), pronunciation (GOP score), and content evaluated separately.
 `,
         code: `# Per-criterion rubric grader stub (LLM call faked)
-# Đây là một đoạn mã giả lập việc chấm điểm bài luận dựa trên các tiêu chí (rubric).
-# Nó giả lập cuộc gọi đến một mô hình ngôn ngữ lớn (LLM) để chấm điểm.
+# This snippet simulates grading an essay against rubric criteria.
+# It fakes a call to a large language model (LLM) to do the grading.
 import json, statistics
 
-# Định nghĩa các tiêu chí chấm điểm (rubric).
-# Mỗi tiêu chí có một trọng số (weight) và điểm tối đa (max).
+# Define the grading criteria (rubric).
+# Each criterion has a weight and a max score.
 RUBRIC = {
-    "task_response": {"weight": 0.25, "max": 9}, # Tiêu chí phản hồi nhiệm vụ
-    "coherence":     {"weight": 0.25, "max": 9}, # Tiêu chí mạch lạc
-    "lexical":       {"weight": 0.25, "max": 9}, # Tiêu chí từ vựng
-    "grammar":       {"weight": 0.25, "max": 9}, # Tiêu chí ngữ pháp
+    "task_response": {"weight": 0.25, "max": 9}, # Task response criterion
+    "coherence":     {"weight": 0.25, "max": 9}, # Coherence criterion
+    "lexical":       {"weight": 0.25, "max": 9}, # Lexical resource criterion
+    "grammar":       {"weight": 0.25, "max": 9}, # Grammar criterion
 }
 
-# Hàm giả lập việc chấm điểm của LLM cho một tiêu chí cụ thể.
-# Đầu vào: essay (bài luận), criterion (tiêu chí).
-# Đầu ra: Một từ điển chứa điểm số, bằng chứng và phản hồi.
+# Function that fakes the LLM grading for a specific criterion.
+# Input: essay, criterion.
+# Output: a dict with score, evidence, and feedback.
 def fake_llm_judge(essay: str, criterion: str) -> dict:
     """Stub - replace with structured-output LLM call."""
-    # Đây là hàm giả lập, cần được thay thế bằng cuộc gọi LLM thực tế.
-    # Tính điểm cơ bản với một chút biến thể nhỏ dựa vào độ dài bài luận.
+    # This is a stub; replace with an actual LLM call.
+    # Compute a base score with a small variation based on essay length.
     base = 6 + (len(essay) % 3)        # toy variation
-    # Trả về một từ điển với điểm số (giới hạn tối đa là 9),
-    # bằng chứng (40 ký tự đầu của bài luận) và phản hồi chung.
+    # Return a dict with the score (capped at 9),
+    # evidence (first 40 characters of the essay), and general feedback.
     return {"score": min(9, base), "evidence": [essay[:40]],
             "feedback": f"Improve {criterion} by adding specific examples."}
 
-# Hàm làm tròn điểm về nửa band (ví dụ: 6.0, 6.5, 7.0).
-# Đầu vào: x (điểm số dạng float).
-# Đầu ra: Điểm đã làm tròn về nửa band.
+# Function to round a score to the nearest half band (e.g. 6.0, 6.5, 7.0).
+# Input: x (float score).
+# Output: the score rounded to the nearest half band.
 def half_band(x: float) -> float:
     return round(x * 2) / 2
 
-# Hàm chính để chấm điểm toàn bộ bài luận.
-# Đầu vào: essay (bài luận).
-# Đầu ra: Một từ điển chứa điểm tổng thể, điểm từng tiêu chí, độ tin cậy và liệu có cần người xem lại không.
+# Main function to grade an entire essay.
+# Input: essay.
+# Output: a dict with overall score, per-criterion scores, confidence, and whether human review is needed.
 def grade_essay(essay: str) -> dict:
-    # Chấm điểm từng tiêu chí bằng cách gọi hàm fake_llm_judge.
-    # Đầu vào: bài luận và từng tiêu chí từ RUBRIC.
-    # Đầu ra: Một từ điển chứa kết quả chấm điểm cho mỗi tiêu chí.
+    # Grade each criterion by calling fake_llm_judge.
+    # Input: the essay and each criterion from RUBRIC.
+    # Output: a dict with the grading result for each criterion.
     per = {c: fake_llm_judge(essay, c) for c in RUBRIC}
-    # Tính điểm tổng thể bằng cách lấy tổng điểm từng tiêu chí nhân với trọng số tương ứng,
-    # sau đó làm tròn về nửa band.
+    # Compute the overall score by summing each criterion score times its weight,
+    # then round to the nearest half band.
     overall = half_band(sum(per[c]["score"] * RUBRIC[c]["weight"] for c in RUBRIC))
-    # Tính độ lệch chuẩn của các điểm thành phần để đánh giá độ "phân tán" của điểm.
+    # Compute the standard deviation of the component scores to assess how spread out they are.
     spread = statistics.pstdev([per[c]["score"] for c in RUBRIC])
-    # Xác định độ tin cậy dựa trên độ lệch chuẩn.
-    # Nếu độ lệch chuẩn nhỏ, độ tin cậy cao.
+    # Determine confidence based on the standard deviation.
+    # A small spread means high confidence.
     confidence = "high" if spread < 1.0 else "medium" if spread < 2.0 else "low"
-    # Xác định xem bài luận có cần người xem lại hay không.
-    # Cần xem lại nếu độ tin cậy thấp hoặc điểm tổng thể là 6.0 hoặc 7.0 (có thể là điểm biên).
+    # Determine whether the essay needs human review.
+    # Needs review if confidence is low or the overall score is 6.0 or 7.0 (possible borderline score).
     return {"overall": overall, "per": per, "confidence": confidence,
             "needs_human_review": confidence == "low" or overall in (6.0, 7.0)}
 
-# Chấm điểm một bài luận mẫu (được lặp lại 20 lần để có độ dài).
-# Đầu vào: Một chuỗi văn bản dài.
-# Đầu ra: Một từ điển chứa kết quả chấm điểm.
+# Grade a sample essay (repeated 20 times for length).
+# Input: a long text string.
+# Output: a dict with the grading result.
 result = grade_essay("Nowadays, technology helps students learn faster ... " * 20)
-# In kết quả ra màn hình dưới dạng JSON dễ đọc.
-# ensure_ascii=False để hiển thị ký tự tiếng Việt nếu có.
-# indent=2 để định dạng JSON có thụt lề 2 khoảng trắng.
-# Kết quả mong đợi là một đối tượng JSON với các trường "overall", "per", "confidence", "needs_human_review".
+# Print the result as readable JSON.
+# ensure_ascii=False so non-ASCII characters render properly.
+# indent=2 to format the JSON with 2-space indentation.
+# Expected output is a JSON object with fields overall, per, confidence, needs_human_review.
 print(json.dumps(result, ensure_ascii=False, indent=2))`,
         codeLanguage: "python",
         exercise:

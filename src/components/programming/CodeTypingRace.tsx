@@ -148,10 +148,19 @@ function stripComments(raw: string, language: string): string {
     .join("\n");
 }
 
+/** Any Vietnamese-accented character - code drills must stay English-only. */
+const VIETNAMESE_RE =
+  /[ăâđêôơưĂÂĐÊÔƠƯáàảãạắằẳẵặấầẩẫậéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵÁÀẢÃẠÉÈẺẼẸÍÌỈĨỊÓÒỎÕỌÚÙỦŨỤÝỲỶỸỴ]/;
+
 function normalizeFullSource(raw: string, language: string = ""): string {
   raw = stripEmojis(raw || "");
   if (!raw.trim()) return "";
   raw = stripComments(raw, language);
+  // Safety net: never ask learners to type Vietnamese prose inside a code drill.
+  raw = raw
+    .split("\n")
+    .filter((line) => !VIETNAMESE_RE.test(line))
+    .join("\n");
   const lines = raw
     .split("\n")
     .map((l) => l.replace(/\t/g, "  ").trimEnd());
