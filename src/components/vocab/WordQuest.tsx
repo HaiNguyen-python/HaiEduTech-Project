@@ -616,6 +616,105 @@ const WordQuest = ({
     );
   }
 
+  // ── Study phase: full information for every word of the stage, one by one ──
+  if (phase === "study") {
+    const sIdx = Math.min(studyIdx, stage.length - 1);
+    const sw = stage[sIdx];
+    const swEmoji = resolveVocabEmoji(sw.definition.en, sw.category);
+    const isLast = sIdx >= stage.length - 1;
+    const startDrill = () => {
+      stopVoice();
+      save({ ...progress, studied: { ...(progress.studied || {}), [stageIdx]: true } });
+      setPhase("drill");
+    };
+    return (
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <Button variant="ghost" size="sm" onClick={() => { stopVoice(); setStageIdx(null); }}>
+            ← {t("Bản đồ chặng", "Stage map")}
+          </Button>
+          <Badge variant="outline">{t("Chặng", "Stage")} {stageIdx + 1}</Badge>
+          <Badge variant="secondary">
+            {t("Học từ", "Study the words")} · {sIdx + 1}/{stage.length}
+          </Badge>
+          <Button variant="ghost" size="sm" onClick={startDrill} className="gap-1">
+            {t("Bỏ qua phần học", "Skip study")} <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="mb-4 flex gap-1.5">
+          {stage.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`${t("Từ", "Word")} ${i + 1}`}
+              onClick={() => setStudyIdx(i)}
+              className={`h-2 flex-1 rounded-full ${i < sIdx ? "bg-emerald-500" : i === sIdx ? "bg-primary" : "bg-secondary"}`}
+            />
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={sw.key}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            className="rounded-2xl border border-primary/30 bg-card p-6 sm:p-8"
+          >
+            <div className="flex flex-col items-center gap-3 text-center">
+              <div className="text-6xl">{swEmoji}</div>
+              <h3 className="text-3xl font-extrabold text-foreground">{sw.word}</h3>
+              {sw.subtitle && sw.subtitle !== sw.ipa && (
+                <p className="text-base font-semibold text-primary">{sw.subtitle}</p>
+              )}
+              {sw.ipa && <p className="font-mono text-sm text-muted-foreground">{sw.ipa}</p>}
+              {sw.partOfSpeech && <Badge variant="secondary">{sw.partOfSpeech}</Badge>}
+              <p className="text-lg font-semibold text-foreground">{sw.definition.vi}</p>
+              <p className="text-sm text-muted-foreground">{sw.definition.en}</p>
+              {sw.example && (
+                <div className="mt-2 w-full rounded-xl bg-secondary/50 p-3">
+                  <p className="text-sm italic text-foreground">"{sw.example}"</p>
+                  {sw.exampleTranslation && (
+                    <p className="mt-1 text-xs text-muted-foreground">{sw.exampleTranslation}</p>
+                  )}
+                </div>
+              )}
+              <div className="mt-2 flex flex-wrap justify-center gap-2">
+                <Button variant="outline" onClick={() => speak(sw.speakText)} className="gap-2">
+                  <Volume2 className="h-4 w-4" /> {t("Nghe", "Listen")}
+                </Button>
+                <Button variant="outline" onClick={() => speak(sw.speakText, true)} className="gap-2">
+                  <Volume2 className="h-4 w-4" /> {t("Nghe chậm", "Slow")}
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <Button
+            variant="outline"
+            disabled={sIdx === 0}
+            onClick={() => setStudyIdx(i => Math.max(0, i - 1))}
+          >
+            ← {t("Từ trước", "Previous")}
+          </Button>
+          {isLast ? (
+            <Button onClick={startDrill} className="gap-2">
+              {t("Bắt đầu luyện tập", "Start practice")} <ChevronRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button onClick={() => setStudyIdx(i => Math.min(stage.length - 1, i + 1))} className="gap-2">
+              {t("Từ tiếp", "Next word")} <ChevronRight className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (!word) return null;
+
   const emoji = resolveVocabEmoji(word.definition.en, word.category);
   const answer = word.typeAnswer;
   const hint = answer
