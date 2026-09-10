@@ -324,34 +324,33 @@ const Navbar = () => {
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/placement-test?subject=vietnamese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
-    { to: "#vn-div1", label: "", divider: true },
     { to: "#vn-curriculum-group", label: t("📚 Chương trình học", "📚 Curriculum"), groupLabel: "vn-curriculum", children: [
       { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp Tiếng Việt", "📝 Vietnamese Grammar") },
       { to: "/learn-vietnamese/vocabulary", label: t("📖 Từ vựng Tiếng Việt", "📖 Vietnamese Vocabulary") },
       { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử & Văn hóa Việt Nam", "📜 Vietnamese History & Culture") },
       { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ Vietnamese National Anthem") },
+      { to: "/specialized-language?lang=vietnamese", label: t("🧠 Tiếng Việt Chuyên ngành", "🧠 Specialized Vietnamese") },
     ] },
     { to: "#vn-culture-group", label: t("🎎 Văn hóa & Đời sống", "🎎 Culture & Lifestyle"), groupLabel: "vn-culture", children: [
       { to: "/learn-vietnamese/cuisine", label: t("🍜 Ẩm thực Việt Nam", "🍜 Vietnamese Cuisine") },
       { to: "/learn-vietnamese/regions", label: t("🗺️ Du lịch & Vùng miền", "🗺️ Travel & Regions") },
       { to: "/learn-vietnamese/culture", label: t("🎭 Văn hóa & Phong tục", "🎭 Culture & Customs") },
       { to: "/learn-vietnamese/films", label: t("🎬 Phim & Hội thoại", "🎬 Films & Conversations") },
+      { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     ] },
     { to: "#vn-practice-group", label: t("🎯 Luyện tập & Tương tác", "🎯 Practice & Interactive"), groupLabel: "vn-practice", children: [
       { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
       { to: "/learn-vietnamese/arcade", label: t("🕹️ Vietnamese Arcade Hub", "🕹️ Vietnamese Arcade Hub") },
       { to: "/learn-vietnamese/daily", label: t("📅 Daily Vietnamese", "📅 Daily Vietnamese") },
       { to: "/learn-vietnamese/phrasebook", label: t("💬 Phrasebook tình huống", "💬 Situational Phrasebook") },
+      { to: "/speaking-coach/vietnamese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     ] },
     { to: "#vn-foreigners-group", label: t("🌏 Cho người học đặc biệt", "🌏 For Special Learners"), groupLabel: "vn-foreigners", children: [
       { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Vietnamese for Foreigners", "🌏 Vietnamese for Foreigners") },
       { to: "/learn-vietnamese/kids-overseas", label: t("👨‍👩‍👧 Cho trẻ Việt kiều", "👨‍👩‍👧 For Overseas Vietnamese Kids") },
     ] },
-    { to: "#vn-div2", label: "", divider: true },
-    { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    { to: "/speaking-coach/vietnamese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-    { to: "/specialized-language?lang=vietnamese", label: t("🧠 Tiếng Việt Chuyên ngành", "🧠 Specialized Vietnamese") },
   ];
+
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/placement-test?subject=finnish", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
@@ -918,6 +917,8 @@ const Navbar = () => {
                                                 : sub.groupLabel === "ja-skills" ? t("Luyện 4 kỹ năng", "Four Skills Practice")
                                                 : sub.groupLabel === "ja-tests" ? t("Kiểm tra & Văn hoá", "Tests & Culture")
                                                 : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
+                                                : sub.groupLabel === "vn-culture" ? t("Văn hóa & Đời sống", "Culture & Lifestyle")
+                                                : sub.groupLabel === "vn-foreigners" ? t("Cho người học đặc biệt", "For Special Learners")
                                                 : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
                                                 : sub.groupLabel === "ielts-skills" ? t("IELTS Skills Practice", "IELTS Skills Practice")
                                                 : sub.label}
