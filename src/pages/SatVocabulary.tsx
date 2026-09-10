@@ -19,6 +19,7 @@ import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
 import { supabase } from "@/integrations/supabase/client";
+import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
 
 const WORDS_PER_PAGE = 12;
 
@@ -637,7 +638,16 @@ const SatVocabulary = () => {
 
               <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
-              {viewMode === "exercise" ? (
+              {viewMode === "flashcard" ? (
+                <SimpleVocabDeck
+                  cards={filtered.map(word => ({ key: word.word, term: word.word, pronunciation: word.ipa, level: word.level, partOfSpeech: word.partOfSpeech, category: word.category, meaningPrimary: word.definition.vi, meaningSecondary: word.definition.en, example: word.example }))}
+                  t={t}
+                  speak={speak}
+                  stopAudio={stopEnglishTts}
+                  mastered={mastered}
+                  onToggleMastered={handleStarClick}
+                />
+              ) : viewMode === "exercise" ? (
                 <div>
                   <div className="flex flex-wrap items-center gap-2 mb-4">
                     <label className="text-xs text-muted-foreground">{t("Số câu", "Questions")}:</label>
@@ -668,18 +678,7 @@ const SatVocabulary = () => {
                           <span className="text-xs text-muted-foreground">{groups[cat].length} {t("từ", "words")}</span>
                         </div>
 
-                        {viewMode === "flashcard" ? (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            <AnimatePresence mode="popLayout">
-                              {groups[cat].map(w => (
-                                <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                                  <Flashcard word={w} isMastered={mastered.has(w.word)} onStar={handleStarClick} />
-                                </motion.div>
-                              ))}
-                            </AnimatePresence>
-                          </div>
-                        ) : (
-                          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                             {groups[cat].map(w => (
                               <motion.div
                                 key={w.word + w.category}
@@ -732,8 +731,7 @@ const SatVocabulary = () => {
                                 <InlineTypeExample word={w} t={t} />
                               </motion.div>
                             ))}
-                          </div>
-                        )}
+                        </div>
                       </section>
                     ))}
                   </div>
