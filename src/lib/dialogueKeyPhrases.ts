@@ -193,18 +193,48 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
   "Would you recommend", "Where can I find", "How do I narrow down",
   "Could you give me some feedback", "One area to improve", "You've made good progress",
 
+  // High-value chunks found in the full conversation audit
+  "I checked the forecast", "a high probability", "heavy showers are expected",
+  "looks perfect", "does this bus go to", "across the street", "in front of the",
+  "right next to the", "How often does it run", "Thank you so much for your help",
+  "Have a safe flight", "Are you happy with", "keep the length", "thin it out",
+  "I should get going", "Don't let me keep you", "Nice chatting with you",
+  "It was great to", "Have a great day", "See you later", "checking in for",
+  "May I see your passport", "Any bags to check", "take as a carry-on",
+  "place your suitcase on the scale", "Here is your boarding pass", "Have a great trip",
+  "The purpose of today's meeting", "From Marketing's side", "our schedule is looking",
+  "Can we push to", "works for us", "Thank you both for being flexible",
+  "Since you're buying", "Does it include coverage", "It also includes",
+  "I feel much better", "your top wins", "How did the team achieve that",
+  "Was there any specific feedback", "That is great news", "What is your next goal",
+  "Do we need to", "could you clarify", "Good catch", "I will ping you",
+  "The short answer is", "I am specifically worried about", "what happens to",
+  "Today I'll show you", "Can we start with", "gives you a quick overview",
+  "I think they're a step in the right direction", "That's a valid concern",
+  "We shouldn't ignore the fact", "I respectfully disagree", "I find that hard to believe",
+  "That's a fair point", "I agree that", "How long does the", "We've collected",
+  "work my way down", "should assist, not replace", "The final decision should",
+  "What's your thesis statement", "I argue that", "what methodology are you using",
+  "A mixed-methods approach", "a well-regarded tool", "What can be done about it",
+  "a combination of", "It's such a complex issue", "We must stay informed",
+  "Reliable articles cite", "Let me search for", "verify the evidence",
+  "Why do different", "Think about", "Always look for primary sources",
+  "Have you set your goals", "I should do the same", "Why do those areas concern you",
+  "Who should be responsible", "I believe we need a mix of", "Your sample size seems small",
+  "Why should we trust the results", "How did you select", "Thank you for meeting with me",
+  "I really appreciate your time", "What surprised you most", "That's a good insight",
+  "not only builds confidence but also ensures",
+
 ];
 
-/** Ensures every dialogue shows some bold chunks, even when the bank misses. */
+/** Matches reusable chunks without selecting isolated vocabulary words. */
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const matchesLine = (phrase: string, text: string) =>
   new RegExp(`(?<![\\p{L}])${escapeRegExp(phrase)}(?![\\p{L}])`, "iu").test(text);
 
 /**
- * Returns the phrases that should be printed in bold for a dialogue.
- * Falls back to the lesson's own target phrases when nothing in the shared
- * bank appears in the conversation, so no lesson is left without emphasis.
+ * Returns phrases that should be printed in bold for a dialogue.
  */
 /**
  * Generic chunk patterns. The fixed bank above cannot list every useful
@@ -279,14 +309,15 @@ const extractPatternPhrases = (text: string): string[] => {
  * Returns the phrases that should be printed in bold for a dialogue: bank
  * matches, generic pattern matches and the lesson's own target phrases.
  */
-export const resolveDialogueKeyPhrases = (lines: string[], lessonPhrases: string[] = []): string[] => {
+export const resolveDialogueKeyPhrases = (lines: string[], _lessonPhrases: string[] = []): string[] => {
   const text = lines.join(" \n ");
-  const hits = DIALOGUE_KEY_PHRASES.filter((phrase) => matchesLine(phrase, text));
+  const hits = DIALOGUE_KEY_PHRASES.filter(
+    (phrase) => phrase.trim().split(/\s+/).length >= 2 && matchesLine(phrase, text),
+  );
   const patterned = extractPatternPhrases(text);
-  const lesson = lessonPhrases.filter((phrase) => phrase.trim().length >= 3 && matchesLine(phrase, text));
   const seen = new Set<string>();
   const result: string[] = [];
-  for (const phrase of [...hits, ...lesson, ...patterned].sort((a, b) => b.length - a.length)) {
+  for (const phrase of [...hits, ...patterned].sort((a, b) => b.length - a.length)) {
     const key = phrase.toLowerCase();
     if (seen.has(key)) continue;
     if (result.some((longer) => longer.toLowerCase().includes(key))) continue;
