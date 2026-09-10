@@ -1086,6 +1086,7 @@ const Japanese = () => {
               allWords={jaQuestWords}
               t={t}
               subject="japanese"
+              speechLang="ja-JP"
               speak={(text) => speakJa(text)}
               onWordMastered={(w) => { if (!mastered.has(w)) toggleMastered(w); }}
             />

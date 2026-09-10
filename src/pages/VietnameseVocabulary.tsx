@@ -651,6 +651,7 @@ const VietnameseVocabulary = () => {
                   allWords={vietnameseVocabBank.map(vietnameseToQuest)}
                   t={t}
                   subject="vietnamese"
+                  speechLang="vi-VN"
                   speak={text => speakVi(text)}
                   stopSpeak={stopVietnameseTts}
                   onWordMastered={w => { if (!mastered.has(w)) toggle(w); }}

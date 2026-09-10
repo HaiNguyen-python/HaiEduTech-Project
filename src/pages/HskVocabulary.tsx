@@ -777,6 +777,7 @@ const HskVocabulary = () => {
                 allWords={hskVocabData.map(hskToQuest)}
                 t={t}
                 subject="hsk"
+                speechLang="zh-CN"
                 speak={text => speakZh(text)}
                 stopSpeak={stopChineseTts}
                 onWordMastered={w => { if (!mastered.has(w)) toggleMastered(w); }}

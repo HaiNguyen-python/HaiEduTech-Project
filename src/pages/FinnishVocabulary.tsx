@@ -831,6 +831,7 @@ const FinnishVocabulary = () => {
                 allWords={ieltsVocabData.map(finnishToQuest)}
                 t={t}
                 subject="finnish"
+                speechLang="fi-FI"
                 speak={text => speakFi(text)}
                 stopSpeak={stopFinnishTts}
                 onWordMastered={w => { if (!mastered.has(w)) toggleMastered(w); }}

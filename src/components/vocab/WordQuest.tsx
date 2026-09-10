@@ -677,7 +677,7 @@ const WordQuest = ({
 
         <div className="mt-4 flex items-center justify-center gap-3">
           <Button onClick={startDrill} className="gap-2">
-            {t("Luyện 5 bài của từ này", "Practice this word - 5 exercises")} <ChevronRight className="h-4 w-4" />
+            {t("Tiếp tục", "Next")} <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       </div>

@@ -119,6 +119,28 @@ export function reviewCard(card: SrsCard | undefined, grade: SrsGrade, correct: 
 /** A word is mastered once it has been recalled correctly 4 times in a row. */
 export const MASTER_STREAK = 4;
 
+/**
+ * Short history of the days a mission was finished, used by the activity strip.
+ * Stored separately so existing schedules stay untouched.
+ */
+export const srsDaysKey = (subject = "ielts") => `${subject}_vocab_srs_days_v1`;
+
+export const loadDoneDays = (subject = "ielts"): string[] =>
+  safeStorage.get<string[]>(srsDaysKey(subject), []) || [];
+
+export const markDayDone = (subject = "ielts"): string[] => {
+  const today = todayISO();
+  const days = loadDoneDays(subject);
+  if (days.includes(today)) return days;
+  const next = [...days, today].slice(-90);
+  safeStorage.set(srsDaysKey(subject), next);
+  return next;
+};
+
+/** The last `n` calendar days as ISO strings, oldest first. */
+export const lastNDays = (n: number): string[] =>
+  Array.from({ length: n }, (_, i) => addDays(todayISO(), i - (n - 1)));
+
 export interface MissionPlan<T> {
   due: T[];
   fresh: T[];
