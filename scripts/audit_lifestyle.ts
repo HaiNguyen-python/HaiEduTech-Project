@@ -24,6 +24,7 @@ for (const l of all) {
 
   if (!l.whyItMattersVi || !l.whyItMattersEn) issues.push(`${l.id}: no whyItMatters`);
   if (!l.illustrationEmojis || l.illustrationEmojis.length === 0) issues.push(`${l.id}: no emojis`);
+  if (!assetIds.has(l.id)) issues.push(`${l.id}: no illustration`);
   for (const k of ["titleVi","titleEn","subtitleVi","subtitleEn","frameworkVi","frameworkEn","reflectionVi","reflectionEn","drillVi","drillEn"]) {
     if (!l[k] || String(l[k]).trim().length < 8) issues.push(`${l.id}: weak ${k}`);
   }
