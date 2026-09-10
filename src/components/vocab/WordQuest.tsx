@@ -498,8 +498,8 @@ const WordQuest = ({
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">
           {t(
-            "Mỗi Set gồm 10 chặng, mỗi chặng 8 từ. Trong chặng, các từ được học xen kẽ với nhiều dạng bài: chọn nghĩa, nghe, gõ, ghép chữ, nói lại, nhớ chủ động, điền câu. Từ nào sai sẽ quay lại với một dạng bài khác.",
-            "Each Set holds 10 stages of 8 words. Inside a stage, words are interleaved across many exercise types: meaning, listening, typing, word building, saying it out loud, active recall and sentence gaps. Missed words return with a different exercise."
+            "Mỗi Set gồm 10 chặng, mỗi chặng 8 từ. Vào chặng, bạn được học đầy đủ 8 từ trước (nghĩa, phiên âm, ví dụ, phát âm), sau đó mới luyện tập xen kẽ nhiều dạng bài: chọn nghĩa, nghe, gõ, ghép chữ, nói lại, nhớ chủ động, điền câu. Từ nào sai sẽ quay lại với một dạng bài khác.",
+            "Each Set holds 10 stages of 8 words. A stage first walks you through all 8 words in full (meaning, phonetics, example, audio), then drills them across many exercise types: meaning, listening, typing, word building, saying it out loud, active recall and sentence gaps. Missed words return with a different exercise."
           )}
         </p>
         {progress.resume && stages[progress.resume.stage] && (
