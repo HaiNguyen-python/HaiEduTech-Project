@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useDragControls, useMotionValue, animate } from "framer-motion";
-import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2, Maximize2, Minimize2, GripVertical, Info, Sparkles, BookOpenCheck, Flame, Star } from "lucide-react";
+import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2, Maximize2, Minimize2, GripVertical, Info, Sparkles, BookOpenCheck, Flame, Star, Volume2, VolumeX, Brain, Trash2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
@@ -1492,6 +1492,55 @@ const ChatBot = () => {
                 </button>
               </div>
             )}
+
+            {/* What Teacher Hai remembers about this student */}
+            {memoryOpen && (
+              <div className="max-h-[45vh] overflow-y-auto border-b border-border bg-primary/5 px-4 py-3">
+                <div className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-primary">
+                  <Brain className="h-3.5 w-3.5" />
+                  {t("Thầy nhớ gì về em", "What Teacher Hai remembers")}
+                </div>
+                {memories.length === 0 ? (
+                  <p className="text-[11px] leading-relaxed text-muted-foreground">
+                    {t(
+                      "Chưa có ghi chú nào. Hãy đăng nhập và kể cho thầy về mục tiêu, kỳ thi và điểm yếu của em - thầy sẽ nhớ để hỗ trợ lâu dài.",
+                      "No notes yet. Sign in and tell me your goals, exams and weak points - I will remember them to support you long term.",
+                    )}
+                  </p>
+                ) : (
+                  <>
+                    <ul className="space-y-1.5">
+                      {memories.map((m) => (
+                        <li key={m.key} className="flex items-start gap-2 rounded-md border border-border bg-white/80 px-2 py-1.5 dark:bg-background/60">
+                          <div className="min-w-0 flex-1">
+                            <div className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{m.key}</div>
+                            <div className="break-words text-[11px] text-foreground">{m.value}</div>
+                          </div>
+                          <button
+                            onClick={async () => { await deleteChatMemory(m.key); await refreshMemories(); }}
+                            className="rounded p-1 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+                            title={t("Xóa ghi chú này", "Delete this note")}
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={async () => {
+                        if (!window.confirm(t("Xóa toàn bộ ghi chú của thầy về em?", "Delete everything Teacher Hai remembers about you?"))) return;
+                        await clearChatMemories();
+                        await refreshMemories();
+                      }}
+                      className="mt-2 w-full rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-1.5 text-[11px] font-semibold text-destructive hover:bg-destructive/10"
+                    >
+                      {t("Xóa hết ghi chú", "Delete all notes")}
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+
 
 
 
