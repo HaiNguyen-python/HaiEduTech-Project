@@ -10,6 +10,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey } from "@/data/lifestyleAcademyLessons";
 import { safeStorage } from "@/lib/safeStorage";
+import { LIFESTYLE_QUIZ_PASS_RATIO } from "@/lib/lifestyleQuizBuilder";
+
 
 const STORAGE_KEY = "lifestyle-quiz-progress-v1";
 
@@ -31,8 +33,26 @@ export interface PillarScore {
 
 type ResultMap = Record<string, LifestyleLessonResult>;
 
+/** A lesson only counts as passed when at least 75% of the quiz is correct. */
+export const isPassed = (r?: LifestyleLessonResult) =>
+  !!r && r.maxScore > 0 && r.score / r.maxScore >= LIFESTYLE_QUIZ_PASS_RATIO;
+
+/** Re-derives `completed` from the score so legacy rows cannot sneak through. */
+const normalize = (r: LifestyleLessonResult): LifestyleLessonResult => ({
+  ...r,
+  completed: isPassed(r),
+});
+
+const normalizeMap = (map: ResultMap): ResultMap => {
+  const out: ResultMap = {};
+  Object.entries(map).forEach(([k, v]) => {
+    if (v && typeof v.score === "number") out[k] = normalize(v);
+  });
+  return out;
+};
+
 function readLocal(): ResultMap {
-  return safeStorage.get<ResultMap>(STORAGE_KEY, {}) ?? {};
+  return normalizeMap(safeStorage.get<ResultMap>(STORAGE_KEY, {}) ?? {});
 }
 
 function writeLocal(map: ResultMap) {
@@ -63,13 +83,16 @@ export function useLifestyleProgress() {
       if (!alive) return;
       const merged: ResultMap = { ...readLocal() };
       (rows ?? []).forEach((r) => {
-        merged[r.lesson_id] = {
+        const remote = normalize({
           lessonId: r.lesson_id,
           pillar: r.pillar as LifestylePillarKey,
           score: r.score,
           maxScore: r.max_score,
           completed: r.completed,
-        };
+        });
+        const local = merged[r.lesson_id];
+        // Keep whichever attempt scored higher.
+        merged[r.lesson_id] = local && local.score > remote.score ? local : remote;
       });
       setResults(merged);
       writeLocal(merged);
@@ -82,14 +105,13 @@ export function useLifestyleProgress() {
 
   const saveResult = useCallback(
     async (result: LifestyleLessonResult) => {
+      const incoming = normalize(result);
+      let best = incoming;
       setResults((prev) => {
-        const existing = prev[result.lessonId];
+        const existing = prev[incoming.lessonId];
         // Keep the best attempt so the radar never regresses on a retry.
-        const best =
-          existing && existing.score > result.score
-            ? existing
-            : result;
-        const next = { ...prev, [result.lessonId]: { ...best, completed: best.completed || result.completed } };
+        best = existing && existing.score > incoming.score ? existing : incoming;
+        const next = { ...prev, [incoming.lessonId]: best };
         writeLocal(next);
         return next;
       });
@@ -98,11 +120,11 @@ export function useLifestyleProgress() {
       await supabase.from("lifestyle_lesson_progress").upsert(
         {
           user_id: userId,
-          lesson_id: result.lessonId,
-          pillar: result.pillar,
-          score: result.score,
-          max_score: result.maxScore,
-          completed: result.completed,
+          lesson_id: best.lessonId,
+          pillar: best.pillar,
+          score: best.score,
+          max_score: best.maxScore,
+          completed: best.completed,
         },
         { onConflict: "user_id,lesson_id" },
       );
@@ -114,26 +136,24 @@ export function useLifestyleProgress() {
     const pillars = Array.from(new Set(LIFESTYLE_LESSONS.map((l) => l.pillar)));
     return pillars.map((pillar) => {
       const lessons = LIFESTYLE_LESSONS.filter((l) => l.pillar === pillar);
-      let accuracySum = 0;
-      let completed = 0;
-      lessons.forEach((l) => {
-        const r = results[l.id];
-        if (!r) return;
-        if (r.completed) completed += 1;
-        accuracySum += r.maxScore > 0 ? r.score / r.maxScore : 0;
-      });
-      const value = lessons.length ? Math.round((accuracySum / lessons.length) * 100) : 0;
-      return { pillar, total: lessons.length, completed, value };
+      // Only lessons passed at 75%+ contribute to the radar.
+      const passed = lessons.filter((l) => isPassed(results[l.id])).length;
+      const value = lessons.length ? Math.round((passed / lessons.length) * 100) : 0;
+      return { pillar, total: lessons.length, completed: passed, value };
     });
   }, [results]);
 
   const stats = useMemo(() => {
     const all = Object.values(results);
     const attempted = all.length;
-    const completed = all.filter((r) => r.completed).length;
-    const accuracy = attempted
+    const passedResults = all.filter((r) => isPassed(r));
+    const completed = passedResults.length;
+    // Average quiz score across passed lessons only.
+    const accuracy = completed
       ? Math.round(
-          (all.reduce((sum, r) => sum + (r.maxScore ? r.score / r.maxScore : 0), 0) / attempted) * 100,
+          (passedResults.reduce((sum, r) => sum + (r.maxScore ? r.score / r.maxScore : 0), 0) /
+            completed) *
+            100,
         )
       : 0;
     return { attempted, completed, accuracy, totalLessons: LIFESTYLE_LESSONS.length };
@@ -141,3 +161,4 @@ export function useLifestyleProgress() {
 
   return { results, pillarScores, stats, saveResult, loading, isGuest: !userId };
 }
+
