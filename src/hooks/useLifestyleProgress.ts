@@ -32,16 +32,11 @@ export interface PillarScore {
 type ResultMap = Record<string, LifestyleLessonResult>;
 
 function readLocal(): ResultMap {
-  try {
-    const raw = safeGetItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as ResultMap) : {};
-  } catch {
-    return {};
-  }
+  return safeStorage.get<ResultMap>(STORAGE_KEY, {}) ?? {};
 }
 
 function writeLocal(map: ResultMap) {
-  safeSetItem(STORAGE_KEY, JSON.stringify(map));
+  safeStorage.set(STORAGE_KEY, map);
 }
 
 export function useLifestyleProgress() {
