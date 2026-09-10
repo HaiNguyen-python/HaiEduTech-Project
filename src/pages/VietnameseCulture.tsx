@@ -12,7 +12,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cultureTopics as baseTopics, type CultureTopic } from "@/data/vietnamese/cultureData";
 import { cultureExpansion } from "@/data/vietnamese/cultureExpansion";
-const cultureTopics = [...baseTopics, ...cultureExpansion];
+import { cultureExpansionV10 } from "@/data/vietnamese/expansionV10Culture";
+const cultureTopics = [...baseTopics, ...cultureExpansion, ...cultureExpansionV10];
 
 const categoryLabels: Record<CultureTopic["category"], { vi: string; en: string }> = {
   attire: { vi: "Trang phục", en: "Attire" },

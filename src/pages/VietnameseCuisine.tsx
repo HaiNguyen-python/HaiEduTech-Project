@@ -12,7 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cuisineDishes as baseCuisine } from "@/data/vietnamese/cuisineData";
 import { cuisineExpansion } from "@/data/vietnamese/cuisineExpansion";
-const cuisineDishes = [...baseCuisine, ...cuisineExpansion];
+import { cuisineExpansionV10 } from "@/data/vietnamese/expansionV10Culture";
+const cuisineDishes = [...baseCuisine, ...cuisineExpansion, ...cuisineExpansionV10];
 
 const regionColors: Record<string, string> = {
   "Bắc": "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200",

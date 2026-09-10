@@ -8,7 +8,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { regions } from "@/data/vietnamese/regionsData";
-import { travelDestinations } from "@/data/vietnamese/regionsExpansion";
+import { travelDestinations as baseDestinations } from "@/data/vietnamese/regionsExpansion";
+import { travelDestinationsV10 } from "@/data/vietnamese/expansionV10Culture";
+const travelDestinations = [...baseDestinations, ...travelDestinationsV10];
 import { festivals, travelEssentials, etiquetteRules, countryStats } from "@/data/vietnamese/regionsExtras";
 
 const VietnameseRegions = () => {
