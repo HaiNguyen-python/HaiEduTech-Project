@@ -1328,6 +1328,23 @@ const ChatBot = () => {
                 <Info className="h-4 w-4 text-primary" />
               </button>
               <button
+                onClick={voice.toggleAutoRead}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
+                title={voice.autoRead ? t("Tắt tự động đọc", "Turn off auto read") : t("Tự động đọc câu trả lời", "Auto-read answers")}
+                aria-pressed={voice.autoRead}
+              >
+                {voice.autoRead ? <Volume2 className="h-4 w-4 text-primary" /> : <VolumeX className="h-4 w-4 text-muted-foreground" />}
+              </button>
+              <button
+                onClick={() => { setMemoryOpen((v) => !v); refreshMemories(); }}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
+                title={t("Thầy nhớ gì về em", "What Teacher Hai remembers about you")}
+              >
+                <Brain className="h-4 w-4 text-primary" />
+              </button>
+              <button
                 onClick={openAskTeacher}
                 onPointerDown={(e) => e.stopPropagation()}
                 className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
