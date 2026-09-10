@@ -765,7 +765,7 @@ const HskVocabulary = () => {
                 storageKey="hsk_word_quest_v1"
                 speak={speakZh}
                 stopSpeak={stopChineseTts}
-                typingLabel={{ vi: "Gõ pinyin (có dấu thanh) của từ nghĩa:", en: "Type the pinyin of the word meaning:" }}
+                typingLabel={{ vi: "Gõ Hán tự của từ có nghĩa:", en: "Type the Hanzi for the word meaning:" }}
                 speechLang="zh-CN"
                 knownKeys={mastered}
                 onWordLearned={w => { if (!mastered.has(w)) toggleMastered(w); }}

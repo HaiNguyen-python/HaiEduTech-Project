@@ -16,7 +16,7 @@ export interface QuestItem extends IeltsWord {
   key: string;
   /** Text sent to the text-to-speech engine. */
   speakText: string;
-  /** What the learner types in the typing steps (romanised for zh / ja). */
+  /** What the learner types in the typing steps. */
   typeAnswer: string;
   /** Extra line under the word: pinyin, romaji, article... */
   subtitle?: string;
@@ -52,7 +52,7 @@ export const vietnameseToQuest = (w: {
   typeAnswer: w.word,
 });
 
-/** HSK words: show the characters, type the pinyin. */
+/** HSK words: show and type the Hanzi; pinyin remains pronunciation support. */
 export const hskToQuest = (w: {
   character: string; pinyin: string; level: string; definition: { vi: string; en: string };
   example: string; examplePinyin?: string; category: string;
@@ -66,7 +66,7 @@ export const hskToQuest = (w: {
   exampleTranslation: clean(w.examplePinyin),
   category: w.category,
   speakText: w.character,
-  typeAnswer: w.pinyin,
+  typeAnswer: w.character,
   subtitle: w.pinyin,
 });
 
