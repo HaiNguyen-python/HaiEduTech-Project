@@ -395,7 +395,7 @@ select * from enriched
       "Outbox pattern: ghi event vào bảng outbox rồi để CDC stream ra Kafka",
     ],
     language: "json",
-// Debezium connector configuration for Postgres.
+code: `// Debezium connector configuration for Postgres.
 // POST to the Kafka Connect REST API: /connectors
 {
   "name": "pg-orders-cdc",
