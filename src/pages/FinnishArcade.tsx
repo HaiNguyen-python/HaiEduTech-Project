@@ -15,6 +15,7 @@ import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import WordMeteor from "@/components/games/WordMeteor";
+import { finishGame, useGameAudioCleanup } from "@/lib/gameSession";
 
 type GameId = "menu" | "sauna" | "runner" | "inflection" | "meteor";
 
@@ -105,6 +106,7 @@ const speakFinnish = (text: string) => {
 // ============================================================
 const SaunaMatch = ({ onScore }: { onScore: (n: number) => void }) => {
   const { t } = useLanguage();
+  useGameAudioCleanup();
   const [seed, setSeed] = useState(0);
   const round = useMemo(() => shuffle(FI_WORDS).slice(0, 6), [seed]);
   const meanings = useMemo(() => shuffle(round), [round]);
@@ -112,6 +114,20 @@ const SaunaMatch = ({ onScore }: { onScore: (n: number) => void }) => {
   const [selectedFi, setSelectedFi] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [shake, setShake] = useState<string | null>(null);
+  const savedRef = useRef(false);
+  const done = matched.length === round.length;
+
+  useEffect(() => {
+    if (done && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({
+        gameType: "fi_sauna_match",
+        score,
+        subject: "finnish-vocab",
+        correctWords: matched,
+      });
+    }
+  }, [done, score, matched]);
 
   const handleViTap = (vi: string) => {
     if (!selectedFi) return;
@@ -128,17 +144,18 @@ const SaunaMatch = ({ onScore }: { onScore: (n: number) => void }) => {
     }
   };
 
-  if (matched.length === round.length) {
+  if (done) {
     return (
       <div className="text-center py-10 space-y-4">
         <div className="text-6xl">🧖❄️</div>
         <h3 className="text-2xl font-bold">{t("Hyvä! Hoàn thành", "Hyvä! Complete")}: {score} XP</h3>
-        <Button onClick={() => { setMatched([]); setScore(0); setSeed(s => s + 1); }} className="bg-gradient-to-r from-sky-500 to-cyan-500 text-white">
+        <Button onClick={() => { savedRef.current = false; setMatched([]); setScore(0); setSeed(s => s + 1); }} className="bg-gradient-to-r from-sky-500 to-cyan-500 text-white">
           {t("Vòng mới", "New round")}
         </Button>
       </div>
     );
   }
+
 
   return (
     <div className="space-y-4">
@@ -190,39 +207,57 @@ const SaunaMatch = ({ onScore }: { onScore: (n: number) => void }) => {
 // ============================================================
 const ReindeerRunner = ({ onScore }: { onScore: (n: number) => void }) => {
   const { t } = useLanguage();
+  useGameAudioCleanup();
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const pool = useMemo(() => shuffle(FI_WORDS).slice(0, 12), []);
   const current = pool[idx];
+  const correctRef = useRef<string[]>([]);
+  const savedRef = useRef(false);
   const options = useMemo(() => {
     if (!current) return [];
     const wrong = shuffle(FI_WORDS.filter(w => w.fi !== current.fi)).slice(0, 3).map(w => w.fi);
     return shuffle([current.fi, ...wrong]);
   }, [current]);
+  const done = lives <= 0 || idx >= pool.length;
+
+  useEffect(() => {
+    if (done && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({
+        gameType: "fi_reindeer_runner",
+        score,
+        subject: "finnish-vocab",
+        correctWords: correctRef.current,
+      });
+    }
+  }, [done, score]);
 
   const pick = (opt: string) => {
     if (opt === current.fi) {
       setScore(s => s + 10);
       onScore(10);
       speakFinnish(opt);
+      correctRef.current.push(current.fi);
     } else {
       setLives(l => l - 1);
     }
     setIdx(i => i + 1);
   };
 
-  if (lives <= 0 || idx >= pool.length) {
+  if (done) {
     return (
       <div className="text-center py-10 space-y-4">
         <div className="text-6xl">🦌</div>
         <h3 className="text-2xl font-bold">{t("Kết quả", "Result")}: {score} XP</h3>
-        <Button onClick={() => { setIdx(0); setLives(3); setScore(0); }} className="bg-gradient-to-r from-amber-500 to-rose-500 text-white">
+        <Button onClick={() => { savedRef.current = false; correctRef.current = []; setIdx(0); setLives(3); setScore(0); }} className="bg-gradient-to-r from-amber-500 to-rose-500 text-white">
           {t("Chạy tiếp", "Run again")}
         </Button>
       </div>
     );
   }
+
 
   return (
     <div className="space-y-4">
@@ -257,6 +292,7 @@ const ReindeerRunner = ({ onScore }: { onScore: (n: number) => void }) => {
 // ============================================================
 const InflectionDetective = ({ onScore }: { onScore: (n: number) => void }) => {
   const { t } = useLanguage();
+  useGameAudioCleanup();
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState<"ok" | "err" | null>(null);
@@ -264,25 +300,41 @@ const InflectionDetective = ({ onScore }: { onScore: (n: number) => void }) => {
   const item = pool[idx];
   const targetType = item?.forms.find(f => f.correct)?.type;
   const options = useMemo(() => item ? shuffle(item.forms) : [], [item]);
+  const correctRef = useRef<string[]>([]);
+  const savedRef = useRef(false);
+  const done = idx >= pool.length;
+
+  useEffect(() => {
+    if (done && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({
+        gameType: "fi_inflection_detective",
+        score,
+        subject: "finnish-vocab",
+        correctWords: correctRef.current,
+      });
+    }
+  }, [done, score]);
 
   const pick = (form: string, correct: boolean) => {
     if (feedback) return;
     setFeedback(correct ? "ok" : "err");
-    if (correct) { setScore(s => s + 15); onScore(15); speakFinnish(form); }
+    if (correct) { setScore(s => s + 15); onScore(15); speakFinnish(form); correctRef.current.push(item.base); }
     setTimeout(() => { setFeedback(null); setIdx(i => i + 1); }, 900);
   };
 
-  if (idx >= pool.length) {
+  if (done) {
     return (
       <div className="text-center py-10 space-y-4">
         <div className="text-6xl">🕵️</div>
         <h3 className="text-2xl font-bold">{t("Tuyệt vời", "Awesome")}! {score} XP</h3>
-        <Button onClick={() => { setIdx(0); setScore(0); }} className="bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white">
+        <Button onClick={() => { savedRef.current = false; correctRef.current = []; setIdx(0); setScore(0); }} className="bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white">
           {t("Chơi lại", "Play again")}
         </Button>
       </div>
     );
   }
+
 
   return (
     <div className="space-y-4">
@@ -331,7 +383,7 @@ const FinnishArcade = () => {
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-slate-900 via-sky-950 to-slate-900 text-slate-100">
       <FloatingNordicParticles variant="finnish" />
-      <SEO title="Finnish Arcade Hub | HaiEduTech" description="Arcade tiếng Phần Lan: Sauna Match, Reindeer Runner, Inflection Detective - học suomi qua trò chơi." path="/finnish/arcade" />
+      <SEO title="Finnish Arcade Hub | HaiEduTech" description="Arcade tiếng Phần Lan: Sauna Match, Reindeer Runner, Inflection Detective, Word Meteor - học suomi qua trò chơi." path="/finnish/arcade" />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-3 sm:px-6 max-w-4xl">
@@ -342,7 +394,7 @@ const FinnishArcade = () => {
             <h1 className="text-3xl sm:text-4xl font-display font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-cyan-300 to-amber-300">
               Finnish Arcade Hub
             </h1>
-            <p className="text-slate-400 text-sm">{t("3 mini-game học tiếng Phần Lan với chủ đề sauna, tuần lộc và cách danh từ.", "3 Finnish mini-games themed around sauna, reindeer, and noun cases.")}</p>
+            <p className="text-slate-400 text-sm">{t("4 mini-game học tiếng Phần Lan với chủ đề sauna, tuần lộc, cách danh từ và thiên thạch từ vựng.", "4 Finnish mini-games themed around sauna, reindeer, noun cases, and vocabulary meteors.")}</p>
           </motion.div>
 
           <div className="rounded-xl border border-sky-500/30 bg-slate-950/60 backdrop-blur p-3 mb-6 flex items-center justify-between font-mono text-sm">

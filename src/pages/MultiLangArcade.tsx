@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { finishGame } from "@/lib/gameSession";
 
 // ---------- Data ----------
 type LangKey = "en" | "zh" | "vi" | "fi";
@@ -66,6 +67,14 @@ const LANG_META: Record<LangKey, { label: string; emoji: string; accent: string 
   fi: { label: "Suomi",  emoji: "🇫🇮", accent: "from-cyan-500 to-blue-600" },
 };
 
+/** Which vocabulary bank each arcade language feeds when a word is answered right. */
+const SUBJECT_BY_LANG: Record<LangKey, string> = {
+  en: "ielts",
+  zh: "hsk",
+  vi: "vietnamese",
+  fi: "finnish-vocab",
+};
+
 // ---------- Word Meteor ----------
 interface Meteor {
   id: number;
@@ -85,6 +94,9 @@ function WordMeteorGame({ lang }: { lang: LangKey }) {
   const [running, setRunning] = useState(false);
   const tickRef = useRef<number>();
   const idRef = useRef(0);
+  const correctRef = useRef<string[]>([]);
+  const savedRef = useRef(false);
+  const bestStreakRef = useRef(0);
 
   const bank = METEOR_BANK[lang];
 
@@ -127,10 +139,29 @@ function WordMeteorGame({ lang }: { lang: LangKey }) {
     if (lives <= 0) setRunning(false);
   }, [lives]);
 
+  // Save the run once it is over, and log the words answered correctly
+  useEffect(() => {
+    if (lives <= 0 && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({
+        gameType: `arcade_plus_meteor_${lang}`,
+        score,
+        maxStreak: bestStreakRef.current,
+        subject: SUBJECT_BY_LANG[lang],
+        correctWords: correctRef.current,
+      });
+    }
+  }, [lives, score, lang]);
+
   const handlePick = (m: Meteor, picked: string) => {
     if (picked === m.meaning) {
       setScore((s) => s + 10 + streak * 2);
-      setStreak((s) => s + 1);
+      setStreak((s) => {
+        const next = s + 1;
+        bestStreakRef.current = Math.max(bestStreakRef.current, next);
+        return next;
+      });
+      correctRef.current.push(m.word.split(" ")[0]);
       setMeteors((prev) => prev.filter((x) => x.id !== m.id));
     } else {
       setStreak(0);
@@ -139,6 +170,9 @@ function WordMeteorGame({ lang }: { lang: LangKey }) {
   };
 
   const reset = () => {
+    savedRef.current = false;
+    correctRef.current = [];
+    bestStreakRef.current = 0;
     setMeteors([]); setScore(0); setLives(3); setStreak(0); setRunning(true); idRef.current = 0;
   };
 
@@ -257,6 +291,7 @@ type TrackKey = keyof typeof CODE_TRACKS;
 
 function CodeGalaxyGame() {
   const [track, setTrack] = useState<TrackKey>("foundations");
+  const savedRef = useRef(false);
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [flash, setFlash] = useState<"ok" | "no" | null>(null);
@@ -277,9 +312,16 @@ function CodeGalaxyGame() {
     }, 350);
   };
 
-  const reset = (k?: TrackKey) => { setIdx(0); setScore(0); if (k) setTrack(k); };
+  const reset = (k?: TrackKey) => { savedRef.current = false; setIdx(0); setScore(0); if (k) setTrack(k); };
 
   const done = idx >= t.items.length;
+
+  useEffect(() => {
+    if (done && !savedRef.current) {
+      savedRef.current = true;
+      void finishGame({ gameType: `code_galaxy_${track}`, score });
+    }
+  }, [done, score, track]);
 
   return (
     <div className="space-y-4">
