@@ -1369,32 +1369,32 @@ Stripe uses window functions heavily: MRR running totals, cohort retention via \
 ## Bridge
 
 Next: **Recursive CTE** - for tree/graph data (org charts, nested categories), window functions aren't enough.`,
-        code: `-- Demo các hàm cửa sổ (window functions) nâng cao
--- Các hàm cửa sổ giúp thực hiện tính toán trên một tập hợp các hàng có liên quan đến hàng hiện tại.
+        code: `-- Demo of advanced window functions
+-- Window functions let you compute values across a set of rows related to the current row.
 SELECT 
-  employee_name, -- Chọn tên nhân viên
-  department, -- Chọn phòng ban
-  salary, -- Chọn mức lương
-  -- Chia dữ liệu thành 4 nhóm (quartile) dựa trên mức lương giảm dần.
-  -- NTILE(4) sẽ gán số 1, 2, 3 hoặc 4 cho mỗi hàng.
+  employee_name, -- Select employee name
+  department, -- Select department
+  salary, -- Select salary
+  -- Split data into 4 groups (quartiles) based on descending salary.
+  -- NTILE(4) assigns 1, 2, 3, or 4 to each row.
   NTILE(4) OVER (ORDER BY salary DESC) AS salary_quartile,
-  -- Tính thứ hạng phần trăm của mức lương.
-  -- Giá trị từ 0 đến 1, cho biết tỷ lệ các giá trị nhỏ hơn hoặc bằng giá trị hiện tại.
+  -- Compute the percentile rank of the salary.
+  -- Value from 0 to 1, indicating the proportion of values less than or equal to the current one.
   PERCENT_RANK() OVER (ORDER BY salary) AS pct_rank,
-  -- Tính tổng lương lũy kế (running total) theo thứ tự lương tăng dần.
-  -- Bắt đầu từ hàng đầu tiên (UNBOUNDED PRECEDING) đến hàng hiện tại (CURRENT ROW).
+  -- Compute the running total of salaries in ascending order.
+  -- Starts from the first row (UNBOUNDED PRECEDING) up to the current row (CURRENT ROW).
   SUM(salary) OVER (
     ORDER BY salary 
     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
   ) AS running_total,
-  -- Tính trung bình động của 3 hàng gần nhất (bao gồm hàng hiện tại và 2 hàng trước đó) theo thứ tự lương.
+  -- Compute the moving average of the 3 nearest rows (including current and the 2 previous) by salary order.
   AVG(salary) OVER (
     ORDER BY salary 
     ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
   ) AS moving_avg_3
-FROM employees -- Lấy dữ liệu từ bảng 'employees'
-ORDER BY salary DESC; -- Sắp xếp kết quả theo mức lương giảm dần
--- Kết quả sẽ hiển thị tên, phòng ban, lương, nhóm lương, thứ hạng phần trăm, tổng lương lũy kế và trung bình động 3 hàng cho mỗi nhân viên.`,
+FROM employees -- Get data from the 'employees' table
+ORDER BY salary DESC; -- Sort results by salary descending
+-- The result shows name, department, salary, salary quartile, percentile rank, running total, and 3-row moving average for each employee.`,
         codeLanguage: "sql",
         exercise: "Write a query to divide students into 3 groups according to scores and calculate running average",
         exerciseEn: "Write a query to divide students into 3 groups by score and calculate running average",

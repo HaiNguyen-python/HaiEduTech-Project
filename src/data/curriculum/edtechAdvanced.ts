@@ -686,7 +686,7 @@ def build_prompt(student, retrieved_chunks, msg):
         "teen":  "You are a tutor who encourages middle-school students to find answers themselves.",
         "adult": "You are a concise study advisor, allowed to use technical terminology.",
     }[student["band"]]
-    context = "\\n---\\n".join(c["text"] for c in retrieved_chunks) or "(không có)"
+    context = "\\n---\\n".join(c["text"] for c in retrieved_chunks) or "(none)"
     return f"""[ROLE] {persona}
 [GROUNDING] ONLY use the content below; if missing, say not sure.
 {context}
