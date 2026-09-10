@@ -384,7 +384,7 @@ export default function MultiLangArcade() {
   const meta = useMemo(() => LANG_META[lang], [lang]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="dark min-h-screen bg-background">
       <div className="container mx-auto max-w-6xl px-4 py-8">
         <div className="mb-6 flex items-center justify-between">
           <Link to="/">

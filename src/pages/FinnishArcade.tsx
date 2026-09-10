@@ -172,9 +172,9 @@ const SaunaMatch = ({ onScore }: { onScore: (n: number) => void }) => {
             return (
               <button key={w.fi} disabled={isMatched} onClick={() => setSelectedFi(w.fi)}
                 className={`w-full px-3 py-3 rounded-xl text-base font-bold transition-all active:scale-95 ${
-                  isMatched ? "bg-emerald-500/20 border-2 border-emerald-500/50 text-emerald-400 opacity-60" :
+                  isMatched ? "bg-emerald-950/80 border-2 border-emerald-400/60 text-emerald-200 opacity-70" :
                   isSelected ? "bg-sky-500 text-white border-2 border-sky-300 shadow-lg" :
-                  "bg-card border-2 border-sky-500/30 hover:border-sky-500/60 hover:bg-sky-500/10 text-foreground"
+                  "bg-slate-950/90 border-2 border-sky-400/50 text-sky-100 hover:border-sky-300 hover:bg-sky-900/80 hover:text-white"
                 }`}>
                 {w.emoji} {w.fi}
               </button>
@@ -189,8 +189,8 @@ const SaunaMatch = ({ onScore }: { onScore: (n: number) => void }) => {
               <motion.button key={w.vi} disabled={isMatched} onClick={() => handleViTap(w.vi)}
                 animate={shake === w.vi ? { x: [-6, 6, -4, 4, 0] } : {}}
                 className={`w-full px-3 py-3 rounded-xl text-base font-medium transition-all active:scale-95 ${
-                  isMatched ? "bg-emerald-500/10 border-2 border-emerald-500/30 text-emerald-400 opacity-60" :
-                  "bg-card border-2 border-amber-500/30 hover:border-amber-500/60 hover:bg-amber-500/10 text-foreground"
+                  isMatched ? "bg-emerald-950/80 border-2 border-emerald-400/60 text-emerald-200 opacity-70" :
+                  "bg-slate-950/90 border-2 border-amber-400/50 text-amber-100 hover:border-amber-300 hover:bg-amber-900/80 hover:text-white"
                 }`}>
                 {w.vi}
               </motion.button>
@@ -271,14 +271,14 @@ const ReindeerRunner = ({ onScore }: { onScore: (n: number) => void }) => {
         <div className="absolute top-3 right-3 text-4xl">{Array.from({ length: 5 }).map((_, i) => <span key={i}>❄️</span>)}</div>
         <div className="text-center mt-6">
           <div className="text-5xl mb-1">{current.emoji}</div>
-          <div className="text-xl font-bold text-foreground">{current.vi}</div>
-          <div className="text-xs text-muted-foreground">{t("Chọn từ tiếng Phần đúng", "Pick the right Finnish word")}</div>
+          <div className="text-xl font-bold text-slate-100">{current.vi}</div>
+          <div className="text-sm text-slate-300">{t("Chọn từ tiếng Phần đúng", "Pick the right Finnish word")}</div>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2">
         {options.map(opt => (
           <button key={opt} onClick={() => pick(opt)}
-            className="px-3 py-3 rounded-xl border-2 border-amber-500/30 bg-card hover:border-amber-500/60 hover:bg-amber-500/10 text-base font-bold transition-all active:scale-95">
+            className="px-3 py-3 rounded-xl border-2 border-amber-400/60 bg-slate-950/90 text-amber-100 hover:border-amber-300 hover:bg-amber-900/80 hover:text-white text-base font-bold transition-all active:scale-95">
             {opt}
           </button>
         ))}
@@ -344,10 +344,10 @@ const InflectionDetective = ({ onScore }: { onScore: (n: number) => void }) => {
       </div>
       <div className="rounded-2xl border-2 border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-500/10 to-purple-500/10 p-6 text-center">
         <div className="text-5xl mb-2">🕵️</div>
-        <div className="text-sm text-muted-foreground">{t("Từ gốc", "Base word")}</div>
-        <div className="text-2xl font-bold text-foreground">{item.base}</div>
-        <div className="text-sm text-fuchsia-400">({item.baseEn})</div>
-        <div className="mt-3 text-sm">{t("Chọn dạng", "Find the")}: <span className="font-bold text-fuchsia-300 uppercase">{targetType}</span></div>
+        <div className="text-sm text-slate-300">{t("Từ gốc", "Base word")}</div>
+        <div className="text-2xl font-bold text-slate-100">{item.base}</div>
+        <div className="text-sm text-fuchsia-300">({item.baseEn})</div>
+        <div className="mt-3 text-sm text-slate-200">{t("Chọn dạng", "Find the")}: <span className="font-bold text-fuchsia-200 uppercase">{targetType}</span></div>
       </div>
       <div className="grid grid-cols-1 gap-2">
         {options.map(f => (
@@ -355,7 +355,7 @@ const InflectionDetective = ({ onScore }: { onScore: (n: number) => void }) => {
             className={`px-4 py-3 rounded-xl border-2 text-lg font-bold transition-all active:scale-95 ${
               feedback === "ok" && f.correct ? "border-emerald-500 bg-emerald-500/20 text-emerald-400" :
               feedback === "err" && f.correct ? "border-emerald-500 bg-emerald-500/20 text-emerald-400" :
-              "border-fuchsia-500/30 bg-card hover:border-fuchsia-500/60 hover:bg-fuchsia-500/10"
+              "border-fuchsia-400/60 bg-slate-950/90 text-fuchsia-100 hover:border-fuchsia-300 hover:bg-fuchsia-900/80 hover:text-white"
             }`}>
             {f.form}
           </button>
@@ -381,7 +381,7 @@ const FinnishArcade = () => {
   ];
 
   return (
-    <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-slate-900 via-sky-950 to-slate-900 text-slate-100">
+    <div className="dark relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-slate-900 via-sky-950 to-slate-900 text-slate-100">
       <FloatingNordicParticles variant="finnish" />
       <SEO title="Finnish Arcade Hub | HaiEduTech" description="Arcade tiếng Phần Lan: Sauna Match, Reindeer Runner, Inflection Detective, Word Meteor - học suomi qua trò chơi." path="/finnish/arcade" />
       <Navbar />

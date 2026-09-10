@@ -364,7 +364,7 @@ const VietnameseArcade = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50/50 via-background to-rose-50/40 dark:from-amber-950/20 dark:via-background dark:to-rose-950/20">
+    <div className="dark min-h-screen bg-gradient-to-b from-amber-50/50 via-background to-rose-50/40 dark:from-amber-950/20 dark:via-background dark:to-rose-950/20">
       <SEO
         title="Vietnamese Arcade - Trò chơi học Tiếng Việt | HaiEduTech"
         description="Mini-games học từ vựng Tiếng Việt theo phong cách lotus arcade: Phở Match và Bóng Nước Pop, hỗ trợ phát âm vi-VN, hoàn toàn responsive."

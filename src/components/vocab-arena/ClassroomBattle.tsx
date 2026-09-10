@@ -211,7 +211,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
   // JOIN screen
   if (phase === "join") {
     return (
-      <div className="max-w-md mx-auto text-center py-16">
+      <div className="max-w-md mx-auto text-center py-8 sm:py-16">
         <Users className="w-12 h-12 text-primary mx-auto mb-4" />
         <h2 className="text-2xl font-bold text-foreground mb-2">
           {t("Tham gia phòng thi", "Join Game Room")}
@@ -250,7 +250,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
   // WAITING screen
   if (phase === "waiting") {
     return (
-      <div className="max-w-md mx-auto text-center py-16">
+      <div className="max-w-md mx-auto text-center py-8 sm:py-16">
         <Loader2 className="w-10 h-10 text-primary mx-auto mb-4 animate-spin" />
         <h2 className="text-xl font-bold text-foreground mb-2">
           {t("Đang chờ giáo viên bắt đầu...", "Waiting for teacher to start...")}
@@ -308,7 +308,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
         {/* Mini leaderboard sidebar - live, top 5, current player highlighted */}
         <div className="fixed top-24 right-4 w-52 rounded-xl bg-card border-2 border-primary/30 p-3 shadow-lg hidden lg:block">
           <h4 className="text-xs font-bold text-foreground mb-2 flex items-center gap-1.5">
-            <Crown className="w-3.5 h-3.5 text-amber-400" />
+            <Crown className="w-3.5 h-3.5 text-amber-600" />
             {t("BXH Trực tiếp", "Live Leaderboard")}
             <span className="ml-auto inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           </h4>
@@ -322,7 +322,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
                 }`}
               >
                 <span className="text-foreground truncate flex items-center gap-1">
-                  <span className={i === 0 ? "text-amber-500 font-bold" : "text-muted-foreground"}>
+                  <span className={i === 0 ? "text-amber-600 font-bold" : "text-muted-foreground"}>
                     {i === 0 ? "👑" : `#${i + 1}`}
                   </span>
                   <span className={isMe ? "font-bold" : ""}>{p.display_name}</span>
@@ -345,7 +345,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
         {/* Final leaderboard */}
         <div className="max-w-md mx-auto mt-8">
           <h3 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-amber-400" /> {t("Bảng xếp hạng cuối cùng", "Final Leaderboard")}
+            <Trophy className="w-5 h-5 text-amber-600" /> {t("Bảng xếp hạng cuối cùng", "Final Leaderboard")}
           </h3>
           {leaderboard.map((p, i) => {
             const isMe = p.display_name === myName;
@@ -364,7 +364,7 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className={`text-lg font-bold ${i === 0 ? "text-amber-400" : isMe ? "text-primary" : "text-muted-foreground"}`}>
+                <span className={`text-lg font-bold ${i === 0 ? "text-amber-600" : isMe ? "text-primary" : "text-muted-foreground"}`}>
                   {i === 0 ? "👑" : `#${i + 1}`}
                 </span>
                 <span className="font-semibold text-foreground">

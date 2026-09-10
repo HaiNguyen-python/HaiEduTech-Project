@@ -150,7 +150,7 @@ export const ExamCheerBubble = ({ answered, every = 5, vi, enabled = true, onChe
           initial={{ opacity: 0, y: 20, scale: 0.8, x: "-50%" }}
           animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
           exit={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
-          className="pointer-events-none fixed bottom-24 left-1/2 z-40 rounded-full border-2 border-white bg-gradient-to-r from-[#FFD93D] via-[#FF9F1C] to-[#FF6B9D] px-6 py-3 text-lg font-black text-white shadow-xl"
+          className="pointer-events-none fixed bottom-24 left-1/2 z-40 rounded-full border-2 border-white bg-gradient-to-r from-[#FFD93D] via-[#FF9F1C] to-[#FF6B9D] px-6 py-3 text-lg font-black text-[#78350F] shadow-xl"
         >
           {cheer.emoji} {cheer.text}
         </motion.div>
