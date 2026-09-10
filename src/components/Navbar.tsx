@@ -498,6 +498,7 @@ const Navbar = () => {
       { to: "/lifestyle-academy?pillar=etiquette", label: t("💬 Nghệ thuật Ứng xử", "💬 Eloquence & Etiquette") },
       { to: "/lifestyle-academy?pillar=presence", label: t("🌟 Khí chất & Bản lĩnh", "🌟 Presence & Resilience") },
       { to: "/lifestyle-academy?pillar=wellness", label: t("💪 Thân thể Khoẻ mạnh", "💪 Physical Wellness") },
+      { to: "/lifestyle-academy?pillar=selfstudy", label: t("📚 Kỹ năng Tự học", "📚 Self-Study Skills") },
       { to: "/lifestyle-academy#micro-coach", label: t("🧘 Micro-Coach hôm nay", "🧘 Micro-Coach for Today") },
     ], key: "lifestyle" },
 
