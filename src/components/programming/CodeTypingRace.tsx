@@ -445,7 +445,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
       setQuizAnswers({});
     } catch (e) {
       explainStartedRef.current = false;
-      setExplainError(e instanceof Error ? e.message : "Không thể tải giải thích. Thử lại nhé!");
+      setExplainError(e instanceof Error ? e.message : "Could not load the explanation. Please try again.");
     } finally {
       setExplainLoading(false);
     }
@@ -550,9 +550,9 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
             <button
               onClick={finish}
               className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 active:scale-95"
-              title="Hoàn tất nếu hệ thống không tự nhận diện"
+              title="Mark as finished if it is not detected automatically"
             >
-              <Trophy className="w-3.5 h-3.5" /> Hoàn tất
+              <Trophy className="w-3.5 h-3.5" /> Finish
             </button>
           )}
           {pool.length > 1 && (
@@ -576,8 +576,8 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
 
       <div className="flex flex-col">
         <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 px-1 flex items-center justify-between">
-          <span>📖 Gõ trực tiếp lên code mẫu bên dưới</span>
-          <span className="text-muted-foreground/70">Tab/Shift+Tab để thụt dòng</span>
+          <span>📖 Type directly over the sample code below</span>
+          <span className="text-muted-foreground/70">Tab/Shift+Tab to indent</span>
         </div>
         <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.18] bg-slate-950 rounded-lg overflow-hidden">
           {/* Visible code surface: soft-wraps long lines and shows the full block. */}
