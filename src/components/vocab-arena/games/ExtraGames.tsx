@@ -136,7 +136,7 @@ const EndCard = ({
           <Crown className="w-3 h-3" /> {t("KỶ LỤC MỚI!", "NEW RECORD!")}
         </div>
       )}
-      <Trophy className="w-14 h-14 text-amber-500 mx-auto mb-3" />
+      <Trophy className="w-14 h-14 text-amber-600 mx-auto mb-3" />
       <h3 className="text-2xl font-bold mb-2">
         {mode === "solo"
           ? t(`Tổng điểm: ${scoreA}`, `Final score: ${scoreA}`)
@@ -153,7 +153,7 @@ const EndCard = ({
           </span>
         )}
         {saved?.rank && mode === "solo" && (
-          <span className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold">
+          <span className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-600 font-bold">
             🏅 {t(`Hạng #${saved.rank} trên thiết bị`, `Rank #${saved.rank} on this device`)}
           </span>
         )}
