@@ -142,7 +142,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
                     layout
                     onClick={() => toggleToken(idx, tokenIdx)}
                     disabled={submitted}
-                    className="px-3 py-1.5 rounded-md text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-accent hover:text-accent-foreground transition-all"
+                    className="px-3 py-1.5 rounded-md text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-muted hover:text-foreground transition-all"
                   >
                     {item.scrambled[tokenIdx]}
                   </motion.button>

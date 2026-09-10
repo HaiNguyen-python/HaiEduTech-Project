@@ -960,7 +960,7 @@ const FloatingNotebook = () => {
                   type="button"
                   onClick={() => setTab(key)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                    tab === key ? "bg-primary text-primary-foreground" : "hover:bg-accent text-muted-foreground"
+                    tab === key ? "bg-primary text-primary-foreground" : "hover:bg-muted hover:text-foreground text-muted-foreground"
                   }`}
                 >
                   <Icon size={13} /> {label}
@@ -1042,7 +1042,7 @@ const FloatingNotebook = () => {
                 <button
                   key={i}
                   onClick={action}
-                  className={`p-1.5 rounded-md text-xs transition-colors ${active ? "bg-primary/20 text-primary" : "hover:bg-accent text-muted-foreground"}`}
+                  className={`p-1.5 rounded-md text-xs transition-colors ${active ? "bg-primary/20 text-primary" : "hover:bg-muted hover:text-foreground text-muted-foreground"}`}
                   type="button"
                 >
                   <Icon size={14} />
@@ -1052,7 +1052,7 @@ const FloatingNotebook = () => {
               <div className="relative">
                 <button
                   onClick={() => setShowColorPicker(!showColorPicker)}
-                  className={`p-1.5 rounded-md text-xs transition-colors ${showColorPicker ? "bg-primary/20 text-primary" : "hover:bg-accent text-muted-foreground"}`}
+                  className={`p-1.5 rounded-md text-xs transition-colors ${showColorPicker ? "bg-primary/20 text-primary" : "hover:bg-muted hover:text-foreground text-muted-foreground"}`}
                   type="button"
                 >
                   <Palette size={14} />

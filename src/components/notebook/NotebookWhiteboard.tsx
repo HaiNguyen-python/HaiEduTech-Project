@@ -384,7 +384,7 @@ const NotebookWhiteboard = ({ onInsert }: Props) => {
     a.remove();
   };
 
-  const btn = "p-1.5 rounded-md text-muted-foreground hover:bg-accent disabled:opacity-40";
+  const btn = "p-1.5 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-40";
   const btnActive = "p-1.5 rounded-md bg-primary/20 text-primary";
 
   return (

@@ -211,7 +211,7 @@ const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: st
           <Button onClick={submit} className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-bold hover:brightness-110">
             ▶ RUN
           </Button>
-          <Button variant="outline" onClick={() => setPicked([])} className="border-slate-700 text-slate-300">Clear</Button>
+          <Button variant="outline" onClick={() => setPicked([])} className="border-slate-700 bg-slate-800/60 text-slate-200 hover:bg-slate-700 hover:text-white">Clear</Button>
           <Button variant="ghost" onClick={() => setPicked(p => p.slice(0, -1))} className="text-slate-400">⌫</Button>
         </div>
       </div>
@@ -320,7 +320,7 @@ const PipelinePlumber = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], tex
           <Button onClick={run} disabled={running} className="bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-900 font-bold">
             {running ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : "▶"} RUN PIPELINE
           </Button>
-          <Button variant="outline" onClick={() => setChain([])} className="border-slate-700 text-slate-300">Reset</Button>
+          <Button variant="outline" onClick={() => setChain([])} className="border-slate-700 bg-slate-800/60 text-slate-200 hover:bg-slate-700 hover:text-white">Reset</Button>
         </div>
       </div>
     </div>
