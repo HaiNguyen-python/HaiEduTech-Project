@@ -951,9 +951,9 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
 
         {/* Runner avatar */}
         <motion.div
-          animate={{ x: `${playerTrack * 25 + 12.5}%` }}
+          animate={{ left: `${playerTrack * 25 + 12.5}%`, x: "-50%" }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="absolute bottom-6 -translate-x-1/2 text-5xl"
+          className="absolute bottom-6 text-5xl"
         >
           🏃
         </motion.div>
