@@ -161,11 +161,75 @@ const matchesLine = (phrase: string, text: string) =>
  * Falls back to the lesson's own target phrases when nothing in the shared
  * bank appears in the conversation, so no lesson is left without emphasis.
  */
+/**
+ * Generic chunk patterns. The fixed bank above cannot list every useful
+ * collocation, so these frames catch the recurring functional language that
+ * appears in interview, seminar and business dialogues.
+ */
+const PHRASE_PATTERNS: RegExp[] = [
+  /\b(?:I|we)(?:'m| am) (?:a|an) [a-z]+(?: [a-z]+)? (?:professional|specialist|engineer|manager|student|teacher|developer|analyst|designer|researcher|consultant)\b/gi,
+  /\b\d+ years? of experience\b/gi,
+  /\bI (?:specialize|specialise) in\b/gi,
+  /\bI (?:have )?(?:focused|worked|studied|majored|concentrated) (?:primarily |mainly )?(?:on|in|at|with)\b/gi,
+  /\bmy (?:greatest|biggest|main|key) (?:strength|weakness|challenge|goal|concern)s? (?:is|are)\b/gi,
+  /\b(?:my|the) ability to\b/gi,
+  /\bI'?m (?:responsible|known|grateful|excited) for\b/gi,
+  /\bwhat (?:specific|kind of|sort of|type of) [a-z]+\b/gi,
+  /\bbased on (?:that|your|my|the) [a-z]+\b/gi,
+  /\bthat sounds [a-z]+\b/gi,
+  /\bI appreciate (?:that|your|it|the)\b/gi,
+  /\bit shows (?:real )?[a-z]+\b/gi,
+  /\btell me (?:more )?about\b/gi,
+  /\bhow do you (?:handle|deal with|approach|feel about|see)\b/gi,
+  /\bcould you (?:give|share|walk|tell|describe)\b/gi,
+  /\bI (?:believe|think|feel|would say) that\b/gi,
+  /\bone of (?:my|the) [a-z]+\b/gi,
+  /\bthe main (?:reason|point|issue|goal|challenge|advantage)\b/gi,
+  /\b(?:for example|for instance|as a result|in addition|on top of that|in fact|in short|in terms of|at the same time|more importantly)\b/gi,
+  /\bI'?m (?:interested|involved) in\b/gi,
+  /\bI'?m (?:planning|hoping|trying|willing|about) to\b/gi,
+  /\bI used to\b/gi,
+  /\bI'?ve been [a-z]+ing\b/gi,
+  /\bwe (?:need|want|have) to\b/gi,
+  /\b(?:let's|let us) [a-z]+\b/gi,
+  /\bthanks? (?:a lot )?for [a-z]+\b/gi,
+  /\bI'?d love to\b/gi,
+  /\bmake sure (?:that|to)\b/gi,
+  /\bkeep (?:me|us|you) (?:updated|posted|informed)\b/gi,
+  /\bin my (?:opinion|view|experience)\b/gi,
+  /\bfrom my point of view\b/gi,
+];
+
+const extractPatternPhrases = (text: string): string[] => {
+  const found = new Set<string>();
+  for (const pattern of PHRASE_PATTERNS) {
+    const re = new RegExp(pattern.source, pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`);
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text)) !== null) {
+      const hit = m[0].trim();
+      if (hit.length >= 4) found.add(hit);
+      if (m.index === re.lastIndex) re.lastIndex += 1;
+    }
+  }
+  return Array.from(found);
+};
+
+/**
+ * Returns the phrases that should be printed in bold for a dialogue: bank
+ * matches, generic pattern matches and the lesson's own target phrases.
+ */
 export const resolveDialogueKeyPhrases = (lines: string[], lessonPhrases: string[] = []): string[] => {
   const text = lines.join(" \n ");
   const hits = DIALOGUE_KEY_PHRASES.filter((phrase) => matchesLine(phrase, text));
-  if (hits.length >= 2) return hits;
-  const fallback = lessonPhrases.filter((phrase) => phrase.trim().length >= 3 && matchesLine(phrase, text));
-  return Array.from(new Set([...hits, ...fallback]));
+  const patterned = extractPatternPhrases(text);
+  const lesson = lessonPhrases.filter((phrase) => phrase.trim().length >= 3 && matchesLine(phrase, text));
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const phrase of [...hits, ...lesson, ...patterned].sort((a, b) => b.length - a.length)) {
+    const key = phrase.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(phrase);
+  }
+  return result;
 };
-
