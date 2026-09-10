@@ -475,7 +475,7 @@ const WordQuest = ({
   };
 
   // ── Map: set list / stage list ──
-  if (stageIdx === null || !stage || !word) {
+  if (stageIdx === null || !stage || (phase === "drill" && !word)) {
     if (stages.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center py-16 text-center">
