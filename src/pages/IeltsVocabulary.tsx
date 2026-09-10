@@ -1924,7 +1924,7 @@ const IeltsVocabulary = () => {
             </div>
 
             {/* Content based on mode */}
-            {viewMode === "exercise" || viewMode === "quest" || viewMode === "mission" ? null : viewMode === "flashcard" ? (
+            {viewMode === "exercise" || viewMode === "quest" || viewMode === "mission" || viewMode === "arena" ? null : viewMode === "flashcard" ? (
 
               <FlashcardDeck words={filtered} t={t} mastered={mastered} onStar={handleStarClick} />
             ) : (() => {
