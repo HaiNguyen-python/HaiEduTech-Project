@@ -2035,7 +2035,7 @@ def run(strategy):
 
 print(f"ε-greedy regret: {run('egreedy'):8.1f}")
 print(f"UCB-1   regret: {run('ucb'):8.1f}")
-# UCB thường đạt regret thấp hơn khoảng 30%',
+# UCB thường đạt regret thấp hơn khoảng 30%`,
       exercise: "Why does ε-greedy fail catastrophically on Montezuma's Revenge while curiosity-driven methods can solve it? Explain in 3 sentences referring to reward sparsity.",
       exerciseEn: "",
       quiz: [
@@ -2331,7 +2331,7 @@ successes = sum(1 for *_, r in buffer if r == 1.0)
 print(f"Successful transitions in buffer: {successes} / {len(buffer)} "
       f"(without HER would be ≈ {successes // 2})")
 # Ví dụ: Successful transitions in buffer: 10000 / 20000 (without HER would be ≈ 5000)
-# (Số lượng chính xác có thể thay đổi do tính ngẫu nhiên)',
+# (Số lượng chính xác có thể thay đổi do tính ngẫu nhiên)`,
       exercise: "Explain why HER works only when the relabelled goal is reachable by the same dynamics. What goes wrong if you relabel arbitrarily?",
       exerciseEn: "",
       quiz: [
@@ -2443,7 +2443,7 @@ for epoch in range(3):
         opt.zero_grad(); loss.backward(); opt.step()
         total += loss.item() * len(xb)
     print(f"epoch {epoch}: avg MSE = {total/N:.4f}")
-# Lưu ý: BC sẽ không phục hồi khi gặp trạng thái ngoài phân phối - cần DAgger cho lái đường cao tốc',
+# Lưu ý: BC sẽ không phục hồi khi gặp trạng thái ngoài phân phối - cần DAgger cho lái đường cao tốc`,
       exercise: "Explain why BC suffers from quadratic regret in horizon T while DAgger achieves linear regret. Use the term 'covariate shift'.",
       exerciseEn: "",
       quiz: [

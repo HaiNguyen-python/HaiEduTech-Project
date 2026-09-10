@@ -141,7 +141,7 @@ def build_prompt(turn: TutorTurn) -> list:
     ]
 
 # Pseudo-call
-# response = llm.chat(messages=build_prompt(turn), temperature=0.4, max_tokens=200)',
+# response = llm.chat(messages=build_prompt(turn), temperature=0.4, max_tokens=200)`,
         codeLanguage: "python",
         exercise: "Thiết kế system prompt cho 'AI tutor toán lớp 5' theo Socratic method, có ranh giới rõ ràng (không làm hộ bài tập).",
         exerciseEn: "Design a system prompt for an 'Grade-5 Math AI tutor' using Socratic method with clear boundaries.",

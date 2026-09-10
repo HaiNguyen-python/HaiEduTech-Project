@@ -170,7 +170,7 @@ for s in multilingual:
 # In production you'd POST this to your Lovable AI Gateway edge function:
 #   model = "google/gemini-2.5-flash"
 #   prompt = "Extract entities as JSON with keys: people, orgs, locations, dates, money."
-# The LLM returns a parseable dict - no labelled data required.',
+# The LLM returns a parseable dict - no labelled data required.`,
         codeLanguage: "python",
         exercise: "Run the spaCy block on a paragraph from your **own CV / resume**. Identify any entities the model **misses** or **mis-labels** (e.g. Vietnamese university names, dates in *dd/mm/yyyy*). Suggest two ways to fix it: (1) which model you would swap to, and (2) one rule-based post-processor you could add as a safety net.",
         exerciseEn: "",
@@ -356,7 +356,7 @@ for tid in set(topics):
 # Topic 1 -> visuals / diagrams / illustrations
 # Topic 2 -> price / discount / expensive
 # Notice: the Finnish & Vietnamese docs land in the right English cluster
-# because the multilingual embedding model speaks all three languages.',
+# because the multilingual embedding model speaks all three languages.`,
         codeLanguage: "python",
         exercise: "Add 3 more documents about a 4th theme (e.g. *\"the chatbot is amazing!\"*). Re-fit BERTopic. Did it discover a new topic, or merge it with an existing cluster? If it merged, propose **two** ways to encourage the model to split (hint: tweak `min_topic_size` or use a different embedding model).",
         exerciseEn: "",
@@ -627,7 +627,7 @@ for q in [
     print("---")
 
 # Kết quả mong đợi: mọi câu trả lời đều trích dẫn [Source N] và dựa trên các tài liệu đã cung cấp ở trên.
-# Để sẵn sàng cho môi trường sản xuất, có thể thay thế FAISS bằng Supabase pgvector.',
+# Để sẵn sàng cho môi trường sản xuất, có thể thay thế FAISS bằng Supabase pgvector.`,
         codeLanguage: "python",
         exercise: "Add a **re-ranker** step between `retrieve` and the LLM. Use `sentence-transformers/CrossEncoder` (e.g. `cross-encoder/ms-marco-MiniLM-L-6-v2`) to score the top-10 chunks and keep only the top-3. Compare answer quality before vs after. In 2-3 sentences, explain *why* a cross-encoder beats a bi-encoder for ranking even though it's slower.",
         exerciseEn: "",
@@ -797,7 +797,7 @@ for seg in result["segments"]:
 #     answer = call_llm(transcript)             # your business logic
 #     synthesize(answer, "answer.mp3")          # TTS
 #     return "answer.mp3"
-# This is exactly the loop the HaiEduTech Speaking Coach runs every turn.',
+# This is exactly the loop the HaiEduTech Speaking Coach runs every turn.`,
         codeLanguage: "python",
         exercise: "Record a 10-second clip of yourself reading the IELTS Cue Card *\"Describe a teacher who influenced you.\"* in **English**, then in **Vietnamese**. Run Whisper *base* and *medium* on both. Report (a) which language was harder, (b) any tone/diacritic mistakes the model makes, and (c) one practical fix you would add (hint: post-process with a Vietnamese spell-checker, or swap to PhoWhisper).",
         exerciseEn: "",
@@ -1034,7 +1034,7 @@ search("Where can I store embeddings in Postgres?")
 # for row in cur.fetchall():
 #     print(row)
 #
-# Same SQL, same auth, same backups. No new database to operate.',
+# Same SQL, same auth, same backups. No new database to operate.`,
         codeLanguage: "python",
         exercise: "Modify the FAISS demo so the index is **persistent**: write it to disk with `faiss.write_index(index, 'demo.index')` and load it back. Then add **filtering**: only return results from documents that contain the word *\"Postgres\"*. Compare the result-set sizes and explain in 2-3 sentences why doing the filter **after** retrieval (post-filter) can be slower than a true metadata filter inside a vector DB like pgvector or Qdrant.",
         exerciseEn: "",

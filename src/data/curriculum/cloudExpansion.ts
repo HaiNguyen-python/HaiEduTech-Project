@@ -1144,7 +1144,7 @@ fields @timestamp, user_id, error
 """
 
 # Ví dụ tương đương trong PromQL (được comment):
-# rate(http_requests_total{status="500"}[5m]) / rate(http_requests_total[5m]) > 0.05',
+# rate(http_requests_total{status="500"}[5m]) / rate(http_requests_total[5m]) > 0.05`,
         codeLanguage: "python",
         exercise: "Define 3 SLIs and matching SLOs for an e-commerce checkout service. Explain the error budget calculation for one of them.",
         exerciseEn: "Define 3 SLIs and matching SLOs for an e-commerce checkout service. Explain the error budget calculation for one of them.",
@@ -2188,7 +2188,7 @@ def calculate_dr_strategy_cost(production_cost: float, strategy: str) -> dict:
     }
 
 print(calculate_dr_strategy_cost(10000, 'warm_standby'))
-# {'monthly_cost': 4000.0, 'rto': '5min', 'rpo': '30s'}',
+# {'monthly_cost': 4000.0, 'rto': '5min', 'rpo': '30s'}`,
         codeLanguage: "python",
         exercise: "A fintech app processes \\\\$5M/day in transactions. Recommend a DR strategy with specific RTO/RPO targets, estimated cost, and 3 mandatory tests.",
         exerciseEn: "A fintech app processes \\\\$5M/day in transactions. Recommend a DR strategy with specific RTO/RPO targets, estimated cost, and 3 mandatory tests.",

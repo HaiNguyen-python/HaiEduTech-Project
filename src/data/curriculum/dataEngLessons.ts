@@ -1201,7 +1201,7 @@ pipeline.run(source_data, transforms, "data_warehouse.students")
 #   [HH:MM:SS] TRANSFORM:   ✓ Cast types: 3 records
 #   [HH:MM:SS] TRANSFORM:   ✓ Add grade: 3 records
 #   [HH:MM:SS] LOAD: Writing 3 records to data_warehouse.students
-#   [HH:MM:SS] DONE: Pipeline complete! {'records': 3, 'destination': 'data_warehouse.students'}',
+#   [HH:MM:SS] DONE: Pipeline complete! {'records': 3, 'destination': 'data_warehouse.students'}`,
         codeLanguage: "python",
         exercise: "Extend ETLPipeline: add error handling, retry logic, and data quality report.",
         exerciseEn: "Extend ETLPipeline: add error handling, retry logic, and data quality report.",
@@ -2640,7 +2640,7 @@ results = pipeline.run(data, transform)
 # Kết quả mong đợi:
 # - Các log sẽ được in ra console, bao gồm thông tin bắt đầu, kết thúc, và các lỗi (nếu có).
 # - Biến 'results' sẽ chứa danh sách các bản ghi đã được biến đổi thành công.
-# - Biến 'pipeline.dead_letter' sẽ chứa các bản ghi không thể xử lý được.',
+# - Biến 'pipeline.dead_letter' sẽ chứa các bản ghi không thể xử lý được.`,
         codeLanguage: "python",
         exercise: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",
         exerciseEn: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",

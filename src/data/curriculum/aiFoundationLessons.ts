@@ -1370,7 +1370,7 @@ for i, t in enumerate(tokens):
 #        The   cat   sat    on   mat
 # The   0.20  0.15  0.25  0.10  0.30
 # cat   0.18  0.22  0.19  0.21  0.20
-# ...',
+# ...`,
         codeLanguage: "python",
         exercise: "Implement Multi-Head Attention with 2 heads. Compare attention patterns between heads.",
         exerciseEn: "Implement Multi-Head Attention with 2 heads. Compare attention patterns between heads.",
@@ -1590,7 +1590,7 @@ print(f"   Score: {score_prompt(prompts['few_shot'])}%")
 #   ✅ Has specific task
 #   ✅ Has format spec
 #   ✅ Has examples
-#    Score: 100%',
+#    Score: 100%`,
         codeLanguage: "python",
         exercise: "Build a Prompt Template Engine: take input (role, task, format, examples) and generate an optimized prompt.",
         exerciseEn: "Build a Prompt Template Engine: take input (role, task, format, examples) and generate an optimized prompt.",

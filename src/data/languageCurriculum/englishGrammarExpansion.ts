@@ -1018,7 +1018,7 @@ After adjectives: happy to, easy to, difficult to
 Purpose: *I study hard to pass the exam.*
 
 ### Both (same meaning): like, love, hate, start, begin, continue
-### Both (different meaning): stop, remember, try, forget',
+### Both (different meaning): stop, remember, try, forget`,
         proTips: [
           "MEGA TIP: enjoy/finish/avoid/mind → V-ing | want/need/decide/hope → to V",
           "stop V-ing = ngừng. stop to V = dừng lại để...",
@@ -1226,7 +1226,7 @@ He wants to be promoted.`,
 ### Comparative: adj-ER than / MORE adj than
 ### Superlative: THE adj-EST / THE MOST adj
 ### Equal: as adj as / not as adj as
-### Irregular: good→better→best, bad→worse→worst',
+### Irregular: good→better→best, bad→worse→worst`,
         proTips: [
           "1-2 âm tiết → -er/-est. 3+ âm tiết → more/most",
           "good → better → best (BẤT QUY TẮC, phải nhớ)",
@@ -1311,7 +1311,7 @@ He wants to be promoted.`,
 
 ### Double Comparative: The + comp, the + comp = The more...the better
 ### Multiple: twice/three times as...as
-### Special: the same as, similar to, different from, prefer A to B, would rather V than V',
+### Special: the same as, similar to, different from, prefer A to B, would rather V than V`,
         proTips: [
           "The + comparative, the + comparative = càng...càng...",
           "different FROM (KHÔNG phải different than/to trong BE)",

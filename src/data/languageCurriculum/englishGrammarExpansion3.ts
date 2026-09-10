@@ -1311,7 +1311,7 @@ In real speech, rarely use more than 3-4 adjectives. No comma between different 
 ### lie/lay/lain (no object) vs lay/laid/laid (with object)
 - I lie down. / Please lay the book on the table.
 
-### its (possessive) vs it's (= it is/has)',
+### its (possessive) vs it's (= it is/has)`,
         proTips: [
           "Mốc → since; Khoảng → for.",
           "during + N; while + S+V.",

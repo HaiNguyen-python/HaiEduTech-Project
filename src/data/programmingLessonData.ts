@@ -798,7 +798,7 @@ CREATE POLICY "Users create own notes" ON notes
 -- ❌ SQL Injection is dangerous
 -- query = f"SELECT * FROM users WHERE name = '{input}'"
 -- ✅ Safe: Parameterized query
--- query = "SELECT * FROM users WHERE name = $1"',
+-- query = "SELECT * FROM users WHERE name = $1"`,
         codeLanguage: "sql",
         exercise: "Write a transaction to transfer points between 2 students (subtract point A, add point B). Add RLS policy to the worksheet.",
         exerciseEn: "Write a transaction to transfer points between 2 students. Add RLS policy for assignments table.",

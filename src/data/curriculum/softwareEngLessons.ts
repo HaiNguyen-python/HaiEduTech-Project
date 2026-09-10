@@ -369,7 +369,7 @@ for c in cases:
 # Kết quả mong đợi:
 # {'team_size': 5, 'expected_users': 5000, 'has_devops': False}  →  Modular Monolith
 # {'team_size': 50, 'expected_users': 5000000, 'has_devops': True}  →  Microservices
-# {'team_size': 12, 'expected_users': 80000, 'has_devops': True}  →  Modular Monolith',
+# {'team_size': 12, 'expected_users': 80000, 'has_devops': True}  →  Modular Monolith`,
         exercise: "Vẽ kiến trúc cho 1 app chat 100k user/ngày. Tách ra: Auth, Message, Notification, Storage. Service nào cần message queue?",
         exerciseEn: "Draft an architecture for a chat app with 100k DAU. Separate: Auth, Message, Notification, Storage. Which services need a message queue?",
         quiz: [
@@ -1843,7 +1843,7 @@ export function timingReport() {
 // │ 0       │ 'db.orders'  │ 1240│  ← THE bottleneck
 // │ 1       │ 'compute'    │ 30  │
 // │ 2       │ 'db.products'│ 12  │
-// └─────────┴──────────────┴─────┘',
+// └─────────┴──────────────┴─────┘`,
         exercise: "Chọn 1 trang trong app bạn đang làm. Đo thời gian 3 đoạn: load data, transform, render. Báo cáo đoạn chậm nhất và đề xuất 1 cách giảm 50%.",
         exerciseEn: "Pick a page in your current app. Measure 3 segments: data load, transform, render. Report the slowest and propose one change to cut it in half.",
         quiz: [

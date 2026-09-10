@@ -593,7 +593,7 @@ z, p = proportions_ztest(
     alternative='larger'
 )
 print(f"z={z:.2f}  p={p:.4f}")
-# z=3.16  p=0.0008  → significant',
+# z=3.16  p=0.0008  → significant`,
         codeLanguage: "python",
         exercise: "Thiết kế A/B test cho 'AI hint mới' với baseline mastery=55%, lift mong đợi=4pp. Sample size? Thời gian chạy với 200 user mới/ngày?",
         exerciseEn: "Design an A/B test for 'new AI hint' with baseline mastery=55%, expected lift=4pp.",

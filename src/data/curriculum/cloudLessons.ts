@@ -1355,7 +1355,7 @@ policy = {
 
 import json
 print(json.dumps(policy, indent=2))
-# Then: create a Role, attach this policy to the Role, then assign the Role to the Lambda function',
+# Then: create a Role, attach this policy to the Role, then assign the Role to the Lambda function`,
         codeLanguage: "json",
         exercise: "Write an IAM policy that allows developers to read/write 'dev-uploads' S3 bucket, prohibits deleting objects, only allows access from office IP 203.0.113.0/24. Suggestion: use 2 Statements - 1 Allow for read/write, 1 Deny for delete.",
         exerciseEn: "Write an IAM policy that lets a developer read/write S3 bucket 'dev-uploads', deny delete, accessible only from office IP 203.0.113.0/24. Hint: use 2 Statements - one Allow for read/write, one Deny for delete.",
@@ -2232,7 +2232,7 @@ jobs:
           aws ecs update-service \\
             --cluster prod \\
             --service myapp \\
-            --force-new-deployment',
+            --force-new-deployment`,
         codeLanguage: "yaml",
         exercise: "A service has an SLO of 99.95% uptime/month. Calculate error budget (allowable minutes of downtime). If you used 30 minutes the first week, how much is left?",
         exerciseEn: "A service has an SLO of 99.95% monthly uptime. Calculate the error budget (allowed downtime in minutes). If 30 min were used in week 1, how much remains?",
@@ -2932,7 +2932,7 @@ def inventory_handler(event, context):
         for item in order["items"]:
             print(f"📦 Decrement stock {item['sku']} by {item['qty']}")
 
-# Benefit: adding AnalyticsService just requires subscribing to SNS - no editing of OrderService',
+# Benefit: adding AnalyticsService just requires subscribing to SNS - no editing of OrderService`,
         codeLanguage: "python",
         exercise: "EDA design for a taxi booking application (Uber-like): when a user books, the Driver-Match, Notification, Pricing, and Analytics services all need to be known. Draw the flow & choose the appropriate AWS service.",
         exerciseEn: "Design EDA for a taxi-booking app (Uber-like): when a user books, Driver-Match, Notification, Pricing, Analytics services all need to know. Draw the flow & pick suitable AWS services.",
