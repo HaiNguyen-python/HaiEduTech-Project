@@ -379,6 +379,7 @@ const LifestyleAcademy = () => {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [mood, setMood] = useState<MoodKey>("ready");
+  const { results, pillarScores, stats, saveResult } = useLifestyleProgress();
 
   // Scroll helper: filter by pillar then scroll to the deep-dive lessons section.
   const openPillarLessons = (key: PillarKey) => {
