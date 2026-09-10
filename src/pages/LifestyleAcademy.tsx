@@ -30,6 +30,7 @@ import {
   Target,
   Compass,
   Lightbulb,
+  PartyPopper,
 } from "lucide-react";
 
 import Navbar from "@/components/Navbar";
@@ -233,6 +234,26 @@ const PILLARS: Pillar[] = [
       { vi: "Tập trung sâu và chống trì hoãn", en: "Deep Focus & Anti-Procrastination" },
     ],
     Icon: Lightbulb,
+  },
+  {
+    key: "partying",
+    iconBg: "from-rose-400 via-pink-500 to-amber-400",
+    ring: "hover:ring-pink-400/40",
+    accentText: "text-pink-600 dark:text-pink-400",
+    titleVi: "Tiệc tùng & Sự kiện",
+    titleEn: "Parties & Events",
+    taglineVi: "Tổ chức, tham dự và toả sáng trong mọi dịp gặp gỡ.",
+    taglineEn: "Plan, attend and shine at every kind of gathering.",
+    sampleCourseVi:
+      "Nghệ thuật tiệc tùng: Tổ chức sự kiện, giao tiếp và nghi thức tiệc sang trọng",
+    sampleCourseEn:
+      "The Art of Gathering: Event Planning, Social Skills & Formal Dining Etiquette",
+    highlights: [
+      { vi: "Kế hoạch, ngân sách & kịch bản thời gian", en: "Planning, Budgets & Run of Show" },
+      { vi: "Giới thiệu, trò chuyện & kết nối", en: "Introductions, Small Talk & Networking" },
+      { vi: "Mã trang phục & nghi thức bàn tiệc", en: "Dress Codes & Table Manners" },
+    ],
+    Icon: PartyPopper,
   },
 ];
 
