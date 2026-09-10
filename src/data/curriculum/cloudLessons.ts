@@ -125,7 +125,7 @@ In 2008 Netflix suffered a 3-day database outage on-prem. They went "all-in" on 
 
 ## Next lesson
 Lesson 2 compares the **Big Three** so you can pick the right provider for your project.`,
-        code: `# Mô phỏng mô hình "pay-as-you-go" của Cloud
+        code: `# Simulate Cloud "pay-as-you-go" pricing model
 def calculate_cloud_cost(hours_used: float, instance_type: str = "t3.micro") -> float:
     pricing = {
         "t3.micro":  0.0104,   # USD/hour
@@ -141,7 +141,7 @@ monthly = calculate_cloud_cost(720, "t3.small")
 print(f"Cost for 1 month: \${monthly} USD")
 
 # Compare on-premise (buy physical server)
-on_prem_capex = 5000  # USD đầu tư ban đầu
+on_prem_capex = 5000  # USD initial investment
 months_to_breakeven = on_prem_capex / monthly
 print(f"On-prem breakeven later: {months_to_breakeven:.1f} months")`,
         codeLanguage: "python",
