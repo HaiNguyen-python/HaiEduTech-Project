@@ -41,6 +41,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LIFESTYLE_LESSONS, type LifestylePillarKey, type LifestyleLesson } from "@/data/lifestyleAcademyLessons";
+import { getLessonImage } from "@/data/lifestyleLessonImages";
+import LessonDialog from "@/components/lifestyle/LessonDialog";
 
 
 // Pillar-specific styles used across cards for consistent theming.
@@ -809,6 +811,7 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
   }[lesson.level];
 
   const styles = PILLAR_STYLES[lesson.pillar];
+  const image = getLessonImage(lesson.id);
 
   return (
     <motion.div
@@ -827,17 +830,25 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
           "dark:bg-slate-900/70",
         ].join(" ")}
       >
-        {/* Slim pillar-tinted header strip with level chip only (no decorative icons) */}
-        <div
-          aria-hidden
-          className={[
-            "relative h-3 w-full bg-gradient-to-r",
-            styles.bannerFrom,
-            styles.bannerTo,
-          ].join(" ")}
-        />
-        <div className="relative">
-          <span className={`absolute -top-3 right-3 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-100 ${styles.chipBg} border border-slate-200/70 dark:border-slate-700 shadow-sm`}>
+        {/* Lesson illustration (CDN image, emoji fallback) */}
+        <div className={`relative aspect-[16/9] w-full overflow-hidden bg-gradient-to-br ${styles.bannerFrom} ${styles.bannerTo}`}>
+          {image ? (
+            <img
+              src={image}
+              alt={lang === "vi" ? lesson.titleVi : lesson.titleEn}
+              className="h-full w-full object-cover"
+              loading="lazy"
+              width={1024}
+              height={576}
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center gap-3 text-3xl" aria-hidden>
+              {(lesson.illustrationEmojis ?? styles.emojis).slice(0, 4).map((e, idx) => (
+                <span key={idx}>{e}</span>
+              ))}
+            </div>
+          )}
+          <span className={`absolute right-3 top-3 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-100 ${styles.chipBg} border border-slate-200/70 dark:border-slate-700 shadow-sm`}>
             {lang === "vi" ? levelLabel.vi : levelLabel.en}
           </span>
         </div>
@@ -875,102 +886,27 @@ const LessonCard = ({ lesson, index }: LessonCardProps) => {
             </span>
           </div>
 
-          <AnimatePresence initial={false}>
-            {open && (
-              <motion.div
-                key="details"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.28, ease: "easeOut" }}
-                className="overflow-hidden"
-              >
-                <div className="mt-5 space-y-4 border-t border-slate-200/70 pt-4 dark:border-slate-800">
-                  {/* Why it matters */}
-                  {(lang === "vi" ? lesson.whyItMattersVi : lesson.whyItMattersEn) && (
-                    <div className={`rounded-lg border-l-4 ${styles.border} bg-gradient-to-br ${styles.bannerFrom} ${styles.bannerTo} p-3`}>
-                      <p className="text-[11px] uppercase tracking-wider font-semibold text-slate-700 dark:text-slate-200">
-                        {t("Vì sao điều này quan trọng", "Why it matters")}
-                      </p>
-                      <p className="mt-1 text-sm font-medium text-slate-800 dark:text-slate-100">
-                        {lang === "vi" ? lesson.whyItMattersVi : lesson.whyItMattersEn}
-                      </p>
-                    </div>
-                  )}
-
-                  <div>
-                    <p className="text-[11px] uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">
-                      <Compass className="mr-1 inline h-3.5 w-3.5" />
-                      {t("Khung tư duy", "Framework")}
-                    </p>
-                    <p className="mt-1 text-sm text-slate-700 dark:text-slate-200">
-                      {lang === "vi" ? lesson.frameworkVi : lesson.frameworkEn}
-                    </p>
-                  </div>
-
-                  {/* Deep-dive narrative */}
-                  {((lang === "vi" ? lesson.deepDiveVi : lesson.deepDiveEn) ?? []).length > 0 && (
-                    <div>
-                      <p className="text-[11px] uppercase tracking-wider font-semibold text-slate-600 dark:text-slate-300">
-                        {t("Đào sâu", "Deep dive")}
-                      </p>
-                      <div className="mt-2 space-y-2">
-                        {(lang === "vi" ? lesson.deepDiveVi! : lesson.deepDiveEn!).map((para, idx) => (
-                          <p key={idx} className="text-sm leading-relaxed text-slate-700 dark:text-slate-200">
-                            {para}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  <div>
-                    <p className="text-[11px] uppercase tracking-wider font-semibold text-teal-600 dark:text-teal-400">
-                      {t("Điểm cốt lõi", "Core takeaways")}
-                    </p>
-                    <ul className="mt-2 space-y-2">
-                      {lesson.takeaways.map((tk, idx) => (
-                        <li key={idx} className="flex gap-2 text-sm text-slate-700 dark:text-slate-200">
-                          <span aria-hidden className={`mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br ${pillar.iconBg}`} />
-                          <span>{lang === "vi" ? tk.vi : tk.en}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="rounded-lg border border-dashed border-amber-300/60 bg-amber-50/60 p-3 dark:border-amber-400/30 dark:bg-amber-500/10">
-                    <p className="text-[11px] uppercase tracking-wider font-semibold text-amber-700 dark:text-amber-400">
-                      {t("Câu hỏi phản chiếu", "Reflection prompt")}
-                    </p>
-                    <p className="mt-1 text-sm italic text-slate-700 dark:text-slate-200">
-                      {lang === "vi" ? lesson.reflectionVi : lesson.reflectionEn}
-                    </p>
-                  </div>
-
-                  <div className="rounded-lg border border-dashed border-emerald-300/60 bg-emerald-50/60 p-3 dark:border-emerald-400/30 dark:bg-emerald-500/10">
-                    <p className="text-[11px] uppercase tracking-wider font-semibold text-emerald-700 dark:text-emerald-400">
-                      <Target className="mr-1 inline h-3.5 w-3.5" />
-                      {t("Bài tập thực hành", "Practical drill")}
-                    </p>
-                    <p className="mt-1 text-sm text-slate-700 dark:text-slate-200">
-                      {lang === "vi" ? lesson.drillVi : lesson.drillEn}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           <div className="flex-1" />
           <Button
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setOpen(true)}
             className="mt-4 justify-between border-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/25 hover:from-emerald-600 hover:to-teal-600 hover:text-white hover:shadow-md hover:shadow-emerald-500/30"
           >
-            <span className="font-semibold">{open ? t("Thu gọn", "Collapse") : t("Xem bài học đầy đủ", "Open full lesson")}</span>
-            <ArrowRight className={`h-4 w-4 transition-transform ${open ? "rotate-90" : ""}`} />
+            <span className="font-semibold">{t("Xem bài học đầy đủ", "Open full lesson")}</span>
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </CardContent>
       </Card>
+
+      <LessonDialog
+        lesson={lesson}
+        open={open}
+        onOpenChange={setOpen}
+        styles={styles}
+        iconBg={pillar.iconBg}
+        accentText={pillar.accentText}
+        pillarTitle={lang === "vi" ? pillar.titleVi : pillar.titleEn}
+        levelLabel={lang === "vi" ? levelLabel.vi : levelLabel.en}
+      />
     </motion.div>
   );
 };
