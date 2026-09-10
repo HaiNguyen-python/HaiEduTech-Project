@@ -1,31 +1,11 @@
 # Roadmap
 
-## Cambridge Writing Practice
-- [x] 18 writing tasks per level (90 total), merged into the main bank
-- [x] Writing Lab: collapsible task dropdown + task-type filter
-- [x] Audit enforces 18 tasks per level
+## In progress
+- [x] Remove "Tips for this situation" boxes from conversation lessons (Conversational / Business / Academic English)
+- [x] Highlight key phrases + important vocabulary in conversations (legend + key phrase list)
+- [ ] Verify conversation lessons in desktop + mobile browser
 
-## Cambridge YLE test board
-- [x] Collapsible dropdown per level band (compact view)
-- [x] 5 new mock exams per level (125 papers total), audit clean
-
-- [x] Word Quest: 5th step, retry queue, stage medals, resume
-- [x] Daily Word Mission (SRS) tab on IELTS Vocabulary
-- [ ] IELTS Vocab practice: collocation match must not repeat the same masked phrase (e.g. three "____ analysis" rows) - ensure unique, distinguishable prompts
-
-## Lifestyle Academy
-- [x] Audited all 60 lessons: added bilingual "why it matters" + 3-4 paragraph deep dives for 44 lessons and illustration emojis for all 52 missing; audit script reports 0 issues; verified rendering at /lifestyle-academy
-
-- [x] Speaking Coach: English IPA regenerated from CMU dictionary (607+ sentences)
-
-## Business English and Academic English upgrade
-- [x] Move Professional Communication into Business English
-- [x] Move Academic Communication into Academic English
-- [x] Upgrade both course dashboards, lesson flow, practice, progress, and legacy links
-- [x] Audit all merged lessons and verify desktop/mobile learning flows
-- [x] Rebuild Core Lessons as a visual learning path with search, status filters, lesson outcomes, guided practice, annotated models, quiz summaries, and preserved progress
-- [x] Content-grounded guided activities, real step progress, wider Current filter, Lab vocabulary top-up, Core and Lab audits at 0 issues, legacy hub removed
-
-- Business/Academic English: fixed hover-invisible stage & lesson titles (ghost button accent-foreground), rebuilt roadmap rows as accessible buttons, renamed Listen tab to Conversation and redesigned dialogue as chat bubbles with avatars, speaker names, sticky audio bar.
-- [x] Core Lessons readability pass: responsive teaching blocks, clearer typography, stronger contrast, professional step sections, phrase rows, model text, guided practice, and quiz layout
-- [x] Business/Academic English: remove stacked Vietnamese translations from English sentences; alternate conversation speakers left/right and expand B1+ phrase emphasis
+## New
+- [ ] Code Typing Race: all code snippets/comments in English only (no Vietnamese inside code)
+- [ ] Audit all code blocks across Programming pages: English only
+- [ ] Full content + technical review of the Programming section for stability
