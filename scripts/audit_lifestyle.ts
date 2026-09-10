@@ -19,6 +19,9 @@ for (const l of all) {
   if (String(JSON.stringify(l)).includes("—")) issues.push(`${l.id}: em-dash`);
   if (!l.minutes || l.minutes < 4) issues.push(`${l.id}: minutes`);
 }
+const PILLARS = ["finance","etiquette","presence","wellness","selfstudy"];
+for (const p of PILLARS) if (!byPillar[p]) issues.push(`missing pillar ${p}`);
+if (all.length !== 87) issues.push(`expected 87 lessons, got ${all.length}`);
 console.log("total", all.length);
 for (const [k,v] of Object.entries(byPillar)) {
   const lv: Record<string,number> = {};
